@@ -304,7 +304,8 @@ namespace RavlCxxDocN {
 				   const StringC &nm,
 				   const StringC &userlevel,
 				   const StringC &brief,
-				   const StringC &docFilename) {
+				   const StringC &docFilename,
+				   const StringC &nodeType) {
     
     StringC pos = xpos;
     if(!path.IsEmpty()) {
@@ -319,15 +320,15 @@ namespace RavlCxxDocN {
     
     DocNodeC parent = root.AddNode(path); // Find parent node.
     // Add child.
-    parent.Append(DocNodeC(nm,pos,userlevel,brief,docFilename,true));
+    parent.Append(DocNodeC(nm,pos,userlevel,brief,docFilename,nodeType,true));
     return true;
   }
 
   //: Insert a documentation leaf into the tree.
   
-  bool DocTreeBodyC::InsertDocLeaf(const StringC &path,const StringC &nm,const StringC &userlevel,const StringC &brief,const StringC &docFilename) {
+  bool DocTreeBodyC::InsertDocLeaf(const StringC &path,const StringC &nm,const StringC &userlevel,const StringC &brief,const StringC &docFilename,const StringC &nodeType) {
     StringListC npath(path,".");
-    return InsertDocLeaf(npath,path,nm,userlevel,brief,docFilename);
+    return InsertDocLeaf(npath,path,nm,userlevel,brief,docFilename,nodeType);
   }
 
 }

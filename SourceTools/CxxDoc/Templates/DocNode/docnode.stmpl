@@ -47,44 +47,21 @@ $(forall:docnode:<li><A HREF="$(mkhref:)">$(subst:_: :$(ObjectName))</A>$(ifset:
 
 $(ifset:brief:<font color="#23238E" size=7 face="arial,helvetica">
 $(brief)</font><p>)
+$(ifset:detail:$(detail))
 
-$(ifset:detail:
-<!-- Begining of EHT content -->
-$(detail)
-<!-- End of EHT content -->
-)
-
-
-$(ifany:docleaf,$userlevel=Basic:<H2>Basic Classes:</H2>
-<table>
-$(forall:docleaf,$userlevel=Basic:
-<tr><td><code>&nbsp;</code><A HREF="../Class/$(content)">$(ObjectName)</A><td>$(ifset:brief:$(brief))</tr>
-)</table>)
-
-$(ifany:docleaf,$userlevel=Normal:<H2>Normal Classes:</H2>
-<table>
-$(forall:docleaf,$userlevel=Normal:
-<tr><td><code>&nbsp;</code><A HREF="../Class/$(content)">$(ObjectName)</A><td>$(ifset:brief:$(brief))</tr>
-)</table>)
-
-$(ifany:docleaf,$userlevel=Advanced:<H2>Advanced Classes:</H2>
-<table>
-$(forall:docleaf,$userlevel=Advanced:
-<tr><td><code>&nbsp;</code><A HREF="../Class/$(content)">$(ObjectName)</A><td>$(ifset:brief:$(brief))</tr>
-)</table>)
+$(set:subType=class)$(set:subTitle=classes)$(set:objLevel=Basic)$(include:objects.stmpl)
+$(set:subType=method)$(set:subTitle=functions)$(set:objLevel=Basic)$(include:objects.stmpl)
+$(set:subType=class)$(set:subTitle=classes)$(set:objLevel=Normal)$(include:objects.stmpl)
+$(set:subType=method)$(set:subTitle=functions)$(set:objLevel=Normal)$(include:objects.stmpl)
+$(set:subType=class)$(set:subTitle=classes)$(set:objLevel=Advanced)$(include:objects.stmpl)
+$(set:subType=method)$(set:subTitle=functions)$(set:objLevel=Advanced)$(include:objects.stmpl)
 
 $(if:$pagemode=develop:
-$(ifany:docleaf,$userlevel=Develop:<H2>Develop Classes:</H2>
-<table>
-$(forall:docleaf,$userlevel=Develop:
-<tr><td><code>&nbsp;</code><A HREF="../Class/$(content)">$(ObjectName)</A><td>$(ifset:brief:$(brief))</tr>
-)</table>))
-
-$(ifany:docleaf,$userlevel=Default:<H2>Default Classes:</H2>
-<table>
-$(forall:docleaf,$userlevel=Default:
-<tr><td><code>&nbsp;</code><A HREF="../Class/$(content)">$(ObjectName)</A><td>$(ifset:brief:$(brief))</tr>
-)</table>)
+$(set:subType=class)$(set:subTitle=classes)$(set:objLevel=Develop)$(include:objects.stmpl)
+$(set:subType=method)$(set:subTitle=functions)$(set:subType=method)$(set:subTitle=functions)$(set:objLevel=Develop)$(include:objects.stmpl)
+$(set:subType=class)$(set:subTitle=classes)$(set:objLevel=Default)$(include:objects.stmpl)
+$(set:subType=method)$(set:subTitle=functions)$(set:objLevel=Default)$(include:objects.stmpl)
+)
 
 </BLOCKQUOTE>
 </td>

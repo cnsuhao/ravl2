@@ -70,6 +70,7 @@ Following is a list of object types that can be use as file objects or in 'ForAl
 	<tr><td><b>namespace</b><td> forall,FileObject <td> namespaces </tr>
 	<tr><td><b>datatype</b><td>forall,FileObject <td> datatypes </tr>
 	<tr><td><b>method</b><td> forall,FileObject <td> class methods </tr>
+	<tr><td><b>function</b><td> forall,FileObject <td> global functions. </tr>
 	<tr><td><b>typedef</b><td> forall,FileObject <td> typedefs  </tr>
 	<tr><td><b>variable</b><td> forall,FileObject <td> variables </tr>
 	<tr><td><b>inherit</b><td> forall,FileObject <td> inheritance, from class scopes only. </tr>
@@ -104,6 +105,7 @@ scope with $(xyz).  There are some special variables, these are as follows:
 <li> <b>userlevel</b> - If not set the system automaticly sets this to 'Default'.
 <li> <b>PathName</b> - Full path to object in scope.
 <li> <b>filename</b> - File which the object comes from this searches up the parse tree for an object with this variable set.
+<li> <b>docNodeType</b> - Type of the current doc node, generaly either a 'class' or a 'method', but could be any of object types mentioned earlier.
 </ul>
     
   </body>

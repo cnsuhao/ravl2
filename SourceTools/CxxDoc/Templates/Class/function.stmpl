@@ -1,0 +1,60 @@
+$(silent:
+$(ifset:!titleStart:$(set:titleStart=<FONT SIZE="+2" color="#23238E" FACE="arial,Helvetica">))
+$(ifset:!titleEnd:$(set:titleEnd=</FONT>))
+$(set:docentry_=$(subst: :_:$(docentry)))
+)
+<html><head><TITLE>$(FullName) - $(brief)</TITLE><BASE TARGET="_parent" ></head>
+<body BGCOLOR=#FFFFFF>
+
+$(include:topbar.stmpl)
+
+$(//: **************** Put in bread crumbs *********************** )
+$(ifset:docentry:
+<table width=100% bgcolor="#C0C0C0"><tr>$(set:parent=)$(set:maindocentry=$(before:;:$(docentry)))
+<td>$(for:.:$maindocentry:$(silent:
+		    $(ifset:parent:$(set:parent=$(parent).$(subst: :_:%arg%)))
+	            $(else:$(set:parent=$(subst: :_:%arg%)))
+)<A HREF="../Tree/$(parent).html">%arg%</A> - )<b>$(FullName)</b>
+</table>)
+&nbsp;<p>
+
+$(//:************** Some usefull info ********************* )
+
+$(set:tabTitle=<tr><td align="right"><font size="+2" color="#23238E" FACE="arial,Helvetica">  )
+$(set:tabData=<td align="left"><font size="+2" color="#23238E" FACE="arial,Helvetica">)
+<center>
+<table bgcolor="#EFEFEF" width=49%  cellspacing=0 border=0>
+<tr><td COLSPAN="2" align=center><font size="+3" color="#23238E" FACE="arial,Helvetica"><b>&nbsp;&nbsp;&nbsp;$(FullName)&nbsp;&nbsp;&nbsp;</b></font>
+<tr><td COLSPAN="2">&nbsp;</tr>
+$(ifset:brief:<tr><td align=center COLSPAN="2"><font size="+2" color="#23238E" FACE="arial,Helvetica">$(brief)</font>
+<tr><td COLSPAN="2">&nbsp;</tr>
+)
+                  $(tabTitle)include $(tabData)"<A HREF="../../../../inc/$(filename)">$(filename)</A>"</tr>$(set:lastFilename=$(filename))
+$(ifset:date:     $(tabTitle)Created:$(tabData)$(date)&nbsp;</tr>
+)$(if:$pagemode=develop:$(ifset:file:$(tabTitle)Source file:$(tabData)<B>$(file)</B></tr>
+))                $(tabTitle)User Level:$(tabData)<b>$(userlevel)</b></tr>
+$(ifset:lib:      $(tabTitle)Library:$(tabData)<b>$(lib)</b></tr>
+)$(ifset:example: $(tabTitle)Example:$(tabData)$(for:;:$example:<A HREF="../../Examples/%arg%.html">%arg%</A>)</tr>
+)$(ifset:docentry:$(tabTitle)Section:$(tabData)$(for:;:$docentry:<A HREF="../Tree/$(subst: :_:%arg%.html)">%arg%</A> ))</tr>
+                  $(tabTitle)In Scope:$(tabData)<a href="$(ParentScope).html">$(ParentScope)</a></tr>
+</table><p>
+</center>
+
+<FONT FACE="Times" SIZE=3>$(ifset:param:<TABLE BORDER=3>
+<TR><TD>$(subst: - :</TD><TD>:$(subst:
+:</TD></TR><TR><TD>:$(param)))</TD></TR>
+</TABLE>
+)$(ifset:detail:$(if:$detail!=:$(AutoLink:$(detail))<br>)
+)$(ifset:bug:<FONT COLOR="red">BUG:$(bug)</FONT><br>
+)</FONT>
+
+$(//: **************** Footer ************************ )
+
+<table width=100% align="middle"><tr>
+<td align="center" bgcolor="black"><FONT face="helvetica,arial" color="white"><b>
+$(ifset:author:Maintainer:$(author),) $(ifset:date:Created: $(date),) Documentation by <a href="http://ravl.sourceforge.net/doc/Auto/Basic/Tree/Ravl.Source_Tools.CxxDoc.html">CxxDoc</a>: $(buildtime)
+</b></FONT></td>
+</tr></table>
+
+</body>
+</html>

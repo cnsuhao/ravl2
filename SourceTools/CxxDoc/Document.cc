@@ -247,7 +247,7 @@ namespace RavlCxxDocN {
 	}
       }
     }
-    
+
     // For each input file...
     
     if(fileObject == "class" || fileObject == "namespace") {
@@ -273,6 +273,27 @@ namespace RavlCxxDocN {
 	obj.DelTop();
       }
       return;
+    }
+
+    // For every global function.
+    if(fileObject == "function") {
+      for(DLIterC<ObjectC> dit(ol.List());dit.IsElm();dit.Next()) {
+	// If its a scope, recurse...
+	if(ScopeC::IsA(dit.Data()) && !ClassC::IsA(dit.Data())) { 
+	  // Do child namespaces as well, but not classes
+	  ObjectListC sol(dit.Data());
+	  Document(sol);
+	  continue;
+	}
+	if(!MethodC::IsA(dit.Data()))
+	  continue;
+	FilenameC fn = MakeFilename(dit.Data());
+	cerr << "******* GENERATING FILE " << fn << " (Method) ********** \n";
+	obj.Push(dit.Data());	
+	Build(fn);
+	obj.DelTop();	
+      }
+      return ;
     }
     
     if(fileObject == "docnode") {
@@ -567,9 +588,11 @@ namespace RavlCxxDocN {
     }
     ret += pattern;
     //cerr << "FullPath:" << obj.FullPath() <<"\n";
-    ret.gsub("%",anobj.ActualPath());
+    ret.gsub("%",anobj.ActualPath().TopAndTail());
     ret.gsub("<","Lt");
     ret.gsub(">","Gt");
+    ret.gsub("(","Ob"); // These may appear in pages on functions.
+    ret.gsub(")","Cb");
     ret.gsub("&","Amp");
     ret.gsub(",","_");
     ret.gsub(" ","_");
@@ -926,15 +949,18 @@ namespace RavlCxxDocN {
     if(!docTree.IsValid())
       return false;
     node = Interpret(node);
-    StringC userlevel ,brief,thisFilename;
+    StringC userlevel ,brief,thisFilename,nodeType;
     Lookup("userlevel",userlevel);
     Lookup("thisFilename",thisFilename);
+    Lookup("NodeType",nodeType);
+    
     brief = obj.Top().Comment().Header();
     ONDEBUG(cerr << "DocumentBodyC::InsertDocNode(), Called for : '" << node << "' File:'" << thisFilename <<"'\n");
-    docTree.InsertDocLeaf(node,obj.Top().Name(),userlevel,brief,thisFilename);
+    docTree.InsertDocLeaf(node,obj.Top().Name(),userlevel,brief,thisFilename,nodeType.Copy());
+    
     return true;
   }
-
+  
   //: Automaticly put links in some text.
   
   bool DocumentBodyC::AutoLink(StringC &rawtext) {

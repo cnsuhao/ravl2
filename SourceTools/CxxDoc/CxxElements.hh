@@ -514,7 +514,7 @@ namespace RavlCxxDocN {
   class MethodC;
   
   //! userlevel=Develop
-  //: Method object.  like a class, struct, or namespace.
+  //: Method object. 
   
   class MethodBodyC 
     : public ObjectBodyC
@@ -604,7 +604,7 @@ namespace RavlCxxDocN {
   };
   
   //! userlevel=Normal
-  //: Methodd object.  like a class, struct, or namespace.
+  //: Methodd object.
   
   class MethodC 
     : public ObjectC 

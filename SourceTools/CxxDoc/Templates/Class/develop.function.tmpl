@@ -1,4 +1,4 @@
-$(FileObject:class)$(FilePattern:Develop/Class/%.html)$(silent:
+$(FileObject:function)$(FilePattern:Develop/Class/%.html)$(silent:
 $(set:refPattern=%.html)
 $(set:title=Developer Documentation)
 $(set:hdrcolour=#00DF5F)
@@ -11,4 +11,4 @@ $(define:chkacc:%arg%)
 $(ifset:docentry:$(MakeDocNode:$(docentry)))
 $(else:$(ifset:author:$(MakeDocNode:undocumented.$(author)))
        $(else:$(MakeDocNode:undocumented.anonymous)))
-)$(include:class.stmpl)
+)$(include:function.stmpl)

@@ -49,12 +49,12 @@ namespace RavlCxxDocN {
     bool ReadEHTSet(const StringC &dir);
     //: Read a set of EHT files from a directory.
     
-    bool InsertDocLeaf(DListC<StringC> &node,const StringC &pos,const StringC &nm,const StringC &userlevel,const StringC &brief,const StringC &docFilename);
+    bool InsertDocLeaf(DListC<StringC> &node,const StringC &pos,const StringC &nm,const StringC &userlevel,const StringC &brief,const StringC &docFilename,const StringC &nodeType = StringC("class"));
     //: Insert a documentation leaf into the tree.
     // Note: If the path 'node' doesn't contain the project name 'projName' it will
     // be added both to the path and to 'pos' before its used.
     
-    bool InsertDocLeaf(const StringC &node,const StringC &nm,const StringC &userlevel,const StringC &brief,const StringC &docFilename);
+    bool InsertDocLeaf(const StringC &node,const StringC &nm,const StringC &userlevel,const StringC &brief,const StringC &docFilename,const StringC &nodeType = StringC("class"));
     //: Insert a documentation leaf into the tree.
     
     DocNodeC &Root()
@@ -102,12 +102,12 @@ namespace RavlCxxDocN {
       { return Body().ReadEHTSet(dir); }
     //: Read a set of EHT files from a directory.
     
-    bool InsertDocLeaf(const StringC &node,const StringC &nm,const StringC &userlevel,const StringC &brief,const StringC &docFilename)
-      { return Body().InsertDocLeaf(node,nm,userlevel,brief,docFilename); }
+    bool InsertDocLeaf(const StringC &node,const StringC &nm,const StringC &userlevel,const StringC &brief,const StringC &docFilename,const StringC &nodeType = StringC("class"))
+      { return Body().InsertDocLeaf(node,nm,userlevel,brief,docFilename,nodeType); }
     //: Insert a documentation leaf into the tree.
     
-    bool InsertDocLeaf(DListC<StringC> &node,const StringC &pos,const StringC &nm,const StringC &userlevel,const StringC &brief,const StringC &docFilename)
-      { return Body().InsertDocLeaf(node,pos,nm,userlevel,brief,docFilename); }
+    bool InsertDocLeaf(DListC<StringC> &node,const StringC &pos,const StringC &nm,const StringC &userlevel,const StringC &brief,const StringC &docFilename,const StringC &nodeType = StringC("class"))
+      { return Body().InsertDocLeaf(node,pos,nm,userlevel,brief,docFilename,nodeType); }
     //: Insert a documentation leaf into the tree.
     // Note: If the path 'node' doesn't contain the project name 'projName' it will
     // be added both to the path and to 'pos' before its used.

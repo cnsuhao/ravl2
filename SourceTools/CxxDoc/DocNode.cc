@@ -33,18 +33,21 @@ namespace RavlCxxDocN {
 			     const StringC &userlvl,
 			     const StringC &brief,
 			     const StringC &docName,
+			     const StringC &nnodeType,
 			     bool aplaceHolder)
     : ObjectListBodyC(nm),
-    docFilename(docName),
-    userlevel(userlvl),
-    position(nposition),
-    placeHolder(aplaceHolder)
+      docFilename(docName),
+      userlevel(userlvl),
+      position(nposition),
+      nodeType(nnodeType),
+      placeHolder(aplaceHolder)
   {
     ONDEBUG(cerr << "DocNodeBodyC::DocNodeBodyC(), Creating node :'" << nm << "' DocName:'" << docName << "' Userlevel:'" << userlvl << "' \n");
     Comment().Header() = brief;
     SetVar("brief",brief);
     SetVar("userlevel",userlvl);
     SetVar("docentry",nposition);
+    SetVar("docNodeType",nodeType);
     if(docFilename != "")
       SetVar("content",docFilename);
   }

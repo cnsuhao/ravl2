@@ -15,6 +15,7 @@ AUXFILES = user.class.tmpl user.namespace.tmpl  \
            develop.class.tmpl develop.namespace.tmpl \
            index.tmpl bugs.tmpl class.stmpl scope.stmpl method.stmpl \
            comment.stmpl namespace.stmpl basic.tmpl \
-           develop.index.tmpl user.index.tmpl example.tmpl topbar.stmpl
+           develop.index.tmpl user.index.tmpl example.tmpl topbar.stmpl \
+	   function.stmpl develop.function.tmpl user.function.tmpl
 
 #docentries.tmpl

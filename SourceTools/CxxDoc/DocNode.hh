@@ -38,6 +38,7 @@ namespace RavlCxxDocN {
 		 const StringC &userlvl = "Default",
 		 const StringC &brief = StringC(),
 		 const StringC &docName = StringC(),
+		 const StringC &nodeType = StringC("class"),
 		 bool aplaceHolder = false);
     //: Default constructor.
     
@@ -88,6 +89,7 @@ namespace RavlCxxDocN {
     StringC docFilename; // Filename for info on this node.
     StringC userlevel;
     StringC position;
+    StringC nodeType;
     bool placeHolder; // Is this a placeholder for another page?
     friend class DocNodeC;
   };
@@ -119,9 +121,10 @@ namespace RavlCxxDocN {
 	     const StringC &userlvl = "Default",
 	     const StringC &brief = StringC(),
 	     const StringC &docName = StringC(),
+	     const StringC &nodeType = StringC("class"),
 	     bool aplaceHolder = false
 	     )
-      : ObjectListC(*new DocNodeBodyC(nm,position,userlvl,brief,docName,aplaceHolder))
+      : ObjectListC(*new DocNodeBodyC(nm,position,userlvl,brief,docName,nodeType,aplaceHolder))
       {}
     //: Constructor.
     
