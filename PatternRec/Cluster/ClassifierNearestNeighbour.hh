@@ -25,9 +25,8 @@
 namespace RavlN {
 
   //! userlevel=Develop
-  //: k nearest neighbours classifier.
-  // Classifier probe vector as the most common amoung its k nearest neighbours.
-  // If there's a conflict the label with the smallest average distance is used.
+  //: Nearest neighbours classifier.
+  // Classifier probe vector as the closest neighbour.
   
   class ClassifierNearestNeighbourBodyC 
     : public ClassifierBodyC
@@ -64,9 +63,8 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: k nearest neighbours classifier.
-  // Classifier probe vector as the most common amoung its k nearest neighbours.
-  // If there's a conflict the label with the smallest average distance is used.
+  //: Nearest neighbours classifier.
+  // Classifier probe vector as the closest neighbour.
   
   class ClassifierNearestNeighbourC 
     : public ClassifierC

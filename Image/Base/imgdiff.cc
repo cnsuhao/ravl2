@@ -8,6 +8,11 @@
 //! lib=RavlImage
 //! author="Charles Galambos"
 //! file="Ravl/Image/Base/imgdiff.cc"
+//! userlevel=Normal
+//! date="24/01/2001"
+//! docentry="Ravl.Images"
+
+//: Calculate the difference of two images that are the same size.
 
 #include "Ravl/Option.hh"
 #include "Ravl/IO.hh"
@@ -17,7 +22,6 @@
 using namespace RavlN;
 using namespace RavlImageN;
 
-// Calculate the difference of two images that are the same size.
 
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);

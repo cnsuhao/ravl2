@@ -59,7 +59,7 @@ namespace RavlN {
     SArray1dC<GaussianMixtureC > models;
   };
   
-  //! userlevel=Develop
+  //! userlevel=Normal
   //: Create a classifier based on a descriminant function.
   //  This classifier returns the label with the highest value.
   

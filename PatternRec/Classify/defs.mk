@@ -15,7 +15,7 @@ HEADERS= DesignClassifierSupervised.hh  \
  DesignDiscriminantFunction.hh DesignKNearestNeighbour.hh \
  ClassifierKNearestNeighbour.hh ClassifierAverageNearestNeighbour.hh \
  ClassifierDiscriminantFunction.hh \
-  ClassifierGaussianMixture.hh DesignClassifierGaussianMixture.hh \
+ ClassifierGaussianMixture.hh DesignClassifierGaussianMixture.hh \
  ClassifierPreprocess.hh ClassifierFunc1Threshold.hh \
  ClassifierWeakLinear.hh ClassifierLinearCombination.hh \
  DesignWeakLinear.hh
