@@ -99,7 +99,7 @@ namespace RavlN {
   
   //: Calculate the inverse of this matrix.
   
-  bool MatrixC::InverseIP() {
+  bool MatrixC::InverseIP(RealT &det) {
     RavlAlwaysAssertMsg(Cols() == Rows(),"MatrixC::InverseIP(), Matrix must be square to invert ");
     
     if(IsContinuous())
@@ -192,7 +192,8 @@ namespace RavlN {
 	}
       }
     
-    return ((no_swaps & 1 ? -determinant : determinant ) != 0);
+    det = (no_swaps & 1 ? -determinant : determinant );
+    return (det != 0);
   }
 
 }

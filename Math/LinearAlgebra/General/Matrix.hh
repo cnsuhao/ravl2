@@ -114,7 +114,16 @@ namespace RavlN {
     // an invalid matrix is returned if this matrix is
     // singular. 
     
-    bool InverseIP();
+    bool InverseIP(RealT &det);
+    //: Calculate the inverse of this matrix and its determinent in place.
+    // Returns false if matrix is singular. <p>
+    // Notes:
+    // The matrix must be square <p>
+    // If the matrix is not stored in a continous area of memory a slightly
+    // different routine is used to do the inversion.      
+    
+    bool InverseIP()
+    { RealT det; return InverseIP(det); }
     //: Calculate the inverse of this matrix in place.
     // Returns false if matrix is singular. <p>
     // Notes:
