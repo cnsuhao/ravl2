@@ -66,9 +66,8 @@ INSTALLATION FOR VISUAL C++
 ---------------------------
 
 In order to compile RAVL with Visual C++ you have to persuade Visual
-studio to recognised .cc and .hh files as C++ source. The tweaks needed
-are described in  http://support.microsoft.com/support/kb/articles/Q181/5/06.ASP
-
+studio to recognised .cc and .hh files as C++ source. The tweeks needed
+are described in http://support.microsoft.com/support/kb/articles/Q181/5/06.ASP
 
 
 
