@@ -10,7 +10,7 @@
 //! file="Ravl/Math/Statistics/MeanCovariance/MeanCovariance.cc"
 
 #include "Ravl/MeanNd.hh"
-#include "Ravl/Matrix.hh"
+#include "Ravl/MatrixRS.hh"
 #include "Ravl/Vector.hh"
 #include "Ravl/MeanCovariance.hh"
 #include "Ravl/SArray1d.hh"
@@ -227,9 +227,9 @@ namespace RavlN {
   // of samples is ignored) 
   
   MeanCovarianceC MeanCovarianceC::operator*(const MeanCovarianceC &oth) const {
-    MatrixC sumCov = Covariance() + oth.Covariance();
+    MatrixRSC sumCov = Covariance() + oth.Covariance();
     sumCov.InverseIP();
-    MatrixC newCov = Covariance() * sumCov * oth.Covariance();
+    MatrixRSC newCov = Covariance() * sumCov * oth.Covariance();
     VectorC mean = oth.Covariance() * sumCov * Mean();
     mean += Covariance() * sumCov * oth.Mean();
     return MeanCovarianceC(Number() + oth.Number(),mean,newCov);
@@ -248,7 +248,7 @@ namespace RavlN {
   
   
   ostream & operator<<(ostream & outS, const MeanCovarianceC & meanCov) {
-    outS << meanCov.Mean() << '\n' 
+    outS << meanCov.MeanNd() << '\n' 
 	 << meanCov.Covariance() << '\n';
     return outS;
   }
@@ -259,7 +259,7 @@ namespace RavlN {
   }
 
   BinOStreamC & operator<<(BinOStreamC & outS, const MeanCovarianceC & meanCov) {
-    outS << meanCov.Mean() << meanCov.Covariance();
+    outS << meanCov.MeanNd() << meanCov.Covariance();
     return outS;
   }
   

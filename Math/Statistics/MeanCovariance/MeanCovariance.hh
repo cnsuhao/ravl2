@@ -17,7 +17,7 @@
 
 #include "Ravl/Types.hh"
 #include "Ravl/MeanNd.hh"
-#include "Ravl/Matrix.hh"
+#include "Ravl/MatrixRS.hh"
 
 namespace RavlN {
   
@@ -29,6 +29,10 @@ namespace RavlN {
   
   class MeanCovarianceC {
   public:
+    MeanCovarianceC()
+    {}
+    // Empty constructor, creates invalid object
+
     MeanCovarianceC(const MeanCovarianceC & meanCov)
       : m(meanCov.m), 
 	cov(meanCov.cov)
@@ -38,14 +42,14 @@ namespace RavlN {
     
     MeanCovarianceC(const SizeT n)
       : m(n), 
-	cov(n,n)
+	cov(n)
     { cov.Fill(0); }
     // Creates zero mean and zero covariance matrix representing
     // the 'n'-dimensional set containing no data points.
 
     MeanCovarianceC(const VectorC & point)
       : m(point), 
-	cov(point.Size(),point.Size())
+	cov(point.Size())
     { cov.Fill(0); }
     // Creates the mean vector and zero covariance matrix representing
     // the data set containing just one data point. The vector 'point'
@@ -53,7 +57,7 @@ namespace RavlN {
     
     MeanCovarianceC(const MeanNdC & mean)
       : m(mean), 
-	cov(mean.Mean().Size(),mean.Mean().Size())
+	cov(mean.Mean().Size())
     { cov.Fill(0); }
     // Creates the mean vector and zero covariance matrix representing
     // the data set represented by the 'mean'. The structure 'mean'
@@ -61,7 +65,7 @@ namespace RavlN {
     
     MeanCovarianceC(SizeT  n, 
 		    const VectorC & mean, 
-		    const MatrixC & ncov)
+		    const MatrixRSC & ncov)
       : m(n,mean), 
 	cov(ncov)
     {}
@@ -88,8 +92,15 @@ namespace RavlN {
     //: Access the mean.
     // Returns the mean vector of data points which are represented
     // by this object.
+
+    const MeanNdC & MeanNd() const
+    { return m; }
+    //: Access the mean nd object.
+    // Returns the mean vector of data points which are represented
+    // by this object.
+
     
-    const MatrixC & Covariance() const
+    const MatrixRSC & Covariance() const
     { return cov; }
     //: Access the covariance.
     // Returns the covariance matrix of data points which are represented
@@ -158,7 +169,7 @@ namespace RavlN {
     
   protected:
     MeanNdC m;   // The mean vector of this data set.
-    MatrixC cov; // the covariance matrix of this data set.
+    MatrixRSC cov; // the covariance matrix of this data set.
     
     friend istream & operator>>(istream & inS, MeanCovarianceC & meanCov);
     friend BinIStreamC & operator>>(BinIStreamC & inS, MeanCovarianceC & meanCov);
