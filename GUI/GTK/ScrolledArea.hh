@@ -57,9 +57,9 @@ namespace RavlGUIN {
     // isx,isy set the inital size of the area.
     // The policy's can be  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS, GTK_POLICY_NEVER
 
-    ScrolledAreaC(const WidgetC &achild,
-		  IntT isx = -1,IntT isy = -1,
-		  GtkPolicyType vpolicy = GTK_POLICY_AUTOMATIC,GtkPolicyType hpolicy = GTK_POLICY_AUTOMATIC)
+    ScrolledAreaC(const WidgetC &achild ,
+		  IntT isx,IntT isy,
+		  GtkPolicyType vpolicy,GtkPolicyType hpolicy = GTK_POLICY_AUTOMATIC)
       : OneChildC(*new ScrolledAreaBodyC(achild,isx,isy,vpolicy,hpolicy))
     {}
     //: Constructor.
