@@ -28,6 +28,7 @@
 #include "Ravl/Math.hh"
 #include "Ravl/Slice1d.hh"
 #include "Ravl/Types.hh" 
+#include "Ravl/DeepCopy.hh"
 
 namespace RavlN {
   
