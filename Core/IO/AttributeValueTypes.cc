@@ -170,20 +170,23 @@ namespace RavlN {
   
   //: Constructor
   
-  AttributeTypeMiscBodyC::AttributeTypeMiscBodyC(const StringC &name,const StringC &desc,const AttributeValueTypeT &nvalType,bool nCanRead,bool nCanWrite)
-    : AttributeTypeBodyC(name,desc,nCanRead,nCanWrite),
-      valType(nvalType)
+  AttributeTypeComponentBodyC::AttributeTypeComponentBodyC(const StringC &name,const StringC &desc,bool nCanRead,bool nCanWrite)
+    : AttributeTypeBodyC(name,desc,nCanRead,nCanWrite)
   {}
   
   //: Get hint about type of value attribute has.
   
-  AttributeValueTypeT AttributeTypeMiscBodyC::ValueType() const
-  { return valType; }
+  AttributeValueTypeT AttributeTypeComponentBodyC::ValueType() const
+  { return AVT_Component; }
   
   //: Set control to default value.
   
-  bool AttributeTypeMiscBodyC::SetToDefault(AttributeCtrlC &ctrl) const
-  { return true; }
+  bool AttributeTypeComponentBodyC::SetToDefault(AttributeCtrlC &ctrl) const { 
+    AttributeCtrlC subComponent;
+    if(!ctrl.GetComponent(name,subComponent))
+      return false; // Failed to find sub component.
+    return subComponent.RestoreDefaults();
+  }
   
   //:----------------------------------------------------------------------------------------------------
   

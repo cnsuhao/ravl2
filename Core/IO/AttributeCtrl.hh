@@ -94,6 +94,10 @@ namespace RavlN {
     // Returns false if the attribute name is unknown.
     // This is for handling attributes such as frame rate, and compression ratios.
     
+    virtual bool GetComponent(const StringC &attrName,AttributeCtrlC &attr);
+    //: Get a sub component.
+    // Returns false if the attribute name is unknown.
+    
     virtual bool GetAttrList(DListC<StringC> &list) const;
     //: Get list of attributes available.
     // This method will ADD all available attribute names to 'list'.
@@ -117,10 +121,10 @@ namespace RavlN {
     virtual bool RegisterAttribute(const AttributeTypeC &attr);
     //: Register a new attribute type.
     
-    bool SaveAttributes(XMLOStreamC &strm) const;
+    bool SaveAttributes(XMLOStreamC &strm,bool useEnclosingTag = true) const;
     //: Save setup to XML stream.
     
-    bool LoadAttributes(XMLIStreamC &strm);
+    bool LoadAttributes(XMLIStreamC &strm,bool expectEnclosingTag = true);
     //: Load setup from XML stream.
     
     bool RestoreDefaults();
@@ -231,6 +235,11 @@ namespace RavlN {
     // Returns false if the attribute name is unknown.
     // This is for handling attributes such as frame rate, and compression ratios.
     
+    inline bool GetComponent(const StringC &attrName,AttributeCtrlC &attr)
+    { return Body().GetComponent(attrName,attr); }
+    //: Get a sub component.
+    // Returns false if the attribute name is unknown.
+    
     inline bool GetAttrList(DListC<StringC> &list) const
     { return Body().GetAttrList(list); }
     //: Get list of attributes available.
@@ -259,12 +268,12 @@ namespace RavlN {
     //: Register a new attribute type.
     // Returns true if attribute of the same name already exists.
     
-    bool SaveAttributes(XMLOStreamC &strm) const
-    { return Body().SaveAttributes(strm); }
+    bool SaveAttributes(XMLOStreamC &strm,bool useEnclosingTag = true) const
+    { return Body().SaveAttributes(strm,useEnclosingTag); }
     //: Save setup to XML stream.
     
-    bool LoadAttributes(XMLIStreamC &strm)
-    { return Body().LoadAttributes(strm); }
+    bool LoadAttributes(XMLIStreamC &strm,bool expectEnclosingTag = true)
+    { return Body().LoadAttributes(strm,expectEnclosingTag); }
     //: Load setup from XML stream.
     
     bool RestoreDefaults()

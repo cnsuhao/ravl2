@@ -21,7 +21,17 @@
 namespace RavlN {
 
   enum AttributeValueTypeT
-    { AVT_Bool,AVT_Int,AVT_Real,AVT_String,AVT_Enum, AVT_Abstract, AVT_ByteRGBImage, AVT_None, AVT_Invalid  };
+    { AVT_Bool,           // Boolean
+      AVT_Int,            // Signed integer
+      AVT_Real,           // Double precision floating point.
+      AVT_String,         // Text string
+      AVT_Enum,           // Enumerated type.
+      AVT_Component,      // Sub component 
+      AVT_Abstract,       // Not implemented.
+      AVT_ByteRGBImage,   // Not implemented.
+      AVT_None,           // Flag.
+      AVT_Invalid         // Flag.
+    };
   
   //! userlevel=Develop
   //: Attribute type information.

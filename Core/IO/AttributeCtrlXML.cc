@@ -21,15 +21,26 @@ namespace RavlN {
   
   //: Save setup to XML stream.
   
-  bool AttributeCtrlBodyC::SaveAttributes(XMLOStreamC &strm) const {
+  bool AttributeCtrlBodyC::SaveAttributes(XMLOStreamC &strm,bool useEnclosingTag) const {
     DListC<AttributeTypeC> list;
     if(!GetAttrTypes(list))
       return false;
-    strm << XMLStartTag("AttributeSet");
+    if(useEnclosingTag) 
+      strm << XMLStartTag("AttributeSet");
     for(DLIterC<AttributeTypeC> it(list);it;it++) {
       StringC value;
       if(!it->CanWrite() || !it->CanRead())
 	continue; // No point in saving attributes you can't change, or that you can't read.
+      if(it->ValueType() == AVT_Component) {
+	AttributeCtrlC component;
+	if(!const_cast<AttributeCtrlBodyC &>(*this).GetComponent(it->Name(),component))
+	  continue; // Can't find component.
+	strm << XMLStartTag("Component");
+	strm << XMLAttribute("name",it->Name());
+	component.SaveAttributes(strm,false);
+	strm << XMLEndTag;
+	continue;
+      }
       if(!(const_cast<AttributeCtrlBodyC *>(this)->GetAttr(it->Name(),value)))
 	continue; // Can't read attribute.
       strm << XMLStartTag("Attribute") 
@@ -37,30 +48,44 @@ namespace RavlN {
 	   << XMLAttribute("value",value);
       strm << XMLEndTag;
     }
-    strm << XMLEndTag;
+    if(useEnclosingTag) 
+      strm << XMLEndTag;
     return false;
   }
   
   //: Load setup from XML stream.
   
-  bool AttributeCtrlBodyC::LoadAttributes(XMLIStreamC &strm) {
+  bool AttributeCtrlBodyC::LoadAttributes(XMLIStreamC &strm,bool useEnclosingTag) {
     StringC name,value;
-    if(strm.ReadTag(name) != XMLBeginTag)
-      throw ExceptionInvalidStreamC("Unexpected XML tag type when loading attributes  ");
-    if(name != "AttributeSet")
-      throw ExceptionInvalidStreamC("Unexpected XML tag when loading attributes  ");
+    if(useEnclosingTag) {
+      if(strm.ReadTag(name) != XMLBeginTag)
+	throw ExceptionInvalidStreamC("Unexpected XML tag type when loading attributes  ");
+      if(name != "AttributeSet")
+	throw ExceptionInvalidStreamC("Unexpected XML tag when loading attributes  ");
+    }
     for(;;) {      
       XMLTagOpsT tagType =strm.ReadTag(name);
       if(tagType == XMLEndTag)
 	break;
-      if(name != "Attribute") { // Unknown attribute.
+      if(name != "Attribute" && name != "Component") { // Unknown attribute.
 	strm.SkipElement();
 	continue; 
       }
       name = StringC();
+      strm >> XMLAttribute("name",name);
+      if(name == "Component") { // Component
+	AttributeCtrlC component;
+	if(!GetComponent(name,component)) {
+	   // Can't find component, so skip it.
+	  strm.SkipElement();
+	  continue;
+	}
+	// Load attributes for sub component.
+	component.LoadAttributes(strm,false);
+	continue;
+      }
       value = StringC();
-      strm >> XMLAttribute("name",name) 
-	   >> XMLAttribute("value",value);
+      strm >> XMLAttribute("value",value);
       if(!SetAttr(name,value))
 	cerr << "WARNING: Failed to set attribute '" << name << "' to value '" << value << "' \n";
       strm.SkipElement();

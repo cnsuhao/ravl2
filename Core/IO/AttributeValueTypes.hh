@@ -470,13 +470,13 @@ namespace RavlN {
   //:-----------------------------------------------------------------------------------
   
   //! userlevel=Develop
-  //: Miscean attribute type.
+  //: Component attribute type.
   
-  class AttributeTypeMiscBodyC
+  class AttributeTypeComponentBodyC
     : public AttributeTypeBodyC
   {
   public:
-    AttributeTypeMiscBodyC(const StringC &name,const StringC &desc,const AttributeValueTypeT &valType,bool nCanRead = true,bool nCanWrite = true);
+    AttributeTypeComponentBodyC(const StringC &name,const StringC &desc,bool nCanRead = true,bool nCanWrite = true);
     //: Constructor
     
     virtual AttributeValueTypeT ValueType() const;
@@ -486,47 +486,46 @@ namespace RavlN {
     //: Set control to default value.
     
   protected:
-    AttributeValueTypeT valType;
   };
   
   //! userlevel=Normal
   //: Miscean attribute type.
   
-  class AttributeTypeMiscC
+  class AttributeTypeComponentC
     : public AttributeTypeC
   {
   public:
-    AttributeTypeMiscC()
+    AttributeTypeComponentC()
     {}
     //: DefaultValue constructor.
     // Creates an invalid handle.
     
-    AttributeTypeMiscC(const StringC &name,const StringC &desc,const AttributeValueTypeT &valType,bool nCanRead = true,bool nCanWrite = true)
-      : AttributeTypeC(*new AttributeTypeMiscBodyC(name,desc,valType,nCanRead,nCanWrite))
+    AttributeTypeComponentC(const StringC &name,const StringC &desc,const AttributeValueTypeT &valType,bool nCanRead = true,bool nCanWrite = true)
+      : AttributeTypeC(*new AttributeTypeComponentBodyC(name,desc,nCanRead,nCanWrite))
     {}
     //: Constructor.
     
-    AttributeTypeMiscC(const AttributeTypeC &base)
+    AttributeTypeComponentC(const AttributeTypeC &base)
       : AttributeTypeC(base)
     {
-      if(dynamic_cast<AttributeTypeMiscBodyC *>(&AttributeTypeC::Body()) == 0)
+      if(dynamic_cast<AttributeTypeComponentBodyC *>(&AttributeTypeC::Body()) == 0)
 	Invalidate();
     }
     //: Construct from a base handle
     // Creates an invalid handle if object is not of the correct type.
     
   protected:
-    AttributeTypeMiscC(AttributeTypeMiscBodyC &bod)
+    AttributeTypeComponentC(AttributeTypeComponentBodyC &bod)
       : AttributeTypeC(bod)
     {}
     //: Body constructor.
     
-    AttributeTypeMiscBodyC &Body()
-    { return static_cast<AttributeTypeMiscBodyC &> (AttributeTypeC::Body()); }
+    AttributeTypeComponentBodyC &Body()
+    { return static_cast<AttributeTypeComponentBodyC &> (AttributeTypeC::Body()); }
     //: Access body.
     
-    const AttributeTypeMiscBodyC &Body() const
-    { return static_cast<const AttributeTypeMiscBodyC &> (AttributeTypeC::Body()); }
+    const AttributeTypeComponentBodyC &Body() const
+    { return static_cast<const AttributeTypeComponentBodyC &> (AttributeTypeC::Body()); }
     //: Access body.
     
   public:

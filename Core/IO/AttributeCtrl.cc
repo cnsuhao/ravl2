@@ -137,6 +137,7 @@ namespace RavlN {
       case AVT_None:
       case AVT_Invalid:
       case AVT_ByteRGBImage:
+      case AVT_Component:
 	// Don't know how to handle these...
 	break;
       }
@@ -191,6 +192,7 @@ namespace RavlN {
       case AVT_None:
       case AVT_Invalid:
       case AVT_ByteRGBImage:
+      case AVT_Component:
 	// Don't know how to handle these...
 	break;
       }
@@ -367,6 +369,21 @@ namespace RavlN {
 #endif
     return false;
   }
+  
+  //: Get a sub component.
+  // Returns false if the attribute name is unknown.
+  
+  bool AttributeCtrlBodyC::GetComponent(const StringC &attrName,AttributeCtrlC &attr) {
+    AttributeCtrlC parent = ParentCtrl();
+    if(parent.IsValid())
+      if(parent.GetComponent(attrName,attr))
+	return true;
+#if RAVL_CHECK
+    cerr << "AttributeCtrlBodyC::GetComponent(const StringC &,AttributeCtrlC &), Unknown component '" << attrName << "'\n";
+#endif
+    return true;
+  }
+
   
   //: Get list of attributes available.
   
