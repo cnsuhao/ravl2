@@ -69,7 +69,7 @@ namespace RavlCxxDocN {
 	StringListC path(*pit,".");
 	DocNodeC parent = root.AddNode(path); // Find parent node.
 	// Add child.
-	parent.Append(DocNodeC(name,*pit,userlevel,brief,docFilename,true));
+	parent.Append(DocNodeC(name,*pit,userlevel,brief,docFilename,StringC("docnode"),true));
       }
     }
     //ONDEBUG(root.Dump(cerr));

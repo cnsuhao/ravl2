@@ -257,9 +257,8 @@ namespace RavlN {
     IntT atline;
     const StringC &comStr = commentString[fileType];
     const StringC &comEndStr = commentEndString[fileType];
-    if(comStr.IsEmpty()) {
-      return false; // Don't know the comment string for this filetype.
-    }
+    if(comStr.IsEmpty())
+      return StringC(); // Don't know the comment string for this filetype.
     StringC prefix = comStr + "! ";
     //ONDEBUG(cerr << "SourceFileBodyC::CheckDocVarSub() prefix :" << prefix << "\n");
     StringC matchline = prefix + var;

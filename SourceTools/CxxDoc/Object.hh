@@ -338,6 +338,16 @@ namespace RavlCxxDocN {
     {}
     //: Default Constructor.
 
+    ObjectC(bool)
+      : RCHandleC<ObjectBodyC>(*new ObjectBodyC())
+    {}
+    //: Constructor.
+    
+    ObjectC(const char *nname)
+      : RCHandleC<ObjectBodyC>(*new ObjectBodyC(StringC(nname)))
+    {}
+    //: Construct named object.
+    
     ObjectC(const StringC &nname)
       : RCHandleC<ObjectBodyC>(*new ObjectBodyC(nname))
     {}
@@ -625,6 +635,11 @@ namespace RavlCxxDocN {
       : ObjectC(*new ObjectListBodyC(nname))
     {}
     //: Constructor.
+    
+    ObjectListC(const char *name)
+      : ObjectC(*new ObjectListBodyC(StringC(name)))
+    {}
+    //: Construct named list.
     
     ObjectListC(const StringC &nname,DListC<ObjectC> &contents)
       : ObjectC(*new ObjectListBodyC(nname,contents))
