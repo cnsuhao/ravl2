@@ -71,12 +71,13 @@ namespace RavlGUIN {
   }
 
   bool WidgetStyleBodyC::GUISetBackground(PixmapC& pixmap) {
-    return 
-      GUISetBackground(pixmap,GTK_STATE_NORMAL) &&
-      GUISetBackground(pixmap,GTK_STATE_ACTIVE) &&
-      GUISetBackground(pixmap,GTK_STATE_PRELIGHT) &&
-      GUISetBackground(pixmap,GTK_STATE_SELECTED) &&
-      GUISetBackground(pixmap,GTK_STATE_INSENSITIVE);
+    bool bSuccess = true;
+    bSuccess &= GUISetBackground(pixmap,GTK_STATE_NORMAL);
+    bSuccess &= GUISetBackground(pixmap,GTK_STATE_ACTIVE);
+    bSuccess &= GUISetBackground(pixmap,GTK_STATE_PRELIGHT);
+    bSuccess &= GUISetBackground(pixmap,GTK_STATE_SELECTED);
+    bSuccess &= GUISetBackground(pixmap,GTK_STATE_INSENSITIVE);
+    return bSuccess;
   }
 
   //: Set the background of the window.
@@ -150,12 +151,13 @@ namespace RavlGUIN {
 
   bool WidgetStyleBodyC::GUISetColour(WidgetColourTypeT& type, ByteRGBValueC& col) {
     GdkColor gdkcol = GUIRGB2Colour(col);
-    return 
-      GUISetColour(type,gdkcol,GTK_STATE_NORMAL) &&
-      GUISetColour(type,gdkcol,GTK_STATE_ACTIVE) &&
-      GUISetColour(type,gdkcol,GTK_STATE_PRELIGHT) &&
-      GUISetColour(type,gdkcol,GTK_STATE_SELECTED) &&
-      GUISetColour(type,gdkcol,GTK_STATE_INSENSITIVE);
+    bool bSuccess = true;
+    bSuccess &= GUISetColour(type,gdkcol,GTK_STATE_NORMAL);
+    bSuccess &= GUISetColour(type,gdkcol,GTK_STATE_ACTIVE);
+    bSuccess &= GUISetColour(type,gdkcol,GTK_STATE_PRELIGHT);
+    bSuccess &= GUISetColour(type,gdkcol,GTK_STATE_SELECTED);
+    bSuccess &= GUISetColour(type,gdkcol,GTK_STATE_INSENSITIVE);
+    return bSuccess;
   }
 
   void WidgetStyleBodyC::SetColour(WidgetColourTypeT& type, ByteRGBValueC& col, GtkStateType& state) {
