@@ -27,14 +27,16 @@ namespace RavlGUIN {
   //: 3D Viewer widget.
   
   class View3DBodyC
-    : public TableBodyC
+    : public Canvas3DBodyC
   {
   public:
     View3DBodyC(int sx,int sy);
     //: Default constructor.
     
-    bool Put(const DObject3DC &r);
+    bool Put(const DObject3DC &r, IntT id = 0);
     //: Put render instructon into pipe.
+    // If ID!=0, the object is assigned this id number, and
+    // can be accessed using it.
     
     DObjectSet3DC &Scene()
       { return scene; }
@@ -43,45 +45,45 @@ namespace RavlGUIN {
     void DoSetup();
     //: Fit and centre output if appropriate
     
-    void DoFit(bool& bRefresh);
+    bool DoFit(bool& bRefresh);
     //: Fit object to view
     
-    void DoCenter(bool& bRefresh);
+    bool DoCenter(bool& bRefresh);
     //: Center output.
     
-    void AutoFit(bool &val);
+    bool AutoFit(bool &val);
     //: Auto fit output.
     
-    void AutoCenter(bool &val);
+    bool AutoCenter(bool &val);
     //: Auto center output.
     
   protected:
-    void MousePress(MouseEventC &me);
+    bool MousePress(MouseEventC &me);
     //: Handle button press.
     
-    void MouseRelease(MouseEventC &me);
+    bool MouseRelease(MouseEventC &me);
     //: Handle button release.
     
-    void MouseMove(MouseEventC &me);
+    bool MouseMove(MouseEventC &me);
     //: Handle mouse move.
     
     bool Create();
     //: Setup widget.
     
-    void Refresh();
+    bool Refresh();
     //: Refresh display.
     
     void ResetCamera();
     //: Resets the camera position.
     
-    void SetRenderMode(int& iOption);
+    bool SetRenderMode(int& iOption);
     //: Sets the rendering mode
     // Reads value from the appropriate render mode menu item, and updates the other menu options appropriately.
     
-    void FrontFaces(bool& bFront) {m_bFront = bFront; SetCullMode();}
+    bool FrontFaces(bool& bFront) {m_bFront = bFront; SetCullMode(); return true;}
     //: Enable or disable frontfaces
     
-    void BackFaces(bool& bBack) {m_bBack = bBack; SetCullMode();}
+    bool BackFaces(bool& bBack) {m_bBack = bBack; SetCullMode(); return true;}
     //: Enable or disable backfaces
     
     void SetCullMode(void);
@@ -137,7 +139,7 @@ namespace RavlGUIN {
   //: 3D Viewer widget.
   
   class View3DC
-    : public TableC
+    : public Canvas3DC
   {
   public:
     View3DC()
@@ -146,22 +148,22 @@ namespace RavlGUIN {
     // creates an invalid handle.
     
     View3DC(int sx,int sy)
-      : TableC(*new View3DBodyC(sx,sy))
+      : Canvas3DC(*new View3DBodyC(sx,sy))
       {}
     //: Constructor.
     
   protected:
     View3DC(View3DBodyC &bod)
-      : TableC(bod)
+      : Canvas3DC(bod)
       {}
     //: Body constructor.
     
     View3DBodyC &Body() 
-      { return static_cast<View3DBodyC &>(WidgetC::Body()); }
+      { return static_cast<View3DBodyC &>(Canvas3DC::Body()); }
     //: Access body.
   
     const View3DBodyC &Body() const
-      { return static_cast<const View3DBodyC &>(WidgetC::Body()); }
+      { return static_cast<const View3DBodyC &>(Canvas3DC::Body()); }
     //: Access body.
     
     void InitGL(void)

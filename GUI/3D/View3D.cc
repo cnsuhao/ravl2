@@ -28,8 +28,7 @@ namespace RavlGUIN {
   //: Default constructor.
   
   View3DBodyC::View3DBodyC(int sx,int sy)
-    : TableBodyC(1,1),
-      canvas(sx,sy),
+    : Canvas3DBodyC(sx,sy),
       viewObject(0,0,0),
       viewPoint(0,0,3),
       useRotate(true),
@@ -59,7 +58,7 @@ namespace RavlGUIN {
   }
   
   //: Fit object to view
-  void View3DBodyC::DoFit(bool& bRefresh) {
+  bool View3DBodyC::DoFit(bool& bRefresh) {
     ONDEBUG(cerr << "View3DBodyC::DoFit(), Called. \n");
     RealT dist = viewObject.EuclidDistance(viewPoint);
     RealT extent = scene.Extent() * 1.3;
@@ -69,33 +68,37 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "Set fov to " << fov << "\n");
     canvas.Put(DViewPoint3DC(fov,viewPoint,viewObject));
     if (bRefresh) Refresh();
+    return true;
   }
   
   //: Center output.
-  void View3DBodyC::DoCenter(bool& bRefresh) {
+  bool View3DBodyC::DoCenter(bool& bRefresh) {
     ONDEBUG(cerr << "View3DBodyC::DoCenter(), Called. \n");
     viewObject = scene.Center();
     canvas.Put(DViewPoint3DC(fov,viewPoint,viewObject));
     ResetCamera();
     if (bRefresh) Refresh();
+    return true;
   }
   
   //: Auto fit output.
-  void View3DBodyC::AutoFit(bool &val) {
+  bool View3DBodyC::AutoFit(bool &val) {
     m_bAutoFit = val;
     bool bTrue = true;
     if(m_bAutoFit) DoFit(bTrue);
+    return true;
   }
   
   //: Auto center output.
-  void View3DBodyC::AutoCenter(bool &val) {
+  bool View3DBodyC::AutoCenter(bool &val) {
     m_bAutoCenter = val;
     bool bTrue = true;
     if(m_bAutoCenter) DoCenter(bTrue);
+    return false;
   }
   
   //: Handle button press.
-  void View3DBodyC::MousePress(MouseEventC &me) {
+  bool View3DBodyC::MousePress(MouseEventC &me) {
     ONDEBUG(cerr << "View3DBodyC::MousePress(), Called. '" << me.HasChanged(0) << " " << me.HasChanged(1) << " " << me.HasChanged(2) <<"' \n");
     if(me.HasChanged(0)) 
       m_pixButton0Pos = me.Position();
@@ -105,15 +108,17 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "Show menu. \n");
     backMenu.Popup(); 
     }
+    return true;
   }
   
   //: Handle button release.
-  void View3DBodyC::MouseRelease(MouseEventC &me) {
+  bool View3DBodyC::MouseRelease(MouseEventC &me) {
     ONDEBUG(cerr << "View3DBodyC::MouseRelease(), Called. '" << me.HasChanged(0) << " " << me.HasChanged(1) << " " << me.HasChanged(2) <<"' \n");
+    return true;
   }
   
   //: Handle mouse move.
-  void View3DBodyC::MouseMove(MouseEventC &me) {
+  bool View3DBodyC::MouseMove(MouseEventC &me) {
     //ONDEBUG(cerr << "View3DBodyC::MouseMove(), Called. '" << me.HasChanged(0) << " " << me.HasChanged(1) << " " << me.HasChanged(2) <<"' \n");
     //ONDEBUG(cerr << "View3DBodyC::MouseMove(),         '" << me.IsPressed(0) << " " << me.IsPressed(1) << " " << me.IsPressed(2) <<"' \n");
     //cerr << "View3DBodyC::MouseMove(), Called. \n";
@@ -172,12 +177,12 @@ namespace RavlGUIN {
       // Update display
       Refresh();
     }
+    return true;
   }
   
   //: Setup widget.
   bool View3DBodyC::Create() {
     ONDEBUG(cerr << "View3DBodyC::Create(), Called. \n");
-    
     
     ConnectRef(canvas.Signal("button_press_event"),*this,&View3DBodyC::MousePress);
     ConnectRef(canvas.Signal("button_release_event"),*this,&View3DBodyC::MouseRelease);
@@ -222,8 +227,8 @@ namespace RavlGUIN {
 		    );  
     
     backMenu = MenuC("back",
-		     MenuItemRef("Center",*this,&View3DBodyC::DoCenter,bTrue) +
-		     MenuItemRef("Fit",*this,&View3DBodyC::DoFit,bTrue) +
+		     MenuItemR("Center",*this,&View3DBodyC::DoCenter,bTrue) +
+		     MenuItemR("Fit",*this,&View3DBodyC::DoFit,bTrue) +
 		     MenuCheckItemR("Auto Center",*this,&View3DBodyC::AutoCenter) +
 		     MenuCheckItemR("Auto Fit",*this,&View3DBodyC::AutoFit) +
 		     MenuItemSeparator() +
@@ -232,9 +237,7 @@ namespace RavlGUIN {
 		     );
     
     
-    TableBodyC::AddObject(canvas,0,1,0,1);
-    
-    if(!TableBodyC::Create()) {
+    if(!Canvas3DBodyC::Create()) {
       cerr << "WARNING: ViewGeometry2DBodyC::Create(), failed. \n";
       return false;
     }
@@ -242,13 +245,13 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "View3DBodyC::Create(), Doing setup. \n");
     
     // Initialise OpenGL
-    canvas.Put(DOpenGLC(SignalEventMethod0C<View3DC>(View3DC(*this),&View3DC::InitGL)));
-    canvas.SetTextureMode(bTextureStatus);
-    canvas.SetLightingMode(bLightingStatus);
+    Put(DOpenGLC(Trigger(View3DC(*this),&View3DC::InitGL)));
+    SetTextureMode(bTextureStatus);
+    SetLightingMode(bLightingStatus);
     
     // Setup lights and cameras
-    canvas.Light(RealRGBValueC(1,1,1),Point3dC(0,0,10));
-    canvas.ViewPoint(90,viewPoint); // Setup view point.
+    Put(DLight3DC(RealRGBValueC(1,1,1),Point3dC(0,0,10)));
+    Put(DViewPoint3DC(90,viewPoint));
     
     ONDEBUG(cerr << "View3DBodyC::Create(), Done. \n");
     return true;
@@ -256,51 +259,36 @@ namespace RavlGUIN {
   
   //: Put render instructon into pipe.
   
-  bool View3DBodyC::Put(const DObject3DC &r) {
+  bool View3DBodyC::Put(const DObject3DC &r, IntT id) {
     ONDEBUG(cerr << "View3DBodyC::Put(), Called. \n");
-    if(sceneComplete) {
+    if(sceneComplete || !scene.IsValid()) {
       scene = DObjectSet3DC(true);
       sceneComplete = false;
     }
-    DSwapBuff3DC swapBuff(r);
-    if(swapBuff.IsValid())
-      sceneComplete = true;
-    else {
-      if(!scene.IsValid()) 
-	scene = DObjectSet3DC(true);    
-      if(r.IsValid())
-	scene += r;
-    }
-    if(m_bAutoFit || m_bAutoCenter) DoSetup();
+    if(r.IsValid())
+      scene += r;
+    if(m_bAutoFit || m_bAutoCenter) 
+      DoSetup();
     Refresh();
     ONDEBUG(cerr << "View3DBodyC::Put(), Done. \n");
     return true;
   }
   
-  //: Put End Of Stream marker.
-  void View3DBodyC::PutEOS() {
-    sceneComplete = true;
-  }
-  
-  //: Is port ready for data ?
-  bool View3DBodyC::IsPutReady() const {
-    return true;
-  }
-  
   //: Refresh display.
-  void View3DBodyC::Refresh() {
+  bool View3DBodyC::Refresh() {
     ONDEBUG(cerr << "View3DBodyC::Refresh(), Called. " << ((void *) widget) << "\n");
     if(!initDone)
-      return ; // Can't do anything before the setup is complete.
+      return false; // Can't do anything before the setup is complete.
     
-    canvas.Put(DOpenGLC(SignalEventMethod0C<View3DC>(View3DC(*this),&View3DC::NewFrame)));
+    canvas.Put(DOpenGLC(Trigger(View3DC(*this),&View3DC::NewFrame)));
     
-    canvas.Put(DOpenGLC(SignalEventMethod0C<View3DC>(View3DC(*this),&View3DC::SetCamera)));
+    canvas.Put(DOpenGLC(Trigger(View3DC(*this),&View3DC::SetCamera)));
     
     // Render scene
     if(scene.IsValid())
       canvas.Put(scene);
     canvas.SwapBuffers();  
+    return true;
   }
   
   //: Reset the camera position
@@ -313,7 +301,7 @@ namespace RavlGUIN {
     return;
   }
   
-  void View3DBodyC::SetRenderMode(int& iOption) {
+  bool View3DBodyC::SetRenderMode(int& iOption) {
     bool bVal = m_oRenderOpts[iOption].IsActive();
     if (bVal) {
       for (int i=0; i<4; i++) {
@@ -347,6 +335,7 @@ namespace RavlGUIN {
 	m_oRenderOpts[iOption].SetActive(true);
       }
     }
+    return true;
   }
   
   void View3DBodyC::InitGL() {
