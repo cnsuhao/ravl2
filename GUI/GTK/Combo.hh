@@ -42,6 +42,26 @@ namespace RavlGUIN {
     //: Get currently selected string.
     // Should only be called by the GUI thread !
     
+    bool AddEntry(StringC &opt);
+    //: Add new entry to combo list.
+
+    bool DelEntry(StringC &opt);
+    //: Add new entry to combo list.
+
+    bool GUIAddEntry(StringC &opt);
+    //: Add new entry to combo list.
+    // Call on the GUI thread only.
+    
+    bool GUIDelEntry(StringC &opt);
+    //: Add new entry to combo list.
+    // Call on the GUI thread only.
+    
+    bool SetSelection(StringC &opt);
+    //: Set selection string.
+    
+    bool GUISetSelection(StringC &opt);
+    //: Set selection string.
+    
   protected:
     DListC<StringC> choices;
     bool editable;
@@ -90,6 +110,32 @@ namespace RavlGUIN {
     //: Get currently selected string.
     // Should only be called by the GUI thread !
     
+    bool AddEntry(StringC &opt)
+    { return Body().AddEntry(opt); }
+    //: Add new entry to combo list.
+    
+    bool DelEntry(StringC &opt)
+    { return Body().DelEntry(opt); }
+    //: Add new entry to combo list.
+
+    bool GUIAddEntry(StringC &opt)
+    { return Body().GUIAddEntry(opt); }
+    //: Add new entry to combo list.
+    // Call on the GUI thread only.
+    
+    bool GUIDelEntry(StringC &opt)
+    { return Body().GUIDelEntry(opt); }
+    //: Add new entry to combo list.
+    // Call on the GUI thread only.
+
+    bool SetSelection(StringC &opt)
+    { return Body().SetSelection(opt); }
+    //: Set selection string.
+    
+    bool GUISetSelection(StringC &opt)
+    { return Body().GUISetSelection(opt); }
+    //: Set selection string.
+
     friend class ComboBodyC;
   };
   

@@ -12,6 +12,7 @@
 #include "Ravl/Threads/Signal1.hh"
 #include "Ravl/Threads/Signal2.hh"
 #include "Ravl/GUI/Combo.hh"
+#include "Ravl/GUI/Manager.hh"
 #include <gtk/gtk.h>
 
 namespace RavlGUIN {
@@ -31,6 +32,53 @@ namespace RavlGUIN {
     return StringC(gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(widget)->entry)));
   }
   
+  //: Add new entry to combo list.
+  
+  bool ComboBodyC::AddEntry(StringC &opt) {
+    Manager.Queue(Trigger(ComboC(*this),&ComboC::GUIAddEntry,opt));
+    return true;
+  }
+  
+  //: Add new entry to combo list.
+  
+  bool ComboBodyC::DelEntry(StringC &opt) {
+    Manager.Queue(Trigger(ComboC(*this),&ComboC::GUIDelEntry,opt));
+    return true;
+  }
+  
+  //: Add new entry to combo list.
+  // Call on the GUI thread only.
+  
+  bool ComboBodyC::GUIAddEntry(StringC &opt) {
+    choices.InsLast(opt);
+    GtkWidget *li = gtk_list_item_new_with_label ((gchar *) opt.chars());
+    gtk_widget_show (li);
+    gtk_container_add (GTK_CONTAINER (GTK_COMBO(widget)->list), li);
+    return true;
+  }
+  
+  //: Add new entry to combo list.
+  // Call on the GUI thread only.
+  
+  bool ComboBodyC::GUIDelEntry(StringC &opt) {
+    RavlAssertMsg(0,"ComboBodyC::GUIDelEntry(), Not implemented. ");
+    //GtkWidget *li = gtk_list_item_new_with_label ((gchar *) it.Data().chars());
+    //gtk_widget_show (li);
+    //gtk_container_add (GTK_CONTAINER (GTK_COMBO(widget)->list), li);
+    return true;
+  }
+
+  bool ComboBodyC::SetSelection(StringC &opt) {
+    Manager.Queue(Trigger(ComboC(*this),&ComboC::GUISetSelection,opt));
+    return true;
+  }
+  //: Set selection string.
+  
+  bool ComboBodyC::GUISetSelection(StringC &opt) {
+    gtk_entry_set_text (GTK_ENTRY (GTK_COMBO(widget)->entry), opt.chars());
+    return true;
+  }
+  //: Set selection string.
   
   
   //: Create the widget.
