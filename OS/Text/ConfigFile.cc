@@ -271,23 +271,23 @@ namespace RavlN {
     
     for(ConfigFileIterVarC it(IterVars());it;it++) {
       for(int i =0; i < depth;i++)
-	out << ' ';
-      out << it.Key() << "='" << it.Data() <<"'\n";
-    }
-    DListC<StringC> lst = ListSections();
-    for(DLIterC<StringC> it(lst);it;it++) {
-      for(int i =0; i < depth;i++)
-	cerr << ' ';
-      out << *it << "={";
-      ConfigFileC cf = Section(*it);
-      if(cf.IsValid()) {
-	out << "\n";
-	cf.Dump(out,depth+1);
+        out << ' ';
+        out << it.Key() << "='" << it.Data() <<"'\n";
       }
-      for(int i =0; i < depth;i++)
-	cerr << ' ';
-      out << "}\n";
+      DListC<StringC> lst = ListSections();
+      for(DLIterC<StringC> dit(lst);dit;dit++) {
+        {for(int i =0; i < depth;i++)
+          cerr << ' ';}
+        out << *dit << "={";
+        ConfigFileC cf = Section(*dit);
+        if(cf.IsValid()) {
+	        out << "\n";
+	        cf.Dump(out,depth+1);
+        }
+        {for(int i =0; i < depth;i++)
+          cerr << ' ';}
+        out << "}\n";
+      }
     }
-  }
   
-}
+  }
