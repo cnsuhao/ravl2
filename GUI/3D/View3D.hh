@@ -76,8 +76,8 @@ namespace RavlGUIN {
     void ResetCamera();
     //: Resets the camera position.
     
-    bool SetRenderMode(int& iOption);
-    //: Sets the rendering mode
+    bool SelectRenderMode(int& iOption);
+    //: Selects the rendering mode for the backmenu
     // Reads value from the appropriate render mode menu item, and updates the other menu options appropriately.
     
     bool FrontFaces(bool& bFront) {m_bFront = bFront; SetCullMode(); return true;}
@@ -100,7 +100,6 @@ namespace RavlGUIN {
     
     bool sceneComplete;
     DObjectSet3DC scene; // List of current render instructions.
-    Canvas3DC canvas;
     MenuC backMenu;
     Vector3dC viewObject; // looking at point.
     Vector3dC viewPoint;  // Where we are.

@@ -66,7 +66,7 @@ namespace RavlGUIN {
       dist = 0.01;
     fov = ATan(extent/dist) * (180 / RavlConstN::pi);
     ONDEBUG(cerr << "Set fov to " << fov << "\n");
-    canvas.Put(DViewPoint3DC(fov,viewPoint,viewObject));
+    Canvas3DBodyC::Put(DViewPoint3DC(fov,viewPoint,viewObject));
     if (bRefresh) Refresh();
     return true;
   }
@@ -75,7 +75,7 @@ namespace RavlGUIN {
   bool View3DBodyC::DoCenter(bool& bRefresh) {
     ONDEBUG(cerr << "View3DBodyC::DoCenter(), Called. \n");
     viewObject = scene.Center();
-    canvas.Put(DViewPoint3DC(fov,viewPoint,viewObject));
+    Canvas3DBodyC::Put(DViewPoint3DC(fov,viewPoint,viewObject));
     ResetCamera();
     if (bRefresh) Refresh();
     return true;
@@ -184,14 +184,14 @@ namespace RavlGUIN {
   bool View3DBodyC::Create() {
     ONDEBUG(cerr << "View3DBodyC::Create(), Called. \n");
     
-    ConnectRef(canvas.Signal("button_press_event"),*this,&View3DBodyC::MousePress);
-    ConnectRef(canvas.Signal("button_release_event"),*this,&View3DBodyC::MouseRelease);
-    ConnectRef(canvas.Signal("motion_notify_event"),*this,&View3DBodyC::MouseMove);
-    ConnectRef(canvas.Signal("expose_event"),*this,&View3DBodyC::Refresh);
+    ConnectRef(Signal("button_press_event"),*this,&View3DBodyC::MousePress);
+    ConnectRef(Signal("button_release_event"),*this,&View3DBodyC::MouseRelease);
+    ConnectRef(Signal("motion_notify_event"),*this,&View3DBodyC::MouseMove);
+    ConnectRef(Signal("expose_event"),*this,&View3DBodyC::Refresh);
     
-    if(!canvas.Create()) {
+    if(!Canvas3DBodyC::Create()) {
       // Get this sorted out early.
-      cerr << "View3DBodyC::Create(), ERROR: 3DCanvas create failed. \n";
+      cerr << "View3DBodyC::Create(), ERROR: Canvas3DBodyC create failed. \n";
       return false;
     }
     
@@ -203,7 +203,7 @@ namespace RavlGUIN {
     m_oRenderOpts[2] = MenuCheckItemC("Flat",false);
     m_oRenderOpts[3] = MenuCheckItemC("Smooth",true);
     for (int i=0; i<4; i++) {
-      ConnectRef(m_oRenderOpts[i].SigSelected(),*this,&View3DBodyC::SetRenderMode,i);
+      ConnectRef(m_oRenderOpts[i].SigSelected(),*this,&View3DBodyC::SelectRenderMode,i);
     }
     
     // Setup backmenu.
@@ -217,8 +217,8 @@ namespace RavlGUIN {
 		     m_oRenderOpts[2] +
 		     m_oRenderOpts[3] +
 		     MenuItemSeparator() +
-		     MenuCheckItemR("Texturing",bTextureStatus,canvas,&Canvas3DC::SetTextureMode) +
-		     MenuCheckItemR("Lighting",bLightingStatus,canvas,&Canvas3DC::SetLightingMode)
+		     MenuCheckItem("Texturing",bTextureStatus,Canvas3DC(*this),&Canvas3DC::SetTextureMode) +
+		     MenuCheckItem("Lighting",bLightingStatus,Canvas3DC(*this),&Canvas3DC::SetLightingMode)
 		     );
     
     MenuC facesMenu("Faces",
@@ -245,13 +245,13 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "View3DBodyC::Create(), Doing setup. \n");
     
     // Initialise OpenGL
-    Put(DOpenGLC(Trigger(View3DC(*this),&View3DC::InitGL)));
+    Canvas3DBodyC::Put(DOpenGLC(Trigger(View3DC(*this),&View3DC::InitGL)));
     SetTextureMode(bTextureStatus);
     SetLightingMode(bLightingStatus);
     
     // Setup lights and cameras
-    Put(DLight3DC(RealRGBValueC(1,1,1),Point3dC(0,0,10)));
-    Put(DViewPoint3DC(90,viewPoint));
+    Canvas3DBodyC::Put(DLight3DC(RealRGBValueC(1,1,1),Point3dC(0,0,10)));
+    Canvas3DBodyC::Put(DViewPoint3DC(90,viewPoint));
     
     ONDEBUG(cerr << "View3DBodyC::Create(), Done. \n");
     return true;
@@ -280,14 +280,14 @@ namespace RavlGUIN {
     if(!initDone)
       return false; // Can't do anything before the setup is complete.
     
-    canvas.Put(DOpenGLC(Trigger(View3DC(*this),&View3DC::NewFrame)));
+    Canvas3DBodyC::Put(DOpenGLC(Trigger(View3DC(*this),&View3DC::NewFrame)));
     
-    canvas.Put(DOpenGLC(Trigger(View3DC(*this),&View3DC::SetCamera)));
+    Canvas3DBodyC::Put(DOpenGLC(Trigger(View3DC(*this),&View3DC::SetCamera)));
     
     // Render scene
     if(scene.IsValid())
-      canvas.Put(scene);
-    canvas.SwapBuffers();  
+      Canvas3DBodyC::Put(scene);
+    SwapBuffers();  
     return true;
   }
   
@@ -301,29 +301,30 @@ namespace RavlGUIN {
     return;
   }
   
-  bool View3DBodyC::SetRenderMode(int& iOption) {
+  bool View3DBodyC::SelectRenderMode(int& iOption) {
     bool bVal = m_oRenderOpts[iOption].IsActive();
     if (bVal) {
       for (int i=0; i<4; i++) {
 	if (i!=iOption) {
 	  m_oRenderOpts[i].SetActive(false);
 	}
+	Canvas3DRenderMode mode;
 	switch (iOption) {
 	case 0:
-	  canvas.SetRenderMode(C3D_POINT);
+	  mode = C3D_POINT;
 	  break;
 	case 1:
-	  canvas.SetRenderMode(C3D_WIRE);
+	  mode = C3D_WIRE;
 	  break;
 	case 2:
-	  canvas.SetRenderMode(C3D_FLAT);
+	  mode = C3D_FLAT;
 	  break;
 	case 3:
-	  canvas.SetRenderMode(C3D_SMOOTH);
-	  break;
 	default:
+	  mode = C3D_SMOOTH;
 	  break;
-	}
+	}	
+	SetRenderMode(mode);
       }
     }
     else {
@@ -346,7 +347,8 @@ namespace RavlGUIN {
     glEnable(GL_DEPTH_TEST);
     // Init shade model
     glShadeModel(GL_SMOOTH);
-    canvas.SetRenderMode(C3D_SMOOTH);
+    Canvas3DRenderMode mode = C3D_SMOOTH;
+    SetRenderMode(mode);
     // Let everyone know we're ready to go.
     initDone = true;
     return;
