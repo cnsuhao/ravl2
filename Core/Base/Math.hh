@@ -94,11 +94,21 @@ namespace RavlN {
   inline DataT Min(const DataT &a,const DataT &b)
   { return a < b ? a : b; }
   //: Returns the smaller value from 'a' and 'b'.
+
+  template<class DataT> 
+  inline DataT Min(const DataT & a, const DataT & b, const DataT &c ) 
+  { return Min(Min(a,b),c) ; } 
+  //: Returns the smaller value from 'a' and 'b' and 'c' 
   
   template<class DataT>
   inline DataT Max(const DataT &a,const DataT &b)
   { return a > b ? a : b; }
   //: Returns the bigger value from 'a' and 'b'.
+
+  template<class DataT> 
+  inline DataT Max(const DataT &a, const DataT &b, const DataT &c) 
+  { return Max(Max(a,b),c) ; }
+  //: Retruns the bigger value form 'a' and 'b' and 'c' 
 
   inline RealT Log(RealT r) {
     RavlAssertMsg(r > 0.0,"Log(RealT r): Can't take log of zero or negative number.");
