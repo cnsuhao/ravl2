@@ -36,11 +36,13 @@ namespace RavlImageN {
     
     WarpProjectiveC(const IndexRange2dC &orec,
 		    const Matrix3dC &transform,
-		    RealT nz = 1,
+		    RealT niz = 1,
+		    RealT noz = 1,
 		    bool nFillBackground = true,
 		    const MixerT &mix = MixerT())
       : trans(transform),
-	z(nz),
+	iz(niz),
+	oz(noz),
 	rec(orec),
 	fillBackground(nFillBackground),
 	mixer(mix)
@@ -49,11 +51,13 @@ namespace RavlImageN {
     // Where orec is the size of the output rectangle.
     
     WarpProjectiveC(const Matrix3dC &transform,
-		    RealT nz = 1,
+		    RealT niz = 1,
+		    RealT noz = 1,
 		    bool nFillBackground = true,
 		    const MixerT &mix = MixerT())
       : trans(transform),
-	z(nz),
+	iz(niz),
+	oz(noz),
 	fillBackground(nFillBackground),
 	mixer(mix)
     { Init(); }
@@ -82,7 +86,7 @@ namespace RavlImageN {
     
     Matrix3dC trans;
     Matrix3dC inv;
-    RealT z;
+    RealT iz, oz;
     IndexRange2dC rec;
     bool fillBackground;
     MixerT mixer;
@@ -95,14 +99,14 @@ namespace RavlImageN {
   
   template <class InT, class OutT,class MixerT>
   Point2dC WarpProjectiveC<InT,OutT,MixerT>::BackProject(const Point2dC &pnt) const {
-    Vector3dC vo = trans * Vector3dC(pnt[0],pnt[1],z);
-    return Point2dC(vo[0]/vo[2],vo[1]/vo[2]);
+    Vector3dC vo = trans * Vector3dC(pnt[0],pnt[1],oz);
+    return Point2dC(iz*vo[0]/vo[2],iz*vo[1]/vo[2]);
   }
   
   template <class InT, class OutT,class MixerT>
   Point2dC WarpProjectiveC<InT,OutT,MixerT>::Project(const Point2dC &pnt) const {
-    Vector3dC vo = inv * Vector3dC(pnt[0],pnt[1],z);
-    return Point2dC(vo[0]/vo[2],vo[1]/vo[2]);          
+    Vector3dC vo = inv * Vector3dC(pnt[0],pnt[1],oz);
+    return Point2dC(iz*vo[0]/vo[2],iz*vo[1]/vo[2]);          
   }
   
   template <class InT, class OutT,class MixerT>
@@ -113,10 +117,18 @@ namespace RavlImageN {
     if(!outImg.Frame().Contains(rec))
       outImg = ImageC<OutT>(rec);
     //cerr << "Trans0=" << trans * orng.TopRight() << " from " << orng.TopRight() << "\n";
-    
+
+    // set pat as top-left pixel in output image
     Point2dC pat(src.Frame().Origin());
+    pat[0] += 0.5;
+    pat[1] += 0.5;
+
+    // adjust source window for area where bilinear interpolation can be
+    // computed safely
+    irng.TRow() += 0.5; irng.BRow() -= 0.5;
+    irng.LCol() += 0.5; irng.RCol() -= 0.5;
     Array2dIterC<OutT> it(outImg);      
-    
+
     if(irng.Contains(Project(orng.TopRight())) &&
        irng.Contains(Project(orng.TopLeft())) &&
        irng.Contains(Project(orng.BottomRight())) &&
@@ -145,16 +157,30 @@ namespace RavlImageN {
     for(;it;) {
       if(fillBackground) {
 	do {
-	  if(irng.Contains(pat))
-	    mixer(*it,src.BiLinear(Project(pat)));
+	  Point2dC ipat = Project(pat);
+
+	  if(irng.Contains(ipat)) {
+	    // move coordinates to be based on 0,0 at the centre of the
+	    // top-left pixel
+	    ipat[0] -= 0.5;
+	    ipat[1] -= 0.5;
+	    mixer(*it,src.BiLinear(ipat));
+	  }
 	  else
 	    SetZero(*it);
 	  pat[1]++;
 	} while(it.Next()) ;
       } else {
 	do {
-	  if(irng.Contains(pat))
-	    mixer(*it,src.BiLinear(Project(pat)));
+	  Point2dC ipat = Project(pat);
+
+	  if(irng.Contains(ipat)) {
+	    // move coordinates to be based on 0,0 at the centre of the
+	    // top-left pixel
+	    ipat[0] -= 0.5;
+	    ipat[1] -= 0.5;
+	    mixer(*it,src.BiLinear(ipat));
+	  }
 	  pat[1]++;
 	} while(it.Next()) ;
       }
