@@ -42,4 +42,4 @@ USESLIBS = RavlImageIO RavlOSIO
 
 PROGLIBS= RavlDPDisplay.opt
 
-EHT=Ravl.Images.Video.html Ravl.Images.Video.Formats.html
+EHT=Ravl.Images.Video.html Ravl.Images.Video.Formats.html Ravl.Images.Video.Video_IO.html

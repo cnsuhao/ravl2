@@ -6,8 +6,8 @@
   <body>
     <p>
       Sequences of images are handled in RAVL in a similar way to
-      sequences of any other kind of object. Details of how streams
-      work can be found in <a
+      sequences of any other kind of object. Details of how sequences
+      work in RAVL can be found in <a
       href="Ravl.OS.Sequence.html">Ravl.OS.Sequence</a>.  The
       differences between image sequences and other RAVL sequences
       are:</p>
@@ -29,11 +29,11 @@
       window on the screen.</li>
     </ul>
 
-    <h1>Supported formats</h1>
+    <h2>Supported formats</h2>
     <p>
       For an exhaustive list of all supported formats (including much
       besides images and video, but no including the virtual files),
-      use the 'conv -lf' command.  Here's an out-of date summary of
+      use the <code>conv -lf</code> command.  Here's an out-of date summary of
       some of them:</p>
 
     <ul>
@@ -53,20 +53,18 @@
     Note: In YUV420, the colour is sampled at half the resolution of the intensity in both dimensions.
     
     <p> If the video format that you wish to use is not listed above,
-    then you may need to include other external libraries.  <a
-    href="Ravl.Contrib.Video_IO.html"> Ravl.Contrib.Video IO </a> (if
-    installed) is a good place to look for other file formats.
-    Remember to include the appropriate headers files and libraries.
+    then you may need to include  <a
+    href="Ravl.Images.Video.Video_IO.html"> other external libraries</a>.
     </p>
 
-    <h1>Programming the video I/O</h1>
+    <h2>Programming the video I/O</h2>
 
     <p>Following is a example of how to use this mechanism to read and
       write a sequence of images.</p>
       
     <h3>Headers and libraries</h3>
 
-    <p> Before you can do video IO there are a few things you have to do:</p>
+    <p>  there are a few things you have to do in order to use video I/O:</p>
     <ul>
       <li> insert this header file:
 	<pre>

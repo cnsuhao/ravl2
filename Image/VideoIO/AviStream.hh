@@ -8,7 +8,7 @@
 #define RAVL_AVIISTREAM_HEADER 1
 ////////////////////////////////////////////////////////////
 //! author="Daniele Muntoni"
-//! docentry="Ravl.Images.Video.Avi"
+//! docentry="Ravl.Images.Video.Formats"
 //! date="26/03/2003"
 //! rcsid="$Id$"
 //! file="Ravl/Image/VideoIO/AviStream.hh"
