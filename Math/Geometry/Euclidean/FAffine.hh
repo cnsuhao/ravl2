@@ -74,7 +74,7 @@ namespace RavlN {
     FVectorC<N> T;   // Translate.
     
   private:
-#ifdef RAVL_NEW_ANSI_CXX_DRAFT
+#if RAVL_NEW_ANSI_CXX_DRAFT
     friend istream & operator>> <N> (istream & inS, FAffineC<N> & vector);
     friend ostream & operator<< <N> (ostream & outS, const FAffineC<N> & vector);
 #else   
