@@ -242,6 +242,33 @@ namespace RavlN {
   //: Compute result = vec * mat;
   // Unfortunatly return my value is a little slow, this gets around that by passind the location to store
   // the result.
+
+  template<class DataT,unsigned int N,unsigned int M,unsigned int MT>
+  void Mul(const TFMatrixC<DataT,N,M> &fmat,const TFMatrixC<DataT,M,MT> &mat,TFMatrixC<DataT,N,MT> &result) {
+    for(UIntT i = 0;i < N;i++)
+      for(UIntT j = 0;j < MT;j++) {
+	DataT &val = result[i][j];
+	val = fmat[i][0] * mat[0][j];
+	for(UIntT k = 1;k < M;k++)
+	  val += fmat[i][k] * mat[k][j];
+      }
+  }
+  //: Compute result = fmat * mat;
+  // Unfortunatly return my value is a little slow, this gets around that by passind the location to store
+  // the result.
+  
+  template<class DataT,unsigned int N,unsigned int M>
+  void TMul(const TFMatrixC<DataT,N,M> &mat,const TFVectorC<DataT,N>& vec,TFVectorC<DataT,M> &result) {
+    for(UIntT i = 0; i < M; i++) {
+      DataT &val = result[i];
+      val = mat[0][i] * vec[0];
+      for(UIntT j = 1; j < N;j++)
+	val += mat[j][i] * vec[j];
+    }
+    return ret;
+  }
+  //: Compute result = mat.T() * vec;
+  // Transpose this matrix and multiply by 'vec'
   
   template<class DataT,unsigned int N,unsigned int M>
   ostream &operator<<(ostream &s,const TFMatrixC<DataT,N,M> &oth) {
