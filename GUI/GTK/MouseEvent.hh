@@ -47,8 +47,16 @@ namespace RavlGUIN {
     
     RealT X() const { return x; }
     //: Get X component of position.
+    // Obsolete! Use Col()
     
     RealT Y() const { return y; }
+    //: Get Y component of position.
+    // Obsolete! Use Row()
+    
+    RealT Row() const { return y; }
+    //: Get X component of position.
+    
+    RealT Col() const { return x; }
     //: Get Y component of position.
     
     Index2dC Position() const { return Index2dC(x,y); }
