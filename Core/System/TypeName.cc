@@ -33,7 +33,7 @@ namespace RavlN {
   static TypeNameC type0(typeid(void),"void");
   
   static TypeNameC type1(typeid(ByteT),"ByteT");
-  static TypeNameC type2(typeid(UByteT),"UByteT");
+  static TypeNameC type2(typeid(SByteT),"SByteT");
   static TypeNameC type3(typeid(IntT),"IntT");
   static TypeNameC type4(typeid(UIntT),"UIntT");
   
