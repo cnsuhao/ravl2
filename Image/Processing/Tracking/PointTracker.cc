@@ -97,14 +97,45 @@ namespace RavlImageN {
     return ret;
   }
 
-  //: Update tracks.
   
-  IntT PointTrackerC::Update(const ImageC<ByteT> &img) {
+  //: Init tracks
+  void PointTrackerC::Init(const ImageC<ByteT> &img, ImageC<ByteT>* debugimg) {
+
+    // Detect corners
     DListC<CornerC> cl;
-    if((frameCount-1) % newFreq == 0)
-      cl = cornerDet.Apply(img);
+    cl = cornerDet.Apply(img);
+
+    // Drop corners that are too close to existing tracks
+    for(DLIterC<PointTrackModelC> itt(tracks);itt;itt++) {
+      for(DLIterC<CornerC> it(cl);it;it++) {
+	// Is corner too close to one already being tracked ? 
+	Point2dC cat = it->Location();
+	if(itt->Location().SqrEuclidDistance(cat) < Sqr(mwidth)) {
+	  ONDEBUG(DrawFrame(*debugimg,(ByteT) 0,IndexRange2dC(it->Location(),mwidth,mwidth)));
+	  it.Del(); // Remove it.
+	}
+      }
+    }
+
+    // Make tracks for good corners
+    for(DLIterC<CornerC> it(cl);it;it++) {
+      IndexRange2dC fr(it->Location(),mwidth,mwidth);
+      if(!img.Frame().Contains(fr))
+         continue;
+      Array2dC<ByteT> templ(img,fr,Index2dC(-mwidth/2,-mwidth/2));
+      tracks.InsLast(PointTrackModelC(idAlloc++,it->Location(),frameCount,templ));
+      ONDEBUG(DrawFrame(*debugimg,(ByteT) 255,IndexRange2dC(it->Location(),mwidth,mwidth)));
+    }
+    
+    
+  }
+
+  //: Update tracks.
+  IntT PointTrackerC::Update(const ImageC<ByteT> &img) {
+
     ONDEBUG(ImageC<ByteT> timg(img.Copy()));
     //ONDEBUG(ImageC<ByteT> timg(img.Frame()); timg.Fill(0));
+
     IntT removeThresh = Sqr(mwidth) * mthreshold;
     frameCount++; 
     for(DLIterC<PointTrackModelC> itt(tracks);itt;itt++) {
@@ -135,26 +166,17 @@ namespace RavlImageN {
 	ONDEBUG(DrawCross(timg,(ByteT) 0,itt->Location()));
 	continue;
       }
-      for(DLIterC<CornerC> it(cl);it;it++) {
-	// Is corner too close to one already being tracked ? 
-	Point2dC cat = it->Location();
-	if(at.SqrEuclidDistance(cat) < Sqr(mwidth)) {
-	  ONDEBUG(DrawFrame(timg,(ByteT) 0,IndexRange2dC(it->Location(),mwidth,mwidth)));
-	  it.Del(); // Remove it.
-	}
-      }
       itt->Update(at,frameCount,score);
       ONDEBUG(DrawCross(timg,(ByteT) 255,at));
     }
-    
-    for(DLIterC<CornerC> it(cl);it;it++) {
-      IndexRange2dC fr(it->Location(),mwidth,mwidth);
-      if(!img.Frame().Contains(fr))
-         continue;
-      Array2dC<ByteT> templ(img,fr,Index2dC(-mwidth/2,-mwidth/2));
-      tracks.InsLast(PointTrackModelC(idAlloc++,it->Location(),frameCount,templ));
-      ONDEBUG(DrawFrame(timg,(ByteT) 255,IndexRange2dC(it->Location(),mwidth,mwidth)));
-    }
+
+    // If we're on the right frame, add new tracks
+    if((frameCount-1) % newFreq == 0)
+#if DODEBUG
+      Init(img,&timg);
+#else
+      Init(img,NULL);
+#endif
     
     ONDEBUG(Save("@X:Track",timg));
     return 1;

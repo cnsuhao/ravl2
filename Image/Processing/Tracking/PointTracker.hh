@@ -40,10 +40,16 @@ namespace RavlImageN {
     
     DListC<PointTrackC> Apply(const ImageC<ByteT> &img);
     //: Returns a list of tracks.
+    // Same as update, but returns the track list.
     
+    void Init(const ImageC<ByteT> &img, ImageC<ByteT>* debugimg = NULL);
+    //: Detects new point tracks
+    // Only use this if you want to manually force track creation, normally when newFreq is very large
+
     IntT Update(const ImageC<ByteT> &img);
-    //: Update track with information from an image.
-    
+    //: Update track with information from an image.    
+    // New tracks will be created automatically every newFreq frames.
+
     DListC<PointTrackModelC> &Tracks()
     { return tracks; }
     //: Direct access to current tracks list.
