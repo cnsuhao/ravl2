@@ -177,7 +177,7 @@ namespace RavlN {
   //   D[i,j] = ret[i] if i=j and 0 otherwise. 
   
   inline
-  RealT Determinant(const FMatrixC<2,2> &mat) 
+  RealT Determinant(const TFMatrixC<RealT,2,2> &mat) 
   { return ((const Matrix2dC &)mat).Det(); }
   //: Compute the determinant of a 2x2 matrix.
   

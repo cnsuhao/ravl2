@@ -122,9 +122,9 @@ namespace RavlN {
   }
   
   inline
-  RealT Determinant(const FMatrixC<4,4> &mat) 
+  RealT Determinant(const TFMatrixC<RealT,4,4> &mat) 
   { return ((const Matrix4dC &)mat).Det(); }
-  //: Compute the determinant of a 2x2 matrix.
+  //: Compute the determinant of a 4x4 matrix.
   
 }
 

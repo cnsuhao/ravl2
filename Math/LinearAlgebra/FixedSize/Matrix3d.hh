@@ -122,9 +122,9 @@ namespace RavlN {
   }
   
   inline
-  RealT Determinant(const FMatrixC<3,3> &mat) 
+  RealT Determinant(const TFMatrixC<RealT,3,3> &mat) 
   { return ((const Matrix3dC &)mat).Det(); }
-  //: Compute the determinant of a 2x2 matrix.
+  //: Compute the determinant of a 3x3 matrix.
   
 }
 
