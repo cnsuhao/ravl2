@@ -17,12 +17,7 @@ namespace RavlN {
   void StreamType_NetStream_MustLink()
   {}
   
-  //: Piped streams.
-  
-  // This allows IO from named pipes in the file system, this will
-  // allow communication between processes on the local machine.
-  // @pipe:[pipename]
-  // By default the pipe is created as Read an write by user and group..
+  //: Networked streams.
   
   static class StreamType_NetStreamC 
     : public StreamTypeC

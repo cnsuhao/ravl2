@@ -392,10 +392,14 @@ namespace RavlN {
       ONDEBUG(cerr  << "Accepting. \n");
       int addrBuffSize = sizeof(sockaddr) + 256;
       struct sockaddr *cn_addr = (struct sockaddr *) new char [addrBuffSize];
-      int nfd = accept(fd,cn_addr,(socklen_t *) &addrBuffSize);
-      ONDEBUG(cerr  << "Got connection. \n");
-      if(nfd >= 0)
-	return SocketC(cn_addr,nfd);
+      do {
+	int nfd = accept(fd,cn_addr,(socklen_t *) &addrBuffSize);
+	ONDEBUG(cerr  << "Got connection. \n");
+	if(nfd >= 0)
+	  return SocketC(cn_addr,nfd); // Socket accepted ok.
+	// Recoverable error ?
+      } while(errno == EAGAIN || errno == EINTR) ;
+      cerr << "ERROR: Failed to accept connection. errno=" << errno << "\n"; ;
       delete [] (char *) cn_addr;  
     } while(block);
     return SocketC();

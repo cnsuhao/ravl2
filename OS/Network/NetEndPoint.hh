@@ -34,6 +34,35 @@ namespace RavlN {
 
   class NetEndPointC;
   
+  struct NetClientInfoC {
+    NetClientInfoC();
+    //: Default Constructor.
+    
+    NetClientInfoC(const StringC &protocolName,
+		   const StringC &protocolVersion = StringC("0.0"),
+		   const StringC &appName = StringC("default"),
+		   const StringC &appName = StringC("0.0"),
+		   const StringC &hostType = StringC("unknown")
+		   );
+    //: Constructor.
+
+    StringC &ProtocolName()
+    { return protocol; }
+    // Name of protocol being used.
+    
+    StringC protocol;    // Name of protocol being used.
+    StringC protocolVersion; // Version of protocol.
+    StringC appName;     // Name of application.
+    StringC appVersion;  // Version of application.
+    StringC hostType;
+  };
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const NetClientInfoC &info);
+  //: Write info to a stream.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,NetClientInfoC &info);
+  //: Read info from a stream.
+  
   //! userlevel=Develop
   //: An end point for a network packet base protocol.
   
@@ -51,8 +80,21 @@ namespace RavlN {
     //: Constructor.
     //!param: address -  has the format  `host:port' where `host' may be a host name or its IP address (e.g. 122.277.96.255) and `port' is the number of the port to use.
     //!param: autoInit - If false, you must call the Ready() function when you are ready to start processing network messages. If true, messages will start being processed as soon as the connection is established.
-    
 
+    NetEndPointBodyC(SocketC &socket,const StringC &protocolName,const StringC &protocolVersion,bool autoInit = true);
+    //: Constructor.
+    //!param: socket - connext to existing socket
+    //!param: protocolName - Name of communication protocol being used.
+    //!param: protocolVersion - Version of communication protocol being used.
+    //!param: autoInit - If false, you must call the Ready() function when you are ready to start processing network messages. If true, messages will start being processed as soon as the connection is established.
+    
+    NetEndPointBodyC(const StringC &address,const StringC &protocolName,const StringC &protocolVersion,bool autoInit = true);
+    //: Constructor.
+    //!param: address -  has the format  `host:port' where `host' may be a host name or its IP address (e.g. 122.277.96.255) and `port' is the number of the port to use.
+    //!param: protocolName - Name of communication protocol being used.
+    //!param: protocolVersion - Version of communication protocol being used.
+    //!param: autoInit - If false, you must call the Ready() function when you are ready to start processing network messages. If true, messages will start being processed as soon as the connection is established.
+    
     NetEndPointBodyC();
     //: Default constructor.
     
@@ -97,7 +139,7 @@ namespace RavlN {
     { transmitQ.Put(pkt); }
     //: Queue a packet for transmition.
     
-    bool MsgInit(StringC &user);
+    bool MsgInit(StringC &user,NetClientInfoC &info);
     //: Init message.
 
     bool Ready();
@@ -216,6 +258,30 @@ namespace RavlN {
     void ConnectionBroken(const TriggerC &);
     //: Set new trigger to be called if connection broken.
     
+    const StringC &ProtocolName() const
+    { return localInfo.protocol; }
+    //: Name of local protocol being used.
+    
+    const StringC &ProtocolVersion() const
+    { return localInfo.protocolVersion; }
+    //: Version of local protocol.
+    
+    const StringC &AppName() const
+    { return localInfo.appName; }
+    //: Name of local application.
+    
+    const StringC &AppVersion() const
+    { return localInfo.appVersion; }
+    //: Version of local application.
+    
+    NetClientInfoC &LocalInfo()
+    { return localInfo; }
+    // Info for this application.
+    
+    NetClientInfoC &PeerInfo()
+    { return peerInfo; }
+    // Info for remote application.
+    
   protected:
     
     bool RunTransmit();
@@ -247,6 +313,9 @@ namespace RavlN {
     friend class NetEndPointC;
     bool autoInit;
     TriggerC connectionBroken; // Trigger called if connection broken.
+    
+    NetClientInfoC localInfo; // Info for this application.
+    NetClientInfoC peerInfo;  // Info for remote application.
   };
   
   //! userlevel=Normal
@@ -367,8 +436,8 @@ namespace RavlN {
     { Body().Transmit(pkt); }
     //: Queue a packet for transmition.
     
-    bool MsgInit(StringC &user)
-    { return  Body().MsgInit(user); }
+    bool MsgInit(StringC &user,NetClientInfoC &info)
+    { return  Body().MsgInit(user,info); }
     //: Init message.
 
     bool Register(const NetMsgRegisterC &nmsg)
@@ -453,6 +522,30 @@ namespace RavlN {
     void ConnectionBroken(const TriggerC &trigger)
     { Body().ConnectionBroken(trigger); }
     //: Set new trigger to be called if connection broken.
+
+    const StringC &ProtocolName() const
+    { return Body().ProtocolName(); }
+    //: Name of protocol being used.
+    
+    const StringC &ProtocolVersion() const
+    { return Body().ProtocolVersion(); }
+    //: Version of protocol.
+    
+    const StringC &AppName() const
+    { return Body().AppName(); }
+    //: Name of application.
+    
+    const StringC &AppVersion() const
+    { return Body().AppVersion(); }
+    //: Version of application.
+    
+    NetClientInfoC &LocalInfo()
+    { return Body().LocalInfo(); }
+    // Info for this application.
+    
+    NetClientInfoC &PeerInfo()
+    { return Body().PeerInfo(); }
+    // Info for remote application.
     
     friend class NetEndPointBodyC;
   };

@@ -88,13 +88,17 @@ int exEndPoint(int nargs,char *args[])
     // Listen for connections
     while(1) {
       SocketC skt = sktserv.Listen(); // this will block untill a connection is received
-      NetEndPointC ep(skt) ;
+      NetEndPointC ep(skt,false) ;
 
       // Register the callacks (id 1 is reserved !)                         
       ep.RegisterR(2,"Test Message type 2", handler, & MessageHandlerC::HandleMessage2 ) ;
       ep.RegisterR(3,"Test Message type 3", handler, & MessageHandlerC::HandleMessage3 ) ;  
       ep.RegisterR(4,"Test Message type 4", handler, & MessageHandlerC::HandleMessage4 ) ;
-
+       
+      // Do handshake to ensure setup is complete on both ends.
+      ep.Ready();
+      ep.WaitSetupComplete();
+      
       // Send some messages to the client
       StringC msg2("Hello from server.");
       ep.Send(2,msg2);
@@ -118,12 +122,16 @@ int exEndPoint(int nargs,char *args[])
   else 
   {
 
-    NetEndPointC ep(addr); // connect to the server 
+    NetEndPointC ep(addr,false); // connect to the server 
  
     // Register the callacks  (id 1 is reserved !) 
     ep.Register(2,"Test Message type 2", handler, &MessageHandlerC::HandleMessage2 ) ;
     ep.Register(3,"Test Message type 3", handler, &MessageHandlerC::HandleMessage3 ) ;  
     ep.Register(4,"Test Message type 4", handler, &MessageHandlerC::HandleMessage4 ) ;
+    
+    // Do handshake to ensure setup is complete on both ends.
+    ep.Ready();
+    ep.WaitSetupComplete();
     
     // Send some messages to server 
     StringC msg2("Hello from client.");

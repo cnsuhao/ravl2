@@ -15,6 +15,8 @@
 #include "Ravl/OS/NetStream.hh"
 #include "Ravl/OS/NetMsgCall.hh"
 #include "Ravl/Threads/LaunchThread.hh"
+#include "Ravl/OS/SysLog.hh"
+
 //#include "Ravl/BinStream.hh"
 //#include "Ravl/BinString.hh"
 
@@ -32,14 +34,17 @@
 namespace RavlN {
   
   //: Constructor.
-
+  
   NetEndPointBodyC::NetEndPointBodyC(const StringC &addr,bool nautoInit) 
     : skt(addr,false),
       transmitQ(15),
       receiveQ(5),
       shutdown(false),
       autoInit(nautoInit)
-  { Init(skt); }
+  {
+    localInfo.appName = SysLogApplicationName();
+    Init(skt); 
+  }
   
   //:  Constructor.
   
@@ -49,8 +54,38 @@ namespace RavlN {
       receiveQ(5),
       shutdown(false),
       autoInit(nautoInit)
-  { Init(nskt); }
+  {
+    localInfo.appName = SysLogApplicationName();
+    Init(nskt); 
+  }
   
+  //: Constructor.
+  
+  NetEndPointBodyC::NetEndPointBodyC(SocketC &socket,const StringC &protocolName,const StringC &protocolVersion,bool nautoInit)
+    : skt(socket),
+      transmitQ(15),
+      receiveQ(5),
+      shutdown(false),
+      autoInit(nautoInit),
+      localInfo(protocolName,protocolVersion)
+  { 
+    localInfo.appName = SysLogApplicationName();
+    Init(skt); 
+  }
+  
+  //: Constructor.
+  
+  NetEndPointBodyC::NetEndPointBodyC(const StringC &address,const StringC &protocolName,const StringC &protocolVersion,bool nautoInit) 
+    : skt(address),
+      transmitQ(15),
+      receiveQ(5),
+      shutdown(false),
+      autoInit(nautoInit),
+      localInfo(protocolName,protocolVersion)
+  { 
+    localInfo.appName = SysLogApplicationName();
+    Init(skt); 
+  }
   
   //: Default constructor.
   
@@ -61,7 +96,7 @@ namespace RavlN {
   {}
   
   //: Destructor.
-
+  
   NetEndPointBodyC::~NetEndPointBodyC() {
     //cerr << "NetEndPointBodyC::~NetEndPointBodyC(), Called. \n";
     setupComplete.Post(); // Make sure nothings waiting for setup to complete.
@@ -70,7 +105,7 @@ namespace RavlN {
   //: Setup and startup the aproprate threads.
   
   //  NetMsgRegisterItemC<NetMsgCall1C<NetEndPointC,StringC,&NetEndPointC::MsgInit> > netMsgReg(1,"NetEndPointC.MsgInit");
-
+  
   //: Register new message handler.
   
   bool NetEndPointBodyC::Register(const NetMsgRegisterC &nmsg) {
@@ -97,11 +132,16 @@ namespace RavlN {
       return *msg;
     return NetMsgRegisterC();
   }
-
+  
   //: Send init message.
   
   void NetEndPointBodyC::SndInit(StringC &user) {
-    Send(1,user);
+    const char *hostType = getenv("HOSTTYPE");
+    if(hostType == 0)
+      hostType = "*unknown*";
+    localInfo.hostType = StringC(hostType);
+    
+    Send(1,user,localInfo);
   }
   
   bool NetEndPointBodyC::Init(SocketC &nskt) {
@@ -129,7 +169,7 @@ namespace RavlN {
     LaunchThread(me,&NetEndPointC::RunDecode);
     return true;
   }
-
+  
   //: Initalise link.
   
   bool NetEndPointBodyC::Ready() {
@@ -141,18 +181,19 @@ namespace RavlN {
     if(un == 0)
       un = "*unknown*";
     StringC auser(un);
+    
     SndInit(auser);
     
     return true;
   }
-
+  
   //: Wait for setup to complete.
   
   bool NetEndPointBodyC::WaitSetupComplete() {
     setupComplete.Wait();
     return true;
   }
-
+  
   //: Send a 0 paramiter message.
   
   bool NetEndPointBodyC::Send(UIntT id) {
@@ -162,8 +203,8 @@ namespace RavlN {
     Transmit(NetPacketC(os.Data()));
     return true;
   }
-
-
+  
+  
   //: Close connection.
   
   bool NetEndPointBodyC::Close() {
@@ -187,11 +228,11 @@ namespace RavlN {
     skt.SetNoDelay(); // Send packets asap.
     int wfd = skt.Fd();
     if(wfd < 0) {
-      cerr << "NetEndPointBodyC::RunTransmit(), ERROR: No connection. \n";    
+      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: No connection. \n";    
       return false;       
     }
     if(!WriteData(wfd,streamHeader.chars(),streamHeader.Size())) {
-      cerr << "NetEndPointBodyC::RunTransmit(), ERROR: Failed to write header. \n";    
+      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Failed to write header. \n";    
       return false;
     }
     
@@ -220,13 +261,13 @@ namespace RavlN {
 	ONDEBUG(cerr << "  Sent packet. \n");
       }
     } catch(ExceptionC &e) {
-      cerr << "RAVL Exception :'" << e.what() << "'\n";
-      cerr << "NetEndPointBodyC::RunTransmit(), Exception caught, terminating link. \n";
+      SysLog(SYSLOG_WARNING) << "RAVL Exception :'" << e.what() << "'\n";
+      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunTransmit(), Exception caught, terminating link. \n";
     } catch(exception &e) {
-      cerr << "C++ Exception :'" << e.what() << "'\n";
-      cerr << "NetEndPointBodyC::RunTransmit(), Exception caught, terminating link. \n";
+      SysLog(SYSLOG_WARNING) << "C++ Exception :'" << e.what() << "'\n";
+      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunTransmit(), Exception caught, terminating link. \n";
     } catch(...) {
-      cerr << "NetEndPointBodyC::RunTransmit(), Exception caught, terminating link. \n";
+      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunTransmit(), Exception caught, terminating link. \n";
     }
     //if(!nos)
     // cerr << "NetEndPointBodyC::RunTransmit(), Connection broken \n";    
@@ -242,19 +283,18 @@ namespace RavlN {
     while(at < size && !shutdown) {
       int n = read(nfd,&(buff[at]),size - at);
       if(n == 0) { // Linux indicates a close by returning 0 bytes read.  Is this portable ??
-	ONDEBUG(cerr << "Socket close. \n";)
+	ONDEBUG(cerr << "Socket close. \n");
 	return false;
       }
       if(n < 0) {
 	ONDEBUG(cerr << "NetEndPointBodyC::ReadData(), Error on read. \n");
 	if(errno == EINTR || errno == EAGAIN)
 	  continue;
-	cerr << "NetEndPointBodyC::ReadData(), Error reading from socket :" << errno;
 #if RAVL_OS_LINUX
 	char buff[256];
-	cerr << " '" << strerror_r(errno,buff,256) << "'\n";
+	SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::ReadData(), Error reading from socket :" << errno << " '" << strerror_r(errno,buff,256) << "'\n";
 #else
-	cerr << "\n";
+	SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::ReadData(), Error reading from socket :" << errno;
 #endif
 	return false;
       }
@@ -262,13 +302,13 @@ namespace RavlN {
     }
     return !shutdown;
   }
-
+  
   //: Write 2 buffers to file descriptor.
   
   bool NetEndPointBodyC::WriteData(int nfd,
 				   const char *buff1,UIntT size1,
 				   const char *buff2,UIntT size2) {
-
+    
     struct iovec vec[2];
     vec[0].iov_base = (void*) buff1;
     vec[0].iov_len = size1;
@@ -281,12 +321,11 @@ namespace RavlN {
       if(at > 0)
 	break;
       if(errno != EINTR && errno != EAGAIN) {
-	cerr << "NetEndPointBodyC::WriteData(),(2) Error writing to socket :" << errno;
 #if RAVL_OS_LINUX
 	char buff[256];
-	cerr << " '" << strerror_r(errno,buff,256) << "'\n";
+	SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::WriteData(),(2) Error writing to socket :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
 #else
-	cerr << "\n";
+	SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::WriteData(),(2) Error writing to socket :" << errno;
 #endif
 	return false;
       }
@@ -297,7 +336,7 @@ namespace RavlN {
       return true; // Everything done ok.
     // Write of all data failed, try and sort things out.
     // Does this ever really happen ??
-    cerr << "WARNING: Partial data write in NetEndPointBodyC::WriteData(). \n";
+    SysLog(SYSLOG_WARNING) << "WARNING: Partial data write in NetEndPointBodyC::WriteData(). \n";
     if(at < size1) { // Written all of first packet ?
       if(!WriteData(nfd,&(buff1[at]),size1-at))
 	return false;
@@ -314,22 +353,15 @@ namespace RavlN {
     UIntT at = 0;
     while(at < size && !shutdown) {
       int n = write(nfd,&(buff[at]),size - at);
-#if 0
-      if(n == 0) { // Linux indicates a close by returning 0 bytes read.  Is this portable ??
-	ONDEBUG(cerr << "Socket close. \n";)
-	return false;
-      }
-#endif
       if(n < 0) {
 	ONDEBUG(cerr << "NetEndPointBodyC::RunReceive(), Error on read. \n");
 	if(errno == EINTR || errno == EAGAIN)
 	  continue;
-	cerr << "NetEndPointBodyC::WriteData(), Error writing to socket :" << errno;
 #if RAVL_OS_LINUX
 	char buff[256];
-	cerr << " '" << strerror_r(errno,buff,256) << "'\n";
+	SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::WriteData(),(2) Error writing to socket :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
 #else
-	cerr << "\n";
+	SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::WriteData(),(2) Error writing to socket :" << errno;
 #endif
 	return false;
       }
@@ -345,7 +377,7 @@ namespace RavlN {
     
     int rfd = skt.Fd();
     if(rfd < 0) {
-      cerr << "NetEndPointBodyC::RunReceive(), ERROR: No connection. \n";    
+      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunReceive(), ERROR: No connection. \n";    
       return false;       
     }
     {
@@ -453,38 +485,45 @@ namespace RavlN {
 	msg.Decode(me,is); 
 
 #if RAVL_COMPILER_MIPSPRO // ignore Tell() = -1 on MIPS 
-  	if(  ((UIntT) is.Tell() != pkt.Size()) && (is.Tell() != -1) )  {
+  	if(  ((UIntT) is.Tell() != pkt.Size()) && (is.Tell() != -1) )  
+	  { cerr << "WARNING: Not all of packet processed Stream:" << is.Tell() << " Packet size:" << pkt.Size() <<"\n"; }
 #else
-	if((UIntT) is.Tell() != pkt.Size()) {
+	if((UIntT) is.Tell() != pkt.Size()) 
+	  { cerr << "WARNING: Not all of packet processed Stream:" << is.Tell() << " Packet size:" << pkt.Size() <<"\n"; }
 #endif 
-	  cerr << "WARNING: Not all of packet processed Stream:" << is.Tell() << " Packet size:" << pkt.Size() <<"\n"; 
-	}
       }
+    } catch(ExceptionOperationFailedC &ex) {
+      // protocol error...
+      Close();
     } catch(ExceptionC &e) {
-      cerr << "RAVL Exception :'" << e.what() << "'\n";
-      cerr << "NetEndPointBodyC::RunDecode(), Exception caught, terminating link. \n";
+      SysLog(SYSLOG_WARNING) << "RAVL Exception :'" << e.what() << "'\n";
+      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunDecode(), Exception caught, terminating link. \n";
     } 
 #if 0
     catch(exception &e) {
-      cerr << "C++ Exception :'" << e.what() << "'\n";
-      cerr << "NetEndPointBodyC::RunDecode(), Exception caught, terminating link. \n";
+      SysLog(SYSLOG_WARNING) << "C++ Exception :'" << e.what() << "'\n";
+      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunDecode(), Exception caught, terminating link. \n";
     } catch(...) {
-      cerr << "NetEndPointBodyC::RunDecode(), Exception caught, terminating link. \n";
+      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunDecode(), Exception caught, terminating link. \n";
     }
 #endif
-      //shutdown = true;
     transmitQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
     // Can't to much about recieve...
     ONDEBUG(cerr << "NetEndPointBodyC::RunDecode(), Terminated. \n"); 
     return true;
   }
-  
-
+    
+    
   //: Init message.
   
-  bool NetEndPointBodyC::MsgInit(StringC &user) {
+  bool NetEndPointBodyC::MsgInit(StringC &user,NetClientInfoC &nPeerInfo) {
     ONDEBUG(cerr << "NetEndPointBodyC::MsgInit(), Called. User:" << user << "\n");
     remoteUser = user;
+    peerInfo = nPeerInfo;
+    if(peerInfo.ProtocolName() != localInfo.ProtocolName()) {
+      cerr << "ERROR: Protocol mismatch Local='" << localInfo.ProtocolName() << "' Remote='" << peerInfo.ProtocolName() << "'\n";
+      throw ExceptionOperationFailedC("Failed to connect, protocol error. \n");
+    }
     setupComplete.Post();
     return true;
   }
@@ -495,5 +534,52 @@ namespace RavlN {
     MutexLockC lock(accessMsgReg);
     connectionBroken = trigger;
   }
+  
+  //:------------------------------------------------------------------------------
 
+  //: Constructor.
+  
+  NetClientInfoC::NetClientInfoC(const StringC &nprotocolName,
+				 const StringC &nprotocolVersion,
+				 const StringC &nappName,
+				 const StringC &nappVersion,
+				 const StringC &nhostType
+				 )
+    : protocol(nprotocolName),
+      protocolVersion(nprotocolVersion),
+      appName(nappName),
+      appVersion(nappVersion),
+      hostType(nhostType)
+  {}
+  
+  //: Default Constructor.
+  
+  NetClientInfoC::NetClientInfoC()
+    : protocol("User Protocol"),
+      protocolVersion("0.0"),
+      appName("Default"),
+      appVersion("0.0"),
+      hostType("unknown")
+  {}
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const NetClientInfoC &info) {
+    IntT version = 0;
+    strm << version;
+    strm << info.protocol << info.protocolVersion;
+    strm << info.appName << info.appVersion;
+    return strm;
+  }
+  //: Write info to a stream.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,NetClientInfoC &info) {
+    IntT version = 0;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("Unexpected version number in NetClientInfoC io. ");
+    strm >> info.protocol >> info.protocolVersion;
+    strm >> info.appName >> info.appVersion;
+    return strm;
+  }
+  //: Read info from a stream.
+  
 }
