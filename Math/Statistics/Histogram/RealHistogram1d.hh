@@ -58,6 +58,14 @@ namespace RavlN {
     { return (RealT) (((RealT) bin + 0.5)* scale) + offset; }
     //: Get the middle of given bin.
     
+    RealT MinBin(IndexC bin) const
+    { return (RealT) (((RealT) bin)* scale) + offset; }
+    //: Get the lower limit of given bin.
+    
+    RealT MaxBin(IndexC bin) const
+    { return (RealT) (((RealT) bin+1)* scale) + offset; }
+    //: Get the upper limit of given bin.
+    
     RealT MinLimit() const
     { return (RealT) IMin().V() * scale + offset; }
     //: Lower limit on values in the histogram range.
@@ -92,6 +100,16 @@ namespace RavlN {
       return true;
     }
     //: Vote for value.
+    // Returns false if value is out of range.
+    
+    bool CheckVote(RealT v,IntT n) { 
+      UIntT b = (UIntT) Bin(v).V();
+      if(b >= Size())
+	return false;
+      (*this)[b] += n; 
+      return true;
+    }
+    //: Vote for value n times.
     // Returns false if value is out of range.
     
     UIntT TotalVotes() const;
