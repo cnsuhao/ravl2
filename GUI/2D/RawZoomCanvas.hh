@@ -310,6 +310,31 @@ namespace RavlGUIN {
     //: Translate a configure event.
     // 'rect' is the new size for the widget.
     
+    Point2dC World2GUI(const Point2dC &at) const
+    { return Body().World2GUI(at); }
+    //: Convert world coordinates to GUI coordinates.
+
+    Index2dC World2GUIi(const Point2dC &at) const
+    { return Body().World2GUIi(at); }
+    //: Convert world coordinates to GUI coordinates.
+    
+    RealRange2dC World2GUI(const IndexRange2dC &at) const
+    { return Body().World2GUI(at); }
+    //: Convert world coordinates to GUI coordinates.
+
+    IndexRange2dC World2GUIi(const IndexRange2dC &at) const
+    { return Body().World2GUIi(at); }
+    //: Convert world coordinates to GUI coordinates.
+    
+    Point2dC GUI2World(const Point2dC &at) const
+    { return Body().GUI2World(at); }
+    //: Convert GUI coordinates to world coordinates
+    
+    RealRange2dC GUI2World(const IndexRange2dC &at) const
+    { return Body().GUI2World(at); }
+    //: Convert world coordinates to GUI coordinates.
+
+    
     friend class RawZoomCanvasBodyC;
   };
   
