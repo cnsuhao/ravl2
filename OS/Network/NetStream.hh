@@ -32,12 +32,12 @@ namespace RavlN {
       {}
     //: Default constructor.
     
-    NetOStreamC(const StringC &addr,bool buffered=true,bool server = false);
+    NetOStreamC(const StringC &address,bool buffered=true,bool server = false);
     //: Open net connection for output.
-    //!param: addr - port address, e.g. <code>trinity.ee.surrey.ac.uk:4045</code> or (for a local network)  <code>trinity:4045</code>
+    //!param: address -  has the format  `host:port' where `host' may be a host name or its IP address (e.g. 122.277.96.255) and `port' is the number of the port to use.
     //!param: server - true if server; false if client
     
-    NetOStreamC(const SocketC &sock,bool buffered=true);
+    NetOStreamC(const SocketC &socket,bool buffered=true);
     //: Use a socket to build new handle.
     
     SocketC &Socket() 
@@ -61,13 +61,13 @@ namespace RavlN {
       {}
     //: Default constructor
     
-    NetIStreamC(const StringC &addr,bool buffered=true,bool server = false);
-    //: Open net connection for input
-    //!param: addr - port address, e.g. <code>trinity.ee.surrey.ac.uk:4045</code> or (for a local network)  <code>trinity:4045</code>
+    NetIStreamC(const StringC &address,bool buffered=true,bool server = false);
+    //: Constructor to open net connection for input
+    //!param: address -  has the format  `host:port' where `host' may be a host name or its IP address (e.g. 122.277.96.255) and `port' is the number of the port to use.
     //!param: server - true if server; false if client
 
-    NetIStreamC(const SocketC &sock,bool buffered=true);
-    //: Use a socket to build new handle.
+    NetIStreamC(const SocketC &socket,bool buffered=true);
+    //: Constructor using a socket to build new handle.
     
     bool WaitForData(RealT timeout = -1);
     //: Wait for data to arrive.
