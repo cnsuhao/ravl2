@@ -9,7 +9,7 @@
 
 #include "Ravl/VirtualConstructor.hh"
 #include "Ravl/TypeName.hh"
-#include "Ravl/BinIStream.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
 
