@@ -197,14 +197,6 @@ namespace RavlN {
     // The new copy is necessary to attach to reference counted buffer
     // or to delete at the end of the life of this object.
     
-    
-  private:
-    
-    // Object representation
-    // ---------------------
-    // This could be implemented nicely by private inheritance. Unfortunately,
-    // g++2.7.2 has got some problems with the scope of typedef.
-    
     IndexRangeC range; // Information on the limits of the buffer 
   };
   
