@@ -19,12 +19,13 @@ PACKAGE=Ravl/OS
 #MAINS = dynLoad.cc
 
 # HEADERS = all include files of this project to be exported
-HEADERS =  FilePermission.hh Filename.hh Directory.hh UserInfo.hh
+HEADERS =  FilePermission.hh Filename.hh Directory.hh UserInfo.hh \
+ FileStream.hh
 
 # SOURCES = all C modules, not containing main separated by space. The compiled
 #   code of these modules is stored in the project library.
 SOURCES  = FilePermission.cc Filename.cc Directory.cc FileSearch.cc \
- UserInfo.cc FileOwner.cc 
+ UserInfo.cc FileOwner.cc FileStream.cc
 
 
 MUSTLINK = 
