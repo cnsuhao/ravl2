@@ -49,7 +49,7 @@ namespace RavlN {
   static TypeNameC type4(typeid(UIntT),"UIntT");
   
   static TypeNameC type5(typeid(RealT),"RealT");
-  //static TypeNameC type6(typeid(FloatT),"FloatT");
+  static TypeNameC type6(typeid(FloatT),"FloatT");
   
   //static TypeNameC type7(typeid(LongIntT),"LongIntT");
   //static TypeNameC type8(typeid(ULongIntT),"ULongIntT");
@@ -64,7 +64,6 @@ namespace RavlN {
   
   static TypeNameC type14(typeid(bool),"bool");
   static TypeNameC type15(typeid(RCBodyVC),"RCBodyVC");
-  
   
   const char *TypeName(const char *name) { 
     MTReadLockC lock;
