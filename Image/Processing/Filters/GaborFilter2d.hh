@@ -4,18 +4,17 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLIMAGE_GABOURFILTER_HEADER
-#define RAVLIMAGE_GABOURFILTER_HEADER 1
+#ifndef RAVLIMAGE_GABORFILTER_HEADER
+#define RAVLIMAGE_GABORFILTER_HEADER 1
 ////////////////////////////////////////////////////////////////////////////
 //! docentry="Ravl.Images.Filtering"
 //! rcsid="$Id$"
 //! author="Kieron Messer"
 //! date="17/10/2000"
 //! lib=RavlImageProc
-//! example=exGabourFilter.cc
-//! file="Ravl/Image/Processing/Filters/GabourFilter2d.hh"
+//! example=exGaborFilter.cc
+//! file="Ravl/Image/Processing/Filters/GaborFilter2d.hh"
 
-#warning "Use classes GaborFilter... instead"
 #include "Ravl/Array1d.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/SArray2dIter2.hh"
@@ -25,23 +24,23 @@
 
 namespace RavlImageN {
   
-  //! userlevel=Deprecated
-  //: Gabour filters.
+  //! userlevel=Develop
+  //: Gabor filters.
   
-  class GabourFilterBank2dBodyC 
+  class GaborFilterBank2dBodyC 
     : public RCBodyC
   {
   public:
-    GabourFilterBank2dBodyC(Index2dC size);
+    GaborFilterBank2dBodyC(Index2dC size);
     //: Constructor.
     // Uses default filter bank: <br>
     // Angles = 0.0, 45.0, 90.0, 135.0 <br>
     // Scales = 0.125, 0.35 
     
-    GabourFilterBank2dBodyC(const SArray1dC<RealT> &angles,const SArray1dC<RealT> &scales,Index2dC size = Index2dC(0,0));
+    GaborFilterBank2dBodyC(const SArray1dC<RealT> &angles,const SArray1dC<RealT> &scales,Index2dC size = Index2dC(0,0));
     //: Constructor.
     
-    GabourFilterBank2dBodyC();
+    GaborFilterBank2dBodyC();
     //: Constructor.
     
     Array1dC<ImageC<RealT> > &Filters()
@@ -87,7 +86,7 @@ namespace RavlImageN {
     //: Access filter scales.
     
   protected:
-    void MakeGabourFilters(int ymax, int xmax);
+    void MakeGaborFilters(int ymax, int xmax);
     //: Generate gabour filters.
     
     Array1dC<ImageC<RealT> > filter;
@@ -104,35 +103,35 @@ namespace RavlImageN {
 
   };
 
-  //! userlevel=Deprecated
-  //: Gabour filters.
+  //! userlevel=Normal
+  //: Gabor filters.
   
-  class GabourFilterBank2dC 
-    : public RCHandleC<GabourFilterBank2dBodyC>
+  class GaborFilterBank2dC 
+    : public RCHandleC<GaborFilterBank2dBodyC>
   {
   public:
-    GabourFilterBank2dC(Index2dC size)
-      : RCHandleC<GabourFilterBank2dBodyC>(*new GabourFilterBank2dBodyC(size))
+    GaborFilterBank2dC(Index2dC size)
+      : RCHandleC<GaborFilterBank2dBodyC>(*new GaborFilterBank2dBodyC(size))
     {}
     //: Constructor.
     
-    GabourFilterBank2dC(const SArray1dC<RealT> &angles,const SArray1dC<RealT> &scales,Index2dC size = Index2dC(0,0))
-      : RCHandleC<GabourFilterBank2dBodyC>(*new GabourFilterBank2dBodyC(angles,scales,size))
+    GaborFilterBank2dC(const SArray1dC<RealT> &angles,const SArray1dC<RealT> &scales,Index2dC size = Index2dC(0,0))
+      : RCHandleC<GaborFilterBank2dBodyC>(*new GaborFilterBank2dBodyC(angles,scales,size))
     {}
     //: Constructor.
     
   protected:
-    GabourFilterBank2dC(GabourFilterBank2dBodyC &bod)
-      : RCHandleC<GabourFilterBank2dBodyC>(bod)
+    GaborFilterBank2dC(GaborFilterBank2dBodyC &bod)
+      : RCHandleC<GaborFilterBank2dBodyC>(bod)
     {}
     //: Body constructor
     
-    GabourFilterBank2dBodyC &Body()
-    { return RCHandleC<GabourFilterBank2dBodyC>::Body(); }
+    GaborFilterBank2dBodyC &Body()
+    { return RCHandleC<GaborFilterBank2dBodyC>::Body(); }
     //: Access body.
     
-    const GabourFilterBank2dBodyC &Body() const
-    { return RCHandleC<GabourFilterBank2dBodyC>::Body(); }
+    const GaborFilterBank2dBodyC &Body() const
+    { return RCHandleC<GaborFilterBank2dBodyC>::Body(); }
     //: Access body.
     
   public:
@@ -158,7 +157,7 @@ namespace RavlImageN {
     
   };
   
-  //! userlevel=Deprecated
+  //! userlevel=Develop
   //: Body class for computing set of Gabor filters
   //
   // You should not use this class directly, but rather the handle class
@@ -167,14 +166,14 @@ namespace RavlImageN {
   
   template <class PixelT>
   class GaborFilter2dBodyC
-    : public GabourFilterBank2dBodyC
+    : public GaborFilterBank2dBodyC
   {
   public:
     GaborFilter2dBodyC();
     //: Default constructor
     
     GaborFilter2dBodyC(Index2dC size)
-      : GabourFilterBank2dBodyC(size)
+      : GaborFilterBank2dBodyC(size)
     {}
     //: Constructor with image size.
     // Uses default filter bank: <br>
@@ -182,16 +181,16 @@ namespace RavlImageN {
     // Scales = 0.125, 0.35 
 
     GaborFilter2dBodyC(Index2dC size,const SArray1dC<RealT> &angles,const SArray1dC<RealT> &scales)
-      : GabourFilterBank2dC(size,angles,scales)
+      : GaborFilterBank2dC(size,angles,scales)
     {}
     //: Constructor
     
     SArray1dC<ImageC<RealT> > Apply (const ImageC<PixelT> &im)   {
       ImageC<RealT> rim;
       ConvToReal(im,rim); // At some point this we will do fft from native image type.
-      return GabourFilterBank2dBodyC::Apply(rim);    
+      return GaborFilterBank2dBodyC::Apply(rim);    
     }    
-    //: Apply Gabour filters to image 'im'.
+    //: Apply Gabor filters to image 'im'.
     
   };
   
@@ -202,48 +201,48 @@ namespace RavlImageN {
   // **********  IPGaborC  ********************************************
   // --------------------------------------------------------------------------
 
-  //! userlevel=Deprecated
+  //! userlevel=Normal
   //: Compute Gabor feature images
   
   template <class PixelT>
-  class GabourFilter2dC
-    : public GabourFilterBank2dC
+  class GaborFilter2dC
+    : public GaborFilterBank2dC
   {
   public:
-    GabourFilter2dC()
-      : GabourFilterBank2dC(*new GaborFilter2dBodyC<PixelT>())
+    GaborFilter2dC()
+      : GaborFilterBank2dC(*new GaborFilter2dBodyC<PixelT>())
     {}
     //: Constructor 
     // Uses default filter bank: <br>
     // Angles = 0.0, 45.0, 90.0, 135.0 <br>
     // Scales = 0.125, 0.35 
     
-    GabourFilter2dC(Index2dC size)
-      : GabourFilterBank2dC(*new GaborFilter2dBodyC<PixelT>(size))
+    GaborFilter2dC(Index2dC size)
+      : GaborFilterBank2dC(*new GaborFilter2dBodyC<PixelT>(size))
     {}
     //: Constructor 
     // Uses default filter bank: <br>
     // Angles = 0.0, 45.0, 90.0, 135.0 <br>
     // Scales = 0.125, 0.35 
     
-    GabourFilter2dC(const SArray1dC<RealT> &angles,const SArray1dC<RealT> &scales,Index2dC size = Index2dC(0,0))
-      : GabourFilterBank2dC(*new GaborFilter2dBodyC<PixelT>(angels,scales,size))      
+    GaborFilter2dC(const SArray1dC<RealT> &angles,const SArray1dC<RealT> &scales,Index2dC size = Index2dC(0,0))
+      : GaborFilterBank2dC(*new GaborFilter2dBodyC<PixelT>(angels,scales,size))      
     {}
     //: Constructor.
     
   protected:
     GaborFilter2dBodyC<PixelT> &Body()
-    { return static_cast<GaborFilter2dBodyC<PixelT> &>(GabourFilterBank2dC::Body()); }
+    { return static_cast<GaborFilter2dBodyC<PixelT> &>(GaborFilterBank2dC::Body()); }
     //: Access body.
 
     const GaborFilter2dBodyC<PixelT> &Body() const
-    { return static_cast<const GaborFilter2dBodyC<PixelT> &>(GabourFilterBank2dC::Body()); }
+    { return static_cast<const GaborFilter2dBodyC<PixelT> &>(GaborFilterBank2dC::Body()); }
     //: Access body.
     
   public:
     SArray1dC<ImageC<RealT> > Apply (const ImageC<PixelT> &im)
     { return Body().Apply(im); }
-    //: Apply Gabour filters to im.
+    //: Apply Gabor filters to im.
     
   };
   

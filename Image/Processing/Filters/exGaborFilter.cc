@@ -8,10 +8,10 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
-//! file="Ravl/Image/Processing/Filters/exGabourFilter.cc"
+//! file="Ravl/Image/Processing/Filters/exGaborFilter.cc"
 
 #include "Ravl/Option.hh"
-#include "Ravl/Image/GabourFilter2d.hh"
+#include "Ravl/Image/GaborFilter2d.hh"
 #include "Ravl/IO.hh"
 
 using namespace RavlN;
@@ -29,11 +29,11 @@ int main(int nargs,char **argv) {
   img[15][16] = 1;
   img[15][15] = 1;
   
-  GabourFilter2dC<RealT> filter(size);
+  GaborFilter2dC<RealT> filter(size);
   SArray1dC<ImageC<RealT> > results = filter.Apply(img);
   
   for(UIntT i = 0;i < results.Size();i++) {
-    StringC fn = StringC("@X:Gabour") + StringC(i);
+    StringC fn = StringC("@X:Gabor") + StringC(i);
     Save(fn,results[i]);
   }
   return 0;

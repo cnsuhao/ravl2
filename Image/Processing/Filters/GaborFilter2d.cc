@@ -8,9 +8,9 @@
 //! date="17/10/2000"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
-//! file="Ravl/Image/Processing/Filters/GabourFilter2d.cc"
+//! file="Ravl/Image/Processing/Filters/GaborFilter2d.cc"
 
-#include "Ravl/Image/GabourFilter2d.hh"
+#include "Ravl/Image/GaborFilter2d.hh"
 #include "Ravl/Array2dIter3.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Math.hh"
@@ -22,7 +22,7 @@ namespace RavlImageN {
   
   //: Constructor.
   
-  GabourFilterBank2dBodyC::GabourFilterBank2dBodyC(Index2dC size)
+  GaborFilterBank2dBodyC::GaborFilterBank2dBodyC(Index2dC size)
     : filterSize(0,0)
   { 
     angleArr = SArray1dC<RealT>(defaultAngles,4,false);
@@ -32,7 +32,7 @@ namespace RavlImageN {
   
   //: Constructor.
   
-  GabourFilterBank2dBodyC::GabourFilterBank2dBodyC(const SArray1dC<RealT> &angles,const SArray1dC<RealT> &scales,Index2dC size)
+  GaborFilterBank2dBodyC::GaborFilterBank2dBodyC(const SArray1dC<RealT> &angles,const SArray1dC<RealT> &scales,Index2dC size)
     : filterSize(0,0),
       angleArr(angles),
       scaleArr(scales)
@@ -40,7 +40,7 @@ namespace RavlImageN {
   
   //: Constructor.
   
-  GabourFilterBank2dBodyC::GabourFilterBank2dBodyC()
+  GaborFilterBank2dBodyC::GaborFilterBank2dBodyC()
     : filterSize(0,0)
   {
     angleArr = SArray1dC<RealT>(defaultAngles,4,false);
@@ -49,17 +49,17 @@ namespace RavlImageN {
   
   //: Setup filters for given image size.
   
-  void GabourFilterBank2dBodyC::SetupFilters(Index2dC imgSize) {    
+  void GaborFilterBank2dBodyC::SetupFilters(Index2dC imgSize) {    
     if(imgSize[0] == 0 || imgSize[1] == 0)
       return ;
     filterSize = imgSize;
     forward = FFT2dC(imgSize,false);
     backward = FFT2dC(imgSize,true);
-    MakeGabourFilters(imgSize.Row().V(),imgSize.Col().V());
+    MakeGaborFilters(imgSize.Row().V(),imgSize.Col().V());
   }
   
   
-  void GabourFilterBank2dBodyC::MakeGabourFilters(int ymax, int xmax) {
+  void GaborFilterBank2dBodyC::MakeGaborFilters(int ymax, int xmax) {
     double delta_x, delta_y;
     double PIE, temp1, temp2, temp3, temp4, temp5;
     double u, v, udash, vdash, centre_u, centre_v;
@@ -115,7 +115,7 @@ namespace RavlImageN {
   
   //: Apply filters to a real image.
   
-  SArray1dC<ImageC<RealT> > GabourFilterBank2dBodyC::Apply(const ImageC<RealT> &rim) {
+  SArray1dC<ImageC<RealT> > GaborFilterBank2dBodyC::Apply(const ImageC<RealT> &rim) {
     if(rim.Frame().Size() != filterSize)
       SetupFilters(rim.Frame().Size());
     
