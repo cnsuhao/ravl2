@@ -140,6 +140,76 @@ namespace RavlGUIN {
     GdkDrawable *DrawArea()
     { return Body().DrawArea(); }
     //: Access draw area.
+
+    GdkGC *GUIDrawGC()
+    { return Body().GUIDrawGC(); }
+    //: Get drawing context.
+    
+    GdkFont *GUIDrawFont()
+    { return Body().GUIDrawFont(); }
+    //: Font to use.
+    
+    GdkGC *GUIDrawGCBlack()
+    { return Body().GUIDrawGCBlack(); }
+    //: Get black drawing context.
+    
+    GdkGC *GUIDrawGCWhite()
+    { return Body().GUIDrawGCWhite(); }
+    //: Get white drawing context.
+    
+    GdkGC *GUIDrawGCGrey()
+    { return Body().GUIDrawGCGrey(); }
+    //: Get grey drawing context.
+    
+    GdkWindow *GUIDrawWindow()
+    { return Body().GUIDrawWindow(); }
+    //: Get get draw area.
+    
+    void GUIDrawLine(GdkGC *gc,Index2dC p1,Index2dC p2)
+    { return Body().GUIDrawLine(gc,p1,p2); }
+    //: Draw a line.
+    
+    void GUIDrawRectangle(GdkGC *gc,const IndexRange2dC &rect,bool fill = false)
+    { return Body().GUIDrawRectangle(gc,rect,fill); }
+    //: Draw a rectangle.
+    
+    void GUIDrawRectangle(GdkGC *gc,Index2dC topLeft,Index2dC bottomRight,bool fill = false)
+    { return Body().GUIDrawRectangle(gc,topLeft,bottomRight,fill); }
+    //: Draw a rectangle.
+    
+    void GUIDrawText(GdkGC *gc,GdkFont *font,Index2dC at,const StringC &txt)
+    { return Body().GUIDrawText(gc,font,at,txt); }
+    //: Draw text.
+    // 'at' is the bottom left of the text to be drawn.
+    
+    Index2dC GUITextSize(GdkFont *font,const StringC &txt)
+    { return Body().GUITextSize(font,txt); }
+    //: Find the size of 'text' rendered in 'font'.
+    
+    void GUIDrawCircle(GdkGC *gc,Index2dC cent,UIntT size,bool fill)
+    { return Body().GUIDrawCircle(gc,cent,size,fill); }
+    //: Draw a circle.
+    
+    void GUIDrawImage(const ImageC<ByteRGBValueC> &image,const Index2dC &offset = Index2dC(0,0),bool ignoreImageOrigin = false)
+    { return Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
+    //: Draw an image into the canvas with its origin offset by 'offset'.
+    // Note: You have to include the RavlGUI2d library to use this function.
+    
+    void GUIDrawImage(const ImageC<ByteT> &image,const Index2dC &offset = Index2dC(0,0),bool ignoreImageOrigin = false)
+    { return Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
+    //: Draw an image into the canvas with its origin offset by 'offset'.
+    // Note: You have to include the RavlGUI2d library to use this function.
+    
+    bool TranslateExposeEvent(const GdkEvent* event,IndexRange2dC &rect,IntT &toFollow)
+    { return Body().TranslateExposeEvent(event,rect,toFollow); }
+    //: Translate an expose event.
+    // 'rect' is the area to be updated.
+    // 'toFollow' is a count of how many expose events queued to follow this one.
+    
+    bool TranslateConfigureEvent(const GdkEvent* event,IndexRange2dC &widgeSize)
+    { return Body().TranslateConfigureEvent(event,widgeSize); }
+    //: Translate a configure event.
+    // 'rect' is the new size for the widget.
     
   };
   
