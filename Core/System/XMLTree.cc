@@ -83,6 +83,14 @@ namespace RavlN {
     children.InsLast(subtree);
     return HashTreeBodyC<StringC,RCHashC<StringC,StringC> >::Add(name,subtree,true);
   }
+
+  
+  //: Add subtree to node.
+  
+  bool XMLTreeBodyC::Add(const XMLTreeC &subtree) {
+    children.InsLast(subtree);
+    return HashTreeBodyC<StringC,RCHashC<StringC,StringC> >::Add(subtree.Name(),subtree,true);
+  }
   
   ostream &XMLTreeBodyC::Indent(ostream &out,int level) {
     for(int i = 0;i < level;i++)

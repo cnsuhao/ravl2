@@ -68,6 +68,10 @@ namespace RavlN {
     
     bool Add(const StringC &name,const XMLTreeC &subtree);
     //: Add subtree to node.
+    // Obsolete use Add(const XMLTreeC &subtree).
+    
+    bool Add(const XMLTreeC &subtree);
+    //: Add subtree to node.
     
     DListC<XMLTreeC> &Children()
     { return children; }
@@ -154,6 +158,11 @@ namespace RavlN {
 
     bool Add(const StringC &name,const XMLTreeC &subtree)
     { return Body().Add(name,subtree); }
+    //: Add subtree to node.
+    // Obsolete use Add(const XMLTreeC &subtree).
+    
+    bool Add(const XMLTreeC &subtree)
+    { return Body().Add(subtree); }
     //: Add subtree to node.
     
     DListC<XMLTreeC> &Children()
