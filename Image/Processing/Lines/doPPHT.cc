@@ -13,14 +13,13 @@
 #include "Ravl/Option.hh"
 #include "Ravl/Image/PPHT.hh"
 #include "Ravl/EntryPnt.hh"
-//#include "Ravl/DP/ComposeSE.hh"
 #include "Ravl/Image/ImageConv.hh"
-//#include "Ravl/Image/GradEst.hh"
-//#include "Ravl/DP/WriteGF.hh"
-//#include "Ravl/Image/ImgIO.hh"
-//#include "Ravl/Image/VidIO.hh"
 #include "Ravl/DP/SequenceIO.hh"
 #include "Ravl/IO.hh"
+#include "Ravl/Image/EdgeDetector.hh"
+#include "Ravl/DP/Method2Proc.hh"
+#include "Ravl/DP/Compose.hh"
+#include "Ravl/LinePP2d.hh"
 
 #include <time.h>
 #include <stdlib.h>
@@ -39,6 +38,14 @@ static DPOPortC<PCPixMappingC<Curve2dLineSegmentC> > fix_sgi_bug2;
 static DPIPortBodyC<DListC<EdgelC > > fix_sgi_bug3;
 static DPIPortBodyC<SArray1dC<EdgelC > > fix_sgi_bug4;
 #endif
+
+DListC<LinePP2dC> LineMap2LinePP(const PCPixMappingC<Curve2dLineSegmentC> &lines) {
+  DListC<LinePP2dC> ret;
+  for(DLIterC<PCPixMapC<Curve2dLineSegmentC> >  it(lines);it;it++)
+    ret.InsLast(LinePP2dC(it->Curve().StartPnt(),it->Curve().EndPnt()));
+  return ret;
+}
+
 
 int doPPHT(int argc,char **argv) 
 {
@@ -64,11 +71,14 @@ int doPPHT(int argc,char **argv)
   bool doSHT = option.Boolean("sht",false,"Do SHT instread.");
   bool setupOnly = option.Boolean("so",false,"Do setup only.");
   
+  RealT hystLower = option.Real("hl",10,"Edge detector, Lower hysterisis threshold. ");
+  RealT hystUpper = option.Real("hu",17,"Edge detector, Upper hysterisis threshold. ");
+  
   RealT cWidth = option.Real("cw",2.5,"Line corridor width in pixels ");
   IntT maxGap = option.Int("mg",5,"Maxium size of gap inline in pixels ");
   IntT minLen = option.Int("ml",3,"Minimum line length to that can be detected ");
   
-  StringC inFile = option.String("","edges.abs","Input filename. ");
+  StringC inFile = option.String("","in.ppm","Input filename. ");
   StringC outFile = option.String("","lines.abs","Output filename. ");
   option.Check();
   
@@ -80,20 +90,25 @@ int doPPHT(int argc,char **argv)
   pphtProc.SetMagSort(setMagSort);
   pphtProc.SetDoSHT(doSHT);
   
+  // Setup edge detector.
+  EdgeDetectorC edgeDet(true,hystLower,hystUpper);
+  
   if(setupOnly)
     exit(0);
   
   if(seq) { // Process sequence.
     // Setup IO.
-    
-    DPIPortC<DListC<EdgelC > > in;
-    if(!OpenISequence(in,inFile,inType,verb)) {
-      cerr << "Failed to open input '" << inFile << "' \n";
-      return 0;
-    }
 
-    DPOPortC<PCPixMappingC<Curve2dLineSegmentC> > out;
-    if(!OpenOSequence(out,outFile,outType,verb)) {
+    DPIPortC<ImageC<RealT> > imgIn;
+    if(!OpenISequence(imgIn,inFile,inType,verb)) {
+      cerr << "Failed to open input '" << inFile << "' \n";
+      return 1;
+    }
+    
+    DPIPortC<DListC<EdgelC > > in = imgIn >> Process(edgeDet,&EdgeDetectorC::LApply);
+    DPOPortC<DListC<LinePP2dC> > linesOut;
+    
+    if(!OpenOSequence(linesOut,outFile,outType,verb)) {
       cerr << "Failed to open output '" << outFile << "' \n";
       return 0;
     }
@@ -102,16 +117,20 @@ int doPPHT(int argc,char **argv)
     
     DListC<EdgelC> inList;
     while(in.Get(inList)) {
-      out.Put(pphtProc.Apply(inList));
+      linesOut.Put(LineMap2LinePP(pphtProc.Apply(inList)));
     }    
   } else { // Process single frame.
-
-    DListC<EdgelC> input;
     
-    if(!Load(inFile,input,inType,verb)) {
+    ImageC<RealT> img;
+    if(!Load(inFile,img,inType,verb)) {
       cerr << "Failed to open input '" << inFile << "' \n";
-      return 1;      
+      return 1;
     }
+    if(verb)
+      cerr << "Detecting edges. \n";
+    
+    DListC<EdgelC> input = edgeDet.LApply(img);
+    
     if(verb)
       cerr << "Processing... \n";
     
@@ -120,7 +139,8 @@ int doPPHT(int argc,char **argv)
     if(verb)
       cerr << "Writing data. \n";
     
-    if(!Save(outFile,output,outType,verb)) {
+    DListC<LinePP2dC> linesOut = LineMap2LinePP(output);
+    if(!Save(outFile,linesOut,outType,verb)) {
       cerr << "Failed to open output '" << outFile << "' \n";
       return 1;
     }

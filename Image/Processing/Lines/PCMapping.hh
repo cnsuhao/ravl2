@@ -12,7 +12,7 @@
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! rcsid="$Id$"
-//! date="07/01/99"
+//! date="07/01/1999"
 
 #include "Ravl/Tuple2.hh"
 #include "Ravl/Image/PCPixelList.hh"
