@@ -28,6 +28,7 @@ int testDataSet2();
 int testDataSet3();
 
 #if USE_SPEEDTEST
+#include "Ravl/DList.hh"
 int testSpeed();
 #endif
 
@@ -130,6 +131,13 @@ int testSpeed() {
     dataset3.Append(i,0.3,true);
   end.SetToNow();
   cerr << "Create Time3 = " << (end.Double() - start.Double()) << "\n";
+
+  start.SetToNow();
+  DListC<int> aList;
+  for(int i = 0;i < testSize;i++) 
+    aList.InsLast(i);
+  end.SetToNow();
+  cerr << "DList Create Time = " << (end.Double() - start.Double()) << "\n";
   
   UIntT val = 0;
   start.SetToNow();
@@ -151,6 +159,12 @@ int testSpeed() {
   }
   end.SetToNow();
   cerr << "Iter Time3 = " << (end.Double() - start.Double()) << "\n";
+  start.SetToNow();
+  for(DLIterC<int > itl(aList);itl;itl++)
+    val += itl.Data();
+  end.SetToNow();
+
+  cerr << "DList Iter Time = " << (end.Double() - start.Double()) << "\n";
   
   return 0;
 }
