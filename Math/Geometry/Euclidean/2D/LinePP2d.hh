@@ -79,6 +79,12 @@ namespace RavlN {
  
     Point2dC Intersection(const LinePP2dC & l) const;
     // Returns the intersection of 2 lines.
+
+    bool Intersection(const LinePP2dC & l, Point2dC& here) const;
+    //: Calculate the intersection point between this line and l
+    //!param: l - another line
+    //!param: here - the point of intersection
+    //!return: true if the lines intersect or false if they are parallel
     
     bool IntersectRow(RealT row,RealT &col) const;
     //: Find the column position which itersects the given row.

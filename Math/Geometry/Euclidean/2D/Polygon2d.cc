@@ -180,13 +180,19 @@ namespace RavlN {
             ret.InsLast(*pt);
           }
           else {
-            ret.InsLast(line.Intersection(LinePP2dC(*st,*pt)));
+            Point2dC intersection;
+            if (line.Intersection(LinePP2dC(*st,*pt), intersection)) {
+              ret.InsLast(intersection);
+            }
             ret.InsLast(*pt);
           }
         }
         else {
           if (line.IsPointToRightOn(*st)) {
-            ret.InsLast(line.Intersection(LinePP2dC(*st,*pt)));
+            Point2dC intersection;
+            if (line.Intersection(LinePP2dC(*st,*pt), intersection)) {
+              ret.InsLast(intersection);
+            }
           }
         }
         st = pt;
