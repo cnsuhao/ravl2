@@ -46,6 +46,8 @@
 
 #include "Ravl/GUI/Table.hh"
 
+#include "Ravl/GUI/AttributeEditorWindow.hh"
+
 #include "Ravl/VPlay/GUIPlayControl.hh"
 
 #include "Ravl/Image/ImgIOCif.hh"
@@ -285,10 +287,13 @@ int doVPlay(int nargs,char *args[])
 						      &file_selector,
 						      guiData
 						      );
+
+  AttributeEditorWindowC attributeEditor(infile,vidIn);
   
   // Setup menu.
   MenuBarC menuBar(MenuC("File",
 			 MenuItemShow("Open",inFileSelect) +
+			 MenuItemShow("Stream attributes",attributeEditor) +
 			 MenuItem("Quit",gui_quit,vpCtrl) 
 			 )
 		   );
