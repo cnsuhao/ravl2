@@ -35,7 +35,31 @@ namespace RavlImageN {
     WarpProjectiveC()
     {}
     //: Default constructor.
+
+    WarpProjectiveC(const IndexRange2dC &orec,
+		    const Projection2dC &transform,
+		    bool nFillBackground = true,
+		    const MixerT &mix = MixerT())
+      : trans(transform.Matrix()),
+	iz(transform.Oz()),
+	oz(transform.Iz()),
+	rec(orec),
+	fillBackground(nFillBackground),
+	mixer(mix)
+    { Init(); }
+    //: Constructor from Projection2dC.
+    // Where orec is the size of the output rectangle.
     
+    WarpProjectiveC(const Projection2dC &transform,
+		    bool nFillBackground = true,
+		    const MixerT &mix = MixerT())
+      : trans(transform.Matrix()),
+	iz(transform.Oz()),
+	oz(transform.Iz()),
+	fillBackground(nFillBackground),
+	mixer(mix)
+    { Init(); }
+    //: Constructor from Projection2dC.
     WarpProjectiveC(const IndexRange2dC &orec,
 		    const Matrix3dC &transform,
 		    RealT niz = 1,
@@ -49,8 +73,9 @@ namespace RavlImageN {
 	fillBackground(nFillBackground),
 	mixer(mix)
     { Init(); }
-    //: Constructor.
+    //: Constructor from Matrix3dC.
     // Where orec is the size of the output rectangle.
+    // See Projection2dC for argument descriptions
     
     WarpProjectiveC(const Matrix3dC &transform,
 		    RealT niz = 1,
@@ -63,19 +88,9 @@ namespace RavlImageN {
 	fillBackground(nFillBackground),
 	mixer(mix)
     { Init(); }
-    //: Constructor.
+    //: Constructor from Matrix3dC.
+    // See Projection2dC for argument descriptions
 
-    WarpProjectiveC(const Projection2dC &transform,
-		    bool nFillBackground = true,
-		    const MixerT &mix = MixerT())
-      : trans(transform.Matrix()),
-	iz(transform.Oz()),
-	oz(transform.Iz()),
-	fillBackground(nFillBackground),
-	mixer(mix)
-    { Init(); }
-    //: Constructor.
-    
     void Apply(const ImageC<InT> &img,ImageC<OutT> &out);
     //: Warp image 'img' with the given transform and write it into 'out'
     
