@@ -220,7 +220,7 @@ namespace RavlN {
   //: Set vector to zero.
 
   template<class DataT,unsigned int N,unsigned int M>
-  void MulAdd(const TFMatrixC<DataT,1,M> &mat,const TFVectorC<DataT,M> &vec,const TFVectorC<DataT,N> &add,TFVectorC<DataT,N> &result) {
+  void MulAdd(const TFMatrixC<DataT,N,M> &mat,const TFVectorC<DataT,M> &vec,const TFVectorC<DataT,N> &add,TFVectorC<DataT,N> &result) {
     for(unsigned int i = 0;i < N;i++) {
       result[i] = add[i] + mat[i][0]*vec[0];
       for(unsigned int j = 1;j < M;j++) 
@@ -265,7 +265,6 @@ namespace RavlN {
       for(UIntT j = 1; j < N;j++)
 	val += mat[j][i] * vec[j];
     }
-    return ret;
   }
   //: Compute result = mat.T() * vec;
   // Transpose this matrix and multiply by 'vec'
