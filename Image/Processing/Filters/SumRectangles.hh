@@ -14,6 +14,7 @@
 
 #include "Ravl/Array2d.hh"
 #include "Ravl/IndexRange2d.hh"
+#include "Ravl/Array1dIter.hh"
 #include "Ravl/Array1dIter3.hh"
 #include "Ravl/Array2dIter3.hh"
 
