@@ -27,6 +27,8 @@ namespace RavlCxxDocN {
   
   static HSetC<StringC> UserLevels() {
     HSetC<StringC> ret;
+    ret += "Basic";
+    ret += "Obsolete";
     ret += "Normal";
     ret += "Advanced";
     ret += "Develop";
