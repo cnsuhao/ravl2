@@ -123,7 +123,8 @@ namespace RavlGUIN {
       direct(ndirect),
       pixmap(0),
       configDone(false),
-      drawGC(0)
+      drawGC(0),
+      autoRefresh(true)
   {}
 
   //: Constructor.
@@ -132,7 +133,8 @@ namespace RavlGUIN {
       direct(ndirect),
       pixmap(0),
       configDone(false),
-      drawGC(0)
+      drawGC(0),
+      autoRefresh(true)
   {}
   
   //: Destructor.
@@ -178,23 +180,33 @@ namespace RavlGUIN {
   
 
   //: Draw an image on the canvas.
+  
   void CanvasBodyC::DrawImage(const ImageC<ByteT> &img,Index2dC offset) {
     Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIDrawImage,const_cast<ImageC<ByteT> &>(img),offset));
   }
   
   //: Draw an rgb image on the canvas.
+  
   void CanvasBodyC::DrawImage(const ImageC<ByteRGBValueC> &img,Index2dC offset) {
     Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIDrawRGBImage,const_cast<ImageC<ByteRGBValueC> &>(img),offset));
   }
 
   //: Draw an rgb image on the canvas.
+  
   void CanvasBodyC::DrawLine(IntT x1,IntT y1,IntT x2,IntT y2,IntT c) {
     Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIDrawLine,x1,y1,x2,y2,c));
   }
 
   //: Draw some text
+  
   void CanvasBodyC::DrawText(IntT x1,IntT y1,StringC text,IntT colId) {
     Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIDrawText,x1,y1,text,colId));
+  }
+  
+  //: Draw a rectangle.
+  
+  void CanvasBodyC::DrawRectangle(IntT x1,IntT y1,IntT x2,IntT y2,IntT c) {
+    Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIDrawRectangle,x1,y1,x2,y2,c));
   }
   
   //: Draw an image on the canvas.
@@ -223,12 +235,14 @@ namespace RavlGUIN {
 			img.Cols());
 
 #if 1    
-    GdkRectangle update_rect;
-    update_rect.x = atx;
-    update_rect.y = aty;
-    update_rect.width = Min((UIntT)Widget()->allocation.width,img.Cols());
-    update_rect.height = Min((UIntT)Widget()->allocation.height,img.Rows());
-    gtk_widget_draw (Widget(), &update_rect);  
+    if(autoRefresh) {
+      GdkRectangle update_rect;
+      update_rect.x = atx;
+      update_rect.y = aty;
+      update_rect.width = Min((UIntT)Widget()->allocation.width,img.Cols());
+      update_rect.height = Min((UIntT)Widget()->allocation.height,img.Rows());
+      gtk_widget_draw (Widget(), &update_rect);  
+    }
 #endif
     return true;
   }
@@ -260,12 +274,14 @@ namespace RavlGUIN {
 		       img.Cols() * 3);
 
 #if 1
-    GdkRectangle update_rect;
-    update_rect.x = atx;
-    update_rect.y = aty;
-    update_rect.width = Min((UIntT)Widget()->allocation.width,img.Cols());
-    update_rect.height = Min((UIntT)Widget()->allocation.height,img.Rows());
-    gtk_widget_draw (Widget(), &update_rect);  
+    if(autoRefresh) {
+      GdkRectangle update_rect;
+      update_rect.x = atx;
+      update_rect.y = aty;
+      update_rect.width = Min((UIntT)Widget()->allocation.width,img.Cols());
+      update_rect.height = Min((UIntT)Widget()->allocation.height,img.Rows());
+      gtk_widget_draw (Widget(), &update_rect);  
+    }
 #endif
     return true;
   }
@@ -291,7 +307,8 @@ namespace RavlGUIN {
 		   x1, y1,
 		   x2, y2);
 
-    GUIRefresh();
+    if(autoRefresh)
+      GUIRefresh();
     return true;
   } 
 
@@ -322,7 +339,37 @@ namespace RavlGUIN {
 		  y1,
 		  text.chars(),
 		  text.length());
+    
+    if(autoRefresh)
+      GUIRefresh();
     return true;
+  }
+
+  //: Draw a rectangle.
+  
+  bool CanvasBodyC::GUIDrawRectangle(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &c) {
+    if(!IsReady()) {
+      ONDEBUG(cerr <<"CanvasBodyC::GUIDrawLine(), WARNING: Asked to render data before canvas is initialise. \n");
+      toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawRectangle,x1,y1,x2,y2,c));
+      return true;
+    }
+    GdkGC *gc;
+    if(c == 0)
+      gc = widget->style->white_gc;
+    else{
+      gc = DrawGC();
+      gdk_gc_set_foreground(gc,&GetColour(c));
+    }
+    
+    gdk_draw_rectangle (DrawArea(),
+			gc,
+			true,
+			x1, y1,
+			x2, y2);
+    if(autoRefresh)
+      GUIRefresh();
+    return true;
+    
   }
   
   //: Refresh display.
@@ -433,12 +480,14 @@ namespace RavlGUIN {
 			0, 0,
 			sx,sy);
     
-    GdkRectangle update_rect;
-    update_rect.x = 0;
-    update_rect.y = 0;
-    update_rect.width = Widget()->allocation.width;
-    update_rect.height = Widget()->allocation.height;
-    gtk_widget_draw (Widget(), &update_rect);  
+    if(autoRefresh) {
+      GdkRectangle update_rect;
+      update_rect.x = 0;
+      update_rect.y = 0;
+      update_rect.width = Widget()->allocation.width;
+      update_rect.height = Widget()->allocation.height;
+      gtk_widget_draw (Widget(), &update_rect);  
+    }
     return true;
   }
   

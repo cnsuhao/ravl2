@@ -85,7 +85,10 @@ namespace RavlGUIN {
     
     void DrawLine(IntT x1,IntT y1,IntT x2,IntT y2,IntT colId = 0); 
     //: Draw a line.
-
+    
+    void DrawRectangle(IntT x1,IntT y1,IntT x2,IntT y2,IntT colId = 0); 
+    //: Draw a filled rectangle.
+    
     void DrawText(IntT x1,IntT y1,StringC text,IntT colId = 0);
     //: Draw some text
     
@@ -105,6 +108,9 @@ namespace RavlGUIN {
     //: Draw some text
     // Call with GUI thread only!
     
+    bool GUIDrawRectangle(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId); 
+    //: Draw a frame.
+    
     bool GUIClear();
     //: Clear canvas to given colour.
     
@@ -121,6 +127,14 @@ namespace RavlGUIN {
     DListC<TriggerC> &ToDo()
     { return toDo; }
     //: Get todo list.
+    
+    void AutoRefresh(bool val)
+    { autoRefresh = val; }
+    //: Turn auto refresh after draw routines on/off.
+    
+    bool AutoRefresh() const
+    { return autoRefresh; }
+    //: Is auto refresh on ?
     
   protected:
     
@@ -147,6 +161,8 @@ namespace RavlGUIN {
     SArray1dC<GdkColor> colourTab; // Colour table.
     
     DListC<TriggerC> toDo; // List of things to do as soon as we're initalised.
+
+    bool autoRefresh;
     
     friend class CanvasC;
   };
@@ -226,14 +242,22 @@ namespace RavlGUIN {
     { Body().DrawText(x1,y1,text,colId); }
     //: Draw a line.
     
+    void DrawRectangle(IntT x1,IntT y1,IntT x2,IntT y2,IntT colId = 0)
+    { return Body().DrawRectangle(x1,y1,x2,y2,colId); }
+    //: Draw a filled rectangle
+    
     bool GUIDrawLine(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId)
     { return Body().GUIDrawLine(x1,y1,x2,y2,colId); }
     //: Draw a line.
 
     bool GUIDrawLine(Index2dC &p1,Index2dC &p2,IntT &colId)
-      { return Body().GUIDrawLine(p1.Row().V(),p1.Col().V(),p2.Row().V(),p2.Col().V(),colId); }
+    { return Body().GUIDrawLine(p1.Row().V(),p1.Col().V(),p2.Row().V(),p2.Col().V(),colId); }
     //: Draw a line.
     // Call with GUI thread only!
+    
+    void GUIDrawRectangle(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId)
+    { Body().GUIDrawRectangle(x1,y1,x2,y2,colId); }
+    //: Draw a filled rectangle.
     
     bool GUIDrawImage(ImageC<ByteT> &img,Index2dC &offset)
     { return Body().GUIDrawImage(img,offset); }
@@ -261,6 +285,14 @@ namespace RavlGUIN {
     bool IsReady() const 
     { return Body().IsReady(); }
     //: Is Canvas ready for drawing ?
+
+    void AutoRefresh(bool val)
+    { Body().AutoRefresh(); }
+    //: Turn auto refresh after draw routines on/off.
+    
+    bool AutoRefresh() const
+    { return Body().AutoRefresh(); }
+    //: Is auto refresh on ?
     
     friend class CanvasBodyC;
   };
