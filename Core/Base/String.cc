@@ -1400,7 +1400,7 @@ namespace RavlN {
   
   //: Interpret stream as an unsigned integer.
   
-  IntT StringC::UIntValue() const {
+  UIntT StringC::UIntValue() const {
     return (UIntT) atoi(chars());
   }
   
