@@ -232,6 +232,9 @@ namespace RavlN {
 	}
 	ONDEBUG(cerr << "Decoding incoming packet. Type: '" << msg.Name() << "'\n");
 	msg.Decode(me,is);
+	if(is.Tell() != pkt.Size()) {
+	  cerr << "WARNING: Not all of packet processed Stream:" << is.Tell() << " Packet size:" << pkt.Size() <<"\n"; 
+	}
       }
     } catch(ExceptionC &e) {
       cerr << "AMMA Exception :'" << e.what() << "'\n";
