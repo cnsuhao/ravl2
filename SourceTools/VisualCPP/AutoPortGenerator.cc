@@ -128,10 +128,6 @@ namespace RavlN {
     }
     // Source code.
     if(typedata == "sources") {
-      if(!context.Top().libInfo.IsValid()) {
-	cerr << "ERROR: No lib context for 'forall:source'. \n";
-	return false;
-      }
       DListC<StringC> lst = context.Top().Sources();
       for(DLIterC<StringC> it(lst);it;it++) {
 	context.Push(ContextC(*it));
@@ -141,10 +137,6 @@ namespace RavlN {
       return true;
     }
     if(typedata == "headers") {
-      if(!context.Top().libInfo.IsValid()) {
-	cerr << "ERROR: No lib context for 'forall:header'. \n";
-	return false;
-      }
       DListC<HeaderInfoC> lst = context.Top().Headers();
       for(DLIterC<HeaderInfoC> it(lst);it;it++) {
 	context.Push(ContextC(*it));
