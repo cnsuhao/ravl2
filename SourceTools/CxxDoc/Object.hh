@@ -50,19 +50,20 @@ namespace RavlCxxDocN {
   class DesciptionGeneratorC {
   public:
     DesciptionGeneratorC()
-      {}
+    {}
     //: Default constructor.
     
     virtual ~DesciptionGeneratorC()
-      {}
-
+    {}
+    //: Destructor.
+    
     virtual StringC TextFor(char let);
     //: Render a charactor.
     // Typical used for '<' '>' and the like..
     
     virtual StringC TextFor(const ObjectC &obj);
-    //: Render a charactor.
-
+    //: Render a an object description.
+    
     virtual StringC TextFor(const StringC &obj);
     //: Render a string 'as is'.
 
@@ -90,31 +91,31 @@ namespace RavlCxxDocN {
   class CommentInfoC {
   public:
     CommentInfoC()
-      {}
+    {}
     //: Default constructor.
     
     StringC &Text()
-      { return text; }
+    { return text; }
     //: Access text of comment.
     // Access the text or detailed comment.
     
     StringC &Header()
-      { return header; }
+    { return header; }
     //: Access header of comment.
     // Access the header or brief comment.
 
     const StringC &Text() const
-      { return text; }
+    { return text; }
     //: Access text of comment.
     // Access the text or detailed comment.
     
     const StringC &Header() const
-      { return header; }
+    { return header; }
     //: Access header of comment.
     // Access the header or brief comment.
     
     StringC &Var(const StringC &nm)
-      { return vars[nm]; }
+    { return vars[nm]; }
     //: Access a global variable.
     // Creates a new entry in the table if not
     // found.
@@ -131,15 +132,15 @@ namespace RavlCxxDocN {
     //: Set a global variable.
     
     HashC<StringC,StringC> &Vars()
-      { return vars; }
+    { return vars; }
     //: Access global variable table.
     
     const HashC<StringC,StringC> &Vars() const
-      { return vars; }
+    { return vars; }
     //: Access global variable table.
 
     RCHashC<StringC,StringC> &Locals()
-      { return locals; }
+    { return locals; }
     //: Access local variable table.
 
     const RCHashC<StringC,StringC> &Locals() const
@@ -184,42 +185,42 @@ namespace RavlCxxDocN {
     //: Constructor.
     
     StringC &Name()
-      { return name; }
+    { return name; }
     //: Name of object.
 
     const StringC &Name() const
-      { return name; }
+    { return name; }
     //: Name of object.
     
     virtual const char *TypeName() const 
-      { return "object"; }
+    { return "object"; }
     //: Get name of object type.
     
     void SetName(const StringC &nname)
-      { name = nname; }
+    { name = nname; }
     //: Set name of object.
 
     void SetComment(const CommentInfoC &cinf);
     //: Set comment information.
     
     CommentInfoC &Comment()
-      { return comment; }
+    { return comment; }
     //: Access comment.
 
     const CommentInfoC &Comment() const
-      { return comment; }
+    { return comment; }
     //: Access comment.
 
     void SetVar(const StringC &nm,const StringC &value)
-      { comment.SetVar(nm,value); }
+    { comment.SetVar(nm,value); }
     //: Set variable.
     
     StringC Var(const StringC &nm) const
-      { return comment.Var(nm); }
+    { return comment.Var(nm); }
     //: Get variable.
     
     bool IsVar(const StringC &nm) const
-      { return comment.Vars().IsElm(nm); }
+    { return comment.Vars().IsElm(nm); }
     //: Test if variable is set.
     
     virtual void Dump(ostream &out,int indent = 0);
@@ -235,16 +236,16 @@ namespace RavlCxxDocN {
     //: Update the comments for the object.
     
     bool HasParentScope() const
-      { return parent != 0; }
+    { return parent != 0; }
     //: Has a parent been set ?
     
     ScopeBodyC &ParentScope()
-      { return *parent; }
+    { return *parent; }
     //: Access parent.
     // ONLY valid if HasParent() returns true.
     
     const ScopeBodyC &ParentScope() const
-      { return *parent; }
+    { return *parent; }
     //: Access parent.
     // ONLY valid if HasParent() returns true.
     
@@ -258,15 +259,15 @@ namespace RavlCxxDocN {
     //: Get full path to object.
     
     virtual StringC ActualPath() const
-      { return FullPath(); }
+    { return FullPath(); }
     //: Resolve data refrences correctly.
 
     int &StartLineno()
-      { return startLineno; }
+    { return startLineno; }
     //: Starting line of object.
     
     int &EndLineno()
-      { return endLineno; }
+    { return endLineno; }
     //: End line of object.
     
     void CopyLineNo(const ObjectBodyC &ob) {
@@ -295,15 +296,15 @@ namespace RavlCxxDocN {
     //: Access arg list.
     
     virtual bool IsTemplate() const
-      { return false; }
+    { return false; }
     //: Is this a templated object ?
 
     virtual const StringC &BaseName() const
-      { return Name(); }
+    { return Name(); }
     //: Return base name.
     
     UIntT Hash() const
-      { return name.Hash(); }
+    { return name.Hash(); }
     //: Hash name.
     
     inline bool operator==(const ObjectC &ob) const;
@@ -334,133 +335,133 @@ namespace RavlCxxDocN {
   {
   public:
     ObjectC()
-      {}
+    {}
     //: Default Constructor.
 
     ObjectC(const StringC &nname)
       : RCHandleC<ObjectBodyC>(*new ObjectBodyC(nname))
-      {}
+    {}
     //: Constructor.
 
     ObjectC(const ObjectC &org)
       : RCHandleC<ObjectBodyC>(org)
-      {}
+    {}
     //: Copy constructor.
     // Creates a new handle only.
     
   protected:
     ObjectC(ObjectBodyC &bod)
       : RCHandleC<ObjectBodyC>(bod)
-      {}
+    {}
     //: Body constructor.
     
     ObjectBodyC &Body() 
-      { return RCHandleC<ObjectBodyC>::Body(); }
+    { return RCHandleC<ObjectBodyC>::Body(); }
     //: Access body.
     
     const ObjectBodyC &Body() const
-      { return RCHandleC<ObjectBodyC>::Body(); }
+    { return RCHandleC<ObjectBodyC>::Body(); }
     //: Access body.
   public:
     
     StringC &Name()
-      { return Body().Name(); }
+    { return Body().Name(); }
     //: Name of object.
 
     const StringC &Name() const
-      { return Body().Name(); }
+    { return Body().Name(); }
     //: Name of object.
 
     void SetName(const StringC &nname)
-      { Body().SetName(nname); }
+    { Body().SetName(nname); }
     //: Name of object.
 
     const char *TypeName() const 
-      { return Body().TypeName(); }
+    { return Body().TypeName(); }
     //: Get name of object type.
 
     void SetComment(const CommentInfoC &cinf)
-      { Body().SetComment(cinf); }
+    { Body().SetComment(cinf); }
     //: Set comment info.
     
     CommentInfoC &Comment()
-      { return Body().Comment(); }
+    { return Body().Comment(); }
     //: Access comment.
     
     const CommentInfoC &Comment() const
-      { return Body().Comment(); }
+    { return Body().Comment(); }
     //: Access comment.
 
     void SetVar(const StringC &nm,const StringC &value)
-      { Body().SetVar(nm,value); }
+    { Body().SetVar(nm,value); }
     //: Set variable.
 
     StringC Var(const StringC &nm)
-      { return Body().Var(nm); }
+    { return Body().Var(nm); }
     //: Set variable.
     
     StringC Var(const StringC &nm) const
-      { return Body().Var(nm); }
+    { return Body().Var(nm); }
     //: Set variable.
 
     bool IsVar(const StringC &nm) const
-      { return Body().IsVar(nm); }
+    { return Body().IsVar(nm); }
     //: Set variable.
     
     void Dump(ostream &out,int indent = 0)
-      { Body().Dump(out,indent); }
+    { Body().Dump(out,indent); }
     //: Dump to 'out' in human readable form.
     
     void SetScope(ObjectC &obj)
-      { Body().SetScope(obj); }
+    { Body().SetScope(obj); }
     //: Set scope for object.
     
     void UpdateComment(CommentInfoC &newComment)
-      { Body().UpdateComment(newComment); }
+    { Body().UpdateComment(newComment); }
     //: Update the comments for the object.
     
     ObjectC GetScope() 
-      { return Body().GetScope(); }
+    { return Body().GetScope(); }
     //: Set scope for object.
     
     void SetParentScope(ScopeBodyC *ns)
-      { Body().SetParentScope(ns); }
+    { Body().SetParentScope(ns); }
     //: Setup parent scope.
     
     bool HasParentScope() const
-      { return Body().HasParentScope(); }
+    { return Body().HasParentScope(); }
     //: Has a parent been set ?
     
     ScopeBodyC &ParentScope()
-      { return Body().ParentScope(); }
+    { return Body().ParentScope(); }
     //: Access parent.
     // ONLY valid if HasParent() returns true.
     
     StringC FullPath() const
-      { return Body().FullPath(); }
+    { return Body().FullPath(); }
     //: Get full path to object.
     
     StringC ActualPath() const
-      { return Body().ActualPath(); }
+    { return Body().ActualPath(); }
     //: Resolve data refrences correctly.
     
     ObjectListC PathList() const;
     // : Generate path list to this object.
     
     int &StartLineno()
-      { return Body().StartLineno(); }
+    { return Body().StartLineno(); }
     //: where does object start.
     
     int &EndLineno()
-      { return Body().EndLineno(); }
+    { return Body().EndLineno(); }
     //: where does object end.
 
     void CopyLineNo(const ObjectC &ob)
-      { Body().CopyLineNo(ob.Body()); }
+    { Body().CopyLineNo(ob.Body()); }
     //: Copy line no from object.
     
     void IncludeLineNo(const ObjectC &ob)
-      { Body().IncludeLineNo(ob.Body()); }
+    { Body().IncludeLineNo(ob.Body()); }
     //: Include lines into object.
 
     void SetupLineNos(const ObjectC &ob1,const ObjectC &ob2) {  
@@ -477,32 +478,32 @@ namespace RavlCxxDocN {
     //: Include lines into object.
 
     bool IsTemplate() const
-      { return Body().IsTemplate(); }
+    { return Body().IsTemplate(); }
     //: Is this a templated object ?
 
     ObjectListC &TemplArgList()
-      { return Body().TemplArgList(); }
+    { return Body().TemplArgList(); }
     //: Access arg list.
     
     UIntT Hash() const
-      { return Body().Hash(); }
+    { return Body().Hash(); }
     //: Hash number for object.
     
     bool operator==(const ObjectC &ob) const
-      { return Body().operator==(ob); }
+    { return Body().operator==(ob); }
     //: Is equal ?
     
     const StringC &BaseName() const
-      { return Body().BaseName(); }
+    { return Body().BaseName(); }
     //: Return base name.
     
     StringC FullName(RCHashC<StringC,ObjectC> &templSub = emptyTemplSubst,DesciptionGeneratorC &dg = defaultDescGen,int maxDepth = 40) const
-      { return Body().FullName(templSub,dg,maxDepth); }
+    { return Body().FullName(templSub,dg,maxDepth); }
     //: Get full name of object
     // template args and all.
 
     ObjectC Subst(RCHashC<StringC,ObjectC> &subst) const
-      { return Body().Subst(subst); }
+    { return Body().Subst(subst); }
     //: Create a new object with subsituted args.
     
     friend class ObjectListC;
@@ -527,7 +528,7 @@ namespace RavlCxxDocN {
 
   inline
   bool ObjectBodyC::operator==(const ObjectC &ob) const
-    { return name == ob.Name(); }
+  { return name == ob.Name(); }
   //: Is equal ?
   
   ostream &operator<<(ostream &,const ObjectC &out);
@@ -543,32 +544,32 @@ namespace RavlCxxDocN {
   public:
     ObjectListBodyC(bool awrap = false)
       : wrapper(awrap)
-      {}
+    {}
     //: Default constructor.
     
     ObjectListBodyC(const StringC &nname)
       : ObjectBodyC(nname),
 	wrapper(false)
-      {}
+    {}
     //: Constructor.
     
     ObjectListBodyC(const StringC &nname,DListC<ObjectC> &contents)
       : ObjectBodyC(nname),
 	list(contents),
 	wrapper(false)
-      {}
+    {}
     //: Constructor.
 
     virtual const char *TypeName() const 
-      { return "objlist"; }
+    { return "objlist"; }
     //: Get name of object type.
     
     DListC<ObjectC> &List()
-      { return list; }
+    { return list; }
     //: Access list.
 
     const DListC<ObjectC> &List() const
-      { return list; }
+    { return list; }
     //: Access list.
     
     ObjectC Find(const StringC &name);
@@ -595,7 +596,7 @@ namespace RavlCxxDocN {
     //: Set variable in all immediate children.
 
     void SetWrapper(bool val = true)
-      { wrapper = val; }
+    { wrapper = val; }
     //: Set the wrapper flag.
     
   protected:
@@ -611,85 +612,84 @@ namespace RavlCxxDocN {
   {
   public:
     ObjectListC()
-      {}
+    {}
     //: Default constructor
     
     ObjectListC(const StringC &x,bool awrap)
       : ObjectC(*new ObjectListBodyC(awrap))
-      {}
+    {}
     //: Default Constructor.
     // creates an invalid object.
     
     ObjectListC(const StringC &nname)
       : ObjectC(*new ObjectListBodyC(nname))
-      {}
+    {}
     //: Constructor.
     
     ObjectListC(const StringC &nname,DListC<ObjectC> &contents)
       : ObjectC(*new ObjectListBodyC(nname,contents))
-      {}
+    {}
     //: Constructor.
     
     static bool IsA(const ObjectC &obj)
-      { return dynamic_cast<const ObjectListBodyC *>(&obj.Body()) != 0; }
+    { return dynamic_cast<const ObjectListBodyC *>(&obj.Body()) != 0; }
     
     ObjectListC(const ObjectC &obj)
       : ObjectC(obj)
-      {
-	if(!IsA(obj)) {
-	  RavlAssert(0);
-	  Invalidate();
-	}
+    {
+      if(!IsA(obj)) {
+	RavlAssert(0);
+	Invalidate();
       }
+    }
     //: Base class constructor.
     
   protected:
     ObjectListC(ObjectListBodyC &bod)
       : ObjectC(bod)
-      {}
+    {}
     //: Body constructor.
     
     ObjectListBodyC &Body() 
-      { return dynamic_cast<ObjectListBodyC &>(ObjectC::Body()); }
+    { return dynamic_cast<ObjectListBodyC &>(ObjectC::Body()); }
     //: Access body.
 
     const ObjectListBodyC &Body() const
-      { return dynamic_cast<const ObjectListBodyC &>(ObjectC::Body()); }
+    { return dynamic_cast<const ObjectListBodyC &>(ObjectC::Body()); }
     //: Access body.
     
   public:
-    DListC<ObjectC> &List()
-      { 
-	RavlAssert(IsValid());
-	return Body().List(); 
-      }
+    DListC<ObjectC> &List() { 
+      RavlAssert(IsValid());
+      return Body().List(); 
+    }
     //: Access list.
     
     const DListC<ObjectC> &List() const
-      { return Body().List(); }
+    { return Body().List(); }
     //: Access list.
     
     void Append(const ObjectC &obj) { 
-	RavlAssert(IsValid());
-	Body().Append(const_cast<ObjectC &>(obj)); 
-      }
+      RavlAssert(IsValid());
+      Body().Append(const_cast<ObjectC &>(obj)); 
+    }
     //: Append to list.
     
     void SetWrapper(bool val = true) 
-      { Body().SetWrapper(val); }
+    { Body().SetWrapper(val); }
     //: Set wrapper flag.
     
     bool IsWrapper() const 
-      { return Body().IsWrapper(); }
+    { return Body().IsWrapper(); }
     //: Is a wrapper ?
     // Is this used to return multipal items ??
     
     void SetAll(const StringC &var,const StringC &dat)
-      { Body().SetAll(var,dat); }
+    { Body().SetAll(var,dat); }
     //: Set variable in all immediate children.
     
     ObjectC Find(const StringC &name)
-      { return Body().Find(name); }
+    { return Body().Find(name); }
     //: Find named child.
     // returns an invalid handle if not found.
     

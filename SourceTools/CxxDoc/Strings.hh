@@ -4,8 +4,8 @@
 // Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
-#ifndef RAVL_CXXDOC_STRINGS_HEADER
-#define RAVL_CXXDOC_STRINGS_HEADER 1
+#ifndef RAVLCXXDOC_STRINGS_HEADER
+#define RAVLCXXDOC_STRINGS_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlCxxDoc
 //! file="Ravl/SourceTools/CxxDoc/Strings.hh"

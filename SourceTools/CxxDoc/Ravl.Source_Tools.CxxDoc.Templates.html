@@ -108,7 +108,9 @@ scope with $(xyz).  There are some special variables, these are as follows:
 <li> <b>filename</b> - File which the object comes from this searches up the parse tree for an object with this variable set.
 <li> <b>docNodeType</b> - Type of the current doc node, generaly either a 'class' or a 'method', but could be any of object types mentioned earlier.
 <li> <b>autoLinkContext</b> - Used to set the context of the name search used in auto linking.
+<li> <b>autoLink</b> - Set the type of auto linking to be used for a piece of text. It can be 'on', 'off' or 'marked'. If marked is selected only text between '[' and ']' is checked for a linking.
 <li> <b>localScopeOnly</b> - When set to '1' it limits $(forall:a:b) to the local scope, it ignores any inheritance relations.
+<li> <b>refPattern</b> - This holds the pattern of the filename used to generate html links. e.g. '../Basic/Class/%.html'
 </ul>
     
   </body>

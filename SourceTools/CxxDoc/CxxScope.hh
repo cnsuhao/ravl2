@@ -30,12 +30,12 @@ namespace RavlCxxDocN {
   {
   public:
     ScopeBodyC()
-      {}
+    {}
     //: Default constructor.
     
     ScopeBodyC(const StringC &nname)
       : ObjectListBodyC(nname)
-      {}
+    {}
     //: Constructor.
     
     ScopeBodyC(const StringC &nname,const ObjectC &contents);
@@ -43,11 +43,11 @@ namespace RavlCxxDocN {
     
     ScopeBodyC(const StringC &nname,DListC<ObjectC> &contents)
       : ObjectListBodyC(nname,contents)
-      {}
+    {}
     //: Constructor.
 
     virtual const char *TypeName() const 
-      { return "namespace"; }
+    { return "namespace"; }
     //: Get name of object type.
     
     virtual void Append(ObjectC &obj);
@@ -83,7 +83,7 @@ namespace RavlCxxDocN {
     //: Get the root scope.
     
     DListC<ObjectC> &Uses() 
-      { return uses; }
+    { return uses; }
     //: Access inherit from list.
 
     void Resolve();
@@ -105,52 +105,52 @@ namespace RavlCxxDocN {
   {
   public:
     ScopeC()
-      {}
+    {}
     //: Default Constructor.
     // creates an invalid object.
     
     ScopeC(const StringC &nname)
       : ObjectListC(*new ScopeBodyC(nname))
-      {}
+    {}
     //: Constructor.
 
     ScopeC(const StringC &nname,DListC<ObjectC> &contents)
       : ObjectListC(*new ScopeBodyC(nname,contents))
-      {}
+    {}
     //: Constructor.
 
     ScopeC(const StringC &nname,ObjectC &contents)
       : ObjectListC(*new ScopeBodyC(nname,contents))
-      {}
+    {}
     //: Constructor.
     
     static bool IsA(const ObjectC &obj)
-      { return dynamic_cast<const ScopeBodyC *>(&obj.Body()) != 0; }
+    { return dynamic_cast<const ScopeBodyC *>(&obj.Body()) != 0; }
     //: Test if 'obj' is a ScopeC...
     
     ScopeC(ObjectC &obj)
       : ObjectListC(obj)
-      {
-	if(dynamic_cast<ScopeBodyC *>(&ObjectC::Body()) == 0) {
-	  RavlAssert(0);
-	  Invalidate();
-	}
+    {
+      if(dynamic_cast<ScopeBodyC *>(&ObjectC::Body()) == 0) {
+	RavlAssert(0);
+	Invalidate();
       }
+    }
     //: Base class constructor.
     
     ScopeC(ScopeBodyC &bod)
       : ObjectListC(bod)
-      {}
+    {}
     //: Body constructor.
     // Really should be protected...
   protected:
     
     ScopeBodyC &Body() 
-      { return dynamic_cast<ScopeBodyC &>(ObjectC::Body()); }
+    { return dynamic_cast<ScopeBodyC &>(ObjectC::Body()); }
     //: Access body.
 
     const ScopeBodyC &Body() const
-      { return dynamic_cast<const ScopeBodyC &>(ObjectC::Body()); }
+    { return dynamic_cast<const ScopeBodyC &>(ObjectC::Body()); }
     //: Access body.
 
     
@@ -218,47 +218,47 @@ namespace RavlCxxDocN {
     // Returns true if there is a next element.
     
     void operator++(int)
-      { Next(); }
+    { Next(); }
     //: Goto next object.
     
     ObjectC &Data() 
-      { return at.Data(); }
+    { return at.Data(); }
     //: Get current object.
 
     const ObjectC &Data() const
-      { return at.Data(); }
+    { return at.Data(); }
     //: Get current object.
     
     ObjectC &operator*()
-      { return at.Data(); }
+    { return at.Data(); }
     //: Get current object.
     
     const ObjectC &operator*() const
-      { return at.Data(); }
+    { return at.Data(); }
     //: Get current object.
 
     ObjectC *operator->()
-      { return &at.Data(); }
+    { return &at.Data(); }
     //: Get current object.
     
     const ObjectC *operator->() const
-      { return &at.Data(); }
+    { return &at.Data(); }
     //: Get current object.
     
     bool IsElm() const 
-      { return at.IsElm(); }
+    { return at.IsElm(); }
     //: Is element in list ?
     
     operator bool() const
-      { return at.IsElm(); }
+    { return at.IsElm(); }
     //: Is element in list ?
     
     ScopeC &CurrentScope()
-      { return currentScope; }
+    { return currentScope; }
     //: Get current scope.
 
     RCHashC<StringC,ObjectC> &TemplateSubs()
-      { return currentTSubs; }
+    { return currentTSubs; }
     //: Access current template subsitutions.
     
   protected:

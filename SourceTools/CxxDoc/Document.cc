@@ -388,24 +388,11 @@ namespace RavlCxxDocN {
       return true;
     }
     if(InheritC::IsA(obj.Top())) {
-#if 0
-      InheritC atype(obj.Top());
-      ONDEBUG(cerr << "Got inherit:" << obj.Top().Name() << " ScopeDef:'" << atype.ScopeDef(templArgSub.Top()) << "'\n");
-      if(arg == "link") {
-	ScopeC scope = atype.From();
-	if(scope.IsValid()) {
-	  out << scope.FullName(templArgSub.Top(),*this);
-	  return true;
-	}
-      }
-      out << MakeHtml(atype.ScopeDef(templArgSub.Top()));
-#else
       if(arg == "link") {
 	out << obj.Top().FullName(templArgSub.Top(),*this);
 	return true;
       }
       out << MakeHtml(obj.Top().FullName(templArgSub.Top()));
-#endif
       return true;
     }
     out << obj.Top().Name();
@@ -480,7 +467,7 @@ namespace RavlCxxDocN {
 	ss = scopePath.List();
 	RCHashC<StringC,ObjectC> templSub;
 	anObj = scope.ResolveName(ss,templSub);
-      // Should do something with templSub here ??
+	// Should do something with templSub here ??
       }
     } else {
       ONDEBUG(cerr << "DocumentBodyC::TextFor() Looking up name '" << xObj.Name() << "' in scope :'" << scope.Name() <<"'\n");

@@ -47,11 +47,11 @@ namespace RavlCxxDocN {
     //: Do a forall build.
 
     bool Forall(StringC &data)
-      { return Foralli(data); }
+    { return Foralli(data); }
     //: Do a forall build.
     
     bool IfAny(StringC &data)
-      { return Foralli(data,true); }
+    { return Foralli(data,true); }
     //: Do a forall build.
     
     bool GotoInherit(StringC &param);
@@ -99,7 +99,7 @@ namespace RavlCxxDocN {
     // otherwise return false.
     
     DocTreeC &DocTree()
-      { return docTree; }
+    { return docTree; }
     //: Access doc tree.
     
   protected:
@@ -144,32 +144,32 @@ namespace RavlCxxDocN {
   { 
   public:
     DocumentC()
-      {}
+    {}
     //: Default contructor.
     // Creates an invalid handle.
     
     DocumentC(const FilenameC &tmplName,const StringC &outDir,const DocTreeC &docTree = DocTreeC(),const StringC &projName = StringC(),const StringC &projDesc = StringC())
       : TemplateComplexC(*new DocumentBodyC(tmplName,outDir,docTree,projName,projDesc))
-      {}
+    {}
     //: Contructor.
     // Create a documentor
     
   protected:
     
     DocumentBodyC &Body() 
-      { return  static_cast<DocumentBodyC &>(TemplateComplexC::Body()); }
+    { return  static_cast<DocumentBodyC &>(TemplateComplexC::Body()); }
     //: Access body.
     
     const DocumentBodyC &Body() const
-      { return  static_cast<const DocumentBodyC &>(TemplateComplexC::Body()); }
+    { return  static_cast<const DocumentBodyC &>(TemplateComplexC::Body()); }
     //: Access body.
   public:
     void Document(ObjectListC &ol)
-      { Body().Document(ol); }
+    { Body().Document(ol); }
     //: Document list of files.
     
     DocTreeC &DocTree()
-      { return Body().DocTree(); }
+    { return Body().DocTree(); }
     //: Access doc tree.
   
   };

@@ -13,7 +13,7 @@
 //! docentry="Ravl.Source Tools.CxxDoc.Internal"
 //! lib=RavlCxxDoc
 //! author="Charles Galambos"
-//! date="06/12/99"
+//! date="06/12/1999"
 
 #include "Ravl/String.hh"
 #include "Ravl/OS/Filename.hh"
@@ -65,7 +65,7 @@ namespace RavlCxxDocN
     //: Dump database to 'out'
     
     ObjectListC &Data()
-      { return data; }
+    { return data; }
     //: Access parsed data.
 
     bool Resolve();
@@ -91,27 +91,27 @@ namespace RavlCxxDocN
   public:
     ParserC(bool)
       : RCHandleC<ParserBodyC>(*new ParserBodyC())
-      {}
+    {}
     //: Constructor.  
     
     bool Parse(const FilenameC &fn)
-      { return Body().Parse(fn); }
+    { return Body().Parse(fn); }
     //: Parse a file.
     
     bool ParseTree(const FilenameC &fn)
-      { return Body().ParseTree(fn); }
+    { return Body().ParseTree(fn); }
     //: Parse a directory.
 
     void Dump(ostream &out)
-      { Body().Dump(out); }
+    { Body().Dump(out); }
     //: Dump database to 'out'
     
     ObjectListC &Data()
-      { return Body().Data(); }
+    { return Body().Data(); }
     //: Access parsed data.
     
     bool Resolve()
-      {  return Body().Resolve(); }
+    {  return Body().Resolve(); }
     //: Resolve refrences in input data.
     
   };
