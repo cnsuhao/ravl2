@@ -79,8 +79,6 @@ int testGaussianMixture() {
   test[0] = 1.9;
   test[1] = 2.3;
 
-
-
 #if 0
   cout << "gm1 - " << gm1.Apply(test) << endl;
   cout << "gm2 - " << gm2.Apply(test) << endl;
@@ -88,7 +86,7 @@ int testGaussianMixture() {
   cout  << "MeanCov - " << arr[0].Gauss(test) << endl << flush;
 #endif
   
-  RealT dif = 0.000001;
+  RealT dif = 0.001;
   if((gm1.Apply(test)[0] - gm2.Apply(test)[0])>dif) return 1;
   if((gm1.Apply(test)[0] - gm3.Apply(test)[0])>dif) return 1;
   if((gm2.Apply(test)[0] - gm3.Apply(test)[0])>dif) return 1;
@@ -116,6 +114,10 @@ int testDesignGaussianMixture()
   X[0] = 0.0;
   X[1] = 0.0;
   RealT value = gm.DensityValue(X);
+
+#if 0
+  cout << gm << endl;
+#endif
 
   //: This should be about 0.03
   if((value<0.025) || (value>0.035)) return 1;

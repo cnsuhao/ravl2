@@ -133,13 +133,14 @@ namespace RavlN {
     RealT smallVariance = 0.001;
     RealT smallDeterminant = 1e-20;
 
-#if 0
+
     //: lets regularise our model
+    //: this has effect of increasing the distance slighty in all orhogonal directions
+    //: not great, bit of  a hack
     for(SArray1dIterC<MeanCovarianceC> paramIt(params);paramIt;paramIt++)  {
       for (UIntT i=0; i<inputSize; i++)
 	paramIt.Data().Covariance()[i][i] += smallVariance;
     }
-#endif
     
     //: make room for the arrays
     invCov = SArray1dC<MatrixRSC>(OutputSize());
