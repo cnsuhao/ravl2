@@ -50,23 +50,25 @@ namespace RavlN {
   // <dd> Where relevant, unsigned integers are converted to signed before
   // combining with IndexC.
   // <dt>Rounding:
-  // <dd>Rounding is always to the nearest more negative integer.  This affects:
+  // <dd>Rounding is always to the nearest more negative integer, except as
+  // stated below.  This affects:
   // <ul> 
   // <li> Truncation of floating point values on conversion to IndexC.
-  // <li> Integer division operations involving IndexC, for which:
+  // <li> Integer division operations involving IndexC:
   // <ul> 
-  // <li> if the divisor is negative, the signs of both divisor and dividend
-  // are reversed; 
-  // <li> if the divisor is positive, the quotient is always rounded towards
-  // the more negative nearest integer, regardless of the sign of the dividend.
+  // <li> If the divisor is positive, the quotient is always rounded towards
+  // the nearest more negative integer, regardless of the sign of the dividend.
+  // <li> If the divisor is negative, the signs of both divisor and quotient
+  // are reversed.  This means the result is rounded <i>up</i>; this ensures that the modulo operator always generates a +ve result.
   // </ul>
   // Thus (IndexC) -4 / 3 yields -2, and (IndexC) -4 % 3 yields 2.
   // With the <code>int</code> type, the results would probably be -1 and -1 respectively. 
   // </ul>
   // <dt> Modulo operator:
   // <dd> The modulo operator is always consistent with the divide operator, as
-  // per the C and C++ standards.  It accordingly always returns a non-negative
-  // value.
+  // per the C and C++ standards.  I.e.:
+  // <pre>   a == (a/b)*b + a%b</pre>
+  // It accordingly always returns a non-negative value.
   // </dl>
   
   // Remember: IndexC is a class, not a built-in. So:<ul>
@@ -104,7 +106,7 @@ namespace RavlN {
     inline IndexC(RealT i)
       : v((IntT) RavlN::Floor(i)) // floor is needed for correct round of negative numbers.
     {}
-    //: Creates the index with the value rounded version of 'i'.
+    //: Creates the index = Floor(i)
     
     // <p><h2>Access functions:</h2>
     /* ---------------- */
@@ -185,15 +187,14 @@ namespace RavlN {
     //: Returns a new index with value of this index multiplied by integer 'i'.
 
     inline IndexC operator/(IntT i) const {
-      if(i >= 0)
-        return (v >= 0) ? (v/i) : (v-i+1)/i;
-      return (v <= 0) ? ((-v)/(-i)) : (-v+i+1)/(-i);
+      if(i >= 0) return (v >= 0) ? (v/i) : (v-i+1)/i;
+      else return -((*this)/(-i));
     }
     //: Returns a new index with value of this index divided by integer 'i'.
 
     inline IndexC operator%(IntT i) const {
       if(i >= 0) return (v >= 0) ? (v%i) : i-(-v)%i;
-      return (v <= 0) ? ((-v)%(-i)) : (-v+i+1)%(-i);
+      else return (*this)%(-i);
     }
     //: Returns a new index with value of modulo operation between
     //: this index and integer 'i'.
