@@ -156,7 +156,7 @@ namespace RavlGUIN {
     {}
     //: Constructor.
     
-    PlayControlC(bool simpleControls = false)
+    PlayControlC(bool simpleControls)
       : LBoxC(*new PlayControlBodyC(simpleControls))
     {}
     //: Constructor.
