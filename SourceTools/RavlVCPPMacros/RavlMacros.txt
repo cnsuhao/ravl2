@@ -1,0 +1,234 @@
+Option Strict Off
+Option Explicit Off
+Imports EnvDTE
+Imports System.Diagnostics
+Imports VSLangProj
+Imports Microsoft.VisualStudio.VCProjectEngine
+Imports System
+Imports System.IO
+Imports System.Windows
+Imports System.Windows.Forms
+
+Public Module RavlModule
+    Function GetOutputWindowPane(ByVal Name As String, Optional ByVal show As Boolean = True) As OutputWindowPane
+        ' Function borrowed from Utilities samples
+        Dim win As Window = DTE.Windows.Item(EnvDTE.Constants.vsWindowKindOutput)
+        If show Then win.Visible = True
+        Dim ow As OutputWindow = win.Object
+        Dim owpane As OutputWindowPane
+        Try
+            owpane = ow.OutputWindowPanes.Item(Name)
+        Catch e As System.Exception
+            owpane = ow.OutputWindowPanes.Add(Name)
+        End Try
+        owpane.Activate()
+        Return owpane
+    End Function
+
+    Sub InstallProjHeaders(ByVal proj As Project, ByVal owpane As Object)
+        ' Install the headers for a specified project
+        ' This is used by InstallAllHeaders, InstallHeaders, and InstallAllDependentHeaders
+        Dim cppkind As String = "{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}"
+        Dim projitems As ProjectItems
+        Dim projitem As ProjectItem
+        Dim fileitems As ProjectItems
+        Dim fileitem As ProjectItem
+        Dim thefile As VCFile
+        Dim col As IVCCollection
+        Dim fileconfig As VCFileConfiguration
+        Dim installDirDone As Boolean
+        If proj.Kind() = cppkind Then
+            projitems = proj.ProjectItems()
+            For Each projitem In projitems
+                ' Get the header files for the project
+                If (projitem.Name() = "Header Files") Then
+                    fileitems = projitem.ProjectItems()
+                    For Each fileitem In fileitems
+                        ' Compile this header file
+                        thefile = fileitem.Object
+                        col = thefile.FileConfigurations
+                        fileconfig = col.Item(DTE.Solution.SolutionBuild.ActiveConfiguration.Name())
+                        ' Check to see whether the file has changed
+                        If (fileitem.Saved()) Then
+                            fileitem.Document.Save()
+                        End If
+                        ' Assume header file outputs are the installed headers
+                        If (fileconfig.Tool.Outputs <> "") Then
+                            Dim sol As String = DTE.Solution.FullName()
+                            Dim path As String = sol.Substring(0, sol.LastIndexOf("\"))
+                            Dim dest As String = fileconfig.Tool.Outputs
+                            ' Create the correct destination path
+                            If (dest.IndexOf("..\") <> -1) Then
+                                path = path.Substring(0, path.LastIndexOf("\"))
+                                dest = dest.Remove(0, dest.IndexOf("..\") + 3)
+                            End If
+                            Dim source As String = thefile.FullPath()
+                            Dim target As String = path + "\" + dest
+                            ' You would have thought you could use fileconfig.OutputUpToDate - but it doesn't work
+                            If (File.Exists(target)) Then
+                                ' Check the install times
+                                If (File.GetLastWriteTime(source).CompareTo(File.GetLastWriteTime(target)) <> 0) Then
+                                    File.Copy(source, target, True)
+                                    owpane.OutputString(source & " -> " & target)
+                                    owpane.OutputString(Microsoft.VisualBasic.Constants.vbCrLf)
+                                End If
+                            Else
+                                ' Create the directory if necessary
+                                Dim destpath As String = target.Substring(0, target.LastIndexOf("\"))
+                                Dim di As New DirectoryInfo(destpath)
+                                If (di.Exists = False) Then
+                                    di.Create()
+                                End If
+                                File.Copy(source, target)
+                                owpane.OutputString(source & " -> " & target)
+                                owpane.OutputString(Microsoft.VisualBasic.Constants.vbCrLf)
+                            End If
+                        End If
+                    Next
+                    owpane.OutputString(Microsoft.VisualBasic.Constants.vbCrLf)
+                End If
+            Next
+        End If
+    End Sub
+
+    Sub InstallAllHeaders()
+        ' Install headers for all projects in a solution
+        ' Use this macro to install all the Ravl headers
+        Dim projs As Projects = DTE.Solution.Projects()
+        Dim proj As Project
+        Dim win As Window = DTE.Windows.Item(Constants.vsWindowKindCommandWindow)
+        Dim owpane As Object
+        If (DTE.ActiveWindow Is win) Then
+            owpane = win.Object
+        Else
+            owpane = GetOutputWindowPane("Header Installation")
+            owpane.clear()
+        End If
+        For Each proj In projs
+            owpane.OutputString("------ Project: " & proj.Name() & " ------")
+            owpane.OutputString(Microsoft.VisualBasic.Constants.vbCrLf)
+            owpane.OutputString(Microsoft.VisualBasic.Constants.vbCrLf)
+            InstallProjHeaders(proj, owpane)
+        Next
+        owpane.OutputString("---------------------- Done ----------------------")
+        owpane.OutputString(Microsoft.VisualBasic.Constants.vbCrLf)
+    End Sub
+
+    Sub InstallHeaders()
+        ' Install all the header files for the active project
+        ' Use this macro to install the Ravl headers for a particular project
+        Dim cppkind As String = "{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}"
+        Dim config As SolutionConfiguration = DTE.Solution.SolutionBuild.ActiveConfiguration
+        Dim projs As System.Array
+        Dim proj As Project
+        Dim vcprj As VCProject
+        Dim vcconfig As VCConfiguration
+        projs = DTE.ActiveSolutionProjects()
+        If projs.Length = 1 Then
+            proj = CType(projs.GetValue(0), EnvDTE.Project)
+            Dim win As Window = DTE.Windows.Item(Constants.vsWindowKindCommandWindow)
+            Dim owpane As Object
+            If (DTE.ActiveWindow Is win) Then
+                owpane = win.Object
+            Else
+                owpane = GetOutputWindowPane("Header Installation")
+                owpane.clear()
+            End If
+            owpane.OutputString("------ Project: " & proj.Name() & " ------")
+            owpane.OutputString(Microsoft.VisualBasic.Constants.vbCrLf)
+            InstallProjHeaders(proj, owpane)
+            owpane.OutputString("---------------------- Done ----------------------")
+            owpane.OutputString(Microsoft.VisualBasic.Constants.vbCrLf)
+        Else
+            MsgBox("Single VC Project must be selected")
+        End If
+    End Sub
+
+    Sub InstallAllDependentHeaders(ByVal proj As Project, ByVal owpane As Object)
+        ' Install all the dependent headers for a project
+        ' Used by BuildSelection
+        Dim cppkind As String = "{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}"
+        Dim config As SolutionConfiguration = DTE.Solution.SolutionBuild.ActiveConfiguration
+        Dim depproj As Project
+        ' make sure we have a C++ project
+        If (proj.Kind() = cppkind) Then
+            ' Install all the headers for dependent projects
+            Dim reqprojs = DTE.Solution.SolutionBuild.BuildDependencies.Item(proj.UniqueName).RequiredProjects()
+            Dim element
+            For Each element In reqprojs
+                depproj = CType(element, EnvDTE.Project)
+                InstallAllDependentHeaders(depproj, owpane)
+            Next
+            owpane.OutputString("------ Project: " & proj.Name() & " ------")
+            owpane.OutputString(Microsoft.VisualBasic.Constants.vbCrLf)
+            owpane.OutputString(Microsoft.VisualBasic.Constants.vbCrLf)
+            InstallProjHeaders(proj, owpane)
+            owpane.OutputString(Microsoft.VisualBasic.Constants.vbCrLf)
+        End If
+    End Sub
+
+    Sub BuildProjectNoDependents(ByVal proj As Project, ByVal owpane As Object)
+        ' Build a specific project without the dependents
+        ' Used by BuildSelection
+        Dim cppkind As String = "{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}"
+        Dim config As SolutionConfiguration = DTE.Solution.SolutionBuild.ActiveConfiguration
+        Dim depprojs As New System.Collections.ArrayList
+        Dim depproj As Project
+        Dim vcprj As VCProject
+        Dim vcconfig As VCConfiguration
+        ' make sure we have a C++ project
+        If (proj.Kind() = cppkind) Then
+            ' Store all the dependent projects
+            Dim reqprojs = DTE.Solution.SolutionBuild.BuildDependencies.Item(proj.UniqueName).RequiredProjects()
+            Dim element
+            For Each element In reqprojs
+                depprojs.Add(element)
+                depproj = CType(element, EnvDTE.Project)
+            Next
+            ' Remove all the dependencies
+            DTE.Solution.SolutionBuild.BuildDependencies.Item(proj.UniqueName).RemoveAllProjects()
+            ' Build and wait for the project to complete
+            DTE.Solution.SolutionBuild.BuildProject(DTE.Solution.SolutionBuild.ActiveConfiguration.Name(), proj.UniqueName(), True)
+            ' Reinstate the dependencies
+            Dim itdeps As System.Collections.IEnumerator = depprojs.GetEnumerator()
+            While itdeps.MoveNext()
+                depproj = CType(itdeps.Current, EnvDTE.Project)
+                DTE.Solution.SolutionBuild.BuildDependencies.Item(proj.UniqueName()).AddProject(depproj.UniqueName())
+            End While
+        End If
+    End Sub
+
+    Sub BuildSelection()
+        ' Build the selected project without the dependents
+        Dim projs As System.Array
+        Dim proj As Project
+        ' Check the project
+        projs = DTE.ActiveSolutionProjects()
+        If projs.Length = 1 Then
+            proj = CType(projs.GetValue(0), EnvDTE.Project)
+            Dim win As Window = DTE.Windows.Item(Constants.vsWindowKindCommandWindow)
+            Dim owpane As Object
+            ' First install all dependent headers
+            If (DTE.ActiveWindow Is win) Then
+                owpane = win.Object
+            Else
+                owpane = GetOutputWindowPane("Header Installation")
+                owpane.clear()
+            End If
+            InstallAllDependentHeaders(proj, owpane)
+            owpane.OutputString("---------------------- Done ----------------------")
+            owpane.OutputString(Microsoft.VisualBasic.Constants.vbCrLf)
+            ' Now build the project with dependencies removed
+            If (DTE.ActiveWindow Is win) Then
+                owpane = win.Object
+            Else
+                owpane = GetOutputWindowPane("Build")
+                owpane.clear()
+            End If
+            BuildProjectNoDependents(proj, owpane)
+        Else
+            MsgBox("Single VC Project must be selected")
+        End If
+    End Sub
+
+End Module
