@@ -89,6 +89,7 @@ namespace RavlN {
     
     VectorC ClipX (const VectorC &X) const;
     //: Returns the input vector clipped by the parameter range
+
     
     const ParametersC & GetParameters () const;
     //: Access to the parameter storage structure
