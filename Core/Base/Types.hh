@@ -151,6 +151,69 @@ namespace RavlN {
   void SetZero(UInt64T &x)
   { x = 0; }
   //: Set unsigned integer value to zero.
+  
+  
+  template<class K>
+  inline K StdCopy(const K &dat)
+  { return dat.Copy(); }
+  //: Copy.
+  
+  inline const char *StdCopy(const char *dat)
+  { return dat; } 
+  //: Copy constant 'C' style string.
+  // No point in copying a constant string.
+  // If otherwise you should use StringC intead.
+  
+  inline long double StdCopy(long double x) { return x; }
+  //: Copy long double.
+  
+  inline double StdCopy(double x) { return x; }
+  //: Copy double.
+  
+  inline float StdCopy(float x) { return x; }
+  //: Copy float.
+
+  inline bool StdCopy(bool x)
+  { return x; }
+  //: Copy bool.
+  
+  inline short StdCopy(short x)
+  { return x; }
+  //: Copy short.
+  
+  inline unsigned short StdCopy(unsigned short x)
+  { return x; }
+  //: Copy short.
+  
+  inline int StdCopy(int x)
+  { return x; }
+  //: Copy int.
+  
+  inline unsigned int StdCopy(unsigned int x)
+  { return x; }
+  //: Copy unsigned int.
+  
+  inline long StdCopy(long x)
+  { return x; }
+  //: Copy long
+  
+  inline unsigned long StdCopy(unsigned long x)
+  { return x; }
+  //: Copy unsigned long.
+  
+  inline char StdCopy(char x) 
+  { return x; }
+  //: Copy char.
+  
+  inline char StdCopy(unsigned char x) { return x; }
+  //: Copy unsigned char.
+  
+  inline Int64T StdCopy(Int64T x) { return x; }
+  //: Copy 64 bit int.
+  
+  inline UInt64T StdCopy(UInt64T x) { return x; }
+  //: Copy unsigned 64 bit int.
+
 };
 
 #endif
