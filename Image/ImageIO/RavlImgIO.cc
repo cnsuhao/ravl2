@@ -27,6 +27,7 @@ namespace RavlImageN {
     InitImgIORealRGB();
     InitImgIOByteYUV();
     InitImgIORealYUV();    
+    InitImgIOByteYUV422();
     InitImgIOUInt16RGB();
     InitImgIOByteRGBA();
     

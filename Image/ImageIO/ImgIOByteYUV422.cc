@@ -15,13 +15,18 @@
 #include "Ravl/DP/Converter.hh"
 #include "Ravl/Image/ByteYUV422Value.hh"
 #include "Ravl/Image/ByteYUVValue.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Image/RealRGBValue.hh"
 #include "Ravl/Image/Image.hh"
+#include "Ravl/Image/RGBcYUV.hh"
 #include "Ravl/Array2dIter2.hh"
 
 namespace RavlImageN {
 
   void InitImgIOByteYUV422()
   {}
+
+  static TypeNameC type1(typeid(ImageC<ByteYUV422ValueC>),"ImageC<ByteYUV422ValueC>");  
   
   ImageC<ByteT> ByteYUV422ImageCT2ByteImageCT(const ImageC<ByteYUV422ValueC> &dat) { 
     ImageC<ByteT> ret(dat.Rectangle());
@@ -54,8 +59,52 @@ namespace RavlImageN {
     }
     return ret;
   }
+
+  // Convert a YUV422 image into a RGB image.
+  // What to do about interlace ?
+  
+  ImageC<ByteRGBValueC> ByteYUV422ImageCT2ByteRGBImageCT(const ImageC<ByteYUV422ValueC> &dat) { 
+    ImageRectangleC outRect = dat.Rectangle();
+    // Make sure we're aligned correctly.
+    if(outRect.LCol().V() & 1)
+      outRect.LCol().V()++; // Start on even boundry in image.
+    if(!(outRect.RCol().V() & 1))
+      outRect.RCol().V()--; // End on odd boundry in image.
+    assert(outRect.LCol() < outRect.RCol()); // Make sure there's something left!
+    
+    ImageC<ByteRGBValueC> ret(outRect);
+    for(Array2dIter2C<ByteRGBValueC,ByteYUV422ValueC> it(ret,dat);it;it++) {
+      // Read the first pixel.
+      SByteT u = it.Data2().UV() + 128;
+      RealT i1 = (RealT) it.Data2().Y();
+      ByteRGBValueC &p1 = it.Data1();
+      
+      it++;
+      // Read the second pixel.
+      SByteT v = it.Data2().UV() + 128;
+      RealT ru = u;
+      RealT rv = v;
+      RealT i2 = it.Data2().Y();
+
+      // Convert the colours...
+
+      RealT rx =                                  rv * ImageYUVtoRGBMatrix[0][2];
+      RealT gx = ru * ImageYUVtoRGBMatrix[1][1] + rv * ImageYUVtoRGBMatrix[1][2];
+      RealT bx = ru * ImageYUVtoRGBMatrix[2][1];
+
+      // Write the rgb pixels.
+      RealRGBValueC rgb1(i1 + rx ,i1 + gx ,i1 + bx);
+      rgb1.Limit(0,255);
+      p1 = ByteRGBValueC(rgb1);;
+      RealRGBValueC rgb2(i2 + rx ,i2 + gx ,i2 + bx);
+      rgb2.Limit(0,255);
+      it.Data1() = ByteRGBValueC(rgb2);
+    }
+    return ret;
+  }
   
   DP_REGISTER_CONVERTION(ByteYUV422ImageCT2ByteYUVImageCT,1);
+  DP_REGISTER_CONVERTION(ByteYUV422ImageCT2ByteRGBImageCT,1.1);
   DP_REGISTER_CONVERTION(ByteYUV422ImageCT2ByteImageCT,2);
   
   FileFormatStreamC<ImageC<ByteYUV422ValueC> > FileFormatStream_ImageC_ByteYUV422ValueC;
