@@ -9,6 +9,7 @@
 
 #include "Ravl/Normal.hh"
 #include "Ravl/StdConst.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
   
@@ -47,7 +48,26 @@ namespace RavlN {
     VectorC x = vec - mean;   // dist from class i mean
     return Exp(-(x.Dot(invCov*x))/2.0) / d;
   }
-    
+  
+  ostream &operator<<(ostream &s,const NormalC &norm) {
+    s << norm.d << ' ' << norm.mean << ' ' << norm.invCov;
+    return s;
+  }
+  
+  istream &operator>>(istream &s,NormalC &norm) {
+    s >> norm.d >> norm.mean >> norm.invCov;
+    return s;
+  }
+  
+  BinOStreamC &operator<<(BinOStreamC &s,const NormalC &norm) {
+    s << norm.d << norm.mean << norm.invCov;
+    return s;
+  }
+  
+  BinIStreamC &operator>>(BinIStreamC &s,NormalC &norm) {
+    s >> norm.d >> norm.mean >> norm.invCov;
+    return s;
+  }
 
   
 }

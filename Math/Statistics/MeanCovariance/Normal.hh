@@ -17,6 +17,14 @@
 
 namespace RavlN {
   
+  class NormalC;
+  
+  ostream &operator<<(ostream &s,const NormalC &norm);
+  istream &operator>>(istream &s,NormalC &norm);
+  
+  BinOStreamC &operator<<(BinOStreamC &s,const NormalC &norm);
+  BinIStreamC &operator>>(BinIStreamC &s,NormalC &norm);
+  
   //! userlevel=Normal
   //: Model a normal (or gauss) multi-dimensional distribution.
   
@@ -47,6 +55,12 @@ namespace RavlN {
     RealT d;        // Denominator of distribution. 
     VectorC mean;   // Mean of distribution.
     MatrixC invCov; // Inverse covariance.
+    
+    friend ostream &operator<<(ostream &s,const NormalC &norm);
+    friend istream &operator>>(istream &s,NormalC &norm);
+    
+    friend BinOStreamC &operator<<(BinOStreamC &s,const NormalC &norm);
+    friend BinIStreamC &operator>>(BinIStreamC &s,NormalC &norm);
   };
   
 }
