@@ -24,7 +24,7 @@ LIBDEPS=RavlImageProcHT.def
 
 USESLIBS=RavlImageProc 
 
-PROGLIBS=RavlIO RavlOS RavlOSIO RavlImageIO RavlMathIO RavlImgIOV4L.opt
+PROGLIBS=RavlIO RavlOS RavlOSIO RavlImageIO RavlMathIO RavlImgIOV4L.opt RavlDPDisplay.opt
 
 EHT = Ravl.Images.Lines.html 
 #exedoPPHT.eht

@@ -27,7 +27,7 @@
 #include "Ravl/Statistics.hh"
 #include "Ravl/SobolSequence.hh"
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -63,7 +63,7 @@ namespace RavlImageN {
       feedBack(false),
       cachv(-2),
       cachr(-2),
-    useSobol(xUseSobol),
+      useSobol(xUseSobol),
       sFract(nsFract),
       fullDir(nfullDir)
   { 

@@ -13,6 +13,13 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/SArray1dIter.hh"
 
+#define DODEBUG 1
+#if DODEBUG 
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlImageN {
 
   /////////////////////////////
@@ -76,8 +83,6 @@ namespace RavlImageN {
       N++;
       TotDist += Dist;
     }
-    //DBInt.Message(StringC("Trim complete. Size ") + StringC(N) + "\n");
-    //DBInt.Wait();
     DistEst = (RealT) TotDist / N;
     return N;
   }
@@ -88,54 +93,48 @@ namespace RavlImageN {
   // segment of pixels without a gap. 
   // Return: Number of pixels in segment.
   
-  IntT PCPixelListC::TrimLongest(RealT MaxDist,RealT &DistEst) {
+  IntT PCPixelListC::TrimLongest(RealT maxDist,RealT &distEst) {
+    ONDEBUG(cerr << "PCPixelListC::TrimLongest(), maxDist=" << maxDist << "\n");
     DLIterC<PCIndex2dC> it(*this);
-    IntT Longest  = 0,curLen = 0; 
+    IntT longest  = 0,curLen = 0; 
     RealT totDist = 0;
-    RealT LongDist = 0;
+    RealT longDist = 0;
     it.First();
     RavlAssert(it);
     PCIndex2dC *cur,*last = &it.Data();
     DLIterC<PCIndex2dC> lStart(it),lEnd,CStart(it);
-    it++;
-    for(;it;it++) {
+    for(it++;it;it++) {
       cur = &it.Data();
-      RealT Dist = last->ClosestPnt().EuclidDistance(cur->ClosestPnt());
-      if(Dist > MaxDist) {
-	if(curLen > Longest) {
-	  Longest = curLen;
-	  LongDist = totDist;
-	  lStart = CStart;
-	  lEnd = it;
+      RealT dist = last->ClosestPnt().EuclidDistance(cur->ClosestPnt());
+      if(dist > maxDist) { // Is the distance between pixels larger than the maximum allowed ?
+	if(curLen > longest) { // Is this the best line segment found so far ?
+	  longest = curLen;   // Save pixel count.
+	  longDist = totDist; // Save distance total
+	  lStart = CStart;   // Save start
+	  RavlAssert(it);
+	  lEnd = it;         // Save end.
 	}
-	CStart = it;
-	curLen = 0;
-	totDist = 0;
+	CStart = it; // Save the start if this segment.
+	curLen = 0;  // Reset length counter for current segment.
+	totDist = 0; // Reset total length of lines.
       }
       curLen++;
-      totDist += Dist;
+      totDist += dist;
       last = cur;
     }
-    if(curLen > Longest) {
-      Longest = curLen;
-      LongDist = totDist;
+    if(curLen > longest) {
+      longest = curLen;
+      longDist = totDist;
       lStart = CStart;
       lEnd = it;
     }
-    if(Longest == 0)
-      return 0; // Must be zero length line !!
-    RavlAssert(lEnd != lStart);
-    //DListC<PCIndex2dC> pnts = List();
-    //pnts.Tail(lEnd); // Cut out the tail.
-    //pnts.Head(lStart); // Cut out the head of the list.
-    
-    //RavlAssert(ok);
-    if(lEnd)
-      lEnd.InclusiveTail();
-    lStart.Head();
-    First(); // Might as well point to the first element.
-    DistEst = (RealT) LongDist / Longest;
-    return Longest;
+    ONDEBUG(cerr << "PCPixelListC::TrimLongest(), Total=" << List().Size() << " longest=" << longest<< "\n");
+    if(longest == 0) return 0; // No segment meets the requirments.
+    if(lEnd) lEnd.InclusiveTail(); // Dump end of list.
+    lStart.Head(); // Dump head of list.
+    First();       // Might as well point to the first element.
+    distEst = (RealT) longDist / longest;
+    return longest;
   }
   
   ////////////////////////////////
@@ -145,8 +144,7 @@ namespace RavlImageN {
     SArray1dC<Point2dC> ret(Size());
     DLIterC<PCIndex2dC> it(*this);
     SArray1dIterC<Point2dC> ait(ret);
-
-    for(it.First();it;it++) 
+    for(it.First();it;it++,ait++) 
       *ait = *it;
     return ret;
   }
