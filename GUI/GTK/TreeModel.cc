@@ -82,7 +82,9 @@ namespace RavlGUIN {
       treeIter(new GtkTreeIter),
       canfree(canFree)
   {    
-    gtk_tree_model_get_iter (model,treeIter,treePath);
+    RavlAssert(model != 0);
+    RavlAssert(treePath != 0);
+    gtk_tree_model_get_iter(model,treeIter,treePath);
   }
   
   //: Destructor.
@@ -95,7 +97,8 @@ namespace RavlGUIN {
   
   bool TreeModelIterBodyC::Next() {
     RavlAssert(model != 0);
-    return gtk_tree_model_iter_next (model,treeIter) != 0;
+    RavlAssert(treeIter != 0);
+    return gtk_tree_model_iter_next(model,treeIter) != 0;
   }
 
   //: Return iterator for first child.
@@ -103,9 +106,10 @@ namespace RavlGUIN {
   
   TreeModelIterC TreeModelIterBodyC::Children() {
     RavlAssert(model != 0);
+    RavlAssert(treeIter != 0);
     TreeModelIterC ret;
     ret.Model(model);
-    if(!gtk_tree_model_iter_children (model,ret.TreeIter(),treeIter))
+    if(!gtk_tree_model_iter_children(model,ret.TreeIter(),treeIter))
       ret.Invalidate();
     return ret;
   }
@@ -114,16 +118,19 @@ namespace RavlGUIN {
   
   bool TreeModelIterBodyC::HasChildren() {
     RavlAssert(model != 0);
-    return gtk_tree_model_iter_has_child (model,treeIter) != 0;
+    RavlAssert(treeIter != 0);
+    return gtk_tree_model_iter_has_child(model,treeIter) != 0;
   }
   
   //: Get iterator for parent.
   // Returns an invalid handle if none.
   
   TreeModelIterC TreeModelIterBodyC::Parent() {
+    RavlAssert(model != 0);
+    RavlAssert(treeIter != 0);
     TreeModelIterC ret;
     ret.Model(model);
-    if(!gtk_tree_model_iter_parent (model,ret.TreeIter(),treeIter))
+    if(!gtk_tree_model_iter_parent(model,ret.TreeIter(),treeIter))
       ret.Invalidate();
     return ret;
   }
@@ -131,7 +138,9 @@ namespace RavlGUIN {
   //: Create a copy of the iterator.
   
   TreeModelIterC TreeModelIterBodyC::Copy() {
-    return TreeModelIterC(model,gtk_tree_iter_copy (treeIter),true);
+    RavlAssert(model != 0);
+    RavlAssert(treeIter != 0);
+    return TreeModelIterC(model,gtk_tree_iter_copy(treeIter),true);
   }
 
   
