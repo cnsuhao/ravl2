@@ -59,7 +59,7 @@ namespace RavlImageN {
     { return binomial.Size(); }
     //: Get size of gausian.
 
-#if RAVL_NEW_ANSI_CXX_DRAFT
+#if defined(RAVL_NEW_ANSI_CXX_DRAFT) && !defined(VISUAL_CPP)
     friend ostream &operator<< <>(ostream &s, const GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &out);
     //: output stream operator
     
