@@ -36,6 +36,10 @@ namespace RavlGUIN {
     }
     
     for(DLIterC<WidgetC> it(children);it.IsElm();it.Next()) {
+      if(!it->IsValid()) {
+	cerr << "LBoxBodyC::Create(), WARNING: Invalid widget in child list. \n";
+	continue;
+      }
       if(it.Data().Widget() == 0) {
 	if(!it.Data().Create()) 
 	  cerr << "LBoxBodyC::Create(), Widget create failed ! \n";
