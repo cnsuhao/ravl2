@@ -30,10 +30,33 @@ namespace RavlN {
     //: Write data to stream
     //!param: buffer - Buffer to write data from.
     //!param: len - length of buffer.
-    //!return: true if write succeeded.
+    //!return: Number of bytes written, or -1 on error.
+    
+    virtual IntT WriteV(const char **buffer,IntT *len,int n);
+    //: Write data to stream
+    //!param: buffer - Array of buffers to write data from.
+    //!param: len - Array of lengths of the buffers.
+    //!param: n - Number of buffers involved.
+    //!return: Number of bytes written, or -1 on error.
+    
+    virtual IntT WriteAll(const char *buffer,IntT len);
+    //: Write data to stream
+    // This routine works as Write(), but will handle temporary errors and
+    // do its best to ensure the complete buffer is written.
+    //!param: buffer - Buffer to write data from.
+    //!param: len - length of buffer.
+    //!return: Number of bytes written, or -1 on error.
+    
+    virtual IntT WriteAllV(const char **buffer,IntT *len,int n);
+    //: Write data to stream
+    // This routine works as Write(), but will handle temporary errors and
+    // do its best to ensure the complete buffer is written.
+    //!param: buffer - Array of buffers to write data from.
+    //!param: len - Array of lengths of the buffers.
+    //!param: n - Number of buffers involved.
+    //!return: Number of bytes written, or -1 on error.
     
   protected:
-    bool fullWrite; // Always write all bytes in buffer before returning.
   };
   
   //! userlevel=Normal
@@ -72,6 +95,33 @@ namespace RavlN {
     //!param: len - length of buffer.
     //!return: Number of bytes written, or -1 on error.
     
+    IntT WriteV(const char **buffer,IntT *len,int n)
+    { return Body().WriteV(buffer,len,n); }
+    //: Write data to stream
+    //!param: buffer - Array of buffers to write data from.
+    //!param: len - Array of lengths of the buffers.
+    //!param: n - Number of buffers involved.
+    //!return: Number of bytes written, or -1 on error.
+    
+    IntT WriteAll(const char *buffer,IntT len)
+    { return Body().WriteAll(buffer,len); }
+    //: Write data to stream
+    // This routine works as Write(), but will handle temporary errors and
+    // do its best to ensure the complete buffer is written.
+    //!param: buffer - Buffer to write data from.
+    //!param: len - length of buffer.
+    //!return: Number of bytes written, or -1 on error.
+    
+    IntT WriteAllV(const char **buffer,IntT *len,int n)
+    { return Body().WriteAllV(buffer,len,n); }
+    //: Write data to stream
+    // This routine works as Write(), but will handle temporary errors and
+    // do its best to ensure the complete buffer is written.
+    //!param: buffer - Array of buffers to write data from.
+    //!param: len - Array of lengths of the buffers.
+    //!param: n - Number of buffers involved.
+    //!return: Number of bytes written, or -1 on error.
+
   };
 
   //! userlevel=Develop
@@ -91,8 +141,31 @@ namespace RavlN {
     //!param: len - length of buffer.
     //!return: Number of bytes read or -1 on error
     
+    virtual IntT ReadV(char **buffer,IntT *len,int n);
+    //: Read data to stream
+    //!param: buffer - Array of buffers to read data into.
+    //!param: len - Array of lengths of the buffers.
+    //!param: n - Number of buffers involved.
+    //!return: Number of bytes read or -1 on error
+    
+    virtual IntT ReadAll(char *buffer,IntT len);
+    //: Read data from stream info buffer.
+    // This routine works as Read(), but will handle temporary errors and do
+    // its best to ensure a full buffer is read.
+    //!param: buffer - Buffer to read data into.
+    //!param: len - length of buffer.
+    //!return: Number of bytes read or -1 on error
+    
+    virtual IntT ReadAllV(char **buffer,IntT *len,int n);
+    //: Read data to stream
+    // This routine works as Read(), but will handle temporary errors and do
+    // its best to ensure a full buffer is read.
+    //!param: buffer - Array of buffers to read data into.
+    //!param: len - Array of lengths of the buffers.
+    //!param: n - Number of buffers involved.
+    //!return: Number of bytes read or -1 on error
+    
   protected:
-    bool fullRead; // Always read all bytes in buffer before returning.
   };
   
   //! userlevel=Normal
@@ -123,12 +196,39 @@ namespace RavlN {
     //: Access body.
     
   public:
-    
+
     IntT Read(char *buffer,IntT len)
     { return Body().Read(buffer,len); }
     //: Read data from stream info buffer.
     //!param: buffer - Buffer to read data into.
     //!param: len - length of buffer.
+    //!return: Number of bytes read or -1 on error
+    
+    IntT ReadV(char **buffer,IntT *len,int n)
+    { return Body().ReadV(buffer,len,n); }
+    //: Read data to stream
+    //!param: buffer - Array of buffers to read data into.
+    //!param: len - Array of lengths of the buffers.
+    //!param: n - Number of buffers involved.
+    //!return: Number of bytes read or -1 on error    
+
+    IntT ReadAll(char *buffer,IntT len)
+    { return Body().ReadAll(buffer,len); }
+    //: Read data from stream info buffer.
+    // This routine works as Read(), but will handle temporary errors and do
+    // its best to ensure a full buffer is read.
+    //!param: buffer - Buffer to read data into.
+    //!param: len - length of buffer.
+    //!return: Number of bytes read or -1 on error
+    
+    IntT ReadAllV(char **buffer,IntT *len,int n)
+    { return Body().ReadAllV(buffer,len,n); }
+    //: Read data to stream
+    // This routine works as Read(), but will handle temporary errors and do
+    // its best to ensure a full buffer is read.
+    //!param: buffer - Array of buffers to read data into.
+    //!param: len - Array of lengths of the buffers.
+    //!param: n - Number of buffers involved.
     //!return: Number of bytes read or -1 on error
     
   };
