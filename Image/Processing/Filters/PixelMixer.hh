@@ -50,8 +50,8 @@ namespace RavlImageN {
   };
   
   //! userlevel=Normal
-  //: Pixel mixer, recursively computed.
-  // This updates the pixel with a recursive combination of the pixel values.
+  //: Pixel mixer, using mixer method depending on the pixel types
+  // This uses the <code>Combine(</code> method of the <code>OutT</code> pixel to include the <code>InT</code> pixel
   
   template<class InT,class OutT>
   class PixelMixerRecursiveC {
