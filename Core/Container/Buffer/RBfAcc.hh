@@ -22,6 +22,8 @@
 #include "Ravl/Types.hh"
 
 namespace RavlN {
+  template <class DataT>
+  class SizeBufferAccessC;
   
   class BinOStreamC;
   class BinIStreamC;
@@ -70,6 +72,12 @@ namespace RavlN {
     inline RangeBufferAccessC(const RangeBufferAccessC<DataT> & ba,
 			      const IndexRangeC               & r);
     //: Creates a new access to 'ba' limited by range 'r'.
+    
+    inline RangeBufferAccessC(const SizeBufferAccessC<DataT> &sbf)
+      : BufferAccessC<DataT>(sbf.ReferenceElm()), 
+	range(0,sbf.Size()-1)
+    {}
+    //: Convert from a size buffer access.
     
     inline const RangeBufferAccessC<DataT> & operator=(DataT * bp);
     //: Changes the reference element to the element pointed by 'bp'.
