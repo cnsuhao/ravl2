@@ -457,7 +457,7 @@ namespace RavlN {
   
   
   template<class K,class T>
-  BinOStreamC &operator>>(BinOStreamC &in,HashC<K,T> &obj) { 
+  BinIStreamC &operator>>(BinIStreamC &in,HashC<K,T> &obj) { 
     obj = HashC<K,T>(in);
     return in;
   }
