@@ -20,6 +20,7 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: A circular arc and associated edgels.
+  // !!EXPERIMENTAL!!
   
   class Arc2dSegmentC 
     : public Arc2dC
@@ -57,6 +58,7 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: Circular Arc Detector.
+  // !!EXPERIMENTAL!!
   
   class ArcDetectorC {
   public:

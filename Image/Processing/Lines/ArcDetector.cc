@@ -73,6 +73,7 @@ namespace RavlImageN {
     bool done = false;
     Arc2dSegmentC maxArc;
     IntT maxLen;
+    IntT minEnd = 0;
     while(i < size && !done) {
       maxLen = -1;
       while(k < size) {
@@ -86,32 +87,26 @@ namespace RavlImageN {
 	
 	IntT arcEnd = CheckArc(arc,pixels,i);	
 	bool &as = arcStarts[arcEnd];
-	if(!as) {
+	if(!as && arcEnd > minEnd) {
 	  // This must be the longest arc for this end point.
 	  //cerr << "Arc: i=" << i << " j=" << j << " k=" << k << " End=" << arcEnd << "\n";
 	  int len = arcEnd - i;
 	  if(len > maxLen) {
 	    maxArc = Arc2dSegmentC(arc,Array1dC<Point2dC>(pixels,IndexRangeC(i,arcEnd)));
 	    maxLen = len;
+	    minEnd = arcEnd;
 	  }
 	}
-#if 0
-	if(arcEnd <= k) {
-	  // Try a longer baseline.
-	  j++;
-	  k += 2; 
-	  continue;
-	}
+#if 1
 	if(arcEnd > k) {
 	  // Start from where we left off.
 	  k = arcEnd;
-	  j = i + (k - i)/2;
+	  j = (i + k)/2;
 	  continue;
 	}
-#else
+#endif
 	j++;
 	k += 2; 	
-#endif
       }
       if(maxLen > 0) {
 	cerr << "Arc: i=" << maxArc.IMin() << " k=" << maxArc.IMax() << " Size=" << maxArc.Edges().Size() <<"\n";
