@@ -280,7 +280,7 @@ namespace RavlN
       //cerr << "Decode: Call3 at " << is.Tell() << "\n";
       Data1T dat1;
       Data2T dat2;
-      Data2T dat3;
+      Data3T dat3;
       is >> dat1 >> dat2 >> dat3;
       sig(dat1,dat2,dat3);
       return true;
