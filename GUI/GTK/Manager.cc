@@ -9,15 +9,15 @@
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Manager.cc"
 
-#define RAVL_USE_GTKTHREADS RAVL_OS_WIN32  /* Use thread based event handling stratagy. */
-#define RAVL_USE_GTKDIRECT  RAVL_OS_WIN32
-
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/ToolTips.hh"
 #include "Ravl/Threads/LaunchThread.hh"
 #include "Ravl/HashIter.hh"
 #include "Ravl/Threads/TimedTriggerQueue.hh"
+
+#define RAVL_USE_GTKTHREADS  RAVL_OS_WIN32  /* Use thread based event handling stratagy. */
+#define RAVL_USE_GTKDIRECT  RAVL_OS_WIN32
 
 //#include "Ravl/GUI/Label.hh"
 #if RAVL_HAVE_UNISTD_H
@@ -247,6 +247,7 @@ namespace RavlGUIN {
     startupDone.Post();
     
     // Pass control over to GTK.
+    ONDEBUG(cerr << "ManagerC::Start(), gtk_main() Started. ifp=" << ifp << "\n");
     
     gtk_main ();
 #endif
@@ -298,6 +299,7 @@ namespace RavlGUIN {
   //: Notify interface of event.
   
   bool ManagerC::Notify(IntT id) {
+    //cerr << "Nofity. \n";
 #if !RAVL_USE_GTKTHREADS
     if(write(ofp,&id,sizeof(IntT)) != sizeof(id)) {
       perror("ManagerC::Notify(),  Failed ");
@@ -330,6 +332,7 @@ namespace RavlGUIN {
     }
     ONDEBUG(cerr << "ManagerC::HandleNotify(), Done. \n");
 #else
+    ONDEBUG(cerr << "ManagerC::HandleNotify(), Got event. \n");
     IntT r;
     if(read(ifp,&r,sizeof(IntT)) != sizeof(IntT)) {
       perror("ManagerC::HandleNotify(),  Failed ");
@@ -417,7 +420,7 @@ namespace RavlGUIN {
 	} while(!events.TryPut(se)) ;
       }
     }
-#if RAVL_USE_GTKTHREADS
+#if !RAVL_USE_GTKTHREADS
     if(!eventProcPending) {
       eventProcPending = true;
       Notify(1);
