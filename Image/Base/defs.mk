@@ -22,7 +22,7 @@ PLIB=RavlImage
 
 USESLIBS=RavlCore
 
-PROGLIBS=RavlImageIO RavlOS
+PROGLIBS=RavlImageIO RavlOS RavlDPDisplay
 
 MAINS=imgdiff.cc
 

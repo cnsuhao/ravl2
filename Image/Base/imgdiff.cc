@@ -11,6 +11,7 @@
 #include "Ravl/Option.hh"
 #include "Ravl/IO.hh"
 #include "Ravl/Image/Image.hh"
+#include "Ravl/Array2dIter3.hh"
 
 using namespace RavlN;
 using namespace RavlImageN;
@@ -21,7 +22,8 @@ int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   StringC fin1 = opt.String("","in1.pgm","Input image 1 ");
   StringC fin2 = opt.String("","in1.pgm","Input image 2 ");
-  StringC fout = opt.String("o","diff.pgm","Output image ");
+  StringC fout = opt.String("o","@X","Output image ");
+  bool abs = opt.Boolean("a",false,"Calculate the absolute difference. ");
   opt.Check();
   ImageC<IntT> in1;
   ImageC<IntT> in2;
@@ -37,7 +39,15 @@ int main(int nargs,char **argv) {
     cerr << "Image size mismatch.\n";
     return 1;
   }
-  ImageC<IntT> res = in1 - in2;
+  ImageC<IntT> res;
+  if(!abs) 
+    res = in1 - in2;
+  else {
+    res = ImageC<IntT>(in1.Rectangle()); // Allocate some space.
+    for(Array2dIter3C<IntT,IntT,IntT> it(res,in1,in2);it;it++)
+      it.Data1() = Abs(it.Data2() - it.Data3());
+  }
+  
   if(!Save(fout,res)) {
     cerr << "Failed to save output image '" << fout << "'\n";
     return 1;
