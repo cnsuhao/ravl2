@@ -37,7 +37,7 @@ namespace RavlN {
     //: Construct from list.
     
     const BListIterC<DataT> &operator=(const BListC<DataT> &l) {
-      if(list.list.IsValid())
+      if(l.list.IsValid())
 	place = const_cast<BLinkBodyC<DataT> *>(l.list.BodyPtr());
       else
 	place = 0;
