@@ -224,8 +224,10 @@ namespace RavlImageN {
     // Apply tracker to luminance image.
     corners = tracker.Apply(RGBImageCT2ByteImageCT(img));
     // frame 0 is a special case
-    if (frameNo == 0)  return Reset(img);
-
+    if (frameNo == 0)  {
+      last = corners;
+      return Reset(img);
+    }
     // Generate an observation set for tracked points.
     DListC<ObservationC> obsList;
     for(HashIterC<UIntT,PointTrackC> it(corners);it;it++) {
@@ -378,9 +380,7 @@ namespace RavlImageN {
   }
 
   //: Computes the homography between the first frame and the mosaic
-  bool MosaicBuilderBodyC::Reset(const ImageC<ByteRGBValueC> &img) {
-    last = corners;
-    
+  bool MosaicBuilderBodyC::Reset(const ImageC<ByteRGBValueC> &img) {    
     // initialise accumulated motion Psum by solving for transformation
     // from mosaic coords to image coords
     //  p1 is array of frame corners
