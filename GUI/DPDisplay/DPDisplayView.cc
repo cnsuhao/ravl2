@@ -61,8 +61,8 @@ namespace RavlGUIN {
     if(cols < 30)
        cols = 30;
     canvas = RawCanvasC(rows,cols);
-    xpos=LabelC("0");
-    ypos=LabelC("0");
+    colPos=LabelC("0");
+    rowPos=LabelC("0");
     info=LabelC("-");
     //xpos = TextEntryC("",3,false);
     //ypos = TextEntryC("",3,false);
@@ -88,8 +88,8 @@ namespace RavlGUIN {
     TableBodyC::AddObject(hRuler,1,2,1,2,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL),GTK_FILL);
     TableBodyC::AddObject(vSlider,2,3,2,3,GTK_FILL,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL));
     TableBodyC::AddObject(hSlider,1,2,3,4,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL),GTK_FILL);
-    TableBodyC::AddObject(HBox(PackInfoC(Label(" Row="),false,false) + PackInfoC(xpos,false,false) +
-			       PackInfoC(Label(" Col="),false,false) + PackInfoC(ypos,false,false) + 
+    TableBodyC::AddObject(HBox(PackInfoC(Label(" Row="),false,false) + PackInfoC(rowPos,false,false) +
+			       PackInfoC(Label(" Col="),false,false) + PackInfoC(colPos,false,false) + 
 			       PackInfoC(Label("  Value="),false,false) + PackInfoC(info,true,false)),
 			  0,3,4,5,
 			  (GtkAttachOptions)(GTK_FILL),
@@ -253,8 +253,8 @@ namespace RavlGUIN {
   //: Call back for mouse movements in the window.
   
   bool DPDisplayViewBodyC::CallbackMouseMotion(MouseEventC &mouseEvent) {
-    Vector2dC pos(mouseEvent.X(),mouseEvent.Y());
-    //ONDEBUG(cerr << "DPDisplayViewBodyC::CallbackMouseMotion(), Called. Posision=" << pos <<"\n");
+    Index2dC idx ( mouseEvent.At() ) ;  // gets the position of the mose event in RAVL co-ordinates not GTK
+    Vector2dC pos ( idx[0] , idx[1]  ) ; 
     UpdateInfo(pos);
     lastMousePos = pos;
     return true;
@@ -274,11 +274,11 @@ namespace RavlGUIN {
   bool DPDisplayViewBodyC::UpdateInfo(const Vector2dC &at) {
     if(at[0] < 0 || at[1] < 0)
       return false;
-    Vector2dC pos = at+ offset;
+    Vector2dC pos = at+ offset; // ravl co-ords
     StringC rowps((int) pos[0]);
+    rowPos.Label(rowps);
     StringC colps((int) pos[1]);
-    xpos.Label(colps);
-    ypos.Label(rowps);
+    colPos.Label(colps);
     StringC infos("-");
     Query(pos,infos);
     info.Label(infos);

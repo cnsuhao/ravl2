@@ -75,7 +75,7 @@ namespace RavlGUIN {
   
   bool DPDisplayImageRGBBodyC::Query(const Vector2dC &pnt,StringC &text) {
     ONDEBUG(cerr << "DPDisplayImageRGBBodyC::Query(), Point=" << pnt << "\n");
-    Index2dC pix(pnt[1],pnt[0]);
+    Index2dC pix(pnt[0],pnt[1]);
     if(!img.Frame().Contains(pix))
       return false;
     StrOStreamC ss;
@@ -158,7 +158,7 @@ namespace RavlGUIN {
   
   bool DPDisplayImageRealBodyC::Query(const Vector2dC &pnt,StringC &text) {
     ONDEBUG(cerr << "DPDisplayImageRealBodyC::Query(), Point=" << pnt << "\n");
-    Index2dC pix(pnt[1],pnt[0]);
+    Index2dC pix(pnt[0],pnt[1]);
     if(!realImg.Frame().Contains(pix))
       return false;
     text = StringC(realImg[pix]);
@@ -225,7 +225,7 @@ namespace RavlGUIN {
   
   bool DPDisplayImageByteBodyC::Query(const Vector2dC &pnt,StringC &text) {
     ONDEBUG(cerr << "DPDisplayImageByteBodyC::Query(), Point=" << pnt << "\n");
-    Index2dC pix(pnt[1],pnt[0]);
+    Index2dC pix(pnt[0],pnt[1]);
     if(!img.Frame().Contains(pix))
       return false;
     text = StringC((int) img[pix]);

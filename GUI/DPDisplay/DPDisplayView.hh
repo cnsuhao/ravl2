@@ -116,7 +116,7 @@ namespace RavlGUIN {
     
     RulerC vRuler,hRuler;
     SliderC vSlider,hSlider;
-    LabelC xpos,ypos,info;
+    LabelC rowPos,  colPos,info;
     
     Vector2dC offset;
     IndexRange2dC displaySize; // Size of displayable objects.
