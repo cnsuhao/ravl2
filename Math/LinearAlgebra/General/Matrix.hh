@@ -118,6 +118,10 @@ namespace RavlN {
   // Where X is the returned vector.
   // If matrix is singular a zero length vector is returned.
   
+  MatrixC Solve(const MatrixC &A,const MatrixC &B);
+  //: Solve a general linear system  A*X = b
+  // This return's X, or a 0 by 0 matrix if it fails.
+  
   VectorC SVD(const MatrixC &M);
   //: Singular value decomposition, eg. M = U * D * V.T(). 
   // The diagonal matrix D is returned as a vector. Values for the

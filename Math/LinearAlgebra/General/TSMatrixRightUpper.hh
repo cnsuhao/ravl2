@@ -142,6 +142,7 @@ namespace RavlN {
     TVectorC<DataT> Solve(const TVectorC<DataT> &b);
     //: Solve for x, A.x = b
     // Where A is this matrix, and x is returned.
+    // !! NOT IMPLEMENTED !!
     
   };
   
