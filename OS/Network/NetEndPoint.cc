@@ -146,7 +146,7 @@ namespace RavlN {
       ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::Init(), Socket not opened. ");
       return false;
     }
-    nskt.SetNonBlocking(true);
+    //nskt.SetNonBlocking(true);
     istrm = NetIByteStreamC(nskt);
     ostrm = NetOByteStreamC(nskt);
     
@@ -493,7 +493,7 @@ namespace RavlN {
     } else
       lock.Unlock();
     Close();
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Terminated "); 
+    SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Terminated ";
     return true;
   }
   

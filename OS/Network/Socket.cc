@@ -54,6 +54,8 @@
 #include <sys/uio.h>
 #include <fcntl.h>
 
+#include <poll.h>
+
 #include "Ravl/OS/SysLog.hh"
 #include "Ravl/OS/Date.hh"
 
@@ -119,7 +121,9 @@ namespace RavlN {
       addr(naddr),
       dontClose(false),
       writeTimeout(180)
-  { SetNonBlocking(true); }
+  { 
+    //SetNonBlocking(true); 
+  }
   
   //: Open socket.
   
@@ -366,7 +370,7 @@ namespace RavlN {
       delete [] (char *) addr;
     addr = (struct sockaddr *) new char [sizeof(struct sockaddr)];
     memcpy((char *) addr,(sockaddr*)&sin,sizeof(struct sockaddr));
-    SetNonBlocking(true);
+    //SetNonBlocking(true);
     return fd;
   }
   
@@ -483,6 +487,7 @@ namespace RavlN {
   // Returns false on error.
   
   bool SocketBodyC::WaitForRead() {
+#if 1
     fd_set rfds;
     struct timeval tv;
     FD_ZERO(&rfds);
@@ -492,13 +497,47 @@ namespace RavlN {
       tv.tv_sec = 5;
       tv.tv_usec = 0;
       int rn = select(fd+1,&rfds,0,0,&tv);
-      if(rn == 0) continue; // Timeout, check if sockets been closed.
+      if(rn == 0) {
+	//SysLog(SYSLOG_DEBUG) << "SocketBodyC::WaitForRead(), Timeout retry! " << errno;
+	continue; // Timeout, check if sockets been closed.
+      }
       if(rn > 0) return fd >= 0; // Some data's ready!
       if(!CheckErrors("SocketBodyC::WaitForRead()"))
 	break;
+      //SysLog(SYSLOG_DEBUG) << "SocketBodyC::WaitForRead(), Temp error, retry! " << errno;
       // Temporary error, retry.
     }
-    
+#else
+    struct pollfd ufds[2];
+    ufds[0].fd = fd;
+    ufds[0].events = POLLIN | POLLERR |  POLLHUP | POLLNVAL;
+    while(fd >= 0) {
+      ufds[0].revents = 0;
+      int rn = poll(ufds,1,5000);
+      SysLog(SYSLOG_DEBUG) << "SocketBodyC::WaitForRead(), Poll=" << rn << " Errno= " << errno << " Events=" << ufds[0].revents;
+      if(rn == 0) continue; // Timeout.
+      if(rn < 0) { // Error.
+	if(!CheckErrors("SocketBodyC::WaitForRead()"))
+	  break;
+      }
+      if(ufds[0].revents & POLLIN) // Data ready ?
+	return true;
+      if(ufds[0].revents & POLLERR) { // Error ?
+	SysLog(SYSLOG_DEBUG) << "SocketBodyC::WaitForRead(), Error on stream " << errno;
+	return false;
+      }
+
+      if(ufds[0].revents & POLLHUP) { // Hangup ?
+	SysLog(SYSLOG_DEBUG) << "SocketBodyC::WaitForRead(), Hangup on stream " << errno;
+	return false;
+      }
+      if(ufds[0].revents & POLLNVAL) { // Invalid fd ?
+	SysLog(SYSLOG_DEBUG) << "SocketBodyC::WaitForRead(), Invalid fd for stream " << errno;
+	return false;
+      }
+      SysLog(SYSLOG_DEBUG) << "SocketBodyC::WaitForRead(), Unexpected condition " << ufds[0].revents;
+    }
+#endif    
     return false;
   }
   
@@ -552,7 +591,7 @@ namespace RavlN {
       if(!WaitForRead())
 	break;
       int n = read(fd,&(buff[at]),size - at);
-#if 0
+#if 1
       // This won't work on a non-blocking port!?
       if(n == 0) { // Linux indicates a close by returning 0 bytes read.  Is this portable ??
 	SysLog(SYSLOG_INFO) << "SocketBodyC::Read(). Socket closed. fd=" << fd;
@@ -562,6 +601,7 @@ namespace RavlN {
       if(n < 0) { 
 	if(!CheckErrors("SocketBodyC::Read()"))
 	  break; 
+	SysLog(SYSLOG_DEBUG) << "SocketBodyC::Read(), Temp error, retry! " << errno;
 	// Temporary error, retry
 	n = 0;
       }
@@ -592,6 +632,10 @@ namespace RavlN {
       if(!WaitForRead())
 	return 0;
       at = readv(fd,vecp,n);
+      if(at == 0) {
+	SysLog(SYSLOG_INFO) << "SocketBodyC::ReadV(). Socket closed. fd=" << fd;
+	break;	
+      }
       if(at > 0)
 	break;
       if(!CheckErrors("SocketBodyC::ReadV()"))
@@ -634,6 +678,10 @@ namespace RavlN {
 	return at;
       
       int x = readv(fd,&(vecp[b]),blocksToGo);
+      if(x == 0) {
+	SysLog(SYSLOG_INFO) << "SocketBodyC::ReadV(). Socket closed. fd=" << fd;
+	break;	
+      }
       if(x < 0) {
 	if(!CheckErrors("SocketBodyC::ReadV()"))
 	  return at;	   
