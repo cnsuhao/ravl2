@@ -41,6 +41,7 @@ namespace Ravl3DN {
     
   protected:
     IStreamC inf;
+    StringC path;
     bool done;
   };
   
@@ -79,7 +80,7 @@ namespace Ravl3DN {
     virtual TexTriMeshC Get();
     //: Get next piece of data.
     
-  protected:
+  protected:    
     IStreamC inf;
     bool done;
     StringC path;

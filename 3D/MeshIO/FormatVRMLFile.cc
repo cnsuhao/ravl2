@@ -35,7 +35,7 @@ namespace Ravl3DN {
   const type_info &
   FileFormatVRMLBodyC::ProbeLoad(IStreamC &in,const type_info &obj_type) const {
     // NOT IMPLEMENTED YET!
-    return typeid(void);
+    //return typeid(void);
     ONDEBUG(cerr << "FileFormatVRMLBodyC::ProbeLoad(), IStreamC, ok \n");
     if (obj_type == typeid(TexTriMeshC)) 
       return typeid(TexTriMeshC);

@@ -4,16 +4,215 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
+//! rcsid="$Id$"
+//! lib=Ravl3DIO
+
 #include "Ravl/3D/VRMLFileIO.hh"
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/DP/FileFormatIO.hh"
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/HSet.hh"
-//! rcsid="$Id$"
-//! lib=Ravl3DIO
+#include "Ravl/SubStringList.hh"
+#include "Ravl/DListExtra.hh"
+#include "Ravl/Index3d.hh"
+
+#define DODEBUG 1
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
 
 namespace Ravl3DN {
+  
+  void GetValue(const StringC &str,RealT &val) {
+    val = str.RealValue();
+  }
+  
+  void GetValue(const StringC &str,IndexC &val) {
+    val = str.IntValue();
+  }
+  
+  //: Get list of 3d vectors.
+  
+  template<class VectorT>
+  static bool GetVectors(IStreamC &inf,DListC<VectorT> &ret,UIntT &count,bool negSep = false) {
+    inf.SkipTo('[');
+    count = 0;
+    VectorT tmp;
+    UIntT elements = tmp.Size();
+    if(negSep)
+      elements++;
+    UIntT i = 0;
+    UIntT discard = elements-1;
+    while(inf) {
+      StringC word = inf.ClipWord(" ,]",true).TopAndTail();
+      char let = inf.GetChar();
+      if(!word.IsEmpty()) {
+	if(!(negSep && discard == i))
+	  GetValue(word,tmp[i]);
+	i++;
+      }
+      if(i == elements) {
+	ret.InsLast(tmp);
+	//cerr << "[" << tmp << "] ";
+	count++;
+	i = 0;
+      }
+      if(let == ']') { // Done ?
+	//cerr << "\n";
+	return true;
+      }
+    }
+    throw ExceptionEndOfStreamC("Unexpected end of stream.");    
+    return false;
+  }
+  
+  static bool ReadVRML(IStreamC &inf,const StringC &path,TriMeshC &mesh) 
+  {
+    
+    DListC<Vector3dC> verts;
+    DListC<Vector3dC> norms;
+    DListC<Vector2dC> tex;
+    DListC<Index3dC> triVert;
+    DListC<Index3dC> triTex;
+    ImageC<ByteRGBValueC> texImage;
+    ;
+
+    UIntT numVerts = 0;
+    UIntT numNorms = 0;
+    UIntT numTexCoord = 0;
+    UIntT numFaces = 0;
+    UIntT numFacesTex = 0;
+    StringC texFile;
+    try {
+      while(inf) {
+	char let = inf.SkipWhiteSpace();
+	inf.Unget(&let,1);
+	StringC word = inf.ClipWord(" \t\n",true);
+	if(word == "ImageTexture") {
+	if(!inf.SkipTo('{'))
+	  continue;
+	StringC texType = inf.ClipWord(" \t\n",true);
+	if(!inf.SkipTo('\"')) {
+	  cerr << "ERROR: Failed to find quoted texture name. \n";
+	  continue;
+	}
+	StringC texFile = path + inf.ClipTo('\"');
+	ONDEBUG(cerr << "Loading texture map '" << texFile << "'\n");
+	if(!RavlN::Load(texFile,texImage)) {
+	  cerr << "WARNING: Failed to load texture map '" << texFile << "'\n";
+	}
+	inf.SkipTo('}'); // Skip to end of texture block.
+	continue;
+	}
+	if(word == "Coordinate") {
+	  ONDEBUG(cerr << "Found vertexs. \n");
+	  GetVectors(inf,verts,numVerts);
+	  continue;
+	}
+	if(word == "Normal") {
+	  ONDEBUG(cerr << "Found normals \n");
+	  GetVectors(inf,norms,numNorms);
+	  continue;
+	}
+	if(word == "TextureCoordinate") {
+	  ONDEBUG(cerr << "Found texture coordinates \n");
+	  GetVectors(inf,tex,numTexCoord);
+	  continue;
+	}
+	if(word == "coordIndex") {
+	  ONDEBUG(cerr << "Found face index \n");
+	  GetVectors(inf,triVert,numFaces,true);
+	  continue;
+	}
+	if(word == "texCoordIndex") {
+	  ONDEBUG(cerr << "Found face texture index \n");
+	  GetVectors(inf,triTex,numFacesTex,true);
+	}
+      }
+    } catch (ExceptionEndOfStreamC &x) {
+      //cerr << "ERROR: Unexpected end of stream. \n";
+      //return false;
+    } catch( ExceptionOutOfRangeC &x) {
+      cerr << "ERROR: Unexpected vector size. \n";
+      return false;
+    }
+    
+    ONDEBUG(cerr << "Vertices=" << numVerts << " Faces=" << numFaces << "\n");
+    
+    // Setup vertices.
+    
+    SArray1dC<VertexC> vertArray(numVerts);
+    SArray1dIterC<VertexC> vait(vertArray);
+    
+    if(norms.IsEmpty()) {
+      // just setup positions.
+      ONDEBUG(cerr << "Creating vertex table. \n");
+      for(DLIterC<Vector3dC> vit(verts);vit;vit++,vait++)
+	vait->Position() = *vit;
+    } else {
+      ONDEBUG(cerr << "Creating vertex table using given normals. \n");
+      // Setup positions and normals
+      if(numVerts != numNorms) {
+	cerr << "ERROR: Mismatch in number of vertices and number of normals. \n";
+	return false;
+      }
+      vait.First();
+      DLIterC<Vector3dC> vit(verts);
+      DLIterC<Vector3dC> nit(norms);
+      for(;vait;nit++,vit++,vait++) {
+	vait->Position() = *vit;
+	vait->Normal() = *nit;
+      }
+    }
+    
+    // Setup tri's
+    SArray1dC<Vector2dC> texPos = SArrayOf(tex);
+    tex.Empty(); // Free up some memory.
+    
+    SArray1dC<TriC> triArray(numFaces);
+    SArray1dIterC<TriC> tait(triArray);
+    ONDEBUG(cerr << "numFaceTex=" << numFacesTex << " numTexCoord=" << numTexCoord << "\n");
+    if(!triTex.IsEmpty()) {
+      ONDEBUG(cerr << "Creating tri table using texture coords. \n");
+      if(numFaces > numFacesTex) {
+	cerr << "ERROR: Mismatch in number of faces and number of texture coords. \n";
+	return false;
+      }
+      DLIterC<Index3dC> tit(triVert);
+      DLIterC<Index3dC> ttit(triTex);
+      for(;tait;tait++,tit++,ttit++) {
+	for(int i = 0;i < 3;i++) {
+	  tait->VertexPtr(i) = &(vertArray[(*tit)[i]]);
+	  tait->TextureCoord(i) = texPos[(*ttit)[i]];
+	}
+      }
+    } else {
+      ONDEBUG(cerr << "Creating tri table. \n");
+      DLIterC<Index3dC> tit(triVert);
+      for(;tait;tait++,tit++) {
+	for(int i = 0;i < 3;i++)
+	  tait->VertexPtr(i) = &(vertArray[(*tit)[i]]);
+      }
+    }
+    
+    // Create a textured mesh.
+    if(numTexCoord > 0) {
+      ONDEBUG(cerr << "Creating textured mesh.\n");
+      SArray1dC<ImageC<ByteRGBValueC> > textures(1);
+      textures[0] = texImage;
+      SArray1dC<StringC> texFiles(1);
+      texFiles[0] = texFile;
+      mesh= TexTriMeshC(vertArray,triArray,textures,texFiles);
+    } else {
+      ONDEBUG(cerr << "Creating mesh.\n");
+      mesh= TriMeshC(vertArray,triArray);
+    }
+    return true;
+  }
+  
 
   // TriMesh VRML File IO /////////////////////////////////////////////
 
@@ -21,7 +220,10 @@ namespace Ravl3DN {
   DPIVRMLFileBodyC::DPIVRMLFileBodyC(const StringC &fn)
     : inf(fn),
       done(false)
-  {}
+  {
+    path = FilenameC(fn).PathComponent();
+    if (!path.IsEmpty()) path += filenameSeperator ;
+  }
   
   //: Open file.
   DPIVRMLFileBodyC::DPIVRMLFileBodyC(IStreamC &is)
@@ -36,15 +238,11 @@ namespace Ravl3DN {
   
   //: Get next piece of data.
   TriMeshC DPIVRMLFileBodyC::Get() {
-    if(done)
-      return TriMeshC();
-
-    // TO BE IMPLEMENTED
-    cerr << "Error: not implemented yet!\n";
-    return TriMeshC();
-
-    // Done
-    return TriMeshC();
+    TriMeshC ret;
+    if(done) return ret;
+    done = true;
+    ReadVRML(inf,path,ret);
+    return ret;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////
@@ -161,17 +359,18 @@ namespace Ravl3DN {
   }
   
   //: Get next piece of data.
+  
   TexTriMeshC DPITexVRMLFileBodyC::Get() {
+    TexTriMeshC ret;
     if(done)
-      return TexTriMeshC();
-
-    // TO BE IMPLEMENTED
-    cerr << "Error: not implemented yet!\n";
-    return TexTriMeshC();
-
-
-    // Done
-    return TexTriMeshC();
+      return ret;
+    TriMeshC tMesh;
+    if(!ReadVRML(inf,path,tMesh))
+      return ret;    
+    ret = tMesh;
+    if(!ret.IsValid())
+      ret = TexTriMeshC(tMesh.Vertices(),tMesh.Faces());
+    return ret;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////
