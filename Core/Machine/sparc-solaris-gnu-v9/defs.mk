@@ -5,8 +5,19 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
-#! file="Ravl/Core/Machine/defs.mk"
+#! file="Ravl/Core/Machine/sparc-solaris-gnu/defs.mk"
 
-DESCRIPTION= Machine/Compiler specific header files
+DESCRIPTION= Atomic operations for solaris-sparc-v9
 
-NESTED = Generic.r i386-linux-gnu.r mips-irix-mpro.r sparc-solaris-gnu.r sparc-solaris-gnu-v9. alpha-dec-osf4.0f.r
+NESTED=
+
+PACKAGE=sol2/Ravl
+
+SUPPORT_ONLY=sol2
+
+HEADERS=Atomic.hh
+
+PLIB=RavlCore
+
+USESLIBS=Math
+#CCPPFLAGS=-Wa,-xarch=v8plus -mcpu=v9 
