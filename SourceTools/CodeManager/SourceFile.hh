@@ -157,7 +157,7 @@ namespace RavlN {
     bool Load(istream &instrm) { 
       if(!IsValid())
 	(*this) = SourceFileC(true);
-      return Body().Load(instrm); 
+      return Body().Load(StringC(instrm)); 
     }
     //: Load buffer from a stream.
     // NB. If this is called on an invalid buffer a new buffer
