@@ -40,4 +40,34 @@ namespace RavlDFN {
     RenderSize(size);
     return true;
   }
+  
+  //: Load from stream.
+  
+  DFDataBodyC::DFDataBodyC(istream &strm)
+    : DFObjectBodyC(strm)
+  {}
+  
+  //: Load from binary stream.
+  
+  DFDataBodyC::DFDataBodyC(BinIStreamC &strm)
+    : DFObjectBodyC(strm)
+  {}
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DFDataBodyC::Save (ostream &out) const {
+    if(!DFObjectBodyC::Save(out))
+      return false;
+    
+    return true;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DFDataBodyC::Save (BinOStreamC &out) const {
+    if(!DFObjectBodyC::Save(out))
+      return false;
+    return true;
+  }
+  
 }
