@@ -151,8 +151,8 @@ namespace RavlGUIN {
   bool RawCanvasBodyC::TranslateConfigureEvent(const GdkEvent* event,IndexRange2dC &widgeSize) {
     RavlAssert(event->type == GDK_CONFIGURE);
     GdkEventConfigure *configEvent = (GdkEventConfigure *) event;
-    widgeSize = IndexRange2dC(configEvent->y,configEvent->y + configEvent->height,
-			      configEvent->x,configEvent->x + configEvent->width);
+    widgeSize = IndexRange2dC(0,configEvent->height,
+			      0,configEvent->width);
     return true;
   }
 
