@@ -25,6 +25,9 @@ namespace RavlImageN {
   
   enum EdgeStateT { EDGE_PROC = 0,EDGE_UNPROC,EDGE_JUNCT,EDGE_INSTRING };
   enum FBOrientationT { FB_FORWARD,FB_BACKWARD };
+
+  //! userlevel=Normal
+  //: Engine for linking edges into chains.
   
   class EdgeLinkC
     : public ImageC<ByteT>
