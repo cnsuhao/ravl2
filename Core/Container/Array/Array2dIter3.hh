@@ -20,7 +20,8 @@
 
 namespace RavlN {
   //! userlevel=Normal
-  //: triple Array2dC iterator. This will iterate through three rectangles.  The rectangles need not
+  //: triple Array2dC iterator. 
+  // This will iterate through three rectangles.  The rectangles need not
   // have the same origin, or be the same size, depending on the constructor.
   // The first array controls the number of elements visited.
   
