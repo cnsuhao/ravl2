@@ -73,8 +73,6 @@ namespace RavlN {
     //: Create an 2d range from a center point and a size for rows and cols.
     // The sizes passed to this function are the absolute size of the
     // rectangle, unlike RealRangeC(Real2dC &center,RealT size).
-    // Note: if the rows or cols there will be a half pixel offset in the
-    // center of the rectangle. 
     
     RealRange2dC(RealT minRow, RealT maxRow,
 		 RealT minCol, RealT maxCol)
