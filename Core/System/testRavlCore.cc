@@ -25,6 +25,8 @@
 #include "Ravl/Option.hh"
 #include "Ravl/FunctionRegister.hh"
 #include "Ravl/Cache.hh"
+#include "Ravl/String.hh"
+#include "Ravl/StrStream.hh"
 
 #include <string.h>
 
@@ -50,6 +52,7 @@ int testIntrDList();
 int testOption();
 int testFunctionRegister();
 int testCache();
+int testStringArrayIO();
 
 int testRavlCore(int argc,char **argv) {
   int line = 0;
@@ -89,6 +92,11 @@ int testRavlCore(int argc,char **argv) {
     cerr << "Cache test failed line :" << line << "\n";
     return 1;
   }
+  if((line = testStringArrayIO()) != 0) {
+    cerr << "String array io test failed line :" << line << "\n";
+    return 1;
+  }
+  
   cout << "Test passed. \n";
   return 0;
 }
@@ -287,6 +295,44 @@ int testCache() {
     if(v != i) return __LINE__;
   }
     
+  return 0;
+}
+
+int testStringArrayIO() {
+  cout << "Testing SArray1dC<StringC> IO. \n";
+ 
+  // Test SArray1dC...
+  SArray1dC<StringC> str(3);
+  str[0] = StringC("Hello1");
+  str[1] = StringC("Hello2");
+  str[2] = StringC("Hello3");
+  
+  StrOStreamC outs;
+  outs << str;
+  StringC data = outs.String();
+  StrIStreamC ins(data);
+  SArray1dC<StringC> tstr;
+  ins >> tstr;
+  if(str.Size() != tstr.Size()) return __LINE__;
+  if(str[0] != tstr[0]) return __LINE__;
+  if(str[1] != tstr[1]) return __LINE__;
+  if(str[2] != tstr[2]) return __LINE__;
+
+  // Test Array1dC...
+  
+  Array1dC<StringC> tarr(tstr);
+  StrOStreamC xout;
+  xout << tarr;
+  
+  StrIStreamC ins2(xout.String());
+  //cerr << "Data='" << data << "'\n";
+  Array1dC<StringC> xstr;
+  ins2 >> xstr;
+  if(str.Size() != (UIntT) xstr.Range().Size()) return __LINE__;
+  if(str[0] != xstr[0]) return __LINE__;
+  if(str[1] != xstr[1]) return __LINE__;
+  if(str[2] != xstr[2]) return __LINE__;
+  
   return 0;
 }
 
