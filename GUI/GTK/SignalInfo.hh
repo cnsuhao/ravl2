@@ -40,6 +40,9 @@ namespace RavlGUIN {
     SigTypeDNDData,
     SigTypeInt,
     SigTypeWidgetInt,
+#if RAVL_USE_GTK2
+    SigTypeTreeRow,
+#endif
   };
   
   //: Signal info
