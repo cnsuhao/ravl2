@@ -8,6 +8,7 @@
 //! lib=RavlPatternRec
 
 #include "Ravl/PatternRec/ClassifierFunc1Threshold.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlN {
   
@@ -22,11 +23,65 @@ namespace RavlN {
       InputSize(nfunc.InputSize());
   }
   
+
+  //: Load from stream.
+  
+  ClassifierFunc1ThresholdBodyC::ClassifierFunc1ThresholdBodyC(istream &strm) {
+    IntT version;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("ClassifierDiscriminantFunctionBodyC::ClassifierDiscriminantFunctionBodyC(BinIStreamC &), Unrecognised version number in stream. ");
+    strm >> func >> threshold; 
+  }
+  
+  //: Load from binary stream.
+  
+  ClassifierFunc1ThresholdBodyC::ClassifierFunc1ThresholdBodyC(BinIStreamC &strm) {
+    IntT version;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("ClassifierDiscriminantFunctionBodyC::ClassifierDiscriminantFunctionBodyC(BinIStreamC &), Unrecognised version number in stream. ");
+    strm >> func >> threshold; 
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool ClassifierFunc1ThresholdBodyC::Save (ostream &out) const {
+    if(!ClassifierBodyC::Save(out))
+      return false;
+    IntT version = 0;
+    out << ' ' << version << ' ' << func << ' ' << threshold;
+    return true;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool ClassifierFunc1ThresholdBodyC::Save (BinOStreamC &out) const {
+    if(!ClassifierBodyC::Save(out))
+      return false;
+    IntT version = 0;
+    out << version << func << threshold;
+    return true;
+  }
+  
   //: Classifier vector 'data' return the most likely label.
   
   UIntT ClassifierFunc1ThresholdBodyC::Classify(const VectorC &data) const {
     RealT x = func.Apply1(data);
     return (x > threshold) ? 1 : 0;
   }
+  
+  //: Estimate the confidence for each label.
+  
+  VectorC ClassifierFunc1ThresholdBodyC::Confidence(const VectorC &data) const {
+    VectorC ret(2);
+    ret.Fill(0);
+    RealT x = func.Apply1(data);
+    ret[1] = x - threshold;
+    ret[0] = threshold - x;
+    return ret;
+  }
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(ClassifierFunc1ThresholdBodyC,ClassifierFunc1ThresholdC,ClassifierC);
 
 }
