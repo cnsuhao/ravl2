@@ -86,7 +86,7 @@ namespace RavlN {
   
   //: Compute the epipolar line in image 2 from 'p1' in image 1.
   
-  LineABC2dC FundamentalMatrix2dC::EpipolarLine(const PPoint2dC &p1) {
+  LineABC2dC FundamentalMatrix2dC::EpipolarLine(const PPoint2dC &p1) const {
     Vector3dC l = (*this)(p1);
     return LineABC2dC(l[0],l[1],l[2]);
   }
@@ -172,5 +172,31 @@ namespace RavlN {
     scale *= mscale / (RealT) pnts.Size();
     ONDEBUG(cerr << "FundamentalMatrix2dC::NormalisePointSet(), Offset=" << offset << " Scale=" << scale << "\n");
   }
+  
+  //: Compute the epipoler point in the second image.
+  // This is the point where the line connecting the two opical centres
+  // intersect the second image plane.
+  
+  PPoint2dC FundamentalMatrix2dC::Epipole1() const {
+    FundamentalMatrix2dC tp(T());
+    PPoint2dC p1(1,2,3);
+    PPoint2dC p2(2,3,1);
+    PPointLine2dC l1 = tp(p1);
+    PPointLine2dC l2 = tp(p2);
+    return PPoint2dC(l1.Intersection(l2));
+  }
+  
+  //: Compute the epipoler point in the first image.
+  // This is the point where the line connecting the two opical centres
+  // intersect the first image plane.
+  
+  PPoint2dC FundamentalMatrix2dC::Epipole2() const {
+    PPoint2dC p1(1,2,3);
+    PPoint2dC p2(2,3,1);
+    PPointLine2dC l1 = (*this)(p1);
+    PPointLine2dC l2 = (*this)(p2);
+    return PPoint2dC(l1.Intersection(l2));
+  }
+  
   
 }

@@ -38,8 +38,18 @@ int testBasic() {
       fm1[i][j] = Random1();
   fm1.MakeRank2();
   fm1.NormaliseScale();
-  
   cerr << "Fm1=" << fm1 << "\n";
+  
+  // Check epipoles.
+  PPoint2dC ep1 = fm1.Epipole1();
+  PPoint2dC tep1 = fm1 * ep1;
+  cerr << "Ep1=" << ep1 << " tep1=" << tep1 << "\n";
+  if(tep1.SumOfAbs() > 0.00000001) return __LINE__;
+  PPoint2dC ep2 = fm1.Epipole2();  
+  PPoint2dC tep2 = fm1.T() * ep2;
+  cerr << "Ep2=" << ep2 << " tep2=" << tep2 << "\n";
+  if(tep2.SumOfAbs() > 0.00000001) return __LINE__;
+  
   for(int i =0;i < n;i++) {
     PPoint2dC p1(Random1() * 10,Random1() * 10,1);
     pnts1[i] = p1;

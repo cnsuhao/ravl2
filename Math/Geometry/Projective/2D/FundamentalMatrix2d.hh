@@ -33,7 +33,7 @@ namespace RavlN {
     FundamentalMatrix2dC()
     {}
     
-    FundamentalMatrix2dC(Matrix3dC &mat)
+    FundamentalMatrix2dC(const TFMatrixC<RealT,3,3> &mat)
       : PProjection2dC(mat)
     {}
     
@@ -49,7 +49,7 @@ namespace RavlN {
     RealT Error(const PPoint2dC &p1,const PPoint2dC &p2) const;
     //: Compute the error distance from epipolar line.
     
-    LineABC2dC EpipolarLine(const PPoint2dC &p1);
+    LineABC2dC EpipolarLine(const PPoint2dC &p1) const;
     //: Compute the epipolar line in image 2 from 'p1' in image 1.
     
     void NormaliseScale();
@@ -67,6 +67,16 @@ namespace RavlN {
     //: Compute the fundamental matrix from 2 sets of points.
     // This computes tbe fundamental matrix using a linear method (Sometimes called the normalised 8-point alogorithm),
     // you need least 8 points, but more may be used to obtain a least squares fit.
+    
+    PPoint2dC Epipole1() const;
+    //: Compute the epipoler point in the first image.
+    // This is the point where the line connecting the two opical centres
+    // intersect the first image plane.
+    
+    PPoint2dC Epipole2() const;
+    //: Compute the epipoler point in the second image.
+    // This is the point where the line connecting the two opical centres
+    // intersect the second image plane.
     
   protected:
 
