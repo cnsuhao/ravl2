@@ -7,6 +7,8 @@ while(<infile>) {
   } else {
     if(/[ ]*setenv[ ]+QMAKE_INSTALL[ ]*[^ ]*/) {
       print outfile "setenv QMAKE_INSTALL $NEWHOME\n" ;
+    } elsif(/[ ]*\$QMAKE_INSTALL_DIR[ ]+\=[ ]*[^ ]*/) {
+      print outfile "\$QMAKE_INSTALL_DIR = \"$NEWHOME\" ;\n" ;
     } else {
       print outfile "$_" ;
     }

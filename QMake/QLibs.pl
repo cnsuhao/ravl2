@@ -8,7 +8,7 @@
 
 use Getopt::Long;
 
-$AMMA_INSTALL_DIR = "/vol/vssp/local/beta";
+$QMAKE_INSTALL_DIR = "/vol/vssp/local/beta";
 
 $opts = $#ARGV;
 #--------- Options  ---------------------------------------------------
@@ -34,7 +34,7 @@ if ($res!=1)
 
 # First lets sort out the Lib Hints File
 if(!defined($opt_hf)) {
-  $libhints = "$AMMA_INSTALL_DIR/libdep/libHints";
+  $libhints = "$QMAKE_INSTALL_DIR/../../libdep/libHints";
 } else {
   if(-f $opt_hf) {
     $libhints = $opt_hf;
@@ -45,7 +45,7 @@ if(!defined($opt_hf)) {
 }
 
 # Next lets sort out the global project out
-$glob_proj = "$AMMA_INSTALL_DIR/inc";
+$glob_proj = "$QMAKE_INSTALL_DIR/../../inc";
 
 # Next we can sort out the local project out
 if(!defined($opt_p)) {
@@ -54,7 +54,7 @@ if(!defined($opt_p)) {
   if(-d $opt_p) {
     $loc_proj = $opt_p;
   } else {
-    print "Error no such directory exists for local project out: $opt_p\n";
+#    print "Error no such directory exists for local project out: $opt_p\n";
     exit(-1);
   }
 }
