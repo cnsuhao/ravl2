@@ -73,14 +73,23 @@ time.
 Writing your own file I/O is a little more complicated. If all you want to do is
 load and save your own class, write basic stream operators for your class and
 then instantiate an instance of <code>FileFormatStreamC</code> class as a global variable.
-The following example shows how a file format for loading and saving <code>RealT</code> was
-created.
+The following example shows how a file format for loading and saving <code>RealT</code> 
+objects to ASCII streams (type "stream") was created.
 
 <pre>
 #include "Ravl/DP/FileFormatStream.hh"
 
 FileFormatStreamC &lt;RealT&gt; FileFormatStream_RealT;
 </pre>
+
+If you wanted to write the data to a binary stream (type "abs") instead, you would use:
+
+<pre>
+#include "Ravl/DP/FileFormatBinStream.hh"
+
+FileFormatBinStreamC &lt;RealT&gt; FileFormatBinStream_RealT;
+</pre>
+
 
 <h4>Writing Conversions</h4>
 
