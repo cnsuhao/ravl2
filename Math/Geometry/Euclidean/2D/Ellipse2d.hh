@@ -40,8 +40,8 @@ namespace RavlN {
     { return p; }
     //: Access as projection from unit circle centered on the origin
     
-    inline Point2dC &Centre() const
-    { return p.Transform(); }
+    inline Point2dC Centre() const
+    { return p.Translation(); }
     //: Centre of the ellipse.
     
   protected:    
