@@ -176,7 +176,7 @@ int VGrab(int argc, char ** argv)
     {
       TimeCodeC nextGrab = timeNow + 1 ; 
       TimeCodeC endTime = end ; 
-      if ( opts.IsOnCommandLine("n") ) endTime = nextGrab + howMany ; 
+      if ( !opts.IsOnCommandLine("end") ) endTime = nextGrab + howMany - 1; 
       cerr << "\n   -  First Grab will be: " << nextGrab.ToText() << "  \t and endtime is: " << endTime.ToText() ; 
 
       while ( true ) 
