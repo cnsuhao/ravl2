@@ -24,7 +24,7 @@
 
 namespace RavlN {
 
-  static UByteT  xmlCharactors[256] = 
+  static UByteT  xmlCharacters[256] = 
   /*             0     1     2     3     4     5     6     7     8     9    10    11    12    13    14    15 */
   { /*   0 */ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     /*  16 */ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -45,7 +45,7 @@ namespace RavlN {
   };
   
   static inline bool IsXMLIDChar(ByteT c) {
-    return (xmlCharactors[c] & 0x01) != 0;
+    return (xmlCharacters[c] & 0x01) != 0;
   }
   
   ///// XMLBaseBodyC ////////////////////////////////////////////////
@@ -133,7 +133,7 @@ namespace RavlN {
 	foundEndTag = false;
 	c = GetChar();
 	if(c != '<')
-	  continue; // Skip non-tag charactors.
+	  continue; // Skip non-tag characters.
 	gotTag = true;
 	// Work out what sort of tag we've got.
 	c = GetChar();
@@ -188,7 +188,7 @@ namespace RavlN {
 	    case '/':
 	      c = GetChar();
 	      if(c != '>') {
-		ONDEBUG(cerr << "ERROR: Unexpected charactor '"  << c << "' in XML tag. \n");
+		ONDEBUG(cerr << "ERROR: Unexpected character '"  << c << "' in XML tag. \n");
 		throw ExceptionInvalidStreamC("Unexpected end of XML tag. ");
 	      }
 	      emptyTag = true;
@@ -279,8 +279,8 @@ namespace RavlN {
     StringC id = ReadID();
     char c = SkipWhiteSpace();
     if(c != '=') {
-      ONDEBUG(cerr << "ERROR: Unexpected charactor "  << c << "in XML attribute. \n");
-      throw ExceptionInvalidStreamC("Unexpected charactor in XML attribute. ");
+      ONDEBUG(cerr << "ERROR: Unexpected character "  << c << "in XML attribute. \n");
+      throw ExceptionInvalidStreamC("Unexpected character in XML attribute. ");
     }
     c = SkipWhiteSpace();
     StringC val;

@@ -422,7 +422,7 @@ namespace RavlN {
     StringC ReadID();
     //: Read an ID from the stream.
     // This will skip any intial white space, but will
-    // return an empty string if an invalid charactors is found.
+    // return an empty string if an invalid characters is found.
     
     bool GetAttrib(const StringC &name,StringC &val)
       { return XMLBaseC::GetAttrib(name,val); }

@@ -33,8 +33,8 @@ namespace RavlN {
     return c;
   }
 
-  //: Skip white space charactors.
-  // returns the first non-white space charactor found.
+  //: Skip white space characters.
+  // returns the first non-white space character found.
   
   char IStreamC::SkipWhiteSpace() {
     char c;
@@ -43,7 +43,7 @@ namespace RavlN {
     return c;
   }
 
-  //: Skip all 'delim' charactors.
+  //: Skip all 'delim' characters.
   
   bool IStreamC::Skip(const char *delim) { 
     char c;
@@ -108,7 +108,7 @@ namespace RavlN {
     return false;
   }
 
-  //: Return all charactors before let.
+  //: Return all characters before let.
   
   StringC IStreamC::ClipTo(char let) {
     StringC ret;
@@ -124,9 +124,9 @@ namespace RavlN {
     return ret;
   }
 
-  //: Return all charactors before 'endStr'.
+  //: Return all characters before 'endStr'.
   // this leaves the stream positioned at the
-  // first charactor after the string. 
+  // first character after the string. 
   
   StringC IStreamC::ClipTo(const StringC &endStr) {
     StringC ret;
@@ -166,7 +166,7 @@ namespace RavlN {
     return ret;    
   }
 
-  //: Clip word until one of 'delim' charactors are found.
+  //: Clip word until one of 'delim' characters are found.
   
   StringC IStreamC::ClipWord(const char *delim,bool initalSkipDelim) {
     StringC ret;

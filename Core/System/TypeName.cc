@@ -80,7 +80,7 @@ namespace RavlN {
       int len = atoi(name);
       const char *at = name;
       // Skip digits
-      at++; // We already know the first charactor is a digit.
+      at++; // We already know the first character is a digit.
       while(isdigit(*at)) 
 	at++;
       if(at[len] == 0) { // Is that all ?
