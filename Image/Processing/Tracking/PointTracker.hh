@@ -28,7 +28,7 @@ namespace RavlImageN {
   
   class PointTrackerC {
   public:
-    PointTrackerC(int cthreshold,
+    PointTrackerC(int cthreshold = 20,
 		  int mwidth = 9,
 		  int nmthreshold = 10,
 		  int nthreshold = 50,
