@@ -55,7 +55,7 @@
 #define ONDEBUG(x)
 #endif
 
-#if !RAVL_HAVE_SOCETLEN_T
+#if !RAVL_HAVE_SOCKLEN_T
 #define socklen_t int
 #endif
 
@@ -352,11 +352,7 @@ namespace RavlN {
       ONDEBUG(cerr  << "Accepting. \n");
       int addrBuffSize = sizeof(sockaddr) + 256;
       struct sockaddr *cn_addr = (struct sockaddr *) new char [addrBuffSize];
-#if RAVL_OS_IRIX
-      int nfd = accept(fd,cn_addr, &addrBuffSize);
-#else
       int nfd = accept(fd,cn_addr,(socklen_t *) &addrBuffSize);
-#endif
       ONDEBUG(cerr  << "Got connection. \n");
       if(nfd >= 0) 
 	return SocketC(cn_addr,nfd);
@@ -371,11 +367,7 @@ namespace RavlN {
     StringC ret("-failed-");
     if(fd == 0)
       return ret;
-#if RAVL_OS_IRIX
-    int namelen = sizeof(sockaddr) + 256;
-#else
     socklen_t namelen = sizeof(sockaddr) + 256;
-#endif
     struct sockaddr *name = (struct sockaddr *) new char[namelen];
     if(getpeername(fd,name,&namelen) != 0) {
       cerr << "SocketBodyC::ConnectedHost(), gerpeername failed. Error=" << errno << "\n";
