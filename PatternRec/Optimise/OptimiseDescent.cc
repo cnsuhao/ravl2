@@ -51,7 +51,7 @@ namespace RavlN {
       dYdX = domain.Jacobian(X).SliceRow(0); // Determine current Jacobian
 
       VectorC Xstep;
-      for (UIntT i = 0; i < 10; i++) {
+      for (UIntT i = 0; i < 4; i++) {
 	Xstep = domain.ClipX (iterX-dYdX);   // Step in dir of steepest descent
 	RealT stepCost = domain.Cost (Xstep);// Evaluate cost after step
 	if (stepCost < currentCost) {        // If cost is best so far
