@@ -14,21 +14,169 @@
 #include "Ravl/StateVectorHomog2d.hh"
 #include "Ravl/Image/WarpProjective.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Image/RealRGBValue.hh"
 #include "Ravl/Image/ImageConv.hh"
 #include "Ravl/IO.hh"
 #include "Ravl/Image/ImgIO.hh"
 #include "Ravl/EntryPnt.hh"
 
+#include "Ravl/Array2dIter2.hh"
+#include "Ravl/Collection.hh"
+#include "Ravl/CollectionIter.hh"
+#include "Ravl/DP/Converter.hh"
+
+namespace RavlImageN {
+  using namespace RavlN;
+  
+  //: RGB average value class.
+  class RealRGBAverageC
+    : public RealRGBValueC
+  {
+  public:
+    RealRGBAverageC()
+      : RealRGBValueC(0,0,0),
+	count(0)
+    {}
+    //: Default constructor.
+    // creates a zero average pixel.
+
+    RealRGBAverageC(RealRGBValueC &naverage, RealT ncount)
+      : RealRGBValueC(naverage),
+	count(ncount)
+    {}
+    //: Construct from components
+
+    void Combine(const ByteRGBValueC &pix)
+    {
+      RealT newcount=count+1.0;
+      RealT div=count/newcount;
+      Red()   = div*Red()   + (RealT)pix.Red()/newcount;
+      Green() = div*Green() + (RealT)pix.Green()/newcount;
+      Blue()  = div*Blue()  + (RealT)pix.Blue()/newcount;
+      count = newcount;
+    }
+  public:
+    RealT count;
+  };
+
+  //: RGB + grey value class
+  class ByteRGBGreyValueC
+    : public ByteRGBValueC
+  {
+  public:
+    ByteRGBGreyValueC()
+      : ByteRGBValueC()
+    {}
+    //: Default constructor.
+    // creates an undefined RGB + grey value pixel.
+
+    ByteRGBGreyValueC(ByteT r,ByteT g,ByteT b)
+      : ByteRGBValueC(r,g,b)
+    {
+      grey = Y();
+    }
+    //: Constructor
+    // Builds an RGB + grey pixel from RGB components.
+
+    ByteRGBGreyValueC(const ByteRGBValueC &pix)
+      : ByteRGBValueC(pix)
+    {
+      grey = Y();
+    }
+    //: Constructor
+    // Builds an RGB + grey pixel from an RGB pixel.
+
+    ByteT Grey() const
+    { return grey; }
+    // Grey-level value for pixel
+
+    bool operator<(const ByteRGBGreyValueC &v) {
+      return(Grey() < v.Grey());
+    }
+    //: Comparison operator
+
+    bool operator>(const ByteRGBGreyValueC &v) {
+      return(Grey() > v.Grey());
+    }
+    //: Comparison operator
+
+  private:
+    ByteT grey;
+  };
+
+  //: RGB median value class.
+  class ByteRGBMedianC
+    : public ByteRGBValueC
+  {
+  public:
+    ByteRGBMedianC()
+      : pixels(10)
+    {}
+    //: Default constructor.
+    // creates an undefined median pixel.
+
+    ByteRGBMedianC(ByteRGBValueC &pix)
+      : ByteRGBValueC(pix),
+	pixels(10)
+    {}
+    //: Construct from RGB components
+
+    void Combine(const ByteRGBValueC &pix)
+    {
+      ByteRGBGreyValueC rgb_grey(pix);
+
+      // add new pixel to the collection
+      pixels.Insert(rgb_grey);
+
+      // compute the median of the collection
+      rgb_grey = pixels.KthHighest(pixels.Size()/2);
+
+      Set(rgb_grey.Red(),rgb_grey.Green(),rgb_grey.Blue());
+    }
+    //: Mix operator
+
+  public:
+    CollectionC<ByteRGBGreyValueC> pixels;
+  };
+
+  //! userlevel=Normal
+  //: Pixel mixer, recursively computed.
+  // This updates the pixel with a recursive combination of the pixel values.
+  
+  template<class InT,class OutT>
+  class PixelMixerRecursiveC {
+  public:
+    PixelMixerRecursiveC()
+    {}
+    //: Default constructor.
+    
+    void operator()(OutT &pixel,const InT &mixin)
+    { pixel.Combine(mixin); }
+    //: Mix operator
+  };
+}
+
+namespace RavlImageN {
+  
+  ImageC<ByteRGBValueC>  DPConvRealRGBAverageImageC2ByteRGBValueImageCT(const ImageC<RealRGBAverageC> &dat)   { 
+    ImageC<ByteRGBValueC> ret(dat.Rectangle()); 
+    for(Array2dIter2C<ByteRGBValueC,RealRGBAverageC> it(ret,dat);it.IsElm();it.Next()) 
+      it.Data1() = it.Data2();
+    return ret;
+  }
+
+  ImageC<ByteRGBValueC>  DPConvByteRGBMedianImageC2ByteRGBValueImageCT(const ImageC<ByteRGBMedianC> &dat)   { 
+    ImageC<ByteRGBValueC> ret(dat.Rectangle()); 
+    for(Array2dIter2C<ByteRGBValueC,ByteRGBMedianC> it(ret,dat);it.IsElm();it.Next()) 
+      it.Data1() = it.Data2();
+    return ret;
+  }
+}
+
 using namespace RavlN;
 using namespace RavlImageN;
 
 #define ZHOMOG 100.0
-
-class PixelAverageC
-{
-  ByteRGBValueC mean;
-  UIntT count;
-};
 
 int Mosaic(int nargs,char **argv) {
   OptionC opt(nargs,argv);
@@ -112,8 +260,16 @@ int Mosaic(int nargs,char **argv) {
   mosaic_rect.BRow() += 2*borderR;
   mosaic_rect.RCol() += 2*borderC;
   
-  ImageC<ByteRGBValueC> mosaic(mosaic_rect);
-  mosaic.Fill(ByteRGBValueC(0,0,0));
+  ImageC<ByteRGBMedianC> mosaic(mosaic_rect);
+  ByteRGBValueC val(0.0,0.0,0.0);
+#if 0
+  for(Array2dIterC<ImageC<ByteRGBMedianC> > it(mosaic_rect); it; )
+    *it = ByteRGBMedianC(val);
+#else
+  for(UIntT row=0; row<mosaic.Rows(); row++)
+    for(UIntT col=0; col<mosaic.Cols(); col++)
+      mosaic[row][col] = ByteRGBMedianC(val);
+#endif
 
   // compute homography mapping first image coordinates to mosaic coordinates
   Matrix3dC Pmosaic(1.0,0.0,-borderR,
@@ -123,7 +279,7 @@ int Mosaic(int nargs,char **argv) {
   // projective warp of first image
   Matrix3dC Psm=Psum*Pmosaic;
   Psm = Psm.Inverse();
-  WarpProjectiveC<ByteRGBValueC,ByteRGBValueC> pwarp(mosaic_rect,Psm,ZHOMOG,1.0,false);
+  WarpProjectiveC<ByteRGBValueC,ByteRGBMedianC,PixelMixerRecursiveC<ByteRGBValueC,ByteRGBMedianC> > pwarp(mosaic_rect,Psm,ZHOMOG,1.0,false);
   cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
   pwarp.Apply(cropped_img,mosaic);
   cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
@@ -215,7 +371,7 @@ int Mosaic(int nargs,char **argv) {
       // projective warp
       Psm=Psum*Pmosaic;
       Psm = Psm.Inverse();
-      WarpProjectiveC<ByteRGBValueC,ByteRGBValueC> pwarp(mosaic_rect,Psm,ZHOMOG,1.0,false);
+      WarpProjectiveC<ByteRGBValueC,ByteRGBMedianC,PixelMixerRecursiveC<ByteRGBValueC,ByteRGBMedianC> > pwarp(mosaic_rect,Psm,ZHOMOG,1.0,false);
       cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
       pwarp.Apply(cropped_img,mosaic);
       cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
@@ -245,5 +401,11 @@ int Mosaic(int nargs,char **argv) {
 
   return 0;
 }
+
+DP_REGISTER_CONVERTION_NAMED(DPConvRealRGBAverageImageC2ByteRGBValueImageCT,1,
+			     "ImageC<ByteRGBValueC>  RavlImageN::Convert(const ImageC<RealRGBAverageC> &)");
+
+DP_REGISTER_CONVERTION_NAMED(DPConvByteRGBMedianImageC2ByteRGBValueImageCT,1,
+			     "ImageC<ByteRGBValueC>  RavlImageN::Convert(const ImageC<ByteRGBMedianC> &)");
 
 RAVL_ENTRY_POINT(Mosaic)
