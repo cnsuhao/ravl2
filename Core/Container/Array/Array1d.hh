@@ -198,9 +198,6 @@ namespace RavlN {
     const BufferC<DataT> &Buffer() const
       { return buff; }
     //: Access buffer in which data is stored.
-
-    void Reverse();
-    //: Reverse the order of elements in this array in place.
     
     Array1dC<DataT> operator+(const Array1dC<DataT> & arr) const;
     // Sums 2 numerical arrays. The operator returns the result as a new array.
@@ -711,7 +708,6 @@ namespace RavlN {
     return *this;
   }
   
-
   template <class DataT>
   Array1dC<DataT> &
   BubbleSort(Array1dC<DataT> & arr) {
