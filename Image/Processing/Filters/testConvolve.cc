@@ -21,6 +21,9 @@
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Image/SpatialDifference.hh"
 #include "Ravl/Image/SumRectangles.hh"
+#include "Ravl/Image/Rectangle2dIter.hh"
+
+#include "Ravl/Random.hh"
 
 using namespace RavlImageN;
 
@@ -350,7 +353,7 @@ int testSumRectangles() {
   Array2dC<IntT> result;
 #if 1
   SumRectangles(test,mask,result);
-  //cerr << "Result1=" << result << "\n";
+  //  cerr << "Result1=" << result << "\n";
   
   if(result[1][1] != 54)
     return __LINE__;
@@ -372,17 +375,38 @@ int testSumRectangles() {
     return __LINE__;
 #endif
   
-  IndexRange2dC mask2(-2,2,-2,2);
-  Array2dC<IntT> test2(9,9);
-  test2.Fill(2);
-  test2[1][1] = 3;
-  result = Array2dC<IntT>();
-  SumRectangles(test2,mask2,result);
-#if 1
-  if(result[2][2] != 51) return __LINE__;
-  if(result[2][3] != 51) return __LINE__;
-  if(result[6][6] != 50) return __LINE__;
-#endif
-  //cerr << "Result2=" << result << "\n";
+  Array2dC<IntT> test3(10,12);
+  for(Array2dIterC<IntT> it(test3);it;it++)
+    *it = RandomInt() % 9;
+  //cerr << "Img=" << test3 << "\n";
+  
+  for(int z = 0;z < 3;z++) {
+    for(int i = 1;i < 3;i++) {
+      for(int j = 1;j < 3;j++) {
+	IndexRange2dC mask3(-i,i,-j,j);
+	if(z == 1)
+	  mask3.RCol()++;
+	if(z == 2)
+	  mask3.BRow()++;
+	
+	cerr << "Testing mask " << mask3 << "\n";
+	Array2dC<IntT> result3;
+	
+	SumRectangles(test3,mask3,result3);
+	//cerr << "Result3=" << result3 << "\n";
+	for(Rectangle2dIterC itr(test3.Frame(),mask3);itr;itr++) {
+	  IntT sum = 0;
+	  for(Array2dIterC<IntT> its(test3,itr.Window());its;its++)
+	    sum += *its;
+	  Index2dC at = itr.Window().Origin() - mask3.Origin();
+	  if(sum != result3[at]) {
+	    cerr << "Incorrect sum at " << at << " sum=" << sum << "\n";
+	    return __LINE__;
+	  }
+	}
+      }
+    }
+  }
+  
   return 0;
 }

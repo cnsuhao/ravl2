@@ -27,18 +27,16 @@ namespace RavlImageN {
 		     Array2dC<OutT> &result) 
   {
     Array2dC<InT> img(iimg);
-    IndexRange2dC resultFrame(img.Frame());
-    resultFrame -= mask;
+    IndexRange2dC resultFrame(img.Frame() - mask);
     
     if(result.IsEmpty())
       result = Array2dC<OutT>(resultFrame);
     else
       resultFrame.ClipBy(result.Frame());
     
-    IndexRange2dC initialRect = mask;
-    initialRect.SetOrigin(resultFrame.Origin() + mask.Origin());
+    const IndexRange2dC initialRect = mask + resultFrame.Origin();
     
-    Array1dC<OutT> vsum(img.Range2());
+    Array1dC<OutT> vsum(resultFrame.Range2() + mask.Range2());
     
     // Setup vertical sums.
     
@@ -53,52 +51,45 @@ namespace RavlImageN {
     
     OutT sum;
     SetZero(sum);
-    IndexRangeC initRange = initialRect.Range2();
-    initRange.Max()--;
+    const IndexRangeC initRange(initialRect.Range2().Min(),initialRect.Range2().Max()-1);
     
     for(BufferAccessIterC<OutT> itbfr(vsum,initRange);itbfr;itbfr++)
       sum += *itbfr;
-    
-    for(Array1dIter3C<OutT,OutT,OutT> itfr(result.SliceRow(result.Frame().TRow()),result.Frame().Range2(),
-					   vsum,result.Frame().Range2() + mask.LCol(),
-					   vsum,result.Frame().Range2() + mask.RCol());itfr;itfr++) {
+    for(Array1dIter3C<OutT,OutT,OutT> itfr(result.SliceRow(resultFrame.TRow()),resultFrame.Range2(),
+					   vsum,resultFrame.Range2() + mask.LCol(),
+					   vsum,resultFrame.Range2() + mask.RCol());itfr;itfr++) {
       sum += itfr.Data3();
       itfr.Data1() = sum;
       sum -= itfr.Data2();
     }
     
     // Sum rest of image.
-
+    
     IndexRange2dC rngTR(resultFrame + mask.TopRight());
     IndexRange2dC rngBR(resultFrame + mask.BottomRight());
     
-    resultFrame.TRow()++;
+    resultFrame.TRow()++; // Done the first row already.
     IndexC trow = rngTR.TRow();
     IndexC brow = ++rngBR.TRow();
-    IndexC restMin = result.Frame().LCol()+1;
-    
+    const IndexC rmax = initRange.Max()+1;
     for(Array2dIter3C<OutT,InT,InT> it(result,resultFrame,img,rngTR,img,rngBR);it;) {
       // Do begining of row.
       SetZero(sum);
-      for(BufferAccessIter3C<OutT,InT,InT> itbfr(vsum,initRange,
-						 img[trow++],initRange,
-						 img[brow++],initRange);itbfr;itbfr++) {
+      for(BufferAccessIter3C<OutT,InT,InT> itbfr(vsum,img[trow++],img[brow++],initRange);itbfr;itbfr++) {
 	itbfr.Data1() += itbfr.Data3();
 	itbfr.Data1() -= itbfr.Data2();
 	sum += itbfr.Data1();
       }
       
       // And the rest...
-      OutT *sat = &(vsum[restMin]);
+      OutT *sat = &(vsum[rmax]);
       OutT *satn = &(vsum[initRange.Min()]);
       do {
 	*sat += it.Data3();
 	*sat -= it.Data2();
-	sum += *sat;
+	sum += *(sat++);
 	it.Data1() =  sum;
-	sum -= *satn;
-	sat++;
-	satn++;
+	sum -= *(satn++);
       } while(it.Next()) ;
     }
   }
