@@ -90,9 +90,6 @@ namespace RavlGUIN {
     bool ShowExtended(bool &doit);
     //: Show/Hide extended controls.
     
-    bool EnableExtended(bool &enable);
-    //: Enable extended controls option
-    
     bool SetSubStart(StringC &text);
     //: Set start of sub-sequence
     
@@ -228,10 +225,6 @@ namespace RavlGUIN {
     bool Playx2()
     { return Body().Playx2(); }
     //: Forward x2 speed
-    
-    bool EnableExtended(bool &enable)
-    { return Body().EnableExtended(enable); }
-    //: Enable extended controls option
     
     void SetControl(const DPPlayControlC &ctrl)
     { Body().SetControl(ctrl); }

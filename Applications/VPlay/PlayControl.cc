@@ -321,17 +321,6 @@ namespace RavlGUIN {
     return true;
   }
   
-  bool PlayControlBodyC::EnableExtended(bool &enable)  {
-    ONDEBUG(cerr << "PlayControlBodyC::EnableExtended(), Called. \n");
-    if(!enableextras.IsValid())
-      return true;
-    if(enable) {
-      enableextras.Show();
-    } else
-      enableextras.Hide();
-    return true;
-  }
-  
   //: Set start of sub-sequence
   
   bool PlayControlBodyC::SetSubStart(StringC &text) {
