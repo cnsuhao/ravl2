@@ -15,8 +15,14 @@
 #include "Ravl/MTLocks.hh"
 #include "Ravl/Stream.hh"
 
+#if !RAVL_COMPILER_VISUALCPP
 #include <dlfcn.h>
+#endif
 #include <stdlib.h>
+
+#ifndef PROJECT_OUT
+#define PROJECT_OUT ""
+#endif
 
 #define DODEBUG 1
 #if DODEBUG 
@@ -86,12 +92,16 @@ namespace RavlN {
     }
     
     // Load the library itself
+#if !RAVL_COMPILER_VISUALCPP
     ONDEBUG(cerr << "DynamicLinkLibLoad() Loading: '" << libName << "'\n");
     MTWriteLockC dynLinkLock(2); // Only one dynamic open at a time, so lock 'c' non-reentrant lock.
     if(dlopen(libName.chars(), RTLD_GLOBAL | RTLD_LAZY) == 0) {
       cerr << "Error loading '" << libName << "' :" << dlerror() << "\n";
       return false;
     }
+#else
+    throw ExceptionC("DynamicLinkLibLoad(libName), Not implemented. ");
+#endif
     return true;
   }
 }

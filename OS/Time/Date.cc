@@ -349,7 +349,7 @@ namespace RavlN {
     } while(1);
 #endif
 #else
-    throw ExceptionC("DateC::SetToNow(), Not implemented. ");
+    throw ExceptionC("DateC::Wait(), Not implemented. ");
 #endif
     return true;
   }

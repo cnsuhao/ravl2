@@ -53,7 +53,7 @@ namespace RavlN {
       os << edits[i] << "\n";
     }
     os << "#EditsEnd\n";
-    return os;
+    return true;
   }
 
   //: Dump debug info about play list.
