@@ -45,6 +45,11 @@ namespace RavlN {
       : SampleC<VectorC>(svec)
     {}
     //: Construct from base class.
+
+    SampleVectorC(const SampleC<VectorC> &svec, const SArray1dC<IndexC> &featureSet);
+    //: Construct a sample set with a reduced set of features
+    //!param: svec       - a sample of vectors
+    //!param: featureSet - the indexes of features to keep
     
     UIntT VectorSize() const;
     //: Get the size of vectors in this sample.

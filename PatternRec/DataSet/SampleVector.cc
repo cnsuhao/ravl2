@@ -14,9 +14,25 @@
 #include "Ravl/DArray1dIter3.hh"
 #include "Ravl/MeanCovariance.hh"
 #include "Ravl/MatrixRUT.hh"
+#include "Ravl/PatternRec/DataSet2Iter.hh"
+#include "Ravl/SArray1dIter2.hh"
 
 namespace RavlN {
 
+  //: Construct a new sample set with a reduced set of features
+  
+  SampleVectorC::SampleVectorC(const SampleC<VectorC> &svec, const SArray1dC<IndexC> &featureSet)
+    : SampleC<VectorC>(svec.Size())
+  {
+    UIntT numFeatures = featureSet.Size();
+    for(DataSet2IterC<SampleC<VectorC>,SampleC<VectorC> > it(svec,*this); it; it++) {
+      VectorC out(numFeatures);
+      for(SArray1dIter2C<IndexC,RealT> itf(featureSet,out); itf; itf++)
+	itf.Data2() = it.Data1()[itf.Data1()];
+      it.Data2() = out;
+    }
+  }
+  
   //: Get the size of vectors in this sample.
   
   UIntT SampleVectorC::VectorSize() const {
@@ -24,7 +40,7 @@ namespace RavlN {
       return 0;
     return First().Size();
   }
-  
+
   //: Find the mean vector.
   
   VectorC SampleVectorC::Mean() const {
