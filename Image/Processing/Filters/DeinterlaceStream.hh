@@ -316,11 +316,11 @@ namespace RavlImageN {
 
   protected:
     DeinterlaceStreamBodyC<PixelT> &Body()
-    { return static_cast<DeinterlaceStreamBodyC<PixelT> &>(DPEntityC::Body()); }
+    { return dynamic_cast<DeinterlaceStreamBodyC<PixelT> &>(DPEntityC::Body()); }
     //: Access body.
 
     const DeinterlaceStreamBodyC<PixelT> &Body() const
-    { return static_cast<const DeinterlaceStreamBodyC<PixelT> &>(DPEntityC::Body()); }
+    { return dynamic_cast<const DeinterlaceStreamBodyC<PixelT> &>(DPEntityC::Body()); }
     //: Access body.
     
   public:    
