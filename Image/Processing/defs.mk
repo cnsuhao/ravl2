@@ -7,5 +7,5 @@
 #! rcsid="$Id$"
 #! file="Ravl/Image/Processing/defs.mk"
 
-NESTED=Tools.r Filters.r Edges.r Segmentation.r Morphology.r Lines.r Corner.r
+NESTED=Tools.r Filters.r Edges.r Segmentation.r Morphology.r Lines.r Corners.r
 
