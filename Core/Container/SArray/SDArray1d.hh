@@ -132,6 +132,24 @@ namespace RavlN {
       in >> arr[i];
     return in;
   }
+
+  template<class T>
+  BinOStreamC &operator<<(BinOStreamC &out,const SDArray1dC<T> &arr) {
+    out << arr.Size();
+    for(UIntT i = 0;i < arr.Size();i++)
+      out << arr[i];
+    return out;
+  }
+  
+  template<class T>
+  BinIStreamC &operator>>(BinIStreamC &in,SDArray1dC<T> &arr) {
+    UIntT asize;
+    in >> asize;
+    arr = SDArray1dC<T>(asize);
+    for(UIntT i = 0;i < asize;i++)
+      in >> arr[i];
+    return in;
+  }
   
   /////////////////////////
   // Constructors.
