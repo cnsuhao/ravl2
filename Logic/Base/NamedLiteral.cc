@@ -12,6 +12,7 @@
 #include "Ravl/Logic/NamedLiteral.hh"
 #include "Ravl/MTLocks.hh"
 #include "Ravl/VirtualConstructor.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlLogicN {
 

@@ -95,7 +95,7 @@ namespace RavlGUIN {
   
   bool TreeModelIterBodyC::Next() {
     RavlAssert(model != 0);
-    return gtk_tree_model_iter_next (model,treeIter);
+    return gtk_tree_model_iter_next (model,treeIter) != 0;
   }
 
   //: Return iterator for first child.
@@ -114,7 +114,7 @@ namespace RavlGUIN {
   
   bool TreeModelIterBodyC::HasChildren() {
     RavlAssert(model != 0);
-    return gtk_tree_model_iter_has_child (model,treeIter);
+    return gtk_tree_model_iter_has_child (model,treeIter) != 0;
   }
   
   //: Get iterator for parent.

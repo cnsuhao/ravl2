@@ -28,6 +28,10 @@ namespace RavlLogicN {
     OrBodyC();
     //: Default constructor.
     
+    OrBodyC(UIntT arity);
+    //: Constructor.
+    //!param: arity - Number of terms to create
+    
     OrBodyC(const SArray1dC<LiteralC> &nterms,bool useArrayDirectly = false);
     //: Constructor.
     // If useArrayDirectly is true then use the array directly, the first
@@ -96,6 +100,12 @@ namespace RavlLogicN {
       : ConditionC(*new OrBodyC())
     {}
     //: Constructor from a single term.
+    
+    explicit OrC(UIntT arity)
+      : ConditionC(*new OrBodyC(arity))
+    {}
+    //: Constructor with n terms.
+    //!param: arity - Number of terms to create
     
     OrC(const SArray1dC<LiteralC> &nterms,bool useArrayDirectly = false)
       : ConditionC(*new OrBodyC(nterms,useArrayDirectly))

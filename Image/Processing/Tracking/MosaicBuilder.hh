@@ -241,7 +241,7 @@ namespace RavlImageN {
     //: Default constructor.
     // Creates an invalid handle.
 
-    MosaicBuilderC(autoResizeT resize=none)
+    MosaicBuilderC(autoResizeT resize)
      : RCHandleC<MosaicBuilderBodyC>(*new MosaicBuilderBodyC(resize))
       {}
     //: Constructor.

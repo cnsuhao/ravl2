@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlOS
 //! file="Ravl/OS/Time/Date.cc"
+
 #include "Ravl/config.h"
 #if RAVL_OS_SOLARIS
 #define _POSIX_PTHREAD_SEMANTICS 1
@@ -21,6 +22,9 @@
 #if defined(__linux__) && !defined(_GNU_SOURCE)
 #define _GNU_SOURCE 1
 #endif
+#if RAVL_OS_WIN32
+#include <sys/timeb.h>
+#endif
 #include <time.h>
 
 
@@ -30,8 +34,13 @@
 
 #include <stdlib.h>
 
+#if RAVL_HAVE_WIN32_THREADS
+#include <windows.h>
+#endif
+
 #if !RAVL_COMPILER_VISUALCPP
 #include <sys/time.h>
+#include <sys/timeb.h>
 #include <unistd.h>
 #else
 #include <string.h>
@@ -174,7 +183,14 @@ namespace RavlN {
     sec =tv.tv_sec;
     usec =tv.tv_usec;
 #else
+#if RAVL_OS_WIN32
+    struct _timeb ltime;
+    _ftime(&ltime);
+    sec = ltime.time;
+    usec = ltime.millitm * 1000;
+#else
     throw ExceptionC("DateC::SetToNow(), Not implemented. ");
+#endif
 #endif
   }
   
@@ -358,7 +374,18 @@ namespace RavlN {
     } while(1);
 #endif
 #else
+#if RAVL_HAVE_WIN32_THREADS
+    do {
+      DateC now(true);
+      if(now >= *this)
+	return true;
+      DateC toGo = *this - now;
+      ::Sleep(Round(toGo.Double() * 1000));
+      // A signal may throw us out of select early.
+    } while(1);
+#else
     throw ExceptionC("DateC::Wait(), Not implemented. ");
+#endif
 #endif
     return true;
   }
@@ -366,9 +393,14 @@ namespace RavlN {
   //: Pause execution for 'delay' seconds.
   
   bool Sleep(RealT delay) {
+#if RAVL_HAVE_WIN32_THREADS
+    ::Sleep(Round(delay * 1000));
+    return true;
+#else
     DateC now(true);
     now += delay;
     return now.Wait();
+#endif
   }
 #endif
 

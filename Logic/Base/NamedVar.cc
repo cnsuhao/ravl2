@@ -11,6 +11,7 @@
 
 #include "Ravl/Logic/NamedVar.hh"
 #include "Ravl/VirtualConstructor.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlLogicN {
   

@@ -104,6 +104,12 @@ namespace RavlLogicN {
     {}
     //: Constructor.
     
+    explicit AndC(UIntT arity)
+      : ConditionC(*new AndBodyC(arity))
+    {}
+    //: Constructor.
+    //!param: arity - Number of and terms
+    
     AndC(istream &strm);
     //: Load from stream.
     

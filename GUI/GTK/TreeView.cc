@@ -333,7 +333,7 @@ namespace RavlGUIN {
     if(widget == 0)
       return false;
     // Check status
-    return gtk_tree_view_row_expanded(GTK_TREE_VIEW(widget),path.TreePath());    
+    return gtk_tree_view_row_expanded(GTK_TREE_VIEW(widget),path.TreePath()) != 0;
   }
   
   //: Is the specified iterator expanded?
@@ -420,7 +420,7 @@ namespace RavlGUIN {
   bool TreeViewBodyC::GUISelectedPath(TreeModelPathC path) {
     if (selection == 0)
       return false;
-    return gtk_tree_selection_path_is_selected(selection,path.TreePath());
+    return gtk_tree_selection_path_is_selected(selection,path.TreePath()) != 0;
   }
 
   //: Is the specified row iterator selected?
@@ -429,7 +429,7 @@ namespace RavlGUIN {
   bool TreeViewBodyC::GUISelectedIter(TreeModelIterC iter) {
     if (selection == 0)
       return false;
-    return gtk_tree_selection_iter_is_selected(selection,iter.TreeIter());
+    return gtk_tree_selection_iter_is_selected(selection,iter.TreeIter()) != 0;
   }
 
   //: Get list of selected rows.

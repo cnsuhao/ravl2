@@ -34,20 +34,39 @@ bool test2(int x) {
   return true;
 }
 
+bool test3(bool x) {
+  callcount += 2;
+  return true;
+}
+
+class TestClassC {
+public:
+  bool test1() {
+    callcount++;
+    return true;
+  }
+  
+  bool test2(int x) {
+    callcount += 2;
+    return true;
+  }
+  
+  bool test3(bool x) {
+    callcount += 2;
+    return true;
+  }
+}; 
+
 int main(int argc,char **argv)
 {
   OptionC option(argc,argv);
   option.Check();
-
-#if 0
-  Signal1C<bool> ts1;
-  Signal2C<bool,int> ts2;
-#endif
-
+  
   Signal0C sig1(true);
   
   SignalConnectorC c1 = Connect(sig1,&test1);
   SignalConnectorC c2 = Connect(sig1,&test2);
+
 
   sig1();
   if(callcount != 3) {
@@ -74,6 +93,19 @@ int main(int argc,char **argv)
     cerr<< "Signal test failed  " << callcount << "\n";
     return 1;
   }
+
+#if 1
+  // Some extra checks.
+  Signal1C<bool> sig3;
+  Signal2C<bool,int> sig4;
+  SignalConnectorC c4 = Connect(sig3,&test3);
+  SignalConnectorC c5 = Connect(sig4,&test3);
+
+  TestClassC aclass;
+  SignalConnectorC c4a = Connect(sig3,aclass,&TestClassC::test3);
+  SignalConnectorC c5a = Connect(sig4,aclass,&TestClassC::test3);
+
+#endif
   
   //  Launch(ae,&ExampleC::DoItArg,1);
   cerr << "testSignal(): Passed. \n";

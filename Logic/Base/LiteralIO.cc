@@ -75,7 +75,7 @@ namespace RavlLogicN {
 	    cerr << "ERROR: Parse error at line " << ln << ", Unexpect '!' found. \n";
 	    throw ExceptionParseErrorC("Unexpected '!' found. ");
 	  }
-	  int n = context.Top().Data1().Size();
+	  UIntT n = context.Top().Data1().Size();
 	  if(n == 0) {
 	    state.Tell(Literal());
 	    break;
@@ -91,7 +91,7 @@ namespace RavlLogicN {
 	      cerr << "ERROR: Parse error at line " << ln << ", Not must have exactly 1 argument. \n";
 	      throw ExceptionParseErrorC("Not must have exactly 1 argument. ");
 	    }
-	    tup = NotC(n);
+	    tup = NotC(true);
 	  } else
 	    tup = TupleC(n);
 	  int i = 0;
@@ -189,8 +189,8 @@ namespace RavlLogicN {
 	  } break;
 	}
       }
-    } catch(ExceptionEndOfStreamC &eos) {
-    } catch(ExceptionParseErrorC &eos) {
+    } catch(ExceptionEndOfStreamC &) {
+    } catch(ExceptionParseErrorC &) {
       return false;
     } 
     

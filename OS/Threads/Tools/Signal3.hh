@@ -109,6 +109,10 @@ namespace RavlN {
     
     inline virtual bool Invoke();
     //: Invoke signal, with default value.
+    
+    virtual void Disconnect(bool waitThreadsExit)
+    { SignalInterConnect0BodyC::Disconnect(waitThreadsExit); }
+    //: Disconnect from input list.
   };
   
   ///////////////////////////

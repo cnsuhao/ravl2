@@ -27,7 +27,7 @@ class MyThreadBodyC : public ThreadBodyC
   int Start(void) 
     {
       for ( IntT x = 1 ; x<= 5 ; ++x ) 
-	{ Sleep(1) ; cout << "\n MyThreadC counting " << x ; }
+	{ RavlN::Sleep(1) ; cout << "\n MyThreadC counting " << x ; }
       return 1 ; 
     }
   //: Start Method
@@ -69,7 +69,7 @@ int main (void)
   
   for ( IntT x = 1 ; x<= 10 ; ++x ) 
   {
-    Sleep(1) ; 
+    RavlN::Sleep(1) ; 
     cout << "\n main counting " << x ; 
   }
 

@@ -116,7 +116,8 @@ namespace RavlN
     pthread_cond_t cond;
 #endif
 #if RAVL_HAVE_WIN32_THREADS
-    HANDLE event; // Broadcast event
+    volatile LONG count;
+    HANDLE sema; // Flow control semaphore.
 #endif
   };
 }

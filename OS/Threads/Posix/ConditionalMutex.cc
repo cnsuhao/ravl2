@@ -70,7 +70,6 @@ namespace RavlN
       ts.tv_nsec -= NANOSEC;
     }
     
-    
     do {
       errcode = pthread_cond_timedwait(&cond,&mutex,&ts); 
       if(errcode == ETIMEDOUT)
@@ -88,17 +87,19 @@ namespace RavlN
   // ----------------------------------------------------------------
   // Some stubs we may fill in later.
   
-  ConditionalMutexC::ConditionalMutexC() {
+  ConditionalMutexC::ConditionalMutexC() 
+    : count(0)
+  {
 #if RAVL_HAVE_WIN32_THREADS
-    event = CreateEvent(0,false,false,0);
+    sema = CreateSemaphore(0,0,65535,0);
 #endif
   }
   
   
   ConditionalMutexC::~ConditionalMutexC() { 
 #if RAVL_HAVE_WIN32_THREADS
-    CloseHandle(event);
-    event = 0;
+    CloseHandle(sema);
+    sema = 0;
 #endif
   }
   
@@ -106,13 +107,29 @@ namespace RavlN
 #if RAVL_HAVE_WIN32_THREADS
     int rc;
     Unlock();
-    rc = WaitForSingleObject(event,Round(maxTime * 1000.0));
+    InterlockedIncrement(&count);
+    rc = WaitForSingleObject(sema,Round(maxTime * 1000.0));
+    if(rc == WAIT_TIMEOUT) {
+      // Decrement without going less than zero.  This may happen if
+      // there's been a broadcast just after WaitForSignleObject. In
+      // that case we'll just end up with the semaphore count 1 too high and
+      // the program and a Wait() will return early. This shouldn't be problem...
+      LONG tmp,ret;
+      do {
+	tmp = count;
+	if(tmp == 0) 
+	  break;
+	ret = InterlockedCompareExchange(&count,tmp-1,tmp); // Try and decrement by one.
+	// Check if decrement worked, if not try again.
+      } while(ret != tmp);
+    }
+    bool ret = (rc != WAIT_OBJECT_0);
     Lock();
 #endif
 #if RAVL_HAVE_POSIX_THREADS
     RavlAssert(0);// Not implemented.
 #endif
-    return false;
+    return ret;
   }
   
   
@@ -124,7 +141,13 @@ namespace RavlN
     RavlAssert(0); // Not implemented.
 #endif
 #if RAVL_HAVE_WIN32_THREADS
-    PulseEvent(event);
+    LONG tmp = 0; 
+    // Exchange count with zero and post that that to the semaphore, this will restart all threads
+    // current waiting.
+    tmp = InterlockedExchange(&count,tmp);
+    if(tmp == 0) return ; // Nothing waiting for signal!
+    ReleaseSemaphore(sema,tmp,0);
+    return ;
 #endif
   }
   
@@ -136,7 +159,17 @@ namespace RavlN
     RavlAssert(0); // Not implemented.
 #endif
 #if RAVL_HAVE_WIN32_THREADS
-    PulseEvent(event);
+    // Decrement atomicly if greater than 0 and then post to semaphore.
+    // else just return.
+    LONG tmp,ret;
+    do {
+      tmp = count;
+      if(tmp == 0) return ; // Nothing waiting to signal!
+      ret = InterlockedCompareExchange(&count,tmp-1,tmp); // Try and decrement by one.
+      // Check if decrement worked, if not try again.
+    } while(ret != tmp);
+    ReleaseSemaphore(sema,1,0);
+    return ;
 #endif
   }
   
@@ -144,7 +177,8 @@ namespace RavlN
 #if RAVL_HAVE_WIN32_THREADS
     int rc;
     Unlock();
-    rc = WaitForSingleObject(event,INFINITE); // Wait for signal
+    InterlockedIncrement(&count); // Register our interest in getting signalled
+    rc = WaitForSingleObject(sema,INFINITE); // Wait for signal
     Lock();
 #endif
 #if RAVL_HAVE_POSIX_THREADS

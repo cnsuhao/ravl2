@@ -12,7 +12,9 @@
 //! rcsid="$Id$"
 //! file="Ravl/Image/Processing/Filters/GaussConvolve.hh"
 
+#if !RAVL_COMPILER_VISUALCPP
 #warning "GaussConvolveC is obsolete: please use GaussConvolve2dC"
+#endif
 #include "Ravl/Image/Image.hh"
 #include "Ravl/GenerateSignal1d.hh"
 #include "Ravl/Image/ConvolveSeparable2d.hh"

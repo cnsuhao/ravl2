@@ -32,6 +32,13 @@ namespace RavlLogicN {
   OrBodyC::OrBodyC()
     : ConditionBodyC(1)
   { args[0] = literalOr; }
+
+  //: Constructor.
+  //!param: arity - Number of terms to create
+  
+  OrBodyC::OrBodyC(UIntT arity)
+    : ConditionBodyC(arity)
+  {}
   
   //:  constructor.
   

@@ -15,7 +15,14 @@
 //! file="Ravl/OS/Threads/Posix/Semaphore.hh"
 //! lib=RavlThreads
 
+#include "Ravl/config.h"
+#include "Ravl/Types.hh"
+
+#if RAVL_HAVE_WIN32_THREADS
+#include <windows.h>
+#else
 #include "Ravl/Threads/ConditionalMutex.hh"
+#endif
 
 namespace RavlN
 {
@@ -29,15 +36,11 @@ namespace RavlN
   
   class SemaphoreC {
   public:
-    SemaphoreC(int initVal) 
-      : count(initVal)
-    {}
+    SemaphoreC(int initVal);
     //: Constructor.
     // Create a semaphore with an inital count of 'initVal'.
     
-    SemaphoreC(const SemaphoreC &oth) 
-      : count(oth.Count())
-    {}
+    SemaphoreC(const SemaphoreC &oth);
     //: Copy Constructor.
     // This just creates a semaphore with the same count.
     
@@ -56,6 +59,7 @@ namespace RavlN
     // 'maxDelay' seconds. If the time expires return
     // false. If the semaphore is recieved then return true.
     
+#if !RAVL_HAVE_WIN32_THREADS
     bool TryWait() {
       if(count == 0)
 	return false; // Quick and dirty test.
@@ -68,10 +72,14 @@ namespace RavlN
       cond.Unlock();
       return false;
     }
+#else
+    bool TryWait();
+#endif
     //: Try and wait for semaphore
     // Return true if semaphore has been posted, and decrement as it Wait() had 
     // been called. Otherwise do nothing and return false.
     
+#if !RAVL_HAVE_WIN32_THREADS
     bool Post() {
       cond.Lock();
       count++;
@@ -79,26 +87,27 @@ namespace RavlN
       cond.Signal();
       return true;
     }
+#else
+    bool Post();
+#endif
     //: Post a semaphore.
     // Post a semaphore, increase the semaphore count by 1.
     
-    int Count(void) const { 
-#if 0
-      int ret; 
-      cond.Lock();
-      ret = count;
-      cond.Unlock();
-      return ret; 
+#if !RAVL_HAVE_WIN32_THREADS
+    int Count(void) const 
+    { return count; }
 #else
-      return count; // Is there any point in locking ???
+    int Count(void) const;
 #endif
-    }
     //: Read semaphore count.
     
   private:
-    
+#if !RAVL_HAVE_WIN32_THREADS
     ConditionalMutexC cond;
     int count;
+#else
+    HANDLE sema;
+#endif
   };
   
   ostream &operator<<(ostream &out,const SemaphoreC &sema);

@@ -54,7 +54,7 @@ namespace RavlGUIN {
     // Copy default style
     style = gtk_style_copy(gtk_widget_get_default_style());
     // Done
-    return static_cast<bool>(style);
+    return style != 0;
   }
 
   bool WidgetStyleBodyC::GUISetBackground(PixmapC& pixmap, GtkStateType state) {

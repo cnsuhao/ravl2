@@ -119,7 +119,11 @@ namespace RavlN {
     //cerr << "Result1=" << result << "\n Cr=" << Cr<< "\n";
     // --------- Undo normalisation ----------------
     // FIXME:- Make this more efficient by expanding out manually.
+#if RAVL_COMPILER_VISUALCPP
+    Conic2dC Cr(static_cast<const FVectorC<6> &>(result));
+#else
     Conic2dC Cr(static_cast<const TFVectorC<RealT,6> &>(result));
+#endif
     Matrix3dC Hi(1/scale,0,-1 * mean[0]/scale,
 		 0,1/scale,-1 * mean[1]/scale,
 		 0,0,1);
@@ -273,7 +277,11 @@ namespace RavlN {
 
     // Undo normalisation.
 #if 1
+#if RAVL_COMPILER_VISUALCPP
+    Conic2dC Cr(static_cast<const FVectorC<6> &>(a));
+#else
     Conic2dC Cr(static_cast<const TFVectorC<RealT,6> &>(a));
+#endif
     Matrix3dC Hi(1/scale,0,-1 * mean[0]/scale,
 		 0,1/scale,-1 * mean[1]/scale,
 		 0,0,1);

@@ -377,9 +377,8 @@ namespace RavlN {
   //: Connect two signals together.
   
   template<class DataT>  
-  inline 
-  SignalConnectorC Connect(Signal0C &from,bool (*func)(DataT),
-			   const typename TraitsC<DataT>::BaseTypeT &def = typename TraitsC<DataT>::BaseTypeT()) {
+  inline SignalConnectorC Connect(Signal0C &from,bool (*func)(DataT),
+				  const typename TraitsC<DataT>::BaseTypeT &def = TraitsC<DataT>::BaseTypeT()) {
     RavlAssert(from.IsValid());
     return Signal1FuncC<DataT>(from,func,def);  
   }
@@ -389,7 +388,7 @@ namespace RavlN {
   template<class ObjT,class DataT>
   inline
   SignalConnectorC Connect(Signal0C &from,const ObjT &obj,bool (ObjT::* func)(DataT),
-			   const typename TraitsC<DataT>::BaseTypeT &def = typename TraitsC<DataT>::BaseTypeT()) { 
+			   const typename TraitsC<DataT>::BaseTypeT &def = TraitsC<DataT>::BaseTypeT()) { 
     RavlAssert(from.IsValid());
     return Signal1MethodC<DataT,ObjT>(from,const_cast<ObjT &>(obj),func,def);
   } 
@@ -399,7 +398,7 @@ namespace RavlN {
   template<class ObjT,class DataT>
   inline
   SignalConnectorC ConnectRef(Signal0C &from,ObjT &obj,bool (ObjT::* func)(DataT),
-			      const typename TraitsC<DataT>::BaseTypeT &def = typename TraitsC<DataT>::BaseTypeT()) { 
+			      const typename TraitsC<DataT>::BaseTypeT &def = TraitsC<DataT>::BaseTypeT()) { 
     RavlAssert(from.IsValid());
     return Signal1MethodC<DataT,ObjT &>(from,obj,func,def);
   }
@@ -412,7 +411,7 @@ namespace RavlN {
   template<class ObjT,class DataT>
   inline
   SignalConnectorC ConnectR(Signal0C &from,ObjT &obj,bool (ObjT::* func)(DataT),
-			    const typename TraitsC<DataT>::BaseTypeT &def = typename TraitsC<DataT>::BaseTypeT()) { 
+			    const typename TraitsC<DataT>::BaseTypeT &def = TraitsC<DataT>::BaseTypeT()) { 
     RavlAssert(from.IsValid());
     return Signal1MethodC<DataT,ObjT &>(from,obj,func,def);
   }

@@ -49,9 +49,6 @@
 #include <sched.h>
 #endif
 
-
-
-
 #define USE_SIGACTION 1
 
 #define DODEBUG 0
