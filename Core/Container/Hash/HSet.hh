@@ -49,6 +49,10 @@ namespace RavlN {
     inline bool IsMember(const T &It) const
       { return set.IsElm(It); }
     //: Is 'It' a member of the set ?
+
+    inline bool Contains(const T &It) const
+      { return set.IsElm(It); }
+    //: Is 'It' a member of the set ?
     
     inline bool operator[](const T &It) const
       { return set.IsElm(It); }
@@ -125,6 +129,10 @@ namespace RavlN {
     
     bool IsSubset(const HSetC<T> &oth) const;
     //: is oth a subset of this ?
+    
+    inline bool Contains(const HSetC<T> &ss) const
+      { return IsSubset(ss); }
+    //: is ss a subset of this one.
     
     bool operator==(const HSetC<T> &oth) const;
     //: Is equal, ie contains all the same members ?
