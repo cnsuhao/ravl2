@@ -53,7 +53,7 @@ namespace RavlN {
     // true = yes.
     
     virtual DPPortC ConnectedTo() const
-      { return input; }
+    { return input; }
     //: What does this connect to ?
     
   protected:
@@ -114,7 +114,7 @@ namespace RavlN {
     //: Constructor.
     
     virtual bool IsPutReady() const {
-      assert(output.IsValid());
+      RavlAssert(output.IsValid());
       return output.IsPutReady(); 
     }
     //: Is some data ready ?
@@ -127,7 +127,7 @@ namespace RavlN {
     //: Put End Of Stream marker.
     
     virtual DPPortC ConnectedTo() const
-      { return output; }
+    { return output; }
     //: What does this connect to ?
     
   protected:

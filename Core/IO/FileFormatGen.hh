@@ -109,7 +109,7 @@ namespace RavlN {
     virtual bool IsStream() const;
     //: Test if format is a fully streamable.
     // i.e. check if you can read/write more than object object.
-    // (Default value of this function is TRUE).
+    // (Default value of this function is true).
     
     
   protected:

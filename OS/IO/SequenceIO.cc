@@ -45,11 +45,9 @@ namespace RavlN {
       if(fmtInfo.Format().IsStream() || fn == "-") { // Is stream already ?
 	if(verbose)
 	  fmtInfo.DumpConv(cerr);
-	ip = fmtInfo.CreateInput(fn);
-	if(!ip.IsValid()) 
-	  return false;
-	sc = DPSeekCtrlC(ip); // This may or maynot work...
-	return true;
+	ip = fmtInfo.CreateInput(fn,sc);
+	ONDEBUG(cerr << "OpenISequenceBase(), Stream is a sequence. sc=" << sc.IsValid() << " \n");
+	return ip.IsValid();
       }
       fileSeq = DPIFileSequenceC(StringC("")); // Not a single file, so try a sequence.
       if(!fileSeq.ProbeFormat(fn)) { 
@@ -58,6 +56,7 @@ namespace RavlN {
 	if(!ip.IsValid()) 
 	  return false;
 	sc = DPSeekCtrlC(true); // Put in a dummy seek control.
+	ONDEBUG(cerr << "OpenISequenceBase(), Stream not a sequence. \n");
 	return true;
       }
     } else {
@@ -99,11 +98,8 @@ namespace RavlN {
     if(verbose)
       fmtInfo.DumpConv(cerr);
     if(fmtInfo.Format().IsStream() || fn == "-" || fn[0] == '@') { // Is stream already ?
-      op = fmtInfo.CreateOutput(fn);
-      if(!op.IsValid())
-	return false;
-      sc = DPSeekCtrlC(op); // This may or maynot work...
-      return true;
+      op = fmtInfo.CreateOutput(fn,sc);
+      return op.IsValid();
     }
     // Use a file sequence.
     DPOFileSequenceC fileSeq(fn);

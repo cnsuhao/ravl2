@@ -15,9 +15,9 @@
 #include "Ravl/DP/FileFormDesc.hh"
 #include "Ravl/CDLIter.hh"
 #include "Ravl/TypeName.hh"
+#include "Ravl/DP/SPort.hh"
 
 #define DPDEBUG 0
-
 #if DPDEBUG
 #define ONDEBUG(x) x
 #else
@@ -28,11 +28,11 @@ namespace RavlN {
   //: Create an input from the descriptor.
   
   DPIPortBaseC FileFormatDescC::CreateInput(StringC filename) const {
-    assert(isInput);
+    RavlAssert(isInput);
     DPIPortBaseC inp = form.CreateInput(filename,SourceType());
     if(!inp.IsValid()) {
       cerr << "Internal error: Failed to open input file '" << filename << "' in format '" << form.Name() << "' \n" ;
-      assert(0);
+      RavlAssert(0);
       return DPIPortBaseC();
     }
     return BuildInputConv(inp);
@@ -42,16 +42,46 @@ namespace RavlN {
   //: Create an ouput from the descriptor.
   
   DPOPortBaseC FileFormatDescC::CreateOutput(StringC filename) const {
-    assert(!isInput);
+    RavlAssert(!isInput);
     DPOPortBaseC outp = form.CreateOutput(filename,SourceType());
     if(!outp.IsValid()) {
       cerr << "Internal error: Failed to open output file '" << filename << "' in format '" << form.Name() << "' \n" ;
-      assert(0);
+      RavlAssert(0);
       return DPOPortBaseC();
     }
     return BuildOutputConv(outp);
   }
   
+
+  //: Create an input from the descriptor.
+  
+  DPIPortBaseC FileFormatDescC::CreateInput(StringC filename,DPSeekCtrlC &sc) const {
+    RavlAssert(isInput);
+    DPIPortBaseC inp = form.CreateInput(filename,SourceType());
+    sc = DPSeekCtrlC(inp); // This may or maynot work...
+    if(!inp.IsValid()) {
+      cerr << "Internal error: Failed to open input file '" << filename << "' in format '" << form.Name() << "' \n" ;
+      RavlAssert(0);
+      return DPIPortBaseC();
+    }
+    return BuildInputConv(inp);    
+  }
+  
+  //: Create an input from the descriptor.
+  
+  DPOPortBaseC FileFormatDescC::CreateOutput(StringC filename,DPSeekCtrlC &sc) const {
+    RavlAssert(!isInput);
+    DPOPortBaseC outp = form.CreateOutput(filename,SourceType());
+    sc = DPSeekCtrlC(outp); // This may or maynot work...
+    if(!outp.IsValid()) {
+      cerr << "Internal error: Failed to open output file '" << filename << "' in format '" << form.Name() << "' \n" ;
+      RavlAssert(0);
+      return DPOPortBaseC();
+    }
+    return BuildOutputConv(outp);    
+  }
+  
+
   //: Build input conversion.
   
   DPIPortBaseC FileFormatDescC::BuildInputConv(const DPIPortBaseC &ip) const {
@@ -59,7 +89,7 @@ namespace RavlN {
     for(ConstDLIterC<DPConverterBaseC> it(conv);it.IsElm();it.Next()) {
       inp = it.Data().CreateIStream(inp);
       ONDEBUG(cerr << "inp:" << TypeName(inp.InputType()) << endl);
-      assert(inp.IsValid());
+      RavlAssert(inp.IsValid());
     }  
     return inp;
   }
@@ -74,7 +104,7 @@ namespace RavlN {
       ONDEBUG(cerr << "Conv: " << it.Data().ProcType().name() << endl);
       outp = it.Data().CreateOStream(outp);
       ONDEBUG(cerr << "to:" << TypeName(outp.OutputType()) << endl);
-      assert(outp.IsValid());
+      RavlAssert(outp.IsValid());
     }
     return outp;
   }

@@ -46,7 +46,7 @@ namespace RavlN {
     //: Apply operation.
 
     IntT ApplyArray(const SArray1dC<InT> &in,SArray1dC<OutT>  &out) {
-      assert(in.Size() <= out.Size());
+      RavlAssert(in.Size() <= out.Size());
       for(SArray1dIter2C<InT,OutT> it(in,out);it;it++)
 	it.Data2() = func(it.Data1());
       return in.Size();
@@ -54,7 +54,7 @@ namespace RavlN {
     //: Apply function to an array.
     
     virtual bool IsStateless() const 
-      { return TRUE; }
+      { return true; }
     //: Is operation stateless ?
     
   };

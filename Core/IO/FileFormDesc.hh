@@ -21,13 +21,16 @@
 #include "Ravl/DP/Converter.hh"
 
 namespace RavlN {
+  
+  class DPSeekCtrlC;
+  
   ///////////////////////////////////
   //! userlevel=Advanced
   //: File Format descriptor.
   // Small object.
   
   class FileFormatDescC {
-public:
+  public:
     FileFormatDescC()
       : stype(&typeid(void))
     {}
@@ -57,6 +60,12 @@ public:
     //: Create an input from the descriptor.
     
     DPOPortBaseC CreateOutput(StringC filename) const;
+    //: Create an input from the descriptor.
+
+    DPIPortBaseC CreateInput(StringC filename,DPSeekCtrlC &sc) const;
+    //: Create an input from the descriptor.
+    
+    DPOPortBaseC CreateOutput(StringC filename,DPSeekCtrlC &sc) const;
     //: Create an input from the descriptor.
     
     DPIPortBaseC BuildInputConv(const DPIPortBaseC &ip) const;

@@ -68,7 +68,7 @@ namespace RavlN {
   RCAbstractC DPConverterBaseBodyC::Apply(const RCAbstractC &dat) {
     if(!proc.IsValid())
       proc = CreateProc();
-    assert(proc.IsValid());
+    RavlAssert(proc.IsValid());
     return Apply1(proc,dat);
   }
   

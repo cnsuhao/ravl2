@@ -140,7 +140,7 @@ namespace RavlN {
     
     virtual DataT Get()  {
       cerr << "DPIPortBodyC<DataT>::Get(), ERROR: Abstract method called. \n";
-      assert(0);
+      RavlAssert(0);
       return DataT();
     }
     //: Get next piece of data.
@@ -240,7 +240,7 @@ namespace RavlN {
     
     virtual bool Put(const DataT &) { 
       cerr << "DPOPortBodyC<DataT>::Put(), ERROR: Abstract method called. \n";
-      assert(0);
+      RavlAssert(0);
       return false; 
     }
     //: Put data.
@@ -302,7 +302,9 @@ namespace RavlN {
   //! userlevel=Develop
   //: Base port handle.
   
-  class DPPortC : virtual public DPEntityC {
+  class DPPortC 
+    : virtual public DPEntityC 
+  {
   public:
     DPPortC() 
       : DPEntityC(false)
@@ -465,7 +467,7 @@ namespace RavlN {
       if(IsValid()) {
 	if(oth.InputType() != typeid(DataT)) {
 	  cerr << "DPIPortC<DataT>() Type mismatch.  " << oth.InputType().name() << " given to " << typeid(DataT).name() << endl; 
-	  assert(0);
+	  RavlAssert(0);
 	  }
       }
 #endif
@@ -605,7 +607,7 @@ namespace RavlN {
 	if(IsValid()) {
 	  if(oth.OutputType() != typeid(DataT)) {
 	    cerr << "DPOPortC<DataT>() Type mismatch.  " << oth.OutputType().name() << " given to " << typeid(DataT).name() << endl; 
-	    assert(0);
+	    RavlAssert(0);
 	  }
 	}
 #endif

@@ -50,7 +50,7 @@ namespace RavlN {
 			  finalCost,
 			  &TypeConverterBodyC::EdgeEval);
 #else
-    assert(0);
+    RavlAssert(0);
 #endif
     
     if(conv.IsEmpty()) {

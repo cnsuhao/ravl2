@@ -12,7 +12,7 @@
 
 #include "Ravl/DP/SPortAttach.hh"
 
-#define DPDEBUG 0
+#define DPDEBUG 1
 
 #if DPDEBUG
 #define ONDEBUG(x) x

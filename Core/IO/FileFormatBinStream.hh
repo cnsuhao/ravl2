@@ -41,7 +41,7 @@ namespace RavlN {
       // Check magic number.
       bin >> id;
       if(id != RavlN::RAVLBinaryID) {
-	//cerr << "ID Mis-match. " << id << " " << StdIO::AMMABinaryID <<" \n";
+	//cerr << "ID Mis-match. " << id << " " << RAVLBinaryID <<" \n";
 	bin.Seek(mark);
 	return typeid(void);
       }
@@ -68,7 +68,7 @@ namespace RavlN {
 	return typeid(DataT); // If we're forced just accept it.
       StringC ext = Extension(filename);
       // If there's no extention or the extention is 'abs' we can handle it.
-      // abs = AMMA Binary Stream.
+      // abs = RAVL Binary Stream.
       if(filename.IsEmpty())
 	return typeid(void); // Nope.
       if(filename[0] == '@')

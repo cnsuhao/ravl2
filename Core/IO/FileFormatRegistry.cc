@@ -252,7 +252,7 @@ namespace RavlN {
     HSetC<StringC> ignoreFmts,acceptFmts;
     bool acceptAll = ParseFmts(format,ignoreFmts,acceptFmts);
     
-    assert(in.good() || filename[0] == '@');
+    RavlAssert(in.good() || filename[0] == '@');
     
     // Should look for best ??
     for(DLIterC<FileFormatBaseC> it(Formats());
@@ -276,7 +276,7 @@ namespace RavlN {
 	cerr << "FindInputFormat(), IProbe left bad stream '" << it.Data().Name() << "' '" << TypeName(it.Data().DefaultType()) << "'  = " << TypeName(*ti) << "\n";
       }
 #endif
-      assert(in.good() || filename[0] == '@');
+      RavlAssert(in.good() || filename[0] == '@');
       //ONDEBUG(cerr << "Tell:" << in.Tell() << ") \n");
       if(*ti == typeid(void))
 	continue; // Nope.
@@ -485,12 +485,12 @@ namespace RavlN {
     DPIPortBaseC inp = form.CreateInput(in,*bestin);
     if(!inp.IsValid()) {
       cerr << "Internal error: Failed to open input stream in format '" << form.Name() << "' \n" ;
-      assert(0);
+      RavlAssert(0);
       return DPIPortBaseC();
     }
     for(DLIterC<DPConverterBaseC> it2(conv);it2.IsElm();it2.Next()) {
       inp = it2.Data().CreateIStream(inp);
-      assert(inp.IsValid());
+      RavlAssert(inp.IsValid());
     }
     return inp;  
   }
@@ -560,12 +560,12 @@ namespace RavlN {
     DPOPortBaseC outp = minForm.CreateOutput(to,*bestout);
     if(!outp.IsValid()) {
       cerr << "Internal error: Failed to open output stream in format '" << minForm.Name() << "' \n" ;
-      assert(0);
+      RavlAssert(0);
       return DPOPortBaseC();
     }
     for(DLIterC<DPConverterBaseC> it2(bestConv);it2.IsElm();it2.Next()) {
       outp = it2.Data().CreateOStream(outp);
-      assert(outp.IsValid());
+      RavlAssert(outp.IsValid());
     }
     return outp;  
   }

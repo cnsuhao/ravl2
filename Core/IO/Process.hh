@@ -122,13 +122,13 @@ namespace RavlN {
   template<class InT,class OutT>
   OutT 
   DPProcessBodyC<InT,OutT>::Apply(const InT &) { 
-    assert(0); // This should never be called.
+    RavlAssert(0); // This should never be called.
     return OutT(); 
   }
   
   template<class InT,class OutT>
   IntT DPProcessBodyC<InT,OutT>::ApplyArray(const SArray1dC<InT> &in,SArray1dC<OutT>  &out) {
-    assert(in.Size() <= out.Size());
+    RavlAssert(in.Size() <= out.Size());
     for(SArray1dIter2C<InT,OutT> it(in,out);it;it++)
       it.Data2() = Apply(it.Data1());
     return in.Size();

@@ -62,7 +62,7 @@ namespace RavlN {
     }
     if(!out.Put(obj)) {
       cerr << "RavlN::Save(), Put failed! \n";
-      assert(0);
+      RavlAssert(0);
       return false;
     }
     return true;
@@ -101,7 +101,7 @@ namespace RavlN {
     }
     if(!out.Put(obj)) {
       cerr << "RavlN::Save(), Put failed! \n";
-      assert(0);
+      RavlAssert(0);
       return false;
     }
     return true;

@@ -41,13 +41,13 @@ namespace RavlN {
     virtual bool IsGetReady() const 
       { return in.IsGetReady(); }
     //: Is some data ready ?
-    // TRUE = yes.
+    // true = yes.
     // Defaults to !IsGetEOS().
     
     virtual bool IsGetEOS() const 
       { return in.IsGetEOS(); }
     //: Has the End Of Stream been reached ?
-    // TRUE = yes.
+    // true = yes.
     
     virtual InT Get() 
       { return in.Get();  }
@@ -59,7 +59,7 @@ namespace RavlN {
       { return in.Get(buff); }
     //: Try and get next piece of data.
     // This will NOT block, if no data is ready
-    // it will return FALSE, and not set buff.
+    // it will return false, and not set buff.
     
     virtual IntT GetArray(SArray1dC<InT> &data)
       { return in.GetArray(data); }

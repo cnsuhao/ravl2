@@ -112,10 +112,10 @@ namespace RavlN {
     
     DPISPortAttachBodyC(const DPIPortC<DataT> &aport,const DPSeekCtrlC &sc)
       : DPSeekCtrlAttachBodyC(sc),
-      port(aport)
+	port(aport)
       {
-	assert(sctrl.IsValid());
-	assert(port.IsValid());
+	RavlAssert(sctrl.IsValid());
+	RavlAssert(port.IsValid());
       }
     //: Constructor.
     // Attach 'aport' to seek ctrl 'sc'
@@ -124,7 +124,7 @@ namespace RavlN {
       : DPSeekCtrlAttachBodyC(aport,smartDefault),
       port(aport)
       {
-	assert(port.IsValid());
+	RavlAssert(port.IsValid());
       }
     //: Constructor.
     // Attach 'aport' to seek ctrl 'sc'

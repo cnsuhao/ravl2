@@ -179,7 +179,7 @@ namespace RavlN {
     
     virtual RCWrapAbstractC Load(const StringC &fn,const StringC &fmtName = "",bool verb = false) const {
 #if 0
-      DPIPortC<DataT> in(StdIO::BaseLoad(fn,fmtName,typeid(DataT),verb));
+      DPIPortC<DataT> in(BaseLoad(fn,fmtName,typeid(DataT),verb));
       if(!in.IsValid())
 	return RCWrapAbstractC(); // Failed.
       return RCWrapC<DataT>(in.Get());
@@ -192,19 +192,19 @@ namespace RavlN {
     virtual bool Put(DPOPortBaseC &port,const RCWrapAbstractC &obj) throw(ExceptionErrorCastC) { 
       if(!obj.IsValid() || !port.IsValid()) {
 	cerr << "DPTypeInfoInstBodyC::Put(), ERROR: Invalid arguments. \n";
-	assert(0);
+	RavlAssert(0);
 	return false;
       }
       DPOPortC<DataT> oport(port);
       if(!oport.IsValid()) {
-	assert(0);
+	RavlAssert(0);
 	throw ExceptionErrorCastC("DPTypeInfoInstBodyC::Put(), 1",
 			 typeid(port.OutputType()),
 			 typeid(DataT));
       }
       RCWrapC<DataT> wo(obj,false);
       if(!wo.IsValid()) {
-	assert(0);
+	RavlAssert(0);
 	throw ExceptionErrorCastC("DPTypeInfoInstBodyC::Put(), 2",
 			 obj.DataType(),
 			 typeid(DataT));
@@ -218,12 +218,12 @@ namespace RavlN {
     virtual RCWrapAbstractC Get(DPIPortBaseC &port) throw(ExceptionErrorCastC) {
       if(!port.IsValid()) {
 	cerr << "DPTypeInfoInstBodyC::Get(), ERROR: Invalid arguments. \n";
-	assert(0);
+	RavlAssert(0);
 	return RCWrapAbstractC();
       }
       DPIPortC<DataT> iport(port);
       if(!iport.IsValid()) {
-	assert(0);
+	RavlAssert(0);
 	throw ExceptionErrorCastC("DPTypeInfoInstBodyC::Get(), ",
 			 typeid(port.InputType()),
 			 typeid(DataT));

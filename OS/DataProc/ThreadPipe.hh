@@ -89,7 +89,7 @@ namespace RavlN {
     //: Make a deep copy.
     // NB. All copies are made live automaticly .
     
-    void ThreadLaunch();
+    void ThreadThreadThreadThreadLaunch();
     //: Make pipe live.
     // This may only be called ONCE per ThreadPipe<>
     
@@ -141,8 +141,8 @@ namespace RavlN {
     //: Start processing.
     
   public:
-    void ThreadLaunch()
-    { Body().ThreadLaunch(); }
+    void ThreadThreadThreadThreadLaunch()
+    { Body().ThreadThreadThreadThreadLaunch(); }
     //: Make pipe live.
     
     friend class DPThreadPipeBodyC<InT,OutT>;
@@ -168,7 +168,7 @@ namespace RavlN {
       running(false)
   {
     if(makeLive)
-      ThreadLaunch();
+      ThreadThreadThreadThreadLaunch();
   }
   
   template<class InT,class OutT>
@@ -275,19 +275,19 @@ namespace RavlN {
       x = new DPThreadPipeBodyC<InT,OutT>(proc,qsize); // No state use the same process.
     else
       x = new DPThreadPipeBodyC<InT,OutT>(proc.Copy(),qsize); // There's state so make a full copy.
-    x->ThreadLaunch(); // Always make live copies.
+    x->ThreadThreadThreadThreadLaunch(); // Always make live copies.
     return *x;
   }
   
   template<class InT,class OutT>
-  void DPThreadPipeBodyC<InT,OutT>::ThreadLaunch() {
+  void DPThreadPipeBodyC<InT,OutT>::ThreadThreadThreadThreadLaunch() {
     if(running) {
-      cerr << "DPThreadPipeBodyC<InT,OutT>::ThreadLaunch(), ERROR:Pipe already live. \n";
+      cerr << "DPThreadPipeBodyC<InT,OutT>::ThreadThreadThreadThreadLaunch(), ERROR:Pipe already live. \n";
       return ;
     }
     running = true;
-    ONDEBUG(cerr << "DPThreadPipeBodyC<InT,OutT>::ThreadLaunch(), Starting ThreadPipe:" << ((void *) this) << "\n");
-    ThreadLaunch(DPThreadPipeC<InT,OutT>(*this),&DPThreadPipeC<InT,OutT>::Start);  
+    ONDEBUG(cerr << "DPThreadPipeBodyC<InT,OutT>::ThreadThreadThreadThreadLaunch(), Starting ThreadPipe:" << ((void *) this) << "\n");
+    ThreadThreadThreadThreadLaunch(DPThreadPipeC<InT,OutT>(*this),&DPThreadPipeC<InT,OutT>::Start);  
   }  
   
 }

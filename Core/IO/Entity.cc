@@ -29,7 +29,7 @@ namespace RavlN {
   
   
   bool DPEntityBodyC::Save(ostream &out) const  { 
-    // BodyRefCounterVC::Save(out) is made before TypeName code.
+    // RCBodyVC::Save(out) is made before TypeName code.
     // and so can't use the standard typenames. Hence we have
     // to write the class name for the virtual constructor here.
     out << TypeName(typeid(*this).name()) << "\n";

@@ -36,7 +36,7 @@ namespace RavlN {
     //: Apply operation.
 
     virtual IntT ApplyArray(const SArray1dC<InT> &in,SArray1dC<OutT> &out) {
-      assert(in.Size() <= out.Size());
+      RavlAssert(in.Size() <= out.Size());
       for(SArray1dIter2C<InT,OutT> it(in,out);it;it++)
 	it.Data2() = Func(it.Data1());
       return in.Size();
