@@ -10,9 +10,9 @@
 //! rcsid="$Id$"
 //! file="amma/Image/VidIO/VidIO.hh"
 //! lib=RavlImage
+//! docentry="Ravl.Images.IO.Formats"
 //! userlevel=Normal
 //! example=exImgSeq.cc
-//! docentry="Image.Image IO"
 //! author="Charles Galambos"
 //! date="13/05/99"
 

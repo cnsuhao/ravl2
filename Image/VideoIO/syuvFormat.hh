@@ -8,8 +8,8 @@
 #define RAVLSYUVFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! docentry="Image.Image IO"
 //! date="29/10/98"
+//! docentry="Ravl.Images.IO.Formats"
 //! rcsid="$Id$"
 //! file="Ravl/Image/VideoIO/syuvFormat.hh"
 //! example=exImgSeq.cc

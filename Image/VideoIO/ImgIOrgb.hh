@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////
 //! file="Ravl/Image/VideoIO/ImgIOrgb.hh"
 //! lib=RavlImage
-//! docentry="Image.Image IO"
+//! docentry="Ravl.Images.IO.Formats"
 //! example=exImgSeq.cc
 //! rcsid="$Id$"
 //! author="Charles Galambos"
