@@ -88,6 +88,18 @@ namespace RavlGUIN
     return true;
   }
   
+  //: Add an item to the end of the menu
+  bool MenuBodyC::GUIAdd(WidgetC &widge) {
+    // Call base class add
+    ContainerWidgetBodyC::GUIAdd(widge);
+    if (widget == 0) {
+      // Append to menu
+      gtk_menu_append(GTK_MENU(widget),widge.Widget());
+    }
+    return true;
+  }
+
+
   //: Make menu popup in 'parent' at 'where'.
   
   void MenuBodyC::Popup(GdkEvent *event) {

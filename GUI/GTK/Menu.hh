@@ -110,6 +110,10 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
+    virtual bool GUIAdd(WidgetC &widge);
+    //: Add an item to the end of the menu
+    // GUI thread only.
+
     const StringC &MenuName() const 
     { return menuName; }
     //: Menu name
