@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 
 #include "Ravl/PatternRec/FuncMeanProjection.hh"
+#include "Ravl/VirtualConstructor.hh"
 #include "Ravl/BinStream.hh"
 
 namespace RavlN {
@@ -62,16 +63,7 @@ namespace RavlN {
   
   ///////////////////////////////////////////////////////////
   
-  //: Load from stream.
   
-  FuncMeanProjectionC::FuncMeanProjectionC(istream &strm) 
-    : FunctionC(RAVL_VIRTUALCONSTRUCTOR(strm,FuncMeanProjectionBodyC))
-  {}
-  
-  //: Load from binary stream.
-  
-  FuncMeanProjectionC::FuncMeanProjectionC(BinIStreamC &strm) 
-    : FunctionC(RAVL_VIRTUALCONSTRUCTOR(strm,FuncMeanProjectionBodyC))
-  {}
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(FuncMeanProjectionBodyC,FuncMeanProjectionC,FunctionC);
 
 }

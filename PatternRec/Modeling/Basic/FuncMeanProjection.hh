@@ -75,13 +75,22 @@ namespace RavlN {
     FuncMeanProjectionC(const VectorC &mean,const MatrixC &proj)
       : FunctionC(*new FuncMeanProjectionBodyC(mean,proj))
     {}
-    //: Construct from a a mean and a projection matrix.
+    //: Construct from a mean and a projection matrix.
     
     FuncMeanProjectionC(istream &is);
     //: Stream constructor.
     
     FuncMeanProjectionC(BinIStreamC &is);
     //: Stream constructor.
+    
+    FuncMeanProjectionC(const FunctionC &func)
+      : FunctionC(func)
+    {
+      if(dynamic_cast<FuncMeanProjectionBodyC *>(&FunctionC::Body()) == 0)
+	Invalidate();
+    }
+    //: Attempt to create handle from base class.
+    // If object is not a FuncMeanProjectionC, an invalid handle will be created.
     
   protected:
     FuncMeanProjectionC(FuncMeanProjectionBodyC &bod)
