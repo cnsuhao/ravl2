@@ -36,6 +36,13 @@ namespace RavlGUIN {
     return StringC(gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(widget)->entry)));
   }
   
+  //: Clear all entries from combo list.
+
+  bool ComboBodyC::Clear() {
+    Manager.Queue(Trigger(ComboC(*this),&ComboC::GUIClear));
+    return true;
+  }
+
   //: Add new entry to combo list.
   
   bool ComboBodyC::AddEntry(StringC &opt) {
@@ -50,6 +57,24 @@ namespace RavlGUIN {
     return true;
   }
   
+  //: Clear all entries from combo list
+  // Call on the GUI thread only.
+  
+  bool ComboBodyC::GUIClear() {
+    if(widget == 0)
+      return true;
+    if(GTK_COMBO(widget)->list == 0)
+      return true;
+    // Disable signals
+    allowsignals = false;
+    // Clear list
+    gtk_list_clear_items(GTK_LIST (GTK_COMBO(widget)->list),0,-1);
+    // Re-enable signals
+    allowsignals = true;
+    // Done
+    return true;
+  }
+
   //: Add new entry to combo list.
   // Call on the GUI thread only.
   

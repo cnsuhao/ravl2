@@ -43,11 +43,18 @@ namespace RavlGUIN {
     //: Get currently selected string.
     // Should only be called by the GUI thread !
     
+    bool Clear();
+    //: Clear all entries from combo list.
+
     bool AddEntry(StringC &opt);
     //: Add new entry to combo list.
 
     bool DelEntry(StringC &opt);
     //: Add new entry to combo list.
+
+    bool GUIClear();
+    //: Clear all entries from combo list.
+    // Call on the GUI thread only.
 
     bool GUIAddEntry(StringC &opt);
     //: Add new entry to combo list.
@@ -132,6 +139,10 @@ namespace RavlGUIN {
     //: Get currently selected string.
     // Should only be called by the GUI thread !
     
+    bool Clear()
+    { return Body().Clear(); }
+    //: Clear all entries from combo list.
+
     bool AddEntry(StringC &opt)
     { return Body().AddEntry(opt); }
     //: Add new entry to combo list.
@@ -139,6 +150,11 @@ namespace RavlGUIN {
     bool DelEntry(StringC &opt)
     { return Body().DelEntry(opt); }
     //: Add new entry to combo list.
+
+    bool GUIClear()
+    { return Body().GUIClear(); }
+    //: Clear all entries from combo list.
+    // Call on the GUI thread only.
 
     bool GUIAddEntry(StringC &opt)
     { return Body().GUIAddEntry(opt); }
