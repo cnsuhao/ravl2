@@ -49,9 +49,10 @@ namespace RavlN {
     KeyT key;
     DataT data;
   };
-
+  
   //! userlevel=Develop
-  //: Hash table.
+  //: Branching hash table.
+  // This behaves as a non-refrence counted object.
   
   template<class KeyT,class DataT>
   class BHashC {
@@ -60,6 +61,12 @@ namespace RavlN {
       : entries(0)
     {}
     //: Default constructor.
+
+    BHashC(const BHashC<KeyT,DataT> &oth)
+      : table(oth.table.Copy()),
+	entries(oth.entries)
+    {}
+    //: Copy constructor.
     
     bool Lookup(const KeyT &key,DataT &data);
     //: Lookup 'key' in hash table.
@@ -74,12 +81,15 @@ namespace RavlN {
     //: Copy table.
     // Since this is a small object, its a trivial operation.
     
-    DataT &operator[](const KeyT &key);
+    const DataT &operator[](const KeyT &key);
     //: Array style access.
     
     bool IsEmpty() const;
     //: Test if hash table is empty.
-
+    
+    bool IsElm(const KeyT &key) const;
+    //: Is 'key' an key in the table ?
+    
     UIntT Size() const
     { return entries; }
     //: Return the number of entries in the table.
@@ -106,6 +116,17 @@ namespace RavlN {
   }
   
   template<class KeyT,class DataT>
+  bool BHashC<KeyT,DataT>::IsElm(const KeyT &key) const {
+    if(table.Size() == 0)
+      return false;
+    for(BListIterC<BHashEntryC<KeyT,DataT> > it(table[StdHash(key) % table.Size()]);it;it++) {
+      if(it.Data().Key() == key)
+	return true;
+    }
+    return false;
+  }
+  
+  template<class KeyT,class DataT>
   bool BHashC<KeyT,DataT>::Lookup(const KeyT &key,DataT &data) {
     if(table.Size() == 0)
       return 0;
@@ -127,16 +148,14 @@ namespace RavlN {
   }
   
   template<class KeyT,class DataT>
-  DataT &BHashC<KeyT,DataT>::operator[](const KeyT &key) {
+  const DataT &BHashC<KeyT,DataT>::operator[](const KeyT &key) {
     if(table.Size() == 0)
       table = SArray1dC<BListC<BHashEntryC<KeyT,DataT> > >(7);
     BListC<BHashEntryC<KeyT,DataT> > &list =  table[StdHash(key) % table.Size()];
     for(BListIterC<BHashEntryC<KeyT,DataT> > it(list);it;it++)
       if(it.Data().Key() == key)
 	return it.Data().Data();
-    DataT data;
-    list.InsFirst(BHashEntryC<KeyT,DataT>(key,data) );
-    return list.First().Data();
+    throw ExceptionOutOfRangeC("Attempt to access item not in BHashC. ");
   }
   
   template<class KeyT,class DataT>

@@ -95,6 +95,11 @@ int testBHash() {
     if(x != (UIntT) i) return __LINE__;
   }
   if(table.Lookup(10,x)) return __LINE__;
+  
+  BHashC<int,UIntT> table2(table);
+  if(table[0] != 0) return __LINE__;
+  table2.Insert(0,1);
+  if(table[0] != 0) return __LINE__;
   return 0;
 }
 
