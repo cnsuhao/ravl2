@@ -518,12 +518,16 @@ namespace RavlN {
   CallMethod0C<ObjT,RetT> 
   Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)())
   { return CallMethod0C<ObjT,RetT>(const_cast<ObjT &>(nobj),nfunc); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class DataT,class RetT>
   inline
   CallMethod1C<ObjT,DataT,RetT> 
   Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT),const typename TraitsC<DataT>::BaseTypeT &defaultArg)
   { return CallMethod1C<ObjT,DataT,RetT>(const_cast<ObjT &>(nobj),nfunc,defaultArg); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class RetT>
   inline
@@ -533,6 +537,8 @@ namespace RavlN {
 	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2
 	  )
   { return CallMethod2C<ObjT,Data1T,Data2T,RetT>(nobj,nfunc,defaultArg1,defaultArg2); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class RetT>
   inline
@@ -543,6 +549,8 @@ namespace RavlN {
 	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3
 	  )
   { return CallMethod3C<ObjT,Data1T,Data2T,Data3T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class RetT>
   inline
@@ -554,6 +562,8 @@ namespace RavlN {
 	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4
 	  )
   { return CallMethod4C<ObjT,Data1T,Data2T,Data3T,Data4T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
 
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class RetT>
   inline
@@ -566,7 +576,9 @@ namespace RavlN {
 	  const typename TraitsC<Data5T>::BaseTypeT &defaultArg5
 	  )
   { return CallMethod5C<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }
-  
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  //:-
   // Refrence methods.
   
   template<class ObjT,class RetT>
@@ -574,12 +586,16 @@ namespace RavlN {
   CallMethod0C<ObjT &,RetT> 
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)())
   { return CallMethod0C<ObjT &,RetT>(nobj,nfunc); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class DataT,class RetT>
   inline
   CallMethod1C<ObjT &,DataT,RetT> 
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT),const typename TraitsC<DataT>::BaseTypeT &defaultArg)
   { return CallMethod1C<ObjT &,DataT,RetT>(nobj,nfunc,defaultArg); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class RetT>
   inline
@@ -589,6 +605,8 @@ namespace RavlN {
 	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2
 	  )
   { return CallMethod2C<ObjT &,Data1T,Data2T,RetT>(nobj,nfunc,defaultArg1,defaultArg2); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class RetT>
   inline
@@ -599,6 +617,8 @@ namespace RavlN {
 	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3
 	  )
   { return CallMethod3C<ObjT &,Data1T,Data2T,Data3T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class RetT>
   inline
@@ -610,6 +630,8 @@ namespace RavlN {
 	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4
 	  )
   { return CallMethod4C<ObjT &,Data1T,Data2T,Data3T,Data4T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
 
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class RetT>
   inline
@@ -622,6 +644,8 @@ namespace RavlN {
 	  const typename TraitsC<Data5T>::BaseTypeT &defaultArg5
 	  )
   { return CallMethod5C<ObjT &,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
 #else
   
@@ -630,12 +654,16 @@ namespace RavlN {
   CallMethod0C<ObjT,bool> 
   Trigger(const ObjT &nobj,bool (ObjT::*nfunc)())
   { return CallMethod0C<ObjT,bool>(const_cast<ObjT &>(nobj),nfunc); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class DataT>
   inline
   CallMethod1C<ObjT,DataT,bool> 
   Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT),const typename TraitsC<DataT>::BaseTypeT &defaultArg)
   { return CallMethod1C<ObjT,DataT,bool>(const_cast<ObjT &>(nobj),nfunc,defaultArg); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T>
   inline
@@ -645,6 +673,8 @@ namespace RavlN {
 	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2
 	  )
   { return CallMethod2C<ObjT,Data1T,Data2T,bool>(nobj,nfunc,defaultArg1,defaultArg2); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T>
   inline
@@ -655,6 +685,8 @@ namespace RavlN {
 	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3
 	  )
   { return CallMethod3C<ObjT,Data1T,Data2T,Data3T,bool>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T>
   inline
@@ -666,6 +698,8 @@ namespace RavlN {
 	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4
 	  )
   { return CallMethod4C<ObjT,Data1T,Data2T,Data3T,Data4T,bool>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
 
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T>
   inline
@@ -677,8 +711,10 @@ namespace RavlN {
 	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4,
 	  const typename TraitsC<Data5T>::BaseTypeT &defaultArg5
 	  )
-  { return CallMethod5C<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,bool>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }
-  
+  { return CallMethod5C<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,bool>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }  
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  //:-
   // Refrence methods.
   
   template<class ObjT>
@@ -686,12 +722,16 @@ namespace RavlN {
   CallMethod0C<ObjT &,bool> 
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)())
   { return CallMethod0C<ObjT &,bool>(nobj,nfunc); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class DataT>
   inline
   CallMethod1C<ObjT &,DataT,bool> 
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT),const typename TraitsC<DataT>::BaseTypeT &defaultArg)
   { return CallMethod1C<ObjT &,DataT,bool>(nobj,nfunc,dat); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T>
   inline
@@ -701,6 +741,8 @@ namespace RavlN {
 	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2
 	  )
   { return CallMethod2C<ObjT &,Data1T,Data2T,bool>(nobj,nfunc,defaultArg1,defaultArg2); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T>
   inline
@@ -711,6 +753,8 @@ namespace RavlN {
 	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3
 	  )
   { return CallMethod3C<ObjT &,Data1T,Data2T,Data3T,bool>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T>
   inline
@@ -722,6 +766,8 @@ namespace RavlN {
 	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4
 	  )
   { return CallMethod4C<ObjT &,Data1T,Data2T,Data3T,Data4T,bool>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T>
   inline
@@ -734,6 +780,8 @@ namespace RavlN {
 	  const typename TraitsC<Data5T>::BaseTypeT &defaultArg5
 	  )
   { return CallMethod5C<ObjT &,Data1T,Data2T,Data3T,Data4T,Data5T,bool>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }
+  //: Create a call 
+  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
 
 #endif
 
