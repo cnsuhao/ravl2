@@ -16,8 +16,11 @@
 
 namespace RavlImageN {
 
+  //! userlevel=develop
+
+
   //: Computes interframe homographies in an image sequence.
-  // Uses corner tracker to identify suitable features in order to register successive images.
+  // Body for TrackingHomogC
 
   class TrackingHomogBodyC
     : public RCBodyVC
@@ -57,9 +60,12 @@ namespace RavlImageN {
     void Reset(const ImageC<ByteT> &img)
       { last = tracker.Apply(img); }
     //: Initialise the tracker with first image
+    // <b>Must</b> be called before Apply() is used
 
     Matrix3dC Apply(const ImageC<ByteT> &img);
     //: Compute homography between "img" and previous one
+    // The result will map pixels from the previous image into the corresponding location in the current image.
+
 
   protected:
     PointTrackerC tracker;
@@ -74,8 +80,12 @@ namespace RavlImageN {
 
   };
   
-  //! userlevel=normal
-  //: Handle for TrackingHomogBodyC
+  //! userlevel=Normal
+
+  //: Computes interframe homographies in an image sequence.
+  // <p>Uses corner tracker to identify suitable features in order to register successive images.</p>
+  // <p>The homography will map pixels from the previous image into the corresponding location in the current image.  Thus consecutive homographies <i>must</i> be combined in this order:</p>
+  //<pre>    Htotal = Hn. ... .H3.H2.H1</pre>
   //!cwiz:author
   
   class TrackingHomogC
@@ -117,11 +127,13 @@ namespace RavlImageN {
     void Reset(const ImageC<ByteT> & img) 
     { Body().Reset(img); }
     //: Initialise the tracker with first image 
+    // <b>Must</b> be called before Apply() is used
     //!cwiz:author
     
     Matrix3dC Apply(const ImageC<ByteT> & img) 
     { return Body().Apply(img); }
     //: Compute homography between "img" and previous one 
+    // The result will map pixels from the previous image into the corresponding location in the current image.
     //!cwiz:author
     
   protected:
