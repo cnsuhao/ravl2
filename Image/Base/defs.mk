@@ -16,10 +16,10 @@ HEADERS=ImageRectangle.hh Image.hh RGBValue.hh RGBAValue.hh YUVValue.hh \
  ByteRGBMedian.hh RealRGBAverage.hh  ScaleValues.hh Reflect.hh \
  Deinterlace.hh VYUValue.hh ByteVYUValue.hh DrawFrame.hh DrawCross.hh DrawMask.hh \
  Font.hh PSFFont.h DrawLine.hh DrawCircle.hh DrawPolygon.hh RealHSVValue.hh FixedPointHSVValue.hh \
- BilinearInterpolation.hh
+ BilinearInterpolation.hh ImageConv.hh
 
 SOURCES=ImageRectangle.cc Image.cc ByteRGBValue.cc ByteYUVValue.cc RealRGBValue.cc \
- RealYUVValue.cc RGBcYUV.cc Font.cc
+ RealYUVValue.cc RGBcYUV.cc Font.cc ImageConv.cc ImageConv2.cc ImageConv3.cc
 
 PLIB=RavlImage
 
