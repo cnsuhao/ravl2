@@ -32,6 +32,7 @@ namespace RavlN {
   
   class DPPortC;
   class StringC;
+  template<class DataT> class DListC;
   
   //! userlevel=Normal
   //: Exception, Data Not Ready.
@@ -89,6 +90,30 @@ namespace RavlN {
     //: Set a stream attribute.
     // Returns false if the attribute name is unknown.
     // This is for handling stream attributes such as frame rate, and compression ratios.
+    
+    virtual bool GetAttr(const StringC &attrName,IntT &attrValue);
+    //: Get a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
+    
+    virtual bool SetAttr(const StringC &attrName,const IntT &attrValue);
+    //: Set a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
+    
+    virtual bool GetAttr(const StringC &attrName,RealT &attrValue);
+    //: Get a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
+    
+    virtual bool SetAttr(const StringC &attrName,const RealT &attrValue);
+    //: Set a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
+    
+    virtual bool GetAttrList(DListC<StringC> &list) const;
+    //: Get list of attributes available.
+    // This method will ADD all available attribute names to 'list'.
     
   protected:
     StringC portId; // Port ID, this can be accessed as the attribute 'id', defaults to empty string.
@@ -349,15 +374,15 @@ namespace RavlN {
     //: Is this port connected to another ?
     // If not returns invalid handle.
     
+    StringC GetAttr(const StringC &attrName);
+    //: Get a stream attribute.
+    // Return the value of an attribute or an empty string if its unkown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
+    
     inline bool GetAttr(const StringC &attrName,StringC &attrValue)
     { return Body().GetAttr(attrName,attrValue); }    
     //: Get a stream attribute.
     // Returns false if the attribute name is unknown.
-    // This is for handling stream attributes such as frame rate, and compression ratios.
-    
-    StringC GetAttr(const StringC &attrName);
-    //: Get a stream attribute.
-    // Return the value of an attribute or an empty string if its unkown.
     // This is for handling stream attributes such as frame rate, and compression ratios.
     
     inline bool SetAttr(const StringC &attrName,const StringC &attrValue)
@@ -365,6 +390,34 @@ namespace RavlN {
     //: Set a stream attribute.
     // Returns false if the attribute name is unknown.
     // This is for handling stream attributes such as frame rate, and compression ratios.
+
+    inline bool GetAttr(const StringC &attrName,IntT &attrValue)
+    { return Body().GetAttr(attrName,attrValue); }
+    //: Get a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
+    
+    inline bool SetAttr(const StringC &attrName,const IntT &attrValue)
+    { return Body().SetAttr(attrName,attrValue); }
+    //: Set a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
+    
+    inline bool GetAttr(const StringC &attrName,RealT &attrValue)
+    { return Body().GetAttr(attrName,attrValue); }
+    //: Get a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
+    
+    inline bool SetAttr(const StringC &attrName,const RealT &attrValue)
+    { return Body().SetAttr(attrName,attrValue); }
+    //: Set a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
+    
+    inline bool GetAttrList(DListC<StringC> &list) const
+    { return Body().GetAttrList(list); }
+    //: Get list of attributes available.
     
   };
   

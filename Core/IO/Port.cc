@@ -11,6 +11,7 @@
 
 #include "Ravl/DP/Port.hh"
 #include "Ravl/String.hh"
+#include "Ravl/DList.hh"
 
 namespace RavlN {
   
@@ -62,6 +63,17 @@ namespace RavlN {
 #endif
     return false; 
   }
+
+  //: Get a stream attribute.
+  // Return the value of an attribute or an empty string if its unkown.
+  // This is for handling stream attributes such as frame rate, and compression ratios.
+  
+  StringC DPPortC::GetAttr(const StringC &attrName) { 
+    StringC ret;
+    if(!Body().GetAttr(attrName,ret))
+      return StringC();
+    return ret;
+  }
   
   //: Set a stream attribute.
   // Returns false if the attribute name is unknown.
@@ -81,19 +93,59 @@ namespace RavlN {
 #endif
     return false; 
   }
-
-
+  
   //: Get a stream attribute.
-  // Return the value of an attribute or an empty string if its unkown.
+  // Returns false if the attribute name is unknown.
   // This is for handling stream attributes such as frame rate, and compression ratios.
   
-  StringC DPPortC::GetAttr(const StringC &attrName) { 
-    StringC ret;
-    if(!Body().GetAttr(attrName,ret))
-      return StringC();
-    return ret;
+  bool DPPortBodyC::GetAttr(const StringC &attrName,IntT &attrValue) {
+    StringC value;
+    if(!GetAttr(attrName,value))
+      return false;
+    attrValue = value.IntValue();
+    return true;
+  }
+  
+  //: Set a stream attribute.
+  // Returns false if the attribute name is unknown.
+  // This is for handling stream attributes such as frame rate, and compression ratios.
+  
+  bool DPPortBodyC::SetAttr(const StringC &attrName,const IntT &attrValue) {
+    StringC value(attrValue);
+    return SetAttr(attrName,value);
+  }
+  
+  //: Get a stream attribute.
+  // Returns false if the attribute name is unknown.
+  // This is for handling stream attributes such as frame rate, and compression ratios.
+  
+  bool DPPortBodyC::GetAttr(const StringC &attrName,RealT &attrValue) {
+    StringC value;
+    if(!GetAttr(attrName,value))
+      return false;
+    attrValue = value.RealValue();
+    return true;
+  }
+  
+  //: Set a stream attribute.
+  // Returns false if the attribute name is unknown.
+  // This is for handling stream attributes such as frame rate, and compression ratios.
+
+  bool DPPortBodyC::SetAttr(const StringC &attrName,const RealT &attrValue) {
+    StringC value(attrValue);
+    return SetAttr(attrName,value);
   }
 
+  //: Get list of attributes available.
+  
+  bool DPPortBodyC::GetAttrList(DListC<StringC> &list) const {
+    DPPortC parent = ConnectedTo();
+    // Try pasing it back along the processing chain.
+    if(parent.IsValid())
+      parent.GetAttrList(list);
+    return true;
+  }
+  
   /////////////////////////////////////////////////////////
   
   // Input type.
