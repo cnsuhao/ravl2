@@ -19,6 +19,12 @@ using namespace RavlN;
 int testTFVector();
 int testPair();
 
+template class TFVectorC<ByteT,1>;
+template class TFVectorC<IntT,2>;
+template class TFVectorC<RealT,3>;
+template class PairC<IntT>;
+template class FIndexC<3>;
+
 int main(int nargs,char **argv) {
   int ln;
   if((ln = testTFVector()) != 0) {
@@ -68,9 +74,3 @@ int testTFVector() {
   return 0;
 }
 
-
-template class TFVectorC<SByteT,1>;
-template class TFVectorC<IntT,2>;
-template class TFVectorC<RealT,3>;
-template class PairC<IntT>;
-template class FIndexC<3>;

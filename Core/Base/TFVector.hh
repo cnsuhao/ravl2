@@ -179,6 +179,9 @@ namespace RavlN {
     inline DataT SqrEuclidDistance(const TFVectorC<DataT,N> & i) const;
     //: Returns the distance of two indexes in square Euclid metric.
     
+    DataT Sum() const;
+    //: Calculate the sum of all the vector elements.
+    
     DataT SumSqr() const;
     //: Calculate the sum of the squares of all the vector elements.
     
@@ -449,8 +452,15 @@ namespace RavlN {
       ret += RavlN::Sqr(data[i] - o[i]);
     return ret;
   }
-
-  //: Calculate the sum of the squares of all the vector elements.
+  
+  template<class DataT,unsigned int N>
+  inline
+  DataT TFVectorC<DataT,N>::Sum() const {
+    DataT ret = StdCopy(data[0]);
+    for(UIntT i = 1;i<N;i++)
+      ret += data[i];
+    return ret;
+  }
   
   template<class DataT,unsigned int N>
   inline
