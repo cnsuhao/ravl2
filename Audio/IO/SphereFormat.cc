@@ -47,7 +47,7 @@ namespace RavlAudioN {
       return typeid(void);
     if(formatName != "NIST_1A")
       return typeid(void);
-    return typeid(Int16T);
+    return typeid(SampleElemC<1,Int16T>);
   }
   
   const type_info &
@@ -74,8 +74,8 @@ namespace RavlAudioN {
   {
     ONDEBUG(cerr << "FileFormatSphereBodyC::CreateInput(const StringC &,const type_info &), Called. \n");
     int channel = 0;
-    if(obj_type == typeid(Int16T)) {
-      DPIAudioC<Int16T,SphereBaseC> ret(filename,channel);
+    if(obj_type == typeid(SampleElemC<1,Int16T>)) {
+      DPIAudioC< SampleElemC<1,Int16T> ,SphereBaseC> ret(filename,channel);
       if(!ret.IsGetEOS()) // Did open succeed ?
 	return ret;
     }
@@ -101,7 +101,7 @@ namespace RavlAudioN {
   //: Get prefered IO type.
   
   const type_info &FileFormatSphereBodyC::DefaultType() const 
-  { return typeid(Int16T); }
+  { return typeid(SampleElemC<1,Int16T>); }
   
   // Some common cif formats.
   
