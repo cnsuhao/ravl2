@@ -50,7 +50,7 @@ namespace RavlN {
     {}
     //: Body constructor.
     
-    RCHandleVC(BodyT *bod)
+    RCHandleVC(const BodyT *bod)
       : RCHandleC<BodyT>(bod)
     {}
     //: Construct from a body pointer.
@@ -63,16 +63,6 @@ namespace RavlN {
     BodyT &Body()
     { return RCHandleC<BodyT>::Body(); }
     //: Constant access to body of object.
-    
-    BodyT *BodyPtr()
-    { return RCHandleC<BodyT>::BodyPtr(); }
-    //: Access body pointer.
-    // Used in upcasting.
-    
-    const BodyT *BodyPtr() const
-    { return RCHandleC<BodyT>::BodyPtr(); }
-    //: Access body pointer.
-    // Used in upcasting.
     
   public:
 

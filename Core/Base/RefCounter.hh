@@ -191,8 +191,8 @@ namespace RavlN {
     { body->IncRefCounter(); }
     //: Body constructor.
     
-    RCHandleC(BodyT *bod)
-      : body(bod)
+    RCHandleC(const BodyT *bod)
+      : body(const_cast<BodyT *>(bod))
     { if(body != 0) body->IncRefCounter(); }
     //: Body base constructor.
     // This is used where the body may be a null ptr, such as
@@ -225,6 +225,14 @@ namespace RavlN {
     { return body; }
     //: Access body pointer.
     // Used in upcasting.
+    
+    BodyT *BodyPtr(RCHandleC<BodyT> &bod)
+    { return bod.body; }
+    //: Access body point from a derived class.
+    
+    const BodyT *BodyPtr(const RCHandleC<BodyT> &bod)
+    { return bod.body; }
+    //: Access body point from a derived class.
   public:
     UIntT References() const
     { return Body().References(); }

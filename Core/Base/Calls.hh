@@ -98,11 +98,10 @@ namespace RavlN {
     // Creates an invalid handle.
     
     CallFunc0C(const TriggerC &trig,bool invalidOk = false)
-      : TriggerC(trig)
+      : TriggerC(dynamic_cast<const CallFunc0BodyC<RetT> *>(BodyPtr(trig)))
     {
-      if(dynamic_cast<CallFunc0BodyC<RetT> *>(TriggerC::BodyPtr()) == 0) {
+      if(!IsValid()) {
 	RavlAlwaysAssertMsg(invalidOk,"Casting to incorrect function type. ");
-	Invalidate();
       }
     }
     //: Convert from a base handle.
