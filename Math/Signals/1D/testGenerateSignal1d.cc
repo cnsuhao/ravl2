@@ -35,7 +35,7 @@ int main() {
 }
 
 int testGauss() {
-  Array1dC<RealT> res = GenerateGuass1d(1,0);
+  Array1dC<RealT> res = GenerateGauss1d(1,0);
   if(res.Size() != 5) return __LINE__;
   if(Abs(res[0] - 0.398942) > 0.00001) return __LINE__;
   return 0;
@@ -44,7 +44,7 @@ int testGauss() {
 int testBinomial() {
   // Test with real.
   {
-    Array1dC<RealT> res = GenerateBinomial(1.0,5);
+    Array1dC<RealT> res = GenerateBinomial<RealT>(5);
     //cerr << res;
     if(res.Size() != 5) return __LINE__;
     if(res[0] != 1) return __LINE__;
@@ -53,12 +53,12 @@ int testBinomial() {
     if(res[3] != 4) return __LINE__;
     if(res[4] != 1) return __LINE__;
     
-    res = GenerateBinomial(1.0,5,false,true);
+    res = GenerateBinomial<RealT>(5,false,true);
     if(res[0] != 6) return __LINE__;
     //cerr << res;
   }
   {
-    Array1dC<IntC> res = GenerateBinomial((IntC) 1,5);
+    Array1dC<IntC> res = GenerateBinomial<IntC>(5);
     //cerr << res;
     if(res.Size() != 5) return __LINE__;
     if(res[0] != 1) return __LINE__;
@@ -67,7 +67,7 @@ int testBinomial() {
     if(res[3] != 4) return __LINE__;
     if(res[4] != 1) return __LINE__;
     
-    res = GenerateBinomial((IntC) 1,5,false,true);
+    res = GenerateBinomial<IntC>(5,false,true);
     if(res[0] != 6) return __LINE__;
     //cerr << res;
   }

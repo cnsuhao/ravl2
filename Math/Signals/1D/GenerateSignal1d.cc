@@ -14,12 +14,13 @@
 #include "Ravl/GenerateSignal1d.hh"
 #include "Ravl/Array1dIter.hh"
 #include "Ravl/RandomGauss.hh"
+#include "Ravl/Assert.hh"
 
 namespace RavlN {
 
   //: Generate a 1-d guassian curve.
   
-  Array1dC<RealT> GenerateGuass1d(RealT sigma,RealT mean,RealT scale,RealT size) {
+  Array1dC<RealT> GenerateGauss1d(RealT sigma,RealT mean,RealT scale,RealT size) {
     IntT s = Round(mean - size * sigma);
     IntT e = Round(mean + size * sigma);
     RavlAssert(s <= e);
@@ -30,13 +31,13 @@ namespace RavlN {
     return ret;
   }
   
-  Array1dC<RealT> GenerateRandomGuass1d(SizeT size,RealT stdDeviation,RealT mean) {
+  Array1dC<RealT> GenerateRandomGauss1d(SizeT size,RealT stdDeviation,RealT mean) {
     Array1dC<RealT> ret(size);
     for (Array1dIterC<RealT> it(ret);it;it++)
       *it = stdDeviation * RandomGauss() + mean;
     return ret;
   }
-  //: Generate a 1-d guassian curve.
+  //: Generate a 1-d Gaussian curve.
 
 
 }
