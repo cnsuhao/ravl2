@@ -170,9 +170,7 @@ namespace RavlN {
       ONDEBUG(cerr << " Looking for '" << name << "'\n");
       opErrno = 0;
 #if RAVL_OS_LINUX
-      int error = gethostbyname_r(name,&ent,hostentData,buffSize,&result, &opErrno);
-      //cerr << " Result:" << ((void *) result) << " " << opErrno << "\n";
-      if(!error && (opErrno == 0 && result != 0))
+      if(gethostbyname_r(name,&ent,hostentData,buffSize,&result, &opErrno) == 0 && result != 0)
 	break;
 #elif RAVL_OS_OSF
       if((gethostbyname_r(name,&ent,(struct hostent_data *) hostentData)) != 0) {
