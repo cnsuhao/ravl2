@@ -21,7 +21,7 @@
 
 namespace RavlN {
 
-  //: SArray1d iterator.
+  //: SArray1d reverse iterator.
   // Fast simple array iterator.
   
   template<class DataT>
