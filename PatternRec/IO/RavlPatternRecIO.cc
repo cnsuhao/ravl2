@@ -9,6 +9,10 @@
 //! file="Ravl/PatternRec/IO/RavlPatternRecIO.cc"
 
 namespace RavlN {
+  
+  extern void InitRavlClassifierLinearCombinationIO();
+  extern void InitRavlClassifierWeakLinearIO();
+  
   extern void InitRavlSampleIO();
   extern void InitRavlDataSetIO();
   extern void InitRavlClassifierIO();
@@ -23,5 +27,10 @@ namespace RavlN {
     InitRavlFunctionIO();
     InitRavlGaussianMixtureIO();
     InitRavlDistanceIO();
+    
+    // Make sure these get linked.
+    
+    InitRavlClassifierLinearCombinationIO();
+    InitRavlClassifierWeakLinearIO();
   }
 }
