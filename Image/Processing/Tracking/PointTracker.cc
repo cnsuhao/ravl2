@@ -142,6 +142,8 @@ namespace RavlImageN {
     
     for(DLIterC<CornerC> it(cl);it;it++) {
       IndexRange2dC fr(it->Location(),mwidth,mwidth);
+      if(!img.Frame().Contains(fr))
+         continue;
       Array2dC<ByteT> templ(img,fr,Index2dC(-mwidth/2,-mwidth/2));
       tracks.InsLast(PointTrackModelC(idAlloc++,it->Location(),frameCount,templ));
       ONDEBUG(DrawFrame(timg,(ByteT) 255,IndexRange2dC(it->Location(),mwidth,mwidth)));
