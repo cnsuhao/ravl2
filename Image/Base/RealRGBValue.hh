@@ -28,7 +28,7 @@ namespace RavlImageN {
   {
   public:
     RealRGBValueC()
-      {}
+    {}
     //: Default constructor.
     // creates an undefined RGB pixel.
 
@@ -39,12 +39,12 @@ namespace RavlImageN {
     
     RealRGBValueC(RealT r,RealT g, RealT b)
       : RGBValueC<RealT>(r,g,b)
-      {}
+    {}
     //: Construct from components.
     
     RealRGBValueC(const RGBValueC<RealT> &oth)
       : RGBValueC<RealT>(oth)
-      {}
+    {}
     //: Default constructor.
     // creates an undefined RGB pixel.
     

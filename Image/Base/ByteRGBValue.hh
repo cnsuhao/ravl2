@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLBYTERGBVALUE_HEADER
-#define RAVLBYTERGBVALUE_HEADER 1
+#ifndef RAVL_BYTERGBVALUE_HEADER
+#define RAVL_BYTERGBVALUE_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/Base/ByteRGBValue.hh"
@@ -37,12 +37,12 @@ namespace RavlImageN {
     
     ByteRGBValueC(const RGBValueC<ByteT> &oth)
       : RGBValueC<ByteT>(oth)
-      {}
+    {}
     //: Default constructor.
     // creates an undefined RGB pixel.
     
     ByteT Y() const
-      { return (ByteT)( ((int) data[0] + (int)data[1] + (int)data[2])/3); }
+    { return (ByteT)( ((int) data[0] + (int)data[1] + (int)data[2])/3); }
     //: Calculate intensity of the pixel.
     // This returns the average of the red, green
     // and blue components.
