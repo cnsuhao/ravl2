@@ -104,6 +104,12 @@ namespace RavlImageN {
     //: Mix operator
     // Adds a new pixel to the collection and finds the new median value
 
+    ByteRGBMedianC& operator+=(const ByteRGBValueC &pix) {
+      Combine(pix);
+      return *this;
+    }
+    //: Add another value to the collection
+
   public:
     CollectionC<ByteRGBGreyValueC> pixels;
   };
