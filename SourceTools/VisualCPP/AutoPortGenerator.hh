@@ -23,7 +23,7 @@ namespace RavlN {
     : public TemplateComplexBodyC
   {
   public:
-    AutoPortGeneratorBodyC(AutoPortSourceC &src,StringC &templ,StringC &output);
+    AutoPortGeneratorBodyC(AutoPortSourceC &src,StringC &templ,StringC &output,const StringC &projectOut);
     //: Constructor.
     
     bool BuildFiles();
@@ -142,6 +142,8 @@ namespace RavlN {
     StringC filePattern;
     StringC fileObject;
     StringC outputDir;
+    StringC projectOut;
+    
     AutoPortSourceC src; // Info about source.
   };
   
@@ -157,8 +159,8 @@ namespace RavlN {
     //: Default constructor.
     // creates an invalid handle.
 
-    AutoPortGeneratorC(AutoPortSourceC &src,StringC &templ,StringC &output)
-      : TemplateComplexC(*new AutoPortGeneratorBodyC(src,templ,output))
+    AutoPortGeneratorC(AutoPortSourceC &src,StringC &templ,StringC &output,const StringC &projectOut)
+      : TemplateComplexC(*new AutoPortGeneratorBodyC(src,templ,output,projectOut))
     {}
     //: Constructor.
     

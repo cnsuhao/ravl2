@@ -22,9 +22,10 @@ namespace RavlN {
   
   //: Constructor
   
-  AutoPortGeneratorBodyC::AutoPortGeneratorBodyC(AutoPortSourceC &nsrc,StringC &templLoc,StringC &noutput) 
+  AutoPortGeneratorBodyC::AutoPortGeneratorBodyC(AutoPortSourceC &nsrc,StringC &templLoc,StringC &noutput,const StringC &_projectOut) 
     : TemplateComplexBodyC(templLoc),
       outputDir(noutput),
+      projectOut(_projectOut),
       src(nsrc)
   {
     Init();
@@ -91,6 +92,15 @@ namespace RavlN {
     if(varname == "pathname") { // Get the path to the file.
       buff = FilenameC(CurFilename()).PathComponent();
       return true;
+    }
+    if(varname == "ProjectOut") {
+      buff = projectOut;
+    }
+    if(varname == "Back_ProjectOut") {
+      if(!projectOut.IsEmpty() && projectOut[0] == '.') // Relative path.
+	buff = StringC("../") + projectOut;
+      else
+	buff = projectOut;
     }
     if(TemplateComplexBodyC::Lookup(varname,buff))
       return true;

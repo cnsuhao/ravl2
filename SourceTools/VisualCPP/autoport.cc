@@ -34,7 +34,7 @@ using namespace RavlN;
 #define PROJECT_OUT "."
 #endif
 
-void BuildTemplates(StringC &templFile,AutoPortSourceC &src,StringC &outFile) {
+void BuildTemplates(StringC &templFile,AutoPortSourceC &src,StringC &outFile,const StringC &projectOut) {
   if(FilenameC(templFile).IsDirectory()) {
     cout << "Processing templates in :'" << templFile << "'\n";
     DirectoryC dir(templFile);
@@ -42,24 +42,26 @@ void BuildTemplates(StringC &templFile,AutoPortSourceC &src,StringC &outFile) {
     for(DLIterC<StringC> it(fl);it;it++) {
       StringC subDir = dir + filenameSeperator + *it;
       ONDEBUG(cerr << "Templates in :'" << subDir << "'\n");
-      BuildTemplates(subDir,src,outFile);
+      BuildTemplates(subDir,src,outFile,projectOut);
     }
     return;
   }
   cout << "Processing template file : '" << templFile << "'\n";
-  AutoPortGeneratorC fg(src,templFile,outFile);
+  AutoPortGeneratorC fg(src,templFile,outFile,projectOut);
   fg.BuildFiles();
 }
 
 // -----------------------------------------------------------------------------
 
 int main(int nargs,char **argv) {
-
+  
   OptionC option(nargs,argv,true);
 
   StringC fn    = option.String("i",".",     "(input)  Directory for unix src tree. ");
   StringC fout  = option.String("o","",      "(output) Directory for VCPP src tree.  ");
   StringC pathtempl= option.String("pt", PROJECT_OUT "/share/RAVL/AutoPort","Where to look for template files.");
+  StringC projectOut= option.String("p", "../ProjectOut","Project out to use in windows. (With UNIX style seperators)");
+  projectOut.gsub("/","\\");
   
   //bool rec    = option.Boolean("r",true,    "recurse into subdirectories. ");
   //bool all    = option.Boolean("a",false,   "Go into inactive directories as well. ");
@@ -72,7 +74,7 @@ int main(int nargs,char **argv) {
     portInfo.Dump();
     portInfo.SetVerbose(verb);
   }
-  BuildTemplates(pathtempl,portInfo,fout);
+  BuildTemplates(pathtempl,portInfo,fout,projectOut);
   return 0;
 }
 

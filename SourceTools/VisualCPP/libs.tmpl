@@ -32,10 +32,10 @@ RSC=rc.exe
 
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\ProjectOut\win32\opt\lib"
-# PROP Intermediate_Dir "..\ProjectOut\win32\opt\obj"
+# PROP Output_Dir "$(ProjectOut)\win32\opt\lib"
+# PROP Intermediate_Dir "$(ProjectOut)\win32\opt\obj"
 # PROP Target_Dir ""
-# ADD CPP /nologo /W3 /GR /GX /O2 /I "..\ProjectOut\inc\Win32\" /I "..\ProjectOut\inc\" /D "NDEBUG" /D "_LIB" /D "VISUAL_CPP" /D "WIN32" /D "_MBCS" /YX /FD /TP /c
+# ADD CPP /nologo /W3 /GR /GX /MT /O2 /I "$(ProjectOut)\inc\Win32\" /I "$(ProjectOut)\inc\" /D "NDEBUG" /D "_LIB" /D "VISUAL_CPP" /D "WIN32" /D "_MBCS" /YX /FD /TP /c
 # ADD BASE RSC /l 0x809
 # ADD RSC /l 0x809 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -47,10 +47,10 @@ LIB32=link.exe -lib
 
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\ProjectOut\win32\debug\lib"
-# PROP Intermediate_Dir "..\ProjectOut\win32\debug\obj"
+# PROP Output_Dir "$(ProjectOut)\win32\debug\lib"
+# PROP Intermediate_Dir "$(ProjectOut)\win32\debug\obj"
 # PROP Target_Dir ""
-# ADD CPP /nologo /W3 /Gm /GR /GX /ZI /Od /I "..\ProjectOut\inc\Win32\" /I "..\ProjectOut\inc\" /D "_DEBUG" /D "VISUAL_CPP" /D "_LIB" /D "WIN32" /D "_MBCS" /YX /FD /TP /GZ /c
+# ADD CPP /nologo /W3 /Gm /GR /GX /ZI /Od /MTd /I "$(ProjectOut)\inc\Win32\" /I "$(ProjectOut)\inc\" /D "_DEBUG" /D "VISUAL_CPP" /D "_LIB" /D "WIN32" /D "_MBCS" /YX /FD /TP /GZ /c
 # ADD BASE RSC /l 0x809
 # ADD RSC /l 0x809 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -87,8 +87,8 @@ SOURCE=..\$(dos:$(srcfile))
 
 # Begin Custom Build - Install Header $(rootname)
 
-"..\ProjectOut\inc\$(dos:$(package))\$(rootname)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\$(dos:$(srcfile)) ..\ProjectOut\inc\$(dos:$(package))
+"$(ProjectOut)\inc\$(dos:$(package))\$(rootname)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy ..\$(dos:$(srcfile)) $(ProjectOut)\inc\$(dos:$(package))
 
 # End Custom Build
 
@@ -96,8 +96,8 @@ SOURCE=..\$(dos:$(srcfile))
 
 # Begin Custom Build - Install Header $(rootname)
 
-"..\ProjectOut\inc\$(dos:$(package))\$(rootname)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy ..\$(dos:$(srcfile)) ..\ProjectOut\inc\$(dos:$(package))
+"$(ProjectOut)\inc\$(dos:$(package))\$(rootname)" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	copy ..\$(dos:$(srcfile)) $(ProjectOut)\inc\$(dos:$(package))
 
 # End Custom Build
 
