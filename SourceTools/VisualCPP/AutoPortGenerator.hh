@@ -38,7 +38,7 @@ namespace RavlN {
     
     StringC &CurFilename() { 
       RavlAssert(!context.IsEmpty());
-      return context.Top().fileName; 
+      return context.Top().hdrInfo.Name(); 
     }
     //: Access info about current filename.
     
@@ -52,20 +52,26 @@ namespace RavlN {
     public:
       ContextC(const LibInfoC &li)
 	: libInfo(li),
-	  fileName(li.Name()),
+	  hdrInfo(li.Name()),
 	  ctype(1)
 	{}
       //: Constructor.
 
       ContextC(const ProgInfoC &pi)
 	: progInfo(pi),
-	  fileName(pi.Name()),
+	  hdrInfo(pi.Name()),
 	  ctype(2)
 	{}
       //: Constructor.
       
       ContextC(const StringC &s)
-	: fileName(s),
+	: hdrInfo(s,StringC(),s),
+	ctype(0)
+	{}
+      //: Constructor.
+
+      ContextC(const HeaderInfoC &hi)
+	: hdrInfo(hi),
 	  ctype(0)
 	{}
       //: Constructor.
@@ -79,18 +85,23 @@ namespace RavlN {
       }
       //: Access source list.
       
-      DListC<StringC> Headers() {
+      DListC<HeaderInfoC> Headers() {
 	switch(ctype) {
 	case 1: return libInfo.Headers();
 	  //case 2: return progInfo.Headers();
 	}
-	return DListC<StringC> ();
+	return DListC<HeaderInfoC> ();
       }
       //: Access source list.
       
+      HeaderInfoC &HeaderInfo() {
+	return hdrInfo;
+      }
+      //: Access header info.
+      
       LibInfoC libInfo;
       ProgInfoC progInfo;
-      StringC fileName;
+      HeaderInfoC hdrInfo;
       int ctype; // 0-file 1-lib 2-Prog 
     };
     

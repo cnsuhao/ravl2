@@ -41,6 +41,14 @@ namespace RavlN {
       buff = CurLibInfo().Name();
       return true;
     }
+    if(varname == "package") { // Package for header file.
+      buff = context.Top().HeaderInfo().Package();
+      return true;
+    }
+    if(varname == "srcfile") { // Source file for header.
+      buff = context.Top().HeaderInfo().SrcFile();
+      return true;
+    }
     if(varname == "target") {
       buff = target;
       return true;
@@ -119,22 +127,32 @@ namespace RavlN {
       return true;
     }
     // Source code.
-    if(typedata == "sources" || typedata == "headers") {
+    if(typedata == "sources") {
       if(!context.Top().libInfo.IsValid()) {
 	cerr << "ERROR: No lib context for 'forall:source'. \n";
 	return false;
       }
-      DListC<StringC> lst;
-      if(typedata == "sources")
-	lst = context.Top().Sources();
-      else
-	lst = context.Top().Headers();
+      DListC<StringC> lst = context.Top().Sources();
       for(DLIterC<StringC> it(lst);it;it++) {
 	context.Push(ContextC(*it));
 	BuildSub(subTextBuff);
 	context.DelTop();
       }	
       return true;
+    }
+    if(typedata == "headers") {
+      if(!context.Top().libInfo.IsValid()) {
+	cerr << "ERROR: No lib context for 'forall:header'. \n";
+	return false;
+      }
+      DListC<HeaderInfoC> lst = context.Top().Headers();
+      for(DLIterC<HeaderInfoC> it(lst);it;it++) {
+	context.Push(ContextC(*it));
+	BuildSub(subTextBuff);
+	context.DelTop();
+      }	
+      return true;
+      
     }
     // Programs.
     if(typedata == "mains" || typedata == "examples" || typedata == "tests") {
@@ -205,6 +223,7 @@ namespace RavlN {
 	Build(fn);	
 	context.DelTop();
       }
+      return true;
     }
     cerr << "Unknown file object : '" << fileObject << "'\n";
     return false;
