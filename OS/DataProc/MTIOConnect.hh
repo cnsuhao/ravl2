@@ -89,6 +89,11 @@ namespace RavlN {
     { Run(); }
     //: Constructor.
     
+    DPMTIOConnectBodyC(bool nuseIsGetReady = true,UIntT nblockSize = 1)
+      : DPMTIOConnectBaseBodyC(nuseIsGetReady,nblockSize)
+    {}
+    //: Constructor.
+    
 #if RAVL_CHECK
     ~DPMTIOConnectBodyC() 
     { cerr << "~DPMTIOConnectBodyC(), Called. Type:" << typeid(*this).name() << "\n"; }
@@ -187,6 +192,11 @@ namespace RavlN {
   public:
     DPMTIOConnectC(const DPIPortC<DataT> &from,const DPOPortC<DataT> &to,bool nuseIsGetReady = true,bool deleteable = true,UIntT blockSize = 1)
       : DPEntityC(*new DPMTIOConnectBodyC<DataT>(from,to,nuseIsGetReady,blockSize))
+    {}
+    //: Constructor.
+    
+    DPMTIOConnectC(bool nuseIsGetReady = true,UIntT blockSize = 1)
+      : DPEntityC(*new DPMTIOConnectBodyC<DataT>(nuseIsGetReady,blockSize))
     {}
     //: Constructor.
     
