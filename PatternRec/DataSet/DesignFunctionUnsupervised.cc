@@ -10,6 +10,27 @@
 #include "Ravl/PatternRec/DesignFunctionUnsupervised.hh"
 
 namespace RavlN {
+
+  //: Load from stream.
+  
+  DesignFunctionUnsupervisedBodyC::DesignFunctionUnsupervisedBodyC(istream &strm)
+    : DesignerBodyC(strm)
+  {}
+  //: Load from binary stream.
+  
+  DesignFunctionUnsupervisedBodyC::DesignFunctionUnsupervisedBodyC(BinIStreamC &strm)
+    : DesignerBodyC(strm)
+  {}
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DesignFunctionUnsupervisedBodyC::Save (ostream &out) const 
+  { return DesignerBodyC::Save(out); }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DesignFunctionUnsupervisedBodyC::Save (BinOStreamC &out) const 
+  { return DesignerBodyC::Save(out); }
   
   //: Create function from the given data.
   
@@ -24,5 +45,20 @@ namespace RavlN {
     RavlAssertMsg(0,"DesignFunctionUnsupervisedBodyC::Apply(const SampleC<VectorC> &,const SampleC<RealT> &), Abstract method called. \n");
     return FunctionC();
   }
+
+  ////////////////////////////////////////////////////////////////
+  
+  //: Load from stream.
+  
+  DesignFunctionUnsupervisedC::DesignFunctionUnsupervisedC(istream &strm)
+    : DesignerC(RAVL_VIRTUALCONSTRUCTOR(strm,DesignFunctionUnsupervisedBodyC))
+  {}
+  
+  //: Load from binary stream.
+  
+  DesignFunctionUnsupervisedC::DesignFunctionUnsupervisedC(BinIStreamC &strm)
+    : DesignerC(RAVL_VIRTUALCONSTRUCTOR(strm,DesignFunctionUnsupervisedBodyC))
+  {}
+
   
 }

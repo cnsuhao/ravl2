@@ -10,6 +10,30 @@
 #include "Ravl/PatternRec/DesignFunctionSupervised.hh"
 
 namespace RavlN {
+
+  //: Load from stream.
+  
+  DesignFunctionSupervisedBodyC::DesignFunctionSupervisedBodyC(istream &strm)
+    : DesignerBodyC(strm)
+  {}
+  
+  //: Load from binary stream.
+  
+  DesignFunctionSupervisedBodyC::DesignFunctionSupervisedBodyC(BinIStreamC &strm) 
+    : DesignerBodyC(strm)
+  {}
+  
+  //: Writes object to stream.
+  
+  bool DesignFunctionSupervisedBodyC::Save (ostream &out) const {
+    return DesignerBodyC::Save(out);
+  }
+  
+  //: Writes object to binary stream.
+  
+  bool DesignFunctionSupervisedBodyC::Save (BinOStreamC &out) const {
+    return DesignerBodyC::Save(out);
+  }
   
   //: Create function from the given data.
   
@@ -25,4 +49,18 @@ namespace RavlN {
     return FunctionC();
   }
   
+  ////////////////////////////////////////////////////////////////////
+  
+  //: Load from stream.
+  
+  DesignFunctionSupervisedC::DesignFunctionSupervisedC(istream &strm)
+    : DesignerC(RAVL_VIRTUALCONSTRUCTOR(strm,DesignFunctionSupervisedBodyC))
+  {}
+  
+  //: Load from binary stream.
+  
+  DesignFunctionSupervisedC::DesignFunctionSupervisedC(BinIStreamC &strm)
+    : DesignerC(RAVL_VIRTUALCONSTRUCTOR(strm,DesignFunctionSupervisedBodyC))
+  {}
+
 }

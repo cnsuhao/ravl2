@@ -11,6 +11,28 @@
 #include "Ravl/PatternRec/Designer.hh"
 
 namespace RavlN {
+
+  //: Load from stream.
+  
+  DesignerBodyC::DesignerBodyC(istream &strm)
+    : RCBodyVC(strm)
+  {}
+  
+  //: Load from binary stream.
+  
+  DesignerBodyC::DesignerBodyC(BinIStreamC &strm)
+    : RCBodyVC(strm)
+  {}
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DesignerBodyC::Save (ostream &out) const 
+  { return RCBodyVC::Save(out); }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DesignerBodyC::Save (BinOStreamC &out) const 
+  { return RCBodyVC::Save(out); }
   
   VectorC DesignerBodyC::Paramiters() {
     RavlAssertMsg(0,"DesignerBodyC::Paramiters(), Abstract method called. \n");
@@ -25,5 +47,20 @@ namespace RavlN {
   //: Set the current paramiters.
   // Returns the current paramiters, which may not be exactly those
   // set in 'params', but will be the closest legal values.
+  
+  ////////////////////////////////////////////////////////////////////
+  
+  //: Load from stream.
+  
+  DesignerC::DesignerC(istream &strm)
+    : RCHandleVC<DesignerBodyC>(RAVL_VIRTUALCONSTRUCTOR(strm,DesignerBodyC))
+  {}
+  
+  //: Load from binary stream.
+  
+  DesignerC::DesignerC(BinIStreamC &strm)
+    : RCHandleVC<DesignerBodyC>(RAVL_VIRTUALCONSTRUCTOR(strm,DesignerBodyC))
+  {}
 
+  
 }

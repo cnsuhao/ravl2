@@ -28,6 +28,18 @@ namespace RavlN {
     {}
     //: Default constructor.
     
+    DesignFunctionUnsupervisedBodyC(istream &strm);
+    //: Load from stream.
+    
+    DesignFunctionUnsupervisedBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
+
     virtual FunctionC Apply(const SampleC<VectorC> &in);
     //: Create function from the given data.
     
@@ -48,11 +60,22 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
+    DesignFunctionUnsupervisedC(istream &strm);
+    //: Load from stream.
+    
+    DesignFunctionUnsupervisedC(BinIStreamC &strm);
+    //: Load from binary stream.
+
   protected:
     DesignFunctionUnsupervisedC(DesignFunctionUnsupervisedBodyC &bod)
       : DesignerC(bod)
     {}
     //: Body constructor.
+    
+    DesignFunctionUnsupervisedC(DesignFunctionUnsupervisedBodyC *bod)
+      : DesignerC(bod)
+    {}
+    //: Body ptr constructor.
     
     DesignFunctionUnsupervisedBodyC &Body()
     { return static_cast<DesignFunctionUnsupervisedBodyC &>(DesignerC::Body()); }
@@ -72,6 +95,34 @@ namespace RavlN {
     //: Create function from the given data, and sample weights.
     
   };
+  
+  inline istream &operator>>(istream &strm,DesignFunctionUnsupervisedC &obj) {
+    obj = DesignFunctionUnsupervisedC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const DesignFunctionUnsupervisedC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,DesignFunctionUnsupervisedC &obj) {
+    obj = DesignFunctionUnsupervisedC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const DesignFunctionUnsupervisedC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
 
 }
 

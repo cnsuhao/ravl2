@@ -29,6 +29,18 @@ namespace RavlN {
     {}
     //: Default constructor.
 
+    DesignerBodyC(istream &strm);
+    //: Load from stream.
+    
+    DesignerBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream.
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to binary stream.
+    
     virtual VectorC Paramiters();
     //: Get the current paramiters.
 
@@ -52,11 +64,22 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
+    DesignerC(istream &strm);
+    //: Load from stream.
+    
+    DesignerC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
   protected:
     DesignerC(DesignerBodyC &bod)
       : RCHandleVC<DesignerBodyC>(bod)
     {}
     //: Body constructor.
+
+    DesignerC(DesignerBodyC *bod)
+      : RCHandleVC<DesignerBodyC>(bod)
+    {}
+    //: Body ptr constructor.
     
     DesignerBodyC &Body()
     { return RCHandleVC<DesignerBodyC>::Body(); }
@@ -80,6 +103,34 @@ namespace RavlN {
     // set in 'params', but will be the closest legal values.
     
   };
+  
+  inline istream &operator>>(istream &strm,DesignerC &obj) {
+    obj = DesignerC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const DesignerC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,DesignerC &obj) {
+    obj = DesignerC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const DesignerC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
 
   
 }
