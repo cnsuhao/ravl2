@@ -52,6 +52,18 @@ namespace RavlN {
     DataT SumOfSqr() const;
     //: Returns the sum of the squares of all the elements of the vector.
     
+    DataT SumOfAbs() const;
+    //: Returns the sum of the absolute values of all the elements of the vector.
+    
+    DataT MaxValue() const;
+    //: Largest value in the array.
+    
+    DataT MaxMagintude() const;
+    //: Value of the largest magnitude in the vector.
+    
+    DataT MinValue() const;
+    //: Smalleset value in the array.
+    
     const TVectorC<DataT> & Reciprocal();
     //: All elements of the vector are changed to their reciprocal values. 
     //: It is assumed that all elements of the vector differs from zero.
@@ -131,6 +143,15 @@ namespace RavlN {
       ret += Sqr(*it);
     return ret;
   }
+
+  template<class DataT>
+  DataT TVectorC<DataT>::SumOfAbs() const {
+    DataT ret;
+    SetToZero(ret);
+    for(SArray1dIterC<DataT> it(*this);it;it++)
+      ret += Abs(*it);
+    return ret;
+  }
   
   template<class DataT>
   DataT 
@@ -138,7 +159,7 @@ namespace RavlN {
     DataT sum = 0;
     for(SArray1dIter2C<DataT,DataT> it(*this,b);it.IsElm();it.Next())
       sum += it.Data1() * it.Data2();
-    return (*this);
+    return sum;
   }
   
   template<class DataT>
@@ -147,7 +168,7 @@ namespace RavlN {
     DataT sum = 0;
     for(SArray1dIter2C<DataT,DataT> it(*this,v);it.IsElm();it.Next())
       sum += it.Data1() * it.Data2();
-    return (*this);  
+    return sum;  
   }
   
   template<class DataT>
@@ -156,6 +177,54 @@ namespace RavlN {
       if(Abs(*it) < min)
 	SetToZero(*it);
     return *this;
+  }
+
+
+  template<class DataT>
+  DataT TVectorC<DataT>::MaxValue() const {
+    SArray1dIterC<DataT> it(*this);
+    if(!it.IsElm()) {
+      DataT ret;
+      SetToZero(ret);
+      return ret;
+    }
+    DataT max = *it;
+    for(;it;it++) 
+      if(*it > max)
+	max = *it;
+    return max;
+  }
+
+  template<class DataT>
+  DataT TVectorC<DataT>::MaxMagintude() const {
+    SArray1dIterC<DataT> it(*this);
+    if(!it.IsElm()) {
+      DataT ret;
+      SetToZero(ret);
+      return ret;
+    }
+    DataT max = Abs(*it);
+    for(;it;it++) {
+      DataT mag = Abs(*it);
+      if(mag > max)
+	max = mag;
+    }
+    return max;    
+  }
+  
+  template<class DataT>
+  DataT TVectorC<DataT>::MinValue() const {
+    SArray1dIterC<DataT> it(*this);
+    if(!it.IsElm()) {
+      DataT ret;
+      SetToZero(ret);
+      return ret;
+    }
+    DataT min = *it;
+    for(;it;it++) 
+      if(*it < max)
+	min = *it;
+    return min;
   }
   
 }
