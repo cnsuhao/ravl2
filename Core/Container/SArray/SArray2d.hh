@@ -130,7 +130,7 @@ namespace RavlN {
       return Slice1dC<DataC>(data.Data(),
 			     &((*this)[0][0]),
 			     Min(Size1(),Size2()),
-			     Stride());
+			     Stride()+1);
     }
     //: Take a slice along the diagonal of the array.
     
