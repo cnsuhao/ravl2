@@ -44,15 +44,16 @@ namespace RavlGUIN {
   
   struct GTKSignalInfoC {
     GTKSignalInfoC()
-      : name(0)
-      {}
+      : name(0),
+	signalType(SigTypeUnknown)
+    {}
     //: Constructor to ensure name defaults to 0.
     
     GTKSignalInfoC(const char *nname,GtkSignalFunc nfunc,SignalTypeT nsignalType)
       : name(nname),
 	func(nfunc),
 	signalType(nsignalType)
-      {}
+    {}
     //: Constructor.
     
     const char *name;

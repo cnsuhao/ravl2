@@ -145,6 +145,12 @@ namespace RavlGUIN {
     //: Hide widget from the world.
     // Call only from GUI thread.
     
+    static Tuple2C<const char *,GTKSignalInfoC> *SigInfoInit();
+    //: Get init information about signals.
+    
+    static GTKSignalInfoC &SigInfo(const char *nm) ;
+    //: Get information about a named signal.
+    
   protected:
 
     bool GUISetStyle(WidgetStyleC& style);
@@ -198,9 +204,6 @@ namespace RavlGUIN {
     
     GtkStateType reqState; // requested state.
     IntT  eventMask; // Event mask for widget.
-    
-    static GTKSignalInfoC &SigInfo(const char *nm) ;
-    //: Get information about a named signal.
     
     const char *tooltip;
     

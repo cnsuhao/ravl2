@@ -76,7 +76,9 @@ namespace RavlGUIN {
 #define GTKSIG_DNDDATAGET      (GtkSignalFunc) WidgetBodyC::gtkDNDDataGet,SigTypeDNDData
 #define GTKSIG_DNDDATARECIEVED (GtkSignalFunc) WidgetBodyC::gtkDNDDataRecieved,SigTypeDNDData
 
-  GTKSignalInfoC &WidgetBodyC::SigInfo(const char *nm)  {
+  //: Get init information about signals.
+
+  Tuple2C<const char *,GTKSignalInfoC> *WidgetBodyC::SigInfoInit() {
     static Tuple2C<const char *,GTKSignalInfoC> signalInfo [] = {
       // Don't move "destroy", needed to terminate initaliser list.
       GTKSIG("destroy"              ,GTKSIG_GENERIC ), // gtkwidget 
@@ -124,8 +126,15 @@ namespace RavlGUIN {
       GTKSIG("drag_data_received"   ,GTKSIG_DNDDATARECIEVED),// gtkwidget
       GTKSIG("destroy",GTKSIG_TERM)  // Duplicate first key to terminate array.
     };
-    static HashC<const char *,GTKSignalInfoC> signalTable(signalInfo);
-    return signalTable[nm];
+    return signalInfo;
+  }
+  
+  static GTKSignalInfoC &tmpSignalInit = WidgetBodyC::SigInfo("show"); // Make sure signal table gets setup before we go multithreaded.
+  
+  GTKSignalInfoC &WidgetBodyC::SigInfo(const char *nm)  { 
+    static HashC<const char *,GTKSignalInfoC> signalTable(WidgetBodyC::SigInfoInit());
+    
+    return signalTable[nm]; 
   }
   
   int WidgetBodyC::gtkEventMouseButton(GtkWidget *widget,GdkEvent *event,Signal0C *data)  {
@@ -388,7 +397,7 @@ namespace RavlGUIN {
       case SigTypeDNDData: { DNDDataInfoC dnd; ret = Signal1C<DNDDataInfoC>(dnd); } break;
       case SigTypeUnknown:
       default:
-	cerr << "WidgetBodyC::Signal(), ERROR Unknown signal type:" << nm << "\n";
+	cerr << "WidgetBodyC::Signal(), ERROR Unknown signal type:" << nm << " Type:" << (IntT) (si.signalType) << "\n";
 	return ret;
     }
     ConnectUp(nm,ret);
