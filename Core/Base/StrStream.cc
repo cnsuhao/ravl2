@@ -46,7 +46,7 @@ namespace RavlN {
     // This is a bit ugly, we have to copy the 
     // string into another buffer.
     StringC ret(data,count,count);
-    delete data; // Free buffer.
+    delete [] data; // Free buffer.
     return ret;
   }
   
