@@ -16,6 +16,7 @@
 
 #include "Ravl/Types.hh" //RealT
 #include "Ravl/Vector3d.hh"
+#include "Ravl/Point3d.hh"
 
 class ostream;
 class istream;
