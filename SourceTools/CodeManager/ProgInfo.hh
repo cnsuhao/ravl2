@@ -16,9 +16,7 @@ namespace RavlN {
     : public RCBodyC
   {
   public:
-    ProgInfoBodyC(const StringC &ln,DefsMkFileC &defs,const StringC &fromDir)
-      : progName(ln.Copy())
-      { Add(defs,fromDir); }
+    ProgInfoBodyC(const StringC &ln,DefsMkFileC &defs,const StringC &fromDir);
     //: Constructor.
     
     bool Add(DefsMkFileC &defs,const StringC &fromDir);

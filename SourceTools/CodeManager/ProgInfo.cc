@@ -8,6 +8,12 @@
 
 namespace RavlN {
   
+  //: Constructor.
+  ProgInfoBodyC::ProgInfoBodyC(const StringC &ln,DefsMkFileC &defs,const StringC &fromDir)   { 
+    progName = StringC(ln).before('.',-1); // Strip .cc or .c from progName.
+    Add(defs,fromDir); 
+  }
+  
   //: Add information from defs file 'defs'.
   // True is returned if operation succeeded.
   
