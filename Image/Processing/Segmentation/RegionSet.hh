@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_REGIONSET_HEADER
 #define RAVLIMAGE_REGIONSET_HEADER
 //////////////////////////////////////////////////////////////
-//! docentry="Ravl.Images.Image Processing.Region.Data Structures"
+//! docentry="Ravl.Images.Segmentation"
 //! userlevel=Normal
 //! example=exSegmentation.cc
 //! file="Ravl/Image/Processing/Segmentation/RegionSet.hh"
@@ -27,7 +27,8 @@
 namespace RavlImageN {
   
   //! userlevel=Develop
-  //: Class for describing the result of a segmentation; include a segmentation map and statistics associated to each region
+  //: Describes the result of a segmentation
+  // Includes a segmentation map and statistics associated to each region
 
   template<class StatT>
   class RegionSetBodyC 
@@ -83,7 +84,8 @@ namespace RavlImageN {
   };
   
   //! userlevel=Normal
-  //: Class for representing the segmentation
+  //: Describes the result of a segmentation
+  // Includes a segmentation map and statistics associated to each region
   
   template<class StatT>
   class RegionSetC 
