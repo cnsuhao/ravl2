@@ -137,6 +137,7 @@ namespace RavlN {
     { return body != &vert; }
     //: Is this a handle to the vertex.
 
+
     UIntT Hash() const
     { return ((UIntT) body) >> 3; }
     //: Hash value for handle.
@@ -144,6 +145,10 @@ namespace RavlN {
     bool operator==(const HEMeshBaseVertexC &oth) const
     { return body == oth.body; }
     //: Is this a handle to the same object ?
+
+    bool operator!=(const HEMeshBaseVertexC &oth) const
+    { return body != oth.body; }
+    //: Is this a handle to a different object ?
     
     UIntT Valence() const
     { return Body().Valence(); }

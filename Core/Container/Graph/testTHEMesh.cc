@@ -108,7 +108,15 @@ int testTwistEdge() {
   HEMeshBaseEdgeC eto = edgeTab[Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC>(tempFace2[2],tempFace2[0])];
   if(!eto.IsValid()) return __LINE__;
   
+  // Twist edge.
+  
   mesh.TwistEdge(edge,efrom,eto);
+  
+  if(!mesh.CheckMesh(true)) return __LINE__;
+  
+  // Twist edge back.
+  
+  mesh.TwistEdge(edge,efrom.Prev(),eto.Prev());
   
   if(!mesh.CheckMesh(true)) return __LINE__;
   

@@ -13,6 +13,13 @@
 #include "Ravl/THEMeshFaceIter.hh"
 #include "Ravl/LinePP2d.hh"
 
+#define DODEBUG 1
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlN {
   
   //: Default constructor.
@@ -43,6 +50,7 @@ namespace RavlN {
   // Returns an invalid handle if none found.
   
   THEMeshFaceC<Point2dC> HEMesh2dC::FindFace(const Point2dC &pnt) {
+    ONDEBUG(cerr << "HEMesh2dC::FindFace(), Point= " << pnt << "\n");
     for(THEMeshFaceIterC<Point2dC> it(Faces());it;it++) {
       RavlAssert((*it).IsValid());
       THEMeshFaceEdgeIterC<Point2dC> eit(*it);
@@ -52,13 +60,13 @@ namespace RavlN {
       bool found = true;
       for(eit++;eit;eit++) {
 	Point2dC pnt = eit->Vertex().Data();
-	if(!LinePP2dC(last,pnt).IsPointToLeftOn(pnt)) {
+	if(LinePP2dC(last,pnt).IsPointToLeft(pnt)) {
 	  found = false;
 	  break;
 	}
 	last = pnt;
       }
-      if(found && LinePP2dC(last,first).IsPointToLeftOn(pnt))
+      if(found && !LinePP2dC(last,first).IsPointToLeft(pnt))
 	return *it; // Found it !
       // Keep trying....
     }

@@ -21,7 +21,7 @@ namespace RavlN {
 
   //! userlevel=Normal
   //: Mesh vertex iterator.
-  // Note: It is the users responsibility to ensure the current vertex of the interator is NOT
+  // Note: It is the users responsibility to ensure the current vertex of the iterator is NOT
   // deleted until the iterator is moved to another element.  
   
   class HEMeshBaseVertexIterC 

@@ -111,7 +111,7 @@ namespace RavlN {
 		 THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> face);
     //: Constructor.
     
-    THEMeshEdgeC(THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &bod)
+    THEMeshEdgeC(HEMeshBaseEdgeBodyC &bod)
       : HEMeshBaseEdgeC(bod)
     {}
     //: Body constructor.
@@ -232,26 +232,26 @@ namespace RavlN {
     {}
     //: Construct from a face
     
-    THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &Data()
-    { return static_cast<THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(*at); }
+    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> Data()
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(*at); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &Data() const
-    { return static_cast<const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(*at); }
+    const THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> Data() const
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(const_cast<const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(*at)); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &operator *() const
-    { return static_cast<const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(*at); }
+    const THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> operator *() const
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(const_cast<const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(*at)); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &operator *()
-    { return static_cast<THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(*at); }
+    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> operator *()
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(*at); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
@@ -295,26 +295,26 @@ namespace RavlN {
     {}
     //: Construct from a face
     
-    THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &Data()
-    { return *at; }
+    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> Data()
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(*at); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &Data() const
-    { return *at; }
+    const THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> Data() const
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(*at); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &operator *() const
-    { return *at; }
+    const THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> operator *() const
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(*at); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &operator *()
-    { return *at; }
+    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> operator *()
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(*at); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.

@@ -10,8 +10,9 @@
 #include "Ravl/HEMeshBaseEdge.hh"
 #include "Ravl/HEMeshBaseFace.hh"
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
+#include "Ravl/Stream.hh"
 #define ONDEBUG(x) x
 #else
 #define ONDEBUG(x)
@@ -32,6 +33,7 @@ namespace RavlN {
     // Make sure the vertex doesn't link to this edge.
     if(vertex->edge != this)
       return ;
+    ONDEBUG(cerr << "HEMeshBaseEdgeBodyC::CorrectVertexEdgePtr(), Correcting pointer. \n");
     HEMeshBaseEdgeBodyC *newEdge = Next().pair;
     if(newEdge == this) {
       // Looks like we're the only edge connected to the vertex.
@@ -69,7 +71,7 @@ namespace RavlN {
       np1->SetPair(*np2);
       np2->SetPair(*np1);
     } else {
-      ONDEBUG(err << "HEMeshBaseEdgeBodyC::RemoveHalfEdge(), Shrinking face. Edge=" << ((void *) this) << " \n");
+      ONDEBUG(cerr << "HEMeshBaseEdgeBodyC::RemoveHalfEdge(), Shrinking face. Edge=" << ((void *) this) << " \n");
       // Just take a side out of the face.
       if(face->Edge() == this)
 	face->edge = &Prev();

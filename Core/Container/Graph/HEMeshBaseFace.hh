@@ -218,7 +218,7 @@ namespace RavlN {
 	at(const_cast<HEMeshBaseEdgeBodyC *>(face.FirstEdge()))
     {}
     //: Construct from a face
-
+    
     HEMeshBaseFaceEdgeIterC(HEMeshBaseFaceBodyC &face)
       : first(face.FirstEdge()),
 	at(face.FirstEdge())
@@ -233,7 +233,7 @@ namespace RavlN {
     // Returns true if the new element is valid.
     
     bool IsFirst()
-    { return at != first && at != 0; }
+    { return at == first && at != 0; }
     //: Is this the first element in list.
     
     bool Next() { 
@@ -247,8 +247,24 @@ namespace RavlN {
     //: Goto next edge around face.
     // Returns true if the new element is valid.
     
+    bool Prev() { 
+      at = &(at->Prev());
+      if(at == first) {
+	at = 0;
+	return false;
+      }
+      return true;
+    }
+    //: Goto next edge around face.
+    // Returns true if the new element is valid.
+    
     bool operator++(int)
     { return Next(); }
+    //: Goto next edge around face.
+    // Returns true if the new element is valid.
+    
+    bool operator--(int)
+    { return Prev(); }
     //: Goto next edge around face.
     // Returns true if the new element is valid.
     

@@ -26,4 +26,8 @@ LIBDEPS=RavlMath2D.def
 
 USESLIBS=RavlMath
 
+PROGLIBS=RavlIO RavlDPDisplay
+
 TESTEXES=testLine2d.cc testGeom2d.cc
+
+EXAMPLES= exDelaunyTriangulation2d.cc

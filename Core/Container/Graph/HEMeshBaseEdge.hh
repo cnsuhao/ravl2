@@ -392,7 +392,7 @@ namespace RavlN {
     // Returns true if the new element is valid.
     
     bool IsFirst()
-    { return at != first && at != 0; }
+    { return at == first && at != 0; }
     //: Is this the first element in list.
     
     bool Next() {
@@ -406,9 +406,25 @@ namespace RavlN {
     //: Goto next edge around face.
     // Returns true if the new element is valid.
     
+    bool Prev() {
+      at = &at->Prev().Pair();
+      if(at == first) {
+	at = 0;
+	return false;
+      }
+      return true;
+    }
+    //: Goto previous edge around face.
+    // Returns true if the new element is valid.
+    
     bool operator++(int)
     { return Next(); }
     //: Goto next edge around face.
+    // Returns true if the new element is valid.
+
+    bool operator--(int)
+    { return Prev(); }
+    //: Goto previous edge around face.
     // Returns true if the new element is valid.
     
     operator bool() const
@@ -421,26 +437,26 @@ namespace RavlN {
     //: Test if we're at a valid element.
     // Returns true if we are.
     
-    HEMeshBaseEdgeBodyC &Data()
-    { return *at; }
+    HEMeshBaseEdgeC Data()
+    { return HEMeshBaseEdgeC(*at); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    const HEMeshBaseEdgeBodyC &Data() const
-    { return *at; }
+    const HEMeshBaseEdgeC Data() const
+    { return HEMeshBaseEdgeC(const_cast<HEMeshBaseEdgeBodyC &>(*at)); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    const HEMeshBaseEdgeBodyC &operator *() const
-    { return *at; }
+    const HEMeshBaseEdgeC operator *() const
+    { return HEMeshBaseEdgeC(const_cast<HEMeshBaseEdgeBodyC &>(*at)); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    HEMeshBaseEdgeBodyC &operator *()
-    { return *at; }
+    HEMeshBaseEdgeC operator *()
+    { return HEMeshBaseEdgeC(*at); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
@@ -501,7 +517,7 @@ namespace RavlN {
     // Returns true if the new element is valid.
     
     bool IsFirst()
-    { return at != first && at != 0; }
+    { return at == first && at != 0; }
     //: Is this the first element in list.
     
     bool Next() {
@@ -514,10 +530,30 @@ namespace RavlN {
     }
     //: Goto next edge around face.
     // Returns true if the new element is valid.
+
+    bool Prev() {
+      if(!at->HasPair()) {
+	at = 0;
+	return false;
+      }
+      at = &at->Pair().Prev();
+      if(at == first) {
+	at = 0;
+	return false;
+      }
+      return true;
+    }
+    //: Goto previous edge around face.
+    // Returns true if the new element is valid.
     
     bool operator++(int)
     { return Next(); }
     //: Goto next edge around face.
+    // Returns true if the new element is valid.
+    
+    bool operator--(int)
+    { return Prev(); }
+    //: Goto previous edge around face.
     // Returns true if the new element is valid.
     
     operator bool() const
@@ -530,26 +566,26 @@ namespace RavlN {
     //: Test if we're at a valid element.
     // Returns true if we are.
     
-    HEMeshBaseEdgeBodyC &Data()
-    { return *at; }
+    HEMeshBaseEdgeC Data()
+    { return HEMeshBaseEdgeC(*at); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    const HEMeshBaseEdgeBodyC &Data() const
-    { return *at; }
+    const HEMeshBaseEdgeC Data() const
+    { return HEMeshBaseEdgeC(const_cast<HEMeshBaseEdgeBodyC &>(*at)); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    const HEMeshBaseEdgeBodyC &operator *() const
-    { return *at; }
+    const HEMeshBaseEdgeC operator *() const
+    { return HEMeshBaseEdgeC(const_cast<HEMeshBaseEdgeBodyC &>(*at)); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    HEMeshBaseEdgeBodyC &operator *()
-    { return *at; }
+    HEMeshBaseEdgeC operator *()
+    { return HEMeshBaseEdgeC(*at); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
