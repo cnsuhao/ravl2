@@ -1,5 +1,5 @@
-#ifndef VCPP_HEADER
-#define VCPP_HEADER 1
+#ifndef RAVLVCPP_HEADER
+#define RAVLVCPP_HEADER 1
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="amma/Util/VisualCPP/VCPP.hh"
@@ -9,13 +9,11 @@
 //! date="28/09/98"
 //! docentry="Utilities.Misc"
 
-#include "Ravl/util/SrcCheck.hh"
 #include "Ravl/Hash.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/HashIter.hh"
 #include "Ravl/Stream.hh"
-//#include "Ravl/GetLib.hh"
-
+#include "Ravl/SourceTools/SourceCodeManager.hh"
 
 namespace RavlN {
   class RCSFileC;
@@ -68,7 +66,7 @@ namespace RavlN {
   {
   public:
     
-    ConvertVCPP(FilenameC nDir,FilenameC nRoot,FilenameC nWork,
+    ConvertVCPPC(StringC nDir,StringC nRoot,StringC nWork,
 		StringC ndosdrive, StringC ndospath, StringC ndostemp,
 		bool pback, bool doexecs, bool doone,
 		bool Enabled = true);
@@ -91,7 +89,7 @@ namespace RavlN {
     // 1. makes sures all directories exist
     // 2. changes vcpp filenames to lower case
     
-    bool Update(FilenameC vcpp,RCSFileC &mainLine);
+    bool Update(StringC vcpp,RCSFileC &mainLine);
     //: Given the VCPP filename (on a unix disk) and the Ravl filename this 
     // routine does the forward or reverse copy.
     // - the latest Ravl src is checked out
@@ -112,8 +110,8 @@ namespace RavlN {
     
   protected:
     
-    FilenameC root;   // Root of output.
-    FilenameC work;   // Current output directory.
+    StringC root;   // Root of output.
+    StringC work;   // Current output directory.
     
     StringC dosdrive; // e.g. d
     StringC dospath;  // e.g. /user/me/Ravl/thisworkspace

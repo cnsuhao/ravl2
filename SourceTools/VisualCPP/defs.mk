@@ -8,19 +8,21 @@ LICENSE = GPL
 
 PACKAGE=Ravl/SourceTools
 
-HEADERS= VCPP.hh
+HEADERS= SourceAutoPort.hh
+#VCPP.hh
 
-SOURCES = VCPP.cc
+SOURCES = SourceAutoPort.cc
+#VCPP.cc
 
 MAINS = doVCPP.cc
 
-USESLIBS = Auto
+USESLIBS = RavlOS RavlSourceTools
 
 EHT = exedoVCPP.eht
 
 # Deal with template files.
 
-AUXFILES = lib5.dsp con5.dsp lib6.dsp con6.dsp AMMAported
+AUXFILES = lib5.dsp con5.dsp lib6.dsp con6.dsp
 
 AUXDIR= Tools/VCPP
 

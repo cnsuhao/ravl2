@@ -2,7 +2,8 @@
 //! rcsid="$Id$"
 
 #include "Ravl/Option.hh"
-#include "Ravl/SourceTools/VCPP.hh"
+
+//#include "Ravl/SourceTools/VCPP.hh"
 #include <fstream.h>
 
 using namespace RavlN;
@@ -17,9 +18,10 @@ using namespace RavlN;
 
 int main(int nargs,char **argv) {
 
+#if 0
   OptionC option(nargs,argv,true);
-  FilenameC fn    = option.String("i",".",     "(input)  Directory for unix src tree. ");
-  FilenameC fout  = option.String("o","",      "(output) Directory for VCPP src tree.  ");
+  StringC fn    = option.String("i",".",     "(input)  Directory for unix src tree. ");
+  StringC fout  = option.String("o","",      "(output) Directory for VCPP src tree.  ");
   StringC dosdrive= option.String("d", "h",    "dos drive letter to append to src path");
   StringC dospath = option.String("dp","same", "dos path for project files, "
                                                 "no leading or trailing / required, "
@@ -42,13 +44,14 @@ int main(int nargs,char **argv) {
   
   if (dospath=="same") 
     dospath=fout;
-
-  ConvertVCPP chkit(fn,
-		    fout, fout + "/src",                             
-                    dosdrive,  dospath, dostemp,
-                    back,execs,one);
   
-  if(verb) chkit.SetVerbose(verb);
+  ConvertVCPPC chkit(fn,
+		     fout, fout + "/src",                             
+		     dosdrive,  dospath, dostemp,
+		     back,execs,one);
+  
+  if(verb) 
+    chkit.SetVerbose(verb);
 
   chkit.LoadNested(rec,all);
   // read the defs files and load info on all the unix src files
@@ -62,6 +65,7 @@ int main(int nargs,char **argv) {
     chkit.CreateWorkspaceFile();
     chkit.CreateRAVLported(pathtempl + '/' + libtempl, pathtempl + '/' + "RAVLported");
   }
+#endif
   return 0;
 }
 

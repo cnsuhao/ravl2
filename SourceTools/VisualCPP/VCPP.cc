@@ -23,12 +23,11 @@ namespace RavlN {
   // -----------------------------------------------------------------------------
   // Constructor.
   
-  ConvertVCPP::ConvertVCPP(FilenameC nDir,FilenameC nRoot,FilenameC nWork,
+  ConvertVCPP::ConvertVCPP(StringC nDir,StringC nRoot,StringC nWork,
 			   StringC ndosdrive, StringC ndospath, StringC ndostemp,
 			   bool pback, bool doexecs, bool doone,
 			   bool Enabled)
-    : SrcCheckC(nDir,Enabled),
-      root(nRoot),
+    : root(nRoot),
       work(nWork),
       dosdrive(ndosdrive),
       dospath(ndospath),
@@ -49,7 +48,7 @@ namespace RavlN {
   // Open a new directory.
 
   BRCPtrC<SrcCheckC> 
-  ConvertVCPP::NewSrc(FilenameC dir,bool Enabled) {
+  ConvertVCPP::NewSrc(StringC dir,bool Enabled) {
     return *new ConvertVCPP(dir,
 			    root,
 			    work + '/' + dir.NameComponent(),
@@ -84,9 +83,9 @@ namespace RavlN {
     if(!work.Exists()) work.MakeDir();
     
     // Lets make sure the directories are ready for libraries and binaries
-    FilenameC optLib = root + "/lib/opt";
-    FilenameC debugLib = root + "/lib/debug";
-    FilenameC binDir = root + "/bin";
+    StringC optLib = root + "/lib/opt";
+    StringC debugLib = root + "/lib/debug";
+    StringC binDir = root + "/bin";
     if(!optLib.Exists()) optLib.MakeDir();
     if(!debugLib.Exists()) debugLib.MakeDir();
     if(!binDir.Exists()) binDir.MakeDir();
@@ -102,7 +101,7 @@ namespace RavlN {
     StringC package =  Defs().Value("PACKAGE");
     if(package.IsEmpty())
       package="Ravl";
-    FilenameC hdrDir = root + "/inc/" + package;
+    StringC hdrDir = root + "/inc/" + package;
     if(!hdrDir.Exists()) { 
       if(!hdrDir.MakeDir()) {
 	cerr << "ERROR: Failed to make dir : " << hdrDir << "\n";
@@ -115,7 +114,7 @@ namespace RavlN {
       RCSFileC mainLine = CWD() + '/' + it.Data();
       StringC basename = it.Data().Copy();
       basename.downcase();
-      FilenameC vcpp = hdrDir + '/' + basename;
+      StringC vcpp = hdrDir + '/' + basename;
       if(IsVerbose())
 	cout << "Hdr:" << mainLine << arrow << vcpp << endl;
       Update(vcpp,mainLine);
@@ -165,7 +164,7 @@ namespace RavlN {
       }
       
       basename.downcase();
-      FilenameC vcpp =  work + '/' + basename;
+      StringC vcpp =  work + '/' + basename;
       
       if(IsVerbose())
 	cout << "Src:" << mainLine << arrow << vcpp << endl;
@@ -208,7 +207,7 @@ namespace RavlN {
       
       // Work out what the file should be called to keep vcpp happy. 
       basename.downcase();
-      FilenameC vcpp =  work + '/' + basename;
+      StringC vcpp =  work + '/' + basename;
       
       if(IsVerbose())
 	cout << "Main:" << mainLine << arrow << vcpp << endl;
@@ -226,7 +225,7 @@ namespace RavlN {
   //: This is the guts to do the forward or reverse copy
   // taking care of check in etc
   
-  bool ConvertVCPP::Update(FilenameC vcpp,RCSFileC &mainLine) {
+  bool ConvertVCPP::Update(StringC vcpp,RCSFileC &mainLine) {
     if(!putBack) { 
       // Install new files.
       mainLine.Update(); // Make sure mainline file is current.
@@ -311,7 +310,7 @@ namespace RavlN {
   void
   ConvertVCPP::CreateProjectFiles(const StringC & StaticLibTemplate,
 				  const StringC & ConsoleAppTemplate) {
-    FilenameC projDir = root + "/proj/";
+    StringC projDir = root + "/proj/";
     if(!projDir.Exists()) projDir.MakeDir();
     
     // Loop over all the projects we must create files for
@@ -467,7 +466,7 @@ namespace RavlN {
     allsrcfiles="";
     
     //: First lets create a project file file
-    FilenameC projDir = root + "/proj/";
+    StringC projDir = root + "/proj/";
     if(!projDir.Exists()) projDir.MakeDir();
     StringC projName  = "RAVLported";
     StringC projFile = projDir + projName +  ".dsp";
