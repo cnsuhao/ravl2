@@ -177,9 +177,6 @@ namespace RavlN {
     inline SizeT Size() const;
     //: Get number of paramtiers in set.
     
-    inline ParametersC & operator= (const ParametersC &oth);
-    //: Assignment operator
-    
     inline void SetMask (const SArray1dC<IntT> &mask);
     //: Sets which parameters are enabled
     
