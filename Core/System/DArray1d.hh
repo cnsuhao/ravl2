@@ -81,6 +81,30 @@ namespace RavlN {
     const DataT &Index(IndexC i) const
     { return data[i]; }
     //: Access data.
+
+    DataT &Nth(UIntT i) 
+    { return data[data.IMin() + i]; }
+    //: Access nth element in the array from the first in this chunk.
+    
+    const DataT &Nth(UIntT i) const 
+    { return data[data.IMin() + i]; }
+    //: Access nth element in the array from the first in this chunk
+    
+    DataT &First()
+    { return data[data.IMin()]; }
+    //: First element in the array.
+    
+    const DataT &First() const
+    { return data[data.IMin()]; }
+    //: First element in the array.
+    
+    DataT &Last()
+    { return data[data.IMax()]; }
+    //: First element in the array.
+    
+    const DataT &Last() const
+    { return data[data.IMax()]; }
+    //: First element in the array.
     
   protected:
     Array1dC<DataT> data;
@@ -106,12 +130,24 @@ namespace RavlN {
 	allocBlocksize(1024)
     { chunks.InsLast(*new DChunkC<DataT>(range.Min(),Array1dC<DataT>(range.Size()))); }
     //: Constructor an array with a range allocated.
+
     
     DArray1dBodyC(SizeT size) 
       : nextFree(0),
 	allocBlocksize(1024)
     { chunks.InsLast(*new DChunkC<DataT>(Array1dC<DataT>(size))); }
     //: Constructor an array with size elements allocated.
+
+    DArray1dBodyC(SizeT size,bool preAlloc) 
+      : nextFree(0),
+	allocBlocksize(1024),
+	lastBlk(size)
+    { 
+      if(size > 0 && preAlloc)
+	chunks.InsLast(*new DChunkC<DataT>(Array1dC<DataT>(arr,IndexRange(0,-1)))); 
+    }
+    //: Constructor an array with an expected size.
+    // This is usefull if you know you'll be appending 'size' elements.
     
     DArray1dBodyC(const Array1dC<DataT> &arr) 
       : nextFree(0),
@@ -134,6 +170,12 @@ namespace RavlN {
     const DataT &Index(IndexC i) const;
     //: Find data item with that index.
     
+    DataT &Nth(UIntT i);
+    //: Find the n'th entry, irrespective of index values.
+    
+    const DataT &Nth(UIntT i) const;
+    //: Find the n'th entry, irrespective of index values.
+    
     UIntT Append(const Array1dC<DataT> &newData);
     //: Append data to this array.
     // Note the data is not copied! 
@@ -155,6 +197,12 @@ namespace RavlN {
     //: Remove entries from min to max from the array.
     // This removes entries from min to max inclusively from
     // the array.
+    
+    bool RemoveFirst();
+    //: Remove first element from the array.
+    
+    bool RemoveLast();
+    //: Remove last element from the array.
     
     bool Contains(IndexC i) const;
     //: Test if container contains index.
@@ -196,26 +244,31 @@ namespace RavlN {
     
     UIntT Size() const;
     //: Find the number of elements in the DArray.
-    // This doesn't count holes in the array.
+    // This doesn't count holes in the array. <p>
+    // At the moment this value is computed, this maybe a little
+    // slow for applications, and so maybe changed later.
     
     DataT &First()
-    { return Index(IMin()); }
+    { return chunks.First().First(); }
     //: Access first element in the array.
     
     const DataT &First() const
-    { return Index(IMin()); }
+    { return chunks.First().First(); }
     //: Access first element in the array.
     
     DataT &Last()
-    { return Index(IMax()); }
+    { return chunks.Last().Last(); }
     //: Access last element in the array.
     
     const DataT &Last() const
-    { return Index(IMax()); }
+    { return chunks.Last().Last(); }
     //: Access last element in the array.
     
   protected:
     bool FindChunk(int i,IntrDLIterC<DChunkC<DataT> > &it) const;
+    //: Find the chunk containing the interest.
+    
+    bool FindNthChunk(UIntT i,UIntT &at,IntrDLIterC<DChunkC<DataT> > &it) const;
     //: Find the chunk containing the interest.
     
     IntrDListC<DChunkC<DataT> > chunks;
@@ -277,6 +330,14 @@ namespace RavlN {
     { return Body().Index(i); }
     //: Find data item with that index.
     
+    DataT &Nth(UIntT i)
+    { return Body().Nth(i); }
+    //: Find the n'th entry, irrespective of index values.
+    
+    const DataT &Nth(UIntT i) const
+    { return Body().Nth(i); }
+    //: Find the n'th entry, irrespective of index values.
+    
     DataT &operator[](IndexC i)
     { return Index(i); }
     //: Access element.
@@ -311,6 +372,14 @@ namespace RavlN {
     //: Remove entries from min to max from the array.
     // This removes entries from min to max inclusively from
     // the array.
+    
+    bool RemoveFirst()
+    { return Body().RemoveFirst(); }
+    //: Remove first element from the array.
+    
+    bool RemoveLast()
+    { return Body().RemoveLast(); }
+    //: Remove last element from the array.
     
     bool Contains(IndexC i) const
     { return Body().Contains(i); }
@@ -369,7 +438,6 @@ namespace RavlN {
   };
 
 
-  //: Find the chunk containing the interest.
   
   template<class DataT>
   bool DArray1dBodyC<DataT>::FindChunk(int i,IntrDLIterC<DChunkC<DataT> > &it) const {
@@ -380,6 +448,18 @@ namespace RavlN {
       }
       if(it->IMax() > i)
 	return false;
+    }
+    return false;
+  }
+  
+  template<class DataT>
+  bool DArray1dBodyC<DataT>::FindNthChunk(UIntT i,UIntT &at,IntrDLIterC<DChunkC<DataT> > &it) const {
+    it = IntrDLIterC<DChunkC<DataT> >(chunks);
+    at = 0;
+    for(;it;it++) {
+      UIntT next = at + it->Size();
+      if(next > i) return true;
+      at = next;
     }
     return false;
   }
@@ -417,7 +497,25 @@ namespace RavlN {
     RavlAssertMsg(x,"Index out of range. ");
     return it->Index(i);
   }
-
+  
+  template<class DataT>
+  DataT &DArray1dBodyC<DataT>::Nth(UIntT i) {
+    IntrDLIterC<DChunkC<DataT> > it;
+    UIntT at;
+    bool x = FindNthChunk(i,at,it);
+    RavlAssertMsg(x,"Index out of range. ");
+    return it->Nth(i - at);
+  }
+  
+  template<class DataT>
+  const DataT &DArray1dBodyC<DataT>::Nth(UIntT i) const {
+    IntrDLIterC<DChunkC<DataT> > it;
+    UIntT at;
+    bool x = FindNthChunk(i,at,it);
+    RavlAssertMsg(x,"Index out of range. ");
+    return it->Nth(i - at);    
+  }
+  
   template<class DataT>
   bool DArray1dBodyC<DataT>::Contains(IndexC i) const {
     IntrDLIterC<DChunkC<DataT> > it;
@@ -505,6 +603,34 @@ namespace RavlN {
     return true;
   }
   
+  template<class DataT>  
+  bool DArray1dBodyC<DataT>::RemoveFirst() {
+    if(chunks.IsEmpty())
+      return false;
+    DChunkC<DataT> &chunk = chunks.First();
+    if(chunk.IMin() != chunk.IMax())
+      chunk.Data().SetSubRange(chunk.IMin()+1,chunk.IMax());
+    else
+      chunks.DelFirst();
+    // FIXME :- We could actually be more clever about manging the lastBlk
+    lastBlk = Array1dC<DataT>(); // Empty last block holder.
+    return true;    
+  }
+
+  template<class DataT>  
+  bool DArray1dBodyC<DataT>::RemoveLast() {
+    if(chunks.IsEmpty())
+      return false;
+    DChunkC<DataT> &chunk = chunks.Last();
+    if(chunk.IMin() != chunk.IMax())
+      chunk.Data().SetSubRange(chunk.IMin(),chunk.IMax()-1);
+    else
+      chunks.DelLast();
+    // FIXME :- We could actually be more clever about manging the lastBlk
+    lastBlk = Array1dC<DataT>(); // Empty last block holder.
+    return true;
+  }
+
   template<class DataT>  
   bool DArray1dBodyC<DataT>::Remove(IndexC min,IndexC max){
     RavlAssert(min <= max);

@@ -31,13 +31,15 @@ namespace RavlN {
     { First(); }
     //: Constructor.
     
-    void First() {
+    bool First() {
       cit = arr.Body().chunks;
       if(!cit)
-	return ;
+	return false;
       it.First(cit->Data()); 
+      return true;
     }
     //: Goto first element in the array.
+    // Returns true if iterator is at a valid element after operation.
     
     const DArray1dIterC<DataT> &operator=(const DArray1dC<DataT> &narr) {
       arr = narr;
@@ -79,14 +81,16 @@ namespace RavlN {
     { return &it.Data(); }
     //: Access data.
     
-    void Next() {
+    bool Next() {
       it++;
-      if(it) return ;
+      if(it) return true;
       cit++;
-      if(!cit) return ;
+      if(!cit) return false;
       it.First(cit->Data()); 
+      return true;
     }
     //: Goto next element.
+    // Returns true if iterator is at a valid element after operation.
     
     void operator++(int)
     { Next(); }

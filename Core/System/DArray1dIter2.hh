@@ -18,6 +18,8 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Dynamic array iterator.
+  // This iterator does not use the position index's of the arrays,
+  // it will go though each array in order the elements appear.
   
   template<class Data1T,class Data2T>
   class DArray1dIter2C {
@@ -32,11 +34,16 @@ namespace RavlN {
     { First(); }
     //: Constructor.
     
-    void First() {
-      it1.First();
-      it2.First();
+    bool First() {
+      if(!it1.First())
+	return false;
+      if(it2.First())
+	return true;
+      it1.Invalidate();
+      return false;
     }
     //: Goto first element in the array.
+    // Returns true if iterator is at a valid element after operation.
     
     bool IsElm() const
     { return it1.IsElm(); }
@@ -53,7 +60,7 @@ namespace RavlN {
     const Data1T &Data1() const
     { return it1.Data(); }
     //: Access data.
-
+    
     Data2T &Data2()
     { return it2.Data(); }
     //: Access data.
@@ -62,9 +69,10 @@ namespace RavlN {
     { return it2.Data(); }
     //: Access data.
     
-    void Next();
+    inline
+    bool Next();
     //: Goto next element.
-    // This skips elements that are not present in both arrays.
+    // Returns true if iterator is at a valid element after operation.
     
     void operator++(int)
     { Next(); }
@@ -81,21 +89,15 @@ namespace RavlN {
 
 
   template<class Data1T,class Data2T>
-  void DArray1dIter2C<Data1T,Data2T>::Next() { 
-    it1++; 
-    it2++;
-    while(it1 && it2) {
-      if(it1.Index() == it2.Index())
-	return ;
-      if(it1.Index() < it2.Index()) {
-	it1++;
-	continue;
-      }
-      it2++;
-    }
+  inline bool DArray1dIter2C<Data1T,Data2T>::Next() { 
+    if(!it1.Next())
+      return false;
+    if(it2.Next())
+      return true;
     it1.Invalidate();
+    return false;
   }
-    
+  
 
 }
 
