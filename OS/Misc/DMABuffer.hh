@@ -68,6 +68,14 @@ namespace RavlN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
+  
+    protected: 
+    
+    DMABufferC<DataT> ( DMABufferBodyC<DataT> & bod )
+    : BufferC<DataT> ( bod ) 
+    {}
+  //: Constructor from body 
+    
   };
   
 }
