@@ -10,15 +10,30 @@
 
 #include "Ravl/Image/Corner.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlImageN {
   
   ostream &operator<<(ostream &out,const CornerC &corn) {
-    out << corn.Location() << " " << corn.Gradient() << " " << corn.Level();
+    out << corn.Location() << ' ' << corn.Gradient() << ' ' << corn.Level();
     return out;
   }
 
   istream &operator>>(istream &in,CornerC &corn) {
+    in >> corn.Location() >>  corn.Gradient() >> corn.Level();
+    return in;
+  }
+
+  //: Write corner to a binary stream.
+  
+  BinOStreamC &operator<<(BinOStreamC &out,const CornerC &corn) {
+    out << corn.Location() << corn.Gradient() << corn.Level();
+    return out;
+  }
+  
+  //: Read corner from a binary stream.
+  
+  BinIStreamC &operator>>(BinIStreamC &in,CornerC &corn){
     in >> corn.Location() >>  corn.Gradient() >> corn.Level();
     return in;
   }

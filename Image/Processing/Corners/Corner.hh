@@ -104,6 +104,12 @@ namespace RavlImageN {
   istream &operator>>(istream &in,CornerC &corn);
   //: Read corner from a stream.
   
+  BinOStreamC &operator<<(BinOStreamC &out,const CornerC &corn);
+  //: Write corner to a binary stream.
+  
+  BinIStreamC &operator>>(BinIStreamC &in,CornerC &corn);
+  //: Read corner from a binary stream.
+  
   //////////////////////////////////////
   // A somewhat arbitary distance messure between two corners.
 
