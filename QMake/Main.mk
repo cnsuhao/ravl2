@@ -580,7 +580,11 @@ endif
 ifneq ($(strip $(TARG_JAVA)),)
 build_libs: $(TARG_LIBS) buildjavalibs
 else
+ifneq ($(strip $(SOURCES)),)
 build_libs: $(TARG_LIBS)
+else
+build_libs:
+endif
 endif
 
 #$(TARG_JAVA)
