@@ -193,6 +193,9 @@ namespace RavlGUIN {
     { return cols ; }
     //: Get the number of cols in the clist.
     
+    IntT Rows() const;
+    //: Get the number of rows in CListC.
+    
     DListC<IntT> Selection();
     //: Access current selection.
     
@@ -230,6 +233,9 @@ namespace RavlGUIN {
     
     IntT GUIFindRowID(const Index2dC &at);
     //: Find row ID at position.
+    
+    IntT RowID(IntT rowNo);
+    //: Retrieve the ID of a given row.
     
     bool SetColumnResizePolicy(IntT &colNo,CListColumnResizeModeT &policy);
     //: Set the column resize policy for 'colNo'
@@ -440,7 +446,11 @@ namespace RavlGUIN {
     
     IntT Cols() const
     { return Body().Cols(); }
-    //: Number of cols in the clist.
+    //: Number of cols.
+    
+    IntT Rows() const
+    { return Body().Rows(); }
+    //: Get the number of rows.
     
     DListC<IntT> Selection()
     { return Body().Selection(); }
@@ -485,7 +495,11 @@ namespace RavlGUIN {
     IntT GUIFindRowID(const Index2dC &at)
     { return Body().GUIFindRowID(at); }
     //: Find row ID at position.
-
+    
+    IntT RowID(IntT rowNo)
+    { return Body().RowID(rowNo); }
+    //: Retrieve the ID of a given row.
+    
     Signal1C<IntT>& SelectionChanged()
     { return Body().selectionChanged; }
     //: This signal is sent when the selection is changed
@@ -519,7 +533,6 @@ namespace RavlGUIN {
     { return Body().SetColumnWidth(colNo,width); }
     //: Set column width.
     // Use from the GUI thread only.
-
     
     friend class CListBodyC;
   };

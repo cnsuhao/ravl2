@@ -562,6 +562,27 @@ namespace RavlGUIN {
     return  (IntT) gtk_clist_get_row_data(GTK_CLIST(widget),row);
   }
   
+  //: Retrieve the ID of a given row.
+  
+  IntT CListBodyC::RowID(IntT rowNo) {
+    ReadBackLockC lock; // Get lock on GUI thread.    
+    if(widget == 0) {
+      if(data.Size() <= (UIntT) rowNo)
+	return -1;
+      return data.Nth(rowNo).Data1();
+    }
+    return (IntT) gtk_clist_get_row_data(GTK_CLIST(widget),rowNo);
+  }
+  
+  //: Get the number of rows in CListC.
+  
+  IntT CListBodyC::Rows() const {
+    ReadBackLockC lock; // Get lock on GUI thread.    
+    if(widget == 0)
+      return data.Size();
+    return GTK_CLIST(widget)->rows;
+  }
+  
   //: Set the column resize policy for 'colNo'
   // If colNo is -1 all columns are changed.
   
