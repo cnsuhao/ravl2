@@ -130,6 +130,16 @@ namespace RavlN {
     { return playMode; }
     //: Set sub sequence start.
     
+    bool Paused() const
+    { return pause; }
+    //: Access pause flag
+    // true - Play control paused.
+    
+    IntT Speed() const
+    { return inc; }
+    //: Current speed setting in frames a cycle.
+    // 0 - Effectively paused, -1=backard 1=forward.
+    
   protected:  
     bool Open(const DPSeekCtrlC &nCntrl);
     //: Open new video stream.
@@ -277,6 +287,16 @@ namespace RavlN {
     IntT &SubSeqMode() 
     { return Body().SubSeqMode(); }
     //: Set sub sequence start.
+    
+    bool Paused() const
+    { return Body().Paused(); }
+    //: Access pause flag
+    // true - Play control paused.
+    
+    IntT Speed() const
+    { return Body().Speed(); }
+    //: Current speed setting in frames a cycle.
+    // 0 - Effectively paused, -1=backard 1=forward.
     
   };
   
