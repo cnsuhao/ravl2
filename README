@@ -40,7 +40,7 @@ to the following:
 
 alias qm gmake -f [location]/share/RAVL/QMake/QMake.mk PROJECT_OUT=$(HOME)/build
 
-if you've put RAVL's bin in the path there is also a 'qm'script which 
+if you've put RAVL's bin in the path there is also a 'qm' script which 
 invokes the make system in a simlar way.
 
 Some notes on installation:
