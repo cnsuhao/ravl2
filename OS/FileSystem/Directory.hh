@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef FILEDIRECTORY_HEADER
-#define FILEDIRECTORY_HEADER
+#ifndef RAVL_FILEDIRECTORY_HEADER
+#define RAVL_FILEDIRECTORY_HEADER
 ///////////////////////////////////////////////////////////////////////
 //! userlevel=Normal
 //! author="Charles Galambos"

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLFILEPERM_HEADER
-#define RAVLFILEPERM_HEADER 1
+#ifndef RAVL_FILEPERM_HEADER
+#define RAVL_FILEPERM_HEADER 1
 ////////////////////////////////////////////////////////
 //! file="Ravl/OS/FileSystem/FilePermission.hh"
 //! lib=RavlOS
