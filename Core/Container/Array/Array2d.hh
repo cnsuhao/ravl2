@@ -414,7 +414,8 @@ namespace RavlN {
   
   template <class DataT> 
   Array2dC<DataT> Array2dC<DataT>::DeepCopy(UIntT levels) const{
-    if (levels == 0) return *this ; 
+    if (levels == 0) return *this ;
+    if (levels == 1) return Copy() ; 
     Array2dC<DataT> ret(Rectangle() ) ; 
     --levels ; 
     for ( BufferAccess2dIter2C<DataT,DataT> it (ret, ret.Range2(), *this, Range2()) ; it ; it++ )
