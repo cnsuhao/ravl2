@@ -8,6 +8,7 @@
 PACKAGE=Ravl/3D
 HEADERS=VoxelSet.hh PointSet.hh
 SOURCES=VoxelSet.cc PointSet.cc
-PLIB=RavlCarve3D
+PLIB=Ravl3D
+LIBDEPS=RavlCarve3D.def
 USESLIBS=RavlCore RavlMath RavlImage RavlCameraCal
 EHT=Ravl.3D.Carve3D.html

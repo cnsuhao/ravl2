@@ -10,8 +10,8 @@
 //! docentry="Ravl.3D.Carve3D"
 //! author="Joel Mitchelson"
 
-#ifndef _POINTSETC_
-#define _POINTSETC_
+#ifndef RAVL3D_POINTSETC_HEADER
+#define RAVL3D_POINTSETC_HEADER 1
 
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/RefCounter.hh"
