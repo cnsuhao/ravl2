@@ -255,7 +255,7 @@ namespace RavlImageN {
   
   SArray1dC<UIntT> SegmentationBodyC::Areas() {
     // Compute areas of components
-    SArray1dC<UIntT> area(labels);
+    SArray1dC<UIntT> area(labels+1);
     area.Fill(0);  // Initilisation
     for(Array2dIterC<UIntT> it(segmap);it;it++)
       area[*it]++;
