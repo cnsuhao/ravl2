@@ -19,7 +19,7 @@ namespace Ravl3DN {
   using namespace RavlN;
 #endif
   
-  //: Construct from an array of vertexes and an array of indexes.
+  //: Construct from an array of vertexes and an array of indices.
   // The length of faceInd should be a power of 3, success triples are taken
   // from it to form the faces in the mesh.
   
@@ -38,8 +38,10 @@ namespace Ravl3DN {
     /* Create vertex pointers, and some inital vertex normals. */
     for(SArray1dIterC<TriC> fit(faces);fit;fit++) {
       int i;
-      for(i = 0;i < 3;i++,iit++)
+      for(i = 0;i < 3;i++,iit++) {
 	fit.Data1().VertexPtr(i) = &(vertices[*iit]);
+      }
+      fit->UpdateFaceNormal();
       Vector3dC norm = fit->FaceNormal();
       for( i = 0;i < 3;i++)
 	fit->Normal(i) += norm;
@@ -49,20 +51,25 @@ namespace Ravl3DN {
       itv->Normal().MakeUnit();
   }
 
-  //: Make a copy of the mesh.
-  
-  RCBodyVC&  TriMeshBodyC::Copy() const {
-    SArray1dC<VertexC> nverts = vertices.Copy();
-    SArray1dC<TriC> ntris(faces.Size());
-    for(SArray1dIter2C<TriC,TriC> it(ntris,faces);it;it++) {
-      for(int i = 0;i < 3;i++)
-	it.Data1().VertexPtr(i) = &(nverts[Index(it.Data2(),i)]);
+  //: Copy constructor
+
+  TriMeshBodyC::TriMeshBodyC(const TriMeshBodyC& oth)
+  {
+    haveTexture = oth.haveTexture;
+    vertices = oth.vertices.Copy();
+    faces = SArray1dC<TriC>(oth.faces.Size());
+    SArray1dIter2C<TriC,TriC> it(faces,oth.faces);
+    for(; it; it++) {
+      int i;
+      for(i=0 ; i<3; i++)
+	it.Data1().VertexPtr(i) = &(vertices[oth.Index(it.Data2(),i)]);
+      it.Data1().TextureID() = it.Data2().TextureID();
       it.Data1().TextureCoords() = it.Data2().TextureCoords();
       it.Data1().Colour() = it.Data2().Colour();
       it.Data1().FaceNormal() = it.Data2().FaceNormal();
     }
-    return *new TriMeshBodyC(nverts,ntris);
   }
+
   
   //: Flips the mesh surface
   
@@ -83,10 +90,10 @@ namespace Ravl3DN {
     return ret / ret.Size();
   }
   
-  //: Create an array of faces indexes.
-  // each successive triple of indexes represents a face in the mesh.
+  //: Create an array of faces indices.
+  // each successive triple of indices represents a face in the mesh.
   
-  SArray1dC<UIntT> TriMeshBodyC::FaceIndexes() const {
+  SArray1dC<UIntT> TriMeshBodyC::FaceIndices() const {
     SArray1dC<UIntT> ret(3 * faces.Size());
     if(faces.Size() == 0)
       return ret;
@@ -142,12 +149,18 @@ namespace Ravl3DN {
   
   ostream &operator<<(ostream &s,const TriMeshC &ts) {
     RavlAssert(ts.IsValid());
-    s << ts.Vertices() << '\n'; 
-    s << ts.Faces().Size() << ' '; 
+    s << ts.Vertices(); 
+    s << ts.HaveTextureCoord() << '\n';
+    s << ts.Faces().Size() << '\n'; 
     const VertexC *x = &(ts.Vertices()[0]);
-    for(SArray1dIterC<TriC> it(ts.Faces());it;it++) {
-      s << (it->VertexPtr(0) - x) << ' ' << (it->VertexPtr(1) - x) << ' ' << (it->VertexPtr(2) - x) << ' ';
-      s << it->TextureCoords() << ' ' << it->Colour() << '\n';
+    SArray1dIterC<TriC> it(ts.Faces());
+    for(; it; it++) {
+      s << (it->VertexPtr(0) - x) << ' ' 
+	<< (it->VertexPtr(1) - x) << ' ' 
+	<< (it->VertexPtr(2) - x) << ' ';
+      s << it->TextureID() << ' ';
+      s << it->TextureCoords() << ' ';
+      s << it->Colour() << '\n';
     }
     return s;
   }
@@ -155,17 +168,22 @@ namespace Ravl3DN {
   istream &operator>>(istream &s,TriMeshC &ts) {
     SArray1dC<VertexC> verts;
     s >> verts;
+    bool bHaveTexture;
+    s >> bHaveTexture;
     UIntT nfaces,i1,i2,i3;
     s >> nfaces;
     SArray1dC<TriC> faces(nfaces);
     for(SArray1dIterC<TriC> it(faces);it;it++) {
       s >> i1 >> i2 >> i3;
-      s >> it->TextureCoords() >>  it->Colour();
+      s >> it->TextureID();
+      s >> it->TextureCoords();
+      s >> it->Colour();
       it->VertexPtr(0) = &(verts[i1]);
       it->VertexPtr(1) = &(verts[i2]);
       it->VertexPtr(2) = &(verts[i3]);
       it->UpdateFaceNormal();
     }
+    ts = TriMeshC(verts,faces,bHaveTexture);
     return s;
   }
 

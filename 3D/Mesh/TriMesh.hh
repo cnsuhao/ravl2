@@ -42,7 +42,11 @@ namespace Ravl3DN {
   public:
     TriMeshBodyC()
     {}
+    //: Default constructor
     
+    TriMeshBodyC(const TriMeshBodyC& oth);
+    //: Copy constructor
+
     TriMeshBodyC(UIntT noVertices,UIntT noFaces)
       : vertices(noVertices),
 	faces(noFaces)
@@ -51,7 +55,7 @@ namespace Ravl3DN {
     // The inital values in the mesh are undefined.
     
     TriMeshBodyC(const SArray1dC<Vector3dC> &v,const SArray1dC<UIntT> &faceInd);
-    //: Construct from an array of vertexes and an array of indexes.
+    //: Construct from an array of vertices and an array of indices.
     // The length of faceInd should be a power of 3, success triples are taken
     // from it to form the faces in the mesh.
     
@@ -60,10 +64,11 @@ namespace Ravl3DN {
 	faces(nfaces),
 	haveTexture(haveTextureCoord)
     {}
-    //: Construct from an array of vertexes and an array of tri's.
+    //: Construct from an array of vertices and an array of tri's.
     // NOTE: The vertices referred to in the TriC's must be elements of array 'v'.
     
-    RCBodyVC& Copy() const;
+    RCBodyVC& Copy() const
+    { return *new TriMeshBodyC(*this); }
     //: Make a copy of the mesh.
     
     SArray1dC<VertexC> &Vertices()
@@ -89,9 +94,9 @@ namespace Ravl3DN {
     //: Centre of triset.
     // - average vertex position
     
-    SArray1dC<UIntT> FaceIndexes() const;
-    //: Create an array of faces indexes.
-    // each successive triple of indexes represents a face in the mesh.
+    SArray1dC<UIntT> FaceIndices() const;
+    //: Create an array of faces indices.
+    // each successive triple of indices represents a face in the mesh.
     
     UIntT Index(const TriC &tri,int no) const
     { return tri.VertexPtr(no) - &(vertices[0]); }
@@ -139,14 +144,14 @@ namespace Ravl3DN {
     TriMeshC(const SArray1dC<Vector3dC> &v,const SArray1dC<UIntT> &faceInd)
       : RCHandleC<TriMeshBodyC>(*new TriMeshBodyC(v,faceInd))
     {}
-    //: Construct from an array of vertexes and an array of indexes.
+    //: Construct from an array of vertices and an array of indices.
     // The length of faceInd should be a power of 3, success triples are taken
     // from it to form the faces in the mesh.
 
     TriMeshC(const SArray1dC<VertexC> &v,const SArray1dC<TriC> &nfaces,bool haveTextureCoord=false)
       : RCHandleC<TriMeshBodyC>(*new TriMeshBodyC(v,nfaces,haveTextureCoord))
     {}
-    //: Construct from an array of vertexes and an array of tri's.
+    //: Construct from an array of vertices and an array of tri's.
     // The TriC's must refer to elements in 'v'
     
     TriMeshC(UIntT noVertices,UIntT noFaces)
@@ -197,10 +202,10 @@ namespace Ravl3DN {
     //: Centre of triset.
     // - average vertex position
     
-    SArray1dC<UIntT> FaceIndexes() const
-    { return Body().FaceIndexes(); }
-    //: Create an array of faces indexes.
-    // each successive triple of indexes represents a face in the mesh.
+    SArray1dC<UIntT> FaceIndices() const
+    { return Body().FaceIndices(); }
+    //: Create an array of faces indices.
+    // each successive triple of indices represents a face in the mesh.
     
     void UpdateVertexNormals()
     {  Body().UpdateVertexNormals(); }

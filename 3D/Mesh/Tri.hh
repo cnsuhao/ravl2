@@ -57,6 +57,17 @@ namespace Ravl3DN {
     }
     //: Construct from vertices.
     
+    TriC(const TFVectorC<VertexC *,3> &v, 
+	 const TFVectorC<Vector2dC,3> &t, 
+	 UByteT texID)
+      : vertices(v), textureID(texID), texture(t)
+    {
+      colour[0] = 196;
+      colour[1] = 196;
+      colour[2] = 196;
+    }
+    //: Construct from vertices, texture co-ords, and texture ID.
+
     void Flip(void);
     //: Flips the triangle.
     // Reverse the order of the vertices in the triangle.
@@ -116,6 +127,22 @@ namespace Ravl3DN {
     //: Access vertex pointer.
     // Advanced users only.
     
+    UByteT& TextureID()
+    { return textureID; }
+    //: Access the texture ID.
+
+    UByteT TextureID() const
+    { return textureID; }
+    //: Access the texture ID.
+
+    Vector2dC &TextureCoord(UIntT n) 
+    { return texture[n]; }
+    //: Access texture co-ordinates.
+    
+    const Vector2dC &TextureCoord(UIntT n) const
+    { return texture[n]; }
+    //: Access texture co-ordinates.
+    
     TFVectorC<Vector2dC,3> &TextureCoords() 
     { return texture; }
     //: Access texture co-ordinates.
@@ -134,6 +161,7 @@ namespace Ravl3DN {
     
   protected:
     TFVectorC<VertexC *,3> vertices;
+    UByteT textureID;
     TFVectorC<Vector2dC,3> texture;
     Vector3dC normal;
     TFVectorC<ByteT,3> colour;

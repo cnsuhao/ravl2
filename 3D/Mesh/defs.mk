@@ -9,12 +9,13 @@
 
 PACKAGE=Ravl/3D
 
-HEADERS= Vertex.hh Tri.hh TriMesh.hh \
+HEADERS= Vertex.hh Tri.hh TriMesh.hh TexTriMesh.hh\
  HEMeshVertex.hh HEMeshEdge.hh HEMeshFace.hh HEMesh.hh \
  HEMeshVertexIter.hh  HEMeshFaceIter.hh
 
 
 SOURCES= Vertex.cc Tri.cc TriMesh.cc TriMeshBinIO.cc \
+ TexTriMesh.cc TexTriMeshBinIO.cc \
  HEMeshVertex.cc HEMeshEdge.cc HEMeshFace.cc HEMesh.cc \
  TriMesh2HEMesh.cc HEMeshFaceIter.cc
 
@@ -22,7 +23,7 @@ TESTEXES=testHEMesh.cc
 
 PLIB=Ravl3D
 
-USESLIBS=RavlMath
+USESLIBS=RavlMath RavlImage
 
 EHT=Ravl.3D.Mesh.html
 

@@ -4,34 +4,25 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-/////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
-//! lib=Ravl3D
-//! author="Charles Galambos"
-//! file="Ravl/3D/Mesh/TriMeshBinIO.cc"
-
-#include "Ravl/3D/TriMesh.hh"
+#include "Ravl/3D/TexTriMesh.hh"
 #include "Ravl/BinStream.hh"
 #include "Ravl/SArr1Iter.hh"
 #include "Ravl/Exception.hh"
 #include "Ravl/EntryPnt.hh"
+////////////////////////////////////////////////////////////////////
+//! rcsid="$Id$"
+//! file="Ravl/3D/Mesh/TexTriMeshBinIO.hh"
+//! lib=Ravl3D
+//! docentry="Ravl.3D.Mesh"
+//! author="Jonathan Starck"
 
 namespace Ravl3DN {
   
-  BinOStreamC &operator<<(BinOStreamC &s,const VertexC &v) {
-    s << v.Position() << v.Normal();
-    return s;
-  }
-  
-  BinIStreamC &operator>>(BinIStreamC &s,VertexC &v) {
-    s >> v.Position() >> v.Normal();
-    return s;    
-  }
-  
-  BinOStreamC &operator<<(BinOStreamC &s,const TriMeshC &ts) {
+  BinOStreamC &operator<<(BinOStreamC &s,const TexTriMeshC &ts) {
     UByteT version = 0;
     s << version;
     RavlAssert(ts.IsValid());
+    // Write the mesh info
     s << ts.Vertices(); 
     s << ts.HaveTextureCoord();
     s << ts.Faces().Size(); 
@@ -45,10 +36,13 @@ namespace Ravl3DN {
       s << it->TextureCoords();
       s << it->Colour();
     }
+    // Write the texture info
+    s << ts.TexFilenames();
+    s << ts.Textures();
     return s;
   }
   
-  BinIStreamC &operator>>(BinIStreamC &s,TriMeshC &ts) {
+  BinIStreamC &operator>>(BinIStreamC &s,TexTriMeshC &ts) {
     UByteT version;
     s >> version;
     if(version != 0) {
@@ -57,6 +51,7 @@ namespace Ravl3DN {
 	cerr << "ERROR: Unknown version number in TriMeshC binary stream. ";
       throw ExceptionOutOfRangeC("Unknown version number in TriMeshC binary stream. ");
     }
+    // Read the mesh info
     SArray1dC<VertexC> vecs;
     s >> vecs;
     bool bHaveTexture;
@@ -75,7 +70,13 @@ namespace Ravl3DN {
       it->VertexPtr(2) = &(vecs[i3]);
       it->UpdateFaceNormal();
     }
-    ts = TriMeshC(vecs,faces,bHaveTexture);
+    // Read the texture info
+    SArray1dC< StringC > strFilenames;
+    s >> strFilenames;
+    SArray1dC< ImageC<ByteRGBValueC> > textures;
+    s >> textures;
+    // Create the textured tri mesh
+    ts = TexTriMeshC(vecs,faces,textures,strFilenames);
     return s;
   }
   
