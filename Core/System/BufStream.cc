@@ -80,8 +80,8 @@ namespace RavlN {
 #if 0
     data = SArray1dC<char>((char *) oss->str().data(),oss->str().size());
 #else
-    string astr(oss->str());
-    SizeT size = oss->str().size();
+    string astr = oss->str();
+    SizeT size = astr.size();
     BufferStringC buf(astr,size);
     data = SArray1dC<char>(buf,size);
 #endif
