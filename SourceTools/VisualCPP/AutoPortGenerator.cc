@@ -127,7 +127,7 @@ namespace RavlN {
       return true;
     }
     if(typedata == "useslibs") {
-      for(HashIterC<StringC,LibInfoC> it(src.Libs());it;it++) {
+      for(DLIterC<StringC> it(context.Top().UsesLibs());it;it++) {
 	context.Push(ContextC(*it));
 	BuildSub(subTextBuff);
 	context.DelTop();
