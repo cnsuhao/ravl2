@@ -150,8 +150,8 @@ namespace RavlImageN {
   //: Default constructor.
   
   ChanDCTC::ChanDCTC()
-    : m(0),
-      N(0),
+    : N(0),
+      m(0),
       cosines(0)
   {}
   
