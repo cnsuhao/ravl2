@@ -2,24 +2,21 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 
-#include "amma/DP/FileFormatStream.hh"
-#include "amma/DP/FileFormatBinStream.hh"
-#include "amma/DP/Converter.hh"
-#include "amma/BinImgIO.hh"
-#include "amma/BinIORGBValue.hh"
-#include "amma/ReRGBImg.hh"
+#include "Ravl/DP/FileFormatStream.hh"
+#include "Ravl/DP/FileFormatBinStream.hh"
+#include "Ravl/Image/Image.hh"
+#include "Ravl/Image/RealRGBValue.hh"
+#include "Ravl/TypeName.hh"
+//#include "Ravl/DP/Converter.hh"
+//#include "Ravl/Array2dIter2.hh"
 
-void InitImgIORealRGB()
-{}
+namespace RavlN {
 
-ImageC<RGBPointC> DPConvRealRGBImageC2ImageCT(const RealRGBImageC &dat)  
-{ return ImageC<RGBPointC>(dat); }
+  void InitImgIORealRGB()
+  {}
+  
+  static TypeNameC type1(typeid(ImageC<RealRGBValueC>),"ImageC<RealRGBValueC>");  
 
-RealRGBImageC DPConvImageCT2RealRGBImageC(const ImageC<RGBPointC> &dat)  
-{ return RealRGBImageC(dat); }
-
-DP_REGISTER_CONVERTION(DPConvRealRGBImageC2ImageCT,1);
-DP_REGISTER_CONVERTION(DPConvImageCT2RealRGBImageC,1);
-
-FileFormatStreamC<ImageC<RGBPointC> > FileFormatStream_ImageC_RGBPointC;
-FileFormatBinStreamC<ImageC<RGBPointC> > FileFormatBinStream_ImageC_RGBPointC;
+  FileFormatStreamC<ImageC<RealRGBValueC> > FileFormatStream_ImageC_RealRGBValueC;
+  FileFormatBinStreamC<ImageC<RealRGBValueC> > FileFormatBinStream_ImageC_RealRGBValueC;
+}

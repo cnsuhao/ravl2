@@ -8,33 +8,31 @@
 //! rcsid="$Id$"
 //! lib=RavlImage
 
-
 #include "Ravl/DP/FileFormatStream.hh"
 #include "Ravl/DP/FileFormatBinStream.hh"
 #include "Ravl/DP/Converter.hh"
 #include "Ravl/Image/Image.hh"
-#include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Image/ByteRGBAValue.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/TypeName.hh"
 
-
 namespace RavlN {
   
-  void InitImgIOByteRGB()
+  void InitImgIOByteRGBA()
     {}
-
-  static TypeNameC type1(typeid(ImageC<ByteT>),"ImageC<ByteRGBValueC>");  
   
-  FileFormatStreamC<ImageC<ByteRGBValueC> > FileFormatStream_ImageC_ByteRGBValueC;
-  FileFormatBinStreamC<ImageC<ByteRGBValueC> > FileFormatBinStream_ImageC_ByteRGBValueC;
+  static TypeNameC type1(typeid(ImageC<ByteRGBAValueC>),"ImageC<ByteRGBAValueC>");  
+  
+  FileFormatStreamC<ImageC<ByteRGBAValueC> > FileFormatStream_ImageC_ByteRGBAValueC;
+  FileFormatBinStreamC<ImageC<ByteRGBAValueC> > FileFormatBinStream_ImageC_ByteRGBAValueC;
   
   ////////////////////////////////////////////////////////////
   // Accelerated IO routines...
   
-  BinOStreamC &operator << (BinOStreamC &out,const ImageC<ByteRGBValueC> &img) { 
+  BinOStreamC &operator << (BinOStreamC &out,const ImageC<ByteRGBAValueC> &img) { 
     out << img.Rectangle();
     
-    IntT width = img.Cols() * 3;
+    IntT width = img.Cols() * 4;
     IndexC atrow = img.TRow();
     IndexC offset = img.LCol();
     
@@ -44,12 +42,12 @@ namespace RavlN {
     return out;
   }
   
-  BinIStreamC &operator >> (BinIStreamC &in,ImageC<ByteRGBValueC> &img) { 
+  BinIStreamC &operator >> (BinIStreamC &in,ImageC<ByteRGBAValueC> &img) { 
     ImageRectangleC rect;
     in >> rect;
-    img = ImageC<ByteRGBValueC>(rect);
+    img = ImageC<ByteRGBAValueC>(rect);
     
-    IntT width = img.Cols() * 3;
+    IntT width = img.Cols() * 4;
     IndexC atrow = img.TRow();
     IndexC offset = img.LCol();
     IndexC brow = img.BRow();
@@ -61,3 +59,4 @@ namespace RavlN {
   
 
 }
+
