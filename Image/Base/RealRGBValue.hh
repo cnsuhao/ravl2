@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Image/Base/RealRGBValue.hh"
 //! lib=RavlImage
-//! userlevel=Default
+//! userlevel=Normal
 //! author="Charles Galambos"
 //! date="24/01/2001"
 //! docentry="Ravl.Images.Pixel Types"

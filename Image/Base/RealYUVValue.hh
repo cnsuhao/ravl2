@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Image/Base/RealYUVValue.hh"
 //! lib=RavlImage
-//! userlevel=Default
+//! userlevel=Normal
 //! author="Charles Galambos"
 //! date="24/01/2001"
 //! docentry="Ravl.Images.Pixel Types"
@@ -19,6 +19,7 @@
 
 namespace RavlN {
   
+  //! userlevel=Normal
   //: Real YUV value class.
   
   class RealYUVValueC
