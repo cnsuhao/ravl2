@@ -38,6 +38,8 @@ namespace RavlGUIN {
     SigTypeDNDContext,
     SigTypeDNDPosition,
     SigTypeDNDData,
+    SigTypeInt,
+    SigTypeWidgetInt,
   };
   
   //: Signal info

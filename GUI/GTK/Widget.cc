@@ -94,7 +94,8 @@ namespace RavlGUIN {
 #define GTKSIG_DNDLEAVE        (GtkSignalFunc) WidgetBodyC::gtkDNDContextTime,SigTypeDNDPosition
 #define GTKSIG_DNDDATAGET      (GtkSignalFunc) WidgetBodyC::gtkDNDDataGet,SigTypeDNDData
 #define GTKSIG_DNDDATARECIEVED (GtkSignalFunc) WidgetBodyC::gtkDNDDataRecieved,SigTypeDNDData
-
+#define GTKSIG_INT      (GtkSignalFunc) WidgetBodyC::gtkInt,SigTypeInt
+#define GTKSIG_WIDGET_INT (GtkSignalFunc) WidgetBodyC::gtkWidgetInt,SigTypeWidgetInt
   //: Get init information about signals.
 
   Tuple2C<const char *,GTKSignalInfoC> *WidgetBodyC::SigInfoInit() {
@@ -143,6 +144,8 @@ namespace RavlGUIN {
       GTKSIG("drag_motion"          ,GTKSIG_DNDPOSITION),    // gtkwidget
       GTKSIG("drag_data_get"        ,GTKSIG_DNDDATAGET),     // gtkwidget
       GTKSIG("drag_data_received"   ,GTKSIG_DNDDATARECIEVED),// gtkwidget
+      GTKSIG("change-current-page"  ,GTKSIG_INT),// gtkNotebook
+      GTKSIG("switch-page"          ,GTKSIG_WIDGET_INT),// gtkNotebook
       GTKSIG("destroy",GTKSIG_TERM)  // Duplicate first key to terminate array.
     };
     return signalInfo;
@@ -274,6 +277,20 @@ namespace RavlGUIN {
     return 1;
   }
   
+  int WidgetBodyC::gtkInt(GtkWidget *widget,int page, Signal0C *sigptr) {
+    Signal1C<IntT> sig(*sigptr);
+    RavlAssert(sig.IsValid());
+    sig(page);
+    return 1;
+  }
+
+  int WidgetBodyC::gtkWidgetInt(GtkWidget *widget,GtkWidget *notebookpage, unsigned int page, Signal0C *sigptr) {
+    Signal1C<UIntT> sig(*sigptr);
+    RavlAssert(sig.IsValid());
+    sig(page);
+    return 1;
+  }
+
   //: Default constructor.
   
   WidgetBodyC::WidgetBodyC()
@@ -414,6 +431,8 @@ namespace RavlGUIN {
       case SigTypeDNDContext: ret = Signal1C<GdkDragContext *>(0); break;
       case SigTypeDNDPosition: ret = Signal2C<GdkDragContext *,PositionTimeC>(0); break;
       case SigTypeDNDData: { DNDDataInfoC dnd; ret = Signal1C<DNDDataInfoC>(dnd); } break;
+      case SigTypeInt: 	ret = Signal1C<IntT>(0); break;
+      case SigTypeWidgetInt: 	ret = Signal1C<UIntT>(0); break;
       case SigTypeUnknown:
       default:
 	cerr << "WidgetBodyC::Signal(), ERROR Unknown signal type:" << nm << " Type:" << (IntT) (si.signalType) << "\n";
