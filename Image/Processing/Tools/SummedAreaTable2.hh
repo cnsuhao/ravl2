@@ -102,6 +102,22 @@ namespace RavlImageN {
     }
     //: Calculate the sum of the pixel's in the rectangle 'range'.
     
+    RealT Variance(IndexRange2dC range) const {
+      TFVectorC<DataT,2> sum = Sum(range);
+      RealT area = (RealT) range.Area();
+      return ((RealT) sum[1] - Sqr((RealT) sum[0])/area) / (area-1);
+    }
+    //: Calculate variance of the image in 'range'.
+    
+    IntT MeanVariance(IndexRange2dC range,RealT &mean,RealT &var) const {
+      TFVectorC<DataT,2> sum = Sum(range);
+      IntT area = range.Area();
+      mean = (RealT) sum[0] / area;
+      var = ((RealT) sum[1] - Sqr((RealT) sum[0])/area) / (area-1);
+      return area;
+    }
+    //: Calculate mean, variance and area of the image in 'range'.
+    
     TFVectorC<DataT,2> VerticalDifference2(IndexRange2dC range,IntT mid) const {
       // Could speed this up by seperating out row accesses ?
       return (*this)[range.TopLeft()] 
