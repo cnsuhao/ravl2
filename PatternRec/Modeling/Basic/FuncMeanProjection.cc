@@ -19,6 +19,7 @@
 #if RAVL_COMPILER_MIPSPRO 
 #include "Ravl/VirtualConstructor.hh"
 #pragma instantiate RavlN::FuncMeanProjectionBodyC* RavlN::VCLoad(RavlN::BinIStreamC&,RavlN::FuncMeanProjectionBodyC*)
+#pragma instantiate RavlN::FuncMeanProjectionBodyC* RavlN::VCLoad(istream &,RavlN::FuncMeanProjectionBodyC*)
 #endif 
 
 namespace RavlN {
