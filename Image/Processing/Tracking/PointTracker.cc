@@ -138,6 +138,10 @@ namespace RavlImageN {
     IntT removeThresh = Sqr(mwidth) * mthreshold;
     frameCount++; 
     for(DLIterC<PointTrackModelC> itt(tracks);itt;itt++) {
+      if(!itt->IsLive()) { // Has something else flagged the point as unneeded ?
+	itt.Del();
+	continue;
+      }
       Point2dC lookAtp =itt->EstimateLocation(frameCount);
       Index2dC lookAt(Round(lookAtp[0]),Round(lookAtp[1]));
       //cerr << "Vel=" << itt->Velocity() << "\n";

@@ -97,6 +97,10 @@ namespace RavlImageN {
     void SetLive(bool nlive)
     { live = nlive; }
     //: Set live flag for track.
+    // Note: If the point tracker find a a track model with this flag set to false
+    // it will remove it from the track list. This can be used to remove tracks without
+    // editing the list directly.
+    
   protected:
     UIntT id;      // Point ID.
     Point2dC at;  // Point at which it was last seen.
@@ -176,7 +180,10 @@ namespace RavlImageN {
     void SetLive(bool nlive)
     { Body().SetLive(nlive); }
     //: Set live flag for track.
-
+    // Note: If the point tracker find a a track model with this flag set to false
+    // it will remove it from the track list. This can be used to remove tracks without
+    // editing the list directly.
+    
   };
 
 }
