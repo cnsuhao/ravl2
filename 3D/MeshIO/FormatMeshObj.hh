@@ -39,11 +39,11 @@ namespace Ravl3DN {
     virtual const type_info &ProbeSave(const StringC &filename,const type_info &obj_type,bool forceFormat) const;
     //: Probe for Save.
     
-    virtual DPIPortBaseC CreateInput(IStreamC &in,const type_info &obj_type) const;
+    virtual DPIPortBaseC CreateInput(const StringC &filename,const type_info &obj_type) const;
     //: Create a input port for loading.
     // Will create an Invalid port if not supported.
     
-    virtual DPOPortBaseC CreateOutput(OStreamC &out,const type_info &obj_type) const;
+    virtual DPOPortBaseC CreateOutput(const StringC &filename,const type_info &obj_type) const;
     //: Create a output port for saving.
     // Will create an Invalid port if not supported.
     

@@ -10,11 +10,14 @@
 
 #include "Ravl/3D/MeshIOObj.hh"
 #include "Ravl/SArray1dIter.hh"
+#include "Ravl/SArray1dIter2.hh"
 #include "Ravl/StringList.hh"
 #include "Ravl/Tuple2.hh"
 #include "Ravl/Hash.hh"
 #include "Ravl/HashIter.hh"
 #include "Ravl/Collection.hh"
+#include "Ravl/OS/Filename.hh"
+#include "Ravl/IO.hh"
 #include <stdlib.h>
 
 #define DODEBUG 0
@@ -232,13 +235,13 @@ namespace Ravl3DN {
     if(dat.HaveTextureCoord()) { // With texture co-ordinates ?
       for(SArray1dIterC<TriC> it(dat.Faces());it;it++) {
 	for(int i = 0;i < 3;i++)
-	  outf << "vt " << it->TextureCoords()[i] << "\n";
+           outf << "vt " << it->TextureCoord(i).Col() << " " << 1 - it->TextureCoord(i).Row() << "\n";
       }
       for(SArray1dIterC<TriC> itf(dat.Faces());itf;itf++) {
 	outf << "f ";
+        IntT at = (itf.Index().V() * 3) + 1;
 	for(int i = 0;i < 3;i++) {
 	  IntT ind = dat.Index(*itf,i) + 1;
-	  IntT at = itf.Index().V();
 	  // Vertex/Texture/Normal
 	  outf << ind << '/' << (at+i) << '/' << ind << ' '; 
 	}
@@ -262,6 +265,114 @@ namespace Ravl3DN {
   //: Is port ready for data ?
   
   bool DPOMeshObjBodyC::IsPutReady() const 
+  { return !done && outf; }
+
+  ////////////////////////////////////////////////////////////////////////////////////////
+
+  //: Open file.
+  
+  DPOTexMeshObjBodyC::DPOTexMeshObjBodyC(const StringC &fn)
+    : outf(fn),
+      done(false)
+  {
+    base = FilenameC(fn).BaseNameComponent();
+    path = FilenameC(fn).PathComponent();
+    if (!path.IsEmpty()) path += filenameSeperator;
+  }
+  
+  //: Open file.
+  
+  DPOTexMeshObjBodyC::DPOTexMeshObjBodyC(OStreamC &is)
+    : outf(is),
+      done(false),
+      base("ravl"),
+      path("./")
+  {}
+  
+  //: Put data.
+  
+  bool DPOTexMeshObjBodyC::Put(const TexTriMeshC &dat) {
+    ONDEBUG(cerr << "DPoTexMeshObjBodyC::Put(), Called \n");
+    if(done || !outf)
+      return false;
+
+    // Create mtl file
+    OStreamC mtlfile(path + base + ".mtl");
+    if (mtlfile)
+       mtlfile << "# MTL file, created by RAVL MeshIO.\n";
+
+    // Write materials and textures
+    for (SArray1dIter2C<ImageC<ByteRGBValueC>,StringC> it(dat.Textures(),dat.TexFilenames()); it; it++) {
+      // Write the texture name and save the texture image
+      StringC strFilename = it.Data2();
+      if (!RavlN::Save(path + strFilename,it.Data1())) {
+	cerr << "Error: Could not save texture";
+      }
+      if (mtlfile) {
+         mtlfile << "newmtl " << FilenameC(it.Data2()).BaseNameComponent() << "\n";
+         mtlfile << "Kd 1 1 1\n";
+         mtlfile << "Ns 0\n";
+         mtlfile << "Ks 0 0 0\n";
+         mtlfile << "illum 2\n";
+         mtlfile << "map_Kd " << it.Data2() << "\n\n";
+      }    
+    }
+
+    // start writing file
+    outf << "# OBJ file, created by RAVL MeshIO.\n";
+    // Write mtllib
+    if(dat.HaveTextureCoord())
+       outf << "mtllib " << base << ".mtl\n";
+    // Write vertices
+    for(SArray1dIterC<VertexC> vit(dat.Vertices());vit;vit++)
+      outf << "v " <<  vit->Position() << '\n';
+    // Write normals
+    for(SArray1dIterC<VertexC> vit2(dat.Vertices());vit2;vit2++)
+      outf << "vn " <<  vit2->Normal() << '\n';
+    // Are there texcoords?
+    if(dat.HaveTextureCoord()) {
+       // Write texcoords
+       for(SArray1dIterC<TriC> it(dat.Faces());it;it++) {
+          for(int i = 0;i < 3;i++)
+             outf << "vt " << it->TextureCoord(i).Col() << " " << 1 - it->TextureCoord(i).Row() << "\n";
+       }
+       // Write group
+       outf << "g object\n";
+       IntT iLastMaterial = -1;
+       // Write faces
+       for(SArray1dIterC<TriC> itf(dat.Faces());itf;itf++) {
+          if (itf->TextureID() != iLastMaterial) {
+             iLastMaterial = itf->TextureID();
+             outf << "usemtl " << FilenameC(dat.TexFilenames()[iLastMaterial]).BaseNameComponent() << "\n";
+          }
+          outf << "f ";
+          IntT at = (itf.Index().V() * 3) + 1;
+          for(int i = 0;i < 3;i++) {
+             IntT ind = dat.Index(*itf,i) + 1;
+             // Vertex/Texture/Normal
+             outf << ind << '/' << (at+i) << '/' << ind << ' '; 
+          }
+          outf << "\n";
+       }
+    } else {
+       // Write faces
+       for(SArray1dIterC<TriC> it(dat.Faces());it;it++) {
+          outf << "f ";
+          for(int i = 0;i < 3;i++) {
+             IntT ind = dat.Index(*it,i) + 1;
+             // Vertex/Texture/Normal
+             outf << ind << "//" << ind << ' '; 
+          }
+          outf << "\n";
+       }
+    }
+      
+    return true;
+  }
+  
+  //: Is port ready for data ?
+  
+  bool DPOTexMeshObjBodyC::IsPutReady() const 
   { return !done && outf; }
 
 }

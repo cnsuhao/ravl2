@@ -13,6 +13,7 @@
 //! file="Ravl/3D/MeshIO/MeshIOObj.hh"
 
 #include "Ravl/3D/TriMesh.hh"
+#include "Ravl/3D/TexTriMesh.hh"
 #include "Ravl/DP/Port.hh"
 #include "Ravl/Stream.hh"
 
@@ -100,6 +101,51 @@ namespace Ravl3DN {
     
     DPOMeshObjC(OStreamC &is)
       : DPEntityC(*new DPOMeshObjBodyC(is))
+    {}
+    //: Open a stream.
+    
+  };
+
+  //! userlevel=Develop
+  //: OBJ file IO.
+  
+  class DPOTexMeshObjBodyC
+    : public DPOPortBodyC<TexTriMeshC>
+  {
+  public:
+    DPOTexMeshObjBodyC(const StringC &fn);
+    //: Open file.
+    
+    DPOTexMeshObjBodyC(OStreamC &is);
+    //: Open stream.
+    
+    virtual bool Put(const TexTriMeshC &dat);
+    //: Put data.
+    
+    virtual bool IsPutReady() const;
+    //: Is port ready for data ?
+    
+  protected:
+    OStreamC outf;
+    bool done;
+    StringC base;
+    StringC path;
+  };
+  
+  //! userlevel=Advanced
+  //: OBJ file IO.
+
+  class DPOTexMeshObjC
+    : public DPOPortC<TexTriMeshC>
+  {
+  public:
+    DPOTexMeshObjC(const StringC &fn)
+      : DPEntityC(*new DPOTexMeshObjBodyC(fn))
+    {}
+    //: Open file.
+    
+    DPOTexMeshObjC(OStreamC &is)
+      : DPEntityC(*new DPOTexMeshObjBodyC(is))
     {}
     //: Open a stream.
     

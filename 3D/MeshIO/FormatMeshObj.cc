@@ -55,26 +55,30 @@ namespace Ravl3DN {
       return typeid(TriMeshC);
     if(Extension(filename) != StringC("obj") && filename != "-")
       return typeid(void);
+    if (obj_type == typeid(TexTriMeshC)) 
+      return typeid(TexTriMeshC);
     return typeid(TriMeshC);
   }
   
   //: Create a input port for loading.
   // Will create an Invalid port if not supported.
   
-  DPIPortBaseC FileFormatObjBodyC::CreateInput(IStreamC &in,const type_info &obj_type) const {
-    ONDEBUG(cerr << "FileFormatObjBodyC::CreateInput(IStreamC). Called. type='" << TypeName(obj_type) << "'\n");
+  DPIPortBaseC FileFormatObjBodyC::CreateInput(const StringC &filename,const type_info &obj_type) const {
+    ONDEBUG(cerr << "FileFormatObjBodyC::CreateInput(StringC). Called. type='" << TypeName(obj_type) << "'\n");
     if(obj_type == typeid(TriMeshC))
-      return DPIMeshObjC(in);
+      return DPIMeshObjC(filename);
     return DPIPortBaseC();
   }
   
   //: Create a output port for saving.
   // Will create an Invalid port if not supported.
   
-  DPOPortBaseC FileFormatObjBodyC::CreateOutput(OStreamC &out,const type_info &obj_type) const  {
-    ONDEBUG(cerr << "FileFormatObjBodyC::CreateOutput(OStreamC). Called. type='" << TypeName(obj_type) << "'\n");
+  DPOPortBaseC FileFormatObjBodyC::CreateOutput(const StringC &filename,const type_info &obj_type) const  {
+    ONDEBUG(cerr << "FileFormatObjBodyC::CreateOutput(StringC). Called. type='" << TypeName(obj_type) << "'\n");
     if(obj_type == typeid(TriMeshC))
-      return  DPOMeshObjC(out);
+      return  DPOMeshObjC(filename);
+    if(obj_type == typeid(TexTriMeshC))
+      return  DPOTexMeshObjC(filename);
     return DPOPortBaseC();
   }
   
