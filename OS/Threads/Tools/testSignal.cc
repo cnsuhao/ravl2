@@ -55,6 +55,17 @@ public:
     callcount += 2;
     return true;
   }
+
+  bool test_2(bool x,int n) {
+    callcount += 2;
+    return true;
+  }
+
+  bool test_3(bool x,int n,RealT y) {
+    callcount += 2;
+    return true;
+  }
+
 }; 
 
 int main(int argc,char **argv)
@@ -98,13 +109,20 @@ int main(int argc,char **argv)
   // Some extra checks.
   Signal1C<bool> sig3(true);
   Signal2C<bool,int> sig4(true,1);
+  Signal3C<bool,int,RealT> sig5(true,1,2.2);
   SignalConnectorC c4 = Connect(sig3,&test3);
   SignalConnectorC c5 = Connect(sig4,&test3);
 
   TestClassC aclass;
   SignalConnectorC c4a = Connect(sig3,aclass,&TestClassC::test3);
-  SignalConnectorC c5a = Connect(sig4,aclass,&TestClassC::test3);
+  SignalConnectorC c5a = Connect(sig4,aclass,&TestClassC::test_2);
+  SignalConnectorC c6a = Connect(sig5,aclass,&TestClassC::test_3);
 
+#if 0
+  SignalConnectorC c4b = ConnectR(sig3,aclass,&TestClassC::test3);
+  SignalConnectorC c5b = ConnectR(sig4,aclass,&TestClassC::test_2);
+  SignalConnectorC c6b = ConnectR(sig5,aclass,&TestClassC::test_3);
+#endif
 #endif
   
   //  Launch(ae,&ExampleC::DoItArg,1);

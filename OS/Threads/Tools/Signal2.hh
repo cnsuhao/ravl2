@@ -244,6 +244,77 @@ namespace RavlN {
     //: Constructor.
   };
   
+#if RAVL_COMPILER_VISUALCPP 
+  
+  ///////////////////////////////////////////////////
+  //! userlevel=Develop
+  //: Signal 2 method connector.
+  
+  template<class Data1T,class Data2T,class ObjT>
+  class Signal2MethodRefBodyC
+    : public SignalConnector2BodyC<typename TraitsC<Data1T>::BaseTypeT,typename TraitsC<Data2T>::BaseTypeT>
+  {
+  public:
+    typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Type of object without const's and refs.
+    typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Type of arguments without const's and refs.
+    typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Type of arguments without const's and refs.
+    typedef bool (ObjT::*Func2T)(Data1T,Data2T);
+    
+    Signal2MethodRefBodyC(Signal0C &from,
+			  BaseObjT &nobj,
+			  typename Signal2MethodBodyC<Data1T,Data2T,ObjT>::Func2T nFunc,
+			  const Arg1T &dat1 = Arg1T(),
+			  const Arg2T &dat2 = Arg2T())
+      : SignalConnector0BodyC(from),
+	SignalConnector1BodyC<typename TraitsC<Data1T>::BaseTypeT>(from,dat1),
+	SignalConnector2BodyC<typename TraitsC<Data1T>::BaseTypeT,typename TraitsC<Data2T>::BaseTypeT>(from,dat1,dat2),
+	obj(nobj),
+	func(nFunc)
+    {}
+    //: Constructor.
+    
+    virtual bool Invoke()
+    { return (obj.*func)(defaultVal,defaultVal2); }
+    //: Call function.
+    
+    virtual bool Invoke(Arg1T &val)
+    { return (obj.*func)(val,defaultVal2); }
+    //: Call function.
+    
+    virtual bool Invoke(Arg1T &val1,Arg2T &val2)
+    { return (obj.*func)(val1,val2); }
+    //: Call function.
+    
+  protected:
+    ObjT &obj;
+    Func2T func;
+  };
+  
+  //! userlevel=Advanced
+  //: Signal a method.
+  
+  template<class Data1T,class Data2T,class ObjT>
+  class Signal2MethodRefC
+    : public SignalConnectorC
+  {
+  public:
+    typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Type of object without const's and refs.
+    typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Type of arguments without const's and refs.
+    typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Type of arguments without const's and refs.
+    
+    Signal2MethodRefC(Signal0C &from,
+		      BaseObjT &nobj,
+		      typename Signal2MethodBodyC<Data1T,Data2T,ObjT>::Func2T nFunc,
+		      const Arg1T &dat1 = Arg1T(),
+		      const Arg2T &dat2 = Arg2T())
+      : SignalConnectorC(*new Signal2MethodRefBodyC<Data1T,Data2T,ObjT>(from,nobj,nFunc,dat1,dat2))
+    {}
+    //: Constructor.
+  };
+  
+#endif
+
+  
   ////////////////////////////////////////////////////////////////
   
   //! userlevel=Develop
@@ -441,7 +512,11 @@ namespace RavlN {
 			      const typename TraitsC<Data1T>::BaseTypeT &def1 VCPPARGFIX(=typename TraitsC<Data1T>::BaseTypeT()),
 			      const typename TraitsC<Data2T>::BaseTypeT &def2 VCPPARGFIX(=typename TraitsC<Data2T>::BaseTypeT())) {
     RavlAssertMsg(from.IsValid(),"Source signal not valid.");
+#if RAVL_COMPILER_VISUALCPP 
+    return Signal2MethodRefC<Data1T,Data2T,ObjT>(from,obj,func,def1,def2); 
+#else
     return Signal2MethodC<Data1T,Data2T,ObjT &>(from,obj,func,def1,def2); 
+#endif
   }
   //! userlevel=Normal
   //: Connect to a method.
@@ -455,7 +530,11 @@ namespace RavlN {
 			    const typename TraitsC<Data1T>::BaseTypeT &def1 VCPPARGFIX(=typename TraitsC<Data1T>::BaseTypeT()),
 			    const typename TraitsC<Data2T>::BaseTypeT &def2 VCPPARGFIX(=typename TraitsC<Data2T>::BaseTypeT())) {
     RavlAssertMsg(from.IsValid(),"Source signal not valid.");
+#if RAVL_COMPILER_VISUALCPP 
+    return Signal2MethodRefC<Data1T,Data2T,ObjT>(from,obj,func,def1,def2); 
+#else
     return Signal2MethodC<Data1T,Data2T,ObjT &>(from,obj,func,def1,def2); 
+#endif
   }
   //! userlevel=Normal
   //: Connect to a method.

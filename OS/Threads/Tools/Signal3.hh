@@ -275,6 +275,84 @@ namespace RavlN {
     //: Constructor.
   };
   
+#if RAVL_COMPILER_VISUALCPP 
+  
+  ///////////////////////////////////////////////////
+  //! userlevel=Develop
+  //: Signal 1 method connector.
+  
+  template<class Data1T,class Data2T,class Data3T,class ObjT>
+  class Signal3MethodRefBodyC
+    : public SignalConnector3BodyC<typename TraitsC<Data1T>::BaseTypeT,typename TraitsC<Data2T>::BaseTypeT,typename TraitsC<Data3T>::BaseTypeT>
+  {
+  public:
+    typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Type of object without const's and refs.
+    typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Type of arguments without const's and refs.
+    typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Type of arguments without const's and refs.
+    typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Type of arguments without const's and refs.
+    typedef bool (ObjT::*Func3T)(Data1T,Data2T,Data3T);
+    
+    Signal3MethodRefBodyC(Signal0C &from,
+		       BaseObjT &nobj,
+		       Func3T nFunc,
+		       const Arg1T &dat1 = Arg1T(),
+		       const Arg2T &dat2 = Arg2T(),
+		       const Arg3T &dat3 = Arg3T())
+      : SignalConnector0BodyC(from),
+	SignalConnector1BodyC<typename TraitsC<Data1T>::BaseTypeT>(from,dat1),
+	SignalConnector2BodyC<typename TraitsC<Data1T>::BaseTypeT,typename TraitsC<Data2T>::BaseTypeT>(from,dat1,dat2),
+	SignalConnector3BodyC<typename TraitsC<Data1T>::BaseTypeT,typename TraitsC<Data2T>::BaseTypeT,typename TraitsC<Data3T>::BaseTypeT>(from,dat1,dat2,dat3),
+	obj(nobj),
+	func(nFunc)
+      {}
+    //: Constructor.
+    
+    virtual bool Invoke()
+    { return (obj.*func)(defaultVal,defaultVal2,defaultVal3); }
+    //: Call function.
+    
+    virtual bool Invoke(Arg1T &val)
+    { return (obj.*func)(val,defaultVal2,defaultVal3); }
+    //: Call function.
+    
+    virtual bool Invoke(Arg1T &val1,Arg2T &val2)
+    { return (obj.*func)(val1,val2,defaultVal3); }
+    //: Call function.
+    
+    virtual bool Invoke(Arg1T &val1,Arg2T &val2,Arg3T &val3)
+    { return (obj.*func)(val1,val2,val3); }
+    //: Call function.
+    
+  protected:
+    ObjT &obj;
+    Func3T func;
+  };
+  
+  //! userlevel=Advanced
+  //: Signal a method.
+  
+  template<class Data1T,class Data2T,class Data3T,class ObjT>
+  class Signal3MethodRefC
+    : public SignalConnectorC
+  {
+  public:
+    typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Type of object without const's and refs.
+    typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Type of arguments without const's and refs.
+    typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Type of arguments without const's and refs.
+    typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Type of arguments without const's and refs.
+    
+    Signal3MethodRefC(Signal0C &from,
+		      BaseObjT &nobj,
+		      typename Signal3MethodBodyC<Data1T,Data2T,Data3T,ObjT>::Func3T nFunc,
+		      const Arg1T &dat1 = Arg1T(),
+		      const Arg2T &dat2 = Arg2T(),
+		      const Arg3T &dat3 = Arg3T())
+      : SignalConnectorC(*new Signal3MethodRefBodyC<Data1T,Data2T,Data3T,ObjT>(from,nobj,nFunc,dat1,dat2,dat3))
+    {}
+    //: Constructor.
+  };
+  
+#endif
   ////////////////////////////////////////////////////////////////
   
   //! userlevel=Develop
@@ -483,7 +561,11 @@ namespace RavlN {
 			      const typename TraitsC<Data3T>::BaseTypeT &def3 VCPPARGFIX(=typename TraitsC<Data3T>::BaseTypeT())
 			      ) {
     RavlAssert(from.IsValid());
+#if RAVL_COMPILER_VISUALCPP 
+    return Signal3MethodRefC<Data1T,Data2T,Data3T,ObjT>(from,obj,func,def1,def2,def3);
+#else
     return Signal3MethodC<Data1T,Data2T,Data3T,ObjT &>(from,obj,func,def1,def2,def3);
+#endif
   }
   //! userlevel=Normal
   //: Connect a signal to a method.
@@ -499,7 +581,11 @@ namespace RavlN {
 			    const typename TraitsC<Data3T>::BaseTypeT &def3 VCPPARGFIX(=typename TraitsC<Data3T>::BaseTypeT())
 			    ) {
     RavlAssert(from.IsValid());
+#if RAVL_COMPILER_VISUALCPP 
+    return Signal3MethodRefC<Data1T,Data2T,Data3T,ObjT>(from,obj,func,def1,def2,def3);
+#else
     return Signal3MethodC<Data1T,Data2T,Data3T,ObjT &>(from,obj,func,def1,def2,def3);
+#endif
   }
   //! userlevel=Normal
   //: Connect a signal to a method.
