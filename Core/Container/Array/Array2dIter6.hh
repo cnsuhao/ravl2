@@ -51,7 +51,8 @@ namespace RavlN {
         dat2(arr2),
         dat3(arr3),
         dat4(arr4),
-        dat5(arr5)
+        dat5(arr5),
+        dat6(arr6)
     { 
       if(matching) {
 	RavlAssert(dat1.Range().Size() == dat2.Range().Size());
