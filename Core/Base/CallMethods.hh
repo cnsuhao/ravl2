@@ -522,50 +522,50 @@ namespace RavlN {
   template<class ObjT,class DataT,class RetT>
   inline
   CallMethod1C<ObjT,DataT,RetT> 
-  Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT),const typename TraitsC<DataT>::BaseTypeT &dat)
-  { return CallMethod1C<ObjT,DataT,RetT>(const_cast<ObjT &>(nobj),nfunc,dat); }
+  Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT),const typename TraitsC<DataT>::BaseTypeT &defaultArg)
+  { return CallMethod1C<ObjT,DataT,RetT>(const_cast<ObjT &>(nobj),nfunc,defaultArg); }
   
   template<class ObjT,class Data1T,class Data2T,class RetT>
   inline
   CallMethod2C<ObjT,Data1T,Data2T,RetT> 
   Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T),
-	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
-	  const typename TraitsC<Data2T>::BaseTypeT &dat2
+	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
+	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2
 	  )
-  { return CallMethod2C<ObjT,Data1T,Data2T,RetT>(nobj,nfunc,dat1,dat2); }
+  { return CallMethod2C<ObjT,Data1T,Data2T,RetT>(nobj,nfunc,defaultArg1,defaultArg2); }
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class RetT>
   inline
   CallMethod3C<ObjT,Data1T,Data2T,Data3T,RetT>
   Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T),
-	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
-	  const typename TraitsC<Data2T>::BaseTypeT &dat2,
-	  const typename TraitsC<Data3T>::BaseTypeT &dat3
+	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
+	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
+	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3
 	  )
-  { return CallMethod3C<ObjT,Data1T,Data2T,Data3T,RetT>(nobj,nfunc,dat1,dat2,dat3); }
+  { return CallMethod3C<ObjT,Data1T,Data2T,Data3T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3); }
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class RetT>
   inline
   CallMethod4C<ObjT,Data1T,Data2T,Data3T,Data4T,RetT>
   Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T),
-	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
-	  const typename TraitsC<Data2T>::BaseTypeT &dat2,
-	  const typename TraitsC<Data3T>::BaseTypeT &dat3,
-	  const typename TraitsC<Data4T>::BaseTypeT &dat4
+	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
+	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
+	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3,
+	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4
 	  )
-  { return CallMethod4C<ObjT,Data1T,Data2T,Data3T,Data4T,RetT>(nobj,nfunc,dat1,dat2,dat3,dat4); }
+  { return CallMethod4C<ObjT,Data1T,Data2T,Data3T,Data4T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
 
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class RetT>
   inline
   CallMethod5C<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>
   Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T,Data5T),
-	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
-	  const typename TraitsC<Data2T>::BaseTypeT &dat2,
-	  const typename TraitsC<Data3T>::BaseTypeT &dat3,
-	  const typename TraitsC<Data4T>::BaseTypeT &dat4,
-	  const typename TraitsC<Data5T>::BaseTypeT &dat5
+	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
+	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
+	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3,
+	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4,
+	  const typename TraitsC<Data5T>::BaseTypeT &defaultArg5
 	  )
-  { return CallMethod5C<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nobj,nfunc,dat1,dat2,dat3,dat4,dat5); }
+  { return CallMethod5C<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }
   
   // Refrence methods.
   
@@ -578,50 +578,50 @@ namespace RavlN {
   template<class ObjT,class DataT,class RetT>
   inline
   CallMethod1C<ObjT &,DataT,RetT> 
-  TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT),const typename TraitsC<DataT>::BaseTypeT &dat)
-  { return CallMethod1C<ObjT &,DataT,RetT>(nobj,nfunc,dat); }
+  TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT),const typename TraitsC<DataT>::BaseTypeT &defaultArg)
+  { return CallMethod1C<ObjT &,DataT,RetT>(nobj,nfunc,defaultArg); }
   
   template<class ObjT,class Data1T,class Data2T,class RetT>
   inline
   CallMethod2C<ObjT &,Data1T,Data2T,RetT> 
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T),
-	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
-	  const typename TraitsC<Data2T>::BaseTypeT &dat2
+	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
+	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2
 	  )
-  { return CallMethod2C<ObjT &,Data1T,Data2T,RetT>(nobj,nfunc,dat1,dat2); }
+  { return CallMethod2C<ObjT &,Data1T,Data2T,RetT>(nobj,nfunc,defaultArg1,defaultArg2); }
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class RetT>
   inline
   CallMethod3C<ObjT &,Data1T,Data2T,Data3T,RetT>
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T),
-	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
-	  const typename TraitsC<Data2T>::BaseTypeT &dat2,
-	  const typename TraitsC<Data3T>::BaseTypeT &dat3
+	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
+	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
+	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3
 	  )
-  { return CallMethod3C<ObjT &,Data1T,Data2T,Data3T,RetT>(nobj,nfunc,dat1,dat2,dat3); }
+  { return CallMethod3C<ObjT &,Data1T,Data2T,Data3T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3); }
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class RetT>
   inline
   CallMethod4C<ObjT &,Data1T,Data2T,Data3T,Data4T,RetT>
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T),
-	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
-	  const typename TraitsC<Data2T>::BaseTypeT &dat2,
-	  const typename TraitsC<Data3T>::BaseTypeT &dat3,
-	  const typename TraitsC<Data4T>::BaseTypeT &dat4
+	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
+	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
+	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3,
+	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4
 	  )
-  { return CallMethod4C<ObjT &,Data1T,Data2T,Data3T,Data4T,RetT>(nobj,nfunc,dat1,dat2,dat3,dat4); }
+  { return CallMethod4C<ObjT &,Data1T,Data2T,Data3T,Data4T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
 
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class RetT>
   inline
   CallMethod5C<ObjT &,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T,Data5T),
-	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
-	  const typename TraitsC<Data2T>::BaseTypeT &dat2,
-	  const typename TraitsC<Data3T>::BaseTypeT &dat3,
-	  const typename TraitsC<Data4T>::BaseTypeT &dat4,
-	  const typename TraitsC<Data5T>::BaseTypeT &dat5
+	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
+	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
+	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3,
+	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4,
+	  const typename TraitsC<Data5T>::BaseTypeT &defaultArg5
 	  )
-  { return CallMethod5C<ObjT &,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nobj,nfunc,dat1,dat2,dat3,dat4,dat5); }
+  { return CallMethod5C<ObjT &,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }
   
 #else
   
@@ -634,50 +634,50 @@ namespace RavlN {
   template<class ObjT,class DataT>
   inline
   CallMethod1C<ObjT,DataT,bool> 
-  Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT),const typename TraitsC<DataT>::BaseTypeT &dat)
-  { return CallMethod1C<ObjT,DataT,bool>(const_cast<ObjT &>(nobj),nfunc,dat); }
+  Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT),const typename TraitsC<DataT>::BaseTypeT &defaultArg)
+  { return CallMethod1C<ObjT,DataT,bool>(const_cast<ObjT &>(nobj),nfunc,defaultArg); }
   
   template<class ObjT,class Data1T,class Data2T>
   inline
   CallMethod2C<ObjT,Data1T,Data2T,bool> 
   Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T),
-	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
-	  const typename TraitsC<Data2T>::BaseTypeT &dat2
+	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
+	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2
 	  )
-  { return CallMethod2C<ObjT,Data1T,Data2T,bool>(nobj,nfunc,dat1,dat2); }
+  { return CallMethod2C<ObjT,Data1T,Data2T,bool>(nobj,nfunc,defaultArg1,defaultArg2); }
   
   template<class ObjT,class Data1T,class Data2T,class Data3T>
   inline
   CallMethod3C<ObjT,Data1T,Data2T,Data3T,bool>
   Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T),
-	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
-	  const typename TraitsC<Data2T>::BaseTypeT &dat2,
-	  const typename TraitsC<Data3T>::BaseTypeT &dat3
+	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
+	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
+	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3
 	  )
-  { return CallMethod3C<ObjT,Data1T,Data2T,Data3T,bool>(nobj,nfunc,dat1,dat2,dat3); }
+  { return CallMethod3C<ObjT,Data1T,Data2T,Data3T,bool>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3); }
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T>
   inline
   CallMethod4C<ObjT,Data1T,Data2T,Data3T,Data4T,bool>
   Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T),
-	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
-	  const typename TraitsC<Data2T>::BaseTypeT &dat2,
-	  const typename TraitsC<Data3T>::BaseTypeT &dat3,
-	  const typename TraitsC<Data4T>::BaseTypeT &dat4
+	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
+	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
+	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3,
+	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4
 	  )
-  { return CallMethod4C<ObjT,Data1T,Data2T,Data3T,Data4T,bool>(nobj,nfunc,dat1,dat2,dat3,dat4); }
+  { return CallMethod4C<ObjT,Data1T,Data2T,Data3T,Data4T,bool>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
 
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T>
   inline
   CallMethod5C<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,bool>
   Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T,Data5T),
-	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
-	  const typename TraitsC<Data2T>::BaseTypeT &dat2,
-	  const typename TraitsC<Data3T>::BaseTypeT &dat3,
-	  const typename TraitsC<Data4T>::BaseTypeT &dat4,
-	  const typename TraitsC<Data5T>::BaseTypeT &dat5
+	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
+	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
+	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3,
+	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4,
+	  const typename TraitsC<Data5T>::BaseTypeT &defaultArg5
 	  )
-  { return CallMethod5C<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,bool>(nobj,nfunc,dat1,dat2,dat3,dat4,dat5); }
+  { return CallMethod5C<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,bool>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }
   
   // Refrence methods.
   
@@ -690,50 +690,50 @@ namespace RavlN {
   template<class ObjT,class DataT>
   inline
   CallMethod1C<ObjT &,DataT,bool> 
-  TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT),const typename TraitsC<DataT>::BaseTypeT &dat)
+  TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT),const typename TraitsC<DataT>::BaseTypeT &defaultArg)
   { return CallMethod1C<ObjT &,DataT,bool>(nobj,nfunc,dat); }
   
   template<class ObjT,class Data1T,class Data2T>
   inline
   CallMethod2C<ObjT &,Data1T,Data2T,bool> 
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T),
-	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
-	  const typename TraitsC<Data2T>::BaseTypeT &dat2
+	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
+	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2
 	  )
-  { return CallMethod2C<ObjT &,Data1T,Data2T,bool>(nobj,nfunc,dat1,dat2); }
+  { return CallMethod2C<ObjT &,Data1T,Data2T,bool>(nobj,nfunc,defaultArg1,defaultArg2); }
   
   template<class ObjT,class Data1T,class Data2T,class Data3T>
   inline
   CallMethod3C<ObjT &,Data1T,Data2T,Data3T,bool>
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T),
-	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
-	  const typename TraitsC<Data2T>::BaseTypeT &dat2,
-	  const typename TraitsC<Data3T>::BaseTypeT &dat3
+	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
+	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
+	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3
 	  )
-  { return CallMethod3C<ObjT &,Data1T,Data2T,Data3T,bool>(nobj,nfunc,dat1,dat2,dat3); }
+  { return CallMethod3C<ObjT &,Data1T,Data2T,Data3T,bool>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3); }
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T>
   inline
   CallMethod4C<ObjT &,Data1T,Data2T,Data3T,Data4T,bool>
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T),
-	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
-	  const typename TraitsC<Data2T>::BaseTypeT &dat2,
-	  const typename TraitsC<Data3T>::BaseTypeT &dat3,
-	  const typename TraitsC<Data4T>::BaseTypeT &dat4
+	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
+	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
+	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3,
+	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4
 	  )
-  { return CallMethod4C<ObjT &,Data1T,Data2T,Data3T,Data4T,bool>(nobj,nfunc,dat1,dat2,dat3,dat4); }
+  { return CallMethod4C<ObjT &,Data1T,Data2T,Data3T,Data4T,bool>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T>
   inline
   CallMethod5C<ObjT &,Data1T,Data2T,Data3T,Data4T,Data5T,bool>
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T,Data5T),
-	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
-	  const typename TraitsC<Data2T>::BaseTypeT &dat2,
-	  const typename TraitsC<Data3T>::BaseTypeT &dat3,
-	  const typename TraitsC<Data4T>::BaseTypeT &dat4,
-	  const typename TraitsC<Data5T>::BaseTypeT &dat5
+	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
+	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
+	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3,
+	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4,
+	  const typename TraitsC<Data5T>::BaseTypeT &defaultArg5
 	  )
-  { return CallMethod5C<ObjT &,Data1T,Data2T,Data3T,Data4T,Data5T,bool>(nobj,nfunc,dat1,dat2,dat3,dat4,dat5); }
+  { return CallMethod5C<ObjT &,Data1T,Data2T,Data3T,Data4T,Data5T,bool>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }
 
 #endif
 
