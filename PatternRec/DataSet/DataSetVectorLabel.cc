@@ -10,6 +10,9 @@
 
 #include "Ravl/PatternRec/DataSetVectorLabel.hh"
 #include "Ravl/PatternRec/DataSet2Iter.hh"
+#include "Ravl/PatternRec/DataSet1Iter.hh"
+#include "Ravl/SArray1dIter2.hh"
+#include "Ravl/SumsNd2.hh"
 
 namespace RavlN {
 
@@ -25,78 +28,104 @@ namespace RavlN {
   VectorC DataSetVectorLabelBodyC::GlobalMean() const {
     return Sample1().Mean();
   }
-
+  
   SArray1dC<VectorC> DataSetVectorLabelBodyC::ClassMeans () const {
-    SArray1dC<VectorC> means(Sample2().MaxValue()+1);
-    SArray1dC<SampleVectorC> samps = SeperateLabels();
-    IndexC counter = 0;
-    for (SArray1dIterC<SampleVectorC> it (samps); it; it++) 
-      means[counter++] = it.Data().Mean();
-
-    return means;
+    CollectionC<Tuple2C<VectorC,UIntT> > means(10);
+    DataSet2IterC<SampleVectorC,SampleLabelC> it(Sample1(),Sample2());
+    if(!it) return SArray1dC<VectorC>(); // No samples.
+    UIntT dim = it.Data1().Size();
+    for(;it;it++) {
+      if(means.Size() <= it.Data2()) {
+	VectorC vec(dim);
+	vec.Fill(0);
+	means.Insert(Tuple2C<VectorC,UIntT>(vec,0));
+      }
+      means[it.Data2()].Data1() += it.Data1();
+      means[it.Data2()].Data2()++;
+    }
+    SArray1dC<VectorC> ret(means.Size());
+    for(SArray1dIter2C<Tuple2C<VectorC,UIntT>,VectorC > it(means.Array(),ret);it;it++)
+      it.Data2() = it.Data1().Data1() / static_cast<RealT>(it.Data1().Data2());
+    return ret;
   }
 
   DataSetVectorLabelC DataSetVectorLabelBodyC::ClassMeansLabels() const {
     SampleVectorC means(Sample2().MaxValue()+1);
     SampleLabelC  labels(Sample2().MaxValue()+1);
-    SArray1dC<SampleVectorC> samps = SeperateLabels();
-    UIntT counter = 0;
-    for (SArray1dIterC<SampleVectorC> it (samps); it; it++) {
-      means.Append(it.Data().Mean());
-      labels.Append(counter++);
-    }
+    SArray1dC<VectorC> smeans = ClassMeans();
+    means.Append(smeans);
+    for (UIntT i = 0;i < smeans.Size();i++)
+      labels.Append(i);
     return DataSetVectorLabelC(means, labels);
   }
 
   SArray1dC<UIntT> DataSetVectorLabelBodyC::ClassNums ()  const {
-    SArray1dC<UIntT> nums(Sample2().MaxValue()+1);
-    SArray1dC<SampleVectorC> samps = SeperateLabels();
-    IndexC counter = 0;
-    for (SArray1dIterC<SampleVectorC> it (samps); it; it++) 
-      nums[counter++] = it.Data().Size();
-    return nums;
+    CollectionC<UIntT> num(10);
+    for(DataSet1IterC<SampleLabelC> it(Sample2());it;it++) {
+      if(num.Size() <= *it)
+	num.Insert(0);
+      num[*it]++;
+    }
+    return num.Array();
   }
-
+  
   SArray1dC<MeanCovarianceC> DataSetVectorLabelBodyC::ClassStats () const {
-    SArray1dC<MeanCovarianceC> meancovs(Sample2().MaxValue()+1);
-    SArray1dC<SampleVectorC> samps = SeperateLabels();
-    IndexC counter = 0;
-    for (SArray1dIterC<SampleVectorC> it (samps); it; it++) 
-      meancovs[counter++] = it.Data().MeanCovariance();
+    CollectionC<SumsNd2C> stats(10);
+    DataSet2IterC<SampleVectorC,SampleLabelC> it(Sample1(),Sample2());
+    if(!it) return SArray1dC<MeanCovarianceC>();
+    UIntT dim = it.Data1().Size();
+    for(;it;it++) {
+      if(stats.Size() <= it.Data2())	
+	stats.Insert(SumsNd2C(dim));
+      stats[it.Data2()] += it.Data1();
+    }
+    SArray1dC<MeanCovarianceC> meancovs(stats.Size());
+    for(SArray1dIter2C<MeanCovarianceC,SumsNd2C > it(meancovs,stats.Array());it;it++)
+      it.Data1() = it.Data2().MeanCovariance();
     return meancovs;
   }
-    
+  
   MatrixC DataSetVectorLabelBodyC::BetweenClassScatter () const {
-    VectorC setMean = GlobalMean();
-    SArray1dC<VectorC> classMeans = ClassMeans ();
-    SArray1dC<UIntT> nums = ClassNums();
-    MatrixC Sb (setMean.Size(), setMean.Size(), 0.0);
-    RealT total = (RealT) Sample1().Size();
-    IndexC i = 0;
-    for (SArray1dIterC<VectorC> it (classMeans); it; it++) {
-      VectorC diff = classMeans[i] - setMean;
-      RealT p = (RealT) nums[i] / total;
-      Sb += diff.OuterProduct (diff, p);
-      i ++;
+    CollectionC<Tuple2C<VectorC,UIntT> > means(10);
+    DataSet2IterC<SampleVectorC,SampleLabelC> it(Sample1(),Sample2());
+    if(!it) return MatrixC(); // No samples.
+    UIntT dim = it.Data1().Size();
+    for(;it;it++) {
+      if(means.Size() <= it.Data2()) {
+	VectorC vec(dim);
+	vec.Fill(0);
+	means.Insert(Tuple2C<VectorC,UIntT>(vec,0));
+      }
+      means[it.Data2()].Data1() += it.Data1();
+      means[it.Data2()].Data2()++;
+    }
+    SArray1dIterC<Tuple2C<VectorC,UIntT> > mit(means.Array());
+    VectorC globalMean = mit->Data1().Copy();
+    RealT total = mit->Data2();
+    for(mit++;mit;mit++) {
+      globalMean += mit->Data1();
+      total += mit->Data2();
+    }
+    globalMean /= total;
+    MatrixC Sb(globalMean.Size(),globalMean.Size(),0.0);
+    for(mit.First();mit;mit++) {
+      VectorC diff = (mit->Data1() / mit->Data2()) - globalMean;
+      Sb.AddOuterProduct(diff,diff);
     }
     return Sb;
   }
 
   MatrixC DataSetVectorLabelBodyC::WithinClassScatter ()  const {
-    SArray1dC<UIntT> nums = ClassNums();
-    RealT total = (RealT) Sample1().Size();
-    SArray1dC<SampleVectorC> samps = SeperateLabels();
-    MatrixC Sw;
-    IndexC i = 0;
-    for (SArray1dIterC<SampleVectorC> it (samps); it; it++) {
-      MeanCovarianceC meancov = it.Data().MeanCovariance();
-      RealT p = (RealT) nums[i] / total;
-      if(i==0)  
-	Sw = meancov.Covariance() * p;
-      else
-	Sw += (meancov.Covariance() * p);
-      i++;
+    SArray1dC<MeanCovarianceC> stats = ClassStats();
+    SArray1dIterC<MeanCovarianceC> it (stats);
+    if(!it) return MatrixC();
+    MatrixC Sw = it->Covariance() * it->Number();
+    RealT total = it->Number();
+    for (it++; it; it++) {
+      total += it->Number();
+      Sw.MulAdd(it->Covariance(),it->Number());
     }
+    Sw /= total;
     return Sw;
   }
 
@@ -104,7 +133,7 @@ namespace RavlN {
   DataSetVectorLabelBodyC::ExtractPerLabel(UIntT numSamples)  const {
     cerr << "numSample: " << numSamples << endl;
     SArray1dC<SampleVectorC> arr = SeperateLabels();
-    UIntT noClasses = Sample2().MaxValue()+1;
+    UIntT noClasses = arr.Size();
     cerr << "classes: " << noClasses << endl;
     SampleVectorC input(numSamples * noClasses);
     SampleLabelC output(numSamples * noClasses);

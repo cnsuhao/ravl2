@@ -23,6 +23,7 @@
 #include "Ravl/PatternRec/SampleLabel.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/PatternRec/SampleStreamVector.hh"
+#include "Ravl/PatternRec/DataSetVectorLabel.hh"
 #include "Ravl/PatternRec/Function1.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/OS/Date.hh"
@@ -44,6 +45,7 @@ int testDataSet3();
 int testDataSet4();
 int testSampleVector();
 int testSampleStreamVector();
+int testDataSetVectorLabel();
 
 #if USE_SPEEDTEST
 #include "Ravl/DList.hh"
@@ -83,6 +85,10 @@ int main() {
     return 1;
   }
   if((ln = testSampleVector()) != 0) {
+    cerr << "Test failed line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testDataSetVectorLabel()) != 0) {
     cerr << "Test failed line " << ln << "\n";
     return 1;
   }
@@ -206,6 +212,7 @@ int testDataSet4() {
 }
 
 int testSampleVector() {
+  cerr << "testSampleVector() \n";
   SampleVectorC sv;
   sv += VectorC(1,2,3);
   sv += VectorC(1,1,1);
@@ -224,6 +231,11 @@ int testSampleVector() {
   MeanCovarianceC cmc(3);
   cmc += VectorC(1,2,3);
   cmc += VectorC(1,1,1);
+#if 0
+  cerr << "sv mc=" << mc << "\n";
+  cerr << "lc mc=" << cmc << "\n";
+#endif
+  
   if((mc.Covariance() - cmc.Covariance()).SumOfSqr() > 0.00001) return __LINE__;
   if((mc.Mean() - cmc.Mean()).SumOfSqr() > 0.00001) return __LINE__;
   if(mc.Number() != cmc.Number()) return __LINE__;
@@ -238,6 +250,65 @@ int testSampleVector() {
   SampleVectorC sv2;
   istr >> sv2;
   if(sv2.Size() != sv.Size()) return __LINE__;
+  return 0;
+}
+
+int testDataSetVectorLabel() {
+  cerr << "testDataSetVectorLabel()\n";
+  DataSetVectorLabelC svl(2);
+  svl.Append(VectorC(1,2,3),0);
+  svl.Append(VectorC(2,1,1),0);
+  
+  svl.Append(VectorC(2,2,3),1);
+  svl.Append(VectorC(2,1,1),1);
+  svl.Append(VectorC(3,4,4),1);
+  SArray1dC<UIntT> nums = svl.ClassNums();
+  if(nums.Size() != 2) return __LINE__;
+  if(nums[0] != 2) return __LINE__;
+  if(nums[1] != 3) return __LINE__;
+  SArray1dC<VectorC> means = svl.ClassMeans();
+  if(means.Size() != 2) return __LINE__;
+  SArray1dC<MeanCovarianceC> stats = svl.ClassStats();
+  if(stats.Size() != 2) return __LINE__;
+  // Check mean covariance computation.
+  MeanCovarianceC mc = stats[0];
+  MeanCovarianceC cmc(3);
+  cmc += VectorC(1,2,3);
+  cmc += VectorC(2,1,1);
+  if((mc.Covariance() - cmc.Covariance()).SumOfSqr() > 0.00001) return __LINE__;
+  if((mc.Mean() - cmc.Mean()).SumOfSqr() > 0.00001) return __LINE__;
+  if((means[0] - cmc.Mean()).SumOfSqr() > 0.00001) return __LINE__;
+  if(mc.Number() != cmc.Number()) return __LINE__;
+  
+  mc = stats[1];
+  MeanCovarianceC cmc1(3);
+  cmc1 += VectorC(2,2,3);
+  cmc1 += VectorC(2,1,1);
+  cmc1 += VectorC(3,4,4);
+  if((mc.Covariance() - cmc1.Covariance()).SumOfSqr() > 0.00001) return __LINE__;
+  if((mc.Mean() - cmc1.Mean()).SumOfSqr() > 0.00001) return __LINE__;
+  if((means[1] - cmc1.Mean()).SumOfSqr() > 0.00001) return __LINE__;
+  if(mc.Number() != cmc1.Number()) return __LINE__;
+  
+  MeanCovarianceC global = cmc.Copy();
+  global += cmc1;
+  VectorC lglobal = svl.GlobalMean();
+  if((lglobal - global.Mean()).SumOfSqr() > 0.000001) return __LINE__;
+  
+  MatrixC tbcs = VectorC(cmc.Mean() - global.Mean()).OuterProduct();
+  tbcs += VectorC(cmc1.Mean() - global.Mean()).OuterProduct();
+  
+  cerr << "tbcs=" << tbcs << "\n";
+  MatrixC bcs = svl.BetweenClassScatter();
+  cerr << "bcs=" << bcs << "\n";
+  if((tbcs - bcs).SumOfSqr() > 0.00001) return __LINE__;
+  
+  MatrixC tics = cmc1.Covariance() * (3.0/5.0) + cmc.Covariance() * (2.0/5.0);
+  MatrixC ics = svl.WithinClassScatter();
+  cerr << "tics=" << tics << "\n";
+  cerr << "ics=" << ics << "\n";
+  if((tics - ics).SumOfSqr() > 0.00001) return __LINE__;
+  
   return 0;
 }
 

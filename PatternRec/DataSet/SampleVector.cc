@@ -17,6 +17,7 @@
 #include "Ravl/PatternRec/DataSet2Iter.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/SArray1dIter2.hh"
+#include "Ravl/SumsNd2.hh"
 
 namespace RavlN {
 
@@ -46,35 +47,48 @@ namespace RavlN {
   
   VectorC SampleVectorC::Mean() const {
     DArray1dIterC<VectorC> it(*this);
-    if(!it)
-      return VectorC();
+    if(!it) return VectorC();
     VectorC total = it->Copy();
     for(it++;it;it++)
       total += *it;
     return total/ ((RealT) Size());
   }
   
+  //: Find the weighted mean vector of the sample.
+  
+  VectorC SampleVectorC::Mean(const SampleC<RealT> &weights) const {
+    DArray1dIter2C<VectorC,RealT> it(*this,weights.DArray());
+    if(!it) return VectorC();
+    VectorC total = it.Data1() * it.Data2();
+    RealT n = 0;
+    for(it++;it;it++) {
+      total.MulAdd(it.Data1(),it.Data2());
+      n += it.Data2();
+    }
+    return total / n;
+  }
+  
   //: Find the mean and covariance of the sample
   
   MeanCovarianceC SampleVectorC::MeanCovariance() const {
-    UIntT in = Size();
-    if(in == 0)
-      return MeanCovariance();
-    RealT n = (RealT) in;
     DArray1dIterC<VectorC> it(*this);
-    MatrixRUTC cov = OuterProductRUT(*it);
-    VectorC mean = it->Copy();
-    it++;
-    for(;it;it++) {
-      mean += *it;
-      cov.AddOuterProduct(*it);
-    }
-    mean /= n;
-    cov /= n;
-    //cov -= OuterProductRUT(mean);
-    cov.SubtractOuterProduct(mean);
-    cov.MakeSymmetric();
-    return MeanCovarianceC(in,mean,cov);
+    if(!it) return MeanCovariance();
+    SumsNd2C sums(1.0,it->Copy(),OuterProductRUT(*it));
+    for(it++;it;it++)
+      sums += *it;
+    return sums.MeanCovariance();
+  }
+  
+  //: Find the mean and covariance of a weighted sample
+  
+  MeanCovarianceC SampleVectorC::MeanCovariance(const SampleC<RealT> &weights) const {
+    RavlAssert(Size() == weights.Size());
+    DArray1dIter2C<VectorC,RealT> it(*this,weights.DArray());
+    if(!it) return MeanCovariance();
+    SumsNd2C sums(it.Data2(),it.Data1() * it.Data2(),OuterProductRUT(it.Data1(),it.Data2()));
+    for(it++;it;it++) 
+      sums.Add(it.Data1(),it.Data2());
+    return sums.MeanCovariance();
   }
   
   //: Compute the sum of the outerproducts.

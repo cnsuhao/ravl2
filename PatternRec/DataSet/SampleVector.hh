@@ -57,8 +57,14 @@ namespace RavlN {
     VectorC Mean() const;
     //: Find the mean vector of the sample.
     
+    VectorC Mean(const SampleC<RealT> &weights) const;
+    //: Find the weighted mean vector of the sample.
+    
     MeanCovarianceC MeanCovariance() const;
     //: Find the mean and covariance of the sample
+    
+    MeanCovarianceC MeanCovariance(const SampleC<RealT> &weights) const;
+    //: Find the mean and covariance of a weighted sample
     
     MatrixRUTC SumOuterProducts() const;
     //: Compute the sum of the outerproducts.
