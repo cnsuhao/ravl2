@@ -20,6 +20,8 @@
 #include "Ravl/HashIter.hh"
 #include "Ravl/Image/ImageConv.hh"
 
+#include "Ravl/IO.hh"
+#include "Ravl/Image/ImgIO.hh"
 #define DODEBUG 0
 #if DODEBUG
 #include "Ravl/IO.hh"
