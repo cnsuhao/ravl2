@@ -42,112 +42,100 @@ namespace RavlN {
     //: Constructor with requested size.
     
     inline UIntT Hash(void) const;
-    // Generates a randomised hash value for this index.
+    //: Generates a randomised hash value for this index.
     
-    // Arithmetic operations
-    // ---------------------
+    //:---------------------------
+    //: Arithmetic operations
     
     inline const FIndexC<N> & operator*=(IntT alpha);
-    // Multiplies this index by number 'alpha'.
+    //: Multiplies this index by number 'alpha'.
 
     inline const FIndexC<N> & operator*=(RealT alpha);
-    // Multiplies this index by real number 'alpha'.
+    //: Multiplies this index by real number 'alpha'.
 
     inline const FIndexC<N> & operator/=(IntT alpha);
-    // Divides this index by number 'alpha'.
+    //: Divides this index by number 'alpha'.
 
     inline const FIndexC<N> & operator/=(RealT alpha);
-    // Divides this index by real number 'alpha'.
+    //: Divides this index by real number 'alpha'.
 
     inline FIndexC<N> operator*(IntT alpha) const;
-    // Multiplies this index by number 'alpha'.
+    //: Multiplies this index by number 'alpha'.
 
     inline FIndexC<N> operator*(RealT alpha) const;
-    // Multiplies this index by real number 'alpha'.
+    //: Multiplies this index by real number 'alpha'.
 
     inline FIndexC<N> operator/(IntT alpha) const;
-    // Divides this index by number 'alpha'.
+    //: Divides this index by number 'alpha'.
 
     inline FIndexC<N> operator/(RealT alpha) const;
-    // Divides this index by real number 'alpha'.
+    //: Divides this index by real number 'alpha'.
     
   };
   
   template<unsigned int N>
-  inline 
-  const FIndexC<N> &FIndexC<N>::operator*=(IntT alpha) {
-    for(int i = 0;i < N;i++)
+  inline const FIndexC<N> &FIndexC<N>::operator*=(IntT alpha) {
+    for(unsigned int i = 0;i < N;i++)
       data[i] *= alpha;
     return *this;
   }
   
   template<unsigned int N>
-  inline 
-  const FIndexC<N> & 
+  inline const FIndexC<N> & 
   FIndexC<N>::operator*=(RealT alpha) {
-    for(int i = 0;i < N;i++)
+    for(unsigned int i = 0;i < N;i++)
       data[i] = IndexC(data[i] * alpha);
     return *this;
   }
   
   template<unsigned int N>
-  inline 
-  const FIndexC<N> &FIndexC<N>::operator/=(IntT alpha) {
-    for(int i = 0;i < N;i++)
+  inline const FIndexC<N> &FIndexC<N>::operator/=(IntT alpha) {
+    for(unsigned int i = 0;i < N;i++)
       data[i] /= alpha;
     return *this;
   }
   
   template<unsigned int N>
-  inline 
-  const FIndexC<N> &FIndexC<N>::operator/=(RealT alpha) {
-    for(int i = 0;i < N;i++)
+  inline const FIndexC<N> &FIndexC<N>::operator/=(RealT alpha) {
+    for(unsigned int i = 0;i < N;i++)
       data[i] = IndexC(data[i] / alpha);
     return *this;
   }
 
   template<unsigned int N>
-  inline 
-  FIndexC<N> FIndexC<N>::operator*(IntT alpha) const { 
+  inline FIndexC<N> FIndexC<N>::operator*(IntT alpha) const { 
     FIndexC<N> ret;
-    for(int i = 0;i < N;i++)
+    for(unsigned int i = 0;i < N;i++)
       ret[i] = data[i] * alpha;
     return ret;
   }
   
   template<unsigned int N>
-  inline 
-  FIndexC<N> 
-  FIndexC<N>::operator*(RealT alpha) const { 
+  inline FIndexC<N> FIndexC<N>::operator*(RealT alpha) const { 
     FIndexC<N> ret;
-    for(int i = 0;i < N;i++)
+    for(unsigned int i = 0;i < N;i++)
       ret[i] = IndexC(data[i] * alpha);
     return ret;
   }
 
   template<unsigned int N>
-  inline 
-  FIndexC<N> 
-  FIndexC<N>::operator/(IntT alpha) const { 
+  inline FIndexC<N> FIndexC<N>::operator/(IntT alpha) const { 
     FIndexC<N> ret;
-    for(int i = 0;i < N;i++)
+    for(unsigned int i = 0;i < N;i++)
       ret[i] = IndexC(data[i] / alpha);
     return ret;
   }
   
   template<unsigned int N>
-  inline 
-  FIndexC<N> 
-  FIndexC<N>::operator/(RealT alpha) const { 
+  inline FIndexC<N> FIndexC<N>::operator/(RealT alpha) const { 
     FIndexC<N> ret;
-    for(int i = 0;i < N;i++)
+    for(unsigned int i = 0;i < N;i++)
       ret[i] = IndexC(data[i] / alpha);
     return ret;
   }
 
   template<unsigned int N>
-  inline 
-  UIntT FIndexC<N>::Hash() const  { 
+  inline UIntT FIndexC<N>::Hash() const  { 
     UIntT HVal = data[0].V();
     for(UIntT i = 1;i < N;i++) { 
       HVal += ((UIntT) data[i].V());
