@@ -18,6 +18,7 @@
 #include "Ravl/DArray1dIter.hh"
 #include "Ravl/DArray1dIter2.hh"
 #include "Ravl/DArray1dIter3.hh"
+#include "Ravl/DArray1dIter4.hh"
 #include "Ravl/DList.hh"
 
 using namespace RavlN;
@@ -79,6 +80,7 @@ template class DArray1dC<IntT>;
 template class DArray1dIterC<IntT>;
 template class DArray1dIter2C<IntT,RealT>;
 template class DArray1dIter3C<IntT,RealT,ByteT>;
+template class DArray1dIter4C<IntT,RealT,ByteT,bool>;
 
 const int testSize = 10000;
 

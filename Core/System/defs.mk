@@ -12,7 +12,7 @@ PACKAGE=Ravl
 HEADERS=StringList.hh Option.hh TypeName.hh BufStream.hh \
  SubStringList.hh XMLStream.hh XMLTree.hh \
  Collection.hh CollectionIter.hh IO.hh \
- DArray1d.hh DArray1dIter.hh DArray1dIter2.hh DArray1dIter3.hh \
+ DArray1d.hh DArray1dIter.hh DArray1dIter2.hh DArray1dIter3.hh DArray1dIter4.hh \
  VirtualConstructor.hh FunctionRegister.hh IndexNd.hh Cache.hh \
  DListExtra.hh VariableLengthCode.hh IndexRange2dSet.hh Base64.hh \
  PointerManager.hh
