@@ -140,7 +140,7 @@ namespace RavlN {
     inline TFVectorC<DataT,N> operator/(const DataT &alpha) const;
     //: Returns this object devided by alpha.
 
-    inline DataT Dot(const TFVectorC<DataT,N> &oth) {
+    inline DataT Dot(const TFVectorC<DataT,N> &oth) const {
       DataT ret = data[0] * oth.data[0];
       for(UIntT i = 1;i <N;i++)
 	ret += data[i] * oth.data[i];
