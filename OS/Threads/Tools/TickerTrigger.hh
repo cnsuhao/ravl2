@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_THREADLAUNCH_HEADER
-#define RAVL_THREADLAUNCH_HEADER 1
+#ifndef RAVL_TICKERTRIGGER_HEADER
+#define RAVL_TICKERTRIGGER_HEADER 1
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/OS/Threads/Tools/TickerTrigger.hh"
