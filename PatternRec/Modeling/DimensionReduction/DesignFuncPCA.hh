@@ -122,11 +122,11 @@ namespace RavlN {
     
     VectorC &Mean()
     { return Body().Mean(); }
-    //: Access mean vector.
+    //: Access mean of input vectors.
     
     const VectorC &Mean() const
     { return Body().Mean(); }
-    //: Access mean vector.
+    //: Access mean of input vectors.
   };
 
 }
