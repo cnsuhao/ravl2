@@ -11,7 +11,7 @@
 //! docentry="Ravl.Pattern Recognition.Classify"
 //! file="Ravl/PatternRec/Classify/DesignDiscriminantFunction.hh"
 
-#include "Ravl/PatternRec/DesignClassifyVector.hh"
+#include "Ravl/PatternRec/DesignClassifyVectorSupervised.hh"
 #include "Ravl/PatternRec/DesignFunctionSupervised.hh"
 
 namespace RavlN {
@@ -20,7 +20,7 @@ namespace RavlN {
   //: Design a discriminat function classifier.
   
   class DesignDiscriminantFunctionBodyC
-    : public DesignClassifyVectorBodyC
+    : public DesignClassifyVectorSupervisedBodyC
   {
   public:
     DesignDiscriminantFunctionBodyC(const DesignFunctionSupervisedC &func);
@@ -44,7 +44,7 @@ namespace RavlN {
   //: Design a discriminat function classifier.
   
   class DesignDiscriminantFunctionC
-    : public DesignClassifyVectorC
+    : public DesignClassifyVectorSupervisedC
   {
   public:
     DesignDiscriminantFunctionC()
@@ -53,22 +53,22 @@ namespace RavlN {
     // Creates an invalid handle.
 
     DesignDiscriminantFunctionC(const DesignFunctionSupervisedC &designFunc)
-      : DesignClassifyVectorC(*new DesignDiscriminantFunctionBodyC(designFunc))
+      : DesignClassifyVectorSupervisedC(*new DesignDiscriminantFunctionBodyC(designFunc))
     {}
     //: Create a new designer.
     
   protected:
     DesignDiscriminantFunctionC(DesignDiscriminantFunctionBodyC &bod)
-      : DesignClassifyVectorC(bod)
+      : DesignClassifyVectorSupervisedC(bod)
     {}
     //: Body constructor.
     
     DesignDiscriminantFunctionBodyC &Body()
-    { return static_cast<DesignDiscriminantFunctionBodyC &>(DesignClassifyVectorC::Body()); }
+    { return static_cast<DesignDiscriminantFunctionBodyC &>(DesignClassifyVectorSupervisedC::Body()); }
     //: Access body.
 
     const DesignDiscriminantFunctionBodyC &Body() const
-    { return static_cast<const DesignDiscriminantFunctionBodyC &>(DesignClassifyVectorC::Body()); }
+    { return static_cast<const DesignDiscriminantFunctionBodyC &>(DesignClassifyVectorSupervisedC::Body()); }
     //: Access body.
     
   public:

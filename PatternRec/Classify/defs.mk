@@ -11,12 +11,12 @@ DESCRIPTION = Pattern Recognition Classifiers
 
 PACKAGE = Ravl/PatternRec
 
-HEADERS=ClassifyVector.hh DesignClassifyVector.hh \
+HEADERS=ClassifyVector.hh DesignClassifyVectorSupervised.hh  DesignClassifyVectorUnsupervised.hh \
  DesignDiscriminantFunction.hh DesignKNearestNeighbour.hh \
  ClassifyKNearestNeighbour.hh ClassifyAverageNearestNeighbour.hh \
  ClassifyDiscriminantFunction.hh
 
-SOURCES=ClassifyVector.cc DesignClassifyVector.cc \
+SOURCES=ClassifyVector.cc DesignClassifyVectorSupervised.cc DesignClassifyVectorUnsupervised.cc \
  DesignDiscriminantFunction.cc DesignKNearestNeighbour.cc \
  ClassifyKNearestNeighbour.cc ClassifyAverageNearestNeighbour.cc \
  ClassifyDiscriminantFunction.cc

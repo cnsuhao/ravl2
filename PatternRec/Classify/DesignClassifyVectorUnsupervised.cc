@@ -9,22 +9,22 @@
 //! author="Charles Galambos"
 //! file="Ravl/PatternRec/Classify/DesignClassifyVector.cc"
 
-#include "Ravl/PatternRec/DesignClassifyVector.hh"
+#include "Ravl/PatternRec/DesignClassifyVectorUnsupervised.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
 
 namespace RavlN {
   
   //: Create a clasifier.
   
-  ClassifyVectorC DesignClassifyVectorBodyC::Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out) {
-    RavlAssertMsg(0,"DesignClassifyVectorBodyC::Apply(), Abstract method called. ");
+  ClassifyVectorC DesignClassifyVectorUnsupervisedBodyC::Apply(const SampleC<VectorC> &in) {
+    RavlAssertMsg(0,"DesignClassifyVectorUnsupervisedBodyC::Apply(), Abstract method called. ");
     return ClassifyVectorC();
   }
   
   //: Create a clasifier with weights for the samples.
   
-  ClassifyVectorC DesignClassifyVectorBodyC::Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out,const SampleC<RealT> &weight) {
-    RavlAssertMsg(0,"DesignClassifyVectorBodyC::Apply(), Abstract method called. ");
+  ClassifyVectorC DesignClassifyVectorUnsupervisedBodyC::Apply(const SampleC<VectorC> &in,const SampleC<RealT> &weight) {
+    RavlAssertMsg(0,"DesignClassifyVectorUnsupervisedBodyC::Apply(), Abstract method called. ");
     return ClassifyVectorC();
   }
   

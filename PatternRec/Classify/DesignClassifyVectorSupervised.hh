@@ -12,7 +12,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Classify"
-//! file="Ravl/PatternRec/Classify/DesignClassifyVector.hh"
+//! file="Ravl/PatternRec/Classify/DesignClassifyVectorSupervised.hh"
 
 #include "Ravl/RCHandleV.hh"
 #include "Ravl/Vector.hh"
@@ -22,13 +22,13 @@
 namespace RavlN {
   
   //! userlevel=Develop
-  //: Abstract classifer designer.
+  //: Abstract supervised classifer designer.
   
-  class DesignClassifyVectorBodyC
+  class DesignClassifyVectorSupervisedBodyC
     : public RCBodyVC
   {
   public:
-    DesignClassifyVectorBodyC()
+    DesignClassifyVectorSupervisedBodyC()
     {}
     //: Default constructor.
     
@@ -41,29 +41,29 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Abstract classifer designer.
+  //: Abstract supervised classifer designer.
   
-  class DesignClassifyVectorC
-    : public RCHandleC<DesignClassifyVectorBodyC>
+  class DesignClassifyVectorSupervisedC
+    : public RCHandleC<DesignClassifyVectorSupervisedBodyC>
   {
   public:
-    DesignClassifyVectorC()
+    DesignClassifyVectorSupervisedC()
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
   protected:
-    DesignClassifyVectorC(DesignClassifyVectorBodyC &bod)
-      : RCHandleC<DesignClassifyVectorBodyC>(bod)
+    DesignClassifyVectorSupervisedC(DesignClassifyVectorSupervisedBodyC &bod)
+      : RCHandleC<DesignClassifyVectorSupervisedBodyC>(bod)
     {}
     //: Body constructor.
     
-    DesignClassifyVectorBodyC &Body()
-    { return RCHandleC<DesignClassifyVectorBodyC>::Body(); }
+    DesignClassifyVectorSupervisedBodyC &Body()
+    { return RCHandleC<DesignClassifyVectorSupervisedBodyC>::Body(); }
     //: Access body.
     
-    const DesignClassifyVectorBodyC &Body() const
-    { return RCHandleC<DesignClassifyVectorBodyC>::Body(); }
+    const DesignClassifyVectorSupervisedBodyC &Body() const
+    { return RCHandleC<DesignClassifyVectorSupervisedBodyC>::Body(); }
     //: Access body.
     
   public:

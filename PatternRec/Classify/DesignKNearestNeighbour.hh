@@ -11,7 +11,7 @@
 //! docentry="Ravl.Pattern Recognition.Classify"
 //! file="Ravl/PatternRec/Classify/DesignKNearestNeighbour.hh"
 
-#include "Ravl/PatternRec/DesignClassifyVector.hh"
+#include "Ravl/PatternRec/DesignClassifyVectorSupervised.hh"
 #include "Ravl/PatternRec/DesignFunctionSupervised.hh"
 #include "Ravl/PatternRec/DistanceSqrEuclidean.hh"
 
@@ -21,7 +21,7 @@ namespace RavlN {
   //: Design a discriminat function classifier.
   
   class DesignKNearestNeighbourBodyC
-    : public DesignClassifyVectorBodyC
+    : public DesignClassifyVectorSupervisedBodyC
   {
   public:
     DesignKNearestNeighbourBodyC(UIntT k,const DistanceC &distMetric = DistanceSqrEuclideanC(),bool useAverageKNN = false);
@@ -43,7 +43,7 @@ namespace RavlN {
   //: Design a discriminat function classifier.
   
   class DesignKNearestNeighbourC
-    : public DesignClassifyVectorC
+    : public DesignClassifyVectorSupervisedC
   {
   public:
     DesignKNearestNeighbourC()
@@ -52,23 +52,23 @@ namespace RavlN {
     // Creates an invalid handle.
     
     DesignKNearestNeighbourC(UIntT k,const DistanceC &distanceMetric = DistanceSqrEuclideanC(),bool useAverageKNN = false)
-      : DesignClassifyVectorC(*new DesignKNearestNeighbourBodyC(k,distanceMetric,useAverageKNN))
+      : DesignClassifyVectorSupervisedC(*new DesignKNearestNeighbourBodyC(k,distanceMetric,useAverageKNN))
     {}
     //: Create a new designer.
     // Values for k are typically 1 to 7 and should be odd.
     
   protected:
     DesignKNearestNeighbourC(DesignKNearestNeighbourBodyC &bod)
-      : DesignClassifyVectorC(bod)
+      : DesignClassifyVectorSupervisedC(bod)
     {}
     //: Body constructor.
     
     DesignKNearestNeighbourBodyC &Body()
-    { return static_cast<DesignKNearestNeighbourBodyC &>(DesignClassifyVectorC::Body()); }
+    { return static_cast<DesignKNearestNeighbourBodyC &>(DesignClassifyVectorSupervisedC::Body()); }
     //: Access body.
     
     const DesignKNearestNeighbourBodyC &Body() const
-    { return static_cast<const DesignKNearestNeighbourBodyC &>(DesignClassifyVectorC::Body()); }
+    { return static_cast<const DesignKNearestNeighbourBodyC &>(DesignClassifyVectorSupervisedC::Body()); }
     //: Access body.
     
   public:
