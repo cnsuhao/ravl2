@@ -32,6 +32,10 @@ extern void InitEdgeIO();
 using namespace RavlImageN;
 using namespace RavlN;
 
+#ifndef __sgi__
+static DPOPortBodyC<PCPixMappingC<Curve2dLineSegmentC> > out3;
+#endif
+
 int doPPHT(int argc,char **argv) 
 {
   // Parse options.

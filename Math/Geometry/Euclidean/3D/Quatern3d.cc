@@ -4,9 +4,9 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-/******************************************************************************/
-/******************************************************************************/
+////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! author="Andrew Stoddart"
 //! lib=RavlMath
 
 #include "Ravl/StdConst.hh"
@@ -17,7 +17,13 @@
 #include <iostream.h>
 #include <fstream.h>
 
+
 namespace RavlN {
+
+#ifdef __sgi__
+  // Help the compiler on sgi
+  TFMatrixC<double,3,3> sgi_xyz; 
+#endif
 
   const RealT axthetaconv=1e-8;
   // used in the conversion between axtheta and quartern

@@ -19,7 +19,7 @@
 #include <GL/gl.h>
 #include <GL/glx.h>
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -74,17 +74,19 @@ namespace RavlGUIN {
       m_bLighting(true)
   { 
     ONDEBUG(cerr << "Canvas3DBodyC::Canvas3DBodyC(), Called.\n");
-    if(!InitGL())
-#if 0
-    throw ExceptionC("OpenGL not supported on display. \n"); 
-#else
-    cerr << "WARNING: OpenGL not supported on this X server. \n";
-#endif
   }
 
   //: Create the widget.
   
   bool Canvas3DBodyC::Create() {
+    if(!InitGL())
+#if 0
+      throw ExceptionC("OpenGL not supported on display. \n"); 
+#else
+    cerr << "WARNING: OpenGL not supported on this X server. \n";
+#endif
+    ONDEBUG(cerr << "Canvas3DBodyC::Create(), Setting up canvas. \n");
+    
     gint attrlist[] = {
       GDK_GL_RGBA,
       GDK_GL_DOUBLEBUFFER,
@@ -99,14 +101,18 @@ namespace RavlGUIN {
       cerr << "Canvas3DBodyC::Create() ERROR: Widget create failed. \n";
       return false;
     }
+    ONDEBUG(cerr << "Canvas3DBodyC::Create(), Setting draw area size to " << sx << " " << sy <<". \n");
     gtk_drawing_area_size (GTK_DRAWING_AREA (widget), sx, sy); 
     /* When window is resized viewport needs to be resized also. */
     gtk_signal_connect(GTK_OBJECT(widget), "configure_event",
 		       GTK_SIGNAL_FUNC(reshape), NULL);
     gtk_quit_add_destroy(1, GTK_OBJECT(widget));
     
-    ConnectSignals();
+    ONDEBUG(cerr << "Canvas3DBodyC::Create(), Connect Signals. \n");
     
+    ConnectSignals();
+
+    ONDEBUG(cerr << "Canvas3DBodyC::Create(), Complete. \n");
     return true;
   }
   
