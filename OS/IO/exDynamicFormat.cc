@@ -6,10 +6,13 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlOSIO
+//! docentry="Ravl.OS.Dynamic Linking"
+//! author="Charles Galambos"
 
 #include "Ravl/IO.hh"
 #include "Ravl/Array2d.hh"
 #include "Ravl/Option.hh"
+#include "Ravl/DP/DynamicIO.hh"
 
 using namespace RavlN;
 
@@ -18,6 +21,8 @@ int main(int nargs,char **argv) {
   StringC inf = opt.String("","in.ppm","File to load. \n");
   StringC outf = opt.String("","@X","File to save. \n");
   opt.Check();
+  
+  InitDynamicIO();
   
   Array2dC<RealT> img;
   if(!Load(inf,img))

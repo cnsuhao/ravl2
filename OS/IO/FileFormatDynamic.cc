@@ -14,6 +14,7 @@
 #include "Ravl/StringList.hh"
 #include "Ravl/CDLIter.hh"
 #include "Ravl/TypeName.hh"
+#include "Ravl/DP/DynamicIO.hh"
 
 #define DODEBUG 1
 #if DODEBUG
@@ -27,9 +28,9 @@
 #endif
 
 namespace RavlN {
-
-  void InitFileFormatDynamic()
-  {}
+  
+  bool InitDynamicIO() 
+  { return true; }
   
   //: Default constructor.
 

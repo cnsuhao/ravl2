@@ -11,7 +11,7 @@ PACKAGE=Ravl/DP
 
 HEADERS=FileSequence.hh SequenceIO.hh FileListIO.hh CompositeStream.hh \
  FileFormatComposite.hh  PlayList.hh  SubSequenceSpec.hh EditSpec.hh  \
- FileFormatDynamic.hh DynamicLink.hh
+ FileFormatDynamic.hh DynamicLink.hh DynamicIO.hh
 
 SOURCES=FileSequence.cc SequenceIO.cc FileListIO.cc CompositeStream.cc  \
  FileFormatComposite.cc  PlayList.cc  SubSequenceSpec.cc EditSpec.cc \

@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/StdType/DataConv/FileFormatDynamic.hh"
 //! lib=RavlOSIO
-//! docentry="Pattern Recognition.IO"
+//! docentry="Ravl.OS"
 //! author="Charles Galambos"
 //! date="04/07/2000"
 

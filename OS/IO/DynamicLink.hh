@@ -9,8 +9,9 @@
 //! rcsid="$Id$"
 //! lib=RavlOSIO
 //! userlevel=Normal
-//! docentry="default.Charles Galambos"
+//! docentry="Ravl.OS.Dynamic Linking"
 //! author="Charles Galambos"
+//! example=exDynamicLink.cc
 //! date="04/07/2000"
 
 #include "Ravl/String.hh"
