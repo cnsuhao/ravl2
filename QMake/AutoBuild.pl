@@ -127,7 +127,7 @@ if (open BUILDINFO,"< $BUILDINFOFILE") {
   $TREENO = $_;
   close BUILDINFO;
 } else {
-  my $message = "Failed to find tree number" ; 
+  my $message = "Failed to find tree number" ;
   & MailError ($message) ;
   die ($message) ;
 }
@@ -180,8 +180,8 @@ else {
 }
 
 # Clean out temporary files
-if ($config{CLEANTEMP} == 1) {
-  system("rm -rf /tmp/$ENV{USERNAME}/qm/$BUILDTREE");
+if ($config{CLEANTEMP}) {
+  system("rm -rf /tmp/$ENV{USER}/qm$BUILDTREE");
 }
 
 # it worked ok
