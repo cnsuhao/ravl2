@@ -29,6 +29,9 @@
 #include "Ravl/Types.hh"
 #include "Ravl/Assert.hh"
 
+#define RAVL_USE_INLINEMUTEXCALLS 0
+// Enable/Disable the inlining of mutex calls.
+
 namespace RavlN
 {
   //! userlevel=Normal
@@ -43,6 +46,7 @@ namespace RavlN
     ~MutexC(void);
     //: Destructor.
     
+#if RAVL_USE_INLINEMUTEXCALLS
     inline bool Lock(void) {
       int rc;
       if((rc = pthread_mutex_lock(&mutex)) == 0)
@@ -72,7 +76,16 @@ namespace RavlN
       return false;
     }
     //: Unlock mutex.
+#else
+    bool Lock(void);
+    //: Lock mutex.
     
+    bool TryLock(void);
+    //: Try and lock mutex.
+    
+    bool Unlock(void);
+    //: Unlock mutex.
+#endif    
   protected:
     pthread_mutex_t mutex;
     

@@ -85,5 +85,39 @@ namespace RavlN
       cerr << "WARNING: MutexC::~MutexC(), destroy failed. \n";
   }
   
-
+#if !RAVL_USE_INLINEMUTEXCALLS  
+  //: Lock mutex.
+  
+  bool MutexC::Lock(void) {
+    int rc;
+    if((rc = pthread_mutex_lock(&mutex)) == 0)
+      return true;
+    Error("Lock failed",errno,rc);
+    return false;
+  }
+    
+  //: Try and lock mutex.
+  
+  bool MutexC::TryLock(void) {
+    int rc;
+    if((rc = pthread_mutex_trylock(&mutex)) == 0)
+      return true;
+    if(errno != EPERM && errno != EBUSY && errno != EINTR && 
+       rc != EBUSY && errno != EAGAIN && rc !=  EDEADLK)
+      Error("Trylock failed for unexpected reason.",errno,rc);
+    return false;
+  }
+    
+  //: Unlock mutex.
+  
+  bool MutexC::Unlock(void) {
+    RavlAssertMsg(!TryLock(),"MutexC::Unlock() called on an unlocked mutex.");
+    int rc;
+    if((rc = pthread_mutex_unlock(&mutex)) == 0)
+      return true;
+    Error("Unlock failed.",errno,rc);
+    return false;
+  }
+#endif
+  
 }
