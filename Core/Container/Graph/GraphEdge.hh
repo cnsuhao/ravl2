@@ -112,10 +112,22 @@ namespace RavlN {
     inline NodeT &Node2Data(void);
     // Get data from node 2.
     
+    inline const NodeT &Node1Data(void) const;
+    // Get data from node 1.
+    
+    inline const NodeT &Node2Data(void) const;
+    // Get data from node 2.
+    
     NodeT &SourceData(void) { return Node1Data(); }
     // Data from source node.
     
     NodeT &TargetData(void) { return Node2Data(); }
+    // Data from target node.
+    
+    const NodeT &SourceData(void) const { return Node1Data(); }
+    // Data from source node.
+    
+    const NodeT &TargetData(void) const { return Node2Data(); }
     // Data from target node.
     
     GraphNodeIterC<NodeT,EdgeT> Source(void);
@@ -303,6 +315,18 @@ namespace RavlN {
   inline NodeT &GraphEdgeIterC<NodeT,EdgeT>::Node2Data(void)  { 
     RavlAssert(IsIterValid());
     return static_cast<GraphNodeDatC<NodeT,EdgeT> &>(GraphEdgeBaseC::Node2().NodeRep()).Data();
+  }
+
+  template<class NodeT,class EdgeT>
+  inline const NodeT &GraphEdgeIterC<NodeT,EdgeT>::Node1Data(void) const {
+    RavlAssert(IsIterValid());
+    return static_cast<const GraphNodeDatC<NodeT,EdgeT> &>(const_cast<GraphEdgeIterC<NodeT,EdgeT> &>(*this).GraphEdgeBaseC::Node1().NodeRep()).Data();
+  }
+  
+  template<class NodeT,class EdgeT>
+  inline const NodeT &GraphEdgeIterC<NodeT,EdgeT>::Node2Data(void) const { 
+    RavlAssert(IsIterValid());
+    return static_cast<const GraphNodeDatC<NodeT,EdgeT> &>(const_cast<GraphEdgeIterC<NodeT,EdgeT> &>(*this).GraphEdgeBaseC::Node2().NodeRep()).Data();
   }
   
   template<class NodeT,class EdgeT>
