@@ -94,7 +94,7 @@ namespace RavlN {
   {
     MatrixC xxT = x.OuterProduct();
     MatrixRSC xxTS(xxT);
-
+    
     xxTS *= gauge_weight;
     A += xxTS;
     return true;

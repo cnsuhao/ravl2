@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlOptimise
 
+#include "Ravl/LevenbergMarquardt.hh"
 #include "Ravl/Ransac.hh"
 #include "Ravl/StateVectorAffine2d.hh"
 #include "Ravl/ObservationAffine2dPoint.hh"
@@ -60,8 +61,8 @@ int main() {
   DListC<ObservationC> obs_list;
   
   // build arrays of x & y coordinates
-  
-  for(int i = 0;i < NPOINTS;i++) {
+  int i;
+  for(i = 0;i < NPOINTS;i++) {
     // choose random x,y coordinates
     RealT x1 = Random1()*IMAGE_SIZE;
     RealT y1 = Random1()*IMAGE_SIZE;
@@ -91,6 +92,29 @@ int main() {
   StateVectorAffine2dC sv = InitialiseAffine(obs_list,compatible_obs_list);
   
   cerr << "Ransac solution=" << sv.GetAffine() << "\n";
+
+  // initialise Levenberg-Marquardt algorithm
+  LevenbergMarquardtC lm = LevenbergMarquardtC(sv,
+					       compatible_obs_list);
+  
+
+  // apply iterations
+  RealT lambda = 100.0;
+  for ( i = 0; i < 20; i++ ) {
+    bool accepted = lm.Iteration(compatible_obs_list, lambda);
+    if ( accepted )
+      // iteration succeeded in reducing the residual
+      lambda /= 10.0;
+    else
+      // iteration failed to reduce the residual
+      lambda *= 10.0;
+    
+    cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
+    cout << " DOF=" << 2*NPOINTS-8 << endl;
+  }
+  VectorC x = lm.SolutionVector();
+  
+  cerr << "Solution=" << x << "\n";
   
   return 0;
 }

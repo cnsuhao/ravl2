@@ -29,10 +29,10 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    StateVectorAffine2dBodyC(const Affine2dC &nt);
+    StateVectorAffine2dBodyC(const Affine2dC &nt,RealT ngauge_weight = 1.0e3);
     //: Constructor from an affine transform.
     
-    StateVectorAffine2dBodyC(const VectorC &sv);
+    StateVectorAffine2dBodyC(const VectorC &sv,RealT ngauge_weight = 1.0e3);
     //: Construct from a state vector.
     
     virtual RCBodyVC &Copy() const
@@ -54,6 +54,7 @@ namespace RavlN {
     
   private:
     Affine2dC t; // Affine transform.
+    RealT gauge_weight; // weight of gauge condition observation
   };
 
   //! userlevel=Normal
@@ -73,13 +74,13 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
 
-    StateVectorAffine2dC(const Affine2dC &nt)
-      : StateVectorC(*new StateVectorAffine2dBodyC(nt))
+    StateVectorAffine2dC(const Affine2dC &nt,RealT ngauge_weight = 1.0e3)
+      : StateVectorC(*new StateVectorAffine2dBodyC(nt,ngauge_weight))
     {}
     //: Constructor
     
-    StateVectorAffine2dC(const VectorC &sv)
-      : StateVectorC(*new StateVectorAffine2dBodyC(sv))
+    StateVectorAffine2dC(const VectorC &sv,RealT ngauge_weight = 1.0e3)
+      : StateVectorC(*new StateVectorAffine2dBodyC(sv,ngauge_weight))
     {}
     //: Construct from a state vector.
     
