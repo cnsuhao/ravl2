@@ -7,6 +7,7 @@
 #ifndef RAVL_ELLIPSE2D_HEADER
 #define RAVL_ELLIPSE2D_HEADER 1
 //! author="Charles Galambos"
+//! date="6/4/2004"
 //! docentry="Ravl.Math.Geometry.2D"
 //! rcsid="$Id$"
 //! lib=RavlMath
@@ -85,8 +86,6 @@ namespace RavlN {
   // Based on method presented in 'Numerically Stable Direct Least Squares Fitting of Ellipses' 
   // by Radim Halir and Jan Flusser.
   
-  Ellipse2dC EllipseMeanCovariance(const Matrix2dC &covar,const Point2dC &mean,RealT stdDev = 1.0);
-  //: Compute an ellipse from a 2d covariance matrix, mean, and standard deviation.
   
   ostream &operator<<(ostream &s,const Ellipse2dC &obj);
   //: Write ellipse to text stream.
@@ -99,6 +98,10 @@ namespace RavlN {
   
   BinIStreamC &operator>>(BinIStreamC &s,Ellipse2dC &obj);
   //: Read ellipse from binary stream.
+  
+  //! docentry="Ravl.Math.Statistics;Ravl.Math.Geometry.2D"
+  Ellipse2dC EllipseMeanCovariance(const Matrix2dC &covar,const Point2dC &mean,RealT stdDev = 1.0);
+  //: Compute an ellipse from a 2d covariance matrix, mean, and standard deviation.
   
 }
 
