@@ -14,6 +14,7 @@
 #include "Ravl/StrStream.hh"
 #include "Ravl/Matrix2d.hh"
 #include "Ravl/Circle2d.hh"
+#include "Ravl/Array1d.hh"
 
 using namespace RavlN;
 
@@ -85,7 +86,7 @@ int testBinIO() {
 }
 
 int testCircle2d() {
-  SArray1dC<Point2dC> pnts(5);
+  Array1dC<Point2dC> pnts(5);
   pnts[0] = Point2dC(1,0);
   pnts[1] = Point2dC(-1,2);
   pnts[2] = Point2dC(3,2);
