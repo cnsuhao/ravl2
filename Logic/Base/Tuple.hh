@@ -37,7 +37,7 @@ namespace RavlLogicN {
     
     virtual bool Unify(const LiteralC &oth,BindSetC &bs) const;
     //: Unify with another variable.
-
+    
     UIntT Arity() const
     { return args.Size(); }
     //: Get the arity of the expression.
@@ -69,6 +69,13 @@ namespace RavlLogicN {
     virtual LiteralIterC Solutions(const StateC &state,BindSetC &binds) const;
     //: Return iterator through possibile matches to this literal in 'state', if any.
     
+    virtual bool Substitute(const BindSetC &binds,LiteralC &result) const;
+    //: Substitute variables in 'binds' for their bound values.
+    // This builds a new literal with the substute values (if there
+    // are any). The new value is assigned to 'result' <p>
+    // Returns true if at least one substitution has been made,
+    // false if none.
+    
   protected:
     virtual bool UnifyLiteral(const LiteralBodyC &oth,BindSetC &bs) const;
     //: Unify with simple symb.
@@ -92,6 +99,11 @@ namespace RavlLogicN {
       : LiteralC(*new TupleBodyC(arity))
     {}
     //: Creat expression with given arity.
+
+    TupleC(SArray1dC<LiteralC> &literals)
+      : LiteralC(*new TupleBodyC(literals))
+    {}
+    //: Create tuple from an array of literals.
     
     TupleC(const LiteralC &x)
       : LiteralC(x)

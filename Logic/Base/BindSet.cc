@@ -46,6 +46,13 @@ namespace RavlLogicN {
     }
     elements = oth.Size();
   }
+
+  //: Construct from a table of mappings.
+  
+  BindSetBodyC::BindSetBodyC(const HashC<LiteralC,LiteralC> &tab) {
+    for(HashIterC<LiteralC,LiteralC> it(tab);it;it++)
+      Bind(it.Key(),it.Data());
+  }
   
   //: Attempty to bind a value to var.
   
@@ -95,7 +102,7 @@ namespace RavlLogicN {
     Del(top,true);
     top = nxt;
   }
-
+  
   //: Remove all bindings from set.
   
   void BindSetBodyC::Empty() {
@@ -103,13 +110,22 @@ namespace RavlLogicN {
     top = 0;
   }
 
+  //: Bind set as string.
+  
+  StringC BindSetBodyC::Name() const {
+    StringC ret;
+    HashIterC<LiteralC,BindC> it(const_cast<HashC<LiteralC,BindC> &>((HashC<LiteralC,BindC> &)*this));
+    for(;it;it++)
+      ret += StringC("(") + it.Key().Name() + "->" + it.Data().Value().Name() + ")";
+    return ret;
+  }
   
   ostream &operator<<(ostream &s,const BindSetC &binds) {
     if(!binds.IsValid()) {
       s << "(NIL)";
       return s;
     }
-      
+    
     HashIterC<LiteralC,BindC> it(const_cast<BindSetC &>(binds).Iter());
     for(;it;it++) {
       s << '(' << it.Key() << "->" << it.Data() << ')';
@@ -125,3 +141,4 @@ namespace RavlLogicN {
   //: input stream 
   
 }
+

@@ -17,6 +17,8 @@
 #include "Ravl/Logic/And.hh"
 
 namespace RavlLogicN {
+
+  class MinTermC;
   
   //! userlevel=Develop
   //: Logical Minterm.
@@ -43,6 +45,12 @@ namespace RavlLogicN {
     const SArray1dC<LiteralC> &Neg() const
     { return n; }
     //: Negated terms.
+    
+    RCBodyVC &Copy() const;
+    //: Copy minterm.
+    
+    bool AndAdd(const LiteralC &lit);
+    //: Add another term to the minterm.
     
   protected:
     SArray1dC<LiteralC> t;
@@ -103,6 +111,14 @@ namespace RavlLogicN {
     { return Body().Neg(); }
     //: Negated terms.
     
+    MinTermC Copy() const
+    { return MinTermC(static_cast<MinTermBodyC &>(Body().Copy())); }
+    //: Copy this min term.
+
+    const MinTermC &operator*=(const LiteralC &lit) { 
+      Body().AndAdd(lit); 
+      return *this;
+    }
   };
 }
 

@@ -58,4 +58,17 @@ namespace RavlLogicN {
     }
   }
   
+  //: Copy minterm.
+  
+  RCBodyVC &MinTermBodyC::Copy() const {
+    return *new MinTermBodyC(Pos(),Neg()); 
+  }
+
+  //: Add another term to the minterm.
+  
+  bool MinTermBodyC::AndAdd(const LiteralC &lit) {
+    RavlAssert(0); // Not implemented yet.
+    return true;
+  }
+  
 }

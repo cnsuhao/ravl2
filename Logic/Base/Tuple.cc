@@ -60,6 +60,24 @@ namespace RavlLogicN {
   LiteralIterC TupleBodyC::Solutions(const StateC &state,BindSetC &binds) const {
     return LiteralBodyC::Solutions(state,binds);
   }
+
+  //: Substitute variables in 'binds' for their bound values.
+  // This builds a new literal with the substute values (if there
+  // are any). The new value is assigned to 'result' <p>
+  // Returns true if at least one substitution has been made,
+  // false if none.
+  
+  bool TupleBodyC::Substitute(const BindSetC &binds,LiteralC &result) const {
+    SArray1dC<LiteralC> newTup(Args().Size());
+    bool ret = false;
+    for(SArray1dIter2C<LiteralC,LiteralC> it(Args(),newTup);it;it++)
+      ret |= it.Data1().Substitute(binds,it.Data2());
+    if(ret)
+      result = TupleC(newTup);
+    else
+      result = TupleC(const_cast<TupleBodyC &>(*this));
+    return ret;
+  }
   
   //: Unify with simple symb
    

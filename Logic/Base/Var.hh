@@ -25,7 +25,7 @@ namespace RavlLogicN {
   {
   public:
     VarBodyC()
-      {}
+    {}
     //: Default constructor.
     
     virtual bool IsVariable() const
@@ -41,6 +41,18 @@ namespace RavlLogicN {
 
     virtual StringC Name() const;
     //: Get the name of symbol.
+
+    virtual bool Substitute(const BindSetC &binds,LiteralC &result) const;
+    //: Substitute variables in 'binds' for their bound values.
+    // This builds a new literal with the substute values (if there
+    // are any). The new value is assigned to 'result' <p>
+    // Returns true if at least one substitution has been made,
+    // false if none.
+    
+    virtual bool ReplaceVars(HashC<LiteralC,LiteralC> &subs,LiteralC &result) const;
+    //: Replace all vars in this literal with new ones.
+    // The mapping between the replacements and the new values is returned in 'subs'
+    // If no new replacements where found, false is returned.
 
   protected:    
     virtual bool Unify(const LiteralC &oth,BindSetC &bs) const;
@@ -67,6 +79,14 @@ namespace RavlLogicN {
     {}
     //: Constructor.
     // Construct an anonymous var.
+
+  protected:
+    VarC(VarBodyC &bod)
+      : LiteralC(bod)
+    {}
+    //: Body constructor.
+    
+    friend class VarBodyC;
   };
   
   inline VarC Var()

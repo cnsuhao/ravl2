@@ -8,11 +8,11 @@
 #define RAVLLOGIC_BMINTERMINDEXITER_HEADER 1
 ///////////////////////////////////////////
 //! userlevel=Normal
-//! rcsid="$id$"
+//! rcsid="$Id$"
 //! file="Ravl/Logic/Index/BNPIndexIter.hh"
 //! lib=RavlLogic
 //! author="Charles Galambos"
-//! date="14/05/98"
+//! date="14/05/1998"
 //! docentry="Logic.Index"
 
 #include "Ravl/Logic/BMinTermIndex.hh"
@@ -21,7 +21,7 @@
 #include "Ravl/HSet.hh"
 
 namespace RavlLogicN {
-
+  
   //! userlevel=Normal
   //: Branching MinTerm Index iterator.
   

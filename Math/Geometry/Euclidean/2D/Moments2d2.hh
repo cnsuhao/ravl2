@@ -1,8 +1,14 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVL_MOMENTS2D2_HEDAER
 #define RAVL_MOMENTS2D2_HEDAER 1
 ////////////////////////////////////////////////////////////////////////////
 //! file="amma/Image/Region/Mom012d2.hh"
-//! lib=iaps
+//! lib=RavlMath
 //! date="6/8/1995"
 //! author="Radek Marik"
 //! docentry="Image.Image Processing.Region Model"
@@ -29,10 +35,10 @@ namespace RavlN {
     inline void AddPixel (const Index2dC &pxl);
     //: Adds a pixel to the object and updates sums.
   
-    inline Moments2d2C & Centerlize();
+    inline const Moments2d2C & Centerlize();
     //: Recomputes the moments according to the centroid.
     
-    inline Moments2d2C & ToPrincipalAxis();
+    const Moments2d2C & ToPrincipalAxis();
     //: Recomputes the moments according to the principal axis.
     // It is assumed that input moments are centerlized
     
@@ -134,8 +140,6 @@ namespace RavlN {
 }
 
 #include "Ravl/Math.hh" //::Abs() 
-#include "Ravl/Matrix2d.hh"
-#include "Ravl/Vector2d.hh"
 
 namespace RavlN {
   
@@ -153,26 +157,10 @@ namespace RavlN {
   }
   
   inline 
-  Moments2d2C & Moments2d2C::Centerlize() {
+  const Moments2d2C & Moments2d2C::Centerlize() {
     m20 -= m10*m10/m00;
     m02 -= m01*m01/m00;
     m11 -= m10*m01/m00;
-    return *this; 
-  }
-  
-  inline 
-  Moments2d2C & Moments2d2C::ToPrincipalAxis() {
-    Matrix2dC mat(m20,m11,m11,m02);
-    Vector2dC vec;
-    EigenValuesIP(mat,vec);
-    if(vec[0] > vec[1]) {
-      m20 = vec[0];
-      m02 = vec[1];
-    } else {
-      m20 = vec[1];
-      m02 = vec[0];
-    }
-    m11 = 0;
     return *this; 
   }
   

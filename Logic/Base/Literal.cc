@@ -81,7 +81,27 @@ namespace RavlLogicN {
   void LiteralBodyC::SubLiterals(HSetC<LiteralC> &ret) const {
     ret += LiteralC(const_cast<LiteralBodyC &>(*this)); // Just me.
   }
+
+  //: Substitute variables in 'binds' for their bound values.
+  // This builds a new literal with the substute values (if there
+  // are any). The new value is assigned to 'result' <p>
+  // Returns true if at least one substitution has been made,
+  // false if none.
   
+  bool LiteralBodyC::Substitute(const BindSetC &binds,LiteralC &result) const {
+    result = LiteralC(const_cast<LiteralBodyC &>(*this));
+    return false;
+  }
+  
+  //: Replace all vars in this literal with new ones.
+  // The mapping between the replacements and the new values is returned in 'subs'
+  // If no new replacements where found, false is returned.
+  
+  bool LiteralBodyC::ReplaceVars(HashC<LiteralC,LiteralC> &subs,LiteralC &result) const {
+    result = LiteralC(const_cast<LiteralBodyC &>(*this));
+    return false;    
+  }
+
   ////////////////////////////////////////////////////////////////
   
   //: Return iterator through possibile solutions, if any.

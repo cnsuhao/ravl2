@@ -55,7 +55,7 @@ namespace RavlLogicN {
     
     virtual bool Unify(const LiteralC &oth,BindSetC &bs) const;
     //: Unify with another variable.
-
+    
     virtual void Dump(ostream &out);
     //: Dump info in human readable format to stream 'out'.
 
@@ -73,10 +73,23 @@ namespace RavlLogicN {
     //: Test if condition is true in 'state'.
     
     virtual LiteralIterC Solutions(const StateC &state,BindSetC &binds) const;
-    //: Return iterator through possibile matches to this literal in 'state', if any.
+    //: Return an iterator through possibile matches to this literal in 'state', if any.
     
     virtual void SubLiterals(HSetC<LiteralC> &lits) const;
     //: Get a set of all sub literals.
+    
+    virtual bool Substitute(const BindSetC &binds,LiteralC &result) const;
+    //: Substitute variables in 'binds' for their bound values.
+    // This builds a new literal with the substute values (if there
+    // are any). The new value is assigned to 'result' <p>
+    // Returns true if at least one substitution has been made,
+    // false if none.
+    
+    virtual bool ReplaceVars(HashC<LiteralC,LiteralC> &subs,LiteralC &result) const;
+    //: Replace all vars in this literal with new ones.
+    // The mapping between the replacements and the new values is returned in 'subs'
+    // If no new replacements where found, false is returned.
+    
   protected:
     virtual bool UnifyLiteral(const LiteralBodyC &oth,BindSetC &bs) const;
     //: Unify with simple symb.
@@ -164,6 +177,20 @@ namespace RavlLogicN {
     void SubLiterals(HSetC<LiteralC> &lits) const
     {  Body().SubLiterals(lits); }
     //: Get a set of all sub literals.
+    
+    bool Substitute(const BindSetC &binds,LiteralC &result)
+    { return Body().Substitute(binds,result); }
+    //: Substitute variables in 'binds' for their bound values.
+    // This builds a new literal with the substute values (if there
+    // are any). The new value is assigned to 'result' <p>
+    // Returns true if at least one substitution has been made,
+    // false if none.
+    
+    bool ReplaceVars(HashC<LiteralC,LiteralC> &subs,LiteralC &result) const
+    { return Body().ReplaceVars(subs,result); } 
+    //: Replace all vars in this literal with new ones.
+    // The mapping between the replacements and the new values is returned in 'subs'
+    // If no new replacements where found, false is returned.
     
     friend class LiteralBodyC;
     friend class VarBodyC;
