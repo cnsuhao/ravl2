@@ -2,7 +2,6 @@
 # $Id$
 
 echo "Ravl Installation script."
-echo "Requirements: perl-5, gnu-make-3.75, gcc-2.95.2"
 
 if [ -z "$2" ] ; then
   INSTMODE=bin
