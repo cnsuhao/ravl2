@@ -13,7 +13,7 @@
 //! file="Ravl/Core/Container/SArray/SArray2d.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! date="10/09/98"
+//! date="10/09/1998"
 
 #include "Ravl/SBfAcc2d.hh"
 #include "Ravl/Buffer2d.hh"
@@ -70,8 +70,8 @@ namespace RavlN {
     SArray2dC<DataT> Copy() const;
     //: Copy array.
     
+    //:------------------
     // Special operations
-    // -----------------
     
     Buffer2dC<DataT> &Buffer() 
     { return data; }
