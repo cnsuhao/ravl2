@@ -9,10 +9,10 @@
 
 PACKAGE=Ravl/GUI
 
-HEADERS=Canvas.hh 
+HEADERS=Canvas.hh RawZoomCanvas.hh
 #Graph1d.hh
 
-SOURCES=Canvas.cc RawCanvas2d.cc
+SOURCES=Canvas.cc RawCanvas2d.cc RawZoomCanvas.cc
 #Graph1d.cc
 
 PLIB=RavlGUI2D
