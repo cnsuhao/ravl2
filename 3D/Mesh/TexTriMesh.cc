@@ -16,6 +16,10 @@
 #include "Ravl/SArr1Iter2.hh"
 
 namespace Ravl3DN {
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using namespace RavlN;
+  using namespace RavlImageN;
+#endif
 
   //: Copy constructor
   TexTriMeshBodyC::TexTriMeshBodyC(const TexTriMeshBodyC& oth)
@@ -103,7 +107,7 @@ namespace Ravl3DN {
     RavlAssert(ts.IsValid());
     // Write the mesh info
     s << ts.Vertices(); 
-    s << ts.HaveTextureCoord() << '\n';
+    s << (IntT)ts.HaveTextureCoord() << '\n';
     s << ts.Faces().Size() << '\n'; 
     const VertexC *x = &(ts.Vertices()[0]);
     SArray1dIterC<TriC> it(ts.Faces());
@@ -126,8 +130,9 @@ namespace Ravl3DN {
     // Read the mesh info
     SArray1dC<VertexC> verts;
     s >> verts;
-    bool bHaveTexture;
-    s >> bHaveTexture;
+    IntT iHaveTexture;
+    s >> iHaveTexture;
+    bool bHaveTexture = (iHaveTexture) ? true : false;
     UIntT nfaces,i1,i2,i3;
     s >> nfaces;
     SArray1dC<TriC> faces(nfaces);

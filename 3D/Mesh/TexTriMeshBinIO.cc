@@ -17,6 +17,10 @@
 //! author="Jonathan Starck"
 
 namespace Ravl3DN {
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using namespace RavlN;
+  using namespace RavlImageN;
+#endif
   
   BinOStreamC &operator<<(BinOStreamC &s,const TexTriMeshC &ts) {
     UByteT version = 0;
@@ -24,7 +28,7 @@ namespace Ravl3DN {
     RavlAssert(ts.IsValid());
     // Write the mesh info
     s << ts.Vertices(); 
-    s << ts.HaveTextureCoord();
+    s << (IntT)ts.HaveTextureCoord();
     s << ts.Faces().Size(); 
     const VertexC *x = &(ts.Vertices()[0]);
     SArray1dIterC<TriC> it(ts.Faces());
@@ -54,8 +58,14 @@ namespace Ravl3DN {
     // Read the mesh info
     SArray1dC<VertexC> vecs;
     s >> vecs;
-    bool bHaveTexture;
-    s >> bHaveTexture;
+    IntT iHaveTexture;
+    s >> iHaveTexture;
+    if (!iHaveTexture) {
+      if(!UsingRavlMain()) 
+	// We're probably not going to catch an exception so write an error on stdout as well. 
+	cerr << "ERROR: No texture in TexTriMeshC binary stream. ";
+      throw ExceptionOutOfRangeC("No texture in TexTriMeshC binary stream. ");
+    }
     UIntT nfaces,i1,i2,i3;
     s >> nfaces;
     SArray1dC<TriC> faces(nfaces);

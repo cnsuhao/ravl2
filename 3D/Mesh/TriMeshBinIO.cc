@@ -33,7 +33,7 @@ namespace Ravl3DN {
     s << version;
     RavlAssert(ts.IsValid());
     s << ts.Vertices(); 
-    s << ts.HaveTextureCoord();
+    s << (IntT)ts.HaveTextureCoord();
     s << ts.Faces().Size(); 
     const VertexC *x = &(ts.Vertices()[0]);
     SArray1dIterC<TriC> it(ts.Faces());
@@ -59,8 +59,9 @@ namespace Ravl3DN {
     }
     SArray1dC<VertexC> vecs;
     s >> vecs;
-    bool bHaveTexture;
-    s >> bHaveTexture;
+    IntT iHaveTexture;
+    s >> iHaveTexture;
+    bool bHaveTexture = (iHaveTexture) ? true : false;
     UIntT nfaces,i1,i2,i3;
     s >> nfaces;
     SArray1dC<TriC> faces(nfaces);

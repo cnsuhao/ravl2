@@ -150,7 +150,7 @@ namespace Ravl3DN {
   ostream &operator<<(ostream &s,const TriMeshC &ts) {
     RavlAssert(ts.IsValid());
     s << ts.Vertices(); 
-    s << ts.HaveTextureCoord() << '\n';
+    s << (IntT)ts.HaveTextureCoord() << '\n';
     s << ts.Faces().Size() << '\n'; 
     const VertexC *x = &(ts.Vertices()[0]);
     SArray1dIterC<TriC> it(ts.Faces());
@@ -168,8 +168,9 @@ namespace Ravl3DN {
   istream &operator>>(istream &s,TriMeshC &ts) {
     SArray1dC<VertexC> verts;
     s >> verts;
-    bool bHaveTexture;
-    s >> bHaveTexture;
+    IntT iHaveTexture;
+    s >> iHaveTexture;
+    bool bHaveTexture = (iHaveTexture) ? true : false;
     UIntT nfaces,i1,i2,i3;
     s >> nfaces;
     SArray1dC<TriC> faces(nfaces);
