@@ -72,5 +72,18 @@ namespace RavlN {
     }
     return THEMeshFaceC<Point2dC>();
   }
-
+  
+  //: Compute the bounding rectangle for the points in the mesh.
+  
+  RealRange2dC HEMesh2dC::BoundingRectangle() const {
+    RealRange2dC ret(0,0);
+    THEMeshVertexIterC<Point2dC> it(Vertices());
+    if(!it)
+      return ret;
+    ret = RealRange2dC((*it).Data(),0);
+    for(;it;it++)
+      ret.Involve((*it).Data());
+    return ret;
+  }
+  
 }

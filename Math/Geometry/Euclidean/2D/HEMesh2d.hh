@@ -14,6 +14,7 @@
 
 #include "Ravl/THEMesh.hh"
 #include "Ravl/Point2d.hh"
+#include "Ravl/RealRange2d.hh"
 
 namespace RavlN {
   
@@ -38,6 +39,9 @@ namespace RavlN {
     // This assumes the edges around a face are ordered clockwise.
     // Note: This does a linear searh through the faces, it doesn't
     // use any clever indexing scheme.
+    
+    RealRange2dC BoundingRectangle() const;
+    //: Compute the bounding rectangle for the points in the mesh.
   };
     
 }
