@@ -192,6 +192,11 @@ namespace RavlN {
   ////////////////////////////////
   //! userlevel=Basic
   //: A text string.
+  // BIG or SMALL object ??
+  // In Ravl Strings are semi-big and use a technique similar to copy-on-write. 
+  // Handles are created to existing representations, however, when a user attempts to change 
+  // the representation, it is COPIED first. 
+
   // THREADING:
   // This string implementation uses atomic reference counting, making the
   // management of handles to strings thread safe. This however does NOT mean
