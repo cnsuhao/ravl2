@@ -52,7 +52,7 @@ namespace RavlN {
     //: Project a point through the transform.
     
     Projection2dC Inverse() const
-    { return Projection2dC(trans.I(),oz,iz); }
+    { return Projection2dC(trans.Inverse(),oz,iz); }
     //: Invert transform.
     
     Matrix3dC &Matrix()
