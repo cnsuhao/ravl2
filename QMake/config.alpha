@@ -73,11 +73,11 @@ endif
 ############################
 # 'check' variant.
 
-ifeq ($(VAR),check)
+#ifeq ($(VAR),check)
  CFLAGS += -O -DQMAKE_CHECK
  CCFLAGS += -O -DQMAKE_CHECK
  LDFLAGS += -O
-endif
+#endif
 
 ############################
 # 'opt' variant.
@@ -91,11 +91,12 @@ endif
 ############################
 # 'shared' variant.
 
-ifeq ($(VAR),shared)
- CFLAGS += -fPIC -shared -O2 -DNDEBUG
- CCFLAGS += -fPIC -shared -O2 -DNDEBUG
- LDLIBFLAGS = -fPIC -shared -O2
- LDFLAGS += -O2 -rdynamic  -Wl,-rpath=$(PROJECT_OUT)/lib/RAVL/$(ARC)/$(VAR)
+#ifeq ($(VAR),shared)
+ifdef SHAREDBUILD
+ CFLAGS += -fPIC -shared  -DNDEBUG
+ CCFLAGS += -fPIC -shared  -DNDEBUG
+ LDLIBFLAGS = -fPIC -shared 
+ LDFLAGS += -O2 -rdynamic  -Wl,-rpath=$(PROJECT_OUT)/lib/RAVL/$(ARC)/$(VAR)/shared
 # -Wl,-export-dynamic
 endif
 

@@ -71,16 +71,12 @@ ifndef BASE_VAR
    else
     ifeq ($(VAR),opt)
       BASE_VAR=opt#
-    else
-     ifeq ($(VAR),shared)
-       BASE_VAR=shared#
-     else
-       BASE_VAR=check#
-     endif
+      else
+        BASE_VAR=check#
+       endif 
+      endif
     endif
    endif
-  endif
-endif
 
 ##########################
 # Roots of working directories.
@@ -94,11 +90,14 @@ else
  TMP=$(DEFAULTTMP)
 endif
 
+ifndef SHAREDBUILD 
 WORKTMP=$(LOCALTMP)/$(ARC)/$(BASENAME)/$(VAR)
+else
+WORKTMP=$(LOCALTMP)/$(ARC)/$(BASENAME)/$(VAR)/shared
+endif 
 
 # A file that definitly doesn't exist.
-
-NOFILE = /notme/hiya/fruitcake/whippy
+#NOFILE = /notme/hiya/fruitcake/whippy
 
 ##########
 # Working directories...
@@ -138,8 +137,12 @@ INST_AUX=$(ROOTDIR)/$(AUXDIR)
 
 # Binaries
 
-INST_OBJS=$(WORKTMP)/objs
+ifndef SHAREDBUILD 
 INST_LIB=$(ROOTDIR)/lib/RAVL/$(ARC)/$(VAR)
+else 
+INST_LIB=$(ROOTDIR)/lib/RAVL/$(ARC)/$(VAR)/shared
+endif 
+INST_OBJS=$(WORKTMP)/objs
 INST_FORCEOBJS = $(ROOTDIR)/lib/RAVL/$(ARC)/obj
 
 # Test stuff.

@@ -71,10 +71,17 @@ ifndef TOUCH
   TOUCH=touch
 endif
 
-ifeq ($(VAR),shared)
-  LIBEXT:=.so
+
+#ifneq ($(filter $(VAR), shared debugshared ),)
+#  LIBEXT:=.so
+#else
+#  LIBEXT:=.a
+#endif
+
+ifndef SHAREDBUILD
+ LIBEXT:=.a
 else
-  LIBEXT:=.a
+ LIBEXT:=.so
 endif
 
 # Default Object file extension
@@ -266,9 +273,14 @@ VPATH = $(QCWD)
 
 PREPROCFLAGS = -DPROJECT_OUT=\"$(PROJECT_OUT)\" -DCPUG_ARCH=\"$(ARC)\"
 
-ifeq ($(VAR),shared)
+
+ifdef SHAREDBUILD
 PREPROCFLAGS += -DCPUG_VAR_SHARED=1
-endif
+endif 
+
+#ifeq ($(VAR),shared)
+#PREPROCFLAGS += -DCPUG_VAR_SHARED=1
+#endif
 
 ifdef LOCALHEADERS
  INCLUDES+=-I.
@@ -389,16 +401,25 @@ ifdef EXTPACKAGE
 endif
 
 CINCLUDES =  -I$(INST_HEADER) $(INCLUDES) -I$(BASE_INSTALL)/include/$(ARC) -I$(BASE_INSTALL)/include
-
 LIBS += -L$(INST_LIB) $(EXELIB) -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)
-BINLIBS += -L$(INST_LIB) $(LINKLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)
 
-ifeq ($(VAR),shared)
- ifneq ($(BASE_VAR),none)
+
+
+ifndef SHAREDBUILD 
+BINLIBS += -L$(INST_LIB) $(LINKLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)
+else
+BINLIBS += -L$(INST_LIB) $(LINKLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)/shared
+endif 
+
+
+
+#ifeq ($(VAR),shared)
+ifdef SHAREDBUILD 
+ifneq ($(BASE_VAR),none)
   #LDFLAGS += $(LIBPATHSWITCH)$(ROOTDIR)/lib/RAVL/$(ARC)/$(BASE_VAR)/$(VAR) $(LIBPATHSWITCH)$(RAVL_LIB)
-  LDFLAGS += $(LIBPATHSWITCH)$(ROOTDIR)/lib/RAVL/$(ARC)/$(BASE_VAR)/$(VAR)
+  LDFLAGS += $(LIBPATHSWITCH)$(ROOTDIR)/lib/RAVL/$(ARC)/$(BASE_VAR)/$(VAR)/shared
  else 
-  LDFLAGS += $(LIBPATHSWITCH)$(ROOTDIR)/lib/RAVL/$(ARC)/$(VAR)
+  LDFLAGS += $(LIBPATHSWITCH)$(ROOTDIR)/lib/RAVL/$(ARC)/$(VAR)/shared
  endif
 endif
 
@@ -675,7 +696,8 @@ ifndef TR
 endif 
 
 
-ifneq ($(VAR),shared)
+#ifneq ($(VAR),shared)
+ifndef SHAREDBUILD
 ifeq ($(NOLIBRARYPRELINK),1)
 $(INST_LIB)/lib$(PLIB)$(LIBEXT) : $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
 	$(SHOWIT)echo "--- Building" $(@F) ; \

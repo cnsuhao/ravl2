@@ -107,11 +107,12 @@ endif
 ############################
 # 'shared' variant.
 
-ifeq ($(VAR),shared)
- CFLAGS += -fPIC -shared $(OPTCFLAGS)
- CCFLAGS += -fPIC -shared  $(OPTCFLAGS)
- LDLIBFLAGS = -fPIC -shared -O2
- LDFLAGS += -O2 -rdynamic  -Wl,-rpath=$(PROJECT_OUT)/lib/RAVL/$(ARC)/$(VAR)
+#ifeq ($(VAR),shared)
+ ifdef SHAREDBUILD
+ CFLAGS += -fPIC -shared 
+ CCFLAGS += -fPIC -shared  
+ LDLIBFLAGS = -fPIC -shared
+ LDFLAGS +=  -rdynamic  -Wl,-rpath=$(PROJECT_OUT)/lib/RAVL/$(ARC)/$(VAR)/shared
 # -Wl,-export-dynamic
 endif
 
@@ -132,3 +133,5 @@ ifeq ($(VAR),gprof)
  CCFLAGS += -pg -g $(OPTCFLAGS)
  LDFLAGS += -pg -g -O2
 endif
+
+

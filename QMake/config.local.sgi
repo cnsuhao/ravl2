@@ -1,3 +1,13 @@
+################ Install options #############################
+# This variable determines which kinds of library are built by the default installation (fullbuild)
+FULLBUILD_TARGETS += check
+FULLBUILD_TARGETS += debug 
+FULLBUILD_TARGETS += opt
+FULLBUILD_TARGETS += shared
+#FULLBUILD_TARGETS += debugshared
+#FULLBUILD_TARGETS += optshared
+FULLBUILD_TARGETS += doc
+
 
 ## GTK ################################################
 

@@ -108,11 +108,12 @@ endif
 ############################
 # 'share' variant.
 
-ifeq ($(VAR),shared)
- CFLAGS += -shared -O2 -DNDEBUG
- CCFLAGS += -shared -O2 -DNDEBUG
+#ifeq ($(VAR),shared)
+ ifdef SHAREDBUILD
+ CFLAGS += -shared  -DNDEBUG
+ CCFLAGS += -shared  -DNDEBUG
  LDLIBFLAGS = -dy -G 
- LDFLAGS += -O2 
+ #LDFLAGS += -O2 
 endif
 
 ############################
