@@ -31,8 +31,9 @@ namespace RavlN {
   // the pixel. For example, the top edge points to the left and
   // its origin is at the upper-right corner of the pixel.</p>
 
-  // <p>Do not confuse this class with <a href="EdgelC.html">EdgelC</a>, which
-  // is used to represent a string of edge pixels.</p>
+  // <p>Do not confuse this class with <a
+  // href="RavlImageN.EdgelC.html">EdgelC</a>, which is used to represent a
+  // string of edge pixels.</p>
   
   class EdgeC
     : public BVertexC, 
