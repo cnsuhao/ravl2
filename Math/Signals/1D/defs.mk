@@ -8,13 +8,18 @@
 
 PACKAGE=Ravl
 
-HEADERS= FFT1d.hh PowerSpectrum1d.hh Correlation1d.hh RealCepstral.hh
+HEADERS= FFT1d.hh PowerSpectrum1d.hh Correlation1d.hh RealCepstral.hh \
+ Convolution1d.hh GenerateSignal1d.hh
 
-SOURCES= FFT1d.cc PowerSpectrum1d.cc Correlation1d.cc RealCepstral.cc
+SOURCES= FFT1d.cc PowerSpectrum1d.cc Correlation1d.cc RealCepstral.cc \
+ GenerateSignal1d.cc
+# Convolution1d.cc
 
 PLIB = RavlMath
 
 LIBDEPS=RavlSignal1.def
+
+TESTEXES= testGenerateSignal1d.cc testSignal1d.cc
 
 EXAMPLES = exFFT1d.cc exPowerSpectrum.cc
 

@@ -25,7 +25,7 @@ namespace RavlN {
     : public RCBodyC
   {
   public:
-    FFT1dBodyC(int n,bool iinv);
+    FFT1dBodyC(int n,bool iinv,bool zeroPad = false);
     //: Constructor.
     
     ~FFT1dBodyC();
@@ -50,11 +50,15 @@ namespace RavlN {
       { return n; }
     //: The size of the transform.
     
+    bool IsZeroPad() const
+    { return zeroPad; }
+    //: Test if we're doing zero padding.
+    
   protected:
     IntT n;  // Size of the transform.
     bool inv; // Is the transform backward ??
     bool pwr2; // Is length a power of two ?
-    
+    bool zeroPad; // Zero pad input to 'n' bytes ?
     int primeFactors[32];
     int nf; // Number of factors. Sufficent for all 32-bit lengths.
   };
@@ -70,8 +74,8 @@ namespace RavlN {
       {}
     //: Default constructor.
     
-    FFT1dC(int n,bool iinv = false)
-      : RCHandleC<FFT1dBodyC>(*new FFT1dBodyC(n,iinv))
+    FFT1dC(int n,bool iinv = false,bool zeroPad = false)
+      : RCHandleC<FFT1dBodyC>(*new FFT1dBodyC(n,iinv,zeroPad))
       {}
     //: Create a fft class.
     // If iinv is true do an inverse transform
@@ -97,6 +101,10 @@ namespace RavlN {
     IntT N() const
       { return Body().N(); }
     //: The size of the transform.
+    
+    bool IsZeroPad() const
+    { return Body().IsZeroPad(); }
+    //: Test if we're doing zero padding.
     
   };
 

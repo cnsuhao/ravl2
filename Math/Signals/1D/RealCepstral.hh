@@ -12,6 +12,7 @@
 //! docentry="Ravl.Math.Signals.1D"
 //! lib=RavlMath
 
+#include "Ravl/Math.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Types.hh"
 #include "Ravl/FFT1d.hh"

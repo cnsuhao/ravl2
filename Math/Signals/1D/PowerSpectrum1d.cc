@@ -17,7 +17,7 @@ namespace RavlN {
 
   //: Compute the power spectrum of data with no windowing.
   
-  SArray1dC<RealT> PowerSpectrumSimple(const SArray1dC<RealT> &data,int smooth = 0) {
+  SArray1dC<RealT> PowerSpectrumSimple(const SArray1dC<RealT> &data,int smooth) {
     SArray1dC<RealT> ret = data.Copy();
     int os = pwspec((double *) &(ret[0]),data.Size(),smooth);
     return SArray1dC<RealT>(ret,os);

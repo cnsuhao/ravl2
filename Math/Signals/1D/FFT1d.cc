@@ -10,7 +10,6 @@
 
 #include "Ravl/FFT1d.hh"
 #include "Ravl/Exception.hh"
-#include "Ravl/SArr1Iter2.hh"
 #include "ccmath/ccmath.h"
 
 #define DODEBUG 0
@@ -24,9 +23,10 @@ namespace RavlN {
 
   //: Constructor.
   
-  FFT1dBodyC::FFT1dBodyC(int nn,bool iinv) 
+  FFT1dBodyC::FFT1dBodyC(int nn,bool iinv,bool nZeroPad) 
     : n(0),
-      inv(iinv)
+      inv(iinv),
+      zeroPad(nZeroPad)
   { Init(nn,iinv); }
   
   //: Destructor
@@ -41,7 +41,12 @@ namespace RavlN {
     inv = iinv;
     pwr2 = IsPow2(nn);
     n = nn;
+#if 0
+    for(int i = 0;i < 32;i++)
+      primeFactors[i] = 0;
+#endif
     nf = pfac(n,primeFactors,'o');
+    RavlAssertMsg(nf == n,"FFT1dBodyC::Init(), Failed to find prime factors. ");
     return true;
   }
   
@@ -49,23 +54,48 @@ namespace RavlN {
   
   SArray1dC<ComplexC> FFT1dBodyC::Apply(const SArray1dC<ComplexC> &dat) {
     ONDEBUG(cerr << "FFT1dBodyC::Apply(SArray1dC<ComplexC>) n=" << n << " inv=" << inv << " \n");
-    RavlAssert(dat.Size() == (UIntT) n);
-    SArray1dC<ComplexC> ret = dat.Copy();
-    SArray1dC<complex *> ptrArr(n);
+    SArray1dC<ComplexC> ret(n);
+    SArray1dC<ComplexC> tmpArr(n);    
+    if(dat.Size() < (UIntT) n && zeroPad) {
+      ONDEBUG(cerr << "Zero padding. \n");
+      ret = SArray1dC<ComplexC>(n);
+      // Copy original data.
+      for(BufferAccessIter2C<ComplexC,ComplexC> it(dat,tmpArr);it;it++)
+	it.Data2() = it.Data1();
+      // Zero pad it.
+      for(BufferAccessIterC<ComplexC> it(tmpArr,IndexRangeC(dat.Size(),n-1));it;it++)
+	*it = 0;
+    } else {
+      RavlAssert(dat.Size() == (UIntT) n);
+      tmpArr = dat.Copy();
+    }
+    SArray1dC<complex *> ptrArr(n);    
+    //ptrArr.Fill(0);
     //cerr << dat <<  "\n";
     // FIXME :- Would it be quicker to copy the array and use fft2 if length is a power of two ?
-    if(inv)
+    if(inv) { // Do inverse.
+      for(BufferAccessIter2C<complex *,ComplexC> it(ptrArr,tmpArr);it;it++)
+	it.Data1() = (complex *) (&it.Data2());
       fftgc((complex **) ((void *)&(ptrArr[0])),
-	    (complex *) ((void *)&(ret[0])),
+	    (complex *) ((void *)&(tmpArr[0])),
 	    n,
 	    primeFactors,
 	    'i');
-    else
+      for(BufferAccessIter2C<complex *,ComplexC> itb(ptrArr,ret);itb;itb++) 
+	itb.Data2() = *((ComplexC *)itb.Data1());
+    } else { // Do forward.
+      for(BufferAccessIter2C<complex *,ComplexC> it(ptrArr,ret);it;it++)
+	it.Data1() = (complex *) (&it.Data2());
+      
       fftgc((complex **) ((void *)&(ptrArr[0])),
-	    (complex *) ((void *)&(ret[0])),
+	    (complex *) ((void *)&(tmpArr[0])),
 	    n,
 	    primeFactors,
 	    'd');
+      
+      for(BufferAccessIter2C<complex *,ComplexC> itb(ptrArr,ret);itb;itb++) 
+	itb.Data2() = *((ComplexC *)itb.Data1());
+    }
     
     //cerr << "result:" << ret << "\n";;
     return ret;
@@ -74,8 +104,21 @@ namespace RavlN {
   //: Apply transform to array.
   
   SArray1dC<ComplexC> FFT1dBodyC::Apply(const SArray1dC<RealT> &dat) {
-    ONDEBUG(cerr << "FFT1dBodyC::Apply(SArray1dC<RealT>) n=" << n << " inv=" << inv << " opt=" << opt << "\n");
-    RavlAssert(dat.Size() == (UIntT) n)
+    ONDEBUG(cerr << "FFT1dBodyC::Apply(SArray1dC<RealT>) n=" << n << " inv=" << inv << " \n");
+    if(dat.Size() < (UIntT) n && zeroPad) {
+      ONDEBUG(cerr << "Zero padding. \n");
+      SArray1dC<RealT> ndat(n);
+      // Copy original data.
+      for(BufferAccessIter2C<RealT,RealT> it(dat,ndat);it;it++)
+	it.Data2() = it.Data1();
+      // Zero pad it.
+      for(BufferAccessIterC<RealT> it(ndat,IndexRangeC(dat.Size(),n-1));it;it++)
+	*it = 0;
+      // Then try again.
+      return Apply(ndat);
+    } else {
+      RavlAssert(dat.Size() == (UIntT) n);
+    }
     SArray1dC<ComplexC> ret(n); 
     if(inv)
       fftgr((double *) &(dat[0]),
