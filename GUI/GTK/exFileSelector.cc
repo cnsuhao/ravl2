@@ -22,7 +22,7 @@ using namespace RavlGUIN;
 //: Callback, Open a file.
 
 bool LoadImage(StringC &filename,FileSelectorC &fs,TextBoxC &textBox) {
-  textBox.Insert(filename + "\n");  
+  textBox.Insert(filename + "\n");  // Display filename in textbox.
   return true;
 }
 
@@ -37,18 +37,22 @@ bool gui_quit()  {
 int main(int nargs,char **argv) {
   Manager.Init(nargs,argv);
   
+  // Create a textbox to show files user has requested.
+  
   TextBoxC textBox("",true);
   
   // Create a fileselector 
   
   FileSelectorC fs = FileSelector("Load Image","img.ppm",&LoadImage,textBox);
   
-  // Create a window with a menu bar.
+  // Create a menubar
   
   MenuBarC menuBar(MenuC("File",
 			 MenuItem("Quit",gui_quit)  +
-			 MenuItemShow("Open",fs)
+			 MenuItemShow("Open",fs)     // Show fileselector.
 			 ));
+  
+  // Create a window with a menu bar and textbox
   
   WindowC win(100,100,"FileSelectorC example");
   win.Add(VBox(menuBar + 
