@@ -42,14 +42,12 @@ int testBGraph();
 int main() {
   int ln;
   cout << "Testing branching graphs... \n";
-  
   if((ln = testBGraph()) != 0) {
     cerr << "Test faile at line " << ln << "\n";
-    return 0;
+    return 1;
   }
-  
   cout << "Test passed ok. \n";
-  return 1;
+  return 0;
 }
 
 
