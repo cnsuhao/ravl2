@@ -25,28 +25,11 @@
 // <li> warp mosaic into each frame and subtract from frame to generate foreground objects (optional)</li>
 // </ul>
 
-#include "Ravl/config.h"
 #include "Ravl/Option.hh"
-#include "Ravl/StdConst.hh"
-#include "Ravl/DP/SPort.hh"
-#include "Ravl/DP/SequenceIO.hh"
 #include "Ravl/Image/MosaicBuilder.hh"
-#include "Ravl/Image/WarpProjective.hh"
-#include "Ravl/Image/RemoveDistortion.hh"
-#include "Ravl/Image/ImageMatcher.hh"
 #include "Ravl/EntryPnt.hh"
-#include "Ravl/Array1d.hh"
-#include "Ravl/Array2dIter2.hh"
-#include "Ravl/DP/FileFormatIO.hh"
-#include "Ravl/Array2dIter3.hh"
-#include "Ravl/DP/Converter.hh"
 #include "Ravl/IO.hh"
 #include "Ravl/Image/ImgIO.hh"
-#include "Ravl/Image/Erode.hh"
-#include "Ravl/Image/Dilate.hh"
-#include "Ravl/Image/ImageConv.hh"
-#include "Ravl/Image/RealRGBValue.hh"
-#include "Ravl/Image/GaussConvolve.hh"
 
 #if RAVL_COMPILER_MIPSPRO
 #include <stdlib.h> 
@@ -78,7 +61,7 @@ int Mosaic(int nargs,char **argv) {
   RealT K1 = opt.Real("K1",0.0,"Cubic radial distortion coefficient. ");
   RealT K2 = opt.Real("K2",0.0,"Quintic radial distortion coefficient. ");
   opt.Comment("Tracking:");
-  int newFreq    = opt.Int("nf",1,"Frequency of introducing new features. ");
+  int newFreq    = opt.Int("ff",1,"Frequency of introducing new features. ");
   int cthreshold = opt.Int("ct",30,"Corner threshold. ");
   int cwidth     = opt.Int("cw",7,"Corner filter width. ");
   int mthreshold = opt.Int("mt",20,"Match threshold. ");
@@ -98,11 +81,12 @@ int Mosaic(int nargs,char **argv) {
   Point2dC pointBR = opt.Point2d("pbr", 1.0, 1.0, "Bottom-right coordinates of projection of first image (in units of picture size)");
   opt.Comment("Foreground image generation:");
   StringC ofn = opt.String("fg","","Output sequence. (Default: no foreground sequence generated)");
-  int fgThreshold = opt.Int("ft",24,"Minimum distance between image and mosaic pixel values to be a foreground pixel");
+  int fgThreshold = opt.Int("ft",8,"Minimum distance between image and mosaic pixel values to be a foreground pixel");
   opt.Comment("Input and output video:");
   int startFrame = opt.Int("sf", 0, "Start frame");
-  int maxFrames = opt.Int("mf",200,"Maximum number of frames to process");
+  int maxFrames = opt.Int("nf",200,"Maximum number of frames to process");
   StringC ifn = opt.String("","@V4LH:/dev/video0","Input sequence. ");
+  bool verbose = opt.Boolean("v", false, "Verbose output");
   opt.Check();
     
 #if 0
@@ -110,7 +94,7 @@ int Mosaic(int nargs,char **argv) {
 #endif
 
   // Create a mosaic class instance
-  MosaicBuilderC mosaicBuilder(resize);
+  MosaicBuilderC mosaicBuilder(resize, verbose);
   // Set tracker params
   mosaicBuilder.SetTracker(cthreshold, cwidth, mthreshold, mwidth,
 			   lifeTime, searchSize, newFreq);
@@ -135,7 +119,10 @@ int Mosaic(int nargs,char **argv) {
   // save interframe projections if required
   if (homogFile != "") {
     OStreamC homogStream(homogFile);
-    homogStream<<mosaicBuilder.GetMotion() << mosaicBuilder.GetCropRect() << endl<< mosaicBuilder.GetMosaic().Rectangle() << endl;
+    homogStream << mosaicBuilder.GetMotion()
+		<< mosaicBuilder.GetCropRect() << endl 
+		<< mosaicBuilder.GetMosaic().Rectangle() << endl
+		<< K1 << " " << K2 << endl;
     homogStream.Close();
   }
 
