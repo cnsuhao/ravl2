@@ -19,6 +19,7 @@
 #include "Ravl/Matrix4d.hh"
 #include "Ravl/MatrixRS.hh"
 #include "Ravl/MatrixDecomposition.hh"
+#include "Ravl/Vector.hh"
 
 using namespace RavlN;
 
@@ -28,6 +29,7 @@ int testMisc();
 int testMatrixRUT();
 int testDet();
 int testLUDecomposition();
+int testVector();
 
 int main() {
   int ln;
@@ -53,6 +55,10 @@ int main() {
   }
   if((ln = testDet()) != 0) {
     cerr << "testDet() failed. Line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testVector()) != 0) {
+    cerr << "testVector() failed. Line:" << ln << "\n";
     return 1;
   }
   cerr << "Test passed. \n";
@@ -232,5 +238,21 @@ int testLUDecomposition() {
   MatrixC res = mat1 * mat2;
   cerr << "Res=" << res << "\n";
   
+  return 0;
+}
+
+int testVector() {
+  VectorC vec2(1,2);
+  if(vec2[0] != 1) return __LINE__;
+  if(vec2[1] != 2) return __LINE__;
+  VectorC vec3(1,2,3);
+  if(vec3[0] != 1) return __LINE__;
+  if(vec3[1] != 2) return __LINE__;
+  if(vec3[2] != 3) return __LINE__;
+  VectorC vec4(1,2,3,4);
+  if(vec4[0] != 1) return __LINE__;
+  if(vec4[1] != 2) return __LINE__;
+  if(vec4[2] != 3) return __LINE__;
+  if(vec4[3] != 4) return __LINE__;
   return 0;
 }
