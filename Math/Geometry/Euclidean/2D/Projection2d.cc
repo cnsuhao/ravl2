@@ -16,6 +16,7 @@
 #include "Ravl/Vector.hh"
 #include "Ravl/DLIter.hh"
 #include "Ravl/SArray1dIter2.hh"
+#include "Ravl/SArray1dIter3.hh"
 #include "Ravl/LeastSquares.hh"
 
 namespace RavlN {
@@ -172,6 +173,17 @@ namespace RavlN {
     return Projection2dC (P,zh1,zh2);
   }
   
+
+  //: Fit a projective transform given to the mapping between original and newPos with weighting for points.
+  
+  Projection2dC FitProjection(const SArray1dC<Point2dC> &org,const SArray1dC<Point2dC> &newPos,const SArray1dC<RealT> &weight) {
+    RealT zh1 = 1.0,zh2 = 1.0;
+    Matrix3dC P(1.0,0.0,0.0,
+                0.0,1.0,0.0,
+                0.0,0.0,1.0);
+    FitProjection(org,newPos,weight,P);
+    return Projection2dC (P,zh1,zh2); 
+  }
   
   //: Fit projection to a set of points.  4 or point correspondances are required
   
@@ -245,10 +257,80 @@ namespace RavlN {
     proj =  toNorm * mat * fromNorm;
     return true;
   }
-
-
-
-
+  
+  //: Fit a projective matrix with weighting for points.
+  
+  bool FitProjection(const SArray1dC<Point2dC> &from,const SArray1dC<Point2dC> &to,const SArray1dC<RealT> &weight,Matrix3dC &proj) {
+    RavlAssert(from.Size() == to.Size());
+    UIntT neq = from.Size();
+    if(neq < 4) return false;
+    
+    // Normalise 'from' points.
+    
+    SArray1dC<Point2dC> fromN;
+    Matrix3dC fromNorm;
+    Normalise(from,fromN,fromNorm);
+    
+    // Normalise 'to' points.
+    
+    SArray1dC<Point2dC> toN;
+    Matrix3dC toNorm;
+    Normalise(to,toN,toNorm);
+    
+    // Build matrix.
+    
+    MatrixC A(neq * 2,9);
+    IntT i = 0;
+    for(SArray1dIter3C<Point2dC,Point2dC,RealT> it(toN,fromN,weight);it;it++) {
+      const Point2dC &x = it.Data2();
+      
+      SizeBufferAccessC<RealT> row1 = A[i++];
+      
+      RealT r = it.Data1()[0] * it.Data3();
+      RealT c = it.Data1()[1] * it.Data3();
+      
+      row1[0] = 0;
+      row1[1] = 0;
+      row1[2] = 0;
+      
+      row1[3] = x[0] * -1 * it.Data3();
+      row1[4] = x[1] * -1 * it.Data3();
+      row1[5] = -it.Data3();
+      
+      row1[6] = x[0] * c;
+      row1[7] = x[1] * c;
+      row1[8] = c;
+      
+      SizeBufferAccessC<RealT> row2 = A[i++];
+      
+      row2[0] = x[0] * it.Data3();
+      row2[1] = x[1] * it.Data3();
+      row2[2] = it.Data3();
+      
+      row2[3] = 0;
+      row2[4] = 0;
+      row2[5] = 0;
+      
+      row2[6] = x[0] * -r;
+      row2[7] = x[1] * -r;
+      row2[8] = -r;
+    }
+    
+    // Should check the rank of A?
+    
+    VectorC v;
+    if(!LeastSquaresEq0Mag1(A,v))
+      return false;
+    //cerr << "A=" << A << " V=" << v << "\n";
+    Matrix3dC mat(v[0],v[1],v[2],
+		  v[3],v[4],v[5],
+		  v[6],v[7],v[8]);
+    
+    toNorm.InvertIP();
+    proj =  toNorm * mat * fromNorm;
+    return true;    
+  }
+  
 
   //: Read from a stream.
   
