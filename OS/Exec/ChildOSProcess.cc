@@ -42,6 +42,11 @@ extern "C" {
 #define ONDEBUG(x)
 #endif
 
+#include "Ravl/OS/Filename.hh"
+
+#if RAVL_OS_LINUX
+#define RAVL_LINIX_WAITPIDBUG 1
+#endif
 
 namespace RavlN {
   
@@ -315,6 +320,7 @@ ChildOSProcessC::ChildOSProcessC(StringC cmd,bool useStdOut,bool useStdErr,bool 
 #if RAVL_OS_LINUX
     opt |= __WALL;
 #endif
+    errno = 0;
     if((id = waitpid(pid,&stat,opt)) == 0) {
       if(errno == ECHILD) { // No such child ??
 	exitok = false;
@@ -326,6 +332,39 @@ ChildOSProcessC::ChildOSProcessC(StringC cmd,bool useStdOut,bool useStdErr,bool 
     if(id < 0) {
       if(errno != ECHILD)
 	cerr << "ChildOSProcessBodyC::IsRunning(), waitpid failed. " << id << " errno=" << errno << "\n";
+#if RAVL_LINIX_WAITPIDBUG
+      // This is a bit of a hack to get around waitpid giving ECHILD when the child process
+      // is still running.   Is this a kernel bug ??
+      
+      FilenameC fn("/proc/");
+      fn += StringC(pid);
+      if(fn.Exists()) { // There's some hope.
+	fn += "/stat";
+	IStreamC in(fn);
+	UIntT apid;
+	StringC name;
+	in >> apid;
+	if(in) { // Not having trouble reading the file ? If we are assume its dead.
+	  in.SkipTo(')'); // Skip to after the executable name
+	  char state;
+	  in >> state; // This is what we're after!
+	  switch(state) {
+	  case 'R': // Running.
+	  case 'S': // Sleeping
+	  case 'D': // Sound asleep.
+	  case 'T': // Traced or stopped.
+	  case 'W': // Paging.
+	    return false; // Process is still alive!
+	  default:
+	    cerr << "WARNING: Unknown process state '" << state << "' \n";
+	    return false; // Assume its alive.
+	  case 'Z': // Zombie
+	    // Its really dead!
+	    break;
+	  }
+	}
+      }
+#endif      
       exitok = false;
       exitcode = 0;
       return true;
