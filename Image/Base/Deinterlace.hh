@@ -14,6 +14,7 @@
 //! lib=RavlImage
 
 #include "Ravl/Image/Image.hh"
+#include "Ravl/Array2dIter.hh"
 
 namespace RavlImageN {
   
@@ -47,6 +48,17 @@ namespace RavlImageN {
   // This is an inplace operation and works by rearranging the row pointers
   // in the returned frame. This makes it very quick, but may cause problems
   // with functions that assume a simple linear memory layout for 2d arrays
+
+  template<class DataT>
+  Array2dC<DataT> DeinterlaceSubsample(Array2dC<DataT> &img,bool field1Dom = true) {
+    RavlAssert((img.Range1().Size() % 2) == 0);
+    Array2dC<DataT> newBuf(img.Range1().Size()/2, img.Range2().Size()/2);
+    for(Array2dIterC<DataT>It(newBuf);It.IsElm();It.Next()) {
+      It.Data() = img[It.Index().Row()*2][It.Index().Col()*2];
+    }
+    return newBuf;
+  }
+  //: Deinterlace and subsample, i.e. returns image that is half the size
   
 }
 
