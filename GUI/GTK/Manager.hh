@@ -61,7 +61,7 @@ namespace RavlGUIN {
     bool Notify(IntT id);
     //: Notify interface of event.
     
-    void HandleNotify();
+    bool HandleNotify();
     //: Handle notify request.
     
     bool Shutdown();

@@ -131,6 +131,7 @@ namespace RavlGUIN {
 
 #if  RAVL_USE_GTKTHREADS
     g_thread_init(NULL);
+    gdk_threads_init();
 #endif
     
     /* this is called in all GTK applications.  arguments are parsed from
@@ -202,9 +203,8 @@ namespace RavlGUIN {
     physicalScreensize = Point2dC(gdk_screen_height_mm(),gdk_screen_width_mm());
     
 #if  RAVL_USE_GTKTHREADS
-    startupDone.Post();
-    ManagerC manager(*this);
-    LaunchThread(manager,&ManagerC::HandleNotify);
+    LaunchThreadR(*this,&ManagerC::HandleNotify);
+    ONDEBUG(cerr << "ManagerC::Start(), Starting gtk_main().\n");
     gdk_threads_enter();
     gtk_main();
     gdk_threads_leave();
@@ -223,7 +223,7 @@ namespace RavlGUIN {
     
     gtk_main ();
 #endif
-  
+    
     managerStarted = false;
     
     shutdownDone.Post();  
@@ -274,14 +274,23 @@ namespace RavlGUIN {
   
   //: Handle notify request.
   
-  void ManagerC::HandleNotify() {
+  bool ManagerC::HandleNotify() {
 #if RAVL_USE_GTKTHREADS
-    TriggerC trig;
-    while(!shutdownflag) {
-      events.Get(trig);
-      if(trig.IsValid())
+    ONDEBUG(cerr << "ManagerC::HandleNotify(), Started. \n");
+    
+    guiThreadID = ThisThreadID();
+    startupDone.Post();
+    Sleep(0.2);
+    while(!shutdownFlag) {
+      TriggerC trig = events.Get();
+      ONDEBUG(cerr << "ManagerC::HandleNotify(), Processing... \n");
+      if(trig.IsValid()) {
+	gdk_threads_enter();
 	trig.Invoke();
+	gdk_threads_leave();
+      }
     }
+    ONDEBUG(cerr << "ManagerC::HandleNotify(), Done. \n");
 #else
     IntT r;
     if(read(ifp,&r,sizeof(IntT)) != sizeof(IntT)) {
@@ -302,6 +311,7 @@ namespace RavlGUIN {
     }
     ONDEBUG(cerr << "ManagerC::HandleNotify() Called on " << r << " Done.\n");
 #endif
+    return true;
   }
   
   //: Access window.
@@ -377,7 +387,15 @@ namespace RavlGUIN {
   //: Test if we're in the GUI thread.
   
   bool ManagerC::IsGUIThread() const {
+#if RAVL_USE_GTKTHREADS
+    if(g_mutex_trylock(gdk_threads_mutex)) {
+      g_mutex_unlock(gdk_threads_mutex);
+      return false;
+    }
+    return true;
+#else
     return !managerStarted || guiThreadID == ThisThreadID();
+#endif
   }
   
   //: Register new window.
