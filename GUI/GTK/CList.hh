@@ -80,35 +80,41 @@ namespace RavlGUIN {
     
     bool GUIAppendLine(int &id,SArray1dC<StringC> &line);
     //: Append a line entry.  
-    // GUI thread only.
+    // GUI thread only. <br>
+    // Each line in the CList has to be given a unique 'id'.
+    // If the 'id' is already present that row will be replaced by this method.
     
     bool GUIAppendCLine(int &id,SArray1dC<CListCellC> &line);
     //: Append a line entry.  
-    // GUI thread only.
+    // GUI thread only. <br>
+    // Each line in the CList has to be given a unique 'id'.
+    // If the 'id' is already present that row will be replaced by this method.
     
     void AppendLine(int &id,SArray1dC<CListCellC> &line);
     //: Append a line entry.  
-    // GUI thread only.
+    // Each line in the CList has to be given a unique 'id'.
+    // If the 'id' is already present that row will be replaced by this method.
     
     void AppendLine(int &id,SArray1dC<StringC> &line);
     //: Append a line entry.  
-    // GUI thread only.
-
+    // Each line in the CList has to be given a unique 'id'.
+    // If the 'id' is already present that row will be replaced by this method.
+    
     bool GUIRemoveLine(int &id);
-    //: Remove a line entry.  
+    //: Remove a line with given 'id'.  
     // GUI thread only.
     
     void RemoveLine(int &id);
-    //: Remove a line entry.  
+    //: Remove a line with given 'id'.  
     
     bool GUISelect(int &id);
     //: Force an item to be selected.
     // Use from the GUI thread only.
     
     bool GUIUnselect(int &id);
-    //: Force an item to be unselected.
+    //: Force line with given 'id' to be unselected.
     // Use from the GUI thread only.
-
+    
     bool GUIUnselectAll();
     //: Remove all entries from the selection.
     // Use from the GUI thread only.

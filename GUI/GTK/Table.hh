@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUITABLE_HEADER
-#define RAVLGUITABLE_HEADER 1
+#ifndef RAVLGUI_TABLE_HEADER
+#define RAVLGUI_TABLE_HEADER 1
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! docentry="Ravl.GUI.Layout"
 //! file="Ravl/GUI/GTK/Table.hh"
-//! date="23/09/99"
+//! date="23/09/1999"
 
 #include "Ravl/GUI/Widget.hh"
 
@@ -26,8 +26,8 @@ namespace RavlGUIN {
   public:
     TableBodyC(int nsx,int nsy,bool homog = false)
       : sx(nsx),sy(nsy),
-      homogeneous(homog)
-      {}
+	homogeneous(homog)
+    {}
     //: Constructor
     
     bool AddObject(const WidgetC &widge,
@@ -64,7 +64,7 @@ namespace RavlGUIN {
 	  yoptions(nyoptions),
 	  xpadding(nxpadding),
 	  ypadding(nypadding)
-	{}
+      {}
       //: Constructor.
       
       WidgetC  widge;
@@ -82,34 +82,34 @@ namespace RavlGUIN {
   };
   
   //! userlevel=Normal
-//: Table.
+  //: Table.
   
   class TableC
     : public WidgetC
   {
   public:
     TableC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     TableC(int nsx,int nsy,bool homogeneous = false)
       : WidgetC(* new TableBodyC(nsx,nsy,homogeneous))
-      {}
+    {}
     //: Constructor.
     
   protected:
     TableC(TableBodyC &bod)
       : WidgetC(bod)
-      {}
+    {}
     //: Body constructor.
     
     TableBodyC &Body()
-      { return static_cast<TableBodyC &>(WidgetC::Body()); }
+    { return static_cast<TableBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     const TableBodyC &Body() const
-      { return static_cast<const TableBodyC &>(WidgetC::Body()); }
+    { return static_cast<const TableBodyC &>(WidgetC::Body()); }
     //: Access body.
     
   public:
@@ -122,12 +122,12 @@ namespace RavlGUIN {
 		   UIntT nxpadding = 0,
 		   UIntT nypadding = 0
 		   )
-      { return Body().AddObject(widge,left_attach,right_attach,top_attach,bottom_attach,
-				nxoptions,nyoptions,
-				nxpadding,nypadding); 
-      }
-  //: Add object to table.
-  // Values for attach options are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKATTACHOPTIONS">here</A>.
+    { return Body().AddObject(widge,left_attach,right_attach,top_attach,bottom_attach,
+			      nxoptions,nyoptions,
+			      nxpadding,nypadding); 
+    }
+    //: Add object to table.
+    // Values for attach options are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKATTACHOPTIONS">here</A>.
 
   };
 
