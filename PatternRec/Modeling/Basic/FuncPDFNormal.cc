@@ -8,8 +8,41 @@
 //! lib=RavlPatternRec
 
 #include "Ravl/PatternRec/FuncPDFNormal.hh"
+#include "Ravl/BinStream.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlN {
+  
+  //: Load from stream.
+  
+  FuncPDFNormalBodyC::FuncPDFNormalBodyC(istream &strm)
+    : FuncPDFBodyC(strm)
+  { strm >> dists; }
+  
+  //: Load from binary stream.
+  
+  FuncPDFNormalBodyC::FuncPDFNormalBodyC(BinIStreamC &strm)
+    : FuncPDFBodyC(strm)
+  { strm >> dists; }
+  
+  //: Writes object to stream.
+  
+  bool FuncPDFNormalBodyC::Save (ostream &out) const {
+    if(!FuncPDFBodyC::Save(out))
+      return false;
+    out << dists << ' ';
+    return true;
+  }
+  
+  //: Writes object to binary stream.
+  
+  bool FuncPDFNormalBodyC::Save (BinOStreamC &out) const {
+    if(!FuncPDFBodyC::Save(out))
+      return false;
+    out << dists;
+    return true;
+  }
+    
 
   //: Create from an array of distributions.
   
@@ -29,5 +62,10 @@ namespace RavlN {
       it.Data1() = it.Data2().Evaluate(data);
     return ret;
   }
+  
+  ////////////////////////////////////////////////////////////////////////
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(FuncPDFNormalBodyC,FuncPDFNormalC,FuncPDFC);
+  
   
 }

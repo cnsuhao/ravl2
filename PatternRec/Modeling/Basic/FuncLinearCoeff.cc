@@ -8,6 +8,7 @@
 //! lib=RavlPatternRec
 
 #include "Ravl/PatternRec/FuncLinearCoeff.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
   
@@ -15,6 +16,40 @@ namespace RavlN {
   
   FuncLinearCoeffBodyC::FuncLinearCoeffBodyC()
   {}
+
+  //: Load from stream.
+  
+  FuncLinearCoeffBodyC::FuncLinearCoeffBodyC(istream &strm)
+    : FunctionBodyC(strm)
+  {
+    strm >> a;
+  }
+  
+  //: Load from binary stream.
+  
+  FuncLinearCoeffBodyC::FuncLinearCoeffBodyC(BinIStreamC &strm) 
+    : FunctionBodyC(strm)
+  {
+    strm >> a;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool FuncLinearCoeffBodyC::Save (ostream &out) const {
+    if(!FunctionBodyC::Save(out))
+      return false;
+    out << a << ' ';
+    return true;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool FuncLinearCoeffBodyC::Save (BinOStreamC &out) const {
+    if(!FunctionBodyC::Save(out))
+      return false;
+    out << a;
+    return true;
+  }
   
   //: Attempt to set transform matrix.
   
@@ -57,5 +92,19 @@ namespace RavlN {
     RavlAssertMsg(0,"FuncLinearCoeffBodyC::NumberCoeffs(), Abstract method called. ");
     return 0;
   }
+
+  ///////////////////////////////////////////////////////////
+  
+  //: Load from stream.
+  
+  FuncLinearCoeffC::FuncLinearCoeffC(istream &strm) 
+    : FunctionC(RAVL_VIRTUALCONSTRUCTOR(strm,FuncLinearCoeffBodyC))
+  {}
+  
+  //: Load from binary stream.
+  
+  FuncLinearCoeffC::FuncLinearCoeffC(BinIStreamC &strm) 
+    : FunctionC(RAVL_VIRTUALCONSTRUCTOR(strm,FuncLinearCoeffBodyC))
+  {}
 
 }

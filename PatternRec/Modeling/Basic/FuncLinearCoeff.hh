@@ -31,6 +31,18 @@ namespace RavlN {
     {}
     //: Create a function with the given number of inputs and outputs.
     
+    FuncLinearCoeffBodyC(istream &strm);
+    //: Load from stream.
+    
+    FuncLinearCoeffBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream.
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to binary stream.
+    
     virtual VectorC Apply(const VectorC &data) const;
     //: Apply function to 'data'
     
@@ -64,11 +76,22 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
+    FuncLinearCoeffC(istream &strm);
+    //: Load from stream.
+    
+    FuncLinearCoeffC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
   protected:
     FuncLinearCoeffC(FuncLinearCoeffBodyC &bod)
       : FunctionC(bod)
     {}
     //: Body constructor.
+    
+    FuncLinearCoeffC(FuncLinearCoeffBodyC *bod)
+      : FunctionC(bod)
+    {}
+    //: Body ptr constructor.
     
     FuncLinearCoeffBodyC &Body()
     { return static_cast<FuncLinearCoeffBodyC &>(FunctionC::Body()); }
@@ -97,5 +120,33 @@ namespace RavlN {
     
   };
   
+  inline istream &operator>>(istream &strm,FuncLinearCoeffC &obj) {
+    obj = FuncLinearCoeffC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const FuncLinearCoeffC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,FuncLinearCoeffC &obj) {
+    obj = FuncLinearCoeffC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const FuncLinearCoeffC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+
 }
 #endif

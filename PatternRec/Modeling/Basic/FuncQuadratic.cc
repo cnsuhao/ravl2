@@ -9,8 +9,34 @@
 
 #include "Ravl/PatternRec/FuncQuadratic.hh"
 #include "Ravl/ScalMath.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlN {
+
+  //: Load from stream.
+  
+  FuncQuadraticBodyC::FuncQuadraticBodyC(istream &strm)
+    : FuncLinearCoeffBodyC(strm)
+  {}
+  
+  //: Load from binary stream.
+  
+  FuncQuadraticBodyC::FuncQuadraticBodyC(BinIStreamC &strm)
+    : FuncLinearCoeffBodyC(strm)
+  {}
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool FuncQuadraticBodyC::Save (ostream &out) const {
+    return FuncLinearCoeffBodyC::Save(out);
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool FuncQuadraticBodyC::Save (BinOStreamC &out) const {
+    return FuncLinearCoeffBodyC::Save(out);    
+  }
+  
   
   //: Calculate the number of coefficents for a given input size.
   
@@ -61,5 +87,9 @@ namespace RavlN {
     }
     return ret;
   }
+
+  ////////////////////////////////////////////////////////////////////////
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(FuncQuadraticBodyC,FuncQuadraticC,FuncLinearCoeffC);
   
 }

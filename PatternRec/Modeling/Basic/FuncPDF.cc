@@ -17,4 +17,43 @@ namespace RavlN {
     : FunctionBodyC(inSize,outSize)
   {}
   
+  //: Load from stream.
+  
+  FuncPDFBodyC::FuncPDFBodyC(istream &strm)
+    : FunctionBodyC(strm)
+  {}
+  
+  //: Load from binary stream.
+  
+  FuncPDFBodyC::FuncPDFBodyC(BinIStreamC &strm)
+    : FunctionBodyC(strm)
+  {}
+  
+  //: Writes object to stream.
+  
+  bool FuncPDFBodyC::Save (ostream &out) const {
+    return FunctionBodyC::Save(out);
+  }
+  
+  //: Writes object to binary stream.
+  
+  bool FuncPDFBodyC::Save (BinOStreamC &out) const {
+    return FunctionBodyC::Save(out);
+  }
+  
+  ///////////////////////////////////////////////////////
+  
+  //: Load from stream.
+  
+  FuncPDFC::FuncPDFC(istream &strm)
+    : FunctionC(RAVL_VIRTUALCONSTRUCTOR(strm,FunctionBodyC))
+  {}
+  
+  //: Load from binary stream.
+  
+  FuncPDFC::FuncPDFC(BinIStreamC &strm)
+    : FunctionC(RAVL_VIRTUALCONSTRUCTOR(strm,FunctionBodyC))
+  {}
+
+
 }

@@ -25,10 +25,20 @@ namespace RavlN {
   public:
     FuncQuadraticBodyC(int inSize,int outSize)
       : FuncLinearCoeffBodyC(inSize,outSize)
-    {
-      noCoeffs = NumberCoeffs(inSize);
-    }
+    { noCoeffs = NumberCoeffs(inSize); }
     //: Constructor.
+    
+    FuncQuadraticBodyC(istream &strm);
+    //: Load from stream.
+    
+    FuncQuadraticBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
     
     virtual VectorC MakeInput (const VectorC &X) const;
     //: Expand vector to linear coefficients.
@@ -60,11 +70,22 @@ namespace RavlN {
     {}
     //: Constructor.
     
+    FuncQuadraticC(istream &strm);
+    //: Load from stream.
+    
+    FuncQuadraticC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
   protected:
     FuncQuadraticC(FuncQuadraticBodyC &bod)
       : FuncLinearCoeffC(bod)
     {}
     //: Body constructor.
+
+    FuncQuadraticC(FuncQuadraticBodyC *bod)
+      : FuncLinearCoeffC(bod)
+    {}
+    //: Body ptr constructor.
     
     FuncQuadraticBodyC &Body()
     { return static_cast<FuncQuadraticBodyC &>(FunctionC::Body()); }
@@ -77,6 +98,34 @@ namespace RavlN {
   public:
     
   };
+  
+  inline istream &operator>>(istream &strm,FuncQuadraticC &obj) {
+    obj = FuncQuadraticC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const FuncQuadraticC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,FuncQuadraticC &obj) {
+    obj = FuncQuadraticC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const FuncQuadraticC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
   
 }
 

@@ -7,8 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 
-
 #include "Ravl/PatternRec/FuncOrthPolynomial.hh"
+#include "Ravl/VirtualConstructor.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
   
@@ -17,8 +18,36 @@ namespace RavlN {
   FuncOrthPolynomialBodyC::FuncOrthPolynomialBodyC(int inSize,int outSize,UIntT norder)
     : FuncLinearCoeffBodyC(inSize,outSize),
       order(norder)
-  {
-    noCoeffs = NumberCoeffs(inSize);
+  { noCoeffs = NumberCoeffs(inSize); }
+  
+  //: Load from stream.
+  
+  FuncOrthPolynomialBodyC::FuncOrthPolynomialBodyC(istream &strm)
+    : FuncLinearCoeffBodyC(strm)
+  {}
+  
+  //: Load from binary stream.
+  
+  FuncOrthPolynomialBodyC::FuncOrthPolynomialBodyC(BinIStreamC &strm) 
+    : FuncLinearCoeffBodyC(strm)
+  {}
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool FuncOrthPolynomialBodyC::Save (ostream &out) const {
+    if(!FuncLinearCoeffBodyC::Save(out))
+      return false;
+    out << noCoeffs << ' ' << order << ' ';
+    return true;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool FuncOrthPolynomialBodyC::Save (BinOStreamC &out) const {
+    if(!FuncLinearCoeffBodyC::Save(out))
+      return false;
+    out << noCoeffs << order;
+    return true;
   }
   
   //: Calculate the number of coefficents for a given input size.
@@ -51,5 +80,9 @@ namespace RavlN {
       ret[1+InputSize()*i+index] = (i+1) * Pow (val,(IntT) i);
     return ret;
   }
-
+  
+  ////////////////////////////////////////////////////////////////////////
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(FuncOrthPolynomialBodyC,FuncOrthPolynomialC,FuncLinearCoeffC);
+  
 }

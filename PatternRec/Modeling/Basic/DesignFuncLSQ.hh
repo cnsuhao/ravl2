@@ -28,6 +28,18 @@ namespace RavlN {
     {}
     //: Default constructor.
     
+    DesignFuncLSQBodyC(istream &strm);
+    //: Load from stream.
+    
+    DesignFuncLSQBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
     DesignFuncLSQBodyC(UIntT norder,bool northogonal);
     //: Create least squares designer.
     
@@ -61,6 +73,12 @@ namespace RavlN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
+
+    DesignFuncLSQC(istream &strm);
+    //: Load from stream.
+    
+    DesignFuncLSQC(BinIStreamC &strm);
+    //: Load from binary stream.
     
     DesignFuncLSQC(UIntT order,bool orthogonal)
       : DesignFunctionSupervisedC(*new DesignFuncLSQBodyC(order,orthogonal))
@@ -68,9 +86,46 @@ namespace RavlN {
     //: Create designer.
     
   protected:
+    DesignFuncLSQC(DesignFuncLSQBodyC &bod)
+      : DesignFunctionSupervisedC(bod)
+    {}
+    //: Body constructor.
+    
+    DesignFuncLSQC(DesignFuncLSQBodyC *bod)
+      : DesignFunctionSupervisedC(bod)
+    {}
+    //: Body ptr constructor.
     
   };
   
+  inline istream &operator>>(istream &strm,DesignFuncLSQC &obj) {
+    obj = DesignFuncLSQC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const DesignFuncLSQC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,DesignFuncLSQC &obj) {
+    obj = DesignFuncLSQC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const DesignFuncLSQC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+
 }
 
 

@@ -24,6 +24,28 @@ namespace RavlN {
     ONDEBUG(cerr << "FuncLinearBodyC::FuncLinearBodyC(), Called. \n");
   }
   
+  //: Load from stream.
+  
+  FuncLinearBodyC::FuncLinearBodyC(istream &strm)
+    : FuncLinearCoeffBodyC(strm)
+  {}
+  
+  //: Load from binary stream.
+  
+  FuncLinearBodyC::FuncLinearBodyC(BinIStreamC &strm)
+    : FuncLinearCoeffBodyC(strm)
+  {}
+  
+  //: Writes object to stream.
+  
+  bool FuncLinearBodyC::Save (ostream &out) const 
+  { return FuncLinearCoeffBodyC::Save(out); }
+  
+  //: Writes object to binary stream.
+  
+  bool FuncLinearBodyC::Save (BinOStreamC &out) const
+  { return FuncLinearCoeffBodyC::Save(out); }
+  
   //: Expand vector to linear coefficients.
   
   VectorC FuncLinearBodyC::MakeInput(const VectorC &X) const {
@@ -48,5 +70,9 @@ namespace RavlN {
   UIntT FuncLinearBodyC::NumberCoeffs(UIntT inputSize) const {
     return inputSize + 1;
   }
+  
+  ////////////////////////////////////////////////////////////////////////
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(FuncLinearBodyC,FuncLinearC,FuncLinearCoeffC);
   
 }

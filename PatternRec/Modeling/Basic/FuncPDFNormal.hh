@@ -30,6 +30,18 @@ namespace RavlN {
     FuncPDFNormalBodyC(const SArray1dC<NormalC> &ndists);
     //: Create from an array of distributions.
     
+    FuncPDFNormalBodyC(istream &strm);
+    //: Load from stream.
+    
+    FuncPDFNormalBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream.
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to binary stream.
+    
     virtual VectorC Apply(const VectorC &data) const;
     //: Apply function to 'data'
     
@@ -49,6 +61,12 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
+    FuncPDFNormalC(istream &strm);
+    //: Load from stream.
+    
+    FuncPDFNormalC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
     FuncPDFNormalC(const SArray1dC<NormalC> &ndists)
       : FuncPDFC(*new FuncPDFNormalBodyC(ndists))
     {}
@@ -60,7 +78,40 @@ namespace RavlN {
     {}
     //: Body constructor.
     
+    FuncPDFNormalC(FuncPDFNormalBodyC *bod)
+      : FuncPDFC(bod)
+    {}
+    //: Body ptr constructor.
+    
   };
+  
+  inline istream &operator>>(istream &strm,FuncPDFNormalC &obj) {
+    obj = FuncPDFNormalC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const FuncPDFNormalC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,FuncPDFNormalC &obj) {
+    obj = FuncPDFNormalC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const FuncPDFNormalC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
 
   
 }

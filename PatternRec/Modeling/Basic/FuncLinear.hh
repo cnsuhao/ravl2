@@ -13,6 +13,7 @@
 //! docentry="Ravl.Pattern Recognition.Numerical Modeling"
 
 #include "Ravl/PatternRec/FuncLinearCoeff.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlN {
   
@@ -31,6 +32,18 @@ namespace RavlN {
     {}
     //: Construct with an input and output size.
     
+    FuncLinearBodyC(istream &strm);
+    //: Load from stream.
+    
+    FuncLinearBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
+
     virtual VectorC MakeInput (const VectorC &X) const;
     //: Expand vector to linear coefficients.
     
@@ -60,11 +73,22 @@ namespace RavlN {
     //: Construct a linear function with given input and output size.
     // The transform itsself is left undefined.
     
+    FuncLinearC(istream &strm);
+    //: Load from stream.
+    
+    FuncLinearC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
   protected:
     FuncLinearC(FuncLinearBodyC &bod)
       : FuncLinearCoeffC(bod)
     {}
     //: Body constructor.
+    
+    FuncLinearC(FuncLinearBodyC *bod)
+      : FuncLinearCoeffC(bod)
+    {}
+    //: Body ptr constructor.
     
     FuncLinearBodyC &Body()
     { return static_cast<FuncLinearBodyC &>(FunctionC::Body()); }
@@ -76,6 +100,34 @@ namespace RavlN {
     
   public:    
   };
+  
+  inline istream &operator>>(istream &strm,FuncLinearC &obj) {
+    obj = FuncLinearC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const FuncLinearC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,FuncLinearC &obj) {
+    obj = FuncLinearC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const FuncLinearC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
   
 }
 

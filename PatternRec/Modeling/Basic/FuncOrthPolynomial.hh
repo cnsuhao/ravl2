@@ -27,6 +27,18 @@ namespace RavlN {
     FuncOrthPolynomialBodyC(int inSize,int outSize,UIntT order);
     //: Construct an orthogonal polynomial of given 'order'.
     
+    FuncOrthPolynomialBodyC(istream &strm);
+    //: Load from stream.
+    
+    FuncOrthPolynomialBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
     virtual VectorC MakeInput (const VectorC &X) const;
     //: Expand vector to linear coefficients.
     
@@ -67,6 +79,12 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
+    FuncOrthPolynomialC(istream &strm);
+    //: Load from stream.
+    
+    FuncOrthPolynomialC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
     FuncOrthPolynomialC(int inSize,int outSize,UIntT order)
       : FuncLinearCoeffC(*new FuncOrthPolynomialBodyC(inSize,outSize,order))
     {}
@@ -77,6 +95,11 @@ namespace RavlN {
       : FuncLinearCoeffC(bod)
     {}
     //: Body constructor.
+    
+    FuncOrthPolynomialC(FuncOrthPolynomialBodyC *bod)
+      : FuncLinearCoeffC(bod)
+    {}
+    //: Body ptr constructor.
     
     FuncOrthPolynomialBodyC &Body()
     { return static_cast<FuncOrthPolynomialBodyC &>(FunctionC::Body()); }
@@ -89,6 +112,34 @@ namespace RavlN {
   public:
     
   };
+  
+  inline istream &operator>>(istream &strm,FuncOrthPolynomialC &obj) {
+    obj = FuncOrthPolynomialC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const FuncOrthPolynomialC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,FuncOrthPolynomialC &obj) {
+    obj = FuncOrthPolynomialC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const FuncOrthPolynomialC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
 }
 
 
