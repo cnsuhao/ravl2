@@ -15,6 +15,7 @@
 #include "Ravl/TSMatrixRightUpper.hh"
 #include "Ravl/TSMatrixLeftLower.hh"
 #include "Ravl/TSMatrixSparse.hh"
+#include "Ravl/TSMatrixSparseIter.hh"
 #include "Ravl/TSMatrixSymmetric.hh"
 #include "Ravl/TSMatrixScaledIdentity.hh"
 #include "Ravl/TSMatrixTranspose.hh"
@@ -267,6 +268,22 @@ int testSparse() {
   if((ln = MatrixTest(sm1,sm2)) != 0) {
     cerr<< "MatrixTest() failed on line " << ln << "\n";
     return __LINE__;
+  }
+  for(int i = 0;i < 4;i++) {
+    RealT sum = 0;
+    // Check row
+    for(TSMatrixSparseRowIterC<RealT> it(sm1,i);it;it++)
+      sum += *it;
+    //cerr << " Sum=" << sum << "\n";
+    if(Abs(sum - sm1.SumRow(i)) > 0.00000001) return __LINE__;
+    
+    // Check col
+    sum = 0;
+    for(TSMatrixSparseColIterC<RealT> it(sm1,i);it;it++)
+      sum += *it;
+    //cerr << " Sum=" << sum << "\n";
+    if(Abs(sum - sm1.SumColumn(i)) > 0.00000001) return __LINE__;
+
   }
   
   return 0;

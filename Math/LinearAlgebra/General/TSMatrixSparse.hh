@@ -20,6 +20,10 @@
 
 namespace RavlN {
   
+  template<class DataT> class TSMatrixSparseRowIterC;
+  template<class DataT> class TSMatrixSparseColIterC;
+  template<class DataT> class TSMatrixSparseC;
+  
   //! userlevel=Normal
   //: DLink with index number
   
@@ -284,7 +288,7 @@ namespace RavlN {
     
     void Element(UIntT i,UIntT j,const DataT &val) {
       TSMatrixSparseEntryC<DataT> *entry = FindEntry(i,j);
-      if(val == 0.0) { // If exactly zero erase the entry.
+      if(val == 0) { // If exactly zero erase the entry.
 	if(entry != 0)
 	  delete entry;
 	return ;
@@ -296,6 +300,42 @@ namespace RavlN {
       Insert(*new TSMatrixSparseEntryC<DataT>(i,j,val));
     }
     //: Set a matrix element.
+    
+    void ZeroRow(UIntT i) {
+      for(IntrDLIterC<IndexDLinkC> it(rows[i]);it;) {
+	TSMatrixSparseEntryC<DataT> *entry = RowDLink2Entry(&(*it));
+	it++;
+	delete entry;
+      }
+    }
+    //: Make all entries in a row zero.
+    
+    void ZeroCol(UIntT i) {
+      for(IntrDLIterC<IndexDLinkC> it(cols[i]);it;) {
+	TSMatrixSparseEntryC<DataT> *entry = ColDLink2Entry(&(*it));
+	it++;
+	delete entry;
+      }      
+    }
+    //: Make all entries in a column zero.
+    
+    DataT SumRow(UIntT i) const {
+      DataT ret;
+      SetZero(ret);
+      for(IntrDLIterC<IndexDLinkC> it(rows[i]);it;it++)
+	ret += RowDLink2Entry(&(*it))->Data();
+      return ret;
+    }
+    //: Compute the sum of the entries from a row.
+    
+    DataT SumColumn(UIntT i) const {
+      DataT ret;
+      SetZero(ret);
+      for(IntrDLIterC<IndexDLinkC> it(cols[i]);it;it++)
+	ret += ColDLink2Entry(&(*it))->Data();
+      return ret;
+    }
+    //: Compute the sum of the entries from a column.
     
     virtual Array1dC<DataT> Row(UIntT i) const;
     //: Access a row from the matrix.
@@ -345,8 +385,20 @@ namespace RavlN {
     //: Multiplication A.T() * B
     
   protected:
+    IndexDListC &RowList(int i)
+    { return rows[i]; }
+    //: Access list for row i
+    
+    IndexDListC &ColList(int i)
+    { return cols[i]; }
+    //: Access list for col i
+    
     SArray1dC<IndexDListC > rows;
     SArray1dC<IndexDListC > cols;
+    
+    friend class TSMatrixSparseC<DataT>;
+    friend class TSMatrixSparseRowIterC<DataT>;
+    friend class TSMatrixSparseColIterC<DataT>;
   };
 
   //! userlevel=Normal
@@ -398,10 +450,37 @@ namespace RavlN {
     { return static_cast<const TSMatrixSparseBodyC<DataT> &>(TSMatrixC<DataT>::Body()); }
     //: Access body.
     
+    IndexDListC &RowList(int i)
+    { return Body().RowList(i); }
+    //: Access list for row i
+    
+    IndexDListC &ColList(int i)
+    { return Body().ColList(i); }
+    //: Access list for col i
+    
   public:
+    void ZeroRow(UIntT i) 
+    { Body().ZeroRow(i); }
+    //: Make all entries in a row zero.
+    
+    void ZeroCol(UIntT i) 
+    { Body().ZeroCol(i); }
+    //: Make all entries in a column zero.
+    
+    DataT SumRow(UIntT i) const 
+    { return Body().SumRow(i); }
+    //: Compute the sum of the entries from a row.
+    
+    DataT SumColumn(UIntT i) const 
+    { return Body().SumColumn(i); }
+    //: Compute sum of column
+    
     friend class TSMatrixSparseBodyC<DataT>;
+    friend class TSMatrixSparseRowIterC<DataT>;
+    friend class TSMatrixSparseColIterC<DataT>;
+
   };
-  
+
   
   //: Construct a sparse matrix for a full matrix.
   // Any elements with an absolute value smaller than 'zeroValue' are taken as zero.

@@ -18,7 +18,7 @@ HEADERS = TVector.hh TMatrix.hh Matrix.hh Vector.hh MatrixRUT.hh \
  TSMatrixScaledIdentity.hh TSMatrixSymmetric.hh TSMatrixTranspose.hh \
  SMatrix.hh SMatrixSparse.hh SMatrixSymmetric.hh SMatrixDiagonal.hh \
  SMatrixLeftLower.hh SMatrixRightUpper.hh SMatrixScaledIdentity.hh \
- SVD.hh RawMatrix.hh Eigen.hh
+ SVD.hh RawMatrix.hh Eigen.hh TSMatrixSparseIter.hh
 
 SOURCES = TMatrix.cc Matrix.cc MatrixInverse.cc MatrixSVD.cc \
  MatrixEigen.cc MatrixSolve.cc MatrixRUT.cc MatrixRS.cc Vector.cc \
