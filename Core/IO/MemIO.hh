@@ -22,7 +22,7 @@
 namespace RavlN {
   
   template<class DataT>
-  bool MemLoad(const SArray1dC<ByteT> &buffer,DataT &obj,StringC fileformat = "",bool verbose = false) {
+  bool MemLoad(const SArray1dC<char> &buffer,DataT &obj,StringC fileformat = "",bool verbose = false) {
     BufIStreamC bufStrm(buffer);
     DPIPortC<DataT> in(RavlN::BaseLoad(bufStrm,fileformat,typeid(DataT),verbose));
     if(!in.IsValid()) {
@@ -41,7 +41,7 @@ namespace RavlN {
   // More information <a href="../Tree/Ravl.Core.IO.html#LoadSave">here</a>
   
   template<class DataT>
-  bool MemSave(SArray1dC<ByteT> &buffer,const DataT &obj,StringC fileformat = "",bool verbose = false) {
+  bool MemSave(SArray1dC<char> &buffer,const DataT &obj,StringC fileformat = "",bool verbose = false) {
     BufOStreamC bufStrm;
     DPOPortC<DataT> out(BaseSave(bufStrm,fileformat,typeid(DataT),verbose));
     if(!out.IsValid()) {
