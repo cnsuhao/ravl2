@@ -11,7 +11,7 @@
 //! file="Ravl/Image/ExternalImageIO/TiffFormat.hh"
 //! lib=ExtImgIO
 //! author="Charles Galambos"
-//! docentry="Ravl.Image.IO.Formats"
+//! docentry="Ravl.Images.IO.Formats"
 //! date="29/10/98"
 
 #include "Ravl/DP/FileFormat.hh"

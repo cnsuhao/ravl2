@@ -11,7 +11,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Image/ExternalImageIO/ImgIOTiffB.hh"
 //! lib=ExtImgIO
-//! docentry="Ravl.Image.IO.Formats"
+//! docentry="Ravl.Images.IO.Formats"
 //! author="Charles Galambos"
 //! date="29/10/98"
 
