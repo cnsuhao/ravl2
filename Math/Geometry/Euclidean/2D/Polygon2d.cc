@@ -12,6 +12,13 @@
 
 namespace RavlN {
 
+   Polygon2dC::Polygon2dC(const RealRange2dC &range) {
+      InsLast(range.TopLeft());
+      InsLast(range.TopRight());
+      InsLast(range.BottomRight());
+      InsLast(range.BottomLeft());
+   }
+
    RealT Polygon2dC::Area2() const {
 
       RealT          sum = 0.0;  // Partial area sum

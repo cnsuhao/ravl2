@@ -40,7 +40,11 @@ namespace RavlN {
     Polygon2dC(const DListC<Point2dC>& points)
       : PointSet2dC(points)
     {}
-    // Construct from list of points  
+    // Construct from list of points
+
+    Polygon2dC(const RealRange2dC &range);
+    //: Constructor creates a rectangular polygon of the range
+    // The corners of the range are inserted into the polygon in clockwise order
 
     RealT Area2() const;
     // Returns twice the signed area of this polygon.
