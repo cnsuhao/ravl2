@@ -346,12 +346,10 @@ namespace RavlN {
     while(connect(fd, (sockaddr*)&sin, sizeof(sin)) < 0) {
       // Sometimes its worth trying a again a few times.
       if((errno == EAGAIN || errno == EINTR || errno == ECONNREFUSED || errno==ETIMEDOUT) && retryLimit-- > 0) {
-	ONDEBUG(cerr << "Connect failed, EAGAIN. \n");
+	//ONDEBUG(cerr << "Connect failed, EAGAIN. errno=" << errno << " \n");
 	Sleep(0.1);
 	continue;
       }
-      if(errno != ECONNREFUSED) // This is common..
-	cerr << "ERROR: failed to connect socket " << errno << ".\n";
       Close();
 #if DODEBUG
       if(errno == EADDRINUSE) {
@@ -359,13 +357,14 @@ namespace RavlN {
 	return -1;
       }
       if(errno == ECONNREFUSED) {
-	cerr << "Connection refused. \n";
+	cerr << "Connection refused. " << fd << "\n";
 	return -1;
       }
       cerr << " \n";
 #endif
       return -1;
     }
+    ONDEBUG(cerr << "SocketBodyC::OpenClient(), Connected to '" << name  << "' \n");
     if(addr != 0)
       delete [] (char *) addr;
     addr = (struct sockaddr *) new char [sizeof(struct sockaddr)];
