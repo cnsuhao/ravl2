@@ -39,5 +39,5 @@ USESLIBS = RavlCore RavlOS GTK RavlThreads
 
 PROGLIBS = 
 
-EHT = Ravl.GUI.Control.eht  Ravl.GUI.Layout.eht  Ravl.GUI.eht  
+EHT = Ravl.GUI.Control.eht  Ravl.GUI.Layout.eht  Ravl.GUI.eht  Ravl.GUI.Internal.eht
 #libRavlGUI.eht
