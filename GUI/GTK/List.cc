@@ -17,6 +17,13 @@
 #include "Ravl/GUI/Manager.hh"
 #include <gtk/gtk.h>
 
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlGUIN {
 
   static char *ListItemKey = "ListDataKey";
@@ -112,7 +119,7 @@ namespace RavlGUIN {
 			ListItemKey,
 			(void *) id);
     
-    cerr << "Added " << widge.Name() << " \n";
+    ONDEBUG(cerr << "Added " << widge.Name() << " \n");
     return true;
   }
   

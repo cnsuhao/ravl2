@@ -72,8 +72,6 @@ namespace RavlGUIN {
   
   bool PixmapBodyC::Create() {  
 
-    cerr << "poo" << endl;
-
     if(widget != 0)
       return true; // Shown already.
     
