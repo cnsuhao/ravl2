@@ -9,11 +9,8 @@
 //
 // Descripton:    Program calculates optical flow from pair of input images
 //
-// Synopsis:
-//    exLMSOptic image1 image2 [-o op_file_prefix] [-i region_size]
-//
 // For each pixel, the optic flow is calculated over a square neighbourhood of
-// size "region_size" (default = 9 pixels).  The optional PostScript output
+// size "windowSize" (default = 9 pixels).  The optional PostScript output
 // file plots the motion vectors and corresponding covariance matrix ellipses
 // over the first image.  The ppm output file option plots the motion as a
 // colour overlay.
@@ -69,7 +66,8 @@ int exLMSOptic(int argc, char **argv)
     GaussConvolveC<RealT> filter(order);
     for (UIntT i=0; i<=1; ++i) 
       filtered[i] = filter.Apply(image[i]);
-  } else {
+  } 
+  else {
     Array1dC<RealT> coeffs;
     StrIStreamC ("-5 5 -0.03008995 0.01247519 0.13510284 0.29130294 0.36395804 0.29130294 0.13510284 0.01247519 -0.03008995") >> coeffs;
     ConvolveSeparable2dC<RealT> filter(coeffs, coeffs);
@@ -80,7 +78,6 @@ int exLMSOptic(int argc, char **argv)
   // compute image gradients:
   //   - temporal
   ImageC<RealT>  dt = (filtered[1]-filtered[0]); 
-  
   //   - and spatial
   ImageC<RealT> centre ((forward_diff) ? ((ImageC<RealT> &) filtered[0]) : ImageC<RealT>((filtered[0] + filtered[1]) / 2.0));  
   ImageC<Vector2dC> grad;
