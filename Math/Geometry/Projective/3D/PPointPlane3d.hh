@@ -32,7 +32,7 @@ namespace RavlN {
   // of points and planes in 3D projective space.
   
   class PPointPlane3dC
-    : private Point4dC
+    : public Point4dC
   {
   public:
     
@@ -242,6 +242,10 @@ namespace RavlN {
     inline PPointPlane3dC operator/(const RealT alpha) const
     { return Point4dC::operator/(alpha); }
     // Returns the point/plane which coordinates are divided by 'alpha'.
+    
+    operator const TFVectorC<RealT,4> &() const
+    { return *this; }
+    //: Access as basic vector.
     
   protected:
     inline PPointPlane3dC Translation(const PPointPlane3dC & newOrigin) const

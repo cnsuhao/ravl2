@@ -68,6 +68,11 @@ namespace RavlN {
     // Constructs the projective point as intersection of two 
     // projective line 'l0' and 'l1'.
     
+    inline PPoint2dC(const TFVectorC<RealT,3> &base)
+      : PPointLine2dC(base)
+    {}
+    //: Construct from a basic vector.
+    
     //:--------------------------
     // Access to the object.
 
@@ -132,10 +137,6 @@ namespace RavlN {
     PLine2dC PLine(const PPoint2dC & p) const;
     // Returns the projective line passing through this point
     // and the point 'p'.
-    
-    inline PPoint2dC(const RavlN::TFVectorC<RealT, 3> & p)
-      : PPointLine2dC(p)
-    {}
     
   protected:
 #if 0

@@ -10,6 +10,7 @@
 //! file="Ravl/Math/Geometry/Projective/2D/PProjection2d.cc"
 
 #include "Ravl/PProjection2d.hh"
+#include "Ravl/Projection2d.hh"
 
 namespace RavlN {
 
@@ -29,8 +30,15 @@ namespace RavlN {
     Matrix3dC t1(c1.X()*ix1, c1.Y()*iy1, c1.Z()*o1, 3);
     (*this) = (t1 * t0.Inverse());
 #endif    
+    RavlAssert(0);
   }
-
+  
+  //: Construct from a euclidean projection. 
+  
+  PProjection2dC::PProjection2dC(const Projection2dC &proj) 
+    : Matrix3dC(proj.Homography())
+  {}
+  
   PProjection2dC::PProjection2dC(istream & inS)
   { inS >> *this; }
   

@@ -78,6 +78,18 @@ namespace RavlN {
     // Constructs the projective point/line determined by two 
     // projective lines/points, resp.
     
+    inline PPointLine2dC(const Point3dC & p)
+      : Point3dC(p)
+    {}
+    // Creates the projective point/line in 2D space from values of 
+    // the point 'p'.
+    
+    inline PPointLine2dC(const RavlN::TFVectorC<RealT, 3> & p)
+      : Point3dC(p)
+    {}
+    // Creates the projective point/line in 2D space from values of 
+    // the point 'p'.
+    
     //:---------------------------
     // Access to the object items.
 
@@ -246,18 +258,6 @@ namespace RavlN {
     
     // Returns the projective line/point determined by this point/line
     // and the point/line 'p'.
-
-    inline PPointLine2dC(const Point3dC & p)
-      : Point3dC(p)
-    {}
-    // Creates the projective point/line in 2D space from values of 
-    // the point 'p'.
-    
-    inline PPointLine2dC(const RavlN::TFVectorC<RealT, 3> & p)
-      : Point3dC(p)
-    {}
-    // Creates the projective point/line in 2D space from values of 
-    // the point 'p'.
     
   protected:
 

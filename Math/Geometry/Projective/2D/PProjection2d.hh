@@ -20,6 +20,8 @@
 #include "Ravl/PLine2d.hh"
 
 namespace RavlN {
+  class Projection2dC;
+  
   //! userlevel=Normal
   //: Projective transformation in 2D space
   // The class PProjection2dC represents a  projective transformation
@@ -62,6 +64,9 @@ namespace RavlN {
     
     PProjection2dC(istream & inS);
     // Creates a projection from the input stream.
+    
+    PProjection2dC(const Projection2dC &proj);
+    //: Construct from a euclidean projection. 
     
     //:--------------------------------------------
     // Access to the elements of the projection.
