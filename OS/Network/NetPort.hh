@@ -54,6 +54,9 @@ namespace RavlN {
     bool Connect(NetEndPointC &ep);
     //: Setup net end point.
     
+    virtual bool ConnectionClosed();
+    //: Handle connection broken signal.
+    
   protected:
     bool MsgStreamReady();
     //: Handle incoming StreamReady message.

@@ -65,8 +65,17 @@ namespace RavlN {
   bool NetPortBaseC::Connect(NetEndPointC &nep) {
     ep = nep;
     netAttr.Connect(nep);
+    // Register method to call on connection closed.
+    ep.ConnectionBroken() = TriggerR(*this,&NetPortBaseC::ConnectionClosed);
     NetPortBaseC::Init();
     return true;
   }
-
+  
+  //: Handle connection broken signal.
+  
+  bool NetPortBaseC::ConnectionClosed() {
+    netAttr.ConnectionClosed();
+    return true;
+  }
+ 
 }

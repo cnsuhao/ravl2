@@ -82,6 +82,9 @@ namespace RavlN {
     //: Constructor.
     //!param: throwExceptionOnFail - If false WaitForReq(..) will just return false if request fails, else it will throw an ExceptionOperationFailedC
     
+    ~NetRequestManagerC();
+    //: Destructor.
+    
     bool CreateReq(UIntT &id);
     //: Create new request.
     
@@ -126,6 +129,10 @@ namespace RavlN {
     //: Called if the connection is closed.
     // This will wake all waiting threads an report an error.
     
+    void SetConnectionOk(bool value)
+    { connectionOk = value; }
+    //: Set connection ok flag
+    //!param: value - 
   protected:
     MutexC reqAccess;
     UIntT reqIdAlloc;

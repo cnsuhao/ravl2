@@ -9,6 +9,7 @@
 
 #include "Ravl/OS/NetRequestManager.hh"
 #include "Ravl/OS/SysLog.hh"
+#include "Ravl/HashIter.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -26,6 +27,14 @@ namespace RavlN {
       connectionOk(true),
       throwExceptionOnFail(nthrowExceptionOnFail)
   {}
+  
+  //: Destructor.
+  
+  NetRequestManagerC::~NetRequestManagerC() { 
+    connectionOk = false;
+    ConnectionClosed();  
+  }
+
   
   //: Create new request.
   
@@ -88,6 +97,17 @@ namespace RavlN {
     if(!id2reqResults.Del(id))
       SysLog(SYSLOG_WARNING) << "WARNING: Request not present in pending table at end of WaitForReq(). ";
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetRequestManagerC::WaitForReq(), ReqId=" << id << " Done.\n");
+    return true;
+  }
+  
+  //: Called if the connection is closed.
+  // This will wake all waiting threads an report an error.
+  
+  bool NetRequestManagerC::ConnectionClosed() {
+    MutexLockC hold(reqAccess);
+    // Restart all waiting queries.
+    for(HashIterC<UIntT,NetRequestDataC> it(id2reqResults);it;it++)
+      it.Data().Event().Post();
     return true;
   }
   

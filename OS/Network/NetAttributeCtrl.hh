@@ -115,6 +115,9 @@ namespace RavlN {
     virtual bool RegisterAttribute(const AttributeTypeC &attr);
     //: Register a new attribute type.
     
+    virtual bool ConnectionClosed();
+    //: Handler for connection lost signal.
+    
     void UpdateAttributeTypes();
     //: Request available attribute types.
   protected:
@@ -179,10 +182,14 @@ namespace RavlN {
     { return Body().Connect(ep); }
     //: Connect to an end point.
     //!param: ep - Connection to use for commincation.
-
+    
     void UpdateAttributeTypes()
     { return Body().UpdateAttributeTypes(); }
     //: Request available attribute types.
+    
+    bool ConnectionClosed()
+    { return Body().ConnectionClosed(); }
+    //: Handler for connection lost signal.
     
   protected:
     NetAttributeCtrlBodyC &Body()
