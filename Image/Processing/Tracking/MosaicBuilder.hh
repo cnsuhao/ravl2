@@ -10,9 +10,9 @@
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
 //! rcsid="$Id$"
-//! docentry="Ravl.Math.Optimisation"
-//! example="Mosaic.cc"
-//! lib=RavlOptimise
+//! docentry="Ravl.Images.Tracking"
+//! lib=RavlImageProc
+//! example="mosaic.cc"
 
 #include "Ravl/Image/PointTracker.hh"
 #include "Ravl/MatrixRS.hh"
