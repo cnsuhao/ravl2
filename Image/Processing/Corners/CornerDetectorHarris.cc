@@ -67,15 +67,15 @@ namespace RavlImageN {
     ImagGrad(img,vals);
     ImageRectangleC subWR(workRect.Shrink(w+1));
     filter(vals,fvals);
-    
+    RealT maskScale = 1/ maskSum;
     for(Array2dIter2C<IntT,TFVectorC<IntT,3> > it(var,fvals,subWR);it;it++) {
-      RealT ixixs = (RealT) it.Data2()[0] / maskSum;
-      RealT iyiys = (RealT) it.Data2()[1] / maskSum; 
-      RealT ixiys = (RealT) it.Data2()[2] / maskSum;
+      RealT ixixs = (RealT) it.Data2()[0] * maskScale;
+      RealT iyiys = (RealT) it.Data2()[1] * maskScale; 
+      RealT ixiys = (RealT) it.Data2()[2] * maskScale;
       /* Evaluating the cornerness measure */
       int val;
       if((ixixs+iyiys) != 0)
-	val = (int) ((double)((ixixs*iyiys-ixiys*ixiys)/(ixixs+iyiys)));
+	val = Round((ixixs*iyiys-ixiys*ixiys)/(ixixs+iyiys));
       else
 	val = 0;
       //cerr << "Val=" << val << "\n";
