@@ -9,10 +9,12 @@
 
 PACKAGE=Ravl/Image
 
-HEADERS= Convolve2d.hh ConvolveSeparable2d.hh ConvolveHorz2d.hh \
- ConvolveVert2d.hh BilinearInterpolation.hh
+MAINS=doFilter.cc
 
-SOURCES= Convolve2d.cc
+HEADERS= Convolve2d.hh ConvolveSeparable2d.hh ConvolveHorz2d.hh \
+ ConvolveVert2d.hh BilinearInterpolation.hh HomomorphicFilter.hh
+
+SOURCES= Convolve2d.cc HomomorphicFilter.cc
 
 TESTEXES= testConvolve.cc
 
@@ -20,6 +22,8 @@ LIBDEPS=RavlImageFilter.def
 
 PLIB=RavlImage
 
-USESLIBS=RavlImage
+USESLIBS=RavlImage RavlMath
+
+PROGLIBS=RavlIO RavlImageIO RavlDPDisplay
 
 EHT= Ravl.Images.Filtering.html Ravl.Images.Warping.html
