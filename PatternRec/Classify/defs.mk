@@ -5,27 +5,27 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
-#! file="Ravl/PatternRec/Classify/defs.mk"
+#! file="Ravl/PatternRec/Classifier/defs.mk"
 
 DESCRIPTION = Pattern Recognition Classifiers
 
 PACKAGE = Ravl/PatternRec
 
-HEADERS=ClassifyVector.hh DesignClassifyVectorSupervised.hh  DesignClassifyVectorUnsupervised.hh \
+HEADERS=Classifier.hh DesignClassifierSupervised.hh  DesignClassifierUnsupervised.hh \
  DesignDiscriminantFunction.hh DesignKNearestNeighbour.hh \
- ClassifyKNearestNeighbour.hh ClassifyNearestNeighbour.hh ClassifyAverageNearestNeighbour.hh \
- ClassifyDiscriminantFunction.hh DesignKMeans.hh
+ ClassifierKNearestNeighbour.hh ClassifierNearestNeighbour.hh ClassifierAverageNearestNeighbour.hh \
+ ClassifierDiscriminantFunction.hh DesignKMeans.hh
 
-SOURCES=ClassifyVector.cc DesignClassifyVectorSupervised.cc DesignClassifyVectorUnsupervised.cc \
+SOURCES=Classifier.cc DesignClassifierSupervised.cc DesignClassifierUnsupervised.cc \
  DesignDiscriminantFunction.cc DesignKNearestNeighbour.cc \
- ClassifyKNearestNeighbour.cc ClassifyNearestNeighbour.cc ClassifyAverageNearestNeighbour.cc \
- ClassifyDiscriminantFunction.cc DesignKMeans.cc
+ ClassifierKNearestNeighbour.cc ClassifierNearestNeighbour.cc ClassifierAverageNearestNeighbour.cc \
+ ClassifierDiscriminantFunction.cc DesignKMeans.cc
 
 PLIB = RavlPatternRec
 
-TESTEXES=testClassify.cc
+TESTEXES=testClassifier.cc
 
-LIBDEPS = RavlPatternRecClassify.def 
+LIBDEPS = RavlPatternRecClassifier.def 
 
 USESLIBS=RavlPatternRec
 

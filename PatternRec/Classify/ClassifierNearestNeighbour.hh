@@ -11,8 +11,8 @@
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
 //! userlevel=Normal
-//! docentry="Ravl.Pattern Recognition.Classify"
-//! file="Ravl/PatternRec/Classify/ClassifyNearestNeighbour.hh"
+//! docentry="Ravl.Pattern Recognition.Classifier"
+//! file="Ravl/PatternRec/Classifier/ClassifierNearestNeighbour.hh"
 
 #include "Ravl/PatternRec/Distance.hh"
 #include "Ravl/PatternRec/DataSet2.hh"
@@ -20,30 +20,30 @@
 #include "Ravl/Tuple2.hh"
 #include "Ravl/PatternRec/SampleLabel.hh"
 #include "Ravl/PatternRec/SampleVector.hh"
-#include "Ravl/PatternRec/ClassifyVector.hh"
+#include "Ravl/PatternRec/Classifier.hh"
 
 namespace RavlN {
 
   //! userlevel=Develop
   //: k nearest neighbours classifier.
-  // Classify probe vector as the most common amoung its k nearest neighbours.
+  // Classifier probe vector as the most common amoung its k nearest neighbours.
   // If there's a conflict the label with the smallest average distance is used.
   
-  class ClassifyNearestNeighbourBodyC 
-    : public ClassifyVectorBodyC
+  class ClassifierNearestNeighbourBodyC 
+    : public ClassifierBodyC
   {
   public:
-    ClassifyNearestNeighbourBodyC(const SampleVectorC &vectors,
+    ClassifierNearestNeighbourBodyC(const SampleVectorC &vectors,
 				  const SampleLabelC &labels,
 				  const DistanceC &xdistMetric = DistanceSqrEuclideanC());
     //: Constructor.
 
-    ClassifyNearestNeighbourBodyC(const SampleVectorC &vectors,
+    ClassifierNearestNeighbourBodyC(const SampleVectorC &vectors,
 				  const DistanceC &xdistMetric = DistanceSqrEuclideanC());
     //: Constructor.
     
-    virtual UIntT Classify(const VectorC &data) const;
-    //: Classify vector 'data' return the most likely label.
+    virtual UIntT Classifier(const VectorC &data) const;
+    //: Classifier vector 'data' return the most likely label.
     
   protected:    
     DistanceC distanceMetric; // Distance metric to use.
@@ -53,38 +53,38 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: k nearest neighbours classifier.
-  // Classify probe vector as the most common amoung its k nearest neighbours.
+  // Classifier probe vector as the most common amoung its k nearest neighbours.
   // If there's a conflict the label with the smallest average distance is used.
   
-  class ClassifyNearestNeighbourC 
-    : public ClassifyVectorC
+  class ClassifierNearestNeighbourC 
+    : public ClassifierC
   {
   public:
-    ClassifyNearestNeighbourC(const SampleVectorC &vectors,
+    ClassifierNearestNeighbourC(const SampleVectorC &vectors,
 			      const SampleLabelC &labels,
 			      const DistanceC &xdistMetric = DistanceSqrEuclideanC())
-      : ClassifyVectorC(*new ClassifyNearestNeighbourBodyC(vectors,labels,xdistMetric))
+      : ClassifierC(*new ClassifierNearestNeighbourBodyC(vectors,labels,xdistMetric))
     {}
     //: Constructor.
     
-    ClassifyNearestNeighbourC(const SampleVectorC &vectors,
+    ClassifierNearestNeighbourC(const SampleVectorC &vectors,
 			      const DistanceC &xdistMetric = DistanceSqrEuclideanC())
-      : ClassifyVectorC(*new ClassifyNearestNeighbourBodyC(vectors,xdistMetric))
+      : ClassifierC(*new ClassifierNearestNeighbourBodyC(vectors,xdistMetric))
     {}
     //: Constructor.
     
   protected:
-    ClassifyNearestNeighbourC(ClassifyNearestNeighbourBodyC &bod)
-      : ClassifyVectorC(bod)
+    ClassifierNearestNeighbourC(ClassifierNearestNeighbourBodyC &bod)
+      : ClassifierC(bod)
     {}
     //: Body constructor.
     
-    ClassifyNearestNeighbourBodyC &Body()
-    { return static_cast<ClassifyNearestNeighbourBodyC &>(ClassifyVectorC::Body()); }
+    ClassifierNearestNeighbourBodyC &Body()
+    { return static_cast<ClassifierNearestNeighbourBodyC &>(ClassifierC::Body()); }
     //: Access body.
     
-    const ClassifyNearestNeighbourBodyC &Body() const
-    { return static_cast<const ClassifyNearestNeighbourBodyC &>(ClassifyVectorC::Body()); }
+    const ClassifierNearestNeighbourBodyC &Body() const
+    { return static_cast<const ClassifierNearestNeighbourBodyC &>(ClassifierC::Body()); }
     //: Access body.
     
   public:

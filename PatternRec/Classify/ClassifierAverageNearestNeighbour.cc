@@ -6,9 +6,9 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/Classify/ClassifyAverageNearestNeighbour.cc"
+//! file="Ravl/PatternRec/Classifier/ClassifierAverageNearestNeighbour.cc"
 
-#include "Ravl/PatternRec/ClassifyAverageNearestNeighbour.hh"
+#include "Ravl/PatternRec/ClassifierAverageNearestNeighbour.hh"
 #include "Ravl/PatternRec/DataSet2Iter.hh"
 #include "Ravl/StdConst.hh"
 #include "Ravl/Hash.hh"
@@ -26,17 +26,17 @@ namespace RavlN {
 
   //: Default constructor.
   
-  ClassifyAverageNearestNeighbourBodyC::ClassifyAverageNearestNeighbourBodyC(const DataSet2C<SampleVectorC,SampleLabelC> &ndata,
+  ClassifierAverageNearestNeighbourBodyC::ClassifierAverageNearestNeighbourBodyC(const DataSet2C<SampleVectorC,SampleLabelC> &ndata,
 						 UIntT defK,
 						 const DistanceC &xdistanceMetric)
-    : ClassifyKNearestNeighbourBodyC(ndata,defK,xdistanceMetric)
+    : ClassifierKNearestNeighbourBodyC(ndata,defK,xdistanceMetric)
   {
-    ONDEBUG(cerr << "ClassifyAverageNearestNeighbourBodyC::ClassifyAverageNearestNeighbourBodyC(), Data=" << data.Size() <<" Labels=" << NoLabels() << "\n");
+    ONDEBUG(cerr << "ClassifierAverageNearestNeighbourBodyC::ClassifierAverageNearestNeighbourBodyC(), Data=" << data.Size() <<" Labels=" << NoLabels() << "\n");
   }
   
-  //: Classify vector 'data' return the most likely label.
+  //: Classifier vector 'data' return the most likely label.
   
-  UIntT ClassifyAverageNearestNeighbourBodyC::Classify(const VectorC &data) const {
+  UIntT ClassifierAverageNearestNeighbourBodyC::Classifier(const VectorC &data) const {
     // Find the k nearest neighbours.
     
     SArray1dC<Tuple2C<UIntT,RealT> > res = Search(data,defaultK);
@@ -63,7 +63,7 @@ namespace RavlN {
     return minLab;
   }
   
-  VectorC ClassifyAverageNearestNeighbourBodyC::Confidence(const VectorC &data) const {
+  VectorC ClassifierAverageNearestNeighbourBodyC::Confidence(const VectorC &data) const {
     SArray1dC<Tuple2C<UIntT,RealT> > res = Search(data,defaultK);
     VectorC ret(NoLabels());
     ret.Fill(0);

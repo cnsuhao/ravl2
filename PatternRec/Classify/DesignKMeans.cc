@@ -14,7 +14,7 @@
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/SArray1dIter3.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
-#include "Ravl/PatternRec/ClassifyNearestNeighbour.hh"
+#include "Ravl/PatternRec/ClassifierNearestNeighbour.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -27,17 +27,16 @@ namespace RavlN {
   
   //: Create a clasifier.
   
-  ClassifyVectorC DesignKMeansBodyC::Apply(const SampleC<VectorC> &in) {
-    ClassifyVectorC ret;
+  FunctionC DesignKMeansBodyC::Apply(const SampleC<VectorC> &in) {
     ONDEBUG(cerr << "DesignKMeansBodyC::Apply(), Called with " << in.Size() << " vectors. K=" << k << "\n");
     SArray1dC<VectorC> means(k);
     if(in.Size() == 0) {
       cerr << "DesignKMeansBodyC::Apply(), WARNING: No data samples given. \n";
-      return ClassifyVectorC();
+      return ClassifierC();
     }
     if(in.Size() <= k) {
       cerr << "DesignKMeansBodyC::Apply(), WARNING: Fewer samples than means. \n";
-      return ClassifyNearestNeighbourC(in,distance);
+      return ClassifierNearestNeighbourC(in,distance);
     }
     
     // Pick some random points from the set to use as initial means.
@@ -109,7 +108,7 @@ namespace RavlN {
       ONDEBUG(cerr <<"Iteration complete. Cost=" << cost << " Oldcost=" << oldcost << "\n");
     } while(iters < 3 || ((oldcost - cost) > 1e-6) );
     
-    return ClassifyNearestNeighbourC(SampleC<VectorC>(means),distance);
+    return ClassifierNearestNeighbourC(SampleC<VectorC>(means),distance);
   }
   
 }

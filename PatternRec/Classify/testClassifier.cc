@@ -6,10 +6,10 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/Classify/testClassify.cc"
+//! file="Ravl/PatternRec/Classifier/testClassifier.cc"
 
-#include "Ravl/PatternRec/ClassifyKNearestNeighbour.hh"
-#include "Ravl/PatternRec/ClassifyAverageNearestNeighbour.hh"
+#include "Ravl/PatternRec/ClassifierKNearestNeighbour.hh"
+#include "Ravl/PatternRec/ClassifierAverageNearestNeighbour.hh"
 #include "Ravl/PatternRec/DesignKMeans.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/HSet.hh"
@@ -62,8 +62,8 @@ int GenerateDataSet() {
 
 int testKNearestNeighbour() {
   cerr << "testKNearestNeighbour(), Called. \n";
-  ClassifyKNearestNeighbourC knn(dataset,3);
-  int c = knn.Classify(VectorC(0.3,0.2));
+  ClassifierKNearestNeighbourC knn(dataset,3);
+  int c = knn.Classifier(VectorC(0.3,0.2));
   if(c != 1) return __LINE__;
   VectorC vec =  knn.Confidence(VectorC(0.3,0.2));
   if(vec.Size() != 4) return __LINE__;
@@ -72,8 +72,8 @@ int testKNearestNeighbour() {
 
 int testAverageNearestNeighbour() {
   cerr << "testAverageNearestNeighbour(), Called. \n";
-  ClassifyAverageNearestNeighbourC knn(dataset,3);
-  int c = knn.Classify(VectorC(0.3,0.2));
+  ClassifierAverageNearestNeighbourC knn(dataset,3);
+  int c = knn.Classifier(VectorC(0.3,0.2));
   if(c != 1) return __LINE__;
   VectorC vec =  knn.Confidence(VectorC(0.3,0.2));
   if(vec.Size() != 4) return __LINE__;
@@ -83,10 +83,10 @@ int testAverageNearestNeighbour() {
 int testDesignKMeans() {
   cerr << "testDesignKMeans(), Called. \n";
   DesignKMeansC kmeans(3);
-  ClassifyVectorC cv = kmeans.Apply(dataset.Sample1());
+  ClassifierC cv = kmeans.Apply(dataset.Sample1());
   HSetC<UIntT> labels;
   for(SampleIterC<VectorC> it(dataset.Sample1());it;it++) {
-    UIntT label = cv.Classify(*it);
+    UIntT label = cv.Classifier(*it);
     labels += label;
     //cerr << "Label=" << label << "\n";
   }

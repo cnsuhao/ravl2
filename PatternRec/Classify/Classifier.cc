@@ -6,56 +6,56 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/Classify/ClassifyVector.cc"
+//! file="Ravl/PatternRec/Classifier/Classifier.cc"
 
-#include "Ravl/PatternRec/ClassifyVector.hh"
+#include "Ravl/PatternRec/Classifier.hh"
 
 namespace RavlN {
 
   //: Default constructor.
   
-  ClassifyVectorBodyC::ClassifyVectorBodyC(UIntT maxLabels)
+  ClassifierBodyC::ClassifierBodyC(UIntT maxLabels)
     : FunctionBodyC(0,maxLabels)
   {}
   
   //: Load from stream.
   
-  ClassifyVectorBodyC::ClassifyVectorBodyC(istream &strm) 
+  ClassifierBodyC::ClassifierBodyC(istream &strm) 
     : FunctionBodyC(strm)
   {}
   
   //: Load from binary stream.
   
-  ClassifyVectorBodyC::ClassifyVectorBodyC(BinIStreamC &strm) 
+  ClassifierBodyC::ClassifierBodyC(BinIStreamC &strm) 
     : FunctionBodyC(strm)
   {}
   
   //: Writes object to stream, can be loaded using constructor
   
-  bool ClassifyVectorBodyC::Save (ostream &out) const {
+  bool ClassifierBodyC::Save (ostream &out) const {
     return FunctionBodyC::Save(out);
   }
   
   //: Writes object to stream, can be loaded using constructor
   
-  bool ClassifyVectorBodyC::Save (BinOStreamC &out) const {
+  bool ClassifierBodyC::Save (BinOStreamC &out) const {
     return FunctionBodyC::Save(out);
   }
   
-  //: Classify vector 'data' return the most likely label.
+  //: Classifier vector 'data' return the most likely label.
   
-  UIntT ClassifyVectorBodyC::Classify(const VectorC &data) const {
-    RavlAssertMsg(0,"ClassifyVectorBodyC::Classify(), Abstract method called. ");
+  UIntT ClassifierBodyC::Classifier(const VectorC &data) const {
+    RavlAssertMsg(0,"ClassifierBodyC::Classifier(), Abstract method called. ");
     return 0;
   }
   
   //: Generate a probability for each label.
   // Note: Not all classifiers return a true probablility vector.
   
-  VectorC ClassifyVectorBodyC::Apply(const VectorC &data) const {
+  VectorC ClassifierBodyC::Apply(const VectorC &data) const {
     VectorC ret(NoLabels());
     ret.Fill(0);
-    UIntT res = Classify(data);
+    UIntT res = Classifier(data);
     RavlAssert(res < NoLabels());
     ret[res] = 1;
     return ret;
@@ -66,14 +66,14 @@ namespace RavlN {
   
   //: Load from stream.
   
-  ClassifyVectorC::ClassifyVectorC(istream &strm)
-    : FunctionC(RAVL_VIRTUALCONSTRUCTOR(strm,ClassifyVectorBodyC))    
+  ClassifierC::ClassifierC(istream &strm)
+    : FunctionC(RAVL_VIRTUALCONSTRUCTOR(strm,ClassifierBodyC))    
   {}
   
   //: Load from binary stream.
   
-  ClassifyVectorC::ClassifyVectorC(BinIStreamC &strm)
-    : FunctionC(RAVL_VIRTUALCONSTRUCTOR(strm,ClassifyVectorBodyC))
+  ClassifierC::ClassifierC(BinIStreamC &strm)
+    : FunctionC(RAVL_VIRTUALCONSTRUCTOR(strm,ClassifierBodyC))
   {}
 
 }

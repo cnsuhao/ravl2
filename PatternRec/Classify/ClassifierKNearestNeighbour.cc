@@ -6,9 +6,9 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/Classify/ClassifyKNearestNeighbour.cc"
+//! file="Ravl/PatternRec/Classifier/ClassifierKNearestNeighbour.cc"
 
-#include "Ravl/PatternRec/ClassifyKNearestNeighbour.hh"
+#include "Ravl/PatternRec/ClassifierKNearestNeighbour.hh"
 #include "Ravl/PatternRec/DataSet2Iter.hh"
 #include "Ravl/StdConst.hh"
 #include "Ravl/Hash.hh"
@@ -25,7 +25,7 @@ namespace RavlN {
 
   //: Default constructor.
   
-  ClassifyKNearestNeighbourBodyC::ClassifyKNearestNeighbourBodyC(const DataSet2C<SampleVectorC,SampleLabelC> &ndata,
+  ClassifierKNearestNeighbourBodyC::ClassifierKNearestNeighbourBodyC(const DataSet2C<SampleVectorC,SampleLabelC> &ndata,
 						 UIntT defK,
 						 const DistanceC &xdistanceMetric)
     : defaultK(defK),
@@ -34,12 +34,12 @@ namespace RavlN {
   {
     if(data.Size() > 0)
       NoLabels(ndata.Sample2().MaxValue()+1);
-    ONDEBUG(cerr << "ClassifyKNearestNeighbourBodyC::ClassifyKNearestNeighbourBodyC(), Data=" << data.Size() <<" Labels=" << NoLabels() << "\n");
+    ONDEBUG(cerr << "ClassifierKNearestNeighbourBodyC::ClassifierKNearestNeighbourBodyC(), Data=" << data.Size() <<" Labels=" << NoLabels() << "\n");
   }
   
-  //: Classify vector 'data' return the most likely label.
+  //: Classifier vector 'data' return the most likely label.
 
-  UIntT ClassifyKNearestNeighbourBodyC::Classify(const VectorC &data) const {
+  UIntT ClassifierKNearestNeighbourBodyC::Classifier(const VectorC &data) const {
     // Find the k nearest neighbours.
     
     SArray1dC<Tuple2C<UIntT,RealT> > res = Search(data,defaultK);
@@ -91,7 +91,7 @@ namespace RavlN {
     return maxLab;
   }
   
-  VectorC ClassifyKNearestNeighbourBodyC::Confidence(const VectorC &data) const {
+  VectorC ClassifierKNearestNeighbourBodyC::Confidence(const VectorC &data) const {
     SArray1dC<Tuple2C<UIntT,RealT> > res = Search(data,defaultK);
     VectorC ret(NoLabels());
     ret.Fill(0);
@@ -109,10 +109,10 @@ namespace RavlN {
   
   //: Find the 'k' nearest neighbours.
   
-  SArray1dC<Tuple2C<UIntT,RealT> > ClassifyKNearestNeighbourBodyC::Search(const VectorC &ex,UIntT k) const {
+  SArray1dC<Tuple2C<UIntT,RealT> > ClassifierKNearestNeighbourBodyC::Search(const VectorC &ex,UIntT k) const {
     RavlAssert(k > 0);
     SArray1dC<Tuple2C<UIntT,RealT> > ret(k);
-    ONDEBUG(cerr << "ClassifyKNearestNeighbourBodyC::Search(), ex=" << ex << " k=" << k << "\n");
+    ONDEBUG(cerr << "ClassifierKNearestNeighbourBodyC::Search(), ex=" << ex << " k=" << k << "\n");
     RavlAssertMsg(ex.Size() != data.Sample1().Size(),"vector size mismatch.");
     DataSet2IterC<SampleVectorC,SampleLabelC> it(data);
     // Initaly use the first 'k' examples with the first entries from 'data'.
@@ -127,7 +127,7 @@ namespace RavlN {
     it++;
     // Then do the rest.
     for(;xit && it;xit++,it++) {
-      ONDEBUG(cerr << "ClassifyKNearestNeighbourBodyC::Search(),1 Data1=" << it.Data1() << " ex=" << ex << "\n");
+      ONDEBUG(cerr << "ClassifierKNearestNeighbourBodyC::Search(),1 Data1=" << it.Data1() << " ex=" << ex << "\n");
       RealT dist = distanceMetric.Measure(it.Data1(),ex);
       *xit =  Tuple2C<UIntT,RealT>(it.Data2(),dist);
       if(dist > max) {
@@ -139,7 +139,7 @@ namespace RavlN {
       return SArray1dC<Tuple2C<UIntT,RealT> >(ret,(SizeT) xit.Index().V()); // Just return what we have.
     // Ok... get on with the hard work.
     for(;it;it++) {
-      ONDEBUG(cerr << "ClassifyKNearestNeighbourBodyC::Search(),2 Data1=" << it.Data1() << " ex=" << ex << "\n");
+      ONDEBUG(cerr << "ClassifierKNearestNeighbourBodyC::Search(),2 Data1=" << it.Data1() << " ex=" << ex << "\n");
       RealT dist = distanceMetric.Measure(ex,it.Data1());
       if(dist > max)
 	continue; // Its bigger than all the examples we have.

@@ -6,22 +6,22 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/Classify/ClassifyDiscriminantFunction.cc"
+//! file="Ravl/PatternRec/Classifier/ClassifierDiscriminantFunction.cc"
 
-#include "Ravl/PatternRec/ClassifyDiscriminantFunction.hh"
+#include "Ravl/PatternRec/ClassifierDiscriminantFunction.hh"
 
 namespace RavlN {
   
   //: Create classifier from function.
   
-  ClassifyDiscriminantFunctionBodyC::ClassifyDiscriminantFunctionBodyC(const FunctionC &nfunc)
-    : ClassifyVectorBodyC(nfunc.OutputSize()),
+  ClassifierDiscriminantFunctionBodyC::ClassifierDiscriminantFunctionBodyC(const FunctionC &nfunc)
+    : ClassifierBodyC(nfunc.OutputSize()),
       func(nfunc)
   {}
   
-  //: Classify vector 'data' return the most likely label.
+  //: Classifier vector 'data' return the most likely label.
   
-  UIntT ClassifyDiscriminantFunctionBodyC::Classify(const VectorC &data) const {
+  UIntT ClassifierDiscriminantFunctionBodyC::Classifier(const VectorC &data) const {
     VectorC vec = func(data);
     return vec.MaxIndex().V();
   }
@@ -31,7 +31,7 @@ namespace RavlN {
   // on the classifier used. The higher the confidence the more likely
   // it is the label is correct.
   
-  VectorC ClassifyDiscriminantFunctionBodyC::Confidence(const VectorC &data) const {
+  VectorC ClassifierDiscriminantFunctionBodyC::Confidence(const VectorC &data) const {
     VectorC vec = func(data);
     return vec.MakeUnit();
   }

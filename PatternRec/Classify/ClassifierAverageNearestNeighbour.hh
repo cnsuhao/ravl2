@@ -10,29 +10,29 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! userlevel=Normal
-//! docentry="Ravl.Pattern Recognition.Classify"
+//! docentry="Ravl.Pattern Recognition.Classifier"
 //! author="Charles Galambos"
-//! file="Ravl/PatternRec/Classify/ClassifyAverageNearestNeighbour.hh"
+//! file="Ravl/PatternRec/Classifier/ClassifierAverageNearestNeighbour.hh"
 
-#include "Ravl/PatternRec/ClassifyKNearestNeighbour.hh"
+#include "Ravl/PatternRec/ClassifierKNearestNeighbour.hh"
 
 namespace RavlN {
 
   //! userlevel=Develop
-  //: ClassifyAverage k nearest neighbour classifier.
+  //: ClassifierAverage k nearest neighbour classifier.
   // Amoung the k nearest neighours to the probe choose the label with the smallest average distance.
     
-  class ClassifyAverageNearestNeighbourBodyC 
-    : public ClassifyKNearestNeighbourBodyC
+  class ClassifierAverageNearestNeighbourBodyC 
+    : public ClassifierKNearestNeighbourBodyC
   {
   public:
-    ClassifyAverageNearestNeighbourBodyC(const DataSet2C<SampleVectorC,SampleLabelC> &data,
+    ClassifierAverageNearestNeighbourBodyC(const DataSet2C<SampleVectorC,SampleLabelC> &data,
 					 UIntT defaultK = 5,
 					 const DistanceC &xdistMetric = DistanceSqrEuclideanC());
     //: Default constructor.
     
-    virtual UIntT Classify(const VectorC &data) const;
-    //: Classify vector 'data' return the most likely label.
+    virtual UIntT Classifier(const VectorC &data) const;
+    //: Classifier vector 'data' return the most likely label.
     
     virtual VectorC Confidence(const VectorC &data) const;
      //: Estimate the confidence for each label.
@@ -43,30 +43,30 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: ClassifyAverage k nearest neighbour classifier.
+  //: ClassifierAverage k nearest neighbour classifier.
   // Amoung the k nearest neighours to the probe choose the label with the smallest average distance.
   
-  class ClassifyAverageNearestNeighbourC 
-    : public ClassifyKNearestNeighbourC
+  class ClassifierAverageNearestNeighbourC 
+    : public ClassifierKNearestNeighbourC
   {
   public:
-    ClassifyAverageNearestNeighbourC(const DataSet2C<SampleVectorC,SampleLabelC> &data,UIntT defaultK = 5,const DistanceC &xdistMetric = DistanceSqrEuclideanC())
-      : ClassifyKNearestNeighbourC(*new ClassifyAverageNearestNeighbourBodyC(data,defaultK,xdistMetric))
+    ClassifierAverageNearestNeighbourC(const DataSet2C<SampleVectorC,SampleLabelC> &data,UIntT defaultK = 5,const DistanceC &xdistMetric = DistanceSqrEuclideanC())
+      : ClassifierKNearestNeighbourC(*new ClassifierAverageNearestNeighbourBodyC(data,defaultK,xdistMetric))
     {}
     //: Constructor.
     
   protected:
-    ClassifyAverageNearestNeighbourC(ClassifyAverageNearestNeighbourBodyC &bod)
-      : ClassifyKNearestNeighbourC(bod)
+    ClassifierAverageNearestNeighbourC(ClassifierAverageNearestNeighbourBodyC &bod)
+      : ClassifierKNearestNeighbourC(bod)
     {}
     //: Body constructor.
     
-    ClassifyAverageNearestNeighbourBodyC &Body()
-    { return static_cast<ClassifyAverageNearestNeighbourBodyC &>(ClassifyVectorC::Body()); }
+    ClassifierAverageNearestNeighbourBodyC &Body()
+    { return static_cast<ClassifierAverageNearestNeighbourBodyC &>(ClassifierC::Body()); }
     //: Access body.
     
-    const ClassifyAverageNearestNeighbourBodyC &Body() const
-    { return static_cast<const ClassifyAverageNearestNeighbourBodyC &>(ClassifyVectorC::Body()); }
+    const ClassifierAverageNearestNeighbourBodyC &Body() const
+    { return static_cast<const ClassifierAverageNearestNeighbourBodyC &>(ClassifierC::Body()); }
     //: Access body.
     
   public:

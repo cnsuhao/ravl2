@@ -8,10 +8,10 @@
 #define RAVL_DESIGNDISCRIMINANTFUNCTION_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! docentry="Ravl.Pattern Recognition.Classify"
-//! file="Ravl/PatternRec/Classify/DesignDiscriminantFunction.hh"
+//! docentry="Ravl.Pattern Recognition.Classifier"
+//! file="Ravl/PatternRec/Classifier/DesignDiscriminantFunction.hh"
 
-#include "Ravl/PatternRec/DesignClassifyVectorSupervised.hh"
+#include "Ravl/PatternRec/DesignClassifierSupervised.hh"
 #include "Ravl/PatternRec/DesignFunctionSupervised.hh"
 
 namespace RavlN {
@@ -20,16 +20,16 @@ namespace RavlN {
   //: Design a discriminat function classifier.
   
   class DesignDiscriminantFunctionBodyC
-    : public DesignClassifyVectorSupervisedBodyC
+    : public DesignClassifierSupervisedBodyC
   {
   public:
     DesignDiscriminantFunctionBodyC(const DesignFunctionSupervisedC &func);
     //: Default constructor.
     
-    virtual ClassifyVectorC Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out);
+    virtual ClassifierC Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out);
     //: Create a clasifier.
     
-    virtual ClassifyVectorC Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out,const SampleC<RealT> &weight);
+    virtual ClassifierC Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out,const SampleC<RealT> &weight);
     //: Create a clasifier with weights for the samples.
     
     const DesignFunctionSupervisedC &FunctionDesigner() const
@@ -44,7 +44,7 @@ namespace RavlN {
   //: Design a discriminat function classifier.
   
   class DesignDiscriminantFunctionC
-    : public DesignClassifyVectorSupervisedC
+    : public DesignClassifierSupervisedC
   {
   public:
     DesignDiscriminantFunctionC()
@@ -53,22 +53,22 @@ namespace RavlN {
     // Creates an invalid handle.
 
     DesignDiscriminantFunctionC(const DesignFunctionSupervisedC &designFunc)
-      : DesignClassifyVectorSupervisedC(*new DesignDiscriminantFunctionBodyC(designFunc))
+      : DesignClassifierSupervisedC(*new DesignDiscriminantFunctionBodyC(designFunc))
     {}
     //: Create a new designer.
     
   protected:
     DesignDiscriminantFunctionC(DesignDiscriminantFunctionBodyC &bod)
-      : DesignClassifyVectorSupervisedC(bod)
+      : DesignClassifierSupervisedC(bod)
     {}
     //: Body constructor.
     
     DesignDiscriminantFunctionBodyC &Body()
-    { return static_cast<DesignDiscriminantFunctionBodyC &>(DesignClassifyVectorSupervisedC::Body()); }
+    { return static_cast<DesignDiscriminantFunctionBodyC &>(DesignClassifierSupervisedC::Body()); }
     //: Access body.
 
     const DesignDiscriminantFunctionBodyC &Body() const
-    { return static_cast<const DesignDiscriminantFunctionBodyC &>(DesignClassifyVectorSupervisedC::Body()); }
+    { return static_cast<const DesignDiscriminantFunctionBodyC &>(DesignClassifierSupervisedC::Body()); }
     //: Access body.
     
   public:

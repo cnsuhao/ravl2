@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_CLASSIFYVECTOR_HEADER
-#define RAVL_CLASSIFYVECTOR_HEADER 1
+#ifndef RAVL_CLASSIFY_HEADER
+#define RAVL_CLASSIFY_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! docentry="Ravl.Pattern Recognition.Classify"
+//! docentry="Ravl.Pattern Recognition.Classifier"
 //! author="Charles Galambos"
-//! file="Ravl/PatternRec/Classify/ClassifyVector.hh"
+//! file="Ravl/PatternRec/Classifier/Classifier.hh"
 
 #include "Ravl/PatternRec/Function.hh"
 #include "Ravl/Vector.hh"
@@ -21,17 +21,17 @@ namespace RavlN {
   //! userlevel=Develop
   //: Generic classifier body.
   
-  class ClassifyVectorBodyC
+  class ClassifierBodyC
     : public FunctionBodyC
   {
   public:
-    ClassifyVectorBodyC(UIntT nmaxLabels = 0);
+    ClassifierBodyC(UIntT nmaxLabels = 0);
     //: Constructor.
     
-    ClassifyVectorBodyC(istream &strm);
+    ClassifierBodyC(istream &strm);
     //: Load from stream.
     
-    ClassifyVectorBodyC(BinIStreamC &strm);
+    ClassifierBodyC(BinIStreamC &strm);
     //: Load from binary stream.
     
     virtual bool Save (ostream &out) const;
@@ -40,8 +40,8 @@ namespace RavlN {
     virtual bool Save (BinOStreamC &out) const;
     //: Writes object to stream, can be loaded using constructor
     
-    virtual UIntT Classify(const VectorC &data) const;
-    //: Classify vector 'data' return the most likely label.
+    virtual UIntT Classifier(const VectorC &data) const;
+    //: Classifier vector 'data' return the most likely label.
     
     virtual VectorC Apply(const VectorC &data) const;
     //: Estimate the confidence for each label.
@@ -65,39 +65,53 @@ namespace RavlN {
   //! userlevel=Normal
   //: Generic classifier.
   
-  class ClassifyVectorC 
+  class ClassifierC 
     : public FunctionC
   {
   public:
-    ClassifyVectorC()
+    ClassifierC()
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
-    ClassifyVectorC(istream &strm);
+    ClassifierC(istream &strm);
     //: Load from stream.
     
-    ClassifyVectorC(BinIStreamC &strm);
+    ClassifierC(BinIStreamC &strm);
     //: Load from binary stream.
     
+    ClassifierC(const FunctionC &func)
+      : FunctionC(func)
+    { 
+      if(dynamic_cast<const ClassifierBodyC *>(&FunctionC::Body()) == 0)
+	Invalidate();
+    }
+    //: Create from base class.
+    // Creates an invalid handle if 'func' is not a classifer.
+    
   protected:
-    ClassifyVectorC(ClassifyVectorBodyC &bod)
+    ClassifierC(ClassifierBodyC &bod)
       : FunctionC(bod)
     {}
     //: Body constructor.
+
+    ClassifierC(ClassifierBodyC *bod)
+      : FunctionC(bod)
+    {}
+    //: Body ptr constructor.
     
-    ClassifyVectorBodyC &Body()
-    { return static_cast<ClassifyVectorBodyC &>(FunctionC::Body()); }
+    ClassifierBodyC &Body()
+    { return static_cast<ClassifierBodyC &>(FunctionC::Body()); }
     //: Access body.
     
-    const ClassifyVectorBodyC &Body() const
-    { return static_cast<const ClassifyVectorBodyC &>(FunctionC::Body()); }
+    const ClassifierBodyC &Body() const
+    { return static_cast<const ClassifierBodyC &>(FunctionC::Body()); }
     //: Access body.
     
   public:
-    UIntT Classify(const VectorC &data) const
-    { return Body().Classify(data); }
-    //: Classify vector 'data' return the most likely label.
+    UIntT Classifier(const VectorC &data) const
+    { return Body().Classifier(data); }
+    //: Classifier vector 'data' return the most likely label.
     
     VectorC Confidence(const VectorC &data) const
     { return Body().Apply(data); }
@@ -117,28 +131,28 @@ namespace RavlN {
     
   };
   
-  inline istream &operator>>(istream &strm,ClassifyVectorC &obj) {
-    obj = ClassifyVectorC(strm);
+  inline istream &operator>>(istream &strm,ClassifierC &obj) {
+    obj = ClassifierC(strm);
     return strm;
   }
   //: Load from a stream.
   // Uses virtual constructor.
   
-  inline ostream &operator<<(ostream &out,const ClassifyVectorC &obj) {
+  inline ostream &operator<<(ostream &out,const ClassifierC &obj) {
     obj.Save(out);
     return out;
   }
   //: Save to a stream.
   // Uses virtual constructor.
   
-  inline BinIStreamC &operator>>(BinIStreamC &strm,ClassifyVectorC &obj) {
-    obj = ClassifyVectorC(strm);
+  inline BinIStreamC &operator>>(BinIStreamC &strm,ClassifierC &obj) {
+    obj = ClassifierC(strm);
     return strm;
   }
   //: Load from a binary stream.
   // Uses virtual constructor.
   
-  inline BinOStreamC &operator<<(BinOStreamC &out,const ClassifyVectorC &obj) {
+  inline BinOStreamC &operator<<(BinOStreamC &out,const ClassifierC &obj) {
     obj.Save(out);
     return out;
   }

@@ -9,11 +9,11 @@
 ///////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.Pattern Recognition.Classify"
+//! docentry="Ravl.Pattern Recognition.Classifier"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/Classify/ClassifyDiscriminantFunction.hh"
+//! file="Ravl/PatternRec/Classifier/ClassifierDiscriminantFunction.hh"
 
-#include "Ravl/PatternRec/ClassifyVector.hh"
+#include "Ravl/PatternRec/Classifier.hh"
 #include "Ravl/PatternRec/Function.hh"
 
 namespace RavlN {
@@ -22,15 +22,15 @@ namespace RavlN {
   //: Create a classifier based on a descriminant function.
   //  This classifier returns the label with the highest value.
   
-  class ClassifyDiscriminantFunctionBodyC 
-    : public ClassifyVectorBodyC
+  class ClassifierDiscriminantFunctionBodyC 
+    : public ClassifierBodyC
   {
   public:
-    ClassifyDiscriminantFunctionBodyC(const FunctionC &nfunc);
+    ClassifierDiscriminantFunctionBodyC(const FunctionC &nfunc);
     //: Create classifier from a discriminant function.
     
-    virtual UIntT Classify(const VectorC &data) const;
-    //: Classify vector 'data' return the most likely label.
+    virtual UIntT Classifier(const VectorC &data) const;
+    //: Classifier vector 'data' return the most likely label.
     
     virtual VectorC Confidence(const VectorC &data) const;
     //: Estimate the confidence for each label.
@@ -51,27 +51,27 @@ namespace RavlN {
   //: Create a classifier based on a descriminant function.
   //  This classifier returns the label with the highest value.
   
-  class ClassifyDiscriminantFunctionC 
-    : public ClassifyVectorC
+  class ClassifierDiscriminantFunctionC 
+    : public ClassifierC
   {
   public:
-    ClassifyDiscriminantFunctionC(const FunctionC &nfunc)
-      : ClassifyVectorC(*new ClassifyDiscriminantFunctionBodyC(nfunc))
+    ClassifierDiscriminantFunctionC(const FunctionC &nfunc)
+      : ClassifierC(*new ClassifierDiscriminantFunctionBodyC(nfunc))
     {}
     //: Create classifier from a discriminant function.
 
   protected:
-    ClassifyDiscriminantFunctionC(ClassifyDiscriminantFunctionBodyC &bod)
-      : ClassifyVectorC(bod)
+    ClassifierDiscriminantFunctionC(ClassifierDiscriminantFunctionBodyC &bod)
+      : ClassifierC(bod)
     {}
     //: Body constructor.
     
-    ClassifyDiscriminantFunctionBodyC &Body()
-    { return static_cast<ClassifyDiscriminantFunctionBodyC &>(ClassifyVectorC::Body()); }
+    ClassifierDiscriminantFunctionBodyC &Body()
+    { return static_cast<ClassifierDiscriminantFunctionBodyC &>(ClassifierC::Body()); }
     //: Access body.
 
-    const ClassifyDiscriminantFunctionBodyC &Body() const
-    { return static_cast<const ClassifyDiscriminantFunctionBodyC &>(ClassifyVectorC::Body()); }
+    const ClassifierDiscriminantFunctionBodyC &Body() const
+    { return static_cast<const ClassifierDiscriminantFunctionBodyC &>(ClassifierC::Body()); }
     //: Access body.
     
   public:

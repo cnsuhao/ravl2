@@ -11,8 +11,8 @@
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
 //! userlevel=Normal
-//! docentry="Ravl.Pattern Recognition.Classify"
-//! file="Ravl/PatternRec/Classify/ClassifyKNearestNeighbour.hh"
+//! docentry="Ravl.Pattern Recognition.Classifier"
+//! file="Ravl/PatternRec/Classifier/ClassifierKNearestNeighbour.hh"
 
 #include "Ravl/PatternRec/Distance.hh"
 #include "Ravl/PatternRec/DataSet2.hh"
@@ -20,20 +20,20 @@
 #include "Ravl/Tuple2.hh"
 #include "Ravl/PatternRec/SampleLabel.hh"
 #include "Ravl/PatternRec/SampleVector.hh"
-#include "Ravl/PatternRec/ClassifyVector.hh"
+#include "Ravl/PatternRec/Classifier.hh"
 
 namespace RavlN {
 
   //! userlevel=Develop
   //: k nearest neighbours classifier.
-  // Classify probe vector as the most common amoung its k nearest neighbours.
+  // Classifier probe vector as the most common amoung its k nearest neighbours.
   // If there's a conflict the label with the smallest average distance is used.
   
-  class ClassifyKNearestNeighbourBodyC 
-    : public ClassifyVectorBodyC
+  class ClassifierKNearestNeighbourBodyC 
+    : public ClassifierBodyC
   {
   public:
-    ClassifyKNearestNeighbourBodyC(const DataSet2C<SampleVectorC,SampleLabelC> &data,
+    ClassifierKNearestNeighbourBodyC(const DataSet2C<SampleVectorC,SampleLabelC> &data,
 				   UIntT defaultK = 5,
 				   const DistanceC &xdistMetric = DistanceSqrEuclideanC());
     //: Constructor.
@@ -42,8 +42,8 @@ namespace RavlN {
     //: Search for the the 'k' nearest neighbours.
     // Returns the label and the distance for the 'k' nearest neighbours.
     
-    virtual UIntT Classify(const VectorC &data) const;
-    //: Classify vector 'data' return the most likely label.
+    virtual UIntT Classifier(const VectorC &data) const;
+    //: Classifier vector 'data' return the most likely label.
     
     virtual VectorC Confidence(const VectorC &data) const;
      //: Estimate the confidence for each label.
@@ -64,30 +64,30 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: k nearest neighbours classifier.
-  // Classify probe vector as the most common amoung its k nearest neighbours.
+  // Classifier probe vector as the most common amoung its k nearest neighbours.
   // If there's a conflict the label with the smallest average distance is used.
   
-  class ClassifyKNearestNeighbourC 
-    : public ClassifyVectorC
+  class ClassifierKNearestNeighbourC 
+    : public ClassifierC
   {
   public:
-    ClassifyKNearestNeighbourC(const DataSet2C<SampleVectorC,SampleLabelC> &data,UIntT defaultK = 5,const DistanceC &xdistMetric = DistanceSqrEuclideanC())
-      : ClassifyVectorC(*new ClassifyKNearestNeighbourBodyC(data,defaultK,xdistMetric))
+    ClassifierKNearestNeighbourC(const DataSet2C<SampleVectorC,SampleLabelC> &data,UIntT defaultK = 5,const DistanceC &xdistMetric = DistanceSqrEuclideanC())
+      : ClassifierC(*new ClassifierKNearestNeighbourBodyC(data,defaultK,xdistMetric))
     {}
     //: Constructor.
     
   protected:
-    ClassifyKNearestNeighbourC(ClassifyKNearestNeighbourBodyC &bod)
-      : ClassifyVectorC(bod)
+    ClassifierKNearestNeighbourC(ClassifierKNearestNeighbourBodyC &bod)
+      : ClassifierC(bod)
     {}
     //: Body constructor.
     
-    ClassifyKNearestNeighbourBodyC &Body()
-    { return static_cast<ClassifyKNearestNeighbourBodyC &>(ClassifyVectorC::Body()); }
+    ClassifierKNearestNeighbourBodyC &Body()
+    { return static_cast<ClassifierKNearestNeighbourBodyC &>(ClassifierC::Body()); }
     //: Access body.
     
-    const ClassifyKNearestNeighbourBodyC &Body() const
-    { return static_cast<const ClassifyKNearestNeighbourBodyC &>(ClassifyVectorC::Body()); }
+    const ClassifierKNearestNeighbourBodyC &Body() const
+    { return static_cast<const ClassifierKNearestNeighbourBodyC &>(ClassifierC::Body()); }
     //: Access body.
     
   public:

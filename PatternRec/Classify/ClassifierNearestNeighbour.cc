@@ -6,9 +6,9 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/Classify/ClassifyNearestNeighbour.cc"
+//! file="Ravl/PatternRec/Classifier/ClassifierNearestNeighbour.cc"
 
-#include "Ravl/PatternRec/ClassifyNearestNeighbour.hh"
+#include "Ravl/PatternRec/ClassifierNearestNeighbour.hh"
 #include "Ravl/PatternRec/DataSet2Iter.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/StdConst.hh"
@@ -26,7 +26,7 @@ namespace RavlN {
 
   //: Default constructor.
   
-  ClassifyNearestNeighbourBodyC::ClassifyNearestNeighbourBodyC(const SampleVectorC &nvectors,
+  ClassifierNearestNeighbourBodyC::ClassifierNearestNeighbourBodyC(const SampleVectorC &nvectors,
 							       const SampleLabelC &nlabels,
 							       const DistanceC &xdistanceMetric)
     : distanceMetric(xdistanceMetric),
@@ -37,23 +37,23 @@ namespace RavlN {
       NoLabels(vlabels.MaxValue()+1);
     else
       NoLabels(nvectors.Size());
-    ONDEBUG(cerr << "ClassifyNearestNeighbourBodyC::ClassifyNearestNeighbourBodyC(), Data=" << vectors.Size() <<" Labels=" << labels << "\n");
+    ONDEBUG(cerr << "ClassifierNearestNeighbourBodyC::ClassifierNearestNeighbourBodyC(), Data=" << vectors.Size() <<" Labels=" << labels << "\n");
   }
   
   //: Constructor.
   
-  ClassifyNearestNeighbourBodyC::ClassifyNearestNeighbourBodyC(const SampleVectorC &nvectors,
+  ClassifierNearestNeighbourBodyC::ClassifierNearestNeighbourBodyC(const SampleVectorC &nvectors,
 							       const DistanceC &xdistMetric)
     : distanceMetric(xdistMetric),
       vectors(nvectors)
   {
     NoLabels(nvectors.Size());
-    ONDEBUG(cerr << "ClassifyNearestNeighbourBodyC::ClassifyNearestNeighbourBodyC(), Data=" << vectors.Size() <<" Labels=" << NoLabels() << " vlabels=" << vlabels.Size() << "\n");
+    ONDEBUG(cerr << "ClassifierNearestNeighbourBodyC::ClassifierNearestNeighbourBodyC(), Data=" << vectors.Size() <<" Labels=" << NoLabels() << " vlabels=" << vlabels.Size() << "\n");
   }
 
-  //: Classify vector 'data' return the most likely label.
+  //: Classifier vector 'data' return the most likely label.
   
-  UIntT ClassifyNearestNeighbourBodyC::Classify(const VectorC &vec) const {
+  UIntT ClassifierNearestNeighbourBodyC::Classifier(const VectorC &vec) const {
     // Find the k nearest neighbours.
     
     SampleIterC<VectorC> it(vectors);

@@ -6,10 +6,10 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/Classify/DesignDiscriminantFunction.cc"
+//! file="Ravl/PatternRec/Classifier/DesignDiscriminantFunction.cc"
 
 #include "Ravl/PatternRec/DesignDiscriminantFunction.hh"
-#include "Ravl/PatternRec/ClassifyDiscriminantFunction.hh"
+#include "Ravl/PatternRec/ClassifierDiscriminantFunction.hh"
 #include "Ravl/PatternRec/SampleLabel.hh"
 
 namespace RavlN {
@@ -22,18 +22,18 @@ namespace RavlN {
 
   //: Create a clasifier.
     
-  ClassifyVectorC DesignDiscriminantFunctionBodyC::Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out) {
+  ClassifierC DesignDiscriminantFunctionBodyC::Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out) {
     // FIXME :- Find a way of caching 'vout' for labels.
     SampleC<VectorC> vout = SampleLabelC(out).SampleVector();
-    return ClassifyDiscriminantFunctionC(designFunc.Apply(in,vout));
+    return ClassifierDiscriminantFunctionC(designFunc.Apply(in,vout));
   }
 					 
   //: Create a clasifier with weights for the samples.
   
-  ClassifyVectorC DesignDiscriminantFunctionBodyC::Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out,const SampleC<RealT> &weight) {
+  ClassifierC DesignDiscriminantFunctionBodyC::Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out,const SampleC<RealT> &weight) {
     // FIXME :- Find a way of caching 'vout' for labels.
     SampleC<VectorC> vout = SampleLabelC(out).SampleVector();
-    return ClassifyDiscriminantFunctionC(designFunc.Apply(in,vout,weight));
+    return ClassifierDiscriminantFunctionC(designFunc.Apply(in,vout,weight));
   }
 
 }
