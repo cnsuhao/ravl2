@@ -38,19 +38,21 @@ namespace RavlN {
     
     BoundaryC(bool orient = true);
     //: Empty boundary with orientation 'orient'.
+    // If orient is true, the object is on the left of the boundry.
     
     BoundaryC(const DListC<EdgeC> & edgeList, bool orient);
     //: Create the boundary from the list of edges with a appropriate orientation. 
-    // The 'edgelist' will be a part of boundary.
+    // The 'edgelist' will be a part of boundary.  If orient is true, the object
+    // is on the left of the boundry.
     
     BoundaryC(const DListC<DLIterC<EdgeC> > & edgeList, bool orient = true);
     //: Creates the boundary from the list of pointers to the elementary edges.
-    // The orientation of the boundary is set according to 'orient'.
+    // If orient is true, the object is on the left of the boundry.
     
     BoundaryC(const IndexRange2dC & rect,bool asHole = true);
     //: The boundary of the rectangle.
-    // If asHole is true, then the rectangle is 'outside' the region.
-    // otherwise its inside.
+    // The boundry goes clockwise around the rectancle. If asHole is true, 
+    // then the rectangle is 'outside' the region. otherwise its inside. 
     
     IntT Area() const;
     //: Get the area of the region which is determined by the 'boundary'.

@@ -41,8 +41,8 @@ namespace RavlN {
     ONDEBUG(cout << "BoundaryC()\n");
   }
   
-  BoundaryC::BoundaryC(const IndexRange2dC & rect,bool asHole = true)
-    : orientation(!asHole) 
+  BoundaryC::BoundaryC(const IndexRange2dC & rect,bool asHole)
+    : orientation(!asHole)
   {
     Index2dC   origin(rect.Origin());
     Index2dC   endP(rect.End());
@@ -100,7 +100,9 @@ namespace RavlN {
     IndexC minC = firstV.Col();
     IndexC maxR = minR;
     IndexC maxC = minC;
-    if(orientation) {
+    // False=Right.
+    // True=Left.
+    if(!orientation) { 
       ONDEBUG(cerr << "BoundaryC::BoundingBox(), Object is on left. \n");
       for(DLIterC<EdgeC> edge(*this);edge;edge++) {
 	Index2dC vx = edge->LPixel();
