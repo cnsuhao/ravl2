@@ -11,6 +11,8 @@
 //! date="23/9/2003"
 
 #include "Ravl/GUI/TreeModel.hh"
+#include "Ravl/GUI/Manager.hh"
+#include "Ravl/GUI/ReadBack.hh"
 
 #if RAVL_USE_GTK2
 
@@ -138,8 +140,10 @@ namespace RavlGUIN {
   //: Destructor.
   
   TreeModelPathBodyC::~TreeModelPathBodyC() { 
-    if(canfree && treePath != 0) 
+    if(canfree && treePath != 0) {
+      ReadBackLockC lock;
       gtk_tree_path_free (treePath);
+    }
   }
 
   //: Path as text.
@@ -226,21 +230,7 @@ namespace RavlGUIN {
   TreeModelBodyC::~TreeModelBodyC()
   {}
   
-
-  //: Append a row.
   
-  bool TreeModelBodyC::AppendRow(TreeModelIterC &rowHandle) {
-    RavlAssert(0);
-    return false;
-  }
-
-  //: Delete a row.
-  
-  bool TreeModelBodyC::DeleteRow(TreeModelIterC &rowHandle) {
-    RavlAssert(0);
-    return false;    
-  }
-
   //: Look up column number of named column.
   
   UIntT TreeModelBodyC::ColNumber(const StringC &name) const {
@@ -293,6 +283,7 @@ namespace RavlGUIN {
   //: Set int value.
   
   bool TreeModelBodyC::GetValue(TreeModelIterC &rowIter,IntT col, IntT &value) {
+    ReadBackLockC lock;
     gtk_tree_model_get(model,rowIter.TreeIter(),col,&value,-1);
     return true;
   }
@@ -301,6 +292,7 @@ namespace RavlGUIN {
   
   bool TreeModelBodyC::GetValue(TreeModelIterC &rowIter,IntT col, bool &value) {
     int tmp;
+    ReadBackLockC lock;
     gtk_tree_model_get(model,rowIter.TreeIter(),col,&tmp,-1);
     value = tmp != 0;
     return true;
@@ -310,6 +302,7 @@ namespace RavlGUIN {
   
   bool TreeModelBodyC::GetValue(TreeModelIterC &rowIter,IntT col, StringC &value) {
     guchar *text;
+    ReadBackLockC lock;
     gtk_tree_model_get(model,rowIter.TreeIter(),col,&text,-1);
     value = StringC((char *) text);
     g_free(text);
@@ -319,41 +312,101 @@ namespace RavlGUIN {
   //: Set bool value.
   
   bool TreeModelBodyC::GetValue(TreeModelIterC &rowIter,IntT col, PixbufC &value) {
-    RavlAssertMsg(0,"TreeModelBodyC::GetValue(), Not implemented.");
+    RavlAssertMsg(0,"TreeModelBodyC::GetValue(,,PixbufC&), Not implemented.");
     return true;
   }
   
   //: Set int value.
   
   bool TreeModelBodyC::SetValue(TreeModelIterC &rowIter,IntT col, IntT value) {
-    RavlAssertMsg(0,"TreeModelBodyC::SetValue(TreeModelIterC &,IntT,IntT) Not implemented. ");
+    Manager.Queue(Trigger(TreeModelC(*this),&TreeModelC::GUISetValueInt,rowIter,col,value));
     return false;
   }
   
   //: Set bool value.
   
   bool TreeModelBodyC::SetValue(TreeModelIterC &rowIter,IntT col, bool value) {
-    RavlAssertMsg(0,"TreeModelBodyC::SetValue(TreeModelIterC &,IntT,bool) Not implemented. ");
+    Manager.Queue(Trigger(TreeModelC(*this),&TreeModelC::GUISetValueBool,rowIter,col,value));
     return false;
   }
   
   //: Set bool value.
   
   bool TreeModelBodyC::SetValue(TreeModelIterC &rowIter,IntT col, const StringC &value) {
+    //if(!Manager.IsManagerStarted())
+    //return GUISetValue(rowIter,col,value);
+    Manager.Queue(Trigger(TreeModelC(*this),&TreeModelC::GUISetValueString,rowIter,col,value));
+    return true;
+  }
+  
+  //: Set bool value.
+  
+  bool TreeModelBodyC::SetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value) {
+    Manager.Queue(Trigger(TreeModelC(*this),&TreeModelC::GUISetValuePixbuf,rowIter,col,value));
+    return true;
+  }
+  
+  //: Clear store of all values.
+  
+  void TreeModelBodyC::Empty() { 
+    Manager.Queue(Trigger(TreeModelC(*this),&TreeModelC::GUIEmpty)); 
+  }
+  
+  //: Append a row.
+  
+  bool TreeModelBodyC::AppendRow(TreeModelIterC &rowHandle) {
+    RavlAssertMsg(0,"Not implemented. ");
+    return false;
+  }
+  
+  //: Delete a row.
+  
+  bool TreeModelBodyC::DeleteRow(TreeModelIterC &rowHandle) {
+    //if(!Manager.IsManagerStarted())
+    //return GUIDeleteRow(rowHandle); 
+    Manager.Queue(Trigger(TreeModelC(*this),&TreeModelC::GUIDeleteRow,rowHandle));
+    return true;
+  }
+  
+  
+  //: Delete a row.
+  
+  bool TreeModelBodyC::GUIDeleteRow(TreeModelIterC &rowHandle) {
+    RavlAssert(0);
+    return false;    
+  }
+  
+  //: Set int value.
+  
+  bool TreeModelBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, IntT value) {
+    RavlAssertMsg(0,"TreeModelBodyC::SetValue(TreeModelIterC &,IntT,IntT) Not implemented. ");
+    return false;
+  }
+  
+  //: Set bool value.
+  
+  bool TreeModelBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, bool value) {
+    RavlAssertMsg(0,"TreeModelBodyC::SetValue(TreeModelIterC &,IntT,bool) Not implemented. ");
+    return false;
+  }
+  
+  //: Set bool value.
+  
+  bool TreeModelBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, const StringC &value) {
     RavlAssertMsg(0,"TreeModelBodyC::SetValue(TreeModelIterC &,IntT,const StringC &) Not implemented. ");
     return false;
   }
   
   //: Set bool value.
   
-  bool TreeModelBodyC::SetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value) {
+  bool TreeModelBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value) {
     RavlAssertMsg(0,"TreeModelBodyC::SetValue(TreeModelIterC &,IntT,const PixbufC &) Not implemented. ");
     return false;
   }
   
   //: Clear store of all values.
   
-  void TreeModelBodyC::Empty() {
+  void TreeModelBodyC::GUIEmpty() {
     RavlAssertMsg(0,"TreeModelBodyC::Empty() Not implemented. ");
     return ;
   }

@@ -270,7 +270,7 @@ namespace RavlGUIN {
     virtual bool AppendRow(TreeModelIterC &rowHandle);
     //: Append a row.
     
-    virtual bool DeleteRow(TreeModelIterC &rowHandle);
+    bool DeleteRow(TreeModelIterC &rowHandle);
     //: Delete a row.
     
     bool GetValue(TreeModelIterC &rowIter,IntT col, IntT &value);
@@ -285,19 +285,37 @@ namespace RavlGUIN {
     bool GetValue(TreeModelIterC &rowIter,IntT col, PixbufC &value);
     //: Set bool value. 
     
-    virtual bool SetValue(TreeModelIterC &rowIter,IntT col, IntT value);
+    bool SetValue(TreeModelIterC &rowIter,IntT col, IntT value);
     //: Set int value.
     
-    virtual bool SetValue(TreeModelIterC &rowIter,IntT col, bool value);
+    bool SetValue(TreeModelIterC &rowIter,IntT col, bool value);
     //: Set bool value.
     
-    virtual bool SetValue(TreeModelIterC &rowIter,IntT col, const StringC &value);
+    bool SetValue(TreeModelIterC &rowIter,IntT col, const StringC &value);
     //: Set string value.
     
-    virtual bool SetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value);
+    bool SetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value);
     //: Set pixbuf value.
     
-    virtual void Empty();
+    void Empty();
+    //: Clear store of all values.
+    
+    virtual bool GUIDeleteRow(TreeModelIterC &rowHandle);
+    //: Delete a row.
+    
+    virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, IntT value);
+    //: Set int value.
+    
+    virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, bool value);
+    //: Set bool value.
+    
+    virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, const StringC &value);
+    //: Set string value.
+    
+    virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value);
+    //: Set pixbuf value.
+    
+    virtual void GUIEmpty();
     //: Clear store of all values.
     
     Signal2C<TreeModelPathC,TreeModelIterC> &Signal(const char *name);
@@ -395,6 +413,50 @@ namespace RavlGUIN {
     { return Body().GetValue(rowIter,col,value); }
     //: Set bool value. 
     
+    bool GUIDeleteRow(TreeModelIterC &rowHandle)
+    { return Body().GUIDeleteRow(rowHandle); }
+    //: Delete a row.
+    
+    bool GUISetValueInt(TreeModelIterC &rowIter,IntT col, IntT value)
+    { return Body().GUISetValue(rowIter,col,value); }
+    //: Set int value.
+    
+    bool GUISetValueBool(TreeModelIterC &rowIter,IntT col, bool value)
+    { return Body().GUISetValue(rowIter,col,value); }
+    //: Set bool value.
+    
+    bool GUISetValueString(TreeModelIterC &rowIter,IntT col, const StringC &value)
+    { return Body().GUISetValue(rowIter,col,value); }
+    //: Set string value.
+    
+    bool GUISetValuePixbuf(TreeModelIterC &rowIter,IntT col, const PixbufC &value)
+    { return Body().GUISetValue(rowIter,col,value); }
+    //: Set pixbuf value.
+    
+    bool GUISetValue(TreeModelIterC &rowIter,IntT col, IntT value)
+    { return Body().GUISetValue(rowIter,col,value); }
+    //: Set int value.
+    
+    bool GUISetValue(TreeModelIterC &rowIter,IntT col, bool value)
+    { return Body().GUISetValue(rowIter,col,value); }
+    //: Set bool value.
+    
+    bool GUISetValue(TreeModelIterC &rowIter,IntT col, const StringC &value)
+    { return Body().GUISetValue(rowIter,col,value); }
+    //: Set string value.
+    
+    bool GUISetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value)
+    { return Body().GUISetValue(rowIter,col,value); }
+    //: Set pixbuf value.
+    
+    bool GUISetValue(TreeModelIterC &rowIter,IntT col, const char *value)
+    { return Body().GUISetValue(rowIter,col,StringC(value)); }
+    //: Set 'C' style string value.
+    
+    void GUIEmpty()
+    { Body().GUIEmpty(); }
+    //: Clear store of all values.
+
     void Empty()
     { Body().Empty(); }
     //: Clear store of all values.
@@ -428,6 +490,7 @@ namespace RavlGUIN {
     { return Body().Path2Iter(pathName); }
     //: Get iterator from path text.
     
+    friend class TreeModelBodyC;
     friend class TreeModelIterBodyC;
   };
   

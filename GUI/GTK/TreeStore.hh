@@ -49,22 +49,22 @@ namespace RavlGUIN {
     virtual bool AppendRow(TreeModelIterC &rowHandle);
     //: Append a row.
     
-    virtual bool DeleteRow(TreeModelIterC &rowHandle);
+    virtual bool GUIDeleteRow(TreeModelIterC &rowHandle);
     //: Delete a row.
     
-    virtual bool SetValue(TreeModelIterC &rowIter,IntT col, IntT value);
+    virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, IntT value);
     //: Set int value.
     
-    virtual bool SetValue(TreeModelIterC &rowIter,IntT col, bool value);
+    virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, bool value);
     //: Set bool value.
     
-    virtual bool SetValue(TreeModelIterC &rowIter,IntT col, const StringC &value);
+    virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, const StringC &value);
     //: Set string value.
     
-    virtual bool SetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value);
+    virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value);
     //: Set pixbuf value.
     
-    virtual void Empty();
+    virtual void GUIEmpty();
     //: Clear store of all values.
 
   protected:

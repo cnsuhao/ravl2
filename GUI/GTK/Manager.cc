@@ -340,8 +340,8 @@ namespace RavlGUIN {
   
   //: Test if we're in the GUI thread.
   
-  bool ManagerC::IsGUIThread() const  { 
-    return guiThreadID == ThisThreadID(); 
+  bool ManagerC::IsGUIThread() const {
+    return !managerStarted || guiThreadID == ThisThreadID();
   }
   
   //: Register new window.

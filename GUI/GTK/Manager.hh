@@ -97,7 +97,7 @@ namespace RavlGUIN {
     //: Test if we're in the GUI thread.
     
     bool IsManagerStarted() const
-      { return managerStarted; }
+    { return managerStarted; }
     //: Test the GUI manger has been started.
     
     void UnrefPixmap(GdkPixmap *);
