@@ -124,11 +124,11 @@ namespace RavlN
   
   //! userlevel=Advanced
   //: Handle to a thread.
-  // In general it is not nessary to use this class directly,
+  // In general it is not necessary to use this class directly;
   // it is better to use the LaunchThread(...) functions to start
   // a thread on a method. <br>
   // Note: The thread itself holds a reference count on the object.
-  // this reference count is held until the thread terminates. 
+  // This reference count is held until the thread terminates. 
   
   class ThreadC 
     : public RCHandleC<ThreadBodyC>
