@@ -110,6 +110,9 @@ namespace RavlImageN {
       //cerr << "State=" << state << " Tell=" << Tell() << "\n";
       switch(state) 
 	{
+	case 10:
+	  cerr << "DeinterlaceStreamC, WARNING: Stream sync lost. State=" << state << ". Restarting. \n";
+	  // Fall through.
 	case 0:
 	  state = 10; // Mark as error if we get interrupted by an exception.
 	  if(!input.Get(img))
@@ -122,8 +125,11 @@ namespace RavlImageN {
 	  buff = fields[evenFieldDominant ? 0 : 1];
 	  state = 0;
 	  return true;
+	case 11:
+	  cerr << "DeinterlaceStreamC, WARNING: Stream sync lost. State=" << state << ". Restarting. \n";
+	  // Fall through.
 	case 2: // Load frame for second field.
-	  state = 10; // Mark as error if we get interrupted by an exception.
+ 	  state = 11; // Mark as error if we get interrupted by an exception.
 	  if(!input.Get(img))
 	    return false;
 	  deinterlace(img,fields[0],fields[1]);
@@ -131,6 +137,7 @@ namespace RavlImageN {
 	  state = 0;
 	  return true;
 	default: // Something's going really wrong.
+	  cerr << "DeinterlaceStreamC, WARNING: Stream sync lost. State=" << state << ".  \n";
 	  RavlAssert(0);
 	}
       return false;
@@ -172,6 +179,7 @@ namespace RavlImageN {
       case 1: fn -= 1; break;
       case 0:
       case 10: // Error.
+      case 11: // Error.
 	break;
       default: // Fatal error.
 	RavlAssert(0);
