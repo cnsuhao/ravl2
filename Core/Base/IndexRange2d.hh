@@ -189,6 +189,10 @@ namespace RavlN {
     }
     //: This index range is clipped to contain at most the index range 'r'.
     
+    inline IndexRange2dC Intersection(const IndexRange2dC & r) const 
+    { IndexRange2dC ret = (*this); ret.ClipBy(r); return ret; }
+    //: Return the intersection of this range and range 'r'.
+    
     inline bool Contains(const IndexRange2dC & oth) const
     { return Range1().Contains(oth.Range1()) && Range2().Contains(oth.Range2()); }
     //: Returns true if this range contains the subrange 'oth'.
