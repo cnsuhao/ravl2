@@ -205,13 +205,16 @@ namespace RavlN {
   template<class DataT>
   TVectorC<DataT> TMatrixC<DataT>::operator*(const TVectorC<DataT> & vector) const {
     const SizeT rdim = Rows();
-    const SizeT cdim = Cols();
+    if(rdim == 0)
+      return TVectorC<DataT>();
     TVectorC<DataT> out(rdim);
-    for (UIntT i = 0; i < rdim; ++i) {
-      DataT sum = 0.0;
-      for (UIntT k = 0; k < cdim; k++)
-	sum += (*this)[i][k] * vector[k];
-      out[i] = sum;
+    BufferAccessIterC<DataT> rit(out);
+    for (UIntT i = 0;rit; ++i,rit++) {
+      BufferAccessIter2C<DataT,DataT> it((*this)[i],vector);
+      DataT sum = it.Data1() * it.Data2();
+      for(it++;it;it++)
+	sum += it.Data1() * it.Data2();
+      *rit = sum;
     }
     return out;
   }
