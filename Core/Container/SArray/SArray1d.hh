@@ -244,7 +244,7 @@ namespace RavlN {
     // This does a simple bubble sort.
     // FIXME:- we could do with something better!
 
-    bool operator==(const SArray1dC<DataT> & vv);
+    bool operator==(const SArray1dC<DataT> & vv) const;
     //: Comparison operator
     // Returns true if the two arrays are the same length and
     // their contents are identical.
@@ -672,7 +672,7 @@ namespace RavlN {
   }
 
   template<class DataT>
-  bool SArray1dC<DataT>::operator==(const SArray1dC<DataT> & vv) {
+  bool SArray1dC<DataT>::operator==(const SArray1dC<DataT> & vv) const {
     if(Size() != vv.Size())
       return false;
     for(BufferAccessIter2C<DataT,DataT> it(*this,vv);it;it++)
