@@ -127,7 +127,7 @@ namespace RavlN {
     DateC LastStatusModTime() const;
     //: Get last status modification time.
     
-    UIntT FileSize() const;
+    StreamSizeT FileSize() const;
     //: Get size of file.
     // Return 0 if file's not found.
     

@@ -22,6 +22,7 @@
 #include <assert.h>
 #include <fstream.h>
 #include <string.h>
+#include <errno.h>
 
 #ifdef VISUAL_CPP
 #include <direct.h>
@@ -29,6 +30,14 @@
 #include <io.h>
 #else
 #include <unistd.h>
+#endif
+
+#define DODEBUG 1
+
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
 #endif
 
 namespace RavlN {
@@ -59,11 +68,22 @@ namespace RavlN {
 // Test if the file/directory given in this path exists.
 
   bool FilenameC::Exists() const  {
-    struct stat buff;
     if(IsEmpty()) // Empty string ?
       return false; 
-    if(stat(chars(),&buff) < 0)
+#if RAVL_USE_LARGEFILESUPPORT
+    // Incase the files large, use stat64.
+    struct stat64 buff;
+    if(stat64(chars(),&buff) < 0) {
+      ONDEBUG(cerr << "FilenameC::Exists(), '" << (*this) << "' errno=" << errno << " \n");
       return false;
+    }
+#else
+    struct stat buff;
+    if(stat(chars(),&buff) < 0) {
+      ONDEBUG(cerr << "FilenameC::Exists(), '" << (*this) << "' errno=" << errno << " \n");
+      return false;
+    }
+#endif
     return true;
   }
 
@@ -77,12 +97,21 @@ namespace RavlN {
   // Get the access permisions for this file.
   
   FilePermissionC FilenameC::Permissions() const {
+#if RAVL_USE_LARGEFILESUPPORT
+    struct stat64 buff;
+    if(stat64(chars(),&buff) < 0) {
+      FilePermissionC Failed;
+      Failed.SetNone();
+      return Failed;
+    }
+#else
     struct stat buff;
     if(stat(chars(),&buff) < 0) {
       FilePermissionC Failed;
       Failed.SetNone();
       return Failed;
     }
+#endif
     return FilePermissionC(buff.st_mode,buff.st_uid,buff.st_gid);
   }
   
@@ -161,9 +190,15 @@ namespace RavlN {
   //: Get last file access.
   
   DateC FilenameC::LastAccessTime() const {
+#if RAVL_USE_LARGEFILESUPPORT
+    struct stat64 buff;
+    if(stat64(chars(),&buff) < 0)
+      return DateC(false);
+#else
     struct stat buff;
     if(stat(chars(),&buff) < 0)
       return DateC(false);
+#endif
 #if defined(__linux__) || defined(VISUAL_CPP) || defined(__sol2__)
     return DateC((long) buff.st_atime,0);
 #else
@@ -176,9 +211,15 @@ namespace RavlN {
   DateC FilenameC::LastModTime() const  {
     if(IsEmpty())
       return DateC(false);
+#if RAVL_USE_LARGEFILESUPPORT
+    struct stat64 buff;
+    if(stat64(chars(),&buff) < 0)
+      return DateC(false);
+#else
     struct stat buff;
     if(stat(chars(),&buff) < 0)
       return DateC(false);
+#endif
 #if defined(__linux__) || defined(VISUAL_CPP) || defined(__sol2__)
     return DateC((long) buff.st_mtime,0);
 #else
@@ -191,9 +232,15 @@ namespace RavlN {
   DateC FilenameC::LastStatusModTime() const  {
     if(IsEmpty())
       return DateC(false);
+#if RAVL_USE_LARGEFILESUPPORT
     struct stat buff;
     if(stat(chars(),&buff) < 0)
       return DateC(false);
+#else
+    struct stat64 buff;
+    if(stat64(chars(),&buff) < 0)
+      return DateC(false);
+#endif
 #if defined(__linux__) || defined(VISUAL_CPP) || defined(__sol2__)
     return DateC((long) buff.st_ctime,0);
 #else
@@ -203,13 +250,19 @@ namespace RavlN {
 
   //: Get size of file.
   
-  UIntT FilenameC::FileSize() const  {
+  StreamSizeT FilenameC::FileSize() const  {
     if(IsEmpty())
       return 0;
+#if RAVL_USE_LARGEFILESUPPORT
+    struct stat64 buff;
+    if(stat64(chars(),&buff) < 0)
+      return 0;
+#else
     struct stat buff;
     if(stat(chars(),&buff) < 0)
       return 0;
-    return (UIntT) buff.st_size;
+#endif
+    return (StreamSizeT) buff.st_size;
   }
   
   //: Copy this file to somewhere else.
@@ -238,11 +291,19 @@ namespace RavlN {
       //assert(n == in2.gcount());
     } while(in1) ;
     // FIXME :- Copy access permissions !!
+#if RAVL_USE_LARGEFILESUPPORT
+    struct stat64 sbuff;
+    if(stat64(chars(),&sbuff) != 0) {
+      cerr << "FilenameC::CopyTo(), Error reading file mode for:" << (*this) << endl;
+      return false; // Copy failed. Error message ??
+    }
+#else
     struct stat sbuff;
     if(stat(chars(),&sbuff) != 0) {
       cerr << "FilenameC::CopyTo(), Error reading file mode for:" << (*this) << endl;
       return false; // Copy failed. Error message ??
     }
+#endif
     if(chmod(oth.chars(),sbuff.st_mode) != 0) {
       cerr << "FilenameC::CopyTo(), Error changing file mode for:" << oth << endl;
       return false; // Write stats failed.
