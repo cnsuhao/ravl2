@@ -13,6 +13,8 @@ DESCRIPTION = VPlay - Video Player.
 
 NESTED = Bitmaps.r
 
+DONOT_SUPPORT=arm
+
 HEADERS = PlayControl.hh
 
 SOURCES = PlayControl.cc
