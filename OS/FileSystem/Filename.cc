@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlOS
@@ -13,14 +13,19 @@
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/OS/Date.hh"
 #include "Ravl/Random.hh"
-
+#include "Ravl/Stream.hh"
 //#include "Ravl/UserInfo.hh"
+
+#if RAVL_HAVE_ANSICPPHEADERS
+#include <fstream>
+#else
+#include <fstream.h>
+#endif
 
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <assert.h>
-#include <fstream.h>
 #include <string.h>
 #include <errno.h>
 
