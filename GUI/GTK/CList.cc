@@ -115,7 +115,7 @@ namespace RavlGUIN {
     for(DLIterC<StringC> it(titles);it;it++,i++) 
       tlist[i] = (char *) it->chars();
     widget = gtk_clist_new_with_titles(cols,tlist);  
-    delete tlist; // Hope I don't need this now.
+    delete [] tlist; // Hope I don't need this now.
     for(int i = 0;i < cols;i++) {
       if(widths[i] < 0)
 	continue;
@@ -160,7 +160,7 @@ namespace RavlGUIN {
     }
     
     gtk_clist_set_row_data (GTK_CLIST(widget),rowNo,(void *) id);
-    delete tlist;
+    delete [] tlist;
     return true;
   }
   
@@ -186,7 +186,7 @@ namespace RavlGUIN {
 	tlist[i] = (char *) line[i].chars();  
       rowNo = gtk_clist_append(GTK_CLIST(widget),tlist);
       gtk_clist_set_row_data (GTK_CLIST(widget),rowNo,(void *) id);
-      delete tlist;
+      delete [] tlist;
     }
     return true;
   }
