@@ -11,6 +11,7 @@
 //! date="13/04/2002"
 //! docentry="Ravl.Math.Geometry"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/FixedSize/FVectorMatrix.hh"
 
 #include "Ravl/FVector.hh"
 #include "Ravl/FMatrix.hh"

@@ -7,7 +7,7 @@
 #ifndef RAVL_REALRANGE2D_HH
 #define RAVL_REALRANGE2D_HH
 ///////////////////////////////////////////////////////////
-//! file="Ravl/Core/Base/IndexRange2d.hh"
+//! file="Ravl/Core/Base/RealRange2d.hh"
 //! lib=RavlCore
 //! author="Radek Marik"
 //! docentry="Ravl.Core.Indexing"

@@ -7,7 +7,7 @@
 #ifndef RAVL_CRACKCODE_HEADER
 #define RAVL_CRACKCODE_HEADER 1
 //////////////////////////////////////////////////////////////////////////
-//! file="Ravl/StdType/Entity/CrackCod.hh"
+//! file="Ravl/Math/Geometry/Euclidean/Boundary/CrackCode.hh"
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Radek Marik"

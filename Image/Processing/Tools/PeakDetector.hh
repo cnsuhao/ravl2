@@ -11,6 +11,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.Misc"
+//! file="Ravl/Image/Processing/Tools/PeakDetector.hh"
 
 #include "Ravl/Array2d.hh"
 #include "Ravl/Index2d.hh"

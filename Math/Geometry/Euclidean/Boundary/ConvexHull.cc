@@ -9,6 +9,7 @@
 //! author="Radek Marik"
 //! date="26/12/1994"
 //! rcsid="$Id$"
+//! file="Ravl/Math/Geometry/Euclidean/Boundary/ConvexHull.cc"
 
 #include "Ravl/DList.hh"
 #include "Ravl/DLIter.hh"

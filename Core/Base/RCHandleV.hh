@@ -12,6 +12,7 @@
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! example=exRefCounterInherit.cc
+//! file="Ravl/Core/Base/RCHandleV.hh"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Exception.hh"

@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlVDF
 //! author="Charles Galambos"
+//! file="Ravl/Applications/VisualDataFlow/GUIFactory.cc"
 
 #include "Ravl/DF/GUIFactory.hh"
 #include "Ravl/GUI/MouseEvent.hh"

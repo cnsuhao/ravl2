@@ -12,6 +12,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Classify"
+//! file="Ravl/PatternRec/Classify/DesignClassifyVector.hh"
 
 #include "Ravl/RCHandleV.hh"
 #include "Ravl/Vector.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=Ravl3D
+//! file="Ravl/3D/Mesh/HEMeshEdge.cc"
 
 #include "Ravl/3D/HEMeshEdge.hh"
 #include "Ravl/3D/HEMeshFace.hh"

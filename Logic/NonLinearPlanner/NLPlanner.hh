@@ -7,7 +7,7 @@
 #ifndef RAVL_NLPLANNER_HEADER
 #define RAVL_NLPLANNER_HEADER 1
 ////////////////////////////////////////////////////////////
-//! file="Ravl/Logic/PlanNL/NLPlanner.hh"
+//! file="Ravl/Logic/NonLinearPlanner/NLPlanner.hh"
 //! lib=RavlLogicNLP
 //! author="Charles Galambos"
 //! date="4/1/1997"

@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
-//! file="Ravl/Math/Statistics/Histogram/RealHistogram1d.cc"
+//! file="Ravl/Math/Statistics/Histogram/RealHistogram2d.cc"
 //! date="28/04/2002"
 //! author="Charles Galambos"
 

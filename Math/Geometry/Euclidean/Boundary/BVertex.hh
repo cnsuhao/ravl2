@@ -7,7 +7,7 @@
 #ifndef RAVL_BVERTEX_HEADER
 #define RAVL_BVERTEX_HEADER
 /////////////////////////////////////////////////////////////////////////
-//! file="Ravl/Geometry/Boundary/BVertex.hh"
+//! file="Ravl/Math/Geometry/Euclidean/Boundary/BVertex.hh"
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Radek Marik"

@@ -6,9 +6,10 @@
 // file-header-ends-here
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlCarve3D
+//! lib=Ravl3D
 //! docentry="Ravl.3D.Carve3D"
 //! author="Joel Mitchelson"
+//! file="Ravl/3D/Carve3D/PointSet.hh"
 
 #ifndef RAVL3D_POINTSETC_HEADER
 #define RAVL3D_POINTSETC_HEADER 1

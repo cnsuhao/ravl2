@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlDPMT
+//! file="Ravl/OS/DataProc/testOSDataProc.cc"
 
 
 #include "Ravl/DP/ThreadPipe.hh"

@@ -11,7 +11,7 @@
 //! docentry="Logic.Index"
 //! author="Charles Galambos"
 //! rcsid="$Id$"
-//! file="Ravl/Logic/Index/BIndex.hh"
+//! file="Ravl/Logic/Index/BLiteralIndex.hh"
 //! lib=RavlLogic
 //! date="14/05/1998"
 

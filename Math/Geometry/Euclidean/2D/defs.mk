@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
-#! file="Ravl/Math/Geometry/Euclidean/defs.mk"
+#! file="Ravl/Math/Geometry/Euclidean/2D/defs.mk"
 
 PACKAGE=Ravl
 

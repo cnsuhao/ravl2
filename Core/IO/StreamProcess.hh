@@ -12,6 +12,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Data Processing.Internal" 
 //! lib=RavlIO
+//! file="Ravl/Core/IO/StreamProcess.hh"
 
 #include "Ravl/DP/StreamOp.hh"
 #include "Ravl/Hash.hh"

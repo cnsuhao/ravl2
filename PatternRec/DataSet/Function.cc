@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/DataSet/Function.cc"
 
 #include "Ravl/PatternRec/Function.hh"
 #include "Ravl/Matrix.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/Distance/testMeasure.cc"
 
 #include "Ravl/PatternRec/DistanceEuclidean.hh"
 #include "Ravl/Stream.hh"

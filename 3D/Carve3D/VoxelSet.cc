@@ -4,12 +4,13 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
+//! file="Ravl/3D/Carve3D/VoxelSet.cc"
 
 #include "Ravl/3D/VoxelSet.hh"
 #include "Ravl/BinStream.hh"
 
 //! rcsid="$Id$"
-//! lib=RavlCarve3D
+//! lib=Ravl3D
 
 namespace Ravl3DN
 {

@@ -5,6 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
+#! file="Ravl/Applications/SkinBlobFind/defs.mk"
 MAINS=SkinBlobFind.cc
 USESLIBS=RavlImage RavlImageIO RavlExtImgIO RavlOSIO RavlImageProc
 EHT=exeSkinBlobFind.eht

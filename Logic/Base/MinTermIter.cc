@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/MinTermIter.cc"
 
 #include "Ravl/Logic/MinTermIter.hh"
 

@@ -9,6 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlLogic
 //! docentry="Ravl.Logic"
+//! file="Ravl/Logic/Base/LiteralIO.hh"
 
 #include "Ravl/Logic/Literal.hh"
 #include "Ravl/Exception.hh"

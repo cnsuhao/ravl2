@@ -11,7 +11,7 @@
 //! date="18/3/1997"
 //! docentry="Ravl.Logic.Planning"
 //! userlevel=Develop
-//! file="Ravl/Logic/PlanNL/NLPAction.hh"
+//! file="Ravl/Logic/NonLinearPlanner/NLPAction.hh"
 //! lib=RavlLogicNLP
 //! rcsid="$Id$"
 

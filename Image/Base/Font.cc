@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! file="Ravl/Image/Base/Font.cc"
 
 #include "Ravl/Image/Font.hh"
 #include "Ravl/Stream.hh"

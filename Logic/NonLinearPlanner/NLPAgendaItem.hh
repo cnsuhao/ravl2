@@ -12,7 +12,7 @@
 //! userlevel=Develop
 //! docentry="Ravl.Logic.Planning"
 //! rcsid="$Id$"
-//! file="Ravl/Logic/PlanNL/NLPAgendaItem.hh"
+//! file="Ravl/Logic/NonLinearPlanner/NLPAgendaItem.hh"
 //! lib=RavlLogicNLP
 
 #include "Ravl/Logic/MinTerm.hh"

@@ -12,7 +12,7 @@
 //! docentry="Ravl.Logic.Planning"
 //! userlevel=Develop
 //! rcsid="$Id$"
-//! file="Ravl/Logic/PlanNL/NLPAgenda.hh"
+//! file="Ravl/Logic/NonLinearPlanner/NLPAgenda.hh"
 //! lib=RavlLogicNLP
 
 #include "Ravl/BStack.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/Modeling/Basic/FuncLinear.cc"
 
 #include "Ravl/PatternRec/FuncLinear.hh"
 

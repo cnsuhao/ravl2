@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCameraCal
+//! file="Ravl/3D/CameraCal/PinholeCamera0.cc"
 
 #include "Ravl/3D/PinholeCamera0.hh"
 

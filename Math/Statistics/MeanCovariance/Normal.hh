@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Statistics/MeanCovariance/Normal.hh"
 
 #include "Ravl/Matrix.hh"
 #include "Ravl/MeanCovariance.hh"

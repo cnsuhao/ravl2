@@ -9,6 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Classify"
+//! file="Ravl/PatternRec/Classify/DesignKNearestNeighbour.hh"
 
 #include "Ravl/PatternRec/DesignClassifyVector.hh"
 #include "Ravl/PatternRec/DesignFunctionSupervised.hh"

@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Applications.VDF"
 //! date="2/8/2002"
+//! file="Ravl/Applications/VisualDataFlow/GUIFactory.hh"
 
 #include "Ravl/GUI/Tree.hh"
 #include "Ravl/DF/FactorySet.hh"

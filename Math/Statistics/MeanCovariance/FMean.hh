@@ -13,7 +13,7 @@
 //! date="26/05/1994"
 //! docentry="Ravl.Math.Statistics"
 //! lib=RavlMath
-//! file="Ravl/Math/Statistics/MeanCovariance/MeanNd.hh"
+//! file="Ravl/Math/Statistics/MeanCovariance/FMean.hh"
 
 #include "Ravl/FVector.hh"
 #include "Ravl/Vector2d.hh"

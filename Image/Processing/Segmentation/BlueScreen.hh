@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Images.Segmentation"
 //! author="Charles Galambos"
-//! lib=RavlImage
+//! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Segmentation/BlueScreen.hh"
 
 #include "Ravl/Image/Image.hh"

@@ -60,6 +60,8 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
   for(DLIterC<StringC> it(source);it;it++) {
     FilenameC fn(dir + filenameSeperator + *it);
     StringC ext = fn.Extension();
+    if(ext == "xpm") 
+      continue; // Ignore xpm's.
     if(!fn.Exists()) {
       cerr << "ERROR: Source file '" << fn << "' does not exist. \n";
       return false;

@@ -9,6 +9,7 @@
 //! date="1/9/1997"
 //! author="Charles Galambos"
 //! lib=RavlLogicNLP
+//! file="Ravl/Logic/NonLinearPlanner/testNonLinearPlanner.cc"
 
 #include <stdio.h>
 #include "Ravl/Logic/NonLinearPlan.hh"

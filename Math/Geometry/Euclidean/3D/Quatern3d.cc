@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! author="Andrew Stoddart"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/3D/Quatern3d.cc"
 
 #include "Ravl/StdConst.hh"
 #include "Ravl/Quatern3d.hh"

@@ -14,6 +14,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! example=exCorner.cc
+//! file="Ravl/Image/Processing/Corners/Corner.hh"
 
 #include "Ravl/Index2d.hh"
 #include "Ravl/Vector2d.hh"

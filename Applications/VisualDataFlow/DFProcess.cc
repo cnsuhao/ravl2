@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlVDF
 //! author="Charles Galambos"
+//! file="Ravl/Applications/VisualDataFlow/DFProcess.cc"
 
 #include "Ravl/DF/DFProcess.hh"
 #include "Ravl/DF/GUIView.hh"

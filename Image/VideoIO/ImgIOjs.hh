@@ -12,6 +12,7 @@
 //! author="Charles Galambos"
 //! date="24/03/2002"
 //! lib=RavlVideoIO
+//! file="Ravl/Image/VideoIO/ImgIOjs.hh"
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/Image/Image.hh"

@@ -7,6 +7,7 @@
 //! lib=Ravl3D
 //! author="Charles Galambos"
 //! rcsid="$Id$"
+//! file="Ravl/3D/Mesh/HEMeshFaceIter.cc"
 
 #include "Ravl/3D/HEMeshFaceIter.hh"
 

@@ -10,6 +10,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/fdstreambuf.hh"
 
 #include "Ravl/config.h"
 #include "Ravl/Assert.hh"

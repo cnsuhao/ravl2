@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Corners/Corner.cc"
 
 #include "Ravl/Image/Corner.hh"
 #include "Ravl/Stream.hh"

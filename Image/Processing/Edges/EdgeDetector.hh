@@ -11,6 +11,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! docentry="Ravl.Images.Edges"
+//! file="Ravl/Image/Processing/Edges/EdgeDetector.hh"
 
 #include "Ravl/Image/EdgeDeriche.hh"
 #include "Ravl/Image/EdgeSobel.hh"

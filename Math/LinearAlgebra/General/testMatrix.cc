@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/General/testMatrix.cc"
 
 #include "Ravl/Matrix.hh"
 #include "Ravl/MatrixRUT.hh"

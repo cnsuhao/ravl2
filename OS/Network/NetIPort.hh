@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! lib=RavlNet
 //! docentry="Ravl.OS.Network.NetPort"
+//! file="Ravl/OS/Network/NetIPort.hh"
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/OS/NetEndPoint.hh"

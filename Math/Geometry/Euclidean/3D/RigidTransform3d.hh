@@ -7,7 +7,7 @@
 #ifndef RAVL_RIGIDTRANSFORM_HEADER
 #define RAVL_RIGIDTRANSFORM_HEADER 1
 //! date="13/11/95"
-//! file="Ravl/Surf3d/RigidT/RigidT.hh"
+//! file="Ravl/Math/Geometry/Euclidean/3D/RigidTransform3d.hh"
 //! author="Andrew Stoddart"
 //! userlevel = Default
 //! lib=RavlMath

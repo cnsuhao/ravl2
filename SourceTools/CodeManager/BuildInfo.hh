@@ -11,6 +11,7 @@
 //! lib=RavlSourceTools
 //! author="Charles Galambos"
 //! docentry="Ravl.Source Tools"
+//! file="Ravl/SourceTools/CodeManager/BuildInfo.hh"
 
 #include "Ravl/SourceTools/LibInfo.hh"
 #include "Ravl/SourceTools/DefsFile.hh"

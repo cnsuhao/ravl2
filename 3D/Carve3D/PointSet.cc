@@ -5,7 +5,8 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
-//! lib=RavlCarve3D
+//! lib=Ravl3D
+//! file="Ravl/3D/Carve3D/PointSet.cc"
 
 #include "Ravl/3D/PointSet.hh"
 #include "Ravl/SArr1Iter.hh"

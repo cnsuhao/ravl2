@@ -12,6 +12,7 @@
 //! date="24/7/2002"
 //! rcsid="$Id$"
 //! docentry="Ravl.Images.Tracking"
+//! file="Ravl/Image/Processing/Tracking/PointTrack.hh"
 
 #include "Ravl/Point2d.hh"
 #include "Ravl/Types.hh"

@@ -10,6 +10,7 @@
 //! lib=RavlVideoIO
 //! author="Joel Mitchelson"
 //! docentry="Ravl.Images.Video"
+//! file="Ravl/Image/VideoIO/MultiVidIO.hh"
 
 #include "Ravl/DP/FileFormat.hh"
 #include "Ravl/Image/Image.hh"

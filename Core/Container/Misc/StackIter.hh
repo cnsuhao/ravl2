@@ -8,7 +8,7 @@
 #define RAVL_STACKIT_HEADER
 //! date="12/10/1995"
 //! docentry="Ravl.Core.Stacks"
-//! file="Ravl/Core/Container/Misc/StackIt.hh"
+//! file="Ravl/Core/Container/Misc/StackIter.hh"
 //! lib=RavlCore
 //! userlevel=Normal
 //! author="George (Jiri) Matas"

@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! lib=RavlCore
+//! file="Ravl/Core/System/FunctionRegister.cc"
 
 #include "Ravl/FunctionRegister.hh"
 #include "Ravl/Hash.hh"

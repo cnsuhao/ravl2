@@ -13,6 +13,7 @@
 //! docentry="Ravl.Math.Geometry.2D"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/2D/LineABC2d.hh"
 
 #include "Ravl/Vector2d.hh"
 #include "Ravl/Point2d.hh"

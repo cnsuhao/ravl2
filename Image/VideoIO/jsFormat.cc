@@ -9,6 +9,7 @@
 //! date="24/03/2002"
 //! author="Charles Galambos"
 //! lib=RavlVideoIO
+//! file="Ravl/Image/VideoIO/jsFormat.cc"
 
 #include "Ravl/Image/jsFormat.hh"
 #include "Ravl/Image/ImgIOjs.hh"

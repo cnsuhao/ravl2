@@ -12,6 +12,7 @@
 //! date="04/07/2000"
 //! docentry="Ravl.Images.Edges"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Edges/EdgeLink.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/Edgel.hh"

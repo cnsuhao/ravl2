@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlLogicNLP
+//! file="Ravl/Logic/NonLinearPlanner/NonLinearPlan.cc"
 
 #include "Ravl/Logic/BMinTermListIndex.hh"
 

@@ -7,10 +7,11 @@
 #ifndef RAVLIMAGE_OPEN_HEADER
 #define RAVLIMAGE_OPEN_HEADER 1
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlImageProc
 //! author="Charles Galambos"
 //! userlevel=Normal
 //! docentry="Ravl.Images.Morphology"
+//! file="Ravl/Image/Processing/Morphology/MorphClose.hh"
 
 #include "Ravl/Image/Dilate.hh"
 #include "Ravl/Image/Erode.hh"

@@ -12,6 +12,7 @@
 //! userlevel=Normal
 //! docentry="Ravl.Pattern Recognition.Classify"
 //! author="Charles Galambos"
+//! file="Ravl/PatternRec/Classify/ClassifyAverageNearestNeighbour.hh"
 
 #include "Ravl/PatternRec/ClassifyKNearestNeighbour.hh"
 

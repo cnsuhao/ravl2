@@ -9,6 +9,7 @@
 //! date="24/01/2001"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/FixedSize/VectorMatrix2d.cc"
 
 #include "Ravl/VectorMatrix2d.hh"
 

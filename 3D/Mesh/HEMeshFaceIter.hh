@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.3D.Half Edge Mesh"
 //! date="22/5/2002"
+//! file="Ravl/3D/Mesh/HEMeshFaceIter.hh"
 
 #include "Ravl/3D/HEMeshFace.hh"
 #include "Ravl/InDLIter.hh"

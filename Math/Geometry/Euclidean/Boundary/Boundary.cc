@@ -8,6 +8,7 @@
 //! date="26.04.1994"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/Boundary/Boundary.cc"
 
 #include "Ravl/StdMath.hh" //::Abs()
 #include "Ravl/Types.hh"

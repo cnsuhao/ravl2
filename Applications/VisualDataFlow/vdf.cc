@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlVDF
+//! file="Ravl/Applications/VisualDataFlow/vdf.cc"
 
 #include "Ravl/Option.hh"
 #include "Ravl/DF/GUIEditor.hh"

@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlVDF
 //! author="Charles Galambos"
+//! file="Ravl/Applications/VisualDataFlow/GUIEditor.cc"
 
 #include "Ravl/DF/GUIEditor.hh"
 #include "Ravl/GUI/Menu.hh"

@@ -12,6 +12,7 @@
 //! docentry="Ravl.GUI.Control"
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/DragAndDrop.hh"
 
 #include "Ravl/GUI/Widget.hh"
 

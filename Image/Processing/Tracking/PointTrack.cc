@@ -8,6 +8,7 @@
 //! author="Charles Galambos"
 //! date="24/7/2002"
 //! rcsid="$Id$"
+//! file="Ravl/Image/Processing/Tracking/PointTrack.cc"
 
 #include "Ravl/Image/PointTrack.hh"
 #include "Ravl/Stream.hh"

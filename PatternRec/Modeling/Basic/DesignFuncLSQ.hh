@@ -10,6 +10,7 @@
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
 //! docentry="Ravl.Pattern Recognition.Numerical Modeling"
+//! file="Ravl/PatternRec/Modeling/Basic/DesignFuncLSQ.hh"
 
 #include "Ravl/PatternRec/DesignFunctionSupervised.hh"
 #include "Ravl/PatternRec/FuncLinearCoeff.hh"

@@ -12,6 +12,7 @@
 //! author="Kieron Messer"
 //! rcsid="$Id$"
 //! date="05/05/1999"
+//! file="Ravl/Image/Processing/Filters/BilinearInterpolation.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter.hh"

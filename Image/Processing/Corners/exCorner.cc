@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Corners/exCorner.cc"
 
 #include "Ravl/Image/CornerDetectorHarris.hh"
 #include "Ravl/Option.hh"

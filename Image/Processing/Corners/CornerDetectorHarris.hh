@@ -13,6 +13,7 @@
 //! docentry="Ravl.Images.Corner Detection"
 //! example=exCorner.cc
 //! author="Radek Marik, modified by Charles Galambos"
+//! file="Ravl/Image/Processing/Corners/CornerDetectorHarris.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/Corner.hh"

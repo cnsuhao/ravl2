@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Edges/doEdgeDet.cc"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/DP/SequenceIO.hh"

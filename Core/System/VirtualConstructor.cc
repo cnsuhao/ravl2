@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/System/VirtualConstructor.cc"
 
 #include "Ravl/VirtualConstructor.hh"
 #include "Ravl/TypeName.hh"

@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! author="Charles Galambos"
+//! file="Ravl/Core/Base/exRefCounterInherit.cc"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Stream.hh"

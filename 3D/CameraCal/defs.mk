@@ -5,6 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
+#! file="Ravl/3D/CameraCal/defs.mk"
 PACKAGE=Ravl/3D
 HEADERS=PinholeCamera0.hh
 SOURCES=PinholeCamera0.cc

@@ -11,6 +11,7 @@
 //! date="13/04/2002"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/FixedSize/VectorMatrix3d.hh"
 
 #include "Ravl/FVectorMatrix.hh"
 

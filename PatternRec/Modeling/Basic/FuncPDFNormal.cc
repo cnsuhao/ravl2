@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/Modeling/Basic/FuncPDFNormal.cc"
 
 #include "Ravl/PatternRec/FuncPDFNormal.hh"
 #include "Ravl/BinStream.hh"

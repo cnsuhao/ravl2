@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/3D/RigidTransform3d.cc"
 
 #include "Ravl/RigidTransform3d.hh"
 #include "Ravl/Stream.hh"

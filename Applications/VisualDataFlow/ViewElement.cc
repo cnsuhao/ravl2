@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlVDF
 //! author="Charles Galambos"
+//! file="Ravl/Applications/VisualDataFlow/ViewElement.cc"
 
 #include "Ravl/DF/ViewElement.hh"
 #include "Ravl/Stream.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Statistics/MeanCovariance/Normal.cc"
 
 #include "Ravl/Normal.hh"
 #include "Ravl/StdConst.hh"

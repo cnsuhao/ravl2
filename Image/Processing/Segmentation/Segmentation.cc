@@ -6,7 +6,7 @@
 // file-header-ends-here
 /////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Segmentation/Segmentation.cc"
 
 #include "Ravl/Image/Segmentation.hh"

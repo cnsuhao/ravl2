@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlSourceTools
+//! file="Ravl/SourceTools/CodeManager/BuildInfo.cc"
 
 
 #include "Ravl/SourceTools/BuildInfo.hh"

@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
+//! file="Ravl/PatternRec/Modeling/Basic/DesignFuncLSQ.cc"
 
 #include "Ravl/PatternRec/DesignFuncLSQ.hh"
 #include "Ravl/PatternRec/SampleVector.hh"

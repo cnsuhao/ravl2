@@ -8,6 +8,7 @@
 #define RAVL_MATRIXDECOMPOSITION_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/General/MatrixDecomposition.hh"
 
 #include "Ravl/Matrix.hh"
 

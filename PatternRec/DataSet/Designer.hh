@@ -10,6 +10,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Pattern Recognition.Functions"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/DataSet/Designer.hh"
 
 #include "Ravl/RCHandleV.hh"
 #include "Ravl/Vector.hh"

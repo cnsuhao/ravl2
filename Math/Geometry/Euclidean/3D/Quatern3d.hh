@@ -12,6 +12,7 @@
 //! docentry="Ravl.Math.Geometry.3D"
 //! userlevel=Normal
 //! rcsid="$Id$"
+//! file="Ravl/Math/Geometry/Euclidean/3D/Quatern3d.hh"
 
 #include "Ravl/Vector3d.hh"
 #include "Ravl/Matrix3d.hh"

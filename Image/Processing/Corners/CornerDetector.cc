@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Corners/CornerDetector.cc"
 
 
 #include "Ravl/Image/CornerDetector.hh"

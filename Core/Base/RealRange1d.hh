@@ -12,6 +12,7 @@
 //! docentry="Ravl.Core.Indexing"
 //! userlevel=Normal
 //! lib=RavlCore
+//! file="Ravl/Core/Base/RealRange1d.hh"
 
 #include "Ravl/Types.hh"
 

@@ -10,7 +10,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/DataSet/Sample.hh"
+//! file="Ravl/PatternRec/DataSet/SampleIO.hh"
 
 #include "Ravl/PatternRec/Sample.hh"
 #include "Ravl/DP/SequenceIO.hh"

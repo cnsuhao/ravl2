@@ -8,6 +8,7 @@
 //! author="Radek Marik"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/2D/Moments2d2.cc"
 
 #include "Ravl/Moments2d2.hh"
 #include "Ravl/Matrix2d.hh"

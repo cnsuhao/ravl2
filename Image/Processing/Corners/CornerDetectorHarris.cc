@@ -8,6 +8,7 @@
 //! lib=RavlImageProc
 //! author="Radek Marik, modified by Charles Galambos"
 //! date="1/10/1991"
+//! file="Ravl/Image/Processing/Corners/CornerDetectorHarris.cc"
 
 #include "Ravl/Image/CornerDetectorHarris.hh"
 #include "Ravl/SArray1d.hh"

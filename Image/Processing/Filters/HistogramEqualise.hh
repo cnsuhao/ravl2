@@ -11,6 +11,7 @@
 //! docentry="Ravl.Images.Filtering"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Filters/HistogramEqualise.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array1d.hh"

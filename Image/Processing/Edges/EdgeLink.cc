@@ -7,6 +7,7 @@
 //! lib=RavlImageProc
 //! rcsid="$Id$"
 //! authors="George Matas, Radek Marik and Charles Galambos"
+//! file="Ravl/Image/Processing/Edges/EdgeLink.cc"
 
 #include "Ravl/Stack.hh"
 #include "Ravl/Image/EdgeLink.hh"

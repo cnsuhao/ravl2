@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_DILATESUBSAMPLE2X_HEADER
 #define RAVLIMAGE_DILATESUBSAMPLE2X_HEADER 1
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlImageProc
 //! author="Joel Mitchelson"
 //! userlevel=Normal
 //! docentry="Ravl.Images.Morphology"

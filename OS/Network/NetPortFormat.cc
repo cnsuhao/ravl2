@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlNet
+//! file="Ravl/OS/Network/NetPortFormat.cc"
 
 #include "Ravl/OS/NetPortFormat.hh"
 

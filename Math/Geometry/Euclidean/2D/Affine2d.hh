@@ -7,7 +7,7 @@
 #ifndef RAVL_AFFINE2D_HEADER
 #define RAVL_AFFINE2D_HEADER 1
 //////////////////////////////////////////////////////
-//! file="amma/Geometry/AnGeo2/Affine2d.hh"
+//! file="Ravl/Math/Geometry/Euclidean/2D/Affine2d.hh"
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Charles Galambos"

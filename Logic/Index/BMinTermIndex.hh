@@ -8,7 +8,7 @@
 #define RAVLLOGIC_BMINTERMINDEX_HEADER 1
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Logic/Index/BNPIndex.hh"
+//! file="Ravl/Logic/Index/BMinTermIndex.hh"
 //! lib=RavlLogic
 //! author="Charles Galambos"
 //! date="14/05/1998"

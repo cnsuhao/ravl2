@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Applications.VDF"
 //! date="2/8/2002"
+//! file="Ravl/Applications/VisualDataFlow/DFObject.hh"
 
 #include "Ravl/RCHandleV.hh"
 #include "Ravl/Index2d.hh"

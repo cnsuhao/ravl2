@@ -7,10 +7,11 @@
 #ifndef RAVLIMAGE_MORPHOPEN_HEADER
 #define RAVLIMAGE_MORPHOPEN_HEADER 1
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlImageProc
 //! author="Charles Galambos"
 //! userlevel=Normal
 //! docentry="Ravl.Images.Morphology"
+//! file="Ravl/Image/Processing/Morphology/MorphOpen.hh"
 
 #include "Ravl/Image/Dilate.hh"
 #include "Ravl/Image/Erode.hh"

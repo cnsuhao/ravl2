@@ -10,6 +10,7 @@
 //! docentry="Ravl.3D.Camera Calibration"
 #ifndef _CAMERA_CAL_PINHOLE_CAMERA_0_HH_
 #define _CAMERA_CAL_PINHOLE_CAMERA_0_HH_
+//! file="Ravl/3D/CameraCal/PinholeCamera0.hh"
 
 #include "Ravl/Vector2d.hh"
 #include "Ravl/Vector3d.hh"

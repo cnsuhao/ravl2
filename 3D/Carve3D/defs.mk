@@ -5,6 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
+#! file="Ravl/3D/Carve3D/defs.mk"
 PACKAGE=Ravl/3D
 HEADERS=VoxelSet.hh PointSet.hh
 SOURCES=VoxelSet.cc PointSet.cc

@@ -12,6 +12,7 @@
 //! date="24/03/2002"
 //! rcsid="$Id$"
 //! lib=RavlVideoIO
+//! file="Ravl/Image/VideoIO/jsFormat.hh"
 
 #include "Ravl/DP/FileFormat.hh"
 #include "Ravl/Image/Image.hh"

@@ -8,6 +8,7 @@
 //! author="Kieron Messer"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/General/VectorMatrix.cc"
 
 #include "Ravl/Stream.hh"
 #include "Ravl/VectorMatrix.hh"

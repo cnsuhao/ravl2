@@ -13,6 +13,7 @@
 //! rcsid="$Id$"
 //! example=exFAffine.cc
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/FAffine.hh"
 
 #include "Ravl/FMatrix.hh"
 #include "Ravl/FVector.hh"

@@ -7,7 +7,7 @@
 #ifndef RAVL_EDGE_HH
 #define RAVL_EDGE_HH
 ////////////////////////////////////////////////////////////////////////
-//! file="Ravl/Geometry/Boundary/Edge.hh"
+//! file="Ravl/Math/Geometry/Euclidean/Boundary/Edge.hh"
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Radek Marik"

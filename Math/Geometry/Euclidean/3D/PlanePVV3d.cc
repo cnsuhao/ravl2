@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/3D/PlanePVV3d.cc"
 
 #include "Ravl/PlanePVV3d.hh"
 #include "Ravl/PlaneABCD3d.hh"

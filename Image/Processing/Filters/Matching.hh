@@ -12,6 +12,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.Filtering"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Filters/Matching.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/BfAcc2Iter2.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/TimeCode.cc"
 
 #include "Ravl/TimeCode.hh"
 #include "Ravl/String.hh"

@@ -7,7 +7,7 @@
 #ifndef RAVL_REALRANGE3D_HEADER
 #define RAVL_REALRANGE3D_HEADER 1
 ///////////////////////////////////////////////////////////
-//! file="Ravl/Core/Base/IndexRange3d.hh"
+//! file="Ravl/Core/Base/RealRange3d.hh"
 //! lib=RavlCore
 //! author="Radek Marik"
 //! docentry="Ravl.Core.Indexing"

@@ -12,6 +12,7 @@
 //! docentry="Ravl.Images.Corner Detection"
 //! date="20/7/2002"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Corners/CornerDetector.hh"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/DList.hh"

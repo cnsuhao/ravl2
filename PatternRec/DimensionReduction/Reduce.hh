@@ -10,6 +10,7 @@
 //! lib=RavlPatternRec
 //! author="Robert Crida, Kieron Messer and Charles Galambos"
 //! docentry="Ravl.Pattern Recognition.Dimension Reduction"
+//! file="Ravl/PatternRec/DimensionReduction/Reduce.hh"
 
 #include "Ravl/PatternRec/Function.hh"
 #include "Ravl/Vector.hh"

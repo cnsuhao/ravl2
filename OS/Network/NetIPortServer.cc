@@ -7,6 +7,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlNet
+//! file="Ravl/OS/Network/NetIPortServer.cc"
 
 #include "Ravl/OS/NetIPortServer.hh"
 #include "Ravl/OS/NetPortManager.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlLogicNLP
+//! file="Ravl/Logic/NonLinearPlanner/NLPStep.cc"
 
 
 #include "Ravl/Logic/NLPStep.hh"

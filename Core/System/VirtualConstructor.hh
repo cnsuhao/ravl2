@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Misc"
 //! lib=RavlCore
+//! file="Ravl/Core/System/VirtualConstructor.hh"
 
 #include "Ravl/RCHandleV.hh"
 #include "Ravl/Hash.hh"

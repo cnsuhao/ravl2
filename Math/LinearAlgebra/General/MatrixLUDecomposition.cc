@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/General/MatrixLUDecomposition.cc"
 
 #include "Ravl/MatrixDecomposition.hh"
 

@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! lib=RavlNet
+//! file="Ravl/OS/Network/NetPortManager.cc"
 
 #include "Ravl/OS/Date.hh"
 #include "Ravl/OS/NetPortManager.hh"

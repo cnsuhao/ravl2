@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/Modeling/Basic/FuncQuadratic.cc"
 
 #include "Ravl/PatternRec/FuncQuadratic.hh"
 #include "Ravl/ScalMath.hh"

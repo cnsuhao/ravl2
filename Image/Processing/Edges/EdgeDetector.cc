@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Edges/EdgeDetector.cc"
 
 #include "Ravl/Image/EdgeDetector.hh"
 #include "Ravl/Image/EdgeSobel.hh"

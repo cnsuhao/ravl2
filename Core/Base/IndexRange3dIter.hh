@@ -10,6 +10,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Indexing"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/IndexRange3dIter.hh"
 
 #include "Ravl/IndexRange3d.hh"
 

@@ -7,7 +7,7 @@
 #ifndef RAVL_MOMENTS2D2_HEDAER
 #define RAVL_MOMENTS2D2_HEDAER 1
 ////////////////////////////////////////////////////////////////////////////
-//! file="amma/Image/Region/Mom012d2.hh"
+//! file="Ravl/Math/Geometry/Euclidean/2D/Moments2d2.hh"
 //! lib=RavlMath
 //! date="6/8/1995"
 //! author="Radek Marik"

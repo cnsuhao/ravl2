@@ -8,6 +8,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/exFileFormat.cc"
 
 #include "Ravl/Option.hh"
 #include "Ravl/IO.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Signals/2D/testFFT2d.cc"
 
 #include "Ravl/FFT2d.hh"
 #include "Ravl/SArr2Iter.hh"

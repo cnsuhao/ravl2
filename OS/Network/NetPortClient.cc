@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! lib=RavlNet
+//! file="Ravl/OS/Network/NetPortClient.cc"
 
 #include "Ravl/OS/NetPortClient.hh"
 

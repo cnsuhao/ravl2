@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/URLMapper.cc"
 
 #include "Ravl/Stream.hh"
 #include "Ravl/StreamType.hh"

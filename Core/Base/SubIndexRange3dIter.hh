@@ -10,6 +10,7 @@
 //! docentry="Ravl.Core.Indexing"
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/SubIndexRange3dIter.hh"
 
 #include "Ravl/IndexRange3d.hh"
 

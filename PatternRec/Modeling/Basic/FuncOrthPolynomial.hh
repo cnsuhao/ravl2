@@ -11,6 +11,7 @@
 //! author="Robert Crida and Charles Galambos"
 //! docentry="Ravl.Pattern Recognition.Numerical Modeling"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/Modeling/Basic/FuncOrthPolynomial.hh"
 
 #include "Ravl/PatternRec/FuncLinearCoeff.hh"
 

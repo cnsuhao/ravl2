@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.IO.Function Register"
 //! lib=RavlCore
+//! file="Ravl/Core/System/FunctionRegister.hh"
 
 #include "Ravl/Types.hh"
 #include "Ravl/BiHash.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/DragAndDrop.cc"
 
 #include "Ravl/GUI/DragAndDrop.hh"
 #include <gtk/gtk.h>

@@ -12,6 +12,7 @@
 //! author="Charles Galambos"
 //! date="26/08/1998"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/2D/Curve2d.hh"
 
 #include "Ravl/Point2d.hh"
 #include "Ravl/Vector2d.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/Modeling/Basic/FuncOrthPolynomial.cc"
 
 #include "Ravl/PatternRec/FuncOrthPolynomial.hh"
 #include "Ravl/VirtualConstructor.hh"

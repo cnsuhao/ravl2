@@ -7,7 +7,7 @@
 #ifndef RAVL_BOUNDARY_HEADER
 #define RAVL_BOUNDARY_HEADER 1
 /////////////////////////////////////////////////////////////////////////
-//! file="Ravl/Geometry/Boundary/Boundary.hh"
+//! file="Ravl/Math/Geometry/Euclidean/Boundary/Boundary.hh"
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Radek Marik"

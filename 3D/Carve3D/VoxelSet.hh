@@ -7,9 +7,10 @@
 #ifndef RAVL3D_VOXEL_SET_HH_
 #define RAVL3D_VOXEL_SET_HH_
 //! rcsid="$Id$"
-//! lib=RavlCarve3D
+//! lib=Ravl3D
 //! author="Joel Mitchelson"
 //! docentry="Ravl.3D.Carve3D"
+//! file="Ravl/3D/Carve3D/VoxelSet.hh"
 
 #include "Ravl/Vector3d.hh"
 #include "Ravl/Matrix3d.hh"

@@ -11,7 +11,7 @@
 //! date="12/12/1996"
 //! docentry="Ravl.Logic.Planning"
 //! rcsid="$Id$"
-//! file="Ravl/Logic/PlanNL/NLPCausalLink.hh"
+//! file="Ravl/Logic/NonLinearPlanner/NLPCausalLink.hh"
 //! lib=RavlLogicNLP
 
 #include "Ravl/Logic/MinTerm.hh"

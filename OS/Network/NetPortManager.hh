@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! lib=RavlNet
 //! docentry="Ravl.OS.Network.NetPort"
+//! file="Ravl/OS/Network/NetPortManager.hh"
 
 #include "Ravl/String.hh"
 #include "Ravl/OS/Socket.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Tools/testImageTools.cc"
 
 #include "Ravl/Image/PyramidScan.hh"
 #include "Ravl/Image/Rectangle2dIter.hh"

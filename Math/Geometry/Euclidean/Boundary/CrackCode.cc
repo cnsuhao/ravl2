@@ -8,6 +8,7 @@
 //! date="26/10/1992"
 //! author="Radek Marik"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/Boundary/CrackCode.cc"
 
 #include "Ravl/CrackCode.hh"
 #include "Ravl/Assert.hh"

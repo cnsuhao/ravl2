@@ -10,6 +10,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/Modeling/Basic/FuncPDFNormal.hh"
 
 #include "Ravl/PatternRec/FuncPDF.hh"
 #include "Ravl/Normal.hh"

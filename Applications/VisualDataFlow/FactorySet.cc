@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlVDF
 //! author="Charles Galambos"
+//! file="Ravl/Applications/VisualDataFlow/FactorySet.cc"
 
 #include "Ravl/DF/FactorySet.hh"
 #include "Ravl/Text/ConfigFile.hh"

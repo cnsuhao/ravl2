@@ -9,6 +9,7 @@
 //! lib=RavlLogicNLP
 //! date="16/12/1996"
 //! author="Charles Galambos"
+//! file="Ravl/Logic/NonLinearPlanner/NLPAgenda.cc"
 
 #include "Ravl/Logic/NLPAgenda.hh"
 

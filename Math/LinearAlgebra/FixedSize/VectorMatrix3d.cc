@@ -9,6 +9,7 @@
 //! date="24/01/2001"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/FixedSize/VectorMatrix3d.cc"
 
 #include "Ravl/VectorMatrix3d.hh"
 

@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/2D/Curve2dLine.cc"
 
 #include "Ravl/Curve2dLine.hh"
 #include "Ravl/IndexRange2d.hh"

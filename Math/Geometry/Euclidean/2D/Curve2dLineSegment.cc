@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/2D/Curve2dLineSegment.cc"
 
 #include "Ravl/Curve2dLineSegment.hh"
 #include "Ravl/Assert.hh"

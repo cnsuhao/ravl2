@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/2D/Line2dIter.cc"
 
 #include "Ravl/Line2dIter.hh"
 

@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlThreads
 //! author="Charles Galambos"
+//! file="Ravl/OS/Threads/Tools/testSignal.cc"
 
 #include "Ravl/Threads/Signal.hh"
 #include "Ravl/Threads/Signal1.hh"

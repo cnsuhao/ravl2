@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCore
-//! file="Ravl/Core/Base/IndexRange2d.cc"
+//! file="Ravl/Core/Base/RealRange2d.cc"
 
 #include "Ravl/RealRange2d.hh"
 #include "Ravl/IndexRange2d.hh"

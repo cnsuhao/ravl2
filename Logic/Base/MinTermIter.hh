@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Logic.Condition"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/MinTermIter.hh"
 
 #include "Ravl/Logic/MinTerm.hh"
 

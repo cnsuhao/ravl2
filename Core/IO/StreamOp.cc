@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/StreamOp.cc"
 
 #include "Ravl/DP/StreamOp.hh"
 

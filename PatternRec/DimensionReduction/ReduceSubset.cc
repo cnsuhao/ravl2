@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
+//! file="Ravl/PatternRec/DimensionReduction/ReduceSubset.cc"
 
 #include "Ravl/PatternRec/ReduceSubset.hh"
 #include "Ravl/BinStream.hh"

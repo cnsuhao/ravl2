@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! lib=RavlImageProc
 //! docentry="Ravl.Images.Misc"
+//! file="Ravl/Image/Processing/Tools/PyramidScan.hh"
 
 #include "Ravl/IndexRange2d.hh"
 

@@ -12,6 +12,7 @@
 //! date="10/04/2002"
 //! docentry="Ravl.Images"
 //! lib=RavlImage
+//! file="Ravl/Image/Base/Deinterlace.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter.hh"

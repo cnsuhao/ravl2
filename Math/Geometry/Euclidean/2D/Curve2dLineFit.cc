@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/2D/Curve2dLineFit.cc"
 
 #include "Ravl/Math.hh"
 #include "Ravl/SArray1d.hh"

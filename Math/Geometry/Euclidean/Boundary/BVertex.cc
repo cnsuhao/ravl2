@@ -8,6 +8,7 @@
 //! date="26.06.1994"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/Boundary/BVertex.cc"
 
 #include "Ravl/BVertex.hh"
 

@@ -13,6 +13,7 @@
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! date="04/07/1998"
+//! file="Ravl/Core/IO/OffsetScale.hh"
 
 #include "Ravl/DP/Process.hh"
 #include "Ravl/Types.hh"

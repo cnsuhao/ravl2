@@ -11,6 +11,7 @@
 //! docentry="Ravl.Images.Edges"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Edges/Gradient.hh"
 
 #include "Ravl/Vector2d.hh"
 #include "Ravl/Array2d.hh"

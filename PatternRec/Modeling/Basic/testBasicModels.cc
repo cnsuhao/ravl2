@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/Modeling/Basic/testBasicModels.cc"
 
 #include "Ravl/PatternRec/DesignFuncLSQ.hh"
 #include "Ravl/PatternRec/SampleVector.hh"

@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////
 //! userlevel=Normal
 //! rcsid="$Id$"
-//! file="Ravl/Logic/Index/BNPListIndex.hh"
+//! file="Ravl/Logic/Index/BMinTermListIndex.hh"
 //! lib=RavlLogic
 //! author="Charles Galambos"
 //! date="14/05/1998"

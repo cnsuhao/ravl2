@@ -8,7 +8,7 @@
 #define RAVLPOINT3D_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Math/Geometry/Euclidean/Point3d.hh"
+//! file="Ravl/Math/Geometry/Euclidean/3D/Point3d.hh"
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Charles Galambos"

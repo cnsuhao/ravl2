@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/Distance/DistanceRobust.cc"
 
 #include "Ravl/PatternRec/DistanceRobust.hh"
 #include "Ravl/VirtualConstructor.hh"

@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_NONLINEARPLAN_HEADER
 #define RAVLLOGIC_NONLINEARPLAN_HEADER 1
 ////////////////////////////////////////////////////////////
-//! file="Ravl/Logic/PlanNL/NonLinearPlan.hh"
+//! file="Ravl/Logic/NonLinearPlanner/NonLinearPlan.hh"
 //! date="12/12/1996"
 //! author="Charles Galambos"
 //! userlevel=Advanced

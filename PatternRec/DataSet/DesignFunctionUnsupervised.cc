@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/DataSet/DesignFunctionUnsupervised.cc"
 
 #include "Ravl/PatternRec/DesignFunctionUnsupervised.hh"
 

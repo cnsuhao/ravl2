@@ -10,6 +10,7 @@
 //! lib=RavlVideoIO
 //! author="Charles Galambos"
 //! date="24/03/2002"
+//! file="Ravl/Image/VideoIO/ImgIOjs.cc"
 
 #include "Ravl/Image/ImgIOjs.hh"
 #include "Ravl/OS/Filename.hh"

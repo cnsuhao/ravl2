@@ -12,6 +12,7 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! docentry="Ravl.Math.Linear Algebra"
+//! file="Ravl/Math/LinearAlgebra/General/VectorMatrix.hh"
 
 #include "Ravl/Matrix.hh"
 #include "Ravl/Vector.hh"

@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
+//! file="Ravl/Image/Processing/Filters/HomomorphicFilter.cc"
 
 #include "Ravl/Image/HomomorphicFilter.hh"
 #include "Ravl/Array2dIter2.hh"

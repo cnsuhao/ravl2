@@ -13,6 +13,7 @@
 //! docentry="Ravl.Images"
 //! lib=RavlImage
 //! userlevel=Normal
+//! file="Ravl/Image/Base/DrawLine.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Line2dIter.hh"

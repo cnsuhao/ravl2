@@ -11,6 +11,7 @@
 //! docentry="Ravl.Math.Statistics"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Statistics/MeanCovariance/MeanCovariance3d.hh"
 
 #include "Ravl/FMeanCovariance.hh"
 

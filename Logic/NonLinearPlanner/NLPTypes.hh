@@ -12,7 +12,7 @@
 //! docentry="Ravl.Logic.Planning"
 //! userlevel=Develop
 //! rcsid="$Id$"
-//! file="Ravl/Logic/PlanNL/NLPTypes.hh"
+//! file="Ravl/Logic/NonLinearPlanner/NLPTypes.hh"
 //! lib=RavlLogicNLP
 
 #include "Ravl/DList.hh"

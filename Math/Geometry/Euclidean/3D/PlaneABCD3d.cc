@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/3D/PlaneABCD3d.cc"
 
 #include "Ravl/Point3d.hh"
 #include "Ravl/Vector3d.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/2D/testGeom2d.cc"
 
 #include "Ravl/Moments2d2.hh"
 #include "Ravl/Stream.hh"

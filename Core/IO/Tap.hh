@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////
 //! docentry="Ravl.Core.Data Processing.Taps"
 //! rcsid="$Id$"
-//! file="Ravl/StdType/DataProc/Tap.hh"
+//! file="Ravl/Core/IO/Tap.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! date="15/10/1998"

@@ -9,6 +9,7 @@
 //! date="16/7/2002"
 //! author="Charles Galambos"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/StreamProcess.cc"
 
 #include "Ravl/DP/StreamProcess.hh"
 #include "Ravl/HashIter.hh"

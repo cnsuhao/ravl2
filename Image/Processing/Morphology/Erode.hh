@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_ERODE_HEADER
 #define RAVLIMAGE_ERODE_HEADER 1
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlImageProc
 //! author="Joel Mitchelson"
 //! userlevel=Normal
 //! docentry="Ravl.Images.Morphology"

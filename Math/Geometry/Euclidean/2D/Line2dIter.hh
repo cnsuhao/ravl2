@@ -11,6 +11,7 @@
 //! lib=RavlMath
 //! docentry="Ravl.Math.Geometry.2D"
 //! author="Charles Galambos"
+//! file="Ravl/Math/Geometry/Euclidean/2D/Line2dIter.hh"
 
 #include "Ravl/Point2d.hh"
 #include "Ravl/Index2d.hh"

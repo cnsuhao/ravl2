@@ -9,6 +9,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlLogicNLP
+//! file="Ravl/Logic/NonLinearPlanner/NLPCausalLink.cc"
 
 #include "Ravl/Logic/NLPCausalLink.hh"
 

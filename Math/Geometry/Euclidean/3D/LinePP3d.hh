@@ -13,6 +13,7 @@
 //! date="26/10/1992"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/3D/LinePP3d.hh"
 
 #include "Ravl/Types.hh"
 #include "Ravl/Point3d.hh"

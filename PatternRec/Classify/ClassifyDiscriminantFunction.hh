@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Pattern Recognition.Classify"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/Classify/ClassifyDiscriminantFunction.hh"
 
 #include "Ravl/PatternRec/ClassifyVector.hh"
 #include "Ravl/PatternRec/Function.hh"

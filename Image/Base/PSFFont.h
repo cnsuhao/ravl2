@@ -3,6 +3,7 @@
 /*! rcsid="$Id$" */
 /*! lib=RavlImage */
 /*! license=own */
+/*! file="Ravl/Image/Base/PSFFont.h" */
 
 /* /// PSF1 /////////////////////////////////////////////////////////// */
 

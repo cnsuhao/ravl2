@@ -10,6 +10,7 @@
 //! docentry="Ravl.Logic.Planning"
 //! author="Charles Galambos"
 //! lib=RavlLogicNLP
+//! file="Ravl/Logic/NonLinearPlanner/NLPStep.hh"
 
 #include "Ravl/Logic/MinTerm.hh"
 

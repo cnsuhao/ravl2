@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! date="24/7/2002"
 //! docentry="Ravl.Images.Tracking"
+//! file="Ravl/Image/Processing/Tracking/PointTrackModel.hh"
 
 #include "Ravl/Array2d.hh"
 #include "Ravl/Point2d.hh"

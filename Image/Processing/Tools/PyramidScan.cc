@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Tools/PyramidScan.cc"
 
 #include "Ravl/Image/PyramidScan.hh"
 #include "Ravl/Math.hh"

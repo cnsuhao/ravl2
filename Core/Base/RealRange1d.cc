@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
-//! file="Ravl/Core/Base/IndexRange1d.cc"
+//! file="Ravl/Core/Base/RealRange1d.cc"
 
 #include "Ravl/RealRange1d.hh"
 #include "Ravl/BinStream.hh"

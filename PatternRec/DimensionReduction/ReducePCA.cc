@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/DimensionReduction/ReducePCA.cc"
 
 #include "Ravl/PatternRec/ReducePCA.hh"
 #include "Ravl/PatternRec/SampleVector.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/Modeling/Basic/FuncLinearCoeff.cc"
 
 #include "Ravl/PatternRec/FuncLinearCoeff.hh"
 #include "Ravl/BinStream.hh"

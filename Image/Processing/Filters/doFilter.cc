@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
+//! file="Ravl/Image/Processing/Filters/doFilter.cc"
 
 #include "Ravl/Option.hh"
 #include "Ravl/IO.hh"

@@ -10,6 +10,7 @@
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Reference Counting"
+//! file="Ravl/Core/Base/SmartPtr.hh"
 
 #include "Ravl/RefCounter.hh"
 

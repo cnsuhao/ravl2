@@ -12,6 +12,7 @@
 //! docentry="Ravl.Pattern Recognition.Distance"
 //! author="Robert Crida"
 //! date="22/4/1998"
+//! file="Ravl/PatternRec/Distance/DistanceRobust.hh"
 
 #include "Ravl/PatternRec/Distance.hh"
 

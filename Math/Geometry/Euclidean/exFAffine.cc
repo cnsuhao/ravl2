@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/exFAffine.cc"
 
 #include "Ravl/FAffine.hh"
 #include "Ravl/Stream.hh"

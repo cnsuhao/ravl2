@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlVideoIO
+//! file="Ravl/Image/VideoIO/MultiVidIO.cc"
 
 #include "Ravl/Image/MultiVidIO.hh"
 #include "Ravl/Image/ByteRGBValue.hh"

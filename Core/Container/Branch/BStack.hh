@@ -10,6 +10,7 @@
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Branch"
+//! file="Ravl/Core/Container/Branch/BStack.hh"
 
 #include "Ravl/BList.hh"
 

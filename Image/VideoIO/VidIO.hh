@@ -8,7 +8,7 @@
 #define RAVL_VIDIOINIT_HEADER 1
 //////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/Image/VidIO/VidIO.hh"
+//! file="Ravl/Image/VideoIO/VidIO.hh"
 //! lib=RavlVideoIO
 //! docentry="Ravl.Images.Video.Formats"
 //! userlevel=Develop

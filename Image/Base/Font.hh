@@ -11,6 +11,7 @@
 //! lib=RavlImage
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.Misc"
+//! file="Ravl/Image/Base/Font.hh"
 
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Image/Image.hh"

@@ -8,6 +8,7 @@
 //! author="Radek Marik"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/Boundary/Edge.cc"
 
 // elementary boundary edge based on crack code
 

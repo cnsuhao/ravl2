@@ -5,6 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
+//! file="Ravl/Applications/SkinBlobFind/SkinBlobFind.cc"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"

@@ -11,6 +11,7 @@
 //! date="21/4/1998"
 //! author="Robert Crida and Charles Galambos"
 //! docentry="Ravl.Pattern Recognition.Numerical Modeling"
+//! file="Ravl/PatternRec/Modeling/Basic/FuncLinearCoeff.hh"
 
 #include "Ravl/PatternRec/Function.hh"
 

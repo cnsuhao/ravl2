@@ -9,6 +9,7 @@
 //! date="4/1/1997"
 //! author="Charles Galambos" 
 //! lib=RavlLogicNLP
+//! file="Ravl/Logic/NonLinearPlanner/NLPlanner.cc"
 
 #include "Ravl/Logic/NLPlanner.hh"
 #include "Ravl/PriQueueL.hh"

@@ -6,7 +6,7 @@
 # file-header-ends-here
 # $Id$
 #! rcsid="$Id$"
-#! file="Ravl/SourceTools/VisualCPP/defs.mk"
+#! file="Ravl/SourceTools/ToMake/defs.mk"
 
 PACKAGENAME= TOMAKE
 

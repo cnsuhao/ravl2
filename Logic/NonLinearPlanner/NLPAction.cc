@@ -9,6 +9,7 @@
 //! lib=RavlLogicNLP
 //! date="18/3/1997"
 //! author="Charles Galambos"
+//! file="Ravl/Logic/NonLinearPlanner/NLPAction.cc"
 
 #include "Ravl/Assert.hh"
 #include "Ravl/Collection.hh"

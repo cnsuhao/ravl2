@@ -13,6 +13,7 @@
 //! docentry="Ravl.Images"
 //! lib=RavlImage
 //! userlevel=Normal
+//! file="Ravl/Image/Base/DrawCircle.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/CircleIter.hh"

@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImage
 //! author="Charles Galambos"
+//! file="Ravl/Image/Base/imgdiff.cc"
 
 #include "Ravl/Option.hh"
 #include "Ravl/IO.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Index/testBLiteralIndex.cc"
 
 #include "Ravl/Logic/BLiteralIndex.hh"
 #include "Ravl/Logic/BMinTermIndex.hh"

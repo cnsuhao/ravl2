@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/DimensionReduction/Reduce.cc"
 
 #include "Ravl/PatternRec/Reduce.hh"
 #include "Ravl/BinStream.hh"

@@ -10,6 +10,7 @@
 //! lib=RavlPatternRec
 //! author="Robert Crida and Charles Galambos"
 //! docentry="Ravl.Pattern Recognition.Dimension Reduction"
+//! file="Ravl/PatternRec/DimensionReduction/ReduceLinear.hh"
 
 #include "Ravl/PatternRec/Reduce.hh"
 #include "Ravl/Matrix.hh"

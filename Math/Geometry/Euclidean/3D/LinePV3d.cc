@@ -18,6 +18,7 @@
 //
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/3D/LinePV3d.cc"
 
 #include "Ravl/StdMath.hh"     //::Abs()
 #include "Ravl/Point3d.hh"

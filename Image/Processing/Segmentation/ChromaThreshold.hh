@@ -7,7 +7,7 @@
 #ifndef _CHROMA_THRESHOLD_HH_
 #define _CHROMA_THRESHOLD_HH_
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlImageProc
 //! author="Joel Mitchelson"
 //! docentry="Ravl.Images.Segmentation"
 //! file="Ravl/Image/Processing/Segmentation/ChromaThreshold.hh"
