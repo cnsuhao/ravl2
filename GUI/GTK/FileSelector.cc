@@ -25,15 +25,16 @@ namespace RavlGUIN {
   }
   
   static void cancel (GtkWidget *widget, FileSelectorBodyC *fs) { 
-    fs->GUIHide(); // We're in the GUI thread.
+    fs->HandleCancel(); // We're in the GUI thread.
   } 
   
   //: Constructor.
   
-  FileSelectorBodyC::FileSelectorBodyC(const StringC &nname,const StringC &filename)
+  FileSelectorBodyC::FileSelectorBodyC(const StringC &nname,const StringC &filename,bool _sendEmptyStringOnCancel)
     : name(nname),
       defaultFN(filename),
       hideOnSelect(true),
+      sendEmptyStringOnCancel(_sendEmptyStringOnCancel),
       selected(StringC(""))
   {}
   
@@ -61,6 +62,15 @@ namespace RavlGUIN {
     ConnectSignals();
     
     return true;
+  }
+
+  //: Handle selection cancel.
+  void FileSelectorBodyC::HandleCancel() {
+    GUIHide();
+    if(sendEmptyStringOnCancel) {
+      StringC empty;
+      selected(empty);
+    }
   }
   
   //: Dissconnect all signals.

@@ -31,7 +31,7 @@ namespace RavlGUIN {
     : public WidgetBodyC
   {
   public:
-    FileSelectorBodyC(const StringC &nname,const StringC &filename);
+    FileSelectorBodyC(const StringC &nname,const StringC &filename,bool sendEmptyStringOnCancel = false);
     //: Constructor.
     
     virtual bool Create();
@@ -58,6 +58,13 @@ namespace RavlGUIN {
     bool SetFilename(const StringC &name);
     //: Set file to open
     
+    void HandleCancel();
+    //: Handle selection cancel.
+    
+    bool SetSendEmptyStringOnCancel(bool val)
+    { return sendEmptyStringOnCancel = val; }
+    //: Enable/Disable sending of empty string on cancel.
+    
   protected:
     void Destroy();
     //: Dissconnect all signals.
@@ -65,6 +72,7 @@ namespace RavlGUIN {
     StringC name;
     StringC defaultFN; // Default filename
     bool hideOnSelect; // Hide the fileselector after selection ?
+    bool sendEmptyStringOnCancel;
     
     Signal1C<StringC> selected;
     
@@ -78,9 +86,9 @@ namespace RavlGUIN {
     : public WidgetC
   {
   public:
-    FileSelectorC(const StringC &nname = "File Selector",const StringC &filename = ".")
-      : WidgetC(*new FileSelectorBodyC(nname,filename))
-      {}
+    FileSelectorC(const StringC &nname = "File Selector",const StringC &filename = ".",bool sendEmptyStringOnCancel = false)
+      : WidgetC(*new FileSelectorBodyC(nname,filename,sendEmptyStringOnCancel))
+    {}
     //: Constructor
     
     FileSelectorC(FileSelectorBodyC &bod)
@@ -124,6 +132,11 @@ namespace RavlGUIN {
     bool SetFilename(const StringC &name)
     { return Body().SetFilename(name); }
     //: Set file to open
+    
+    bool SetSendEmptyStringOnCancel(bool val)
+    { return  Body().SetSendEmptyStringOnCancel(val); }
+    //: Enable/Disable sending of empty string on cancel.
+    // Default is disabled
     
   };
   
