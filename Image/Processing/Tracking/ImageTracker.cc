@@ -10,6 +10,15 @@
 #include "Ravl/Image/ImageTracker.hh"
 #include "Ravl/Image/WarpProjective.hh"
 #include "Ravl/Image/MatchPatch.hh"
+#include "Ravl/Image/DrawCross.hh"
+
+#define DODEBUG 0
+#if DODEBUG
+#include "Ravl/IO.hh"
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
 
 namespace RavlImageN {
   
@@ -18,14 +27,18 @@ namespace RavlImageN {
   ImageTrackerC::ImageTrackerC(IntT nPatchSize,IntT aSearchSize,IntT nMatchThreshold)
     : patchSize(nPatchSize),
       searchSize(aSearchSize),
-      matchThreshold(nMatchThreshold)
+      matchThreshold(nMatchThreshold),
+      cornerDet(10)
   {}
   
   DListC<PairC<Point2dC> > ImageTrackerC::TrackImage(const ImageC<ByteT> &mosaic,const ImageC<ByteT> &data,const Projection2dC &proj) {
     DListC<PairC<Point2dC> > ret;
     // Find corners.
     
+    IndexRange2dC roi = data.Frame().Shrink(patchSize);
+    
     DListC<CornerC> corners = cornerDet.Apply(data);
+    ONDEBUG(cerr << "Corners=" << corners.Size() << "\n");
     
     Projection2dC iproj = proj.Inverse();
     
@@ -35,10 +48,15 @@ namespace RavlImageN {
 
     Point2dC rat;  
     IntT sum;
+    ONDEBUG(ByteT white = 255);
+    ONDEBUG(ImageC<ByteT> out(mosaic.Copy()));
     
     for(DLIterC<CornerC> it(corners);it;it++) {
+      if(roi.Contains(it->Location()))
+	continue;
+      
       Point2dC cpnt = it->Location();
-
+      
       // Project corner into mosiac space.
       Point2dC projLoc = iproj * cpnt;
       
@@ -56,7 +74,7 @@ namespace RavlImageN {
 
       // Match patches to original image.
       SearchMinAbsDifferenceCreep(patchOffset,mosaic,projLoc,rat,sum,searchSize);
-      
+      ONDEBUG(cerr << "Thresh=" << sum << "\n");
       // Put matches in the list.
       if(sum < matchThreshold) {
 	// correct coordinates to centre of pixel
@@ -66,8 +84,9 @@ namespace RavlImageN {
 	trueLoc[1] += 0.5;
 	ret.InsLast(PairC<Point2dC>(trueLoc,rat));
       }
+      ONDEBUG(DrawCross(out,white,rat,5));
     }
-    
+    ONDEBUG(RavlN::Save("@X",out));
     return ret;
   }
   

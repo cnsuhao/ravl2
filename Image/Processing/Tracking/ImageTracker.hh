@@ -24,7 +24,7 @@ namespace RavlImageN {
     ImageTrackerC(IntT nPatchSize,IntT aSearchSize,IntT matchThreshold);
     //: Constructor.
     
-    DListC<PairC<Point2dC> > TrackImage(const ImageC<ByteT> &mosaic,const ImageC<ByteT> &data,const Projection2dC &aff);
+    DListC<PairC<Point2dC> > TrackImage(const ImageC<ByteT> &mosaic,const ImageC<ByteT> &data,const Projection2dC &proj);
     //: Track an image in a larger one.
     
   protected:

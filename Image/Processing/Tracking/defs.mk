@@ -25,9 +25,11 @@ EHT= Ravl.Images.Tracking.html
 
 EXAMPLES=tracker.cc
 
+TESTEXES=testImageTracker.cc
+
 USESLIBS=RavlImage RavlImageProc RavlOptimise RavlImageIO
 # CSPDriver
 
-PROGLIBS=RavlDPDisplay RavlVideoIO
+PROGLIBS=RavlDPDisplay RavlVideoIO 
 # RavlImgIOV4L
 
