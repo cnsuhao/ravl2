@@ -88,6 +88,11 @@
 #define RAVL_OS_UNIX !RAVL_OS_WIN32       /* a unix style system */
 #define RAVL_OS_POSIX !RAVL_OS_WIN32      /* POSIX complient OS. */
 
+/* Processor variants. */
+
+#define RAVL_CPU_IX86_PENTIUM4  (RAVL_CPU_IX86 && defined(__tune_pentium4__))  /* Pentium 4 processor ? */
+#define RAVL_CPU_IX86_PENTIUM3  (RAVL_CPU_IX86 && !RAVL_CPU_IX86_PENTIUM4)     /* Pentium 3 processor ?  (Default assumption.) */
+
 /********************************************************************************/
 /****** RAVL behavour ***********************************************************/
 
@@ -158,6 +163,8 @@
 /* Setting the follow define to 1 will enable the use of MMX code. */
 #define RAVL_USE_MMX (RAVL_CPU_IX86 && RAVL_COMPILER_GCC)
 
+#define RAVL_HAVE_IEEE_DOUBLE 1   /* Does the machine have IEEE double's ? */
+
 /********************************************************************************/
 /****** Numerical functions and headers *****************************************/
 
@@ -166,7 +173,7 @@
 #define RAVL_HAVE_NAN_H    (RAVL_OS_SOLARIS || RAVL_OS_IRIX) /* have nan.h           */
 #define RAVL_HAVE_IEEEFP_H (RAVL_OS_SOLARIS || RAVL_OS_IRIX) /* have ieeefp.h        */
 #define RAVL_HAVE_HYPOT    !RAVL_OS_WIN32   /* have hypot() in libm */
-#define RAVL_HAVE_CBRT     0                /* have cbrt() in libm  */
+#define RAVL_HAVE_CBRT     0 && RAVL_OS_LINUX                /* have cbrt() in libm  */
 #define RAVL_HAVE_ERF      (!RAVL_OS_WIN32 && !RAVL_OS_CYGWIN)   /* have erf() and erfc() in libm  */
 
 #define RAVL_HAVE_ISINF    (RAVL_OS_LINUX || RAVL_OS_CYGWIN)    /* have isinf() in libm  */
@@ -176,6 +183,8 @@
 #define RAVL_HAVE_ISNAN    (RAVL_OS_LINUX || RAVL_OS_OSF || RAVL_OS_CYGWIN)   /* have isnan() in libm  */
 #define RAVL_HAVE__ISNAN   RAVL_OS_WIN32    /* have _isnan() in libm  */
 #define RAVL_HAVE_ISNAND   (RAVL_OS_SOLARIS || RAVL_OS_IRIX) /* have isnand() in libm  */
+
+#define RAVL_QINT_WORKAROUND RAVL_COMPILER_GCC3   /* Do we need a bug work around for the QInt functions (See Ravl/QInt.hh) */
 
 /********************************************************************************/
 /****** Compiler/ C++ Library ***************************************************/
