@@ -10,6 +10,7 @@
 //! file="Ravl/Image/Processing/Segmentation/BlueScreen.cc"
 
 #include "Ravl/Image/BlueScreen.hh"
+#include "Ravl/Array2dIter.hh"
 #include "Ravl/Array2dIter2.hh"
 
 #define DODEBUG 0
@@ -19,15 +20,38 @@
 #define ONDEBUG(x)
 #endif
 
-namespace RavlImageN {
-  
-  ImageC<bool> BlueScreenC::Apply(const ImageC<ByteRGBValueC> &img) {
-    ImageC<bool> ret(img.Frame());
-    for(Array2dIter2C<bool,ByteRGBValueC> it(ret,img);it;it++) {
-      ByteRGBValueC &px = it.Data2();
-      it.Data1() = ((((int) px.Blue() * 2) - ((int) px.Red() + px.Green())) < thresh);
+namespace RavlImageN
+{
+  void BlueScreenC::Apply(ImageC<ByteT>& mask, 
+			  const ImageC<ByteRGBValueC> &image) 
+  {
+    const int const_thresh(thresh);
+    for(Array2dIter2C<ByteT,ByteRGBValueC> i(mask,image); i; i++)
+    {
+      ByteRGBValueC &px = i.Data2();
+      i.Data1() = ((((int) px.Blue() * 2) - ((int) px.Red() + px.Green())) < const_thresh);
     }
-    return ret;
   }
 
+  void BlueScreenC::Apply(ImageC<ByteT>& mask,
+			  const ImageC<ByteYUV422ValueC> &image) 
+  {
+    const int const_thresh(100*thresh);
+    Array2dIterC<ByteT> idest(mask);
+    Array2dIterC<ByteYUV422ValueC> isrc(image);
+
+    while (isrc && idest)
+    {
+      int u = (*isrc).UV();
+      isrc++;
+      int v = (*isrc).UV();
+      isrc++;
+      ByteT b = ((100*u-23*v) < const_thresh) ? 255 : 0;
+      idest.Data() = b;
+      idest++;
+      idest.Data() = b;
+      idest++;
+      
+    }
+  }
 }

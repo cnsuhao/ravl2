@@ -15,12 +15,14 @@
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Image/ByteYUV422Value.hh"
 
 namespace RavlImageN {
   
   //! userlevel=Normal.
   //: Simple and fast blue screen mask generation.
   // Calculates "(2*Blue - (Red+Green)) < thresh" for each pixel
+  // This is the same as U - 2.3*V in YUV space
   
   class BlueScreenC {
   public:
@@ -31,13 +33,41 @@ namespace RavlImageN {
   
     void SetThreshold(int value)
     { thresh=value; }
-    //: Set the threshold used bluescreening.
+    //: Get colour threshold
     // Values should be between 0 and 512
     
-    ImageC<bool> Apply(const ImageC<ByteRGBValueC> &img);
-    //: Produce a background/forground mask.
-    // true is assigned to forground pixels.
+    int GetThreshold()
+    { return thresh; }
+    //: Get threshold used
+
+    void Apply(ImageC<ByteT>& mask, 
+	       const ImageC<ByteRGBValueC> &image);
+    //: Produce a background/foreground mask from an RGB image
+    //  255 is assigned to foreground, 0 otherwise
+
+    ImageC<ByteT> Apply(const ImageC<ByteRGBValueC> &image)
+    {
+      ImageC<ByteT> ret(image.Frame());
+      Apply(ret, image);
+      return ret;
+    }
+    //: Produce a background/foreground mask from an RGB image
+    //  255 is assigned to foreground, 0 otherwise
     
+    void Apply(ImageC<ByteT>& mask,
+	       const ImageC<ByteYUV422ValueC>& image);
+    //: Produce a background/foreground mask from YUV 422 image
+    //  255 is assigned to foreground, 0 otherwise
+
+    ImageC<ByteT> Apply(const ImageC<ByteYUV422ValueC>& image)
+    {
+      ImageC<ByteT> ret(image.Frame());
+      Apply(ret, image);
+      return ret;
+    }
+    //: Produce a background/foreground mask from YUV 422 image
+    //  255 is assigned to foreground, 0 otherwise
+
   protected:
     int thresh;
   };
