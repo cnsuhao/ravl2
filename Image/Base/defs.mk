@@ -24,7 +24,7 @@ PLIB=RavlImage
 
 USESLIBS=RavlCore
 
-PROGLIBS=RavlImageIO RavlOS RavlMath RavlDPDisplay
+PROGLIBS=RavlImageIO RavlOS RavlMath RavlDPDisplay.opt
 
 MAINS=imgdiff.cc
 
