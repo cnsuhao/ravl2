@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLIMAGE_CONNCOMP_HEADER
-#define RAVLIMAGE_CONNCOMP_HEADER 1
+#ifndef RAVLIMAGE_CONNECTEDCOMPONENTS_HEADER
+#define RAVLIMAGE_CONNECTEDCOMPONENTS_HEADER 1
 ////////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Radek Marik, modified by Charles Galambos"
@@ -79,6 +79,14 @@ namespace RavlImageN {
     ConnectedComponentsBodyC (UIntT nmaxLabel = 10000, bool ignoreZero=false,const CompairT &compMethod = CompairT())
       : ConnectedComponentsBaseBodyC(nmaxLabel, ignoreZero),
 	compair(compMethod)
+    { SetZero(zero); }
+    //: Constructor
+    // (See handle class ConnectedComponentsC)
+
+    ConnectedComponentsBodyC (UIntT nmaxLabel,const CompairT &compMethod,const DataTypeT &zeroValue)
+      : ConnectedComponentsBaseBodyC(nmaxLabel, true),
+	compair(compMethod),
+	zero(zeroValue)
     {}
     //: Constructor
     // (See handle class ConnectedComponentsC)
@@ -88,6 +96,7 @@ namespace RavlImageN {
     
   protected:
     CompairT compair;
+    DataTypeT zero; // Zero value to use.
   };
 
   //! userlevel=Normal
@@ -102,7 +111,13 @@ namespace RavlImageN {
       : RCHandleC<ConnectedComponentsBodyC<DataTypeT> >(*new ConnectedComponentsBodyC<DataTypeT>(10000, ignoreZero,compMethod))
     {}
     //: Constructor.  Set ignoreZero if you want to ignore the zeros on the input image
-
+    
+    ConnectedComponentsC (const CompairT &compMethod,const DataTypeT &zeroValue)
+      : RCHandleC<ConnectedComponentsBodyC<DataTypeT> >(*new ConnectedComponentsBodyC<DataTypeT>(10000,compMethod,zeroValue))
+    {}
+    //: Constructor.  
+    // Ignore any 'zeroValue' pixels in the input image.
+    
     Tuple2C<ImageC<UIntT>,UIntT> Apply (const ImageC<DataTypeT> &im)
     { return Body().Apply(im); }
     //: Performs the connected component labelling
@@ -227,7 +242,6 @@ namespace RavlImageN {
 	  for(Array2dIterC<UIntT> its(jp,subRect);its;its++)
 	    *its = labelTable[*its];
 	  
-	  
 	  // Change labels in the processed part of the row.
 	  for (IndexC jy = ip.Rectangle().Origin().Col(); jy <= iy; ++jy)
 	    jp[ix][jy] = labelTable[jp[ix][jy]];
@@ -238,33 +252,32 @@ namespace RavlImageN {
 	    // The size of the 'labelTable' is too small.
 	    maxLabel *= 2; // Double the size of the table.
 	    labelTable = SArray1dC<UIntT>(maxLabel+1);
-	    labelTable.Fill(((UIntT) -1)); // Debug measure...
+	    //labelTable.Fill(((UIntT) -1)); // Debug measure...
 	  }
 	  // Create an identity label set.
 	  UIntT ll = 0;
-	  for(SArray1dIterC<UIntT> it(labelTable,newLastLabel+1);it;it++,ll++)
-	    *it = ll;
+	  for(SArray1dIterC<UIntT> itx(labelTable,newLastLabel+1);itx;itx++,ll++)
+	    *itx = ll;
 	  lab = newLastLabel;
 	}
       } while(it.Next());
     }
     
-    // relabel the whole image
+    // Relabel the whole image
     if (lab == 0) 
       return Tuple2C<ImageC<UIntT>,UIntT>(jp,lab);
     
-    //newLastLabel =
+    // newLastLabel =
     RelabelTable(labelTable,lab);
-    // change labels in the have been processed area
+    // Change labels in the have been processed area
     for(Array2dIterC<UIntT> it(jp);it;it++) 
       *it = labelTable[*it];  
     
     
-    //: The user may of requested to ignore the empty pixels (eg. zeros) in the original image
+    // The user may of requested to ignore the empty pixels (eg. zeros) in the original image
     if(ignoreZero) {
       SArray1dC<IntT>arr(lab+2);
       arr.Fill(-1);
-      DataTypeT zero = 0;
       UIntT curr=1;
       for(Array2dIter2C<DataTypeT, UIntT> it(ip, jp);it;it++) {
 	if(it.Data1()==zero) it.Data2() = 0;

@@ -19,6 +19,7 @@
 #include "Ravl/HSet.hh"
 #include "Ravl/IntC.hh"
 #include "Ravl/Tuple2.hh"
+#include "Ravl/Moments2d2.hh"
 
 namespace RavlImageN {
   
@@ -80,6 +81,10 @@ namespace RavlImageN {
     UIntT Labels()
     { return labels; }
     //: Access number of labels.
+    
+    SArray1dC<Moments2d2C> ComputeMoments(bool ignoreZero = false);
+    //: Compute moments for each of the segmented regions.
+    // if ignoreZero is true, region labeled 0 is ignored.
     
   protected:
     UIntT RelabelTable(SArray1dC<UIntT> &labelTable, UIntT currentMaxLabel);
@@ -158,12 +163,22 @@ namespace RavlImageN {
     { return Body().Labels(); }
     //: Access number of labels.  
     
+    SArray1dC<Moments2d2C> ComputeMoments(bool ignoreZero = false)
+    { return Body().ComputeMoments(ignoreZero); }
+    //: Compute moments for each of the segmented regions.
+    // if ignoreZero is true, region labeled 0 is ignored.
+    
   };
 
   //: Merge simlar components smaller than 'thrSize'.
   
   template<class PixelT,class CmpT>
-  UIntT SegmentationBodyC::MergeComponents(ImageC<PixelT> &dat,UIntT thrSize,RealT maxDist,CmpT &cmp,IntT iter) {
+  UIntT SegmentationBodyC::MergeComponents(ImageC<PixelT> &dat,
+					   UIntT thrSize,
+					   RealT maxDist,
+					   CmpT &cmp,
+					   IntT iter) 
+  {
     if(labels <= 1)
       return labels;
     SArray1dC<RealT> minDist(labels);  
@@ -177,58 +192,58 @@ namespace RavlImageN {
       
       for(Array2dSqr2Iter2C<UIntT,PixelT> it(segmap,dat);it;) {
 	// Do up.
-	if(it.Data1() != it.DataU1()) { // Are labels different ?
-	  if(area[it.Data1()] < thrSize) {
-	    RealT d = cmp(it.Data2(),it.DataU2());
-	    if(minDist[it.Data1()] > d) {
-	      minDist[it.Data1()] = d;
-	      minLab[it.Data1()] = it.DataU1();
+	if(it.DataBR1() != it.DataTR1()) { // Are labels different ?
+	  if(area[it.DataBR1()] < thrSize) {
+	    RealT d = cmp(it.DataBR2(),it.DataTR2());
+	    if(minDist[it.DataBR1()] > d) {
+	      minDist[it.DataBR1()] = d;
+	      minLab[it.DataBR1()] = it.DataTR1();
 	    }
 	  }
-	  if(area[it.DataU1()] < thrSize) {
-	    RealT d = cmp(it.Data2(),it.DataU2());
-	    if(minDist[it.DataU1()] > d) {
-	      minDist[it.DataU1()] = d;
-	      minLab[it.DataU1()] = it.Data1();
+	  if(area[it.DataTR1()] < thrSize) {
+	    RealT d = cmp(it.DataBR2(),it.DataTR2());
+	    if(minDist[it.DataTR1()] > d) {
+	      minDist[it.DataTR1()] = d;
+	      minLab[it.DataTR1()] = it.DataBR1();
 	    }
 	  }
 	}
 	
-	for(;it.RNext();) { // The rest of the image row.
+	for(;it.Next();) { // The rest of the image row.
 	  // Do up.
-	  if(it.Data1() != it.DataU1()) {  // Are labels different ?
-	    if(area[it.Data1()] < thrSize) {
-	      if(it.Data1() != it.DataU1()) {
-		RealT d = cmp(it.Data2(),it.DataU2());
-		if(minDist[it.Data1()] > d) {
-		  minDist[it.Data1()] = d;
-		  minLab[it.Data1()] = it.DataU1();
+	  if(it.DataBR1() != it.DataTR1()) {  // Are labels different ?
+	    if(area[it.DataBR1()] < thrSize) {
+	      if(it.DataBR1() != it.DataTR1()) {
+		RealT d = cmp(it.DataBR2(),it.DataTR2());
+		if(minDist[it.DataBR1()] > d) {
+		  minDist[it.DataBR1()] = d;
+		  minLab[it.DataBR1()] = it.DataTR1();
 		}
 	    }
 	    }
-	    if(area[it.DataU1()] < thrSize) { 
-	      RealT d = cmp(it.Data2(),it.DataU2());
-	      if(minDist[it.DataU1()] > d) {
-		minDist[it.DataU1()] = d;
-		minLab[it.DataU1()] = it.Data1();
+	    if(area[it.DataTR1()] < thrSize) { 
+	      RealT d = cmp(it.DataBR2(),it.DataTR2());
+	      if(minDist[it.DataTR1()] > d) {
+		minDist[it.DataTR1()] = d;
+		minLab[it.DataTR1()] = it.DataBR1();
 	      }
 	    }
 	  }
 	  
 	  // Do back.
-	  if(it.Data1() != it.DataB1()) { // Are labels different ?
-	    if(area[it.Data1()] < thrSize) { 
-	      RealT d = cmp(it.Data2(),it.DataB2());
-	      if(minDist[it.Data1()] > d) {
-		minDist[it.Data1()] = d;
-		minLab[it.Data1()] = it.DataB1();
+	  if(it.DataBR1() != it.DataBL1()) { // Are labels different ?
+	    if(area[it.DataBR1()] < thrSize) { 
+	      RealT d = cmp(it.DataBR2(),it.DataBL2());
+	      if(minDist[it.DataBR1()] > d) {
+		minDist[it.DataBR1()] = d;
+		minLab[it.DataBR1()] = it.DataBL1();
 	      }
 	    }
-	    if(area[it.DataB1()] < thrSize) {
-	      RealT d = cmp(it.Data2(),it.DataB2());
-	      if(minDist[it.DataB1()] > d) {
-		minDist[it.DataB1()] = d;
-		minLab[it.DataB1()] = it.Data1();
+	    if(area[it.DataBL1()] < thrSize) {
+	      RealT d = cmp(it.DataBR2(),it.DataBL2());
+	      if(minDist[it.DataBL1()] > d) {
+		minDist[it.DataBL1()] = d;
+		minLab[it.DataBL1()] = it.DataBR1();
 	      }
 	    }
 	  }

@@ -21,6 +21,6 @@ LIBDEPS=RavlImageSegmentation.def
 
 TESTEXES=testConnectedComponents.cc 
 
-USESLIBS=RavlImage 
+USESLIBS=RavlImage  
 
 EHT=Ravl.Images.Segmentation.html

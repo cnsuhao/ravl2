@@ -224,8 +224,27 @@ namespace RavlImageN {
       *it = area[*it];
     
     labels = newLabel;
-    return newLabel;
+    return newLabel;    
+  }
+
+  //: Compute moments for each of the segmented regions.
+  // if ignoreZero is true, region labeled 0 is ignored.
+  
+  SArray1dC<Moments2d2C> SegmentationBodyC::ComputeMoments(bool ignoreZero) {
+    SArray1dC<Moments2d2C> ret(labels);
     
+    if(ignoreZero) {
+      // Ignore regions with label 0.
+      for(Array2dIterC<UIntT> it(segmap);it;it++) {
+      if(*it == 0)
+	continue;
+      ret[*it].AddPixel(it.Index());
+      }
+    } else {
+      for(Array2dIterC<UIntT> it(segmap);it;it++) 
+	ret[*it].AddPixel(it.Index());
+    }
+    return ret;
   }
   
 }
