@@ -12,9 +12,13 @@
 
 namespace Ravl3DN {
 
-  extern void InitTriMeshIO();
+  extern void InitVRMLFormat();
+  extern void InitCTriFormat();
   extern void InitObjFormat();
   extern void InitTriFormat();
+  extern void InitTexTriMeshIO();
+  extern void InitTriMeshIO();
+
 }
 
 #endif

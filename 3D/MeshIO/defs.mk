@@ -10,16 +10,21 @@
 PACKAGE=Ravl/3D
 
 HEADERS= MeshIO.hh \
+         VRMLFileIO.hh FormatVRMLFile.hh \
+         CTriFileIO.hh FormatCTriFile.hh \
          TriFileIO.hh FormatTriFile.hh \
          MeshIOObj.hh FormatMeshObj.hh
 
-SOURCES= TriFileIO.cc FormatTriFile.cc TriMeshIO.cc \
-         MeshIOObj.cc FormatMeshObj.cc
+SOURCES= VRMLFileIO.cc FormatVRMLFile.cc \
+	 CTriFileIO.cc FormatCTriFile.cc \
+	 TriFileIO.cc FormatTriFile.cc \
+         MeshIOObj.cc FormatMeshObj.cc \
+	 TriMeshIO.cc TexTriMeshIO.cc
 
 MUSTLINK= RavlMeshIO.cc
 
 PLIB=Ravl3DIO
 
-USESLIBS=Ravl3D RavlIO
+USESLIBS=Ravl3D RavlIO RavlOS
 
 EHT= Ravl.3D.IO.html
