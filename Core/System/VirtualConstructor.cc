@@ -12,6 +12,13 @@
 #include "Ravl/TypeName.hh"
 #include "Ravl/BinStream.hh"
 
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlN {
 
   //: Access virtual constructor table.
@@ -25,7 +32,7 @@ namespace RavlN {
   
   VirtualConstructorBodyC::VirtualConstructorBodyC(const type_info &info,const char *typesname)
   {
-    //cerr << "VirtualConstructorBodyC::VirtualConstructorBodyC(), Registering '" << info.name() << "' as '" <<typesname << "' \n";
+    ONDEBUG(cerr << "VirtualConstructorBodyC::VirtualConstructorBodyC(), Registering '" << info.name() << "' as '" <<typesname << "' \n");
     Table()[typesname] = VirtualConstructorC(*this);
     AddTypeName(info,typesname);
     
