@@ -89,9 +89,9 @@ namespace RavlN {
     VectorC mean;
     for(SampleIterC<VectorC> sit(in);sit;sit++) { // Got through all possible start points.
 //      int i = 0;
+      mean = sit->Copy();
       do {
 	count = 0;
-	mean = sit->Copy();
 	shift.Fill(0);
 	for(SampleIterC<VectorC> it(in);it;it++) {
 	  VectorC diff = *it - mean ;
@@ -132,9 +132,9 @@ namespace RavlN {
     VectorC shift(in.First().Size());
     VectorC mean;
     for(SampleIterC<VectorC> sit(in);sit;sit++) { // Got through all possible start points.
+      mean = sit->Copy();
       do {
 	count = 0;
-	mean = sit->Copy();
 	shift.Fill(0);
 	for(DataSet2IterC<SampleC<VectorC>,SampleC<RealT> > it(in,weights);it;it++) {
 	  VectorC diff = it.Data1() - mean ;
