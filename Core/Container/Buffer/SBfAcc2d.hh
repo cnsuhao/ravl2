@@ -19,6 +19,7 @@
 #include "Ravl/BfAcc2Iter.hh"
 #include "Ravl/Index2d.hh"
 #include "Ravl/Types.hh"
+#include "Ravl/IndexRange2d.hh"
 
 namespace RavlN {
   
@@ -136,6 +137,10 @@ namespace RavlN {
     //: Test if the array is allocated in a continous area of memory.
     // Note: this only checks the first two rows follow each other in
     // memory, this may miss other discontunities.
+    
+    IndexRange2dC Frame() const
+    { return IndexRange2dC(0,(IntT) size1-1,0,(IntT) size2-1); }
+    //: Return ranges of indexes
     
   protected:
     SizeT size2;
