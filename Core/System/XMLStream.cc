@@ -54,6 +54,7 @@ namespace RavlN {
   XMLBaseBodyC::XMLBaseBodyC()
     : strict(false),
       contents(false),
+      autoIndent(true),
       pushed(false)
   {}
   
