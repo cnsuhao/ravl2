@@ -18,7 +18,8 @@
 #include "Ravl/SArray1dIter.hh"
 
 namespace RavlN {
-
+  
+  
   //! userlevel=Normal
   //: Convert a polygon to a set of scan lines.
   // This assumes the boundary does not cross itself and is
@@ -61,19 +62,6 @@ namespace RavlN {
     { return row; }
     //: Access current row.
     
-  protected:
-    const Point2dC *NextPnt(const Point2dC *pnt);
-    //: Get following point on polygon
-    
-    const Point2dC *PrevPnt(const Point2dC *pnt);
-    //: Get previous point on polygon
-    
-    RealT RowQuant(RealT row);
-    //: Quantise row position
-    
-    bool SetupSpan();
-    //: Setup current 'span'
-    
     class LineSegmentC {
     public:
       LineSegmentC(const Point2dC *_p1,const Point2dC *_p2);
@@ -95,12 +83,23 @@ namespace RavlN {
       RealT IntersectRow(RealT row) const;
       //: Get row intersection with no checking.
     protected:
-      RealT k;
-      
       const Point2dC *p1;
       const Point2dC *p2;
     };
-
+    
+  protected:
+    const Point2dC *NextPnt(const Point2dC *pnt);
+    //: Get following point on polygon
+    
+    const Point2dC *PrevPnt(const Point2dC *pnt);
+    //: Get previous point on polygon
+    
+    RealT RowQuant(RealT row);
+    //: Quantise row position
+    
+    bool SetupSpan();
+    //: Setup current 'span'
+    
     bool CheckSpans();
     
     

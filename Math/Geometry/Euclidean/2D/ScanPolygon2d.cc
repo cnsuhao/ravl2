@@ -42,7 +42,11 @@ namespace RavlN {
       cerr << "ScanPolygon2dC::LineSegmentC::IntersectRow(), Failed. \n";
     return col;
   }
-  
+
+  ostream &operator<<(ostream &os,const ScanPolygon2dC::LineSegmentC &ls) {
+    os << "(" << *ls.P1() << " " << *ls.P2() << ") ";
+    return os;
+  }
   //:-----------------------------------------------------
   
   static int ComparRows(const void *e1,const void *e2) {
@@ -132,54 +136,57 @@ namespace RavlN {
   }
   
   bool ScanPolygon2dC::CheckSpans() {
-    ONDEBUG(cerr << "ScanPolygon2dC::CheckSpans() \n");
+    bool changed = false;
     while(pit) {
       RealT nrow = (*pit)->Row();
-      ONDEBUG(cerr << "ScanPolygon2dC::Next(), pit=" << *(*pit) << " Row=" << row << "\n");
       if(row < nrow)
 	break;
+      changed = true;
+      ONDEBUG(cerr << "================================================================\n");
+      ONDEBUG(cerr << "ScanPolygon2dC::Next(), pit=" << *(*pit) << " Row=" << row << "\n");
+      ONDEBUG(cerr << "ScanPolygon2dC::Next(), Spans=" << spans.List() << "\n");
+      
       // Is this end or begining of an existing line ?
       const Point2dC *at = *pit;
       bool done = false;
       for(spans.First();spans;spans++) {
-	ONDEBUG(cerr << "At=" << (void *) at << 
-		" D1.P1()=" << spans->Data1().P1() << 
-		" D1.P2()=" << spans->Data1().P2() << 
-		" D2.P1()=" << spans->Data2().P1() << 
-		" D2.P2()=" << spans->Data2().P2() << "\n");
-	
+	ONDEBUG(cerr << 
+                "At=" << *at << " =>"
+		" D1.P1()=" << *spans->Data1().P1() <<
+		" D1.P2()=" << *spans->Data1().P2() <<
+		" D2.P1()=" << *spans->Data2().P1() << 
+		" D2.P2()=" << *spans->Data2().P2() << 
+                "\n");
+	ONDEBUG(cerr << "T1: " << at << " " << spans->Data1().P1() << "\n");
 	if(spans->Data1().P1() == at) {
 	  RavlAssert(pit);
 	  const Point2dC *prev = PrevPnt(*pit);
 	  ONDEBUG(cerr << "Prev=" << *prev << "\n");
-	  if(prev->Row() > nrow) {
+	  if(prev->Row() >= nrow && spans->Data1().P1() != spans->Data2().P2()) {
 	    ONDEBUG(cerr << "Add segment 1 " << *prev << " " << *spans->Data1().P1() <<  "\n");
 	    spans->Data1() = LineSegmentC(prev,spans->Data1().P1());
 	  } else {
-	    if(spans->Data1().P1() == spans->Data2().P2()) {
-	      spans.Del();
-	    } else {
-	      spans.Del();
-	      //RavlAssert(0);
-	    }
+            spans.Del();
 	  }
 	  pit++;
 	  done = true;
 	  break;
 	}
+	ONDEBUG(cerr << "T1: " << at << " " << spans->Data2().P2() << "\n");
 	if(spans->Data2().P2() == at) {
 	  RavlAssert(pit);
 	  const Point2dC *next = NextPnt(*pit);
-	  ONDEBUG(cerr << "Next=" << *next << "\n");
-	  if(next->Row() > nrow) {
+	  ONDEBUG(cerr << "Next=" << *next << " spans.IsLast()=" << spans.IsLast() << " RowGT=" << (next->Row() >= nrow) << " Eq=" << (spans->Data1().P2() == spans->Data2().P1()) << "\n");
+          
+	  if(next->Row() >= nrow) {
 	    ONDEBUG(cerr << "Add segment 2 " << *spans->Data2().P2() << " " << *next <<  "\n");
 	    spans->Data2() = LineSegmentC(spans->Data2().P2(),next);
 	  } else {
 	    ONDEBUG(cerr << "Merge with next segment. \n");
-	    RavlAssert(!spans.IsLast()); // Must be a following span to merge with.
-	    spans->Data2() = spans.NextData().Data2();
-	    spans.Next();
-	    spans.Del();
+            RavlAssert(!spans.IsLast());
+            spans->Data2() = spans.NextData().Data2();
+            spans.Next();
+            spans.Del();
 	  }
 	  pit++;
 	  done = true;
@@ -197,6 +204,8 @@ namespace RavlN {
       const Point2dC *next = NextPnt(*pit);
       const Point2dC *prev = PrevPnt(*pit);
       if(next->Row() < (*pit)->Row() || prev->Row() < (*pit)->Row()) {
+        // Just skip point ?
+        ONDEBUG(cerr << "--- Ignoring. \n");
 	pit++;
 	continue;
       }
@@ -205,11 +214,16 @@ namespace RavlN {
       LineSegmentC seg2(*pit,next);
       RealT prow = (**pit)[0];
       RealT pcol = (**pit)[1];
-      RealT testRowAt = prow + 1;
-      RealT row1,row2;
       bool newSpike = true;
-      if(seg1.IntersectRow(testRowAt,row1) && seg2.IntersectRow(testRowAt,row2))
-	newSpike =  row1 < row2 ;
+      for(spans.First();spans;spans++) {
+        RealT v1 = spans->Data1().IntersectRow(prow); 
+        RealT v2 = spans->Data2().IntersectRow(prow);
+        if(Min(v1,v2) < pcol && pcol < Max(v1,v2)) {
+          newSpike = false;
+          break;
+        }
+      }
+      
       ONDEBUG(cerr << "Found a spike. New =" << newSpike << " @ " << **pit << "\n");
       if(newSpike) {
 	// New segment
@@ -220,9 +234,6 @@ namespace RavlN {
 					    seg2));
       } else {	
 	// Split segment
-	for(spans.First();spans;spans++)
-	  if(pcol > spans->Data1().IntersectRow(row))
-	    break;
 	RavlAssert(spans); // Should be in a valid span!
 	LineSegmentC tmp = spans->Data2();
 	spans->Data2() = seg2;
@@ -232,6 +243,10 @@ namespace RavlN {
       }
       pit++;
     }
+    if(changed) {
+      ONDEBUG(cerr << "*****  Final spans=" << spans.List() << "\n");
+    }
+    
     return true;
   }
 
