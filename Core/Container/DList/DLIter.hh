@@ -23,7 +23,7 @@ namespace RavlN {
 
   //! userlevel=Normal
   //: Double linked list iterator.
-  // Note: This iterator holds a refrence to the list it is iterating.
+  // Note: This iterator holds a reference to the list it is iterating.
   // (Unlike some other iterators.)
   
   template<class DataT> 
@@ -202,7 +202,7 @@ namespace RavlN {
     // Particularly, the n = 0 means no move,
     // n = 1 means the move to the next element, 
     // and n = -1 means the move to the previous element. <p>
-    // Returns a refrence to this iterator.
+    // Returns a reference to this iterator.
     
     DLIterC<DataT> &Nth(IntT n) {
       if(n >= 0) {
@@ -217,7 +217,7 @@ namespace RavlN {
     // The index 'n' can be negative. The first element of the list 
     // has the index 0, the last element has the index -1. It does 
     // not skip the head of the list.<p>
-    // Returns a refrence to this iterator.
+    // Returns a reference to this iterator.
     
     DataT &Data() { 
       RAVL_PARANOID(RavlAssertMsg(IsElm() && IsValid(),"Attempt to access data from invalid iterator."));

@@ -268,7 +268,7 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Double linked List 
-  // This is a refrence counted, doubly linked list. <p>
+  // This is a reference counted, doubly linked list. <p>
   // Implementation:<p>
   // The list contains a head element and a chain of
   // elements. Empty list contains just its head element.

@@ -78,7 +78,7 @@ namespace RavlGUIN {
     //: Create the widget.
     
     void Destroy();
-    //: Undo all refrences.
+    //: Undo all references.
     
   private:
     bool enabled;

@@ -94,7 +94,7 @@ namespace Ravl3DN {
 
   //! userlevel=Normal
   //: Half Edge Mesh
-  // Refrence counted handle to mesh.
+  // Reference counted handle to mesh.
   
   class HEMeshC 
     : public RCHandleC<HEMeshBodyC>

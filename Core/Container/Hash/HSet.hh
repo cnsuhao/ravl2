@@ -160,8 +160,8 @@ namespace RavlN {
   ///////////////////////////////
   //: Set Iterator.
   // SMALL OBJECT <p>
-  // This creates a refrence to the set, so the set will not be
-  // deleted while an iterator refrences it. <p>
+  // This creates a reference to the set, so the set will not be
+  // deleted while an iterator references it. <p>
   // You should NOT modify the set while using an iterator on it.
   // The actions of such a code are unpredictable.
   

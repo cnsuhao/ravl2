@@ -73,7 +73,7 @@ namespace RavlGUIN {
     return true;
   }
   
-  //: Undo all refrences.
+  //: Undo all references.
   
   void SpinButtonBodyC::Destroy() {
     sigChanged.DisconnectAll();

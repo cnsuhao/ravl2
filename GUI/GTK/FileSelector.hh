@@ -149,7 +149,7 @@ namespace RavlGUIN {
   }  
   
   //: Call a method.
-  // Hold only a refrence to the destination class.
+  // Hold only a reference to the destination class.
   
   template<class DataT>
   FileSelectorC FileSelectorR(const StringC &fsname,

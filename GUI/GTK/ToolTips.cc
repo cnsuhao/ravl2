@@ -43,7 +43,7 @@ namespace RavlGUIN {
     return true;
   }
   
-  //: Undo all refrences.
+  //: Undo all references.
   
   void ToolTipsBodyC::Destroy()  {
   }

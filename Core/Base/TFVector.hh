@@ -151,14 +151,14 @@ namespace RavlN {
     
     TFMatrixC<DataT,N,N> &OuterProduct(const TFVectorC<DataT,N> &av, TFMatrixC<DataT,N,N> &result) const;
     //: Calculate the outer product of this vector with av.
-    // The output is assigned to 'result'. A refrence to 'result' is
+    // The output is assigned to 'result'. A reference to 'result' is
     // returned. <p>
     // The implementation is in "Ravl/FMatrix.hh", it must be
     // included to use this function.
     
     TFMatrixC<DataT,N,N> &OuterProduct(TFMatrixC<DataT,N,N> &result) const;
     //: Calculate the outer product of this vector with itsself.
-    // The output is assigned to 'result'. A refrence to 'result' is
+    // The output is assigned to 'result'. A reference to 'result' is
     // returned. <p>
     // The implementation is in "Ravl/FMatrix.hh", it must be
     // included to use this function.

@@ -48,7 +48,7 @@ namespace RavlN {
   //: Base class for table.
   // BIG OBJECT!
   // <p>
-  // Use HashART<K,T> in HashAR.hh in prefrence to this, in nearly
+  // Use HashART<K,T> in HashAR.hh in preference to this, in nearly
   // every case its faster. 
   // <p>
   // The following amma classes can be used as a key for this
@@ -168,7 +168,7 @@ namespace RavlN {
     // Returns: True=Member existed already. False=New one was added.
     
     inline T &Update(const K &Key);
-    //: Get value, add default if its not there. Return refrence anyway.
+    //: Get value, add default if its not there. Return reference anyway.
     
     inline T &operator[](const K &Key) 
       { return Update(Key); }
@@ -183,11 +183,11 @@ namespace RavlN {
     
     inline T &Access(const K &key,const T &def = T());
     //: Access key, if it does not exist create a new bin with value 'def'
-    // Retuns a refrence to the entry.
+    // Retuns a reference to the entry.
     
     inline T &AccessCopy(const K &key,const T &def = T());
     //: Access key, if it does not exist create a new bin with a copy of value 'def'
-    // Retuns a refrence to the entry.
+    // Retuns a reference to the entry.
     
     bool Del(const K &Key,bool allowResize = true);
     //: Delete member from table.
@@ -350,10 +350,10 @@ namespace RavlN {
     
     const T &Data() const 
     { return Hold; }
-    //: Get constant refrence to data.
+    //: Get constant reference to data.
     
     T &Data() { return Hold; }
-    //: Get refrence to data.
+    //: Get reference to data.
     
     T GetData() { return Hold; }
     //: Get copy of data.

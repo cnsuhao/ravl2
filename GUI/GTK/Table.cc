@@ -52,7 +52,7 @@ namespace RavlGUIN {
     return true;
   }
   
-  //: Undo all refrences.
+  //: Undo all references.
   
   void TableBodyC::Destroy() {
     for(DLIterC<WidgeInfoC> it(children);it.IsElm();it.Next()) 

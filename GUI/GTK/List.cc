@@ -156,7 +156,7 @@ namespace RavlGUIN {
     return true;
   }
   
-  //: Undo all refrences.
+  //: Undo all references.
   
   void ListBodyC::Destroy()  {
     for(DLIterC<Tuple2C<IntT,WidgetC> > it(children);it;it++)

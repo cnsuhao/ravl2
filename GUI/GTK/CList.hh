@@ -166,7 +166,7 @@ namespace RavlGUIN {
     
   protected:
     virtual void Destroy();
-    //: Undo all refrences.
+    //: Undo all references.
     
     bool GUIRowUnselected(CListEventC &);
     //: Called when row is unselected.

@@ -75,7 +75,7 @@ namespace RavlGUIN
     
   protected:
     virtual void Destroy();
-    //: Undo all refrences.
+    //: Undo all references.
     
     bool FixupPage(WidgetC &page,WidgetC &tab);
     //: Do the main bit of AppendPage.

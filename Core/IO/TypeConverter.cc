@@ -42,7 +42,7 @@ namespace RavlN {
     DListC<GraphEdgeIterC<StringC,DPConverterBaseC> > conv;  
     //  typedef RealT (*AFuncT)(const DPConverterBaseC &);
 #ifndef VISUAL_CPP
-    // Visual C++ can't handle ptr's to functions with refrence args.
+    // Visual C++ can't handle ptr's to functions with reference args.
     // hopefull we'll find a way aroung this but for now its out.
     conv = GraphBestRoute(ConvGraph(),
 			  GetTypeNode(from),

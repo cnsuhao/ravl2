@@ -49,7 +49,7 @@ namespace RavlGUIN {
     //: Create widget.
     
     virtual void Destroy();
-    //: Undo all refrences.
+    //: Undo all references.
     
     IntT  digits;
     RealT climbRate;
@@ -143,7 +143,7 @@ namespace RavlGUIN {
     ConnectRef(ret.SigChanged(),obj,func,defVal);
     return ret;
   }
-  //: Construct spin button with callback to refrenced class method.
+  //: Construct spin button with callback to referenced class method.
   
 }
 #endif

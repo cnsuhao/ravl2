@@ -59,7 +59,7 @@ namespace RavlGUIN
     return GTK_CHECK_MENU_ITEM(widget)->active;
   }
   
-  //: Undo all refrences
+  //: Undo all references
   
   void MenuCheckItemBodyC::Destroy() {
     selectedToggle.Invalidate();

@@ -82,7 +82,7 @@ namespace RavlN {
       return *this;
     }
     //: Set the origin of the range to 'newOrigin'
-    // Returns a refrence to this rectangle.
+    // Returns a reference to this rectangle.
     
     inline TFVectorC<RealT,2> Origin() const
     { return TFVector2(rows.Min(),cols.Min()); }

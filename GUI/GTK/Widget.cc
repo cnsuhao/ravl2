@@ -425,7 +425,7 @@ namespace RavlGUIN {
     if(widget == 0)
       return ;
     
-    gtk_object_ref(GTK_OBJECT(widget));  // Make refrence to object.
+    gtk_object_ref(GTK_OBJECT(widget));  // Make reference to object.
     gotRef = true;
 #if 1
     if(dndInfo != 0) { // Setup drag and drop ?
@@ -545,9 +545,9 @@ namespace RavlGUIN {
 			   tl + Index2dC((int) widget->allocation.height,(int) widget->allocation.width));
   }
   
-  //: Undo all refrences.
-  // Used to avoid problems with circluar refrences.
-  // This should undo all refrences to RAVL and GUI
+  //: Undo all references.
+  // Used to avoid problems with circluar references.
+  // This should undo all references to RAVL and GUI
   // objects which are not in the destroy tree. 
   // The function is called by the root window in its
   // destructor.

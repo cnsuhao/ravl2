@@ -139,25 +139,25 @@ namespace RavlN {
       return *this;
     }
     //: Set the origin of the range to 'position'.
-    // Returns a refrence to this range.
+    // Returns a reference to this range.
     
     inline IndexRangeC &operator++()
     { Min()++; Max()++; return *this; }
     //: Move both the max and min of the range along 1.
-    // Returns a refrence to this range.
+    // Returns a reference to this range.
     
     inline IndexRangeC &operator--()
     { Min()--; Max()--; return *this; }
     //: Move both the max and min of the range back 1.
-    // Returns a refrence to this range.
+    // Returns a reference to this range.
     
     inline const IndexRangeC & operator+=(IndexC i);
     //: Both minimum and maximum limits are shifted by adding the offset 'i'.
-    // Returns a refrence to this range.
+    // Returns a reference to this range.
     
     inline const IndexRangeC & operator-=(IndexC i);
     //: Both minimum and maximum limits are shifted by subtracting the offset 'i'.
-    // Returns a refrence to this range.
+    // Returns a reference to this range.
     
     inline IndexRangeC operator+(IndexC i) const
     { return IndexRangeC(Min() + i,Max() + i); }

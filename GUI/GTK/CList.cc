@@ -411,7 +411,7 @@ namespace RavlGUIN {
     return  (IntT) gtk_clist_get_row_data(GTK_CLIST(widget),row);
   }
   
-  //: Undo all refrences.
+  //: Undo all references.
   
   void CListBodyC::Destroy() {
     WidgetBodyC::Destroy(); 

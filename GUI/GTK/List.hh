@@ -74,7 +74,7 @@ namespace RavlGUIN {
     
   protected:
     virtual void Destroy();
-    //: Undo all refrences.
+    //: Undo all references.
     
     DListC<Tuple2C<IntT,WidgetC> > children;
     GtkSelectionMode selMode;

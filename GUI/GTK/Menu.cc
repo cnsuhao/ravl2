@@ -52,7 +52,7 @@ namespace RavlGUIN
     return true;
   }
   
-  //: Undo all refrences.
+  //: Undo all references.
   
   void MenuItemBodyC::Destroy() {
     ONDEBUG(cerr << "MenuItemBodyC::Destroy(), Called. \n");  
@@ -122,7 +122,7 @@ namespace RavlGUIN
   }
   
   //: Create a handle from a base class.
-  // This will create an invalid refrence if
+  // This will create an invalid reference if
   // the given object is not derived from MenuC
   
   MenuC::MenuC(WidgetC &widge)

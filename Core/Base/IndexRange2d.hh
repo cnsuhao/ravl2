@@ -87,7 +87,7 @@ namespace RavlN {
       return *this;
     }
     //: Set the origin of the range to 'newOrigin'
-    // Returns a refrence to this rectangle.
+    // Returns a reference to this rectangle.
     
     inline Index2dC Origin() const
     { return Index2dC(rows.Min(),cols.Min()); }

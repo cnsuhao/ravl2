@@ -39,7 +39,7 @@ namespace RavlGUIN {
     
     virtual void Destroy()
       { WidgetBodyC::Destroy(); }
-    //: Undo all refrences.
+    //: Undo all references.
     // Placeholder only.
     
   private:

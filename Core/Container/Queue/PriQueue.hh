@@ -198,7 +198,7 @@ namespace RavlN {
     i /= 2;
     Tuple2C<K,D> tmp(arr[i-1]); 
     // Have to use tempory here as array may be resized and the
-    // refrence returned from arr[] may be invalid.
+    // reference returned from arr[] may be invalid.
     arr.Add(tmp); // Move up.
     for(;(i > 1) && dat.Data1() < arr[i/2-1].Data1();i /= 2)
       arr[i-1] = arr[i/2-1];

@@ -22,7 +22,7 @@ namespace RavlGUIN {
   static
   Tuple2C<const char *,GdkCursorType> cursorNames[] = 
   {
-    GDKCURSOR(GDK_NUM_GLYPHS),  // Refrenced in Terminator don't move!
+    GDKCURSOR(GDK_NUM_GLYPHS),  // Referenced in Terminator don't move!
     GDKCURSOR(GDK_X_CURSOR),
     GDKCURSOR(GDK_ARROW),
     GDKCURSOR(GDK_BASED_ARROW_DOWN),

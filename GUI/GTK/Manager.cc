@@ -88,7 +88,7 @@ namespace RavlGUIN {
       awin.Destroy();
       wins.Del(key); // Make sure its removed...
     }
-    ONDEBUG(cerr << "ManagerC::~ManagerC(), Removing final refrence to root win.. \n");
+    ONDEBUG(cerr << "ManagerC::~ManagerC(), Removing final reference to root win.. \n");
     
     delayEvents.Empty();
     close(ifp);

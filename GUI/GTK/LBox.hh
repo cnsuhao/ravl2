@@ -66,7 +66,7 @@ namespace RavlGUIN {
   protected:
     virtual void Destroy()
 	{ ContainerWidgetBodyC::Destroy(); }
-    //: Undo all refrences.
+    //: Undo all references.
     
     bool vert; // Vertical layout ?
     IntT boarder;

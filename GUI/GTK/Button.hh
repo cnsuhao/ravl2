@@ -159,7 +159,7 @@ namespace RavlGUIN
     return ret;    
   }
   //: Create button that calls a function.
-  // This does NOT make a refrence to obj.
+  // This does NOT make a reference to obj.
   
   template<class ObjT,class DataT>
   ButtonC Button(const char *label,const char *tooltip,const ObjT &obj,bool (ObjT::*func)(DataT &dat),const DataT &dat)
@@ -186,7 +186,7 @@ namespace RavlGUIN
     return ret;    
   }
   //: Create button that calls a function.
-  // This does NOT make a refrence to obj.
+  // This does NOT make a reference to obj.
   
   template<class ObjT>
   ButtonC Button(const char *label,const char *tooltip,const ObjT &obj,bool (ObjT::*func)())

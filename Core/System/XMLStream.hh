@@ -51,7 +51,7 @@ namespace RavlN {
   //! userlevel=Advanced
   //: Class for handling XML attributes.
   // SMALL object. <p>
-  // Note: This only keeps a refrence to the data, not an
+  // Note: This only keeps a reference to the data, not an
   // actual copy.
   
   template<class DataT>

@@ -201,7 +201,7 @@ namespace RavlGUIN {
   }
   
   
-  //: Undo all refrences.
+  //: Undo all references.
   
   void TreeBodyC::Destroy() {
     for(DLIterC<TreeItemC> it(children);it.IsElm();it.Next()) 

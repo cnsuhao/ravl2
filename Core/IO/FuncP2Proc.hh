@@ -150,7 +150,7 @@ namespace RavlN {
   DPProcessC<InT,OutT> operator>>(InterT (*func)(InT),const DPProcessC<InterT,OutT> &np1)
   { return DPComposeProcessC<InT,InterT,OutT>(DPFunc2Proc(func),np1); }
   
-  // Constant refrence versions.
+  // Constant reference versions.
   
   template<class InT,class OutT>
   DPProcessC<InT,OutT> DPFunc2Proc(OutT (*func)(const InT &))

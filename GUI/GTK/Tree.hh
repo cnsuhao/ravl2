@@ -76,7 +76,7 @@ namespace RavlGUIN {
     //: Create the widget.
     
     virtual void Destroy();
-    //: Undo all refrences.
+    //: Undo all references.
     
     DListC<TreeItemC> children; // List of child tree items. 
     

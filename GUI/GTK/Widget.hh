@@ -160,9 +160,9 @@ namespace RavlGUIN {
     //: Set state of widget.
     
     virtual void Destroy();
-    //: Undo all refrences.
-    // Used to avoid problems with circluar refrences.
-    // This should undo all refrences to RAVL and GUI
+    //: Undo all references.
+    // Used to avoid problems with circluar references.
+    // This should undo all references to RAVL and GUI
     // objects which are not in the destroy tree. 
     // The function is called by the root window in its
     // destructor.
@@ -187,7 +187,7 @@ namespace RavlGUIN {
     
     const char *tooltip;
     
-    bool gotRef; // Do we have a refrence to the object.
+    bool gotRef; // Do we have a reference to the object.
     
     WidgetDndInfoC *dndInfo; // Drag and drop info.
     

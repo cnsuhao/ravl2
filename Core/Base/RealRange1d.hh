@@ -129,25 +129,25 @@ namespace RavlN {
       return *this;
     }
     //: Set the origin of the range to 'position'.
-    // Returns a refrence to this range.
+    // Returns a reference to this range.
     
     inline RealRangeC &operator++()
     { Min()++; Max()++; return *this; }
     //: Move both the max and min of the range along 1.
-    // Returns a refrence to this range.
+    // Returns a reference to this range.
     
     inline RealRangeC &operator--()
     { Min()--; Max()--; return *this; }
     //: Move both the max and min of the range back 1.
-    // Returns a refrence to this range.
+    // Returns a reference to this range.
     
     inline const RealRangeC & operator+=(RealT i);
     //: Both minimum and maximum limits are shifted by adding the offset 'i'.
-    // Returns a refrence to this range.
+    // Returns a reference to this range.
     
     inline const RealRangeC & operator-=(RealT i);
     //: Both minimum and maximum limits are shifted by subtracting the offset 'i'.
-    // Returns a refrence to this range.
+    // Returns a reference to this range.
     
     inline RealRangeC operator+(RealT i) const
     { return RealRangeC(Min() + i,Max() + i); }

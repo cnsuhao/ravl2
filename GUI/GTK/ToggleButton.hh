@@ -59,7 +59,7 @@ namespace RavlGUIN {
     // Signal state to clients with 'sigChanged'
     
     virtual void Destroy();
-    //: Undo all refrences.
+    //: Undo all references.
     
     virtual GtkWidget *BuildWidget(const char *lab = 0);
     //: Create the actual widget.
@@ -232,7 +232,7 @@ namespace RavlGUIN {
     return ret;    
   }
 
-  ///// Refrence //////////////////////////
+  ///// Reference //////////////////////////
 
   template<class ObjT>
   ToggleButtonC ToggleButtonR(const char *label,bool initState,ObjT &obj,bool (ObjT::*func)(bool &))

@@ -56,13 +56,13 @@ namespace RavlN {
     { return Data()[a]; }
     //: Accesss an element.
     // Will create an empty element with the default constructor
-    // and return a refrence to it, if it doesn't already exist.
+    // and return a reference to it, if it doesn't already exist.
     
     const Dat &operator[] (const  Key &a) const
     { return Data()[a]; }
     //: Accesss an element.
     // Will create an empty element with the default constructor
-    // and return a refrence to it, if it doesn't already exist.
+    // and return a reference to it, if it doesn't already exist.
     
     inline bool Del(const Key &aKey)
     { return Data().Del(aKey); }
@@ -122,13 +122,13 @@ namespace RavlN {
     
     inline Dat &Update(const Key &key)
     { return Data().Update(key); }
-    //: Get value, add default if its not there. Return refrence anyway.
+    //: Get value, add default if its not there. Return reference anyway.
     // OBSOLETE: Use operator[].
     
     inline Dat &Access(const Key &key,const Dat &def = Dat())
     { return Data().Access(key,def); }
     //: Access key, if it does exists create a new bin with value 'def'
-    // Retuns a refrence to the new entry.
+    // Retuns a reference to the new entry.
 
     void AddFrom(RCHashC<Key,Dat> &oth,bool replace = true)
     { Data().AddFrom(oth,replace); }

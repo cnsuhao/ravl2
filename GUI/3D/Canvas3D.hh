@@ -244,22 +244,22 @@ namespace RavlGUIN {
     void RenderRef(ObjT &nobj,bool (ObjT::*nfunc)())
       { Put(DOpenGLC(CallMethodRef0C<ObjT>(nobj,nfunc))); }
     //: Call OpenGL rendering function.
-    // Use only a refrence to 'nobj', not a copy.
-    // NB. This means the refrence counter will NOT be incremented.
+    // Use only a reference to 'nobj', not a copy.
+    // NB. This means the reference counter will NOT be incremented.
     
     template<class ObjT,class DataT>
     void RenderRef(ObjT &nobj,bool (ObjT::*nfunc)(DataT &),const DataT &dat)
       { Put(DOpenGLC(CallMethodRef1C<ObjT,DataT>(nobj,nfunc,dat))); }
     //: Call OpenGL rendering function.
-    // Use only a refrence to 'nobj', not a copy.
-    // NB. This means the refrence counter will NOT be incremented.
+    // Use only a reference to 'nobj', not a copy.
+    // NB. This means the reference counter will NOT be incremented.
     
     template<class ObjT,class Data1T,class Data2T>
     void RenderRef(ObjT &nobj,bool (ObjT::*nfunc)(Data1T &,Data2T &),const Data1T &dat1,const Data2T &dat2)
       { Put(DOpenGLC(CallMethodRef2C<ObjT,Data1T,Data2T>(nobj,nfunc,dat1,dat2))); }
     //: Call OpenGL rendering function.
-    // Use only a refrence to 'nobj', not a copy.
-    // NB. This means the refrence counter will NOT be incremented.
+    // Use only a reference to 'nobj', not a copy.
+    // NB. This means the reference counter will NOT be incremented.
     
     void SwapBuffers()
     { RenderRef(*this,&Canvas3DC::GUISwapBuffers); }

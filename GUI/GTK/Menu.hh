@@ -42,7 +42,7 @@ namespace RavlGUIN {
     
   protected:
     virtual void Destroy();
-    //: Undo all refrences.
+    //: Undo all references.
     
     StringC name;
     Signal0C selected;
@@ -150,7 +150,7 @@ namespace RavlGUIN {
     
     MenuC(WidgetC &widge);
     //: Create a handle from a base class.
-    // This will create an invalid refrence if
+    // This will create an invalid reference if
     // the given object is not derived from MenuC
     
   protected:
@@ -278,7 +278,7 @@ namespace RavlGUIN {
     return ret;
   }
   //: Create new menu item, connect to a function.
-  // This does NOT hold a refrence to item 'dat'
+  // This does NOT hold a reference to item 'dat'
   
   template<class ObjT,class DataT>
   MenuItemC MenuItem(const StringC &label,const ObjT &obj,bool (ObjT::*func)(DataT &),const DataT &dat)
@@ -297,7 +297,7 @@ namespace RavlGUIN {
     return ret;
   }
   //: Create new menu item, connect to a function.
-  // This does NOT hold a refrence to item 'dat'
+  // This does NOT hold a reference to item 'dat'
 
   template<class ObjT,class Data1T,class Data2T>
   MenuItemC MenuItem(const StringC &label,const ObjT &obj,bool (ObjT::*func)(Data1T &,Data2T &),const Data1T &dat1,const Data2T &dat2)

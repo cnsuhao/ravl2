@@ -47,7 +47,7 @@ namespace RavlGUIN {
     //: Create widget.
     
     virtual void Destroy();
-    //: Undo all refrences.
+    //: Undo all references.
     
     int sx,sy; // Size.
     bool homogeneous;

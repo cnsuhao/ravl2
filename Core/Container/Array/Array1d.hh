@@ -743,7 +743,7 @@ namespace RavlN {
       SetZero(ret);
       return ret;
     }
-    ret = StdCopy(*it); // Need to copy in case its a refrence counted object. 
+    ret = StdCopy(*it); // Need to copy in case its a reference counted object. 
     for(it++;it;it++)
       ret += *it;
     return ret;

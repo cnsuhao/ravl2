@@ -51,7 +51,7 @@ namespace RavlGUIN {
     
   protected:
     virtual void Destroy();
-    //: Undo all refrences
+    //: Undo all references
     
     static int doSelected(GtkWidget *widget,Signal1C<bool> *data);
     
@@ -142,7 +142,7 @@ namespace RavlGUIN {
     ConnectRef(ret.SelectedToggle(),obj,func);
     return ret;
   }
-  //: Menu check item, call refrenced class's method.
+  //: Menu check item, call referenced class's method.
   
   template<class DataT>
   MenuCheckItemC MenuCheckItem(const StringC &label,bool initActive,const DataT &obj,void (DataT::*func)(bool &))

@@ -52,7 +52,7 @@ namespace RavlN {
   
   //! userlevel=Develop
   //: Branching hash table.
-  // This behaves as a non-refrence counted object.
+  // This behaves as a non-reference counted object.
   
   template<class KeyT,class DataT>
   class BHashC {

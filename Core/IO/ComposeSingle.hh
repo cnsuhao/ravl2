@@ -49,7 +49,7 @@ namespace RavlComposeSingleN {
   
   //: Output data to an oport.
   // The const in the for the 'op' is just to get write of warnings
-  // about initalisation with temporary refrences.
+  // about initalisation with temporary references.
 
   template<class DataT>
   DPIPortC<DataT> &operator-= (DPIPortC<DataT> &ip,DataT &in){ 

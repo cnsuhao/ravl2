@@ -293,7 +293,7 @@ namespace RavlGUIN {
     ConnectRef(ret.SigChanged(),obj,func,defVal);
     return ret;
   }
-  //: Vertical slider with refrence call back to class.
+  //: Vertical slider with reference call back to class.
 
   template<class DataT>
   SliderC SliderHR(RealT nvalue, 
@@ -306,7 +306,7 @@ namespace RavlGUIN {
     ConnectRef(ret.SigChanged(),obj,func,defVal);
     return ret;
   }
-  //: Horizontal slider with refrence call back to class.
+  //: Horizontal slider with reference call back to class.
   
 }
 

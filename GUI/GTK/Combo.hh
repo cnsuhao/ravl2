@@ -175,7 +175,7 @@ namespace RavlGUIN {
     ConnectRef(ret.SigSelected(),dat,func);
     return ret;    
   }  
-  //: Contruct a combo box, call back to method in refrenced class.
+  //: Contruct a combo box, call back to method in referenced class.
 
   template<class DataT>
   ComboC ComboR(const DListC<StringC> &lst,char *tooltip,const DataT &dat,bool (DataT::*func)(StringC &ref),bool editable = true)
@@ -185,7 +185,7 @@ namespace RavlGUIN {
     ret.SetToolTip(tooltip);
     return ret;    
   }  
-  //: Contruct a combo box, call back to method in refrenced class.
+  //: Contruct a combo box, call back to method in referenced class.
   // With tooltip.
   
 }
