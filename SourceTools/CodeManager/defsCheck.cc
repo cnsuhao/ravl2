@@ -5,11 +5,12 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////
-// defchk.cc
-// $Id$
 //! rcsid="$Id$"
 //! lib=RavlSourceTools
 //! file="Ravl/SourceTools/CodeManager/defsCheck.cc"
+//! docentry="Ravl.Source Tools"
+//! userlevel=Normal
+//! author="Charles Galambos"
 
 #include "Ravl/Option.hh"
 #include "Ravl/SourceTools/DefsFile.hh"
