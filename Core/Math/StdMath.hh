@@ -69,7 +69,7 @@ namespace RavlN {
 #endif
   }
   // Returns the cube root of 'x'.
-
+  
 #ifndef VISUAL_CPP
   // FIXME:- We have to sort this out..
   
@@ -82,9 +82,6 @@ namespace RavlN {
   // Returns 1.0 - Erf(x). (Use when x is large)
 #endif
   
-
-  // Logical operators
-  // -----------------
   
   inline bool IsPow2(IntT i) {
     IntT j = 1;
@@ -92,7 +89,16 @@ namespace RavlN {
       j *= 2;
     return i==j;
   }
-  // Returns TRUE if 'i' is a power of 2.
+  //: Is interger power of 2 ?
+  // Returns true if 'i' is a power of 2.
+  
+  inline IntT ILog2(IntT i) {
+    IntT mex = 0;
+    while((i/=2) != 0) mex++;
+    return(mex);
+  }
+  //: Interger Log 2
+  // "i" = 2 ^ "mex", "mex" = ?
   
   inline bool IsInf(RealT i) {
 #if defined(__linux__) 
