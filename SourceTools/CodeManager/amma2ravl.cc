@@ -93,6 +93,8 @@ static bool UpdateFile(FilenameC fn) {
   theFile.GlobalSubst("\"amma/VecMat3d.hh\"","\"Ravl/VectorMatrix3d.hh\"");
   theFile.GlobalSubst("\"amma/VecMat4d.hh\"","\"Ravl/VectorMatrix4d.hh\"");
   theFile.GlobalSubst("\"amma/Motion/LMSOpticFlow.hh\"","\"Ravl/Image/LMSOpticFlow.hh\"");
+  theFile.GlobalSubst("\"amma/IndexR1d.hh\"","\"Ravl/IndexRange1d.hh\"");
+  theFile.GlobalSubst("\"amma/SArr1Iter.hh\"","\"Ravl/SArray1dIter.hh\"");
   
   if(guiUpdates) {
     theFile.GlobalSubst("GUIDEBUG","DODEBUG");
@@ -171,7 +173,7 @@ static bool UpdateFile(FilenameC fn) {
   theFile.GlobalSubst("NumImageC ","ImageC ");
   
   // Core.
-    
+  
   theFile.GlobalSubst("BodyRefCounterC","RCBodyC");
   theFile.GlobalSubst("BodyRefCounterVC","RCBodyVC");
   theFile.GlobalSubst("Launch(","ThreadLaunch(");
@@ -216,6 +218,7 @@ static bool UpdateFile(FilenameC fn) {
   theFile.GlobalSubst(".A31()","[3][1]");
   theFile.GlobalSubst(".A32()","[3][2]");
   theFile.GlobalSubst(".A32()","[3][3]");
+  theFile.GlobalSubst("ConstDLIterC","DLIterC");
   
   if(theFile.IsModified()) {
     cerr << "Updated file :" << fn << "\n";
