@@ -13,7 +13,7 @@
 //! docentry="Ravl.OS.Time"
 //! rcsid="$Id$"
 //! file="Ravl/OS/Time/Date.hh"
-//! date="07/05/98"
+//! date="07/05/1998"
 
 #include "Ravl/Types.hh"
 
@@ -30,7 +30,10 @@ namespace RavlN {
   
   class DateC {
   public:
-    inline DateC();
+    inline DateC()
+      : sec(0),
+	usec(0)
+    {}
     //: Default constructor.
     // Sets time to 0.
     
@@ -49,10 +52,16 @@ namespace RavlN {
     DateC(istream &in);
     //: Construct from a stream
     
-    inline DateC(long xsec,long xusec);
+    inline DateC(long xsec,long xusec)
+      : sec(xsec),
+	usec(xusec)
+    {}
     //: Construct from two longs..
     
-    inline DateC(const DateC &val);
+    inline DateC(const DateC &val)
+      : sec(val.sec),
+	usec(val.usec)
+    {}
     //: Copy constructor
     
     DateC(const StringC &);
@@ -67,15 +76,15 @@ namespace RavlN {
     //: Convert year to days since 1970
     
     inline bool IsValid() const
-      { return usec >= 0; }
+    { return usec >= 0; }
     //: Is a valid date ?
     
     inline bool IsZero() const
-      { return sec == 0 && usec == 0;}
+    { return sec == 0 && usec == 0;}
     //: Is time zero ?
     
     inline void SetInvalid()
-      { usec = -1; }
+    { usec = -1; }
     //: Make this date invalid.
     
     void SetToNow(bool useVirt = false);
@@ -84,7 +93,8 @@ namespace RavlN {
     inline long MaxUSeconds() const { return 1000000; }
     //: Maximum mircro seconds.
     
-    inline long Resolution() const;
+    inline long Resolution() const
+    { return 10000; }
     //: Get resolution of timer in microseconds.
     // NB. This assumes 100Hz by default.
     
@@ -97,7 +107,8 @@ namespace RavlN {
     inline bool operator==(const DateC &oth) const;
     //: Compre times.
     
-    inline bool operator!=(const DateC &oth) const;
+    inline bool operator!=(const DateC &oth) const
+    { return !operator==(oth); }
     //: Compare times.
     
     inline bool operator>(const DateC &oth) const;
@@ -142,15 +153,15 @@ namespace RavlN {
     //: Returns a short string containing date/time.
     
     inline long USeconds() const
-      { return usec; }
+    { return usec; }
     //: Get micro seconds.
     
     inline long TotalSeconds() const
-      { return sec; }
+    { return sec; }
     //: Get total seconds.
     
     inline double Double() const
-      { return (double) sec + (((double)usec) / ((double) MaxUSeconds())); }
+    { return (double) sec + (((double)usec) / ((double) MaxUSeconds())); }
     //: Get time in double form.
     
     IntT Seconds() const;
@@ -224,46 +235,15 @@ namespace RavlN {
     }
   }
   
-  
   inline 
-  DateC::DateC()
-    : sec(0),
-      usec(0)
-  {}
-  
-  inline 
-  DateC::DateC(const DateC &val)
-    : sec(val.sec),
-      usec(val.usec)
-  {}
-  
-  inline 
-  DateC::DateC(long xsec,long xusec) 
-    : sec(xsec),
-      usec(xusec)
-  {}
-  
-  inline 
-  long 
-  DateC::Resolution() const 
-  { return 10000; }
-  
-  inline 
-  bool 
-  DateC::operator==(const DateC &oth) const {
+  bool DateC::operator==(const DateC &oth) const {
     if(sec != oth.sec)
       return false;
     return (usec == oth.usec);
   }
   
   inline 
-  bool 
-  DateC::operator!=(const DateC &oth) const 
-  { return !operator==(oth); }
-  
-  inline 
-  bool 
-  DateC::operator>(const DateC &oth) const  {
+  bool DateC::operator>(const DateC &oth) const  {
     if(sec > oth.sec)
       return true;
     if(sec < oth.sec)
@@ -272,8 +252,7 @@ namespace RavlN {
   }
   
   inline 
-  bool 
-  DateC::operator<(const DateC &oth) const  {
+  bool DateC::operator<(const DateC &oth) const  {
     if(sec < oth.sec)
       return true;
     if(sec > oth.sec)
@@ -282,8 +261,7 @@ namespace RavlN {
   }
   
   inline 
-  bool 
-  DateC::operator>=(const DateC &oth) const  {
+  bool DateC::operator>=(const DateC &oth) const  {
     if(sec > oth.sec)
       return true;
     if(sec < oth.sec)
@@ -292,8 +270,7 @@ namespace RavlN {
   }
   
   inline 
-  bool 
-  DateC::operator<=(const DateC &oth) const  {
+  bool DateC::operator<=(const DateC &oth) const  {
     if(sec < oth.sec)
       return true;
     if(sec > oth.sec)
@@ -302,8 +279,7 @@ namespace RavlN {
   }
   
   inline 
-  void 
-  DateC::NormalisePos()  {
+  void DateC::NormalisePos()  {
     while(usec >= MaxUSeconds()) {
       usec -= MaxUSeconds();
       sec++;
@@ -311,8 +287,7 @@ namespace RavlN {
   }
   
   inline 
-  void 
-  DateC::NormaliseNeg()  {
+  void DateC::NormaliseNeg()  {
     while(usec < 0) {
       usec += MaxUSeconds();
       sec--;
@@ -320,8 +295,7 @@ namespace RavlN {
   }
   
   inline 
-  DateC 
-  DateC::operator+(const DateC &oth) const  {
+  DateC DateC::operator+(const DateC &oth) const  {
     DateC ret;
     ret.sec = sec + oth.sec;
     ret.usec = usec + oth.usec;
@@ -330,8 +304,7 @@ namespace RavlN {
   }
   
   inline 
-  DateC 
-  DateC::operator-(const DateC &oth) const  {
+  DateC DateC::operator-(const DateC &oth) const  {
     DateC ret;
     ret.sec = sec - oth.sec;
     ret.usec = usec - oth.usec;
@@ -340,8 +313,7 @@ namespace RavlN {
   }
   
   inline
-  const DateC &
-  DateC::operator-=(const DateC &val) {
+  const DateC &DateC::operator-=(const DateC &val) {
     sec -= val.sec;
     usec -= val.usec;
     NormaliseNeg();
@@ -349,8 +321,7 @@ namespace RavlN {
   }
 
   inline
-  const DateC &
-  DateC::operator+=(const DateC &val)  {
+  const DateC &DateC::operator+=(const DateC &val)  {
     sec += val.sec;
     usec += val.usec;
     NormalisePos();
@@ -358,8 +329,7 @@ namespace RavlN {
   }
   
   inline 
-  const DateC &
-  DateC::operator+=(double val) {
+  const DateC &DateC::operator+=(double val) {
     sec += (long) val;
     usec += ((long) ((RealT) val * 1000000) % 1000000);
     NormalisePos();  
@@ -367,8 +337,7 @@ namespace RavlN {
   }
   
   inline 
-  const DateC &
-  DateC::operator-=(double val) {
+  const DateC &DateC::operator-=(double val) {
     sec -= (long) val;
     usec -= ((long) ((RealT) val * 1000000) % 1000000);
     NormaliseNeg();
