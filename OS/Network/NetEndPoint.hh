@@ -149,7 +149,7 @@ namespace RavlN {
     // This should only be used if net end point 
     // has been created by the default constructor.
     
-    bool WaitSetupComplete();
+    bool WaitSetupComplete(RealT timeOut = 10);
     //: Wait for setup to complete.
     
     bool WaitTransmitQClear();
@@ -469,9 +469,10 @@ namespace RavlN {
     { return Body().Ready(); }
     //: Call when your ready to recieved data from the network..
     
-    bool WaitSetupComplete()
-    { return Body().WaitSetupComplete(); }
+    bool WaitSetupComplete(RealT timeOut = 10)
+    { return Body().WaitSetupComplete(timeOut); }
     //: Wait for setup to complete.
+    // May fail if peer drops connection for some resson.
     
     bool WaitTransmitQClear()
     { return Body().WaitTransmitQClear(); }

@@ -25,7 +25,7 @@ namespace RavlN {
   //: Constructor.
   
   NetISPortBaseC::NetISPortBaseC(const StringC &server,const StringC &nPortName,const type_info &ndataType) 
-    : ep(server,false),
+    : NetPortBaseC(server),
       portName(nPortName),
       dataType(TypeName(ndataType)),
       start(0),
@@ -49,15 +49,23 @@ namespace RavlN {
       gotEOS = true;
       return false;
     }
+    if(!NetPortBaseC::Init())
+      return false;
     ep.RegisterR(NPMsg_StreamInfo,"StreamInfo",*this,&NetISPortBaseC::RecvState);
     ep.RegisterR(NPMsg_ReqFailed,"ReqFailed",*this,&NetISPortBaseC::ReqFailed);
     ep.Ready();
-    ep.WaitSetupComplete();
+    if(!ep.WaitSetupComplete()) {
+      cerr << "NetIPort(), ERROR: Failed to complete connection. \n";
+      ep.Close();
+      return false;
+    }
     ep.Send(NPMsg_ReqConnection,portName,dataType,true);  // Request connection.
+    if(!WaitForConnect())
+      return false;
     ep.Send(NPMsg_ReqInfo); // Request info about the stream.
     return true;
   }
-
+  
   //: Wait for stream info to arrive.
   
   bool NetISPortBaseC::WaitForInfo() const {

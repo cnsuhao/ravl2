@@ -25,6 +25,7 @@ namespace RavlN {
   //: Base class for NetIPorts.
   
   class NetOSPortBaseC 
+    : public NetPortBaseC 
   {
   public:
     NetOSPortBaseC(const StringC &server,const StringC &portName,const type_info &ndataType);
@@ -51,7 +52,6 @@ namespace RavlN {
     bool ReqFailed(IntT &flag);
     //: Handle request failed.
     
-    NetEndPointC ep;
     
     StringC portName,dataType;
     

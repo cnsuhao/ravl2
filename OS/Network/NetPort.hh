@@ -14,6 +14,8 @@
 //! file="Ravl/OS/Network/NetPort.hh"
 
 #include "Ravl/Types.hh"
+#include "Ravl/Threads/ThreadEvent.hh"
+#include "Ravl/OS/NetEndPoint.hh"
 
 namespace RavlN {
   
@@ -24,10 +26,37 @@ namespace RavlN {
     NPMsg_ReqData       = 13, // Position      :
     NPMsg_StreamInfo    = 20, // At,Start,Size :
     NPMsg_Data          = 21, // Position,Data :
-    NPMsg_Close         = 22  //               : Close stream.
+    NPMsg_Close         = 22, //               : Close stream.
+    NPMsg_StreamReady   = 23  //               : Stream ready to process requests.
   };
   //: Messages used in NetPorts.
   
+  //:-
+  
+  //! userlevel=Develop
+  //: Net port base.
+  
+  class NetPortBaseC {
+  public:
+    NetPortBaseC(const StringC &server);
+    //: Constructor.
+    
+    virtual ~NetPortBaseC();
+    //: Destructor.
+    
+    virtual bool Init();
+    //: Initialise link.
+    
+    bool WaitForConnect(RealT timeOut = 10);
+    //: Wait for connection complete.
+    
+  protected:
+    bool MsgStreamReady();
+    //: Handle incoming StreamReady message.
+    
+    NetEndPointC ep;
+    ThreadEventC streamReady; // Have we recieved stream info yet.
+  };
 }
 
 #endif

@@ -43,7 +43,11 @@ namespace RavlN {
     RegisterR(NPMsg_ReqConnection,"ConnectTo",*this,&NetPortClientBodyC::MsgConnectTo);
     RegisterR(NPMsg_Close,"Close",*this,&NetPortClientBodyC::MsgClose);
     Ready();
-    WaitSetupComplete();
+    if(!WaitSetupComplete()) {
+      cerr << "NetPortClientBodyC::NetPortClientBodyC(), Connection init failed. \n";
+      Close();
+      return false;
+    }
     return true;
   }
   
@@ -102,6 +106,7 @@ namespace RavlN {
       connectionName = port;
       manager.RegisterConnection(osport);
     }
+    Send(NPMsg_StreamReady);
     return true;
   }
 

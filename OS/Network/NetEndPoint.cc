@@ -195,8 +195,13 @@ namespace RavlN {
   
   //: Wait for setup to complete.
   
-  bool NetEndPointBodyC::WaitSetupComplete() {
-    setupComplete.Wait();
+  bool NetEndPointBodyC::WaitSetupComplete(RealT timeOut) {
+    if(!setupComplete.Wait(timeOut)) {
+      if(!IsOpen()) {
+	
+	return false;
+      }
+    }
     return true;
   }
   

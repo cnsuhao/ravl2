@@ -15,7 +15,6 @@
 //! example=exNetPort.cc
 
 #include "Ravl/DP/SPort.hh"
-#include "Ravl/OS/NetEndPoint.hh"
 #include "Ravl/OS/NetPort.hh"
 #include "Ravl/Threads/RWLock.hh"
 #include "Ravl/Threads/Semaphore.hh"
@@ -27,6 +26,7 @@ namespace RavlN {
   //: Base class for NetIPorts.
   
   class NetISPortBaseC 
+    : public NetPortBaseC
   {
   public:
     NetISPortBaseC(const StringC &server,const StringC &portName,const type_info &ndataType);
@@ -55,8 +55,6 @@ namespace RavlN {
     
     bool WaitForInfo() const;
     //: Wait for stream info to arrive.
-    
-    NetEndPointC ep;
     
     StringC portName,dataType;
     

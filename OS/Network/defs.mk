@@ -18,7 +18,7 @@ HEADERS = SktError.hh Socket.hh NetStream.hh Packet.hh \
 SOURCES = Socket.cc NetStream.cc SocketStrm.cc Packet.cc \
  NetMessage.cc NetEndPoint.cc NetMsgCall.cc NetIPort.cc \
  NetIPortServer.cc NetPortManager.cc NetPortClient.cc \
- NetPortFormat.cc NetOPort.cc NetOPortServer.cc
+ NetPortFormat.cc NetOPort.cc NetOPortServer.cc NetPort.cc
 
 MUSTLINK = RavlSysNetworkML.cc
 
