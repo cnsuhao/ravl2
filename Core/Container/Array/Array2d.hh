@@ -52,7 +52,7 @@ namespace RavlN {
     //: Creates an empty 2D array.
     
     Array2dC(SizeT rows, SizeT cols);
-    //: Creates 2D array with the range < <0,rows-1>, <0,cols-1> >
+    //: Creates 2D array with the range &lt; &lt;0,rows-1&gt;, &lt;0,cols-1&gt; &gt;
     
     Array2dC(IntT minRow,IntT maxRow,IntT minCol,IntT maxCol);
     //: Creates 2D array with the range minRow to maxRow by minCol to maxCol.
@@ -61,11 +61,11 @@ namespace RavlN {
     //: Creates 2D array with the range minRow to maxRow by minCol to maxCol.
     
     Array2dC(const Index2dC & min, const Index2dC & max);
-    //: Creates 2D array with the range < <min[0], max[0]>, <min[1], max[1]> >.
+    //: Creates 2D array with the range &lt; &lt;min[0], max[0]&gt;, &lt;min[1], max[1]&gt; &gt;.
     // Index 0 ~ rows; index 1 ~ columns
     
     Array2dC(const IndexRangeC & rowRng, const IndexRangeC & colRng);
-    //: Creates 2D array with the range <rowRng, colRng>
+    //: Creates 2D array with the range &lt;rowRng, colRng&gt;
     
     Array2dC(const IndexRange2dC & rect);
     //: Create 2D array with the range covering indices in 'rect'
