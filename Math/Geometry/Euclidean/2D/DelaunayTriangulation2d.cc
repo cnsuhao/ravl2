@@ -96,6 +96,10 @@ namespace RavlN {
     return THEMeshFaceC<Point2dC>();
   }
   
+  //: Create a delaunay triangulation of the given set of points.
+  
+  HEMesh2dC DelaunayTriangulation(const SArray1dC<Point2dC> &points)
+  { return  DelaunayTriangulation(points); }
   
   //: Create a delaunay triangulation of the given set of points.
   

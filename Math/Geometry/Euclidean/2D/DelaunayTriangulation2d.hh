@@ -19,6 +19,13 @@ namespace RavlN {
   
   HEMesh2dC DelaunayTriangulation(const Array1dC<Point2dC> &points);
   //: Create a delaunay triangulation of the given set of points.
+  // The vertices in the created mesh are in same order as the
+  // appear in 'points'.
+  
+  HEMesh2dC DelaunayTriangulation(const SArray1dC<Point2dC> &points);
+  //: Create a delaunay triangulation of the given set of points.
+  // The vertices in the created mesh are in same order as the
+  // appear in 'points'.
   
   bool IsDelaunayTriangulation(const HEMesh2dC &mesh);
   //: Test if mesh is a delaunay triangulation. 
