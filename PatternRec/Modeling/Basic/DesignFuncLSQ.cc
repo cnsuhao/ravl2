@@ -65,7 +65,7 @@ namespace RavlN {
   //: Writes object to stream, can be loaded using constructor
   
   bool DesignFuncLSQBodyC::Save (ostream &out) const {
-    if(!DesignFuncLSQBodyC::Save(out))
+    if(!DesignFunctionSupervisedBodyC::Save(out))
       return false;
     char ver = 1;
     out << ((int) ver) << ' ' << order << ' ' << ((int) orthogonal) << ' ';
@@ -75,7 +75,7 @@ namespace RavlN {
   //: Writes object to stream, can be loaded using constructor
   
   bool DesignFuncLSQBodyC::Save (BinOStreamC &out) const {
-    if(!DesignFuncLSQBodyC::Save(out))
+	if(!DesignFunctionSupervisedBodyC::Save(out))
       return false;
     char ver = 1;
     out << ver << order << orthogonal;

@@ -71,7 +71,7 @@ namespace RavlN {
   //: Writes object to stream, can be loaded using constructor
   
   bool DesignBayesNormalQuadraticBodyC::Save (ostream &out) const {
-    if(!DesignBayesNormalQuadraticBodyC::Save(out))
+    if(!DesignClassifierSupervisedBodyC::Save(out))
       return false;
     char ver = 1;
     out << ((int) ver) << ' ' << priors;
@@ -81,7 +81,7 @@ namespace RavlN {
   //: Writes object to stream, can be loaded using constructor
   
   bool DesignBayesNormalQuadraticBodyC::Save (BinOStreamC &out) const {
-    if(!DesignBayesNormalQuadraticBodyC::Save(out))
+    if(!DesignClassifierSupervisedBodyC::Save(out))
       return false;
     char ver = 1;
     out << ((int) ver) << priors;

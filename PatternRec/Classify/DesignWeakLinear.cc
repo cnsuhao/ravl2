@@ -159,7 +159,7 @@ namespace RavlN {
     parity1 = index%2? 1.0: -1.0;
     threshold1 = root[index.V()/2];
     parity2 = -parity1;
-    threshold2 = root[!index.V()/2];
+    threshold2 = root[1-(index.V()/2)];
   }
 
   //////////////////////////////////////////////////////////
