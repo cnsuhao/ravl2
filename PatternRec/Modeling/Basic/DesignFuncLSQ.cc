@@ -200,13 +200,17 @@ namespace RavlN {
     // Do a few sums.
     MatrixRUTC aaTu = coeffs.SumOuterProducts(weight);
     aaTu.MakeSymmetric();
+    
+    MatrixC aTb = coeffs.TMul(vout,weight);
+    
     MatrixRSC aaT(aaTu.Copy());
     if(!aaT.InverseIP()) {
       // Try and recover....
       cerr << "DesignFuncLSQBodyC::Apply(), WARNING: Covariance of input has singular values. \n";
       aaT = aaTu.PseudoInverse();
     }
-    MatrixC aTb = coeffs.TMul(vout,weight);
+    // Ideally we'd use Solve here...
+    
     MatrixC A =  (aaT * aTb).T();
     func.SetTransform(A);
     return func;
