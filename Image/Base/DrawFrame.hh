@@ -23,7 +23,7 @@ namespace RavlImageN {
   void DrawFrame(Array2dC<DataT> &dat,const DataT &value,const IndexRange2dC &rect) {
     IndexRange2dC dr(rect);
     dr.ClipBy(dat.Frame());
-    if(dr.Area() < 0)
+    if(dr.Area() <= 0)
       return ; // Nothing to draw around.
     DataT *it1,*it2,*eor;
     
