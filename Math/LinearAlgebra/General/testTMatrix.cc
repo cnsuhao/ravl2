@@ -14,9 +14,12 @@
 
 using namespace RavlN;
 
+template class TMatrixC<RealT>;
+
 int Simple();
 int Validate();
 int ValidateNS();
+int testOuterProduct();
 
 int main() {
   int line;
@@ -32,6 +35,11 @@ int main() {
     cerr << "test failed on line " << line << "\n";
     return 1;
   }
+  if((line = testOuterProduct())) {
+    cerr << "test failed on line " << line << "\n";
+    return 1;
+  }
+
   cerr << "Test passed ok. \n";
   return 0;
 }
@@ -147,4 +155,14 @@ int ValidateNS()
   return 0;
 }
 
-template class TMatrixC<RealT>;
+int testOuterProduct() {
+  cerr << "Testing outer product. \n";
+  TMatrixC<RealT> mat(3,3);
+  RealT val = 1;
+  for(SArray2dIterC<RealT> it(mat);it;it++)
+    *it = val++;
+  TMatrixC<RealT> ops = OuterProduct(mat.SliceColumn(0));
+  TMatrixC<RealT> op = TVectorC<RealT>(mat.SliceColumn(0)).OuterProduct();
+  if((ops - op).SumSqr() > 0.00000001) return __LINE__;
+  return 0;
+}

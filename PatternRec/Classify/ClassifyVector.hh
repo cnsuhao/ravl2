@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_PATTERNRECCLASSIFY_HEADER
-#define RAVL_PATTERNRECCLASSIFY_HEADER 1
+#ifndef RAVL_CLASSIFYVECTOR_HEADER
+#define RAVL_CLASSIFYVECTOR_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlPatternRec

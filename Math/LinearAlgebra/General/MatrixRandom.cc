@@ -1,0 +1,44 @@
+
+#include "Ravl/Matrix.hh"
+#include "Ravl/Random.hh"
+#include "Ravl/MatrixRUT.hh"
+#include "Ravl/Vector.hh"
+
+namespace RavlN {
+  
+  //: Create a random matrix of values between -scale and scale with the given size.
+  
+  MatrixC RandomMatrix(int n,int m,RealT scale) {
+    MatrixC x(n,n);
+    for(SArray2dIterC<RealT> it(x);it;it++)
+      *it = (Random1() -0.5) * 2 * scale;
+    return x;
+  }
+  
+  //: Create a random symmetric matrix of values between -scale and scale with the given size.
+  
+  MatrixC RandomSymmetricMatrix(int n,RealT scale) {
+    MatrixRUTC x(n);
+    for(SArray2dIterC<RealT> it(x);it;it++)
+      *it = (Random1() - 0.5) * 2 * scale;
+    x.MakeSymmetric();
+    return x;
+  }
+  
+  //: Create a random positive definite matrix.
+  
+  MatrixC RandomPositiveDefiniteMatrix(int n) {
+    MatrixRUTC x(n);
+    VectorC vec(n);
+    x.Fill(0);
+    int k = Max(n,n);
+    for(int i = 0;i < k;i++) {
+      for(SArray1dIterC<RealT> it1(vec);it1;it1++)
+	*it1 = (Random1() - 0.5) * 2;
+      x.AddOuterProduct(vec);
+    }
+    x.MakeSymmetric();
+    return x;
+  }
+
+}

@@ -16,7 +16,7 @@ HEADERS = TVector.hh TMatrix.hh Matrix.hh Vector.hh MatrixRUT.hh \
 
 SOURCES = TMatrix.cc Matrix.cc MatrixInverse.cc MatrixSVD.cc \
  MatrixEigen.cc MatrixSolve.cc MatrixRUT.cc MatrixRS.cc Vector.cc \
- MatrixNearSingular.cc LeastSquares.cc VectorMatrix.cc
+ MatrixNearSingular.cc LeastSquares.cc VectorMatrix.cc MatrixRandom.cc
 
 #EXAMPLES = exVMT.cc
 

@@ -22,7 +22,12 @@ namespace RavlN {
   //! userlevel=Normal
   //: Right Upper Triangular matrix.
   // This class contains functions optimised for working with
-  // Right Upper Triangular matrix's. <p>
+  // Right Upper Triangular matrix's.  The lower right is assumed
+  // to be zero. Most of the operations on this matrix ignore the
+  // contents of the lower part, and it is not garanteed to contain
+  // zero's.  To ensure this use 'ZeroLowerLeft()', this MUST be
+  // done before using matrix operators that are not part of this 
+  // class. <p>
   // The matrix MUST be square.
   
   class MatrixRUTC
@@ -73,26 +78,29 @@ namespace RavlN {
     const MatrixRUTC &operator/=(RealT val);
     //: Divide by a constant.
     
+    void ZeroLowerLeft();
+    //: Fill the lower left part of the matrix with zero's.
+    // Note: This is an in place operation.
+    
     void MakeSymmetric();
     //: Make this matrix symmetric.
     // Copy the upper right triangle to the lower left.
-    // Note this is an in-place operation.
+    // Note: this is an in-place operation.
   };
 
   MatrixRUTC OuterProductRUT(const VectorC &vec);
   //: Return outer product of 'vec' as a right upper triangular matrix.
   
-  bool SolveIP(MatrixRUTC &mat,VectorC &b);
+  bool SolveIP(MatrixRUTC &A,VectorC &b);
   //: Solve a general linear system  A*x = b
-  // The input matix A is this one.  The input
-  // vector is b, which is replaced by the ouput x. <p>
+  // The input vector is b, which is replaced by the ouput x. <p>
   // This matrix is altered to L-U factored form by the computation. <p>
   // If the input matrix is singular, false is returned and
   // true if the operation succeeded.
   
-  VectorC Solve(const MatrixRUTC &mat,const VectorC &b);
+  VectorC Solve(const MatrixRUTC &A,const VectorC &b);
   //: Solve a general linear system  A*x = b
-  // Where a is this matrix, and X is the returned vector.
+  // Where X is the returned vector.
   // If matrix is singular a zero length vector is returned.
 }
 

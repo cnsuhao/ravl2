@@ -15,10 +15,12 @@ HEADERS = Sample.hh SampleIter.hh SampleVector.hh SampleLabel.hh SampleDiscrete.
  DataSetBase.hh \
  DataSet1.hh DataSet1Iter.hh DataSet2.hh DataSet2Iter.hh \
  DataSet3.hh DataSet3Iter.hh SampleIO.hh \
- Function.hh Function1.hh Designer.hh DesignFunctionUnsupervised.hh DesignFunctionSupervised.hh
+ Function.hh Function1.hh Designer.hh DesignFunctionUnsupervised.hh DesignFunctionSupervised.hh \
+ VectorLabelIO.hh
 
 SOURCES = SampleVector.cc SampleLabel.cc DataSetBase.cc \
- Function.cc Function1.cc Designer.cc DesignFunctionUnsupervised.cc DesignFunctionSupervised.cc
+ Function.cc Function1.cc Designer.cc DesignFunctionUnsupervised.cc DesignFunctionSupervised.cc \
+ VectorLabelIO.cc
 
 MAINS = 
 

@@ -5,10 +5,12 @@
 #include "Ravl/Random.hh"
 #include "Ravl/Option.hh"
 #include "Ravl/SArr2Iter.hh"
+#include "Ravl/VectorMatrix.hh"
 
 using namespace RavlN;
 
 int testSVD();
+int testEigen();
 int testMisc();
 int testMatrixRUT();
 
@@ -26,26 +28,42 @@ int main() {
     cerr << "testMatrixRUT failed. Line:" << ln << "\n";
     return 1;
   }
+  if((ln = testEigen()) != 0) {
+    cerr << "testEigen() failed. Line:" << ln << "\n";
+    return 1;
+  }
   cerr << "Test passed. \n";
   return 0;
 }
 
 
 int testSVD() {
+  cerr << "tesSVD() Called \n";
   VectorC D;
   MatrixC U, V;
   MatrixC Test(30,3);
-  
-  int i,j;
-  double value=1.0;
-  for (i=0; i<30; i++)
-    for (j=0; j<3; j++) {
-      Test[i][j]=value;
-      value+=0.1;
-    }
-  
+  Test = RandomMatrix(10,20);
   D=SVD(Test,U,V);
   
+  MatrixC md(D.Size(),D.Size());
+  md.Fill(0);
+  md.SetDiagonal(D);
+  MatrixC m = U * md * V.T();
+  if((m - Test).SumSqr() > 0.000001) return __LINE__;
+  return 0;
+}
+
+int testEigen() {
+  cerr << "testEigen() Called \n";
+  MatrixC test = RandomSymmetricMatrix(5);
+  VectorMatrixC vm = EigenVectors(test);
+  VectorC D = vm.Vector();
+  MatrixC md(D.Size(),D.Size());
+  MatrixC E = vm.Matrix();
+  md.Fill(0);
+  md.SetDiagonal(D);
+  MatrixC m = E * md * E.Inverse();
+  if((m - test).SumSqr() > 0.0000001) return __LINE__;
   return 0;
 }
 

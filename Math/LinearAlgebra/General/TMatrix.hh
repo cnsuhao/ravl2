@@ -382,7 +382,30 @@ namespace RavlN {
   template<class DataT>
   TMatrixC<DataT> TVectorC<DataT>::OuterProduct() const
   { return OuterProduct(*this); }
-
+  
+  template<class DataT>
+  TMatrixC<DataT> OuterProduct(const Slice1dC<DataT> &a,const Slice1dC<DataT> &b) { 
+    TMatrixC<DataT> ret(a.Size(),b.Size());
+    Slice1dIterC<DataT> v1(a);
+    BufferAccess2dIterC<DataT> it(ret,ret.Size2());
+    while(it) {
+      Slice1dIterC<DataT> v2(b);
+      do {
+	*it = (*v1) * (*v2);
+	v2++;
+      } while(it.Next()) ;
+      v1++;
+    }
+    return ret;
+  }
+  //: Outer product of two slices.
+  // This treats the slices as vectors.
+  
+  template<class DataT>
+  TMatrixC<DataT> OuterProduct(const Slice1dC<DataT> &a)
+  { return OuterProduct(a,a); }
+  //: Outer product of a slice with itself.
+  // This treats the slice as a vector.
   
   template<class DataT>
   void MulAdd(const TVectorC<DataT> &vec,const TMatrixC<DataT> &mat,const TVectorC<DataT> &add,TVectorC<DataT> &result)

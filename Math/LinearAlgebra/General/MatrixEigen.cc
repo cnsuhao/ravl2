@@ -31,7 +31,7 @@ namespace RavlN {
     if(mat.Rows() == 0)
       return VectorC(0);
     VectorC ret(mat.Rows());
-    eigval(&mat[0][0],&ret[0],mat.Rows());
+    eigval(&(mat[0][0]),&(ret[0]),mat.Rows());
     return ret;
   }
   
@@ -50,7 +50,7 @@ namespace RavlN {
     RavlAlwaysAssert(mat.IsContinuous()); // Should we cope with this silently ?
     RavlAlwaysAssertMsg(mat.Rows() == mat.Cols(),"MatrixC::EigenVectorsIP() Matrix must be square. ");
     VectorC ret(mat.Rows());
-    eigen(&mat[0][0],&ret[0],mat.Rows());
+    eigen(&(mat[0][0]),&(ret[0]),mat.Rows());
     return ret;
   }
   

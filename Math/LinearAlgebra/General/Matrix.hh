@@ -88,43 +88,36 @@ namespace RavlN {
     // The matrix must be square <p>
     // If the matrix is not stored in a continous area of memory a slightly
     // different routine is used to do the inversion.  
-
-    MatrixC NearSingularInverse(RealT &det) const;
-    //: Inverts this matrix and returns determinant of original matrix.
-    // This routine is particularly useful when you matrices are near singular
-    // as it uses PCA to first rotate co-ordinate axis, so no nasty divisions.
-    // See Fukunaga -Introduction to Statistical Pat Rec, page 40.
     
   };
   
-
-  bool SolveIP(MatrixC &mat,VectorC &b);
+  
+  bool SolveIP(MatrixC &A,VectorC &b);
   //: Solve a general linear system  A*x = b
-  // The input matix A is the mat paramiter.  The input
-  // vector is b, which is replaced by the ouput x. <p>
+  // The input vector is b, which is replaced by the ouput x. <p>
   // This matrix is altered to L-U factored form by the computation. <p>
   // If the input matrix is singular, false is returned and
   // true if the operation succeeded.
   
-  VectorC Solve(const MatrixC &mat,const VectorC &b);
+  VectorC Solve(const MatrixC &A,const VectorC &b);
   //: Solve a general linear system  A*x = b
-  // Where a is this matrix, and X is the returned vector.
+  // Where X is the returned vector.
   // If matrix is singular a zero length vector is returned.
   
-  VectorC SVD(const MatrixC &mat);
+  VectorC SVD(const MatrixC &M);
   //: Singular value decomposition, eg. M = U * D * V.T(). 
   // The diagonal matrix D is returned as a vector. Values for the
   // other matrixes are not computed.
   // If the operation failes the returned vector is invalid.
   
-  VectorC SVD_IP(MatrixC &mat);
+  VectorC SVD_IP(MatrixC &M);
   //: Singular value decomposition, eg. M = U * D * V.T(). 
   // The diagonal matrix D is returned as a vector. Values for the
   // other matrixes are not computed.
   // If the operation failes the returned vector is invalid. <p>
   // NB. This function destory's the contents of this matrix!
   
-  VectorC SVD(const MatrixC &mat,MatrixC & u, MatrixC & v);
+  VectorC SVD(const MatrixC &M,MatrixC & u, MatrixC & v);
   //: Singular value decomposition, eg. M = U * D * V.T(). 
   // The diagonal matrix D is returned as a vector.
   // This also returns the matrix u and v matrixes, the passed
@@ -132,7 +125,7 @@ namespace RavlN {
   // of the correct size.
   // If the operation failes the returned vector is invalid.
   
-  VectorC SVD_IP(MatrixC &mat,MatrixC & u, MatrixC & v);
+  VectorC SVD_IP(MatrixC &M,MatrixC & u, MatrixC & v);
   //: Singular value decomposition, eg. M = U * D * V.T(). 
   // The diagonal matrix D is returned as a vector.
   // This also returns the matrix u and v matrixes, the passed
@@ -141,40 +134,50 @@ namespace RavlN {
   // If the operation failes the returned vector is invalid.
   // NB. This function destory's the contents of this matrix!
   
-  VectorC EigenValues(const MatrixC &mat);
+  VectorC EigenValues(const MatrixC &M);
   //: Calculate the eigen values of this matrix, for real symmetric matrices
   // This matrix remains unchanged. A vector of the eigen
   // values is returned. <p>
   // If any errors occured a zero length vector is generated.
   
-  VectorC EigenValuesIP(MatrixC &mat);
+  VectorC EigenValuesIP(MatrixC &M);
   //: Calculate the eigen values of this matrix, for real symmetric matrices
   // The contents of this matrix is destroyed. A vector of the eigen
   // values is returned.   <p>
   // If any errors occured a zero length vector is generated.
   
-  VectorC EigenVectors(const MatrixC &mat,MatrixC &E);
+  VectorC EigenVectors(const MatrixC &M,MatrixC &E);
   //: Calculate the eigen values and vectors of this matrix, for real symmetric matrices
   // A = E*D*E~ where D is the diagonal matrix of eigenvalues
   //   D[i,j] = ret[i] if i=j and 0 otherwise. 'ret' is the
   // returned vector.
   
-  VectorMatrixC EigenVectors(const MatrixC &mat);
+  VectorMatrixC EigenVectors(const MatrixC &A);
   //: Calculate the eigen values and vectors of this matrix, for real symmetric matrices
   // A = E*D*E~ where D is the diagonal matrix of eigenvalues
   // D[i,j] = ret[i] if i=j and 0 otherwise. 'ret' is the
   // returned vector and E is the returned matrix.
   
-  VectorC EigenVectorsIP(MatrixC &mat);
+  VectorC EigenVectorsIP(MatrixC &A);
   //: Calculate the eigen values and vectors of this matrix, for real symmetric matrices
   // This matrix is filed with the eigen vectors
   // A = E*D*E~ where D is the diagonal matrix of eigenvalues
   //   D[i,j] = ret[i] if i=j and 0 otherwise. 'ret' is the
   // returned vector.
   
-  RealT MaxEigenValue(const MatrixC &mat,VectorC &maxv);
+  RealT MaxEigenValue(const MatrixC &A,VectorC &maxv);
   //: Get the maximum eigen value and its vector, for real symmetric matrices
-
+  
+  MatrixC RandomMatrix(int n,int m,RealT scale = 1);
+  //: Create a random matrix of values between -scale and scale with the given size.
+  
+  MatrixC RandomSymmetricMatrix(int n,RealT scale = 1);
+  //: Create a random symmetric matrix of values between -scale and scale with the given size.
+  
+  MatrixC RandomPositiveDefiniteMatrix(int n);
+  //: Create a random positive definite matrix.
+  // The matrix is also symmetric in the current implementation, this may be changed at some point.
+  
 }
 
 #endif

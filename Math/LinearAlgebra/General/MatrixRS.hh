@@ -57,19 +57,25 @@ namespace RavlN {
     //: Calculate the inverse of a upper right triangular matrix. In place.
     // an false is returned if this matrix if it is singular. 
     
+    MatrixC NearSingularInverse(RealT &det) const;
+    //: Inverts this matrix and returns determinant of original matrix.
+    // Note: This currently only works for real symmetric matrices.
+    // This routine is particularly useful when you matrices are near singular
+    // as it uses PCA to first rotate co-ordinate axis, so no nasty divisions.
+    // See Fukunaga -Introduction to Statistical Pat Rec, page 40.
+    
   };
 
-  bool SolveIP(MatrixRSC &mat,VectorC &b);
+  bool SolveIP(MatrixRSC &A,VectorC &b);
   //: Solve a general linear system  A*x = b
-  // The input matix A is this one.  The input
-  // vector is b, which is replaced by the ouput x. <p>
+  // The input vector is b, which is replaced by the ouput x. <p>
   // This matrix is altered to L-U factored form by the computation. <p>
   // If the input matrix is singular, false is returned and
   // true if the operation succeeded.
   
-  VectorC Solve(const MatrixRSC &mat,const VectorC &b);
+  VectorC Solve(const MatrixRSC &A,const VectorC &b);
   //: Solve a general linear system  A*x = b
-  // Where a is this matrix, and X is the returned vector.
+  // Where X is the returned vector.
   // If matrix is singular a zero length vector is returned.
   
 }

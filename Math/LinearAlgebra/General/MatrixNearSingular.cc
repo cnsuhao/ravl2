@@ -7,11 +7,13 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/MatrixNearSingular.cc"
+//! author="Kieron Messer"
 
-#include "Ravl/Matrix.hh"
+#include "Ravl/MatrixRS.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Vector.hh"
 #include "Ravl/CCMath.hh"
+#include "Ravl/VectorMatrix.hh"
 
 namespace RavlN {
   
@@ -20,7 +22,7 @@ namespace RavlN {
   // as it uses PCA to first rotate co-ordinate axis, so no nasty divisions.
   // See Fukunaga -Introduction to Statistical Pat Rec, page 40.
   
-  MatrixC MatrixC::NearSingularInverse(RealT &det) const {
+  MatrixC MatrixRSC::NearSingularInverse(RealT &det) const {
     if( Cols() != Rows() ) {
       cerr << "MatrixC::NearSingularInverseIP(), Matrix to invert must be square" << endl;
       return MatrixC();
@@ -57,36 +59,32 @@ namespace RavlN {
 	return inv;
       }
       }
-#if 0    
-    VecMatC eigenvec;
-    MatrixC cov=(*this).Copy();
+#if 1
+    VectorMatrixC eigenvec = EigenVectors(*this);
+    MatrixC inv(Rows(),Cols());
     
-    //: First need to compute PCA
-    if(Cols()<10) 
-      eigenvec = EigenSystemJacobi (cov);  // taken out cos bad for high dim
-    else 
-      eigenvec = EigenSystemHouseholderQL(cov);
-  
     //: Now lets compute the determinant and inv
-    RealT det=0.0;
-    Fill(0.0);
+    det=0.0;
+    inv.Fill(0.0);
     
-    RealT sign(1.0);
-    FOR_VECTOR(eigenvec.Vector(), ind) {
-      if (eigenvec.Vector()[ind] == 0.0) sign=0.0;
-      else if (eigenvec.Vector()[ind] < 0.0) { // check for -ve eigenvalues
-	det += Log(-eigenvec.Vector()[ind]);
+    RealT sign = 1.0;
+    for(int ind = 0;ind < (int) eigenvec.Vector().Size();ind++) {
+      RealT value = eigenvec.Vector()[ind];
+      if (value == 0.0) 
+	sign=0.0;
+      else if (value < 0.0) { // check for -ve eigenvalues
+	det += Log(-value);
 	sign = -sign;
       } else {
-	det += Log(eigenvec.Vector()[ind]);
+	det += Log(value);
       }
-      (*this) +=  eigenvec.Matrix().GetColumn(ind).OuterP() * (1.0/eigenvec.Vector()[ind]);
-    }
-    
-    det = exp(det) * sign; 
-    return det;
+      inv += OuterProduct(eigenvec.Matrix().SliceColumn(ind)) * (1.0/value);
+    }    
+    det = exp(det) * sign;
+    return inv;
 #else
-    RavlAssert(0); // Need to sort this out.
+    RavlAssertMsg(0,"MatrixC::NearSingularInverse(), Not implemented.");
+    // Need to sort this out.
     det = 0;
     return MatrixC();
 #endif
