@@ -101,6 +101,11 @@ namespace RavlN {
       return *this;
     }
     //: Reverse the direction of this edge.
+    
+    UIntT Hash() const
+    { return Index2dC::Hash() + (UIntT) crackCode; }
+    //: Crack code.
+    
   };
   
   inline ostream & operator<<(ostream & s, const EdgeC & edge)
