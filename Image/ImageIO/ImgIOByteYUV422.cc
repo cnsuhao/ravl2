@@ -87,7 +87,7 @@ namespace RavlImageN {
       RealT i2 = it.Data2().Y();
 
       // Convert the colours...
-
+      // Maybe speed this up by generating a lookup table for rx and bx components ??
       RealT rx =                                  rv * ImageYUVtoRGBMatrix[0][2];
       RealT gx = ru * ImageYUVtoRGBMatrix[1][1] + rv * ImageYUVtoRGBMatrix[1][2];
       RealT bx = ru * ImageYUVtoRGBMatrix[2][1];
@@ -104,7 +104,7 @@ namespace RavlImageN {
   }
   
   DP_REGISTER_CONVERTION(ByteYUV422ImageCT2ByteYUVImageCT,1);
-  DP_REGISTER_CONVERTION(ByteYUV422ImageCT2ByteRGBImageCT,1.1);
+  DP_REGISTER_CONVERTION(ByteYUV422ImageCT2ByteRGBImageCT,1.1); // There is some data loss as the colour cubes don't entirely overlap.
   DP_REGISTER_CONVERTION(ByteYUV422ImageCT2ByteImageCT,2);
   
   FileFormatStreamC<ImageC<ByteYUV422ValueC> > FileFormatStream_ImageC_ByteYUV422ValueC;
