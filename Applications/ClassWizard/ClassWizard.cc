@@ -306,24 +306,25 @@ namespace RavlN {
     sc += className + "(" + mainBaseClass + " &bod)";
     sc += StringC(" : ") + mainBaseClass + "(bod)";
     sc += "{}";
+    sc += "//: Body constructor. ";
     sc += "";
     
     //: Write body access.
     sc += bodyObj.Name() + "& Body()";
-    sc += StringC("{ return static_cast<") + bodyObj.Name() + " &>(" + rootBaseClass + "::Body()) }" ;
+    sc += StringC("{ return static_cast<") + bodyObj.Name() + " &>(" + rootBaseClass + "::Body()); }" ;
     sc += "//: Body Access. ";
     sc += "";
     
     //: Write const body access.
     sc += StringC("const ") + bodyObj.Name() + "& Body() const" ;
-    sc += StringC("{ return static_cast<const ") + bodyObj.Name() + " &>(" + rootBaseClass + "::Body()) }" ;
+    sc += StringC("{ return static_cast<const ") + bodyObj.Name() + " &>(" + rootBaseClass + "::Body()); }" ;
     sc += "//: Body Access. ";
     sc += "";
 
     //: Close class.
     
     sc.AddIndent(-1);
-    sc += "}";
+    sc += "};";
     
     return true;
   }
