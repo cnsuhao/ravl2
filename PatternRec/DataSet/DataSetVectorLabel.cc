@@ -29,7 +29,8 @@ namespace RavlN {
     SArray1dC<VectorC> means(Sample2().MaxValue()+1);
     SArray1dC<SampleVectorC> samps = SeperateLabels();
     IndexC counter = 0;
-    for (SArray1dIterC<SampleVectorC> it (samps); it; it++) means[counter++] = it.Data().Mean();
+    for (SArray1dIterC<SampleVectorC> it (samps); it; it++) 
+      means[counter++] = it.Data().Mean();
 
     return means;
   }
@@ -38,8 +39,8 @@ namespace RavlN {
     SArray1dC<UIntT> nums(Sample2().MaxValue()+1);
     SArray1dC<SampleVectorC> samps = SeperateLabels();
     IndexC counter = 0;
-    for (SArray1dIterC<SampleVectorC> it (samps); it; it++) nums[counter++] = it.Data().Size();
-
+    for (SArray1dIterC<SampleVectorC> it (samps); it; it++) 
+      nums[counter++] = it.Data().Size();
     return nums;
   }
 
@@ -47,8 +48,8 @@ namespace RavlN {
     SArray1dC<MeanCovarianceC> meancovs(Sample2().MaxValue()+1);
     SArray1dC<SampleVectorC> samps = SeperateLabels();
     IndexC counter = 0;
-    for (SArray1dIterC<SampleVectorC> it (samps); it; it++) meancovs[counter++] = it.Data().MeanCovariance();
-
+    for (SArray1dIterC<SampleVectorC> it (samps); it; it++) 
+      meancovs[counter++] = it.Data().MeanCovariance();
     return meancovs;
   }
     

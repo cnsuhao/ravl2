@@ -36,6 +36,7 @@ namespace RavlN {
 	samp2(sizeEstimate)
     {}
     //: Constructor.
+    // Constructs an empty dataset, with enough space to hold 'sizeEstimate' elements without and extra allocations.
     
     DataSet2BodyC(const Sample1T & samp1,
 		  const Sample2T & samp2);
@@ -81,16 +82,18 @@ namespace RavlN {
     DataSet2C()
     {}
     //: Default constructor.
-
+    // Creates an invalid handle.
+    
     DataSet2C(UIntT sizeEstimate)
       : DataSet1C<Sample1T>(*new DataSet2BodyC<Sample1T,Sample2T>(sizeEstimate))
     {}
     //: Constructor.
+    // Constructs an empty dataset, with enough space to hold 'sizeEstimate' elements without and extra allocations.
     
     DataSet2C(const Sample1T & dat1,const Sample2T & dat2)
       : DataSet1C<Sample1T>(*new DataSet2BodyC<Sample1T,Sample2T>(dat1,dat2))
     {}
-    //: Create a dataset from a sample
+    //: Create a dataset from some samples.
     
   protected:
     DataSet2C(DataSet2BodyC<Sample1T,Sample2T> &bod)

@@ -81,15 +81,17 @@ namespace RavlN {
     DataSet1C()
     {}
     //: Default constructor.
+    // Creates an invalid handle.
     
     DataSet1C(UIntT sizeEstimate)
       : DataSetBaseC(*new DataSet1BodyC<SampleT>(sizeEstimate))
     {}
-    //: Default constructor.
+    //: Constructor.
+    // Constructs an empty dataset, with enough space to hold 'sizeEstimate' elements without and extra allocations.
     
     DataSet1C(const SampleT & dat)
       : DataSetBaseC(*new DataSet1BodyC<SampleT>(dat))
-      {}
+    {}
     //: Create a dataset from a sample
     
   protected:    
