@@ -70,7 +70,7 @@ namespace RavlImageN
   void BlueScreenC::Apply(ImageC<ByteT>& mask,
 			  const ImageC<ByteYUVValueC> &image) const
   {
-    const int const_thresh(100*thresh+49920);
+    const int const_thresh(100*thresh /*+49920*/ );
     for(Array2dIter2C<ByteT,ByteYUVValueC> i(mask,image); i; i++)
     {
       ByteYUVValueC &px = i.Data2();
@@ -78,3 +78,4 @@ namespace RavlImageN
     }
   }
 }
+
