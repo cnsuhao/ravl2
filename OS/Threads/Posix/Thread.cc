@@ -173,7 +173,8 @@ namespace RavlN {
     IncRefCounter();
     
     if(pthread_create(&threadID,0,StartThread,(void *) this) != 0) {
-      cerr << "ThreadBodyC::Execute(), Failed to execute thread. " << errno << " \n";
+      cerr << "ThreadBodyC::Execute(), ERROR: Failed to execute thread. " << errno << " \n";
+      live = false; // Its definitly not live!
       DecRefCounter(); // This can't be the last reference.
       RavlAssert(References() > 0);
       return false;
