@@ -40,6 +40,9 @@ namespace RavlN {
   // error channel and the program will continue with the
   // compiler generated name.
   
+  const char *TypeHandleName(const type_info &info);
+  //: Lookup the name of a handle type from body type_info structure.
+  
   const char *TypeName(const char *name);  
   //: Return the C++ name for a type_info.name().
   // Same as TypeName(const type_info &)  but uses the type_info.name() directly.
@@ -55,10 +58,13 @@ namespace RavlN {
   // type info for that class.
   
   void AddTypeName(const type_info &info,const char *newname);
-  // Set the stanard name to be used for a particular type.
+  //: Set the stanard name to be used for a particular type.
   
   void AddTypeName(const char *sysname,const char *newname);
   //: Set the stanard name to be used for a particular type.
+  
+  void AddTypeHandleName(const type_info &info,const char *newname);
+  //: Add body to handle type mapping.
   
   //:-
   
@@ -73,7 +79,13 @@ namespace RavlN {
   class TypeNameC {
   public:
     TypeNameC(const type_info &info,const char *newname) 
-      { AddTypeName(info,newname); }
+    { AddTypeName(info,newname); }
+    //: Constructor.
+
+    TypeNameC(const type_info &info,const char *newname,const type_info &bodyType) {
+      AddTypeName(info,newname); 
+      AddTypeHandleName(bodyType,newname);
+    }
     //: Constructor.
   };
   

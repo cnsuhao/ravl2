@@ -19,6 +19,26 @@
 #include <ctype.h>
 
 namespace RavlN {
+  typedef const char *(*HandleNameMapT)(const type_info &type);
+  extern HandleNameMapT HandleNameMap;
+  
+  static HashC<const char *,const char *> InitNameMapping();
+  
+  inline static HashC<const char *,const char *> &HandleNameMapping()  { 
+    static HashC<const char *,const char *> handleNameMapping = InitNameMapping();
+    return handleNameMapping;
+  }
+  
+  const char *HandleNameLookup(const type_info &type) {
+    return HandleNameMapping()[type.name()];
+  }
+  
+  static HashC<const char *,const char *> InitNameMapping() {
+    HandleNameMap = &HandleNameLookup;
+    return HashC<const char *,const char *>();
+  }
+  
+  
   inline static HashC<const char *,const char *> &TypeNameMapping()  { 
     static HashC<const char *,const char *> typeNameMapping;
     return typeNameMapping;
@@ -109,6 +129,16 @@ namespace RavlN {
 #endif
   }
   
+  const char *TypeHandleName(const type_info &info) {
+    MTReadLockC lock;
+    const char **ptr = HandleNameMapping().Lookup(info.name());
+    if(ptr == 0) {
+      cerr << "WARNING: Handle type name not know for '" << info.name() << "' \n";
+      return "Unknown";
+    }
+    return *ptr;
+  }
+  
   const char *TypeName(const type_info &info)  { 
     return TypeName(info.name()); 
   }
@@ -143,4 +173,11 @@ namespace RavlN {
     RTypeMapping()[newname] = &info;
   }
   
+  //: Add body to handle type mapping.
+  
+  void AddTypeHandleName(const type_info &info,const char *newname) {
+    MTWriteLockC lock;
+    HandleNameMapping()[info.name()] = newname;
+  }
+ 
 }
