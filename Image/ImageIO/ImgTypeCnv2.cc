@@ -69,7 +69,7 @@ namespace RavlImageN
   ImageC<RealT> RGBImageCT2DoubleImageCT(const ImageC<ByteRGBValueC> &dat)  { 
     ImageC<RealT> ret(dat.Rectangle());
     for(Array2dIter2C<RealT,ByteRGBValueC> it(ret,dat);it.IsElm();it.Next()) 
-      it.Data1() = (RealT) ((RealT) it.Data2().Red() + it.Data2().Green() + it.Data2().Blue()) / 3;
+      it.Data1() = (RealT) ((IntT) it.Data2().Red() + it.Data2().Green() + it.Data2().Blue()) / 3.0;
     return ret;
   }
   
