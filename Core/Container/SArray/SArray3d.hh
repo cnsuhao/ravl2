@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_SARRAY2D_HEADER
-#define RAVL_SARRAY2D_HEADER 1
+#ifndef RAVL_SARRAY3D_HEADER
+#define RAVL_SARRAY3D_HEADER 1
 /////////////////////////////////////////////////////
 //! userlevel=Normal
 //! docentry="Ravl.Core.Arrays.3D"
@@ -49,15 +49,6 @@ namespace RavlN {
     
     SArray3dC(SizeT dim1,SizeT dim2,SizeT dim3);
     //: Constructor.
-    
-#if 0
-    SArray3dC(const BufferC<DataT> & bf, SizeT size1,SizeT size2,SizeT startOffset = 0,SizeT stride = 0);
-    //: Constructor using the buffer 'bf'. 
-    // This can be used, for example to view a 1d array, as a 3d array.
-    // startOffset is the location in the buffer to use as 0,0.
-    // If stride is set to zero, size2 is used.
-    // <p> NOT IMPLEMENTED, Will be on request.
-#endif
     
     SArray3dC<DataT> Copy() const;
     //: Copy array.
@@ -128,43 +119,7 @@ namespace RavlN {
     
     const SArray3dC<DataT> & operator/=(const DataT &number);
     // Divides the array elements by the 'number'.
-
-#if 0
-    Slice1dC<DataT> Diagonal() {
-      return Slice1dC<DataT>(data.Data(),
-			     &((*this)[0][0]),
-			     Min(Size1(),Size2(),Size3()),
-			     Stride()+1);
-    }
-    //: Take a slice along the diagonal of the array.
-    // <p> NOT IMPLEMENTED, Will be on request.
     
-    SArray1dC<DataT> SliceRow(IndexC i)
-      { return SArray1dC<DataT>(data.Data(),SArray1d()[i]); }
-    //: Access row as 1d array.
-    // NB. Changes made to the slice will also affect this array!
-    // <p> NOT IMPLEMENTED, Will be on request.
-    
-    Slice1dC<DataT> SliceColumn(IndexC i) { 
-      return Slice1dC<DataT>(data.Data(),
-			     &((*this)[0][i]),
-			     Min(Size1(),Size2(),Size3()),
-			     Stride());
-    }
-    //: Access column as 1d slice.
-    // NB. Changes made to the slice will also affect this array!
-    // <p> NOT IMPLEMENTED, Will be on request.
-    
-    void SetColumn(IndexC i,const SArray1dC<DataT> &val);
-    //: Set the values in the column i to those in 'val'.
-    // 'val' must have a size equal to the number of rows.
-    // <p> NOT IMPLEMENTED, Will be on request.
-    
-    void SetRow(IndexC i,const SArray1dC<DataT> &val);
-    //: Set the values in the row i to those in 'val'.
-    // 'val' must have a size equal to the number of columns
-    // <p> NOT IMPLEMENTED, Will be on request.
-#endif    
   protected:
     void BuildAccess(SizeT size1);
     
@@ -224,14 +179,6 @@ namespace RavlN {
     : SizeBufferAccess3dC<DataT>(nsize2,nsize3),
       data(nsize1,nsize2,nsize3)
   { BuildAccess(nsize1); }
-  
-#if 0
-  template<class DataT>
-  SArray3dC<DataT>::SArray3dC(const BufferC<DataT> & bf, SizeT size1,SizeT nsize2,SizeT startOffset,SizeT stride)
-    : SizeBufferAccess3dC<DataT>(size2),
-      data(bf,bsize1)
-  { BuildAccess(startOffset,stride); }
-#endif
   
   template<class DataT>
   SArray3dC<DataT> 
@@ -367,25 +314,7 @@ namespace RavlN {
       it.Data() /= number;
     return *this;
   }
-  
-#if 0
-  template<class DataT>
-  void SArray3dC<DataT>::SetColumn(IndexC i,const SArray1dC<DataT> &val) {
-    RavlAssert(val.Size() == size2);
-    // Avoid including to many headers just use a ptr, not a slice.
-    DataT *d1 = &((*this)[0][i]); 
-    for(BufferAccessIterC<DataT> it(val);it;it++,d1 += Stride())
-      *it = *d1;
-  }
-  
-  template<class DataT>
-  void SArray3dC<DataT>::SetRow(IndexC i,const SArray1dC<DataT> &val) {
-    RavlAssert(val.Size() == size1);
-    for(BufferAccessIter2C<DataT,DataT> it(SArray1d()[i],val);it;it++)
-      it.Data1() = it.Data2();
-  }
-#endif
-  
+    
 }
 
 #endif
