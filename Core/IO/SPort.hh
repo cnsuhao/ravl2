@@ -19,6 +19,13 @@
 
 namespace RavlN {
   
+  typedef Int64T StreamPosT;
+  //: Stream position.
+  
+  const StreamPosT streamPosUnknown = 0x7fffffffffffffffll;
+  
+  //:-
+  
   //////////////////////////////////////////////////
   //! userlevel=Develop
   //: Stream position control body class.
@@ -53,11 +60,40 @@ namespace RavlN {
     // Defined as the index of the next object to be written or read.
     // May return ((UIntT) (-1)) if not implemented.
     
+    
     virtual UIntT Size() const; 
     //: Find the total size of the stream. (assuming it starts from 0)
     // May return ((UIntT) (-1)) if not implemented.
     
     virtual UIntT Start() const; 
+    //: Find the offset where the stream begins, normally zero.
+    // Defaults to 0
+    
+    virtual bool Seek64(StreamPosT off);
+    //: Seek to location in stream.
+    // Returns false, if seek failed. (Maybe because its
+    // not implemented.)
+    // if an error occurered (Seek returned False) then stream
+    // position will not be changed.
+
+    virtual bool DSeek64(StreamPosT off);
+    //: Delta Seek, goto location relative to the current one.
+    // The default behavour of this functions is :
+    // Do some error checking then:
+    //   Seek((UIntT)((IntT) Tell() + off));
+    // if an error occurered (DSeek returned False) then stream
+    // position will not be changed.
+    
+    virtual StreamPosT Tell64() const; 
+    //: Find current location in stream.
+    // Defined as the index of the next object to be written or read.
+    // May return ((UIntT) (-1)) if not implemented.
+    
+    virtual StreamPosT Size64() const; 
+    //: Find the total size of the stream. (assuming it starts from 0)
+    // May return ((UIntT) (-1)) if not implemented.
+    
+    virtual StreamPosT Start64() const; 
     //: Find the offset where the stream begins, normally zero.
     // Defaults to 0
   };
@@ -182,6 +218,39 @@ namespace RavlN {
     
     inline UIntT Start() const
     { return Body().Start(); }
+    //: Find the offset where the stream begins, normally zero.
+    // Defaults to 0
+    
+    inline bool Seek64(StreamPosT off)
+    { return Body().Seek64(off); }
+    //: Seek to location in stream.
+    // Returns false, if seek failed. (Maybe because its
+    // not implemented.)
+    // if an error occurered (Seek returned False) then stream
+    // position will not be changed.
+    
+    inline bool DSeek64(StreamPosT off)
+    { return Body().DSeek(off); }
+    //: Delta Seek, goto location relative to the current one.
+    // The default behavour of this functions is :
+    // Do some error checking then:
+    //   Seek((UIntT)((IntT) Tell() + off));
+    // if an error occurered (DSeek returned False) then stream
+    // position will not be changed.
+    
+    inline StreamPosT Tell64() const
+    { return Body().Tell64(); }
+    //: Find current location in stream.
+    // Defined as the index of the next object to be written or read.
+    // May return ((UIntT) (-1)) if not implemented.
+    
+    inline StreamPosT Size64() const
+    { return Body().Size64(); }
+    //: Find the total size of the stream.  (assuming it starts from 0)
+    // May return ((UIntT) (-1)) if not implemented.
+    
+    inline StreamPosT Start64() const
+    { return Body().Start64(); }
     //: Find the offset where the stream begins, normally zero.
     // Defaults to 0
     

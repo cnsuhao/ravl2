@@ -56,6 +56,63 @@ namespace RavlN {
     return 0; 
   }
   
+  //: Seek to location in stream.
+  // Returns false, if seek failed. (Maybe because its
+  // not implemented.)
+  // if an error occurered (Seek returned False) then stream
+  // position will not be changed.
+  
+  bool DPSeekCtrlBodyC::Seek64(StreamPosT off) {
+    if(off < 0 || off > (Int64T) ((UIntT) -1)) {
+      cerr << "WARNING: 64 bit seeks not supported.  Offset=" << off << " \n";
+      return false;
+    }
+    return Seek((UIntT) off);
+  }
+  
+  //: Delta Seek, goto location relative to the current one.
+  // The default behavour of this functions is :
+  // Do some error checking then:
+  //   Seek((UIntT)((IntT) Tell() + off));
+  // if an error occurered (DSeek returned False) then stream
+  // position will not be changed.
+  
+  bool DPSeekCtrlBodyC::DSeek64(StreamPosT off) {
+    if(off < -((Int64T) ((UIntT) -1)) || off > (Int64T) ((UIntT) -1)) {
+      cerr << "WARNING: 64 bit seeks not supported.  Offset=" << off << " \n";
+      return false;
+    }
+    return DSeek(off);
+  }
+  
+  //: Find current location in stream.
+  // Defined as the index of the next object to be written or read.
+  // May return ((UIntT) (-1)) if not implemented.
+  
+  StreamPosT DPSeekCtrlBodyC::Tell64() const { 
+    UIntT v = Tell();
+    if(v == ((UIntT) -1))
+      return streamPosUnknown;
+    return v;
+  }
+  
+  //: Find the total size of the stream. (assuming it starts from 0)
+  // May return ((UIntT) (-1)) if not implemented.
+  
+  StreamPosT DPSeekCtrlBodyC::Size64() const 
+  { 
+    UIntT v = Size();
+    if(v == ((UIntT) -1))
+      return streamPosUnknown;
+    return v;
+  }
+  
+  //: Find the offset where the stream begins, normally zero.
+  // Defaults to 0
+  
+  StreamPosT DPSeekCtrlBodyC::Start64() const 
+  { return Start(); }
+
   //////////////////////////////////////////////////////
   
   //: Default constructor.

@@ -112,5 +112,26 @@ namespace RavlN {
   
   UIntT DPIByteFileBodyC::Size() const
   { return (UIntT) (-1); }
-
+  
+  
+  //: Seek to position in stream.
+  // Currently will only seek to begining of stream.
+  
+  bool DPIByteFileBodyC::Seek64(StreamPosT newOff) {
+    in.Seek(dataStart +  newOff);
+    off = newOff;
+    return true;
+  }
+  
+  
+  //: Get offset in stream.
+  
+  StreamPosT DPIByteFileBodyC::Tell64() const 
+  { return off; }
+  
+  //: Get size of stream. 
+  
+  StreamPosT DPIByteFileBodyC::Size64() const 
+  { return streamPosUnknown; }
+  
 }

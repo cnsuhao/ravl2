@@ -138,11 +138,21 @@ namespace RavlN {
     
     virtual UIntT Size() const;
     //: Get size of stream. 
-  
+    
+    virtual bool Seek64(StreamPosT newOff);
+    //: Seek to position in stream.
+    // Currently will only seek to begining of stream.
+    
+    virtual StreamPosT Tell64() const;
+    //: Get offset in stream.
+    
+    virtual StreamPosT Size64() const;
+    //: Get size of stream. 
+    
   private:
     IStreamC in;
-    streampos dataStart;
-    UIntT off;
+    StreamPosT dataStart;
+    StreamPosT off;
   };
   
   ///////////////////////////////
