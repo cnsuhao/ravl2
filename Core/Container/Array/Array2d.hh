@@ -50,8 +50,8 @@ namespace RavlN {
     {}
     //: Creates an empty 2D array.
     
-    Array2dC(SizeT dim1, SizeT dim2);
-    //: Creates 2D array with the range < <0,dim1-1>, <0,dim2-1> >
+    Array2dC(SizeT rows, SizeT cols);
+    //: Creates 2D array with the range < <0,rows-1>, <0,cols-1> >
     
     Array2dC(IntT minRow,IntT maxRow,IntT minCol,IntT maxCol);
     //: Creates 2D array with the range minRow to maxRow by minCol to maxCol.
@@ -61,23 +61,24 @@ namespace RavlN {
     
     Array2dC(const Index2dC & min, const Index2dC & max);
     //: Creates 2D array with the range < <min[0], max[0]>, <min[1], max[1]> >.
+    // Index 0 ~ rows; index 1 ~ columns
     
-    Array2dC(const IndexRangeC & rng1, const IndexRangeC & rng2);
-    //: Creates 2D array with the range <rng1, rng2>
+    Array2dC(const IndexRangeC & rowRng, const IndexRangeC & colRng);
+    //: Creates 2D array with the range <rowRng, colRng>
     
     Array2dC(const IndexRange2dC & rect);
-    //: Create 2D array with the range covering indexes in 'rect'
+    //: Create 2D array with the range covering indices in 'rect'
     
     Array2dC(const IndexRange2dC & rect,const BufferC<DataT> &data);
-    //: Create 2D array with the range covering indexes in 'rect' from data.
-    // Note: It is the users responsability to ensure that 'data' is
+    //: Create 2D array with the range covering indices in 'rect' from data.
+    // Note: It is the users responsibility to ensure that 'data' is
     // large enought to contain 'rect'.
     
     Array2dC(const Array2dC<DataT> &arr,const IndexRange2dC & rect);
-    //: Create a sub array of 'arr' covering indexes 'rect'.
+    //: Create a sub array of 'arr' covering indices 'rect'.
     
     Array2dC(const Array2dC<DataT> &arr,const IndexRange2dC & rect,const Index2dC &newOrigin);
-    //: Create a sub array of 'arr' covering indexes 'rect', with origin 'newOrigin'.
+    //: Create a sub array of 'arr' covering indices 'rect', with origin 'newOrigin'.
     // This copies the access.
     
     Array2dC(const SArray2dC<DataT> &sarr);
@@ -139,22 +140,43 @@ namespace RavlN {
     { return(*this); }
     //: access to the object
     
+    inline void ShiftRows(IndexC offset)
+    { ShiftIndexes(-offset); }
+    //: The array is shifted "vertically" by <code>offset</code> w.r.t. the coordinate origin.
+    // In other words the row indices will be <i>decremented</i> by <code>offset</code>.
+    // Note: this affects the access for all arrays accessing this data, use
+    // with care.
+    
+    void ShiftCols(IndexC offset);
+    //: The array is shifted "horizontally" by <code>offset</code> w.r.t. the coordinate origin.
+    // In other words the column indices will be <i>decremented</i> by <code>offset</code>.
+    // Note: this affects the access for all arrays accessing this data, use
+    // with care.
+
+    void ShiftArray(Index2dC offset)
+      { ShiftRows(offset.Row()); ShiftCols(offset.Col()); }
+    //: The array is shifted by <code>offset</code> w.r.t. the coordinate origin
+    // This combines the functionality of <code>ShiftRows</code> and <code>ShiftCols</code>
+
+    
     inline void ShiftIndexes1(IndexC offset)
     { ShiftIndexes(offset); }
-    //: All indexes of Range1() will be changed by 'offset'.
+    //: All indices of Range1() will be changed by 'offset'.
     // The range will be shifted by -offset.
     // Note: this affects the access for all arrays accessing this data, use
     // with care.
-    
+    //!deprecated: use ShiftRows instead (shifts the other way round)
+
     void ShiftIndexes2(IndexC offset);
-    //: All indexes of Range2() will be changed by 'offset'.
+    //: All indices of Range2() will be changed by 'offset'.
     // The range will be shifted by -offset.
     // Note: this affects the access for all arrays accessing this data, use
     // with care.
-    
-    Array2dC<DataT> CopyAccess(IndexC shift1 = 0,IndexC shift2 = 0);
+    //!deprecated: use ShiftCols instead (shifts the other way round)
+
+    Array2dC<DataT> CopyAccess(IndexC rowShift = 0,IndexC colShift = 0);
     //: This will create a copy of the access structure without copying the data itself.
-    // The access is shifted by shift1 in dimention 1 and shift2 in dimention 2. 
+    // The access is shifted by rowShift vertically and colShift horizontally. 
     
     Array2dC<DataT> operator+(const Array2dC<DataT> & arr) const;
     //: Sums 2 numerical arrays. 
@@ -279,6 +301,13 @@ namespace RavlN {
   }
   
   template <class DataT>
+  void Array2dC<DataT>::ShiftCols(IndexC offset) {
+    for(BufferAccessIterC<BufferAccessC<DataT> > it(*this);it.IsElm();it.Next()) 
+      it.Data() -= offset;
+    rng2 += offset.V(); // Keep dim2 uptodate.
+  }
+  
+  template <class DataT>
   void Array2dC<DataT>::ConstructAccess(const IndexRangeC &rng1) {
     Attach(data,rng1);
     const SizeT d2Size = Range2().Size();
@@ -345,7 +374,7 @@ namespace RavlN {
       data(arr.data)
   {}
   
-  //: Create a sub array of 'arr' covering indexes 'rect', with origin 'newOrigin'.
+  //: Create a sub array of 'arr' covering indices 'rect', with origin 'newOrigin'.
   // This copies the access.
   
   template <class DataT>
