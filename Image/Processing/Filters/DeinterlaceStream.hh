@@ -20,6 +20,7 @@
 #include "Ravl/Average.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dSqr311Iter3.hh"
+#include "Ravl/CallMethods.hh"
 
 namespace RavlImageN {
 
@@ -74,6 +75,7 @@ namespace RavlImageN {
 	DeinterlaceStreamBaseC(DPSeekCtrlAttachC(inPort,true),nEvenFieldDominant),
 	input(inPort)
     { 
+      deinterlace = TriggerR(*this,&DeinterlaceStreamBodyC<PixelT>::Deinterlace,ImageC<PixelT>(),ImageC<PixelT>(),ImageC<PixelT>());
       inputBase = input;
       RegisterAttribs(inPort); 
     }
@@ -83,6 +85,7 @@ namespace RavlImageN {
       : DeinterlaceStreamBaseC(DPSeekCtrlAttachC((const DPSeekCtrlC &) inPort),nEvenFieldDominant),
 	input(inPort)
     { 
+      deinterlace = TriggerR(*this,&DeinterlaceStreamBodyC<PixelT>::Deinterlace,ImageC<PixelT>(),ImageC<PixelT>(),ImageC<PixelT>());
       inputBase = input;
       RegisterAttribs(inPort); 
     }
@@ -111,7 +114,7 @@ namespace RavlImageN {
 	  state = 10; // Mark as error if we get interrupted by an exception.
 	  if(!input.Get(img))
 	    return false;
-	  Deinterlace(img,fields[0],fields[1]);
+	  deinterlace(img,fields[0],fields[1]);
 	  state = 1;
 	  buff = fields[evenFieldDominant ? 1 : 0];
 	  return true;
@@ -123,7 +126,7 @@ namespace RavlImageN {
 	  state = 10; // Mark as error if we get interrupted by an exception.
 	  if(!input.Get(img))
 	    return false;
-	  Deinterlace(img,fields[0],fields[1]);
+	  deinterlace(img,fields[0],fields[1]);
 	  buff = fields[evenFieldDominant ? 0 : 1];
 	  state = 0;
 	  return true;
@@ -259,10 +262,15 @@ namespace RavlImageN {
     // Returns false if the attribute name is unknown.
     // This is for handling stream attributes such as frame rate, and compression ratios.
 
+    bool DeinteralaceFunc(const CallFunc3C<ImageC<PixelT>,ImageC<PixelT>,ImageC<PixelT> > &func)
+    { deinterlace = func; return deinterlace.IsValid(); }
+    //: Set deinterlacing function.
+    
   protected:
-    void Deinterlace(const ImageC<PixelT> &img,ImageC<PixelT> &field0,ImageC<PixelT> &field1);
+    bool Deinterlace(const ImageC<PixelT> &img,ImageC<PixelT> &field0,ImageC<PixelT> &field1);
     //: DeinterlaceStream a frame.
     
+    CallFunc3C<const ImageC<PixelT>&,ImageC<PixelT>&,ImageC<PixelT>& > deinterlace;
     ImageC<PixelT> fields[2];
     DPIPortC<ImageC<PixelT> > input; // Where to get data from.
   };
@@ -290,13 +298,26 @@ namespace RavlImageN {
       : DPEntityC(*new DeinterlaceStreamBodyC<PixelT>(inPort,nEvenFieldDominant))
     {}
     //: Constructor.
+
+  protected:
+    DeinterlaceStreamBodyC<PixelT> &Body()
+    { return static_cast<DeinterlaceStreamBodyC<PixelT> &>(DPEntityC::Body()); }
+    //: Access body.
+
+    const DeinterlaceStreamBodyC<PixelT> &Body() const
+    { return static_cast<const DeinterlaceStreamBodyC<PixelT> &>(DPEntityC::Body()); }
+    //: Access body.
     
+  public:    
+    bool DeinteralaceFunc(const CallFunc3C<ImageC<PixelT>,ImageC<PixelT>,ImageC<PixelT> > &func)
+    { return Body().DeinteralaceFunc(func); }
+    //: Set deinterlacing function.
   };
   
   //: DeinterlaceStream a frame.
   
   template<class PixelT>
-  void DeinterlaceStreamBodyC<PixelT>::Deinterlace(const ImageC<PixelT> &img,ImageC<PixelT> &field0,ImageC<PixelT> &field1) {
+  bool DeinterlaceStreamBodyC<PixelT>::Deinterlace(const ImageC<PixelT> &img,ImageC<PixelT> &field0,ImageC<PixelT> &field1) {
     // Make sure images are allocated.
     field0 = ImageC<PixelT>(img.Frame());
     field1 = ImageC<PixelT>(img.Frame());
@@ -317,6 +338,7 @@ namespace RavlImageN {
       if(!it)
 	break;
     }
+    return true;
   }
   
   
