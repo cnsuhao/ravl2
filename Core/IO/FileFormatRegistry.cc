@@ -46,7 +46,7 @@ namespace RavlN {
   bool FileFormatRegistryBodyC::Insert(FileFormatBaseC &ff) {
     if(ff.Name() != "") {
       FormatByName()[ff.Name()].InsLast(ff);
-      ONDEBUG(cout << "Registering file format :" << nformatName << endl);
+      ONDEBUG(cout << "Registering file format :" << ff.Name() << endl);
     }
     Formats().InsLast(ff);
     return true;
@@ -339,15 +339,11 @@ namespace RavlN {
   //: Search for output format.
   
   bool FileFormatRegistryBodyC::FindOutputFormat(FileFormatDescC &fmtInfo,
-					     StringC filename,
-					     StringC format,
-					     const type_info &obj_type,
-					     bool verbose
-					     ) {
-    if(obj_type == typeid(void)) {
-      ONDEBUG(cerr << "CreateOutput(OStreamC), Asked to output void. \n");
-      return false;
-    }
+						 StringC filename,
+						 StringC format,
+						 const type_info &obj_type,
+						 bool verbose
+						 ) {
     ONDEBUG(cerr << "FindOutputFormat(), Fn:'" << filename << "' Format:'" << format << "'  Type : " << TypeName(obj_type) << "  Verb:" << verbose << "\n");
     // Find format thats least effort to convert to.
     RealT minCost = 100000;
@@ -358,7 +354,8 @@ namespace RavlN {
     
     HSetC<StringC> ignoreFmts,acceptFmts;
     bool acceptAll = ParseFmts(format,ignoreFmts,acceptFmts);
-    
+    const type_info *testType = &obj_type;
+      
     for(DLIterC<FileFormatBaseC> it(Formats());
 	it.IsElm();
 	it.Next()) {
@@ -368,11 +365,13 @@ namespace RavlN {
 	if(!acceptFmts.IsMember(it.Data().Name()))
 	continue;
       }
-      const type_info &ti = it.Data().ProbeSave(filename,obj_type,!acceptAll); // it.Data().DefaultType()
+      if(obj_type == typeid(void))
+	testType = &(it.Data().DefaultType());
+      const type_info &ti = it.Data().ProbeSave(filename,*testType,!acceptAll); // it.Data().DefaultType()
       ONDEBUG(cerr << "OProbe '" << it.Data().Name() << "' '" << TypeName(it.Data().DefaultType()) << "'  = " << TypeName(ti) << "\n");
       if(ti == typeid(void))
 	continue;
-      if(ti == obj_type) {
+      if(ti == obj_type || obj_type == typeid(void)) {
 	if(minCost > 0 || it.Data().Priority() > bestPri) {
 	  minForm = it.Data();
 	  bestConv = DListC<DPConverterBaseC>();
@@ -405,7 +404,7 @@ namespace RavlN {
       return false;
     }  
     if(verbose ONDEBUG(|| 1))
-      cerr << "Saving object '" << TypeName(obj_type) << "' in format '" << minForm.Name() << "' to file '" << filename << "' Steps:" << bestConv.Size() << " Priority:" << bestPri <<  " \n";
+      cerr << "Saving object '" << TypeName(obj_type) << "' in format '" << minForm.Name() << "' with type '" << TypeName(*bestout) << "' to file '" << filename << "' Steps:" << bestConv.Size() << " Priority:" << bestPri <<  " \n";
     
     fmtInfo = FileFormatDescC(minForm,bestConv,*bestout,false);
     return true;

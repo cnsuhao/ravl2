@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLFORMATREGISTRY_HEADER
-#define RAVLFORMATREGISTRY_HEADER 1
+#ifndef RAVL_FORMATREGISTRY_HEADER
+#define RAVL_FORMATREGISTRY_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.IO.Formats" 
