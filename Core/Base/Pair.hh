@@ -35,7 +35,7 @@ namespace RavlN {
     // ---------------------------------------
     
     inline PairC()
-       {}
+    {}
     // The default constructor.
     
     inline PairC(const PairC & p);
@@ -61,27 +61,44 @@ namespace RavlN {
     // Returns the first object of the pair.
     
     inline DataC & A()
-      { return item[0]; }
+    { return item[0]; }
     // Access to the first object of the pair.
     
     inline const DataC & B() const
-      { return item[1]; }
+    { return item[1]; }
     // Returns the first object of the pair.
   
     inline DataC & B()
-      { return item[1]; }
+    { return item[1]; }
+    // Access to the first object of the pair.
+    
+
+    inline const DataC & Data1() const
+    { return item[0]; }
+    // Returns the first object of the pair.
+    
+    inline DataC & Data1()
+    { return item[0]; }
+    // Access to the first object of the pair.
+    
+    inline const DataC & Data2() const
+    { return item[1]; }
+    // Returns the first object of the pair.
+  
+    inline DataC & Data2()
+    { return item[1]; }
     // Access to the first object of the pair.
     
     inline IndexC Size() const
-      { return 2; }
+    { return 2; }
     // Returns 2 as the number of elements of the pair.
     
     inline bool IsValid() const
-      { return true; }
+    { return true; }
     // Returns always true confirming that the pair exists.
     
     inline bool Contains(const IndexC i) const
-      { return (i>=0) && (i <= 1); }
+    { return (i>=0) && (i <= 1); }
     // Returns true if the pair contains an item with the index 'i'.
     
     // Special operations
