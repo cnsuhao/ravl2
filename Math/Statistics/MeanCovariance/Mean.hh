@@ -23,7 +23,7 @@ namespace RavlN {
   
   class MeanC {
   public:
-    MeanC(const SArray1dC<RealT> &data);
+    explicit MeanC(const SArray1dC<RealT> &data);
     //: Calculate the mean and variance from an array of numbers.
     
     MeanC()
@@ -35,15 +35,15 @@ namespace RavlN {
     MeanC(SizeT nn,RealT nmean)
       : n(nn),
 	mean(nmean)
-    { SetZero(); }
+    {}
     //: Constructor.
     
     SizeT Number() const
-      { return n; }
+    { return n; }
     //: Access the number of samples.
     
     RealT Mean() const
-      { return mean; }
+    { return mean; }
     //: Access the mean.
     
     MeanC &operator+=(const MeanC &mv);
@@ -57,6 +57,10 @@ namespace RavlN {
     
     MeanC &operator-=(const RealT &mv);
     //: Remove a sample from this one.
+    
+    void SetZero()
+    { n = 0; mean = 0; }
+    //: Reset mean and number to zero.
     
   protected:
     SizeT n;
