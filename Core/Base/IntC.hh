@@ -64,19 +64,19 @@ namespace RavlN {
     //: Decrement
     
     
-    UIntT operator-=(IntT oth) {
+    IntT operator-=(IntT oth) {
       v -= oth;
       return v;
     }
     //: Take another UIntT from this one.
     
-    UIntT operator+=(IntT oth) {
+    IntT operator+=(IntT oth) {
       v += oth;
       return v;
     }
     //: Take another UIntT from this one.
-
-    UIntT operator/=(IntT oth) {
+    
+    IntT operator/=(IntT oth) {
       v /= oth;
       return v;
     }

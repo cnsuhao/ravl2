@@ -17,6 +17,7 @@
 
 #include "Ravl/Types.hh"
 #include "Ravl/Assert.hh"
+#include "Ravl/Stream.hh"
 
 //: Ravl namespace.
 
@@ -48,9 +49,6 @@ namespace RavlN {
     bool operator==(RealT ov) const { return v == ov; }
     //: Comparison operator.
     
-    URealT Hash() const { return (URealT) v; }
-    //: Hash it.
-    
     RealT operator++(int) { return v++; }
     //: Increment.
     
@@ -64,19 +62,19 @@ namespace RavlN {
     //: Decrement
     
     
-    URealT operator-=(RealT oth) {
+    RealT operator-=(RealT oth) {
       v -= oth;
       return v;
     }
     //: Take another URealT from this one.
     
-    URealT operator+=(RealT oth) {
+    RealT operator+=(RealT oth) {
       v += oth;
       return v;
     }
     //: Take another URealT from this one.
-
-    URealT operator/=(RealT oth) {
+    
+    RealT operator/=(RealT oth) {
       v /= oth;
       return v;
     }
