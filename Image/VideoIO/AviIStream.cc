@@ -19,7 +19,7 @@
 #define ONDEBUG(x)
 #endif
 
-namespace RavlN{
+namespace RavlImageN{
   
   AviIStreamC::AviIStreamC(const IStreamC &nIn, bool verb) 
     : GenBinIStreamC(nIn)

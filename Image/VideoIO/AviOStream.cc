@@ -20,7 +20,7 @@
 #define ONDEBUG(x)
 #endif
     
-namespace RavlN{
+namespace RavlImageN{
   
   AviOStreamC::AviOStreamC(const OStreamC &nOut, DListC<StringC> fccTypes , const bool swapEndian, bool verb) 
     : GenBinOStreamC(nOut,swapEndian)
