@@ -117,6 +117,34 @@ namespace RavlGUIN {
     
     void RemoveLine(int &id);
     //: Remove a line with given 'id'.  
+
+    bool SetCellText(int &row,int &col,StringC &val);
+    //: Set the contents of a cell to a string.
+    
+    bool GUISetCellText(int &row,int &col,StringC &val);
+    //: Set the contents of a cell to a string.
+    
+    bool SetCellIDText(int &rowId,int &col,StringC &val);
+    //: Set the contents of a cell to a string.
+    // Select row by ID.
+    
+    bool GUISetCellIDText(int &rowId,int &col,StringC &val);
+    //: Set the contents of a cell to a string.
+    // Select row by ID.
+    
+    bool SetCellPixmap(int &row,int &col,PixmapC &val);
+    //: Set the contents of a cell to a string.
+    
+    bool GUISetCellPixmap(int &row,int &col,PixmapC &val);
+    //: Set the contents of a cell to a string.
+    
+    bool SetCellIDPixmap(int &rowId,int &col,PixmapC &val);
+    //: Set the contents of a cell to a string.
+    // Select row by ID.
+    
+    bool GUISetCellIDPixmap(int &rowId,int &col,PixmapC &val);
+    //: Set the contents of a cell to a string.
+    // Select row by ID.
     
     bool GUISelect(int &id);
     //: Force an item to be selected.
@@ -307,7 +335,43 @@ namespace RavlGUIN {
     void RemoveLine(int &id)
     { Body().RemoveLine(id); }
     //: Remove a line entry.  
-
+    
+    bool SetCellText(int &row,int &col,StringC &val)
+    { return Body().SetCellText(row,col,val); }
+    //: Set the contents of a cell to a string.
+    
+    bool GUISetCellText(int &row,int &col,StringC &val)
+    { return Body().GUISetCellText(row,col,val); }
+    //: Set the contents of a cell to a string.
+    
+    bool SetCellIDText(int &rowId,int &col,StringC &val)
+    { return Body().SetCellText(rowId,col,val); }
+    //: Set the contents of a cell to a string.
+    // Row is indexed by ID.
+    
+    bool GUISetCellIDText(int &rowId,int &col,StringC &val)
+    { return Body().SetCellIDText(rowId,col,val); }
+    //: Set the contents of a cell to a string.
+    // Row is indexed by ID.
+    
+    bool SetCellPixmap(int &row,int &col,PixmapC &val)
+    { return Body().SetCellPixmap(row,col,val); }
+    //: Set the contents of a cell to a string.
+    
+    bool GUISetCellPixmap(int &row,int &col,PixmapC &val)
+    { return Body().GUISetCellPixmap(row,col,val); }
+    //: Set the contents of a cell to a string.
+    
+    bool SetCellIDPixmap(int &rowId,int &col,PixmapC &val)
+    { return Body().SetCellPixmap(rowId,col,val); }
+    //: Set the contents of a cell to a string.
+    // Row is indexed by ID.
+    
+    bool GUISetCellIDPixmap(int &rowId,int &col,PixmapC &val)
+    { return Body().SetCellIDPixmap(rowId,col,val); }
+    //: Set the contents of a cell to a string.
+    // Row is indexed by ID.
+    
     bool GUISelect(int &id)
     { return Body().GUISelect(id); }
     //: Force an item to be selected.
@@ -421,6 +485,7 @@ namespace RavlGUIN {
     { return Body().SetColumnWidth(colNo,width); }
     //: Set column width.
     // Use from the GUI thread only.
+
     
     friend class CListBodyC;
   };

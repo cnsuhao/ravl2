@@ -256,7 +256,89 @@ namespace RavlGUIN {
   void CListBodyC::AppendLine(int &id,SArray1dC<StringC> &line) {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUIAppendLine,id,line));
   }
-
+  
+  //: Set the contents of a cell to a string.
+  
+  bool CListBodyC::SetCellText(int &row,int &col,StringC &val) {
+    Manager.Queue(Trigger(CListC(*this),&CListC::GUISetCellText,row,col,val));
+    return true;
+  }
+  
+  //: Set the contents of a cell to a string.
+  
+  bool CListBodyC::GUISetCellText(int &row,int &col,StringC &val) {
+    if(widget == 0) {
+      toDo.InsLast(Trigger(CListC(*this),&CListC::GUISetCellText,row,col,val));
+      return true;
+    }
+    gtk_clist_set_text(GTK_CLIST(widget),row,col,val.chars());
+    return true;
+  }
+  
+  //: Set the contents of a cell to a string.
+  // Select row by ID.
+  
+  bool CListBodyC::SetCellIDText(int &rowId,int &col,StringC &val) {
+    Manager.Queue(Trigger(CListC(*this),&CListC::GUISetCellIDText,rowId,col,val));
+    return true;
+  }
+  
+  //: Set the contents of a cell to a string.
+  // Select row by ID.
+  
+  bool CListBodyC::GUISetCellIDText(int &rowId,int &col,StringC &val) {
+    if(widget == 0) {
+      toDo.InsLast(Trigger(CListC(*this),&CListC::GUISetCellIDText,rowId,col,val));
+      return true;
+    }
+    int rowNo = gtk_clist_find_row_from_data (GTK_CLIST(widget),(void *) rowId);
+    if(rowNo < 0)
+      return true; // Not found.
+    gtk_clist_set_text(GTK_CLIST(widget),rowNo,col,val.chars());
+    return true;
+  }
+  
+  //: Set the contents of a cell to a string.
+  
+  bool CListBodyC::SetCellPixmap(int &row,int &col,PixmapC &pm) {
+    Manager.Queue(Trigger(CListC(*this),&CListC::GUISetCellPixmap,row,col,pm));
+    return true;
+  }
+  
+  //: Set the contents of a cell to a string.
+  
+  bool CListBodyC::GUISetCellPixmap(int &row,int &col,PixmapC &pm) {
+    if(widget == 0) {
+      toDo.InsLast(Trigger(CListC(*this),&CListC::GUISetCellPixmap,row,col,pm));
+      return true;
+    }
+    gtk_clist_set_pixmap (GTK_CLIST(widget),row,col,pm.Pixmap(),pm.Mask());
+    return true;
+  }
+  
+  //: Set the contents of a cell to a string.
+  // Select row by ID.
+  
+  bool CListBodyC::SetCellIDPixmap(int &rowId,int &col,PixmapC &pm) {
+    Manager.Queue(Trigger(CListC(*this),&CListC::GUISetCellIDPixmap,rowId,col,pm));
+    return true;
+  }
+  
+  //: Set the contents of a cell to a string.
+  // Select row by ID.
+  
+  bool CListBodyC::GUISetCellIDPixmap(int &rowId,int &col,PixmapC &pm) {
+    if(widget == 0) {
+      toDo.InsLast(Trigger(CListC(*this),&CListC::GUISetCellIDPixmap,rowId,col,pm));
+      return true;
+    }
+    int rowNo = gtk_clist_find_row_from_data (GTK_CLIST(widget),(void *) rowId);
+    if(rowNo < 0)
+      return true; // Not found.
+    gtk_clist_set_pixmap (GTK_CLIST(widget),rowNo,col,pm.Pixmap(),pm.Mask());
+    return true;
+  }
+  
   //: Force an item to be selected.
   
   bool CListBodyC::GUISelect(int &id) {
