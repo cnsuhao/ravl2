@@ -61,6 +61,7 @@ namespace RavlN {
     
     RealT Gauss(RealT x);
     //: Value of the gauss distribution at x.
+    // Also known as the normal distribution.
     
     MeanVarianceC &operator+=(const MeanVarianceC &mv);
     //: Add another MeanVariance to this one.
