@@ -234,26 +234,12 @@ namespace RavlN {
 						bool verbose
 						) {
     ONDEBUG(cerr << "FindInputFormat(), Fn:'" << filename << "' Format:'" << format << "'  Type : " << TypeName(obj_type) << "  Verb:" << verbose << "\n");
-    
-    // Check file...
-    
-    if(filename[0] != '@' && !(filename[0] == '-' && filename.length() == 1)) {
-      StringC afn(filename);
-#if 0
-      if(!afn.Exists()) {
-	cerr << "Can't find file '" << filename << "'\n";
-	return false;
-      }
-      if(afn.IsDirectory()) {
-	cerr << "Can't open file '" << filename << "',  not a regular file. (A directory?) \n";
-	return false;
-      }
-      if(!afn.IsReadable()) {
-	cerr << "Can't open file '" << filename << "',  not readable. \n";
-	return false;
-      }
-#endif
+
+    if(filename.length() == 0) {
+      cerr<< "FileFormatRegistryBodyC::FindInputFormat(), Filename too short. \n";
+      return false; 
     }
+    
     // Open file to start probe..
     IStreamC in(filename);
     if(!in.good() && filename[0] != '@') {
