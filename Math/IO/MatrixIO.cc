@@ -21,7 +21,7 @@ namespace RavlN {
   static TypeNameC type3(typeid(VectorMatrixC),"VectorMatrixC");
   static TypeNameC type4(typeid(SArray1dC<MatrixC>),"SArray1dC<MatrixC>");
   static TypeNameC type5(typeid(SArray1dC<VectorC>),"SArray1dC<VectorC>");
-  static TypeNameC type6(typeid(SArray1dC<VectorC>),"SArray1dC<VectorMatrixC>");
+  static TypeNameC type6(typeid(SArray1dC<VectorMatrixC>),"SArray1dC<VectorMatrixC>");
   
   void InitMatrixIO()
   {}
