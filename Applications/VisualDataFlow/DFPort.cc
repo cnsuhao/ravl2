@@ -271,7 +271,7 @@ namespace RavlDFN {
       cerr << "DFOPlugBodyC::Connect(), Type mismatch. \n";
       return false;
     }
-    dfiplug.IPlug().SetPort(iport);
+    dfiplug.IPlug().ConnectPort(iport);
     return true;
   }
   
@@ -360,7 +360,7 @@ namespace RavlDFN {
       cerr << "DFOPortBodyC::Connect(), Type mismatch. \n";
       return false;
     }
-    dfoplug.OPlug().SetPort(oport);
+    dfoplug.OPlug().ConnectPort(oport);
     return true;
   }
   
@@ -373,7 +373,7 @@ namespace RavlDFN {
     DPOPortBaseC op;
     if(!dfoplug.OPlug().IsValid())
       return false;
-    dfoplug.OPlug().SetPort(op); // Set to null port.
+    dfoplug.OPlug().ConnectPort(op); // Set to null port.
     return true;
   }
   
@@ -486,7 +486,7 @@ namespace RavlDFN {
       cerr << "DFIPlugBodyC::Connect(), Type mismatch. \n";
       return false;
     }
-    iplug.SetPort(op.IPort());
+    iplug.ConnectPort(op.IPort());
     return true;
   }
   
@@ -496,7 +496,7 @@ namespace RavlDFN {
     DPIPortBaseC ip;
     if(!iplug.IsValid())
       return false;
-    iplug.SetPort(ip);
+    iplug.ConnectPort(ip);
     return true;
   }
 
@@ -603,7 +603,7 @@ namespace RavlDFN {
       cerr << "DFOPlugBodyC::Connect(), Type mismatch. \n";
       return false;
     }
-    oplug.SetPort(op.OPort());
+    oplug.ConnectPort(op.OPort());
     return true;
   }
   
@@ -613,7 +613,7 @@ namespace RavlDFN {
     DPOPortBaseC ip;
     if(!oplug.IsValid())
       return false;
-    oplug.SetPort(ip);
+    oplug.ConnectPort(ip);
     return true;
   }
   

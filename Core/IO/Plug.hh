@@ -108,7 +108,7 @@ namespace RavlN {
     {}
     //: Constructor.
     
-    virtual bool SetPort(const DPIPortBaseC &port);
+    virtual bool ConnectPort(const DPIPortBaseC &port);
     //: set port.
     
     virtual const type_info &InputType() const;
@@ -144,8 +144,8 @@ namespace RavlN {
     //: Access body.
     
   public:
-    bool SetPort(const DPIPortBaseC &port)
-    { return Body().SetPort(port); }
+    bool ConnectPort(const DPIPortBaseC &port)
+    { return Body().ConnectPort(port); }
     //: Set port.
     
     const type_info &InputType() const
@@ -177,7 +177,7 @@ namespace RavlN {
     {}
     //: Constructor.
     
-    virtual bool SetPort(const DPOPortBaseC &port);
+    virtual bool ConnectPort(const DPOPortBaseC &port);
     //: set port.
 
     virtual const type_info &OutputType() const;
@@ -212,8 +212,8 @@ namespace RavlN {
     //: Access body.
     
   public:
-    bool SetPort(const DPOPortBaseC &port)
-    { return Body().SetPort(port); }
+    bool ConnectPort(const DPOPortBaseC &port)
+    { return Body().ConnectPort(port); }
     //: Set port.
     
     const type_info &OutputType() const
@@ -253,7 +253,7 @@ namespace RavlN {
     { return port; }
     //: Access port.
     
-    virtual bool SetPort(const DPIPortBaseC &nport) { 
+    virtual bool ConnectPort(const DPIPortBaseC &nport) { 
       port = DPIPortC<DataT>(const_cast<DPIPortBaseC &>(nport));
       return port.IsValid();
     }
@@ -339,7 +339,7 @@ namespace RavlN {
     { return port; }
     //: Access handle to port.
     
-    virtual bool SetPort(const DPOPortBaseC &nport) { 
+    virtual bool ConnectPort(const DPOPortBaseC &nport) { 
       port = DPOPortC<DataT>(const_cast<DPOPortBaseC &>(nport));
       return port.IsValid();
     }

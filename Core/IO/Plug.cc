@@ -14,8 +14,8 @@ namespace RavlN {
   
   //: Set port.
   
-  bool DPIPlugBaseBodyC::SetPort(const DPIPortBaseC &port) {
-    RavlAssertMsg(0,"DPIPlugBaseBodyC::SetPort(), Abstract method called. \n");
+  bool DPIPlugBaseBodyC::ConnectPort(const DPIPortBaseC &port) {
+    RavlAssertMsg(0,"DPIPlugBaseBodyC::ConnectPort(), Abstract method called. \n");
     return false;
   }
 
@@ -28,8 +28,8 @@ namespace RavlN {
   
   //: Set port.
   
-  bool DPOPlugBaseBodyC::SetPort(const DPOPortBaseC &port) {
-    RavlAssertMsg(0,"DPOPlugBaseBodyC::SetPort(), Abstract method called. \n");
+  bool DPOPlugBaseBodyC::ConnectPort(const DPOPortBaseC &port) {
+    RavlAssertMsg(0,"DPOPlugBaseBodyC::ConnectPort(), Abstract method called. \n");
     return false;
   }
   
