@@ -296,23 +296,4 @@ namespace RavlImageN {
     return true;
   }
 
-  //: Returns the 2D projective motion relative to the first frame.
-  Matrix3dC MosaicBuilderBodyC::GetMotion(IntT frame) const
-  {
-    RavlAssertMsg(maxFrames>0 && frame>=0 && frame<=frameNo,
-		  "in MosaicBuilderBodyC::GetMotion()");
-    return Parray[frame];
-  }
-
-  //: Returns the mosaic image
-  const ImageC<ByteRGBMedianC> & MosaicBuilderBodyC::GetMosaic() const
-  {
-    return mosaic;
-  }
-
-  //: Returns the crop rectangle
-  const IndexRange2dC & MosaicBuilderBodyC::GetCropRect() const
-  {
-    return rect;
-  }
 }

@@ -60,14 +60,25 @@ namespace RavlImageN {
     bool Reset(const ImageC<ByteRGBValueC> &img);
     //: Start new mosaic using 'img' as the initial frame.
     
-    Matrix3dC GetMotion(IntT frame) const;
-    //: Returns the 2D projective motion relative to the first frame.
+    Matrix3dC GetMotion(IntT frame) const
+    //: Returns the 2D projective motion of the specified frame relative to the first frame.
+    {
+      RavlAssertMsg(maxFrames>0 && frame>=0 && frame<=frameNo,
+		    "in MosaicBuilderBodyC::GetMotion()");
+      return Parray[frame];
+    }
     
-    const ImageC<ByteRGBMedianC> & GetMosaic() const;
+    SArray1dC<Matrix3dC> GetMotion() const 
+    { return Parray; }
+    //: Returns the 2D projective motions of all of the frames relative to the first frame. 
+
+    const ImageC<ByteRGBMedianC> & GetMosaic() const
     //: Returns the mosaic image
-    
-    const IndexRange2dC & GetCropRect() const;
+    { return mosaic; }
+
+    const IndexRange2dC & GetCropRect() const
     //: Returns the crop rectangle
+    { return rect; }
     
   private:
     // stored parameters
@@ -152,8 +163,12 @@ namespace RavlImageN {
     
     Matrix3dC GetMotion(IntT frame) const
     { return Body().GetMotion(frame); }
-    //: Returns the 2D projective motion relative to the first frame.
+    //: Returns the 2D projective motion of the specified frame relative to the first frame.
     
+    SArray1dC<Matrix3dC> GetMotion() const 
+    {return Body().GetMotion();}
+    //: Returns the 2D projective motions of all of the frames relative to the first frame. 
+
     const ImageC<ByteRGBMedianC> & GetMosaic() const
     { return Body().GetMosaic(); }
     //: Returns the mosaic image
