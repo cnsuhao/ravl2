@@ -781,6 +781,13 @@ $(INST_LIBDEF)/%.def : %.def $(INST_LIBDEF)/.dir
 	$(CHMOD) 444 $(INST_LIBDEF)/$(@F)
 
 
+ifdef BASEINSTALL
+      MLOBJPATH=$(patsubst %$(CEXT),$$(INSTALLHOME)/lib/RAVL/$$(ARC)/obj/%$(OBJEXT), $(patsubst %$(CXXEXT),%$(CEXT), $(MUSTLINK)))
+else
+      MLOBJPATH=$(patsubst %$(CEXT),$$(ROOTDIR)/lib/RAVL/$$(ARC)/obj/%$(OBJEXT), $(patsubst %$(CXXEXT),%$(CEXT), $(MUSTLINK)))
+endif
+
+
 ifdef LOCAL_DEFBASE
 ifdef USESLIBS
  ifneq ($(USESLIBS),Auto)
@@ -818,8 +825,7 @@ $(INST_LIBDEF)/$(LOCAL_DEFBASE).def: defs.mk $(INST_LIBDEF)/.dir $(HEADERS) $(SO
   endif
  endif
  ifdef MUSTLINK
-
-	$(SHOWIT)echo 'EXELIB := $(patsubst %$(CEXT),$$(INSTALLHOME)/lib/RAVL/$$(ARC)/obj/%$(OBJEXT), $(patsubst %$(CXXEXT),%$(CEXT), $(MUSTLINK))) $$(EXELIB)' >> $(INST_LIBDEF)/$(@F) ;
+	$(SHOWIT)echo 'EXELIB := $(MLOBJPATH) $$(EXELIB)' >> $(INST_LIBDEF)/$(@F) ;
  endif
  ifdef EXTPACKAGE
         $(SHOWIT)echo 'INCLUDES := -I$$(INSTALLHOME)\inc\$(PACKAGE) $$(INCLUDES) '

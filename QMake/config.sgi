@@ -43,20 +43,11 @@ OPT1FLAGS= -O1  -OPT:Olimit_opt=on
 PAR_MAKE = --jobs=$(PROCS)
 
 ############################
-# 'develop' variant.
-
-ifeq ($(VAR),develop)
-CFLAGS += -DAMMA_CHECK
-CCFLAGS += -DAMMA_CHECK
-LDFLAGS +=
-endif
-
-############################
 # 'debug' variant.
 
 ifeq ($(VAR),debug)
-CFLAGS += -g -DAMMA_CHECK
-CCFLAGS += -g -DAMMA_CHECK
+CFLAGS += -g -DQMAKE_CHECK
+CCFLAGS += -g -DQMAKE_CHECK
 LDFLAGS += -g
 endif
 
@@ -64,8 +55,8 @@ endif
 # 'check' variant.
 
 ifeq ($(VAR),check)
-CFLAGS += $(OPT1FLAGS)  -DAMMA_CHECK
-CCFLAGS += $(OPT1FLAGS) -DAMMA_CHECK
+CFLAGS += $(OPT1FLAGS)  -DQMAKE_CHECK -DQMAKE_PARANOID=1
+CCFLAGS += $(OPT1FLAGS) -DQMAKE_CHECK -DQMAKE_PARANOID=1
 LDFLAGS += $(OPT1FLAGS)
 endif
 

@@ -17,10 +17,6 @@ ifndef ARC
   ARC=$(shell $(MAKEHOME)/config.arc)#
 endif
 
-ifndef BASELIBRARY
- BASE_LIBRARY = $(MAKEHOME)/../../..#
-endif
-
 ifndef INSTALLHOME
  INSTALLHOME = $(MAKEHOME)/../../..#
 endif
