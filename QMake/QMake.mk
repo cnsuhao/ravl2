@@ -389,6 +389,9 @@ cleanlib:
 cleandep:
 	$(SMAKECL) cleandep TARGET=cleandep
 
+cleandoc:
+	$(SMAKECL) cleandoc TARGET=cleandoc 
+
 optclean:
 	$(SMAKECL) clean VAR=opt TARGET=clean
 

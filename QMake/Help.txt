@@ -26,6 +26,7 @@ Common targets:
     chkclean clean with VAR=check
   cleanlib  Like clean, but removes library as well.  (See below for details)
   cleandep  Remove all dependency files. (See below for details)
+  cleandoc  Remove all documentation files 
   distclean Remove ALL files from your project out.  
   doc       Make automatic documentation.
   docentry  Make semantic documentation

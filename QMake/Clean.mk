@@ -86,6 +86,11 @@ cleandep: subdirs
 	  $(RM) -r $(INST_DEPEND)/*.d ; \
 	fi ; 
 
+cleandoc: 
+	$(SHOWIT) if [ -d $(INST_DOC) ] ; then \
+	  $(RM) -rf $(INST_DOC) ; \
+	fi ; 
+
 subdirs:
 	+ $(SHOWIT)echo "------ Cleaning $(ARC)/$(VAR)/$(BASENAME)   $(TARGET)" ; \
 	for SUBDIR in stupid_for_loop_thing $(TARG_NESTED) ; do \
