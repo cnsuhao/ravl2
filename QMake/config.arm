@@ -107,7 +107,8 @@ ifdef SHAREDBUILD
  CFLAGS += -fPIC -shared $(OPTCFLAGS)
  CCFLAGS += -fPIC -shared  $(OPTCFLAGS)
  LDLIBFLAGS = -fPIC -shared
- LDFLAGS += -rdynamic  -Wl,-rpath=$(PROJECT_OUT)/lib/RAVL/$(ARC)/$(VAR)
+ LDFLAGS += -rdynamic  
+#-Wl,-rpath=$(PROJECT_OUT)/lib/RAVL/$(ARC)/$(VAR)
 # -Wl,-export-dynamic
 endif
 

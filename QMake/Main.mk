@@ -412,14 +412,15 @@ BINLIBS += -L$(INST_LIB) $(LINKLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_V
 endif 
 
 
-
-#ifeq ($(VAR),shared)
+# setup some library paths, so that binaries will always be able to find correct libraries. 
 ifdef SHAREDBUILD 
 ifneq ($(BASE_VAR),none)
   #LDFLAGS += $(LIBPATHSWITCH)$(ROOTDIR)/lib/RAVL/$(ARC)/$(BASE_VAR)/$(VAR) $(LIBPATHSWITCH)$(RAVL_LIB)
-  LDFLAGS += $(LIBPATHSWITCH)$(ROOTDIR)/lib/RAVL/$(ARC)/$(BASE_VAR)/$(VAR)/shared
- else 
+  #LDFLAGS += $(LIBPATHSWITCH)$(ROOTDIR)/lib/RAVL/$(ARC)/$(BASE_VAR)/$(VAR)/shared
   LDFLAGS += $(LIBPATHSWITCH)$(ROOTDIR)/lib/RAVL/$(ARC)/$(VAR)/shared
+  LDFLAGS += $(LIBPATHSWITCH)$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)/shared
+ else 
+  LDFLAGS += $(LIBPATHSWITCH)$(ROOTDIR)/lib/RAVL/$(ARC)/$(BASE_VAR)/$(VAR)/shared
  endif
 endif
 
@@ -596,7 +597,7 @@ endif
 #define a name for the build type to be displayed to the user. 
 VAR_DISPLAY_NAME=$(VAR) 
 ifdef SHAREDBUILD 
-VAR_DISPLAY_NAME +=  (shared)  
+VAR_DISPLAY_NAME +=  (shared)
 endif 
 
  $(TARG_MUSTLINK_OBJS) : $(INST_FORCEOBJS)/%$(OBJEXT) : $(INST_OBJS)/%$(OBJEXT) $(INST_FORCEOBJS)/.dir

@@ -286,6 +286,10 @@ libbuild:
 #  3-Build executables.
 #  4-Build documentation
 
+#add some defaults if FULLBUILD_TARGETS has not been defined
+ifndef FULLBUILD_TARGETS
+FULLBUILD_TARGETS = check opt shared optbin doc
+endif 
 
 fullbuild:
 	+ $(SHOWIT)-rm $(LOCALTMP)/$(ARC)/*/shared/objs/libObjs.txt >& /dev/null;
@@ -314,7 +318,7 @@ fullbuild:
        endif
 
        # opt build
-        ifeq ($(strip $(filter-out $(FULLBUILD_TARGETS),opt)),)
+        ifeq ($(strip $(filter-out opt optbin, $(FULLBUILD_TARGETS))),)
 	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=opt TARGET=libbuild NOEXEBUILD=1 ; then true; \
         else \
 	  echo "QMAKE: opt library build failed. " ; \
@@ -349,12 +353,14 @@ fullbuild:
         fi ;
         endif
 
-        # opt fullbuild ( always do this )
+        # opt fullbuild ( builds the binaries - must have libs already )
+        ifeq ($(strip $(filter-out $(FULLBUILD_TARGETS),optbin)),)
 	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=opt TARGET=fullbuild  ; then true; \
         else \
 	  echo "QMAKE: executable build failed. " ; \
 	  exit 1; \
         fi ;
+        endif 
 
         # documentation 
         ifeq ($(strip $(filter-out $(FULLBUILD_TARGETS),doc)),)
