@@ -62,8 +62,10 @@ namespace RavlN
     //: Try and lock mutex.
     
     inline bool Unlock(void) {
-      if(pthread_mutex_unlock(&mutex) == 0) 
-	return true;
+      do {
+	if(pthread_mutex_unlock(&mutex) == 0) 
+	  return true;
+      } while(errno == EINTR) ;
       Error("Unlock failed.",errno);
       return false;
     }
@@ -96,13 +98,13 @@ namespace RavlN
     MutexLockC(MutexC &m)
     : mutex(m),
       locked(true)
-      { mutex.Lock(); }
+    { mutex.Lock(); }
     //: Create a lock on a mutex.
     
     MutexLockC(const MutexC &m)
       : mutex(const_cast<MutexC &>(m)),
 	locked(true)
-      { mutex.Lock(); }
+    { mutex.Lock(); }
     //: Create a lock on a mutex.
     // This may not seem like a good idea,
     // but it allows otherwise constant functions to
@@ -112,25 +114,24 @@ namespace RavlN
     MutexLockC(const MutexC &m,bool tryLock)
       : mutex(const_cast<MutexC &>(m)),
 	locked(false)
-      { 
-	if(tryLock)
-	  locked = mutex.TryLock(); 
-	else {
+    { 
+      if(tryLock)
+	locked = mutex.TryLock(); 
+      else {
 	  mutex.Lock();
 	  locked = true;
-	}
       }
+    }
     //: Try and create a lock on a mutex.
     // This may not seem like a good idea,
     // but it allows otherwise constant functions to
     // lock out other accesses to data without undue
     // faffing.
     
-    ~MutexLockC()
-      { 
-	if(locked)
-	  mutex.Unlock(); 
-      }
+    ~MutexLockC() { 
+      if(locked)
+	mutex.Unlock(); 
+    }
     //: Create a lock on a mutex.
     
     void Unlock() {
@@ -148,7 +149,7 @@ namespace RavlN
     //: re Lock the mutex.
     
     bool IsLocked() const
-      { return locked; }
+    { return locked; }
     //: Is it locked ?
     
   protected:

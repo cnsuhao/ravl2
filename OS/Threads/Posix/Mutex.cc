@@ -41,15 +41,13 @@ namespace RavlN
   }
   //: Constructor.
 
-  void MutexC::Error(const char *msg) 
-  {
+  void MutexC::Error(const char *msg)  {
     cerr << "MutexC::Error() :" << msg << " \n";
   }
   
   //: Report an error, with an error number.
   
-  void MutexC::Error(const char *msg,int anerrno)
-  {
+  void MutexC::Error(const char *msg,int anerrno) {
     cerr << "MutexC::Error() " << anerrno << " (" << strerror(anerrno) << ") :" << msg << " \n";
   }
   
