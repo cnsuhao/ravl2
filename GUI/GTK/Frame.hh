@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUIFRAME_HEADER
-#define RAVLGUIFRAME_HEADER 1
+#ifndef RAVLGUI_FRAME_HEADER
+#define RAVLGUI_FRAME_HEADER 1
 //////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/Frame.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! date="17/06/99"
+//! date="17/06/1999"
 //! docentry="Ravl.GUI.Layout"
 
 #include "Ravl/GUI/OneChild.hh"
@@ -101,12 +101,16 @@ namespace RavlGUIN {
   public:
     FrameC(WidgetC &widge)
       : OneChildC(widge)
-      {
+    {
+      if(IsValid()) {
 	if(dynamic_cast<FrameBodyC *>(&WidgetC::Body()) == 0)
 	  Invalidate();
       }
+    }
     //: Base constructor.
-
+    // If 'widge' is a FrameC this creates a handle to it, if it is not
+    // an invalid handle is created.
+    
     bool GUISetLabel(StringC &name)
       { return Body().GUISetLabel(name); }
     //: Set label
