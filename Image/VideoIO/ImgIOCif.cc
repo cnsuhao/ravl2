@@ -43,7 +43,7 @@ namespace RavlImageN {
     rect.ColRange() = IndexRangeC(0,size.Col()-1);
     
     RavlAssert(!(rect.Rows() &1)); // Must be even number of rows.
-    RavlAssert(!(rect.Cols() &1)); // Must be even number of columbs.
+    RavlAssert(!(rect.Cols() &1)); // Must be even number of columns.
     return true;
   }
   
