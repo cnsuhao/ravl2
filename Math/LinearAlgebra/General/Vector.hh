@@ -60,7 +60,7 @@ namespace RavlN {
     //: Create a vector with two real values.
 
     VectorC(RealT v1,RealT v2,RealT v3)
-      : TVectorC<RealT>(2)
+      : TVectorC<RealT>(3)
     {
       (*this)[0] = v1;
       (*this)[1] = v2;
@@ -69,7 +69,7 @@ namespace RavlN {
     //: Create a vector with three real values.
 
     VectorC(RealT v1,RealT v2,RealT v3,RealT v4)
-      : TVectorC<RealT>(3)
+      : TVectorC<RealT>(4)
     {
       (*this)[0] = v1;
       (*this)[1] = v2;
@@ -79,7 +79,7 @@ namespace RavlN {
     //: Create a vector with four real values.
     
     VectorC(RealT v1,RealT v2,RealT v3,RealT v4,RealT v5)
-      : TVectorC<RealT>(3)
+      : TVectorC<RealT>(5)
     {
       (*this)[0] = v1;
       (*this)[1] = v2;
@@ -90,7 +90,7 @@ namespace RavlN {
     //: Create a vector with five real values.
 
     VectorC(RealT v1,RealT v2,RealT v3,RealT v4,RealT v5,RealT v6)
-      : TVectorC<RealT>(3)
+      : TVectorC<RealT>(6)
     {
       (*this)[0] = v1;
       (*this)[1] = v2;

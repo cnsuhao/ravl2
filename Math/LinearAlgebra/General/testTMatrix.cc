@@ -98,6 +98,19 @@ int Validate()
   if(op[2][2] != 3) return __LINE__;
   if(op[1][1] != 4) return __LINE__;
   //cerr  << "OuterProduct=" << op << "\n";
+
+  TVectorC<RealT> v3(2);
+  v3[0] = 2;  v3[1] = 3;
+  TMatrixC<RealT> op2 = v1.OuterProduct(v3);
+  if(op2.Size1() != 3) return __LINE__;
+  if(op2.Size2() != 2) return __LINE__;
+  //cerr  << "OuterProduct=" << op2 << "\n";
+  if(op2[0][0] != 2) return __LINE__;
+  if(op2[0][1] != 3) return __LINE__;
+  TMatrixC<RealT> op3 = op2.Copy();
+  op3.Fill(0);
+  op3.AddOuterProduct(v1,v3);
+  if((op2 - op3).SumSqr() > 0.000000001) return __LINE__;
   return 0;
 }
 

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLMATRIXRS_HEADER
-#define RAVLMATRIXRS_HEADER 1
+#ifndef RAVL_MATRIXRS_HEADER
+#define RAVL_MATRIXRS_HEADER 1
 ///////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Math/LinearAlgebra/General/MatrixRS.hh"
@@ -22,24 +22,30 @@ namespace RavlN {
   //! userlevel=Normal
   //: Positive Symetric matrix
   // This class contains functions optimised for working with
-  // positive symetric matrix's.
+  // positive definite symetric matrix's. <p>
+  // This matrix MUST be square.
   
   class MatrixRSC
     : public MatrixC
   {
   public:
     MatrixRSC()
-      {}
+    {}
     //: Default constructor.
-
+    
+    MatrixRSC(UIntT size)
+      : MatrixC(size,size)
+    {}
+    //: Create a new matrix of size * size.
+    
     MatrixRSC(const MatrixC &oth)
       : MatrixC(oth)
-      {}
+    { RavlAssert(oth.Rows() == oth.Cols()); }
     //: Base constructor.
 
     MatrixRSC(const SArray2dC<RealT> &oth)
       : MatrixC(oth)
-      {}
+    { RavlAssert(oth.Size1() == oth.Size2()); }
     //: Base constructor.
     
     MatrixRSC Inverse() const;
@@ -49,9 +55,7 @@ namespace RavlN {
 
     bool InverseIP();
     //: Calculate the inverse of a upper right triangular matrix. In place.
-    // an invalid matrix is returned if this matrix is
-    // singular. This can be tested for by IsValid().
-
+    // an false is returned if this matrix if it is singular. 
     
   };
 

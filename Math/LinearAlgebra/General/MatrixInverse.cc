@@ -63,10 +63,8 @@ namespace RavlN {
   bool MatrixC::InverseIP() {
     RavlAlwaysAssertMsg(Cols() == Rows(),"MatrixC::InverseIP(), Matrix must be square to invert ");
     
-    if(IsContinuous()) {
-      minv(&(*this)[0][0],Rows()); // ccmath routine.
-      return true;
-    }
+    if(IsContinuous())
+      return minv(&(*this)[0][0],Rows()) == 0; // ccmath routine.
     
     // FIXME:- Should either copy matrix to continous memory,
     // or make a version of the ccmath routine that will work

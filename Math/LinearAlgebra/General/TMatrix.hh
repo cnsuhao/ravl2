@@ -108,6 +108,9 @@ namespace RavlN {
     DataT SumOfAbs() const;
     //: Sum the absolute values of all members of the matrix.
     
+    const TMatrixC<DataT> &AddOuterProduct(const TVectorC<DataT> &vec1,const TVectorC<DataT> &vec2);
+    //: Add outer product of vec1 and vec2 to this matrix.
+    
     const TMatrixC<DataT> &SetSmallToBeZero(const DataT &min);
     //: Set values smaller than 'min' to zero in vector.
   };
@@ -301,6 +304,23 @@ namespace RavlN {
     return ret;
   }
   
+  template<class DataT>
+  const TMatrixC<DataT> &TMatrixC<DataT>::AddOuterProduct(const TVectorC<DataT> &vec1,const TVectorC<DataT> &vec2) {
+    RavlAssert(Size1() == vec1.Size());
+    RavlAssert(Size2() == vec2.Size());
+    BufferAccessIterC<DataT> v1(vec1);
+    BufferAccess2dIterC<DataT> it(*this,Size2());
+    while(it) {
+      BufferAccessIterC<DataT> v2(vec2);
+      do {
+	*it += (*v1) * (*v2);
+	v2++;
+      } while(it.Next()) ;
+      v1++;
+    }
+    return *this;
+  }
+
   template<class DataT>
   TMatrixC<DataT> TMatrixC<DataT>::Identity(UIntT n) {
     TMatrixC<DataT> ret(n,n);
