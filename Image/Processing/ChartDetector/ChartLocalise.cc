@@ -19,6 +19,7 @@
 #include "Ravl/PatternRec/OptimiseDescent.hh"
 #include "Ravl/PatternRec/OptimisePowell.hh"
 #include "Ravl/Image/WarpAffine.hh"
+#include "Ravl/Image/DrawCross.hh"
 #include "Ravl/Image/NormalisedCorrelation.hh"
 #include "Ravl/IO.hh"
 #include "Ravl/OS/Date.hh"
@@ -190,39 +191,40 @@ namespace RavlImageN {
     
     // Take projective transform
     
-    Projection2dC iEst = position.Inverse();
     for(SArray1dIter2C<Point2dC,Point2dC> it(imPoints,exPoints);it;it++)
-      it.Data1() = iEst * it.Data2();
+      it.Data1() = position * it.Data2();
     
     // Fit affine transform to the points.
     
-    Affine2dC affPos = FitAffine(imPoints,exPoints);
+    Affine2dC affPos = FitAffine(exPoints,imPoints);
     
 #if 0
-    WarpAffineC<ByteT> ewarp(exampleImage.Frame(),affPos);
-    ImageC<ByteT> testi = ewarp.Apply(sceneImage);
-    //RavlN::Save("@X:Target",testi);
-    
-    WarpAffineC<ByteT> bwarp(patch.Frame(),affPos);
-    ImageC<ByteT> rImage = bwarp.Apply(sceneImage);
-    RavlN::Save("@X:Ref",patch);
-    RavlN::Save("@X:Opt",rImage);
+    {
+      WarpAffineC<ByteT> ewarp(exampleImage.Frame(),affPos);
+      ImageC<ByteT> testi = ewarp.Apply(sceneImage);
+      //RavlN::Save("@X:Target",testi);
+      
+      WarpAffineC<ByteT> bwarp(patch.Frame(),affPos);
+      ImageC<ByteT> rImage = bwarp.Apply(sceneImage);
+      RavlN::Save("@X:Opt",rImage);
+      Sleep(2);
+    }
 #endif
     
     // --- Optimise position ---
     
     OptimisePowellC optimiser(200,1e-5);
     //OptimiseDescentC optimiser(500);
-    RealT minCost = 0;
+    RealT minCost = 0,correlation=1;
     
 #if 1
     VectorC searchRange(6);
-    searchRange[0] = 15; // Row offsets
-    searchRange[1] = 15; // Col offsets
-    searchRange[2] = 0.3;  // Variation from the identity matrix.
-    searchRange[3] = 0.3;
-    searchRange[4] = 0.3;
-    searchRange[5] = 0.3;
+    searchRange[0] = 20; // Row offsets
+    searchRange[1] = 20; // Col offsets
+    searchRange[2] = 0.4;  // Variation from the identity matrix.
+    searchRange[3] = 0.4;
+    searchRange[4] = 0.4;
+    searchRange[5] = 0.4;
     
     CostAffineImageCorrelationC domain(patch,sceneImage,affPos,searchRange);
     VectorC optResult = optimiser.MinimalX(domain,minCost);
@@ -232,10 +234,12 @@ namespace RavlImageN {
     // Check the correlation of the result.
     
     WarpAffineC<ByteT> xwarp(patch.Frame(),refinedPos);
+    xwarp.SetMidPixelCorrection(false);
+    
     ImageC<ByteT> xImage = xwarp.Apply(sceneImage);
     //RavlN::Save("@X:ORef",patch);
     //RavlN::Save("@X:OOpt",xImage);
-    RealT correlation = NormalisedCorrelation(patch,xImage);
+    correlation = NormalisedCorrelation(patch,xImage);
     ONDEBUG(cerr << "Correlation=" << correlation << "\n");
     // --- Get refined position for chart point. ---
     
@@ -245,7 +249,7 @@ namespace RavlImageN {
       cerr << " " << chartPoint << " -> " << result << " (" << correlation << ")\n";
     ONDEBUG(cerr << "ChartLocaliseBodyC::MatchPoint(), Done. match=" << result << " \n");
     //Sleep(1);
-    if(correlation < 0.9)
+    if(correlation < 0.85)
       return false; // Its just not a good enough fit.
     return true;
   }

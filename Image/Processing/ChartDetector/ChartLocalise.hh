@@ -44,6 +44,12 @@ namespace RavlImageN {
     { verbose = verboseMode; }
     //: Set verbose mode.
     
+    Point2dC Chart2Example(const Point2dC &point) const;
+    //: Map a position from chart to example image.
+    
+    Point2dC Example2Chart(const Point2dC &point) const;
+    //: Map a position from example image to chart.
+    
   protected:
     bool CalibrateExample();
     //: Calibrate the given chart coordinates and the example image.
@@ -56,11 +62,6 @@ namespace RavlImageN {
     //!param:result - Corresponding point in scene.
     //!return: True if point localised successfully.
     
-    Point2dC Chart2Example(const Point2dC &point) const;
-    //: Map a position from chart to example image.
-    
-    Point2dC Example2Chart(const Point2dC &point) const;
-    //: Map a position from example image to chart.
     
     UIntT patchSize;
     ImageC<ByteT> exampleImage;
@@ -104,6 +105,16 @@ namespace RavlImageN {
     void SetVerbose(bool verboseMode) 
     { Body().SetVerbose(verboseMode); }
     //: Set verbose mode. 
+    //!cwiz:author
+    
+    Point2dC Chart2Example(const Point2dC & point) const
+    { return Body().Chart2Example(point); }
+    //: Map a position from chart to example image. 
+    //!cwiz:author
+    
+    Point2dC Example2Chart(const Point2dC & point) const
+    { return Body().Example2Chart(point); }
+    //: Map a position from example image to chart. 
     //!cwiz:author
     
   protected:

@@ -116,11 +116,6 @@ int main(int nargs,char **argv) {
   
   if(verbose) 
     cerr << "Transform =" << transform << "\n";
-  if(displayCourse) {
-    WarpProjectiveC<ByteT> pwarp(chartImage.Frame(),transform.Inverse());
-    ImageC<ByteT> pimage = pwarp.Apply(sceneImage);
-    Save("@X:PositionEstimate",pimage);
-  }
   // --- Do fine localisation of chart --- 
 
   if(verbose)
@@ -128,6 +123,19 @@ int main(int nargs,char **argv) {
   
   ChartLocaliseC localise(chartImage,chartPoints,patchSize);
   localise.SetVerbose(verbose);
+
+  if(displayCourse) {
+    // Put off display to here so we can use localise's Chart2Example routine.
+    WarpProjectiveC<ByteT> pwarp(chartImage.Frame(),transform.Inverse());
+    ImageC<ByteT> pimage = pwarp.Apply(sceneImage);
+    //RavlN::Save("@X:Ref",patch);
+    for(SArray1dIterC<Point2dC> it(chartPoints);it;it++)
+      DrawCross(pimage,(ByteT) 0,Index2dC(localise.Chart2Example(*it)),4);
+    
+    Save("@X:PositionEstimate",pimage);
+  }
+  
+  
   SArray1dC<Point2dC> matches;
   SArray1dC<bool> matchesOk;
   if(verbose)
@@ -145,10 +153,9 @@ int main(int nargs,char **argv) {
   if(displayMatches) {
     ImageC<ByteT> simage(sceneImage.Copy());
     for(SArray1dIter2C<Point2dC,bool> it(matches,matchesOk);it;it++) {
+      DrawCircle(simage,(ByteT) 255,it.Data1(),3);
       if(it.Data2()) 
-	DrawCircle(simage,(ByteT) 255,it.Data1(),3);
-      else
-	DrawCross(simage,(ByteT) 255,it.Data1(),3);
+	DrawCross(simage,(ByteT) 0,it.Data1(),3);
     }
     Save("@X:Matches",simage);
   }

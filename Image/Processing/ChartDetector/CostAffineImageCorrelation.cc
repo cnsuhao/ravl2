@@ -78,6 +78,7 @@ namespace RavlImageN {
   RealT CostAffineImageCorrelationBodyC::Cost (const VectorC &x) const {
     //cerr << "X=" << x << "\n";
     WarpAffineC<ByteT> warp(refImage.Frame(),Vector2Affine(x));
+    warp.SetMidPixelCorrection(false);
     ImageC<ByteT> result = warp.Apply(sceneImage);
     //RavlN::Save("@X:Ref",refImage);
     //RavlN::Save("@X:Opt",result);
