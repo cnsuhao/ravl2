@@ -28,6 +28,7 @@
 #include "Ravl/Image/SumRectangles.hh"
 #include "Ravl/Image/Rectangle2dIter.hh"
 #include "Ravl/Image/RealRGBValue.hh"
+#include "Ravl/Image/DCT2d.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/config.h"
 
@@ -48,6 +49,7 @@ int testHistogramEqualise();
 int testMatching();
 int testSpatialDifference();
 int testSumRectangles();
+int testDCT();
 
 
 
@@ -83,7 +85,7 @@ static ObservationListManagerBodyC dummyvar11 (dummyvar9);
 
 int main() {
   int ln;
-#if 1
+#if 0
 #if !TESTMMX
   if((ln = testConvolve2d()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
@@ -126,12 +128,16 @@ int main() {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
-#endif
   if((ln = testWarpThinPlateSpline()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
   if((ln = testGaussConvolve()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+#endif
+  if((ln = testDCT()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -492,5 +498,23 @@ int testGaussConvolve() {
   img.Fill(ByteRGBValueC(0,0,0));
   ImageC<ByteRGBValueC> res = gc.Apply(img);
   
+  return 0;
+}
+
+int testDCT() {
+  ImageC<RealT> img(6,5);
+  img.Fill(0);
+  img[3][3] = 1;
+  img[4][3] = 1;
+  img[4][4] = 1;
+  img[3][4] = 1;
+  ImageC<RealT> res;
+  DCT(img,res);
+  cerr << "Res=" << res << "\n";
+
+  ImageC<RealT> rimg;
+  IDCT(res,rimg);
+  
+  cerr << "rImg=" << rimg << "\n";
   return 0;
 }

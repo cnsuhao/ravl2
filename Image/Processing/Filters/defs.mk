@@ -15,10 +15,11 @@ HEADERS= Convolve2d.hh ConvolveSeparable2d.hh ConvolveHorz2d.hh \
  ConvolveVert2d.hh HomomorphicFilter.hh HistogramEqualise.hh \
  Correlate2d.hh Matching.hh WarpScale.hh WarpAffine.hh WarpProjective.hh \
  PixelMixer.hh GaussConvolve.hh RemoveDistortion.hh WarpThinPlateSpline.hh \
- SpatialDifference.hh  SumRectangles.hh DeinterlaceStream.hh GabourFilter2d.hh
+ SpatialDifference.hh  SumRectangles.hh DeinterlaceStream.hh GabourFilter2d.hh \
+ DCT2d.hh
 
 SOURCES= HomomorphicFilter.cc Correlate2d.cc Matching.cc WarpThinPlateSpline.cc \
- GabourFilter2d.cc
+ GabourFilter2d.cc DCT2d.cc
 
 TESTEXES= testConvolve.cc
 
