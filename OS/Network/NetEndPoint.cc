@@ -281,11 +281,27 @@ namespace RavlN {
       CloseTransmit();
       return false;
     }
-    // Wait still we got a stream header from peer 
-    if(!gotStreamType.Wait(45)) {
-      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Timeout waiting for stream header. ";
-      CloseTransmit();
-      return false;
+    
+    {
+      int maxRetry = 45 * 2;
+      // Wait still we got a stream header from peer 
+      while(--maxRetry > 0 && !shutdown) {
+	if(gotStreamType.Wait(0.5))
+	  break;
+	SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunTransmit(), Waiting for connect... ";
+	int zeroPacket = 0;
+	if(ostrm.Write((char *) &zeroPacket,sizeof(int)) != sizeof(int)) {
+	  SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Failed to write idle packet. ";
+	  CloseTransmit();
+	  return false;
+	}
+      }
+      
+      if(maxRetry < 1) {
+	SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Timeout waiting for stream header. ";
+	CloseTransmit();
+	return false;
+      }
     }
     if(shutdown) {
       SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), Terminated. ";
