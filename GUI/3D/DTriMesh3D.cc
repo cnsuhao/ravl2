@@ -1,7 +1,7 @@
 //////////////////////////////////////////
 //! rcsid="$Id$"
 
-#include "Ravl/GUI/DTriSet3D.hh"
+#include "Ravl/GUI/DTriMesh3D.hh"
 #include "Ravl/GUI/Canvas3D.hh"
 #include "Ravl/SArr1Iter2.hh"
 #include "Ravl/SArr1Iter.hh"
@@ -18,7 +18,7 @@ namespace RavlGUIN {
   
   //: Render object.
   
-  bool DTriSet3DBodyC::Render(Canvas3DC &canvas) {
+  bool DTriMesh3DBodyC::Render(Canvas3DC &canvas) {
     if (!model.IsValid())
       return true; // Don't do anything.
     
@@ -107,12 +107,12 @@ namespace RavlGUIN {
     return true;
   }
   
-  ostream &operator<<(ostream &strm,const DTriSet3DC &) {
+  ostream &operator<<(ostream &strm,const DTriMesh3DC &) {
     RavlAssert(0);
     return strm;
   }
   
-  istream &operator>>(istream &strm,DTriSet3DC &) {
+  istream &operator>>(istream &strm,DTriMesh3DC &) {
     RavlAssert(0);
     return strm;
   }

@@ -3,26 +3,26 @@
 ///////////////////////////////////////////////////
 //! docentry="Ravl.GUI.3D"
 //! rcsid="$Id$"
-//! file="Ravl/GUI/3D/DTriSet3D.hh"
+//! file="Ravl/GUI/3D/DTriMesh3D.hh"
 //! lib=GUI3D
 //! author="James Smith"
 //! date="2/4/2001"
 
 #include "Ravl/GUI/DObject3D.hh"
-#include "Ravl/3D/TriSet.hh"
+#include "Ravl/3D/TriMesh.hh"
 
 namespace RavlGUIN {
   using namespace Ravl3DN;
   
   //! userlevel=Develop
-  //: Draw a TriSet
+  //: Draw a TriMesh
   
-  class DTriSet3DBodyC
+  class DTriMesh3DBodyC
     : public DObject3DBodyC
   {
   public:
-    DTriSet3DBodyC(const TriSetC &oTriSet)
-      : model(oTriSet)
+    DTriMesh3DBodyC(const TriMeshC &oTriMesh)
+      : model(oTriMesh)
     {}
     //: Constructor.
     
@@ -30,37 +30,37 @@ namespace RavlGUIN {
     //: Render object.
     
   protected:
-    TriSetC model;
+    TriMeshC model;
   };
   
   //! userlevel=Normal
-  //: Draw a TriSet
+  //: Draw a TriMesh
   
-  class DTriSet3DC
+  class DTriMesh3DC
     : public DObject3DC
   {
   public:
-    DTriSet3DC()
+    DTriMesh3DC()
     {}
     //: Default constructor.
     // creat an invalid handle.
     
-    DTriSet3DC(const TriSetC &oTriSet)
-      : DObject3DC(*new DTriSet3DBodyC(oTriSet))
+    DTriMesh3DC(const TriMeshC &oTriMesh)
+      : DObject3DC(*new DTriMesh3DBodyC(oTriMesh))
     {}
     //: Constructor.
     
   protected:
-    DTriSet3DBodyC &Body() 
-    { return dynamic_cast<DTriSet3DBodyC &>(DObject3DC::Body()); }
+    DTriMesh3DBodyC &Body() 
+    { return dynamic_cast<DTriMesh3DBodyC &>(DObject3DC::Body()); }
     
-    const DTriSet3DBodyC &Body() const
-    { return dynamic_cast<const DTriSet3DBodyC &>(DObject3DC::Body()); }  
+    const DTriMesh3DBodyC &Body() const
+    { return dynamic_cast<const DTriMesh3DBodyC &>(DObject3DC::Body()); }  
     
   public:  
   };
   
-  ostream &operator<<(ostream &strm,const DTriSet3DC &);
-  istream &operator>>(istream &strm,DTriSet3DC &);
+  ostream &operator<<(ostream &strm,const DTriMesh3DC &);
+  istream &operator>>(istream &strm,DTriMesh3DC &);
 }
 #endif

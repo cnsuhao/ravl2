@@ -30,7 +30,7 @@ MAINS =
 #ex3DCanvas.cc
 
 HEADERS = gdkgl.h gtkglarea.h DObject3D.hh DLight3D.hh \
- Util.hh Canvas3D.hh DViewPoint3D.hh DCube3D.hh DTriSet3D.hh
+ Util.hh Canvas3D.hh DViewPoint3D.hh DCube3D.hh DTriMesh3D.hh
 #View3D.hh
 
 #  DLines3D.hh
@@ -39,7 +39,7 @@ HEADERS = gdkgl.h gtkglarea.h DObject3D.hh DLight3D.hh \
 # DPolops3D.hh  DTriSet3D.hh DCTriSet3D.hh Pixmap3D.hh
 
 SOURCES = gdkgl.c gtkglarea.c DObject3D.cc  DLight3D.cc \
- Util.cc Canvas3D.cc DViewPoint3D.cc DCube3D.cc DTriSet3D.cc
+ Util.cc Canvas3D.cc DViewPoint3D.cc DCube3D.cc DTriMesh3D.cc
 #View3D.cc
 
 #  DLines3D.cc
