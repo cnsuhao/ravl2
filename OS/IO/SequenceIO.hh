@@ -39,7 +39,7 @@ namespace RavlN
   { 
     DPOPortBaseC anOp;
     DPSeekCtrlC sc;
-    if(!OpenOSequenceBase(anOp,sc,fn,fileformat,typeid(DataT),verbose))
+    if(!OpenOSequenceBase(anOp,sc,filename,fileformat,typeid(DataT),verbose))
       return false;
     RavlAssert(anOp.IsValid());
     // Check return'd port is a sport !
@@ -64,7 +64,7 @@ namespace RavlN
   { 
     DPIPortBaseC anIp;
     DPSeekCtrlC sc;
-    if(!OpenISequenceBase(anIp,sc,fn,fileformat,typeid(DataT),verbose))
+    if(!OpenISequenceBase(anIp,sc,filename,fileformat,typeid(DataT),verbose))
       return false;
     RavlAssert(anIp.IsValid());
     // Check return'd port is a sport !
@@ -94,7 +94,7 @@ namespace RavlN
   { 
     DPOPortBaseC anOp;
     DPSeekCtrlC sc;
-    if(!OpenOSequenceBase(anOp,sc,fn,fileformat,typeid(DataT),verbose))
+    if(!OpenOSequenceBase(anOp,sc,filename,fileformat,typeid(DataT),verbose))
       return false;
     RavlAssert(anOp.IsValid());
     op = DPOPortC<DataT>(anOp); // This makes sure type checking gets done.
@@ -110,7 +110,7 @@ namespace RavlN
   { 
     DPIPortBaseC anIp;
     DPSeekCtrlC sc;
-    if(!OpenISequenceBase(anIp,sc,fn,fileformat,typeid(DataT),verbose))
+    if(!OpenISequenceBase(anIp,sc,filename,fileformat,typeid(DataT),verbose))
       return false;
     RavlAssert(anIp.IsValid());
     ip = DPIPortC<DataT>(anIp);  // This makes sure type checking gets done.
