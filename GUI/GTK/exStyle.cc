@@ -7,6 +7,8 @@
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Pixmap.hh"
+#include "Ravl/GUI/Button.hh"
+#include "Ravl/GUI/Frame.hh"
 #include "Ravl/DP/FileFormatIO.hh"
 #include "Ravl/GUI/WidgetStyle.hh"
 #include "Ravl/Option.hh"
@@ -28,21 +30,35 @@ int main(int nargs,char *args[]) {
   ImageC<ByteRGBValueC> img;
   if (!Load(file,img)) {
     return 1;
-  }  
+  }
 
   // Create main window
   WindowC win(256,256,"exStyle");
   win.Show();
-  
   // Create style
-  WidgetStyleC style;
+  WidgetStyleC windowstyle;
   // Create pixmap
   PixmapC pixmap(win,img);
   // Set background
-  style.SetBackground(pixmap);
-
+  windowstyle.SetBackground(pixmap);
   // Set style
-  win.SetStyle(style);
+  win.SetStyle(windowstyle);
+
+  // Add button
+  ButtonC button("Test");
+  win.Add(FrameC(button,"exStyle",100));
+  // Setup button style
+  WidgetStyleC buttonstyle;
+  // Set red background in all modes
+  WidgetColourTypeT coltype = WIDGET_COLOUR_BG;
+  ByteRGBValueC col(255,0,0);
+  buttonstyle.SetColour(coltype,col);
+  // Set green background in active mode
+  col = ByteRGBValueC(0,255,0);
+  GtkStateType state = GTK_STATE_ACTIVE;
+  buttonstyle.SetColour(coltype,col,state);
+  // Set Style
+  button.SetStyle(buttonstyle);
 
   // Start GUI
   Manager.Execute();
