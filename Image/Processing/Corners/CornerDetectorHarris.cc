@@ -34,7 +34,7 @@ namespace RavlImageN {
   ///////////////////////////////////
   // Constructor.
   
-  CornerDetectorHarrisC::CornerDetectorHarrisC(int nTheshold,int nW)
+  CornerDetectorHarrisBodyC::CornerDetectorHarrisBodyC(int nTheshold,int nW)
     : w(nW),
       threshold(nTheshold)
   {
@@ -45,7 +45,7 @@ namespace RavlImageN {
     //ONDEBUG(cerr << "Mask=" << mask << "\n");
   }
   
-  DListC<CornerC> CornerDetectorHarrisC::Apply(const ImageC<ByteT> &img) {
+  DListC<CornerC> CornerDetectorHarrisBodyC::Apply(const ImageC<ByteT> &img) {
     ImageC<IntT> var = CornerHarris(img);
     DListC<CornerC> lst;
     Peak(var,img,lst);
@@ -54,7 +54,7 @@ namespace RavlImageN {
   
   // Haris corner detector.
   
-  ImageC<IntT> CornerDetectorHarrisC::CornerHarris(const ImageC<ByteT> &img) {
+  ImageC<IntT> CornerDetectorHarrisBodyC::CornerHarris(const ImageC<ByteT> &img) {
     ImageRectangleC workRect(img.Rectangle().Shrink(1));
     if(!vals.Frame().Contains(workRect)) {
       vals = ImageC<TFVectorC<IntT,3> >(workRect);
@@ -82,7 +82,7 @@ namespace RavlImageN {
     return var;
   }
   
-  void CornerDetectorHarrisC::ImagGrad(const ImageC<ByteT> &img,ImageC<TFVectorC<IntT,3> > &val) {
+  void CornerDetectorHarrisBodyC::ImagGrad(const ImageC<ByteT> &img,ImageC<TFVectorC<IntT,3> > &val) {
     for(Array2dSqr31Iter2C<ByteT,TFVectorC<IntT,3> > it(img,val);it;it++) {
       /* Calculation of the gradients in x and y direction */
       const int ix = (it.DataBL1() + it.DataML1()*2 + it.DataTL1() - it.DataBR1() - it.DataMR1()*2 - it.DataTR1()) >> 1;
@@ -94,7 +94,7 @@ namespace RavlImageN {
   }
   
   
-  int CornerDetectorHarrisC::Peak(ImageC<IntT> &result,const ImageC<ByteT> &in,DListC<CornerC> &cornLst) {
+  int CornerDetectorHarrisBodyC::Peak(ImageC<IntT> &result,const ImageC<ByteT> &in,DListC<CornerC> &cornLst) {
     IndexRange2dC rect(result.Frame().Shrink(3));
     IntT last = 0;
     Index2dC at;
@@ -114,7 +114,8 @@ namespace RavlImageN {
       }
       if(last >= threshold && !peak) {
 	if(PeakDetect7(result,at)) {
-	  cornLst.InsLast(CornerC(at,SobelGradient3(in,at),in[at]));
+	  Point2dC pat = LocatePeakSubPixel(result,at,0.25);
+	  cornLst.InsLast(CornerC(pat,SobelGradient3(in,at),in[at]));
 	  n++;
 	  peak = true;
 	}

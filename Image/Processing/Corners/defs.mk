@@ -8,9 +8,9 @@
 
 PACKAGE=Ravl/Image
 
-HEADERS=Corner.hh CornerDetectorHarris.hh
+HEADERS=Corner.hh CornerDetector.hh CornerDetectorHarris.hh
 
-SOURCES=Corner.cc CornerDetectorHarris.cc
+SOURCES=Corner.cc CornerDetector.cc CornerDetectorHarris.cc
 
 PLIB=RavlImageProc
 

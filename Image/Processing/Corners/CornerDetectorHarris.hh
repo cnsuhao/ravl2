@@ -18,17 +18,20 @@
 #include "Ravl/Image/Corner.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/Image/ConvolveSeparable2d.hh"
+#include "Ravl/Image/CornerDetector.hh"
 
 namespace RavlImageN {
   
-  //! userlevel=Normal
+  //! userlevel=Develop
   //: Harris corner detector.
   // Also known as the Plessey corner detector. Proposed by C.Harris in 1987.<p>
   // Note: the implementation of this detector could be faster.
   
-  class CornerDetectorHarrisC {
+  class CornerDetectorHarrisBodyC 
+    : public CornerDetectorBodyC
+  {
   public:
-    CornerDetectorHarrisC(int theshold = 20,int w = 5);
+    CornerDetectorHarrisBodyC(int threshold = 700,int w = 5);
     //: Constructor.
     // threshold = Minimum level of cornerness to accept. <br>
     // w = width of filter to use for corners.
@@ -49,12 +52,27 @@ namespace RavlImageN {
     ConvolveSeparable2dC<IntT,TFVectorC<IntT,3>,TFVectorC<IntT,3>,TFVectorC<IntT,3> > filter;    
     RealT maskSum;
     
-    // Working images, so we don't have to repeated allocate them.
+    // Working images, so we don't have to repeatedly allocate them.
     ImageC<TFVectorC<IntT,3> > vals;
     ImageC<TFVectorC<IntT,3> > fvals;
     ImageC<IntT> var;
   };
+
+  //! userlevel=Normal
+  //: Harris corner detector.
+  // Also known as the Plessey corner detector. Proposed by C.Harris in 1987.<p>
+  // Note: the implementation of this detector could be faster.
   
+  class CornerDetectorHarrisC
+    : public CornerDetectorC
+  {
+  public:
+    CornerDetectorHarrisC(int threshold = 700,int w = 5)
+      : CornerDetectorC(*new CornerDetectorHarrisBodyC(threshold,w)) 
+    {}
+    //: Corner detector.
+    
+  };
 }
 
 #endif

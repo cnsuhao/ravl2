@@ -17,6 +17,7 @@
 
 #include "Ravl/Index2d.hh"
 #include "Ravl/Vector2d.hh"
+#include "Ravl/Point2d.hh"
 
 namespace RavlImageN {
   using namespace RavlN;
@@ -31,25 +32,25 @@ namespace RavlImageN {
     //: Default constructor.
     // Contents of class are undefined.
     
-    CornerC(const Index2dC &location,RealT ndx,RealT ndy,ByteT nlevel) 
+    CornerC(const Point2dC &location,RealT ndx,RealT ndy,ByteT nlevel) 
       : loc(location),
 	grad(ndx,ndy),
 	level(nlevel)
     {}
     //: Constructor.
     
-    CornerC(const Index2dC &location,const Vector2dC &ngrad,ByteT nlevel) 
+    CornerC(const Point2dC &location,const Vector2dC &ngrad,ByteT nlevel) 
       : loc(location),
 	grad(ngrad),
 	level(nlevel)
     {}
     //: Constructor.
     
-    Index2dC &Location() 
+    Point2dC &Location() 
     { return loc; }
     //: Get location of corner.
     
-    const Index2dC &Location() const
+    const Point2dC &Location() const
     { return loc; }
     //: Get location of corner.
     
@@ -74,8 +75,8 @@ namespace RavlImageN {
     { return level; }
     // Grey level of pixel.
     
-    UIntT Distance(Index2dC &oth) 
-    { return loc.CityBlockDistance(oth).V(); }
+    RealT Distance(const Point2dC &oth) 
+    { return loc.CityBlockDistance(oth); }
     //: City block distance from another pixel.
     
     inline RealT Distance(const CornerC &Oth) const;
@@ -83,7 +84,7 @@ namespace RavlImageN {
     // Suggestions for a better messure are welcome.
     
   private:
-    Index2dC loc;       // Location of corner.
+    Point2dC loc;       // Location of corner.
     Vector2dC grad;     // gradient of point.
     ByteT level;        // Intensity of point.
   };
