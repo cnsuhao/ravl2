@@ -2,7 +2,7 @@
 # External libraries
 libjpeg.so
 libpng.so libz.so
-libgthread.so libglib.so libpthread.so
+libgthread.so libglib.so libpthread.so.0
 libgmodule.so libgthread.so libdl.so
 libgdk.so libgmodule.so libglib.so libXi.so libXext.so libX11.so 
 libgtk.so libgdk.so
