@@ -36,7 +36,7 @@ namespace RavlN {
   // quits when the change in cost becomes small or more than _iterations 
   // steps have been taken.
   //
-  VectorC OptimiseDescentBodyC::MinimalX (const CostC &domain)
+  VectorC OptimiseDescentBodyC::MinimalX (const CostC &domain, RealT &minimumCost)
   {
     VectorC dYdX;                            // Jacobian or gradient at location
     UIntT counter = 0;
@@ -73,6 +73,7 @@ namespace RavlN {
       //      cerr << "GradSize=" << gradSize << " StepSize=" << stepSize << "\n";
     } while (gradSize > _tolerance && counter++ < _iterations &&  stepSize > _tolerance); 
     //cout << "\n";
+    minimumCost = currentCost;
     return domain.ConvertX2P (iterX);            // Return final estimate
   }
   

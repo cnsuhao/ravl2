@@ -32,7 +32,7 @@ namespace RavlN {
   // Random optimizer with uniform density. Randomly samples the parameter
   // space to find the minimum cost position.
   //
-  VectorC OptimiseRandomUniformBodyC::MinimalX (const CostC &domain)
+  VectorC OptimiseRandomUniformBodyC::MinimalX (const CostC &domain, RealT &minimumCost)
   {
     VectorC X0 = domain.StartX().Copy();
     VectorC minX = domain.MinX();
@@ -50,6 +50,7 @@ namespace RavlN {
 	currentX = X.Copy();
       }
     }
+    minimumCost = currentCost;
     return domain.ConvertX2P (currentX);     // Return final estimate
   }
   
