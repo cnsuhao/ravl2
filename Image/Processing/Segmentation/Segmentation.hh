@@ -145,6 +145,7 @@ namespace RavlImageN {
     UIntT RemoveSmallComponents(IntT thrSize)
     { return Body().RemoveSmallComponents(thrSize); }
     //: Remove small components from map, label them as 0.
+    // Returns the number of labels in the new segmentation.
     
     SArray1dC<UIntT> Areas()
     { return Body().Areas(); }
@@ -161,7 +162,7 @@ namespace RavlImageN {
     
     UIntT Labels()
     { return Body().Labels(); }
-    //: Access number of labels.  
+    //: Access number of labels in the segmentation.
     
     SArray1dC<Moments2d2C> ComputeMoments(bool ignoreZero = false)
     { return Body().ComputeMoments(ignoreZero); }
