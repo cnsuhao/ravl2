@@ -11,6 +11,7 @@
 //! docentry="Ravl.Core.Trees"
 //! author="Charles Galambos"
 //! lib=RavlCore
+//! example=exBinaryTree.cc
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Assert.hh"

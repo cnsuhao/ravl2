@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Trees"
 //! author="Charles Galambos"
+//! example=exBinaryTree.cc
 //! lib=RavlCore
 
 #include "Ravl/BinaryTree.hh"

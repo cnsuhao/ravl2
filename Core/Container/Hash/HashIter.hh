@@ -12,6 +12,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="1/9/1996"
+//! example=exHash.cc
 //! docentry="Ravl.Core.Hash Tables"
 //! rcsid="$Id$"
 

@@ -17,12 +17,13 @@ HEADERS=GraphBase.hh Graph.hh GraphNode.hh GraphEdge.hh GraphAdj.hh \
 SOURCES=GraphBase.cc Graph.cc \
  GraphBaseLinearIter.cc  GraphBConIt.cc
 
-
 PLIB=RavlCore
 
 LIBDEPS=RavlGraph.def
 
 TESTEXES= testGraph.cc
+
+EXAMPLES=exGraph.cc
 
 USESLIBS=RavlCore
 

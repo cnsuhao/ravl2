@@ -11,6 +11,7 @@
 //! docentry="Ravl.Core.Trees"
 //! author="Charles Galambos"
 //! lib=RavlCore
+//! example=exAVLTree.cc
 
 #include "Ravl/BinaryTree.hh"
 

@@ -13,7 +13,8 @@
 //! date="10/12/1996"
 //! docentry="Ravl.Core.Graphs"
 //! rcsid="$Id$"
-//! userlevel=Default
+//! userlevel=Normal
+//! example=exGraph.cc
 
 #include "Ravl/GraphBase.hh"
 #include "Ravl/Hash.hh"

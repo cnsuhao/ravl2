@@ -14,6 +14,8 @@ HEADERS=BinaryTree.hh AVLTree.hh BinaryTreeUpIter.hh BinaryTreeDownIter.hh \
 
 PLIB=RavlCore
 
+EXAMPLES=exAVLTree.cc exBinaryTree.cc
+
 TESTEXES=testBinaryTree.cc testHashTree.cc
 
 EHT=Ravl.Core.Trees.html
