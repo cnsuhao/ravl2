@@ -35,9 +35,10 @@ namespace RavlImageN {
   //! userlevel=Normal
   //: Tracking information on a single point.
   
-  class PointTrackModelC {
+  class PointTrackModelBodyC : public RCBodyC
+  {
   public:
-    PointTrackModelC(UIntT nid,const Index2dC &nat,IntT frameNo,const Array2dC<ByteT> &ntempl)
+    PointTrackModelBodyC(UIntT nid,const Index2dC &nat,IntT frameNo,const Array2dC<ByteT> &ntempl)
       : id(nid),
 	at(nat),
 	vel(0,0),
@@ -102,6 +103,73 @@ namespace RavlImageN {
     bool live;   // Is this a live track ?
   };
   
+  class PointTrackModelC : public RCHandleC<PointTrackModelBodyC>
+  {
+  public:
+    PointTrackModelC()
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.
+
+    PointTrackModelC(UIntT nid,const Index2dC &nat,IntT frameNo,const Array2dC<ByteT> &ntempl)
+      : RCHandleC<PointTrackModelBodyC>(*new PointTrackModelBodyC(nid,nat,frameNo,ntempl))
+    {}
+    //: Create new track.
+    
+  protected:
+    PointTrackModelBodyC &Body()
+    { return RCHandleC<PointTrackModelBodyC>::Body(); }
+    //: Access body.
+    
+    const PointTrackModelBodyC &Body() const
+    { return RCHandleC<PointTrackModelBodyC>::Body(); }
+    //: Access body.
+    
+  public:
+
+    UIntT ID() const
+    { return Body().ID(); }
+    //: Access track ID.
+    
+    const Point2dC &Location() const
+    { return Body().Location(); }
+    //: Access last location that object was seen.
+    
+    Point2dC EstimateLocation(IntT frameNo)
+    { return Body().EstimateLocation(frameNo); }
+    //: Estimate location in given frame.
+    // Simple estimate on next position based on the points velocity.
+    
+    IntT Frame() const
+    { return Body().Frame(); }
+    //: Access frame number object was last seen.
+    
+    void Update(const Point2dC &nat,UIntT frameNo,IntT nmatchScore) 
+    { Body().Update(nat,frameNo,nmatchScore); }
+    //: Update a track.
+    
+    Array2dC<ByteT> &Template()
+    { return Body().Template(); }
+    //: Access template.
+    
+    const Vector2dC &Velocity() const
+    { return Body().Velocity(); }
+    //: Estimated velocity of point.
+    
+    IntT MatchScore() const
+    { return Body().MatchScore(); }
+    //: Get the last match score.
+    
+    bool IsLive() const
+    { return Body().IsLive(); }
+    //: Is this a live track ?
+    
+    void SetLive(bool nlive)
+    { Body().SetLive(nlive); }
+    //: Set live flag for track.
+
+  };
+
 }
 
 

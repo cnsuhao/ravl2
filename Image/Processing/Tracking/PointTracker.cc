@@ -128,8 +128,10 @@ namespace RavlImageN {
       //cerr <<"Score=" << score << " At=" << at << " Thresh=" << removeThresh << "\n";
       if(score > removeThresh) {
 	// Lost track of the object.
-	if(itt->Frame() < (frameCount - lifeTime))
+	if(itt->Frame() < (frameCount - lifeTime)) {
+	  itt->SetLive(false);
 	  itt.Del();  // Haven't seen it for a while, it can go!
+	}
 	ONDEBUG(DrawCross(timg,(ByteT) 0,itt->Location()));
 	continue;
       }
