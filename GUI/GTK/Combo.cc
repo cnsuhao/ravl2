@@ -43,6 +43,12 @@ namespace RavlGUIN {
     return true;
   }
 
+  //: Clear selection
+  bool ComboBodyC::ClearSelection() {
+    Manager.Queue(Trigger(ComboC(*this),&ComboC::GUIClearSelection));
+    return true;    
+  }
+
   //: Add new entry to combo list.
   
   bool ComboBodyC::AddEntry(StringC &opt) {
@@ -71,6 +77,19 @@ namespace RavlGUIN {
     gtk_list_clear_items(GTK_LIST (GTK_COMBO(widget)->list),0,-1);
     // Re-enable signals
     allowsignals = true;
+    // Done
+    return true;
+  }
+
+  //: Clear selection.
+  // Call on the GUI thread only.
+  
+  bool ComboBodyC::GUIClearSelection() {
+    if(widget == 0 && GTK_COMBO(widget)->list == 0)
+      ClearSelection();
+    // Clear selection
+    StringC str("");
+    gtk_entry_set_text (GTK_ENTRY (GTK_COMBO(widget)->entry), str.chars());
     // Done
     return true;
   }
@@ -153,9 +172,11 @@ namespace RavlGUIN {
       gtk_widget_show (li);
       gtk_container_add (GTK_CONTAINER (GTK_COMBO(widget)->list), li);
       cmap[*it] = li;
-      if(!editable)
-	gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(widget)->entry),0);
     }
+
+    if(!editable)
+      gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(widget)->entry),0);
+
     if(!selection.IsEmpty())
       gtk_entry_set_text (GTK_ENTRY (GTK_COMBO(widget)->entry), selection.chars());
     
