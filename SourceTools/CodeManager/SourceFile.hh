@@ -59,13 +59,16 @@ namespace RavlN {
     
     bool CheckHeader(const TextBufferC &hdr,const StringC &eoh,const StringC &name,const StringC &desc,const StringC &org);
     //: Check a header is on file.
-
+    
+    bool GetDocVars(HashC<StringC,StringC> &vars);
+    //: Retrieve all documentation variables from the file.
+    
     StringC &FileType()
-      { return fileType; }
+    { return fileType; }
     //: Access file type.
     
     const StringC &FileType() const
-      { return fileType; }
+    { return fileType; }
     //: Access file type.
     
   protected:
@@ -101,45 +104,45 @@ namespace RavlN {
   {
   public:
     SourceFileC()
-      {}
+    {}
     //: Default constructor.
     // Creates an in valid handle.
 
     SourceFileC(bool)
       : TextFileC(*new SourceFileBodyC())
-      {}
+    {}
     //: Default constructor.
     // Creates an in valid handle.
     
     SourceFileC(const StringC &filename)
       : TextFileC(*new SourceFileBodyC(filename))
-      {}
+    {}
     //: Constructor from a file.
     
     SourceFileC(const StringC &text,bool noFinalReturn,bool concat = false)
       : TextFileC(*new SourceFileBodyC(text,noFinalReturn,concat))
-      {}
+    {}
     //: Construct from a string.
     // If 'noFinalReturn' is false, ensure each line ends with '\n', otherwise leave it alone. <p>
     // concat, if true don't split lines at \n's, otherwise do.
     
     SourceFileC(istream &fin)
       : TextFileC(*new SourceFileBodyC(fin))
-      {}
+    {}
     //: Constructor from a stream.
     
   protected:
     SourceFileC(SourceFileBodyC &bod)
       : TextFileC(bod)
-      {}
+    {}
     //: Body constructor.
     
     SourceFileBodyC &Body()
-      { return static_cast<SourceFileBodyC &>(TextBufferC::Body()); }
+    { return static_cast<SourceFileBodyC &>(TextBufferC::Body()); }
     //: Access body.
 
     const SourceFileBodyC &Body() const
-      { return static_cast<const SourceFileBodyC &>(TextBufferC::Body()); }
+    { return static_cast<const SourceFileBodyC &>(TextBufferC::Body()); }
     //: Access body.
 
   public:
@@ -165,36 +168,40 @@ namespace RavlN {
     // ** MUST BE OVERLOADED IN DERIVED CLASSES **
 
     bool CheckDocVar(const StringC &var,const StringC &value,bool force = false)
-      { return Body().CheckDocVar(var,value,force); }
+    { return Body().CheckDocVar(var,value,force); }
     //: Check variable exists in hdr file.
     // if 'force' is true then update variable regardless if is there 
     // already or not.
     
     bool CheckDocVarSub(const StringC &var,const StringC &subs,const StringC &value,bool force = false)
-      { return Body().CheckDocVarSub(var,subs,value,force); }
+    { return Body().CheckDocVarSub(var,subs,value,force); }
     //: Check variable exists in hdr file.
     // if 'force' is true then update variable regardless if is there 
     // already or not.
     
     StringC GetDocValue(const StringC &var)
-      { return Body().GetDocValue(var); }
+    { return Body().GetDocValue(var); }
     //: Find a return a documentation value from the buffer.
     // Returns empty string if not found.
     
     bool CheckHeader(const TextBufferC &hdr,const StringC &eoh,
 		     const StringC &name,const StringC &desc,const StringC &org)
-      { return Body().CheckHeader(hdr,eoh,name,desc,org); }
+    { return Body().CheckHeader(hdr,eoh,name,desc,org); }
     //: Check a header is on file.
     // eoh, is the string that marks the 'end of header'.
     // Returns true if the header has been updated.
     
     StringC &FileType()
-      { return Body().FileType(); }
+    { return Body().FileType(); }
     //: Access file type.
     
     const StringC &FileType() const
-      { return Body().FileType(); }
+    { return Body().FileType(); }
     //: Access file type.
+    
+    bool GetDocVars(HashC<StringC,StringC> &vars)
+    { return Body().GetDocVars(vars); }
+    //: Retrieve all documentation variables from the file.
     
     friend class SourceFileBodyC;
   };

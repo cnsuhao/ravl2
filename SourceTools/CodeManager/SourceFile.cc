@@ -286,6 +286,35 @@ namespace RavlN {
     return data.before(' ');
   }
   
+
+  //: Retrieve all documentation variables from the file.
+  
+  bool SourceFileBodyC::GetDocVars(HashC<StringC,StringC> &vars) {
+    SourceFileC me(*this);
+    const StringC &comStr = commentString[fileType];
+    const StringC &comEndStr = commentEndString[fileType];
+    if(comStr.IsEmpty())
+      return StringC(); // Don't know the comment string for this filetype.
+    StringC prefix = comStr + "! ";
+    TextCursorC at((TextFileC &)me);
+    while(at.SkipTo(prefix)) {
+      StringC tag = at.ClipTo('=').TopAndTail();
+      at.SkipWhite();
+      
+      StringC value;
+      // Sort out quoted strings.
+      switch(at.Char())  {
+      case '"':  at.NextChar();  value = at.ClipTo('"').TopAndTail();   break;
+      case '\'': at.NextChar();  value = at.ClipTo('\'').TopAndTail();  break;
+      default:   value = at.ClipTo(comEndStr).TopAndTail(); break;
+      }
+      vars[tag] = value;
+    }
+    
+    return true;
+  }
+  
+
   //: Check a header is on file.
   
   bool SourceFileBodyC::CheckHeader(const TextBufferC &hdr,const StringC &ceoh,const StringC &name,const StringC &desc,const StringC &org) {
