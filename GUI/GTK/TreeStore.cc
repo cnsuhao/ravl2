@@ -110,6 +110,7 @@ namespace RavlGUIN {
     for(SArray1dIter2C<GType,AttributeTypeC> it(types,colTypes);it;it++)
       it.Data1() = Ravl2GTKType(it.Data2().ValueType());
     model = GTK_TREE_MODEL(gtk_tree_store_newv(colTypes.Size(),&(types[0])));
+    lock.Unlock();
     return TreeModelBodyC::Create();
   }
 
