@@ -10,6 +10,7 @@
 //! lib=RavlMath
 //! docentry="Ravl.Math.Projective Geometry.2D"
 //! author="Charles Galambos"
+//! file="Ravl/Math/Geometry/Projective/2D/FundamentalMatrix2d.hh"
 
 #include "Ravl/SArray1d.hh"
 #include "Ravl/PPoint2d.hh"
@@ -54,7 +55,7 @@ namespace RavlN {
     
     void NormaliseScale();
     //: Normalise scale.
-    // Normalise the magnitude of the elements in the matrix by dividing them by
+    // Normalise the magnitude of the elements in the matrix by dividing them by the L2 norm of the matrix
     
     void MakeRank2();
     //: Make the matrix rank 2
@@ -65,17 +66,17 @@ namespace RavlN {
     
     static FundamentalMatrix2dC FitLinear(const SArray1dC<PPoint2dC> &pnts1,const SArray1dC<PPoint2dC> &pnts2);
     //: Compute the fundamental matrix from 2 sets of points.
-    // This computes tbe fundamental matrix using a linear method (Sometimes called the normalised 8-point alogorithm),
+    // This computes the fundamental matrix using a linear method (Sometimes called the normalised 8-point algorithm),
     // you need least 8 points, but more may be used to obtain a least squares fit.
     
     PPoint2dC Epipole1() const;
-    //: Compute the epipoler point in the first image.
-    // This is the point where the line connecting the two opical centres
+    //: Compute the epipolar point in the first image.
+    // This is the point where the line connecting the two optical centres
     // intersect the first image plane.
     
     PPoint2dC Epipole2() const;
-    //: Compute the epipoler point in the second image.
-    // This is the point where the line connecting the two opical centres
+    //: Compute the epipolar point in the second image.
+    // This is the point where the line connecting the two optical centres
     // intersect the second image plane.
     
   protected:
