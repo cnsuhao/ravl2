@@ -606,12 +606,12 @@ namespace RavlN {
 
   template<class DataT>
   XMLOStreamC &operator<<(XMLOStreamC &strm,const SArray1dC<DataT> &arr) {
-    strm << XMLStartTag("array")  << XMLAttribute("size",arr.Size()) << XMLContent;
+    strm << XMLStartTag("array")  << XMLAttribute("size",arr.Size());
     for(SArray1dIterC<DataT> it(arr);it;it++) {
       strm << XMLStartTag("data") << XMLContent << *it;
       strm << XMLEndTag;
     }
-    strm << XMLIndentDown << XMLEndTag;
+    strm << XMLEndTag;
     return strm;
   }
 
@@ -650,11 +650,10 @@ namespace RavlN {
   template<class KeyT,class DataT>
   XMLOStreamC &operator<<(XMLOStreamC &strm,const HashC<KeyT,DataT> &elem) {
     strm << XMLStartTag("hashmap") 
-	 << XMLAttribute("class",TypeName(typeid(HashC<KeyT,DataT>)))
-	 << XMLContent;
+	 << XMLAttribute("class",TypeName(typeid(HashC<KeyT,DataT>)));
     
     for(HashIterC<KeyT,DataT> it(elem);it;it++) {
-      strm << XMLStartTag("map") << XMLContent;
+      strm << XMLStartTag("map");
       strm << XMLStartTag("key") << XMLContent << it.Key();
       strm << XMLEndTag;
       strm << XMLStartTag("data")  << XMLContent << it.Data();

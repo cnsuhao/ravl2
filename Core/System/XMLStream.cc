@@ -349,6 +349,8 @@ namespace RavlN {
   //: Begin writting a tag with the given attributes.
   
   void XMLOStreamC::StartTag(const StringC &name,const RCHashC<StringC,StringC> &attribs,bool emptyTag) {
+    if(IsContext() && !IsContent())
+      StartContents(); // Make sure we're in a content section.
     StartContext(name,attribs,emptyTag);
   }
   
@@ -363,6 +365,10 @@ namespace RavlN {
   
   void XMLOStreamC::StartContents() {
     //ONDEBUG(cerr << "XMLOStreamC::StartContents(), Name:'" << Context().Name() << "' \n");
+    if(!IsContext()) {
+      cerr << "XMLOStreamC::StartContents(), ERROR: No tags around content. \n";
+      return ;
+    }
     if(IsContent()) {
       cerr << "XMLOStreamC::StartContents(), ERROR: Contents already started in '" << Context().Name() << "' \n";
       return;
@@ -373,9 +379,9 @@ namespace RavlN {
     for(HashIterC<StringC,StringC> it((RavlN::HashC<RavlN::StringC,RavlN::StringC> &)Context().Attributes());it;it++)
       (*this) << ' ' << it.Key() << "=\"" << it.Data() << "\"";
     if(Context().IsEmptyTag()) 
-      (*this) << "/>";
+      (*this) << " />";
     else
-      (*this) << '>';
+      (*this) << " >";
     SetContent(true);
   }
   
@@ -422,9 +428,12 @@ namespace RavlN {
   
   void XMLOStreamC::Indent(int off) {
     (*this) << '\n';
-    UIntT lvl = LevelsNested() + off;
+    IntT lvl = LevelsNested() + off;
+    if(lvl < 0) {
+      cerr << "XMLOStreamC::Indent(), Warning: Negative tab. \n";
+    }
     // Could do something with tabs to make files smaller ?
-    for(UIntT i = 0;i < lvl;i++) 
+    for(IntT i = 0;i < lvl;i++) 
       (*this) << ' ';
   }
 
