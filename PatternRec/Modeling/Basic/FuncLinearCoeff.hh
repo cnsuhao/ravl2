@@ -10,7 +10,7 @@
 //! lib=RavlPatternRec
 //! date="21/4/1998"
 //! author="Robert Crida and Charles Galambos"
-//! docentry="Ravl.Pattern Recognition.Functions"
+//! docentry="Ravl.Pattern Recognition.Numerical Modeling"
 
 #include "Ravl/PatternRec/Function.hh"
 

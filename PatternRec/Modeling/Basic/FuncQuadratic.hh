@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! author="Robert Crida and Charles Galambos"
-//! docentry="Ravl.Pattern Recognition.Functions"
+//! docentry="Ravl.Pattern Recognition.Numerical Modeling"
 
 #include "Ravl/PatternRec/FuncLinearCoeff.hh"
 #include "Ravl/Matrix.hh"

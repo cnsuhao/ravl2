@@ -1,8 +1,16 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2002, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVL_ORTHPOLYNOMIAL_HEADER
 #define RAVL_ORTHPOLYNOMIAL_HEADER 1
+//! rcsid="$Id$"
 //! date="21/4/1998"
 //! author="Robert Crida and Charles Galambos"
-//! docentry="Ravl.Pattern Recognition.Functions"
+//! docentry="Ravl.Pattern Recognition.Numerical Modeling"
+//! lib=RavlPatternRec
 
 #include "Ravl/PatternRec/FuncLinearCoeff.hh"
 

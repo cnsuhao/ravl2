@@ -28,9 +28,9 @@ namespace RavlN {
   
   VectorC FuncLinearBodyC::MakeInput(const VectorC &X) const {
     VectorC ret(X.Size() + 1);
-    for(SArray1dIter2C<RealT,RealT> it(X,ret);it;it++)
+    ret[0] = 1;
+    for(SArray1dIter2C<RealT,RealT> it(X,ret.From(1));it;it++)
       it.Data2() = it.Data1();
-    ret[X.Size()] = 1;
     return ret;
   }
   
