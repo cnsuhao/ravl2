@@ -13,6 +13,7 @@
 //! docentry="Ravl.GUI.Layout"
 //! file="Ravl/GUI/GTK/Table.hh"
 //! date="23/09/1999"
+//! example=exRuler.cc
 
 #include "Ravl/GUI/Widget.hh"
 

@@ -4,13 +4,13 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUITEXTENTRY_HEADER
-#define RAVLGUITEXTENTRY_HEADER 1
+#ifndef RAVLGUI_TEXTENTRY_HEADER
+#define RAVLGUI_TEXTENTRY_HEADER 1
 //////////////////////////////////////////////////
 //! file="Ravl/GUI/GTK/TextEntry.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! date="23/03/99"
+//! date="23/03/1999"
 //! docentry="Ravl.GUI.Control"
 //! rcsid="$Id$"
 

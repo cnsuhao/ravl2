@@ -60,7 +60,7 @@ namespace RavlGUIN {
   bool TableBodyC::Create() {
     RavlAssert(widget == 0);
     widget = gtk_table_new(sx,sy,homogeneous);
-    for(DLIterC<WidgeInfoC> it(children);it.IsElm();it.Next()) {
+    for(DLIterC<WidgeInfoC> it(children);it;it++) {
       if(it.Data().widge.Widget() == 0) {
 	if(!it.Data().widge.Create()) {
 	  cerr << "TableBodyC::Create(), Widget create failed. \n";
