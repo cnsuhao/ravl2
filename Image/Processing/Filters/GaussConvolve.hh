@@ -52,8 +52,8 @@ namespace RavlImageN {
     {}
     //: Default constructor.
     
-    GaussConvolveC(UIntT order){
-      binomial = GenerateBinomial(1.0, order, true,true);
+    GaussConvolveC(UIntT order) {
+      binomial = GenerateBinomial((SumTypeT) 1.0, order, true,true);
       conv.SetKernel(binomial, binomial);
     }
     //: Construct Gaussian with the given size.
@@ -66,14 +66,14 @@ namespace RavlImageN {
     //: Performs histogram equalisation on image 'in'.
     // Returns a new equalised image.
     
-    Array1dC<RealT> &Filter()
+    Array1dC<SumTypeT> &Filter()
     { return binomial; }
     //: Access current filter.
     // Note the save/load routines of this class do NOT save
     // the filter coefficients, just its order. So modifying
     // them and saving this class is pointless.
     
-    const Array1dC<RealT> &Filter() const
+    const Array1dC<SumTypeT> &Filter() const
     { return binomial; }
     //: Access current filter.
     
@@ -108,8 +108,8 @@ namespace RavlImageN {
 #endif
     
   protected:
-    Array1dC<RealT> binomial;
-    ConvolveSeparable2dC<RealT, InPixelT,OutPixelT,SumTypeT> conv;
+    Array1dC<SumTypeT> binomial;
+    ConvolveSeparable2dC<SumTypeT, InPixelT,OutPixelT,SumTypeT> conv;
   };
   
   template<class InPixelT,class OutPixelT,class SumTypeT>
