@@ -97,5 +97,17 @@ namespace RavlN {
     outS << rt.trans << " " << rt.rot;
     return outS;
   }
+
+  istream & operator>>(istream & ins, RigidTransform3dC & rt) {
+    ins >> rt.trans >> rt.rot;
+    return ins;
+  }
+  
+  BinOStreamC & operator<<(BinOStreamC & outS, const RigidTransform3dC & rt);
+  // output stream operator
+  
+  BinIStreamC & operator>>(BinIStreamC & ins, RigidTransform3dC & rt);
+  // output stream operator
+
   
 }
