@@ -44,9 +44,10 @@ namespace RavlN
     //: Destructor.
     
     inline bool Lock(void) {
-      if(pthread_mutex_lock(&mutex) == 0)
+      int rc;
+      if((rc = pthread_mutex_lock(&mutex)) == 0)
 	return true;
-      Error("Lock failed",errno);
+      Error("Lock failed",errno,rc);
       return false;
     }
     //: Lock mutex.
@@ -55,18 +56,18 @@ namespace RavlN
       int rc;
       if((rc = pthread_mutex_trylock(&mutex)) == 0)
 	return true;
-      if(errno != EPERM && errno != EBUSY && errno != EINTR && rc != EBUSY)
-	Error("Trylock failed for unexpected reason.",errno);
+      if(errno != EPERM && errno != EBUSY && errno != EINTR && rc != EBUSY && errno != EAGAIN)
+	Error("Trylock failed for unexpected reason.",errno,rc);
       return false;
     }
     //: Try and lock mutex.
     
     inline bool Unlock(void) {
-      do {
-	if(pthread_mutex_unlock(&mutex) == 0) 
-	  return true;
-      } while(errno == EINTR) ;
-      Error("Unlock failed.",errno);
+      RavlAssertMsg(!TryLock(),"MutexC::Unlock() called on an unlocked mutex.");
+      int rc;
+      if((rc = pthread_mutex_unlock(&mutex)) == 0)
+	return true;
+      Error("Unlock failed.",errno,rc);
       return false;
     }
     //: Unlock mutex.
@@ -77,8 +78,13 @@ namespace RavlN
     void Error(const char *msg);  
     //: Report an error.
     
-    void Error(const char *msg,int anerrno);  
+    void Error(const char *msg,int anerrno,int rc);  
     //: Report an error, with an error number.
+    
+  private:
+    MutexC(const MutexC &)
+    { RavlAssert(0); }
+    //: Make sure there's no attempt to use the copy constructor.
   };
   
   //! userlevel=Normal
@@ -97,30 +103,34 @@ namespace RavlN
   public:
     MutexLockC(MutexC &m)
     : mutex(m),
-      locked(true)
-    { mutex.Lock(); }
+      locked(false)
+    { 
+      locked = mutex.Lock(); 
+      RavlAssert(locked);
+    }
     //: Create a lock on a mutex.
     
     MutexLockC(const MutexC &m)
       : mutex(const_cast<MutexC &>(m)),
-	locked(true)
-    { mutex.Lock(); }
+	locked(false)
+    { 
+      locked = mutex.Lock(); 
+      RavlAssert(locked);
+    }
     //: Create a lock on a mutex.
     // This may not seem like a good idea,
     // but it allows otherwise constant functions to
     // lock out other accesses to data without undue
     // faffing.
-
+    
     MutexLockC(const MutexC &m,bool tryLock)
       : mutex(const_cast<MutexC &>(m)),
 	locked(false)
     { 
       if(tryLock)
 	locked = mutex.TryLock(); 
-      else {
-	  mutex.Lock();
-	  locked = true;
-      }
+      else
+	locked = mutex.Lock();
     }
     //: Try and create a lock on a mutex.
     // This may not seem like a good idea,
@@ -136,15 +146,15 @@ namespace RavlN
     
     void Unlock() {
       RavlAssert(locked);
-      mutex.Unlock(); 
-      locked = false;
+      locked = !mutex.Unlock(); 
+      RavlAssert(!locked);
     }
     //: Unlock the mutex.
     
     void Lock() {
       RavlAssert(!locked);
-      mutex.Lock(); 
-      locked = true;
+      locked = mutex.Lock(); 
+      RavlAssert(locked);
     }
     //: re Lock the mutex.
     
@@ -155,6 +165,12 @@ namespace RavlN
   protected:
     MutexC &mutex;
     bool locked;
+
+  private:
+    MutexLockC(const MutexLockC &x)
+      : mutex(x.mutex)
+    { RavlAssert(0); }
+    //: Dissable copy constructor.
   };
   
 }

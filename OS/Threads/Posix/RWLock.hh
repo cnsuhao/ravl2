@@ -49,9 +49,8 @@ namespace RavlN {
   
   class RWLockC {
   public:
-    RWLockC() { 
-      pthread_rwlock_init(&id,0);
-    }
+    RWLockC() 
+    { pthread_rwlock_init(&id,0); }
     //: Constructor.
     
     ~RWLockC(); 
@@ -73,7 +72,7 @@ namespace RavlN {
     //: Get a read lock.
     
     bool TryRdLock(void) 
-      { return (pthread_rwlock_tryrdlock(&id) == 0); }
+    { return (pthread_rwlock_tryrdlock(&id) == 0); }
     //: Try and get a read lock.
     
     bool WrLock(void) { 
@@ -87,18 +86,22 @@ namespace RavlN {
     //: Get a write lock.
     
     bool TryWrLock(void) 
-      { return (pthread_rwlock_trywrlock(&id) == 0); }
+    { return (pthread_rwlock_trywrlock(&id) == 0); }
     //: Try and get a write lock.
     
     bool UnlockWr(void) 
-      { return (pthread_rwlock_unlock(&id) == 0); }
+    { return (pthread_rwlock_unlock(&id) == 0); }
     //: Unlock write lock.
     
     bool UnlockRd(void)
-      { return (pthread_rwlock_unlock(&id) == 0); }
+    { return (pthread_rwlock_unlock(&id) == 0); }
     //: Unlock read lock.
     
   private:
+    RWLockC(const RWLockC &)
+    { RavlAssert(0); }
+    //: Dissable copy constructor.
+    
     pthread_rwlock_t id;
   };
 
@@ -139,6 +142,10 @@ namespace RavlN {
     //: Print an error.
     
   private:
+    RWLockC(const RWLockC &)
+    { RavlAssert(0); }
+    //: Dissable copy constructor.
+    
     MutexC AccM; // Access control.
     int RdCount; // Count of readers with locks. -1=Writing
     int WrWait;  // Count of writers waiting.
@@ -273,25 +280,25 @@ namespace RavlN {
       : rwlock(const_cast<RWLockC &>(m)),
 	rLocked(false),
 	wLocked(false)
-      { 
-	if(!tryOnly) {
-	  if(readOnly) {
-	    rwlock.RdLock();
-	    rLocked = true;
-	  } else {
-	    rwlock.WrLock();
-	    wLocked = true;
-	  }
+    { 
+      if(!tryOnly) {
+	if(readOnly) {
+	  rwlock.RdLock();
+	  rLocked = true;
 	} else {
-	  if(readOnly) {
-	    if(rwlock.TryRdLock())
-	      rLocked = true;
-	  } else {
-	    if(rwlock.TryWrLock())
-	      wLocked = true;
-	  }
+	  rwlock.WrLock();
+	  wLocked = true;
+	}
+      } else {
+	if(readOnly) {
+	  if(rwlock.TryRdLock())
+	    rLocked = true;
+	} else {
+	  if(rwlock.TryWrLock())
+	    wLocked = true;
 	}
       }
+    }
     //: Create a lock on a rwlock.
     // This method is obsolete and may be remove in future versions,
     // use constructor with RWLockModeT paramiter instead. <br>
@@ -304,14 +311,14 @@ namespace RavlN {
       : rwlock(const_cast<RWLockC &>(m)),
 	rLocked(false),
 	wLocked(false)
-      { 
-	switch(lockMode) {
-	case RWLOCK_READONLY:     rLocked = rwlock.RdLock();    break;
-	case RWLOCK_WRITE:        wLocked = rwlock.WrLock();    break;
-	case RWLOCK_TRY_READONLY: rLocked = rwlock.TryRdLock(); break;
-	case RWLOCK_TRY_WRITE:    wLocked = rwlock.TryWrLock(); break;
-	}
-      };
+    { 
+      switch(lockMode) {
+      case RWLOCK_READONLY:     rLocked = rwlock.RdLock();    break;
+      case RWLOCK_WRITE:        wLocked = rwlock.WrLock();    break;
+      case RWLOCK_TRY_READONLY: rLocked = rwlock.TryRdLock(); break;
+      case RWLOCK_TRY_WRITE:    wLocked = rwlock.TryWrLock(); break;
+      }
+    };
     //: Create a lock on a rwlock.
     // This may not seem like a good idea,
     // but it allows otherwise constant functions to
@@ -349,18 +356,24 @@ namespace RavlN {
     //: relock for write
     
     bool IsReadLocked() const
-      { return rLocked || wLocked; }
+    { return rLocked || wLocked; }
     //: Test if safe for reading.
     // This will return true if either a write or read lock is inplace.
     
     bool IsWriteLocked() const
-      { return  wLocked; }
+    { return  wLocked; }
     //: Test if safe for writing.
     
   protected:
     RWLockC &rwlock;
     bool rLocked;
     bool wLocked;
+
+  private:
+    RWLockHoldC(const RWLockHoldC &o)
+      : rwlock(o.rwlock)
+    { RavlAssert(0); }
+    //: Dissable copy constructor.
   };
 
 }
