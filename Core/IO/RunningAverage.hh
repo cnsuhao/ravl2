@@ -29,7 +29,7 @@ namespace RavlN {
     : public DPProcessBodyC<NumTypeT,NumTypeT>
   {
   public:
-    DPRunningAverageBodyC(NumTypeT init = NumTypeT(),IntT len = 10)
+    DPRunningAverageBodyC(NumTypeT init = NumTypeT(),IntT nlen = 10)
       : total(init),
 	len(nlen)    
     {}
@@ -40,7 +40,7 @@ namespace RavlN {
     { in >> len >> total; }
     //: Stream constructor.
   
-    virtual NumTypeT Apply(const NumTypeT &) {
+    virtual NumTypeT Apply(const NumTypeT & arg) {
       total = (total * (len-1)/len) + arg;
       return total/len;
     }
