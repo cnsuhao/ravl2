@@ -97,6 +97,8 @@ namespace RavlN {
     SetupCommand("lowercase",&TemplateComplexBodyC::DoLowerCase);
     SetupCommand("silent",&TemplateComplexBodyC::DoSilent);
     SetupCommand("print",&TemplateComplexBodyC::DoErrPrint);
+    SetupCommand("before",&TemplateComplexBodyC::DoBefore);
+    SetupCommand("after",&TemplateComplexBodyC::DoAfter);
   }
   
   //: Print a message to stderr.
@@ -575,7 +577,42 @@ namespace RavlN {
     output.Top() << MakeHtml(tmp);
     return true;
   }
+
+  //: Return text before a string.
   
+  bool TemplateComplexBodyC::DoBefore(StringC &txt) {
+    int arg1s = txt.index(':');
+    if(arg1s < 0) {
+      cerr << "Malformed 'before' in template '" << txt << "' ignoring \n";
+      return false;
+    }
+    SubStringC arg1 = txt.before(arg1s);
+    StringC value = txt.after(arg1s);
+    StringC resultStr = Interpret(value);
+    if(resultStr.contains(arg1))
+      Output() << resultStr.before(arg1);
+    else
+      Output() << resultStr;
+    return true;
+  }
+  
+  //: Return text after a string.
+  
+  bool TemplateComplexBodyC::DoAfter(StringC &txt) {
+    int arg1s = txt.index(':');
+    if(arg1s < 0) {
+      cerr << "Malformed 'after' in template '" << txt << "' ignoring \n";
+      return false;
+    }
+    SubStringC arg1 = txt.before(arg1s);
+    StringC value = txt.after(arg1s);
+    StringC resultStr = Interpret(value);
+    if(resultStr.contains(arg1))
+      Output() << resultStr.after(arg1);
+    else
+      Output() << resultStr;
+    return true;
+  }
   
   //: Lookup variable.
   // if found put value into 'buff' and return true.

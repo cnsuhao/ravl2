@@ -113,6 +113,12 @@ namespace RavlN {
     //: Print a message to stderr.
     // Put the text on the stderr.
     
+    bool DoBefore(StringC &txt);
+    //: Return text before a string.
+    
+    bool DoAfter(StringC &txt);
+    //: Return text after a string.
+    
     bool HtmlSafe(StringC &txt);
     //: Make sure text will be taken literally in html.
     
