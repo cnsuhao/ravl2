@@ -72,7 +72,7 @@ namespace RavlImageN {
     UIntT MergeComponents(ImageC<PixelT> &dat,UIntT thrSize,RealT maxDist,CmpT &cmp,IntT iter = 1);
     //: Merge simlar components smaller than 'thrSize'.
     // This just looks for the difference between adjacent pixels from different regions.
-    // FIXME :- It maybe better to look at the average different.
+    // FIXME :- It maybe better to look at the average difference.
     
     ImageC<UIntT> &SegMap()
     { return segmap; }
