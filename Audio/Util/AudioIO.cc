@@ -10,6 +10,13 @@
 #include "Ravl/Audio/AudioIO.hh"
 #include "Ravl/DList.hh"
 
+#define DODEBUG 1
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlAudioN {
   
   //: Constructor.
@@ -49,7 +56,7 @@ namespace RavlAudioN {
   //: Set fequence of samples
   // Returns actual frequency.
   
-  bool AudioIOBaseC::SetSampleRate(IntT rate) {
+  bool AudioIOBaseC::SetSampleRate(RealT rate) {
     return false;
   }
 
@@ -63,7 +70,7 @@ namespace RavlAudioN {
   //: Get fequence of samples
   // Returns actual frequency.
   
-  bool AudioIOBaseC::GetSampleRate(IntT &rate) {
+  bool AudioIOBaseC::GetSampleRate(RealT &rate) {
     return false;
   } 
   
@@ -84,10 +91,10 @@ namespace RavlAudioN {
   //: Handle get attrib.
   
   bool AudioIOBaseC::HandleGetAttr(const StringC &attrName,StringC &attrValue) {
-    int ival;
     if(attrName == "samplerate") {
-      if(!GetSampleRate(ival)) return false;
-      attrValue = StringC(ival);
+      RealT rval;
+      if(!GetSampleRate(rval)) return false;
+      attrValue = StringC(rval);
       return false;
     }
     return false;
@@ -96,8 +103,9 @@ namespace RavlAudioN {
   //: Handle Set attrib.
   
   bool AudioIOBaseC::HandleSetAttr(const StringC &attrName,const StringC &attrValue) {
+    ONDEBUG(cerr << "AudioIOBaseC::HandleSetAttr(), " << attrName << "' = " << attrValue << "\n");
     if(attrName == "samplerate")
-      return SetSampleRate(attrValue.IntValue());
+      return SetSampleRate(attrValue.RealValue());
     return false;
   }
   
@@ -106,8 +114,13 @@ namespace RavlAudioN {
   // This is for handling stream attributes such as sample rate.
   
   bool AudioIOBaseC::HandleGetAttr(const StringC &attrName,IntT &attrValue) {
-    if(attrName == "samplerate")
-      return GetSampleRate(attrValue);
+    if(attrName == "samplerate") {
+      RealT value;
+      if(!GetSampleRate(value))
+	return false;
+      attrValue = Round(value);
+      return true;
+    }
     return false;
   }
   
@@ -116,11 +129,33 @@ namespace RavlAudioN {
   // This is for handling stream attributes such as sample rate.
   
   bool AudioIOBaseC::HandleSetAttr(const StringC &attrName,const IntT &attrValue) {
+    ONDEBUG(cerr << "AudioIOBaseC::HandleSetAttr(), " << attrName << "' = " << attrValue << "\n");
+    if(attrName == "samplerate")
+      return SetSampleRate((RealT) attrValue);
+    return false;
+  }
+  
+  //: Get a stream attribute.
+  // Returns false if the attribute name is unknown.
+  // This is for handling stream attributes such as frame rate, and compression ratios.
+  
+  bool AudioIOBaseC::HandleGetAttr(const StringC &attrName,RealT &attrValue) {
+    if(attrName == "samplerate") 
+      return GetSampleRate(attrValue);
+    return false;
+  }
+  
+  //: Set a stream attribute.
+  // Returns false if the attribute name is unknown.
+  // This is for handling stream attributes such as frame rate, and compression ratios.
+  
+  bool AudioIOBaseC::HandleSetAttr(const StringC &attrName,const RealT &attrValue) {
+    ONDEBUG(cerr << "AudioIOBaseC::HandleSetAttr(), " << attrName << "' = " << attrValue << "\n");
     if(attrName == "samplerate")
       return SetSampleRate(attrValue);
     return false;
   }
-  
+
   //: Get list of attributes available.
   // This method will ADD all available attribute names to 'list'.
   

@@ -6,5 +6,5 @@
 # file-header-ends-here
 #! rcsid="$Id$"
 
-NESTED=Util.r Features.r
+NESTED=Util.r IO.r Features.r
 

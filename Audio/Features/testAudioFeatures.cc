@@ -6,6 +6,9 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlAudioFeatures
+//! docentry="Ravl.Audio.Feature Extraction"
+//! userlevel=Develop
+//! author="Charles Galambos"
 
 #include "Ravl/Audio/MelSpectrum.hh"
 #include "Ravl/Audio/MelCepstrum.hh"

@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Audio.Feature Extraction"
 //! lib=RavlAudioFeatures
+//! examples=exFeatureMFCC.cc
 
 #include "Ravl/Audio/WindowSignal.hh"
 #include "Ravl/Audio/MelSpectrum.hh"

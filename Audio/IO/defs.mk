@@ -6,20 +6,18 @@
 # file-header-ends-here
 #! rcsid="$Id$"
 
+ORGANISATION=OmniPerception Ltd.
+
 PACKAGE=Ravl/Audio
 
-MAINS=exFeatureMFCC.cc
+SOURCES=AudioSample.cc
 
-HEADERS=MelSpectrum.hh MelCepstrum.hh FeatureMFCC.hh
+PLIB=RavlAudioIO
 
-SOURCES=MelSpectrum.cc MelCepstrum.cc FeatureMFCC.cc
+USESLIBS=RavlAudioUtil
 
-PLIB=RavlAudioFeatures
+MUSTLINK=RavlAudioSample.cc
 
-USESLIBS=RavlAudioUtil RavlMath 
+MAINS=audioconv.cc
 
-TESTEXES=testAudioFeatures.cc
-
-EXAMPLES= exFeatureMFCC.cc
-
-PROGLIBS=RavlDevAudio.opt 
+PROGLIBS=RavlDevAudio.opt RavlAudioFile.opt

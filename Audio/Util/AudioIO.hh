@@ -45,7 +45,7 @@ namespace RavlAudioN {
     //: Set number of bits to use in samples.
     // returns actual number of bits.
     
-    virtual bool SetSampleRate(IntT rate);
+    virtual bool SetSampleRate(RealT rate);
     //: Set frequency of samples
     // Returns actual frequency.
     
@@ -53,7 +53,7 @@ namespace RavlAudioN {
     //: Get number of bits to use in samples.
     // returns actual number of bits.
     
-    virtual bool GetSampleRate(IntT &rate);
+    virtual bool GetSampleRate(RealT &rate);
     //: Get frequency of samples
     // Returns actual frequency.
     
@@ -84,6 +84,16 @@ namespace RavlAudioN {
     //: Set a stream attribute.
     // Returns false if the attribute name is unknown.
     // This is for handling stream attributes such as sample rate.
+
+    bool HandleGetAttr(const StringC &attrName,RealT &attrValue);
+    //: Get a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
+    
+    bool HandleSetAttr(const StringC &attrName,const RealT &attrValue);
+    //: Set a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
     
     bool HandleGetAttrList(DListC<StringC> &list) const;
     //: Get list of attributes available.
@@ -170,6 +180,18 @@ namespace RavlAudioN {
     //: Set a stream attribute.
     // Returns false if the attribute name is unknown.
     // This is for handling stream attributes such as frame rate, and compression ratios.
+
+    virtual bool GetAttr(const StringC &attrName,RealT &attrValue) 
+    { return HandleGetAttr(attrName,attrValue); }
+    //: Get a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
+    
+    virtual bool SetAttr(const StringC &attrName,const RealT &attrValue)
+    { return HandleSetAttr(attrName,attrValue); }
+    //: Set a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
     
     virtual bool GetAttrList(DListC<StringC> &list) const
     { return HandleGetAttrList(list); }
@@ -197,6 +219,21 @@ namespace RavlAudioN {
       : DPEntityC(*new DPIAudioBodyC<DataT,IOClassT>(dev,channel))
     {}
     //: Constructor.
+    
+  protected:
+    DPIAudioBodyC<DataT,IOClassT> &Body()
+    { return dynamic_cast<DPIAudioBodyC<DataT,IOClassT> &>(DPEntityC::Body()); }
+    //: Access body.
+
+    const DPIAudioBodyC<DataT,IOClassT> &Body() const
+    { return dynamic_cast<const DPIAudioBodyC<DataT,IOClassT> &>(DPEntityC::Body()); }
+    //: Access body.
+    
+  public:
+    
+    bool IsOpen() const
+    { return Body().IsOpen(); }
+    //: Is stream open ?
   };
 
   // -----------------------------------------------------------------------
@@ -226,7 +263,7 @@ namespace RavlAudioN {
     //: Is some data ready ?
     // true = yes.
     
-    bool Put(DataT &buff) 
+    bool Put(const DataT &buff) 
     { return Write((void *) &buff,sizeof(DataT)); }
     //: Write sample to stream.
     
@@ -256,6 +293,18 @@ namespace RavlAudioN {
     // This is for handling stream attributes such as frame rate, and compression ratios.
     
     virtual bool SetAttr(const StringC &attrName,const IntT &attrValue)
+    { return HandleSetAttr(attrName,attrValue); }
+    //: Set a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
+
+    virtual bool GetAttr(const StringC &attrName,RealT &attrValue) 
+    { return HandleGetAttr(attrName,attrValue); }
+    //: Get a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
+    
+    virtual bool SetAttr(const StringC &attrName,const RealT &attrValue)
     { return HandleSetAttr(attrName,attrValue); }
     //: Set a stream attribute.
     // Returns false if the attribute name is unknown.

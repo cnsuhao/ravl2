@@ -23,6 +23,39 @@ namespace RavlAudioN {
   struct SampleElemC {
     SampleT channel[N];
   };
+
+  template<unsigned int N,typename SampleT>
+  inline
+  ostream &operator<<(ostream &strm,const SampleElemC<N,SampleT> &sample) {
+    for(unsigned int i = 0;i < N;i++)
+      strm << sample.channel[i] << ' ';
+    return strm;
+  }
+  
+  template<unsigned int N,typename SampleT>
+  inline
+  istream &operator>>(istream &strm,SampleElemC<N,SampleT> &sample) {
+    for(unsigned int i = 0;i < N;i++)
+      strm >> sample.channel[i];
+    return strm;
+  }
+
+  template<unsigned int N,typename SampleT>
+  inline
+  BinOStreamC &operator<<(BinOStreamC &strm,const SampleElemC<N,SampleT> &sample) {
+    for(unsigned int i = 0;i < N;i++)
+      strm << sample.channel[i];
+    return strm;
+  }
+  
+  template<unsigned int N,typename SampleT>
+  inline
+  BinIStreamC &operator>>(BinIStreamC &strm,SampleElemC<N,SampleT> &sample) {
+    for(unsigned int i = 0;i < N;i++)
+      strm >> sample.channel[i];
+    return strm;
+  }
+  
   
 }
 
