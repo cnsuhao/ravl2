@@ -37,6 +37,6 @@ USESLIBS=RavlOS RavlCore
 
 EHT= Ravl.OS.Text_Processing.html \
      Ravl.OS.Text_Processing.Templates.html \
-     Ravl.OS.Configuration Files.html
+     Ravl.OS.Configuration_Files.html
 
 HTML= 
