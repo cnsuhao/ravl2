@@ -29,7 +29,7 @@
 namespace RavlImageN {
 
   // computes the LMS fit from the various sums of squares
-  inline
+  //inline
   static Vector2dC LMSRegressionEngine(const Matrix2dC &A, 
 				       const Vector2dC &b, 
 				       RealT dt_sq, // inputs
@@ -45,12 +45,18 @@ namespace RavlImageN {
     
     RealT l_inv0 = lambda[0] / (Sqr(lambda[0]) + Sqr(N*noise)); // (pseudo) inverse
     RealT l_inv1 = lambda[1] / (Sqr(lambda[1]) + Sqr(N*noise)); // of eigenvalues
-    Matrix2dC A_inv = E * Matrix2dC(l_inv0, 0.0, 0.0, l_inv1) * E.T();
+    Matrix2dC A_inv;
+    // A_inv = E * Matrix2dC(l_inv0, 0.0, 0.0, l_inv1).MulT(E);
+    Matrix2dC mtmp(l_inv0 * E[0][0] ,l_inv1 * E[0][1],
+		   l_inv0 * E[1][0] ,l_inv1 * E[1][1]);
+    MulT(mtmp,E,A_inv);
+    
     // hence compute motion vector
     Vector2dC v (A_inv * b);
     // and statistics
     sig_sq = (dt_sq + v.Dot(b)) / (N-2);
-    if (sig_sq < 0.0)  sig_sq = 0.0;
+    if (sig_sq < 0.0)  
+      sig_sq = 0.0;
     cov = A_inv * sig_sq;
     //cov = A_inv * (sig_sq + 0.01);  //: Frank's Solution
     return v;
@@ -122,7 +128,7 @@ namespace RavlImageN {
     Index2dC pixel_min, pixel_max;
     Vector2dC sum_v(0.0, 0.0);
     RealT sum_v_sq(0.0);
-    
+    IntT area = region * region;
     for(Array2dIter7C<Matrix2dC,Vector2dC,RealT,Vector2dC,RealT,Matrix2dC,Vector2dC> mit(sum_grad_grad,  // 1
 											 sum_grad_t,     // 2
 											 sum_dt_sq,      // 3
@@ -132,7 +138,7 @@ namespace RavlImageN {
 											 motion          // 7
 											 );mit;mit++) {
       // compute motion vector
-      Vector2dC v = LMSRegressionEngine(mit.Data1(),mit.Data2(),mit.Data3(),noise,region * region,mit.Data4(),mit.Data5(),mit.Data6());
+      Vector2dC v = LMSRegressionEngine(mit.Data1(),mit.Data2(),mit.Data3(),noise,area,mit.Data4(),mit.Data5(),mit.Data6());
       mit.Data7() = v;
       if (mit.Data4()[0] > max_val) { max_val = mit.Data4()[0]; pixel_max = mit.Index(); }
       if (mit.Data4()[1] < min_val) { min_val = mit.Data4()[1]; pixel_min = mit.Index(); }
