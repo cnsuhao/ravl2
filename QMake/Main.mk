@@ -723,13 +723,22 @@ $(TARG_EXE) : $(INST_BIN)/% : $(INST_OBJS)/%$(OBJEXT) $(INST_GENBIN)/% $(EXTRAOB
 	  exit 1; \
 	fi
 
-$(ROOTDIR)/share/RAVL/config.arc : $(ROOTDIR)/share/RAVL/QMake/config.arc
-	$(SHOWIT)cp $(ROOTDIR)/share/RAVL/QMake/config.arc $(ROOTDIR)/share/RAVL/config.arc ; \
+$(ROOTDIR)/share/RAVL/config.arc : $(ROOTDIR)/share/RAVL/.dir $(MAKEHOME)/config.arc
+	$(SHOWIT)if [ -f $(ROOTDIR)/share/RAVL/config.arc ] ; then \
+	  $(CHMOD) +w $(ROOTDIR)/share/RAVL/config.arc ; \
+	  $(RM) $(ROOTDIR)/share/RAVL/config.arc ; \
+	fi ; \
+	cp $(MAKEHOME)/config.arc $(ROOTDIR)/share/RAVL/config.arc ; \
 	$(CHMOD) 555 $(ROOTDIR)/share/RAVL/config.arc
 
 $(INST_GENBIN)/RAVLExec : $(INST_GENBIN)/.dir $(MAKEHOME)/RAVLExec $(ROOTDIR)/share/RAVL/config.arc
-	$(SHOWIT)cp -f $(MAKEHOME)/RAVLExec $(INST_GENBIN)/RAVLExec ; \
+	$(SHOWIT)if [ -f $(INST_GENBIN)/RAVLExec ] ; then \
+	  $(CHMOD) +w $(INST_GENBIN)/RAVLExec ; \
+	  $(RM) $(INST_GENBIN)/RAVLExec ; \
+	fi ; \
+	perl $(MAKEHOME)/Install.pl $(PROJECT_OUT)/share/RAVL/QMake $(PROJECT_OUT) $(MAKEHOME)/RAVLExec $(INST_GENBIN)/RAVLExec ; \
 	$(CHMOD) 555 $(INST_GENBIN)/RAVLExec
+
 
 $(INST_GENBIN)/% : $(INST_GENBIN)/RAVLExec
 	$(SHOWIT)echo "--- Creating redirect for $(@F)." ; \

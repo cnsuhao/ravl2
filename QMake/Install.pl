@@ -6,11 +6,13 @@ while(<infile>) {
   if(/[ ]*MAKEHOME[ ]*=[ ]*[^ ]*/) {
     print outfile " MAKEHOME\=$NEWHOME\n" ;
   } else {
-    if(/[ ]*setenv[ ]+QMAKE_INSTALL[ ]*[^ ]*/) {
+    if(/\A[ ]*setenv[ ]+QMAKE_INSTALL[ ]*[^ ]*/) {
       print outfile "setenv QMAKE_INSTALL $NEWHOME\n" ;
-    } elsif(/[ ]*\$QMAKE_INSTALL_DIR[ ]+\=[ ]*[^ ]*/) {
+    } elsif(/\A[ ]*setenv[ ]+RAVL_INSTALL[ ]*[^ ]*/) {
+      print outfile "setenv RAVL_INSTALL $PROJOUT\n" ;
+    } elsif(/\A[ ]*\$QMAKE_INSTALL_DIR[ ]+\=[ ]*[^ ]*/) {
       print outfile "\$QMAKE_INSTALL_DIR = \"$NEWHOME\" ;\n" ;
-    } elsif(/[ ]*RAVL_INSTALL[ ]*\=[ ]*[^ ]*/) {
+    } elsif(/\A[ ]*RAVL_INSTALL[ ]*\=[ ]*[^ ]*/) {
       print outfile "RAVL_INSTALL=$PROJOUT\n" ;
     }else {
       print outfile "$_" ;

@@ -1,5 +1,4 @@
 #!/bin/sh
-
 # This file is based on the GNU config.guess script
 
 # This script attempts to guess a canonical system name.

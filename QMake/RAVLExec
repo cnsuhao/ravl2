@@ -3,5 +3,5 @@ RAVL_INSTALL=/buf/ees1cg/RavlTest
 if test -z ${ARC} ; then
   ARC=`${RAVL_INSTALL}/share/RAVL/config.arc`
 fi
-setenv LD_LIBRARY_PATH ${RAVL_INSTALL}/lib/RAVL/${ARC}/shared\:${LD_LIBRARY_PATH}
+LD_LIBRARY_PATH=${RAVL_INSTALL}/lib/RAVL/${ARC}/shared\:${LD_LIBRARY_PATH}
 exec ${RAVL_INSTALL}/lib/RAVL/${ARC}/bin/`basename $0` $*
