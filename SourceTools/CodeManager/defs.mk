@@ -34,7 +34,7 @@ MAINS = defsCheck.cc annotate.cc rcsinfo.cc amma2ravl.cc
 
 EXAMPLES=exBuildInfo.cc
 
-AUXDIR=Tools/CodeManager
+AUXDIR=share/RAVL/CodeManager
 
 AUXFILES= fixSource.cfg
 

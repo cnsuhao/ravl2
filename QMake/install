@@ -49,8 +49,8 @@ if [ "${ARC}" = "unknown" ] ; then
 fi
 echo "Architecture: '${ARC}'"
 
-${MAKE} -f ./QMake.mk MAKEHOME=`pwd` AMMA_VAR=none PROJECT_OUT=${INSTALL_SITE} PROCS=1
+${MAKE} -f ./QMake.mk MAKEHOME=`pwd` BASE_VAR=none PROJECT_OUT=${INSTALL_SITE} PROCS=1
 
 echo "Use the following alias for compilation.  PROJECT_OUT controls the directory "
 echo "into which your own code will be compiled. The default is 'build' in your home directory. "
-echo "alias mk '${MAKE} -f ${INSTALL_SITE}/Tools/QMake/QMake.mk PROJECT_OUT=$HOME/build'"
+echo "alias mk '${MAKE} -f ${INSTALL_SITE}/share/RAVL/QMake/QMake.mk PROJECT_OUT=$HOME/build'"

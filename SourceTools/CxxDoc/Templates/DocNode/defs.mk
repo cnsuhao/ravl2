@@ -9,7 +9,7 @@
 
 DESCRIPTION = Templates for CxxDoc documentation system.
 
-AUXDIR = Tools/CxxDoc/DocNode
+AUXDIR = share/RAVL/CxxDoc/DocNode
 
 AUXFILES = develop.docnode.tmpl user.docnode.tmpl docnode.stmpl subNode.stmpl \
  sitemap.tmpl objects.stmpl

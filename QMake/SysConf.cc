@@ -4,18 +4,12 @@
 // Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
-/*****************************************************
 //! rcsid="$Id$"
 //! file="Ravl/QMake/SysConf.cc"
- * SysConf.c        6/12/96       By Charles Galambos
- * $Id$
- *
- * A Utility to retrieve some imformation about the
- * machine this utility is run on.
- *
- * Specificly:
- *    - Number of processors available.
- */
+//! date="6/12/1996"
+
+//  A Utility to retrieve some imformation about the
+// machine this utility is run on.
 
 #include <stdio.h>
 #include <unistd.h>
@@ -48,7 +42,7 @@ int main(int narg,char **argv) {
 	  printf("%ld\n",val);
 	  break;
 	case 'h':
-	  printf("Help ??? Read the source. \n");
+	  printf("Help: Option -a prints the number of processors on this system. \n");
 	  break;
 	}
     } else {

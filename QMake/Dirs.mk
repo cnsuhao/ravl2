@@ -4,11 +4,10 @@
 # Public License (GPL). See the gpl.licence file for details or
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
-##########################
-# Directories used in making.
-# $Id$
 #! rcsid="$Id$"
 #! file="Ravl/QMake/Dirs.mk"
+
+# Directories used in making.
 
 ifndef MAKEHOME
  MAKEHOME = /vol/vssp/cpug/amma/src/Util/QMake#
@@ -19,11 +18,11 @@ ifndef ARC
 endif
 
 ifndef BASELIBRARY
- BASE_LIBRARY = $(MAKEHOME)/../..#
+ BASE_LIBRARY = $(MAKEHOME)/../../..#
 endif
 
-ifndef BASE_VERSION
- BASE_VERSION=stable
+ifndef INSTALLHOME
+ INSTALLHOME = $(MAKEHOME)/../../..#
 endif
 
 ifndef PACKAGE
@@ -89,86 +88,61 @@ else
  TMP=$(DEFAULTTMP)
 endif
 
+WORKTMP=$(LOCALTMP)/$(ARC)/$(BASENAME)/$(VAR)
+
+# A file that definitly doesn't exist.
+
+NOFILE = /notme/hiya/fruitcake/whippy
+
 ##########
 # Working directories...
-
 
 PROJ_ID := $(subst ~,,$(PROJECT_OUT))
 
 LOCALTMP:=$(TMP)/$(LOGNAME)/qm/$(PROJ_ID)/
 
+# ROOTDIR is where the software will be installed.
+
 ifndef ROOTDIR
   ROOTDIR:=$(PROJECT_OUT)
 endif
-#ifndef BUILDDIR
-## The following is useful if you have several versions of
-## code which you want test e.g. alpha/beta/release 
-#  ifeq ($(BASE_VAR),none) # Is amma version irrelavent ?
-#    BUILDDIR:=$(PROJECT_OUT)/$(ARC)/$(VAR)
-#  else
-#    BUILDDIR:=$(PROJECT_OUT)/$(ARC)/$(BASE_VERSION)/$(VAR)
-#  endif
-#endif
-
-BUILDDIR:=$(PROJECT_OUT)/$(ARC)/$(VAR)
-
-############################
-# include info on amma system.
-
-#INCLUDES=
-
-#ifeq ($(BASE_VAR),none) # Is amma version irrelavent ?
-#  WORKTMP=$(LOCALTMP)/$(ARC)/$(BASENAME)/$(VAR)
-#else
-#  WORKTMP=$(LOCALTMP)/$(ARC)/$(BASENAME)/$(BASE_VERSION)/$(VAR)
-#endif
-
-WORKTMP=$(LOCALTMP)/$(ARC)/$(BASENAME)/$(VAR)
-
-# Were to look for .def files, First in the current directory,
-# then the   current PROJECT_OUT def's and finally those that 
-# were installed with the make system. 
-
-DEF_INC = -I. -I$(INST_LIBDEF) -I$(MAKEHOME)/../../libdep
-
-# A file that definitly doesn't exist.
-
-NOFILE = /notme/hiya/fruitcake/whippy
 
 #########################
 # Target directories.
 
 # Documentation
 
-INST_AUTODOC=$(ROOTDIR)/doc/Auto
-INST_DOC=$(ROOTDIR)/doc
-INST_PDOC=$(INST_DOC)/$(PACKAGE)
-INST_EHT=$(PROJECT_OUT)/Tools/AutoDoc/EHT
-INST_HTML=$(INST_DOC)/html
-INST_MAN1=$(INST_DOC)/man1
-INST_MAN3=$(INST_DOC)/man3
-INST_MAN5=$(INST_DOC)/man5
-INST_DOCEXAMPLES=$(INST_DOC)/examples
+INST_AUTODOC=$(ROOTDIR)/share/doc/Auto
 INST_DOCNODE=$(INST_AUTODOC)/DocNode
+INST_DOC=$(ROOTDIR)/share/doc/RAVL
+INST_PDOC=$(INST_DOC)/$(PACKAGE)
+INST_HTML=$(INST_DOC)/html
+INST_DOCEXAMPLES=$(INST_DOC)/examples
+INST_EHT=$(ROOTDIR)/Admin/AutoDoc/EHT
+INST_MAN1=$(ROOTDIR)/share/man/man1
+INST_MAN3=$(ROOTDIR)/share/man/man3
+INST_MAN5=$(ROOTDIR)/share/man/man5
 
 # Auxilary files.
 INST_AUX=$(ROOTDIR)/$(AUXDIR)
 
 # Binaries
-INST_LIB=$(BUILDDIR)/lib
+
 INST_OBJS=$(WORKTMP)/objs
-INST_FORCEOBJS = $(PROJECT_OUT)/$(ARC)/obj
+INST_LIB=$(ROOTDIR)/lib/RAVL/$(ARC)/$(VAR)
+INST_FORCEOBJS = $(ROOTDIR)/lib/RAVL/$(ARC)/obj
 
 # Test stuff.
-INST_TEST=$(PROJECT_OUT)/$(ARC)/test
+INST_TEST=$(ROOTDIR)/Admin/$(ARC)/test
 INST_TESTBIN=$(INST_TEST)/bin
 INST_TESTLOG=$(INST_TEST)/log
 INST_TESTDB =$(INST_TEST)/TestExes
 
-INST_LIBDEF=$(ROOTDIR)/libdep
-INST_BIN=$(ROOTDIR)/$(ARC)/bin
-INST_INCLUDE:=$(ROOTDIR)/inc
-INST_DEPEND=$(ROOTDIR)/$(ARC)/depend/$(PACKAGE)/$(BASENAME)
+INST_LIBDEF=$(ROOTDIR)/lib/RAVL/libdep
+INST_BIN=$(ROOTDIR)/lib/RAVL/$(ARC)/bin# Machine dependent programs.
+INST_GENBIN=$(ROOTDIR)/bin# Machine independent scripts.
+INST_INCLUDE:=$(ROOTDIR)/include
+INST_DEPEND=$(ROOTDIR)/Admin/$(ARC)/depend/$(PACKAGE)/$(BASENAME)
 
 ifeq ($(PACKAGE),local)
 INST_HEADER:=$(INST_INCLUDE)
@@ -184,11 +158,23 @@ INST_JAVA    = $(ROOTDIR)/java
 INST_JAVAEXE = $(INST_BIN)
 
 ############################
+# include info on RAVL system.
+
+#INCLUDES=
+
+
+# Were to look for .def files, First in the current directory,
+# then the   current PROJECT_OUT def's and finally those that 
+# were installed with the make system. 
+
+DEF_INC = -I. -I$(INST_LIBDEF) -I$(INST_LIBDEF)
+
+############################
 # Some targets.
 
 # Published dependancy flag.
-TARG_DEPFLAG=$(ROOTDIR)/$(ARC)/depend/$(PACKAGE)/$(BASENAME)/.depend
-TARG_HDRFLAG=$(ROOTDIR)/$(ARC)/depend/$(PACKAGE)/$(BASENAME)/.header
+TARG_DEPFLAG=$(ROOTDIR)/Admin/$(ARC)/depend/$(PACKAGE)/$(BASENAME)/.depend
+TARG_HDRFLAG=$(ROOTDIR)/Admin/$(ARC)/depend/$(PACKAGE)/$(BASENAME)/.header
 
 ##############################
 # Make setup

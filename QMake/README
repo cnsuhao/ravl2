@@ -8,5 +8,5 @@ To install QMake use the install script.
 
 Use the following alias for compilation.  PROJECT_OUT controls the directory 
 into which your own code will be compiled. The default is 'build' in your home directory. 
-alias mk '${MAKE} -f [location]/Tools/QMake/QMake.mk PROJECT_OUT=$HOME/build'
+alias mk '${MAKE} -f [location]/share/RAVL/QMake/QMake.mk PROJECT_OUT=$HOME/build'
 

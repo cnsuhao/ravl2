@@ -4,11 +4,10 @@
 # Public License (GPL). See the gpl.licence file for details or
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
-#######################################
-# Setup make flags.
-# $Id$
 #! rcsid="$Id$"
 #! file="Ravl/QMake/QMake.mk"
+
+# Setup make flags.
 
 ifndef MAKEHOME
   MAKEHOME=.
@@ -19,23 +18,26 @@ ifndef ARC
 endif
 export ARC
 
-SYSCONF:=$(MAKEHOME)/../../$(ARC)/bin/SysConf
 MAKEDEFS:=perl -f $(MAKEHOME)/mkdefs.pl
-
-ifndef PROCS
-  PROCS=$(shell $(SYSCONF) -a )
-endif
-export PROCS
 
 # Set default uses lib to auto?
 
 ifdef USERBUILD
   export USERBUILD
 endif
+
 export ARC
-export LOCALBIN := $(MAKEHOME)/../../$(ARC)/bin
+export LOCALBIN := $(MAKEHOME)/../../../lib/RAVL/$(ARC)/bin
 export DPATH:=$(shell basename $(shell 'pwd'))
 export TARGET
+
+SYSCONF:=$(LOCALBIN)/SysConf
+
+ifndef PROCS
+  PROCS=$(shell $(SYSCONF) -a )
+endif
+
+export PROCS
 
 ifndef PROJECT_OUT
   PROJECT_OUT := $(shell 'pwd')
@@ -58,7 +60,6 @@ include $(MAKEHOME)/Dirs.mk
 # The following is for loging only.
 -include $(QCWD)/defs.mk
 
-USELOGOUT = $(MAKEHOME)/logs/usage
 
 VPATH=$(QCWD)
 
@@ -104,38 +105,38 @@ allns: all
 src:
 	$(SMAKEMO) src_all NOINCDEFS=1 TARGET=src_all 
 
-novar: log
+novar: 
 	$(SMAKEMD) fullbuild TARGET=fullbuild  
 
-opt: log 
+opt:
 	$(SMAKEMD) fullbuild VAR=opt TARGET=fullbuild  
 
-shared: log 
+shared:
 	$(SMAKEMD) fullbuild VAR=shared TARGET=fullbuild  
 
-debug: log
+debug:
 	$(SMAKEMD) fullbuild VAR=debug TARGET=fullbuild  
 
-debugall: log
+debugall:
 	$(SMAKEMD) fullbuild VAR=debug BASE_VAR=debug TARGET=fullbuild  
 
-check: log
+check:
 	$(SMAKEMD) fullbuild VAR=check TARGET=fullbuild  
 
-purify: log
+purify:
 	$(SMAKEMD) purifybuild VAR=debug PROCS=1 TARGET=purifybuild  
 
-prof: log
+prof:
 	$(SMAKEMD) fullbuild VAR=prof TARGET=fullbuild  
 
-gprof: log
+gprof:
 	$(SMAKEMD) fullbuild VAR=gprof TARGET=fullbuild  
 
 chead:
 	$(SMAKEMD) cheadbuild FULLCHECKING=1 TARGET=cheadbuild  
 
 
-test: src log
+test: src
 	@if [ ! -d $(INST_TESTBIN) ] ; then \
 	  $(MKDIR) $(INST_TESTBIN); \
 	fi 
@@ -211,10 +212,7 @@ libbuild:
 #  4-Build documentation
 
 fullbuild:
-	$(SHOWIT)if [ ! -d $(PROJECT_OUT)/log ] ; then \
-	  $(MKDIR) $(PROJECT_OUT)/log; \
-	fi ; \
-	if $(MAKEMO) $(FULLBUILDFLAGS) src_all NOINCDEFS=1 ; then true; \
+	$(SHOWIT)if $(MAKEMO) $(FULLBUILDFLAGS) src_all NOINCDEFS=1 ; then true; \
         else \
 	  echo "QMAKE: Installation of header files failed. " ; \
 	  exit 1; \
@@ -340,35 +338,9 @@ redoc:
 ###################################
 # Clean up.
 
-distclean: chkclean dbclean optclean
-	$(SHOWIT)echo "--- Deleting " $(BUILDDIR); \
-	if [ -d $(BUILDDIR) ] ; then \
-	  $(RM) -rf $(BUILDDIR) ; \
-	fi ; \
-	echo "--- Deleting " $(INST_INCLUDE) ; \
-	if [ -d $(INST_INCLUDE) ] ; then \
-	  $(RM) -rf $(INST_INCLUDE) ; \
-	fi ; \
-	echo "--- Deleting " $(INST_LIBDEF) ; \
-	if [ -d $(INST_LIBDEF)  ] ; then \
-	  $(RM) -rf $(INST_LIBDEF) ; \
-	fi ; \
-	echo "--- Deleting " $(INST_DOC) ; \
-	if [ -d $(INST_DOC)  ] ; then \
-	  $(RM) -rf $(INST_DOC) ; \
-	fi ; \
-	echo "--- Deleting " $(INST_DEPEND) ; \
-	if [ -d $(INST_DEPEND) ] ; then \
-	  $(RM) -rf $(INST_DEPEND) ; \
-	fi ;
-
-###############################################
-# Logging
-
-log: 
-	@if [ -w $(USELOGOUT) ] ; then \
-	  echo "$(USER):" `date`":$(USESLIBS) $(PROGLIBS):$(NESTED)" >> $(USELOGOUT) ;\
-	fi ;
+distclean:
+	@echo "--- Cleaning project out. \n"; \
+	rm -rf $(ROOTDIR)
 
 ###############################################
 # Misc

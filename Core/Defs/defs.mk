@@ -10,7 +10,7 @@
 
 DESCRIPTION= Defintion files for external packages that may be used in RAVL.  
 
-AUXDIR=libdep
+AUXDIR=lib/RAVL/libdep
 
 AUXFILES= DMedia.def GTK.def LibPNG.def Xaw.def posixThreads.def zlib.def \
  DynLink.def JavaScript.def LibTIFF.def OpenGL.def Xt.def system.def \

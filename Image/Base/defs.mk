@@ -22,7 +22,7 @@ PLIB=RavlImage
 
 USESLIBS=RavlCore
 
-PROGLIBS=RavlImageIO RavlOS RavlDPDisplay
+PROGLIBS=RavlImageIO RavlOS
 
 MAINS=imgdiff.cc
 
@@ -32,6 +32,6 @@ EXAMPLES= exImage.cc imgdiff.cc
 
 EHT=Ravl.Images.Pixel_Types.html
 
-AUXDIR=Tools/Fonts
+AUXDIR=share/RAVL/Fonts
 
 AUXFILES=default8x16.psf

@@ -54,7 +54,7 @@ int main(int nargs,char **argv) {
 
   StringC fn    = option.String("i",".",     "(input)  Directory for unix src tree. ");
   StringC fout  = option.String("o","",      "(output) Directory for VCPP src tree.  ");
-  StringC pathtempl= option.String("pt", PROJECT_OUT "/Tools/AutoPort","Where to look for template files.");
+  StringC pathtempl= option.String("pt", PROJECT_OUT "/share/RAVL/AutoPort","Where to look for template files.");
   
   //bool rec    = option.Boolean("r",true,    "recurse into subdirectories. ");
   //bool all    = option.Boolean("a",false,   "Go into inactive directories as well. ");

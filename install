@@ -10,8 +10,13 @@ else
   INSTMODE=$2
 fi
 
+
 case ${INSTMODE} in 
-  bin | src | clean | auto)
+  bin | src | clean | auto )
+     BUILDDIR=$1
+     true ;;
+  rpm)
+     BUILDDIR=$3
      true ;;
   *) echo "Unrecognised mode '${INSTMODE}'"
      INSTMODE=""
@@ -71,7 +76,7 @@ fi
 echo "Architecture: '${ARC}'"
 
 # Install make system.
-if ${MAKE} -C QMake -f ./QMake.mk MAKEHOME=`pwd`/QMake PROJECT_OUT=${INSTALL_SITE} PROCS=1 FULLBUILDSRC='BASE_VAR=none' ; then
+if ${MAKE} -C QMake -f ./QMake.mk MAKEHOME=`pwd`/QMake PROJECT_OUT=${INSTALL_SITE} ROOTDIR=${BUILDDIR} PROCS=1 FULLBUILDSRC='BASE_VAR=none' ; then
   true
 else
   echo "ERROR: Failed to install make system. "
@@ -80,7 +85,7 @@ else
 fi
 
 # Compile libraries
-if ${MAKE} -f ${INSTALL_SITE}/Tools/QMake/QMake.mk PROJECT_OUT=${INSTALL_SITE} fullbuild  FULLBUILDSRC='BASE_VAR=none' ; then 
+if ${MAKE} -f ${BUILDDIR}/share/RAVL/QMake/QMake.mk MAKEHOME=${BUILDDIR}/share/RAVL/QMake INSTALLHOME=${BUILDDIR} PROJECT_OUT=${INSTALL_SITE}  ROOTDIR=${BUILDDIR} fullbuild  FULLBUILDSRC='BASE_VAR=none' ; then 
   true
 else
   echo "ERROR: Failed to build libraries. "

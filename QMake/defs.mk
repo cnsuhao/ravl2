@@ -16,7 +16,7 @@ LICENSE= GPL
 
 MAINS=SysConf.cc untouch.cc
 
-AUXDIR=Tools/QMake
+AUXDIR=share/RAVL/QMake
 
 AUXFILES =  QMake.mk \
   Dirs.mk Main.mk MainDep.mk Util.mk rcs.mk Doc.mk Clean.mk \
@@ -24,8 +24,11 @@ AUXFILES =  QMake.mk \
   config.arc BinDep.pl mkdefs.pl \
   config.linux_alpha config.sgi     config.sol2 \
   config.alpha       config.unknown config.linux config.cygwin \
-  QLibs.pl GlobalMake qmake.cshrc qmake.sh qm
+  QLibs.pl GlobalMake qmake.cshrc qmake.sh \
+  RAVLExec
 
 EHT= exeSysConf.eht Ravl.QMake.html Ravl.QMake.Defs.html Ravl.QMake.Commands.html
 
-AUXINSTALL=perl ./Install.pl $(PROJECT_OUT)/Tools/QMake
+SCRIPTS=qm
+
+AUXINSTALL=perl ./Install.pl $(PROJECT_OUT)/share/RAVL/QMake

@@ -163,13 +163,12 @@ int main(int nargs,char **argv) {
 
   OptionC option(nargs,argv);
   StringC fn = option.String("i",".","Input filename. ");
-  StringC hdrConfig = option.String("c",PROJECT_OUT "/Tools/CodeManager/fixSource.cfg","File to use a header. ");
   installDir = option.String("install", "", "absolute path of desired install directory"); 
   dryRun = option.Boolean("d",false,"Do a dry run. Don't change anything. ");
   setFileloc = option.Boolean("fl",setFileloc,"If true the file location will be updated. ");
   bool all = option.Boolean("a",true,"Go into inactive directories as well. ");
-  templateFile = option.String("templ", PROJECT_OUT "/Tools/AutoPort/Makefile.tmpl", "The template file for each directory.");
-  StringC MasterMakefile = option.String("master", PROJECT_OUT "/Tools/AutoPort/MasterMakefile.tmpl", "The master makefile pulling all directories together.");
+  templateFile = option.String("templ", PROJECT_OUT "/share/RAVL/AutoPort/Makefile.tmpl", "The template file for each directory.");
+  StringC MasterMakefile = option.String("master", PROJECT_OUT "/share/RAVL/AutoPort/MasterMakefile.tmpl", "The master makefile pulling all directories together.");
   platform = option.String("platform", "linux", "What platform to make it for");
 
   verb = option.Boolean("v",false,"Verbose mode.");

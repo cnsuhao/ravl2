@@ -26,11 +26,7 @@ namespace RavlImageN {
   //: Load the default font.
   
   static FontC LoadDefaultFont() {
-#if 1
-    static char *fontName = PROJECT_OUT "/Tools/Fonts/default8x16.psf";
-#else
-    static char *fontName = "gr737-9x14.psf";
-#endif
+    static char *fontName = PROJECT_OUT "share/RAVL/Fonts/default8x16.psf";
     FontC defaultFont = LoadPSF1(fontName);
     if(!defaultFont.IsValid())
       cerr << "WARNING: Can't load default font '" << fontName << "'\n";

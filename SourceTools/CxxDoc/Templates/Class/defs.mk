@@ -9,7 +9,7 @@
 
 DESCRIPTION = Templates for CxxDoc documentation system.
 
-AUXDIR = Tools/CxxDoc/Class
+AUXDIR = share/RAVL/CxxDoc/Class
 
 AUXFILES = user.class.tmpl user.namespace.tmpl  \
            develop.class.tmpl develop.namespace.tmpl \

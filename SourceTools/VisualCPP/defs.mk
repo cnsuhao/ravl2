@@ -32,5 +32,5 @@ EHT = autoport.eht
 AUXFILES = libs.tmpl examples.tmpl tests.tmpl mains.tmpl Ravl.dsw.tmpl \
 	   Examples.dsw.tmpl Tests.dsw.tmpl Mains.dsw.tmpl
 
-AUXDIR= Tools/AutoPort
+AUXDIR= share/RAVL/AutoPort
 

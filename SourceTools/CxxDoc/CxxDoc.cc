@@ -63,13 +63,13 @@ int BuildCxx(int argc, char **argv)
   projName = opt.String("pn","Ravl","Project Name. ").TopAndTail();
   projDesc = opt.String("pd","RAVL, Recognition And Vision Library","Project description. ").TopAndTail();
   StringC localProjOut = opt.String("p",prjo,"Project out. ");
-  StringC inFiles = opt.String("i",localProjOut + "/inc" , "Directory containing header files");
-  StringC outFile = opt.String("o",localProjOut + "/doc/Auto", "output document");
-  StringC ehtFiles = opt.String("eht",localProjOut + "/Tools/AutoDoc/EHT","Location of EHT files. ");
-  StringC templFiles = opt.String("tc",PROJECT_OUT "/Tools/CxxDoc/Class", "Directory of template files for class pages, or single template file");
+  StringC inFiles = opt.String("i",localProjOut + "/include" , "Directory containing header files");
+  StringC outFile = opt.String("o",localProjOut + "/share/doc/RAVL/Auto", "output document");
+  StringC ehtFiles = opt.String("eht",localProjOut + "/share/RAVL/AutoDoc/EHT","Location of EHT files. ");
+  StringC templFiles = opt.String("tc",PROJECT_OUT "/share/RAVL/CxxDoc/Class", "Directory of template files for class pages, or single template file");
 
 #if 1
-  StringC docNodeFiles = opt.String("td",PROJECT_OUT "/Tools/CxxDoc/DocNode", "Directory of template files for doc node page, or single template file");
+  StringC docNodeFiles = opt.String("td",PROJECT_OUT "/share/RAVL/CxxDoc/DocNode", "Directory of template files for doc node page, or single template file");
 #else
   StringC docNodeFiles = opt.String("td","", "Directory of template files for doc node page, or single template file");
 #endif

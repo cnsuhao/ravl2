@@ -1,0 +1,6 @@
+#! /bin/sh
+QMAKE_INSTALL=/buf/ees1cg/RavlTest/share/RAVL/QMake
+if test -z ${ARC} ; then
+  ARC=`${QMAKE_INSTALL}/config.arc`
+fi
+exec ${QMAKE_INSTALL}/../../../lib/RAVL/${ARC}/bin/`basename $0` $*

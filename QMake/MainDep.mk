@@ -4,9 +4,11 @@
 # Public License (GPL). See the gpl.licence file for details or
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
-# Make with dependancies.
 #! rcsid="$Id$"
 #! file="Ravl/QMake/MainDep.mk"
+
+# Make with dependancies.
+
 .PRECIOUS : %.def 
 ifndef MAKEHOME
  MAKEHOME=.

@@ -59,25 +59,27 @@ sub main {
   # Collect all directories to search.
   
   foreach (@ARGV) {
-    if(/-L([^ ]*)/) {
+    if(/\A-L([^ ]*)/) {
       push searchDirs, $1 ;
       next ;
     }
-    if(/-R([^ ]*)/) {
+    if(/\A-R([^ ]*)/) {
       push searchDirs, $1 ;
       next ;
     }
-    if(/-n32/) {  # Irix new 32 bit mode ?
+    if(/\A-n32/) {  # Irix new 32 bit mode ?
       push searchDirs, "/usr/lib32" ;
+      next ;
     }
-    if(/-64/) {  # Irix 64 bit mode ?
+    if(/\A-64/) {  # Irix 64 bit mode ?
       push searchDirs, "/usr/lib64" ;
+      next ;
     }
-    if(/-v/) { # Verbose
+    if(/\A-v/) { # Verbose
       $verbose=1;
       next ;
     }
-    if(/-h/) {  # Reqest for help.
+    if(/\A-h/) {  # Reqest for help.
       PrintHelp;
     }
   }
@@ -89,25 +91,25 @@ sub main {
   # Go through libraries.
   
   foreach (@ARGV) {
-    if(/-P(.*)/) { # Just pass on string.
+    if(/\A-P(.*)/) { # Just pass on string.
       print $1 . " ";
       next ;
     }
-    if(/-l([^ ]*)/) {
+    if(/\A-l([^ ]*)/) {
       findlib($1);
       next ;
     }
-    if(/-T([^ ]*)/) {
+    if(/\A-T([^ ]*)/) {
       $targLibs{$1} = 1;
       next ;
     }
-    if(/-64/ || /-n32/) { # Ignore these.
+    if(/\A-64/ || /\A-n32/) { # Ignore these.
       next;
     }
-    if(/-[WRLuIOvV][^ ]*/ )  { # Ignore these.
+    if(/\A-[WRLuIOvV][^ ]*/ )  { # Ignore these.
       next ;
     }
-    if(/[^-][^ ]*/) { # Ingore direct dependancy on object files
+    if(/\A[^-][^ ]*/) { # Ingore direct dependancy on object files
       next ;
     }
     print stderr "Unknown argument $_\n ";

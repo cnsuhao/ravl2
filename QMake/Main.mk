@@ -4,9 +4,6 @@
 # Public License (GPL). See the gpl.licence file for details or
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
-################################
-# Fast amma make system
-# $Id$
 #! rcsid="$Id$"
 #! file="Ravl/QMake/Main.mk"
 
@@ -55,7 +52,6 @@ include $(MAKEHOME)/config.$(ARC)
 # Setup defaults.
 
 BINDEP := perl $(MAKEHOME)/BinDep.pl
-#QLIBS := $(MAKEHOME)/../../$(ARC)/bin/QLibs
 QLIBS := perl $(MAKEHOME)/QLibs.pl
 
 ifndef TOUCH
@@ -111,7 +107,7 @@ endif
 
 AUXDIR:=$(strip $(AUXDIR))#
 
-UNTOUCH:=$(MAKEHOME)/../../$(ARC)/bin/untouch
+UNTOUCH:=$(MAKEHOME)/../../../lib/RAVL/$(ARC)/bin/untouch
 
 ###########################
 # Platform supported ?
@@ -140,11 +136,11 @@ ifeq ($(TARGET),testbuild)
   MAINS := $(sort $(MAINS) $(EXAMPLES))
 endif
 
-ifndef MKMUSTLINK
-  MKMUSTLINK := $(patsubst %$(CEXT),$(PROJECT_OUT)/$(ARC)/obj/%$(OBJEXT), $(patsubst %$(CXXEXT),%$(CEXT), $(MUSTLINK)))
-endif
-
 include $(MAKEHOME)/Dirs.mk
+
+ifndef MKMUSTLINK
+  MKMUSTLINK := $(patsubst %$(CEXT),$(INST_FORCEOBJS)/%$(OBJEXT), $(patsubst %$(CXXEXT),%$(CEXT), $(MUSTLINK)))
+endif
 
 ifdef USESLIBS
  ifndef LIBDEPS
@@ -165,7 +161,7 @@ ifndef NOINCDEFS
   ifneq ($(USESLIBS),)
    ifneq ($(USESLIBS),None)
     ifeq ($(USESLIBS),Auto)
-     AUTOUSELIBS := $(shell $(QLIBS) -use -d -p $(PROJECT_OUT))
+     AUTOUSELIBS := $(shell $(QLIBS) -use -d -p $(ROOTDIR))
      EXTRA_USESLIBS = $(AUTOUSELIBS)
      ifdef LIBDEPS
       ifdef PLIB
@@ -197,7 +193,7 @@ ifndef NOINCDEFS
  else
   ifeq ($(USESLIBS),Auto)
    ifneq ($(strip $(MAINS) $(TESTEXES)),)
-    AUTOPROGLIBS := $(shell $(QLIBS) -prog -d -p $(PROJECT_OUT))
+    AUTOPROGLIBS := $(shell $(QLIBS) -prog -d -p $(ROOTDIR))
     ifdef LIBDEPS
      ifdef PLIB
       AUTOPROGLIBS := $(PLIB).def $(AUTOPROGLIBS)
@@ -249,15 +245,6 @@ ifdef QMAKE_INFO
 else
   SHOWIT=@
 endif
-
-#perl $(MAKEHOME)/QLibs.pl
-
-# For AMMA compatability
-
-ifdef TBINPATH
- INST_BIN=$(TBINPATH)
-endif
-
 
 #####################
 # Build targets.
@@ -313,7 +300,7 @@ endif
  TARG_JAVA    =$(patsubst %.java,$(INST_JAVA)/%.class,$(JAVA_SRC))
  TARG_JAVAEXE =$(patsubst %.java,$(INST_JAVAEXE)/%,$(filter %.java,$(MAINS)))
  TARG_NESTED =$(patsubst %.r,%,$(filter %.r,$(NESTED)))
- TARG_SCRIPT =$(patsubst %,$(INST_BIN)/%,$(SCRIPTS))
+ TARG_SCRIPT =$(patsubst %,$(INST_GENBIN)/%,$(SCRIPTS))
  OBJS_DEPEND = $(patsubst %$(CEXT),$$(INST_OBJS)/%$(OBJEXT),$(patsubst %$(CXXEXT),$$(INST_OBJS)/%$(OBJEXT) ,$(SOURCES) $(MUSTLINK)))
  TARG_USESLIBS = $(patsubst %,%.def,$(USESLIBS))
  TARG_AUXFILES = $(patsubst %,$(INST_AUX)/%,$(AUXFILES))
@@ -352,22 +339,22 @@ endif
 # Misc.
 
 BASE_INSTALL := $(MAKEHOME)/../..#
-INCLUDES := -I$(INST_INCLUDE)/$(ARC) -I$(INST_INCLUDE) $(INCLUDES) -I$(BASE_INSTALL)/inc/$(ARC) -I$(BASE_INSTALL)/inc
+INCLUDES := -I$(INST_INCLUDE)/$(ARC) -I$(INST_INCLUDE) $(INCLUDES) -I$(BASE_INSTALL)/include/$(ARC) -I$(BASE_INSTALL)/include
 
 ifdef EXTPACKAGE
- INCLUDES += -I$(PROJECT_OUT)\inc\$(PACKAGE)
+ INCLUDES += -I$(ROOTDIR)\inc\$(PACKAGE)
 endif
 
-CINCLUDES =  -I$(INST_HEADER) $(INCLUDES) -I$(BASE_INSTALL)/inc/$(ARC) -I$(BASE_INSTALL)/inc
+CINCLUDES =  -I$(INST_HEADER) $(INCLUDES) -I$(BASE_INSTALL)/include/$(ARC) -I$(BASE_INSTALL)/include
 
-LIBS += -L$(INST_LIB) $(EXELIB) -L$(BASE_INSTALL)/$(ARC)/$(BASE_VAR)/lib 
-BINLIBS += -L$(INST_LIB) $(LINKLIBS)  -L$(BASE_INSTALL)/$(ARC)/$(BASE_VAR)/lib 
+LIBS += -L$(INST_LIB) $(EXELIB) -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)
+BINLIBS += -L$(INST_LIB) $(LINKLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)
 
 ifeq ($(VAR),shared)
  ifneq ($(AMMA_VAR),none)
-  LDFLAGS += $(LIBPATHSWITCH)$(PROJECT_OUT)/$(ARC)/$(AMMA_VERSION)/$(VAR)/lib $(LIBPATHSWITCH)$(AMMA_LIB)
+  LDFLAGS += $(LIBPATHSWITCH)$(ROOTDIR)/lib/RAVL/$(ARC)/$(AMMA_VERSION)/$(VAR) $(LIBPATHSWITCH)$(AMMA_LIB)
  else 
-  LDFLAGS += $(LIBPATHSWITCH)$(PROJECT_OUT)/$(ARC)/$(VAR)/lib
+  LDFLAGS += $(LIBPATHSWITCH)$(ROOTDIR)/lib/RAVL/$(ARC)/$(VAR)
  endif
 endif
 
@@ -640,10 +627,6 @@ ifndef XARGS
 endif
 
 ifneq ($(VAR),shared)
-#$(INST_LIB)/lib$(PLIB)$(LIBEXT)($(INST_LIB)/%.o) : $(INST_OBJS)/%.o $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
-#	$(SHOWIT)echo "--- Adding" $*.o ; \
-#	$(AR) $(ARFLAGS) $(INST_LIB)/$(@F) $(TARG_OBJS) ; \
-
 $(INST_LIB)/lib$(PLIB)$(LIBEXT) : $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
 	$(SHOWIT)echo "--- Building" $(@F) ; \
 	$(AR) $(ARFLAGS) $(INST_LIB)/$(@F) $(TARG_OBJS) ; \
@@ -702,13 +685,13 @@ endif
 
 build_pureexe: $(TARG_PUREEXE)
 
-$(TARG_SCRIPT) : $(INST_BIN)/% : % $(INST_BIN)/.dir
+$(TARG_SCRIPT) : $(INST_GENBIN)/% : % $(INST_GENBIN)/.dir
 	$(SHOWIT)echo "--- Script $(@F) " ; \
-	if [ -f $(INST_BIN)/$(@F) ] ; then \
-	  $(CHMOD) +w $(INST_BIN)/$(@F) ; \
+	if [ -f $(INST_GENBIN)/$(@F) ] ; then \
+	  $(CHMOD) +w $(INST_GENBIN)/$(@F) ; \
 	fi ; \
-	$(CP) $* $(INST_BIN)/$* ; \
-	$(CHMOD) 555 $(INST_BIN)/$* 
+	$(CP) $* $(INST_GENBIN)/$* ; \
+	$(CHMOD) 555 $(INST_GENBIN)/$* 
 
 
 # If there's no library include objects from SOURCES directly.
@@ -725,7 +708,7 @@ $(TARG_PUREEXE) : $(INST_BIN)/pure_% : $(INST_OBJS)/%$(OBJEXT) $(EXTRAOBJS) $(TA
 	$(SHOWIT)echo "--- Purify $(@F)  ( $(INST_BIN)/$(@F) ) " ; \
 	purify -g++ -best-effort $(CXX) $(LDFLAGS) $(INST_OBJS)/$*$(OBJEXT) $(EXTRAOBJS) $(BINLIBS) -o $(INST_BIN)/$(@F) ; 
 
-$(TARG_EXE) : $(INST_BIN)/% : $(INST_OBJS)/%$(OBJEXT) $(EXTRAOBJS) $(TARG_LIBS) $(INST_BIN)/.dir $(TARG_HDRCERTS)
+$(TARG_EXE) : $(INST_BIN)/% : $(INST_OBJS)/%$(OBJEXT) $(INST_GENBIN)/% $(EXTRAOBJS) $(TARG_LIBS) $(INST_BIN)/.dir $(TARG_HDRCERTS)
 	$(SHOWIT)echo "--- Linking $(VAR) $(@F)  ( $(INST_BIN)/$(@F) ) " ; \
 	if [ -f $(INST_BIN)/$(@F) ] ; then \
 	  $(CHMOD) +w $(INST_BIN)/$(@F) ; \
@@ -735,6 +718,14 @@ $(TARG_EXE) : $(INST_BIN)/% : $(INST_OBJS)/%$(OBJEXT) $(EXTRAOBJS) $(TARG_LIBS) 
 	else \
 	  exit 1; \
 	fi
+
+$(INST_GENBIN)/RAVLExec : $(INST_GENBIN)/.dir $(MAKEHOME)/RAVLExec 
+	$(SHOWIT)cp $(MAKEHOME)/RAVLExec $(INST_GENBIN)/RAVLExec ; \
+	$(CHMOD) 555 $(INST_GENBIN)/RAVLExec
+
+$(INST_GENBIN)/% : $(INST_GENBIN)/RAVLExec
+	$(SHOWIT)echo "--- Creating redirect for $(@F)." ; \
+	ln -f $(INST_GENBIN)/RAVLExec $(INST_GENBIN)/$(@F)
 
 ifndef NOEXEBUILD
 build_test: $(TARG_TESTEXE)
@@ -796,7 +787,7 @@ ifdef USESLIBS
 $(INST_LIBDEF)/$(LOCAL_DEFBASE).def: defs.mk $(INST_LIBDEF)/.dir
  else
   ifndef AUTOUSELIBS
-   AUTOUSELIBS := $(shell $(QLIBS) -use -d -p $(PROJECT_OUT))
+   AUTOUSELIBS := $(shell $(QLIBS) -use -d -p $(ROOTDIR))
   endif
 $(INST_LIBDEF)/$(LOCAL_DEFBASE).def: defs.mk $(INST_LIBDEF)/.dir $(HEADERS) $(SOURCES) $(MAINS)
  endif
@@ -828,10 +819,10 @@ $(INST_LIBDEF)/$(LOCAL_DEFBASE).def: defs.mk $(INST_LIBDEF)/.dir $(HEADERS) $(SO
  endif
  ifdef MUSTLINK
 
-	$(SHOWIT)echo 'EXELIB := $(patsubst %$(CEXT),$(PROJECT_OUT)/$$(ARC)/obj/%$(OBJEXT), $(patsubst %$(CXXEXT),%$(CEXT), $(MUSTLINK))) $$(EXELIB)' >> $(INST_LIBDEF)/$(@F) ;
+	$(SHOWIT)echo 'EXELIB := $(patsubst %$(CEXT),$$(INSTALLHOME)/lib/RAVL/$$(ARC)/obj/%$(OBJEXT), $(patsubst %$(CXXEXT),%$(CEXT), $(MUSTLINK))) $$(EXELIB)' >> $(INST_LIBDEF)/$(@F) ;
  endif
  ifdef EXTPACKAGE
-        $(SHOWIT)echo 'INCLUDES := -I$$(PROJECT_OUT)\inc\$(PACKAGE) $$(INCLUDES) '
+        $(SHOWIT)echo 'INCLUDES := -I$$(INSTALLHOME)\inc\$(PACKAGE) $$(INCLUDES) '
         $(SHOWIT)echo 'ifneq ($(BASE_VAR),none)' ;
         $(SHOWIT)echo ' INCLUDES := -I$$(BASE_INC)\$(PACKAGE) $$(INCLUDES)' ;
         $(SHOWIT)echo 'endif' ;

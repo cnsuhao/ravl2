@@ -1,6 +1,6 @@
 # AMMA Compatibility file.
 ifndef MAKEHOME
-  MAKEHOME=/buf/ees1cg/install/Tools/QMake
+  MAKEHOME=/buf/ees1cg/install/share/RAVL/QMake
 endif
 BASE_VAR := $(AMMA_VAR)
 export MAKEHOME

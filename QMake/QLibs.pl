@@ -45,14 +45,14 @@ if(!defined($opt_hf)) {
 }
 
 # Next lets sort out the global project out
-$glob_proj = "$QMAKE_INSTALL_DIR/../../inc";
+$glob_proj = "$QMAKE_INSTALL_DIR/../../include";
 
 # Next we can sort out the local project out
 if(!defined($opt_p)) {
-  $loc_proj = "$ENV{'PROJECT_OUT'}/inc";
+  $loc_proj = "$ENV{'PROJECT_OUT'}/include";
 } else {
   if(-d $opt_p) {
-    $loc_proj = "$opt_p/inc";
+    $loc_proj = "$opt_p/include";
   } else {
 #    print "Error no such directory exists for local project out: $opt_p\n";
     exit(-1);
