@@ -38,7 +38,7 @@ namespace RavlImageN {
 	itrans(ntrans.I()),
 	fillBackground(nFillBackground),
 	mixer(mix),
-	useMidPixelCorretion(true)
+	useMidPixelCorrection(true)
     {}
     //: Constructor.
     // 'ir' is the output rectangle.
