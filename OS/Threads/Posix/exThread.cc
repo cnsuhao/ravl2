@@ -6,13 +6,14 @@
 // file-header-ends-here
 /////////////////////////////////////////////////////////////////
 //! author="Lee Gregory"
+//! userlevel=Advanced
+//! docentry="Ravl.OS.Threads"
 
 #include "Ravl/Threads/Thread.hh"
 #include "Ravl/OS/Date.hh"
 #include "Ravl/Stream.hh"
 
 using namespace RavlN ; 
-
 
 //: MyThread Body 
 //: -------------------------------------------------------------

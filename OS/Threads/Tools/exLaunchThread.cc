@@ -6,6 +6,8 @@
 // file-header-ends-here
 /////////////////////////////////////////////////////////////////
 //! author="Lee Gregory"
+//! userlevel=Normal
+//! docentry="Ravl.OS.Threads"
 
 #include "Ravl/Stream.hh"
 #include "Ravl/Calls.hh"

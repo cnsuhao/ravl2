@@ -122,7 +122,7 @@ namespace RavlN
     friend void cancellationHandler(void *data);
   };
   
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Handle to a thread.
   // In general it is not nessary to use this class directly,
   // it is better to use the LaunchThread(...) functions to start
