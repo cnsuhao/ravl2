@@ -7,4 +7,4 @@
 # $Id$
 #! rcsid="$Id$"
 
-NESTED=Tools.r Edges.r
+NESTED=Tools Edges.r
