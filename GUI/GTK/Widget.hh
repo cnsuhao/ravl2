@@ -79,7 +79,7 @@ namespace RavlGUIN {
     int WidgetID() const { return widgetId; }
     //: Get widget id.
     
-    StringC WidgetName() const;
+    StringC GUIWidgetName() const;
     //: Get widget's name.
     // Call only from GUI thread.
     
@@ -131,13 +131,13 @@ namespace RavlGUIN {
     void DelEventMask(IntT event);
     //: Remove from the event mask.
     
-    void ShapeCombineMask(GdkBitmap *mask,int off_x = 0,int off_y = 0);
+    bool GUIShapeCombineMask(GdkBitmap *mask,int off_x = 0,int off_y = 0);
     //: Make a shape mask for the widget.
     
     void SetStyle(WidgetStyleC& style);
     //: Set style of widget.
 
-    void SetUPosition(int &width, int &height);
+    bool SetUPosition(int &width, int &height);
     //: Set the widget position
     
     static SArray1dC<GtkTargetEntry> CommonTargetEntries();
@@ -388,8 +388,8 @@ namespace RavlGUIN {
     { return Body().Widget(); }
     //: Access widget.
     
-    StringC WidgetName() const
-    { return Body().WidgetName(); }
+    StringC GUIWidgetName() const
+    { return Body().GUIWidgetName(); }
     //: Get widget's name.
     // Call only from GUI thread.
     
@@ -478,13 +478,12 @@ namespace RavlGUIN {
     { Body().DelEventMask(event); }
     //: Remove from the event mask.
     
-    void ShapeCombineMask(GdkBitmap *mask,int off_x = 0,int off_y = 0)
-    { Body().ShapeCombineMask(mask,off_x,off_y); }
+    bool GUIShapeCombineMask(GdkBitmap *mask,int off_x = 0,int off_y = 0)
+    { return Body().GUIShapeCombineMask(mask,off_x,off_y); }
     //: Make a shape mask for the widget.
-    // GUI thread only.
     
-    void SetUPosition(int width, int height)
-    { Body().SetUPosition(width, height); }
+    bool SetUPosition(int width, int height)
+    { return Body().SetUPosition(width, height); }
     //: Set the widget position
     
     friend class WidgetBodyC;

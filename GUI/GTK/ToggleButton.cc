@@ -68,7 +68,7 @@ namespace RavlGUIN {
     if(!ButtonBodyC::Create())
       return false;
     if(initState)  // Default state is off.
-      SetActive(initState); // This will actual cause a signal ??
+      GUISetActive(initState); // This will actual cause a signal ??
     if(initInconsistant)
       GUISetInconsistent(initInconsistant);
     Connect(Signal("toggled"),ToggleButtonC(*this),&ToggleButtonC::SignalState);
@@ -83,7 +83,7 @@ namespace RavlGUIN {
     if(!ButtonBodyC::Create(newwidget))
        return false;
     if(initState)  // Default state is off.
-      SetActive(initState); // This will actual cause a signal ??
+      GUISetActive(initState); // This will actual cause a signal ??
     Connect(Signal("toggled"),ToggleButtonC(*this),&ToggleButtonC::SignalState);
     return true;
   }
@@ -99,7 +99,7 @@ namespace RavlGUIN {
   //: Set button active.
   // GUI thread only.
   
-  bool ToggleButtonBodyC::SetActive(bool x) {
+  bool ToggleButtonBodyC::GUISetActive(bool x) {
     initState = x;
     if(widget != 0)
       gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget),initState);

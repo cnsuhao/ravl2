@@ -61,8 +61,9 @@ namespace RavlGUIN {
   //: Add new widget.
   // Thread safe.
   
-  void FixedWidgetBodyC::AddWidget(const WidgetC &newun,Index2dC where) {
+  bool FixedWidgetBodyC::AddWidget(const WidgetC &newun,Index2dC where) {
     Manager.Queue(Trigger(FixedWidgetC(*this),&FixedWidgetC::GUIAddWidget,newun,where));
+    return true;
   }
   
   //: Add new widget.
@@ -71,11 +72,11 @@ namespace RavlGUIN {
   bool FixedWidgetBodyC::GUIAddWidget(WidgetC &newun,Index2dC &loc) {
     if(where.IsElm(newun)) {
       where[newun] = loc;
-      Move(newun,loc);
+      GUIMove(newun,loc);
     } else {
       ONDEBUG(cerr << "Adding new widget \n");
       where[newun] = loc;
-      Add(newun);
+      GUIAdd(newun);
     }
     return true;
   }
@@ -88,9 +89,9 @@ namespace RavlGUIN {
   
   //: Add a child widget.
   
-  bool FixedWidgetBodyC::Add(const WidgetC &awidge) {
+  bool FixedWidgetBodyC::GUIAdd(const WidgetC &awidge) {
     WidgetC widge(awidge);
-    if(!ContainerWidgetBodyC::Add(widge))
+    if(!ContainerWidgetBodyC::GUIAdd(widge))
       return false;
     if(!where.IsElm(widge)) { // Setup default position.
       where[widge] = Index2dC(defaultPos,defaultPos);
@@ -98,7 +99,7 @@ namespace RavlGUIN {
       return false;
     }
     if(widget != 0) { // Are we adding a widget later ?
-      ONDEBUG(cerr << "FixedWidgetBodyC::Add(), Adding widget to existing window. \n");
+      ONDEBUG(cerr << "FixedWidgetBodyC::GUIAdd(), Adding widget to existing window. \n");
       // Nope, do setup now.
       if(widge.Widget() == 0) {
 	if(!widge.Create()) {
@@ -114,11 +115,18 @@ namespace RavlGUIN {
   
   //: Move a widget.
   
-  bool FixedWidgetBodyC::Move(WidgetC &widge,Index2dC at) {
+  bool FixedWidgetBodyC::GUIMove(WidgetC &widge,Index2dC at) {
     ONDEBUG(cerr << "Moveing widget :" << widge.IsValid() << " to " << at << "\n");
     // Should check the widget is actual inside.
     gtk_fixed_move(GTK_FIXED (widget), widge.Widget(),at.Row().V(),at.Col().V());
     return true;
   }
   
+  //: Move a widget.
+  
+  bool FixedWidgetBodyC::Move(WidgetC &widge,Index2dC where) {
+    Manager.Queue(Trigger(FixedWidgetC(*this),&FixedWidgetC::GUIMove,widge,where));
+    return true;
+  }
+
 }

@@ -28,9 +28,7 @@ namespace RavlGUIN {
     : public WidgetBodyC
   {
   public:
-    LabelBodyC(const StringC &ntext)
-      : text(ntext.Copy())
-    {}
+    LabelBodyC(const StringC &ntext);
     //: Constructor.
     
     virtual StringC Name() const;
@@ -70,6 +68,9 @@ namespace RavlGUIN {
     //: Set line wrap mode
         
     StringC text;
+    
+    bool lineWrap;
+    IntT justification;
     
     friend class LabelC;
   };

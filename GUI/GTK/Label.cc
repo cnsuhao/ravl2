@@ -14,16 +14,28 @@
 #include <gtk/gtk.h>
 
 namespace RavlGUIN  {
+
+  //: Constructor.
+  
+  LabelBodyC::LabelBodyC(const StringC &ntext)
+    : text(ntext.Copy()),
+      lineWrap(false),
+      justification(0)
+  {}
   
   StringC LabelBodyC::Name() const
   { return text; }
-
+  
   //: Create the widget.
   
   bool LabelBodyC::Create() {
     if(widget != 0)
       return true;
     widget = gtk_label_new (text);
+    if(lineWrap)
+      gtk_label_set_line_wrap (GTK_LABEL(widget),lineWrap);
+    if(justification != 0)
+      gtk_label_set_justify (GTK_LABEL(widget),(GtkJustification) justification);
     ConnectSignals();
     return true;
   }
@@ -45,10 +57,9 @@ namespace RavlGUIN  {
   }
   
   bool LabelBodyC::GUIJustify(GtkJustification& justify) {
+    justification = (IntT) justify;
     if(widget != 0) // Maybe on shutdown ?
       gtk_label_set_justify (GTK_LABEL(widget),justify);
-    else 
-      Manager.Queue(Trigger(LabelC(*this),&LabelC::GUIJustify,justify));
     return true;
   }
 
@@ -58,10 +69,9 @@ namespace RavlGUIN  {
   }
   
   bool LabelBodyC::GUIWrap(bool& wrap) {
+    lineWrap = wrap;
     if(widget != 0) // Maybe on shutdown ?
       gtk_label_set_line_wrap (GTK_LABEL(widget),wrap);
-    else 
-      Manager.Queue(Trigger(LabelC(*this),&LabelC::GUIWrap,wrap));
     return true;    
   }
 

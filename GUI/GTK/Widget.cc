@@ -23,6 +23,7 @@
 #include "Ravl/Threads/Signal2.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/GUI/TreeModel.hh"
+#include "Ravl/GUI/ReadBack.hh"
 #include "WidgetDNDInfo.hh"
 #include <gtk/gtk.h>
 #include <gdk/gdktypes.h>
@@ -324,7 +325,7 @@ namespace RavlGUIN {
   //: Destructor.
 
   WidgetBodyC::~WidgetBodyC() { 
-    ONDEBUG(cerr << "WidgetBodyC::~WidgetBodyC(), Started  " << ((void *) this) << " Name=" << WidgetName() << "\n");
+    ONDEBUG(cerr << "WidgetBodyC::~WidgetBodyC(), Started  " << ((void *) this) << " Name=" << GUIWidgetName() << "\n");
     //RavlAssert(IsValidObject());
 
 
@@ -351,7 +352,7 @@ namespace RavlGUIN {
   //: Get widget's name.
   // Call only from GUI thread.
   
-  StringC WidgetBodyC::WidgetName() const {
+  StringC WidgetBodyC::GUIWidgetName() const {
     if(widget == 0)
       return StringC("-Unknown-");
     const char *nm = gtk_widget_get_name(widget);
@@ -360,8 +361,10 @@ namespace RavlGUIN {
     return StringC(nm);
   }
   
-  StringC WidgetBodyC::Name() const
-  { return WidgetName(); }
+  StringC WidgetBodyC::Name() const { 
+    ReadBackLockC lock;
+    return GUIWidgetName(); 
+  }
   
   
   //: Create the widget.
@@ -412,6 +415,7 @@ namespace RavlGUIN {
   // See handle class for description.
   
   Signal0C &WidgetBodyC::Signal(const char *nm) {
+    ReadBackLockC lock;
     Signal0C &ret = signals[nm];
     if(ret.IsValid()) 
       return ret;
@@ -651,11 +655,12 @@ namespace RavlGUIN {
   
   //: Make a shape mask for the widget.
   
-  void WidgetBodyC::ShapeCombineMask(GdkBitmap *mask,int off_x,int off_y) {
+  bool WidgetBodyC::GUIShapeCombineMask(GdkBitmap *mask,int off_x,int off_y) {
     RavlAssert(widget != 0);
     gtk_widget_shape_combine_mask(widget,mask,off_x,off_y);
+    return true;
   }
-
+  
   //: Grab keyboard focus.
   
   void WidgetBodyC::GrabFocus() {
@@ -791,8 +796,9 @@ namespace RavlGUIN {
   }
 
   //: Set the widget position  
-  void WidgetBodyC::SetUPosition(int &width, int &height) {
+  bool WidgetBodyC::SetUPosition(int &width, int &height) {
     Manager.Queue(Trigger(WidgetC(*this),&WidgetC::GUISetUPosition,width,height));
+    return true;
   }
 
   //: Set the widget style

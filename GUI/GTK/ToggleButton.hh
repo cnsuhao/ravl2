@@ -33,9 +33,8 @@ namespace RavlGUIN {
     ToggleButtonBodyC(const char *nlabel,const PixmapC &pixm,bool nInitState = false);
     //: Constructor.
     
-    bool SetActive(bool x);
+    bool GUISetActive(bool x);
     //: Set button active.
-    // GUI thread only!
     
     bool GUIIsActive() const;
     //: Test if button is active.

@@ -36,15 +36,18 @@ namespace RavlGUIN {
       virtual bool Create();
       //: Create the widget.
       
-      bool Move(WidgetC &widge,Index2dC where);
+      bool GUIMove(WidgetC &widge,Index2dC where);
       //: Move a widget.
       // Must be called from the GUI thread.
+
+      bool Move(WidgetC &widge,Index2dC where);
+      //: Move a widget.
       
-      virtual bool Add(const WidgetC &widge);
+      virtual bool GUIAdd(const WidgetC &widge);
       //: Add a child widget.
       // Must be called from the GUI thread.
       
-      void AddWidget(const WidgetC &newun,Index2dC where);
+      bool AddWidget(const WidgetC &newun,Index2dC where);
       //: Add new widget.
       // Thread safe.
       
@@ -96,17 +99,22 @@ namespace RavlGUIN {
     
     public:
     bool GUIAddWidget(WidgetC &newun,Index2dC &where)
-      { return Body().GUIAddWidget(newun,where); }
+    { return Body().GUIAddWidget(newun,where); }
     //: Add new widget.
     // GUI thread only.
     
-    void AddWidget(const WidgetC &newun,Index2dC where)
-      { Body().AddWidget(newun,where); }
+    bool AddWidget(const WidgetC &newun,Index2dC where)
+    { return Body().AddWidget(newun,where); }
     //: Add new widget.
     // Thread safe.
     
-    void MoveWidget(const WidgetC &newun,Index2dC where)
-      { Body().AddWidget(newun,where); }
+    bool GUIMove(WidgetC &newun,Index2dC where)
+    { return Body().GUIMove(newun,where); }
+    //: Move a widget
+    // Thread safe.
+    
+    bool Move(WidgetC &newun,Index2dC where)
+    { return Body().Move(newun,where); }
     //: Move a widget
     // Thread safe.
     
