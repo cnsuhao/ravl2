@@ -17,9 +17,9 @@
 #include "Ravl/IntC.hh"
 #include "Ravl/Array1d.hh"
 
-
 namespace RavlN {
   class MeanVarianceC;
+  template<class DataT> class DListC;
   
   //! userlevel=Normal
   //: Create a histogram of real values.
@@ -69,6 +69,13 @@ namespace RavlN {
     // In check mode this will cause an error, in optimised it will corrupt
     // memory.
     
+    void Vote(RealT v,IntT n)
+    { (*this)[Bin(v)] += n; }
+    //: Vote for value n times.
+    // Note, this will not check that the value is within the histogram.
+    // In check mode this will cause an error, in optimised it will corrupt
+    // memory.
+    
     bool CheckVote(RealT v) { 
       UIntT b = (UIntT) Bin(v).V();
       if(b >= Size())
@@ -95,6 +102,10 @@ namespace RavlN {
     
     RealT SmoothedPDF(IntT bin,RealT sigma = 1) const;
     //: Evaluate histogram as a smoothed pdf.
+    
+    DListC<RealT> Peaks(UIntT width,UIntT threshold = 0) const;
+    //: Find a list of peaks in the histogram.
+    // The peaks are bigger than 'threshold' and larger than all those within +/- width.
     
   protected:
     RealT scale; // Scale factor.

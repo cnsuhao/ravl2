@@ -10,6 +10,7 @@
 
 #include "Ravl/RealHistogram1d.hh"
 #include "Ravl/SArray1dIter.hh"
+#include "Ravl/DList.hh"
 
 namespace RavlN {
   
@@ -65,6 +66,28 @@ namespace RavlN {
     }
     return smoothedMeasure / (TotalVotes() * sigma * scale);
   }
+
+  //: Find a list of peaks in the histogram.
+  // The peaks are bigger than 'threshold' and larger than all those within +/- width.
+  
+  DListC<RealT> RealHistogram1dC::Peaks(UIntT width,UIntT threshold) const {
+    DListC<RealT> ret;    
+    for(SArray1dIterC<UIntC> it(*this);it;it++) {
+      UIntT max = *it;
+      if(max < threshold)
+	continue;
+      IndexC at = it.Index();
+      IndexRangeC rng(at - (int) width,at + (int) width);
+      rng.ClipBy(Range());
+      BufferAccessIterC<UIntC> sit(*this,rng);
+      for(;sit;sit++)
+	if(*sit >= max && (&(*it)) != (&(*sit))) break;
+      if(!sit) // Found a peak ?
+	ret.InsLast(MidBin(at));
+    }
+    return ret;
+  }
+
 
   ostream &operator<<(ostream &strm,const RealHistogram1dC &hist) {
     strm << hist.Offset() << ' ' << hist.Scale() << ' ' << (const SArray1dC<UIntC> &)(hist);
