@@ -29,7 +29,7 @@ namespace RavlImageN
     for(Array2dIter2C<ByteT,ByteRGBValueC> i(mask,image); i; i++)
     {
       ByteRGBValueC &px = i.Data2();
-      i.Data1() = ((((int) px.Blue() * 2) - ((int) px.Red() + px.Green())) < const_thresh);
+      i.Data1() = ((((int) px.Blue() * 2) - ((int) px.Red() + px.Green())) < const_thresh) ? 255 : 0;
     }
   }
 
