@@ -76,7 +76,7 @@ namespace RavlGUIN {
     LabelC()
     {}
     //: Default constructor.
-    // Creayes an invalid handle.
+    // Creates an invalid handle.
     
   protected:
     LabelC(LabelBodyC &bod)
