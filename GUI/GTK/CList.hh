@@ -38,16 +38,21 @@ namespace RavlGUIN {
     CListCellC()
       : useFgCol(false),
 	useBgCol(false)
-      {}
-    //: Constructor.
+    {}
+    //: Default constructor.
+    
+    CListCellC(const StringC &ntext);
+    //: Create a text cell.
+    
+    CListCellC(const PixmapC &npixmap);
+    //: Create a cell with a pixmap.
     
     StringC text;  // Text to display.
     bool useFgCol;
     GdkColor fgCol;  // Text colour
     bool useBgCol;
     GdkColor fbCol;  // Background colour.
-    PixmapC pixMap; // Can be invalid.
-    PixmapC pixMask;  // Can be invalid.
+    PixmapC pixmap; // Can be invalid.
   };
   
   //! userlevel=Develop

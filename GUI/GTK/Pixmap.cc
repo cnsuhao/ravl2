@@ -43,7 +43,7 @@ namespace RavlGUIN {
   {
     ONDEBUG(cerr << "PixmapBodyC::PixmapBodyC() fn:'" << filename << "'\n");
   }
-
+  
   //: Constructor.
   
   PixmapBodyC::PixmapBodyC(int nwidth,int nheight,int ndepth) 

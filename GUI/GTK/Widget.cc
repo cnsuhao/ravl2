@@ -155,6 +155,26 @@ namespace RavlGUIN {
     return 1;
   }
   
+  int WidgetBodyC::gtkDNDLeave(GtkWidget *widget,GdkDragContext *context,unsigned int time) {
+    return 0;
+  }
+  
+  int WidgetBodyC::gtkDNDMotion(GtkWidget *widget,GdkDragContext *context,int x,int y,unsigned int time) {
+    return 0;
+  }
+  
+  int WidgetBodyC::gtkDNDDrop(GtkWidget *widget,GdkDragContext *context,int x,int y,unsigned int time) {
+    return 0;
+  }
+  
+  int WidgetBodyC::gtkDNDDataRecieved(GtkWidget *widget,GdkDragContext *context,int x,int y,GtkSelectionData *data,unsigned int info,unsigned int time) {
+    return 0;
+  }
+  
+  int WidgetBodyC::gtkDNDDragDataGet(GtkWidget *widget,GdkDragContext *context,GtkSelectionData *data,unsigned int info,unsigned int time) {
+    return 0;
+  }
+  
   //: Default constructor.
   
   WidgetBodyC::WidgetBodyC()

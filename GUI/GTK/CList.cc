@@ -23,6 +23,24 @@
 
 namespace RavlGUIN {
   
+  //: Create a text cell.
+  
+  CListCellC::CListCellC(const StringC &ntext)
+    : text(ntext),
+      useFgCol(false),
+      useBgCol(false)
+  {}
+    
+  //: Create a cell with a pixmap.
+  
+  CListCellC::CListCellC(const PixmapC &npixmap)
+    : useFgCol(false),
+      useBgCol(false),
+      pixmap(npixmap)
+  {}
+  
+  //////////////////////////////////////////////////////////////////////
+  
   CListBodyC::CListBodyC(const DListC<StringC> &ntitles,GtkSelectionMode nselMode)
     : selMode(nselMode),
       titles(ntitles)
@@ -103,7 +121,7 @@ namespace RavlGUIN {
 	continue;
       gtk_clist_set_column_width(GTK_CLIST(widget),i,widths[i]);
     }
-    
+    gtk_clist_set_shadow_type (GTK_CLIST(widget), GTK_SHADOW_OUT);    
     gtk_clist_set_selection_mode(GTK_CLIST(widget),selMode);
     // Append lines that we've stored up.
     for(DLIterC<Tuple2C<IntT,SArray1dC<CListCellC> > > it2(data);it2;it2++)
@@ -129,6 +147,18 @@ namespace RavlGUIN {
     for(int i = 0;i < cols;i++)
       tlist[i] = (char *) line[i].text.chars();  
     int rowNo = gtk_clist_append(GTK_CLIST(widget),tlist);
+    for(int i = 0;i < cols;i++) {
+      // Look for pixmaps.
+      PixmapC &pm = line[i].pixmap;
+      if(pm.IsValid()) {
+	ONDEBUG(cerr << "CListBodyC::GUIAppendCLine(), Setting pixmap.Row=" << rowNo << " Cell=" << i << "\n");
+	if(!pm.Create())
+	  cerr << "CListBodyC::GUIAppendCLine(), Failed to create pixmap. \n";
+	else
+	  gtk_clist_set_pixmap (GTK_CLIST(widget),rowNo,i,pm.Pixmap(),pm.Mask());
+      }
+    }
+    
     gtk_clist_set_row_data (GTK_CLIST(widget),rowNo,(void *) id);
     delete tlist;
     return true;

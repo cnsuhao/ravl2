@@ -21,6 +21,8 @@ extern "C" {
   typedef struct _GtkWidget GtkWidget;
   typedef struct _GtkObject GtkObject;
 
+  // GtkSelectionData
+  
 #ifndef VISUAL_CPP  
   typedef struct _GdkWindow GdkWindow;
   typedef struct _GdkWindow GdkPixmap;
@@ -40,5 +42,9 @@ extern "C" {
   typedef struct _GdkEventButton GdkEventButton;
   typedef struct _GdkEventMotion GdkEventMotion;
   typedef struct _GdkGC	  GdkGC;
+  typedef struct _GdkDragContext GdkDragContext;
+  typedef struct _GtkSelectionData GtkSelectionData;
+  
+  
 }
 #endif

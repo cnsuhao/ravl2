@@ -11,7 +11,7 @@
 //! file="Ravl/GUI/GTK/Widget.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! date="23/03/99"
+//! date="23/03/1999"
 //! userlevel=Normal
 //! docentry="Ravl.GUI.Internal"
 
@@ -180,6 +180,12 @@ namespace RavlGUIN {
     
     static int gtkCListSelect(GtkWidget *widget,IntT row,IntT column,GdkEventButton *event,Signal0C *data);
     static int gtkCListCol(GtkWidget *widget,IntT column,Signal0C *data);
+    
+    static int gtkDNDLeave(GtkWidget *widget,GdkDragContext *context,unsigned int time);
+    static int gtkDNDMotion(GtkWidget *widget,GdkDragContext *context,int x,int y,unsigned int time);
+    static int gtkDNDDrop(GtkWidget *widget,GdkDragContext *context,int x,int y,unsigned int time);
+    static int gtkDNDDataRecieved(GtkWidget *widget,GdkDragContext *context,int x,int y,GtkSelectionData *data,unsigned int info,unsigned int time);
+    static int gtkDNDDragDataGet(GtkWidget *widget,GdkDragContext *context,GtkSelectionData *data,unsigned int info,unsigned int time);
     
     friend class ManagerC;
     friend class WidgetC;

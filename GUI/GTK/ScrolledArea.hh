@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUISCROLLEDAREA_HEADER
-#define RAVLGUISCROLLEDAREA_HEADER 1
+#ifndef RAVLGUI_SCROLLEDAREA_HEADER
+#define RAVLGUI_SCROLLEDAREA_HEADER 1
 /////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! file="Ravl/GUI/GTK/ScrolledArea.hh"
-//! date="03/04/99"
+//! date="03/04/1999"
 //! docentry="Ravl.GUI.Layout"
 
 #include "Ravl/GUI/OneChild.hh"

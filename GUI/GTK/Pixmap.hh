@@ -42,11 +42,12 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
-    GdkPixmap * &Pixmap() { return pixmap; }
+    GdkPixmap * &Pixmap() 
+    { return pixmap; }
     //: Access pixmap.
     
-    GdkBitmap &Mask()
-      { return *mask; }
+    GdkBitmap * &Mask()
+    { return mask; }
     //: Access pixmap mask.
     
   protected:
@@ -80,22 +81,23 @@ namespace RavlGUIN {
     
     explicit PixmapC(char **data)
       : WidgetC(*new PixmapBodyC((const char **) data))
-      {}
+    {}
     //: Constructor
     
     explicit PixmapC(const StringC &filename)
     : WidgetC(*new PixmapBodyC(filename))
-      {}
+    {}
     //: Constructor
     
     explicit PixmapC(int width,int height,int depth)
       : WidgetC(*new PixmapBodyC(width,height,depth))
-      {}
+    {}
     //: Constructor.
     
     PixmapC()
-      {}
+    {}
     //: Default constructor.
+    // Creates an invalid handle.
     
   protected:
     PixmapBodyC &Body()
@@ -107,9 +109,12 @@ namespace RavlGUIN {
     //: Access body.
     
   public:
+    GdkBitmap* &Pixmap()
+    { return Body().Pixmap(); }
+    //: Access pixmap mask.
     
-    GdkBitmap &Mask()
-      { return Body().Mask(); }
+    GdkBitmap* &Mask()
+    { return Body().Mask(); }
     //: Access pixmap mask.
     
   };
