@@ -20,6 +20,7 @@
 #include "Ravl/IndexRange2dIter.hh"
 #include "Ravl/IndexRange3dIter.hh"
 #include "Ravl/FPNumber.hh"
+#include "Ravl/Exception.hh"
 
 using namespace RavlN;
 
@@ -40,6 +41,7 @@ int testSubIndexRange3dIter();
 int testIndexRange2dIter();
 int testIndexRange3dIter();
 int testFPNumber();
+int testException();
 
 template class RCHandleC<TestBodyC>;
 template class RCWrapC<IntT>;
@@ -80,6 +82,10 @@ int main()
     return 1;
   }
   if((ln = testFPNumber()) != 0) {
+    cerr << "Test failed at line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testException()) != 0) {
     cerr << "Test failed at line:" << ln << "\n";
     return 1;
   }
@@ -282,5 +288,25 @@ int testFPNumber() {
   //cerr <<"p4=" << p4 <<" p6=" << p6 << " p8=" << p8 <<"\n";
   if(p4 != 4) return __LINE__;
   
+  return 0;
+}
+
+#if 0
+int testFunc(int i) {
+  if(i == 5)
+  return 0;
+}
+#endif
+
+int testException() {
+  try {
+    throw ExceptionC("test");
+    return __LINE__;
+  } catch (ExceptionC &ex) {
+    if(StringC(ex.Text()) != "test")
+      return __LINE__;
+  } catch(...) {
+    return __LINE__;
+  }
   return 0;
 }
