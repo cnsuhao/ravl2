@@ -91,6 +91,8 @@ namespace RavlCxxDocN {
   class CommentInfoC {
   public:
     CommentInfoC()
+      : startLine(-1),
+	endLine(-1)
     {}
     //: Default constructor.
     
@@ -151,6 +153,8 @@ namespace RavlCxxDocN {
       text = StringC();
       header = StringC();
       locals = RCHashC<StringC,StringC>();
+      startLine=-1;
+      endLine=-1;
     }
     //: Reset comment.
     // Used to reset comments between language elements in a file.
@@ -163,11 +167,29 @@ namespace RavlCxxDocN {
     // Used to reset comments on the start of processing a new file.
     // This removes all gobal variables as well as local ones.
     
+    void SetEndLine(IntT el)
+    { endLine = el; }
+    //: Set end line.
+    
+    void SetStartLine(IntT sl)
+    { startLine = sl; }
+    //: Set end line.
+    
+    IntT EndLine()
+    { return endLine; }
+    //: Set end line.
+    
+    IntT StartLine()
+    { return startLine; }
+    //: Set end line.
+    
   protected:
     StringC text;
     StringC header;
     HashC<StringC,StringC> vars;
     RCHashC<StringC,StringC> locals;
+    IntT startLine;
+    IntT endLine;
   };
   
   //! userlevel=Develop
@@ -272,7 +294,7 @@ namespace RavlCxxDocN {
     
     void CopyLineNo(const ObjectBodyC &ob) {
       startLineno = ob.startLineno;
-      endLineno = ob.startLineno;
+      endLineno = ob.endLineno;
     }
     //: Copy line no from object.
     
@@ -281,8 +303,8 @@ namespace RavlCxxDocN {
 	if(ob.startLineno < startLineno)
 	  startLineno = ob.startLineno;
       }
-      if(ob.startLineno > endLineno)
-	endLineno = ob.startLineno;
+      if(ob.endLineno > endLineno)
+	endLineno = ob.endLineno;
     }
     //: Include lines into object.
 

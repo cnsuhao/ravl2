@@ -71,6 +71,10 @@ namespace RavlCxxDocN
     bool Resolve();
     //: Resolve references in input data.
     
+    bool SetRootFilename(const StringC &filename)
+    { rootFilename = filename; return true; }
+    //: Set the root filename.
+    
   protected:
     bool ParseOuter();
     //: Do top level parse.
@@ -115,9 +119,12 @@ namespace RavlCxxDocN
     //: Access parsed data.
     
     bool Resolve()
-    {  return Body().Resolve(); }
+    { return Body().Resolve(); }
     //: Resolve references in input data.
     
+    bool SetRootFilename(const StringC &filename)
+    { return Body().SetRootFilename(filename); }
+    //: Set root filename.
   };
   
 }

@@ -3,6 +3,12 @@
 
 %{
 
+  class MyLexer : public yyFlexLexer
+  {
+    public:
+     //  char *gettext() { return yytext; };
+  };
+
   #include "Ravl/Stream.hh"
   #include "Ravl/CxxDoc/Object.hh"
   #include "Ravl/CxxDoc/Strings.hh"
@@ -18,12 +24,6 @@
 #endif
 
   using namespace RavlN;
-
-  class MyLexer : public yyFlexLexer
-  {
-    public:
-       char *gettext() { return yytext; };
-  };
 
   namespace RavlCxxDocN {
     ObjectC hookCommentObj;
@@ -228,10 +228,16 @@ SCHAR [^"\\\n]|{ESCAPE_SEQUENCE}
                                   comment.Text() = StringC();
                                   comment.Header() = StringC();
                                 }
+				if(comment.StartLine() < 0)
+				  comment.SetStartLine(yylineno-1);
                                 comment.Header() += txt;
+				comment.SetEndLine(yylineno-1);
                               }
 <INITIAL>"//!"(.)*[\n<<EOF>>] { StringC txt(&(yytext[3]));
                                 if(txt.length() > 0) {
+				  if(comment.StartLine() < 0)
+				    comment.SetStartLine(yylineno-1);
+                                  comment.SetEndLine(yylineno-1);
                                   switch(txt.firstchar()) {
                                   case ' ': {
                                     int at = txt.index('=');
@@ -258,7 +264,11 @@ SCHAR [^"\\\n]|{ESCAPE_SEQUENCE}
                                   }
                                 }
                               }
-<INITIAL>"//"(.)*[\n<<EOF>>]  { comment.Text() += &yytext[2]; }
+<INITIAL>"//"(.)*[\n<<EOF>>]  { comment.Text() += &yytext[2]; 
+				if(comment.StartLine() < 0)
+				  comment.SetStartLine(yylineno-1);
+                                comment.SetEndLine(yylineno-1);
+			      }
 
     /*==============> Skip preprocessor directives <==============*/
 <INITIAL>"#"[acdeimpsuwl ] { BEGIN (PREPARSER); }

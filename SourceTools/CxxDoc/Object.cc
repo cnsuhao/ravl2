@@ -159,6 +159,8 @@ namespace RavlCxxDocN
   void ObjectBodyC::UpdateComment(CommentInfoC &cinf) {    
     //cerr << "Updating comment '" << Name() << "' from '" << comment.Header() << "'\n";
     //cerr << "Updating comment '" << Name() << "' to '" << cinf.Header() << "'\n";
+    comment.SetStartLine(cinf.StartLine());
+    comment.SetEndLine(cinf.EndLine());
     comment.Vars().Add(cinf.Vars());
     comment.Header() = cinf.Header().Copy();
     comment.Text() = cinf.Text().Copy();

@@ -435,7 +435,7 @@ class_def: PROTECTED ':'     { $$ = MarkerC(STR(protected)); $$.SetupLineNos($1,
    | PRIVATE ':'             { $$ = MarkerC(STR(private));   $$.SetupLineNos($1,$2); }
    | PUBLIC ':'              { $$ = MarkerC(STR(public));    $$.SetupLineNos($1,$2); }
    | extdef                  { $$=$1; }
-   | CPVIRTUAL fndef         { $$=$2; $$.SetVar(STR(virtual),STR(1)); }
+   | CPVIRTUAL fndef         { $$=$2; $$.SetVar(STR(virtual),STR(1)); $$.IncludeLineNo($1) }
    /* | func_destructor_inclass */
    /*   | func_constructor_inclass */
 ;
@@ -638,11 +638,14 @@ func_prototype:
             | type_id scope_id CLCL unqualified_id func_arg_templ_qual func_arg_prototype func_qualifier 
       { $$ = MethodC($4.Name(),DataTypeC($1),ObjectListC($6),$7);
         $$.SetScope($2);
+	$$.IncludeLineNo($1);
+	$$.IncludeLineNo($6);
+	$$.IncludeLineNo($7);
       }
-
             | type_id  func_arg_prototype func_qualifier  /* This catches constructors, the typename the class type. */
       { MethodC amethod($1.Name(), DataTypeC(STR(void)),ObjectListC($2),$3); 
-        amethod.CopyLineNo($1);
+        amethod.IncludeLineNo($1);
+	amethod.IncludeLineNo($3);
         amethod.SetConstructor(true);
         $$ = amethod;
 	ObjectC subScope = $1.GetScope();
