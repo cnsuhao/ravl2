@@ -42,7 +42,7 @@ namespace RavlN {
       : SArray2dC<UIntC>(array),
 	scale(nscale),
 	offset(noffset)
-    {}
+    { Reset(); }
     //: Create a histogram from an offset, scale and a SArray1d.
     
     Vector2dC Scale() const

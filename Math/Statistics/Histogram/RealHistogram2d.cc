@@ -26,6 +26,7 @@ namespace RavlN {
 		       ((RealT) steps[1]) - (1e-8));
     //cerr << "Scale=" << scale << "\n";
     offset = min;
+    Reset();
   }
   
   //: Find the total number of votes cast.
