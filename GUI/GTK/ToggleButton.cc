@@ -123,7 +123,7 @@ namespace RavlGUIN {
   //: Set toggle state.
   // GUI thread only.
   
-  bool ToggleButtonBodyC::GUISetToggle(bool &val) {
+  bool ToggleButtonBodyC::GUISetToggle(const bool &val) {
     initState = val;
     if(widget == 0)
       return true;
@@ -134,7 +134,7 @@ namespace RavlGUIN {
   
   //: Set toggle state.
   
-  void ToggleButtonBodyC::SetToggle(bool &val) 
+  void ToggleButtonBodyC::SetToggle(const bool &val) 
   { Manager.Queue(Trigger(ToggleButtonC(*this),&ToggleButtonC::GUISetToggle,val)); }
   
   //: Set inconsistant state
@@ -154,7 +154,7 @@ namespace RavlGUIN {
   
   //: Set inconsistant state
   
-  bool ToggleButtonBodyC::SetInconsistent(bool &val) { 
+  bool ToggleButtonBodyC::SetInconsistent(const bool &val) { 
     Manager.Queue(Trigger(ToggleButtonC(*this),&ToggleButtonC::GUISetInconsistent,val)); 
     return true;
   }

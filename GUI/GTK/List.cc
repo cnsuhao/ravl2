@@ -104,7 +104,7 @@ namespace RavlGUIN {
   
   //: Add new widget to list.
   
-  bool ListBodyC::GUIAppendLine(IntT &id,WidgetC &widge) {
+  bool ListBodyC::GUIAppendLine(const IntT &id,WidgetC &widge) {
     if(widget == 0) { // List created yet ?
       children.InsLast(Tuple2C<IntT,WidgetC>(id,widge));
       return true;
@@ -130,7 +130,7 @@ namespace RavlGUIN {
   
   //: Del widget from list.
   
-  bool ListBodyC::GUIRemoveLine(IntT &id) {
+  bool ListBodyC::GUIRemoveLine(const IntT &id) {
     //ONDEBUG(cerr << "CListBodyC::GUIRemoveLine(), ID:" << id << " \n");
     GList   *dlist=GTK_LIST(widget)->children;    
     while (dlist) {

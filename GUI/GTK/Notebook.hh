@@ -53,11 +53,11 @@ namespace RavlGUIN
     //: Setup tab widgets.
     // GUI Thread only.
     
-    bool GUIRemovePage(IntT &pageNo);
+    bool GUIRemovePage(const IntT &pageNo);
     //: Remove page number 'pageNo'
     // GUI Thread only.
     
-    void RemovePage(IntT &pageNo);
+    void RemovePage(const IntT &pageNo);
     //: Remove page number 'pageNo'
   
     bool GUIRemovePageW(WidgetC &page);
@@ -163,12 +163,12 @@ namespace RavlGUIN
     { return Body().GUISetTab(parent,tabw); }
     //: Setup tab widgets.
 
-    bool GUIRemovePage(IntT &pageNo)
+    bool GUIRemovePage(const IntT &pageNo)
     { return Body().GUIRemovePage(pageNo); }
     //: Remove page number 'pageNo'
     // GUI Thread only.
     
-    void RemovePage(IntT &pageNo)
+    void RemovePage(const IntT &pageNo)
     { Body().RemovePage(pageNo); }
     //: Remove page number 'pageNo'
 

@@ -42,7 +42,7 @@ namespace RavlGUIN  {
   
   //: Set label.
   
-  bool LabelBodyC::GUISetLabel(StringC &txt) {
+  bool LabelBodyC::GUISetLabel(const StringC &txt) {
     text = txt;
     if(widget != 0) // Maybe on shutdown ?
       gtk_label_set (GTK_LABEL(widget),text);
@@ -68,14 +68,14 @@ namespace RavlGUIN  {
     return true;
   }
   
-  bool LabelBodyC::GUIWrap(bool& wrap) {
+  bool LabelBodyC::GUIWrap(const bool& wrap) {
     lineWrap = wrap;
     if(widget != 0) // Maybe on shutdown ?
       gtk_label_set_line_wrap (GTK_LABEL(widget),wrap);
     return true;    
   }
 
-  bool LabelBodyC::Wrap(bool& wrap) {
+  bool LabelBodyC::Wrap(const bool& wrap) {
     Manager.Queue(Trigger(LabelC(*this),&LabelC::GUIWrap,wrap));
     return true;
   }

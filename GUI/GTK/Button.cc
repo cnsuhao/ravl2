@@ -65,7 +65,7 @@ namespace RavlGUIN {
   //: Set toggle label.
   // GUI thread only.
   
-  bool ButtonBodyC::GUISetLabel(StringC &text) {
+  bool ButtonBodyC::GUISetLabel(const StringC &text) {
     label = text;
     GtkWidget *tb;
     GtkWidget *child = GTK_BIN(widget)->child;
@@ -84,7 +84,7 @@ namespace RavlGUIN {
   
   //: Set toggle label.
   
-  void ButtonBodyC::SetLabel(StringC &text) {
+  void ButtonBodyC::SetLabel(const StringC &text) {
     Manager.Queue(Trigger(ButtonC(*this),&ButtonC::GUISetLabel,text));
   }
 

@@ -51,7 +51,7 @@ namespace RavlGUIN{
     virtual bool Create();
     //: Create the widget.
     
-    bool GUIUpdate(float &percentage);
+    bool GUIUpdate(const float &percentage);
     //: Update percentage done on bar.
     
     void Update(float percentage);
@@ -102,7 +102,7 @@ namespace RavlGUIN{
     { return static_cast<const ProgressBarBodyC &>(WidgetC::Body()); }
     //: Access body.
     
-    bool GUIUpdate(float &percentage)
+    bool GUIUpdate(const float &percentage)
     { return Body().GUIUpdate(percentage); }
     //: Update percentage done on bar.
     

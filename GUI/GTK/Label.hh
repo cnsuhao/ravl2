@@ -49,13 +49,13 @@ namespace RavlGUIN {
     //: Set justification mode
     // Values for justify are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKJUSTIFICATION">here</A>.
 
-    bool Wrap(bool& wrap);
+    bool Wrap(const bool& wrap);
     //: Set line wrap mode
 
     bool Label(const StringC &text);
     //: Update the text in the label.
     
-    bool GUISetLabel(StringC &txt);
+    bool GUISetLabel(const StringC &txt);
     //: Set label.
 
   protected:
@@ -64,7 +64,7 @@ namespace RavlGUIN {
     //: Set justification mode
     // Values for justify are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKJUSTIFICATION">here</A>.
 
-    bool GUIWrap(bool& wrap);
+    bool GUIWrap(const bool& wrap);
     //: Set line wrap mode
         
     StringC text;
@@ -129,12 +129,12 @@ namespace RavlGUIN {
     //: Set justification mode
     // Values for justify are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKJUSTIFICATION">here</A>.
 
-    bool GUIWrap(bool& wrap)
+    bool GUIWrap(const bool& wrap)
     { return Body().GUIWrap(wrap); }
     //: Set line wrap mode
 
   public:
-    bool GUISetLabel(StringC &txt)
+    bool GUISetLabel(const StringC &txt)
     { return Body().GUISetLabel(txt); }
     //: Set label.
     
@@ -155,7 +155,7 @@ namespace RavlGUIN {
     //: Set justification mode
     // Values for justify are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKJUSTIFICATION">here</A>.
 
-    bool Wrap(bool& wrap)
+    bool Wrap(const bool& wrap)
     { return Body().Wrap(wrap); }    
     //: Set line wrap mode
 

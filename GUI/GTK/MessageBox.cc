@@ -53,7 +53,7 @@ namespace RavlGUIN {
     return WindowBodyC::Create();
   }
   
-  bool MessageBoxBodyC::OnClick(bool& bResult) {
+  bool MessageBoxBodyC::OnClick( bool& bResult) {
     // First, hide the window
     Hide();
     // Send the "done" signal

@@ -128,7 +128,7 @@ namespace RavlGUIN {
   
   //: Update the slider value.
   
-  bool SliderBodyC::GUIUpdateValue(RealT &val) {
+  bool SliderBodyC::GUIUpdateValue(const RealT &val) {
     value = val;
     if(widget == 0)
       return true;
@@ -147,7 +147,7 @@ namespace RavlGUIN {
   }
   
   //: Update the slider value.
-  bool SliderBodyC::GUIUpdateRange(RealT &nlower,RealT &nupper) {
+  bool SliderBodyC::GUIUpdateRange(const RealT &nlower,const RealT &nupper) {
     lower = nlower;
     upper = nupper;
     if(widget == 0)
@@ -168,7 +168,7 @@ namespace RavlGUIN {
   
   //: Update the slider value.
   
-  bool SliderBodyC::GUIUpdate(RealT &val,RealT &nlower,RealT &nupper,RealT &inc) {
+  bool SliderBodyC::GUIUpdate(const RealT &val,const RealT &nlower,const RealT &nupper,const RealT &inc) {
     lower = nlower;
     upper = nupper;
     step_increment = inc;

@@ -58,10 +58,10 @@ namespace RavlGUIN {
     //: Get current selection
     // Should only be called by the GUI thread !
     
-    bool GUIAppendLine(IntT &id,WidgetC &widge);
+    bool GUIAppendLine(const IntT &id,WidgetC &widge);
     //: Add new widget to list.
     
-    bool GUIRemoveLine(IntT &id);
+    bool GUIRemoveLine(const IntT &id);
     //: Del line from list.
     
     void AppendLine(IntT id,const StringC &text);
@@ -130,12 +130,12 @@ namespace RavlGUIN {
     { return static_cast<const ListBodyC &>(WidgetC::Body()); }
     //: Access body.
     
-    bool GUIAppendLine(IntT &id,WidgetC &widget)
+    bool GUIAppendLine(const IntT &id,WidgetC &widget)
     { return Body().GUIAppendLine(id,widget); }
     //: Add new string to window.
     // GUI Thread only.
     
-    bool GUIRemoveLine(IntT &id)
+    bool GUIRemoveLine(const IntT &id)
     { return Body().GUIRemoveLine(id); }
     //: Add new string to window.
     // GUI Thread only.
@@ -155,7 +155,7 @@ namespace RavlGUIN {
     //: Add new string to window.
     // Thread safe.
 
-    bool AddString(IntT id,StringC &text) { 
+    bool AddString(IntT id,const StringC &text) { 
       Body().AppendLine(id,text); 
       return true;
     }

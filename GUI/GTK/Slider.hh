@@ -55,13 +55,13 @@ namespace RavlGUIN {
     bool Update(RealT val,RealT lower,RealT upper,RealT inc = 1);
     //: Update the slider value.
 
-    bool GUIUpdateValue(RealT &val);
+    bool GUIUpdateValue(const RealT &val);
     //: Update the slider value.
     
-    bool GUIUpdateRange(RealT &lower,RealT &upper);
+    bool GUIUpdateRange(const RealT &lower,const RealT &upper);
     //: Update the slider value.
     
-    bool GUIUpdate(RealT &val,RealT &lower,RealT &upper,RealT &inc);
+    bool GUIUpdate(const RealT &val,const RealT &lower,const RealT &upper,const RealT &inc);
     //: Update the slider value.
     
     inline

@@ -65,7 +65,7 @@ namespace RavlGUIN {
   
   //: Update percentage done on bar.
   
-  bool ProgressBarBodyC::GUIUpdate(float &percentage) {
+  bool ProgressBarBodyC::GUIUpdate(const float &percentage) {
     if(widget == 0)
       return true;
     gtk_progress_bar_update(GTK_PROGRESS_BAR(widget),percentage);

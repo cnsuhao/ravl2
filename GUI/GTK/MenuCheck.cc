@@ -44,7 +44,7 @@ namespace RavlGUIN
   
   //: Set active.
   
-  bool MenuCheckItemBodyC::GUISetActive(bool &val) {
+  bool MenuCheckItemBodyC::GUISetActive(const bool &val) {
     active = val;
     if(widget != 0)
       gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(widget),val);

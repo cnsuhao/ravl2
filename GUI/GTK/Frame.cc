@@ -69,7 +69,7 @@ namespace RavlGUIN {
   
   //: Set label
   
-  bool FrameBodyC::GUISetLabel(StringC &name) {
+  bool FrameBodyC::GUISetLabel(const StringC &name) {
     title = name;
     if(widget == 0) 
       return true;
@@ -78,7 +78,7 @@ namespace RavlGUIN {
   }
 
   //: Set label
-  void FrameBodyC::SetLabel(StringC &name) {
+  void FrameBodyC::SetLabel(const StringC &name) {
     Manager.Queue(Trigger(FrameC(*this),&FrameC::GUISetLabel,name));
   }
   

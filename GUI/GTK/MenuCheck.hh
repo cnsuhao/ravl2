@@ -34,7 +34,7 @@ namespace RavlGUIN {
     bool IsActive() const;
     //: Test if toggle is active.
     
-    bool GUISetActive(bool &val);
+    bool GUISetActive(const bool &val);
     //: Set active.
     // This will cause a 'SelectedToggle' signal to 
     // be issued. <p>
@@ -96,7 +96,7 @@ namespace RavlGUIN {
     { return Body().IsActive(); }
     //: Test if toggle is active.
     
-    bool GUISetActive(bool &val)
+    bool GUISetActive(const bool &val)
     { return Body().GUISetActive(val); }
     //: Set active status.
     // This will cause a 'SelectedToggle' signal to 

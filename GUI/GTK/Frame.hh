@@ -42,10 +42,10 @@ namespace RavlGUIN {
     //: Set frame type.
     // Values for shadow are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSHADOWTYPE">here</A>.
     
-    void SetLabel(StringC &name);
+    void SetLabel(const StringC &name);
     //: Set label
 
-    bool GUISetLabel(StringC &name);
+    bool GUISetLabel(const StringC &name);
     //: Set label
     // Call with GUI thread only!
     
@@ -116,7 +116,7 @@ namespace RavlGUIN {
     // If 'widge' is a FrameC this creates a handle to it, if it is not
     // an invalid handle is created.
     
-    bool GUISetLabel(StringC &name)
+    bool GUISetLabel(const StringC &name)
     { return Body().GUISetLabel(name); }
     //: Set label
     // Call with GUI thread only!
@@ -126,7 +126,7 @@ namespace RavlGUIN {
     //: Set frame type.
     // Values for shadow are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSHADOWTYPE">here</A>.
     
-    void SetLabel(StringC &name)
+    void SetLabel(const StringC &name)
     { Body().SetLabel(name); }
     //: Set label
     

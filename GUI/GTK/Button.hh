@@ -44,11 +44,11 @@ namespace RavlGUIN {
     virtual bool Create(GtkWidget *widget);
     //: Create with a widget supplied from elsewhere.
     
-    bool GUISetLabel(StringC &text);
+    bool GUISetLabel(const StringC &text);
     //: Set toggle label.
     // GUI thread only.
     
-    void SetLabel(StringC &text);
+    void SetLabel(const StringC &text);
     //: Set toggle label.
     
   protected:
@@ -117,12 +117,12 @@ namespace RavlGUIN {
     { return Body().Signal("clicked"); }
     //: Short cut clicked signal.
     
-    bool GUISetLabel(StringC &text)
+    bool GUISetLabel(const StringC &text)
     { return Body().GUISetLabel(text); }
     //: Set toggle label.
     // GUI thread only.
     
-    void SetLabel(StringC &text)
+    void SetLabel(const StringC &text)
     { Body().SetLabel(text); }
     //: Set toggle label.
     

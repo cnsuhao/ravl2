@@ -49,11 +49,11 @@ namespace RavlGUIN {
     { return sigChanged; }
     //: Access changed signal.
     
-    bool GUISetToggle(bool &val);
+    bool GUISetToggle(const bool &val);
     //: Set toggle state.
     // GUI thread only.
   
-    void SetToggle(bool &val);
+    void SetToggle(const bool &val);
     //: Set toggle state.
     
     bool GUISetInconsistent(bool val);
@@ -61,7 +61,7 @@ namespace RavlGUIN {
     // GUI thread only. 
     // GTK2 and above only.
     
-    bool SetInconsistent(bool &val);
+    bool SetInconsistent(const bool &val);
     //: Set inconsistant state
     // GTK2 and above only.
     
@@ -164,7 +164,7 @@ namespace RavlGUIN {
     // GUI thread only.
     // GTK2 and above only.
     
-    bool SetInconsistent(bool &val)
+    bool SetInconsistent(const bool &val)
     { return Body().SetInconsistent(val); }
     //: Set inconsistant state
     // GTK2 and above only.

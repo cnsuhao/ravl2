@@ -145,7 +145,7 @@ namespace RavlGUIN {
   //: Remove page number 'pageNo'
   // GUI Thread only.
   
-  bool NotebookBodyC::GUIRemovePage(IntT &pageNo) {
+  bool NotebookBodyC::GUIRemovePage(const IntT &pageNo) {
     if(widget == 0) {
       cerr << "NotebookBodyC::GUIRemovePage(), ERROR: Called before widget initalised. \n";
       return true;
@@ -157,7 +157,7 @@ namespace RavlGUIN {
   
   //: Remove page number 'pageNo'
   
-  void NotebookBodyC::RemovePage(IntT &pageNo) {
+  void NotebookBodyC::RemovePage(const IntT &pageNo) {
     Manager.Queue(Trigger(NotebookC(*this),&NotebookC::GUIRemovePage,pageNo));
   }
   

@@ -40,7 +40,7 @@ int main(int nargs,char *args[])
  
  WindowC win(100,100,"Combo Test");
  win.Add( Combo( comboData, HandleCombo, StringC("combo 1"), true  ) ) ; 
- 
+ win.Show() ; 
 
   Manager.Start();
   cerr << "\n\nFinished... \n";
