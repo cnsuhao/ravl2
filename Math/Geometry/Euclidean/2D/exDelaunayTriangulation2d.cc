@@ -33,7 +33,17 @@ int main(int nargs,char **argv) {
   HEMesh2dC mesh;
   ImageC<ByteT> img(size[0],size[1]);
   img.Fill(0);
+
+#if 1
+  SArray1dC<Point2dC> pnts(5);
+  pnts[0] = Point2dC(10,10);
+  pnts[1] = Point2dC(10,90);
+  pnts[2] = Point2dC(10,50);
+  pnts[3] = Point2dC(90,50);
+  pnts[4] = Point2dC(50,50);
   
+  mesh = DelaunayTriangulation(pnts);
+#else  
   for(int i = 0;i < loop;i++) {
     cerr << "Seed=" << seed + i << "\n";
     RandomSeedDefault(seed + i);
@@ -48,13 +58,13 @@ int main(int nargs,char **argv) {
     //cerr << "Checking mesh:\n";
     mesh.CheckMesh(true);
   }
-  
+#endif
   Point2dC x(size[0]/2,size[1]/2);
   
   // Draw Mesh
   
-  //THEMeshFaceC<Point2dC> fface = mesh.FindFace(x);
-  THEMeshFaceC<Point2dC> fface;
+  THEMeshFaceC<Point2dC> fface = mesh.FindFace(x);
+  
   for(THEMeshFaceIterC<Point2dC> mit(mesh.Faces());mit;mit++) {
     for(THEMeshFaceEdgeIterC<Point2dC> eit(*mit);eit;eit++) {
       if(!eit->HasPair()) {

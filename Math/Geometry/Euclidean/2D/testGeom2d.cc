@@ -172,6 +172,19 @@ int testConvexHull2d() {
 
 int testDelaunayTriangulation2d() {
   cerr << "testDelaunayTriangulation2d() Called. \n";
+  
+  // Try a mesh with a exactly aligned points.
+  
+  SArray1dC<Point2dC> pnts(5);
+  pnts[0] = Point2dC(10,10);
+  pnts[1] = Point2dC(10,90);
+  pnts[2] = Point2dC(10,50);
+  pnts[3] = Point2dC(90,50);
+  pnts[4] = Point2dC(50,50);
+  
+  HEMesh2dC mesh = DelaunayTriangulation(pnts);
+  if(!mesh.CheckMesh(true)) return __LINE__;
+  
   for(int j = 0;j < 10;j++) {
     SArray1dC<Point2dC> pnts(10 + j * 10);
     
@@ -180,6 +193,9 @@ int testDelaunayTriangulation2d() {
       pnts[i] = Point2dC(Random1() * 100,Random1() * 100);
     
     HEMesh2dC mesh = DelaunayTriangulation(pnts);
+    
+    if(!mesh.CheckMesh(true)) return __LINE__;
+    
     if(!IsDelaunayTriangulation(mesh)) return __LINE__;
     
     // Convert it into a tri mesh.
@@ -189,10 +205,9 @@ int testDelaunayTriangulation2d() {
     // Check faces are all oriented correctly.
     
     if(!triMesh.IsFlat()) return __LINE__;
-
-    // Check mesh has the correct orientation.
-        
+    
   }
+  
   return 0;
 }
 

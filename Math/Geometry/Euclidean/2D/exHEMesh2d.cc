@@ -21,7 +21,7 @@ using namespace RavlImageN;
 
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
-  UIntT n = opt.Int("n",0,"Number of points to put in mesh. ");
+  IntT n = opt.Int("n",0,"Number of points to put in mesh. ");
   StringC file = opt.String("f","@X","Output filename. ");
   opt.Check();
   
@@ -35,8 +35,8 @@ int main(int nargs,char **argv) {
   tempFace[2] = mesh.InsertVertex(Point2dC(90,10));
   
   HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> edgeTab;
-  THEMeshFaceC<Point2dC> firstFace = mesh.InsertFace(tempFace,edgeTab); // Insert initial face.
-
+  mesh.InsertFace(tempFace,edgeTab); // Insert initial face.
+  
   SArray1dC<HEMeshBaseVertexC> tempFace2(3);
   tempFace2[0] = tempFace[2];
   tempFace2[1] = tempFace[1];
@@ -59,8 +59,6 @@ int main(int nargs,char **argv) {
   ImageC<ByteT> img(100,100);
   img.Fill(0);
   
-  //THEMeshFaceC<Point2dC> fface = mesh.FindFace(x);
-  THEMeshFaceC<Point2dC> fface;
   for(THEMeshFaceIterC<Point2dC> mit(mesh.Faces());mit;mit++) {
     for(THEMeshFaceEdgeIterC<Point2dC> eit(*mit);eit;eit++) {
       if(!eit->HasPair()) {
