@@ -195,7 +195,7 @@ namespace RavlN {
       }
       if(opErrno < 0) {
 	cerr << "Can't understand hostname '" << name  << "', Malformed address ? \n";
-	delete hostentData;
+	delete [] hostentData;
 	throw ExceptionNetC("Failed to unstanderstand find host name.\n");
       }
 #if 0
@@ -207,7 +207,7 @@ namespace RavlN {
 #endif      
       if(opErrno == HOST_NOT_FOUND) {
 	cerr << "Can't find host '" << name  << "' .\n";
-	delete hostentData;
+	delete [] hostentData;
 	throw ExceptionNetC("Can't find host name.\n");
       }
       cerr << "Can't find host '" << name  << "' for some reason. Errno:" << opErrno << " '"
@@ -216,7 +216,7 @@ namespace RavlN {
 #else
       << strerror(opErrno) << "'\n";
 #endif
-      delete hostentData;
+      delete [] hostentData;
       throw ExceptionNetC("Can't find host name for some reason.");
     }
     
@@ -234,7 +234,7 @@ namespace RavlN {
   
     ONDEBUG(cerr << "Got host data..  Addr:'" << inet_ntoa(sin.sin_addr) << "'\n");
     
-    delete hostentData;
+    delete [] hostentData;
     return true;
   }
 
@@ -291,7 +291,7 @@ namespace RavlN {
 	hostentData = new char [buffSize];
 	continue;
       }
-      cerr << "WARNING: Error while attempting to find hostname. errno=" << error << "\n";
+      cerr << "WARNING: Error while attempting to find hostname from ip address. errno=" << error << "\n";
       break; // Unknown error.
     }
     if(error == 0) { // If we got the name ok.
