@@ -222,6 +222,21 @@ namespace RavlN {
     { return data; }
     //: Access raw 2d buffer.
     
+    void SetColumn(IndexC i,const Array1dC<DataT> &val);
+    //: Set the values in the column i to those in 'val'.
+    // The columns modified depend on the index range of 'val' and all values
+    // of 'val' must map to valid locations in this array.
+    
+    void SetRow(IndexC i,const Array1dC<DataT> &val);
+    //: Set the values in the row i to those in 'val'.
+    // The rows modified depend on the index range of 'val' and all values
+    // of 'val' must map to valid locations in this array.
+    
+    void SetSubArray(const Index2dC &origin,const Array2dC<DataT> &vals);
+    //: Set sub array of this one. 
+    // vals[0][0] will be places at 'origin'.
+    // all of 'vals' must fit within this array.
+    
   protected:
     void ConstructAccess(const IndexRangeC &rng1);
     //: Construct access for buffer.
@@ -546,11 +561,6 @@ namespace RavlN {
       ret += *it;
     return ret;
   }
-
-  //: Access 2d array as 1d vector.
-  // This will only copy the data if the data isn't continuous or
-  // alwaysCopy is true, this can make it much more effecient than
-  // a straigh copy.
   
   template <class DataT>
   SArray1dC<DataT> Array2dC<DataT>::AsVector(bool alwaysCopy) {
@@ -563,6 +573,35 @@ namespace RavlN {
     for(BufferAccess2dIterC<DataT> it(*this,Range2());it;it++,rit++)
       *rit = *it;
     return ret;
+  }
+  
+  template <class DataT>
+  void Array2dC<DataT>::SetColumn(IndexC i,const Array1dC<DataT> &val) {
+    RavlAssert(Range1().Contains(val.Range()));
+    // Avoid including to many headers by just using a ptr, not a slice.
+    DataT *d1 = &((*this)[val.Range().Min()][i]);
+    const int s = Stride();
+    for(BufferAccessIterC<DataT> it(val);it;it++,d1 += s)
+      *d1 = *it;
+    
+  }
+  
+  template <class DataT>
+  void Array2dC<DataT>::SetRow(IndexC i,const Array1dC<DataT> &val) {
+    RavlAssert(Range2().Contains(val.Range()));
+    DataT *d1 = &((*this)[i][val.Range().Min()]);
+    for(BufferAccessIterC<DataT> it(val);it;it++,d1++)
+      *d1 = *it;
+  }
+  
+  template <class DataT>
+  void Array2dC<DataT>::SetSubArray(const Index2dC &origin,const Array2dC<DataT> &vals) {
+    IndexRange2dC srng = vals.Frame();
+    srng.SetOrigin(origin);
+    RavlAssert(Frame().Contains(srng));
+    for(BufferAccess2dIter2C<DataT,DataT> it(vals,srng,
+					     (*this),Frame());it;it++)
+      it.Data2() = it.Data1();
   }
   
 }
