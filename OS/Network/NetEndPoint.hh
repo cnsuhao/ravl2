@@ -148,31 +148,31 @@ namespace RavlN {
 
     template<class ObjT>
     bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)()) {
-      return Register(NetMsgCall0C(mid,msgName,CallMethodRef0C<ObjT,bool>(obj,func))); 
+      return Register(NetMsgCall0C(mid,msgName,CallMethod0C<ObjT &,bool>(obj,func))); 
     }
     //: Register new message handler.
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
     // ensure it is not deleted.
     
     template<class ObjT,class DataT>
-    bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(DataT &)) {
-      return Register(NetMsgCall1C<DataT>(mid,msgName,CallMethodRef1C<ObjT,DataT,bool>(obj,func))); 
+    bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(DataT)) {
+      return Register(NetMsgCall1C<DataT>(mid,msgName,CallMethod1C<ObjT &,DataT,bool>(obj,func))); 
     }
     //: Register new message handler.
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
     // ensure it is not deleted.
 
     template<class ObjT,class Data1T,class Data2T>
-    bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T &,Data2T &)) {
-      return Register(NetMsgCall2C<Data1T,Data2T>(mid,msgName,CallMethodRef2C<ObjT,Data1T,Data2T,bool>(obj,func))); 
+    bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T,Data2T)) {
+      return Register(NetMsgCall2C<Data1T,Data2T>(mid,msgName,CallMethod2C<ObjT &,Data1T,Data2T,bool>(obj,func))); 
     }
     //: Register new message handler.
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
     // ensure it is not deleted.
 
     template<class ObjT,class Data1T,class Data2T,class Data3T>
-    bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T &,Data2T &,Data3T &)) {
-      return Register(NetMsgCall3C<Data1T,Data2T,Data3T>(mid,msgName,CallMethodRef3C<ObjT,Data1T,Data2T,Data3T,bool>(obj,func))); 
+    bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T,Data2T,Data3T)) {
+      return Register(NetMsgCall3C<Data1T,Data2T,Data3T>(mid,msgName,CallMethod3C<ObjT &,Data1T,Data2T,Data3T,bool>(obj,func))); 
     }
     //: Register new message handler.
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
@@ -187,7 +187,7 @@ namespace RavlN {
     // ensure it is not deleted.
     
     template<class ObjT,class DataT>
-    bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(DataT &)) {
+    bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(DataT)) {
       return Register(NetMsgCall1C<DataT>(mid,msgName,CallMethod1C<ObjT,DataT,bool>(obj,func))); 
     }
     //: Register new message handler.
@@ -195,7 +195,7 @@ namespace RavlN {
     // ensure it is not deleted.
 
     template<class ObjT,class Data1T,class Data2T>
-    bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T &,Data2T &)) {
+    bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T,Data2T)) {
       return Register(NetMsgCall2C<Data1T,Data2T>(mid,msgName,CallMethod2C<ObjT,Data1T,Data2T,bool>(obj,func))); 
     }
     //: Register new message handler.
@@ -203,7 +203,7 @@ namespace RavlN {
     // ensure it is not deleted.
 
     template<class ObjT,class Data1T,class Data2T,class Data3T>
-    bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T &,Data2T &,Data3T &)) {
+    bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T,Data2T,Data3T)) {
       return Register(NetMsgCall3C<Data1T,Data2T,Data3T>(mid,msgName,CallMethod3C<ObjT,Data1T,Data2T,Data3T,bool>(obj,func))); 
     }
     //: Register new message handler.

@@ -107,7 +107,7 @@ namespace RavlN {
       return false;
     }
     
-    RegisterR(1,"Init",*this,&NetEndPointBodyC::MsgInit);
+    RegisterR(1,StringC("Init"),*this,&NetEndPointBodyC::MsgInit);
     
     if(autoInit) {
       const char *un = getenv("USER"); // This isn't really secure!!

@@ -68,7 +68,7 @@ namespace RavlLogicN {
   {
     DListC<NLPStepC> xSteps(steps);
     MinTermC tmp;
-    listSteps = CallFunc3C<MinTermC,MinTermC,DListC<NLPStepC>,DListC<NLPStepC> >(&FindStep,tmp,tmp,xSteps);
+    listSteps = CallFunc3C<MinTermC &,MinTermC &,DListC<NLPStepC> &,DListC<NLPStepC> >(&FindStep,tmp,tmp,xSteps);
   }
   
   ///////////////////////

@@ -73,7 +73,8 @@ namespace RavlN {
   //: Setup command func.
   
   void TemplateComplexBodyC::SetupCommand(const StringC &cmd,bool (TemplateComplexBodyC::* func)(StringC &arg)) {
-    commands[cmd] = CallMethodRef1C<TemplateComplexBodyC,StringC,bool>(*this,func,StringC());
+    StringC empty;
+    commands[cmd] = CallMethod1C<TemplateComplexBodyC &,StringC &,bool>(*this,func,empty);
   }
   
   //: Setup default commands.
@@ -484,7 +485,7 @@ namespace RavlN {
     ONDEBUG(cerr << "DoDefine '" << macroNm << "' Val:'" << macroVal << "'\n");
     StringC empty;    
     commands[macroNm] = 
-      CallMethodRef2C<TemplateComplexBodyC,StringC,StringC,bool>(*this,&TemplateComplexBodyC::DoMacro,empty,macroVal);
+      CallMethod2C<TemplateComplexBodyC &,StringC &,StringC &,bool>(*this,&TemplateComplexBodyC::DoMacro,empty,macroVal);
     return true;
   }
   

@@ -113,14 +113,14 @@ namespace RavlN
     
     virtual bool Decode(NetEndPointC &ep,BinIStreamC &is) { 
       //cerr << "Decode: Call1 at " << is.Tell() << "\n";
-      Data1T dat1;
+      typename TraitsC<Data1T>::BaseTypeT dat1;
       is >> dat1;
       sig(dat1);
       return true;
     }
     //: Decode and execute a packet.
 
-    bool Encode(BinOStreamC &os,const Data1T &dat1) {
+    bool Encode(BinOStreamC &os,const typename TraitsC<Data1T>::BaseTypeT &dat1) {
       NetMsgRegisterBodyC::Encode(os);
       os << dat1;
       return true;
@@ -173,8 +173,8 @@ namespace RavlN
     
   public:
     
-    bool Encode(BinOStreamC &os,const Data1T &p) 
-      { return Body().Encode(os,p); }
+    bool Encode(BinOStreamC &os,const typename TraitsC<Data1T>::BaseTypeT &p) 
+    { return Body().Encode(os,p); }
     //: Encode a call.
   };
 
@@ -195,15 +195,17 @@ namespace RavlN
     
     virtual bool Decode(NetEndPointC &ep,BinIStreamC &is) { 
       //cerr << "Decode: Call2 at " << is.Tell() << "\n";
-      Data1T dat1;
-      Data2T dat2;
+      typename TraitsC<Data1T>::BaseTypeT dat1;
+      typename TraitsC<Data2T>::BaseTypeT dat2;
       is >> dat1 >> dat2;
       sig(dat1,dat2);
       return true;
     }
     //: Process a message.
     
-    bool Encode(BinOStreamC &os,const Data1T &dat1,const Data2T &dat2) {
+    bool Encode(BinOStreamC &os,
+		const typename TraitsC<Data1T>::BaseTypeT &dat1,
+		const typename TraitsC<Data2T>::BaseTypeT &dat2) {
       NetMsgRegisterBodyC::Encode(os);
       os << dat1 << dat2;
       return true;
@@ -255,7 +257,9 @@ namespace RavlN
     
   public:
     
-    bool Encode(BinOStreamC &os,const Data1T &p1,const Data2T &p2) 
+    bool Encode(BinOStreamC &os,
+		const typename TraitsC<Data1T>::BaseTypeT &p1,
+		const typename TraitsC<Data2T>::BaseTypeT &p2) 
       { return Body().Encode(os,p1,p2); }
     //: Encode a call.
     
@@ -278,16 +282,19 @@ namespace RavlN
     
     virtual bool Decode(NetEndPointC &ep,BinIStreamC &is) { 
       //cerr << "Decode: Call3 at " << is.Tell() << "\n";
-      Data1T dat1;
-      Data2T dat2;
-      Data3T dat3;
+      typename TraitsC<Data1T>::BaseTypeT dat1;
+      typename TraitsC<Data2T>::BaseTypeT dat2;
+      typename TraitsC<Data3T>::BaseTypeT dat3;
       is >> dat1 >> dat2 >> dat3;
       sig(dat1,dat2,dat3);
       return true;
     }
     //: Process a message.
     
-    bool Encode(BinOStreamC &os,const Data1T &dat1,const Data2T &dat2,const Data2T &dat3) {
+    bool Encode(BinOStreamC &os,
+		const typename TraitsC<Data1T>::BaseTypeT &dat1,
+		const typename TraitsC<Data2T>::BaseTypeT &dat2,
+		const typename TraitsC<Data3T>::BaseTypeT &dat3) {
       NetMsgRegisterBodyC::Encode(os);
       os << dat1 << dat2 << dat3;
       return true;
@@ -312,7 +319,7 @@ namespace RavlN
     
     NetMsgCall3C(UIntT nid,const StringC &nname,const CallFunc3C<Data1T,Data2T,Data3T,bool> &nsig)
       : NetMsgRegisterC(*new NetMsgCall3BodyC<Data1T,Data2T,Data3T>(nid,nname,nsig))
-      {}
+    {}
     //: Constructor.
     
     NetMsgCall3C(const NetMsgRegisterC &oth)
@@ -339,8 +346,11 @@ namespace RavlN
     
   public:
     
-    bool Encode(BinOStreamC &os,const Data1T &p1,const Data2T &p2,const Data3T &p3) 
-      { return Body().Encode(os,p1,p2,p3); }
+    bool Encode(BinOStreamC &os,
+		const typename TraitsC<Data1T>::BaseTypeT &p1,
+		const typename TraitsC<Data2T>::BaseTypeT &p2,
+		const typename TraitsC<Data3T>::BaseTypeT &p3) 
+    { return Body().Encode(os,p1,p2,p3); }
     //: Encode a call.
     
   };

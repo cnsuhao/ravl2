@@ -228,12 +228,12 @@ namespace RavlGUIN {
     
     template<class DataT>
     void Render(bool (*nfunc)(DataT &dat),const DataT &dat)
-    { Put(DOpenGLC(CallFunc1C<DataT>(nfunc,dat))); }
+    { Put(DOpenGLC(CallFunc1C<DataT &>(nfunc,dat))); }
     //: Call OpenGL rendering function.
     
     template<class Data1T,class Data2T>
     void Render(bool (*nfunc)(Data1T &dat1,Data2T &dat2),const Data1T &dat1,const Data2T &dat2)
-    { Put(DOpenGLC(CallFunc2C<Data1T,Data2T>(nfunc,dat1,dat2))); }
+    { Put(DOpenGLC(CallFunc2C<Data1T &,Data2T &>(nfunc,dat1,dat2))); }
     //: Call OpenGL rendering function.
     
     template<class ObjT>
@@ -243,31 +243,31 @@ namespace RavlGUIN {
     
     template<class ObjT,class DataT>
     void Render(const ObjT &nobj,bool (ObjT::*nfunc)(DataT &),const DataT &dat)
-    { Put(DOpenGLC(CallMethod1C<ObjT,DataT>(nobj,nfunc,dat))); }
+    { Put(DOpenGLC(CallMethod1C<ObjT,DataT &>(nobj,nfunc,dat))); }
     //: Call OpenGL rendering function.
     
     template<class ObjT,class Data1T,class Data2T>
     void Render(const ObjT &nobj,bool (ObjT::*nfunc)(Data1T &,Data2T &),const Data1T &dat1,const Data2T &dat2)
-    { Put(DOpenGLC(CallMethod2C<ObjT,Data1T,Data2T>(nobj,nfunc,dat1,dat2))); }
+    { Put(DOpenGLC(CallMethod2C<ObjT,Data1T &,Data2T &>(nobj,nfunc,dat1,dat2))); }
     //: Call OpenGL rendering function.
     
     template<class ObjT>
     void RenderRef(ObjT &nobj,bool (ObjT::*nfunc)())
-    { Put(DOpenGLC(CallMethodRef0C<ObjT>(nobj,nfunc))); }
+    { Put(DOpenGLC(CallMethod0C<ObjT &>(nobj,nfunc))); }
     //: Call OpenGL rendering function.
     // Use only a reference to 'nobj', not a copy.
     // NB. This means the reference counter will NOT be incremented.
     
     template<class ObjT,class DataT>
     void RenderRef(ObjT &nobj,bool (ObjT::*nfunc)(DataT &),const DataT &dat)
-    { Put(DOpenGLC(CallMethodRef1C<ObjT,DataT>(nobj,nfunc,dat))); }
+    { Put(DOpenGLC(CallMethod1C<ObjT &,DataT &>(nobj,nfunc,dat))); }
     //: Call OpenGL rendering function.
     // Use only a reference to 'nobj', not a copy.
     // NB. This means the reference counter will NOT be incremented.
     
     template<class ObjT,class Data1T,class Data2T>
     void RenderRef(ObjT &nobj,bool (ObjT::*nfunc)(Data1T &,Data2T &),const Data1T &dat1,const Data2T &dat2)
-    { Put(DOpenGLC(CallMethodRef2C<ObjT,Data1T,Data2T>(nobj,nfunc,dat1,dat2))); }
+    { Put(DOpenGLC(CallMethod2C<ObjT &,Data1T &,Data2T &>(nobj,nfunc,dat1,dat2))); }
     //: Call OpenGL rendering function.
     // Use only a reference to 'nobj', not a copy.
     // NB. This means the reference counter will NOT be incremented.

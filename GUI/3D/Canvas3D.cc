@@ -163,7 +163,8 @@ namespace RavlGUIN {
   //: Put End Of Stream marker.
   bool Canvas3DBodyC::SetLightingMode(bool& bLighting) {
     m_bLighting = bLighting; 
-    Put(DOpenGLC(CallMethod0C<Canvas3DC>(Canvas3DC(*this),&Canvas3DC::DoLighting)));
+    Canvas3DC me(*this);
+    Put(DOpenGLC(CallMethod0C<Canvas3DC,bool>(me,&Canvas3DC::DoLighting)));
     return true;
   }
   
