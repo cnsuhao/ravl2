@@ -28,8 +28,9 @@ namespace RavlN {
     // Do something a little more clever.
     const SizeT* last = primeList + numPrimes;
     for(const SizeT* pos = primeList;pos != last;pos++)
-      if(*pos > n)
-	return n;
+      if(*pos > n) {
+	return *pos;
+      }
     return *(last-1);
   }
   
