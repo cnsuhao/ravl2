@@ -29,7 +29,8 @@ namespace RavlN {
 #endif
     out << ((UIntT) str.length());
     ONDEBUG(cerr << "operator<<(BinOStreamC &,StringC &), Writting string of " << str.length() << " bytes. \n");
-    out.OBuff(str.chars(),str.length());
+    if(str.length() > 0)
+      out.OBuff(str.chars(),str.length());
     return out;
   }
   
@@ -42,7 +43,8 @@ namespace RavlN {
 #endif
     out << ((UIntT) str.length());
     ONDEBUG(cerr << "operator<<(BinOStreamC &,StringC &), Writting string of " << str.length() << " bytes. \n");
-    out.OBuff(str.chars(),str.length());
+    if(str.length() > 0)
+      out.OBuff(str.chars(),str.length());
     return out;
   }
   
