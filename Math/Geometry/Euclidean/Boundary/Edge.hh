@@ -22,13 +22,17 @@
 namespace RavlN {
 
   //: Elementary boundary edge
-  // The class EdgeC represent an elementary edge of discrete image.
-  // Elementary edge is located between two pixels. Edge is represented
-  // by its origin and its direction. This definition implies only 4
-  // possible directions represented by Freeman code. Four elementary
-  // edges around a pixel are oriented counter-clockwise according to
-  // the center of the pixel. For example, the top edge has the direction
-  // to the left and its origin is upper-right corner of the pixel.
+
+  // <p>The class EdgeC represent an elementary edge of a discrete image.
+  // This elementary edge is located between two pixels. The edge is
+  // represented by its origin and its direction. This definition implies only
+  // 4 possible directions represented by Freeman code. Four elementary edges
+  // around a pixel are oriented counter-clockwise about the centre of
+  // the pixel. For example, the top edge points to the left and
+  // its origin is at the upper-right corner of the pixel.</p>
+
+  // <p>Do not confuse this class with <a href="EdgelC.html">EdgelC</a>, which
+  // is used to represent a string of edge pixels.</p>
   
   class EdgeC
     : public BVertexC, 
@@ -36,7 +40,7 @@ namespace RavlN {
   {
   public:
     //:------------------------------------------------
-    //: Constructors, copies, assigment, and destructor.
+    //: Constructors, copies, assignment, and destructor.
 
     EdgeC()
     {}
@@ -52,7 +56,7 @@ namespace RavlN {
     
     EdgeC(const BVertexC & begin, const BVertexC & end);
     // Create the edge with origin in the boundary vertex 'begin' pointing 
-    // towards the boudary vertex 'end'. The direction is automatically 
+    // towards the boundary vertex 'end'. The direction is automatically 
     // generated.
     
     EdgeC(const Index2dC &pxl, const CrackCodeC & cc);
