@@ -56,7 +56,7 @@ int VGrab(int argc, char ** argv)
   opts.DependXor ("end n") ; 
   opts.Check() ;  
 
-
+  //howMany *= frameStep ; 
 
 
   //: create a name for the timecode file 
@@ -75,7 +75,7 @@ int VGrab(int argc, char ** argv)
   // --------------------------------
   if (verbose) cout << "\n   -  Trying to setup capture device " << device << " ....  " ; 
   DPIPortC<ImageT> inStream ; 
-  if ( ! OpenISequence ( inStream, device, "", verbose) ) 
+  if ( ! OpenISequence ( inStream, device, "", false) ) 
     { RavlIssueError ("\n   -  Failed to open input device, exiting .... " ) ; } 
   if (verbose) cout << "\t\tdone  ! " ; 
 
@@ -146,7 +146,7 @@ int VGrab(int argc, char ** argv)
   // try to open the output stream 
   // ------------------------------
   DPOPortC<ImageT>  outStream ; 
-  if ( ! OpenOSequence ( outStream, outFile, "", verbose) ) 
+  if ( ! OpenOSequence ( outStream, outFile, "", false) ) 
     { RavlIssueError ("\n\n   - Failed to open output file stream ") ; }
 
 
@@ -168,7 +168,7 @@ int VGrab(int argc, char ** argv)
 	{ cout <<  "timecode has been missed " ; return (1) ; } 
 
       while (timeNow < startTC ) {
-	cout << "\n" << timeNow.ToText() ; 
+	//cout << "\n" << timeNow.ToText() ; 
 	tmpImage = inStream.Get() ; 
 	timeNow =  inStream.GetAttr("timecode") ;  
 	++ statusStep ; 
@@ -199,7 +199,7 @@ int VGrab(int argc, char ** argv)
     {
       TimeCodeC nextGrab = timeNow + 1 ; 
       TimeCodeC endTime = end ; 
-      if ( !opts.IsOnCommandLine("end") ) endTime = nextGrab + howMany - 1; 
+      if ( !opts.IsOnCommandLine("end") ) endTime = nextGrab + ((howMany-1)*frameStep); 
       if (verbose) cout << "\n   -  First Grab will be: " << nextGrab.ToText() << "  \t and endtime is: " << endTime.ToText() ; 
 
       while ( true ) 
@@ -229,7 +229,7 @@ int VGrab(int argc, char ** argv)
   else { 
     // just count frames 
     // -----------------
-    UIntT count = 1 ; 
+    UIntT count = 1 ; // total count 
     UIntT stepCount = frameStep ; 
     while (true) 
       {
@@ -259,7 +259,7 @@ int VGrab(int argc, char ** argv)
   if (verbose) cout << "\n   - Saving " << imgList.Size() << " frames .... " ; 
   for ( DLIterC<ImageT> iter (imgList) ; iter.IsElm() ; iter.Next() )
     outStream.Put( iter.Data() ) ; 
-  if (verbose) cout << "\t\t\t\tdone! " ; 
+  if (verbose) cout << "\t\t\t\tdone! \n\n" ; 
 
   // Save timecodes 
   // ----------------
