@@ -42,9 +42,10 @@ namespace RavlImageN {
     //: Returns a list of tracks.
     // Same as update, but returns the track list.
     
-    void Init(const ImageC<ByteT> &img, ImageC<ByteT>* debugimg = NULL);
+    void AddTracks(const ImageC<ByteT> &img, ImageC<ByteT>* debugimg = NULL);
     //: Detects new point tracks
     // Only use this if you want to manually force track creation, normally when newFreq is very large
+    // The second pointer is for a debugging image, and is for internal use only.
 
     IntT Update(const ImageC<ByteT> &img);
     //: Update track with information from an image.    

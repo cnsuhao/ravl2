@@ -99,7 +99,7 @@ namespace RavlImageN {
 
   
   //: Init tracks
-  void PointTrackerC::Init(const ImageC<ByteT> &img, ImageC<ByteT>* debugimg) {
+  void PointTrackerC::AddTracks(const ImageC<ByteT> &img, ImageC<ByteT>* debugimg) {
 
     // Detect corners
     DListC<CornerC> cl;
@@ -173,9 +173,9 @@ namespace RavlImageN {
     // If we're on the right frame, add new tracks
     if((frameCount-1) % newFreq == 0)
 #if DODEBUG
-      Init(img,&timg);
+      AddTracks(img,&timg);
 #else
-      Init(img,NULL);
+      AddTracks(img,NULL);
 #endif
     
     ONDEBUG(Save("@X:Track",timg));
