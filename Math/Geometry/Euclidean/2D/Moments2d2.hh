@@ -20,6 +20,8 @@
 #include "Ravl/Point2d.hh"
 
 namespace RavlN {
+
+  class Matrix2dC;
   
   //! userlevel=Normal
   //: The first two  moments in 2D space
@@ -32,21 +34,33 @@ namespace RavlN {
     {}
     //: Default constructor
     // Creates the moment object with all moments set to be zero.
+
+    inline Moments2d2C(RealT nm00,RealT nm10,RealT nm01,RealT nm20,RealT nm11,RealT nm02)
+      : m00(nm00), m10(nm10), m01(nm01), m20(nm20), m11(nm11), m02(nm02)
+    {}
+    //: Constructor from a set of values.
     
     inline void AddPixel (const Index2dC &pxl);
     //: Adds a pixel to the object and updates sums.
-
-    inline void AddPixel (const Point2dC &pxl,RealT weight);
+    
+    inline void AddPixel (const Point2dC &pxl,RealT weight = 1);
     //: Adds a position with a weight to the object and updates sums.
     
-    inline const Moments2d2C & Centerlize();
+    const Moments2d2C &operator+=(const Index2dC &pxl)
+    { AddPixel(pxl); return *this; }
+    //: Add pixel to set.
+
+    const Moments2d2C &operator+=(const Point2dC &point)
+    { AddPixel(point); return *this; }
+    //: Add pixel to set.
+    
+    const Moments2d2C & Centerlize();
     //: Recomputes the moments according to the centroid.
     
     const Moments2d2C & ToPrincipalAxis();
     //: Recomputes the moments according to the principal axis.
-    // It is assumed that input moments are centerlized
     
-    inline RealT Elongatedness() const;
+    RealT Elongatedness() const;
     //: Returns the ratio of the difference and the sum of moments m02 and m20.
     // The value 0 means that objects is a symmetrical object,
     // the value 1 corresponds to a one-dimensional object. Is is assumed
@@ -123,6 +137,26 @@ namespace RavlN {
     //: Returns the y co-ordinate of the centroid.
     // The M00 moment must be different 0.
     
+    Matrix2dC Covariance() const;
+    //: Return the covariance matrix.
+    
+    Point2dC Centroid()
+    { return Point2dC(CentroidX(),CentroidY()); }
+    //: Calculate the centroid.
+    
+    Moments2d2C operator+(const Moments2d2C &m) const
+    { return Moments2d2C(m00 + m.M00(),m10 + m.M10(),m01 + m.M01(),m20 + m.M20(),m11 + m.M11(),m02 + m.M02()); }
+    //: Add to sets of moments together.
+
+    Moments2d2C operator-(const Moments2d2C &m) const
+    { return Moments2d2C(m00 - m.M00(),m10 - m.M10(),m01 - m.M01(),m20 - m.M20(),m11 - m.M11(),m02 - m.M02()); }
+    //: Subtract one set of moments from another.
+    
+    const Moments2d2C &operator+=(const Moments2d2C &m);
+    //: Add to sets of moments to this one.
+    
+    const Moments2d2C &operator-=(const Moments2d2C &m);
+    //: Subtract a set of moments to this one.
     
   private:
     RealT m00;
@@ -149,46 +183,53 @@ namespace RavlN {
   
   inline
   void Moments2d2C::AddPixel (const Index2dC &pxl) {
-    RealT row = pxl.Col();
-    RealT col = pxl.Row();
+    RealT a = pxl[0];
+    RealT b = pxl[1];
     
     m00++;
-    m01 += row;
-    m10 += col;
-    m11 += row*col;
-    m02 += row*row;
-    m20 += col*col;
+    m01 += b;
+    m10 += a;
+    m11 += a*b;
+    m02 += b*b;
+    m20 += a*a;
   }
-
+  
   //: Adds a position with a weight to the object and updates sums.
   
   void Moments2d2C::AddPixel (const Point2dC &pxl,RealT weight) {
-    RealT row = pxl[0];
-    RealT col = pxl[1];
+    RealT a = pxl[0];
+    RealT b = pxl[1];
     
     m00 += weight;
-    RealT wrow = row * weight;
-    RealT wcol = col * weight;
-    m01 += wrow;
-    m10 += wcol;
-    m11 += row*wcol;
-    m02 += row*wrow;
-    m20 += col*wcol;
+    RealT wa = a * weight;
+    RealT wb = b * weight;
+    m01 += wb;
+    m10 += wa;
+    m11 += a*wb;
+    m02 += b*wb;
+    m20 += a*wa;
   }
   
-  
-  inline 
-  const Moments2d2C & Moments2d2C::Centerlize() {
-    m20 -= m10*m10/m00;
-    m02 -= m01*m01/m00;
-    m11 -= m10*m01/m00;
-    return *this; 
+  inline
+  const Moments2d2C &Moments2d2C::operator+=(const Moments2d2C &m) {
+    m00 += m.M00();
+    m10 += m.M10();
+    m01 += m.M01();
+    m20 += m.M20(); 
+    m11 += m.M11();
+    m02 += m.M02();
+    return *this;
   }
   
-  inline 
-  RealT Moments2d2C::Elongatedness() const {
-    RealT sumM = M20() + M02();
-    return (sumM!=0) ? Abs((M20() - M02()) / sumM) : 0 ;
+  inline
+  const Moments2d2C &Moments2d2C::operator-=(const Moments2d2C &m) {
+    m00 -= m.M00();
+    m10 -= m.M10();
+    m01 -= m.M01();
+    m20 -= m.M20(); 
+    m11 -= m.M11();
+    m02 -= m.M02();
+    return *this;
   }
 
 }
