@@ -250,7 +250,7 @@ namespace RavlN {
     
     void DeregisterClient() {
       MutexLockC lock(access);
-      clients--;      
+      clients--;
       if(clients == 0 && triggerCountZero.IsValid()) {
 	lock.Unlock();
 	triggerCountZero.Invoke();
