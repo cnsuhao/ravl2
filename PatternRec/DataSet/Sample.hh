@@ -172,9 +172,13 @@ namespace RavlN {
   
   template <class DataT>
   ostream &operator<<(ostream &s,const SampleC<DataT> &dat ) {
-    s  << dat.Size() << "\n";
-    for(DArray1dIterC<DataT> it(dat.DArray());it;it++)
-      s << *it << "\n";
+    if(dat.IsValid()) {
+      s  << dat.Size() << "\n";
+      for(DArray1dIterC<DataT> it(dat.DArray());it;it++)
+	s << *it << "\n";
+    } else {
+      s << "0\n";
+    }
     return s;
   }
   //: Output to stream.
@@ -195,9 +199,13 @@ namespace RavlN {
 
   template <class DataT>
   BinOStreamC &operator<<(BinOStreamC &s,const SampleC<DataT> &dat ) {
-    s  << dat.Size();
-    for(DArray1dIterC<DataT> it(dat.DArray());it;it++)
-      s << *it;
+    if(dat.IsValid()) {
+      s  << dat.Size();
+      for(DArray1dIterC<DataT> it(dat.DArray());it;it++)
+	s << *it;
+    } else {
+      s << (UIntT) 0;
+    }
     return s;
   }
   //: Output to a binary stream.
