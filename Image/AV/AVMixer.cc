@@ -11,8 +11,9 @@
 #include "Ravl/AVMixer.hh"
 
 #if RAVL_COMPILER_MIPSPRO 
+#include "Ravl/Audio/Types.hh"
 #pragma instantiate RavlN::DPIPortBodyC<RavlImageN::ImageC<RavlImageN::ByteRGBValueC> >
-#pragma instantiate RavlN::DPIPortBodyC<RavlAudioN::SampleElemC<(const UIntT)2,short> >
+#pragma instantiate RavlN::DPIPortBodyC<RavlAudioN::SampleElemC<(unsigned int)2,short> >
 #endif 
 
 namespace RavlImageN {
