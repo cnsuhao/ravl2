@@ -342,4 +342,12 @@ namespace Ravl3DN {
   bool DPOTexVRMLFileBodyC::IsPutReady() const 
   { return !done && outf; }
 
+
+#if RAVL_COMPILER_MIPSPRO
+  // force template instantiation
+  DPIPortBodyC<ImageC<ByteRGBValueC> > silly_dummy_variable_for_irix_template1 ; 
+  DPOPortBodyC<ImageC<ByteRGBValueC> > silly_dummy_variable_for_irix_template2 ;
+#endif 
+
 }
+
