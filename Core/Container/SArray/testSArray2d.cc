@@ -51,6 +51,9 @@ int main() {
     it.Data1() = 0;
   for(SArray2dIter3C<int,int,int> it(testArr,testArr,testArr);it;it++)
     it.Data1() = 0;
+  
+  Index2dC at(0,0);
+  if(testArr[at] != testArr[0][0]) return 1;
   cerr << "Test passed ok. \n";
   return 0; 
 }

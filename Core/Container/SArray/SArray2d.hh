@@ -47,9 +47,19 @@ namespace RavlN {
     inline SArray2dC()
     {}
     //: Default constructor.
+    // Creates a zero size array.
     
     SArray2dC(SizeT dim1,SizeT dim2);
     //: Constructor.
+    // Create a dim1 by dim2 array.
+    
+    SArray2dC(IndexC dim1,IndexC dim2);
+    //: Constructor.
+    // Create a dim1 by dim2 array.
+    
+    SArray2dC(const Index2dC &size);
+    //: Constructor.
+    // Create a size[0] by size[1] array.
     
     SArray2dC(const BufferC<DataT> & bf, SizeT size1,SizeT size2,SizeT startOffset = 0,SizeT stride = 0);
     //: Constructor using the buffer 'bf'. 
@@ -229,6 +239,18 @@ namespace RavlN {
   SArray2dC<DataT>::SArray2dC(SizeT nsize1,SizeT nsize2)
     : SizeBufferAccess2dC<DataT>(nsize2),
       data(nsize1,nsize2)
+  { BuildAccess(); }
+  
+  template<class DataT>
+  SArray2dC<DataT>::SArray2dC(IndexC nsize1,IndexC nsize2)
+    : SizeBufferAccess2dC<DataT>(nsize2.V()),
+      data(nsize1.V(),nsize2.V())
+  { BuildAccess(); }
+  
+  template<class DataT>
+  SArray2dC<DataT>::SArray2dC(const Index2dC &size)
+    : SizeBufferAccess2dC<DataT>(size[1].V()),
+      data(size[0].V(),size[1].V())
   { BuildAccess(); }
   
   template<class DataT>
