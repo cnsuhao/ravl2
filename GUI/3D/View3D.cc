@@ -339,7 +339,7 @@ namespace RavlGUIN {
     return true;
   }
   
-  void View3DBodyC::InitGL() {
+  bool View3DBodyC::InitGL() {
     ONDEBUG(cerr << "View3DBodyC::InitGL(), Called. \n");
     // Set up culling
     SetCullMode();
@@ -351,7 +351,7 @@ namespace RavlGUIN {
     SetRenderMode(mode);
     // Let everyone know we're ready to go.
     initDone = true;
-    return;
+    return true;
   }
   
   void View3DBodyC::SetCullMode() {
@@ -378,16 +378,16 @@ namespace RavlGUIN {
     }
   }
   
-  void View3DBodyC::NewFrame() {
+  bool View3DBodyC::NewFrame() {
     // Clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // Reset matrix
     glLoadIdentity();
     // Done
-    return;
+    return true;
   }
   
-  void View3DBodyC::SetCamera() {
+  bool View3DBodyC::SetCamera() {
     // Rotate scene
     glRotated(m_fXRotation,1,0,0);
     glRotated(m_fYRotation,0,1,0);
@@ -399,7 +399,7 @@ namespace RavlGUIN {
     //glTranslated(m_fXTranslation,m_fYTranslation,0);  
     
     // Done
-    return;
+    return true;
   }
 
 }

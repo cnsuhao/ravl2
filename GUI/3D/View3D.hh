@@ -93,13 +93,13 @@ namespace RavlGUIN {
     void SetCullMode(void);
     //: Sets the face culling mode based on member variables
     
-    void InitGL(void);
+    bool InitGL(void);
     //: Sets up GL context
     
-    void NewFrame(void);
+    bool NewFrame(void);
     //: Sets up for a new frame
     
-    void SetCamera(void);
+    bool SetCamera(void);
     //: Rotates the camera
     
     bool sceneComplete;
@@ -170,16 +170,16 @@ namespace RavlGUIN {
       { return static_cast<const View3DBodyC &>(Canvas3DC::Body()); }
     //: Access body.
     
-    void InitGL(void)
-      { Body().InitGL(); }
+    bool InitGL(void)
+      { return Body().InitGL(); }
     //: Sets up GL context
     
-    void NewFrame(void)
-      { Body().NewFrame(); }
+    bool NewFrame(void)
+      { return Body().NewFrame(); }
     //: Sets up for a new frame
     
-    void SetCamera(void)
-      { Body().SetCamera(); }
+    bool SetCamera(void)
+      { return Body().SetCamera(); }
     //: Rotates the camera
     
   public:
