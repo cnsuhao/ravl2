@@ -130,6 +130,20 @@ namespace RavlN {
     }
     //: Pop item off back of list.
     // It is up to the user to ensure the object is deleted.
+
+    void DelFirst()  { 
+      RavlAssert(!IsEmpty());
+      IntrDListC<DataT>::Delete(head.Next());
+    }
+    //: Pop item off front of list.
+    // It is up to the user to ensure the object is deleted.
+    
+    void DelLast()  { 
+      RavlAssert(!IsEmpty());
+      IntrDListC<DataT>::Delete(head.Prev().Unlink());
+    }
+    //: Pop item off back of list.
+    // It is up to the user to ensure the object is deleted.
     
   protected:
     

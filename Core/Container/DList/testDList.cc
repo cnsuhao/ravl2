@@ -32,6 +32,12 @@ public:
   
   int v;
 };
+
+template class DListC<IntT>;
+template class DLIterC<IntT>;
+
+template IntrDListC<StuffC>; // Force instanciation of all methods.
+template IntrDLIterC<StuffC>; // Force instanciation of all methods.
   
 int testDListBinIO();
 int testIntrDList();
@@ -108,5 +114,3 @@ int testDListBinIO() {
   return 0;
 }
 
-template class DListC<IntT>;
-template class DLIterC<IntT>;
