@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! docentry="Ravl.Pattern Recognition.Classify"
+//! docentry="Ravl.Pattern Recognition.Cluster"
 //! file="Ravl/PatternRec/Classify/DesignClassifyVectorSupervised.hh"
 
 #include "Ravl/RCHandleV.hh"

@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
-//! file="Ravl/PatternRec/Classify/DesignClassifyVector.cc"
+//! file="Ravl/PatternRec/Classify/DesignClassifyVectorUnsupervised.cc"
 
 #include "Ravl/PatternRec/DesignClassifyVectorUnsupervised.hh"
 #include "Ravl/PatternRec/SampleIter.hh"

@@ -36,7 +36,7 @@ namespace RavlN {
     ClassifyKNearestNeighbourBodyC(const DataSet2C<SampleVectorC,SampleLabelC> &data,
 				   UIntT defaultK = 5,
 				   const DistanceC &xdistMetric = DistanceSqrEuclideanC());
-    //: Default constructor.
+    //: Constructor.
     
     virtual SArray1dC<Tuple2C<UIntT,RealT> > Search(const VectorC &ex,UIntT k) const;
     //: Search for the the 'k' nearest neighbours.
