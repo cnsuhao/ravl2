@@ -87,8 +87,12 @@ namespace RavlN {
       
       DListC<StringC> UsesLibs() {
 	if(!libInfo.IsValid())
-	  return  DListC<StringC>();
-	return libInfo.UsesLibs();
+	  return DListC<StringC>();
+	switch(ctype) {
+	case 1: return libInfo.UsesLibs();
+	case 2: return progInfo.UsesLibs();
+	}
+	return DListC<StringC>();
       }
       //: Access useslibs list.
       
