@@ -16,7 +16,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -347,7 +347,8 @@ namespace RavlImageN {
 	      return ImageC<ByteRGBValueC>(); // Read FAILED !
 	    it.Data().Set(buff,buff,buff);
 	  }
-	}
+	}  //: register mono 8 bit unsigned type 
+
 	break;
       case '6': // Binary
 	{
@@ -477,6 +478,31 @@ namespace RavlImageN {
 	  }
 	}
 	break;
+	case '4': // Binary PBM 
+	  {
+	    IntT byteNo = Ceil(((RealT) img.Size()) / 8.0) ; // 1 bit per pixel ! 
+	    unsigned char * tmp = (unsigned char*)  operator new (byteNo * sizeof(char))  ; // allocate some bytes 
+	    inf.read((char*) tmp, byteNo) ;  // read the whole image in one go. 
+	    
+	    UIntT byte = 0 ; // first byte in file 
+	    // go through ravl image 
+	    for ( Array2dIterC<ByteT> it(img) ; it.IsElm() ; )  {
+	      register unsigned char tempory = tmp[byte] ; // cache the byte we are dealing with  
+	      for ( UIntT shift = 0 ; shift <= 7 ; ++ shift ) // iterate over each bit 
+		{
+		  if ( (tempory & 128) ) // check value of msb 
+		    it.Data() = (UIntT) 0 ; 
+		  else  
+		    it.Data() = (UIntT) 255 ; 
+		  it.Next() ; // next ravl pixel 
+		  tempory <<= 1 ; // shift the byte by 1 bit 
+		}
+	      ++ byte ; // next byte (8 pixels) 
+	    }
+	    operator delete (tmp) ; 
+	  }
+	  break ; 
+
       case '5': // Binary PNMByteGrey
 	{
 	  // Can read row at time because no packing problems.

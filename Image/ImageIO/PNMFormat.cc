@@ -218,9 +218,10 @@ namespace RavlImageN {
   
   const type_info &
   FileFormatPBMBodyC::ProbeLoad(const StringC &nfilename,IStreamC &in,const type_info &obj_type) const {
-    StringC filename(nfilename);
-    if(obj_type != typeid(ImageC<bool>) && obj_type != typeid(ImageC<ByteT>))
-      return typeid(void);
+    //   cerr << "\n\n In ProbeLoad " ; 
+    //StringC filename(nfilename);
+    //if(obj_type != typeid(ImageC<bool>) && obj_type != typeid(ImageC<ByteT>))
+    //  return typeid(void);
     // For Load, use stream probe its more reliable than extentions.
     return ProbeLoad(in,obj_type);
   }
@@ -244,7 +245,7 @@ namespace RavlImageN {
   
   DPIPortBaseC FileFormatPBMBodyC::CreateInput(IStreamC &in,const type_info &obj_type) const {
     if(obj_type == typeid(ImageC<ByteT>))
-      return  DPIImagePNMByteGreyC(in);
+	return  DPIImagePNMByteGreyC(in); 
     return DPIPortBaseC();
   }
   
