@@ -27,8 +27,9 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Crack code boundary
-  // The class BoundaryC represents the 4-connected oriented boundary of a image
-  // region.
+
+  // The class BoundaryC represents the 4-connected oriented boundary of an
+  // image/array region. If the image is interpreted as an array of pixels on the form of square tiles, the boundary follows the edges of the tiles
   
   class BoundaryC
     : public DListC<CrackC>
@@ -42,10 +43,10 @@ namespace RavlN {
     // If orient is true, the object is on the left of the boundary.
     
     BoundaryC(const Array2dC<IntT> &emask,IntT inLabel);
-    //: Create a boundary from the edges between 'inLabel' pixels an other values
+    //: Creates an unsorted list of boundary elements (CrackC) from the edges between 'inLabel' pixels an other values
     
     BoundaryC(const Array2dC<UIntT> &emask,IntT inLabel);
-    //: Create a boundary from the edges between 'inLabel' pixels an other values
+    //: Creates an unsorted list of boundary elements (CrackC) from the edges between 'inLabel' pixels an other values
     
     BoundaryC(const DListC<CrackC> & edgeList, bool orient);
     //: Create the boundary from the list of edges with a appropriate orientation. 
@@ -66,18 +67,15 @@ namespace RavlN {
     // Note: The area of the region can be negative, If it is a 'hole' in
     // a plane. This can be inverted with the BReverse() method.
     
-    DListC<BoundaryC> Order(const CrackC & firstCrack, bool orient = true);
-    //: Order boundary from edge.
-    // Note: There is a bug in this code which can cause an infinite loop
-    // for some edge patterns. In particular where the two edges go through
-    // the same vertex. <br>
-    // Order the edgels of this boundary such that it can be traced 
-    // continuously along the direction of the first edge. The orientation 
-    // of the boundary is set according to 'orient'. If the boundary is open,
-    // 'firstCrack' and 'orient' are ignored.
-    
     DListC<BoundaryC> OrderEdges() const;
-    //: Generate an order list of boundaries.
+    //: Generate a list of boundaries.
+    // Each item in the list corresponds to a single boundary contour.<br>
+    // The edges in each boundary are ordered along the boundary.<br> 
+    // The direction of the boundaries is determined by the constructor.<br>
+    // Boundaries that terminate at the edge of the array/image are left open.<br>
+    
+    DListC<BoundaryC> Order(const CrackC & firstCrack, bool orient = true);
+    //!deprecated: Order boundary from edge. <br> Order the edgels of this boundary such that it can be traced continuously along the direction of the first edge. The orientation of the boundary is set according to 'orient'. If the boundary is open, 'firstCrack' and 'orient' are ignored.<br>  Note: There is a bug in this code which can cause an infinite loop for some edge patterns. In particular where the two edges go through the same vertex.<br>
     
     bool Orient() const
     { return orientation; }

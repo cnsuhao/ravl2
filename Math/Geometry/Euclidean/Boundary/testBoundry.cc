@@ -177,7 +177,7 @@ int testOrderEdges() {
   emask[2][3] = 1;
   emask[3][2] = 1;
   
-  BoundaryC bnds(emask,1);
+  BoundaryC bnds(emask,true);
   DListC<BoundaryC> lst = bnds.OrderEdges();
   
   // cerr << "Lst.Size()=" << lst.Size() << "\n";
@@ -198,7 +198,7 @@ int testOrderEdges() {
   emask[3][2] = 1;
   emask[3][3] = 1;
   
-  BoundaryC bnds2(emask,1);
+  BoundaryC bnds2(emask,true);
   lst = bnds2.OrderEdges();
   if(lst.Size() != 2) return __LINE__;
   if((lst.First().Size() + lst.Last().Size()) != 16) return __LINE__;
