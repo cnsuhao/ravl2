@@ -18,3 +18,4 @@ PLIB=RavlClassWizard
 
 USESLIBS=RavlCxxDoc
 
+EHT=Ravl.Source_Tools.Class_Wizard.html
