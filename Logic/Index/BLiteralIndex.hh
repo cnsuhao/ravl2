@@ -37,8 +37,10 @@ namespace RavlLogicN {
     //: Default constructor.
     // Creates a new table.
     
-    inline BLiteralIndexC(const BLiteralIndexC<DataT> &oth,bool shareIDOnly = false)
-      : ids(oth.ids)
+    inline BLiteralIndexC(const BLiteralIndexC<DataT> &oth,
+			  bool shareIDOnly = false)
+      : ids(oth.ids),
+	tab(oth.tab)
     {
       if(!shareIDOnly)
 	tab = oth.tab.Copy();
