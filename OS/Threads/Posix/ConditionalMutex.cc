@@ -71,7 +71,7 @@ namespace RavlN
       ts.tv_sec += 1;
       ts.tv_nsec -= NANOSEC;
     }
-
+    
     do {
       errcode = pthread_cond_timedwait(&cond,&mutex,&ts); 
       if(errcode == ETIMEDOUT)
@@ -79,7 +79,6 @@ namespace RavlN
       // May be interupted by EINTR... ignore and restart the wait.
       if ( errcode == 0 ) break ;
       RavlAssertMsg(errcode == EINTR,"ConditionalMutexC::Wait(), ERROR: Unexpected return code.");
-
     } while(errcode != 0);
     
     return (errcode != ETIMEDOUT);
@@ -87,7 +86,6 @@ namespace RavlN
 
 #else  
   // ----------------------------------------------------------------
-  // Some stubs we may fill in later.
   
   ConditionalMutexC::ConditionalMutexC() 
     : count(0)
