@@ -19,7 +19,12 @@ endif
 
 MKDEPFLAGS = -MM
 
-AR = ar
+ifdef RAVL_AR
+ AR = $(RAVL_AR) 
+else 
+ AR = ar
+endif 
+
 ARFLAGS = ruc
 MKDIR = mkdir -p
 CP = cp

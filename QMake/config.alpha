@@ -6,11 +6,26 @@
 #CC =/usr/bin/Gnu/gcc
 #CXX=/usr/bin/Gnu/g++
 
-CC=gcc
-CXX=g++
+ifdef RAVL_CC
+ CC = $(RAVL_CC)
+else
+ CC = gcc
+endif
+
+ifdef RAVL_CXX
+ CXX = $(RAVL_CXX) 
+else 
+ CXX = g++
+endif 
 
 MKDEPFLAGS = -MM
-AR = ar
+
+ifdef RAVL_AR
+ AR = $(RAVL_AR) 
+else 
+ AR = ar
+endif 
+
 ARFLAGS = rusc
 MKDIR = mkdir -p
 CP = cp

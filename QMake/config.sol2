@@ -8,25 +8,42 @@
 # The following ifndef's allow the rest of this configuration to be
 # used for alpha's
 
-ifeq ($(shell which /opt/GNUdevelop/gcc-3.2/bin/gcc3 2> /dev/null),/opt/GNUdevelop/gcc-3.2/bin/gcc3)
-CC = /opt/GNUdevelop/gcc-3.2/bin/gcc3
-CXX = /opt/GNUdevelop/gcc-3.2/bin/g++3
+ifdef RAVL_CC
+ CC = $(RAVL_CC)
 else
-ifeq ($(shell which /opt/GNUdevelop/gcc-2.95.3/bin/gcc2 2> /dev/null),/opt/GNUdevelop/gcc-2.95.3/bin/gcc2)
-CC = /opt/GNUdevelop/gcc-3.2/bin/gcc2
-CXX = /opt/GNUdevelop/gcc-3.2/bin/g++2
-else
-CC = gcc
-CXX = g++
-endif 
-endif 
+  ifeq ($(shell which /opt/GNUdevelop/gcc-3.2/bin/gcc3 2> /dev/null),/opt/GNUdevelop/gcc-3.2/bin/gcc3)
+    CC = /opt/GNUdevelop/gcc-3.2/bin/gcc3
+  else
+    ifeq ($(shell which /opt/GNUdevelop/gcc-2.95.3/bin/gcc2 2> /dev/null),/opt/GNUdevelop/gcc-2.95.3/bin/gcc2)
+      CC = /opt/GNUdevelop/gcc-3.2/bin/gcc2
+    else
+      CC = gcc
+    endif 
+  endif 
+endif
 
-
-#CC = cc
-#CXX = CC
+ifdef RAVL_CXX
+ CXX = $(RAVL_CXX) 
+else 
+  ifeq ($(shell which /opt/GNUdevelop/gcc-3.2/bin/gcc3 2> /dev/null),/opt/GNUdevelop/gcc-3.2/bin/gcc3)
+    CXX = /opt/GNUdevelop/gcc-3.2/bin/g++3
+  else
+    ifeq ($(shell which /opt/GNUdevelop/gcc-2.95.3/bin/gcc2 2> /dev/null),/opt/GNUdevelop/gcc-2.95.3/bin/gcc2)
+      CXX = /opt/GNUdevelop/gcc-3.2/bin/g++2
+    else
+      CXX = g++
+    endif 
+  endif 
+endif 
 
 MKDEPFLAGS = -MM
-AR = ar
+
+ifdef RAVL_AR
+ AR = $(RAVL_AR) 
+else 
+ AR = ar
+endif 
+
 ARFLAGS = ruc
 MKDIR = mkdir -p
 CP = cp

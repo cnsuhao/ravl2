@@ -18,7 +18,13 @@ else
 endif
 
 MKDEPFLAGS = -M
-AR = ar
+
+ifdef RAVL_AR
+ AR = $(RAVL_AR) 
+else 
+ AR = ar
+endif 
+
 ARFLAGS = crus
 MKDIR = mkdir -p
 CP = cp
