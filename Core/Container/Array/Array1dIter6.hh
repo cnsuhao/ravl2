@@ -86,6 +86,10 @@ namespace RavlN {
     //: Test if this is the first element in the range.
     // Note,this is slower than IsElm().
     
+    IndexC Index() const
+    { return IndexC((IntT)(at1 - dat1.ReferenceElm())); }
+    //: Calculate the index we're at (In first array.)
+    
   protected:
     Array1dC<Data1T> dat1;
     Array1dC<Data2T> dat2;
