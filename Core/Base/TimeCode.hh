@@ -35,23 +35,24 @@ namespace RavlN {
     //:------------------
     // Constructors
     
-    TimeCodeC(ByteT hr, ByteT min, ByteT sec, ByteT fr);
+    TimeCodeC(ByteT hr, ByteT min, ByteT sec, ByteT fr,RealT frameRate = 25.0);
     //: Construct timecode from 4 bytes
     
-    TimeCodeC(ByteT * in);
+    TimeCodeC(ByteT * in,RealT frameRate = 25.0);
     //: Construct timecode from byte array
     
-    TimeCodeC(int hr, int min, int sec, int fr);
+    TimeCodeC(int hr, int min, int sec, int fr,RealT frameRate = 25.0);
     //: Construct timecode from 4 ints
     
-    TimeCodeC(const long int nFrames);
+    TimeCodeC(const long int nFrames,RealT frameRate = 25.0);
     //: Construct timecode from absolute frame count
     
-    TimeCodeC(const char * string);
+    TimeCodeC(const char * string,RealT frameRate = 25.0);
     //: Construct from a valid string representation
     
     TimeCodeC()
-      : m_liFrame(0)
+      : m_liFrame(0),
+	frameRate(25.0)
     {}
     //: Construct empty timecode
     
@@ -117,13 +118,23 @@ namespace RavlN {
         
     long int getFrameCount() const {return m_liFrame;}
     //: Access frame count.
+
+    bool ConvertTo(int &hr, int &min, int &sec, int &fr) const;
+    //: Convert to hours, minutes, seconds, frame.
     
+    bool ConvertFrom(int hr,int min,int sec,int fr);
+    //: Convert from hours, minutes, seconds, frame.
+
+    RealT FrameRate() const
+    { return frameRate; }
+    //: Access the frame rate
   public:
     
     long int m_liFrame;
     // Absolute frame count of timecode
-
     
+    RealT frameRate;
+    // Refrence frame rate.
   };
   
   ostream &operator<<(ostream &s, const TimeCodeC &out);
