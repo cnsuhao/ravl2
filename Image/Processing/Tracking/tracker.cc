@@ -18,7 +18,7 @@ using namespace RavlImageN;
 
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
-  int cthreshold = opt.Int("ct",800,"Corner threshold. ");
+  int cthreshold = opt.Int("ct",30,"Corner threshold. ");
   int cwidth     = opt.Int("cw",7,"Corner filter width. ");
   int mthreshold = opt.Int("mt",20,"Matching threshold. ");
   int mwidth     = opt.Int("mw",15,"Tracker feature width. ");

@@ -69,7 +69,7 @@ namespace RavlImageN {
   
   //: Constructor.
   
-  PointTrackerC::PointTrackerC(int nnewFreq, int cthreshold,int cwidth,int nmthreshold,int nmwidth,int nlifeTime,int nsearchSize)
+  PointTrackerC::PointTrackerC(int cthreshold,int cwidth,int nmthreshold,int nmwidth,int nlifeTime,int nsearchSize,int nnewFreq)
     : idAlloc(1),
       newFreq(nnewFreq),
       frameCount(1),
