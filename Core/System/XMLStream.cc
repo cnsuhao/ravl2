@@ -230,22 +230,47 @@ namespace RavlN {
     StringC curCtxt = Context().Name();
     StringC name;
     int level = 0;
-    for(;;) {
-      if(ReadTag(name) == XMLEndTag) {
+    while(*this) {
+      XMLTagOpsT tt = ReadTag(name); 
+      if(tt == XMLEndTag) {
 	// Found end tag.
 	if(level == 0)
 	  break;
 	level--;
 	continue;
       }
-      // Found open tag.
-      level++;
+      if(tt == XMLBeginTag) {     // Found open tag.
+	level++;
+	continue;
+      }
+      RavlAssertMsg(tt != XMLEmptyTag,"Unexpected tag type. ");
     }
     if(name != curCtxt) {
       cerr << "WARNING: End tag name mismatch, got '" << name << "' expected '" << curCtxt << "'\n";
       return false;
     }
     return true;
+  }
+
+  //: Skip to named element.
+  // This will skip to the next tag of the given name.
+  // if the Current context ends it will return XMLEndTag.
+
+  XMLTagOpsT XMLIStreamC::SkipToElement(StringC &elementName,RCHashC<StringC,StringC> &attr) {
+    StringC name;
+    RCHashC<StringC,StringC> tattr;
+    while(*this) {
+      XMLTagOpsT tt = ReadTag(name,tattr);
+      if(name == elementName) {
+	attr = tattr;
+	return tt;
+      }
+      if(tt == XMLBeginTag)
+	SkipElement();
+      if(tt == XMLEndTag)
+	break;
+    }
+    return XMLEndTag;
   }
 
   //: Read attribute and add it to the current context.

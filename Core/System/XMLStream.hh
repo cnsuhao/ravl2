@@ -407,6 +407,11 @@ namespace RavlN {
     bool SkipElement();
     //: Skip to after the end of the current element.
     
+    XMLTagOpsT SkipToElement(StringC &elementName,RCHashC<StringC,StringC> &attr);
+    //: Skip to named element.
+    // This will skip to the next tag of the given name.
+    // if the Current context ends it will return XMLEndTag.
+    
     StringC ReadID();
     //: Read an ID from the stream.
     // This will skip any intial white space, but will
