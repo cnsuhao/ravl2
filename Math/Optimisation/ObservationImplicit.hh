@@ -66,7 +66,10 @@ namespace RavlN {
   // <blockquote>
   //    F(x,z-w) = 0
   // </blockquote>
-  // where the noise vector w has covariance N. This class implements the
+  // where the noise vector w has covariance N. To see how such observations
+  // can be used in optimisation see the
+  // <a href="../../../LevenbergMarquardt/node2.html">mathematical description</a>.
+  // This class implements the
   // SquareResidual() and IncrementLS() methods which are virtual in the
   // ObservationC base class, by applying the explicit
   // <a href="../../../LevenbergMarquardt/levmarq.html#chi2-def">error function</a>

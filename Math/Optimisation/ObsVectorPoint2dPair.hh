@@ -38,14 +38,15 @@ namespace RavlN {
 
   //! userlevel=Normal
   //! autoLink=on
-  //: Homogeneous 2D point pair observation vector handle class
+  //: Homogeneous 2D point pair observation vector class
   // When you have a matched pair of 2D points, used for instance for computing
   // the motion between two images, and errors are to be modelled in both
   // image points, this class will be useful. It provides a constructor to
   // stick together the two points into one 4-vector, and similarly construct
   // a 4x4 inverse covariance matrix from 2x2 sub-blocks.
   // <p>
-  // This is the non-robust version.
+  // This is the non-robust version. To generate robustified observations of
+  // point pairs use the ObsVectorBGPoint2dPairC class.
   class ObsVectorPoint2dPairC
     : public ObsVectorC
   {
@@ -119,7 +120,8 @@ namespace RavlN {
   // <p>
   // This class uses the bi-Gaussian error model, with a narrow Gaussian
   // distribution for inlier point pairs, and a wider distribution for
-  // outliers.
+  // outliers. To generate non-robust observations of point pairs use the
+  // ObsVectorPoint2dPairC class.
   class ObsVectorBGPoint2dPairC
     : public ObsVectorBiGaussianC
   {

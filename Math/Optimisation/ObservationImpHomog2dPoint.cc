@@ -39,7 +39,7 @@ namespace RavlN {
     RavlAssert(sv.IsValid());
     
     const Matrix3dC &P = sv.GetHomog(); // homography matrix
-    const VectorC &z = GetZ(); // 2D image point pair
+    const VectorC &z = GetZ(); // 2D point pair
     RealT zh1 = sv.GetZH1(), zh2 = sv.GetZH2();
 
     // compute p = P*x1
@@ -47,14 +47,14 @@ namespace RavlN {
 		P[1][0]*z[0] + P[1][1]*z[1] + P[1][2]*zh1,
 		P[2][0]*z[0] + P[2][1]*z[1] + P[2][2]*zh1);
     
-    // evaluate projection onto image 2 and store in observation object
+    // evaluate projection store in observation object
     p2[0] = p[0]*zh2/p[2];
     p2[1] = p[1]*zh2/p[2];
 
     // store computed z-coordinate as well
     z2 = p[2];
 
-    // subtract observed point in image 2
+    // subtract observed point on plane 2
     Vector2dC F(p2[0]-z[2], p2[1]-z[3]);
     return F;
   }
@@ -91,7 +91,7 @@ namespace RavlN {
     const StateVectorHomog2dC& sv(state_vec);
     RavlAssert(sv.IsValid());
     
-    const VectorC &z = GetZ(); // 2D image point pair
+    const VectorC &z = GetZ(); // 2D point pair
     RealT zh1 = sv.GetZH1(), zh2 = sv.GetZH2();
     MatrixC Fx(2,9); // Jacobian matrix
 

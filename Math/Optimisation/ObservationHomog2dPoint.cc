@@ -34,13 +34,13 @@ namespace RavlN {
     Ni1 = nNi1;
   }
 
-  //: Get point position in first image
+  //: Get point position on first plane
   const VectorC& ObservationHomog2dPointBodyC::GetZ1() const
   {
     return z1;
   }
 
-  //: Get point position inverse covariance in first image
+  //: Get point position inverse covariance on first plane
   const MatrixRSC& ObservationHomog2dPointBodyC::GetNi1() const
   {
     return Ni1;
@@ -53,7 +53,7 @@ namespace RavlN {
     const StateVectorHomog2dC sv(state_vec);
     RavlAssert(sv.IsValid());
     
-    const VectorC &z1 = GetZ1(); // 2D image point in first image
+    const VectorC &z1 = GetZ1(); // 2D point on first plane
     const Matrix3dC &P = sv.GetHomog(); // homography matrix
     RealT zh1 = sv.GetZH1(), zh2 = sv.GetZH2();
 
@@ -79,7 +79,7 @@ namespace RavlN {
     const StateVectorHomog2dC sv(state_vec);
     RavlAssert(sv.IsValid());
     
-    const VectorC &z1 = GetZ1(); // 2D image point in first image
+    const VectorC &z1 = GetZ1(); // 2D point on first plane
     MatrixC H(2,9); // Jacobian matrix
     RealT zh1 = sv.GetZH1(), zh2 = sv.GetZH2();
 

@@ -42,44 +42,75 @@ namespace RavlN {
     //: Evaluate the Jacobian of an observation for a single point
 
     const VectorC& GetZ1() const;
-    //: Get point position in first image
+    //: Get point position on first plane
 
     const MatrixRSC& GetNi1() const;
-    //: Get point position inverse covariance in first image
+    //: Get point position inverse covariance in first plane
 
   private:
-    VectorC z1; // point position in first image
-    MatrixRSC Ni1; // point position inverse covariance in first image
+    VectorC z1; // point position on first plane
+    MatrixRSC Ni1; // point position inverse covariance on first plane
 
     Vector2dC p2; // last evaluation of observation function
-    RealT z2; // last evaluation of z-coordinate of image 2 projection
+    RealT z2; // last evaluation of z-coordinate of plane 2 projection
   };
 
   //! userlevel=Normal
   //! autoLink=on
   //: 2D homography fitting 2D point observation class
   // Use this class to construct an observation consisting of a pair of 2D
-  // points, each of which lies on a plane. The two planes are related by
-  // a 2D projective transformation represented by a 3x3 homography matrix.
-  // This class applies the functional model of the 
-  // 2D point pair observations on a plane which
-  // are to be used to fit a line through the data. If all the points have
-  // the same error isotropic error in the x and y directions, you can use
-  // the standard orthogonal regression algorithm. If some points have
-  // different errors to others, or there are outliers in the data points,
-  // this class may be useful. It allows you to specify errors separately
-  // for each point, as well as use a robust error model that accounts for
-  // outliers, at least if they are not TOO far away from the good data.
+  // points, each point of which lies on a separate plane. The two planes are
+  // related by a 2D projective transformation represented by a 3x3 homography
+  // matrix. This class applies the functional model relating the point on
+  // plane 2 to that on plane 1 in the explicit form
+  // <blockquote>
+  //    p2 = h(P,p1) + w
+  // </blockquote>
+  // where p1,p2 are the x/y coordinates of the point on planes 1,2, P is
+  // the 3x3 homography matrix and w is a noise vector. Comparing this with
+  // the explicit form of observation
+  // <blockquote>
+  //    z = h(x) + w
+  // </blockquote>
+  // (see the
+  // <a href="../../../LevenbergMarquardt/levmarq.html#measure_equation">mathematical description</a>),
+  // we can identify:-
+  // <ul>
+  //   <li> The observation vector z as the point p2 in the second plane;
+  //   <li> The state vector x contains the nine elements of the homography
+  //        matrix P;
+  //   <li> The noise vector w models the error in p2 only;
+  //   <li> p1 is treated as having known "independent" coordinates.
+  // </ul>
+  // We can write the functional model in full, given p1=(x1 x2)^T and
+  // p2=(x2 y2)^T as
+  // <blockquote>
+  //   x2 = zh2(Pxx*x1 + Pxy*y1 + Pxz*zh1)/(Pzx*x1 + Pzy*y1 + Pzz*zh1)
+  // </blockquote>
+  // <blockquote>
+  //   y2 = zh2(Pyx*x1 + Pyy*y1 + Pyz*zh1)/(Pzx*x1 + Pzy*y1 + Pzz*zh1)
+  // </blockquote>
+  // where Pxx, Pxy, ..., Pzz are the elements of P and zh1,zh2 are the chosen
+  // fixed values for the third (z) homogenous plane coordinate
+  // (see StateVectorHomog2dC).
   // <p>
-  // This class encapsulates a single data point xc,yc and its associated error
-  // inverse covariance matrix estimate N^-1. It assumes that the 2D line
-  // parameters are represented by an instance of the StateVectorLine2dC
-  // sub-class.
+  // If there are potentially outliers in the data use the robust form of
+  // constructor, which applies a bi-Gaussian inlier/outlier error model.
+  // This should be fine if the outliers are not TOO far away from the
+  // good data.
   // <p>
-  // To use the data points for optimisation, create one instance of an
-  // ObservationLine2dPointC for each data point, place them all in a single
-  // list of ObservationC (the base class) objects, and pass the list into the
-  // relevant optimisation routines.
+  // If you want to model errors in both p1 and p2, use the implicit form
+  // of functional model provided by the ObservationImpHomog2dPointC class.
+  // <p>
+  // This class encapsulates a single data point pair p1,p2 and the
+  // associated error inverse covariance matrix N^-1 for p2.
+  // It assumes that the 2D homography parameters are represented by an
+  // instance of the StateVectorHomog2dC sub-class.
+  // <p>
+  // To use the data point pairs for optimisation, create one instance of an
+  // ObservationHomog2dPointC for each pair of points, place them all in a
+  // single list of ObservationC (the base class) objects, and pass the list
+  // into the relevant optimisation routines.
   class ObservationHomog2dPointC
     : public ObservationExplicitC
   {
@@ -127,11 +158,11 @@ namespace RavlN {
   public:
     const VectorC& GetZ1() const
     { return Body().GetZ1(); }
-    //: Get point position in first image
+    //: Get point position on first plane
 
     const MatrixRSC& GetNi1() const
     { return Body().GetNi1(); }
-    //: Get point position inverse covariance in first image
+    //: Get point position inverse covariance on first plane
   };
 }  
 
