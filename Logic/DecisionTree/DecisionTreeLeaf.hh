@@ -36,6 +36,9 @@ namespace RavlLogicN {
     { return true; }
     //: Is this a leaf in the decision tree ?
 
+    virtual void Dump(ostream &out,IntT level = 0) const;
+    //: Dump node in human readable form,
+
   protected:
     // List of examples.
     LiteralC decision; // Value of decision at the leaf.

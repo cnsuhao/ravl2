@@ -37,7 +37,14 @@ namespace RavlLogicN {
     { return false; }
     //: Is this a leaf in the decision tree ?
     
+    virtual void Dump(ostream &out,IntT level = 0) const;
+    //: Dump node in human readable form,
+    
   protected:
+    static ostream &Pad(ostream &out,int level);
+    //: Pad line to given level.
+    // Used in dump.
+    
     DecisionExamplesC examples; // Examples of decisions.
   };
   
@@ -81,6 +88,11 @@ namespace RavlLogicN {
     bool IsLeaf() const
     { return Body().IsLeaf(); }
     //: Is this a leaf in the decision tree ?
+    
+    void Dump(ostream &out,IntT level = 0) const
+    { Body().Dump(out,level); }
+    //: Dump node in human readable form,
+
   };
   
 }

@@ -20,6 +20,21 @@ namespace RavlLogicN {
     RavlAssertMsg(0,"DecisionTreeElementBodyC::Find(), Abstract method called. ");
     return DecisionTreeElementC();
   }
+
+  //: Pad line to given level.
+  // Used in dump.
+  
+  ostream &DecisionTreeElementBodyC::Pad(ostream &out,int level) {
+    for(int i = 0;i < level;i++)
+      out << "  ";
+    return out;
+  }
+  
+  //: Dump node in human readable form,
+  
+  void DecisionTreeElementBodyC::Dump(ostream &out,IntT level) const {
+    cerr << "DecisionTreeElementBodyC::Dump(), Abstract method called \n";
+  }
   
 
 }

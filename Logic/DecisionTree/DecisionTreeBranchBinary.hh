@@ -27,6 +27,9 @@ namespace RavlLogicN {
     virtual DecisionTreeElementC Find(const StateC &state);
     //: Find next level in the decision tree for given 'state'.
     
+    virtual void Dump(ostream &out,IntT level = 0) const;
+    //: Dump node in human readable form,
+    
   protected:
     LiteralC test; // Test for branch.
     DecisionTreeElementC children[2]; // 0-False 1-True.

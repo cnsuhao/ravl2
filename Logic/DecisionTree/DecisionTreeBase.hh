@@ -25,8 +25,12 @@ namespace RavlLogicN {
     : public RCBodyC
   {
   public:
-    DecisionTreeBaseBodyC(const DiscriminatorC &desc);
+    DecisionTreeBaseBodyC();
     //: Default constructor.
+    // Use the default discriminator.
+    
+    DecisionTreeBaseBodyC(const DiscriminatorC &desc);
+    //: Constructor.
     
     DecisionTreeLeafC Find(const StateC &state);
     //: Find the decision for given 'state'.
@@ -39,6 +43,10 @@ namespace RavlLogicN {
     
     void SetDiscriminator(const DiscriminatorC &desc);
     //: Set the discriminator to use for training.
+
+    void Dump(ostream &out) const;
+    //: Dump the tree in a human readable form to stream out.
+    
   protected:
     DiscriminatorC discriminator; // Used in building the tree.
     DecisionTreeElementC root; // Root of tree.    
@@ -55,6 +63,12 @@ namespace RavlLogicN {
     {}
     //: Default constructor.
     // creates an invalid handle.
+    
+    DecisionTreeBaseC(bool)
+      : RCHandleC<DecisionTreeBaseBodyC>(* new DecisionTreeBaseBodyC())
+    {}
+    //: Constructor.
+    // Create a decision tree with the default discriminator.
 
     DecisionTreeBaseC(const DiscriminatorC &desc)
       : RCHandleC<DecisionTreeBaseBodyC>(* new DecisionTreeBaseBodyC(desc))
@@ -92,6 +106,9 @@ namespace RavlLogicN {
     void SetDiscriminator(const DiscriminatorC &desc)
     { Body().SetDiscriminator(desc); }
     //: Set the discriminator to use for training.
+    
+    void Dump(ostream &out) const;
+    //: Dump the tree in a human readable form to stream out.
 
   };
   

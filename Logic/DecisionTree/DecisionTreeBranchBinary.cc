@@ -15,6 +15,16 @@ namespace RavlLogicN {
 
   DecisionTreeBranchBinaryBodyC::DecisionTreeBranchBinaryBodyC()
   {}
+
+  //: Dump node in human readable form,
+  
+  void DecisionTreeBranchBinaryBodyC::Dump(ostream &out,IntT level) const {
+    Pad(out,level) << test << "\n";
+    Pad(out,level) << "true:\n";
+    children[0].Dump(out,level+1);
+    Pad(out,level) << "false:\n";
+    children[1].Dump(out,level+1);
+  }
   
   //: Find next level in the decision tree for given 'state'.
   

@@ -18,6 +18,9 @@ namespace RavlLogicN {
     DecisionTreeBranchBodyC();
     //: Default constructor.
     
+    virtual void Dump(ostream &out,IntT level = 0) const;
+    //: Dump node in human readable form,
+    
   protected:
     
   };
