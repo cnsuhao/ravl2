@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Edges/doEdgeDet.cc"
-
+#include "Ravl/config.h"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/DP/SequenceIO.hh"
 #include "Ravl/DP/Compose.hh"
@@ -29,7 +29,8 @@
 using namespace RavlN;
 using namespace RavlImageN;
 
-#ifdef __sgi__
+
+#if RAVL_COMPILER_MIPSPRO 
 static DPIPortBodyC<SArray1dC<EdgelC > > fix_sgi_bug1;
 static DPOPortBodyC<SArray1dC<EdgelC > > fix_sgi_bug2;
 #endif

@@ -9,6 +9,7 @@
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Edges/EdgeNonMaxSuppression.cc"
 
+#include "Ravl/config.h"
 #include "Ravl/Image/EdgeNonMaxSuppression.hh"
 #include "Ravl/Array2dIter3.hh"
 #include "Ravl/Array2dSqr3111Iter4.hh"
@@ -20,6 +21,15 @@
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/StdConst.hh"
 #include "Ravl/Image/DrawFrame.hh"
+
+#if RAVL_COMPILER_MIPSPRO
+// help the compiler a bit !
+namespace RavlImageN 
+{
+DrawFrame(RavlN::Array2dC<RavlN::TFVectorC<int,(const unsigned int)2> >&,const RavlN::TFVectorC<int,(const unsigned int)2>&,const RavlN::IndexRange2dC&,bool) ;
+}
+#endif 
+
 
 #if RAVL_USE_PARALLEL
 #include "Ravl/Threads/Launch.hh"
