@@ -41,7 +41,7 @@ namespace RavlGUIN {
     //: Set value 
     // GUI thread only.
     
-    RealT Value();
+    RealT Value() const;
     //: Get current value.
     
     void SetRange(RealT nlower, RealT nupper);
@@ -129,7 +129,7 @@ namespace RavlGUIN {
     //: Set value 
     // GUI thread only.
 
-    RealT Value()
+    RealT Value() const
     { return Body().Value(); }
     //: Get current value.
     

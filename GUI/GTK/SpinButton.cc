@@ -44,7 +44,7 @@ namespace RavlGUIN {
 
   //: Get current value.
   
-  RealT SpinButtonBodyC::Value() { 
+  RealT SpinButtonBodyC::Value() const { 
     if(adj == 0) return value; 
 #if RAVL_USE_GTK2
     return gtk_adjustment_get_value(GTK_ADJUSTMENT (adj));
