@@ -6,7 +6,7 @@
 # file-header-ends-here
 #! rcsid="$Id$"
 #! file="Ravl/PatternRec/DataSet/defs.mk"
-DESCRIPTION = Pattern Recognition Toolbox
+DESCRIPTION = Pattern Recognition
 
 PACKAGE = Ravl/PatternRec
 

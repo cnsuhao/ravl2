@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDATASET2_HEADER
-#define RAVLDATASET2_HEADER 1
+#ifndef RAVL_DATASET2_HEADER
+#define RAVL_DATASET2_HEADER 1
 //! rcsid="$Id$"
 //! author="Kieron Messer"
 //! docentry="Ravl.Pattern Recognition.Data Set"

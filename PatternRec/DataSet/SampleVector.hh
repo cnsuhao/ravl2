@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSAMPLEVECTOR_HEADER
-#define RAVLSAMPLEVECTOR_HEADER 1
+#ifndef RAVL_SAMPLEVECTOR_HEADER
+#define RAVL_SAMPLEVECTOR_HEADER 1
 //! rcsid="$Id$"
 //! author="Kieron Messer"
 //! docentry="Ravl.Pattern Recognition.Data Set"
@@ -36,7 +36,7 @@ namespace RavlN {
     //: Create a sample of data from an array
     
     VectorC Mean();
-    //: Find the mean vector.
+    //: Find the mean vector of the sample.
     
   }; // end of class SampleVectorC 
   

@@ -14,5 +14,15 @@
 
 namespace RavlN {
 
+  //: Find the value of the largest label.
+  
+  UIntT SampleLabelC::MaxValue() const {
+    UIntT lv = 0;
+    for(DArray1dIterC<UIntT> it(*this);it;it++) 
+      if(*it > lv)
+	lv = *it;
+    return lv;
+  }
+
   
 }

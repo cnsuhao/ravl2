@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSAMPLELABEL_HEADER
-#define RAVLSAMPLELABEL_HEADER 1
+#ifndef RAVL_SAMPLELABEL_HEADER
+#define RAVL_SAMPLELABEL_HEADER 1
 //! rcsid="$Id$"
 //! author="Kieron Messer"
 //! docentry="Ravl.Pattern Recognition.Data Set"
@@ -33,6 +33,8 @@ namespace RavlN {
       {}
     //: Create a sample of data from an array
     
+    UIntT MaxValue() const;
+    //: Find the value of the largest label.
   }; 
   
 }

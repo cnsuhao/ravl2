@@ -47,11 +47,14 @@ int main() {
 }
 
 int testSample() {
-  SampleC<IntT> sample(true);
-  for(int i = 0;i < 10;i++)
+  SampleC<IntT> sample;
+  int i = 0;
+  for(;i < 10;i++)
     sample.Append(i);
+  i = 0;
+  for(DArray1dIterC<IntT> it(sample.DArray());it;it++,i++)
+    if(*it != i) return __LINE__;
   if(sample.Size() != 10) return __LINE__;
-  
   return 0;
 }
 
@@ -59,10 +62,12 @@ int testDataSet1() {
   DataSet1C<SampleC<IntT> > dataset(true);
   dataset.Append(10);
   dataset.Append(11);
+  dataset.Append(12);
+  dataset.Append(13);
   UIntT count = 0;
   for(DataSet1IterC<SampleC<IntT> > it(dataset);it;it++)
     count++;
-  if(count != 2) return __LINE__;
+  if(count != 4) return __LINE__;
   return 0;
 }
 
@@ -81,9 +86,10 @@ int testDataSet3() {
   DataSet3C<SampleC<IntT>,SampleC<RealT>,SampleC<bool> > dataset(true);
   dataset.Append(10,0.3,true);
   dataset.Append(11,0.4,false);
+  dataset.Append(12,0.5,false);
   UIntT count = 0;
   for(DataSet3IterC<SampleC<IntT>,SampleC<RealT>,SampleC<bool> > it(dataset);it;it++)
     count++;
-  if(count != 2) return __LINE__;
+  if(count != 3) return __LINE__;
   return 0;
 }

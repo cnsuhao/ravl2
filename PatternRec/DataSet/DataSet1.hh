@@ -53,6 +53,10 @@ namespace RavlN {
     // The elements are removed from this set. NB. The order
     // of this dataset is NOT preserved.
     
+    UIntT Size() const
+    { return samp1.Size(); }
+    //: Get the size of the dataset.
+    
   protected:
     SampleT samp1;
     //: the actual data
@@ -119,6 +123,10 @@ namespace RavlN {
     //: Extract a sample.
     // The elements are removed from this set. NB. The order
     // of this dataset is NOT preserved.
+
+    UIntT Size() const
+    { return Body().Size(); }
+    //: Get the size of the dataset.
     
     friend class DataSet1BodyC<SampleT>;
   };

@@ -81,6 +81,22 @@ namespace RavlN {
     //: Access DArray.
     // For internal use only.
 
+    DataT &First()
+    { return DArray1dC<DataT>::First(); }
+    //: Access first element in the array.
+    
+    const DataT &First() const
+    { return DArray1dC<DataT>::First(); }
+    //: Access first element in the array.
+    
+    DataT &Last()
+    { return DArray1dC<DataT>::Last(); }
+    //: Access last element in the array.
+    
+    const DataT &Last() const
+    { return DArray1dC<DataT>::Last(); }
+    //: Access last element in the array.
+
   }; // end of class SampleC 
 
 
