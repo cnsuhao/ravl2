@@ -80,13 +80,7 @@ $(ifany:friend:$(titleStart)Friends:$(titleEnd)
 $(forall:friend:<A href="$(mkhref:)"> $(ObjectName)</A> 
 <br>)<br><br>)
 
-$(//: **************** Footer ************************ )
-
-<table width=100% align="middle"><tr>
-<td align="center" bgcolor="black"><FONT face="helvetica,arial" color="white"><b>
-$(ifset:author:Maintainer:$(author),) $(ifset:date:Created: $(date),) Documentation by <a href="http://ravl.sourceforge.net/doc/Auto/Basic/Tree/Ravl.Source_Tools.CxxDoc.html">CxxDoc</a>: $(buildtime)
-</b></FONT></td>
-</tr></table>
+$(include:footer.stmpl)
 
 </body>
 </html>

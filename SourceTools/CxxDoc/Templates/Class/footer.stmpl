@@ -1,0 +1,6 @@
+<table width=100% align="middle"><tr>
+<td align="center" bgcolor="black"><FONT face="helvetica,arial" color="white"><b>
+$(ifset:author:Maintainer:$(author),) $(ifset:date:Created: $(date),) Documentation by <a href="http://ravl.sourceforge.net/share/doc/RAVL/Auto/Basic/Tree/Ravl.Source_Tools.CxxDoc.html">CxxDoc</a>: $(buildtime)
+</b></FONT></td>
+</tr></table>
+
