@@ -10,7 +10,7 @@
 //! author="Kieron J Messer"
 //! docentry="Ravl.Images.Filtering"
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlImageProc
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array1d.hh"

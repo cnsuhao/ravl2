@@ -11,7 +11,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.Filtering"
-//! lib=RavlImage
+//! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Filters/ConvolveSeparable2d.hh"
 
 #include "Ravl/Image/Image.hh"

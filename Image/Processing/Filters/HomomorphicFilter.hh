@@ -10,7 +10,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.Filtering"
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlImageProc
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/FFT2d.hh"

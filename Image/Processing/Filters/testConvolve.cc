@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Filters/testConvolve.cc"
 
 #include "Ravl/Image/Convolve2d.hh"
@@ -14,6 +14,7 @@
 #include "Ravl/Image/ConvolveSeparable2d.hh"
 #include "Ravl/Image/BilinearInterpolation.hh"
 #include "Ravl/Image/HistogramEqualise.hh"
+#include "Ravl/Image/Matching.hh"
 
 using namespace RavlImageN;
 
@@ -27,6 +28,7 @@ int testConvolve2dMMX();
 
 int testBilinearInterpolation();
 int testHistogramEqualise();
+int testMatching();
 
 int main() {
   int ln;
@@ -57,6 +59,10 @@ int main() {
     return 1;
   }
   if((ln = testHistogramEqualise()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testMatching()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -240,5 +246,17 @@ int testHistogramEqualise() {
   //cerr << "Test=" << test << "\n Result=" << result << "\n";
   //cerr << (result-test) << "\n";
   if((result-test).SumSqr() > 0.000001) return __LINE__;
+  return 0;
+}
+
+int testMatching() {
+  Array2dC<ByteT> img1(10,10);
+  ByteT v = 0;
+  for(Array2dIterC<ByteT> it(img1);it;it++)
+    *it = v++;
+  Index2dC at(0,0);
+  IntT sum;
+  if(RavlImageN::MatchSumAbsDifference(img1,img1,at,sum) != 0)
+    return __LINE__;
   return 0;
 }

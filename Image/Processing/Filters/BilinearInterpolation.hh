@@ -8,7 +8,7 @@
 #define RAVLIMAGE_BILINEARINTERPOLATION_HEADER 1
 ///////////////////////////////////////////////////////////////
 //! docentry="Ravl.Images.Warping"
-//! lib=RavlImage
+//! lib=RavlImageProc
 //! author="Kieron Messer"
 //! rcsid="$Id$"
 //! date="05/05/1999"
