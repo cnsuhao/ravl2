@@ -41,7 +41,7 @@ namespace RavlImageN {
   {
   public:
     inline PCPixelListC()
-      {}
+    {}
     //: Default constructor.
     // NB. The list will be invalid!
     
@@ -50,7 +50,7 @@ namespace RavlImageN {
     
     inline PCPixelListC(DListC<PCIndex2dC> &iter)
       : DLIterC<PCIndex2dC>(iter)
-      {}
+    {}
     //: Constructor.
     
     IntT TrimLine(RealT MaxDist,RealT &DistEst);
@@ -93,7 +93,7 @@ namespace RavlImageN {
     // Set the to zero.
     
     IntT Size() const 
-      { return List().Size(); }
+    { return List().Size(); }
     //: Get number of points in list. (Slow)
     
     bool IsEmpty() const { 
@@ -104,11 +104,11 @@ namespace RavlImageN {
     //: Is list infact empty ?
     
     void InsFirst(const PCIndex2dC &px)
-      { const_cast<DListC<PCIndex2dC> &>(List()).InsFirst(px); }
+    { const_cast<DListC<PCIndex2dC> &>(List()).InsFirst(px); }
     //: Insert new pixel at begining of list.
     
     void InsLast(const PCIndex2dC &px) 
-      { const_cast<DListC<PCIndex2dC> &>(List()).InsLast(px); }
+    { const_cast<DListC<PCIndex2dC> &>(List()).InsLast(px); }
     //: Insert new pixel at end of list.
     
     DLIterC<PCIndex2dC> &Iter() { return *this; }

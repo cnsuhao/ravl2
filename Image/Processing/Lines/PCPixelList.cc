@@ -44,35 +44,35 @@ namespace RavlImageN {
     }
     N++; // There's one!
     // Forward.
-    PCIndex2dC *cur,*Last = &It.Data();
+    PCIndex2dC *cur,*last = &It.Data();
     It.Next();
     for(;It.IsElm();It.Next()) {
       cur = &It.Data();
-      RealT Dist = Last->ClosestPnt().EuclidDistance(cur->ClosestPnt());
+      RealT Dist = last->ClosestPnt().EuclidDistance(cur->ClosestPnt());
       if(Dist > MaxDist) {
 	while(It.IsElm())
 	  It.DelMoveNext();
 	// Cut
 	break;
       }
-      Last = cur;
+      last = cur;
       N++;
       TotDist += Dist;
     }
     // Backward
     It = *this;
-    Last = &It.Data();
+    last = &It.Data();
     It.Prev();
     for(;It.IsElm();It.Prev()) {
       cur = &It.Data();
-      RealT Dist = Last->ClosestPnt().EuclidDistance(cur->ClosestPnt());
+      RealT Dist = last->ClosestPnt().EuclidDistance(cur->ClosestPnt());
       if(Dist > MaxDist) {
 	while(It.IsElm())
 	  It.Del();
 	// Cut
 	break;
       }
-      Last = cur;
+      last = cur;
       N++;
       TotDist += Dist;
     }
@@ -94,12 +94,13 @@ namespace RavlImageN {
     RealT totDist = 0;
     RealT LongDist = 0;
     it.First();
-    PCIndex2dC *cur,*Last = &it.Data();
+    RavlAssert(it);
+    PCIndex2dC *cur,*last = &it.Data();
     DLIterC<PCIndex2dC> lStart(it),lEnd,CStart(it);
-    it.Next();
-    for(;it.IsElm();it.Next()) {
+    it++;
+    for(;it;it++) {
       cur = &it.Data();
-      RealT Dist = Last->ClosestPnt().EuclidDistance(cur->ClosestPnt());
+      RealT Dist = last->ClosestPnt().EuclidDistance(cur->ClosestPnt());
       if(Dist > MaxDist) {
 	if(curLen > Longest) {
 	  Longest = curLen;
@@ -113,7 +114,7 @@ namespace RavlImageN {
       }
       curLen++;
       totDist += Dist;
-      Last = cur;
+      last = cur;
     }
     if(curLen > Longest) {
       Longest = curLen;
@@ -123,14 +124,16 @@ namespace RavlImageN {
     }
     if(Longest == 0)
       return 0; // Must be zero length line !!
-    
-    DListC<PCIndex2dC> pnts = List();
+    RavlAssert(lEnd != lStart);
+    //DListC<PCIndex2dC> pnts = List();
     //pnts.Tail(lEnd); // Cut out the tail.
     //pnts.Head(lStart); // Cut out the head of the list.
-    lEnd.InclusiveTail();
+    
+    //RavlAssert(ok);
+    if(lEnd)
+      lEnd.InclusiveTail();
     lStart.Head();
     First(); // Might as well point to the first element.
-    //(*this).Nth(Longest/2); // Setup the mid ptr.
     DistEst = (RealT) LongDist / Longest;
     return Longest;
   }
@@ -142,6 +145,7 @@ namespace RavlImageN {
     SArray1dC<Point2dC> ret(Size());
     DLIterC<PCIndex2dC> it(*this);
     SArray1dIterC<Point2dC> ait(ret);
+
     for(it.First();it;it++) 
       *ait = *it;
     return ret;
