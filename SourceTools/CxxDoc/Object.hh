@@ -248,8 +248,7 @@ namespace RavlCxxDocN {
     //: Access parent.
     // ONLY valid if HasParent() returns true.
     
-    void SetParentScope(ScopeBodyC *ns)
-      { parent = ns; }
+    void SetParentScope(ScopeBodyC *ns);
     //: Setup parent scope.
     
     ObjectListC PathList() const;

@@ -620,8 +620,12 @@ namespace RavlCxxDocN
       path.InsFirst(inheritDef);
     
     ScopeC ps = ParentScope(); // Get scope we're for.
-    if(ps.IsValid())
-      ps = ps.ParentScope(); // Then get the scope of the object to inherit into.
+    if(ps.IsValid()) {
+      if(ps.HasParentScope())
+	ps = ps.ParentScope(); // Then get the scope of the object to inherit into.
+      else
+	ps.Invalidate();
+    }
     if(!ps.IsValid()) {
       cerr << "InheritBodyC::Resolve(), WARNING: Out of parent scopes can't resolve '" << PathName(path) << "' \n";
       SetVar("resolveFailed","1");

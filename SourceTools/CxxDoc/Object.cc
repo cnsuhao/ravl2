@@ -172,6 +172,13 @@ namespace RavlCxxDocN
   ObjectC ObjectBodyC::GetScope() 
   { return ObjectC(); }
 
+  //: Setup parent scope.
+  
+  void ObjectBodyC::SetParentScope(ScopeBodyC *ns) { 
+    RavlAssert((dynamic_cast<ScopeBodyC *>((ObjectBodyC*) ns) != 0) || (ns == 0));
+    parent = ns; 
+  }
+
   // : Generate path list to this object.
   
   ObjectListC ObjectBodyC::PathList() const {
