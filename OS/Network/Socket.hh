@@ -17,6 +17,7 @@
 
 #include "Ravl/String.hh"
 #include "Ravl/RefCounter.hh"
+#include "Ravl/RCHandleV.hh"
 #include "Ravl/OS/SktError.hh"
 
 // Some forward declarations to avoid including extra header
@@ -34,7 +35,7 @@ namespace RavlN {
   // For dealing with low level stream sockets.
   
   class SocketBodyC 
-    : public RCBodyC
+    : public RCBodyVC
   {
   public:
     SocketBodyC(StringC name,bool server = false);
@@ -88,6 +89,19 @@ namespace RavlN {
     bool SetNonBlocking(bool block);
     //: Enable non-blocking use of read and write.
     // true= read and write's won't do blocking waits.
+    
+    IntT Read(char *buff,UIntT size);
+    //: Read some bytes from a stream.
+    
+    IntT ReadV(char **buffer,IntT *len,int n);
+    //: Read some bytes from a stream.
+    
+    IntT Write(const char *buff,UIntT size);
+    //: Write some bytes to a stream.
+    
+    IntT WriteV(const char **buffer,IntT *len,int n);
+    //: Write multiple buffers
+    
     
   protected:
     bool GetHostByName(const char *name,struct sockaddr_in &sin);
@@ -202,6 +216,22 @@ namespace RavlN {
     { return Body().SetNonBlocking(block); }
     //: Enable non-blocking use of read and write.
     // true= read and write's won't do blocking waits.
+    
+    IntT Read(char *buff,UIntT size)
+    { return Body().Read(buff,size); }
+    //: Read some bytes from a stream.
+    
+    IntT ReadV(char **buffer,IntT *len,int n)
+    { return Body().ReadV(buffer,len,n); }
+    //: Read some bytes from a stream.
+    
+    IntT Write(const char *buff,UIntT size)
+    { return Body().Write(buff,size); }
+    //: Write some bytes to a stream.
+    
+    IntT WriteV(const char **buffer,IntT *len,int n)
+    { return Body().WriteV(buffer,len,n); }
+    //: Write multiple buffers
     
     friend class SocketBodyC;
   };

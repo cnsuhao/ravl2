@@ -18,7 +18,7 @@
 //! date="13/12/2000"
 
 #include "Ravl/OS/Packet.hh"
-#include "Ravl/OS/Socket.hh"
+#include "Ravl/DP/ByteStream.hh"
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Calls.hh"
 #include "Ravl/Threads/MessageQueue.hh"
@@ -31,7 +31,7 @@
 #include "Ravl/Threads/Thread.hh"
 
 namespace RavlN {
-
+  class SocketC;
   class NetEndPointC;
   
   struct NetClientInfoC {
@@ -131,6 +131,14 @@ namespace RavlN {
     //!param: protocolVersion - Version of communication protocol being used.
     //!param: autoInit - If false, you must call the Ready() function when you are ready to start processing network messages. If true, messages will start being processed as soon as the connection is established.
     
+    NetEndPointBodyC(const DPIByteStreamC &istrm,const DPOByteStreamC &ostrm,const StringC &protocolName,const StringC &protocolVersion,bool autoInit = true);
+    //: Constructor.
+    //!param: istrm - Input comunications stream
+    //!param: ostrm - Output comunications stream
+    //!param: protocolName - Name of communication protocol being used.
+    //!param: protocolVersion - Version of communication protocol being used.
+    //!param: autoInit - If false, you must call the Ready() function when you are ready to start processing network messages. If true, messages will start being processed as soon as the connection is established.
+    
     NetEndPointBodyC();
     //: Default constructor.
     
@@ -138,9 +146,9 @@ namespace RavlN {
     //: Destructor.
     
     bool IsOpen() const { 
-      if(!skt.IsValid())
+      if(!istrm.IsValid() || !ostrm.IsValid())
 	return false;
-      return !shutdown && skt.IsOpen(); 
+      return !shutdown && !istrm.IsGetEOS() && ostrm.IsPutReady(); 
     }
     //: Is Connections open ?
     
@@ -158,16 +166,16 @@ namespace RavlN {
     bool Close();
     //: Close connection.
 
-    inline SocketC Socket(void) 
+#if 0
+    inline SocketC &Socket(void) 
     { return skt ; }
     //: Access the socket 
-
-    inline StringC ConnectedHost(void) 
-    { return skt.ConnectedHost() ; }
+#endif
+    
+    StringC ConnectedHost();
     //: Access the name of the connected Host 
-
-    inline IntT ConnectedPort(void) 
-    { return skt.ConnectedPort() ; } 
+    
+    IntT ConnectedPort();
     //: Access the name of the connected Port 
     
     const StringC &RemoteUser() const
@@ -335,14 +343,6 @@ namespace RavlN {
     bool RunDecode();
     //: Decodes incoming packets.
     
-    bool ReadData(int nfd,char *buff,UIntT size);
-    //: Read some bytes from a stream.
-    
-    bool WriteData(int nfd,const char *buff,UIntT size);
-    //: Write some bytes to a stream.
-    
-    bool WriteData(int nfd,const char *buff1,UIntT size1,const char *buff2,UIntT size2);
-    //: Write 2 buffers to file descriptor.
     
     void CloseTransmit();
     //: Close down for transmit thread.
@@ -350,7 +350,9 @@ namespace RavlN {
     void CloseDecode();
     //: Close down for decode thread.
     
-    SocketC skt;
+    DPIByteStreamC istrm; // Input channel 
+    DPOByteStreamC ostrm; // Output channel
+    
     MessageQueueC<NetPacketC> transmitQ; // Transmition Q.
     MessageQueueC<NetPacketC> receiveQ; // Recieve Q.
     volatile bool shutdown;   // Shutdown system ?
@@ -413,6 +415,16 @@ namespace RavlN {
     //!param: address -  has the format  `host:port' where `host' may be a host name or its IP address (e.g. 122.277.96.255) and `port' is the number of the port to use.
     //!param: autoInit - If false, you must call the Ready() function when you are ready to start processing network messages. If true, messages will start being processed as soon as the connection is established.
     
+    NetEndPointC(const DPIByteStreamC &istrm,const DPOByteStreamC &ostrm,const StringC &protocolName,const StringC &protocolVersion,bool autoInit = true)
+      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(istrm,ostrm,protocolName,protocolVersion,autoInit))
+    {}
+    //: Constructor.
+    //!param: istrm - Input comunications stream
+    //!param: ostrm - Output comunications stream
+    //!param: protocolName - Name of communication protocol being used.
+    //!param: protocolVersion - Version of communication protocol being used.
+    //!param: autoInit - If false, you must call the Ready() function when you are ready to start processing network messages. If true, messages will start being processed as soon as the connection is established.
+    
     explicit NetEndPointC(bool)
       : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC())
     {}
@@ -449,9 +461,11 @@ namespace RavlN {
     { return Body().IsOpen(); }
     //: Is Connections open ?
     
+#if 0
     inline SocketC Socket (void) 
     { return Body().Socket() ; } 
     //: Access the socket 
+#endif
 
     inline StringC ConnectedHost (void) 
     { return Body().ConnectedHost() ; } 

@@ -12,18 +12,11 @@
 #include "Ravl/config.h"
 #include "Ravl/DP/FileFormatIO.hh"
 #include "Ravl/OS/NetEndPoint.hh"
-#include "Ravl/OS/NetStream.hh"
 #include "Ravl/OS/NetMsgCall.hh"
 #include "Ravl/Threads/LaunchThread.hh"
 #include "Ravl/OS/SysLog.hh"
 #include "Ravl/OS/Date.hh"
-
-//#include "Ravl/BinStream.hh"
-//#include "Ravl/BinString.hh"
-
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/uio.h>
+#include "Ravl/OS/NetByteStream.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -37,13 +30,13 @@ namespace RavlN {
   //: Constructor.
   
   NetEndPointBodyC::NetEndPointBodyC(const StringC &addr,bool nautoInit) 
-    : skt(addr,false),
-      transmitQ(15),
+    : transmitQ(15),
       receiveQ(5),
       shutdown(false),
       autoInit(nautoInit),
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG)
   {
+    SocketC skt(addr,false);
     localInfo.appName = SysLogApplicationName();
     Init(skt); 
   }
@@ -51,8 +44,7 @@ namespace RavlN {
   //:  Constructor.
   
   NetEndPointBodyC::NetEndPointBodyC(SocketC &nskt,bool nautoInit)
-    : skt(nskt),
-      transmitQ(15),
+    : transmitQ(15),
       receiveQ(5),
       shutdown(false),
       autoInit(nautoInit),
@@ -65,8 +57,7 @@ namespace RavlN {
   //: Constructor.
   
   NetEndPointBodyC::NetEndPointBodyC(SocketC &socket,const StringC &protocolName,const StringC &protocolVersion,bool nautoInit)
-    : skt(socket),
-      transmitQ(15),
+    : transmitQ(15),
       receiveQ(5),
       shutdown(false),
       autoInit(nautoInit),
@@ -74,20 +65,20 @@ namespace RavlN {
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG)
   { 
     localInfo.appName = SysLogApplicationName();
-    Init(skt); 
+    Init(socket); 
   }
   
   //: Constructor.
   
   NetEndPointBodyC::NetEndPointBodyC(const StringC &address,const StringC &protocolName,const StringC &protocolVersion,bool nautoInit) 
-    : skt(address),
-      transmitQ(15),
+    : transmitQ(15),
       receiveQ(5),
       shutdown(false),
       autoInit(nautoInit),
       localInfo(protocolName,protocolVersion),
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG)
   { 
+    SocketC skt(address,false);
     localInfo.appName = SysLogApplicationName();
     Init(skt); 
   }
@@ -107,10 +98,6 @@ namespace RavlN {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::~NetEndPointBodyC(), Called. " << (void *) this);
     setupComplete.Post(); // Make sure nothings waiting for setup to complete.
   }
-  
-  //: Setup and startup the aproprate threads.
-  
-  //  NetMsgRegisterItemC<NetMsgCall1C<NetEndPointC,StringC,&NetEndPointC::MsgInit> > netMsgReg(1,"NetEndPointC.MsgInit");
   
   //: Register new message handler.
   
@@ -155,11 +142,12 @@ namespace RavlN {
   
   bool NetEndPointBodyC::Init(SocketC &nskt) {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::Init(), Called. " << (void *) this);
-    skt = nskt;
-    if(!skt.IsOpen()) {
+    if(!nskt.IsOpen()) {
       ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::Init(), Socket not opened. ");
       return false;
     }
+    istrm = NetIByteStreamC(nskt);
+    ostrm = NetOByteStreamC(nskt);
     
     RegisterR(1,StringC("Init"),*this,&NetEndPointBodyC::MsgInit);
     
@@ -238,12 +226,29 @@ namespace RavlN {
       MutexLockC lock(accessMsgReg);
       shutdown = true;
       msgReg.Empty(); 
-      skt.Close();
+      ostrm.PutEOS();
+      //istrm.PutEOS();
       receiveQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
       transmitQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
     }
     return true;
   }
+  
+  //: Access the name of the connected Host 
+  
+  StringC NetEndPointBodyC::ConnectedHost(void) { 
+    StringC hostName("Uknown");
+    istrm.GetAttr("ConnectedHost",hostName);
+    return hostName;
+  }
+  
+  //: Access the name of the connected Port 
+  
+  IntT NetEndPointBodyC::ConnectedPort(void) { 
+    IntT portNo = -1;
+    istrm.GetAttr("ConnectedPort",portNo);
+    return portNo;
+  } 
   
   static const StringC streamHeaderBigEndian ="\n<ABPS>\n";
   static const StringC streamHeaderLittleEndian ="\n<RBPS>\n";
@@ -251,13 +256,12 @@ namespace RavlN {
   //: Handle packet transmition.
   
   bool NetEndPointBodyC::RunTransmit() {
-    skt.SetNoDelay(); // Send packets asap.
-    int wfd = skt.Fd();
-    if(wfd < 0) {
+    if(!ostrm.IsPutReady()) {
       SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: No connection. ";
       CloseTransmit();
       return false;       
     }
+    //skt.SetNoDelay(); // Send packets asap.
 #if RAVL_BINSTREAM_ENDIAN_LITTLE
     StringC streamHeader = streamHeaderLittleEndian;
 #else
@@ -266,7 +270,7 @@ namespace RavlN {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunTransmit(), Sending header '" << streamHeader << "' ");
     
     // Write stream header.
-    if(!WriteData(wfd,streamHeader,streamHeader.Size())) {
+    if(ostrm.Write(streamHeader,streamHeader.Size()) < (IntT) streamHeader.Size()) {
       SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Failed to write header. ";
       CloseTransmit();
       return false;
@@ -297,7 +301,7 @@ namespace RavlN {
       // We're in compatiblity mode, send old header.
       // If so, write <ABPS> header.
       useBigEndianBinStream = true;
-      if(!WriteData(wfd,streamHeaderBigEndian,streamHeader.Size())) {
+      if(ostrm.Write(streamHeaderBigEndian,streamHeader.Size()) < streamHeader.Size()) {
 	SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Failed to write header. ";
 	CloseTransmit();
 	return false;
@@ -314,7 +318,7 @@ namespace RavlN {
       // We're in compatiblity mode, send old header.
       // If so, write <ABPS> header.
       useBigEndianBinStream = false;
-      if(!WriteData(wfd,streamHeaderBigEndian,streamHeader.Size())) {
+      if(ostrm.Write(streamHeaderBigEndian,streamHeader.Size()) < (IntT) streamHeader.Size()) {
 	SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Failed to write header. ";    
 	CloseTransmit();
 	return false;
@@ -326,6 +330,8 @@ namespace RavlN {
 #endif
     }
 #endif
+    const char *bufPtr[2];
+    IntT bufLen[2];
     
     ONDEBUG(SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), Starting transmit loop. ");
     try {
@@ -349,10 +355,11 @@ namespace RavlN {
 	  size = bswap_32(size);	
 #endif
 	// Write length of packet.
-	if(!WriteData(wfd,
-		      (char *)&size,sizeof(size),  // First buffer: Size
-		      &(pkt.Data()[0]),pkt.Size()) // Second buffer: Data.
-	   )
+	bufPtr[0] = (char *)&size;
+	bufLen[0] = sizeof(size);
+	bufPtr[1] = &(pkt.Data()[0]);
+	bufLen[1] = pkt.Size();
+	if(ostrm.WriteV(bufPtr,bufLen,2) < (IntT) (sizeof(size) + pkt.Size()))
 	  break;	
 	ONDEBUG(SysLog(SYSLOG_DEBUG) << "  Sent packet. ");
       }
@@ -382,134 +389,12 @@ namespace RavlN {
     NetPacketC pkt;
     while(transmitQ.TryGet(pkt)) ;
   }
-    
-  
-  //: Read some bytes from a stream.
-  
-  bool NetEndPointBodyC::ReadData(int nfd,char *buff,UIntT size) {
-    UIntT at = 0;
-    fd_set rfds;
-    FD_ZERO(&rfds);
-    struct timeval tv;
-    while(at < size && !shutdown) {
-#if 1
-      //ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::ReadData(), Waiting for select. ");
-      FD_SET(nfd,&rfds);
-      tv.tv_sec = 5;
-      tv.tv_usec = 0;
-      if(select(nfd+1,&rfds,0,0,&tv) == 0) {
-	//ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::ReadData(), Select timeout. ");
-	continue;
-      }
-      //ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::ReadData(), Waiting for read. Read=" << (int) FD_ISSET(nfd, &rfds) << " Except=" << (int) FD_ISSET(nfd, &efds) << "\n");
-#endif
-      if(shutdown)
-	break;
-      int n = read(nfd,&(buff[at]),size - at);
-      if(n == 0) { // Linux indicates a close by returning 0 bytes read.  Is this portable ??
-	ONDEBUG(SysLog(SYSLOG_DEBUG) << "Socket close. ");
-	return false;
-      }
-      if(n < 0) {
-	ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::ReadData(), Error on read. ");
-	if(errno == EINTR || errno == EAGAIN)
-	  continue;
-#if RAVL_OS_LINUX
-	char buff[256];
-	SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::ReadData(), Error reading from socket :" << errno << " '" << strerror_r(errno,buff,256) << "'";
-#else
-	SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::ReadData(), Error reading from socket :" << errno;
-#endif
-	return false;
-      }
-      at += n;
-    }
-    return !shutdown;
-  }
-  
-  //: Write 2 buffers to file descriptor.
-  
-  bool NetEndPointBodyC::WriteData(int nfd,
-				   const char *buff1,UIntT size1,
-				   const char *buff2,UIntT size2) {
-    
-    struct iovec vec[2];
-    vec[0].iov_base = (void*) buff1;
-    vec[0].iov_len = size1;
-    vec[1].iov_base = (void*) buff2;
-    vec[1].iov_len = size2;
-    UIntT at = 0;
-    UIntT total = size1 + size2;
-
-    fd_set wfds;
-    FD_ZERO(&wfds);
-    
-    do {
-#if 1
-      FD_SET(nfd,&wfds);
-      if(select(nfd+1,0,&wfds,0,0) == 0)
-	continue;
-#endif
-      at = writev(nfd,vec,2);
-      if(at > 0)
-	break;
-      if(errno != EINTR && errno != EAGAIN) {
-#if RAVL_OS_LINUX
-	char buff[256];
-	SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::WriteData(),(2) Error writing to socket :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
-#else
-	SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::WriteData(),(2) Error writing to socket :" << errno;
-#endif
-	return false;
-      }
-      // Temporary failure, try again.
-    } while(true);
-    
-    if(at == total)
-      return true; // Everything done ok.
-    // Write of all data failed, try and sort things out.
-    // Does this ever really happen ??
-    SysLog(SYSLOG_WARNING) << "WARNING: Partial data write in NetEndPointBodyC::WriteData(). ";
-    if(at < size1) { // Written all of first packet ?
-      if(!WriteData(nfd,&(buff1[at]),size1-at))
-	return false;
-      at = size1;
-    }
-    // Write second vector.
-    at -= size1;
-    return WriteData(nfd,&(buff2[at]),size2-at);
-  }
-  
-  //: Write some bytes to a stream.
-  
-  bool NetEndPointBodyC::WriteData(int nfd,const char *buff,UIntT size) {
-    UIntT at = 0;
-    while(at < size && !shutdown) {
-      int n = write(nfd,&(buff[at]),size - at);
-      if(n < 0) {
-	ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunReceive(), Error on read. ");
-	if(errno == EINTR || errno == EAGAIN)
-	  continue;
-#if RAVL_OS_LINUX
-	char buff[256];
-	SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::WriteData(),(2) Error writing to socket :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
-#else
-	SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::WriteData(),(2) Error writing to socket :" << errno;
-#endif
-	return false;
-      }
-      at += n;
-    }    
-    return !shutdown;
-  }
   
   //: Handle packet reception.
   
   bool NetEndPointBodyC::RunReceive() {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunReceive(), Started. ");
-    
-    int rfd = skt.Fd();
-    if(rfd < 0) {
+    if(!istrm.IsGetReady()) {
       SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunReceive(), ERROR: No connection. ";
       return false;       
     }
@@ -523,7 +408,7 @@ namespace RavlN {
       streamType = "<ABPS>";
       do {
 	ONDEBUG(SysLog(SYSLOG_DEBUG) << "State=" << state);
-	if(!ReadData(rfd,&buff,1)) {
+	if(istrm.Read(&buff,1) < 1) {
 	  errorInHeader = true;
 	  break;
 	}
@@ -553,7 +438,7 @@ namespace RavlN {
     try {
       while(!shutdown) {
 	UIntT size;
-	if(!ReadData(rfd,(char *) &size,sizeof(UIntT))) {
+	if(istrm.Read((char *) &size,sizeof(UIntT)) < (IntT) sizeof(UIntT)) {
 	  if(!shutdown)
 	    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Read size failed. Assuming connection broken. ");
 	  break;
@@ -570,7 +455,7 @@ namespace RavlN {
 #endif
 	ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Read " << size << " bytes. UseBigEndian:" << useBigEndianBinStream << " BigEdian:" << RAVL_ENDIAN_BIG << " "); 
 	SArray1dC<char> data(size);
-	if(!ReadData(rfd,(char *) &(data[0]),size)) {
+	if(istrm.Read((char *) &(data[0]),size) < (IntT) size) {
 	  ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Read data failed. Assuming connection broken. "); 
 	  break;
 	}

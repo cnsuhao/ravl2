@@ -8,8 +8,8 @@
 //! rcsid="$Id$"
 //! lib=RavlNet
 //! file="Ravl/OS/Network/Socket.cc"
-#include "Ravl/config.h"
 
+#include "Ravl/config.h"
 #if RAVL_OS_SOLARIS
 #define __EXTENSIONS__ 1
 #include <string.h>
@@ -48,6 +48,10 @@
 #if RAVL_HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+
+#include <sys/uio.h>
+
+#include "Ravl/OS/SysLog.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -438,7 +442,252 @@ namespace RavlN {
   // true= read and write's won't do blocking waits.
   
   bool SocketBodyC::SetNonBlocking(bool block) {
+    cerr << "SocketBodyC::SetNonBlocking(), Not implemented. \n";
     return false;
+  }
+  
+  //: Read some bytes from a stream.
+  
+  IntT SocketBodyC::Read(char *buff,UIntT size) {
+    UIntT at = 0;
+    fd_set rfds;
+    FD_ZERO(&rfds);
+    struct timeval tv;
+    while(at < size && fd >= 0) {
+#if 1
+      //ONDEBUG(SysLog(SYSLOG_DEBUG) << "SocketBodyC::Read(), Waiting for select. ");
+      FD_SET(fd,&rfds);
+      tv.tv_sec = 5;
+      tv.tv_usec = 0;
+      if(select(fd+1,&rfds,0,0,&tv) == 0) {
+	//ONDEBUG(SysLog(SYSLOG_DEBUG) << "SocketBodyC::Read(), Select timeout. ");
+	continue;
+      }
+      //ONDEBUG(SysLog(SYSLOG_DEBUG) << "SocketBodyC::Read(), Waiting for read. Read=" << (int) FD_ISSET(nfd, &rfds) << " Except=" << (int) FD_ISSET(nfd, &efds) << "\n");
+#endif
+      if(fd < 0)
+	break;
+      int n = read(fd,&(buff[at]),size - at);
+      if(n == 0) { // Linux indicates a close by returning 0 bytes read.  Is this portable ??
+	ONDEBUG(SysLog(SYSLOG_DEBUG) << "Socket close. ");
+	return false;
+      }
+      if(n < 0) {
+	ONDEBUG(SysLog(SYSLOG_DEBUG) << "SocketBodyC::Read(), Error on read. ");
+	if(errno == EINTR || errno == EAGAIN)
+	  continue;
+#if RAVL_OS_LINUX
+	char buff[256];
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::Read(), Error reading from socket :" << errno << " '" << strerror_r(errno,buff,256) << "'";
+#else
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::Read(), Error reading from socket :" << errno;
+#endif
+	return false;
+      }
+      at += n;
+    }
+    return at;
+  }
+
+  //: Read some bytes from a stream.
+  
+  IntT SocketBodyC::ReadV(char **buffer,IntT *len,int n) {
+    if(n == 0) return 0;
+    struct iovec vecBuf[100];
+    struct iovec *vecp = vecBuf;
+    IntT at = 0,total = 0;
+    if(n > 100) {
+      vecp = (struct iovec *) malloc(n * sizeof(iovec));
+      if(vecp == 0) {
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::ReadV(), Out of memory ";
+	return 0;
+      }
+    }
+    for(int i = 0;i < n;i++) {
+      vecp[i].iov_base = (char *) buffer[i];
+      vecp[i].iov_len = len[i];
+      total += len[i];
+    }
+    
+    fd_set wfds;
+    FD_ZERO(&wfds);
+    
+    do {
+      FD_SET(fd,&wfds);
+      if(select(fd+1,&wfds,0,0,0) == 0)
+	continue;
+      at = readv(fd,vecp,n);
+      if(at > 0)
+	break;
+      if(errno != EINTR && errno != EAGAIN) {
+#if RAVL_OS_LINUX
+	char buff[256];
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::ReadV(), Error reading from socket :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
+#else
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::ReadV(), Error reading from socket :" << errno;
+#endif
+	if(n > 100) free(vecp);
+	return false;
+      }
+      // Temporary failure, try again.
+    } while(fd >= 0);
+    if(at == total) return at; // All done ?
+    
+    SysLog(SYSLOG_WARNING) << "SocketBodyC::ReadV(), Socket read interupted, attempting to recover. (Relatively untested code.) \n";
+    
+    // Read in 1 lump failed, break it up.
+    int b = 0,xat = 0;
+    do {
+      for(b = 0;b < n;b++) {
+	xat += len[b];
+	if(at < xat) //In this block ?
+	  break;
+      }
+      if(xat < at){
+	IntT done = len[b] - (at - xat);
+	IntT x = Read(&(buffer[b][done]),len[b] - done);
+	if(x < 0) { 
+	  if(n > 100) free(vecp);
+	  return at;
+	}
+	at += x;
+	if(x < (len[b] - done)) {
+	  if(n > 100) free(vecp);
+	  return at; // Some serious error must have occured to stop 'Read'
+	}
+      }
+      RavlAssert(xat == at);
+      b++;
+      int x = readv(fd,&(vecp[b]),n - b);
+      if(x < 0) {
+	if(errno != EINTR && errno != EAGAIN) {
+#if RAVL_OS_LINUX
+	  char buff[256];
+	  SysLog(SYSLOG_WARNING) << "SocketBodyC::ReadV(), Error writing to socket :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
+#else
+	  SysLog(SYSLOG_WARNING) << "SocketBodyC::ReadV(), Error writing to socket :" << errno;
+#endif
+	  if(n > 100) free(vecp);
+	  return false;
+	}
+	x = 0;
+      }
+      at += x;
+    } while(at < total) ;
+    if(n > 100) free(vecp);
+    return at;
+  }
+
+  //: Write multiple buffers
+  
+  IntT SocketBodyC::WriteV(const char **buffer,IntT *len,int n) {
+    if(n == 0) return 0;
+    struct iovec vecBuf[100];
+    struct iovec *vecp = vecBuf;
+    IntT at = 0,total = 0;
+    if(n > 100) {
+      vecp = (struct iovec *) malloc(n * sizeof(iovec));
+      if(vecp == 0) {
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::WriteV(), Out of memory ";
+	return 0;
+      }
+    }
+    for(int i = 0;i < n;i++) {
+      vecp[i].iov_base = (char *) buffer[i];
+      vecp[i].iov_len = len[i];
+      total += len[i];
+    }
+    
+    fd_set wfds;
+    FD_ZERO(&wfds);
+    
+    do {
+      FD_SET(fd,&wfds);
+      if(select(fd+1,0,&wfds,0,0) == 0)
+	continue;
+      //cerr << "writev(" << fd << "," << (void *) vecp << "," << n << ");\n";
+      if((at = writev(fd,vecp,n)) > 0)
+	break;
+      if(errno != EINTR && errno != EAGAIN) {
+#if RAVL_OS_LINUX
+	char buff[256];
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::WriteV(), Error writing to socket :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
+#else
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::WriteV(), Error writing to socket :" << errno;
+#endif
+	if(n > 100) free(vecp);
+	return false;
+      }
+      // Temporary failure, try again.
+    } while(fd >= 0);
+    if(at == total) return at; // All done ?
+    
+    SysLog(SYSLOG_WARNING) << "SocketBodyC::WriteV(), Socket write interupted, attempting to recover. (Relatively untested code.) \n";
+    
+    // Write in 1 lump failed, break it up.
+    int b = 0,xat = 0;
+    do {
+      for(b = 0;b < n;b++) {
+	xat += len[b];
+	if(at < xat) //In this block ?
+	  break;
+      }
+      if(xat < at){
+	IntT done = len[b] - (at - xat);
+	IntT x = Write(&(buffer[b][done]),len[b] - done);
+	if(x < 0) { 
+	  if(n > 100) free(vecp);
+	  return at;
+	}
+	at += x;
+	if(x < (len[b] - done)) {
+	  if(n > 100) free(vecp);
+	  return at; // Some serious error must have occured to stop 'Write'
+	}
+      }
+      RavlAssert(xat == at);
+      b++;
+      int x = writev(fd,&(vecp[b]),n - b);
+      if(x < 0) {
+	if(errno != EINTR && errno != EAGAIN) {
+#if RAVL_OS_LINUX
+	  char buff[256];
+	  SysLog(SYSLOG_WARNING) << "SocketBodyC::WriteV(),(2) Error writing to socket :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
+#else
+	  SysLog(SYSLOG_WARNING) << "SocketBodyC::WriteV(),(2) Error writing to socket :" << errno;
+#endif
+	  if(n > 100) free(vecp);
+	  return false;
+	}
+	x = 0;
+      }
+      at += x;
+    } while(at < total) ;
+    if(n > 100) free(vecp);
+    return at;
+  }
+    
+  //: Write some bytes to a stream.
+  
+  IntT SocketBodyC::Write(const char *buff,UIntT size) {
+    UIntT at = 0;
+    while(at < size && fd >= 0) {
+      int n = write(fd,&(buff[at]),size - at);
+      if(n < 0) {
+	ONDEBUG(SysLog(SYSLOG_DEBUG) << "SocketBodyC::RunReceive(), Error on read. ");
+	if(errno == EINTR || errno == EAGAIN)
+	  continue;
+#if RAVL_OS_LINUX
+	char buff[256];
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(),(2) Error writing to socket :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
+#else
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(),(2) Error writing to socket :" << errno;
+#endif
+	return false;
+      }
+      at += n;
+    }    
+    return at;
   }
 
 }
