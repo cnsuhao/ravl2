@@ -133,7 +133,7 @@ namespace RavlN {
     char c;
     RavlAssert(endStr.length() != 0);
     if(endStr.length() == 1)
-      return SkipTo(endStr.firstchar());
+      return ClipTo(endStr.firstchar());
     FixedQueueC<char> fq(endStr.Size());
     // Fill queue, can't match until the queue is filled.
     while(fq.Size() != endStr.Size()) {
