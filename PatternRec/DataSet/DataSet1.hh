@@ -46,6 +46,12 @@ namespace RavlN {
     UIntT Append(const typename SampleT::ElementT &data);
     //: Append a data entry.
     // returns its index.
+    
+    DataSet1C<SampleT> ExtractSample(RealT proportion);
+    //: Extract a sample.
+    // The elements are removed from this set. NB. The order
+    // of this dataset is NOT preserved.
+    
   protected:
     SampleT samp1;
     //: the actual data
@@ -107,6 +113,12 @@ namespace RavlN {
     //: Append a data entry.
     // returns its index.
     
+    DataSet1C<SampleT> ExtractSample(RealT proportion)
+    { return Body().ExtractSample(proportion); }
+    //: Extract a sample.
+    // The elements are removed from this set. NB. The order
+    // of this dataset is NOT preserved.
+    
     friend class DataSet1BodyC<SampleT>;
   };
   
@@ -122,13 +134,17 @@ namespace RavlN {
     : DataSetBaseBodyC(nindex),
       samp1(sp)
   {}
-
-  //: Append a data entry.
-  // returns its index.
   
   template<class SampleT>
   UIntT DataSet1BodyC<SampleT>::Append(const typename SampleT::ElementT &data) {
     return samp1.Append(data);
+  }
+  
+  template<class SampleT>
+  DataSet1C<SampleT> DataSet1BodyC<SampleT>::ExtractSample(RealT proportion) {
+    DataSet1C<SampleT> ret;
+    RavlAssertMsg(0,"Not implemented."); 
+    return ret;
   }
   
 

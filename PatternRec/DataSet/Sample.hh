@@ -43,6 +43,9 @@ namespace RavlN {
     SampleC<DataT> SubSample(const CollectionC<UIntT> &x);
     //: Take a subsample of the given indexes in x.
     
+    DataT ExtractEntry(int ind);
+    //: Extract an entry from sample.
+
     UIntT Append(const DataT & dat)
     { return DArray1dC<DataT>::Append(dat).V(); }
     //: Insert a single sample into sample
@@ -87,6 +90,16 @@ namespace RavlN {
     SampleC<DataT> ret(x.Size());
     for(CollectionIterC<UIntT> it(x);it;it++)
       ret.Insert((*this)[*it]);
+    return ret;
+  }
+
+  //: Extract an entry from sample.
+  
+  template <class DataT>
+  DataT SampleC<DataT>::ExtractEntry(int ind) {
+    RavlAssert(Contains(ind));
+    DataT ret = (*this)[ind];
+    Remove(ind);
     return ret;
   }
   
