@@ -37,7 +37,7 @@ MAINS =
 
 HEADERS = gdkgl.h gtkglarea.h DObject3D.hh DLight3D.hh \
  Util.hh Canvas3D.hh DViewPoint3D.hh DCube3D.hh DTriMesh3D.hh \
- DPointSet3D.hh
+ DPointSet3D.hh DPinholeCamera03DC.hh
 #View3D.hh
 
 #  DLines3D.hh
@@ -47,7 +47,7 @@ HEADERS = gdkgl.h gtkglarea.h DObject3D.hh DLight3D.hh \
 
 SOURCES = gdkgl.c gtkglarea.c DObject3D.cc  DLight3D.cc \
  Util.cc Canvas3D.cc DViewPoint3D.cc DCube3D.cc DTriMesh3D.cc \
- DPointSet3D.cc
+ DPointSet3D.cc DPinholeCamera03D.cc
 #View3D.cc
 
 #  DLines3D.cc
