@@ -13,8 +13,13 @@
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Math.hh"
 
+
 namespace RavlImageN {
+#ifdef __sgi__
+  template SArray2dC<double>;
+#endif
   
+
   //: Constructor.
   
   HomomorphicFilterBodyC::HomomorphicFilterBodyC(RealT nSigma,RealT nDepth,const Index2dC &size) 

@@ -11,11 +11,11 @@ PACKAGE=Ravl/Image
 
 HEADERS=Erode.hh Dilate.hh DilateSubSample2X.hh MorphOpen.hh MorphClose.hh
 
-PLIB=RavlImage
+PLIB=RavlImageProc
 
 LIBDEPS=RavlImageMorphology.def
 
-USESLIBS=RavlImage 
+USESLIBS=RavlImageProc 
 
 EHT=Ravl.Images.Morphology.html
 

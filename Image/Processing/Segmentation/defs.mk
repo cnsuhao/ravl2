@@ -15,12 +15,12 @@ HEADERS=ChromaThreshold.hh  Segmentation.hh ConnectedComponents.hh \
 SOURCES=ChromaThreshold.cc Segmentation.cc ConnectedComponents.cc \
  BlueScreen.cc
 
-PLIB=RavlImage
+PLIB=RavlImageProc
 
 LIBDEPS=RavlImageSegmentation.def
 
 TESTEXES=testConnectedComponents.cc 
 
-USESLIBS=RavlImage  
+USESLIBS=RavlImageProc  
 
 EHT=Ravl.Images.Segmentation.html

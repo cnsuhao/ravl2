@@ -25,7 +25,7 @@ PLIB=RavlImageProc
 
 LIBDEPS=RavlImageEdges.def
 
-USESLIBS=RavlImage RavlThreads RavlImageIO
+USESLIBS=RavlImageProc RavlImage RavlThreads RavlImageIO
 
 PROGLIBS= RavlDPMT RavlOSIO RavlVideoIO RavlIO RavlDPDisplay
 

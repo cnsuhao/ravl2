@@ -21,9 +21,9 @@ TESTEXES= testConvolve.cc
 
 LIBDEPS=RavlImageFilter.def
 
-PLIB=RavlImage
+PLIB=RavlImageProc
 
-USESLIBS=RavlImage RavlMath
+USESLIBS=RavlImageProc RavlImage RavlMath
 
 PROGLIBS=RavlIO RavlImageIO RavlDPDisplay RavlOSIO
 

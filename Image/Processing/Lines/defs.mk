@@ -23,7 +23,7 @@ PLIB=RavlImageProc
 
 LIBDEPS=RavlImageProcHT.def
 
-USESLIBS=RavlImageProc RavlIO RavlOS RavlOSIO
+USESLIBS=RavlImageProc RavlIO RavlOS RavlOSIO RavlMath
 
 PROGLIBS=
 
