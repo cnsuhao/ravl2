@@ -41,8 +41,12 @@ namespace RavlImageN {
 
     bool Apply(const ImageC<ByteT> &img, Projection2dC &proj);
     //: Matches an image to the template.
-    // proj is the initial estimate of the motion, usually provided by the
-    // previous call. proj will be updated to the computed motion.
+
+    // <code>proj</code> must be supplied in the form of an initial estimate
+    // of the transformation (for example that provided by the previous call),
+    // which will be updated by this method to the new computed
+    // transformation. <br> <code>proj</code> must be in the sense that it
+    // transforms points <i>from</i> the template <i>to</i> <code>img</code>.
 
   private:
     // stored parameters
@@ -52,7 +56,7 @@ namespace RavlImageN {
     // stored data
     ImageC<ByteT> imageTemplate;
     ImageTrackerC tracker;
-  };
+  };`'
 }
 
 
