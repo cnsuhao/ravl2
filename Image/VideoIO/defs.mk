@@ -15,13 +15,15 @@ DESCRIPTION = Video IO classes.
 
 HEADERS = ImgIOCif.hh CifFormat.hh \
           ImgIOyuv.hh yuvFormat.hh syuvFormat.hh \
-          ImgIOrgb.hh rgbFormat.hh rawFormat.hh 
+          ImgIOrgb.hh rgbFormat.hh rawFormat.hh \
+	  MultiVidIO.hh
 
 #          VidIO.hh SubSamp2Intl.hh SubSample.hh 
 
 SOURCES = ImgIOCif.cc CifFormat.cc \
           ImgIOyuv.cc yuvFormat.cc syuvFormat.cc \
           ImgIOrgb.cc rgbFormat.cc rawFormat.cc \
+	  MultiVidIO.cc
 
 #              SubSamp2Intl.cc  ImgComposites.cc
 
