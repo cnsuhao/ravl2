@@ -12,6 +12,7 @@
 #include "Ravl/Matrix.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/CCMath.hh"
+#include "Ravl/Vector.hh"
 
 namespace RavlN {
   
@@ -26,6 +27,30 @@ namespace RavlN {
     }
     return ret;
   }
+
+  //: Do a pseudo inverse 
+  // Uses singular value decomposition to decompose the matrix, and sets
+  // the singular values smaller than 'thesh' to zero.
+  
+  MatrixC MatrixC::PseudoInverse(RealT thresh) const {
+    MatrixC U, V;
+    VectorC D=SVD(*this,U,V);
+    // Invert diagonal
+    RealT aver = D.Sum() / D.Size();
+    for(SArray1dIterC<RealT> it(D);it;it++) {
+      if(IsSmall(*it,aver,thresh)) {
+	//cerr << "Index " << it.Index() << " is small. \n";
+	*it = 0;
+      } else
+	*it = 1 / *it;
+    }
+    MatrixC md(D.Size(),D.Size());
+    md.Fill(0);
+    md.SetDiagonal(D);
+    MatrixC m = V * md * U.T();
+    return m;
+  }
+  
   
   /*
    *------------------------------------------------------------------------

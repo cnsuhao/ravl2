@@ -89,6 +89,11 @@ namespace RavlN {
     // If the matrix is not stored in a continous area of memory a slightly
     // different routine is used to do the inversion.  
     
+    MatrixC PseudoInverse(RealT thresh = 1e-5) const;
+    //: Do a pseudo inverse 
+    // Uses singular value decomposition to decompose the matrix, and sets
+    // the singular values smaller than 'thesh' to zero.
+    
   };
   
   
