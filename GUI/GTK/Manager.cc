@@ -16,8 +16,13 @@
 #include "Ravl/HashIter.hh"
 #include "Ravl/Threads/TimedTriggerQueue.hh"
 
+#if 1
 #define RAVL_USE_GTKTHREADS  RAVL_OS_WIN32  /* Use thread based event handling stratagy. */
 #define RAVL_USE_GTKDIRECT  RAVL_OS_WIN32
+#else
+#define RAVL_USE_GTKTHREADS  1  /* Use thread based event handling stratagy. */
+#define RAVL_USE_GTKDIRECT   1
+#endif
 
 //#include "Ravl/GUI/Label.hh"
 #if RAVL_HAVE_UNISTD_H
@@ -49,6 +54,44 @@
 
 
 namespace RavlGUIN {
+  
+#if RAVL_USE_GTKTHREADS
+  // Manage gtk locking in an exception safe way.
+  class LockGtkThreadC {
+  public:
+    LockGtkThreadC() 
+      : gotLock(true)
+    {
+      gdk_threads_enter();
+    }
+    //: Constructor.
+    
+    ~LockGtkThreadC() {
+      if(gotLock)
+	gdk_threads_leave();      
+    }
+    //: Destructor.
+    
+    void Unlock() {
+      if(gotLock) {
+	gotLock = false;
+	gdk_threads_leave();      
+      }
+    }
+    //: Unlock it.
+
+    void Lock() {
+      if(!gotLock) {
+	gotLock = false;
+	gdk_threads_leave();
+      }
+    }
+    //: Unlock it.
+    
+    bool gotLock;
+  };
+  
+#endif
   
   ManagerC Manager;
   
@@ -216,10 +259,10 @@ namespace RavlGUIN {
     
 #if  RAVL_USE_GTKTHREADS
     // Get screen size from GDK
-    gdk_threads_enter();
+    LockGtkThreadC  gtkLock;
     screensize.Set(gdk_screen_height(),gdk_screen_width());
     physicalScreensize = Point2dC(gdk_screen_height_mm(),gdk_screen_width_mm());
-    gdk_threads_leave();
+    gtkLock.Unlock();
     
     guiThreadID1 = ThisThreadID();
 #if !RAVL_USE_GTKDIRECT    
@@ -228,8 +271,9 @@ namespace RavlGUIN {
     startupDone.Post();
 #endif
     ONDEBUG(cerr << "ManagerC::Start(), Starting gtk_main().\n");
-    gdk_threads_enter();
+    gtkLock.Lock();
     gtk_main();
+    gtkLock.Unlock();
     gdk_threads_leave();
     ONDEBUG(cerr << "ManagerC::Start(), gtk_main() Done.\n");
 #else
@@ -324,11 +368,11 @@ namespace RavlGUIN {
 	gtk_main_quit ();
 	break;      
       }
-      gdk_threads_enter();
+      LockGtkThreadC lock;
       ONDEBUG(cerr << "ManagerC::HandleNotify(), Event Start... \n");
       trig.Invoke();
       ONDEBUG(cerr << "ManagerC::HandleNotify(), Event Finished.. \n");
-      gdk_threads_leave();
+      lock.Unlock();
     }
     ONDEBUG(cerr << "ManagerC::HandleNotify(), Done. \n");
 #else
@@ -379,17 +423,16 @@ namespace RavlGUIN {
   //: Queue an event for running in the GUI thread.
   
   void ManagerC::Queue(const TriggerC &se) {
-#if RAVL_USE_GTKDIRECT    
-    if(IsGUIThread()) {
+#if RAVL_USE_GTKDIRECT       
+    if(!g_mutex_trylock(gdk_threads_mutex)) {
       ONDEBUG(cerr << "ManagerC::Queue(), Event Start... \n");
       if(se.IsValid())
 	const_cast<TriggerC &>(se).Invoke();
       else 
 	gtk_main_quit ();
       ONDEBUG(cerr << "ManagerC::Queue(), Event Finished.. \n");
-    } else {
-      
-      gdk_threads_enter();
+    } else  {
+      //gdk_threads_enter();
       // Mark this thread as being GUI.
       UIntT oldId = guiThreadID2;
       guiThreadID2 = ThisThreadID();
@@ -437,10 +480,12 @@ namespace RavlGUIN {
   //: Ensure that an unref takes place for pixmap on the GUIThread.
   
   void ManagerC::UnrefPixmap(GdkPixmap *pixmap) {
+#if !RAVL_USE_GTKDIRECT 
     if(IsGUIThread()) {  // Do this ASAP, to free space in the X server.
       gdk_pixmap_unref(pixmap);
       return ;
     }
+#endif
     Queue(Trigger(&doUnrefPixmap,pixmap));
   }
   
@@ -459,11 +504,19 @@ namespace RavlGUIN {
   //: Test if we're in the GUI thread.
   
   bool ManagerC::IsGUIThread() const { 
+#if RAVL_USE_GTKDIRECT 
+    if(g_mutex_trylock (gdk_threads_mutex)) {
+      g_mutex_unlock (gdk_threads_mutex);
+      return false;
+    }
+    return true;
+#else
     UIntT cid = ThisThreadID();
     // Only one of either the native gtk thread or event handling
     // thread will be in GUI code at a time. So if we're on either 
     // we've got an exclusive lock on gtk functions.
     return !managerStarted || guiThreadID1 == cid || guiThreadID2 == cid; 
+#endif
   }
   
   //: Register new window.
