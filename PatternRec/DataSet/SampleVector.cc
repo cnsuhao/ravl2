@@ -31,7 +31,7 @@ namespace RavlN {
     DArray1dIterC<VectorC> it(*this);
     if(!it)
       return VectorC();
-    VectorC total = *it;
+    VectorC total = it->Copy();
     for(;it;it++)
       total += *it;
     return total/ ((RealT) Size());
