@@ -59,6 +59,45 @@ namespace RavlN {
     }
     return *this;
   }
+  
+  //: Subtract another right upper matrix from this one.
+  
+  const MatrixRUTC &MatrixRUTC::operator-=(const MatrixRUTC &mat) {
+    int off = 0;
+    for(SArray2dIter2C<RealT,RealT> mit(*this,mat);mit;) {
+      mit.NextCol(off++);
+      do {
+	mit.Data1() -= mit.Data2();
+      } while(mit.Next()) ;
+    }    
+    return *this;
+  }
+
+  //: Multiply by a constant.
+  
+  const MatrixRUTC &MatrixRUTC::operator*=(RealT val) {
+    int off = 0;
+    for(SArray2dIterC<RealT> mit(*this);mit;) {
+      mit.NextCol(off++);
+      do {
+	*mit *= val;
+      } while(mit.Next()) ;
+    }        
+    return *this;
+  }
+  
+  //: Divide by a constant.
+  
+  const MatrixRUTC &MatrixRUTC::operator/=(RealT val) {
+    int off = 0;
+    for(SArray2dIterC<RealT> mit(*this);mit;) {
+      mit.NextCol(off++);
+      do {
+	*mit /= val;
+      } while(mit.Next()) ;
+    }    
+    return *this;
+  }
 
   //: Make this matrix symmetric.
   // Copy the upper right triangle to the lower left.

@@ -64,6 +64,15 @@ namespace RavlN {
     const MatrixRUTC &operator+=(const MatrixRUTC &mat);
     //: Add another right upper matrix to this one.
     
+    const MatrixRUTC &operator-=(const MatrixRUTC &mat);
+    //: Subtract another right upper matrix from this one.
+    
+    const MatrixRUTC &operator*=(RealT val);
+    //: Multiply by a constant.
+    
+    const MatrixRUTC &operator/=(RealT val);
+    //: Divide by a constant.
+    
     void MakeSymmetric();
     //: Make this matrix symmetric.
     // Copy the upper right triangle to the lower left.

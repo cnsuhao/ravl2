@@ -103,6 +103,11 @@ namespace RavlN {
     { (*this) = Unit(); return *this; }
     //: Make this a unit vector.
     
+    IndexC MaxIndex() const;
+    //: Find the index with the most positive valued index.
+    
+    IndexC MaxAbsIndex() const;
+    //: Find the index with the absolute maximum valued index.
   };
   
   ////////////////////////////////////////
@@ -246,6 +251,35 @@ namespace RavlN {
       if(*it < min)
 	min = *it;
     return min;
+  }
+  
+  template<class DataT>
+  IndexC TVectorC<DataT>::MaxIndex() const {
+    IndexC ind = 0;
+    SArray1dIterC<DataT> it(*this);
+    DataT maxVal = *it;
+    for(it++;it;it++) {
+      if(*it > maxVal) {
+	maxVal = *it;
+	ind = it.Index();
+      }
+    }
+    return ind;
+  }
+  
+  template<class DataT>
+  IndexC TVectorC<DataT>::MaxAbsIndex() const {
+    IndexC ind = 0;
+    SArray1dIterC<DataT> it(*this);
+    DataT maxVal = *it;
+    for(it++;it;it++) {
+      DataT aM = Abs(*it);
+      if(aM > maxVal) {
+	maxVal = aM;
+	ind = it.Index();
+      }
+    }
+    return ind;
   }
   
 }
