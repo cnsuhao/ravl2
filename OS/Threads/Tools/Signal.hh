@@ -525,6 +525,20 @@ namespace RavlN {
   // NB. It is the users responsibility to ensure the object
   // remains valid while being used.
 
+  template<class DataT>
+  inline 
+  SignalConnectorC ConnectR(Signal0C &from,DataT &obj,bool (DataT::* func)()) { 
+    RavlAssert(from.IsValid());
+    return Signal0MethodRefC<DataT>(from,obj,func); 
+  }
+  //! userlevel=Normal
+  //: Connect signal to a method with 0 args.
+  // This holds a REFRENCE to the class to be called.
+  // <p>
+  // Uses reference to object not instance. <p>
+  // NB. It is the users responsibility to ensure the object
+  // remains valid while being used.
+
 };
 
 #endif

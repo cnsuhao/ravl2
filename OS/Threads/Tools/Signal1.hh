@@ -16,6 +16,7 @@
 //! example=exSignal1.cc
 
 #include "Ravl/Threads/Signal.hh"
+#include "Ravl/Traits.hh"
 #include "Ravl/IntrDLIter.hh"
 #include "Ravl/Types.hh"
 
@@ -103,14 +104,15 @@ namespace RavlN {
   
   template<class DataT>
   class Signal1FuncBodyC
-    : public SignalConnector1BodyC<DataT>
+    : public SignalConnector1BodyC<typename TraitsC<DataT>::BaseTypeT>
   {
   public:
-    typedef bool (*Func1T)(DataT &val);
+    typedef typename TraitsC<DataT>::BaseTypeT Arg1T; //: Type of arguments without const's and refs.
+    typedef bool (*Func1T)(DataT val);
     
-    Signal1FuncBodyC(Signal0C &from,Func1T nFunc,const DataT &def)
+    Signal1FuncBodyC(Signal0C &from,Func1T nFunc,const Arg1T &def)
       : SignalConnector0BodyC(from),
-	SignalConnector1BodyC<DataT>(from,def),
+	SignalConnector1BodyC<typename TraitsC<DataT>::BaseTypeT>(from,def),
 	func(nFunc)
     {}
     //: Constructor.
@@ -120,7 +122,7 @@ namespace RavlN {
     //: Call function.
     // Use default value.
     
-    virtual bool Invoke(DataT &val)
+    virtual bool Invoke(Arg1T &val)
     { return func(val); }
     //: Call function.
     
@@ -136,7 +138,9 @@ namespace RavlN {
     : public SignalConnectorC
   {
   public:
-    Signal1FuncC(Signal0C &from,typename Signal1FuncBodyC<DataT>::Func1T nFunc,const DataT &def = DataT())
+    typedef typename TraitsC<DataT>::BaseTypeT Arg1T; //: Type of arguments without const's and refs.
+    
+    Signal1FuncC(Signal0C &from,typename Signal1FuncBodyC<DataT>::Func1T nFunc,const Arg1T &def = Arg1T())
       : SignalConnectorC(*new Signal1FuncBodyC<DataT>(from,nFunc,def))
     {}
     //: Constructor.
@@ -148,17 +152,19 @@ namespace RavlN {
   
   template<class DataT,class ObjT>
   class Signal1MethodBodyC
-    : public SignalConnector1BodyC<DataT>
+    : public SignalConnector1BodyC<typename TraitsC<DataT>::BaseTypeT>
   {
   public:
-    typedef bool (ObjT::*Func1T)(DataT &dat);
+    typedef typename TraitsC<DataT>::BaseTypeT Arg1T; //: Type of arguments without const's and refs.
+    typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Type of object without const's and refs.
+    typedef bool (BaseObjT::*Func1T)(DataT dat);
     
     Signal1MethodBodyC(Signal0C &from,
-		       const ObjT &nobj,
+		       BaseObjT &nobj,
 		       Func1T nFunc,
-		       const DataT &dat = DataT())
+		       const Arg1T &dat = Arg1T())
       : SignalConnector0BodyC(from),
-	SignalConnector1BodyC<DataT>(from,dat),
+	SignalConnector1BodyC<typename TraitsC<DataT>::BaseTypeT>(from,dat),
 	obj(nobj),
 	func(nFunc)
     {}
@@ -168,11 +174,11 @@ namespace RavlN {
     { return (obj.*func)(defaultVal); }
     //: Call function.
     
-    virtual bool Invoke(DataT &val)
+    virtual bool Invoke(Arg1T &val)
     { return (obj.*func)(val); }
     //: Call function.
     
-    inline bool operator()(DataT &val)
+    inline bool operator()(Arg1T &val)
     { return Invoke(val); }
     //: Simple invokation.
     
@@ -189,78 +195,18 @@ namespace RavlN {
     : public SignalConnectorC
   {
   public:
+    typedef typename TraitsC<DataT>::BaseTypeT Arg1T; //: Type of arguments without const's and refs.
+    typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Type of object without const's and refs.
+    
     Signal1MethodC(Signal0C &from,
-		   const ObjT &nobj,
-		   bool (ObjT::*nFunc)(DataT &),
-		   const DataT &dat = DataT())
+		   BaseObjT &nobj,
+		   bool (BaseObjT::*nFunc)(DataT),
+		   const Arg1T &dat = Arg1T())
       : SignalConnectorC(*new Signal1MethodBodyC<DataT,ObjT>(from,nobj,nFunc,dat))
     {}
     //: Constructor.
   };
   
-  ///////////////////////////////////////////////////
-  //! userlevel=Develop
-  //: Signal 1 method connector.
-  // Uses reference to object not instance. <p>
-  // NB. It is the users responsibility to ensure the object
-  // remains valid while being used.
-  
-  template<class DataT,class ObjT>
-  class Signal1MethodRefBodyC
-    : public SignalConnector1BodyC<DataT>
-  {
-  public:
-    typedef bool (ObjT::*Func1T)(DataT &dat);
-    
-    Signal1MethodRefBodyC(Signal0C &from,
-			  ObjT &nobj,
-			  Func1T nFunc,
-			  const DataT &dat = DataT())
-      : SignalConnector0BodyC(from),
-	SignalConnector1BodyC<DataT>(from,dat),
-	obj(nobj),
-	func(nFunc)
-    {}
-    //: Constructor.
-    
-    virtual bool Invoke()
-    { return  (obj.*func)(defaultVal); }
-    //: Call function.
-    
-    virtual bool Invoke(DataT &val)
-    { return (obj.*func)(val); }
-    //: Call function.
-    
-    inline bool operator()(DataT &val)
-    { return Invoke(val); }
-    //: Simple invokation.
-    
-  protected:
-    ObjT &obj;
-    Func1T func;
-  };
-  
-  ///////////////////////////////
-  //! userlevel=Advanced
-  //: Signal a method.
-  // Uses reference to object not instance. <p>
-  // NB. It is the users responsibility to ensure the object
-  // remains valid while being used.
-  
-  template<class DataT,class ObjT>
-  class Signal1MethodRefC
-    : public SignalConnectorC
-  {
-  public:
-    Signal1MethodRefC(Signal0C &from,
-		      ObjT &nobj,
-		      bool (ObjT::*nFunc)(DataT &),
-		      const DataT &dat = DataT())
-      : SignalConnectorC(*new Signal1MethodRefBodyC<DataT,ObjT>(from,nobj,nFunc,dat))
-    {}
-    //: Constructor.
-  };
-
   ////////////////////////////////////////////////////////////////
   
   //! userlevel=Develop
@@ -416,7 +362,8 @@ namespace RavlN {
   
   template<class DataT>  
   inline 
-  SignalConnectorC Connect(Signal0C &from,bool (*func)(DataT &),const DataT &def = DataT()) {
+  SignalConnectorC Connect(Signal0C &from,bool (*func)(DataT),
+			   const typename TraitsC<DataT>::BaseTypeT &def = typename TraitsC<DataT>::BaseTypeT()) {
     RavlAssert(from.IsValid());
     return Signal1FuncC<DataT>(from,func,def);  
   }
@@ -425,18 +372,33 @@ namespace RavlN {
   
   template<class ObjT,class DataT>
   inline
-  SignalConnectorC Connect(Signal0C &from,const ObjT &obj,bool (ObjT::* func)(DataT &arg),const DataT &def = DataT()) { 
+  SignalConnectorC Connect(Signal0C &from,const ObjT &obj,bool (ObjT::* func)(DataT),
+			   const typename TraitsC<DataT>::BaseTypeT &def = typename TraitsC<DataT>::BaseTypeT()) { 
     RavlAssert(from.IsValid());
-    return Signal1MethodC<DataT,ObjT>(from,obj,func,def);
+    return Signal1MethodC<DataT,ObjT>(from,const_cast<ObjT &>(obj),func,def);
   } 
   //! userlevel=Normal  
   //: Connect a signal to a method.
   
   template<class ObjT,class DataT>
   inline
-  SignalConnectorC ConnectRef(Signal0C &from,ObjT &obj,bool (ObjT::* func)(DataT &arg),const DataT &def = DataT()) { 
+  SignalConnectorC ConnectRef(Signal0C &from,ObjT &obj,bool (ObjT::* func)(DataT),
+			      const typename TraitsC<DataT>::BaseTypeT &def = typename TraitsC<DataT>::BaseTypeT()) { 
     RavlAssert(from.IsValid());
-    return Signal1MethodRefC<DataT,ObjT>(from,obj,func,def);
+    return Signal1MethodC<DataT,ObjT &>(from,obj,func,def);
+  }
+  //! userlevel=Normal  
+  //: Connect a signal to a method.
+  // Uses reference to object not instance. <p>
+  // NB. It is the users responsibility to ensure the object
+  // remains valid while being used.
+  
+  template<class ObjT,class DataT>
+  inline
+  SignalConnectorC ConnectR(Signal0C &from,ObjT &obj,bool (ObjT::* func)(DataT),
+			    const typename TraitsC<DataT>::BaseTypeT &def = typename TraitsC<DataT>::BaseTypeT()) { 
+    RavlAssert(from.IsValid());
+    return Signal1MethodC<DataT,ObjT &>(from,obj,func,def);
   }
   //! userlevel=Normal  
   //: Connect a signal to a method.

@@ -27,7 +27,7 @@ bool test1() {
   return true;
 }
 
-bool test2() {
+bool test2(int x) {
   callcount += 2;
   return true;
 }
