@@ -15,6 +15,8 @@
 #include "Ravl/Logic/Or.hh"
 #include "Ravl/Logic/And.hh"
 #include "Ravl/Logic/Not.hh"
+#include "Ravl/Logic/LiteralIO.hh"
+#include "Ravl/StrStream.hh"
 
 using namespace RavlLogicN;
 
@@ -31,6 +33,7 @@ int testStateSet();
 int testStateOr();
 int testStateAnd();
 int testStateNot();
+int testLiteralIO();
 
 int main() {
   int err;
@@ -56,6 +59,11 @@ int main() {
   }
   if((err = testStateNot()) != 0) {
     cerr << "testStateAnd failed at : " << err << "\n";
+    return 1;
+  }
+  
+  if((err = testLiteralIO()) != 0) {
+    cerr << "testLiteralIO failed at : " << err << "\n";
     return 1;
   }
   cerr << "Test passed. \n";
@@ -273,5 +281,14 @@ int testStateNot() {
     count++;
   }
   if(count != 1) return __LINE__;
+  return 0;
+}
+
+int testLiteralIO() {
+  StrIStreamC is("(hello) (fred one (three ?four)) fred");
+  StateC state(true);
+  if(!LoadState(is,state)) return __LINE__;
+  if(state.Size() != 3) return __LINE__;
+  state.Dump(cerr);
   return 0;
 }

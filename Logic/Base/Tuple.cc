@@ -81,7 +81,7 @@ namespace RavlLogicN {
 	out += "-NIL-";
       it++;
       for(;it;it++) {
-	out += ',';
+	out += ' ';
 	if(it->IsValid())
 	  out += it->Name();
 	else
