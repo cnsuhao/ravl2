@@ -32,11 +32,11 @@ namespace RavlN {
       : CallFunc0BodyC<RetT>((VoidFuncPtrT) 0),
 	mPtr(nfunc),
 	obj(nobj)
-      {}
+    {}
     //: Constructor.
     
     virtual void Invoke()
-      { (obj.*FuncPtr())(); }
+    { (obj.*FuncPtr())(); }
     //: Invoke event.
     
   protected:
@@ -44,14 +44,14 @@ namespace RavlN {
     //: Function ptr type.
     
     virtual RCBodyVC &Copy() const
-      { return *new CallMethod0BodyC<ObjT,RetT>(obj,FuncPtr()); }
+    { return *new CallMethod0BodyC<ObjT,RetT>(obj,FuncPtr()); }
     //: Copy call.
     
     FuncT mPtr;
     
     inline
-      FuncT FuncPtr() const
-      { return mPtr; }
+    FuncT FuncPtr() const
+    { return mPtr; }
     //: Function.
     
     ObjT obj;
@@ -66,13 +66,13 @@ namespace RavlN {
   {
   public:
     CallMethod0C()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     CallMethod0C(const ObjT &nobj,RetT (ObjT::*nfunc)())
       : CallFunc0C<RetT>(*new CallMethod0BodyC<ObjT,RetT>(nobj,nfunc))
-      {}
+    {}
     //:  Constructor.
   };
 
@@ -94,15 +94,15 @@ namespace RavlN {
     //: Constructor.
     
     virtual void Invoke()
-      { (obj.*FuncPtr())(dat1); }
+    { (obj.*FuncPtr())(dat1); }
     //: Invoke event.
 
     virtual RetT Call()
-      { return (obj.*FuncPtr())(dat1); }
+    { return (obj.*FuncPtr())(dat1); }
     //: Invoke event, with paramiter.
     
     virtual RetT Call(DataT &pd)
-      { return (obj.*FuncPtr())(pd); }
+    { return (obj.*FuncPtr())(pd); }
     //: Invoke event, with paramiter.
 
   protected:
@@ -110,14 +110,14 @@ namespace RavlN {
     //: Function ptr type.
     
     virtual RCBodyVC &Copy() const
-      { return *new CallMethod1BodyC<ObjT,DataT,RetT>(obj,FuncPtr(),dat1); }
+    { return *new CallMethod1BodyC<ObjT,DataT,RetT>(obj,FuncPtr(),dat1); }
     //: Copy call.
 
     FuncT mPtr;
     
     inline
-      FuncT FuncPtr() const
-      { return mPtr; }
+    FuncT FuncPtr() const
+    { return mPtr; }
     //: Function.
     
     ObjT obj;
@@ -132,13 +132,13 @@ namespace RavlN {
   {
   public:
     CallMethod1C()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     CallMethod1C(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT &), const DataT &dat = DataT())
       : CallFunc1C<DataT,RetT>(*new CallMethod1BodyC<ObjT,DataT,RetT>(nobj,nfunc,dat))
-      {}
+    {}
     //: Constructor.
   };
 
@@ -159,34 +159,34 @@ namespace RavlN {
       : CallFunc2BodyC<Data1T,Data2T,RetT>((VoidFuncPtrT) 0,ndat1,ndat2),
 	mPtr(nfunc),
 	obj(nobj)
-      {}
+    {}
     //: Constructor.
     
     virtual void Invoke()
-      { (obj.*FuncPtr())(dat1,dat2); }
+    { (obj.*FuncPtr())(dat1,dat2); }
     //: Invoke event.
     
     virtual RetT Call()
-      { return (obj.*FuncPtr())(dat1,dat2); }
+    { return (obj.*FuncPtr())(dat1,dat2); }
     //: Invoke event, with paramiter.
     
     virtual RetT Call(Data1T &pd)
-      { return (obj.*FuncPtr())(pd,dat2); }
+    { return (obj.*FuncPtr())(pd,dat2); }
     //: Invoke event, with paramiter.
 
     virtual RetT Call(Data1T &pd1,Data2T &pd2)
-      { return (obj.*FuncPtr())(pd1,pd2); }
+    { return (obj.*FuncPtr())(pd1,pd2); }
     //: Invoke event, with paramiter.
     
   protected:
     
     inline
     FuncT FuncPtr() const
-      { return mPtr; }
+    { return mPtr; }
     //: Function.
 
     virtual RCBodyVC &Copy() const
-      { return *new CallMethod2BodyC<ObjT,Data1T,Data2T,RetT>(obj,FuncPtr(),dat1,dat2); }
+    { return *new CallMethod2BodyC<ObjT,Data1T,Data2T,RetT>(obj,FuncPtr(),dat1,dat2); }
     //: Copy call.
     
     FuncT mPtr;
@@ -203,14 +203,14 @@ namespace RavlN {
   {
   public:
     CallMethod2C()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     CallMethod2C(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T &,Data2T &),
 		 const Data1T &ndat1 = Data1T(),const Data2T &ndat2 = Data2T())
       : CallFunc2C<Data1T,Data2T,RetT>(*new CallMethod2BodyC<ObjT,Data1T,Data2T,RetT>(nobj,nfunc,ndat1,ndat2))
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
   };
@@ -230,27 +230,27 @@ namespace RavlN {
       : CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>((VoidFuncPtrT) 0,ndat1,ndat2,ndat3),
 	mPtr(nfunc),
         obj(nobj)
-      {}
+    {}
     //: Constructor.
     
     virtual void Invoke()
-      { (obj.*FuncPtr())(dat1,dat2,dat3); }
+    { (obj.*FuncPtr())(dat1,dat2,dat3); }
     //: Invoke event.
     
     virtual RetT Call()
-      { return (obj.*FuncPtr())(dat1,dat2,dat3); }
+    { return (obj.*FuncPtr())(dat1,dat2,dat3); }
     //: Invoke event, with paramiter.
 
     virtual RetT Call(Data1T &pd)
-      { return (obj.*FuncPtr())(pd,dat2,dat3); }
+    { return (obj.*FuncPtr())(pd,dat2,dat3); }
     //: Invoke event, with paramiter.
 
     virtual RetT Call(Data1T &pd1,Data2T &pd2)
-      { return (obj.*FuncPtr())(pd1,pd2,dat3); }
+    { return (obj.*FuncPtr())(pd1,pd2,dat3); }
     //: Invoke event, with paramiter.
     
     virtual RetT Call(Data1T &pd1,Data2T &pd2,Data3T &pd3)
-      { return (obj.*FuncPtr())(pd1,pd2,pd3); }
+    { return (obj.*FuncPtr())(pd1,pd2,pd3); }
     //: Invoke event, with paramiter.
     
   protected:
@@ -258,14 +258,14 @@ namespace RavlN {
     //: Function ptr type.
 
     virtual RCBodyVC &Copy() const
-      { return *new CallMethod3BodyC<ObjT,Data1T,Data2T,Data3T,RetT>(obj,FuncPtr(),dat1,dat2,dat3); }
+    { return *new CallMethod3BodyC<ObjT,Data1T,Data2T,Data3T,RetT>(obj,FuncPtr(),dat1,dat2,dat3); }
     //: Copy call.
     
     FuncT mPtr;
     
     inline
-      FuncT FuncPtr() const
-      { return mPtr; }
+    FuncT FuncPtr() const
+    { return mPtr; }
     //: Function.
     
     ObjT obj;
@@ -280,14 +280,14 @@ namespace RavlN {
   {
   public:
     CallMethod3C()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     CallMethod3C(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T &,Data2T &,Data3T &),
 		 const Data1T &ndat1 = Data1T(),const Data2T &ndat2 = Data2T(),const Data3T &ndat3 = Data3T())
       : CallFunc3C<Data1T,Data2T,Data3T,RetT>(*new CallMethod3BodyC<ObjT,Data1T,Data2T,Data3T,RetT>(nobj,nfunc,ndat1,ndat2,ndat3))
-      {}
+    {}
     //: Constructor.
   };
   
@@ -305,31 +305,31 @@ namespace RavlN {
       : CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>((VoidFuncPtrT) 0,ndat1,ndat2,ndat3,ndat4),
 	mPtr(nfunc),
 	obj(nobj)
-      {}
+    {}
     //: Constructor.
     
     virtual void Invoke()
-      { (obj.*FuncPtr())(dat1,dat2,dat3,dat4); }
+    { (obj.*FuncPtr())(dat1,dat2,dat3,dat4); }
     //: Invoke event.
 
     virtual RetT Call()
-      { return (obj.*FuncPtr())(dat1,dat2,dat3,dat4); }
+    { return (obj.*FuncPtr())(dat1,dat2,dat3,dat4); }
     //: Invoke event.
 
     virtual RetT Call(Data1T &pd)
-      { return (obj.*FuncPtr())(pd,dat2,dat3,dat4); }
+    { return (obj.*FuncPtr())(pd,dat2,dat3,dat4); }
     //: Invoke event, with paramiters.
 
     virtual RetT Call(Data1T &pd1,Data2T &pd2)
-      { return (obj.*FuncPtr())(pd1,pd2,dat3,dat4); }
+    { return (obj.*FuncPtr())(pd1,pd2,dat3,dat4); }
     //: Invoke event, with paramiters.
     
     virtual RetT Call(Data1T &pd1,Data2T &pd2,Data3T &pd3)
-      { return (obj.*FuncPtr())(pd1,pd2,pd3,dat4); }
+    { return (obj.*FuncPtr())(pd1,pd2,pd3,dat4); }
     //: Invoke event, with paramiters.
     
     virtual RetT Call(Data1T &pd1,Data2T &pd2,Data3T &pd3,Data4T &pd4)
-      { return (obj.*FuncPtr())(pd1,pd2,pd3,pd4); }
+    { return (obj.*FuncPtr())(pd1,pd2,pd3,pd4); }
     //: Invoke event, with paramiters.
     
   protected:
@@ -337,14 +337,14 @@ namespace RavlN {
     //: Function ptr type.
 
     virtual RCBodyVC &Copy() const
-      { return *new CallMethod4BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,RetT>(obj,FuncPtr(),dat1,dat2,dat3,dat4); }
+    { return *new CallMethod4BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,RetT>(obj,FuncPtr(),dat1,dat2,dat3,dat4); }
     //: Copy call.
     
     FuncT mPtr;
 
     inline
-      FuncT FuncPtr() const
-      { return mPtr; }
+    FuncT FuncPtr() const
+    { return mPtr; }
     //: Function.
     
     ObjT obj;
@@ -359,14 +359,14 @@ namespace RavlN {
   {
   public:
     CallMethod4C()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     CallMethod4C(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T &,Data2T &,Data3T &,Data4T &),
 		 const Data1T &ndat1 = Data1T(),const Data2T &ndat2 = Data2T(),const Data3T &ndat3 = Data3T(),const Data4T &ndat4 = Data4T())
       : CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(*new CallMethod4BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,RetT>(nobj,nfunc,ndat1,ndat2,ndat3,ndat4))
-      {}
+    {}
     //: Constructor.
   };
 
@@ -389,35 +389,35 @@ namespace RavlN {
       : CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>((VoidFuncPtrT) 0,ndat1,ndat2,ndat3,ndat4,ndat5),
 	mPtr(nfunc),
 	obj(nobj)
-      {}
+    {}
     //: Constructor.
     
     virtual void Invoke()
-      { (obj.*FuncPtr())(dat1,dat2,dat3,dat4,dat5); }
+    { (obj.*FuncPtr())(dat1,dat2,dat3,dat4,dat5); }
     //: Invoke event.
 
     virtual RetT Call()
-      { return (obj.*FuncPtr())(dat1,dat2,dat3,dat4,dat5); }
+    { return (obj.*FuncPtr())(dat1,dat2,dat3,dat4,dat5); }
     //: Invoke event.
 
     virtual RetT Call(Data1T &pd)
-      { return (obj.*FuncPtr())(pd,dat2,dat3,dat4,dat5); }
+    { return (obj.*FuncPtr())(pd,dat2,dat3,dat4,dat5); }
     //: Invoke event, with paramiters.
 
     virtual RetT Call(Data1T &pd1,Data2T &pd2)
-      { return (obj.*FuncPtr())(pd1,pd2,dat3,dat4,dat5); }
+    { return (obj.*FuncPtr())(pd1,pd2,dat3,dat4,dat5); }
     //: Invoke event, with paramiters.
     
     virtual RetT Call(Data1T &pd1,Data2T &pd2,Data3T &pd3)
-      { return (obj.*FuncPtr())(pd1,pd2,pd3,dat4,dat5); }
+    { return (obj.*FuncPtr())(pd1,pd2,pd3,dat4,dat5); }
     //: Invoke event, with paramiters.
     
     virtual RetT Call(Data1T &pd1,Data2T &pd2,Data3T &pd3,Data4T &pd4)
-      { return (obj.*FuncPtr())(pd1,pd2,pd3,pd4,dat5); }
+    { return (obj.*FuncPtr())(pd1,pd2,pd3,pd4,dat5); }
     //: Invoke event, with paramiters.
 
     virtual RetT Call(Data1T &pd1,Data2T &pd2,Data3T &pd3,Data4T &pd4,Data5T &pd5)
-      { return (obj.*FuncPtr())(pd1,pd2,pd3,pd4,pd5); }
+    { return (obj.*FuncPtr())(pd1,pd2,pd3,pd4,pd5); }
     //: Invoke event, with paramiters.
     
   protected:
@@ -427,12 +427,12 @@ namespace RavlN {
     FuncT mPtr;
 
     virtual RCBodyVC &Copy() const
-      { return *new CallMethod5BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(obj,FuncPtr(),dat1,dat2,dat3,dat4,dat5); }
+    { return *new CallMethod5BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(obj,FuncPtr(),dat1,dat2,dat3,dat4,dat5); }
     //: Copy call.
     
     inline
     FuncT FuncPtr() const
-      { return mPtr; }
+    { return mPtr; }
     //: Function.
     
     ObjT obj;
@@ -447,13 +447,13 @@ namespace RavlN {
   {
   public:
     CallMethod5C()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     CallMethod5C(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T &,Data2T &,Data3T &,Data4T &,Data5T &),const Data1T &ndat1,const Data2T &ndat2,const Data3T &ndat3,const Data4T &ndat4,const Data5T &ndat5)
       :  CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(*new CallMethod5BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nobj,nfunc,ndat1,ndat2,ndat3,ndat4,ndat5))
-      {}
+    {}
     //: Constructor.
   };
 
@@ -498,7 +498,7 @@ namespace RavlN {
   { return CallMethod5C<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nobj,nfunc,dat1,dat2,dat3,dat4,dat5); }
 
 #else
-    template<class ObjT>
+  template<class ObjT>
   inline
   CallMethod0C<ObjT,bool> 
   Trigger(const ObjT &nobj,bool (ObjT::*nfunc)())
