@@ -50,6 +50,12 @@ namespace RavlN {
   
   URLMapperFuncT urlMapper = 0;
   
+  //: Test if URL mapping enabled.
+  // Returns true if it is.
+  
+  bool IsURLMappingEnabled()
+  { return urlMapper != 0; }
+  
   //: Print diagnostic message about the streams state.
   
   bool StreamBaseC::DiagnoseStream(ostream &out) {

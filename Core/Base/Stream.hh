@@ -51,6 +51,12 @@ namespace RavlN {
   bool DisableURLMapper();
   //: Dissable url mapping of filenames.
   
+  bool IsURLMappingEnabled();
+  //: Test if URL mapping enabled.
+  // Returns true if it is.
+  
+  //:-
+  
   //! userlevel=Develop
   //: Reference counter IO stream base class.
   
