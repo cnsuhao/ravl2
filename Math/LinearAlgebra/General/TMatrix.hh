@@ -81,14 +81,14 @@ namespace RavlN {
 	  (*this)[i][j] = fmat[i][j];
     }
     //: Construct from a fixed size matrix.
-
+    
     template<unsigned int N,unsigned int M>
-    operator TFMatrixC<DataT,N,M> () {
+    operator TFMatrixC<DataT,N,M> () const {
       RavlAssertMsg(Rows() == N && Cols() == M,"Size mismatch while converting to fixed size matrix. ");
       TFMatrixC<DataT,N,M> ret;
       for(int i = 0;i < N;i++)
 	for(int j = 0;j < M;j++)
-	  fmat[i][j] = (*this)[i][j];
+	  ret[i][j] = (*this)[i][j];
       return ret;
     }
     //: Convert to fixed size matrix.
