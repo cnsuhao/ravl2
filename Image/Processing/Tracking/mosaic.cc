@@ -19,24 +19,8 @@
 #include "Ravl/Image/ImgIO.hh"
 #include "Ravl/Image/Erode.hh"
 #include "Ravl/Image/Dilate.hh"
-#include "Ravl/Image/RealRGBAverage.hh"
-
-namespace RavlImageN {
-  
-  ImageC<ByteRGBValueC>  DPConvRealRGBAverageImageC2ByteRGBValueImageCT(const ImageC<RealRGBAverageC> &dat)   { 
-    ImageC<ByteRGBValueC> ret(dat.Rectangle()); 
-    for(Array2dIter2C<ByteRGBValueC,RealRGBAverageC> it(ret,dat);it.IsElm();it.Next()) 
-      it.Data1() = it.Data2();
-    return ret;
-  }
-
-  ImageC<ByteRGBValueC>  DPConvByteRGBMedianImageC2ByteRGBValueImageCT(const ImageC<ByteRGBMedianC> &dat)   { 
-    ImageC<ByteRGBValueC> ret(dat.Rectangle()); 
-    for(Array2dIter2C<ByteRGBValueC,ByteRGBMedianC> it(ret,dat);it.IsElm();it.Next()) 
-      it.Data1() = it.Data2();
-    return ret;
-  }
-}
+#include "Ravl/Image/ImageConv.hh"
+#include "Ravl/Image/RealRGBValue.hh"
 
 using namespace RavlN;
 using namespace RavlImageN;
@@ -257,11 +241,5 @@ int Mosaic(int nargs,char **argv) {
   cout << "Output finished" << endl;
   return 0;
 }
-
-DP_REGISTER_CONVERSION_NAMED(DPConvRealRGBAverageImageC2ByteRGBValueImageCT,1,
-			     "ImageC<ByteRGBValueC>  RavlImageN::Convert(const ImageC<RealRGBAverageC> &)");
-
-DP_REGISTER_CONVERSION_NAMED(DPConvByteRGBMedianImageC2ByteRGBValueImageCT,1,
-			     "ImageC<ByteRGBValueC>  RavlImageN::Convert(const ImageC<ByteRGBMedianC> &)");
 
 RAVL_ENTRY_POINT(Mosaic)

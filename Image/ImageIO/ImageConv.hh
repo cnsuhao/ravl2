@@ -24,6 +24,8 @@ namespace RavlImageN {
   class ByteRGBValueC;
   class RealRGBValueC;
   class ByteRGBAValueC;
+  class ByteRGBMedianC;
+  class RealRGBAverageC;
   
   ImageC<ByteRGBValueC> ByteRGBAImageCT2ByteRGBImageCT(const ImageC<ByteRGBAValueC> &dat);
   //: Byte RGBA to Byte RGB image
@@ -70,6 +72,12 @@ namespace RavlImageN {
   
   ImageC<ByteYUVValueC> RGBImageCT2YUVImageCT(const ImageC<ByteRGBValueC> &dat);
   //: Byte RGB to byte YUV image.
+
+  ImageC<ByteRGBValueC>  DPConvRealRGBAverageImageC2ByteRGBValueImageCT(const ImageC<RealRGBAverageC> &dat);
+  // Real RGB rolling average -> RGB
+
+  ImageC<ByteRGBValueC>  DPConvByteRGBMedianImageC2ByteRGBValueImageCT(const ImageC<ByteRGBMedianC> &dat);
+  // Byte RGB median -> RGB
   
 };
 

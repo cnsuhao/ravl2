@@ -1,29 +1,51 @@
-///////////////////////////////////////////////////////////////////
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+/////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! lib=RavlImageIO
+//! file="Ravl/Image/ImageIO/ImgTypeCnv3.cc"
 
-#include "amma/DP/Converter.hh"
-#include "amma/Image/ImageConv.hh"
-#include "amma/Image2Iter.hh"
+#include "Ravl/DP/Converter.hh"
+#include "Ravl/Image/ImageConv.hh"
+#include "Ravl/Array2dIter2.hh"
 
-#include "amma/Image.hh"
-#include "amma/GreyVal.hh"
-#include "amma/RGBValue.hh"
-#include "amma/YUVValue.hh"
+#include "Ravl/Image/Image.hh"
+#include "Ravl/Types.hh"
+#include "Ravl/Image/ByteRGBMedian.hh"
+#include "Ravl/Image/RealRGBAverage.hh"
 
-void InitStdImageCnv3()
-{}
 
-namespace StdImageN
+namespace RavlImageN
 {
-  // Byte RGBX to Byte RGB 
-  
-  ImageC<ByteRGBValueC> ByteRGBXImageCT2ByteRGBImageCT(const ImageC<ByteRGBXValueC> &dat) {
-    ImageC<ByteRGBValueC> ret(dat.Rectangle());
-    for(Image2IterC<ByteRGBValueC,ByteRGBXValueC> it(ret,dat);it.IsElm();it.Next()) 
+  void InitStdImageCnv3()
+  {}
+
+  // Real RGB rolling average -> RGB
+
+  ImageC<ByteRGBValueC>  DPConvRealRGBAverageImageC2ByteRGBValueImageCT(const ImageC<RealRGBAverageC> &dat)   { 
+    ImageC<ByteRGBValueC> ret(dat.Rectangle()); 
+    for(Array2dIter2C<ByteRGBValueC,RealRGBAverageC> it(ret,dat);it.IsElm();it.Next()) 
       it.Data1() = it.Data2();
     return ret;
   }
 
+  // Byte RGB median -> RGB
+
+  ImageC<ByteRGBValueC>  DPConvByteRGBMedianImageC2ByteRGBValueImageCT(const ImageC<ByteRGBMedianC> &dat)   { 
+    ImageC<ByteRGBValueC> ret(dat.Rectangle()); 
+    for(Array2dIter2C<ByteRGBValueC,ByteRGBMedianC> it(ret,dat);it.IsElm();it.Next()) 
+      it.Data1() = it.Data2();
+    return ret;
+  }
   
+  DP_REGISTER_CONVERSION_NAMED(DPConvRealRGBAverageImageC2ByteRGBValueImageCT,1,
+			       "ImageC<ByteRGBValueC>  RavlImageN::Convert(const ImageC<RealRGBAverageC> &)");
+
+  DP_REGISTER_CONVERSION_NAMED(DPConvByteRGBMedianImageC2ByteRGBValueImageCT,1,
+			       "ImageC<ByteRGBValueC>  RavlImageN::Convert(const ImageC<ByteRGBMedianC> &)");
   
 }
