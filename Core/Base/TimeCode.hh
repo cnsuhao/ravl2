@@ -83,8 +83,16 @@ namespace RavlN {
     TimeCodeC operator+(const TimeCodeC & in) const;
     //: Adds timecodes
     
+    TimeCodeC operator+(const IntT & frames) const
+      { return TimeCodeC(m_liFrame+frames, frameRate); }
+    //: Adds no. of frames  to timecode
+    
     TimeCodeC operator-(const TimeCodeC & in) const;
     //: Subtracts timecodes
+    
+    TimeCodeC operator-(const IntT & frames) const
+      { return TimeCodeC(m_liFrame-frames, frameRate); }
+    //: Subtracts no. of frames from timecode
     
     TimeCodeC & operator+=(const TimeCodeC & in);
     //: Adds input timecode to this timecode
@@ -95,6 +103,9 @@ namespace RavlN {
     TimeCodeC & operator-=(const TimeCodeC & in);
     //: Subtracts input timecode from this
 
+    TimeCodeC & operator-=(IntT frame);
+    //: Subtracts frame count from timecode
+    
     TimeCodeC & operator++();
     //: Increments timecode by 1 frame
     
