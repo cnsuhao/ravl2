@@ -115,10 +115,10 @@ namespace RavlGUIN {
     : public WidgetBodyC
   {
   public:
-    TreeViewBodyC(const TreeModelC &tm,const DListC<StringC> &displayColumns);
+    TreeViewBodyC(const TreeModelC &tm,const DListC<StringC> &displayColumns, GtkSelectionMode nselMode);
     //: Constructor.
     
-    TreeViewBodyC(const TreeModelC &tm,const SArray1dC<TreeViewColumnC> &displayColumns);
+    TreeViewBodyC(const TreeModelC &tm,const SArray1dC<TreeViewColumnC> &displayColumns, GtkSelectionMode nselMode);
     //: Constructor.
     
     TreeViewBodyC();
@@ -281,8 +281,8 @@ namespace RavlGUIN {
     GtkTreeSelection *selection;
     Signal1C<DListC<TreeModelIterC> > selectionChanged;
     SArray1dC<TreeViewColumnC> displayColumns;
-
     IntT firstSelection;
+    GtkSelectionMode  selMode;
 
     friend class TreeViewC;
     
@@ -301,14 +301,14 @@ namespace RavlGUIN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    TreeViewC(const TreeModelC &treeModel,const DListC<StringC> &displayColumns = DListC<StringC>())
-      : WidgetC(*new TreeViewBodyC(treeModel,displayColumns))
+    TreeViewC(const TreeModelC &treeModel,const DListC<StringC> &displayColumns = DListC<StringC>(), GtkSelectionMode nselMode = GTK_SELECTION_SINGLE)
+      : WidgetC(*new TreeViewBodyC(treeModel,displayColumns,nselMode))
     {}
     //: Constructor.
     // Creates an invalid handle.
     
-    TreeViewC(const TreeModelC &treeModel,const SArray1dC<TreeViewColumnC> &displayColumns)
-      : WidgetC(*new TreeViewBodyC(treeModel,displayColumns))
+    TreeViewC(const TreeModelC &treeModel,const SArray1dC<TreeViewColumnC> &displayColumns, GtkSelectionMode nselMode = GTK_SELECTION_SINGLE)
+      : WidgetC(*new TreeViewBodyC(treeModel,displayColumns,nselMode))
     {}
     //: Constructor.
     // Creates an invalid handle.

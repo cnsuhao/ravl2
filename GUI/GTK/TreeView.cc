@@ -76,11 +76,12 @@ namespace RavlGUIN {
   
   //: Constructor.
   
-  TreeViewBodyC::TreeViewBodyC(const TreeModelC &tm,const DListC<StringC> &ndisplayColumns) 
+  TreeViewBodyC::TreeViewBodyC(const TreeModelC &tm,const DListC<StringC> &ndisplayColumns, GtkSelectionMode nselMode) 
     : treeModel(tm),
       selection(0),
       selectionChanged(DListC<TreeModelIterC>()),
-      firstSelection(2)
+      firstSelection(2),
+      selMode(nselMode)
   {
     UIntT nCols = ndisplayColumns.Size();
     DListC<StringC> dispList = ndisplayColumns;
@@ -132,12 +133,13 @@ namespace RavlGUIN {
   
   //: Constructor.
   
-  TreeViewBodyC::TreeViewBodyC(const TreeModelC &tm,const SArray1dC<TreeViewColumnC> &displayColumns) 
+  TreeViewBodyC::TreeViewBodyC(const TreeModelC &tm,const SArray1dC<TreeViewColumnC> &displayColumns, GtkSelectionMode nselMode) 
     : treeModel(tm),
       selection(0),
       selectionChanged(DListC<TreeModelIterC>()),
       displayColumns(displayColumns),
-      firstSelection(2)
+      firstSelection(2),
+      selMode(nselMode)
   {}
   
   //: Default constructor.
@@ -251,7 +253,7 @@ namespace RavlGUIN {
     // Setup selection
     
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (widget));
-    gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
+    gtk_tree_selection_set_mode (selection, selMode);
     g_signal_connect (G_OBJECT (selection), "changed",
 		      G_CALLBACK (tree_selection_changed_cb),
 		      this);
