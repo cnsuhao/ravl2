@@ -38,7 +38,8 @@ namespace RavlN
       n = Arg.Size2();
       int nu = Min(m,n);
       
-      s = TVectorC<NumT>(Min(m+1,n)); 
+      int nss = Min(m+1,n);
+      s = TVectorC<NumT>(nss);  
       U = TMatrixC<NumT>(m, nu, NumT(0));
       V = TMatrixC<NumT>(n,n);
       
@@ -69,9 +70,11 @@ namespace RavlN
       TVectorC<NumT> work(m);
       TMatrixC<NumT> A(Arg.Copy());
       int nu = Min(m,n);
-      int wantu = 1;  					/* boolean */
-      int wantv = 1;  					/* boolean */
+      bool wantu = true;
+      bool wantv = true;
       int i=0, j=0, k=0;
+      
+      RavlAlwaysAssertMsg(m >= n,"SVDC, This SVD code it not reliable where m < n.");
       
       // Reduce A to bidiagonal form, storing the diagonal elements
       // in s and the super-diagonal elements in e.
@@ -473,17 +476,8 @@ namespace RavlN
     }
   public:
     
-    TMatrixC<NumT> GetU () {
-#if 0
-      // Why ?
-      int minm = Min(m+1,n);
-      TMatrixC<NumT> A(m, minm);
-      for (int i=0; i<m; i++)
-	for (int j=0; j<minm; j++)
-	  A[i][j] = U[i][j];
-#endif
-      return U;
-    }
+    TMatrixC<NumT> GetU () 
+    { return U; }
     //: Generate matrix U.
     
     TMatrixC<NumT> &GetV()
