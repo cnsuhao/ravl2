@@ -157,7 +157,7 @@ namespace RavlImageN {
     region.minat = Index2dC(offset / stride,offset % stride);
     if(region.hist == 0)
       region.hist = new IntT [limitMaxValue];
-    memset(&(region.hist[level]),0,valueRange.Max().V() - level);
+    memset(&(region.hist[level]),0,((valueRange.Max().V() + 1) - level) * sizeof(IntT));
     region.hist[level] = 1;
     region.total = 1;
     region.thresh = 0;
@@ -292,58 +292,65 @@ namespace RavlImageN {
     ExtremaThresholdC thresh[257];
     IntT nthresh;
     Array1dC<IntT> chist(0,257);
+    chist.Fill(0);
+    int half_perimeter_i;
+    
     for(SArray1dIterC<ExtremaRegionC> it(regionMap,labelAlloc);it;it++) {
       if(it->total < minSize) {
 	it->nThresh = 0;// Ingore these regions.
 	continue; 
       }
-      if((it->maxValue - it->minValue) < 2)
+      if((it->maxValue - it->minValue) < 2) {
+	it->nThresh = 0;// Ingore these regions.
 	continue; // Not enough levels in the region.
-#if 0
-      ExtremaThresholdC *newthresh = new ExtremaThresholdC[2];
-      it->thresh = newthresh;
-      it->thresh[0].thresh = (it->maxValue + it->minValue)/2; 
-      it->nThresh = 1; 
-#else
+      }
       // Build the cumulative histogram.
       IntT maxValue = it->maxValue;
+      IntT minValue = it->minValue;
       IntT sum = 0;
       IntT i;
+      
 #if 0
       //cerr << "Hist= " << it->minValue << " :";
-      for(i = it->minValue;i <= maxValue;i++) {
+      for(i = minValue;i <= maxValue;i++) {
 	sum += it->hist[i];
 	chist[i] = sum;
 	//cerr << " " << it->hist[i] ;
       }
 #else
       // Smooth the histogram.
-      sum = (it->hist[it->minValue] + it->hist[it->minValue+1]) / 2;
-      chist[it->minValue] = sum;
-      for(i = it->minValue+1;i < maxValue;i++) {
-	sum += (it->hist[i] + it->hist[i-1] + it->hist[i+1])/3;
+      sum = (it->hist[minValue] + it->hist[minValue+1]) / 2;
+      chist[minValue] = sum;
+      for(i = minValue+1;i < maxValue;i++) {
+	if(it->hist[i] != 0) {
+	  sum += (it->hist[i] + it->hist[i-1] + it->hist[i+1])/3;
+	} else {
+	  sum += (it->hist[i-1] + it->hist[i+1])/3;
+	  chist[i] = sum;
+	}
 	chist[i] = sum;
 	//cerr << " " << it->hist[i] ;
       }
       sum += (it->hist[maxValue] + it->hist[maxValue-1]) / 2;
-      chist[maxValue] = sum;
 #endif
+      chist[maxValue] = sum;
+      
       //cerr << "\n";
       IntT up;
       // look for threshold that guarantee area bigger than minSize.
-      for(i = it->minValue; i <= maxValue;i++)
+      for(i = minValue; i <= maxValue;i++)
 	if(chist[i] >= minSize) break; 
       // Find thresholds.
       nthresh = 0;
-      //cerr << "Min=" << it->minValue << " Max=" << maxValue << " Init=" << i << "\n";
-      for(up=i+1; up <= maxValue; i++) {
+      //cerr << "Min=" << minValue << " Max=" << maxValue << " Init=" << i << "\n";
+      for(up=i+1; up < maxValue; i++) {
 	int area_i = chist[i];
 	if(area_i > maxSize) {
 	  //cerr << "Size limit reached. \n";
 	  break; // Quit if area is too large.
 	}
-	int half_perimeter_i = (int)(2 * sqrt((double)area_i));
-	while((chist[up] - area_i) < half_perimeter_i && up <= maxValue)
+	half_perimeter_i = (int)(2 * Sqrt((double)area_i));
+	while(up <= maxValue && (chist[up] - area_i) < half_perimeter_i)
 	  up++;
 	
 	int margin = up - i;
@@ -385,9 +392,8 @@ namespace RavlImageN {
 	it->nThresh = nt;
       } else {
 	it->nThresh = 0;
-	delete newthresh;
+	delete [] newthresh;
       }
-#endif
       //cerr << "Thresholds=" << nthresh << " Kept=" << it->nThresh << "\n";
     }
     //cerr << "SegmentExtremaC::Thresholds() Interesting regions=" << regions <<" \n";
