@@ -10,6 +10,7 @@
 
 #include "Ravl/MeanNd.hh"
 #include "Ravl/SArray1dIter.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
   
@@ -34,6 +35,23 @@ namespace RavlN {
   }
   
   istream &operator>>(istream & s, MeanNdC & mean) {
+    s >>  mean.number >>  mean.Mean();
+    return s;
+  }
+
+  // Saves the statistical description of the set 'mean' into the output
+  // stream 'outS'.
+  
+  BinOStreamC & operator<<(BinOStreamC & s, const MeanNdC & mean) {
+    s << mean.Number() << mean.Mean();
+    return s;
+  }
+
+  
+  // Reads and sets the statistical description of the set 'mean'
+  // according to the information in the input stream 'inS'.
+  
+  BinIStreamC & operator>>(BinIStreamC & s, MeanNdC & mean) {
     s >>  mean.number >>  mean.Mean();
     return s;
   }

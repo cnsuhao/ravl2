@@ -11,6 +11,7 @@
 
 #include "Ravl/Mean.hh"
 #include "Ravl/SArray1dIter.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
   
@@ -40,6 +41,8 @@ namespace RavlN {
     return *this;
   }
 
+  //: Add another Mean to this one.
+  
   MeanC &MeanC::operator+=(const MeanC &mv) {
     if(mv.Number() == 0)
       return *this;
@@ -54,8 +57,9 @@ namespace RavlN {
     n += mv.Number();
     return *this;
   }
-  //: Add another Mean to this one.
 
+  //: Remove another Mean from this one.
+  
   MeanC &MeanC::operator-=(const MeanC &mv) { 
     if(mv.Number() == 0)
       return *this;
@@ -70,8 +74,24 @@ namespace RavlN {
     
     n -= mv.Number();
     return *this;
-    }
-  //: Remove another Mean from this one.
-
+  }
+  
+  
+  //: Write to binary output stream.
+  
+  BinOStreamC& operator<<(BinOStreamC &s,const MeanC &mv) {
+    s << mv.Number() << ' ' << mv.Mean() ;
+    return s;
+  }
+  
+  //: Write to output stream.
+  
+  BinIStreamC& operator>>(BinIStreamC &s, MeanC &mv) {
+    SizeT n;
+    RealT v1;
+    s >> n >> v1;
+    mv = MeanC(n,v1);
+    return s;
+  }
   
 }

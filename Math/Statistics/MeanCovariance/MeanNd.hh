@@ -119,8 +119,8 @@ namespace RavlN {
     SizeT number;  // The number of points represented by mean object.
 
     friend class MeanCovarianceC;
-    
     friend istream & operator>>(istream & s, MeanNdC & mean);
+    friend BinIStreamC & operator>>(BinIStreamC & s, MeanNdC & mean);
   };
   
   ostream & operator<<(ostream & s, const MeanNdC & mean);
@@ -128,6 +128,14 @@ namespace RavlN {
   // stream 'outS'.
   
   istream & operator>>(istream & s, MeanNdC & mean);
+  // Reads and sets the statistical description of the set 'mean'
+  // according to the information in the input stream 'inS'.
+
+  BinOStreamC & operator<<(BinOStreamC & s, const MeanNdC & mean);
+  // Saves the statistical description of the set 'mean' into the output
+  // stream 'outS'.
+  
+  BinIStreamC & operator>>(BinIStreamC & s, MeanNdC & mean);
   // Reads and sets the statistical description of the set 'mean'
   // according to the information in the input stream 'inS'.
   

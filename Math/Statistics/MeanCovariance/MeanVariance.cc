@@ -14,6 +14,7 @@
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/StdConst.hh"
 #include "Ravl/StdMath.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
   
@@ -114,5 +115,19 @@ namespace RavlN {
     mv = MeanVarianceC(n,v1,v2);
     return s;
   }
+
+  BinOStreamC& operator<<(BinOStreamC &s,const MeanVarianceC &mv) {
+    s << mv.Number() << mv.Mean() << mv.Variance();
+    return s;
+  }
+  
+  BinIStreamC& operator>>(BinIStreamC &s, MeanVarianceC &mv) {
+    SizeT n;
+    RealT v1,v2;
+    s >> n >> v1 >> v2;
+    mv = MeanVarianceC(n,v1,v2);
+    return s;    
+  }
+
   
 }

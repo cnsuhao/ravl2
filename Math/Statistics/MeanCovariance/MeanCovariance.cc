@@ -16,6 +16,7 @@
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Stream.hh"
 #include "Ravl/StdConst.hh"
+#include "Ravl/BinStream.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -253,6 +254,16 @@ namespace RavlN {
   }
   
   istream & operator>>(istream & inS, MeanCovarianceC & meanCov) {
+    inS >> meanCov.m >> meanCov.cov;
+    return inS;
+  }
+
+  BinOStreamC & operator<<(BinOStreamC & outS, const MeanCovarianceC & meanCov) {
+    outS << meanCov.Mean() << meanCov.Covariance();
+    return outS;
+  }
+  
+  BinIStreamC & operator>>(BinIStreamC & inS, MeanCovarianceC & meanCov) {
     inS >> meanCov.m >> meanCov.cov;
     return inS;
   }

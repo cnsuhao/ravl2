@@ -161,6 +161,7 @@ namespace RavlN {
     MatrixC cov; // the covariance matrix of this data set.
     
     friend istream & operator>>(istream & inS, MeanCovarianceC & meanCov);
+    friend BinIStreamC & operator>>(BinIStreamC & inS, MeanCovarianceC & meanCov);
   };
   
   ostream & operator<<(ostream & outS, const MeanCovarianceC & meanCov);
@@ -170,6 +171,14 @@ namespace RavlN {
   istream & operator>>(istream & inS, MeanCovarianceC & meanCov);
   // Reads and sets the statistical description of the set 'meanCov'
   // according to the information in the input stream 'inS'.
+  
+  BinOStreamC & operator<<(BinOStreamC & outS, const MeanCovarianceC & meanCov);
+  // Saves the statistical description of the set 'meanCov' into the binary output
+  // stream 'outS'.
+  
+  BinIStreamC & operator>>(BinIStreamC & inS, MeanCovarianceC & meanCov);
+  // Reads and sets the statistical description of the set 'meanCov'
+  // according to the information in the binary input stream 'inS'.
 }
 #endif
 

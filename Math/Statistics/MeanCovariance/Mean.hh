@@ -69,6 +69,7 @@ namespace RavlN {
     s << mv.Number() << ' ' << mv.Mean() ;
     return s;
   }
+  //: Write to output stream.
 
   inline
   istream& operator>>(istream &s, MeanC &mv) {
@@ -78,6 +79,13 @@ namespace RavlN {
     mv = MeanC(n,v1);
     return s;
   }
+  //: Read from input stream.
+  
+  BinOStreamC& operator<<(BinOStreamC &s,const MeanC &mv);
+  //: Write to binary output stream.
+  
+  BinIStreamC& operator>>(BinIStreamC &s, MeanC &mv);
+  //: Read from binary input stream.
 
 }
 

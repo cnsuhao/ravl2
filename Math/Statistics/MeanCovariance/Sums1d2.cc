@@ -9,6 +9,7 @@
 
 #include "Ravl/Sums1d2.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
   
@@ -18,6 +19,19 @@ namespace RavlN {
   }
   
   istream& operator>>(istream &s, Sums1d2C &mv) {
+    UIntT n;
+    RealT s1,s2;
+    s >> n >> s1 >> s2;
+    mv = Sums1d2C(n,s1,s2);
+    return s;
+  }
+
+  BinOStreamC& operator<<(BinOStreamC &s,const Sums1d2C &mv) {
+    s << mv.Size() << mv.Sum() << mv.Sum2();
+    return s;
+  }
+  
+  BinIStreamC& operator>>(BinIStreamC &s, Sums1d2C &mv) {
     UIntT n;
     RealT s1,s2;
     s >> n >> s1 >> s2;

@@ -111,6 +111,8 @@ namespace RavlN {
 
   ostream& operator<<(ostream &s,const Sums1d2C &mv);
   istream& operator>>(istream &s, Sums1d2C &mv);
+  BinOStreamC& operator<<(BinOStreamC &s,const Sums1d2C &mv);
+  BinIStreamC& operator>>(BinIStreamC &s, Sums1d2C &mv);
 
 }
 

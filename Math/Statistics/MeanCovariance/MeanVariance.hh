@@ -85,6 +85,8 @@ namespace RavlN {
   
   ostream& operator<<(ostream &s,const MeanVarianceC &mv);
   istream& operator>>(istream &s, MeanVarianceC &mv);
+  BinOStreamC& operator<<(BinOStreamC &s,const MeanVarianceC &mv);
+  BinIStreamC& operator>>(BinIStreamC &s, MeanVarianceC &mv);
 }
 
 

@@ -138,6 +138,22 @@ namespace RavlN {
   // Reads and sets the statistical description of the set 'mean'
   // according to the information in the input stream 'inS'.
 
+  template<unsigned int N>
+  BinOStreamC & operator<<(BinOStreamC & s, const FMeanC<N> & mean) {
+    s << mean.Number() << mean.Mean();
+    return s;
+  }
+  // Saves the statistical description of the set 'mean' into the binary output
+  // stream 'outS'.
+  
+  template<unsigned int N>
+  BinIStreamC & operator>>(BinIStreamC & s, FMeanC<N> & mean) {
+    s >>  mean.number >>  mean.Mean();
+    return s;
+  }
+  // Reads and sets the statistical description of the set 'mean'
+  // according to the information in the binary input stream 'inS'.
+
   
   template<unsigned int N>
   FMeanC<N>::FMeanC(const SArray1dC<FVectorC<N> > &vecs) {
