@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDPSTREAMOP_HEADER
-#define RAVLDPSTREAMOP_HEADER 1
+#ifndef RAVL_DPSTREAMOP_HEADER
+#define RAVL_DPSTREAMOP_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Data Processing" 
 //! file="Ravl/Core/IO/StreamOp.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
-//! date="09/07/98"
+//! date="09/07/1998"
 //! userlevel=Default
 
 #include "Ravl/DP/Port.hh"
@@ -28,15 +28,15 @@ namespace RavlN {
   {
   public:
     DPIStreamOpBodyC()
-      {}
+    {}
     //: Default constructor.
     
     DPIStreamOpBodyC(const DPIPortC<InT> &nin)
       : input(nin)
-      {}
+    {}
     //: Constructor.
     
-    virtual bool IsGetReady() const  {
+    virtual bool IsGetReady() const {
       if(!input.IsValid())
 	return false;
       return input.IsGetReady(); 
@@ -73,24 +73,24 @@ namespace RavlN {
   public:
     DPIStreamOpC() 
       : DPEntityC(true)
-      {}
+    {}
     //: Default Constructor.
     
     DPIStreamOpC(const DPIStreamOpC<IntT,OutT> &oth) 
       : DPEntityC(oth),
-      DPIPortC<OutT>(oth)
-      {}
+	DPIPortC<OutT>(oth)
+    {}
     //: Copy Constructor.
     
   protected:
     DPIStreamOpC(const DPIStreamOpBodyC<InT,OutT> &bod)
       : DPEntityC((DPIPortBodyC<OutT> &) bod)
-      {}
+    {}
     //: Body constructor.
     
   public:  
     inline DPIPortC<InT> &Input() 
-      { return dynamic_cast<DPIStreamOpBodyC<InT,OutT> & >(DPEntityC::Body()).Input(); }
+    { return dynamic_cast<DPIStreamOpBodyC<InT,OutT> & >(DPEntityC::Body()).Input(); }
     // Access input port.
     
   };
@@ -105,12 +105,12 @@ namespace RavlN {
   {
   public:
     DPOStreamOpBodyC()
-      {}
+    {}
     //: Default constructor.
     
     DPOStreamOpBodyC(const DPOPortC<OutT> &nout)
       : output(nout)
-      {}
+    {}
     //: Constructor.
     
     virtual bool IsPutReady() const {
@@ -149,23 +149,23 @@ namespace RavlN {
   public:
     DPOStreamOpC() 
       : DPEntityC(true)
-      {}
+    {}
     //: Default Constructor.
     
     DPOStreamOpC(const DPOStreamOpC<InT,OutT> &oth) 
       : DPEntityC(oth),
-      DPOPortC<InT>(oth)
-      {}
+	DPOPortC<InT>(oth)
+    {}
     //: Copy Constructor.
     
   protected:
     DPOStreamOpC(const DPOStreamOpBodyC<InT,OutT> &bod)
       : DPEntityC((DPOPortBodyC<InT> &) bod)
-      {}
+    {}
     //: Body constructor.
     
     inline DPOPortC<OutT> &Output() 
-      { return dynamic_cast<DPOStreamOpBodyC<InT,OutT> & >(DPEntityC::Body()).Output(); }
+    { return dynamic_cast<DPOStreamOpBodyC<InT,OutT> & >(DPEntityC::Body()).Output(); }
     // Access input port.
     
   };

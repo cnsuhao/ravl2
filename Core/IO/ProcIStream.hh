@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef DPPROCWRAP_HEADER
-#define DPPROCWRAP_HEADER 1
+#ifndef RAVL_DPPROCISTREAM_HEADER
+#define RAVL_DPPROCISTREAM_HEADER 1
 /////////////////////////////////////////////////////
 //! example=exDataProc.cc
 //! file="Ravl/Core/IO/ProcIStream.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Data Processing" 
-//! date="06/07/98"
+//! date="06/07/1998"
 //! rcsid="$Id$"
 //! userlevel=Default
 

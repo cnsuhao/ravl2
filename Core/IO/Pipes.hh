@@ -12,7 +12,7 @@
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Data Processing" 
-//! date="07/01/99"
+//! date="07/01/1999"
 //! userlevel=Default
 
 #include "Ravl/DP/Port.hh"
@@ -35,9 +35,9 @@ namespace RavlN {
     
     DPIPipeBaseBodyC(const DPEntityC &nhold = DPEntityC(true),FuncT nAuxOp = 0)
       : forceReady(false),
-      forceNotEOS(false),
-      hold(nhold)
-      {}
+	forceNotEOS(false),
+	hold(nhold)
+    {}
     //: Default constructor.
     
     virtual bool SetInput(const DPIPortBaseC &in);
@@ -49,7 +49,7 @@ namespace RavlN {
     // is passed on.
     
     void SetStreamStatus(bool fGR,bool fNEOS)
-      { forceReady = fGR; forceNotEOS = fNEOS; }
+    { forceReady = fGR; forceNotEOS = fNEOS; }
     //: Set stream status.
     
     virtual DPIPortBaseC Port();
@@ -72,31 +72,31 @@ namespace RavlN {
     typedef bool (*FuncT)(DPOPipeBaseC &,DPEntityC &);
     //: Function ptr.
   
-  DPOPipeBaseBodyC(const DPEntityC &nhold = DPEntityC(true),FuncT nAuxOp = 0)
-    : hold(nhold),
-      auxOp(nAuxOp)
-  {}
-  //: Default constructor.
+    DPOPipeBaseBodyC(const DPEntityC &nhold = DPEntityC(true),FuncT nAuxOp = 0)
+      : hold(nhold),
+	auxOp(nAuxOp)
+    {}
+    //: Default constructor.
   
-  virtual bool SetOutput(const DPOPortBaseC &out);
-  //: Setup output.
+    virtual bool SetOutput(const DPOPortBaseC &out);
+    //: Setup output.
   
-  void SetAuxOperation(FuncT nAuxOp) { auxOp = nAuxOp; }
-  //: Set auxilary operation.
-  // This function is called just before any 'Put' operation
-  // is passed on.
+    void SetAuxOperation(FuncT nAuxOp) { auxOp = nAuxOp; }
+    //: Set auxilary operation.
+    // This function is called just before any 'Put' operation
+    // is passed on.
   
-  virtual DPOPortBaseC Port();
-  //: Access input port.
+    virtual DPOPortBaseC Port();
+    //: Access input port.
   
-  void SetStreamStatus(bool fGR,bool fNEOS)
+    void SetStreamStatus(bool fGR,bool fNEOS)
     { forceReady = fGR; forceNotEOS = fNEOS; }
-  //: Set stream status.
+    //: Set stream status.
   
-protected:
-  bool forceReady,forceNotEOS;
-  DPEntityC hold; // Hold aux info.    
-  FuncT auxOp;    // Auxilary operation. 0 == None.
+  protected:
+    bool forceReady,forceNotEOS;
+    DPEntityC hold; // Hold aux info.    
+    FuncT auxOp;    // Auxilary operation. 0 == None.
   };
   
   //////////////////////////////////////
@@ -109,7 +109,7 @@ protected:
   public:
     DPIPipeBaseC()
       : DPEntityC(true)
-      {}
+    {}
     //: Default constructor.
     
     inline bool SetInput(const DPIPortBaseC &in);
@@ -117,31 +117,31 @@ protected:
     
     DPIPipeBaseC(DPIPipeBaseBodyC &bod)
       : DPEntityC(bod)
-      {}
+    {}
     //: Body constructor.
   protected:
     
     DPIPipeBaseBodyC &Body() 
-      { return  dynamic_cast<DPIPipeBaseBodyC &>(DPEntityC::Body()); }
+    { return  dynamic_cast<DPIPipeBaseBodyC &>(DPEntityC::Body()); }
     //: Access body.
     
     const DPIPipeBaseBodyC &Body() const 
-      { return  dynamic_cast<const DPIPipeBaseBodyC &>(DPEntityC::Body()); }
+    { return  dynamic_cast<const DPIPipeBaseBodyC &>(DPEntityC::Body()); }
     //: Access body.
     
   public:
     void SetAuxOperation(DPIPipeBaseBodyC::FuncT nAuxOp) 
-      { Body().SetAuxOperation(nAuxOp); }
+    { Body().SetAuxOperation(nAuxOp); }
     //: Set auxilary operation.
     // This function is called just before any get operation
     // is passed on.
     
     void SetStreamStatus(bool fGR,bool fNEOS)
-      { Body().SetStreamStatus(fGR,fNEOS); }
+    { Body().SetStreamStatus(fGR,fNEOS); }
     //: Set stream status.
     
     inline DPIPortBaseC Port() 
-      { return Body().Port(); }
+    { return Body().Port(); }
     //: Access input port.
     
   };
@@ -156,7 +156,7 @@ protected:
   public:
     DPOPipeBaseC()
       : DPEntityC(true)
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
@@ -165,31 +165,31 @@ protected:
     
     DPOPipeBaseC(DPOPipeBaseBodyC &bod)
       : DPEntityC(bod)
-      {}
+    {}
     //: Body constructor.
     
   protected:
     DPOPipeBaseBodyC &Body() 
-      { return  dynamic_cast<DPOPipeBaseBodyC &>(DPEntityC::Body()); }
+    { return  dynamic_cast<DPOPipeBaseBodyC &>(DPEntityC::Body()); }
     //: Access body.
     
     const DPOPipeBaseBodyC &Body() const 
-      { return  dynamic_cast<const DPOPipeBaseBodyC &>(DPEntityC::Body()); }
+    { return  dynamic_cast<const DPOPipeBaseBodyC &>(DPEntityC::Body()); }
     //: Access body.
     
   public:
     void SetAuxOperation(DPOPipeBaseBodyC::FuncT nAuxOp) 
-      { Body().SetAuxOperation(nAuxOp); }
+    { Body().SetAuxOperation(nAuxOp); }
     //: Set auxilary operation.
     // This function is called just before any get operation
     // is passed on.
     
     void SetStreamStatus(bool fGR,bool fNEOS)
-      { Body().SetStreamStatus(fGR,fNEOS); }
+    { Body().SetStreamStatus(fGR,fNEOS); }
     //: Set stream status.
     
     inline DPOPortBaseC Port() 
-      { return Body().Port(); }
+    { return Body().Port(); }
     //: Access ouput port.
   };
   
@@ -201,95 +201,95 @@ protected:
   class DPIPipeBodyC : 
     public DPIPipeBaseBodyC,
     public DPIStreamOpBodyC<DataT,DataT>
- {
- public:
-   DPIPipeBodyC(const DPEntityC &nhold = DPEntityC(true),FuncT nAuxOp = 0) 
-     : DPIPipeBaseBodyC(nhold,nAuxOp)
-     {}
-   //: Default constructor.
+  {
+  public:
+    DPIPipeBodyC(const DPEntityC &nhold = DPEntityC(true),FuncT nAuxOp = 0) 
+      : DPIPipeBaseBodyC(nhold,nAuxOp)
+    {}
+    //: Default constructor.
    
-   DPIPipeBodyC(const DPIPortC<DataT> &port,const DPEntityC &nhold = DPEntityC(true),FuncT nAuxOp = 0)
-     : DPIPipeBaseBodyC(nhold,nAuxOp),
-     DPIStreamOpBodyC<DataT,DataT>(port)
-     {}
+    DPIPipeBodyC(const DPIPortC<DataT> &port,const DPEntityC &nhold = DPEntityC(true),FuncT nAuxOp = 0)
+      : DPIPipeBaseBodyC(nhold,nAuxOp),
+	DPIStreamOpBodyC<DataT,DataT>(port)
+    {}
    
-   //: Constructor.
+    //: Constructor.
    
-   virtual bool SetInput(const DPIPortBaseC &in) {
-     DPIPortC<DataT> inport(in);
-     input = inport;
-     return true;
-   }
-   //: Setup input.
+    virtual bool SetInput(const DPIPortBaseC &in) {
+      DPIPortC<DataT> inport(in);
+      input = inport;
+      return true;
+    }
+    //: Setup input.
    
-   virtual bool IsGetReady() const  {
-     if(forceReady)
-       return true;
-     if(!input.IsValid())
-       return false;
-     return input.IsGetReady(); 
-   }
-   //: Is some data ready ?
-   // true = yes.
+    virtual bool IsGetReady() const  {
+      if(forceReady)
+	return true;
+      if(!input.IsValid())
+	return false;
+      return input.IsGetReady(); 
+    }
+    //: Is some data ready ?
+    // true = yes.
    
-   virtual bool IsGetEOS() const {
-     if(forceNotEOS)
-       return false;
-     if(!input.IsValid())
-       return true;
-     return input.IsGetEOS(); 
-   }
-   //: Has the End Of Stream been reached ?
-   // true = yes.
+    virtual bool IsGetEOS() const {
+      if(forceNotEOS)
+	return false;
+      if(!input.IsValid())
+	return true;
+      return input.IsGetEOS(); 
+    }
+    //: Has the End Of Stream been reached ?
+    // true = yes.
    
-   virtual DataT Get()  { 
-     if(auxOp != 0) {
-       DPIPipeBaseC IPB(*this);
-       if(!auxOp(IPB,hold))
-	 throw DataNotReadyC("DPIPipeBodyC<>::Get(), Auxilary function returned false. ");
-     }
-     if(!input.IsValid())
-       throw DataNotReadyC("DPIPipeBodyC<>::Get(), No input source. ");
-     return input.Get();
-   }
-   //: Get next piece of data.
-   // May block if not ready.
+    virtual DataT Get()  { 
+      if(auxOp != 0) {
+	DPIPipeBaseC IPB(*this);
+	if(!auxOp(IPB,hold))
+	  throw DataNotReadyC("DPIPipeBodyC<>::Get(), Auxilary function returned false. ");
+      }
+      if(!input.IsValid())
+	throw DataNotReadyC("DPIPipeBodyC<>::Get(), No input source. ");
+      return input.Get();
+    }
+    //: Get next piece of data.
+    // May block if not ready.
    
-   virtual bool Get(DataT &buff)  {
-     if(auxOp != 0) {
-       DPIPipeBaseC IPB(*this);
-       if(!auxOp(IPB,hold))
-	 return false;
-     }
-     if(!input.IsValid())
-       return false;
-     return input.Get(buff);
-   }
-   //: Get next piece of data.
-   // May block if not ready.
+    virtual bool Get(DataT &buff)  {
+      if(auxOp != 0) {
+	DPIPipeBaseC IPB(*this);
+	if(!auxOp(IPB,hold))
+	  return false;
+      }
+      if(!input.IsValid())
+	return false;
+      return input.Get(buff);
+    }
+    //: Get next piece of data.
+    // May block if not ready.
    
-   virtual IntT GetArray(SArray1dC<DataT> &data) {
-     for(SArray1dIterC<DataT> it(data);it;it++) {
-       if(auxOp != 0) {
-	 DPIPipeBaseC IPB(*this);
-	 if(!auxOp(IPB,hold))
-	   return it.Index().V();
-       }
-       if(!input.IsValid())
-	 return it.Index().V();
-       if(!input.Get(*it))
-	 return it.Index().V();
-     }
-     return data.Size();
-   }
-   //: Get an array of data from stream.
-   // returns the number of elements processed
+    virtual IntT GetArray(SArray1dC<DataT> &data) {
+      for(SArray1dIterC<DataT> it(data);it;it++) {
+	if(auxOp != 0) {
+	  DPIPipeBaseC IPB(*this);
+	  if(!auxOp(IPB,hold))
+	    return it.Index().V();
+	}
+	if(!input.IsValid())
+	  return it.Index().V();
+	if(!input.Get(*it))
+	  return it.Index().V();
+      }
+      return data.Size();
+    }
+    //: Get an array of data from stream.
+    // returns the number of elements processed
    
-   virtual DPIPortBaseC Port()
-     { return DPIPortBaseC(*this); }
-   //: Access input port.
+    virtual DPIPortBaseC Port()
+    { return DPIPortBaseC(*this); }
+    //: Access input port.
    
- };
+  };
   
   //////////////////////////////////////
   //! userlevel=Develop
@@ -303,13 +303,13 @@ protected:
   public:
     DPOPipeBodyC(const DPEntityC &nhold = DPEntityC(true),FuncT nAuxOp = 0) 
       : DPOPipeBaseBodyC(nhold,nAuxOp)
-      {}
+    {}
     //: Default constructor.
     
     DPOPipeBodyC(const DPOPortC<DataT> &port,const DPEntityC &nhold = DPEntityC(true),FuncT nAuxOp = 0)
       : DPOPipeBaseBodyC(nhold,nAuxOp),
-      DPOStreamOpBodyC<DataT,DataT>(port)
-      {}
+	DPOStreamOpBodyC<DataT,DataT>(port)
+    {}
     //: Constructor.
     
     virtual bool SetOutput(const DPOPortBaseC &out) {
@@ -367,7 +367,7 @@ protected:
     //: Put End Of Stream marker.
     
     virtual DPOPortBaseC Port()
-      { return DPOPortBaseC(*this); }
+    { return DPOPortBaseC(*this); }
     //: Access ouput port.
   };
   
@@ -384,18 +384,18 @@ protected:
   public:
     DPIPipeC() 
       : DPEntityC(true)
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     DPIPipeC(const DPEntityC &hold,DPIPipeBaseBodyC::FuncT nAuxOp = 0) 
       : DPEntityC(*new DPIPipeBodyC<DataT>(hold,nAuxOp))
-      {}
+    {}
     //: Constructor.
     
     DPIPipeC(const DPIPortC<DataT> &port,const DPEntityC &nhold = DPEntityC(true),DPIPipeBaseBodyC::FuncT nAuxOp = 0) 
       : DPEntityC(*new DPIPipeBodyC<DataT>(port,nhold,nAuxOp))
-      {}
+    {}
     //: Constructor.
   };
   
@@ -411,18 +411,18 @@ protected:
   public:
     DPOPipeC() 
       : DPEntityC(true)
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     DPOPipeC(const DPEntityC &hold,DPOPipeBaseBodyC::FuncT nAuxOp = 0) 
       : DPEntityC(*new DPOPipeBodyC<DataT>(hold,nAuxOp))
-      {}
+    {}
     //: Constructor.
     
     DPOPipeC(const DPOPortC<DataT> &port,const DPEntityC &nhold = DPEntityC(true),DPOPipeBaseBodyC::FuncT nAuxOp = 0)
       : DPEntityC(*new DPOPipeBodyC<DataT>(port,nhold,nAuxOp))
-      {}
+    {}
     //: Constructor.
   };
   

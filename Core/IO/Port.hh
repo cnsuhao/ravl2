@@ -29,6 +29,7 @@
 #endif 
 
 namespace RavlN {
+  
   class DPPortC;
   class StringC;
   
@@ -720,43 +721,6 @@ namespace RavlN {
     DPIOPortC<InT,OutT> nport(s); 
     port = nport; 
     return s; 
-  }
-  
-  ////////////////////////////////////
-  //! userlevel=Normal
-  //: Plug.
-  // Used for setting up inputs.
-  
-  template<class DataT>
-  class DPPlugC {
-  public:
-    explicit DPPlugC(DPIPortC<DataT> &nport)
-      : hold(nport.Body()),
-	port(nport)
-    {}
-    //: Constructor.
-    
-    DPPlugC(const DPPlugC<DataT> &oth)
-      : hold(oth.hold),
-	port(oth.port)
-    {}
-    //: Copy constructor.
-    
-    inline const DPPlugC<DataT> &operator= (DPIPortC<DataT> &othport)
-    { port = othport; return *this; }
-    //: Assignment.
-    
-  private:
-    DPEntityC hold; // Make sure object is not deleted.
-    DPIPortC<DataT> &port;
-  };
-  
-  /////////////////////////////
-  //: Use a plug
-  
-  template<class DataT>
-  void operator>> (DPIPortC<DataT> &source,DPPlugC<DataT> &input)  { 
-    input = source; 
   }
 }
 #endif
