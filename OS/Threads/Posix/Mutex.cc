@@ -11,6 +11,7 @@
 
 #include "Ravl/Threads/Mutex.hh"
 #include "Ravl/Threads/Thread.hh"
+#include "Ravl/Exception.hh"
 #include "Ravl/Stream.hh"
 
 #include <string.h>
@@ -27,7 +28,7 @@
 namespace RavlN
 {
   
-  MutexC::MutexC(void) 
+  MutexC::MutexC(bool recursive) 
   { 
 #if defined(NDEBUG)
     ONDEBUG(cerr << "MutexC::MutexC(), Constructing normal mutex. (@:" << ((void*) this) << ") \n");
@@ -51,6 +52,16 @@ namespace RavlN
     pthread_mutexattr_settype(&mutAttr,PTHREAD_MUTEX_ERRORCHECK_NP);
 #endif
 #endif
+    if(recursive) { // Do we need a recursive mutex ?
+#if RAVL_OS_LINUX
+      if(pthread_mutexattr_settype(&mutAttr,PTHREAD_MUTEX_RECURSIVE_NP) != 0) // Linux.
+#else
+#ifdef PTHREAD_MUTEX_RECURSIVE
+	if(pthread_mutexattr_settype(&mutAttr,PTHREAD_MUTEX_RECURSIVE) != 0) // Solaris and maybe other ?
+#endif
+#endif
+	throw ExceptionOperationFailedC("ERROR: Recursive mutex's not available. ");
+    }
     int rc;
     if((rc = pthread_mutex_init(&mutex,&mutAttr)) != 0)
       Error("Failed to create mutex.",errno,rc); 

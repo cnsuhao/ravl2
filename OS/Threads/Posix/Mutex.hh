@@ -40,8 +40,12 @@ namespace RavlN
   
   class MutexC {
   public:
-    MutexC(void);
+    MutexC(bool recursive = false);
     //: Constructor.
+    // Recursive mutex's allow the same thread to recusively enter the locked region, however it
+    // is slower than an normal lock.
+    // If this type of mutex is unavailable an ExceptionOperationFailedC will be thrown.
+    // Currently recursive mutex's are known to be available under Linux, Solaris and IRIX.
     
     ~MutexC(void);
     //: Destructor.
