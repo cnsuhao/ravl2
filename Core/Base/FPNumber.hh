@@ -11,6 +11,7 @@
 //! lib=RavlCore
 //! docentry="Ravl.Core.Fixed Point Arithmetic"
 //! file="Ravl/Core/Base/FPNumber.hh"
+//! userlevel=Normal
 
 #include "Ravl/Types.hh"
 #include "Ravl/Stream.hh"
@@ -25,6 +26,8 @@ namespace RavlN {
     return v >> -n;
   }
   //: Left shift v by n bits where n can be negative.
+  
+  //:-
   
   //! userlevel=Normal
   //: Fixed Point Number.
