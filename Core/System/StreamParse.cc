@@ -45,7 +45,7 @@ namespace RavlN {
 
   //: Skip all 'delim' charactors.
   
-  bool IStreamC::Skip(const char *delim = " \n\t\r") { 
+  bool IStreamC::Skip(const char *delim) { 
     char c;
     for(;;) {
       if(!*this)
