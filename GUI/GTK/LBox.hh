@@ -99,6 +99,21 @@ namespace RavlGUIN {
       : ContainerWidgetC(*new LBoxBodyC(vert,nboarder,nhomogeneous,nspacing))
 	{}
     //:  Constructor
+
+  protected:
+    LBoxC(LBoxBodyC &bod)
+      : ContainerWidgetC(bod)
+    {}
+    //: Body constructor.
+    
+    LBoxBodyC &Body()
+	{ return static_cast<LBoxBodyC &>(WidgetC::Body()); }
+    //: Access body.
+
+    const LBoxBodyC &Body() const
+      { return static_cast<const LBoxBodyC &>(WidgetC::Body()); }
+    //: Access body.
+    
   };
   
   inline 

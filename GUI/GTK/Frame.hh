@@ -40,8 +40,14 @@ namespace RavlGUIN {
     void SetShadowType(GtkShadowType shadow);
     //: Set frame type.
     
-  protected:
+    void SetLabel(StringC &name);
+    //: Set label
+
+    bool GUISetLabel(StringC &name);
+    //: Set label
+    // Call with GUI thread only!
     
+  protected:
     bool GUISetShadow(GtkShadowType &nshadow);
     //: Setup shadow.
     
@@ -88,6 +94,7 @@ namespace RavlGUIN {
       { return Body().GUISetShadow(shadow); }
     //: Setup shadow.
     
+    
   public:
     FrameC(WidgetC &widge)
       : OneChildC(widge)
@@ -96,10 +103,19 @@ namespace RavlGUIN {
 	  Invalidate();
       }
     //: Base constructor.
+
+    bool GUISetLabel(StringC &name)
+      { return Body().GUISetLabel(name); }
+    //: Set label
+    // Call with GUI thread only!
     
     void SetShadowType(GtkShadowType shadow)
       { Body().SetShadowType(shadow); }
     //: Set frame type.
+    
+    void SetLabel(StringC &name)
+      { Body().SetLabel(name); }
+    //: Set label
     
     friend class FrameBodyC;
   };

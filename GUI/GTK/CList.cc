@@ -33,9 +33,15 @@ namespace RavlGUIN {
   //: Default constructor
   
   CListBodyC::CListBodyC(const char *ntitles[])  {
-    int i;
-    for(i = 0;ntitles[i] != 0;i++)
-      titles.InsLast(StringC(ntitles[i]));
+    int i = 0;
+    if(ntitles != 0) {
+      for(;ntitles[i] != 0;i++)
+	titles.InsLast(StringC(ntitles[i]));
+    } else {
+      titles.InsLast("Unknown");
+      i++;
+    }
+
     cols = i;
     ONDEBUG(cerr << "CListBodyC::CListBodyC(), Cols : " << cols << "\n");
   }

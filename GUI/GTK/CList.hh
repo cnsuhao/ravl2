@@ -163,11 +163,11 @@ namespace RavlGUIN {
     //: Append a line entry.
     // GUI thread only.
     
-    void AppendLine(int &id,SArray1dC<CListCellC> &line)
+    void AppendLine(int &id,SArray1dC<CListCellC> line)
       { Body().AppendLine(id,line); }
     //: Append a line entry.  
     
-    void AppendLine(int &id,SArray1dC<StringC> &line)
+    void AppendLine(int &id,SArray1dC<StringC> line)
       { Body().AppendLine(id,line); }
     //: Append a line entry.  
     

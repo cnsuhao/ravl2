@@ -64,6 +64,21 @@ namespace RavlGUIN {
     return true;
   }
   
+  //: Set label
+  
+  bool FrameBodyC::GUISetLabel(StringC &name) {
+    title = name;
+    if(widget == 0) 
+      return true;
+    gtk_frame_set_label(GTK_FRAME(widget),title.chars());
+    return true;
+  }
+
+  //: Set label
+  void FrameBodyC::SetLabel(StringC &name) {
+    Manager.Queue(Trigger(FrameC(*this),&FrameC::GUISetLabel,name));
+  }
+  
   //: Set frame type.
   
   void FrameBodyC::SetShadowType(GtkShadowType nShadow) {
