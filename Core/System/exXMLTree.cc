@@ -28,8 +28,8 @@ int exXMLTree(int nargs,char **argv) {
     return 1;
   }
 
-  XMLTreeC tree(true);
-
+  XMLTreeC tree(ifn);
+  
   tree.Read(ins);
   
   OStreamC out(ofn);
