@@ -174,6 +174,8 @@ namespace RavlN {
     //: Limit all values in this vector to between min and max.
     // Returns true if all values in the vector are between the limits.
     
+    //:-
+    
     // Distance calculations
     // ---------------------
     
