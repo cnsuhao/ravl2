@@ -335,6 +335,8 @@ namespace RavlN {
   //!return: 0= Not overlapping 1=this is completely covered by poly.
   
   RealT Polygon2dC::Overlap(const Polygon2dC &poly) const {
+    if(IsEmpty() || poly.IsEmpty())
+      return 0;
     RealT thisArea = Area();
     RealT polyArea = poly.Area();
     Polygon2dC localPoly = poly;
@@ -354,6 +356,8 @@ namespace RavlN {
   //!return: 0= Not overlapping 1=If the two polygons are identical.
   
   RealT Polygon2dC::CommonOverlap(const Polygon2dC &poly) const {
+    if(IsEmpty() || poly.IsEmpty())
+      return 0;
     RealT polyArea = poly.Area();
     RealT thisArea = Area();
     Polygon2dC localPoly = poly;
