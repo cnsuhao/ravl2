@@ -698,6 +698,9 @@ namespace RavlN {
     IntT IntValue() const;
     //: Interpret string as an integer.
     
+    IntT UIntValue() const;
+    //: Interpret string as an unsigned integer.
+    
     Int64T Int64Value() const;
     //: Interpret string as an integer.
     

@@ -1398,6 +1398,12 @@ namespace RavlN {
     return atoi(chars());
   }
   
+  //: Interpret stream as an unsigned integer.
+  
+  IntT StringC::UIntValue() const {
+    return (UIntT) atoi(chars());
+  }
+  
   //: Interpret string as an integer.
   
   Int64T StringC::Int64Value() const {
