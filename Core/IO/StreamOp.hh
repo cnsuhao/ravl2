@@ -198,8 +198,10 @@ namespace RavlN {
     inline DPIPortC<InT> &Input() { return input; }
     //: Access input port.
     
-    virtual void Input(const DPIPortC<InT> &ins) 
-    { input = ins; }
+    virtual void Input(const DPIPortC<InT> &ins) {
+      input = ins; 
+      ReparentAttributeCtrl(input); // Make sure changed signals are changed appropriately.
+    }
     //: Setup input port.
   }; 
   
