@@ -9,6 +9,7 @@
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Logic"
+//! author="Charles Galambos"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/BindSet.hh"
 

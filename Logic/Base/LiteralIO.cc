@@ -76,8 +76,11 @@ namespace RavlLogicN {
 	  else
 	    state.Tell(tup);
 	} break;
+	case ';': // Comment until end of line.
+	  is.SkipTo('\n');
+	  // Fall through.
 	case '\n':
-	  ln++;
+	  ln++; // Count lines.
 	case '\r':
 	case '\t':
 	case ' ':
@@ -93,7 +96,6 @@ namespace RavlLogicN {
 	case '}':
 	case '[':
 	case ']':
-	case '"':
 	case '^':
 	case '*':
 	case '%':
@@ -101,7 +103,6 @@ namespace RavlLogicN {
 	case '\'':
 	case '`':
 	case '+':
-	case ';':
 	case ':':
 	case '>':
  	case '<':
@@ -113,11 +114,21 @@ namespace RavlLogicN {
  	case '=':
 	  cerr << "WARNING: Illegal charactor '" << let << "' found in stream on line " << ln << ". \n";
  	  break;
+	case '"': { // String constant.
+	  StringC val = is.ClipTo('"');
+	  // FIXME:- If the string constant contains new lines, we'll loose our line number count.
+	  LiteralC lit = NamedLiteralC(val);
+	  if(!context.IsEmpty())
+	    context.Top().InsLast(lit);
+	  else
+	    state.Tell(lit);
+	} break;
 	case '?': // Variable marker.
 	  var = true;
-	default: // Read 
+	  // Fall through.
+	default: { // Constant
 	  StringC x(let);
-	  x += is.ClipWord(" \t\n\r()");
+	  x += is.ClipWord(" \t\n\r()\\/:;+<>{}[]|=%*^.,£#$@!~¬");
 	  // Check for numbers ?
 	  LiteralC lit;
 	  if(var)
@@ -128,7 +139,7 @@ namespace RavlLogicN {
 	    context.Top().InsLast(lit);
 	  else
 	    state.Tell(lit);
-	  break;
+	  } break;
 	}
       }
     } catch(ExceptionEndOfStreamC &eos) {

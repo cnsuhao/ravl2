@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Logic.Condition"
 //! lib=RavlLogic
+//! author="Charles Galambos"
 //! file="Ravl/Logic/Base/Not.hh"
 
 #include "Ravl/Logic/Condition.hh"

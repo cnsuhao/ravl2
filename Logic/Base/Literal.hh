@@ -12,6 +12,7 @@
 //! userlevel=Normal
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/Literal.hh"
+//! author="Charles Galambos"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/String.hh"

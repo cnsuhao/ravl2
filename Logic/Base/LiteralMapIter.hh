@@ -4,11 +4,12 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLLOGICLITERALMAPITER_HEADER
-#define RAVLLOGICLITERALMAPITER_HEADER 1
+#ifndef RAVLLOGIC_LITERALMAPITER_HEADER
+#define RAVLLOGIC_LITERALMAPITER_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Logic"
+//! author="Charles Galambos"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/LiteralMapIter.hh"
 

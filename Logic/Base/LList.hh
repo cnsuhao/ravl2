@@ -4,13 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLLOGICLIST_HEADER
-#define RAVLLOGICLIST_HEADER 1
+#ifndef RAVLLOGIC_LLIST_HEADER
+#define RAVLLOGIC_LLIST_HEADER 1
 /////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Logic"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/LList.hh"
+//! author="Charles Galambos"
 
 #include "Ravl/Logic/Literal.hh"
 #include "Ravl/DList.hh"

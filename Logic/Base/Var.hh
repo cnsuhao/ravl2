@@ -9,9 +9,11 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Logic"
-#include "Ravl/Logic/Literal.hh"
 //! lib=RavlLogic
+//! author="Charles Galambos"
 //! file="Ravl/Logic/Base/Var.hh"
+
+#include "Ravl/Logic/Literal.hh"
 
 namespace RavlLogicN {
 
