@@ -39,6 +39,11 @@ namespace RavlN {
     DPISListBodyC(const DListC<DataT> &dat);
     //: Constructor.
     
+    DPISListBodyC()
+      : next(0)
+    {}
+    //: Default constructor.
+    
     virtual bool IsGetReady() const
     { return iter; }
     //: Is some data ready ?
@@ -70,6 +75,14 @@ namespace RavlN {
     virtual UIntT Size() const;
     //: Find the total size of the stream. (assuming it starts from 0)
 
+    void SetList(const DListC<DataT> &lst) {
+      container = lst;
+      next = 0;
+      iter = container;
+    }
+    //: Change iterator to new list.
+    // This resets the stream to the begining of list 'lst'
+    
   protected:
     DListC<DataT> container;
     typename DListC<DataT>::IteratorT iter;
@@ -89,6 +102,12 @@ namespace RavlN {
       : DPEntityC(*new DPISListBodyC<DataT>(dat))      
     {}
     //: Constructor.
+
+    DPISListC()
+      : DPEntityC(true)
+    {}
+    //: Default constructor
+    // Creates an invalid handle.
   };
   
   ////////////////////////////////////////
