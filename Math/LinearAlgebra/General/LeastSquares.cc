@@ -45,6 +45,7 @@ namespace RavlN {
   
   VectorC LeastSquaresFixedRank(const MatrixC &A,const VectorC &b,UIntT rank) {
     MatrixC U,V;
+    RavlAssertMsg(A.Rows() == b.Size(),"LeastSquaresFixedRank(), A should have the same number of rows as entries in b.");
     VectorC d = SVD(A,U,V);
     VectorC b1 = U.TMul(b);
     VectorC y(b1.Size());
@@ -52,7 +53,7 @@ namespace RavlN {
       y[i] = b1[i]/d[i];
     for(UIntT i = rank;i < y.Size();i++)
       y[i] = 0;
-    VectorC result = V * y;
+    VectorC result = V*y;
     return result;
   }
   
