@@ -89,7 +89,18 @@ namespace RavlN {
     return (StatNormalQ(low/sig) - StatNormalQ(high/sig))/sig;
   }
   
-
+  //: Calculate the product of the two probability density functions.
+  // This assumes the estimates of the distributions are accurate. (The number
+  // of samples is ignored) 
+  
+  MeanVarianceC MeanVarianceC::operator*(const MeanVarianceC &oth) const {
+    RealT sum = Variance() + oth.Variance();
+    RealT newMean = (Variance() * oth.Mean() / sum) + 
+      (oth.Variance() * Mean() / sum);
+    RealT newVar = Variance() * oth.Variance() / sum;
+    return MeanVarianceC(Number() + oth.Number(),newMean,newVar);
+  }
+  
   ostream& operator<<(ostream &s,const MeanVarianceC &mv) {
     s << mv.Number() << ' ' << mv.Mean() << ' ' << mv.Variance();
     return s;

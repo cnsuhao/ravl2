@@ -68,6 +68,11 @@ namespace RavlN {
     MeanVarianceC &operator-=(const MeanVarianceC &mv);
     //: Remove another MeanVariance from this one.
     
+    MeanVarianceC operator*(const MeanVarianceC &oth) const;
+    //: Calculate the product of the two probability density functions.
+    // This assumes the estimates of the distributions are accurate. (The number
+    // of samples is ignored) 
+    
   protected:
     SizeT n;
     RealT mean;
