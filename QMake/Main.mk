@@ -392,6 +392,10 @@ libbuild: build_subdirs build_libs build_aux
 
 purifybuild: build_subdirs build_libs build_pureexe
 
+
+srcfiles: $(TARG_HDRS) $(TARG_DEFS) $(LOCAL_FILES) $(LOCALHEADERS) $(SOURCES) $(MAINS) $(AUXFILES) $(HEADERS) \
+ $(EXAMPLES) $(TESTEXES) $(DOCNODE) $(HTML) $(MAN1) $(MAN2) $(MAN3) $(EHT) $(MUSTLINK)
+
 ifdef FULLCHECKING
 cheadbuild: build_subdirs $(TARG_HDRCERTS)
 else
@@ -439,7 +443,7 @@ else
 	@true
 endif
 
-src_all: srcfiles
+src_all: srcfiles 
 ifneq ($(strip $(TARG_NESTED)),)
 	$(SHOWIT)for SUBDIR in $(TARG_NESTED) ; do \
 	  if [ -d $$SUBDIR ] ; then \
@@ -460,9 +464,6 @@ endif
 
 ###########################
 # Source header files.
-
-srcfiles: $(TARG_HDRS) $(TARG_DEFS) $(LOCAL_FILES) $(LOCALHEADERS) $(SOURCES) $(MAINS) $(AUXFILES) $(HEADERS) \
- $(EXAMPLES) $(TESTEXES) $(DOCNODE) $(HTML) $(MAN1) $(MAN2) $(MAN3) $(EHT) $(MUSTLINK)
 
 ifdef FULLCHECKING
 # Check headers.
