@@ -162,7 +162,11 @@ namespace RavlCxxDocN {
     bool LookupI(const StringC &name,ObjectC &nxt,bool useInherit,HSetC<ScopeC> &done)
     { return Body().LookupI(name,nxt,useInherit,done); }
     //: Lookup name allowing for inheritance.
-    // returns true if object has been found.
+    //!param: name - Name of object to search for.
+    //!param: nxt - Variable in which to store results.
+    //!param: useInherit - Use inhertance ?
+    //!param: done - Hash set of scopes that have been visited.
+    //!return: True if named object is found.
     
     bool LookupI(const StringC &name,ObjectC &nxt,bool useInherit = true) { 
       HSetC<ScopeC> done; // Create table of checked scopes.
@@ -170,6 +174,10 @@ namespace RavlCxxDocN {
     }
     //: Lookup name allowing for inheritance.
     // returns true if object has been found.
+    //!param: name - Name of object to search for.
+    //!param: nxt - Variable in which to store results.
+    //!param: useInherit - Use inhertance ?
+    //!return: True if named object is found.
     
     DListC<ObjectC> &Uses() 
     { return Body().Uses(); }
