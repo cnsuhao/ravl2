@@ -71,7 +71,7 @@ namespace RavlN {
   //: Register new message handler.
   
   bool NetEndPointBodyC::Register(const NetMsgRegisterC &nmsg) {
-#if AMMA_CHECK
+#if RAVL_CHECK
     if(msgReg.IsElm(nmsg.Id()))
       cerr << "NetEndPointBodyC::Register(), WARNING: Overriding handling of message id:" << nmsg.Id() << "\n";
 #endif
@@ -207,9 +207,9 @@ namespace RavlN {
     } catch(...) {
       cerr << "NetEndPointBodyC::RunTransmit(), Exception caught, terminating link. \n";
     }
-    Close();
     if(!nos)
       cerr << "NetEndPointBodyC::RunTransmit(), Connection broken \n";    
+    Close();
     ONDEBUG(cerr << "NetEndPointBodyC::RunTransmit(), Terminated \n"); 
     return true;
   }
