@@ -2,7 +2,7 @@
 #define RAVLCOLLECTION_HEADER 1
 //////////////////////////////////////////////////////
 //! rcsid=$Id$
-//! docentry="Ravl.Core.Collection"
+//! docentry="Ravl.Core.Misc"
 
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Random.hh"
