@@ -58,22 +58,73 @@ namespace RavlImageN {
     static inline IntT Floor(IntT v) 
     { return v; }
     //: Real valued floor
-        
+    
+    const DataT &MinValue() const
+    { return minValue; }
+    //: Get minimum of range.
+    
+    const DataT &MaxValue() const
+    { return maxValue; }
+    //: Get maximum of range.
+    
+    bool IsRescale() const
+    { return rescale; }
+    //: Are we rescaling the input ?
+    
   protected:
     DataT minValue;
     DataT maxValue;
     bool rescale;
   };
   
-  //: Performs histogram equalisation on image 'in'.
-  // Returns a new equalised image.
+  template<class DataT>
+  ostream &operator<<(ostream &s,const HistogramEqualiseC<DataT> &hist) {
+    int v = 0; // stream version no.
+    s << v << ' ' << hist.MinValue() << ' ' << hist.MaxValue() << ' ' << hist.IsRescale();
+    return s;
+  }
+  //: Write to a stream.
+  
+  template<class DataT>
+  istream &operator>>(istream &s,HistogramEqualiseC<DataT> &hist) {
+    int v;
+    DataT min,max;
+    int rescale;
+    s >> v >> min >> max >> rescale;
+    // FIXME: Check version is right.
+    hist = HistogramEqualiseC<DataT>(min,max,rescale != 0);
+    return s;
+  }
+  //: Read from a stream.
+
+  template<class DataT>
+  BinOStreamC &operator<<(BinOStreamC &s,const HistogramEqualiseC<DataT> &hist) {
+    int v = 0; // stream version no.
+    s << v << hist.MinValue() << hist.MaxValue() << hist.IsRescale();
+    return s;
+  }
+  //: Write to a binary stream.
+  
+  template<class DataT>
+  BinIStreamC &operator>>(BinIStreamC &s,HistogramEqualiseC<DataT> &hist) {
+    int v;
+    DataT min,max;
+    int rescale;
+    s >> v >> min >> max >> rescale;
+    // FIXME: Check version is right.
+    hist = HistogramEqualiseC<DataT>(min,max,rescale != 0);
+    return s;
+  }
+  //: Read from a binary stream.
+  
+  //:-
   
   template<class DataT>
   ImageC<DataT> HistogramEqualiseC<DataT>::Apply (const ImageC<DataT> &in) {
     // Build the histogram.
     if(in.IsEmpty())
       return ImageC<DataT>();
-    RealT diff = (RealT)(maxValue - minValue);    
+    RealT diff = (RealT)(maxValue - minValue);
     Array1dC<RealT> pr(Floor(minValue),Floor(maxValue));
     pr.Fill(0.0);
     RealT scale = 1;
@@ -83,13 +134,14 @@ namespace RavlImageN {
       imin = *it;
       DataT imax = *it;
       for(it++;it;it++) {
-	if(imin < *it)
+	if(imin > *it)
 	  imin = *it;
-	else if(imax > *it)
+	else if(imax < *it)
 	  imax = *it;
       }
-      RealT idiff = (RealT) imin - imax;
+      RealT idiff = (RealT) (imax - imin) + 1;
       scale = diff/idiff;
+      //cerr << "imin=" << imin << " imax=" << imax << " scale=" << scale << "\n";
       for(Array2dIterC<DataT> it(in);it;it++)
 	pr[Floor((*it - imin) * scale + minValue)]++;
     } else {

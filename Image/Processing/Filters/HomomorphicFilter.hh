@@ -31,6 +31,14 @@ namespace RavlImageN {
     ImageC<RealT> Apply(const ImageC<RealT> &img);
     //: Apply filter to image.
     
+    RealT Sigma() const
+    { return sigma; }
+    //: Access current sigma.
+    
+    RealT Depth() const
+    { return depth; }
+    //: Access current depth.
+    
   protected:
     bool Init(const  Index2dC &size);
     //: Setup the filter.
@@ -65,8 +73,29 @@ namespace RavlImageN {
     { return Body().Apply(img); }
     //: Apply filter to image.
     
+    RealT Sigma() const
+    { return Body().Sigma(); }
+    //: Access current sigma.
     
+    RealT Depth() const
+    { return Body().Depth(); }
+    //: Access current depth.
   };
+  
+  
+  ostream &operator<<(ostream &s,const HomomorphicFilterC &hist);
+  //: Write to a stream.
+  
+  istream &operator>>(istream &s,HomomorphicFilterC &hist);
+  //: Read from a stream.
+
+  BinOStreamC &operator<<(BinOStreamC &s,const HomomorphicFilterC &hist);
+  //: Write to a binary stream.
+  
+  BinIStreamC &operator>>(BinIStreamC &s,HomomorphicFilterC &hist);
+  //: Read from a binary stream.
+  
+  
 }
 
 #endif

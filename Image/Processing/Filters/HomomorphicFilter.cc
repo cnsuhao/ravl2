@@ -13,7 +13,7 @@
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Math.hh"
-
+#include "Ravl/BinStream.hh"
 
 namespace RavlImageN {
 #if RAVL_COMPILER_MIPSPRO
@@ -75,5 +75,41 @@ namespace RavlImageN {
       rit.Data2() = Exp(rit.Data1().Mag()) - 1;
     return ret;
   }
+
+  
+  ostream &operator<<(ostream &s,const HomomorphicFilterC &homom) {
+    int v = 0; // stream version no.
+    s << v << ' ' << homom.Sigma() << ' ' << homom.Depth();
+    return s;
+  }
+  //: Write to a stream.
+
+  istream &operator>>(istream &s,HomomorphicFilterC &homom) {
+    int v;
+    RealT sigma,depth;
+    s >> v >> sigma >> depth;
+    // FIXME: Check version is right.
+    homom = HomomorphicFilterC(sigma,depth);
+    return s;
+  }
+  //: Read from a stream.
+  
+  BinOStreamC &operator<<(BinOStreamC &s,const HomomorphicFilterC &homom) {
+    int v = 0; // stream version no.
+    s << v << homom.Sigma() << homom.Depth();
+    return s;
+  }
+  //: Write to a binary stream.
+  
+  BinIStreamC &operator>>(BinIStreamC &s,HomomorphicFilterC &homom) {
+    int v;
+    RealT sigma,depth;
+    s >> v >> sigma >> depth;
+    // FIXME: Check version is right.
+    homom = HomomorphicFilterC(sigma,depth);
+    return s;
+  }
+  //: Read from a binary stream.
+
 
 }
