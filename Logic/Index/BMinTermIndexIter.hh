@@ -98,21 +98,23 @@ namespace RavlLogicN {
       ind(index),
       data(0)
   {
-    if(mtiter.IsElm())
+    if(mtiter.IsElm()) {
       iter = LiteralIndexFilterC<IntC>(ind.IdIndex(),*mtiter);
-    CheckValid();
+      CheckValid();
+    }
   }
 
   template<class DataT>
   inline
   BMinTermIndexIterC<DataT>::BMinTermIndexIterC(const BMinTermIndexC<DataT> &index,const LiteralC &symb)
-    : mtiter(MinTermC(symb)),
+    : mtiter(MinTermC(symb,false)),
       ind(index),
       data(0)
   {
-    if(mtiter.IsElm())
+    if(mtiter.IsElm()) {
       iter = LiteralIndexFilterC<IntC>(ind.IdIndex(),*mtiter);
-    CheckValid();
+      CheckValid();
+    }
   }
   
   template<class DataT>
@@ -136,11 +138,13 @@ namespace RavlLogicN {
     ndone.Empty();
     pdone.Empty();
     iter = LiteralIndexFilterC<IntC>(ind.IdIndex(),*mtiter);
+    RavlAssert(iter.IsValid());
     return CheckValid();
   }
   
   template<class DataT>
   bool BMinTermIndexIterC<DataT>::CheckValid() {
+    RavlAssert(iter.IsValid());
     do {
       while(!iter) {
 	if(!mtiter.Next()) {
