@@ -11,7 +11,7 @@
 //! author="James Smith"
 //! userlevel=Normal
 
-//: 3D View window example.
+//: Textured mesh display example.
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Manager.hh"
@@ -32,28 +32,49 @@ using namespace Ravl3DN;
 int main(int nargs,char *args[]) 
 {
   OptionC opts(nargs,args); // Make sure help option is detected.
-  StringC file = opts.String("i",PROJECT_OUT "/share/RAVL/data/cube.tri","input filename");
+  StringC file = opts.String("i",PROJECT_OUT "/share/RAVL/pixmaps/monkey.ppm","input filename");
   bool verbose = opts.Boolean("v",false,"Verbose mode. ");
   bool texture = opts.Boolean("t",false,"Use texture. ");
   opts.Check();
   
   DObject3DC object;
-  if(texture) {
-    TexTriMeshC mesh;
-    if (!Load(file,mesh,"",verbose)) {
-      cerr << "Could not load input file " << file << endl;
-      return 1;
-    }
-    object = DTexTriMesh3DC(mesh);
-  } else {
-    TriMeshC mesh;
-    if (!Load(file,mesh,"",verbose)) {
-      cerr << "Could not load input file " << file << endl;
-      return 1;
-    }
-    object = DTriMesh3DC(mesh);
-    
+
+  // Load an image.
+  
+  ImageC<ByteRGBValueC> img;
+  if (!Load(file,img,"",verbose)) {
+    cerr << "Could not load input file " << file << endl;
+    return 1;
   }
+  
+  // Create a simple mesh.
+  
+  SArray1dC<Vector3dC> verts(4);
+  verts[0] = Vector3dC(0,0,0);
+  verts[1] = Vector3dC(0,1,0);
+  verts[2] = Vector3dC(1,1,0);
+  verts[3] = Vector3dC(1,0,0);
+  
+  SArray1dC<UIntT> faces(6);
+  faces [0] = 2;
+  faces [1] = 1;
+  faces [2] = 0;
+  faces [3] = 0;
+  faces [4] = 3;
+  faces [5] = 2;
+  
+  TexTriMeshC mesh(verts,faces);
+
+  // Add a texture to the mesh.
+  // This uses the default texture coordinates, which aren't quite right.
+  
+  SArray1dC<ImageC<ByteRGBValueC> > textures(1);
+  textures[0] = img;
+  mesh.Textures() = textures;
+  
+  // Create a display object for the mesh
+  
+  object = DTexTriMesh3DC(mesh);
   
   Manager.Init(nargs,args);
   
@@ -61,13 +82,13 @@ int main(int nargs,char *args[])
   View3DC view(400,400);  
   win.Add(view);
   win.Show();  
-
+  
   cerr << "Starting gui. \n";
   Manager.Execute();
   
   view.Add(object);
   view.SceneComplete();
-
+  
   Manager.Wait();
 
   return 0;

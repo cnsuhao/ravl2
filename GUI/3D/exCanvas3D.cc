@@ -8,6 +8,10 @@
 //! rcsid="$Id$"
 //! lib=RavlGUI3D
 //! file="Ravl/GUI/3D/exCanvas3D.cc"
+//! docentry="Ravl.GUI.3D"
+//! userlevel=Normal
+
+//: 3D GL Canvas 
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Button.hh"

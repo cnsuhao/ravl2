@@ -13,6 +13,7 @@
 //! lib=RavlGUI3D
 //! author="James Smith"
 //! date="2/4/2001"
+//! example=exDTexTriMesh3d.cc
 
 #include "Ravl/GUI/DTriMesh3D.hh"
 #include "Ravl/3D/TexTriMesh.hh"
@@ -31,6 +32,7 @@ namespace RavlGUIN {
     //: Constructor.
     
     ~DTexTriMesh3DBodyC();
+    //: Destructor
     
     virtual bool Render(Canvas3DC &c3d);
     //: Render object.
