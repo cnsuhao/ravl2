@@ -14,8 +14,8 @@ headers attached to each of the files in the project indicate which of
 these apply.
 
 
-INSTALLATION
-------------
+INSTALLATION UNIX
+-----------------
 
 - The CxxDoc tools currently requires a daft amount of memory to compile,
   approximately 512MB.  If you don't have this much on your machine you 
@@ -60,4 +60,15 @@ NOTE: Most of the development of RAVL is being done on a Redhat 6.2
 box with gcc-2.95.2, at this stage in development things are most
 likely to work on a similar box.  The installation system should be 
 changed to use a 'configure' script, its on my todo list, somewhere.
+
+
+INSTALLATION FOR VISUAL C++
+---------------------------
+
+In order to compile RAVL with Visual C++ you have to persuade Visual
+studio to recognised .cc and .hh files as C++ source. The tweaks needed
+are described in  http://support.microsoft.com/support/kb/articles/Q181/5/06.ASP
+
+
+
 
