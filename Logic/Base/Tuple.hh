@@ -55,6 +55,9 @@ namespace RavlLogicN {
 
     virtual StringC Name() const;
     //: Get the name of symbol.
+
+    virtual HSetC<LiteralC> SubLiterals() const;
+    //: Get a set of all sub literals.
     
   protected:
     virtual bool UnifyLiteral(const LiteralBodyC &oth,BindSetC &bs) const;
@@ -157,6 +160,8 @@ namespace RavlLogicN {
     e.SetArg(0,s1);
     return e;
   }
+  //! userlevel=Normal
+  //: Create a tuple with 1 paramiter
 
   inline TupleC Tuple(const LiteralC &s1,const LiteralC &s2) {
     TupleC e(2);
@@ -164,6 +169,8 @@ namespace RavlLogicN {
     e.SetArg(1,s2);
     return e;
   }
+  //! userlevel=Normal
+  //: Create a tuple with 2 paramiters
   
   inline TupleC Tuple(const LiteralC &s1,const LiteralC &s2,const LiteralC &s3) {
     TupleC e(3);
@@ -172,6 +179,8 @@ namespace RavlLogicN {
     e.SetArg(2,s3);
     return e;
   }
+  //! userlevel=Normal
+  //: Create a tuple with 3 paramiters
 
 }
 

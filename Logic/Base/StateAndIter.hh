@@ -9,6 +9,8 @@
 ////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! author="Charles Galambos"
+//! docentry="Ravl.Logic"
 
 #include "Ravl/Logic/LiteralIter.hh"
 #include "Ravl/Logic/And.hh"
@@ -85,7 +87,7 @@ namespace RavlLogicN {
     LiteralIterC solIt; // Solutions within the state.
   };
 
-  //! userlevel=Nandmal
+  //! userlevel=Advanced
   //: Iterate through possible solutions in a state for a 'or' condition.
   // NB. Solutions may be repeated if two or more terms in the or condtion
   // unify with the same literal..

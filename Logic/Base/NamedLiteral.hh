@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
+//! docentry="Ravl.Logic"
 //! lib=RavlLogic
 
 #include "Ravl/Logic/Literal.hh"

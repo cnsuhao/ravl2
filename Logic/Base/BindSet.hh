@@ -60,12 +60,14 @@ namespace RavlLogicN {
     s << bind.Value();
     return s;
   }
+  //! userlevel=Advanced
   //: output stream 
   
   inline istream &operator<<(istream &s,BindC &bind) {
     RavlAssertMsg(0,"operator<<(istream &s,BindC &binds), Not implemented. ");
     return s;
   }
+  //! userlevel=Advanced
   //: input stream 
   
   typedef HashElemC<LiteralC,BindC>* BindMarkT;

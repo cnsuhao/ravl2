@@ -9,6 +9,8 @@
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! docentry="Ravl.Logic"
+//! author="Charles Galambos"
 
 #include "Ravl/Logic/Literal.hh"
 #include "Ravl/Logic/MinTerm.hh"
@@ -54,6 +56,12 @@ namespace RavlLogicN {
     
     virtual UIntT Size() const;
     //: Return the number of literals in the state.
+
+    virtual UIntT Hash() const;
+    //: Generate a hash number for this state.
+    
+    virtual bool operator==(const StateC &oth) const;
+    //: Test if this state is equal to another.
   };
   
   //! userlevel=Normal
@@ -115,8 +123,16 @@ namespace RavlLogicN {
     // Negative terms are those in the 'oth' state but not in this one.
 
     UIntT Size() const
-      { return Body().Size(); }
+    { return Body().Size(); }
     //: Return the number of literals in the state.
+
+    UIntT Hash() const
+    { return Body().Hash(); }
+    //: Generate a hash number for this state.
+    
+    bool operator==(const StateC &oth) const
+    { return Body() == oth; }
+    //: Test if this state is equal to another.
     
   };
 

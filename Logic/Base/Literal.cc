@@ -74,6 +74,14 @@ namespace RavlLogicN {
     LiteralC me(const_cast<LiteralBodyC &>(*this));
     return state.ListFilter(me,binds);
   }
+
+  //: Get a set of all sub literals.
+  
+  HSetC<LiteralC> LiteralBodyC::SubLiterals() const {
+    HSetC<LiteralC> ret;
+    ret += LiteralC(const_cast<LiteralBodyC &>(*this)); // Just me.
+    return ret;
+  }
   
   ////////////////////////////////////////////////////////////////
   

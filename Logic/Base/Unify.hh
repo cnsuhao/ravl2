@@ -10,6 +10,8 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Logic"
 //! lib=RavlLogic
+//! author="Charles Galambos"
+//! userlevel=Normal
 
 #include "Ravl/Logic/Literal.hh"
 #include "Ravl/Logic/BindSet.hh"

@@ -90,6 +90,24 @@ namespace RavlLogicN {
     return MinTermC(pos.Array(),neg.Array());;
   }
 
+  //: Generate a hash number for this state.
+  
+  UIntT StateBodyC::Hash() const {
+    UIntT hash = 0;
+    for(LiteralIterC it(List());it;it++)
+      hash += (*it).Hash();
+    return hash;
+  }
+
+  //: Test if this state is equal to another.
+  
+  bool StateBodyC::operator==(const StateC &oth) const {
+    if(Size() != oth.Size()) return false;
+    for(LiteralIterC it(oth.List());it;it++)
+      if(!Ask(*it)) return false;
+    return true;
+  }
+
   ostream &operator<<(ostream &s,const StateC &state) {
     RavlAssert(state.IsValid());
     for(LiteralIterC it(state.List());it;it++)

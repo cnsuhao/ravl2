@@ -9,6 +9,8 @@
 //////////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! docentry="Ravl.Logic"
+//! author="Charles Galambos"
 
 #include "Ravl/Logic/Var.hh"
 
