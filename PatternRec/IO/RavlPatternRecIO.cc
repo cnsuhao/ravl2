@@ -10,9 +10,11 @@
 namespace RavlN {
   extern void InitRavlSampleIO();
   extern void InitRavlDataSetIO();
+  extern void InitRavlClassifierIO();
   
   void RavlPatternRecIO() {
     InitRavlSampleIO();
     InitRavlDataSetIO();
+    InitRavlClassifierIO();
   }
 }

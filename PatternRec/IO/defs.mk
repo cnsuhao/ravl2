@@ -11,7 +11,7 @@ DESCRIPTION= Pattern recognition data IO.
 HEADERS= 
 #VectorIOText.hh
 
-SOURCES= SampleIO.cc DataSetIO.cc
+SOURCES= SampleIO.cc DataSetIO.cc ClassifierIO.cc
 #VectorIOText.cc
 
 MUSTLINK= RavlPatternRecIO.cc
