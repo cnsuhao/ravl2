@@ -154,7 +154,7 @@ namespace RavlImageN {
     
   }
   //: Draw a rectangle in an image of given width
-  // The rectangle is assumed to be the outer one and the image will be filled insidie it by 'width' pixels.
+  // The rectangle is assumed to be the outer one and the image will be filled inside it by 'width' pixels.
   
 }
 
