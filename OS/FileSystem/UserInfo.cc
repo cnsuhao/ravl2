@@ -9,7 +9,9 @@
 //! lib=RavlOS
 //! file="Ravl/OS/FileSystem/UserInfo.cc"
 
-#if defined(__sol2__)
+#include "Ravl/config.h"
+
+#if RAVL_OS_SOLARIS
 #define __EXTENSIONS__ 1
 #include <pwd.h>
 #endif
@@ -17,10 +19,13 @@
 #include "Ravl/OS/UserInfo.hh"
 #include "Ravl/Exception.hh"
 
-#ifndef VISUAL_CPP
+#if RAVL_HAVE_PWD_H
 #include <pwd.h>
+#endif
+#if RAVL_HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+
 #include <errno.h>
 #include <stdio.h>
 
@@ -35,8 +40,8 @@ namespace RavlN {
   
   UserInfoC::UserInfoC()
     : exists(false),
-    uid(0),
-    login("")
+      uid(0),
+      login("")
   {}
   
   ///////////////////////
@@ -44,8 +49,8 @@ namespace RavlN {
   
   UserInfoC::UserInfoC(StringC nlogin) 
     : exists(false),
-    uid(0),
-    login(nlogin.Copy())
+      uid(0),
+      login(nlogin.Copy())
   {
     Init(nlogin);
   }
@@ -55,8 +60,8 @@ namespace RavlN {
 
   UserInfoC::UserInfoC(UIntT uid) 
     : exists(false),
-    uid(0),
-    login("unknown")
+      uid(0),
+      login("unknown")
   {
     Init(uid);
   }
@@ -74,23 +79,30 @@ namespace RavlN {
     shell = StringC("");
   }
   
-  
   ////////////////////////
   // Initalise from userid.
   
   bool UserInfoC::Init(UIntT aUserid) {
-#ifndef VISUAL_CPP
+#if RAVL_OS_UNIX
     struct passwd *pwentry;
-#if defined(__sol2__)
+#if RAVL_HAVE_GETPWUID_R
     struct passwd pwbuff;
     char buff[PWBUFFLEN];
+#if RAVL_HAVE_GETPW_WITH_RESULT
+    if(getpwuid_r(aUserid,&pwbuff,buff,PWBUFFLEN,&pwentry) == 0)
+#elif RAVL_HAVE_GETPW_RET_PW
     if((pwentry = getpwuid_r(aUserid,&pwbuff,buff,PWBUFFLEN)) == 0) 
 #else
+    pwentry = &pwbuff;
+    if(getpwuid_r(aUserid,&pwbuff,buff,PWBUFFLEN) == 0)
+#endif
+#else
+    // FIXME :- Do some locking here for multhreaded applications.
     if((pwentry = getpwuid(aUserid)) == 0) 
 #endif
     {
       NullUser();
-#if _REENTRANT
+#if RAVL_ERRNO_IS_FUNC
       if(errno() == ERANGE)
 #else
       if(errno == ERANGE)
@@ -109,18 +121,26 @@ namespace RavlN {
 // Initalise from login.
   
   bool UserInfoC::Init(StringC aLogin)  {
-#ifndef VISUAL_CPP
+#if RAVL_OS_UNIX
     struct passwd *pwentry;
-#if defined(__sol2__)  
+#if RAVL_HAVE_GETPWNAM_R
     struct passwd pwbuff;
     char buff[PWBUFFLEN];
-    if((pwentry = getpwnam_r(aLogin,&pwbuff,buff,PWBUFFLEN)) == 0) 
+#if RAVL_HAVE_GETPW_WITH_RESULT
+    if(getpwnam_r(aLogin,&pwbuff,buff,PWBUFFLEN,&pwentry) == 0)
+#elif RAVL_HAVE_GETPW_RET_PW
+    if((pwentry = getpwnam_r(aLogin,&pwbuff,buff,PWBUFFLEN)) == 0)
 #else
+    pwentry = &pwbuff;
+    if(getpwnam_r(aLogin,&pwbuff,buff,PWBUFFLEN) == 0)
+#endif
+#else
+    // FIXME :- Do some locking here for multhreaded applications.
     if((pwentry = getpwnam(aLogin)) == 0) 
 #endif
       {
 	NullUser();
-#if _REENTRANT
+#if RAVL_ERRNO_IS_FUNC
 	if(errno() == ERANGE)
 #else
 	if(errno == ERANGE)
@@ -139,7 +159,7 @@ namespace RavlN {
   // Initalise from a password structure.
   
   void UserInfoC::Init(struct passwd *pw)  {
-#ifndef VISUAL_CPP
+#if RAVL_OS_UNIX
     exists = true;
     uid = pw->pw_uid;
     gid = pw->pw_gid;
@@ -156,7 +176,7 @@ namespace RavlN {
   //: Get current user.
   
   UserInfoC UserInfoC::WhoAmI()  { 
-#ifndef VISUAL_CPP
+#if RAVL_OS_UNIX
     static UserInfoC itsme(getuid()); 
     return itsme;
 #else

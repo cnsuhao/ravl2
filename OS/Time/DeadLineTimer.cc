@@ -9,16 +9,16 @@
 //! lib=RavlOS
 //! file="Ravl/OS/Time/DeadLineTimer.cc"
 
-#ifndef VISUAL_CPP
+#if RAVL_HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 
-#ifdef __sol2__
+#if RAVL_OS_SOLARIS
 //#define _POSIX_PTHREAD_SEMANTICS 1
 #include <sys/time.h>
 #endif
 
-#ifndef __sgi__
+#if RAVL_OS_IRIX
 #ifndef _POSIX_C_SOURCE
 #define _POSIX_C_SOURCE 199309L
 #endif
@@ -34,14 +34,14 @@
 #include "Ravl/String.hh"
 #include "Ravl/Exception.hh"
 
-#if !defined(__sol2__) && !defined(VISUAL_CPP)
+#if RAVL_HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
 
 #include <assert.h>
 #include <signal.h>
 
-#if defined(__sgi__) || defined(__linux__) || defined(__cygwin__)
+#if RAVL_HAVE_SCHED_H
 #include <sched.h>
 #endif
 
@@ -154,7 +154,7 @@ namespace RavlN {
     t.it_interval.tv_usec = 0;
     t.it_value.tv_usec = (int) ((RealT) rtime * 1000000) % 1000000;
     t.it_value.tv_sec = (int) ((RealT) rtime);
-#ifdef __linux__
+#if RAVL_OS_LINUX
     setitimer((__itimer_which)timerType,&t,0);
 #else
     setitimer(timerType,&t,0);
@@ -219,7 +219,7 @@ namespace RavlN {
   }
   
   bool DeadLineTimerC::Reset(const DateC &theDeadLine)  {
-#ifndef VISUAL_CPP
+#if !RAVL_OS_WIN32
     DateC now(true,virt);
     if(now >= theDeadLine)
       return false;
@@ -346,7 +346,7 @@ namespace RavlN {
   // May return false if no deadline pending.
   
   bool DeadLineTimerC::WaitForIt() const {
-#if !defined(VISUAL_CPP) && !defined(__cygwin__)
+#if !RAVL_OS_WIN32
     if(id < 0 || timesUp)
       return false; // No timer set.
     while(!timesUp) {
@@ -356,14 +356,13 @@ namespace RavlN {
 	break;
       if(rem <= 0.001) { // Less than 1/1000 of a second to go ?
 	// Just procrastinate a little...
-#if defined(__linux__) || defined(__sgi__)
+	// Spin a bit if there's not much time left!
+#if RAVL_HAVE_SCHED_YIELD
 	sched_yield();
-#else
-#ifndef VISUAL_CPP
-	yield(); // Spin a bit if there's not much time left!
+#elif RAVL_HAVE_YIELD
+	yield(); 
 #else
 	sleep(0);
-#endif
 #endif
 	continue;
       }

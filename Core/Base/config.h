@@ -49,7 +49,7 @@
 #define RAVL_OS_WIN32   (defined(WIN32) && !RAVL_COMPILER_GCC)  /* Windows platform. */
 #define RAVL_OS_IRIX    defined(__sgi__)   /* IRIX.      */
 #define RAVL_OS_SOLARIS defined(__sun)     /* Solaris.   */
-#define RAVL_OS_OSF     defined(__osf)     /* OSF.       */
+#define RAVL_OS_OSF     defined(__osf__)   /* OSF.       */
 #define RAVL_OS_CYGWIN  (defined(WIN32) && RAVL_COMPILER_GCC) /* Cygwin is a windows/unix hybrid */
 #else
 /* Unfortunatly the Visual C++ preprocessor doesn't accept defined() as anything but part 
@@ -113,17 +113,32 @@
 #define RAVL_USE_TIMEB_H       RAVL_OS_WIN32
 #define RAVL_USE_WINSOCK       RAVL_OS_WIN32
 #define RAVL_HAVE_IO_H         RAVL_OS_WIN32
+#define RAVL_HAVE_SYS_TIME_H   (!RAVL_OS_SOLARIS && !RAVL_OS_WIN32) /* Have <sys/time.h> */
+#define RAVL_HAVE_YIELD        (RAVL_OS_WIN32 || RAVL_OS_SOLARIS)   /* have yield() */
+#define RAVL_HAVE_SCHED_YIELD  (!RAVL_OS_WIN32 && !RAVL_OS_SOLARIS) /* have sched_yield() */
+#define RAVL_HAVE_SCHED_H      !RAVL_OS_WIN32     /* have <sched.h> */
+#define RAVL_HAVE_THREAD_H     RAVL_OS_SOLARIS    /* have <thread.h> (solaris threads.) */
+#define RAVL_HAVE_THR_YIELD    RAVL_OS_SOLARIS    /* have thr_yield() (solaris threads.)  */
+#define RAVL_READDIR_R_NOBUFF  RAVL_OS_OSF        /* readdir_r has no buffer argument. */
+#define RAVL_TIMET_IS_INT      !RAVL_OS_IRIX      /* time_t is an int or long. IRIX uses a struct, effects stat() results. */
+#define RAVL_HAVE_PWD_H        RAVL_OS_UNIX       /* have <pwd.h> */
+#define RAVL_ERRNO_IS_FUNC     0                  /* errno should be used as function. i.e. errno() for use with threaded code. */
+#define RAVL_HAVE_GETPWNAM_R   !RAVL_OS_LINUX     /* have reentrant getpwnam_r */
+#define RAVL_HAVE_GETPWUID_R   !RAVL_OS_LINUX     /* have reentrant getpwnam_r */
+#define RAVL_HAVE_GETPW_RET_PW !RAVL_OS_OSF       /* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
+#define RAVL_HAVE_GETPW_WITH_RESULT  RAVL_OS_IRIX /* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
+#define RAVL_HAVE_HSTRERROR    (RAVL_OS_IRIX || RAVL_OS_LINUX)  /* have hstrerror, otherwise use strerror. */
+#define RAVL_HAVE_SOCKETLEN_T  !RAVL_OS_OSF       /* Have socklen_t */
 
-/* Sort out some flags to ensure we get the right functions from 
- * system headers. 
- */
-#if !defined(__sgi__)
-#define _GNU_SOURCE 1
-#define _POSIX_SOURCE 1
-#endif
-#if defined(__linux__)
-#define _ISOC9X_SOURCE 1
-#endif
+/********************************************************************************/
+/****** Processor properties ****************************************************/
+
+#define RAVL_LITTLEENDIAN RAVL_CPU_IX86    /* Little endian machine. */
+#define RAVL_BIGENDIAN    !RAVL_CPU_IX86   /* Big endian machine. */
+/* Yes there are other endian machines, but I've never actually met one. */
+
+/* Setting the follow define to 1 will enable the use of MMX code. */
+#define RAVL_USE_MMX (RAVL_CPU_IX86 && RAVL_COMPILER_GCC)
 
 /********************************************************************************/
 /****** Numerical functions and headers *****************************************/
@@ -138,9 +153,9 @@
 
 #define RAVL_HAVE_ISINF    RAVL_OS_LINUX    /* have isinf() in libm  */
 #define RAVL_HAVE__FINITE  RAVL_OS_WIN32    /* have _finite() in libm  */
-#define RAVL_HAVE_FINITE   (RAVL_OS_SOLARIS || RAVL_OS_IRIX)  /* have finite() in libm  */
+#define RAVL_HAVE_FINITE   (RAVL_OS_SOLARIS || RAVL_OS_IRIX || RAVL_OS_OSF)  /* have finite() in libm  */
 
-#define RAVL_HAVE_ISNAN    RAVL_OS_LINUX    /* have isnan() in libm  */
+#define RAVL_HAVE_ISNAN    (RAVL_OS_LINUX || RAVL_OS_OSF)   /* have isnan() in libm  */
 #define RAVL_HAVE__ISNAN   RAVL_OS_WIN32    /* have _isnan() in libm  */
 #define RAVL_HAVE_ISNAND   (RAVL_OS_SOLARIS || RAVL_OS_IRIX) /* have isnand() in libm  */
 
@@ -175,13 +190,33 @@
 #endif
 
 /********************************************************************************/
-/****** Processor properties ****************************************************/
+/* Sort out some flags to ensure we get the right functions from the system 
+ * headers. 
+ */
 
-#define RAVL_LITTLEENDIAN RAVL_CPU_IX86    /* Little endian machine. */
-#define RAVL_BIGENDIAN    !RAVL_CPU_IX86   /* Big endian machine. */
-/* Yes there are other endian machines, but I've never actually met one. */
-
-/* Setting the follow define to 1 will enable the use of MMX code. */
-#define RAVL_USE_MMX (RAVL_CPU_IX86 && RAVL_COMPILER_GCC)
+#if !RAVL_OS_IRIX
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE 1
+#endif
+#ifndef _POSIX_SOURCE
+#define _POSIX_SOURCE 1
+#endif
+#endif
+#if RAVL_OS_LINUX
+#ifndef _ISOC9X_SOURCE
+#define _ISOC9X_SOURCE 1
+#endif
+#endif
+#if RAVL_OS_OSF
+#ifndef _OSF_SOURCE
+#define _OSF_SOURCE 1
+#endif
+#ifndef _XOPEN_SOURCE
+#define _XOPEN_SOURCE 1
+#endif
+#ifndef _REENTRANT
+#define _REENTRANT 1
+#endif
+#endif
 
 #endif

@@ -55,6 +55,10 @@
 #define ONDEBUG(x)
 #endif
 
+#if !RAVL_HAVE_SOCETLEN_T
+#define socklen_t int
+#endif
+
 namespace RavlN {
   
   //: Open socket.
@@ -135,13 +139,18 @@ namespace RavlN {
     struct hostent *result = 0;
     while(1) {
       ONDEBUG(cerr << " Looking for '" << name << "'\n");
-#ifdef __linux__
+#if RAVL_OS_LINUX
       opErrno = 0;
       gethostbyname_r(name,&ent,hostentData,buffSize,&result, &opErrno);
       //cerr << " Result:" << ((void *) result) << " " << opErrno << "\n";
       if(opErrno == 0 && result != 0)
 	break;
-      
+#elif RAVL_OS_OSF
+      if((gethostbyname_r(name,&ent,(struct hostent_data *) hostentData)) != 0) {
+	result = &ent;
+	break;
+      }
+      opErrno = h_errno;
 #else
       if((result = gethostbyname_r(name,&ent,hostentData,buffSize,&opErrno)) != 0)
 	break;
@@ -174,7 +183,7 @@ namespace RavlN {
 	throw ExceptionNetC("Can't find host name.\n");
       }
       cerr << "Can't find host '" << name  << "' for some reason. Errno:" << opErrno << " '"
-#ifndef __sol2__
+#if RAVL_HAVE_HSTRERROR
 	   << hstrerror(opErrno) << "'\n";
 #else
       << strerror(opErrno) << "'\n";
@@ -206,7 +215,7 @@ namespace RavlN {
   // returns true on success and assignes the hostname to name.
   
   bool SocketBodyC::GetHostByAddr(struct sockaddr &sin,int sinLen,StringC &name) {
-#if defined(__linux__) && 0
+#if  0
     char hostname[1024];
     if(getnameinfo(&sin,sinLen,hostname,1024,0,0,0) != 0) {
       // Failed to get the name, at least put the address in dot notation.
@@ -219,7 +228,7 @@ namespace RavlN {
     struct hostent ent;
     int error = 0;
     while(1) {
-#if defined(__linux__)
+#if RAVL_OS_LINUX
       struct hostent *result = 0;
       int retcode;
       // Hack to detect the difference between red-hat 6.x  and 7.x boxes.
@@ -232,6 +241,10 @@ namespace RavlN {
       if((retcode = gethostbyaddr_r(&(((sockaddr_in &)sin).sin_addr),sinLen,AF_INET,&ent,hostentData,buffSize,&result,&error)) != 0)
 	break;
 #endif
+#elif RAVL_OS_OSF
+      if(gethostbyaddr_r((const char *) &((sockaddr_in &)sin).sin_addr,sinLen,AF_INET,&ent,(struct hostent_data *)hostentData) == 0)
+	break;
+      error = h_errno;
 #else
       gethostbyaddr_r((const char *) &((sockaddr_in &)sin).sin_addr,sinLen,AF_INET,&ent,hostentData,buffSize,&error);
 #endif
@@ -339,7 +352,7 @@ namespace RavlN {
       ONDEBUG(cerr  << "Accepting. \n");
       int addrBuffSize = sizeof(sockaddr) + 256;
       struct sockaddr *cn_addr = (struct sockaddr *) new char [addrBuffSize];
-#ifdef __sgi__
+#if RAVL_OS_IRIX
       int nfd = accept(fd,cn_addr, &addrBuffSize);
 #else
       int nfd = accept(fd,cn_addr,(socklen_t *) &addrBuffSize);
@@ -358,7 +371,7 @@ namespace RavlN {
     StringC ret("-failed-");
     if(fd == 0)
       return ret;
-#ifdef __sgi__
+#if RAVL_OS_IRIX
     int namelen = sizeof(sockaddr) + 256;
 #else
     socklen_t namelen = sizeof(sockaddr) + 256;

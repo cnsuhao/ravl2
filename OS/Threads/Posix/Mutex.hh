@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLPTHREADSMUTEX_HEADER
-#define RAVLPTHREADSMUTEX_HEADER 1
+#ifndef RAVL_PTHREADSMUTEX_HEADER
+#define RAVL_PTHREADSMUTEX_HEADER 1
 //////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! docentry="Ravl.OS.Threads"
@@ -13,17 +13,17 @@
 //! lib=RavlThreads
 //! rcsid="$Id$"
 //! userlevel=Normal
-//! date="02/07/99"
+//! date="02/07/1999"
 
-#if !defined(_POSIX_SOURCE) && !defined(__sgi__)
-#define _POSIX_SOURCE 1
-#endif
+#include "Ravl/config.h"
 
-#if defined(__sol2__)
+#if RAVL_OS_SOLARIS
 #include <sys/signal.h>
 #endif
-
+#if !RAVL_OS_OSF
 #include <signal.h>
+#endif
+
 #include <pthread.h>
 #include <errno.h>
 #include "Ravl/Types.hh"

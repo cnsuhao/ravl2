@@ -93,7 +93,12 @@ namespace RavlN {
     // This seems to work everywhere.
     entry = 0;
     while(1) {
+#if RAVL_READDIR_R_NOBUFF
+      readdir_r(dinf,buff);
+      entry = buff;
+#else
       readdir_r(dinf,buff,&entry);
+#endif
       if(entry!=buff)
 	break;
       if(!ReturnInList(entry->d_name))

@@ -18,11 +18,10 @@
 
 #include <errno.h>
 
-#if defined(__sol2__)
+#if RAVL_HAVE_THREAD_H
 #include <thread.h>
 #endif
-
-#if defined(__sgi__)
+#if RAVL_HAVE_SCHED_H
 #include <sched.h>
 #endif
 
@@ -38,11 +37,14 @@ namespace RavlN {
   { IncPThreadSysDBLock(); }
   
   void OSYield() {
-#if defined(__sol2__)
+#if RAVL_HAVE_THR_YIELD
     thr_yield();
-#endif
-#if defined(__linux__) || defined(__sgi__)
+#elif RAVL_HAVE_SCHED_YIELD
     sched_yield();
+#elif RAVL_HAVE_YIELD
+    yield();
+#else
+    sleep(0);
 #endif
   }
 
@@ -75,7 +77,7 @@ namespace RavlN {
   { 
     if(live) {
       cerr << "WARNING: Destructor called on live thread. \n";
-#if defined(__cygwin__)
+#if RAVL_OS_CYGWIN
       pthread_exit((void *)threadID);
 #else
       pthread_cancel(threadID);

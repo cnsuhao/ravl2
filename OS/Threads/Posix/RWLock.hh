@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef PTHREADSRWLOCK_HEADER
-#define PTHREADSRWLOCK_HEADER 1
+#ifndef RAVL_PTHREADSRWLOCK_HEADER
+#define RAVL_PTHREADSRWLOCK_HEADER 1
 //////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! docentry="Ravl.OS.Threads"
@@ -13,22 +13,17 @@
 //! file="Ravl/OS/Threads/Posix/RWLock.hh"
 //! lib=RavlThreads
 //! userlevel=Normal
-//! date="02/07/99"
+//! date="02/07/1999"
 
-
-#if !defined(__sgi__)
-#define _GNU_SOURCE 1
-#endif
+#include "Ravl/config.h"
         
 #include <pthread.h>
 
-#if defined(__sol2__)
+#if RAVL_OS_SOLARIS
 #include <sys/signal.h>
 #endif
 
 #include <errno.h>
-
-#include "Ravl/config.h"
 
 #if !RAVL_HAVE_POSIX_THREADS_RWLOCK
 #include <assert.h>
