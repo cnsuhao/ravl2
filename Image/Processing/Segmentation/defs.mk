@@ -10,10 +10,10 @@
 PACKAGE=Ravl/Image
 
 HEADERS=ChromaThreshold.hh  Segmentation.hh ConnectedComponents.hh \
- BlueScreen.hh
+ BlueScreen.hh SegmentExtrema.hh
 
 SOURCES=ChromaThreshold.cc Segmentation.cc ConnectedComponents.cc \
- BlueScreen.cc
+ BlueScreen.cc SegmentExtrema.cc
 
 PLIB=RavlImageProc
 
@@ -22,5 +22,9 @@ LIBDEPS=RavlImageSegmentation.def
 TESTEXES=testConnectedComponents.cc 
 
 USESLIBS=RavlImageProc  
+
+PROGLIBS=RavlImageIO RavlVideoIO
+
+EXAMPLES=extrema.cc
 
 EHT=Ravl.Images.Segmentation.html
