@@ -55,6 +55,19 @@ namespace RavlGUIN {
     void SetPositioning(GtkWindowPosition& pos);
     //: Influences positioning of the window.
     // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWPOSITION">here</A>.
+    
+    void Raise();
+    //: Raises the window
+
+    void Lower();
+    //: Lowers the window
+
+    void SetModal(bool& modal);
+    //: Makes the window modal
+
+    void MakeTransient(WindowC& parent);
+    //: Makes this window transient for the parent
+    // This means it will stay on top of it at all times
 
   protected:
     virtual void Destroy();
@@ -78,6 +91,18 @@ namespace RavlGUIN {
     bool GUIUpdateCursor(CursorC &newCursor);
     //: Update cursor.
   
+    bool GUIRaise();
+    //: Raises the window
+
+    bool GUILower();
+    //: Lowers the window
+
+    bool GUISetModal(bool& modal);
+    //: Makes the window modal
+
+    bool GUIMakeTransient(WindowC& parent);
+    //: Makes this window transient for the parent
+
     int sx,sy;
     int boarder;
     StringC title;
@@ -141,13 +166,45 @@ namespace RavlGUIN {
     //: Influences positioning of the window.
     // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWPOSITION">here</A>.
 
-  public:
+    bool GUIRaise()
+    { return Body().GUIRaise(); }
+    //: Raises the window
+
+    bool GUILower() 
+    { return Body().GUILower(); }
+    //: Lowers the window
+
+    bool GUISetModal(bool& modal) 
+    { return Body().GUISetModal(modal); }
+    //: Makes the window modal
+
+    bool GUIMakeTransient(WindowC& parent)
+    { return Body().GUIMakeTransient(parent); }
+    //: Makes this window transient for the parent
+ 
+ public:
     void Destroy() { 
       WidgetC::Destroy(); 
       Invalidate();
     }
     //: Destroy this window.
     
+    void Raise()
+    { Body().Raise(); }
+    //: Raises the window
+    
+    void Lower() 
+    { Body().Lower(); }
+    //: Lowers the window
+
+    void SetModal(bool& modal)
+    { Body().SetModal(modal); }
+    //: Makes the window modal
+
+    void MakeTransient(WindowC& parent)
+    { Body().MakeTransient(parent); }
+    //: Makes this window transient for the parent
+
     void SetTitle(const StringC &str)
     { Body().SetTitle(str); }
     //: Set the title of the window.

@@ -172,6 +172,46 @@ namespace RavlGUIN {
     return true;
   }
   
+  void WindowBodyC::Raise() {
+    Manager.Queue(Trigger(WindowC(*this),&WindowC::GUIRaise));
+  }
+  
+  bool WindowBodyC::GUIRaise() {
+    if (widget!=0)
+      gdk_window_raise(widget->window);
+    return true;
+  }
+  
+  void WindowBodyC::Lower() {
+    Manager.Queue(Trigger(WindowC(*this),&WindowC::GUILower));
+  }
+  
+  bool WindowBodyC::GUILower() {
+    if (widget!=0)
+      gdk_window_lower(widget->window);
+    return true;
+  }
+
+  void WindowBodyC::SetModal(bool& modal) {
+    Manager.Queue(Trigger(WindowC(*this),&WindowC::GUISetModal,modal));
+  }
+  
+  bool WindowBodyC::GUISetModal(bool& modal) {
+    if (widget!=0)
+      gtk_window_set_modal(GTK_WINDOW(widget),modal);
+    return true;
+  }
+
+  void WindowBodyC::MakeTransient(WindowC& parent) {
+    Manager.Queue(Trigger(WindowC(*this),&WindowC::MakeTransient,parent));
+  }
+  
+  bool WindowBodyC::GUIMakeTransient(WindowC& parent) {
+    if (widget!=0 && parent.Widget()!=0)
+      gtk_window_set_transient_for(GTK_WINDOW(widget),GTK_WINDOW(parent.Widget()));
+    return true;
+  }
+   
   //////////////////////////////////////////////
   //: Constructor.
   
