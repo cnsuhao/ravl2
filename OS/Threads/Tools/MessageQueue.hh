@@ -25,12 +25,6 @@ namespace RavlN
   //! userlevel=Develop
   //: MessageQueue base class.
   // SMALL OBJECT. <p>
-  // NB. There should only can be only ONE reader, thread!
-  // though there may be many writers. <p>
-  // Simple pipe, 
-  //  if no data present it will block.
-  //  no limit to size of queue. <p>
-  // This class is exception safe.
   
   class MessageQueueBaseC {
   public:
@@ -71,7 +65,10 @@ namespace RavlN
   
   //////////////////////
   //! userlevel=Normal
-  //: Message MessageQueue 
+  //: Thread safe queue.
+  // This is designed to be used in inter-thread communication.
+  // And number of threads can get and put from the queue. The queue is
+  // of a fixed length to provide some flow control in the program. 
   // SMALL OBJECT.
   
   template<class T>
