@@ -25,4 +25,4 @@ LIBDEPS=RavlPatternRecCluster.def
 
 USESLIBS=RavlPatternRec
 
-EXAMPLES=exKMeansCluster.cc exFuzzyCMeansCluster.cc
+EXAMPLES=exKMeansCluster.cc exFuzzyCMeansCluster.cc exDesignMeanShiftCluster.cc

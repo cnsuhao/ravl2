@@ -12,6 +12,7 @@
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Cluster;Ravl.Pattern Recognition.Classifier.DesignClassifier"
 //! file="Ravl/PatternRec/Cluster/DesignMeanShiftCluster.hh"
+//! example=exDesignMeanShiftCluster.cc
 
 #include "Ravl/PatternRec/DesignCluster.hh"
 #include "Ravl/PatternRec/DistanceSqrEuclidean.hh"
