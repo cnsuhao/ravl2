@@ -21,6 +21,9 @@ MAINS=tracker.cc
 
 EHT= Ravl.Images.Tracking.html
 
+EXAMPLES=tracker.cc
+
 USESLIBS=RavlImage RavlImageProc
 
-PROGLIBS=RavlDPDisplay RavlVideoIO RavlImageIO
+PROGLIBS=RavlDPDisplay RavlVideoIO RavlImageIO RavlImgIOV4L
+

@@ -13,6 +13,7 @@
 //! docentry="Ravl.Images.Tracking"
 //! file="Ravl/Image/Processing/Tracking/PointTracker.hh"
 //! lib=RavlImageProc
+//! example="tracker.cc"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/CornerDetectorHarris.hh"

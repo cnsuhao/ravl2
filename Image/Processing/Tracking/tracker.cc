@@ -28,36 +28,41 @@ int main(int nargs,char **argv) {
   StringC ofn = opt.String("","@X","Output sequence. ");
   opt.Check();
   
+  // Open an input stream.
   DPIPortC<ImageC<ByteT> > inp;
   if(!OpenISequence(inp,ifn)) {
     cerr << "Failed to open input '" << ifn << "'\n";
     return 1;
   }
   
-#if 0
+  // Open an output stream.
   DPOPortC<ImageC<ByteT> > outp;
   if(!OpenOSequence(outp,ofn)) {
     cerr << "Failed to output input '" << ofn << "'\n";
     return 1;
   }
-#endif
+  
+  // Creat a tracker.
   PointTrackerC tracker(cthreshold,cwidth,mthreshold,mwidth,lifeTime,searchSize);
+  
   ImageC<ByteT> img;
   for(;;) {
+    // Read an image from the input.
     if(!inp.Get(img))
       break;
+
+    // Apply tracker.
     DListC<PointTrackC> corners = tracker.Apply(img);
     
     // Draw boxes around the corners.
-#if 0
     ByteT val = 255;
     for(DLIterC<PointTrackC> it(corners);it;it++) {
       IndexRange2dC rect(it->Location(),5,5);
       DrawFrame(img,val,rect);
     }
-#endif
     
-    //outp.Put(img);
+    // Write an image out.
+    outp.Put(img);
   }
   return 0;
 }
