@@ -56,7 +56,7 @@ namespace RavlImageN {
     void Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const;
     //: Do convolution on image 'in', put the output in 'result' 
     
-    ImageC<OutPixelT> Apply(const ImageC<InPixelT> &in) {
+    ImageC<OutPixelT> Apply(const ImageC<InPixelT> &in) const{
       ImageC<OutPixelT> ret;
       Apply(in,ret);
       return ret;
