@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLBINARYTREE_HEADER
-#define RAVLBINARYTREE_HEADER 1
+#ifndef RAVL_BINARYTREE_HEADER
+#define RAVL_BINARYTREE_HEADER 1
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Trees"
@@ -123,7 +123,7 @@ namespace RavlN {
   
   template<class KeyT,class DataT>
   class BinaryTreeBodyC 
-    : public RCBodyVC
+    : public RCBodyC
   {
   public:
     BinaryTreeBodyC()
@@ -132,11 +132,11 @@ namespace RavlN {
     {}
     //: Constructor
     
-    ~BinaryTreeBodyC()
+    virtual ~BinaryTreeBodyC()
     { delete root;  }
     //: Destructor.
     
-    RCBodyVC &Copy() const { 
+    RCBodyC &Copy() const { 
       if(size == 0)
 	return *new BinaryTreeBodyC<KeyT,DataT>(); 
       return *new BinaryTreeBodyC<KeyT,DataT>(root->Copy(),size); 

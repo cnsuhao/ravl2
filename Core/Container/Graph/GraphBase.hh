@@ -20,7 +20,7 @@
 
 #include "Ravl/InDList.hh"
 #include "Ravl/InDLIter.hh"
-#include "Ravl/RefCounter.hh"
+#include "Ravl/RCHandleV.hh"
 
 #define RAVL_GRAPH_DEBUG 1
 
@@ -669,7 +669,7 @@ namespace RavlN {
   // of nodes and a collection of edges between nodes. 
   
   class GraphBaseC
-    : public RCHandleC<GraphBaseBodyC> 
+    : public RCHandleVC<GraphBaseBodyC> 
   {
     public:
     
@@ -677,12 +677,12 @@ namespace RavlN {
     // ---------------------------------------
     
     inline GraphBaseC(GraphTypeT atype = GRAPH_DIRECTED)
-      : RCHandleC<GraphBaseBodyC>(*new GraphBaseBodyC(atype))
+      : RCHandleVC<GraphBaseBodyC>(*new GraphBaseBodyC(atype))
       {}
     //: Creates an empty graph, directed or undirected.
     
     inline GraphBaseC(const GraphBaseC & g)
-      : RCHandleC<GraphBaseBodyC>(g)
+      : RCHandleVC<GraphBaseBodyC>(g)
       {}
     // Creates another access to the graph 'g'. The constructor does not
     // change the content of the graph 'g', but its reference counting.

@@ -16,7 +16,7 @@
 //! date="24/01/2001"
 
 #include "Ravl/Types.hh"
-#include "Ravl/RefCounter.hh"
+#include "Ravl/RCHandleV.hh"
 #include "Ravl/SBfAcc.hh"
 
 //: Ravl global namespace.
@@ -68,7 +68,7 @@ namespace RavlN {
 
   template<class DataT>
   class BufferC 
-    : public RCHandleC<BufferBodyC<DataT> >
+    : public RCHandleVC<BufferBodyC<DataT> >
   {
   public:
     BufferC()
@@ -77,20 +77,20 @@ namespace RavlN {
     // creates an invalid handle.
     
     BufferC(UIntT nsize)
-      : RCHandleC<BufferBodyC<DataT> >(*new BufferBodyC<DataT>(nsize))
+      : RCHandleVC<BufferBodyC<DataT> >(*new BufferBodyC<DataT>(nsize))
     {}
     //: Constructor
     // Creates a buffer containing 'nsize' items.
     
     BufferC(UIntT nsize,DataT *dat,bool copy = false,bool deletable = false)
-      : RCHandleC<BufferBodyC<DataT> >(*new BufferBodyC<DataT>(nsize,dat,copy,deletable))
+      : RCHandleVC<BufferBodyC<DataT> >(*new BufferBodyC<DataT>(nsize,dat,copy,deletable))
     {}
     //: Constructor
     // Creates a buffer containing 'nsize' items.
     
   protected:
     BufferC(BufferBodyC<DataT> &bod)
-      : RCHandleC<BufferBodyC<DataT> >(bod)
+      : RCHandleVC<BufferBodyC<DataT> >(bod)
     {}
     //: Body constructor
     

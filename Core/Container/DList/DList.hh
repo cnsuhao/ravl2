@@ -47,18 +47,18 @@ namespace RavlN {
   template<class DataT>
   class DListBodyC
     : public DLinkHeadC,
-      public RCBodyVC
+      public RCBodyC
   {
   public:
     DListBodyC()
     {}
     //: Default constructor.
     
-    ~DListBodyC()
+    virtual ~DListBodyC()
     { Empty(); }
     //: Destructor.
     
-    RCBodyVC &Copy() const;
+    RCBodyC &Copy() const;
     //: Make copy of body.
     // This should be provided in derived classes.
     // this funtion will issue an assertion failure if called.
@@ -466,15 +466,13 @@ namespace RavlN {
 
 namespace RavlN {
   
-  ///// DListBodyC //////////////////////////////////////////////////////
-  
-template<class DataT> 
-RCBodyVC &DListBodyC<DataT>::Copy() const {
-  DListBodyC<DataT> *ret = new DListBodyC<DataT>();
-  for(DLIterC<DataT> it(*this);it;it++)
-    ret->InsLast(*it);
-  return *ret;
-}
+  template<class DataT> 
+  RCBodyC &DListBodyC<DataT>::Copy() const {
+    DListBodyC<DataT> *ret = new DListBodyC<DataT>();
+    for(DLIterC<DataT> it(*this);it;it++)
+      ret->InsLast(*it);
+    return *ret;
+  }
   
   template<class DataT> 
   void DListBodyC<DataT>::operator+=(const DListC<DataT> &dat) {
