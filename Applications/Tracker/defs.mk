@@ -12,6 +12,6 @@ DONOT_SUPPORT=arm
 EXAMPLES=mosaic.cc
 MAINS=tracker.cc mosaic.cc xmosaic.cc
 
-PROGLIBS=RavlImageProc RavlVideoIO RavlGUI2D RavlImgIOV4L.opt RavlDPDisplay.opt CSPDriver.opt
+PROGLIBS=RavlImageProc RavlVideoIO RavlGUI2D RavlImgIOV4L.opt RavlDPDisplay.opt CSPDriver.opt RavlDV.opt RavlExtImgIO.opt RavlImageIO RavlMPEG2.opt CSPDriver.opt RavlURLIO.opt
 
 EHT = Ravl.Applications.Mosaic.mosaic.html Ravl.Applications.Mosaic.xmosaic.html Ravl.Applications.tracker.html
