@@ -65,11 +65,17 @@ changed to use a 'configure' script, its on my todo list, somewhere.
 INSTALLATION FOR VISUAL C++
 ---------------------------
 
-In order to compile RAVL with Visual C++ you have to persuade Visual
-studio to recognised .cc and .hh files as C++ source. The tweeks needed
-are described in http://support.Microsoft.com/support/kb/articles/Q181/5/06.ASP,
+In order to compile RAVL with Visual C++ two things are needed.
+First you will need the latest service pack for Visual Studio. Secondly,
+you have to persuade Visual studio to recognised .cc and .hh files as 
+C++ source. The tweeks needed are described in 
+
+  http://support.Microsoft.com/support/kb/articles/Q181/5/06.ASP,
+
 there's a program which will do this automaticly called CCFix. It can
-be found at: http://www.vapourtech.com/software
+be found at: 
+  
+  http://www.vapourtech.com/software
 
 
 
