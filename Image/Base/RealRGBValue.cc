@@ -13,7 +13,5 @@
 #include "Ravl/TypeName.hh"
 
 namespace RavlN {
-  static TypeNameC type1(typeid(ImageC<RealT>),"ImageC<RealT>");
   static TypeNameC type2(typeid(RealRGBValueC),"RealRGBValueC");
-  static TypeNameC type3(typeid(ImageC<RealRGBValueC>),"ImageC<RealRGBValueC>");
 }

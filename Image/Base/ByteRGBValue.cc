@@ -13,7 +13,5 @@
 #include "Ravl/TypeName.hh"
 
 namespace RavlN {
-  static TypeNameC type1(typeid(ImageC<ByteT>),"ImageC<ByteT>");
   static TypeNameC type2(typeid(ByteRGBValueC),"ByteRGBValueC");
-  static TypeNameC type3(typeid(ImageC<ByteRGBValueC>),"ImageC<ByteRGBValueC>");
 }

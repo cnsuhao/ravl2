@@ -15,5 +15,4 @@
 
 namespace RavlN {
   static TypeNameC type2(typeid(ByteYUVValueC),"ByteYUVValueC");
-  static TypeNameC type3(typeid(ImageC<ByteYUVValueC>),"ImageC<ByteYUVValueC>");
 }
