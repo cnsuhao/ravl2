@@ -136,8 +136,12 @@ namespace RavlN {
     
   public:
     RealT DensityValue(const VectorC & X) const
-      { return Body().DensityValue(X); }
+    { return Body().DensityValue(X); }
     //: Return the density value at point X
+    
+    VectorC GaussianValues(const VectorC &data) const
+    { return Body().GaussianValues(data); }
+    //: Get vector of individual values.
 
   };
 
