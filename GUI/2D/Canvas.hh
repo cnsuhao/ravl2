@@ -36,6 +36,9 @@ namespace RavlGUIN {
   public:
     CanvasBodyC(int sx,int sy,bool direct = false);
     //: Constructor.
+
+    CanvasBodyC(const ImageRectangleC& rect, bool direct = false);
+    //: Constructor.
     
     ~CanvasBodyC();
     //: Destructor.
@@ -157,6 +160,9 @@ namespace RavlGUIN {
     CanvasC(int xs,int ys,bool direct = false);
     //: Constructor.
     
+    CanvasC(const ImageRectangleC& rect, bool direct = false);
+    //: Constructor.
+
     CanvasC(CanvasBodyC &body)
       : WidgetC(body)
     {}

@@ -125,6 +125,15 @@ namespace RavlGUIN {
       configDone(false),
       drawGC(0)
   {}
+
+  //: Constructor.
+  CanvasBodyC::CanvasBodyC(const ImageRectangleC& rect,bool ndirect)
+    : sx(rect.Cols()),sy(rect.Rows()),
+      direct(ndirect),
+      pixmap(0),
+      configDone(false),
+      drawGC(0)
+  {}
   
   //: Destructor.
   
@@ -414,6 +423,10 @@ namespace RavlGUIN {
   
   CanvasC::CanvasC(int xs,int ys,bool direct)
     : WidgetC(*new CanvasBodyC(xs,ys,direct))
+  {}
+
+  CanvasC::CanvasC(const ImageRectangleC& rect,bool direct)
+    : WidgetC(*new CanvasBodyC(rect,direct))
   {}
 
 }  
