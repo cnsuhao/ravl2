@@ -211,7 +211,8 @@ namespace RavlN {
     //: Add a data item to the collection.
     //  NB. This may cause the storage array to 
     // be reallocated which will invalidate any iterators
-    // held on the collection.
+    // held on the collection. <br>
+    // The index at which the item was placed is returned.
     
     UIntT Insert(const Array1dC<DataT> &dat)
     { return Body().Insert(dat); }
