@@ -44,10 +44,20 @@ namespace RavlN {
     
     inline BufferAccessIterC(const RangeBufferAccessC<DataT> &buff)
     { First(buff); }
-    //: Constructor.
-
+    //: Construct iterator at 'element' of buffer 'buff'.
+    // Element must be within buff.
+    
     inline BufferAccessIterC(const SizeBufferAccessC<DataT> &buff)
     { First(buff); }
+    //: Construct iterator at 'element' of buffer 'buff'.
+    // Element must be within buff.
+    
+    inline BufferAccessIterC(DataT &element,const RangeBufferAccessC<DataT> &buff)
+    { First(element,buff); }
+    //: Constructor.
+
+    inline BufferAccessIterC(DataT &element,const SizeBufferAccessC<DataT> &buff)
+    { First(element,buff); }
     //: Constructor.
     
     inline BufferAccessIterC<DataT> &operator=(const RangeBufferAccessC<DataT> &buff);
@@ -67,6 +77,12 @@ namespace RavlN {
     
     inline bool First(const SizeBufferAccessC<DataT> &buff);
     //: Goto fist element.
+    
+    inline bool First(DataT &element,const RangeBufferAccessC<DataT> &buff);
+    //: Set iterator at 'element' of buffer 'buff'.
+    
+    inline bool First(DataT &element,const SizeBufferAccessC<DataT> &buff);
+    //: Set iterator at 'element' of buffer 'buff'.
     
     inline bool IsElm() const
     { return at < endOfRow; }
@@ -215,6 +231,24 @@ namespace RavlN {
     at = const_cast<DataT *>(buff.ReferenceElm());
     endOfRow = &(at[buff.Size()]);
     return true;
+  }
+
+  template <class DataT>
+  inline
+  bool BufferAccessIterC<DataT>::First(DataT &element,const RangeBufferAccessC<DataT> &buff) {
+    at = &element;
+    RavlAssert(at >= &(buff.ReferenceElm()[buff.IMin().V()]));
+    endOfRow = &(buff.ReferenceElm()[buff.Size()]);
+    return at < endOfRow;
+  }
+  
+  template <class DataT>
+  inline 
+  bool BufferAccessIterC<DataT>::First(DataT &element,const SizeBufferAccessC<DataT> &buff) {
+    at = &element;
+    RavlAssert(at >= &(buff.ReferenceElm()));
+    endOfRow = &(buff.ReferenceElm()[buff.IMax().V()+1]);
+    return at < endOfRow;
   }
   
   template <class DataT>
