@@ -23,7 +23,7 @@
 namespace RavlImageN {
   
   //! userlevel=Normal
-  //: Horzontal 2D Convolution with a 1D filter.
+  //: Horizontal convolution of a 2-D image with a 1-D filter.
   // <b>Template args:</b> <br>
   // InPixelT = Type of pixel in input image. <br>
   // OutPixelT = Type of pixel in output image. (Default = InPixelT) <br>

@@ -23,7 +23,7 @@
 namespace RavlImageN {
   
   //! userlevel=Normal
-  //: Vertontal 2D Convolution with a 1D filter.
+  //: Vertical convolution of a 2-D image with a 1-D filter.
   // <b>Template args:</b> <br>
   // InPixelT = Type of pixel in input image. <br>
   // OutPixelT = Type of pixel in output image. (Default = InPixelT) <br>
@@ -72,7 +72,7 @@ namespace RavlImageN {
     ImageRectangleC resRect = in.Rectangle();
     resRect.TRow() -= colKernel.IMin();
     resRect.BRow() -= colKernel.IMax();
-    RavlAssertMsg(resRect.Area() > 0,"ConvoleVert2dC::Apply(), ERROR: Input rectangle too small.");
+    RavlAssertMsg(resRect.Area() > 0,"ConvolveVert2dC::Apply(), ERROR: Input rectangle too small.");
     if(!result.Rectangle().Contains(resRect)) // Check the result rectangle is large enough.
       result = ImageC<OutPixelT>(resRect); // If its not make another.
     UIntT ksize = colKernel.Range().Size();
