@@ -115,6 +115,9 @@ namespace RavlN {
     // Note: this only checks the first two rows follow each other in
     // memory, this may miss other discontunities.
 
+    bool IsEmpty() const
+      { return (Range1().Size() <= 0) || (Range2().Size() <= 0); }
+    //: Is rectangle empty ?
     
   protected:
     IndexRangeC rng2;
