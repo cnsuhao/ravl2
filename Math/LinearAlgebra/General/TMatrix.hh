@@ -313,6 +313,19 @@ namespace RavlN {
   template<class DataT>
   TMatrixC<DataT> TVectorC<DataT>::OuterProduct() const
   { return OuterProduct(*this); }
+
+  
+  template<class DataT>
+  void MulAdd(const TVectorC<DataT> &vec,const TMatrixC<DataT> &mat,const TVectorC<DataT> &add,TVectorC<DataT> &result)
+  { result = vec * mat + add; }
+  //: Compute result = vec * mat + add;
+  // For compatibility with the fixed length vectors.
+  
+  template<class DataT>
+  void Mul(const TVectorC<DataT> &vec,const TMatrixC<DataT> &mat,TVectorC<DataT> &result) 
+  { result = vec * mat + add; }
+  //: Compute result = vec * mat;
+  // For compatibility with the fixed length vectors
   
 }
 

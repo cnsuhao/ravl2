@@ -79,7 +79,6 @@ namespace RavlN {
   };
   
 
-
   bool SolveIP(MatrixC &mat,VectorC &b);
   //: Solve a general linear system  A*x = b
   // The input matix A is the mat paramiter.  The input
