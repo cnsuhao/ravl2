@@ -58,7 +58,7 @@ namespace RavlN {
       if(parent.GetAttr(attrName,attrValue))
 	return true;
 #if RAVL_CHECK
-    cerr << "DPPortBodyC::GetAttr(), Unknow attribute '" << attrName << "'\n";
+    cerr << "DPPortBodyC::GetAttr(), Unknown attribute '" << attrName << "'\n";
 #endif
     return false; 
   }
@@ -77,7 +77,7 @@ namespace RavlN {
       if(parent.SetAttr(attrName,attrValue))
 	return true;
 #if RAVL_CHECK
-    cerr << "DPPortBodyC::SetAttr(), Unknow attribute '" << attrName << "' Value:'" << attrValue << "'\n";
+    cerr << "DPPortBodyC::SetAttr(), Unknown attribute '" << attrName << "' Value:'" << attrValue << "'\n";
 #endif
     return false; 
   }
