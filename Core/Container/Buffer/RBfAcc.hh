@@ -79,7 +79,7 @@ namespace RavlN {
     {}
     //: Convert from a size buffer access.
 
-    inline RangeBufferAccessC<DataT> DeepCopy(UIntT levels) const ;
+    inline RangeBufferAccessC<DataT> DeepCopy(UIntT levels = (UIntT) -1) const ;
     //: Make a deep copy 
     
     inline const RangeBufferAccessC<DataT> & operator=(DataT * bp);
