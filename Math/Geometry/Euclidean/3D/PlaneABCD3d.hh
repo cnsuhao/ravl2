@@ -74,15 +74,15 @@ namespace RavlN {
     //: Returns the normal of the plane.
     
     inline RealT A() const
-    { return(normal.X()); }
+    { return(normal[0]); }
     //: Returns parameter a.
     
     inline RealT B() const
-    { return(normal.Y()); }
+    { return(normal[1]); }
     //: Returns parameter b.
     
     inline RealT C() const
-    { return(normal.Z()); }
+    { return(normal[2]); }
     //: returns parameter c.
     
     inline RealT D() const
