@@ -58,7 +58,7 @@ FilenameC FilenameC::Absolute(BooleanT removeAMD) const
       ret = ui.HomeDir() + '/' + theRest;
       break;
     }
-    ret = getcwd(buff,1024) + '/' + ret;
+    ret = StringC(getcwd(buff,1024)) + '/' + ret;
     break;
   };
   
