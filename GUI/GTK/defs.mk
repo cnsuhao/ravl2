@@ -57,7 +57,7 @@ PLIB = RavlGUI
 
 USESLIBS = RavlCore RavlOS GTK RavlThreads
 
-PROGLIBS = RavlImageIO RavlExtImgIO RavlGUI2D
+PROGLIBS = RavlImageIO RavlExtImgIO 
 
 EHT = Ravl.GUI.Control.eht  Ravl.GUI.Layout.eht  Ravl.GUI.eht  Ravl.GUI.Internal.eht
 #libRavlGUI.eht

@@ -1,39 +1,34 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2004, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+//! rcsid="$Id$"
+//! lib=RavlGUI
+//! author="Charles Galambos"
+//! docentry="Ravl.GUI.Control"
 
-
-#include "Ravl/Image/Image.hh"
-#include "Ravl/IO.hh"
 #include "Ravl/GUI/Menu.hh"
-#include "Ravl/GUI/Canvas.hh"
 #include "Ravl/GUI/FileSelector.hh"
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/LBox.hh"
 #include "Ravl/GUI/Window.hh"
+#include "Ravl/GUI/TextBox.hh"
 
 using namespace RavlN;
 using namespace RavlGUIN;
 
-//: Callback, Load an image.
+//: Callback, Open a file.
 
-bool LoadImage(StringC &filename,FileSelectorC &fs,CanvasC &canvas) {
-  
-  // Load a colour image.
-  
-  ImageC<ByteRGBValueC> img;
-  if(!Load(filename,img)) {
-    cerr << "Failed to load image '" << filename << "\n";
-    return true;
-  }
-
-  // Draw image onto the canvas.
-  canvas.DrawImage(img);
-  
+bool LoadImage(StringC &filename,FileSelectorC &fs,TextBoxC &textBox) {
+  textBox.Insert(filename + "\n");  
   return true;
 }
 
 //: Callback, Quit the application.
 
-bool gui_quit() 
-{
+bool gui_quit()  {
   Manager.Quit(); // Initate shutdown.
   return true;
 }
@@ -42,14 +37,11 @@ bool gui_quit()
 int main(int nargs,char **argv) {
   Manager.Init(nargs,argv);
   
-  // Create a canvas to draw to.
+  TextBoxC textBox("",true);
   
-  CanvasC canvas(200,200);
-
   // Create a fileselector 
   
-  FileSelectorC fs = FileSelector("Load Image","img.ppm",&LoadImage,canvas);
-  
+  FileSelectorC fs = FileSelector("Load Image","img.ppm",&LoadImage,textBox);
   
   // Create a window with a menu bar.
   
@@ -60,7 +52,7 @@ int main(int nargs,char **argv) {
   
   WindowC win(100,100,"FileSelectorC example");
   win.Add(VBox(menuBar + 
-	       canvas));
+	       textBox));
   win.Show();
   
   // Start the GUI.
