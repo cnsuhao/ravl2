@@ -84,10 +84,8 @@ int main(int argc,char **argv)
     cerr << "ERROR: File descriptor leak detected! \n";
     return 1;
   }
-#if 1
-  cerr << "Test done. tiding. \n";
+  cerr << "Test passed. Cleaning up. \n";
   if(logfile.Exists())
     logfile.Remove();
-#endif
   return 0;
 }
