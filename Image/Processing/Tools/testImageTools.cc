@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 
+#include "Ravl/Image/PyramidScan.hh"
 #include "Ravl/Image/Rectangle2dIter.hh"
 #include "Ravl/Image/SummedAreaTable.hh"
 #include "Ravl/Array2dIter.hh"
@@ -18,6 +19,7 @@ using namespace RavlImageN;
 
 int testRectangle2dIter();
 int testSummedAreaTable();
+int testPyramidScan();
 
 int main() {
   int ln;
@@ -26,6 +28,10 @@ int main() {
     return 1;
   }
   if((ln = testSummedAreaTable()) != 0) {
+    cerr << "Error on line numner '" << ln << "'\n";
+    return 1;
+  }
+  if((ln = testPyramidScan()) != 0) {
     cerr << "Error on line numner '" << ln << "'\n";
     return 1;
   }
@@ -88,5 +94,21 @@ int testSummedAreaTable() {
   if(tab.Sum(rec4) != 40) return __LINE__;
   
   
+  return 0;
+}
+
+
+int testPyramidScan() {
+  IndexRange2dC rect(100,200);
+  int i = 0;
+  int areaSum = 0;
+  for(PyramidScanC it(rect,Index2dC(100,100),50,0.5,0.5);it;it++) {
+    i++;
+    areaSum += (*it).Area();
+    //cerr << "Rect=" << *it << "\n";
+  }
+  cerr << "I=" << i << " Area=" << areaSum << "\n";
+  if(i != 24) return __LINE__;
+  if(areaSum != 82500) return __LINE__;
   return 0;
 }
