@@ -20,9 +20,26 @@
 namespace RavlImageN {
   
   //! userlevel=Normal
-  //: Filter an image with a guassian.
-  // This class is just wraps ConvolveSeparable2d and
-  // GenerateBinomial() calls in a convient form.
+  //: Low-pass-filters an image with a finite-width approximation to a Gaussian mask
+  //
+  // <p>The "standard deviation" of a filter with <i>n</i> terms is (<i>n</i>-1/4)^1/2</p>
+  // <p>It is designed by using a normalised row from Pascal's triangle
+  // (i.e. binomial coefficients).  The rational is this:
+  // <ul>
+  // <li> The simplest possible non-trivial Gaussian filter is a 2nd-order one,
+  // which from symmetry considerations will have two equal coefficients.
+  // <li> Higher-order filters can be viewed as convolved 2nd-order filters,
+  // i.e. an <i>n</i>th order filter is a convolution of <i>n</i>+1 2nd-order filters.
+  // By the Central Limit Theorem these will approximate a Gaussian profile
+  // more and more closely as the order increases.
+  // <li> At the same time because they are of finite width they avoid the
+  // problem of truncating the Gaussian tails.
+  // </ul>
+  // E.g. a 5th order filter has mask of:
+  //
+  // <pre> (1 4 6 4 1) / 16 </pre></p>
+  // <p>This class is just wraps ConvolveSeparable2d and
+  // GenerateBinomial() calls in a convenient form.</p>
   
   template<class DataT>
   class GaussConvolveC {
@@ -32,7 +49,7 @@ namespace RavlImageN {
     //: Default constructor.
     
     GaussConvolveC(UIntT order);
-    //: Construct gausian with the given size.
+    //: Construct Gaussian with the given size.
     
     ImageC<DataT> Apply (const ImageC<DataT> &in) const;
     //: Performs histogram equalisation on image 'in'.
@@ -42,7 +59,7 @@ namespace RavlImageN {
     { return binomial; }
     //: Access current filter.
     // Note the save/load routines of this class do NOT save
-    // the filter co-efficients, just its order. So modifying
+    // the filter coefficients, just its order. So modifying
     // them and saving this class is pointless.
     
     const Array1dC<RealT> &Filter() const
