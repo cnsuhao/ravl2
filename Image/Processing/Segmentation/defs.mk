@@ -8,9 +8,9 @@
 
 PACKAGE=Ravl/Image
 
-HEADERS=ChromaThreshold.hh
+HEADERS=ChromaThreshold.hh  Segmentation.hh ConnectedComponents.hh 
 
-SOURCES=ChromaThreshold.cc
+SOURCES=ChromaThreshold.cc Segmentation.cc ConnectedComponents.cc 
 
 PLIB=RavlImage
 
