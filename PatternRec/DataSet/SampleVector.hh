@@ -79,13 +79,16 @@ namespace RavlN {
     MatrixC TMul(const SampleC<VectorC> &sam2,const SampleC<RealT> &w) const;
     //: Compute the sum of the outerproducts weighting each with the corresponding value from 'w'.
     // sam2 must have the same size as this sample vector.
-
+    
     void Normalise(const MeanCovarianceC & stats);
     //: Normalises the input vectors using given stats
     // In order to achieve zero mean and unity variance this function should be
     // called with the return value from MeanCovariance. Subsequent data sets can
     // then be normalised the same way by recording the MeanCovarianceC returned by
     // MeanCovariance.
+    
+    void UndoNormalisation(const MeanCovarianceC & stats);
+    //: Undo the normalisation done by 'Normalise()'.
     
   }; 
   

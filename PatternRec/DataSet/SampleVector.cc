@@ -145,11 +145,10 @@ namespace RavlN {
     return ret;    
   }
 
-  void 
-  SampleVectorC::Normalise(const MeanCovarianceC & stats)  {
-    UIntT d = VectorSize();
+  void SampleVectorC::Normalise(const MeanCovarianceC & stats)  {
     if(Size() < 2)
       return ; // Can't normalise only 1 sample!
+    UIntT d = VectorSize();
     VectorC stdDev(d);
     for(UIntT i=0;i<d;i++) {
       if(stats.Covariance()[i][i] > 0) 
@@ -162,9 +161,28 @@ namespace RavlN {
     stdDev.Reciprocal ();
     
     for(SampleIterC<VectorC>it(*this);it;it++)
-      *it =  (*it-stats.Mean()) * stdDev;
+      *it =  (*it - stats.Mean()) * stdDev;
   }
-
+  
+  //: Undo the normalisation done by 'Normalise()'.
+  
+  void SampleVectorC::UndoNormalisation(const MeanCovarianceC & stats) {
+    if(Size() < 2)
+      return ; // Can't normalise only 1 sample!
+    UIntT d = VectorSize();
+    VectorC stdDev(d);
+    for(UIntT i=0;i<d;i++) {
+      if(stats.Covariance()[i][i] > 0) 
+	stdDev[i] = stats.Covariance()[i][i];
+      else 
+	stdDev[i] = stats.Mean()[i];
+    }
+    for(UIntT i=0;i<d;i++)
+      stdDev[i] = Sqrt(stdDev[i]);
+    
+    for(SampleIterC<VectorC> it(*this);it;it++)
+      *it =  (*it  * stdDev) + stats.Mean();
+  }
 
   
 }
