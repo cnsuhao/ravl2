@@ -21,7 +21,7 @@
 
 namespace RavlImageN {
   
-  //! userlevel=Normal.
+  //! userlevel=Normal
   //: Simple and fast blue screen mask generation.
   // Calculates "(2*Blue - (Red+Green)) < thresh" for each pixel
   // This is the same as U - 2.3*V in YUV space
