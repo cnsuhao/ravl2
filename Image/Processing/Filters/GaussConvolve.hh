@@ -59,7 +59,7 @@ namespace RavlImageN {
   // to filter an ImageC<ByteRGBValueC> you may use:
   // InPixelT=ByteRGBValueC, OutPixelT=ByteRGBValueC,KernelPixelT=RealT,SumType=RealRGBValueC
 
-  template<class InPixelT,class OutPixelT = InPixelT,class KernelPixelT = RealT,class SumTypeT = OutPixelT>
+  template<class InPixelT,class OutPixelT = InPixelT,class KernelPixelT = RealT,class SumTypeT = KernelPixelT>
   class GaussConvolveC {
   public:
     GaussConvolveC()
