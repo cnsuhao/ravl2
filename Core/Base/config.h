@@ -7,6 +7,7 @@
 #ifndef RAVL_CONFIG_HEADER
 #define RAVL_CONFIG_HEADER 1
 /*! rcsid="$Id$" */
+/*! file="Ravl/Core/Base/config.h" */
 /*! lib=RavlCore */
 
 /******* AMMA/QMAKE COMPATIBILITY *******/
@@ -59,11 +60,11 @@
 #else
 #define RAVL_HAVE_ANSICPPHEADERS 1
 #if !defined(VISUAL_CPP)
-#define RAVL_HAVE_IOS_SEEKDIR 1 /* use ios::seekdir */
 #define RAVL_HAVE_STREAMSIZE 1
+#define RAVL_HAVE_IOS_SEEKDIR 0 /* use ios::seekdir */
 #else
-#define RAVL_HAVE_IOS_SEEKDIR 0 /* else assume ios::seek_dir exists. */
 #define RAVL_HAVE_STREAMSIZE 0
+#define RAVL_HAVE_IOS_SEEKDIR 0 /* use ios::seekdir */
 #endif
 #endif
 

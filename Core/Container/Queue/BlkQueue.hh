@@ -11,7 +11,7 @@
 //-------------------------------------------------------------------------- 
 //  author : George (Jiri) Matas                     g.matas@ee.surrey.ac.uk
 //--------------------------------------------------------------------------
-//! file="Ravl/Core/Container/Misc/BlkQueue.hh"
+//! file="Ravl/Core/Container/Queue/BlkQueue.hh"
 //! lib=RavlCore
 //! author="George (Jiri) Matas"
 //! docentry="Ravl.Core.Queues"

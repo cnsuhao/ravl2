@@ -8,7 +8,7 @@
 #define RAVLMATRIX2D_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Math/Geometry/Euclidean/Matrix2d.hh"
+//! file="Ravl/Math/LinearAlgebra/FixedSize/Matrix2d.hh"
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Charles Galambos"

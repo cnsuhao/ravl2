@@ -8,7 +8,7 @@
 #define RAVLTHREADS_CONDITIONAL_HEADER 1
 /////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/StdType/System/PThreads/Posix/Conditional.hh"
+//! file="Ravl/OS/Threads/Posix/ConditionalMutex.hh"
 //! lib=RavlThreads
 //! userlevel=Normal
 //! docentry="Ravl.OS.Threads"

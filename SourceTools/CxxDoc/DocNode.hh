@@ -8,7 +8,7 @@
 #define RAVLDOCNODE_HEADER 1
 ////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/Util/CxxDoc/DocNode.hh"
+//! file="Ravl/SourceTools/CxxDoc/DocNode.hh"
 //! lib=RavlCxxDoc
 //! userlevel=Normal
 //! docentry="Ravl.Source Tools.CxxDoc"

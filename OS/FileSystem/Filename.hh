@@ -7,7 +7,7 @@
 #ifndef RAVLFILENAME_HEADER
 #define RAVLFILENAME_HEADER
 /////////////////////////////////////////////////////////////
-//! file="amma/StdType/System/Generic/Filename.hh"
+//! file="Ravl/OS/FileSystem/Filename.hh"
 //! lib=RavlOS
 //! userlevel=Basic
 //! author="Charles Galambos"

@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/Exception.cc"
 
 #include "Ravl/Exception.hh"
 #include <iostream.h>

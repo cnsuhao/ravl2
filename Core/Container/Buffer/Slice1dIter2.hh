@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Advanced
-//! file="Ravl/Core/Container/Buffer/Slice1dIter.hh"
+//! file="Ravl/Core/Container/Buffer/Slice1dIter2.hh"
 //! lib=RavlCore
 //! docentry="Ravl.Core.Arrays"
 //! author="Charles Galambos"

@@ -5,6 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
+#! file="Ravl/Core/Machine/mips-irix-mpro/defs.mk"
 
 DESCRIPTION= Atomic operations for sgi R10000
 

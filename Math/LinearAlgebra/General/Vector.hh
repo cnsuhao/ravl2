@@ -8,7 +8,7 @@
 #define RAVLVECTOR_HEADER 1
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Math/LinearAlgebra/Vector.hh"
+//! file="Ravl/Math/LinearAlgebra/General/Vector.hh"
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Charles Galambos"

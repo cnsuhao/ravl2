@@ -10,7 +10,7 @@
 //! userlevel=Normal
 //! docentry="Ravl.Math.Linear Algebra"
 //! rcsid="$Id$"
-//! file="Ravl/Math/LinearAlgebra/TMatrix.hh"
+//! file="Ravl/Math/LinearAlgebra/General/TMatrix.hh"
 //! author="Charles Galambos"
 //! date="10/09/98"
 //! lib=RavlMath

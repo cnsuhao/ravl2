@@ -8,6 +8,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/testFunc2Proc.cc"
 
 #include "Ravl/DP/Func2Proc.hh"
 #include "Ravl/DP/FuncP2Proc.hh"

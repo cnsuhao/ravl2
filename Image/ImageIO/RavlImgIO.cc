@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! file="Ravl/Image/ImageIO/RavlImgIO.cc"
 
 
 #include "Ravl/Image/ImgIO.hh"

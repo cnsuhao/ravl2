@@ -8,7 +8,7 @@
 #define RAVLTHREADLAUNCH_HEADER 1
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/StdType/System/PThreads/Tools/Ticker.hh"
+//! file="Ravl/OS/Threads/Tools/TickerTrigger.hh"
 //! lib=RavlThreads
 //! userlevel=Default
 //! docentry="Ravl.OS.Threads"

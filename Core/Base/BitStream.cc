@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/BitStream.cc"
 
 #include "Ravl/BitStream.hh"
 

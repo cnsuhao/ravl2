@@ -7,6 +7,7 @@
 /////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/General/MatrixSolve.cc"
 
 #include "Ravl/Matrix.hh"
 #include "Ravl/SArray1d.hh"

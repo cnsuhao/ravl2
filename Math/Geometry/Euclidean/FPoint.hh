@@ -8,7 +8,7 @@
 #define RAVLFPOINT_HEADER 1
 //////////////////////////////////////////////////
 //! rcsid=$Id$
-//! file="Ravl/Math/Geometry/Euclidean/TFPoint.hh"
+//! file="Ravl/Math/Geometry/Euclidean/FPoint.hh"
 //! lib=RavlGeom
 //! userlevel=Develop
 //! author="Charles Galambos"

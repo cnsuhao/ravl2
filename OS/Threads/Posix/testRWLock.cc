@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlThreads
+//! file="Ravl/OS/Threads/Posix/testRWLock.cc"
 
 #include "Ravl/Threads/RWLock.hh"
 #include "Ravl/Threads/Thread.hh"

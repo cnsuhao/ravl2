@@ -8,7 +8,7 @@
 #define RAVLPTHREADSTHREAD_HEADER 1
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/StdType/System/PThreads/Posix/Thread.hh"
+//! file="Ravl/OS/Threads/Posix/Thread.hh"
 //! lib=RavlThreads
 //! userlevel=Normal
 //! docentry="Ravl.OS.Threads"

@@ -8,7 +8,7 @@
 #define RAVLCALLS_HEADER 1
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Core/Base/TrigFuncs.hh"
+//! file="Ravl/Core/Base/Calls.hh"
 //! lib=RavlCore
 //! docentry="Ravl.Core.Misc.Calls"
 //! userlevel=Advanced

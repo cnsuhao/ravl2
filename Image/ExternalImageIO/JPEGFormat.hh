@@ -8,7 +8,7 @@
 #define RAVLJPEGFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/Image/ExtImgIO/JPEGFormat.hh"
+//! file="Ravl/Image/ExternalImageIO/JPEGFormat.hh"
 //! lib=ExtImgIO
 //! author="Charles Galambos"
 //! docentry="Image.Image IO"

@@ -8,7 +8,7 @@
 #define RAVLNETPACKET_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/StdType/Network/Packet.hh"
+//! file="Ravl/OS/Network/Packet.hh"
 //! lib=RavlOS
 //! author="Charles Galambos"
 //! date="13/12/2000"

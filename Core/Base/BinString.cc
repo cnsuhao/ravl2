@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/BinString.cc"
 
 #include "Ravl/String.hh"
 #include "Ravl/BinStream.hh"

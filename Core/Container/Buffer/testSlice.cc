@@ -7,6 +7,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Container/Buffer/testSlice.cc"
 
 #include "Ravl/Slice1d.hh"
 #include "Ravl/Buffer.hh"

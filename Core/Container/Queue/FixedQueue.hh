@@ -7,7 +7,7 @@
 #ifndef RAVLFIXQUEUE_HEADER
 #define RAVLFIXQUEUE_HEADER 1
 //////////////////////////////////////////////////////////////
-//! file="amma/Contain/Misc/Ring.hh"
+//! file="Ravl/Core/Container/Queue/FixedQueue.hh"
 //! lib=RavlCore
 //! userlevel=Normal
 //! author="Charles Galambos"

@@ -8,7 +8,7 @@
 #define RAVLCXXPARSER_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/Util/CxxDoc/Parser.hh"
+//! file="Ravl/SourceTools/CxxDoc/Parser.hh"
 //! userlevel=Normal
 //! docentry="Ravl.Source Tools.CxxDoc"
 //! lib=RavlCxxDoc

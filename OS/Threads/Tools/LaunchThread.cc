@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlThreads
+//! file="Ravl/OS/Threads/Tools/LaunchThread.cc"
 
 #include "Ravl/Threads/LaunchThread.hh"
 #include <iostream.h>

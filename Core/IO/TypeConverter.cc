@@ -6,6 +6,8 @@
 // file-header-ends-here
 ////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! lib=RavlIO
+//! file="Ravl/Core/IO/TypeConverter.cc"
 
 #include "Ravl/DP/TypeConverter.hh"
 #include "Ravl/GraphBestRoute.hh"

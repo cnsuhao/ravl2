@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Time/Date.cc"
 
 #ifdef __sol2__
 #define _POSIX_PTHREAD_SEMANTICS 1

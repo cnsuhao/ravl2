@@ -10,7 +10,7 @@
 //! docentry="Basic Types.Network"
 //! rcsid="$Id$"
 //! example=exEndPoint.cc
-//! file="amma/StdType/Network/NetEndPoint.hh"
+//! file="Ravl/OS/Network/NetEndPoint.hh"
 //! lib=RavlOS
 //! userlevel=Normal
 //! docentry="Ravl.OS.Network"

@@ -6,5 +6,6 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! file="Ravl/Image/Base/ImageRectangle.cc"
 
 #include "Ravl/Image/ImageRectangle.hh"

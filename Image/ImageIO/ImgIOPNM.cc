@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! file="Ravl/Image/ImageIO/ImgIOPNM.cc"
 
 #include "Ravl/BinStream.hh"
 #include "Ravl/Image/ImgIOPNM.hh"

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! file="amma/BasType/sol2/Atomic.hh"
+//! file="Ravl/Core/Machine/sparc-solaris-gnu/Atomic.hh"
 //! userlevel=Default
 //! author="Charles Galambos"
 //! date="25/02/99"

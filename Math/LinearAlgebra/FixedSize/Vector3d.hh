@@ -8,7 +8,7 @@
 #define RAVLVECTOR3D_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Math/Geometry/Euclidean/Vector3d.hh"
+//! file="Ravl/Math/LinearAlgebra/FixedSize/Vector3d.hh"
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Charles Galambos"

@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/Trigger.cc"
 
 #include "Ravl/Trigger.hh"
 #include "Ravl/Assert.hh"

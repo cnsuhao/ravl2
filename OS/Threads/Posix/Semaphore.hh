@@ -12,7 +12,7 @@
 //! date="25/5/1998"
 //! docentry="Ravl.OS.Threads"
 //! rcsid="$Id$"
-//! file="amma/StdType/System/PThreads/Posix/Semaphore.hh"
+//! file="Ravl/OS/Threads/Posix/Semaphore.hh"
 //! lib=RavlThreads
 
 #include "Ravl/Threads/ConditionalMutex.hh"

@@ -8,7 +8,7 @@
 #define RAVLCXXDOCUMENT_HEADER 1
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Util/CxxDoc/Document.hh"
+//! file="Ravl/SourceTools/CxxDoc/Document.hh"
 //! userlevel=Default
 //! lib=RavlCxxDoc
 //! docentry="Ravl.Source Tools.CxxDoc"

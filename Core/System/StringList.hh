@@ -7,7 +7,7 @@
 #ifndef RAVLStringList_HH
 #define RAVLStringList_HH
 ////////////////////////////////////////////////////////////////////////
-//! file="Ravl/Core/System/StrList.hh"
+//! file="Ravl/Core/System/StringList.hh"
 //! lib=RavlCore
 //! userlevel=Normal
 //! author="Bill Christmas"

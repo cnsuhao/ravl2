@@ -8,7 +8,7 @@
 #define RAVLSKTERROR_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/StdType/Network/SktError.hh"
+//! file="Ravl/OS/Network/SktError.hh"
 //! lib=RavlOS
 //! userlevel=Default
 //! docentry="Ravl.OS.Network"

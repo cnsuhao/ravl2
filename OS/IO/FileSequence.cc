@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/IO/FileSequence.cc"
 
 #include "Ravl/DP/FileSequence.hh"
 #include "Ravl/DP/TypeInfo.hh"

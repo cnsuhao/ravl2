@@ -7,6 +7,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/StdConst.cc"
 
 #include "Ravl/StdConst.hh"
 

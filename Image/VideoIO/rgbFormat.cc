@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! file="Ravl/Image/VideoIO/rgbFormat.cc"
 
 #include "Ravl/Image/rgbFormat.hh"
 #include "Ravl/Image/ImgIOrgb.hh"

@@ -7,7 +7,7 @@
 #ifndef RAVLTEXTFILE_HEADER
 #define RAVLTEXTFILE_HEADER 1
 ///////////////////////////////////////////////////////
-//! file="amma/StdType/TextProc/TxtPFile.hh"
+//! file="Ravl/OS/Text/TextFile.hh"
 //! lib=RavlOS
 //! userlevel=Normal
 //! author="Charles Galambos"

@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/System/SubStringList.cc"
 
 #include <string.h>
 #include "Ravl/SubStringList.hh"

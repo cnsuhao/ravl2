@@ -12,6 +12,7 @@
 //! author="Charles Galambos"
 //! date="23/09/99"
 //! docentry="Ravl.OS.Signals"
+//! file="Ravl/OS/Threads/Tools/Signal.hh"
 
 #include "Ravl/Threads/RWLock.hh"
 #include "Ravl/RefCounter.hh"

@@ -8,7 +8,7 @@
 #define RAVLNETMESSAGE_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/StdType/Network/NetMessage.hh"
+//! file="Ravl/OS/Network/NetMessage.hh"
 //! lib=RavlOS
 //! docentry="Ravl.OS.Network"
 //! date="14/11/2000"

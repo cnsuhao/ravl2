@@ -10,6 +10,7 @@
 //! docentry="Basic Types.Refrence Counting"
 //! lib=RavlCore
 //! rcsid="$Id$"
+//! file="Ravl/Core/Base/RCAbstract.cc"
 
 #include "Ravl/RCAbstract.hh"
 #include <iostream.h>

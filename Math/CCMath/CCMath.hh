@@ -8,6 +8,7 @@
 #define RAVLCCMATH_HEADER 1
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! file="Ravl/Math/CCMath/CCMath.hh"
 
 extern "C" {
   

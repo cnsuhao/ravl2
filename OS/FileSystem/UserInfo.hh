@@ -7,7 +7,7 @@
 #ifndef RAVLUSERINFO_HEADER
 #define RAVLUSERINFO_HEADER 1
 /////////////////////////////////////////////////////////////////////////
-//! file="amma/StdType/System/Generic/UserInfo.hh"
+//! file="Ravl/OS/FileSystem/UserInfo.hh"
 //! lib=RavlOS
 //! userlevel=Normal
 //! author="Charles Galambos"

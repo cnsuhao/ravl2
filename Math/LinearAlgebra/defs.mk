@@ -5,6 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
+#! file="Ravl/Math/LinearAlgebra/defs.mk"
 
 DESCRIPTION= Linear Alegbra stuff.
 

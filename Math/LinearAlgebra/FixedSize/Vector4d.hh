@@ -8,7 +8,7 @@
 #define RAVLVECTOR4D_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Math/Geometry/Euclidean/Vector4d.hh"
+//! file="Ravl/Math/LinearAlgebra/FixedSize/Vector4d.hh"
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Charles Galambos"

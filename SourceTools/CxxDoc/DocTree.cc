@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCxxDoc
+//! file="Ravl/SourceTools/CxxDoc/DocTree.cc"
 
 #include "Ravl/CxxDoc/DocTree.hh"
 #include "Ravl/StringList.hh"

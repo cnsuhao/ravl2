@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef __ARCH_SGI_RAVL_ATOMIC__
 #define __ARCH_SGI_RAVL_ATOMIC__ 1
-//! file="amma/BasType/sgi/Atomic.hh"
+//! file="Ravl/Core/Machine/mips-irix-mpro/Atomic.hh"
 //! userlevel=Default
 //! author="Charles Galambos"
 //! date="25/02/99"

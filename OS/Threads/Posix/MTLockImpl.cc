@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlThreads
+//! file="Ravl/OS/Threads/Posix/MTLockImpl.cc"
 
 #include "Ravl/Threads/RWLock.hh"
 #include "Ravl/MTLocks.hh"

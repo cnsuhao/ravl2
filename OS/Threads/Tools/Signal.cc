@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlThreads
+//! file="Ravl/OS/Threads/Tools/Signal.cc"
 
 #include "Ravl/Threads/Signal.hh"
 #include "Ravl/Threads/Signal1.hh"

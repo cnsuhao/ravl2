@@ -12,7 +12,7 @@
 //! docentry="Ravl.OS.File System"
 //! lib=RavlOS
 //! rcsid="$Id$"
-//! file="amma/StdType/System/Generic/Directory.hh"
+//! file="Ravl/OS/FileSystem/Directory.hh"
 //! date="07/05/98"
 
 #include "Ravl/OS/Filename.hh"

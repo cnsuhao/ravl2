@@ -7,7 +7,7 @@
 #ifndef RAVLTEXTLINE_HEADER
 #define RAVLTEXTLINE_HEADER 1
 ///////////////////////////////////////////////////////
-//! file="amma/StdType/TextProc/TxtFLine.hh"
+//! file="Ravl/OS/Text/TextFileLine.hh"
 //! lib=RavlOS
 //! author="Charles Galambos"
 //! docentry="Ravl.OS.Text Processing"

@@ -7,6 +7,7 @@
 ///////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/General/MatrixRUT.cc"
 
 #include "Ravl/MatrixRUT.hh"
 #include "Ravl/Vector.hh"

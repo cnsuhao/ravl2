@@ -8,7 +8,7 @@
 #define RAVLBUFSTREAM_HEADER 1
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/StdType/IO/BufStream.hh"
+//! file="Ravl/Core/System/BufStream.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! date="25/02/99"

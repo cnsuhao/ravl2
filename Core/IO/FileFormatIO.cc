@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.IO"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/FileFormatIO.cc"
 
 // These functions provide an interface to the system file format registry,
 // with out having to include 100's of big nasty header files.

@@ -7,6 +7,7 @@
 ///////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Exec/OSProcess.cc"
 
 #include "Ravl/OS/OSProcess.hh"
 #include "Ravl/OS/Filename.hh"

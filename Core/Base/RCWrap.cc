@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/RCWrap.cc"
 
 #include "Ravl/Assert.hh"
 #include "Ravl/RCWrap.hh"

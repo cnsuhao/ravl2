@@ -11,6 +11,8 @@
 //! docentry="Ravl.Core.IO.Formats" 
 //! author="Charles Galambos"
 //! rcsid="$Id$"
+//! lib=RavlIO
+//! file="Ravl/Core/IO/FileFormatRegistry.hh"
 
 #include "Ravl/DP/TypeConverter.hh"
 #include "Ravl/DP/FileFormat.hh"

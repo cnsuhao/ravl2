@@ -6,6 +6,7 @@
 # file-header-ends-here
 # $Id$
 #! rcsid="$Id$"
+#! file="Ravl/Core/Container/Hash/defs.mk"
 
 PACKAGE=Ravl
 

@@ -7,6 +7,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! file="Ravl/Image/Base/ByteYUVValue.cc"
 
 #include "Ravl/BinStream.hh"
 #include "Ravl/Image/Image.hh"

@@ -9,6 +9,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Text/TextBuffer.cc"
 
 #include "Ravl/Text/TextBuffer.hh"
 #include "Ravl/CDLIter.hh"

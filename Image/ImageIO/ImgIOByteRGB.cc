@@ -7,6 +7,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! file="Ravl/Image/ImageIO/ImgIOByteRGB.cc"
 
 
 #include "Ravl/DP/FileFormatStream.hh"

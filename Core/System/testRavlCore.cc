@@ -7,6 +7,7 @@
 ///////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/System/testRavlCore.cc"
 
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Array1d.hh"

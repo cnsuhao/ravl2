@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! file="Ravl/Image/VideoIO/syuvFormat.cc"
 
 #include "Ravl/Image/syuvFormat.hh"
 #include "Ravl/Image/ImgIOyuv.hh"

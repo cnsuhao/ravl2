@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Exec/testChildProc.cc"
 
 #include "Ravl/OS/DeadLineTimer.hh"
 #include "Ravl/OS/ChildOSProcess.hh"

@@ -7,7 +7,7 @@
 #ifndef RAVLTEXTBUFF_HEADER
 #define RAVLTEXTBUFF_HEADER 1
 ///////////////////////////////////////////
-//! file="amma/StdType/TextProc/TxtPBuff.hh"
+//! file="Ravl/OS/Text/TextBuffer.hh"
 //! lib=RavlOS
 //! userlevel=Develop
 //! author="Charles Galambos"

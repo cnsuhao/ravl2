@@ -8,7 +8,7 @@
 #define RAVLCXXOBJECT_HEADER 1
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/Util/CxxDoc/Object.hh"
+//! file="Ravl/SourceTools/CxxDoc/Object.hh"
 //! userlevel=Normal
 //! docentry="Ravl.Source Tools.CxxDoc"
 //! lib=RavlCxxDoc

@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Exec/MailUser.cc"
 
 #include "Ravl/OS/UserInfo.hh"
 #include "Ravl/OS/ChildOSProcess.hh"

@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/FileFormatGen.cc"
 
 #include "Ravl/DP/FileFormatGen.hh"
 

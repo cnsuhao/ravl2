@@ -7,7 +7,7 @@
 #ifndef RAVLTEXTFILECURSOR_HEADER
 #define RAVLTEXTFILECURSOR_HEADER 1
 ///////////////////////////////////////////////////////
-//! file="amma/StdType/TextProc/TxCursor.hh"
+//! file="Ravl/OS/Text/TextCursor.hh"
 //! lib=RavlOS
 //! author="Charles Galambos"
 //! date="5/8/97"

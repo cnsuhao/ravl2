@@ -7,6 +7,7 @@
 /////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Container/Queue/testPriQueue.cc"
 
 #include "Ravl/PriQueueL.hh"
 #include "Ravl/EntryPnt.hh"

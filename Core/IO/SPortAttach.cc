@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! docentry="Algorithms.Data Processing.Composition" 
 //! lib=RavlIO
+//! file="Ravl/Core/IO/SPortAttach.cc"
 
 #include "Ravl/DP/SPortAttach.hh"
 

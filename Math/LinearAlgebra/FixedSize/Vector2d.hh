@@ -8,7 +8,7 @@
 #define RAVLVECTOR2D_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Math/Geometry/Euclidean/Vector2d.hh"
+//! file="Ravl/Math/LinearAlgebra/FixedSize/Vector2d.hh"
 //! lib=RavlMath
 //! userlevel=Normal
 //! docentry="Ravl.Math.Geometry.2D"

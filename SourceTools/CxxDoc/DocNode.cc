@@ -7,6 +7,7 @@
 ////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCxxDoc
+//! file="Ravl/SourceTools/CxxDoc/DocNode.cc"
 
 #include "Ravl/CxxDoc/DocNode.hh"
 #include "Ravl/DLIter.hh"

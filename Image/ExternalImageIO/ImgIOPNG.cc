@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=ExtImgIO
+//! file="Ravl/Image/ExternalImageIO/ImgIOPNG.cc"
 
 #include <png.h>
 

@@ -7,5 +7,6 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/FixedSize/Matrix3d.cc"
 
 #include "Ravl/Matrix3d.hh"

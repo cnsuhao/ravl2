@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/FileSystem/Directory.cc"
 
 // This config stuff should be moved elseware.
 

@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCxxDoc
+//! file="Ravl/SourceTools/CxxDoc/CxxScope.cc"
 
 #include "Ravl/CxxDoc/CxxScope.hh"
 #include "Ravl/CxxDoc/CxxElements.hh"

@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Misc.Calls"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/CallMethods.hh"
 
 #include "Ravl/Calls.hh"
 

@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.OS.Time"
 //! example="exDeadLine.cc"
-//! file="amma/StdType/System/Generic/DeadLine.hh"
+//! file="Ravl/OS/Time/DeadLineTimer.hh"
 //! lib=RavlOS
 //! author="Charles Galambos"
 //! date="//"

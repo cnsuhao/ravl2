@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/TypeInfo.cc"
 
 #include "Ravl/DP/TypeInfo.hh"
 #include "Ravl/DList.hh"

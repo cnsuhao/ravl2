@@ -7,6 +7,7 @@
 ################################################
 # $Id$
 #! rcsid="$Id$"
+#! file="Ravl/OS/Validate/defs.mk"
 
 DESCRIPTION= Ravl Validation programs
 

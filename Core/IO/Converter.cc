@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/Converter.cc"
 
 #include "Ravl/DP/Converter.hh"
 #include "Ravl/DP/DataConv.hh"

@@ -5,6 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
+#! file="Ravl/Core/Machine/i386-linux-gnu/defs.mk"
 
 DESCRIPTION= Atomic operations for i386-linux
 

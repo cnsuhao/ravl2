@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Math/ScalMath.cc"
 
 #include "Ravl/ScalMath.hh"
 #include "Ravl/StdConst.hh"

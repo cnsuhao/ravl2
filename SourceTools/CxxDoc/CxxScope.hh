@@ -13,6 +13,7 @@
 //! lib=RavlCxxDoc
 //! author="Charles Galambos"
 //! date="08/12/99"
+//! file="Ravl/SourceTools/CxxDoc/CxxScope.hh"
 
 #include "Ravl/CxxDoc/Object.hh"
 

@@ -11,6 +11,7 @@
 //! lib=RavlCore
 //! docentry="Core.XML"
 //! author="Charles Galambos"
+//! file="Ravl/Core/System/XMLStream.hh"
 
 #include "Ravl/Stream.hh"
 #include "Ravl/StrStream.hh"

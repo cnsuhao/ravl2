@@ -6,6 +6,7 @@
 # file-header-ends-here
 # $Id$
 #! rcsid="$Id$"
+#! file="Ravl/Core/Base/defs.mk"
 
 DESCRIPTION= RAVL core functionality
 

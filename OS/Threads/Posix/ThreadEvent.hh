@@ -8,7 +8,7 @@
 #define RAVLTHREADS_EVENT_HEADER 1
 /////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/StdType/System/PThreads/Posix/Event.hh"
+//! file="Ravl/OS/Threads/Posix/ThreadEvent.hh"
 //! lib=RavlThreads
 //! userlevel=Normal
 //! docentry="Ravl.OS.Threads"

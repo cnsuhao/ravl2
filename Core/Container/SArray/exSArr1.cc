@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"  $Id$
 //! lib=RavlCore
+//! file="Ravl/Core/Container/SArray/exSArr1.cc"
 
 #include <iostream.h>
 #include "Ravl/SArray1d.hh"

@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Text/exTemplateFile.cc"
 
 
 #include <iostream.h>

@@ -7,6 +7,7 @@
 ////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlThreads
+//! file="Ravl/OS/Threads/Posix/Mutex.cc"
 
 #include "Ravl/Threads/Mutex.hh"
 #include "Ravl/Threads/Thread.hh"

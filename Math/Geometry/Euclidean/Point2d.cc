@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlGeom
+//! file="Ravl/Math/Geometry/Euclidean/Point2d.cc"
 
 #include "Ravl/Point2d.hh"
 

@@ -10,7 +10,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.OS.Threads"
 //! rcsid="$Id$"
-//! file="amma/StdType/System/RavlNs/Posix/RWLock.hh"
+//! file="Ravl/OS/Threads/Posix/RWLock.hh"
 //! lib=RavlThreads
 //! userlevel=Normal
 //! date="02/07/99"

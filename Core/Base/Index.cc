@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/Index.cc"
 
 #include <iostream.h>
 #include "Ravl/Index.hh"

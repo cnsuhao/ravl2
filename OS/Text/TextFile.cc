@@ -9,6 +9,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Text/TextFile.cc"
 
 #include "Ravl/Text/TextFile.hh"
 #include "Ravl/DLIter.hh"

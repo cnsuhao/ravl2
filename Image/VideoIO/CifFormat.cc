@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! file="Ravl/Image/VideoIO/CifFormat.cc"
 
 #include "Ravl/Image/CifFormat.hh"
 #include "Ravl/Image/ImgIOCif.hh"

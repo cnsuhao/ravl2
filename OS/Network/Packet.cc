@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Network/Packet.cc"
 
 #include "Ravl/OS/Packet.hh"
 

@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/FileSystem/UserInfo.cc"
 
 #include "Ravl/OS/UserInfo.hh"
 #include "Ravl/Exception.hh"

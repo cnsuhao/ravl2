@@ -7,7 +7,7 @@
 #ifndef RAVLIMGIOYUV_HEADER
 #define RAVLIMGIOYUV_HEADER 1
 ////////////////////////////////////////////////////
-//! file="amma/Image/VidIO/ImgIOyuv.hh"
+//! file="Ravl/Image/VideoIO/ImgIOyuv.hh"
 //! lib=RavlImage
 //! docentry="Image.Image IO"
 //! example=exImgSeq.cc

@@ -7,6 +7,7 @@
 // 22-Oct-93 Radek Marik adopted for C++
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/System/exOption.cc"
 
 /* 24-Feb-93, J. Matas, created */
 /*

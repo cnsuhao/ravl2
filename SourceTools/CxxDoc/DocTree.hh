@@ -8,7 +8,7 @@
 #define RAVLDOCTREE_HEADER 1
 ////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/Util/CxxDoc/DocNode.hh"
+//! file="Ravl/SourceTools/CxxDoc/DocTree.hh"
 //! lib=RavlCxxDoc
 //! userlevel=Normal
 //! docentry="Ravl.Source Tools.CxxDoc"

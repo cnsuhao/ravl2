@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Container/Buffer/exRBfAcc.cc"
 
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Types.hh"

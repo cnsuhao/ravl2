@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Exec/ChildOSProcessStream.cc"
 
 #include "Ravl/OS/ChildOSProcess.hh"
 #include "Ravl/StreamType.hh"

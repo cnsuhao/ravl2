@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Network/Socket.cc"
 
 
 #ifdef __sol2__

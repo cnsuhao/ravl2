@@ -7,6 +7,7 @@
 ##########################################################
 # $Id$
 #! rcsid="$Id$"
+#! file="Ravl/OS/Threads/Tools/defs.mk"
 
 DESCRIPTION=Threading tools
 

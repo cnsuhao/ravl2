@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////
 //! rcsid="$id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/IntC.cc"
 
 #include "Ravl/IntC.hh"
 #if 0 

@@ -8,7 +8,7 @@
 #define DPIMAGEIOPNG_HEADER
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/Image/ExtImgIO/ImgIOPNGB.hh"
+//! file="Ravl/Image/ExternalImageIO/ImgIOPNGB.hh"
 //! lib=ExtImgIO
 //! docentry="Ravl.Image.IO.Formats"
 //! author="Charles Galambos"

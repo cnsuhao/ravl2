@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/Assert.cc"
 
 #include "Ravl/config.h"
 #include "Ravl/Assert.hh"

@@ -9,6 +9,7 @@
 # This directory contains software which interfaces Ravl to external
 # image IO libraries.  Edit ExtImgIO.hh to specify which libraries
 # are available.
+#! file="Ravl/Image/ExternalImageIO/defs.mk"
 
 DESCRIPTION = External Image IO routines... like jpeg,gif,tiff
 

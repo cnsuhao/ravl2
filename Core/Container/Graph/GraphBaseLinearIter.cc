@@ -9,6 +9,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Container/Graph/GraphBaseLinearIter.cc"
 
 #include <assert.h>
 #include "Ravl/GraphBaseLinearIter.hh"

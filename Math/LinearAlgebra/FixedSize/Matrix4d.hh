@@ -8,7 +8,7 @@
 #define RAVLMATRIX4D_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Math/Geometry/Euclidean/Matrix4d.hh"
+//! file="Ravl/Math/LinearAlgebra/FixedSize/Matrix4d.hh"
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Charles Galambos"

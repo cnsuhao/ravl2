@@ -8,6 +8,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlThreads
+//! file="Ravl/OS/Threads/Posix/SemaphoreRC.cc"
 
 #include "Ravl/Threads/SemaphoreRC.hh"
 

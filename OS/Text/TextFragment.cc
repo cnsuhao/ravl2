@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Text/TextFragment.cc"
 
 #include "Ravl/Text/TextFragment.hh"
 

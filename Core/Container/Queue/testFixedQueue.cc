@@ -7,6 +7,7 @@
 //////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Container/Queue/testFixedQueue.cc"
 
 #include "Ravl/FixedQueue.hh"
 #include <iostream.h>

@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/System/StreamParse.cc"
 
 #include "Ravl/Stream.hh"
 #include "Ravl/StreamType.hh"

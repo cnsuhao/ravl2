@@ -11,7 +11,7 @@
 //! lib=RavlOS
 //! author="Charles Galambos"
 //! docentry="Ravl.OS.Network"
-//! file="amma/StdType/Network/NetStream.hh"
+//! file="Ravl/OS/Network/NetStream.hh"
 //! date="15/02/2000"
 
 #include "Ravl/Stream.hh"

@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlThreads
+//! file="Ravl/OS/Threads/Posix/ConditionalMutex.cc"
 
 #ifdef __sol2__
 #define __EXTENSIONS__ 1

@@ -8,7 +8,7 @@
 #define RAVLMATRIXRU_HEADER 1
 ///////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Math/LinearAlgebra/Matrix.hh"
+//! file="Ravl/Math/LinearAlgebra/General/MatrixRUT.hh"
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Charles Galambos"

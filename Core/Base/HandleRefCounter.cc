@@ -7,6 +7,7 @@
 /////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/HandleRefCounter.cc"
 
 #include "Ravl/HandleRefCounter.hh"
 #include "Ravl/Assert.hh"

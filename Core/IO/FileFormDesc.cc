@@ -10,6 +10,7 @@
 //! author="Charles Galambos"
 //! date="13/08/98"
 //! rcsid="$Id$"
+//! file="Ravl/Core/IO/FileFormDesc.cc"
 
 #include "Ravl/DP/FileFormDesc.hh"
 #include "Ravl/CDLIter.hh"

@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! example=exTemplateFile.cc
-//! file="amma/StdType/TextProc/TemplateFile.hh"
+//! file="Ravl/OS/Text/TemplateFile.hh"
 //! lib=RavlOS
 //! author="Charles Galambos"
 //! date="04/03/99"

@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef __ARCH_I386_RAVL_ATOMIC_
 #define __ARCH_I386_RAVL_ATOMIC_
-//! file="amma/BasType/linux/Atomic.hh"
+//! file="Ravl/Core/Machine/i386-linux-gnu/Atomic.hh"
 //! userlevel=Default
 //! author="Charles Galambos"
 //! date="25/02/99"

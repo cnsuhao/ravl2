@@ -8,7 +8,7 @@
 #define RAVLTEMPLATECMPLX_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/StdType/TextProc/TemplateCmplx.hh"
+//! file="Ravl/OS/Text/TemplateComplex.hh"
 //! lib=RavlOS
 //! docentry="Ravl.OS.Text Processing"
 //! author="Charles Galambos"

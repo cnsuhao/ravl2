@@ -7,6 +7,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Container/Misc/testStack.cc"
 
 #include <assert.h>
 #include <stdio.h>

@@ -8,7 +8,7 @@
 #define RAVLTIFFFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/Image/ExtImgIO/TiffFormat.hh"
+//! file="Ravl/Image/ExternalImageIO/TiffFormat.hh"
 //! lib=ExtImgIO
 //! author="Charles Galambos"
 //! docentry="Ravl.Image.IO.Formats"

@@ -5,6 +5,8 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
+//! lib=RavlCore
+//! file="Ravl/Core/Base/testStream.cc"
 
 // Do a quick test of stream functionality.  We don't
 // have any OS file functions so unfortunatly we can't

@@ -11,7 +11,7 @@
 //! date="25/11/1995"
 //! docentry="Ravl.OS.Threads"
 //! rcsid="$Id$"
-//! file="amma/StdType/System/PThreads/Tools/MsgPipe.hh"
+//! file="Ravl/OS/Threads/Tools/MessageQueue.hh"
 //! lib=RavlThreads
 
 #include "Ravl/Threads/Mutex.hh"

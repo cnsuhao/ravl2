@@ -7,6 +7,7 @@
 ////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlThreads
+//! file="Ravl/OS/Threads/Tools/testTickerTrigger.cc"
 
 #include "Ravl/Threads/TickerTrigger.hh"
 #include "Ravl/Atomic.hh"

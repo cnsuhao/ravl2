@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Exec/exChild.cc"
 
 #include "Ravl/Option.hh"
 #include "Ravl/OS/ChildOSProcess.hh"

@@ -7,7 +7,7 @@
 #ifndef RAVLCONFIGFILE_HEADER
 #define RAVLCONFIGFILE_HEADER 1
 ///////////////////////////////////////////////////////////////////////
-//! file="amma/StdType/TextProc/ConfigFile.hh"
+//! file="Ravl/OS/Text/ConfigFile.hh"
 //! userlevel=Advanced
 //! author="Charles Galambos"
 //! lib=RavlOS

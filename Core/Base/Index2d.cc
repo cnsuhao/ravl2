@@ -7,6 +7,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/Index2d.cc"
 
 #include "Ravl/Index2d.hh"
 //#include "Ravl/StdMath.hh" // for Sqrt.

@@ -5,6 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! lib=RavlCore
+//! file="Ravl/Core/System/TypeName.cc"
 
 //! rcsid="$Id$"
 

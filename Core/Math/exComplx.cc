@@ -8,6 +8,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Math/exComplx.cc"
 
 #include "Ravl/Complex.hh"
 #include <iostream.h>

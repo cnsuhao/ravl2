@@ -8,6 +8,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Math/Random.cc"
 
 #include <iostream.h>
 #include "Ravl/Random.hh"

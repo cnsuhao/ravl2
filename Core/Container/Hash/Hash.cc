@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Container/Hash/Hash.cc"
 
 #include "Ravl/Hash.hh"
 #include <string.h>

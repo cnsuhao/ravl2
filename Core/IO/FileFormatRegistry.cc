@@ -6,6 +6,8 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! lib=RavlIO
+//! file="Ravl/Core/IO/FileFormatRegistry.cc"
 
 #include "Ravl/DP/FileFormatRegistry.hh"
 #include "Ravl/DP/TypeConverter.hh"

@@ -8,7 +8,7 @@
 #define RAVLPNGFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/Image/ExtImgIO/PNGFormat.hh"
+//! file="Ravl/Image/ExternalImageIO/PNGFormat.hh"
 //! lib=ExtImgIO
 //! author="Charles Galambos"
 //! docentry="Image.Image IO"

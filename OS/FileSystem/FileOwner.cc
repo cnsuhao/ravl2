@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/FileSystem/FileOwner.cc"
 
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/OS/UserInfo.hh"

@@ -7,7 +7,7 @@
 #ifndef RAVLFILEPERM_HEADER
 #define RAVLFILEPERM_HEADER 1
 ////////////////////////////////////////////////////////
-//! file="amma/StdType/System/Generic/FilePerm.hh"
+//! file="Ravl/OS/FileSystem/FilePermission.hh"
 //! lib=RavlOS
 //! userlevel=Normal
 //! author="Charles Galambos"

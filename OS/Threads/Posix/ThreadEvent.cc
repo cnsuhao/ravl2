@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlThreads
+//! file="Ravl/OS/Threads/Posix/ThreadEvent.cc"
 
 #include "Ravl/Threads/ThreadEvent.hh"
 

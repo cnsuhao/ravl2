@@ -10,6 +10,8 @@
 //! docentry="Ravl.Core.IO.Formats" 
 //! author="Charles Galambos"
 //! rcsid="$Id$"
+//! lib=RavlIO
+//! file="Ravl/Core/IO/TypeConverter.hh"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/DP/Converter.hh"

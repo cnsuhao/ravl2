@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=ExtImgIO
+//! file="Ravl/Image/ExternalImageIO/PNGFormat.cc"
 
 #include "Ravl/Image/PNGFormat.hh"
 #include "Ravl/Image/UInt16RGBValue.hh"

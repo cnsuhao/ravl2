@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/SPort.cc"
 
 #include "Ravl/DP/SPort.hh"
 

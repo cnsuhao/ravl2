@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////
 //! docentry="Data Processing.Component"
 //! rcsid="$Id$"
-//! file="amma/StdType/DataConv/FileSeq.hh"
+//! file="Ravl/OS/IO/FileSequence.hh"
 //! lib=RavlOS
 //! author="Charles Galambos"
 //! date="23/03/99"

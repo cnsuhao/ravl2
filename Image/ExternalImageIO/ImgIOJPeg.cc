@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=ExtImgIO
+//! file="Ravl/Image/ExternalImageIO/ImgIOJPeg.cc"
 
 #define DODEBUG 0
 #if DODEBUG

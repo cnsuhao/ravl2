@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Network/NetMessage.cc"
 
 #include "Ravl/OS/NetMessage.hh"
 #include <iostream.h>

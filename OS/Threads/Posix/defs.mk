@@ -7,6 +7,7 @@
 #############################################
 # $Id$
 #! rcsid="$Id$"
+#! file="Ravl/OS/Threads/Posix/defs.mk"
 
 DESCRIPTION = Posix thread interface.
 

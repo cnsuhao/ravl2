@@ -7,6 +7,7 @@
 ###########################################
 # $Id$
 #! rcsid="$Id$"
+#! file="Ravl/Image/VideoIO/defs.mk"
 
 PACKAGE = Ravl/Image
 

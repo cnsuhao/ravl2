@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=ExtImgIO
+//! file="Ravl/Image/ExternalImageIO/ImgIOTiff.cc"
 
 #include "Ravl/Image/ImgIOTiff.hh"
 #include "Ravl/Image/ImgIOTiffB.hh"

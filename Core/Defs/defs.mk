@@ -6,6 +6,7 @@
 # file-header-ends-here
 # $Id$
 #! rcsid="$Id$"
+#! file="Ravl/Core/Defs/defs.mk"
 
 DESCRIPTION= Defintion files for external packages that may be used in RAVL.  
 

@@ -9,6 +9,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Text/TextCursor.cc"
 
 #include "Ravl/Text/TextCursor.hh"
 #include "Ravl/SArray1d.hh"

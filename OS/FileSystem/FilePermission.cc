@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/FileSystem/FilePermission.cc"
 
 #include "Ravl/OS/FilePermission.hh"
 

@@ -7,7 +7,7 @@
 #ifndef RAVLSubStringList_HH
 #define RAVLSubStringList_HH
 ////////////////////////////////////////////////////////////////////////
-//! file="Ravl/Core/System/StrList.hh"
+//! file="Ravl/Core/System/SubStringList.hh"
 //! lib=RavlCore
 //! userlevel=Normal
 //! author="Bill Christmas"

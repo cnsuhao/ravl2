@@ -5,5 +5,6 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
+#! file="Ravl/Core/Container/defs.mk"
 
 NESTED= Buffer.r SArray.r Array.r Misc.r Queue.r DList.r Hash.r Graph.r

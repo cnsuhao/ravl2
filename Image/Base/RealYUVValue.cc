@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! file="Ravl/Image/Base/RealYUVValue.cc"
 
 #include "Ravl/BinStream.hh"
 #include "Ravl/Image/Image.hh"

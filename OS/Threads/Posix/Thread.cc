@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlThreads
+//! file="Ravl/OS/Threads/Posix/Thread.cc"
 
 
 #include "Ravl/config.h"

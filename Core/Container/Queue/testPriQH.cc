@@ -9,6 +9,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Container/Queue/testPriQH.cc"
 
 #include "Ravl/PriQueue.hh"
 #include "Ravl/Random.hh"

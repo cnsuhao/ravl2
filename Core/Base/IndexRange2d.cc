@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/IndexRange2d.cc"
 
 #include "Ravl/IndexRange2d.hh"
 #include "Ravl/BinStream.hh"

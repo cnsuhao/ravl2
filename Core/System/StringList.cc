@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/System/StringList.cc"
 
 #include <string.h>
 #include "Ravl/StringList.hh"

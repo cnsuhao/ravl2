@@ -9,6 +9,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Math/Angle.cc"
 
 #include "Ravl/Angle.hh"
 #include <iostream.h>

@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////
 //! docentry="Ravl.OS.Signals"
 //! rcsid="$Id$"
-//! file="amma/StdType/MTDataProc/Signal2.hh"
+//! file="Ravl/OS/Threads/Tools/Signal2.hh"
 //! lib=RavlThreads
 //! author="Charles Galambos"
 //! date="23/09/99"

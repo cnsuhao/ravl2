@@ -8,7 +8,7 @@
 #define RAVLOSPROCESS_HEADER 1
 /////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/StdType/System/Generic/Process.hh"
+//! file="Ravl/OS/Exec/OSProcess.hh"
 //! lib=RavlOS
 //! author="Charles Galambos"
 //! docentry="Ravl.OS.Exec"

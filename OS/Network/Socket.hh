@@ -8,7 +8,7 @@
 #define RAVLNETSOCKET_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/StdType/Network/Socket.hh"
+//! file="Ravl/OS/Network/Socket.hh"
 //! lib=RavlOS
 //! author="Charles Galambos"
 //! example=exSocket.cc

@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlThreads
+//! file="Ravl/OS/Threads/Tools/TimedTriggerQueue.cc"
 
 // Need the following to get timeval...
 #ifdef __sol2__

@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Text/exTemplateComplex.cc"
 
 #include <iostream.h>
 #include "Ravl/Text/TemplateComplex.hh"

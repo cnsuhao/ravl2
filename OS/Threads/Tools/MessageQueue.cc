@@ -8,6 +8,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlThreads
+//! file="Ravl/OS/Threads/Tools/MessageQueue.cc"
 
 #include "Ravl/Threads/MessageQueue.hh"
 #include <iostream.h>

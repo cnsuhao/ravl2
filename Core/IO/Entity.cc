@@ -10,6 +10,7 @@
 //! example=exDataProc.cc
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/Entity.cc"
 
 #include "Ravl/DP/Entity.hh"
 #include "Ravl/RCAbstract.hh"

@@ -5,6 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
+#! file="Ravl/Math/LinearAlgebra/FixedSize/defs.mk"
 PACKAGE=Ravl
 
 HEADERS= FVector.hh Vector2d.hh Vector3d.hh Vector4d.hh \

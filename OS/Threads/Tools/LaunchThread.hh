@@ -8,7 +8,7 @@
 #define RAVLTHREADLAUNCH_HEADER 1
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/StdType/System/PThreads/Tools/Launch.hh"
+//! file="Ravl/OS/Threads/Tools/LaunchThread.hh"
 //! lib=RavlThreads
 //! userlevel=Default
 //! docentry="Ravl.OS.Threads"

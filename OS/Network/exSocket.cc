@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Network/exSocket.cc"
 
 #include "Ravl/Option.hh"
 #include "Ravl/OS/NetStream.hh"

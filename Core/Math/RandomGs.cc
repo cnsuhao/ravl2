@@ -19,6 +19,7 @@
 //
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Math/RandomGs.cc"
 
 #include "Ravl/StdMath.hh" // sqrt(), log()
 #include "Ravl/RandomGauss.hh"

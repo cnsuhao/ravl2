@@ -7,6 +7,7 @@
 //////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/Pipes.cc"
 
 #include "Ravl/DP/Pipes.hh"
 #include "Ravl/Assert.hh"

@@ -4,6 +4,9 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
+//! rcsid="$Id$"
+//! lib=RavlCore
+//! file="Ravl/Core/Container/DList/exDList.cc"
 
 // Simple example of DList's.
 

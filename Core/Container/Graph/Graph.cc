@@ -7,6 +7,7 @@
 /////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Container/Graph/Graph.cc"
 
 #include "Ravl/config.h"
 #include "Ravl/Graph.hh"

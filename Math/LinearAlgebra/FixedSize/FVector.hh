@@ -8,7 +8,7 @@
 #define RAVLFVECTOR_HEADER 1
 //////////////////////////////////////////////////
 //! rcsid=$Id$
-//! file="Ravl/Math/Geometry/Euclidean/TFVector.hh"
+//! file="Ravl/Math/LinearAlgebra/FixedSize/FVector.hh"
 //! lib=RavlMath
 //! userlevel=Develop
 //! author="Charles Galambos"

@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
-//! file="amma/Image/ExtImgIO/ImgIOTiff.hh"
+//! file="Ravl/Image/ExternalImageIO/ImgIOTiff.hh"
 //! lib=ExtImgIO
 //! author="Charles Galambos"
 //! docentry="Image.Image IO"

@@ -8,6 +8,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/FileSystem/Filename.cc"
 
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/OS/Date.hh"

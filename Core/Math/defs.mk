@@ -6,6 +6,7 @@
 # file-header-ends-here
 # $Id$
 #! rcsid="$Id$"
+#! file="Ravl/Core/Math/defs.mk"
 
 DESCRIPTION=Common mathematical operations.  sin, sqrt, etc....
 

@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! docentry="Ravl.OS.Threads"
-//! file="amma/StdType/System/PThreads/Posix/Mutex.hh"
+//! file="Ravl/OS/Threads/Posix/Mutex.hh"
 //! lib=RavlThreads
 //! rcsid="$Id$"
 //! userlevel=Normal

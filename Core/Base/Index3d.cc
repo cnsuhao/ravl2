@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/Index3d.cc"
 
 #include <iostream.h>
 #include "Ravl/Index3d.hh"

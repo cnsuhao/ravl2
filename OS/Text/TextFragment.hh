@@ -8,7 +8,7 @@
 #define RAVLTEXTFRAGMENT_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/StdType/TextProc/TxtFragment.hh"
+//! file="Ravl/OS/Text/TextFragment.hh"
 //! lib=RavlOS
 //! docentry="Ravl.OS.Text Processing"
 //! author="Charles Galambos"

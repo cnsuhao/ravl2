@@ -7,6 +7,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Container/Buffer/testBuffer2d.cc"
 
 #include "Ravl/Buffer2d.hh"
 #include "Ravl/SBfAcc2d.hh"

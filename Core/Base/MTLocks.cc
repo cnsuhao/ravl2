@@ -7,6 +7,7 @@
 ///////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/MTLocks.cc"
 
 #include "Ravl/MTLocks.hh"
 

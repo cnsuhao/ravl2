@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/System/testXMLStream.cc"
 
 #include "Ravl/XMLStream.hh"
 #include "Ravl/EntryPnt.hh"

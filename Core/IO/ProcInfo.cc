@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/ProcInfo.cc"
 
 #include "Ravl/DP/ProcInfo.hh"
 

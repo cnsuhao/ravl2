@@ -9,6 +9,7 @@
 //! rcsid="$Id$"
 //! date="06/08/95"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/EntryPnt.cc"
 
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/config.h"

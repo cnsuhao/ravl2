@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Network/SocketStrm.cc"
 
 #include "Ravl/StreamType.hh"
 #include "Ravl/OS/NetStream.hh"

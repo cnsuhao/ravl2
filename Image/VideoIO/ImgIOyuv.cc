@@ -8,6 +8,7 @@
 //! userlevel=Normal
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! file="Ravl/Image/VideoIO/ImgIOyuv.cc"
 
 #include "Ravl/Image/ImgIOyuv.hh"
 #include "Ravl/OS/Filename.hh"

@@ -12,7 +12,7 @@
 //! lib=RavlOS
 //! docentry="Ravl.OS.Time"
 //! rcsid="$Id$"
-//! file="amma/StdType/System/Generic/Date.hh"
+//! file="Ravl/OS/Time/Date.hh"
 //! date="07/05/98"
 
 #include "Ravl/Types.hh"

@@ -8,7 +8,7 @@
 #define RAVLFMATRIX_HEADER 1
 //////////////////////////////////////////////////
 //! rcsid=$Id$
-//! file="Ravl/Math/Geometry/Euclidean/FMatrx.hh"
+//! file="Ravl/Math/LinearAlgebra/FixedSize/FMatrix.hh"
 //! lib=RavlMath
 //! userlevel=Develop
 //! author="Charles Galambos"

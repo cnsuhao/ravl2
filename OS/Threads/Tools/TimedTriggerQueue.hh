@@ -8,7 +8,7 @@
 #define RAVLTIMEDTRIGGERQUEUE_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/StdType/System/PThreads/Tools/TimedTriggerQueue.hh"
+//! file="Ravl/OS/Threads/Tools/TimedTriggerQueue.hh"
 //! lib=RavlThreads
 //! docentry="Ravl.OS.Threads"
 //! author="Charles Galambos"

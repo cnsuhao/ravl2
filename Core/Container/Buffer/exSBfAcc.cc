@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Container/Buffer/exSBfAcc.cc"
 
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Types.hh"

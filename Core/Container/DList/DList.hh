@@ -176,6 +176,11 @@ namespace RavlN {
     }
     //: Get first element in list.
     // NB. List MUST be non-empty.
+
+    bool Del(const DataT &x);
+    //: Remove first instance of 'x' found in list.
+    // returns true if the item is found and removed, 
+    // false otherwise.
     
   protected:
     static void Delete(DLinkC &elm) 
@@ -385,6 +390,12 @@ namespace RavlN {
     //: Get first element in list.
     // NB. List MUST be non-empty.
     
+    bool Del(const DataT &x)
+      { return Body().Del(x); }
+    //: Remove first instance of 'x' found in list.
+    // returns true if the item is found and removed, 
+    // false otherwise.
+
     friend class DLIterC<DataT>;
     friend class DListBodyC<DataT>;
 
@@ -417,6 +428,17 @@ namespace RavlN {
   void DListBodyC<DataT>::operator+=(const DListC<DataT> &dat) {
     for(DLIterC<DataT> it(dat);it;it++)
       (*this) += *it;
+  }
+
+
+  template<class DataT>
+  bool DListBodyC<DataT>::Del(const DataT &x) {
+    for(DLIterC<DataT> it(*this);it;it++)
+      if(*it == x) {
+	it.Del();
+	return true;
+      }
+    return false;
   }
 
   //: Test if lists are identical.
@@ -463,6 +485,7 @@ namespace RavlN {
       return true;
     return Body() == oth.Body();
   }
+
   
   template<class DataT>
   ostream &operator<<(ostream &strm,const DListC<DataT> &lst) 
@@ -476,6 +499,7 @@ namespace RavlN {
     return strm;
   }
   //: Read from stream.
+
   
 }
 

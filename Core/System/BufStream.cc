@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/System/BufStream.cc"
 
 #ifndef VISUAL_CPP
 #ifndef __sgi__

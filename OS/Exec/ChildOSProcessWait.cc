@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Exec/ChildOSProcessWait.cc"
 
 #include <sys/types.h>
 #ifndef VISUAL_CPP

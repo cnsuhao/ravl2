@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCxxDoc
+//! file="Ravl/SourceTools/CxxDoc/DocExe.cc"
 
 #include "Ravl/CxxDoc/Document.hh"
 #include "Ravl/OS/ChildOSProcess.hh"

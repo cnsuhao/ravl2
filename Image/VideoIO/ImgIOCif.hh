@@ -8,7 +8,7 @@
 #define RAVLIMGIOCIF_HEADER 1
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/Image/VidIO/ImgIOCif.hh"
+//! file="Ravl/Image/VideoIO/ImgIOCif.hh"
 //! lib=RavlImage
 //! example=exImgSeq.cc
 //! docentry="Ravl.Images.IO.Formats"

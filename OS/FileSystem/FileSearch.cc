@@ -7,6 +7,7 @@
 /////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/FileSystem/FileSearch.cc"
 
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/StringList.hh"

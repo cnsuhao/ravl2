@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! author=Charles Galambos
 //! lib=RavlCore
+//! file="Ravl/Core/Container/Hash/testHash.cc"
 
 // Test the new HashARC tables.
 

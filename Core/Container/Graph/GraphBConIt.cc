@@ -9,6 +9,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Container/Graph/GraphBConIt.cc"
 
 #include <assert.h>
 #include "Ravl/GraphBConIt.hh"

@@ -12,6 +12,7 @@
 //! author="Charles Galambos"
 //! date="13/12/2000"
 //! rcsid="$Id$"
+//! file="Ravl/OS/Threads/Tools/SignalConnectionSet.hh"
 
 #include "Ravl/Threads/Signal.hh"
 #include "Ravl/HSet.hh"

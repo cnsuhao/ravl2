@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/System/XMLStream.cc"
 
 #include "Ravl/XMLStream.hh"
 #include "Ravl/HashIter.hh"

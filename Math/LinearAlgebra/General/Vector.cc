@@ -7,6 +7,7 @@
 //////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/General/Vector.cc"
 
 #include "Ravl/StdMath.hh"
 

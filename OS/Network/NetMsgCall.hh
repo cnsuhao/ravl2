@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.OS.Network"
-//! file="amma/StdType/Network/NetMsgSig.hh"
+//! file="Ravl/OS/Network/NetMsgCall.hh"
 //! lib=RavlOS
 //! userlevel=Normal
 //! author="Charles Galambos"

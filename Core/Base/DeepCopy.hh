@@ -10,6 +10,8 @@
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! userlevel=Normal
+//! rcsid="$Id$"
+//! file="Ravl/Core/Base/DeepCopy.hh"
 
 #include "Ravl/Types.hh"
 

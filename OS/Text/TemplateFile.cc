@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Text/TemplateFile.cc"
 
 #include "Ravl/Exception.hh"
 #include "Ravl/Text/TemplateFile.hh"

@@ -3,6 +3,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 /* 
+//! file="Ravl/Core/Base/String.cc"
 Copyright (C) 1988 Free Software Foundation
     written by Doug Lea (dl@rocky.oswego.edu)
 

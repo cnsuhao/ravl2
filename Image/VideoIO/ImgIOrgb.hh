@@ -7,7 +7,7 @@
 #ifndef RAVLIMGIORGB_HEADER
 #define RAVLIMGIORGB_HEADER 1
 ////////////////////////////////////////////////////
-//! file="amma/Image/VidIO/ImgIOrgb.hh"
+//! file="Ravl/Image/VideoIO/ImgIOrgb.hh"
 //! lib=RavlImage
 //! docentry="Image.Image IO"
 //! example=exImgSeq.cc

@@ -11,7 +11,7 @@
 //! docentry="Image.Image IO"
 //! date="29/10/98"
 //! rcsid="$Id$"
-//! file="amma/Image/VidIO/CifFormat.hh"
+//! file="Ravl/Image/VideoIO/CifFormat.hh"
 //! example=exImgSeq.cc
 //! lib=RavlImage
 

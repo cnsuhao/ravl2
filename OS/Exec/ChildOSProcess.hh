@@ -8,7 +8,7 @@
 #define RAVLCHILDEXECPROCESS_HEADER 1
 /////////////////////////////////////////////////////////////////
 //! example=exChild.cc
-//! file="amma/StdType/System/Generic/ChildProc.hh"
+//! file="Ravl/OS/Exec/ChildOSProcess.hh"
 //! lib=RavlOS
 //! author="Charles Galambos"
 //! docentry="Ravl.OS.Exec"

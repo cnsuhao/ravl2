@@ -7,6 +7,7 @@
 //////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/General/testMatInv.cc"
 
 #include "Ravl/Matrix.hh"
 #include "Ravl/Random.hh"

@@ -10,7 +10,7 @@
 //! docentry="Basic_Types.Sequence IO" 
 //! rcsid="$Id$"
 //! userlevel=Normal
-//! file="amma/StdType/DataConv/SequenceIO.hh"
+//! file="Ravl/OS/IO/SequenceIO.hh"
 //! lib=RavlOS
 //! author="Charles Galambos"
 //! date="08/04/99"

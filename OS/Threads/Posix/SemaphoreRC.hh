@@ -8,7 +8,7 @@
 #define RAVLSEMAPHORERC_HEADER 1
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="amma/StdType/System/PThreads/Posix/SemaphoreRC.hh"
+//! file="Ravl/OS/Threads/Posix/SemaphoreRC.hh"
 //! lib=RavlThreads
 //! userlevel=Normal
 //! docentry="Ravl.OS.Threads"

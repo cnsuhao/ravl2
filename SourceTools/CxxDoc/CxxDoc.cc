@@ -7,6 +7,7 @@
 //////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCxxDoc
+//! file="Ravl/SourceTools/CxxDoc/CxxDoc.cc"
 
 #include "Ravl/CxxDoc/Parser.hh"
 #include "Ravl/CxxDoc/Document.hh"

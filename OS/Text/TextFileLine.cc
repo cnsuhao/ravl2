@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Text/TextFileLine.cc"
 
 #include "Ravl/Text/TextFileLine.hh"
 

@@ -7,6 +7,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Text/ConfigFile.cc"
 
 #include "Ravl/Text/ConfigFile.hh"
 #include "Ravl/Text/TextFile.hh"
