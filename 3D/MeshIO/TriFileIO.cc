@@ -39,13 +39,18 @@ namespace Ravl3DN {
       return TriMeshC();
     UIntT nvertex,nelement;
     inf >> nvertex >>  nelement;
+	
     SArray1dC<VertexC> verts(nvertex);
     for(SArray1dIterC<VertexC> vit(verts);vit;vit++) {
       inf >> vit->Position();
       vit->Normal() = Vector3dC(0,0,0);
     }
-    SArray1dC<TriC> faces(nelement);
-    UIntT n,i1,i2,i3;
+    
+	SArray1dC<TriC> faces(nelement);
+	
+    if(nelement==0) return TriMeshC(verts,faces);
+	
+	UIntT n,i1,i2,i3;
     SArray1dIterC<TriC> it(faces);
     UIntT i = 0;
     for(;i < nelement;i++) {
@@ -122,6 +127,7 @@ namespace Ravl3DN {
 
 	done = true;
     // The faces array is resized in case we had to drop any non trianglular faces.
+	
     TriMeshC ret(verts,SArray1dC<TriC>(faces,it.Index().V()));
     ret.SetTextureCoord(1);
 	ret.UpdateVertexNormals();
