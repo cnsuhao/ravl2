@@ -90,16 +90,6 @@ namespace RavlN {
     }
     // Returns the cross product of this vector and the 'vector'.    
   };
-
-
-  inline 
-  TFVectorC<RealT,3> TFVectorC<RealT,3>::operator+(const TFVectorC<RealT,3> & o) const {
-    TFVectorC<RealT,3> ret;
-    ret[0] = data[0] + o[0];
-    ret[1] = data[1] + o[1];
-    ret[2] = data[2] + o[2];
-    return ret;
-  }
   
   inline RealT TFVectorC<RealT,3>::Dot(const TFVectorC<RealT,3> &oth) const 
   { return data[0] * oth.data[0] + data[1] * oth.data[1] + data[2] * oth.data[2]; }
