@@ -1268,6 +1268,18 @@ namespace RavlN {
     // Then chop
     return SubStringC(const_cast<SubStringC &>(*this).at( i, (j-i)+1));
   }
+
+  //: Interpret stream as an integer.
+  
+  IntT StringC::IntValue() const {
+    return atoi(chars());
+  }
+    
+  //: Interpret stream as a floating point value.
+  
+  RealT StringC::RealValue() const {
+    return atof(chars());
+  }
   
   
   int StringC::OK() const {
