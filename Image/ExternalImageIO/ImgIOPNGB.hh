@@ -228,11 +228,15 @@ namespace RavlImageN {
     /* Allocate the memory to hold the image using the fields of info_ptr. */
     
     png_bytep row_pointers[1];
-    dat = ImageC<PixelT>(imgRect);
+    // It seems we need a few extra rows to avoid memory corruption.
+    // similar to jpeg, suspicious!
+    
+    dat = ImageC<PixelT>(IndexRange2dC(imgRect.Origin(),imgRect.End() + Index2dC(2,0)));
+    dat = ImageC<PixelT>(dat,imgRect);
+    
     //ONDEBUG(cerr << "Width:" << dat.Cnum() << " Height:" << dat.Rnum() << " passes:" << number_passes << " \n");
     // Check format...
     //ONDEBUG(cerr << "Row bytes " << png_get_rowbytes(png_ptr, info_ptr) << " Expected:" << (width * 3) << "\n");
-    
     
     /* Now it's time to read the image. */
     

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLIMGIOJPEG_HEADER
-#define RAVLIMGIOJPEG_HEADER 1
+#ifndef RAVLIMAGE_IOJPEG_HEADER
+#define RAVLIMAGE_IOJPEG_HEADER 1
 /////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
@@ -14,7 +14,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.IO.Formats"
 //! example=exImgIO.cc
-//! date="29/10/98"
+//! date="29/10/1998"
 
 #include "Ravl/DP/Port.hh"
 #include "Ravl/Image/Image.hh"

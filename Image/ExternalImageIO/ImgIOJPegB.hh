@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDPIMAGEIOJPEG_HEADER
-#define RAVLDPIMAGEIOJPEG_HEADER 1
+#ifndef RAVLIMAGE_IOJPEGB_HEADER
+#define RAVLIMAGE_IOJPEGB_HEADER 1
 ///////////////////////////////////////////////////
 //! userlevel=Develop
 //! rcsid="$Id$"
@@ -13,10 +13,9 @@
 //! lib=RavlExtImgIO
 //! docentry="Ravl.Images.IO.Formats"
 //! author="Charles Galambos"
-//! date="29/10/98"
+//! date="29/10/1998"
 
 #include "Ravl/config.h"
-
 
 extern "C" {
 #include <stdio.h> // Needed for jpeglib.
@@ -28,8 +27,6 @@ extern "C" {
 #include "Ravl/DP/FileFormat.hh"
 #include "Ravl/DP/Port.hh"
 #include "Ravl/Stream.hh"
-
-
 
 namespace RavlImageN {
   //: JPeg Utilities
@@ -255,6 +252,7 @@ namespace RavlImageN {
     // Establish the setjmp return context for my_error_exit to use.
     if (setjmp(jerr.setjmp_buffer)) {
       // If we get here, the JPEG code has signaled an error.
+      cerr << "DPIImageJPegBodyC<PixelT>::Read(), WARNING: Error reading image. \n";
       return false;
     }
     
@@ -267,17 +265,24 @@ namespace RavlImageN {
      * if we asked for color quantization.
      */ 
     
-    buff = ImageC<PixelT>(cinfo.image_height,cinfo.image_width);  
+    // It seems we need a few extra lines to avoid memory corruption in at 
+    // least some versions of this library.
+    buff = ImageC<PixelT>(cinfo.image_height+2,cinfo.image_width);
+    
+    //cerr << "Image_height=" << cinfo.image_height << " Width=" << cinfo.image_width << "\n";
+    //cerr << "output_height=" << cinfo.output_height << " output_width=" << cinfo.output_width << "\n";
     JSAMPROW buffer[1];	/* pointer to JSAMPLE row[s] */
     
     const IndexC LCol = buff.LCol();
     IndexC crow = buff.TRow();
     
     while (cinfo.output_scanline < cinfo.output_height) {
+      //cerr << "scanline=" << cinfo.output_scanline << " crow=" << crow << "\n";
       buffer[0] = (JSAMPROW) (& (buff[crow++][LCol]));
       jpeg_read_scanlines(&cinfo,buffer , 1);    
     }
-    
+    // Reframe image without padding....
+    buff = ImageC<PixelT>(buff,IndexRange2dC(cinfo.image_height,cinfo.image_width));
     jpeg_finish_decompress(&cinfo);
     
     return true;
