@@ -143,13 +143,13 @@ namespace RavlN {
   ///////////////////////////////
   
   template<class InT,class OutT>
-  DPIOPortC<InT,OutT> DPMultiplex(IntT num,const DPIOPortC<InT,OutT> & nproc)
+  DPMultiplexC<InT,OutT> DPMultiplex(IntT num,const DPIOPortC<InT,OutT> & nproc)
   { return DPMultiplexC<InT,OutT>(num,nproc); }
   //: Create a multiplexer.
   // Helper function.
   
   template<class InT,class OutT>
-  DPIOPortC<InT,OutT> DPMultiplex(const SArray1dC<DPIOPortC<InT,OutT> > &procs)
+  DPMultiplexC<InT,OutT> DPMultiplex(const SArray1dC<DPIOPortC<InT,OutT> > &procs)
   { return DPMultiplexC<InT,OutT>(procs); }
   //: Create a multiplexer.
   // Helper function.
