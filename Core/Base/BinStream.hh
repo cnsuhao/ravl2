@@ -60,6 +60,7 @@ namespace RavlN  {
   
   //! userlevel=Normal
   //: Machine independant binary input stream.
+  // Note: All numbers are stored in big endian format.
   
   class BinIStreamC {
   public:
@@ -148,6 +149,7 @@ namespace RavlN  {
 
   //! userlevel=Normal
   //: Machine independant binary output stream.
+  // Note: All numbers are stored in big endian format.
   
   class BinOStreamC {
   public:
