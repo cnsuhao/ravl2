@@ -28,11 +28,12 @@ HEADERS= Object.hh Document.hh Parser.hh CxxElements.hh \
 
 SOURCES = Object.cc Document.cc Parser.cc \
  CxxElements.cc CxxScope.cc DocExe.cc DocNode.cc DocTree.cc \
- Strings.cc cxx.tab.cc tokenizer.yy.cc
+ Strings.cc  tokenizer.yy.cc cxx.y 
+#cxx.tab.cc
 
 # the output of flex and bison is not compatibile with gcc-3.1, it needs
 # a little tweeking, so don't compile these directly :
-#   tokenizer.l cxx.y 
+#   tokenizer.l 
 
 PLIB = RavlCxxDoc
 

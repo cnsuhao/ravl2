@@ -246,9 +246,9 @@ string:                 /* Strings may be chained.... */
 unqualified_id: IDENTIFIER   { $$=$1; } 
         ;
 
-qualified_id: IDENTIFIER CLCL unqualified_id { $$ = $1.Name() + strp_ColonColon + $3.Name(); }
-        | IDENTIFIER CLCL qualified_id       { $$ = $1.Name() + strp_ColonColon + $3.Name(); }
-        ;
+qualified_id: scope_id CLCL unqualified_id { $$ = $1.Name() + strp_ColonColon + $3.Name(); }
+        | scope_id CLCL qualified_id       { $$ = $1.Name() + strp_ColonColon + $3.Name(); }
+;
 
 maybe_identifier: IDENTIFIER  { $$=$1; }
 	| /* empty */         { $$=ObjectC(); }
