@@ -31,6 +31,16 @@ else
   SHOWIT = @
 endif
 
+# FIXME: PACKAGEDIR is intented to replace all the RAVL's hardwired into
+# the make system.  Before it can be used we have to disentangle
+# what is QMAKE and the base installation.
+
+ifndef PACKAGENAME
+  PACKAGEDIR=RAVL
+else
+  PACKAGEDIR=$(PACKAGENAME)
+endif
+
 PACKAGE:=$(strip $(PACKAGE))#
 
 ifndef QCWD
@@ -106,15 +116,19 @@ endif
 #########################
 # Target directories.
 
+# Admin files used in build but not needed after.
+
+INST_ADMIN=$(ROOTDIR)/share/RAVL/Admin
+
 # Documentation
 
 INST_AUTODOC=$(ROOTDIR)/share/doc/Auto
 INST_DOCNODE=$(INST_AUTODOC)/DocNode
-INST_DOC=$(ROOTDIR)/share/doc/RAVL
+INST_DOC= $(ROOTDIR)/share/doc/RAVL
 INST_PDOC=$(INST_DOC)/$(PACKAGE)
 INST_HTML=$(INST_DOC)/html
 INST_DOCEXAMPLES=$(INST_DOC)/examples
-INST_EHT=$(ROOTDIR)/Admin/AutoDoc/EHT
+INST_EHT= $(INST_ADMIN)/AutoDoc/EHT
 INST_MAN1=$(ROOTDIR)/share/man/man1
 INST_MAN3=$(ROOTDIR)/share/man/man3
 INST_MAN5=$(ROOTDIR)/share/man/man5
@@ -129,7 +143,7 @@ INST_LIB=$(ROOTDIR)/lib/RAVL/$(ARC)/$(VAR)
 INST_FORCEOBJS = $(ROOTDIR)/lib/RAVL/$(ARC)/obj
 
 # Test stuff.
-INST_TEST=$(ROOTDIR)/Admin/$(ARC)/test
+INST_TEST=$(INST_ADMIN)/$(ARC)/test
 INST_TESTBIN=$(INST_TEST)/bin
 INST_TESTLOG=$(INST_TEST)/log
 INST_TESTDB =$(INST_TEST)/TestExes
@@ -138,7 +152,7 @@ INST_LIBDEF=$(ROOTDIR)/lib/RAVL/libdep
 INST_BIN=$(ROOTDIR)/lib/RAVL/$(ARC)/bin# Machine dependent programs.
 INST_GENBIN=$(ROOTDIR)/bin# Machine independent scripts.
 INST_INCLUDE:=$(ROOTDIR)/include
-INST_DEPEND=$(ROOTDIR)/Admin/$(ARC)/depend/$(PACKAGE)/$(BASENAME)
+INST_DEPEND=$(INST_ADMIN)/$(ARC)/depend/$(PACKAGE)/$(BASENAME)
 
 ifeq ($(PACKAGE),local)
 INST_HEADER:=$(INST_INCLUDE)
@@ -146,7 +160,7 @@ else
 INST_HEADER:=$(INST_INCLUDE)/$(PACKAGE)
 endif
 
-INST_HEADERCERT:=$(ROOTDIR)/Admin/Cert/$(PACKAGE)
+INST_HEADERCERT:=$(INST_ADMIN)/Cert/$(PACKAGE)
 
 # Java classes
 
@@ -169,8 +183,8 @@ DEF_INC = -I. -I$(INST_LIBDEF) -I$(INSTALLHOME)/lib/RAVL/libdep
 # Some targets.
 
 # Published dependancy flag.
-TARG_DEPFLAG=$(ROOTDIR)/Admin/$(ARC)/depend/$(PACKAGE)/$(BASENAME)/.depend
-TARG_HDRFLAG=$(ROOTDIR)/Admin/$(ARC)/depend/$(PACKAGE)/$(BASENAME)/.header
+TARG_DEPFLAG=$(INST_ADMIN)/$(ARC)/depend/$(PACKAGE)/$(BASENAME)/.depend
+TARG_HDRFLAG=$(INST_ADMIN)/$(ARC)/depend/$(PACKAGE)/$(BASENAME)/.header
 
 ##############################
 # Make setup
