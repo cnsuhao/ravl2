@@ -143,7 +143,7 @@ namespace RavlImageN {
   void Convolve2dC<short,short,short,int>::Apply(const ImageC<short> &in,ImageC<short> &result) const {
     ShortConvolve2d(in,result,kernel);    
  }
-#endif  
+ #endif  
 
   
 }

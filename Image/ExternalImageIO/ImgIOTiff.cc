@@ -73,16 +73,19 @@ namespace RavlImageN {
 
   //: Write out image.
   
-  bool DPOImageTIFFByteRGBABodyC::Put(const ImageC<ByteRGBAValueC> &img) {
+  bool DPOImageTIFFByteRGBABodyC::Put(const ImageC<ByteRGBAValueC> &img)
+  {
     uint32 w = img.Cols();
     uint32 h = img.Rows();
+  
     ONDEBUG(cerr << "DPIImageTIFFByteRGBABodyC::Put(), Called. " << w << " " << h << " \n");
+    
     if (tif == 0) 
       return false;
     
     uint32 rowsperstrip = (uint32) -1;
     
-    TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_BOTLEFT);
+    TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
     TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, w);
     TIFFSetField(tif, TIFFTAG_IMAGELENGTH, h);
     TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
@@ -91,7 +94,7 @@ namespace RavlImageN {
     TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
     TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP,
 		 TIFFDefaultStripSize(tif,rowsperstrip));
-    TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
+    TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_LZW);
     
     const IndexC offset = img.LCol();
     
