@@ -458,7 +458,7 @@ namespace RavlCxxDocN
 	isFirst = false;
       } else
 	ret += ',';
-      ret += it->FullName();
+      ret += it->FullName();;
     }
     ret += ')';
     if(quals.IsValid() && !quals.Name().IsEmpty())
@@ -546,7 +546,7 @@ namespace RavlCxxDocN
       if(alias != "") {
 	ret += ' ';
 	if(alias.contains("="))
-	  ret += alias.before("=");
+	  ret += alias.before("=").TopAndTail();
 	else
 	  ret += alias;
       }
