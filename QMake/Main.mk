@@ -723,7 +723,11 @@ $(TARG_EXE) : $(INST_BIN)/% : $(INST_OBJS)/%$(OBJEXT) $(INST_GENBIN)/% $(EXTRAOB
 	  exit 1; \
 	fi
 
-$(INST_GENBIN)/RAVLExec : $(INST_GENBIN)/.dir $(MAKEHOME)/RAVLExec 
+$(ROOTDIR)/share/RAVL/config.arc : $(ROOTDIR)/share/RAVL/QMake/config.arc
+	$(SHOWIT)cp $(ROOTDIR)/share/RAVL/QMake/config.arc $(ROOTDIR)/share/RAVL/config.arc
+	$(CHMOD) 555 $(ROOTDIR)/share/RAVL/config.arc
+
+$(INST_GENBIN)/RAVLExec : $(INST_GENBIN)/.dir $(MAKEHOME)/RAVLExec $(ROOTDIR)/share/RAVL/config.arc
 	$(SHOWIT)cp -f $(MAKEHOME)/RAVLExec $(INST_GENBIN)/RAVLExec ; \
 	$(CHMOD) 555 $(INST_GENBIN)/RAVLExec
 
@@ -743,7 +747,7 @@ $(TARG_TESTEXE) : $(INST_TESTBIN)/% : $(INST_OBJS)/%$(OBJEXT) $(TARG_LIBS) $(EXT
 	$(SHOWIT)echo "--- Linking test program $(@F)  ( $(INST_TESTBIN)/$(@F) ) " ; \
 	if $(CXX) $(LDFLAGS) $(INST_OBJS)/$(@F)$(OBJEXT)  $(EXTRAOBJS) $(BINLIBS) -o $(INST_TESTBIN)/$(@F) ; then \
 	  $(SYNC) ; \
-	  $(CHMOD) 555 $(INST_BIN)/$(@F) ; \
+	  $(CHMOD) 555 $(INST_TESTBIN)/$(@F) ; \
 	  echo "$(@F)" >> $(INST_TESTDB) ; \
 	else \
 	  exit 1; \

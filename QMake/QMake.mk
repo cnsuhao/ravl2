@@ -233,10 +233,44 @@ fullbuild:
         else \
 	  echo "QMAKE: debug library build failed. " ; \
 	  exit 1; \
-        fi ; 
-	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=shared TARGET=libbuild NOEXEBUILD=1 ; then true; \
+        fi ; \
+	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=opt TARGET=libbuild NOEXEBUILD=1 ; then true; \
         else \
 	  echo "QMAKE: opt library build failed. " ; \
+	  exit 1; \
+        fi ; \
+	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=opt TARGET=fullbuild  ; then true; \
+        else \
+	  echo "QMAKE: executable build failed. " ; \
+	  exit 1; \
+        fi ; \
+	echo "Building documentation. " ; \
+	$(MAKEDC) $(FULLBUILDFLAGS) doc 
+
+rpmbuild:
+	$(SHOWIT)if $(MAKEMO) $(FULLBUILDFLAGS) src_all NOINCDEFS=1 ; then true; \
+        else \
+	  echo "QMAKE: Installation of header files failed. " ; \
+	  exit 1; \
+        fi ; \
+	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=check TARGET=libbuild NOEXEBUILD=1 ; then true; \
+        else \
+	  echo "QMAKE: check library build failed. " ; \
+	  exit 1; \
+        fi ; \
+	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=debug TARGET=libbuild NOEXEBUILD=1 ; then true; \
+        else \
+	  echo "QMAKE: debug library build failed. " ; \
+	  exit 1; \
+        fi ; \
+	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=opt TARGET=libbuild NOEXEBUILD=1 ; then true; \
+        else \
+	  echo "QMAKE: opt library build failed. " ; \
+	  exit 1; \
+        fi ; \
+	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=shared TARGET=libbuild NOEXEBUILD=1 ; then true; \
+        else \
+	  echo "QMAKE: shared library build failed. " ; \
 	  exit 1; \
         fi ; \
 	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=shared TARGET=fullbuild  ; then true; \

@@ -1,6 +1,7 @@
 #! /bin/sh
-QMAKE_INSTALL=/buf/ees1cg/RavlTest/share/RAVL/QMake
+RAVL_INSTALL=/buf/ees1cg/RavlTest
 if test -z ${ARC} ; then
-  ARC=`${QMAKE_INSTALL}/config.arc`
+  ARC=`${RAVL_INSTALL}/share/RAVL/config.arc`
 fi
-exec ${QMAKE_INSTALL}/../../../lib/RAVL/${ARC}/bin/`basename $0` $*
+setenv LD_LIBRARY_PATH ${RAVL_INSTALL}/lib/RAVL/${ARC}/shared\:${LD_LIBRARY_PATH}
+exec ${RAVL_INSTALL}/lib/RAVL/${ARC}/bin/`basename $0` $*

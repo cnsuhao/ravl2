@@ -1,6 +1,7 @@
 $NEWHOME = $ARGV[0];
-open(infile,$ARGV[1]);
-open(outfile,">$ARGV[2]");
+$PROJOUT = $ARGV[1];
+open(infile,$ARGV[2]);
+open(outfile,">$ARGV[3]");
 while(<infile>) {
   if(/[ ]*MAKEHOME[ ]*=[ ]*[^ ]*/) {
     print outfile " MAKEHOME\=$NEWHOME\n" ;
@@ -9,8 +10,8 @@ while(<infile>) {
       print outfile "setenv QMAKE_INSTALL $NEWHOME\n" ;
     } elsif(/[ ]*\$QMAKE_INSTALL_DIR[ ]+\=[ ]*[^ ]*/) {
       print outfile "\$QMAKE_INSTALL_DIR = \"$NEWHOME\" ;\n" ;
-    } elsif(/[ ]*QMAKE_INSTALL[ ]*\=[ ]*[^ ]*/) {
-      print outfile "QMAKE_INSTALL=$NEWHOME\n" ;
+    } elsif(/[ ]*RAVL_INSTALL[ ]*\=[ ]*[^ ]*/) {
+      print outfile "RAVL_INSTALL=$PROJOUT\n" ;
     }else {
       print outfile "$_" ;
     }

@@ -53,4 +53,4 @@ ${MAKE} -f ./QMake.mk MAKEHOME=`pwd` BASE_VAR=none PROJECT_OUT=${INSTALL_SITE} P
 
 echo "Use the following alias for compilation.  PROJECT_OUT controls the directory "
 echo "into which your own code will be compiled. The default is 'build' in your home directory. "
-echo "alias mk '${MAKE} -f ${INSTALL_SITE}/share/RAVL/QMake/QMake.mk PROJECT_OUT=$HOME/build'"
+echo "alias mk '${MAKE} -f ${INSTALL_SITE}/share/RAVL/QMake/QMake.mk USERBUILD=1 PROJECT_OUT=$HOME/build'"
