@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/ImageIO/ImgIO.hh"
-//! lib=RavlImage
+//! lib=RavlImageIO
 //! userlevel=Advanced
 //! docentry="Ravl.Images.IO"
 //! author="Charles Galambos"

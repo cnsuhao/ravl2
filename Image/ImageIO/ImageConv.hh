@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/DPImageIO/ImageConv.hh"
-//! lib=RavlImage
+//! lib=RavlImageIO
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="16/03/99"

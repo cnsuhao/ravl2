@@ -7,7 +7,7 @@
 ///////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlImageIO
 //! file="Ravl/Image/ImageIO/ImgIOInt.cc"
 
 #include "Ravl/DP/FileFormatStream.hh"

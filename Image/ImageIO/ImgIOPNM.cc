@@ -6,7 +6,7 @@
 // file-header-ends-here
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlImageIO
 //! file="Ravl/Image/ImageIO/ImgIOPNM.cc"
 
 #include "Ravl/BinStream.hh"

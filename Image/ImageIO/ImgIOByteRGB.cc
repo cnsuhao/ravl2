@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! author="Charles Galambos"
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlImageIO
 //! file="Ravl/Image/ImageIO/ImgIOByteRGB.cc"
 
 

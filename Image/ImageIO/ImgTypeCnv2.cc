@@ -6,7 +6,7 @@
 // file-header-ends-here
 /////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlImageIO
 
 #include "Ravl/DP/Converter.hh"
 #include "Ravl/Image/ImageConv.hh"

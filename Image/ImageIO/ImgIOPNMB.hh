@@ -10,7 +10,7 @@
 //! userlevel=Develop
 //! rcsid="$Id$"
 //! file="Ravl/Image/ImageIO/ImgIOPNMB.hh"
-//! lib=RavlImage
+//! lib=RavlImageIO
 //! docentry="Ravl.Images.IO.Formats"
 //! author="Charles Galambos"
 //! date="29/10/98"
