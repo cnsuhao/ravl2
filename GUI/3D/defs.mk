@@ -1,0 +1,53 @@
+# This file is part of RAVL, Recognition And Vision Library 
+# Copyright (C) 2001, University of Surrey
+# This code may be redistributed under the terms of the GNU Lesser
+# General Public License (LGPL). See the lgpl.licence file for details or
+# see http://www.gnu.org/copyleft/lesser.html
+# file-header-ends-here
+######################################################
+# $Id$
+#! rcsid="$Id$"
+
+PACKAGE=Ravl/GUI
+
+LICENCE=GPL
+
+DESCRIPTION = Interface to open GL.
+
+#ifneq ($(ARC),sgi)
+#ANSIFLAG = -fpermissive
+#endif
+
+MAINS = 
+#exView3D.cc 
+#v3d.cc
+#ex3DCanvas.cc
+
+HEADERS = gdkgl.h gtkglarea.h DObject3D.hh DLight3D.hh \
+ Util.hh Canvas3D.hh DViewPoint3D.hh DCube3D.hh 
+#View3D.hh
+
+#  DLines3D.hh
+#      
+
+# DPolops3D.hh  DTriSet3D.hh DCTriSet3D.hh Pixmap3D.hh
+
+SOURCES = gdkgl.c gtkglarea.c DObject3D.cc  DLight3D.cc \
+ Util.cc Canvas3D.cc DViewPoint3D.cc DCube3D.cc 
+#View3D.cc
+
+#  DLines3D.cc
+#      
+
+# DPolops3D.cc  DTriSet3D.cc DCTriSet3D.cc Pixmap3D.cc
+
+PLIB = RavlGUI3D
+
+EXAMPLES = 
+#ex3DCanvas.cc exView3D.cc
+
+USESLIBS = RavlCore RavlGeom RavlGUI OpenGL
+#GUI OpenGL Polops tri DispMap
+
+PROGLIBS = 
+#DPSurf3DIO
