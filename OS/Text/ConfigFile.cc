@@ -121,7 +121,11 @@ namespace RavlN {
       }
       ONDEBUG(cout << "Doing line:" << tc.LineText());
       StringC tag,data;
+#if 0
       tag = tc.ClipID();
+#else
+      tag = tc.ClipWord("= \n\t\r\0");
+#endif
       if(tag.IsEmpty()) {
 	cerr << "ERROR: reading tag at " << tc.PositionTxt() << "\n";
 	return false;
