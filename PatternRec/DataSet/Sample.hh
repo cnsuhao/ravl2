@@ -54,6 +54,12 @@ namespace RavlN {
     { return DArray1dC<DataT>::Append(dat).V(); }
     //: Insert a single sample into sample
     
+    UIntT Append(const SampleC<DataT> &newData)
+    { return DArray1dC<DataT>::Append(newData); }
+    //: Append data to this array.
+    // Note the data is not copied!
+    // The number of items appended is returned.
+
     UIntT operator+=(const DataT & dat)
     { return Append(dat); }
     //: Indentical to Append().
