@@ -73,6 +73,16 @@ namespace RavlN {
   };
   
   ////////////////////////////////////////
+
+  template<class DataC>
+  ostream &operator<<(ostream & s, const TVectorC<DataC> & arr) {
+    // This uses spaces instread of '\n' which makes vectors more readable.
+    // otherwise its no different from the SArray1dC version.
+    s << arr.Size() << ' '; 
+    for(BufferAccessIterC<DataC> it(arr);it;it++)
+      s << ((const DataC &) *it) << ' ';
+    return s;
+  }
   
   template<class DataT>
   inline 
