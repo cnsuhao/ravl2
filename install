@@ -21,6 +21,11 @@ case ${INSTMODE} in
      else
        CONFIGFILE="CONFIGFILE=$3"
      fi
+     if [ -z "$4" ] ; then
+       TARGETARC=""
+     else
+       TARGETARC="ARC=$4"
+     fi
      true ;;
   --config)
      BUILDDIR=$1
@@ -88,7 +93,7 @@ fi
 echo "Architecture: '${ARC}'"
 
 # Install make system.
-if ${MAKE} -C QMake -f ./QMake.mk MAKEHOME=`pwd`/QMake BASEINSTALL=1 PROJECT_OUT=${INSTALL_SITE} ROOTDIR=${BUILDDIR} PROCS=1 FULLBUILDSRC='BASE_VAR=none' ${CONFIGFILE} ; then
+if ${MAKE} -C QMake -f ./QMake.mk MAKEHOME=`pwd`/QMake BASEINSTALL=1 PROJECT_OUT=${INSTALL_SITE} ROOTDIR=${BUILDDIR} PROCS=1 FULLBUILDSRC='BASE_VAR=none' ${CONFIGFILE} ${TARGETARC} ; then
   true
 else
   echo "ERROR: Failed to install make system. "
@@ -97,7 +102,7 @@ else
 fi
 
 # Compile libraries
-if ${MAKE} -f ${BUILDDIR}/share/RAVL/QMake/QMake.mk MAKEHOME=${BUILDDIR}/share/RAVL/QMake BASEINSTALL=1 INSTALLHOME=${BUILDDIR} PROJECT_OUT=${INSTALL_SITE}  ROOTDIR=${BUILDDIR} ${BUILDTYPE}  FULLBUILDSRC='BASE_VAR=none' ; then 
+if ${MAKE} -f ${BUILDDIR}/share/RAVL/QMake/QMake.mk MAKEHOME=${BUILDDIR}/share/RAVL/QMake BASEINSTALL=1 INSTALLHOME=${BUILDDIR} PROJECT_OUT=${INSTALL_SITE}  ROOTDIR=${BUILDDIR} ${BUILDTYPE} ${TARGETARC}  FULLBUILDSRC='BASE_VAR=none' ; then 
   true
 else
   echo "ERROR: Failed to build libraries. "
