@@ -27,7 +27,7 @@
 namespace RavlN {
 
   enum XMLTagOpsT 
-    { XMLEndTag, XMLContent, XMLIndent,XMLIndentDown, XMLEmptyTag, XMLBeginTag, XMLComment };
+    { XMLEndTag, XMLContent, XMLIndent,XMLIndentDown, XMLEmptyTag, XMLBeginTag, XMLComment, XML_PI };
   
   //! userlevel=Normal
   //: Exception issued when an parse error occurs.
@@ -464,23 +464,31 @@ namespace RavlN {
         XMLBaseC(true)
     {}
     //: Construct from an ordinary stream.
-
+    
+    bool ReadHeader();
+    //: Check XML header on stream.
+    // Check the XML header, if the header is not found the stream
+    // routine attempts to return the stream to the state is was in before
+    // the call. If the header is found the stream is left on the
+    // charactor after the xml header.
+    
     XMLTagOpsT PeekTag(StringC &name,RCHashC<StringC,StringC> &attr);
     //: Have a look at the next tag that will be read.
     // This assumes the next element in the stream is a tag. If not the content
-    // will be skipped.
-
+    // will be skipped. See 'ReadTag' for more information.
+    
     XMLTagOpsT PeekTag(StringC &name) {
       RCHashC<StringC,StringC> attr;
       return PeekTag(name,attr);
     }
     //: Have a look at the next tag that will be read.
     // This assumes the next element in the stream is a tag. If not the content
-    // will be skipped.
+    // will be skipped. See 'ReadTag' for more information.
     
     XMLTagOpsT ReadTag(StringC &name,RCHashC<StringC,StringC> &attr);
     //: Read a tag from a stream.
-    // returns XMLBeginTag, XMLEndTag or XMLEmptyTag.
+    // returns XMLBeginTag, XMLEndTag, XMLEmptyTag or XML_PI. 
+    // XML Processing Instructions indicated by XML_PI are treated in the same way as empty tags.
     // This will skip comments and DTD info, and anything else it doesn't understand.
     
     XMLTagOpsT ReadTag(StringC &name) {
@@ -488,7 +496,8 @@ namespace RavlN {
       return ReadTag(name,attr);
     }
     //: Read a tag from a stream.
-    // returns XMLBeginTag, XMLEndTag or XMLEmptyTag.
+    // returns XMLBeginTag, XMLEndTag, XMLEmptyTag or XML_PI. 
+    // XML Processing Instructions indicated by XML_PI are treated in the same way as empty tags.
     // This will skip comments and DTD info, and anything else it doesn't understand.
     
     bool SkipElement();
@@ -567,6 +576,12 @@ namespace RavlN {
 	XMLBaseC(true)
     {}
     //: Construct from an ordinary stream.
+    
+    bool WriteHeader();
+    //: Write XML header.
+    
+    bool WritePI(const StringC &name,const RCHashC<StringC,StringC> &attribs);
+    //: Write a Processing Instruction to the stream with the given name and attributes.
     
     void StartTag(const StringC &name,
 		  const RCHashC<StringC,StringC> &attribs,

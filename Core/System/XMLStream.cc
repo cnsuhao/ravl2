@@ -105,6 +105,49 @@ namespace RavlN {
       ((XMLBaseC &)*this) = XMLBaseC(true);
   }
   
+  bool XMLIStreamC::ReadHeader() {
+    // Check first two no
+    streampos mark = Tell();
+    char c = GetChar();
+    if(c != '<') {
+      is().putback(c);
+      return false;
+    }
+    c = GetChar();
+    if(c != '?') {
+      is().putback('<');
+      is().putback(c);
+      return false;
+    }
+    StringC name = ReadID();
+    if(name != "xml") {
+      Seek(mark);
+      return false;
+    }
+    XMLElementC elem(name);
+    bool done = false;
+    while(!done) {
+      char c = SkipWhiteSpace();
+      switch(c) {
+      case '?':
+	done = true;
+	break;
+      case '>': // Illegal charactor.
+	Seek(mark);      
+	return false;
+      default:
+	is().putback(c);
+	ReadAttrib(elem);
+      }
+    }
+    c = GetChar();
+    if(c != '>') {
+      Seek(mark);      
+      return false;
+    }
+    return true;
+  }
+  
   StringC XMLIStreamC::ReadID() {
     StringC ret;
     char c = SkipWhiteSpace();
@@ -122,6 +165,7 @@ namespace RavlN {
     bool endOfTag = false;
     bool emptyTag = false;
     bool foundEndTag = false;
+    bool isPI = false;
     StringC id;
     try {
       while(*this && !endOfTag) {
@@ -137,9 +181,10 @@ namespace RavlN {
 	switch(c) 
 	  {
 	  case '?': // Processing instruction.
+	    isPI = true;
+	    emptyTag = true;
 	    ONDEBUG(cerr << "XMLIStreamC::ReadTag(), Found processing instruction. \n");
-	    SkipTo("?>"); // Skip it.
-	    continue; // Start searching for a tag again.
+	    break;
 	  case '!':  // Comment or DTD
 	    {
 	      char nc = GetChar();
@@ -183,6 +228,12 @@ namespace RavlN {
 	  c = SkipWhiteSpace();
 	  switch(c) 
 	    {
+	    case '?':
+	      if(!isPI) { // Are we in a processing instruction ?
+		ONDEBUG(cerr << "ERROR: Unexpected character '"  << c << "' in XML tag. \n");
+		throw ExceptionInvalidStreamC("Unexpected end of XML tag. ");
+	      }
+	      /* FALL THROUGH */	      
 	    case '/':
 	      c = GetChar();
 	      if(c != '>') {
@@ -211,6 +262,8 @@ namespace RavlN {
     }
     if(emptyTag) {
       name = id;
+      if(isPI)
+	return XML_PI;
       if(!foundEndTag)
 	return XMLEmptyTag;
       return XMLEndTag;
@@ -375,6 +428,23 @@ namespace RavlN {
       ((XMLBaseC &)*this) = XMLBaseC(true);
   }
   
+  //: Write XML header.
+  
+  bool XMLOStreamC::WriteHeader() {
+    (*this) << "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
+    return true;
+  }
+
+  //: Write a Processing Instruction to the stream with the given name and attributes.
+  
+  bool XMLOStreamC::WritePI(const StringC &name,const RCHashC<StringC,StringC> &attribs) {
+    (*this) << "<?" << name << ' ';
+    for(HashIterC<StringC,StringC> it(attribs);it;it++)
+      (*this) << ' ' << it.Key() << "=\"" << it.Data() << "\"";
+    (*this) << " ?>";
+    return true;
+  }
+
   //: Begin writting a tag with the given attributes.
   
   void XMLOStreamC::StartTag(const StringC &name,const RCHashC<StringC,StringC> &attribs,bool emptyTag) {
@@ -518,9 +588,11 @@ namespace RavlN {
       case XMLIndentDown: strm.Indent(-1); break;
 	
       case XMLBeginTag:
+      case XML_PI:
       case XMLComment:
 	RavlAssertMsg(0,"XMLOStreamC & operator<<(XMLTagOpsT) Illegal tag op. ");
 	break;
+	
       }
     return strm;
   }
@@ -546,6 +618,7 @@ namespace RavlN {
       case XMLIndentDown: 
 	break; // Ignore.
 	
+      case XML_PI:
       case XMLEmptyTag:
       case XMLBeginTag:
       case XMLComment: // Issue error.
