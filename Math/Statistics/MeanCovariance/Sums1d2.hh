@@ -80,12 +80,24 @@ namespace RavlN {
     { return sum2; }
     //: Sum of squares of all data points.
     
-    MeanVarianceC MeanVariance() {
+    MeanVarianceC MeanVariance() const {
       RealT rn = (RealT) n;
       RealT mean  = sum / rn;
       return MeanVarianceC(n,mean,(sum2 - Sqr(sum)/rn)/(rn-1));
     }
     //: Calculate the mean and variance for this sample.
+
+    RealT Variance() const {
+      RealT rn = (RealT) n;
+      return (sum2 - Sqr(sum)/rn)/(rn-1);
+    }
+    //: Compute the variance of the sample.
+    
+    RealT Mean() const {
+      RealT rn = (RealT) n;
+      return sum / rn;
+    }
+    //: Compute the mean of the sample.
     
   protected:
     UIntT n;
