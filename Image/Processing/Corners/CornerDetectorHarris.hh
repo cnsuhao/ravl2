@@ -33,15 +33,15 @@ namespace RavlImageN {
     // threshold = Minimum level of cornerness to accept. <br>
     // w = width of filter to use for corners.
     
-    DListC<CornerC> Apply(ImageC<ByteT> &img);
+    DListC<CornerC> Apply(const ImageC<ByteT> &img);
     //: Get a list of corners from 'img'
     
   protected:    
-    void ImagGrad(ImageC<ByteT> &In,ImageC<TFVectorC<IntT,3> > &val);
+    void ImagGrad(const ImageC<ByteT> &in,ImageC<TFVectorC<IntT,3> > &val);
     
-    ImageC<IntT> CornerHarris(ImageC<ByteT> &img);
+    ImageC<IntT> CornerHarris(const ImageC<ByteT> &img);
     
-    int Peak(ImageC<IntT> &result,ImageC<ByteT> &in,DListC<CornerC> &cornerOut);
+    int Peak(ImageC<IntT> &result,const ImageC<ByteT> &in,DListC<CornerC> &cornerOut);
 
   private:
     const int w;
