@@ -19,7 +19,9 @@ HEADERS=EdgeSobel.hh EdgeDeriche.hh SqrComposition.hh \
 
 SOURCES=EdgeSobel.cc EdgeDeriche.cc SqrComposition.cc \
  EdgeNonMaxSuppression.cc Edgel.cc EdgeLink.cc \
- EdgeDetector.cc
+ EdgeDetector.cc EdgeIO.cc
+
+MUSTLINK=RavlEdgeIO.cc
 
 PLIB=RavlImageProc
 

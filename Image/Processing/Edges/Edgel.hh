@@ -111,6 +111,12 @@ namespace RavlImageN {
   istream &operator>>(istream &s,EdgelC &edgel);
   //: Read from a stream.
   
+  BinOStreamC &operator<<(BinOStreamC &s,const EdgelC &edgel);
+  //: Write to a stream.
+  
+  BinIStreamC &operator>>(BinIStreamC &s,EdgelC &edgel);
+  //: Read from a stream.
+  
     
 }
 #endif

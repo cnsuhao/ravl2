@@ -10,6 +10,7 @@
 
 #include "Ravl/Image/Edgel.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlImageN {
   
@@ -20,6 +21,18 @@ namespace RavlImageN {
   //: Write to a stream.
   
   istream &operator>>(istream &s,EdgelC &edgel) {
+    s >> edgel.At() >> edgel.Direction() >> edgel.Magnitude();
+    return s;
+  }
+  //: Read from a stream.
+  
+  BinOStreamC &operator<<(BinOStreamC &s,const EdgelC &edgel) {
+    s << edgel.At() << edgel.Direction() << edgel.Magnitude();
+    return s;
+  }  
+  //: Write to a stream.
+  
+  BinIStreamC &operator>>(BinIStreamC &s,EdgelC &edgel) {
     s >> edgel.At() >> edgel.Direction() >> edgel.Magnitude();
     return s;
   }
