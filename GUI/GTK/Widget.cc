@@ -138,7 +138,7 @@ namespace RavlGUIN {
 #if RAVL_USE_GTK2
       GTKSIG("row-collapsed"        ,GTKSIG_TREEROW ), // GtkTreeView
       GTKSIG("row-expanded"         ,GTKSIG_TREEROW ), // GtkTreeView
-      GTKSIG("row-activate"         ,GTKSIG_TREEPATHCOL ), // GtkTreeView
+      GTKSIG("row-activated"        ,GTKSIG_TREEPATHCOL ), // GtkTreeView
 #endif
       GTKSIG("destroy",GTKSIG_TERM)  // Duplicate first key to terminate array.
     };
