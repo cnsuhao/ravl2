@@ -18,11 +18,16 @@ image.  However other rectangles can also be attached, corresponding to
 subimages; they can also be moved around the image.  These can be useful for
 spatial filtering and other neighbourhood operations.
 
-<h4> Image IO:</h4>
+<h4> Image IO and type conversion:</h4>
 
-There is a comprehensive <a href="Ravl.Core.IO.html">I/O package</a> within
-RAVL, including <a href="Ravl.Images.IO.html">image I/O</a>.  It can deal with a
-large and expanding range of file formats.
+<p>There is a comprehensive <a href="Ravl.Core.IO.html">I/O
+package</a> within RAVL, including <a href="Ravl.Images.IO.html">image
+I/O</a>.  It can deal with a large and expanding range of file
+formats.</p>
+
+<p>The underlying mechanism used to convert between the file format
+and the image pixel type can also be used to convert from <a href =
+"Ravl.Core.IO.Type_Converter.html">one image type to another</a>.</p>
 
 <h4> Indexing images:</h4>
 <ul>
