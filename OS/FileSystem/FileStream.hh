@@ -60,7 +60,7 @@ namespace RavlN {
     
     IntT ReadAll(void *data,IntT length);
     //: Read all data from file descriptor.
-    // This routine works as Write(), but will handle temporary errors.
+    // This routine works as Read(), but will handle temporary errors.
     // Returns the number of charactors written, or -1 on error.
     
     bool Good() const
