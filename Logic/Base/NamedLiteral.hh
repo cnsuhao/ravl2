@@ -61,10 +61,10 @@ namespace RavlLogicN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    NamedLiteralC(const StringC &name)
-      : LiteralC(*new NamedLiteralBodyC(name))
-    {}
-    //: Constructor.
+    NamedLiteralC(const StringC &name);
+    //: Construct from a string.
+    // NB. NamedLiterals with the same name are considered
+    // equivelent in every way.
     
     NamedLiteralC(const LiteralC &oth)
       : LiteralC(oth)
@@ -76,12 +76,18 @@ namespace RavlLogicN {
     // if 'oth' isn't a named literal an invalid handle
     // will be created.
     
+  protected:
+    NamedLiteralC(NamedLiteralBodyC &oth)
+      : LiteralC(oth)
+    {}
+    //: Body constructor.
+    
   };
 
   inline NamedLiteralC Literal(const char *name)
   { return NamedLiteralC(StringC(name)); }
   //: Create a named symbol.
-
+  
 }
 
 #endif

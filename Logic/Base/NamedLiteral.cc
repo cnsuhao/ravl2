@@ -9,9 +9,10 @@
 //! lib=RavlLogic
 
 #include "Ravl/Logic/NamedLiteral.hh"
+#include "Ravl/MTLocks.hh"
 
 namespace RavlLogicN {
-  
+
   //: Get the name of symbol.
   
   StringC NamedLiteralBodyC::Name() const {
@@ -28,6 +29,30 @@ namespace RavlLogicN {
   bool NamedLiteralBodyC::IsEqual(const LiteralC &oth) const {
     return oth.Name() == name;
   }
+
+  //---------------------------------------------------------------------
   
+  static HashC<StringC,LiteralC> namedLiterals;
   
+  //: Constructor.
+  
+  NamedLiteralC::NamedLiteralC(const StringC &name)
+  {
+    LiteralC ret;
+    MTReadLockC rlock(3);
+    if(namedLiterals.Lookup(name,ret)) {
+      (*this) = ret;
+      return ;
+    }
+    rlock.Unlock();
+    MTWriteLockC wlock(3);
+    LiteralC &tmp = namedLiterals[name];
+    if(tmp.IsValid()) { // Make sure its not been setup while we swapped locks.
+      (*this) = tmp;
+      return ;
+    }
+    // Create a new literal.
+    tmp = NamedLiteralC(*new NamedLiteralBodyC(name));
+    (*this) = tmp;
+  }
 }
