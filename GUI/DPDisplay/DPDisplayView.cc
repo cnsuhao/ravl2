@@ -43,12 +43,12 @@ namespace RavlGUIN {
     int rows = winSize.RCol().V();
     int cols = winSize.BRow().V();
     // Limit maximum inital size.
-    if(rows > 800)
-      rows = 800;
+    if(rows > 400)
+      rows = 400;
     if(rows < 30)
       rows = 30;
-    if(cols > 800)
-      cols = 800;
+    if(cols > 400)
+      cols = 400;
     if(cols < 30)
        cols = 30;
     canvas = RawCanvasC(rows,cols);
@@ -61,8 +61,8 @@ namespace RavlGUIN {
     
     DPDisplayViewC thisH(*this);
     
-    vSlider = SliderVR(1.0,0.0,100.0,1.0,*this,&DPDisplayViewBodyC::CallbackXOffset);
-    hSlider = SliderHR(1.0,0.0,100.0,1.0,*this,&DPDisplayViewBodyC::CallbackYOffset);
+    vSlider = SliderVR(1.0,0.0,100.0,1.0,*this,&DPDisplayViewBodyC::CallbackYOffset);
+    hSlider = SliderHR(1.0,0.0,100.0,1.0,*this,&DPDisplayViewBodyC::CallbackXOffset);
     vSlider.SetDrawValue(false);
     hSlider.SetDrawValue(false);
     
@@ -81,8 +81,8 @@ namespace RavlGUIN {
 			  (GtkAttachOptions)(GTK_FILL));
     
     TableBodyC::AddObject(canvas,1,2,1,2,
-			  (GtkAttachOptions)(GTK_FILL),
-			  (GtkAttachOptions)(GTK_FILL)
+			  (GtkAttachOptions)(GTK_FILL|GTK_SHRINK),
+			  (GtkAttachOptions)(GTK_FILL|GTK_SHRINK)
 			  );
     ConnectRef(canvas.Signal("expose_event"),*this,&DPDisplayViewBodyC::CallbackExpose);
     ConnectRef(canvas.Signal("configure_event"),*this,&DPDisplayViewBodyC::CallbackConfigure,(GdkEvent *) 0);    
