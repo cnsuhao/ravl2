@@ -376,12 +376,15 @@ namespace RavlN {
     } catch(ExceptionC &e) {
       cerr << "RAVL Exception :'" << e.what() << "'\n";
       cerr << "NetEndPointBodyC::RunDecode(), Exception caught, terminating link. \n";
-    } catch(exception &e) {
+    } 
+#if 0
+    catch(exception &e) {
       cerr << "C++ Exception :'" << e.what() << "'\n";
       cerr << "NetEndPointBodyC::RunDecode(), Exception caught, terminating link. \n";
     } catch(...) {
       cerr << "NetEndPointBodyC::RunDecode(), Exception caught, terminating link. \n";
     }
+#endif
       //shutdown = true;
     transmitQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
     // Can't to much about recieve...
