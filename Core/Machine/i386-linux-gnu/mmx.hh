@@ -33,7 +33,7 @@
 // Use this before any MMX operations, and after floating point ops between
 // mmx calls.
 
-#define INITMMX __asm__( "pxor %mm0, %mm0" : : ); // Init the mask register
+#define INITMMX __asm__( "pxor %%mm0, %%mm0" : : ); // Init the mask register
 
 // Use this after any MMX operations if thay are followed by floating point ops.
 
