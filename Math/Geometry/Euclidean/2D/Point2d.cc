@@ -30,6 +30,7 @@ namespace RavlN {
     norm = SArray1dC<Point2dC>(raw.Size());
     Point2dC mean(0,0);
     for(SArray1dIter2C<Point2dC,Point2dC> it(raw,norm);it;it++) {
+      RavlAssert(!IsNan(it.Data1()[0]) && !IsNan(it.Data1()[1]));
       it.Data2() = it.Data1();
       mean += it.Data1();
     }
@@ -37,7 +38,7 @@ namespace RavlN {
     RealT d = 0;
     for(SArray1dIterC<Point2dC> it(norm);it;it++) {
       (*it) -= mean;
-      d += Sqrt(Sqr((*it)[0]) + Sqr((*it)[1]));
+      d += Hypot((*it)[0],(*it)[1]);
     }
     d = IsSmall(d) ? 1 : static_cast<RealT>(raw.Size())/d;
     for(SArray1dIterC<Point2dC> it(norm);it;it++)
