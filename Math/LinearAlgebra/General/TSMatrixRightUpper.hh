@@ -90,6 +90,10 @@ namespace RavlN {
     virtual Slice1dC<DataT> Col(UIntT j) const;
     //: Access slice from matrix.
     
+    virtual bool IsColDirectAccess() const
+    { return false; }
+    //: Does Col() give direct access to actual data ?
+    
     virtual DataT MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const;
     //: Multiply columb by values from slice and sum them.
     
@@ -130,6 +134,10 @@ namespace RavlN {
     }
     //: Add a vector to the diagonal of this matrix.
     // If d.Size() != Cols() an error is given.
+    
+    TVectorC<DataT> Solve(const TVectorC<DataT> &b);
+    //: Solve for x, A.x = b
+    // Where A is this matrix, and x is returned.
     
   };
   
@@ -311,6 +319,24 @@ namespace RavlN {
     }
     return ret;
   }  
+  
+#if 0
+  //: Solve for x, A.x = b
+  // Where A is this matrix, and x is returned.
+  
+  template<class DataT>
+  TVectorC<DataT> TSMatrixRightUpperBodyC<DataT>::Solve(const TVectorC<DataT> &b) {
+    TVectorC<DataT> ret(Rows());
+    for(int i = Rows()-1;i >= 0;i--) {
+      RealT sum = b[i];
+      Array1dC<DataT> row = Row(i);
+      
+      ret[i] = sum / Element(i,i);
+    }
+    return ret;
+  }
+#endif
+
 }
 
 #endif

@@ -85,6 +85,10 @@ namespace RavlN {
     { RavlAssert(0); return Array1dC<DataT>(); }
     //: Access a row from the matrix.
     
+    virtual bool IsRowDirectAccess() const
+    { return true; }
+    //: Does Row() give direct access to actual data ?
+    
     virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const
     { RavlAssert(0); return DataT(); }
     //: Multiply columb by values from dat and sum them.
@@ -92,6 +96,10 @@ namespace RavlN {
     virtual Slice1dC<DataT> Col(UIntT j) const
     { RavlAssert(0); return Slice1dC<DataT>(); }
     //: Access slice from matrix.
+    
+    virtual bool IsColDirectAccess() const
+    { return true; }
+    //: Does Col() give direct access to actual data ?
     
     virtual DataT MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const
     { RavlAssert(0); return DataT(); }
@@ -246,6 +254,10 @@ namespace RavlN {
     { return Body().Row(i); }
     //: Access a row from the matrix.
     
+    bool IsRowDirectAccess() const
+    { return Body().IsColDirectAccess(); }
+    //: Does Row() give direct access to actual data ?
+    
     DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const
     { return Body().MulSumColumn(c,dat); }
     //: Multiply columb by values from dat and sum them.
@@ -254,6 +266,10 @@ namespace RavlN {
     { return Body().Col(j); }
     //: Access slice from matrix.
     
+    bool IsColDirectAccess() const
+    { return Body().IsColDirectAccess(); }
+    //: Does Col() give direct access to actual data ?
+
     DataT MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const
     { return Body().MulSumColumn(c,slice); }
     //: Multiply columb by values from slice and sum them.
@@ -436,6 +452,7 @@ namespace RavlN {
   template<class DataT>
   void TSMatrixBodyC<DataT>::AddIP(const TSMatrixC<DataT> &oth) {
     RavlAssert(oth.Rows() == Rows() && oth.Cols() == Cols());
+    RavlAssert(IsRowDirectAccess());
     for(UIntT i = 0;i < Rows();i++) {
       Array1dC<DataT> row2 = oth.Row(i);
       if(row2.Range().Size() <= 0)
@@ -450,6 +467,7 @@ namespace RavlN {
   template<class DataT>
   void TSMatrixBodyC<DataT>::SubIP(const TSMatrixC<DataT> &oth)  {
     RavlAssert(oth.Rows() == Rows() && oth.Cols() == Cols());
+    RavlAssert(IsRowDirectAccess());
     for(UIntT i = 0;i < Rows();i++) {
       Array1dC<DataT> row2 = oth.Row(i);
       if(row2.Range().Size() <= 0)
@@ -532,7 +550,7 @@ namespace RavlN {
     IndexRangeC rcols(0,Cols());
     for (UIntT r = 0; r < xrdim; r++) {
       Array1dC<DataT> row = mat.Row(r);
-      cerr << "Row=" << row << "\n";
+      //cerr << "Row=" << row << "\n";
       for (UIntT c = 0; c < xrdim; c++) {
 	RangeBufferAccessC<DataT> orow(out[c],rcols);
 	IndexRangeC rng = row.Range();

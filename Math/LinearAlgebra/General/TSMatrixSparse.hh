@@ -292,12 +292,20 @@ namespace RavlN {
     
     virtual Array1dC<DataT> Row(UIntT i) const;
     //: Access a row from the matrix.
+
+    virtual bool IsRowDirectAccess() const
+    { return false; }
+    //: Does Row() give direct access to actual data ?
     
     virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const;
     //: Multiply columb by values from dat and sum them.
 
     virtual Slice1dC<DataT> Col(UIntT j) const;
     //: Access slice from matrix.
+    
+    virtual bool IsColDirectAccess() const
+    { return false; }
+    //: Does Col() give direct access to actual data ?
     
     virtual DataT MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const;
     //: Multiply columb by values from slice and sum them.

@@ -15,7 +15,7 @@
 #include "Ravl/TSMatrixRightUpper.hh"
 #include "Ravl/TSMatrixLeftLower.hh"
 #include "Ravl/TSMatrixSparse.hh"
-#include "Ravl/TSMatrixPositiveDefinite.hh"
+#include "Ravl/TSMatrixSymmetric.hh"
 #include "Ravl/TSMatrixScaledIdentity.hh"
 #include "Ravl/TSMatrixTranspose.hh"
 #include "Ravl/Matrix.hh"
@@ -29,6 +29,7 @@ int testDiagonal();
 int testRightUpper();
 int testLeftLower();
 int testSparse();
+int testSymmetric();
 
 int main() {
   int ln;
@@ -49,6 +50,10 @@ int main() {
     return 1;
   }
   if((ln = testSparse()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  if((ln = testSymmetric()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
@@ -209,6 +214,19 @@ int testSparse() {
     cerr<< "MatrixTest() failed on line " << ln << "\n";
     return __LINE__;
   }  
+  
+  return 0;
+}
+
+int testSymmetric() {
+  cerr << "testSummetric() \n";
+  MatrixC mat = RandomPositiveDefiniteMatrix(4);
+  TSMatrixSymmetricC<RealT> sym(mat);
+  TSMatrixLeftLowerC<RealT> ru = sym.Cholesky();
+  //cerr << "RU=" << ru.TMatrix() << "\n";
+  TSMatrixC<RealT> res = ru.MulT(ru);
+  RealT err = (res - sym).SumOfAbs();
+  if(err > 0.0000001) return __LINE__;
   
   return 0;
 }

@@ -87,6 +87,10 @@ namespace RavlN {
     virtual Slice1dC<DataT> Col(UIntT j) const;
     //: Access slice from matrix.
     
+    virtual bool IsColDirectAccess() const
+    { return false; }
+    //: Does Col() give direct access to actual data ?
+    
     virtual DataT MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const;
     //: Multiply columb by values from slice and sum them.
     
@@ -254,9 +258,11 @@ namespace RavlN {
     TSMatrixLeftLowerC<DataT> out(rdim);
     SArray1dIterC<DataT> it(out.Data());
     for (UIntT r = 0; r < rdim; r++) {
+      //RangeBufferAccessC<DataT>(const_cast<DataT *> row( &(data[RowStart(i)])),IndexRangeC(0,i));
       Array1dC<DataT> row = Row(r);
-      for (UIntT c = 0; c <= r; c++,it++)
+      for (UIntT c = 0; c <= r; c++,it++) {
 	*it = mat.MulSumColumn(c,row);
+      }
     }
     return out;
   }
