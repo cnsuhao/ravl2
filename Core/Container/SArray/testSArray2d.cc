@@ -29,7 +29,7 @@ int main() {
   
   Slice1dC<int> slice = testArr.Diagonal();
   int v = 0;
-  for(Slice1dIterC<int> its(slice);its;its++,v+=10) {
+  for(Slice1dIterC<int> its(slice);its;its++,v+=11) {
     if(*its != v) {
       cerr << "Diagonal slice test failed. " << *its << " " << v << "\n";
       return 1;
