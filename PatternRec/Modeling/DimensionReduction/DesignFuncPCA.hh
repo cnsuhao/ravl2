@@ -43,11 +43,11 @@ namespace RavlN {
     
     virtual FunctionC Apply(const SampleC<VectorC> &in);
     //: Create function from the given data.
-    // The actual class returned is FuncMeanProjectionC
+    // The actual class returned is <a href="RavlN.FuncMeanProjectionC.html">FuncMeanProjectionC</a>
     
     virtual FunctionC Apply(SampleStreamC<VectorC> &in);
     //: Create function from the given data.
-    // The actual class returned is FuncMeanProjectionC
+    // The actual class returned is <a href="RavlN.FuncMeanProjectionC.html">FuncMeanProjectionC</a>
     
     virtual FunctionC Apply(const SampleC<VectorC> &in,const SampleC<RealT> &weight);
     //: Create function from the given data, and sample weights.
@@ -87,7 +87,7 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Design a dimension reducing function using Principal Component Anaylsis (PCA) <br>
-  // The actual class returned by the apply method is FuncMeanProjectionC. It is possible
+  // The actual class returned by the apply method is <a href="RavlN.FuncMeanProjectionC.html">FuncMeanProjectionC</a>. It is possible
   // to obtain the projection matrix from this class if needed.
   
   class DesignFuncPCAC
