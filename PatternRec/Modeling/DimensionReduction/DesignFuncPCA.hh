@@ -19,7 +19,7 @@ namespace RavlN {
   class MeanCovarianceC;
   
   //! userlevel=Develop
-  //: Design a dimension reducing function using Principle Component Anaylsis (PCA)
+  //: Design a dimension reducing function using Principal Component Anaylsis (PCA)
   
   class DesignFuncPCABodyC
     : public DesignFuncReduceBodyC
@@ -86,7 +86,7 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Design a dimension reducing function using Principle Component Anaylsis (PCA) <br>
+  //: Design a dimension reducing function using Principal Component Anaylsis (PCA) <br>
   // The actual class returned by the apply method is FuncMeanProjectionC. It is possible
   // to obtain the projection matrix from this class if needed.
   
