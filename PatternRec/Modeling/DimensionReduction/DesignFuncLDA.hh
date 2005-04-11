@@ -34,7 +34,9 @@ namespace RavlN {
   {
   public:    
     DesignFuncLDABodyC(RealT variationPreserved = 0.98);
-    //: Construct from a mean and rotation.
+    //: Default constructor
+    // "variationPreserved" is amount of variation to attempt to preserve in reduced set.
+    // 0-None 1-All.
     
     DesignFuncLDABodyC(istream &strm);
     //: Load from stream.
@@ -105,7 +107,10 @@ namespace RavlN {
     DesignFuncLDAC(RealT variationPreserved)
       : DesignFuncReduceC(*new DesignFuncLDABodyC(variationPreserved))
     {}
-    //: Construct from a mean and rotation.
+    //: Constructor 
+    // "variationPreserved" is amount of variation to attempt to preserve in reduced set.
+    // 0-None 1-All.
+
     
   protected:
     DesignFuncLDAC(DesignFuncLDABodyC &bod)
