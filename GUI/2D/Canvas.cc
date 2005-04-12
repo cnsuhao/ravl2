@@ -24,6 +24,8 @@
 #define ONDEBUG(x)
 #endif
 
+#define WARNING_QUEUE_SIZE 30
+
 namespace RavlGUIN {
 
   static int gtkCanvasDestroyGC (GtkWidget *widget,GdkGC * data) { 
@@ -281,7 +283,8 @@ namespace RavlGUIN {
   bool CanvasBodyC::GUIDrawImage(ImageC<ByteT> &img,Index2dC &ioffset) {
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawImage(), WARNING: Asked to render data before canvas is initialise. \n");
-      toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawImage,img,ioffset));
+      TriggerC trigger = TriggerR(*this,&CanvasBodyC::GUIDrawImage,img,ioffset);
+      AddToQueue(trigger);
       return true;
     }
     if(img.IsEmpty()) {
@@ -327,7 +330,8 @@ namespace RavlGUIN {
   bool CanvasBodyC::GUIDrawRGBImage(ImageC<ByteRGBValueC> &img,Index2dC &ioffset) {
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawRGBImage(), WARNING: Asked to render data before canvas is initialise. \n");
-      toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawRGBImage,img,ioffset));
+      TriggerC trigger = TriggerR(*this,&CanvasBodyC::GUIDrawRGBImage,img,ioffset);
+      AddToQueue(trigger);
       return true;
     }
     if(img.IsEmpty()) {
@@ -374,7 +378,8 @@ namespace RavlGUIN {
   bool CanvasBodyC::GUIDrawLine(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &c) {
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawLine(), WARNING: Asked to render data before canvas is initialise. \n");
-      toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawLine,x1,y1,x2,y2,c));
+      TriggerC trigger = TriggerR(*this,&CanvasBodyC::GUIDrawLine,x1,y1,x2,y2,c);
+      AddToQueue(trigger);
       return true;
     }
     GdkGC *gc;
@@ -400,7 +405,8 @@ namespace RavlGUIN {
   bool CanvasBodyC::GUIDrawArc(ImageRectangleC& rect, IntT& start, IntT& angle, IntT& colId, bool& fill) {
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawArc(), WARNING: Asked to render data before canvas is initialised. \n");
-      toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawArc,rect,start,angle,colId,fill));
+      TriggerC trigger = TriggerR(*this,&CanvasBodyC::GUIDrawArc,rect,start,angle,colId,fill);
+      AddToQueue(trigger);
       return true;
     }
     GdkGC *gc;
@@ -431,7 +437,8 @@ namespace RavlGUIN {
   bool CanvasBodyC::GUIDrawText(IntT &x1,IntT &y1,StringC &text,IntT &c) {
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawText(), WARNING: Asked to render data before canvas is initialise. \n");
-      toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawText,x1,y1,text,c));
+      TriggerC trigger = TriggerR(*this,&CanvasBodyC::GUIDrawText,x1,y1,text,c);
+      AddToQueue(trigger);
       return true;
     }
     GdkGC *gc;
@@ -464,7 +471,8 @@ namespace RavlGUIN {
   bool CanvasBodyC::GUIDrawRectangle(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &c) {
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawRectangle(), WARNING: Asked to render data before canvas is initialise. \n");
-      toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawRectangle,x1,y1,x2,y2,c));
+      TriggerC trigger = TriggerR(*this,&CanvasBodyC::GUIDrawRectangle,x1,y1,x2,y2,c);
+      AddToQueue(trigger);
       return true;
     }
     GdkGC *gc;
@@ -489,7 +497,8 @@ namespace RavlGUIN {
   bool CanvasBodyC::GUIDrawFrame(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &c) {
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawFrame(), WARNING: Asked to render data before canvas is initialise. \n");
-      toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawFrame,x1,y1,x2,y2,c));
+      TriggerC trigger = TriggerR(*this,&CanvasBodyC::GUIDrawFrame,x1,y1,x2,y2,c);
+      AddToQueue(trigger);
       return true;
     }
     GdkGC *gc;
@@ -654,6 +663,15 @@ namespace RavlGUIN {
   bool CanvasBodyC::Clear() {
     Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIClear));
     return true;
+  }
+
+
+  void CanvasBodyC::AddToQueue(TriggerC &trigger) {
+    toDo.InsFirst(trigger);
+    if (toDo.Size() >= WARNING_QUEUE_SIZE) {
+      cerr << "WARNING!!! CanvasBodyC::AddToQueue() - draw to-do list size greater than " << WARNING_QUEUE_SIZE << "!"
+           << endl << "Possible memory problems ahead..." << endl;
+    }
   }
 
   /////////////////////////////////////////////////////////

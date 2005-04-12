@@ -209,6 +209,8 @@ namespace RavlGUIN {
     //: Called when the underlying widget it destroyed.
     // The default version of this method simpily 0's the widget ptr.
     
+    void AddToQueue(TriggerC &trigger);
+    //: Add a trigger to the to-do list
     
     int sx,sy;
     bool direct;
