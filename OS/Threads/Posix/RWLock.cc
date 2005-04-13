@@ -17,6 +17,17 @@ namespace RavlN
 {
 
 #if RAVL_HAVE_POSIX_THREADS_RWLOCK
+  
+  //: Constructor.
+  
+  RWLockC::RWLockC() { 
+    int ret = pthread_rwlock_init(&id,0); 
+    if(ret != 0)
+      Error("RWLockC::RWLockC, Init failed ",ret);
+  }
+  
+  // Destructor.
+  
   RWLockC::~RWLockC() { 
     int x = 100;
     // This could fail if lock is held.
@@ -25,6 +36,7 @@ namespace RavlN
     if(x == 0) 
       cerr << "WARNING: Failed to destory RWLock. \n";
   }
+  
 #endif  
   
   //: Print an error.

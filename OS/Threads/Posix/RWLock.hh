@@ -53,8 +53,7 @@ namespace RavlN {
   
   class RWLockC {
   public:
-    RWLockC() 
-    { pthread_rwlock_init(&id,0); }
+    RWLockC();
     //: Constructor.
     
     ~RWLockC(); 
