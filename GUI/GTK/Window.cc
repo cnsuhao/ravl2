@@ -156,11 +156,11 @@ namespace RavlGUIN {
   // Call only from GUI thread.
   
   bool WindowBodyC::GUIShow() {
-    if(!WidgetBodyC::GUIShow())
-      return true;
-    if(cursor.IsValid() && widget != 0)
+    if (!WidgetBodyC::GUIShow())
+      return false;
+    if (cursor.IsValid() && widget != 0)
       cursor.SetWindow(widget->window);    
-    return false;
+    return true;
   }
   
   //: Set the title of the window.
