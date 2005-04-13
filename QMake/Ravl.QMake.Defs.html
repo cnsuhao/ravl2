@@ -44,9 +44,10 @@
   <li><a href="#DESCRIPTION">DESCRIPTION</A>
   <li><a href="#NESTED">NESTED</A>
   <li><a href="#MAINS">MAINS</A>
+  <li><a href="#SCRIPTS">SCRIPTS</A>
   <li><a href="#SOURCES">SOURCES</A>
   <li><a href="#HEADERS">HEADERS</A>
-  <li><a href="#MUSTLINK">SOURCES</A>
+  <li><a href="#MUSTLINK">MUSTLINK</A>
   <li><a href="#LOCALHEADERS">LOCALHEADERS</A>
   <li><a href="#PLIB">PLIB</A>
   <li><a href="#USESLIBS">USESLIBS</A>
@@ -218,9 +219,13 @@ of the second executable, matcher.c, is done by the C compiler.
 The names of executables in MAINS variable must be unique.
 </P></DD><P>
 
-<LI><DT><A NAME="SOURCES"></A><B>SOURCES</B></DT>
-<DD>All source files which are added to the library defined by the variable
- PLIB. The suffixes play the same role as in the variable MAINS.
+<LI><DT><A NAME="SCRIPTS"></A><B>SCRIPTS</B></DT> <DD>All scripts such as
+Perl, shell, .... They will be placed in the user's $PATH.
+
+<LI><DT><A NAME="SOURCES"></A><B>SOURCES</B></DT> <DD>All source files which
+are not main programs.  If the variable PLIB is defined, they are added to the
+library defined by PLIB. The suffixes play the same role as in the variable
+MAINS.
 
 <P>
 The names of files in SOURCES variable should be unique to avoid
