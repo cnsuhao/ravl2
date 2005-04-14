@@ -55,12 +55,14 @@ namespace RavlN {
     // Setup new parent.
     parentAttrCtrl = parent;
     
-    // Reconstruct signals with new parent.
-    
-    for(HashIterC<StringC,IntT> it(parentSignalMap);it;it++) {
-      it.Data() = parentAttrCtrl.RegisterChangedSignal(it.Key(),TriggerR(*this,&AttributeCtrlInternalC::CBHandleChangeSignal,it.Key()));
-      // It may be the new parent doesn't support a signal, in which case RegisterChangedSignal will return -1.
-      // We'll just ignore this for now.
+    if(parentAttrCtrl.IsValid()) {
+      // Reconstruct signals with new parent.
+      
+      for(HashIterC<StringC,IntT> it(parentSignalMap);it;it++) {
+        it.Data() = parentAttrCtrl.RegisterChangedSignal(it.Key(),TriggerR(*this,&AttributeCtrlInternalC::CBHandleChangeSignal,it.Key()));
+        // It may be the new parent doesn't support a signal, in which case RegisterChangedSignal will return -1.
+        // We'll just ignore this for now.
+      }
     }
     return true;
   }
@@ -94,12 +96,14 @@ namespace RavlN {
         //RavlAssert(0);
         return -1;
       }
-      IntT value = parentAttrCtrl.RegisterChangedSignal(attrName,TriggerR(*this,&AttributeCtrlInternalC::CBHandleChangeSignal,attrName));
-      if(value < 0 && !mapSignalBack[attrName]) {
-        cerr << "AttributeCtrlInternalC::RegisterChangedSignal, Unknown attribute '" << attrName << "' \n";
-        return -1;
+      if(parentAttrCtrl.IsValid()) {
+        IntT value = parentAttrCtrl.RegisterChangedSignal(attrName,TriggerR(*this,&AttributeCtrlInternalC::CBHandleChangeSignal,attrName));
+        if(value < 0 && !mapSignalBack[attrName]) {
+          cerr << "AttributeCtrlInternalC::RegisterChangedSignal, Unknown attribute '" << attrName << "' \n";
+          return -1;
+        }
+        parentSignalMap[attrName] = value;
       }
-      parentSignalMap[attrName] = value;
     }
     // Register signal in local context.
     IntT id = trigIdAlloc++;
