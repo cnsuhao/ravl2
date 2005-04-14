@@ -40,8 +40,10 @@ namespace RavlN {
     { return inPort; }
     //: Access input port.
     
-    void SetInput(const DPISPortC<DataT> &newPort)
-    { inPort = newPort; }
+    void SetInput(const DPISPortC<DataT> &newPort) { 
+      inPort = newPort; 
+      ReparentAttributeCtrl(newPort);
+    }
     //: Set input port.
     
     virtual bool Get(DataT &buf) {
@@ -137,6 +139,9 @@ namespace RavlN {
     //: Find the offset where the stream begins, normally zero.
     // Defaults to 0
     
+    virtual AttributeCtrlC ParentCtrl() const
+    { return inPort; }
+    //: Get Parent attribute control.
   protected:
     Int64T at; // Position.
     DPISPortC<DataT> inPort;
