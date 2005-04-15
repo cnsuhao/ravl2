@@ -64,7 +64,7 @@ namespace RavlImageN {
       SumTypeT sum = (SumTypeT) (it.Data1() * it.Data2());
       it++;
       for(;it;it++)
-	sum += (SumTypeT) it.Data1() * (SumTypeT) it.Data2();
+	sum +=  (SumTypeT) (it.Data1() * it.Data2());
       *res =(OutPixelT) sum;
     }
   }
