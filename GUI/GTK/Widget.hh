@@ -151,7 +151,7 @@ namespace RavlGUIN {
     //: Show widget to the world.
     // Call only from GUI thread.
     
-    bool GUIHide();
+    virtual bool GUIHide();
     //: Hide widget from the world.
     // Call only from GUI thread.
     
