@@ -374,7 +374,7 @@ namespace RavlImageN {
   // if ignoreZero is true, region labeled 0 is ignored.
   
   SArray1dC<Moments2d2C> SegmentationBodyC::ComputeMoments(bool ignoreZero) {
-    SArray1dC<Moments2d2C> ret(labels);
+    SArray1dC<Moments2d2C> ret(labels+1);
     
     if(ignoreZero) {
       // Ignore regions with label 0.
@@ -385,7 +385,7 @@ namespace RavlImageN {
       }
     } else {
       for(Array2dIterC<UIntT> it(segmap);it;it++) 
-	ret[*it].AddPixel(it.Index());
+	{  ret[*it].AddPixel(it.Index()); }
     }
     return ret;
   }
