@@ -18,21 +18,24 @@
 namespace RavlGUIN {
   
   //: Constructor.  
+  
   MessageBoxBodyC::MessageBoxBodyC(StringC message, bool bYesNo, const char *title, const WindowC* parent)
     : WindowBodyC(200,100,title,GTK_WINDOW_DIALOG,0,false),
       m_strMessage(message),
       m_bYesNo(bYesNo),
-      sigDone(false)
+      m_sigDone(false),
+      m_gotSelfRef(true)
   {
     // Make sure this isn't deleted before the buttons have been clicked
     IncRefCounter();
+    
     // Set transience if we need to
     if (parent) 
       MakeTransient(const_cast<WindowC&>(*parent));
   }
   
-
   //: Create the widget.  
+  
   bool MessageBoxBodyC::Create() {
     // Add widgets
     if (m_bYesNo) {
@@ -55,12 +58,17 @@ namespace RavlGUIN {
   
   bool MessageBoxBodyC::OnClick( bool& bResult) {
     // First, hide the window
-    Hide();
+    GUIHide();
+    
     // Send the "done" signal
-    sigDone(bResult);
+    m_sigDone(bResult);
+    
     // Delete the box if we are holding the only reference
-    if(DecRefCounter())
-      delete this;
+    if(m_gotSelfRef) { // Protect against acidental double clicks.
+      m_gotSelfRef = false;
+      if(DecRefCounter()) 
+        delete this;
+    }
     // Done
     return bResult;
   }

@@ -39,7 +39,7 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
-    Signal1C<bool>& SigDone() {return sigDone;}
+    Signal1C<bool>& SigDone() { return m_sigDone; }
     //: "Finished" signal
 
   protected:
@@ -49,8 +49,10 @@ namespace RavlGUIN {
 
     StringC m_strMessage;
     bool m_bYesNo;
-    Signal1C<bool> sigDone;
-
+    Signal1C<bool> m_sigDone;
+    
+    bool m_gotSelfRef;
+    
     friend class MessageBoxC;
   };
   
