@@ -336,11 +336,11 @@ namespace RavlN {
     //: Body constructor.
     
     DPISPortShareBodyC<DataT> &Body()
-    { return static_cast<DPISPortShareBodyC<DataT> &>(DPPlugBaseC::Body()); }
+    { return dynamic_cast<DPISPortShareBodyC<DataT> &>(DPEntityC::Body()); }
     //: Access body.
-
+    
     const DPISPortShareBodyC<DataT> &Body() const
-    { return static_cast<const DPISPortShareBodyC<DataT> &>(DPPlugBaseC::Body()); }
+    { return dynamic_cast<const DPISPortShareBodyC<DataT> &>(DPEntityC::Body()); }
     //: Access body.
     
   public:
