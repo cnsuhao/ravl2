@@ -72,7 +72,8 @@ namespace RavlGUIN {
     FrameC()
     {}
     //: Default constructor.
-
+    // Creates an invalid handle.
+    
     FrameC(const WidgetC &widge,const StringC &title,int border = 2)
       : OneChildC(*new FrameBodyC(widge,border,title))
     {}
@@ -80,6 +81,11 @@ namespace RavlGUIN {
     
     FrameC(const WidgetC &widge,int border)
       : OneChildC(*new FrameBodyC(widge,border))
+    {}
+    //: Constructor.
+
+    FrameC(bool)
+      : OneChildC(*new FrameBodyC())
     {}
     //: Constructor.
     
