@@ -320,14 +320,19 @@ namespace RavlN {
       public DPStreamOpBodyC
   {
   public:
-    DPIPlayControlBodyC()
-    {}
+    DPIPlayControlBodyC() {
+      this->MapBackChangedSignal("start");
+      this->MapBackChangedSignal("size");
+    }
     //: Default constructor.
     
     DPIPlayControlBodyC(const DPISPortC<DataT> &nin,bool nPassEOS = true,UIntT nstart = ((UIntT) -1),UIntT nend = ((UIntT) -1))
       : DPPlayControlBodyC(nin,nPassEOS,nstart,nend),
 	input(nin)
-    {}
+    {
+      this->MapBackChangedSignal("start");
+      this->MapBackChangedSignal("size");
+    }
     //: Constructor.
     
     virtual StringC OpName() const

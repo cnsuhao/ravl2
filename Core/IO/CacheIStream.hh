@@ -33,7 +33,10 @@ namespace RavlN {
       : at(0),
 	atIn(0),
 	cache(maxSize)
-    {}
+    {
+      this->MapBackChangedSignal("start");
+      this->MapBackChangedSignal("size");
+    }
     //: Constructor.
     
     const DPISPortC<DataT> &Input() const

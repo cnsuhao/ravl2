@@ -436,6 +436,9 @@ namespace RavlN {
     {
       input.RegisterClient();
       
+      this->MapBackChangedSignal("start");
+      this->MapBackChangedSignal("size");
+      
       // Listen out for changes to cached stream parameters
       attrCtrlUpdateStart.Connect(sharedPort,"start",TriggerR(*this,&DPISPortShareClientBodyC<DataT>::CBStartChanged));
       attrCtrlUpdateSize.Connect(sharedPort,"size",TriggerR(*this,&DPISPortShareClientBodyC<DataT>::CBSizeChanged));
