@@ -123,7 +123,7 @@ namespace RavlGUIN {
     if(widget == 0)
       return true;
     GtkWidget *li = gtk_list_item_new_with_label ((gchar *) opt.chars());
-    cmap[opt] = li;
+    cmap[opt].InsLast(li);
     // Disable signals
     allowsignals = false;
     // Add widget
@@ -141,10 +141,13 @@ namespace RavlGUIN {
   bool ComboBodyC::GUIDelEntry(const StringC &opt) {
     choices.Del(opt);
     //    RavlAssertMsg(0,"ComboBodyC::GUIDelEntry(), Not implemented. ");
-    GtkWidget *li;
-    if(!cmap.Lookup(opt,li))
+    DListC<GtkWidget *> *widgetEntries = cmap.Lookup(opt);
+    if(widgetEntries == 0 || widgetEntries->IsEmpty()) 
       return true; // item not in list.
-    cmap.Del(opt);
+    GtkWidget *li = (*widgetEntries).PopFirst();
+    if(widgetEntries->IsEmpty())
+      cmap.Del(opt);
+    
     // Disable signals
     allowsignals = false;
     // Remove widget
@@ -191,7 +194,7 @@ namespace RavlGUIN {
       GtkWidget *li = gtk_list_item_new_with_label ((gchar *) it.Data().chars());
       gtk_widget_show (li);
       gtk_container_add (GTK_CONTAINER (GTK_COMBO(widget)->list), li);
-      cmap[*it] = li;
+      cmap[*it].InsLast(li);
     }
     
     if(!selection.IsEmpty())
@@ -215,7 +218,7 @@ namespace RavlGUIN {
       GtkWidget *li = gtk_list_item_new_with_label ((gchar *) it.Data().chars());
       gtk_widget_show (li);
       gtk_container_add (GTK_CONTAINER (GTK_COMBO(widget)->list), li);
-      cmap[*it] = li;
+      cmap[*it].InsLast(li);
     }
     
     if(maxEntryLength >= 0) {

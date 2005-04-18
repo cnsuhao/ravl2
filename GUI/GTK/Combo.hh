@@ -104,7 +104,7 @@ namespace RavlGUIN {
     //: Set style of button and child widgets
 
     DListC<StringC> choices;
-    HashC<StringC,GtkWidget *> cmap; // Widget map.
+    HashC<StringC,DListC<GtkWidget *> > cmap; // Widget map.
     bool editable;
     bool allowsignals;
     StringC selection;
