@@ -39,6 +39,7 @@ namespace RavlN {
       subEnd(0),
       doneRev(false),
       at(0),
+      lastFrame(0),
       triggerSizeUpdate(-1),
       triggerStartUpdate(-1)
   {}
@@ -60,6 +61,7 @@ namespace RavlN {
       subEnd(1),
       doneRev(false),
       at(nstart),
+      lastFrame(0),
       triggerSizeUpdate(-1),
       triggerStartUpdate(-1)
   {
