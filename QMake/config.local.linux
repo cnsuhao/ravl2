@@ -40,13 +40,13 @@ FULLBUILD_TARGETS += doc
 
 ## GTK 2.x #####################################
 
-#RESOURCES += libGTK libGTK2
+RESOURCES += libGTK libGTK2
 
 #RESOURCES += libglade2
 
 ## GTK 1.x #####################################
 
-RESOURCES += libGTK 
+#RESOURCES += libGTK 
 
 # gtk path 
 #GTKPATH =  /opt/PDlibs/gtk++-1.2.10
