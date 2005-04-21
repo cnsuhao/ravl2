@@ -71,13 +71,13 @@ namespace RavlN {
   
   bool NetISPortServerBaseBodyC::ReqStats() {
     ONDEBUG(cerr << "NetISPortServerBaseBodyC::ReqStats(), Called. \n");
-    UIntT at = 0;
-    UIntT start = 0;
-    UIntT size = ((UIntT) -1);
+    Int64T at = 0;
+    Int64T start = 0;
+    Int64T size = ((UIntT) -1);
     if(seekCtrl.IsValid()) {
-      at = seekCtrl.Tell();
-      start = seekCtrl.Start();
-      size = seekCtrl.Size();
+      at = seekCtrl.Tell64();
+      start = seekCtrl.Start64();
+      size = seekCtrl.Size64();
     }
     ep.Send(NPMsg_StreamInfo,at,start,size);
     ONDEBUG(cerr << "NetISPortServerBaseBodyC::ReqStats(), Sent: At=" << at << " Start=" << start << " Size=" << size << "\n");

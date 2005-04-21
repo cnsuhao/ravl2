@@ -48,7 +48,7 @@ namespace RavlN {
     bool Init();
     //: Initalise link.
     
-    bool RecvState(UIntT &at,UIntT &start,UIntT &end);
+    bool RecvState(Int64T &at,Int64T &start,Int64T &end);
     //: Handle incoming state info.
     
     bool ReqFailed(IntT &flag);
@@ -59,8 +59,8 @@ namespace RavlN {
     
     StringC portName,dataType;
     
-    UIntT start,size;    
-    UIntT at; // Position in stream.
+    StreamPosT start,size;    
+    StreamPosT at; // Position in stream.
     bool gotEOS; // Got an End Of Stream.
     RWLockC rwlock;
     SemaphoreC recieved; // Posted when new data arrives.
@@ -114,19 +114,27 @@ namespace RavlN {
     // if an error occurered (Seek returned False) then stream
     // position will not be changed.
     
+    virtual bool Seek64(StreamPosT off) { 
+      //cerr << "NetISPortBodyC()::Seek() Off=" << off << " Start=" << start << " Size=" << size << "\n";
+      WaitForInfo();
+      if(off >= size || off < start)
+	return false;
+      gotEOS = false; // Reset end of stream flag.
+      at = off; 
+      return true;
+    }
+    //: Seek to location in stream.
+    // Returns false, if seek failed. (Maybe because its
+    // not implemented.)
+    // if an error occurered (Seek returned False) then stream
+    // position will not be changed.
+    
     virtual bool DSeek(IntT off) {
       //cerr << "NetISPortBodyC()::DSeek() Off=" << off << " At=" << at <<" Start=" << start << " Size=" << size << "\n";
-      Int64T newOff = (Int64T) at + off;
+      StreamPosT newOff =  at + static_cast<StreamPosT>(off);
       WaitForInfo();
-      if(off < 0) {
-	if((UIntT) (-off) > at)
-	  return false; // Seek to before beginning on file.
-	if(newOff < start)
-	  return false;
-      } else {
-	if(newOff >= (Int64T) size)
-	  return false;	
-      }
+      if(newOff < start || newOff >= size)
+        return false;
       gotEOS = false; // Reset end of stream flag.
       at += off;
       return true;
@@ -138,7 +146,32 @@ namespace RavlN {
     // if an error occurered (DSeek returned False) then stream
     // position will not be changed.
     
+    virtual bool DSeek64(StreamPosT off) {
+      //cerr << "NetISPortBodyC()::DSeek() Off=" << off << " At=" << at <<" Start=" << start << " Size=" << size << "\n";
+      StreamPosT newOff =  at + static_cast<StreamPosT>(off);
+      WaitForInfo();
+      if(newOff < start || newOff >= size)
+        return false;
+      gotEOS = false; // Reset end of stream flag.
+      at += off;
+      return true;
+    }
+    //: Delta Seek, goto location relative to the current one.
+    // The default behavour of this functions is :
+    // Do some error checking then:
+    //   Seek(Tell() + off);
+    // if an error occurered (DSeek returned False) then stream
+    // position will not be changed.
+    
     virtual UIntT Tell() const { 
+      WaitForInfo();
+      return at; 
+    }
+    //: Find current location in stream.
+    // Defined as the index of the next object to be written or read.
+    // May return ((UIntT) (-1)) if not implemented.
+
+    virtual StreamPosT Tell64() const { 
       WaitForInfo();
       return at; 
     }
@@ -152,8 +185,22 @@ namespace RavlN {
     }
     //: Find the total size of the stream. (assuming it starts from 0)
     // May return ((UIntT) (-1)) if not implemented.
+
+    virtual StreamPosT Size64() const { 
+      WaitForInfo();
+      return size; 
+    }
+    //: Find the total size of the stream. (assuming it starts from 0)
+    // May return ((UIntT) (-1)) if not implemented.
     
     virtual UIntT Start() const { 
+      WaitForInfo();
+      return start; 
+    }
+    //: Find the offset where the stream begins, normally zero.
+    // Defaults to 0
+    
+    virtual StreamPosT Start64() const { 
       WaitForInfo();
       return start; 
     }

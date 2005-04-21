@@ -66,14 +66,23 @@ namespace RavlN {
     return true;
   }
   
+  bool NetOSPortBaseC::WaitForInfo() const {
+    do {
+      if(!ep.IsValid()) return false;
+      if(!ep.IsOpen()) return false;
+    } while(!gotStreamInfo.Wait(2));
+    return true;
+  }
+  
   //: Handle incoming state info.
   
-  bool NetOSPortBaseC::RecvState(UIntT &nat,UIntT &nstart,UIntT &nsize) {
+  bool NetOSPortBaseC::RecvState(Int64T &nat,Int64T &nstart,Int64T &nsize) {
     ONDEBUG(cerr << "NetOSPortBaseC::RecvState(), At=" << at << " Start=" << nstart << " Size=" << nsize << "\n");
     RWLockHoldC hold(rwlock,RWLOCK_WRITE);
     at = nat;
     start = nstart;
     size = nsize;
+    gotStreamInfo.Post();
     return true;
   }
   

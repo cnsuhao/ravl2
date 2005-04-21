@@ -88,7 +88,7 @@ namespace RavlN {
     { return TypeName(typeid(DataT)); }
     //: Get the port type.
     
-    bool ReqData(UIntT &pos);
+    bool ReqData(Int64T &pos);
     //: Request information on the stream.. 
     
   protected:
@@ -181,7 +181,7 @@ namespace RavlN {
     { return static_cast<const NetISPortServerBodyC<DataT> &>(NetISPortServerBaseC::Body()); }
     //: Access body.
     
-    bool ReqData(UIntT &pos)
+    bool ReqData(Int64T &pos)
     { return Body().ReqData(pos); }
     //: Request information on the stream.. 
     
@@ -219,7 +219,7 @@ namespace RavlN {
   }
   
   template<class DataT>
-  bool NetISPortServerBodyC<DataT>::ReqData(UIntT &pos) {
+  bool NetISPortServerBodyC<DataT>::ReqData(Int64T &pos) {
     if(!iport.IsValid()) {
       ep.Send(NPMsg_ReqFailed,1); // Report end of stream.
       return true;

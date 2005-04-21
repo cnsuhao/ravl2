@@ -88,7 +88,7 @@ namespace RavlN {
     { return TypeName(typeid(DataT)); }
     //: Get the port type.
     
-    bool PutData(UIntT &pos,DataT &data);
+    bool PutData(Int64T &pos,DataT &data);
     //: Request information on the stream.. 
     
   protected:
@@ -223,7 +223,7 @@ namespace RavlN {
   //: Request information on the stream.. 
   
   template<class DataT>
-  bool NetOSPortServerBodyC<DataT>::PutData(UIntT &pos,DataT &data) {
+  bool NetOSPortServerBodyC<DataT>::PutData(Int64T &pos,DataT &data) {
     if(!oport.IsValid()) {
       //cerr << "NetOSPortServerBodyC<DataT>::ReqData(), Invalid output port.\n";      
       ep.Send(NPMsg_ReqFailed,1); // Report end of stream.

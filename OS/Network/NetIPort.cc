@@ -79,7 +79,7 @@ namespace RavlN {
   
   //: Handle incoming state info.
   
-  bool NetISPortBaseC::RecvState(UIntT &nat,UIntT &nstart,UIntT &nsize) {
+  bool NetISPortBaseC::RecvState(Int64T &nat,Int64T &nstart,Int64T &nsize) {
     ONDEBUG(cerr << "NetISPortBaseC::RecvState(), At=" << at << " Start=" << nstart << " Size=" << nsize << "\n");
     RWLockHoldC hold(rwlock,RWLOCK_WRITE);
     at = nat;
