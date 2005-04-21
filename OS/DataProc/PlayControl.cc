@@ -225,16 +225,12 @@ namespace RavlN {
     // Compensate for 'inc'
     if(pos != end) {
       IntT ci = inc-1;
-      if(inc >= 1) {
-	if(((seekto - ci) >= (int) start) && ((seekto - ci) <= (int)end))
-	  seekto = pos - ci;
-      } else {
-	if((( seekto - ci) >= (int) start) && ((seekto - ci) <= (int)end))
-	  seekto = pos - ci;
-      }
+      if(((seekto - ci) >= (int) start) && ((seekto - ci) <= (int)end))
+        seekto = pos - ci;
     } else {
       inc = 1;
     }
+    
     
     // Do the seek.
     
@@ -242,8 +238,13 @@ namespace RavlN {
       cerr << "WARNING: Seek to " << pos <<" (" << seekto << ") failed. \n";
       return false;
     }
-    ONDEBUG(cerr << "DPPlayControlBodyC::Seek(), Seek to :" << pos << " (Comp:" << seekto << ") Tell:" << ctrl.Tell() << " Inc:" << inc << "\n");
     at = seekto;
+
+    // Allow for correct applied if the last frame was the 'end'
+    if(lastFrame == end && inc <= 0)
+      at--;
+    
+    ONDEBUG(cerr << "DPPlayControlBodyC::Seek(), Seek to :" << pos << " (Comp:" << seekto << ") Tell:" << ctrl.Tell() << " Inc:" << inc << " End=" << end << " LastFrame=" << lastFrame << "\n");
     if(pause) { // Make sure it gets displayed if we're paused.
       lock.Unlock();// Unlock access.
       if(sema.Count() < 1)
@@ -350,11 +351,14 @@ namespace RavlN {
 	}
 	break;      
       }
+    
+    // Deal with normal backward/forward playing.
+    
     UIntT oldAt = at;
     if(inc >= 1) {
       if((at + inc) <= ((IntT) end)) { // before end ?
 	at += (inc-1);
-	if(inc > 1) {
+	if(inc != 1) {
 	  if(!ctrl.DSeek(inc-1)) {
 	    cerr << "DSeek failed : " << inc -1 << "\n";
 	    at = ctrl.Tell();
@@ -407,7 +411,9 @@ namespace RavlN {
     }
     
     // Place will be incremented by next read.
-    lastFrame = at++;
+    lastFrame = at;
+    at++; // Allow for frame read.
+    
     // Check for last frame in sequence.
     if(lastFrame == (int) end)
       at = end;
