@@ -25,11 +25,8 @@ FULLBUILD_TARGETS += doc
 ################ Compiler ##################################
 
 # paths for cc and c++ compiler
-#RAVL_CC  = /opt/Omni/gcc-3.4.3/bin/gcc -B/opt/Omni/binutils-2.15.94.0.2/bin
-#RAVL_CXX = /opt/Omni/gcc-3.4.3/bin/g++ -B/opt/Omni/binutils-2.15.94.0.2/bin
-
-RAVL_CC  = /opt/Omni/gcc-4.0.0/bin/gcc -B/opt/Omni/binutils-2.15.94.0.2/bin 
-RAVL_CXX = /opt/Omni/gcc-4.0.0/bin/g++ -B/opt/Omni/binutils-2.15.94.0.2/bin
+RAVL_CC  = gcc
+RAVL_CXX = g++
 
 # extra CFLAGS (c)
 # EXTRA_CFLAGS =
@@ -136,7 +133,7 @@ LIBMPEG2_HOME=/opt/PDsoft/mpeg2dec
 
 ## dvdread ##################################################
 
-RESOURCES += dvdread
+#RESOURCES += dvdread
 
 ## libmcrypt ##################################################
 
