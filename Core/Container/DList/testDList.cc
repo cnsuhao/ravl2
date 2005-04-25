@@ -39,7 +39,7 @@ public:
 #ifndef __sgi__
 template class DListC<IntT>;
 template class DLIterC<IntT>;
-#if !RAVL_COMPILER_GCC3_4
+#if !RAVL_COMPILER_GCC3_4 && !RAVL_COMPILER_GCC4
 template IntrDListC<StuffC>; // Force instanciation of all methods.
 template IntrDLIterC<StuffC>; // Force instanciation of all methods.
 #endif

@@ -95,6 +95,7 @@ namespace RavlN {
 				data[3][0], data[3][1], data[3][2]);
   }
   
+  template<>
   inline
   TFVectorC<RealT,4> TFMatrixC<RealT,4,4>::operator*(const TFVectorC<RealT,4> & vec) const {
     TFVectorC<RealT,4> ret;

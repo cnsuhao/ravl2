@@ -34,6 +34,10 @@ namespace RavlN {
     IOPtrActionC()
     {}
     //: Default constructor.
+
+    virtual ~IOPtrActionC()
+    {}
+    //: Destructor.
     
     virtual void Assign(IOPtrC &ptr,StoredPointerC &obj) const = 0;
     //: Assign an object to the pointer.

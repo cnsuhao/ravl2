@@ -243,10 +243,12 @@ namespace RavlN {
     
   };
   
+  template<>
   inline
   IndexC TFVectorC<IndexC,2>::SqrEuclidDistance(const TFVectorC<IndexC,2> & o) const 
   { return RavlN::Sqr(data[0] - o[0]) + RavlN::Sqr(data[1] - o[1]); }
   
+  template<>
   inline 
   TFVectorC<IndexC,2> TFVectorC<IndexC,2>::operator+(const TFVectorC<IndexC,2> & o) const {
     TFVectorC<IndexC,2> ret;
@@ -256,10 +258,12 @@ namespace RavlN {
   }
   //: Loop unrolled add.
   
+  template<>
   inline 
   bool TFVectorC<IndexC,2>::operator==(const TFVectorC<IndexC,2> & ind) const 
   { return (data[0] == ind[0]) && (data[1] == ind[1]);  }
   
+  template<>
   inline 
   bool TFVectorC<IndexC,2>::operator!=(const TFVectorC<IndexC,2> & ind) const 
   { return (data[0] != ind[0]) || (data[1] != ind[1]);  }

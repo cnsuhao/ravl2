@@ -27,7 +27,8 @@ int testXML(int argc, char* argv[]) {
 #if 1
     os << XMLIndent << XMLStartTag("hello") << XMLEmptyTag;
     int i = 1;
-    os << XMLIndent << XMLStartTag("test") << XMLAttribute("Fred",i) << XMLAttribute("Jim",++i) << XMLContent 
+    i++;
+    os << XMLIndent << XMLStartTag("test") << XMLAttribute("Fred",i) << XMLAttribute("Jim",i) << XMLContent 
        << XMLIndent <<  "Some data... ";
     os << XMLIndentDown << XMLEndTag << "\n";
 #endif    

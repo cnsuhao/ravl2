@@ -76,7 +76,7 @@ namespace RavlN {
     
   };
   
-  
+  template<>
   inline
   TFVectorC<RealT,2> TFMatrixC<RealT,2,2>::operator*(const TFVectorC<RealT,2> & vec) const {
     TFVectorC<RealT,2> ret;
@@ -113,6 +113,7 @@ namespace RavlN {
     result[1][1] = R1[1][0]*R2[1][0] + R1[1][1]*R2[1][1];
   }
   
+  template<>
   inline
   TFMatrixC<RealT,2,2> &TFVectorC<RealT,2>::OuterProduct(TFMatrixC<RealT,2,2> &result) const {
     result[0][0] = data[0] * data[0];
@@ -125,6 +126,7 @@ namespace RavlN {
   // The output is assigned to 'result'. A reference to 'result' is
   // returned. <p>
 
+  template<>
   inline
   TFMatrixC<RealT,2,2> &TFVectorC<RealT,2>::OuterProduct(const TFVectorC<RealT,2> &av,TFMatrixC<RealT,2,2> &result) const {
     result[0][0] = av[0] * data[0];
@@ -137,6 +139,7 @@ namespace RavlN {
   // The output is assigned to 'result'. A reference to 'result' is
   // returned. <p>
   
+  template<>
   inline
   const TFMatrixC<RealT,2,2> &TFMatrixC<RealT,2,2>::operator+=(const TFMatrixC<RealT,2,2> & mat) {
     data[0][0] += mat.data[0][0];
@@ -146,6 +149,7 @@ namespace RavlN {
     return *this;
   }
   
+  template<>
   inline
   const TFMatrixC<RealT,2,2> &TFMatrixC<RealT,2,2>::operator-=(const TFMatrixC<RealT,2,2> & mat) {
     data[0][0] -= mat.data[0][0];

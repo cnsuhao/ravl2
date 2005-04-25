@@ -135,10 +135,12 @@ namespace RavlImageN {
     CLOSEMMX
   }
   
+  template<>
   void Correlate2dC<short,short,short,short>::Apply(const ImageC<short> &in,ImageC<short> &result) const {
     ShortCorrelate2d(in,result,kernel);    
   }
   
+  template<>
   void Correlate2dC<short,short,short,int>::Apply(const ImageC<short> &in,ImageC<short> &result) const {
     ShortCorrelate2d(in,result,kernel);    
  }

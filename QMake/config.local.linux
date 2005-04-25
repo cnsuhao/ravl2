@@ -22,13 +22,14 @@ FULLBUILD_TARGETS += optbin
 FULLBUILD_TARGETS += doc
 
 
-
-
 ################ Compiler ##################################
 
 # paths for cc and c++ compiler
-#RAVL_CC  = /opt/GNUdevelop/gcc-3.3.2/bin/gcc
-#RAVL_CXX = /opt/GNUdevelop/gcc-3.3.2/bin/g++
+#RAVL_CC  = /opt/Omni/gcc-3.4.3/bin/gcc -B/opt/Omni/binutils-2.15.94.0.2/bin
+#RAVL_CXX = /opt/Omni/gcc-3.4.3/bin/g++ -B/opt/Omni/binutils-2.15.94.0.2/bin
+
+RAVL_CC  = /opt/Omni/gcc-4.0.0/bin/gcc -B/opt/Omni/binutils-2.15.94.0.2/bin 
+RAVL_CXX = /opt/Omni/gcc-4.0.0/bin/g++ -B/opt/Omni/binutils-2.15.94.0.2/bin
 
 # extra CFLAGS (c)
 # EXTRA_CFLAGS =
@@ -42,7 +43,7 @@ FULLBUILD_TARGETS += doc
 
 RESOURCES += libGTK libGTK2
 
-#RESOURCES += libglade2
+RESOURCES += libglade2
 
 ## GTK 1.x #####################################
 
@@ -87,7 +88,7 @@ RESOURCES += libAudioFile
 
 ## libcurl ################################################
 
-#RESOURCES += libCurl
+RESOURCES += libCurl
 
 ## libClipStationPro ################################################
 
@@ -103,15 +104,16 @@ RESOURCES += libAudioFile
 
 ## devVideo4Linux ################################################
 
-#RESOURCES += devVideo4Linux
+RESOURCES += devVideo4Linux
 
 ## devVideo4Linux2 ################################################
 
-#RESOURCES += devVideo4Linux2
+RESOURCES += devVideo4Linux2
 
 ## libmpeg2 ################################################
 
-#RESOURCES += libmpeg2
+RESOURCES += libmpeg2
+LIBMPEG2_HOME=/opt/PDsoft/mpeg2dec
 
 ## FFTW ####################################################
 #FFTW_HOME=
@@ -134,11 +136,20 @@ RESOURCES += libAudioFile
 
 ## dvdread ##################################################
 
-#RESOURCES += dvdread
+RESOURCES += dvdread
 
 ## libmcrypt ##################################################
 
 #RESOURCES += libmcrypt
+
+## Intel's Math Kernel Library  ############################################
+
+RESOURCES += libmkl
+INTELMKL_HOME=/opt/Intel/mkl70
+
+## Jasper image io library  ############################################
+
+RESOURCES += LibJasper
 
 ## Embedded HTTP Server (EHS) ##############################
 
@@ -146,3 +157,6 @@ RESOURCES += libAudioFile
 #EHS_HOME = /opt/ehs-1.3.1
 #RESOURCES += libehs
 
+## LibGnome2 ##############################
+
+RESOURCES += LibGnome

@@ -15,11 +15,11 @@
 
 #include "Ravl/config.h"
 
-#if RAVL_COMPILER_GCC3
+#if RAVL_COMPILER_GCC3 || RAVL_COMPILER_GCC4
 
 #include "Ravl/Stream.hh"
 
-#if !RAVL_COMPILER_GCC3_4
+#if !RAVL_COMPILER_GCC3_4 && !RAVL_COMPILER_GCC4
 
 #include "Ravl/fdstreambuf.hh"
 

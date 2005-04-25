@@ -15,7 +15,7 @@
 
 #include "Ravl/config.h"
 
-#if RAVL_COMPILER_GCC3
+#if RAVL_COMPILER_GCC3 || RAVL_COMPILER_GCC4
 
 #include "Ravl/Stream.hh"
 #include <ext/stdio_filebuf.h>
@@ -25,7 +25,7 @@
 namespace RavlN {
   using namespace __gnu_cxx;
   
-#if !RAVL_COMPILER_GCC3_4
+#if !RAVL_COMPILER_GCC3_4 && !RAVL_COMPILER_GCC4
   //! userlevel=Develop
   //: Basic input from a fd stream.
   

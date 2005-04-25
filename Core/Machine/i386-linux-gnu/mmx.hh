@@ -35,7 +35,7 @@
 // Use this before any MMX operations, and after floating point ops between
 // mmx calls.
 
-#if RAVL_COMPILER_GCC3
+#if RAVL_COMPILER_GCC3 || RAVL_COMPILER_GCC4
 #define INITMMX __asm__( "pxor %%mm0, %%mm0" : : ); // Init the mask register
 #else
 #define INITMMX __asm__( "pxor %mm0, %mm0" : : ); // Init the mask register

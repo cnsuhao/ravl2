@@ -78,6 +78,7 @@ namespace RavlN {
   protected:
   };
 
+  template<>
   inline
   TFVectorC<RealT,3> TFMatrixC<RealT,3,3>::operator*(const TFVectorC<RealT,3> & vec) const {
     TFVectorC<RealT,3> ret;

@@ -22,7 +22,7 @@
 #include "Ravl/RefCounter.hh"
 #include "Ravl/DeepCopy.hh"
 
-#if RAVL_COMPILER_GCC3_4
+#if RAVL_COMPILER_GCC3_4 || RAVL_COMPILER_GCC4
 #include "Ravl/Stream.hh"
 #include "Ravl/BinStream.hh"
 #endif

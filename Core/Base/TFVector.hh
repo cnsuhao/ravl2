@@ -225,7 +225,7 @@ namespace RavlN {
     friend ostream &operator<< <>(ostream &in,const TFVectorC<DataT,N> &dat);  
     friend BinIStreamC &operator>> <>(BinIStreamC &in,TFVectorC<DataT,N> &dat);
     friend BinOStreamC &operator<< <>(BinOStreamC &in,const TFVectorC<DataT,N> &dat);
-#if RAVL_COMPILER_GCC3_4
+#if RAVL_COMPILER_GCC3_4 || RAVL_COMPILER_GCC4
     friend ostream &operator<< <>(ostream &out,const TFVectorC<ByteT,N> &dat);
     friend istream &operator>> <>(istream &in,TFVectorC<ByteT,N> &dat);
     friend ostream &operator<< <>(ostream &out,const TFVectorC<SByteT,N> &dat);
@@ -534,22 +534,27 @@ namespace RavlN {
     return in;
   }
   
+  template<>
   inline
   RealT TFVectorC<RealT,2>::SqrEuclidDistance(const TFVectorC<RealT,2> & o) const 
   { return RavlN::Sqr(data[0] - o[0]) + RavlN::Sqr(data[1] - o[1]); }
   
+  template<>
   inline
   RealT TFVectorC<RealT,3>::SqrEuclidDistance(const TFVectorC<RealT,3> & o) const 
   { return RavlN::Sqr(data[0] - o[0]) + RavlN::Sqr(data[1] - o[1]) + RavlN::Sqr(data[2] - o[2]); }
   
+  template<>
   inline
   IntT TFVectorC<IntT,2>::SqrEuclidDistance(const TFVectorC<IntT,2> & o) const 
   { return RavlN::Sqr(data[0] - o[0]) + RavlN::Sqr(data[1] - o[1]); }
   
+  template<>
   inline
   IntT TFVectorC<IntT,3>::SqrEuclidDistance(const TFVectorC<IntT,3> & o) const 
   { return RavlN::Sqr(data[0] - o[0]) + RavlN::Sqr(data[1] - o[1]) + RavlN::Sqr(data[2] - o[2]); }
   
+  template<>
   inline 
   TFVectorC<RealT,2> TFVectorC<RealT,2>::operator+(const TFVectorC<RealT,2> & o) const {
     TFVectorC<RealT,2> ret;
@@ -559,6 +564,7 @@ namespace RavlN {
   }
   //: Loop unrolled add.
   
+  template<>
   inline 
   TFVectorC<RealT,3> TFVectorC<RealT,3>::operator+(const TFVectorC<RealT,3> & o) const {
     TFVectorC<RealT,3> ret;
@@ -569,6 +575,7 @@ namespace RavlN {
   }
   //: Loop unrolled add.
   
+  template<>
   inline 
   TFVectorC<RealT,4> TFVectorC<RealT,4>::operator+(const TFVectorC<RealT,4> & o) const {
     TFVectorC<RealT,4> ret;
@@ -580,6 +587,7 @@ namespace RavlN {
   }
   //: Loop unrolled add.
   
+  template<>
   inline 
   TFVectorC<RealT,2> TFVectorC<RealT,2>::operator-(const TFVectorC<RealT,2> & o) const {
     TFVectorC<RealT,2> ret;
@@ -589,6 +597,7 @@ namespace RavlN {
   }
   //: Loop unrolled subtract.
   
+  template<>
   inline 
   TFVectorC<RealT,3> TFVectorC<RealT,3>::operator-(const TFVectorC<RealT,3> & o) const {
     TFVectorC<RealT,3> ret;
@@ -599,6 +608,7 @@ namespace RavlN {
   }
   //: Loop unrolled subtract.
   
+  template<>
   inline 
   TFVectorC<RealT,4> TFVectorC<RealT,4>::operator-(const TFVectorC<RealT,4> & o) const {
     TFVectorC<RealT,4> ret;

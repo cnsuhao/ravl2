@@ -88,8 +88,11 @@ int testFFT2d() {
   //===================================================
   SArray2dC<ComplexC> a(2,3);
   RealT increment = 0;
-  for(SArray2dIterC<ComplexC> it(a); it; it++)
-    *it = ComplexC(increment+=0.5, increment+=0.5);
+  for(SArray2dIterC<ComplexC> it(a); it; it++) {
+    RealT v1 = increment+=0.5;
+    RealT v2 = increment+=0.5;
+    *it = ComplexC(v1,v2);
+  }
 
   //cout << "a: " << a << endl;
 
@@ -112,8 +115,10 @@ int testFFT2d() {
   //cout << "groundTruthA: " << groundTruthA << endl;
 
   for(SArray2dIter2C<ComplexC,ComplexC> rit(A,groundTruthA);rit;rit++) {
-    if(Abs(rit.Data1().Re() - rit.Data2().Re()) > 0.000001)
+    if(Abs(rit.Data1().Re() - rit.Data2().Re()) > 0.000001) {
+      cerr << "Diff=" << Abs(rit.Data1().Re() - rit.Data2().Re()) << "\n";
       return __LINE__;
+    }
     if(Abs(rit.Data1().Im() - rit.Data2().Im()) > 0.000001)
       return __LINE__;
   }
@@ -231,8 +236,11 @@ int testFFTShift() {
   // Check even size using: evenSize = fftshift(fftshift(evenSize))
   SArray2dC<ComplexC> evenSize(2,4);
   int i=0;
-  for( SArray2dIterC<ComplexC> it(evenSize); it; it++ )
-    *it = ComplexC(i++, i++);
+  for( SArray2dIterC<ComplexC> it(evenSize); it; it++ ) {
+    IntT i1 = i++;
+    IntT i2 = i++;
+    *it = ComplexC(i1, i2);
+  }
 
   SArray2dC<ComplexC>  sEvenSize = FFT2dC::FFTShift( evenSize);
   SArray2dC<ComplexC> ssEvenSize = FFT2dC::FFTShift(sEvenSize);

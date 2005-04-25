@@ -91,6 +91,7 @@ namespace RavlN {
     // Returns the cross product of this vector and the 'vector'.    
   };
   
+  template<>
   inline RealT TFVectorC<RealT,3>::Dot(const TFVectorC<RealT,3> &oth) const 
   { return data[0] * oth.data[0] + data[1] * oth.data[1] + data[2] * oth.data[2]; }
   //: Calculate the dot product of this and 'oth' vector.

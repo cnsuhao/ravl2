@@ -18,7 +18,7 @@
 extern "C" {
 #endif
 
-#if (defined(__GNUC_MINOR__) && (__GNUC_MINOR__ < 4))  /* gcc 3.x */
+#if (defined(__GNUC_MINOR__) && (__GNUC_MINOR__ < 4)) && (defined(__GNUC_MAJOR__) && (__GNUC_MAJOR__ < 4)) /* gcc 3.x */
 #define __ravl_atomic_fool_gcc(x) (*(volatile struct { int a[50]; } *)x)
 #else
 typedef struct { int a[50]; } __ravl_atomic_fool_gcc_type;

@@ -17,7 +17,7 @@
 
 #include "Ravl/Assert.hh"
 
-#if RAVL_COMPILER_GCC3_4
+#if RAVL_COMPILER_GCC3_4 || RAVL_COMPILER_GCC4
 #include "Ravl/Stream.hh"
 #endif
 

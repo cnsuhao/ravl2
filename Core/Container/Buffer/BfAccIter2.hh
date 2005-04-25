@@ -181,6 +181,7 @@ namespace RavlN {
   inline 
   BufferAccessIter2C<Data1T,Data2T>::BufferAccessIter2C()
     : at1(0), 
+      at2(0), // Avoid a warning
       endOfRow(0)
   {}
 
@@ -189,6 +190,7 @@ namespace RavlN {
   bool BufferAccessIter2C<Data1T,Data2T>::First(const BufferAccessC<Data1T> &buff1,const BufferAccessC<Data2T> &buff2,SizeT size) {
     if(size <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid a warning.
       endOfRow = 0;
       return false;
     }
@@ -203,6 +205,7 @@ namespace RavlN {
   bool BufferAccessIter2C<Data1T,Data2T>::First(const BufferAccessC<Data1T> &buff1,const IndexRangeC &rng1,const BufferAccessC<Data2T> &buff2,const IndexRangeC &rng2) {
     if(rng1.Size() <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid a warning.
       endOfRow = 0;
       return false;
     }
@@ -218,6 +221,7 @@ namespace RavlN {
   bool BufferAccessIter2C<Data1T,Data2T>::First(const RangeBufferAccessC<Data1T> &buff1,const RangeBufferAccessC<Data2T> &buff2) {
     if(buff1.Size() <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid a warning.
       endOfRow = 0;
       return false;
     }
@@ -233,6 +237,7 @@ namespace RavlN {
   bool BufferAccessIter2C<Data1T,Data2T>::First(const SizeBufferAccessC<Data1T> &buff1,const SizeBufferAccessC<Data2T> &buff2) {
     if(buff1.Size() <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid a warning.
       endOfRow = 0;
       return false;
     }
@@ -248,6 +253,7 @@ namespace RavlN {
   bool BufferAccessIter2C<Data1T,Data2T>::First(const SizeBufferAccessC<Data1T> &buff1,const SizeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2) {
     if(buff1.Size() <= off1) {
       at1 = 0;
+      at2 = 0; // Avoid a warning.
       endOfRow = 0;
       return false;
     }
@@ -264,6 +270,7 @@ namespace RavlN {
   bool BufferAccessIter2C<Data1T,Data2T>::First(const RangeBufferAccessC<Data1T> &buff1,const RangeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2) {
     if(buff1.Size() <= off1) {
       at1 = 0;
+      at2 = 0; // Avoid a warning.
       endOfRow = 0;
       return false;
     }
@@ -281,6 +288,7 @@ namespace RavlN {
   bool BufferAccessIter2C<Data1T,Data2T>::First(const RangeBufferAccessC<Data1T> &buff1,const RangeBufferAccessC<Data2T> &buff2,const IndexRangeC & range) {
     if(range.Size() <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid a warning.
       endOfRow = 0;
       return false;
     }

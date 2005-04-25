@@ -123,10 +123,11 @@ namespace RavlN {
     //: the  range -PI to PI.
   };
   
+  template<>
   inline RealT TFVectorC<RealT,2>::Dot(const TFVectorC<RealT,2> &oth) const 
   { return data[0] * oth.data[0] + data[1] * oth.data[1]; }
   //: Calculate the dot product of this and 'oth' vector.
-
+  
   inline 
   void Mul(const TFVectorC<RealT,2> &vec,RealT val,TFVectorC<RealT,2> &result) {
     result[0] = vec[0] * val;
