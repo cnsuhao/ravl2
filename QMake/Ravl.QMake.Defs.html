@@ -358,13 +358,13 @@ they are available, but ignore them if the are not. This can be achieved by addi
 
 <LI><DT><A NAME="LIBDEPS"></A><B>LIBDEPS</B></DT>
 <DD>
-LIBDEPS is used to explicitly create references to libraries.  E.g. the
+LIBDEPS is used to explicitly create references to external libraries.  E.g. the
 following entry in the defs.mk file would create a reference to another
 library CCMath:
 <pre>  LIBDEPS = CCMath.def</pre>
 which could then be referenced in the normal way, e.g.:
 <pre>  USESLIBS = CCMath</pre>
-See the file <a href="../../../html/CCMath.def">CCMath.def</a> itself to see what to put in it. 
+See the file <a href="../../../html/Example.def.html">Example.def</a> to see what to put in it. 
 <p>
 This is used where the source for a library spans several directories, where each 
 directory creates a .def file but the object files are are added to a single

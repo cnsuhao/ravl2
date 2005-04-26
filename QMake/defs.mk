@@ -25,7 +25,7 @@ AUXFILES =  QMake.mk \
   config.sol2_7 config.sol2_9 \
   config.alpha       config.unknown config.linux config.cygwin config.arm \
   QLibs.pl GlobalMake qmake.cshrc qmake.sh \
-  RAVLExec AutoBuild.pl AutoBuild.sample.conf
+  RAVLExec AutoBuild.pl AutoBuild.sample.conf 
 
 ifndef CONFIGFILE
 # Install default config files.
@@ -34,6 +34,8 @@ else
 # Install users config file.
 AUXFILES += $(CONFIGFILE)
 endif
+
+HTML=Example.def.html
 
 EHT= exeSysConf.eht Ravl.QMake.html Ravl.QMake.Defs.html Ravl.QMake.Commands.html \
  Ravl.QMake.Build_Structure.html Ravl.QMake.AutoBuild.html
