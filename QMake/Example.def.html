@@ -1,0 +1,75 @@
+<html>
+<head>
+  <title>Example Def File</title>
+</head>
+<body>
+
+<h2>  Simple Def file </h2> 
+<hr> 
+<pre> 
+# The following two lines provide a guard to stop the file being included multiple times
+ifndef EXAMPLE_DEF
+EXAMPLE_DEF = 1
+
+# The INCLUDES variable contains the command line parameters that gcc  use in order to define header file paths. Often this just -I/path_to_header.
+INCLUDES += -I/opt/program/include 
+
+# The EXELIB variable contains the command line paramters that gcc use in order to specify libraries and library paths. 
+# In this case '-L /opt/program/lib' tells gcc to search in /opt/program/lib when looking for libraries. The '-lexample' argument, tells gcc to link to a library called libexample. 
+EXELIB := -L /opt/program/lib -lexample $(EXELIB)
+
+# close the include guard
+endif 
+</pre> 
+<hr>
+
+
+ <h2> Complex Def file (taken from LibPNG.def ) </h2> 
+ <hr> 
+ <pre> 
+ # The following two lines provide a guard to stop the file being included multiple times
+ ifndef LIBPNG_DEF
+LIBPNG_DEF = 1
+
+# Include other def files
+include Math.def
+include zlib.def
+
+# check to see if the home directory for the library has been defined. 
+# if not, just use default paths 
+ifndef LIBPNG_HOME
+EXELIB := -lpng $(EXELIB)
+
+else
+
+# setup paths relative to home dirs
+INCLUDES += -I$(LIBPNG_HOME)/include
+
+  # do special things for SGI arch
+  ifeq ($(ARC),sgi)
+   EXELIB := -R$(LIBPNG_HOME)/lib -L$(LIBPNG_HOME)/lib -lpng $(EXELIB)
+  else
+
+     # do special things for solaris 
+     ifneq ($(filter $(ARC), sol2_7 sol2_9),)
+      EXELIB := -R$(LIBPNG_HOME)/lib -L$(LIBPNG_HOME)/lib -lpng $(EXELIB)
+     else
+ 
+     	# do special things for linux
+        ifeq ($(ARC),linux)
+         EXELIB := -Wl,-rpath,$(LIBPNG_HOME)/lib -L$(LIBPNG_HOME)/lib -lpng $(EXELIB)
+        else
+         EXELIB := -L$(LIBPNG_HOME)/lib -lpng $(EXELIB)
+        endif
+     endif
+  endif
+endif
+
+
+endif
+
+
+ </pre> 
+ </hr> 
+
+</body> 
