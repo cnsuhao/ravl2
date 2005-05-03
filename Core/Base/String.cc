@@ -1017,7 +1017,7 @@ namespace RavlN {
   }
 #endif
   
-#if defined(__GNUG__) && !defined(_G_NO_NRV) && !defined(RAVL_COMPILER_GCC3)
+#if defined(__GNUG__) && !defined(_G_NO_NRV) && !defined(RAVL_COMPILER_GCC)
 #define RETURN(r) return
 #define RETURNS(r) return r;
 #define RETURN_OBJECT(TYPE, NAME) /* nothing */
@@ -1130,7 +1130,7 @@ namespace RavlN {
     return dest;
   }
   
-#if defined(__GNUG__) && !defined(_G_NO_NRV) && !defined(RAVL_COMPILER_GCC3)
+#if defined(__GNUG__) && !defined(_G_NO_NRV) && !defined(RAVL_COMPILER_GCC)
   
   StringC StrCreplicate(char c, int n) return w; {
     w.rep = Sresize(w.rep, n);
@@ -1265,7 +1265,7 @@ namespace RavlN {
     new_state = s.rdstate();
     if (i == 0) new_state |= ios::failbit;
     if (ch == EOF) new_state |= ios::eofbit;
-#if RAVL_COMPILER_GCC3
+#if RAVL_COMPILER_GCC
     s.clear((std::_Ios_Iostate )new_state);
 #else
     s.clear(new_state);
@@ -1274,13 +1274,13 @@ namespace RavlN {
   }
   
   int readline(istream& s, StringC& x, char terminator, bool discard) {
-#if !RAVL_COMPILER_GCC3
+#if RAVL_COMPILER_GCC
+    const int eof = istream::traits_type::eof();
+#else
     // Should check what this does before just disabling it.
     if (!s.ipfx(0))
       return 0;
     const int eof = EOF;
-#else
-    const int eof = istream::traits_type::eof();
 #endif
     int ch = 0;
     int i = 0;
@@ -1297,7 +1297,7 @@ namespace RavlN {
     }
     x.rep->s[i] = 0;
     x.rep->len = i;
-#if RAVL_COMPILER_GCC3
+#if RAVL_COMPILER_GCC
     if (ch == eof) 
       s.setstate(ios::eofbit | ios::failbit);
 #else

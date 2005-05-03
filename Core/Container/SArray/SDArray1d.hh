@@ -19,7 +19,7 @@
 #include "Ravl/Index.hh"
 #include "Ravl/Assert.hh"
 
-#if RAVL_COMPILER_GCC3_4 || RAVL_COMPILER_GCC4
+#if RAVL_HAVE_TEMPLATEREQUIREALLDEFINITIONS 
 #include "Ravl/Stream.hh"
 #include "Ravl/BinStream.hh"
 #endif

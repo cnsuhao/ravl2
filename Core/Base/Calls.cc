@@ -13,14 +13,13 @@
 
 namespace RavlN
 {
-#if !((RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET) || RAVL_COMPILER_MIPSPRO) && !RAVL_COMPILER_GCC3_4 && !RAVL_COMPILER_GCC4
-  template CallFunc0BodyC<bool>;  
+#if RAVL_HAVE_TEMPLATEINSTANTIATE
+  template CallFunc0BodyC<bool>; 
 #endif
   
   //: Invoke event.
   
   //void TriggerFunc0BodyC::Invoke()
-  
   
 };
 

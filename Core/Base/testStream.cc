@@ -242,7 +242,7 @@ int StrStreamTest() {
 }
 
 int testFDStream() {
-#if RAVL_COMPILER_GCC3
+#if RAVL_COMPILER_GCC
   cerr << "testFDStream(), Started. \n";
   int fds[2];
   pipe(fds);

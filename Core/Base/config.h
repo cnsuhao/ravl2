@@ -35,10 +35,10 @@
 
 #if !defined(WIN32)
 #define RAVL_COMPILER_GCC defined(__GNUC__)                        /* GNU compiler ? */
-#define RAVL_COMPILER_GCC2 (defined(__GNUC__) && (__GNUC__ < 3))   /* gcc 2.x */
-#define RAVL_COMPILER_GCC3 (defined(__GNUC__) && (__GNUC__ >= 3))  /* gcc 3.x */
-#define RAVL_COMPILER_GCC3_4 (defined(__GNUC__) && (__GNUC__ >= 3) && (__GNUC_MINOR__ >= 4))  /* gcc 3.4.x or later. */
-#define RAVL_COMPILER_GCC4  (defined(__GNUC__) && (__GNUC__ >= 4))  /* gcc 3.4.x or later. */
+#define RAVL_COMPILER_GCC2 (defined(__GNUC__) && (__GNUC__ == 2))   /* gcc 2.x (No longer supported) */
+#define RAVL_COMPILER_GCC3 (defined(__GNUC__) && (__GNUC__ == 3))  /* gcc 3.x */
+#define RAVL_COMPILER_GCC3_4 (defined(__GNUC__) && (__GNUC__ == 3) && (__GNUC_MINOR__ >= 4))  /* gcc 3.4.x or later. */
+#define RAVL_COMPILER_GCC4  (defined(__GNUC__) && (__GNUC__ >= 4))  /* gcc 4.x or later. */
 #define RAVL_COMPILER_MIPSPRO (!defined(__GNUC__) && defined(__sgi))   /* MIPS Pro compiler */
 #define RAVL_COMPILER_VISUALCPP (!defined(__GNUC__) && defined(WIN32)) /* Visual C++ */
 #define RAVL_COMPILER_VISUALCPPNET (!defined(__GNUC__) && defined(WIN32) && (_MSC_VER >= 1300)) /* Visual C++ .NET*/
@@ -198,7 +198,7 @@
 /********************************************************************************/
 /****** Compiler/ C++ Library ***************************************************/
 
-#define RAVL_HAVE_STDNAMESPACE    (RAVL_COMPILER_GCC3 || RAVL_COMPILER_VISUALCPPNET) /* Use std namespace. */
+#define RAVL_HAVE_STDNAMESPACE    (RAVL_COMPILER_GCC3 || RAVL_COMPILER_GCC4 || RAVL_COMPILER_VISUALCPPNET) /* Use std namespace. */
 #define RAVL_HAVE_ANSICPPHEADERS  (RAVL_COMPILER_GCC || RAVL_COMPILER_VISUALCPPNET) /* Use ansi complient c++ headers, i.e without the .h */
 #define RAVL_HAVE_EXCEPTIONS      1                        /* are exceptions enabled ? */
 #define RAVL_HAVE_EXCEPTION_H     !RAVL_COMPILER_VISUALCPP /* Have exception.h ? */
@@ -212,7 +212,10 @@
 #define RAVL_VISUALCPP_TYPENAME_BUG (RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET) /* Restrictions in using keyword 'typename' in Visual C++ 6.x */
 #define RAVL_ISTREAM_UNGET_BUG    RAVL_COMPILER_VISUALCPP    /* Bug in stream unget under Visual C++ 6.x */
 #define RAVL_NEW_ANSI_CXX_DRAFT   (RAVL_COMPILER_GCC || RAVL_COMPILER_VISUALCPPNET) /* The mainly effects the use of <> in templated friend declarations */
-#define RAVL_HAVE_STRINGSTREAM    RAVL_COMPILER_GCC3         /* Use stringstream instead of strstream */
+#define RAVL_HAVE_STRINGSTREAM    (RAVL_COMPILER_GCC3 || RAVL_COMPILER_GCC4)        /* Use stringstream instead of strstream */
+#define RAVL_HAVE_GCCCLASSVISIBILITY  RAVL_COMPILER_GCC4     /* Do we have the class visibility options introduced in GCC 4.0 */
+#define RAVL_HAVE_TEMPLATEINSTANTIATE (RAVL_COMPILER_GCC3 && __GNUC_MINOR__ < 4)  /* Do we have forced template instanciation ? */
+#define RAVL_HAVE_TEMPLATEREQUIREALLDEFINITIONS (RAVL_COMPILER_GCC3_4 || RAVL_COMPILER_GCC4)  /* Do we have forced template instanciation ? */
 
 #define RAVL_HAVE_TEMPLATEDFUNCPTR_BUG (RAVL_COMPILER_VISUALCPP6) /* Do we have problems with resolving template arguments from function pointers ? Visual C++ 6.x */
 
@@ -260,5 +263,48 @@
 #define _REENTRANT 1
 #endif
 #endif
+
+/*********************************************************************
+ * Shared library support
+ */
+
+#if RAVL_OS_WIN32
+  #define RAVL_IMPORT __declspec(dllimport)
+  #define RAVL_EXPORT __declspec(dllexport)
+  #define RAVL_DLLLOCAL
+  #define RAVL_DLLPUBLIC
+#else
+  #define RAVL_IMPORT
+  #if RAVL_HAVE_GCCCLASSVISIBILITY
+    #define RAVL_EXPORT __attribute__ ((visibility("default")))
+    #define RAVL_DLLLOCAL __attribute__ ((visibility("hidden")))
+    #define RAVL_DLLPUBLIC __attribute__ ((visibility("default")))
+  #else
+    #define RAVL_EXPORT
+    #define RAVL_DLLLOCAL
+    #define RAVL_DLLPUBLIC
+  #endif
+#endif
+
+/* Define FXAPI for DLL builds */
+#ifdef RAVL_DLL
+  #ifdef RAVL_DLL_EXPORTS
+    #define RAVL_API RAVL_EXPORT
+  #else
+    #define RAVL_API RAVL_IMPORT
+  #endif /* RAVL_DLL_EXPORTS  */
+#else
+  #define RAVL_API
+#endif /* RAVL_DLL */
+
+/* Throwable classes must always be visible on GCC in all binaries */
+#if RAVL_OS_WIN32
+  #define RAVL_EXCEPTIONAPI(api) api
+#elif  RAVL_HAVE_GCCCLASSVISIBILITY
+  #define RAVL_EXCEPTIONAPI(api) RAVL_EXPORT
+#else
+  #define RAVL_EXCEPTIONAPI(api)
+#endif
+
 
 #endif

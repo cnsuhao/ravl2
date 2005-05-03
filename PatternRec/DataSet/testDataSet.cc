@@ -52,7 +52,7 @@ int testDataSetVectorLabel();
 int testSpeed();
 #endif
 
-#if !defined(__sgi__) && !RAVL_COMPILER_GCC3_4 && !RAVL_COMPILER_GCC4
+#if RAVL_HAVE_TEMPLATEINSTANTIATE 
 template DataSet1C<SampleC<IntT> >;
 template DataSet2C<SampleC<IntT>,SampleC<RealT> >;
 template DataSet3C<SampleC<IntT>,SampleC<RealT>,SampleC<bool> >;

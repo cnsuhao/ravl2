@@ -36,13 +36,11 @@ public:
   int v;
 };
 
-#ifndef __sgi__
+#if RAVL_HAVE_TEMPLATEINSTANTIATE
 template class DListC<IntT>;
 template class DLIterC<IntT>;
-#if !RAVL_COMPILER_GCC3_4 && !RAVL_COMPILER_GCC4
 template IntrDListC<StuffC>; // Force instanciation of all methods.
 template IntrDLIterC<StuffC>; // Force instanciation of all methods.
-#endif
 #endif
 
 int testDListBinIO();

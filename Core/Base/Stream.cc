@@ -13,7 +13,7 @@
 #include "Ravl/StreamType.hh"
 #include "Ravl/Calls.hh"
 
-#if RAVL_COMPILER_GCC3 
+#if RAVL_COMPILER_GCC
 #include "Ravl/fdstream.hh"
 #include "Ravl/stdio_fdstream.hh"
 #include <ext/stdio_filebuf.h>
@@ -90,7 +90,7 @@ namespace RavlN {
     ONDEBUG(cerr << "StreamBaseC::Close() Called. \n");
     if(s == 0)
       return false;
-#if !RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_GCC3
+#if !RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_GCC
     fstreambase *fsb = dynamic_cast<fstreambase *>(s);
 #else
     fstream *fsb = dynamic_cast<fstream *>(s);
@@ -222,7 +222,7 @@ namespace RavlN {
     
     if(append)
       fmode |= ios::app;  
-#if RAVL_COMPILER_GCC3
+#if RAVL_COMPILER_GCC
 #if RAVL_HAVE_INTFILEDESCRIPTORS 
     // We can't use the native open, because we need to be able to handle large files.
     int mode = O_WRONLY | O_CREAT | O_LARGEFILE;
@@ -241,7 +241,7 @@ namespace RavlN {
       cerr << "WARNING: Unbuffered streams are not currently supported under gcc3.\n";
     }
 #endif
-#else // RAVL_COMPILER_GCC3
+#else // RAVL_COMPILER_GCC
     Init(ofstrm = new ofstream(filename.chars(),fmode),filename);
 #if RAVL_COMPILER_VISUALCPP
     if(!buffered) {
@@ -251,7 +251,7 @@ namespace RavlN {
     if(!buffered) 
       ofstrm->setbuf(0,0);
 #endif // RAVL_COMPILER_VISUALCPP
-#endif // RAVL_COMPILER_GCC3
+#endif // RAVL_COMPILER_GCC
     out = ofstrm;
   }
   
@@ -260,7 +260,7 @@ namespace RavlN {
 #if RAVL_HAVE_INTFILEDESCRIPTORS
   OStreamC::OStreamC(int fd,bool binary,bool buffered) { 
     ONDEBUG(cerr << "OStreamC::OStreamC(" << fd << "," << ((int) binary) << ","  << (int) buffered << ") Called \n");
-#if !RAVL_COMPILER_GCC3
+#if !RAVL_COMPILER_GCC
     if(buffered)
       Init(out = new ofstream(fd),StringC(fd)); 
     else
@@ -359,7 +359,7 @@ namespace RavlN {
     in = ifstrm;
 #endif //  RAVL_HAVE_INTFILEDESCRIPTORS
     
-#if RAVL_COMPILER_VISUALCPPNET || RAVL_COMPILER_GCC3
+#if RAVL_COMPILER_VISUALCPPNET || RAVL_COMPILER_GCC
     if(!buffered) {
       cerr << "WARNING: Unbuffered streams are not currently supported under windows or gcc3.\n";	
     }	
@@ -376,7 +376,7 @@ namespace RavlN {
 #if RAVL_HAVE_INTFILEDESCRIPTORS
   IStreamC::IStreamC(int fd,bool binary,bool buffered) {   
     ONDEBUG(cerr << "IStreamC::IStreamC(" << fd << "," << ((int) binary) << ","  << (int) buffered << ") Called \n");
-#if !RAVL_COMPILER_GCC3
+#if !RAVL_COMPILER_GCC
     if(buffered)
       Init(in = new ifstream(fd),StringC(fd));
     else
