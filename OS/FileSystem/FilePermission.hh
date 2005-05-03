@@ -59,52 +59,72 @@ namespace RavlN {
   
   class FilePermissionC {
   public:	
-    inline FilePermissionC();
+    inline FilePermissionC()
+      : mode(S_IRWXU | S_IRWXG | S_IRWXO),
+        owner(0),
+        group(0)
+    {}
     //: Default access is RW all.
     
-    inline FilePermissionC(mode_t Value,uid_t userid = 0,gid_t grpid = 0);
+    inline FilePermissionC(mode_t Value,uid_t userid = 0,gid_t grpid = 0)
+      : mode(Value),
+        owner(userid),
+        group(grpid)
+    {}
+
     //: Default access is RW all.
   
-    inline void SetRWXAll();
+    inline void SetRWXAll()
+    { mode |= S_IRWXU | S_IRWXG | S_IRWXO;  }
     //: Set Read, Write, Excute all.
     
-    inline void SetUserReadWrite();
+    inline void SetUserReadWrite()
+    { mode |= S_IWUSR | S_IRUSR; }
     //: Add user read/write permission.
     
     inline const FilePermissionC &operator=(mode_t mode);
     //: Set mode.
     
-    inline bool operator[](IntT ABit) const;
+    inline bool operator[](IntT ABit) const
+    { return (mode & (1 << ABit)) != 0; }
     //: Test a bit.
     
-    inline void ZeroBit(IntT ABit);
+    inline void ZeroBit(IntT ABit)
+    { mode &= ~(1 << ABit); }
     //: Set a single bit to zero. ABit should be 0-32
     
-    inline void SetBit(IntT ABit);
+    inline void SetBit(IntT ABit)
+    { mode |= (1 << ABit); }
     //: Set a single bit to one.  ABit should be 0-32
     
-    inline void Zero(IntT ABit);
+    inline void Zero(IntT ABit)
+    { mode &= ~ABit; }
     //: Set bits to zero.
   
-    inline void Set(IntT ABit);
+    inline void Set(IntT ABit)
+    { mode |= ABit; }
     //: Set bits to one.
     
-    inline void SetNone();
+    inline void SetNone()
+    { mode = 0; }
     //: Set file permisions to none at all.
     
     inline bool IsNone();
     //: Test if no-permisions. 
     
-    inline mode_t Mode() const;
+    inline mode_t Mode() const
+    { return mode; }
     //: Get current mode.
     
-    inline uid_t Owner() const;
+    inline uid_t Owner() const
+    { return owner; }
     //: Owner of file.
     
     UserInfoC OwnerInfo() const;
     //: Get information on owner.
     
-    inline uid_t Group() const;
+    inline uid_t Group() const
+    { return group; }
     //: Group of file.
     
     bool IsReadable() const;
@@ -119,10 +139,12 @@ namespace RavlN {
     bool IsWorldWritable() const;
     //: Does world have write access ?
     
-    inline bool IsDirectory() const;
+    inline bool IsDirectory() const
+    { return S_ISDIR(Mode()); }
     //: Is this object a directory ?
     
-    inline bool IsRegular() const;
+    inline bool IsRegular() const
+    { return S_ISREG(Mode()); }
     //: Is this object a regular file ?
     
     inline bool IsSocket() const;
@@ -141,71 +163,6 @@ namespace RavlN {
   };
   
   /////////////////////////////////////////////////////////
-  
-  inline 
-  FilePermissionC::FilePermissionC()
-    : mode(S_IRWXU | S_IRWXG | S_IRWXO)
-  {}
-  
-  inline 
-  FilePermissionC::FilePermissionC(mode_t Value,uid_t userid,gid_t grpid) 
-    : mode(Value),
-      owner(userid),
-      group(grpid)
-  {}
-  
-  inline 
-  void FilePermissionC::SetRWXAll() 
-  { mode |= S_IRWXU | S_IRWXG | S_IRWXO;  }
-  
-  inline 
-  void FilePermissionC::SetUserReadWrite()
-  { mode |= S_IWUSR | S_IRUSR; }
-  
-  inline 
-  bool FilePermissionC::operator [](IntT ABit) const 
-  { return (mode & (1 << ABit)) != 0; }
-  
-  inline 
-  void FilePermissionC::ZeroBit(IntT ABit)
-  { mode &= ~(1 << ABit); }
-
-  inline 
-  void FilePermissionC::SetBit(IntT ABit) 
-  { mode |= (1 << ABit); }
-
-  inline 
-  void FilePermissionC::Zero(IntT ABit) 
-  { mode &= ~ABit; }
-
-  inline 
-  void FilePermissionC::Set(IntT ABit) 
-  { mode |= ABit; }
-
-  inline 
-  void FilePermissionC::SetNone()
-  { mode = 0; }
-  
-  inline 
-  mode_t FilePermissionC::Mode() const 
-  { return mode; }
-  
-  inline 
-  uid_t FilePermissionC::Owner() const
-  { return owner; }
-
-  inline 
-  uid_t FilePermissionC::Group() const
-  { return group; }
-  
-  
-  inline
-  bool FilePermissionC::IsDirectory() const 
-  { return S_ISDIR(Mode()); }
-  
-  inline 
-  bool FilePermissionC::IsRegular() const 
-  { return S_ISREG(Mode()); }
   
   inline 
   bool FilePermissionC::IsSocket() const  { 
