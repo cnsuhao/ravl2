@@ -206,7 +206,7 @@ namespace RavlN {
 	    }
 	    break;
 	  case '>':
-	    cerr << "WARNING: Found an empty tag (<>) in XML stream. \n";
+	    cerr << "WARNING: Found an empty tag (<>) in XML stream. Filename:" << Name() << "\n";
 	    continue; // Empty <> probably illegal ??
 	  case '/':
 	    foundEndTag = true;
@@ -233,14 +233,14 @@ namespace RavlN {
 	    {
 	    case '?':
 	      if(!isPI) { // Are we in a processing instruction ?
-		ONDEBUG(cerr << "ERROR: Unexpected character '"  << c << "' in XML tag. \n");
+		cerr << "ERROR: Unexpected character '"  << c << "' in XML tag. Filename:" << Name() << " \n";
 		throw ExceptionInvalidStreamC("Unexpected end of XML tag. ");
 	      }
 	      /* FALL THROUGH */	      
 	    case '/':
 	      c = GetChar();
 	      if(c != '>') {
-		ONDEBUG(cerr << "ERROR: Unexpected character '"  << c << "' in XML tag. \n");
+		cerr << "ERROR: Unexpected character '"  << c << "' in XML tag. Filename:" << Name() << "\n";
 		throw ExceptionInvalidStreamC("Unexpected end of XML tag. ");
 	      }
 	      emptyTag = true;
@@ -251,7 +251,7 @@ namespace RavlN {
 	    default: // An attribute.
 	      is().putback(c);
 	      if(!elem.IsValid()) {
-		ONDEBUG(cerr << "ERROR: Unexpected attribute. \n");
+		cerr << "ERROR: Unexpected attribute. Filename:" << Name() << "\n";
 		throw ExceptionInvalidStreamC("Unexpected attribute. ");
 	      }
 	      ReadAttrib(elem);
@@ -373,7 +373,7 @@ namespace RavlN {
     StringC id = ReadID();
     char c = SkipWhiteSpace();
     if(c != '=') {
-      ONDEBUG(cerr << "ERROR: Unexpected character '"  << c << "' in XML attribute. \n");
+      cerr << "ERROR: Unexpected character '"  << c << "' in XML attribute. Filename:" << Name() << " \n";
       throw ExceptionInvalidStreamC("Unexpected character in XML attribute. ");
     }
     c = SkipWhiteSpace();
@@ -484,7 +484,7 @@ namespace RavlN {
   void XMLOStreamC::StartContents() {
     //ONDEBUG(cerr << "XMLOStreamC::StartContents(), Name:'" << Context().Name() << "' \n");
     if(!IsContext()) {
-      cerr << "XMLOStreamC::StartContents(), ERROR: No tags around content. \n";
+      cerr << "XMLOStreamC::StartContents(), ERROR: No tags around content. Filename:" << Name() << "\n";
       return ;
     }
     if(IsContent()) {
