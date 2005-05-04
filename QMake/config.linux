@@ -5,6 +5,13 @@
 #######################
 # Programs to use.
 
+ifdef GCCPATH
+ GCCPATH:=$(strip $(GCCPATH))#
+ RAVL_CC  = $(GCCPATH)/bin/gcc -B$(GCCPATH)/bin
+ RAVL_CXX = $(GCCPATH)/bin/g++ -B$(GCCPATH)/bin
+ EXTRA_LDFLAGS += -Wl,-rpath=$(GCCPATH)/lib
+endif
+
 ifdef RAVL_CC
  CC = $(RAVL_CC)
 else
@@ -34,7 +41,7 @@ ifndef TR
 endif 
 
 ifndef DYNAMICFLAG
-DYNAMICFLAG = -rdynamic 
+ DYNAMICFLAG = -rdynamic 
 endif 
 
 ARFLAGS = ruc
@@ -51,6 +58,8 @@ MKDEPUP = echo -n '$$(INST_OBJS)/' > $(INST_DEPEND)/$*.d ; cat $(WORKTMP)/$*.d  
  rm $(WORKTMP)/$*.d
 
 NOLIBRARYPRELINK=1
+
+
 
 ############################
 # Universal flags.
@@ -71,11 +80,11 @@ PAR_MAKE = --jobs=$(PROCS)
 
 UNDEFSYMB = -u #
 
-OPTCFLAGS = -O2 -ffast-math
-# -O2 -ffast-math -mcpu=i686
+OPTCFLAGS  = -O2 -ffast-math -march=i686 
+# -O2 -ffast-math -mcpu=i686 -mfpmath=sse
 
-OPTCCFLAGS = -O2 -ffast-math
-# -O2 -ffast-math -mcpu=i686
+OPTCCFLAGS = -O2  -ffast-math -march=i686 
+# -O2 -ffast-math -mcpu=i686 -mfpmath=sse
 
 ############################
 # 'debug' variant.
