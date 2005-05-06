@@ -19,7 +19,6 @@
 
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Option.hh" 
-#include "Ravl/Image/ByteYUV422Value.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/Image/ImageRectangle.hh"
 #include "Ravl/DP/SequenceIO.hh"
@@ -28,38 +27,99 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/TimeCode.hh"
 #include "Ravl/OS/Date.hh"
+#include "Ravl/DP/FileFormatRegistry.hh"
+#include "Ravl/TypeName.hh"
+#include "Ravl/DP/SequenceIO.hh"
+
+//#include "Ravl/Image/ByteRGBValue.hh"
+//#include "Ravl/Image/ByteYUVValue.hh"
+//#include "Ravl/Image/ByteYUV422Value.hh"
+
+#include "Ravl/IO.hh"
 
 using namespace RavlN ; 
 using namespace RavlImageN ; 
 
+// Nasty global variables ; 
+  IntT  delay ; 
+  bool showTC ;       
+  bool verbose ; 
+  StringC start ;    
+  StringC end ; 
+  FilenameC outFile ; 
+  FilenameC device ; 
+  UIntT  howMany ; 
+  UIntT  frameStep ;  
+  OptionC opts (0,0) ; 
+
+  // some forwards 
+  namespace RavlImageN 
+  {
+  class ByteRGBValueC ; 
+  class ByteYUVValueC ; 
+  class ByteYUV422ValueC ; 
+  }; 
+
+  
+template<class ImageT> int doGrab (void) ; 
+
 int VGrab(int argc, char ** argv) 
 {
-  typedef ByteYUV422ValueC PixelT ; 
-  typedef ImageC<PixelT> ImageT ; 
 
   // get some options and usage 
   // ----------------------------
-  OptionC opts(argc,argv) ; 
+  opts = OptionC (argc,argv) ; 
   StringC usage = "This program captures video from grabber cards. The grabber device can be specified using RAVL virtual files and defaults to the ClipStationPro driver. \n Output formats are determined by the extension specified, 4cif is the defalut." ; 
-  opts.Comment(usage) ; 
-
-  IntT  delay       = opts.Int     ("delay", 0  ,               "The delay in seconds " ) ; 
-  bool showTC       = opts.Boolean ("g",     false,             "Get current timecode " ) ; 
-  bool verbose      = opts.Boolean ("v",     true,             "Be verbose ? " ) ; 
-  StringC start     = opts.String  ("start", "now",             "The starting timecode [HH:MM:SS:FF , now] " ) ; 
-  StringC end       = opts.String  ("end",   "",                "The ending timecode [HH:MM:SS:FF] ") ; 
-  FilenameC outFile = opts.String  ("out",   "tmp1.4cif",       "The output filename for capture device 1 (.cif, .4cif,  .ppm, .avi, .jpg ) ") ; 
-  FilenameC device  = opts.String  ("dev",   "@CSP:PCI,card:0", "The capture device (See RAVL virtual files for more details )" ) ; 
-  UIntT  howMany    = opts.Int     ("n",     25,                "Duration of capture (number of frames to be grabbed), NB Cannot be used with real timecodes") ; 
-  UIntT  frameStep  = opts.Int     ("step",  1,                 "Capture every nth frame " ) ; 
-
+  opts.Comment(usage) ;
+  delay       = opts.Int     ("delay", 0  ,               "The delay in seconds " ) ; 
+  showTC       = opts.Boolean ("g",     false,             "Get current timecode " ) ; 
+  verbose      = opts.Boolean ("v",     false,             "Be verbose ? " ) ; 
+  start     = opts.String  ("start", "now",             "The starting timecode [HH:MM:SS:FF , now] " ) ; 
+  end       = opts.String  ("end",   "",                "The ending timecode [HH:MM:SS:FF] ") ; 
+  outFile = opts.String  ("out",   "tmp1.4cif",       "The output filename for capture device 1 (.cif, .4cif,  .ppm, .avi, .jpg ) ") ; 
+  device  = opts.String  ("dev",   "@CSP:PCI,card:0", "The capture device (See RAVL virtual files for more details )" ) ; 
+  howMany    = opts.Int     ("n",     25,                "Duration of capture (number of frames to be grabbed), NB Cannot be used with real timecodes") ; 
+  frameStep  = opts.Int     ("step",  1,                 "Capture every nth frame " ) ; 
   opts.DependXor ("end n") ; 
   opts.Check() ;  
+ 
 
-  //howMany *= frameStep ; 
+  // lets probe the output format and see what the default type is. 
+  // We can use this to choose the best intermediate format for the image.
+  // This should help ensure that most of the conversions are done on the hardware if applicable.  
+  FileFormatRegistryC reg = SystemFileFormatRegistry() ; 
+  FileFormatBaseC format = reg.Identify(outFile) ; 
+  const type_info  & bestType = format.DefaultType() ;
+ 
+
+  
+  // YUV intermediate
+  if ( 
+  	(bestType == typeid(ImageC<ByteYUVValueC>)) || 
+	(bestType == typeid(ImageC<ByteYUV422ValueC>)) 
+	)
+		return doGrab<ImageC<ByteYUV422ValueC> > () ; 
+  // RGB intermediate
+   else if (  bestType == typeid(ImageC<ByteRGBValueC>) ) 
+  		return doGrab<ImageC<ByteRGBValueC> >() ; 
+  // default, this will use RGB since most ravl conversions are defined to and from RGB.
+  else 	return doGrab<ImageC<ByteRGBValueC> >() ; 
+ 
+return 1 ; 
+}
 
 
-  //: create a name for the timecode file 
+
+
+
+
+
+
+
+template<class ImageT> 
+int doGrab (void) 
+{
+ //: create a name for the timecode file 
   // -------------------------------------
   FilenameC tcFile ; 
   if ( outFile.PathComponent() == "" ) tcFile = outFile.BaseNameComponent()+".tc" ;
@@ -67,17 +127,29 @@ int VGrab(int argc, char ** argv)
     tcFile = outFile.PathComponent()  + "/" + outFile.BaseNameComponent()+".tc" ; 
   //cout << "tcFile -= " << tcFile ; 
   OStreamC tcStream(tcFile) ; 
-
-
+  
+  
+  
+  
+ 
 
 
   // try to setup the capture device 
   // --------------------------------
   if (verbose) cout << "\n   -  Trying to setup capture device " << device << " ....  " ; 
-  DPIPortC<ImageT> inStream ; 
-  if ( ! OpenISequence ( inStream, device, "", false) ) 
+  DPIPortC<ImageT> inStream ;
+  if ( ! OpenISequence ( inStream, device, "", verbose) ) 
     { RavlIssueError ("\n   -  Failed to open input device, exiting .... " ) ; } 
-  if (verbose) cout << "\t\tdone  ! " ; 
+//	cout << "\n inStream type " << inStream.InputStream().Name() ; 
+
+
+   // try to open the output stream 
+  // ------------------------------
+  //cerr << "\n outfile name is " << outFile ; 
+  DPOPortC<ImageT>  outStream ;
+  //cerr << "\n  file format is " << TypeName ( typeid(ImageT) ) ;  
+  if ( ! OpenOSequence ( outStream, outFile, "", verbose) ) 
+    { RavlIssueError ("\n\n   - Failed to open output file stream ") ; }
 
 
 
@@ -141,13 +213,6 @@ int VGrab(int argc, char ** argv)
     return 0 ; 
   }
   
-
-
-  // try to open the output stream 
-  // ------------------------------
-  DPOPortC<ImageT>  outStream ; 
-  if ( ! OpenOSequence ( outStream, outFile, "", false) ) 
-    { RavlIssueError ("\n\n   - Failed to open output file stream ") ; }
 
 
 
@@ -268,7 +333,12 @@ int VGrab(int argc, char ** argv)
       tcStream << iter.Data().ToText() << "\n" ; 
 
 
- return 0 ; 
-}
+return 0 ; 
+}; 
+
+
+
+
+
 
 RAVL_ENTRY_POINT(VGrab) ; 
