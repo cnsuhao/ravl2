@@ -198,9 +198,9 @@ namespace RavlGUIN {
   }
   
   int WidgetBodyC::gtkCListSelect(GtkWidget *widget,
-				  gint row,gint column,
-				  GdkEventButton *event,
-				  Signal0C *data) {
+                                  gint row,gint column,
+                                  GdkEventButton *event,
+                                  Signal0C *data) {
     Signal1C<CListEventC> sig(*data);
     RavlAssert(sig.IsValid());
     IntT rowId = (IntT) gtk_clist_get_row_data(GTK_CLIST(widget),row);
@@ -259,11 +259,11 @@ namespace RavlGUIN {
   }
   
   int WidgetBodyC::gtkDNDDataGet(GtkWidget *widget,
-				 GdkDragContext *context,
-				 GtkSelectionData *data,
-				 unsigned int info,
-				 unsigned int time,
-				 Signal0C *sigptr) {
+                                 GdkDragContext *context,
+                                 GtkSelectionData *data,
+                                 unsigned int info,
+                                 unsigned int time,
+                                 Signal0C *sigptr) {
     Signal1C<DNDDataInfoC> sig(*sigptr);
     RavlAssert(sig.IsValid());
     DNDDataInfoC inf(context,data,info,time);
@@ -354,11 +354,11 @@ namespace RavlGUIN {
       if(GTK_IS_WIDGET(widget)) { // Incase it was destroyed within GTK.
         if(destroySigId >= 0)
           gtk_signal_disconnect (GTK_OBJECT(widget), destroySigId);
-	gtk_widget_hide (widget);
-	if(gotRef) {
-	  gtk_object_unref(GTK_OBJECT(widget));
-	  //gtk_widget_destroy(widget);
-	}
+        gtk_widget_hide (widget);
+        if(gotRef) {
+          gtk_object_unref(GTK_OBJECT(widget));
+          //gtk_widget_destroy(widget);
+        }
       }
       widget = 0;
     }
@@ -413,7 +413,7 @@ namespace RavlGUIN {
     if(reqState != GTK_WIDGET_STATE(widget)) {
       gtk_widget_set_state(widget,reqState);
       if(reqState != GTK_STATE_INSENSITIVE)
-	gtk_widget_set_sensitive(widget,true);
+        gtk_widget_set_sensitive(widget,true);
     }
     return true;
   }
@@ -447,47 +447,47 @@ namespace RavlGUIN {
       {
       case SigTypeGeneric: ret = Signal0C(true); break;
       case SigTypeEvent:  
-	ret = Signal2C<GdkEvent *,WidgetC>(0,WidgetC(*this)); 
-	break;
+        ret = Signal2C<GdkEvent *,WidgetC>(0,WidgetC(*this)); 
+        break;
       case SigTypeEventKeyboard: 
-	if(sN == "key_press_event") // Enable press events.
-	  AddEventMask(GDK_KEY_PRESS_MASK); 
-	if(sN == "key_release_event") // Enable Release events.
-	  AddEventMask(GDK_KEY_RELEASE_MASK);
-	
-	ret = Signal2C<GdkEventKey *,WidgetC>(0,WidgetC(*this)); 
-	break;
+        if(sN == "key_press_event") // Enable press events.
+          AddEventMask(GDK_KEY_PRESS_MASK); 
+        if(sN == "key_release_event") // Enable Release events.
+          AddEventMask(GDK_KEY_RELEASE_MASK);
+        
+        ret = Signal2C<GdkEventKey *,WidgetC>(0,WidgetC(*this)); 
+        break;
       case SigTypeEventMouseButton:
-	if(sN == "button_press_event") // Enable press events.
-	  AddEventMask(GDK_BUTTON_PRESS_MASK); 
-	if(sN == "button_release_event") // Enable Release events.
-	  AddEventMask(GDK_BUTTON_RELEASE_MASK); 
-	ret = Signal1C<MouseEventC>(MouseEventC(0,0,0));  break;
-	break;
+        if(sN == "button_press_event") // Enable press events.
+          AddEventMask(GDK_BUTTON_PRESS_MASK); 
+        if(sN == "button_release_event") // Enable Release events.
+          AddEventMask(GDK_BUTTON_RELEASE_MASK); 
+        ret = Signal1C<MouseEventC>(MouseEventC(0,0,0));  break;
+        break;
       case SigTypeEventMouseMotion:   // Motion events..
-	AddEventMask((int) GDK_POINTER_MOTION_MASK | 
-		     GDK_POINTER_MOTION_HINT_MASK | 
-		     GDK_LEAVE_NOTIFY_MASK);
-	ret = Signal1C<MouseEventC>(MouseEventC(0,0,0));  break;
-	break;
+        AddEventMask((int) GDK_POINTER_MOTION_MASK | 
+                     GDK_POINTER_MOTION_HINT_MASK | 
+                     GDK_LEAVE_NOTIFY_MASK);
+        ret = Signal1C<MouseEventC>(MouseEventC(0,0,0));  break;
+        break;
       case SigTypeCListSel: {CListEventC val; ret = Signal1C<CListEventC>(val); }  break;
       case SigTypeCListCol: ret = Signal1C<IntT>(-1);  break;
       case SigTypeString: // HACK!!
-	cerr << "WidgetBodyC::Signal(), Got SigTypeString from:" << nm << "\n";
-	return ret;
+        cerr << "WidgetBodyC::Signal(), Got SigTypeString from:" << nm << "\n";
+        return ret;
       case SigTypeDNDContext: ret = Signal1C<GdkDragContext *>((GdkDragContext *)0); break;
       case SigTypeDNDPosition: ret = Signal2C<GdkDragContext *,PositionTimeC>((GdkDragContext *)0); break;
       case SigTypeDNDData: { DNDDataInfoC dnd; ret = Signal1C<DNDDataInfoC>(dnd); } break;
-      case SigTypeInt: 	ret = Signal1C<IntT>(0); break;
-      case SigTypeWidgetInt: 	ret = Signal1C<UIntT>((UIntT)0); break;
+      case SigTypeInt:         ret = Signal1C<IntT>(0); break;
+      case SigTypeWidgetInt:         ret = Signal1C<UIntT>((UIntT)0); break;
 #if RAVL_USE_GTK2
       case SigTypeTreeRow:      ret = Signal2C<TreeModelIterC,TreeModelPathC>(TreeModelIterC(),TreeModelPathC()); break;
       case SigTypeTreePathCol: ret = Signal2C<TreeModelPathC,StringC>(TreeModelPathC(),StringC()); break;
 #endif
       case SigTypeUnknown:
       default:
-	cerr << "WidgetBodyC::Signal(), ERROR Unknown signal type:" << nm << " Type:" << (IntT) (si.signalType) << "\n";
-	return ret;
+        cerr << "WidgetBodyC::Signal(), ERROR Unknown signal type:" << nm << " Type:" << (IntT) (si.signalType) << "\n";
+        return ret;
     }
     ConnectUp(nm,ret);
     return ret;
@@ -508,7 +508,7 @@ namespace RavlGUIN {
       return ;
     }
     id = gtk_signal_connect (GTK_OBJECT (widget), nm,
-			     (GtkSignalFunc) si.func,&sig);
+                             (GtkSignalFunc) si.func,&sig);
     if(id == 0)
       cerr << "WidgetBodyC::ConnectUp(), Warning failed to connect signal " << nm << "\n";
   }
@@ -533,17 +533,17 @@ namespace RavlGUIN {
       //gtk_widget_realize(widget); // Make sure widget is realised.
       //RavlAssertMsg(!GTK_WIDGET_NO_WINDOW(widget),"Widget must have a window to initalise drag and drop.");
       if(dndInfo->isSource)
-	gtk_drag_source_set(widget, 
-			    (GdkModifierType) dndInfo->SrcFlags,
-			    &(dndInfo->SrcEntries[0]),
-			    dndInfo->SrcEntries.Size(),
-			    (GdkDragAction) dndInfo->SrcActions);
+        gtk_drag_source_set(widget, 
+                            (GdkModifierType) dndInfo->SrcFlags,
+                            &(dndInfo->SrcEntries[0]),
+                            dndInfo->SrcEntries.Size(),
+                            (GdkDragAction) dndInfo->SrcActions);
       if(dndInfo->isTarget)
-	gtk_drag_dest_set(widget,
-			  (GtkDestDefaults) dndInfo->TargFlags,
-			  &(dndInfo->TargEntries[0]),
-			  dndInfo->TargEntries.Size(),
-			  (GdkDragAction) dndInfo->TargActions);
+        gtk_drag_dest_set(widget,
+                          (GtkDestDefaults) dndInfo->TargFlags,
+                          &(dndInfo->TargEntries[0]),
+                          dndInfo->TargEntries.Size(),
+                          (GdkDragAction) dndInfo->TargActions);
       delete dndInfo; // No needed after this.
       dndInfo = 0;
     }
@@ -555,8 +555,11 @@ namespace RavlGUIN {
     if(eventMask & (GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK))
       GTK_WIDGET_SET_FLAGS(widget,GTK_CAN_FOCUS);    
     destroySigId = gtk_signal_connect (GTK_OBJECT (widget), "destroy",(GtkSignalFunc) gtkDestroy, this);
-    for(HashIterC<const char *,Signal0C> it(signals);it.IsElm();it.Next())
-      ConnectUp(it.Key(),it.Data());
+    if (!signals.IsEmpty()) {
+      for(HashIterC<const char *,Signal0C> it(signals);it.IsElm();it.Next()) {
+        ConnectUp(it.Key(),it.Data());
+      }
+    }
     if(tooltip != 0) {
       WidgetC me(*this);
       guiGlobalToolTips.AddToolTip(me,tooltip);
@@ -569,8 +572,8 @@ namespace RavlGUIN {
   bool WidgetBodyC::GUIShow() {
     if(widget == 0) {
       if(!Create()) {
-	cerr << "WARNING: WidgetBodyC::GUIShow(), Failed. \n";
-	return false;
+        cerr << "WARNING: WidgetBodyC::GUIShow(), Failed. \n";
+        return false;
       }
     }
     if(widget == 0)
@@ -645,7 +648,7 @@ namespace RavlGUIN {
       return IndexRange2dC(0,0,0,0);
     Index2dC tl(widget->allocation.x,widget->allocation.y);
     return IndexRange2dC(tl,
-			   tl + Index2dC((int) widget->allocation.height,(int) widget->allocation.width));
+                           tl + Index2dC((int) widget->allocation.height,(int) widget->allocation.width));
   }
   
   //: Undo all references.
@@ -709,10 +712,10 @@ namespace RavlGUIN {
     if(widget == 0)
       return true;
     gtk_drag_source_set(widget, 
-			(GdkModifierType) flags,
-			&(entries[0]),
-			entries.Size(),
-			(GdkDragAction) actions);
+                        (GdkModifierType) flags,
+                        &(entries[0]),
+                        entries.Size(),
+                        (GdkDragAction) actions);
     return true;
   }
   
@@ -738,10 +741,10 @@ namespace RavlGUIN {
     if(widget == 0) 
       return true;
     gtk_drag_dest_set(widget,
-		      (GtkDestDefaults) flags,
-		      &(entries[0]),
-		      entries.Size(),
-		      (GdkDragAction) actions);
+                      (GtkDestDefaults) flags,
+                      &(entries[0]),
+                      entries.Size(),
+                      (GdkDragAction) actions);
     return true;
   }
   
@@ -771,13 +774,13 @@ namespace RavlGUIN {
     }
 
     GtkTargetList *targList = gtk_target_list_new(&(dndInfo->SrcEntries[0]),
-						   dndInfo->SrcEntries.Size());
+                                                   dndInfo->SrcEntries.Size());
     
     GdkDragContext *dndCtxt = gtk_drag_begin(widget,
-					     targList,
-					     (GdkDragAction)dndInfo->SrcActions,
-					     button,
-					     event);
+                                             targList,
+                                             (GdkDragAction)dndInfo->SrcActions,
+                                             button,
+                                             event);
     
     if(dndCtxt == 0)
       return false;
