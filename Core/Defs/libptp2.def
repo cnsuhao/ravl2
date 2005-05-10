@@ -5,7 +5,9 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 ifndef LIBPTP2_DEF
-LIBPTP2_DEF = 1
+  LIBPTP2_DEF = 1
+  CFLAGS += -DHAVE_LIBPTP2
+  CCFLAGS += -DHAVE_LIBPTP2
   ifdef LIBPTP2_HOME
     ifeq ($(LIBPTP2_HOME),/usr)
       EXELIB := -lusb -lptp2 $(EXELIB) 
