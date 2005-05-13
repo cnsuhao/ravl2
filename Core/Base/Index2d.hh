@@ -293,6 +293,9 @@ namespace RavlN {
     Index2dC bb(third  - *this);
     return (IntT) aa.Row().V()*bb.Col().V() - aa.Col().V()*bb.Row().V();
   }
+
+  inline UIntT Index2dC::SumOfSqr() const
+  { return (UIntT) (RavlN::Sqr(data[0]) + RavlN::Sqr(data[1])).V(); }
   
   inline UIntT Index2dC::Distance(const Index2dC & i, GridMetricT m) const {
     switch (m) {
