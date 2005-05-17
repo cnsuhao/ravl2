@@ -46,7 +46,14 @@ namespace RavlN {
       fac *= (RealT) i;
     return fac;
   }
-  // Returns the factorial of the integer 'n'. 
+  //: Returns the factorial of the integer 'n'. 
+  
+  RealT DoubleFactorial(IntT n);
+  //: Double Factorial, returns n!!
+  // Product of: <br>
+  //  n.(n-2) ...  5 . 3 . 1 for n > 0 is odd <br>
+  //  n.(n-2) ...  6 . 4 . 2 for n > 0 is even <br>
+  //  1 for n = 0 or -1
   
   inline RealT BinomalCoeff(IntT n, IntT k) {
     double numerator = 1.0;
@@ -54,9 +61,13 @@ namespace RavlN {
       numerator *= i;
     return numerator/Factorial(k);
   }
-  // Returns the binomial coefficient (n over k) as a real number.
+  //: Returns the binomial coefficient (n over k) as a real number.
   
-    
+  RealT HypersphereSurfaceArea(IntT n,RealT r);
+  //: Compute the surface area of a hyper sphere in n dimensions with radius r
+  
+  RealT HypersphereVolume(IntT n,RealT r);
+  //: Compute the volume of a hyper sphere in n dimensions with radius r
 }
 #endif
 
