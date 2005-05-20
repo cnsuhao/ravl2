@@ -59,10 +59,10 @@ namespace RavlN {
     { return mean; }
     //: Access the mean.
     
-    RealT Probability(RealT low,RealT high);
+    RealT Probability(RealT low,RealT high) const;
     //: Find the probability of getting a sample with a values between low and high.
     
-    RealT Gauss(RealT x);
+    RealT Gauss(RealT x) const;
     //: Value of the gauss distribution at x.
     // Also known as the normal distribution.
     

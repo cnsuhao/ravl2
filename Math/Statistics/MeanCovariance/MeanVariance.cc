@@ -79,14 +79,14 @@ namespace RavlN {
   
   //: Value of the gauss distribution at x.
   
-  RealT MeanVarianceC::Gauss(RealT x) {
+  RealT MeanVarianceC::Gauss(RealT x) const {
     RealT sig = Sqrt(var);
     return Exp(-0.5 * Sqr((x-mean)/sig)) /(sig * RavlConstN::sqrt2Pi);
   }
 
   //: Find the probability of getting a sample with value 'at' +/- delta.
   
-  RealT MeanVarianceC::Probability(RealT low,RealT high) {
+  RealT MeanVarianceC::Probability(RealT low,RealT high) const {
     RealT sig = Sqrt(var);
     return (StatNormalQ(low/sig) - StatNormalQ(high/sig))/sig;
   }
