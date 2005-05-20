@@ -32,10 +32,11 @@ namespace RavlImageN {
     : public CornerDetectorBodyC
   {
   public:
-    CornerDetectorHarrisBodyC(int threshold = 700,int w = 5);
+    CornerDetectorHarrisBodyC(int threshold = 700,int w = 5,bool useTopHat = false);
     //: Constructor.
     // threshold = Minimum level of cornerness to accept. <br>
     // w = width of filter to use for corners.
+    // useTopHat = If true use a faster top hat filter for corner detection. Note: This reduces the orientation invarience of the filter.
     
     DListC<CornerC> Apply(const ImageC<ByteT> &img);
     //: Get a list of corners from 'img'
@@ -44,6 +45,10 @@ namespace RavlImageN {
     void ImagGrad(const ImageC<ByteT> &in,ImageC<TFVectorC<IntT,3> > &val);
     
     ImageC<IntT> CornerHarris(const ImageC<ByteT> &img);
+    //: Basic corner detector.
+    
+    ImageC<IntT> CornerHarrisTopHat(const ImageC<ByteT> &img);
+    //: Top hat tuned version.
     
     int Peak(ImageC<IntT> &result,const ImageC<ByteT> &in,DListC<CornerC> &cornerOut);
 
@@ -57,6 +62,8 @@ namespace RavlImageN {
     ImageC<TFVectorC<IntT,3> > vals;
     ImageC<TFVectorC<IntT,3> > fvals;
     ImageC<IntT> var;
+    
+    bool useTopHat; // Use a top hat filter instead of a gaussian
   };
 
   //! userlevel=Normal
@@ -74,10 +81,13 @@ namespace RavlImageN {
     : public CornerDetectorC
   {
   public:
-    CornerDetectorHarrisC(int threshold = 700,int w = 5)
-      : CornerDetectorC(*new CornerDetectorHarrisBodyC(threshold,w)) 
+    CornerDetectorHarrisC(int threshold = 700,int w = 5,bool useTopHat = false)
+      : CornerDetectorC(*new CornerDetectorHarrisBodyC(threshold,w,useTopHat)) 
     {}
     //: Corner detector.
+    // threshold = Minimum level of cornerness to accept. <br>
+    // w = width of filter to use for corners.
+    // useTopHat = If true use a faster top hat filter for corner detection. Note: This reduces the orientation invarience of the filter.
     
   };
 }

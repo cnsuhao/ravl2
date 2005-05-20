@@ -20,6 +20,7 @@
 #include "Ravl/Image/Gradient.hh"
 #include "Ravl/MeanVariance.hh"
 #include "Ravl/Image/ConvolveSeparable2d.hh"
+#include "Ravl/Image/SumRectangles.hh"
 #include "Ravl/GenerateSignal1d.hh"
 
 
@@ -35,19 +36,29 @@ namespace RavlImageN {
   ///////////////////////////////////
   // Constructor.
   
-  CornerDetectorHarrisBodyC::CornerDetectorHarrisBodyC(int nTheshold,int nW)
+  CornerDetectorHarrisBodyC::CornerDetectorHarrisBodyC(int nTheshold,int nW,bool nUseTopHat)
     : w(nW),
-      threshold(nTheshold)
+      threshold(nTheshold),
+      useTopHat(nUseTopHat)
   {
-    Array1dC<IntT> mask = GenerateBinomial((IntT) 1,w,false,true);
-    filter = ConvolveSeparable2dC<TFVectorC<IntT,3>,TFVectorC<IntT,3>,IntT,TFVectorC<IntT,3> >(mask,mask);
-    maskSum = (RealT) Sqr(mask.Sum());
+    if(!useTopHat) {
+      // Setup gaussian filter.
+      Array1dC<IntT> mask = GenerateBinomial((IntT) 1,w,false,true);
+      filter = ConvolveSeparable2dC<TFVectorC<IntT,3>,TFVectorC<IntT,3>,IntT,TFVectorC<IntT,3> >(mask,mask);
+      maskSum = (RealT) Sqr(mask.Sum());
+    } else {
+      IntT half = (w - 1)/2;
+      IndexRange2dC win(-half,half,-half,half);
+      maskSum = win.Area();
+    }
+    
     ONDEBUG(cerr << "Mask size=" << w << " Sum=" << maskSum << "\n");
     //ONDEBUG(cerr << "Mask=" << mask << "\n");
   }
   
   DListC<CornerC> CornerDetectorHarrisBodyC::Apply(const ImageC<ByteT> &img) {
-    ImageC<IntT> var = CornerHarris(img);
+    ImageC<IntT> var;
+    var = CornerHarris(img);
     DListC<CornerC> lst;
     Peak(var,img,lst);
     return lst;
@@ -66,20 +77,26 @@ namespace RavlImageN {
     
     ImagGrad(img,vals);
     ImageRectangleC subWR(workRect.Shrink(w+1));
-    filter(vals,fvals);
-    RealT maskScale = 1/ maskSum;
+    if(useTopHat) {
+      // Use top hat filter.
+      IntT half = (w - 1)/2;
+      IndexRange2dC win(-half,half,-half,half);
+      SumRectangles(vals,win,fvals);
+    } else {
+      // Use gaussian filter.
+      filter(vals,fvals);
+    }
     for(Array2dIter2C<IntT,TFVectorC<IntT,3> > it(var,fvals,subWR);it;it++) {
-      RealT ixixs = (RealT) it.Data2()[0] * maskScale;
-      RealT iyiys = (RealT) it.Data2()[1] * maskScale; 
-      RealT ixiys = (RealT) it.Data2()[2] * maskScale;
+      RealT ixixs = (RealT) it.Data2()[0];
+      RealT iyiys = (RealT) it.Data2()[1]; 
+      RealT ixiys = (RealT) it.Data2()[2];
       /* Evaluating the cornerness measure */
-      int val;
-      if((ixixs+iyiys) != 0)
-	val = Round((ixixs*iyiys-ixiys*ixiys)/(ixixs+iyiys));
-      else
-	val = 0;
+      RealT num = ixixs+iyiys;
+      if(num != 0) {
+	it.Data1() = Round((ixixs*iyiys-ixiys*ixiys)/(num * maskSum));
+      } else
+	it.Data1() = 0;
       //cerr << "Val=" << val << "\n";
-      it.Data1() = val;
     }
     return var;
   }
@@ -87,8 +104,8 @@ namespace RavlImageN {
   void CornerDetectorHarrisBodyC::ImagGrad(const ImageC<ByteT> &img,ImageC<TFVectorC<IntT,3> > &val) {
     for(Array2dSqr31Iter2C<ByteT,TFVectorC<IntT,3> > it(img,val);it;it++) {
       /* Calculation of the gradients in x and y direction */
-      const int ix = (it.DataBL1() + it.DataML1()*2 + it.DataTL1() - it.DataBR1() - it.DataMR1()*2 - it.DataTR1()) >> 1;
-      const int iy = (it.DataTL1() + it.DataTM1()*2 + it.DataTR1() - it.DataBL1() - it.DataBM1()*2 - it.DataBR1()) >> 1;
+      int ix = ((int) it.DataBL1() + it.DataML1()*2 + it.DataTL1() - it.DataBR1() - it.DataMR1()*2 - it.DataTR1()) >> 1;
+      int iy = ((int) it.DataTL1() + it.DataTM1()*2 + it.DataTR1() - it.DataBL1() - it.DataBM1()*2 - it.DataBR1()) >> 1;
       it.Data2()[0]=ix*ix;
       it.Data2()[1]=iy*iy;
       it.Data2()[2]=ix*iy;
