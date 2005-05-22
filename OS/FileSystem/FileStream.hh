@@ -75,6 +75,9 @@ namespace RavlN {
     StreamSizeT Size() const;
     //: Find the size of the file.
     
+    bool Sync(bool metaDataToo = true);
+    //: Ensure all buffers are flushed and data is written to disk.
+    
   protected:
 #if RAVL_HAVE_INTFILEDESCRIPTORS 
     int fd;

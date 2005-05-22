@@ -35,6 +35,8 @@
 #endif
 #if RAVL_HAVE_UNISTD_H
 #include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
 #endif
 #if !RAVL_HAVE_REENTRANT_UNIXDIRFUNCS
 #include "Ravl/MTLocks.hh"
@@ -295,4 +297,32 @@ namespace RavlN {
     return true;
   }
   
+    
+  //: Sync contents of directory onto the disk.
+  
+  bool DirectoryC::Sync(bool metaDataToo) {
+#if RAVL_HAVE_INTFILEDESCRIPTORS && RAVL_HAVE_UNIXDIRFUNCS
+    DIR *dirInfo = opendir(this->chars());
+    if(dirInfo == 0) {
+      cerr << "DirectoryC::Sync, Open failed error=" << errno << "\n";
+      return false;
+    }
+    bool ret = false;
+    int fd = dirfd(dirInfo);
+    if(fd < 0) { // Check we've got a file descriptor.
+      cerr << "DirectoryC::Sync, failed to find file descriptor\n";
+    } else {
+      if(metaDataToo)
+        ret = (fsync(fd) == 0);
+      else
+        ret = (fdatasync(fd) == 0);
+      if(!ret) {
+        cerr << "DirectoryC::Sync, Sync failed error=" << errno << "\n";
+      }
+    }
+    closedir(dirInfo);
+#endif    
+    return ret;
+  }
+
 }

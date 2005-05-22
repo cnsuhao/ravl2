@@ -190,5 +190,19 @@ namespace RavlN {
     return lf.FileSize();
 #endif
   }
+
+  //: Ensure all data is written to disk.
+  
+  bool FileStreamC::Sync(bool metaDataToo) {
+#if RAVL_HAVE_INTFILEDESCRIPTORS 
+    if(fd < 0)
+      return false;
+    if(metaDataToo)
+      return fsync(fd) == 0;
+    else
+      return fdatasync(fd) == 0;
+#endif    
+    return true;
+  }
   
 }

@@ -79,6 +79,9 @@ namespace RavlN {
     // if sync is true, all files that are not in the source directory 
     // are removed. <p>
     
+    bool Sync(bool metaDataToo = true);
+    //: Sync contents of directory onto the disk.
+    
   protected:
     static bool MatchFilt(const char *filter,const char *str);
     //: Simple test if 'x' matches filter.
