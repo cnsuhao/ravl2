@@ -321,8 +321,10 @@ namespace RavlN {
       }
     }
     closedir(dirInfo);
-#endif    
     return ret;
+#else
+    return true;
+#endif    
   }
 
 }
