@@ -317,78 +317,72 @@ namespace RavlN {
       }
       DListC<StringC> lst = ListSections();
       for(DLIterC<StringC> dit(lst);dit;dit++) {
-        {for(int i =0; i < depth;i++)
-          cerr << ' ';}
+        for(int i =0; i < depth;i++)
+          cerr << ' ';
         out << *dit << "={";
         ConfigFileC cf = Section(*dit);
         if(cf.IsValid()) {
-	        out << "\n";
-	        cf.Dump(out,depth+1);
+          out << "\n";
+          cf.Dump(out,depth+1);
         }
-        {for(int i =0; i < depth;i++)
-          cerr << ' ';}
+        for(int i =0; i < depth;i++)
+          cerr << ' ';
         out << "}\n";
       }
     }
 
 
   bool ConfigFileBodyC::Load(BinIStreamC & in ) { 
-*this = ConfigFileBodyC() ; 
-StringC strA , strB ; 
-UIntT size ; 
-in >> name ; // read the name ; 
-in >> size ; // number of vars 
-//cerr << "\n* Read name " << name << "\n* Read Size " << size ; 
- // read in vars. 
- for ( UIntT a = 1 ; a <= size ; a++ ) {
-   in >> strA >> strB ; 
-   //cerr << "\n* Key: " << strA << "\tData " << strB ; 
-//TextFragmentC frag ; 
- //  AddVar( strA , strB, frag  ) ;  }
- (*this)[strA] = strB ; }
+    StringC strA , strB ; 
+    UIntT size ; 
+    in >> name ; // read the name ; 
+    in >> size ; // number of vars 
+    //cerr << "\n* Read name " << name << "\n* Read Size " << size ; 
+    // read in vars. 
+    TextFragmentC frag ; 
+    for ( UIntT a = 1 ; a <= size ; a++ ) {
+      in >> strA >> strB ; 
+      //cerr << "\n* Key: " << strA << "\tData " << strB ; 
+      AddVar( strA , strB, frag) ;  
+    }
+    
+    
+    // read in subsections ; 
+    in >> size ;  // number of subsections
+    //cerr << "\n* Read number of subsections to follow " << size ; 
+    //cerr << "\n size is " << size << "\t" << name  ; 
+    for (UIntT a = 1 ; a <= size ; a ++ ) { 
+      ConfigFileC section(true) ; 
+      section.Load(in) ; 
+      //cerr << "\n\n Loaded subsection " << section.Name() << "\n\n" ; 
+      //section.Dump(cerr) ; 
+      AddSection(section.Name(),section);
+    }
 
-
- // read in subsections ; 
- in >> size ;  // number of subsections
- //cerr << "\n* Read number of subsections to follow " << size ; 
- //cerr << "\n size is " << size << "\t" << name  ; 
-for (UIntT a = 1 ; a <= size ; a ++ ) { 
-   ConfigFileC section(true) ; 
-   section.Load(in) ; 
-   //cerr << "\n\n Loaded subsection " << section.Name() << "\n\n" ; 
-   //section.Dump(cerr) ; 
-   AddSection(section.Name() , section   ) ;  
- // Section( section.Name() ) = section ; 
-}
-
-return true ; 
+    return true ; 
   }; 
 
 
 
 
   bool ConfigFileBodyC::Save( BinOStreamC & out)  {
-      // output name and hash containing variables
+    // output name and hash containing variables
     out  << name ;   // save the naem ; 
-ConfigFileIterVarC iter = IterVars() ; 
- out << tab.Size()  ;  // save the number of vars to follow 
- for ( iter.First() ; iter ; iter ++ )  // saves the vars 
-    out << iter.Key() << iter.Data()  ; 
-  
-
-
-  // output sections 
-  DListC<StringC> lst = (ListSections() ) ; 
-  out  << lst.Size() ; // number of subsections to come 
-  for ( DLIterC<StringC> iter (lst) ; iter ; iter ++ ) {
-    ConfigFileC cf = Section( *iter ) ; 
-    if ( cf.IsValid() ) {
-      cf.Save(out) ; // save each section
-    } }
-return true ;
+    ConfigFileIterVarC iter = IterVars() ; 
+    out << tab.Size()  ;  // save the number of vars to follow 
+    for ( iter.First() ; iter ; iter ++ )  // saves the vars 
+      out << iter.Key() << iter.Data()  ; 
+    
+    // output sections 
+    DListC<StringC> lst = ListSections(); 
+    out  << lst.Size() ; // number of subsections to come 
+    for ( DLIterC<StringC> iter (lst) ; iter ; iter ++ ) {
+      ConfigFileC cf = Section( *iter ) ; 
+      if ( cf.IsValid() ) {
+        cf.Save(out) ; // save each section
+      } 
+    }
+    return true ;
   }
-
-
-
   
-  }
+}
