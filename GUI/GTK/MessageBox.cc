@@ -31,7 +31,7 @@ namespace RavlGUIN {
     
     // Set transience if we need to
     if (parent) 
-      MakeTransient(const_cast<WindowC&>(*parent));
+      GUIMakeTransient(const_cast<WindowC&>(*parent));
   }
   
   //: Create the widget.  

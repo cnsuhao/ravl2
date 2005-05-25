@@ -55,19 +55,23 @@ int main(int nargs,char *args[])
 {
   Manager.Init(nargs,args);
   Manager.Execute();
-
+  cerr << "Opening window 1 \n";
   QuestionBox("Do you want to run a pointless function?",result1);
+  cerr << "Opening window 2 \n";
   AlertBox("This is just a message box");
+  cerr << "Opening window 3 \n";
   AlertBox("This alert box will quit the whole program",result2);
-
-
+  
+  cerr << "Opening window 4 \n";
+  
   //: An example of ButtonBox in action
   SArray1dC<StringC>button(3);
   button[0] = "Yes";
   button[1] = "No";
   button[2] = "Cancel";
   ButtonBox("Do something here?", button,"Action Required", OnButtonClick); 
-
+  
+  cerr << "Waiting fox exit... \n";
   
   Manager.Wait();
   cerr << "Finished... \n";

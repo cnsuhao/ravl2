@@ -102,7 +102,7 @@ namespace RavlGUIN {
     
     MenuBodyC(const StringC &nmenuName,const WidgetC &widge)
       : menuName(nmenuName)
-    { Add(widge); }
+    { GUIAdd(const_cast<WidgetC &>(widge)); }
     //: Constructor.
     
     MenuBodyC(const StringC &nmenuName)
@@ -209,7 +209,7 @@ namespace RavlGUIN {
     //: Constructor.
   
     MenuBarBodyC(const MenuC &menu)
-    { Add(menu); }
+    { GUIAdd(menu); }
     //: Default constuctor.
     
     virtual bool Create();
