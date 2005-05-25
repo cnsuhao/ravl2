@@ -60,10 +60,16 @@ namespace RavlN {
     
     bool Load(XMLIStreamC &strm,bool doCheck = true);
     //: Read from XML stream.
+
+    bool Load(BinIStreamC & strm) ; 
+    //: Load from stream 
     
     bool Save(XMLIStreamC &strm) const;
     //: Save config to XML stream.
     
+    bool Save(BinOStreamC & strm) ; 
+
+
     const StringC &Name() const
     { return name; }
     //: Get name of configuration.
@@ -94,7 +100,7 @@ namespace RavlN {
     bool IsDefined(const StringC &tag) { return !tab[tag].IsEmpty(); }
     //: Is tag defined ?
     
-    ConfigFileC Section(const StringC &tag);
+    ConfigFileC  Section(const StringC &tag);
     //: Look for sub-section.
     // If none found an invalid handle is returned.
     
@@ -222,6 +228,13 @@ namespace RavlN {
       return Body().Load(strm,doCheck); 
     }
     //: Read from XML stream.
+
+    bool Load(BinIStreamC & strm) 
+      { return Body().Load(strm) ; } 
+
+    bool Save(BinOStreamC & strm) 
+      { return Body().Save(strm) ; } 
+
     
     bool Save(XMLIStreamC &strm) const 
     { return Body().Save(strm); }
@@ -261,7 +274,7 @@ namespace RavlN {
     { return Body().IsDefined(tag); }
     //: Is tag defined ?
     
-    ConfigFileC Section(const StringC &tag)
+    ConfigFileC  Section(const StringC &tag)
     { return Body().Section(tag); }
     //: Look for sub-section.
     // If none found an invalid handle is returned.
