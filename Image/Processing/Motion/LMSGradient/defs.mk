@@ -27,4 +27,4 @@ PROGLIBS = RavlImageIO RavlDPDisplay.opt RavlExtImgIO
 
 EXAMPLES = exLMSOptic.cc exLMSMultiScale.cc exLMSRegionMotion.cc
 
-TESTEXES = testLMSOptic.cc
+#TESTEXES = testLMSOptic.cc
