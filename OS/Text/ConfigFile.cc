@@ -331,34 +331,35 @@ namespace RavlN {
       }
     }
 
+    void ConfigFileBodyC::Empty(void) { 
+   tab.Empty() ; 
+   order.Empty() ; 
+   frags.Empty(); 
+   sec.Empty() ; 
+   ordCount = 0 ; }
+    
 
   bool ConfigFileBodyC::Load(BinIStreamC & in ) { 
+    Empty() ; 
     StringC strA , strB ; 
     UIntT size ; 
     in >> name ; // read the name ; 
     in >> size ; // number of vars 
-    //cerr << "\n* Read name " << name << "\n* Read Size " << size ; 
     // read in vars. 
     TextFragmentC frag ; 
     for ( UIntT a = 1 ; a <= size ; a++ ) {
       in >> strA >> strB ; 
-      //cerr << "\n* Key: " << strA << "\tData " << strB ; 
       AddVar( strA , strB, frag) ;  
     }
     
     
     // read in subsections ; 
     in >> size ;  // number of subsections
-    //cerr << "\n* Read number of subsections to follow " << size ; 
-    //cerr << "\n size is " << size << "\t" << name  ; 
     for (UIntT a = 1 ; a <= size ; a ++ ) { 
       ConfigFileC section(true) ; 
       section.Load(in) ; 
-      //cerr << "\n\n Loaded subsection " << section.Name() << "\n\n" ; 
-      //section.Dump(cerr) ; 
       AddSection(section.Name(),section);
     }
-
     return true ; 
   }; 
 

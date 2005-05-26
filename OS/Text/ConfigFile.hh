@@ -68,10 +68,12 @@ namespace RavlN {
     //: Save config to XML stream.
     
     bool Save(BinOStreamC & strm) ; 
-
-
-    const StringC &Name() const
-    { return name; }
+    //: Save to Binary Stream
+    
+    void Empty(void) ; 
+    //: Empty the configuration. 
+    
+    const StringC &Name() const { return name; }
     //: Get name of configuration.
     // In sections it will be the name of the current section,
     // otherwise it will be set to the name of the file.
@@ -192,6 +194,10 @@ namespace RavlN {
       : RCHandleVC<ConfigFileBodyC>(*new ConfigFileBodyC(af,name))
     {}
     //: Sub-section. constructor.
+    
+    void Empty(void) 
+    { Body().Empty() ; } 
+    //: Empty the configuration 
     
     void SetVar(const StringC &str,const StringC &val,const TextFragmentC &frag)    
     { Body().SetVar(str,val,frag); }
