@@ -67,7 +67,7 @@ namespace RavlN {
     bool Save(XMLIStreamC &strm) const;
     //: Save config to XML stream.
     
-    bool Save(BinOStreamC & strm) ; 
+    bool Save(BinOStreamC & strm) const ; 
     //: Save to Binary Stream
     
     void Empty(void) ; 
@@ -110,7 +110,7 @@ namespace RavlN {
     { return HashIterC<StringC,StringC>(tab); }
     //: Iterate variables.
     
-    DListC<StringC> ListSections();
+    DListC<StringC> ListSections() const;
     //: Make a list of sections.
     
     void Dump(ostream &out,int depth = 0);
@@ -238,7 +238,7 @@ namespace RavlN {
     bool Load(BinIStreamC & strm) 
       { return Body().Load(strm) ; } 
 
-    bool Save(BinOStreamC & strm) 
+    bool Save(BinOStreamC & strm) const 
       { return Body().Save(strm) ; } 
 
     
@@ -289,7 +289,7 @@ namespace RavlN {
     { return Body().IterVars(); }
     //: Iterate variables.
     
-    DListC<StringC> ListSections()
+    DListC<StringC> ListSections() const
     { return Body().ListSections(); }
     //: Make a list of sections.
     

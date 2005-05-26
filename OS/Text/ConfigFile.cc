@@ -298,7 +298,7 @@ namespace RavlN {
 
   //: Make a list of sections.
   
-  DListC<StringC> ConfigFileBodyC::ListSections() {
+  DListC<StringC> ConfigFileBodyC::ListSections() const {
     DListC<StringC> ret;
     for(HashIterC<StringC,RCAbstractC> it(sec);it;it++)
       ret += it.Key();
@@ -366,10 +366,10 @@ namespace RavlN {
 
 
 
-  bool ConfigFileBodyC::Save( BinOStreamC & out)  {
+  bool ConfigFileBodyC::Save( BinOStreamC & out) const  {
     // output name and hash containing variables
     out  << name ;   // save the naem ; 
-    ConfigFileIterVarC iter = IterVars() ; 
+    ConfigFileIterVarC iter = HashIterC<StringC,StringC> (tab) ; 
     out << tab.Size()  ;  // save the number of vars to follow 
     for ( iter.First() ; iter ; iter ++ )  // saves the vars 
       out << iter.Key() << iter.Data()  ; 
@@ -378,7 +378,7 @@ namespace RavlN {
     DListC<StringC> lst = ListSections(); 
     out  << lst.Size() ; // number of subsections to come 
     for ( DLIterC<StringC> iter (lst) ; iter ; iter ++ ) {
-      ConfigFileC cf = Section( *iter ) ; 
+      ConfigFileC cf =sec[*iter] ; 
       if ( cf.IsValid() ) {
         cf.Save(out) ; // save each section
       } 
