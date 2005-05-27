@@ -261,9 +261,15 @@ namespace RavlN {
   
   RealT MeanCovarianceC::Gauss(const VectorC &vec) const {
     MatrixC invCov = Covariance().Inverse();
+    // Check if the matrix could not be inverted
+    if (invCov.Cols() != vec.Size())
+      return 0.0;
     VectorC diff = vec - m;
     RealT e =  diff.Dot(invCov * diff) / -2;
-    RealT a = Pow(2 * RavlConstN::pi,(RealT) vec.Size() / 2) * Sqrt(cov.Det()) ;
+    RealT det = cov.Det();
+    if (det < 0.0)
+      det = 0.0;
+    RealT a = Pow(2 * RavlConstN::pi,(RealT) vec.Size() / 2) * Sqrt(det) ;
     return Exp(e)/a;
   }
   
