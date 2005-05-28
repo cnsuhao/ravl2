@@ -74,4 +74,19 @@ namespace RavlImageN {
 
 }
 
+namespace RavlN {
+  
+  //! userlevel=Advanced
+  //: Traits for type
+  
+  template<>
+  struct TraitsC<RavlImageN::ByteYUV422ValueC> {
+    typedef RavlImageN::ByteYUV422ValueC &RefT;     //: Non-const reference to type.
+    typedef RavlImageN::ByteYUV422ValueC TypeT;     //: Unmodified type.
+    typedef RavlImageN::ByteYUV422ValueC BaseTypeT; //: Base type ignoring const and reference.
+    typedef RavlImageN::YUV422ValueC<UInt16T> AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
+    typedef RavlImageN::YUV422ValueC<RealT>   RealAccumT; //: Type to use for a floating point accumulator.
+    typedef RavlImageN::YUV422ValueC<UInt64T> LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
+  };
+}
 #endif

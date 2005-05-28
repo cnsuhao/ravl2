@@ -16,6 +16,7 @@
 //! docentry="Ravl.Images.Pixel Types"
 
 #include "Ravl/TFVector.hh"
+#include "Ravl/Traits.hh"
 
 namespace RavlImageN {
   using namespace RavlN;
@@ -54,8 +55,24 @@ namespace RavlImageN {
       { return this->data[1]; }
     // Returns the level of the alpha component.
     
-
   };
 }
+
+namespace RavlN {
+  
+  //! userlevel=Advanced
+  //: Traits for type
+  
+  template<typename PixelT>
+  struct TraitsC<RavlImageN::IAValueC<PixelT> > {
+    typedef RavlImageN::IAValueC<PixelT> &RefT;     //: Non-const reference to type.
+    typedef RavlImageN::IAValueC<PixelT> TypeT;     //: Unmodified type.
+    typedef RavlImageN::IAValueC<PixelT> BaseTypeT; //: Base type ignoring const and reference.
+    typedef RavlImageN::IAValueC<typename RavlN::TraitsC<PixelT>::AccumT > AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
+    typedef RavlImageN::IAValueC<typename RavlN::TraitsC<PixelT>::RealAccumT > RealAccumT; //: Type to use for a floating point accumulator.
+    typedef RavlImageN::IAValueC<typename RavlN::TraitsC<PixelT>::LongAccumT > LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
+  };
+}
+
 
 #endif

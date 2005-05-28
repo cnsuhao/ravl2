@@ -22,6 +22,7 @@ namespace RavlImageN {
 #if RAVL_VISUALCPP_NAMESPACE_BUG
   using namespace RavlN;
 #endif
+  class RealYUVValueC;
   
   //! userlevel=Normal
   //: Byte YUV value class.
@@ -133,6 +134,23 @@ namespace RavlImageN {
   BinIStreamC &operator>>(BinIStreamC &in,ImageC<ByteYUVValueC> &img);  
   //: Load byte image from binary stream 
 
+}
+
+
+namespace RavlN {
+  
+  //! userlevel=Advanced
+  //: Traits for type
+  
+  template<>
+  struct TraitsC<RavlImageN::ByteYUVValueC > {
+    typedef RavlImageN::ByteYUVValueC &RefT;     //: Non-const reference to type.
+    typedef RavlImageN::ByteYUVValueC TypeT;     //: Unmodified type.
+    typedef RavlImageN::ByteYUVValueC BaseTypeT; //: Base type ignoring const and reference.
+    typedef RavlImageN::YUVValueC<UInt16T> AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
+    typedef RavlImageN::RealYUVValueC RealAccumT; //: Type to use for a floating point accumulator.
+    typedef RavlImageN::YUVValueC<Int64T> LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
+  };
 }
 
 #endif

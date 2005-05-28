@@ -100,9 +100,9 @@ namespace RavlN {
   
   template<>
   struct TraitsC<RavlImageN::ByteRGBValueC> {
-    typedef ByteT &RefT;     //: Non-const reference to type.
-    typedef ByteT TypeT;     //: Unmodified type.
-    typedef ByteT BaseTypeT; //: Base type ignoring const and reference.
+    typedef RavlImageN::ByteRGBValueC &RefT;     //: Non-const reference to type.
+    typedef RavlImageN::ByteRGBValueC TypeT;     //: Unmodified type.
+    typedef RavlImageN::ByteRGBValueC BaseTypeT; //: Base type ignoring const and reference.
     typedef RavlImageN::UInt16RGBValueC AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
     typedef RavlImageN::RealRGBValueC  RealAccumT; //: Type to use for a floating point accumulator.
     typedef RavlImageN::RGBValueC<UInt64T> LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)

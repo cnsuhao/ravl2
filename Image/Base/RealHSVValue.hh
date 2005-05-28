@@ -104,8 +104,7 @@ namespace RavlImageN {
   }
   //: Constructor from component values 
 
-
-
+  
   RealHSVValueC::RealHSVValueC( const RealRGBValueC & comp ) 
     : TFVectorC<RealT,3> () 
   {
@@ -204,5 +203,22 @@ namespace RavlImageN {
     //: Convert this value into RGB 
  
 };
+
+
+namespace RavlN {
+  
+  //! userlevel=Advanced
+  //: Traits for type
+  
+  template<>
+  struct TraitsC<RavlImageN::RealHSVValueC> {
+    typedef RavlImageN::RealHSVValueC &RefT;     //: Non-const reference to type.
+    typedef RavlImageN::RealHSVValueC TypeT;     //: Unmodified type.
+    typedef RavlImageN::RealHSVValueC BaseTypeT; //: Base type ignoring const and reference.
+    typedef RavlImageN::RealHSVValueC AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
+    typedef RavlImageN::RealHSVValueC RealAccumT; //: Type to use for a floating point accumulator.
+    typedef RavlImageN::RealHSVValueC LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
+  };
+}
 
 #endif

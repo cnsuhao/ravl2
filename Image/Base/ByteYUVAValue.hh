@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLBYTEYUVAVALUE_HEADER
-#define RAVLBYTEYUVAVALUE_HEADER 1
+#ifndef RAVL_BYTEYUVAVALUE_HEADER
+#define RAVL_BYTEYUVAVALUE_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/Base/ByteYUVAValue.hh"
@@ -34,12 +34,12 @@ namespace RavlImageN {
       : YUVAValueC<ByteT>(y,u,v,a)
       {}
     //: Construct from components.
-
-    ByteYUVAValueC(const YUVAValueC<ByteT> &oth)
+    
+    template<typename PixelT>
+    ByteYUVAValueC(const YUVAValueC<PixelT> &oth)
       : YUVAValueC<ByteT>(oth)
-      {}
+    {}
     //: Copy constructor.
-    // creates an undefined YUVA pixel.
     
   };
   
@@ -51,6 +51,21 @@ namespace RavlImageN {
   BinIStreamC &operator>>(BinIStreamC &in,ImageC<ByteYUVAValueC> &img);  
   //: Load byte image from binary stream 
 
+}
+
+namespace RavlN {
+  //! userlevel=Advanced
+  //: Traits for type
+  
+  template<>
+  struct TraitsC<RavlImageN::ByteYUVAValueC> {
+    typedef RavlImageN::ByteYUVAValueC &RefT;     //: Non-const reference to type.
+    typedef RavlImageN::ByteYUVAValueC TypeT;     //: Unmodified type.
+    typedef RavlImageN::ByteYUVAValueC BaseTypeT; //: Base type ignoring const and reference.
+    typedef RavlImageN::YUVAValueC<UInt16T> AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
+    typedef RavlImageN::YUVAValueC<RealT>   RealAccumT; //: Type to use for a floating point accumulator.
+    typedef RavlImageN::YUVAValueC<UInt64T> LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
+  };
 }
 
 #endif

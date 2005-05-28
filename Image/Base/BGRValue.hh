@@ -86,4 +86,22 @@ namespace RavlImageN {
   };
   
 }
+
+
+namespace RavlN {
+  
+  //! userlevel=Advanced
+  //: Traits for type
+  
+  template<typename PixelT>
+  struct TraitsC<RavlImageN::BGRValueC<PixelT> > {
+    typedef RavlImageN::BGRValueC<PixelT> &RefT;     //: Non-const reference to type.
+    typedef RavlImageN::BGRValueC<PixelT> TypeT;     //: Unmodified type.
+    typedef RavlImageN::BGRValueC<PixelT> BaseTypeT; //: Base type ignoring const and reference.
+    typedef RavlImageN::BGRValueC<typename RavlN::TraitsC<PixelT>::AccumT > AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
+    typedef RavlImageN::BGRValueC<typename RavlN::TraitsC<PixelT>::RealAccumT > RealAccumT; //: Type to use for a floating point accumulator.
+    typedef RavlImageN::BGRValueC<typename RavlN::TraitsC<PixelT>::LongAccumT > LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
+  };
+}
+
 #endif

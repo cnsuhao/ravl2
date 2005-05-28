@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLYUVAVALUE_HEADER
-#define RAVLYUVAVALUE_HEADER
+#ifndef RAVL_YUVAVALUE_HEADER
+#define RAVL_YUVAVALUE_HEADER
 ////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/Base/YUVAValue.hh"
@@ -16,6 +16,7 @@
 //! docentry="Ravl.Images.Pixel Types"
 
 #include "Ravl/TFVector.hh"
+#include "Ravl/Traits.hh"
 
 namespace RavlImageN {
   using namespace RavlN;
@@ -117,6 +118,23 @@ namespace RavlImageN {
     { return strm << ((const TFVectorC<CompT,4> &)(val)); }
   //: Binary stream output
 
+}
+
+namespace RavlN {
+  
+  //! userlevel=Advanced
+  //: Traits for type
+  
+  template<typename PixelT>
+  struct TraitsC<RavlImageN::YUVAValueC<PixelT> > {
+    
+    typedef RavlImageN::YUVAValueC<PixelT> &RefT;     //: Non-const reference to type.
+    typedef RavlImageN::YUVAValueC<PixelT> TypeT;     //: Unmodified type.
+    typedef RavlImageN::YUVAValueC<PixelT> BaseTypeT; //: Base type ignoring const and reference.
+    typedef RavlImageN::YUVAValueC<typename RavlN::TraitsC<PixelT>::AccumT > AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
+    typedef RavlImageN::YUVAValueC<typename RavlN::TraitsC<PixelT>::RealAccumT > RealAccumT; //: Type to use for a floating point accumulator.
+    typedef RavlImageN::YUVAValueC<typename RavlN::TraitsC<PixelT>::LongAccumT > LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
+  };
 }
 
 #endif

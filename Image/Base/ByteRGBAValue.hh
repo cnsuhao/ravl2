@@ -58,4 +58,21 @@ namespace RavlImageN {
   
 }
 
+
+namespace RavlN {
+  
+  //! userlevel=Advanced
+  //: Traits for type
+  
+  template<>
+  struct TraitsC<RavlImageN::ByteRGBAValueC> {
+    typedef RavlImageN::ByteRGBAValueC &RefT;     //: Non-const reference to type.
+    typedef RavlImageN::ByteRGBAValueC TypeT;     //: Unmodified type.
+    typedef RavlImageN::ByteRGBAValueC BaseTypeT; //: Base type ignoring const and reference.
+    typedef RavlImageN::RGBAValueC<UInt16T> AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
+    typedef RavlImageN::RGBAValueC<RealT>   RealAccumT; //: Type to use for a floating point accumulator.
+    typedef RavlImageN::RGBAValueC<UInt64T> LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
+  };
+}
+
 #endif
