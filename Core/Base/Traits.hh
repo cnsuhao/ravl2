@@ -16,7 +16,7 @@
 #include "Ravl/config.h"
 
 namespace RavlN {
-  
+    
   //! userlevel=Advanced
   //: Traits for type
   // Used for decomposing types into there components.
@@ -56,6 +56,71 @@ namespace RavlN {
     typedef DataT BaseTypeT;    //: Base type ignoring const and reference.
   };
   
+  //! userlevel=Advanced
+  //: Traits for type
+  
+  template<>
+  struct TraitsC<ByteT> {
+    typedef ByteT &RefT;     //: Non-const reference to type.
+    typedef ByteT TypeT;     //: Unmodified type.
+    typedef ByteT BaseTypeT; //: Base type ignoring const and reference.
+    typedef IntT  AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
+    typedef RealT RealAccumT; //: Type to use for a floating point accumulator.
+    typedef Int64T LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
+  };
+  
+  //! userlevel=Advanced
+  //: Traits for type
+  
+  template<>
+  struct TraitsC<Int16T> {
+    typedef Int16T &RefT;     //: Non-const reference to type.
+    typedef Int16T TypeT;     //: Unmodified type.
+    typedef Int16T BaseTypeT; //: Base type ignoring const and reference.
+    typedef IntT   AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
+    typedef RealT  RealAccumT; //: Type to use for a floating point accumulator.
+    typedef Int64T LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
+  };
+  
+  //! userlevel=Advanced
+  //: Traits for type
+  
+  template<>
+  struct TraitsC<IntT> {
+    typedef ByteT &RefT;     //: Non-const reference to type.
+    typedef ByteT TypeT;     //: Unmodified type.
+    typedef ByteT BaseTypeT; //: Base type ignoring const and reference.
+    typedef Int64T AccumT;   //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
+    typedef RealT  RealAccumT; //: Type to use for a floating point accumulator.
+    typedef Int64T LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
+  };
+  
+  //! userlevel=Advanced
+  //: Traits for type
+  
+  template<>
+  struct TraitsC<RealT> {
+    typedef ByteT &RefT;     //: Non-const reference to type.
+    typedef ByteT TypeT;     //: Unmodified type.
+    typedef ByteT BaseTypeT; //: Base type ignoring const and reference.
+    typedef RealT AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
+    typedef RealT RealAccumT; //: Type to use for a floating point accumulator.
+    typedef RealT LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
+  };
+  
+  //! userlevel=Advanced
+  //: Traits for type
+  
+  template<>
+  struct TraitsC<FloatT> {
+    typedef ByteT &RefT;     //: Non-const reference to type.
+    typedef ByteT TypeT;     //: Unmodified type.
+    typedef ByteT BaseTypeT; //: Base type ignoring const and reference.
+    typedef FloatT AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
+    typedef FloatT RealAccumT; //: Type to use for a floating point accumulator.
+    typedef RealT  LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
+  };
+
 }
 
 #endif
