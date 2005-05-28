@@ -16,9 +16,12 @@
 //! docentry="Ravl.Images.Pixel Types"
 
 #include "Ravl/Image/RGBValue.hh"
+#include "Ravl/Traits.hh"
 
 namespace RavlImageN {
   using namespace RavlN;
+  class UInt16RGBValueC;
+  class RealRGBValueC;
   
   //: Byte RGB value class.
   
@@ -36,20 +39,13 @@ namespace RavlImageN {
     {}
     //: Construct from components.
     
-    ByteRGBValueC(const RGBValueC<RealT> &vals)
-      : RGBValueC<ByteT>((ByteT)vals[0],(ByteT)vals[1],(ByteT)vals[2])
+    template<typename PixelT>
+    ByteRGBValueC(const TFVectorC<PixelT,3> &oth)
+      : RGBValueC<ByteT>(static_cast<ByteT>(oth[0]),
+			 static_cast<ByteT>(oth[1]),
+			 static_cast<ByteT>(oth[2]))
     {}
-    //: Convert from RealT's.
-    
-    ByteRGBValueC(const RGBValueC<ByteT> &oth)
-      : RGBValueC<ByteT>(oth)
-    {}
-    //: Base class constructor.
-    
-    ByteRGBValueC(const TFVectorC<ByteT,3> &v)
-      : RGBValueC<ByteT>(v)
-    {}
-    //: Base class constructor.
+    //: Construct from another value type.
     
     ByteT Y() const
     { return (ByteT)( ((int) data[0] + (int)data[1] + (int)data[2])/3); }
@@ -95,6 +91,22 @@ namespace RavlImageN {
   BinIStreamC &operator >> (BinIStreamC &in,ImageC<ByteRGBValueC> &img);
   //: Load image from a binary stream.
   
+}
+
+namespace RavlN {
+  
+  //! userlevel=Advanced
+  //: Traits for type
+  
+  template<>
+  struct TraitsC<RavlImageN::ByteRGBValueC> {
+    typedef ByteT &RefT;     //: Non-const reference to type.
+    typedef ByteT TypeT;     //: Unmodified type.
+    typedef ByteT BaseTypeT; //: Base type ignoring const and reference.
+    typedef RavlImageN::UInt16RGBValueC AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
+    typedef RavlImageN::RealRGBValueC  RealAccumT; //: Type to use for a floating point accumulator.
+    typedef RavlImageN::RGBValueC<UInt64T> LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
+  };
 }
 
 #endif
