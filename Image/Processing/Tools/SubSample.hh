@@ -12,20 +12,39 @@
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Tools/SubSample.hh"
 //! author="Charles Galambos"
+//! userlevel=Normal
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array1dIter.hh"
 #include "Ravl/Array2dIter.hh"
+#include "Ravl/Array2dSqr3Iter.hh"
+#include "Ravl/Traits.hh"
 
 namespace RavlImageN {
   
-  //! userlevel=Normal
-  
-  
-
-
-
-  
+  template<typename PixelT>
+  ImageC<PixelT> FilteredSubSample2(const  ImageC<PixelT> & img, ImageC<PixelT> &out) {
+    typedef typename RavlN::TraitsC<PixelT>::AccumT AccumT;
+    Index2dC origin(img.Frame().Origin().Row() / 2,img.Frame().Origin().Col() / 2);
+    Index2dC size(((img.Frame().Rows()-1) / 2)-1,
+		  ((img.Frame().Cols()-1) / 2)-1);
+    //cerr << "Origin=" << origin << " Size=" << size << "\n";
+    Index2dC end = origin + size;
+    IndexRange2dC newRange(origin,end);
+    out = ImageC<PixelT>(newRange);
+    Array2dIterC<PixelT> oit(out);
+    for(Array2dSqr3IterC<PixelT> it(img);it;it += 2,oit++) {
+      AccumT val = static_cast<AccumT>(it.DataTM()) + it.DataBM() + it.DataMR() + it.DataML();
+      val *= 2;
+      val += it.DataBL() + it.DataBR() + it.DataTR() + it.DataTL();
+      val += static_cast<AccumT>(it.DataMM()) * 4;
+      *oit = static_cast<PixelT>(val / 16);
+    }
+    RavlAssert(!oit);
+    return out;
+  }
+  //: Subsamples the image with filtering by a factor of 2
+  // Uses an approximation of a Guassian mask, sample points correspond to the middle of each sample.
   
   template<class PixelT>
   ImageC<PixelT> SubSample(const  ImageC<PixelT> & img,  const UIntT factor =2) {    
@@ -44,10 +63,6 @@ namespace RavlImageN {
   //: Subsamples the image by the given factor 
   // Pixel at top left-hand corner is always sampled first. 
   
-
-
-
-
   template <class PixelT> 
   ImageC <PixelT> UpSample ( const ImageC<PixelT> & img, const UIntT factor=2 ) {
     ImageRectangleC oldRect (img.Rectangle() ) ; 
@@ -75,7 +90,7 @@ namespace RavlImageN {
   }
   //: Up-Samples an image by the given factor. 
   
-
+  
 }
 
 

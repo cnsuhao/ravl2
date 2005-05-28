@@ -11,6 +11,7 @@
 //! userlevel=Develop
 //! author="Charles Galambos"
 
+#include "Ravl/Image/SubSample.hh"
 #include "Ravl/Image/PyramidScan.hh"
 #include "Ravl/Image/Rectangle2dIter.hh"
 #include "Ravl/Image/SummedAreaTable.hh"
@@ -29,6 +30,7 @@ int testSummedAreaTable2();
 int testPyramidScan();
 int testPeakDetection();
 int testSubPixelPeakDetection();
+int testSubSample();
 
 int main() {
   int ln;
@@ -54,6 +56,10 @@ int main() {
   }
   if((ln = testSubPixelPeakDetection()) != 0) {
     cerr << "Error on line numner '" << ln << "'\n";
+    return 1;
+  }
+  if((ln = testSubSample()) != 0) {
+    cerr << "Error on line numner '" << ln << "'\n";    
     return 1;
   }
   cerr << "Test passed. \n";
@@ -248,5 +254,22 @@ int testSubPixelPeakDetection() {
   //cerr << "At=" << at << "\n";
   if(Abs(at[0] - 0.9) > 0.000001) return __LINE__;
   if(Abs(at[1] - 1.1) > 0.000001) return __LINE__;
+  return 0;
+}
+
+
+int testSubSample() {
+  for(int i = 3;i < 10;i++) {
+    ImageC<ByteT> img(i,i);
+    cerr << "i = " << i << "\n";
+    ImageC<ByteT> out;
+    //ByteT n = 0;
+    for(Array2dIterC<ByteT> it(img);it;it++) {
+      Index2dC ind = it.Index();
+      *it = ind.Row() + ind.Col();
+    }
+    FilteredSubSample(img,out,2);
+    cerr << "Out=" << out << "\n";
+  }
   return 0;
 }
