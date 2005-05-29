@@ -111,6 +111,20 @@ namespace RavlN {
       return false;
     }
     //: Goto next element.
+
+    bool Next(int n) {
+      up += n;
+      dn += n;
+      this->cit += n;
+      if(this->cit)
+	return true;
+      NextRow(n);
+      return false;
+    }
+    //: Goto next nth element
+    // This skips n elements along the row
+    // if the end of the row is reached then it will
+    // then skip n rows.
     
     bool IsElm() const
     { return this->cit.IsElm(); }
@@ -127,6 +141,13 @@ namespace RavlN {
     void operator++(int) 
     { Next(); }
     //: Goto next element.
+    
+    void operator+=(int n)
+    { Next(n); }
+    //: Skip n elements.
+    // This skips n elements along the row
+    // if the end of the row is reached then it will
+    // then skip n rows.
     
     DataT &DataBL() 
     { return dn[-1]; }
