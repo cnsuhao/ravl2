@@ -268,8 +268,8 @@ int testSubSample() {
       Index2dC ind = it.Index();
       *it = ind.Row() + ind.Col();
     }
-    FilteredSubSample(img,out,2);
-    cerr << "Out=" << out << "\n";
+    FilteredSubSample2(img,out);
+    //cerr << "Out=" << out << "\n";
   }
   return 0;
 }
