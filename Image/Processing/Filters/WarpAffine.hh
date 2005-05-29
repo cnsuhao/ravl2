@@ -33,17 +33,25 @@ namespace RavlImageN {
   class WarpAffineC
   {
   public:
-    WarpAffineC(const ImageRectangleC &ir,const Affine2dC &ntrans,bool nFillBackground = true,const MixerT &mix = MixerT())
-      : rec(ir),
+    WarpAffineC(const ImageRectangleC &outRec,const Affine2dC &ntrans,bool nFillBackground = true,const MixerT &mix = MixerT())
+      : rec(outRec),
 	trans(ntrans),
-	itrans(ntrans.I()),
 	fillBackground(nFillBackground),
 	mixer(mix),
 	useMidPixelCorrection(true)
     {}
     //: Constructor.
-    // 'ir' is the output rectangle.
+    // 'outRec' is the output rectangle.
     // 'ntrans' is the transform to use. Maps output image pixel to one in input.
+    
+    WarpAffineC(const ImageRectangleC &outRec,bool nFillBackground = true,bool doMidPointCorrection = true,const MixerT &mix = MixerT())
+      : rec(outRec),
+	fillBackground(nFillBackground),
+	mixer(mix),
+	useMidPixelCorrection(doMidPointCorrection)
+    {}
+    //: Constructor.
+    // 'outRec' is the output rectangle.
     
     void Apply(const ImageC<InT> &img,ImageC<OutT> &outImg);
     //: Interpolate input image working rectangle into
@@ -60,7 +68,6 @@ namespace RavlImageN {
     
     void SetTransform(const Affine2dC &transform) {
       trans = transform;
-      itrans = transform.I();
     }
     //: Set the current transform.
     
@@ -87,6 +94,7 @@ namespace RavlImageN {
     
     ImageRectangleC OutputRectangle(const ImageRectangleC &inrec) const { 
       RealRange2dC irng(inrec);
+      Affine2dC itrans = trans.I();
       RealRange2dC rret(itrans * irng.TopRight(),0);
       rret.Involve(itrans * irng.TopLeft());
       rret.Involve(itrans * irng.BottomRight());
@@ -110,7 +118,6 @@ namespace RavlImageN {
   protected:
     ImageRectangleC rec;   // Output rectangle.
     Affine2dC trans;       // Transform.
-    Affine2dC itrans;      // Inverse transform
     bool fillBackground;   // Fill background with zero ?
     MixerT mixer;
     bool useMidPixelCorrection;
