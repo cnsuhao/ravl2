@@ -143,10 +143,7 @@ namespace RavlN {
   //: Traits for type
   
   template<>
-  struct TraitsC<RavlImageN::ByteYUVValueC > {
-    typedef RavlImageN::ByteYUVValueC &RefT;     //: Non-const reference to type.
-    typedef RavlImageN::ByteYUVValueC TypeT;     //: Unmodified type.
-    typedef RavlImageN::ByteYUVValueC BaseTypeT; //: Base type ignoring const and reference.
+  struct NumericalTraitsC<RavlImageN::ByteYUVValueC > {
     typedef RavlImageN::YUVValueC<UInt16T> AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
     typedef RavlImageN::RealYUVValueC RealAccumT; //: Type to use for a floating point accumulator.
     typedef RavlImageN::YUVValueC<Int64T> LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)

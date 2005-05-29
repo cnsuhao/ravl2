@@ -124,13 +124,10 @@ namespace RavlN {
   //: Traits for type
   
   template<typename PixelT>
-  struct TraitsC<RavlImageN::VYUValueC<PixelT> > {
-    typedef RavlImageN::VYUValueC<PixelT> &RefT;     //: Non-const reference to type.
-    typedef RavlImageN::VYUValueC<PixelT> TypeT;     //: Unmodified type.
-    typedef RavlImageN::VYUValueC<PixelT> BaseTypeT; //: Base type ignoring const and reference.
-    typedef RavlImageN::VYUValueC<typename TraitsC<PixelT>::AccumT > AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
-    typedef RavlImageN::VYUValueC<typename TraitsC<PixelT>::RealAccumT > RealAccumT; //: Type to use for a floating point accumulator.
-    typedef RavlImageN::VYUValueC<typename TraitsC<PixelT>::LongAccumT > LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
+  struct NumericalTraitsC<RavlImageN::VYUValueC<PixelT> > {
+    typedef RavlImageN::VYUValueC<typename NumericalTraitsC<PixelT>::AccumT > AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
+    typedef RavlImageN::VYUValueC<typename NumericalTraitsC<PixelT>::RealAccumT > RealAccumT; //: Type to use for a floating point accumulator.
+    typedef RavlImageN::VYUValueC<typename NumericalTraitsC<PixelT>::LongAccumT > LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
   };
 }
 

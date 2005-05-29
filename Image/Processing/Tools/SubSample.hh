@@ -24,7 +24,7 @@ namespace RavlImageN {
   
   template<typename PixelT>
   ImageC<PixelT> FilteredSubSample2(const  ImageC<PixelT> & img, ImageC<PixelT> &out) {
-    typedef typename RavlN::TraitsC<PixelT>::AccumT AccumT;
+    typedef typename RavlN::NumericalTraitsC<PixelT>::AccumT AccumT;
     Index2dC origin(img.Frame().Origin().Row() / 2,img.Frame().Origin().Col() / 2);
     Index2dC size(((img.Frame().Rows()-1) / 2)-1,
 		  ((img.Frame().Cols()-1) / 2)-1);
