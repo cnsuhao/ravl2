@@ -46,12 +46,11 @@ namespace RavlN {
     //: Construct from rectangle size.
     
     IndexRange2dC(const IndexRangeC & rowRange,
-		  const IndexRangeC & colRange);
+		  const IndexRangeC & colRange)
+      : rows(rowRange), cols(colRange)
+    {}
     //: Constructor.
     
-    IndexRange2dC(const IndexRange2dC & range);
-    //: Constructor.
-
     IndexRange2dC(const Index2dC &org,const Index2dC &end)
       : rows(org.Row(), end.Row()), 
 	cols(org.Col(),end.Col())

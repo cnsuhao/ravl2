@@ -13,15 +13,6 @@
 
 namespace RavlN {
   
-  IndexRange2dC::IndexRange2dC(const IndexRangeC & rowRange,
-			       const IndexRangeC & colRange)
-    : rows(rowRange), cols(colRange)
-  {}
-  
-  IndexRange2dC::IndexRange2dC(const IndexRange2dC & range)
-    : rows(range.RowRange()), cols(range.ColRange())
-  {}
-
   IndexRange2dC::IndexRange2dC(const Index2dC &center,SizeT nrows,SizeT ncols) {
     if(nrows > 0)
       rows = IndexRangeC(center.Row() - (nrows-1)/2,center.Row() + nrows/2);
