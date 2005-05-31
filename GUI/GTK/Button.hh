@@ -191,6 +191,22 @@ namespace RavlGUIN {
     return ret;    
   }
 
+  template<class ObjT,class Data1T,class Data2T>
+  ButtonC ButtonR(const char *label,const char *tooltip,ObjT &obj,bool (ObjT::*func)(Data1T dat1,Data2T dat2),const typename TraitsC<Data1T>::BaseTypeT &dat1,const typename TraitsC<Data2T>::BaseTypeT &dat2)
+  { 
+    ButtonC ret = ButtonC(label,tooltip);
+    ConnectRef(ret.Signal("clicked"),obj,func,dat1,dat2);
+    return ret;    
+  }
+
+  template<class ObjT,class Data1T,class Data2T>
+  ButtonC ButtonR(const char *label,ObjT &obj,bool (ObjT::*func)(Data1T dat1,Data2T dat2),const typename TraitsC<Data1T>::BaseTypeT &dat1,const typename TraitsC<Data2T>::BaseTypeT &dat2)
+  { 
+    ButtonC ret = ButtonC(label);
+    ConnectRef(ret.Signal("clicked"),obj,func,dat1,dat2);
+    return ret;    
+  }
+  
   template<class ObjT>
   ButtonC Button(const char *label,const ObjT &obj,bool (ObjT::*func)())
   { 
