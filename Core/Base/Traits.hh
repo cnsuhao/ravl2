@@ -13,7 +13,7 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Base/Traits.hh"
 
-#include "Ravl/Types.h"
+#include "Ravl/Types.hh"
 
 namespace RavlN {
     
