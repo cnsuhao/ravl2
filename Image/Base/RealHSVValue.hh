@@ -108,10 +108,9 @@ namespace RavlImageN {
   RealHSVValueC::RealHSVValueC( const RealRGBValueC & comp ) 
     : TFVectorC<RealT,3> () 
   {
-    RealT max,min,delta ;
-    max = Max ( comp.Red(), comp.Green(), comp.Blue() ) ;
-    min = Min ( comp.Red(), comp.Green(), comp.Blue() ) ;
-    delta = max-min ;
+    RealT max = Max ( comp.Red(), comp.Green(), comp.Blue() ) ;
+    RealT min = Min ( comp.Red(), comp.Green(), comp.Blue() ) ;
+    RealT delta = max-min ;
     
     // value 
     data[2] = max ;         // v
@@ -119,7 +118,7 @@ namespace RavlImageN {
     // saturation 
     if ( max != 0 ) 
       data[1] = delta/max ; // s
-    else 
+    else // i.e. black
       {
 	data[1] = 0 ;       // s = undefined 
 	data[0] = 0 ;       // h = undefined
@@ -127,11 +126,13 @@ namespace RavlImageN {
       }
     
     // hue 
-    if( comp.Red() == max )
+    if (delta == 0.0)  // i.e. grey
+      data[0] = 0 ;       // h = undefined
+    else if( comp.Red() == max )
       data[0] = ( comp.Green() - comp.Blue() ) / delta;		// between yellow & magenta
     else if( comp.Green() == max )
       data[0] = 2 + ( comp.Blue() - comp.Red() ) / delta;	// between cyan & yellow
-    else
+    else  //  comp.Blue() == max
       data[0] = 4 + ( comp.Red() - comp.Green() ) / delta;	// between magenta & cyan
     
     // convert to degrees 
