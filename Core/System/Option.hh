@@ -152,17 +152,17 @@ namespace RavlN {
     
     void DependXor(const char * xor_opt);
     //: xor_opt defines a set of mutually exclusive options 
-    // options are specified in xor_opt without '-', eg. 'alpha beta x'  
+    // Options are specified in xor_opt without '-', as a single string, eg. "alpha beta x"  
     
     void If(int enableCond, const char * depend,const  char * comment);
-    //: option "depend" can be specified only if a given condition 'enableCond' is met
+    //: Option "depend" can be specified only if a given condition 'enableCond' is met
     
     void MultIf(int enableCond,const char * depend,const char * comment);
-    //: options (several of them) in string "depend" can be specified only if a
+    //: Options (several of them) in string "depend" can be specified only if a
     //: given condition 'enableCond' is met
     
     void DependIf(const char * cond, int enableVal, int val, const char * depend);
-    // option 'depend' can be specified only if option 'cond' has value  
+    // Option 'depend' can be specified only if option 'cond' has value  
     // 'enableVal'. Current value of 'depend' is passed explicitly in val
   
     void Compulsory(const char * name);
