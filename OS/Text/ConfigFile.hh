@@ -22,6 +22,7 @@
 #include "Ravl/Text/TextFragment.hh"
 #include "Ravl/RCAbstract.hh"
 #include "Ravl/HashIter.hh"
+#include "Ravl/BinStream.hh"
 
 
 namespace RavlN {
