@@ -51,6 +51,7 @@ namespace RavlN {
     
     TimeCodeC(const char * string,RealT frameRate = 25.0);
     //: Construct from a valid string representation
+    // expects format hh:mm:ss:ff 
 
     TimeCodeC(const StringC & string, RealT frameRate = 25.00) ; 
     //: Construct from a Ravl string representation 
