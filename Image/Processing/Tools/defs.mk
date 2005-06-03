@@ -7,18 +7,26 @@
 #! rcsid="$Id$"
 #! file="Ravl/Image/Processing/Tools/defs.mk"
 
-PACKAGE=Ravl/Image
+PACKAGE = Ravl/Image
 
-HEADERS=Rectangle2dIter.hh SobolImage.hh SubSample.hh SummedAreaTable.hh \
- SummedAreaTable2.hh PyramidScan.hh PeakDetector.hh
+MAINS = convertFeatureSet.cc
 
-SOURCES=Rectangle2dIter.cc SobolImage.cc PyramidScan.cc
+HEADERS = Rectangle2dIter.hh SobolImage.hh SubSample.hh SummedAreaTable.hh \
+ SummedAreaTable2.hh PyramidScan.hh PeakDetector.hh \
+ ImagePointFeatureSet.hh ImagePointFeature.hh 
 
-PLIB= RavlImageProc
+SOURCES = Rectangle2dIter.cc SobolImage.cc PyramidScan.cc \
+ImagePointFeatureSet.cc ImagePointFeature.cc 
 
-USESLIBS=RavlImage RavlThreads RavlMath RavlIO RavlOS RavlOSIO RavlOptimise
+MUSTLINK = ImagePointFeatureIO.cc
+
+PLIB = RavlImageProc
+
+USESLIBS = RavlImage RavlThreads RavlMath RavlIO RavlOS RavlOSIO RavlOptimise RavlCore 
 # RavlOS is needed for DeadLineTimerC in PPHT code.
 
-EHT=Ravl.Images.Misc.html 
+EXAMPLES = exFeatureSet.cc 
 
-TESTEXES=testImageTools.cc
+EHT = Ravl.Images.Misc.html Ravl.Images.Misc.XMLFormat.eht
+
+TESTEXES = testImageTools.cc
