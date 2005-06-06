@@ -7,6 +7,7 @@
 #ifndef RAVLGUI_GLADEXML_HEADER
 #define RAVLGUI_GLADEXML_HEADER 1
 //! rcsid="$Id$"
+//! docentry="Ravl.GUI.LibGlade"
 //! lib=RavlLibGlade
 //! file="Ravl/GUI/LibGlade/GladeXML.hh"
 
