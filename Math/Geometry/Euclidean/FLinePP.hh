@@ -169,15 +169,23 @@ namespace RavlN {
   template<unsigned int N>
   inline
   BinOStreamC &operator<<(BinOStreamC &s,const FLinePPC<N> &dat) {
-    s << dat.P1() << dat.P2();
+#if !defined VISUAL_CPP   
+	  s << dat.P1() << dat.P2();
+#else
+	 RavlIssueError("BinOStreamC for FLinePP and VisualCPP needs fixing\n");
+#endif
     return s;
   }
   
   template<unsigned int N>
   inline
   BinIStreamC &operator>>(BinIStreamC &s,FLinePPC<N> &dat) {
+#if !defined VISUAL_CPP
     s >> dat.P1() >> dat.P2();
-    return s;
+#else 
+	RavlIssueError("BinIStreamC for FLinePP and VisualCPP needs fixing\n");
+#endif
+	return s;
   }
   
   
