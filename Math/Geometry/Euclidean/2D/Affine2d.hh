@@ -76,18 +76,23 @@ namespace RavlN {
     // the direction of rotations.
   };
   
-  Affine2dC FitAffine(const SArray1dC<Point2dC> &org,const SArray1dC<Point2dC> &newPos,RealT &residual);
-  //: Fit an affine transform given to the mapping between original and newPos.
-  // Returns the residual from the fit.
+  Affine2dC FitAffine(const SArray1dC<Point2dC> &orig,const SArray1dC<Point2dC> &newPos,RealT &residual);
+  //: Fit an affine transform to 2 arrays of corresponding points
+  // A "least sum of squares" fitter is used.  The result transforms the points in "orig" to those in "newPos". The residual from the fit is returned as "residual".
   
-  Affine2dC FitAffine(const SArray1dC<Point2dC> &org,const SArray1dC<Point2dC> &newPos);
-  //: Fit an affine transform given to the mapping between original and newPos.
-  
-  Affine2dC FitAffine(const DListC<Point2dC> &org,const DListC<Point2dC> &newPos,RealT &residual);
-  //: Fit an affine transform given to the mapping between original and newPos.
+  Affine2dC FitAffine(const SArray1dC<Point2dC> &orig,const SArray1dC<Point2dC> &newPos);
+  //: Fit an affine transform to 2 arrays of corresponding points
+  // A "least sum of squares" fitter is used.  The result transforms the points in "orig" to those in "newPos".
 
-  Affine2dC FitAffine(const DListC<Point2dC> &org,const DListC<Point2dC> &newPos);
-  //: Fit an affine transform given to the mapping between original and newPos.
+  
+  Affine2dC FitAffine(const DListC<Point2dC> &orig,const DListC<Point2dC> &newPos,RealT &residual);
+  //: Fit an affine transform to 2 lists of corresponding points
+  // A "least sum of squares" fitter is used.  The result transforms the points in "orig" to those in "newPos". The residual from the fit is returned as "residual".
+
+
+  Affine2dC FitAffine(const DListC<Point2dC> &orig,const DListC<Point2dC> &newPos);
+  //: Fit an affine transform to 2 lists of corresponding points
+  // A "least sum of squares" fitter is used.  The result transforms the points in "orig" to those in "newPos".
   
   PointSet2dC operator*(const FAffineC<2> &trans,const PointSet2dC &points);
   //: Apply a affine transform to a point set
