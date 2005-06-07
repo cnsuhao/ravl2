@@ -31,7 +31,7 @@ PLIB = RavlImageProc
 
 USESLIBS = RavlCore RavlIO RavlImage RavlImageProc RavlMath RavlOS RavlPatternRec Optimisation  
 
-PROGLIBS = RavlImageIO RavlMathIO RavlDPDisplay.opt RavlImgIOV4L RavlGUI RavlGUI2D
+PROGLIBS = RavlImageIO RavlMathIO RavlDPDisplay.opt RavlGUI RavlGUI2D #RavlImgIOV4L
 
 
 
