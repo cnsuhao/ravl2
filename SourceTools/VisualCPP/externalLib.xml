@@ -3,29 +3,27 @@
 
 <extlibs>
 <extlib name="LibPNG">
-<includepath>C:\Program Files\GnuWin32\include\</includepath>
-<includepath>C:\GTKWIN32\include\</includepath>
-<libpath>C:\Program Files\GnuWin32\lib\</libpath>
-<libpath>C:\GTKWIN32\lib\</libpath>
+<includepath>C:\RavlExtLib\include</includepath>
+<libpath>C:\RavlExtLib\lib</libpath>
 <lib>libpng.lib</lib>
-<lib>zdll.lib</lib>
+<lib>zlib.lib</lib>
 </extlib>
 
 <extlib name="LibJPEG">
-<includepath>Z:\include</includepath>
-<libpath>Z:\lib\</libpath>
+<includepath>C:\RavlExtLib\include</includepath>
+<libpath>C:\RavlExtLib\lib\</libpath>
 <lib>jpeg.lib</lib>
 </extlib>
 
 <extlib name="LibTIFF">
-<includepath>Z:\include</includepath>
-<libpath>Z:\lib</libpath>
+<includepath>C:\RavlExtLib\include</includepath>
+<libpath>C:\RavlExtLib\lib</libpath>
 <lib>libtiff.lib</lib>
 </extlib>
 
 <extlib name="LibJasper">
-<includepath>Z:\include</includepath>
-<libpath>Z:\lib</libpath>
+<includepath>C:\RavlExtLib\include</includepath>
+<libpath>C:\RavlExtLib\lib</libpath>
 <lib>libjasper.lib</lib>
 </extlib>
 
@@ -85,4 +83,4 @@
 </extlib>
 
 
-<extlibs>
+</extlibs>
