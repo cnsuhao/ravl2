@@ -212,8 +212,6 @@ int main(int nargs,char **argv) {
     }
   }
 
-  cout << sm << endl;
-
   if(!op.IsEmpty()) {
     if(!Save(op,sm)) {
       cerr << "Failed to save model to '" << op << "'\n";
