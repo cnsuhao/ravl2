@@ -38,7 +38,7 @@
 #include "Ravl/Matrix.hh"
 #include "Ravl/PatternRec/FuncMeanProjection.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #include "Ravl/IO.hh"
 #define ONDEBUG(x) x
