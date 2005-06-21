@@ -38,7 +38,7 @@
 #include "Ravl/Matrix.hh"
 #include "Ravl/PatternRec/FuncMeanProjection.hh"
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #include "Ravl/IO.hh"
 #define ONDEBUG(x) x
@@ -58,16 +58,16 @@ namespace RavlImageN {
 
   using namespace RavlN;
   using namespace RavlImageN;
-  
+
   //: Constructor.
   // nWarpSigma, stiffness to use in warping process.
-  
+
   AAMAppearanceModelBodyC::AAMAppearanceModelBodyC(RealT nWarpSigma)
     : warpSigma(nWarpSigma)
   {}
-  
+
   //: Load from binary stream.
-  
+
   AAMAppearanceModelBodyC::AAMAppearanceModelBodyC(BinIStreamC &is) 
     : RCBodyVC(is)
   {
@@ -88,9 +88,9 @@ namespace RavlImageN {
     is >> pixelSize;
     SetMask(newMask); // Setup the new mask.
   }
-  
+
   //: Load from binary stream.
-  
+
   AAMAppearanceModelBodyC::AAMAppearanceModelBodyC(istream &is) 
     : RCBodyVC(is)
   {
@@ -103,9 +103,9 @@ namespace RavlImageN {
 ;
     SetMask(newMask); // Setup the new mask.
   }
-  
+
   //: Save to binary stream 'out'.
-  
+
   bool AAMAppearanceModelBodyC::Save(BinOStreamC &out) const {
     if(!RCBodyVC::Save(out))
       return false;
@@ -114,9 +114,9 @@ namespace RavlImageN {
       appearanceModel << invAppearanceModel << warp << eigenValues << fixedMean << pixelSize;
     return true;
   }
-  
+
   //: Save to stream 'out'.
-  
+
   bool AAMAppearanceModelBodyC::Save(ostream &out) const {
     if(!RCBodyVC::Save(out))
       return false;
@@ -126,18 +126,18 @@ namespace RavlImageN {
 	<< warp << ' ' << eigenValues << ' ' << fixedMean << ' ' << pixelSize;
     return true;
   }
-  
+
 
   //: Convert model instance into a parameter vector.
-  
+
   VectorC AAMAppearanceModelBodyC::Parameters(const AAMAppearanceC &inst) {
     VectorC rawParam = RawParameters(inst);
     VectorC fixedParam = rawParam.From(0,NoFixedParameters());
     return fixedParam.Join(appearanceModel.Apply(rawParam.From(NoFixedParameters())));
   }
-  
+
   //: Set mask image to use.
-  
+
   void AAMAppearanceModelBodyC::SetMask(const ImageC<IntT> &nmask) {
     maskArea = 0;
     mask = nmask;
@@ -146,67 +146,66 @@ namespace RavlImageN {
       if(*it != 0)
 	maskArea++;
   }
-  
+
   //: Get raw parameters for 'inst'
-  
+
   VectorC AAMAppearanceModelBodyC::RawParameters(const AAMAppearanceC &inst) {
     VectorC ret(maskArea + shape.Dimensions() + 2);
 
-    //RavlN::Save("@X:RawImage",inst.Image());
+    ONDEBUG(RavlN::Save("@X:RawImage",inst.Image()));
     ImageC<ByteT> img = WarpToMaskShape(inst);
-    //RavlN::Save("@X:WarpedImage",img);
+    ONDEBUG(RavlN::Save("@X:WarpedImage",img));
     SArray1dIterC<RealT> rit(ret);
 
     // Get shape parameters.
-    
+
     VectorC parm = shape.Parameters(inst);
     RavlAssert(parm.Size() == shape.Dimensions());
-    
+
     // Copy fixed shape parameters.
-    
+
     for(SArray1dIterC<RealT> cit(parm,shape.NoFixedParameters());cit;cit++) {
       *rit = *cit;
       rit++;
     }
-    
+
     // Compute mean and variance of texture.
-    //RavlN::Save("@X:NormalImage",img);
-    Sums1d2C textureMeanVar;    
+    Sums1d2C textureMeanVar;
     for(Array2dIter2C<IntT,ByteT> it(mask,img);it;it++)
       textureMeanVar += (RealT) it.Data2();
-    
+
     RealT texmean = textureMeanVar.Mean();
     RealT texstddev = Sqrt(textureMeanVar.Variance());
-    
-    //ONDEBUG(cerr << "TexMean=" << texmean << " TexVar=" << texstddev << " N=" << textureMeanVar.Size() << "\n");
-    
+
+    ONDEBUG(cerr << "TexMean=" << texmean << " TexVar=" << texstddev << " N=" << textureMeanVar.Size() << "\n");
+
     // Save fixed texture parameters.
     // The parametrisation is adopted for linearity required
     // for fitting algorithm which uses multivariate linear regression
     *rit = texmean; rit++;
     *rit = texstddev - 1; rit++;
-    
+
     // Copy rest of shape parameters
-    
+
     for(SArray1dIterC<RealT> sit(parm.From(shape.NoFixedParameters()));sit;sit++) {
       *rit = *sit;
       rit++;
     }
-    
+
     // Get texture parameters.
-    
+
     for(Array2dIter2C<IntT,ByteT> it(mask,img);it;it++) {
       if(it.Data1() != 0) {
 	*rit = (((RealT) it.Data2()) - texmean) / texstddev;
 	rit++;
       }
     }
-    
+
     return ret;
   }
 
   //: Warp appearance to mean shape.
-  
+
   ImageC<ByteT> AAMAppearanceModelBodyC::WarpToMaskShape(const AAMAppearanceC &inst) {
 #if OMNIAAM_USE_THINPLATEWARP 
     ImageC<ByteT> ret(maskSize);
@@ -218,22 +217,22 @@ namespace RavlImageN {
 #endif
     return ret;
   }
-  
-  //: Design a model given some data.
 
+
+  //: Design a model given some data.
 
   bool AAMAppearanceModelBodyC::Design(const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile,const Index2dC &newMaskSize,const RealT varS,const RealT varT,const RealT varC,const UIntT maxS,const UIntT maxT,const UIntT maxC) {
   // This implementation of the function Design avoids loading all the
   // data into memory, which keeps the memory requirement at a minimum
 
     shape = AAMScaleRotationShapeModelC(true);
-    
+
     ONDEBUG(cerr << "AAMAppearanceModelBodyC::Design(), Designing shape model. \n");
-    
+
     // Design the shape model.
     SampleC<AAMAppearanceC> appearanceSet;
     appearanceSet = LoadFeatureSet(fileList,dir,true,false);
-  
+
     if(!mirrorFile.IsEmpty()) {
       cout << "Reflecting data. \n";
       AAMAppearanceMirrorC mirror(mirrorFile);
@@ -243,7 +242,7 @@ namespace RavlImageN {
       }
       mirror.Reflect(appearanceSet);
     }
-  
+
     IntT NbSamples = appearanceSet.Size();
     cout << "Got " << NbSamples << " samples. \n";
 
@@ -252,21 +251,21 @@ namespace RavlImageN {
 
 
     ONDEBUG(cerr << "AAMAppearanceModelBodyC::Design(), Generating mask. \n");
-    
+
     // Use mean positions for mask.
     maskPoints = shape.MeanPoints();
     if(maskPoints.Size() == 0)
       return false;
-    
+
     // Find bounding rectangle of mask points.
     RealRange2dC rng(maskPoints[0],0,0);
     for(Array1dIterC<Point2dC> it(maskPoints);it;it++)
       rng.Involve(*it);
-    
+
     // Scale control points to desired size.
     Point2dC offset = rng.Origin();
     Vector2dC scale = (Point2dC(newMaskSize) - Point2dC(1.0,1.0)) / (rng.End() - rng.Origin());
-    
+
     for(Array1dIterC<Point2dC> it(maskPoints);it;it++)
       *it = (*it - offset) * scale;
 
@@ -279,27 +278,27 @@ namespace RavlImageN {
     mask = ImageC<IntT>(maskSize);
     mask.Fill(0);
     DrawPolygon(mask,1,bounds,true); // Draw convex hull into the mask.
-    
+
     ONDEBUG(cerr << "Mask = " << mask.Frame() << "\n");
-    
+
     // Create warping mesh.
     TriMesh2dC mesh = DelaunayTriangulation(maskPoints).TriMesh();
     RavlAssert(mesh.IsFlat());
     SetMask(mask); // Setup the new mask.
-    
+
     // Create warping
     warp.CreateWarpMap(mesh,mask.Frame());
 
     ONDEBUG(cerr << "AAMAppearanceModelBodyC::Design(), Computing appearance parameters. \n");
-    
+
     // Now we're ready to compute the parameters
-    
+
     // number of texture parameters
     const IntT localFixed = NoFixedParameters() - shape.NoFixedParameters();
     SArray1dC<Sums1d2C> stats(localFixed);
     for(SArray1dIterC<Sums1d2C> yit(stats);yit;yit++)
       yit->Reset();
-    
+
     IntT NoPerFile;
     AAMAppearanceMirrorC mirror;
     if (mirrorFile.IsEmpty()) {
@@ -313,7 +312,7 @@ namespace RavlImageN {
       }
       NoPerFile = 2;
     }
-    
+
     // vector of parameters
     SampleVectorC textureValues(NbSamples);
     for(DLIterC<StringC> it(fileList);it;it++) {
@@ -342,7 +341,7 @@ namespace RavlImageN {
       designTexturePCA.Pca().Vector() = designTexturePCA.Pca().Vector().From(0,maxT);
       designTexturePCA.Pca().Matrix() = designTexturePCA.Pca().Matrix().SubMatrix(maxT,designTexturePCA.Pca().Matrix().Cols());
     }
-        
+
     // Create shape parameter weights
     VectorC textureEigenValues = designTexturePCA.Pca().Vector();
     VectorC shapeEigenValues = shape.EigenValues();
@@ -366,7 +365,7 @@ namespace RavlImageN {
     invPi.SetSubArray(Index2dC(W.Rows(),W.Cols()),designTexturePCA.Pca().Matrix().T());
     // Create model which compresses both shape and texture
     FuncMeanProjectionC intermediateModel(mi,Pi);
-    
+
     // Assemble all vectors of parameters
     SampleVectorC combinedValues(NbSamples);
     for(DLIterC<StringC> it(fileList);it;it++) {
@@ -408,7 +407,7 @@ namespace RavlImageN {
       fixedMean[i] = shape.FixedMean()[i];
       fixedVar[i] = shape.EigenValues()[i];
     }
-    
+
     for(SArray1dIter3C<Sums1d2C,RealT,RealT> xit(stats,fixedMean.From(shape.NoFixedParameters()),fixedVar.From(shape.NoFixedParameters()));xit;xit++) {
       xit.Data2() = xit.Data1().Mean();
       xit.Data3() = xit.Data1().Variance();
@@ -416,45 +415,45 @@ namespace RavlImageN {
 
     // Sort out eigen values of model.
     eigenValues = fixedVar.Join(designCombinedPCA.Pca().Vector());
-    
+
     // And we're done!
     ONDEBUG(cerr << "AAMAppearanceModelBodyC::Design(), Done. \n");
-    
+
     return true;
   }
 
-  
+
   //: Synthesize an appearance from a parameter vector.
-  
+
   AAMAppearanceC AAMAppearanceModelBodyC::Synthesize(const VectorC &dat,RealT scale) {
     RavlAssert(Dimensions() == dat.Size());
-    
+
     VectorC tmp(dat);
     VectorC rv = invAppearanceModel.Apply(tmp.From(NoFixedParameters()));
-    
+
     SArray1dIterC<RealT> rit(rv);
-    
+
     // Get fixed shape parameters.
-    
+
     VectorC sp(shape.Dimensions());
     SArray1dIterC<RealT> sit(sp);
     for(int i = 0;i < shape.NoFixedParameters();i++,sit++)
       *sit = dat[i];
-    
+
     // Get fixed texture parameters.
-    
+
     RealT texMean = dat[shape.NoFixedParameters() + 0];
     RealT texStdDev = dat[shape.NoFixedParameters() + 1] + 1;
-    
+
     // Get rest of shape parameters.
-    
+
     for(;sit;sit++) {
       *sit = *rit;
       rit++;
     }
-    
+
     // Create texture image
-    
+
     ImageC<RealT> image(mask.Frame());
     for(Array2dIter2C<IntT,RealT> it(mask,image);it;it++) {
       if(it.Data1() != 0) {
@@ -463,16 +462,16 @@ namespace RavlImageN {
       } else
 	it.Data2() = 0;
     }
-    
+
     SArray1dC<Point2dC> pnts = shape.Synthesize(sp);
     RealRange2dC rng(pnts[0],0,0);
     for(SArray1dIterC<Point2dC> it(pnts);it;it++) {
       *it *= scale;
       rng.Involve(*it);
     }
-    
+
     // Warp it.
-    
+
     ImageC<ByteT> nimg(rng.IndexRange());
 #if OMNIAAM_USE_THINPLATEWARP 
     WarpThinPlateSplineC<RealT,ByteT> warp(warpSigma);
@@ -482,7 +481,7 @@ namespace RavlImageN {
     WarpMesh2dC<RealT,ByteT> rwarp(warp);
     rwarp.InvApply(image,pnts,nimg);
 #endif
-    
+
     return  AAMAppearanceC(pnts,nimg);
   }
 
@@ -490,16 +489,16 @@ namespace RavlImageN {
   bool AAMAppearanceModelBodyC::TextureImage(const VectorC &dat,ImageC<RealT> &res) {
     RavlAssert(Dimensions() == dat.Size());
     RavlAssert(res.Frame() == mask.Frame());
-    
+
     VectorC tmp(dat);
     VectorC rv = invAppearanceModel.Apply(tmp.From(NoFixedParameters()));
-    
+
     SArray1dIterC<RealT> rit(rv.From(shape.Dimensions()-shape.NoFixedParameters()));
-    
+
     // Get fixed texture parameters.
     RealT texMean = dat[shape.NoFixedParameters() + 0];
     RealT texStdDev = dat[shape.NoFixedParameters() + 1] + 1;
-    
+
     // Create texture image
     for(Array2dIter2C<IntT,RealT> it(mask,res);it;it++) {
       if(it.Data1() != 0) {
@@ -508,7 +507,7 @@ namespace RavlImageN {
       } else
 	it.Data2() = 0;
     }
-    
+
     return 1;
   }
 
@@ -516,7 +515,7 @@ namespace RavlImageN {
   bool AAMAppearanceModelBodyC::TextureParameters(const ImageC<RealT> &im, VectorC &res) {
     RavlAssert(im.Frame() == mask.Frame());
     RavlAssert(maskArea+NoFixedParameters()-shape.NoFixedParameters() == res.Size());
-    
+
     SArray1dIterC<RealT> rit(res);
     rit.First();
 
@@ -545,7 +544,7 @@ namespace RavlImageN {
 
 
   //: Extract shape parameters from active appearance model ones.
-  
+
   VectorC AAMAppearanceModelBodyC::ShapeParameters(const VectorC &dat) {
     RavlAssert(Dimensions() == dat.Size());
 
@@ -559,43 +558,43 @@ namespace RavlImageN {
     return res;
   }
 
-  
+
   //: Compute error vector.
-  
+
   bool AAMAppearanceModelBodyC::ErrorVector(const VectorC &dat,const ImageC<RealT> &img,VectorC &errVec) const {
     RavlAssert(Dimensions() == dat.Size());
     VectorC tmp(dat);
     VectorC rv = invAppearanceModel.Apply(tmp.From(NoFixedParameters()));
-    
+
     SArray1dIterC<RealT> rit(rv);
-    
+
     // Get shape parameters.
-    
+
     VectorC sp(shape.Dimensions());
     SArray1dIterC<RealT> sit(sp);
-    
+
     for(int i = 0;i < shape.NoFixedParameters();i++,sit++)
       *sit = dat[i];
-    
+
     // Get texture mean and variance.
-    
+
     RealT texMean = dat[shape.NoFixedParameters() + 0];
     RealT texStdDev = dat[shape.NoFixedParameters() + 1] + 1;
-    
+
     // Copy rest of shape parameters
-    
+
     for(;sit;sit++) {
       *sit = *rit;
       rit++;
     }
-    
+
     SArray1dC<Point2dC> pnts = shape.Synthesize(sp);
 
     // Find bounding rectangle of points
     RealRange2dC rng(pnts[0],0,0);
     for(Array1dIterC<Point2dC> it(pnts);it;it++)
       rng.Involve(*it);
-      
+
     bool isInRange;
     if((rng.TRow()<img.Frame().TRow())||(rng.BRow()>img.Frame().BRow())||(rng.LCol()<img.Frame().LCol())||(rng.RCol()>img.Frame().RCol()))
       isInRange=false;
@@ -603,7 +602,7 @@ namespace RavlImageN {
       isInRange=true;
 
     // Warp original image into original mask position.
-    
+
     ImageC<RealT> nimg(maskSize);
     ONDEBUG(nimg.Fill(0));
 #if OMNIAAM_USE_THINPLATEWARP 
@@ -613,14 +612,13 @@ namespace RavlImageN {
     WarpMesh2dC<RealT,RealT> rwarp(warp);
     rwarp.Apply(img,pnts,nimg);
 #endif
-    
+
     // Generate difference vector.
-    
+
     //if(errVec.Size() != (UIntT) maskArea)
     errVec = VectorC(maskArea);
-    
-#if DODEBUG && 1
 
+#if DODEBUG && 1
     Array1dIterC<RealT> eit(errVec);
     ImageC<RealT> errImg(mask.Frame());
     errImg.Fill(0);
@@ -651,39 +649,39 @@ namespace RavlImageN {
 #endif
 
   return isInRange;
-    
+
   }
-  
+
   bool AAMAppearanceModelBodyC::ErrorVector(const VectorC &dat,const ImageC<ByteT> &img,VectorC &errVec) const {
 
     // Create real image
     ImageC<RealT> rimg(img.Frame());
     for(Array2dIter2C<RealT,ByteT> it(rimg,img);it;it++)
       it.Data1() = (RealT) it.Data2();
-    
+
     // Compute error vector
     return ErrorVector(dat,rimg,errVec);
-    
+
   }
 
-  void AAMAppearanceModelBodyC::MakePlausible(VectorC &dat) const {
+  void AAMAppearanceModelBodyC::MakePlausible(VectorC &dat, RealT NbSigma) const {
 
     VectorC tmp = eigenValues;
     for(Array1dIter2C<RealT,RealT> it(dat.From(NoFixedParameters()),tmp.From(NoFixedParameters()));it;it++) {
-      if(Abs(it.Data1())>3*Sqrt(it.Data2())) {
+      if(Abs(it.Data1())>NbSigma*Sqrt(it.Data2())) {
         cerr << ".";
         if(it.Data1()>0) {
-	  it.Data1() = 3*Sqrt(it.Data2());
+	  it.Data1() = NbSigma*Sqrt(it.Data2());
 	}
 	else {
-	  it.Data1() = -3*Sqrt(it.Data2());
+	  it.Data1() = -NbSigma*Sqrt(it.Data2());
 	}
       }
     }
 
   }
 
-  
-  RAVL_INITVIRTUALCONSTRUCTOR_FULL(AAMAppearanceModelBodyC,AAMAppearanceModelC,RCHandleVC<AAMAppearanceModelBodyC>);  
+
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(AAMAppearanceModelBodyC,AAMAppearanceModelC,RCHandleVC<AAMAppearanceModelBodyC>);
 
 }
