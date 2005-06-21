@@ -100,24 +100,29 @@ namespace RavlImageN {
   }
   
   //: Refine pose parameters based on an initial estimate of parameters.
-  VectorC AAMActiveAppearanceModelBodyC::RefinePose(const ImageC<ByteT> &img,VectorC paramEstimate) {
+  VectorC AAMActiveAppearanceModelBodyC::RefinePose(const ImageC<ByteT> &img,VectorC paramEstimate) {    
+    RealT diff;
+    return RefinePose(img,paramEstimate,diff);
+  }
+
+  //: Refine pose parameters based on an initial estimate of parameters.
+  VectorC AAMActiveAppearanceModelBodyC::RefinePose(const ImageC<ByteT> &img,VectorC paramEstimate, RealT &diff) {
     ImageC<RealT> rimg(img.Frame());
     for(Array2dIter2C<RealT,ByteT> it(rimg,img);it;it++)
       it.Data1() = (RealT) it.Data2();
     
     rimg = smooth.Apply(rimg); // Filter the image a little.
     
-    return RefinePose(rimg,paramEstimate);
+    return RefinePose(rimg,paramEstimate,diff);
   }
   
   //: Refine pose parameters based on an initial estimate of parameters.
-  VectorC AAMActiveAppearanceModelBodyC::RefinePose(const ImageC<RealT> &rimg,VectorC paramEstimate) {
+  VectorC AAMActiveAppearanceModelBodyC::RefinePose(const ImageC<RealT> &rimg,VectorC paramEstimate, RealT &diff) {
     VectorC lastParm = paramEstimate.Copy();
     VectorC errVec,lastErr;
-    RealT diff;
     
     appearanceModel.ErrorVector(lastParm,rimg,errVec); // Compute residual error.
-    diff = errVec.SumOfSqr();
+    diff = errVec.SumOfSqr()/errVec.Size();
     RealT oldDiff;
     UIntT iters =0;
     do {
@@ -126,7 +131,7 @@ namespace RavlImageN {
       VectorC newDelta = refiner.Apply(errVec);
       VectorC newEst = lastParm - newDelta;
       appearanceModel.ErrorVector(newEst,rimg,errVec); // Compute residual error.
-      RealT nErr = errVec.SumOfSqr();
+      RealT nErr = errVec.SumOfSqr()/errVec.Size();
       iters++;
       if(nErr < diff) {
 	lastParm = newEst;
@@ -139,7 +144,7 @@ namespace RavlImageN {
       for(UIntT i = 0;i < scanLimit;i++,mul /= 2.0) {
 	VectorC newEst = lastParm - newDelta * mul;
 	appearanceModel.ErrorVector(newEst,rimg,errVec); // Compute residual error.
-	RealT nErr = errVec.SumOfSqr();
+	RealT nErr = errVec.SumOfSqr()/errVec.Size();
         if(nErr < diff) {
 	  lastParm = newEst;
 	  diff = nErr;

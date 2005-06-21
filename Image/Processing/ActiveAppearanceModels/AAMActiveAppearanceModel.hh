@@ -46,7 +46,10 @@ namespace RavlImageN {
     VectorC RefinePose(const ImageC<ByteT> &img,VectorC paramEstimate);
     //: Refine pose parameters based on an initial estimate of parameters.
     
-    VectorC RefinePose(const ImageC<RealT> &img,VectorC paramEstimate);
+    VectorC RefinePose(const ImageC<ByteT> &img,VectorC paramEstimate,RealT &diff);
+    //: Refine pose parameters based on an initial estimate of parameters.
+    
+    VectorC RefinePose(const ImageC<RealT> &img,VectorC paramEstimate,RealT &diff);
     //: Refine pose parameters based on an initial estimate of parameters.
     
     bool Design(const AAMAppearanceModelC apm,const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile, const UIntT incrSize);
@@ -122,8 +125,12 @@ namespace RavlImageN {
     { return Body().RefinePose(img,paramEstimate); }
     //: Refine pose parameters based on an initial estimate of parameters.
     
-    VectorC RefinePose(const ImageC<RealT> &img,VectorC paramEstimate)
-    { return Body().RefinePose(img,paramEstimate); }
+    VectorC RefinePose(const ImageC<ByteT> &img,VectorC paramEstimate,RealT &diff)
+    { return Body().RefinePose(img,paramEstimate,diff); }
+    //: Refine pose parameters based on an initial estimate of parameters.
+    
+    VectorC RefinePose(const ImageC<RealT> &img,VectorC paramEstimate,RealT &diff)
+    { return Body().RefinePose(img,paramEstimate,diff); }
     //: Refine pose parameters based on an initial estimate of parameters.
     
     bool Design(const AAMAppearanceModelC apm,const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile, const UIntT incrSize)
