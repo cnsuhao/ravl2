@@ -303,7 +303,8 @@ namespace RavlGUIN {
   
   //! userlevel=Normal
   //: CList widget.
-  
+  // Note, this class is now OBSOLETE. It is recommended that TreeViewC/TreeStoreC be used in all
+  // new code.
   class CListC
     : public WidgetC
   {
