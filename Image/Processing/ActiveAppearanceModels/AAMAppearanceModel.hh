@@ -197,11 +197,11 @@ namespace RavlImageN {
 
   public:
 
-    virtual VectorC Parameters(const AAMAppearanceC &inst)
+    VectorC Parameters(const AAMAppearanceC &inst)
     { return Body().Parameters(inst); }
     //: Convert model instance into a parameter vector.
 
-    virtual VectorC RawParameters(const AAMAppearanceC &inst)
+    VectorC RawParameters(const AAMAppearanceC &inst)
     { return Body().RawParameters(inst); }
     //: Get raw parameters for 'inst'
 
@@ -209,7 +209,7 @@ namespace RavlImageN {
     { return Body().WarpToMaskShape(inst); }
     //: Warp appearance to mean shape.
 
-    virtual bool Design(const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile,const Index2dC &newMaskSize = Index2dC(50,50),const RealT varS = 0.95,const RealT varT = 0.95,const RealT varC = 0.95,const UIntT maxS=25,const UIntT maxT=120,const UIntT maxC=80)
+    bool Design(const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile,const Index2dC &newMaskSize = Index2dC(50,50),const RealT varS = 0.95,const RealT varT = 0.95,const RealT varC = 0.95,const UIntT maxS=25,const UIntT maxT=120,const UIntT maxC=80)
     { return Body().Design(fileList,dir,mirrorFile,newMaskSize,varS,varT,varC,maxS,maxT,maxC); }
     //: Design a model given some data.
 
