@@ -44,6 +44,9 @@ namespace RavlImageN {
     bool Apply(const ImageC<RealT> &img,DListC<EdgelC> &edges);
     //: Apply the edge detector to 'img', generate a list of edgels.
     
+    bool Apply(const ImageC<RealT> &img,DListC<SArray1dC<EdgelC> > &edgeLists);
+    //: Apply the edge detector to 'img', generate an array of ordered edgels list.
+    
     SArray1dC<EdgelC> PApply(const ImageC<RealT> &img) {
       SArray1dC<EdgelC> ret;
       Apply(img,ret);
@@ -114,7 +117,11 @@ namespace RavlImageN {
     DListC<EdgelC> LApply(const ImageC<RealT> &img) 
     { return Body().LApply(img); }
     //: Apply the edge detector to 'img', generate an array of edgels.
-
+    
+    bool Apply(const ImageC<RealT> &img,DListC<SArray1dC<EdgelC> > &edgeLists)
+    { return Body().Apply(img,edgeLists); }
+    //: Apply the edge detector to 'img', generate an array of ordered edgels list.
+    
     bool Apply(const ImageC<RealT> &img,DListC<EdgelC> &edges)
     { return Body().Apply(img,edges); }
     //: Apply the edge detector to 'img', generate a list of edgels.

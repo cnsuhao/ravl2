@@ -146,8 +146,94 @@ namespace RavlImageN {
     return ret;
   }
 
+
+  //: Generate a set of linked edgels
   
-  DListC<DListC<Index2dC> >  EdgeLinkC::LinkEdges() {
+  DListC<SArray1dC<EdgelC> > EdgeLinkC::LinkEdgels(const ImageC<RealT> & inDrIm, 
+                                                   const ImageC<RealT> & inDcIm,  
+                                                   const ImageC<RealT> & inGrad,
+                                                   bool clearDir) {
+    SArray1dC<EdgelC> rawEdges(edgeCount);
+    IntT rawPos = 0;
+    DListC<SArray1dC<EdgelC> > strings;
+    
+    SArray1dC<Index2dC> forward(edgeCount);
+    SArray1dC<Index2dC> backward(edgeCount);
+    
+    Array2dIterC<ByteT> it(*this);
+    for(;it;it++) {
+      if(GetState(*it) != EDGE_INSTRING) 
+	continue;
+      Index2dC pxl = it.Index();
+      DListC<Index2dC> string;
+      int fi = 1;
+      forward[0] = pxl;
+      int bi = 0;
+      
+      PutState(*it, EDGE_PROC);
+      // Go both ways along pixel chain.
+      for(IntT dir_num=0; dir_num<=1; dir_num++) {
+	NeighbourOrderT dir = GetDir(*it,(FBOrientationT) dir_num);
+	Index2dC pxlNext = pxl.Neighbour(dir);
+	// Step along pixel chain. 
+	while(1) {
+	  ByteT &pval = (*this)[pxlNext];
+	  if(GetState(pval) != EDGE_INSTRING)
+	    break;
+	  PutState(pval,EDGE_PROC);
+	  if (dir_num == 0)
+	    forward[fi++] = pxlNext;
+	  else
+	    backward[bi++] = pxlNext;
+	  NeighbourOrderT old_dir = RavlN::Reverse(dir);
+	  dir = GetDir(pval, FB_FORWARD);
+	  if (dir == old_dir) // Check we're not going back.
+	    dir = GetDir(pval, FB_BACKWARD);
+	  pxlNext.Step(dir);
+	}
+	
+	// Append the junction point.
+	// It can be EDGE_PROC if string is closed.
+	if (GetState(pxlNext) == EDGE_JUNCT) {
+	  if (dir_num==0) {
+	    forward[fi++] = pxlNext;
+          } else
+	    backward[bi++] = pxlNext;
+	}
+      }
+      // Generate edgel's
+      
+      IntT start = rawPos;
+      for(bi--;bi >= 0;bi--) {
+        Index2dC at = backward[bi];
+        rawEdges[rawPos++] = EdgelC(at,inDcIm[at],inDrIm[at],inGrad[at]);
+      }
+      
+      for(int i = 0;i < fi;i++) {
+        Index2dC at = forward[i];
+        rawEdges[rawPos++] = EdgelC(at,inDcIm[at],inDrIm[at],inGrad[at]);
+      }
+      
+      strings.InsLast(rawEdges.From(start,rawPos - start)); 
+    }
+    if(clearDir) {
+      // the upper six bits contain information about neigbouring edge direction
+      // remove the information                                                
+      for(it.First();it;it++) {
+        // Remove the information about
+        // the edge direction.
+        *it &= 3;
+        if (GetState(*it) == EDGE_JUNCT)
+          PutState(*it,EDGE_PROC);
+      }
+    }
+    
+    return strings;
+  }
+
+
+  
+  DListC<DListC<Index2dC> >  EdgeLinkC::LinkEdges(bool clearDir) {
     DListC<DListC<Index2dC> > strings;
     Array2dIterC<ByteT> it(*this);
     for(;it;it++) {
@@ -189,14 +275,16 @@ namespace RavlImageN {
       }
       strings.InsLast(string); 
     }
-    // the upper six bits contain information about neigbouring edge direction
-    // remove the information                                                
-    for(it.First();it;it++) {
-      // Remove the information about
-      // the edge direction.
-      *it &= 3;
-      if (GetState(*it) == EDGE_JUNCT)
-	PutState(*it,EDGE_PROC);
+    if(clearDir) {
+      // the upper six bits contain information about neigbouring edge direction
+      // remove the information                                                
+      for(it.First();it;it++) {
+        // Remove the information about
+        // the edge direction.
+        *it &= 3;
+        if (GetState(*it) == EDGE_JUNCT)
+          PutState(*it,EDGE_PROC);
+      }
     }
     
     return strings;

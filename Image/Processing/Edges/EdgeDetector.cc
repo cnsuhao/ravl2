@@ -23,6 +23,26 @@ namespace RavlImageN {
       eightConnect(false)
   { 
   }
+  
+  //: Apply the edge detector to 'img', generate an array of ordered edgels list.
+  
+  bool EdgeDetectorBodyC::Apply(const ImageC<RealT> &img,DListC<SArray1dC<EdgelC> > &edgeLists) {
+    ImageC<RealT> edgeDx;
+    ImageC<RealT> edgeDy;
+    ImageC<RealT> edgeMag;
+    EdgeLinkC edgeMap;
+    if(!Apply(img,edgeMap,edgeDx,edgeDy,edgeMag))
+      return false;    
+    
+    edgeLists =  edgeMap.LinkEdgels(edgeDx,
+                                    edgeDy,
+                                    edgeMag,
+                                    false
+                                    );
+    return true;
+  }
+    
+
 
   //: Apply the edge detector to 'img', generate an edge link image.
   

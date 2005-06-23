@@ -53,8 +53,21 @@ namespace RavlImageN {
     void LabelContour(const Index2dC &start);
     //: Label contours.
     
-    DListC<DListC<Index2dC> > LinkEdges();
+    DListC<DListC<Index2dC> > LinkEdges(bool clearDir = true);
     //: Generate a set of edge lists.
+    // If clearDir is true information about pixel neighbours is cleared from
+    // the image after processing is complete. set to false if your not using
+    // the edge image and want to save some time.
+    
+    DListC<SArray1dC<EdgelC> > LinkEdgels(const ImageC<RealT> & inDrIm, 
+                                          const ImageC<RealT> & inDcIm,  
+                                          const ImageC<RealT> & inGrad,
+                                          bool clearDir = true
+                                          );
+    //: Generate a set of linked edgels
+    // If clearDir is true information about pixel neighbours is cleared from
+    // the image after processing is complete. set to false if your not using
+    // the edge image and want to save some time.
     
     SArray1dC<Index2dC> ListEdges();
     //: List edge positions in the image
