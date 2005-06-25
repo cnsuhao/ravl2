@@ -46,6 +46,23 @@ ImageC<RealT> SquareComp(const ImageC<TFVectorC<RealT,2> > &dat) {
   return out;
 }
 
+class EdgeOverlayC {
+public:
+  EdgeOverlayC(EdgeDetectorC &nEdgeDet)
+    : edgeDet(nEdgeDet)
+  {}
+  //: Overlay.
+  
+  ImageC<RealT> OverlayEdges(const ImageC<RealT> &img) {
+    SArray1dC<EdgelC> edges = edgeDet.PApply(img);
+    ImageC<RealT> overlayImg(img);
+    for(SArray1dIterC<EdgelC> it(edges);it;it++)
+      overlayImg[it->At()] = 255;
+    return overlayImg;
+  }
+  
+  EdgeDetectorC edgeDet;
+};
 
 
 int main(int argc,char **argv) {
@@ -138,17 +155,35 @@ int main(int argc,char **argv) {
       return 0;
     }
     DPOPortC<SArray1dC<EdgelC > > out;
-    if(!OpenOSequence(out,outFile,outType,verb)) {
-      cerr << "Failed to open output '" << outFile << "' \n";
+    if(!outFile.IsEmpty()) {
+      if(!OpenOSequence(out,outFile,outType,verb)) {
+	cerr << "Failed to open output '" << outFile << "' \n";
+	return 1;
+      }
+    }
+    DPOPortC<ImageC<RealT> > outOverlay;
+    if(!overlay.IsEmpty()) {
+      if(!OpenOSequence(outOverlay,overlay,"",verb)) {
+	cerr << "Failed to open output '" << overlay << "' \n";
+	return 1;
+      }
+    }
+    // Do some processing.
+    if(!out.IsValid() && !outOverlay.IsValid()) {
+      cerr << "No output specified. ";
       return 1;
     }
-    
-    // Do some processing.
-    
     if(verb)
       cerr << "Processing... \n";
     //subSampleProc >> 
-    DPEventC done = in >>= DPMultiplex(threads,DPThread(RavlImageN::ByteImageCT2DoubleImageCT >> Process(edgeDet,&EdgeDetectorC::PApply))) >>= out;
+    DPEventC done;
+    if(!outOverlay.IsValid()) {
+      done = in >>= DPMultiplex(threads,DPThread(RavlImageN::ByteImageCT2DoubleImageCT >> Process(edgeDet,&EdgeDetectorC::PApply))) >>= out;
+    } else {
+      EdgeOverlayC edgeOverlay(edgeDet);
+      done = in >>= DPMultiplex(threads,DPThread(RavlImageN::ByteImageCT2DoubleImageCT >> Process(edgeOverlay,&EdgeOverlayC::OverlayEdges))) >>= outOverlay;
+    }
+    
     done.Wait();
   }
   
