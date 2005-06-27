@@ -59,7 +59,7 @@ namespace RavlN {
     if(isIPort) {
       // Deal with input port.
       NetISPortServerBaseC isport;      
-      if(!manager.Lookup(port,isport)) {
+      if(!manager.Lookup(port,datatype,isport)) {
 	cerr << "NetPortClientBodyC::MsgConnectTo(), Failed to find port. \n";
 	Send(NPMsg_ReqFailed,1); // End of stream.
 	// Send a failure message ?
@@ -84,7 +84,7 @@ namespace RavlN {
       // Deal with output port.
       
       NetOSPortServerBaseC osport;
-      if(!manager.Lookup(port,osport)) {
+      if(!manager.Lookup(port,datatype,osport)) {
 	cerr << "NetPortClientBodyC::MsgConnectTo(), Failed to find port. \n";
 	Send(NPMsg_ReqFailed,1); // End of stream.
 	// Send a failure message ?
@@ -121,15 +121,16 @@ namespace RavlN {
     Close();
     if(connectionName.IsEmpty())
       return true;
+    StringC empty;
     if(isIPort) {
       NetISPortServerBaseC isport;
-      if(!manager.Lookup(connectionName,isport))
+      if(!manager.Lookup(connectionName,empty,isport,false))
 	return true;
       if(isport.IsValid())
 	isport.Disconnect();
     } else {
       NetOSPortServerBaseC osport;
-      if(!manager.Lookup(connectionName,osport))
+      if(!manager.Lookup(connectionName,empty,osport,false))
 	return true;
       if(osport.IsValid())
 	osport.Disconnect();

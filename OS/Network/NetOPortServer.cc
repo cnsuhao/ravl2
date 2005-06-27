@@ -11,6 +11,7 @@
 
 #include "Ravl/OS/NetOPortServer.hh"
 #include "Ravl/OS/NetPortManager.hh"
+#include "Ravl/OS/NetMsgOPortData.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -30,6 +31,19 @@ namespace RavlN {
       at(0)
   { ONDEBUG(cerr << "NetOSPortServerBaseBodyC::NetOSPortServerBaseBodyC(), Called. Name=" << portName << " \n"); }
   
+  //: Constructor.
+  
+  NetOSPortServerBaseBodyC::NetOSPortServerBaseBodyC(const AttributeCtrlC &attrCtrl,
+                                                     const DPOPortBaseC &noportBase,
+                                                     const DPSeekCtrlC &nSeekCtrl,
+                                                     const StringC &nPortName) 
+    : NetAttributeCtrlServerBodyC(attrCtrl),
+      portName(nPortName),
+      oportBase(noportBase),
+      seekCtrl(nSeekCtrl),
+      at(0)    
+  {}
+  
   //: Destructor.
   
   NetOSPortServerBaseBodyC::~NetOSPortServerBaseBodyC() 
@@ -37,8 +51,14 @@ namespace RavlN {
   
   //: Get the port type.
   
-  StringC NetOSPortServerBaseBodyC::PortType() 
-  { return TypeName(typeid(void)); }
+  StringC NetOSPortServerBaseBodyC::PortType() { 
+    if(oportBase.IsValid())
+      return TypeName(oportBase.OutputType());
+    return TypeName(typeid(void)); 
+  }
+
+  //: Called on a new incoming connection.
+  // 'nep' is the NetEndPoint associated with the new connection.
   
   bool NetOSPortServerBaseBodyC::Connect(NetEndPointC &nep) {
     ONDEBUG(cerr << "NetOSPortServerBaseBodyC::Connect(), Called \n");
@@ -68,6 +88,8 @@ namespace RavlN {
   bool NetOSPortServerBaseBodyC::Init() {
     ONDEBUG(cerr << "NetOSPortServerBaseBodyC::Init(), Called. \n");
     ep.RegisterR(NPMsg_ReqInfo,"ReqInfo",*this,&NetOSPortServerBaseBodyC::ReqStats);
+    if(oportBase.IsValid()) 
+      ep.Register(NetMsgOPortDataC(NPMsg_Data,"Data",oportBase,seekCtrl));
     return true;
   }
   

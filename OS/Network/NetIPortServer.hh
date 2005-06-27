@@ -20,6 +20,7 @@
 #include "Ravl/TypeName.hh"
 #include "Ravl/DP/SPortAttach.hh"
 #include "Ravl/OS/NetAttributeCtrlServer.hh"
+#include "Ravl/DP/TypeInfo.hh"
 
 namespace RavlN {
   
@@ -31,7 +32,14 @@ namespace RavlN {
   {
   public:
     NetISPortServerBaseBodyC(const AttributeCtrlC &attrCtrl,const DPSeekCtrlC &seekCtrl,const StringC &portName);
-    //: Default constructor.
+    //: Constructor.
+    
+    NetISPortServerBaseBodyC(const AttributeCtrlC &attrCtrl,  // Attributes
+                             const DPIPortBaseC &nIPortBase,  // Port for IO.
+                             const DPSeekCtrlC &seekCtrl,     // Seek control
+                             const StringC &portName          // Name of port.
+                             );
+    //: Constructor.
     
     ~NetISPortServerBaseBodyC();
     //: Destructor.
@@ -40,12 +48,19 @@ namespace RavlN {
     { return portName; }
     //: Access port name.
     
+    void SetName(const StringC &newName)
+    { portName = newName; }
+    //: Set a new port name.
+    
     virtual StringC PortType();
     //: Get the port type.
     
     bool Connect(NetEndPointC &ep);
     //: Connect to an end point.
     // Returns false if port is already in use..
+    
+    virtual bool ReqData(Int64T &pos);
+    //: Request information on the stream.. 
     
     bool Disconnect();
     //: Disconnect end point.
@@ -64,6 +79,9 @@ namespace RavlN {
     StringC portName;
     DPSeekCtrlC seekCtrl;
     UIntT at;
+    
+    DPTypeInfoC typeInfo;
+    DPIPortBaseC iportBase;
   };
   
   //! userlevel=Develop
@@ -91,10 +109,7 @@ namespace RavlN {
     bool ReqData(Int64T &pos);
     //: Request information on the stream.. 
     
-  protected:
-    bool Init();
-    //: Initalise link.
-    
+  protected:    
     DPISPortC<DataT> iport;
   };
   
@@ -110,6 +125,15 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
 
+    NetISPortServerBaseC(const AttributeCtrlC &attrCtrl,  // Attributes
+                         const DPIPortBaseC &nIPortBase,  // Port for IO.
+                         const DPSeekCtrlC &seekCtrl,     // Seek control
+                         const StringC &portName          // Name of port.
+                         )
+      : NetAttributeCtrlServerC(*new NetISPortServerBaseBodyC(attrCtrl,nIPortBase,seekCtrl,portName))
+    {}
+    //: Construct a non templated server.
+    
   protected:
     NetISPortServerBaseC(NetISPortServerBaseBodyC &bod)
       : NetAttributeCtrlServerC(bod)
@@ -128,6 +152,10 @@ namespace RavlN {
     const StringC &Name() const
     { return Body().Name(); }
     //: Access port name.
+
+    void SetName(const StringC &newName)
+    { Body().SetName(newName); }
+    //: Set a new port name.
     
     bool Connect(NetEndPointC &ep)
     { return Body().Connect(ep); }
@@ -211,12 +239,6 @@ namespace RavlN {
   //: Export an SPort with a given portName.
   
   ///////////////////////////////////////////////////
-  
-  template<class DataT>  
-  bool NetISPortServerBodyC<DataT>::Init() {
-    ep.RegisterR(NPMsg_ReqData,"ReqData",*this,&NetISPortServerBodyC<DataT>::ReqData);
-    return NetISPortServerBaseBodyC::Init();
-  }
   
   template<class DataT>
   bool NetISPortServerBodyC<DataT>::ReqData(Int64T &pos) {

@@ -30,7 +30,8 @@ namespace RavlN {
     : name(nname),
       managerOpen(false),
       ready(0),
-      terminate(false)
+      terminate(false),
+      conIdAlloc(0)
   {}
   
   //: Open manager at address.
@@ -82,23 +83,88 @@ namespace RavlN {
       // Register client somewhere ?
     }
     //cerr << "NetPortManagerBodyC::Run(), Done. \n";
+    ready.Post();
     return true;
   }
   
-  //: Search for port in table.
+  //: Wait until the server has exited.
   
-  bool NetPortManagerBodyC::Lookup(const StringC &name,NetISPortServerBaseC &isport) {
-    ONDEBUG(cerr << "NetPortManagerBodyC::Lookup(),  Called. Port='" << name << "' \n");
-    NetISPortServerBaseC ret; 
-    RWLockHoldC hold(access,RWLOCK_READONLY);
-    return iports.Lookup(name,isport);
+  bool NetPortManagerBodyC::WaitForTerminate() {
+    if(!managerOpen) {
+      cerr << "NetPortManagerBodyC::WaitForTerminate, Called before Open(). \n";
+      return false;
+    }
+    while(!terminate) {
+      if(!managerOpen) {
+        Sleep(1);
+        continue;
+      }
+      ready.Wait(10);
+    } 
+    return true;
   }
 
-  bool NetPortManagerBodyC::Lookup(const StringC &name,NetOSPortServerBaseC &osport) {
+  //: Search for port in table.
+  
+  bool NetPortManagerBodyC::Lookup(const StringC &name,const StringC &dataType,NetISPortServerBaseC &isport,bool attemptCreate) {
     ONDEBUG(cerr << "NetPortManagerBodyC::Lookup(),  Called. Port='" << name << "' \n");
     NetISPortServerBaseC ret; 
     RWLockHoldC hold(access,RWLOCK_READONLY);
-    return oports.Lookup(name,osport);
+    if(iports.Lookup(name,isport))
+      return true;
+    if(!attemptCreate || !requestIPort.IsValid())
+      return false;
+    CallFunc3C<StringC,StringC,NetISPortServerBaseC &,bool> rp = requestIPort; // Make a copy of handle to ensure its thread safe.
+    hold.Unlock();
+    // Request new connection.
+    if(!rp.Call(const_cast<StringC &>(name),const_cast<StringC &>(dataType),isport))
+      return false;
+    // Register connection in table.
+    hold.LockWr();
+    
+    // Create a new name, checking it doesn't already exist.
+    StringC conName;
+    do {
+      UInt64T newId = conIdAlloc++;
+      conName = StringC("#") + StringC(newId) + ':' + name + ':' + dataType ;
+    } while(iports.IsElm(conName)) ;
+    
+    // Register port.
+    isport.SetName(conName);
+    iports[conName] = isport;    
+    return true;
+  }
+  
+  bool NetPortManagerBodyC::Lookup(const StringC &name,const StringC &dataType,NetOSPortServerBaseC &osport,bool attemptCreate) {
+    ONDEBUG(cerr << "NetPortManagerBodyC::Lookup(),  Called. Port='" << name << "' \n");
+    NetISPortServerBaseC ret; 
+    RWLockHoldC hold(access,RWLOCK_READONLY);
+    if(oports.Lookup(name,osport))
+      return true;
+    // Do we have a request handler ?
+    if(!attemptCreate || !requestOPort.IsValid())
+      return false;
+    // Request new connection.
+    CallFunc3C<StringC,StringC,NetOSPortServerBaseC &,bool> rp = requestOPort; // Make a copy of handle to ensure its thread safe.
+    hold.Unlock();
+    // Register connection in table.
+    if(!rp.Call(const_cast<StringC &>(name),const_cast<StringC &>(dataType),osport))
+      return false;
+    
+    // Register connection in table.
+    hold.LockWr();
+    
+    // Create a new name, checking it doesn't already exist.
+    StringC conName;
+    do {
+      UInt64T newId = conIdAlloc++;
+      conName = StringC("#") + StringC(newId) + ':' + name + ':' + dataType ;
+    } while(oports.IsElm(conName)) ;
+    
+    // Register port.
+    osport.SetName(conName);
+    oports[conName] = osport;    
+    return true;
   }
   
   //: Register new port.
@@ -139,6 +205,24 @@ namespace RavlN {
   
   bool NetPortManagerBodyC::RegisterConnection(NetOSPortServerBaseC &osport) {
     return true;
+  }
+  
+  //: Register IPort request manager.
+  // Return false if this replaces another request manager.
+  
+  bool NetPortManagerBodyC::RegisterIPortRequestManager(const CallFunc3C<StringC,StringC,NetISPortServerBaseC &,bool> &nRequestIPort) {
+    bool ret = !requestIPort.IsValid();
+    requestIPort = nRequestIPort;
+    return ret;
+  }
+  
+  //: Register OPort request manager.
+  // Return false if this replaces another request manager.
+  
+  bool NetPortManagerBodyC::RegisterOPortRequestManager(const CallFunc3C<StringC,StringC,NetOSPortServerBaseC &,bool> &nRequestOPort) {
+    bool ret = !requestOPort.IsValid();
+    requestOPort = nRequestOPort;
+    return ret;    
   }
   
   

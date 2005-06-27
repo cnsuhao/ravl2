@@ -31,7 +31,10 @@ namespace RavlN {
   {
   public:
     NetOSPortServerBaseBodyC(const AttributeCtrlC &attrCtrl,const DPSeekCtrlC &seekCtrl,const StringC &portName);
-    //: Default constructor.
+    //: Constructor.
+    
+    NetOSPortServerBaseBodyC(const AttributeCtrlC &attrCtrl,const DPOPortBaseC &oportBase,const DPSeekCtrlC &seekCtrl,const StringC &portName);
+    //: Constructor.
     
     ~NetOSPortServerBaseBodyC();
     //: Destructor.
@@ -39,6 +42,10 @@ namespace RavlN {
     const StringC &Name() const
     { return portName; }
     //: Access port name.
+    
+    void SetName(const StringC &newName)
+    { portName = newName; }
+    //: Set a new port name.
     
     virtual StringC PortType();
     //: Get the port type.
@@ -62,6 +69,7 @@ namespace RavlN {
     //: Request information on the stream.. 
     
     StringC portName;
+    DPOPortBaseC oportBase;
     DPSeekCtrlC seekCtrl;
     UIntT at;
   };
@@ -109,7 +117,12 @@ namespace RavlN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
-
+    
+    NetOSPortServerBaseC(const AttributeCtrlC &attrCtrl,const DPOPortBaseC &oportBase,const DPSeekCtrlC &seekCtrl,const StringC &portName)
+      : NetAttributeCtrlServerC(*new NetOSPortServerBaseBodyC(attrCtrl,oportBase,seekCtrl,portName))
+    {}
+    //: Constructor.
+    
   protected:
     NetOSPortServerBaseC(NetOSPortServerBaseBodyC &bod)
       : NetAttributeCtrlServerC(bod)
@@ -128,6 +141,10 @@ namespace RavlN {
     const StringC &Name() const
     { return Body().Name(); }
     //: Access port name.
+    
+    void SetName(const StringC &newName)
+    { Body().SetName(newName); }
+    //: Set a new port name.
     
     bool Connect(NetEndPointC &ep)
     { return Body().Connect(ep); }

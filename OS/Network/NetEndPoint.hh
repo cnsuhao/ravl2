@@ -358,6 +358,10 @@ namespace RavlN {
     { return peerInfo; }
     // Info for remote application.
     
+    bool UseBigEndianBinStream() const
+    { return useBigEndianBinStream; }
+    //: True if using big endian stream in packet composition 
+    
   protected:
     
     bool RunTransmit();
@@ -661,6 +665,10 @@ namespace RavlN {
     NetClientInfoC &PeerInfo()
     { return Body().PeerInfo(); }
     // Info for remote application.
+
+    bool UseBigEndianBinStream() const
+    { return Body().UseBigEndianBinStream(); }
+    //: True if using big endian stream in packet composition 
     
     friend class NetEndPointBodyC;
   };

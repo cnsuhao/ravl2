@@ -29,6 +29,23 @@ namespace RavlN {
       seekCtrl(nSeekCtrl),
       at(0)
   { ONDEBUG(cerr << "NetISPortServerBaseBodyC::NetISPortServerBaseBodyC(), Called. Name=" << portName << " \n"); }
+
+  //: Constructor.
+  
+  NetISPortServerBaseBodyC::NetISPortServerBaseBodyC(const AttributeCtrlC &attrCtrl,  // Attributes
+                                                     const DPIPortBaseC &nIPortBase,  // Port for IO.
+                                                     const DPSeekCtrlC &nSeekCtrl,     // Seek control
+                                                     const StringC &nPortName          // Name of port.
+                                                     )
+    : NetAttributeCtrlServerBodyC(attrCtrl),
+      portName(nPortName),
+      seekCtrl(nSeekCtrl),
+      at(0),
+      typeInfo(TypeInfo(nIPortBase.InputType())),
+      iportBase(nIPortBase)
+  {
+    RavlAssert(typeInfo.IsValid());
+  }
   
   //: Destructor.
   
@@ -37,8 +54,14 @@ namespace RavlN {
   
   //: Get the port type.
   
-  StringC NetISPortServerBaseBodyC::PortType() 
-  { return TypeName(typeid(void)); }
+  StringC NetISPortServerBaseBodyC::PortType() { 
+    if(typeInfo.IsValid())
+      return TypeName(typeInfo.TypeInfo());
+    return TypeName(typeid(void)); 
+  }
+  
+  //: Called on a new incoming connection.
+  // 'nep' is the NetEndPoint associated with the new connection.
   
   bool NetISPortServerBaseBodyC::Connect(NetEndPointC &nep) {
     ONDEBUG(cerr << "NetISPortServerBaseBodyC::Connect(), Called \n");
@@ -64,6 +87,39 @@ namespace RavlN {
   bool NetISPortServerBaseBodyC::Init() {
     ONDEBUG(cerr << "NetISPortServerBaseBodyC::Init(), Called. \n");
     ep.RegisterR(NPMsg_ReqInfo,"ReqState",*this,&NetISPortServerBaseBodyC::ReqStats);
+    ep.RegisterR(NPMsg_ReqData,"ReqData",*this,&NetISPortServerBaseBodyC::ReqData);
+    return true;
+  }
+
+  //: Request information on the stream.. 
+  
+  bool NetISPortServerBaseBodyC::ReqData(Int64T &pos) {
+    if(!iportBase.IsValid() || !typeInfo.IsValid()) {
+      ep.Send(NPMsg_ReqFailed,1); // Report end of stream.
+      return true;
+    }
+    //cerr << "NetISPortServerBodyC<DataT>::ReqData(), Pos=" << pos << " at=" << at << " Tell=" << iport.Tell() <<"\n";
+    if(seekCtrl.IsValid()) {
+      if(at != pos && pos != (UIntT)(-1)) {
+        seekCtrl.Seek(pos);
+        at = pos;
+      }
+    }
+    
+    // Compose a message to send.
+    BufOStreamC os;
+    BinOStreamC bos(os);
+    bos.UseBigEndian(ep.UseBigEndianBinStream());
+    bos << NPMsg_Data << (at+1);
+    if(typeInfo.GetAndWrite(iportBase,bos)) {
+      at++;
+      ep.Transmit(NetPacketC(os.Data()));
+    } else { // Failed to get data.
+      if(iportBase.IsGetEOS())
+	ep.Send(NPMsg_ReqFailed,1); // End of stream.
+      else
+	ep.Send(NPMsg_ReqFailed,2); // Just get failed.
+    }
     return true;
   }
   

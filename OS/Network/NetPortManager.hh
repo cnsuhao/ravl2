@@ -21,6 +21,7 @@
 #include "Ravl/OS/NetIPortServer.hh"
 #include "Ravl/OS/NetOPortServer.hh"
 #include "Ravl/Threads/RWLock.hh"
+#include "Ravl/Calls.hh"
 
 namespace RavlN {
   
@@ -36,11 +37,19 @@ namespace RavlN {
     NetPortManagerBodyC(const StringC &name);
     //: Constructor.
     
-    bool Lookup(const StringC &name,NetISPortServerBaseC &isp);
+    bool Lookup(const StringC &name,const StringC &dataType,NetISPortServerBaseC &isp,bool attemptCreate = true);
     //: Search for port in table.
+    //!param: name - Name of connection
+    //!param: dataType - Type of data requested.
+    //!param: isp - Place to store new connection.
+    //!param: attemptCreate - When true, use requestIPort call to attempt to create connection if its not already registered.
     
-    bool Lookup(const StringC &name,NetOSPortServerBaseC &osp);
+    bool Lookup(const StringC &name,const StringC &dataType,NetOSPortServerBaseC &osp,bool attemptCreate = true);
     //: Search for port in table.
+    //!param: name - Name of connection
+    //!param: dataType - Type of data requested.
+    //!param: osp - Place to store new connection.
+    //!param: attemptCreate - When true, use requestIPort call to attempt to create connection if its not already registered.
     
     bool Register(const StringC &name,NetISPortServerBaseC &ips);
     //: Register new port.
@@ -57,11 +66,23 @@ namespace RavlN {
     bool Close();
     //: Close down manager.
     
+    bool WaitForTerminate();
+    //: Wait until the server has exited.
+    // NB. Can only be called after 'Open' has returned.
+    
     virtual bool RegisterConnection(NetISPortServerBaseC &isport);
     //: Called when a connection is established.
     
     virtual bool RegisterConnection(NetOSPortServerBaseC &isport);
     //: Called when a connection is established.
+    
+    bool RegisterIPortRequestManager(const CallFunc3C<StringC,StringC,NetISPortServerBaseC &,bool> &requestIPort);
+    //: Register IPort request manager.
+    // Return false if this replaces another request manager.
+    
+    bool RegisterOPortRequestManager(const CallFunc3C<StringC,StringC,NetOSPortServerBaseC &,bool> &requestOPort);
+    //: Register OPort request manager.
+    // Return false if this replaces another request manager.
     
   protected:
     bool Run();
@@ -69,14 +90,17 @@ namespace RavlN {
     
     StringC name;
     
-    // Table of iports.
-    HashC<StringC,NetISPortServerBaseC> iports;
-    HashC<StringC,NetOSPortServerBaseC> oports;
+    CallFunc3C<StringC,StringC,NetISPortServerBaseC &,bool> requestIPort; // Args: PortName,DataType,Place to open port to
+    CallFunc3C<StringC,StringC,NetOSPortServerBaseC &,bool> requestOPort; // Args: PortName,DataType,Place to open port to
+    
+    HashC<StringC,NetISPortServerBaseC> iports; // List of IPorts waiting for incomming connections.
+    HashC<StringC,NetOSPortServerBaseC> oports; // List of OPorts waiting for incomming connections.
     RWLockC access;
     bool managerOpen;
-    SocketC sktserv;
-    SemaphoreC ready;
-    volatile bool terminate;
+    SocketC sktserv;         // Server socket.
+    SemaphoreC ready;        // Semaphore used to indicate the server setup is complete.
+    volatile bool terminate; // Shutdown flag.
+    UInt64T conIdAlloc;       // Connection id allocator.
     friend class NetPortManagerC;
   };
 
@@ -84,7 +108,9 @@ namespace RavlN {
   //: Port server.
   // Server side exported port manager. <br>
   // This class manages the ports to exported on a server.  The server listens for
-  // connections on network socket, and setups 
+  // connections on network socket, and does setup.
+  // It should be noted registered connection's are 1 to 1, it isn't possible for
+  // two clients to use a connection simultaneously.
   
   class NetPortManagerC 
     : public RCHandleC<NetPortManagerBodyC>
@@ -119,12 +145,12 @@ namespace RavlN {
     //: Run manager thread.
   public:
     
-    bool Lookup(const StringC &name,NetISPortServerBaseC &isp)
-    { return Body().Lookup(name,isp); }
+    bool Lookup(const StringC &name,const StringC &dataType,NetISPortServerBaseC &isp,bool attemptCreate = true)
+    { return Body().Lookup(name,dataType,isp,attemptCreate); }
     //: Search for port in table.
     
-    bool Lookup(const StringC &name,NetOSPortServerBaseC &osp)
-    { return Body().Lookup(name,osp); }
+    bool Lookup(const StringC &name,const StringC &dataType,NetOSPortServerBaseC &osp,bool attemptCreate = true)
+    { return Body().Lookup(name,dataType,osp,attemptCreate); }
     //: Search for port in table.
     
     bool Register(const StringC &name,NetISPortServerBaseC &ips)
@@ -147,6 +173,11 @@ namespace RavlN {
     { return Body().Close(); }
     //: Close down manager.
     
+    bool WaitForTerminate()
+    { return Body().WaitForTerminate(); }
+    //: Wait until the server has exited.
+    // NB. Can only be called after 'Open' has returned.
+    
     bool RegisterConnection(NetISPortServerBaseC &isport)
     { return Body().RegisterConnection(isport); }
     //: Called when a connection is established.
@@ -154,6 +185,16 @@ namespace RavlN {
     bool RegisterConnection(NetOSPortServerBaseC &osport)
     { return Body().RegisterConnection(osport); }
     //: Called when a connection is established.
+    
+    bool RegisterIPortRequestManager(const CallFunc3C<StringC,StringC,NetISPortServerBaseC &,bool> &requestIPort)
+    { return Body().RegisterIPortRequestManager(requestIPort); }
+    //: Register IPort request manager.
+    // Return false if this replaces another request manager.
+    
+    bool RegisterOPortRequestManager(const CallFunc3C<StringC,StringC,NetOSPortServerBaseC &,bool> &requestOPort)
+    { return Body().RegisterOPortRequestManager(requestOPort); }
+    //: Register OPort request manager.
+    // Return false if this replaces another request manager.
     
     friend class NetPortManagerBodyC;
   };
