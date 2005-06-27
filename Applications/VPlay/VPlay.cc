@@ -201,6 +201,8 @@ int doVPlay(int nargs,char *args[])
   //bool deInterlace = option.Boolean("di",false,"De-interlace. (Subsample by 2) ");
   DListC<StringC> attribs = option.List("a","List of attributes to set. ");
   StringC formatIn = option.String("if","","Input format. ");
+  bool noSeek = option.Boolean("ns",false,"Suppress seeking. ");
+  
   StringC infile = option.String("","","Input filename");  
   if(infile.IsEmpty())
     infile = option.String("","in.pgm","Input filename");
@@ -255,7 +257,7 @@ int doVPlay(int nargs,char *args[])
   {
     ImageC<ByteRGBValueC> tmp(vidIn.Get());
     ONDEBUG(cerr << "VPlay: Got inital frame. \n");
-    vidIn.DSeek(-1);
+    if(!noSeek) vidIn.DSeek(-1);
     rect = tmp.Rectangle();
   }
   
