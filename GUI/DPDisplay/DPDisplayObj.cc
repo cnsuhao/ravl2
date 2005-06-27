@@ -57,4 +57,17 @@ namespace RavlGUIN {
     return false;
   }
 
+  BinOStreamC &operator<<(BinOStreamC &strm,const DPDisplayObjC &obj) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  
+  //: Read from binary stream.
+  // NOT IMPLEMENTED.
+  
+  BinIStreamC &operator<<(BinIStreamC &strm,DPDisplayObjC &obj) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+
 }

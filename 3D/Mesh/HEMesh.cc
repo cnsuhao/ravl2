@@ -151,5 +151,20 @@ namespace Ravl3DN {
     return ret;
   }
 
+  //: Write to binary stream.
+  // NOT IMPLEMENTED.
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const HEMeshC &obj) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  
+  //: Read from binary stream.
+  // NOT IMPLEMENTED.
+  
+  BinIStreamC &operator<<(BinIStreamC &strm,HEMeshC &obj) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
   
 }

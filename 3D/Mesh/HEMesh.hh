@@ -169,6 +169,14 @@ namespace Ravl3DN {
 
   };
 
+  BinOStreamC &operator<<(BinOStreamC &strm,const HEMeshC &obj);
+  //: Write to binary stream.
+  // NOT IMPLEMENTED.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,HEMeshC &obj);
+  //: Read from binary stream.
+  // NOT IMPLEMENTED.
+  
 }
 
 #endif
