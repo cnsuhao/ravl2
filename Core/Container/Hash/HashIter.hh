@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLHASHITERT_HEADER
-#define RAVLHASHITERT_HEADER 1
+#ifndef RAVL_HASHITERT_HEADER
+#define RAVL_HASHITERT_HEADER 1
 ///////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Container/Hash/HashIter.hh"
 //! lib=RavlCore
@@ -17,7 +17,6 @@
 //! rcsid="$Id$"
 
 #include "Ravl/Hash.hh"
-
 
 namespace RavlN {
   
@@ -81,27 +80,27 @@ namespace RavlN {
     //: Goto next element.
     
     bool IsElm() const 
-      { return lIt.IsElm(); }
+    { return lIt.IsElm(); }
     // Pointing to valid element ?
     
     operator bool() const
-      { return lIt.IsElm(); }
+    { return lIt.IsElm(); }
     //: At a valid element ?
     
     const K &Key(void) const 
-      { return lIt.Data().GetKey(); }
+    { return lIt.Data().GetKey(); }
     // Key for current item. IsElm() Must be true.
     
     const T &Data(void) const 
-      { return lIt.Data().Data(); }
+    { return lIt.Data().Data(); }
     //: Data for current item.IsElm() Must be true.
     
     T &Data(void) 
-      { return const_cast<T &>(lIt.Data().Data()); }
+    { return const_cast<T &>(lIt.Data().Data()); }
     //: Data for current item.IsElm() Must be true.
     
     T &operator*() 
-      { return const_cast<T &>(lIt.Data().Data()); }
+    { return const_cast<T &>(lIt.Data().Data()); }
     //: Access data.
     
     const T &operator*() const
