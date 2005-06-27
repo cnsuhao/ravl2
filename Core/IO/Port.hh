@@ -594,11 +594,17 @@ namespace RavlN {
     //: Access body.
     
   public:
-    inline void PutEOS() { Body().PutEOS(); }
+    inline void PutEOS() 
+    { Body().PutEOS(); }
     //: Put End Of Stream marker.
     
-    inline const type_info &OutputType() const { return Body().OutputType(); }
+    inline const type_info &OutputType() const 
+    { return Body().OutputType(); }
     //: Get type of output port.
+    
+    inline bool IsPutReady() const 
+    { return Body().IsPutReady(); }
+    // Is port ready for data ?  
   };
   
   //////////////////////////////

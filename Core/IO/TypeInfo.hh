@@ -16,9 +16,8 @@
 //! userlevel=Normal
 
 #include "Ravl/DP/Entity.hh"
-//#include "Ravl/DP/FileFormatIO.hh"
 #include "Ravl/DP/Pipes.hh"
-
+#include "Ravl/DP/Func2Stream.hh"
 #include "Ravl/RCWrap.hh"
 #include "Ravl/String.hh"
 #include "Ravl/Hash.hh"
@@ -72,6 +71,18 @@ namespace RavlN {
     virtual DPOPipeBaseC CreateOPipe(const DPEntityC &hold = DPEntityC(true)) const;
     //: Create an output pipe for this type.
     
+    virtual bool GetAndWrite(DPIPortBaseC &port,BinOStreamC &strm) const;
+    //: Get an item from the port and write it to the BinOStreamC.
+    
+    virtual bool ReadAndPut(BinIStreamC &strm,DPOPortBaseC &port) const;
+    //: Read an item from the binary stream and write it to a port.
+    
+    virtual DPIPortC<RCWrapAbstractC> CreateConvToAbstract(DPIPortBaseC &port);
+    //: Convert from an IPort to an stream of abstract handles.
+    
+    virtual DPIPortBaseC CreateConvFromAbstract(DPIPortC<RCWrapAbstractC> &port);
+    //: Convert from a stream of abstract handles to an IPort  
+    
     static HashC<const char *,DPTypeInfoC> &Types();
     //: Access type list.
     
@@ -83,18 +94,18 @@ namespace RavlN {
 
   
   ///////////////////////////////
-  //! userlevel=Normal
-  //: Type information handle.
-  // This base class holds meta information about C++ types. <p>
-  // Including methods which will do operation with abstract
-  // handles such as loading and saving from a file. See RCWrapC
-  // for information about how the abstract handles work.
+                          //! userlevel=Normal
+                          //: Type information handle.
+                          // This base class holds meta information about C++ types. <p>
+                          // Including methods which will do operation with abstract
+                          // handles such as loading and saving from a file. See RCWrapC
+                          // for information about how the abstract handles work.
 
   class DPTypeInfoC : public DPEntityC {
   public:
     DPTypeInfoC()
       : DPEntityC(true)
-      {}
+    {}
     //: Default constructor.
   
     DPTypeInfoC(const type_info &);
@@ -103,65 +114,73 @@ namespace RavlN {
     
     DPTypeInfoC(DPTypeInfoBodyC &bod)
       : DPEntityC(bod)
-      {}
+    {}
     //: Body constructor.
     
     inline DPTypeInfoBodyC &Body() 
-      { return static_cast<DPTypeInfoBodyC & > (DPEntityC::Body()); }
+    { return static_cast<DPTypeInfoBodyC & > (DPEntityC::Body()); }
     //: Access body.
     
     inline const DPTypeInfoBodyC &Body() const
-      { return static_cast<const DPTypeInfoBodyC & > (DPEntityC::Body()); }
+    { return static_cast<const DPTypeInfoBodyC & > (DPEntityC::Body()); }
     //: Access body.
     
     inline StringC Name() const 
-      { return Body().Name(); }
+    { return Body().Name(); }
     //: Get name of type.
     
     inline const type_info & TypeInfo() const 
-      { return Body().TypeInfo(); }
+    { return Body().TypeInfo(); }
     //: Access type information.
     
     inline RCWrapAbstractC Create() const
-      { return Body().Create(); }
+    { return Body().Create(); }
     //: Create instance of the type with the default constructor.
     
     inline RCWrapAbstractC Create(istream &in) const
-      { return Body().Create(in); }
+    { return Body().Create(in); }
     //: Create instance of the type with the default constructor.
     
     inline bool Put(DPOPortBaseC &port,const RCWrapAbstractC &obj) RAVL_THROW(ExceptionErrorCastC)
-      { return Body().Put(port,obj); }
+    { return Body().Put(port,obj); }
     //: Put generic object to port.
     // Will throw ExceptionErrorCastC if types aren't correct, or in debug mode
     // an assert may fail.
     
     inline RCWrapAbstractC Get(DPIPortBaseC &port) RAVL_THROW(ExceptionErrorCastC)
-      { return Body().Get(port); }
+    { return Body().Get(port); }
     //: Get generic object from port.
     // Will throw ExceptionErrorCastC if types aren't correct, or in debug mode
     // an assert may fail.
     
     inline DPIPipeBaseC CreateIPipe(const DPEntityC &hold = DPEntityC(true)) const
-      { return Body().CreateIPipe(hold); }
+    { return Body().CreateIPipe(hold); }
     //: Create an input pipe for this type.
     
     inline DPOPipeBaseC CreateOPipe(const DPEntityC &hold = DPEntityC(true)) const
-      { return Body().CreateOPipe(hold); }
+    { return Body().CreateOPipe(hold); }
     //: Create an output pipe for this type.
+
+    inline bool GetAndWrite(DPIPortBaseC &port,BinOStreamC &strm) const
+    { return Body().GetAndWrite(port,strm); }
+    //: Get an item from the port and write it to the BinOStreamC.
+    
+    inline bool ReadAndPut(BinIStreamC &strm,DPOPortBaseC &port) const
+    { return Body().ReadAndPut(strm,port); }
+    //: Read an item from the binary stream and write it to a port.
     
     inline UIntT Hash() const 
-      { return Body().Hash(); }
+    { return Body().Hash(); }
     //: Calculate hash value.  
   };
   
   ///////////////////////////////
-  //! userlevel=Develop
-  //: Type information instance body.
-  // This class holds meta information about C++ types. <p>
-  // Including methods which will do operation with abstract
-  // handles such as loading and saving from a file. See RCWrapC
-  // for information about how the abstract handles work.
+                      //! userlevel=Develop
+                      //: Type information instance body.
+                      // This class holds meta information about C++ types. <p>
+                      // Including methods which will do operation with abstract
+                      // handles such as loading and saving from a file. See RCWrapC
+                      // for information about how the abstract handles work.
   
   template<class DataT>
   class DPTypeInfoInstBodyC : public DPTypeInfoBodyC {
@@ -170,7 +189,7 @@ namespace RavlN {
     //: Default constructor.
     
     virtual RCWrapAbstractC Create() const 
-      { return RCWrapC<DataT>(); }
+    { return RCWrapC<DataT>(); }
     //: Create instance of the type with the default constructor.
     
     virtual RCWrapAbstractC Create(istream &strm) const
@@ -199,15 +218,15 @@ namespace RavlN {
       if(!oport.IsValid()) {
 	RavlAssert(0);
 	throw ExceptionErrorCastC("DPTypeInfoInstBodyC::Put(), 1",
-			 typeid(port.OutputType()),
-			 typeid(DataT));
+                                  typeid(port.OutputType()),
+                                  typeid(DataT));
       }
       RCWrapC<DataT> wo(obj,false);
       if(!wo.IsValid()) {
 	RavlAssert(0);
 	throw ExceptionErrorCastC("DPTypeInfoInstBodyC::Put(), 2",
-			 obj.DataType(),
-			 typeid(DataT));
+                                  obj.DataType(),
+                                  typeid(DataT));
       }
       return oport.Put((DataT &) wo);
     }
@@ -225,8 +244,8 @@ namespace RavlN {
       if(!iport.IsValid()) {
 	RavlAssert(0);
 	throw ExceptionErrorCastC("DPTypeInfoInstBodyC::Get(), ",
-			 typeid(port.InputType()),
-			 typeid(DataT));
+                                  typeid(port.InputType()),
+                                  typeid(DataT));
       }
       return RCWrapC<DataT>(iport.Get());
     }
@@ -235,38 +254,93 @@ namespace RavlN {
     // an assert may fail.
     
     virtual DPIPipeBaseC CreateIPipe(const DPEntityC &hold = DPEntityC(true)) const
-      { return DPIPipeC<DataT>(hold); }
+    { return DPIPipeC<DataT>(hold); }
     //: Create an input pipe
     
     virtual DPOPipeBaseC CreateOPipe(const DPEntityC &hold = DPEntityC(true)) const
-      { return DPOPipeC<DataT>(hold); }
+    { return DPOPipeC<DataT>(hold); }
     //: Create an output pipe
+
+    virtual bool GetAndWrite(DPIPortBaseC &port,BinOStreamC &strm) const {
+      DPIPortC<DataT> iport(port);
+      if(!iport.IsValid()) {
+	RavlAssert(0);
+	throw ExceptionErrorCastC("DPTypeInfoInstBodyC::GetAndWrite(), ",
+                                  typeid(port.InputType()),
+                                  typeid(DataT));
+      }
+      // Check stream is valid before doing anything.
+      if(!strm.Stream()) return false;
+      DataT tmp;
+      if(!iport.Get(tmp))
+        return false;
+      strm << tmp;
+      return true;
+    }
+    //: Get an item from the port and write it to the BinOStreamC.
+    
+    virtual bool ReadAndPut(BinIStreamC &strm,DPOPortBaseC &port) const {
+      DPOPortC<DataT> oport(port);
+      if(!oport.IsValid()) {
+	RavlAssert(0);
+	throw ExceptionErrorCastC("DPTypeInfoInstBodyC::ReadAndPut(), ",
+                                  typeid(port.OutputType()),
+                                  typeid(DataT));
+      }
+      // Check stream is valid before doing anything.
+      if(!strm.Stream()) return false;
+      // Copy data.
+      DataT tmp;
+      strm >> tmp;
+      return oport.Put(tmp);
+    }
+    //: Read an item from the binary stream and write it to a port.
+
+  protected:
+    static RCWrapAbstractC Data2Abstract(const DataT &data)
+    { return RCWrapC<DataT>(data); }
+    //: Function to convert data to abstract handle.
+    
+    static DataT Abstract2Data(const RCWrapAbstractC &adata)
+    { return RCWrapC<DataT>(adata,true).Data(); }
+    //: Function to convert abstract handle to data.
+    
+  public:
+    //: Convert from an IPort to an stream of abstract handles.
+    
+    virtual DPIPortC<RCWrapAbstractC> CreateConvToAbstract(DPIPortBaseC &port) 
+    { return DPIPortC<DataT>(port) >> (&Data2Abstract); }
+    
+    //: Convert from a stream of abstract handles to an IPort  
+    
+    virtual DPIPortBaseC CreateConvFromAbstract(DPIPortC<RCWrapAbstractC> &port)
+    { return port >> (&Abstract2Data); }
     
   };
   
 
   ///////////////////////////////
-  //! userlevel=Normal
-  //: Type information instance body.
-  // This class holds meta information about C++ types. <p>
-  // Including methods which will do operation with abstract
-  // handles such as loading and saving from a file. See RCWrapC
-  // for information about how the abstract handles work.
+                              //! userlevel=Normal
+                              //: Type information instance body.
+                              // This class holds meta information about C++ types. <p>
+                              // Including methods which will do operation with abstract
+                              // handles such as loading and saving from a file. See RCWrapC
+                              // for information about how the abstract handles work.
   
   template<class DataT>
   class DPTypeInfoInstC : public DPTypeInfoC {
   protected:
     DPTypeInfoInstC(DPTypeInfoInstBodyC<DataT> &bod)
       : DPTypeInfoC(bod)
-      {}
+    {}
     //: Body constructor.
     
   public:
     DPTypeInfoInstC()
-      {
-	if(!DPTypeInfoBodyC::Types().IsElm(typeid(DataT).name()))
-	  (*this) = DPTypeInfoInstC(*new DPTypeInfoInstBodyC<DataT>());
-      }
+    {
+      if(!DPTypeInfoBodyC::Types().IsElm(typeid(DataT).name()))
+        (*this) = DPTypeInfoInstC(*new DPTypeInfoInstBodyC<DataT>());
+    }
     //: Default constructor.
   };
   

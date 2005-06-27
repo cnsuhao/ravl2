@@ -28,14 +28,14 @@ namespace RavlN {
   //: Create instance of the type with the default constructor.
   
   RCWrapAbstractC DPTypeInfoBodyC::Create() const  {
-    RavlAssert(0); // Should never be called.
+    RavlAssertMsg(0,"abstract method"); // Abstract function called.
     return RCWrapAbstractC();
   }
   
   //: Create instance of the type from stream constructor.
   
   RCWrapAbstractC DPTypeInfoBodyC::Create(istream &) const {
-    RavlAssert(0); // Should never be called.
+    RavlAssertMsg(0,"abstract method"); // Abstract function called.
     return RCWrapAbstractC();
   }
   
@@ -43,7 +43,7 @@ namespace RavlN {
   //: Attempt to load object from a file.
   
   RCWrapAbstractC DPTypeInfoBodyC::Load(const StringC &,const StringC &fmtName,bool) const {
-    RavlAssert(0); // Should never be called.
+    RavlAssertMsg(0,"abstract method"); // Abstract function called.
     return RCWrapAbstractC();
   }
   
@@ -53,7 +53,7 @@ namespace RavlN {
   
   bool 
   DPTypeInfoBodyC::Put(DPOPortBaseC &,const RCWrapAbstractC &) RAVL_THROW(ExceptionErrorCastC) {
-    RavlAssert(0); // Abstract function called.
+    RavlAssertMsg(0,"abstract method"); // Abstract function called.
     return false;
   }
   
@@ -63,23 +63,52 @@ namespace RavlN {
   
   RCWrapAbstractC 
   DPTypeInfoBodyC::Get(DPIPortBaseC &) RAVL_THROW(ExceptionErrorCastC) {
-    RavlAssert(0); // Abstract function called.
+    RavlAssertMsg(0,"abstract method"); // Abstract function called.
     return RCWrapAbstractC();
   }
   
   //: Create an input pipe
   
   DPIPipeBaseC DPTypeInfoBodyC::CreateIPipe(const DPEntityC &) const {
-    RavlAssert(0); // Abstract function called.
+    RavlAssertMsg(0,"abstract method"); // Abstract function called.
     return DPIPipeBaseC();
   }
   
   //: Create an output pipe
   
   DPOPipeBaseC DPTypeInfoBodyC::CreateOPipe(const DPEntityC &) const {
-    RavlAssert(0); // Abstract function called.
+    RavlAssertMsg(0,"abstract method"); // Abstract function called.
     return DPOPipeBaseC();
   }
+
+  //: Get an item from the port and write it to the BinOStreamC.
+  
+  bool DPTypeInfoBodyC::GetAndWrite(DPIPortBaseC &port,BinOStreamC &strm) const {
+    RavlAssertMsg(0,"abstract method"); // Abstract function called.
+    return false;    
+  }
+    
+  //: Read an item from the binary stream and write it to a port.
+  
+  bool DPTypeInfoBodyC::ReadAndPut(BinIStreamC &strm,DPOPortBaseC &port) const {
+    RavlAssertMsg(0,"abstract method"); // Abstract function called.
+    return false;
+  }
+
+  //: Convert from an IPort to an stream of abstract handles.
+  
+  DPIPortC<RCWrapAbstractC> DPTypeInfoBodyC::CreateConvToAbstract(DPIPortBaseC &port) {
+    RavlAssertMsg(0,"abstract method");
+    return DPIPortC<RCWrapAbstractC>();    
+  }
+    
+  //: Convert from a stream of abstract handles to an IPort  
+  
+  DPIPortBaseC DPTypeInfoBodyC::CreateConvFromAbstract(DPIPortC<RCWrapAbstractC> &port) {
+    RavlAssertMsg(0,"abstract method");
+    return DPIPortBaseC();
+  }
+  
   
   /////////////////////////////
   //: Access type list.
