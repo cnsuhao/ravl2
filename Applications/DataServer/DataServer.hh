@@ -10,6 +10,8 @@
 
 #include "Ravl/OS/NetPortManager.hh"
 #include "Ravl/Threads/Mutex.hh"
+#include "Ravl/HashTree.hh"
+#include "Ravl/DataServer/DataServerVFSNode.hh"
 
 namespace RavlN {
 
@@ -28,6 +30,10 @@ namespace RavlN {
     bool Open(const StringC &addr);
     //: Open server connection.
     
+    bool ReadConfigFile(const StringC &filename);
+    //: Read a new config file.
+    // Build Virtual File System appropriatly.
+    
   protected:
     bool HandleRequestIPort(StringC name,StringC dataType,NetISPortServerBaseC &port);
     //: Handle a request for an input port.
@@ -35,12 +41,18 @@ namespace RavlN {
     bool HandleRequestOPort(StringC name,StringC dataType,NetOSPortServerBaseC &port);
     //: Handle a request for an output port.
     
+    bool FindVFSNode(const StringC &vfilename,HashTreeNodeC<StringC,DataServerVFSNodeC> &vfsn,DListC<StringC> &remainingPath);
+    //: Find a virtual file system node.
+    // This breaks the filename into strings seperated by '/', it follows the path as far as possible
+    // throught the virtual filesystem. If any strings remain in the path they are stored in 'remainingPath'.
+    //!param:vfilename - Full virtual filename.
+    //!param:vfsn - Virtual file system node.
+    //!param:remainingPath - Remainder of path after last node has been found.
+    // Returns true if node found successfully, false if the path corresponds to no known entry in the filesystem.
     
-    MutexC access;
+    MutexC access;    
+    HashTreeC<StringC,DataServerVFSNodeC> vfs; // Virtual file system.
     
-    HashC<Tuple2C<StringC,StringC>,DPIPortBaseC> iStreamCache; // Input stream cache.
-    HashC<Tuple2C<StringC,StringC>,DPOPortBaseC> oStreamCache; // Output stream cache.
-
     bool verbose;
     friend class DataServerC;
   };
@@ -64,6 +76,10 @@ namespace RavlN {
     //: Open server connection. 
     //!cwiz:author
     
+    bool ReadConfigFile(const StringC &filename)
+    { return Body().ReadConfigFile(filename); }
+    //: Read a new config file.
+    // Build Virtual File System appropriatly.
     
   protected:
     DataServerC(DataServerBodyC &bod)

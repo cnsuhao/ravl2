@@ -14,14 +14,14 @@ using namespace RavlN;
 int main(int nargs,char **vargs) {
   OptionC opts(nargs,vargs);
   StringC serverName = opts.String("n","DataServer","Name of data server. ");
-  StringC serverAddr = opts.String("a","localhost:4554","Address to connect to ");
+  StringC serverConf = opts.String("c","dsd.conf","Server configuration file. ");
   opts.Check();
 
   cerr << "Starting server. \n";
   DataServerC dataServer(serverName);
   
-  if(!dataServer.Open(serverAddr)) {
-    cerr << "Failed to start server. \n";
+  if(!dataServer.ReadConfigFile(serverConf)) {
+    cerr << "Failed to configure server from file '" << serverConf << "'. ";
     return 1;
   }
   

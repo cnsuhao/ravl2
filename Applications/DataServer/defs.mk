@@ -10,9 +10,9 @@ ORGANISATION=OmniPerception Ltd
 
 PACKAGE=Ravl/DataServer
 
-HEADERS=DataServer.hh
+HEADERS=DataServer.hh DataServerVFSNode.hh DataServerVFSRealFile.hh
 
-SOURCES=DataServer.cc
+SOURCES=DataServer.cc DataServerVFSNode.cc DataServerVFSRealFile.cc
 
 MAINS= dsd.cc
 
