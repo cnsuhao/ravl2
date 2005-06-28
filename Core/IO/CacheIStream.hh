@@ -38,6 +38,17 @@ namespace RavlN {
       this->MapBackChangedSignal("size");
     }
     //: Constructor.
+
+    CacheIStreamBodyC(const DPISPortC<DataT> &newPort,UIntT maxSize)
+      : at(0),
+	atIn(0),
+	cache(maxSize)
+    {
+      this->MapBackChangedSignal("start");
+      this->MapBackChangedSignal("size");
+      SetInput(newPort);
+    }
+    //: Constructor from port and size.
     
     const DPISPortC<DataT> &Input() const
     { return inPort; }
@@ -170,6 +181,12 @@ namespace RavlN {
     
     CacheIStreamC(UIntT cacheSize)
       : DPEntityC(*new CacheIStreamBodyC<DataT>(cacheSize))
+    {}
+    //: Constructor.
+    //!param: cacheSize - Size of cache to create
+
+    CacheIStreamC(const DPISPortC<DataT> &newPort,UIntT cacheSize)
+      : DPEntityC(*new CacheIStreamBodyC<DataT>(newPort,cacheSize))
     {}
     //: Constructor.
     //!param: cacheSize - Size of cache to create

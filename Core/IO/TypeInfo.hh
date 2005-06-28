@@ -82,6 +82,12 @@ namespace RavlN {
     
     virtual DPIPortBaseC CreateConvFromAbstract(DPIPortC<RCWrapAbstractC> &port);
     //: Convert from a stream of abstract handles to an IPort  
+
+    virtual DPOPortC<RCWrapAbstractC> CreateConvToAbstract(DPOPortBaseC &port);
+    //: Convert from an IPort to an stream of abstract handles.
+    
+    virtual DPOPortBaseC CreateConvFromAbstract(DPOPortC<RCWrapAbstractC> &port);
+    //: Convert from a stream of abstract handles to an IPort  
     
     static HashC<const char *,DPTypeInfoC> &Types();
     //: Access type list.
@@ -93,13 +99,13 @@ namespace RavlN {
   };
 
   
-  ///////////////////////////////
-                          //! userlevel=Normal
-                          //: Type information handle.
-                          // This base class holds meta information about C++ types. <p>
-                          // Including methods which will do operation with abstract
-                          // handles such as loading and saving from a file. See RCWrapC
-                          // for information about how the abstract handles work.
+  //////////////////////////////
+  //! userlevel=Normal
+  //: Type information handle.
+  // This base class holds meta information about C++ types. <p>
+  // Including methods which will do operation with abstract
+  // handles such as loading and saving from a file. See RCWrapC
+  // for information about how the abstract handles work.
 
   class DPTypeInfoC : public DPEntityC {
   public:
@@ -168,19 +174,35 @@ namespace RavlN {
     inline bool ReadAndPut(BinIStreamC &strm,DPOPortBaseC &port) const
     { return Body().ReadAndPut(strm,port); }
     //: Read an item from the binary stream and write it to a port.
+
+    inline DPIPortC<RCWrapAbstractC> CreateConvToAbstract(DPIPortBaseC &port)
+    { return Body().CreateConvToAbstract(port); }
+    //: Convert from an IPort to an stream of abstract handles.
+    
+    inline DPIPortBaseC CreateConvFromAbstract(DPIPortC<RCWrapAbstractC> &port)
+    { return Body().CreateConvFromAbstract(port); }
+    //: Convert from a stream of abstract handles to an IPort  
+
+    inline DPOPortC<RCWrapAbstractC> CreateConvToAbstract(DPOPortBaseC &port)
+    { return Body().CreateConvToAbstract(port); }
+    //: Convert from an IPort to an stream of abstract handles.
+    
+    inline DPOPortBaseC CreateConvFromAbstract(DPOPortC<RCWrapAbstractC> &port)
+    { return Body().CreateConvFromAbstract(port); }
+    //: Convert from a stream of abstract handles to an IPort  
     
     inline UIntT Hash() const 
     { return Body().Hash(); }
     //: Calculate hash value.  
   };
   
-  ///////////////////////////////
-                      //! userlevel=Develop
-                      //: Type information instance body.
-                      // This class holds meta information about C++ types. <p>
-                      // Including methods which will do operation with abstract
-                      // handles such as loading and saving from a file. See RCWrapC
-                      // for information about how the abstract handles work.
+  //////////////////////////////
+  //! userlevel=Develop
+  //: Type information instance body.
+  // This class holds meta information about C++ types. <p>
+  // Including methods which will do operation with abstract
+  // handles such as loading and saving from a file. See RCWrapC
+  // for information about how the abstract handles work.
   
   template<class DataT>
   class DPTypeInfoInstBodyC : public DPTypeInfoBodyC {
@@ -315,17 +337,25 @@ namespace RavlN {
     
     virtual DPIPortBaseC CreateConvFromAbstract(DPIPortC<RCWrapAbstractC> &port)
     { return port >> (&Abstract2Data); }
+
+    virtual DPOPortC<RCWrapAbstractC> CreateConvToAbstract(DPOPortBaseC &port)
+    { return (&Abstract2Data) >> DPOPortC<DataT>(port); }
+    //: Convert from an IPort to an stream of abstract handles.
+    
+    virtual DPOPortBaseC CreateConvFromAbstract(DPOPortC<RCWrapAbstractC> &port)
+    { return (&Data2Abstract) >> port;  }
+    //: Convert from a stream of abstract handles to an IPort  
     
   };
   
 
-  ///////////////////////////////
-                              //! userlevel=Normal
-                              //: Type information instance body.
-                              // This class holds meta information about C++ types. <p>
-                              // Including methods which will do operation with abstract
-                              // handles such as loading and saving from a file. See RCWrapC
-                              // for information about how the abstract handles work.
+  //////////////////////////////
+  //! userlevel=Normal
+  //: Type information instance body.
+  // This class holds meta information about C++ types. <p>
+  // Including methods which will do operation with abstract
+  // handles such as loading and saving from a file. See RCWrapC
+  // for information about how the abstract handles work.
   
   template<class DataT>
   class DPTypeInfoInstC : public DPTypeInfoC {

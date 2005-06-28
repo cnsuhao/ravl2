@@ -108,6 +108,20 @@ namespace RavlN {
     RavlAssertMsg(0,"abstract method");
     return DPIPortBaseC();
   }
+
+  //: Convert from an IPort to an stream of abstract handles.
+  
+  DPOPortC<RCWrapAbstractC> DPTypeInfoBodyC::CreateConvToAbstract(DPOPortBaseC &port) {
+    RavlAssertMsg(0,"abstract method");
+    return DPOPortC<RCWrapAbstractC>();    
+  }
+    
+  //: Convert from a stream of abstract handles to an IPort  
+  
+  DPOPortBaseC DPTypeInfoBodyC::CreateConvFromAbstract(DPOPortC<RCWrapAbstractC> &port) {
+    RavlAssertMsg(0,"abstract method");
+    return DPOPortBaseC();
+  }
   
   
   /////////////////////////////

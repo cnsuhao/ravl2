@@ -228,21 +228,24 @@ namespace RavlN {
     typedef OutT (*FuncT)(ParamT);
     typedef OutT (*CPFuncT)(const ParamT &);
     
-    DPFuncOStreamC() {}
+    DPFuncOStreamC() 
+      : DPEntityC(true)
+    {}
     //: Default Constructor.
+    // Creates an invalid handle.
     
     DPFuncOStreamC(const DPOPortC<OutT> &nin,FuncT func)
-      : DPOStreamOpC<InT,OutT>(*new DPFuncOStreamBodyC<InT,OutT,ParamT>(nin,func))
+      : DPEntityC(*new DPFuncOStreamBodyC<InT,OutT,ParamT>(nin,func))
     {}
     //: Constructor.
     
     DPFuncOStreamC(const DPOPortC<OutT> &nin,CPFuncT func)
-      : DPOStreamOpC<InT,OutT>(*new DPCPFuncOStreamBodyC<InT,OutT,ParamT>(nin,func))
+      : DPEntityC(*new DPCPFuncOStreamBodyC<InT,OutT,ParamT>(nin,func))
     {}
     //: Constructor.
     
     DPFuncOStreamC(const DPFuncOStreamC<InT,OutT,ParamT> &oth) 
-      : DPOStreamOpC<InT,OutT>(oth)
+      : DPEntityC(oth)
     {}
     //: Copy Constructor.
     
