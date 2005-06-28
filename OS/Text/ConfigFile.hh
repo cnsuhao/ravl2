@@ -86,8 +86,9 @@ namespace RavlN {
     StringC Value(const StringC &tag) { return tab[tag]; }
     //: Get value of tag.
     
-    StringC Value(const StringC &tag) const { return tab[tag]; }
+    StringC Value(const StringC &tag) const { StringC ret; tab.Lookup(tag,ret); return ret; }
     //: Get value of tag.
+    // Will return an empty string if value is not set.
     
     UIntT Order(const StringC &tag);
     //: Get the order no for tagged object.
@@ -97,7 +98,7 @@ namespace RavlN {
     StringC &operator[](const StringC &tag) { return tab[tag]; }
     //: Get value of tag.
     
-    const StringC &operator[](const StringC &tag) const { return tab[tag]; }
+    StringC operator[](const StringC &tag) const { StringC ret; tab.Lookup(tag,ret); return ret; }
     //: Get value of tag.
     
     bool IsDefined(const StringC &tag) { return !tab[tag].IsEmpty(); }
@@ -260,10 +261,12 @@ namespace RavlN {
     StringC Value(const StringC &tag)
     { return Body().Value(tag); }
     //: Get value of tag.
+    // Will return an empty string if value is not set.
 
     StringC Value(const StringC &tag) const
     { return Body().Value(tag); }
     //: Get value of tag.
+    // Will return an empty string if value is not set.
 
     UIntT Order(const StringC &tag)
     { return Body().Order(tag); }
@@ -272,10 +275,12 @@ namespace RavlN {
     StringC &operator[](const StringC &tag) 
     { return Body().operator[](tag); }
     //:  Get value of tag.
-
-    const StringC &operator[](const StringC &tag) const
+    // Will return an empty string if value is not set.
+    
+    StringC operator[](const StringC &tag) const
     { return Body().operator[](tag); }
     //:  Get value of tag.
+    // Will return an empty string if value is not set.
     
     bool IsDefined(StringC tag)
     { return Body().IsDefined(tag); }
