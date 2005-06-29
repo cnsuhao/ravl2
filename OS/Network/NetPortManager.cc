@@ -26,12 +26,13 @@ namespace RavlN {
   
   //: Constructor.
   
-  NetPortManagerBodyC::NetPortManagerBodyC(const StringC &nname)
+  NetPortManagerBodyC::NetPortManagerBodyC(const StringC &nname,bool nUnregisterOnDisconnect)
     : name(nname),
       managerOpen(false),
       ready(0),
       terminate(false),
-      conIdAlloc(0)
+      conIdAlloc(0),
+      unregisterOnDisconnect(nUnregisterOnDisconnect)
   {}
   
   //: Open manager at address.
@@ -189,21 +190,27 @@ namespace RavlN {
   
   //: Unregister port.
   
-  bool NetPortManagerBodyC::Unregister(const StringC &name) {
+  bool NetPortManagerBodyC::Unregister(const StringC &name,bool isInput) {
     ONDEBUG(cerr << "NetPortManagerBodyC::Unregister(), Called. Name='" << name << "'\n");
     RWLockHoldC hold(access,RWLOCK_WRITE);
-    return iports.Del(name);
+    if(isInput)
+      return iports.Del(name);
+    return oports.Del(name);
   }
   
   //: Called when a connection is established.
   
   bool NetPortManagerBodyC::RegisterConnection(NetISPortServerBaseC &isport) {
+    if(unregisterOnDisconnect)
+      isport.NetEndPoint().ConnectionBroken() = Trigger(NetPortManagerC(*this),&NetPortManagerC::ConnectionDroppedI,isport);
     return true;
   }
-
+  
   //: Called when a connection is established.
   
   bool NetPortManagerBodyC::RegisterConnection(NetOSPortServerBaseC &osport) {
+    if(unregisterOnDisconnect)
+      osport.NetEndPoint().ConnectionBroken() = Trigger(NetPortManagerC(*this),&NetPortManagerC::ConnectionDroppedO,osport);
     return true;
   }
   
@@ -223,6 +230,30 @@ namespace RavlN {
     bool ret = !requestOPort.IsValid();
     requestOPort = nRequestOPort;
     return ret;    
+  }
+  
+  //: Called when connection to port is dropped.
+  
+  bool NetPortManagerBodyC::ConnectionDroppedI(NetISPortServerBaseC &sp) {
+    ONDEBUG(cerr << "NetPortManagerBodyC::ConnectionDroppedI, Called \n");
+    // Hold handle to object to stop it being deleted before we're finished.
+    NetISPortServerBaseC sph = sp;
+    
+    // Remove from register.
+    Unregister(sph.Name(),true);
+    return true;
+  }
+  
+  //: Called when connection to port is dropped.
+  
+  bool NetPortManagerBodyC::ConnectionDroppedO(NetOSPortServerBaseC &sp) {
+    ONDEBUG(cerr << "NetPortManagerBodyC::ConnectionDroppedO, Called \n");
+    // Hold handle to object to stop it being deleted before we're finished.
+    NetOSPortServerBaseC sph = sp;
+    
+    // Remove from register.
+    Unregister(sph.Name(),false);    
+    return true;
   }
   
   

@@ -34,7 +34,7 @@ namespace RavlN {
     : public RCBodyVC
   {
   public:
-    NetPortManagerBodyC(const StringC &name);
+    NetPortManagerBodyC(const StringC &name,bool nUnregisterOnDisconnect = false);
     //: Constructor.
     
     bool Lookup(const StringC &name,const StringC &dataType,NetISPortServerBaseC &isp,bool attemptCreate = true);
@@ -57,7 +57,7 @@ namespace RavlN {
     bool Register(const StringC &name,NetOSPortServerBaseC &ops);
     //: Register new port.
     
-    bool Unregister(const StringC &name);
+    bool Unregister(const StringC &name,bool isInput);
     //: Unregister port.
     
     bool Open(const StringC &addr);
@@ -88,6 +88,12 @@ namespace RavlN {
     bool Run();
     //: Run port manager.
     
+    bool ConnectionDroppedI(NetISPortServerBaseC &sp);
+    //: Called when connection to port is dropped.
+    
+    bool ConnectionDroppedO(NetOSPortServerBaseC &sp);
+    //: Called when connection to port is dropped.
+    
     StringC name;
     
     CallFunc3C<StringC,StringC,NetISPortServerBaseC &,bool> requestIPort; // Args: PortName,DataType,Place to open port to
@@ -101,6 +107,8 @@ namespace RavlN {
     SemaphoreC ready;        // Semaphore used to indicate the server setup is complete.
     volatile bool terminate; // Shutdown flag.
     UInt64T conIdAlloc;       // Connection id allocator.
+    bool unregisterOnDisconnect; // Unregister served ports on client disconnect.
+    
     friend class NetPortManagerC;
   };
 
@@ -116,8 +124,8 @@ namespace RavlN {
     : public RCHandleC<NetPortManagerBodyC>
   {
   public:
-    NetPortManagerC(const StringC &name)
-      : RCHandleC<NetPortManagerBodyC>(*new NetPortManagerBodyC(name))
+    NetPortManagerC(const StringC &name,bool nUnregisterOnDisconnect = false)
+      : RCHandleC<NetPortManagerBodyC>(*new NetPortManagerBodyC(name,nUnregisterOnDisconnect))
     {}
     //: Constructor.
     
@@ -143,6 +151,15 @@ namespace RavlN {
     bool Run()
     { return Body().Run(); }
     //: Run manager thread.
+    
+    bool ConnectionDroppedI(NetISPortServerBaseC &sp)
+    { return Body().ConnectionDroppedI(sp); }
+    //: Called when connection to port is dropped.
+    
+    bool ConnectionDroppedO(NetOSPortServerBaseC &sp)
+    { return Body().ConnectionDroppedO(sp); }
+    //: Called when connection to port is dropped.
+    
   public:
     
     bool Lookup(const StringC &name,const StringC &dataType,NetISPortServerBaseC &isp,bool attemptCreate = true)
@@ -161,8 +178,8 @@ namespace RavlN {
     { return Body().Register(name,ops); }
     //: Register port.
     
-    bool Unregister(const StringC &name)
-    { return Body().Unregister(name); }
+    bool Unregister(const StringC &name,bool isInput)
+    { return Body().Unregister(name,isInput); }
     //: Unregister port.
     
     bool Open(const StringC &addr)

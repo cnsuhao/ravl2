@@ -21,6 +21,7 @@
 #include "Ravl/DP/SPortAttach.hh"
 #include "Ravl/OS/NetAttributeCtrlServer.hh"
 #include "Ravl/DP/TypeInfo.hh"
+#include "Ravl/Threads/Signal.hh"
 
 namespace RavlN {
   
@@ -69,6 +70,10 @@ namespace RavlN {
     { return ep; }
     //: Access net end point.
     
+    Signal0C &SigConnectionClosed()
+    { return sigConnectionClosed; }
+    //: Access connection closed signal.
+
   protected:
     virtual bool Init();
     //: Initalise stream.
@@ -82,6 +87,7 @@ namespace RavlN {
     
     DPTypeInfoC typeInfo;
     DPIPortBaseC iportBase;
+    Signal0C sigConnectionClosed;
   };
   
   //! userlevel=Develop
@@ -173,6 +179,10 @@ namespace RavlN {
     NetEndPointC &NetEndPoint()
     { return Body().NetEndPoint(); }
     //: Access net end point.
+    
+    Signal0C &SigConnectionClosed()
+    { return Body().SigConnectionClosed(); }
+    //: Access connection closed signal.
 
   };
   

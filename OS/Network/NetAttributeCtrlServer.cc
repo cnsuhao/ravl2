@@ -42,17 +42,25 @@ namespace RavlN {
     ONDEBUG(cerr<< "NetAttributeCtrlServerBodyC::NetAttributeCtrlServerBodyC(const AttributeCtrlC &), Called. \n");
     attrCtrls[0] = attrCtrl; 
   }
-
+  
   //: Destructor.
   
-  NetAttributeCtrlServerBodyC::~NetAttributeCtrlServerBodyC() {
+  NetAttributeCtrlServerBodyC::~NetAttributeCtrlServerBodyC() 
+  { 
+    Close(); 
     if(ep.IsValid())
       ep.Close();
+  }
+  
+  //: Close down and release handles to any attribute controls.
+  
+  bool NetAttributeCtrlServerBodyC::Close() {
     // Unregister all changed signals.
     for(HashIterC<Tuple2C<IntT,StringC>,UIntT> it(sigIds);it;it++)
       attrCtrls[it.Key().Data1()].RemoveChangedSignal(it.Data());
+    return true;
   }
-  
+
   //: Setup connection to end point.
   
   bool NetAttributeCtrlServerBodyC::Connect(NetEndPointC &nep) {

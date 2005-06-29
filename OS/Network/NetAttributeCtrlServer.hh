@@ -40,6 +40,9 @@ namespace RavlN {
     virtual bool Disconnect();
     //: Disconnect from end point.
     
+    bool Close();
+    //: Close down and release handles to any attribute controls.
+    
   protected:
     void RegisterHandlers();
     //: Register message handlers.

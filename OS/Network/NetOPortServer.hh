@@ -20,6 +20,7 @@
 #include "Ravl/TypeName.hh"
 #include "Ravl/DP/SPortAttach.hh"
 #include "Ravl/OS/NetAttributeCtrlServer.hh"
+#include "Ravl/Threads/Signal.hh"
 
 namespace RavlN {
   
@@ -55,12 +56,16 @@ namespace RavlN {
     // Returns false if port is already in use..
     
     bool Disconnect();
-    //: Disonnect to an end point.
+    //: Disconnect from an end point.
     
     NetEndPointC &NetEndPoint()
     { return ep; }
     //: Access net end point.
-
+    
+    Signal0C &SigConnectionClosed()
+    { return sigConnectionClosed; }
+    //: Access connection closed signal.
+    
   protected:
     virtual bool Init();
     //: Initalise stream.
@@ -72,6 +77,7 @@ namespace RavlN {
     DPOPortBaseC oportBase;
     DPSeekCtrlC seekCtrl;
     UIntT at;
+    Signal0C sigConnectionClosed;
   };
   
   //! userlevel=Develop
@@ -153,7 +159,7 @@ namespace RavlN {
     
     bool Disconnect()
     { return Body().Disconnect(); }
-    //: Disonnect to an end point.
+    //: Disconnect from an end point.
     
     StringC PortType()
     { return Body().PortType(); }
@@ -162,6 +168,10 @@ namespace RavlN {
     NetEndPointC &NetEndPoint()
     { return Body().NetEndPoint(); }
     //: Access net end point.
+    
+    Signal0C &SigConnectionClosed()
+    { return Body().SigConnectionClosed(); }
+    //: Access connection closed signal.
     
   };
   

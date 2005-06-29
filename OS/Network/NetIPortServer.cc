@@ -27,7 +27,8 @@ namespace RavlN {
     : NetAttributeCtrlServerBodyC(attrCtrl),
       portName(nPortName),
       seekCtrl(nSeekCtrl),
-      at(0)
+      at(0),
+      sigConnectionClosed(true)
   { ONDEBUG(cerr << "NetISPortServerBaseBodyC::NetISPortServerBaseBodyC(), Called. Name=" << portName << " \n"); }
 
   //: Constructor.
@@ -42,15 +43,21 @@ namespace RavlN {
       seekCtrl(nSeekCtrl),
       at(0),
       typeInfo(TypeInfo(nIPortBase.InputType())),
-      iportBase(nIPortBase)
+      iportBase(nIPortBase),
+      sigConnectionClosed(true)
   {
     RavlAssert(typeInfo.IsValid());
   }
   
   //: Destructor.
   
-  NetISPortServerBaseBodyC::~NetISPortServerBaseBodyC() 
-  { ONDEBUG(cerr << "NetISPortServerBaseBodyC::~NetISPortServerBaseBodyC(), Called. Name=" << portName << " \n");  }
+  NetISPortServerBaseBodyC::~NetISPortServerBaseBodyC() {
+    iportBase.Invalidate(); // Let handle to port go.
+    seekCtrl.Invalidate();  // Let handle to seek ctrl go.
+    NetAttributeCtrlServerBodyC::Close();
+    sigConnectionClosed();
+    ONDEBUG(cerr << "NetISPortServerBaseBodyC::~NetISPortServerBaseBodyC(), Called. Name=" << portName << " \n");  
+  }
   
   //: Get the port type.
   
