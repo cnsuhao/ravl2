@@ -41,12 +41,14 @@ namespace RavlN {
   //: Open input port.
   
   bool DataServerVFSNodeBodyC::OpenIPort(DListC<StringC> &remainingPath,const StringC &dataType,NetISPortServerBaseC &port) {
+    cerr << "DataServerVFSNodeBodyC::OpenIPort, Not supported on '" << name << "' \n";
     return false;
   }
     
   //: Open output port.
   
   bool DataServerVFSNodeBodyC::OpenOPort(DListC<StringC> &remainingPath,const StringC &dataType,NetOSPortServerBaseC &port) {
+    cerr << "DataServerVFSNodeBodyC::OpenIPort, Not supported on '" << name << "' \n";
     return false;
   }
 

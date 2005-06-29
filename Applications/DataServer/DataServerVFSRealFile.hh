@@ -16,6 +16,8 @@
 
 namespace RavlN {
   
+  class DataServerVFSRealFileC;
+  
   //! userlevel=Develop
   //: Handle file's or directories in a real filesystem.
   
@@ -55,24 +57,41 @@ namespace RavlN {
     //: Open output port.
     
   protected:
-    bool OpenFileRead();
+    bool OpenFileRead(const StringC &typePref);
     //: Open file and setup cache for reading.
     
-    bool OpenFileWrite();
+    bool OpenFileWrite(const StringC &typePref);
     //: Open file and setup cache for writing.
     
-    bool CloseFile();
-    //: Close file and discard cache.
+    bool CloseIFile();
+    //: Close input file and discard cache.
+    
+    bool CloseOFile();
+    //: Close output file 
+    
+    bool ZeroIPortClients();
+    //: Called if when input file stop's being used.
+    
+    bool DisconnectOPortClient();
+    //: Called if when output file client disconnect it.
+    
+    MutexC access; // Access control for object.
     
     StringC defaultDataType;
-
-    DPTypeInfoC iTypeInfo; // Type infor for input stream.
-    DPISPortShareC<RCWrapAbstractC> ispShare; // Share for input port.
+    DPTypeInfoC iTypeInfo; // Type info for input stream.
     
+    DPISPortShareC<RCWrapAbstractC> ispShare; // Share for input port.
     UIntT cacheSize; // Size of cache to use.
     
+    DPTypeInfoC oTypeInfo; // Type info for input stream.
+    DPOPortC<RCWrapAbstractC> oport; // Output port.
+    
     FilenameC realFilename;
+    
     bool canSeek;
+    bool multiWrite; // Can multiple clients write to the same file ?
+    
+    friend class DataServerVFSRealFileC;
   };
   
   //! userlevel=Normal
@@ -88,6 +107,11 @@ namespace RavlN {
     {}
     //: Constructor. 
     //!cwiz:author
+    
+    DataServerVFSRealFileC()
+    {}
+    //: Default constructor
+    // Creates an invalid handle.
     
     const FilenameC & RealFilename() const
     { return Body().RealFilename(); }
@@ -112,6 +136,11 @@ namespace RavlN {
     { return static_cast<const DataServerVFSRealFileBodyC &>(DataServerVFSNodeC::Body()); }
     //: Body Access. 
     
+    bool DisconnectOPortClient()
+    { return Body().DisconnectOPortClient(); }
+    //: Called if when output file client disconnect it.
+    
+    friend class DataServerVFSRealFileBodyC;
   };
 }
 

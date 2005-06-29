@@ -15,13 +15,21 @@
 #include "Ravl/Tuple2.hh"
 
 #include "Ravl/DataServer/DataServerVFSRealFile.hh"
+#include "Ravl/DataServer/DataServerVFSRealDir.hh"
+
+#define DODEBUG 1
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
 
 namespace RavlN {
 
   //: Constructor.
   
   DataServerBodyC::DataServerBodyC(const StringC &name)
-    : NetPortManagerBodyC(name),
+    : NetPortManagerBodyC(name,true),
       vfs(true),
       verbose(false)
   {
@@ -80,6 +88,8 @@ namespace RavlN {
           node = DataServerVFSNodeC(subSection.Name(),false,true);
         } else if(nodeType == "RealFile") {        // Real file ?
           node = DataServerVFSRealFileC(*it,subSection.Name());
+        } else if(nodeType == "RealDir") {
+          node = DataServerVFSRealDirC(*it,subSection.Name());
         } else { // Something strange.
           cerr << "DataServerBodyC::ReadConfigFile, WARNING: Unknown node type '" << nodeType << "' in file '" << filename << "'\n";
           continue;
@@ -115,7 +125,7 @@ namespace RavlN {
   // Returns true if node found successfully.
   
   bool DataServerBodyC::FindVFSNode(const StringC &vfilename,HashTreeNodeC<StringC,DataServerVFSNodeC> &vfsn,DListC<StringC> &remainingPath) {
-    StringListC path(vfilename);
+    StringListC path(vfilename,"/");
     HashTreeNodeC<StringC,DataServerVFSNodeC> at = vfs;
     DLIterC<StringC> it(path);
     for(;it && !at.IsLeaf();it++) {
@@ -134,10 +144,11 @@ namespace RavlN {
     vfsn = at;
     
     // Sort out any unused path items.
-    if(it.IsValid())
+    if(it)
       remainingPath = it.InclusiveTail();
     else
       remainingPath.Empty();
+    ONDEBUG(cerr << "DataServerBodyC::FindVFSNode, '" << vfilename << "' -> '" << vfsn.Data().Name() << "' PathSize=" << remainingPath.Size() << "\n");
     return true;
   }
   
@@ -145,68 +156,33 @@ namespace RavlN {
   //: Handle a request for an input port.
   
   bool DataServerBodyC::HandleRequestIPort(StringC name,StringC dataType,NetISPortServerBaseC &port) {
-    cerr << "DataServerBodyC::HandleRequestIPort, Name=" << name << " Type=" << dataType << "\n";
+    ONDEBUG(cerr << "DataServerBodyC::HandleRequestIPort, Name=" << name << " Type=" << dataType << "\n");
     
-#if 0
-    DPTypeInfoC typeInfo = TypeInfo(RTypeInfo(dataType));
-    if(!typeInfo.IsValid()) {
-      cerr << "DataServerBodyC::HandleRequestIPort, type '" << dataType << "' unknown. \n";
-      return false; 
-    }
-    DPIPortBaseC ip;
-    DPSeekCtrlC sc;
-    if(!OpenISequenceBase(ip,sc,name,"",typeInfo.TypeInfo(),verbose)) {
-      cerr << "DataServerBodyC::HandleRequestIPort, Failed to open stream '" << name << "' of type '" << dataType << "' \n";
-      return false;
-    }
-    RavlAssert(ip.IsValid());
-    port = NetISPortServerBaseC(AttributeCtrlC(ip),
-                                ip,
-                                sc,
-                                name);
-    return true;
-#else
     HashTreeNodeC<StringC,DataServerVFSNodeC> vfsn;
     DListC<StringC> remainingPath;
-    if(!FindVFSNode(name,vfsn,remainingPath)) 
+    if(!FindVFSNode(name,vfsn,remainingPath)) {
+      cerr << "DataServerBodyC::HandleRequestIPort, Failed to find VFSNode for '" << name << "'\n";
       return false;
+    }
     RavlAssert(vfsn.IsValid());
-    return vfsn.Data().OpenIPort(remainingPath,dataType,port);
-#endif
+    if(!vfsn.Data().OpenIPort(remainingPath,dataType,port)) {
+      cerr << "DataServerBodyC::HandleRequestIPort, Failed to open file '" << name << "'\n";
+      return false;
+    }
+    return true;
   }
   
   //: Handle a request for an output port.
   
   bool DataServerBodyC::HandleRequestOPort(StringC name,StringC dataType,NetOSPortServerBaseC &port) {
-    cerr << "DataServerBodyC::HandleRequestOPort, Name=" << name << " Type=" << dataType << "\n";
+    ONDEBUG(cerr << "DataServerBodyC::HandleRequestOPort, Name=" << name << " Type=" << dataType << "\n");
     
-#if 0
-    DPTypeInfoC typeInfo = TypeInfo(RTypeInfo(dataType));
-    if(!typeInfo.IsValid()) {
-      cerr << "DataServerBodyC::HandleRequestIPort, type '" << dataType << "' unknown. \n";
-      return false; 
-    }
-    DPOPortBaseC op;
-    DPSeekCtrlC sc;
-    if(!OpenOSequenceBase(op,sc,name,"",typeInfo.TypeInfo(),verbose)) {
-      cerr << "DataServerBodyC::HandleRequestIPort, Failed to open stream '" << name << "' of type '" << dataType << "' \n";
-      return false;
-    }
-    RavlAssert(op.IsValid());
-    
-    port = NetOSPortServerBaseC(AttributeCtrlC(op),
-                                op,
-                                sc,
-                                name);
-#else
     HashTreeNodeC<StringC,DataServerVFSNodeC> vfsn;
     DListC<StringC> remainingPath;
     if(!FindVFSNode(name,vfsn,remainingPath)) 
       return false;
     RavlAssert(vfsn.IsValid());
     return vfsn.Data().OpenOPort(remainingPath,dataType,port);
-#endif
-    return true;
   }
   
 }

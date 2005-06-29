@@ -10,12 +10,12 @@ ORGANISATION=OmniPerception Ltd
 
 PACKAGE=Ravl/DataServer
 
-HEADERS=DataServer.hh DataServerVFSNode.hh DataServerVFSRealFile.hh
+HEADERS=DataServer.hh DataServerVFSNode.hh DataServerVFSRealFile.hh DataServerVFSRealDir.hh
 
-SOURCES=DataServer.cc DataServerVFSNode.cc DataServerVFSRealFile.cc
+SOURCES=DataServer.cc DataServerVFSNode.cc DataServerVFSRealFile.cc DataServerVFSRealDir.cc
 
 MAINS= dsd.cc
 
 USESLIBS= RavlNet RavlOSIO 
 
-PROGLIBS= RavlImageIO RavlVideoIO RavlExtImgIO 
+PROGLIBS= RavlImageIO RavlVideoIO RavlExtImgIO RavlImage
