@@ -38,11 +38,24 @@ namespace RavlN {
     
     FileFormatDescC(FileFormatBaseC nform,DListC<DPConverterBaseC> nconv,const type_info &ntype,bool nisInput)
       : form(nform),
-      conv(nconv),
-      stype(&ntype),
-      isInput(nisInput)
-      {}
+        conv(nconv),
+        stype(&ntype),
+        isInput(nisInput)
+    {}
     //: Constructor.
+    //!param: nform - Target file format
+    //!param: ntype - Requested target type
+    //!param: nconv - Conversion sequence.
+    //!param: nisInput - Is this conversion for input ? if not its output.
+    
+    FileFormatDescC(DListC<DPConverterBaseC> nconv,bool nisInput)
+      : conv(nconv),
+        stype(&typeid(void)),
+        isInput(nisInput)
+    {}
+    //: Constructor.
+    //!param: nconv - Conversion sequence.
+    //!param: nisInput - Is this conversion for input ? if not its output.
     
     const FileFormatBaseC &Format() const { return form; }
     //: File format.
@@ -81,7 +94,7 @@ namespace RavlN {
   protected:
     FileFormatBaseC form;
     DListC<DPConverterBaseC> conv;
-    const type_info *stype;
+    const type_info *stype;  // Not used internally.
     bool isInput;
   };
   
