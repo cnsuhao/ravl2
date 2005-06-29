@@ -65,7 +65,7 @@ namespace RavlGUIN {
   //: Read from binary stream.
   // NOT IMPLEMENTED.
   
-  BinIStreamC &operator<<(BinIStreamC &strm,DPDisplayObjC &obj) {
+  BinIStreamC &operator>>(BinIStreamC &strm,DPDisplayObjC &obj) {
     RavlAssertMsg(0,"not implemented");
     return strm;
   }

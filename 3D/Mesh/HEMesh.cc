@@ -162,7 +162,7 @@ namespace Ravl3DN {
   //: Read from binary stream.
   // NOT IMPLEMENTED.
   
-  BinIStreamC &operator<<(BinIStreamC &strm,HEMeshC &obj) {
+  BinIStreamC &operator>>(BinIStreamC &strm,HEMeshC &obj) {
     RavlAssertMsg(0,"not implemented");
     return strm;
   }
