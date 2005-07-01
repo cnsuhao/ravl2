@@ -29,9 +29,8 @@ MUSTLINK = AAMActiveAppearanceModelMustLink.cc
 
 PLIB = RavlImageProc
 
-USESLIBS = RavlCore RavlImage RavlPatternRec RavlImageProc RavlMath RavlOS RavlOptimise 
+#USESLIBS = RavlCore RavlImage RavlPatternRec RavlImageProc RavlMath RavlOS RavlOptimise 
+#PROGLIBS = RavlIO RavlImageIO RavlMathIO RavlDPDisplay.opt RavlGUI RavlGUI2D
 
-PROGLIBS = RavlIO RavlImageIO RavlMathIO RavlDPDisplay.opt RavlGUI RavlGUI2D
-
-
-
+USESLIBS=  RavlCore RavlImage  RavlMath RavlOS RavlPatternRec RavlOptimise RavlImageProc 
+PROGLIBS=  RavlGUI RavlGUI2D RavlImageIO
