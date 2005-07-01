@@ -184,6 +184,62 @@ namespace RavlN {
     }
   }
   
+
+  //: Get the current time in Coordinated Universal Time  (UTC)
+  
+  DateC DateC::NowUTC() {
+#if !RAVL_COMPILER_VISUALCPP    
+    // Get time of day
+    struct timeval tv;
+    struct timezone tz;
+    gettimeofday(&tv,&tz);
+    DateC ret(tv.tv_sec,tv.tv_usec);
+    ret -= DateC((time_t) tz.tz_minuteswest * 60,0);
+    return ret;
+#else
+#if RAVL_OS_WIN32
+    struct _timeb ltime;
+    _ftime(&ltime);
+    sec = ltime.time;
+    usec = ltime.millitm * 1000;
+#else
+    throw ExceptionC("DateC::NowUTC(), Not implemented. ");
+#endif
+#endif
+  }
+  
+  //: Get the time in local timezone
+  
+  DateC DateC::NowLocal() {
+#if !RAVL_COMPILER_VISUALCPP
+    struct timeval tv;
+    gettimeofday(&tv,0);
+    return DateC(tv.tv_sec,tv.tv_usec);
+#else
+#if RAVL_OS_WIN32
+    struct _timeb ltime;
+    _ftime(&ltime);
+    sec = ltime.time;
+    usec = ltime.millitm * 1000;
+#else
+    throw ExceptionC("DateC::NowLocal(), Not implemented. ");
+#endif
+#endif
+  }
+  
+  //: Get the time since the process started.
+  
+  DateC DateC::NowVirtual() {
+#if !RAVL_OS_WIN32
+    DateC ret(0,clock());
+    ret.NormalisePos();
+    return ret;
+#else
+    throw ExceptionC("DateC::NowVirtual(), Not implemented. ");
+#endif
+  }
+  
+  
   //: Set value of variable to now!
   
   void DateC::SetToNow(bool useVirt)  {
@@ -192,7 +248,7 @@ namespace RavlN {
       usec = clock(); // FIXME :- This will fail after about 36 mintes.
       sec = 0;
       NormalisePos();    
-    return ;
+      return ;
     }
     struct timeval tv;
     gettimeofday(&tv,0);
@@ -210,6 +266,18 @@ namespace RavlN {
 #endif
   }
   
+  //: Get the local timezone offset.  (Note around daylight saving this may change.)
+  
+  DateC DateC::TimeZoneOffset() {
+#if !RAVL_COMPILER_VISUALCPP    
+    // Get time of day
+    struct timezone tz;
+    gettimeofday(0,&tz);
+    return DateC((time_t) tz.tz_minuteswest * 60,0);
+#else
+    throw ExceptionC("DateC::TimeZoneOffset(), Not implemented. ");
+#endif    
+  }
   
   //: Get the time in string form.
   
@@ -219,32 +287,89 @@ namespace RavlN {
 
 
   //: Return the date and time in ODBC format
-
+  
   StringC DateC::ODBC() const {
     StringC str;
     str.form("%04d-%02d-%02d %02d:%02d:%02d",Year(),Month(),DayInMonth(),Hour(),Minute(),Seconds());
     return str;
   }
+  
+  //: Set date to odbc specified time string.
+  // Returns true if conversion succesfull, false
+  // if string is not recognised.
+  
+  bool DateC::SetODBC(const StringC &odbcStr) {
+   
+    // Empty field ?
+    
+    if(odbcStr.Size() < 19)
+      return false;
+    
+    IntT seconds, minute, hour, day, month, year;
+    StringC tmp = odbcStr.Copy();
+    char *str = &tmp[0];
+    char *ptr = str;
+    
+    // Check the stream is formated correctly.
+    if(str[4] != '-' || str[7] != '-' || str[10] != ' ' || str[13] != ':' || str[16] != ':')
+      return false;
+    
+    // Get seconds
+    ptr = str + 17;
+    seconds = atoi(ptr);
+    // Get minute
+    str[16] = 0;
+    ptr = str + 14;
+    minute = atoi(ptr);
+    // Get hour
+    str[13] = 0;
+    ptr = str + 11;
+    hour = atoi(ptr);
+    // Get day
+    str[10] = 0;
+    ptr = str + 8;
+    day = atoi(ptr);
+    // Get month
+    str[7] = 0;
+    ptr = str + 5;
+    month = atoi(ptr);
+    // Get year
+    str[4] = 0;
+    ptr = str;
+    year = atoi(ptr);
+    
+    // Create date structure
+    *this = DateC(year, month, day, hour, minute, seconds,0,false);
+    
+    return true;
+  }
 
 
   //: Returns results equivelent to calling ctime().
   
-  StringC DateC::CTime() const  {
+  StringC DateC::CTime(bool useUTCToLocal) const  {
     char buff[50];
     time_t s = (time_t) sec;
     StringC ret;
-    ret = StringC(ctime_r(&s,buff));
+    if(useUTCToLocal) {
+      ret = StringC(ctime_r(&s,buff));
+    } else {
+      struct tm b;
+      time_t s = (time_t) sec;
+      ret = StringC(asctime_r(gmtime_r(&s,&b),buff));
+    }
     ret.del("\n"); // Get rid of return.
     return ret;
   }
   
   //: Returns a short string containing date/time.
   
-  StringC DateC::CTimeShort() const {
+  StringC DateC::CTimeShort(bool useUTCToLocal) const {
     StringC buf;
     struct tm b;
     time_t s = (time_t) sec;
-    localtime_r(&s,&b);
+    if(useUTCToLocal) localtime_r(&s,&b);
+    else gmtime_r(&s,&b);
     buf += StringC(b.tm_hour) + ":" + StringC(b.tm_min) + ":" + StringC(b.tm_sec);
     buf += "-";
     buf += StringC(b.tm_mday) + "/" + StringC(b.tm_mon) + "/" + StringC(b.tm_year + 1900);
@@ -254,84 +379,92 @@ namespace RavlN {
   
   //: Return number of seconds after minuite. 0,61 (61 for leap seconds.)
   
-  IntT DateC::Seconds() const  {
+  IntT DateC::Seconds(bool useUTCToLocal) const  {
     struct tm b;
     time_t s = (time_t) sec;
-    localtime_r(&s,&b);
+    if(useUTCToLocal) localtime_r(&s,&b);
+    else gmtime_r(&s,&b);
     return b.tm_sec;
   }
   
   //: Get minute.
   
-  IntT DateC::Minute() const  {
+  IntT DateC::Minute(bool useUTCToLocal) const  {
     struct tm b;
     time_t s = (time_t) sec;
-    localtime_r(&s,&b);
+    if(useUTCToLocal) localtime_r(&s,&b);
+    else gmtime_r(&s,&b);
     return b.tm_min;
   }
   
   
   //: Hours since midnight. 0-23
   
-  IntT DateC::Hour() const  {
+  IntT DateC::Hour(bool useUTCToLocal) const  {
     struct tm b;
     time_t s = (time_t) sec;
-    localtime_r(&s,&b);
+    if(useUTCToLocal) localtime_r(&s,&b);
+    else gmtime_r(&s,&b);
     return b.tm_hour;  
   }
   
   //: Get month 1-31
   
-  IntT DateC::Month() const  {
+  IntT DateC::Month(bool useUTCToLocal) const  {
     struct tm b;
     time_t s = (time_t) sec;
-    localtime_r(&s,&b);
+    if(useUTCToLocal) localtime_r(&s,&b);
+    else gmtime_r(&s,&b);
     return b.tm_mon + 1;
   }
   
   
   //: Get year.
   
-  IntT DateC::Year() const  {
+  IntT DateC::Year(bool useUTCToLocal) const  {
     struct tm b;
     time_t s = (time_t) sec;
-    localtime_r(&s,&b);
+    if(useUTCToLocal) localtime_r(&s,&b);
+    else gmtime_r(&s,&b);
     return b.tm_year + 1900;  
   }
   
   //: Get day in month.  1,31
   
-  IntT DateC::DayInMonth() const  {
+  IntT DateC::DayInMonth(bool useUTCToLocal) const  {
     struct tm b;
     time_t s = (time_t) sec;
-    localtime_r(&s,&b);
+    if(useUTCToLocal) localtime_r(&s,&b);
+    else gmtime_r(&s,&b);
     return b.tm_mday;    
   }
   
   //: Get day of year. 0-365
   
-  IntT DateC::DayInYear() const  {
+  IntT DateC::DayInYear(bool useUTCToLocal) const  {
     struct tm b;
     time_t s = (time_t) sec;
-    localtime_r(&s,&b);
+    if(useUTCToLocal) localtime_r(&s,&b);
+    else gmtime_r(&s,&b);
     return b.tm_yday;
   }
   
   
   //: Get day of week. Since sunday, 0-6
 
-  IntT DateC::DayInWeek() const  {
+  IntT DateC::DayInWeek(bool useUTCToLocal) const  {
     struct tm b;
     time_t s = (time_t) sec;
-    localtime_r(&s,&b);
+    if(useUTCToLocal) localtime_r(&s,&b);
+    else gmtime_r(&s,&b);
     return b.tm_wday;  
   }
 
   //: Get day of week in text form.
   
-  const StringC &DateC::TextDayInWeek() const {
+  const StringC &DateC::TextDayInWeek(bool useUTCToLocal) const {
     static StringC days[7] = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
-    return days[DayInWeek()];
+    return days[DayInWeek(useUTCToLocal)];
   }
   
   //: Are we daylight saveing ?
@@ -340,7 +473,7 @@ namespace RavlN {
   bool DateC::DaylightSaving() const  {
     struct tm b;
     time_t s = (time_t) sec;
-    localtime_r(&s,&b);
+    gmtime_r(&s,&b);
     return b.tm_isdst > 0;
   }
   

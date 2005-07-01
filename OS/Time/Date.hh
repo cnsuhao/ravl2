@@ -37,11 +37,23 @@ namespace RavlN {
     //: Default constructor.
     // Sets time to 0.
     
+    static DateC NowUTC();
+    //: Get the current time in Coordinated Universal Time  (UTC)
+    
+    static DateC NowLocal();
+    //: Get the time in local timezone
+    
+    static DateC NowVirtual();
+    //: Get the time since the process started.
+    
+    static DateC TimeZoneOffset();
+    //: Get the local timezone offset.  (Note around daylight saving this may change.)
+    
     inline DateC(bool setval,bool useVirt = false);
     //: Constructor.
-    // If 'setval' is false an invalid date is created.
-    // otherwise the date is set to now.
-    // if useVirt is true a virtual time is used.
+    // This constructor is obsolete. Use one of NowUTC,NowLocal or NowVirtual.
+    //!param: setval - is false an invalid date is created, otherwise a time is set.
+    //!param: useVirt - If true use virtual process time.
     
     DateC(RealT val);
     //: Construct from a real in seconds.
@@ -55,7 +67,7 @@ namespace RavlN {
     //!param: min - 0 to 59
     //!param: sec - 0 to 59
     //!param: usec - 1000000's of a second.
-    //!param: useLocalTimeZone - Assume parameters are in the local time zone, (May not be GMT.)
+    //!param: useLocalTimeZone - When true assume parameters are in the local time zone and convert to UTC
     
     DateC(istream &in);
     //: Construct from a stream
@@ -72,7 +84,7 @@ namespace RavlN {
     {}
     //: Copy constructor
     
-    DateC(const StringC &);
+    DateC(const StringC &str);
     //: String constructor
     // Expects data in sec:usec format 
     // as produced by Text() method.
@@ -105,6 +117,7 @@ namespace RavlN {
     
     void SetToNow(bool useVirt = false);
     //: Set value of variable to now!
+    //!param: useVirt - If true use process time.
     
     inline long MaxUSeconds() const { return 1000000; }
     //: Maximum mircro seconds.
@@ -164,11 +177,16 @@ namespace RavlN {
     
     StringC ODBC() const;
     //: Return the date and time in ODBC format
-
-    StringC CTime() const;
+    
+    bool SetODBC(const StringC &odbcStr);
+    //: Set date to odbc specified time string.
+    // Returns true if conversion succesfull, false
+    // if string is not recognised.
+    
+    StringC CTime(bool convertUTCToLocal = false) const;
     //: Returns results equivelent to calling ctime().
     
-    StringC CTimeShort() const;
+    StringC CTimeShort(bool convertUTCToLocal = false) const;
     //: Returns a short string containing date/time.
     
     inline long USeconds() const
@@ -183,31 +201,31 @@ namespace RavlN {
     { return (double) sec + (((double)usec) / ((double) MaxUSeconds())); }
     //: Get time in double form.
     
-    IntT Seconds() const;
+    IntT Seconds(bool convertUTCToLocal = false) const;
     //: Return number of seconds after minuite. 0,61 (61 for leap seconds.)
     
-    IntT Minute() const;
+    IntT Minute(bool convertUTCToLocal = false) const;
     //: Get minute.
     
-    IntT Hour() const;
+    IntT Hour(bool convertUTCToLocal = false) const;
     //: Hours since midnight. 0 to 23
     
-    IntT Month() const;
+    IntT Month(bool convertUTCToLocal = false) const;
     //: Get month 1 to 12
     
-    IntT Year() const;
+    IntT Year(bool convertUTCToLocal = false) const;
     //: Get year.
     
-    IntT DayInMonth() const;
+    IntT DayInMonth(bool convertUTCToLocal = false) const;
     //: Get day in month.  1 to 31
     
-    IntT DayInYear() const;
+    IntT DayInYear(bool convertUTCToLocal = false) const;
     //: Get day of year. 0 to 365
     
-    IntT DayInWeek() const;
+    IntT DayInWeek(bool convertUTCToLocal = false) const;
     //: Get day of week. Since sunday, 0 to 6
     
-    const StringC &TextDayInWeek() const;
+    const StringC &TextDayInWeek(bool convertUTCToLocal = false) const;
     //: Get day of week in text form.
     
     bool DaylightSaving() const;

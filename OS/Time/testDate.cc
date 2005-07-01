@@ -23,6 +23,7 @@ int CheckConsistant();
 int CheckIO();
 int CheckSleep();
 int CheckLocalTime();
+int CheckODBC();
 
 
 int main() 
@@ -42,9 +43,13 @@ int main()
     cerr << "CheckSleep(), Failed :" << lineno << "\n";
     return 1;
   }
-#endif
   if((lineno = CheckLocalTime()) != 0) {
     cerr << "CheckLocalTime(), Failed :" << lineno << "\n";
+    return 1;
+  }
+#endif
+  if((lineno = CheckODBC()) != 0) {
+    cerr << "CheckODBC(), Failed :" << lineno << "\n";
     return 1;
   }
   cerr << "Test passed.\n";
@@ -61,7 +66,7 @@ int CheckLocalTime() {
   IntT sec = 12;
   IntT usec = 0;
   
-  DateC aTime(year,month,day,hour,min,sec,usec,true);
+  DateC aTime(year,month,day,hour,min,sec,usec,false);
   
   if(aTime.Year() != year) return __LINE__;
   if(aTime.Month() != month) return __LINE__;
@@ -69,6 +74,15 @@ int CheckLocalTime() {
   if(aTime.Minute() != min) return __LINE__;
   if(aTime.Hour() != hour) return __LINE__;
   if(aTime.Seconds() != sec) return __LINE__;
+
+  DateC aTime2(year,month,day,hour,min,sec,usec,true);
+  
+  if(aTime2.Year(true) != year) return __LINE__;
+  if(aTime2.Month(true) != month) return __LINE__;
+  if(aTime2.DayInMonth(true) != day) return __LINE__;
+  if(aTime2.Minute(true) != min) return __LINE__;
+  if(aTime2.Hour(true) != hour) return __LINE__;
+  if(aTime2.Seconds(true) != sec) return __LINE__;
   
   return 0;
 }
@@ -123,6 +137,24 @@ int CheckSleep() {
     cerr << "Delay=" << del << "\n";
     if(del < 1.9 || del > 2.5)
       return __LINE__;
+  }
+  return 0;
+}
+
+int CheckODBC() {
+  for(int i = 0;i < 20;i++) {
+    DateC dateOrg((long) 1234 + i * 100000000,(long) 0);
+    StringC odbcStr = dateOrg.ODBC();
+    DateC dateOut;
+    if(!dateOut.SetODBC(odbcStr)) {
+      cerr << "Failed to decode odbc string. Text=" << odbcStr << "\n";
+      return __LINE__;
+    }
+    //cerr << " Org=" << dateOrg.ODBC() << " New=" << dateOut.ODBC() << "\n";
+    if(dateOut != dateOrg) {
+      cerr << " Org=" << dateOrg << " New=" << dateOut << "\n";
+      return __LINE__;
+    }
   }
   return 0;
 }
