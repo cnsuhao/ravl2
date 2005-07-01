@@ -146,7 +146,7 @@ int viewShapeModel(int nargs,char **argv) {
   WindowC win(100,100,"Shape Model Viewer");
   canvas = CanvasC(600,600);
   canvas.AutoRefresh(false);
-  SpinButtonC spinButton(0,1,0.0,0.0,params.Size(),1.0);
+  SpinButtonC spinButton(0,1,0.0,0.0,params.Size()-1,1.0);
   
   slider = SliderC(false,0,(RealT) -varRange,(RealT) varRange,0.1);
   Connect(spinButton.SigChanged(),ChangeParameter);
