@@ -24,7 +24,7 @@ int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   int threshold = opt.Int("t",100,"Threshold. ");
   int w = opt.Int("w",3,"width of filter mask. ");
-  bool useHarris = opt.Boolean("h",false,"Use harris corner detector, else ues susan. ");
+  bool useHarris = opt.Boolean("h",false,"Use harris corner detector, else use susan. ");
   bool useTopHat = opt.Boolean("th",true,"Use top hat filter in harris corner detector. ");
   bool seq = opt.Boolean("seq",false,"Process a sequence. ");
   bool verb = opt.Boolean("v",false,"Verbose mode. ");
