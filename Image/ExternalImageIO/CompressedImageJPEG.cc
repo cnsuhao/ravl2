@@ -1,0 +1,104 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2005, OmniPerception Ltd.
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+
+#include "Ravl/Image/CompressedImageJPEG.hh"
+#include "Ravl/Image/ImgIOJPegB.hh"
+#include "Ravl/DP/FileFormatStream.hh"
+#include "Ravl/DP/FileFormatBinStream.hh"
+#include "Ravl/DP/Converter.hh"
+#include "Ravl/TypeName.hh"
+#include "Ravl/BufStream.hh"
+
+namespace RavlImageN {
+
+  //: Write to standard stream.
+  
+  ostream &operator<<(ostream &strm,const CompressedImageJPEGC &data) {
+    strm << data.Size() << " ";
+    for(SArray1dIterC<char> it(data);it;it++)
+      strm << ((int) *it) << " ";
+    return strm;
+  }
+  
+  //: Read from standard stream
+  
+  istream &operator>>(istream &strm,CompressedImageJPEGC &data) {
+    UIntT size = 0;
+    strm >> size;
+    SArray1dC<char> bdata(size);
+    for(SArray1dIterC<char> it(data);it;it++) {
+      IntT v;
+      strm >> v;
+      *it = v;
+    }
+    data = CompressedImageJPEGC(bdata);
+    return strm;
+  }
+  
+  //: Write to standard stream.
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const CompressedImageJPEGC &data) {
+    strm << data.Size();
+    if(data.Size() > 0)
+      strm.OBuff(&(data[0]),data.Size());
+    return strm;
+  }
+  
+  //: Read from standard stream
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,CompressedImageJPEGC &data) {
+    UIntT size = 0;
+    strm >> size;
+    SArray1dC<char> buff(size);
+    if(size > 0)
+      strm.IBuff(&(buff[0]),size);
+    data = CompressedImageJPEGC(buff);
+    return strm;
+  }
+  
+  //: Convert image to CompressedImage
+  
+  CompressedImageJPEGC RGBImage2CompressedImageJPEG(const ImageC<ByteRGBValueC> &dat) {
+    BufOStreamC bufOStrm;
+    DPOImageJPegByteRGBC imgJPEG(bufOStrm,100);
+    if(!imgJPEG.Put(dat))
+      throw DataNotReadyC("CompressedImageJ2K2RGBImage, Failed to encode image ");
+    imgJPEG.Invalidate();
+    return CompressedImageJPEGC(bufOStrm.Data());
+  }
+  
+  
+  //: Convert compressed buffer to a RGB image
+  
+  ImageC<ByteRGBValueC> CompressedImageJPEG2RGBImage(const CompressedImageJPEGC &data) {
+    ImageC<ByteRGBValueC> ret;
+    BufIStreamC bufIStrm(data);
+    DPIImageJPegByteRGBC imgJPEG(bufIStrm);
+    if(!imgJPEG.Get(ret)) 
+      throw DataNotReadyC("CompressedImageJ2K2RGBImage, Failed to decode block ");
+    return ret;
+  }
+  
+
+  static TypeNameC type1(typeid(CompressedImageJPEGC),"RavlImageN::CompressedImageJPEGC");
+  
+  DP_REGISTER_CONVERSION_NAMED(RGBImage2CompressedImageJPEG ,0.9,
+			       "CompressedImageJPEGC RavlImageN::Convert(const ImageC<ByteRGBValueC> &)");
+  
+  DP_REGISTER_CONVERSION_NAMED(CompressedImageJPEG2RGBImage ,1,
+			       "ImageC<ByteRGBValueC> RavlImageN::Convert(const CompressedImageJPEGC &)");
+
+  FileFormatStreamC<CompressedImageJPEGC> FileFormatStream_CompressedImageJPEGC;
+  FileFormatBinStreamC<CompressedImageJPEGC> FileFormatBinStream_CompressedImageJPEGC;
+
+  // Must link func.
+  
+  void InitJPEGCompressConv() 
+  {}
+  
+  
+}

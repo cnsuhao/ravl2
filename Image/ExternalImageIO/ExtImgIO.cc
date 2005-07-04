@@ -14,6 +14,7 @@
 namespace RavlImageN {
 
   void ExtImgIO_Init() {
+    InitJPEGCompressConv();
     InitTIFFFormat();
     InitJPEGFormat();
     InitPNGFormat();

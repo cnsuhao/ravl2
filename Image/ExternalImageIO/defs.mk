@@ -24,11 +24,11 @@ PLIB = RavlExtImgIO
 HEADERS = ImgIOJPeg.hh ImgIOJPegB.hh JPEGFormat.hh \
  ImgIOPNG.hh ImgIOPNGB.hh PNGFormat.hh \
  ImgIOTiff.hh ImgIOTiffB.hh TiffFormat.hh \
- ExtImgIO.hh 
+ ExtImgIO.hh  CompressedImageJPEG.hh
 
 SOURCES = ImgIOJPeg.cc JPEGFormat.cc \
  ImgIOPNG.cc PNGFormat.cc \
- ImgIOTiff.cc TiffFormat.cc
+ ImgIOTiff.cc TiffFormat.cc  CompressedImageJPEG.cc
 
 MUSTLINK =  ExtImgIO.cc
 

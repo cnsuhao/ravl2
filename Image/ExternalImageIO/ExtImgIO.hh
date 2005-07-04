@@ -16,7 +16,7 @@
 //! date="25/05/2000"
 
 namespace RavlImageN {
-
+  extern void InitJPEGCompressConv();
   extern void InitTIFFFormat();
   extern void InitJPEGFormat();
   extern void InitPNGFormat();
