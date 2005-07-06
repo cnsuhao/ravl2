@@ -127,6 +127,7 @@ int testDLIter() {
   DListC<IntT> list;
   for(int i = 0;i < 10;i++)
     list.InsLast(i);
+  if(list.Hash() != 455) return __LINE__;
   DLIterC<IntT> it(list);
   if(!it) return __LINE__;
   if((*it) != 0) return __LINE__;

@@ -21,6 +21,7 @@
 #include "Ravl/Assert.hh"
 #include "Ravl/RefCounter.hh"
 #include "Ravl/DeepCopy.hh"
+#include "Ravl/StdHash.hh"
 
 #if RAVL_HAVE_TEMPLATEREQUIREALLDEFINITIONS 
 #include "Ravl/Stream.hh"
@@ -150,9 +151,12 @@ namespace RavlN {
     { return !((*this) == oth); }
     //: Test if lists are different.
     // assumes '==' is defined for 'DataT'
-
+    
     bool Contains(const DataT &x);
     //: Test if this list contains an element == to 'x'.
+    
+    UIntT Hash() const;
+    //: Generate a hash number for the list.
     
   protected:    
     static bool MergeSortHelpCmp(DLinkC *l1,DLinkC *l2,void *dat) {
@@ -455,6 +459,10 @@ namespace RavlN {
     // 0 is the first element, 2 the second etc.
     // -1 is the last, -2 second from last.
     
+    UIntT Hash() const
+    { return Body().Hash(); }
+    //: Generate a hash number for the list.
+    
     friend class DLIterC<DataT>;
     friend class DListBodyC<DataT>;
 
@@ -518,6 +526,16 @@ namespace RavlN {
       (*this) += *it;
   }
 
+
+  //: Generate a hash number for the list.
+  
+  template<class DataT>
+  UIntT DListBodyC<DataT>::Hash() const {
+    UIntT ret = Size();
+    for(DLIterC<DataT> it(*this);it;it++)
+      ret += StdHash(it.Data()) ^ (ret >> 1) ;
+    return ret;
+  }
 
   template<class DataT>
   bool DListBodyC<DataT>::Del(const DataT &x) {
@@ -611,7 +629,7 @@ namespace RavlN {
     return strm;
   }
   //: Read from a binary stream.
-
+  
   ///// DListC //////////////////////////////////////////////////////
 
   template<class DataT>
