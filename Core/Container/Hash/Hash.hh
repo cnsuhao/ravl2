@@ -175,12 +175,12 @@ namespace RavlN {
     // Note: As keys should be constant, they are not copied.
     
     inline const T *Lookup(const K &Key) const;
-    //: Find data matching key.
+    //!deprecated: Find data matching key.
     // Do not use, Try Lookup(key,data);
     // Ptr == NULL, if matching key not found.
     
     inline T *Lookup(const K &key);
-    //: Find data matching key.
+    //!deprecated: Find data matching key.
     // Do not use, Try Lookup(key,data);
     // Ptr == NULL, if matching key not found.
     
