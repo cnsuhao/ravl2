@@ -25,7 +25,7 @@
 #include "Ravl/Types.hh"
 #include "Ravl/DeepCopy.hh"
 
-#if RAVL_HAVE_TEMPLATEREQUIREALLDEFINITIONS 
+#if RAVL_COMPILER_GCC3_4
 #include "Ravl/BinStream.hh"
 #endif
 
@@ -174,15 +174,19 @@ namespace RavlN {
     // levels == 2, Copy one level down. <br>
     // Note: As keys should be constant, they are not copied.
     
-    inline const T *Lookup(const K &Key) const;
-    //!deprecated: Find data matching key.
-    // Do not use, Try Lookup(key,data);
-    // Ptr == NULL, if matching key not found.
+    inline T &operator[](const K &key) 
+    { return Update(key); }
+    //: Associative array style interface.
+    // Update member of hash table, will create new one if it doesn't
+    // exist. 
+    //!param: key - Key for element to access.
+    //!return: Reference to element in table
     
-    inline T *Lookup(const K &key);
-    //!deprecated: Find data matching key.
-    // Do not use, Try Lookup(key,data);
-    // Ptr == NULL, if matching key not found.
+    inline const T &operator[](const K &key) const;
+    //: Associative array style of access.
+    // Note: this will cause an assertion failure if element doesn't exist as the table can't be modified.
+    //!param: key - Key for element to access.
+    //!return: Reference to element in table
     
     inline bool Lookup(const K &key,T &data) const;
     //: Lookup data for key.
@@ -201,20 +205,6 @@ namespace RavlN {
     
     inline T &Update(const K &key);
     //: Get value, add default if its not there. Return reference anyway.
-    //!param: key - Key for element to access.
-    //!return: Reference to element in table
-    
-    inline T &operator[](const K &key) 
-    { return Update(key); }
-    //: Associative array style interface.
-    // Update member of hash table, will create new one if it doesn't
-    // exist. 
-    //!param: key - Key for element to access.
-    //!return: Reference to element in table
-    
-    inline const T &operator[](const K &key) const;
-    //: Associative array style of access.
-    // Note: this will cause an assertion failure if element doesn't exist as the table can't be modified.
     //!param: key - Key for element to access.
     //!return: Reference to element in table
     
@@ -261,11 +251,11 @@ namespace RavlN {
     inline UIntT Bins(void) const 
     { return (UIntT) table.Size(); }
     //: Number of bins in the HashTable.
-    //!return: Number of bin's in the hash table.
+    //!return: Number of bins in the hash table.
     
     void Resize(SizeT newSize);
     //: Resize hash table.
-    //!param: newSize - New number of bin's for the hashtable.
+    //!param: newSize - New number of bins for the hashtable.
     
     const HashC<K,T> &operator= (const HashC<K,T> &oth) { 
       table = oth.table.Copy(); 
@@ -317,6 +307,16 @@ namespace RavlN {
     typedef IntrDLIterC<HashElemC<K,T> > HashElemIter; // Used in Del.
     // These typedef's control the types of lists used in this class
     // and it's iterator.  
+    
+    inline const T *Lookup(const K &Key) const;
+    //: Find data matching key.
+    //!deprecated: use <CODE><A HREF="LookupObconst_K_Ref_T_RefCb_const">Lookup(key,data)</A></CODE> or <CODE><A HREF="operator[]Obconst_K_RefCb">operator[](const K &key)</A></CODE>
+    // Ptr == NULL, if matching key not found.
+    
+    inline T *Lookup(const K &key);
+    //: Find data matching key.
+    //!deprecated: use <CODE><A HREF="LookupObconst_K_Ref_T_RefCb_const">Lookup(key,data)</A></CODE> or <CODE><A HREF="operator[]Obconst_K_RefCb">operator[](const K &key)</A></CODE>
+    // Ptr == NULL, if matching key not found.
     
   protected:
     inline T &Add(const K &Key,const T &Data);
