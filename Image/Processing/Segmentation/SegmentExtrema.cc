@@ -71,11 +71,9 @@ namespace RavlImageN {
   ExtremaRegionC * SegmentExtremaBaseC::FindLabel(ExtremaChainPixelC *cp) {
     register ExtremaRegionC *lab = cp->region;
     if(lab == 0 || lab->merge == 0) return lab;
-    register ExtremaRegionC *at = lab->merge;
-    if(at->merge == 0) return at;
-    do {
+    register ExtremaRegionC *at = lab;
+    while(at->merge != 0)
       at = at->merge;
-    } while(at->merge != 0);
     // Relabel mappings.
     do {
       register ExtremaRegionC *tmp = lab;
@@ -94,18 +92,18 @@ namespace RavlImageN {
     //cerr << "SegmentExtremaBaseC::ConnectedLabels(), Pix=" << ((void *) pix) << "\n";
     IntT n = 0;
     ExtremaRegionC *l1 = FindLabel(pix + 1);
-    ExtremaRegionC *l2 = FindLabel(pix - 1);
-    ExtremaRegionC *l3 = FindLabel(pix + stride);
-    ExtremaRegionC *l4 = FindLabel(pix - stride);
     if (l1!=0 )                               { labelArray[n++]=l1; }
+    ExtremaRegionC *l2 = FindLabel(pix - 1);
     if (l2!=0 && l2!=l1)                      { labelArray[n++]=l2; }
+    ExtremaRegionC *l3 = FindLabel(pix + stride);
     if (l3!=0 && l3!=l1 && l3!=l2)            { labelArray[n++]=l3; }
+    ExtremaRegionC *l4 = FindLabel(pix - stride);
     if (l4!=0 && l4!=l1 && l4!=l2 && l4!=l3)  { labelArray[n++]=l4; }
     return n;
   }
   
   //: Add a new region.
-  inline
+  //inline
   void SegmentExtremaBaseC::AddRegion(ExtremaChainPixelC *pix,IntT level) {
     ExtremaRegionC &region = regionMap[labelAlloc++];
     pix->region = &region;
@@ -127,7 +125,7 @@ namespace RavlImageN {
   
   //: Add pixel to region.
   
-  inline
+  //inline
   void SegmentExtremaBaseC::AddPixel(ExtremaChainPixelC *pix,IntT level,ExtremaRegionC *reg) {
     reg->hist[level]++;
     reg->total++;
@@ -136,7 +134,7 @@ namespace RavlImageN {
 
   //: Add pixel to region.
   
-  inline
+  //inline
   void SegmentExtremaBaseC::MergeRegions(ExtremaChainPixelC *pix,IntT level,ExtremaRegionC **labels,IntT n) {
     ExtremaRegionC *max = labels[0];
     IntT maxValue = labels[0]->total;
@@ -162,6 +160,7 @@ namespace RavlImageN {
       oldr.closed = max;
       nr.total += oldr.total;
       nr.hist[level] += oldr.total;
+
     }
     AddPixel(pix,level,max);
   }
