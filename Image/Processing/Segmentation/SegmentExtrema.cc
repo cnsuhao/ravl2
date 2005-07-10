@@ -71,7 +71,7 @@ namespace RavlImageN {
   ExtremaRegionC * SegmentExtremaBaseC::FindLabel(ExtremaChainPixelC *cp) {
     register ExtremaRegionC *lab = cp->region;
     if(lab == 0 || lab->merge == 0) return lab;
-    register ExtremaRegionC *at = lab;
+    register ExtremaRegionC *at = lab->merge;
     while(at->merge != 0)
       at = at->merge;
     // Relabel mappings.
