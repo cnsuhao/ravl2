@@ -32,6 +32,8 @@ namespace RavlCxxDocN {
 
   using namespace RavlN;
   
+  class DataTypeC ; 
+  
   //! userlevel=Develop
   //: Documenter Body.
   

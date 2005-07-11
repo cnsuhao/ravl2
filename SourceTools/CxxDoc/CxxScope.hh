@@ -20,6 +20,8 @@
 namespace RavlCxxDocN {
   using namespace RavlN;
   
+  class ScopeC ;
+  
   /////////////////////////////////////////////////
   
   //! userlevel=Develop
