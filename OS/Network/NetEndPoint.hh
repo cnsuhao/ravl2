@@ -33,6 +33,7 @@
 namespace RavlN {
   class SocketC;
   class NetEndPointC;
+  class DateC;
   
   struct NetClientInfoC {
     NetClientInfoC();
@@ -189,9 +190,6 @@ namespace RavlN {
     }
     //: Queue a packet for transmition.
     
-    bool MsgInit(StringC &user,NetClientInfoC &info);
-    //: Init message.
-
     bool Ready();
     //: Initalise link.
 
@@ -363,6 +361,12 @@ namespace RavlN {
     //: True if using big endian stream in packet composition 
     
   protected:
+
+    bool MsgInit(StringC &user,NetClientInfoC &info);
+    //: Init message.
+    
+    bool MsgPing(IntT seqNo,bool reply);
+    //: Handle ping message
     
     bool RunTransmit();
     //: Handle packet transmition.
@@ -399,6 +403,7 @@ namespace RavlN {
     NetClientInfoC localInfo; // Info for this application.
     NetClientInfoC peerInfo;  // Info for remote application.
     bool useBigEndianBinStream;
+    IntT pingSeqNo;          // Sequence number used for pings.
   };
   
   //! userlevel=Normal

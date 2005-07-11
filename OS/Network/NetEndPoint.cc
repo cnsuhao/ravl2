@@ -25,7 +25,9 @@
 #define ONDEBUG(x)
 #endif
 
+
 namespace RavlN {
+  enum NEPMsgTypeT { NEPMsgInit = 1, NEPMsgPing };
   
   //: Constructor.
   
@@ -34,7 +36,8 @@ namespace RavlN {
       receiveQ(5),
       shutdown(false),
       autoInit(nautoInit),
-      useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG)
+      useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
+      pingSeqNo(1)
   {
     SocketC skt(addr,false);
     localInfo.appName = SysLogApplicationName();
@@ -48,7 +51,8 @@ namespace RavlN {
       receiveQ(5),
       shutdown(false),
       autoInit(nautoInit),
-      useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG)
+      useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
+      pingSeqNo(1)
   {
     localInfo.appName = SysLogApplicationName();
     Init(nskt); 
@@ -62,7 +66,8 @@ namespace RavlN {
       shutdown(false),
       autoInit(nautoInit),
       localInfo(protocolName,protocolVersion),
-      useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG)
+      useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
+      pingSeqNo(1)
   { 
     localInfo.appName = SysLogApplicationName();
     Init(socket); 
@@ -76,7 +81,8 @@ namespace RavlN {
       shutdown(false),
       autoInit(nautoInit),
       localInfo(protocolName,protocolVersion),
-      useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG)
+      useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
+      pingSeqNo(1)
   { 
     SocketC skt(address,false);
     localInfo.appName = SysLogApplicationName();
@@ -89,7 +95,8 @@ namespace RavlN {
     : transmitQ(15),
       receiveQ(5),
       shutdown(false),
-      useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG)
+      useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
+      pingSeqNo(1)
   {}
   
   //: Destructor.
@@ -137,7 +144,7 @@ namespace RavlN {
       hostType = "*unknown*";
     localInfo.hostType = StringC(hostType);
     
-    Send(1,user,localInfo);
+    Send(NEPMsgInit,user,localInfo);
   }
   
   bool NetEndPointBodyC::Init(SocketC &nskt) {
@@ -151,7 +158,8 @@ namespace RavlN {
     istrm = NetIByteStreamC(nskt);
     ostrm = NetOByteStreamC(nskt);
     
-    RegisterR(1,StringC("Init"),*this,&NetEndPointBodyC::MsgInit);
+    RegisterR(NEPMsgInit,StringC("Init"),*this,&NetEndPointBodyC::MsgInit);
+    RegisterR(NEPMsgPing,StringC("Ping"),*this,&NetEndPointBodyC::MsgPing);
     
     if(autoInit) {
       const char *un = getenv("USER"); // This isn't really secure!!
@@ -366,10 +374,18 @@ namespace RavlN {
     
     ONDEBUG(SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), Starting transmit loop. ");
     try {
+      IntT timeOutCount =0;
       while(!shutdown) {
 	NetPacketC pkt;
-	if(!transmitQ.Get(pkt,1.5))
+	if(!transmitQ.Get(pkt,4)) {
+          // Queue a ping packet for processing, this keeps some activity on 
+          // the connection and will ensure that the link is actually open. The ping
+          // is sent every 20 seconds.
+          if(timeOutCount++ > 4)
+            Send(NEPMsgPing,pingSeqNo++,false);
 	  continue;
+        }
+        timeOutCount = 0;
 	if(shutdown)
 	  break;
 	if(!pkt.IsValid())
@@ -601,7 +617,18 @@ namespace RavlN {
     return true;
   }
   
-    
+  //: Handle ping message
+  
+  bool NetEndPointBodyC::MsgPing(IntT seqNo,bool reply) {
+    if(reply) {
+      //cerr << "NetEndPointBodyC::MsgPing, Got ping reply. \n";
+      return true;
+    }
+    // Reply to ping.
+    Send(NEPMsgPing,seqNo,true);
+    return true;
+  }
+  
   //: Init message.
   
   bool NetEndPointBodyC::MsgInit(StringC &user,NetClientInfoC &nPeerInfo) {
