@@ -16,6 +16,7 @@
 #include "Ravl/SourceTools/DefsFile.hh"
 #include "Ravl/Text/TextBuffer.hh"
 #include "Ravl/SourceTools/SourceCursor.hh"
+#include   "Ravl/CxxDoc/CxxElements.hh"
 
 namespace RavlN {
   using namespace RavlCxxDocN;
