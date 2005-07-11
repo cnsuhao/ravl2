@@ -103,7 +103,7 @@ namespace RavlImageN {
   }
   
   //: Add a new region.
-  //inline
+  inline
   void SegmentExtremaBaseC::AddRegion(ExtremaChainPixelC *pix,IntT level) {
     ExtremaRegionC &region = regionMap[labelAlloc++];
     pix->region = &region;
@@ -125,7 +125,7 @@ namespace RavlImageN {
   
   //: Add pixel to region.
   
-  //inline
+  inline
   void SegmentExtremaBaseC::AddPixel(ExtremaChainPixelC *pix,IntT level,ExtremaRegionC *reg) {
     reg->hist[level]++;
     reg->total++;
@@ -134,7 +134,7 @@ namespace RavlImageN {
 
   //: Add pixel to region.
   
-  //inline
+  inline
   void SegmentExtremaBaseC::MergeRegions(ExtremaChainPixelC *pix,IntT level,ExtremaRegionC **labels,IntT n) {
     ExtremaRegionC *max = labels[0];
     IntT maxValue = labels[0]->total;
