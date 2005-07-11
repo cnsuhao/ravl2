@@ -200,8 +200,7 @@ namespace RavlN {
 #if RAVL_OS_WIN32
     struct _timeb ltime;
     _ftime(&ltime);
-    sec = ltime.time;
-    usec = ltime.millitm * 1000;
+	return DateC(ltime.time, ltime.millitm * 1000);
 #else
     throw ExceptionC("DateC::NowUTC(), Not implemented. ");
 #endif
@@ -219,8 +218,7 @@ namespace RavlN {
 #if RAVL_OS_WIN32
     struct _timeb ltime;
     _ftime(&ltime);
-    sec = ltime.time;
-    usec = ltime.millitm * 1000;
+    return DateC(ltime.time, ltime.millitm * 1000);
 #else
     throw ExceptionC("DateC::NowLocal(), Not implemented. ");
 #endif
@@ -354,9 +352,15 @@ namespace RavlN {
     if(useUTCToLocal) {
       ret = StringC(ctime_r(&s,buff));
     } else {
-      struct tm b;
       time_t s = (time_t) sec;
+#if !RAVL_COMPILER_VISUALCPP
+	  struct tm b;
       ret = StringC(asctime_r(gmtime_r(&s,&b),buff));
+#else
+	  // VC++ does not support asctime_r or gmtime_r so use the other versions
+	  // in lieu of anything else
+	  ret = StringC(asctime(gmtime(&s)));
+#endif
     }
     ret.del("\n"); // Get rid of return.
     return ret;
@@ -368,8 +372,17 @@ namespace RavlN {
     StringC buf;
     struct tm b;
     time_t s = (time_t) sec;
-    if(useUTCToLocal) localtime_r(&s,&b);
-    else gmtime_r(&s,&b);
+	if (useUTCToLocal) {
+	  localtime_r(&s,&b);
+	} else {
+#if !RAVL_COMPILER_VISUALCPP
+	  gmtime_r(&s,&b);
+#else
+	  // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
+	  // in lieu os anythings else
+	  b = *gmtime(&s);
+#endif
+	}
     buf += StringC(b.tm_hour) + ":" + StringC(b.tm_min) + ":" + StringC(b.tm_sec);
     buf += "-";
     buf += StringC(b.tm_mday) + "/" + StringC(b.tm_mon) + "/" + StringC(b.tm_year + 1900);
@@ -382,8 +395,17 @@ namespace RavlN {
   IntT DateC::Seconds(bool useUTCToLocal) const  {
     struct tm b;
     time_t s = (time_t) sec;
-    if(useUTCToLocal) localtime_r(&s,&b);
-    else gmtime_r(&s,&b);
+    if (useUTCToLocal) {
+	  localtime_r(&s,&b);
+	} else {
+#if !RAVL_COMPILER_VISUALCPP
+	  gmtime_r(&s,&b);
+#else
+	  // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
+	  // in lieu os anythings else
+	  b = *gmtime(&s);
+#endif
+	}
     return b.tm_sec;
   }
   
@@ -392,8 +414,17 @@ namespace RavlN {
   IntT DateC::Minute(bool useUTCToLocal) const  {
     struct tm b;
     time_t s = (time_t) sec;
-    if(useUTCToLocal) localtime_r(&s,&b);
-    else gmtime_r(&s,&b);
+	if (useUTCToLocal) {
+	  localtime_r(&s,&b);
+	} else {
+#if !RAVL_COMPILER_VISUALCPP
+	  gmtime_r(&s,&b);
+#else
+	  // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
+	  // in lieu os anythings else
+	  b = *gmtime(&s);
+#endif
+	}
     return b.tm_min;
   }
   
@@ -403,8 +434,17 @@ namespace RavlN {
   IntT DateC::Hour(bool useUTCToLocal) const  {
     struct tm b;
     time_t s = (time_t) sec;
-    if(useUTCToLocal) localtime_r(&s,&b);
-    else gmtime_r(&s,&b);
+	if (useUTCToLocal) {
+	  localtime_r(&s,&b);
+	} else {
+#if !RAVL_COMPILER_VISUALCPP
+	  gmtime_r(&s,&b);
+#else
+	  // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
+	  // in lieu os anythings else
+	  b = *gmtime(&s);
+#endif
+	}
     return b.tm_hour;  
   }
   
@@ -413,8 +453,17 @@ namespace RavlN {
   IntT DateC::Month(bool useUTCToLocal) const  {
     struct tm b;
     time_t s = (time_t) sec;
-    if(useUTCToLocal) localtime_r(&s,&b);
-    else gmtime_r(&s,&b);
+    if (useUTCToLocal) {
+	  localtime_r(&s,&b);
+	} else {
+#if !RAVL_COMPILER_VISUALCPP
+	  gmtime_r(&s,&b);
+#else
+	  // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
+	  // in lieu os anythings else
+	  b = *gmtime(&s);
+#endif
+	}
     return b.tm_mon + 1;
   }
   
@@ -424,8 +473,17 @@ namespace RavlN {
   IntT DateC::Year(bool useUTCToLocal) const  {
     struct tm b;
     time_t s = (time_t) sec;
-    if(useUTCToLocal) localtime_r(&s,&b);
-    else gmtime_r(&s,&b);
+    if (useUTCToLocal) {
+	  localtime_r(&s,&b);
+	} else {
+#if !RAVL_COMPILER_VISUALCPP
+	  gmtime_r(&s,&b);
+#else
+	  // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
+	  // in lieu os anythings else
+	  b = *gmtime(&s);
+#endif
+	}
     return b.tm_year + 1900;  
   }
   
@@ -434,8 +492,17 @@ namespace RavlN {
   IntT DateC::DayInMonth(bool useUTCToLocal) const  {
     struct tm b;
     time_t s = (time_t) sec;
-    if(useUTCToLocal) localtime_r(&s,&b);
-    else gmtime_r(&s,&b);
+    if (useUTCToLocal) {
+	  localtime_r(&s,&b);
+	} else {
+#if !RAVL_COMPILER_VISUALCPP
+	  gmtime_r(&s,&b);
+#else
+	  // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
+	  // in lieu os anythings else
+	  b = *gmtime(&s);
+#endif
+	}
     return b.tm_mday;    
   }
   
@@ -444,8 +511,17 @@ namespace RavlN {
   IntT DateC::DayInYear(bool useUTCToLocal) const  {
     struct tm b;
     time_t s = (time_t) sec;
-    if(useUTCToLocal) localtime_r(&s,&b);
-    else gmtime_r(&s,&b);
+    if (useUTCToLocal) {
+	  localtime_r(&s,&b);
+	} else {
+#if !RAVL_COMPILER_VISUALCPP
+	  gmtime_r(&s,&b);
+#else
+	  // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
+	  // in lieu os anythings else
+	  b = *gmtime(&s);
+#endif
+	}
     return b.tm_yday;
   }
   
@@ -455,8 +531,17 @@ namespace RavlN {
   IntT DateC::DayInWeek(bool useUTCToLocal) const  {
     struct tm b;
     time_t s = (time_t) sec;
-    if(useUTCToLocal) localtime_r(&s,&b);
-    else gmtime_r(&s,&b);
+    if (useUTCToLocal) {
+	  localtime_r(&s,&b);
+	} else {
+#if !RAVL_COMPILER_VISUALCPP
+	  gmtime_r(&s,&b);
+#else
+	  // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
+	  // in lieu os anythings else
+	  b = *gmtime(&s);
+#endif
+	}
     return b.tm_wday;  
   }
 
@@ -473,7 +558,14 @@ namespace RavlN {
   bool DateC::DaylightSaving() const  {
     struct tm b;
     time_t s = (time_t) sec;
+
+#if !RAVL_COMPILER_VISUALCPP
     gmtime_r(&s,&b);
+#else
+    // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
+    // in lieu os anythings else
+    b = *gmtime(&s);
+#endif
     return b.tm_isdst > 0;
   }
   
