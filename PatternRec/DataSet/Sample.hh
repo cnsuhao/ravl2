@@ -49,7 +49,7 @@ namespace RavlN {
       : DArray1dC<DataT>(dat)
     {}
     //: Create a sample of data from an array
-    // Note: The data is NOT copied any operations done
+    // Note: The data is NOT copied; any operations done
     // on the sample may effect the contents of the original array.
   protected: 
     SampleC(const DArray1dC<DataT> & dat)
@@ -78,7 +78,7 @@ namespace RavlN {
     UIntT Append(const SampleC<DataT> &newData)
     { return DArray1dC<DataT>::Append(newData); }
     //: Append data to this array.
-    // Note: The data is NOT copied any operations done
+    // Note: The data is NOT copied; any operations done
     // on the sample may effect the contents of the original array. <br>
     // The number of items appended is returned.
     
