@@ -4,7 +4,7 @@
 <p>
 There are several macros which you can use for checking invariants
 in your program, much like 'assert(...)' in 'C'. They are 
-defined in 'Ravl/Assert.hh'.<p>
+defined in <a href="../../../../../../include/Ravl/Assert.hh">'Ravl/Assert.hh'</a>.<p>
 
 &nbsp;&nbsp;&nbsp;<b>#include  "Ravl/Assert.hh"</b><p>
 
