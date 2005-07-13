@@ -179,6 +179,14 @@ namespace RavlN {
     operator int() const
     { return v >> N; }
     //: Convert to int.
+
+    IntT Integer() const
+    { return v >> N; }
+    //: Return the nearest integer not greater.
+    
+    FPNumberC<N> Fraction() const
+    { return FPNumberC<N>(v & ((1 << N)-1),true); }
+    //: Return the fractional part of the number
     
     operator double() const
     { return (((RealT) v) / ((RealT) (1 << N))); }
@@ -187,7 +195,7 @@ namespace RavlN {
     IntT &V()
     { return v; }
     //: Access value.
-    
+  
     IntT v;
   };
   
