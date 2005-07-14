@@ -192,6 +192,10 @@ namespace RavlN {
     { return (((RealT) v) / ((RealT) (1 << N))); }
     //: Convert to double.
     
+    IntT RoundInt() const
+    { return (v >> N) + ((v & (1<<(N-1))) != 0 ? 1 : 0);}
+    //: Round to the nearest whole integer.
+    
     IntT &V()
     { return v; }
     //: Access value.
