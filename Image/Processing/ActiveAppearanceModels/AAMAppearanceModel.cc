@@ -472,17 +472,20 @@ namespace RavlImageN {
 
     // Warp it.
 
-    ImageC<ByteT> nimg(rng.IndexRange());
+    ImageC<RealT> nimg(rng.IndexRange());
 #if OMNIAAM_USE_THINPLATEWARP 
-    WarpThinPlateSplineC<RealT,ByteT> warp(warpSigma);
+    WarpThinPlateSplineC<RealT,RealT> warp(warpSigma);
     warp.Apply(image,Array1dC<Point2dC>(maskPoints),Array1dC<Point2dC>(pnts),nimg);
 #else
     nimg.Fill(0);
-    WarpMesh2dC<RealT,ByteT> rwarp(warp);
+    WarpMesh2dC<RealT,RealT> rwarp(warp);
     rwarp.InvApply(image,pnts,nimg);
 #endif
+    ImageC<ByteT> nimgB(rng.IndexRange());
+    for(Array2dIter2C<RealT,ByteT> it(nimg,nimgB);it;it++)
+      it.Data2() = (ByteT) it.Data1();
 
-    return  AAMAppearanceC(pnts,nimg);
+    return  AAMAppearanceC(pnts,nimgB);
   }
 
 

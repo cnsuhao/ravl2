@@ -159,7 +159,7 @@ namespace RavlImageN {
     return lastParm;
   }
     
-  //: Design a model given some data and an existsing appearance model.
+  //: Design a model given some data and an existing appearance model.
   
   bool AAMActiveAppearanceModelBodyC::Design(const AAMAppearanceModelC apm,const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile, const UIntT incrSize) {
     ONDEBUG(cerr << "AAMActiveAppearanceModelBodyC::Design(), Called. \n");
