@@ -10,11 +10,14 @@
 
 #include "Ravl/GUI/RawZoomCanvas.hh"
 #include "Ravl/GUI/Manager.hh"
+#include "Ravl/GUI/Pixbuf.hh"
 #include "Ravl/Image/WarpScale.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Image/ByteIAValue.hh"
 #include "Ravl/Threads/Signal1.hh"
 #include "Ravl/QInt.hh"
+#include "Ravl/Array2dIter2.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -193,6 +196,74 @@ namespace RavlGUIN {
       }
       RawCanvasBodyC::GUIDrawImage(drawImg,Index2dC(0,0),false);
     }
+  }
+  
+  //: Draw an image into the canvas with its origin offset by 'offset'.
+  // Note: You have to include the RavlGUI2d library to use this function.
+  
+  void RawZoomCanvasBodyC::GUIDrawImage(const ImageC<ByteRGBAValueC> &image,const Point2dC &doffset,bool ignoreImageOrigin) {
+    ONDEBUG(cerr << "RawZoomCanvasBodyC::GUIDrawImage(), Called. Offset=" << offset << "\n");
+    IndexRange2dC drawRect = World2GUIi(image.Frame() + doffset);
+    ONDEBUG(cerr << "DrawRect=" << drawRect << " widgetSize=" << widgetSize << "\n");
+    drawRect.ClipBy(widgetSize);
+    if(drawRect.Area() <= 0)
+      return ;
+    ONDEBUG(cerr << "FinalDrawRect=" << drawRect << "\n");
+    
+    if(Abs(scale[0] - 1) < 0.0001 && Abs(scale[0] - 1) < 0.0001) {
+      PixbufC pixBuf(image);
+      RawCanvasBodyC::GUIDrawImage(pixBuf,Index2dC(doffset + offset));
+    } else {
+      ImageC<ByteRGBAValueC> drawImg(drawRect);
+      Vector2dC inc(1/scale[0],1/scale[1]);
+      Array2dIterC<ByteRGBAValueC> it(drawImg);
+      Point2dC pat,start = GUI2World(it.Index()) + doffset;
+      pat = start;
+      for(;it;) {
+	pat[1] = start[1];
+	do {
+	  Index2dC at(QFloor(pat[0]),QFloor(pat[1]));
+	  if(image.Frame().Contains(at))
+	    *it = image[at];
+	  else {
+	    // Try get the closest pixel.
+	    if(!image.Frame().Range1().Contains(at[0]))
+	      at[0]++;
+	    if(!image.Frame().Range2().Contains(at[1]))
+	      at[1]++;
+	    if(image.Contains(at))
+	      *it = image[at];
+	    else *it = ByteRGBAValueC(255,0,0,0);
+	  }
+	  pat[1] += inc[1];
+	} while(it.Next());
+	pat[0] += inc[0];
+      }
+      PixbufC pixBuf(image);
+      RawCanvasBodyC::GUIDrawImage(pixBuf,Index2dC(0,0));
+    }
+    
+  }
+  
+  //: Draw an image into the canvas with its origin offset by 'offset'.
+  // Note: You have to include the RavlGUI2d library to use this function.
+  
+  void RawZoomCanvasBodyC::GUIDrawImage(const ImageC<ByteIAValueC> &image,const Point2dC &doffset,bool ignoreImageOrigin) {
+    ONDEBUG(cerr << "RawZoomCanvasBodyC::GUIDrawImage(), Called. Offset=" << offset << "\n");
+    IndexRange2dC drawRect = World2GUIi(image.Frame() + doffset);
+    ONDEBUG(cerr << "DrawRect=" << drawRect << " widgetSize=" << widgetSize << "\n");
+    drawRect.ClipBy(widgetSize);
+    if(drawRect.Area() <= 0)
+      return ;
+    ONDEBUG(cerr << "FinalDrawRect=" << drawRect << "\n");
+    
+    // A bit crap, but for the moment change this into an RGBA image.
+    
+    ImageC<ByteRGBAValueC> imgRGB(image.Frame());
+    for(Array2dIter2C<ByteRGBAValueC,ByteIAValueC> it(imgRGB,image);it;it++) 
+      it.Data1() = ByteRGBAValueC(it.Data2().Intensity(),it.Data2().Intensity(),it.Data2().Intensity(),it.Data2().Alpha());
+    
+    GUIDrawImage(imgRGB,doffset,ignoreImageOrigin);
   }
   
   //: Translate an expose event.

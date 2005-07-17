@@ -19,10 +19,13 @@
 namespace RavlImageN {
   template<class PixelT> class ImageC;
   class ByteRGBValueC;
+  class ByteRGBAValueC;
+  class ByteIAValueC;
 }
 
 namespace RavlGUIN {
   using namespace RavlImageN;
+  class PixbufC;
   
   //! userlevel=Develop
   //: RawCanvas body.
@@ -81,6 +84,10 @@ namespace RavlGUIN {
     // Note: You have to include the RavlGUI2d library to use this function.
     
     void GUIDrawImage(const ImageC<ByteT> &image,const Index2dC &offset = Index2dC(0,0),bool ignoreImageOrigin = false);
+    //: Draw an image into the canvas with its origin offset by 'offset'.
+    // Note: You have to include the RavlGUI2d library to use this function.
+    
+    void GUIDrawImage(const PixbufC &pixbuf,const Index2dC &offset = Index2dC(0,0));
     //: Draw an image into the canvas with its origin offset by 'offset'.
     // Note: You have to include the RavlGUI2d library to use this function.
     
@@ -209,7 +216,12 @@ namespace RavlGUIN {
     // Note: You have to include the RavlGUI2d library to use this function.
     
     void GUIDrawImage(const ImageC<ByteT> &image,const Index2dC &offset = Index2dC(0,0),bool ignoreImageOrigin = false)
-    {Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
+    { Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
+    //: Draw an image into the canvas with its origin offset by 'offset'.
+    // Note: You have to include the RavlGUI2d library to use this function.
+    
+    void GUIDrawImage(const PixbufC &pixbuf,const Index2dC &offset = Index2dC(0,0))
+    { Body().GUIDrawImage(pixbuf,offset); }
     //: Draw an image into the canvas with its origin offset by 'offset'.
     // Note: You have to include the RavlGUI2d library to use this function.
     

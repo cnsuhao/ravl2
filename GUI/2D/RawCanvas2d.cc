@@ -9,6 +9,7 @@
 //! file="Ravl/GUI/2D/RawCanvas2d.cc"
 
 #include "Ravl/GUI/RawCanvas.hh"
+#include "Ravl/GUI/Pixbuf.hh"
 #include <gtk/gtk.h>
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
@@ -54,5 +55,24 @@ namespace RavlGUIN {
 			const_cast<ImageC<ByteT> &>(img).Row(img.TRow()),
 			img.Stride());
   }
+
+  
+  //: Draw an image into the canvas with its origin offset by 'offset'.
+  // Note: You have to include the RavlGUI2d library to use this function.
+  
+  void RawCanvasBodyC::GUIDrawImage(const PixbufC &pixbuf,const Index2dC &offset) {
+    if(!pixbuf.IsValid())
+      return;
+    Index2dC at = offset;
+    gdk_draw_pixbuf(DrawArea(),
+		    widget->style->black_gc,
+		    const_cast<PixbufC &>(pixbuf).Pixbuf(),
+		    0,0,
+		    at[1].V(),at[0].V(),
+		    pixbuf.Cols(),pixbuf.Rows(),
+		    GDK_RGB_DITHER_NORMAL,
+		    0,0);
+  }
+  
   
 }

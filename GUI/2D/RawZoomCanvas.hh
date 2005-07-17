@@ -102,7 +102,15 @@ namespace RavlGUIN {
     //: Draw an image into the canvas with its origin offset by 'offset'.
     // Note: You have to include the RavlGUI2d library to use this function.
     
+    void GUIDrawImage(const ImageC<ByteRGBAValueC> &image,const Point2dC &offset,bool ignoreImageOrigin = false);
+    //: Draw an image into the canvas with its origin offset by 'offset'.
+    // Note: You have to include the RavlGUI2d library to use this function.
+    
     void GUIDrawImage(const ImageC<ByteT> &image,const Point2dC &offset,bool ignoreImageOrigin = false);
+    //: Draw an image into the canvas with its origin offset by 'offset'.
+    // Note: You have to include the RavlGUI2d library to use this function.
+    
+    void GUIDrawImage(const ImageC<ByteIAValueC> &image,const Point2dC &offset,bool ignoreImageOrigin = false);
     //: Draw an image into the canvas with its origin offset by 'offset'.
     // Note: You have to include the RavlGUI2d library to use this function.
     
@@ -260,11 +268,16 @@ namespace RavlGUIN {
     //: Draw an image into the canvas with its origin offset by 'offset'.
     // Note: You have to include the RavlGUI2d library to use this function.
     
-    void GUIDrawImage(const ImageC<ByteT> &image,const Point2dC &offset = Point2dC(0,0),bool ignoreImageOrigin = false)
+    void GUIDrawImage(const ImageC<ByteRGBAValueC> &image,const Point2dC &offset,bool ignoreImageOrigin = false)
     { Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
     //: Draw an image into the canvas with its origin offset by 'offset'.
     // Note: You have to include the RavlGUI2d library to use this function.
     
+    void GUIDrawImage(const ImageC<ByteT> &image,const Point2dC &offset = Point2dC(0,0),bool ignoreImageOrigin = false)
+    { Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
+    //: Draw an image into the canvas with its origin offset by 'offset'.
+    // Note: You have to include the RavlGUI2d library to use this function.
+        
     bool TranslateExposeEvent(const GdkEvent* event,RealRange2dC &rect,IntT &toFollow)
     { return Body().TranslateExposeEvent(event,rect,toFollow); }
     //: Translate an expose event.
@@ -306,11 +319,21 @@ namespace RavlGUIN {
     //: Draw an image into the canvas with its origin offset by 'offset'.
     // Note: You have to include the RavlGUI2d library to use this function.
     
-    void GUIDrawImage(const ImageC<ByteT> &image,const Index2dC &offset,bool ignoreImageOrigin = false)
-    {Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
+    void GUIDrawImage(const ImageC<ByteRGBAValueC> &image,const Index2dC &offset,bool ignoreImageOrigin = false)
+    { Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
     //: Draw an image into the canvas with its origin offset by 'offset'.
     // Note: You have to include the RavlGUI2d library to use this function.
     
+    void GUIDrawImage(const ImageC<ByteT> &image,const Index2dC &offset,bool ignoreImageOrigin = false)
+    { Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
+    //: Draw an image into the canvas with its origin offset by 'offset'.
+    // Note: You have to include the RavlGUI2d library to use this function.
+    
+    void GUIDrawImage(const ImageC<ByteIAValueC> &image,const Point2dC &offset,bool ignoreImageOrigin = false)
+    { Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
+    //: Draw an image into the canvas with its origin offset by 'offset'.
+    // Note: You have to include the RavlGUI2d library to use this function.
+
     bool TranslateExposeEvent(const GdkEvent* event,IndexRange2dC &rect,IntT &toFollow)
     { return Body().TranslateExposeEvent(event,rect,toFollow); }
     //: Translate an expose event.

@@ -18,6 +18,7 @@
 #include "Ravl/GUI/Canvas.hh"
 #include "Ravl/Option.hh"
 #include "Ravl/EntryPnt.hh"
+#include "Ravl/Image/ByteRGBAValue.hh"
 
 #define DODEBUG 0
 
@@ -56,6 +57,7 @@ int exCanvas(int nargs,char *args[])
       img[x][y] = ByteRGBValueC(x*2+25,y*2+25,0);
   }
   draw.DrawImage(img,Index2dC(50,50));
+  
   
   draw.DrawLine(10,10,100,100,1); // Draw a line from 10,10 to 100,100 colour 1
   draw.DrawLine(100,10,10,100,2); // Draw a line from 100,10 to 10,100 colour 2

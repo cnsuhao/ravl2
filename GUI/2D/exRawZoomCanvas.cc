@@ -13,6 +13,7 @@
 #include "Ravl/GUI/RawZoomCanvas.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Image/ByteRGBAValue.hh"
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/Polygon2d.hh"
@@ -23,11 +24,14 @@
 using namespace RavlGUIN;
 
 ImageC<ByteRGBValueC> img;
+ImageC<ByteRGBAValueC> img2;
 Polygon2dC poly;
 RawZoomCanvasC canvas;
 
 bool Refresh() {
   canvas.GUIDrawImage(img);
+  canvas.GUIDrawImage(img2,Index2dC(50,50));
+  
   if(!poly.IsEmpty()) {
     Point2dC last = poly.Last();
     for(DLIterC<Point2dC> it(poly);it;it++) {
@@ -72,6 +76,13 @@ int main(int nargs,char **argv) {
   for(int i = 0;i <256;i++)
     for(int j = 0;j < 256;j++)
       img[i][j] = ByteRGBValueC(i,j,0);
+  
+  
+  img2 = ImageC<ByteRGBAValueC>(100,100);
+  for(int x=0;x <100;x++) {
+    for(int y=0;y <100;y++)
+      img2[x][y] = ByteRGBAValueC(x*2+25,0,y*2+25,((x&0x2) ^ (y&0x2)) != 0 ? 255 : 0);
+  }
   
   //canvas.SetBackground(img);
   

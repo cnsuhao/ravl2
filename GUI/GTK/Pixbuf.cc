@@ -33,6 +33,13 @@ namespace RavlGUIN {
     
     delete ((ImageC<ByteRGBValueC> *) data);
   }
+
+  static void DeleteImageRGBARef(guchar *pixels, gpointer data)
+  {
+    ONDEBUG(cerr << "DeleteImageRef(), Called. \n");
+    
+    delete ((ImageC<ByteRGBAValueC> *) data);
+  }
   
   //: Copy constructor
 
@@ -58,8 +65,8 @@ namespace RavlGUIN {
   
   //: Create from an image.
   
-  PixbufC::PixbufC(const ImageC<ByteRGBValueC> &img) :
-    pixbuf(0)
+  PixbufC::PixbufC(const ImageC<ByteRGBValueC> &img) 
+    : pixbuf(0)
   {
     ONDEBUG(cerr << "PixbufC::PixbufC(const ImageC<ByteRGBValueC>&)\n");
     
@@ -67,21 +74,38 @@ namespace RavlGUIN {
     {
       void *imgHandle = new ImageC<ByteRGBValueC>(img); // Create a refrence to the image.
       pixbuf = gdk_pixbuf_new_from_data ((guchar *) (&img[img.Frame().Origin()]),
-					 GDK_COLORSPACE_RGB,false,8,img.Cols(),img.Rows(),img.Stride() * sizeof(ByteRGBValueC),&DeleteImageRef,imgHandle);
-      gdk_pixbuf_ref(pixbuf);
+					 GDK_COLORSPACE_RGB,false,8,img.Cols(),img.Rows(),
+					 img.Stride() * sizeof(ByteRGBValueC),
+					 &DeleteImageRef,
+					 imgHandle
+					 );
     }
   }
   
+  //: Create from an image.
+  
+  PixbufC::PixbufC(const ImageC<ByteRGBAValueC> &img) 
+    : pixbuf(0)
+  {
+    if (img.Frame().Area() > 0) {
+      void *imgHandle = new ImageC<ByteRGBAValueC>(img); // Create a refrence to the image.
+      pixbuf = gdk_pixbuf_new_from_data ((guchar *) (&img[img.Frame().Origin()]),
+					 GDK_COLORSPACE_RGB,true,8,img.Cols(),img.Rows(),
+					 img.Stride() * sizeof(ByteRGBAValueC),
+					 &DeleteImageRGBARef,
+					 imgHandle
+					 );
+    }
+  }
+
   //: Create from XPM data.
   
-  PixbufC::PixbufC(const char **data) :
-    pixbuf(0)
+  PixbufC::PixbufC(const char **data) 
+    : pixbuf(0)
   {
     ONDEBUG(cerr << "PixbufC::PixbufC(const char**)\n");
     
     pixbuf = gdk_pixbuf_new_from_xpm_data(data);
-    if (pixbuf != 0)
-      gdk_pixbuf_ref(pixbuf);
   }
   
   //: Create from filename.
@@ -92,8 +116,14 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "PixbufC::PixbufC(const StringC&)\n");
     
     pixbuf = gdk_pixbuf_new_from_file(name, NULL);
-    if (pixbuf != 0)
-      gdk_pixbuf_ref(pixbuf);
+  }
+
+  //: Create a new pixbuf.
+  
+  PixbufC::PixbufC(IntT rows,IntT cols,bool withAlpha,IntT bitsPerPixel)
+    : pixbuf(0)
+  {
+    pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB,withAlpha,bitsPerPixel,cols,rows);
   }
 
   //: Destructor.
@@ -117,7 +147,7 @@ namespace RavlGUIN {
     pixbuf = other.pixbuf;
     if (pixbuf != 0)
       gdk_pixbuf_ref(pixbuf);
-
+    
     if (tempPixbuf != 0)
       gdk_pixbuf_unref(tempPixbuf);
 

@@ -15,6 +15,7 @@
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Image/ByteRGBAValue.hh"
 #include "Ravl/GUI/Widget.hh"
 
 #if RAVL_USE_GTK2
@@ -47,11 +48,17 @@ namespace RavlGUIN {
     PixbufC(const ImageC<ByteRGBValueC> &img);
     //: Create from an image.
     
+    PixbufC(const ImageC<ByteRGBAValueC> &img);
+    //: Create from an image.
+    
     explicit PixbufC(const char **data);
     //: Create from XPM data.
     
     explicit PixbufC(const StringC &name);
     //: Create from filename
+    
+    PixbufC(IntT rows,IntT cols,bool withAlpha,IntT bitsPerPixel = 8);
+    //: Create a new pixbuf.
     
     ~PixbufC();
     //: Destructor.
@@ -61,16 +68,21 @@ namespace RavlGUIN {
     
     GdkPixbuf *Pixbuf()
     { return pixbuf; }
-
+    //: Access raw pixbuf
+    
     const GdkPixbuf *Pixbuf() const
     { return pixbuf; }
+    //: Access raw pixbuf
     
     const bool IsValid() const
     { return (pixbuf != 0); }
+    //: Test if this is a valid pixbuf
     
     const IntT Rows() const;
+    //: Number of rows in pixbuf
     
     const IntT Cols() const;
+    //: Number of cols in pixbuf
     
   protected:
     GdkPixbuf *pixbuf;
