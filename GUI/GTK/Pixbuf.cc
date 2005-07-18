@@ -73,8 +73,8 @@ namespace RavlGUIN {
     if (img.Frame().Area() > 0)
     {
       void *imgHandle = new ImageC<ByteRGBValueC>(img); // Create a refrence to the image.
-      pixbuf = gdk_pixbuf_new_from_data ((guchar *) (&img[img.Frame().Origin()]),
-					 GDK_COLORSPACE_RGB,false,8,img.Cols(),img.Rows(),
+      pixbuf = gdk_pixbuf_new_from_data ((guchar *) &(img[img.Frame().Origin()]),
+                                         GDK_COLORSPACE_RGB,false,8,img.Cols(),img.Rows(),
 					 img.Stride() * sizeof(ByteRGBValueC),
 					 &DeleteImageRef,
 					 imgHandle
@@ -87,9 +87,10 @@ namespace RavlGUIN {
   PixbufC::PixbufC(const ImageC<ByteRGBAValueC> &img) 
     : pixbuf(0)
   {
+    ONDEBUG(cerr << "PixbufC::PixbufC(const ImageC<ByteRGBAValueC>&) Stride=" << img.Stride() << "\n");
     if (img.Frame().Area() > 0) {
       void *imgHandle = new ImageC<ByteRGBAValueC>(img); // Create a refrence to the image.
-      pixbuf = gdk_pixbuf_new_from_data ((guchar *) (&img[img.Frame().Origin()]),
+      pixbuf = gdk_pixbuf_new_from_data ((guchar *) &(img[img.Frame().Origin()]),
 					 GDK_COLORSPACE_RGB,true,8,img.Cols(),img.Rows(),
 					 img.Stride() * sizeof(ByteRGBAValueC),
 					 &DeleteImageRGBARef,

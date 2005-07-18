@@ -30,7 +30,7 @@ RawZoomCanvasC canvas;
 
 bool Refresh() {
   canvas.GUIDrawImage(img);
-  canvas.GUIDrawImage(img2,Index2dC(50,50));
+  canvas.GUIDrawImage(img2,Index2dC(0,0)); // ,Index2dC(50,50)
   
   if(!poly.IsEmpty()) {
     Point2dC last = poly.Last();

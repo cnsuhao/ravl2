@@ -210,7 +210,7 @@ namespace RavlGUIN {
       return ;
     ONDEBUG(cerr << "FinalDrawRect=" << drawRect << "\n");
     
-    if(Abs(scale[0] - 1) < 0.0001 && Abs(scale[0] - 1) < 0.0001) {
+    if(Abs(scale[0] - 1) < 0.0001 && Abs(scale[0] - 1) < 0.0001 && 0) {
       PixbufC pixBuf(image);
       RawCanvasBodyC::GUIDrawImage(pixBuf,Index2dC(doffset + offset));
     } else {
@@ -233,14 +233,15 @@ namespace RavlGUIN {
 	      at[1]++;
 	    if(image.Contains(at))
 	      *it = image[at];
-	    else *it = ByteRGBAValueC(255,0,0,0);
+	    else *it = ByteRGBAValueC(255,0,0,255);
 	  }
 	  pat[1] += inc[1];
 	} while(it.Next());
 	pat[0] += inc[0];
       }
-      PixbufC pixBuf(image);
-      RawCanvasBodyC::GUIDrawImage(pixBuf,Index2dC(0,0));
+      ONDEBUG(cerr << "RawZoomCanvasBodyC::GUIDrawImage, Frame=" << drawImg.Frame() << "\n");
+      PixbufC pixBuf(drawImg);
+      RawCanvasBodyC::GUIDrawImage(pixBuf,drawImg.Frame().Origin()); // 
     }
     
   }
