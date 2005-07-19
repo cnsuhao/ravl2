@@ -16,7 +16,7 @@
 #include "Ravl/IO.hh"
 #include <string.h>
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -169,7 +169,7 @@ namespace RavlImageN {
   
   void SegmentExtremaBaseC::GenerateRegions() {
     ExtremaChainPixelC *at;
-    IntT n, clevel = 0;
+    IntT n, clevel = levels.Range().Min().V();
     ExtremaRegionC *labels[4];
     for(Array1dIterC<ExtremaChainPixelC *> lit(levels);lit;lit++,clevel++) {
       //ONDEBUG(cerr << "Level=" << clevel << " \n");
@@ -190,7 +190,7 @@ namespace RavlImageN {
   //: Generate thresholds
   
   void SegmentExtremaBaseC::Thresholds2() {
-    cerr << "SegmentExtremaBaseC::Thresholds2() Called. Margin=" << minMargin << "\n";
+    //cerr << "SegmentExtremaBaseC::Thresholds2() Called. Margin=" << minMargin << "\n";
     Array1dC<IntT> chist(0,limitMaxValue);
     Array1dC<RealT> nhist(0,limitMaxValue);
     for(SArray1dIterC<ExtremaRegionC> it(regionMap,labelAlloc);it;it++) {
@@ -270,17 +270,18 @@ namespace RavlImageN {
       IntT sum = 0;
       IntT i;
       
+      ONDEBUG(cerr << "Hist= " << it->minValue << " :");
 #if 0
-      //cerr << "Hist= " << it->minValue << " :";
       for(i = minValue;i <= maxValue;i++) {
 	sum += it->hist[i];
 	chist[i] = sum;
-	//cerr << " " << it->hist[i] ;
+	ONDEBUG(cerr << " " << it->hist[i]);
       }
 #else
       // Smooth the histogram.
       sum = (it->hist[minValue] + it->hist[minValue+1]) / 2;
       chist[minValue] = sum;
+      ONDEBUG(cerr << " " << it->hist[minValue]);
       for(i = minValue+1;i < maxValue;i++) {
 	if(it->hist[i] != 0) {
 	  sum += (it->hist[i] + it->hist[i-1] + it->hist[i+1])/3;
@@ -289,20 +290,20 @@ namespace RavlImageN {
 	  chist[i] = sum;
 	}
 	chist[i] = sum;
-	//cerr << " " << it->hist[i] ;
+	ONDEBUG(cerr << " " << it->hist[i]);
       }
       sum += (it->hist[maxValue] + it->hist[maxValue-1]) / 2;
 #endif
       chist[maxValue] = sum;
       
-      //cerr << "\n";
+      ONDEBUG(cerr << "  Closed=" << (it->closed != 0)<< "\n");
       IntT up;
       // look for threshold that guarantee area bigger than minSize.
       for(i = minValue; i <= maxValue;i++)
 	if(chist[i] >= minSize) break; 
       // Find thresholds.
       nthresh = 0;
-      //cerr << "Min=" << minValue << " Max=" << maxValue << " Init=" << i << "\n";
+      ONDEBUG(cerr << "Min=" << minValue << " Max=" << maxValue << " Init=" << i << " MaxSize=" << maxSize << "\n");
       for(up=i+1; up < maxValue; i++) {
 	int area_i = chist[i];
 	if(area_i > maxSize) {
@@ -314,7 +315,7 @@ namespace RavlImageN {
 	  up++;
 	
 	int margin = up - i;
-	//cerr << " Margin=" << margin << "\n";
+	//ONDEBUG(cerr << " Margin=" << margin << "\n");
 	if(margin > minMargin ) { // && margin > prevMargin
 	  ExtremaThresholdC &et = thresh[nthresh++];
 	  et.pos = i;
@@ -331,7 +332,7 @@ namespace RavlImageN {
 	et.margin = margin;
 	et.thresh = maxValue-1;	
       }
-      
+      //ONDEBUG(cerr << "NThresh=" <<  nthresh << "\n");
       ExtremaThresholdC *newthresh = new ExtremaThresholdC[nthresh];
       IntT nt = 0;
       

@@ -251,7 +251,9 @@ namespace RavlImageN {
 
     if(valueRange.Max() >= limitMaxValue)
       valueRange.Max() = limitMaxValue-1;
-      
+    
+    //cerr << "SegmentExtremaC<PixelT>::SortPixels, Value Range=" << valueRange << "\n";
+    
     // Check level list allocation.
     
     if(!levels.Range().Contains(valueRange))
@@ -261,8 +263,8 @@ namespace RavlImageN {
     // Sort pixels into appropriate lists.
     
     for(Array2dIter2C<PixelT,ExtremaChainPixelC> it(img,pixs,img.Frame());it;it++) {
-      PixelT val = it.Data1();
       it.Data2().region = 0;
+      PixelT val = it.Data1();
       if(val >= limitMaxValue) {
         it.Data2().next = 0;
 	continue;
@@ -303,7 +305,7 @@ namespace RavlImageN {
     
     if(valueRange.Max() >= limitMaxValue)
       valueRange.Max() = limitMaxValue-1;
-      
+    //cerr << "SegmentExtremaC<PixelT>::SortPixels, Value Range=" << valueRange << "\n";
     // Check level list allocation.
     
     if(!levels.Range().Contains(valueRange))
@@ -360,7 +362,6 @@ namespace RavlImageN {
   template<class PixelT>
   DListC<BoundaryC> SegmentExtremaC<PixelT>::GrowRegionBoundary(ExtremaRegionC &region,FloodRegionC<PixelT> &flood) {
     DListC<BoundaryC> ret;
-    //cerr << " Thresholds=" << region.nThresh << "\n";
     for(int i = 0;i < region.nThresh;i++) {
       BoundaryC boundary;
       if(flood.GrowRegion(region.minat,region.thresh[i].thresh,boundary))

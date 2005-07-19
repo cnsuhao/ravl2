@@ -60,7 +60,7 @@ int main(int nargs,char **argv) {
 	it.Data1() = 255 - it.Data2();
     } else
       pimg = img;
-    
+    //RavlN::Save("@X",pimg);
     DListC<BoundaryC> bounds = lst.Apply(pimg);
     if(verbose)
       cerr << "Regions=" << bounds.Size() << "\n";
