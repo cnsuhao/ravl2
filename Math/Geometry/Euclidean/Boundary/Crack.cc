@@ -17,26 +17,6 @@
 
 namespace RavlN {
   
-  CrackC::CrackC(const BVertexC & begin, const BVertexC & end)
-    : BVertexC(begin)
-  {
-    if (begin.RightN() == end) crackCode = CR_RIGHT;
-    else if (begin.LeftN() == end)  crackCode = CR_LEFT;
-    else if (begin.UpN() == end)    crackCode = CR_UP;
-    else if (begin.DownN() == end)  crackCode = CR_DOWN;
-  }
-  
-  CrackC::CrackC(const Index2dC &pxl, const CrackCodeC & cc)
-    : BVertexC(pxl), CrackCodeC(cc)
-  {
-    switch (cc.Code()) {
-    case CR_DOWN :                 break;
-    case CR_RIGHT: Down();         break;
-    case CR_UP   : Down().Right(); break;
-    case CR_LEFT : Right();        break;
-    case CR_NODIR:                 break;
-    }
-  }
 
   //: Mid point along crack.
   

@@ -54,12 +54,29 @@ namespace RavlN {
     // Create the crack with origin in the boundary vertex 'px' and with
     // direction 'cc'.
     
-    CrackC(const BVertexC & begin, const BVertexC & end);
+    CrackC(const BVertexC & begin, const BVertexC & end)
+      : BVertexC(begin)
+    {
+      if (begin.RightN() == end) crackCode = CR_RIGHT;
+      else if (begin.LeftN() == end)  crackCode = CR_LEFT;
+      else if (begin.UpN() == end)    crackCode = CR_UP;
+      else if (begin.DownN() == end)  crackCode = CR_DOWN;
+    }
     // Create the crack with origin in the boundary vertex 'begin' pointing 
     // towards the boundary vertex 'end'. The direction is automatically 
     // generated.
     
-    CrackC(const Index2dC &pxl, const CrackCodeC & cc);
+    CrackC(const Index2dC &pxl, const CrackCodeC & cc)
+      : BVertexC(pxl), CrackCodeC(cc)
+    {
+      switch (cc.Code()) {
+      case CR_DOWN :                 break;
+      case CR_RIGHT: Down();         break;
+      case CR_UP   : Down().Right(); break;
+      case CR_LEFT : Right();        break;
+      case CR_NODIR:                 break;
+      }
+    }    
     // Creates the crack which starts at one corner of the pixel 'pxl'
     // and has the direction 'cc'. The corner of the pixel is chosen
     // in such way that the elementary crack is an elementary crack of the pixel.
