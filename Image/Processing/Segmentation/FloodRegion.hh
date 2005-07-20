@@ -49,6 +49,11 @@ namespace RavlImageN {
   template<class PixelT,class InclusionTestT = FloorRegionThresholdC<PixelT> >
   class FloodRegionC {
   public:
+    FloodRegionC()
+      : pixQueue(128-12)
+    {}
+    //: Default constructor.
+    
     FloodRegionC(const ImageC<PixelT> &nimg)
       : pixQueue(128-12)
     { SetupImage(nimg); }
@@ -60,80 +65,22 @@ namespace RavlImageN {
     
     bool SetupImage(const ImageC<PixelT> &nimg) {
       img = nimg;
-      if(marki.Frame() != img.Frame()) {
-	marki = ImageC<IntT>(img.Frame());
+      IndexRange2dC rng = img.Frame().Expand(1);
+      if(!marki.Frame().Contains(rng)) {
+	marki = ImageC<IntT>(rng);
 	marki.Fill(0);
 	id = 1;
       }
       return true;
     }
     //: Setup new image for processing.
-    
-    IntT GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,BoundaryC &boundary,IntT maxSize = 0) {
-      RavlAssert(pixQueue.IsEmpty());
-      inclusionTest = inclusionCriteria;
-      boundary = BoundaryC(); // Create a new boundary list
-      if(!inclusionTest(img[seed]))
-	return false; // Empty region.
-      pixQueue.InsLast(seed);
-      id++;
-      IntT size = 0;
-      if(maxSize == 0) {
-	while(!pixQueue.IsEmpty()) {
-	  AddPixels(boundary,pixQueue.GetFirst());
-	  size++;
-	}
-      } else {
-	while(!pixQueue.IsEmpty() && size < maxSize) {
-	  AddPixels(boundary,pixQueue.GetFirst());
-	  size++;
-	}
-	if(!pixQueue.IsEmpty()) {
-	  pixQueue.Empty();
-	  return false;
-	}
-      }
-      return size;
-    }
-    //: Grow a region from 'seed' including all connected pixel less than or equal to threshold, generate a boundary as the result.
-    // Returns the region size.
 
+    IntT GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,BoundaryC &boundary,IntT maxSize = 0);
+    //: Grow a region from 'seed' including all connected pixel less than or equal to threshold, generate a mask as the result.
+    // Returns the region size.
+    
     template<typename MaskT>
-    IntT GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,ImageC<MaskT> &mask,IntT padding = 0,IntT maxSize = 0) {
-      inclusionTest = inclusionCriteria;
-      RavlAssert(pixQueue.IsEmpty());
-      if(!inclusionTest(img[seed]))
-	return false; // Empty region.
-      pixQueue.InsLast(seed);
-      id++;
-      IntT size = 0;
-      IndexRange2dC rng(seed,1,1);
-      if(maxSize <= 0) {
-	while(!pixQueue.IsEmpty())
-	  AddPixels(rng,pixQueue.GetFirst());
-      } else {
-	while(!pixQueue.IsEmpty() && size < maxSize) {
-	  AddPixels(rng,pixQueue.GetFirst());
-	  size++;
-	}
-	if(!pixQueue.IsEmpty()) {
-	  pixQueue.Empty();
-	  return false; // Region too big.
-	}
-      }
-      mask = ImageC<MaskT>(rng.Expand(padding));
-      if(padding > 0)
-	DrawFrame(mask,(MaskT) 0,padding,mask.Frame());
-      size = 0;
-      for(Array2dIter2C<MaskT,IntT> it(mask,marki,rng);it;it++) {
-	if(it.Data2() == id) {
-	  size++;
-	  it.Data1() = 1;
-	} else
-	  it.Data1() = 0;
-      }
-      return size;
-    }
+    IntT GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,ImageC<MaskT> &mask,IntT padding = 0,IntT maxSize = 0);
     //: Grow a region from 'seed' including all connected pixel less than or equal to threshold, generate a mask as the result.
     // The mask images are generated with a boundary
     // Returns the region size.
@@ -147,6 +94,9 @@ namespace RavlImageN {
     //: Access current region id.
     
   protected:
+    bool BaseGrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,IndexRange2dC &rng);
+    //: Base grow region routine.
+    
     ImageC<PixelT> img;
     ImageC<IntT> marki;
     IntT id;
@@ -195,6 +145,236 @@ namespace RavlImageN {
     //: Add pixels to a region.
     
   };
+  
+#if 0
+  template<class PixelT,class InclusionTestT>
+  IntT FloodRegionC<PixelT,InclusionTestT>::GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,BoundaryC &boundary,IntT maxSize) {
+    RavlAssert(pixQueue.IsEmpty());
+    inclusionTest = inclusionCriteria;
+    boundary = BoundaryC(); // Create a new boundary list
+    if(!inclusionTest(img[seed]))
+      return false; // Empty region.
+    pixQueue.InsLast(seed);
+    id++;
+    IntT size = 0;
+    if(maxSize == 0) {
+      while(!pixQueue.IsEmpty()) {
+        AddPixels(boundary,pixQueue.GetFirst());
+        size++;
+      }
+    } else {
+      while(!pixQueue.IsEmpty() && size < maxSize) {
+        AddPixels(boundary,pixQueue.GetFirst());
+        size++;
+      }
+      if(!pixQueue.IsEmpty()) {
+        pixQueue.Empty();
+        return false;
+      }
+    }
+    return size;
+  }
+  
+  template<class PixelT,class InclusionTestT>
+  template<typename MaskT>
+  IntT FloodRegionC<PixelT,InclusionTestT>::GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,ImageC<MaskT> &mask,IntT padding,IntT maxSize) {
+    inclusionTest = inclusionCriteria;
+    RavlAssert(pixQueue.IsEmpty());
+    if(!inclusionTest(img[seed]))
+      return false; // Empty region.
+    pixQueue.InsLast(seed);
+    id++;
+    IntT size = 0;
+    IndexRange2dC rng(seed,1,1);
+    if(maxSize <= 0) {
+      while(!pixQueue.IsEmpty())
+        AddPixels(rng,pixQueue.GetFirst());
+    } else {
+      while(!pixQueue.IsEmpty() && size < maxSize) {
+        AddPixels(rng,pixQueue.GetFirst());
+        size++;
+      }
+      if(!pixQueue.IsEmpty()) {
+        pixQueue.Empty();
+        return false; // Region too big.
+      }
+    }
+    mask = ImageC<MaskT>(rng.Expand(padding));
+    if(padding > 0)
+      DrawFrame(mask,(MaskT) 0,padding,mask.Frame());
+    size = 0;
+    for(Array2dIter2C<MaskT,IntT> it(mask,marki,rng);it;it++) {
+      if(it.Data2() == id) {
+        size++;
+        it.Data1() = 1;
+      } else
+        it.Data1() = 0;
+    }
+    return size;
+  }
+
+
+#else
+
+  class FloodRegionLineC {
+  public:
+    FloodRegionLineC(Index2dC nstart,IndexC colEnd,IndexC ndr)
+      : start(nstart),
+        end(colEnd),
+        dr(ndr)
+    {}
+    //: Constructor.
+
+    FloodRegionLineC(IndexC row,IndexC col,IndexC colEnd,IndexC ndr)
+      : start(row,col),
+        end(colEnd),
+        dr(ndr)
+    {}
+    //: Constructor.
+    
+    const Index2dC &Start() const
+    { return start; }
+    //: Access start location
+    
+    IndexC End() const
+    { return end;}
+    //: Get end of line.
+
+    IndexC DR() const
+    { return dr; }
+    //: Row direction.
+    
+  protected:
+    Index2dC start;
+    IndexC end;
+    IndexC dr;
+  };
+
+  //: Base grow region routine.
+  // A rewrite of code from: A Seed Fill Algorithm by Paul Heckbert from "Grahics Gems", Academic Press, 1990
+  
+  template<class PixelT,class InclusionTestT>
+  bool FloodRegionC<PixelT,InclusionTestT>::BaseGrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,IndexRange2dC &rng) {
+    inclusionTest = inclusionCriteria;
+    
+    // Check seed.
+    RavlAssert(img.Frame().Contains(seed));
+    if(!inclusionTest(img[seed]))
+      return false; // Empty region.
+    
+    // Setup stack.
+    BlkQueueC<FloodRegionLineC > pixQueue(4096);
+    const IndexRangeC &imgCols = img.Range2();
+    const IndexRangeC &imgRows = img.Range1();
+    
+    if(img.Frame().Range1().Contains(seed.Row()+1))
+      pixQueue.InsFirst(FloodRegionLineC(seed.Row()+1,seed.Col(),seed.Col(),1));
+    pixQueue.InsFirst(FloodRegionLineC(seed.Row(),seed.Col(),seed.Col(),-1));
+    
+    // Misc bits a pieces.
+    rng = IndexRange2dC(seed,1,1);
+    id++;
+    IndexC l = 0;
+    
+    while(!pixQueue.IsEmpty()) {
+      // Pop next line to examine off the stack.
+      FloodRegionLineC line = pixQueue.GetFirst();
+      const IndexC lsc = line.Start().Col();
+      const IndexC lsr = line.Start().Row();
+      //cerr << "Line=" << lsr << " " << lsc << " " << line.End() << " DR=" << line.DR() << "\n";
+      // Involve scan line in rec.
+      rng.Range1().Involve(lsr);
+      
+      // Do some prep for fast row access.
+      RangeBufferAccessC<PixelT> irow = img[lsr];
+      RangeBufferAccessC<IntT> mrow = marki[lsr];
+      
+      // segment of scan line lsr - line.DY() for lsc <= c <= line.End() was previously filled,
+      // now explore adjacent pixels in scan line lsr
+      IndexC c;
+      for (c = lsc; c >= imgCols.Min() && (mrow[c] != id) && inclusionTest(irow[c]); c--) 
+        mrow[c] = id;
+      
+      if (c >= lsc)
+        goto skip;
+      
+      rng.Range2().Involve(c);
+      l = c+1;
+      if (l < lsc) { // Leak on the left ?
+        IndexC newRow = lsr-line.DR();
+        if(imgRows.Contains(newRow))
+          pixQueue.InsFirst(FloodRegionLineC(newRow,l,lsc-1,-line.DR()));
+      }
+      
+      c = lsc+1;
+      
+      do {
+        for (; c <= imgCols.Max() && (mrow[c] != id) && inclusionTest(irow[c]); c++)
+          mrow[c] = id;
+        rng.Range2().Involve(c);
+        
+        {
+          IndexC newRow = lsr+line.DR();
+          if(imgRows.Contains(newRow))
+            pixQueue.InsFirst(FloodRegionLineC(newRow,l,c-1,line.DR()));
+        }
+        
+        if (c > (line.End() + 1)) { // Leak on the right ?
+          IndexC newRow = lsr-line.DR();
+          if(imgRows.Contains(newRow))
+            pixQueue.InsFirst(FloodRegionLineC(newRow,(line.End() + 1),c-1,-line.DR()));
+        }
+        
+      skip:    
+        for (c++; c <= line.End() && ((mrow[c] == id) || !inclusionTest(irow[c])); c++);
+        l = c;
+      } while (c <= line.End());
+    }
+    return true;
+  }
+  
+
+  template<class PixelT,class InclusionTestT>
+  IntT FloodRegionC<PixelT,InclusionTestT>::GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,BoundaryC &boundary,IntT maxSize) {
+    IndexRange2dC rng;
+    if(!BaseGrowRegion(seed,inclusionCriteria,rng) || rng.Area() <= 0) {
+      boundary = BoundaryC();
+      return 0;
+    }
+    rng = rng.Expand(1);
+    rng.ClipBy(marki.Frame());
+    boundary = BoundaryC(ImageC<IntT>(marki,rng),id);
+    return boundary.Area();
+  }
+  
+  
+  template<class PixelT,class InclusionTestT>
+  template<typename MaskT>
+  IntT FloodRegionC<PixelT,InclusionTestT>::GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,ImageC<MaskT> &mask,IntT padding,IntT maxSize) {
+    IndexRange2dC rng;
+    
+    if(!BaseGrowRegion(seed,inclusionCriteria,rng)) {
+      mask = ImageC<MaskT>();
+      return 0;
+    }
+    
+    // Extract region.
+    mask = ImageC<MaskT>(rng.Expand(padding));
+    if(padding > 0)
+      DrawFrame(mask,(MaskT) 0,padding,mask.Frame());
+    IntT size = 0;
+    for(Array2dIter2C<MaskT,IntT> it(mask,marki,rng);it;it++) {
+      if(it.Data2() == id) {
+        size++;
+        it.Data1() = 1;
+      } else
+        it.Data1() = 0;
+    }
+    return size;
+  }
+  
+  
+#endif  
 }
 
 #endif

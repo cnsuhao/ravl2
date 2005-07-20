@@ -226,6 +226,7 @@ namespace RavlImageN {
     DListC<ImageC<IntT> > GrowRegionMask(ExtremaRegionC &region,FloodRegionC<PixelT> &fr);
     //: Grow regions associated with a extrema.
     
+    FloodRegionC<PixelT> flood; // Region fill code.    
   };
 
   
@@ -342,7 +343,7 @@ namespace RavlImageN {
   template<class PixelT>
   DListC<BoundaryC> SegmentExtremaC<PixelT>::GrowRegionBoundary(const ImageC<PixelT> &img) {
     //cerr << "SegmentExtremaBaseC::GrowRegions() \n";
-    FloodRegionC<PixelT> flood(img);
+    flood.SetupImage(img);
     
     DListC<BoundaryC> bounds;
     if(labelAlloc == 0)
@@ -373,7 +374,7 @@ namespace RavlImageN {
   template<class PixelT>
   DListC<ImageC<IntT> > SegmentExtremaC<PixelT>::GrowRegionMask(const ImageC<PixelT> &img) {
     //cerr << "SegmentExtremaBaseC::GrowRegions() \n";
-    FloodRegionC<PixelT> flood(img);
+    flood.SetupImage(img);
     
     DListC<ImageC<IntT> > masks;
     if(labelAlloc == 0)
