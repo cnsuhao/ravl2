@@ -111,12 +111,16 @@ namespace RavlImageN {
     IntT offset = pix - origin;
     region.total = 0;
     region.merge = 0; //&region;
+    if(region.hist == 0)
+      region.hist = PopHist(level);
+    else {
+      IntT clearSize = (region.maxValue+1) - level;
+      if(clearSize > 0)
+	memset(&(region.hist[level]),0,clearSize * sizeof(IntT));
+    }
     region.minValue = level;
     region.maxValue = valueRange.Max().V();
     region.minat = Index2dC((offset / stride),(offset % stride)) + pixs.Frame().Origin() + Index2dC(1,1);
-    if(region.hist == 0)
-      region.hist = new IntT [limitMaxValue+2];
-    memset(&(region.hist[level]),0,((limitMaxValue + 1) - level) * sizeof(IntT));
     region.hist[level] = 1;
     region.total = 1;
     region.thresh = 0;
@@ -158,9 +162,15 @@ namespace RavlImageN {
       oldr.maxValue = level;
       oldr.merge = max;
       oldr.closed = max;
+      
+      // If we don't need the histogram, put it back in a pool
+      if(oldr.hist != 0 && oldr.total < minSize) {
+	PushHist(oldr.hist,level);
+	oldr.hist = 0;
+      }
+      
       nr.total += oldr.total;
       nr.hist[level] += oldr.total;
-
     }
     AddPixel(pix,level,max);
   }

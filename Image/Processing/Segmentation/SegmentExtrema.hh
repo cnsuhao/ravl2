@@ -84,7 +84,8 @@ namespace RavlImageN {
       : labelAlloc(1),
 	minSize(nMinSize),
 	minMargin(nMinMargin),
-	limitMaxValue(nlimitMaxValue)
+	limitMaxValue(Max(nlimitMaxValue,3)),
+	histStack(0)
     {}
     //: Constructor.
     
@@ -149,7 +150,37 @@ namespace RavlImageN {
     IntT maxSize;
     RealT minMargin;
     IntT limitMaxValue; // Maximum image value that will be encountered.
+
+    struct HistStackC {
+      IntT max;
+      HistStackC *next;
+    };
     
+    HistStackC *histStack;
+    
+    IntT *PopHist(IntT level) {
+      if(histStack == 0) {
+	IntT *val =  new IntT [limitMaxValue+2];
+	memset(&(val[level]),0,sizeof(IntT) * ((limitMaxValue+1)-level));
+	return val;
+      }
+      HistStackC *ret = histStack;
+      histStack = ret->next;
+      IntT *rret = reinterpret_cast<IntT *>(ret);
+      IntT clearSize = Min(ret->max+1,2) - level;
+      if(clearSize > 0)
+	memset(&(rret[level]),0,sizeof(IntT) * clearSize);
+      return rret;
+    }
+    //: Get a new histogram.
+    
+    void PushHist(IntT *stack,IntT used) {
+      register HistStackC *tmp = reinterpret_cast<HistStackC *>(stack);
+      tmp->max = used;
+      tmp->next = histStack;
+      histStack = tmp;
+    }
+    //: Push unused histogram
   };
   
   
@@ -227,6 +258,8 @@ namespace RavlImageN {
     //: Grow regions associated with a extrema.
     
     FloodRegionC<PixelT> flood; // Region fill code.    
+        
+    
   };
 
   
