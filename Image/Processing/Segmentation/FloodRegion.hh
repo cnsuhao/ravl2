@@ -21,7 +21,47 @@
 #include "Ravl/Boundary.hh"
 
 namespace RavlImageN {
+  
+  //! userlevel=Develop
+  //: Scan line info
+  
+  class FloodRegionLineC {
+  public:
+    FloodRegionLineC(Index2dC nstart,IndexC colEnd,IndexC ndr)
+      : start(nstart),
+        end(colEnd),
+        dr(ndr)
+    {}
+    //: Constructor.
 
+    FloodRegionLineC(IndexC row,IndexC col,IndexC colEnd,IndexC ndr)
+      : start(row,col),
+        end(colEnd),
+        dr(ndr)
+    {}
+    //: Constructor.
+    
+    const Index2dC &Start() const
+    { return start; }
+    //: Access start location
+    
+    IndexC End() const
+    { return end;}
+    //: Get end of line.
+
+    IndexC DR() const
+    { return dr; }
+    //: Row direction.
+    
+  protected:
+    Index2dC start;
+    IndexC end;
+    IndexC dr;
+  };
+  
+  //! userlevel=Normal
+  //: Threshold comparison class.
+  
   template<class PixelT>
   class FloorRegionThresholdC {
   public:
@@ -50,12 +90,12 @@ namespace RavlImageN {
   class FloodRegionC {
   public:
     FloodRegionC()
-      : pixQueue(128-12)
+      : pixQueue(1024)
     {}
     //: Default constructor.
     
     FloodRegionC(const ImageC<PixelT> &nimg)
-      : pixQueue(128-12)
+      : pixQueue(1024)
     { SetupImage(nimg); }
     //: Constructor with image to segment.
     
@@ -100,9 +140,10 @@ namespace RavlImageN {
     ImageC<PixelT> img;
     ImageC<IntT> marki;
     IntT id;
-    BlkQueueC<Index2dC> pixQueue;
-    
     InclusionTestT inclusionTest;
+
+#if 0    
+    BlkQueueC<Index2dC> pixQueue;
     
     inline
     bool AddIfInside(Index2dC at) {
@@ -143,7 +184,9 @@ namespace RavlImageN {
 	AddIfInside(Index2dC(at[0]-1,at[1]));
     }
     //: Add pixels to a region.
-    
+#else
+    BlkQueueC<FloodRegionLineC > pixQueue;    
+#endif    
   };
   
 #if 0
@@ -178,7 +221,7 @@ namespace RavlImageN {
   template<class PixelT,class InclusionTestT>
   template<typename MaskT>
   IntT FloodRegionC<PixelT,InclusionTestT>::GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,ImageC<MaskT> &mask,IntT padding,IntT maxSize) {
-    inclusionTest = inclusionCriteria;
+    inclusionTest = inclusionCriteria;    
     RavlAssert(pixQueue.IsEmpty());
     if(!inclusionTest(img[seed]))
       return false; // Empty region.
@@ -215,55 +258,21 @@ namespace RavlImageN {
 
 
 #else
-
-  class FloodRegionLineC {
-  public:
-    FloodRegionLineC(Index2dC nstart,IndexC colEnd,IndexC ndr)
-      : start(nstart),
-        end(colEnd),
-        dr(ndr)
-    {}
-    //: Constructor.
-
-    FloodRegionLineC(IndexC row,IndexC col,IndexC colEnd,IndexC ndr)
-      : start(row,col),
-        end(colEnd),
-        dr(ndr)
-    {}
-    //: Constructor.
-    
-    const Index2dC &Start() const
-    { return start; }
-    //: Access start location
-    
-    IndexC End() const
-    { return end;}
-    //: Get end of line.
-
-    IndexC DR() const
-    { return dr; }
-    //: Row direction.
-    
-  protected:
-    Index2dC start;
-    IndexC end;
-    IndexC dr;
-  };
-
+  
   //: Base grow region routine.
   // A rewrite of code from: A Seed Fill Algorithm by Paul Heckbert from "Grahics Gems", Academic Press, 1990
   
   template<class PixelT,class InclusionTestT>
   bool FloodRegionC<PixelT,InclusionTestT>::BaseGrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,IndexRange2dC &rng) {
     inclusionTest = inclusionCriteria;
-    
+    pixQueue.Empty();
     // Check seed.
     RavlAssert(img.Frame().Contains(seed));
     if(!inclusionTest(img[seed]))
       return false; // Empty region.
     
     // Setup stack.
-    BlkQueueC<FloodRegionLineC > pixQueue(4096);
+    
     const IndexRangeC &imgCols = img.Range2();
     const IndexRangeC &imgRows = img.Range1();
     
@@ -274,19 +283,25 @@ namespace RavlImageN {
     // Misc bits a pieces.
     rng = IndexRange2dC(seed,1,1);
     id++;
-    IndexC l = 0;
     
+    // Lookout for id wrap around.
+    if(id == 0) {
+      marki.Fill(0); 
+      id++;
+    }
+    
+    IndexC l = 0;
     while(!pixQueue.IsEmpty()) {
       // Pop next line to examine off the stack.
       FloodRegionLineC line = pixQueue.GetFirst();
-      const IndexC lsc = line.Start().Col();
-      const IndexC lsr = line.Start().Row();
+      const IndexC &lsc = line.Start().Col();
+      const IndexC &lsr = line.Start().Row();
       //cerr << "Line=" << lsr << " " << lsc << " " << line.End() << " DR=" << line.DR() << "\n";
       // Involve scan line in rec.
       rng.Range1().Involve(lsr);
       
       // Do some prep for fast row access.
-      RangeBufferAccessC<PixelT> irow = img[lsr];
+      const RangeBufferAccessC<PixelT> irow = img[lsr];
       RangeBufferAccessC<IntT> mrow = marki[lsr];
       
       // segment of scan line lsr - line.DY() for lsc <= c <= line.End() was previously filled,

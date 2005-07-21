@@ -167,7 +167,7 @@ namespace RavlImageN {
       HistStackC *ret = histStack;
       histStack = ret->next;
       IntT *rret = reinterpret_cast<IntT *>(ret);
-      IntT clearSize = Min(ret->max+1,2) - level;
+      IntT clearSize = Max(ret->max+1,3) - level;
       if(clearSize > 0)
 	memset(&(rret[level]),0,sizeof(IntT) * clearSize);
       return rret;

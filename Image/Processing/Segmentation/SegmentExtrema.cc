@@ -111,13 +111,22 @@ namespace RavlImageN {
     IntT offset = pix - origin;
     region.total = 0;
     region.merge = 0; //&region;
-    if(region.hist == 0)
+    if(region.hist == 0) {
       region.hist = PopHist(level);
-    else {
-      IntT clearSize = (region.maxValue+1) - level;
+    } else {
+      IntT clearSize = (region.maxValue + 1)- level;
       if(clearSize > 0)
 	memset(&(region.hist[level]),0,clearSize * sizeof(IntT));
     }
+#if 0
+    // Check the histogram is clear.
+    for(int i = level;i <= valueRange.Max().V();i++) {
+      if(region.hist[i] != 0) 
+        cerr << "Non zero at " << i << " Max=" << valueRange.Max().V() <<  "\n";
+      RavlAlwaysAssert(region.hist[i] == 0);
+    }
+#endif
+
     region.minValue = level;
     region.maxValue = valueRange.Max().V();
     region.minat = Index2dC((offset / stride),(offset % stride)) + pixs.Frame().Origin() + Index2dC(1,1);
@@ -164,7 +173,7 @@ namespace RavlImageN {
       oldr.closed = max;
       
       // If we don't need the histogram, put it back in a pool
-      if(oldr.hist != 0 && oldr.total < minSize) {
+      if(oldr.hist != 0 && (oldr.total < minSize || (level - oldr.minValue) < minMargin) ) {
 	PushHist(oldr.hist,level);
 	oldr.hist = 0;
       }
@@ -270,7 +279,7 @@ namespace RavlImageN {
 	it->nThresh = 0;// Ingore these regions.
 	continue; 
       }
-      if((it->maxValue - it->minValue) < 2) {
+      if((it->maxValue - it->minValue) < minMargin) {
 	it->nThresh = 0;// Ingore these regions.
 	continue; // Not enough levels in the region.
       }
