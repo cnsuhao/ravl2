@@ -248,13 +248,13 @@ namespace RavlImageN {
     DListC<BoundaryC> GrowRegionBoundary(const ImageC<PixelT> &img);
     //: Grow regions.
     
-    DListC<BoundaryC> GrowRegionBoundary(ExtremaRegionC &region,FloodRegionC<PixelT> &fr);
+    DListC<BoundaryC> GrowRegionBoundary(ExtremaRegionC &region);
     //: Grow regions associated with a extrema.
     
     DListC<ImageC<IntT> > GrowRegionMask(const ImageC<PixelT> &img);
     //: Grow regions.
     
-    DListC<ImageC<IntT> > GrowRegionMask(ExtremaRegionC &region,FloodRegionC<PixelT> &fr);
+    DListC<ImageC<IntT> > GrowRegionMask(ExtremaRegionC &region);
     //: Grow regions associated with a extrema.
     
     FloodRegionC<PixelT> flood; // Region fill code.    
@@ -318,25 +318,29 @@ namespace RavlImageN {
     SetupImage(img.Frame());
     
     // Find range of values in image.
-    
-    for(DLIterC<IndexRange2dC> rit;rit;rit++) {
+    bool first = true;
+    PixelT lmin = 0;
+    PixelT lmax = 0;
+    for(DLIterC<IndexRange2dC> rit(roi);rit;rit++) {
       IndexRange2dC rng = *rit;
       rng.ClipBy(img.Frame());
       if(rng.Area() < 1)
 	continue;
       Array2dIterC<PixelT> it(img,rng);
-      PixelT lmin = *it;
-      PixelT lmax = *it;
+      if(first) {
+        lmin = *it;
+        lmax = *it;
+        first = false;
+      }
       for(;it;it++) {
 	if(*it < lmin)
 	  lmin = *it;
 	if(*it > lmax)
 	  lmax = *it;
       }
-      valueRange.Min() = (IntT) lmin;
-      valueRange.Max() = (IntT) lmax;
     }
-    
+    valueRange.Min() = (IntT) lmin;
+    valueRange.Max() = (IntT) lmax;
     if(valueRange.Max() >= limitMaxValue)
       valueRange.Max() = limitMaxValue-1;
     //cerr << "SegmentExtremaC<PixelT>::SortPixels, Value Range=" << valueRange << "\n";
@@ -355,7 +359,7 @@ namespace RavlImageN {
     
     // Sort pixels into appropriate lists.
     
-    for(DLIterC<IndexRange2dC> rit;rit;rit++) {
+    for(DLIterC<IndexRange2dC> rit(roi);rit;rit++) {
       IndexRange2dC rng = *rit;
       rng.ClipBy(img.Frame());
       if(rng.Area() < 1)
@@ -383,7 +387,7 @@ namespace RavlImageN {
       return bounds;
     for(SArray1dIterC<ExtremaRegionC> it(regionMap,labelAlloc-1);it;it++) {
       if(it->nThresh > 0)
-	bounds += GrowRegionBoundary(*it,flood);
+	bounds += GrowRegionBoundary(*it);
       if(it->thresh != 0) {
 	delete [] it->thresh;
 	it->thresh = 0;
@@ -394,7 +398,7 @@ namespace RavlImageN {
   }
   
   template<class PixelT>
-  DListC<BoundaryC> SegmentExtremaC<PixelT>::GrowRegionBoundary(ExtremaRegionC &region,FloodRegionC<PixelT> &flood) {
+  DListC<BoundaryC> SegmentExtremaC<PixelT>::GrowRegionBoundary(ExtremaRegionC &region) {
     DListC<BoundaryC> ret;
     for(int i = 0;i < region.nThresh;i++) {
       BoundaryC boundary;
@@ -414,7 +418,7 @@ namespace RavlImageN {
       return masks;
     for(SArray1dIterC<ExtremaRegionC> it(regionMap,labelAlloc-1);it;it++) {
       if(it->nThresh > 0)
-        masks += GrowRegionMask(*it,flood);
+        masks += GrowRegionMask(*it);
       if(it->thresh != 0) {
         delete [] it->thresh;
         it->thresh = 0;
@@ -425,7 +429,7 @@ namespace RavlImageN {
   }
   
   template<class PixelT>
-  DListC<ImageC<IntT> > SegmentExtremaC<PixelT>::GrowRegionMask(ExtremaRegionC &region,FloodRegionC<PixelT> &flood) {
+  DListC<ImageC<IntT> > SegmentExtremaC<PixelT>::GrowRegionMask(ExtremaRegionC &region) {
     DListC<ImageC<IntT> > ret;
     //cerr << " Thresholds=" << region.nThresh << "\n";
     for(int i = 0;i < region.nThresh;i++) {

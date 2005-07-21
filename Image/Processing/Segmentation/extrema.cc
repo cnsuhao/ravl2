@@ -29,9 +29,11 @@ int main(int nargs,char **argv) {
   bool drawBlack = opt.Boolean("db",false,"Draw results into a black background.");
   bool invert = opt.Boolean("inv",false,"Invert image before processing. ");
   bool verbose = opt.Boolean("v",false,"Verbose mode. ");
+  IntT trim = opt.Int("t",0,"Trim the image being processed. ");
   StringC fn = opt.String("","test.pgm","Input image. ");
   StringC ofn = opt.String("","","Output boundries. ");  
   opt.Check();
+
   
   ImageC<ByteT> img;
   
@@ -51,8 +53,14 @@ int main(int nargs,char **argv) {
       return 1;
     }
   }
+
+  IndexRange2dSetC trimSet;
+  trimSet = trimSet.Add(IndexRange2dC(trim,trim));
+  
   ImageC<ByteT> pimg;
   while(inp.Get(img)) {
+
+
     if(invert) {
       if(pimg.IsEmpty())
 	pimg = ImageC<ByteT>(img.Frame());
@@ -61,7 +69,12 @@ int main(int nargs,char **argv) {
     } else
       pimg = img;
     //RavlN::Save("@X",pimg);
-    DListC<BoundaryC> bounds = lst.Apply(pimg);
+    DListC<BoundaryC> bounds;
+    if(trim > 0)
+      bounds = lst.Apply(pimg,trimSet);
+    else
+      bounds = lst.Apply(pimg);
+    
     if(verbose)
       cerr << "Regions=" << bounds.Size() << "\n";
     if(drawResults) {
