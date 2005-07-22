@@ -27,7 +27,7 @@ SOURCES = AAMAppearance.cc AAMShapeModel.cc AAMAppearanceModel.cc AAMActiveAppea
 
 MUSTLINK = AAMActiveAppearanceModelMustLink.cc
 
-PLIB = RavlImageProc
+PLIB = RavlAAM
 
 USESLIBS=  RavlCore RavlImage  RavlMath RavlOS RavlPatternRec RavlOptimise RavlIO
 PROGLIBS = RavlImageIO RavlMathIO RavlDPDisplay.opt RavlGUI RavlGUI2D
