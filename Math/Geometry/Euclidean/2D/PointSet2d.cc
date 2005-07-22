@@ -12,6 +12,8 @@
 #include "Ravl/DLIter.hh"
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/Vector2d.hh"
+#include "Ravl/Affine2d.hh"
+#include "Ravl/Projection2d.hh"
 
 namespace RavlN {
 
@@ -100,6 +102,22 @@ namespace RavlN {
   const PointSet2dC &PointSet2dC::operator*=(RealT scale) {
     for(DLIterC<Point2dC> it(*this);it;it++)
       *it *= scale;
+    return *this;
+  }
+  
+  //: Scale the point set by multiplying the points by trans.
+  
+  const PointSet2dC &PointSet2dC::operator*=(const Affine2dC &trans) {
+    for(DLIterC<Point2dC> it(*this);it;it++)
+      *it = trans * (*it);
+    return *this;
+  }
+  
+  //: Scale the point set by multiplying the points by trans.
+  
+  const PointSet2dC &PointSet2dC::operator*=(const Projection2dC &trans) {
+    for(DLIterC<Point2dC> it(*this);it;it++)
+      *it = trans * (*it);
     return *this;
   }
   

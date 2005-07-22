@@ -21,6 +21,10 @@
 #include "Ravl/RealRange2d.hh"
 
 namespace RavlN {  
+
+  class Affine2dC;
+  class Projection2dC;
+
   //! userlevel=Normal
   //: A set of points in 2d space
   
@@ -52,6 +56,12 @@ namespace RavlN {
     
     const PointSet2dC &operator*=(RealT scale);
     //: Scale the point set by multiplying the points by 'scale'.
+
+    const PointSet2dC &operator*=(const Affine2dC &trans);
+    //: Transform the points in place using an affine transform
+
+    const PointSet2dC &operator*=(const Projection2dC &trans);
+    //: Transform the points in place using a projective transform
   };
    
 }
