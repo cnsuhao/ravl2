@@ -31,6 +31,6 @@ namespace RavlN {
     a2 *= m;
     centre = np2 + a2;
     radius = centre.EuclidDistance(p0);
-    return 1;
+    return true;
   }
 }
