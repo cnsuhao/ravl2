@@ -37,7 +37,7 @@ namespace RavlImageN {
       if((it.Data2() > upThr) && (((EdgeStateT) it.Data1()) == EDGE_UNPROC))
 	ret.LabelContour(it.Index());
     
-#if 0 
+#if 0
     // Don't really need to do this.
     for(Array2dIterC<ByteT> it(ret);it;it++)
       if(*it == EDGE_UNPROC)
@@ -87,6 +87,7 @@ namespace RavlImageN {
       if(neighbours != 2) {
 	//ONDEBUG(cerr << "Junction at " << pxl << " Neigh=" << neighbours << "\n");
 	PutState(val,EDGE_JUNCT);
+	edgeCount++;
       } else {
 	//ONDEBUG(cerr << "Edge     at " << pxl << "\n");
 	PutDir(val, dir[0], FB_FORWARD);
@@ -153,8 +154,6 @@ namespace RavlImageN {
                                                    const ImageC<RealT> & inDcIm,  
                                                    const ImageC<RealT> & inGrad,
                                                    bool clearDir) {
-    SArray1dC<EdgelC> rawEdges(edgeCount);
-    IntT rawPos = 0;
     DListC<SArray1dC<EdgelC> > strings;
     
     SArray1dC<Index2dC> forward(edgeCount);
@@ -203,18 +202,19 @@ namespace RavlImageN {
       }
       // Generate edgel's
       
-      IntT start = rawPos;
+      SArray1dC<EdgelC> newEdges(bi+fi);
+      IntT rawPos = 0;
       for(bi--;bi >= 0;bi--) {
         Index2dC at = backward[bi];
-        rawEdges[rawPos++] = EdgelC(at,inDcIm[at],inDrIm[at],inGrad[at]);
+        newEdges[rawPos++] = EdgelC(at,inDcIm[at],inDrIm[at],inGrad[at]);
       }
       
       for(int i = 0;i < fi;i++) {
         Index2dC at = forward[i];
-        rawEdges[rawPos++] = EdgelC(at,inDcIm[at],inDrIm[at],inGrad[at]);
+        newEdges[rawPos++] = EdgelC(at,inDcIm[at],inDrIm[at],inGrad[at]);
       }
       
-      strings.InsLast(rawEdges.From(start,rawPos - start)); 
+      strings.InsLast(newEdges); 
     }
     if(clearDir) {
       // the upper six bits contain information about neigbouring edge direction

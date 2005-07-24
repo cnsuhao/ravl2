@@ -37,6 +37,9 @@ namespace RavlImageN {
     
     bool Apply(const ImageC<RealT> &img,EdgeLinkC &edgeMap,ImageC<RealT> &edgeDx,ImageC<RealT> &edgeDy,ImageC<RealT> &edgeMag);
     //: Apply the edge detector to 'img', generate an edge map image.
+
+    bool Apply(const ImageC<ByteT> &img,EdgeLinkC &edgeMap,ImageC<RealT> &edgeDx,ImageC<RealT> &edgeDy,ImageC<RealT> &edgeMag);
+    //: Apply the edge detector to 'img', generate an edge map image.
     
     bool Apply(const ImageC<RealT> &img,SArray1dC<EdgelC> &edges);
     //: Apply the edge detector to 'img', generate an array of edgels.
@@ -45,6 +48,12 @@ namespace RavlImageN {
     //: Apply the edge detector to 'img', generate a list of edgels.
     
     bool Apply(const ImageC<RealT> &img,DListC<SArray1dC<EdgelC> > &edgeLists);
+    //: Apply the edge detector to 'img', generate an array of ordered edgels list.
+
+    bool Apply(const ImageC<ByteT> &img,DListC<SArray1dC<EdgelC> > &edgeLists);
+    //: Apply the edge detector to 'img', generate an array of ordered edgels list.
+    
+    bool Apply(const ImageC<ByteT> &img,DListC<DListC<EdgelC> > &edgeLists);
     //: Apply the edge detector to 'img', generate an array of ordered edgels list.
     
     SArray1dC<EdgelC> PApply(const ImageC<RealT> &img) {
@@ -97,6 +106,10 @@ namespace RavlImageN {
     bool Apply(const ImageC<RealT> &img,EdgeLinkC &edgeMap,ImageC<RealT> &edgeDx,ImageC<RealT> &edgeDy,ImageC<RealT> &edgeMag)
     { return Body().Apply(img,edgeMap,edgeDx,edgeDy,edgeMag); }
     //: Apply the edge detector to 'img', generate an edge link image.
+    
+    bool Apply(const ImageC<ByteT> &img,EdgeLinkC &edgeMap,ImageC<RealT> &edgeDx,ImageC<RealT> &edgeDy,ImageC<RealT> &edgeMag)
+    { return Body().Apply(img,edgeMap,edgeDx,edgeDy,edgeMag); }
+    //: Apply the edge detector to 'img', generate an edge link image.
 
     bool Apply(const ImageC<RealT> &img,EdgeLinkC &edgeMap) { 
       ImageC<RealT> edgeDx;
@@ -125,6 +138,14 @@ namespace RavlImageN {
     bool Apply(const ImageC<RealT> &img,DListC<EdgelC> &edges)
     { return Body().Apply(img,edges); }
     //: Apply the edge detector to 'img', generate a list of edgels.
+    
+    bool Apply(const ImageC<ByteT> &img,DListC<SArray1dC<EdgelC> > &edgeLists)
+    { return Body().Apply(img,edgeLists); }
+    //: Apply the edge detector to 'img', generate an array of ordered edgels list.
+    
+    bool Apply(const ImageC<ByteT> &img,DListC<DListC<EdgelC> > &edgeLists)
+    { return Body().Apply(img,edgeLists); }
+    //: Apply the edge detector to 'img', generate an array of ordered edgels list.
     
   };
   

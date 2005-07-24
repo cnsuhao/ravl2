@@ -11,6 +11,7 @@
 
 #include "Ravl/Image/EdgeDetector.hh"
 #include "Ravl/Image/EdgeSobel.hh"
+#include "Ravl/Image/ImageConv.hh"
 
 namespace RavlImageN {
 
@@ -27,15 +28,15 @@ namespace RavlImageN {
   //: Apply the edge detector to 'img', generate an array of ordered edgels list.
   
   bool EdgeDetectorBodyC::Apply(const ImageC<RealT> &img,DListC<SArray1dC<EdgelC> > &edgeLists) {
-    ImageC<RealT> edgeDx;
-    ImageC<RealT> edgeDy;
+    ImageC<RealT> edgeDr;
+    ImageC<RealT> edgeDc;
     ImageC<RealT> edgeMag;
     EdgeLinkC edgeMap;
-    if(!Apply(img,edgeMap,edgeDx,edgeDy,edgeMag))
+    if(!Apply(img,edgeMap,edgeDr,edgeDc,edgeMag))
       return false;    
     
-    edgeLists =  edgeMap.LinkEdgels(edgeDx,
-                                    edgeDy,
+    edgeLists =  edgeMap.LinkEdgels(edgeDr,
+                                    edgeDc,
                                     edgeMag,
                                     false
                                     );
@@ -44,25 +45,51 @@ namespace RavlImageN {
     
 
 
-  //: Apply the edge detector to 'img', generate an edge link image.
+  //: Apply the edge detector to 'img', generate an edge map image.
   
-  bool EdgeDetectorBodyC::Apply(const ImageC<RealT> &img,EdgeLinkC &edgeMap,ImageC<RealT> &edgeDx,ImageC<RealT> &edgeDy,ImageC<RealT> &nonMax) {     
+  bool EdgeDetectorBodyC::Apply(const ImageC<ByteT> &img,EdgeLinkC &edgeMap,ImageC<RealT> &edgeDr,ImageC<RealT> &edgeDc,ImageC<RealT> &nonMax) {
     ImageC<RealT> edgeMag;
-    if(useDeriche)
-      edgeDet.Apply(img,edgeDx,edgeDy);
-    else {
-      EdgeSobelC<RealT,RealT> ed;
-      ed.Apply(img,edgeDx,edgeDy);
+    if(useDeriche) {
+      ImageC<RealT> rimg = ByteImageCT2DoubleImageCT(img);
+      edgeDet.Apply(rimg,edgeDr,edgeDc);
+    } else {
+      EdgeSobelC<ByteT,RealT> ed;
+      ed.Apply(img,edgeDr,edgeDc);
     }
     
-    sqrCompose.Apply(edgeDx,edgeDy,edgeMag);
-    RavlAssert(edgeDx.Frame().Area() > 0);
-    RavlAssert(edgeDy.Frame().Area() > 0);
+    sqrCompose.Apply(edgeDr,edgeDc,edgeMag);
+    RavlAssert(edgeDr.Frame().Area() > 0);
+    RavlAssert(edgeDc.Frame().Area() > 0);
     RavlAssert(edgeMag.Frame().Area() > 0);
     
     RealT mean;
     IntT edgels;
-    nonMaxSup.Apply(edgeDx,edgeDy,edgeMag,nonMax,mean,edgels);
+    nonMaxSup.Apply(edgeDr,edgeDc,edgeMag,nonMax,mean,edgels);
+    
+    edgeMap = HysteresisThreshold(nonMax,minHyst,maxHyst);
+    
+    return true;    
+  }
+  
+  //: Apply the edge detector to 'img', generate an edge link image.
+  
+  bool EdgeDetectorBodyC::Apply(const ImageC<RealT> &img,EdgeLinkC &edgeMap,ImageC<RealT> &edgeDr,ImageC<RealT> &edgeDc,ImageC<RealT> &nonMax) {     
+    ImageC<RealT> edgeMag;
+    if(useDeriche)
+      edgeDet.Apply(img,edgeDr,edgeDc);
+    else {
+      EdgeSobelC<RealT,RealT> ed;
+      ed.Apply(img,edgeDr,edgeDc);
+    }
+    
+    sqrCompose.Apply(edgeDr,edgeDc,edgeMag);
+    RavlAssert(edgeDr.Frame().Area() > 0);
+    RavlAssert(edgeDc.Frame().Area() > 0);
+    RavlAssert(edgeMag.Frame().Area() > 0);
+    
+    RealT mean;
+    IntT edgels;
+    nonMaxSup.Apply(edgeDr,edgeDc,edgeMag,nonMax,mean,edgels);
     
     edgeMap = HysteresisThreshold(nonMax,minHyst,maxHyst);
     
@@ -72,26 +99,69 @@ namespace RavlImageN {
   //: Apply the edge detector to 'img', returning a list of edgels.
   
   bool EdgeDetectorBodyC::Apply(const ImageC<RealT> &img,SArray1dC<EdgelC> &edges) {
-    ImageC<RealT> edgeDx;
-    ImageC<RealT> edgeDy;
+    ImageC<RealT> edgeDr;
+    ImageC<RealT> edgeDc;
     ImageC<RealT> edgeMag;
     EdgeLinkC edgeMap;
-    if(!Apply(img,edgeMap,edgeDx,edgeDy,edgeMag))
+    if(!Apply(img,edgeMap,edgeDr,edgeDc,edgeMag))
       return false;    
-    edges = edgeMap.ArrayOfEdgels(edgeDx,edgeDy,edgeMag);
+    edges = edgeMap.ArrayOfEdgels(edgeDr,edgeDc,edgeMag);
     return true;
   }
 
   //: Apply the edge detector to 'img', generate a list of edgels.
   
   bool EdgeDetectorBodyC::Apply(const ImageC<RealT> &img,DListC<EdgelC> &edges) {
-    ImageC<RealT> edgeDx;
-    ImageC<RealT> edgeDy;
+    ImageC<RealT> edgeDr;
+    ImageC<RealT> edgeDc;
     ImageC<RealT> nonMax;
     EdgeLinkC edgeMap;
-    if(!Apply(img,edgeMap,edgeDx,edgeDy,nonMax))
+    if(!Apply(img,edgeMap,edgeDr,edgeDc,nonMax))
       return false;    
-    edges = edgeMap.ListOfEdgels(edgeDx,edgeDy,nonMax);
+    edges = edgeMap.ListOfEdgels(edgeDr,edgeDc,nonMax);
+    return true;
+  }
+
+  //: Apply the edge detector to 'img', generate an array of ordered edgels list.
+  
+  bool EdgeDetectorBodyC::Apply(const ImageC<ByteT> &img,DListC<SArray1dC<EdgelC> > &edgeLists) {
+    ImageC<RealT> edgeDr;
+    ImageC<RealT> edgeDc;
+    ImageC<RealT> edgeMag;
+    EdgeLinkC edgeMap;
+    if(!Apply(img,edgeMap,edgeDr,edgeDc,edgeMag))
+      return false;    
+    
+    edgeLists =  edgeMap.LinkEdgels(edgeDr,
+                                    edgeDc,
+                                    edgeMag,
+                                    false
+                                    );
+    return true;
+  }
+
+  //: Apply the edge detector to 'img', generate an array of ordered edgels list.
+  
+  bool EdgeDetectorBodyC::Apply(const ImageC<ByteT> &img,DListC<DListC<EdgelC> > &edgeLists) {
+    ImageC<RealT> edgeDr;
+    ImageC<RealT> edgeDc;
+    ImageC<RealT> edgeMag;
+    EdgeLinkC edgeMap;
+    if(!Apply(img,edgeMap,edgeDr,edgeDc,edgeMag))
+      return false;    
+    
+    edgeLists.Empty();
+    
+    // Convert to edgel list.
+    
+    DListC<DListC<Index2dC> > rawEdges = edgeMap.LinkEdges();
+    for(DLIterC<DListC<Index2dC> > itStr(rawEdges);itStr;itStr++) {
+      DListC<EdgelC> str;
+      for(DLIterC<Index2dC> it(*itStr);it;it++) {
+	str.InsLast(EdgelC(*it,edgeDr[*it],edgeDc[*it],edgeMag[*it]));
+      }
+      edgeLists.InsLast(str);
+    }
     return true;
   }
 
