@@ -52,6 +52,20 @@ namespace RavlImageN {
   }
   //: Draw a single-colour polygon into the image
 
+
+  template<class DataT>
+  void DrawPolyline(Array2dC<DataT> &dat,const DataT &value,const DListC<Point2dC> &poly) {
+    // Draw individual lines
+    DLIterC<Point2dC> it(poly);
+    if(!it) return ; // Nothing to draw!
+    Point2dC last = *it;
+    for (it++; it; it++) {
+      DrawLine(dat,value,last,*it);
+      last = *it;
+    }
+  }
+  //: Draw a poly line into the image.
+  
   template<class DataT>
   void DrawPolygon(Array2dC<DataT> &dat,const DListC<DataT>& values,const Polygon2dC &poly, bool fill=false) {
     // Draw shaded polygon
