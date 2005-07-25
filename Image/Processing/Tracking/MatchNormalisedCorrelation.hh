@@ -10,7 +10,7 @@
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! date="28/11/2002"
-//! docentry="Ravl.Images.Tracking"
+//! docentry="Ravl.Images.Tracking;Ravl.Images.Correlation"
 //! file="Ravl/Image/Processing/Tracking/MatchNormalisedCorrelation.hh"
 
 #include "Ravl/Image/Image.hh"

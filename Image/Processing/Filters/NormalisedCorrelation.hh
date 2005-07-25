@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_NORMALISEDCORRELATION_HEADER
 #define RAVLIMAGE_NORMALISEDCORRELATION_HEADER 1
 //! author="Charles Galambos"
-//! docentry="Ravl.Images"
+//! docentry="Ravl.Images.Correlation"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Filters/NormalisedCorrelation.hh"
@@ -18,6 +18,8 @@
 
 namespace RavlImageN {
   
+  //! userlevel=Normal
+
   template<typename Data1T,typename Data2T>
   RealT NormalisedCorrelation(const ImageC<Data1T> &img1,const ImageC<Data2T> &img2) {
     RavlAssert(img2.Frame().Size() == img1.Frame().Size());
