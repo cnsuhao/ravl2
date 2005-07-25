@@ -95,6 +95,7 @@ namespace RavlN {
     Vector2dC Perpendicular() const
     { return Vector2dC(-data[1],data[0]); }
     //: Get a vector perpendicular to this one.
+    //The returned vector is <i>not</i> normalised
 
     RealT Dot(const Vector2dC & vector) const
     { return data[0] * vector[0] + data[1] * vector[1]; }
