@@ -273,8 +273,11 @@ namespace RavlN {
     { return chunks.IsEmpty(); }
     //: Is array empty ?
     
-    void Empty()
-    { chunks.Empty(); }
+    void Empty() { 
+      lastBlk = Array1dC<DataT>(); // Empty last block holder.
+      nextFree = 0;
+      chunks.Empty(); 
+    }
     //: Empty this array of all its contents.
     
     UIntT Size() const;
