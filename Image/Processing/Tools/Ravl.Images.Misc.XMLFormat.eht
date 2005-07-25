@@ -1,5 +1,5 @@
 ! author="Charles Galambos"
-! docentry="Ravl.Images.Misc"
+! docentry="Ravl.Images.Feature Points"
 : XML File Format for FeatureSets
 
 The ImagePointFeatureSetC class can save itself to an XML file format, containing a single ImagePointFeatureSetC. Future plans include a FeatureSequenceC class which will be able to save multiple ImagePointFeatureSetCs into a single file, but that's for the future. The XML format is only meant to be a saved version of a ImagePointFeatureSetC. If you need to manipulate a FeatureSet, load it into a ImagePointFeatureSetC and manipulate it there.

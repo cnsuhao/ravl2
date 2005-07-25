@@ -8,7 +8,7 @@
 #define RAVLIMAGE_IMAGEPOINTFEATURE_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlImageProc
-//! docentry="Ravl.Images.Misc"
+//! docentry="Ravl.Images.Feature Points"
 //! userlevel="Basic"
 //! file="Ravl/Image/Processing/Tools/ImagePointFeatureSet/ImagePointFeature.hh"
 
