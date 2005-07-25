@@ -17,9 +17,9 @@
 #include "Ravl/Image/SummedAreaTable2.hh"
 
 namespace RavlImageN {
-
+  
   //! userlevel=Normal
-  //: Matching using normalised correlation.
+  //: Do a grid search for the position of the best match using normalised correlation.
   
   class MatchNormalisedCorrelationC {
   public:
