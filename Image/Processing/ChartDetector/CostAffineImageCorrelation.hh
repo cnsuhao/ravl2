@@ -19,7 +19,7 @@
 namespace RavlImageN {
 
   //! userlevel=Develop
-  //: Const function for affine correlation of two images.
+  //: Cost function for affine correlation of two images.
   
   class CostAffineImageCorrelationBodyC
     : public CostBodyC
@@ -55,10 +55,10 @@ namespace RavlImageN {
     Affine2dC context;
   };
   
-  //! userlevel=normal
-  //: Const function for affine correlation of two images. 
-  //!cwiz:author
-  
+  //! userlevel=Normal
+  //: Cost function for affine correlation of two images. 
+  // Used to compute affine image correlations in the <a href="../Tree/Ravl.Images.Chart_Detector.html">chart detector</a>.
+
   class CostAffineImageCorrelationC
     : public CostC
   {
@@ -77,27 +77,22 @@ namespace RavlImageN {
     VectorC Apply(const VectorC & X) const
     { return Body().Apply(X); }
     //: Evaluate cost function at X 
-    //!cwiz:author
     
     RealT Cost(const VectorC & X) const
     { return Body().Cost(X); }
     //: Determines cost of X 
-    //!cwiz:author
     
     MatrixC Jacobian(const VectorC & X) const
     { return Body().Jacobian(X); }
     //: Calculate Jacobian matrix at X 
-    //!cwiz:author
     
     VectorC Affine2Vector(const Affine2dC & affine) const
     { return Body().Affine2Vector(affine); }
     //: Convert affine transform to vector form. 
-    //!cwiz:author
     
     Affine2dC Vector2Affine(const VectorC & vec) const
     { return Body().Vector2Affine(vec); }
     //: Convert vector to affine transform. 
-    //!cwiz:author
     
   protected:
     CostAffineImageCorrelationC(CostC &bod)
