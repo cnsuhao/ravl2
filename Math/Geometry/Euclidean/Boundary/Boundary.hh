@@ -24,6 +24,8 @@ namespace RavlN {
   template<class KeyT, class DataT> class RCHashC;
   template<class DataT> class PairC;
   template<class DataT> class Array2dC;
+
+  class Polygon2dC;
   
   //! userlevel=Normal
   //: Crack code boundary
@@ -105,6 +107,11 @@ namespace RavlN {
     IndexRange2dC BoundingBox() const;
     //: Get the bounding box of the boundary in "boundary's" coordinates.
     
+    Polygon2dC Polygon2d() const;
+    //: Convert a boundry to a polygon.
+    // This assumes 'bnd' is a single ordered boundry (See BoundryC::OrderEdges();). 
+    // Straight edges are compressed into a single segment.
+    
   private:
     bool orientation;  
     // Orientation of the boundary. true means that
@@ -142,6 +149,8 @@ namespace RavlN {
   
   BoundaryC Line2Boundary(const BVertexC & startVertex, const BVertexC & endVertex);
   //: Creates a boundary which connects both boundary vertexes.
+  
+  
   
 }
 #endif

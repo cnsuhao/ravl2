@@ -18,7 +18,9 @@
 #include "Ravl/RCHash.hh"
 #include "Ravl/HashIter.hh"
 #include "Ravl/Pair.hh"
+#include "Ravl/Polygon2d.hh"
 #include "Ravl/Array2dSqr3Iter.hh"
+#include "Ravl/Array2dSqr2Iter.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -36,6 +38,7 @@ namespace RavlN {
       cerr << "RegionMaskBodyC::Boundary(), Mask too small to compute boundary. \n";
       return;
     }
+#if 0
     for(Array2dSqr3IterC<IntT> it(emask);it;it++) {
       if(it.DataMM() != inLabel)
 	continue;
@@ -48,6 +51,22 @@ namespace RavlN {
       if(it.DataBM() != inLabel)
 	InsLast(CrackC(it.Index(),CR_RIGHT));
     }
+#else
+    // Ever so slightly quicker than the above.
+    for(Array2dSqr2IterC<IntT> it(emask);it;it++) {
+      if(it.DataBR() == inLabel) {
+        if(it.DataTR() != inLabel) 
+          InsLast(CrackC(it.Index(),CR_LEFT));
+        if(it.DataBL() != inLabel) 
+          InsLast(CrackC(it.Index(),CR_DOWN));
+      } else {
+        if(it.DataTR() == inLabel) 
+          InsLast(CrackC(it.Index()+Index2dC(-1,0),CR_RIGHT));
+        if(it.DataBL() == inLabel) 
+          InsLast(CrackC(it.Index()+Index2dC(0,-1),CR_UP));
+      }
+    }
+#endif
   }
 
   //: Create a boundary from the edges between 'inLabel' pixels an other values
@@ -381,6 +400,25 @@ namespace RavlN {
     }
     return endpoints;
   }
+
+  //: Convert a boundry to a polygon.
+  // Note straigh edges are compressed into a single segment.
+  
+  Polygon2dC BoundaryC::Polygon2d() const {
+    Polygon2dC polygon;
+    DLIterC<CrackC> et(*this);
+    if(!et) return polygon;
+    polygon.InsLast(Point2dC(*et));
+    CrackCodeT lastCode = et->Code();
+    for (et++; et; et++) {
+      if (et->Code() == lastCode) 
+        continue;
+      lastCode = et->Code();
+      polygon.InsLast(Point2dC(*et));
+    }
+    return polygon;
+  }
+  
   
   BoundaryC Line2Boundary(const BVertexC & startVertex, const BVertexC & endVertex) {
     BoundaryC boundary;
@@ -498,6 +536,8 @@ namespace RavlN {
     //  cout << "Line2Boundary - size:" << boundary.Size() << '\n';
     return boundary;
   }
+
+
 }
 
 
