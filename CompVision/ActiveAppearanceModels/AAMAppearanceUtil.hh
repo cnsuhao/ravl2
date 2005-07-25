@@ -7,8 +7,8 @@
 #ifndef RAVLIMAGE_APPEARANCEUTIL_HEADER
 #define RAVLIMAGE_APPEARANCEUTIL_HEADER 1
 //! rcsid="$Id$"
-//! lib=RavlImageProc
-//! file="ActiveAppearanceModels/AAMAppearanceUtil.hh"
+//! lib=RavlAAM
+//! file="Ravl/CompVision/ActiveAppearanceModels/AAMAppearanceUtil.hh"
 
 #include "Ravl/PatternRec/Sample.hh"
 #include "Ravl/String.hh"

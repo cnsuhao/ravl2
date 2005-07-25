@@ -5,8 +5,8 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
-//! lib=RavlImageProc
-//! file="ActiveAppearanceModels/aamBuildActiveAppearanceModel.cc"
+//! lib=RavlAAM
+//! file="Ravl/CompVision/ActiveAppearanceModels/aamBuildActiveAppearanceModel.cc"
 
 #include "Ravl/PatternRec/Sample.hh"
 #include "Ravl/PatternRec/SampleIter.hh"

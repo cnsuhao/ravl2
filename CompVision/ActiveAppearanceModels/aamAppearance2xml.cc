@@ -5,8 +5,8 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
-//! lib=RavlImageProc
-//! file="ActiveAppearanceModels/aamAppearance2xml.cc"
+//! lib=RavlAAM
+//! file="Ravl/CompVision/ActiveAppearanceModels/aamAppearance2xml.cc"
 
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/OS/Directory.hh"

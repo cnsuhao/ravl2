@@ -7,8 +7,8 @@
 #ifndef RAVLIMAGE_APPEARANCEMODEL_HEADER
 #define RAVLIMAGE_APPEARANCEMODEL_HEADER 1
 //! rcsid="$Id$"
-//! lib=RavlImageProc
-//! file="ActiveAppearanceModels/AAMAppearanceModel.hh"
+//! lib=RavlAAM
+//! file="Ravl/CompVision/ActiveAppearanceModels/AAMAppearanceModel.hh"
 //! docentry="Ravl.Images.Misc"
 //! author="Charles Galambos"
 

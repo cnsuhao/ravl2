@@ -7,10 +7,10 @@
 #ifndef RAVLIMAGE_AFFINESHAPEMODEL_HEADER
 #define RAVLIMAGE_AFFINESHAPEMODEL_HEADER 1
 //! rcsid="$Id$"
-//! lib=RavlImageProc
+//! lib=RavlAAM
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.Misc"
-//! file="ActiveAppearanceModels/AAMAffineShapeModel.hh"
+//! file="Ravl/CompVision/ActiveAppearanceModels/AAMAffineShapeModel.hh"
 
 #include "Ravl/Image/AAMShapeModel.hh"
 

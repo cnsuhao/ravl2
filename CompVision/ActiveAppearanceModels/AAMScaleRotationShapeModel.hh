@@ -8,9 +8,9 @@
 #define RAVLIMAGE_SCALEROTATIONSHAPEMODEL_HEADER 1
 //! docentry="Ravl.Images.Misc"
 //! rcsid="$Id$"
-//! lib=RavlImageProc
+//! lib=RavlAAM
 //! author="Charles Galambos"
-//! file="ActiveAppearanceModels/AAMScaleRotationShapeModel.hh"
+//! file="Ravl/CompVision/ActiveAppearanceModels/AAMScaleRotationShapeModel.hh"
 
 #include "Ravl/Image/AAMShapeModel.hh"
 

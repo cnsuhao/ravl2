@@ -7,10 +7,10 @@
 #ifndef RAVLIMAGE_AAMSAMPLESTREAM_HEADER
 #define RAVLIMAGE_AAMSAMPLESTREAM_HEADER 1
 //! rcsid="$Id$"
-//! lib=RavlImageProc
+//! lib=RavlAAM
 //! docentry="Ravl.Images.Misc"
 //! author="Charles Galambos"
-//! file="ActiveAppearanceModels/AAMSampleStream.hh"
+//! file="Ravl/CompVision/ActiveAppearanceModels/AAMSampleStream.hh"
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/Vector.hh"

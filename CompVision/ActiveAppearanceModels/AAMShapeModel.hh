@@ -7,8 +7,8 @@
 #ifndef RAVLIMAGE_SHAPEMODEL_HEADER
 #define RAVLIMAGE_SHAPEMODEL_HEADER 1
 //! rcsid="$Id$"
-//! lib=RavlImageProc
-//! file="ActiveAppearanceModels/AAMShapeModel.hh"
+//! lib=RavlAAM
+//! file="Ravl/CompVision/ActiveAppearanceModels/AAMShapeModel.hh"
 //! docentry="Ravl.Images.Misc"
 //! userlevel="Develop"
 //! author="Charles Galambos"

@@ -6,8 +6,8 @@
 // file-header-ends-here
 /////////////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlImageProc
-//! file="ActiveAppearanceModels/aamBuildShapeModel.cc"
+//! lib=RavlAAM
+//! file="Ravl/CompVision/ActiveAppearanceModels/aamBuildShapeModel.cc"
 
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/OS/Directory.hh"
