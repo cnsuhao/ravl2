@@ -8,7 +8,7 @@
 #define RAVLIMAGE_WARPMESH2D_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlImageProc
-//! docentry="Ravl.Images.Misc"
+//! docentry="Ravl.Images.Warping"
 //! example=exWarpMesh.cc
 //! author="Charles Galambos"
 //! file="Ravl/Image/Processing/Filters/WarpMesh2d.hh"
