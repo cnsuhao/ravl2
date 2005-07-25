@@ -8,7 +8,7 @@
 #define RAVLIMAGE_AAMSAMPLESTREAM_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlAAM
-//! docentry="Ravl.Images.Misc"
+//! docentry="Ravl.Images.AAM"
 //! author="Charles Galambos"
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMSampleStream.hh"
 

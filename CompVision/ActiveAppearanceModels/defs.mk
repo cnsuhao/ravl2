@@ -31,3 +31,5 @@ PLIB = RavlAAM
 
 USESLIBS=  RavlCore RavlImageProc  RavlMath RavlOS RavlPatternRec RavlOptimise RavlIO 
 PROGLIBS = RavlImageIO RavlMathIO RavlDPDisplay.opt RavlGUI RavlGUI2D
+
+EHT = AAM.html

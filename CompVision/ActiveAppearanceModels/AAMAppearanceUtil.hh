@@ -9,6 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMAppearanceUtil.hh"
+//! docentry="Ravl.Images.AAM"
 
 #include "Ravl/PatternRec/Sample.hh"
 #include "Ravl/String.hh"

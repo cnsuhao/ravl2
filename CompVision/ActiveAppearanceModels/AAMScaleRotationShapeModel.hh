@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_SCALEROTATIONSHAPEMODEL_HEADER
 #define RAVLIMAGE_SCALEROTATIONSHAPEMODEL_HEADER 1
-//! docentry="Ravl.Images.Misc"
+//! docentry="Ravl.Images.AAM"
 //! rcsid="$Id$"
 //! lib=RavlAAM
 //! author="Charles Galambos"

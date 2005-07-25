@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMAppearanceModel.hh"
-//! docentry="Ravl.Images.Misc"
+//! docentry="Ravl.Images.AAM"
 //! author="Charles Galambos"
 
 #include "Ravl/DList.hh"

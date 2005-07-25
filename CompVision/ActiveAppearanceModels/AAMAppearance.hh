@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMAppearance.hh"
-//! docentry="Ravl.Images.Misc"
+//! docentry="Ravl.Images.AAM"
 //! userlevel=Normal
 //! author="Charles Galambos"
 
