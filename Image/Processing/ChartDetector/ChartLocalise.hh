@@ -9,6 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlChartDetector
 //! file="Ravl/Image/Processing/ChartDetector/ChartLocalise.hh"
+//! docentry="Ravl.Images.Chart Detector"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Point2d.hh"
