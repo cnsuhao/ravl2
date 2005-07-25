@@ -10,5 +10,5 @@
 DONOT_SUPPORT=cygwin
 
 NESTED=Tools.r Filters.r Edges.r Segmentation.r Morphology.r Lines.r Corners.r \
- Motion.r Tracking.r ChartDetector.r ActiveAppearanceModels.r
+ Motion.r Tracking.r ChartDetector.r 
 
