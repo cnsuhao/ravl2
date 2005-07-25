@@ -114,10 +114,10 @@ namespace RavlImageN {
       return true;
     }
     //: Setup new image for processing.
-
-    IntT GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,BoundaryC &boundary,IntT maxSize = 0);
+    
+    bool GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,BoundaryC &boundary,IntT maxSize = 0);
     //: Grow a region from 'seed' including all connected pixel less than or equal to threshold, generate a mask as the result.
-    // Returns the region size.
+    // Returns true if the boundry has a non zero area.
     
     template<typename MaskT>
     IntT GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,ImageC<MaskT> &mask,IntT padding = 0,IntT maxSize = 0);
@@ -350,16 +350,16 @@ namespace RavlImageN {
   
 
   template<class PixelT,class InclusionTestT>
-  IntT FloodRegionC<PixelT,InclusionTestT>::GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,BoundaryC &boundary,IntT maxSize) {
+  bool FloodRegionC<PixelT,InclusionTestT>::GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,BoundaryC &boundary,IntT maxSize) {
     IndexRange2dC rng;
     if(!BaseGrowRegion(seed,inclusionCriteria,rng) || rng.Area() <= 0) {
       boundary = BoundaryC();
-      return 0;
+      return false;
     }
     rng = rng.Expand(1);
     rng.ClipBy(marki.Frame());
     boundary = BoundaryC(ImageC<IntT>(marki,rng),id);
-    return boundary.Area();
+    return true;
   }
   
   
