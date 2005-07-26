@@ -204,12 +204,12 @@ namespace RavlN {
     //: Create a new IndexRangeC with minimum and maximum limits shifted by subtracting the offset 'i'.
     
     inline IndexRangeC operator/ (IndexC i) const 
-      { return IndexRangeC(Min() / i, Max() / i ) ; } 
+    { return IndexRangeC(Min() / i, ((Max()+1) / i)-1) ; } 
     //: Create a new IndexRangeC with maximum and minimum limits divided by IndexC 
     // IndexC rounding rules apply. 
 
     inline IndexRangeC operator* (IndexC i) const 
-      { return IndexRangeC (Min() * i, Max() * i) ; }
+    { return IndexRangeC (Min() * i, ((Max()+1) * i)-1) ; }
     //: Create a new IndexRangeC with maximum and minimum limits multiplied by IndexC 
 
     inline IndexRangeC operator+(IntT i) const
@@ -359,14 +359,14 @@ namespace RavlN {
 
   inline const IndexRangeC & IndexRangeC::operator *= (IndexC i) {
     Min() *= i ; 
-    Max() *= i ; 
+    Max() = ((Max() +1) * i) - 1; 
     return *this ; 
   }
 
 
   inline const IndexRangeC & IndexRangeC::operator /= (IndexC i) {
     Min() /= i ; 
-    Max() /= i ; 
+    Max() = ((Max() + 1) / i) - 1; 
     return *this ; 
   }
   
