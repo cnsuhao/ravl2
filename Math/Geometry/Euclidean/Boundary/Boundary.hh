@@ -107,8 +107,9 @@ namespace RavlN {
     IndexRange2dC BoundingBox() const;
     //: Get the bounding box of the boundary in "boundary's" coordinates.
     
-    Polygon2dC Polygon2d() const;
+    Polygon2dC Polygon2d(bool bHalfPixelOffset = false) const;
     //: Convert a boundry to a polygon.
+    //!param: bHalfPixelOffset - should (-0.5,-0.5) be added to the polygon points?
     // This assumes 'bnd' is a single ordered boundry (See BoundryC::OrderEdges();). 
     // Straight edges are compressed into a single segment.
     

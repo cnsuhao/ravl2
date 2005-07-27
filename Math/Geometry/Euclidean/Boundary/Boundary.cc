@@ -404,17 +404,28 @@ namespace RavlN {
   //: Convert a boundry to a polygon.
   // Note straigh edges are compressed into a single segment.
   
-  Polygon2dC BoundaryC::Polygon2d() const {
+  Polygon2dC BoundaryC::Polygon2d(bool bHalfPixelOffset) const {
     Polygon2dC polygon;
     DLIterC<CrackC> et(*this);
     if(!et) return polygon;
     polygon.InsLast(Point2dC(*et));
     CrackCodeT lastCode = et->Code();
-    for (et++; et; et++) {
-      if (et->Code() == lastCode) 
-        continue;
-      lastCode = et->Code();
-      polygon.InsLast(Point2dC(*et));
+    if (bHalfPixelOffset) {
+      Point2dC halfPixelOffset(-0.5,-0.5);
+      for (et++; et; et++) {
+        if (et->Code() == lastCode) 
+          continue;
+        lastCode = et->Code();
+        polygon.InsLast(Point2dC(*et) + halfPixelOffset);
+      }
+    }
+    else {
+      for (et++; et; et++) {
+        if (et->Code() == lastCode) 
+          continue;
+        lastCode = et->Code();
+        polygon.InsLast(Point2dC(*et));
+      }
     }
     return polygon;
   }
