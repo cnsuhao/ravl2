@@ -208,64 +208,6 @@ namespace RavlImageN {
   
   //: Generate thresholds
   
-  void SegmentExtremaBaseC::Thresholds2() {
-    //cerr << "SegmentExtremaBaseC::Thresholds2() Called. Margin=" << minMargin << "\n";
-    Array1dC<IntT> chist(0,limitMaxValue);
-    Array1dC<RealT> nhist(0,limitMaxValue);
-    for(SArray1dIterC<ExtremaRegionC> it(regionMap,labelAlloc);it;it++) {
-      if(it->total < minSize) {
-	it->nThresh = 0;// Ingore these regions.
-	continue; 
-      }
-      ExtremaThresholdC *newthresh = new ExtremaThresholdC[512];
-      it->nThresh = 0;
-      it->thresh = newthresh;
-      IntT maxValue = it->maxValue;
-      IntT sum = 0;
-      IntT i;
-      cerr << "Hist:";
-      RealT last = 0;
-      IntT lastMax = it->minValue;
-      IntT lastAt = it->minValue;
-      bool isLow = true;
-      for(i = it->minValue;i <= maxValue;i++) {
-	sum += it->hist[i];
-	chist[i] = sum;
-	RealT val = (RealT) it->hist[i] / Sqrt(chist[i]);
-	nhist[i] = val;
-	if(isLow) {
-	  if(val < last) {
-	    lastAt = i;
-	    last = val;
-	    continue;
-	  }
-	  if(val > (last + minMargin) ) {
-	    cerr << "\nThresh=" << lastAt << "\n";
- 	    isLow = false;
-	    newthresh[it->nThresh++].thresh = lastAt;
-	  }
-	} else {
-	  if(val > last) {
-	    lastAt = i;
-	    last = val;
-	    continue;
-	  }
-	  if(val  < (last - minMargin) ) {
-	    cerr << "\nMax at=" << val << "\n";
-	    isLow = true;
-	    lastMax = i;
-	    last = val;
-	  }
-	}
-	cerr << " " << nhist[i];	
-      }
-      cerr << "\n";
-      //      it->nThresh = 0;// Ingore these regions.
-    }
-  }
-  
-  //: Generate thresholds
-  
   void SegmentExtremaBaseC::Thresholds() {
     //cerr << "SegmentExtremaBaseC::Thresholds() ********************************************** \n";
     SArray1dC<ExtremaThresholdC> thresh(limitMaxValue + 2);
@@ -275,11 +217,7 @@ namespace RavlImageN {
     int half_perimeter_i;
     
     for(SArray1dIterC<ExtremaRegionC> it(regionMap,labelAlloc);it;it++) {
-      if(it->total < minSize) {
-	it->nThresh = 0;// Ingore these regions.
-	continue; 
-      }
-      if((it->maxValue - it->minValue) < minMargin) {
+      if(it->total < minSize || (it->maxValue - it->minValue) < minMargin) {
 	it->nThresh = 0;// Ingore these regions.
 	continue; // Not enough levels in the region.
       }
@@ -290,29 +228,11 @@ namespace RavlImageN {
       IntT i;
       
       ONDEBUG(cerr << "Hist= " << it->minValue << " :");
-#if 0
       for(i = minValue;i <= maxValue;i++) {
 	sum += it->hist[i];
 	chist[i] = sum;
 	ONDEBUG(cerr << " " << it->hist[i]);
       }
-#else
-      // Smooth the histogram.
-      sum = (it->hist[minValue] + it->hist[minValue+1]) / 2;
-      chist[minValue] = sum;
-      ONDEBUG(cerr << " " << it->hist[minValue]);
-      for(i = minValue+1;i < maxValue;i++) {
-	if(it->hist[i] != 0) {
-	  sum += (it->hist[i] + it->hist[i-1] + it->hist[i+1])/3;
-	} else {
-	  sum += (it->hist[i-1] + it->hist[i+1])/3;
-	  chist[i] = sum;
-	}
-	chist[i] = sum;
-	ONDEBUG(cerr << " " << it->hist[i]);
-      }
-      sum += (it->hist[maxValue] + it->hist[maxValue-1]) / 2;
-#endif
       chist[maxValue] = sum;
       
       ONDEBUG(cerr << "  Closed=" << (it->closed != 0)<< "\n");
@@ -323,19 +243,24 @@ namespace RavlImageN {
       // Find thresholds.
       nthresh = 0;
       ONDEBUG(cerr << "Min=" << minValue << " Max=" << maxValue << " Init=" << i << " MaxSize=" << maxSize << "\n");
-      for(up=i+1; up < maxValue; i++) {
+      IntT lastThresh = 0;
+      for(up=i+1; up < maxValue && i < maxValue; i++) {
 	int area_i = chist[i];
 	if(area_i > maxSize) {
 	  //cerr << "Size limit reached. \n";
 	  break; // Quit if area is too large.
 	}
-	half_perimeter_i = (int)(2 * Sqrt((double)area_i));
-	while(up <= maxValue && (chist[up] - area_i) < half_perimeter_i)
+        
+	half_perimeter_i = Round(2.1 * Sqrt((double)area_i)) + area_i;
+        if(half_perimeter_i == lastThresh)
+          continue; // If the thresholds are the same, the next margin will only be shorter.
+        lastThresh = half_perimeter_i;
+	while(up <= maxValue && chist[up] < half_perimeter_i)
 	  up++;
 	
 	int margin = up - i;
 	//ONDEBUG(cerr << " Margin=" << margin << "\n");
-	if(margin > minMargin ) { // && margin > prevMargin
+	if(margin > minMargin) { // && margin > prevMargin
 	  ExtremaThresholdC &et = thresh[nthresh++];
 	  et.pos = i;
  	  et.margin = margin;
@@ -360,8 +285,10 @@ namespace RavlImageN {
       for(int j = 0;j < nthresh;j++) {
 	UIntT size = chist[thresh[j].pos];
 	if((lastSize * 1.15) > size) { // Is size only slighly different ?
-	  if(thresh[j].margin > thresh[lastInd].margin)
+	  if(thresh[j].margin > thresh[lastInd].margin) {
 	    newthresh[nt-1] = thresh[j]; // Move threshold if margin is bigger.
+            lastSize = size;
+          }
 	  continue; // Reject it, not enough difference.
 	}
 	newthresh[nt++] = thresh[j];
