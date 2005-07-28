@@ -139,6 +139,15 @@ namespace RavlImageN {
     //:-
     //: Methods to get information from the mosaic builder
     // They can be called while the mosaic is being built to get partial information
+    
+    ImageRectangleC Frame() const
+    { return mosaic.Frame(); }      
+    //: Returns the frame of the current mosaic image
+
+    ImageRectangleC Rectangle() const
+    { return mosaicRect; }      
+    //: Returns the rectangle of the mosaic
+    // Slightly different from <code>Frame()</code> in that the rectangle may computed <i>before</i> the mosaic image is updated to fit it.
 
     Projection2dC GetMotion(IndexC frame) const
     //: Returns the 2D projective motion of the specified frame relative to the mosaic.
@@ -390,6 +399,15 @@ namespace RavlImageN {
     //:-
     //: Methods to get information from the mosaic builder
     // They can be called while the mosaic is being built to get partial information
+
+    ImageRectangleC Frame() const
+    { return Body().Frame(); }      
+    //: Returns the frame of the current mosaic image
+
+    ImageRectangleC Rectangle() const
+    { return  Body().Rectangle(); }      
+    //: Returns the rectangle of the mosaic
+    // Slightly different from <code>Frame()</code> in that the rectangle may computed <i>before</i> the mosaic image is updated to fit it.
 
     Projection2dC GetMotion(IndexC frame) const
     { return Body().GetMotion(frame); }
