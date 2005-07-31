@@ -83,7 +83,7 @@ namespace RavlN {
   
   RealT ScanPolygon2dC::RowQuant(RealT row) {
     RealT qRow = row / rowStep;
-    return Floor(qRow) * rowStep;
+    return Ceil(qRow) * rowStep;
   }
   
   //: Goto first polygon in scan.
@@ -167,6 +167,7 @@ namespace RavlN {
 	    ONDEBUG(cerr << "Add segment 1 " << *prev << " " << *spans->Data1().P1() <<  "\n");
 	    spans->Data1() = LineSegmentC(prev,spans->Data1().P1());
 	  } else {
+	    ONDEBUG(cerr << "Del segment 1 " << *prev << " " << *spans->Data1().P1() <<  "\n");
             spans.Del();
 	  }
 	  pit++;
