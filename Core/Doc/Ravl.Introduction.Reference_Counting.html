@@ -19,6 +19,7 @@ This page will give details on:
 <blockquote>
 <P>
 <a href="#BIG">The distinction between Big and Small objects</a><BR>
+<a href="#BIGBEHAVE">Which objects are big objects?</a><br>
 <a href="#COPY">Copying nested templated big objects</a><BR>
 <a href="#WRITING">Writing your own big objects</a><br>
 </P>
@@ -91,16 +92,17 @@ assignment operator.
 </pre>
 </FONT>
 
-<P>
-A typical example of big objects are VectorC, MatrixC, DListC and ImageC.
-Some small objects are Vector2dC and Matrix2d2C.  
-</P>
-
-<p> 
-If you are wondering when you should use a big object when writing a class yourself, here are <a href="Ravl.Introduction.Reference_Counting.Notes.html">some notes from Charles</a>.
-
 <hr>
 
+<h2><a name="BIGBEHAVE">Which objects are big objects?</a></h2>
+
+<P> Anything that inherits <code>RCHandleC</code> or <code>BufferAccessC</code> is big.  On the whole, objects of size unknown at compile time are big objects, such as VectorC, MatrixC, DListC and ImageC.  Objects of fixed size are generally small, e.g. Vector2dC and Matrix2d2C.  Exceptions are <code>HashC, HSetC</code> (small) and <code>StringC</code> (more or less small).
+</P>
+
+
+<p>A note of caution: in cases where a big object inherits <code>RCHandleC</code> (the normal way of constructing a big object), if the default constructor is used to create the object, most of the object's methods will cause a segmentation error.  The IsValid() method is an exception, because it is a method if the inherited  <code>RCHandleC</code>, and can be used to test for this situation.  </p>
+
+<hr>
 
 <h2><a name="COPY">Copying nested templated big objects</a></h2>
 
@@ -129,9 +131,18 @@ href="../Class/RavlN.Array1dIter2C.html">Array1dIter2C</a></code>.)
 <h2><a name="WRITING">Writing your own big objects</a></h2>
 
 
-    <p>There is is an example of how to write a basic big object in the example included <a href="Ravl.Core.Reference_Counting.html">here</a>.</p>
+    <p> If you are wondering when you should use a big object when writing a
+    class yourself, here are <a
+    href="Ravl.Introduction.Reference_Counting.Notes.html">some notes from
+    Charles Galambos</a>.</p>
 
-    <p> There is also a "<a href="Ravl.Source_Tools.Class_Wizard.html">class wizard</a>", that removes some of the tedium.  If you write the body of the class, <a href="../Application/cwiz.html"> cwiz </a>  will write the corresponding handle for you.</p>
+    <p>There is is an example of how to write a basic big object in the
+    example included <a href="Ravl.Core.Reference_Counting.html">here</a>.</p>
+
+    <p> There is also a "<a href="Ravl.Source_Tools.Class_Wizard.html">class
+    wizard</a>", that removes some of the tedium.  If you write the body of
+    the class, <a href="../Application/cwiz.html"> cwiz </a> will write the
+    corresponding handle for you.</p>
 
 <hr>
 
@@ -139,6 +150,6 @@ href="../Class/RavlN.Array1dIter2C.html">Array1dIter2C</a></code>.)
 </td>
 </tr></table>
 
-
+<address>Bill Christmas </address>
 </body>
 </html>
