@@ -215,7 +215,7 @@ namespace RavlImageN {
     IndexRange2dC subFrame(alignedFrame.Range1().Min() / scale, alignedFrame.Range1().Max() / scale,
                            alignedFrame.Range2().Min() / scale, alignedFrame.Range2().Max() / scale);
     WarpScaleC<SumTypeT,PixelT> warpScale(subFrame);
-    ImageC<PixelT> subImage = warpScale.Apply(ImageC<PixelT>(filteredImage, alignedFrame));
+    ImageC<PixelT> subImage = warpScale.Apply(ImageC<SumTypeT>(filteredImage, alignedFrame));
     images.Insert(Tuple3C<RealT,RealT,ImageC<PixelT> >(scale,scale,subImage));
     return subImage;
   }
