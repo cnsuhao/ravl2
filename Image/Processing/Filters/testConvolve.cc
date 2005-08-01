@@ -34,6 +34,7 @@
 #include "Ravl/Random.hh"
 #include "Ravl/CollectionIter.hh"
 #include "Ravl/config.h"
+#include "Ravl/IO.hh"
 
 using namespace RavlImageN;
 
@@ -55,6 +56,7 @@ int testSumRectangles();
 int testDCT();
 int testImageExtend();
 int testImagePyramid();
+int testImagePyramidRGB();
 
 
 #if RAVL_HAVE_TEMPLATEINSTANTIATE
@@ -150,6 +152,10 @@ int main() {
   }
 #endif
   if((ln = testImagePyramid()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testImagePyramidRGB()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -611,5 +617,26 @@ int testImagePyramid() {
   //cerr << "NoImages=" << pyramid3.Images().Size() << "\n";
   if(pyramid3.Images().Size() != 3) return __LINE__;
   
+  
+  return 0;
+}
+
+int testImagePyramidRGB() {
+  //cerr << "testImagePyramidRGB, Called \n";
+  ImageC<ByteRGBValueC> img(100,100);
+  ByteT v = 1;
+  for(Array2dIterC<ByteRGBValueC> it(img);it;it++)
+    *it = ByteRGBValueC(v++,v % 27,v % 91);
+  
+  ImagePyramidC<ByteRGBValueC,RealRGBValueC> pyramid(img,3,true);
+  if(pyramid.Images().Size() != 3) return __LINE__;
+  RealT fscale,pscale;
+  ImageC<ByteRGBValueC> simg;
+  for(RealT scale =0.1;scale < 5;scale += 1) {
+    pyramid.Find(scale,simg,fscale,pscale);
+    StringC sizeStr(scale);
+    //RavlN::Save(StringC("@X:") + sizeStr,simg);
+    if(fscale < pscale) return __LINE__;
+  }
   return 0;
 }

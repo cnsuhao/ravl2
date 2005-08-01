@@ -28,7 +28,7 @@ namespace RavlImageN {
   // This class creates a set of images each filtered such that
   // that its effective resolution is reduced by a power of 2.
   
-  template<class PixelT>
+  template<typename PixelT,typename SumTypeT = PixelT>
   class ImagePyramidC {
   public:
     ImagePyramidC()
@@ -99,8 +99,8 @@ namespace RavlImageN {
     CollectionC<Tuple3C<RealT,RealT,ImageC<PixelT> > > images;
   };
   
-  template<class PixelT>
-  void ImagePyramidC<PixelT>::ComputeImages(const ImageC<PixelT> &img,IntT nscales,bool subSample,bool recursive) {
+  template<typename PixelT,typename SumTypeT>
+  void ImagePyramidC<PixelT,SumTypeT>::ComputeImages(const ImageC<PixelT> &img,IntT nscales,bool subSample,bool recursive) {
     images = CollectionC<Tuple3C<RealT,RealT,ImageC<PixelT> > >(nscales+1);
     images.Insert(Tuple3C<RealT,RealT,ImageC<PixelT> >(1,1,img));
     //cerr << " No Scales=" << nscales << "\n";
@@ -125,8 +125,8 @@ namespace RavlImageN {
     }
   }
 
-  template<class PixelT>
-  void ImagePyramidC<PixelT>::ComputeImages(const ImageC<PixelT> &img,RealT scaleFactor,IntT nScales,bool subSample) {
+  template<typename PixelT,typename SumTypeT>
+  void ImagePyramidC<PixelT,SumTypeT>::ComputeImages(const ImageC<PixelT> &img,RealT scaleFactor,IntT nScales,bool subSample) {
     images = CollectionC<Tuple3C<RealT,RealT,ImageC<PixelT> > >(nScales+1);
     images.Insert(Tuple3C<RealT,RealT,ImageC<PixelT> >(1,1,img));
     IntT minSize = Min(img.Rows(),img.Cols());
@@ -148,13 +148,13 @@ namespace RavlImageN {
   //!param: subSample - Sub sample the pixels in the image ?
   //!param: imgScale - Scale of image passed to routine, use 1 if the image at the original scale.
   
-  template<class PixelT>
-  ImageC<PixelT> ImagePyramidC<PixelT>::ScaleImage(const ImageC<PixelT> &img,IntT scale,bool subSample,IntT imgScale) {
+  template<typename PixelT,typename SumTypeT>
+  ImageC<PixelT> ImagePyramidC<PixelT,SumTypeT>::ScaleImage(const ImageC<PixelT> &img,IntT scale,bool subSample,IntT imgScale) {
     IntT kernelSize = scale*2 - 1;
     IndexRange2dC outRange = img.Frame();
     ImageC<PixelT> prepImage;
     ExtendImageCopy(img,scale-1,prepImage);
-    GaussConvolve2dC<PixelT,PixelT,RealT,PixelT> filter(kernelSize);
+    GaussConvolve2dC<PixelT,PixelT,RealT,SumTypeT> filter(kernelSize);
     ImageC<PixelT> filteredImage = filter.Apply(prepImage);
     if(!subSample) {
       images.Insert(Tuple3C<RealT,RealT,ImageC<PixelT> >(scale * imgScale,imgScale,filteredImage));
@@ -179,8 +179,8 @@ namespace RavlImageN {
   //!param: scale - Scaling to apply.
   //!param: subSample - Sub sample the pixels in the image ?
   
-  template<class PixelT>
-  ImageC<PixelT> ImagePyramidC<PixelT>::ScaleImage(const ImageC<PixelT> &img,RealT scale,bool subSample) {
+  template<typename PixelT,typename SumTypeT>
+  ImageC<PixelT> ImagePyramidC<PixelT,SumTypeT>::ScaleImage(const ImageC<PixelT> &img,RealT scale,bool subSample) {
     IntT kernelSize = (IntT)(scale * 2.0) - 1;
     if (!(kernelSize & 1))
       kernelSize++;
@@ -190,16 +190,19 @@ namespace RavlImageN {
       ExtendImageCopy(img,(kernelSize-1) >> 1,prepImage);
     else
       prepImage = img;
-    ImageC<PixelT> filteredImage;
-    if (kernelSize > 1) {
-      GaussConvolve2dC<PixelT,PixelT,RealT,PixelT> filter(kernelSize);
-      filteredImage = filter.Apply(prepImage);
-    }
-    else
-      filteredImage = prepImage;
     if(!subSample) {
+      GaussConvolve2dC<PixelT,PixelT,RealT,SumTypeT> filter(kernelSize);
+      ImageC<PixelT> filteredImage = filter.Apply(prepImage);
       images.Insert(Tuple3C<RealT,RealT,ImageC<PixelT> >(scale,1.0,filteredImage));
       return filteredImage;
+    }
+    ImageC<SumTypeT> filteredImage;
+    if (kernelSize > 1) {
+      GaussConvolve2dC<PixelT,SumTypeT,RealT,SumTypeT> filter(kernelSize);
+      filteredImage = filter.Apply(prepImage);
+    } else {
+      for(Array2dIter2C<SumTypeT,PixelT> it(filteredImage,prepImage);it;it++)
+        it.Data1() = static_cast<SumTypeT>(it.Data2());
     }
     // FIXME:- This isn't the most efficient way of getting a subsampled image, we could
     // compute filered values for the points we want in the final image. 
@@ -211,7 +214,7 @@ namespace RavlImageN {
       alignedFrame = filteredImage.Frame();
     IndexRange2dC subFrame(alignedFrame.Range1().Min() / scale, alignedFrame.Range1().Max() / scale,
                            alignedFrame.Range2().Min() / scale, alignedFrame.Range2().Max() / scale);
-    WarpScaleC<PixelT> warpScale(subFrame);
+    WarpScaleC<SumTypeT,PixelT> warpScale(subFrame);
     ImageC<PixelT> subImage = warpScale.Apply(ImageC<PixelT>(filteredImage, alignedFrame));
     images.Insert(Tuple3C<RealT,RealT,ImageC<PixelT> >(scale,scale,subImage));
     return subImage;
@@ -222,8 +225,8 @@ namespace RavlImageN {
   //!param: img - Image found
   //!param: actualScale - Scale of image
   
-  template<class PixelT>
-  bool ImagePyramidC<PixelT>::Find(RealT reqScale,ImageC<PixelT> &img,RealT &filterScale,RealT &pixelScale,bool notSmaller) const {
+  template<typename PixelT,typename SumTypeT>
+  bool ImagePyramidC<PixelT,SumTypeT>::Find(RealT reqScale,ImageC<PixelT> &img,RealT &filterScale,RealT &pixelScale,bool notSmaller) const {
     CollectionIterC<Tuple3C<RealT,RealT,ImageC<PixelT> > > it(const_cast<CollectionC<Tuple3C<RealT,RealT,ImageC<PixelT> > > &>(images));
     if(!it) return false;
     // The first image should be the unscaled. Which is the default if reqScale is less than 1 and notSmaller is set.
