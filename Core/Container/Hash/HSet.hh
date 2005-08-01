@@ -25,9 +25,8 @@ namespace RavlN {
   
   //: Set of objects.
   // This is based on the templated hash tables.
-  // Object must provide the Hash function needed by HashC.
-  // see "amma/Hash.hh" <p>
-  // BIG OBJECT
+  // The object must provide the Hash function needed by <a href="RavlN.RCHashC.html">RCHashC</a>.
+  // <br>BIG OBJECT
   
   template<class T>
   class HSetC {
@@ -44,7 +43,7 @@ namespace RavlN {
     //: Copy constructor.
     
     HSetC<T> Copy() const;
-    //: Make a Shallow copy of the set.
+    //: Make a shallow copy of the set.
     
     inline bool IsMember(const T &It) const
     { return set.IsElm(It); }
@@ -72,7 +71,7 @@ namespace RavlN {
     
     inline void Empty()
     { set.Empty(); }
-    //: Remove everthing from the set.
+    //: Remove everything from the set.
     
     inline UIntT Size() const
     { return set.Size(); }
@@ -139,7 +138,7 @@ namespace RavlN {
     
     inline bool operator!=(const HSetC<T> &oth) const
     { return !operator==(oth); }
-    //: Is not equal, ie contains different members ?
+    //: Is not equal, i.e. contains different members ?
     
     inline void AddFrom(HSetC<T> &oth)
     { set.AddFrom(oth.set); }
@@ -148,12 +147,9 @@ namespace RavlN {
     
     bool Normalise(T &value) const
     { return set.NormaliseKey(value); }
-    //: Normalise an equivelent value to one used the .
-    // This function is useful when you want to normalise the use
-    // of equivlent values (think strings.) to save memory.
-    // Returns true if key exists in the set, false otherwise.
+    //: Replaces "value" with a reference to a member of the set with the same value, if it exists in the set.
+    // Returns true if "value" exists in the set, false otherwise.
 
-    // More comming soon.... (Or on request. )
     
     
   private:
@@ -166,12 +162,12 @@ namespace RavlN {
   
   ///////////////////////////////
   //: Set Iterator.
-  // SMALL OBJECT <p>
   // This creates a reference to the set, so the set will not be
   // deleted while an iterator references it. <p>
   // You should NOT modify the set while using an iterator on it.
   // The actions of such a code are unpredictable.
-  
+  // <br> SMALL OBJECT
+
   template<class T>
   class HSetIterC {
   public:
