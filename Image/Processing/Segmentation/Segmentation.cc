@@ -253,7 +253,7 @@ namespace RavlImageN {
   
   //: Compute the areas of all the segmented regions.
   
-  SArray1dC<UIntT> SegmentationBodyC::Areas() {
+  SArray1dC<UIntT> SegmentationBodyC::Areas() const {
     // Compute areas of components
     SArray1dC<UIntT> area(labels+1);
     area.Fill(0);  // Initilisation
@@ -262,6 +262,26 @@ namespace RavlImageN {
     return area;
   }
   
+  //: Compute the bounding box and area of each region in the segmentation.
+  
+  SArray1dC<Tuple2C<IndexRange2dC,UIntT> > SegmentationBodyC::BoundsAndArea() const {
+    SArray1dC<Tuple2C<IndexRange2dC,UIntT>  > ret(labels+1);
+    ret.Fill(Tuple2C<IndexRange2dC,UIntT>(IndexRange2dC(),0));
+    for(Array2dIterC<UIntT> it(segmap);it;) {
+      Index2dC at = it.Index();
+      do {
+        Tuple2C<IndexRange2dC,UIntT> &entry = ret[*it];
+        if(entry.Data2() == 0)
+          entry.Data1() = IndexRange2dC(at,1);
+        entry.Data1().Involve(at);
+        entry.Data2()++;
+        at.Col()++;
+      } while(it.Next()) ;
+    }
+    return ret;
+  }
+
+
   //: Make an array of labels mapping to themselves.
   
   SArray1dC<UIntT> SegmentationBodyC::IdentityLabel() {

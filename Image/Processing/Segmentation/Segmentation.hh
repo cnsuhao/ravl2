@@ -73,7 +73,10 @@ namespace RavlImageN {
     // Note: newLabs will be changed to contain a mapping
     // from the original labels to their new values.
     
-    SArray1dC<UIntT> Areas();
+    SArray1dC<Tuple2C<IndexRange2dC,UIntT> > BoundsAndArea() const;
+    //: Compute the bounding box and area of each region in the segmentation.
+    
+    SArray1dC<UIntT> Areas() const;
     //: Compute the areas of all the segmented regions.
     
     SArray1dC<UIntT> RedoArea(SArray1dC<UIntT> area,SArray1dC<UIntT> map);
@@ -186,9 +189,13 @@ namespace RavlImageN {
     //: Remove small components from map, label them as 0.
     // Returns the number of labels in the new segmentation.
     
-    SArray1dC<UIntT> Areas()
+    SArray1dC<UIntT> Areas() const
     { return Body().Areas(); }
     //: Compute the areas of all the segmented regions.
+    
+    SArray1dC<Tuple2C<IndexRange2dC,UIntT> > BoundsAndArea() const
+    { return Body().BoundsAndArea(); }
+    //: Compute the bounding box and area of each region in the segmentation.
     
     template<class PixelT,class CmpT>
     UIntT MergeComponents(ImageC<PixelT> &dat,UIntT thrSize,RealT maxDist,CmpT &cmp,IntT iter = 1)
