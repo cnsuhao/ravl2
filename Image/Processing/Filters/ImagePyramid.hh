@@ -201,6 +201,7 @@ namespace RavlImageN {
       GaussConvolve2dC<PixelT,SumTypeT,RealT,SumTypeT> filter(kernelSize);
       filteredImage = filter.Apply(prepImage);
     } else {
+      filteredImage = ImageC<SumTypeT>(prepImage.Frame());
       for(Array2dIter2C<SumTypeT,PixelT> it(filteredImage,prepImage);it;it++)
         it.Data1() = static_cast<SumTypeT>(it.Data2());
     }
