@@ -16,6 +16,8 @@
 //! date="08/02/1999"
 
 #include "Ravl/Polygon2dIter.hh"
+#include "Ravl/Array1dIter.hh"
+#include "Ravl/Array2d.hh"
 
 namespace RavlN {
   //: Iterate across the interior of a polygon on an index grid within an array
