@@ -107,10 +107,12 @@ namespace RavlN {
   }
 
   bool Polygon2dIterC::AELC::Next(IndexRangeC &indexRange, const IndexC &row) {
-    if (!m_it)
-      return false;
-    indexRange.Min() = Ceil(m_it->xof(row)); m_it++;
-    indexRange.Max() = Ceil(m_it->xof(row) - 1.0); m_it++;
+    do {
+      if (!m_it)
+        return false;
+      indexRange.Min() = Ceil(m_it->xof(row)); m_it++;
+      indexRange.Max() = Ceil(m_it->xof(row) - 1.0); m_it++;
+    } while(indexRange.Size() <= 0);
     return true;
   }
 

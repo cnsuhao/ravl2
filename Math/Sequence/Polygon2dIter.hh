@@ -55,7 +55,10 @@ namespace RavlN {
     private:
       DLIterC<EdgeC> m_it;
     };
-  public:  
+  public:
+    inline Polygon2dIterC() :m_valid(false) {}
+    //: Default constructor does not create a valid iterator!
+
     inline Polygon2dIterC(const Polygon2dC &polygon)
       : m_polygon(polygon)
     { First(); }
