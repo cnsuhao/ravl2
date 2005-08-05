@@ -126,9 +126,15 @@ namespace RavlConstN {
 #ifdef MAXINT
   const int maxInt = MAXINT;
   //: Maximum integer used by Borland compiler.
+
+  const int minInt = MININT;
+  //: Minimum integer used by Borland compiler.
 #else
   const int maxInt = INT_MAX;
   //: Maximum integer used by GNU C++ compiler.
+
+  const int minInt = INT_MIN;
+  //: Minimum integer used by GNU C++ compiler.
 #endif
   
 #ifdef MAXFLOAT
