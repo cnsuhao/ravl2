@@ -24,6 +24,7 @@
 #include "Ravl/Array1dIter.hh"
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/Polygon2d.hh"
+#include "Ravl/Array2dPolygon2dIter.hh"
 
 namespace RavlImageN {
   
@@ -31,18 +32,8 @@ namespace RavlImageN {
   void DrawPolygon(Array2dC<DataT> &dat,const DataT &value,const Polygon2dC &poly, bool fill=false) {
     // Draw one-colour polygon
     if (fill) {
-      // TODO: Optimised triangle drawing (scan-line algorithm, probably)
-      // Create bounding box for polygon
-      IndexRange2dC bbox = poly.BoundingRectangle().IndexRange();
-      bbox.ClipBy(dat.Frame()); // Clip by image size.
-      if(bbox.Area() == 0)
-	return ; // No pixels to iterate.
-      // For each pixel inside bounding box...
-      for (Array2dIterC<DataT> it(dat,bbox); it; it++) {
-	// Check if pixel is inside polygon
-	if (poly.Contains(it.Index()))
-	  *it = value;
-      }
+      for (Array2dPolygon2dIterC<DataT> it(dat, poly); it; it++)
+        *it = value;
     } else {
       // Draw individual lines
       for (DLIterC<Point2dC> it(poly); it; it++) {
@@ -70,31 +61,22 @@ namespace RavlImageN {
   void DrawPolygon(Array2dC<DataT> &dat,const DListC<DataT>& values,const Polygon2dC &poly, bool fill=false) {
     // Draw shaded polygon
     if (fill) {
-      // TODO: Optimised triangle drawing (scan-line algorithm, perhaps)
-      // Create bounding box for polygon
-      IndexRange2dC bbox = poly.BoundingRectangle().IndexRange();
-      bbox.ClipBy(dat.Frame()); // Clip by image size.
-      
-      // For each pixel inside bounding box...
-      for (Array2dIterC<DataT> it(dat,bbox); it; it++) {
-	// Check if pixel is inside polygon
-	Point2dC pnt(it.Index());
-	if (poly.Contains(pnt)) {
-	  // Calculate barycentric coords
-	  SArray1dC<RealT> coord = poly.BarycentricCoordinate(pnt);
-	  // Calculate interpolated value
-	  DataT value;
-	  SetZero(value);
-	  SArray1dIterC<RealT> cit(coord);
-	  DLIterC<DataT> vit(values);
-	  while (cit && vit) {
-	    value += DataT(vit.Data() * cit.Data());
-	    cit++;
-	    vit++;
-	  }
-	  // Set value
-	  *it = value;
-	}
+      for (Array2dPolygon2dIterC<DataT> it(dat, poly); it; it++) {
+        Point2dC pnt(it.Index());
+        // Calculate barycentric coords
+        SArray1dC<RealT> coord = poly.BarycentricCoordinate(pnt);
+        // Calculate interpolated value
+        DataT value;
+        SetZero(value);
+        SArray1dIterC<RealT> cit(coord);
+        DLIterC<DataT> vit(values);
+        while (cit && vit) {
+          value += DataT(vit.Data() * cit.Data());
+          cit++;
+          vit++;
+        }
+        // Set value
+        *it = value;
       }
     }
     // Draw individual lines
