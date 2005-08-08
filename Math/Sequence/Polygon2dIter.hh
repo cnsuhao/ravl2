@@ -53,7 +53,7 @@ namespace RavlN {
       bool First(IndexRangeC &indexRange, const IndexC &row);
       bool Next(IndexRangeC &indexRange, const IndexC &row);
     private:
-      DLIterC<EdgeC> m_it;
+      DListC<RealT> m_sortedEdges;
     };
   public:
     inline Polygon2dIterC() :m_valid(false) {}
@@ -98,6 +98,7 @@ namespace RavlN {
     AELC m_ael;
 
   };
+
 }  
 
 #endif

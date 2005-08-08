@@ -102,17 +102,32 @@ namespace RavlN {
   }
 
   bool Polygon2dIterC::AELC::First(IndexRangeC &indexRange, const IndexC &row) {
-    m_it = DLIterC<EdgeC>(*this);
+    m_sortedEdges.Empty();
+    // use list insertion sort to put in ascending order
+    // already pretty much sorted so work backwards for efficiency
+    DLIterC<EdgeC> it(*this);
+    for (it.Last(); it; it--) {
+      RealT edge = it->xof(row);
+      DLIterC<RealT> rt(m_sortedEdges);
+      for (; rt; rt++) {
+        if (edge <= *rt) {
+          rt.InsertBef(edge);
+          break;
+        }
+      }
+      if (!rt) // either the list is empty or edge is greater than everything in it
+        m_sortedEdges.InsLast(edge);
+    }
     return Next(indexRange, row);
   }
 
   bool Polygon2dIterC::AELC::Next(IndexRangeC &indexRange, const IndexC &row) {
     do {
-      if (!m_it)
+      if (m_sortedEdges.Size() == 0)
         return false;
-      indexRange.Min() = Ceil(m_it->xof(row)); m_it++;
-      indexRange.Max() = Ceil(m_it->xof(row) - 1.0); m_it++;
-    } while(indexRange.Size() <= 0);
+      indexRange.Min() = Ceil(m_sortedEdges.PopFirst());
+      indexRange.Max() = Ceil(m_sortedEdges.PopFirst() - 1.0);
+    } while(indexRange.Size() <= 0);    // don't include empty sections
     return true;
   }
 
