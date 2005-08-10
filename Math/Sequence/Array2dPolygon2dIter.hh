@@ -79,37 +79,44 @@ namespace RavlN {
     Array2dC<DataT> m_array;
     Polygon2dIterC m_polygonIter;
     Array1dIterC<DataT> m_arrayIter;
+    IndexRangeC m_rowRange;
+    IndexRangeC m_colRange;
   };
 
   template<class DataT>
   Array2dPolygon2dIterC<DataT>::Array2dPolygon2dIterC(const Array2dC<DataT> &array, const Polygon2dC &polygon)
-    : m_array(array)
+    : m_array(array),
+      m_rowRange(array.Range1()),
+      m_colRange(array.Range2())
   { 
-    if (m_array.Range().Contains(polygon.BoundingRectangle().IndexRange()))
-      m_polygonIter = Polygon2dIterC(polygon);
-    else
-      m_polygonIter = Polygon2dIterC(polygon.ClipByConvex(RealRange2dC(m_array.Range())));
+    m_polygonIter = Polygon2dIterC(polygon);
     First();
   }
 
   template<class DataT>
   void Array2dPolygon2dIterC<DataT>::First() {
     m_polygonIter.First();
-    if (m_polygonIter.IsElm())
-      m_arrayIter = Array1dIterC<DataT>(m_array.SliceRow(m_polygonIter.Row()), m_polygonIter.IndexRange());
-    else
-      m_arrayIter = Array1dIterC<DataT>();
+    Next();
   }
 
   template<class DataT>
   bool Array2dPolygon2dIterC<DataT>::Next() {
-    m_arrayIter.Next();
-    if (m_arrayIter.IsElm())
-      return true;
-    if (m_polygonIter.Next()) {
-      m_arrayIter = Array1dIterC<DataT>(m_array.SliceRow(m_polygonIter.Row()), m_polygonIter.IndexRange());
-      return true;
+    if (m_arrayIter.IsElm()) {
+      m_arrayIter.Next();
+      if (m_arrayIter.IsElm())
+        return true;
     }
+    for (; m_polygonIter; m_polygonIter++) {
+      IndexC row = m_polygonIter.Row();
+      IndexRangeC indexRange = m_polygonIter.IndexRange();
+      if (m_rowRange.Contains(row) &&
+          m_colRange.IsOverlapping(indexRange)) {
+        m_arrayIter = Array1dIterC<DataT>(m_array.SliceRow(row), indexRange.ClipBy(m_colRange));
+        m_polygonIter++;
+        return true;
+      }
+    }
+    m_arrayIter = Array1dIterC<DataT>();
     return false;
   }
 

@@ -54,10 +54,10 @@ namespace RavlN {
     }
     if (p1.Row() < p2.Row()) {
       m_minRow = Ceil(p1.Row());
-      m_maxRow = Floor(p2.Row());
+      m_maxRow = Ceil(p2.Row());
     } else {
       m_minRow = Ceil(p2.Row());
-      m_maxRow = Floor(p1.Row());
+      m_maxRow = Ceil(p1.Row());
     }
   }
 
