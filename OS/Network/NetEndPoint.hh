@@ -24,6 +24,7 @@
 #include "Ravl/Threads/MessageQueue.hh"
 #include "Ravl/Threads/ThreadEvent.hh"
 #include "Ravl/Threads/Mutex.hh"
+#include "Ravl/Threads/Signal.hh"
 #include "Ravl/OS/NetMessage.hh"
 #include "Ravl/OS/NetMsgCall.hh"
 #include "Ravl/CallMethodRefs.hh"
@@ -328,9 +329,14 @@ namespace RavlN {
     TriggerC &ConnectionBroken()
     { return connectionBroken; }
     //: Access trigger called if connection broken.
+    // Obsolete, use SigConnectionBroken()
     
     void ConnectionBroken(const TriggerC &);
     //: Set new trigger to be called if connection broken.
+    
+    Signal0C &SigConnectionBroken()
+    { return sigConnectionBroken; }
+    //: Access connection broken signal.
     
     const StringC &ProtocolName() const
     { return localInfo.protocol; }
@@ -399,6 +405,7 @@ namespace RavlN {
     friend class NetEndPointC;
     bool autoInit;
     TriggerC connectionBroken; // Trigger called if connection broken.
+    Signal0C sigConnectionBroken;
     
     NetClientInfoC localInfo; // Info for this application.
     NetClientInfoC peerInfo;  // Info for remote application.
@@ -642,11 +649,17 @@ namespace RavlN {
     TriggerC &ConnectionBroken()
     { return Body().ConnectionBroken(); }
     //: Access trigger called if connection broken.
+    // OBSOLETE: Use SigConnectionBroken().
+    
+    Signal0C &SigConnectionBroken()
+    { return Body().SigConnectionBroken(); }
+    //: Access connection broken signal.
     
     void ConnectionBroken(const TriggerC &trigger)
     { Body().ConnectionBroken(trigger); }
     //: Set new trigger to be called if connection broken.
-
+    // OBSOLETE: Use SigConnectionBroken().
+    
     const StringC &ProtocolName() const
     { return Body().ProtocolName(); }
     //: Name of protocol being used.

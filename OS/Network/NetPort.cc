@@ -31,8 +31,7 @@ namespace RavlN {
   
   NetPortBaseC::~NetPortBaseC()
   { 
-    if(ep.IsValid())
-      ep.ConnectionBroken().Invalidate();
+    sigConnections.DisconnectAll(true);
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetPortBaseC::~NetPortBaseC() " << (void *) this); 
   }
   
@@ -72,7 +71,7 @@ namespace RavlN {
     ep = nep;
     netAttr.Connect(nep);
     // Register method to call on connection closed.
-    ep.ConnectionBroken() = TriggerR(*this,&NetPortBaseC::ConnectionClosed);
+    sigConnections += ConnectR(ep.SigConnectionBroken(),*this,&NetPortBaseC::ConnectionClosed);
     NetPortBaseC::Init();
     return true;
   }

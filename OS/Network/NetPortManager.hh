@@ -22,6 +22,7 @@
 #include "Ravl/OS/NetOPortServer.hh"
 #include "Ravl/Threads/RWLock.hh"
 #include "Ravl/Calls.hh"
+#include "Ravl/Threads/SignalConnectionSet.hh"
 
 namespace RavlN {
   

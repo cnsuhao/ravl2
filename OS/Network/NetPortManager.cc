@@ -14,6 +14,7 @@
 #include "Ravl/OS/NetPortManager.hh"
 #include "Ravl/OS/NetPortClient.hh"
 #include "Ravl/Threads/LaunchThread.hh"
+#include "Ravl/Threads/Signal1.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -201,8 +202,9 @@ namespace RavlN {
   //: Called when a connection is established.
   
   bool NetPortManagerBodyC::RegisterConnection(NetISPortServerBaseC &isport) {
-    if(unregisterOnDisconnect)
-      isport.NetEndPoint().ConnectionBroken() = Trigger(NetPortManagerC(*this),&NetPortManagerC::ConnectionDroppedI,isport);
+    if(unregisterOnDisconnect) 
+      Connect(isport.NetEndPoint().SigConnectionBroken(),NetPortManagerC(*this),&NetPortManagerC::ConnectionDroppedI,isport);
+    
     return true;
   }
   
@@ -210,7 +212,7 @@ namespace RavlN {
   
   bool NetPortManagerBodyC::RegisterConnection(NetOSPortServerBaseC &osport) {
     if(unregisterOnDisconnect)
-      osport.NetEndPoint().ConnectionBroken() = Trigger(NetPortManagerC(*this),&NetPortManagerC::ConnectionDroppedO,osport);
+      Connect(osport.NetEndPoint().SigConnectionBroken(),NetPortManagerC(*this),&NetPortManagerC::ConnectionDroppedO,osport);
     return true;
   }
   

@@ -36,6 +36,7 @@ namespace RavlN {
       receiveQ(5),
       shutdown(false),
       autoInit(nautoInit),
+      sigConnectionBroken(true),
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
       pingSeqNo(1)
   {
@@ -51,6 +52,7 @@ namespace RavlN {
       receiveQ(5),
       shutdown(false),
       autoInit(nautoInit),
+      sigConnectionBroken(true),
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
       pingSeqNo(1)
   {
@@ -104,6 +106,7 @@ namespace RavlN {
   NetEndPointBodyC::~NetEndPointBodyC() {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::~NetEndPointBodyC(), Called. " << (void *) this);
     setupComplete.Post(); // Make sure nothings waiting for setup to complete.
+    sigConnectionBroken.DisconnectAll(true);
   }
   
   //: Register new message handler.
@@ -232,15 +235,15 @@ namespace RavlN {
   
   bool NetEndPointBodyC::Close() {
     ONDEBUG(SysLog(SYSLOG_ERR) << "NetEndPointBodyC::Close(), Called shutdown=" << shutdown << " RefCount=" << References());
-    if(!shutdown) {
-      MutexLockC lock(accessMsgReg);
-      shutdown = true;
-      msgReg.Empty(); 
-      ostrm.PutEOS();
-      //istrm.PutEOS();
-      receiveQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
-      transmitQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
-    }
+    if(shutdown) 
+      return true;
+    MutexLockC lock(accessMsgReg);
+    shutdown = true;
+    msgReg.Empty(); 
+    ostrm.PutEOS();
+    //istrm.PutEOS();
+    receiveQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
+    transmitQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
     return true;
   }
   
@@ -531,6 +534,11 @@ namespace RavlN {
     if(!nis)
       SysLog(SYSLOG_INFO) << "NetEndPointBodyC::RunReceive(), Connection broken ";
 #endif
+    
+    sigConnectionBroken.Invoke();
+    sigConnectionBroken.DisconnectAll(true);
+    
+    // Legacy...
     MutexLockC lock(accessMsgReg);
     if(connectionBroken.IsValid()) { // Got a callback ?
       TriggerC call = connectionBroken; // Make copy of trigger in case its overwritten.
