@@ -51,7 +51,7 @@ namespace RavlImageN {
   // with functions that assume a simple linear memory layout for 2d arrays
 
   template<class DataT>
-  Array2dC<DataT> DeinterlaceSubsample(Array2dC<DataT> &img,bool field1Dom = true) {
+  Array2dC<DataT> DeinterlaceSubsample(const Array2dC<DataT> &img,bool field1Dom = true) {
     RavlAssert((img.Range1().Size() % 2) == 0);
     Array2dC<DataT> newBuf(img.Range1().Size()/2, img.Range2().Size()/2);
     for(Array2dIterC<DataT>It(newBuf);It.IsElm();It.Next()) {
