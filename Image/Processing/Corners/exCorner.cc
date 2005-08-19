@@ -17,6 +17,7 @@
 #include "Ravl/Image/DrawFrame.hh"
 #include "Ravl/IO.hh"
 #include "Ravl/DP/SequenceIO.hh"
+#include "Ravl/Image/Deinterlace.hh"
 
 using namespace RavlImageN;
 
@@ -28,6 +29,8 @@ int main(int nargs,char **argv) {
   bool useTopHat = opt.Boolean("th",true,"Use top hat filter in harris corner detector. ");
   bool seq = opt.Boolean("seq",false,"Process a sequence. ");
   bool verb = opt.Boolean("v",false,"Verbose mode. ");
+  bool deinterlace = opt.Boolean("d",false,"Deinterlace images");
+  
   UIntT frameLimit = opt.Int("fl",-1,"Limit on the number of frames to process in a sequence. ");
   StringC inf = opt.String("","test.ppm","Input image. ");
   StringC outf = opt.String("","out.ppm","Output image. ");
@@ -87,7 +90,9 @@ int main(int nargs,char **argv) {
     
     ImageC<ByteT> img;
     while(imgIn.Get(img) && frameLimit-- != 0) {
-
+      if(deinterlace)
+        img = DeinterlaceSubsample(img);
+      
       // Find the corners.
       
       DListC<CornerC> corners = cornerDet.Apply(img);

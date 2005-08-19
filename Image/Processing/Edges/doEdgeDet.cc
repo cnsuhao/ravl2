@@ -25,12 +25,15 @@
 #include "Ravl/Image/EdgeDetector.hh"
 #include "Ravl/Image/SubSample.hh"
 #include "Ravl/OS/Date.hh"
+#include "Ravl/Image/Deinterlace.hh"
 
 using namespace RavlN;
 using namespace RavlImageN;
 
 
-
+ImageC<ByteT> DoDeinterlace(const ImageC<ByteT> &img) {
+  return DeinterlaceSubsample(img);
+}
 
 ImageC<RealT> SquareComp(const Tuple2C<ImageC<RealT>,ImageC<RealT> > &dat) {
   static SqrCompositionC sc;
@@ -80,6 +83,7 @@ int main(int argc,char **argv) {
   RealT hystUpper = option.Real("hu",8,"Upper hysterisis threshold. ");
   IntT threads = option.Int("th",2,"Number of threads to use in processing. ");
   StringC overlay = option.String("ol","","Overlay edges on input image. ");
+  bool deinterlace = option.Boolean("d",false,"Deinterlace images");
   StringC inFile = option.String("","in.pgm","Input filename");
   StringC outFile = option.String("","","Output filename");
   
@@ -172,6 +176,9 @@ int main(int argc,char **argv) {
     if(!out.IsValid() && !outOverlay.IsValid()) {
       cerr << "No output specified. ";
       return 1;
+    }
+    if(deinterlace) {
+      in = in >> &DoDeinterlace;
     }
     if(verb)
       cerr << "Processing... \n";
