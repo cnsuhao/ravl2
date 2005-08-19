@@ -15,6 +15,7 @@
 #include "Ravl/DP/AttributeCtrl.hh"
 #include "Ravl/OS/NetEndPoint.hh"
 #include "Ravl/OS/NetRequestManager.hh"
+#include "Ravl/Threads/SignalConnectionSet.hh"
 
 namespace RavlN {
   class NetAttributeCtrlC;
@@ -152,7 +153,7 @@ namespace RavlN {
     NetEndPointC ep;
     UIntT ctrlId;
     NetRequestManagerC reqManager;
-    
+    SignalConnectionSetC sigConnectionSet;
     friend class NetAttributeCtrlC;
   };
 

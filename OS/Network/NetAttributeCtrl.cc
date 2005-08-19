@@ -48,6 +48,7 @@ namespace RavlN {
   
   NetAttributeCtrlBodyC::~NetAttributeCtrlBodyC() {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetAttributeCtrlBodyC::~NetAttributeCtrlBodyC(), Called.");
+    sigConnectionSet.DisconnectAll(true);
   }
   
   //: Connect to an end point.
@@ -59,7 +60,7 @@ namespace RavlN {
     ep = nep;
     
     // Register method to call on connection closed.
-    ep.ConnectionBroken() = TriggerR(*this,&NetAttributeCtrlBodyC::ConnectionClosed);
+    sigConnectionSet += ConnectRef(ep.SigConnectionBroken(),*this,&NetAttributeCtrlBodyC::ConnectionClosed);
     
     RegisterHandlers();
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetAttributeCtrlBodyC::Connect(const NetEndPointC &), Done.");

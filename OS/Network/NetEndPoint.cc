@@ -67,6 +67,7 @@ namespace RavlN {
       receiveQ(5),
       shutdown(false),
       autoInit(nautoInit),
+      sigConnectionBroken(true),
       localInfo(protocolName,protocolVersion),
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
       pingSeqNo(1)
@@ -82,6 +83,7 @@ namespace RavlN {
       receiveQ(5),
       shutdown(false),
       autoInit(nautoInit),
+      sigConnectionBroken(true),
       localInfo(protocolName,protocolVersion),
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
       pingSeqNo(1)
@@ -97,6 +99,7 @@ namespace RavlN {
     : transmitQ(15),
       receiveQ(5),
       shutdown(false),
+      sigConnectionBroken(true),
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
       pingSeqNo(1)
   {}
@@ -534,9 +537,11 @@ namespace RavlN {
     if(!nis)
       SysLog(SYSLOG_INFO) << "NetEndPointBodyC::RunReceive(), Connection broken ";
 #endif
-    
-    sigConnectionBroken.Invoke();
-    sigConnectionBroken.DisconnectAll(true);
+    if(sigConnectionBroken.IsValid()) {
+      sigConnectionBroken.Invoke();
+      sigConnectionBroken.DisconnectAll(true);
+    } else
+      cerr << "NetEndPointBodyC::RunReceive(), Internal error: No sigBrokenConnection. \n";
     
     // Legacy...
     MutexLockC lock(accessMsgReg);
