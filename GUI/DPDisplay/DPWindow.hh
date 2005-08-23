@@ -58,6 +58,10 @@ namespace RavlGUIN {
     bool WindowClosed();
     //: Called when window is closed.
     
+    bool IsOpen() const
+    { return view.IsValid(); }
+    //: Test if view has been created.
+    
   protected:    
     StringC name;
     MutexC accessMutex; // Make sure window is only setup at once.
@@ -121,6 +125,10 @@ namespace RavlGUIN {
     bool WindowClosed()
     { return Body().WindowClosed(); }
     //: Called when window is closed.
+    
+    bool IsOpen() const
+    { return Body().IsOpen(); }
+    //: Test if view has been created.
 
     friend class DPWindowBodyC;
   };

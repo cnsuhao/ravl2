@@ -10,6 +10,8 @@
 //! file="Ravl/GUI/DPDisplay/DPWindowOPort.cc"
 
 #include "Ravl/GUI/DPWindowOPort.hh"
+#include "Ravl/GUI/ReadBack.hh"
+#include "Ravl/GUI/Manager.hh"
 
 namespace RavlGUIN {
   
@@ -23,10 +25,18 @@ namespace RavlGUIN {
   //: Process in coming display objects.
   
   bool DPWindowOPortBodyC::Put(const DPDisplayObjC &newObj) {
+    bool wasOpen = win.IsOpen();
     if(accumulate)
       win.AddObject(newObj);
     else
       win.ReplaceObject(newObj);
+    // Wait for initial window to open before returning, this avoids
+    // some race conditions if the program exists soon after displaying
+    // something.
+    if(!wasOpen) {
+      // Aquire a readback lock to ensure window is properly opened.
+      ReadBackLockC rbLock(true);
+    }
     return true;
   }
   
