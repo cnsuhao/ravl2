@@ -184,11 +184,7 @@ namespace RavlN {
     { return remoteUser; }
     //: Access name of remote user.
     
-    bool Transmit(const NetPacketC &pkt) { 
-      if(shutdown) return false; // Don't Q new stuff if we're shutting down.
-      transmitQ.Put(pkt);
-      return true;
-    }
+    bool Transmit(const NetPacketC &pkt);
     //: Queue a packet for transmition.
     
     bool Ready();
@@ -367,7 +363,9 @@ namespace RavlN {
     //: True if using big endian stream in packet composition 
     
   protected:
-
+    void Dispatch(const NetPacketC &pkt);
+    //: Decode packet and do call back.
+    
     bool MsgInit(StringC &user,NetClientInfoC &info);
     //: Init message.
     
@@ -382,7 +380,6 @@ namespace RavlN {
     
     bool RunDecode();
     //: Decodes incoming packets.
-    
     
     void CloseTransmit();
     //: Close down for transmit thread.

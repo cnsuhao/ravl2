@@ -25,6 +25,7 @@
 #define ONDEBUG(x)
 #endif
 
+#define RAVL_USE_DECODE_THREAD 0
 
 namespace RavlN {
   enum NEPMsgTypeT { NEPMsgInit = 1, NEPMsgPing };
@@ -160,6 +161,7 @@ namespace RavlN {
       shutdown = true;
       return false;
     }
+    nskt.SetNoDelay();
     //nskt.SetNonBlocking(true);
     istrm = NetIByteStreamC(nskt);
     ostrm = NetOByteStreamC(nskt);
@@ -180,7 +182,9 @@ namespace RavlN {
     NetEndPointC me(*this);
     LaunchThread(me,&NetEndPointC::RunReceive);
     LaunchThread(me,&NetEndPointC::RunTransmit);
+#if RAVL_USE_DECODE_THREAD
     LaunchThread(me,&NetEndPointC::RunDecode);
+#endif
     return true;
   }
   
@@ -265,6 +269,14 @@ namespace RavlN {
     istrm.GetAttr("ConnectedPort",portNo);
     return portNo;
   } 
+  
+  //: Queue a packet for transmition.
+  
+  bool NetEndPointBodyC::Transmit(const NetPacketC &pkt) { 
+    if(shutdown) return false; // Don't Q new stuff if we're shutting down.
+    transmitQ.Put(pkt);
+    return true;
+  }
   
   static const StringC streamHeaderBigEndian ="<ABPS>\n";
   static const StringC streamHeaderLittleEndian ="<RBPS>\n";
@@ -444,6 +456,26 @@ namespace RavlN {
     NetPacketC pkt;
     while(transmitQ.TryGet(pkt)) ;
   }
+
+  //: Decode packet and do call back.
+
+  void NetEndPointBodyC::Dispatch(const NetPacketC &pkt) {
+    NetEndPointC me(*this);
+    // Direct dispatch
+    BinIStreamC is(pkt.DecodeStream());
+    is.UseBigEndian(useBigEndianBinStream);
+    UIntT msgTypeID = 0;
+    is >> msgTypeID;
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "Incoming packet type id:" << msgTypeID );
+    // Check local decode table.
+    NetMsgRegisterC msg = Find(msgTypeID);
+    if(!msg.IsValid()) {
+      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunDecode(), ERROR: Don't know how to decode message type " << msgTypeID;
+      return;
+    }  
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "Decoding incoming packet. Type: '" << msg.Name() << "'"); 
+    msg.Decode(me,is); 
+  }
   
   //: Handle packet reception.
   
@@ -518,7 +550,13 @@ namespace RavlN {
 	  break;
 	}
 	NetPacketC pkt(data);
+#if RAVL_USE_DECODE_THREAD
+	// Queue'd dispatch.
 	receiveQ.Put(pkt);
+#else
+	// Direct
+	Dispatch(pkt);
+#endif
       }
     } catch(ExceptionC &e) {
       SysLog(SYSLOG_ERR) << "RAVL Exception :'" << e.what() << "' ";
@@ -579,30 +617,7 @@ namespace RavlN {
 	}
 	if(!pkt.IsValid()) 
 	  continue;
-	//ONDEBUG(cerr << "Recieved packet:");
-	//ONDEBUG(pkt.Dump(cerr));
-	// Decode....
-	BinIStreamC is(pkt.DecodeStream());
-	is.UseBigEndian(useBigEndianBinStream);
-	UIntT msgTypeID = 0;
-	is >> msgTypeID;
-	ONDEBUG(SysLog(SYSLOG_DEBUG) << "Incoming packet type id:" << msgTypeID );
-	// Check local decode table.
-	NetMsgRegisterC msg = Find(msgTypeID);
-	if(!msg.IsValid()) {
-	  SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunDecode(), ERROR: Don't know how to decode message type " << msgTypeID;
-	  continue;
-	}  
-	ONDEBUG(SysLog(SYSLOG_DEBUG) << "Decoding incoming packet. Type: '" << msg.Name() << "'"); 
-	msg.Decode(me,is); 
-
-#if RAVL_COMPILER_MIPSPRO // ignore Tell() = -1 on MIPS 
-  	if(  ((UIntT) is.Tell() != pkt.Size()) && (is.Tell() != -1) )  
-	  { SysLog(SYSLOG_ERR) << "WARNING: Not all of packet processed Stream:" << is.Tell() << " Packet size:" << pkt.Size() << " Message id=" << msgTypeID; }
-#else
-	if((UIntT) is.Tell() != pkt.Size())
-	  { SysLog(SYSLOG_ERR) << "WARNING: Not all of packet processed Stream:" << is.Tell() << " Packet size:" << pkt.Size() << " Message id=" << msgTypeID; }
-#endif 
+	Dispatch(pkt);
       }
     } catch(ExceptionOperationFailedC &ex) {
       // protocol error...
