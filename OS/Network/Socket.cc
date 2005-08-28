@@ -158,6 +158,35 @@ namespace RavlN {
     return entry.p_proto;
 #endif
   }
+
+  //: Cork stream.  
+  // This is used to indicate that there is going to
+  // be several write operations immediatly following each
+  // other and stops the transmition of fragmented packets.
+  // If your not expecting to do any more writes immediatly
+  // you must call 'Uncork()'.
+  // Returns true if Corking is supported by stream.
+  
+  bool SocketBodyC::Cork(bool enable) {
+    // Enable delays.
+    int n;
+    if(enable)
+      n = 1;
+    else
+      n = 0;
+    static int tcpprotocolno = GetTCPProtocolNumber();
+#ifdef TCP_CORK
+    // Linux specific call.
+    if(setsockopt(fd,tcpprotocolno,TCP_CORK,&n,sizeof(int)) != 0) {
+      cerr << "SocketBodyC::Cork(), Failed. errno=" << errno <<"\n";
+    }
+#else
+    if(setsockopt(fd,tcpprotocolno,TCP_NODELAY,&n,sizeof(int)) != 0) {
+      cerr << "SocketBodyC::Cork(), Failed. errno=" << errno <<"\n";
+    }
+#endif
+    return true;
+  }
   
   //: Send data as soon as possible. 
   

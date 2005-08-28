@@ -33,6 +33,17 @@ namespace RavlN {
     NetOByteStreamBodyC(const StringC &address);
     //: Construct from address string
     
+    virtual bool Cork(bool enable);
+    //: Cork stream.  
+    // True indicates that there is going to
+    // be several write operations immediatly following each
+    // other and stops the transmition of fragmented packets.
+    // If your not expecting to do any more writes immediatly
+    // you must call 'Cork(false)' immediatly. <br>
+    // False indicates that all the pending data has been written
+    // This sends any partial packets still pending. <br>
+    // Returns true if Corking is supported by stream.
+    
     virtual void PutEOS();
     //: Put End Of Stream marker.
     

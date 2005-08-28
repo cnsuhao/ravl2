@@ -108,40 +108,44 @@ namespace RavlN {
     : public RCBodyVC
   {
   public:
-    NetEndPointBodyC(SocketC &socket,bool autoInit = true);
+    NetEndPointBodyC(SocketC &socket,bool autoInit = true,bool optimiseThroughput = false);
     //: Constructor.
     //!param: socket - connext to existing socket
     //!param: autoInit - If false, you must call the Ready() function when you are ready to start processing network messages. If true, messages will start being processed as soon as the connection is established.
-
+    //!param: optimiseThroughput - If true optimise for total throughput at the expense of comminication latency. If false optimise for latency
     
-    NetEndPointBodyC(const StringC &address,bool autoInit = true);
+    NetEndPointBodyC(const StringC &address,bool autoInit = true,bool optimiseThroughput = false);
     //: Constructor.
     //!param: address -  has the format  `host:port' where `host' may be a host name or its IP address (e.g. 122.277.96.255) and `port' is the number of the port to use.
     //!param: autoInit - If false, you must call the Ready() function when you are ready to start processing network messages. If true, messages will start being processed as soon as the connection is established.
-
-    NetEndPointBodyC(SocketC &socket,const StringC &protocolName,const StringC &protocolVersion,bool autoInit = true);
+    //!param: optimiseThroughput - If true optimise for total throughput at the expense of comminication latency. If false optimise for latency
+    
+    NetEndPointBodyC(SocketC &socket,const StringC &protocolName,const StringC &protocolVersion,bool autoInit = true,bool optimiseThroughput = false);
     //: Constructor.
     //!param: socket - connext to existing socket
     //!param: protocolName - Name of communication protocol being used.
     //!param: protocolVersion - Version of communication protocol being used.
     //!param: autoInit - If false, you must call the Ready() function when you are ready to start processing network messages. If true, messages will start being processed as soon as the connection is established.
+    //!param: optimiseThroughput - If true optimise for total throughput at the expense of comminication latency. If false optimise for latency
     
-    NetEndPointBodyC(const StringC &address,const StringC &protocolName,const StringC &protocolVersion,bool autoInit = true);
+    NetEndPointBodyC(const StringC &address,const StringC &protocolName,const StringC &protocolVersion,bool autoInit = true,bool optimiseThroughput = false);
     //: Constructor.
     //!param: address -  has the format  `host:port' where `host' may be a host name or its IP address (e.g. 122.277.96.255) and `port' is the number of the port to use.
     //!param: protocolName - Name of communication protocol being used.
     //!param: protocolVersion - Version of communication protocol being used.
     //!param: autoInit - If false, you must call the Ready() function when you are ready to start processing network messages. If true, messages will start being processed as soon as the connection is established.
+    //!param: optimiseThroughput - If true optimise for total throughput at the expense of comminication latency. If false optimise for latency
     
-    NetEndPointBodyC(const DPIByteStreamC &istrm,const DPOByteStreamC &ostrm,const StringC &protocolName,const StringC &protocolVersion,bool autoInit = true);
+    NetEndPointBodyC(const DPIByteStreamC &istrm,const DPOByteStreamC &ostrm,const StringC &protocolName,const StringC &protocolVersion,bool autoInit = true,bool optimiseThroughput = false);
     //: Constructor.
     //!param: istrm - Input comunications stream
     //!param: ostrm - Output comunications stream
     //!param: protocolName - Name of communication protocol being used.
     //!param: protocolVersion - Version of communication protocol being used.
     //!param: autoInit - If false, you must call the Ready() function when you are ready to start processing network messages. If true, messages will start being processed as soon as the connection is established.
+    //!param: optimiseThroughput - If true optimise for total throughput at the expense of comminication latency. If false optimise for latency
     
-    NetEndPointBodyC();
+    NetEndPointBodyC(bool _optimiseThroughput = false);
     //: Default constructor.
     
     ~NetEndPointBodyC();
@@ -408,6 +412,7 @@ namespace RavlN {
     NetClientInfoC peerInfo;  // Info for remote application.
     bool useBigEndianBinStream;
     IntT pingSeqNo;          // Sequence number used for pings.
+    bool optimiseThroughput; // Optimise through put at the expense of latency.
   };
   
   //! userlevel=Normal
@@ -439,23 +444,23 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
 
-    NetEndPointC(SocketC &socket,bool autoInit = true)
-      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(socket,autoInit))
+    NetEndPointC(SocketC &socket,bool autoInit = true,bool optimiseThroughput = false)
+      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(socket,autoInit,optimiseThroughput))
     {}
     //: Constructor.  
     //!param: socket - connext to existing socket
     //!param: autoInit - If false, you must call the Ready() function when you are ready to start processing network messages. If true, messages will start being processed as soon as the connection is established.
     
-    NetEndPointC(const StringC &address,bool autoInit = true)
-      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(address,autoInit))
+    NetEndPointC(const StringC &address,bool autoInit = true,bool optimiseThroughput = false)
+      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(address,autoInit,optimiseThroughput))
     {}
     //: Constructor.
     // This connects to the given port address. <p>
     //!param: address -  has the format  `host:port' where `host' may be a host name or its IP address (e.g. 122.277.96.255) and `port' is the number of the port to use.
     //!param: autoInit - If false, you must call the Ready() function when you are ready to start processing network messages. If true, messages will start being processed as soon as the connection is established.
     
-    NetEndPointC(const DPIByteStreamC &istrm,const DPOByteStreamC &ostrm,const StringC &protocolName,const StringC &protocolVersion,bool autoInit = true)
-      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(istrm,ostrm,protocolName,protocolVersion,autoInit))
+    NetEndPointC(const DPIByteStreamC &istrm,const DPOByteStreamC &ostrm,const StringC &protocolName,const StringC &protocolVersion,bool autoInit = true,bool optimiseThroughput = false)
+      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(istrm,ostrm,protocolName,protocolVersion,autoInit,optimiseThroughput))
     {}
     //: Constructor.
     //!param: istrm - Input comunications stream

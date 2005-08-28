@@ -37,6 +37,17 @@ namespace RavlN {
   NetOByteStreamBodyC::NetOByteStreamBodyC(const StringC &address)
     : socket(address,false)
   { Init(); }
+
+  //: Cork stream.  
+  // This is used to indicate that there is going to
+  // be several write operations immediatly following each
+  // other and stops the transmition of fragmented packets.
+  // If your not expecting to do any more writes immediatly
+  // you must call 'Uncork()'.
+  
+  bool NetOByteStreamBodyC::Cork(bool enable) {
+    return socket.Cork(enable);
+  } 
   
   //: Build attribute lists etc.
   

@@ -32,14 +32,15 @@ namespace RavlN {
   
   //: Constructor.
   
-  NetEndPointBodyC::NetEndPointBodyC(const StringC &addr,bool nautoInit) 
+  NetEndPointBodyC::NetEndPointBodyC(const StringC &addr,bool nautoInit,bool _optimiseThroughput) 
     : transmitQ(15),
       receiveQ(5),
       shutdown(false),
       autoInit(nautoInit),
       sigConnectionBroken(true),
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
-      pingSeqNo(1)
+      pingSeqNo(1),
+      optimiseThroughput(_optimiseThroughput)
   {
     SocketC skt(addr,false);
     localInfo.appName = SysLogApplicationName();
@@ -48,14 +49,15 @@ namespace RavlN {
   
   //:  Constructor.
   
-  NetEndPointBodyC::NetEndPointBodyC(SocketC &nskt,bool nautoInit)
+  NetEndPointBodyC::NetEndPointBodyC(SocketC &nskt,bool nautoInit,bool _optimiseThroughput)
     : transmitQ(15),
       receiveQ(5),
       shutdown(false),
       autoInit(nautoInit),
       sigConnectionBroken(true),
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
-      pingSeqNo(1)
+      pingSeqNo(1),
+      optimiseThroughput(_optimiseThroughput)
   {
     localInfo.appName = SysLogApplicationName();
     Init(nskt); 
@@ -63,7 +65,7 @@ namespace RavlN {
   
   //: Constructor.
   
-  NetEndPointBodyC::NetEndPointBodyC(SocketC &socket,const StringC &protocolName,const StringC &protocolVersion,bool nautoInit)
+  NetEndPointBodyC::NetEndPointBodyC(SocketC &socket,const StringC &protocolName,const StringC &protocolVersion,bool nautoInit,bool _optimiseThroughput )
     : transmitQ(15),
       receiveQ(5),
       shutdown(false),
@@ -71,7 +73,8 @@ namespace RavlN {
       sigConnectionBroken(true),
       localInfo(protocolName,protocolVersion),
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
-      pingSeqNo(1)
+      pingSeqNo(1),
+      optimiseThroughput(_optimiseThroughput )
   { 
     localInfo.appName = SysLogApplicationName();
     Init(socket); 
@@ -79,7 +82,7 @@ namespace RavlN {
   
   //: Constructor.
   
-  NetEndPointBodyC::NetEndPointBodyC(const StringC &address,const StringC &protocolName,const StringC &protocolVersion,bool nautoInit) 
+  NetEndPointBodyC::NetEndPointBodyC(const StringC &address,const StringC &protocolName,const StringC &protocolVersion,bool nautoInit,bool _optimiseThroughput) 
     : transmitQ(15),
       receiveQ(5),
       shutdown(false),
@@ -87,7 +90,8 @@ namespace RavlN {
       sigConnectionBroken(true),
       localInfo(protocolName,protocolVersion),
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
-      pingSeqNo(1)
+      pingSeqNo(1),
+      optimiseThroughput(_optimiseThroughput)
   { 
     SocketC skt(address,false);
     localInfo.appName = SysLogApplicationName();
@@ -96,13 +100,14 @@ namespace RavlN {
   
   //: Default constructor.
   
-  NetEndPointBodyC::NetEndPointBodyC() 
+  NetEndPointBodyC::NetEndPointBodyC(bool _optimiseThroughput) 
     : transmitQ(15),
       receiveQ(5),
       shutdown(false),
       sigConnectionBroken(true),
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
-      pingSeqNo(1)
+      pingSeqNo(1),
+      optimiseThroughput(_optimiseThroughput)
   {}
   
   //: Destructor.
@@ -161,7 +166,10 @@ namespace RavlN {
       shutdown = true;
       return false;
     }
-    nskt.SetNoDelay();
+    // If stream doesn't support corking use NoDelay.
+    if(!optimiseThroughput) 
+      nskt.SetNoDelay();
+    
     //nskt.SetNonBlocking(true);
     istrm = NetIByteStreamC(nskt);
     ostrm = NetOByteStreamC(nskt);
@@ -183,7 +191,8 @@ namespace RavlN {
     LaunchThread(me,&NetEndPointC::RunReceive);
     LaunchThread(me,&NetEndPointC::RunTransmit);
 #if RAVL_USE_DECODE_THREAD
-    LaunchThread(me,&NetEndPointC::RunDecode);
+    if(optimiseThroughput) 
+      LaunchThread(me,&NetEndPointC::RunDecode);
 #endif
     return true;
   }
@@ -404,14 +413,21 @@ namespace RavlN {
 	  continue;
         }
         timeOutCount = 0;
-	if(shutdown)
+	if(shutdown) {
+	  if(optimiseThroughput) 
+	    ostrm.Cork(false);
 	  break;
-	if(!pkt.IsValid())
+	}
+	if(!pkt.IsValid()) {
+	  if(optimiseThroughput) 
+	    ostrm.Cork(false);
 	  continue;
+	}
 	//ONDEBUG(cerr << "  Transmit packet:\n");
 	//ONDEBUG(pkt.Dump(cerr));
 	UIntT size = pkt.Size();
-
+	if(optimiseThroughput) 
+	  ostrm.Cork(true);
 #if RAVL_LITTLEENDIAN
 	if(useBigEndianBinStream)
 	  size = bswap_32(size);
@@ -427,6 +443,11 @@ namespace RavlN {
 	if(ostrm.WriteV(bufPtr,bufLen,2) != (IntT) (sizeof(size) + pkt.Size())) {
 	  SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::WriteV() Failed.  ";
 	  break;
+	}
+	if(optimiseThroughput) {
+	  // Any writes pending ?
+	  if(transmitQ.IsEmpty())
+	    ostrm.Cork(false);
 	}
 	ONDEBUG(SysLog(SYSLOG_DEBUG) << "  Sent packet. ");
       }
@@ -470,9 +491,9 @@ namespace RavlN {
     // Check local decode table.
     NetMsgRegisterC msg = Find(msgTypeID);
     if(!msg.IsValid()) {
-      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunDecode(), ERROR: Don't know how to decode message type " << msgTypeID;
+      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunDecode(), ERROR: Don't know how to decode message type " << msgTypeID << " Shutdown flag=" << shutdown;
       return;
-    }  
+    }
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "Decoding incoming packet. Type: '" << msg.Name() << "'"); 
     msg.Decode(me,is); 
   }
@@ -552,7 +573,10 @@ namespace RavlN {
 	NetPacketC pkt(data);
 #if RAVL_USE_DECODE_THREAD
 	// Queue'd dispatch.
-	receiveQ.Put(pkt);
+	if(!optimiseThroughput) 	 
+	  Dispatch(pkt);
+	else
+	  receiveQ.Put(pkt);
 #else
 	// Direct
 	Dispatch(pkt);
