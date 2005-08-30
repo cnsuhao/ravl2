@@ -6,7 +6,7 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! author="Radek Marik"
+//! author="Radek Marik,Bill Christmas"
 //! lib=RavlImage
 //! file="Ravl/Image/Base/RGBcYUV.cc"
 
@@ -16,34 +16,33 @@
 
 namespace RavlImageN {
   
-  // These are taken directly from the equivelent amma code.
-  // they probably could do with some checking.
+  /*
+   From RGB to YUV, the definition seems to be (by Google consensus)
 
-  static const RealT Init_YUVtoRGB_Matrix[] = {1.000,  0.000,  1.140,
-					       1.000, -0.395, -0.581,
-					       1.000,  2.032,  0.000};
-  
-  const TFMatrixC<RealT,3,3> ImageYUVtoRGBMatrix(Init_YUVtoRGB_Matrix);
-  
-  static const RealT Init_RGBtoYUV_Matrix[] = { 0.299,  0.587,  0.114,
-					       -0.148, -0.289,  0.437,
-					        0.615, -0.515, -0.100 };
+   Y = 0.299R + 0.587G + 0.114B
+   U = 0.492 (B-Y)
+   V = 0.877 (R-Y)
+  */
+
+  static const RealT Init_RGBtoYUV_Matrix[] =
+    {  0.2990000000000,  0.5870000000000,  0.1140000000000,
+      -0.1471080000000, -0.2888040000000,  0.4359120000000,
+       0.6147770000000, -0.5147990000000, -0.0999780000000 };
   
   
   const TFMatrixC<RealT,3,3> ImageRGBtoYUVMatrixStd(Init_RGBtoYUV_Matrix );
   
+  // So from YUV to RGB should just be the inverse:
+
+  static const RealT Init_YUVtoRGB_Matrix[] =
+    {1.0000000000000,  0.0000000000000,  1.1402508551881,
+     1.0000000000000, -0.3947313749117, -0.5808092090311,
+     1.0000000000000,  2.0325203252033,  0.0000000000000};
+  
+  const TFMatrixC<RealT,3,3> ImageYUVtoRGBMatrix(Init_YUVtoRGB_Matrix);
+  
   const TFMatrixC<RealT,3,3> ImageRGBtoYUVMatrix(ImageRGBtoYUVMatrixStd * ((1./1.175)));
 
-  //: This has been taken from the AMMA code.
-  // Is it right ??
-  
-
-
-
-  //     y       u       v
-  // r   1.000,  0.000,  1.140,
-  // g   1.000, -0.395, -0.581,
-  // b   1.000,  2.032,  0.000};
 
   IntT *UBLookup() {
     static IntT values[256];
