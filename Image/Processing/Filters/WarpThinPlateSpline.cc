@@ -57,7 +57,7 @@ namespace RavlImageN {
     for(i = 0;i < size;i++) {
       const Point2dC &pos = orgPos[i];
       for(int j = 0;j < size;j++) {
-	Ld[i][j] = U(pos.SqrEuclidDistance(newPos[j]));
+	Ld[i][j] = U(pos.SqrEuclidDistance(orgPos[j]));
       }
       Ld[i][size] = 1;
       Ld[i][size+1] = pos[0];

@@ -92,7 +92,7 @@ namespace RavlImageN {
       for(Array2dIterC<OutT> it(ret);it;) {
 	at = rstart;
 	do {
-	  ComputeWUd(orgPos,at,w,pat);
+	  ComputeWUd(newPos,at,w,pat);
 	  //cerr << " " << at << " => " << pat << "\n";
 	  if(irng.Contains(pat)) {
 	    OutT val;
