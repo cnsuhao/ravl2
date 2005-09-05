@@ -25,7 +25,7 @@ namespace RavlN {
   class Matrix2dC;
   
   //! userlevel=Normal
-  //: The first two  moments in 2D space
+  //: The moments up to 2nd order in 2D space
   
   class Moments2d2C
   {    
