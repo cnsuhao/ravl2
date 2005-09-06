@@ -31,7 +31,22 @@ namespace RavlN {
       verbose(nverbose),
       writeStubs(nwriteStubs),
       dryRun(ndryRun)
-  { parseTree.SetRootFilename(rootDir); }
+  { 
+    FilenameC fn(nrootDir);
+    if(!fn.IsDirectory()) {
+      ONDEBUG(cerr << "ClassWizardBodyC::ClassWizardBodyC, Root is not a directory. \n");
+      if(!fn.Exists()) 
+        throw ExceptionOperationFailedC("Can't find root file");
+      FilenameC newRootDir = fn.PathComponent();
+      editList += fn.NameComponent();
+      if(newRootDir.IsEmpty())
+        newRootDir = ".";
+      if(!newRootDir.IsDirectory()) 
+        throw ExceptionOperationFailedC("Failed to find root directory.");
+      rootDir = newRootDir;
+    }
+    parseTree.SetRootFilename(rootDir); 
+  }
   
   //: Dump the parse tree.
   
@@ -380,6 +395,10 @@ namespace RavlN {
       StringC localFile = bodyObj.Var("filename");
       IntT insertPoint = bodyObj.EndLineno() + 1;
       
+      // Check this is a file we're allowed to edit.
+      if(!editList.IsEmpty() && !editList.IsMember(localFile))
+        return true;
+      
       // Write one.
       cerr << "Adding class " << handleClassname << " to " << localFile << " at " << insertPoint << "\n";
       TextFileC txt = TextFile(localFile);
@@ -429,6 +448,11 @@ namespace RavlN {
 	continue; // Its fine.
       }
       StringC localFile = bodyObj.Var("filename");
+      
+      // Check this is a file we're allowed to edit.
+      if(!editList.IsEmpty() && !editList.IsMember(localFile))
+        return true;
+      
       // Can't find corresponding body method, must have been deleted.
       TextFileC txt = TextFile(localFile);
       if(!txt.IsValid())

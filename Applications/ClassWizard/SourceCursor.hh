@@ -16,6 +16,32 @@
 #include "Ravl/Text/TextCursor.hh"
 
 namespace RavlN {
+
+#if 0
+  //! userlevel=develop
+  //: Wooping class
+  // To test auto handle generation.
+  
+  class Woop2BodyC
+    : public RCBodyVC
+  {
+  public:
+    Woop2BodyC(int nn)
+      : n(nn)
+    {}
+    //: Constructor.
+    
+    ~Woop2BodyC();
+    //: Destructor
+    
+    IntT N() const
+    { return n; }
+    //: Get n
+
+  protected:
+    int n;
+  };
+#endif
   
   class SourceCursorC 
     : public TextCursorC

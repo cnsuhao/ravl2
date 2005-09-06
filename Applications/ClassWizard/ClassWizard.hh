@@ -140,6 +140,8 @@ namespace RavlN {
     
     StringC modifiedPrefix; // Prefix to use for modified files.
     
+    HSetC<StringC> editList; // List of files we're allowed to edit, empty = All.
+    
     bool verbose;
     bool writeStubs;
     bool dryRun;
