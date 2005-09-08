@@ -33,7 +33,7 @@ using namespace RavlImageN;
 int TestBasic();
 int TestIO();
 int TestColorCnv();
-int TestDeinterlace();
+int TestInterlace();
 int TestFont();
 int TestDraw();
 int TestBilinear();
@@ -56,7 +56,7 @@ int main()
     cerr << "Image test failed : " << lineno << "\n";
      return 1;
   }
-  if((lineno = TestDeinterlace()) != 0) {
+  if((lineno = TestInterlace()) != 0) {
     cerr << "Image test failed : " << lineno << "\n";
      return 1;
   }
@@ -238,11 +238,11 @@ int TestColorCnv() {
   return 0;
 }
 
-int TestDeinterlace() {
-  cerr << "TestDeinterlace(), Called \n";
+int TestInterlace() {
+  cerr << "TestInterlace(), Called \n";
   ImageC<IntT> img(10,10);
   img.Fill(0);
-  ImageC<IntT> res = Deinterlace(img);
+  ImageC<IntT> res = Interlace(img);
   if(res.RowPtr(0) != img.RowPtr(0)) return __LINE__;
   if(res.RowPtr(1) != img.RowPtr(5)) return __LINE__;
   if(res.RowPtr(2) != img.RowPtr(1)) return __LINE__;
