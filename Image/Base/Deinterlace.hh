@@ -20,7 +20,7 @@
 namespace RavlImageN {
   
   template<class DataT>
-  Array2dC<DataT> Deinterlace(Array2dC<DataT> &img,bool field1Dom = true) {
+  Array2dC<DataT> Interlace(Array2dC<DataT> &img,bool field1Dom = true) {
     RavlAssert((img.Range1().Size() % 2) == 0);
     Buffer2dC<DataT> newBuf(img.Buffer2d().Data(),img.Range2().Size());
     RangeBufferAccess2dC<DataT> rba(img.Range2());
@@ -45,10 +45,13 @@ namespace RavlImageN {
     }
     return Array2dC<DataT>(rba,newBuf);
   }
-  //: Deinterlace two fields held in a single frame.
+  //: Interlace two fields held in a single frame.
+  //!param: img - image containing 2 fields, one above the other
+  //!param: field1Dom - if true, upper field appears starting on top line of output image
   // This is an inplace operation and works by rearranging the row pointers
   // in the returned frame. This makes it very quick, but may cause problems
-  // with functions that assume a simple linear memory layout for 2d arrays
+  // with functions that assume a simple linear memory layout for 2D arrays
+
 
   template<class DataT>
   Array2dC<DataT> DeinterlaceSubsample(const Array2dC<DataT> &img,bool field1Dom = true) {
@@ -59,7 +62,7 @@ namespace RavlImageN {
     }
     return newBuf;
   }
-  //: Deinterlace and subsample, i.e. returns image that is half the size
+  //: Deinterlace by  subsampling, i.e. returns image that is half the size
   
 }
 
