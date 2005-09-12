@@ -390,14 +390,18 @@ namespace RavlN {
     ONDEBUG(cerr << "ClassWizardBodyC::ApplyClass(), File='" << scope.Var("filename") << "'\n");
     ObjectC rawHandleObj = scope.Lookup(handleClassname);
     ClassC bodyClass(bodyObj);
+    
+    // Check this is a file we're allowed to edit.
+    {
+      StringC classFile = bodyObj.Var("filename");
+      if(!editList.IsEmpty() && !editList.IsMember(classFile))
+        return true;
+    }
+    
     if(!rawHandleObj.IsValid()) {
       ONDEBUG(cerr << "Failed to find handle class '" << handleClassname << "'\n");
       StringC localFile = bodyObj.Var("filename");
       IntT insertPoint = bodyObj.EndLineno() + 1;
-      
-      // Check this is a file we're allowed to edit.
-      if(!editList.IsEmpty() && !editList.IsMember(localFile))
-        return true;
       
       // Write one.
       cerr << "Adding class " << handleClassname << " to " << localFile << " at " << insertPoint << "\n";
@@ -448,10 +452,6 @@ namespace RavlN {
 	continue; // Its fine.
       }
       StringC localFile = bodyObj.Var("filename");
-      
-      // Check this is a file we're allowed to edit.
-      if(!editList.IsEmpty() && !editList.IsMember(localFile))
-        return true;
       
       // Can't find corresponding body method, must have been deleted.
       TextFileC txt = TextFile(localFile);
@@ -509,6 +509,7 @@ namespace RavlN {
 	  }
 	}
 	StringC localFile = bodyObj.Var("filename");
+        
 	cerr << "Adding method " << it->Name() << " to " << localFile << " at " << (endOfLastHandle+1) << "\n";
 	TextFileC txt = TextFile(localFile);
 	SourceCursorC sc(txt,2);
