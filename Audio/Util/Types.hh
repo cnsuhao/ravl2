@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlAudioUtil
 //! author="Charles Galambos"
-//! docentry="Ravl.Audio.Audio IO"
+//! docentry="Ravl.Audio.IO"
 //! file="Ravl/Audio/Util/Types.hh"
 
 #include "Ravl/Types.hh"

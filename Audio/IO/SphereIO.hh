@@ -7,7 +7,7 @@
 #ifndef RAVLAUDIO_SPHEREIO_HEADER
 #define RAVLAUDIO_SPHEREIO_HEADER 1
 //! author="Charles Galambos"
-//! docentry="Ravl.Audio.Audio IO"
+//! docentry="Ravl.Audio.IO"
 //! rcsid="$Id$"
 //! lib=RavlAudioIO
 //! file="Ravl/Audio/IO/SphereIO.hh"

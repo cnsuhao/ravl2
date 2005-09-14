@@ -8,7 +8,7 @@
 #define RAVL_DEVAUDIOFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! docentry="Ravl.Audio.Audio IO"
+//! docentry="Ravl.Audio.IO"
 //! example=exAudioIO.cc
 //! lib=RavlAudioIO
 //! rcsid="$Id$"
