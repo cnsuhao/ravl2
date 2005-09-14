@@ -10,12 +10,14 @@
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! date="10/04/2002"
-//! docentry="Ravl.Images"
+//! docentry="Ravl.Images.Video"
 //! lib=RavlImage
 //! file="Ravl/Image/Base/Deinterlace.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter.hh"
+
+//! userlevel=Normal
 
 namespace RavlImageN {
   
@@ -38,12 +40,22 @@ namespace RavlImageN {
 	it++;
       }
     }
+    else {
+      for(IndexC i = img.Range1().Min()+1; i <= img.Range1().Max(); i+=2) {
+	*it = img.RowPtr(i);
+	it++;
+      }
+      for(IndexC i = img.Range1().Min(); i <= img.Range1().Max(); i+=2) {
+	*it = img.RowPtr(i);
+	it++;
+      }
+    }
     return Array2dC<DataT>(rba,newBuf);
   }
   //: De-interlace two fields held in a single frame.
   //!param: img - image containing an interlaced frame
-  //!param: field1Dom - if true, upper field appears starting on top line of output image
-  // Returns an ImageC containing the 2 frames, one above the other<br>
+  //!param: field1Dom - if true, upper field on output image starts on top line of input image
+  // Returns a single ImageC containing the 2 frames, one above the other.<br>
   // This is an inplace operation and works by rearranging the row pointers
   // in the returned frame. This makes it very quick, but may cause problems
   // with functions that assume a simple linear memory layout for 2D arrays
@@ -77,7 +89,8 @@ namespace RavlImageN {
   }
   //: Interlace two fields held in a single frame.
   //!param: img - image containing 2 fields, one above the other
-  //!param: field1Dom - if true, upper field appears starting on top line of output image
+  //!param: field1Dom - if true, upper field from input image starts on top line of output image
+  // Returns the interlaced image.<br>
   // This is an inplace operation and works by rearranging the row pointers
   // in the returned frame. This makes it very quick, but may cause problems
   // with functions that assume a simple linear memory layout for 2D arrays
