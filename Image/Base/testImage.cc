@@ -241,7 +241,9 @@ int TestColorCnv() {
 int TestInterlace() {
   cerr << "TestInterlace(), Called \n";
   ImageC<IntT> img(10,10);
-  img.Fill(0);
+  img.Fill(0); 
+  img[0][3] = 0; img[1][3] = 1; img[2][3] = 2; img[3][3] = 3; img[4][3] = 4;
+  img[5][3] = 5; img[6][3] = 6; img[7][3] = 7; img[8][3] = 8; img[9][3] = 9;
   ImageC<IntT> res = Interlace(img);
   if(res.RowPtr(0) != img.RowPtr(0)) return __LINE__;
   if(res.RowPtr(1) != img.RowPtr(5)) return __LINE__;
@@ -253,6 +255,12 @@ int TestInterlace() {
   if(res.RowPtr(7) != img.RowPtr(8)) return __LINE__;
   if(res.RowPtr(8) != img.RowPtr(4)) return __LINE__;
   if(res.RowPtr(9) != img.RowPtr(9)) return __LINE__;
+  if(res[2][3] != 1 || res[3][3] != 6) return __LINE__;
+  ImageC<IntT> img2 = DeInterlace(res);  
+  // see if we are back to where we started
+  for (Array2dIter2C<IntT,IntT> i(img,img2); i; ++i) {
+    if (i.Data1() != i.Data2()) {cout<<i.Index()<<"; "<<i.Data1()<<" "<<i.Data2();return __LINE__;}
+  }
   return 0;
 }
 
