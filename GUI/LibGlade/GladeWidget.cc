@@ -55,9 +55,9 @@ namespace RavlGUIN {
     else
       xml = gladeXml;
     
-    return true;
+    return xml.IsValid();
   }
-
+  
   //: Create the widget.
   
   bool GladeWidgetBodyC::Create() {
@@ -119,6 +119,10 @@ namespace RavlGUIN {
       }
       ONDEBUG(cerr << "Adding custom child widget '" << name << "' into parent. \n");  
       GtkWidget *childWidget = xml.Widget(name);
+      if(childWidget == 0) {
+	cerr << "ERROR: No child widget found for '" << name << "' \n";
+        return false;
+      }
       gtk_widget_show (childWidget);
       gtk_container_add(GTK_CONTAINER(widget),childWidget);
     }
@@ -129,7 +133,10 @@ namespace RavlGUIN {
           cerr << "WARNING: Can't find widget for '" << it.Key() << "'\n";
         continue;
       }
-      it->Data1().Create(childWidget);
+      if(it->Data1().IsValid())
+        it->Data1().Create(childWidget);
+      else
+        cerr << "WARNING: Invalid handle for widget '" << it.Key() << "' \n";
     }
     ConnectSignals();    
     ONDEBUG(cerr << "GladeWidgetBodyC::Create(GtkWidget *), Done. Name=" << name << "\n");
