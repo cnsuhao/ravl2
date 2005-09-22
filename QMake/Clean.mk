@@ -51,6 +51,15 @@ include $(MAKEHOME)/Dirs.mk
 
 VPATH = $(QCWD)
 
+ifdef USESLIBS
+ ifndef LIBDEPS
+  ifdef PLIB
+   LOCAL_DEFBASE=$(PLIB)#
+  endif
+ else
+  LOCAL_DEFBASE = $(patsubst %.def,%,$(LIBDEPS))
+ endif
+endif
 
 TARG_NESTED =$(patsubst %.r,%,$(filter %.r,$(NESTED)))
 
@@ -69,6 +78,9 @@ clean: subdirs
 	$(SHOWIT)if [ -d $(WORKTMP) ] ; then \
 	  $(RM) -r $(WORKTMP) ; \
 	fi ;  \
+	if [ -f $(INST_LIBDEF)/$(LOCAL_DEFBASE).def ] ; then \
+	  $(RM) -f $(INST_LIBDEF)/$(LOCAL_DEFBASE).def ; \
+        fi ; \
 	if [ -d $(INST_DEPEND) ] ; then \
 	  $(RM) -rf $(INST_DEPEND)/*.d ; \
 	fi ; 
