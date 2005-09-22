@@ -28,7 +28,7 @@ int main(int argc,char **argv) {
   StringC output = option.String("o","testo.pgm","Output filename");
   StringC ifmt = option.String("if","","Input format");
   StringC ofmt = option.String("of","","Output format");
-  bool viaByte = option.Boolean("bw",true,"Convert via grey scale image. ");
+  bool viaByte = option.Boolean("bw",false,"Convert via grey scale image. ");
   bool verbose = option.Boolean("v",false,"Verbose mode ");
   option.Check();
   
