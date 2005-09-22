@@ -96,7 +96,7 @@ namespace RavlGUIN {
   // Register some conversions as well.
   
   DPDisplayObjC ImageRGB2DPDisplayImageRGB(const ImageC<ByteRGBValueC> &img) 
-  { return DPDisplayImageRGBC(img); }
+  { return DPDisplayImageRGBC(img.Copy()); }
   
   DP_REGISTER_CONVERSION_NAMED(ImageRGB2DPDisplayImageRGB,1,"DPDisplayObjC RavlGUIN::Convert(const ImageC<ByteRGBValueC> &)");
   
@@ -176,7 +176,7 @@ namespace RavlGUIN {
   // Register some conversions as well.
   
   DPDisplayObjC ImageReal2DPDisplayImageReal(const ImageC<RealT> &img) 
-  { return DPDisplayImageRealC(img); }
+  { return DPDisplayImageRealC(img.Copy()); }
   
   DP_REGISTER_CONVERSION_NAMED(ImageReal2DPDisplayImageReal,1,"DPDisplayObjC RavlGUIN::Convert(const ImageC<RealT> &)");
 
@@ -243,7 +243,7 @@ namespace RavlGUIN {
   // Register some conversions as well.
   
   DPDisplayObjC ImageByte2DPDisplayImageByte(const ImageC<ByteT> &img) 
-  { return DPDisplayImageByteC(img); }
+  { return DPDisplayImageByteC(img.Copy()); }
   
   DP_REGISTER_CONVERSION_NAMED(ImageByte2DPDisplayImageByte,1,"DPDisplayObjC RavlGUIN::Convert(const ImageC<ByteT> &)");
   
