@@ -111,6 +111,10 @@ namespace RavlImageN {
     //!param: data - Pointer to continuous array of memory containing image data (rows * cols pixels).
     //!param: deletable - If set to true the memory will be deleted with the 'delelte []' operator when is finished with. Otherwise it is the users responsibility to manage the memory.
     
+    ImageC<PixelT> Copy() const
+    { return ImageC<PixelT>(Array2dC<PixelT>::Copy()); }
+    //: Make copy of an image.
+    
     UIntT Rows() const
     { return this->Range1().Size(); }
     //: Number of rows in image.
