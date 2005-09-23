@@ -78,9 +78,6 @@ clean: subdirs
 	$(SHOWIT)if [ -d $(WORKTMP) ] ; then \
 	  $(RM) -r $(WORKTMP) ; \
 	fi ;  \
-	if [ -f $(INST_LIBDEF)/$(LOCAL_DEFBASE).def ] ; then \
-	  $(RM) -f $(INST_LIBDEF)/$(LOCAL_DEFBASE).def ; \
-        fi ; \
 	if [ -d $(INST_DEPEND) ] ; then \
 	  $(RM) -rf $(INST_DEPEND)/*.d ; \
 	fi ; 
@@ -89,6 +86,9 @@ cleanlib: subdirs
 	$(SHOWIT)if [ -d $(WORKTMP) ] ; then \
 	  $(RM) -r $(WORKTMP) ; \
 	fi ; \
+	if [ -f $(INST_LIBDEF)/$(LOCAL_DEFBASE).def ] ; then \
+	  $(RM) -f $(INST_LIBDEF)/$(LOCAL_DEFBASE).def ; \
+        fi ; \
 	if [ -f $(INST_LIB)/lib$(PLIB).a ] ; then \
 	  $(RM) $(INST_LIB)/lib$(PLIB).a ; \
 	fi ; 
