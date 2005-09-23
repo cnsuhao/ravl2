@@ -137,7 +137,19 @@ namespace RavlN {
     //: Test if the array is allocated in a continous area of memory.
     // Note: this only checks the first two rows follow each other in
     // memory, this may miss other discontunities.
-
+    
+    bool IsBlock() const {
+      const DataT *d1 = RangeBufferAccessC<BufferAccessC<DataT> >::operator[](this->IMin()).ReferenceElm();
+      const DataT *d2 = RangeBufferAccessC<BufferAccessC<DataT> >::operator[](this->IMin()+1).ReferenceElm();
+      if(Range1().Size() < 3) 
+        return d1 < d2;
+      const DataT *d3 = RangeBufferAccessC<BufferAccessC<DataT> >::operator[](this->IMax()).ReferenceElm();
+      return ((d1 + ((d2 - d1) * (Range1().Size()-1))) == d3);
+    }
+    //: Is this image held in a linear block ?
+    // This tests check's that the difference in offset of between the first two rows gives a stride which
+    // is applicable to finding the last row.
+    
     bool IsEmpty() const
     { return (Range1().Size() <= 0) || (Range2().Size() <= 0); }
     //: Is rectangle empty ?
