@@ -303,6 +303,13 @@ namespace RavlGUIN {
     Index2dC off = ioffset + img.Rectangle().Origin();    
     int atx = off.Col().V(); // Convert between RAVL and GTK co-ordinates...
     int aty = off.Row().V();
+    
+    // Check that that rows are sequential in memory.
+    // Check that rows at least look sequential in memory.
+    
+    if(!img.IsBlock()) 
+      img = img.Copy(); // The don't seem to be, so make a copy.
+    
     gdk_draw_gray_image(DrawArea(),
                         widget->style->black_gc,
                         atx,aty,
@@ -338,19 +345,17 @@ namespace RavlGUIN {
       cerr << "CanvasBodyC::GUIDrawRGBImage(), WARNING: Ask to render empty image. \n";
       return true;
     }
-    ONDEBUG(cerr << "CanvasBodyC::GUIDrawRGBImage(), Render image. \n";)
-#if 0
-    if(!img.IsContinuous()) {
-      cerr << "CanvasBodyC::GUIDrawRGBImage(), WARNING: Image not continuous in memory, making copy. \n";
-      ImageC<ByteRGBValueC> tmp(img.Copy()); // Make image continuous.
-      return GUIDrawRGBImage(tmp,ioffset);
-    }
-#endif
+    ONDEBUG(cerr << "CanvasBodyC::GUIDrawRGBImage(), Render image. \n");
     Index2dC off = ioffset + img.Rectangle().Origin();    
     int atx = off.Col().V(); // Convert between RAVL and GTK co-ordinates...
     int aty = off.Row().V(); 
     
     GtkWidget *widget = Widget();
+    
+    // Check that rows at least look sequential in memory.
+    if(!img.IsBlock())
+      img = img.Copy(); // The don't seem to be, so make a copy.
+    
     gdk_draw_rgb_image(DrawArea(),
                        widget->style->black_gc,
                        atx,aty,

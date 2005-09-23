@@ -28,13 +28,16 @@ namespace RavlGUIN {
     Index2dC at = offset;
     if(!ignoreImageOrigin)
       at += img.Frame().Origin();
+    ImageC<ByteRGBValueC> anImg = img;
+    if(!img.IsBlock())
+      anImg = img.Copy();
     gdk_draw_rgb_image(DrawArea(),
 		       widget->style->black_gc,
 		       at[1].V(),at[0].V(),
-		       img.Cols(),img.Rows(),
+		       anImg.Cols(),anImg.Rows(),
 		       GDK_RGB_DITHER_NORMAL,
-		       (unsigned char *) const_cast<ImageC<ByteRGBValueC> &>(img).Row(img.TRow()),
-		       img.Stride() * sizeof(ByteRGBValueC));
+		       (unsigned char *) const_cast<ImageC<ByteRGBValueC> &>(img).Row(anImg.TRow()),
+		       anImg.Stride() * sizeof(ByteRGBValueC));
     
   }
 
@@ -47,13 +50,16 @@ namespace RavlGUIN {
     Index2dC at = offset;
     if(!ignoreImageOrigin)
       at += img.Frame().Origin();
+    ImageC<ByteT> anImg = img;
+    if(!img.IsBlock())
+      anImg = img.Copy();
     gdk_draw_gray_image(DrawArea(),
 			widget->style->black_gc,
 			at[1].V(),at[0].V(),
-			img.Cols(),img.Rows(),
+			anImg.Cols(),anImg.Rows(),
 			GDK_RGB_DITHER_NORMAL,
-			const_cast<ImageC<ByteT> &>(img).Row(img.TRow()),
-			img.Stride());
+			const_cast<ImageC<ByteT> &>(img).Row(anImg.TRow()),
+			anImg.Stride());
   }
 
   
