@@ -53,11 +53,12 @@ namespace RavlGUIN {
 
   static void tree_view_toggle_cb(GtkCellRendererToggle *cellrenderertoggle,gchar *arg1,gpointer treeCol) {
     //cerr << "tree_view_toggle(), Called. \n";
-    Signal1C<TreeModelIterC> sig = ((TreeViewColumnRendererC *) treeCol)->SignalChanged();
+    Signal2C<TreeModelIterC, StringC> sig = ((TreeViewColumnRendererC *) treeCol)->SignalChanged();
     RavlAssert(sig.IsValid());
     RavlAssert(((TreeViewColumnRendererC *) treeCol)->TreeBody() != 0);
     TreeModelIterC iter = ((TreeViewColumnRendererC *) treeCol)->TreeBody()->Path2Iter(arg1);
-    sig(iter);
+    StringC strColumnName = ((TreeViewColumnRendererC *) treeCol)->Name();
+    sig(iter, StringC(strColumnName));
   }
   
   static void tree_view_edit_cb(GtkCellRendererToggle *cellrenderertoggle,gchar *arg1,gchar *arg2,gpointer treeCol) {
@@ -496,17 +497,15 @@ namespace RavlGUIN {
   }
   
   //: Access changed signal for a column
-  
   Signal0C &TreeViewBodyC::ChangedSignal(UIntT colNum,UIntT subColNo) {
     TreeViewColumnC &col = displayColumns[colNum];
     TreeViewColumnRendererC &colRender = col.Renderers()[subColNo];
     Signal0C &sig = colRender.SignalChanged();
     if(!sig.IsValid()) {
-      if(colRender.RenderType() == "bool") {	
-	sig = Signal1C<TreeModelIterC>(TreeModelIterC());
-      } else if(colRender.RenderType() == "text") {
-	sig = Signal2C<TreeModelIterC,StringC>(TreeModelIterC(),StringC(""));
-      }
+	if(colRender.RenderType() == "bool" || colRender.RenderType() == "text")
+	{
+	  sig = Signal2C<TreeModelIterC,StringC>(TreeModelIterC(),StringC(""));
+	}
     }
     return sig;
   }
@@ -530,13 +529,10 @@ namespace RavlGUIN {
     TreeViewColumnRendererC &colRender = col.Renderers()[subColNum];
     Signal0C &sig = colRender.SignalChanged();
     if(!sig.IsValid()) {
-      if(colRender.RenderType() == "bool") {
-        sig = Signal1C<TreeModelIterC>(TreeModelIterC());
-      }
-      else
-        if(colRender.RenderType() == "text") {
-          sig = Signal2C<TreeModelIterC,StringC>(TreeModelIterC(),StringC(""));
-        }
+	if(colRender.RenderType() == "bool" || colRender.RenderType() == "text")
+	  {
+	    sig = Signal2C<TreeModelIterC,StringC>(TreeModelIterC(),StringC(""));
+	  }
     }
     return sig;
   }
