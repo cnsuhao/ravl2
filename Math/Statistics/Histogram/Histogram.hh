@@ -19,11 +19,13 @@
 #include "Ravl/HashIter.hh"
 #include "Ravl/IntC.hh"
 
-namespace RavlN {
+namespace RavlN { 
+
 
   //! userlevel=Normal
-  //: Histogram with discrete bins. 
-  
+  //: Create a histogram from discrete values. 
+  // Use the class template <code>KeyT</code> to create a histogram from any sort of discrete data type, for example int, short, char, IntT, Index2dC (for a 2D histogram), even boolean .....
+
   template<class KeyT>
   class HistogramC 
     : public HashC<KeyT,UIntC>

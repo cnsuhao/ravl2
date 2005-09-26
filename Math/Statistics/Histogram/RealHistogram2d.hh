@@ -25,7 +25,8 @@ namespace RavlN {
   class MeanCovariance2dC;
   
   //! userlevel=Normal
-  //: Create a histogram of real values.
+  //: Create a histogram from pairs of real values
+  // Point2dC is used to represent the pair of values
   
   class RealHistogram2dC
     : public SArray2dC<UIntT>

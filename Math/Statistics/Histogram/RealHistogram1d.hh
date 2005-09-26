@@ -22,7 +22,7 @@ namespace RavlN {
   template<class DataT> class DListC;
   
   //! userlevel=Normal
-  //: Create a histogram of real values.
+  //: Create a histogram from real values.
   
   class RealHistogram1dC
     : public SArray1dC<UIntC>
