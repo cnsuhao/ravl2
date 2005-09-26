@@ -112,7 +112,6 @@ namespace RavlImageN {
   }
 
   //: Load PSF2 font.
-  // This routine is untested, use with caution.
   
   FontC LoadPSF2(const StringC &fontFile) {
     ONDEBUG(cerr << "LoadPSF2() Loading font " << fontFile << "\n");
@@ -144,11 +143,13 @@ namespace RavlImageN {
       for(UIntT i=0;i < hdr.height;i++) {
 	for(UIntT j = 0;j < hdr.width;j++) {
 	  char dat = buf[at + (j/8)];
-	  if((dat >> (j % 8)) & 1) 
+	  if((dat >> ((7-j) % 8)) & 1) 
 	    img[i][j]=255;
 	  else
 	    img[i][j]=0;
 	}
+        
+        at += ((hdr.width + 7) / 8);
       }
     }
     

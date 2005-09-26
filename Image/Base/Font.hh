@@ -12,6 +12,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.Drawing"
 //! file="Ravl/Image/Base/Font.hh"
+//! example=exFont.cc
 
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Image/Image.hh"
@@ -63,15 +64,21 @@ namespace RavlImageN {
     Index2dC Size(const StringC &text) const;
     //: Compute the size of image required to render 'text'.
     
+    UIntT Count() const
+    { return glyphs.Size(); }
+    //: Count the number of glyphs in the font.
+    
   protected:
     SArray1dC<ImageC<ByteT> > glyphs;
   };
   
   FontC LoadPSF1(const StringC &fontFile);
   //: Load PSF1 font.
-
+  // If the file is not recognised an invalid FontC will be returned
+  
   FontC LoadPSF2(const StringC &fontFile);
   //: Load PSF2 font.
+  // If the file is not recognised an invalid FontC will be returned
   
   FontC &DefaultFont();
   //: Access default font.
@@ -88,7 +95,7 @@ namespace RavlImageN {
     const char *p = text.chars();
     const char *eos = &p[text.length()];
     for(;p != eos;p++) {
-      const ImageC<ByteT> &glyph = font[*p];
+      const ImageC<ByteT> &glyph = font[(UIntT) *((UByteT *) p)];
       IndexRange2dC drawRect = glyph.Frame(); // Get rectangle.
       drawRect.SetOrigin(at); 
       drawRect.ClipBy(image.Frame());

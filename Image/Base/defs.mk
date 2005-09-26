@@ -33,7 +33,7 @@ MAINS=imgdiff.cc
 
 TESTEXES=testImage.cc testHSVValue.cc test_imgdiff.cc
 
-EXAMPLES= exImage.cc imgdiff.cc exDraw.cc
+EXAMPLES= exImage.cc imgdiff.cc exDraw.cc exFont.cc
 
 EHT=Ravl.Images.Pixel_Types.html Drawing.html
 
