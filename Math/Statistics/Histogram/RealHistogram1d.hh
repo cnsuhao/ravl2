@@ -40,7 +40,7 @@ namespace RavlN {
 	scale(nscale),
 	offset(noffset)
     {}
-    //: Create a histogram from an offset, scale and a SArray1d.
+    //: Create a histogram from an offset, scale and an existing  SArray1dC of binned values.
     
     RealT Scale() const
     { return scale; } 

@@ -44,7 +44,7 @@ namespace RavlN {
 	scale(nscale),
 	offset(noffset)
     { Reset(); }
-    //: Create a histogram from an offset, scale and a SArray1d.
+    //: Create a histogram from an offset, scale and an existing SArray2dC of binned values.
     
     Vector2dC Scale() const
     { return scale; } 
