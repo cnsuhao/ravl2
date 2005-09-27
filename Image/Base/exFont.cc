@@ -44,7 +44,7 @@ int main(int nargs,char **argv) {
   IntT hpos = 1;
   for(UIntT i = 0;i < font.Count();i++) {
     IntT row = (hsize / maxWidth);
-    if((hpos + (font[i].Cols() + 1))  > maxWidth)
+    if((hpos + (IntT)(font[i].Cols() + 1))  > maxWidth)
       hpos = 1;
     Index2dC at(row * (vsize+1),hpos);
     StringC let(" ");
