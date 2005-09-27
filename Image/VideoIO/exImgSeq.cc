@@ -34,6 +34,7 @@ int main(int argc,char **argv)
   bool verbose = option.Boolean("v",false,"Verbose mode. ");
   StringC ifilename = option.String("","","Input stream.");
   StringC ofilename = option.String("","@X","Output stream.");
+  option.CompulsoryArgs(1); // input sequence name is compulsory
   option.Check();
   
   DPIPortC<ImageC<ByteT> > inputStream;
