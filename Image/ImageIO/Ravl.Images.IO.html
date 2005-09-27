@@ -24,7 +24,7 @@
 #include "Ravl/IO.hh"
 	</pre></li>
       
-      <li> add this library in the <code>defs.mk</code>:
+      <li> add the <b><code>RavlImageIO</code></b> library in the <code>defs.mk</code>:
 	<pre>
 PROGLIBS = RavlImageIO ....
 	</pre>
@@ -33,8 +33,7 @@ PROGLIBS = RavlImageIO ....
     <p> The generic load/save call can then be used in the <a
     href="Ravl.Core.IO.html">usual way</a>.  For an example of how to
     use the system with images see <a
-    href="../../../examples/exImgIO.cc">exImgIO.cc</a>.  (Remember: to
-    compile this example you'll need the "RavlImageIO" library.)
+    href="../../../examples/exImgIO.cc">exImgIO.cc</a>.
     </p>
     <p> To find what file formats and conversions are available, use the
       <code>conv</code> tool, with the following options:</p>
@@ -54,7 +53,7 @@ PROGLIBS = RavlImageIO ....
       <li><b>pbm</b> Bit image</li>
     </ul>
     
-    <p>By linking the RAVL library <b>RavlExtImgIO</b> which, uses various open source libraries you also get:</p>
+    <p>By linking the RAVL library <b><code>RavlExtImgIO</code></b> which, uses various open source libraries you also get:</p>
     
     <ul>
       <li><b>jpeg</b> Lossy compressed images. Colour and grey scale. (Supports sequences stored in a single file.)</li>
