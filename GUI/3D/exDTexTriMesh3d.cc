@@ -34,7 +34,7 @@ int main(int nargs,char *args[])
   OptionC opts(nargs,args); // Make sure help option is detected.
   StringC file = opts.String("i",PROJECT_OUT "/share/RAVL/pixmaps/monkey.ppm","input filename");
   bool verbose = opts.Boolean("v",false,"Verbose mode. ");
-  bool texture = opts.Boolean("t",false,"Use texture. ");
+  //bool texture = opts.Boolean("t",false,"Use texture. ");
   opts.Check();
   
   DObject3DC object;
