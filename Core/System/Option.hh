@@ -170,6 +170,7 @@ namespace RavlN {
     
     void CompulsoryArgs(int num);
     //: Defines the number of compulsory arguments. 
+    // Use it to specify compulsory arguments that don't have a tag<br>
     // It must be used after all options have been called!
     
     void PrintUsage();
