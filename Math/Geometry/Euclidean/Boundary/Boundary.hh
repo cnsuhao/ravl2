@@ -105,7 +105,7 @@ namespace RavlN {
     // Ref.: M Sonka, V Hlavac: Image Processing.    
     
     IndexRange2dC BoundingBox() const;
-    //: Get the bounding box of the boundary in "boundary's" coordinates.
+    //: Get the bounding box of the boundary.
     
     Polygon2dC Polygon2d(bool bHalfPixelOffset = false) const;
     //: Convert a boundry to a polygon.
