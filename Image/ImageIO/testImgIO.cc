@@ -22,9 +22,11 @@
 
 using namespace RavlImageN;
 
+
+
 int main(int argc,char **argv) {  
   OptionC option(argc,argv,true);
-  StringC filename = option.String("f","/tmp/testImgIO.abs","Working filename");
+  FilenameC filename = option.String("f","/tmp/testImgIO.abs","Working filename");
   StringC fmt = option.String("ff","","File format to use. ");
   bool verbose = option.Boolean("v",false,"Verbose mode. ");
   option.Check();
@@ -38,6 +40,7 @@ int main(int argc,char **argv) {
   
   if(!Save(filename,x1,fmt,verbose)) {
     cerr << "Failed to save data. \n";
+    filename.Remove() ; 
     return 1;
   }
 
@@ -45,16 +48,20 @@ int main(int argc,char **argv) {
   
   if(!Load(filename,x2,"",verbose)) {
     cerr << "Failed to load data. \n";
+    filename.Remove() ; 
     return 1;
   }
+  
   if(verbose)
     cout << "Image size:" << x2.Rectangle() << endl;
   for(Array2dIter2C<IntT,IntT> it(x1,x2);it.IsElm();it.Next()) {
     if(it.Data1() != it.Data2()) {
       cerr << "Image contents mis-match \n";
+      filename.Remove() ; 
       return 1;
     }
   }
   cout << "TEST PASSED. \n";
+  filename.Remove() ; 
   return 0;
 }
