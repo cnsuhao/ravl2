@@ -1401,6 +1401,14 @@ namespace RavlN {
     return atoi(chars());
   }
   
+  //: Interpret string as an integer, returning success value.
+
+  bool StringC::IntValue ( IntT & val ) const {
+    char *endptr;
+    val = strtol(chars(), &endptr, 10);
+    return ((Size()>0) && *endptr == '\0');
+  }
+
   //: Interpret stream as an unsigned integer.
   
   UIntT StringC::UIntValue() const {

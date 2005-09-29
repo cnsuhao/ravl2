@@ -703,6 +703,10 @@ namespace RavlN {
     IntT IntValue() const;
     //: Interpret string as an integer.
     
+    bool IntValue ( IntT & val ) const;
+    //: Interpret string as an integer.
+    // Returns conversion success.  If successful, value is returned as "val"
+
     UIntT UIntValue() const;
     //: Interpret string as an unsigned integer.
     
