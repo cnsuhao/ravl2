@@ -275,13 +275,23 @@ namespace RavlN {
 
     IndexC IndexOfMax() const {
       RavlAssertMsg(Size() > 0,"Array1dC::IndexOfMax() Called on an empty array");
-      const DataT *valueOfMax = &(this->operator[](0));
+      const DataT *valueOfMax = &(this->operator[](Range().Min()));
       for (Array1dIterC<DataT> i(*this); i; i++)
 	if (*valueOfMax < *i)
 	  valueOfMax = &(*i);
       return IndexC((IntT)(valueOfMax - this->ReferenceElm()));
     }
     //: Calculate the index of the maximum element in the array
+
+    IndexC IndexOfMin() const {
+      RavlAssertMsg(Size() > 0,"Array1dC::IndexOfMin() Called on an empty array");
+      const DataT *valueOfMin = &(this->operator[](Range().Min()));
+      for (Array1dIterC<DataT> i(*this); i; i++)
+	if (*valueOfMin > *i)
+	  valueOfMin = &(*i);
+      return IndexC((IntT)(valueOfMin - this->ReferenceElm()));
+    }
+    //: Calculate the index of the minimum element in the array (defined using <)
     
     Array1dC<DataT> Apply(DataT (*op)(const DataT &func)) const;
     //: Apply a function to each item in the array.
