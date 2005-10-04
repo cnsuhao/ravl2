@@ -140,11 +140,15 @@ namespace RavlN {
         
     DListC<StringC> List(const char * name, const char * def, const char * comment );
     //: Gets a list of strings following the option 'name'. 
+    //!param: name - name of option
+    //!param: def - default value as it would appear on the command line. Spaces separate entries in the list. If entries contain spaces quotes may be used to separate the entries.
+    //!param: commit - Comment describing option.
+    
     // This function can used only if the header file 'DList.hh' is 
     // called before this header file.
     
     inline DListC<StringC> List(const char * name,const char * comment )
-      { return List(name, "", comment); }
+    { return List(name, "", comment); }
     //!deprecated: has no default list; use previous List() method,.
     
     //!section:  Dependency definition functions.
