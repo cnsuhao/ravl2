@@ -84,6 +84,17 @@ namespace RavlN {
   //: Fit an affine transform to 2 arrays of corresponding points
   // A "least sum of squares" fitter is used.  The result transforms the points in "orig" to those in "newPos".
 
+
+
+  Affine2dC FitAffine(const SArray1dC<Point2dC> &org,const SArray1dC<Point2dC> &newPos, const SArray1dC<RealT> &weights, RealT& residual);
+  //: Fit an affine transform to 2 arrays of corresponding points
+  // A "weighted least sum of squares" fitter is used.  The result transforms the points in "orig" to those in "newPos".
+    
+
+  Affine2dC FitAffine(const SArray1dC<Point2dC> &orig,const SArray1dC<Point2dC> &newPos, const SArray1dC<RealT> &weights);
+  //: Fit an affine transform to 2 arrays of corresponding points
+  // A "least sum of squares" fitter is used.  The result transforms the points in "orig" to those in "newPos".
+
   
   Affine2dC FitAffine(const DListC<Point2dC> &orig,const DListC<Point2dC> &newPos,RealT &residual);
   //: Fit an affine transform to 2 lists of corresponding points
