@@ -107,6 +107,11 @@ namespace RavlN {
     inline void Put(const T &Data);
     //: Put data into queue.
     
+    inline bool TryPut(const T &Data,RealT maxWait);
+    //: Put data into queue, with maximum wait time in seconds.
+    // If the data is added to the queue successfully the method returns true
+    // if a timeout occurs false is returned.
+    
     inline bool TryPut(const T &Data);
     //: Try an put data in queue if there's space.
     // Ret:true = Data in queue. Ret:false = data not in queue.
@@ -154,6 +159,23 @@ namespace RavlN {
       head = 0;
     lock.Unlock();
     ready.Post();
+  }
+
+  // Put data into queue.
+  
+  template<class T>
+  inline bool MessageQueueC<T>::TryPut(const T &Data,RealT maxWait)  {
+    if(!putSema.Wait(maxWait)) 
+      return false;
+    MutexLockC lock(access);
+    new((void *) &(data[head])) T(Data); // Possible exception.
+    // If exception constructing object following code won't be called.
+    head++;
+    if(head >= MaxSize())
+      head = 0;
+    lock.Unlock();
+    ready.Post();
+    return true;
   }
   
   /////////////////////////
