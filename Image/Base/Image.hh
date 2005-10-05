@@ -34,6 +34,7 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: Basic Image
+  // ImageC is an extension of <a href="RavlN.Array2dC.html">Array2dC</a>.  The main extra feature is that you can have several different handles to the same image, each with a different bounding rectangle.
   
   template <class PixelT>
   class ImageC
