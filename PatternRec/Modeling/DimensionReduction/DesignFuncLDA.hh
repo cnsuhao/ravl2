@@ -51,10 +51,13 @@ namespace RavlN {
     //: Writes object to stream, can be loaded using constructor
     
     virtual FunctionC Apply(const DataSetVectorLabelC &in);
-    //: Create function from the given data.
+    //: Create function from the given labelled data sets.
 
     FunctionC Apply(SampleStreamC<VectorC>  &inPca,  SampleStream2C<VectorC, StringC> &inLda);
-    //: Create function from the given data.
+    //: Create function from the 2 streams.
+    // This method uses streams so that you don't have to store all the data in memory.<br>
+    //!param: inPca - uses this stream to do some initial PCA dimension reduction (could be same stream as inLda)
+    //!param: inLda - uses this labelled stream of vectors to do dimension reduction using LDA
     
     MatrixC &Lda()
     { return lda; }
@@ -94,6 +97,7 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Design a dimension reducing function using the  Linear Discriminant Anaylsis(LDA)
+  // <font color=red>Bug: Do not use the inherited Apply() methods.</font>
   
   class DesignFuncLDAC
     : public DesignFuncReduceC
@@ -153,11 +157,14 @@ namespace RavlN {
 
     inline FunctionC Apply(const DataSetVectorLabelC &in)
     { return Body().Apply(in) ; } 
-    //: Create function from the given data.
+    //: Create dimensionality reduction function from the given labelled data sets.
 
     inline FunctionC Apply(SampleStreamC<VectorC> &inPca,  SampleStream2C<VectorC, StringC> &inLda)
     { return Body().Apply(inPca,  inLda) ; } 
-    //: Create function from the given data.
+    //: Create dimensionality reduction function from the 2 streams.
+    // This method uses streams so that you don't have to store all the data in memory.<br>
+    //!param: inPca - uses this stream to do some initial PCA dimension reduction (could be same stream as <code>inLda</code>)
+    //!param: inLda - uses this labelled stream of vectors to do dimension reduction using LDA
 
   };
 
