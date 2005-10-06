@@ -189,6 +189,8 @@ namespace RavlImageN {
   const type_info &
   FileFormatPNGBodyC::ProbeSave(const StringC &filename,const type_info &obj_type,bool forceFormat ) const {
     if(!forceFormat) {
+      if(filename.IsEmpty() || filename[0]=='@') // Is this a special file ?
+        return typeid(void);
       if(Extension(filename) != "png" && filename != "-")
 	return typeid(void);
     }

@@ -78,6 +78,8 @@ namespace RavlImageN {
   FileFormatTIFFBodyC::ProbeSave(const StringC &filename,const type_info &obj_type,bool forceFormat ) const {
 #if USE_TIFFWRITE
     if(!forceFormat) {
+      if(filename.IsEmpty() || filename[0]=='@') // Is this a special file ?
+        return typeid(void);
       if(Extension(filename) != "tif" && filename != "-")
 	return typeid(void);
     }

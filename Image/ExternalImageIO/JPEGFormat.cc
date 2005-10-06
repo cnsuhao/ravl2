@@ -109,6 +109,8 @@ namespace RavlImageN {
   FileFormatJPEGBodyC::ProbeSave(const StringC &filename,const type_info &obj_type,bool forceFormat ) const {
     if(forceFormat)
       return ChooseFormat(obj_type);
+    if(filename.IsEmpty() || filename[0]=='@') // Is this a special file ?
+      return typeid(void);
     if(Extension(filename) != "jpg" && filename != "-")
       return typeid(void);
     const type_info &ret_type = ChooseFormat(obj_type);
