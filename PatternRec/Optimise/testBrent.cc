@@ -65,4 +65,6 @@ int main() {
   X = powell.MinimalX(cost, minY);
   cout << X << endl;
   cout << minY << endl;
+
+  return 0;
 }
