@@ -212,7 +212,13 @@ namespace RavlN {
     //: Set a attribute.
     // Returns false if the attribute name is unknown.
     // This is for handling attributes such as frame rate, and compression ratios.
-
+    
+    inline bool SetAttr(const StringC &attrName,const char * value)
+    { return Body().SetAttr(attrName,StringC(value)); }
+    //: Set a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    
     inline bool GetAttr(const StringC &attrName,IntT &attrValue)
     { return Body().GetAttr(attrName,attrValue); }
     //: Get a attribute.
