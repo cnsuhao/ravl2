@@ -96,8 +96,11 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Design a dimension reducing function using the  Linear Discriminant Anaylsis(LDA)
-  // <font color=red>Bug: Do not use the inherited Apply() methods.</font>
+  //: Design a dimension reducing function using Linear Discriminant Anaylsis (LDA)
+  // Use the <code>variationPreserved</code> argument in the constructor to control the proportion of dimensions to be kept / discarded.<br>
+  // The actual class returned by the <code>Apply()</code> methods is <a href="RavlN.FuncMeanProjectionC.html">FuncMeanProjectionC</a>, which can be used to project data from the original space into the subspace. It is possible
+  // to obtain the projection matrix from this class if needed.<br>
+  // <font color=red>Bug: Use only the <code>DesignFuncLDAC::Apply()</code> methods, not the inherited ones.</font><br>
   
   class DesignFuncLDAC
     : public DesignFuncReduceC
@@ -158,6 +161,7 @@ namespace RavlN {
     inline FunctionC Apply(const DataSetVectorLabelC &in)
     { return Body().Apply(in) ; } 
     //: Create dimensionality reduction function from the given labelled data sets.
+    // Applies PCA for initial dimension reduction, then uses LDA.
 
     inline FunctionC Apply(SampleStreamC<VectorC> &inPca,  SampleStream2C<VectorC, StringC> &inLda)
     { return Body().Apply(inPca,  inLda) ; } 

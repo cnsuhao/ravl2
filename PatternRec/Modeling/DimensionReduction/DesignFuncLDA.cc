@@ -93,7 +93,7 @@ namespace RavlN {
       
     DesignFuncPCAC pca(varPreserved);
     FunctionC pcaFunc = pca.Apply(inVecsPca);
-    cerr << "Dimentinality  reduction using PCA from"  << pcaFunc.InputSize() << " to " <<   pcaFunc.OutputSize() << endl;
+    cerr << "Dimensionality  reduction using PCA from"  << pcaFunc.InputSize() << " to " <<   pcaFunc.OutputSize() << endl;
     mean = pca.Mean();
     SampleC<VectorC> outPca = pcaFunc.Apply(inVecsPca);
 

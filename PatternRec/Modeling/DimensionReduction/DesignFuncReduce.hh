@@ -18,8 +18,7 @@
 namespace RavlN {
   
   //! userlevel=Develop
-  //: Design a dimension reducing function,
-  // Base class for dimension reduction designers.
+  //: Body for base class for designing a dimension reducing function
   
   class DesignFuncReduceBodyC
     : public DesignFunctionUnsupervisedBodyC
@@ -55,8 +54,7 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Design a dimention reducing function,
-  // Base class for dimension reduction designers.
+  //: Base class for designing a dimension reducing function
   
   class DesignFuncReduceC
     : public DesignFunctionUnsupervisedC

@@ -20,7 +20,6 @@ namespace RavlN {
   
   //! userlevel=Develop
   //: Design a dimension reducing function using Principal Component Anaylsis (PCA)
-  
   class DesignFuncPCABodyC
     : public DesignFuncReduceBodyC
   {
@@ -88,7 +87,8 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Design a dimension reducing function using Principal Component Anaylsis (PCA) <br>
-  // The actual class returned by the apply method is <a href="RavlN.FuncMeanProjectionC.html">FuncMeanProjectionC</a>. It is possible
+  // Use the <code>variationPreserved</code> argument in the constructor to control the proportion of dimensions to be kept / discarded.<br>
+  // The actual class returned by the <code>Apply()</code> methods is <a href="RavlN.FuncMeanProjectionC.html">FuncMeanProjectionC</a>, which can be used to project data from the original space into the subspace. It is possible
   // to obtain the projection matrix from this class if needed.
   
   class DesignFuncPCAC
