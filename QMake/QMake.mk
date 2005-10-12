@@ -68,6 +68,22 @@ endif
 
 export PROJECT_OUT
 
+###############################################################################
+# Check for project out 
+
+ifdef BUILD_TAG
+PROJECT_OUT_BUILD_TAG :=$(strip $(shell cat $(PROJECT_OUT)/buildTag 2> /dev/null ))#
+ifeq ($(PROJECT_OUT_BUILD_TAG),)
+$(shell echo "$(BUILD_TAG)" > $(PROJECT_OUT)/buildTag )
+else
+ifneq ($(BUILD_TAG),$(PROJECT_OUT_BUILD_TAG))
+$(error "Don't want to, go away! ")
+endif
+endif
+endif
+
+##############################################################################
+
 # Setup default build target.
 TARGET=fullbuild
 
