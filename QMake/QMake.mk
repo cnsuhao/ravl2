@@ -71,13 +71,20 @@ export PROJECT_OUT
 ###############################################################################
 # Check for project out 
 
+# Basicly add BUILD_TAG=SomeName to your alias and then only QMake will only
+# work on project outs with the same tag.
+
 ifdef BUILD_TAG
 PROJECT_OUT_BUILD_TAG :=$(strip $(shell cat $(PROJECT_OUT)/buildTag 2> /dev/null ))#
 ifeq ($(PROJECT_OUT_BUILD_TAG),)
 $(shell echo "$(BUILD_TAG)" > $(PROJECT_OUT)/buildTag )
 else
 ifneq ($(BUILD_TAG),$(PROJECT_OUT_BUILD_TAG))
-$(error "Don't want to, go away! ")
+$(error "Don't want to, go away!  (BUILD_TAG doesn't match the project. )")
+endif
+SOURCE_BUILD_TAG :=$(strip $(shell $(LOCALBIN)/findBuildTag $(shell 'pwd')))#
+ifneq ($(BUILD_TAG),$(SOURCE_BUILD_TAG))
+$(error "Don't want to, go away!  (BUILD_TAG doesn't match the source tag. )")
 endif
 endif
 endif
