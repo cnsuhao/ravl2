@@ -24,6 +24,7 @@ int CheckIO();
 int CheckSleep();
 int CheckLocalTime();
 int CheckODBC();
+int CheckTime();
 
 
 int main() 
@@ -43,15 +44,20 @@ int main()
     cerr << "CheckSleep(), Failed :" << lineno << "\n";
     return 1;
   }
+#endif
   if((lineno = CheckLocalTime()) != 0) {
     cerr << "CheckLocalTime(), Failed :" << lineno << "\n";
     return 1;
   }
-#endif
   if((lineno = CheckODBC()) != 0) {
     cerr << "CheckODBC(), Failed :" << lineno << "\n";
     return 1;
   }
+  if((lineno = CheckTime()) != 0) {
+    cerr << "CheckTime(), Failed :" << lineno << "\n";
+    return 1;
+  }
+  
   cerr << "Test passed.\n";
   return 0;
 }
@@ -156,5 +162,15 @@ int CheckODBC() {
       return __LINE__;
     }
   }
+  return 0;
+}
+
+int CheckTime() {
+  DateC timeNow = DateC::NowLocal();
+  DateC timeUTC = DateC::NowUTC();
+  cerr << "Time local=" << timeNow.ODBC() << "\n";
+  cerr << "Time UTC  =" << timeUTC.ODBC() << "\n";
+  cerr << "Offset    =" << DateC::TimeZoneOffset().Double() << "\n";
+  if(Abs(((timeNow - timeUTC) + DateC::TimeZoneOffset()).Double()) > 0.0001) return __LINE__;
   return 0;
 }

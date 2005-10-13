@@ -187,13 +187,14 @@ namespace RavlN {
 
   //: Get the current time in Coordinated Universal Time  (UTC)
   
-  DateC DateC::NowUTC() {
+  DateC DateC::NowLocal() {
 #if !RAVL_COMPILER_VISUALCPP    
     // Get time of day
     struct timeval tv;
     struct timezone tz;
     gettimeofday(&tv,&tz);
     DateC ret(tv.tv_sec,tv.tv_usec);
+    //cerr << "DateC::NowUTC " << tz.tz_minuteswest << " Raw=" << ret.ODBC() << " \n";
     ret -= DateC((time_t) tz.tz_minuteswest * 60,0);
     return ret;
 #else
@@ -209,7 +210,7 @@ namespace RavlN {
   
   //: Get the time in local timezone
   
-  DateC DateC::NowLocal() {
+  DateC DateC::NowUTC() {
 #if !RAVL_COMPILER_VISUALCPP
     struct timeval tv;
     gettimeofday(&tv,0);
