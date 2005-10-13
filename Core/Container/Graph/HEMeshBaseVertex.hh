@@ -162,12 +162,12 @@ namespace RavlN {
 
 
     UIntT Hash() const {
-#ifdef RAVL_OS_LINUX64
-return ((UInt64T) body) >> 3 ;
+#if RAVL_OS_LINUX64
+      return ((UInt64T) body) >> 3 ;
 #else
-return ((UIntT) body) >> 3;
+      return ((UIntT) body) >> 3;
 #endif 
-}
+    }
     //: Hash value for handle.
     
     bool operator==(const HEMeshBaseVertexC &oth) const

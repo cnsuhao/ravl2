@@ -99,13 +99,13 @@ namespace RavlLogicN {
   //: Generate a unique name.
   
   StringC LiteralBodyC::Name() const
-  { 
-#ifdef RAVL_OS_LINUX64
-return StringC("L:") + StringC((UInt64T) this); 
+  {
+#if RAVL_OS_LINUX64
+    return StringC("L:") + StringC((UInt64T) this); 
 #else
-return StringC("L:") + StringC((UIntT) this); 
+    return StringC("L:") + StringC((UIntT) this); 
 #endif 
-}
+  }
   
   //: Test if condition is true in 'state'.
   

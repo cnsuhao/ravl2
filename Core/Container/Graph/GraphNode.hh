@@ -239,12 +239,12 @@ namespace RavlN {
     // Construct from a base node iterator.
     
     UIntT Hash() const { 
-#ifdef RAVL_OS_LINUX64
-return (UInt64T) Node >> 2; 
+#if RAVL_OS_LINUX64
+      return (UInt64T) Node >> 2; 
 #else
-return (UIntT) Node >> 2; 
+      return (UIntT) Node >> 2; 
 #endif
-}
+    }
     // Get hash value for node.
     
   private:

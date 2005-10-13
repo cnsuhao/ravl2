@@ -313,12 +313,12 @@ namespace RavlN {
     //: Access vertex this edge comes from.
     
     UIntT Hash() const{ 
-#ifdef RAVL_OS_LINUX64
-return ((UInt64T) body) >> 3 ;
+#if RAVL_OS_LINUX64
+      return ((UInt64T) body) >> 3 ;
 #else
-return ((UIntT) body) >> 3;
- #endif
-}
+      return ((UIntT) body) >> 3;
+#endif
+    }
     //: Hash value for handle.
     
     bool operator==(const HEMeshBaseEdgeC &oth) const

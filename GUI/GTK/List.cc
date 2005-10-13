@@ -75,13 +75,12 @@ namespace RavlGUIN {
       GtkObject       *list_item;
       
       list_item=GTK_OBJECT(dlist->data);
-#ifdef RAVL_OS_LINUX64     
- IntT id =(Int64T)gtk_object_get_data(list_item, ListItemKey); 
+#if RAVL_OS_LINUX64     
+      IntT id =(Int64T)gtk_object_get_data(list_item, ListItemKey); 
 #else
- IntT id =(IntT)gtk_object_get_data(list_item, ListItemKey); 
+      IntT id =(IntT)gtk_object_get_data(list_item, ListItemKey); 
 #endif
-
-
+      
       ret.InsLast(id);
       dlist=dlist->next;
     }
@@ -142,10 +141,10 @@ namespace RavlGUIN {
       GtkObject       *list_item;
       
       list_item=GTK_OBJECT(dlist->data);
-#ifdef RAVL_OS_LINUX64      
-IntT rid =(Int64T)gtk_object_get_data(list_item,ListItemKey); 
+#if RAVL_OS_LINUX64      
+      IntT rid =(Int64T)gtk_object_get_data(list_item,ListItemKey); 
 #else
-IntT rid =(IntT)gtk_object_get_data(list_item,ListItemKey); 
+      IntT rid =(IntT)gtk_object_get_data(list_item,ListItemKey); 
 #endif      
 
 if(rid == id) {	

@@ -31,12 +31,12 @@ namespace RavlN {
   
   DPPortBodyC::DPPortBodyC()
   {
-#ifdef RAVL_OS_LINUX64
-portId = (StringC("Port-") + StringC((UInt64T) this >> 2)); 
+#if RAVL_OS_LINUX64
+    portId = (StringC("Port-") + StringC((UInt64T) this >> 2)); 
 #else
-portId = (StringC("Port-") + StringC((UIntT) this >> 2)); 
+    portId = (StringC("Port-") + StringC((UIntT) this >> 2)); 
 #endif
-RegisterID() ; 
+    RegisterID() ; 
 }
   
   //: Stream constructor.
