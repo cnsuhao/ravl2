@@ -145,10 +145,10 @@ namespace RavlN {
     //: Are handles to different objects ?
     
     UIntT Hash() const{ 
-#ifdef RAVL_OS_LINUX64
-return ((UInt64T) body) >> 2;
- #else
-return ((UIntT) body) >> 2;
+#if RAVL_OS_LINUX64
+      return ((UInt64T) body) >> 2;
+#else
+      return ((UIntT) body) >> 2;
 #endif 
 }
     //: Default hash function.

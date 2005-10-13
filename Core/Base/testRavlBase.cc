@@ -52,6 +52,9 @@ template class RCWrapC<IntT>;
 
 int main()
 {
+#if RAVL_OS_LINUX64
+  cerr << "Linux 64 enabled. \n";
+#endif
   int ln;
   if((ln = testTypes()) != 0) {
     cerr << "Test failed at line:" << ln << "\n";
