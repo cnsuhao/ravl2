@@ -9,9 +9,9 @@
 
 DESCRIPTION= Atomic operations for i386-linux
 
-PACKAGE=linux/Ravl
+PACKAGE=linux64/Ravl
 
-SUPPORT_ONLY=linux
+SUPPORT_ONLY=linux64
 
 HEADERS=Atomic.hh 
 
