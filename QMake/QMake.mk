@@ -80,11 +80,11 @@ ifeq ($(PROJECT_OUT_BUILD_TAG),)
 $(shell echo "$(BUILD_TAG)" > $(PROJECT_OUT)/buildTag )
 else
 ifneq ($(BUILD_TAG),$(PROJECT_OUT_BUILD_TAG))
-$(error "Don't want to, go away!  (BUILD_TAG doesn't match the project. )")
+$(error "Errr.. you didn't mean to do that.  (BUILD_TAG doesn't match the project. )")
 endif
 SOURCE_BUILD_TAG :=$(strip $(shell $(LOCALBIN)/findBuildTag $(shell 'pwd')))#
 ifneq ($(BUILD_TAG),$(SOURCE_BUILD_TAG))
-$(error "Don't want to, go away!  (BUILD_TAG doesn't match the source tag. )")
+$(error "Errr.. you didn't mean to do that.  (BUILD_TAG doesn't match the source tag. )")
 endif
 endif
 endif

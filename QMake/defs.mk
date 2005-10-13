@@ -13,7 +13,7 @@ DESCRIPTION = Quick Make System
 
 LICENSE= GPL
 
-MAINS=SysConf.cc untouch.cc
+MAINS=SysConf.cc untouch.cc findBuildTag.cc
 
 AUXDIR=share/RAVL/QMake
 

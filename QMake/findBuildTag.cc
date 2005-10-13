@@ -13,6 +13,7 @@
 
 using namespace std;
 
+
 int main(int nargs,char **argv) {
   if(nargs < 2) {
     printf("No arg. \n");
@@ -21,20 +22,20 @@ int main(int nargs,char **argv) {
   
   const char *pwd = argv[1];
   int strLen = strlen(pwd);
-  char buffer[512];
-  char testName[512];
-  const char *tagNameFile ="buildTag";
+  char buffer[1024];
+  char testName[1024];
+  const char *tagNameFile ="/buildTag";
   strcpy(testName,pwd);
   //printf("Original '%s' \n",testName);
   
-  for(int i = strLen-1;i >= 0;i--) {
+  for(int i = strLen;i >= 0;i--) {
     // Found a marker.
-    if(pwd[i] == '/') {
-      strcpy(&(testName[i+1]),tagNameFile);
+    if(pwd[i] == '/' || pwd[i] == 0) {
+      strcpy(&(testName[i]),tagNameFile);
       FILE *fh = fopen(testName,"r");
       if(fh != 0) {
-        //printf("Found %s\n",testName);
         int len = fread(buffer,1,511,fh);
+        fclose(fh);
         if(len > 0) {
           buffer[len] = 0;
           printf("%s\n",buffer);
