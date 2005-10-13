@@ -72,6 +72,7 @@ extern "C" { extern long long atoll(const char *); } ;
 
 namespace RavlN {
 
+
 #if RAVL_OS_LINUX || RAVL_OS_SOLARIS
 #ifndef RAVL_ATOMIC_INIT
 #define RAVL_ATOMIC_INIT(x) (x)

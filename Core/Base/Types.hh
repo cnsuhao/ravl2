@@ -95,7 +95,11 @@ namespace RavlN {
   //: 64 bit unsigned integer.
 #endif
   
+#if RAVL_OS_LINUX64
+  typedef UInt64T SizeT;
+#else
   typedef UIntT SizeT;
+#endif 
   //: Type which can index any item in memory.
   
 #if RAVL_USE_LARGEFILESUPPORT

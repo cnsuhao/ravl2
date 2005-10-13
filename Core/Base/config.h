@@ -45,6 +45,7 @@
 #define RAVL_COMPILER_VISUALCPP6 (!defined(__GNUC__) && defined(WIN32) && !RAVL_COMPILER_VISUALCPPNET) /* Visual C++ 6 */
 
 #define RAVL_CPU_IX86    defined(__i386__)      /* 386 base varient. */
+#define RAVL_CPU_X86_64 defined (__x86_64__)
 #define RAVL_CPU_SPARC   defined(__sparc)       /* sun sparc based system. */
 #define RAVL_CPU_SPARC_V9 defined(__sparc_v9__)  /* sparc v9 instruction set */
 /* for __sparc_v9__ to be set the appropriate compile time options may have to be applied */
@@ -55,6 +56,7 @@
 #define RAVL_CPU_ARM defined(__arm)   /* arm based system */
 
 #define RAVL_OS_LINUX   defined(__linux__)  /* Linux based OS. */
+#define RAVL_OS_LINUX64   defined(__linux64__) 
 #define RAVL_OS_WIN32   defined(WIN32)      /* Windows platform. */
 #define RAVL_OS_IRIX    defined(__sgi__)    /* IRIX.      */
 #define RAVL_OS_SOLARIS defined(__sun)      /* Solaris.   */

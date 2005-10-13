@@ -115,8 +115,13 @@ namespace RavlN {
     { return ptr == oth.ptr; }
     //: Are these handles to the same object ?
     
-    UIntT Hash() const
-    { return (reinterpret_cast<UIntT>(ptr) >> 2) ^ (reinterpret_cast<UIntT>(ptr) >> 12); }
+    UIntT Hash() const{ 
+#ifdef RAVL_OS_LINUX64
+return (reinterpret_cast<UInt64T>(ptr) >> 2) ^ (reinterpret_cast<UInt64T>(ptr) >> 12); 
+#else
+return (reinterpret_cast<UIntT>(ptr) >> 2) ^ (reinterpret_cast<UIntT>(ptr) >> 12); 
+#endif
+}
     //: Create a hash value for the pointer.
     
     IOPtrActionC *Actions()

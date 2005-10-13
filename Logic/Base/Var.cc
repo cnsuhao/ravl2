@@ -77,8 +77,12 @@ namespace RavlLogicN {
 
   //: Get the name of symbol.
   StringC VarBodyC::Name() const { 
+#ifdef RAVL_OS_LINUX64
+    return StringC("V:") + StringC((UInt64T) this); 
+#else
     return StringC("V:") + StringC((UIntT) this); 
-  }
+#endif 
+ }
 
 
   //: Substitute variables in 'binds' for their bound values.

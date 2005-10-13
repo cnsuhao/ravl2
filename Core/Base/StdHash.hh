@@ -73,8 +73,13 @@ namespace RavlN {
   //: Hash unsigned char.
   
   inline
-  UIntT StdHash(void *ptr) 
-  { return (reinterpret_cast<UIntT>(ptr) >> 2) ^ (reinterpret_cast<UIntT>(ptr) >> 15); }
+  UIntT StdHash(void *ptr) { 
+#ifdef RAVL_OS_LINUX64
+return (reinterpret_cast<UInt64T>(ptr) >> 2 ) ^ (reinterpret_cast<UInt64T>(ptr)>>15) ;
+#else 
+return (reinterpret_cast<UIntT>(ptr) >> 2) ^ (reinterpret_cast<UIntT>(ptr) >> 15);
+#endif 
+}
   //: Hash function for void ptr's.
   
 // Disable "possible loss of data" warning

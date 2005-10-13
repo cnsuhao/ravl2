@@ -41,6 +41,9 @@ case "${UNAME_MACHINE}:${UNAME_SYSTEM}:${UNAME_RELEASE}" in
     i*86:Linux:*)
 	echo "linux"
 	exit 0 ;;
+    x86_64:Linux:*)
+	echo "linux64"
+	exit 0 ;;
     i*86:CYGWIN*:*)
 	echo "cygwin"
 	exit 0 ;;

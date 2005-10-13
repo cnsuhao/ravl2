@@ -77,8 +77,13 @@ namespace RavlLogicN {
     virtual StringC Name() const;
     //: Get the name of symbol.
     
-    virtual UIntT Hash() const 
-    { return ((UIntT) this) >> 2; }
+    virtual UIntT Hash() const { 
+#ifdef RAVL_OS_LINUX64
+return ((UInt64T) this) >> 2; 
+#else
+return ((UIntT) this) >> 2; 
+#endif
+}
     //: Get hash value for symbol.
     
     virtual bool IsEqual(const LiteralC &oth) const;

@@ -15,7 +15,7 @@
 
 // Do some sanity checking.
 
-#if (RAVL_OS_LINUX + RAVL_OS_WIN32 + RAVL_OS_IRIX + RAVL_OS_SOLARIS + RAVL_OS_OSF + RAVL_OS_CYGWIN + RAVL_OS_MINGW) != 1
+#if (RAVL_OS_LINUX + RAVL_OS_LINUX64 +RAVL_OS_WIN32 + RAVL_OS_IRIX + RAVL_OS_SOLARIS + RAVL_OS_OSF + RAVL_OS_CYGWIN + RAVL_OS_MINGW) != 1
 #error "RAVL ERROR:Confused about current OS. "
 #endif
 
@@ -23,7 +23,7 @@
 #error "RAVL ERROR:Confused about current compiler. "
 #endif
 
-#if (RAVL_CPU_IX86 + RAVL_CPU_SPARC + RAVL_CPU_MIPS + RAVL_CPU_ALPHA + RAVL_CPU_ARM) != 1
+#if (RAVL_CPU_IX86 + RAVL_CPU_X86_64 + RAVL_CPU_SPARC + RAVL_CPU_MIPS + RAVL_CPU_ALPHA + RAVL_CPU_ARM) != 1
 #error "RAVL ERROR:Confused about current CPU achitecture . "
 #endif
 

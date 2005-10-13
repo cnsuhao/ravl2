@@ -24,7 +24,11 @@ namespace RavlLogicN {
   // usefull for debuging.
   
   StringC LiteralIndexLeafBodyC::Name() {
+#ifdef RAVL_OS_LINUX64
+    return StringC("LILeaf:") + StringC((UInt64T) this);
+#else
     return StringC("LILeaf:") + StringC((UIntT) this);
+#endif
   }
 
   //: Lookup next level in tree.

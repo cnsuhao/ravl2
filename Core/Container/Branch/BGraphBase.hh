@@ -58,8 +58,13 @@ namespace RavlN {
     void Dump(ostream &out);
     //: Dump to stream.
     
-    inline UIntT Hash() const
-    { return ((UIntT) this) >> 2; }
+    inline UIntT Hash() const{ 
+#ifdef RAVL_OS_LINUX64
+return ((UInt64T) this) >> 2; 
+#else
+return ((UIntT) this) >> 2; 
+#endif
+}
     //: Get hash value.
     
   private:

@@ -9,7 +9,7 @@
 
 DESCRIPTION = GUI Tools.
 
-SUPPORT_ONLY = linux sol2_7 sol2_9 sgi alpha
+SUPPORT_ONLY = linux linux64 sol2_7 sol2_9 sgi alpha
 
 #REQUIRES= libGTK
 

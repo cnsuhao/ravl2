@@ -312,8 +312,13 @@ namespace RavlN {
     { return Prev().SourceVertex(); }
     //: Access vertex this edge comes from.
     
-    UIntT Hash() const
-    { return ((UIntT) body) >> 3; }
+    UIntT Hash() const{ 
+#ifdef RAVL_OS_LINUX64
+return ((UInt64T) body) >> 3 ;
+#else
+return ((UIntT) body) >> 3;
+ #endif
+}
     //: Hash value for handle.
     
     bool operator==(const HEMeshBaseEdgeC &oth) const

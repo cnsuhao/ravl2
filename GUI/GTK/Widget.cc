@@ -203,7 +203,12 @@ namespace RavlGUIN {
                                   Signal0C *data) {
     Signal1C<CListEventC> sig(*data);
     RavlAssert(sig.IsValid());
-    IntT rowId = (IntT) gtk_clist_get_row_data(GTK_CLIST(widget),row);
+#ifdef RAVL_OS_LINUX64    
+IntT rowId = (Int64T) gtk_clist_get_row_data(GTK_CLIST(widget),row);
+#else
+IntT rowId = (IntT) gtk_clist_get_row_data(GTK_CLIST(widget),row);
+#endif
+
     ONDEBUG(cerr << "WidgetBodyC::gtkCListSelect(), RowID: " << rowId << " Event: " << ((void *) event)  << "\n");
     CListEventC cle(rowId,row,column);
     sig(cle);
@@ -378,7 +383,11 @@ namespace RavlGUIN {
       return StringC("-Unknown-");
     const char *nm = gtk_widget_get_name(widget);
     if(nm == 0)
-      StringC((int) widget); // Use address as dummy.
+#ifdef RAVL_OS_LINUX64
+      StringC((Int64T) widget); // Use address as dummy.
+#else
+	StringC((int) widget); // Use address as dummy.
+#endif
     return StringC(nm);
   }
   

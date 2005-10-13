@@ -633,7 +633,11 @@ namespace RavlGUIN {
       return 0;
     IntT row,col;
     gtk_clist_get_selection_info (GTK_CLIST(widget),at[0].V(),at[1].V(),&row,&col);
+#ifdef RAVL_OS_LINUX64
+    return  (Int64T) gtk_clist_get_row_data(GTK_CLIST(widget),row);
+#else
     return  (IntT) gtk_clist_get_row_data(GTK_CLIST(widget),row);
+#endif
   }
   
   //: Retrieve the ID of a given row.
@@ -645,7 +649,11 @@ namespace RavlGUIN {
 	return -1;
       return data.Nth(rowNo).Data1();
     }
+#ifdef RAVL_OS_LINUX64
+    return (Int64T) gtk_clist_get_row_data(GTK_CLIST(widget),rowNo);
+#else
     return (IntT) gtk_clist_get_row_data(GTK_CLIST(widget),rowNo);
+#endif
   }
   
   //: Get the number of rows in CListC.
