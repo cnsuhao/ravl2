@@ -162,13 +162,13 @@ namespace RavlN {
     //: Inplace subtraction.
     
     inline const DateC &operator-=(double val);
-    //: Inplace subtraction.
+    //: Inplace subtraction (seconds).
     
     inline const DateC &operator+=(const DateC &val);
     //: Inplace addition.
     
     inline const DateC &operator+=(double val);
-    //: Inplace addition.
+    //: Inplace addition (seconds).
     
     StringC Text() const;
     //: Get the time in string form.
