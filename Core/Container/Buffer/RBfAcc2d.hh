@@ -139,6 +139,8 @@ namespace RavlN {
     // memory, this may miss other discontunities.
     
     bool IsBlock() const {
+      if(Range1().Size() <= 1)
+	return true;
       const DataT *d1 = RangeBufferAccessC<BufferAccessC<DataT> >::operator[](this->IMin()).ReferenceElm();
       const DataT *d2 = RangeBufferAccessC<BufferAccessC<DataT> >::operator[](this->IMin()+1).ReferenceElm();
       if(Range1().Size() < 3) 
