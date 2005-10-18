@@ -107,6 +107,7 @@ namespace RavlImageN {
 
   //! userlevel=Normal
   //: Connected component labelling. 
+  // This class identifies each connected region in an image and gives them a set of labels.  The criterion for connectedness will vary with the pixel type - it is defined by the <code>compMethod</code> argument.  For example, if the input image is the result of a binary segmentation, it will look for a connected region of identical pixel vaules.
   
   template <class DataTypeT,typename CompareT = ConnectedComponentsCompareC<DataTypeT> >
   class ConnectedComponentsC

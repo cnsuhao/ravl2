@@ -127,7 +127,7 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: Segmentation map.
-  // Generates segmentation map in which each segment is labelled with a unique identifier
+  // Provides operations on an (existing) segmentation map in which each segment is labelled with a unique identifier
   
   class SegmentationC 
     : public RCHandleC<SegmentationBodyC>
