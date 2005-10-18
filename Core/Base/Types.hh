@@ -47,7 +47,10 @@ namespace RavlN {
   class BinOStreamC;
   class BinIStreamC;
 
-  typedef int IntT;
+
+typedef int IntT;
+
+
   //: Integer of at least 32 bits
   
   typedef unsigned int UIntT;
@@ -96,11 +99,11 @@ namespace RavlN {
 #endif
   
 #if RAVL_OS_LINUX64
-  typedef UInt64T SizeT;
+typedef UInt64T SizeT;
 #else
   typedef UIntT SizeT;
 #endif 
-  //: Type which can index any item in memory.
+  //: Type which can index any item in memory. 
   
 #if RAVL_USE_LARGEFILESUPPORT
   typedef UInt64T StreamOffsetT;

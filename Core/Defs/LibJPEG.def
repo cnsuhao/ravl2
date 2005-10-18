@@ -17,6 +17,9 @@ include Math.def
     ifeq ($(ARC),linux)
       EXELIB := -Wl,-rpath,$(LIBJPEG_HOME)/lib -L$(LIBJPEG_HOME)/lib -ljpeg $(EXELIB)
     else
+	ifeq ($(ARC),linux64)
+	      EXELIB := -Wl,-rpath,$(LIBJPEG_HOME)/lib64 -L$(LIBJPEG_HOME)/lib64 -ljpeg $(EXELIB)
+	else
 
       ifeq ($(ARC),sgi)
         EXELIB := -R $(LIBJPEG_HOME)/lib32 -L$(LIBJPEG_HOME)/lib32 -ljpeg $(EXELIB)
@@ -31,4 +34,5 @@ include Math.def
       endif 
     endif 
   endif 
+endif
 endif

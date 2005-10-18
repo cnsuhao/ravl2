@@ -82,19 +82,46 @@ namespace RavlN {
   // <code>int</code>.  In particular you can't use an IndexC object directly as
   // an <code>int</code> function argument.  You need to use the <a
   // href="#IndexC_V_void__const">V()</a> member function to achieve this.  (We <i>could</i> have provided the implicit conversion, but it would then be very difficult sometimes to know which was actually being used.) </ul>
-    
+#if RAVL_OS_LINUX64
+typedef Int64T ISizeT ; 
+#else 
+typedef IntT ISizeT ;
+#endif 
+
   class IndexC {
   public:
+
+
     // <p><h2>Constructors, copies, assigment, and destructor:</h2>
     /* ----------------------------------------------- */
     
-    inline IndexC(IntT i = 0)    
-      : v(i)
+#if RAVL_OS_LINUX64
+inline IndexC (Int64T i) 
+: v(i) {}
+//: Creates the index with value 'i'
+
+    inline IndexC(UInt64T s)
+     : v((Int64T) s)
+    {}
+    //: Creates the index with the same value as the value of size 's'.
+
+inline IndexC (long int i) 
+: v(i) 
+{}
+
+
+//inline IndexC(void) 
+//:v(0) {}
+
+#endif
+
+   inline IndexC(IntT i = 0)    
+   : v(i)
     {}
     //: Creates the index with the value 'i'.
-    
-    inline IndexC(SizeT s)
-      : v((IntT) s)
+
+    inline IndexC(UIntT s)
+     : v((IntT) s)
     {}
     //: Creates the index with the same value as the value of size 's'.
     
@@ -111,11 +138,11 @@ namespace RavlN {
     // <p><h2>Access functions:</h2>
     /* ---------------- */
     
-    inline IntT V() const
+    inline ISizeT V() const
     { return v; }
     //: Returns the current value of the index.
     
-    inline IntT & V()
+    inline ISizeT & V()
     { return v; }
     //: Returns the current value of the index.
     
@@ -191,6 +218,36 @@ namespace RavlN {
       else return -((*this)/(-i));
     }
     //: Returns a new index with value of this index divided by integer 'i'.
+
+#if RAVL_OS_LINUX64
+    inline IndexC operator/(Int64T i) const {
+      if(i >= 0) return (v >= 0) ? (v/i) : (v-i+1)/i;
+      else return -((*this)/(-i));
+    }
+
+inline IndexC operator-(UInt64T i) const 
+{ return v - i; }
+
+inline IndexC operator+(UInt64T i) const 
+{ return v + i; }
+
+inline bool operator<(UInt64T i) const
+{ return v < Int64T(i); }
+//: Returns true if the value of this index is smaller than
+//: the integer number 'i'.
+
+    
+    inline bool operator>=(const UInt64T i) const
+    { return v >= Int64T(i); }
+    //: Returns true if the value of this index is greater than
+    //: or equal to the integer number 'i'.
+
+inline IndexC & operator+=(const UInt64T i) 
+{ v += i; return *this; }
+
+#endif 
+
+
 
     inline IndexC operator%(IntT i) const {
       if(i >= 0) return (v >= 0) ? (v%i) : i-(-v)%i;
@@ -371,6 +428,7 @@ namespace RavlN {
     //: Returns true if the value of this index is greater than
     //: the integer number 'i'.
 
+
     inline bool operator>=(IntT i) const
     { return v >= i; }
     //: Returns true if the value of this index is greater than
@@ -519,8 +577,10 @@ namespace RavlN {
     /* Object Representation
      * ---------------------*/
     enum {dim = 1};  // number of indexes     
-    IntT v; // The value of the index.
-  };
+
+    ISizeT v; // The value of the index.
+
+ };
   
   // I/O operators
   // -------------

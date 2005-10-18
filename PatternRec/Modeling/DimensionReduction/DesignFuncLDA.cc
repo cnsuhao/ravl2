@@ -11,6 +11,7 @@
 #include "Ravl/config.h"
 #include "Ravl/PatternRec/DesignFuncLDA.hh"
 #include "Ravl/DP/SPort.hh"
+#include "Ravl/Math.hh"
 
 #if RAVL_COMPILER_MIPSPRO 
 #pragma instantiate RavlN::DPIPortBodyC<RavlN::Tuple2C<RavlN::VectorC,RavlN::StringC> > 
@@ -103,7 +104,7 @@ namespace RavlN {
     MatrixC Sw = inLda.WithinClassScatter ();
     MatrixC matLDA = DesignMatrixTransformation(Sw, Sb);
     
-    lda = matLDA.SubMatrix(matLDA.Rows(),Min(matLDA.Cols(),train.Sample2().MaxValue())).T() * pca.Pca().Matrix();
+    lda = matLDA.SubMatrix(matLDA.Rows(),Min(matLDA.Cols(),SizeT (train.Sample2().MaxValue()) )).T() * pca.Pca().Matrix();
 
     return FuncMeanProjectionC(mean, lda);
   }
@@ -177,7 +178,7 @@ namespace RavlN {
 
     MatrixC matLDA = DesignMatrixTransformation(Sw, Sb);
     
-    lda = matLDA.SubMatrix(matLDA.Rows(),Min(matLDA.Cols(), numClasses)).T() * pca.Pca().Matrix();
+    lda = matLDA.SubMatrix(matLDA.Rows(),Min(matLDA.Cols(), SizeT(numClasses) )).T() * pca.Pca().Matrix();
 
     return FuncMeanProjectionC(mean, lda);
   }

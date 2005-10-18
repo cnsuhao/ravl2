@@ -912,13 +912,16 @@ namespace RavlGUIN {
     if(widget == 0) return TreeModelPathC(); // Nothing yet!
     GtkTreePath *path = 0;
     GtkTreeViewColumn *column = 0;
-    if(!gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(widget),
+IntT cellRow = cellPos.Row().V() ; 
+IntT cellCol = cellPos.Col().V() ; 
+ if(!gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(widget),
                                       pos[1].V(),pos[0].V(),
                                       &path,
                                       &column,
-                                      &cellPos.Col().V(),
-                                      &cellPos.Row().V()
+                                      &cellCol,
+                                      &cellRow
                                       ))
+
       return TreeModelPathC();
     for(SArray1dIterC<TreeViewColumnC> it(displayColumns);it;it++) {
       if(it->TreeViewColumn() == column) {

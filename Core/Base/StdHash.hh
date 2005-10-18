@@ -15,7 +15,7 @@
 //! example=WordFreq.cc
 //! userlevel=Normal
 //! rcsid="$Id$"
-
+#include "Ravl/config.h"
 #include "Ravl/Types.hh"
 
 namespace RavlN {

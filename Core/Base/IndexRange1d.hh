@@ -228,6 +228,35 @@ namespace RavlN {
     { return IndexRangeC(Min() - i,Max() - i); }
     //: Create a new IndexRangeC with minimum and maximum limits shifted by subtracting the offset 'i'.
     
+#if RAVL_OS_LINUX64
+inline IndexRangeC  operator+(UInt64T i) const 
+{ return IndexRangeC(Min() + i,Max() + i); }
+    //: Create a new IndexRangeC with minimum and maximum limits shifted by adding the offset 'i'.
+
+inline IndexRangeC  operator-(UInt64T i) const 
+  { return IndexRangeC(Min() - i,Max() - i); }
+    //: Create a new IndexRangeC with minimum and maximum limits shifted by subtracting the offset 'i'.
+
+inline const IndexRangeC & operator-=(Int64T i)  
+//   { return ((*this) -= IndexC(i)); }
+{ return (*this)-=IndexC(i)  ; }
+    //: Both minimum and maximum limits are shifted by subtracting the offset 'i'.
+    // Returns a reference to this range.
+
+inline const IndexRangeC & operator+=(UInt64T i)  
+    { return (*this) += IndexC(i); }
+    //: Both minimum and maximum limits are shifted by adding the offset 'i'.
+    // Returns a reference to this range.
+
+
+inline const IndexRangeC & operator+=(Int64T i) 
+    { return (*this) += IndexC(i); }
+    //: Both minimum and maximum limits are shifted by adding the offset 'i'.
+    // Returns a reference to this range.
+
+#endif 
+
+
     inline IndexRangeC & ClipBy(const IndexRangeC & r);
     //: This index range is clipped to contain at most the index range 'r'.
     

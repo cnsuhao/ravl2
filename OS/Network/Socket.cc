@@ -146,7 +146,7 @@ namespace RavlN {
   }
   
   int GetTCPProtocolNumber() {
-#if RAVL_OS_LINUX
+#if RAVL_OS_LINUX || RAVL_OS_LINUX64
     return SOL_TCP;
 #else
     struct protoent entry;
@@ -213,7 +213,7 @@ namespace RavlN {
     while(1) {
       ONDEBUG(cerr << " Looking for '" << name << "'\n");
       opErrno = 0;
-#if RAVL_OS_LINUX
+#if RAVL_OS_LINUX || RAVL_OS_LINUX64
       if(gethostbyname_r(name,&ent,hostentData,buffSize,&result, &opErrno) == 0 && result != 0)
 	break;
 #elif RAVL_OS_OSF
@@ -299,7 +299,7 @@ namespace RavlN {
     struct hostent ent;
     int error = 0;
     while(1) {
-#if RAVL_OS_LINUX
+#if RAVL_OS_LINUX || RAVL_OS_LINUX64
       struct hostent *result = 0;
       int retcode;
       // Hack to detect the difference between red-hat 6.x  and 7.x boxes.

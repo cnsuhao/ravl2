@@ -18,6 +18,9 @@ include zlib.def
      ifeq ($(ARC),linux)
        EXELIB := -Wl,-rpath,$(LIBTIFF_HOME)/lib32 -L$(LIBTIFF_HOME)/lib32 -ltiff $(EXELIB)
      else
+	ifeq ($(ARC),linux64)
+	       EXELIB := -Wl,-rpath,$(LIBTIFF_HOME)/lib64 -L$(LIBTIFF_HOME)/lib64 -ltiff $(EXELIB)
+	else
 
        ifeq ($(ARC),sgi) 
          EXELIB := -R $(LIBTIFF_HOME)/lib32 -L$(LIBTIFF_HOME)/lib32 -ltiff $(EXELIB)
@@ -33,4 +36,4 @@ include zlib.def
      endif 
   endif 
 endif 
-
+endif

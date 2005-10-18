@@ -65,8 +65,8 @@ namespace RavlN {
       int nf2 = pfac(size[1].V(),primeFactors2,'o');
 
       // CCMath pfac (prime factor) function does not work for prime factors > 101.
-      StringC errTxt0 = ((StringC)"FFT2dBodyC::Init(), row size of "    +  size[0].V() + (StringC)" has a prime factor > 101.");
-      StringC errTxt1 = ((StringC)"FFT2dBodyC::Init(), column size of " +  size[1].V() + (StringC)" has a prime factor > 101.");
+      StringC errTxt0 = ((StringC)"FFT2dBodyC::Init(), row size of "    + StringC( size[0].V() ) + (StringC)" has a prime factor > 101.");
+      StringC errTxt1 = ((StringC)"FFT2dBodyC::Init(), column size of " +  StringC( size[1].V() ) + (StringC)" has a prime factor > 101.");
       RavlAlwaysAssertMsg( size[0].V() == nf1, &errTxt0[0]);
       RavlAlwaysAssertMsg( size[1].V() == nf2, &errTxt1[0]);
 

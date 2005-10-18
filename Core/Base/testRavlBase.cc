@@ -130,9 +130,11 @@ int testTypes()
 int testEndian() {
   UInt16T x = 0x1234;
 #if RAVL_LITTLEENDIAN
+cerr << "\n doing little endian test" ;
   if(((char *)(&x))[0] != 0x34) return __LINE__;
   if(((char *)(&x))[1] != 0x12) return __LINE__;
 #else
+cerr << "\n doing big endian test" ;
   if(((char *)(&x))[0] != 0x12) return __LINE__;
   if(((char *)(&x))[1] != 0x34) return __LINE__;
 #endif

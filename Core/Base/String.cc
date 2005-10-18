@@ -450,7 +450,11 @@ namespace RavlN {
     : rep(&_nilStrRepC)
   {
     char TBuff[32];
-    sprintf(TBuff,"%d",n.V());
+#if RAVL_OS_LINUX64  
+  sprintf(TBuff,"%lld",n.V());
+#else 
+  sprintf(TBuff,"%d",n.V());
+#endif 
     *this = TBuff;
   }
   

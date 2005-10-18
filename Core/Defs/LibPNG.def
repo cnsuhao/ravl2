@@ -26,8 +26,12 @@ INCLUDES += -I$(LIBPNG_HOME)/include
         ifeq ($(ARC),linux)  
          EXELIB := -Wl,-rpath,$(LIBPNG_HOME)/lib -L$(LIBPNG_HOME)/lib -lpng $(EXELIB)
         else 
+	ifeq ($(ARC),linux64)
+	         EXELIB := -Wl,-rpath,$(LIBPNG_HOME)/lib64 -L$(LIBPNG_HOME)/lib64 -lpng $(EXELIB)
+	else
          EXELIB := -L$(LIBPNG_HOME)/lib -lpng $(EXELIB)
-        endif 
+        endif
+	endif 
      endif 
   endif 
 endif 

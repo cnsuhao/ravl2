@@ -70,6 +70,12 @@ namespace RavlN  {
     
     inline GenBinIStreamC &operator>>(UInt16T &dat);
     //: Read in an unsigned 16 bit integer.
+
+    inline GenBinIStreamC &operator>>(Int64T &dat);
+    //: Read in a signed 64 bit integer 
+
+     inline GenBinIStreamC &operator>>(UInt64T &dat);
+     //: Read in an unsigned 64 bit integer 
     
     inline GenBinIStreamC &operator>>(IntT &dat);
     //: Read in an signed 32 bit integer.
@@ -172,6 +178,12 @@ namespace RavlN  {
     
     inline GenBinOStreamC &operator<<(UIntT dat);  
     //: Write a 32 bit unsigned integer.
+
+    inline GenBinOStreamC & operator <<(Int64T dat);
+    //: Write a 64bit integer 
+
+    inline GenBinOStreamC & operator << (UInt64T dat) ;
+    //: Write a 64 bit unsigned integer
     
     inline GenBinOStreamC &operator<<(FloatT dat);  
     //: Write a floating point number.
@@ -247,6 +259,26 @@ namespace RavlN  {
     }
     return *this; 
   }
+
+GenBinIStreamC & GenBinIStreamC::operator>>(UInt64T & dat) {
+	if (toSwap) in.read((char*)&dat,8) ;
+	else{
+	UInt64T buf ;
+	in.read((char*) &buf,8);
+	dat = (UInt64T) bswap_64(buf);
+	}
+	return *this ;
+}
+
+GenBinIStreamC & GenBinIStreamC::operator>>(Int64T & dat) {
+	if (toSwap) in.read((char*) &dat,8) ;
+	else{
+	Int64T buf ; 
+	in.read((char*) &buf,8) ;
+	dat = (Int64T) bswap_64(buf) ;
+	}
+	return *this ;
+}	
   
   GenBinIStreamC &GenBinIStreamC::operator>>(IntT &dat) {
     if(toSwap) in.read((char *)&dat,4);

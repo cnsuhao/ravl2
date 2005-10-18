@@ -55,8 +55,8 @@
 #define RAVL_CPU_ALPHA defined(__alpha)   /* alpha based system */
 #define RAVL_CPU_ARM defined(__arm)   /* arm based system */
 
-#define RAVL_OS_LINUX   defined(__linux__)  /* Linux based OS. */
-#define RAVL_OS_LINUX64   defined(__linux64__) 
+#define RAVL_OS_LINUX64   (defined(__linux__) && defined (__x86_64__))
+#define RAVL_OS_LINUX   (defined(__linux__) && !defined(__x86_64__)) /* Linux based OS. */
 #define RAVL_OS_WIN32   defined(WIN32)      /* Windows platform. */
 #define RAVL_OS_IRIX    defined(__sgi__)    /* IRIX.      */
 #define RAVL_OS_SOLARIS defined(__sun)      /* Solaris.   */
@@ -122,15 +122,15 @@
 /********************************************************************************/
 /****** OS Configuration/System includes ****************************************/
 
-#define RAVL_USE_LARGEFILESUPPORT RAVL_OS_LINUX    /* Special 64 bit filehandling functions like stat64. */
+#define RAVL_USE_LARGEFILESUPPORT (RAVL_OS_LINUX || RAVL_OS_LINUX64)   /* Special 64 bit filehandling functions like stat64. */
 #define RAVL_LIMITED_FILENAMES 0                   /* have 8.3 filenames. */
 #define RAVL_HAVE_UNIXDIRFUNCS RAVL_OS_POSIX       /* Unix style directory access ? */
 #define RAVL_HAVE_REENTRANT_UNIXDIRFUNCS !RAVL_OS_CYGWIN /* Re-entrant directory functions. */
-#define RAVL_HAVE_POSIX_THREADS_RWLOCK RAVL_OS_LINUX
+#define RAVL_HAVE_POSIX_THREADS_RWLOCK (RAVL_OS_LINUX || RAVL_OS_LINUX64)
 #define RAVL_HAVE_POSIX_THREADS  RAVL_OS_POSIX    /* Have posix threading functions. */
 #define RAVL_HAVE_WIN32_THREADS  RAVL_OS_WIN32    /* Have windows threading. */
 #define RAVL_HAVE_PTHREAD_COND RAVL_OS_POSIX
-#define RAVL_HAVE_BYTESWAP     RAVL_OS_LINUX
+#define RAVL_HAVE_BYTESWAP     (RAVL_OS_LINUX || RAVL_OS_LINUX64)
 #define RAVL_HAVE_NETDB_H      RAVL_OS_UNIX
 #define RAVL_HAVE_UNISTD_H     RAVL_OS_UNIX       /* have unistd.h */
 #define RAVL_HAVE_SYS_SOCKET_H RAVL_OS_UNIX       /* have sys/socket.h  */
@@ -151,18 +151,18 @@
 #define RAVL_TIMET_IS_INT      !RAVL_OS_IRIX      /* time_t is an int or long. IRIX uses a struct, effects stat() results. */
 #define RAVL_HAVE_PWD_H        (RAVL_OS_UNIX || RAVL_OS_CYGWIN)       /* have <pwd.h> */
 #define RAVL_ERRNO_IS_FUNC     0                  /* errno should be used as function. i.e. errno() for use with threaded code. */
-#define RAVL_HAVE_GETPWNAM_R   (!RAVL_OS_LINUX && !RAVL_OS_CYGWIN)  /* have reentrant getpwnam_r */
-#define RAVL_HAVE_GETPWUID_R   (!RAVL_OS_LINUX && !RAVL_OS_CYGWIN)  /* have reentrant getpwnam_r */
+#define RAVL_HAVE_GETPWNAM_R   (!RAVL_OS_LINUX64 && !RAVL_OS_LINUX && !RAVL_OS_CYGWIN)  /* have reentrant getpwnam_r */
+#define RAVL_HAVE_GETPWUID_R   (!RAVL_OS_LINUX && !RAVL_OS_LINUX64 && !RAVL_OS_CYGWIN)  /* have reentrant getpwnam_r */
 #define RAVL_HAVE_GETPW_RET_PW !RAVL_OS_OSF     /* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
 #define RAVL_HAVE_GETPW_WITH_RESULT  RAVL_OS_IRIX  || RAVL_OS_SOLARIS /* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
-#define RAVL_HAVE_HSTRERROR    (RAVL_OS_IRIX || RAVL_OS_LINUX)  /* have hstrerror, otherwise use strerror. */
-#define RAVL_HAVE_SOCKLEN_T    (RAVL_OS_LINUX || RAVL_OS_SOLARIS)  /* Have socklen_t */
+#define RAVL_HAVE_HSTRERROR    (RAVL_OS_IRIX || RAVL_OS_LINUX || RAVL_OS_LINUX64)  /* have hstrerror, otherwise use strerror. */
+#define RAVL_HAVE_SOCKLEN_T    (RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_SOLARIS)  /* Have socklen_t */
 #define RAVL_HAVE_INTFILEDESCRIPTORS !RAVL_COMPILER_VISUALCPP /* Support integer file descriptors */
 
 /********************************************************************************/
 /****** Processor properties ****************************************************/
 
-#define RAVL_LITTLEENDIAN (RAVL_CPU_IX86 || RAVL_CPU_ARM)    /* Little endian machine. */
+#define RAVL_LITTLEENDIAN (RAVL_CPU_IX86 || RAVL_CPU_ARM || RAVL_CPU_X86_64)    /* Little endian machine. */
 #define RAVL_BIGENDIAN    !RAVL_LITTLEENDIAN   /* Big endian machine. */
 /* Yes there are other endian machines, but I've never actually met one. */
 
@@ -185,17 +185,17 @@
 #define RAVL_HAVE_CBRT     0 && RAVL_OS_LINUX                /* have cbrt() in libm  */
 #define RAVL_HAVE_ERF      (!RAVL_OS_WIN32 && !RAVL_OS_CYGWIN)   /* have erf() and erfc() in libm  */
 
-#define RAVL_HAVE_ISINF    (RAVL_OS_LINUX || RAVL_OS_CYGWIN)    /* have isinf() in libm  */
+#define RAVL_HAVE_ISINF    (RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_CYGWIN)    /* have isinf() in libm  */
 #define RAVL_HAVE__FINITE  RAVL_OS_WIN32    /* have _finite() in libm  */
 #define RAVL_HAVE_FINITE   (RAVL_OS_SOLARIS || RAVL_OS_IRIX || RAVL_OS_OSF)  /* have finite() in libm  */
 
-#define RAVL_HAVE_ISNAN    (RAVL_OS_LINUX || RAVL_OS_OSF || RAVL_OS_CYGWIN)   /* have isnan() in libm  */
+#define RAVL_HAVE_ISNAN    (RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_OSF || RAVL_OS_CYGWIN)   /* have isnan() in libm  */
 #define RAVL_HAVE__ISNAN   RAVL_OS_WIN32    /* have _isnan() in libm  */
 #define RAVL_HAVE_ISNAND   (RAVL_OS_SOLARIS || RAVL_OS_IRIX) /* have isnand() in libm  */
 
 #define RAVL_QINT_WORKAROUND RAVL_COMPILER_GCC3   /* Do we need a bug work around for the QInt functions (See Ravl/QInt.hh) */
 
-#define RAVL_HAVE_LRINT     RAVL_OS_LINUX  /* Do we have lrint and friends ? This is a C99 extention*/
+#define RAVL_HAVE_LRINT     (RAVL_OS_LINUX  || RAVL_OS_LINUX64)/* Do we have lrint and friends ? This is a C99 extention*/
 
 /********************************************************************************/
 /****** Compiler/ C++ Library ***************************************************/

@@ -80,10 +80,10 @@ PAR_MAKE = --jobs=$(PROCS)
 
 UNDEFSYMB = -u #
 
-OPTCFLAGS  = -O2 -ffast-math -march=i686 
+OPTCFLAGS  = -O2 -ffast-math -march=nocona
 # -O2 -ffast-math -mcpu=i686 -mfpmath=sse
 
-OPTCCFLAGS = -O2  -ffast-math -march=i686 
+OPTCCFLAGS = -O2  -ffast-math -march=nocona 
 # -O2 -ffast-math -mcpu=i686 -mfpmath=sse
 
 ############################

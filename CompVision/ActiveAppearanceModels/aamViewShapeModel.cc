@@ -57,10 +57,16 @@ void RenderModel() {
       Index2dC mid(*it);
       Index2dC tr(mid - off);
       Index2dC bl(mid + off);
-      canvas.GUIDrawLine(tr[1].V(),tr[0].V(),bl[1].V(),bl[0].V(),col);
-      canvas.GUIDrawLine(tr[1].V(),tr[0].V(),bl[1].V(),bl[0].V(),col);
-      canvas.GUIDrawLine(tr[1].V(),bl[0].V(),bl[1].V(),tr[0].V(),col);
-      canvas.GUIDrawLine(bl[1].V(),tr[0].V(),tr[1].V(),bl[0].V(),col);
+
+IntT tr0 = tr[0].V() ; 
+IntT tr1 = tr[1].V() ; 
+IntT bl0 = bl[0].V() ; 
+IntT bl1 = bl[1].V() ;
+
+      canvas.GUIDrawLine(tr1, tr0, bl1, bl0,col);
+      canvas.GUIDrawLine(tr1, tr0, bl1, bl0,col);
+      canvas.GUIDrawLine(tr1, bl0, bl1, tr0,col);
+      canvas.GUIDrawLine(bl1, tr0, tr1, bl0,col);
     }
   } 
   if(am.IsValid()) {

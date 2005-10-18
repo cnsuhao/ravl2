@@ -36,7 +36,7 @@ extern "C" {
   double erfc __P((double)); // not in standard <math.h> file
 }
 #endif
-#if RAVL_OS_LINUX || RAVL_OS_IRIX || RAVL_OS_ALPHA
+#if RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_IRIX || RAVL_OS_ALPHA
 extern "C" {
   double erf(double x); // not in standard <math.h> file
   double erfc(double x); // not in standard <math.h> file

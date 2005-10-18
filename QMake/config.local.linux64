@@ -109,8 +109,8 @@ RESOURCES += devVideo4Linux2
 
 ## libmpeg2 ################################################
 
-RESOURCES += libmpeg2
-LIBMPEG2_HOME=/opt/PDsoft/mpeg2dec
+#RESOURCES += libmpeg2
+#LIBMPEG2_HOME=/opt/PDsoft/mpeg2dec
 
 ## FFTW ####################################################
 #FFTW_HOME=
@@ -146,7 +146,7 @@ INTELMKL_HOME=/opt/Intel/mkl70
 
 ## Jasper image io library  ############################################
 
-RESOURCES += LibJasper
+#RESOURCES += LibJasper
 
 ## Embedded HTTP Server (EHS) ##############################
 

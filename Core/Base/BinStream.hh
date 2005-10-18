@@ -99,6 +99,27 @@ namespace RavlN  {
   }
   //! userlevel=Advanced
   //: Swap bytes of a 32 bit number.
+
+inline long long int bswap_64(const long long int & buf) {
+union {
+long long int i ;
+char c[8] ;
+} ret, val ;
+val.i=buf ; 
+ret.c[0] = val.c[7] ;
+ret.c[1] = val.c[6] ;
+ret.c[2] = val.c[5] ;
+ret.c[3] = val.c[4] ;
+ret.c[4] = val.c[3] ;
+ret.c[5] = val.c[2] ;
+ret.c[6] = val.c[1] ;
+ret.c[7] = val.c[0] ;
+return ret.i ;
+}
+//: userlevel=Advanced
+//: Swap bytes of a 64 bit number
+
+
 #endif
   
   //:-
