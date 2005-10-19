@@ -185,9 +185,29 @@ namespace RavlImageN {
   };
   
   
-  //! userlevel=Normal
-  //: Extremal region segmentation.
-  // Refrence: J Matas. BMVC 2002
+  //! userlevel=Normal : Extremal region segmentation.  
+
+  // <p>In most images there are regions that can be detected with high repeatability since they
+  // possess some distinguishing, invariant and stable property, the so called extremal regions.
+  // Extremal regions have two desirable properties.  Fisrtly, the set is closed under
+  // continuous (and thus perspective) transformation of image coordinates
+  // and, secondly, it is closed under monotonic transformation of image intensities.
+  // This class is an implementation of an efficient (near linear complexity) and practically
+  // fast detection algorithm
+  // for an affinely-invariant stable subset of extremal regions, the maximally stable extremal
+  // regions.</p>
+
+  // <p> The concept can be explained informally as follows. Imagine all possible thresholdings
+  // of a gray-level image I. We will refer to the pixels below a threshold as "black" and
+  // to those above or equal as "white". If we were shown a movie of thresholded images It,
+  // with frame t corresponding to threshold t, we would see first a white image. Subsequently
+  // black spots corresponding to local intensity minima will appear and grow. At some point
+  // regions corresponding to two local minima will merge. Finally, the last image will be
+  // black. The set of all connected components of all frames of the movie is the set of all
+  // maximal regions; minimal regions could be obtained by inverting the intensity of I and
+  // running the same process.</p>
+
+  // <p>References: <a href="http://cmp.felk.cvut.cz/~matas/papers/matas-bmvc02.pdf">J Matas et al. BMVC 2002</a>; Image and Vision Computing, 22(10):761-767, September 2004. </p>
 
   template<class PixelT>
   class SegmentExtremaC 
