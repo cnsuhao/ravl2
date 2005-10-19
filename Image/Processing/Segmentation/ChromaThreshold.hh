@@ -20,16 +20,16 @@ namespace RavlImageN
 {
   
   //! userlevel=Normal
-  //: Chroma threholding
+  //: Chroma thresholding
   //
-  // <p>This is a multi-purpose class for searching for a known colour in an rgb image. 
+  // <p>This is a multi-purpose class for searching for a known colour in an RGB image. 
   // Can be used for skin colour detection, blue-screening, etc. Is intended as
   // an easy way to try out new ideas, rather than a very efficient or accurate method.</p>
   //
   // <p>RGB is normalised by intensity to be robust to illumination changes.
-  // The range of colours to be found are modelled as a gaussian.  The (incorrect)
-  // assumption is made that normalised rgb components are independent, but this
-  // seems to work well for many applications. The gaussian can either be
+  // The range of colours to be found are modelled as a Gaussian.  The (incorrect)
+  // assumption is made that normalised RGB components are independent, but this
+  // seems to work well for many applications. The Gaussian can either be
   // constructed directly, or computed from an example image containing only
   // the required colour.
   
@@ -56,7 +56,7 @@ namespace RavlImageN
       label_no_match(nlabel_no_match),
       label_black(nlabel_black)
     {} 
-    //: Construct with user-specified params of the gaussian
+    //: Construct with user-specified params of the Gaussian
     //!param: nr0 - mean red component
     //!param: ng0 - mean green component
     //!param: nb0 - mean blue component
