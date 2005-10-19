@@ -189,7 +189,7 @@ namespace RavlImageN {
 
   // <p>In most images there are regions that can be detected with high repeatability since they
   // possess some distinguishing, invariant and stable property, the so called extremal regions.
-  // Extremal regions have two desirable properties.  Fisrtly, the set is closed under
+  // Extremal regions have two desirable properties.  Firstly, the set is closed under
   // continuous (and thus perspective) transformation of image coordinates
   // and, secondly, it is closed under monotonic transformation of image intensities.
   // This class is an implementation of an efficient (near linear complexity) and practically
