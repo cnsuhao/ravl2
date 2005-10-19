@@ -30,11 +30,11 @@ namespace RavlN {
   
   //! userlevel=Basic
   //: The class OptionC is a simple parser of a command line. 
-  // This is a small object. <br>
+  // <p>This is a small object. <br>
   // The syntax of the command line tags uses the Unix convention of a single
-  // dash followed by one or more alpha-numeric characters. <br>
+  // dash followed by one or more alpha-numeric characters. </p>
 
-  // Note: "Unnamed" arguments (i.e. arguments without a tag) MUST be
+  // <p><font color="#FF0000">Bug:</font> "Unnamed" arguments (i.e. arguments without a tag) <font color="#AA0000">MUST</font> be
   // processed last in the code for this class to work correctly.
   // On the other hand they can appear anywhere in the command line.
   
