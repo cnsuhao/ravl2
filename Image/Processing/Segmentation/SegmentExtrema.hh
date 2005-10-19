@@ -12,6 +12,7 @@
 //! docentry="Ravl.Images.Segmentation"
 //! userlevel=Normal
 //! file="Ravl/Image/Processing/Segmentation/SegmentExtrema.hh"
+//! example="extrema.cc" 
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/FloodRegion.hh"
