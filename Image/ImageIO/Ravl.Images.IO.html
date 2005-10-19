@@ -43,7 +43,8 @@ PROGLIBS = RavlImageIO ....
       <dt><code>-lc</code> - list all known conversions</dt>
       <dt><code>-lt</code> - list all known classes (?)</dt>
     </dl>
-
+    <p> This command should list all the "interesting" file formats:</p>
+    <pre>conv -lf | grep -v "\&lt;stream\&gt;" | grep -v "\&lt;abs\&gt;"</pre>
     <a name="FORMATS"></a>
     <p>Here's a summary of currently supported formats. Supported natively
     in RAVL are:</p>
