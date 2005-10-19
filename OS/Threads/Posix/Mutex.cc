@@ -47,6 +47,7 @@ namespace RavlN
   //: Setup mutex.
   
   void MutexC::Init(bool recursive) {
+
     // ---------------------------------- POSIX ----------------------------------
 #if RAVL_HAVE_POSIX_THREADS
 #if defined(NDEBUG)
@@ -72,7 +73,7 @@ namespace RavlN
 #endif
 #endif
     if(recursive) { // Do we need a recursive mutex ?
-#if RAVL_OS_LINUX
+#if ( RAVL_OS_LINUX || RAVL_OS_LINUX64)
       if(pthread_mutexattr_settype(&mutAttr,PTHREAD_MUTEX_RECURSIVE_NP) != 0) // Linux.
 #else
 #ifdef PTHREAD_MUTEX_RECURSIVE
