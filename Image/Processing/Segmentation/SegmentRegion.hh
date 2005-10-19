@@ -8,7 +8,7 @@
 #define RAVLIMAGE_SEGMENTREGION_HEADER
 //////////////////////////////////////////////////////////////
 //! docentry="Ravl.Images.Segmentation"
-//! userlevel=Normal
+//! userlevel=Develop
 //! file="Ravl/Image/Processing/Segmentation/SegmentRegion.hh"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
@@ -42,7 +42,7 @@ namespace RavlImageN {
     //: Perform segmentation on "in"
   };
   
-  //! userlevel=Normal
+  //! userlevel=Develop
   //: Handle class for a basic segmentation class
   
   template<class PixelT, class StatT>

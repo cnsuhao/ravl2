@@ -27,7 +27,7 @@
 namespace RavlImageN {
   
   //! userlevel=Develop
-  //: Describes the result of a segmentation
+  //: Enhanced segmentation map
   // Includes a segmentation map and statistics associated to each region
 
   template<class StatT>
@@ -85,7 +85,7 @@ namespace RavlImageN {
   };
   
   //! userlevel=Normal
-  //: Describes the result of a segmentation
+  //: Enhanced segmentation map
   // Includes a segmentation map and statistics associated to each region
   
   template<class StatT>

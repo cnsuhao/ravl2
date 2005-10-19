@@ -9,9 +9,9 @@
 
 PACKAGE=Ravl/Image
 
-HEADERS=ChromaThreshold.hh  Segmentation.hh ConnectedComponents.hh \
- BlueScreen.hh SegmentExtrema.hh FloodRegion.hh SegmentRegion.hh \
- RegionSet.hh RegionGrow.hh RegionGrowSteal.hh PixelSelectStack.hh \
+HEADERS=Segmentation.hh RegionSet.hh ConnectedComponents.hh \
+ ChromaThreshold.hh BlueScreen.hh SegmentExtrema.hh FloodRegion.hh SegmentRegion.hh \
+ RegionGrow.hh RegionGrowSteal.hh PixelSelectStack.hh \
  PixelClassifyGrey.hh PixelClassifyColour.hh PixelClassifyMotion.hh 
 
 SOURCES=ChromaThreshold.cc Segmentation.cc ConnectedComponents.cc \
