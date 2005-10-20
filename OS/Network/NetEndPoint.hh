@@ -43,7 +43,7 @@ namespace RavlN {
     NetClientInfoC(const StringC &protocolName,
 		   const StringC &protocolVersion = StringC("0.0"),
 		   const StringC &appName = StringC("default"),
-		   const StringC &appName = StringC("0.0"),
+		   const StringC &appVersion = StringC("0.0"),
 		   const StringC &hostType = StringC("unknown")
 		   );
     //: Constructor.

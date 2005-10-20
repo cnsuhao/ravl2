@@ -218,8 +218,8 @@ namespace RavlN {
 	break;
 #elif RAVL_OS_OSF
       if((gethostbyname_r(name,&ent,(struct hostent_data *) hostentData)) != 0) {
-	result = &ent;
-	break;
+        result = &ent;
+        break;
       }
       opErrno = h_errno;
 #else
@@ -227,37 +227,37 @@ namespace RavlN {
 	break;
 #endif
       if(opErrno == ERANGE) {
-	delete [] hostentData;
-	buffSize *= 2;
-	if(buffSize > 100000) {
-	  delete [] hostentData;
-	  throw ExceptionNetC("GetHostByName(),ERROR: Buffer requested too large. Failing.\n");
-	}
-	hostentData = new char [buffSize];
-	continue;
+        delete [] hostentData;
+        buffSize *= 2;
+        if(buffSize > 100000) {
+          delete [] hostentData;
+          throw ExceptionNetC("GetHostByName(),ERROR: Buffer requested too large. Failing.\n");
+        }
+        hostentData = new char [buffSize];
+        continue;
       }
       if(opErrno < 0) {
-	cerr << "Can't understand hostname '" << name  << "', Malformed address ? \n";
-	delete [] hostentData;
-	throw ExceptionNetC("Failed to unstanderstand find host name.\n");
+        SysLog(SYSLOG_WARNING) << "Can't understand hostname '" << name  << "', Malformed address?";
+        delete [] hostentData;
+        throw ExceptionNetC("Failed to unstanderstand find host name.\n");
       }
 #if 0
       if(opErrno == TRY_AGAIN) {
-	ONDEBUG(cerr << "Failed to get hostname, retrying. \n");
-	DateC::Sleep(0.5);  // Thread safe sleep.
-	continue;
+        ONDEBUG(cerr << "Failed to get hostname, retrying. \n");
+        DateC::Sleep(0.5);  // Thread safe sleep.
+        continue;
       }
-#endif      
+#endif
       if(opErrno == HOST_NOT_FOUND) {
-	cerr << "Can't find host '" << name  << "' .\n";
-	delete [] hostentData;
-	throw ExceptionNetC("Can't find host name.\n");
+        SysLog(SYSLOG_WARNING) << "Can't find host '" << name << "' .";
+        delete [] hostentData;
+        throw ExceptionNetC("Can't find host name.\n");
       }
-      cerr << "Can't find host '" << name  << "' for some reason. Errno:" << opErrno << " '"
+      SysLog(SYSLOG_WARNING) << "Can't find host '" << name  << "' for some reason. Errno:" << opErrno << " '"
 #if RAVL_HAVE_HSTRERROR
-	   << hstrerror(opErrno) << "'\n";
+        << hstrerror(opErrno) << "'";
 #else
-      << strerror(opErrno) << "'\n";
+        << strerror(opErrno) << "'";
 #endif
       delete [] hostentData;
       throw ExceptionNetC("Can't find host name for some reason.");
@@ -268,8 +268,7 @@ namespace RavlN {
     //sin.sin_addr.s_addr = inet_addr(addr);
     
 #if DODEBUG
-    cerr << "Offical hostname: '" << result->h_name << "' \n";
-    cerr << "h_length: '" << result->h_length << "' \n";
+    cerr << "Offical hostname: '" << result->h_name << "' h_length: '" << result->h_length << "' \n";
     //cerr << "h_addr_list: '" << result->h_addr_list[0] << "' \n";
 #endif
     sin.sin_addr.s_addr = ((struct in_addr *)result->h_addr_list[0])->s_addr;
@@ -374,26 +373,27 @@ namespace RavlN {
     int retryLimit = 10;
     while(connect(fd, (sockaddr*)&sin, sizeof(sin)) < 0) {
       // Sometimes its worth trying a again a few times.
-      if((errno == EAGAIN || errno == EINTR || errno == ECONNREFUSED || errno==ETIMEDOUT) && retryLimit-- > 0) {
-	//ONDEBUG(cerr << "Connect failed, EAGAIN. errno=" << errno << " \n");
-	Sleep(0.1);
-	continue;
+      if((errno == EAGAIN || errno == EINTR || errno==ETIMEDOUT) && retryLimit-- > 0) {
+        ONDEBUG(cerr << "Connect failed, EAGAIN. errno=" << errno << " \n");
+        Sleep(0.1);
+        continue;
       }
       Close();
 #if DODEBUG
       if(errno == EADDRINUSE) {
-	cerr << "Address in use.\n";
-	return -1;
+        SysLog(SYSLOG_DEBUG) << "Address in use. " << fd ;
+        return -1;
       }
       if(errno == ECONNREFUSED) {
-	cerr << "Connection refused. " << fd << "\n";
-	return -1;
+        SysLog(SYSLOG_DEBUG) << "Connection refused. " << fd;
+        return -1;
       }
-      cerr << " \n";
+      SysLog(SYSLOG_DEBUG) << "Connect failed. " << fd;
 #endif
       return -1;
     }
-    ONDEBUG(cerr << "SocketBodyC::OpenClient(), Connected to '" << name  << "' \n");
+    
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "SocketBodyC::OpenClient(), Connected to '" << name  << "'");
     if(addr != 0)
       delete [] (char *) addr;
     addr = (struct sockaddr *) new char [sizeof(struct sockaddr)];
@@ -410,12 +410,9 @@ namespace RavlN {
     struct sockaddr_in sin = {PF_INET};
     if(*name != 0) {
       if(!GetHostByName(name,sin))
-	return -1;
+        return -1;
     } else {
-      cerr << "sin_addr=" << sizeof(sin.sin_addr) <<  " ANY=" << sizeof(INADDR_ANY) << "\n";
-      static in_addr_t anyAddress = INADDR_ANY;
-      //sin.sin_addr = anyAddress;
-      memcpy(&sin.sin_addr,&anyAddress,sizeof(INADDR_ANY));
+      sin.sin_addr.s_addr = htonl(INADDR_ANY);
     }
     if((fd = OpenSocket(sin,portNo)) < 0)
       return -1;

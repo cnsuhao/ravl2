@@ -266,7 +266,7 @@ namespace RavlN {
   //: Access the name of the connected Host 
   
   StringC NetEndPointBodyC::ConnectedHost(void) { 
-    StringC hostName("Uknown");
+    StringC hostName("Unknown");
     istrm.GetAttr("ConnectedHost",hostName);
     return hostName;
   }
