@@ -23,7 +23,7 @@ HEADERS=Types.hh config.h Pair.hh Resource.hh \
  RealRange1d.hh RealRange2d.hh RealRange3d.hh \
  RCBodyV.hh RCHandleV.hh IndexRange2dIter.hh IndexRange3dIter.hh fdstreambuf.hh \
  fdstream.hh GenBinStream.hh Traits.hh FPNumber.hh QInt.hh CompilerHints.hh \
- stdio_fdstream.hh AMutex.hh
+ stdio_fdstream.hh AMutex.hh RCLayer.hh
 
 SOURCES=Assert.cc Exception.cc EntryPnt.cc Index.cc String.cc \
  RefCounter.cc HandleRefCounter.cc Trigger.cc Calls.cc \
@@ -33,7 +33,7 @@ SOURCES=Assert.cc Exception.cc EntryPnt.cc Index.cc String.cc \
  BinString.cc RCWrap.cc IndexRange3d.cc Math.cc RealC.cc \
  RealRange1d.cc RealRange2d.cc RealRange3d.cc \
  RCBodyV.cc URLMapper.cc GenBinStream.cc Resource.cc \
- AMutex.cc
+ AMutex.cc RCLayer.cc
 
 PLIB=RavlCore
 
@@ -41,9 +41,9 @@ MUSTLINK=atexit.cc
 
 USESLIBS=Math
 
-TESTEXES= testRavlBase.cc testCalls.cc testString.cc testStream.cc testTFVector.cc
+TESTEXES= testRavlBase.cc testCalls.cc testString.cc testStream.cc testTFVector.cc testRCLayer.cc
 
-EXAMPLES = exIndex.cc exRefCounter.cc exRefCounterInherit.cc exQInt.cc exTrigger.cc 
+EXAMPLES = exIndex.cc exRefCounter.cc exRefCounterInherit.cc exQInt.cc exTrigger.cc testRCLayer.cc
 
 EHT=Ravl.Core.Indexing.eht Ravl.Core.Error_Handling.eht Ravl.Core.Misc.eht Ravl.Core.Reference_Counting.eht \
  Ravl.Core.Strings.html Ravl.Core.IO.Streams.html Ravl.Core.Calls.html Ravl.Core.Math.QInt.html \
