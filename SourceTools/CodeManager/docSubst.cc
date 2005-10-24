@@ -31,12 +31,16 @@ public:
     {}
   //: Default constructor.
   
-  SubstsC(const StringC &l,const StringC &o,const StringC &n,bool v,bool dr)
+  SubstsC(const StringC &l,const StringC &o,const StringC &n,bool v,bool dr, bool headers=true, bool mains=false, bool tests=false, bool examples=false)
     : label(l),
       original(o),
       newun(n),
       verbose(v),
-      dryRun(dr)
+      dryRun(dr),
+      doHeaders(headers),
+      doMains(mains),
+      doTests(tests),
+      doExamples(examples)
     {}
   //: Constructor.
   
@@ -56,6 +60,10 @@ protected:
   StringC newun;
   bool verbose;
   bool dryRun;
+  bool doHeaders ; 
+  bool doMains ;
+  bool doTests ;
+  bool doExamples ;
 };
 
 //: Process a directory.
@@ -63,16 +71,30 @@ protected:
 bool SubstsC::Process(StringC &dir,DefsMkFileC &where) {
   if(IsVerbose())
     cerr << "Processing: " << dir << "\n";
-  StringListC hdrs(where.Value("HEADERS"));
+
+  StringListC hdrs ; 
+if ( doHeaders )
+	hdrs += (where.Value("HEADERS"));
+if (doMains)
+	hdrs += (where.Value("MAINS") ) ; 
+if (doTests) 
+	hdrs += (where.Value("TESTEXES") ) ; 
+if (doExamples) 
+	hdrs += (where.Value("EXAMPLES") ) ;
+
+
   for(DLIterC<StringC> it(hdrs);it.IsElm();it.Next()) {
     if(it.Data().length() <= 3) {
       cerr << "WARNING: Short header file name detected :'" << it.Data() << "'\n";
       continue; // Far too short !
     }
-    if(!it.Data().matches(".hh",it.Data().length()-3)) {
+
+    if( (!it.Data().matches(".hh",it.Data().length()-3) ) &&  ( !it.Data().matches(".cc", it.Data().length()-3)) ) 
+ {
       //cerr << "WARNING: Non C++ header file ignored:'" + it.Data() + "'\n";
-      continue; // C++ Headers only.
-    }
+      continue; // C++ Files only.
+}
+   
     FilenameC file(dir + '/' + it.Data());
     //cerr << file << " ";
     //cerr << " (" << file << ")";
@@ -89,7 +111,6 @@ bool SubstsC::Process(StringC &dir,DefsMkFileC &where) {
     }
     
     // Update variable
-    
     DoSubst(hdrfile); 
     
     // Update repository
@@ -125,17 +146,21 @@ bool SubstsC::DoSubst(TextFileC &buff) {
 int doHeaders(int nargs,char **argv) {
   OptionC option(nargs,argv,true);
   FilenameC fn = option.CharArr("i",".","Input filename. ");
-  bool rec = option.Boolean("r",true,"recurse into subdirectories. ");
+  //bool rec = option.Boolean("r",true,"recurse into subdirectories. ");
   bool all = option.Boolean("a",false,"Go into inactive directories as well. ");
   bool verb = option.Boolean("v",false,"Verbose mode.");
   bool dryRun = option.Boolean("d",false,"Do a dry run.");
-  
+  bool doHeaders = option.Boolean("h", true, "Process Headers") ;
+  bool doMains = option.Boolean("m", false, "Process Mains" ) ;  
+  bool doTests = option.Boolean("t", false, "Process test programs") ; 
+  bool doExamples = option.Boolean("e", false, "Process examples") ;
+
   StringC label = option.CharArr("l","docentry","Label to change.");
   StringC oValue = option.CharArr("lo","","Original value. ");
   StringC nValue = option.CharArr("ln","","New value ");
   option.Check();
   
-  SubstsC op(label,oValue,nValue,verb,dryRun);
+  SubstsC op(label,oValue,nValue,verb,dryRun,doHeaders, doMains, doTests, doExamples);
   
   SourceCodeManagerC chkit(fn);
   if(verb)
