@@ -68,6 +68,9 @@ namespace RavlN {
     //: Make a list of nested directories.
     // This returns only active directories.
     // the .r's are striped from all strings.
+
+    inline const StringC & Name(void) { return defsFilename ; } 
+    //: Access the name of the defs file. 
     
   protected:
     StringC defsFilename;

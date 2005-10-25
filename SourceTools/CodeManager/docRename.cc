@@ -99,7 +99,6 @@ if ( ! text.Load( where.Name() ) )
 	hdrs += (where.Value("EHT"));
 	hdrs += (where.Value("HTML") ) ; 
 
-cerr << "\n abou to process files " << hdrs ; 
 
 // check length of filename is reasonable  
   for(DLIterC<StringC> it(hdrs);it.IsElm();it.Next()) {
@@ -113,25 +112,45 @@ cerr << "\n abou to process files " << hdrs ;
 
 //: check file exists. 
     if(!oldFile.Exists()) {
-      cerr <<"\nWARNING: No access to file:" << oldFile << "\n";
+      cerr <<"\nWARNING: No access to file:\t" << oldFile << "\n";
       continue; // No access to file.
     }
+
+//: change any docentry tags in the html too.
+TextFileC htmlFile ;
+if ( ! htmlFile.Load(oldFile) ) { cerr << "\nWARNING: Could not load file\t" << oldFile  ; }
+else
+ // iterate each line and only do a replace on lines with a docentry tag !
+for ( DLIterC<TextFileLineC> iter ( htmlFile.Lines() ) ; iter ; iter ++ )
+	if ( iter.Data().Text().contains("docentry") ) { // does it contain a docentry line ?
+		cerr << "\nUpdating docentry tag:\t" << oldFile ; 
+		if (iter.Data().Text().gsub(original,newun)) htmlFile.SetModified()  ; 
+		cerr << iter.Data().Text() ; 
+}
+
+// save if modified 
+//cerr << "\n just as a test \n\n\n" ; htmlFile.Dump(cerr) ; 
+if ( ! dryRun ) 
+if (htmlFile.IsModified()) { 
+	if ( ! htmlFile.Save() ) { cerr << "\nWARNING: Could not update file:\t" << oldFile ; }}
 
 //: Apply substition to get new file name. 
 FilenameC newFile (oldFile.Copy() ) ; 
 newFile.gsub(original, newun) ; 
 
-cerr << "\n\nDEBUG \t" << oldFile ; 
-cerr << "\nDEBUG \t" << newFile ; 
+
 //: do we have a new name for this doc file, if so, rename it and update the defs.mk
 if ( oldFile != newFile ) {
-	cerr  << "\nUpdating:\t" << oldFile.NameComponent() << " -> " << newFile.NameComponent() ; 
+	cerr  << "\nUpdating:\t" << oldFile.NameComponent() << " ->\t " << newFile.NameComponent() ; 
 	//: rename file.
 	if ( ! dryRun ) {
 		if ( ! oldFile.CopyTo(newFile)  ) { cerr << "\nWARNING: Could not copy file: " << oldFile << " to " << newFile ; }
 		else if ( ! oldFile.Remove() ) { cerr << "\nWARNING: Could not remove old file: " << oldFile ; }
 	} 
 	else cerr << "\t(dryRun)" ;
+
+
+
 	//: update defs.mk 
 	text.GlobalSubst( oldFile.NameComponent(), newFile.NameComponent() ) ; 
 	}
