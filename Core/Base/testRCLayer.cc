@@ -8,7 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 
-#include "Omni/RCLayer.hh"
+#include "Ravl/RCLayer.hh"
 #include "Ravl/Stream.hh"
 
 using namespace RavlN;
@@ -19,7 +19,7 @@ class RCLayerTestBodyC
 public:
   RCLayerTestBodyC() {
     cerr << "RCLayerTestBodyC, Constructor.  \n";
-    loopyHandle = RCLayerC<RCLayerTestBodyC>(*this,RCLH_INFERIOR);    
+    loopyHandle = RCLayerC<RCLayerTestBodyC>(*this,RCLH_CALLBACK);    
   }
   //: Default constructor.
   
@@ -28,11 +28,11 @@ public:
   }
   //: Destructor
   
-  virtual void ZeroSuperiors() {
+  virtual void ZeroOwners() {
     cerr << "Hurra all the bosses have gone away. \n";
     loopyHandle.Invalidate();
   }
-  //: Called when superior handles drop to zero.
+  //: Called when owner handles drop to zero.
   
 protected:
   RCLayerC<RCLayerTestBodyC> loopyHandle;
@@ -52,14 +52,14 @@ int main() {
 }
 
 int testRCLayer() {
-  RCLayerC<RCLayerTestBodyC> layerH1(*new RCLayerTestBodyC(),RCLH_SUPERIOR);
+  RCLayerC<RCLayerTestBodyC> layerH1(*new RCLayerTestBodyC(),RCLH_OWNER);
   RCLayerC<RCLayerTestBodyC> layerH2 = layerH1;
-  cerr << "Handles=" << layerH2.Superiors() << "\n";
-  RCLayerC<RCLayerTestBodyC> layerH3 = RCLayerC<RCLayerTestBodyC>(layerH1,RCLH_SUPERIOR);
-  cerr << "Handles=" << layerH2.Superiors() << "\n";
+  cerr << "Handles=" << layerH2.Owners() << "\n";
+  RCLayerC<RCLayerTestBodyC> layerH3 = RCLayerC<RCLayerTestBodyC>(layerH1,RCLH_OWNER);
+  cerr << "Handles=" << layerH2.Owners() << "\n";
   layerH3 = layerH1;
-  if(layerH3.Superiors() != 3) return __LINE__;
-  cerr << "Handles=" << layerH2.Superiors() << " All=" << layerH2.References() << "\n";
+  if(layerH3.Owners() != 3) return __LINE__;
+  cerr << "Handles=" << layerH2.Owners() << " All=" << layerH2.References() << "\n";
   if(layerH2.References() != 4) return __LINE__;
   return 0;
 }

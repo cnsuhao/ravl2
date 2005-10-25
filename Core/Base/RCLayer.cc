@@ -11,9 +11,9 @@
 
 namespace RavlN {
   
-  //: Called when superior handles drop to zero.
+  //: Called when owner handles drop to zero.
   
-  void RCLayerBodyC::ZeroSuperiors() {
+  void RCLayerBodyC::ZeroOwners() {
     //... Abstract method
   }
   

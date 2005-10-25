@@ -15,14 +15,14 @@
 #include "Ravl/RCHandleV.hh"
 
 namespace RavlN {
-  enum RCLayerHandleT { RCLH_SUPERIOR,RCLH_INFERIOR };
+  enum RCLayerHandleT { RCLH_OWNER,RCLH_CALLBACK };
   
   //! userlevel=Develop
   //: Layered refrence counted body.
   // There are two classes of handles to a layered reference counted objects. Inferior handles
-  // which just work like normal reference counted system. Superior handles operate on an
-  // aditional counter (superiors in RCLayerBodyC), then this counter drops to zero a method
-  // ZeroSuperiors() is called which can be used to deconstruct the object and initiate the
+  // which just work like normal reference counted system. Owner handles operate on an
+  // aditional counter (owners in RCLayerBodyC), then this counter drops to zero a method
+  // ZeroOwners() is called which can be used to deconstruct the object and initiate the
   // deletion of the other handles.
   
   class RCLayerBodyC
@@ -30,137 +30,174 @@ namespace RavlN {
   {
   public:
     RCLayerBodyC()
-    { ravl_atomic_set(&superiors,0); }
+    { ravl_atomic_set(&owners,0); }
     //: Default constructor.
     
-    virtual void ZeroSuperiors();
-    //: Called when superior handles drop to zero.
+    virtual void ZeroOwners();
+    //: Called when owner handles drop to zero.
     
-    void IncSuperiors()
-    { ravl_atomic_inc(&superiors); }
-    //: Increment superior reference counter.
+    void IncOwners() const
+    { ravl_atomic_inc(&owners); }
+    //: Increment owner reference counter.
     
-    void DecSuperiors() {
-      if(ravl_atomic_dec_and_test(&superiors) != 0)
-        ZeroSuperiors();
+    void DecOwners() {
+      if(ravl_atomic_dec_and_test(&owners) != 0)
+        ZeroOwners();
     }
-    //: Decrement superior counter, if drops to zero call ZeroSuperiors().
+    //: Decrement owner counter, if drops to zero call ZeroOwners().
     
-    IntT Superiors() const
-    { return ravl_atomic_read(&superiors); }
-    //: Count the number of superior handles.
+    IntT OwnerHandles() const
+    { return ravl_atomic_read(&owners); }
+    //: Count the number of owner handles.
     
   protected:
-    mutable ravl_atomic_t superiors; // Count of superior handles
+    mutable ravl_atomic_t owners; // Count of owner handles
   };
   
   //! userlevel=Advanced
   //: Layered refrence counted handle.
   // There are two classes of handles to a layered reference counted objects. Inferior handles
-  // which just work like normal reference counted system. Superior handles operate on an
-  // aditional counter (superiors in RCLayerBodyC), then this counter drops to zero a method
-  // ZeroSuperiors() is called which can be used to deconstruct the object and initiate the
+  // which just work like normal reference counted system. Owner handles operate on an
+  // aditional counter (owners in RCLayerBodyC), then this counter drops to zero a method
+  // ZeroOwners() is called which can be used to deconstruct the object and initiate the
   // deletion of the other handles.
   
   template<class BodyT> 
   class RCLayerC 
-    : private RCHandleC<BodyT>
+    : private RCHandleVC<BodyT>
   {
   public:
     
     RCLayerC()
-      : superiorHandle(false)
+      : ownerHandle(false)
     {}
     //: Default constructor.
     
     RCLayerC(const RCLayerC<BodyT> &data)
-      : RCHandleC<BodyT>(data),
-        superiorHandle(data.IsSuperior())
+      : RCHandleVC<BodyT>(data),
+        ownerHandle(data.IsHandleOwner())
     {
-      if(IsSuperior() && this->BodyPtr() != 0)
-        this->BodyPtr()->IncSuperiors();      
+      if(IsHandleOwner() && this->BodyPtr() != 0)
+        this->BodyPtr()->IncOwners();      
     }
     //: Copy constructor.
     
-    RCLayerC(BodyT &data,RCLayerHandleT handleType)
-      : RCHandleC<BodyT>(data),
-        superiorHandle(handleType == RCLH_SUPERIOR)
+    RCLayerC(BodyT &data,RCLayerHandleT handleType =RCLH_OWNER)
+      : RCHandleVC<BodyT>(data),
+        ownerHandle(handleType == RCLH_OWNER)
     {
-      if(IsSuperior())
-        data.IncSuperiors();
+      if(IsHandleOwner())
+        data.IncOwners();
     }
     //: Constructor from a reference
     
     RCLayerC(const RCLayerC<BodyT> &data,RCLayerHandleT handleType)
-      : RCHandleC<BodyT>(data),
-        superiorHandle(handleType == RCLH_SUPERIOR)
+      : RCHandleVC<BodyT>(data),
+        ownerHandle(handleType == RCLH_OWNER)
     {
-      if(IsSuperior() && this->BodyPtr() != 0)
-        this->BodyPtr()->IncSuperiors();
+      if(IsHandleOwner() && this->BodyPtr() != 0)
+        this->BodyPtr()->IncOwners();
     }
     //: Constructor from another handle and a handle type.
     
-    RCLayerC(const BodyT *data,RCLayerHandleT handleType)
-      : RCHandleC<BodyT>(data),
-        superiorHandle(superiorHandle == RCLH_SUPERIOR)
+    RCLayerC(const BodyT *data,RCLayerHandleT handleType = RCLH_OWNER)
+      : RCHandleVC<BodyT>(data),
+        ownerHandle(ownerHandle == RCLH_OWNER)
     {
-      if(IsSuperior() && data != 0)
-        data->IncSuperiors();
+      if(IsHandleOwner() && data != 0)
+        data->IncOwners();
     }
     //: Constructor from a pointer
     
     ~RCLayerC() {
-      if(this->BodyPtr() != 0 && IsSuperior())
-        this->BodyPtr()->DecSuperiors();
+      if(this->BodyPtr() != 0 && IsHandleOwner())
+        this->BodyPtr()->DecOwners();
     }
     //: Destructor.
     
     const RCLayerC<BodyT> &operator=(const RCLayerC<BodyT> &oth) { 
-      // Increment superiors for incoming handle.
-      if(oth.IsSuperior() && oth.BodyPtr() != 0)
-        const_cast<BodyT *>(oth.BodyPtr())->IncSuperiors();
-      // Decrement superiors for old destination
-      if(IsSuperior() && this->BodyPtr() != 0)
-      this->BodyPtr()->DecSuperiors();
-      superiorHandle = oth.IsSuperior();
-      RCHandleC<BodyT>::operator=(oth);
+      // Increment owners for incoming handle.
+      if(oth.IsHandleOwner() && oth.BodyPtr() != 0)
+        const_cast<BodyT *>(oth.BodyPtr())->IncOwners();
+      // Decrement owners for old destination
+      if(IsHandleOwner() && this->BodyPtr() != 0)
+      this->BodyPtr()->DecOwners();
+      ownerHandle = oth.IsHandleOwner();
+      RCHandleVC<BodyT>::operator=(oth);
       return *this;
     }
     //: Assign handle.
-
-    bool IsSuperior() const
-    { return superiorHandle; }
-    //: Is this a superior handle ?
+    
+    bool IsHandleOwner() const
+    { return ownerHandle; }
+    //: Is this a owner handle ?
+    
+    bool IsHandleCallback() const
+    { return !ownerHandle; }
+    //: Is this a callback handle ?
     
     bool IsValid() const
-    { return RCHandleC<BodyT>::IsValid(); }
+    { return RCHandleVC<BodyT>::IsValid(); }
     //: Is this a valid handle.
     
     void Invalidate() { 
-      if(IsSuperior() && this->BodyPtr() != 0)
-        this->BodyPtr()->DecSuperiors();      
-      RCHandleC<BodyT>::Invalidate();
+      if(IsHandleOwner() && this->BodyPtr() != 0)
+        this->BodyPtr()->DecOwners();      
+      RCHandleVC<BodyT>::Invalidate();
     }
     //: Invalidate this handle.
     
-    IntT Superiors() const
-    { return this->Body().Superiors(); }
-    //: Count the number of superior handles that currently exist.
-  
+    IntT OwnerHandles() const
+    { return this->Body().OwnerHandles(); }
+    //: Count the number of owner handles that currently exist.
+    
     IntT References() const
-    { return RCHandleC<BodyT>::References(); }
+    { return RCHandleVC<BodyT>::References(); }
     //: Get the number of referee
     
+    BodyT *BodyPtr()
+    { return RCHandleC<BodyT>::BodyPtr(); }
+    //: Access body pointer.
+    // Used in upcasting.
+    
+    const BodyT *BodyPtr() const
+    { return RCHandleC<BodyT>::BodyPtr(); }
+    //: Access body pointer.
+    // Used in upcasting.
+    
+    static BodyT *BodyPtr(RCLayerC<BodyT> &bod)
+    { return bod.BodyPtr(); }
+    //: Access body point from a derived class.
+    
+    static const BodyT *BodyPtr(const RCLayerC<BodyT> &bod)
+    { return bod.BodyPtr(); }
+    //: Access body point from a derived class.
+    
+    bool operator==(const RCLayerC<BodyT> &data) const
+    { return BodyPtr() == data.BodyPtr(); }
+    //: Are these handles to the same object ?
+    
+    bool operator!=(const RCLayerC<BodyT> &data) const
+    { return BodyPtr() != data.BodyPtr(); }
+    //: Are these handles to different objects ?
+    
   protected:
-  
+    BodyT &Body()
+    { return RCHandleVC<BodyT>::Body(); }
+    //: Access body.
+    
+    const BodyT &Body() const
+    { return RCHandleVC<BodyT>::Body(); }
+    //: Const acess to body.
+    
   private:
     RCLayerC(const RCHandleC<BodyT> &handle)
-      : RCHandleC<BodyT>(handle),
-        superiorHandle(false)
+      : RCHandleVC<BodyT>(handle),
+        ownerHandle(false)
     { RavlAssert(0); }
     //: Base constructor.
     
-    bool superiorHandle; // If true this is a superior
+    bool ownerHandle; // If true this is a owner
   };
 }
 
