@@ -15,6 +15,7 @@
 //! file="Ravl/OS/Threads/Tools/SignalConnectionSet.hh"
 
 #include "Ravl/Threads/Signal.hh"
+#include "Ravl/Threads/Mutex.hh"
 #include "Ravl/HSet.hh"
 
 namespace RavlN {
@@ -39,15 +40,17 @@ namespace RavlN {
     // If waitThreadExit is true, the routine won't return
     // till all threads have left the connection.
     
-    void operator+=(const SignalConnectorC &c)
-    { cons += c; }
+    void operator+=(const SignalConnectorC &c);
     //: Add a connection.
     
-    void operator-=(const SignalConnectorC &c)
-    { cons -= c; }
+    void operator-=(const SignalConnectorC &c);
     //: Remove a connection.
     
+    bool IsEmpty() const;
+    //: Test if the connection set is empty.
+    
   protected:
+    MutexC access;
     HSetC<SignalConnectorC> cons;
   };
   
@@ -85,6 +88,10 @@ namespace RavlN {
     void operator-=(const SignalConnectorC &c)
     { Body().operator-=(c); }
     //: Remove a connection.
+    
+    bool IsEmpty() const
+    { return Body().IsEmpty(); }
+    //: Test if the connection set is empty.
     
   };
 }

@@ -10,15 +10,41 @@
 //! file="Ravl/OS/Threads/Tools/SignalConnectionSet.cc"
 
 #include "Ravl/Threads/SignalConnectionSet.hh"
+#include "Ravl/HSetExtra.hh"
 
 namespace RavlN {
+
+  //: Add a connection.
+  
+  void SignalConnectionSetBodyC::operator+=(const SignalConnectorC &c) { 
+    MutexLockC lock(access);
+    cons += c; 
+  }
+  
+  //: Remove a connection.
+  
+  void SignalConnectionSetBodyC::operator-=(const SignalConnectorC &c) {
+    MutexLockC lock(access);
+    cons -= c; 
+  }
+  
+  //: Test if the connection set is empty.
+  
+  bool SignalConnectionSetBodyC::IsEmpty() const {
+    MutexLockC lock(access);
+    return cons.IsEmpty();
+  }
 
   //: Disconnect everything.
   
   void SignalConnectionSetBodyC::DisconnectAll(bool waitThreadsExit) {
-    for(HSetIterC<SignalConnectorC> it(cons);it;it++)
-      const_cast<SignalConnectorC &>(*it).Disconnect(waitThreadsExit);
+    MutexLockC lock(access);
+    DListC<SignalConnectorC> sigs = HSet2DList(cons);
     cons.Empty();
+    lock.Unlock();
+    
+    for(DLIterC<SignalConnectorC> it(sigs);it;it++)
+      const_cast<SignalConnectorC &>(*it).Disconnect(waitThreadsExit);
   }
 }
 
