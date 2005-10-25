@@ -52,6 +52,7 @@ namespace RavlGUIN {
 
   bool WidgetStyleBodyC::GUILoadDefault() {
     // Copy default style
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     style = gtk_style_copy(gtk_widget_get_default_style());
     // Done
     return style != 0;
@@ -59,6 +60,7 @@ namespace RavlGUIN {
 
   bool WidgetStyleBodyC::GUISetBackground(PixmapC& pixmap, GtkStateType state) {
     // Create pixmap if not already done
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if (!pixmap.Widget())
       pixmap.Create();
     // Check required data
@@ -74,6 +76,7 @@ namespace RavlGUIN {
   }
 
   bool WidgetStyleBodyC::GUISetBackground(PixmapC& pixmap) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     bool bSuccess = true;
     bSuccess &= GUISetBackground(pixmap,GTK_STATE_NORMAL);
     bSuccess &= GUISetBackground(pixmap,GTK_STATE_ACTIVE);
@@ -95,6 +98,7 @@ namespace RavlGUIN {
 
   GdkColor WidgetStyleBodyC::GUIRGB2Colour(ByteRGBValueC& rgb) {
     // Get system colourmap
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     GdkColormap *cmap = gdk_colormap_get_system();
     // Create colour
     GdkColor col;
@@ -113,6 +117,7 @@ namespace RavlGUIN {
   bool WidgetStyleBodyC::GUISetColour(WidgetColourTypeT type, GdkColor color, GtkStateType state) {
     // Check required data
     if (style==NULL) return false;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     // Set colour
     switch (type) {
     case WIDGET_COLOUR_FG:
@@ -153,6 +158,7 @@ namespace RavlGUIN {
   }
 
   bool WidgetStyleBodyC::GUISetColour(WidgetColourTypeT& type, ByteRGBValueC& col) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     GdkColor gdkcol = GUIRGB2Colour(col);
     bool bSuccess = true;
     bSuccess &= GUISetColour(type,gdkcol,GTK_STATE_NORMAL);
@@ -176,6 +182,7 @@ namespace RavlGUIN {
   }
 
   bool WidgetStyleBodyC::GUISetFont(StringC& strFontDesc) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
 #if RAVL_USE_GTK2
     PangoFontDescription *font_desc = pango_font_description_from_string(strFontDesc);
     if (font_desc)

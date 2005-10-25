@@ -11,6 +11,7 @@
 
 #include "Ravl/GUI/SpinButton.hh"
 #include "Ravl/GUI/Manager.hh"
+#include "Ravl/GUI/ReadBack.hh"
 #include <gtk/gtk.h>
 
 #define DPDEBUG 0
@@ -46,6 +47,7 @@ namespace RavlGUIN {
   
   RealT SpinButtonBodyC::Value() const { 
     if(adj == 0) return value; 
+    ReadBackLockC lock;
 #if RAVL_USE_GTK2
     return gtk_adjustment_get_value(GTK_ADJUSTMENT (adj));
 #else
@@ -113,6 +115,8 @@ namespace RavlGUIN {
       value = val;
       return true;
     }
+    
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget),val);
     //GTK_ADJUSTMENT (adj)->value = val;
     //gtk_signal_emit_by_name (GTK_OBJECT (adj), "changed");  
@@ -136,10 +140,11 @@ namespace RavlGUIN {
     lower = nlower;
     upper = nupper;      
 
-    if(adj == 0) {
+    if(adj == 0) 
       return true;
-    }
-
+    
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    
     // Clip new value
     bool bValueChanged(false);
     RealT val = Value();

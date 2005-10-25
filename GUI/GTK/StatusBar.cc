@@ -53,6 +53,7 @@ namespace RavlGUIN {
   // GUI Thread only.
   
   IntT StatusBarBodyC::GUIGetContext(const char *name)  { 
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(widget == 0) 
       if(!Create())
 	return 0;
@@ -67,6 +68,7 @@ namespace RavlGUIN {
       ONDEBUG(cerr << "Msg early: " << str << "\n");
       return true;
     }
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(context == 0)
       context = defaultContext;
     ONDEBUG(cerr << "StatusBarBodyC::GUIPush()  Ctxt:" << context << " Msg:" << str << "\n");
@@ -82,6 +84,7 @@ namespace RavlGUIN {
       ONDEBUG(cerr << "Pop early Ctxt:" << context << "\n");
       return true;
     }
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(context == 0)
       context = defaultContext;
     ONDEBUG(cerr << "StatusBarBodyC::GUIPop()  Ctxt:" << context << " \n");

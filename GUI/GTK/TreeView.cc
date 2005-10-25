@@ -243,6 +243,7 @@ namespace RavlGUIN {
   // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
   
   bool TreeViewBodyC::GUISetAttribute(IntT colNum,const StringC &key,const StringC &value,bool proxy) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     displayColumns[colNum].Attributes()[key] = Tuple2C<StringC,bool>(value,proxy);
     
     StringC name = displayColumns[colNum].Name();    
@@ -548,6 +549,7 @@ namespace RavlGUIN {
   // GUI thread only
   
   bool TreeViewBodyC::GUISort(UIntT colNum, bool bAscending) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     RavlAssert(colNum >= 0);
     displayColumns[colNum].SetSort(true,bAscending);
     // Set sorting
@@ -570,6 +572,7 @@ namespace RavlGUIN {
   // GUI thread only
   
   bool TreeViewBodyC::GUISort(const StringC &colName, bool bAscending) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     IntT colNum = ColumnName2Number(colName);
     if(colNum < 0) {
       cerr << "TreeViewBodyC::GUISort(), Unknown column '" << colName << "' \n";
@@ -593,6 +596,7 @@ namespace RavlGUIN {
   //: Expand to the specified row iterator
   
   bool TreeViewBodyC::GUIExpandIter(TreeModelIterC iter) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     // Create path
     TreeModelPathC path(iter);
     // Expand to path    
@@ -610,6 +614,7 @@ namespace RavlGUIN {
       cerr << "TreeViewBodyC::GUIExpand: Can't expand, widget does not exist yet. \n";
       return true;
     }
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     // Expand    
     gtk_tree_view_expand_to_path(GTK_TREE_VIEW(widget),path.TreePath());
     return true;
@@ -623,6 +628,7 @@ namespace RavlGUIN {
     if(widget == 0)
       return false;
     // Check status
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     return gtk_tree_view_row_expanded(GTK_TREE_VIEW(widget),path.TreePath()) != 0;
   }
   
@@ -631,6 +637,7 @@ namespace RavlGUIN {
   
   bool TreeViewBodyC::GUIExpanded(TreeModelIterC iter) {
     // Convert to path
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     TreeModelPathC path(iter);
     // Check status
     return GUIExpanded(path);
@@ -652,6 +659,7 @@ namespace RavlGUIN {
       cerr << "TreeViewBodyC::GUIExpandAll: Can't expand, widget does not exist yet. \n";
       return true;
     }
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     // Expand all
     gtk_tree_view_expand_all(GTK_TREE_VIEW(widget));
     return true;
@@ -673,6 +681,7 @@ namespace RavlGUIN {
       cerr << "TreeViewBodyC::GUICollapseAll: Can't collapse, widget does not exist yet. \n";
       return true;
     }
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     // Collapse all
     gtk_tree_view_collapse_all(GTK_TREE_VIEW(widget));
     return true;
@@ -696,6 +705,7 @@ namespace RavlGUIN {
   bool TreeViewBodyC::GUISelectPath(TreeModelPathC path) {
     if (selection == 0)
       return false;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_tree_selection_unselect_path(selection,path.TreePath());
     return true;
   }
@@ -705,6 +715,7 @@ namespace RavlGUIN {
   
   bool TreeViewBodyC::GUISelectIter(TreeModelIterC iter) {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "TreeViewBodyC::GUISelectIter()";)
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if (selection == 0) {
       m_preselection = iter.TreeIter();
       return false;
@@ -723,6 +734,7 @@ namespace RavlGUIN {
   bool TreeViewBodyC::GUISelectedPath(TreeModelPathC path) {
     if (selection == 0)
       return false;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     return gtk_tree_selection_path_is_selected(selection,path.TreePath()) != 0;
   }
 
@@ -732,6 +744,7 @@ namespace RavlGUIN {
   bool TreeViewBodyC::GUISelectedIter(TreeModelIterC iter) {
     if (selection == 0)
       return false;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     return gtk_tree_selection_iter_is_selected(selection,iter.TreeIter()) != 0;
   }
 
@@ -741,7 +754,8 @@ namespace RavlGUIN {
     DListC<TreeModelIterC> ret;
     if(selection == 0)
       return ret; // Not created yet!.
-
+    
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     // Get selection
     GtkTreeModel* model;
     GList* list = gtk_tree_selection_get_selected_rows(selection,&model);    
@@ -780,6 +794,7 @@ namespace RavlGUIN {
   bool TreeViewBodyC::GUIDeselectPath(TreeModelPathC path) {
     if (selection == 0)
       return false;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_tree_selection_unselect_path(selection,path.TreePath());
     return true;
   }
@@ -790,6 +805,7 @@ namespace RavlGUIN {
   bool TreeViewBodyC::GUIDeselectIter(TreeModelIterC iter) {
     if (selection == 0)
       return false;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_tree_selection_unselect_iter(selection,iter.TreeIter());
     return true;
   }
@@ -806,6 +822,7 @@ namespace RavlGUIN {
   bool TreeViewBodyC::GUISelectAll() {
     if (selection == 0)
       return false;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_tree_selection_select_all(selection);
     return true;
   }
@@ -822,6 +839,7 @@ namespace RavlGUIN {
   bool TreeViewBodyC::GUIDeselectAll() {
     if (selection == 0)
       return false;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_tree_selection_unselect_all(selection);
     return true;
   }
@@ -838,6 +856,7 @@ namespace RavlGUIN {
   bool TreeViewBodyC::GUISelectRange(TreeModelPathC from, TreeModelPathC to) {
     if (selection == 0)
       return false;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_tree_selection_select_range(selection,from.TreePath(),to.TreePath());
     return true;
   }
@@ -854,6 +873,7 @@ namespace RavlGUIN {
   bool TreeViewBodyC::GUIDeselectRange(TreeModelPathC from, TreeModelPathC to) {
     if (selection == 0)
       return false;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_tree_selection_unselect_range(selection,from.TreePath(),to.TreePath());
     return true;
   }
@@ -883,6 +903,7 @@ namespace RavlGUIN {
       cerr << "TreeViewBodyC::GUIScrollTo: Can't scroll to, widget does not exist yet. \n";
       return true;
     }
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     // Expand
     gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(widget), path.TreePath(), NULL, true, 0, 0);
     return true;
@@ -894,7 +915,7 @@ namespace RavlGUIN {
   TreeModelPathC TreeViewBodyC::GUIGetPathTo(const Index2dC &pos) {
     if(widget == 0) return TreeModelPathC(); // Nothing yet!
     GtkTreePath *path = 0;
-    
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");    
     if(!gtk_tree_view_get_dest_row_at_pos(GTK_TREE_VIEW(widget),
                                           pos[1].V(),pos[0].V(),
                                           &path,
@@ -961,7 +982,7 @@ IntT cellCol = cellPos.Col().V() ;
     dndInfo->SrcActions = actions;
     if(widget == 0)
       return true;
-
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(widget),
                                            (GdkModifierType) flags,
                                            &(entries[0]),
@@ -979,8 +1000,8 @@ IntT cellCol = cellPos.Col().V() ;
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "TreeViewBodyC::GUIDNDSourceDisable() - entry";)
     if(dndInfo != 0)
       dndInfo->isSource = false;
-    if(widget != 0)
-      gtk_tree_view_unset_rows_drag_source(GTK_TREE_VIEW(widget));
+    if(widget == 0) return true;
+    gtk_tree_view_unset_rows_drag_source(GTK_TREE_VIEW(widget));
     return true;
   }
     
@@ -997,6 +1018,7 @@ IntT cellCol = cellPos.Col().V() ;
     if(widget == 0) 
       return true;
     cerr << "TreeViewBodyC::GUIDNDTarget(), Called. \n";
+    
     gtk_tree_view_enable_model_drag_dest(GTK_TREE_VIEW(widget),
                                          &(entries[0]),
                                          entries.Size(),

@@ -10,6 +10,7 @@
 //! file="Ravl/GUI/GTK/RawCanvas.cc"
 
 #include "Ravl/GUI/RawCanvas.hh"
+#include "Ravl/GUI/Manager.hh"
 #include <gtk/gtk.h>
 
 namespace RavlGUIN {
@@ -73,6 +74,7 @@ namespace RavlGUIN {
   
   GdkFont *RawCanvasBodyC::GUIDrawFont() {
     RavlAssert(Widget() != 0);
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
 #if RAVL_USE_GTK2
     GdkFont *cfont = gtk_style_get_font(widget->style);
 #else
@@ -92,12 +94,14 @@ namespace RavlGUIN {
   //: Draw a line.
   
   void RawCanvasBodyC::GUIDrawLine(GdkGC *gc,Index2dC p1,Index2dC p2) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gdk_draw_line(GUIDrawWindow(),gc,p1[1].V(),p1[0].V(),p2[1].V(),p2[0].V());
   }
   
   //: Draw a rectangle.
   
   void RawCanvasBodyC::GUIDrawRectangle(GdkGC *gc,const IndexRange2dC &rect,bool fill) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gdk_draw_rectangle(GUIDrawWindow(),
 		       gc,fill,
 		       rect.LCol().V(),rect.TRow().V(),
@@ -107,6 +111,7 @@ namespace RavlGUIN {
   //: Draw a rectangle.
   
   void RawCanvasBodyC::GUIDrawRectangle(GdkGC *gc,Index2dC topLeft,Index2dC bottomRight,bool fill) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     Index2dC size = (bottomRight - topLeft) + Index2dC(1,1);
     gdk_draw_rectangle(GUIDrawWindow(),
 		       gc,fill,
@@ -118,6 +123,7 @@ namespace RavlGUIN {
   //: Draw text.
   
   void RawCanvasBodyC::GUIDrawText(GdkGC *gc,GdkFont *font,Index2dC at,const StringC &txt) {    
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gdk_draw_text(GUIDrawWindow(),
 		  font,gc,
 		  at[1].V(),at[0].V(),
@@ -127,6 +133,7 @@ namespace RavlGUIN {
   //: Find the size of 'text' rendered in 'font'.
   
   Index2dC RawCanvasBodyC::GUITextSize(GdkFont *font,const StringC &txt) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     IntT width = gdk_text_width(font,txt.chars(),txt.Size());
     return Index2dC(10,width); // Where's the 10 come from ?
   }
@@ -134,6 +141,7 @@ namespace RavlGUIN {
   //: Draw a circle.
   
   void RawCanvasBodyC::GUIDrawCircle(GdkGC *gc,Index2dC cent,UIntT size,bool fill) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gdk_draw_arc(GUIDrawWindow(),gc,(int) fill ,
 		 cent[1].V() - size,cent[0].V() - size,
 		 size*2,size*2,

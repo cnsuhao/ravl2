@@ -29,6 +29,7 @@
 namespace RavlGUIN {
 
   bool RulerBodyC::GUIAttachTo(WidgetC &widge) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(!widge.IsValid()) {
       cerr << "RulerBodyC::GUIAttachTo(), Passed invalid widget. \n";
       return false;

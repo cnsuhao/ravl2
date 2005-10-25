@@ -13,6 +13,7 @@
 
 #include "Ravl/GUI/ToggleButton.hh"
 #include "Ravl/GUI/Manager.hh"
+#include "Ravl/GUI/ReadBack.hh"
 #include <gtk/gtk.h>
 
 #define DODEBUG 0
@@ -101,8 +102,9 @@ namespace RavlGUIN {
   
   bool ToggleButtonBodyC::GUISetActive(bool x) {
     initState = x;
-    if(widget != 0)
-      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget),initState);
+    if(widget == 0) return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget),initState);
     return true;
   }
   
@@ -113,6 +115,7 @@ namespace RavlGUIN {
       ONDEBUG(cerr << "ToggleButtonBodyC::GUIIsActive() No widget. \n");
       return initState;
     }
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
 #if 0
     return gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 #else
@@ -127,6 +130,7 @@ namespace RavlGUIN {
     initState = val;
     if(widget == 0)
       return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if((gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)) != 0) != val)
       gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget),val);
     return true;
@@ -144,6 +148,7 @@ namespace RavlGUIN {
     initInconsistant = val;
     if(widget == 0)
       return false;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
 #if RAVL_USE_GTK2
     gtk_toggle_button_set_inconsistent(GTK_TOGGLE_BUTTON(widget),val);
 #else

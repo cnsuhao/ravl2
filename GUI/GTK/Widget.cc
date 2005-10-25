@@ -353,8 +353,7 @@ namespace RavlGUIN {
   WidgetBodyC::~WidgetBodyC() { 
     ONDEBUG(cerr << "WidgetBodyC::~WidgetBodyC(), Started  " << ((void *) this) << " Name=" << GUIWidgetName() << "\n");
     //RavlAssert(IsValidObject());
-
-
+    
     if(widget != 0) {
       if(GTK_IS_WIDGET(widget)) { // Incase it was destroyed within GTK.
         if(destroySigId >= 0)
@@ -381,6 +380,7 @@ namespace RavlGUIN {
   StringC WidgetBodyC::GUIWidgetName() const {
     if(widget == 0)
       return StringC("-Unknown-");
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     const char *nm = gtk_widget_get_name(widget);
     if(nm == 0) {
 #if RAVL_OS_LINUX64
@@ -420,6 +420,7 @@ namespace RavlGUIN {
     reqState = state;
     if(widget == 0)
       return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(reqState != GTK_WIDGET_STATE(widget)) {
       gtk_widget_set_state(widget,reqState);
       if(reqState != GTK_STATE_INSENSITIVE)
@@ -588,6 +589,7 @@ namespace RavlGUIN {
     }
     if(widget == 0)
       return false;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_widget_show (Widget());
     return true;
   }
@@ -598,6 +600,7 @@ namespace RavlGUIN {
   bool WidgetBodyC::GUIHide() {
     if(widget == 0)
       return false;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_widget_hide (Widget());
     return true;
   }
@@ -646,6 +649,7 @@ namespace RavlGUIN {
       cerr << "WARNING: WidgetBodyC::GUISetUSize() Called on widget before its been displayed. \n";
       return true;
     }
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_widget_set_usize(widget,x,y);
     return true;
   }
@@ -692,6 +696,7 @@ namespace RavlGUIN {
   
   bool WidgetBodyC::GUIShapeCombineMask(GdkBitmap *mask,int off_x,int off_y) {
     RavlAssert(widget != 0);
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_widget_shape_combine_mask(widget,mask,off_x,off_y);
     return true;
   }
@@ -707,6 +712,7 @@ namespace RavlGUIN {
   void WidgetBodyC::GUIGrabFocus() {
     if(widget == 0)
       return ;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_widget_grab_focus(widget);
   }
   
@@ -721,6 +727,7 @@ namespace RavlGUIN {
     dndInfo->SrcActions = actions;
     if(widget == 0)
       return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_drag_source_set(widget, 
                         (GdkModifierType) flags,
                         &(entries[0]),
@@ -734,8 +741,9 @@ namespace RavlGUIN {
   bool WidgetBodyC::GUIDNDSourceDisable() {
     if(dndInfo != 0)
       dndInfo->isSource = false;
-    if(widget != 0)
-      gtk_drag_source_unset(widget);
+    if(widget == 0) return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    gtk_drag_source_unset(widget);
     return true;
   }
   
@@ -750,6 +758,7 @@ namespace RavlGUIN {
     dndInfo->isTarget = true;
     if(widget == 0) 
       return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_drag_dest_set(widget,
                       (GtkDestDefaults) flags,
                       &(entries[0]),
@@ -763,8 +772,9 @@ namespace RavlGUIN {
   bool WidgetBodyC::GUIDNDTargetDisable() {
     if(dndInfo != 0)
       dndInfo->isSource = false;
-    if(widget != 0)
-      gtk_drag_dest_unset(widget);
+    if(widget == 0) return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    gtk_drag_dest_unset(widget);
     return true;
   }
   
@@ -782,6 +792,7 @@ namespace RavlGUIN {
       cerr << "WidgetBodyC::GUIDNDBegin, ERROR: No widget! \n";
       return false;
     }
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
 
     GtkTargetList *targList = gtk_target_list_new(&(dndInfo->SrcEntries[0]),
                                                    dndInfo->SrcEntries.Size());
@@ -825,8 +836,10 @@ namespace RavlGUIN {
 
   //: Set the widget position    
   bool WidgetBodyC::GUISetUPosition(int &width, int &height) {
-    if(widget != 0)
-      gtk_widget_set_uposition (GTK_WIDGET (widget), width, height);
+    if(widget == 0)
+      return false;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    gtk_widget_set_uposition (GTK_WIDGET (widget), width, height);
     return true;
   }
 
@@ -838,8 +851,9 @@ namespace RavlGUIN {
 
   //: Set the widget style
   bool WidgetBodyC::GUISetStyle(WidgetStyleC& style) {
-    if(widget != 0)
-      gtk_widget_set_style(GTK_WIDGET (widget),style.Style());
+    if(widget == 0) return false;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    gtk_widget_set_style(GTK_WIDGET (widget),style.Style());
     return true;
   }
 
@@ -870,6 +884,7 @@ namespace RavlGUIN {
     color.red = (IntT) colour.Red() * 255;
     color.green = (IntT) colour.Green() * 255;
     color.blue = (IntT) colour.Blue() * 255;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
 #if RAVL_USE_GTK2
     gtk_widget_modify_bg (widget, state, &color);
 #else
@@ -890,6 +905,7 @@ namespace RavlGUIN {
     color.red = (IntT) colour.Red() * 255;
     color.green = (IntT) colour.Green() * 255;
     color.blue = (IntT) colour.Blue() * 255;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
 #if RAVL_USE_GTK2
     gtk_widget_modify_fg (widget, state, &color);
 #else

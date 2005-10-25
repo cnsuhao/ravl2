@@ -44,8 +44,9 @@ namespace RavlGUIN  {
   
   bool LabelBodyC::GUISetLabel(const StringC &txt) {
     text = txt;
-    if(widget != 0) // Maybe on shutdown ?
-      gtk_label_set (GTK_LABEL(widget),text);
+    if(widget == 0) return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    gtk_label_set (GTK_LABEL(widget),text);
     return true;
   }
   
@@ -58,8 +59,9 @@ namespace RavlGUIN  {
   
   bool LabelBodyC::GUIJustify(GtkJustification& justify) {
     justification = (IntT) justify;
-    if(widget != 0) // Maybe on shutdown ?
-      gtk_label_set_justify (GTK_LABEL(widget),justify);
+    if(widget == 0) return true; // Maybe on shutdown ?
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    gtk_label_set_justify (GTK_LABEL(widget),justify);
     return true;
   }
 
@@ -70,8 +72,9 @@ namespace RavlGUIN  {
   
   bool LabelBodyC::GUIWrap(const bool& wrap) {
     lineWrap = wrap;
-    if(widget != 0) // Maybe on shutdown ?
-      gtk_label_set_line_wrap (GTK_LABEL(widget),wrap);
+    if(widget == 0) return true; // Maybe on shutdown ?
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");    
+    gtk_label_set_line_wrap (GTK_LABEL(widget),wrap);
     return true;    
   }
 

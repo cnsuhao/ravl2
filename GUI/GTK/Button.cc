@@ -87,6 +87,7 @@ namespace RavlGUIN {
   bool ButtonBodyC::GUISetLabel(const StringC &text) {
     label = text;
     GtkWidget *tb;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     
     // Check the button child
     GtkWidget *child = GTK_BIN(widget)->child;

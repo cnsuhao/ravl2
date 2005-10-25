@@ -61,6 +61,7 @@ namespace RavlGUIN {
     shadow = nshadow;
     if(widget == 0) 
       return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(GTK_FRAME(widget)->shadow_type == shadow)
       return true;
     gtk_frame_set_shadow_type (GTK_FRAME(widget),shadow);
@@ -73,6 +74,7 @@ namespace RavlGUIN {
     title = name;
     if(widget == 0) 
       return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_frame_set_label(GTK_FRAME(widget),title.chars());
     return true;
   }

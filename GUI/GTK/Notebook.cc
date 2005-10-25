@@ -138,6 +138,7 @@ namespace RavlGUIN {
   // GUI Thread only.
   
   bool NotebookBodyC::GUISetTab(const WidgetC &parent,const WidgetC &tabw) { 
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     tabWidges[parent] = tabw; 
     return true;
   }
@@ -150,6 +151,7 @@ namespace RavlGUIN {
       cerr << "NotebookBodyC::GUIRemovePage(), ERROR: Called before widget initalised. \n";
       return true;
     }
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_notebook_remove_page(GTK_NOTEBOOK (widget),pageNo);
     return true;
   }
@@ -170,6 +172,7 @@ namespace RavlGUIN {
       cerr << "NotebookBodyC::GUIRemovePage(), ERROR: Called before widget initalised. \n";
       return true;
     }
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     int pageNo = gtk_notebook_page_num(GTK_NOTEBOOK (widget),page.Widget());
     if(pageNo < 0) {
       cerr << "NotebookBodyC::GUIRemovePage(), ERROR: Asked to remove unknown page. \n";
@@ -225,6 +228,7 @@ namespace RavlGUIN {
   
   bool NotebookBodyC::GUIShowPageNo(IntT pageNo) {
     if(widget == 0) return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_notebook_set_page(GTK_NOTEBOOK (widget),pageNo);
     return true;
   }
@@ -248,6 +252,7 @@ namespace RavlGUIN {
       ONDEBUG(cerr << "NotebookBodyC::GUIShowPage(), Creating page. \n");
       page.Create();
     }
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     int pageNo = gtk_notebook_page_num(GTK_NOTEBOOK (widget),page.Widget());
     if(pageNo < 0) {
       ONDEBUG(cerr << "NotebookBodyC::GUIShowPage(), Initalising page. \n");

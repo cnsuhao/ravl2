@@ -69,6 +69,7 @@ namespace RavlGUIN {
   bool ToolTipsBodyC::GUIEnable() {
     if(widget == 0) 
       return true;  
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_tooltips_enable(GTK_TOOLTIPS(widget));
     return true;
   }
@@ -80,6 +81,7 @@ namespace RavlGUIN {
     enabled = false;
     if(widget == 0) 
       return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_tooltips_disable(GTK_TOOLTIPS(widget));
     return true;
   }
@@ -125,6 +127,7 @@ namespace RavlGUIN {
 	return true;
       }
     }
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_tooltips_set_tip(widget,
 			 cwidge.Widget(),
 			 text,

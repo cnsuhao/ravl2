@@ -105,6 +105,7 @@ namespace RavlGUIN {
     name = nname;
     if(widget == 0)
       return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_window_set_title(GTK_WINDOW(widget),nname);    
     return true;
   }

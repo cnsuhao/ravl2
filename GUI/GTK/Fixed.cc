@@ -70,6 +70,7 @@ namespace RavlGUIN {
   // GUI thread only.
   
   bool FixedWidgetBodyC::GUIAddWidget(WidgetC &newun,Index2dC &loc) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(where.IsElm(newun)) {
       where[newun] = loc;
       GUIMove(newun,loc);
@@ -118,6 +119,7 @@ namespace RavlGUIN {
   bool FixedWidgetBodyC::GUIMove(WidgetC &widge,Index2dC at) {
     ONDEBUG(cerr << "Moveing widget :" << widge.IsValid() << " to " << at << "\n");
     // Should check the widget is actual inside.
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_fixed_move(GTK_FIXED (widget), widge.Widget(),at.Row().V(),at.Col().V());
     return true;
   }

@@ -134,6 +134,7 @@ namespace RavlGUIN {
   }
 
   bool VLabelBodyC::GUISetText(StringC &txt) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     text = txt; 
     return true;
   }

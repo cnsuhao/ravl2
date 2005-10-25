@@ -11,6 +11,8 @@
 
 #include "Ravl/GUI/MenuCheck.hh"
 #include "Ravl/GUI/Manager.hh"
+#include "Ravl/GUI/ReadBack.hh"
+
 #include <gtk/gtk.h>
 
 #define DODEBUG 0
@@ -46,8 +48,9 @@ namespace RavlGUIN
   
   bool MenuCheckItemBodyC::GUISetActive(const bool &val) {
     active = val;
-    if(widget != 0)
-      gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(widget),val);
+    if(widget == 0)  return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(widget),val);
     return true;
   }
   
@@ -56,6 +59,7 @@ namespace RavlGUIN
   bool MenuCheckItemBodyC::IsActive() const {
     if(widget == 0)
       return active;
+    ReadBackLockC lock;
     return GTK_CHECK_MENU_ITEM(widget)->active;
   }
   

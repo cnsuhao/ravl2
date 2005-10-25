@@ -80,6 +80,7 @@ namespace RavlGUIN {
     obeyChild = nobeyChild;
     if(widget == 0)
       return ;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     RealT uar = aspect;
     if(useTrueAspect)
       uar *= screenCorrection;
@@ -93,6 +94,7 @@ namespace RavlGUIN {
     aspect = ratio;
     if(widget == 0)
       return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     RealT useRatio = aspect;
     if(useTrueAspect)
       useRatio *= screenCorrection;

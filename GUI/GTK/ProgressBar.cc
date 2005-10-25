@@ -68,6 +68,7 @@ namespace RavlGUIN {
   bool ProgressBarBodyC::GUIUpdate(const float &percentage) {
     if(widget == 0)
       return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_progress_bar_update(GTK_PROGRESS_BAR(widget),percentage);
     return true;
   }
@@ -78,6 +79,7 @@ namespace RavlGUIN {
     type = ntype;
     if(widget == 0)
       return true;    
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     switch(type) 
       {
       case GUIPROGBAR_CONTINUOUS_WITH_TEXT:

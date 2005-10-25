@@ -38,6 +38,7 @@ namespace RavlGUIN {
     children.InsLast(wi);
     if(widget == 0)
       return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(wi.widge.Widget() == 0) {
       if(!wi.widge.Create()) {
 	cerr << "TableBodyC::Create(), Widget create failed. \n";

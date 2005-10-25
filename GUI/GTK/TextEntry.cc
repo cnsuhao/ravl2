@@ -127,6 +127,7 @@ namespace RavlGUIN {
     lock.Unlock();
     if(widget == 0)
       return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_entry_set_text (GTK_ENTRY (widget), text);
     return true;
   }
@@ -160,6 +161,7 @@ namespace RavlGUIN {
     bPasswdMode = hide;
     if(widget == 0)
       return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_entry_set_visibility (GTK_ENTRY (widget), !hide);
     return true;
   }
@@ -174,6 +176,7 @@ namespace RavlGUIN {
     isEditable = editable ; 
     if (widget == 0)
       return true ; 
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_entry_set_editable (GTK_ENTRY (widget), editable) ;
     return true ; 
   }

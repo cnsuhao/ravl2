@@ -87,6 +87,7 @@ namespace RavlGUIN {
     choices.Empty();
     if(widget == 0)
       return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(GTK_COMBO(widget)->list == 0)
       return true;
     // Disable signals
@@ -108,6 +109,7 @@ namespace RavlGUIN {
       selection = StringC("");
       return true;
     }
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     // Clear selection
     StringC str("");
     gtk_entry_set_text (GTK_ENTRY (GTK_COMBO(widget)->entry), str.chars());
@@ -122,6 +124,7 @@ namespace RavlGUIN {
     choices.InsLast(opt);
     if(widget == 0)
       return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     GtkWidget *li = gtk_list_item_new_with_label ((gchar *) opt.chars());
     cmap[opt].InsLast(li);
     // Disable signals
@@ -139,6 +142,7 @@ namespace RavlGUIN {
   // Call on the GUI thread only.
   
   bool ComboBodyC::GUIDelEntry(const StringC &opt) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     choices.Del(opt);
     //    RavlAssertMsg(0,"ComboBodyC::GUIDelEntry(), Not implemented. ");
     DListC<GtkWidget *> *widgetEntries = cmap.Lookup(opt);
@@ -173,6 +177,7 @@ namespace RavlGUIN {
       selection = opt;
       return false;
     }
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(selection != opt) // Do we actually need to change the selection ?
       gtk_entry_set_text (GTK_ENTRY (GTK_COMBO(widget)->entry), opt.chars());
     return true;
@@ -182,6 +187,7 @@ namespace RavlGUIN {
   // Call from the GUI thread only.
   
   bool ComboBodyC::GUIEntryExists(const StringC &entry) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     return cmap.IsElm(entry);
   }
   
@@ -302,6 +308,7 @@ namespace RavlGUIN {
     maxEntryLength = chars;
     if(widget == 0)
       return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_entry_set_max_length (GTK_ENTRY (GTK_COMBO(widget)->entry), maxEntryLength);
 #if RAVL_USE_GTK2
     GtkStyle *entryStyle = gtk_widget_get_style(GTK_COMBO(widget)->entry);

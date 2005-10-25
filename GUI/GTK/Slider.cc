@@ -132,7 +132,7 @@ namespace RavlGUIN {
     value = val;
     if(widget == 0)
       return true;
-    
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");    
 #if !RAVL_USE_GTK2
     if(GTK_RANGE (widget)->button == 0) { // Don't set value if user is changing it.
       GTK_ADJUSTMENT (adj)->value = val;
@@ -152,6 +152,7 @@ namespace RavlGUIN {
     upper = nupper;
     if(widget == 0)
       return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     GTK_ADJUSTMENT (adj)->lower = lower;
     GTK_ADJUSTMENT (adj)->upper = (RealT) upper + step_increment;
     // Check range.
@@ -174,6 +175,7 @@ namespace RavlGUIN {
     step_increment = inc;
     if(widget == 0)
       return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
 #if !RAVL_USE_GTK2
     if(GTK_RANGE (widget)->button == 0) { // Don't set value if user is changing it.
       GTK_ADJUSTMENT (adj)->value = val;

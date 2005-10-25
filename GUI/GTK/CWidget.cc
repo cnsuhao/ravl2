@@ -49,6 +49,7 @@ namespace RavlGUIN {
     if(widget == 0) {
       return true;
     }
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     RavlAssert(widge.IsValid());
     if(widge.Widget() == 0) {
       if(!widge.Create()) {
@@ -78,6 +79,7 @@ namespace RavlGUIN {
   //: Remove a child widget.
   
   bool ContainerWidgetBodyC::GUIRemove(WidgetC &widge) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     for(DLIterC<WidgetC> it(children);it.IsElm();it.Next()) {
       if(it.Data() == widge) {
 	it.Del();
@@ -93,6 +95,7 @@ namespace RavlGUIN {
   //: Add children.
   
   bool ContainerWidgetBodyC::GUIAddList(const DListC<WidgetC> &widges) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     for(ConstDLIterC<WidgetC> it(widges);it.IsElm();it.Next())
       GUIAdd(it.Data());
     return true;
