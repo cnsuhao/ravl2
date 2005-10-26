@@ -54,12 +54,12 @@ int main() {
 int testRCLayer() {
   RCLayerC<RCLayerTestBodyC> layerH1(*new RCLayerTestBodyC(),RCLH_OWNER);
   RCLayerC<RCLayerTestBodyC> layerH2 = layerH1;
-  cerr << "Handles=" << layerH2.Owners() << "\n";
+  cerr << "Handles=" << layerH2.OwnerHandles() << "\n";
   RCLayerC<RCLayerTestBodyC> layerH3 = RCLayerC<RCLayerTestBodyC>(layerH1,RCLH_OWNER);
-  cerr << "Handles=" << layerH2.Owners() << "\n";
+  cerr << "Handles=" << layerH2.OwnerHandles() << "\n";
   layerH3 = layerH1;
-  if(layerH3.Owners() != 3) return __LINE__;
-  cerr << "Handles=" << layerH2.Owners() << " All=" << layerH2.References() << "\n";
+  if(layerH3.OwnerHandles() != 3) return __LINE__;
+  cerr << "Handles=" << layerH2.OwnerHandles() << " All=" << layerH2.References() << "\n";
   if(layerH2.References() != 4) return __LINE__;
   return 0;
 }
