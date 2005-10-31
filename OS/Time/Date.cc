@@ -185,17 +185,22 @@ namespace RavlN {
   }
   
 
-  //: Get the current time in Coordinated Universal Time  (UTC)
+  //: Get the time in local timezone
   
   DateC DateC::NowLocal() {
 #if !RAVL_COMPILER_VISUALCPP    
     // Get time of day
     struct timeval tv;
-    struct timezone tz;
-    gettimeofday(&tv,&tz);
+    gettimeofday(&tv,0);
     DateC ret(tv.tv_sec,tv.tv_usec);
+    
+    // Go and get the local time offset.
+    struct tm b;
+    time_t s = (time_t) tv.tv_sec;
+    localtime_r(&s,&b);
+    
     //cerr << "DateC::NowUTC " << tz.tz_minuteswest << " Raw=" << ret.ODBC() << " \n";
-    ret -= DateC((time_t) tz.tz_minuteswest * 60,0);
+    ret += DateC((time_t) b.tm_gmtoff,0);
     return ret;
 #else
 #if RAVL_OS_WIN32
@@ -208,7 +213,7 @@ namespace RavlN {
 #endif
   }
   
-  //: Get the time in local timezone
+  //: Get the current time in Coordinated Universal Time  (UTC)
   
   DateC DateC::NowUTC() {
 #if !RAVL_COMPILER_VISUALCPP
@@ -269,10 +274,16 @@ namespace RavlN {
   
   DateC DateC::TimeZoneOffset() {
 #if !RAVL_COMPILER_VISUALCPP    
+    struct timeval tv;
+    gettimeofday(&tv,0);
+    
     // Get time of day
-    struct timezone tz;
-    gettimeofday(0,&tz);
-    return DateC((time_t) tz.tz_minuteswest * 60,0);
+    // Go and get the local time offset.
+    struct tm b;
+    time_t s = (time_t) tv.tv_sec;
+    localtime_r(&s,&b);
+    
+    return DateC((time_t) -b.tm_gmtoff,0);
 #else
     throw ExceptionC("DateC::TimeZoneOffset(), Not implemented. ");
 #endif    
@@ -287,9 +298,16 @@ namespace RavlN {
 
   //: Return the date and time in ODBC format
   
-  StringC DateC::ODBC() const {
+  StringC DateC::ODBC(bool convertUTCToLocal) const {
     StringC str;
-    str.form("%04d-%02d-%02d %02d:%02d:%02d",Year(),Month(),DayInMonth(),Hour(),Minute(),Seconds());
+    str.form("%04d-%02d-%02d %02d:%02d:%02d",
+             Year(convertUTCToLocal),
+             Month(convertUTCToLocal),
+             DayInMonth(convertUTCToLocal),
+             Hour(convertUTCToLocal),
+             Minute(convertUTCToLocal),
+             Seconds(convertUTCToLocal)
+             );
     return str;
   }
   
@@ -373,17 +391,17 @@ namespace RavlN {
     StringC buf;
     struct tm b;
     time_t s = (time_t) sec;
-	if (useUTCToLocal) {
-	  localtime_r(&s,&b);
-	} else {
+    if (useUTCToLocal) {
+      localtime_r(&s,&b);
+    } else {
 #if !RAVL_COMPILER_VISUALCPP
-	  gmtime_r(&s,&b);
+      gmtime_r(&s,&b);
 #else
-	  // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
-	  // in lieu os anythings else
-	  b = *gmtime(&s);
+      // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
+      // in lieu os anythings else
+      b = *gmtime(&s);
 #endif
-	}
+    }
     buf += StringC(b.tm_hour) + ":" + StringC(b.tm_min) + ":" + StringC(b.tm_sec);
     buf += "-";
     buf += StringC(b.tm_mday) + "/" + StringC(b.tm_mon) + "/" + StringC(b.tm_year + 1900);

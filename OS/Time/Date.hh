@@ -175,7 +175,7 @@ namespace RavlN {
     // This currently prints the time in the form
     // sec:usec.
     
-    StringC ODBC() const;
+    StringC ODBC(bool convertUTCToLocal = false) const;
     //: Return the date and time in ODBC format
     
     bool SetODBC(const StringC &odbcStr);
