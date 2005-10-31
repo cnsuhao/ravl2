@@ -173,6 +173,10 @@ namespace RavlN {
   VectorC RandomVector(int n,RealT scale = 1);
   //: Create a random vector of values between -scale and scale with the given size.
   
+  inline void SetZero(VectorC &vec)
+  { vec.Fill(0); }
+  //: Fill vector with zero's.
+  
 }
 
 #endif
