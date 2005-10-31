@@ -35,20 +35,9 @@ PROGLIBS = RavlImageIO ....
     use the system with images see <a
     href="../../../examples/exImgIO.cc">exImgIO.cc</a>.
     </p>
-    <p> To find what file formats and conversions are available, use the
-      <code>conv</code> tool, with the following options:</p>
-      
-    <dl>
-      <dt><code>-lf</code> - list all known file formats</dt>
-      <dt><code>-lc</code> - list all known conversions</dt>
-      <dt><code>-lt</code> - list all known classes (?)</dt>
-    </dl>
-    <p> This command should list all the "interesting" file formats:</p>
-    <pre>conv -lf | grep -v "\&lt;stream\&gt;" | grep -v "\&lt;abs\&gt;"</pre>
-
     <h3><a name="FORMATS">Supported formats</a></h3>  
 
-    <p>Here's a summary of currently supported formats. Supported natively
+    <p>At the time of writing, these are the currently supported formats. Supported natively
     in RAVL are:</p>
     <ul>
       <li><b>pgm</b> Grey scale images.</li>
@@ -64,6 +53,17 @@ PROGLIBS = RavlImageIO ....
       <li><b>tiff</b> Lossless compressed images.</li>
     </ul>
 	
+    <p> You can also use the <code>conv</code> tool to find what file formats
+    (and file conversions) are available, with the following options:</p>
+      
+    <dl>
+      <dt><code>-lf</code> - list all known file formats</dt>
+      <dt><code>-lc</code> - list all known conversions</dt>
+      <dt><code>-lt</code> - list all known classes (?)</dt>
+    </dl>
+    <p> This command should list all the "interesting" file formats:</p>
+    <pre>conv -lf | grep -v "\&lt;stream\&gt;" | grep -v "\&lt;abs\&gt;"</pre>
+
     <h3>Virtual files</h3>
 	
     <p>If you want to pop up an image on the screen instead of writing
