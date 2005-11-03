@@ -21,14 +21,14 @@ namespace RavlN {
 
   //! userlevel=Normal
   //: Right Upper Triangular matrix.
-  // This class contains functions optimised for working with
-  // Right Upper Triangular matrix's.  The lower right is assumed
+  // <p>This class contains functions optimised for working with
+  // Right Upper Triangular matrix's.  The lower left is assumed
   // to be zero. Most of the operations on this matrix ignore the
-  // contents of the lower part, and it is not garanteed to contain
-  // zero's.  To ensure this use 'ZeroLowerLeft()', this MUST be
+  // contents of the lower left part, and it is not garanteed to contain
+  // zero's.  To ensure this use 'ZeroLowerLeft()': this MUST be
   // done before using matrix operators that are not part of this 
-  // class. <p>
-  // The matrix MUST be square.
+  // class. </p>
+  // <p>The matrix MUST be square.</p>
   
   class MatrixRUTC
     : public MatrixC
