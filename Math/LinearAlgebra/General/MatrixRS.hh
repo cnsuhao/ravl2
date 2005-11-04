@@ -49,24 +49,24 @@ namespace RavlN {
     //: Base constructor.
     
     MatrixRSC Inverse() const;
-    //: Calculate the inverse of a upper right triangular matrix.
+    //: Calculate the inverse of a symmetric matrix.
     // an invalid matrix is returned if this matrix is
     // singular. This can be tested for by IsValid().
 
     bool InverseIP();
-    //: Calculate the inverse of a upper right triangular matrix. In place.
-    // an false is returned if this matrix if it is singular. 
+    //: Calculate the inverse of a symmetric matrix in place.
+    // "false" is returned if this matrix is singular. 
     
     MatrixC NearSingularInverse(RealT &det) const;
     //: Inverts this matrix and returns determinant of original matrix.
     // Note: This currently only works for positive definite matrices.
-    // This routine is particularly useful when you matrices are near singular
+    // This routine is particularly useful when the matrix is near singular
     // as it uses PCA to first rotate co-ordinate axis, so no nasty divisions.
     // See Fukunaga -Introduction to Statistical Pat Rec, page 40.
     
     void MakeSymmetric();
     //: Make this matrix symmetric.
-    // Copy the upper right triangle to the lower left.
+    // Copy the upper right triangle to the lower left.<br>
     // Note: this is an in-place operation.
     
   };
@@ -85,7 +85,7 @@ namespace RavlN {
   
   MatrixC SolvePD(const MatrixC &A,const MatrixC &B);
   //: Solve a general linear system  A*X = B where A is postive definite.
-  // This returns the solution X, or a 0 by 0 matrix if it fails.
+  // This returns the solution X, or a 0 by 0 matrix if it fails.  This can be tested for by IsValid().
   
   bool SolvePD_IP(MatrixC &A,MatrixC &B);
   //: Solve a general linear system  A*X = B in place, where A is postive definite.
