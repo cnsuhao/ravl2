@@ -37,6 +37,11 @@ namespace RavlN {
       : RCHandleC<DataT>(data)
     {}
     //: Construct from data.
+
+    SmartPtrC(DataT *data)
+      : RCHandleC<DataT>(data)
+    {}
+    //: Construct from data.
     
     DataT *BodyPtr()
     { return this->body; }
