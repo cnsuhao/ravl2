@@ -79,7 +79,20 @@ namespace RavlN {
       return *this;
     }
     //: Assign handle.
-
+    
+    void reset()
+    { this->Invalidate(); }
+    //: Boost compatibility. Release handle
+    
+    void reset(const DataT *other) 
+    { (*this) = other; }
+    //: Boost compatibilty. Assign to another object.
+    
+    DataT *get()
+    { return this->body; }
+    //: Boost compatibility. Get Ptr.
+    
+    
   };
 
 }
