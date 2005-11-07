@@ -15,9 +15,13 @@
 #include "Ravl/Buffer2d.hh"
 #include "Ravl/SBfAcc2d.hh"
 #include "Ravl/RBfAcc2d.hh"
+#include "Ravl/SingleBuffer.hh"
+
 #include "Ravl/Stream.hh"
 
 using namespace RavlN;
+
+int TestSingleBuffer();
 
 int main()
 {
@@ -78,9 +82,17 @@ int main()
   }
   for(;it;it++)
     *it = 0;
+  TestSingleBuffer();
   cerr << "Test passed ok. \n";
   return 0;
 }
+
+int TestSingleBuffer() {
+  SingleBufferC<IntT> buff(100);
+  
+  return 0;
+}
+
 
 // Check all methods compile.
 

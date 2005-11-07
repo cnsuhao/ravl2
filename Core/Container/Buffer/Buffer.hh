@@ -53,6 +53,12 @@ namespace RavlN {
     BufferBodyC(UIntT nsize,DataT *dat,bool copy = false,bool deletable = false);
     //: Construct from data.
     
+    BufferBodyC(DataT *dat,UIntT nsize)
+      : SizeBufferAccessC<DataT>(dat,nsize),
+        deletable(false)
+    {}
+    //: Construct from point and size. The data is not copied, and not deletable.
+    
     ~BufferBodyC() { 
       if(this->buff != 0 && deletable)
 	delete [] this->buff;

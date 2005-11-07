@@ -14,6 +14,7 @@
 //! author="Charles Galambos"
 
 #include "Ravl/Buffer.hh"
+#include "Ravl/SingleBuffer.hh"
 
 //: Ravl global namespace.
 
@@ -34,7 +35,7 @@ namespace RavlN {
 
     Buffer2dBodyC(SizeT size1,SizeT size2)
       : BufferBodyC<BufferAccessC<DataT> >(size1),
-	data(size2 * size1)
+	data(SingleBufferC<DataT>(size2 * size1))
     {}
     //: Sized constructor.
     
