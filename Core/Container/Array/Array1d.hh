@@ -19,6 +19,7 @@
 #include "Ravl/Buffer.hh"
 #include "Ravl/RBfAcc.hh"
 #include "Ravl/SArray1d.hh"
+#include "Ravl/SingleBuffer.hh"
 #include "Ravl/BfAccIter.hh"
 #include "Ravl/BfAccIter2.hh"
 #include "Ravl/Types.hh"
@@ -396,7 +397,7 @@ namespace RavlN {
   
   template <class DataT>
   Array1dC<DataT>::Array1dC(const SizeT dim)
-    : buff(dim)
+    : buff(SingleBufferC<DataT>(dim))
   { Attach(buff,dim); }
 
   
@@ -405,7 +406,7 @@ namespace RavlN {
     if(min > max)
       return ; // Create a zero length array.
     IndexRangeC newRange(min,max);
-    buff = BufferC<DataT>(newRange.Size());
+    buff = SingleBufferC<DataT>(newRange.Size());
     Attach(buff,newRange); 
   }
   
@@ -414,7 +415,7 @@ namespace RavlN {
     if(min > max)
       return ; // Create a zero length array.
     IndexRangeC newRange(min,max);
-    buff = BufferC<DataT>(newRange.Size());
+    buff = SingleBufferC<DataT>(newRange.Size());
     Attach(buff,newRange); 
   }
   
@@ -422,7 +423,7 @@ namespace RavlN {
   Array1dC<DataT>::Array1dC(const IndexRangeC & newRange) { 
     if(newRange.Min() > newRange.Max())
       return ; // Create a zero length array.
-    buff = BufferC<DataT>(newRange.Size());
+    buff = SingleBufferC<DataT>(newRange.Size());
     Attach(buff,newRange); 
   }
   
@@ -446,7 +447,7 @@ namespace RavlN {
 								     const_cast<DataT *>(&(slice.ReferenceElm()))));
       return ;
     }
-    buff = BufferC<DataT>(slice.Size());
+    buff = SingleBufferC<DataT>(slice.Size());
     Attach(buff.BufferAccess(),slice.Range());
     // Copy data.
     DataT *at = buff.ReferenceElm();

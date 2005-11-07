@@ -15,6 +15,7 @@
 //! rcsid="$Id$"
 
 #include "Ravl/Buffer.hh"
+#include "Ravl/SingleBuffer.hh"
 #include "Ravl/SBfAcc.hh"
 #include "Ravl/Pair.hh"
 #include "Ravl/BfAccIter.hh"
@@ -357,19 +358,18 @@ namespace RavlN {
 								   slice.Size()));
       return ;
     }
-    buff = BufferC<DataT>(slice.Size());
+    buff = SingleBufferC<DataT>(slice.Size());
     Attach(buff,slice.Size());
     // Copy data.
     DataT *at = buff.ReferenceElm();
     for(Slice1dIterC<DataT> it(slice);it;it++,at++)
       *at = *it;
-
   }
   
   template <class DataT>
   SArray1dC<DataT>::SArray1dC(const SizeT dim)
     : SizeBufferAccessC<DataT>(),
-      buff(dim)
+      buff(SingleBufferC<DataT>(dim))
   { Attach(buff,dim); }
   
   template <class DataT>
@@ -377,7 +377,7 @@ namespace RavlN {
     : SizeBufferAccessC<DataT>(vv),
       buff(vv.buff)
   {}
-
+  
   template <class DataT>
   SArray1dC<DataT>::SArray1dC(DataT *data, 
 			      SizeT dim,
