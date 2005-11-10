@@ -105,7 +105,11 @@ namespace RavlN {
   static bool LogMessage(const char *message,int priority) {
     MTWriteLockC lockWrite(2); // Be carefull in multithreaded programs.
     if(syslogRedirect != 0) {
-      syslogRedirect((SysLogPriorityT)priority,message);
+      // Avoid possible deadlocks when handling redirected messages
+      // (If the processes of logging causes a log message to be generated.)
+      SyslogFunc syslogRedirectFunc = syslogRedirect;
+      lockWrite.Unlock();
+      syslogRedirectFunc((SysLogPriorityT)priority,message);
       return true;
     }
 #if RAVL_OS_POSIX
