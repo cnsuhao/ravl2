@@ -8,7 +8,7 @@
 #define RAVL_CALLMETHODREFS_HEADER 1
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Calls"
+//! docentry="Ravl.Core.Calls.VisualC++"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/CallMethodRefs.hh"
 //! author="Charles Galambos"
@@ -22,7 +22,7 @@ namespace RavlN {
   //////////////////////////////////////////////////////
   
   //! userlevel=Develop
-  //: Signal Event handle
+  //: Body class for CallMethodRef0C
   
   template<class ObjT,class RetT = bool>
   class CallMethodRef0BodyC
@@ -59,7 +59,8 @@ namespace RavlN {
   };
   
   //! userlevel=Advanced
-  //: Signal Event handle
+  //: Call method with no arguments for object reference
+  // This class only necessary for Visual C++ users
   
   template<class ObjT,class RetT = bool>
   class CallMethodRef0C
@@ -83,7 +84,7 @@ namespace RavlN {
   /////////////////////////////////////////////////////////
   
   //! userlevel=Develop
-  //: Signal Event handle
+  //: Body class for CallMethodRef1C
   
   template<class ObjT,class DataT,class RetT = bool>
   class CallMethodRef1BodyC
@@ -129,7 +130,8 @@ namespace RavlN {
   };
   
   //! userlevel=Advanced
-  //: Signal Event handle
+  //: Call method with 1 argument for object reference
+  // This class only necessary for Visual C++ users
   
   template<class ObjT,class DataT,class RetT = bool>
   class CallMethodRef1C
@@ -154,7 +156,7 @@ namespace RavlN {
   /////////////////////////////////////////////////////////
   
   //! userlevel=Develop
-  //: Signal Event handle
+  //: Body class for CallMethodRef2C
   
   template<class ObjT,class Data1T,class Data2T,class RetT = bool>
   class CallMethodRef2BodyC
@@ -206,7 +208,8 @@ namespace RavlN {
   };
   
   //! userlevel=Advanced
-  //: Signal Event handle
+  //: Call method with 2 arguments for object reference
+  // This class only necessary for Visual C++ users
   
   template<class ObjT,class Data1T,class Data2T,class RetT = bool>
   class CallMethodRef2C
@@ -234,7 +237,7 @@ namespace RavlN {
   /////////////////////////////////////////////////////////
   
   //! userlevel=Develop
-  //: Signal Event handle
+  //: Body class for CallMethodRef3C
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class RetT = bool>
   class CallMethodRef3BodyC
@@ -291,7 +294,8 @@ namespace RavlN {
   };
   
   //! userlevel=Advanced
-  //: Signal Event handle
+  //: Call method with 3 arguments for object reference
+  // This class only necessary for Visual C++ users
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class RetT = bool>
   class CallMethodRef3C
@@ -319,7 +323,7 @@ namespace RavlN {
   /////////////////////////////////////////////////////////
   
   //! userlevel=Develop
-  //: Signal Event handle
+  //: Body class for CallMethodRef4C
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class RetT = bool>
   class CallMethodRef4BodyC
@@ -380,7 +384,8 @@ namespace RavlN {
   };
   
   //! userlevel=Advanced
-  //: Signal Event handle
+  //: Call method with 4 arguments for object reference
+  // This class only necessary for Visual C++ users
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class RetT = bool>
   class CallMethodRef4C
@@ -409,7 +414,7 @@ namespace RavlN {
   /////////////////////////////////////////////////////////
 
   //! userlevel=Develop
-  //: Signal Event handle
+  //: Body class for CallMethodRef5C
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class RetT = bool>
   class CallMethodRef5BodyC
@@ -480,7 +485,8 @@ namespace RavlN {
   };
   
   //! userlevel=Advanced
-  //: Signal Event handle
+  //: Call method with 5 arguments for object reference
+  // This class only necessary for Visual C++ users
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class RetT = bool>
   class CallMethodRef5C

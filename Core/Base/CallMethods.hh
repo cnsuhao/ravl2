@@ -21,7 +21,7 @@ namespace RavlN {
   //////////////////////////////////////////////////////
   
   //! userlevel=Develop
-  //: Signal Event handle
+  //: Body class for CallMethod0C
   
   template<class ObjT,class RetT = bool>
   class CallMethod0BodyC
@@ -66,7 +66,7 @@ namespace RavlN {
   };
   
   //! userlevel=Advanced
-  //: Signal Event handle
+  //:  Call method with no arguments
   
   template<class ObjT,class RetT = bool>
   class CallMethod0C
@@ -94,7 +94,7 @@ namespace RavlN {
   /////////////////////////////////////////////////////////
   
   //! userlevel=Develop
-  //: Signal Event handle
+  //: Body class for CallMethod1C
   
   template<class ObjT,class DataT,class RetT = bool>
   class CallMethod1BodyC
@@ -144,7 +144,7 @@ namespace RavlN {
   };
   
   //! userlevel=Advanced
-  //: Signal Event handle
+  //: Call method with 1 argument
   
   template<class ObjT,class DataT,class RetT = bool>
   class CallMethod1C
@@ -173,7 +173,7 @@ namespace RavlN {
   /////////////////////////////////////////////////////////
   
   //! userlevel=Develop
-  //: Signal Event handle
+  //: Body class for CallMethod2C
   
   template<class ObjT,class Data1T,class Data2T,class RetT = bool>
   class CallMethod2BodyC
@@ -229,7 +229,7 @@ namespace RavlN {
   };
   
   //! userlevel=Advanced
-  //: Signal Event handle
+  //: Call method with 2 arguments
   
   template<class ObjT,class Data1T,class Data2T,class RetT = bool>
   class CallMethod2C
@@ -261,7 +261,7 @@ namespace RavlN {
   /////////////////////////////////////////////////////////
   
   //! userlevel=Develop
-  //: Signal Event handle
+  //: Body class for CallMethod3C
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class RetT = bool>
   class CallMethod3BodyC
@@ -322,7 +322,7 @@ namespace RavlN {
   };
   
   //! userlevel=Advanced
-  //: Signal Event handle
+  //: Call method with 3 arguments
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class RetT = bool>
   class CallMethod3C
@@ -354,7 +354,7 @@ namespace RavlN {
   /////////////////////////////////////////////////////////
   
   //! userlevel=Develop
-  //: Signal Event handle
+  //: Body class for CallMethod4C
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class RetT = bool>
   class CallMethod4BodyC
@@ -419,7 +419,7 @@ namespace RavlN {
   };
   
   //! userlevel=Advanced
-  //: Signal Event handle
+  //: Call method with 4 arguments
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class RetT = bool>
   class CallMethod4C
@@ -452,7 +452,7 @@ namespace RavlN {
   /////////////////////////////////////////////////////////
 
   //! userlevel=Develop
-  //: Signal Event handle
+  //: Body class for CallMethod5C
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class RetT = bool>
   class CallMethod5BodyC
@@ -527,7 +527,7 @@ namespace RavlN {
   };
   
   //! userlevel=Advanced
-  //: Signal Event handle
+  //: Call method with 5 arguments
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class RetT = bool>
   class CallMethod5C

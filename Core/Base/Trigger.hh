@@ -26,7 +26,8 @@ namespace RavlN {
   //:-
   
   //! userlevel=Develop
-  //: Signal Event handle
+  //: Body for TriggerC
+
   
   class TriggerBodyC
     : public RCBodyVC
@@ -41,7 +42,8 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Signal Event handle
+  //: Parent class for function / method callers
+  // Use when no arguments or return values are needed at the point of calling
   
   class TriggerC
     : public RCHandleVC< TriggerBodyC>

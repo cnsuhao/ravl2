@@ -5,17 +5,31 @@
   </head>
 
   <body>
-    These classes provide a flexible method for handling function and
-    method pointers. They have many of the advantages of using 
-    <a href="Ravl.OS.Threads.Signals.html">Signals</a> in that you don't
-    have to know the exact form a function pointer, but without the
-    complexity.
-    
+    <p>These functions and classes provide a flexible method for handling
+    function and method pointers, while simplifying the syntax. They have many
+    of the advantages of using <a href="Ravl.OS.Signals.html">Signals</a> in
+    that you don't have to know the exact form of a function pointer, but
+    without the complexity.  The rough breakdown of the following classes and
+    functions is as follows.</p>
+    <ul>
+      <li>The <code>Call...</code> classes provide the basic mechanism.</li> 
+
+      <li> The <code>Trigger()</code> functions are "helper" functions to make
+      it simple to create Trigger and Call objects.  The argument types to
+      these functions seems obscure, but in practice they are designed so that
+      you can use more or less any argument: const or no-const, by name or by
+      reference, etc.</li>
+
+      <li> The <code>TriggerC</code> class is the parent class for all of the
+      Call classes: it is useful if you don't need arguments or return values
+      at the point of invoking the call.</li> 
+    </ul> 
+
     <h3>Using triggers </h3>
     
-    Triggers are the simplest form of call. They allow an function
-    with arbitrary set of parameters to be called on an event. It is
-    used in classes such as 
+    Triggers are the simplest form of call. They allow a function
+    with an arbitrary set of parameters to be called on an event. It is
+    used for example in classes such as 
     <a href="../Class/RavlN.TimedTriggerQueueC.html">TimedTriggerQueueC</a>
     to call a method after a fixed delay, and in 
     <a href="../Class/RavlN.TickerTrigger.html">TickerTriggerC</a> which
@@ -48,7 +62,7 @@ myTrigger();
     <h3>Using calls </h3>
 
 Calls are wrappers for C++ function pointers which allow
-you to find the difference between calling a method of a
+you to hide the difference between calling a method of a
 class and a normal function, and to add default arguments
 to the call that the code calling the function need not know about. <br>
 

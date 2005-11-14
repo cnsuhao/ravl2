@@ -24,7 +24,7 @@ namespace RavlN {
   //////////////////////////////////////////////////////
   
   //! userlevel=Develop
-  //: Signal Event handle
+  //: Body for CallFunc0C
   
   template<class RetT = bool>
   class CallFunc0BodyC
@@ -85,7 +85,7 @@ namespace RavlN {
   };
   
   //! userlevel=Advanced
-  //: Signal Event handle
+  //: Call function with no arguments
   
   template<class RetT = bool>
   class CallFunc0C
@@ -156,7 +156,7 @@ namespace RavlN {
   //////////////////////////////////////////////////////
   
   //! userlevel=Develop
-  //: Signal Event handle
+  //: Body for CallFunc1C
   
   template<typename DataT,class RetT = bool>
   class CallFunc1BodyC
@@ -244,7 +244,7 @@ namespace RavlN {
   };
   
   //! userlevel=Advanced
-  //: Signal Event handle
+  //: Call function with 1 argument
   
   template<class DataT,class RetT = bool>
   class CallFunc1C
@@ -334,7 +334,7 @@ namespace RavlN {
   //////////////////////////////////////////////////////
   
   //! userlevel=Develop
-  //: Signal Event handle
+  //: Body for CallFunc2C
   
   template<class Data1T,class Data2T,class RetT = bool>
   class CallFunc2BodyC
@@ -430,7 +430,7 @@ namespace RavlN {
   };
   
   //! userlevel=Advanced
-  //: Signal Event handle
+  //: Call function with 2 arguments
   
   template<class Data1T,class Data2T,class RetT = bool>
   class CallFunc2C
@@ -521,7 +521,7 @@ namespace RavlN {
   //////////////////////////////////////////////////////
   
   //! userlevel=Develop
-  //: Signal Event handle
+  //: Body for CallFunc3C
   
   template<class Data1T,class Data2T,class Data3T,class RetT = bool>
   class CallFunc3BodyC
@@ -621,7 +621,7 @@ namespace RavlN {
   };
   
   //! userlevel=Advanced
-  //: Signal Event handle
+  //: Call function with 3 arguments
   
   template<class Data1T,class Data2T,class Data3T,class RetT = bool>
   class CallFunc3C
@@ -712,7 +712,7 @@ namespace RavlN {
   //////////////////////////////////////////////////////
   
   //! userlevel=Develop
-  //: Signal Event handle
+  //: Body for CallFunc4C
   
   template<class Data1T,class Data2T,class Data3T,class Data4T,class RetT = bool>
   class CallFunc4BodyC
@@ -817,7 +817,7 @@ namespace RavlN {
   };
   
   //! userlevel=Advanced
-  //: Signal Event handle
+  //: Call function with 4 arguments
   
   template<class Data1T,class Data2T,class Data3T,class Data4T,class RetT = bool>
   class CallFunc4C
@@ -910,7 +910,7 @@ namespace RavlN {
   //////////////////////////////////////////////////////
   
   //! userlevel=Develop
-  //: Signal Event handle
+  //: Body for CallFunc5C
   
   template<class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class RetT = bool>
   class CallFunc5BodyC
@@ -1026,7 +1026,7 @@ namespace RavlN {
   };
   
   //! userlevel=Advanced
-  //: Signal Event handle
+  //: Call function with 5 arguments
   
   template<class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class RetT = bool>
   class CallFunc5C
