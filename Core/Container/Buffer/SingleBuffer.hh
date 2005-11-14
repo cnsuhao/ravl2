@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_COMPOSITEBUFFER_HEADER
-#define RAVL_COMPOSITEBUFFER_HEADER 1
+#ifndef RAVL_SINGLEBUFFER_HEADER
+#define RAVL_SINGLEBUFFER_HEADER 1
 ///////////////////////////////////////////////////////
 //! docentry="Ravl.Core.Arrays.Buffer"
 //! file="Ravl/Core/Container/Buffer/SingleBuffer.hh"

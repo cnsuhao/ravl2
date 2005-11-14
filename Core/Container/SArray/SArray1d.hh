@@ -15,7 +15,6 @@
 //! rcsid="$Id$"
 
 #include "Ravl/Buffer.hh"
-#include "Ravl/SingleBuffer.hh"
 #include "Ravl/SBfAcc.hh"
 #include "Ravl/Pair.hh"
 #include "Ravl/BfAccIter.hh"
@@ -23,6 +22,18 @@
 #include "Ravl/BfAccIter3.hh"
 #include "Ravl/StdHash.hh"
 #include "Ravl/Stream.hh"
+
+// To use single buffer uncomment the following
+
+//#define RAVL_SARRAY1D_USE_SINGLEBUFFER 1
+
+#ifdef RAVL_SARRAY1D_USE_SINGLEBUFFER
+
+#include "Ravl/SingleBuffer.hh"
+
+#endif
+
+
 
 namespace RavlN {
 
@@ -358,7 +369,11 @@ namespace RavlN {
 								   slice.Size()));
       return ;
     }
+#ifdef RAVL_SARRAY1D_USE_SINGLEBUFFER
     buff = SingleBufferC<DataT>(slice.Size());
+#else
+    buff = BufferC<DataT>(slice.Size());
+#endif
     Attach(buff,slice.Size());
     // Copy data.
     DataT *at = buff.ReferenceElm();
@@ -369,7 +384,11 @@ namespace RavlN {
   template <class DataT>
   SArray1dC<DataT>::SArray1dC(const SizeT dim)
     : SizeBufferAccessC<DataT>(),
+#ifdef RAVL_SARRAY1D_USE_SINGLEBUFFER
       buff(SingleBufferC<DataT>(dim))
+#else
+      buff(dim)
+#endif
   { Attach(buff,dim); }
   
   template <class DataT>

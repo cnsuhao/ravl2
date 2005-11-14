@@ -14,7 +14,16 @@
 //! author="Charles Galambos"
 
 #include "Ravl/Buffer.hh"
+
+// To use single buffer uncomment the following
+
+//#define RAVL_BUFFER2D_USE_SINGLEBUFFER 1
+
+#ifdef RAVL_BUFFER2D_USE_SINGLEBUFFER
+
 #include "Ravl/SingleBuffer.hh"
+
+#endif
 
 //: Ravl global namespace.
 
@@ -35,19 +44,23 @@ namespace RavlN {
 
     Buffer2dBodyC(SizeT size1,SizeT size2)
       : BufferBodyC<BufferAccessC<DataT> >(size1),
-	data(SingleBufferC<DataT>(size2 * size1))
+#ifdef RAVL_BUFFER2D_USE_SINGLEBUFFER
+        data(SingleBufferC<DataT>(size2 * size1))
+#else
+        data(size2 * size1)
+#endif
     {}
     //: Sized constructor.
     
     Buffer2dBodyC(SizeT size1,SizeT size2,DataT *data,bool copy = false,bool deletable = true)
       : BufferBodyC<BufferAccessC<DataT> >(size1),
-	data(size1 * size2,data,copy, deletable)
+        data(size1 * size2,data,copy, deletable)
     {}
     //: Sized constructor.
     
     Buffer2dBodyC(const BufferC<DataT> &dat,SizeT size1)
       : BufferBodyC<BufferAccessC<DataT> >(size1),
-	data(dat)
+        data(dat)
     {}
     //: Construct a buffer with data area 'dat' and an access buffer with 'size1' entries.
     

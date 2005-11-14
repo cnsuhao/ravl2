@@ -19,10 +19,21 @@
 #include "Ravl/Buffer.hh"
 #include "Ravl/RBfAcc.hh"
 #include "Ravl/SArray1d.hh"
-#include "Ravl/SingleBuffer.hh"
 #include "Ravl/BfAccIter.hh"
 #include "Ravl/BfAccIter2.hh"
 #include "Ravl/Types.hh"
+
+// To use single buffer uncomment the following
+
+//#define RAVL_ARRAY1D_USE_SINGLEBUFFER 1
+
+#ifdef RAVL_ARRAY1D_USE_SINGLEBUFFER
+
+#include "Ravl/SingleBuffer.hh"
+
+#endif
+
+
 
 namespace RavlN {
   class BinIStreamC;
@@ -397,7 +408,11 @@ namespace RavlN {
   
   template <class DataT>
   Array1dC<DataT>::Array1dC(const SizeT dim)
+#ifdef RAVL_ARRAY1D_USE_SINGLEBUFFER
     : buff(SingleBufferC<DataT>(dim))
+#else
+    : buff(dim)
+#endif
   { Attach(buff,dim); }
 
   
@@ -406,7 +421,11 @@ namespace RavlN {
     if(min > max)
       return ; // Create a zero length array.
     IndexRangeC newRange(min,max);
+#ifdef RAVL_ARRAY1D_USE_SINGLEBUFFER
     buff = SingleBufferC<DataT>(newRange.Size());
+#else
+    buff = BufferC<DataT>(newRange.Size());
+#endif
     Attach(buff,newRange); 
   }
   
@@ -415,7 +434,11 @@ namespace RavlN {
     if(min > max)
       return ; // Create a zero length array.
     IndexRangeC newRange(min,max);
+#ifdef RAVL_ARRAY1D_USE_SINGLEBUFFER
     buff = SingleBufferC<DataT>(newRange.Size());
+#else
+    buff = BufferC<DataT>(newRange.Size());
+#endif
     Attach(buff,newRange); 
   }
   
@@ -423,7 +446,11 @@ namespace RavlN {
   Array1dC<DataT>::Array1dC(const IndexRangeC & newRange) { 
     if(newRange.Min() > newRange.Max())
       return ; // Create a zero length array.
+#ifdef RAVL_ARRAY1D_USE_SINGLEBUFFER
     buff = SingleBufferC<DataT>(newRange.Size());
+#else
+    buff = BufferC<DataT>(newRange.Size());
+#endif
     Attach(buff,newRange); 
   }
   
@@ -447,7 +474,11 @@ namespace RavlN {
 								     const_cast<DataT *>(&(slice.ReferenceElm()))));
       return ;
     }
+#ifdef RAVL_ARRAY1D_USE_SINGLEBUFFER
     buff = SingleBufferC<DataT>(slice.Size());
+#else
+    buff = BufferC<DataT>(slice.Size());
+#endif
     Attach(buff.BufferAccess(),slice.Range());
     // Copy data.
     DataT *at = buff.ReferenceElm();
