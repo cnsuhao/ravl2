@@ -24,6 +24,7 @@ namespace RavlN
     : count(initVal)
   {}
 #else
+    : countMinusOne(initVal - 1)
   {
     sema = CreateSemaphore(0,initVal,65535,0);
     if(sema == 0) 
@@ -39,6 +40,7 @@ namespace RavlN
     : count(oth.Count())
   {}
 #else
+    : countMinusOne(oth.Count() - 1)
   {
     sema = CreateSemaphore(0,oth.Count(),65535,0);
     if(sema == 0) 
@@ -58,7 +60,14 @@ namespace RavlN
     return true;
 #else
     DWORD rc = WaitForSingleObject(sema,INFINITE);
-    return (rc == WAIT_OBJECT_0);
+
+    if (rc == WAIT_OBJECT_0) {
+      --countMinusOne;
+    } else {
+      return false;
+    }
+
+    return true;
 #endif
   }
   
@@ -67,8 +76,8 @@ namespace RavlN
     cond.Lock();
     while(count <= 0) {
       if(!cond.Wait(maxDelay)) {
-	cond.Unlock();
-	return false;
+        cond.Unlock();
+        return false;
       }
     }
     count--;
@@ -76,7 +85,14 @@ namespace RavlN
     return true;
 #else
     DWORD rc = WaitForSingleObject(sema,Round(maxDelay * 1000));
-    return (rc == WAIT_OBJECT_0);
+
+    if (rc == WAIT_OBJECT_0) {
+      --countMinusOne;
+    } else {
+      return false;
+    }
+
+    return true;
 #endif
   }
   
@@ -88,21 +104,21 @@ namespace RavlN
   // been called. Otherwise do nothing and return false.
   bool SemaphoreC::TryWait() {
     DWORD rc = WaitForSingleObject(sema,0L);
-    return (rc == WAIT_OBJECT_0);
+
+    if (rc == WAIT_OBJECT_0) {
+      --countMinusOne;
+    } else {
+      return false;
+    }
+
+    return true;
   }
   
   //: Post a semaphore.
   // Post a semaphore, increase the semaphore count by 1.
   
   bool SemaphoreC::Post() 
-  { return ReleaseSemaphore(sema,1,0) != 0; }
-  
-  int SemaphoreC::Count(void) const {
-    long tmp;
-    DWORD rc = ReleaseSemaphore(sema,0,&tmp);
-    cerr << "SemaphoreC::Count(), RC=" << rc << " Tmp=" << tmp << "\n";
-    return tmp;
-  }
+  { return ReleaseSemaphore(sema,1,&countMinusOne) != 0; }
   
 #endif
   

@@ -62,12 +62,12 @@ namespace RavlN
 #if !RAVL_HAVE_WIN32_THREADS
     bool TryWait() {
       if(count == 0)
-	return false; // Quick and dirty test.
+        return false; // Quick and dirty test.
       cond.Lock();
       if(count > 0) {
-	count--;
-	cond.Unlock();
-	return true;
+        count--;
+        cond.Unlock();
+        return true;
       }
       cond.Unlock();
       return false;
@@ -93,13 +93,15 @@ namespace RavlN
     //: Post a semaphore.
     // Post a semaphore, increase the semaphore count by 1.
     
-#if !RAVL_HAVE_WIN32_THREADS
+#if RAVL_HAVE_WIN32_THREADS
+    int Count(void) const 
+    { return countMinusOne + 1; }
+    //: Read semaphore count.
+#else
     int Count(void) const 
     { return count; }
-#else
-    int Count(void) const;
-#endif
     //: Read semaphore count.
+#endif
     
   private:
 #if !RAVL_HAVE_WIN32_THREADS
@@ -107,6 +109,7 @@ namespace RavlN
     int count;
 #else
     HANDLE sema;
+    LONG countMinusOne;
 #endif
   };
   
