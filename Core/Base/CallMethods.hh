@@ -389,19 +389,19 @@ namespace RavlN {
 
     virtual RetT Call(Arg1T &pd)
     { return (obj.*FuncPtr())(pd,this->dat2,this->dat3,this->dat4); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
 
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2)
     { return (obj.*FuncPtr())(pd1,pd2,this->dat3,this->dat4); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
     { return (obj.*FuncPtr())(pd1,pd2,pd3,this->dat4); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4)
     { return (obj.*FuncPtr())(pd1,pd2,pd3,pd4); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
     
   protected:
     virtual RCBodyVC &Copy() const
@@ -493,23 +493,23 @@ namespace RavlN {
 
     virtual RetT Call(Arg1T &pd)
     { return (obj.*FuncPtr())(pd,this->dat2,this->dat3,this->dat4,this->dat5); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
 
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2)
     { return (obj.*FuncPtr())(pd1,pd2,this->dat3,this->dat4,this->dat5); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
     { return (obj.*FuncPtr())(pd1,pd2,pd3,this->dat4,this->dat5); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4)
     { return (obj.*FuncPtr())(pd1,pd2,pd3,pd4,this->dat5); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
 
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4,Arg5T &pd5)
     { return (obj.*FuncPtr())(pd1,pd2,pd3,pd4,pd5); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
     
   protected:
     FuncT mPtr;
@@ -564,7 +564,7 @@ namespace RavlN {
   CallMethod0C<ObjT,RetT> 
   Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)())
   { return CallMethod0C<ObjT,RetT>(const_cast<ObjT &>(nobj),nfunc); }
-  //: Create a call 
+  //: Create a call to a method with no arguments
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class DataT,class RetT>
@@ -572,7 +572,7 @@ namespace RavlN {
   CallMethod1C<ObjT,DataT,RetT> 
   Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT),const typename TraitsC<DataT>::BaseTypeT &defaultArg)
   { return CallMethod1C<ObjT,DataT,RetT>(const_cast<ObjT &>(nobj),nfunc,defaultArg); }
-  //: Create a call 
+  //: Create a call to a method with 1 argument
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class RetT>
@@ -583,7 +583,7 @@ namespace RavlN {
 	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2
 	  )
   { return CallMethod2C<ObjT,Data1T,Data2T,RetT>(nobj,nfunc,defaultArg1,defaultArg2); }
-  //: Create a call 
+  //: Create a call to a method with 2 arguments
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class RetT>
@@ -595,7 +595,7 @@ namespace RavlN {
 	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3
 	  )
   { return CallMethod3C<ObjT,Data1T,Data2T,Data3T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3); }
-  //: Create a call 
+  //: Create a call to a method with 3 arguments
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class RetT>
@@ -608,7 +608,7 @@ namespace RavlN {
 	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4
 	  )
   { return CallMethod4C<ObjT,Data1T,Data2T,Data3T,Data4T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
-  //: Create a call 
+  //: Create a call to a method with 4 arguments
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
 
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class RetT>
@@ -622,7 +622,7 @@ namespace RavlN {
 	  const typename TraitsC<Data5T>::BaseTypeT &defaultArg5
 	  )
   { return CallMethod5C<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }
-  //: Create a call 
+  //: Create a call to a method with 5 arguments
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   //:-
   // Refrence methods.
@@ -634,7 +634,7 @@ namespace RavlN {
   CallMethod0C<ObjT &,RetT> 
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)())
   { return CallMethod0C<ObjT &,RetT>(nobj,nfunc); }
-  //: Create a call 
+  //: Create a call to a method (of a referenced object) with no arguments
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class DataT,class RetT>
@@ -642,7 +642,7 @@ namespace RavlN {
   CallMethod1C<ObjT &,DataT,RetT> 
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT),const typename TraitsC<DataT>::BaseTypeT &defaultArg)
   { return CallMethod1C<ObjT &,DataT,RetT>(nobj,nfunc,defaultArg); }
-  //: Create a call 
+  //: Create a call to a method (of a referenced object) with 1 argument
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class RetT>
@@ -653,7 +653,7 @@ namespace RavlN {
 	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2
 	  )
   { return CallMethod2C<ObjT &,Data1T,Data2T,RetT>(nobj,nfunc,defaultArg1,defaultArg2); }
-  //: Create a call 
+  //: Create a call to a method (of a referenced object) with 2 arguments
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class RetT>
@@ -665,7 +665,7 @@ namespace RavlN {
 	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3
 	  )
   { return CallMethod3C<ObjT &,Data1T,Data2T,Data3T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3); }
-  //: Create a call 
+  //: Create a call to a method (of a referenced object) with 3 arguments
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class RetT>
@@ -678,7 +678,7 @@ namespace RavlN {
 	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4
 	  )
   { return CallMethod4C<ObjT &,Data1T,Data2T,Data3T,Data4T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
-  //: Create a call 
+  //: Create a call to a method (of a referenced object) with 4 arguments
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
 
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class RetT>
@@ -692,7 +692,7 @@ namespace RavlN {
 	  const typename TraitsC<Data5T>::BaseTypeT &defaultArg5
 	  )
   { return CallMethod5C<ObjT &,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }
-  //: Create a call 
+  //: Create a call to a method (of a referenced object) with 5 arguments
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
 }
@@ -702,7 +702,7 @@ namespace RavlN {
 }
 // Lobotomize for Visual C++
 // VC++ does not interpret BaseObjT as a class and so does not allow BaseObjT::
-// The labotomized version of FuncT useing ObjT:: does not then allow 
+// The lobotomized version of FuncT useing ObjT:: does not then allow 
 // templating on references so we have to deal with this separately.
 
 #include "Ravl/CallMethodRefs.hh"

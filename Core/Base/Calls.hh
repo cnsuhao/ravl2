@@ -201,7 +201,7 @@ namespace RavlN {
     
     virtual RetT Call(Arg1T &pd)
     { return (*FuncPtr())(pd); }
-    //: Call event, with paramiter.
+    //: Call event, with parameter.
     
     Arg1T &Data1()
     { return dat1; }
@@ -307,15 +307,15 @@ namespace RavlN {
   public:
     RetT Call()
     { return Body().Call(); }
-    //: Invoke event, with paramiter.
+    //: Invoke event, with parameter.
     
     RetT Call(Arg1T &pd)
     { return Body().Call(pd); }
-    //: Invoke event, with paramiter.
+    //: Invoke event, with parameter.
     
     RetT operator()(Arg1T &pd)
     { return Body().Call(pd); }
-    //: Call function with patamiter
+    //: Call function with parameter
     
     CallFunc1C<DataT,RetT> Copy() const
     { return CallFunc1C<DataT,RetT>(static_cast<CallFunc1BodyC<DataT,RetT> &>(Body().Copy())); }
@@ -381,11 +381,11 @@ namespace RavlN {
     
     virtual RetT Call(Arg1T &pd)
     { return (*FuncPtr())(pd,dat2); }
-    //: Invoke event, with paramiter.
+    //: Invoke event, with parameter.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2)
     { return (*FuncPtr())(pd1,pd2); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
     
     Arg2T &Data2()
     { return dat2; }
@@ -499,11 +499,11 @@ namespace RavlN {
    
     RetT Call(Arg1T &pd1,Arg2T &pd2)
     { return Body().Call(pd1,pd2); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
 
     RetT operator()(Arg1T &pd1,Arg2T &pd2)
     { return Body().Call(pd1,pd2); }
-    //: Call function with patamiters
+    //: Call function with parameters
     
     CallFunc2C<Data1T,Data2T,RetT> Copy() const
     { return CallFunc2C<Data1T,Data2T,RetT>(static_cast<CallFunc2BodyC<Data1T,Data2T,RetT> &>(Body().Copy())); }
@@ -569,15 +569,15 @@ namespace RavlN {
     
     virtual RetT Call(Arg1T &pd)
     { return (*FuncPtr())(pd,this->dat2,dat3); }
-    //: Invoke event, with paramiter.
+    //: Invoke event, with parameter.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2)
     { return (*FuncPtr())(pd1,pd2,dat3); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
     { return (*FuncPtr())(pd1,pd2,pd3); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
     
     Arg3T &Data3()
     { return dat3; }
@@ -689,11 +689,11 @@ namespace RavlN {
     
     RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
     { return Body().Call(pd1,pd2,pd3); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
 
     RetT operator()(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
     { return Body().Call(pd1,pd2,pd3); }
-    //: Call function with patamiters
+    //: Call function with parameters
 
     CallFunc3C<Data1T,Data2T,Data3T,RetT> Copy() const
     { return CallFunc3C<Data1T,Data2T,Data3T,RetT>(static_cast<CallFunc3BodyC<Data1T,Data2T,Data3T,RetT> &>(Body().Copy())); }
@@ -761,19 +761,19 @@ namespace RavlN {
     
     virtual RetT Call(Arg1T &pd)
     { return (*FuncPtr())(pd,this->dat2,this->dat3,dat4); }
-    //: Invoke event, with paramiter.
+    //: Invoke event, with parameter.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2)
     { return (*FuncPtr())(pd1,pd2,this->dat3,dat4); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
     { return (*FuncPtr())(pd1,pd2,pd3,dat4); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
 
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4)
     { return (*FuncPtr())(pd1,pd2,pd3,pd4); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
 
     Arg4T &Data4()
     { return dat4; }
@@ -887,11 +887,11 @@ namespace RavlN {
     
     RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4)
     { return Body().Call(pd1,pd2,pd3,pd4); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
 
     RetT operator()(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4)
     { return Body().Call(pd1,pd2,pd3,pd4); }
-    //: Call function with patamiters
+    //: Call function with parameters
     
     CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT> Copy() const
     { return CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(static_cast<CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT> &>(Body().Copy())); }
@@ -961,23 +961,23 @@ namespace RavlN {
     
     virtual RetT Call(Arg1T &pd)
     { return (*FuncPtr())(pd,this->dat2,this->dat3,this->dat4,dat5); }
-    //: Invoke event, with paramiter.
+    //: Invoke event, with parameter.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2)
     { return (*FuncPtr())(pd1,pd2,this->dat3,this->dat4,dat5); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
     { return (*FuncPtr())(pd1,pd2,pd3,this->dat4,dat5); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
 
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4)
     { return (*FuncPtr())(pd1,pd2,pd3,pd4,dat5); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
 
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4,Arg5T &pd5)
     { return (*FuncPtr())(pd1,pd2,pd3,pd4,pd5); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
     
     Arg5T &Data5()
     { return dat5; }
@@ -1101,11 +1101,11 @@ namespace RavlN {
     
     RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4,Arg5T &pd5)
     { return Body().Call(pd1,pd2,pd3,pd4,pd5); }
-    //: Invoke event, with paramiters.
+    //: Invoke event, with parameters.
 
     RetT operator()(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4,Arg5T &pd5)
     { return Body().Call(pd1,pd2,pd3,pd4,pd5); }
-    //: Call function with patamiters
+    //: Call function with parameters
     
     CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,RetT> Copy() const
     { return CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(static_cast<CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT> &>(Body().Copy())); }
@@ -1132,7 +1132,7 @@ namespace RavlN {
   inline
   CallFunc0C<RetT> Trigger(RetT (*nfunc)())
   { return CallFunc0C<RetT>(nfunc); }
-  //: Create a call 
+  //: Create a function call with no arguments
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class DataT,class RetT>
@@ -1140,7 +1140,7 @@ namespace RavlN {
   CallFunc1C<DataT,RetT> 
   Trigger(RetT (*nfunc)(DataT dat),const typename TraitsC<DataT>::BaseTypeT &defaultArg)
   { return CallFunc1C<DataT,RetT>(nfunc,defaultArg); }
-  //: Create a call 
+  //: Create a function call with 1 argument
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class Data1T,class Data2T,class RetT>
@@ -1150,7 +1150,7 @@ namespace RavlN {
 	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
 	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2)
   { return CallFunc2C<Data1T,Data2T,RetT>(nfunc,defaultArg1,defaultArg2); }
-  //: Create a call 
+  //: Create a function call with 2 arguments
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class Data1T,class Data2T,class Data3T,class RetT>
@@ -1161,7 +1161,7 @@ namespace RavlN {
 	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
 	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3)
   { return CallFunc3C<Data1T,Data2T,Data3T,RetT>(nfunc,defaultArg1,defaultArg2,defaultArg3); }
-  //: Create a call 
+  //: Create a function call with 3 arguments
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class Data1T,class Data2T,class Data3T,class Data4T,class RetT>
@@ -1173,7 +1173,7 @@ namespace RavlN {
 	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3,
 	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4)
   { return CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
-  //: Create a call 
+  //: Create a function call with 4 arguments
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class RetT>
@@ -1186,11 +1186,11 @@ namespace RavlN {
 	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4,
 	  const typename TraitsC<Data5T>::BaseTypeT &defaultArg5)
   { return CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }
-  //: Create a call 
+  //: Create a function call with 5 arguments
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
 #else
-  // Labotimized version for Visual C++.
+  // Lobotimized version for Visual C++.
   // Doesn't template on return types.
   
   inline
@@ -1198,6 +1198,7 @@ namespace RavlN {
   { return CallFunc0C<bool>(nfunc); }
   //: Create a call 
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  //! docentry="Ravl.Core.Calls.VisualC++"
   
   template<class DataT>
   inline

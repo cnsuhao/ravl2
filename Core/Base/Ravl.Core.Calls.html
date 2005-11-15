@@ -10,20 +10,24 @@
     of the advantages of using <a href="Ravl.OS.Signals.html">Signals</a> in
     that you don't have to know the exact form of a function pointer, but
     without the complexity.  The rough breakdown of the following classes and
-    functions is as follows.</p>
+    functions is as follows:</p>
     <ul>
-      <li>The <code>Call...</code> classes provide the basic mechanism.</li> 
+      <li>The <code>Call...</code> classes below provide the basic mechanism
+      for setting up and triggering calls to functions and methods.</li>
 
       <li> The <code>Trigger()</code> functions are "helper" functions to make
-      it simple to create Trigger and Call objects.  The argument types to
-      these functions seems obscure, but in practice they are designed so that
-      you can use more or less any argument: const or no-const, by name or by
-      reference, etc.</li>
+      it simple to create <code>Call...</code> and <code>TriggerC</code>
+      objects.  The arguments to these functions might seem obscure, but in
+      practice they are designed so that you can substitute more or less any
+      argument type: const or no-const, by name or by reference, etc. </li>
 
       <li> The <code>TriggerC</code> class is the parent class for all of the
-      Call classes: it is useful if you don't need arguments or return values
-      at the point of invoking the call.</li> 
-    </ul> 
+      <code>Call...</code> classes: thus it can be assigned to from any of the
+      <code>Trigger()</code> helper functions (see example below).  It is
+      useful if you don't need arguments or return values at the point of
+      invoking the call.</li>
+    </ul>
+
 
     <h3>Using triggers </h3>
     
@@ -53,7 +57,7 @@ bool PrintNumber(int &amp;i) {
 myTrigger = Trigger(&amp;PrintNumber,2);
 </pre>
     
-   Calling the function can be done with the () operator.
+    <p>Calling the function can be done with the () operator:</p>
     
 <pre>
 myTrigger();
@@ -61,17 +65,18 @@ myTrigger();
 
     <h3>Using calls </h3>
 
-Calls are wrappers for C++ function pointers which allow
-you to hide the difference between calling a method of a
-class and a normal function, and to add default arguments
-to the call that the code calling the function need not know about. <br>
+    <p> Calls are wrappers for C++ function pointers which allow you to hide
+    the difference between calling a method of a class and a normal function,
+    and to add default arguments to the call that the code calling the
+    function need not know about. </p>
 
-<h4> Default arguments </h4>
-
-When you setup a callback function, you can set default parameters. This
-especially useful if the method you wish to call requires more information
-than the callback normally provides. In the 3rd argument is set to 3, since
-its only called with 2 arguments, 30 is passed as its default value.
+    <p>When you setup a callback function, you can set default arguments. This
+    is especially useful if the function or method you wish to call requires
+    more information than the callback normally provides.  In this example,
+    <code>Trigger()</code> provides the 3 arguments required for the callback
+    function; however, because the first two get over-ridden by the
+    <code>func()</code> call, only the 3rd one actually gets used, providing a
+    default value of 30 for the 3rd argument of <code>callback()</code>.</p>
 
 <pre>
 #include "Ravl/Calls.hh"
@@ -84,12 +89,14 @@ bool callback(int &v1,double &v2,int &x) {
 int myprog() {
 
   // Declare callback variable.
-  CallFunc2&lt;int,double&gt; func;  
+  CallFunc2C&lt;int,double&gt; func;  
   
-  // Setup call back.
+  // Set up callback.
+  // The first 2 arguments will be over-ridden by the subsequent func().
+  // The 3rd argument provides a default 3rd argument for callback()
   func = Trigger(&amp;callback,10,20,30);
 
-  // Some paramiters...  
+  // Some parameters...  
   int v1 = 0;
   double v2 = 1.2;
   
