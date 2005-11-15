@@ -75,6 +75,7 @@ namespace RavlGUIN {
     //: Setup control.
     
     void AddStream(DPPlayControlC &strm);
+    void GUIAddStream(DPPlayControlC &strm);
     //: Add stream to control list.
     // If no master stream exists  the new stream
     // will become it.
@@ -114,6 +115,8 @@ namespace RavlGUIN {
     
     void InitGUI();
     //: Setup gui.
+    
+    void AddStream(DPPlayControlC &strm, bool bIsGUIThread);
     
     bool SliderUpdate();
     //: Update the GUI slider.
@@ -238,7 +241,8 @@ namespace RavlGUIN {
     //: Add stream to control list.
     // If no master stream exists  the new stream
     // will become it.
-    // Thread safe.
+    void GUIAddStream(DPPlayControlC &strm)
+    { Body().GUIAddStream(strm); }
     
     bool DelStream(DPPlayControlC &strm)
     { return Body().DelStream(strm); }

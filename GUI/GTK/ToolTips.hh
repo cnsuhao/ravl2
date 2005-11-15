@@ -133,11 +133,6 @@ namespace RavlGUIN {
       { return Body().GUISetDelay(secs); }
     //: Set tips delay.
     
-    bool GUIAddToolTip(WidgetC &widge,char *&text,char *&context)
-      { return Body().GUIAddToolTip(widge,text,context); }
-    //: Set tips delay.
-    // GUI Thread only.
-    
   public:
     bool Create()
       { return Body().Create(); }
@@ -162,6 +157,11 @@ namespace RavlGUIN {
       { Body().AddToolTip(widge,text,context); }
     //: Set tips delay.
     // Thread safe.
+    
+   bool GUIAddToolTip(WidgetC &widge,const char *text,const char *context = 0)
+      { return Body().GUIAddToolTip(widge,text,context); }
+    //: Set tips delay.
+    // GUI Thread only.
     
     void ShowToolTips(bool &state) { 
       if(state)

@@ -533,7 +533,10 @@ namespace RavlGUIN {
   
   //: Connect the default signals to the underlying widget.
   
-  void WidgetBodyC::ConnectSignals() {
+  void WidgetBodyC::ConnectSignals() 
+  {
+    RavlAssert(Manager.IsGUIThread());
+    
     if(widget == 0)
       return ;
     
@@ -571,9 +574,10 @@ namespace RavlGUIN {
         ConnectUp(it.Key(),it.Data());
       }
     }
-    if(tooltip != 0) {
+    if(tooltip != 0) 
+    {
       WidgetC me(*this);
-      guiGlobalToolTips.AddToolTip(me,tooltip);
+      guiGlobalToolTips.GUIAddToolTip(me,tooltip);
     }
   }
   

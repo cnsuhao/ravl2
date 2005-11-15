@@ -426,9 +426,15 @@ namespace RavlGUIN {
     return true;
   }
   
-  //: Queue an event for running in the GUI thread.
+  void ManagerC::QueueOnGUI(const TriggerC &se) 
+  {
+    RavlAssert(Manager.IsGUIThread());
+    Queue(se, true);
+  }
   
-  void ManagerC::Queue(const TriggerC &se) {
+  //: Queue an event for running in the GUI thread. 
+  void ManagerC::Queue(const TriggerC &se, bool bOverrideGUICheck /*=false*/) 
+  {
 #if RAVL_USE_GTKTHREADS
     RavlAssertMsg(initCalled,"MangerC::Init(...) must be called before an other method. ");
     if(IsGUIThread()) {
@@ -455,14 +461,21 @@ namespace RavlGUIN {
       cerr << "ManagerC::Queue(), WARNING: Called after shutdown started. \n";
       return ;
     }
-    if(!events.TryPut(se)) {
+    if(!events.TryPut(se)) 
+    {
       ONDEBUG(cerr << "ManagerC::Queue(), WARNING: Event queue full. \n");
       if(!IsGUIThread()) // Are we running in the GUI thread?
+      {
 	events.Put(se); // Nope, just wait...
-      else {
+      }
+      else 
+      {
 	do {
 	  events.Get().Invoke();
 	} while(!events.TryPut(se)) ;
+	
+	//if(!bOverrideGUICheck)
+           //RavlAssert(0);
       }
     }
     if(!eventProcPending) {

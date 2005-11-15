@@ -19,6 +19,7 @@
 #include "Ravl/GUI/Label.hh"
 #include "Ravl/GUI/Combo.hh"
 #include "Ravl/GUI/List.hh"
+#include "Ravl/GUI/Manager.hh"
 #include "Ravl/StringList.hh"
 #include "Bitmaps/back.xpm"
 #include "Bitmaps/fback.xpm"
@@ -177,16 +178,38 @@ namespace RavlGUIN {
   //: Add stream to control list.
   // If no master stream exists  the new stream
   // will become it.
+  void PlayControlBodyC::GUIAddStream(DPPlayControlC &strm) 
+  {
+     RavlAssert(Manager.IsGUIThread());
+     AddStream(strm, true);
+  }
   
-  void PlayControlBodyC::AddStream(DPPlayControlC &strm) {
+  void PlayControlBodyC::AddStream(DPPlayControlC &strm) 
+  {
+     AddStream(strm, false);
+  }
+  
+  void PlayControlBodyC::AddStream(DPPlayControlC &strm, bool bIsGUIThread)
+  {
     if(!strm.IsValid())
       return ;
+   
     strm.Pause();
     MutexLockC hold(access);
-    if(!pc.IsValid()) {
+    if(!pc.IsValid()) 
+    {
       pc = strm;
-      SetState(GTK_STATE_NORMAL);
-    } else {
+      if(bIsGUIThread)
+      {
+	GUISetState(GTK_STATE_NORMAL);
+      }
+      else
+      {
+        SetState(GTK_STATE_NORMAL);
+      }
+    } 
+    else 
+    {
       if(!pcs.Contains(strm))
 	pcs.InsLast(strm);
       strm.Seek(pc.Tell()); // Sync new stream with master.

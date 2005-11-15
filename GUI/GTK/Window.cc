@@ -135,7 +135,9 @@ namespace RavlGUIN {
   //: Update cursor.
 
 
-  bool WindowBodyC::GUIUpdateCursor(CursorC &newCursor) {
+  bool WindowBodyC::GUIUpdateCursor(CursorC &newCursor) 
+  {
+    RavlAssert(Manager.IsGUIThread());
     if(widget != 0 && newCursor.IsValid())
       newCursor.SetWindow(widget->window);
     cursor = newCursor;
@@ -145,6 +147,7 @@ namespace RavlGUIN {
   //: Set the title of the window.
 
   bool WindowBodyC::GUISetTitle(StringC &str) {
+    RavlAssert(Manager.IsGUIThread());
     title = str.Copy();
     if(widget == 0) return true;
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
@@ -157,6 +160,7 @@ namespace RavlGUIN {
   // Call only from GUI thread.
   
   bool WindowBodyC::GUIShow() {
+    RavlAssert(Manager.IsGUIThread());
     if (!WidgetBodyC::GUIShow())
       return false;
     if (cursor.IsValid() && widget != 0)
@@ -175,6 +179,7 @@ namespace RavlGUIN {
   //: Close down window.
   
   bool WindowBodyC::GUICloseDown() {
+    RavlAssert(Manager.IsGUIThread());
     ONDEBUG(cerr << "WindowBodyC::GuiCloseDown() called" << endl);
     if(closeDown)
       return true;
@@ -197,6 +202,7 @@ namespace RavlGUIN {
   }
   
   bool WindowBodyC::GUISetPositioning(GtkWindowPosition& pos) {
+    RavlAssert(Manager.IsGUIThread());
     if (widget==0) return true;
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_window_set_position(GTK_WINDOW(widget),pos);
@@ -208,6 +214,7 @@ namespace RavlGUIN {
   }
 
   bool WindowBodyC::GUIUserResizable(bool& resizable) {
+    RavlAssert(Manager.IsGUIThread());
     if (widget!=0) {    
       RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
       if (resizable) {
@@ -227,6 +234,7 @@ namespace RavlGUIN {
   }
   
   bool WindowBodyC::GUIRaise() {
+    RavlAssert(Manager.IsGUIThread());
     if (widget==0) return true;
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gdk_window_raise(widget->window);
@@ -238,6 +246,7 @@ namespace RavlGUIN {
   }
   
   bool WindowBodyC::GUILower() {
+    RavlAssert(Manager.IsGUIThread());
     if (widget==0) return true;
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gdk_window_lower(widget->window);
@@ -251,6 +260,7 @@ namespace RavlGUIN {
   }
 
   bool WindowBodyC::GUIMaximise(bool& maximise) {
+    RavlAssert(Manager.IsGUIThread());
 #ifdef RAVL_USE_GTK2      
     if (widget==0) return true;
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
@@ -269,27 +279,45 @@ namespace RavlGUIN {
   }
 
   bool WindowBodyC::GUISetModal(bool& modal) {
+    RavlAssert(Manager.IsGUIThread());
     if (widget==0) return true;
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_window_set_modal(GTK_WINDOW(widget),modal);
     return true;
   }
 
-  void WindowBodyC::MakeTransient(WindowC& parent, GtkWindowPosition &position) {
-    Manager.Queue(Trigger(WindowC(*this),&WindowC::GUIMakeTransient,parent,position));
+  void WindowBodyC::MakeTransient(WindowC& parent, GtkWindowPosition &position) 
+  {
+    if(Manager.IsGUIThread())
+    {
+      Manager.QueueOnGUI(Trigger(WindowC(*this),&WindowC::GUIMakeTransient,parent,position));
+    }
+    else
+    {
+      Manager.Queue(Trigger(WindowC(*this),&WindowC::GUIMakeTransient,parent,position));
+    }
   }
 
   void WindowBodyC::MakeTransient(WindowC& parent) {
-    Manager.Queue(Trigger(WindowC(*this),&WindowC::GUIMakeTransient,parent));
+    if(Manager.IsGUIThread())
+    {
+      Manager.QueueOnGUI(Trigger(WindowC(*this),&WindowC::GUIMakeTransient,parent));
+    }
+    else
+    {
+      Manager.Queue(Trigger(WindowC(*this),&WindowC::GUIMakeTransient,parent));
+    }
   }
 
   bool WindowBodyC::GUIMakeTransient(OneChildC& parent) {
+    RavlAssert(Manager.IsGUIThread());
     GtkWindowPosition position = GTK_WIN_POS_CENTER_ON_PARENT;
     GUIMakeTransient(parent,position);
     return true;
   }
 
   bool WindowBodyC::GUIMakeTransient(OneChildC& parent, GtkWindowPosition &position) {
+    RavlAssert(Manager.IsGUIThread());
     if (widget!=0 && parent.Widget()!=0) {
       gtk_window_set_transient_for(GTK_WINDOW(widget),GTK_WINDOW(parent.Widget()));
       gtk_window_set_position(GTK_WINDOW(widget), position);
@@ -305,6 +333,7 @@ namespace RavlGUIN {
   }
 
   bool WindowBodyC::GUISetDecorated(bool& decorated) {
+    RavlAssert(Manager.IsGUIThread());
     if (widget!=0 && widget->window!=0) {
       RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
       GdkWMDecoration dec = decorated ? GdkWMDecoration(127) : GdkWMDecoration(0);
@@ -321,6 +350,7 @@ namespace RavlGUIN {
   }
 
   bool WindowBodyC::GUISetFullScreen(bool &fullscreen) {
+    RavlAssert(Manager.IsGUIThread());
     if (widget != NULL && isFullscreen != fullscreen) {
       RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
       if (fullscreen) {
