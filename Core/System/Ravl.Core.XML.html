@@ -19,14 +19,21 @@
       href="../Class/RavlN.XMLTreeC.html">XMLTreeC</a> for this
       approach. </li>
 
-      <li>A  stream-based method more like <a
-      href="http://www.saxproject.org/">SAX</a> (Simple API for XML).
-      The advantage of this approach is that the document does not
-      have to be stored in its entirety.  Use the remaining classes
-      (apart from XMLTreeC) and functions below for this approach.</li>
+      <li>A stream-based method more like <a
+      href="http://www.saxproject.org/">SAX</a> (Simple API for XML).  The
+      advantage of this approach is that the document does not have to be
+      stored in its entirety.  Use the remaining classes (apart from XMLTreeC)
+      and functions below for this approach.  The following enum (not
+      otherwise in the documentation) might be useful:
+
+        <pre>enum XMLTagOpsT {
+    XMLEndTag, XMLContent, XMLIndent, XMLIndentDown, XMLBeginTag, 
+    XMLEmptyTag, XMLComment, XML_PI
+}; <pre>  
+      </li>
     </ul>
 
-    <p> The classes and functions allows RAVL programs to read and
+    <p> The classes and functions allow RAVL programs to read and
     write XML files without including 3rd party libraries. If you want
     to do any operations involving DTD's it is suggested you look at
     one of the many existing libraries that can be found on the web.
