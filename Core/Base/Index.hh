@@ -315,41 +315,37 @@ inline IndexC & operator+=(const UInt64T i)
     
     inline RealT operator+(RealT i) const
     { return (RealT) v + i; }
-    //: Returns a new index with value of this index added by double 'i'
-    //: cut to integer value.
+    //: Returns a RealT with value of this index, converted to RealT, + 'i'
 
     inline RealT operator-(RealT i) const
     { return (RealT) v - i; }
-    //: Returns a new index with value of this index subtracted by double 'i'
-    //: cut to integer value.
+    //: Returns a RealT with value of this index, converted to RealT, - 'i'
 
     inline RealT operator*(RealT i) const
     { return (RealT) v * i; }
-    //: Returns a new index with value of this index multiplied by double 'i'.
-    //: The result is cut to integer value and converted to index value.
+    //: Returns a RealT with value of this index, converted to RealT, * 'i'
 
     inline RealT operator/(RealT i) const
     { return (RealT) v / i; }
-    //: Returns a new index with value of this index divided by double 'i'.
-    //: The result is cut to integer value and converted to index value.
+    //: Returns a RealT with value of this index, converted to RealT, / 'i'
 
     inline const IndexC & operator+=(RealT i)
     { v += IntT(RavlN::Floor(i)); return *this; }
-    //: Returns this index added by double 'i' cut to integer value.
+    //: This index is incremented by 'i' rounded <i>down</i> to integer value.
     
     inline const IndexC & operator-=(RealT i)
     { v -= IntT(RavlN::Ceil(i)); return *this; }
-    //: Returns this index subtracted by double 'i' cut to integer value.
+    //: This index is decremented by 'i' rounded <i>up</i> to integer value.
     
     inline const IndexC & operator*=(RealT i)
     { v = IntT(RavlN::Floor(v * i)); return *this; }
-    //: Returns this index multiplied by double 'i' with the result converted to
-    //: index value type.
+    //: This index is converted to RealT, multiplied by 'i', and replaced
+    //: with the result rounded down to IndexC.
 
     inline const IndexC & operator/=(RealT i)
     { v = IntT(RavlN::Floor(v / i)); return *this; }
-    //: Returns this index divided by double 'i' with the result converted to
-    //: index value type.
+    //: This index is converted to RealT, divided by 'i', and replaced
+    //: with the result rounded down to IndexC.
     
     inline IndexC operator+(const IndexC & i) const
     { return v+i.v; }
