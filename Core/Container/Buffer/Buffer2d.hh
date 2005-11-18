@@ -17,7 +17,7 @@
 
 // To use single buffer uncomment the following
 
-//#define RAVL_BUFFER2D_USE_SINGLEBUFFER 1
+#define RAVL_BUFFER2D_USE_SINGLEBUFFER 1
 
 #ifdef RAVL_BUFFER2D_USE_SINGLEBUFFER
 

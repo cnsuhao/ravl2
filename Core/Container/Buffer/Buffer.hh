@@ -18,6 +18,7 @@
 #include "Ravl/Types.hh"
 #include "Ravl/RCHandleV.hh"
 #include "Ravl/SBfAcc.hh"
+#include <stdlib.h>
 
 //: Ravl global namespace.
 
@@ -64,6 +65,23 @@ namespace RavlN {
 	delete [] this->buff;
     }
     //: Destructor.
+    
+#if 1
+    void *operator new(size_t s) 
+    { return malloc(s); }
+    //: Override default allocator to just use malloc.
+    // This allows classes like SingleBuffer to do more efficient memory allocation.
+    
+    void *operator new(size_t s,void *mem) 
+    { return mem; }
+    //: Override default allocator to just pass through memory given.
+    // This allows classes like SingleBuffer to do more efficient memory allocation.
+    
+    void operator delete(void *data,size_t s) 
+    { free(data); }
+    //: Override default allocator to just use free.
+    // This allows classes like SingleBuffer to do more efficient memory allocation.
+#endif
     
   protected:    
     bool deletable;

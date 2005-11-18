@@ -7,7 +7,11 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 
+//#define RAVL_ARRAY1D_USE_SINGLEBUFFER 1
+
+#include "Ravl/SingleBuffer.hh"
 #include "Ravl/Array2d.hh"
+#include "Ravl/Array1d.hh"
 #include "Ravl/Option.hh"
 
 using namespace RavlN;
@@ -94,11 +98,26 @@ void loopArray2() {
   }
 }
 
+void ArrayAlloc() {
+#if 1
+  for(int i = 0;i < 10000000;i++) {
+    Array1dC<UIntT> array(100); 
+  }
+#else
+  Array1dC<UIntT> array(1); 
+#endif
+}
+
 int main(UIntT nargs,char **argv) {
   OptionC opt(nargs,argv);
   UIntT loops = opt.Int("l",100,"Interations ");
   bool block = opt.Boolean("b",false,"Use simple block access.");
+  bool testAlloc = opt.Boolean("a",false,"Test allocation speed ");
   opt.Check();
+  if(testAlloc) {
+    ArrayAlloc();
+    return 0;
+  }
   if(block) {
     cerr << "Array2dC.. \n";
     for(int i = 0;i < loops;i++)

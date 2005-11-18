@@ -22,10 +22,7 @@ namespace RavlN {
   template<typename DataT>
   inline
   void ConstructRawArray(DataT *data,SizeT size) {
-    DataT *at = data;
-    DataT *end = &at[size];
-    for(;at != end;at++)
-      new(at) DataT();
+    new(data) DataT[size];
   }
   
   template<typename DataT>
@@ -85,6 +82,46 @@ namespace RavlN {
   void DestructRawArray(FloatT *data,SizeT size) 
   {}
   
+  inline
+  void ConstructRawArray(bool *data,SizeT size) 
+  {}
+  
+  inline
+  void DestructRawArray(bool *data,SizeT size) 
+  {}
+
+  inline
+  void ConstructRawArray(Int16T *data,SizeT size) 
+  {}
+  
+  inline
+  void DestructRawArray(Int16T *data,SizeT size) 
+  {}
+  
+  inline
+  void ConstructRawArray(UInt16T *data,SizeT size) 
+  {}
+  
+  inline
+  void DestructRawArray(UInt16T *data,SizeT size) 
+  {}
+
+  inline
+  void ConstructRawArray(Int64T *data,SizeT size) 
+  {}
+  
+  inline
+  void DestructRawArray(Int64T *data,SizeT size) 
+  {}
+  
+  inline
+  void ConstructRawArray(UInt64T *data,SizeT size) 
+  {}
+  
+  inline
+  void DestructRawArray(UInt64T *data,SizeT size) 
+  {}
+  
   //! userlevel=Develop
   //: Single allocation buffer body.
   // Allocate data along with body.
@@ -129,8 +166,7 @@ namespace RavlN {
   protected:
     static SingleBufferBodyC<DataT> *AllocBody(SizeT size) {
       if(size < 1) size = 1;
-      char *buf = new char [sizeof(SingleBufferBodyC<DataT>) + (size-1) * sizeof(DataT)];
-      SingleBufferBodyC<DataT> *ret = reinterpret_cast<SingleBufferBodyC<DataT> *> (buf);
+      SingleBufferBodyC<DataT> *ret = reinterpret_cast<SingleBufferBodyC<DataT> *> (malloc(sizeof(SingleBufferBodyC<DataT>) + (size-1) * sizeof(DataT)));
       new(ret) SingleBufferBodyC<DataT>(size);
       return ret;
     }

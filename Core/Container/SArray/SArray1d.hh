@@ -25,7 +25,7 @@
 
 // To use single buffer uncomment the following
 
-//#define RAVL_SARRAY1D_USE_SINGLEBUFFER 1
+#define RAVL_SARRAY1D_USE_SINGLEBUFFER 1
 
 #ifdef RAVL_SARRAY1D_USE_SINGLEBUFFER
 
