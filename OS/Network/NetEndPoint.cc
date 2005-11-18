@@ -213,11 +213,14 @@ namespace RavlN {
       SndInit(auser);
     }
     
-    //Transmit(initMsg);
+    // This is a little dangerous as if threads fail to start we'll decrement 
+    // the refrence counter to zero. That probably means we're out of memory
+    // and things are going badly wrong anyway.
     
     NetEndPointC me(*this);
+    
     LaunchThread(me,&NetEndPointC::RunReceive);
-    LaunchThread(me,&NetEndPointC::RunTransmit);
+    LaunchThread((SizeT) 1e6,Trigger(me,&NetEndPointC::RunTransmit)); // Transmit thread only needs a small stack.
 #if RAVL_USE_DECODE_THREAD
     if(optimiseThroughput) 
       LaunchThread(me,&NetEndPointC::RunDecode);
