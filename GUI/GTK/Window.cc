@@ -288,25 +288,12 @@ namespace RavlGUIN {
 
   void WindowBodyC::MakeTransient(WindowC& parent, GtkWindowPosition &position) 
   {
-    if(Manager.IsGUIThread())
-    {
-      Manager.QueueOnGUI(Trigger(WindowC(*this),&WindowC::GUIMakeTransient,parent,position));
-    }
-    else
-    {
-      Manager.Queue(Trigger(WindowC(*this),&WindowC::GUIMakeTransient,parent,position));
-    }
+     Manager.QueueOnGUI(Trigger(WindowC(*this),&WindowC::GUIMakeTransient,parent,position));
   }
 
-  void WindowBodyC::MakeTransient(WindowC& parent) {
-    if(Manager.IsGUIThread())
-    {
-      Manager.QueueOnGUI(Trigger(WindowC(*this),&WindowC::GUIMakeTransient,parent));
-    }
-    else
-    {
-      Manager.Queue(Trigger(WindowC(*this),&WindowC::GUIMakeTransient,parent));
-    }
+  void WindowBodyC::MakeTransient(WindowC& parent) 
+  {
+    Manager.QueueOnGUI(Trigger(WindowC(*this),&WindowC::GUIMakeTransient,parent));
   }
 
   bool WindowBodyC::GUIMakeTransient(OneChildC& parent) {

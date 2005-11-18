@@ -84,7 +84,7 @@ namespace RavlGUIN {
     void SetRootWindow(WindowC &);
     //: Set root window.
     
-    void Queue(const TriggerC &se, bool bOverrideGUICheck = false);
+    void Queue(const TriggerC &se);
     //: Queue an event for running in the GUI thread.
     // Thread safe.
     

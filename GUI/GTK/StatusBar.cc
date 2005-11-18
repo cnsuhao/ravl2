@@ -98,14 +98,7 @@ namespace RavlGUIN {
   void StatusBarBodyC::Push(IntT context,const StringC &str) 
   { 
     ONDEBUG(cerr << "StatusBarBodyC::Push()  Ctxt:" << context << " Msg:" << str << "\n");
-    if(Manager.IsGUIThread())
-    {
-      Manager.QueueOnGUI(Trigger(StatusBarC(*this),&StatusBarC::GUIPush,context,str));
-    }
-    else
-    {
-      Manager.Queue(Trigger(StatusBarC(*this),&StatusBarC::GUIPush,context,str));
-    }
+    Manager.QueueOnGUI(Trigger(StatusBarC(*this),&StatusBarC::GUIPush,context,str));
   }
   
   //: Push message for a give period.
@@ -122,14 +115,7 @@ namespace RavlGUIN {
   bool StatusBarBodyC::Pop(IntT context) 
   {
     ONDEBUG(cerr << "StatusBarBodyC::Pop()   Ctxt:" << context << " \n");
-    if(Manager.IsGUIThread())
-    {
-       Manager.QueueOnGUI(Trigger(StatusBarC(*this),&StatusBarC::GUIPop,context));
-    }
-    else
-    {
-      Manager.Queue(Trigger(StatusBarC(*this),&StatusBarC::GUIPop,context));
-    }
+    Manager.QueueOnGUI(Trigger(StatusBarC(*this),&StatusBarC::GUIPop,context));
     return true;
   }
   

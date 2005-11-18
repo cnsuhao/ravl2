@@ -50,10 +50,10 @@ namespace RavlGUIN  {
     return true;
   }
   
-  //: Update the text in the label.
-  
-  bool LabelBodyC::Label(const StringC &txt) {
-    Manager.Queue(Trigger(LabelC(*this),&LabelC::GUISetLabel,txt));
+  //: Update the text in the label. 
+  bool LabelBodyC::Label(const StringC &txt) 
+  {
+    Manager.QueueOnGUI(Trigger(LabelC(*this),&LabelC::GUISetLabel,txt));
     return true;
   }
   
