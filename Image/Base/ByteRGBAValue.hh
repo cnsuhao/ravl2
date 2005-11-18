@@ -35,6 +35,15 @@ namespace RavlImageN {
       {}
     //: Construct from components.
     
+    template<typename PixelT>
+    ByteRGBAValueC(const TFVectorC<PixelT,4> &oth)
+      : RGBAValueC<ByteT>(static_cast<ByteT>(oth[0]),
+			  static_cast<ByteT>(oth[1]),
+			  static_cast<ByteT>(oth[2]),
+                          static_cast<ByteT>(oth[3]))
+    {}
+    //: Construct from another value type.
+    
     ByteRGBAValueC(const RGBAValueC<ByteT> &oth)
       : RGBAValueC<ByteT>(oth)
       {}
@@ -46,6 +55,17 @@ namespace RavlImageN {
     //: Calculate intensity of the pixel.
     // This returns the average of the red, green
     // and blue components.
+
+    RGBAValueC<RealT> operator*(RealT val) const {
+      RGBAValueC<RealT> ret;
+      ret[0] = ((RealT)(*this)[0] * val);
+      ret[1] = ((RealT)(*this)[1] * val);
+      ret[2] = ((RealT)(*this)[2] * val);
+      ret[3] = ((RealT)(*this)[3] * val);
+      return ret;
+    }
+    //: Multiply by a real.
+
   };
   
   template<class DataT> class ImageC;
