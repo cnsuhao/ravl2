@@ -55,8 +55,14 @@ int main()
   return 0;
 }
 
+bool TestProg() {
+  return true;
+}
+
 int TestLaunchThreads() {
   ExampleC ae;
+  
+  LaunchThread(32000,Trigger(&TestProg));
   LaunchThread(ae,&ExampleC::DoIt);
   LaunchThread(ae,&ExampleC::DoItArg,2);
   sleep(1);

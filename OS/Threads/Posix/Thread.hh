@@ -79,7 +79,7 @@ namespace RavlN
     : public RCBodyVC
   {
   public:
-    ThreadBodyC();
+    ThreadBodyC(SizeT initStackSize = 0);
     //: Default constructor.
 
     ~ThreadBodyC();
@@ -119,6 +119,11 @@ namespace RavlN
     // after Execute() has been called.
     // THREAD SAFE.
     
+    void SetStackSize(SizeT nStackSize)
+    { stackSize = nStackSize; }
+    //: Set the stack size in bytes to use for the thread. 
+    // Note this will only have an effect before 'Execute()' is called.
+    
   protected:
     virtual int Start(); 
     //: Called when thread started.  
@@ -150,6 +155,8 @@ namespace RavlN
 #endif
     
     bool live; // Set to true after thread is created.
+    
+    SizeT stackSize; // Size of stack to create. 0=Use system default
     
 #if RAVL_HAVE_POSIX_THREADS    
     friend void *StartThread(void *Data);
@@ -230,6 +237,11 @@ namespace RavlN
     // NB. An id may no be assigned to the thread until
     // after Execute() has been called.
     // THEAD SAFE.
+    
+    void SetStackSize(SizeT nStackSize)
+    { Body().SetStackSize(nStackSize); }
+    //: Set the stack size in bytes to use for the thread. 
+    // Note this will only have an effect before 'Execute()' is called.
     
   };
 

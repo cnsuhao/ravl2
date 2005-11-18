@@ -130,10 +130,11 @@ namespace RavlN {
 
   //: Default constructor.
   
-  ThreadBodyC::ThreadBodyC()
+  ThreadBodyC::ThreadBodyC(SizeT initStackSize)
     : terminatePending(false),
       threadID(0),
-      live(false)
+      live(false),
+      stackSize(initStackSize)
   {}
   
   //: Destructor.
@@ -261,8 +262,16 @@ namespace RavlN {
     // This will be held while the thread is running and will
     // be removed by the thread cancellation function.
     IncRefCounter();
-#if RAVL_HAVE_POSIX_THREADS    
-    if(pthread_create(&threadID,0,StartThread,(void *) this) != 0) 
+#if RAVL_HAVE_POSIX_THREADS 
+    pthread_attr_t attr;
+    pthread_attr_init(&attr);
+    if(stackSize > 0) {
+      if(pthread_attr_setstacksize(&attr,stackSize) != 0) {
+        cerr << "ThreadBodyC::Execute, Failed to set stack size to " << stackSize << "\n";
+      }
+    }
+    
+    if(pthread_create(&threadID,&attr,StartThread,(void *) this) != 0) 
 #endif
 #if RAVL_HAVE_WIN32_THREADS
     DWORD winThreadId;
@@ -273,8 +282,14 @@ namespace RavlN {
 	live = false; // Its definitly not live!
 	DecRefCounter(); // This can't be the last reference.
 	RavlAssert(References() > 0);
+#if RAVL_HAVE_POSIX_THREADS     
+        pthread_attr_destroy(&attr);
+#endif
 	return false;
       }    
+#if RAVL_HAVE_POSIX_THREADS     
+    pthread_attr_destroy(&attr);
+#endif
     return true;
   }
   

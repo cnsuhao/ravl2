@@ -35,6 +35,9 @@ namespace RavlN {
     LaunchThreadBodyC(const TriggerC &nse);
     //: Constructor.
     
+    LaunchThreadBodyC(SizeT initStackSize,const TriggerC &nse);
+    //: Constructor.
+    
     virtual int Start();
     //: Called on startup.
     
@@ -79,7 +82,10 @@ namespace RavlN {
     
     LaunchThreadC(const TriggerC &nse);
     //: Constructor.
-
+    
+    LaunchThreadC(SizeT initStackSize,const TriggerC &nse);
+    //: Constructor.
+    
   protected:
     LaunchThreadC(LaunchThreadBodyC &leb)
       : ThreadC(leb)
@@ -124,6 +130,11 @@ namespace RavlN {
   inline 
   LaunchThreadC LaunchThread(const TriggerC &nse)
   { return LaunchThreadC(nse); }
+  //: Launch a routine on another thread.
+
+  inline 
+  LaunchThreadC LaunchThread(SizeT stackSize,const TriggerC &nse)
+  { return LaunchThreadC(stackSize,nse); }
   //: Launch a routine on another thread.
   
   inline

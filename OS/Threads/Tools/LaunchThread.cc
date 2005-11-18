@@ -27,6 +27,11 @@ namespace RavlN {
     : se(nse)
   {}
 
+  LaunchThreadBodyC::LaunchThreadBodyC(SizeT initStackSize,const TriggerC &nse)
+    : ThreadBodyC(initStackSize),
+      se(nse)
+  {}
+  
   int LaunchThreadBodyC::Start() {
     
 #if RAVL_REUSE_THREADS
@@ -85,6 +90,14 @@ namespace RavlN {
     SysLog(SYSLOG_DEBUG) << "LaunchThreadC::LaunchThreadC(), Creating new thread.  ";
 #endif
     LaunchThreadC newun(*new LaunchThreadBodyC(nse));
+    (*this) = newun;
+    Execute(); 
+  }
+
+  //: Constructor.
+  
+  LaunchThreadC::LaunchThreadC(SizeT initStackSize,const TriggerC &nse) {
+    LaunchThreadC newun(*new LaunchThreadBodyC(initStackSize,nse));
     (*this) = newun;
     Execute(); 
   }
