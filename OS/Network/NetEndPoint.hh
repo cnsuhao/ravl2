@@ -151,6 +151,9 @@ namespace RavlN {
     ~NetEndPointBodyC();
     //: Destructor.
     
+    static IntT CountOpenConnections();
+    //: Return a count of the number of the current number of open connections.
+    
     bool IsOpen() const { 
       if(!istrm.IsValid() || !ostrm.IsValid())
 	return false;
@@ -504,6 +507,10 @@ namespace RavlN {
     bool IsOpen() const
     { return Body().IsOpen(); }
     //: Is Connections open ?
+    
+    static IntT CountOpenConnections()
+    { return NetEndPointBodyC::CountOpenConnections(); }
+    //: Return a count of the number of the current number of open connections.
     
 #if 0
     inline SocketC Socket (void) 

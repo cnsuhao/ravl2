@@ -30,6 +30,10 @@
 namespace RavlN {
   enum NEPMsgTypeT { NEPMsgInit = 1, NEPMsgPing };
   
+  //: Global count of open net end points.
+  
+  static ravl_atomic_t openNetEndPointCount = RAVL_ATOMIC_INIT(0);
+  
   //: Constructor.
   
   NetEndPointBodyC::NetEndPointBodyC(const StringC &addr,bool nautoInit,bool _optimiseThroughput) 
@@ -42,6 +46,9 @@ namespace RavlN {
       pingSeqNo(1),
       optimiseThroughput(_optimiseThroughput)
   {
+    // Increment count of open connections.
+    ravl_atomic_inc(&openNetEndPointCount);
+    
     SocketC skt(addr,false);
     localInfo.appName = SysLogApplicationName();
     Init(skt); 
@@ -59,6 +66,9 @@ namespace RavlN {
       pingSeqNo(1),
       optimiseThroughput(_optimiseThroughput)
   {
+    // Increment count of open connections.
+    ravl_atomic_inc(&openNetEndPointCount);
+    
     localInfo.appName = SysLogApplicationName();
     Init(nskt); 
   }
@@ -76,6 +86,9 @@ namespace RavlN {
       pingSeqNo(1),
       optimiseThroughput(_optimiseThroughput )
   { 
+    // Increment count of open connections.
+    ravl_atomic_inc(&openNetEndPointCount);
+    
     localInfo.appName = SysLogApplicationName();
     Init(socket); 
   }
@@ -93,6 +106,9 @@ namespace RavlN {
       pingSeqNo(1),
       optimiseThroughput(_optimiseThroughput)
   { 
+    // Increment count of open connections.
+    ravl_atomic_inc(&openNetEndPointCount);
+    
     SocketC skt(address,false);
     localInfo.appName = SysLogApplicationName();
     Init(skt); 
@@ -108,7 +124,10 @@ namespace RavlN {
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
       pingSeqNo(1),
       optimiseThroughput(_optimiseThroughput)
-  {}
+  {
+    // Increment count of open connections.
+    ravl_atomic_inc(&openNetEndPointCount);
+  }
   
   //: Destructor.
   
@@ -116,6 +135,14 @@ namespace RavlN {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::~NetEndPointBodyC(), Called. " << (void *) this);
     setupComplete.Post(); // Make sure nothings waiting for setup to complete.
     sigConnectionBroken.DisconnectAll(true);
+    ravl_atomic_dec(&openNetEndPointCount);
+  }
+
+  //: Return a count of the number of the current number of open connections.
+  
+  IntT NetEndPointBodyC::CountOpenConnections() 
+  {
+    return ravl_atomic_read(&openNetEndPointCount);
   }
   
   //: Register new message handler.
@@ -166,6 +193,7 @@ namespace RavlN {
       shutdown = true;
       return false;
     }
+    
     // If stream doesn't support corking use NoDelay.
     if(!optimiseThroughput) 
       nskt.SetNoDelay();
