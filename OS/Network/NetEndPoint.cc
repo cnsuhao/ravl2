@@ -220,7 +220,7 @@ namespace RavlN {
     NetEndPointC me(*this);
     
     LaunchThread(me,&NetEndPointC::RunReceive);
-    LaunchThread((SizeT) 1e6,Trigger(me,&NetEndPointC::RunTransmit)); // Transmit thread only needs a small stack.
+    LaunchThread((SizeT) 1e5,Trigger(me,&NetEndPointC::RunTransmit)); // Transmit thread only needs a small stack.
 #if RAVL_USE_DECODE_THREAD
     if(optimiseThroughput) 
       LaunchThread(me,&NetEndPointC::RunDecode);
