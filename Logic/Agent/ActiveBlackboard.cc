@@ -141,6 +141,22 @@ namespace RavlLogicN {
     ProcessDelta(key,idata,false);
     return true;    
   }
+
+  //: Ask about a first match.
+  
+  bool ActiveBlackboardBodyC::Ask(const LiteralC &key,RCWrapAbstractC &data) {
+    RWLockHoldC lock(rwlock,RWLOCK_READONLY);
+    return index.Lookup(key,data);
+  }
+  
+  //: Ask about a first match.
+  
+  bool ActiveBlackboardBodyC::Ask(const LiteralC &key) {
+    RCWrapAbstractC data;
+    RWLockHoldC lock(rwlock,RWLOCK_READONLY);
+    return index.Lookup(key,data);
+  }
+
   
   //: Load rules from a file.
   

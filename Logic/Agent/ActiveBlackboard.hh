@@ -38,7 +38,7 @@ namespace RavlLogicN {
     UIntT AddTrigger(const LiteralC &condition,TriggerC trigger);
     //: Register a trigger.
     
-    bool Tell(const LiteralC &key,const RCWrapAbstractC &data);
+    virtual bool Tell(const LiteralC &key,const RCWrapAbstractC &data);
     //: Tell blackboard something.
     
     template<class DataT>
@@ -48,35 +48,26 @@ namespace RavlLogicN {
     }
     //: Tell blackboard something.
     
-    bool Tell(const LiteralC &key);
+    virtual bool Tell(const LiteralC &key);
     //: Tell blackboard something.
     
-    bool Retract(const LiteralC &key);
+    virtual bool Retract(const LiteralC &key);
     //: Remove a fact from the blackboard.
     
-    bool Retract(const LiteralC &key,const RCWrapAbstractC &data);
+    virtual bool Retract(const LiteralC &key,const RCWrapAbstractC &data);
     //: Remove a fact from the blackboard.
     
-    bool Ask(const LiteralC &key,RCWrapAbstractC &data) {
-      RWLockHoldC lock(rwlock,RWLOCK_READONLY);
-      return index.Lookup(key,data);
-    }
+    virtual bool Ask(const LiteralC &key,RCWrapAbstractC &data);
     //: Ask about a first match.
     
-    bool Ask(const LiteralC &key) {
-      RCWrapAbstractC data;
-      RWLockHoldC lock(rwlock,RWLOCK_READONLY);
-      return index.Lookup(key,data);
-    }
+    virtual bool Ask(const LiteralC &key);
     //: Ask about a first match.
     
     template<class DataT>
     bool Ask(const LiteralC &key,DataT &data) {
-      RWLockHoldC lock(rwlock,RWLOCK_READONLY);
       RCWrapAbstractC wrap;
-      if(!index.Lookup(key,wrap))
+      if(!Ask(key,wrap))
 	return false;
-      lock.Unlock();
       RCWrapC<DataT> rcw(wrap,true);
       if(!rcw.IsValid())
 	return false;
