@@ -258,6 +258,11 @@ namespace RavlN {
     //: Default conversion to data type.
   };
   
+  template<typename DataT>
+  RCWrapAbstractC RCWrap(const DataT &val)
+  { return RCWrapC<DataT>(val); }
+  //: Helper function to Wrap a value.
+  
   template<class DataT>
   ostream &operator<<(ostream &strm,const RCWrapC<DataT> &data) {
     RavlAssert(data.IsValid());
