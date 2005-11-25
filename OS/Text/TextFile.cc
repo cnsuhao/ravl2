@@ -151,7 +151,7 @@ namespace RavlN {
     //cerr << "Looking for:'" << str << "'\n";
     for(;it.IsElm();it.Next(),lineno++) {
       //cerr << "Checking" << it.Data().Text().matches(str) << ":" << it.Data().Text();
-      if(it.Data().Text().contains(str,0) > 0)
+      if(it.Data().Text().matches(str,0,false) > 0)
 	return lineno;
     }
     return -1;

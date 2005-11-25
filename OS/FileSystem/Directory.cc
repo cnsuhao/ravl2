@@ -142,13 +142,13 @@ namespace RavlN {
       // Filter out files we're not interested in..
       ONDEBUG(cerr << "DirectoryC::List() Testing:" << it.Data() << "\n");
       if(!pre.IsEmpty()) {
-	if(!it.Data().contains(pre,0)) {
+	if(!it.Data().matches(pre,0,false)) {
 	  it.Del();
 	  continue;
 	}
       }
       if(!post.IsEmpty()) {
-	if(!it.Data().contains(post,it.Data().length() - post.length())) {
+	if(!it.Data().matches(post,it.Data().length() - post.length(), false)) {
 	  it.Del();
 	  continue;
 	}

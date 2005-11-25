@@ -293,7 +293,7 @@ namespace RavlN {
 	baseClasses.InsLast(StringC("RCHandleC<") + bodyObj.Name() + StringC(">"));
 	continue;
       }
-      if(!iname.contains("BodyC",-1))
+      if(!iname.matches("BodyC",-1, false))
 	continue; // Ingore inheritance from non-big objects.
       StringC handleName = iname.before("BodyC") + "C";
       baseClasses.InsLast(handleName);
@@ -544,7 +544,7 @@ namespace RavlN {
     ONDEBUG(cerr << "ClassWizardBodyC::ScanScope(), Scan scope " << scope.Name() << "\n");
     for(DLIterC<ObjectC> it(scope.List());it;it++) {
       if(ClassC::IsA(*it)) { // Got a class ?
-	if(it->Name().contains("BodyC",-1)) {
+	if(it->Name().matches("BodyC",-1,true)) {
 	  ONDEBUG(cerr << "Found body class '" << it->Name() << "\n");
 	  ApplyClass(scope,*it);
 	}

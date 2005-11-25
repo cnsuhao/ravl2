@@ -168,7 +168,7 @@ namespace RavlN {
 	Load(it.Data());
     }
     for(DLIterC<DynEntryC> it1(prefix);it1.IsElm();it1.Next()) {
-      if(filename.contains(it1.Data().key,0)) 
+      if(filename.matches(it1.Data().key,0,false)) 
 	Load(it1.Data());
     }
     return true;

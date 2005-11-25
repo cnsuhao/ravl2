@@ -47,7 +47,7 @@ namespace RavlN {
 	ret = getcwd(buff,1024);
 	break;
       }
-      if(ret.contains("./",0)) {
+      if(ret.matches("./",0,false)) {
 	ret = StringC(getcwd(buff,1024)) + ret.after(".");
 	break;
       }
@@ -67,7 +67,7 @@ namespace RavlN {
   
     if(!removeAMD)
       return ret; // Done.
-    if(!ret.contains(AMDPrefix,0))
+    if(!ret.matches(AMDPrefix,0,false))
       return ret; // No AMD prefix to remove.
   
     // Removee the AMD prefix. (if possible.)

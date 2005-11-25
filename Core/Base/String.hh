@@ -383,7 +383,7 @@ namespace RavlN {
     // returns -1 on failure.  The search starts from index 'startpos'.
 #endif
     
-    inline int contains(char c) const
+    inline int contains (char c) const
     { return search(0, length(), c) >= 0; }
     //: Returns 1 if this string contains the character 'c'.
     
@@ -399,12 +399,12 @@ namespace RavlN {
     //: Returns 1 if this string contains the sub-string 't'.
     
     inline int contains(char c, int pos) const
-    { return match(pos, length(), 0, &c, 1) >= 0; }
+    { return search(pos, length(), &c, 1) >= 0; }
     //: return 1 if target appears anywhere after position pos 
     // (or before, if pos is negative) in StringC; else 0
     
     inline int contains(const StringC& y, int pos) const
-    { return match(pos, length(), 0, y.chars(), y.length()) >= 0; }
+    { return search(pos, length(), y.chars(), y.length()) >= 0; }
     //: return 1 if target appears anywhere after position pos 
     // (or before, if pos is negative) in StringC; else 0
       
@@ -412,35 +412,36 @@ namespace RavlN {
     //: return 1 if target appears anywhere after position pos 
     // (or before, if pos is negative) in StringC; else 0
     
-    inline int contains(const char* t, int pos) const
-    { return match(pos, length(), 0, t) >= 0; }
-    //: return 1 if target appears anywhere after position pos 
-    // (or before, if pos is negative) in StringC; else 0
-    
+     inline int contains(const char* t, int pos) const
+     { return search(pos, length(), t) >= 0; }
+     //: return 1 if target appears anywhere after position pos
+     // (or before, if pos is negative) in StringC; else 0
+
+
 #if USEREGEX
     inline int contains(const Regex& r) const
     { int unused;  return r.search(chars(), length(), unused, 0) >= 0; }
     //: Returns 1 if this string contains the sub-string 'r'.
     
     inline int contains(const Regex&      r, int pos) const
-    { return r.match(chars(), length(), pos) >= 0; }
+    { return r.search(chars(), length(), pos) >= 0; }
     //: return 1 if target appears anywhere after position pos 
     // (or before, if pos is negative) in StringC; else 0
 #endif
     
-    inline int matches(char c, int pos = 0) const
-    { return match(pos, length(), 1, &c, 1) >= 0; }
+    inline int matches(char c, int pos = 0, const bool exact = true) const
+    { return match(pos, length(), exact, &c, 1) >= 0; }
     //: return 1 if target appears at position pos in StringC; else 0
     
-    inline int matches(const StringC& y, int pos = 0) const
-    { return match(pos, length(), 1, y.chars(), y.length()) >= 0; }
+    inline int matches(const StringC& y, int pos = 0, const bool exact = true ) const
+    { return match(pos, length(), exact, y.chars(), y.length()) >= 0; }
     //: return 1 if target appears at position pos in StringC; else 0
     
-    inline int matches(const SubStringC& y, int pos = 0) const;
+    inline int matches(const SubStringC& y, int pos = 0, const bool exact = true ) const;
     //: return 1 if target appears at position pos in StringC; else 0
     
-    inline int matches(const char* t, int pos = 0) const
-    { return match(pos, length(), 1, t) >= 0; }
+    inline int matches(const char* t, int pos = 0, const bool exact = true) const
+    { return match(pos, length(), exact, t) >= 0; }
     //: return 1 if target appears at position pos in StringC; else 0
     
 #if USEREGEX
@@ -1053,8 +1054,8 @@ namespace RavlN {
   inline int StringC::contains(const SubStringC& y, int pos) const
   { return match(pos, length(), 0, y.chars(), y.length()) >= 0; }
   
-  inline int StringC::matches(const SubStringC& y, int pos) const
-  { return match(pos, length(), 1, y.chars(), y.length()) >= 0; }
+  inline int StringC::matches(const SubStringC& y, int pos, const bool exact) const
+  { return match(pos, length(), exact, y.chars(), y.length()) >= 0; }
   
   inline int StringC::gsub(const SubStringC& pat, const StringC& repl)
   { return _gsub(pat.chars(), pat.length(), repl.chars(), repl.length()); }

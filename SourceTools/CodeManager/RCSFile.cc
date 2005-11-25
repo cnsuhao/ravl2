@@ -834,7 +834,7 @@ namespace RavlN {
 	}
 	off = minoff;
 	matchTxt = rcsInfoTxt[mini];
-	if(!buf2.contains(matchTxt,off)) {
+	if(!buf2.matches(matchTxt,off,false)) {
 #if RCSDEBUG
 	  cerr << "                Txt:" << matchTxt << endl;
 	  cerr << "               buf1:" << buf1 << endl;

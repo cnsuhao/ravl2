@@ -140,12 +140,12 @@ namespace RavlN {
     // types of file more clearly, and make sure each is handled correctly.
     
     while(at.IsElm()) {
-      if(at.LineText().contains("#",0) > 0) {
+      if(at.LineText().matches("#",0,false) > 0) {
 	//cerr << "Skip1:" << at.LineText();
 	at.NextLine();
 	continue; // After other macro defs a top of file.
       }
-      if(at.LineText().contains("/*",0) > 0) {
+      if(at.LineText().matches("/*",0,false) > 0) {
 	at.SkipTo("/*");
 	if(!at.SkipTo("*/")) {
 	  cerr << "WARNING: End of 'C' comment not found. ";
@@ -159,12 +159,12 @@ namespace RavlN {
 	}
 	continue;
       }
-      if(at.LineText().contains(comStr,0) > 0) {
+      if(at.LineText().matches(comStr,0,false) > 0) {
 	//cerr << "Skip2:" << at.LineText();
 	at.NextLine();
 	continue; // After comment bar.
       }
-      if(at.LineText().contains(comStr + "! ",0) > 0) {
+      if(at.LineText().matches(comStr + "! ",0,false) > 0) {
 	//cerr << "Skip3:" << at.LineText();
 	at.NextLine();
 	continue; // After other variables.
