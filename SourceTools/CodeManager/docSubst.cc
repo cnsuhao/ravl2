@@ -51,8 +51,9 @@ public:
   { return verbose; }
   //: In verbose mode ?
 
-  bool DoSubst(TextFileC &hdrfile);
+  IntT  DoSubst(TextFileC &hdrfile);
   //: Subsitute value.
+  // returns number of substitued lines
   
 protected:
   StringC label;
@@ -111,15 +112,15 @@ if (doExamples)
     }
     
     // Update variable
-    DoSubst(hdrfile); 
+IntT lines =  DoSubst(hdrfile); 
     
     // Update repository
     
     if(hdrfile.IsModified()) {
       if(!dryRun)
-	cerr << "Updating " << file <<endl;
+	cerr << "Updating " << file << "\t" << lines << " occurences" <<endl;
       else
-	cerr << "Updating " << file << " (dryrun)" << endl;
+	cerr << "Updating " << file << " (dryrun)" << "\t" << lines << " occurences"<< endl;
       if(!dryRun) {
 	if(!hdrfile.Save())
 	  cerr << "Failed to save file '" << file << "' \n"; 
@@ -130,7 +131,7 @@ if (doExamples)
 }
 
 //: Subsitute value.
-
+/*
 bool SubstsC::DoSubst(TextFileC &buff) {
   // FIXME - Var could turn out to be a prefix of something else ??
   IntT atline = buff.FindLineMatch("//! " + label);
@@ -139,6 +140,38 @@ bool SubstsC::DoSubst(TextFileC &buff) {
   if(buff[atline].gsub(original,newun) > 0)
     buff.SetModified();
   return true;
+}
+*/
+/*
+IntT SubstsC::DoSubst(TextFileC &buff) {
+int count = 0 ; 
+  // FIXME - Var could turn out to be a prefix of something else ??
+  IntT atline = 0;
+while (true){
+atline = buff.FindLineMatch("//! " + label, atline+1 ) ;
+cerr << "\n atline :" << atline ;
+if ( atline < 0 ) break ;
+ if(buff[atline].gsub(original,newun) > 0)
+ {  buff.SetModified()  ; ++ count ; }
+}
+return count ; 
+}
+*/
+
+
+//: Do the substitution in the text file
+IntT SubstsC::DoSubst(TextFileC &buff) 
+{
+int count = 0 ; 
+  // FIXME - Var could turn out to be a prefix of something else ??
+const StringC expression( "//! " + label) ; 
+for ( DLIterC<TextFileLineC> it (buff.Lines() ) ; it ; it ++ ) {
+	IntT index = it.Data().Text().index(expression);
+	if ( index < 0 ) continue ; // move on to next line if not found.
+	// otherwise replace it. 
+	if ( it.Data().Text().gsub(original, newun) > 0 )
+		{ buff.SetModified() ; ++ count ; } }
+return count ;
 }
 
 
