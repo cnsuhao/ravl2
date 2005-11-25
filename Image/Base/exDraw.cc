@@ -17,6 +17,10 @@
 #include "Ravl/Image/DrawPolygon.hh"
 #include "Ravl/DP/FileFormatIO.hh"
 
+// The defs.mk file will need this line to compile correctly:
+// PROGLIBS=RavlImageIO RavlDPDisplay
+
+
 using namespace RavlImageN;
 
 int main(int nargs,char **argv) {
