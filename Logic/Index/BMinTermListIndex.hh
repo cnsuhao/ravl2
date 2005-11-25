@@ -13,7 +13,7 @@
 //! lib=RavlLogic
 //! author="Charles Galambos"
 //! date="14/05/1998"
-//! docentry="Logic.Index"
+//! docentry="Ravl.Logic.Index"
 
 #include "Ravl/Logic/BMinTermIndex.hh"
 #include "Ravl/Logic/MinTermIter.hh"
