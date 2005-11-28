@@ -142,7 +142,7 @@ namespace RavlN {
     
   bool TypeConverterBodyC::Remove(DPConverterBaseC &tc)  {
     // FIXME :- Slow !! 
-    ONDEBUG(cerr << "Unegistering converter : "<< tc.ArgType(0).Name() << " to " << tc.Output().name() << " with cost " << cost << endl);
+    ONDEBUG(cerr << "Unegistering converter : "<< tc.ArgType(0).name() << " to " << tc.Output().name() << endl);
     bool ok = false;
     IntT size = 0;
     for(GraphEdgeIterC<StringC,DPConverterBaseC> it(ConvGraph());it.IsElm();it.Next()) {
