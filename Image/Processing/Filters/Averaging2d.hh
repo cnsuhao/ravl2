@@ -13,7 +13,11 @@ namespace RavlImageN {
 
   //! userlevel=Normal
   //: Averaging filter
-  // Can also be used as a summing filter by omitting the normalising step.<br>
+
+  // This is based on the SumRectangles function, and is included for
+  // consistency.  It can also be used as a summing filter by omitting the
+  // normalising step.<br>
+
   // <b><font color="cc0088">Note:</font></b> This filter is not recommended  for byte pixel types.
 
   template<class InPixelT,class OutPixelT> 
