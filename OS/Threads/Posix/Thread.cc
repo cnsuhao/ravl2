@@ -265,6 +265,11 @@ namespace RavlN {
 #if RAVL_HAVE_POSIX_THREADS 
     pthread_attr_t attr;
     pthread_attr_init(&attr);
+#if 0
+    SizeT val;
+    pthread_attr_getstacksize(&attr,&val);
+    cerr << "StackSize=" << val << "\n";
+#endif
     if(stackSize > 0) {
       if(pthread_attr_setstacksize(&attr,stackSize) != 0) {
         cerr << "ThreadBodyC::Execute, Failed to set stack size to " << stackSize << "\n";
