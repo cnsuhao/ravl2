@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/CacheIStream.hh"
+//! docentry="Ravl.API.Core.IO.Streams"
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/DP/StreamOp.hh"
