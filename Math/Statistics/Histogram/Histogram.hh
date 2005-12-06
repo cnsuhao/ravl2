@@ -24,7 +24,9 @@ namespace RavlN {
 
   //! userlevel=Normal
   //: Create a histogram from discrete values. 
-  // Use the class template <code>KeyT</code> to create a histogram from any sort of discrete data type, for example int, short, char, IntT, Index2dC (for a 2D histogram), even boolean .....
+  // <p>Use the class template <code>KeyT</code> to create a histogram from any sort of discrete data type, for example <code>int, short, char, IntT, Index2dC</code> (for a 2D histogram), even <code>bool</code> .....</p>
+
+  // <p>Note that <code>HistogramC</code> is based on <code>HashC</code>, in order to avoid problems of unknown range and data type.  If your application is time-critical, it will probably be worth while creating a class specifically for your data type.</p>
 
   template<class KeyT>
   class HistogramC 
