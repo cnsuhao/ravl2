@@ -2,7 +2,7 @@
 #define RAVLIMAGE_AVERAGING2D_HEADER 1
 
 //! author="Bill Christmas"
-//! docentry="Ravl.Images.Filtering"
+//! docentry="Ravl.API.Images.Filtering"
 
 #include "Ravl/Image/SumRectangles.hh"
 #include "Ravl/Image/Image.hh"
