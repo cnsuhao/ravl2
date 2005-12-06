@@ -8,7 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlExtImgIO
 //! file="Ravl/Image/ExternalImageIO/exExtImgIO.cc"
-//! docentry="Ravl.Images.IO.Formats"
+//! docentry="Ravl.API.Images.IO.Formats"
 //! userlevel=Normal
 //! author="Charles Galambos"
 

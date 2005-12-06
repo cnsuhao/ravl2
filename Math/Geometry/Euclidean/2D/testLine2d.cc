@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/2D/testLine2d.cc"
-//! docentry="Ravl.Math.Geometry.2D"
+//! docentry="Ravl.API.Math.Geometry.2D"
 //! author="Charles Galambos"
 //! userlevel=Develop
 

@@ -8,7 +8,7 @@
 #define RAVL_ACTIVEBLACKBOARD_HEADER 1
 //! author="Charles Galambos"
 //! userlevel=Normal
-//! docentry="Ravl.Logic.Agent"
+//! docentry="Ravl.API.Logic.Agent"
 //! rcsid="$Id$"
 //! lib=RavlLogicAgent
 //! file="Ravl/Logic/Agent/ActiveBlackboard.hh"

@@ -12,7 +12,7 @@
 //! author="Kieron Messer"
 //! date="22/10/2002"
 //! rcsid="$Id$"
-//! docentry="Ravl.GUI.Dialogs"
+//! docentry="Ravl.API.GUI.Dialogs"
 //! example="exButtonBox.cc"
 
 #include "Ravl/GUI/Window.hh"

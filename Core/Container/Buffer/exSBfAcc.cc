@@ -10,7 +10,7 @@
 //! file="Ravl/Core/Container/Buffer/exSBfAcc.cc"
 //! userlevel=Normal
 //! author="Radek Marik"
-//! docentry="Ravl.Core.Arrays.Buffer"
+//! docentry="Ravl.API.Core.Arrays.Buffer"
 //! date="26/2/1997"
 
 //: Sized Buffer Access

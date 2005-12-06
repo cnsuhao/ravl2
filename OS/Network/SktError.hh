@@ -11,7 +11,7 @@
 //! file="Ravl/OS/Network/SktError.hh"
 //! lib=RavlNet
 //! userlevel=Advanced
-//! docentry="Ravl.OS.Network"
+//! docentry="Ravl.API.OS.Network"
 //! author="Charles Galambos"
 //! date="15/02/2000"
 

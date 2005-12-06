@@ -8,7 +8,7 @@
 #define RAVL_DESIGNWEAKLINEAR_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! docentry="Ravl.Pattern Recognition.Classifier.DesignClassifier"
+//! docentry="Ravl.API.Pattern Recognition.Classifier.DesignClassifier"
 //! file="Ravl/PatternRec/Classify/DesignWeakLinear.hh"
 
 #include "Ravl/PatternRec/DesignClassifierSupervised.hh"

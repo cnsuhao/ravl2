@@ -2,7 +2,7 @@
 #define RAVL_EIGEN_HEADER 1
 //! license=own
 //! userlevel=Normal
-//! docentry="Ravl.Math.Linear Algebra"
+//! docentry="Ravl.API.Math.Linear Algebra"
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/Eigen.hh"

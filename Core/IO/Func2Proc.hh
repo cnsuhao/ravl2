@@ -7,7 +7,7 @@
 #ifndef RAVL_DPFUNC2PROCESS_HEADER
 #define RAVL_DPFUNC2PROCESS_HEADER 1
 ///////////////////////////////////////////////
-//! docentry="Ravl.Core.Data Processing.Processes" 
+//! docentry="Ravl.API.Core.Data Processing.Processes" 
 //! lib=RavlIO
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/Func2Proc.hh"

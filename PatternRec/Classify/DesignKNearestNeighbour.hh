@@ -8,7 +8,7 @@
 #define RAVL_DESIGNKNEARESTNEIGHBOUR_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! docentry="Ravl.Pattern Recognition.Classifier.DesignClassifier"
+//! docentry="Ravl.API.Pattern Recognition.Classifier.DesignClassifier"
 //! file="Ravl/PatternRec/Classify/DesignKNearestNeighbour.hh"
 //! example=exKNearestNeighbour.cc
 

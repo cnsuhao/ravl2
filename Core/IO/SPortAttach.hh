@@ -8,7 +8,7 @@
 #define RAVL_DPSPORTATTACH_HEADER 1
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Data Processing.Seekable Ports" 
+//! docentry="Ravl.API.Core.Data Processing.Seekable Ports" 
 //! file="Ravl/Core/IO/SPortAttach.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"

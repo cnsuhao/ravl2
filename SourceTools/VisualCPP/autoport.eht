@@ -1,5 +1,5 @@
 ! author="Charles Galambos"
-! docentry="Ravl.QMake.autoport;Ravl.Source Tools.AutoPort"
+! docentry="Ravl.QMake.autoport;Ravl.API.Source Tools.AutoPort"
 
 : QMake porting utility (to Visual C++ & others.)
 

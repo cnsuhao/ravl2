@@ -7,7 +7,7 @@
 #ifndef RAVL_BHASHITER_HEADER
 #define RAVL_BHASHITER_HEADER 1
 /////////////////////////////////////////////////////////////
-//! docentry="Ravl.Core.Branch"
+//! docentry="Ravl.API.Core.Branch"
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Branch/BHashIter.hh"

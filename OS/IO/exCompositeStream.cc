@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Data Processing.Composite" 
+//! docentry="Ravl.API.Core.Data Processing.Composite" 
 //! lib=RavlOSIO
 //! file="Ravl/OS/IO/exCompositeStream.cc"
 

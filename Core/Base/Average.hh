@@ -7,7 +7,7 @@
 #ifndef RAVL_AVERAGE_HEADER
 #define RAVL_AVERAGE_HEADER 1
 /////////////////////////////////////////////////////
-//! docentry="Ravl.Core.Math"
+//! docentry="Ravl.API.Core.Math"
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! rcsid="$Id$"

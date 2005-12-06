@@ -8,7 +8,7 @@
 #define RAVL_DESIGNER_HEADER 1
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.Pattern Recognition.Functions"
+//! docentry="Ravl.API.Pattern Recognition.Functions"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/Designer.hh"
 

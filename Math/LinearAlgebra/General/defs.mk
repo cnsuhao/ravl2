@@ -32,7 +32,7 @@ MAINS= benchmarkSMatrix.cc
 TESTEXES=testTMatrix.cc testMatInv.cc testMatrix.cc testTSMatrix.cc
 #testSVD.cc
 
-EHT= Ravl.Math.Linear_Algebra.Smart_Matrix.html
+EHT= Ravl.API.Math.Linear_Algebra.Smart_Matrix.html
 
 PLIB=RavlMath
 

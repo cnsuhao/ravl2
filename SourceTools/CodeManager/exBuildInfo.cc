@@ -8,7 +8,7 @@
 //! lib=RavlSourceTools
 //! file="Ravl/SourceTools/CodeManager/exBuildInfo.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.Source Tools"
+//! docentry="Ravl.API.Source Tools"
 //! userlevel=Normal
 
 #include "Ravl/Option.hh"

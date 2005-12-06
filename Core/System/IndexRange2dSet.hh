@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Core/System/IndexRange2dSet.hh"
 //! lib=RavlCore
-//! docentry="Ravl.Core.Indexing"
+//! docentry="Ravl.API.Core.Indexing"
 //! author="Charles Galambos"
 //! date="11/10/1999"
 

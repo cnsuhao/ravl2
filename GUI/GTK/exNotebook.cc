@@ -10,7 +10,7 @@
 //! file="Ravl/GUI/GTK/exNotebook.cc"
 //! author="Charles Galambos"
 //! date="23/03/1999"
-//! docentry="Ravl.GUI.Layout"
+//! docentry="Ravl.API.GUI.Layout"
 //! userlevel=Normal
 
 #include "Ravl/GUI/Window.hh"

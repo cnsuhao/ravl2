@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMShapeModel.hh"
-//! docentry="Ravl.Images.AAM"
+//! docentry="Ravl.API.Images.AAM"
 //! userlevel="Develop"
 //! author="Charles Galambos"
 

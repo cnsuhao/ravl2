@@ -8,7 +8,7 @@
 #define RAVLFINDEX_HEADER 1
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Indexing"
+//! docentry="Ravl.API.Core.Indexing"
 //! file="Ravl/Core/Base/FIndex.hh"
 //! lib=RavlCore
 //! userlevel=Default

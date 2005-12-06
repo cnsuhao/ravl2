@@ -12,7 +12,7 @@
 //! userlevel=Develop
 //! author="Radek Marik"
 //! date="22/8/1994"
-//! docentry="Ravl.Core.Graphs"
+//! docentry="Ravl.API.Core.Graphs"
 //! rcsid="$Id$"
 
 // Based on the graph structure designed by George Matas

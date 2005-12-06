@@ -8,7 +8,7 @@
 #define RAVLAUDIO_MELCEPSTRUM_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlAudioFeatures
-//! docentry="Ravl.Audio.Feature Extraction"
+//! docentry="Ravl.API.Audio.Feature Extraction"
 //! author="Charles Galambos"
 //! file="Ravl/Audio/Features/MelCepstrum.hh"
 

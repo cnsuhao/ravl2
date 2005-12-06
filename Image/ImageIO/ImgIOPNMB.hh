@@ -11,7 +11,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Image/ImageIO/ImgIOPNMB.hh"
 //! lib=RavlImageIO
-//! docentry="Ravl.Images.IO.Formats"
+//! docentry="Ravl.API.Images.IO.Formats"
 //! author="Charles Galambos"
 //! date="29/10/1998"
 

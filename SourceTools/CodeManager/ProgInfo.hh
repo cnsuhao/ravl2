@@ -8,7 +8,7 @@
 #define RAVL_PROGINFO_HEADER 1
 ////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Source Tools"
+//! docentry="Ravl.API.Source Tools"
 //! lib=RavlSourceTools
 //! userlevel=Normal
 //! file="Ravl/SourceTools/CodeManager/ProgInfo.hh"

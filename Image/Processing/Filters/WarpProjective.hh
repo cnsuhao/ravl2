@@ -8,7 +8,7 @@
 #define RAVLIMAGE_WARPPROJECTIVE_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlImageProc
-//! docentry="Ravl.Images.Warping"
+//! docentry="Ravl.API.Images.Warping"
 //! author="Charles Galambos"
 //! date="16/07/2002"
 //! file="Ravl/Image/Processing/Filters/WarpProjective.hh"

@@ -8,7 +8,7 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Misc/exStack.cc"
 //! author="George (Jiri) Matas"
-//! docentry="Ravl.Core.Stacks"
+//! docentry="Ravl.API.Core.Stacks"
 //! userlevel=Normal
 
 #include "Ravl/Stack.hh"

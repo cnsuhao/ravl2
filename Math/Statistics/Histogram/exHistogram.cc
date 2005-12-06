@@ -8,7 +8,7 @@
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/Histogram/exHistogram.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.Math.Statistics.Histogram"
+//! docentry="Ravl.API.Math.Statistics.Histogram"
 //! userlevel=Normal
 
 #include "Ravl/Histogram.hh"

@@ -9,7 +9,7 @@
 //! lib=RavlDPMT
 //! file="Ravl/OS/DataProc/exMTDataProc.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Data Processing"
+//! docentry="Ravl.API.Core.Data Processing"
 //! userlevel=Normal
 
 #include "Ravl/Option.hh" 

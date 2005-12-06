@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--! autoLinkContext=RavlN -->
+<!--! autoLink=on -->
+<!--! author="Charles Galambos" -->
+<html>
+  <head>
+    <title>Threading</title>
+  </head>
+
+  <body>
+    
+    <DIV ALIGN="CENTER"><A NAME="fig:thread"></A><A NAME="194"></A>
+    <TABLE>
+    <CAPTION ALIGN="BOTTOM"><STRONG>Figure 15:</STRONG>
+	  Thread.</CAPTION>
+<TR><TD><IMG
+ WIDTH="316" HEIGHT="112" ALIGN="BOTTOM" BORDER="0"  SRC="../../../Images/DataProc/img22.png" ALT="thread.eps"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+To simplify the construction of the sub threads, DPThreadPipeC&lt;&gt;
+integrates all the threading and buffers into one class.  All the user
+needs to do is to supply the processing operation that should be
+performed and the size of the buffers to use.  The DPThreadPipeC&lt;&gt;
+is shown in Figure <A HREF="Ravl.Core.Data_Processing.Threads.html#fig:thread">15</A>. It allows the previous multiplex
+example to be simplified to the following. 
+
+<P>
+<BLOCKQUOTE>
+<TT> DPIFileC&lt;RealT&gt;("in.dat") &#187;= DPMultiplex(DPThreadPipeC&lt;RealT&gt;(DPOffsetScale(4.0,2.0),2),3) &#187;= DPOFileC&lt;RealT&gt;("out.dat");
+</TT>
+</BLOCKQUOTE>
+
+<P>
+The structure this creates is identical to that shown in Figure
+<A HREF="Ravl.Core.Data_Processing.Multiplexer.html#fig:ex_multiplex">14</A>.
+
+  </body>
+</html>

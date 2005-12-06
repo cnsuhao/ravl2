@@ -7,7 +7,7 @@
 #ifndef RAVL_SOBOLIMAGE_HEADER
 #define RAVL_SOBOLIMAGE_HEADER 1
 //////////////////////////////////////////////////////////
-//! docentry="Ravl.Images.Misc"
+//! docentry="Ravl.API.Images.Misc"
 //! file="Ravl/Image/Processing/Tools/SobolImage.hh"
 //! lib=RavlImageProc
 //! author="Charles Galambos"

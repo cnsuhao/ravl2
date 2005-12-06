@@ -8,7 +8,7 @@
 #define RAVL_FEATURESELECTOR_HEADER 1
 ///////////////////////////////////////////////////////////
 //! lib=RavlPatternRec
-//! docentry="Ravl.Pattern Recognition.Performance Evaluation"
+//! docentry="Ravl.API.Pattern Recognition.Performance Evaluation"
 //! author="Kieron Messer"
 //! file="Ravl/PatternRec/Performance/Error.hh"
 //! rcsid="$Id$"

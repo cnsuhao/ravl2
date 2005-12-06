@@ -12,7 +12,7 @@
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.Math.Sequences"
+//! docentry="Ravl.API.Math.Sequences"
 //! example=testSquareIterFill.cc
 //! date="29/08/2000"
 

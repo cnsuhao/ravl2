@@ -7,7 +7,7 @@
 #ifndef RAVL_SEQUENCEIO_HEADERS
 #define RAVL_SEQUENCEIO_HEADERS 1
 //////////////////////////////////////////////////////////////
-//! docentry="Ravl.OS.Sequence"
+//! docentry="Ravl.API.OS.Sequence"
 //! rcsid="$Id$"
 //! userlevel=Normal
 //! file="Ravl/OS/IO/SequenceIO.hh"

@@ -9,7 +9,7 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Misc/testStack.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Stacks"
+//! docentry="Ravl.API.Core.Stacks"
 //! userlevel=Develop
 
 #include <assert.h>

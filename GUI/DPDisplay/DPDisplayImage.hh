@@ -10,7 +10,7 @@
 //! lib=RavlDPDisplay
 //! file="Ravl/GUI/DPDisplay/DPDisplayImage.hh"
 //! author="Charles Galambos"
-//! docentry="Ravl.GUI.Data Display"
+//! docentry="Ravl.API.GUI.Data Display"
 
 #include "Ravl/GUI/DPDisplayObj.hh"
 #include "Ravl/Image/Image.hh"

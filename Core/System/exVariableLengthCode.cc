@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.API.Core.Misc"
 //! date="07/06/1999"
 //! file="Ravl/Core/System/exVariableLengthCode.cc"
 

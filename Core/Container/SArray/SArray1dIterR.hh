@@ -7,7 +7,7 @@
 #ifndef RAVL_SARRAY1ITERR_HEADER
 #define RAVL_SARRAY1ITERR_HEADER 1
 ///////////////////////////////////////////////////
-//! docentry="Ravl.Core.Arrays.1D"
+//! docentry="Ravl.API.Core.Arrays.1D"
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/SArray/SArray1dIterR.hh"
 //! lib=RavlCore

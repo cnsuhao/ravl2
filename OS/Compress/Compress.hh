@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_COMPRESS_HEADER
 #define RAVL_COMPRESS_HEADER 1
-//! docentry="Ravl.OS.Compression"
+//! docentry="Ravl.API.OS.Compression"
 //! author="Charles Galambos"
 
 #include "Ravl/SArray1d.hh"

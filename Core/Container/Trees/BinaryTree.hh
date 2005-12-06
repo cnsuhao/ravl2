@@ -8,7 +8,7 @@
 #define RAVL_BINARYTREE_HEADER 1
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Trees"
+//! docentry="Ravl.API.Core.Trees"
 //! author="Charles Galambos"
 //! lib=RavlCore
 //! example=exBinaryTree.cc

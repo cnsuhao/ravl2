@@ -8,7 +8,7 @@
 #define RAVLLOGIC_STATEINDEXED_HEADER 1
 //! author="Charles Galambos"
 //! userlevel=Normal
-//! docentry="Ravl.Logic.Index"
+//! docentry="Ravl.API.Logic.Index"
 //! rcsid="$Id$"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Index/StateIndexed.hh"

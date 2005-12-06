@@ -7,7 +7,7 @@
 ///////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Lee Gregory"
-//! docentry="Ravl.Source Tools"
+//! docentry="Ravl.API.Source Tools"
 //! lib=RavlSourceTools
 
 #include "Ravl/Option.hh"

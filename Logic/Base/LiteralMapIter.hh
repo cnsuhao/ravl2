@@ -8,7 +8,7 @@
 #define RAVLLOGIC_LITERALMAPITER_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Logic"
+//! docentry="Ravl.API.Logic"
 //! author="Charles Galambos"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/LiteralMapIter.hh"

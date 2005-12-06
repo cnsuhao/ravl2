@@ -12,7 +12,7 @@
 //! file="Ravl/Math/IO/MathIO.hh"
 //! author="Charles Galambos"
 //! userlevel=Develop
-//! docentry="Ravl.Math"
+//! docentry="Ravl.API.Math"
 
 namespace RavlN {
   

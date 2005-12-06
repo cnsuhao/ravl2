@@ -12,7 +12,7 @@
 //! file="Ravl/Core/IO/FileFormatIO.hh"
 //! author="Charles Galambos"
 //! date="13/08/1998"
-//! docentry="Ravl.Core.IO" 
+//! docentry="Ravl.API.Core.IO" 
 
 // These functions provide an interface to the system file format registry,
 // with out having to include 100's of big nasty header files.

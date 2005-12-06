@@ -8,7 +8,7 @@
 #define RAVL_DESIGNCLASSIFIERGAUSIANMIXTURE_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! docentry="Ravl.Pattern Recognition.Classifier.DesignClassifier"
+//! docentry="Ravl.API.Pattern Recognition.Classifier.DesignClassifier"
 //! file="Ravl/PatternRec/Classify/DesignClassifierGaussianMixture.hh"
 
 #include "Ravl/PatternRec/DesignClassifierSupervised.hh"

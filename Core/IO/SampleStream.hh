@@ -7,7 +7,7 @@
 #ifndef RAVL_SAMPLESTREAM_HEADER
 #define RAVL_SAMPLESTREAM_HEADER  1
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Data Processing"
+//! docentry="Ravl.API.Core.Data Processing"
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! date="3/12/2003"

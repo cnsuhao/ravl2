@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
-//! docentry="Ravl.Pattern Recognition.Dimension Reduction"
+//! docentry="Ravl.API.Pattern Recognition.Dimension Reduction"
 //! file="Ravl/PatternRec/Modeling/DimensionReduction/DesignFuncPCA.hh"
 
 #include "Ravl/PatternRec/DesignFuncReduce.hh"

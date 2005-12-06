@@ -11,7 +11,7 @@
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
 //! userlevel=Normal
-//! docentry="Ravl.Pattern Recognition.Classifier"
+//! docentry="Ravl.API.Pattern Recognition.Classifier"
 //! file="Ravl/PatternRec/Classify/ClassifierKNearestNeighbour.hh"
 //! example=exKNearestNeighbour.cc
 

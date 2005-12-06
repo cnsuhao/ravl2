@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_REGIONCLASIFYMOTION_HEADER
 #define RAVLIMAGE_REGIONCLASIFYMOTION_HEADER 1
 //////////////////////////////////////////////////////////////
-//! docentry="Ravl.Images.Segmentation"
+//! docentry="Ravl.API.Images.Segmentation"
 //! userlevel=Normal
 //! file="Ravl/Image/Processing/Segmentation/PixelClassifyMotion.hh"
 //! lib=RavlImageProc

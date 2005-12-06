@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Core/Base/Calls.hh"
 //! lib=RavlCore
-//! docentry="Ravl.Core.Calls"
+//! docentry="Ravl.API.Core.Calls"
 //! userlevel=Advanced
 //! author="Charles Galambos"
 //! date="24/01/2001"
@@ -1198,7 +1198,7 @@ namespace RavlN {
   { return CallFunc0C<bool>(nfunc); }
   //: Create a call 
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
-  //! docentry="Ravl.Core.Calls.VisualC++"
+  //! docentry="Ravl.API.Core.Calls.VisualC++"
   
   template<class DataT>
   inline

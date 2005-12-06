@@ -14,7 +14,7 @@
 //! userlevel=Normal
 //! author="Bill Christmas"
 //! date="07/12/1999"
-//! docentry="Ravl.Images.Motion"
+//! docentry="Ravl.API.Images.Motion"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Vector2d.hh"
@@ -24,7 +24,7 @@
 
 namespace RavlImageN {
   
-  //! docentry="Ravl.Images.Motion.Optical Flow"
+  //! docentry="Ravl.API.Images.Motion.Optical Flow"
   //: Least-mean-squared gradient method for optical flow
   // Computes optical flow field from spatial and temporal gradient images using simple least-mean-squared gradient method
   //<p>

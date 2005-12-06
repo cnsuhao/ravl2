@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlAV
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.Video"
+//! docentry="Ravl.API.Images.Video"
 //! file="Ravl/Image/AV/AVMixer.hh"
 
 #include "Ravl/AVFrame.hh"

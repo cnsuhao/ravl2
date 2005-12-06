@@ -7,7 +7,7 @@
 #ifndef RAVL_STACKIT_HEADER
 #define RAVL_STACKIT_HEADER
 //! date="12/10/1995"
-//! docentry="Ravl.Core.Stacks"
+//! docentry="Ravl.API.Core.Stacks"
 //! file="Ravl/Core/Container/Misc/StackIter.hh"
 //! lib=RavlCore
 //! userlevel=Normal

@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlAudioIO
-//! docentry="Ravl.Audio.Feature Extraction"
+//! docentry="Ravl.API.Audio.Feature Extraction"
 //! userlevel=Normal
 //! file="Ravl/Audio/IO/exTranscriptionStream.cc"
 

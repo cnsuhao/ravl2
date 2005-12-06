@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Segmentation/testConnectedComponents.cc"
-//! docentry="Ravl.Images.Segmentation"
+//! docentry="Ravl.API.Images.Segmentation"
 //! userlevel=Develop
 //! author="Charles Galambos"
 

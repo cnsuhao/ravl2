@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCore
-//! docentry="Ravl.Core.XML"
+//! docentry="Ravl.API.Core.XML"
 //! author="Charles Galambos"
 //! file="Ravl/Core/System/exXMLStream.cc"
 

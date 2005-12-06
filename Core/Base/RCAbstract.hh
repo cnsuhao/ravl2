@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Reference Counting"
+//! docentry="Ravl.API.Core.Reference Counting"
 //! file="Ravl/Core/Base/RCAbstract.hh"
 //! lib=RavlCore
 //! rcsid="$Id$"

@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=Ravl3D
-//! docentry="Ravl.3D.Carve3D"
+//! docentry="Ravl.API.3D.Carve3D"
 //! author="Joel Mitchelson"
 //! file="Ravl/3D/Carve3D/PointSet.hh"
 

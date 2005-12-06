@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlDPMT
-//! docentry="Ravl.Core.Data Processing.Threads"
+//! docentry="Ravl.API.Core.Data Processing.Threads"
 //! file="Ravl/OS/DataProc/ThreadPipe.hh"
 //! author="Charles Galambos"
 //! date="02/10/1998"

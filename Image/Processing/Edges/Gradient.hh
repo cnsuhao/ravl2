@@ -8,7 +8,7 @@
 #define RAVLIMAGE_GRADIENT_HEADER 1
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.Edges"
+//! docentry="Ravl.API.Images.Edges"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Edges/Gradient.hh"

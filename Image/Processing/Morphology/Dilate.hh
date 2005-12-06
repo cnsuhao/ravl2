@@ -10,7 +10,7 @@
 //! lib=RavlImageProc
 //! author="Joel Mitchelson"
 //! userlevel=Normal
-//! docentry="Ravl.Images.Morphology"
+//! docentry="Ravl.API.Images.Morphology"
 //! file="Ravl/Image/Processing/Morphology/Dilate.hh"
 
 #include "Ravl/Image/Image.hh"

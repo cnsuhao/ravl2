@@ -11,7 +11,7 @@
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! date="25/11/1997"
-//! docentry="Ravl.Core.Branch"
+//! docentry="Ravl.API.Core.Branch"
 //! rcsid="$Id$"
 
 #include "Ravl/BGraph.hh"

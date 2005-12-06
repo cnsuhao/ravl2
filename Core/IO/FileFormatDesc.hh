@@ -7,7 +7,7 @@
 #ifndef RAVL_FILEFORMATDESC_HEADER
 #define RAVL_FILEFORMATDESC_HEADER 1
 //////////////////////////////////////////////////
-//! docentry="Ravl.Core.IO.Formats" 
+//! docentry="Ravl.API.Core.IO.Formats" 
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! date="13/08/1998"

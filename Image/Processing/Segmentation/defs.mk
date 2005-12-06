@@ -31,4 +31,4 @@ PROGLIBS=RavlImageIO RavlVideoIO RavlMathIO RavlDPDisplay.opt RavlImgIOV4L.opt R
 
 EXAMPLES=extrema.cc exSegmentation.cc exConnectedComponents.cc 
 
-EHT=Ravl.Images.Segmentation.html
+EHT=Ravl.API.Images.Segmentation.html

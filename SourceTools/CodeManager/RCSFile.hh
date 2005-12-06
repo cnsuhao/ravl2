@@ -12,7 +12,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="6/4/1998"
-//! docentry="Ravl.Source Tools.Code Manager"
+//! docentry="Ravl.API.Source Tools.Code Manager"
 //! rcsid="$Id$"
 
 #include "Ravl/SArray1d.hh"

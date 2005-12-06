@@ -8,7 +8,7 @@
 #define RAVL_REFCOUNTER_HEADER 1
 ///////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Reference Counting"
+//! docentry="Ravl.API.Core.Reference Counting"
 //! file="Ravl/Core/Base/RefCounter.hh"
 //! lib=RavlCore
 //! userlevel=Normal

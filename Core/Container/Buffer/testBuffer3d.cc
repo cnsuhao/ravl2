@@ -8,7 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Buffer/testBuffer3d.cc"
-//! docentry="Ravl.Core.Arrays.Buffer"
+//! docentry="Ravl.API.Core.Arrays.Buffer"
 //! author="Charles Galambos"
 //! userlevel=Develop
 

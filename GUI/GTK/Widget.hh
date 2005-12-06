@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! date="23/03/1999"
 //! userlevel=Normal
-//! docentry="Ravl.GUI.Internal"
+//! docentry="Ravl.API.GUI.Internal"
 
 #include "Ravl/Threads/Signal1.hh"
 #include "Ravl/DList.hh"
@@ -524,7 +524,7 @@ namespace RavlGUIN {
     lst.InsLast(widge);
     return lst;
   }
-  //! docentry="Ravl.GUI.Layout"
+  //! docentry="Ravl.API.GUI.Layout"
   //! userlevel=Normal
   //: Add a widget into a widget list.
   

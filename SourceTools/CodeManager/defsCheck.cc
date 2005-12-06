@@ -8,7 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlSourceTools
 //! file="Ravl/SourceTools/CodeManager/defsCheck.cc"
-//! docentry="Ravl.Source Tools"
+//! docentry="Ravl.API.Source Tools"
 //! userlevel=Normal
 //! author="Charles Galambos"
 

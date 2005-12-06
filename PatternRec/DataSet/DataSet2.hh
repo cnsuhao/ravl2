@@ -8,7 +8,7 @@
 #define RAVL_DATASET2_HEADER 1
 //! rcsid="$Id$"
 //! author="Kieron Messer"
-//! docentry="Ravl.Pattern Recognition.Data Set"
+//! docentry="Ravl.API.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/DataSet2.hh"
 

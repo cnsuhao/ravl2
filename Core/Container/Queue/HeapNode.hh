@@ -12,7 +12,7 @@
 //! userlevel=Develop
 //! date="28/10/96"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Queues"
+//! docentry="Ravl.API.Core.Queues"
 //! rcsid="$Id$"
 
 #include "Ravl/Tuple2.hh"

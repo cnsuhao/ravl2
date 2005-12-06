@@ -12,7 +12,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="2/1/1997"
-//! docentry="Ravl.Core.Graphs"
+//! docentry="Ravl.API.Core.Graphs"
 //! rcsid="$Id$"
 
 #include "Ravl/GraphBConIt.hh"

@@ -34,8 +34,8 @@ LIBDEPS=RavlOSText.def
 
 USESLIBS=RavlOS RavlCore
 
-EHT= Ravl.OS.Text_Processing.html \
-     Ravl.OS.Text_Processing.Templates.html \
-     Ravl.OS.Configuration_Files.html
+EHT= Ravl.API.OS.Text_Processing.html \
+     Ravl.API.OS.Text_Processing.Templates.html \
+     Ravl.API.OS.Configuration_Files.html
 
 HTML= 

@@ -8,7 +8,7 @@
 #define RAVL_PTHREADSMUTEX_HEADER 1
 //////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.Threads"
+//! docentry="Ravl.API.OS.Threads"
 //! file="Ravl/OS/Threads/Posix/Mutex.hh"
 //! lib=RavlThreads
 //! rcsid="$Id$"

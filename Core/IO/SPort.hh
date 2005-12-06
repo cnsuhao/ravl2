@@ -7,7 +7,7 @@
 #ifndef RAVL_DPSPORT_HEADER
 #define RAVL_DPSPORT_HEADER 1
 /////////////////////////////////////////////////////
-//! docentry="Ravl.Core.Data Processing.Seekable Ports" 
+//! docentry="Ravl.API.Core.Data Processing.Seekable Ports" 
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/SPort.hh"
 //! lib=RavlIO

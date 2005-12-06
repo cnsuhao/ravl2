@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_CANVAS_HEADER
 #define RAVLGUI_CANVAS_HEADER 1
 ////////////////////////////////////////////////
-//! docentry="Ravl.GUI.Control"
+//! docentry="Ravl.API.GUI.Control"
 //! file="Ravl/GUI/2D/Canvas.hh"
 //! lib=RavlGUI2D
 //! author="Charles Galambos"

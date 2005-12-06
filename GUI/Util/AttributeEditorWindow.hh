@@ -11,7 +11,7 @@
 //! file="Ravl/GUI/Util/AttributeEditorWindow.hh"
 //! example=exAttributeEditor.cc
 //! author="Charles Galambos"
-//! docentry="Ravl.GUI.Util"
+//! docentry="Ravl.API.GUI.Util"
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/AttributeEditor.hh"

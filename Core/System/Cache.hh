@@ -10,7 +10,7 @@
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! date="25/8/2002"
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.API.Core.Misc"
 //! file="Ravl/Core/System/Cache.hh"
 
 #include "Ravl/Hash.hh"

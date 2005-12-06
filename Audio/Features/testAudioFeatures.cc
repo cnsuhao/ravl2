@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlAudioFeatures
-//! docentry="Ravl.Audio.Feature Extraction"
+//! docentry="Ravl.API.Audio.Feature Extraction"
 //! userlevel=Develop
 //! author="Charles Galambos"
 //! file="Ravl/Audio/Features/testAudioFeatures.cc"

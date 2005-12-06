@@ -12,7 +12,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="29.8.1997"
-//! docentry="Ravl.OS"
+//! docentry="Ravl.API.OS"
 //! rcsid="$Id$"
 
 #include "Ravl/String.hh"

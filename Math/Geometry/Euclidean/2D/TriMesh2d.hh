@@ -7,7 +7,7 @@
 #ifndef RAVL_TRIMESH2D_HEADER
 #define RAVL_TRIMESH2D_HEADER 1
 //! author="Charles Galambos"
-//! docentry="Ravl.Math.Geometry.2D"
+//! docentry="Ravl.API.Math.Geometry.2D"
 //! lib=RavlMath
 //! rcsid="$Id$"
 //! file="Ravl/Math/Geometry/Euclidean/2D/TriMesh2d.hh"

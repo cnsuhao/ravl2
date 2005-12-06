@@ -9,7 +9,7 @@
 //! file="Ravl/Core/Container/Queue/testQueue.cc"
 //! userlevel=Develop
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Queues"
+//! docentry="Ravl.API.Core.Queues"
 
 #include "Ravl/BlkQueue.hh"
 #include "Ravl/Stream.hh"

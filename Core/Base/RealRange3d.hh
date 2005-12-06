@@ -10,7 +10,7 @@
 //! file="Ravl/Core/Base/RealRange3d.hh"
 //! lib=RavlCore
 //! author="Radek Marik"
-//! docentry="Ravl.Core.Indexing"
+//! docentry="Ravl.API.Core.Indexing"
 //! rcsid="$Id$"
 //! date="06/08/1995"
 //! userlevel=Default

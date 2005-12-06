@@ -10,7 +10,7 @@
 //! lib=RavlMath
 //! date="16/8/2004"
 //! author="Charles Galambos"
-//! docentry="Ravl.Math.Geometry.2D"
+//! docentry="Ravl.API.Math.Geometry.2D"
 //! file="Ravl/Math/Geometry/Euclidean/2D/ScanPolygon2d.hh"
 
 #include "Ravl/Polygon2d.hh"

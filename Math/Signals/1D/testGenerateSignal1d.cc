@@ -8,7 +8,7 @@
 //! lib=RavlMath
 //! file="Ravl/Math/Signals/1D/testGenerateSignal1d.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.Math.Signals.1D"
+//! docentry="Ravl.API.Math.Signals.1D"
 //! userlevel=Develop
 
 #include "Ravl/GenerateSignal1d.hh"

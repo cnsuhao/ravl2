@@ -10,7 +10,7 @@
 //! file="Ravl/Core/Container/SArray/SArray1d.hh"
 //! lib=RavlCore
 //! author="Radek Marik"
-//! docentry="Ravl.Core.Arrays.1D"
+//! docentry="Ravl.API.Core.Arrays.1D"
 //! date="21/2/1996"
 //! rcsid="$Id$"
 

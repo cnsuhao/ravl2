@@ -11,7 +11,7 @@
 //! lib=RavlCore
 //! userlevel=Develop
 //! author="Radek Marik"
-//! docentry="Ravl.Core.Arrays.Buffer"
+//! docentry="Ravl.API.Core.Arrays.Buffer"
 //! rcsid="$Id$"
 //! date="26/2/1997"
 //! example=exRBfAcc.cc

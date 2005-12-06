@@ -12,7 +12,7 @@
 //! file="Ravl/Image/ExternalImageIO/ImgIOJPeg.hh"
 //! lib=RavlExtImgIO
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.IO.Formats"
+//! docentry="Ravl.API.Images.IO.Formats"
 //! example=exImgIO.cc
 //! date="29/10/1998"
 

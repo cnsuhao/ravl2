@@ -9,7 +9,7 @@
 //! lib=RavlSourceTools
 //! file="Ravl/SourceTools/CodeManager/amma2ravl.cc"
 //! userlevel=Normal
-//! docentry="Ravl.Source Tools"
+//! docentry="Ravl.API.Source Tools"
 //! author="Charles Galambos"
 
 #include "Ravl/Option.hh"

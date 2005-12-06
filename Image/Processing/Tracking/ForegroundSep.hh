@@ -11,7 +11,7 @@
 
 //! userlevel=Normal
 //! author="Bill Christmas, Phil McLauchlan"
-//! docentry="Ravl.Images.Mosaic"
+//! docentry="Ravl.API.Images.Mosaic"
 //! lib=RavlImageProc
 
 #include "Ravl/Image/Image.hh"

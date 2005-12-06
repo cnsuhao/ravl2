@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/testLogic.cc"
-//! docentry="Ravl.Logic"
+//! docentry="Ravl.API.Logic"
 //! author="Charles Galambos"
 //! userlevel=Develop
 

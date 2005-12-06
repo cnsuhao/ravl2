@@ -11,7 +11,7 @@
 //! userlevel=Advanced
 //! file="Ravl/Core/Container/Buffer/Slice1dIter2.hh"
 //! lib=RavlCore
-//! docentry="Ravl.Core.Arrays"
+//! docentry="Ravl.API.Core.Arrays"
 //! author="Charles Galambos"
 //! date="24/01/2001"
 

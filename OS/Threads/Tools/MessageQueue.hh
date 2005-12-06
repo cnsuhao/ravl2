@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! date="25/11/1995"
-//! docentry="Ravl.OS.Threads"
+//! docentry="Ravl.API.OS.Threads"
 //! rcsid="$Id$"
 //! file="Ravl/OS/Threads/Tools/MessageQueue.hh"
 //! lib=RavlThreads

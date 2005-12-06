@@ -10,7 +10,7 @@
 //! lib=RavlLogic
 //! file="Ravl/Logic/DecisionTree/SampleState.hh"
 //! author="Charles Galambos"
-//! docentry="Ravl.Logic.Decision Tree"
+//! docentry="Ravl.API.Logic.Decision Tree"
 
 #include "Ravl/PatternRec/SampleDiscrete.hh"
 #include "Ravl/Logic/State.hh"

@@ -8,7 +8,7 @@
 #define RAVL_ARRAY2ITER7_HEADER 1
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Arrays.2D"
+//! docentry="Ravl.API.Core.Arrays.2D"
 //! file="Ravl/Core/Container/Array/Array2dIter7.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"

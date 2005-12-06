@@ -13,4 +13,4 @@ PACKAGE=Ravl
 
 NESTED=General.r FixedSize.r
 
-EHT=Ravl.Math.Linear_Algebra.html
+EHT=Ravl.API.Math.Linear_Algebra.html

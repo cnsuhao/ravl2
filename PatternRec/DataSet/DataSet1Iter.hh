@@ -8,7 +8,7 @@
 #define RAVL_DATASET1ITER_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Pattern Recognition.Data Set"
+//! docentry="Ravl.API.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/DataSet1Iter.hh"
 

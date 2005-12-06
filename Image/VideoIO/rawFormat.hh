@@ -8,7 +8,7 @@
 #define RAVLIMAGE_RAWFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.Video.Video IO"
+//! docentry="Ravl.API.Images.Video.Video IO"
 //! date="29/10/98"
 //! rcsid="$Id$"
 //! file="Ravl/Image/VideoIO/rawFormat.hh"

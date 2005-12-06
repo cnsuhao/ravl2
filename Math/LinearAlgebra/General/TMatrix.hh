@@ -8,7 +8,7 @@
 #define RAVL_TMATRIXC_HEADER 1
 ///////////////////////////////////////////////////////////
 //! userlevel=Normal
-//! docentry="Ravl.Math.Linear Algebra"
+//! docentry="Ravl.API.Math.Linear Algebra"
 //! rcsid="$Id$"
 //! file="Ravl/Math/LinearAlgebra/General/TMatrix.hh"
 //! author="Charles Galambos"

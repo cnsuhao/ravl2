@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
-//! docentry="Ravl.Source Tools.CxxDoc.Internal"
+//! docentry="Ravl.API.Source Tools.CxxDoc.Internal"
 //! lib=RavlCxxDoc
 //! author="Charles Galambos"
 //! date="12/05/2003"

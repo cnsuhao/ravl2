@@ -8,7 +8,7 @@
 //! lib=RavlOS
 //! file="Ravl/OS/Exec/exChild.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.Exec"
+//! docentry="Ravl.API.OS.Exec"
 //! date="24/11/1998"
 //! userlevel=Normal
 

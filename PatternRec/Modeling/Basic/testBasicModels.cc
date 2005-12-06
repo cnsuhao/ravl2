@@ -9,7 +9,7 @@
 //! file="Ravl/PatternRec/Modeling/Basic/testBasicModels.cc"
 //! userlevel=Develop
 //! author="Charles Galambos"
-//! docentry="Ravl.Pattern Recognition.Numerical Modeling"
+//! docentry="Ravl.API.Pattern Recognition.Numerical Modeling"
 
 #include "Ravl/PatternRec/DesignFuncLSQ.hh"
 #include "Ravl/PatternRec/SampleVector.hh"

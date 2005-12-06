@@ -8,7 +8,7 @@
 #define RAVLLOGIC_UNIFY_HEADER 1
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Logic"
+//! docentry="Ravl.API.Logic"
 //! lib=RavlLogic
 //! author="Charles Galambos"
 //! userlevel=Normal

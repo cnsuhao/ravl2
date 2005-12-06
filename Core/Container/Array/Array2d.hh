@@ -11,7 +11,7 @@
 //! lib=RavlCore
 //! author="Radek Marik"
 //! date="2/5/1993"
-//! docentry="Ravl.Core.Arrays.2D"
+//! docentry="Ravl.API.Core.Arrays.2D"
 //! rcsid="$Id$"
 //! example=exArray2d.cc
 //! userlevel=Normal

@@ -8,7 +8,7 @@
 #define RAVL_INTRDLIST_HEADER 1
 //////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Lists"
+//! docentry="Ravl.API.Core.Lists"
 //! userlevel=Advanced
 //! file="Ravl/Core/Container/DList/IntrDList.hh"
 //! lib=RavlCore

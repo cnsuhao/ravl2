@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! docentry="Ravl.Pattern Recognition.Cluster;Ravl.Pattern Recognition.Classifier.DesignClassifier"
+//! docentry="Ravl.API.Pattern Recognition.Cluster;Ravl.API.Pattern Recognition.Classifier.DesignClassifier"
 //! example=exKMeansCluster.cc
 //! file="Ravl/PatternRec/Cluster/DesignKMeans.hh"
 

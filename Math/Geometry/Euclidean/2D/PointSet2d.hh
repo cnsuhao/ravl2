@@ -13,7 +13,7 @@
 //! userlevel=Normal
 //! author="James Smith"
 //! date="26/9/2002"
-//! docentry="Ravl.Math.Geometry.2D"
+//! docentry="Ravl.API.Math.Geometry.2D"
 
 #include "Ravl/Point2d.hh"
 #include "Ravl/SArray1d.hh"

@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlAudioUtil
 //! author="Charles Galambos"
-//! docentry="Ravl.Audio.Feature Extraction"
+//! docentry="Ravl.API.Audio.Feature Extraction"
 //! userlevel=Develop
 //! file="Ravl/Audio/Util/testAudioUtil.cc"
 

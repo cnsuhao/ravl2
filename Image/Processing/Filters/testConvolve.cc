@@ -9,7 +9,7 @@
 //! file="Ravl/Image/Processing/Filters/testConvolve.cc"
 //! userlevel=Develop
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.Filtering"
+//! docentry="Ravl.API.Images.Filtering"
 
 #include "Ravl/Image/Convolve2d.hh"
 #include "Ravl/Image/ConvolveHorz2d.hh"

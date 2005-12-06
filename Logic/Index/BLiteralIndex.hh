@@ -8,7 +8,7 @@
 #define RAVLLOGIC_BLITERALINDEX_HEADER 1
 ///////////////////////////////////////////////////////
 //! userlevel=Normal
-//! docentry="Ravl.Logic.Index"
+//! docentry="Ravl.API.Logic.Index"
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! file="Ravl/Logic/Index/BLiteralIndex.hh"

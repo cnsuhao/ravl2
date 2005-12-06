@@ -8,7 +8,7 @@
 #define RAVL_XMLTREE_HEADER 1
 ////////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.XML"
+//! docentry="Ravl.API.Core.XML"
 //! example=exXMLTree.cc
 //! rcsid="$Id$"
 //! lib=RavlCore

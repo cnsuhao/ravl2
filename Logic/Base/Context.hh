@@ -8,7 +8,7 @@
 #define RAVLLOGIC_CONTEXT_HEADER 1
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.Logic"
+//! docentry="Ravl.API.Logic"
 //! rcsid="$Id$"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/Context.hh"

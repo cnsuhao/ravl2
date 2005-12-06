@@ -11,7 +11,7 @@
 //! file="Ravl/OS/DataProc/MTIOConnect.hh"
 //! author="Charles Galambos"
 //! date="02/10/1998"
-//! docentry="Ravl.Core.Data Processing"
+//! docentry="Ravl.API.Core.Data Processing"
 //! rcsid="$Id$"
 
 #include "Ravl/Threads/Semaphore.hh"

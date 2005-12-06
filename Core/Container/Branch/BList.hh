@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
-//! docentry="Ravl.Core.Branch"
+//! docentry="Ravl.API.Core.Branch"
 //! author="Charles Galambos"
 //! file="Ravl/Core/Container/Branch/BList.hh"
 

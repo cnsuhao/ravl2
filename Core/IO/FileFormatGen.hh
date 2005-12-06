@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/FileFormatGen.hh"
 //! lib=RavlIO
-//! docentry="Ravl.Core.IO.Formats" 
+//! docentry="Ravl.API.Core.IO.Formats" 
 //! author="Charles Galambos"
 //! date="17/07/2000"
 //! userlevel=Default

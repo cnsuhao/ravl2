@@ -13,7 +13,7 @@
 //! userlevel=Develop
 //! author="Charles Galambos"
 //! date="24/01/2001"
-//! docentry="Ravl.Math.Geometry"
+//! docentry="Ravl.API.Math.Geometry"
 
 #include "Ravl/TFVector.hh"
 #include "Ravl/FIndex.hh"

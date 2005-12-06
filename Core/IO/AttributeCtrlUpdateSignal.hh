@@ -7,7 +7,7 @@
 #ifndef RAVL_ATTRIBUTECTRLUPDATESIGNAL_HEADER
 #define RAVL_ATTRIBUTECTRLUPDATESIGNAL_HEADER 1
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Data_Processing.Attributes"
+//! docentry="Ravl.API.Core.Data_Processing.Attributes"
 //! date="2/4/2005"
 //! rcsid="$Id$"
 //! lib=RavlIO

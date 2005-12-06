@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Distance/testMeasure.cc"
-//! docentry="Ravl.Pattern Recognition.Distance"
+//! docentry="Ravl.API.Pattern Recognition.Distance"
 //! author="Charles Galambos"
 
 #include "Ravl/PatternRec/DistanceEuclidean.hh"

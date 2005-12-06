@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_FUNCPDFNORMAL_HEADER
 #define RAVL_FUNCPDFNORMAL_HEADER 1
-//! docentry="Ravl.Pattern Recognition.Numerical Modeling"
+//! docentry="Ravl.API.Pattern Recognition.Numerical Modeling"
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlPatternRec

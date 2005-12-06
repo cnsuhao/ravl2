@@ -7,7 +7,7 @@
 #ifndef RAVL_REGIONGROW_HEADER
 #define RAVL_REGIONGROW_HEADER 1
 //////////////////////////////////////////////////////////////
-//! docentry="Ravl.Images.Segmentation"
+//! docentry="Ravl.API.Images.Segmentation"
 //! userlevel=Normal
 //! example=exSegmentation.cc
 //! file="Ravl/Image/Processing/Segmentation/RegionGrow.hh"

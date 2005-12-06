@@ -8,7 +8,7 @@
 #define RAVL_DYNAMICIO_HEADER 1
 //! author="Charles Galambos"
 //! userlevel=Normal
-//! docentry="Ravl.OS.Dynamic Linking"
+//! docentry="Ravl.API.OS.Dynamic Linking"
 //! rcsid="$Id$"
 //! lib=RavlOSIO
 //! file="Ravl/OS/IO/DynamicIO.hh"

@@ -34,7 +34,7 @@ USESLIBS = RavlCore RavlIO RavlImage
 
 PROGLIBS = RavlOS
 
-EHT = Ravl.Images.IO.html
+EHT = Ravl.API.Images.IO.html
 
 AUXDIR = share/RAVL/pixmaps
 AUXFILES = monkey.ppm

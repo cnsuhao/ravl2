@@ -8,7 +8,7 @@
 //! lib=RavlOS
 //! file="Ravl/OS/Text/testTextFile.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.Text Processing"
+//! docentry="Ravl.API.OS.Text Processing"
 //! userlevel=Develop
 
 #include "Ravl/Text/TextFile.hh"

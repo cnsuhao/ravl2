@@ -10,7 +10,7 @@
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
 //! rcsid="$Id$"
-//! docentry="Ravl.Math.Optimisation"
+//! docentry="Ravl.API.Math.Optimisation"
 //! lib=RavlOptimise
 //! file="Ravl/Math/Optimisation/ObsVector.hh"
 

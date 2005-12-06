@@ -10,7 +10,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
-//! docentry="Ravl.Images.Tracking"
+//! docentry="Ravl.API.Images.Tracking"
 //! file="Ravl/Image/Processing/Tracking/MatchPatch.hh"
 
 #include "Ravl/Image/PeakDetector.hh"

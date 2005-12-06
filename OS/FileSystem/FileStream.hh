@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_FILESTREAM_HEADER
 #define RAVL_FILESTREAM_HEADER 1
-//! docentry="Ravl.OS.File System"
+//! docentry="Ravl.API.OS.File System"
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! lib=RavlOS

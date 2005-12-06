@@ -13,7 +13,7 @@
 //! author="Radek Marik"
 //! docentry="Image.Image Processing.Region Model"
 //! rcsid="$Id$"
-//! docentry="Ravl.Math.Geometry.2D"
+//! docentry="Ravl.API.Math.Geometry.2D"
 
 #include "Ravl/Types.hh"
 #include "Ravl/Index2d.hh"

@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Image/Processing/Edges/EdgeDeriche.hh"
 //! authors="George Matas, Radek Marik and Charles Galambos"
-//! docentry="Ravl.Images.Edges"
+//! docentry="Ravl.API.Images.Edges"
 //! lib=RavlImageProc
 
 #include "Ravl/Image/Image.hh"

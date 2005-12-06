@@ -11,7 +11,7 @@
 //! lib=RavlLogic
 //! file="Ravl/Logic/DecisionTree/DecisionTreeBranch.hh"
 //! author="Charles Galambos"
-//! docentry="Ravl.Logic.Decision Tree"
+//! docentry="Ravl.API.Logic.Decision Tree"
 
 #include "Ravl/Logic/Literal.hh"
 #include "Ravl/Logic/DecisionTreeElement.hh"

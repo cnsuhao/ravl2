@@ -12,7 +12,7 @@
 //! file="Ravl/GUI/GTK/SpinButton.hh"
 //! lib=RavlGUI
 //! date="29/08/1999"
-//! docentry="Ravl.GUI.Control"
+//! docentry="Ravl.API.GUI.Control"
 
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/Threads/Signal1.hh"

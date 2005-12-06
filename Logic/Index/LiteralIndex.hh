@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
-//! docentry="Ravl.Logic.Index"
+//! docentry="Ravl.API.Logic.Index"
 //! file="Ravl/Logic/Index/LiteralIndex.hh"
 //! author="Charles Galambos"
 

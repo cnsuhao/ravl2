@@ -13,7 +13,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="13/12/2000"
-//! docentry="Ravl.GUI.Control"
+//! docentry="Ravl.API.GUI.Control"
 //! example=exCList.cc
 
 #include "Ravl/GUI/Widget.hh"

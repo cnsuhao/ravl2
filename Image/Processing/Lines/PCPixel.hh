@@ -7,7 +7,7 @@
 #ifndef RAVL_PCPIXEL_HEADER
 #define RAVL_PCPIXEL_HEADER 1
 /////////////////////////////////////////////////
-//! docentry="Ravl.Images.Lines"
+//! docentry="Ravl.API.Images.Lines"
 //! file="Ravl/Image/Processing/Lines/PCPixel.hh"
 //! lib=RavlImageProc
 //! author="Charles Galambos"

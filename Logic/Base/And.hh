@@ -8,7 +8,7 @@
 #define RAVLLOGIC_AND_HEADER 1
 ///////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Logic.Condition"
+//! docentry="Ravl.API.Logic.Condition"
 //! author="Charles Galambos"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/And.hh"

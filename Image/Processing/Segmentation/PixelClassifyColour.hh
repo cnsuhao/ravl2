@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_PIXELCLASSIFYCOLOUR_HEADER
 #define RAVLIMAGE_PIXELCLASSIFYCOLOUR_HEADER 1
 //////////////////////////////////////////////////////////////
-//! docentry="Ravl.Images.Segmentation"
+//! docentry="Ravl.API.Images.Segmentation"
 //! userlevel=Normal
 //! example=exSegmentation.cc
 //! file="Ravl/Image/Processing/Segmentation/PixelClassifyColour.hh"

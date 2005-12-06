@@ -10,7 +10,7 @@
 //! userlevel=Normal
 //! date="1/10/1996"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Indexing"
+//! docentry="Ravl.API.Core.Indexing"
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/System/IndexNd.hh"

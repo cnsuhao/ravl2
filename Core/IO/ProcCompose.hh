@@ -8,7 +8,7 @@
 #define RAVL_DPCOMPOSE_HEADER 1
 ///////////////////////////////////////////////
 //! lib=RavlIO
-//! docentry="Ravl.Core.Data Processing.Internal" 
+//! docentry="Ravl.API.Core.Data Processing.Internal" 
 //! author="Charles Galambos"
 //! example=exDPMultiplex.cc
 //! rcsid="$Id$"

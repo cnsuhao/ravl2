@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.Math.Statistics.Histogram"
+//! docentry="Ravl.API.Math.Statistics.Histogram"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/Histogram/RealHistogram1d.hh"
 

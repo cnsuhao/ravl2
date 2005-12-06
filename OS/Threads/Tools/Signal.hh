@@ -11,7 +11,7 @@
 //! lib=RavlThreads
 //! author="Charles Galambos"
 //! date="23/09/1999"
-//! docentry="Ravl.OS.Signals"
+//! docentry="Ravl.API.OS.Signals"
 //! file="Ravl/OS/Threads/Tools/Signal.hh"
 //! example=exSignal.cc
 

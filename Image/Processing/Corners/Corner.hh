@@ -10,7 +10,7 @@
 //! author="Charles Galambos"
 //! userlevel=Normal
 //! date="18/12/1995"
-//! docentry="Ravl.Images.Corner Detection"
+//! docentry="Ravl.API.Images.Corner Detection"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! example=exCorner.cc

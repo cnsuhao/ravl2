@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! date="24/7/2002"
 //! rcsid="$Id$"
-//! docentry="Ravl.Images.Tracking"
+//! docentry="Ravl.API.Images.Tracking"
 //! file="Ravl/Image/Processing/Tracking/PointTrack.hh"
 //! lib=RavlImageProc
 

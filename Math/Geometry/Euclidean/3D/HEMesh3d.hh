@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.Math.Geometry.3D"
+//! docentry="Ravl.API.Math.Geometry.3D"
 //! lib=RavlMath
 //! example=exHEMesh3d.cc
 //! file="Ravl/Math/Geometry/Euclidean/3D/HEMesh3d.hh"

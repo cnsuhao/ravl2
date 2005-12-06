@@ -10,7 +10,7 @@
 //! lib=RavlMath
 //! author="Charles Galambos"
 //! file="Ravl/Math/Sequence/ZigZagIter.hh"
-//! docentry="Ravl.Math.Sequences"
+//! docentry="Ravl.API.Math.Sequences"
 
 #include "Ravl/IndexRange2d.hh"
 

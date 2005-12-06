@@ -8,7 +8,7 @@
 //! lib=RavlOSIO
 //! file="Ravl/OS/IO/testSequenceIO.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.Sequence"
+//! docentry="Ravl.API.OS.Sequence"
 //! userlevel=Develop
 
 #include "Ravl/DP/SPort.hh"

@@ -10,7 +10,7 @@
 //! author="Charles Galambos"
 //! lib=RavlLogicNLP
 //! file="Ravl/Logic/NonLinearPlanner/exNonlinearPlanner.cc"
-//! docentry="Ravl.Logic.Planning"
+//! docentry="Ravl.API.Logic.Planning"
 //! userlevel=Normal
 
 //: Example program for non-linear planner.

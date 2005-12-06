@@ -8,7 +8,7 @@
 #define RAVLIMAGE_BLUESCREEN_HEADER 1
 ////////////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Images.Segmentation"
+//! docentry="Ravl.API.Images.Segmentation"
 //! author="Charles Galambos"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Segmentation/BlueScreen.hh"

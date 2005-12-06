@@ -11,7 +11,7 @@
 //! file="Ravl/Core/IO/exDataProc.cc"
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Data Processing"
+//! docentry="Ravl.API.Core.Data Processing"
 
 //: Composing a processing pipeline
 // The input file for the example should be a white space separated list of numbers

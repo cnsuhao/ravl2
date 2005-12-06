@@ -10,7 +10,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="25/5/1998"
-//! docentry="Ravl.OS.Threads"
+//! docentry="Ravl.API.OS.Threads"
 //! rcsid="$Id$"
 //! file="Ravl/OS/Threads/Posix/Semaphore.hh"
 //! lib=RavlThreads

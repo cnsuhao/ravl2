@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_PCPIXELLIST_HEADER
 #define RAVLIMAGE_PCPIXELLIST_HEADER 1
 /////////////////////////////////////////////////////////
-//! docentry="Ravl.Images.Lines"
+//! docentry="Ravl.API.Images.Lines"
 //! file="Ravl/Image/Processing/Lines/PCPixelList.hh"
 //! lib=RavlImageProc
 //! author="Charles Galambos"

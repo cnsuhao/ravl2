@@ -8,7 +8,7 @@
 #define RAVLIMAGE_SPATIALDIFFERENCE_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlImageProc
-//! docentry="Ravl.Images.Filtering"
+//! docentry="Ravl.API.Images.Filtering"
 //! author="Charles Galambos, based on code written by Bill Chrismas"
 //! userlevel=Normal
 //! file="Ravl/Image/Processing/Filters/SpatialDifference.hh"

@@ -13,7 +13,7 @@
 //! date="12/11/1993"
 //! userlevel=Basic
 //! example=exOption.cc
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.API.Core.Misc"
 //! rcsid="$Id$"
 //
 // Based on the ideas in C and C++ option library by George Matas and Radek Marik.

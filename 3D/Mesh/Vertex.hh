@@ -7,7 +7,7 @@
 #ifndef RAVL3D_VERTEX_HEADER
 #define RAVL3D_VERTEX_HEADER 1
 //////////////////////////////////////////////////////////////////////////////
-//! docentry="Ravl.3D.Mesh"
+//! docentry="Ravl.API.3D.Mesh"
 //! rcsid="$Id$"
 //! lib=Ravl3D
 //! author="Charles Galambos"

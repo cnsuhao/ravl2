@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.Filtering"
+//! docentry="Ravl.API.Images.Filtering"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Filters/Matching.hh"
 

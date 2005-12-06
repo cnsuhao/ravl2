@@ -11,7 +11,7 @@
 //! file="Ravl/Core/Container/Hash/HSetExtra.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Hash Tables"
+//! docentry="Ravl.API.Core.Hash Tables"
 //! date="31/07/1998"
 //! rcsid="$Id$"
 

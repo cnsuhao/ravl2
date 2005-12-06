@@ -12,7 +12,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="19/2/1997"
-//! docentry="Ravl.Core.Branch"
+//! docentry="Ravl.API.Core.Branch"
 //! rcsid="$Id$"
 
 #include "Ravl/BGraphBase.hh"

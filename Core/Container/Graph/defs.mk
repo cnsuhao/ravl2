@@ -30,4 +30,4 @@ EXAMPLES=exGraph.cc
 
 USESLIBS=RavlCore
 
-EHT=Ravl.Core.Graphs.eht
+EHT=Ravl.API.Core.Graphs.eht

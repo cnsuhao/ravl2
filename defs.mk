@@ -12,8 +12,8 @@ PACKAGE=Ravl
 DESCRIPTION=RAVL, Recognition and Vision Library
 
 NESTED=QMake.r Core.r OS.r CCMath.r Math.r PatternRec.r Audio.r \
- Image.r 3D.r Logic.r CompVision.r SourceTools.r GUI.r Contrib.r Applications.r 
+Image.r 3D.r Logic.r CompVision.r SourceTools.r GUI.r Contrib.r Applications.r 
 
 LOCAL_FILES=install lgpl.license gpl.license README
 
-EHT=Ravl.eht Ravl.Contrib.html Ravl.Introduction.html
+EHT=Ravl.eht Ravl.Contrib.html Ravl.Introduction.html Ravl.API.html

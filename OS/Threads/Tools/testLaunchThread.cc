@@ -9,7 +9,7 @@
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Tools/testLaunchThread.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.Threads"
+//! docentry="Ravl.API.OS.Threads"
 //! userlevel=Develop
 
 #include "Ravl/Threads/LaunchThread.hh"

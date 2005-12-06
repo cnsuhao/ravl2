@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_DPIOPORT_HEADER
 #define RAVL_DPIOPORT_HEADER 1
-//! docentry="Ravl.Core.Data Processing.Ports" 
+//! docentry="Ravl.API.Core.Data Processing.Ports" 
 //! file="Ravl/Core/IO/IOPort.hh"
 //! rcsid="$Id$"
 //! lib=RavlIO

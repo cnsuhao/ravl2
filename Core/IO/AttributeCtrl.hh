@@ -11,7 +11,7 @@
 //! rcsid="$Id$"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/AttributeCtrl.hh"
-//! docentry="Ravl.Core.Data_Processing.Attributes"
+//! docentry="Ravl.API.Core.Data_Processing.Attributes"
 
 #include "Ravl/DP/Entity.hh"
 #include "Ravl/String.hh"

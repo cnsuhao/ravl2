@@ -9,7 +9,7 @@
 //! lib=RavlIO
 //! file="Ravl/Core/IO/exComposeSingle.cc"
 //! userlevel=Normal
-//! docentry="Ravl.Core.Data Processing.Single Items"
+//! docentry="Ravl.API.Core.Data Processing.Single Items"
 //! author="Charles Galambos"
 
 //: Example of how to use single item processing pipelines.

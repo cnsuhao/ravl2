@@ -9,7 +9,7 @@
 //! file="Ravl/Core/Container/Graph/exGraph.cc"
 //! author="Charles Galambos"
 //! date="10/12/1996"
-//! docentry="Ravl.Core.Graphs"
+//! docentry="Ravl.API.Core.Graphs"
 //! userlevel=Normal
 
 #include "Ravl/Graph.hh"

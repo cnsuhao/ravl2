@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Trees"
+//! docentry="Ravl.API.Core.Trees"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Trees/HashTree.hh"
 

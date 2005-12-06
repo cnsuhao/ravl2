@@ -11,7 +11,7 @@
 //! lib=RavlMath
 //! author="Charles Galambos"
 //! rcsid="$Id$"
-//! docentry="Ravl.Math.Sequences"
+//! docentry="Ravl.API.Math.Sequences"
 //! date="15/03/1999"
 
 #include "Ravl/SArray1d.hh"

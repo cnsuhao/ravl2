@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Data Processing"
+//! docentry="Ravl.API.Core.Data Processing"
 //! example=exDataProc.cc
 //! lib=RavlIO
 //! file="Ravl/Core/IO/Compose.hh"

@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! lib=Ravl3DIO
 //! author="Jonathan Starck"
-//! docentry="Ravl.3D.IO.Formats"
+//! docentry="Ravl.API.3D.IO.Formats"
 //! userlevel=Normal
 //! file="Ravl/3D/MeshIO/FormatCTriFile.hh"
 

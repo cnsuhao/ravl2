@@ -11,7 +11,7 @@
 //! file="Ravl/OS/Exec/ChildOSProcess.hh"
 //! lib=RavlOS
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.Exec"
+//! docentry="Ravl.API.OS.Exec"
 //! rcsid="$Id$"
 //! date="24/11/1998"
 

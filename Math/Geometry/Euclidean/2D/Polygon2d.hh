@@ -13,7 +13,7 @@
 //! userlevel=Normal
 //! author="Radek Marik"
 //! date="26/9/2002"
-//! docentry="Ravl.Math.Geometry.2D"
+//! docentry="Ravl.API.Math.Geometry.2D"
 
 #include "Ravl/PointSet2d.hh"
 #include "Ravl/LinePP2d.hh"

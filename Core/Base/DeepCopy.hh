@@ -12,7 +12,7 @@
 //! userlevel=Normal
 //! rcsid="$Id$"
 //! file="Ravl/Core/Base/DeepCopy.hh"
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.API.Core.Misc"
 
 #include "Ravl/Types.hh"
 

@@ -8,7 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Array/testArray1d.cc"
-//! docentry="Ravl.Core.Arrays.1D"
+//! docentry="Ravl.API.Core.Arrays.1D"
 //! author="Charles Galambos"
 //! userlevel=Develop
 

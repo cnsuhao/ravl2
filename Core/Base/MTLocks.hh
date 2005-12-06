@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Core/Base/MTLocks.hh"
 //! lib=RavlCore
-//! docentry="Ravl.Core.Locks"
+//! docentry="Ravl.API.Core.Locks"
 //! userlevel=Advanced
 //! author="Charles Galambos"
 //! date="24/01/2001"

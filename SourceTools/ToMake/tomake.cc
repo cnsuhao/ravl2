@@ -7,7 +7,7 @@
 //////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/SourceTools/ToMake/tomake.cc"
-//! docentry="Ravl.Source Tools"
+//! docentry="Ravl.API.Source Tools"
 //! author="Charles Galambos"
 //! userlevel=Normal
 

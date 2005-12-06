@@ -12,7 +12,7 @@
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! date="7/10/2003"
-//! docentry="Ravl.GUI.Layout"
+//! docentry="Ravl.API.GUI.Layout"
 //! example=exFrame.cc
 
 #include "Ravl/GUI/Frame.hh"

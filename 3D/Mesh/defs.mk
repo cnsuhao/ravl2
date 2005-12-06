@@ -25,5 +25,5 @@ PLIB=Ravl3D
 
 USESLIBS=RavlMath RavlImage
 
-EHT=Ravl.3D.Mesh.html
+EHT=Ravl.API.3D.Mesh.html
 

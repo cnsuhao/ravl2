@@ -8,7 +8,7 @@
 //! lib=RavlImage
 //! file="Ravl/Image/Base/testHSVValue.cc"
 //! rcsid="$Id$"
-//! docentry="Ravl.Images.Pixel Types"
+//! docentry="Ravl.API.Images.Pixel Types"
 //! userlevel=Develop
 
 #include "Ravl/Random.hh"

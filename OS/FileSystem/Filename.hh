@@ -12,7 +12,7 @@
 //! userlevel=Basic
 //! author="Charles Galambos"
 //! date="10.6.97"
-//! docentry="Ravl.OS.File System"
+//! docentry="Ravl.API.OS.File System"
 //! rcsid="$Id$"
 //! example=exFilename.cc
 

@@ -11,7 +11,7 @@
 //! date="14/05/2002"
 //! lib=RavlCore
 //! file="Ravl/Core/System/TimeCode.hh"
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.API.Core.Misc"
 //! userlevel=Normal
 //! author="Kieron J Messer"
 

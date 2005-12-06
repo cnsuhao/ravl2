@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
-//! docentry="Ravl.Math.Statistics"
+//! docentry="Ravl.API.Math.Statistics"
 //! author="Daniel A. Atkinson"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/MeanCovariance/Statistics.hh"

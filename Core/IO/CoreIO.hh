@@ -12,7 +12,7 @@
 //! file="Ravl/Core/IO/CoreIO.hh"
 //! author="Charles Galambos"
 //! userlevel=Develop
-//! docentry="Ravl.Core.IO"
+//! docentry="Ravl.API.Core.IO"
 
 namespace RavlN {  
   extern void InitCoreIO(); 

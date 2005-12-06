@@ -7,7 +7,7 @@
 #ifndef RAVL_DPSPLITI_HEADER
 #define RAVL_DPSPLITI_HEADER 1
 /////////////////////////////////////////////////
-//! docentry="Ravl.Core.Data Processing.Split"
+//! docentry="Ravl.API.Core.Data Processing.Split"
 //! lib=RavlDPMT
 //! example=exDPSplit.cc
 //! rcsid="$Id$"

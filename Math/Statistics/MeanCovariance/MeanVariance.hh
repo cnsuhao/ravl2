@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
-//! docentry="Ravl.Math.Statistics"
+//! docentry="Ravl.API.Math.Statistics"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/MeanCovariance/MeanVariance.hh"
 

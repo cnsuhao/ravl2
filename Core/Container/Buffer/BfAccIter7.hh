@@ -11,7 +11,7 @@
 //! file="Ravl/Core/Container/Buffer/BfAccIter7.hh"
 //! author="Charles Galambos"
 //! lib=RavlCore
-//! docentry="Ravl.Core.Arrays.Buffer"
+//! docentry="Ravl.API.Core.Arrays.Buffer"
 //! date="8/1/2003"
 
 #include "Ravl/RBfAcc.hh"

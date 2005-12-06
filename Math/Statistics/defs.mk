@@ -9,4 +9,4 @@
 
 NESTED = MeanCovariance.r Histogram.r
 
-EHT=Ravl.Math.Statistics.html
+EHT=Ravl.API.Math.Statistics.html

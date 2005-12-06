@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlAudioFeatures
-//! docentry="Ravl.Audio.Feature Extraction"
+//! docentry="Ravl.API.Audio.Feature Extraction"
 //! file="Ravl/Audio/Features/VectorDelta012.hh"
 
 #include "Ravl/FixedQueue.hh"

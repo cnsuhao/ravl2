@@ -7,7 +7,7 @@
 #ifndef RAVL_SIGNAL2_HEADER
 #define RAVL_SIGNAL2_HEADER 1
 /////////////////////////////////////////////////////
-//! docentry="Ravl.OS.Signals"
+//! docentry="Ravl.API.OS.Signals"
 //! rcsid="$Id$"
 //! file="Ravl/OS/Threads/Tools/Signal2.hh"
 //! lib=RavlThreads

@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/SArray/testSArray2d.cc"
-//! docentry="Ravl.Core.Arrays.2D"
+//! docentry="Ravl.API.Core.Arrays.2D"
 //! userlevel=Develop
 
 #include "Ravl/SArray2d.hh"

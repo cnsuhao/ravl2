@@ -7,7 +7,7 @@
 #ifndef RAVL_SBYTESTREAM_HEADER
 #define RAVL_SBYTESTREAM_HEADER 1
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Data Processing.IO" 
+//! docentry="Ravl.API.Core.Data Processing.IO" 
 //! rcsid="$Id$"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/SByteStream.hh"

@@ -8,7 +8,7 @@
 #define RAVL_MATH_HEADER 1
 ////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Math"
+//! docentry="Ravl.API.Core.Math"
 //! file="Ravl/Core/Base/Math.hh"
 //! lib=RavlCore
 //! userlevel=Normal

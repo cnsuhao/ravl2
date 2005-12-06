@@ -13,7 +13,7 @@
 //! lib=RavlOS
 //! author="Charles Galambos"
 //! date="04/03/99"
-//! docentry="Ravl.OS.Text Processing"
+//! docentry="Ravl.API.OS.Text Processing"
 
 #include "Ravl/Text/TextFile.hh"
 #include "Ravl/Text/TextCursor.hh"

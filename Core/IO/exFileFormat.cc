@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/exFileFormat.cc"
-//! docentry="Ravl.Core.IO.Formats" 
+//! docentry="Ravl.API.Core.IO.Formats" 
 //! date="13/08/1998"
 //! userlevel=Normal
 

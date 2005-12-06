@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Indexing"
+//! docentry="Ravl.API.Core.Indexing"
 //! userlevel=Normal
 //! lib=RavlCore
 //! file="Ravl/Core/Base/RealRange1d.hh"

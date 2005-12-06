@@ -2,7 +2,7 @@
 #define RAVL_STRING_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Strings"
+//! docentry="Ravl.API.Core.Strings"
 //! file="Ravl/Core/Base/String.hh"
 //! lib=RavlCore
 //! license=own

@@ -9,7 +9,7 @@
 //! rcsid="$Id"
 //! lib=RavlOS
 //! file="Ravl/OS/FileSystem/testFileFormat.cc"
-//! docentry="Ravl.Core.Data Processing" 
+//! docentry="Ravl.API.Core.Data Processing" 
 //! userlevel=Develop
 
 //: Test file format handling

@@ -7,7 +7,7 @@
 #ifndef RAVL_DPDATACONV_HEADER
 #define RAVL_DPDATACONV_HEADER 1
 /////////////////////////////////////////////////////////
-//! docentry="Ravl.Core.IO.Type Converter"
+//! docentry="Ravl.API.Core.IO.Type Converter"
 //! lib=RavlIO
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/DataConv.hh"

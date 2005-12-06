@@ -9,7 +9,7 @@
 //! lib=RavlMath
 //! file="Ravl/Math/Signals/1D/exPowerSpectrum.cc"
 //! userlevel=Normal
-//! docentry="Ravl.Math.Signals.1D"
+//! docentry="Ravl.API.Math.Signals.1D"
 //! author="Charles Galambos"
 
 #include "Ravl/PowerSpectrum1d.hh"

@@ -8,7 +8,7 @@
 #define RAVLLOGIC_LITERAL_HEADER 1
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Logic"
+//! docentry="Ravl.API.Logic"
 //! userlevel=Normal
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/Literal.hh"

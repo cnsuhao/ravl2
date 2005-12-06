@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.File System"
+//! docentry="Ravl.API.OS.File System"
 //! rcsid="$Id$"
 //! lib=RavlOS
 //! file="Ravl/OS/FileSystem/exFilename.cc"

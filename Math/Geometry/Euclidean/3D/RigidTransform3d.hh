@@ -12,7 +12,7 @@
 //! userlevel = Default
 //! lib=RavlMath
 //! rcsid     = "$Id$"
-//! docentry="Ravl.Math.Geometry.3D"
+//! docentry="Ravl.API.Math.Geometry.3D"
 
 #include "Ravl/Quatern3d.hh"
 #include "Ravl/Vector3d.hh"

@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! date="16/7/2002"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Data Processing.Internal" 
+//! docentry="Ravl.API.Core.Data Processing.Internal" 
 //! lib=RavlIO
 //! file="Ravl/Core/IO/StreamProcess.hh"
 

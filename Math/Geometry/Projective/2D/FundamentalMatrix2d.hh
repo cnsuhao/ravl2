@@ -8,7 +8,7 @@
 #define RAVL_FUNDAMENTALMATRIX2D_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlMath
-//! docentry="Ravl.Math.Projective Geometry.2D"
+//! docentry="Ravl.API.Math.Projective Geometry.2D"
 //! author="Charles Galambos"
 //! file="Ravl/Math/Geometry/Projective/2D/FundamentalMatrix2d.hh"
 

@@ -7,7 +7,7 @@
 #ifndef RAVL_XMLFILEIO_HEADER
 #define RAVL_XMLFILEIO_HEADER 1
 //////////////////////////////////////////////////////////
-//! docentry="Ravl.Core.Data Processing.IO" 
+//! docentry="Ravl.API.Core.Data Processing.IO" 
 //! example=exDataProc.cc
 //! lib=RavlIO
 //! author="Charles Galambos"

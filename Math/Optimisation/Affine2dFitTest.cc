@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlOptimise
-//! docentry="Ravl.Math.Optimisation.Examples"
+//! docentry="Ravl.API.Math.Optimisation.Examples"
 //! userlevel=Normal
 //! file="Ravl/Math/Optimisation/Affine2dFitTest.cc"
 

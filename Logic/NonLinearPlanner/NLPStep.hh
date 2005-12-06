@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_NLPSTEP_HEADER
 #define RAVLLOGIC_NLPSTEP_HEADER 1
 //! rcsid="$Id$"
-//! docentry="Ravl.Logic.Planning"
+//! docentry="Ravl.API.Logic.Planning"
 //! author="Charles Galambos"
 //! lib=RavlLogicNLP
 //! file="Ravl/Logic/NonLinearPlanner/NLPStep.hh"

@@ -11,7 +11,7 @@
 //! file="Ravl/Math/CCMath/CCMath.hh"
 //! lib=RavlMath
 //! userlevel=Develop
-//! docentry="Ravl.Math.Internal"
+//! docentry="Ravl.API.Math.Internal"
 //! author="Daniel A. Atkinson"
 
 extern "C" {

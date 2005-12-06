@@ -8,7 +8,7 @@
 #define RAVLIMAGE_IMAGETRACKER_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlImageProc
-//! docentry="Ravl.Images.Tracking"
+//! docentry="Ravl.API.Images.Tracking"
 //! file="Ravl/Image/Processing/Tracking/ImageTracker.hh"
 
 #include "Ravl/Pair.hh"

@@ -8,7 +8,7 @@
 #define RAVLLOGIC_VAR_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Logic"
+//! docentry="Ravl.API.Logic"
 //! lib=RavlLogic
 //! author="Charles Galambos"
 //! file="Ravl/Logic/Base/Var.hh"

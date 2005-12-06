@@ -8,7 +8,7 @@
 #define RAVLLOGICLITERALINDEXNODE_HEADER
 /////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Logic.Index"
+//! docentry="Ravl.API.Logic.Index"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Index/LiteralIndexNode.hh"
 

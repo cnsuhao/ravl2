@@ -11,7 +11,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="16/03/1999"
-//! docentry="Ravl.Images"
+//! docentry="Ravl.API.Images"
 
 //: Loading and saving images.
 

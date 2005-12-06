@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_REGIONSET_HEADER
 #define RAVLIMAGE_REGIONSET_HEADER
 //////////////////////////////////////////////////////////////
-//! docentry="Ravl.Images.Segmentation"
+//! docentry="Ravl.API.Images.Segmentation"
 //! userlevel=Normal
 //! example=exSegmentation.cc
 //! file="Ravl/Image/Processing/Segmentation/RegionSet.hh"

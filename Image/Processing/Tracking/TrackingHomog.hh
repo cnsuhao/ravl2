@@ -12,7 +12,7 @@
 
 //! userlevel=Normal
 //! author="Phil McLauchlan, Bill Christmas"
-//! docentry="Ravl.Images.Tracking"
+//! docentry="Ravl.API.Images.Tracking"
 
 #include "Ravl/Image/PointTracker.hh"
 #include "Ravl/FitHomog2dPoints.hh"

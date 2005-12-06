@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Graphs.Half Edge Mesh"
+//! docentry="Ravl.API.Core.Graphs.Half Edge Mesh"
 //! date="22/5/2002"
 //! file="Ravl/Core/Container/Graph/THEMeshFaceIter.hh"
 

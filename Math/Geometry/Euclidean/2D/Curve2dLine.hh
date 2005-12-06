@@ -7,7 +7,7 @@
 #ifndef RAVL_CURVE2DLINE_HEADER
 #define RAVL_CURVE2DLINE_HEADER 1
 //////////////////////////////////////////////////////
-//! docentry="Ravl.Math.Geometry.2D"
+//! docentry="Ravl.API.Math.Geometry.2D"
 //! userlevel=Normal
 //! rcsid="$Id$"
 //! lib=RavlMath

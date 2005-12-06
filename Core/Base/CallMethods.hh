@@ -8,7 +8,7 @@
 #define RAVL_CALLMETHODS_HEADER 1
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Calls"
+//! docentry="Ravl.API.Core.Calls"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! file="Ravl/Core/Base/CallMethods.hh"

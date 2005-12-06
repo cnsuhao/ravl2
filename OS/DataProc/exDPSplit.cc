@@ -8,7 +8,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlDPMT
-//! docentry="Ravl.Core.Data Processing.Split"
+//! docentry="Ravl.API.Core.Data Processing.Split"
 //! date="21/07/1998"
 //! file="Ravl/OS/DataProc/exDPSplit.cc"
 

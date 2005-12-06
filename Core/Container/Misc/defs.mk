@@ -26,4 +26,4 @@ TESTEXES=testStack.cc testBlkStack.cc testBinTable.cc
 
 EXAMPLES=exStack.cc
 
-EHT=Ravl.Core.Stacks.eht Ravl.Core.Tuples.eht
+EHT=Ravl.API.Core.Stacks.eht Ravl.API.Core.Tuples.eht

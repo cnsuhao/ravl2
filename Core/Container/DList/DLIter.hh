@@ -8,7 +8,7 @@
 #define RAVL_DLITER_HEADER 1
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Lists"
+//! docentry="Ravl.API.Core.Lists"
 //! file="Ravl/Core/Container/DList/DLIter.hh"
 //! lib=RavlCore
 //! userlevel=Normal

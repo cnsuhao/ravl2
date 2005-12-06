@@ -11,7 +11,7 @@
 //! date="15/8/2002"
 //! lib=RavlMath
 //! author="Charles Galambos"
-//! docentry="Ravl.Math.Linear Algebra.Smart Matrix"
+//! docentry="Ravl.API.Math.Linear Algebra.Smart Matrix"
 //! file="Ravl/Math/LinearAlgebra/General/TSMatrix.hh"
 
 #include "Ravl/TMatrix.hh"

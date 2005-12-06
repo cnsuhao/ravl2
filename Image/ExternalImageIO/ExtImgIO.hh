@@ -11,7 +11,7 @@
 //! userlevel=Develop
 //! file="Ravl/Image/ExternalImageIO/ExtImgIO.hh"
 //! lib=RavlExtImgIO
-//! docentry="Ravl.Images.IO.Formats"
+//! docentry="Ravl.API.Images.IO.Formats"
 //! author="Charles Galambos"
 //! date="25/05/2000"
 

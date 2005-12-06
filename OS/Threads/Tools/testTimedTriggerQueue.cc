@@ -9,7 +9,7 @@
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Tools/testTimedTriggerQueue.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.Time"
+//! docentry="Ravl.API.OS.Time"
 //! userlevel=Develop
 
 #include "Ravl/Threads/TimedTriggerQueue.hh"

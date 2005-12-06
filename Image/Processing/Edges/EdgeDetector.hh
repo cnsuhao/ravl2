@@ -10,7 +10,7 @@
 //! userlevel=Normal
 //! rcsid="$Id$"
 //! lib=RavlImageProc
-//! docentry="Ravl.Images.Edges"
+//! docentry="Ravl.API.Images.Edges"
 //! file="Ravl/Image/Processing/Edges/EdgeDetector.hh"
 //! example="doEdgeDet.cc"
 

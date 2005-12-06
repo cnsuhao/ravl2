@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/OS/Text/TextFragment.hh"
 //! lib=RavlOS
-//! docentry="Ravl.OS.Text Processing"
+//! docentry="Ravl.API.OS.Text Processing"
 //! author="Charles Galambos"
 //! date="23/02/2000"
 

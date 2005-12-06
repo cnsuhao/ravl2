@@ -8,7 +8,7 @@
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/exSample.cc"
 //! author="Kieron Messer"
-//! docentry="Ravl.Pattern Recognition.Data Set"
+//! docentry="Ravl.API.Pattern Recognition.Data Set"
 //! userlevel=Normal
 
 //: Using SampleC and related classes.

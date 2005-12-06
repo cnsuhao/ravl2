@@ -9,7 +9,7 @@
 //! file="Ravl/Core/Container/Buffer/exRBfAcc.cc"
 //! userlevel=Normal
 //! author="Radek Marik"
-//! docentry="Ravl.Core.Arrays.Buffer"
+//! docentry="Ravl.API.Core.Arrays.Buffer"
 //! date="26/2/1997"
 
 //: Range Buffer Access

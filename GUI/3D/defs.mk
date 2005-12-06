@@ -17,7 +17,7 @@ ifneq ($(filter $(ARC), sol2_7 sol2_9),)
 # The solaris x11 header files a broken, so we need
 # to turn off ansi flag and make the compiler more forgiving.
 ANSIFLAG=-fpermissive
-endif
+endif	
 ifeq ($(ARC),alpha)
 # The solaris x11 header files a broken, so we need
 # to turn off ansi flag and make the compiler more forgiving.
@@ -45,6 +45,6 @@ EXAMPLES = exCanvas3D.cc exView3D.cc exDTexTriMesh3d.cc
 
 USESLIBS = RavlCore RavlGeom RavlGUI OpenGL Ravl3D x11
 
-EHT = Ravl.GUI.3D.html
+EHT = Ravl.API.GUI.3D.html
 
 PROGLIBS = Ravl3DIO RavlOS RavlImageIO RavlExtImgIO

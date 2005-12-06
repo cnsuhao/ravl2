@@ -13,7 +13,7 @@
 //! file="Ravl/GUI/GTK/ScrolledArea.hh"
 //! date="03/04/1999"
 //! example=exScrolledArea.cc
-//! docentry="Ravl.GUI.Layout"
+//! docentry="Ravl.API.GUI.Layout"
 
 #include "Ravl/GUI/OneChild.hh"
 

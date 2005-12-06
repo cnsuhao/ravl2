@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////////
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.File System"
+//! docentry="Ravl.API.OS.File System"
 //! lib=RavlOS
 //! rcsid="$Id$"
 //! file="Ravl/OS/FileSystem/Directory.hh"

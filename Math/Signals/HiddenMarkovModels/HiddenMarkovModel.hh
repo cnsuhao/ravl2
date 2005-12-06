@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlHMM
-//! docentry="Ravl.Math.Signals"
+//! docentry="Ravl.API.Math.Signals"
 //! file="Ravl/Math/Signals/HiddenMarkovModels/HiddenMarkovModel.hh"
 
 #include "Ravl/Matrix.hh"

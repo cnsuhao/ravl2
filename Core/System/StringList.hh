@@ -11,7 +11,7 @@
 //! lib=RavlCore
 //! userlevel=Normal
 //! author="Bill Christmas"
-//! docentry="Ravl.Core.Lists;Ravl.Core.Strings"
+//! docentry="Ravl.API.Core.Lists;Ravl.API.Core.Strings"
 //! rcsid="$Id$"
 //! date="12/07/1996"
 

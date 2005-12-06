@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Hash/testHash.cc"
-//! docentry="Ravl.Core.Hash Tables"
+//! docentry="Ravl.API.Core.Hash Tables"
 //! userlevel=Develop
 
 #include "Ravl/Hash.hh"

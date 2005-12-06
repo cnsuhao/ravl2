@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlSourceTools
 //! author="Charles Galambos"
-//! docentry="Ravl.Source Tools"
+//! docentry="Ravl.API.Source Tools"
 //! file="Ravl/SourceTools/CodeManager/BuildInfo.hh"
 
 #include "Ravl/SourceTools/LibInfo.hh"

@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.Lines"
+//! docentry="Ravl.API.Images.Lines"
 //! date="19/11/2002"
 //! file="Ravl/Image/Processing/Lines/ArcDetector.hh"
 //! example="doArcs.cc"

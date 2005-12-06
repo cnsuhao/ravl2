@@ -8,7 +8,7 @@
 #define RAVL_DLIST_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Lists"
+//! docentry="Ravl.API.Core.Lists"
 //! file="Ravl/Core/Container/DList/DList.hh"
 //! lib=RavlCore
 //! userlevel=Normal

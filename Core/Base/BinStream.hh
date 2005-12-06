@@ -12,7 +12,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="09/02/1999"
-//! docentry="Ravl.Core.IO.Streams"
+//! docentry="Ravl.API.Core.IO.Streams"
 //! rcsid="$Id$"
 
 #include "Ravl/config.h"

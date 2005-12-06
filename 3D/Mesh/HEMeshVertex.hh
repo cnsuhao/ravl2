@@ -8,7 +8,7 @@
 #define RAVL3D_HEMESHVERTEX_HEADER 1
 //! rcsid="$Id$"
 //! lib=Ravl3D
-//! docentry="Ravl.3D.Half Edge Mesh"
+//! docentry="Ravl.API.3D.Half Edge Mesh"
 //! date="24/4/2002"
 //! author="Charles Galambos"
 //! file="Ravl/3D/Mesh/HEMeshVertex.hh"

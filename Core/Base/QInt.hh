@@ -21,7 +21,7 @@
 
 //! license=own
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Math.QInt"
+//! docentry="Ravl.API.Core.Math.QInt"
 //! file="Ravl/Core/Base/QInt.hh"
 //! lib=RavlCore
 //! userlevel=Normal

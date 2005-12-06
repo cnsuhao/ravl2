@@ -12,7 +12,7 @@
 //! lib=RavlMath
 //! author="Charles Galambos"
 //! date="23/03/99"
-//! docentry="Ravl.Math.Sequences"
+//! docentry="Ravl.API.Math.Sequences"
 //! example=exPrimiteBinaryPolynomial.cc
 
 #include "Ravl/SArray1d.hh"

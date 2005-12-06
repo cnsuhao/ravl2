@@ -8,7 +8,7 @@
 #define RAVL_RESOURCE_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlCore
-//! docentry="Ravl.Core.Resource"
+//! docentry="Ravl.API.Core.Resource"
 //! userlevel=Normal
 //! file="Ravl/Core/Base/Resource.hh"
 

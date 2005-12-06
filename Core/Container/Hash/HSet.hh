@@ -12,7 +12,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="2/9/1996"
-//! docentry="Ravl.Core.Hash Tables"
+//! docentry="Ravl.API.Core.Hash Tables"
 //! rcsid="$Id$"
 
 #include "Ravl/RCHash.hh"

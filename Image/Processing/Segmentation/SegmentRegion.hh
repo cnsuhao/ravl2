@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_SEGMENTREGION_HEADER
 #define RAVLIMAGE_SEGMENTREGION_HEADER
 //////////////////////////////////////////////////////////////
-//! docentry="Ravl.Images.Segmentation"
+//! docentry="Ravl.API.Images.Segmentation"
 //! userlevel=Develop
 //! file="Ravl/Image/Processing/Segmentation/SegmentRegion.hh"
 //! rcsid="$Id$"

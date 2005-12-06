@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////
 //! userlevel=Normal
 //! author="Radek Marik"
-//! docentry="Ravl.Math.Geometry.3D"
+//! docentry="Ravl.API.Math.Geometry.3D"
 //! date="26/10/1992"
 //! rcsid="$Id$"
 //! lib=RavlMath

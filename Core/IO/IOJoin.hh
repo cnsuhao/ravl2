@@ -10,7 +10,7 @@
 //! file="Ravl/Core/IO/IOJoin.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Data Processing.Ports" 
+//! docentry="Ravl.API.Core.Data Processing.Ports" 
 //! date="12/10/1998"
 //! rcsid="$Id$"
 //! userlevel=Normal

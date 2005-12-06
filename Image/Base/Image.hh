@@ -13,7 +13,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="24/01/2001"
-//! docentry="Ravl.Images"
+//! docentry="Ravl.API.Images"
 //! example=exImage.cc
 
 #include "Ravl/Array2d.hh"

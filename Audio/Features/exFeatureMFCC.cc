@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlAudioFeatures
 //! author="Charles Galambos"
-//! docentry="Ravl.Audio.Feature Extraction"
+//! docentry="Ravl.API.Audio.Feature Extraction"
 //! userlevel=Normal
 //! file="Ravl/Audio/Features/exFeatureMFCC.cc"
 #include "Ravl/config.h" 

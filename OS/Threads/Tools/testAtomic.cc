@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlThreads
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.API.Core.Misc"
 //! userlevel=Develop
 //! file="Ravl/OS/Threads/Tools/testAtomic.cc"
 

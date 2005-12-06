@@ -8,7 +8,7 @@
 //! lib=RavlMath
 //! file="Ravl/Math/Sequence/exPrimiteBinaryPolynomial.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.Math.Sequences"
+//! docentry="Ravl.API.Math.Sequences"
 //! userlevel=Normal
 
 #include "Ravl/PrimitiveBinaryPolynomial.hh"

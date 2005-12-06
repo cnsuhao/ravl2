@@ -8,7 +8,7 @@
 #define RAVLLOGIC_LLIST_HEADER 1
 /////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Logic"
+//! docentry="Ravl.API.Logic"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/LList.hh"
 //! author="Charles Galambos"

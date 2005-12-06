@@ -11,7 +11,7 @@
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Radek Marik"
-//! docentry="Ravl.Math.Projective Geometry.2D"
+//! docentry="Ravl.API.Math.Projective Geometry.2D"
 //! date="26.06.1995"
 //! rcsid="$Id$"
 

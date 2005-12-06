@@ -13,7 +13,7 @@
 //! lib=RavlCore
 //! author="Andrew Stoddart"
 //! date="26/04/1995"
-//! docentry="Ravl.Core.Math"
+//! docentry="Ravl.API.Core.Math"
 
 #include "Ravl/Random.hh"
 #include "Ravl/RandomMersenneTwister.hh"

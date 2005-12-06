@@ -12,7 +12,7 @@
 //! date="22/4/1998"
 //! userlevel=Normal
 //! example=testNumOptimise.cc
-//! docentry="Ravl.Pattern Recognition.Optimisation.Implementation"
+//! docentry="Ravl.API.Pattern Recognition.Optimisation.Implementation"
 //! rcsid="$Id$"
 //! file="Ravl/PatternRec/Optimise/OptimiseRandomUniform.hh"
 

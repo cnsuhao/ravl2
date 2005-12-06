@@ -24,4 +24,4 @@ TESTEXES= testChildProc.cc
 
 EXAMPLES= exChild.cc
 
-EHT=Ravl.OS.Exec.html
+EHT=Ravl.API.OS.Exec.html

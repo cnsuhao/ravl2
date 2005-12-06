@@ -8,7 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/testCalls.cc"
-//! docentry="Ravl.Core.Calls"
+//! docentry="Ravl.API.Core.Calls"
 //! userlevel=Develop
 //! author="Charles Galambos"
 

@@ -8,7 +8,7 @@
 #define RAVL_TRAITS_HEADER 1
 //! author="Charles Galambos, based on ideas from sigc++"
 //! date="27/4/2003
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.API.Core.Misc"
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/Traits.hh"

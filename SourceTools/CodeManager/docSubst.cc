@@ -7,7 +7,7 @@
 ///////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.Source Tools"
+//! docentry="Ravl.API.Source Tools"
 //! lib=RavlSourceTools
 //! file="Ravl/SourceTools/CodeManager/docSubst.cc"
 

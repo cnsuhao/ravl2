@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.Warping"
+//! docentry="Ravl.API.Images.Warping"
 //! userlevel=Normal
 //! file="Ravl/Image/Processing/Filters/doThinPlateWarp.cc"
 

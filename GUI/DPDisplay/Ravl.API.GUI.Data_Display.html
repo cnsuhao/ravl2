@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Image data display window</title>
+  </head>
+
+  <body>
+    <p>Requires library <code>RavlDPDisplay</code></p>
+    <hr>
+    
+    <p>This library allows the IO mechanism to 'save' image data to the display.  The string "@X" is used in place of a file name.</p> 
+
+    <p>To save individual images to the display, see <a href="../../../examples/exDPWindow.cc">this example</a>.</p>
+
+    <p>It can also be used to display a sequence of images via the RAVL streaming mechanism.  Thus if you want to output a series of images to the display, the constructor might be invoked as:</p>
+<pre>
+  DPOPortC<ImageC<ByteRGBValueC> > outp;
+  if(!OpenOSequence(outp,"@X")) {
+    cerr << "Failed to open output '" << ofn << "'\n";
+    return 1;
+  }
+</pre>
+    <p>To give the window a label "Images", invoke it like this:</p>
+    <pre>  if(!OpenOSequence(outp,"@X:Images")) {
+</pre>
+
+    <p>If you would like to display several images in separate windows, use different labels: <code>@X:Image1</code>, <code>@X:Image2</code> etc.</p>
+
+<p>  Normally repeated saves to the same window will replace its contents, if you want to accumulate the results of processing in a window you can use <B>@XA</B>.
+
+  </body>
+</html>

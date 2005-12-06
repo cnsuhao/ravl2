@@ -10,7 +10,7 @@
 //! file="Ravl/Core/Container/Buffer/SBfAcc.hh"
 //! lib=RavlCore
 //! author="Radek Marik"
-//! docentry="Ravl.Core.Arrays.Buffer"
+//! docentry="Ravl.API.Core.Arrays.Buffer"
 //! date="14/02/1997"
 //! userlevel=Develop
 //! rcsid="$Id$"

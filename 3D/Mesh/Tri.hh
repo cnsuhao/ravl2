@@ -8,7 +8,7 @@
 #define RAVL3D_TRI_HEADER 1
 /////////////////////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.3D.Mesh"
+//! docentry="Ravl.API.3D.Mesh"
 //! lib=Ravl3D
 //! author="Charles Galambos"
 //! file="Ravl/3D/Mesh/Tri.hh"

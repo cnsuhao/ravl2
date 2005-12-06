@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.Pattern Recognition.Data Set"
+//! docentry="Ravl.API.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/SampleDiscrete.hh"
 

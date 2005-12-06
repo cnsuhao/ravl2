@@ -7,7 +7,7 @@
 #ifndef RAVL_SINGLEBUFFER_HEADER
 #define RAVL_SINGLEBUFFER_HEADER 1
 ///////////////////////////////////////////////////////
-//! docentry="Ravl.Core.Arrays.Buffer"
+//! docentry="Ravl.API.Core.Arrays.Buffer"
 //! file="Ravl/Core/Container/Buffer/SingleBuffer.hh"
 //! rcsid="$Id$"
 //! lib=RavlCore

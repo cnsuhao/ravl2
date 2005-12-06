@@ -11,7 +11,7 @@
 //! file="Ravl/GUI/3D/View3D.hh"
 //! lib=RavlGUI3D
 //! userlevel=Normal
-//! docentry="Ravl.GUI.3D"
+//! docentry="Ravl.API.GUI.3D"
 //! author="James Smith"
 
 #include "Ravl/GUI/Canvas3D.hh"

@@ -12,7 +12,7 @@
 //! userlevel=Basic
 //! author="Radek Marik"
 //! date="2/1/1996"
-//! docentry="Ravl.Core.Indexing"
+//! docentry="Ravl.API.Core.Indexing"
 //! example=exIndex.cc
 //! rcsid="$Id$"
 

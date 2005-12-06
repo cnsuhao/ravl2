@@ -19,4 +19,4 @@ EXAMPLES=exAVLTree.cc exBinaryTree.cc
 
 TESTEXES=testBinaryTree.cc testHashTree.cc
 
-EHT=Ravl.Core.Trees.html
+EHT=Ravl.API.Core.Trees.html

@@ -8,7 +8,7 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Math/testMath.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Math"
+//! docentry="Ravl.API.Core.Math"
 //! userlevel=Develop
 
 #include "Ravl/Random.hh"

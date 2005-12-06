@@ -8,7 +8,7 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Misc/testBinTable.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.API.Core.Misc"
 //! userlevel=Develop
 
 #include "Ravl/BinTable.hh"

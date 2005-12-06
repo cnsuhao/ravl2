@@ -13,7 +13,7 @@
 //! userlevel=Default
 //! author="Charles Galambos"
 //! date="24/01/2001"
-//! docentry="Ravl.Core.Arrays.Buffer"
+//! docentry="Ravl.API.Core.Arrays.Buffer"
 
 #include "Ravl/Index.hh"
 #if RAVL_HAVE_TEMPLATEREQUIREALLDEFINITIONS

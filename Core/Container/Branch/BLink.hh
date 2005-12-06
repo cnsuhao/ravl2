@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Branch"
+//! docentry="Ravl.API.Core.Branch"
 //! author="Charles Galambos"
 //! file="Ravl/Core/Container/Branch/BLink.hh"
 

@@ -11,7 +11,7 @@
 //! lib=RavlOS
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.File System"
+//! docentry="Ravl.API.OS.File System"
 //! date="20/10/1996"
 //! rcsid="$Id$"
 

@@ -8,7 +8,7 @@
 #define RAVL_SOURCEAUTOPORT_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Source Tools.AutoPort"
+//! docentry="Ravl.API.Source Tools.AutoPort"
 //! userlevel=Normal
 //! file="Ravl/SourceTools/VisualCPP/AutoPortSource.hh"
 //! lib=RavlAutoPort

@@ -12,7 +12,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="6/6/1997"
-//! docentry="Ravl.Core.Queues"
+//! docentry="Ravl.API.Core.Queues"
 //! rcsid="$Id$"
 
 #include "Ravl/SArray1d.hh"

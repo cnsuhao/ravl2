@@ -8,7 +8,7 @@
 #define RAVL_WRAP_HEADER 1
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Reference Counting"
+//! docentry="Ravl.API.Core.Reference Counting"
 //! file="Ravl/Core/Base/RCWrap.hh"
 //! lib=RavlCore
 //! userlevel=Normal

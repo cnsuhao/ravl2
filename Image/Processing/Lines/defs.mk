@@ -26,7 +26,7 @@ USESLIBS=RavlImageProc
 
 PROGLIBS=RavlIO RavlOS RavlOSIO RavlImageIO RavlMathIO RavlImgIOV4L.opt RavlDPDisplay.opt RavlExtImgIO
 
-EHT = Ravl.Images.Lines.html 
+EHT = Ravl.API.Images.Lines.html 
 
 EXAMPLES=doPPHT.cc doArcs.cc 
 

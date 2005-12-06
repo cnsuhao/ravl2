@@ -13,7 +13,7 @@
 //! date="23/03/1999"
 //! rcsid="$Id$"
 //! example=exNotebook.cc
-//! docentry="Ravl.GUI.Layout"
+//! docentry="Ravl.API.GUI.Layout"
 
 #include "Ravl/GUI/CWidget.hh"
 #include "Ravl/Hash.hh"

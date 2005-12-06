@@ -8,7 +8,7 @@
 #define RAVLLOGIC_NOT_HEADER 1
 ///////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Logic.Condition"
+//! docentry="Ravl.API.Logic.Condition"
 //! lib=RavlLogic
 //! author="Charles Galambos"
 //! file="Ravl/Logic/Base/Not.hh"

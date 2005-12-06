@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlDPMT
-//! docentry="Ravl.Core.Data Processing.Buffers"
+//! docentry="Ravl.API.Core.Data Processing.Buffers"
 //! file="Ravl/OS/DataProc/Buffer.hh"
 //! author="Charles Galambos"
 //! date="02/10/1998"

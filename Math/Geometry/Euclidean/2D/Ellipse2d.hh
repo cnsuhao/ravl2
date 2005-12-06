@@ -8,7 +8,7 @@
 #define RAVL_ELLIPSE2D_HEADER 1
 //! author="Charles Galambos"
 //! date="6/4/2004"
-//! docentry="Ravl.Math.Geometry.2D"
+//! docentry="Ravl.API.Math.Geometry.2D"
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/2D/Ellipse2d.hh"
@@ -93,13 +93,13 @@ namespace RavlN {
   // Based on method presented in 'Numerically Stable Direct Least Squares Fitting of Ellipses' 
   // by Radim Halir and Jan Flusser.
   
-  //! docentry="Ravl.Math.Statistics;Ravl.Math.Geometry.2D"
+  //! docentry="Ravl.API.Math.Statistics;Ravl.API.Math.Geometry.2D"
   Ellipse2dC EllipseMeanCovariance(const Matrix2dC &covar,const Point2dC &mean,RealT stdDev = 1.0);
   //: Compute an ellipse from a 2d covariance matrix, mean, and standard deviation.
   // The ellipse is the contour of a 2-D Gaussian random variable which lies "stdDev" standard deviations from the mean.
   
   //:-
-  //! docentry="Ravl.Math.Geometry.2D"
+  //! docentry="Ravl.API.Math.Geometry.2D"
   
   ostream &operator<<(ostream &s,const Ellipse2dC &obj);
   //: Write ellipse to text stream.

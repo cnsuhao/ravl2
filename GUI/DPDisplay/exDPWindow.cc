@@ -8,7 +8,7 @@
 //! lib=RavlDPDisplay
 //! file="Ravl/GUI/DPDisplay/exDPWindow.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.GUI.Data Display"
+//! docentry="Ravl.API.GUI.Data Display"
 //! userlevel=Normal
 
 #include "Ravl/GUI/DPWindow.hh"

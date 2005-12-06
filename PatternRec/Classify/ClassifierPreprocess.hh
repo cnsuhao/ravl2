@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.Pattern Recognition.Classifier"
+//! docentry="Ravl.API.Pattern Recognition.Classifier"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Classify/ClassifierPreprocess.hh"
 

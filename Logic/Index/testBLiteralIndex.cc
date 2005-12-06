@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Index/testBLiteralIndex.cc"
-//! docentry="Ravl.Logic.Index"
+//! docentry="Ravl.API.Logic.Index"
 //! userlevel=Develop
 //! author="Charles Galambos"
 

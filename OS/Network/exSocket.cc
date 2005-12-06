@@ -10,7 +10,7 @@
 //! file="Ravl/OS/Network/exSocket.cc"
 //! author="Charles Galambos"
 //! date="15/02/2000"
-//! docentry="Ravl.OS.Network"
+//! docentry="Ravl.API.OS.Network"
 //! userlevel=Normal
 
 #include "Ravl/Option.hh"

@@ -20,6 +20,6 @@ PLIB=RavlCore
 
 TESTEXES= testBGraph.cc testBranch.cc
 
-EHT= Ravl.Core.Branch.html
+EHT= Ravl.API.Core.Branch.html
 
 USESLIBS=RavlCore

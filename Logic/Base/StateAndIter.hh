@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlLogic
 //! author="Charles Galambos"
-//! docentry="Ravl.Logic"
+//! docentry="Ravl.API.Logic"
 //! file="Ravl/Logic/Base/StateAndIter.hh"
 
 #include "Ravl/Logic/LiteralIter.hh"

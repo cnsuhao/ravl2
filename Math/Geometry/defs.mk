@@ -9,4 +9,4 @@
 
 NESTED=Euclidean.r Projective.r
 
-EHT=Ravl.Math.Geometry.html
+EHT=Ravl.API.Math.Geometry.html

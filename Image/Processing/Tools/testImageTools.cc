@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Tools/testImageTools.cc"
-//! docentry="Ravl.Images.Misc"
+//! docentry="Ravl.API.Images.Misc"
 //! userlevel=Develop
 //! author="Charles Galambos"
 

@@ -8,7 +8,7 @@
 #define RAVL_PTHREADSRWLOCK_HEADER 1
 //////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.Threads"
+//! docentry="Ravl.API.OS.Threads"
 //! rcsid="$Id$"
 //! file="Ravl/OS/Threads/Posix/RWLock.hh"
 //! lib=RavlThreads

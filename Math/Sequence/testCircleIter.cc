@@ -8,7 +8,7 @@
 //! lib=RavlMath
 //! file="Ravl/Math/Sequence/testCircleIter.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.Math.Sequences"
+//! docentry="Ravl.API.Math.Sequences"
 //! userlevel=Develop
 
 #include "Ravl/CircleIter.hh"

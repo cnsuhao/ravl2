@@ -8,7 +8,7 @@
 #define RAVLIMAGE_HOMOMORPHICFILTER_HEADER 1
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.Filtering"
+//! docentry="Ravl.API.Images.Filtering"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Filters/HomomorphicFilter.hh"

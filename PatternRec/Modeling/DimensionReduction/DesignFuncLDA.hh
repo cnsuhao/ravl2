@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! author="Mohammad Sadeghi"
-//! docentry="Ravl.Pattern Recognition.Dimension Reduction"
+//! docentry="Ravl.API.Pattern Recognition.Dimension Reduction"
 //! file="Ravl/PatternRec/Modeling/DimensionReduction/DesignFuncLDA.hh"
 
 #include "Ravl/PatternRec/DesignFuncReduce.hh"

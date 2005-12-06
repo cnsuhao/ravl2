@@ -1,0 +1,33 @@
+! children="1D;2D;3D;Buffer"
+: 1,2 and 3 Dimensional Arrays
+
+RAVL arrays provide a more flexible and user-friendly substitute for the
+traditional C-style arrays.  RAVL arrays are dynamically-allocated, and are
+"big" objects - i.e. they are reference-counted (see <a
+href="Ravl.Introduction.Reference_Counting.html">Reference Counting</a>).
+
+
+<p>There are two types of array provided in RAVL: regular arrays and simple
+arrays.  If you're not sure which to use, stick with the regular ones.
+
+<menu> 
+
+<li><b>Regular arrays:</b> These have indices that can have any lower and upper
+bound.  The templates are: <a href="../Class/RavlN.Array1dC.html">Array1dC</a>, <a href="../Class/RavlN.Array2dC.html">Array2dC</a>, ..., from which various 
+templated varieties are derived. For faster iterating over arrays, the simple 
+arrays also have some special iterator classes: <a href="../Class/RavlN.Array1dIterC.html">Array1dIterC</a>, <a href="../Class/RavlN.Array1dIter2C.html">Array1dIter2C</a>,
+<a href="../Class/RavlN.Array2dIterC.html">Array2dIterC</a>, ...  See under the appropriate array type for more details.
+
+<li><b>Simple arrays:</b> These have an index range from 0 to some positive
+number.  They are somewhat faster than regular arrays when array-bound checking
+is turned on.  The templates are: <a href="../Class/RavlN.SArray1dC.html">SArray1dC</a>,<a href="../Class/RavlN.SArray2dC.html">SArray2dC</a>, ..., from which various
+templated varieties are derived.  For faster iterating over arrays, the simple
+arrays also have some special iterator classes: <a href="../Class/RavlN.SArray1dIterC.html">SArray1dIterC</a>, <a href="../Class/RavlN.SArray1dIter2C.html">SArray1dIter2C</a>,
+<a href="../Class/RavlN.SArray2dIterC.html">SArray2dIterC</a>,...  See under the appropriate array type for more details.
+
+</menu>
+
+
+</body>
+</html>
+

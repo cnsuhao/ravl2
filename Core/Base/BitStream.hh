@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Core/Base/BitStream.hh"
 //! lib=RavlCore
-//! docentry="Ravl.Core.IO.Streams"
+//! docentry="Ravl.API.Core.IO.Streams"
 //! author="Charles Galambos"
 //! date="04/06/1999"
 //! userlevel=Default

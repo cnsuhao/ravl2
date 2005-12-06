@@ -8,7 +8,7 @@
 #define RAVL_TSMATRIXTRANSPOSE_HEADER 1
 //! date="22/8/2002"
 //! author="Charles Galambos"
-//! docentry="Ravl.Math.Linear Algebra.Smart Matrix"
+//! docentry="Ravl.API.Math.Linear Algebra.Smart Matrix"
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/TSMatrixTranspose.hh"

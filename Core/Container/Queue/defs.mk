@@ -26,4 +26,4 @@ USESLIBS = RavlCore
 
 TESTEXES = testPriQH.cc testPriQ.cc testPriQueue.cc testFixedQueue.cc testQueue.cc 
 
-EHT=Ravl.Core.Queues.eht
+EHT=Ravl.API.Core.Queues.eht

@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_VECTORMATRIX2D_HEADER
 #define RAVL_VECTORMATRIX2D_HEADER 1
-//! docentry="Ravl.Math.Geometry.2D"
+//! docentry="Ravl.API.Math.Geometry.2D"
 //! author="Charles Galambos"
 //! date="13/04/2002"
 //! rcsid="$Id$"

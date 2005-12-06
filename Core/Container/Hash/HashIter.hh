@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! date="1/9/1996"
 //! example=exHash.cc
-//! docentry="Ravl.Core.Hash Tables"
+//! docentry="Ravl.API.Core.Hash Tables"
 //! rcsid="$Id$"
 
 #include "Ravl/Hash.hh"

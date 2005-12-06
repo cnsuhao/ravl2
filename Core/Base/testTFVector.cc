@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/testTFVector.cc"
-//! docentry="Ravl.Core.Tuples"
+//! docentry="Ravl.API.Core.Tuples"
 //! userlevel=Develop
 //! author="Charles Galambos"
 //! date="24/01/2001"

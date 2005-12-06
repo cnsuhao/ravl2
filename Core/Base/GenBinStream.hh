@@ -12,7 +12,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos, Daniele Muntoni"
 //! date="26/03/2003"
-//! docentry="Ravl.Core.IO.Streams"
+//! docentry="Ravl.API.Core.IO.Streams"
 //! rcsid="$Id$"
 
 #include "Ravl/config.h"

@@ -11,7 +11,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="25/2/1997"
-//! docentry="Ravl.Math.Geometry.2D"
+//! docentry="Ravl.API.Math.Geometry.2D"
 //! rcsid="$Id$"
 //! lib=RavlMath
 

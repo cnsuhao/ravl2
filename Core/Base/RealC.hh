@@ -7,7 +7,7 @@
 #ifndef RAVL_REALC_HEADER
 #define RAVL_REALC_HEADER 1
 ////////////////////////////////////////////////////
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.API.Core.Misc"
 //! userlevel=Normal
 //! rcsid="$Id$"
 //! file="Ravl/Core/Base/RealC.hh"

@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
-//! docentry="Ravl.Images.Pixel Types"
+//! docentry="Ravl.API.Images.Pixel Types"
 //! lib=RavlImage
 //! file="Ravl/Image/Base/RGBcYUV.hh"
 

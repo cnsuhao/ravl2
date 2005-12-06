@@ -11,7 +11,7 @@
 //! lib=RavlCore
 //! userlevel=Basic
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Arrays.2D"
+//! docentry="Ravl.API.Core.Arrays.2D"
 //! rcsid="$Id$"
 //! example=exArray2.cc
 //! date="24/08/1999"

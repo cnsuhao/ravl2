@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/OS/Threads/Tools/TimedTriggerQueue.hh"
 //! lib=RavlThreads
-//! docentry="Ravl.OS.Time"
+//! docentry="Ravl.API.OS.Time"
 //! author="Charles Galambos"
 //! date="23/09/1999"
 

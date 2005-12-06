@@ -9,7 +9,7 @@
 //! date="13/11/95"
 //! author="Andrew Stoddart"
 //! lib=RavlMath
-//! docentry="Ravl.Math.Geometry.3D"
+//! docentry="Ravl.API.Math.Geometry.3D"
 //! userlevel=Normal
 //! rcsid="$Id$"
 //! file="Ravl/Math/Geometry/Euclidean/3D/Quatern3d.hh"

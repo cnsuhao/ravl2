@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Image/Processing/Edges/SqrComposition.hh"
 //! lib=RavlImageProc
-//! docentry="Ravl.Images.Misc"
+//! docentry="Ravl.API.Images.Misc"
 //! author="Charles Galambos"
 //! date="04/07/2000"
 

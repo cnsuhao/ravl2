@@ -8,7 +8,7 @@
 #define RAVL_HEMESHBASEEDGE_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlCore
-//! docentry="Ravl.Core.Graphs.Half Edge Mesh"
+//! docentry="Ravl.API.Core.Graphs.Half Edge Mesh"
 //! date="24/4/2002"
 //! author="Charles Galambos"
 //! file="Ravl/Core/Container/Graph/HEMeshBaseEdge.hh"

@@ -8,7 +8,7 @@
 //! lib=RavlMath
 //! file="Ravl/Math/Sequence/testPolygon2dIter.cc"
 //! author="Robert Crida"
-//! docentry="Ravl.Math.Sequences"
+//! docentry="Ravl.API.Math.Sequences"
 //! userlevel=Develop
 
 #include "Ravl/Polygon2dIter.hh"

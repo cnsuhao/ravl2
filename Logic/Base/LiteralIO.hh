@@ -8,7 +8,7 @@
 #define RAVLLOGIC_LITERALIO_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlLogic
-//! docentry="Ravl.Logic"
+//! docentry="Ravl.API.Logic"
 //! file="Ravl/Logic/Base/LiteralIO.hh"
 
 #include "Ravl/Logic/Literal.hh"

@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_BILINEAR_HEADER
 #define RAVLIMAGE_BILINEAR_HEADER
-//! docentry="Ravl.Images"
+//! docentry="Ravl.API.Images"
 //! author="Charles Galambos"
 //! date="24/01/2001"
 //! rcsid="$Id$"

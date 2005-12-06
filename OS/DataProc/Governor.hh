@@ -8,7 +8,7 @@
 #define RAVL_DPGOVERNOR_HEADER
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Data Processing.Extras"
+//! docentry="Ravl.API.Core.Data Processing.Extras"
 //! author="Charles Galambos"
 //! date="12/10/98"
 //! lib=RavlDPMT

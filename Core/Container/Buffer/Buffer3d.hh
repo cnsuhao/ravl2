@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/Buffer/Buffer3d.hh"
 //! lib=RavlCore
-//! docentry="Ravl.Core.Arrays.Buffer"
+//! docentry="Ravl.API.Core.Arrays.Buffer"
 //! author="Charles Galambos"
 
 #include "Ravl/Buffer2d.hh"

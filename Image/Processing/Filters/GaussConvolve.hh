@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_GAUSSCONVOLVE_HEADER
 #define RAVLIMAGE_GAUSSCONVOLVE_HEADER 1
 //! author="Kieron J Messer"
-//! docentry="Ravl.Images.Filtering"
+//! docentry="Ravl.API.Images.Filtering"
 //! lib=RavlImageProc
 //! rcsid="$Id$"
 //! file="Ravl/Image/Processing/Filters/GaussConvolve.hh"

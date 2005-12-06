@@ -29,4 +29,4 @@ PLIB=RavlLogic
 
 USESLIBS=RavlCore RavlPatternRec
 
-EHT=Ravl.Logic.Condition.html
+EHT=Ravl.API.Logic.Condition.html

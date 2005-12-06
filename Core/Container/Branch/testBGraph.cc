@@ -10,7 +10,7 @@
 //! file="Ravl/Core/Container/Branch/testBGraph.cc"
 //! userlevel=Develop
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Branch"
+//! docentry="Ravl.API.Core.Branch"
 
 //: Test Branching Graphs.
 

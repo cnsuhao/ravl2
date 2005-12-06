@@ -21,6 +21,6 @@ USESLIBS=RavlImageProc
 
 EXAMPLES= exCorner.cc
 
-EHT= Ravl.Images.Corner_Detection.html
+EHT= Ravl.API.Images.Corner_Detection.html
 
 PROGLIBS=RavlImageIO RavlDPDisplay.opt RavlImgIOV4L.opt RavlDV.opt RavlExtImgIO.opt RavlLibFFmpeg.opt

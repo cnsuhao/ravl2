@@ -8,7 +8,7 @@
 #define RAVLIMAGE_SCALEVALUES_HEADER 1
 //! author="Charles Galambos"
 //! date="8/1/2003"
-//! docentry="Ravl.Images"
+//! docentry="Ravl.API.Images"
 //! rcsid="$Id$"
 //! lib=RavlImage
 //! file="Ravl/Image/Base/ScaleValues.hh"

@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=Ravl3DIO
-//! docentry="Ravl.3D.IO"
+//! docentry="Ravl.API.3D.IO"
 //! file="Ravl/3D/MeshIO/MeshIOObj.hh"
 
 #include "Ravl/3D/TriMesh.hh"

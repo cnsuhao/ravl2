@@ -11,7 +11,7 @@
 //! date="14/07/2000"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
-//! docentry="Ravl.Images.Motion.Optical Flow"
+//! docentry="Ravl.API.Images.Motion.Optical Flow"
 //! example=exLMSMultiScale.cc
 //! file="Ravl/Image/Processing/Motion/LMSGradient/LMSMultiScaleMotion.hh"
 

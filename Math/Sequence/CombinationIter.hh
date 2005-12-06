@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! file="Ravl/Math/Sequence/CombinationIter.hh"
-//! docentry="Ravl.Math.Sequences"
+//! docentry="Ravl.API.Math.Sequences"
 //! date="24/08/98"
 //! lib=RavlMath
 

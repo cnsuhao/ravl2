@@ -9,7 +9,7 @@
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Tools/testSignal.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.Signals"
+//! docentry="Ravl.API.OS.Signals"
 //! userlevel=Develop
 
 #include "Ravl/Threads/Signal.hh"

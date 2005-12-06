@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
-//! docentry="Ravl.Pattern Recognition.Functions"
+//! docentry="Ravl.API.Pattern Recognition.Functions"
 //! file="Ravl/PatternRec/DataSet/DesignFunctionSupervised.hh"
 
 #include "Ravl/PatternRec/Function.hh"

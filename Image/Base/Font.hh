@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImage
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.Drawing"
+//! docentry="Ravl.API.Images.Drawing"
 //! file="Ravl/Image/Base/Font.hh"
 //! example=exFont.cc
 

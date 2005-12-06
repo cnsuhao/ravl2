@@ -10,7 +10,7 @@
 //! date="16/12/1996"
 //! author="Charles Galambos"
 //! userlevel=Develop
-//! docentry="Ravl.Logic.Planning"
+//! docentry="Ravl.API.Logic.Planning"
 //! rcsid="$Id$"
 //! file="Ravl/Logic/NonLinearPlanner/NLPAgendaItem.hh"
 //! lib=RavlLogicNLP

@@ -8,7 +8,7 @@
 #define RAVL_DEADLINETIMER_HEADER 1
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.OS.Time"
+//! docentry="Ravl.API.OS.Time"
 //! example="exDeadLine.cc"
 //! file="Ravl/OS/Time/DeadLineTimer.hh"
 //! lib=RavlOS

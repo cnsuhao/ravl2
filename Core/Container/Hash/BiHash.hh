@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! date="1/9/1996"
 //! example=exBiHash.cc
-//! docentry="Ravl.Core.Hash Tables"
+//! docentry="Ravl.API.Core.Hash Tables"
 //! rcsid="$Id$"
 //! userlevel=Default
 

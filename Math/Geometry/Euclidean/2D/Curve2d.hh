@@ -7,7 +7,7 @@
 #ifndef RAVL_CURVE2D_HEADER 
 #define RAVL_CURVE2D_HEADER 1
 ///////////////////////////////////////////////////////////
-//! docentry="Ravl.Math.Geometry.2D"
+//! docentry="Ravl.API.Math.Geometry.2D"
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! date="26/08/1998"

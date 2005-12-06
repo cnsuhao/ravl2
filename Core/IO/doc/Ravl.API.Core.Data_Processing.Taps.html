@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--! autoLinkContext=RavlN -->
+<!--! autoLink=on -->
+<!--! author="Charles Galambos" -->
+<html>
+  <head>
+    <title>Taps</title>
+  </head>
+
+  <body>
+    There are several tools implemented in the basic library to allow complex
+data flows to be composed.   The first is a simple process which `taps'
+the data flowing through a pipe and puts it out into another data pipe.
+This tap process is shown in Figure <A HREF="Ravl.Core.Data_Processing.Taps.html#fig:tap">3</A>.  
+
+<P>
+There is a helper function which constructs a tap with the appropriate
+types: `DPTap&lt;&gt;' takes one argument, the destination to put the
+tapped data.  The example opens an output stream on stdout, to which
+it sends all the processed data as well as saving it to the file
+`out.dat'. Figure <A HREF="Ravl.Core.Data_Processing.Taps.html#fig:extap">4</A> shows a graphical representation
+of the stream created.
+
+<P>
+<BLOCKQUOTE>
+<TT>  DPOFileC&lt;RealT&gt; monitor("-") ;  
+<BR>
+DPOffsetScale(2.0,3.0) &#187; DPRunningAverage(1.0,5) &#187; DPTap(monitor) &#187; DPOFileC&lt;RealT&gt;("out.dat");
+</TT>
+</BLOCKQUOTE>
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:tap"></A><A NAME="fig:extap"></A></P> <TABLE  WIDTH="181">
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 3:</STRONG>Data Tap.</CAPTION>
+<TR><TD>
+  <IMG WIDTH="179" HEIGHT="135" ALIGN="BOTTOM" BORDER="0" SRC="../../../Images/DataProc/img7.png" ALT="tap.eps">
+  </TD></TR>
+</TABLE>
+
+<TABLE  WIDTH="317">
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 4:</STRONG>Tap example.</CAPTION>
+<TR><TD>
+  <IMG WIDTH="316" HEIGHT="159" ALIGN="BOTTOM" BORDER="0" SRC="../../../Images/DataProc/img8.png" ALT="ex_tap.eps">
+  </TD></TR>
+</TABLE>
+</DIV>
+
+
+  </body>
+</html>

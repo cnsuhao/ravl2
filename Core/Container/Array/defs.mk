@@ -32,4 +32,4 @@ EXAMPLES = exArray1.cc exArray2.cc exArray3.cc
 
 TESTEXES = testArray1d.cc testArray2d.cc testArray3d.cc
 
-EHT=Ravl.Core.Arrays.eht
+EHT=Ravl.API.Core.Arrays.eht

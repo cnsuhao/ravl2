@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! example=exDataProc.cc
-//! docentry="Ravl.Core.Data Processing.Processes"
+//! docentry="Ravl.API.Core.Data Processing.Processes"
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! date="04/07/1998"

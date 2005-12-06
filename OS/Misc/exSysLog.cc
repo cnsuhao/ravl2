@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! docentry="Ravl.OS.SysLog"
+//! docentry="Ravl.API.OS.SysLog"
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlOS

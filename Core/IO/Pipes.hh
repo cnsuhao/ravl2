@@ -11,7 +11,7 @@
 //! file="Ravl/Core/IO/Pipes.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Data Processing.Extras" 
+//! docentry="Ravl.API.Core.Data Processing.Extras" 
 //! date="07/01/1999"
 //! userlevel=Default
 

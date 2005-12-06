@@ -27,6 +27,6 @@ USESLIBS = RavlImage RavlThreads RavlMath RavlIO RavlOS RavlOSIO RavlOptimise Ra
 
 EXAMPLES = exFeatureSet.cc 
 
-EHT = Ravl.Images.Misc.html Ravl.Images.Misc.XMLFormat.eht
+EHT = Ravl.API.Images.Misc.html Ravl.API.Images.Misc.XMLFormat.eht
 
 TESTEXES = testImageTools.cc

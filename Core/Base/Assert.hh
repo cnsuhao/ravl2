@@ -8,7 +8,7 @@
 #define RAVL_ASSERT_HEADER 1
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Error Handling"
+//! docentry="Ravl.API.Core.Error Handling"
 //! userlevel=Normal
 //! file="Ravl/Core/Base/Assert.hh"
 //! lib=RavlCore

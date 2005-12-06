@@ -8,7 +8,7 @@
 #define RAVL_METHOD2PROC31_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlIO
-//! docentry="Ravl.Core.Data Processing.Processes" 
+//! docentry="Ravl.API.Core.Data Processing.Processes" 
 //! author="Charles Galambos"
 //! date="23/7/2002"
 //! file="Ravl/Core/IO/Method2Proc31.hh"

@@ -11,7 +11,7 @@
 //! lib=RavlLogic
 //! file="Ravl/Logic/DecisionTree/Discriminator.hh"
 //! author="Charles Galambos"
-//! docentry="Ravl.Logic.Decision Tree"
+//! docentry="Ravl.API.Logic.Decision Tree"
 
 #include "Ravl/Logic/DecisionExamples.hh"
 #include "Ravl/RefCounter.hh"

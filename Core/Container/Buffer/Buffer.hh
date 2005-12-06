@@ -8,7 +8,7 @@
 #define RAVL_BUFFER_HEADER 1
 ///////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Arrays.Buffer"
+//! docentry="Ravl.API.Core.Arrays.Buffer"
 //! file="Ravl/Core/Container/Buffer/Buffer.hh"
 //! lib=RavlCore
 //! userlevel=Default

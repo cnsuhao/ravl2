@@ -13,7 +13,7 @@
 //! file="Ravl/OS/Network/NetEndPoint.hh"
 //! lib=RavlNet
 //! userlevel=Normal
-//! docentry="Ravl.OS.Network"
+//! docentry="Ravl.API.OS.Network"
 //! author="Charles Galambos"
 //! date="13/12/2000"
 

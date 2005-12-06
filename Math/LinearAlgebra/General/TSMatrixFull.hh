@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! date="15/8/2002"
 //! lib=RavlMath
-//! docentry="Ravl.Math.Linear Algebra.Smart Matrix"
+//! docentry="Ravl.API.Math.Linear Algebra.Smart Matrix"
 //! file="Ravl/Math/LinearAlgebra/General/TSMatrixFull.hh"
 
 #include "Ravl/TSMatrix.hh"

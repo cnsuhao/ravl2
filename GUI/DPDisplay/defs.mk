@@ -23,4 +23,4 @@ USESLIBS=RavlIO RavlGUI RavlImageIO
 
 EXAMPLES=exDPWindow.cc
 
-EHT=Ravl.GUI.Data_Display.html
+EHT=Ravl.API.GUI.Data_Display.html

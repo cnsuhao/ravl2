@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlChartDetector
-//! docentry="Ravl.Images.Chart Detector"
+//! docentry="Ravl.API.Images.Chart Detector"
 //! file="Ravl/Image/Processing/ChartDetector/chartdet.cc"
 
 //: Calibration Chart Detector

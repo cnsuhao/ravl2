@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Base/Pair.hh"
 //! author="Radek Marik"
-//! docentry="Ravl.Core.Tuples"
+//! docentry="Ravl.API.Core.Tuples"
 //! date="27/02/1997"
 //! rcsid="$Id$"
 //! lib=RavlCore

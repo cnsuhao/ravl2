@@ -8,7 +8,7 @@
 #define RAVLLOGIC_LITERALITER1_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Logic"
+//! docentry="Ravl.API.Logic"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/LiteralIter1.hh"
 

@@ -9,7 +9,7 @@
 //! author="Bill Christmas"
 //! date="10/1/1999"
 //! userlevel=Normal
-//! docentry="Ravl.Images.Motion"
+//! docentry="Ravl.API.Images.Motion"
 //! file="Ravl/Image/Processing/Motion/LMSGradient/exLMSRegionMotion.cc"
 
 //: Calculates motion vectors for a region from a pair of images using LMS fit

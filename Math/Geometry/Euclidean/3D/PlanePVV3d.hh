@@ -11,7 +11,7 @@
 //! userlevel=Normal
 //! author="Radek Marik"
 //! date="26/02/1994"
-//! docentry="Ravl.Math.Geometry.3D"
+//! docentry="Ravl.API.Math.Geometry.3D"
 //! rcsid="$Id$"
 //! file="Ravl/Math/Geometry/Euclidean/3D/PlanePVV3d.hh"
 

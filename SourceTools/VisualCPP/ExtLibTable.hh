@@ -7,7 +7,7 @@
 #ifndef RAVL_EXTLIBTABLE_HEADER
 #define RAVL_EXTLIBTABLE_HEADER 1
 /////////////////////////////////////////////////////////
-//! docentry="Ravl.Source Tools.AutoPort"
+//! docentry="Ravl.API.Source Tools.AutoPort"
 //! userlevel=Normal
 //! file="Ravl/SourceTools/VisualCPP/ExtLibTable.hh"
 //! rcsid="$Id$"

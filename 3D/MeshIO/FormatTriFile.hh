@@ -11,7 +11,7 @@
 //! file="Ravl/3D/MeshIO/FormatTriFile.hh"
 //! lib=Ravl3DIO
 //! author="Charles Galambos"
-//! docentry="Ravl.3D.IO.Formats"
+//! docentry="Ravl.API.3D.IO.Formats"
 //! date="29/10/98"
 //! userlevel=Normal
 

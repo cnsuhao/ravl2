@@ -9,7 +9,7 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Queue/testPriQH.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Queues"
+//! docentry="Ravl.API.Core.Queues"
 //! userlevel=Develop
 
 #include "Ravl/BinStream.hh"

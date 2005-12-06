@@ -12,7 +12,7 @@
 //! userlevel=Develop
 //! date="12/12/1996"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Graphs"
+//! docentry="Ravl.API.Core.Graphs"
 //! rcsid="$Id$"
 
 #include "Ravl/GraphBase.hh"

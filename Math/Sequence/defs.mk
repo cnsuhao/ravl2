@@ -28,4 +28,4 @@ USESLIBS=RavlMath
 
 PROGLIBS=RavlImage RavlImageIO
 
-EHT=Ravl.Math.Sequences.html
+EHT=Ravl.API.Math.Sequences.html

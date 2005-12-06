@@ -12,7 +12,7 @@
 //! file="Ravl/Core/IO/ProcOStream.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Data Processing.Internal" 
+//! docentry="Ravl.API.Core.Data Processing.Internal" 
 //! date="06/07/98"
 //! userlevel=Default
 

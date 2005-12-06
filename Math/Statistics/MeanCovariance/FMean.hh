@@ -11,7 +11,7 @@
 //! userlevel=Normal
 //! author="Radek Marik"
 //! date="26/05/1994"
-//! docentry="Ravl.Math.Statistics"
+//! docentry="Ravl.API.Math.Statistics"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/MeanCovariance/FMean.hh"
 

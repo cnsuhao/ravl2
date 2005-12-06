@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! author="Charles Galambos, based on code by Jiri Matas."
-//! docentry="Ravl.Images.Segmentation"
+//! docentry="Ravl.API.Images.Segmentation"
 //! userlevel=Normal
 //! file="Ravl/Image/Processing/Segmentation/FloodRegion.hh"
 

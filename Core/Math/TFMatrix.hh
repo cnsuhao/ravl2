@@ -12,7 +12,7 @@
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! date="24/01/2001"
-//! docentry="Ravl.Core.Math"
+//! docentry="Ravl.API.Core.Math"
 
 #include "Ravl/TFVector.hh"
 #include "Ravl/Index2d.hh"

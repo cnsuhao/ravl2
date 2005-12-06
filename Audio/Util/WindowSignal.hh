@@ -7,7 +7,7 @@
 #ifndef RAVLAUDIO_WINDOW_HEADER
 #define RAVLAUDIO_WINDOW_HEADER 1
 //! author="Charles Galambos"
-//! docentry="Ravl.Audio.Feature Extraction"
+//! docentry="Ravl.API.Audio.Feature Extraction"
 //! rcsid="$Id$"
 //! lib=RavlAudioUtil
 //! file="Ravl/Audio/Util/WindowSignal.hh"

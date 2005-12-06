@@ -8,7 +8,7 @@
 #define RAVL_MTPRIQUEUEL_HEADER 1
 //! author="Charles Galambos"
 //! date="10/6/2004"
-//! docentry="Ravl.OS.Threads"
+//! docentry="Ravl.API.OS.Threads"
 //! rcsid="$Id$"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Tools/MTPriQueueL.hh"

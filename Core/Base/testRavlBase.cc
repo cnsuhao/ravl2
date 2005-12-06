@@ -8,7 +8,7 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Base/testRavlBase.cc"
 //! userlevel=Develop
-//! docentry="Ravl.Core"
+//! docentry="Ravl.API.Core"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/BinStream.hh"

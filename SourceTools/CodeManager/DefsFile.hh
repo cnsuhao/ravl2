@@ -12,7 +12,7 @@
 //! lib=RavlSourceTools
 //! rcsid="$Id$"
 //! date="14/05/98"
-//! docentry="Ravl.Source Tools"
+//! docentry="Ravl.API.Source Tools"
 
 #include "Ravl/Hash.hh"
 #include "Ravl/StringList.hh"

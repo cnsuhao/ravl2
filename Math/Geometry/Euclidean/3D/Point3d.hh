@@ -13,7 +13,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="24/01/2001"
-//! docentry="Ravl.Math.Geometry.3D"
+//! docentry="Ravl.API.Math.Geometry.3D"
 
 #include "Ravl/FPoint.hh"
 

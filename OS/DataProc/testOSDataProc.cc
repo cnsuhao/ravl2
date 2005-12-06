@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlDPMT
 //! file="Ravl/OS/DataProc/testOSDataProc.cc"
-//! docentry="Ravl.Core.Data Processing.Threads"
+//! docentry="Ravl.API.Core.Data Processing.Threads"
 //! author="Charles Galambos"
 //! userlevel=Develop
 

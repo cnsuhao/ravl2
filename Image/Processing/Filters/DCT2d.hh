@@ -25,7 +25,7 @@
 //! license=own
 //! rcsid="$Id$"
 //! lib=RavlImageProc
-//! docentry="Ravl.Images.Transforms"
+//! docentry="Ravl.API.Images.Transforms"
 //! file="Ravl/Image/Processing/Filters/DCT2d.hh"
 
 #include "Ravl/Image/Image.hh"

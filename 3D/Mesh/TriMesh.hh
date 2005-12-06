@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=Ravl3D
-//! docentry="Ravl.3D.Mesh"
+//! docentry="Ravl.API.3D.Mesh"
 //! author="Charles Galambos"
 //! file="Ravl/3D/Mesh/TriMesh.hh"
 

@@ -34,4 +34,4 @@ USESLIBS=RavlCore RavlMath RavlOSIO RavlIO
 
 PROGLIBS=RavlOS
 
-EHT=Ravl.Pattern_Recognition.Data_Set.html
+EHT=Ravl.API.Pattern_Recognition.Data_Set.html

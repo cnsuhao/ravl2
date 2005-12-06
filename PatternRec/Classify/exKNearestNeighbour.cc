@@ -7,7 +7,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! docentry="Ravl.Pattern Recognition.Classifier"
+//! docentry="Ravl.API.Pattern Recognition.Classifier"
 //! userlevel=Normal
 //! file="Ravl/PatternRec/Classify/exKNearestNeighbour.cc"
 

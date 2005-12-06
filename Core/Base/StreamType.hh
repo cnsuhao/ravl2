@@ -8,7 +8,7 @@
 #define RAVL_STREAMTYPE_HEADER 1
 ////////////////////////////////////////////////////
 //! lib=RavlCore
-//! docentry="Ravl.Core.IO.Streams"
+//! docentry="Ravl.API.Core.IO.Streams"
 //! userlevel=Develop
 //! author="Charles Galambos"
 //! date="15/02/2000"

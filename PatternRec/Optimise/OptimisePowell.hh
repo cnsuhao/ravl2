@@ -13,7 +13,7 @@
 //! userlevel=Normal
 //! example=testOptimise.cc
 //! file="Ravl/PatternRec/Optimise/OptimisePowell.hh"
-//! docentry="Ravl.Pattern Recognition.Optimisation.Implementation"
+//! docentry="Ravl.API.Pattern Recognition.Optimisation.Implementation"
 //! rcsid="$Id$"
 
 #include "Ravl/PatternRec/Optimise.hh"

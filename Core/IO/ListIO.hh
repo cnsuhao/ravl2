@@ -11,7 +11,7 @@
 //! lib=RavlIO
 //! author="James Smith"
 //! date="24/03/2003"
-//! docentry="Ravl.Core.Data Processing.IO"
+//! docentry="Ravl.API.Core.Data Processing.IO"
 //! file="Ravl/Core/IO/ListIO.hh"
 
 #include "Ravl/DP/SPort.hh"

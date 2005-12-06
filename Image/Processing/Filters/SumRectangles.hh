@@ -10,7 +10,7 @@
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! date="7/1/2003"
-//! docentry="Ravl.Images.Filtering"
+//! docentry="Ravl.API.Images.Filtering"
 //! file="Ravl/Image/Processing/Filters/SumRectangles.hh"
 
 #include "Ravl/Array2d.hh"

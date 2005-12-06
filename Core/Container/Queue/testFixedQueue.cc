@@ -10,7 +10,7 @@
 //! file="Ravl/Core/Container/Queue/testFixedQueue.cc"
 //! userlevel=Develop
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Queues"
+//! docentry="Ravl.API.Core.Queues"
 
 #include "Ravl/FixedQueue.hh"
 #include "Ravl/Stream.hh"

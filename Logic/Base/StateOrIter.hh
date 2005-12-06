@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
-//! docentry="Ravl.Logic"
+//! docentry="Ravl.API.Logic"
 //! author="Charles Galambos"
 //! file="Ravl/Logic/Base/StateOrIter.hh"
 

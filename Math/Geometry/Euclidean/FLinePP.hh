@@ -8,7 +8,7 @@
 #define RAVL_FLINEPP_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlMath
-//! docentry="Ravl.Math.Geometry"
+//! docentry="Ravl.API.Math.Geometry"
 //! date="13/9/2002"
 //! author="Charles Galambos"
 //! file="Ravl/Math/Geometry/Euclidean/FLinePP.hh"

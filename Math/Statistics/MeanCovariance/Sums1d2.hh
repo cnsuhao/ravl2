@@ -8,7 +8,7 @@
 #define RAVL_SUMS1D2_HEADER 1
 //! author="Charles Galambos"
 //! date="26/8/2002"
-//! docentry="Ravl.Math.Statistics"
+//! docentry="Ravl.API.Math.Statistics"
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/MeanCovariance/Sums1d2.hh"

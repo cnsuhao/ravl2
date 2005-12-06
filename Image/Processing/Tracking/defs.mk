@@ -21,7 +21,7 @@ PLIB=RavlImageProc
 
 LIBDEPS=RavlImageProcTracker.def
 
-EHT= Ravl.Images.Tracking.html Ravl.Images.Mosaic.html 
+EHT= Ravl.API.Images.Tracking.html Ravl.API.Images.Mosaic.html 
 
 TESTEXES=testTracking.cc
 #testImageTracker.cc

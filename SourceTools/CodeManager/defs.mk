@@ -37,7 +37,7 @@ AUXDIR=share/RAVL/CodeManager
 
 AUXFILES= fixSource.cfg
 
-EHT = Ravl.Source_Tools.Code_Manager.html
+EHT = Ravl.API.Source_Tools.Code_Manager.html
 #exedefchk.eht exercsinfo.eht exedoMerge.eht exedoHeaders.eht exedoHeaders.eht exedoSrcInst.eht
 
 PLIB = RavlSourceTools

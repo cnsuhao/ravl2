@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/Bitmap.hh"
 //! lib=RavlGUI
-//! docentry="Ravl.GUI.Layout"
+//! docentry="Ravl.API.GUI.Layout"
 //! author="Charles Galambos"
 //! date="17/08/2000"
 

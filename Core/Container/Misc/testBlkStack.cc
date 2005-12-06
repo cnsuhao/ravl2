@@ -8,7 +8,7 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Misc/testBlkStack.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Stacks"
+//! docentry="Ravl.API.Core.Stacks"
 //! userlevel=Develop
 
 #include "Ravl/BlkStack.hh"

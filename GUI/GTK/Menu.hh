@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! date="23/03/1999"
 //! example=exMenu.cc
-//! docentry="Ravl.GUI.Control"
+//! docentry="Ravl.API.GUI.Control"
 //! rcsid="$Id$"
 
 #include "Ravl/Threads/Signal.hh"

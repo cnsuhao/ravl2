@@ -7,7 +7,7 @@
 #ifndef RAVL_DPPORT_HEADER
 #define RAVL_DPPORT_HEADER 1
 ////////////////////////////////////////////////////
-//! docentry="Ravl.Core.Data Processing.Ports" 
+//! docentry="Ravl.API.Core.Data Processing.Ports" 
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/Port.hh"
 //! lib=RavlIO

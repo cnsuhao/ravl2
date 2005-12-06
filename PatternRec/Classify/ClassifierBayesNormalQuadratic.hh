@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! author="Kieron Messer"
-//! docentry="Ravl.Pattern Recognition.Classifier"
+//! docentry="Ravl.API.Pattern Recognition.Classifier"
 //! file="Ravl/PatternRec/Classify/ClassifierBayesNormalQuadratic.hh"
 
 #include "Ravl/PatternRec/Classifier.hh"

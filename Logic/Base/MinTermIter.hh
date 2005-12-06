@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.Logic.Condition"
+//! docentry="Ravl.API.Logic.Condition"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/MinTermIter.hh"
 

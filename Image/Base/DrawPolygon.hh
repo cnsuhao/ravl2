@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! author="James Smith"
 //! date="27/10/2002"
-//! docentry="Ravl.Images.Drawing"
+//! docentry="Ravl.API.Images.Drawing"
 //! lib=RavlImage
 //! userlevel=Normal
 //! file="Ravl/Image/Base/DrawPolygon.hh"

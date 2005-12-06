@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLGUI_GLADEWINDOW_HEADER
 #define RAVLGUI_GLADEWINDOW_HEADER 1
-//! docentry="Ravl.GUI.LibGlade"
+//! docentry="Ravl.API.GUI.LibGlade"
 //! rcsid="$Id$"
 //! lib=RavlLibGlade
 //! file="Ravl/GUI/LibGlade/GladeWindow.hh"

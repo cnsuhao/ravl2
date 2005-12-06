@@ -7,7 +7,7 @@
 #ifndef RAVL_SIGNAL1_HEADER
 #define RAVL_SIGNAL1_HEADER 1
 /////////////////////////////////////////////////////
-//! docentry="Ravl.OS.Signals"
+//! docentry="Ravl.API.OS.Signals"
 //! rcsid="$Id$"
 //! lib=RavlThreads
 //! author="Charles Galambos"

@@ -8,7 +8,7 @@
 #define RAVLIMAGE_AVIFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
 //! author="Daniele Muntoni"
-//! docentry="Ravl.Images.Video.Video IO"
+//! docentry="Ravl.API.Images.Video.Video IO"
 //! date="26/03/2003"
 //! rcsid="$Id$"
 //! file="Ravl/Image/VideoIO/AviFormat.hh"

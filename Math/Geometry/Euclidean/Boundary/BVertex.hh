@@ -12,7 +12,7 @@
 //! userlevel=Normal
 //! author="Radek Marik"
 //! date="26/06/1994"
-//! docentry="Ravl.Images.Boundaries;Ravl.Math.Geometry.2D.Boundary"
+//! docentry="Ravl.API.Images.Boundaries;Ravl.API.Math.Geometry.2D.Boundary"
 //! rcsid="$Id$"
 
 #include "Ravl/Index2d.hh"

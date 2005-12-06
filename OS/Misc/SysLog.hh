@@ -8,7 +8,7 @@
 #define RAVL_SYSLOG_HEADER 1
 //! author="Charles Galambos"
 //! example=exSysLog.cc
-//! docentry="Ravl.OS.SysLog"
+//! docentry="Ravl.API.OS.SysLog"
 //! rcsid="$Id$"
 //! lib=RavlOS
 //! file="Ravl/OS/Misc/SysLog.hh"

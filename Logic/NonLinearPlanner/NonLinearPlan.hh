@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! userlevel=Advanced
 //! lib=RavlLogicNLP
-//! docentry="Ravl.Logic.Planning"
+//! docentry="Ravl.API.Logic.Planning"
 //! example=exNonlinearPlanner.cc
 //! rcsid="$Id$"
 

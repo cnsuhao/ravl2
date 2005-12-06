@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlAudioUtil
 //! author="Charles Galambos"
-//! docentry="Ravl.Audio.IO"
+//! docentry="Ravl.API.Audio.IO"
 //! userlevel=Normal
 //! date="13/07/2003"
 //! file="Ravl/Audio/Util/AudioFrame.hh"

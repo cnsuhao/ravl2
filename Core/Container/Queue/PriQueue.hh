@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////
 //! userlevel=Normal
 //! example=testPriQH.cc
-//! docentry="Ravl.Core.Queues"
+//! docentry="Ravl.API.Core.Queues"
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/Queue/PriQueue.hh"
 //! author="Charles Galambos"

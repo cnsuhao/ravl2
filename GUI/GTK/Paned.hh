@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
-//! docentry="Ravl.GUI.Layout"
+//! docentry="Ravl.API.GUI.Layout"
 //! author="Charles Galambos"
 //! file="Ravl/GUI/GTK/Paned.hh"
 //! date="08/04/1999"

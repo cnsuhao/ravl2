@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! docentry="Ravl.Pattern Recognition.Feature Selection"
+//! docentry="Ravl.API.Pattern Recognition.Feature Selection"
 //! author="Robert Crida"
 //! file="Ravl/PatternRec/FeatureSelection/FeatureSelectAsymmetricAdaBoost.hh"
 

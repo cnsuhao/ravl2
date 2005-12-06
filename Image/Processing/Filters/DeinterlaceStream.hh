@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////
 //! date="30/1/2003"
 //! author="Charles Galambos"
-//! docentry="Ravl.Images"
+//! docentry="Ravl.API.Images"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Filters/DeinterlaceStream.hh"

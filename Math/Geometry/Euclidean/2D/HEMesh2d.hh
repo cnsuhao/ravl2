@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.Math.Geometry.2D"
+//! docentry="Ravl.API.Math.Geometry.2D"
 //! lib=RavlMath
 //! example=exHEMesh2d.cc
 #include "Ravl/THEMesh.hh"

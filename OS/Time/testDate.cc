@@ -9,7 +9,7 @@
 //! lib=RavlOS
 //! file="Ravl/OS/Time/testDate.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.Time"
+//! docentry="Ravl.API.OS.Time"
 //! userlevel=Develop
 
 #include "Ravl/OS/Date.hh"

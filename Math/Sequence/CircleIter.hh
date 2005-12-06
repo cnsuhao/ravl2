@@ -12,7 +12,7 @@
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.Math.Sequences"
+//! docentry="Ravl.API.Math.Sequences"
 //! date="08/02/1999"
 
 #include "Ravl/Types.hh"

@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlNet
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.Network.NetPort"
+//! docentry="Ravl.API.OS.Network.NetPort"
 //! file="Ravl/OS/Network/NetPortFormat.hh"
 
 #include "Ravl/DP/FileFormat.hh"

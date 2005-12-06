@@ -9,7 +9,7 @@
 //! rcsid=$Id$
 //! author="Charles Galambos"
 //! date="13/04/2002"
-//! docentry="Ravl.Math.Geometry"
+//! docentry="Ravl.API.Math.Geometry"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/FixedSize/FVectorMatrix.hh"
 

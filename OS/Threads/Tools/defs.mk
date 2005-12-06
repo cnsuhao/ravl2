@@ -23,7 +23,7 @@ SOURCES=MessageQueue.cc LaunchThread.cc TickerTrigger.cc \
 
 # EventHandler.cc  TimedEventQueue.cc
 
-EHT=Ravl.OS.Signals.html
+EHT=Ravl.API.OS.Signals.html
 
 PLIB=RavlThreads
 

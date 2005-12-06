@@ -8,7 +8,7 @@
 #define RAVLLOGIC_LITERALINDEXLEAFITER_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Logic.Index"
+//! docentry="Ravl.API.Logic.Index"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Index/LiteralIndexLeafIter.hh"
 

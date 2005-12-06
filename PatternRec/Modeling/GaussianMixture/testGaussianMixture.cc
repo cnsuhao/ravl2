@@ -8,7 +8,7 @@
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Modeling/GaussianMixture/testGaussianMixture.cc"
 //! author="Kieron Messer"
-//! docentry="Ravl.Pattern Recognition.Expectation Maximization"
+//! docentry="Ravl.API.Pattern Recognition.Expectation Maximization"
 //! userlevel=Develop
 
 #include "Ravl/PatternRec/GaussianMixture.hh"

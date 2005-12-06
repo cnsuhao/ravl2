@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! date="23/03/1999"
 //! example=exCanvas.cc
-//! docentry="Ravl.GUI.Internal"
+//! docentry="Ravl.API.GUI.Internal"
 
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/Threads/Mutex.hh"

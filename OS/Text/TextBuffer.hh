@@ -11,7 +11,7 @@
 //! lib=RavlOS
 //! userlevel=Develop
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.Text Processing"
+//! docentry="Ravl.API.OS.Text Processing"
 //! rcsid="$Id$"
 //! date="05/12/1997"
 

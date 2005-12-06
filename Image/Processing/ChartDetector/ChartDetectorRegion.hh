@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlChartDetector
-//! docentry="Ravl.Images.Chart Detector"
+//! docentry="Ravl.API.Images.Chart Detector"
 //! file="Ravl/Image/Processing/ChartDetector/ChartDetectorRegion.hh"
 
 #include "Ravl/Image/Segmentation.hh"

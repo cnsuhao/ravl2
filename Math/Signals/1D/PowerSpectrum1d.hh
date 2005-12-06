@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
-//! docentry="Ravl.Math.Signals.1D"
+//! docentry="Ravl.API.Math.Signals.1D"
 //! example=exPowerSpectrum.cc
 //! lib=RavlMath
 //! file="Ravl/Math/Signals/1D/PowerSpectrum1d.hh"

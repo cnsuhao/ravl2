@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
-//! docentry="Ravl.GUI.Internal"
+//! docentry="Ravl.API.GUI.Internal"
 //! author="Charles Galambos"
 //! file="Ravl/GUI/GTK/OneChild.hh"
 //! date="08/04/1999"

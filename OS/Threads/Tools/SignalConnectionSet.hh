@@ -7,7 +7,7 @@
 #ifndef RAVLSIGCONNECTIONSET_HEADER
 #define RAVLSIGCONNECTIONSET_HEADER 1
 /////////////////////////////////////////////////////
-//! docentry="Ravl.OS.Signals"
+//! docentry="Ravl.API.OS.Signals"
 //! lib=RavlThreads
 //! author="Charles Galambos"
 //! date="13/12/2000"

@@ -7,7 +7,7 @@
 #ifndef RAVL_FILEFORMATXMLSTREAM_HEADER
 #define RAVL_FILEFORMATXMLSTREAM_HEADER 1
 ////////////////////////////////////////////////////////
-//! docentry="Ravl.Core.IO.Formats" 
+//! docentry="Ravl.API.Core.IO.Formats" 
 //! lib=RavlIO
 //! file="Ravl/Core/IO/FileFormatXMLStream.hh"
 //! author="Charles Galambos"

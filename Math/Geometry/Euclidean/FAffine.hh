@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! date="17/3/1997"
-//! docentry="Ravl.Math.Geometry"
+//! docentry="Ravl.API.Math.Geometry"
 //! rcsid="$Id$"
 //! example=exFAffine.cc
 //! lib=RavlMath

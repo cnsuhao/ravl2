@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlIO
-//! docentry="Ravl.Core.IO.Type Converter"
+//! docentry="Ravl.API.Core.IO.Type Converter"
 //! file="Ravl/Core/IO/TypeInfo.hh"
 //! author="Charles Galambos"
 //! date="19/08/1998"

@@ -7,7 +7,7 @@
 #ifndef RAVL_GRBESTROUTE_HEADER
 #define RAVL_GRBESTROUTE_HEADER 1
 //////////////////////////////////////////
-//! docentry="Ravl.Core.Graphs"
+//! docentry="Ravl.API.Core.Graphs"
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/Graph/GraphBestRoute.hh"
 //! lib=RavlCore

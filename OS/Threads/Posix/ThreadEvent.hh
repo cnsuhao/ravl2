@@ -11,7 +11,7 @@
 //! file="Ravl/OS/Threads/Posix/ThreadEvent.hh"
 //! lib=RavlThreads
 //! userlevel=Normal
-//! docentry="Ravl.OS.Threads"
+//! docentry="Ravl.API.OS.Threads"
 //! author="Charles Galambos"
 //! date="25/05/2000"
 

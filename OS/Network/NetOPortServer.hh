@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! lib=RavlNet
-//! docentry="Ravl.OS.Network.NetPort"
+//! docentry="Ravl.API.OS.Network.NetPort"
 //! example=exNetPort.cc
 //! file="Ravl/OS/Network/NetOPortServer.hh"
 

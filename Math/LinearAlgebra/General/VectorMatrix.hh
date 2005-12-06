@@ -11,7 +11,7 @@
 //! author="Kieron Messer"
 //! rcsid="$Id$"
 //! lib=RavlMath
-//! docentry="Ravl.Math.Linear Algebra"
+//! docentry="Ravl.API.Math.Linear Algebra"
 //! file="Ravl/Math/LinearAlgebra/General/VectorMatrix.hh"
 
 #include "Ravl/Matrix.hh"

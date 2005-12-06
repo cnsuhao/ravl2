@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlNet
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.Network"
+//! docentry="Ravl.API.OS.Network"
 //! file="Ravl/OS/Network/NetRequestManager.hh"
 
 #include "Ravl/Threads/ThreadEvent.hh"

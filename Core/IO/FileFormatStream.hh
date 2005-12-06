@@ -7,7 +7,7 @@
 #ifndef RAVL_FILEFORMATSTREAM_HEADER
 #define RAVL_FILEFORMATSTREAM_HEADER 1
 ////////////////////////////////////////////////////////
-//! docentry="Ravl.Core.IO.Formats" 
+//! docentry="Ravl.API.Core.IO.Formats" 
 //! lib=RavlIO
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/FileFormatStream.hh"

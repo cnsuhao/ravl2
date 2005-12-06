@@ -7,7 +7,7 @@
 #ifndef RAVLDPFILEIO_HEADER
 #define RAVLDPFILEIO_HEADER 1
 //////////////////////////////////////////////////////////
-//! docentry="Ravl.Core.Data Processing.IO" 
+//! docentry="Ravl.API.Core.Data Processing.IO" 
 //! example=exDataProc.cc
 //! file="Ravl/Core/IO/FileIO.hh"
 //! lib=RavlIO

@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlDPMT
 //! date="2/5/2003"
-//! docentry="Ravl.Core.Data Processing.Threads" 
+//! docentry="Ravl.API.Core.Data Processing.Threads" 
 //! file="Ravl/OS/DataProc/SerialisePort.hh"
 
 #include "Ravl/DP/StreamOp.hh"

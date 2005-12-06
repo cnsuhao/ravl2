@@ -11,7 +11,7 @@
 //! file="Ravl/Image/ImageIO/ImgIO.hh"
 //! lib=RavlImageIO
 //! userlevel=Develop
-//! docentry="Ravl.Images.IO"
+//! docentry="Ravl.API.Images.IO"
 //! author="Charles Galambos"
 //! date="13/05/1999"
 

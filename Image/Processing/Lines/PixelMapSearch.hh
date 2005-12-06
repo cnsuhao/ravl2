@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////
 //! date="13/2/1997"
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.Lines"
+//! docentry="Ravl.API.Images.Lines"
 //! file="Ravl/Image/Processing/Lines/PixelMapSearch.hh"
 //! lib=RavlImageProc
 //! rcsid="$Id$"

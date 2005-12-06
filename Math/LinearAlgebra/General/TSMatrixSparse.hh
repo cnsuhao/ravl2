@@ -10,7 +10,7 @@
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/TSMatrixSparse.hh"
 //! author="Charles Galambos"
-//! docentry="Ravl.Math.Linear Algebra.Smart Matrix"
+//! docentry="Ravl.API.Math.Linear Algebra.Smart Matrix"
 
 #include "Ravl/TSMatrix.hh"
 #include "Ravl/TSMatrixSymmetric.hh"

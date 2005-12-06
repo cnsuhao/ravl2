@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Lists"
+//! docentry="Ravl.API.Core.Lists"
 //! file="Ravl/Core/System/DListExtra.hh"
 
 #include "Ravl/DList.hh"

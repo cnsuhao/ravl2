@@ -11,7 +11,7 @@
 //! file="Ravl/OS/Threads/Tools/LaunchThread.hh"
 //! lib=RavlThreads
 //! userlevel=Default
-//! docentry="Ravl.OS.Threads"
+//! docentry="Ravl.API.OS.Threads"
 //! author="Charles Galambos"
 //! date="02/07/1999"
 //! example=exLaunchThread.cc 

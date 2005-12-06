@@ -10,7 +10,7 @@
 //! file="Ravl/Core/Container/Queue/testPriQueue.cc"
 //! userlevel=Develop
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Queues"
+//! docentry="Ravl.API.Core.Queues"
 
 #include "Ravl/PriQueueL.hh"
 #include "Ravl/EntryPnt.hh"

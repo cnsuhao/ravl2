@@ -9,4 +9,4 @@
 
 NESTED=1D.r 2D.r HiddenMarkovModels.r
 
-EHT=Ravl.Math.Signals.html
+EHT=Ravl.API.Math.Signals.html

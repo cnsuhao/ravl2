@@ -10,7 +10,7 @@
 //! userlevel=Normal
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! docentry="Ravl.Pattern Recognition.Cluster;Ravl.Pattern Recognition.Classifier.DesignClassifier"
+//! docentry="Ravl.API.Pattern Recognition.Cluster;Ravl.API.Pattern Recognition.Classifier.DesignClassifier"
 //! file="Ravl/PatternRec/Cluster/DesignMeanShiftCluster.hh"
 //! example=exDesignMeanShiftCluster.cc
 

@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! date="25/02/1999"
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.API.Core.Misc"
 //! lib=RavlCore
 
 #ifdef __cplusplus

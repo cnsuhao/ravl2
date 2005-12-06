@@ -50,4 +50,4 @@ EXAMPLES = exFilename.cc
 TESTEXES = testFileFormat.cc
 #testDate.cc exDeadLine.cc testChildProc.cc
 
-EHT=Ravl.OS.File_System.eht
+EHT=Ravl.API.OS.File_System.eht

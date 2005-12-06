@@ -7,7 +7,7 @@
 #ifndef RAVL_DPCONVERTER_HEADER
 #define RAVL_DPCONVERTER_HEADER 1
 /////////////////////////////////////////////////////////
-//! docentry="Ravl.Core.IO.Type Converter"
+//! docentry="Ravl.API.Core.IO.Type Converter"
 //! lib=RavlIO
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/Converter.hh"

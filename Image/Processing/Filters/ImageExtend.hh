@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_EXTEND_HEADER
 #define RAVLIMAGE_EXTEND_HEADER 1
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.Filtering"
+//! docentry="Ravl.API.Images.Filtering"
 //! lib=RavlImageProc
 //! rcsid="$Id$"
 //! userlevel=Normal 

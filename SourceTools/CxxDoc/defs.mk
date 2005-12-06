@@ -40,10 +40,10 @@ PLIB = RavlCxxDoc
 
 MAINS = CxxDoc.cc 
 
-EHT= Ravl.Source_Tools.CxxDoc.html Documentation.html \
+EHT= Ravl.API.Source_Tools.CxxDoc.html Documentation.html \
  Documentation.Code.html Documentation.Sections.html \
  Documentation.docentry.html Documentation.Formatting.html \
- Ravl.Source_Tools.CxxDoc.Templates.html Ravl.Source_Tools.CxxDoc.Internal.html \
+ Ravl.API.Source_Tools.CxxDoc.Templates.html Ravl.API.Source_Tools.CxxDoc.Internal.html \
  Ravl.undocumented.html Ravl.undocumented.anonymous.html 
 
 USESLIBS=  RavlCore RavlOS RavlSourceTools

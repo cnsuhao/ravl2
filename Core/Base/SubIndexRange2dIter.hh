@@ -7,7 +7,7 @@
 #ifndef RAVL_SUBINDEXRANGE2DITER_HEADER
 #define RAVL_SUBINDEXRANGE2DITER_HEADER 1
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Indexing"
+//! docentry="Ravl.API.Core.Indexing"
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/SubIndexRange2dIter.hh"

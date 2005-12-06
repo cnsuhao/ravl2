@@ -10,7 +10,7 @@
 //! author="Phil McLauchlan, Bill Christmas"
 //! date="24/7/2002"
 //! rcsid="$Id$"
-//! docentry="Ravl.Images.Mosaic"
+//! docentry="Ravl.API.Images.Mosaic"
 //! file="Ravl/Image/Processing/Tracking/MosaicBuilder.hh"
 //! lib=RavlImageProc
 //! example="mosaic.cc"

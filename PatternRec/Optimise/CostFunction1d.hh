@@ -13,7 +13,7 @@
 //! userlevel=Normal
 //! example=testCost.cc
 //! file="Ravl/PatternRec/Optimise/CostFunction1d.hh"
-//! docentry="Ravl.Pattern Recognition.Optimisation.Cost Functions"
+//! docentry="Ravl.API.Pattern Recognition.Optimisation.Cost Functions"
 //! rcsid="$Id$"
 
 #include "Ravl/PatternRec/CostFunction.hh"

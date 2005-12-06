@@ -8,7 +8,7 @@
 #define RAVL_FORMATREGISTRY_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.IO.Formats" 
+//! docentry="Ravl.API.Core.IO.Formats" 
 //! author="Charles Galambos"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/FileFormatRegistry.hh"

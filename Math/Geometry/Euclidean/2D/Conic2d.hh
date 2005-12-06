@@ -8,7 +8,7 @@
 #define RAVL_CONIC2D_HEADER 1
 //! author="Charles Galambos"
 //! date="21/03/2004"
-//! docentry="Ravl.Math.Geometry.2D"
+//! docentry="Ravl.API.Math.Geometry.2D"
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/2D/Conic2d.hh"

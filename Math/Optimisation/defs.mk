@@ -47,7 +47,7 @@ HEADERS = ObsVector.hh ObsVectorBiGaussian.hh ObsVectorPoint2dPair.hh \
 MAINS=OrthogonalRegressionTest.cc QuadraticFitTest.cc \
       Homography2dFitTest.cc Affine2dFitTest.cc
 
-EHT=Ravl.Math.Optimisation.html Ravl.Math.Optimisation.Examples.html
+EHT=Ravl.API.Math.Optimisation.html Ravl.API.Math.Optimisation.Examples.html
 
 TESTEXES= OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc
 

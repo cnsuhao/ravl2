@@ -10,7 +10,7 @@
 //! file="Ravl/OS/Text/TextFileLine.hh"
 //! lib=RavlOS
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.Text Processing"
+//! docentry="Ravl.API.OS.Text Processing"
 //! date="05/12/97"
 //! rcsid="$Id$"
 

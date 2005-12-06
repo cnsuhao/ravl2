@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! docentry="Ravl.GUI.Control"
+//! docentry="Ravl.API.GUI.Control"
 //! file="Ravl/GUI/GTK/exFileSelector.cc"
 
 #include "Ravl/GUI/Menu.hh"

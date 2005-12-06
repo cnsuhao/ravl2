@@ -11,7 +11,7 @@
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! date="23/03/1999"
-//! docentry="Ravl.GUI.Layout"
+//! docentry="Ravl.API.GUI.Layout"
 //! rcsid="$Id$"
 
 #include "Ravl/GUI/Widget.hh"

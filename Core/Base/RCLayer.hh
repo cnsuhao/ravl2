@@ -8,7 +8,7 @@
 #define RAVL_RCLAYER_HEADER 1
 //! author="Charles Galambos"
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Reference Counting"
+//! docentry="Ravl.API.Core.Reference Counting"
 //! lib=RavlCore
 //! example=testRCLayer.cc
 

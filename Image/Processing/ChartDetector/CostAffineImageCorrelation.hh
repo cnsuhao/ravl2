@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_COSTAFFINEIMAGECORRELATION_HEADER
 #define RAVLIMAGE_COSTAFFINEIMAGECORRELATION_HEADER 1
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.Correlation"
+//! docentry="Ravl.API.Images.Correlation"
 //! rcsid="$Id$"
 //! lib=RavlChartDetector
 //! file="Ravl/Image/Processing/ChartDetector/CostAffineImageCorrelation.hh"

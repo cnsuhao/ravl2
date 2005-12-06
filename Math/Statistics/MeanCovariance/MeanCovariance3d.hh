@@ -8,7 +8,7 @@
 #define RAVL_MEANCOVARIANCE3D_HEADER 1
 //! author="Charles Galambos"
 //! date="30/4/2002"
-//! docentry="Ravl.Math.Statistics"
+//! docentry="Ravl.API.Math.Statistics"
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/MeanCovariance/MeanCovariance3d.hh"

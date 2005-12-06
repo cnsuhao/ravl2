@@ -13,7 +13,7 @@
 //! example=testPriQ.cc
 //! date="28/10/1996"
 //! file="Ravl/Core/Container/Queue/PriQueueL.hh"
-//! docentry="Ravl.Core.Queues"
+//! docentry="Ravl.API.Core.Queues"
 //! rcsid="$Id$"
 
 #include "Ravl/HeapNode.hh"

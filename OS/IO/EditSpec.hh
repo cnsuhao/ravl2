@@ -13,7 +13,7 @@
 //! userlevel=Default
 //! author="Charles Galambos"
 //! date="13/12/2000"
-//! docentry="Ravl.Core.Data Processing.Composite" 
+//! docentry="Ravl.API.Core.Data Processing.Composite" 
 
 #include "Ravl/DP/SubSequenceSpec.hh"
 

@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! authors="George Matas, Radek Marik, Charles Galambos"
 //! date="04/07/2000"
-//! docentry="Ravl.Images.Edges"
+//! docentry="Ravl.API.Images.Edges"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Edges/EdgeLink.hh"
 

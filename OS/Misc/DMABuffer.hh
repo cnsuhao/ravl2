@@ -8,7 +8,7 @@
 #define RAVL_DMABUFFER_HEADER 1
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.OS.Hardware"
+//! docentry="Ravl.API.OS.Hardware"
 //! author="Charles Galambos"
 //! lib=RavlOS
 //! file="Ravl/OS/Misc/DMABuffer.hh"

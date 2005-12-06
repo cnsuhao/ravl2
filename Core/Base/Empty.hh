@@ -8,7 +8,7 @@
 #define RAVLEMPTYCLASS_HEADER 1
 ///////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.API.Core.Misc"
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/Empty.hh"

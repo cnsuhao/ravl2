@@ -21,6 +21,6 @@ USESLIBS=RavlCore
 
 TESTEXES= testDate.cc testDeadLineTimer.cc
 
-EHT=Ravl.OS.Time.eht
+EHT=Ravl.API.OS.Time.eht
 
 

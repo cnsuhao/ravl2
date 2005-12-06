@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! author="Charles Galambos, based on code by Robert Crida"
-//! docentry="Ravl.Pattern Recognition.Functions"
+//! docentry="Ravl.API.Pattern Recognition.Functions"
 //! file="Ravl/PatternRec/DataSet/Function.hh"
 
 #include "Ravl/Vector.hh"

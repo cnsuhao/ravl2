@@ -8,7 +8,7 @@
 #define RAVL_FILEFORMAT_HEADER 1
 //////////////////////////////////////////////////
 //! example=exFileFormat.cc
-//! docentry="Ravl.Core.IO.Formats" 
+//! docentry="Ravl.API.Core.IO.Formats" 
 //! lib=RavlIO
 //! file="Ravl/Core/IO/FileFormat.hh"
 //! author="Charles Galambos"

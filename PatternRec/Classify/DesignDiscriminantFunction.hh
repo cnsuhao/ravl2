@@ -8,7 +8,7 @@
 #define RAVL_DESIGNDISCRIMINANTFUNCTION_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! docentry="Ravl.Pattern Recognition.Classifier.DesignClassifier"
+//! docentry="Ravl.API.Pattern Recognition.Classifier.DesignClassifier"
 //! file="Ravl/PatternRec/Classify/DesignDiscriminantFunction.hh"
 //! author="Charles Galambos"
 

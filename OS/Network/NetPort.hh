@@ -7,7 +7,7 @@
 #ifndef RAVL_NETPORT_HEADER
 #define RAVL_NETPORT_HEADER 1
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.Network.NetPort"
+//! docentry="Ravl.API.OS.Network.NetPort"
 //! example=exNetPort.cc
 //! lib=RavlNet
 //! rcsid="$Id$"

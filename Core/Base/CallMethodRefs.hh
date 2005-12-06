@@ -8,7 +8,7 @@
 #define RAVL_CALLMETHODREFS_HEADER 1
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Calls.VisualC++"
+//! docentry="Ravl.API.Core.Calls.VisualC++"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/CallMethodRefs.hh"
 //! author="Charles Galambos"

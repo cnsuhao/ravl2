@@ -10,7 +10,7 @@
 //! file="Ravl/Image/Base/imgdiff.cc"
 //! userlevel=Normal
 //! date="24/01/2001"
-//! docentry="Ravl.Images"
+//! docentry="Ravl.API.Images"
 
 //: Calculate the difference of two images that are the same size.
 

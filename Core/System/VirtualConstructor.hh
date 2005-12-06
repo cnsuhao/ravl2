@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.API.Core.Misc"
 //! lib=RavlCore
 //! file="Ravl/Core/System/VirtualConstructor.hh"
 

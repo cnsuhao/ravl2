@@ -61,7 +61,7 @@ USESLIBS = RavlCore RavlOS GTK RavlThreads
 
 PROGLIBS = RavlImageIO RavlExtImgIO 
 
-EHT = Ravl.GUI.Control.eht  Ravl.GUI.Layout.eht  Ravl.GUI.eht  Ravl.GUI.Internal.eht
+EHT = Ravl.API.GUI.Control.eht  Ravl.API.GUI.Layout.eht  Ravl.API.GUI.eht  Ravl.API.GUI.Internal.eht
 #libRavlGUI.eht
 
 HTML = tutorial.html

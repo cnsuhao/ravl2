@@ -9,7 +9,7 @@
 //! lib=RavlOS
 //! file="Ravl/OS/Exec/testChildProc.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.Exec"
+//! docentry="Ravl.API.OS.Exec"
 //! date="24/11/1998"
 //! userlevel=Develop
 

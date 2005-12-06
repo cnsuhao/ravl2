@@ -11,7 +11,7 @@
 //! file="Ravl/OS/Exec/OSProcess.hh"
 //! lib=RavlOS
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.Exec"
+//! docentry="Ravl.API.OS.Exec"
 //! date="07/01/99"
 
 #include "Ravl/RefCounter.hh"

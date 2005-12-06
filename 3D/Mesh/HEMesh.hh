@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=Ravl3D
 //! author="Charles Galambos"
-//! docentry="Ravl.3D.Half Edge Mesh"
+//! docentry="Ravl.API.3D.Half Edge Mesh"
 //! date="24/4/2002"
 //! file="Ravl/3D/Mesh/HEMesh.hh"
 

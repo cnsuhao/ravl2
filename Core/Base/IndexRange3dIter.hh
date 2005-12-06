@@ -8,7 +8,7 @@
 #define RAVL_INDEXRANGE3DITER_HEADER 1
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Indexing"
+//! docentry="Ravl.API.Core.Indexing"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/IndexRange3dIter.hh"
 

@@ -12,7 +12,7 @@
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! date="17/06/1999"
-//! docentry="Ravl.GUI.Layout"
+//! docentry="Ravl.API.GUI.Layout"
 //! example=exFrame.cc
 
 #include "Ravl/GUI/OneChild.hh"

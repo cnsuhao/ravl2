@@ -8,7 +8,7 @@
 #define RAVL_NETATTRIBUTECTRLSERVER_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlNet
-//! docentry="Ravl.OS.Network.NetPort"
+//! docentry="Ravl.API.OS.Network.NetPort"
 //! author="Charles Galambos"
 //! file="Ravl/OS/Network/NetAttributeCtrlServer.hh"
 

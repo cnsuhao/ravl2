@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImage
 //! file="Ravl/Image/Base/exImage.cc"
-//! docentry="Ravl.Images"
+//! docentry="Ravl.API.Images"
 //! userlevel=Normal
 //! author="Charles Galambos"
 

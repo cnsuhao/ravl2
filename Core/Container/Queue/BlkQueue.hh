@@ -11,7 +11,7 @@
 //! file="Ravl/Core/Container/Queue/BlkQueue.hh"
 //! lib=RavlCore
 //! author="George (Jiri) Matas"
-//! docentry="Ravl.Core.Queues"
+//! docentry="Ravl.API.Core.Queues"
 //! example=exQueue.cc
 //! rcsid="$Id$"
 

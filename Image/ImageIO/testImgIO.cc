@@ -11,7 +11,7 @@
 //! userlevel=Develop
 //! author="Charles Galambos"
 //! date="16/03/1999"
-//! docentry="Ravl.Images"
+//! docentry="Ravl.API.Images"
 
 #include "Ravl/Option.hh"
 #include "Ravl/DP/FileFormatIO.hh"

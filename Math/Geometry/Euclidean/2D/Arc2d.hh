@@ -10,7 +10,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="10/3/1997"
-//! docentry="Ravl.Math.Geometry.2D"
+//! docentry="Ravl.API.Math.Geometry.2D"
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/2D/Arc2d.hh"

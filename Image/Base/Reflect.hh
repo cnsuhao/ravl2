@@ -8,7 +8,7 @@
 #define RAVLIMAGE_REFLECT_HEADER 1
 //! author="Charles Galambos"
 //! userlevel=Normal
-//! docentry="Ravl.Images"
+//! docentry="Ravl.API.Images"
 //! rcsid="$Id$"
 //! lib=RavlImage
 //! date="13/2/2003"

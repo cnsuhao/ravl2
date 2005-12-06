@@ -8,7 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlGUI2D
 //! file="Ravl/GUI/2D/exCanvas.cc"
-//! docentry="Ravl.GUI.Control"
+//! docentry="Ravl.API.GUI.Control"
 //! author="Charles Galambos"
 //! date="17/03/1999"
 

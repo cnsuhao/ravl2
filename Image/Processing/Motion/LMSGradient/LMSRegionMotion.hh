@@ -13,7 +13,7 @@
 //! date="07/12/1999"
 //! example=exLMSRegionMotion.cc
 //! lib=RavlImageProc
-//! docentry="Ravl.Images.Motion"
+//! docentry="Ravl.API.Images.Motion"
 
 #include "Ravl/Types.hh"
 #include "Ravl/Image/Image.hh"
@@ -31,7 +31,7 @@ namespace RavlImageN {
   
   //! example="exLMSRegionMotion.cc"
   //! lib=LMSMotion
-  //! docentry="Ravl.Images.Motion.Model Based"
+  //! docentry="Ravl.API.Images.Motion.Model Based"
   
   //: Computes a 2D motion vector from 2 images over a region using a least-mean-square fit
   //

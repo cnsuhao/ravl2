@@ -10,7 +10,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! lib=RavlOS
-//! docentry="Ravl.OS.Time"
+//! docentry="Ravl.API.OS.Time"
 //! rcsid="$Id$"
 //! file="Ravl/OS/Time/Date.hh"
 //! date="07/05/1998"

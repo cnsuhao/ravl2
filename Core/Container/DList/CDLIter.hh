@@ -8,7 +8,7 @@
 #define RAVLCDLITER_HEADER
 ///////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Lists"
+//! docentry="Ravl.API.Core.Lists"
 //! file="Ravl/Core/Container/DList/CDLIter.hh"
 //! lib=RavlCore
 //! userlevel=Normal

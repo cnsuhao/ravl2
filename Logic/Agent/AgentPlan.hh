@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_AGENTPLAN_HEADER
 #define RAVLLOGIC_AGENTPLAN_HEADER 1
 //! author="Charles Galambos"
-//! docentry="Ravl.Logic.Agent"
+//! docentry="Ravl.API.Logic.Agent"
 //! rcsid="$Id$"
 //! lib=RavlLogicAgent
 //! file="Ravl/Logic/Agent/AgentPlan.hh"

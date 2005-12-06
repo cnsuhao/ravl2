@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLGUI_WAITFOREXIT_HEADER
 #define RAVLGUI_WAITFOREXIT_HEADER 1
-//! docentry="Ravl.GUI.Data Display"
+//! docentry="Ravl.API.GUI.Data Display"
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlGUI

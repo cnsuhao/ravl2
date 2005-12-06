@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! docentry="Ravl.Pattern Recognition.Distance"
+//! docentry="Ravl.API.Pattern Recognition.Distance"
 //! file="Ravl/PatternRec/Distance/DistanceSqrEuclidean.hh"
 
 #include "Ravl/PatternRec/Distance.hh"

@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.Audio.Feature Extraction"
+//! docentry="Ravl.API.Audio.Feature Extraction"
 //! lib=RavlAudioFeatures
 //! examples=exFeatureMFCC.cc
 //! file="Ravl/Audio/Features/FeatureMFCC.hh"

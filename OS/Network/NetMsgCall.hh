@@ -8,12 +8,12 @@
 #define RAVL_NETMESSAGESIG_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.OS.Network"
+//! docentry="Ravl.API.OS.Network"
 //! file="Ravl/OS/Network/NetMsgCall.hh"
 //! lib=RavlNet
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.OS.Network"
+//! docentry="Ravl.API.OS.Network"
 //! date="13/12/2000"
 
 #include "Ravl/OS/NetMessage.hh"

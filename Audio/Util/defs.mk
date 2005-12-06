@@ -19,7 +19,7 @@ PLIB=RavlAudioUtil
 
 USESLIBS=RavlIO
 
-EHT= Ravl.Audio.IO.html
+EHT= Ravl.API.Audio.IO.html
 
 TESTEXES= testAudioUtil.cc
 

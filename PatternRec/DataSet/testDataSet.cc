@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/testDataSet.cc"
-//! docentry="Ravl.Pattern Recognition.Data Set"
+//! docentry="Ravl.API.Pattern Recognition.Data Set"
 //! userlevel=Develop
 
 #include "Ravl/PatternRec/DataSet1.hh"

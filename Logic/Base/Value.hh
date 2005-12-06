@@ -13,7 +13,7 @@
 //! date="03/07/1996"
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.Logic"
+//! docentry="Ravl.API.Logic"
 
 #include "Ravl/Logic/Literal.hh"
 #include "Ravl/StrStream.hh"

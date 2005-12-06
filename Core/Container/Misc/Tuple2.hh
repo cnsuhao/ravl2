@@ -8,7 +8,7 @@
 #define RAVL_TUPLE2_HEADER 1
 /////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Tuples"
+//! docentry="Ravl.API.Core.Tuples"
 //! userlevel=Normal
 //! file="Ravl/Core/Container/Misc/Tuple2.hh"
 //! lib=RavlCore

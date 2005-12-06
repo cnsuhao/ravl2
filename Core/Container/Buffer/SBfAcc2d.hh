@@ -13,7 +13,7 @@
 //! userlevel=Develop
 //! author="Charles Galambos"
 //! date="24/01/2001"
-//! docentry="Ravl.Core.Arrays.Buffer"
+//! docentry="Ravl.API.Core.Arrays.Buffer"
 
 #include "Ravl/SBfAcc.hh"
 #include "Ravl/BfAcc2Iter.hh"

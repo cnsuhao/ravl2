@@ -7,7 +7,7 @@
 #ifndef RAVL_DPFILESEQUENCE_HEADER
 #define RAVL_DPFILESEQUENCE_HEADER 1
 /////////////////////////////////////////////////////////
-//! docentry="Ravl.OS.Sequence.Numbered Files"
+//! docentry="Ravl.API.OS.Sequence.Numbered Files"
 //! rcsid="$Id$"
 //! file="Ravl/OS/IO/FileSequence.hh"
 //! lib=RavlOSIO

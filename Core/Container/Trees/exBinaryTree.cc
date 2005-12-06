@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Trees/exBinaryTree.cc"
-//! docentry="Ravl.Core.Trees"
+//! docentry="Ravl.API.Core.Trees"
 //! author="Charles Galambos"
 //! userlevel=Normal
 

@@ -8,7 +8,7 @@
 #define RAVL_EXCEPTION_HEADER 1
 ///////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Error Handling"
+//! docentry="Ravl.API.Core.Error Handling"
 //! file="Ravl/Core/Base/Exception.hh"
 //! lib=RavlCore
 //! userlevel=Normal

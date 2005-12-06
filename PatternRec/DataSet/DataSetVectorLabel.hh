@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/DataSetVectorLabel.hh"
-//! docentry="Ravl.Pattern Recognition.Data Set"
+//! docentry="Ravl.API.Pattern Recognition.Data Set"
 //! author="Charles Galambos"
 
 #include "Ravl/PatternRec/DataSet2.hh"

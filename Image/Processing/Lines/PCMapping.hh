@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_PCMAPPING_HEADER
 #define RAVLIMAGE_PCMAPPING_HEADER 1
 ////////////////////////////////////////////////////////////
-//! docentry="Ravl.Images.Lines"
+//! docentry="Ravl.API.Images.Lines"
 //! file="Ravl/Image/Processing/Lines/PCMapping.hh"
 //! lib=RavlImageProc
 //! author="Charles Galambos"

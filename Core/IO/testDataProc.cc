@@ -9,7 +9,7 @@
 //! lib=RavlIO
 //! file="Ravl/Core/IO/testDataProc.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Data Processing" 
+//! docentry="Ravl.API.Core.Data Processing" 
 //! userlevel=Develop
 
 #include "Ravl/DP/IFailOver.hh"

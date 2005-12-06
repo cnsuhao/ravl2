@@ -9,7 +9,7 @@
 //! file="Ravl/Core/Container/DList/exDList.cc"
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Lists"
+//! docentry="Ravl.API.Core.Lists"
 
 //: Simple example of DList's.
 

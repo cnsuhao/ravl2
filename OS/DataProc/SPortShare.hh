@@ -7,7 +7,7 @@
 #ifndef RAVL_SPORTSHARE_HEADER
 #define RAVL_SPORTSHARE_HEADER 1
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Data Processing.Threads" 
+//! docentry="Ravl.API.Core.Data Processing.Threads" 
 //! rcsid="$Id$"
 //! lib=RavlDPMT
 //! date="18/9/2003"

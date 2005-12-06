@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlNet
 //! file="Ravl/OS/Network/testNetPort.cc"
-//! docentry="Ravl.OS.Network.NetPort"
+//! docentry="Ravl.API.OS.Network.NetPort"
 //! userlevel=Normal
 //! author="Charles Galambos"
 

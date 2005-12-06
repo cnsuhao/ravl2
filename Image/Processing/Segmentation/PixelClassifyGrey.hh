@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_PIXELCLASSIFYGREY_HEADER
 #define RAVLIMAGE_PIXELCLASSIFYGREY_HEADER
 //////////////////////////////////////////////////////////////
-//! docentry="Ravl.Images.Segmentation"
+//! docentry="Ravl.API.Images.Segmentation"
 //! userlevel=Normal
 //! example=exSegmentation.cc
 //! file="Ravl/Image/Processing/Segmentation/PixelClassifyGrey.hh"

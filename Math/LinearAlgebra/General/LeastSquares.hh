@@ -8,7 +8,7 @@
 #define RAVL_LEASTSQUARES_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlMath
-//! docentry="Ravl.Math.Linear Algebra"
+//! docentry="Ravl.API.Math.Linear Algebra"
 //! userlevel=Normal
 //! file="Ravl/Math/LinearAlgebra/General/LeastSquares.hh"
 

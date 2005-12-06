@@ -8,7 +8,7 @@
 #define RAVLLOGIC_LITERALINDEXBASE_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Logic.Index"
+//! docentry="Ravl.API.Logic.Index"
 //! author="Charles Galambos"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Index/LiteralIndexBase.hh"

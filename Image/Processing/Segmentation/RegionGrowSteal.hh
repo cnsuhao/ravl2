@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_REGIONGROWSTEAL_HEADER
 #define RAVLIMAGE_REGIONGROWSTEAL_HEADER
 //////////////////////////////////////////////////////////////
-//! docentry="Ravl.Images.Segmentation"
+//! docentry="Ravl.API.Images.Segmentation"
 //! userlevel=Normal
 //! example=exSegmentation.cc
 //! file="Ravl/Image/Processing/Segmentation/RegionGrowSteal.hh"

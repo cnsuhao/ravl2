@@ -10,7 +10,7 @@
 //! lib=RavlCore
 //! author="James Smith"
 //! date="31/10/2002"
-//! docentry="Ravl.Core.Math"
+//! docentry="Ravl.API.Core.Math"
 //! license=own
 
 #include "Ravl/Types.hh"

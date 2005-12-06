@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! author="Joel Mitchelson"
-//! docentry="Ravl.Math.Geometry.3D"
+//! docentry="Ravl.API.Math.Geometry.3D"
 //! userlevel=Develop
 //! file="Ravl/Math/Geometry/Euclidean/3D/testGeom3d.cc"
 

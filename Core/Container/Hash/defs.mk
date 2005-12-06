@@ -24,5 +24,5 @@ EXAMPLES=exHash.cc WordFreq.cc
 
 TESTEXES = testHash.cc testHSet.cc
 
-EHT= Ravl.Core.Hash_Tables.eht
+EHT= Ravl.API.Core.Hash_Tables.eht
 

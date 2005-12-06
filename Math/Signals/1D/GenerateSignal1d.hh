@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
-//! docentry="Ravl.Math.Signals.1D"
+//! docentry="Ravl.API.Math.Signals.1D"
 //! userlevel=Normal
 //! file="Ravl/Math/Signals/1D/GenerateSignal1d.hh"
 

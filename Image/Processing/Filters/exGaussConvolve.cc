@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! author="Kieron J Messer"
-//! docentry="Ravl.Images.Filtering"
+//! docentry="Ravl.API.Images.Filtering"
 //! userlevel=Normal
 //! file="Ravl/Image/Processing/Filters/exGaussConvolve.cc"
 

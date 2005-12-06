@@ -8,7 +8,7 @@
 #define RAVLIMAGE_GAUSSCONVOLVE2D_HEADER 1
 //! userlevel=Normal
 //! author="Kieron J Messer"
-//! docentry="Ravl.Images.Filtering"
+//! docentry="Ravl.API.Images.Filtering"
 //! example=exGaussConvolve.cc
 //! lib=RavlImageProc
 //! rcsid="$Id$"

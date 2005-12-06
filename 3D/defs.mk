@@ -9,4 +9,4 @@
 DONOT_SUPPORT= cygwin
 NESTED= Mesh.r MeshIO.r CameraCal.r Carve3D.r
 
-EHT=Ravl.3D.html 
+EHT=Ravl.API.3D.html 

@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Core/System/VariableLengthCode.hh"
 //! lib=RavlCore
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.API.Core.Misc"
 //! author="Charles Galambos"
 //! date="07/06/1999"
 

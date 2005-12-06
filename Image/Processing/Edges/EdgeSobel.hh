@@ -8,7 +8,7 @@
 #define RAVLIMAGE_EDGESOBEL_HEADER 1
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Images.Edges"
+//! docentry="Ravl.API.Images.Edges"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! file="Ravl/Image/Processing/Edges/EdgeSobel.hh"

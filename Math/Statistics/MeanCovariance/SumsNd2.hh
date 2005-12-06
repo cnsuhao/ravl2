@@ -7,7 +7,7 @@
 #ifndef RAVL_SUMSND2_HEADER
 #define RAVL_SUMSND2_HEADER 1
 //! author="Charles Galambos"
-//! docentry="Ravl.Math.Statistics"
+//! docentry="Ravl.API.Math.Statistics"
 //! date="28/1/2004"
 //! rcsid="$Id$"
 //! lib=RavlMath

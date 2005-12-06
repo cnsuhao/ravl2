@@ -8,7 +8,7 @@
 #define RAVLIMAGE_HISTOGRAMEQUALISE_HEADER 1
 //! userlevel=Normal
 //! author="Kieron J Messer"
-//! docentry="Ravl.Images.Filtering"
+//! docentry="Ravl.API.Images.Filtering"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Filters/HistogramEqualise.hh"

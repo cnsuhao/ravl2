@@ -10,7 +10,7 @@
 //! lib=RavlLogic
 //! file="Ravl/Logic/DecisionTree/SampleLiteral.hh"
 //! author="Charles Galambos"
-//! docentry="Ravl.Logic.Decision Tree"
+//! docentry="Ravl.API.Logic.Decision Tree"
 
 #include "Ravl/PatternRec/SampleDiscrete.hh"
 #include "Ravl/Logic/Literal.hh"

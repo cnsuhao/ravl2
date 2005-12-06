@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.IO.Function Register"
+//! docentry="Ravl.API.Core.IO.Function Register"
 //! lib=RavlCore
 //! file="Ravl/Core/System/FunctionRegister.hh"
 

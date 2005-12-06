@@ -8,7 +8,7 @@
 #define RAVL_FFT2D_HEADER 1
 ////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Math.Signals.2D"
+//! docentry="Ravl.API.Math.Signals.2D"
 //! lib=RavlMath
 //! file="Ravl/Math/Signals/2D/FFT2d.hh"
 

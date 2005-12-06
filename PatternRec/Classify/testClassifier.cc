@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Classify/testClassifier.cc"
-//! docentry="Ravl.Pattern Recognition.Classifier"
+//! docentry="Ravl.API.Pattern Recognition.Classifier"
 //! userlevel=Develop
 
 #include "Ravl/PatternRec/ClassifierKNearestNeighbour.hh"

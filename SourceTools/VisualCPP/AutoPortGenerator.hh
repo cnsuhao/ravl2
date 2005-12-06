@@ -7,7 +7,7 @@
 #ifndef RAVL_AUTOPORTGENERATOR_HEADER
 #define RAVL_AUTOPORTGENERATOR_HEADER 1
 ///////////////////////////////////////////////////////
-//! docentry="Ravl.Source Tools.AutoPort"
+//! docentry="Ravl.API.Source Tools.AutoPort"
 //! rcsid="$Id$"
 //! file="Ravl/SourceTools/VisualCPP/AutoPortGenerator.hh"
 //! lib=RavlAutoPort

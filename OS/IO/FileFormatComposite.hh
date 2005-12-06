@@ -7,7 +7,7 @@
 #ifndef RAVL_FILEFORMATCOMPOSITE_HEADER 
 #define RAVL_FILEFORMATCOMPOSITE_HEADER 1
 ////////////////////////////////////////////////////////
-//! docentry="Ravl.Core.Data Processing.Composite" 
+//! docentry="Ravl.API.Core.Data Processing.Composite" 
 //! lib=RavlOSIO
 //! rcsid="$Id$"
 //! file="Ravl/OS/IO/FileFormatComposite.hh"

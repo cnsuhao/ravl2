@@ -13,7 +13,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="16/03/1999"
-//! docentry="Ravl.Images.Converters"
+//! docentry="Ravl.API.Images.Converters"
 
 #include "Ravl/Image/Image.hh"
 

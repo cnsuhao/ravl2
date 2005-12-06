@@ -12,7 +12,7 @@
 //! file="Ravl/GUI/GTK/SignalInfo.hh"
 //! lib=RavlGUI
 //! userlevel=Advanced
-//! docentry="Ravl.GUI.Internal"
+//! docentry="Ravl.API.GUI.Internal"
 //! author="Charles Galambos"
 //! date="23/09/1999"
 

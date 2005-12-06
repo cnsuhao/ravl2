@@ -8,7 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlOS
 //! file="Ravl/OS/Text/exTemplateFile.cc"
-//! docentry="Ravl.OS.Text Processing"
+//! docentry="Ravl.API.OS.Text Processing"
 //! userlevel=Normal
 //! author="Charles Galambos"
 

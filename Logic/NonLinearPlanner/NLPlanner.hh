@@ -11,7 +11,7 @@
 //! lib=RavlLogicNLP
 //! author="Charles Galambos"
 //! date="4/1/1997"
-//! docentry="Ravl.Logic.Planning"
+//! docentry="Ravl.API.Logic.Planning"
 //! rcsid="$Id$"
 
 #include "Ravl/PriQueueL.hh"

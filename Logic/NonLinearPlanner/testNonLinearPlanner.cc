@@ -11,7 +11,7 @@
 //! lib=RavlLogicNLP
 //! file="Ravl/Logic/NonLinearPlanner/testNonLinearPlanner.cc"
 //! userlevel=Develop
-//! docentry="Ravl.Logic.Planning"
+//! docentry="Ravl.API.Logic.Planning"
 
 #include <stdio.h>
 #include "Ravl/Logic/NonLinearPlan.hh"

@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlImage
-//! docentry="Ravl.Images.Drawing"
+//! docentry="Ravl.API.Images.Drawing"
 //! file="Ravl/Image/Base/DrawEllipse.hh"
 
 #include "Ravl/Ellipse2d.hh"

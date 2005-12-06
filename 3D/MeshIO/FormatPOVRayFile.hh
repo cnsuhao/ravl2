@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! lib=Ravl3DIO
 //! author="James Smith"
-//! docentry="Ravl.3D.IO.Formats"
+//! docentry="Ravl.API.3D.IO.Formats"
 //! userlevel=Normal
 //! file="Ravl/3D/MeshIO/FormatPOVRayFile.hh"
 

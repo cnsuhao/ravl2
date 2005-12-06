@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Graphs.Half Edge Mesh"
+//! docentry="Ravl.API.Core.Graphs.Half Edge Mesh"
 //! userlevel=Develop
 //! file="Ravl/Core/Container/Graph/testTHEMesh.cc"
 

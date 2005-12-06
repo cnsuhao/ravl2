@@ -9,7 +9,7 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Trees/testBinaryTree.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Trees"
+//! docentry="Ravl.API.Core.Trees"
 //! userlevel=Develop
 
 #include "Ravl/BinaryTree.hh"

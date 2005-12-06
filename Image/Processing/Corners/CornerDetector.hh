@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.Corner Detection"
+//! docentry="Ravl.API.Images.Corner Detection"
 //! date="20/7/2002"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Corners/CornerDetector.hh"

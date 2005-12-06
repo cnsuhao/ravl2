@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Data Processing.Processes" 
+//! docentry="Ravl.API.Core.Data Processing.Processes" 
 //! date="23/7/2002"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/Process31.hh"

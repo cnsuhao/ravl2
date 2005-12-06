@@ -10,7 +10,7 @@
 //! lib=RavlImageProc
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.Misc"
+//! docentry="Ravl.API.Images.Misc"
 //! file="Ravl/Image/Processing/Tools/PeakDetector.hh"
 
 #include "Ravl/Array2d.hh"

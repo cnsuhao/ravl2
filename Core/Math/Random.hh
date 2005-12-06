@@ -13,7 +13,7 @@
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! date="24/01/2001"
-//! docentry="Ravl.Core.Math"
+//! docentry="Ravl.API.Core.Math"
 
 #include "Ravl/Types.hh"
 

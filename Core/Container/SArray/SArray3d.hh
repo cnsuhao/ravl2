@@ -8,7 +8,7 @@
 #define RAVL_SARRAY3D_HEADER 1
 /////////////////////////////////////////////////////
 //! userlevel=Normal
-//! docentry="Ravl.Core.Arrays.3D"
+//! docentry="Ravl.API.Core.Arrays.3D"
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/SArray/SArray3d.hh"
 //! lib=RavlCore

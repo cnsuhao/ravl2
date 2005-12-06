@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! author="Charles Galambos"
-//! docentry="Ravl.Math.Linear Algebra.Smart Matrix"
+//! docentry="Ravl.API.Math.Linear Algebra.Smart Matrix"
 //! date="19/8/2002"
 //! file="Ravl/Math/LinearAlgebra/General/TSMatrixLeftLower.hh"
 

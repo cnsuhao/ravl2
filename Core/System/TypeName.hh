@@ -7,7 +7,7 @@
 #ifndef RAVL_TYPENAME_HEADER
 #define RAVL_TYPENAME_HEADER 1
 ///////////////////////////////////////////////
-//! docentry="Ravl.Core.IO.Type Name"
+//! docentry="Ravl.API.Core.IO.Type Name"
 //! rcsid="$Id$"
 //! file="Ravl/Core/System/TypeName.hh"
 //! lib=RavlCore

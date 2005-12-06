@@ -10,7 +10,7 @@
 //! userlevel=Normal
 //! date="31/12/1999"
 //! author="Fangxiang Cheng"
-//! docentry="Ravl.OS.Hardware"
+//! docentry="Ravl.API.OS.Hardware"
 //! rcsid="$Id$"
 //! lib=RavlOS
 //! file="Ravl/OS/Misc/SerialIO.hh"

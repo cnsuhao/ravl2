@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! example=exSocket.cc
 //! date="15/02/2000"
-//! docentry="Ravl.OS.Network"
+//! docentry="Ravl.API.OS.Network"
 
 #include "Ravl/String.hh"
 #include "Ravl/RefCounter.hh"

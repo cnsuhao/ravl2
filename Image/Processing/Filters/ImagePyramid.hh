@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_IMAGEPYRAMID_HEADER
 #define RAVLIMAGE_IMAGEPYRAMID_HEADER 1
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.Filtering"
+//! docentry="Ravl.API.Images.Filtering"
 //! lib=RavlImageProc
 //! rcsid="$Id$"
 //! userlevel=Normal 

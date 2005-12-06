@@ -7,7 +7,7 @@
 #ifndef RAVL_DPTAP_HEADER
 #define RAVL_DPTAP_HEADER 1
 ///////////////////////////////////////////////////
-//! docentry="Ravl.Core.Data Processing.Taps"
+//! docentry="Ravl.API.Core.Data Processing.Taps"
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/Tap.hh"
 //! lib=RavlIO

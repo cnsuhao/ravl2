@@ -7,11 +7,11 @@
 #ifndef RAVL_AMUTEX_HEADER
 #define RAVL_AMUTEX_HEADER 1
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Locks"
+//! docentry="Ravl.API.Core.Locks"
 //! rcsid="$Id$"
 //! file="Ravl/Core/Base/AMutex.hh"
 //! lib=RavlCore
-//! docentry="Ravl.Core.Locks"
+//! docentry="Ravl.API.Core.Locks"
 //! userlevel=Advanced
 //! date="2/04/2005"
 

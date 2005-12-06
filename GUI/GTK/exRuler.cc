@@ -8,7 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/exRuler.cc"
-//! docentry="Ravl.GUI.Control"
+//! docentry="Ravl.API.GUI.Control"
 //! userlevel=Normal
 
 #include "Ravl/GUI/Window.hh"

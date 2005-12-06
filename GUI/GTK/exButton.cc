@@ -9,7 +9,7 @@
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/exButton.cc"
 //! userlevel=Normal
-//! docentry="Ravl.GUI.Control"
+//! docentry="Ravl.API.GUI.Control"
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Button.hh"

@@ -11,7 +11,7 @@
 //! lib=RavlCore
 //! userlevel=Normal
 //! author="Radek Marik"
-//! docentry="Ravl.Core.Indexing"
+//! docentry="Ravl.API.Core.Indexing"
 //! date="2/8/1994"
 //! rcsid="$Id$"
 

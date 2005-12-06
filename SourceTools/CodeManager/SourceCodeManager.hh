@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! userlevel=Advanced
 //! date="2/4/1998"
-//! docentry="Ravl.Source Tools.Code Manager"
+//! docentry="Ravl.API.Source Tools.Code Manager"
 //! rcsid="$Id$"
 //! lib=RavlSourceTools
 

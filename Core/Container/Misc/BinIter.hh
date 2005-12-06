@@ -10,7 +10,7 @@
 //! file="Ravl/Core/Container/Misc/BinIter.hh"
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.API.Core.Misc"
 //! date="27/11/1996"
 //! rcsid="$Id$"
 //! lib=RavlCore

@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLAUDIO_TRANSCRIPTIONSTREAM_HEADER
 #define RAVLAUDIO_TRANSCRIPTIONSTREAM_HEADER 1
-//! docentry="Ravl.Audio.Feature Extraction"
+//! docentry="Ravl.API.Audio.Feature Extraction"
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! rcsid="$Id$"

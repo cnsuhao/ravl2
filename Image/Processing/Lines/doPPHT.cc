@@ -9,7 +9,7 @@
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Lines/doPPHT.cc"
 //! userlevel=Normal
-//! docentry="Ravl.Images.Lines"
+//! docentry="Ravl.API.Images.Lines"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 

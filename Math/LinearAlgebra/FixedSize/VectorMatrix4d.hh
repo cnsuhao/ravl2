@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_VECTORMATRIX4D_HEADER
 #define RAVL_VECTORMATRIX4D_HEADER 1
-//! docentry="Ravl.Math.Geometry.4D"
+//! docentry="Ravl.API.Math.Geometry.4D"
 //! author="Charles Galambos"
 //! date="13/04/2002"
 //! rcsid="$Id$"

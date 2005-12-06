@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! date="5/8/97"
 //! userlevel=Normal
-//! docentry="Ravl.OS.Text Processing"
+//! docentry="Ravl.API.OS.Text Processing"
 //! rcsid="$Id$"
 
 #include "Ravl/Text/TextFile.hh"

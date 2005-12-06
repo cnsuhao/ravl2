@@ -8,7 +8,7 @@
 #define RAVL_TFVECTOR_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Tuples"
+//! docentry="Ravl.API.Core.Tuples"
 //! file="Ravl/Core/Base/TFVector.hh"
 //! lib=RavlCore
 //! userlevel=Advanced

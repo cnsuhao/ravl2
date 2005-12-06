@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
-//! docentry="Ravl.Source Tools"
+//! docentry="Ravl.API.Source Tools"
 //! lib=RavlSourceTools
 //! author="Charles Galambos"
 //! file="Ravl/SourceTools/CodeManager/LibInfo.hh"

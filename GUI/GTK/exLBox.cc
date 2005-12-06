@@ -8,7 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/exLBox.cc"
-//! docentry="Ravl.GUI.Layout"
+//! docentry="Ravl.API.GUI.Layout"
 //! userlevel=Normal
 
 #include "Ravl/GUI/Window.hh"

@@ -13,7 +13,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="24/01/2001"
-//! docentry="Ravl.Math.Linear Algebra"
+//! docentry="Ravl.API.Math.Linear Algebra"
 
 #include "Ravl/TMatrix.hh"
 #include "Ravl/FMatrix.hh"

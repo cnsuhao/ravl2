@@ -13,7 +13,7 @@
 //! date="23/03/1999"
 //! example=exFileSelector.cc
 //! rcsid="$Id$"
-//! docentry="Ravl.GUI.Control"
+//! docentry="Ravl.API.GUI.Control"
 
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/String.hh"

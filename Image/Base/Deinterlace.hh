@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! date="10/04/2002"
-//! docentry="Ravl.Images.Video"
+//! docentry="Ravl.API.Images.Video"
 //! lib=RavlImage
 //! file="Ravl/Image/Base/Deinterlace.hh"
 

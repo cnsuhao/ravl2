@@ -10,7 +10,7 @@
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! userlevel=Normal
-//! docentry="Ravl.Images.Morphology"
+//! docentry="Ravl.API.Images.Morphology"
 //! file="Ravl/Image/Processing/Morphology/MorphClose.hh"
 
 #include "Ravl/Image/Dilate.hh"

@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlOSIO
 //! userlevel=Normal
-//! docentry="Ravl.OS.Dynamic Linking"
+//! docentry="Ravl.API.OS.Dynamic Linking"
 //! author="Charles Galambos"
 //! example=exDynamicLink.cc
 //! date="04/07/2000"

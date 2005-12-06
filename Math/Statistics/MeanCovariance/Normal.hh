@@ -7,7 +7,7 @@
 #ifndef RAVL_NORMAL_HEADER
 #define RAVL_NORMAL_HEADER 1
 ////////////////////////////////////////////////////////////////
-//! docentry="Ravl.Math.Statistics"
+//! docentry="Ravl.API.Math.Statistics"
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlMath

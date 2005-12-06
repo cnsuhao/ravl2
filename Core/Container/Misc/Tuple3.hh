@@ -12,7 +12,7 @@
 //! file="Ravl/Core/Container/Misc/Tuple3.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Tuples"
+//! docentry="Ravl.API.Core.Tuples"
 //! date="09/06/1998"
 
 #include "Ravl/Types.hh"

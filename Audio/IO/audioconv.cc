@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlAudioIO
 //! author="Charles Galambos"
-//! docentry="Ravl.Audio;Ravl.Applications.Audio"
+//! docentry="Ravl.API.Audio;Ravl.Applications.Audio"
 //! userlevel=Normal
 //! file="Ravl/Audio/IO/audioconv.cc"
 

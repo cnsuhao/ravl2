@@ -11,7 +11,7 @@
 //! file="Ravl/OS/Threads/Tools/TickerTrigger.hh"
 //! lib=RavlThreads
 //! userlevel=Default
-//! docentry="Ravl.OS.Time"
+//! docentry="Ravl.API.OS.Time"
 //! author="Charles Galambos"
 //! date="02/07/1999"
 

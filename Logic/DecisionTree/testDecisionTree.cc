@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlLogic
 //! file="Ravl/Logic/DecisionTree/testDecisionTree.cc"
-//! docentry="Ravl.Logic.Decision Tree"
+//! docentry="Ravl.API.Logic.Decision Tree"
 //! userlevel=Develop
 //! author="Charles Galambos"
 

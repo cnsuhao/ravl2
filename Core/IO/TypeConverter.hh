@@ -7,7 +7,7 @@
 #ifndef RAVL_TYPECONVERTER_HEADER
 #define RAVL_TYPECONVERTER_HEADER 1
 /////////////////////////////////////////////////////////////
-//! docentry="Ravl.Core.IO.Formats" 
+//! docentry="Ravl.API.Core.IO.Formats" 
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlIO

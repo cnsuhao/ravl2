@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! author="Kieron Messer"
-//! docentry="Ravl.Pattern Recognition.Expectation Maximization"
+//! docentry="Ravl.API.Pattern Recognition.Expectation Maximization"
 //! file="Ravl/PatternRec/Modeling/GaussianMixture/DesignGaussianMixture.hh"
 
 #include "Ravl/PatternRec/DesignFunctionUnsupervised.hh"

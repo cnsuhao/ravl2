@@ -12,7 +12,7 @@
 //! userlevel=Advanced
 //! author="Charles Galambos"
 //! date="4/9/1996"
-//! docentry="Ravl.Core.Arrays.1D"
+//! docentry="Ravl.API.Core.Arrays.1D"
 //! rcsid="$Id$"
 
 #include "Ravl/Types.hh"

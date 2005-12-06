@@ -7,7 +7,7 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Container/SArray/testSArray1d.cc"
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Arrays.1D"
+//! docentry="Ravl.API.Core.Arrays.1D"
 //! userlevel=Develop
 
 #include "Ravl/Stream.hh"

@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlCore
-//! docentry="Ravl.Core.IO.Streams"
+//! docentry="Ravl.API.Core.IO.Streams"
 //! userlevel=Normal
 //! example=exObjIO.cc
 //! file="Ravl/Core/System/PointerManager.hh"

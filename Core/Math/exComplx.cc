@@ -11,7 +11,7 @@
 //! userlevel=Normal
 //! author="Radek Marik"
 //! date="26/01/1994"
-//! docentry="Ravl.Core.Math"
+//! docentry="Ravl.API.Core.Math"
 
 #include "Ravl/Complex.hh"
 #include "Ravl/Stream.hh"

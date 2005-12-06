@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////
 //! lib=RavlDPMT
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Data Processing.Hold" 
+//! docentry="Ravl.API.Core.Data Processing.Hold" 
 //! file="Ravl/OS/DataProc/Hold.hh"
 //! author="Charles Galambos"
 //! date="03/08/1998"

@@ -17,7 +17,7 @@ SOURCES=SerialIO.cc SysLog.cc
 
 PLIB=RavlOS
 
-EHT= Ravl.OS.Hardware.html
+EHT= Ravl.API.OS.Hardware.html
 
 USESLIBS=RavlCore
 

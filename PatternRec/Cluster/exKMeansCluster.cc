@@ -7,7 +7,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! docentry="Ravl.Pattern Recognition.Cluster"
+//! docentry="Ravl.API.Pattern Recognition.Cluster"
 //! userlevel=Normal
 //! file="Ravl/PatternRec/Cluster/exKMeansCluster.cc"
 

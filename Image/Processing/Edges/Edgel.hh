@@ -8,7 +8,7 @@
 #define RAVLIMAGE_EDGEL_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Images.Edges"
+//! docentry="Ravl.API.Images.Edges"
 //! author="Charles Galambos"
 //! date="23/09/1999"
 //! lib=RavlImageProc

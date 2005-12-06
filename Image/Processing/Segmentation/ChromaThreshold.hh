@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! author="Joel Mitchelson"
-//! docentry="Ravl.Images.Segmentation"
+//! docentry="Ravl.API.Images.Segmentation"
 //! file="Ravl/Image/Processing/Segmentation/ChromaThreshold.hh"
 
 #include "Ravl/Image/Image.hh"

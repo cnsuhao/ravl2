@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlOSIO
-//! docentry="Ravl.OS.Dynamic Linking"
+//! docentry="Ravl.API.OS.Dynamic Linking"
 //! author="Charles Galambos"
 //! file="Ravl/OS/IO/exDynamicLink.cc"
 

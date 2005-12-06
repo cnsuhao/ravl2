@@ -8,7 +8,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/SourceTools/VisualCPP/autoport.cc"
 //! userlevel=Normal
-//! docentry="Ravl.Source Tools.AutoPort"
+//! docentry="Ravl.API.Source Tools.AutoPort"
 //! author="Charles Galambos"
 //! lib=RavlAutoPort
 

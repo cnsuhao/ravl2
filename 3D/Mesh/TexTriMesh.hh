@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/3D/Mesh/TexTriMesh.hh"
 //! lib=Ravl3D
-//! docentry="Ravl.3D.Mesh"
+//! docentry="Ravl.API.3D.Mesh"
 //! author="Jonathan Starck"
 
 #include "Ravl/RefCounter.hh"

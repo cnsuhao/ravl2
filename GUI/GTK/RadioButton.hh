@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! example=exRadioButton.cc
-//! docentry="Ravl.GUI.Control"
+//! docentry="Ravl.API.GUI.Control"
 //! lib=RavlGUI
 //! userlevel=Normal
 //! author="Charles Galambos"

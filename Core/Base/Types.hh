@@ -8,7 +8,7 @@
 #define RAVL_TYPES_HEADER 1
 /////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.API.Core.Misc"
 //! file="Ravl/Core/Base/Types.hh"
 //! lib=RavlCore
 //! userlevel=Normal

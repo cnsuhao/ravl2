@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_GABORFILTER_HEADER
 #define RAVLIMAGE_GABORFILTER_HEADER 1
 ////////////////////////////////////////////////////////////////////////////
-//! docentry="Ravl.Images.Filtering"
+//! docentry="Ravl.API.Images.Filtering"
 //! rcsid="$Id$"
 //! author="Kieron Messer"
 //! date="17/10/2000"

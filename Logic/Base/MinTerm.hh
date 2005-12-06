@@ -8,7 +8,7 @@
 #define RAVLLOGIC_MINTERM_HEADER 1
 ////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Logic.Condition"
+//! docentry="Ravl.API.Logic.Condition"
 //! lib=RavlLogic
 //! author="Charles Galambos"
 //! file="Ravl/Logic/Base/MinTerm.hh"

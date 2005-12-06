@@ -11,7 +11,7 @@
 //! lib=RavlPatternRec
 //! author="Robert Crida"
 //! userlevel=Normal
-//! docentry="Ravl.Pattern Recognition.Classifier"
+//! docentry="Ravl.API.Pattern Recognition.Classifier"
 //! file="Ravl/PatternRec/Classify/ClassifierLinearCombination.hh"
 
 #include "Ravl/PatternRec/Classifier.hh"

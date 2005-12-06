@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! file="Ravl/Image/Processing/Filters/doFilter.cc"
 //! userlevel=Normal
-//! docentry="Ravl.Images.Filtering"
+//! docentry="Ravl.API.Images.Filtering"
 
 //: Apply the homomorphic transform to an image.
 

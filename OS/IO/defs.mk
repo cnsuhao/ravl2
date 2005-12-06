@@ -27,4 +27,4 @@ TESTEXES= testSequenceIO.cc
 
 EXAMPLES=  exCompositeStream.cc exDynamicLink.cc exDynamicFormat.cc 
 
-EHT=Ravl.OS.Sequence.html Ravl.OS.Sequence.Numbered_Files.html
+EHT=Ravl.API.OS.Sequence.html Ravl.API.OS.Sequence.Numbered_Files.html

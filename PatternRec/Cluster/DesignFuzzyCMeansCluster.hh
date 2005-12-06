@@ -12,7 +12,7 @@
 //! date="30/1/1998"
 //! userlevel=Develop
 //! file="Ravl/PatternRec/Cluster/DesignFuzzyCMeansCluster.hh"
-//! docentry="Ravl.Pattern Recognition.Cluster;Ravl.Pattern Recognition.Classifier.DesignClassifier"
+//! docentry="Ravl.API.Pattern Recognition.Cluster;Ravl.API.Pattern Recognition.Classifier.DesignClassifier"
 //! rcsid="$Id$"
 //! example="exFuzzyCMeansCluster.cc"
 

@@ -9,7 +9,7 @@
 // Test arbitary hash.
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Hash/WordFreq.cc"
-//! docentry="Ravl.Core.Hash Tables"
+//! docentry="Ravl.API.Core.Hash Tables"
 
 #include "Ravl/String.hh"
 #include "Ravl/HashIter.hh"

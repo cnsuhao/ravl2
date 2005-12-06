@@ -8,7 +8,7 @@
 #define RAVL_BASE64_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlCore
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.API.Core.Misc"
 //! file="Ravl/Core/System/Base64.hh"
 
 #include "Ravl/String.hh"

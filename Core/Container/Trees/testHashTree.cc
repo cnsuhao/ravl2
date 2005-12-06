@@ -8,7 +8,7 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Trees/testHashTree.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Trees"
+//! docentry="Ravl.API.Core.Trees"
 //! userlevel=Develop
 
 #include "Ravl/String.hh"

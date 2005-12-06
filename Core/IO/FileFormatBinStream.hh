@@ -7,7 +7,7 @@
 #ifndef RAVL_FILEFORMATBINSTREAM_HEADER
 #define RAVL_FILEFORMATBINSTREAM_HEADER 1
 ////////////////////////////////////////////////////////
-//! docentry="Ravl.Core.IO.Formats" 
+//! docentry="Ravl.API.Core.IO.Formats" 
 //! lib=RavlIO
 //! file="Ravl/Core/IO/FileFormatBinStream.hh"
 //! author="Charles Galambos"

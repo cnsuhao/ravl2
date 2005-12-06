@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
-//! docentry="Ravl.Pattern Recognition.Classifier"
+//! docentry="Ravl.API.Pattern Recognition.Classifier"
 //! date="9/3/2003"
 //! file="Ravl/PatternRec/Classify/ClassifierFunc1Threshold.hh"
 

@@ -25,4 +25,4 @@ USESLIBS=RavlLogic
 
 EXAMPLES= exNonlinearPlanner.cc
 
-EHT=Ravl.Logic.Planning.html
+EHT=Ravl.API.Logic.Planning.html

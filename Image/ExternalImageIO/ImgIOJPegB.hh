@@ -11,7 +11,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Image/ExternalImageIO/ImgIOJPegB.hh"
 //! lib=RavlExtImgIO
-//! docentry="Ravl.Images.IO.Formats"
+//! docentry="Ravl.API.Images.IO.Formats"
 //! author="Charles Galambos"
 //! date="29/10/1998"
 

@@ -7,7 +7,7 @@
 #ifndef RAVL_DPIFAILOVER_HEADER
 #define RAVL_DPIFAILOVER_HEADER 1
 /////////////////////////////////////////////////
-//! docentry="Ravl.Core.Data Processing.Fail Over"
+//! docentry="Ravl.API.Core.Data Processing.Fail Over"
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! rcsid="$Id$"

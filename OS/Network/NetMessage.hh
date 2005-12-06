@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/OS/Network/NetMessage.hh"
 //! lib=RavlNet
-//! docentry="Ravl.OS.Network"
+//! docentry="Ravl.API.OS.Network"
 //! date="14/11/2000"
 
 #include "Ravl/RefCounter.hh"

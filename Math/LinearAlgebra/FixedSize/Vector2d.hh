@@ -11,7 +11,7 @@
 //! file="Ravl/Math/LinearAlgebra/FixedSize/Vector2d.hh"
 //! lib=RavlMath
 //! userlevel=Normal
-//! docentry="Ravl.Math.Geometry.2D"
+//! docentry="Ravl.API.Math.Geometry.2D"
 //! author="Charles Galambos"
 //! date="24/01/2001"
 

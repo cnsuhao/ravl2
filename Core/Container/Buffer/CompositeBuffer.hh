@@ -7,7 +7,7 @@
 #ifndef RAVL_COMPOSITEBUFFER_HEADER
 #define RAVL_COMPOSITEBUFFER_HEADER 1
 ///////////////////////////////////////////////////////
-//! docentry="Ravl.Core.Arrays.Buffer"
+//! docentry="Ravl.API.Core.Arrays.Buffer"
 //! file="Ravl/Core/Container/Buffer/CompositeBuffer.hh"
 //! rcsid="$Id$"
 //! lib=RavlCore

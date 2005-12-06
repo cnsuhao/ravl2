@@ -10,7 +10,7 @@
 //! userlevel=Normal
 //! date="14/12/95"
 //! lib=RavlImageProc
-//! docentry="Ravl.Images.Corner Detection"
+//! docentry="Ravl.API.Images.Corner Detection"
 //! example=exCorner.cc
 //! author="Charles Galambos based on code by S.M.Smith"
 //! file="Ravl/Image/Processing/Corners/CornerDetectorSusan.hh"

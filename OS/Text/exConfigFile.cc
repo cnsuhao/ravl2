@@ -10,7 +10,7 @@
 //! file="Ravl/OS/Text/exConfigFile.cc"
 //! author="Charles Galambos"
 //! date="14/05/1998"
-//! docentry="Ravl.OS.Configuration Files"
+//! docentry="Ravl.API.OS.Configuration Files"
 //! userlevel=Normal
 
 #include "Ravl/Text/ConfigFile.hh"

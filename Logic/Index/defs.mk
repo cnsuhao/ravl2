@@ -28,4 +28,4 @@ USESLIBS=RavlLogic
 
 TESTEXES=testLiteralIndex.cc testBLiteralIndex.cc
 
-EHT=Ravl.Logic.Index.html
+EHT=Ravl.API.Logic.Index.html

@@ -21,4 +21,4 @@ LIBDEPS=RavlPatternRecFeatureSelection.def
 
 USESLIBS=RavlPatternRec
 
-EHT=Ravl.Pattern_Recognition.Feature_Selection.html
+EHT=Ravl.API.Pattern_Recognition.Feature_Selection.html

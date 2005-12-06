@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Radek Marik, modified by Charles Galambos"
-//! docentry="Ravl.Images.Segmentation"
+//! docentry="Ravl.API.Images.Segmentation"
 //! lib=RavlImageProc
 //! date="17/10/2000"
 //! file="Ravl/Image/Processing/Segmentation/ConnectedComponents.hh"

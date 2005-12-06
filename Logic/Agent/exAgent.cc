@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! author="Charles Galambos"
-//! docentry="Ravl.Logic.Agent"
+//! docentry="Ravl.API.Logic.Agent"
 //! rcsid="$Id$"
 //! lib=RavlLogicAgent
 //! file="Ravl/Logic/Agent/exAgent.cc"

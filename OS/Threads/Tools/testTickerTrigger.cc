@@ -8,7 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Tools/testTickerTrigger.cc"
-//! docentry="Ravl.OS.Time"
+//! docentry="Ravl.API.OS.Time"
 //! author="Charles Galambos"
 //! userlevel=Develop
 

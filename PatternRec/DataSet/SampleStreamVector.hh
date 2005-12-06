@@ -7,7 +7,7 @@
 #ifndef RAVL_SAMPLESTREAMVECTOR_HEADER
 #define RAVL_SAMPLESTREAMVECTOR_HEADER 1
 //! author="Charles Galambos"
-//! docentry="Ravl.Pattern Recognition.Data Set"
+//! docentry="Ravl.API.Pattern Recognition.Data Set"
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! examples=exSampleStream.cc

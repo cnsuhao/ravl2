@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=Ravl3D
 //! author="Joel Mitchelson"
-//! docentry="Ravl.3D.Carve3D"
+//! docentry="Ravl.API.3D.Carve3D"
 //! file="Ravl/3D/Carve3D/VoxelSet.hh"
 
 #include "Ravl/Vector3d.hh"

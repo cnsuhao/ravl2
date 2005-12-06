@@ -1,0 +1,8 @@
+! author="Charles Galambos"
+! children="Time;File System;Sequence;Exec;Threads;Signals;Network"
+: Operating System interface
+
+Operating system interface, including timing, file system queries,
+threading and networking. Most of these classes should work on all
+platforms, though this is not guaranteed. 
+

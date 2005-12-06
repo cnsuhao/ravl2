@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! date="3/4/2002"
-//! docentry="Ravl.Images.Misc"
+//! docentry="Ravl.API.Images.Misc"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Tools/SummedAreaTable.hh"
 

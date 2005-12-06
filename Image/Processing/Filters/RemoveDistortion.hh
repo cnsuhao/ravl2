@@ -8,7 +8,7 @@
 #define RAVLIMAGE_REMOVEDISTORTION_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlImageProc
-//! docentry="Ravl.Images.Warping"
+//! docentry="Ravl.API.Images.Warping"
 //! file="Ravl/Image/Processing/Filters/RemoveDistortion.hh"
 //! author="Philip McLauchlan"
 //! date="16/07/2002"

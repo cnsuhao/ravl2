@@ -8,7 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/System/testCollection.cc"
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.API.Core.Misc"
 //! author="Charles Galambos"
 
 #include "Ravl/Collection.hh"

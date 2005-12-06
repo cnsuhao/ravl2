@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.Logic"
+//! docentry="Ravl.API.Logic"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/NamedLiteral.hh"
 

@@ -8,7 +8,7 @@
 #define RAVLIMAGE_CORRELATION_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlImageProc
-//! docentry="Ravl.Images.Correlation"
+//! docentry="Ravl.API.Images.Correlation"
 //! author="Charles Galambos"
 //! userlevel=Normal
 //! file="Ravl/Image/Processing/Filters/Correlate2d.hh"

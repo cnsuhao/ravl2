@@ -11,7 +11,7 @@
 //! file="Ravl/Image/ImageIO/PNMFormat.hh"
 //! lib=RavlImageIO
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.IO.Formats"
+//! docentry="Ravl.API.Images.IO.Formats"
 //! date="29/10/98"
 //! userlevel=Default
 

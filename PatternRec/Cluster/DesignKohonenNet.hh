@@ -12,7 +12,7 @@
 //! date="3/6/1998"
 //! userlevel=Develop
 //! file="Ravl/PatternRec/Cluster/DesignKohonenNet.hh"
-//! docentry="Ravl.Pattern Recognition.Cluster"
+//! docentry="Ravl.API.Pattern Recognition.Cluster"
 //! rcsid="$Id$"
 
 #include "Ravl/PatternRec/DesignCluster.hh"

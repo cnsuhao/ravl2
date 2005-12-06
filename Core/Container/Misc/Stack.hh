@@ -11,7 +11,7 @@
 //! file="Ravl/Core/Container/Misc/Stack.hh"
 //! lib=RavlCore
 //! author="George (Jiri) Matas"
-//! docentry="Ravl.Core.Stacks"
+//! docentry="Ravl.API.Core.Stacks"
 //! example=exStack.cc
 //! rcsid="$Id$"
 

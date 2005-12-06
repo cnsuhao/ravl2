@@ -7,7 +7,7 @@
 #ifndef RAVL_SARRAY1DITER4_HEADER
 #define RAVL_SARRAY1DITER4_HEADER 1
 ///////////////////////////////////////////////////
-//! docentry="Ravl.Core.Arrays.1D"
+//! docentry="Ravl.API.Core.Arrays.1D"
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/SArray/SArray1dIter4.hh"
 //! lib=RavlCore

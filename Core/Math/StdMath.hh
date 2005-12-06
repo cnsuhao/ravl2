@@ -11,7 +11,7 @@
 //! lib=RavlCore
 //! userlevel=Normal
 //! author="Radek Marik"
-//! docentry="Ravl.Core.Math"
+//! docentry="Ravl.API.Core.Math"
 //! rcsid="$Id$"
 //! date="20/11/1995"
 

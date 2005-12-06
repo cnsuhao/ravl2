@@ -26,6 +26,6 @@ TESTEXES= testDList.cc
 
 EXAMPLES= exDList.cc
 
-EHT=Ravl.Core.Lists.eht
+EHT=Ravl.API.Core.Lists.eht
 
 

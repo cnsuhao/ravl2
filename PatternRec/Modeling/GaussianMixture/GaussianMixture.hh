@@ -8,7 +8,7 @@
 #define RAVL_FUNCSUBSET_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! docentry="Ravl.Pattern Recognition.Dimension Reduction"
+//! docentry="Ravl.API.Pattern Recognition.Dimension Reduction"
 //! author="Charles Galambos"
 //! file="Ravl/PatternRec/Modeling/GaussianMixture/GaussianMixture.hh"
 

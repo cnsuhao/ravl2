@@ -7,7 +7,7 @@
 #ifndef RAVL_TUPLE4_HEADER
 #define RAVL_TUPLE4_HEADER 1
 /////////////////////////////////////////////////
-//! docentry="Ravl.Core.Tuples"
+//! docentry="Ravl.API.Core.Tuples"
 //! userlevel=Normal
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/Misc/Tuple4.hh"

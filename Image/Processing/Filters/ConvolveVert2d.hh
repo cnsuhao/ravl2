@@ -11,7 +11,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! lib=RavlImageProc
-//! docentry="Ravl.Images.Filtering"
+//! docentry="Ravl.API.Images.Filtering"
 //! file="Ravl/Image/Processing/Filters/ConvolveVert2d.hh"
 
 #include "Ravl/Image/Image.hh"

@@ -8,7 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCxxDoc
 //! file="Ravl/SourceTools/CxxDoc/CxxDoc.cc"
-//! docentry="Ravl.Source Tools.CxxDoc"
+//! docentry="Ravl.API.Source Tools.CxxDoc"
 //! author="Charles Galambos"
 //! userlevel=Normal
 

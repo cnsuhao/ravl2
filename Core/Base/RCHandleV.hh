@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_RCHANDLEV_HEADER
 #define RAVL_RCHANDLEV_HEADER 1
-//! docentry="Ravl.Core.Reference Counting"
+//! docentry="Ravl.API.Core.Reference Counting"
 //! lib=RavlCore
 //! userlevel=Normal
 //! rcsid="$Id$"

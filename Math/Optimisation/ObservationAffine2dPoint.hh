@@ -10,7 +10,7 @@
 //! author="Charles Galambos"
 //! date="1/10/2002"
 //! rcsid="$Id$"
-//! docentry="Ravl.Math.Optimisation.Examples"
+//! docentry="Ravl.API.Math.Optimisation.Examples"
 //! lib=RavlOptimise
 //! file="Ravl/Math/Optimisation/ObservationAffine2dPoint.hh"
 

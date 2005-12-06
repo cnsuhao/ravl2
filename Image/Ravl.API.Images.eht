@@ -1,0 +1,88 @@
+! author="Charles Galambos, Bill Christmas"
+! children="Pixel Types;IO;Converters;Filtering;Morphology;Warping;Transforms;Drawing;Edges;Lines;Corner Detection;Segmentation;Boundaries;Chart Detector;Video;Motion;Tracking;Mosaic;Misc"
+: Image and video processing
+
+<p> The basic image class is the template class <a
+href="../Class/RavlImageN.ImageC.html">ImageC</a>, often templated on one of
+the <a href="Ravl.Images.Pixel_Types.html">pixel</a> classes.
+
+<p> In terms of its structure and functionality, ImageC and its derivatives can
+be considered as 2-D arrays.  If there is a difference in philosophy between <a
+href="../Class/RavlImageN.ImageC.html">ImageC</a> and <a
+href="../Class/RavlN.Array2dC.html">Array2dC</a>, it is that in ImageC there is a
+sense of neighbourhood, and spatial extent.  In particular an ImageC object
+contains one or more "image rectangles" (<a
+href="../Class/RavlImageN.ImageRectangleC.html">ImageRectangleC</a>).  When an image is
+constructed, it has one associated rectangle corresponding to the border of the
+image.  However other rectangles can also be attached, corresponding to
+subimages; they can also be moved around the image.  These can be useful for
+spatial filtering and other neighbourhood operations.
+
+<h4> Image IO and type conversion:</h4>
+
+<p>There is a comprehensive <a href="Ravl.Core.IO.html">I/O
+package</a> within RAVL, including <a href="Ravl.Images.IO.html">image
+I/O</a>.  It can deal with a large and expanding range of file
+formats.</p>
+
+<p>The underlying mechanism used to convert between the file format and the
+image pixel type can also be used to convert from <a href =
+"Ravl.Core.IO.Type_Converter.html">one image type to another</a>.  If you find
+this baffling, you can use these (rather verbose) <a
+href="Ravl.Images.Converters.html"> explicit conversion functions</a>.</p>
+
+<h4> Image coordinate systems and Indexing images:</h4>
+
+<p> First, note that ImageC, like all 2-D RAVL structures, uses the standard RAVL <a href="Ravl.Introduction.Coordinate_Systems.html">index ordering convention</a>. </p>
+
+<p>Simple image constructors [e.g. <a href="../Class/RavlImageN.ImageC.html#ImageCObUIntT_UIntTCb_">ImageC::ImageC(UIntT
+rows, UIntT columns)</a> ] will use a coordinate system whose origin is the top
+left-hand pixel.  However other coordinate systems are possible.  For instance,
+a spatial filtering operation using a 3x3 mask will typically produce an image
+that is smaller than the original - the whole image border has shrunk by one
+pixel.  The coordinate system of the new image will be such that corresponding
+pixels in the two images have the <em>same</em> coordinates.  Hence the
+coordinates of the top left-hand pixel of the old and new images will be
+respectively (0,0) and (1,1).  There are two basic mechanisms for indexing through such images:</p>
+
+<ul>
+<li> <b> Using RAVL image iterators</b>:
+
+<p>The simplest and fastest mechanism uses the array <a
+href="Ravl.Core.Arrays.html">iterator mechanism</a>.  Then you never need to
+worry about where the borders of the image are within the coordinate system.
+For an elementary example of its usage, look at the example in <a
+href="../Class/RavlN.Array2dIterC.html">Array2dIterC</a>.</p>
+
+<li> <b>Simple C-style indexing</b>:
+
+<p> If iterators don't provide what you need, you can still use C-style
+indexing with brackets: image[r][c] etc.  It is recommended to use <a
+href="../Class/RavlN.IndexC.html">IndexC</a>, <a
+href="../Class/RavlN.Index2dC.html">Index2dC</a> for indexing images, as these
+have division and modulo operators that behave sensibly for negative
+coordinates (unlike int).  The programmer still does not need to keep track of
+the image borders though - use the <a
+href="../Class/RavlImageN.ImageRectangleC.html">image rectangle</a> or the
+border member functions [<a
+href="../Class/RavlImageN.ImageC.html#TRowObvoidCb_const">ImageC::TRow(),
+BRow(), LCol() and RCol()</a> ] to determine the current image boundaries. </p>
+</ul>
+
+<h4> Some notes on image filters:</h4> 
+
+<p> To keep the core RAVL image processing routines simple and fast, they have
+been written to deal with boundary cases by shrinking the image that the
+results are written into.  This means the result images will often be smaller
+than the input.  This has been done for two reasons, the correct handling of
+boundaries depends on the application, and to keep the core routines as simple
+as possible.  To allow the boundary cases to be handled the core routines will
+write results into a larger image without modifying the boarders.  This means
+code that handles boundaries in different ways mirroring, fixed value
+etc.. can be written which uses the core routines for the majority of the
+image and only deals with the special cases.  This makes it much simpler to
+implement machine code versions of these routines (for example using Intel's
+MMX instructions) and still obtain performance gains in all the boarder
+condition variants.</p>
+ 
+

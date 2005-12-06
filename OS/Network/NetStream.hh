@@ -11,7 +11,7 @@
 //! lib=RavlNet
 //! author="Charles Galambos"
 //! example=exSocket.cc
-//! docentry="Ravl.OS.Network"
+//! docentry="Ravl.API.OS.Network"
 //! file="Ravl/OS/Network/NetStream.hh"
 //! date="15/02/2000"
 

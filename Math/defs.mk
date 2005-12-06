@@ -11,5 +11,5 @@ PACKAGE=Ravl
 
 NESTED= CCMath.r LinearAlgebra.r Geometry.r Statistics.r Sequence.r Signals.r IO.r Optimisation.r
 
-EHT= Ravl.Math.eht Ravl.Math.Internal.html
+EHT= Ravl.API.Math.eht Ravl.API.Math.Internal.html
 

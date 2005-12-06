@@ -7,7 +7,7 @@
 #ifndef RAVL_TRANSCRIPTIONFILESIO_HEADER
 #define RAVL_TRANSCRIPTIONFILESIO_HEADER 1
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Data Processing" 
+//! docentry="Ravl.API.Core.Data Processing" 
 //! rcsid="$Id$"
 //! lib=RavlOSIO
 //! file="Ravl/OS/IO/FileListIO.hh"

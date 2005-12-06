@@ -27,7 +27,7 @@ LIBDEPS=RavlBuff.def
 
 USESLIBS=RavlCore
 
-EHT=Ravl.Core.Arrays.Buffer.html
+EHT=Ravl.API.Core.Arrays.Buffer.html
 
 TESTEXES=testBuffer2d.cc testBuffer3d.cc testSlice.cc
 

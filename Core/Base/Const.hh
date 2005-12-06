@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.API.Core.Misc"
 //! author="Charles Galambos"
 //! file="Ravl/Core/Base/Const.hh"
 

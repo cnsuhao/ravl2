@@ -14,4 +14,4 @@ NESTED=Compress.r Time.r FileSystem.r Misc.r Exec.r Validate.r Threads.r \
 
 PACKAGE=Ravl
 
-EHT=Ravl.OS.eht
+EHT=Ravl.API.OS.eht

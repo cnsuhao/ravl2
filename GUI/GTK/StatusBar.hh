@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/StatusBar.hh"
 //! lib=RavlGUI
-//! docentry="Ravl.GUI.Control"
+//! docentry="Ravl.API.GUI.Control"
 //! author="Charles Galambos"
 //! date="25/06/99"
 

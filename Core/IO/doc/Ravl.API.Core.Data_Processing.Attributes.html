@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Data processing attributes</title>
+  </head>
+
+  <body>
+
+    <p> All objects which derive from  <a href="../Class/RavlN.DPOPortC.html"> DPPortC </a> , inherit an attribute mechanism for data processing objects.
+      The Method 'bool GetAttrList(DListC & nlist) const' will append the list of available attributes to nlist. 
+      If the data processing object is in a class hierarchy, the 'GetAttrList' method will return all attributes from parent
+      classes also. </p> 
+
+    <p> 
+      In order to determine the current value of a given attribute, the overloaded methods :-</p>  
+     <ul> 
+      <li> StringC GetAttr(const StringC & attrName) </li> 
+      <li> bool GetAttr(const StringC & attrName,StringC & attrValue) </li> 
+      <li> bool GetAttr(const StringC & attrName,IntT & attrValue) </li> 
+      <li> bool GetAttr(const StringC & attrName,RealT & attrValue) </li> 
+    </ul> 
+    <p> are provided. 'attrName' is a string containing the name of the attribute that you wish to find the value for. The first form of this 
+      method returns a string containing the attribute value, a null string is returned if the attribute name is not found. The other forms of this
+      method return true or false depending if the attribute was found. The value is passed by reference into attrValue. 
+    </p> 
+
+    <p> 
+      Attributes may be set with the following methods :- </p> 
+  
+    <ul> 
+	<li> bool SetAttr(const StringC & attrName,const StringC & attrValue) </li> 
+	<li> bool SetAttr(const StringC & attrName,const IntT & attrValue) </li> 
+	<li> bool SetAttr(const StringC & attrName,const RealT & attrValue) </li> 
+    </ul> 
+    <p> 	these methods return true if the 'attrName' was valid for objects of this type. 
+</p> 
+
+    <hr>
+
+  </body>
+</html>

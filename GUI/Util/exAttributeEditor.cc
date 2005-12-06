@@ -10,7 +10,7 @@
 //! userlevel=Normal
 //! lib=RavlGUIUtil
 //! file="Ravl/GUI/Util/exAttributeEditor.cc"
-//! docentry="Ravl.GUI.Util"
+//! docentry="Ravl.API.GUI.Util"
 
 #include "Ravl/GUI/AttributeEditor.hh"
 #include "Ravl/GUI/AttributeEditorWindow.hh"

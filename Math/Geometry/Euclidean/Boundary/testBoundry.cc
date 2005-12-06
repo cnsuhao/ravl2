@@ -9,7 +9,7 @@
 //! file="Ravl/Math/Geometry/Euclidean/Boundary/testBoundry.cc"
 //! userlevel=Develop
 //! author="Radek Marik"
-//! docentry="Ravl.Images.Boundaries;Ravl.Math.Geometry.2D.Boundary"
+//! docentry="Ravl.API.Images.Boundaries;Ravl.API.Math.Geometry.2D.Boundary"
 
 #include "Ravl/Boundary.hh"
 #include "Ravl/Stream.hh"

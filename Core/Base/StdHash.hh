@@ -11,7 +11,7 @@
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! date="1/9/1996"
-//! docentry="Ravl.Core.Hash Tables"
+//! docentry="Ravl.API.Core.Hash Tables"
 //! example=WordFreq.cc
 //! userlevel=Normal
 //! rcsid="$Id$"

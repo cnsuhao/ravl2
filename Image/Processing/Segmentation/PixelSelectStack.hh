@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_PIXSTACKSELECT_HEADER
 #define RAVLIMAGE_PIXSTACKSELECT_HEADER 1
 //////////////////////////////////////////////////////////////
-//! docentry="Ravl.Images.Segmentation"
+//! docentry="Ravl.API.Images.Segmentation"
 //! userlevel=Normal
 //! example=exSegmentation.cc
 //! file="Ravl/Image/Processing/Segmentation/PixelSelectStack.hh"

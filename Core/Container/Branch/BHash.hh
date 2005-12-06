@@ -8,7 +8,7 @@
 #define RAVL_BHASH_HEADER 1
 /////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Branch"
+//! docentry="Ravl.API.Core.Branch"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! file="Ravl/Core/Container/Branch/BHash.hh"

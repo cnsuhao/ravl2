@@ -8,7 +8,7 @@
 #define RAVL_SARRAY2D_HEADER 1
 /////////////////////////////////////////////////////
 //! userlevel=Normal
-//! docentry="Ravl.Core.Arrays.2D"
+//! docentry="Ravl.API.Core.Arrays.2D"
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/SArray/SArray2d.hh"
 //! lib=RavlCore

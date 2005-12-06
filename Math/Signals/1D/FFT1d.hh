@@ -12,7 +12,7 @@
 //! file="Ravl/Math/Signals/1D/FFT1d.hh"
 //! example=exFFT1d.cc
 //! author="Charles Galambos"
-//! docentry="Ravl.Math.Signals.1D"
+//! docentry="Ravl.API.Math.Signals.1D"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Complex.hh"

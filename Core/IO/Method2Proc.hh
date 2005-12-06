@@ -7,7 +7,7 @@
 #ifndef RAVL_DPMETHOD2PROC_HEADER
 #define RAVL_DPMETHOD2PROC_HEADER 1
 ///////////////////////////////////////////////
-//! docentry="Ravl.Core.Data Processing.Processes"
+//! docentry="Ravl.API.Core.Data Processing.Processes"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/Method2Proc.hh"
 //! author="Charles Galambos"

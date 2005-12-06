@@ -7,7 +7,7 @@
 #ifndef RAVL_DPBYTEFILEIO_HEADER
 #define RAVL_DPBYTEFILEIO_HEADER 1
 //////////////////////////////////////////////////////////
-//! docentry="Ravl.Core.Data Processing.IO" 
+//! docentry="Ravl.API.Core.Data Processing.IO" 
 //! example=exDataProc.cc
 //! file="Ravl/Core/IO/ByteFileIO.hh"
 //! lib=RavlIO

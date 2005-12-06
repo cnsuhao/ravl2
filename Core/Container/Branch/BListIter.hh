@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Branch"
+//! docentry="Ravl.API.Core.Branch"
 //! file="Ravl/Core/Container/Branch/BListIter.hh"
 
 #include "Ravl/BList.hh"

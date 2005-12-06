@@ -11,7 +11,7 @@
 //! example=exComposeSinge.cc
 //! userlevel=Normal
 //! lib=RavlIO
-//! docentry="Ravl.Core.Data Processing.Single Items"
+//! docentry="Ravl.API.Core.Data Processing.Single Items"
 //! file="Ravl/Core/IO/ComposeSingle.hh"
 
 #include "Ravl/DP/Compose.hh"

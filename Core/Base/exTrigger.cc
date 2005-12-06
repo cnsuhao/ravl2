@@ -6,7 +6,7 @@
 // file-header-ends-here
 /////////////////////////////////////////////////////////////////
 //! author="Lee Gregory"
-//! docentry="Ravl.Core.Calls"
+//! docentry="Ravl.API.Core.Calls"
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/exTrigger.cc"

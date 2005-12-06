@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/exFAffine.cc"
-//! docentry="Ravl.Math.Geometry"
+//! docentry="Ravl.API.Math.Geometry"
 //! author="Charles Galambos"
 //! userlevel=Normal
 

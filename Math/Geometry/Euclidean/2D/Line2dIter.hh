@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
-//! docentry="Ravl.Math.Geometry.2D"
+//! docentry="Ravl.API.Math.Geometry.2D"
 //! author="Charles Galambos"
 //! file="Ravl/Math/Geometry/Euclidean/2D/Line2dIter.hh"
 

@@ -8,7 +8,7 @@
 #define RAVL_COLLECTION_HEADER 1
 //////////////////////////////////////////////////////
 //! rcsid=$Id$
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.API.Core.Misc"
 //! author="Charles Galambos"
 //! lib=RavlCore
 //! file="Ravl/Core/System/Collection.hh"

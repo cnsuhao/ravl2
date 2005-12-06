@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/OS/IO/FileFormatDynamic.hh"
 //! lib=RavlOSIO
-//! docentry="Ravl.OS"
+//! docentry="Ravl.API.OS"
 //! author="Charles Galambos"
 //! date="04/07/2000"
 
