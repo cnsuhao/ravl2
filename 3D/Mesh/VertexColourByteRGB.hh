@@ -9,6 +9,7 @@
 //! rcsid="$Id$"
 //! lib=Ravl3D
 //! file="Ravl/3D/Mesh/VertexColourByteRGB.hh"
+//! docentry="Ravl.API.3D.Mesh"
 
 #include "Ravl/3D/Vertex.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
