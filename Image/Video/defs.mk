@@ -5,3 +5,5 @@ SOURCES = ShotBoundHistInt.cc
 HEADERS = ShotBoundHistInt.hh
 
 PLIB = RavlVideo
+
+USESLIBS=  RavlCore RavlImage
