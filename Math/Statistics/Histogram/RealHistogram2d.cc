@@ -46,7 +46,7 @@ namespace RavlN {
     RealT total = TotalVotes();
     for(SArray2dIterC<UIntT> it(*this);it;it++) {
       RealT prob = (RealT) *it / total;
-      totalp += -prob * Log2(prob);
+      if(prob>0) totalp += -prob * Log2(prob);
     }
     return totalp;
   }
