@@ -33,7 +33,7 @@
 <td>
   <font color="#23238E" size=4 face="arial,helvetica"><B>
   docentry is a CxxDoc variable that is used to specify the position of the
-  object in the documentation tree.
+  document in the documentation tree.
   </B></font>
 </td>
 </tr></table>
@@ -44,16 +44,16 @@
 <!-- *************************** Main Page Text  *************************** -->
 
 <P>
-A docentry variable can be set in any class declaration or .eht file. It
-specifies the location for that object to appear in the automatically generated
-and formatted documentation tree.
+A docentry variable can be set in any class declaration, .html file or .eht
+file. It specifies the location for that document to appear in the
+automatically generated and formatted documentation tree.
 </P>
 
 <P>
-The location in the tree is specified by giving a path name
-relative to the root of the tree. Each node is separated by periods (.) and the
-title of a node may contain spaces but not underline characters. The following
-is an example entry which would put the object into the image processing
+The location in the tree is specified by giving a path name relative to the
+root of the tree. Each node is separated by periods (.) and the title of a
+node may contain spaces but not underline characters. The following is an
+example entry which would put an image-related class into the image processing
 subsection of images:
 </P>
 
@@ -72,13 +72,20 @@ variable, but separated by semicolons, eg:
 </PRE>
 
 <P>
-You can also add docentries to .eht files. The entry has this form:
+You can also add docentries to .eht and .html files. for an .eht file, the
+entry has similar syntax to a class:
+<PRE>
+! docentry="Ravl.Applications.conv"
+</PRE>
+
+<P>For .html files, the
+entry has this form:
 </P>
 <PRE>
 &lt;!--! docentry="Ravl.API.GUI.Data_Display" --&gt;
 </PRE>
 <P>
-The entry should appear in the <code>&lt;head&gt;</code> part of the  file, if it exists.  (.eht files are in effect html files, and so should have head and body parts.)
+The entry should appear in the <code>&lt;head&gt;</code> part of the  file. 
 </P>
 
 <P>
