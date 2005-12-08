@@ -1,5 +1,5 @@
 ! author="Bill Christmas, Charles Galambos"
-!children="Introduction;Getting Started;QMake;Documentation;API;Applications" 
+!children="API;Introduction;QMake;Documentation;Applications" 
 : Recognition And Vision Library 
 
 <p>RAVL provides a base C++ class library, together with a range of
