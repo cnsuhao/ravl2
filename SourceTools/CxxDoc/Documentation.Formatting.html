@@ -169,8 +169,8 @@ Polops.def, Mimage.def, Mpxl.def, Marr.def and Mopt.def.
 <TD>
 <h2>Comments:</h2>
 <p> 
- <A HREF="BaseRangeC.html" >BaseRangeC</A> is a virtual abstract base class from which <A HREF="ByteRangeC.html" >ByteRangeC</A>, 
- <A HREF="FloatRangeC.html" >FloatRangeC</A> and <A HREF="VectRangeC.html" >VectRangeC</A> will be inherited.<p>
+ <A HREF="../Class/BaseRangeC.html" >BaseRangeC</A> is a virtual abstract base class from which <A HREF="../Class/ByteRangeC.html" >ByteRangeC</A>, 
+ <A HREF="../Class/FloatRangeC.html" >FloatRangeC</A> and <A HREF="../Class/VectRangeC.html" >VectRangeC</A> will be inherited.<p>
 
  The i/o routines do have basic error checks.<p>
 
@@ -181,7 +181,7 @@ Polops.def, Mimage.def, Mpxl.def, Marr.def and Mopt.def.
 
  Range data is much more complicated than image data. It can be
  sampled on a regular grid or not, the grid spacings may vary.
- Together <A HREF="ByteRangeC.html" >ByteRangeC</A>, <A HREF="FloatRangeC.html" >FloatRangeC</A> and <A HREF="VectRangeC.html" >VectRangeC</A> provide a powerful
+ Together <A HREF="../Class/ByteRangeC.html" >ByteRangeC</A>, <A HREF="../Class/FloatRangeC.html" >FloatRangeC</A> and <A HREF="../Class/VectRangeC.html" >VectRangeC</A> provide a powerful
  set of functionality. For accurate results it is important to understand
  precisely how the system is set up.<p>
 
@@ -231,21 +231,21 @@ Polops.def, Mimage.def, Mpxl.def, Marr.def and Mopt.def.
  gridsize.X = (gridmax.X - gridmin.X) / (ncols-1)
 
  <pre>
- <A HREF="PixelC.html" >PixelC</A> OfVect(const <A HREF="Vector3dC.html" >Vector3dC</A> vect) const
+ <A HREF="../Class/PixelC.html" >PixelC</A> OfVect(const <A HREF="../Class/Vector3dC.html" >Vector3dC</A> vect) const
  {
-   return <A HREF="PixelC.html" >PixelC</A> (int(floor((vect.Y()-gridmin.Y())/gridsize.Y())),
+   return <A HREF="../Class/PixelC.html" >PixelC</A> (int(floor((vect.Y()-gridmin.Y())/gridsize.Y())),
                   int(floor((vect.X()-gridmin.X())/gridsize.X())));
  }
 
- <A HREF="Vector3dC.html" >Vector3dC</A> GetVect(const <A HREF="PixelC.html" >PixelC</A> & pxl) const
+ <A HREF="../Class/Vector3dC.html" >Vector3dC</A> GetVect(const <A HREF="../Class/PixelC.html" >PixelC</A> & pxl) const
  {
-   return <A HREF="Vector3dC.html" >Vector3dC</A> ((pxl.Col()+0.5)*gridsize.X()+gridmin.X(), 
+   return <A HREF="../Class/Vector3dC.html" >Vector3dC</A> ((pxl.Col()+0.5)*gridsize.X()+gridmin.X(), 
                      (pxl.Row()+0.5)*gridsize.Y()+gridmin.Y(), 
                      f_data[pxl]);
  }
  </pre>
 
- The conversion from to a <A HREF="ByteRangeC.html" >ByteRangeC</A> uses the same scheme for z noting that
+ The conversion from to a <A HREF="../Class/ByteRangeC.html" >ByteRangeC</A> uses the same scheme for z noting that
  the range of valid pixels is 1..255, "nrows"=255.<p>
 
  A vector range image may contain any vector in any pixel. If the 

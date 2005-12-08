@@ -152,6 +152,7 @@ namespace RavlGUIN {
   ////////////////////////////
   //! userlevel=Normal
   //: Play Control GUI interface.
+  // This class implements a video player object for inclusino in GUI applications.  See <a href = "../../../Application/VPlay.html">VPlay</a> for an example of use.
   
   class PlayControlC 
     : public LBoxC

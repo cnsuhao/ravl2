@@ -13,6 +13,6 @@ href="../../../html/tutorial.html">this tutorial</a>.  For advanced
 users, the <a href="http://www.gtk.org/tutorial">GTK tutorial</a>
  is also very helpful.<p>
 
-Finally, users of the class <a href="../Auto/Basic/Class/RavlGUIN.CanvasC.html">CanvasC</a>
+Finally, users of the class <a href="../Class/RavlGUIN.CanvasC.html">CanvasC</a>
 who want to use the colours might find
 <a href="../../../html/canvas_colours.html">this colour grid</a> useful.

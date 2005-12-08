@@ -26,7 +26,7 @@ graph, each node corresponding to a data representation, and the edges
 as transformations between them. The problem of finding the quickest
 way of converting one type to another becomes one of searching for
 the shortest path through the graph. This is a well-known and studied
-problem, and is easily solved.  Figure <A HREF="Ravl.Core.IO.Type_Converter.html#fig:typeconv">17</A> shows a
+problem, and is easily solved.  Figure <A HREF="Ravl.API.Core.IO.Type_Converter.html#fig:typeconv">17</A> shows a
 simple type conversion graph. The numbers shown next to the edges are
 the defined costs of conversions which will be discussed next.  It is
 possible to convert between any two nodes in this graph even though
@@ -35,7 +35,7 @@ justifies the added complexity of using such graphs, over a simple
 conversion list.
 
 <P>
-The nodes of the graph in Figure <A HREF="Ravl.Core.IO.Type_Converter.html#fig:typeconv">17</A>, are represented
+The nodes of the graph in Figure <A HREF="Ravl.API.Core.IO.Type_Converter.html#fig:typeconv">17</A>, are represented
 by the class `DPTypeInfoC', and the edges by the class `DPProcInfoC'.
 Both these classes contains virtual methods which allow the type conversion
 mechanism both to handle data, and construct conversion pipes without

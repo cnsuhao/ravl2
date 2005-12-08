@@ -9,14 +9,14 @@ The standard C++ stream mechanism (See "The C++ Programming Language" by
 B. Stroustrup) will read and write objects in a format unique to RAVL.
 The details for this mechanism and a variation that allows the
 creation of binary streams can be found in <a
-href="Ravl.Core.IO.Streams.html">Ravl.Core.IO.Streams</a>. On the other hand,
+href="Ravl.API.Core.IO.Streams.html">Rav.APIl.Core.IO.Streams</a>. On the other hand,
 <code>Load()</code> / <code>Save()</code> mechanism is useful where
 there is a choice of file formats, or where implicit data conversion
 is needed.
 <p>
 There is also a mechanism for dealing with sequences of objects, a
 description of which can be found in <a
-href="Ravl.OS.Sequence.html">Ravl.OS.Sequence</a>.
+href="Ravl.API.OS.Sequence.html">Ravl.API.OS.Sequence</a>.
 
 <h2> <a name="LoadSave"></a>Using the <a href=
 "../Class/RavlN.LoadObconst_StringC_Amp_DataT_Amp_StringC_boolCb.html">
@@ -26,7 +26,7 @@ href="Ravl.OS.Sequence.html">Ravl.OS.Sequence</a>.
 The <code>Load()</code> / <code>Save()</code> global functions provide a more
 sophisticated I/O mechanism.  They were originally developed for the <a
 href="../Class/RavlImageN.ImageC.html">ImageC</a> template class (see <a
-href="Ravl.Images.IO.html">Image I/O</a>), but are now available for 
+href="Ravl.API.Images.IO.html">Image I/O</a>), but are now available for 
 other classes as well.  The mechanism identifies the type of file being loaded,
 and selects the appropriate code for loading it, if it exists.  It will also do
 certain type conversions automatically where its is deemed safe to do so.  The

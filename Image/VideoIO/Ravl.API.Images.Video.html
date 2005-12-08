@@ -8,7 +8,7 @@
       Input and output of image sequences are handled in RAVL in a similar way
       to sequences of any other kind of object. Details of how sequences work
       in general in RAVL can be found in <a
-      href="Ravl.OS.Sequence.html">Ravl.OS.Sequence</a>, but see <a
+      href="Ravl.API.OS.Sequence.html">Ravl.API.OS.Sequence</a>, but see <a
       href="#EXAMPLE">below</a> for a video-based example.  The differences
       between image sequences and other RAVL sequences are:</p>
 
@@ -24,11 +24,11 @@
       automatically done.</li> 
       
       <li>Where the image sequence is stored one image per file, an automatic
-      <a href="Ravl.OS.Sequence.Numbered_Files.html"> file numbering system
+      <a href="Ravl.API.OS.Sequence.Numbered_Files.html"> file numbering system
       </a> is used.</li>
 
       <li>As well as reading and writing files, the <a
-      href="Ravl.Core.IO.Virtual_Files.html">virtual files</a>
+      href="Ravl.API.Core.IO.Virtual_Files.html">virtual files</a>
       mechanism provides direct access to selected devices such as a
       window on the screen.</li>
     </ul>
@@ -41,14 +41,14 @@
       some of the built-in ones:</p>
 
     <ul>
-      <li> <a href="Ravl.Images.IO.html#FORMATS">Image-based</a>, one image to a file using the  <a href="Ravl.OS.Sequence.Numbered_Files.html">file sequence mechanism</a></li>
+      <li> <a href="Ravl.API.Images.IO.html#FORMATS">Image-based</a>, one image to a file using the  <a href="Ravl.API.OS.Sequence.Numbered_Files.html">file sequence mechanism</a></li>
       <li><b>sqcif</b> Binary byte YUV420 images, 72 by 88
       <li><b>qcif</b>  Binary byte YUV420 images, 144 by 176
       <li><b>cif</b>  Binary byte YUV420 images, 288 by 352
       <li><b>4cif</b>  Binary byte YUV420 images, 576 by 704
       <li><b>16cif</b>  Binary byte YUV420 images, 1152 by 1408
       <li><b>yuv</b> Binary byte YUV images, 576 by 720
-      <li><b>syuv</b> Binary byte YUV images, 576 by 720, <a href="Ravl.OS.Sequence.Numbered_Files.html">one image to a file</a>
+      <li><b>syuv</b> Binary byte YUV images, 576 by 720, <a href="Ravl.API.OS.Sequence.Numbered_Files.html">one image to a file</a>
       <li><b>rgb</b>  Binary byte RGB images, 242 by 360
       <li><b>rgb2</b> Binary byte RGB images, 288 by 384
       <li><b>frgb</b> Binary byte RGB images, 484 by 720
@@ -59,7 +59,7 @@
     
     <p> If the video format that you wish to use is not listed above,
     then you may need to include  <a
-    href="Ravl.Images.Video.Video_IO.html"> other external libraries</a>.
+    href="Ravl.API.Images.Video.Video_IO.html"> other external libraries</a>.
     </p>
 
     <h2><a name="EXAMPLE">Programming the video I/O</a></h2>
@@ -124,7 +124,7 @@ USESLIBS = RavlVideoIO ....
     <p> Most video sequence IO is handled via <a
     href="../Class/RavlN.DPOPortC.html"> DP[I|O]PortC </a> and derivatives,
     and therefore has support for the data processing <a
-    href="Ravl.Core.Data_Processing.Attributes.html"> attribute system. </a>
+    href="Ravl.API.Core.Data_Processing.Attributes.html"> attribute system. </a>
     </p>
 
     Some attributes are common to most video sequence classes. A list of common attributes are :-

@@ -11,14 +11,14 @@
     There are several tools implemented in the basic library to allow complex
 data flows to be composed.   The first is a simple process which `taps'
 the data flowing through a pipe and puts it out into another data pipe.
-This tap process is shown in Figure <A HREF="Ravl.Core.Data_Processing.Taps.html#fig:tap">3</A>.  
+This tap process is shown in Figure <A HREF="Ravl.API.Core.Data_Processing.Taps.html#fig:tap">3</A>.  
 
 <P>
 There is a helper function which constructs a tap with the appropriate
 types: `DPTap&lt;&gt;' takes one argument, the destination to put the
 tapped data.  The example opens an output stream on stdout, to which
 it sends all the processed data as well as saving it to the file
-`out.dat'. Figure <A HREF="Ravl.Core.Data_Processing.Taps.html#fig:extap">4</A> shows a graphical representation
+`out.dat'. Figure <A HREF="Ravl.API.Core.Data_Processing.Taps.html#fig:extap">4</A> shows a graphical representation
 of the stream created.
 
 <P>

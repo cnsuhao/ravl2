@@ -28,21 +28,21 @@ from using more explicit representation of the data flow through a
 program.  The flow of data in a program is only linear in the simplest
 cases, so to make things clearer we will adopt a diagram notation for
 the data stream.  The basic components of these diagrams are show in
-Figures <A HREF="Ravl.Core.Data_Processing.html#fig:source">1(a)</A>, <A HREF="Ravl.Core.Data_Processing.html#fig:sink">1(b)</A>, <A HREF="Ravl.Core.Data_Processing.html#fig:pump">1(c)</A>, <A HREF="Ravl.Core.Data_Processing.html#fig:fifo">1(d)</A> and
-<A HREF="Ravl.Core.Data_Processing.html#fig:process">1(e)</A>.  As stated earlier the convention of keeping the data
+Figures <A HREF="Ravl.API.Core.Data_Processing.html#fig:source">1(a)</A>, <A HREF="Ravl.API.Core.Data_Processing.html#fig:sink">1(b)</A>, <A HREF="Ravl.API.Core.Data_Processing.html#fig:pump">1(c)</A>, <A HREF="Ravl.API.Core.Data_Processing.html#fig:fifo">1(d)</A> and
+<A HREF="Ravl.API.Core.Data_Processing.html#fig:process">1(e)</A>.  As stated earlier the convention of keeping the data
 flow from left to right is maintained.
 
 <P>
 In the stream model we need a `source' of data to process as shown in
-Figure <A HREF="Ravl.Core.Data_Processing.html#fig:source">1(a)</A> and a `sink' to send the data to, when it has
-been processed, seen in Figure <A HREF="Ravl.Core.Data_Processing.html#fig:sink">1(b)</A>.  In this library both
+Figure <A HREF="Ravl.API.Core.Data_Processing.html#fig:source">1(a)</A> and a `sink' to send the data to, when it has
+been processed, seen in Figure <A HREF="Ravl.API.Core.Data_Processing.html#fig:sink">1(b)</A>.  In this library both
 the source and the sink (or input and output) are passive.  To drive
 the flow of data we need a component drive the flow, this is the
-`pump' shown in Figure <A HREF="Ravl.Core.Data_Processing.html#fig:pump">1(c)</A>. Figure <A HREF="Ravl.Core.Data_Processing.html#fig:fifo">1(d)</A> shows a
+`pump' shown in Figure <A HREF="Ravl.API.Core.Data_Processing.html#fig:pump">1(c)</A>. Figure <A HREF="Ravl.API.Core.Data_Processing.html#fig:fifo">1(d)</A> shows a
 FIFO (First In First Out) buffer, in a queue of data for processing
 can be stored.  And finally we need to do some processing or
 transformations on the data, this is done by a process, shown in
-Figure <A HREF="Ravl.Core.Data_Processing.html#fig:process">1(e)</A>.
+Figure <A HREF="Ravl.API.Core.Data_Processing.html#fig:process">1(e)</A>.
 
 <P>
 All these components have corresponding classes in the system. Sources
@@ -79,7 +79,7 @@ Data processing Components</CAPTION>
 </DIV>
 
 <P>
-Figure <A HREF="Ravl.Core.Data_Processing.html#fig:spipe">2</A> shows a simple process taking data in
+Figure <A HREF="Ravl.API.Core.Data_Processing.html#fig:spipe">2</A> shows a simple process taking data in
 processing it and outputting it.  The circle indicates where the
 'pump' for the pipe is located.  In this case the pipe is driven from
 its sink end, pulling data through the pipe. By default the system puts

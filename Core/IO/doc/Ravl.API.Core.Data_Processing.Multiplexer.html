@@ -21,13 +21,13 @@ Multiplex processing.</CAPTION>
 <P>
 If an operation in the pipeline is particularly slow, we may wish to
 process the data in parallel. This can be done with a multiplexer,
-shown in Figure <A HREF="Ravl.Core.Data_Processing.Multiplexer.html#fig:multiplex">13</A>.  Together with separate
+shown in Figure <A HREF="Ravl.API.Core.Data_Processing.Multiplexer.html#fig:multiplex">13</A>.  Together with separate
 processing threads it can be used to run any number of processing steps
 in parallel. The multiplexer ensures that each `Put' and `Get' from
 the corresponding sub-processes match, ensuring that the order of the
 data is preserved.  The example given bellow creates 3 threads to do
 the offset and scaling operation in parallel. Figure
-<A HREF="Ravl.Core.Data_Processing.Multiplexer.html#fig:ex_multiplex">14</A> shows the structure created, with some slight
+<A HREF="Ravl.API.Core.Data_Processing.Multiplexer.html#fig:ex_multiplex">14</A> shows the structure created, with some slight
 simplifications.
 
 <P>

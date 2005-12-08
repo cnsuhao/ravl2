@@ -19,12 +19,12 @@ Buffer.</CAPTION>
 <P>
 If we wish to pipeline an operation we need to place buffers in the
 processing stream. We can do this with the `DPBufferC&lt;&gt;' class,
-shown in Figure <A HREF="Ravl.Core.Data_Processing.Buffers.html#fig:buffer">11</A>. We can use this together with the
+shown in Figure <A HREF="Ravl.API.Core.Data_Processing.Buffers.html#fig:buffer">11</A>. We can use this together with the
 `pump' operator to create a processing pipeline. The pipeline below
 uses 3 threads: one for reading the data, one for processing the data
 and finally one to write the data out again.  All this can be setup
 with a single, if long, line of code given bellow.  A diagram of the
-pipe created is given in figure <A HREF="Ravl.Core.Data_Processing.Buffers.html#fig:exbuffer">12</A>. It is easy to
+pipe created is given in figure <A HREF="Ravl.API.Core.Data_Processing.Buffers.html#fig:exbuffer">12</A>. It is easy to
 extent this pipe line to include any number of processing steps. Since
 a pipe line is only as fast as its slowest element it is useful to
 balance the processing by grouping fast processes together. This is
