@@ -14,7 +14,7 @@ $(ifset:!toroot:$(set:toroot=../..))
 $(ifset:othpagemode:<a href="$(othref:)"><B>$(uppercase:$(othpagemode))</B></a>)
 $(else:<a href="$(othlink)"><B>$(uppercase:$(othname))</B></a>)</font></td>
 <td width=25% align="middle"><font size="-1" face="helvetica,arial">
-<a href="http://ravl.sourceforge.net"><B>HOME PAGE</B></a></font></td>
+<a href="$(toroot)/Basic/Tree/Ravl.html"><B>HOME PAGE</B></a></font></td>
 <td width=25% align="middle"><font size="-1" face="helvetica,arial">
 <a href="$(toroot)/Basic/index.html"><B>CLASS LIST</B></a></font></td>
 <td width=25% align="middle"><font size="-1" face="helvetica,arial">
