@@ -1,5 +1,5 @@
 ! author="Bill Christmas, Charles Galambos"
-!children="API;Introduction;QMake;Documentation;Applications" 
+! children="API;Introduction;QMake;Documentation;Applications" 
 : Recognition And Vision Library 
 
 <p>RAVL provides a base C++ class library, together with a range of
@@ -21,18 +21,6 @@ You can search the latest RAVL CVS documentation:
 </center>
 </p> 
 
-
-<P>
-You can search the latest RAVL release documentation (very old):
-<!-- Search -->
-<CENTER>
-<FORM method="GET" action="http://ravl.sourceforge.net/search/search.php">
-<INPUT TYPE=text name=search size=31 maxlength=255 value="">
-<INPUT TYPE=hidden name=page value=1>
-<INPUT type=submit VALUE="Search RAVL">
-</FORM>
-</center></p>
-<!-- Search -->
 
 <p>NOTE: The RAVL search engine is still in testing, if you have any problems, please mail <A HREF="mailto:smith@omniperception.com">James Smith</A> with details.</p>
 
