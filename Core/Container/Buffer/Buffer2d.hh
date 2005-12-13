@@ -14,16 +14,7 @@
 //! author="Charles Galambos"
 
 #include "Ravl/Buffer.hh"
-
-// To use single buffer uncomment the following
-
-#define RAVL_BUFFER2D_USE_SINGLEBUFFER 1
-
-#ifdef RAVL_BUFFER2D_USE_SINGLEBUFFER
-
 #include "Ravl/SingleBuffer.hh"
-
-#endif
 
 //: Ravl global namespace.
 
@@ -34,33 +25,29 @@ namespace RavlN {
   // This holds a handle to data used in various 2d arrays.
   
   template<class DataT>
-  class Buffer2dBodyC 
-    : public BufferBodyC<BufferAccessC<DataT> >
+  class Buffer2dBodyC :
+    public BufferBodyC<BufferAccessC<DataT> >
   {
   public:
     Buffer2dBodyC()
     {}
     //: Default constructor.
 
-    Buffer2dBodyC(SizeT size1,SizeT size2)
-      : BufferBodyC<BufferAccessC<DataT> >(size1),
-#ifdef RAVL_BUFFER2D_USE_SINGLEBUFFER
-        data(SingleBufferC<DataT>(size2 * size1))
-#else
-        data(size2 * size1)
-#endif
+    Buffer2dBodyC(SizeT size1,SizeT size2) :
+      BufferBodyC<BufferAccessC<DataT> >(size1,ptrArray,false,false),
+      data(SingleBufferC<DataT>(size2 * size1))
     {}
     //: Sized constructor.
     
-    Buffer2dBodyC(SizeT size1,SizeT size2,DataT *data,bool copy = false,bool deletable = true)
-      : BufferBodyC<BufferAccessC<DataT> >(size1),
-        data(size1 * size2,data,copy, deletable)
+    Buffer2dBodyC(SizeT size1,SizeT size2,DataT *data,bool copy = false,bool deletable = true) :
+      BufferBodyC<BufferAccessC<DataT> >(size1,ptrArray,false,false),
+      data(size1 * size2,data,copy, deletable)
     {}
     //: Sized constructor.
     
-    Buffer2dBodyC(const BufferC<DataT> &dat,SizeT size1)
-      : BufferBodyC<BufferAccessC<DataT> >(size1),
-        data(dat)
+    Buffer2dBodyC(const BufferC<DataT> &dat,SizeT size1) :
+      BufferBodyC<BufferAccessC<DataT> >(size1,ptrArray,false,false),
+      data(dat)
     {}
     //: Construct a buffer with data area 'dat' and an access buffer with 'size1' entries.
     
@@ -82,8 +69,10 @@ namespace RavlN {
     
   protected:
     BufferC<DataT> data;    
+    
+    BufferAccessC<DataT> ptrArray[1];
   };
-
+  
   //! userlevel=Develop
   //: Buffer2D 
   // This holds a handle to data used in various 2d arrays.
@@ -98,23 +87,28 @@ namespace RavlN {
     //: Default constructor.
     // creates an invalid handle.
     
-    Buffer2dC(SizeT size1,SizeT size2)
-      : BufferC<BufferAccessC<DataT> >(*new Buffer2dBodyC<DataT>(size1,size2))
+    Buffer2dC(SizeT size1,SizeT size2) :
+      BufferC<BufferAccessC<DataT> >(*new(AllocBody(size1)) Buffer2dBodyC<DataT>(size1,size2))
     {}
     //: Sized constructor.
     
-    Buffer2dC(const BufferC<DataT> &dat,SizeT size1)
-      : BufferC<BufferAccessC<DataT> >(*new Buffer2dBodyC<DataT>(dat,size1)) 
+    Buffer2dC(const BufferC<DataT> &dat,SizeT size1) :
+      BufferC<BufferAccessC<DataT> >(*new(AllocBody(size1)) Buffer2dBodyC<DataT>(dat,size1))
     {}
     //: Construct a buffer with data area 'dat' and an access buffer with 'size1' entries.
     
-    Buffer2dC(SizeT size1,SizeT size2,DataT *data,bool copy = false,bool deletable = true)
-      : BufferC<BufferAccessC<DataT> >(*new Buffer2dBodyC<DataT>(size1,size2,data,copy,deletable)) 
+    Buffer2dC(SizeT size1,SizeT size2,DataT *data,bool copy = false,bool deletable = true) :
+      BufferC<BufferAccessC<DataT> >(*new(AllocBody(size1)) Buffer2dBodyC<DataT>(size1,size2,data,copy,deletable))
     {}
     //: Construct from an existing buffer.
     
   protected:
-
+    static Buffer2dBodyC<DataT> *AllocBody(SizeT size) {
+      if(size < 1) size = 1;
+      return reinterpret_cast<Buffer2dBodyC<DataT> *> (malloc(sizeof(Buffer2dBodyC<DataT>) + (size-1) * sizeof(BufferAccessC<DataT>)));
+    }
+    //: Allocate a body object plus some space.
+    
     Buffer2dBodyC<DataT> &Body()
     { return static_cast<Buffer2dBodyC<DataT> &>(BufferC<BufferAccessC<DataT> >::Body()); }
     //: Access body.
