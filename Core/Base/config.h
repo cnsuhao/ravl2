@@ -211,10 +211,10 @@
 #define RAVL_HAVE_STREAMSIZE      (RAVL_HAVE_STDNAMESPACE || RAVL_COMPILER_GCC)  /* have streamsize type. */
 #define RAVL_HAVE_STREAMASCLASS   !RAVL_HAVE_STDNAMESPACE    /* istream and ostream are classes not typedefs. */
 #define RAVL_VISUALCPP_NAMESPACE_BUG RAVL_COMPILER_VISUALCPP /* Bug in namespace handling under Visual C++ 6.x */
-#define RAVL_VISUALCPP_TYPENAME_BUG (RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET) /* Restrictions in using keyword 'typename' in Visual C++ 6.x */
-#define RAVL_ISTREAM_UNGET_BUG    RAVL_COMPILER_VISUALCPP    /* Bug in stream unget under Visual C++ 6.x */
+#define RAVL_VISUALCPP_TYPENAME_BUG RAVL_COMPILER_VISUALCPP6 /* Restrictions in using keyword 'typename' in Visual C++ 6.x */
+#define RAVL_ISTREAM_UNGET_BUG    RAVL_COMPILER_VISUALCPP6    /* Bug in stream unget under Visual C++ 6.x */
 #define RAVL_NEW_ANSI_CXX_DRAFT   (RAVL_COMPILER_GCC || RAVL_COMPILER_VISUALCPPNET) /* The mainly effects the use of <> in templated friend declarations */
-#define RAVL_HAVE_STRINGSTREAM    (RAVL_COMPILER_GCC3 || RAVL_COMPILER_GCC4)        /* Use stringstream instead of strstream */
+#define RAVL_HAVE_STRINGSTREAM    (RAVL_COMPILER_GCC3 || RAVL_COMPILER_GCC4 || RAVL_COMPILER_VISUALCPPNET) /* Use stringstream instead of strstream */
 #define RAVL_HAVE_GCCCLASSVISIBILITY  RAVL_COMPILER_GCC4     /* Do we have the class visibility options introduced in GCC 4.0 */
 #define RAVL_HAVE_TEMPLATEINSTANTIATE (RAVL_COMPILER_GCC3 && __GNUC_MINOR__ < 4)  /* Do we have forced template instanciation ? */
 #define RAVL_HAVE_TEMPLATEREQUIREALLDEFINITIONS (RAVL_COMPILER_GCC3_4 || RAVL_COMPILER_GCC4)  /* Do we have forced template instanciation ? */

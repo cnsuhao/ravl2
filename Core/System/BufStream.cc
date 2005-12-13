@@ -107,11 +107,11 @@ namespace RavlN {
   
   BufIStreamC::BufIStreamC(const SArray1dC<char> &dat) 
     :
-#if RAVL_COMPILER_VISUALCPP
-    IStreamC(*(iss = new istrstream(const_cast<char *>(dat.ReferenceElm()),dat.Size())),true),
-#else
 #if RAVL_HAVE_STRINGSTREAM
     IStreamC(*(iss = new istringstream(string(dat.ReferenceElm(),dat.Size()))),true),
+#else
+#if RAVL_COMPILER_VISUALCPP
+    IStreamC(*(iss = new istrstream(const_cast<char *>(dat.ReferenceElm()),dat.Size())),true),
 #else
     IStreamC(*(iss = new istrstream(dat.ReferenceElm(),dat.Size())),true),
 #endif
