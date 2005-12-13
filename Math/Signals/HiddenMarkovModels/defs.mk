@@ -18,3 +18,5 @@ PLIB=RavlHMM
 USESLIBS=RavlCore
 
 EXAMPLES=exHiddenMarkovModel.cc
+
+TESTEXES=testHiddenMarkovModel.cc

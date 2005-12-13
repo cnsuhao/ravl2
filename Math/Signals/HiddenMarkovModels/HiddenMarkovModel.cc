@@ -24,10 +24,12 @@ namespace RavlN {
     RavlAssert(transition.Cols() == confusion.Rows());
     for(UIntT i = 0;i < transition.Cols();i++) {
       if((Abs(transition.SliceColumn(i).Sum() - 1) > 0.00000001)) {
-	cerr << "WARNING: Transition matrix row " << i << " sums to " << transition.SliceRow(i).Sum() << "\n";
+	cerr << "WARNING: Transition matrix col " << i << " sums to " << transition.SliceColumn(i).Sum() << "\n";
       }
-      if(Abs(confusion.SliceRow(i).Sum() - 1) > 0.00000001) {
-	cerr << "WARNING: Confusion matrix row " << i << " sums to " << transition.SliceRow(i).Sum() << "\n";
+    }
+    for(UIntT i = 0;i < confusion.Cols();i++) {
+      if(Abs(confusion.SliceColumn(i).Sum() - 1) > 0.00000001) {
+	cerr << "WARNING: Confusion matrix col " << i << " sums to " << confusion.SliceColumn(i).Sum() << "\n";
       }
     }
   }
@@ -36,10 +38,10 @@ namespace RavlN {
   
   VectorC HiddenMarkovModelC::Forward(const VectorC &state,const VectorC &observation) {
     VectorC stateProb = (confusion * observation);
-    cerr << "StateProb=" << stateProb <<"\n";
+    //cerr << "StateProb=" << stateProb <<"\n";
     return (transition * state) * stateProb;
   }
-
+  
   class HMMViterbiStateC {
   public:
     HMMViterbiStateC()
@@ -112,7 +114,7 @@ namespace RavlN {
       path[i] = max.V();
       max = stateProb[i].Source()[max];
     }
-    cerr << "Path=" << path << "\n";
+    //cerr << "Path=" << path << "\n";
     return true;
   }
 
