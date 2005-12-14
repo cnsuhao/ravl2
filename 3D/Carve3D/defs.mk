@@ -12,4 +12,6 @@ SOURCES=VoxelSet.cc PointSet.cc SurfacePoint3dArray.cc
 PLIB=Ravl3D
 LIBDEPS=RavlCarve3D.def
 USESLIBS=RavlCore RavlMath RavlImage RavlCameraCal
-EHT=Ravl.API.3D.Carve3D.html
+
+#Unlinked EHT as it no longer seems to be relevant
+#EHT=Ravl.API.3D.Carve3D.html
