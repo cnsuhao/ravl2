@@ -18,7 +18,7 @@ namespace RavlAudioN {
   using namespace RavlN;
   
   //! userlevel=Normal
-  //: Sample across input channels.
+  //: Sample across N input channels of audio samples of type SampleT.
   
   template<unsigned int N,typename SampleT>
   struct SampleElemC {
