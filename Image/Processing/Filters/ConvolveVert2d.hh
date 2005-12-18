@@ -77,10 +77,12 @@ namespace RavlImageN {
       result = ImageC<OutPixelT>(resRect); // If its not make another.
     UIntT ksize = colKernel.Range().Size();
     IntT rowSep = in.Stride();
+    const KernelPixelT *ikp = &(colKernel[colKernel.IMin()]);
+    const KernelPixelT *eol = &ikp[ksize];
+    const IntT koff = colKernel.IMin().V() * rowSep;
     for(Array2dIter2C<OutPixelT,InPixelT> it(result,in,resRect);it;it++) { // ,resRect
-      const KernelPixelT *kp = &(colKernel[colKernel.IMin()]);
-      const KernelPixelT *eol = &kp[ksize];
-      const InPixelT *ip = &((&it.Data2())[colKernel.IMin().V() * rowSep]);
+      const KernelPixelT *kp = ikp;
+      const InPixelT *ip = &((&it.Data2())[koff]);
       SumTypeT sum = (SumTypeT) ((*ip) * (*kp));
       ip += rowSep;
       kp++;

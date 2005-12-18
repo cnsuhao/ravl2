@@ -77,9 +77,10 @@ namespace RavlImageN {
     if(!result.Rectangle().Contains(resRect)) // Check the result rectangle is large enough.
       result = ImageC<OutPixelT>(resRect); // If its not make another.
     UIntT ksize = rowKernel.Range().Size();
+    const KernelPixelT *ikp = &(rowKernel[rowKernel.IMin()]);
+    const KernelPixelT *eol = &ikp[ksize];
     for(Array2dIter2C<OutPixelT,InPixelT> it(result,in,resRect);it;it++) { // ,resRect
-      const KernelPixelT *kp = &(rowKernel[rowKernel.IMin()]);
-      const KernelPixelT *eol = &kp[ksize];
+      const KernelPixelT *kp = ikp;
       const InPixelT *ip = &((&it.Data2())[rowKernel.IMin().V()]);
       SumTypeT sum = (SumTypeT) ((*ip) * (*kp));
       ip++;

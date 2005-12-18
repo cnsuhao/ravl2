@@ -73,6 +73,15 @@ namespace RavlImageN {
     const IndexRange2dC WarpMapFrame() const
     { return warpMap.Frame(); }
     //: Access warp map frame.
+    
+    const ImageC<Affine2dC *> &WarpMap()
+    { return warpMap; }
+    // Map of pixels to faces.
+    
+    const SArray1dC<Affine2dC> &TransformMap()
+    { return transforms; }
+    // Affine transform for each face.
+    
   protected:
     TriMesh2dC homeMesh;
     ImageC<Affine2dC *> warpMap; // Map of pixels to faces.
