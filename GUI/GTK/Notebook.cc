@@ -111,6 +111,20 @@ namespace RavlGUIN {
       gtk_notebook_set_show_border(GTK_NOTEBOOK (widget), showborder);
     
     gtk_widget_show(widget);
+
+    //cerr << "NotebookBodyC::Create(), Creating pages. Widget=" << ((void *) this) << "\n";
+    for(DLIterC<WidgetC> it(children);it;it++) {
+      WidgetC tab;    
+      // Check we have a tab widget.
+      if(tabWidges.IsElm(*it))
+	tab = tabWidges[*it];
+      if(!tab.IsValid()) {
+	tab = LabelC("Tmp...");
+	tabWidges[*it] = tab;
+      }
+      FixupPage(*it,tab);
+    }
+    //cerr << "NotebookBodyC::Create(), Done with pages. \n";
     
     gtk_signal_connect(GTK_OBJECT(widget), "switch-page", GTK_SIGNAL_FUNC(notebook_switch_page), this);
     
