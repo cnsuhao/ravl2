@@ -32,7 +32,7 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    explicit VectorC(UIntT size)
+    explicit VectorC(SizeT size)
       : TVectorC<RealT>(size)
     {}
     //: Constructor.
@@ -60,7 +60,24 @@ namespace RavlN {
 	it.Data1() = static_cast<RealT>(it.Data2());
     }
     //: Convert from a float vector.
+
+    VectorC(const BufferC<RealT> &buf,SizeT size)
+      : TVectorC<RealT>(buf,size)
+    {}
+    //: Base class constructor.
     
+    VectorC(const BufferC<RealT> & vv,RealT *start, const SizeT dim)
+      : TVectorC<RealT>(vv,start,dim)
+    {}
+    //: Creates the array of size 'dim' using the buffer 'bf'.
+    // Use buffer 'bf',  make access of 'dim' elements. 
+    // the start of the buffer should be 'start'.
+    
+    static VectorC ConstructAligned(const SizeT dim,UIntT align)
+    { return VectorC(SingleBufferC<RealT>(dim,align),dim); }
+    //: Creates an uninitialized array with the range <0, 'dim'-1> and byte alignment of the first element 'align'
+    // align must be a power of 2.
+
     operator TVectorC<FloatT> () const {
       TVectorC<FloatT> ret(Size());
       for(BufferAccessIter2C<RealT,FloatT> it(*this,ret);it;it++)

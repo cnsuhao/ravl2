@@ -56,6 +56,18 @@ namespace RavlN {
     {}
     //: Constructor.
     
+    TVectorC(const BufferC<DataT> &buf,SizeT size)
+      : SArray1dC<DataT>(buf,size)
+    {}
+    //: Construct from buffer
+    
+    TVectorC(const BufferC<DataT> & vv,DataT *start, const SizeT dim)
+      : SArray1dC<DataT>(vv,start,dim)
+    {}
+    //: Creates the array of size 'dim' using the buffer 'bf'.
+    // Use buffer 'bf',  make access of 'dim' elements. 
+    // the start of the buffer should be 'start'.
+    
 #if !RAVL_COMPILER_VISUALCPP6
     template<unsigned int N>
     inline TVectorC(const TFVectorC<DataT,N> &dat)
