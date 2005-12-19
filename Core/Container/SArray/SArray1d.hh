@@ -61,11 +61,22 @@ namespace RavlN {
     //:---------------------------------------
     // Constructors, assigment, and destructor
     
-    SArray1dC();
+    SArray1dC()
+      : SizeBufferAccessC<DataT>(),
+        buff()
+    {}
     //: Create an array of zero length
     
-    explicit SArray1dC(const SizeT dim);
+    explicit inline SArray1dC(const SizeT dim)
+      : SizeBufferAccessC<DataT>(),
+        buff(SingleBufferC<DataT>(dim))
+    { Attach(buff,dim); }
     //: Creates an uninitialized array with the range <0, 'dim'-1>.
+    
+    static SArray1dC<DataT> ConstructAligned(const SizeT dim,UIntT align)
+    { return SArray1dC<DataT>(SingleBufferC<DataT>(dim,align),dim); }
+    //: Creates an uninitialized array with the range <0, 'dim'-1> and byte alignment of the first element 'align'
+    // align must be a power of 2.
     
     SArray1dC(const Slice1dC<DataT> &slice,bool alwaysCopy = true);
     //: Make an array from a slice.
@@ -73,31 +84,59 @@ namespace RavlN {
     // if the stride of the slice is not 1, and alwaysCopy is true the
     // a copy is done.
     
-    SArray1dC(const PairC<DataT> & pr);
+    inline SArray1dC(const PairC<DataT> & pr);
     //: Creates an array with two elements from a PairC object.
     
-    SArray1dC(const SArray1dC<DataT> & vv);
-    //: Another access to the array 'vv'.
+    inline SArray1dC(const SArray1dC<DataT> & vv)
+      : SizeBufferAccessC<DataT>(vv),
+        buff(vv.buff)
+    {}
+    //: Copy constructor.
+    // Another access to the array 'vv'.
     
-    SArray1dC(DataT *      data,
-	      const SizeT  dim,
-	      bool     removable = true);
+    inline SArray1dC(const SArray1dC<DataT> & vv,SizeT dim,SizeT offsetInBuff = 0);
+    //: The subarray of the 'vv' with size 'dim'.
+    
+    inline SArray1dC(DataT *data,const SizeT  dim,bool     removable = true);
     //: The array is created from the memory location 'data' with the range
     //: of access in <0, 'dim'-1>. 
     // If flag 'removable' is false, 'data' is not deallocated during 
     // destructing of the array.
     
-    SArray1dC(const BufferC<DataT> & bf,SizeT dim,SizeT offsetInBuff = 0);
+    inline SArray1dC(const BufferC<DataT> & bf,SizeT dim,SizeT offsetInBuff = 0)
+      : SizeBufferAccessC<DataT>(const_cast<BufferC<DataT> &>(bf).BufferAccess() + offsetInBuff, dim),
+        buff(bf)
+    {}
     //: Creates the array of size 'dim' using the buffer 'bf'.
     // Use buffer 'bf',  make access of 'dim' elements. 
     // the start of the buffer should be 'offsetInBuff' elements into
     // the buffer.
     
-    SArray1dC(const SArray1dC<DataT> & vv, const SizeT dim,SizeT offsetInBuff = 0);
-    //: The subarray of the 'vv' with size 'dim'.
-    
-    SArray1dC(const BufferC<DataT> & vv, const SizeBufferAccessC<DataT> &sbf);
+    inline SArray1dC(const BufferC<DataT> & bf, const SizeBufferAccessC<DataT> &sbf)
+      : SizeBufferAccessC<DataT>(sbf),
+        buff(bf)
+    {}
     //: Construct from a buffer an size buffer access.
+    
+    inline SArray1dC(const BufferC<DataT> & bf,DataT *start, const SizeT dim)
+      : SizeBufferAccessC<DataT>(start, dim),
+        buff(bf)
+    {}
+    //: Creates the array of size 'dim' using the buffer 'bf', with
+    //: 0'th element at start.
+    // Used for building SArray's from Arrays.
+    
+    SArray1dC<DataT> Align(UIntT alignment) const { 
+      if((((int) SizeBufferAccessC<DataT>::ReferenceElm()) & (alignment-1)) == 0)
+        return *this; // Data is already aligned
+      SArray1dC<DataT> ret = ConstructAligned(Size(),alignment);
+      for(BufferAccessIter2C<DataT,DataT> it(*this,ret);it;it++)
+        it.Data2() = it.Data1();
+      return ret;
+    }
+    //: Create a version of the array with first element on the given byte boundry.
+    // If the aligment is not a correct a copy of the array with the correct aligment is returned.
+    // Note: Alignment must be a power of two.
     
     SArray1dC<DataT> Copy() const;
     //: Creates a new physical copy of the array.
@@ -280,12 +319,6 @@ namespace RavlN {
     //: Returns the address of element 0.
     // If the array has zero length a null pointer may
     // be returned.
-  protected:
-    SArray1dC(BufferC<DataT> & bf,DataT *start, const SizeT dim);
-    //: Creates the array of size 'dim' using the buffer 'bf', with
-    //: 0'th element at start.
-    // Used for building SArray's from Arrays.
-    
   private:
         
     BufferC<DataT> buff;  // The reference counted storage.
@@ -336,12 +369,6 @@ namespace RavlN {
   }
   
   template <class DataT>
-  SArray1dC<DataT>::SArray1dC()
-    : SizeBufferAccessC<DataT>(),
-      buff()
-  {}
-
-  template <class DataT>
   SArray1dC<DataT>::SArray1dC(const PairC<DataT> & pr)
     : SizeBufferAccessC<DataT>(),
       buff(2)
@@ -368,18 +395,6 @@ namespace RavlN {
   }
   
   template <class DataT>
-  SArray1dC<DataT>::SArray1dC(const SizeT dim)
-    : SizeBufferAccessC<DataT>(),
-      buff(SingleBufferC<DataT>(dim))
-  { Attach(buff,dim); }
-  
-  template <class DataT>
-  SArray1dC<DataT>::SArray1dC(const SArray1dC<DataT> & vv)
-    : SizeBufferAccessC<DataT>(vv),
-      buff(vv.buff)
-  {}
-  
-  template <class DataT>
   SArray1dC<DataT>::SArray1dC(DataT *data, 
 			      SizeT dim,
 			      bool removable)
@@ -388,31 +403,11 @@ namespace RavlN {
   {}
   
   template <class DataT>
-  SArray1dC<DataT>::SArray1dC(const BufferC<DataT> & bf,SizeT dim,SizeT offsetInBuff)
-    : SizeBufferAccessC<DataT>(const_cast<BufferC<DataT> &>(bf).BufferAccess() + offsetInBuff, dim),
-      buff(bf)
-  {}
-
-  template <class DataT>
-  SArray1dC<DataT>::SArray1dC(BufferC<DataT> & bf,
-			      DataT *start, 
-			      const SizeT dim)
-    : SizeBufferAccessC<DataT>(start, dim),
-      buff(bf)
-  {}
-
-  template <class DataT>
-  SArray1dC<DataT>::SArray1dC(const BufferC<DataT> & bf, const SizeBufferAccessC<DataT> &sbf) 
-    : SizeBufferAccessC<DataT>(sbf),
-      buff(bf)
-  {}
-  
-  template <class DataT>
   SArray1dC<DataT>::SArray1dC(const SArray1dC<DataT> & vv, 
-			      const SizeT             dim,
+			      const SizeT  dim,
 			      SizeT offsetInBuff)
-  : SizeBufferAccessC<DataT>(vv.SAccess() + offsetInBuff, dim),
-    buff(vv.buff)
+    : SizeBufferAccessC<DataT>(vv.SAccess() + offsetInBuff, dim),
+      buff(vv.buff)
   {
     RavlAssert(vv.Size() >= (offsetInBuff + dim)); // Make sure its big enought.
   }
