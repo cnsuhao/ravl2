@@ -35,7 +35,7 @@ namespace RavlN {
 			      const BufferAccessC<Data5T> &buff5,
 			      const BufferAccessC<Data6T> &buff6,
  			      SizeT size)
-    { First(buff,buff2,buff3,buff4,size); }
+    { First(buff,buff2,buff3,buff4,buff5,buff6,size); }
     //: Constructor.
 
     inline BufferAccessIter6C(const BufferAccessC<Data1T> &buff1,const IndexRangeC &rng1,

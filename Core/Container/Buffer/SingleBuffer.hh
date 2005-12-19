@@ -131,17 +131,38 @@ namespace RavlN {
     : public BufferBodyC<DataT>
   {
   public:
-    SingleBufferBodyC(SizeT nsize) 
-      : BufferBodyC<DataT>(array,nsize)
-    { ConstructRawArray(&array[1],this->Size()-1); }
+    SingleBufferBodyC(SizeT nsize)
+      : BufferBodyC<DataT>(0,nsize,false)
+    { 
+#if RAVL_CPUTYPE_32
+      // Make sure buffer is 8-byte aligned.
+      this->buff = reinterpret_cast<DataT *>(&reinterpret_cast<char *>(&(this[1]))[4]);
+#else
+      this->buff = reinterpret_cast<DataT *>(&(this[1]));
+#endif
+      ConstructRawArray(this->buff,this->Size()); 
+    }
     //: Default constructor.
     
+    SingleBufferBodyC(SizeT nsize,UIntT align)
+      : BufferBodyC<DataT>(0,nsize,false)
+    {
+      // Align memory
+      char *buf = reinterpret_cast<char *>(&(this[1]));
+      UIntT alignm1 = align-1;
+      this->buff = reinterpret_cast<DataT *>(buf + ((align - (((IntT) buf) & alignm1)) & alignm1));
+      
+      // Construct array
+      ConstructRawArray(this->buff,this->Size()); 
+    }
+    //: Construct buffer with alignment
+    // Note: Aligment must be a power of 2
+    
     ~SingleBufferBodyC() 
-    { DestructRawArray(&array[1],this->Size()-1); }
+    { DestructRawArray(this->buff,this->Size()); }
     //: Destructor.
     
   protected:
-    DataT array[1];
   }; 
   
   //! userlevel=Advanced
@@ -158,19 +179,46 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
 
-    SingleBufferC(UIntT nsize) 
+    SingleBufferC(SizeT nsize) 
       : BufferC<DataT>(*AllocBody(nsize))
     {}
     //: Constructor.
     
+    SingleBufferC(SizeT nsize,UIntT align) 
+      : BufferC<DataT>(*AllocBody(nsize,align))
+    {}
+    //: Constructor.
+    // Note: Aligment must be a power of 2
+    
   protected:
     static SingleBufferBodyC<DataT> *AllocBody(SizeT size) {
-      if(size < 1) size = 1;
-      SingleBufferBodyC<DataT> *ret = reinterpret_cast<SingleBufferBodyC<DataT> *> (malloc(sizeof(SingleBufferBodyC<DataT>) + (size-1) * sizeof(DataT)));
-      new(ret) SingleBufferBodyC<DataT>(size);
+#if RAVL_CPUTYPE_32
+      // Make sure buffers are 8-byte aligned.
+      SingleBufferBodyC<DataT> *ret = reinterpret_cast<SingleBufferBodyC<DataT> *> (malloc(sizeof(SingleBufferBodyC<DataT>) + 4 + (size * sizeof(DataT))));
+#else
+      SingleBufferBodyC<DataT> *ret = reinterpret_cast<SingleBufferBodyC<DataT> *> (malloc(sizeof(SingleBufferBodyC<DataT>) + (size * sizeof(DataT))));
+#endif
+      try {
+        new(ret) SingleBufferBodyC<DataT>(size);
+      } catch(...) {
+        free(ret);
+        throw ;
+      }
       return ret;
     }
     //: Allocate a body object plus some space.
+    
+    static SingleBufferBodyC<DataT> *AllocBody(SizeT size,UIntT align) {
+      SingleBufferBodyC<DataT> *ret = reinterpret_cast<SingleBufferBodyC<DataT> *> (malloc(sizeof(SingleBufferBodyC<DataT>) + (size * sizeof(DataT)) + (align-1) ));
+      try {
+        new(ret) SingleBufferBodyC<DataT>(size,align);
+      } catch(...) {
+        free(ret);
+        throw ;
+      }
+      return ret;
+    }
+    //: Allocate a body object plus some space with alignment.
     
     SingleBufferC(SingleBufferBodyC<DataT> &body)
       : BufferC<DataT>(body)

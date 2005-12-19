@@ -18,6 +18,7 @@
 #include "Ravl/SingleBuffer.hh"
 
 #include "Ravl/Stream.hh"
+#include "Ravl/IntC.hh"
 
 using namespace RavlN;
 
@@ -25,6 +26,8 @@ int TestSingleBuffer();
 
 int main()
 {
+  cerr << "Single Buffer Size=" << sizeof(SingleBufferBodyC<RealT>) - sizeof(RealT) << "\n";
+  
   BufferC<int> bf1d (6);
   if(bf1d.Size() != 6) {
     cerr << "Size test failed. \n";
@@ -82,14 +85,31 @@ int main()
   }
   for(;it;it++)
     *it = 0;
-  TestSingleBuffer();
+  int ln;
+  if((ln = TestSingleBuffer()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
   cerr << "Test passed ok. \n";
   return 0;
 }
 
 int TestSingleBuffer() {
-  SingleBufferC<IntT> buff(100);
-  
+  for(int i = 0;i < 100;i++) {
+    SingleBufferC<IntT> buff(i+1);
+    //cerr << "UMem=" << ((void *) buff.ReferenceElm()) << "\n";
+  }
+  for(int i = 0;i < 100;i++) {
+    SingleBufferC<IntT> buff(i+1,16);
+    if((((IntT)((void *) buff.ReferenceElm())) & 0xf) != 0)
+      return __LINE__;
+    //cerr << "AMem=" << ((void *) buff.ReferenceElm()) << "\n";
+  }
+  SingleBufferC<IntC> buff2(100);
+  IntC *at = buff2.ReferenceElm();
+  IntC *end = &(at[buff2.Size()]);
+  for(;at != end;at++)
+    if(*at != 0) return __LINE__;
   return 0;
 }
 
