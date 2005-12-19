@@ -55,6 +55,9 @@
 #define RAVL_CPU_ALPHA defined(__alpha)   /* alpha based system */
 #define RAVL_CPU_ARM defined(__arm)   /* arm based system */
 
+#define RAVL_CPUTYPE_64 defined (__x86_64__)  /* 64 bit cpu */
+#define RAVL_CPUTYPE_32 !defined (__x86_64__) /* 32 bit cpu */
+
 #define RAVL_OS_LINUX64   (defined(__linux__) && defined (__x86_64__))
 #define RAVL_OS_LINUX   (defined(__linux__) && !defined(__x86_64__)) /* Linux based OS. */
 #define RAVL_OS_WIN32   defined(WIN32)      /* Windows platform. */
