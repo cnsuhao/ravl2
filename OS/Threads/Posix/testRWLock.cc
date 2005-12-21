@@ -14,6 +14,7 @@
 #include "Ravl/Threads/Semaphore.hh"
 #include "Ravl/Stream.hh"
 #include "Ravl/AMutex.hh"
+#include "Ravl/OS/Date.hh"
 
 #include <stdlib.h>
 
@@ -57,10 +58,10 @@ int RWLTestBodyC::Start(void) {
 	pass = false;
       if(Val2 != Val3)
 	pass = false;
-      OSYield();
+      Sleep(0);
       if(Val1 != Val3)
 	pass = false;
-      OSYield();
+      Sleep(0);
       if(Val1 != Val3)
 	pass = false;
       ARWLock->UnlockRd();
@@ -69,15 +70,15 @@ int RWLTestBodyC::Start(void) {
       
       ARWLock->WrLock();  // Write new values.
       Val1 = rand();
-      OSYield();
+      Sleep(0);
       Val2 = Val1;
-      OSYield();
+      Sleep(0);
       Val3 = Val2;
-      OSYield();
+      Sleep(0);
       ARWLock->UnlockWr();
       
     }
-    OSYield();
+    Sleep(0);
   }
   Done->Post();
   return 0;
