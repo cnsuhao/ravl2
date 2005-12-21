@@ -565,7 +565,7 @@ namespace RavlN {
   Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)())
   { return CallMethod0C<ObjT,RetT>(const_cast<ObjT &>(nobj),nfunc); }
   //: Create a call to a method with no arguments
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class DataT,class RetT>
   inline
@@ -573,7 +573,7 @@ namespace RavlN {
   Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT),const typename TraitsC<DataT>::BaseTypeT &defaultArg)
   { return CallMethod1C<ObjT,DataT,RetT>(const_cast<ObjT &>(nobj),nfunc,defaultArg); }
   //: Create a call to a method with 1 argument
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class RetT>
   inline
@@ -584,7 +584,7 @@ namespace RavlN {
 	  )
   { return CallMethod2C<ObjT,Data1T,Data2T,RetT>(nobj,nfunc,defaultArg1,defaultArg2); }
   //: Create a call to a method with 2 arguments
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class RetT>
   inline
@@ -596,7 +596,7 @@ namespace RavlN {
 	  )
   { return CallMethod3C<ObjT,Data1T,Data2T,Data3T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3); }
   //: Create a call to a method with 3 arguments
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class RetT>
   inline
@@ -609,7 +609,7 @@ namespace RavlN {
 	  )
   { return CallMethod4C<ObjT,Data1T,Data2T,Data3T,Data4T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
   //: Create a call to a method with 4 arguments
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
 
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class RetT>
   inline
@@ -623,7 +623,7 @@ namespace RavlN {
 	  )
   { return CallMethod5C<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }
   //: Create a call to a method with 5 arguments
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   //:-
   // Refrence methods.
   
@@ -635,7 +635,7 @@ namespace RavlN {
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)())
   { return CallMethod0C<ObjT &,RetT>(nobj,nfunc); }
   //: Create a call to a method (of a referenced object) with no arguments
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class DataT,class RetT>
   inline
@@ -643,7 +643,7 @@ namespace RavlN {
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT),const typename TraitsC<DataT>::BaseTypeT &defaultArg)
   { return CallMethod1C<ObjT &,DataT,RetT>(nobj,nfunc,defaultArg); }
   //: Create a call to a method (of a referenced object) with 1 argument
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class RetT>
   inline
@@ -654,7 +654,7 @@ namespace RavlN {
 	  )
   { return CallMethod2C<ObjT &,Data1T,Data2T,RetT>(nobj,nfunc,defaultArg1,defaultArg2); }
   //: Create a call to a method (of a referenced object) with 2 arguments
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class RetT>
   inline
@@ -666,7 +666,7 @@ namespace RavlN {
 	  )
   { return CallMethod3C<ObjT &,Data1T,Data2T,Data3T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3); }
   //: Create a call to a method (of a referenced object) with 3 arguments
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class RetT>
   inline
@@ -679,7 +679,7 @@ namespace RavlN {
 	  )
   { return CallMethod4C<ObjT &,Data1T,Data2T,Data3T,Data4T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
   //: Create a call to a method (of a referenced object) with 4 arguments
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
 
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class RetT>
   inline
@@ -693,7 +693,7 @@ namespace RavlN {
 	  )
   { return CallMethod5C<ObjT &,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }
   //: Create a call to a method (of a referenced object) with 5 arguments
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
 }
 

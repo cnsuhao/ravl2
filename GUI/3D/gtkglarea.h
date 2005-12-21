@@ -21,7 +21,7 @@
 /*! lib=RavlGUI3D */
 /*! license=own */
 /*! userlevel=Develop */
-/*! docentry="Ravl.GUI.3D.Internal" */
+/*! docentry="Ravl.API.GUI.3D.Internal" */
 
 
 #if RAVL_USE_GTK2

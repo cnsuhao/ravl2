@@ -57,7 +57,7 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: Cost function for affine correlation of two images. 
-  // Used to compute affine image correlations in the <a href="../Tree/Ravl.Images.Chart_Detector.html">chart detector</a>.
+  // Used to compute affine image correlations in the <a href="../Tree/Ravl.API.Images.Chart_Detector.html">chart detector</a>.
 
   class CostAffineImageCorrelationC
     : public CostC

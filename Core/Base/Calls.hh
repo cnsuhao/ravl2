@@ -1133,7 +1133,7 @@ namespace RavlN {
   CallFunc0C<RetT> Trigger(RetT (*nfunc)())
   { return CallFunc0C<RetT>(nfunc); }
   //: Create a function call with no arguments
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class DataT,class RetT>
   inline
@@ -1141,7 +1141,7 @@ namespace RavlN {
   Trigger(RetT (*nfunc)(DataT dat),const typename TraitsC<DataT>::BaseTypeT &defaultArg)
   { return CallFunc1C<DataT,RetT>(nfunc,defaultArg); }
   //: Create a function call with 1 argument
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class Data1T,class Data2T,class RetT>
   inline
@@ -1151,7 +1151,7 @@ namespace RavlN {
 	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2)
   { return CallFunc2C<Data1T,Data2T,RetT>(nfunc,defaultArg1,defaultArg2); }
   //: Create a function call with 2 arguments
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class Data1T,class Data2T,class Data3T,class RetT>
   inline
@@ -1162,7 +1162,7 @@ namespace RavlN {
 	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3)
   { return CallFunc3C<Data1T,Data2T,Data3T,RetT>(nfunc,defaultArg1,defaultArg2,defaultArg3); }
   //: Create a function call with 3 arguments
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class Data1T,class Data2T,class Data3T,class Data4T,class RetT>
   inline
@@ -1174,7 +1174,7 @@ namespace RavlN {
 	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4)
   { return CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
   //: Create a function call with 4 arguments
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class RetT>
   inline
@@ -1187,7 +1187,7 @@ namespace RavlN {
 	  const typename TraitsC<Data5T>::BaseTypeT &defaultArg5)
   { return CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }
   //: Create a function call with 5 arguments
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
 #else
   // Lobotimized version for Visual C++.
@@ -1197,7 +1197,7 @@ namespace RavlN {
   CallFunc0C<bool> Trigger(bool (*nfunc)())
   { return CallFunc0C<bool>(nfunc); }
   //: Create a call 
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   //! docentry="Ravl.API.Core.Calls.VisualC++"
   
   template<class DataT>
@@ -1206,7 +1206,7 @@ namespace RavlN {
   Trigger(bool (*nfunc)(DataT dat),const typename TraitsC<DataT>::BaseTypeT &defaultArg)
   { return CallFunc1C<DataT,bool>(nfunc,defaultArg); }
   //: Create a call 
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class Data1T,class Data2T>
   inline
@@ -1216,7 +1216,7 @@ namespace RavlN {
 	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2)
   { return CallFunc2C<Data1T,Data2T,bool>(nfunc,defaultArg1,defaultArg2); }
   //: Create a call 
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class Data1T,class Data2T,class Data3T>
   inline
@@ -1227,7 +1227,7 @@ namespace RavlN {
 	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3)
   { return CallFunc3C<Data1T,Data2T,Data3T,bool>(nfunc,defaultArg1,defaultArg2,defaultArg3); }
   //: Create a call 
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class Data1T,class Data2T,class Data3T,class Data4T>
   inline
@@ -1239,7 +1239,7 @@ namespace RavlN {
 	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4)
   { return CallFunc4C<Data1T,Data2T,Data3T,Data4T,bool>(nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
   //: Create a call 
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class Data1T,class Data2T,class Data3T,class Data4T,class Data5T>
   inline
@@ -1252,7 +1252,7 @@ namespace RavlN {
 	  const typename TraitsC<Data5T>::BaseTypeT &defaultArg5)
   { return CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,bool>(nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }
   //: Create a call 
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
+  // See <a href="../Tree/Ravl.API.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   
   

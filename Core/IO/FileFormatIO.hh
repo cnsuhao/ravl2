@@ -80,7 +80,7 @@ namespace RavlN {
   //!param: obj - name of C++ object
   //!param: fileformat - format of object file. If fileformat string is empty, the file format is detected automatically.  To get a list of file formats, type <code>conv -lf</code>
   //!param: verbose -  if true, a message is printed to stdout describing the filename, the format used, the object type being loaded and any status information. 
-  // More information <a href="../Tree/Ravl.Core.IO.html#LoadSave">here</a>
+  // More information <a href="../Tree/Ravl.API.Core.IO.html#LoadSave">here</a>
   
   template<class DataT>
     bool Save(const StringC &filename,const DataT &obj,StringC fileformat = "",bool verbose = false) {
@@ -104,7 +104,7 @@ namespace RavlN {
   //!param: obj - name of C++ object
   //!param: fileformat - format of object file. If fileformat string is empty, the file format is detected automatically.  To get a list of file formats, type <code>conv -lf</code>
   //!param: verbose -  if true, a message is printed to stdout describing the filename, the format used, the object type being loaded and any status information. 
-  // More information <a href="../Tree/Ravl.Core.IO.html#LoadSave">here</a>
+  // More information <a href="../Tree/Ravl.API.Core.IO.html#LoadSave">here</a>
 
   template<class DataT>
   bool Load(IStreamC &is,DataT &obj,StringC fileformat = "",bool verbose = false) {
@@ -122,7 +122,7 @@ namespace RavlN {
   //!param: obj - name of C++ object
   //!param: fileformat - format of object file. If fileformat string is empty, the file format is detected automatically.  To get a list of file formats, type <code>conv -lf</code>
   //!param: verbose -  if true, a message is printed to stdout describing the filename, the format used, the object type being loaded and any status information. 
-  // More information <a href="../Tree/Ravl.Core.IO.html#LoadSave">here</a>
+  // More information <a href="../Tree/Ravl.API.Core.IO.html#LoadSave">here</a>
   
   template<class DataT>
     bool Save(OStreamC &os,const DataT &obj,StringC fileformat = "",bool verbose = false) {
@@ -144,7 +144,7 @@ namespace RavlN {
   //!param: obj - name of C++ object
   //!param: fileformat - format of object file. If fileformat string is empty, the file format is detected automatically.  To get a list of file formats, type <code>conv -lf</code>
   //!param: verbose -  if true, a message is printed to stdout describing the filename, the format used, the object type being loaded and any status information. 
-  // More information <a href="../Tree/Ravl.Core.IO.html#LoadSave">here</a>
+  // More information <a href="../Tree/Ravl.API.Core.IO.html#LoadSave">here</a>
   
   bool LoadAbstract(const StringC &filename,RCWrapAbstractC &obj,StringC fileformat,bool verbose);
   //! userlevel=Advanced
