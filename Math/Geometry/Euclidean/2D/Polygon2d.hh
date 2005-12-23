@@ -89,6 +89,13 @@ namespace RavlN {
     //!param: line - a line
     //!return: the clipped polygon so that only the part on the right side of the
     //!return: line remains.
+
+    Polygon2dC ClipByAxis(RealT threshold, UIntT axis, bool isGreater) const;
+    //: Clips this polygon by the specified axis line through the given point
+    //!param: threshold - the threshold for the specified axis
+    //!param: axis - we will clip by point[axis]
+    //!param: isGreater - determines which side of the axis is accepted
+    //!return: the remains of the polygon after clipping
     
     Polygon2dC ClipByRange(const RealRange2dC &range) const;
     //: Clip polygon so it lies entirely within 'range'

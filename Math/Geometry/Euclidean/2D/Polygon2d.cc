@@ -198,44 +198,46 @@ namespace RavlN {
     return ret;
   }
 
-  //: Clip polygon so it lies entirely within 'range'
-  // If adjacent points on the polygon map to the same place, 
-  // one of the points will be removed.
-  
-  Polygon2dC Polygon2dC::ClipByRange(const RealRange2dC &rng) const {
+  Polygon2dC Polygon2dC::ClipByAxis(RealT threshold, UIntT axis, bool isGreater) const {
+    RavlAssert(axis == 0 || axis == 1);
     Polygon2dC ret;
-    DLIterC<Point2dC> it(*this);
-    if(!it)
+    if (IsEmpty()) // Empty polygon to start with ?
       return ret;
-    Point2dC pnt = *it;
-    if(rng.Range1().Min() > it->Row())
-      pnt.Row() = rng.Range1().Min();
-    if(rng.Range1().Max() < it->Row())
-      pnt.Row() = rng.Range1().Max();
-    if(rng.Range2().Min() > it->Col())
-      pnt.Col() = rng.Range2().Min();
-    if(rng.Range2().Max() < it->Col())
-      pnt.Col() = rng.Range2().Max();
-    Point2dC last = pnt;
-    ret.InsLast(pnt);
-    for(it++;it;it++) {
-      pnt = *it;
-      if(rng.Range1().Min() > it->Row())
-	pnt.Row() = rng.Range1().Min();
-      if(rng.Range1().Max() < it->Row())
-	pnt.Row() = rng.Range1().Max();
-      if(rng.Range2().Min() > it->Col())
-	pnt.Col() = rng.Range2().Min();
-      if(rng.Range2().Max() < it->Col())
-	pnt.Col() = rng.Range2().Max();
-      if(pnt != last) {
-	ret.InsLast(pnt);
-	last = pnt;
+    DLIterC<Point2dC> st(*this);
+    st.Last();
+    Point2dC intersection;
+    LinePP2dC line(Point2dC(threshold,threshold), Vector2dC(axis==1,axis==0));
+    for (DLIterC<Point2dC> pt(*this); pt; pt++) {
+      if (isGreater ? (*pt)[axis] >= threshold: (*pt)[axis] <= threshold) {
+        if (isGreater ? (*st)[axis] >= threshold: (*st)[axis] <= threshold) {
+          ret.InsLast(*pt);
+        } else {
+          if (line.Intersection(LinePP2dC(*st,*pt), intersection)) {
+            ret.InsLast(intersection);
+          }
+          ret.InsLast(*pt);
+        }
+      } else {
+        if (isGreater ? (*st)[axis] >= threshold: (*st)[axis] <= threshold) {
+          if (line.Intersection(LinePP2dC(*st,*pt), intersection)) {
+            ret.InsLast(intersection);
+          }
+        }
       }
+      st = pt;
     }
     return ret;
   }
-  
+
+  Polygon2dC Polygon2dC::ClipByRange(const RealRange2dC &rng) const {
+    Polygon2dC ret = *this;
+    ret = ret.ClipByAxis(rng.TRow(), 0, 1);
+    ret = ret.ClipByAxis(rng.RCol(), 1, 0);
+    ret = ret.ClipByAxis(rng.BRow(), 0, 0);
+    ret = ret.ClipByAxis(rng.LCol(), 1, 1);
+    return ret;
+  }
+
   bool Polygon2dC::Contains(const Point2dC & p) const {
       
     // Check singularities.
