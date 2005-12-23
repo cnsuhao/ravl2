@@ -49,6 +49,7 @@ int testEllipse2dC();
 int testEllipse2dD();
 int testScanPolygon();
 int testOverlap();
+int testPolygonClip();
 
 #define TEST(f) \
   if((ln = f()) != 0) {\
@@ -77,6 +78,7 @@ int main() {
   TEST(testEllipse2dD);
   TEST(testScanPolygon);
   TEST(testOverlap);
+  TEST(testPolygonClip);
 
   cout << "Test passed. \n";
   return 0;
@@ -927,5 +929,36 @@ int testOverlap() {
   if(Abs(score) > 0.000001) return __LINE__;
   
   
+  return 0;
+}
+
+int testPolygonClip() {
+  cerr << "testPolygonClip, Called. \n";
+  Polygon2dC poly;
+  poly.InsLast(Point2dC(-10,0));
+  poly.InsLast(Point2dC(0,20));
+  poly.InsLast(Point2dC(10,10));
+  poly.InsLast(Point2dC(10,0));
+
+  RealRange2dC range1(10,10);
+  RealRange2dC range2(10,15);
+  Polygon2dC clippedConvex = poly.ClipByConvex(Polygon2dC(range1));
+  Polygon2dC clippedRange = poly.ClipByRange(range1);
+
+  RealT score = Abs(clippedConvex.Area());
+  if(Abs(score - 100) > 1e-6) return __LINE__;
+
+  score = Abs(clippedRange.Area());
+  if (Abs(score - 100) > 1e-6) return __LINE__;
+
+  score = clippedConvex.Overlap(clippedRange);
+  if (Abs(score - 1) > 1e-6) return __LINE__;
+
+  clippedConvex = poly.ClipByConvex(Polygon2dC(range2));
+  clippedRange = poly.ClipByRange(range2);
+
+  score = clippedConvex.Overlap(clippedRange);
+  if (Abs(score - 1) > 1e-6) return __LINE__;
+
   return 0;
 }
