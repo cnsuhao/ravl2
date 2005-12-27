@@ -102,7 +102,7 @@ namespace RavlN {
     
     RCLayerC(const BodyT *data,RCLayerHandleT handleType = RCLH_OWNER)
       : RCHandleVC<BodyT>(data),
-        ownerHandle(ownerHandle == RCLH_OWNER)
+        ownerHandle(handleType == RCLH_OWNER)
     {
       if(IsHandleOwner() && data != 0)
         data->IncOwners();
