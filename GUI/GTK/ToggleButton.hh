@@ -38,6 +38,9 @@ namespace RavlGUIN {
     
     bool GUIIsActive() const;
     //: Test if button is active.
+
+    bool IsActive() const;
+    //: Test if button is active.
     
     virtual bool Create();
     //: Create the widget.
@@ -142,7 +145,7 @@ namespace RavlGUIN {
     // GUI thread only.
     
     bool IsActive() const
-    { return Body().GUIIsActive(); }
+    { return Body().IsActive(); }
     //: Test if button is active.
     
     Signal1C<bool> &SigChanged()
