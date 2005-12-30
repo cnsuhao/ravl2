@@ -18,6 +18,7 @@
 #if RAVL_USE_GTK2
 
 #include <gtk/gtk.h>
+
 #include "Ravl/HashIter.hh"
 
 namespace RavlGUIN {
@@ -44,24 +45,21 @@ namespace RavlGUIN {
   
   TreeModelIterBodyC::TreeModelIterBodyC() 
     : model(0),
-      treeIter(new GtkTreeIter),
-      canfree(true)
+      treeIter(g_new (GtkTreeIter, 1))
   {}
-
+  
   //: Constructor.
   
-  TreeModelIterBodyC::TreeModelIterBodyC(GtkTreeIter *ntreeIter,bool nCanFree)
+  TreeModelIterBodyC::TreeModelIterBodyC(GtkTreeIter *ntreeIter)
     : model(0),
-      treeIter(ntreeIter),
-      canfree(nCanFree)
+      treeIter(g_new (GtkTreeIter, 1))
   {}
-
+  
   //: Construct from tree model.
   
   TreeModelIterBodyC::TreeModelIterBodyC(TreeModelC &ntreeModel) 
     : model(0),
-      treeIter(new GtkTreeIter),
-      canfree(true)
+      treeIter(g_new (GtkTreeIter, 1))
   {
     model = ntreeModel.Body().model;
     gtk_tree_model_get_iter_first (model,treeIter);
@@ -69,19 +67,16 @@ namespace RavlGUIN {
 
 
 
-  TreeModelIterBodyC::TreeModelIterBodyC(GtkTreeModel *nmodel,GtkTreeIter *ntreeIter,bool canFree)
+  TreeModelIterBodyC::TreeModelIterBodyC(GtkTreeModel *nmodel,GtkTreeIter *ntreeIter)
     : model(nmodel),
-      treeIter(ntreeIter),
-      canfree(canFree)
-  {
-  }
+      treeIter(gtk_tree_iter_copy (ntreeIter))
+  {}
 
   //: Construct from tree model and path.
   
-  TreeModelIterBodyC::TreeModelIterBodyC(GtkTreeModel *nmodel,GtkTreePath *treePath,bool canFree)
+  TreeModelIterBodyC::TreeModelIterBodyC(GtkTreeModel *nmodel,GtkTreePath *treePath)
     : model(nmodel),
-      treeIter(new GtkTreeIter),
-      canfree(canFree)
+      treeIter(g_new (GtkTreeIter, 1))
   {    
     RavlAssert(model != 0);
     RavlAssert(treePath != 0);
@@ -91,7 +86,10 @@ namespace RavlGUIN {
   //: Destructor.
   
   TreeModelIterBodyC::~TreeModelIterBodyC() 
-  { if(canfree && treeIter != 0) delete treeIter; }
+  {
+    RavlAssert(treeIter != 0);
+    gtk_tree_iter_free(treeIter); 
+  }
   
   //: Goto next element at current level.
   // Returns true if succeeded.
@@ -141,7 +139,7 @@ namespace RavlGUIN {
   TreeModelIterC TreeModelIterBodyC::Copy() {
     RavlAssert(model != 0);
     RavlAssert(treeIter != 0);
-    return TreeModelIterC(model,gtk_tree_iter_copy(treeIter),true);
+    return TreeModelIterC(model,treeIter);
   }
 
   
@@ -150,15 +148,13 @@ namespace RavlGUIN {
   //: Constructor.
   
   TreeModelPathBodyC::TreeModelPathBodyC() 
-    : treePath(0),
-      canfree(true)
+    : treePath(0)
   { treePath = gtk_tree_path_new (); }
   
   //: Constructor.
   
   TreeModelPathBodyC::TreeModelPathBodyC(TreeModelIterC treeIter)
-    :  treePath(0),
-       canfree(true)
+    :  treePath(0)
   {
     RavlAssertMsg(treeIter.Model()!=0, "TreeModelPathBodyC::TreeModelPathBodyC(TreeModelIterC) - tree iterator has an invalid model!");
     RavlAssertMsg(treeIter.TreeIter()!=0, "TreeModelPathBodyC::TreeModelPathBodyC(TreeModelIterC) - tree iterator is invalid!");
@@ -166,23 +162,28 @@ namespace RavlGUIN {
   }
   //: Constructor.
   
-  TreeModelPathBodyC::TreeModelPathBodyC(GtkTreePath *ntreePath,bool nCanFree)
-    : treePath(ntreePath),
-      canfree(nCanFree)
-  {}
-    
+  TreeModelPathBodyC::TreeModelPathBodyC(GtkTreePath *ntreePath,bool canFree)
+    : treePath(0)
+  {
+    if(canFree)
+      treePath = ntreePath;
+    else
+      treePath = gtk_tree_path_copy (ntreePath);
+  }
+  
   //: Destructor.
   
   TreeModelPathBodyC::~TreeModelPathBodyC() { 
-    if(canfree && treePath != 0) {
+    if(treePath != 0) {
       ReadBackLockC lock;
       gtk_tree_path_free (treePath);
     }
   }
-
+  
   //: Path as text.
   
   StringC TreeModelPathBodyC::Text() const {
+    // I've lookat the source for the following function and it looks thread safe. CG.
     char *str = gtk_tree_path_to_string(treePath);
     StringC ret(str);
     g_free(str);
@@ -197,7 +198,7 @@ namespace RavlGUIN {
 				 GtkTreeIter *arg2,
 				 gpointer user_data) {
     TreeModelPathC path(arg1,false);
-    TreeModelIterC row(arg2,false);
+    TreeModelIterC row(arg2);
     (*((Signal2C<TreeModelPathC,TreeModelIterC> *) user_data))(path,row);
   }
   
@@ -216,7 +217,7 @@ namespace RavlGUIN {
 					   GtkTreeIter *arg2,
 					   gpointer user_data) {
     TreeModelPathC path(arg1,false);
-    TreeModelIterC row(arg2,false);
+    TreeModelIterC row(arg2);
     (*((Signal2C<TreeModelPathC,TreeModelIterC> *) user_data))(path,row);
   }
   
@@ -226,7 +227,7 @@ namespace RavlGUIN {
 				  GtkTreeIter *arg2,
 				  gpointer user_data) {
     TreeModelPathC path(arg1,false);
-    TreeModelIterC row(arg2,false);
+    TreeModelIterC row(arg2);
     (*((Signal2C<TreeModelPathC,TreeModelIterC> *) user_data))(path,row);
   }
   
@@ -238,7 +239,7 @@ namespace RavlGUIN {
 				   gpointer user_data) {
     
     TreeModelPathC path(arg1,false);
-    TreeModelIterC row(arg2,false);
+    TreeModelIterC row(arg2);
     (*((Signal2C<TreeModelPathC,TreeModelIterC> *) user_data))(path,row);
   }
   

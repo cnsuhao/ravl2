@@ -40,16 +40,16 @@ namespace RavlGUIN {
     TreeModelIterBodyC();
     //: Constructor.
 
-    TreeModelIterBodyC(GtkTreeIter *treeIter,bool canFree);
+    TreeModelIterBodyC(GtkTreeIter *treeIter);
     //: Constructor.
 
     TreeModelIterBodyC(TreeModelC &treeModel);
     //: Construct from tree model.
     
-    TreeModelIterBodyC(GtkTreeModel *model,GtkTreeIter *treeIter,bool canFree);
+    TreeModelIterBodyC(GtkTreeModel *model,GtkTreeIter *treeIter);
     //: Constructor.
     
-    TreeModelIterBodyC(GtkTreeModel *model,GtkTreePath *treePath,bool canFree);
+    TreeModelIterBodyC(GtkTreeModel *model,GtkTreePath *treePath);
     //: Constructor.
     
     ~TreeModelIterBodyC();
@@ -88,7 +88,6 @@ namespace RavlGUIN {
   protected:
     GtkTreeModel *model;
     GtkTreeIter *treeIter;
-    bool canfree;
   };
   
   //! userlevel=Normal
@@ -110,18 +109,18 @@ namespace RavlGUIN {
     //: Construct from tree.
     // Create an iterator pointing to the first element in the tree.
     
-    TreeModelIterC(GtkTreeIter *treeIter,bool canFree)
-      : RCHandleC<TreeModelIterBodyC>(*new TreeModelIterBodyC(treeIter,canFree))
+    TreeModelIterC(GtkTreeIter *treeIter)
+      : RCHandleC<TreeModelIterBodyC>(*new TreeModelIterBodyC(treeIter))
     {}
     //: Constructor.
     
-    TreeModelIterC(GtkTreeModel *model,GtkTreeIter *treeIter,bool canFree)
-      : RCHandleC<TreeModelIterBodyC>(*new TreeModelIterBodyC(model,treeIter,canFree))
+    TreeModelIterC(GtkTreeModel *model,GtkTreeIter *treeIter)
+      : RCHandleC<TreeModelIterBodyC>(*new TreeModelIterBodyC(model,treeIter))
     {}
     //: Constructor.
 
-    TreeModelIterC(GtkTreeModel *model,GtkTreePath *treePath,bool canFree)
-      : RCHandleC<TreeModelIterBodyC>(*new TreeModelIterBodyC(model,treePath,canFree))
+    TreeModelIterC(GtkTreeModel *model,GtkTreePath *treePath)
+      : RCHandleC<TreeModelIterBodyC>(*new TreeModelIterBodyC(model,treePath))
     {}
     //: Constructor.
     
@@ -177,7 +176,7 @@ namespace RavlGUIN {
 
     TreeModelPathBodyC(TreeModelIterC treeIter);
     //: Constructor.
-
+    
     TreeModelPathBodyC(GtkTreePath *treeIter,bool canFree);
     //: Constructor.
     
@@ -192,7 +191,6 @@ namespace RavlGUIN {
     //: Path as text.
   protected:
     GtkTreePath *treePath;
-    bool canfree;
   };
   
   
@@ -219,6 +217,7 @@ namespace RavlGUIN {
       : RCHandleC<TreeModelPathBodyC>(*new TreeModelPathBodyC(treeIter,canFree))
     {}
     //: Constructor.
+    // If canFree is true, the path with be deleted with the body of this object.
     
     GtkTreePath  *TreePath()
     { return Body().TreePath(); }

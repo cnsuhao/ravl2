@@ -297,7 +297,7 @@ namespace RavlGUIN {
     Signal2C<TreeModelIterC,TreeModelPathC> sig(*sigptr);
     RavlAssert(sig.IsValid());
     // Convert data
-    TreeModelIterC riter(gtk_tree_view_get_model(GTK_TREE_VIEW(widge)),iter,false);
+    TreeModelIterC riter(gtk_tree_view_get_model(GTK_TREE_VIEW(widge)),iter);
     TreeModelPathC rpath(path,false);
     // Send signal
     sig(riter,rpath);
