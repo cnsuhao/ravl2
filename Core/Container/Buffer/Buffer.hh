@@ -81,6 +81,11 @@ namespace RavlN {
     { free(data); }
     //: Override default allocator to just use free.
     // This allows classes like SingleBuffer to do more efficient memory allocation.
+    
+    void operator delete(void *data,void *mem) 
+    { free(data); }
+    //: Override default allocator to just use free.
+    // This allows classes like SingleBuffer to do more efficient memory allocation.
 #endif
     
   protected:    
