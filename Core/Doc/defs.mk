@@ -13,4 +13,3 @@ EHT= Ravl.Introduction.Debugging.html \
  Ravl.Getting_Started.html  Ravl.Getting_Started.Windows.html Ravl.Install.html
 
 
-HTML = search.html
