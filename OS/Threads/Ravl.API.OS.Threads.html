@@ -13,18 +13,23 @@
     <p>For thread-safe operation, the following are the responsibility
     of the programmer:</p>
     <ul>
-      <li>All shared memory access must be locked, e.g. using
-	<code>MutexC</code> or <code>MutexLockC</code></li>
+      <li>All shared resources must be locked, e.g. using
+	<code>MutexC</code> or <code>MutexLockC</code>.</li>
       
+      <li>Always lock shared resources in the same order.</li>
+    
       <li>All variables of built-in type in shared memory must be
-	declared <code>volatile</code></li>
+	declared <code>volatile</code>.</li>
+    
+      <li>For efficient threading, lock shared resources for the minimum
+      possible time.</li>
     </ul>
 
     <hr>
     <address><a href="mailto:w.christmas@ee.surrey.ac.uk">Bill Christmas</a></address>
 <!-- Created: Fri Nov 21 15:50:48 GMT 2003 -->
 <!-- hhmts start -->
-Last modified: Fri Nov 21 17:08:20 GMT 2003
+Last modified: Thu Jan  5 09:32:58 GMT 2006
 <!-- hhmts end -->
   </body>
 </html>

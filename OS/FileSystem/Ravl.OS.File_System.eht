@@ -1,4 +1,0 @@
-! author="Charles Galambos"
-! docentry="Ravl.OS.File System"
-: Interface classes for dealing with file systems.
-
