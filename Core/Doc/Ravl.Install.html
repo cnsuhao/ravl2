@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--! docentry="Ravl.Installation" -->
+<html>
+  <head>
+    <title>RAVL Installation instructions</title>
+  </head>
+
+  <body>
+
+    <p> This document provides a guideline for installation, but has not been tested thoroughly.</p>
+
+
+    <h2>Compiler installation</h2>
+
+    <p> The RAVL library requires the use of the gcc compiler, version 3.3.5
+    or later. If it is not on the system, install it first. After downloading
+    from the <a href="http://gcc.gnu.org/releases.html">Gnu site</a>, the
+    installation might be as follows (assuming a <code>bash</code> shell): </p>
+
+    <pre>
+bunzip2 gcc-3.3.5.tar.bz2
+tar -xvf gcc-3.3.5.tar
+mv gcc-3.3.5 gcc-3.3.5-src
+cd gcc-3.3.5-src/
+./configure --prefix=/usr/bin/gcc-3.3.5 --enable-languages=c,c++
+make bootstrap
+export LD_LIBRARY_PATH=/vol/gcc/lib:/vol/ai/lib:$LD_LIBRARY_PATH
+make install
+cd ..
+</pre>
+
+    <h2>Installing the RAVL library and applications</h2> 
+
+    <p>Decide on a place for the installation and define the environment
+    variable <code>RAVL_INSTALLATION</code> accordingly.  The RAVL library and
+    executables can then be installed as follows:</p>
+
+    <pre>
+cd $RAVL_INSTALLATION
+cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/ravl login
+(Do not enter a password - just press return key.)
+cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/ravl co Ravl
+cd Ravl
+cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/ravl co Contrib
+cp QMake/config.local.linux ..</pre>
+
+    <p>Then edit <code>../config.local.linux</code> to pick up the correct
+    compiler and adjust the available resources.  The following is the result
+    of applying <code>diff</code> to an example of the edited and unedited
+    versions.  In this example, extra packages were installed in
+    <code>/vol/ai</code>.</p>
+
+    <pre>
+15a16,17
+> RAVL_CC = /usr/bin/gcc-3.3.5/bin/gcc
+> RAVL_CXX = /usr/bin/gcc-3.3.5/bin/g++
+22a25,26
+> EXTRA_LDFLAGS = -Wl,-rpath,/usr/bin/gcc-3.3.5/lib/
+>
+49c53
+< RESOURCES += libAudioFile
+---
+> #RESOURCES += libAudioFile
+53,54c57,58
+< #RESOURCES += libDV
+< #LIBDV_HOME=
+---
+> RESOURCES += libDV
+> LIBDV_HOME=/vol/ai
+
+58,59c62,63
+< #RESOURCES += libavc1394
+< #LIBAVC1394_HOME=
+---
+> RESOURCES += libavc1394
+> LIBAVC1394_HOME=/vol/ai
+73,76d76
+< ## libGuppi ################################################
+<
+< RESOURCES += libGuppi
+<
+79,80c79
+< RESOURCES += devVideo4Linux
+<
+---
+> #RESOURCES += devVideo4Linux
+</pre>
+    <p> You may also initially want to turn off the Contrib and Application
+    packages, as they use external libraries.  To do this, remove the trailing
+    ".r" in the relevant fields of the <code>NESTED</code> command in the
+    top-level <code>defs.mk</code> file.</p>
+
+    <p>Finally, the installation is:</p>
+
+    <pre>
+./install $cwd/../RavlProject auto $cwd/../config.local.linux; rehash</pre> 
+    
+    <p>Use the following alias and variable settings for
+    compilation. $PROJECT_OUT controls the directory into which your own code
+    will be compiled. <code>/vol/ai</code> is the
+    directiory in which extra packages were installed in the above example
+    (and may therefore be superfluous).</p>
+
+    <pre>
+setenv PROJECT_OUT ~/ProjOut
+alias qm 'make -f $RAVL_INSTALLATION/RavlProject/share/RAVL/QMake/QMake.mk USERBUILD=1'
+set path = (\$path $PROJECT_OUT/lib/RAVL/linux/bin)
+setenv LD_LIBRARY_PATH /vol/ai/lib</pre>
+
+    <p>Locally-built documentation for the RAVL classes can then be found at:
+      <nobr><code>$RAVL_INSTALLATION/RavlProject/share/doc/RAVL/Auto/Basic/Tree/Ravl.html</code></nobr></p>
+
+    <hr>
+    <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
+<!-- Created: Fri Dec 23 09:31:09 GMT 2005 -->
+<!-- hhmts start -->
+Last modified: Thu Jan  5 09:53:14 GMT 2006
+<!-- hhmts end -->
+  </body>
+</html>
