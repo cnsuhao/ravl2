@@ -118,7 +118,12 @@ namespace RavlImageN {
     //: Find the labels around the pixel 'pix'
     // put the results into 'labelArray' which must be at least 4 labels long.
     // The number of labels found is returned.
-    
+
+    int ConnectedLabels6(ExtremaChainPixelC *pix,ExtremaRegionC **labelArray);
+    //: Find the labels around the pixel 'pix'
+    // put the results into 'labelArray' which must be at least 4 labels long.
+    // The number of labels found is returned.
+        
     void AddRegion(ExtremaChainPixelC *pix,IntT level);
     //: Add a new region.
     

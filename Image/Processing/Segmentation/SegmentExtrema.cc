@@ -101,6 +101,28 @@ namespace RavlImageN {
     if (l4!=0 && l4!=l1 && l4!=l2 && l4!=l3)  { labelArray[n++]=l4; }
     return n;
   }
+
+  //: Find the labels around the pixel 'pix'
+  // put the results into 'labelArray' which must be at least 4 labels long.
+  // The number of labels found is returned.
+  inline
+  int SegmentExtremaBaseC::ConnectedLabels6(ExtremaChainPixelC *pix,ExtremaRegionC **labelArray) {
+    //cerr << "SegmentExtremaBaseC::ConnectedLabels(), Pix=" << ((void *) pix) << "\n";
+    IntT n = 0;
+    ExtremaRegionC *l1 = FindLabel(pix + 1);
+    if (l1!=0 )                               { labelArray[n++]=l1; }
+    ExtremaRegionC *l2 = FindLabel(pix - 2);
+    if (l2!=0 && l2!=l1)                      { labelArray[n++]=l2; }
+    ExtremaRegionC *l3 = FindLabel(pix + stride);
+    if (l3!=0 && l3!=l1 && l3!=l2)            { labelArray[n++]=l3; }
+    ExtremaRegionC *l4 = FindLabel(pix - stride);
+    if (l4!=0 && l4!=l1 && l4!=l2 && l4!=l3)  { labelArray[n++]=l4; }
+    ExtremaRegionC *l5 = FindLabel(pix + stride -1);
+    if (l5!=0 && l5!=l1 && l5!=l2 && l5!=l3 && l5!=l4)           { labelArray[n++]=l5; }
+    ExtremaRegionC *l6 = FindLabel(pix - stride -1);
+    if (l6!=0 && l6!=l1 && l6!=l2 && l6!=l3 && l6!=l4 && l6!=l5)  { labelArray[n++]=l6; }
+    return n;
+  }
   
   //: Add a new region.
   inline
@@ -189,18 +211,36 @@ namespace RavlImageN {
   void SegmentExtremaBaseC::GenerateRegions() {
     ExtremaChainPixelC *at;
     IntT n, clevel = levels.Range().Min().V();
-    ExtremaRegionC *labels[4];
+    ExtremaRegionC *labels[6];
     for(Array1dIterC<ExtremaChainPixelC *> lit(levels);lit;lit++,clevel++) {
       //ONDEBUG(cerr << "Level=" << clevel << " \n");
       for(at = *lit;at != 0;at = at->next) {
-	// Got a pixel.
-	//ONDEBUG(cerr << "Pixel=" << (void *) at << " Region=" << at->region << "\n");
-	n = ConnectedLabels(at,labels);
- 	switch(n) {
-	case 0: AddRegion(at,clevel);  break;
-	case 1: AddPixel(at,clevel,labels[0]); break;
-	default: MergeRegions(at,clevel,labels,n); break;
+#if 0
+	// Is the next pixel the same level ?
+	if(at->next != (at-1)) {
+#endif
+	  // Got a standard pixel.
+	  //ONDEBUG(cerr << "Pixel=" << (void *) at << " Region=" << at->region << "\n");
+	  n = ConnectedLabels(at,labels);
+	  switch(n) {
+	  case 0: AddRegion(at,clevel);  break;
+	  case 1: AddPixel(at,clevel,labels[0]); break;
+	  default: MergeRegions(at,clevel,labels,n); break;
+	  }
+#if 0
+	} else {
+	  // Got two pixels in a row.
+	  n = ConnectedLabels6(at,labels);
+	  switch(n) {
+	  case 0: AddRegion(at,clevel);  break;
+	  case 1: AddPixel(at,clevel,labels[0]); break;
+	  default: MergeRegions(at,clevel,labels,n); break;
+	  }
+	  // Add in second pixel.
+	  AddPixel(at->next,clevel,at->region);
+	  at = at->next; // Next pixel is done as well
 	}
+#endif
       }
     }
     //cerr << "Regions labeled = " << labelAlloc << "\n";
