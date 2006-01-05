@@ -8,7 +8,8 @@
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Segmentation/exConnectedComponents.cc"
 //! author="Lee Gregory"
-//! rcsid="$Id$"
+//! docentry="Ravl.API.Images.Segmentation"
+//! rcsid="$Id$
 
 #include "Ravl/Image/ConnectedComponents.hh"
 #include "Ravl/Option.hh" 
