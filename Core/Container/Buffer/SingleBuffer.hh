@@ -22,7 +22,21 @@ namespace RavlN {
   template<typename DataT>
   inline
   void ConstructRawArray(DataT *data,SizeT size) {
+#if VISUAL_CPP
+    DataT *at = data;
+    DataT *end = &at[size];
+	try {
+      for(;at != end;at++)
+        new(at) DataT();
+	} catch(...) {
+	  DataT *die = data;
+	  for(;die != at;die++)
+	    die->~DataT();
+	  throw ;
+	}
+#else
     new(data) DataT[size];
+#endif
   }
   
   template<typename DataT>
@@ -140,6 +154,7 @@ namespace RavlN {
 #else
       this->buff = reinterpret_cast<DataT *>(&(this[1]));
 #endif
+	 // cerr << "Memory at " << (void*) this->buff << "\n";
       ConstructRawArray(this->buff,this->Size()); 
     }
     //: Default constructor.
@@ -202,10 +217,10 @@ namespace RavlN {
         new(ret) SingleBufferBodyC<DataT>(size);
       } catch(...) {
         free(ret);
-        throw ;
       }
       return ret;
     }
+
     //: Allocate a body object plus some space.
     
     static SingleBufferBodyC<DataT> *AllocBody(SizeT size,UIntT align) {
@@ -214,7 +229,6 @@ namespace RavlN {
         new(ret) SingleBufferBodyC<DataT>(size,align);
       } catch(...) {
         free(ret);
-        throw ;
       }
       return ret;
     }
