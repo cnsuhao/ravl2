@@ -114,7 +114,11 @@ namespace RavlN {
       
       DListC<StringC> Sources() {
 	switch(ctype) {
-	case 1: return libInfo.Sources();
+	case 1: {
+	  DListC<StringC>srcs = libInfo.Sources();
+	  if(libInfo.MustLink().Size()>0) srcs.InsLast(libInfo.MustLink());
+	  return srcs;
+	}
 	case 2: return progInfo.Sources();
 	}
 	return DListC<StringC> ();

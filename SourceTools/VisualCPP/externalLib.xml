@@ -27,6 +27,11 @@
 <lib>libjasper.lib</lib>
 </extlib>
 
+<extlib name="zlib">
+<includepath>C:\RavlExtLib\include</includepath>
+<libpath>C:\RavlExtLib\lib</libpath>
+<lib>zlib.lib</lib>
+</extlib>
 
 <extlib name="GTK">
 <includepath>C:\GTKWIN32\include\gtk-2.0\</includepath>
@@ -82,10 +87,5 @@
 <lib>mkl_c.lib</lib>
 </extlib>
 
-<extlib name="RavlZlib">
-<includepath>C:\RavlExtLib\include</includepath>
-<libpath>C:\RavlExtLib\lib</libpath>
-<lib>zlib.lib</lib>
-</extlib>
 
 </extlibs>
