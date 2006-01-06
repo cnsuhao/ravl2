@@ -49,7 +49,7 @@ namespace RavlN {
       }
     }
     if(defs.IsDefined("MUSTLINK")) {
-      mustLink = defs["MUSTLINK"];
+      mustLink += dir + filenameSeperator + defs["MUSTLINK"];
     } else
       mustLink = StringC();
     return true;
