@@ -1,22 +1,22 @@
 ! author="Charles Galambos, Bill Christmas"
-! children="Pixel Types;IO;Converters;Filtering;Morphology;Warping;Transforms;Drawing;Edges;Lines;Corner Detection;Segmentation;Boundaries;Chart Detector;Video;Motion;Tracking;Mosaic;Misc"
+! children="Pixel Types;IO;Converters;Filtering;Morphology;Warping;Transforms;Drawing;Edges;Lines;Corner Detection;Feature Points;Segmentation;Boundaries;AAM;Chart Detector;Video;Motion;Tracking;Correlation;Mosaic;Shot Boundary Detection;Misc"
 : Image and video processing
 
 <p> The basic image class is the template class <a
 href="../Class/RavlImageN.ImageC.html">ImageC</a>, often templated on one of
-the <a href="Ravl.API.Images.Pixel_Types.html">pixel</a> classes.
+the <a href="Ravl.API.Images.Pixel_Types.html">pixel</a> classes.</p>
 
-<p> In terms of its structure and functionality, ImageC and its derivatives can
-be considered as 2-D arrays.  If there is a difference in philosophy between <a
-href="../Class/RavlImageN.ImageC.html">ImageC</a> and <a
-href="../Class/RavlN.Array2dC.html">Array2dC</a>, it is that in ImageC there is a
-sense of neighbourhood, and spatial extent.  In particular an ImageC object
-contains one or more "image rectangles" (<a
-href="../Class/RavlImageN.ImageRectangleC.html">ImageRectangleC</a>).  When an image is
-constructed, it has one associated rectangle corresponding to the border of the
-image.  However other rectangles can also be attached, corresponding to
-subimages; they can also be moved around the image.  These can be useful for
-spatial filtering and other neighbourhood operations.
+<p> In terms of its structure and functionality, ImageC and its derivatives
+can be considered as 2-D arrays.  If there is a difference in philosophy
+between <a href="../Class/RavlImageN.ImageC.html">ImageC</a> and <a
+href="../Class/RavlN.Array2dC.html">Array2dC</a>, it is that in ImageC there
+is a sense of neighbourhood, and spatial extent.  In particular an ImageC
+object can contain one or more "image rectangles" (<a
+href="../Class/RavlImageN.ImageRectangleC.html">ImageRectangleC</a>).  When an
+image is constructed, it has one associated rectangle corresponding to the
+border of the image.  However other rectangles can also be attached,
+corresponding to subimages; they can also be moved around the image.  These
+can be useful for spatial filtering and other neighbourhood operations.</p>
 
 <h4> Image IO and type conversion:</h4>
 
@@ -27,8 +27,8 @@ formats.</p>
 
 <p>The underlying mechanism used to convert between the file format and the
 image pixel type can also be used to convert from <a href =
-"Ravl.API.Core.IO.Type_Converter.html">one image type to another</a>.  If you find
-this baffling, you can use these (rather verbose) <a
+"Ravl.API.Core.IO.Type_Converter.html">one image type to another</a>.  If you
+find this baffling, you can use these (rather verbose) <a
 href="Ravl.API.Images.Converters.html"> explicit conversion functions</a>.</p>
 
 <h4> Image coordinate systems and Indexing images:</h4>

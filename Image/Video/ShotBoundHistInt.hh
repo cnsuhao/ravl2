@@ -6,7 +6,7 @@
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Image/Image.hh"
 
-//! docentry="Ravl.API.Images.Shot boundary detection"
+//! docentry="Ravl.API.Images.Shot Boundary Detection"
 //! author="Bill Christmas"
 //! userlevel=Normal
 
