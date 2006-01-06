@@ -33,8 +33,8 @@ namespace RavlN {
   
   //: Constructor.
   
-  AutoPortSourceBodyC::AutoPortSourceBodyC(StringC &where)
-    : verbose(false)
+  AutoPortSourceBodyC::AutoPortSourceBodyC(StringC &where, DListC<StringC> & dl)
+    : verbose(false), doLibs(dl)
   {
   }
   
@@ -64,6 +64,18 @@ namespace RavlN {
     }
     
     StringC libName = defs["PLIB"].TopAndTail();
+    
+    //: If we have been supplied with an external list of libraries to do
+    if(!doLibs.IsEmpty()) {
+      bool found=false;
+      for(DLIterC<StringC>it(doLibs);it;it++) {
+	if(*it == libName)
+	  found=true;
+      }
+      if(!found)
+	return true;
+    }
+
     if(!libName.IsEmpty()) {
       LibInfoC &li = libs[libName];
       if(!li.IsValid()) // Need to create it?

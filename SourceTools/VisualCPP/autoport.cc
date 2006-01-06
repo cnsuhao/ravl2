@@ -64,6 +64,7 @@ int main(int nargs,char **argv) {
   StringC fout  = option.String("o","",      "(output) Directory for VCPP src tree.  ");
   StringC pathtempl= option.String("pt", PROJECT_OUT "/share/RAVL/AutoPort","Where to look for template files.");
   StringC projectOut= option.String("p", "C:/Build","Project out to use in windows. (With UNIX style seperators)");
+  StringC doLibsFile =option.String("dl", "", "Text file containing names of Ravl libraries to port.  If no file provided all libraries will be done");
   projectOut.gsub("/","\\"); // "../ProjectOut"
   
   //bool rec    = option.Boolean("r",true,    "recurse into subdirectories. ");
@@ -80,8 +81,19 @@ int main(int nargs,char **argv) {
   if(!Load(inFile, extLibs))
       RavlIssueError("Unable to open external libs file: " + inFile);
 
+  // Load in doLibs file if provided
+  DListC<StringC>doLibs;
+  if(option.IsOnCommandLine("dl")) {
+    TextFileC file(doLibsFile);
+    for(UIntT i=1;i<=file.NoLines();i++) {
+      StringC line = file[i];
+      line = line.TopAndTail();
+      doLibs.InsLast(line);
+    }
+  }
+
   
-  AutoPortSourceC portInfo(fn);
+  AutoPortSourceC portInfo(fn, doLibs);
   if(verb) {
     portInfo.Dump();
     portInfo.SetVerbose(verb);

@@ -68,8 +68,8 @@
 
 
 <extlib name="SentinelSuperPro">
-<includepath>C:\Program Files\Rainbow Technologies\SuperPro\6.3\MSVCDev\include\</includepath>
-<libpath>C:\Program Files\Rainbow Technologies\SuperPro\6.3\MSVCDev\lib\MD\</includepath>
+<includepath>C:\Program Files\SafeNet Sentinel\Visual C++</includepath>
+<libpath>C:\Program Files\SafeNet Sentinel\Visual C++\MD\</includepath>
 <lib>spromeps.lib</lib>
 <lib>wsock32.lib</lib>
 </extlib>
@@ -82,5 +82,10 @@
 <lib>mkl_c.lib</lib>
 </extlib>
 
+<extlib name="RavlZlib">
+<includepath>C:\RavlExtLib\include</includepath>
+<libpath>C:\RavlExtLib\lib</libpath>
+<lib>zlib.lib</lib>
+</extlib>
 
 </extlibs>
