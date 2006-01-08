@@ -133,12 +133,13 @@ namespace RavlImageN {
     IntT offset = pix - origin;
     region.total = 0;
     region.merge = 0; //&region;
+    IntT nlevel = level+1; // Don't need to clear this level as its going to be set anyway
     if(region.hist == 0) {
-      region.hist = PopHist(level);
+      region.hist = PopHist(nlevel);
     } else {
-      IntT clearSize = (region.maxValue + 1)- level;
+      IntT clearSize = (region.maxValue + 1) - nlevel;
       if(clearSize > 0)
-	memset(&(region.hist[level]),0,clearSize * sizeof(IntT));
+	memset(&(region.hist[nlevel]),0,clearSize * sizeof(IntT));
     }
 #if 0
     // Check the histogram is clear.
