@@ -448,6 +448,13 @@ namespace RavlN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
+
+    Signal3C(const Signal0C &base)
+      : Signal2C<Data1T,Data2T>(dynamic_cast<const Signal3BodyC<Data1T,Data2T,Data3T> *>(RCHandleC<Signal0BodyC>::BodyPtr(base)))
+    {}
+    //: Base constructor.
+    // Creates an invalid handle if body type
+    // is correct.
     
   protected:
     Signal3C(Signal3BodyC<Data1T,Data2T,Data3T> &sig)
