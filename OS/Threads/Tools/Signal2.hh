@@ -367,6 +367,14 @@ namespace RavlN {
     { return Signal2BodyC<Data1T,Data2T>::Invoke(this->defaultVal,defaultVal2); }
     //: Send signal with default value where needed.
     
+    Data2T &DefaultValue2()
+    { return defaultVal2; }
+    //: Access default value 2.
+    
+    const Data2T &DefaultValue2() const
+    { return defaultVal2; }
+    //: Access default value 2.
+    
   protected:
     Data2T defaultVal2; // Default data value.
   };
@@ -435,6 +443,15 @@ namespace RavlN {
       return Body().Invoke(tmp1,tmp2); 
     }
     //: Simple invokation.  
+    
+    Data2T &DefaultValue2()
+    { return Body().DefaultValue2(); }
+    //: Access default value 2.
+    
+    const Data2T &DefaultValue2() const
+    { return Body().DefaultValue2(); }
+    //: Access default value 2.
+
   };
   
   template<class Data1T,class Data2T>

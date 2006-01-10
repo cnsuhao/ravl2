@@ -341,7 +341,14 @@ namespace RavlN {
       return ret;
     }
     //: Send signal with default value where needed.
-  
+    
+    DataT &DefaultValue1()
+    { return defaultVal; }
+    //: Access default value for argument 1.
+    
+    const DataT &DefaultValue1() const
+    { return defaultVal; }
+    //: Access default value for argument 1.
   protected:
     DataT defaultVal; // Default data value.
   };
@@ -408,6 +415,14 @@ namespace RavlN {
       return Body().Invoke(tmp); 
     }
     //: Simple invokation.  
+    
+    DataT &DefaultValue1()
+    { return Body().DefaultValue1(); }
+    //: Access default value for argument 1.
+    
+    const DataT &DefaultValue1() const
+    { return Body().DefaultValue1(); }
+    //: Access default value for argument 1.
   };
   
   
