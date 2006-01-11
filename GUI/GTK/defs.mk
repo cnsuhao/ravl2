@@ -29,7 +29,8 @@ HEADERS = Manager.hh Widget.hh GTKTypes.hh SignalInfo.hh \
  Notebook.hh CList.hh VLabel.hh RadioButton.hh ProgressBar.hh \
  TextBox.hh DragAndDrop.hh Paned.hh MessageBox.hh WidgetStyle.hh \
  ReadBack.hh  WaitForExit.hh TreeModel.hh TreeStore.hh  TreeView.hh \
- ListStore.hh Pixbuf.hh AspectFrame.hh ButtonBox.hh  ColourSelector.hh 
+ ListStore.hh Pixbuf.hh AspectFrame.hh ButtonBox.hh  ColourSelector.hh \
+ DebugAssertDialog.hh
 
 SOURCES = Manager.cc Widget.cc MouseEvent.cc Window.cc \
  Cursor.cc ToolTips.cc CWidget.cc Button.cc Pixmap.cc \
@@ -41,7 +42,8 @@ SOURCES = Manager.cc Widget.cc MouseEvent.cc Window.cc \
  Notebook.cc CList.cc VLabel.cc RadioButton.cc ProgressBar.cc \
  TextBox.cc DragAndDrop.cc Paned.cc MessageBox.cc WidgetStyle.cc \
  ReadBack.cc WaitForExit.cc TreeModel.cc TreeStore.cc TreeView.cc \
- ListStore.cc Pixbuf.cc AspectFrame.cc ButtonBox.cc ColourSelector.cc
+ ListStore.cc Pixbuf.cc AspectFrame.cc ButtonBox.cc ColourSelector.cc \
+ DebugAssertDialog.cc
 
 MAINS = rdialog.cc
 

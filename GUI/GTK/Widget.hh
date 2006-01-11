@@ -254,6 +254,7 @@ namespace RavlGUIN {
     
     static int gtkDestroy(GtkWidget *widget,WidgetBodyC * data);
     static int gtkEvent(GtkWidget *widget,GdkEvent *event,Signal0C *data);
+    static int gtkEventDelete(GtkWidget *widget,GdkEvent *event,Signal0C *data);
     static int gtkEventMouseButton(GtkWidget *widget,GdkEvent *event,Signal0C *data);
     static int gtkEventMouseMotion(GtkWidget *widget,GdkEvent *event,Signal0C *data);
     static int gtkEventKeyboard(GtkWidget *widget,GdkEvent *event,Signal0C *data);

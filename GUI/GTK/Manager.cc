@@ -11,6 +11,7 @@
 
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/Window.hh"
+#include "Ravl/GUI/DebugAssertDialog.hh"
 #include "Ravl/GUI/ToolTips.hh"
 #include "Ravl/Threads/LaunchThread.hh"
 #include "Ravl/HashIter.hh"
@@ -100,8 +101,7 @@ namespace RavlGUIN {
     gint timeout_callback( gpointer data );
   };
   
-  //: Default constructor.
-  
+  //: Default constructor.  
   ManagerC::ManagerC()
     : events(20),
       eventProcPending(false),
@@ -112,6 +112,10 @@ namespace RavlGUIN {
       guiThreadID((UIntT)-1)
   {
     InitDone() = true;
+    m_strDebugWarning = StringC("DEBUG WARNING: Manager::Queue is being called on GUI thread. This can lead to undefined behaviour.\n");
+    m_strDebugWarning += "To fix this, either:\n1. Invoke the function directly if it always called on the GUI thread\n";
+    m_strDebugWarning += "2. Replace the call to Queue with a call to QueueOnGUI if the calling thread changes.\n\n";
+    m_strDebugWarning += "THIS MESSAGE APPEARS IN DEBUG MODE ONLY\n";
 #if !RAVL_USE_GTKTHREADS
     int p[2];
     if(pipe(p) != 0) {
@@ -155,8 +159,8 @@ namespace RavlGUIN {
 #endif
   }
   
-  //: Desructor.
   
+  //: Desructor.  
   ManagerC::~ManagerC() {
     ONDEBUG(cerr << "ManagerC::~ManagerC(), Started. \n");
     TidyUp();
@@ -441,6 +445,15 @@ namespace RavlGUIN {
   //: Queue an event for running in the GUI thread. 
   void ManagerC::Queue(const TriggerC &se) 
   {
+    //Warn developers if this is being called from the GUI thread (message box only appears in debug mode)
+#ifdef QMAKE_PARANOID
+     if(IsGUIThread())
+     {
+	WindowC* rootWindow = &GetRootWindow();
+	DebugDialogWrapperC warnUserDlg(m_strDebugWarning, "Debug Warning", rootWindow);
+     }
+#endif
+    
 #if RAVL_USE_GTKTHREADS
     RavlAssertMsg(initCalled,"MangerC::Init(...) must be called before an other method. ");
     if(IsGUIThread()) {

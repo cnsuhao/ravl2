@@ -21,6 +21,7 @@
 #include "Ravl/CallMethods.hh"
 #include "Ravl/Tuple2.hh"
 #include "Ravl/Threads/Signal2.hh"
+#include "Ravl/Threads/Signal3.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/GUI/TreeModel.hh"
 #include "Ravl/GUI/ReadBack.hh"
@@ -66,6 +67,7 @@ namespace RavlGUIN {
 #define GTKSIG(name,type) Tuple2C<const char *,GTKSignalInfoC>(name,GTKSignalInfoC(name,type))
 #define GTKSIG_GENERIC (GtkSignalFunc) WidgetBodyC::gtkGeneric,SigTypeGeneric
 #define GTKSIG_EVENT   (GtkSignalFunc) WidgetBodyC::gtkEvent,SigTypeEvent 
+#define GTKSIG_EVENTDELETE (GtkSignalFunc) WidgetBodyC::gtkEventDelete,SigTypeEventDelete
 #define GTKSIG_EVENT_MOUSEBUTTON   (GtkSignalFunc) WidgetBodyC::gtkEventMouseButton,SigTypeEventMouseButton
 #define GTKSIG_EVENT_MOUSEMOTION   (GtkSignalFunc) WidgetBodyC::gtkEventMouseMotion,SigTypeEventMouseMotion 
 #define GTKSIG_STRING   (GtkSignalFunc) WidgetBodyC::gtkString,SigTypeString
@@ -94,7 +96,7 @@ namespace RavlGUIN {
       GTKSIG("button_press_event"   ,GTKSIG_EVENT_MOUSEBUTTON ), // gtkwidget
       GTKSIG("button_release_event" ,GTKSIG_EVENT_MOUSEBUTTON ), // gtkwidget
       GTKSIG("motion_notify_event"  ,GTKSIG_EVENT_MOUSEMOTION ), // gtkwidget
-      GTKSIG("delete_event"         ,GTKSIG_EVENT   ), // gtkwidget
+      GTKSIG("delete_event"         ,GTKSIG_EVENTDELETE   ), // gtkwidget
       GTKSIG("expose_event"         ,GTKSIG_EVENT   ), // gtkwidget
       GTKSIG("key_press_event"      ,GTKSIG_KEYBOARD), // gtkwidget
       GTKSIG("key_release_event"    ,GTKSIG_KEYBOARD), // gtkwidget
@@ -184,6 +186,15 @@ namespace RavlGUIN {
     return 1;
   }
   
+  int WidgetBodyC::gtkEventDelete(GtkWidget *widget,GdkEvent *event,Signal0C *data) 
+  { 
+    Signal3C<GdkEvent*, WidgetC, bool> sig(*data);
+    RavlAssert(sig.IsValid());
+    bool ret = true;	//Set the default to true. For "destroy" to be called, set this value to false in the implementation
+    sig(event, sig.DefaultValue2(), ret);
+    return ret;
+  }
+  
   int WidgetBodyC::gtkEventKeyboard(GtkWidget *widget,GdkEvent *event,Signal0C *data) { 
     Signal1C<GdkEventKey *> sig(*data);
     RavlAssert(sig.IsValid());
@@ -192,7 +203,8 @@ namespace RavlGUIN {
   }
   
 
-  int WidgetBodyC::gtkGeneric(GtkWidget *widget,Signal0C *data) { 
+  int WidgetBodyC::gtkGeneric(GtkWidget *widget,Signal0C *data) 
+  { 
     (*data)();
     return 1;
   }
@@ -459,6 +471,14 @@ namespace RavlGUIN {
       case SigTypeGeneric: ret = Signal0C(true); break;
       case SigTypeEvent:  
         ret = Signal2C<GdkEvent *,WidgetC>(0,WidgetC(*this)); 
+        break;
+	
+       case SigTypeEventDelete:
+       {
+         bool bDefault = true;	//Default means that the "destroy" signal is not triggered. 
+	 			//To trigger "destroy" set this param to false in calling code
+         ret = Signal3C<GdkEvent *,WidgetC, bool>(0,WidgetC(*this), bDefault);
+       }
         break;
       case SigTypeEventKeyboard: 
         if(sN == "key_press_event") // Enable press events.

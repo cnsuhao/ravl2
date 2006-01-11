@@ -159,6 +159,7 @@ namespace RavlGUIN {
     bool initCalled;
     bool managerStarted;
     volatile bool shutdownFlag;
+    StringC m_strDebugWarning;
     ThreadEventC shutdownDone;
     ThreadEventC startupDone;
     UIntT guiThreadID;
