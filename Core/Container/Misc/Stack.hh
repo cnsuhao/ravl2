@@ -122,9 +122,17 @@ namespace RavlN {
     {}
     //: Default constructor.
     // constructs an empty stack.
+
+    StackC(const T& d)
+      : BaseStackC<T>()
+    { Push(d); }
+    //: Constructor with single element
     
     StackC(const StackC<T>&);
     //: Copy constructor.
+
+    StackC(const StackC<T>& other, const T& d);
+    //: Copy and push constructor
     
     ~StackC()
     { Empty(); }
@@ -174,6 +182,7 @@ namespace RavlN {
     
     void AddBlk();
     void DelBlk();
+    void CopyBlk(const StackC<T>&);
     
     inline void DecrTop();
   };
@@ -306,13 +315,9 @@ namespace RavlN {
       this->blkSize=0;		// 1. if this wasn't done the destruct.
     }                           // would leak
   }
-  
-  //------- last, the only member requiring and iterator ---------------------
-  
+
   template <class T>
-  StackC<T>::StackC(const StackC& s)
-    : BaseStackC<T>(s) 
-  {
+  void StackC<T>::CopyBlk(const StackC<T>& s) {
     if(this->blkSize != 0 ) { 
       // stack in inital state, no copy needed
       // to prevent gcc 2.7.2 complaining about possible uninitialised use
@@ -338,6 +343,23 @@ namespace RavlN {
       this->top     = s.top;
       this->blkSize = s.blkSize;
     }
+  }
+  
+  //------- last, the only member requiring and iterator ---------------------
+  
+  template <class T>
+  StackC<T>::StackC(const StackC& s)
+    : BaseStackC<T>(s) 
+  {
+    CopyBlk(s);
+  }
+
+  template <class T>
+  StackC<T>::StackC(const StackC& s, const T& d)
+    : BaseStackC<T>(s)
+  {
+    CopyBlk(s);
+    Push(d);
   }
 }
 
