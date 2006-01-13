@@ -59,6 +59,18 @@ namespace RavlImageN {
     }
     //:Goto next position.
     // Returns true if window is on the same row.
+    
+    bool Next(Index2dC stepSize) {
+      window.Range2() += stepSize[1];
+      if(window.Range2().Max() <= imageRect.Range2().Max())
+	return true;
+      window.Range2().Min() = imageRect.Range2().Min();
+      window.Range2().Max() = window.Range2().Min() + size2 - 1;
+      window.Range1() += stepSize[0];
+      return false;
+    }
+    //:Goto next position.
+    // Returns true if window is on the same row.
 
     bool operator++(int) 
     { return Next(); }
