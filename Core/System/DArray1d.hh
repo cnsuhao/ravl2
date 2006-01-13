@@ -457,7 +457,8 @@ namespace RavlN {
     { Body().Fill(value); }
     //: Fill array with given value.
     
-    IndexRangeC Range() const;
+    IndexRangeC Range() const
+    { return Body().Range(); }
     //: Get range of indexes covered by array.
     // Note, there may be holes in the range.
     
