@@ -127,7 +127,7 @@ namespace RavlN {
     // Used for building SArray's from Arrays.
     
     SArray1dC<DataT> Align(UIntT alignment) const { 
-      if((((int) SizeBufferAccessC<DataT>::ReferenceElm()) & (alignment-1)) == 0)
+      if((((SizeT) SizeBufferAccessC<DataT>::ReferenceElm()) & (alignment-1)) == 0)
         return *this; // Data is already aligned
       SArray1dC<DataT> ret = ConstructAligned(Size(),alignment);
       for(BufferAccessIter2C<DataT,DataT> it(*this,ret);it;it++)
