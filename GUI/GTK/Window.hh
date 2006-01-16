@@ -236,14 +236,6 @@ namespace RavlGUIN {
     // Default value is true. If false, the window manager shouldn't decorate the window
     // This may not have any effect at all, depending on the window manager. I wouldn't rely on it.
 
-    bool GUIRaise()
-    { return Body().GUIRaise(); }
-    //: Raises the window
-
-    bool GUILower() 
-    { return Body().GUILower(); }
-    //: Lowers the window
-
     bool GUIMaximise(bool& maximise)
     { return Body().GUIMaximise(maximise); }
     //: Maximise the window - requires GTK >= 2
@@ -277,6 +269,14 @@ namespace RavlGUIN {
     
     void Lower() 
     { Body().Lower(); }
+    //: Lowers the window
+    
+     bool GUIRaise()
+    { return Body().GUIRaise(); }
+    //: Raises the window
+
+    bool GUILower() 
+    { return Body().GUILower(); }
     //: Lowers the window
 
     void Maximise(bool& maximise)
