@@ -134,7 +134,7 @@ namespace RavlGUIN {
   
   //: Update cursor.
 
-
+  
   bool WindowBodyC::GUIUpdateCursor(CursorC &newCursor) 
   {
     RavlAssert(Manager.IsGUIThread());
@@ -191,7 +191,7 @@ namespace RavlGUIN {
         return true;
       }
     }
-    Hide();
+    GUIHide();
     Destroy();
     ONDEBUG(cerr << "WindowBodyC::GuiCloseDown() done" << endl);
     return true;
