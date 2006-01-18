@@ -2,25 +2,24 @@
 
 Common targets: 
   check     Build binaries and libraries with consistancy checking (Default).
-             this is recomended development target.
-  debug     Build binaries and code with debug information, but link
-            with the check verson of RAVL. This should be quicker than
-	    debuging all of RAVL.
+            This is the recomended development target.
   debugall  Build binaries with debug information, link executables with
-	    the all available debug information. NB. The executables may
+	    all the available debug information. NB. The executables may
 	    be very large.
+  debug     Build binaries and code with debug information, but link
+            with the "check" verson of RAVL. This should be quicker than
+	    debuging all of RAVL.
   opt       Optimised build. 
+  shared    Build "check" version but using shared libraries.
+  debugshared Build "debugall" version but using shared debug libraries. 
+  optshared Build "opt"  version but using shared libraries.
   ne, debugne, optne, gprofne, sharedne
             As check,debug, opt etc. but only building libraries, not executables.
   buildall  Build check,debug,opt and the documentation.
-  shared    Build optimised shared libraries/executables.
-  debugshared Build shared debug libraries/executables. 
-  optshared Build shared opt libraries/ executables
   prof      Output optimised code with profiling info suitable for prof.
   gprof     Output optimised code with profiling info suitable for gprof.
   purify    Build all executables in the CURRENT directory with purify.
-	     purify executables are prefixed with 'pure_'.  Use only on solaris
-	     machines.
+	     purify executables are prefixed with 'pure_'. (Not available in CVSSP.)
   src       Check-out all source, and put headers in the right place.
   clean     Remove all temporary files. (NB. Use VAR=... to set variant.) (See below for details)
     optclean clean with VAR=opt
@@ -41,7 +40,7 @@ Common targets:
   notes     Print help on more obscure/unstable parts of the QMake system. 
 
 Variables: 
-  PROCS    = Number of processors to use. 
+  PROCS    = Number of processors to use. (Default varies with no. of cpus on machine.) 
   VAR      = check (default), debug, opt 
   QMAKE_INFO=1 Print command lines during make. 
   USERCFLAGS=... Pass extra options to the compiler.
@@ -49,10 +48,10 @@ Variables:
 
 Examples: 
 
-  % make qopt
-Make optimised version of code, with frozen dependencies.
+  % qm opt
+Make optimised version of code
 
-  % make debug PROCS=1 QMAKE_INFO=1 
+  % qm debug PROCS=1 QMAKE_INFO=1 
 Make debug version one file at a time, with command lines printed. 
 
 The meaning of clean targets:

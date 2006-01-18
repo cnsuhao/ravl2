@@ -7,7 +7,7 @@
 #! rcsid="$Id$"
 #! file="Ravl/QMake/defs.mk"
 
-PACKAGENAME= QMake
+#PACKAGENAME= QMake
 
 DESCRIPTION = Quick Make System
 
@@ -37,7 +37,7 @@ endif
 
 HTML=Example.def.html
 
-EHT= exeSysConf.eht Ravl.QMake.html Ravl.QMake.Defs.html Ravl.QMake.Commands.html \
+EHT= exeSysConf.eht Ravl.QMake.html Ravl.QMake.Defs.html  \
  Ravl.QMake.Build_Structure.html Ravl.QMake.AutoBuild.html
 
 SCRIPTS=qm QLibs
