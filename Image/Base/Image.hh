@@ -155,8 +155,8 @@ namespace RavlImageN {
     
     ImageC<PixelT> Rotate180(Index2dC centre = Index2dC(0,0)) const;
     //: Create a copy of the image which is rotated 180 degree's.
-    // The image is rotated around the center given.
-    //!param: centre - Center arround which to rotate.
+    // The image is rotated around the centre given.
+    //!param: centre - Centre arround which to rotate.
     
   };
   
