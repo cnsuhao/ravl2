@@ -162,6 +162,7 @@ namespace RavlCxxDocN {
     ret += "xor";
     ret += "xor_eq";
     
+    ret += "root";
     return ret;
   }
   
