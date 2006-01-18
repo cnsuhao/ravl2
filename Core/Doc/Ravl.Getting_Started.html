@@ -9,18 +9,37 @@
 
   <body>
 
-<p>
-This page shows how to write and compile a simple program with 
-RAVL. </p>
+    <p>
+      This page shows how to write and compile a simple program with 
+      RAVL. </p>
+    
+    <p>
+      Firstly you need to set up your environment.  Consult your local site
+      RAVL documentation for how to do this.  Alternatively, if you have
+      installed RAVL yourself, you can set up the environment by sourcing
+      either <code>{install}/share/RAVL/QMake/qmake.cshrc</code> if you use a
+      <code>'csh</code>'-type shell or
+      <code>{install}/share/RAVL/QMake/qmake.sh</code> if you use a
+      bourne-type shell (like <code>bash</code>)  
+      <br> where <code>{install}</code> is
+      the root of your local RAVL installation tree.  This should:</p>
+    <ul>
 
-<p>
-Create a directory of your choice and in it create two files. The
-first 'myprog.cc' with the following code. This just does some
-basic command line parsing, and loads an image. </p>
+      <li>set the $PROJECT_OUT variable (if not already set), to indicate
+      where your compilation results should go, </li>
 
-<code>
-<pre>
-// myprog.cc
+      <li>create the <code>qm</code> alias for compiling your code, and</li>
+      <li>add an entry to your $PATH variable so that the system will
+      automatically locate your executables.</li>
+    </ul>
+
+
+    <p>
+      Create a directory of your choice and in it create two files. The first
+      is <code>myprog.cc</code> with the following code. This just does some
+      basic command line parsing, and loads an image. </p>
+
+<pre>// myprog.cc
 
 #include "Ravl/Option.hh"
 #include "Ravl/IO.hh"
@@ -45,31 +64,25 @@ int main(int nargs,char **argv) {
   
   return 0;
 }
-</pre></code><p>
+</pre>
 
-Next you'll have to tell QMake that you want to build an
-executable.  It uses a file call 'defs.mk' which tells
-it about files in the current directory.  More information on 'defs.mk'
-files can be found in <a href="Ravl.QMake.Defs.html">Ravl.QMake.Defs</a>.
+    <p>
+      Next you'll have to tell QMake that you want to build an executable.  To
+      do this, you need to create a file called <code>defs.mk</code> to
+      tell it about files in the current directory.  More information on
+      <code>defs.mk</code> files can be found in <a
+      href="Ravl.QMake.html">Ravl.QMake</a>.  For this example all you need to
+      put in <code>defs.mk</code> is a single line: </p>
 
-For this example all you need is: </p>
+<pre>  MAINS=myprog.cc
+</pre>
 
-<code><pre>    
-  # defs.mk
-  MAINS=myprog.cc
-</pre></code><p>
+    <p>
+      In the same directory, type <b>qm</b> and the make system will build an
+      executable, storing it somewhere in <code>$PROJECT_OUT</code>.  When you
+      run <b>qm</b> you'll get some messages similar to the following:</p>
 
-In the directory run <b>qm</b> and the make system will
-build an executable to your project out. If you 'qm'
-isn't on your path you can setup an alias by sourcing
-either '{install}/share/RAVL/QMake/qmake.cshrc' if you use
-a 'csh' based shell or '{install}/share/RAVL/QMake/qmake.sh' if
-you use a bourne based shell (Like bash). </p>
-
-When you run <b>qm</b> you'll get some messages similar to the following.
-<p>
-<code><pre>    
-% qm
+<pre>% qm
 --- Making dir /buf/ees1cg/share/RAVL/Admin/linux/depend/local/local/None 
 --- Making dir /buf/ees1cg/qm//buf/ees1cg//linux/local/None/check/objs 
 --- Compile check myprog.cc
@@ -78,25 +91,28 @@ When you run <b>qm</b> you'll get some messages similar to the following.
 --- Making dir /buf/ees1cg/bin 
 --- Creating redirect for myprog.
 --- Linking check myprog ( /buf/ees1cg/lib/RAVL/linux/bin/myprog ) 
-</pre></code>
+</pre>
 
-<p>
-You can then run the program.  The simplest way is just to cut and paste
-the path given in the linking stage.  To the program to list is options
-you use the <b>-help</b> switch. Here's an example: </p>
+    <p>In this example, <code>$PROJECT_OUT</code> was set to
+      <code>/buf/ees1cg</code></p>
 
-<pre><code>
-% myprog -help
+    <p>
+      You can then run the program.  For example, to get the program to list
+      its options you use the <code>-help</code> switch: </p>
+
+<pre>% myprog -help
 Usage: myprog [options] 
    -i (infile.ppm) [infile.ppm] Input filename 
    -help (true) [false] Print usage information. 
-</pre></code>
+</pre>
 
-<p>
-Congratulations, you've compiled and run your first Ravl program!</p>
+    <p>
+      Congratulations, you've compiled and run your first Ravl program!</p>
 
-<p>
-      Note: if you actually want to use this example to actually read in a real image, you will need to link in one or more extra <a href="Ravl.API.Images.IO.html">I/O libraries</a>.</p>
+    <p>
+      Note: if you want to use this example to actually read in a real image,
+      you will need to link in one or more extra <a
+      href="Ravl.API.Images.IO.html">I/O libraries</a>.</p>
 
   </body>
 </html>
