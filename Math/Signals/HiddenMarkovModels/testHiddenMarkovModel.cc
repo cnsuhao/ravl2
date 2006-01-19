@@ -1,141 +1,63 @@
-// This file is part of RAVL, Recognition And Vision Library 
-// Copyright (C) 2003, OmniPerception Ltd.
-// This code may be redistributed under the terms of the GNU Lesser
-// General Public License (LGPL). See the lgpl.licence file for details or
-// see http://www.gnu.org/copyleft/lesser.html
-// file-header-ends-here
-//! rcsid="$Id$"
-//! lib=RavlHMM
-//! file="Ravl/Math/Signals/HiddenMarkovModels/exHiddenMarkovModel.cc"
-
-#include "Ravl/HiddenMarkovModel.hh"
+#include "HiddenMarkovModel.hh"
 #include "Ravl/Option.hh"
 
+
 using namespace RavlN;
-
-RealT initTrans[] = {
-  0.5, 0.2, 0.3,
-  0.4, 0.2, 0.4,
-  0.1, 0.6, 0.3
-};
-
-RealT initObs[] = {
-  0.6, 0.4, 0.1, 0.1,
-  0.3, 0.4, 0.2, 0.3,
-  0.1, 0.2, 0.7, 0.6,
-};
-
-VectorC observations[] = {
-  VectorC(1,0,0,0),
-  VectorC(1,0,0,0),
-  VectorC(0,1,0,0), 
-  VectorC(0,0,1,0)
-};
-
-int TestBasic() {
-  cout << "TestBasic(), Called. \n";
-  MatrixC trans(3,3,initTrans);
-  MatrixC obs(3,4,initObs);
-
-  VectorC sv(3);
-  sv.Fill(0);
-  for(int i = 0;i < 3; i++) {
-    sv[i] = 1;
-    //cerr << "Value=" << (trans * sv).Sum() << "\n";
-    sv[i] = 0;
-  }
+int main()
+{
+  RealT initTrans[] = {
+    0.5, 0.2, 0.3,
+    0.4, 0.2, 0.4,
+    0.1, 0.6, 0.3
+  };
   
-  HiddenMarkovModelC mm(trans,obs);
-  VectorC state(1,0,0);
-  SArray1dC<VectorC> vec(4);
-  for(int i = 0;i < 4;i++) {
-    state = mm.Forward(state,observations[i]);
-    vec[i] = observations[i];
-    cerr << "State=" << state <<"\n";
-  }
-  VectorC istate(1,0,0);
-  SArray1dC<UIntT> path;
-  cerr << "Viterbi:\n";
-  mm.Viterbi(vec,istate,path);
-  cerr << "Path=" << path << "\n";
-  return 0;
-}
-
-RealT initTrans2[] = {
-  0.0, 0.0, 0.0 , 0.0,
-  1.0, 0.0, 0.0 , 0.0,
-  0.0, 1.0, 0.5 , 0.0,
-  0.0, 0.0, 0.5 , 1.0
-};
-
-RealT initObs2[] = {
-  0.25, 0.1,
-  0.25, 0.1,
-  0.25, 0.7,
-  0.25, 0.1,
-};
-
-VectorC observations2[] = {
-  VectorC(1,0),
-  VectorC(1,0),
-  VectorC(0,1),
-  VectorC(1,0), 
-  VectorC(1,0)
-};
-
-int expected2[] = {
-  1,
-  2,
-  2,
-  3,
-  3
-};
-
-
-int TestVirterbi() {
-  cout << "TestVirterbi(), Called. \n";
-  MatrixC trans(4,4,initTrans2);
-  MatrixC obs(4,2,initObs2);
+  RealT initObs[] = {
+    0.6, 0.2, 0.15, 0.05,
+    0.25, 0.25, 0.25, 0.25,
+    0.05, 0.1, 0.35, 0.5,
+  };
   
-  VectorC sv(4);
-  sv.Fill(0);
-  for(int i = 0;i < 4; i++) {
-    sv[i] = 1;
-    //cerr << "Value=" << (trans * sv).Sum() << "\n";
-    sv[i] = 0;
-  }
+  HiddenMarkovModelC hmm(MatrixC(3, 3, initTrans), MatrixC(3, 4, initObs));
+  cout << "HMM has the transition matrix: " << hmm.Transition() << "\n"
+      << "and observation matrix: " << hmm.Observation() << endl;
   
-  HiddenMarkovModelC mm(trans,obs);
-  VectorC state(1,0,0,0);
-  SArray1dC<VectorC> vec(5);
-  for(int i = 0;i < vec.Size();i++) {
-    state = mm.Forward(state,observations2[i]);
-    vec[i] = observations2[i];
-    cerr << "State=" << state <<"\n";
-  }
-  VectorC istate(1,0,0,0);
-  SArray1dC<UIntT> path;
-  cerr << "Viterbi:\n";
-  mm.Viterbi(vec,istate,path);
-  cerr << "Path=" << path << "\n";
-  for(int i = 0;i < vec.Size();i++) {
-    if(expected2[i] != path[i])
-      return __LINE__;
-  }
-  return 0;
-}
-
-
-int main() {
-  int ln;
-  if((ln = TestBasic()) > 0) {
-    cerr << "Test failed " << ln << "\n";
-    return 1;
-  }
-  if((ln = TestVirterbi()) > 0) {
-    cerr << "Test failed " << ln << "\n";
-    return 1;
-  }
-  cout << "Test passed. \n";
-  return 0;
+  VectorC istate(1.0/3, 1.0/3, 1.0/3); //Initial state probabilities
+  
+// Observations specified as vectors:
+  VectorC observations[] = {
+    VectorC(0,0,1,0),
+    VectorC(0,1,0,0),
+    VectorC(1,0,0,0), 
+    VectorC(0,0,0,1),
+    VectorC(0,0,1,0),
+    VectorC(1,0,0,0),
+    VectorC(1,0,0,0),
+    VectorC(1,0,0,0),
+    VectorC(1,0,0,0),
+    VectorC(0,1,0,0),
+    VectorC(0,1,0,0),
+    VectorC(0,1,0,0),
+  };
+  
+  UIntT T = sizeof(observations)/sizeof(observations[0]);
+  SArray1dC<VectorC> obsvecarray(observations, T, false);
+  cout << "Observed sequence (as simple array of vectors): " << obsvecarray;
+  RealT prob1 = hmm.ObsSeqProbability( obsvecarray, istate );
+  cout << "Probability of observing the sequence is " << prob1 << endl;
+  
+  SArray1dC<UIntT> path1;
+  hmm.Viterbi( obsvecarray, istate, path1);
+  cout << "Most likely path through states is " << path1 << endl;
+  
+  // Same observation as above, but specified as indices between 0 and observationM.size()-1
+  
+  UIntT obsseq[] = { 2, 1, 0, 3, 2, 0, 0, 0, 0, 1, 1, 1 };
+  SArray1dC<UIntT> obsindices(obsseq, T, false); 
+  cout << "**************************************************\n";
+  cout << "Observed sequence (as simple array of indices): \n" << obsindices;
+  RealT prob2 = hmm.ObsSeqProbability( obsindices, istate );
+  cout << "Probability of observing the sequence is " << prob2 << endl;
+  SArray1dC<UIntT> path2;
+  hmm.Viterbi( obsindices, istate, path2);
+  cout << "Most likely path through states is \n" << path2 << endl;
 }

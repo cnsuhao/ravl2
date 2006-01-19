@@ -35,7 +35,7 @@ VectorC observations2[] = {
   VectorC(1,0)
 };
 
-int expected2[] = {
+unsigned int expected2[] = {
   1,
   2,
   2,
@@ -59,7 +59,7 @@ int main() {
   HiddenMarkovModelC mm(trans,obs);
   VectorC state(1,0,0,0);
   SArray1dC<VectorC> vec(5);
-  for(int i = 0;i < vec.Size();i++) {
+  for(int i = 0;i < (int)vec.Size();i++) {
     state = mm.Forward(state,observations2[i]);
     vec[i] = observations2[i];
     cerr << "State=" << state <<"\n";
@@ -71,7 +71,7 @@ int main() {
   mm.Viterbi(vec,istate,path);
   
   cerr << "Path=" << path << "\n";
-  for(int i = 0;i < vec.Size();i++) {
+  for(int i = 0;i < (int)vec.Size();i++) {
     if(expected2[i] != path[i])
       return 1;
   }
