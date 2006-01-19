@@ -1,4 +1,15 @@
-#include "HiddenMarkovModel.hh"
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2003, OmniPerception Ltd. and University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+//! author="Charles Galambos, Akiel Khan"
+//! rcsid="$Id$"
+//! lib=RavlHMM
+//! file="Ravl/Math/Signals/HiddenMarkovModels/testHiddenMarkovModel.cc"
+
+#include "Ravl/HiddenMarkovModel.hh"
 #include "Ravl/Option.hh"
 
 
