@@ -93,7 +93,11 @@ extdef:   fndef            { $$=$1; }
         | datadef          { $$=$1; }
         | template_def     { $$=$1; }
         | ASM_KEYWORD '(' string ')' ';' { $$=ObjectC(); }  /* Ignore it.*/
-        | NAMESPACE maybe_identifier '{' extdefs_opt '}' { $$=ScopeC($2.Name(),$4); 
+        | NAMESPACE maybe_identifier '{' extdefs_opt '}' { 
+                                                           StringC name;
+                                                           if($2.IsValid())
+                                                             name = $2.Name();
+                                                           $$=ScopeC(name,$4); 
 							   $$.UpdateComment($1.Comment());
     	                                                   $$.SetVar(STR(dectype),STR(definition));
                                                            $$.SetVar(STR(storageType),STR(namespace));
