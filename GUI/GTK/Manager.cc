@@ -109,7 +109,7 @@ namespace RavlGUIN {
       initCalled(false),
       managerStarted(false),
       shutdownFlag(false),
-      guiThreadID((UIntT)-1)
+      guiThreadID(ThisThreadID()) // Start out with the GUI thread as the one that created the manager.
   {
     InitDone() = true;
     m_strDebugWarning = StringC("DEBUG WARNING: Manager::Queue is being called on GUI thread. This can lead to undefined behaviour.\n");
