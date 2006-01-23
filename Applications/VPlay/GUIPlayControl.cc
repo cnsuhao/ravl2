@@ -422,7 +422,9 @@ namespace RavlGUIN {
     return true;
   }
   
-  void PlayControlBodyC::InitGUI() {
+  void PlayControlBodyC::InitGUI() 
+  {
+    RavlAssert(Manager.IsGUIThread());
     ONDEBUG(cerr << "PlayControlBodyC::InitGUI(), Called. \n");
     //: Setup gui.
     
@@ -470,7 +472,7 @@ namespace RavlGUIN {
 	Button(PixmapC(ff_xpm)    ,PlayControlC(*this),&PlayControlC::Playx2,"Play at double speed") +
 	Button(PixmapC(theend_xpm),PlayControlC(*this),&PlayControlC::TheEnd,"Go to last frame");
     }
-    Add(PackInfoC(HBox(HBox(buttons,
+    GUIAddList(PackInfoC(HBox(HBox(buttons,
 			    0,false)),
 		  false,false,2) +
 	PackInfoC(frameSlider,false,true,2)
