@@ -19,13 +19,11 @@ namespace RavlImageN {
     
   public:
     
-    ShotBoundHistIntC()
-      :firstFrame(true)
-    {}
-    //: Default constructor
-    
-    ShotBoundHistIntC(UIntT NoOfBins, UIntT Subsample, RealT ShotDetThr);
+    ShotBoundHistIntC(RealT ShotDetTh=0.7, UIntT NoOfBins=16, UIntT Subsample=4);
     //: Constructor on shot detection parameters
+    //!param: ShotDetTh - threshold for shot boundary measure [0..1]
+    //!param: NoOfBins - no of histogram bins per colour channel
+    //!param: Subsample - each frame is subsampled both horizontally and vertically by this factor (1 -> no subsampling)
     
     bool Apply(const ImageC<ByteRGBValueC>& frame);
     //: Process next video frame

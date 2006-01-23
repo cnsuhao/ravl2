@@ -22,7 +22,7 @@ SArray1dC<int> ShotBoundHistIntC::CalcHist(const ImageC<ByteRGBValueC> &Image)
 }
 
 
-ShotBoundHistIntC::ShotBoundHistIntC(UIntT NoOfBins, UIntT Subsample, RealT ShotDetThr)
+ShotBoundHistIntC::ShotBoundHistIntC(RealT ShotDetThr, UIntT NoOfBins, UIntT Subsample)
   : noOfBins(NoOfBins),
     subsample(Subsample),
     shotDetThr(ShotDetThr), 
