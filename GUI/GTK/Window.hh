@@ -207,11 +207,6 @@ namespace RavlGUIN {
       { return static_cast<const WindowBodyC  &>(WidgetC::Body()); }
     //: Access body.
     
-    bool GUISetTitle(StringC &str)
-      { return Body().GUISetTitle(str); }
-    //: Set the title of the window.
-    // GUI thread only.
-    
     bool GUICloseDown()
       { return Body().GUICloseDown(); }
     //: Close down window.
@@ -309,6 +304,11 @@ namespace RavlGUIN {
     void SetTitle(const StringC &str)
     { Body().SetTitle(str); }
     //: Set the title of the window.
+    
+    bool GUISetTitle(StringC &str)
+    { return Body().GUISetTitle(str); }
+    //: Set the title of the window.
+    // GUI thread only.
     
     void SetPositioning(GtkWindowPosition& pos)
     { Body().SetPositioning(pos); }
