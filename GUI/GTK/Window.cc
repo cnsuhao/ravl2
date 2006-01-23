@@ -121,7 +121,7 @@ namespace RavlGUIN {
   
   bool WindowBodyC::Close() {
     ONDEBUG(cerr << "WindowBodyC::Close() called" << endl);
-    Manager.Queue(Trigger(WindowC(*this),&WindowC::GUICloseDown));
+    Manager.QueueOnGUI(Trigger(WindowC(*this),&WindowC::GUICloseDown));
     ONDEBUG(cerr << "WindowBodyC::Close() done" << endl);
     return true;
   }
