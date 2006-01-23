@@ -15,7 +15,7 @@
 
 #include "Ravl/DArray1dIter4.hh"
 
-//namespace RavlN {
+namespace RavlN {
   
   //! userlevel=Normal
   //: Dynamic array iterator.
@@ -87,7 +87,7 @@
   }
   
   
-//}
+}
 
 
 #endif
