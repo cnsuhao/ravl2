@@ -57,21 +57,21 @@ namespace RavlN {
     {}
     //: Create an 2d range from corner points.
     
-    IndexRange2dC(const Index2dC &center,SizeT size)
-      : rows(center.Row()-size, center.Row()+size), 
-	cols(center.Col()-size,center.Col()+size)
+    IndexRange2dC(const Index2dC &centre,SizeT size)
+      : rows(centre.Row()-size, centre.Row()+size), 
+	cols(centre.Col()-size,centre.Col()+size)
     {}
-    //: Create an 2d range from a center point and a size.
-    // Size is the distance from the center to the edge, so
+    //: Create an 2d range from a centre point and a size.
+    // Size is the distance from the centre to the edge, so
     // a size of 0 gives a single pixel, and a size of 1 generates
     // a 3x3 square.
     
-    IndexRange2dC(const Index2dC &center,SizeT nrows,SizeT ncols);
-    //: Create an 2d range from a center point and a size for rows and cols.
-    // The sizes passed to this function are the absolute size of the
-    // rectangle, unlike IndexRangeC(Index2dC &center,SizeT size).
-    // Note: if the rows or cols there will be a half pixel offset in the
-    // center of the rectangle. 
+    IndexRange2dC(const Index2dC &centre,SizeT nrows,SizeT ncols);
+    //: Create an 2d range from a centre point and a size for rows and cols.
+    //The sizes passed to this function are the absolute size of the
+    //rectangle, unlike IndexRangeC(Index2dC &centre,SizeT size).  Note: if
+    //<code>nrows</code> or <code>ncols</code> or both are even, there will be
+    //a half pixel offset in the centre of the rectangle.
     
     IndexRange2dC(IndexC minRow, IndexC maxRow,
 		  IndexC minCol, IndexC maxCol)
@@ -170,7 +170,7 @@ namespace RavlN {
     
     inline IndexRange2dC Erode() const
     { return IndexRange2dC(rows.Shrink(1),cols.Shrink(1)); }
-    //: Returns an rectangle with each side 1 index closer to the center.
+    //: Returns an rectangle with each side 1 index closer to the centre.
     
     inline IndexRange2dC Expand(IndexC n) const
     { return IndexRange2dC(rows.Expand(n),cols.Expand(n)); }
@@ -296,7 +296,7 @@ namespace RavlN {
     //: Are two ranges unequal ?
     
     IndexRange2dC Rotate180(Index2dC centre = Index2dC(0,0));
-    //: Rotate rectangle 180 degree's around the given center.
+    //: Rotate rectangle 180 degree's around the given centre.
     
     inline bool IsOverlapping(const IndexRange2dC & r) const
     { return Range1().IsOverlapping(r.Range1()) && Range2().IsOverlapping(r.Range2()); }
