@@ -15,7 +15,7 @@ SArray1dC<int> ShotBoundHistIntC::CalcHist(const ImageC<ByteRGBValueC> &Image)
     const int c2 = int((*it)[1]) / binWidth;
     const int c3 = int((*it)[2]) / binWidth;
     const int index = ((c1 * noOfBins) + c2) * noOfBins + c3;
-    RavlAssertMsg((index >= int(Hist.Size()) || index < 0),"Error in histogram calculation. ");
+    RavlAssertMsg((index >= 0 || index < int(Hist.Size())),"Error in histogram calculation");
     Hist[index]++;
   } 
   return Hist;
