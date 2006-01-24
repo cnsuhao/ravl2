@@ -7,7 +7,7 @@
 #include "Ravl/Image/Image.hh"
 
 //! docentry="Ravl.API.Images.Shot Boundary Detection"
-//! author="Bill Christmas"
+//! author="Alexey Kostin, Bill Christmas"
 //! userlevel=Normal
 
 namespace RavlImageN {
