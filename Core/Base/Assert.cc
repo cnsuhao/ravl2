@@ -85,7 +85,7 @@ namespace RavlN {
   
   //: Called if assertion failed, with message.
   
-  void AssertFailed(char *file,int lineNo,char *msg) {
+  void AssertFailed(char *file,int lineNo,const char *msg) {
     cerr << "Ravl assertion failed " << file <<":" << dec << lineNo << ".\n";
     cerr << "Reason: " << msg << "\n";
 #if RAVL_HAVE_EXCEPTIONS
@@ -101,7 +101,7 @@ namespace RavlN {
   // This will either cause the program to trap to the debugger
   // or thow an 'ExceptionAssertionFailedC'
   
-  void IssueError(char *file,int lineNo,char *msg ...) {
+  void IssueError(char *file,int lineNo,const char *msg ...) {
     const int formSize = 4096;
     va_list args;
     va_start(args,msg);
@@ -122,7 +122,7 @@ namespace RavlN {
   //: Call when program encounters an a unexpected occurance.
   // this prints the message and continues.
   
-  void IssueWarning(char *file,int lineNo,char *msg ...) {
+  void IssueWarning(char *file,int lineNo,const char *msg ...) {
     const int formSize = 4096;
     va_list args;
     va_start(args,msg);
