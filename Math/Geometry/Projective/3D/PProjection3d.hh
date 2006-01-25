@@ -36,7 +36,8 @@ namespace RavlN {
     // Constructors, assigment, and destructor.
     // ----------------------------------------
 
-    inline PProjection3dC();
+    inline PProjection3dC()
+    {}
     // Creates the zero projection. All points are projected into
     // not-valid projective object.
 
