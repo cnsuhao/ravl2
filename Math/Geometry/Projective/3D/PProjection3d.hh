@@ -37,6 +37,10 @@ namespace RavlN {
     // ----------------------------------------
 
     inline PProjection3dC()
+      : Matrix4dC(0, 0, 0, 0,
+		  0, 0, 0, 0,
+		  0, 0, 0, 0,
+		  0, 0, 0, 0)
     {}
     // Creates the zero projection. All points are projected into
     // not-valid projective object.
