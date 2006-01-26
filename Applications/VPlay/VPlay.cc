@@ -61,6 +61,8 @@
 
 #include "Ravl/OS/NetPortFormat.hh"
 
+#include "Ravl/DP/PrintIOInfo.hh"
+
 #include <stdlib.h>
 
 #define DODEBUG 0
@@ -202,13 +204,27 @@ int doVPlay(int nargs,char *args[])
   DListC<StringC> attribs = option.List("a","List of attributes to set. ");
   StringC formatIn = option.String("if","","Input format. ");
   bool noSeek = option.Boolean("ns",false,"Suppress seeking. ");
+  bool listFormats    = option.Boolean("lf",    false,                    "Print list of available data formats. ");
+  bool listConversions= option.Boolean("lc",    false,                    "Print list of available data converters. ");
   
   StringC infile = option.String("","","Input filename");  
   if(infile.IsEmpty())
     infile = option.String("","in.pgm","Input filename");
   
   option.Check();
-
+  
+  // Does the user just want some information about support formats ?
+  
+  if(listFormats) {
+    PrintIOFormats(cout);
+    return 0;
+  }
+  
+  if(listConversions) {
+    PrintIOConversions(cout);
+    return 0;
+  }
+  
   if(noDisplay) {
     cerr << "ERROR: No DISPLAY enviroment set. \n";
     return 1;
