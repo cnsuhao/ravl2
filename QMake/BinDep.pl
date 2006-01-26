@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-@searchDirs = ('/usr/lib', '/lib' );
+@searchDirs = ('/usr/lib64', '/usr/lib', '/lib' );
 @ignoreLibs = {"m","c"};
 @useLibs = {"c"};
 %targLibs;
