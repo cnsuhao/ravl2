@@ -1,3 +1,4 @@
+#line 1 "/vol/vssp/localsoft/Auto/linux/trees/Ravl.1/src/Ravl/Image/Processing/Filters/RemoveDistortion.hh"
 // This file is part of RAVL, Recognition And Vision Library 
 // Copyright (C) 2002, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
@@ -10,18 +11,20 @@
 //! lib=RavlImageProc
 //! docentry="Ravl.API.Images.Warping"
 //! file="Ravl/Image/Processing/Filters/RemoveDistortion.hh"
-//! author="Philip McLauchlan"
+//! author="Philip McLauchlan, Alex Kostin, Bill Christmas"
 //! date="16/07/2002"
 
 #include "Ravl/Image/PixelMixer.hh"
 #include "Ravl/Image/Image.hh"
-#include "Ravl/Array2dIter.hh"
+#include "Ravl/Array2dIter2.hh"
+#include "Ravl/Array2dIter3.hh"
 #include "Ravl/Matrix3d.hh"
 #include "Ravl/Vector3d.hh"
 #include "Ravl/Point2d.hh"
 #include "Ravl/RealRange2d.hh"
 #include "Ravl/LinePP2d.hh"
 #include "Ravl/Image/BilinearInterpolation.hh"
+
 
 namespace RavlImageN {
   
@@ -42,7 +45,8 @@ namespace RavlImageN {
 #define SMALL_DR_THRES 0.001
 
   //! userlevel=Normal
-  //: Remove distortion from an image.
+  //: Remove radial distortion from an image.
+  // This method assumes the usual 2-parameter radial distortion model (e.g. as in CVPR 2001 v. I, pp. 125-132).  A look-up table is used for the interpolated pixel positions; this is initialised when the first image is processed.
   
   template <class InT, class OutT = InT,class MixerT = PixelMixerAssignC<InT,OutT> >
   class RemoveDistortionC
@@ -52,54 +56,61 @@ namespace RavlImageN {
     {}
     //: Default constructor.
     
-    RemoveDistortionC(const IndexRange2dC &orec,
-		      RealT ncx, RealT ncy,
-		      RealT nfx=1.0, RealT nfy=1.0,
-		      RealT nK1=0.0,
-		      RealT nK2=0.0,
-		      bool nFillBackground = true,
+    RemoveDistortionC(const IndexRange2dC &oRec,
+		      RealT cRow, RealT cCol,
+		      RealT fRow=1.0, RealT fCol=1.0,
+		      RealT K1=0.0, RealT K2=0.0,
+		      bool FillBackground = true,
 		      const MixerT &mix = MixerT())
-      : cx(ncx),
-	cy(ncy),
-	fx(nfx),
-	fy(nfy),
-	K1(nK1),
-	K2(nK2),
-	rec(orec),
-	fillBackground(nFillBackground),
+      : cx(cRow),
+	cy(cCol),
+	fx(fRow),
+	fy(fCol),
+	nK1(K1),
+	nK2(K2),
+	rec(oRec),
+	fillBackground(FillBackground),
 	mixer(mix)
     { Init(); }
-    //: Constructor.
-    // Where orec is the size of the output rectangle.
+    //: Constructor that specifies the output image frame.
+    //!param: oRec - the output image rectangle
+    //!param: cRow, cCol - image centre coordinates
+    //!param: fRow, fCol - focal distance in vertical / horizontal pixels respectively
+    //!param: K1 - cubic radial distortion coefficient. Typical value is around 10^-7
+    //!param: K1 - quintic radial distortion coefficient. If used, typical value is 10^-14 (but set K1 first).
+    //!param: FillBackground - fill background with black
+    //!param: mix - pixel type for calculations internal to class
     
-    RemoveDistortionC(RealT ncx, RealT ncy,
-		      RealT nfx, RealT nfy,
-		      RealT nK1=0.0,
-		      RealT nK2=0.0,
-		      bool nFillBackground = true,
+    RemoveDistortionC(RealT cRow, RealT cCol,
+		      RealT fRow=1.0, RealT fCol=1.0,
+		      RealT K1=0.0, RealT K2=0.0,
+		      bool FillBackground = true,
 		      const MixerT &mix = MixerT())
-      : cx(ncx),
-	cy(ncy),
-	fx(nfx),
-	fy(nfy),
-	K1(nK1),
-	K2(nK2),
-	fillBackground(nFillBackground),
+      : cx(cRow),
+	cy(cCol),
+	fx(fRow),
+	fy(fCol),
+	nK1(K1),
+	nK2(K2),
+	fillBackground(FillBackground),
 	mixer(mix)
     { Init(); }
-    //: Constructor.
+    //: Constructor that assumes output image dimensions are specified in the <code>void Apply(const ImageC<InT> &img,ImageC<OutT> &out)</code> method.
+    // Arguments as in previous constructor
 
     void Apply(const ImageC<InT> &img,ImageC<OutT> &out);
-    //: Remove distortion from image 'img' and write it into 'out'
-    
+    //: Remove distortion from image `img' and write it into `out' 
+    // The method assumes that image <code>out</code> already has a valid frame
+
     ImageC<OutT> Apply(const ImageC<InT> &img) {
       ImageC<OutT> out(rec);
       Apply(img,out);
       return out;
     }
-    //: Remove distortion from input image working rectangle into
-    //: output image rectangle.
-    // The output rectangle is specified in the constructor.
+    //: Remove distortion from image `img' and write it to returned image
+    //: using image frame specified in the constructor.
+    // <font color="red">Warning:</font> If this method is used, the output
+    // frame <i>must</i> be specified in the constructor.
 
     Point2dC ProjectPoint(const Point2dC &pnti) const
     {
@@ -113,7 +124,7 @@ namespace RavlImageN {
 	d = outer_a + outer_b/sqrt(R2);
       else
 	// calculate distortion and apply it to the image position
-	d = 1.0 + (K1 + K2*R2)*R2;
+	d = 1.0 + (nK1 + nK2*R2)*R2;
 
       return Point2dC(cx + d*fx*pnti[0], cy + d*fy*pnti[1]);
     }
@@ -160,8 +171,10 @@ namespace RavlImageN {
     
   protected:
     void Init();
+    RealT ComputeDistortion(const Point2dC &pnti) const;
+    void CreateCoordsTable(const ImageRectangleC &InFrame, const ImageRectangleC &OutFrame);
 
-    RealT cx, cy, fx, fy, K1, K2;
+    RealT cx, cy, fx, fy, nK1, nK2;
     IndexRange2dC rec;
     bool fillBackground;
     MixerT mixer;
@@ -169,29 +182,31 @@ namespace RavlImageN {
     RealT thres_R2, thres_dR; // Thresholds on R^2and d*R
     RealT outer_a, outer_b; // Outer linear model parameters
 
-    RealT ComputeDistortion(const Point2dC &pnti) const;
+    Array2dC<Point2dC> coordsTable;
+    Array2dC<bool> isInImage;
+    ImageRectangleC inFrame;
   };
 
   template <class InT, class OutT,class MixerT>
   void RemoveDistortionC<InT,OutT,MixerT>::Init() {
     // Compute threshold on radial camera coordinate to see if position
     // is within valid region
-    if ( K2 == 0.0 ) {
-      if ( K1 < 0.0 )
-	thres_R2 = -MODEL_FRACTION*MODEL_FRACTION*0.333333333/K1;
+    if ( nK2 == 0.0 ) {
+      if ( nK1 < 0.0 )
+	thres_R2 = -MODEL_FRACTION*MODEL_FRACTION*0.333333333/nK1;
       else
 	thres_R2 = thres_dR = outer_a = outer_b = DBL_MAX;
     }
     else {
-      RealT disc = 0.09*K1*K1 - 0.2*K2;
+      RealT disc = 0.09*nK1*nK1 - 0.2*nK2;
 
       if ( disc > 0.0 ) {
 	RealT R2a, R2b;
 
 	disc = sqrt(disc);
 
-	R2a = (-0.3*K1 + disc)/K2;
-	R2b = (-0.3*K1 - disc)/K2;
+	R2a = (-0.3*nK1 + disc)/nK2;
+	R2b = (-0.3*nK1 - disc)/nK2;
 	if ( R2a > 0.0 ) {
 	  // two solutions: take solution closest to zero
 	  if ( R2a < R2b ) thres_R2 = R2a;
@@ -211,10 +226,10 @@ namespace RavlImageN {
       double R = sqrt(thres_R2);
 
       // compute limited on distorted radial distance
-      thres_dR = (1.0 + thres_R2*(K1 + thres_R2*K2))*R;
+      thres_dR = (1.0 + thres_R2*(nK1 + thres_R2*nK2))*R;
 
       // compute parameters of outer linear model
-      outer_a = 1.0 + thres_R2*(3.0*K1 + thres_R2*5.0*K2);
+      outer_a = 1.0 + thres_R2*(3.0*nK1 + thres_R2*5.0*nK2);
       outer_b = thres_dR - outer_a*R;
     }
   }
@@ -225,7 +240,7 @@ namespace RavlImageN {
 
     // return immediately with zero distortion if the distortion coefficients
     // are zero or the distorted radial distance is small
-    if ( (K1 == 0.0 && K2 == 0.0) || dR < SMALL_DR_THRES )
+    if ( (nK1 == 0.0 && nK2 == 0.0) || dR < SMALL_DR_THRES )
       return 1.0;
 
     // check whether d*R is outside range of distortion model
@@ -233,7 +248,7 @@ namespace RavlImageN {
       // use outer linear model
       // compute distortion value dR/R by solving linear equation for R
       return ( dR*outer_a/(dR - outer_b) );
-
+                                          
     // if initialization takes us outside the range of the camera,
     // move the start point back to the middle of the range
     RealT R;
@@ -245,12 +260,12 @@ namespace RavlImageN {
 
     for ( IntT it = 1; ; it++ ) {
       RealT R2 = R*R;
-      RealT deriv = 1.0 + R2*(3.0*K1 + 5.0*R2*K2);
+      RealT deriv = 1.0 + R2*(3.0*nK1 + 5.0*R2*nK2);
       if ( deriv == 0.0 )
-	throw ExceptionNumericalC("Division by zero in template <class InT, class OutT,class MixerT> RealT RemoveDistortionC<InT,OutT,MixerT>::ComputeDistortion(const Point2dC &) const");
+        throw ExceptionNumericalC("Division by zero in template <class InT, class OutT,class MixerT> RealT RemoveDistortionC<InT,OutT,MixerT>::ComputeDistortion(const Point2dC &) const");
 
       // compute change to make to R
-      RealT Rdiff = (R*(1.0 + R2*(K1 + R2*K2)) - dR)/deriv;
+      RealT Rdiff = (R*(1.0 + R2*(nK1 + R2*nK2)) - dR)/deriv;
       R -= Rdiff;
 
       // check whether the new R is outside the range
@@ -268,7 +283,7 @@ namespace RavlImageN {
     }
 
     // compute distortion and remove it from camera coordinates
-    return (1.0 + this->R2*(K1 + this->R2*K2));
+    return (1.0 + this->R2*(nK1 + this->R2*nK2));
   }
 
   template <class InT, class OutT,class MixerT>
@@ -292,48 +307,63 @@ namespace RavlImageN {
   }
 
   template <class InT, class OutT,class MixerT>
-  void RemoveDistortionC<InT,OutT,MixerT>::Apply(const ImageC<InT> &src,ImageC<OutT> &outImg) {
-    
-    RealRange2dC irng(src.Frame());
-    
+      void RemoveDistortionC<InT,OutT,MixerT>::CreateCoordsTable(const ImageRectangleC &InFrame, const ImageRectangleC &OutFrame)
+  {
+    RealRange2dC irng;
+
     // adjust source window for area where bilinear interpolation can be
     // computed safely. Using 0.51 instead of 0.5 ensures that points on the
     // boundary are not used, for safety.
-    irng.TRow() += 0.51; irng.BRow() -= 0.51;
-    irng.LCol() += 0.51; irng.RCol() -= 0.51;
+    irng.TRow() = InFrame.TRow() + 0.500001;
+    irng.BRow() = InFrame.BRow() - 0.500001;
+    irng.LCol() = InFrame.LCol() + 0.500001;
+    irng.RCol() = InFrame.RCol() - 0.500001;
 
     // set pat as top-left pixel in output image
-    Point2dC pat(outImg.Frame().Origin());
-    pat[0] += 0.5;
-    pat[1] += 0.5;
-    
-    Array2dIterC<OutT> it(outImg);  
-    OutT tmp;
+    Point2dC pat(OutFrame.Origin());
+    coordsTable = Array2dC<Point2dC>(OutFrame);
+    isInImage = Array2dC<bool>(OutFrame);
+    isInImage.Fill(true);
+
+    Array2dIter2C<Point2dC,bool> it(coordsTable,isInImage);
+
     // Do simple check for each pixel that its contained in the input image.
     RealT yStart = pat[1];
     for(;it;) {
-      if(fillBackground) {
-	do {
-	  Point2dC ipat = AddDist(pat);
-	  if(irng.Contains(ipat)) {
-	    BilinearInterpolation(src,ipat - Point2dC(0.5,0.5),tmp);
-	    mixer(*it,tmp);
-	  } else
-	    SetZero(*it);
-	  pat[1]++;
-	} while(it.Next()) ;
-      } else {
-	do {
-	  Point2dC ipat = AddDist(pat);
-	  if(irng.Contains(ipat)) {
-	    BilinearInterpolation(src,ipat - Point2dC(0.5,0.5),tmp);
-	    mixer(*it,tmp);
-	  }
-	  pat[1]++;
-	} while(it.Next()) ;
-      }
+      do {
+        Point2dC ipat = AddDist(pat);
+        if(irng.Contains(ipat))
+          it.Data1() = ipat;
+        else
+          it.Data2() = false;
+        pat[1]++;
+      } while(it.Next()) ;
       pat[0]++;
       pat[1] = yStart;
+    }
+  }
+
+
+  template <class InT, class OutT,class MixerT>
+  void RemoveDistortionC<InT,OutT,MixerT>::Apply(const ImageC<InT> &src,ImageC<OutT> &outImg)
+  {
+    RavlAssertMsg(!outImg.IsEmpty(), "Output image must have valid frame before applying distortion correction");
+    if(src.Frame() != inFrame || outImg.Frame() != coordsTable.Frame())
+    {
+      inFrame = src.Frame();
+      CreateCoordsTable(inFrame, outImg.Frame());
+    }
+    Array2dIter3C<OutT, Point2dC, bool> it(outImg, coordsTable, isInImage);
+    OutT tmp;
+    for(;it;++it) {
+      const Point2dC p = it.Data2();
+      if(it.Data3()) {
+        BilinearInterpolation(src, p, tmp);
+        mixer(it.Data1(), tmp);
+      }
+      else if(fillBackground) {
+        SetZero(it.Data1());
+      }
     }
   }
 }
