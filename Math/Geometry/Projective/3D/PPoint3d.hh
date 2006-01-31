@@ -50,14 +50,14 @@ namespace RavlN {
     // Constructs the point (x, y, z, 1).
     
     inline PPoint3dC(const Point3dC & p)
-      : PPointPlane3dC(p[0], p[1], p[2], 0)
+      : PPointPlane3dC(p[0], p[1], p[2], 1)
     {}
     // Construct the projective point (p.X(), p.Y(), p.Z(), 1).
     
     inline PPoint3dC(const Vector3dC & v)
       : PPointPlane3dC(v[0], v[1], v[2], 1)
     {}
-    // Construct the projective point (v.X(), v.Y(), v.Z(), 0).
+    // Construct the projective point (v.X(), v.Y(), v.Z(), 1).
     
     inline PPoint3dC(RealT p0, RealT p1, RealT p2, RealT p3)
       : PPointPlane3dC(p0, p1, p2, p3)
