@@ -135,6 +135,10 @@ namespace RavlN {
     unsigned char UnsignedChar(const char * name, unsigned char def,const char * comment);
     //: Gets an unsigned char.
     
+    bool Boolean(const char * name, const char * comment)
+    { return Boolean(name, false, comment); }
+    //: True / false if option is present / absent
+        
     bool Boolean(const char * name, bool def,const char * comment);
     //: Gets toggle (boolean value).
         
