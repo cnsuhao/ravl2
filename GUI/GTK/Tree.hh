@@ -36,6 +36,9 @@ namespace RavlGUIN {
     TreeBodyC(bool rootOfTree);
     //: Constructor.
     
+    virtual ~TreeBodyC() { }
+    //: Have virtual methods - need virtual destructor
+    
     void AddChild(const TreeItemC &child);
     //: Add child to tree.
     // Thread safe.

@@ -51,6 +51,9 @@ namespace RavlGUIN {
     //: Constructor from a list of strings.
     // Values for selMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
     
+    virtual ~ListBodyC() { }
+    //: Have virtual methods - need virtual destructor
+
     virtual bool Create();
     //: Create the widget.
     

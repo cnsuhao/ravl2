@@ -27,6 +27,9 @@ namespace RavlGUIN {
     DPWindowOPortBodyC(DPWindowC &win,bool accum = false);
     //: Constructor.
     
+    virtual ~DPWindowOPortBodyC() { }
+    //: Need virtual destructor for class with virtual methods
+
     virtual bool Put(const DPDisplayObjC &newObj);
     //: Process in coming display objects.
     

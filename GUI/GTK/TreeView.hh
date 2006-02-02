@@ -252,6 +252,9 @@ namespace RavlGUIN {
     //  causes problems.  On the other hand, if this is set to true and you need two clicks to make the first selection
     //  in your tree view then set it to false.
     
+    virtual ~TreeViewBodyC() { }
+    //: Have virtual methods - need virtual destructor
+    
     virtual bool Create();
     //: Create widget.
     

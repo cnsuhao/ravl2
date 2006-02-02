@@ -36,6 +36,8 @@ namespace RavlGUIN {
     // The inital content of the entry is set to ntext.
     // If MaxLen is set to a negative number, the length is unlimited.
    
+    virtual ~TextEntryBodyC() { }
+    //: Have virtual methods - need virtual destructor
     
     virtual bool Create();
     //: Create the widget.

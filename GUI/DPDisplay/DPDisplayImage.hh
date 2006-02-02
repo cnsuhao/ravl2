@@ -29,6 +29,9 @@ namespace RavlGUIN {
     DPDisplayImageRGBBodyC(const ImageC<ByteRGBValueC> &img);
     //: Constructor
     
+    virtual ~DPDisplayImageRGBBodyC() { }
+    //: Need virtual destructor for class with virtual methods
+
     virtual bool Draw(DPDisplayViewBodyC &canvas);
     //: Draw object to canvas.
     
@@ -83,6 +86,9 @@ namespace RavlGUIN {
     DPDisplayImageRealBodyC(const ImageC<RealT> &img);
     //: Constructor
     
+    virtual ~DPDisplayImageRealBodyC() { }
+    //: Need virtual destructor for class with virtual methods
+
     virtual bool Draw(DPDisplayViewBodyC &canvas);
     //: Draw object to canvas.
     
@@ -140,6 +146,9 @@ namespace RavlGUIN {
     DPDisplayImageByteBodyC(const ImageC<ByteT> &img);
     //: Constructor
     
+    virtual ~DPDisplayImageByteBodyC() { }
+    //: Need virtual destructor for class with virtual methods
+
     virtual bool Draw(DPDisplayViewBodyC &canvas);
     //: Draw object to canvas.
     

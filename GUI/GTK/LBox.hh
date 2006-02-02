@@ -28,42 +28,45 @@ namespace RavlGUIN {
   public:
     LBoxBodyC()
       : vert(true),
-	border(0),
-	homogeneous(false),
-	spacing(0)
+        border(0),
+        homogeneous(false),
+        spacing(0)
     {}
     //: Default constructor.
     
     LBoxBodyC(const DListC<WidgetC> &widges,bool nvert = false,IntT nborder = 0,bool nhomogeneous = false,IntT nspacing = 0)
       : ContainerWidgetBodyC(widges),
-	vert(nvert),
-	border(nborder),
-	homogeneous(nhomogeneous),
-	spacing(nspacing)
+        vert(nvert),
+        border(nborder),
+        homogeneous(nhomogeneous),
+        spacing(nspacing)
     {}
     //: Constructor
     // Constructs box of list of widgets
     
     LBoxBodyC(const WidgetC &widges,bool nvert = false,IntT nborder = 0,bool nhomogeneous = false,IntT nspacing = 0)
       : ContainerWidgetBodyC(),
-	vert(nvert),
-	border(nborder),
-	homogeneous(nhomogeneous),
-	spacing(nspacing)
+        vert(nvert),
+        border(nborder),
+        homogeneous(nhomogeneous),
+        spacing(nspacing)
     { children.InsLast(widges); }
     //: Constructor
     // Constructs box around single widget
     
     LBoxBodyC(bool nvert,IntT nborder = 0,bool nhomogeneous = false,IntT nspacing = 0)
       : ContainerWidgetBodyC(),
-	vert(nvert),
-	border(nborder),
-	homogeneous(nhomogeneous),
-	spacing(nspacing)
+        vert(nvert),
+        border(nborder),
+        homogeneous(nhomogeneous),
+        spacing(nspacing)
     {}
     //: Constructor
     // Constructs empty box
     
+    virtual ~LBoxBodyC() { }
+    //: Virtual destructor
+
     virtual bool Create();
     //: Create the widget.
 

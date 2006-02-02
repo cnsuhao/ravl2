@@ -36,6 +36,9 @@ namespace RavlGUIN {
     {}
     //: Constructor.
     
+    virtual ~ContainerWidgetBodyC() { }
+    //: Have virtual methods - need virtual destructor
+
     virtual bool Create();
     //: Create the widget.
     

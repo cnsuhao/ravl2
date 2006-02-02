@@ -30,11 +30,6 @@ namespace RavlGUIN {
     : TreeModelBodyC(nColTypes)
   { Create(); }
   
-  //: Destructor.
-  
-  TreeStoreBodyC::~TreeStoreBodyC()
-  {}
-  
   //: Delete a row.
   // After return, the iterator will point to the next row at the same level,
   // or will be invalidated if such a row does not exist.

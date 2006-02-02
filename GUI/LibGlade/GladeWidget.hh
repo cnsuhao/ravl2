@@ -30,6 +30,9 @@ namespace RavlGUIN {
     //: Constructor
     // NOTE: If using this constructor a Glade XML object must be set with SetXML()
     
+    virtual ~GladeWidgetBodyC() { }
+    //: Virtual destructor
+
     bool SetXML(const GladeXMLC &gladeXml);
     //: Set a Glade XML object to use
     // NOTE: Will be ignored if one has already been set

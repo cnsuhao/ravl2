@@ -19,6 +19,10 @@ namespace RavlGUIN
   {
   public:
     DebugAssertDialogBodyC(StringC message, const char *title = 0, const WindowC* parent = NULL); 
+
+    virtual ~DebugAssertDialogBodyC() { }
+    //: Have virtual methods - need virtual destructor
+
     virtual bool Create();	//: Create the widget.
 
   protected:

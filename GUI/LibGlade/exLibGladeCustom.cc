@@ -32,6 +32,9 @@ public:
   }
   //: Constructor.
   
+  virtual ~CustomWidgetBodyC() { }
+  //: Virtual destructor
+
   virtual bool Create()
   {
     AddObject("button1", ButtonR("custom", *this, &CustomWidgetBodyC::OnClicked));

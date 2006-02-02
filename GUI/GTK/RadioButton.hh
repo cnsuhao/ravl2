@@ -68,7 +68,7 @@ namespace RavlGUIN {
     RadioButtonBodyC(const char *nlabel,const PixmapC &pixm,const RadioButtonGroupT &group = RadioButtonGroupT());
     //: Constructor.
     
-    ~RadioButtonBodyC();
+    virtual ~RadioButtonBodyC();
     //: Destructor.
     
     virtual bool Create();

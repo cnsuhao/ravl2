@@ -31,6 +31,9 @@ namespace RavlGUIN {
     RawZoomCanvasBodyC(IntT rows,IntT cols);
     //: Constructor.
     
+    virtual ~RawZoomCanvasBodyC() { }
+    //: Destructor
+
     const Vector2dC &Offset() const
     { return offset; }
     //: Access current offset.

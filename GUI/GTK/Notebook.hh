@@ -43,6 +43,9 @@ namespace RavlGUIN
     //: Constructor
     // Values for position types are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
   
+    virtual ~NotebookBodyC() { }
+    //: Have virtual methods - need virtual destructor
+
     virtual bool Create();
     //: Create the widget.
     

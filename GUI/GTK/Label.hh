@@ -31,6 +31,9 @@ namespace RavlGUIN {
     LabelBodyC(const StringC &ntext);
     //: Constructor.
     
+    virtual ~LabelBodyC() { }
+    //: Have virtual methods - need virtual destructor
+
     virtual StringC Name() const;
     //: Get name of widget.
     // Defaults to WidgetName(), but may be differnt

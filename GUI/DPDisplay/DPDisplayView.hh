@@ -38,6 +38,9 @@ namespace RavlGUIN {
     DPDisplayViewBodyC(const IndexRange2dC &size);
     //: Default constructor.
     
+    virtual ~DPDisplayViewBodyC() { }
+    //: Need virtual destructor for class with virtual methods
+
     virtual bool Create();
     //: Create the widget.
     

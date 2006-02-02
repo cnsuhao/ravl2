@@ -34,6 +34,9 @@ namespace RavlGUIN {
     TextBoxBodyC(const StringC &ntext,bool editable = true);
     //: Constructor.
     
+    virtual ~TextBoxBodyC() { }
+    //: Have virtual methods - need virtual destructor
+
     virtual bool Create();
     //: Create the widget.
     

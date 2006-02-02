@@ -34,6 +34,9 @@ namespace RavlGUIN {
     FileSelectorBodyC(const StringC &nname,const StringC &filename,bool sendEmptyStringOnCancel = false);
     //: Constructor.
     
+    virtual ~FileSelectorBodyC() { }
+    //: Have virtual methods - need virtual destructor
+
     virtual bool Create();
     //: Create the widget.
     

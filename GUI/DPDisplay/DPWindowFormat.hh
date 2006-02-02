@@ -28,6 +28,9 @@ namespace RavlGUIN {
     DPWindowFormatBodyC();
     //: Default constructor.
     
+    virtual ~DPWindowFormatBodyC() { }
+    //: Need virtual destructor for class with virtual methods
+
     virtual const type_info &ProbeSave(const StringC &filename,const type_info &obj_type,bool forceFormat) const;
     //: Probe for Save.
     

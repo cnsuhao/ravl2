@@ -36,6 +36,9 @@ namespace RavlGUIN {
     //: Constructor.
     // If parent is not NULL, the dialog will be kept above it by the window manager
     
+    virtual ~MessageBoxBodyC() { }
+    //: Have virtual methods - need virtual destructor
+
     virtual bool Create();
     //: Create the widget.
     

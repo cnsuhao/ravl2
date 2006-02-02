@@ -39,7 +39,7 @@ namespace RavlGUIN {
     //: Constructor.
     // Values for winType are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWTYPE">here</A>.
     
-    ~WindowBodyC();
+    virtual ~WindowBodyC();
     //: Destructor.
     
     virtual bool Create();

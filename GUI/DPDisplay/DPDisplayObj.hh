@@ -33,6 +33,9 @@ namespace RavlGUIN {
     DPDisplayObjBodyC();
     //: Default constructor.
     
+    virtual ~DPDisplayObjBodyC() { }
+    //: Need virtual destructor for class with virtual methods
+
     virtual bool Draw(DPDisplayViewBodyC &canvas);
     //: Draw object to canvas.
     

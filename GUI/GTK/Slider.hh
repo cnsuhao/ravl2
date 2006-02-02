@@ -43,6 +43,9 @@ namespace RavlGUIN {
 		RealT npage_size = 1);
     //: Constructor.
     
+    virtual ~SliderBodyC() { }
+    //: Have virtual methods - need virtual destructor
+
     virtual bool Create();
     //: Create the widget.
     

@@ -245,7 +245,7 @@ namespace RavlGUIN {
     TreeModelBodyC(const SArray1dC<AttributeTypeC> &ncolTypes);
     //: Constructor.
     
-    ~TreeModelBodyC();
+    virtual ~TreeModelBodyC();
     //: Destructor.
     
     virtual bool Create();

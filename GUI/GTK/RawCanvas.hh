@@ -39,6 +39,9 @@ namespace RavlGUIN {
       {}
     //: Default constructor.
     
+    virtual ~RawCanvasBodyC() { }
+    //: Have virtual methods - need virtual destructor
+
     GdkDrawable *DrawArea();
     //: Access draw area.
     

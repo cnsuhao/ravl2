@@ -38,8 +38,8 @@ namespace RavlGUIN {
     TreeStoreBodyC(const SArray1dC<AttributeTypeC> &nColTypes);
     //: Constructor.
     
-    ~TreeStoreBodyC();
-    //: Destructor.
+    virtual ~TreeStoreBodyC() { }
+    //: Have virtual methods - need virtual destructor
     
     virtual bool Create();
     //: Create the widget.

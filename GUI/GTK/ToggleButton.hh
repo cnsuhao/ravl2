@@ -33,6 +33,9 @@ namespace RavlGUIN {
     ToggleButtonBodyC(const char *nlabel,const PixmapC &pixm,bool nInitState = false);
     //: Constructor.
     
+    virtual ~ToggleButtonBodyC() { }
+    //: Have virtual methods - need virtual destructor
+    
     bool GUISetActive(bool x);
     //: Set button active.
     

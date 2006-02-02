@@ -47,6 +47,9 @@ namespace RavlGUIN {
     PixmapBodyC(int width,int height,int depth);
     //: Constructor.
     
+    virtual ~PixmapBodyC() { }
+    //: Have virtual methods - need virtual destructor
+
     virtual bool Create();
     //: Create the widget.
     

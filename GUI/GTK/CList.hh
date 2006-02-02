@@ -86,6 +86,9 @@ namespace RavlGUIN {
     //: Constructor from char*[]
     // Values for nselMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
     
+    virtual ~CListBodyC() { }
+    //: Have virtual methods - need virtual destructor
+
     virtual bool Create();
     //: Create the widget.
     

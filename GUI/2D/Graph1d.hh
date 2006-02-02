@@ -28,7 +28,7 @@ namespace RavlGUIN {
     Graph1dBodyC(int sx,int sy);
     //: Constructor.
     
-    ~Graph1dBodyC();
+    virtual ~Graph1dBodyC();
     //: Destructor.
     
     void Init();

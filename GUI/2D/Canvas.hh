@@ -46,7 +46,7 @@ namespace RavlGUIN {
     CanvasBodyC(const ImageRectangleC& rect, bool direct = false);
     //: Constructor.
     
-    ~CanvasBodyC();
+    virtual ~CanvasBodyC();
     //: Destructor.
     
     GtkWidget *DDrawArea() 

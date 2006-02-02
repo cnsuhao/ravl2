@@ -33,6 +33,9 @@ namespace RavlGUIN {
       FixedWidgetBodyC();
       //: Default constructor.
       
+      virtual ~FixedWidgetBodyC() { }
+      //: Have virtual methods - need virtual destructor
+
       virtual bool Create();
       //: Create the widget.
       

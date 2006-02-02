@@ -35,6 +35,9 @@ namespace RavlGUIN {
       {}
     //: Ruler body
     
+    virtual ~RulerBodyC() { }
+    //: Have virtual methods - need virtual destructor
+
     bool GUIAttachTo(WidgetC &widge);
     //: Get motion events from widge.
     // GUI Thread only.

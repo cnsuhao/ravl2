@@ -33,6 +33,9 @@ namespace RavlGUIN {
     {}
     //: Default constructor.
     
+    virtual ~PanedBodyC() { }
+    //: Have virtual methods - need virtual destructor
+
     virtual bool Create();
     //: Create the widget.
     

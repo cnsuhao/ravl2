@@ -32,6 +32,9 @@ namespace RavlGUIN {
     ListStoreBodyC();
     //: Constructor.
     
+    virtual ~ListStoreBodyC() { }
+    //: Have virtual methods - need virtual destructor
+
     virtual bool Create();
     //: Create the widget.
     

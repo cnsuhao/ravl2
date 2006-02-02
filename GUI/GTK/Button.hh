@@ -38,6 +38,9 @@ namespace RavlGUIN {
     ButtonBodyC(const char *nlabel,const PixmapC &pixm,const char *tooltip = 0);
     //: Constructor.
     
+    virtual ~ButtonBodyC() { }
+    //: Have virtual methods - need virtual destructor
+
     virtual bool Create();
     //: Create the widget.
     

@@ -39,6 +39,9 @@ namespace RavlGUIN {
     ComboBodyC(bool editable);
     //: Constructor.
     
+    virtual ~ComboBodyC() { }
+    //: Have virtual methods - need virtual destructor
+
     StringC Selected() const;
     //: Get currently selected string.
     
