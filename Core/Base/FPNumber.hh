@@ -31,6 +31,7 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Fixed Point Number.
+  // A real number with a fixed number N of fractional binary digits
   
   template<UIntT N>
   class FPNumberC {
