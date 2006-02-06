@@ -1,6 +1,14 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2005, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #include "Ravl/Image/ShotBoundHistInt.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Array1dIter2.hh"
+//! rcsid="$Id$"
+//! lib=RavlVideo
 
 using namespace RavlN;
 using namespace RavlImageN;
@@ -15,7 +23,6 @@ SArray1dC<int> ShotBoundHistIntC::CalcHist(const ImageC<ByteRGBValueC> &Image)
     const int c2 = int((*it)[1]) / binWidth;
     const int c3 = int((*it)[2]) / binWidth;
     const int index = ((c1 * noOfBins) + c2) * noOfBins + c3;
-    RavlAssertMsg((index >= 0 || index < int(Hist.Size())),"Error in histogram calculation");
     Hist[index]++;
   } 
   return Hist;
