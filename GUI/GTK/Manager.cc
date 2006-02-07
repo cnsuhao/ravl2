@@ -112,7 +112,7 @@ namespace RavlGUIN {
       guiThreadID(ThisThreadID()) // Start out with the GUI thread as the one that created the manager.
   {
     InitDone() = true;
-    m_strDebugWarning = StringC("DEBUG WARNING: Manager::Queue is being called on GUI thread. This can lead to undefined behaviour.\n");
+    m_strDebugWarning = StringC("RAVL DEBUG WARNING: Manager::Queue is being called on GUI thread. This can lead to undefined behaviour.\n");
     m_strDebugWarning += "To fix this, either:\n1. Invoke the function directly if it always called on the GUI thread\n";
     m_strDebugWarning += "2. Replace the call to Queue with a call to QueueOnGUI if the calling thread changes.\n\n";
     m_strDebugWarning += "THIS MESSAGE APPEARS IN DEBUG MODE ONLY\n";
