@@ -28,7 +28,7 @@ namespace RavlN {
   //: Implementation class for optimisation parameter bounds.
   //
   // This is the implemtation class for optimisation parameter bounds. The
-  // NumParametersC handle class should be used.
+  // ParametersC handle class should be used.
   
   class ParametersBodyC: public RCBodyC
   {
@@ -58,14 +58,17 @@ namespace RavlN {
     // This setsup nparams with defaults settings of :
     // minP=0 maxP=1 Steps=1 mask=0 (constP = 0)
     
+    ParametersBodyC (const ParametersBodyC &other);
+    //: Copy Constructor.
+    
     ParametersBodyC (istream &in);
     //: Constructs for a stream
     
-    ParametersBodyC (const ParametersBodyC &oth);
-    //: Copy constructor
-    
     ParametersBodyC & Copy () const;
     //: Makes a deep copy
+    
+    VectorC Random();
+    //: Generate a random positon in the parameter space.
     
   protected:
     inline SizeT Size() const;
@@ -143,12 +146,15 @@ namespace RavlN {
   class ParametersC : public RCHandleC<ParametersBodyC>
   {
   public:
-    inline ParametersC ();
+    inline ParametersC ()
+    {}
     //: Default constructor
     
     ParametersC (const VectorC &minP, 
 		 const VectorC &maxP, 
-		 const SArray1dC<IntT> &steps);
+		 const SArray1dC<IntT> &steps)
+      : RCHandleC<ParametersBodyC>(*new ParametersBodyC (minP,maxP,steps))
+    {}
     //: Constructor
     //!param: minP  - lower bound on function input
     //!param: maxP  - upper bound on function input
@@ -158,7 +164,9 @@ namespace RavlN {
     ParametersC (const VectorC &minP, 
 		 const VectorC &maxP, 
 		 const SArray1dC<IntT> &steps,
-		 const SArray1dC<IntT> &mask);
+		 const SArray1dC<IntT> &mask)
+      : RCHandleC<ParametersBodyC>(*new ParametersBodyC (minP,maxP,steps,mask))
+    {}
     //: Constructor
     //!param: minP  - lower bound on function input
     //!param: maxP  - upper bound on function input
@@ -166,36 +174,48 @@ namespace RavlN {
     //!param: mask  - specifies which elements of P to use in X
     // Only the parameters with a mask value of 1 are presented to the optimiser.
     
-    ParametersC (SizeT nparams);
+    ParametersC (SizeT nparams)
+      : RCHandleC<ParametersBodyC>(*new ParametersBodyC (nparams))
+    {}
     //: Constructor.
     // This setsup nparams with defaults settings of :
     // minP=0 maxP=1 Steps=1 mask=0 (constP = 0)
     
-    ParametersC (istream &in);
+    ParametersC (istream &in)
+      : RCHandleC<ParametersBodyC>(*new ParametersBodyC (in))
+    {}
     //: Constructs from stream
     
-    inline SizeT Size() const;
+    inline SizeT Size() const
+    { return Body().Size(); }
     //: Get number of paramtiers in set.
     
-    inline void SetMask (const SArray1dC<IntT> &mask);
+    inline void SetMask (const SArray1dC<IntT> &mask)
+    { Body().SetMask (mask); }
     //: Sets which parameters are enabled
     
-    inline void SetConstP (const VectorC &constP);
+    inline void SetConstP (const VectorC &constP)
+    { Body().SetConstP (constP); }
     //: Sets const parameter values and starting point for enabled ones
     
-    inline const VectorC MinX () const;
+    inline const VectorC MinX () const
+    { return Body().MinX (); }
     //: Lower bound on optimisation parameters
     
-    inline const VectorC MaxX () const;
+    inline const VectorC MaxX () const
+    { return Body().MaxX (); }
     //: Upper bound on optimisation parameters
     
-    inline const SArray1dC<IntT> Steps () const;
+    inline const SArray1dC<IntT> Steps () const
+    { return Body().Steps (); }
     //: Number of steps to use for each dimension
     
-    inline const MatrixC TransP2X () const;
+    inline const MatrixC TransP2X () const
+    { return Body().TransP2X (); }
     //: Matrix for converting P to X
     
-    inline const MatrixC TransX2P () const;
+    inline const MatrixC TransX2P () const
+    { return Body().TransX2P (); }
     //: Matrix for converting X to P.
     // Note that const P elements will be 0 and must add the vector ConstP
     // below for proper estimate of P.
@@ -203,66 +223,26 @@ namespace RavlN {
     inline const VectorC ConstP () const;
     //: Vector containing constant P elements and 0s
     
-    inline const VectorC StartX () const;
+    inline const VectorC StartX () const
+    { return Body().StartX (); }
     //: Starting vector for X which is subset of value specified in SetConstP.
     
-    inline void Setup(IndexC p,RealT min,RealT max,IntT steps,IntT mask = 1);
+    inline void Setup(IndexC p,RealT min,RealT max,IntT steps,IntT mask = 1)
+    { Body().Setup(p,min,max,steps,mask); }
     //: Setup paramiter p.
     
-    inline void Setup(IndexC p,RealT min,RealT max,IntT steps,RealT constV,IntT mask = 1);
+    inline void Setup(IndexC p,RealT min,RealT max,IntT steps,RealT constV,IntT mask = 1)
+    { Body().Setup(p,min,max,steps,constV,mask); }
     //: Setup paramiter p, and constant value.
     
-    inline void Save (ostream &out) const;
+    inline void Save (ostream &out) const
+    { Body().Save (out); }
     //: Writes object to stream, cna be loaded using constructor
+    
+    inline VectorC Random()
+    { return Body().Random(); }
+    //: Generate a random positon in the parameter space.
   };
-  
-  /////////////////////////////////////////////////////////////
-  
-  ParametersC::ParametersC ()
-  {}
-  
-  inline 
-  SizeT ParametersC::Size() const
-  { return Body().Size(); }
-  
-  void ParametersC::SetMask (const SArray1dC<IntT> &mask)
-  { Body().SetMask (mask); }
-  
-  void ParametersC::SetConstP (const VectorC &constP)
-  { Body().SetConstP (constP); }
-  
-  const VectorC ParametersC::MinX () const
-  { return Body().MinX (); }
-  
-  const VectorC ParametersC::MaxX () const
-  { return Body().MaxX (); }
-  
-  const SArray1dC<IntT> ParametersC::Steps () const
-  { return Body().Steps (); }
-  
-  const MatrixC ParametersC::TransP2X () const
-  { return Body().TransP2X (); }
-  
-  const MatrixC ParametersC::TransX2P () const
-  { return Body().TransX2P (); }
-  
-  const VectorC ParametersC::ConstP () const
-  { return Body().ConstP (); }
-  
-  const VectorC ParametersC::StartX () const
-  { return Body().StartX (); }
-  
-  inline 
-  void ParametersC::Setup(IndexC p,RealT min,RealT max,IntT steps,IntT mask)
-  { Body().Setup(p,min,max,steps,mask); }
-  
-  inline 
-  void ParametersC::Setup(IndexC p,RealT min,RealT max,IntT steps,RealT constV,IntT mask)
-  { Body().Setup(p,min,max,steps,constV,mask); }
-  
-  inline
-  void ParametersC::Save (ostream &out) const
-  { Body().Save (out); }
   
 }
 

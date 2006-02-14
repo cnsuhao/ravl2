@@ -9,6 +9,8 @@
 //! file="Ravl/PatternRec/Optimise/Parameters.cc"
 
 #include "Ravl/PatternRec/Parameters.hh"
+#include "Ravl/SArray1dIter5.hh"
+#include "Ravl/Random.hh"
 #include "Ravl/config.h"
 #include <stdlib.h>
 
@@ -168,26 +170,23 @@ namespace RavlN {
     out << _minP << "\n" << _maxP << "\n" << _constP << "\n";
     out << _steps << "\n" << _mask << "\n";
   }
+
+
+  //: Generate a random positon in the parameter space.
   
-  ParametersC::ParametersC (const VectorC &minP, 
-			    const VectorC &maxP, 
-			    const SArray1dC<IntT> &steps)
-    : RCHandleC<ParametersBodyC>(*new ParametersBodyC (minP,maxP,steps))
-  {}
+  VectorC ParametersBodyC::Random() {
+    VectorC ret(_minP.Size());
+    for(SArray1dIter5C<RealT,RealT,RealT,RealT,IntT> it(ret,_minP,_maxP,_constP,_mask);it;it++) {
+      if(it.Data5() == 0) { // Use constant value ?
+        it.Data1() = it.Data4();
+        continue;
+      }
+      RealT diff = it.Data3() - it.Data2();
+      it.Data1() = it.Data2() + diff * Random1();
+    }
+    return ret;
+  }
+
   
-  ParametersC::ParametersC (const VectorC &minP, 
-			    const VectorC &maxP, 
-			    const SArray1dC<IntT> &steps,
-			    const SArray1dC<IntT> &mask)
-    : RCHandleC<ParametersBodyC>(*new ParametersBodyC (minP,maxP,steps,mask))
-  {}
-  
-  ParametersC::ParametersC (SizeT nparams)
-    : RCHandleC<ParametersBodyC>(*new ParametersBodyC (nparams))
-  {}
-  
-  ParametersC::ParametersC (istream &in)
-    : RCHandleC<ParametersBodyC>(*new ParametersBodyC (in))
-  {}
   
 }
