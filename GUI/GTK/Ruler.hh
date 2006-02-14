@@ -35,14 +35,15 @@ namespace RavlGUIN {
       {}
     //: Ruler body
     
-    virtual ~RulerBodyC() { }
+    virtual ~RulerBodyC() 
+    {}
     //: Have virtual methods - need virtual destructor
 
     bool GUIAttachTo(WidgetC &widge);
     //: Get motion events from widge.
     // GUI Thread only.
     
-    bool GUISetRange(RealT lower,RealT upper);
+    bool GUISetRange(RealT &lower,RealT &upper);
     //: Set range of ruler.
     // GUI Thread only.
     
@@ -77,24 +78,25 @@ namespace RavlGUIN {
     
   protected:
     RulerBodyC &Body() 
-      { return static_cast<RulerBodyC &>(WidgetC::Body()); }
+    { return static_cast<RulerBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     const RulerBodyC &Body() const
-      { return static_cast<const RulerBodyC &>(WidgetC::Body()); }
+    { return static_cast<const RulerBodyC &>(WidgetC::Body()); }
     //: Access body.
     
+    
+  public:
     bool GUIAttachTo(WidgetC &widge)
-      { return Body().GUIAttachTo(widge); }
+    { return Body().GUIAttachTo(widge); }
     //: Get motion events from widge.
     // GUI Thread only.
     
     bool GUISetRange(RealT &lower,RealT &upper)
-      { return Body().GUISetRange(lower,upper); }
+    { return Body().GUISetRange(lower,upper); }
     //: Set range of ruler.
     // GUI Thread only.
     
-  public:
     bool AttachTo(WidgetC &widge);
     //: Get motion events from 'widge', for ruler position. 
     // Thread safe.

@@ -75,8 +75,14 @@ namespace RavlGUIN {
     
     bool UpdateRuler();
     //: Update ruler info.
+
+    bool GUIUpdateRuler();
+    //: Update ruler info.
     
     bool UpdateSlider();
+    //: Update sliders info.
+
+    bool GUIUpdateSlider();
     //: Update sliders info.
     
     bool Query(Vector2dC pos,StringC &info);
@@ -170,6 +176,14 @@ namespace RavlGUIN {
     bool CallbackSave(StringC &str)
     { return Body().CallbackSave(str); }
     //: Save image to a file.
+    
+    bool GUIUpdateRuler()
+    { return Body().GUIUpdateRuler(); }
+    //: Update ruler info.
+    
+    bool GUIUpdateSlider()
+    { return Body().GUIUpdateSlider(); }
+    //: Update sliders info.
     
   public:
     

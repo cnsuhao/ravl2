@@ -43,8 +43,8 @@ namespace RavlGUIN {
   bool DPDisplayViewBodyC::Create() {
     ONDEBUG(cerr << "DPDisplayViewBodyC::Create(), Called \n");
     
-    backMenu.Add(MenuItemR("Save",*this, &DPDisplayViewBodyC::CallbackStartSave));
-    menuBar.Add(MenuItemR("Save",*this, &DPDisplayViewBodyC::CallbackStartSave));
+    backMenu.GUIAdd(MenuItemR("Save",*this, &DPDisplayViewBodyC::CallbackStartSave));
+    menuBar.GUIAdd(MenuItemR("Save",*this, &DPDisplayViewBodyC::CallbackStartSave));
     
     fileSelector = FileSelectorC("@X Save");
     ConnectRef(fileSelector.Selected(),*this,&DPDisplayViewBodyC::CallbackSave);
@@ -80,22 +80,22 @@ namespace RavlGUIN {
     vSlider.SetDrawValue(false);
     hSlider.SetDrawValue(false);
     
-    vRuler.AttachTo(canvas);
-    hRuler.AttachTo(canvas);
+    vRuler.GUIAttachTo(canvas);
+    hRuler.GUIAttachTo(canvas);
 
-    TableBodyC::AddObject(menuBar,0,3,0,1,(GtkAttachOptions)(GTK_EXPAND|GTK_FILL|GTK_SHRINK),(GtkAttachOptions) (GTK_SHRINK|GTK_FILL));    
-    TableBodyC::AddObject(vRuler,0,1,2,3,GTK_FILL,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL));
-    TableBodyC::AddObject(hRuler,1,2,1,2,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL),GTK_FILL);
-    TableBodyC::AddObject(vSlider,2,3,2,3,GTK_FILL,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL));
-    TableBodyC::AddObject(hSlider,1,2,3,4,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL),GTK_FILL);
-    TableBodyC::AddObject(HBox(PackInfoC(Label(" Row="),false,false) + PackInfoC(rowPos,false,false) +
+    TableBodyC::GUIAddObject(menuBar,0,3,0,1,(GtkAttachOptions)(GTK_EXPAND|GTK_FILL|GTK_SHRINK),(GtkAttachOptions) (GTK_SHRINK|GTK_FILL));    
+    TableBodyC::GUIAddObject(vRuler,0,1,2,3,GTK_FILL,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL));
+    TableBodyC::GUIAddObject(hRuler,1,2,1,2,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL),GTK_FILL);
+    TableBodyC::GUIAddObject(vSlider,2,3,2,3,GTK_FILL,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL));
+    TableBodyC::GUIAddObject(hSlider,1,2,3,4,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL),GTK_FILL);
+    TableBodyC::GUIAddObject(HBox(PackInfoC(Label(" Row="),false,false) + PackInfoC(rowPos,false,false) +
 			       PackInfoC(Label(" Col="),false,false) + PackInfoC(colPos,false,false) + 
 			       PackInfoC(Label("  Value="),false,false) + PackInfoC(info,true,false)),
 			  0,3,4,5,
 			  (GtkAttachOptions)(GTK_FILL),
 			  (GtkAttachOptions)(GTK_FILL));
     
-    TableBodyC::AddObject(canvas,1,2,2,3,
+    TableBodyC::GUIAddObject(canvas,1,2,2,3,
 			  (GtkAttachOptions)(GTK_FILL|GTK_SHRINK),
 			  (GtkAttachOptions)(GTK_FILL|GTK_SHRINK)
 			  );
@@ -165,17 +165,31 @@ namespace RavlGUIN {
 
   //: Update ruler info.
   
-  bool DPDisplayViewBodyC::UpdateRuler() {
+  bool DPDisplayViewBodyC::GUIUpdateRuler() {
     ONDEBUG(cerr << "DPDisplayViewBodyC::UpdateRuler(), Called. \n");
     Index2dC canSize = canvas.Size();
-    vRuler.SetRange(offset[0],offset[0] + canSize[0]);
-    hRuler.SetRange(offset[1],offset[1] + canSize[1]);
+    RealT val1 = offset[0] + canSize[0];
+    vRuler.GUISetRange(offset[0],val1);
+    RealT val2 = offset[0] + canSize[0];
+    hRuler.GUISetRange(offset[1],val2);    
+    return true;
+  }
+  
+  //: Update ruler info.
+  
+  bool DPDisplayViewBodyC::UpdateRuler() {
+    Manager.QueueOnGUI(Trigger(DPDisplayViewC(*this),&DPDisplayViewC::GUIUpdateRuler));    
+    return true;
+  }
+
+  bool DPDisplayViewBodyC::UpdateSlider() {
+    Manager.QueueOnGUI(Trigger(DPDisplayViewC(*this),&DPDisplayViewC::GUIUpdateSlider));        
     return true;
   }
   
   //: Update sliders info.
   
-  bool DPDisplayViewBodyC::UpdateSlider() {
+  bool DPDisplayViewBodyC::GUIUpdateSlider() {
     RWLockHoldC hold(lockDisplayList,RWLOCK_READONLY); // To protect access to displaySize.
     Index2dC canSize = canvas.Size();
     int vdiff = displaySize.Range1().Max().V() - canSize[0].V();
@@ -185,14 +199,14 @@ namespace RavlGUIN {
       vdiff = 0;
     if(hdiff < 0)
       hdiff = 0;
-    vSlider.UpdateRange(displaySize.Range1().Min().V(),vdiff);
+    vSlider.GUIUpdateRange(displaySize.Range1().Min().V(),vdiff);
     if(vdiff == 0 && displaySize.Range1().Min() >= 0) 
-      vSlider.Hide();
-    else vSlider.Show();      
-    hSlider.UpdateRange(displaySize.Range2().Min().V(),hdiff);
+      vSlider.GUIHide();
+    else vSlider.GUIShow();      
+    hSlider.GUIUpdateRange(displaySize.Range2().Min().V(),hdiff);
     if(hdiff == 0 && displaySize.Range2().Min() >= 0)
-      hSlider.Hide();
-    else hSlider.Show();      
+      hSlider.GUIHide();
+    else hSlider.GUIShow();      
     return true;
   }
   
@@ -225,8 +239,8 @@ namespace RavlGUIN {
   
   bool DPDisplayViewBodyC::CallbackConfigure(GdkEvent *&event) {
     ONDEBUG(cerr << "DPDisplayViewBodyC::CallbackConfigure(), Called. \n");
-    UpdateRuler();
-    UpdateSlider();
+    GUIUpdateRuler();
+    GUIUpdateSlider();
     return true;
   }
   
@@ -235,8 +249,8 @@ namespace RavlGUIN {
   bool DPDisplayViewBodyC::CallbackXOffset(RealT &val) {
     ONDEBUG(cerr << "DPDisplayViewBodyC::CallbackXOffset(), Called. Value=" << val << "\n");
     offset[1]=val;
-    UpdateRuler();
-    Refresh();
+    GUIUpdateRuler();
+    GUIRefresh();
     return true;
   }
   
@@ -245,8 +259,8 @@ namespace RavlGUIN {
   bool DPDisplayViewBodyC::CallbackYOffset(RealT &val) {
     ONDEBUG(cerr << "DPDisplayViewBodyC::CallbackYOffset(), Called. Value=" << val << "\n");
     offset[0]=val;
-    UpdateRuler();
-    Refresh();
+    GUIUpdateRuler();
+    GUIRefresh();
     return true;
   }
 

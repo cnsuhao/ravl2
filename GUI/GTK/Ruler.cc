@@ -70,7 +70,9 @@ namespace RavlGUIN {
   //: Set range of ruler.
   // GUI Thread only.
   
-  bool RulerBodyC::GUISetRange(RealT nlower,RealT nupper) {
+  bool RulerBodyC::GUISetRange(RealT &nlower,RealT &nupper) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    
     lower = nlower;
     upper = nupper;
     gtk_ruler_set_range(GTK_RULER(widget),
