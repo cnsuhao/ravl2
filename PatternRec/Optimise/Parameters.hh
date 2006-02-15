@@ -220,7 +220,8 @@ namespace RavlN {
     // Note that const P elements will be 0 and must add the vector ConstP
     // below for proper estimate of P.
     
-    inline const VectorC ConstP () const;
+    inline const VectorC ConstP () const
+    { return Body().ConstP(); }
     //: Vector containing constant P elements and 0s
     
     inline const VectorC StartX () const
