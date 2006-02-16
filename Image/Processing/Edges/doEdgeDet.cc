@@ -83,6 +83,8 @@ int main(int argc,char **argv) {
   RealT hystUpper = option.Real("hu",8,"Upper hysterisis threshold. ");
   IntT threads = option.Int("th",2,"Number of threads to use in processing. ");
   StringC overlay = option.String("ol","","Overlay edges on input image. ");
+  bool overlayBlank = option.Boolean("bol",false,"Use a blank overlay image");
+  bool useDeriche = !option.Boolean("s",false,"Use Sobel filter. ");
   bool deinterlace = option.Boolean("d",false,"Deinterlace images");
   StringC inFile = option.String("","in.pgm","Input filename");
   StringC outFile = option.String("","","Output filename");
@@ -90,7 +92,7 @@ int main(int argc,char **argv) {
   option.Check();
   
   // Setup edge detector.
-  EdgeDetectorC edgeDet(true,hystLower,hystUpper);
+  EdgeDetectorC edgeDet(useDeriche,hystLower,hystUpper);
   
   EdgeDericheC edgeDeriche;
   if(!seq) { // 
@@ -122,6 +124,8 @@ int main(int argc,char **argv) {
 
     if(!overlay.IsEmpty()) {
       ImageC<RealT> overlayImg(input.Copy());
+      if(overlayBlank)
+        overlayImg.Fill(0);
       for(SArray1dIterC<EdgelC> it(output);it;it++)
 	overlayImg[it->At()] = 255;
       if(!Save(overlay,overlayImg)) {
