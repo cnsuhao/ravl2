@@ -45,7 +45,7 @@ namespace RavlImageN {
 					 ImageC<RealT> & res,
 					 RealT &meanVal,
 					 IntT &count
-					 ) {
+					 ) const {
     ImageRectangleC rect(inDrIm.Rectangle());
     rect.ClipBy(inDcIm.Rectangle());
     rect.ClipBy(inGrad.Rectangle());
@@ -111,7 +111,7 @@ namespace RavlImageN {
 					 const ImageC<RealT> & inDcIm,  
 					 const ImageC<RealT> & inGrad,
 					 SArray1dC<EdgelC> & outEdges,
-					 RealT &mean) {
+					 RealT &mean) const {
     
     ImageC<RealT> res;
     int edgels;
@@ -139,7 +139,7 @@ namespace RavlImageN {
 						const ImageC<RealT> & dcIm,  
 						const ImageC<RealT> & grad,
 						IntT startRow,IntT endRow
-						) {
+						) const {
     RealT meanVal = 0;
     points = 0;
     ImageC<RealT> & nonMax = res;

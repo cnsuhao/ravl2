@@ -27,7 +27,7 @@ namespace RavlImageN {
   
   //: Apply the edge detector to 'img', generate an array of ordered edgels list.
   
-  bool EdgeDetectorBodyC::Apply(const ImageC<RealT> &img,DListC<SArray1dC<EdgelC> > &edgeLists) {
+  bool EdgeDetectorBodyC::Apply(const ImageC<RealT> &img,DListC<SArray1dC<EdgelC> > &edgeLists) const {
     ImageC<RealT> edgeDr;
     ImageC<RealT> edgeDc;
     ImageC<RealT> edgeMag;
@@ -47,7 +47,7 @@ namespace RavlImageN {
 
   //: Apply the edge detector to 'img', generate an edge map image.
   
-  bool EdgeDetectorBodyC::Apply(const ImageC<ByteT> &img,EdgeLinkC &edgeMap,ImageC<RealT> &edgeDr,ImageC<RealT> &edgeDc,ImageC<RealT> &nonMax) {
+  bool EdgeDetectorBodyC::Apply(const ImageC<ByteT> &img,EdgeLinkC &edgeMap,ImageC<RealT> &edgeDr,ImageC<RealT> &edgeDc,ImageC<RealT> &nonMax) const {
     ImageC<RealT> edgeMag;
     if(useDeriche) {
       ImageC<RealT> rimg = ByteImageCT2DoubleImageCT(img);
@@ -73,7 +73,7 @@ namespace RavlImageN {
   
   //: Apply the edge detector to 'img', generate an edge link image.
   
-  bool EdgeDetectorBodyC::Apply(const ImageC<RealT> &img,EdgeLinkC &edgeMap,ImageC<RealT> &edgeDr,ImageC<RealT> &edgeDc,ImageC<RealT> &nonMax) {     
+  bool EdgeDetectorBodyC::Apply(const ImageC<RealT> &img,EdgeLinkC &edgeMap,ImageC<RealT> &edgeDr,ImageC<RealT> &edgeDc,ImageC<RealT> &nonMax) const {     
     ImageC<RealT> edgeMag;
     if(useDeriche)
       edgeDet.Apply(img,edgeDr,edgeDc);
@@ -98,7 +98,7 @@ namespace RavlImageN {
 
   //: Apply the edge detector to 'img', returning a list of edgels.
   
-  bool EdgeDetectorBodyC::Apply(const ImageC<RealT> &img,SArray1dC<EdgelC> &edges) {
+  bool EdgeDetectorBodyC::Apply(const ImageC<RealT> &img,SArray1dC<EdgelC> &edges) const {
     ImageC<RealT> edgeDr;
     ImageC<RealT> edgeDc;
     ImageC<RealT> edgeMag;
@@ -111,7 +111,7 @@ namespace RavlImageN {
 
   //: Apply the edge detector to 'img', generate a list of edgels.
   
-  bool EdgeDetectorBodyC::Apply(const ImageC<RealT> &img,DListC<EdgelC> &edges) {
+  bool EdgeDetectorBodyC::Apply(const ImageC<RealT> &img,DListC<EdgelC> &edges) const {
     ImageC<RealT> edgeDr;
     ImageC<RealT> edgeDc;
     ImageC<RealT> nonMax;
@@ -124,7 +124,7 @@ namespace RavlImageN {
 
   //: Apply the edge detector to 'img', generate an array of ordered edgels list.
   
-  bool EdgeDetectorBodyC::Apply(const ImageC<ByteT> &img,DListC<SArray1dC<EdgelC> > &edgeLists) {
+  bool EdgeDetectorBodyC::Apply(const ImageC<ByteT> &img,DListC<SArray1dC<EdgelC> > &edgeLists) const {
     ImageC<RealT> edgeDr;
     ImageC<RealT> edgeDc;
     ImageC<RealT> edgeMag;
@@ -142,7 +142,7 @@ namespace RavlImageN {
 
   //: Apply the edge detector to 'img', generate an array of ordered edgels list.
   
-  bool EdgeDetectorBodyC::Apply(const ImageC<ByteT> &img,DListC<DListC<EdgelC> > &edgeLists) {
+  bool EdgeDetectorBodyC::Apply(const ImageC<ByteT> &img,DListC<DListC<EdgelC> > &edgeLists) const {
     ImageC<RealT> edgeDr;
     ImageC<RealT> edgeDc;
     ImageC<RealT> edgeMag;

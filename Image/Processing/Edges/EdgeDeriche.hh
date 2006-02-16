@@ -36,15 +36,15 @@ namespace RavlImageN {
     EdgeDericheBodyC(RealT omega,RealT alpha);
     //: Constructor.
     
-    bool Apply(const ImageC<RealT> &inImg,ImageC<RealT> &outDx,ImageC<RealT> &outDy);
+    bool Apply(const ImageC<RealT> &inImg,ImageC<RealT> &outDx,ImageC<RealT> &outDy) const;
     //: Apply operator.
 
-    bool Apply(const ImageC<RealT> &inImg,ImageC<TFVectorC<RealT,2> > &out);
+    bool Apply(const ImageC<RealT> &inImg,ImageC<TFVectorC<RealT,2> > &out) const;
     //: Apply sobol operator to 'img', put result in 'out'
     // This is a little slower than the Apply(inImg,outDx,outDy) for the moment,
     // this will be fixed eventually.
 
-    ImageC<RealT> EdgeMagnitude(const ImageC<RealT> &inImg);
+    ImageC<RealT> EdgeMagnitude(const ImageC<RealT> &inImg) const;
     //: Calculate the edge magnitude only
     
   protected:
@@ -53,19 +53,19 @@ namespace RavlImageN {
     bool Init();
     //: Compute filter paramiters.
     
-    bool YDer(ImageC<RealT> &im,ImageC<RealT> &derv);
+    bool YDer(ImageC<RealT> &im,ImageC<RealT> &derv) const;
   
-    bool YDer1p(ImageC<RealT> &im,ImageC<RealT> &a2);
-    bool YDer1n(ImageC<RealT> &im,ImageC<RealT> &a3);
-    bool YDer2p(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a3);
-    bool YDer2n(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a4);
+    bool YDer1p(ImageC<RealT> &im,ImageC<RealT> &a2) const;
+    bool YDer1n(ImageC<RealT> &im,ImageC<RealT> &a3) const;
+    bool YDer2p(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a3) const;
+    bool YDer2n(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a4) const;
     
-    bool XDer(ImageC<RealT> &im,ImageC<RealT> &derv);
+    bool XDer(ImageC<RealT> &im,ImageC<RealT> &derv) const;
     
-    bool XDer1p(ImageC<RealT> &im,ImageC<RealT> &a2);
-    bool XDer1n(ImageC<RealT> &im,ImageC<RealT> &a3);
-    bool XDer2p(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a3);
-    bool XDer2n(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a4);
+    bool XDer1p(ImageC<RealT> &im,ImageC<RealT> &a2) const;
+    bool XDer1n(ImageC<RealT> &im,ImageC<RealT> &a3) const;
+    bool XDer2p(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a3) const;
+    bool XDer2n(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a4) const;
     
     // Paramiters.
     RealT cst,cst0,cst1,cst2;
@@ -104,50 +104,50 @@ namespace RavlImageN {
 
   public:
     
-    bool Apply(const ImageC<RealT> &inImg,ImageC<RealT> &dx,ImageC<RealT> &dy) 
+    bool Apply(const ImageC<RealT> &inImg,ImageC<RealT> &dx,ImageC<RealT> &dy) const
     { return Body().Apply(inImg,dx,dy); }
     //: Apply Deriche operator to 'img' put the results into dx and dy.
     
-    bool Apply(const ImageC<RealT> &inImg,ImageC<TFVectorC<RealT,2> > &out)
+    bool Apply(const ImageC<RealT> &inImg,ImageC<TFVectorC<RealT,2> > &out) const
     { return Body().Apply(inImg,out); }
     //: Apply sobol operator to 'img', put result in 'out'
     // This is a little slower than the Apply(inImg,outDx,outDy) for the moment,
     // this will be fixed eventually.
     
-    ImageC<RealT> EdgeMagnitude(const ImageC<RealT> &inImg)
+    ImageC<RealT> EdgeMagnitude(const ImageC<RealT> &inImg) const
     { return Body().EdgeMagnitude(inImg); }
     //: Calculate the edge magnitude only
     
   protected:
     
-    bool YDer1p(ImageC<RealT> &im,ImageC<RealT> &a2)
+    bool YDer1p(ImageC<RealT> &im,ImageC<RealT> &a2) const
     { return Body().YDer1p(im,a2); }
     
-    bool YDer1n(ImageC<RealT> &im,ImageC<RealT> &a3)
+    bool YDer1n(ImageC<RealT> &im,ImageC<RealT> &a3) const
     { return Body().YDer1n(im,a3); }
     
-    bool YDer2p(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a3)
+    bool YDer2p(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a3) const
     { return Body().YDer2p(im,a2,a3); }
     
-    bool YDer2n(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a4)
+    bool YDer2n(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a4) const
     { return Body().YDer2n(im,a2,a4); }
     
-    bool XDer1p(ImageC<RealT> &im,ImageC<RealT> &a2)
+    bool XDer1p(ImageC<RealT> &im,ImageC<RealT> &a2) const
     { return Body().XDer1p(im,a2); }
     
-    bool XDer1n(ImageC<RealT> &im,ImageC<RealT> &a3) 
+    bool XDer1n(ImageC<RealT> &im,ImageC<RealT> &a3) const
     { return Body().XDer1n(im,a3); }
     
-    bool XDer2p(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a3)
+    bool XDer2p(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a3) const
     { return Body().XDer2p(im,a2,a3); }
     
-    bool XDer2n(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a4)
+    bool XDer2n(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a4) const
     { return Body().XDer2n(im,a2,a4); }
 
-    bool YDer(ImageC<RealT> &im,ImageC<RealT> &derv)
+    bool YDer(ImageC<RealT> &im,ImageC<RealT> &derv) const
     { return Body().YDer(im,derv); }
     
-    bool XDer(ImageC<RealT> &im,ImageC<RealT> &derv)
+    bool XDer(ImageC<RealT> &im,ImageC<RealT> &derv) const
     { return Body().XDer(im,derv); }  
     
     friend class EdgeDericheBodyC;

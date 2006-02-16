@@ -21,7 +21,7 @@ namespace RavlImageN {
 
   //: Calculate the maginute image.
   
-  bool SqrCompositionC::Apply(const ImageC<TFVectorC<RealT,2> > &inImg,ImageC<RealT> &out) {
+  bool SqrCompositionC::Apply(const ImageC<TFVectorC<RealT,2> > &inImg,ImageC<RealT> &out) const {
     if(out.IsEmpty())
       out = ImageC<RealT>(inImg.Rectangle());
     for(Array2dIter2C<RealT,TFVectorC<RealT,2> > it(out,inImg);it;it++) {
@@ -32,7 +32,7 @@ namespace RavlImageN {
     return true;
   }
   
-  bool SqrCompositionC::Apply(const ImageC<RealT> &img1,const ImageC<RealT>  &img2,ImageC<RealT> &res) {
+  bool SqrCompositionC::Apply(const ImageC<RealT> &img1,const ImageC<RealT>  &img2,ImageC<RealT> &res) const {
     ImageRectangleC rect(img1.Rectangle());
     rect.ClipBy(img2.Rectangle());
     RavlAssert(rect.Area() > 0); // There should be something to process.
@@ -47,7 +47,7 @@ namespace RavlImageN {
     return true;
   }
   
-  void SqrCompositionC::DoSqrComp(ImageC<RealT> &res,ImageC<RealT> &img1,ImageC<RealT> &img2,IntT startRow,IntT endRow) {
+  void SqrCompositionC::DoSqrComp(ImageC<RealT> &res,ImageC<RealT> &img1,ImageC<RealT> &img2,IntT startRow,IntT endRow) const {
     
     ImageRectangleC rect(res.Rectangle());
     rect.Origin().Row() = startRow;

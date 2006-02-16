@@ -30,18 +30,18 @@ namespace RavlImageN {
     {}
     //: Default constructor.
     
-    bool Apply(const ImageC<RealT> &inImgDx,const ImageC<RealT> &inImgDy,ImageC<RealT> &out);
+    bool Apply(const ImageC<RealT> &inImgDx,const ImageC<RealT> &inImgDy,ImageC<RealT> &out) const;
     //: Square composition of inImg1 and inImg2.
 
-    bool Apply(const ImageC<TFVectorC<RealT,2> > &inImg,ImageC<RealT> &out);
+    bool Apply(const ImageC<TFVectorC<RealT,2> > &inImg,ImageC<RealT> &out) const;
     //: Calculate the maginute image.
     
-    bool Apply(const Tuple2C<ImageC<RealT>,ImageC<RealT> > &inImg,ImageC<RealT> &out)
+    bool Apply(const Tuple2C<ImageC<RealT>,ImageC<RealT> > &inImg,ImageC<RealT> &out) const
     { return Apply(inImg.Data1(),inImg.Data2(),out); }
     //: Square composition of inImg1 and inImg2.
     
   protected:
-    void DoSqrComp(ImageC<RealT> &res,ImageC<RealT> &img1,ImageC<RealT> &img2,IntT startRow,IntT endRow);
+    void DoSqrComp(ImageC<RealT> &res,ImageC<RealT> &img1,ImageC<RealT> &img2,IntT startRow,IntT endRow) const;
     
   };
 

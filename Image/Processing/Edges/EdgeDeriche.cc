@@ -43,7 +43,7 @@ namespace RavlImageN {
   
   //: Calculate the edge magnitude only
   
-  ImageC<RealT> EdgeDericheBodyC::EdgeMagnitude(const ImageC<RealT> &inImg) {
+  ImageC<RealT> EdgeDericheBodyC::EdgeMagnitude(const ImageC<RealT> &inImg) const {
     ImageC<RealT> dx(inImg.Rectangle());
     ImageC<RealT> dy(inImg.Rectangle());
     if(!Apply(inImg,dx,dy))
@@ -76,7 +76,7 @@ namespace RavlImageN {
   
   ///// XDer ///////////////////////////////////////////////////////////////
   
-  bool EdgeDericheBodyC::YDer(ImageC<RealT> &im,ImageC<RealT> &derv) {
+  bool EdgeDericheBodyC::YDer(ImageC<RealT> &im,ImageC<RealT> &derv) const {
     
     ImageC<RealT> a2(im.Rectangle());
     ImageC<RealT> a3(im.Rectangle());
@@ -112,7 +112,7 @@ namespace RavlImageN {
     return true;
   }
   
-  bool EdgeDericheBodyC::YDer1p(ImageC<RealT> &im,ImageC<RealT> &a2) {
+  bool EdgeDericheBodyC::YDer1p(ImageC<RealT> &im,ImageC<RealT> &a2) const{
     const IndexC i_min = im.TRow();
     const IndexC i_max = im.BRow();
     const IndexC j_min = im.LCol();
@@ -129,7 +129,7 @@ namespace RavlImageN {
     return true;
   }
   
-  bool EdgeDericheBodyC::YDer1n(ImageC<RealT> &im,ImageC<RealT> &a3) {
+  bool EdgeDericheBodyC::YDer1n(ImageC<RealT> &im,ImageC<RealT> &a3) const {
     const IndexC i_min = im.TRow();
     const IndexC i_max = im.BRow();
     const IndexC j_min = im.LCol();
@@ -144,7 +144,7 @@ namespace RavlImageN {
     return true;
   }
   
-  bool EdgeDericheBodyC::YDer2p(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a3) {
+  bool EdgeDericheBodyC::YDer2p(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a3) const {
     const IndexC i_min = im.TRow();
     const IndexC i_max = im.BRow();
     const IndexC j_min = im.LCol();
@@ -158,7 +158,7 @@ namespace RavlImageN {
     return true;
   }
   
-  bool EdgeDericheBodyC::YDer2n(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a4) {
+  bool EdgeDericheBodyC::YDer2n(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a4) const {
     const IndexC i_min = im.TRow();
     const IndexC i_max = im.BRow();
     const IndexC j_min = im.LCol();
@@ -174,7 +174,7 @@ namespace RavlImageN {
   
   ///// XDer ///////////////////////////////////////////////////////////////
   
-  bool EdgeDericheBodyC::XDer(ImageC<RealT> &im,ImageC<RealT> &derv) {
+  bool EdgeDericheBodyC::XDer(ImageC<RealT> &im,ImageC<RealT> &derv) const {
     ImageC<RealT> a2(im.Rectangle());
     ImageC<RealT> a3(im.Rectangle());
     ImageC<RealT> a4(derv);
@@ -206,7 +206,7 @@ namespace RavlImageN {
     return true;
   }
   
-  bool EdgeDericheBodyC::XDer1p(ImageC<RealT> &im,ImageC<RealT> &a2) {
+  bool EdgeDericheBodyC::XDer1p(ImageC<RealT> &im,ImageC<RealT> &a2) const {
     const IndexC i_min = im.TRow();
     const IndexC i_max = im.BRow();
     const IndexC j_min = im.LCol();
@@ -220,7 +220,7 @@ namespace RavlImageN {
     return true;
   }
   
-  bool EdgeDericheBodyC::XDer1n(ImageC<RealT> &im,ImageC<RealT> &a3) {
+  bool EdgeDericheBodyC::XDer1n(ImageC<RealT> &im,ImageC<RealT> &a3) const {
     const IndexC i_min = im.TRow();
     const IndexC i_max = im.BRow();
     const IndexC j_min = im.LCol();
@@ -234,7 +234,7 @@ namespace RavlImageN {
     return true;
   }
   
-  bool EdgeDericheBodyC::XDer2p(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a3) {
+  bool EdgeDericheBodyC::XDer2p(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a3) const {
     const IndexC i_min = im.TRow();
     const IndexC i_max = im.BRow();
     const IndexC j_min = im.LCol();
@@ -250,7 +250,7 @@ namespace RavlImageN {
     return true;
   }
   
-  bool EdgeDericheBodyC::XDer2n(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a4) {
+  bool EdgeDericheBodyC::XDer2n(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a4) const {
     const IndexC i_min = im.TRow();
     const IndexC i_max = im.BRow();
     const IndexC j_min = im.LCol();
@@ -267,7 +267,7 @@ namespace RavlImageN {
   
   //: Apply operator.
   
-  bool EdgeDericheBodyC::Apply(const ImageC<RealT> &img,ImageC<RealT> &dx,ImageC<RealT> &dy) {
+  bool EdgeDericheBodyC::Apply(const ImageC<RealT> &img,ImageC<RealT> &dx,ImageC<RealT> &dy) const {
     if(img.Cols() < 2 || img.Rows() < 2) {
       cerr << "EdgeDericheBodyC::Apply(), Image too small. " << img.Cols() << " " << img.Rows() << endl;
       return false;
@@ -296,7 +296,7 @@ namespace RavlImageN {
 
   //: Apply sobol operator to 'img', put result in 'out'
   
-  bool EdgeDericheBodyC::Apply(const ImageC<RealT> &inImg,ImageC<TFVectorC<RealT,2> > &out) {
+  bool EdgeDericheBodyC::Apply(const ImageC<RealT> &inImg,ImageC<TFVectorC<RealT,2> > &out) const{
     if(out.IsEmpty())
       out = ImageC<TFVectorC<RealT,2> >(inImg.Rectangle());
     ImageC<RealT> dx(out.Rectangle());

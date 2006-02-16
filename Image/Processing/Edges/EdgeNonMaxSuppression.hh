@@ -40,7 +40,7 @@ namespace RavlImageN {
 	       ImageC<RealT> & out,
 	       RealT &mean,
 	       IntT &edgels
-	       );
+	       ) const;
     //: Apply non-maximal suppression to edge images.
     // This produces a new gradient magnitude image, the mean and
     // number of the non-zero pixels. 
@@ -50,7 +50,7 @@ namespace RavlImageN {
 	       const ImageC<RealT> & inGrad,
 	       SArray1dC<EdgelC> & outEdges,
 	       RealT &mean
-	       );
+	       ) const;
     //: Apply non-maximal suppression to edge images.
     // return an array of edgels and the mean of there
     // magnitude.
@@ -63,7 +63,7 @@ namespace RavlImageN {
 		      const ImageC<RealT> & inDcIm,  
 		      const ImageC<RealT> & inGrad,
 		      IntT startRow,
-		      IntT endRow);
+		      IntT endRow) const;
     
     bool eightConnectivity;
     friend class EdgeNonMaxSuppressionC;
@@ -100,7 +100,7 @@ namespace RavlImageN {
 		      const ImageC<RealT> & inDrIm, 
 		      const ImageC<RealT> & inDcIm,  
 		      const ImageC<RealT> & inGrad,
-		      int &startRow,int &endRow)
+		      int &startRow,int &endRow) const
     {  Body().DoNonMaxSupp(res,meanRes,count,inDrIm,inDcIm,inGrad,startRow,endRow); }
     //: Do a stripe.
 
@@ -113,7 +113,7 @@ namespace RavlImageN {
 	       ImageC<RealT> & out,
 	       RealT &mean,
 	       IntT &edgels
-	       )
+	       ) const
     { return Body().Apply(inDrIm,inDcIm,inGrad,out,mean,edgels); }
     //: Apply non-maximal suppression to edge images.
     // This produces a new gradient magnitude image.
@@ -123,7 +123,7 @@ namespace RavlImageN {
 	       const ImageC<RealT> & inGrad,
 	       SArray1dC<EdgelC> & outEdges,
 	       RealT &mean
-	       )
+	       ) const
     { return Body().Apply(inDrIm,inDcIm,inGrad,outEdges,mean); }
     //: Apply non-maximal suppression to edge images.
     // return a list of edgels.
