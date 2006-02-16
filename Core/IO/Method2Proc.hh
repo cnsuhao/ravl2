@@ -23,12 +23,11 @@ namespace RavlN {
   //! userlevel=Develop
   //: Methodtion body.
   
-  template<class InT,class OutT,class ObjT>
+  template<typename InT,typename OutT,class ObjT,typename FuncT>
   class DPMethod2ProcBodyC 
     : public DPProcessBodyC<InT,OutT>
   {
   public:
-    typedef OutT (ObjT::*FuncT)(const InT &);
     
     DPMethod2ProcBodyC(const ObjT &nobj,FuncT nfunc,bool stateless = true)
       : obj(nobj),
@@ -87,23 +86,36 @@ namespace RavlN {
   //! userlevel=Advanced
   //: Methodtion handle.
   
-  template<class InT,class OutT,class ObjT>
+  template<typename InT,typename OutT,class ObjT,typename FuncT>
   class DPMethod2ProcC
     : public DPProcessC<InT,OutT>
   {
   public:
-    DPMethod2ProcC(const ObjT &nobj,typename DPMethod2ProcBodyC<InT,OutT,ObjT>::FuncT func,bool stateless = true)
-      : DPProcessC<InT,OutT>(*new DPMethod2ProcBodyC<InT,OutT,ObjT>(nobj,func,stateless))
+    DPMethod2ProcC(const ObjT &nobj,FuncT func,bool stateless = true)
+      : DPProcessC<InT,OutT>(*new DPMethod2ProcBodyC<InT,OutT,ObjT,FuncT>(nobj,func,stateless))
     {}
     //: Default constructor.
   };
 
+
   //! userlevel=Normal
   
-  template<class InT,class OutT,class ObjT>
-  DPMethod2ProcC<InT,OutT,ObjT> Process(const ObjT &nclass,OutT (ObjT::*nmethod)(const InT &))
-  { return DPMethod2ProcC<InT,OutT,ObjT>(nclass,nmethod); }
+  template<typename InT,typename OutT,class ObjT>
+  inline DPProcessC<InT,OutT> Process(const ObjT &nclass,OutT (ObjT::*nmethod)(const InT &))
+  { 
+    typedef OutT (ObjT::*DPMethod2ProcCFuncT)(const InT &);
+    return DPMethod2ProcC<InT,OutT,ObjT,DPMethod2ProcCFuncT>(nclass,nmethod); 
+  }
   //: Turn a function into a process.
+
+  template<typename InT,typename OutT,class ObjT>
+  inline DPProcessC<InT,OutT> Process(const ObjT &nclass,OutT (ObjT::*nmethod)(const InT &) const)
+  { 
+    typedef OutT (ObjT::*DPMethod2ProcCConstFuncT)(const InT &) const;
+    return DPMethod2ProcC<InT,OutT,ObjT,DPMethod2ProcCConstFuncT>(nclass,nmethod); 
+  }
+  //: Turn a function into a process.
+  
 }
 
 #endif
