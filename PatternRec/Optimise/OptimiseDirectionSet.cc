@@ -25,7 +25,7 @@ namespace RavlN {
   // Random optimizer with uniform density. Randomly samples the parameter
   // space to find the minimum cost position.
   
-  VectorC OptimiseDirectionSetBodyC::MinimalX (const CostC &domain)
+  VectorC OptimiseDirectionSetBodyC::MinimalX (const CostC &domain) const
   {
     VectorC start = domain.StartX();
     UIntT n = start.Size();

@@ -23,7 +23,7 @@ namespace RavlN {
   {
   }
   
-  VectorC OptimiseBodyC::MaximalX (const CostC &domain, RealT &maximumCost)
+  VectorC OptimiseBodyC::MaximalX (const CostC &domain, RealT &maximumCost) const
   {
     CostInvertC inverse (domain);
     VectorC minimumX = MinimalX (inverse,maximumCost);

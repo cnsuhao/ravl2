@@ -35,7 +35,7 @@ namespace RavlN {
     UIntT _iterations;
     RealT _tolerance;
     OptimiseBrentC _brent;
-    ParametersC _parameters1d;
+//    ParametersC _parameters1d;
     
   public:
     OptimisePowellBodyC (UIntT iterations, RealT tolerance);
@@ -45,7 +45,7 @@ namespace RavlN {
     //: Constructs from stream
     
   protected:
-    VectorC MinimalX (const CostC &domain, RealT &minimumCost);
+    VectorC MinimalX (const CostC &domain, RealT &minimumCost) const;
     //: Determines Xmin=arg min_{X} |f(X)-Yd|
     
     virtual const StringC GetInfo () const;

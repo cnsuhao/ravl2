@@ -46,7 +46,7 @@ namespace RavlN {
     // The name or type must be known so that the correct virtual constructor
     // can be called.
 
-    virtual VectorC MinimalX (const CostC &domain, RealT &minimumCost) =0;
+    virtual VectorC MinimalX (const CostC &domain, RealT &minimumCost) const=0;
     //: Determines Xmin=arg min_{X} domain(X)
     //!param: domain      - the cost function that will be minimised
     //!param: minimumCost - the maximum cost value found
@@ -56,7 +56,7 @@ namespace RavlN {
     // that is achieved using a cost function inverter as described in the next
     // member function.
     
-    virtual VectorC MaximalX (const CostC &domain, RealT &maximumCost);
+    virtual VectorC MaximalX (const CostC &domain, RealT &maximumCost) const;
     //: Determines Xmax=arg max_{X} domain(X)
     //!param: domain - the cost function that will be maximised
     //!param: maximumCost - the maximum cost value found
@@ -106,20 +106,20 @@ namespace RavlN {
 
   public:
     
-    inline VectorC MinimalX (const CostC &domain, RealT &minimumCost);
+    inline VectorC MinimalX (const CostC &domain, RealT &minimumCost) const;
     //: Do the Optimisation.
     // Determines which X gives minimum cost function value and gives access to 
     // calculated minimum cost
 
-    inline VectorC MinimalX (const CostC &domain);
+    inline VectorC MinimalX (const CostC &domain) const;
     //: Do the Optimisation. Determines which X gives minimum cost function value
     
-    inline VectorC MaximalX (const CostC &domain, RealT &maximumCost);
+    inline VectorC MaximalX (const CostC &domain, RealT &maximumCost) const;
     //: Do the Optimisation.
     // Determines which X gives maximum cost function value and gives access to 
     // calculated maximum cost
 
-    inline VectorC MaximalX (const CostC &domain);
+    inline VectorC MaximalX (const CostC &domain) const;
     //: Do the Optimisation. Determines which X gives maximum cost function value
     
     inline const StringC GetInfo () const;
@@ -135,16 +135,16 @@ namespace RavlN {
   ////////////////////////////////////////////////////
   
   
-  VectorC OptimiseC::MinimalX (const CostC &domain,RealT &minimumCost)
+  VectorC OptimiseC::MinimalX (const CostC &domain,RealT &minimumCost) const
   { return Body().MinimalX (domain,minimumCost); }
   
-  VectorC OptimiseC::MinimalX (const CostC &domain)
+  VectorC OptimiseC::MinimalX (const CostC &domain) const
   { RealT minimumCost; return Body().MinimalX (domain,minimumCost); }
   
-  VectorC OptimiseC::MaximalX (const CostC &domain,RealT &maximumCost)
+  VectorC OptimiseC::MaximalX (const CostC &domain,RealT &maximumCost) const
   { return Body().MaximalX (domain,maximumCost); }
   
-  VectorC OptimiseC::MaximalX (const CostC &domain)
+  VectorC OptimiseC::MaximalX (const CostC &domain) const
   { RealT maximumCost; return Body().MaximalX (domain,maximumCost); }
   
   const StringC OptimiseC::GetInfo () const

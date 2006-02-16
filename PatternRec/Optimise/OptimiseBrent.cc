@@ -33,7 +33,7 @@ namespace RavlN {
   // of Golden Section search when the quadratic is uncooperative and parabolic
   // interpolation when it is cooperative!
   //
-  VectorC OptimiseBrentBodyC::MinimalX (const CostC &domain, RealT &minimumCost)
+  VectorC OptimiseBrentBodyC::MinimalX (const CostC &domain, RealT &minimumCost) const
   {
     // Only works for cost functions of 1 dimension
     //RavlAssert();

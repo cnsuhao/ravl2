@@ -37,7 +37,7 @@ namespace RavlN {
   // quits when the change in cost becomes small or more than _iterations 
   // steps have been taken.
   //
-  VectorC OptimiseDescentBodyC::MinimalX (const CostC &domain, RealT &minimumCost)
+  VectorC OptimiseDescentBodyC::MinimalX (const CostC &domain, RealT &minimumCost) const
   {
     VectorC dYdX;                            // Jacobian or gradient at location
     UIntT counter = 0;

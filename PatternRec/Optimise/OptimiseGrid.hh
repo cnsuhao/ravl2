@@ -40,7 +40,7 @@ namespace RavlN {
     //: Constructs from stream
     
   protected:
-    VectorC MinimalX (const CostC &domain, RealT &minimumCost);
+    VectorC MinimalX (const CostC &domain, RealT &minimumCost) const;
     //: Determines Xmin=arg min_{X} |f(X)-Yd|
     
     virtual const StringC GetInfo () const;

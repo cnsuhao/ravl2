@@ -30,7 +30,7 @@ namespace RavlN {
   // Grid optimiser.  Uniformly sample search space in each direction
   // Can quickly get out of hand
   //
-  VectorC OptimiseGridBodyC::MinimalX (const CostC &domain, RealT &minimumCost)
+  VectorC OptimiseGridBodyC::MinimalX (const CostC &domain, RealT &minimumCost) const
   {
     VectorC X0 = domain.StartX().Copy();
     VectorC minX = domain.MinX();

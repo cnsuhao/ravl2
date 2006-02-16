@@ -21,14 +21,7 @@ namespace RavlN {
      _iterations(iterations),
      _tolerance(tolerance),
      _brent(iterations,tolerance)
-  {
-    VectorC minP(1),maxP(1);
-    SArray1dC<IntT> steps(1);
-    minP[0] = -10.0;
-    maxP[0] = 10.0;
-    steps[0] = 1;
-    _parameters1d = ParametersC(minP,maxP,steps);
-  }
+  {}
   
   OptimisePowellBodyC::OptimisePowellBodyC (istream &in)
     :OptimiseBodyC("OptimisePowellBodyC",in)
@@ -45,8 +38,15 @@ namespace RavlN {
   // a new direction which replaces one of the existing ones and the process is
   // repeated.
   //
-  VectorC OptimisePowellBodyC::MinimalX (const CostC &domain, RealT &minimumCost)
+  VectorC OptimisePowellBodyC::MinimalX (const CostC &domain, RealT &minimumCost) const
   {
+    VectorC minP(1),maxP(1);
+    SArray1dC<IntT> steps(1);
+    minP[0] = -10.0;
+    maxP[0] = 10.0;
+    steps[0] = 1;
+    ParametersC parameters1d(minP,maxP,steps);
+
     VectorC P = domain.StartX();
     IntT numDim = P.Size();
     SArray1dC<VectorC> Di(numDim);
@@ -87,13 +87,13 @@ namespace RavlN {
 	    min = minv;
 	}
 	//_point + _direction * X[0];
-	_parameters1d.Setup(0,min,max,1000);
+	parameters1d.Setup(0,min,max,1000);
 #endif
 	
 	// Minimise along line.
 	
         RealT fPlast = minimumCost;
-        CostFunction1dC cost1d(_parameters1d,domain,P,*it);
+        CostFunction1dC cost1d(parameters1d,domain,P,*it);
         BracketMinimum(cost1d);
         P = cost1d.Point(_brent.MinimalX(cost1d,minimumCost));
         if (fabs(fPlast - minimumCost) > valueOfBiggest) {
@@ -113,7 +113,7 @@ namespace RavlN {
       if (fPsameagain < fP) {
         t = 2.0 * (fP-2.0*minimumCost+fPsameagain)+Sqr(fPdiff-valueOfBiggest)-valueOfBiggest*Sqr(fP-fPsameagain);
         if (t < 0.0) {
-          CostFunction1dC cost1d(_parameters1d,domain,P,Pdiff);
+          CostFunction1dC cost1d(parameters1d,domain,P,Pdiff);
           BracketMinimum(cost1d);
           P = cost1d.Point(_brent.MinimalX(cost1d,minimumCost));
           Di[indexOfBiggest] = Di[numDim-1].Copy();
