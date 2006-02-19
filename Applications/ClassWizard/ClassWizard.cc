@@ -544,7 +544,7 @@ namespace RavlN {
     ONDEBUG(cerr << "ClassWizardBodyC::ScanScope(), Scan scope " << scope.Name() << "\n");
     for(DLIterC<ObjectC> it(scope.List());it;it++) {
       if(ClassC::IsA(*it)) { // Got a class ?
-	if(it->Name().matches("BodyC",-1,true)) {
+	if(it->Name().matches("BodyC",-1,false)) {
 	  ONDEBUG(cerr << "Found body class '" << it->Name() << "\n");
 	  ApplyClass(scope,*it);
 	}
