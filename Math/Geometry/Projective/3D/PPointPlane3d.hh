@@ -130,21 +130,21 @@ namespace RavlN {
       RavlAssertMsg(!IsIdealPoint(),"an ideal point or a bad projective plane.");
       return P1()/Scale();
     }
-    // Returns the value of the  1. Cartesian coordinate. The function
+    // Returns the value of the  1st Cartesian coordinate. The function
     // does not check if the point/plane is ideal or not.
     
     inline RealT Y() const {
       RavlAssertMsg(!IsIdealPoint(),"an ideal point or a bad projective plane.");
       return P2()/Scale();
     }
-    // Returns the value of the 2. Cartesian coordinate. The function
+    // Returns the value of the 2nd Cartesian coordinate. The function
     // does not check if the point/plane is ideal or not.
 
     inline RealT Z() const {
       RavlAssertMsg(!IsIdealPoint(),"an ideal point or a bad projective plane.");
       return P3()/Scale();
     }
-    // Returns the value of the 3. Cartesian coordinate. The function
+    // Returns the value of the 3rd Cartesian coordinate. The function
     // does not check if the point/plane is ideal or not.
     
     inline Point3dC Point3d() const { 

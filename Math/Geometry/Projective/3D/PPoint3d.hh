@@ -106,7 +106,7 @@ namespace RavlN {
     // Arithmetical operations.
 
     inline const PPoint3dC & operator+=(const PPoint3dC & point) 
-    { PPointPlane3dC::operator-=(point); return *this; }      
+    { PPointPlane3dC::operator+=(point); return *this; }      
     // Adds the values of the coordinates of the 'point' to this point.
     
     inline const PPoint3dC & operator-=(const PPoint3dC & point) 
@@ -124,6 +124,10 @@ namespace RavlN {
     inline PPoint3dC operator+(const PPoint3dC & point) const
     { return PPointPlane3dC::operator+(point); }
     // Returns the point which is the sum of this point and the 'point'.
+
+    inline PPoint3dC operator-(const PPoint3dC & point) const
+    { return PPointPlane3dC::operator-(point); }
+    // Returns the point which is the difference of this point and the 'point'.
 
     inline PPoint3dC operator*(const RealT alpha) const
     { return PPointPlane3dC::operator*(alpha); }
