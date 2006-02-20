@@ -30,7 +30,7 @@ namespace RavlN {
   // starts from 0.
   
   class PPointLine2dC
-    : public Point3dC
+    : protected Point3dC
   {  
   public:
     //:----------------------------------------------
@@ -93,7 +93,6 @@ namespace RavlN {
     //:---------------------------
     // Access to the object items.
 
-#if 0    
     inline const RealT & operator[](UIntT i) const
     { return Point3dC::operator[](i); }
     // Returns the value of the i-th coordinate.
@@ -101,7 +100,6 @@ namespace RavlN {
     inline RealT & operator[](UIntT i)
     { return Point3dC::operator[](i); }
     // Access the value of the i-th coordinate.
-#endif
     
     inline RealT Scale() const
     { return P3(); }

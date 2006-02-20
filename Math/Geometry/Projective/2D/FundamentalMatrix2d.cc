@@ -79,14 +79,14 @@ namespace RavlN {
   //: Compute the error (distance from line) of p2 with respect to p1 in the first image.
   
   RealT FundamentalMatrix2dC::Error(const PPoint2dC &p1,const PPoint2dC &p2) const {
-    Vector3dC lp =  (*this)(p1);
-    return Abs((p2.T() * lp)[0]) / Sqrt(Sqr(lp[0]) + Sqr(lp[1]));
+    PLine2dC lp =  (*this)(p1);
+    return Abs(p2[0]*lp[0] + p2[1]*lp[1] + p2[2]*lp[2]) / Sqrt(Sqr(lp[0]) + Sqr(lp[1]));
   }
   
   //: Compute the epipolar line in image 2 from 'p1' in image 1.
   
   LineABC2dC FundamentalMatrix2dC::EpipolarLine(const PPoint2dC &p1) const {
-    Vector3dC l = (*this)(p1);
+    PLine2dC l = (*this)(p1);
     return LineABC2dC(l[0],l[1],l[2]);
   }
   

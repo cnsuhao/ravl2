@@ -53,6 +53,13 @@ namespace RavlN {
     LineABC2dC EpipolarLine(const PPoint2dC &p1) const;
     //: Compute the epipolar line in image 2 from 'p1' in image 1.
     
+    PLine2dC operator()(const PPoint2dC &pnt) const
+    { return (*this) * pnt; }
+    
+    FundamentalMatrix2dC T() const
+    { return Matrix3dC::T(); }
+    //: Transpose operator
+
     void NormaliseScale();
     //: Normalise scale.
     // Normalise the magnitude of the elements in the matrix by dividing them by the L2 norm of the matrix
@@ -60,9 +67,6 @@ namespace RavlN {
     void MakeRank2();
     //: Make the matrix rank 2
     // Uses SVD method.
-    
-    PLine2dC operator()(const PPoint2dC &pnt) const
-    { return (*this) * pnt; }
     
     static FundamentalMatrix2dC FitLinear(const SArray1dC<PPoint2dC> &pnts1,const SArray1dC<PPoint2dC> &pnts2);
     //: Compute the fundamental matrix from 2 sets of points.

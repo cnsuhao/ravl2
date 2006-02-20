@@ -21,7 +21,7 @@ namespace RavlN {
   { return PPoint2dC(*this, l); }
   
   RealT PLine2dC::Distance(const PPoint2dC &p) const { 
-    return RavlN::Abs(p.Dot(*this)) / 
+    return RavlN::Abs(Dot(p)) / 
       Sqrt(Sqr((*this)[0]) + Sqr((*this)[1])); 
   }
   
