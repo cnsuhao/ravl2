@@ -132,6 +132,10 @@ namespace RavlN {
     { return ((const Matrix3dC &) (*this))[ind]; }
     //: Access.
     
+    PProjection2dC T() const
+    { return Matrix3dC::T(); }
+    //: Transpose operator
+
   protected:    
     inline PProjection2dC(const RavlN::FMatrixC<3,3> & m)
       : Matrix3dC(m)

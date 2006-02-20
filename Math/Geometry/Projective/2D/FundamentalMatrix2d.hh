@@ -56,10 +56,6 @@ namespace RavlN {
     PLine2dC operator()(const PPoint2dC &pnt) const
     { return (*this) * pnt; }
     
-    FundamentalMatrix2dC T() const
-    { return Matrix3dC::T(); }
-    //: Transpose operator
-
     void NormaliseScale();
     //: Normalise scale.
     // Normalise the magnitude of the elements in the matrix by dividing them by the L2 norm of the matrix
