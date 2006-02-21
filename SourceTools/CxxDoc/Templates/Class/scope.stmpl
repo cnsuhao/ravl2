@@ -24,7 +24,8 @@ $(forall:class:$(chkacc:$(chk_header:)<tr><td width=15%><A HREF="$(mkhref:)">$(O
 
 $(define:chk_header:$(if:$filename!=$lastFilename:$(set:lastFilename=$(filename))<p>
 </DL><table width=50% bgcolor="#C0C0C0"><tr>
-<td width=50% align="middle">#include "<A HREF="../../../../inc/$(filename)">$(filename)</A>"</td>
+<td width=50% align="middle">#include "<A HREF="../../../../../../include/$(filename)">$(filename)</A>"</td>
+
 </table><DL>
 ))
 
