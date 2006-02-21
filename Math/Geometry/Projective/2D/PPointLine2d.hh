@@ -257,6 +257,22 @@ namespace RavlN {
     // Returns the projective line/point determined by this point/line
     // and the point/line 'p'.
     
+    TFVectorC<RealT,3> operator+(const PPointLine2dC & o) const
+    { return TFVectorC<RealT,3>::operator+(o); }
+    //: Element wise addition
+    
+    TFVectorC<RealT,3> operator-(const PPointLine2dC & o) const
+    { return TFVectorC<RealT,3>::operator-(o); }
+    //: Element wise substraction
+    
+    TFVectorC<RealT,3> operator*(const PPointLine2dC & o) const
+    { return TFVectorC<RealT,3>::operator*(o); }
+    //: Element wise multiplication
+    
+    TFVectorC<RealT,3> operator/(const PPointLine2dC & o) const
+    { return TFVectorC<RealT,3>::operator/(o); }
+    //: Element wise devision
+    
   protected:
 
     //:------------------
