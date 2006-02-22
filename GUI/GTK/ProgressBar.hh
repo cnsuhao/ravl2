@@ -105,10 +105,6 @@ namespace RavlGUIN{
     { return static_cast<const ProgressBarBodyC &>(WidgetC::Body()); }
     //: Access body.
     
-    bool GUIUpdate(const float &percentage)
-    { return Body().GUIUpdate(percentage); }
-    //: Update percentage done on bar.
-    
   public:
     void Update(float percentage)
     { Body().Update(percentage); }
@@ -117,6 +113,10 @@ namespace RavlGUIN{
     bool GUISetType(ProgBarTypeT ntype)
     { return Body().GUISetType(ntype); }
     //: Set type of progress bar.
+    
+    bool GUIUpdate(const float &percentage)
+    { return Body().GUIUpdate(percentage); }
+    //: Update percentage done on bar.
     
     bool SetType(ProgBarTypeT ntype)
     { return Body().SetType(ntype); }
