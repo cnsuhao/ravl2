@@ -274,13 +274,14 @@ namespace RavlImageN {
   void ChanDCTC::DCT(const ImageC<RealT>& src, ImageC<RealT>& dest) const
   {
     RavlAssert( src.Cols() == (SizeT) N && src.Rows() == (SizeT) N ); 
-    dest = src;
+    dest = src.Copy();
     dct_in_place(dest);
   }
 
   ImageC<RealT> ChanDCTC::DCT(const ImageC<RealT>& im) const
   {
-    ImageC<RealT> ret(im);
+    RavlAssert( im.Cols() == (SizeT) N && im.Rows() == (SizeT) N ); 
+    ImageC<RealT> ret(im.Copy());
     dct_in_place(ret);
     return ret;
   }
