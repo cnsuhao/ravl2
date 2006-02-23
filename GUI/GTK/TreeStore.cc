@@ -36,7 +36,7 @@ namespace RavlGUIN {
   
   bool TreeStoreBodyC::GUIDeleteRow(TreeModelIterC &rowHandle) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
-    if(!rowIter.IsElm())
+    if(!rowHandle.IsElm())
       return false;
     if (!gtk_tree_store_remove (GTK_TREE_STORE(model),rowHandle.TreeIter()))
       rowHandle.Invalidate();
