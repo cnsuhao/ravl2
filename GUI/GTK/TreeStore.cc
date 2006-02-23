@@ -36,6 +36,8 @@ namespace RavlGUIN {
   
   bool TreeStoreBodyC::GUIDeleteRow(TreeModelIterC &rowHandle) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    if(!rowIter.IsElm())
+      return false;
     if (!gtk_tree_store_remove (GTK_TREE_STORE(model),rowHandle.TreeIter()))
       rowHandle.Invalidate();
     return true;
@@ -45,6 +47,8 @@ namespace RavlGUIN {
   
   bool TreeStoreBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, IntT value) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    if(!rowIter.IsElm())
+      return false;
     gtk_tree_store_set(GTK_TREE_STORE(model),rowIter.TreeIter(),col,value,-1);
     return true;
   }
@@ -53,6 +57,8 @@ namespace RavlGUIN {
   
   bool TreeStoreBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, bool value) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    if(!rowIter.IsElm())
+      return false;
     gtk_tree_store_set(GTK_TREE_STORE(model),rowIter.TreeIter(),col,value,-1);
     return true;
   }
@@ -61,6 +67,8 @@ namespace RavlGUIN {
   
   bool TreeStoreBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, const StringC &value) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    if(!rowIter.IsElm())
+      return false;
     gtk_tree_store_set(GTK_TREE_STORE(model),rowIter.TreeIter(),col,const_cast<char *>(value.chars()),-1);
     return true;    
   }
@@ -69,6 +77,8 @@ namespace RavlGUIN {
   
   bool TreeStoreBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    if(!rowIter.IsElm())
+      return false;
     gtk_tree_store_set(GTK_TREE_STORE(model),rowIter.TreeIter(),col,value.Pixbuf(),-1);
     return true;
   }

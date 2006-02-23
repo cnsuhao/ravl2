@@ -328,6 +328,8 @@ namespace RavlGUIN {
   //: Set int value.
   
   bool TreeModelBodyC::GetValue(TreeModelIterC &rowIter,IntT col, IntT &value) {
+    if(!rowIter.IsElm())
+      return false;
     ReadBackLockC lock;
     gtk_tree_model_get(model,rowIter.TreeIter(),col,&value,-1);
     return true;
@@ -336,6 +338,8 @@ namespace RavlGUIN {
   //: Set bool value. 
   
   bool TreeModelBodyC::GetValue(TreeModelIterC &rowIter,IntT col, bool &value) {
+    if(!rowIter.IsElm())
+      return false;
     int tmp;
     ReadBackLockC lock;
     gtk_tree_model_get(model,rowIter.TreeIter(),col,&tmp,-1);
@@ -346,6 +350,8 @@ namespace RavlGUIN {
   //: Set bool value.
   
   bool TreeModelBodyC::GetValue(TreeModelIterC &rowIter,IntT col, StringC &value) {
+    if(!rowIter.IsElm())
+      return false;
     guchar *text;
     ReadBackLockC lock;
     gtk_tree_model_get(model,rowIter.TreeIter(),col,&text,-1);
