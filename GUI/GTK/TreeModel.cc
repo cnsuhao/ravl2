@@ -45,42 +45,47 @@ namespace RavlGUIN {
   
   TreeModelIterBodyC::TreeModelIterBodyC() 
     : model(0),
-      treeIter(g_new (GtkTreeIter, 1))
+      treeIter(g_new (GtkTreeIter, 1)),
+      isElm(false)
   {}
   
   //: Constructor.
   
   TreeModelIterBodyC::TreeModelIterBodyC(GtkTreeIter *ntreeIter)
     : model(0),
-      treeIter(g_new (GtkTreeIter, 1))
+      treeIter(g_new (GtkTreeIter, 1)),
+      isElm(true) // FIXME:- How to check ?
   {}
   
   //: Construct from tree model.
   
   TreeModelIterBodyC::TreeModelIterBodyC(TreeModelC &ntreeModel) 
     : model(0),
-      treeIter(g_new (GtkTreeIter, 1))
+      treeIter(g_new (GtkTreeIter, 1)),
+      isElm(false)
   {
     model = ntreeModel.Body().model;
-    gtk_tree_model_get_iter_first (model,treeIter);
+    if(gtk_tree_model_get_iter_first (model,treeIter))
+      isElm = true;
   }    
-
-
-
+  
   TreeModelIterBodyC::TreeModelIterBodyC(GtkTreeModel *nmodel,GtkTreeIter *ntreeIter)
     : model(nmodel),
-      treeIter(gtk_tree_iter_copy (ntreeIter))
+      treeIter(gtk_tree_iter_copy (ntreeIter)),
+      isElm(true) // FIXME:- How to check
   {}
 
   //: Construct from tree model and path.
   
   TreeModelIterBodyC::TreeModelIterBodyC(GtkTreeModel *nmodel,GtkTreePath *treePath)
     : model(nmodel),
-      treeIter(g_new (GtkTreeIter, 1))
+      treeIter(g_new (GtkTreeIter, 1)),
+      isElm(false)
   {    
     RavlAssert(model != 0);
     RavlAssert(treePath != 0);
-    gtk_tree_model_get_iter(model,treeIter,treePath);
+    if(gtk_tree_model_get_iter(model,treeIter,treePath))
+      isElm = true;
   }
   
   //: Destructor.
@@ -97,9 +102,14 @@ namespace RavlGUIN {
   bool TreeModelIterBodyC::Next() {
     RavlAssert(model != 0);
     RavlAssert(treeIter != 0);
-    return gtk_tree_model_iter_next(model,treeIter) != 0;
+    if(gtk_tree_model_iter_next(model,treeIter)) {
+      isElm = true;
+      return true;
+    }
+    isElm = false;
+    return false;
   }
-
+  
   //: Return iterator for first child.
   // Will return an invalid iterator if none.
   

@@ -85,9 +85,14 @@ namespace RavlGUIN {
     TreeModelIterC Copy();
     //: Create a copy of the iterator.
     
+    bool IsElm() const
+    { return isElm; }
+    //: Test if we think we're on a valid element.
+    
   protected:
     GtkTreeModel *model;
     GtkTreeIter *treeIter;
+    bool isElm;
   };
   
   //! userlevel=Normal
@@ -158,7 +163,10 @@ namespace RavlGUIN {
     TreeModelIterC Copy()
     { return Body().Copy(); }
     //: Create a copy of the iterator.
-
+    
+    bool IsElm() const
+    { if(!IsValid()) return false; return Body().IsElm(); }
+    //: Check if its a valid entry.
   };
   
   //:-------------------------------------------------------------------------------------
