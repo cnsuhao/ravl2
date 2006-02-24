@@ -46,7 +46,7 @@ namespace RavlGUIN {
   TreeModelIterBodyC::TreeModelIterBodyC() 
     : model(0),
       treeIter(g_new (GtkTreeIter, 1)),
-      isElm(false)
+      isElm(true)
   {}
   
   //: Constructor.
