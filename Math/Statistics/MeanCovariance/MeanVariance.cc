@@ -88,12 +88,21 @@ namespace RavlN {
   
   RealT MeanVarianceC::Probability(RealT low,RealT high) const {
     RealT sig = Sqrt(var);
-    return (StatNormalQ((low-mean)/sig) - StatNormalQ((high-mean)/sig))/sig;
+    return (StatNormalQ((low-mean)/sig) - StatNormalQ((high-mean)/sig));
   }
   
   //: Compute the probability of a value higher than a threshold
   
   RealT MeanVarianceC::ProbabilityOfHigherValue(RealT threshold) const {
+    // Deal with 0 variance case.
+    if(var <= 0) {
+      if(mean == threshold)
+	return 0.5;
+      if(mean < threshold)
+	return 0;
+      return 1.0;
+    }
+    // And the rest.
     RealT sig = Sqrt(var);
     return StatNormalQ((threshold-mean)/sig);
   }

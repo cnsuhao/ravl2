@@ -89,6 +89,21 @@ int testMeanVar() {
   MeanVarianceC mv3(data);
   if(Abs(mv3.Mean() - 5) > 0.00000001) return __LINE__;
   if(Abs(mv3.Variance() - (var/10)) > 0.00000001) return __LINE__;  
+  
+  MeanVarianceC norm1sig(1,0,1);
+  RealT v1 = norm1sig.Probability(-0.5,0.7);
+  if(Abs(norm1sig.ProbabilityOfHigherValue(0) - 0.5) > 0.0000001) return __LINE__;
+  //cerr << "Prob1=" << norm1sig.ProbabilityOfHigherValue(0) << " v1=" << v1 <<"\n";
+  
+  MeanVarianceC norm2sig(1,0,4);
+  RealT v2 = norm2sig.Probability(-0.5*2,0.7*2);
+  //cerr << "Prob2=" << norm2sig.ProbabilityOfHigherValue(0) << " v2=" << v2 <<"\n";
+  if(Abs(norm2sig.ProbabilityOfHigherValue(0) - 0.5) > 0.0000001) return __LINE__;
+  if(Abs(v1 - v2) > 0.000001) return __LINE__;
+  
+  if(Abs(norm2sig.ProbabilityOfHigherValue(1000)) > 0.0001) return __LINE__;
+  if(Abs(norm2sig.ProbabilityOfHigherValue(-1000) - 1.0) > 0.0001) return __LINE__;
+  
   return 0;
 }
 
