@@ -412,8 +412,10 @@ namespace RavlImageN {
     if(labelAlloc == 0)
       return bounds;
     for(SArray1dIterC<ExtremaRegionC> it(regionMap,labelAlloc-1);it;it++) {
-      if(it->nThresh > 0)
-	bounds += GrowRegionBoundary(*it);
+      if(it->nThresh > 0) {
+	DListC<BoundaryC> tmp=GrowRegionBoundary(*it);
+	bounds.MoveLast(tmp);
+      }
       if(it->thresh != 0) {
 	delete [] it->thresh;
 	it->thresh = 0;
@@ -443,8 +445,10 @@ namespace RavlImageN {
     if(labelAlloc == 0)
       return masks;
     for(SArray1dIterC<ExtremaRegionC> it(regionMap,labelAlloc-1);it;it++) {
-      if(it->nThresh > 0)
-        masks += GrowRegionMask(*it);
+      if(it->nThresh > 0) {
+	DListC<ImageC<IntT> > tmp = GrowRegionMask(*it);
+        masks.MoveLast(tmp);
+      }
       if(it->thresh != 0) {
         delete [] it->thresh;
         it->thresh = 0;
