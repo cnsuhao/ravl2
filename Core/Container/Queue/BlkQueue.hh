@@ -203,7 +203,7 @@ namespace RavlN {
     if(first<0) {
       if (blkSize<0) {
 	FirstBlk();
-	firstBlk->d[last++]= data;
+	new(&(firstBlk->d[last++])) T(data);
 	return;
       } else {
 	q_Blk* f = AllocBlk();
