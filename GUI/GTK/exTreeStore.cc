@@ -35,7 +35,7 @@ TreeStoreC treeStore;
 
 bool EditCallback(TreeModelIterC &at,StringC &str2) {
   cerr << "Edit callback. " << str2 << "\n";
-  treeStore.SetValue(at,1,str2);
+  treeStore.GUISetValue(at,1,str2);
   return true;
 }
 
@@ -44,7 +44,7 @@ bool ToggleCallback(TreeModelIterC &at) {
   bool val;
   treeStore.GetValue(at,3,val);
   val = !val;
-  treeStore.SetValue(at,3,val);
+  treeStore.GUISetValue(at,3,val);
   return true;
 }
 #endif
@@ -72,40 +72,40 @@ int main(int nargs,char **argv) {
   
   TreeModelIterC iter;
   treeStore.AppendRow(iter);
-  //treeStore.SetValue(iter,0,true);
-  treeStore.SetValue(iter,0,"meep");
-  treeStore.SetValue(iter,1,"hello");
+  //treeStore.GUISetValue(iter,0,true);
+  treeStore.GUISetValue(iter,0,"meep");
+  treeStore.GUISetValue(iter,1,"hello");
   PixbufC map(xpmData_OpenFile);
-  treeStore.SetValue(iter,2, map);
-  treeStore.SetValue(iter,3,true);
-  treeStore.SetValue(iter,4,"red");
+  treeStore.GUISetValue(iter,2, map);
+  treeStore.GUISetValue(iter,3,true);
+  treeStore.GUISetValue(iter,4,"red");
   
   // Add another line to the tree store.
   TreeModelIterC iter1;
   treeStore.AppendRow(iter1);
-  treeStore.SetValue(iter1,0,"foop");
-  treeStore.SetValue(iter1,1,"ping");
-  treeStore.SetValue(iter1,2, map);
-  treeStore.SetValue(iter1,3,false);
-  treeStore.SetValue(iter1,4,"green");
+  treeStore.GUISetValue(iter1,0,"foop");
+  treeStore.GUISetValue(iter1,1,"ping");
+  treeStore.GUISetValue(iter1,2, map);
+  treeStore.GUISetValue(iter1,3,false);
+  treeStore.GUISetValue(iter1,4,"green");
 
   // Add another line to the tree store.
   TreeModelIterC iter2;
   treeStore.AppendRow(iter2,iter);
-  treeStore.SetValue(iter2,0,"igloo");
-  treeStore.SetValue(iter2,1,"child");
-  treeStore.SetValue(iter2,2, map); //GTK_STOCK_ADD
-  treeStore.SetValue(iter2,3,false);
-  treeStore.SetValue(iter2,4,"green");
+  treeStore.GUISetValue(iter2,0,"igloo");
+  treeStore.GUISetValue(iter2,1,"child");
+  treeStore.GUISetValue(iter2,2, map); //GTK_STOCK_ADD
+  treeStore.GUISetValue(iter2,3,false);
+  treeStore.GUISetValue(iter2,4,"green");
 
   // Add another line to the tree store.
   TreeModelIterC iter3;
   treeStore.AppendRow(iter3,iter);
-  treeStore.SetValue(iter3,0,"boink");
-  treeStore.SetValue(iter3,1,"child");
-  treeStore.SetValue(iter3,2, map);
-  treeStore.SetValue(iter3,3,false);
-  treeStore.SetValue(iter3,4,"yellow");
+  treeStore.GUISetValue(iter3,0,"boink");
+  treeStore.GUISetValue(iter3,1,"child");
+  treeStore.GUISetValue(iter3,2, map);
+  treeStore.GUISetValue(iter3,3,false);
+  treeStore.GUISetValue(iter3,4,"yellow");
   
   // Make a list of columns we want to see from the store.
   
@@ -150,11 +150,10 @@ int main(int nargs,char **argv) {
   
   // Setup the widgets, and off we go!
   win.Add(treeView);
-  win.Create();
   
-  win.Show();
+  treeView.GUISort("Another",true);
 
-  treeView.Sort(0,true);
+  win.GUIShow();
 
   Manager.Start();
 #endif  

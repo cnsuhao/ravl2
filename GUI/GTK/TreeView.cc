@@ -415,7 +415,8 @@ namespace RavlGUIN {
       
       GtkTreeViewColumn *column = gtk_tree_view_column_new();
       gtk_tree_view_column_set_title(column, it->Name());
-      col_offset = gtk_tree_view_append_column(GTK_TREE_VIEW(widget),column);
+      col_offset = (gtk_tree_view_append_column(GTK_TREE_VIEW(widget),column) - 1);
+      RavlAssert(col_offset >= 0);
       it->SetColumnId(col_offset);
       it->ColumnView(column);
       
@@ -452,9 +453,11 @@ namespace RavlGUIN {
                                         rit->Expand());
 	
         if (it->Sort())
+        {
           gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(treeModel.TreeModel()),
                                                col_offset,
                                                it->SortAscending() ? GTK_SORT_ASCENDING : GTK_SORT_DESCENDING);
+        }
 	
         // Setup attributes.
         for(HashIterC<StringC,Tuple2C<StringC,bool> > ait(rit->Attributes());ait;ait++) {
