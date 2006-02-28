@@ -10,9 +10,9 @@
 
 PACKAGE=Ravl/GUI
 
-HEADERS=AttributeEditor.hh AttributeEditorWindow.hh
+HEADERS=AttributeEditor.hh AttributeEditorWindow.hh ThumbNailTimeLine.hh EventTimeLine.hh
 
-SOURCES=AttributeEditor.cc AttributeEditorWindow.cc
+SOURCES=AttributeEditor.cc AttributeEditorWindow.cc ThumbNailTimeLine.cc EventTimeLine.cc
 
 PLIB=RavlGUIUtil
 
