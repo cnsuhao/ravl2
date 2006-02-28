@@ -11,21 +11,22 @@ Surrey, England for research purposes into the public domain and
 to support its use in a wider community.</p>
 
 
-<p> 
-You can search the latest RAVL CVS documentation:
-<CENTER> 
-<FORM method="GET" action="http://www.ee.surrey.ac.uk/Research/VSSP/RavlSearch/index.php">
-<INPUT TYPE=text name=searchString size=31 maxlength=255 value="">
-<INPUT type=submit VALUE="Search RAVL">
-</FORM>
-</center>
-</p> 
-
-
-<p>NOTE: The RAVL search engine is still in testing, if you have any problems, please mail <A HREF="mailto:smith@omniperception.com">James Smith</A> with details.</p>
-
-<p>There is also a <a href="../../sitemap.html">site index</a>.</p>
-
+    <h3>Searching the documentation</h3>
+    <p> You can :
+    <ul>
+      <li>search the latest RAVL CVS documentation using <a href="http://www.swish-e.org/">swish-e</a>:
+        <center> 
+          <FORM method="GET" action="http://www.ee.surrey.ac.uk/Research/VSSP/RavlSearch/index.php">
+            <INPUT TYPE=text name=searchString size=31 maxlength=255 value="">
+            <INPUT type=submit VALUE="Search RAVL">
+          </FORM>
+</center></li>
+      <li> use your browser to search the <a href="..">site index</a></li>
+      <li>use Google to search this site; e.g. to search for IndexC use the string  <pre>site:www.ee.surrey.ac.uk ravl indexc</pre></li>
+      <li></li>
+    </ul>
+    There is also a <a href="../../sitemap.html">site map</a>
+  </p>
 
 <p>RAVL is hosted by : 
 <a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=24497&amp;type=7" width="210" height="62" border="0" alt="SourceForge.net Logo"></a></p>
