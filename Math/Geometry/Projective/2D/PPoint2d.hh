@@ -93,7 +93,7 @@ namespace RavlN {
     // does not check if the point is ideal or not.
 
     // Logical conditions.
-    // -------------------
+    //:-------------------
   
     inline bool IsIdeal() const
     { return IsIdealPoint(); }
