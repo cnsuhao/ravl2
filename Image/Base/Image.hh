@@ -116,11 +116,11 @@ namespace RavlImageN {
     { return ImageC<PixelT>(Array2dC<PixelT>::Copy()); }
     //: Make copy of an image.
     
-    UIntT Rows() const
+    SizeT Rows() const
     { return this->Range1().Size(); }
     //: Number of rows in image.
     
-    UIntT Cols() const
+    SizeT Cols() const
     { return this->Range2().Size(); }
     //: Number of rows in image.
     

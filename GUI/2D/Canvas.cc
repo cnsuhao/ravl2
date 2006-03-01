@@ -323,8 +323,8 @@ namespace RavlGUIN {
       GdkRectangle update_rect;
       update_rect.x = atx;
       update_rect.y = aty;
-      update_rect.width = Min((UIntT)Widget()->allocation.width,img.Cols());
-      update_rect.height = Min((UIntT)Widget()->allocation.height,img.Rows());
+      update_rect.width = Min((SizeT)Widget()->allocation.width,img.Cols());
+      update_rect.height = Min((SizeT)Widget()->allocation.height,img.Rows());
       gtk_widget_draw (Widget(), &update_rect);  
     }
 #endif
@@ -369,8 +369,8 @@ namespace RavlGUIN {
       GdkRectangle update_rect;
       update_rect.x = atx;
       update_rect.y = aty;
-      update_rect.width = Min((UIntT)Widget()->allocation.width,img.Cols());
-      update_rect.height = Min((UIntT)Widget()->allocation.height,img.Rows());
+      update_rect.width = Min((SizeT)Widget()->allocation.width,img.Cols());
+      update_rect.height = Min((SizeT)Widget()->allocation.height,img.Rows());
       gtk_widget_draw (Widget(), &update_rect);  
     }
 #endif

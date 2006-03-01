@@ -69,6 +69,8 @@ namespace RavlN {
   // per the C and C++ standards.  I.e.:
   // <pre>   a == (a/b)*b + a%b</pre>
   // It accordingly always returns a non-negative value.
+  // <dt> Word length:
+  // <dd> The word length of an IndexC corresponds to that of a <em>pointer</em> variable (i.e. <a href=RavlN.html#SizeT><code>SizeT</code></a>) on that architecture.  So it is likely to be 64 bits on a 64-bit architecture, while an int will probably be 32 bits.
   // </dl>
   
   // Remember: IndexC is a class, not a built-in. So:<ul>
@@ -230,17 +232,6 @@ inline IndexC operator-(UInt64T i) const
 
 inline IndexC operator+(UInt64T i) const 
 { return v + i; }
-
-inline bool operator<(UInt64T i) const
-{ return v < Int64T(i); }
-//: Returns true if the value of this index is smaller than
-//: the integer number 'i'.
-
-    
-    inline bool operator>=(const UInt64T i) const
-    { return v >= Int64T(i); }
-    //: Returns true if the value of this index is greater than
-    //: or equal to the integer number 'i'.
 
 inline IndexC & operator+=(const UInt64T i) 
 { v += i; return *this; }
@@ -460,6 +451,39 @@ inline IndexC & operator+=(const UInt64T i)
     
     inline bool operator>=(const UIntT i) const
     { return v >= IntT(i); }
+    //: Returns true if the value of this index is greater than
+    //: or equal to the integer number 'i'.
+
+    // <h2>Logical operators with unsigned integer numbers:</h2>
+    /* -----------------------------------------------*/
+
+    inline bool operator==(const UInt64T i) const
+    { return v == Int64T(i); }
+    //: Returns true if the value of this index is equal to 
+    //: the integer number 'i'.
+    
+    inline bool operator!=(const UInt64T i) const
+    { return v != Int64T(i); }
+    //: Returns true if the value of this index is not equal to 
+    //: the integer number 'i'.
+    
+    inline bool operator<(const UInt64T i) const
+    { return v < Int64T(i); }
+    //: Returns true if the value of this index is smaller than
+    //: the integer number 'i'.
+    
+    inline bool operator<=(const UInt64T i) const
+    { return v <= Int64T(i); }
+    //: Returns true if the value of this index is smaller than
+    //: or equal to the integer number 'i'.
+
+    inline bool operator>(const UInt64T i) const
+    { return v > Int64T(i); }
+    //: Returns true if the value of this index is greater than
+    //: the integer number 'i'.
+    
+    inline bool operator>=(const UInt64T i) const
+    { return v >= Int64T(i); }
     //: Returns true if the value of this index is greater than
     //: or equal to the integer number 'i'.
 
