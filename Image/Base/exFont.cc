@@ -27,8 +27,8 @@ int main(int nargs,char **argv) {
   
   IndexRange2dC fsize(1,1);
   Index2dC at(1,1);
-  UIntT vsize = 1;
-  UIntT hsize = 1;
+  SizeT vsize = 1;
+  SizeT hsize = 1;
   for(UIntT i = 0;i < font.Count();i++) {
     vsize = Max(vsize,font[i].Rows());
     hsize += font[i].Cols() + 1; 
