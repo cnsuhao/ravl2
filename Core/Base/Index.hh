@@ -84,7 +84,7 @@ namespace RavlN {
   // <code>int</code>.  In particular you can't use an IndexC object directly as
   // an <code>int</code> function argument.  You need to use the <a
   // href="#IndexC_V_void__const">V()</a> member function to achieve this.  (We <i>could</i> have provided the implicit conversion, but it would then be very difficult sometimes to know which was actually being used.) </ul>
-#if RAVL_OS_LINUX64
+#if RAVL_CPUTYPE_64
 typedef Int64T ISizeT ; 
 #else 
 typedef IntT ISizeT ;
@@ -97,7 +97,7 @@ typedef IntT ISizeT ;
     // <p><h2>Constructors, copies, assigment, and destructor:</h2>
     /* ----------------------------------------------- */
     
-#if RAVL_OS_LINUX64
+#if RAVL_CPUTYPE_64
 inline IndexC (Int64T i) 
 : v(i) {}
 //: Creates the index with value 'i'
@@ -295,7 +295,8 @@ inline IndexC (long int i)
       return *this;
     }
     //: Returns this index divided by integer 'i'.
-    
+
+#if RAVL_CPUTYPE_64
     inline IndexC operator+(const UInt64T i) const
     { return v + i; }
     //: Returns a new index with value of this index added by integer 'i'.
@@ -334,7 +335,8 @@ inline IndexC (long int i)
       return *this;
     }
     //: Returns this index divided by integer 'i'.
-    
+#endif
+
     inline RealT operator+(RealT i) const
     { return (RealT) v + i; }
     //: Returns a RealT with value of this index, converted to RealT, + 'i'
