@@ -13,6 +13,7 @@
 #include "Ravl/GUI/Button.hh"
 #include "Ravl/GUI/Label.hh"
 #include "Ravl/GUI/LBox.hh"
+#include "Ravl/GUI/Manager.hh"
 
 
 namespace RavlGUIN {
@@ -30,8 +31,13 @@ namespace RavlGUIN {
     IncRefCounter();
     
     // Set transience if we need to
-    if (parent) 
-      GUIMakeTransient(const_cast<WindowC&>(*parent));
+    if (parent) {
+      if (Manager.IsGUIThread()) {
+        GUIMakeTransient(const_cast<WindowC&>(*parent));
+      } else {
+        MakeTransient(const_cast<WindowC&>(*parent));
+      }
+    }
   }
   
   //: Create the widget.  
