@@ -68,8 +68,8 @@ namespace RavlN {
     
     virtual ~DPPortBodyC();
     //: Destructor.
-
-    void DPPortBodyC::RegisterID(void) ;
+    
+    void RegisterID(void) ;
     //: Register Port ID  
 
     virtual bool IsAsync() const;

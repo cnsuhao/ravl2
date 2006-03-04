@@ -72,7 +72,7 @@ namespace RavlN {
     open.InsLast(toNode);
     done[toNode] = true;
     while (!open.IsEmpty()) {
-      for(BGraphAdjIterC<NT,ET> It(NodeObj(open.GetFirst()),this->Bkw);
+      for(BGraphAdjIterC<NT,ET> It(this->NodeObj(open.GetFirst()),this->Bkw);
 	  It.IsElm();
 	  It.Next()) {
 	BGraphTypesC::NodeHandleT NN = It.FarNodeH();

@@ -59,11 +59,11 @@ namespace RavlN {
     //: Get transpose of matrix.
     
     virtual TSMatrixC<DataT> TMul(const TSMatrixC<DataT> & B) const 
-    { return Mul(B); }
+    { return this->Mul(B); }
     //: Multiplication A.T() * B
     
     virtual TVectorC<DataT> TMul(const TVectorC<DataT> & B) const
-    { return Mul(B); }
+    { return this->Mul(B); }
     //: Multiplication A.T() * B
     
     virtual TSMatrixC<DataT> ATA() const
