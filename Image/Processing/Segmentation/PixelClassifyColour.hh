@@ -72,12 +72,13 @@ namespace RavlImageN {
     inline StatT Stat()
     { return mean; }
     //: Return the statistics about the region
-
-    virtual bool Save(ostream &out) const{
-      out << (*this);
+    
+    bool Save(ostream &out) const {
+      out << count << " " << total << " " << mean << " " << threshold;
       return true; 
     }
-
+    //: Save to standard stream
+    
   protected:
     int count;
     StatT total, mean, threshold;
