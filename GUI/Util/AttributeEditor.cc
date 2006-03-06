@@ -221,15 +221,15 @@ namespace RavlGUIN {
           }
         }
         
-	AddObject(LabelC(rwtype),0,1,lineNo,lineNo+1,(GtkAttachOptions) (GTK_FILL),(GtkAttachOptions) (GTK_FILL),2,3);	  
-	AddObject(LabelC(name)  ,1,2,lineNo,lineNo+1,(GtkAttachOptions) (GTK_FILL),(GtkAttachOptions) (GTK_FILL),2,5); // | GTK_EXPAND
-	AddObject(widge         ,2,3,lineNo,lineNo+1);
+	GUIAddObject(LabelC(rwtype),0,1,lineNo,lineNo+1,(GtkAttachOptions) (GTK_FILL),(GtkAttachOptions) (GTK_FILL),2,3);	  
+	GUIAddObject(LabelC(name)  ,1,2,lineNo,lineNo+1,(GtkAttachOptions) (GTK_FILL),(GtkAttachOptions) (GTK_FILL),2,5); // | GTK_EXPAND
+	GUIAddObject(widge         ,2,3,lineNo,lineNo+1);
         
         if(showAttrDescription) {
           LabelC labDesc(it->Description());
           if(it->ValueType() == AVT_Bool) // We use the checkbox description...
             labDesc = StringC("");
-          AddObject(labDesc  ,3,4,lineNo,lineNo+1,(GtkAttachOptions) (GTK_FILL),(GtkAttachOptions) (GTK_FILL),2,5); // | GTK_EXPAND
+          GUIAddObject(labDesc  ,3,4,lineNo,lineNo+1,(GtkAttachOptions) (GTK_FILL),(GtkAttachOptions) (GTK_FILL),2,5); // | GTK_EXPAND
         }
       }
     }
