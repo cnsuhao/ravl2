@@ -15,7 +15,7 @@
     <p> The RAVL library requires the use of the gcc compiler, version 4.0.2
     or later. If it is not on the system, install it first. After downloading
     from the <a href="http://gcc.gnu.org/releases.html">Gnu site</a>, the
-    installation might be as follows (assuming a <code>bash</code> shell): </p>
+    installation might be something like: </p>
 
     <pre>
 bunzip2 gcc-3.3.5.tar.bz2
@@ -24,7 +24,7 @@ mv gcc-3.3.5 gcc-3.3.5-src
 cd gcc-3.3.5-src/
 ./configure --prefix=/usr/bin/gcc-3.3.5 --enable-languages=c,c++
 make bootstrap
-export LD_LIBRARY_PATH=/vol/gcc/lib:/vol/ai/lib:$LD_LIBRARY_PATH
+setenv LD_LIBRARY_PATH /vol/gcc/lib:/vol/ai/lib:${LD_LIBRARY_PATH}
 make install
 cd ..
 </pre>
@@ -114,7 +114,7 @@ setenv LD_LIBRARY_PATH /vol/ai/lib</pre>
     <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
 <!-- Created: Fri Dec 23 09:31:09 GMT 2005 -->
 <!-- hhmts start -->
-Last modified: Mon Feb 20 18:08:33 GMT 2006
+Last modified: Tue Mar  7 15:43:34 GMT 2006
 <!-- hhmts end -->
   </body>
 </html>
