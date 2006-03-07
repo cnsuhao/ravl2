@@ -34,4 +34,11 @@ USESLIBS=RavlImageProc
 PROGLIBS= RavlImageIO RavlDPMT RavlOSIO RavlVideoIO RavlIO RavlDPDisplay.opt RavlExtImgIO \
  RavlImgIOV4L.opt  RavlDV.opt RavlLibFFmpeg.opt
 
+USESLIBS=  RavlIO RavlImage 
+
+PROGLIBS=  RavlDPMT  RavlDPDisplay.opt RavlExtImgIO \
+ RavlImgIOV4L.opt  RavlDV.opt RavlLibFFmpeg.opt
+
+
+
 EHT=Ravl.API.Images.Edges.html
