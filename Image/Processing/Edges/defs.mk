@@ -37,7 +37,7 @@ PROGLIBS= RavlImageIO RavlDPMT RavlOSIO RavlVideoIO RavlIO RavlDPDisplay.opt Rav
 USESLIBS=  RavlIO RavlImage 
 
 PROGLIBS=  RavlDPMT  RavlDPDisplay.opt RavlExtImgIO \
- RavlImgIOV4L.opt  RavlDV.opt RavlLibFFmpeg.opt
+ RavlImgIOV4L.opt  RavlDV.opt RavlLibFFmpeg.opt RavlOSIO
 
 
 
