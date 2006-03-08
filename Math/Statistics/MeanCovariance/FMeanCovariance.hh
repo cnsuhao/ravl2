@@ -23,6 +23,7 @@
 namespace RavlN {
   template<unsigned int N> class FMeanCovarianceC ;
   template<unsigned int N> istream & operator>>(istream & inS, FMeanCovarianceC<N> & meanCov);
+  template<unsigned int N> BinIStreamC & operator>>(BinIStreamC & inS, FMeanCovarianceC<N> & meanCov);
   
   //! userlevel=Normal
   //: Mean and covariance together in N-D space 
@@ -153,6 +154,7 @@ namespace RavlN {
     FMatrixC<N,N> cov; // the covariance matrix of this data set.
     
     friend istream & operator>> <>(istream & inS, FMeanCovarianceC<N> & meanCov);
+    friend BinIStreamC & operator>> <>(BinIStreamC & inS, FMeanCovarianceC<N> & meanCov);
   };
   
   template<unsigned int N>
@@ -165,7 +167,23 @@ namespace RavlN {
   // stream 'outS'.
   
   template<unsigned int N>
+  BinOStreamC & operator<<(BinOStreamC & outS, const FMeanCovarianceC<N> & meanCov) {
+    outS << meanCov.Mean() << meanCov.Covariance();
+    return outS;
+  }
+  // Saves the statistical description of the set 'meanCov' into the output
+  // stream 'outS'.
+  
+  template<unsigned int N>
   istream & operator>>(istream & inS, FMeanCovarianceC<N> & meanCov) {
+    inS >> meanCov.m >> meanCov.cov;
+    return inS;
+  }
+  // Reads and sets the statistical description of the set 'meanCov'
+  // according to the information in the input stream 'inS'.
+  
+  template<unsigned int N>
+  BinIStreamC & operator>>(BinIStreamC & inS, FMeanCovarianceC<N> & meanCov) {
     inS >> meanCov.m >> meanCov.cov;
     return inS;
   }

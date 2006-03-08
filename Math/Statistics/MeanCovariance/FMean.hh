@@ -24,9 +24,8 @@
 namespace RavlN {
 
   template<unsigned int N> class FMeanC;
-  
-  template<unsigned int N>
-  istream & operator>>(istream & s, FMeanC<N> & mean);
+  template<unsigned int N> istream & operator>>(istream & s, FMeanC<N> & mean);
+  template<unsigned int N> BinIStreamC & operator>>(BinIStreamC & s, FMeanC<N> & mean);
   
   //: Mean in N-D space
   // The class MeanNdC serves for computation of the mean
@@ -119,6 +118,7 @@ namespace RavlN {
     SizeT number;  // The number of points represented by mean object.
     
     friend istream & operator>> <>(istream & s, FMeanC<N> & mean);
+    friend BinIStreamC & operator>> <>(BinIStreamC & s, FMeanC<N> & mean);
   };
   
   template<unsigned int N>
