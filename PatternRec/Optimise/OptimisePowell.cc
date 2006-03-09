@@ -141,7 +141,6 @@ namespace RavlN {
           valueOfBiggest*Sqr(fP-fPsameagain);
         
         if (t < 0.0) {
-          cerr << "*\n";
           SetupLimits(Pdiff,P,domain,parameters1d); // Setup limits for new direction.
           
           CostFunction1dC cost1d(parameters1d,domain,P,Pdiff);
