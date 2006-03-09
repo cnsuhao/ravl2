@@ -23,10 +23,29 @@ namespace RavlN {
   {
   }
   
+  VectorC OptimiseBodyC::MinimalX (const CostC &domain, RealT &minimumCost) const
+  {
+    RealT startCost = domain.Cost(domain.StartX());
+    return MinimalX (domain,startCost,minimumCost);
+  }
+  
+  VectorC OptimiseBodyC::MinimalX (const CostC &domain, RealT startCost, RealT &minimumCost) const
+  {
+    return MinimalX (domain,minimumCost);
+  }
+  
   VectorC OptimiseBodyC::MaximalX (const CostC &domain, RealT &maximumCost) const
   {
     CostInvertC inverse (domain);
     VectorC minimumX = MinimalX (inverse,maximumCost);
+    maximumCost = -maximumCost;
+    return minimumX;
+  }
+  
+  VectorC OptimiseBodyC::MaximalX (const CostC &domain, RealT startCost, RealT &maximumCost) const
+  {
+    CostInvertC inverse (domain);
+    VectorC minimumX = MinimalX (inverse,startCost,maximumCost);
     maximumCost = -maximumCost;
     return minimumX;
   }

@@ -35,17 +35,18 @@ namespace RavlN {
     UIntT _iterations;
     RealT _tolerance;
     OptimiseBrentC _brent;
+    bool _useBracketMinimum;
 //    ParametersC _parameters1d;
     
   public:
-    OptimisePowellBodyC (UIntT iterations, RealT tolerance);
+    OptimisePowellBodyC (UIntT iterations, RealT tolerance, bool useBracketMinimum);
     //: Constructor requires the number of iterations to use
     
     OptimisePowellBodyC (istream &in);
     //: Constructs from stream
     
   protected:
-    VectorC MinimalX (const CostC &domain, RealT &minimumCost) const;
+    VectorC MinimalX (const CostC &domain, RealT startCost, RealT &minimumCost) const;
     //: Determines Xmin=arg min_{X} |f(X)-Yd|
     
     virtual const StringC GetInfo () const;
@@ -64,8 +65,8 @@ namespace RavlN {
   class OptimisePowellC: public OptimiseC
   {
   public:
-    OptimisePowellC (UIntT iterations, RealT tolerance = 1e-6)
-      :OptimiseC(*(new OptimisePowellBodyC (iterations, tolerance))) {}
+    OptimisePowellC (UIntT iterations, RealT tolerance = 1e-6, bool useBracketMinimum = true)
+      :OptimiseC(*(new OptimisePowellBodyC (iterations, tolerance, useBracketMinimum))) {}
     //: Constructor
     //!param: iterations - maximum number of iterations to use
   };

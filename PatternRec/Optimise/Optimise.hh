@@ -46,7 +46,17 @@ namespace RavlN {
     // The name or type must be known so that the correct virtual constructor
     // can be called.
 
-    virtual VectorC MinimalX (const CostC &domain, RealT &minimumCost) const=0;
+    virtual VectorC MinimalX (const CostC &domain, RealT &minimumCost) const;
+    //: Determines Xmin=arg min_{X} domain(X)
+    //!param: domain      - the cost function that will be minimised
+    //!param: minimumCost - the maximum cost value found
+    //!return: the X value which gives the minimum cost
+    // A minimisation algorithm must be provided for each derived optimisation
+    // algorithm. It is not necessary to provide one for maximisation since
+    // that is achieved using a cost function inverter as described in the next
+    // member function.
+    
+    virtual VectorC MinimalX (const CostC &domain, RealT startCost, RealT &minimumCost) const;
     //: Determines Xmin=arg min_{X} domain(X)
     //!param: domain      - the cost function that will be minimised
     //!param: minimumCost - the maximum cost value found
@@ -57,6 +67,12 @@ namespace RavlN {
     // member function.
     
     virtual VectorC MaximalX (const CostC &domain, RealT &maximumCost) const;
+    //: Determines Xmax=arg max_{X} domain(X)
+    //!param: domain - the cost function that will be maximised
+    //!param: maximumCost - the maximum cost value found
+    //!return: the X value which gives the maximum cost
+    
+    virtual VectorC MaximalX (const CostC &domain, RealT startCost, RealT &maximumCost) const;
     //: Determines Xmax=arg max_{X} domain(X)
     //!param: domain - the cost function that will be maximised
     //!param: maximumCost - the maximum cost value found
@@ -106,55 +122,50 @@ namespace RavlN {
 
   public:
     
-    inline VectorC MinimalX (const CostC &domain, RealT &minimumCost) const;
+    inline VectorC MinimalX (const CostC &domain, RealT startCost, RealT &minimumCost) const
+    { return Body().MinimalX (domain,startCost,minimumCost); }
     //: Do the Optimisation.
     // Determines which X gives minimum cost function value and gives access to 
     // calculated minimum cost
 
-    inline VectorC MinimalX (const CostC &domain) const;
+    inline VectorC MinimalX (const CostC &domain, RealT &minimumCost) const
+    { return Body().MinimalX (domain,minimumCost); }
+    //: Do the Optimisation.
+    // Determines which X gives minimum cost function value and gives access to 
+    // calculated minimum cost
+
+    inline VectorC MinimalX (const CostC &domain) const
+    { RealT minimumCost; return Body().MinimalX (domain,minimumCost); }
     //: Do the Optimisation. Determines which X gives minimum cost function value
     
-    inline VectorC MaximalX (const CostC &domain, RealT &maximumCost) const;
+    inline VectorC MaximalX (const CostC &domain, RealT startCost, RealT &maximumCost) const
+    { return Body().MaximalX (domain,startCost,maximumCost); }
     //: Do the Optimisation.
     // Determines which X gives maximum cost function value and gives access to 
     // calculated maximum cost
 
-    inline VectorC MaximalX (const CostC &domain) const;
+    inline VectorC MaximalX (const CostC &domain, RealT &maximumCost) const
+    { return Body().MaximalX (domain,maximumCost); }
+    //: Do the Optimisation.
+    // Determines which X gives maximum cost function value and gives access to 
+    // calculated maximum cost
+
+    inline VectorC MaximalX (const CostC &domain) const
+    { RealT maximumCost; return Body().MaximalX (domain,maximumCost); }
     //: Do the Optimisation. Determines which X gives maximum cost function value
     
-    inline const StringC GetInfo () const;
+    inline const StringC GetInfo () const
+    { return Body().GetInfo (); }
     //: Gets string describing object
     
-    inline const StringC GetName () const;
+    inline const StringC GetName () const
+    { return Body().GetName (); }
     //: Gets type name of the object
     
-    inline bool Save (ostream &out) const;
+    inline bool Save (ostream &out) const
+    { return Body().Save (out); }
     //: Writes object to stream, cna be loaded using constructor
   };
-  
-  ////////////////////////////////////////////////////
-  
-  
-  VectorC OptimiseC::MinimalX (const CostC &domain,RealT &minimumCost) const
-  { return Body().MinimalX (domain,minimumCost); }
-  
-  VectorC OptimiseC::MinimalX (const CostC &domain) const
-  { RealT minimumCost; return Body().MinimalX (domain,minimumCost); }
-  
-  VectorC OptimiseC::MaximalX (const CostC &domain,RealT &maximumCost) const
-  { return Body().MaximalX (domain,maximumCost); }
-  
-  VectorC OptimiseC::MaximalX (const CostC &domain) const
-  { RealT maximumCost; return Body().MaximalX (domain,maximumCost); }
-  
-  const StringC OptimiseC::GetInfo () const
-  { return Body().GetInfo (); }
-  
-  const StringC OptimiseC::GetName () const
-  { return Body().GetName (); }
-  
-  bool OptimiseC::Save (ostream &out) const
-  { return Body().Save (out); }
   
 }
 

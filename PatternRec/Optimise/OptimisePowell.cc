@@ -16,11 +16,12 @@
 
 namespace RavlN {
 
-  OptimisePowellBodyC::OptimisePowellBodyC (UIntT iterations, RealT tolerance)
+  OptimisePowellBodyC::OptimisePowellBodyC (UIntT iterations, RealT tolerance, bool useBracketMinimum)
     :OptimiseBodyC("OptimisePowellBodyC"),
      _iterations(iterations),
      _tolerance(tolerance),
-     _brent(iterations,tolerance)
+     _brent(iterations,tolerance),
+     _useBracketMinimum(useBracketMinimum)
   {}
   
   OptimisePowellBodyC::OptimisePowellBodyC (istream &in)
@@ -59,7 +60,7 @@ namespace RavlN {
   // a new direction which replaces one of the existing ones and the process is
   // repeated.
   //
-  VectorC OptimisePowellBodyC::MinimalX (const CostC &domain, RealT &minimumCost) const
+  VectorC OptimisePowellBodyC::MinimalX (const CostC &domain, RealT startCost, RealT &minimumCost) const
   {
     VectorC minP(1),maxP(1);
     SArray1dC<IntT> steps(1);
@@ -95,7 +96,7 @@ namespace RavlN {
     VectorC Plast;
     VectorC Psameagain;
     VectorC Pdiff;
-    minimumCost = domain.Cost(P);
+    minimumCost = startCost;
     for (UIntT iter = 0; iter < _iterations; iter++) {
       Plast = P.Copy();       // Save the current position.
       fP = minimumCost;
@@ -113,8 +114,12 @@ namespace RavlN {
                                P,            // Current best position.
                                *it           // Direction we wish to optimise along.
                                );
-        BracketMinimum(cost1d);
-        P = cost1d.Point(_brent.MinimalX(cost1d,minimumCost));
+        if (_useBracketMinimum) {
+          BracketMinimum(cost1d);
+          P = cost1d.Point(_brent.MinimalX(cost1d,minimumCost));
+        }
+        else
+          P = cost1d.Point(_brent.MinimalX(cost1d,minimumCost,minimumCost));
         RealT diff = fPlast - minimumCost; // Compute the size of the reduction in cost.
         if (diff > valueOfBiggest) {
           valueOfBiggest = diff;
@@ -144,8 +149,12 @@ namespace RavlN {
           SetupLimits(Pdiff,P,domain,parameters1d); // Setup limits for new direction.
           
           CostFunction1dC cost1d(parameters1d,domain,P,Pdiff);
+        if (_useBracketMinimum) {
           BracketMinimum(cost1d);
           P = cost1d.Point(_brent.MinimalX(cost1d,minimumCost));
+        }
+        else
+          P = cost1d.Point(_brent.MinimalX(cost1d,minimumCost,minimumCost));
           Di[indexOfBiggest] = Di[numDim-1]; // Replace vector yielding largest cost
           Di[numDim-1] = Pdiff.Copy();              // Put in new direction vector.
         }

@@ -33,7 +33,7 @@ namespace RavlN {
   // of Golden Section search when the quadratic is uncooperative and parabolic
   // interpolation when it is cooperative!
   //
-  VectorC OptimiseBrentBodyC::MinimalX (const CostC &domain, RealT &minimumCost) const
+  VectorC OptimiseBrentBodyC::MinimalX (const CostC &domain, RealT startCost, RealT &minimumCost) const
   {
     // Only works for cost functions of 1 dimension
     //RavlAssert();
@@ -55,7 +55,7 @@ namespace RavlN {
     a = (ax < cx? ax: cx);                  // a and b must be in ascending order,
     b = (ax > cx? ax: cx);                  // but input abscissas need not be.
     x1 = x2 = x3 = bx;                      // Initialisations...
-    fx1 = fx2 = fx3 = domain.Cost (iterX1);
+    fx1 = fx2 = fx3 = startCost;
 
     // Main iteration loop
     for (UIntT iter = 0; iter < _iterations; iter++) {
