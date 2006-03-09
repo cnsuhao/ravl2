@@ -67,13 +67,8 @@ namespace RavlN {
   //
   VectorC OptimisePowellBodyC::MinimalX (const CostC &domain, RealT startCost, RealT &minimumCost) const
   {
-    VectorC minP(1),maxP(1);
-    SArray1dC<IntT> steps(1);
-    minP[0] = -10.0;
-    maxP[0] = 10.0;
-    steps[0] = 10;
-    ParametersC parameters1d(minP,maxP,steps);
-
+    ParametersC parameters1d(1);
+    
     VectorC P = domain.StartX();
     IntT numDim = P.Size();
     SArray1dC<VectorC> Di(numDim);
