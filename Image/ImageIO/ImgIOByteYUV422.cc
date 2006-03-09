@@ -112,8 +112,7 @@ namespace RavlImageN {
     
     ImageC<ByteYUV422ValueC> ret(outRect);
     UIntT i(0);
-    for(Array2dIter2C<ByteYUV422ValueC,ByteRGBValueC> it(ret,dat);it;it++,i++) {
-      
+    for(Array2dIter2C<ByteYUV422ValueC,ByteRGBValueC> it(ret,dat,outRect);it;it++,i++) {
       RealYUVValueC pix(RealRGBValueC(it.Data2()));
       it.Data1().Y() = (ByteT)pix[0];
       RealT uv = ((i & 1) ? pix[2] : pix[1]) + 128.0;
