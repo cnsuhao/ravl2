@@ -11,6 +11,13 @@
 #include "Ravl/PatternRec/OptimiseDescent.hh"
 #include "Ravl/StrStream.hh"
 
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlN {
 
   OptimiseDescentBodyC::OptimiseDescentBodyC (UIntT iterations, RealT tolerance)
@@ -25,6 +32,7 @@ namespace RavlN {
   {
     in >> _iterations;
   }
+  
   
   // ------------------------------------------------------------------------
   // **********  OptimalX    ************************************************
@@ -42,38 +50,49 @@ namespace RavlN {
     VectorC dYdX;                            // Jacobian or gradient at location
     UIntT counter = 0;
     VectorC iterX = domain.StartX();         // Copy start into temporary var;
-    RealT gradSize = 0;
     RealT stepSize = 1;
+    
 #if 0
     cerr << "ClipX=" << domain.ClipX (iterX) << "\n";
     cerr << "    X=" << iterX << "\n";
 #endif
-    UIntT maxSteps = 15;
+#if USE_BRENT
+    ParametersC parameters1d(1);
+    OptimiseBrentC _brent(_iterations, _tolerance);
+#endif
+    
+    UIntT maxSteps = 15;  // Allow quite a few steps on the first iteration to get the scale right.
     RealT currentCost = domain.Cost (iterX);      // Evaluate current cost
+    
     do {
       // perform something like a binary search along the direction of steepest
       // descent to find a local minima
       //cout << "X=" << X << "\tcurrentcost = " << iterCost <<  "\n";
+      RealT startCost = currentCost;
       dYdX = domain.Jacobian(iterX).SliceRow(0); // Determine current Jacobian
       dYdX /= dYdX.Modulus(); // Normalise to unit step.
       //cerr << "Jacobian=" << dYdX << "\n";
       VectorC Xstep;
-      for (UIntT i = 0; i < maxSteps; i++) {
-	Xstep = domain.ClipX (iterX-(dYdX * stepSize));   // Step in dir of steepest descent
+      VectorC Xat = iterX;
+      for (UIntT i = 0; i < maxSteps; i++) {        
+	Xstep = domain.ClipX (Xat -(dYdX * stepSize));   // Step in dir of steepest descent
 	RealT stepCost = domain.Cost (Xstep);// Evaluate cost after step
 	if (stepCost < currentCost) {        // If cost is best so far
 	  iterX = Xstep;                     // then keep going with bigger step
 	  currentCost = stepCost;
-	  stepSize *= 2;
-	} else {                               // otherwise go back a bit
-	  stepSize *= 0.25;
+	  stepSize *= 2;                     // Next time try twice as far.
+	} else {                             // otherwise go back a bit
+	  stepSize *= 0.3333;                 // Try a smaller thats not a multple of 2.
 	}
       }
+      
+      // Check termination condition.
+      if(2.0*(startCost - currentCost) < _tolerance * Abs(currentCost + startCost))
+        break;
+      
       maxSteps = 4; // Only 4 after the first iteration.
-      gradSize = dYdX.Modulus ();
-      //      cerr << "GradSize=" << gradSize << " StepSize=" << stepSize << "\n";
-    } while (gradSize > _tolerance && counter++ < _iterations &&  stepSize > _tolerance); 
-    //cout << "\n";
+    } while (counter++ < _iterations); 
+    ONDEBUG(cerr << "Terminated after " << counter << " iterations. MinCost=" << currentCost << "\n");
     minimumCost = currentCost;
     return domain.ConvertX2P (iterX);            // Return final estimate
   }

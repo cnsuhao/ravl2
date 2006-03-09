@@ -31,9 +31,6 @@ namespace RavlN {
   
   class OptimiseDescentBodyC: public OptimiseBodyC
   {
-    UIntT _iterations;
-    RealT _tolerance;
-    
   public:
     OptimiseDescentBodyC (UIntT iterations, RealT tolerance);
     //: Constructor requires the number of iterations to use
@@ -50,6 +47,11 @@ namespace RavlN {
     
     virtual bool Save (ostream &out) const;
     //: Writes object to stream, can be loaded using constructor
+    
+  private:
+    UIntT _iterations;
+    RealT _tolerance;
+    
   };
   
   //! userlevel=Normal
