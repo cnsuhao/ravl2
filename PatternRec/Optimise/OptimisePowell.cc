@@ -29,6 +29,27 @@ namespace RavlN {
     in >> _iterations;
   }
   
+  static void SetupLimits(const VectorC &dir,const VectorC &P,const CostC &domain,ParametersC &parameters1d) {
+    // Find the domain limits along the direction vector.
+    
+    RealT min = -RavlConstN::maxReal;
+    RealT max = RavlConstN::maxReal;
+    for(SArray1dIter4C<RealT,RealT,RealT,RealT> lit(dir,P,domain.MinX(),domain.MaxX());lit;lit++) {
+      if(lit.Data1() == 0.0)
+        continue; // Avoid division by zero.
+      RealT maxv = (lit.Data3() - lit.Data2()) / lit.Data1(); // Limit for MinX
+      RealT minv = (lit.Data4() - lit.Data2()) / lit.Data1(); // Limit for MaxX
+      if(minv > maxv) // The direction vector could have a negative value, so invert if needed.
+        Swap(minv,maxv);
+      if(max > maxv) // Pull down maximum if limited
+        max = maxv;
+      if(minv > min) // Pull up minimum if limited
+        min = minv;
+    }
+    //Point in full space to evaulate is given by: _point + _direction * X[0];  Where X[0] is the paramiter we're optimising.
+    parameters1d.Setup(0,min,max,1000);
+  }
+  
   // ------------------------------------------------------------------------
   // **********  OptimalX    ************************************************
   // ------------------------------------------------------------------------
@@ -44,80 +65,90 @@ namespace RavlN {
     SArray1dC<IntT> steps(1);
     minP[0] = -10.0;
     maxP[0] = 10.0;
-    steps[0] = 1;
+    steps[0] = 10;
     ParametersC parameters1d(minP,maxP,steps);
 
     VectorC P = domain.StartX();
     IntT numDim = P.Size();
     SArray1dC<VectorC> Di(numDim);
+#if 1
     // initialise directions to basis unit vectors
     for (SArray1dIterC<VectorC> it(Di); it; it++) {
       *it = VectorC(numDim);
       it->Fill(0.0);
-      (*it)[it.Index()] = 1.0;
+      it.Data()[it.Index()] = 1.0;
     }
+#else
+    // initialise directions to basis unit vectors
+    for (SArray1dIter4C<VectorC,RealT,RealT,IntT> it(Di,domain.MinX(),domain.MaxX(),domain.Steps()); it; it++) {
+      it.Data1() = VectorC(numDim);
+      it.Data1().Fill(0.0);
+      RealT steps = (RealT) it.Data4();
+      if(steps < 3) steps = 3;
+      it.Data1()[it.Index()] = (it.Data3() - it.Data2())/steps;
+    }
+#endif
     
-    IndexC indexOfBiggest;
-    RealT valueOfBiggest,fP,t;
+    IndexC indexOfBiggest; // Index of biggest reduction in cost 
+    RealT valueOfBiggest;  // Value of cost function after biggest reduction
+    RealT fP;              // Value of cost function at the start of the last iteration
     VectorC Plast;
     VectorC Psameagain;
     VectorC Pdiff;
     minimumCost = domain.Cost(P);
-    Plast = P.Copy(); // Make a copy of current best guess.
     for (UIntT iter = 0; iter < _iterations; iter++) {
+      Plast = P.Copy();       // Save the current position.
       fP = minimumCost;
       indexOfBiggest = 0;
       valueOfBiggest = 0.0;
       for (SArray1dIterC<VectorC> it(Di); it; it++) { // Go through direction vectors.
-#if 1
-	// Find the domain limits along the direction vector.
-	
-	RealT min = -RavlConstN::maxReal;
-	RealT max = RavlConstN::maxReal;
-	for(SArray1dIter4C<RealT,RealT,RealT,RealT> lit(*it,P,domain.MinX(),domain.MaxX());lit;lit++) {
-	  if(lit.Data1() == 0.0)
-	    continue; // Avoid division by zero.
-	  RealT maxv = (lit.Data3() - lit.Data2()) / lit.Data1();
-	  RealT minv = (lit.Data4() - lit.Data2()) / lit.Data1();
-	  if(minv > maxv)
-	    Swap(minv,maxv);
-	  if(max > maxv)
-	    max = maxv;
-	  if(minv > min)
-	    min = minv;
-	}
-	//_point + _direction * X[0];
-	parameters1d.Setup(0,min,max,1000);
-#endif
-	
+        
+	SetupLimits(*it,P,domain,parameters1d);
+        
 	// Minimise along line.
 	
         RealT fPlast = minimumCost;
-        CostFunction1dC cost1d(parameters1d,domain,P,*it);
+        CostFunction1dC cost1d(parameters1d, // Limits for paramiters.
+                               domain,       // Cost function we're trying to minimise.
+                               P,            // Current best position.
+                               *it           // Direction we wish to optimise along.
+                               );
         BracketMinimum(cost1d);
         P = cost1d.Point(_brent.MinimalX(cost1d,minimumCost));
-        if (fabs(fPlast - minimumCost) > valueOfBiggest) {
-          valueOfBiggest = fabs(fPlast - minimumCost);
+        RealT diff = fPlast - minimumCost; // Compute the size of the reduction in cost.
+        if (diff > valueOfBiggest) {
+          valueOfBiggest = diff;
           indexOfBiggest = it.Index();
         }
       }
+      // Compute the reduction in the cost function.
       RealT fPdiff = fP-minimumCost;
-      if (2.0*fabs(fPdiff) <= _tolerance*(fabs(fP)+fabs(minimumCost)))
+      
+      // Check if we're stopped converging.
+      if (2.0*Abs(fPdiff) <= _tolerance*(Abs(fP)+Abs(minimumCost)))
         break;
+      
       // check if we should continue in the same direction
-      Pdiff = P - Plast;
-      Psameagain = P + Pdiff;
-      Plast = P.Copy();
-      RealT fPsameagain = domain.Cost(Psameagain);
+      Pdiff = P - Plast;      // How far did we move ?
+      Psameagain = P + Pdiff; // Try the same again movement again.
+      RealT fPsameagain = domain.Cost(Psameagain); // Evaluate the new move.
+      
       // if it has still improved in the same direction
       if (fPsameagain < fP) {
-        t = 2.0 * (fP-2.0*minimumCost+fPsameagain)+Sqr(fPdiff-valueOfBiggest)-valueOfBiggest*Sqr(fP-fPsameagain);
+        RealT t = 
+          2.0 * ((fP+fPsameagain)-2.0*minimumCost)*Sqr(fPdiff-valueOfBiggest)
+          -
+          valueOfBiggest*Sqr(fP-fPsameagain);
+        
         if (t < 0.0) {
+          cerr << "*\n";
+          SetupLimits(Pdiff,P,domain,parameters1d); // Setup limits for new direction.
+          
           CostFunction1dC cost1d(parameters1d,domain,P,Pdiff);
           BracketMinimum(cost1d);
           P = cost1d.Point(_brent.MinimalX(cost1d,minimumCost));
-          Di[indexOfBiggest] = Di[numDim-1].Copy();
-          Di[numDim-1] = Pdiff.Copy();
+          Di[indexOfBiggest] = Di[numDim-1]; // Replace vector yielding largest cost
+          Di[numDim-1] = Pdiff.Copy();              // Put in new direction vector.
         }
       }
     }
