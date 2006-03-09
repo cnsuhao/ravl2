@@ -4,10 +4,18 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#include "Ravl/PatternRec/BracketMinimum.hh"
 //! rcsid="$Id$"
 //! lib=Optimisation
 //! file="Ravl/PatternRec/Optimise/BracketMinimum.cc"
+
+#include "Ravl/PatternRec/BracketMinimum.hh"
+
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
 
 namespace RavlN {
 
@@ -19,33 +27,49 @@ namespace RavlN {
     VectorC vax(1);
     RealT &x0 = vax[0];
     x0 = 0.0;
+    
     VectorC vbx(1);
     RealT &x1 = vbx[0];
-    x1 = 1.0;
+    RealT steps = static_cast<RealT>(cost.Steps ()[0]);;
+    if(steps < 2)
+      steps = 2;
+    x1 = cost.MaxX ()[0] / steps;
+    
+    ONDEBUG(cerr << "BracketMinimum. Start: Min=" << x0 << " Max=" << x1 << "\n");
+    
     VectorC vcx(1);
     RealT &x2 = vcx[0];
+    
     VectorC vux(1);
     RealT &xn = vux[0];
+    
     RealT fxn;
-    RealT fx0 = cost.Cost(vax); 
+    RealT fx0 = cost.Cost(vax);
     RealT fx1 = cost.Cost(vbx);
     if (fx1 > fx0) {
-      RealT t;
-      t = x0; x0 = x1; x1 = t;
-      t = fx0; fx0 = fx1; fx1 = t;
+      Swap(x0,x1);
+      Swap(fx0,fx1);
     }
+    
     x2 = x1 + gold * (x1 - x0);
-    RealT fx2 = cost.Cost(vcx);
+    ONDEBUG(cerr << "X2=" << x2 << "\n");
+    
+    RealT fx2 = cost.Cost(vcx); // Find cost at center
+    
     while (fx1 > fx2) {
-      RealT r = (x1 - x0) * (fx1 - fx2);
-      RealT q = (x1 - x2) * (fx1 - fx0);
-      xn = x1 - ((x1 - x2) * q - (x1 - x0) * r) / (2.0 * Sign(Max(fabs(q-r),small),q-r));
+      RealT dx12 = x1 - x2;
+      RealT dx10 = x1 - x0;
+      
+      RealT r = dx10 * (fx1 - fx2);
+      RealT q = dx12 * (fx1 - fx0);
+      xn = x1 - (dx12 * q - dx10 * r) / (2.0 * Sign(Max(fabs(q-r),small),q-r));
       RealT xlim = x1 + glimit * (x2 - x1);
       if ((x1 - xn) * (xn - x2) > 0.0) {
         fxn = cost.Cost(vux);
         if (fxn < fx2) {
           x0 = x1;
           x1 = xn;
+          ONDEBUG(cerr << "BracketMinimum. Done: Min=" << x0 << " Max=" << x2 << "\n");
           parameters.Setup(0, x0, x2, 1, x1);
           cost.SetParameters(parameters);
           return;
@@ -53,7 +77,8 @@ namespace RavlN {
         else
           if (fxn > fx1) {
             x2 = xn;
-            parameters.Setup(0, x0, x2, 1, x1);
+            ONDEBUG(cerr << "BracketMinimum. Done: Min=" << x0 << " Max=" << x2 << "\n");
+            parameters.Setup(0, x0, x2, 1, x1); // Start, Min, Max, Steps
             cost.SetParameters(parameters);
             return;
           }
@@ -80,6 +105,7 @@ namespace RavlN {
       x0 = x1; x1 = x2; x2 = xn;
       fx0 = fx1; fx1 = fx2; fx2 = fxn;
     }
+    ONDEBUG(cerr << "BracketMinimum. Done: No change. \n");
   }
-
+  
 }

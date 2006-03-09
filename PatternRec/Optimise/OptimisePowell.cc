@@ -12,7 +12,7 @@
 #include "Ravl/StrStream.hh"
 #include "Ravl/PatternRec/CostFunction1d.hh"
 #include "Ravl/PatternRec/BracketMinimum.hh"
-#include "Ravl/SArray1dIter4.hh"
+#include "Ravl/SArray1dIter5.hh"
 
 namespace RavlN {
 
@@ -35,7 +35,8 @@ namespace RavlN {
     
     RealT min = -RavlConstN::maxReal;
     RealT max = RavlConstN::maxReal;
-    for(SArray1dIter4C<RealT,RealT,RealT,RealT> lit(dir,P,domain.MinX(),domain.MaxX());lit;lit++) {
+    IntT steps = 0;
+    for(SArray1dIter5C<RealT,RealT,RealT,RealT,IntT> lit(dir,P,domain.MinX(),domain.MaxX(),domain.Steps());lit;lit++) {
       if(lit.Data1() == 0.0)
         continue; // Avoid division by zero.
       RealT maxv = (lit.Data3() - lit.Data2()) / lit.Data1(); // Limit for MinX
@@ -46,9 +47,13 @@ namespace RavlN {
         max = maxv;
       if(minv > min) // Pull up minimum if limited
         min = minv;
+      steps += lit.Data5();
     }
+    steps /= domain.Steps().Size();
+    if(steps < 3) steps = 3; // Check there;s actually some space to optimise in.
+    
     //Point in full space to evaulate is given by: _point + _direction * X[0];  Where X[0] is the paramiter we're optimising.
-    parameters1d.Setup(0,min,max,1000);
+    parameters1d.Setup(0,min,max,steps);
   }
   
   // ------------------------------------------------------------------------
@@ -72,34 +77,25 @@ namespace RavlN {
     VectorC P = domain.StartX();
     IntT numDim = P.Size();
     SArray1dC<VectorC> Di(numDim);
-#if 1
+    
+    //cerr << "OptimisePowellBodyC::MinimalX " << _useBracketMinimum << "\n";
+    
     // initialise directions to basis unit vectors
     for (SArray1dIterC<VectorC> it(Di); it; it++) {
       *it = VectorC(numDim);
       it->Fill(0.0);
       it.Data()[it.Index()] = 1.0;
     }
-#else
-    // initialise directions to basis unit vectors
-    for (SArray1dIter4C<VectorC,RealT,RealT,IntT> it(Di,domain.MinX(),domain.MaxX(),domain.Steps()); it; it++) {
-      it.Data1() = VectorC(numDim);
-      it.Data1().Fill(0.0);
-      RealT steps = (RealT) it.Data4();
-      if(steps < 3) steps = 3;
-      it.Data1()[it.Index()] = (it.Data3() - it.Data2())/steps;
-    }
-#endif
     
     IndexC indexOfBiggest; // Index of biggest reduction in cost 
     RealT valueOfBiggest;  // Value of cost function after biggest reduction
-    RealT fP;              // Value of cost function at the start of the last iteration
     VectorC Plast;
     VectorC Psameagain;
     VectorC Pdiff;
     minimumCost = startCost;
+    RealT fP = minimumCost;              // Value of cost function at the start of the last iteration
     for (UIntT iter = 0; iter < _iterations; iter++) {
       Plast = P.Copy();       // Save the current position.
-      fP = minimumCost;
       indexOfBiggest = 0;
       valueOfBiggest = 0.0;
       for (SArray1dIterC<VectorC> it(Di); it; it++) { // Go through direction vectors.
@@ -117,8 +113,7 @@ namespace RavlN {
         if (_useBracketMinimum) {
           BracketMinimum(cost1d);
           P = cost1d.Point(_brent.MinimalX(cost1d,minimumCost));
-        }
-        else
+        } else
           P = cost1d.Point(_brent.MinimalX(cost1d,minimumCost,minimumCost));
         RealT diff = fPlast - minimumCost; // Compute the size of the reduction in cost.
         if (diff > valueOfBiggest) {
@@ -133,28 +128,29 @@ namespace RavlN {
       if (2.0*Abs(fPdiff) <= _tolerance*(Abs(fP)+Abs(minimumCost)))
         break;
       
+      
       // check if we should continue in the same direction
       Pdiff = P - Plast;      // How far did we move ?
       Psameagain = P + Pdiff; // Try the same again movement again.
       RealT fPsameagain = domain.Cost(Psameagain); // Evaluate the new move.
+      // Include any cost befinit we get from brent along the new direction vector in the benifit
+      fP = minimumCost;
       
       // if it has still improved in the same direction
       if (fPsameagain < fP) {
         RealT t = 
           2.0 * ((fP+fPsameagain)-2.0*minimumCost)*Sqr(fPdiff-valueOfBiggest)
-          -
-          valueOfBiggest*Sqr(fP-fPsameagain);
+          - valueOfBiggest*Sqr(fP-fPsameagain);
         
         if (t < 0.0) {
           SetupLimits(Pdiff,P,domain,parameters1d); // Setup limits for new direction.
           
           CostFunction1dC cost1d(parameters1d,domain,P,Pdiff);
-        if (_useBracketMinimum) {
-          BracketMinimum(cost1d);
-          P = cost1d.Point(_brent.MinimalX(cost1d,minimumCost));
-        }
-        else
-          P = cost1d.Point(_brent.MinimalX(cost1d,minimumCost,minimumCost));
+          if (_useBracketMinimum) {
+            BracketMinimum(cost1d);
+            P = cost1d.Point(_brent.MinimalX(cost1d,minimumCost));
+          } else
+            P = cost1d.Point(_brent.MinimalX(cost1d,minimumCost,minimumCost));
           Di[indexOfBiggest] = Di[numDim-1]; // Replace vector yielding largest cost
           Di[numDim-1] = Pdiff.Copy();              // Put in new direction vector.
         }

@@ -43,18 +43,18 @@ namespace RavlN {
     VectorC iterX1(1);
     VectorC iterX0(1);
 
-    RealT a,b,d = 0,etemp,fx0,fx1,fx2,fx3,p,q,r,tol1,tol2,x3,x2,xm;
+    RealT d = 0,etemp,fx0,fx1,fx2,fx3,p,q,r,tol1,tol2,x3,x2,xm;
     RealT &x1 = iterX1[0];                  // Cunning trick to allow setting value in iterX directly
     RealT &x0 = iterX0[0];                  // Ditto
     RealT e = 0.0;                          // This will be the distance moved on the step before last.
-
-    RealT ax = domain.MinX()[0];
-    RealT bx = domain.StartX()[0];
-    RealT cx = domain.MaxX()[0];
-
-    a = (ax < cx? ax: cx);                  // a and b must be in ascending order,
-    b = (ax > cx? ax: cx);                  // but input abscissas need not be.
-    x1 = x2 = x3 = bx;                      // Initialisations...
+    
+    RealT a = domain.MinX()[0];
+    RealT b = domain.MaxX()[0];
+    
+    // Make sure min and max are the right way around.
+    if(a > b) Swap(a,b);
+    
+    x1 = x2 = x3 = domain.StartX()[0];                      // Initialisations...
     fx1 = fx2 = fx3 = startCost;
 
     // Main iteration loop
