@@ -57,7 +57,7 @@ namespace RavlImageN {
     RavlAssert(outRect.LCol() < outRect.RCol()); // Make sure there's something left!
     
     ImageC<ByteYUVValueC> ret(outRect);
-    for(Array2dIter2C<ByteYUVValueC,ByteYUV422ValueC> it(ret,dat);it;it++) {
+    for(Array2dIter2C<ByteYUVValueC,ByteYUV422ValueC> it(ret,dat,outRect);it;it++) {
       SByteT u = it.Data2().UV() - 128;
       ByteT y1 = it.Data2().Y();
       ByteYUVValueC &p1 = it.Data1();
