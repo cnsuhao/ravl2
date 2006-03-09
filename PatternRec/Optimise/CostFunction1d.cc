@@ -4,10 +4,12 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#include "Ravl/PatternRec/CostFunction1d.hh"
 //! rcsid="$Id$"
 //! lib=Optimisation
 //! file="Ravl/PatternRec/Optimise/CostFunction1d.cc"
+
+#include "Ravl/PatternRec/CostFunction1d.hh"
+#include "Ravl/SArray1dIter3.hh"
 
 namespace RavlN {
 
@@ -37,7 +39,11 @@ namespace RavlN {
   
   VectorC CostFunction1dBodyC::Point (const VectorC &X) const
   {
-    return _point + _direction * X[0];
+    VectorC ret(_point.Size());
+    for(SArray1dIter3C<RealT,RealT,RealT> it(ret,_point,_direction);it;it++)
+      it.Data1() = it.Data2() + it.Data3() * X[0];
+    return ret;
+    //return _point + _direction * X[0];
   }
     
   bool CostFunction1dBodyC::Save (ostream &out) const
