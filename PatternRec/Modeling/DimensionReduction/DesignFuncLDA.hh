@@ -97,10 +97,11 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Design a dimension reducing function using Linear Discriminant Anaylsis (LDA)
-  // Use the <code>variationPreserved</code> argument in the constructor to control the proportion of dimensions to be kept / discarded.<br>
-  // The actual class returned by the <code>Apply()</code> methods is <a href="RavlN.FuncMeanProjectionC.html">FuncMeanProjectionC</a>, which can be used to project data from the original space into the subspace. It is possible
-  // to obtain the projection matrix from this class if needed.<br>
-  // <font color=red>Bug: Use only the <code>DesignFuncLDAC::Apply()</code> methods, not the inherited ones.</font><br>
+  // <p>Use the <code>variationPreserved</code> argument in the constructor to control the proportion of dimensions to be kept / discarded.</p>
+  // <p>The <i>actual</i> class returned by the <code>Apply()</code> methods is <a href="RavlN.FuncMeanProjectionC.html">FuncMeanProjectionC</a>, which can be used to project data from the original space into the subspace. It is possible
+  // to obtain the projection matrix from this class if needed.</p>
+  // <p> It is currently the user's responsibility to ensure that (a) the class vectors are of consistent dimensionality between classes, and (b) each of the classes has a non-degenerate within-class covariance.</p>
+  // <p><font color=red>Bug: Use only the <code>DesignFuncLDAC::Apply()</code> methods, not the inherited ones.</font></p>
   
   class DesignFuncLDAC
     : public DesignFuncReduceC
