@@ -203,10 +203,11 @@ namespace RavlN {
     VectorC vec(eigenValsSw2.Size());
     vec.Fill (0.0);
     for (IndexC ind = 0; ind < vec.Size(); ind++)  vec[ind] = 1.0 / sqrt(eigenValsSw2[ind]);
-
-    MatrixC identity = MatrixC::Identity(vec.Size());
-    MatrixC diag = diag.SetDiagonal(vec);
-
+    
+    MatrixC diag(vec.Size(),vec.Size());
+    diag.Fill(0);
+    diag.SetDiagonal(vec);
+    
     MatrixC B = eigenVecsSw2 * diag;
     MatrixC BT = B.T();
     
