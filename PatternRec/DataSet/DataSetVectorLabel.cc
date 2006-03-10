@@ -13,6 +13,7 @@
 #include "Ravl/PatternRec/DataSet1Iter.hh"
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/SumsNd2.hh"
+#include "Ravl/Exception.hh"
 
 namespace RavlN {
 
@@ -118,13 +119,18 @@ namespace RavlN {
   MatrixC DataSetVectorLabelBodyC::WithinClassScatter ()  const {
     SArray1dC<MeanCovarianceC> stats = ClassStats();
     SArray1dIterC<MeanCovarianceC> it (stats);
-    if(!it) return MatrixC();
+    while(it && it->Number() < 2)
+      it++;
+    if(!it) throw ExceptionNumericalC("DataSetVectorLabelBodyC::WithinClassScatter, No enough data to compute inclass scatter. ");
     MatrixC Sw = it->Covariance() * it->Number();
     RealT total = it->Number();
     for (it++; it; it++) {
+      if(it->Number() < 2)
+        continue;
       total += it->Number();
       Sw.MulAdd(it->Covariance(),it->Number());
     }
+    if(total < 1) throw ExceptionNumericalC("DataSetVectorLabelBodyC::WithinClassScatter, Not enough data to compute inclass scatter. ");
     Sw /= total;
     return Sw;
   }
