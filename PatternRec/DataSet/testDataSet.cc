@@ -256,12 +256,12 @@ int testSampleVector() {
 int testDataSetVectorLabel() {
   cerr << "testDataSetVectorLabel()\n";
   DataSetVectorLabelC svl(2);
-  svl.Append(VectorC(1,2,3),0);
-  svl.Append(VectorC(2,1,1),0);
-  
   svl.Append(VectorC(2,2,3),1);
   svl.Append(VectorC(2,1,1),1);
   svl.Append(VectorC(3,4,4),1);
+  svl.Append(VectorC(1,2,3),0);
+  svl.Append(VectorC(2,1,1),0);
+  
   SArray1dC<UIntT> nums = svl.ClassNums();
   if(nums.Size() != 2) return __LINE__;
   if(nums[0] != 2) return __LINE__;

@@ -35,7 +35,7 @@ namespace RavlN {
     if(!it) return SArray1dC<VectorC>(); // No samples.
     UIntT dim = it.Data1().Size();
     for(;it;it++) {
-      if(means.Size() <= it.Data2()) {
+      while(means.Size() <= it.Data2()) {
 	VectorC vec(dim);
 	vec.Fill(0);
 	means.Insert(Tuple2C<VectorC,UIntT>(vec,0));
@@ -62,7 +62,7 @@ namespace RavlN {
   SArray1dC<UIntT> DataSetVectorLabelBodyC::ClassNums ()  const {
     CollectionC<UIntT> num(10);
     for(DataSet1IterC<SampleLabelC> it(Sample2());it;it++) {
-      if(num.Size() <= *it)
+      while(num.Size() <= *it)
 	num.Insert(0);
       num[*it]++;
     }
@@ -75,7 +75,7 @@ namespace RavlN {
     if(!it) return SArray1dC<MeanCovarianceC>();
     UIntT dim = it.Data1().Size();
     for(;it;it++) {
-      if(stats.Size() <= it.Data2())	
+      while(stats.Size() <= it.Data2())	
 	stats.Insert(SumsNd2C(dim));
       stats[it.Data2()] += it.Data1();
     }
@@ -91,7 +91,7 @@ namespace RavlN {
     if(!it) return MatrixC(); // No samples.
     UIntT dim = it.Data1().Size();
     for(;it;it++) {
-      if(means.Size() <= it.Data2()) {
+      while(means.Size() <= it.Data2()) {
 	VectorC vec(dim);
 	vec.Fill(0);
 	means.Insert(Tuple2C<VectorC,UIntT>(vec,0));
