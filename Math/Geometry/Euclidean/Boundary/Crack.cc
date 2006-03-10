@@ -41,7 +41,7 @@ namespace RavlN {
     case CR_DOWN : px = CrackStep(px,CR_LEFT);  break;
     case CR_RIGHT:                              break;
     case CR_UP   : px = CrackStep(px,CR_UP);    break;
-    case CR_LEFT : px = px.Step(NEIGH_UP_LEFT); break;
+    case CR_LEFT : px.Step(NEIGH_UP_LEFT);      break;
     case CR_NODIR:                              break;
     }
     return px; 
@@ -54,7 +54,7 @@ namespace RavlN {
     switch (crackCode) {
     case CR_DOWN :                                break;
     case CR_RIGHT: px = CrackStep(px,CR_UP);      break;
-    case CR_UP   : px = px.Step(NEIGH_UP_LEFT);   break;
+    case CR_UP   : px.Step(NEIGH_UP_LEFT);        break;
     case CR_LEFT : px = CrackStep(px,CR_LEFT);    break;
     case CR_NODIR:                                break;
     }
