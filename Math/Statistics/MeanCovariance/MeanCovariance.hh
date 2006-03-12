@@ -181,6 +181,9 @@ namespace RavlN {
     RealT Gauss(const VectorC &vec) const;
     //: Evaluate the value of guassian distribution at 'vec'.
     
+    RealT MahalanobisDistance(const VectorC &vec) const;
+    //: Compute the Mahalanobis to the point.
+    
   protected:
     MeanNdC m;   // The mean vector of this data set.
     MatrixRSC cov; // the covariance matrix of this data set.

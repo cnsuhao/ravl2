@@ -251,9 +251,10 @@ namespace RavlN {
   MeanCovarianceC MeanCovarianceC::operator*(const MeanCovarianceC &oth) const {
     MatrixRSC sumCov = Covariance() + oth.Covariance();
     sumCov.InverseIP();
-    MatrixRSC newCov = Covariance() * sumCov * oth.Covariance();
+    MatrixRSC cs = Covariance() * sumCov;
+    MatrixRSC newCov = cs * oth.Covariance();
     VectorC mean = oth.Covariance() * sumCov * Mean();
-    mean += Covariance() * sumCov * oth.Mean();
+    mean += cs * oth.Mean();
     return MeanCovarianceC(Number() + oth.Number(),mean,newCov);
   }
   
@@ -271,6 +272,19 @@ namespace RavlN {
       det = 0.0;
     RealT a = Pow(2 * RavlConstN::pi,(RealT) vec.Size() / 2) * Sqrt(det) ;
     return Exp(e)/a;
+  }
+  
+  //: Compute the Mahalanobis to the point.
+  
+  RealT MeanCovarianceC::MahalanobisDistance(const VectorC &vec) const {
+    MatrixC invCov = Covariance().Inverse();
+    // Check if the matrix could not be inverted
+    if (invCov.Cols() != vec.Size()) {
+      cerr << "MeanCovarianceC::MahalanobisDistance, WARNING: Failed to invert matrix. \n";
+      return 1.0/0.0; // Positive infinity.
+    }
+    VectorC diff = vec - m;
+    return Sqrt(diff.Dot(invCov * diff));
   }
   
   

@@ -394,10 +394,11 @@ namespace RavlN {
     sumCov += oth.Covariance();
     sumCov.InverseIP();
     FVectorC<N> mean = oth.Covariance() * sumCov * Mean();
-    mean += Covariance() * sumCov * oth.Mean();
+    FMatrixC<N,N> cs = Covariance() * sumCov;
+    mean += cs * oth.Mean();
     return FMeanCovarianceC<N>(Number() + oth.Number(),
 			       mean,
-			       Covariance() * sumCov * oth.Covariance());
+			       cs * oth.Covariance());
   }
 
   template<unsigned int N>
