@@ -227,7 +227,7 @@ int testSampleVector() {
   //cerr << "SOP=" << sop << "\n";;
   
   // Check mean covariance computation.
-  MeanCovarianceC mc = sv.MeanCovariance();
+  MeanCovarianceC mc = sv.MeanCovariance(false);
   MeanCovarianceC cmc(3);
   cmc += VectorC(1,2,3);
   cmc += VectorC(1,1,1);
@@ -268,7 +268,7 @@ int testDataSetVectorLabel() {
   if(nums[1] != 3) return __LINE__;
   SArray1dC<VectorC> means = svl.ClassMeans();
   if(means.Size() != 2) return __LINE__;
-  SArray1dC<MeanCovarianceC> stats = svl.ClassStats();
+  SArray1dC<MeanCovarianceC> stats = svl.ClassStats(false);
   if(stats.Size() != 2) return __LINE__;
   // Check mean covariance computation.
   MeanCovarianceC mc = stats[0];
@@ -304,7 +304,7 @@ int testDataSetVectorLabel() {
   if((tbcs - bcs).SumOfSqr() > 0.00001) return __LINE__;
   
   MatrixC tics = cmc1.Covariance() * (3.0/5.0) + cmc.Covariance() * (2.0/5.0);
-  MatrixC ics = svl.WithinClassScatter();
+  MatrixC ics = svl.WithinClassScatter(false);
   cerr << "tics=" << tics << "\n";
   cerr << "ics=" << ics << "\n";
   if((tics - ics).SumOfSqr() > 0.00001) return __LINE__;

@@ -70,25 +70,25 @@ namespace RavlN {
   
   //: Find the mean and covariance of the sample
   
-  MeanCovarianceC SampleVectorC::MeanCovariance() const {
+  MeanCovarianceC SampleVectorC::MeanCovariance(bool sampleStatistics) const {
     DArray1dIterC<VectorC> it(*this);
     if(!it) return MeanCovarianceC();
     SumsNd2C sums(1.0,it->Copy(),OuterProductRUT(*it));
     for(it++;it;it++)
       sums += *it;
-    return sums.MeanCovariance();
+    return sums.MeanCovariance(sampleStatistics);
   }
   
   //: Find the mean and covariance of a weighted sample
   
-  MeanCovarianceC SampleVectorC::MeanCovariance(const SampleC<RealT> &weights) const {
+  MeanCovarianceC SampleVectorC::MeanCovariance(const SampleC<RealT> &weights,bool sampleStatistics) const {
     RavlAssert(Size() == weights.Size());
     DArray1dIter2C<VectorC,RealT> it(*this,weights.DArray());
     if(!it) return MeanCovarianceC();
     SumsNd2C sums(it.Data2(),it.Data1() * it.Data2(),OuterProductRUT(it.Data1(),it.Data2()));
     for(it++;it;it++) 
       sums.Add(it.Data1(),it.Data2());
-    return sums.MeanCovariance();
+    return sums.MeanCovariance(sampleStatistics);
   }
   
   //: Compute the sum of the outerproducts.

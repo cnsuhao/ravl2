@@ -70,7 +70,7 @@ namespace RavlN {
     return num.Array();
   }
   
-  SArray1dC<MeanCovarianceC> DataSetVectorLabelBodyC::ClassStats () const {
+  SArray1dC<MeanCovarianceC> DataSetVectorLabelBodyC::ClassStats (bool sampleStatistics) const {
     CollectionC<SumsNd2C> stats(10);
     DataSet2IterC<SampleVectorC,SampleLabelC> it(Sample1(),Sample2());
     if(!it) return SArray1dC<MeanCovarianceC>();
@@ -82,7 +82,7 @@ namespace RavlN {
     }
     SArray1dC<MeanCovarianceC> meancovs(stats.Size());
     for(SArray1dIter2C<MeanCovarianceC,SumsNd2C > it(meancovs,stats.Array());it;it++)
-      it.Data1() = it.Data2().MeanCovariance();
+      it.Data1() = it.Data2().MeanCovariance(sampleStatistics);
     return meancovs;
   }
   
@@ -115,9 +115,9 @@ namespace RavlN {
     }
     return Sb;
   }
-
-  MatrixC DataSetVectorLabelBodyC::WithinClassScatter ()  const {
-    SArray1dC<MeanCovarianceC> stats = ClassStats();
+  
+  MatrixC DataSetVectorLabelBodyC::WithinClassScatter (bool sampleStatistics)  const {
+    SArray1dC<MeanCovarianceC> stats = ClassStats(sampleStatistics);
     SArray1dIterC<MeanCovarianceC> it (stats);
     while(it && it->Number() < 2)
       it++;
@@ -134,9 +134,8 @@ namespace RavlN {
     Sw /= total;
     return Sw;
   }
-
-  DataSetVectorLabelC
-  DataSetVectorLabelBodyC::ExtractPerLabel(UIntT numSamples)  const {
+  
+  DataSetVectorLabelC DataSetVectorLabelBodyC::ExtractPerLabel(UIntT numSamples)  const {
     cerr << "numSample: " << numSamples << endl;
     SArray1dC<SampleVectorC> arr = SeperateLabels();
     UIntT noClasses = arr.Size();

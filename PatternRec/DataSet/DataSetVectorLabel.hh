@@ -48,15 +48,17 @@ namespace RavlN {
 
     SArray1dC<UIntT> ClassNums () const;
     //: Returns array containing the count of each label value
-
-    SArray1dC<MeanCovarianceC> ClassStats () const;
+    
+    SArray1dC<MeanCovarianceC> ClassStats (bool sampleStatistics = true) const;
     //: Returns mean and covariance of input vectors for each label value
-
+    //!param: sampleStatistics - When true compute statistics as a sample of a random variable. (Normalise covariance by n-1 )
+    
     MatrixC BetweenClassScatter () const;
     //: Returns between class scatter (covariance) matrix
-
-    MatrixC WithinClassScatter () const;
+    
+    MatrixC WithinClassScatter (bool sampleStatistics = false) const;
     //: Returns within class scatter (covariance) matrix
+    //!param: sampleStatistics - When true compute statistics as a sample of a random variable. (Normalise covariance by n-1 )
     
     DataSetVectorLabelC ExtractPerLabel(UIntT numSamples) const;
     //: Extracts numSamples samples per label
@@ -114,8 +116,8 @@ namespace RavlN {
     { return Body().ClassNums(); }
     //: Returns array containing the count of each label value
 
-    SArray1dC<MeanCovarianceC> ClassStats () const
-    { return Body().ClassStats(); }
+    SArray1dC<MeanCovarianceC> ClassStats (bool sampleStatistics = true) const
+    { return Body().ClassStats(sampleStatistics); }
     //: Returns mean and covariance of input vectors for each label value
 
     MatrixC BetweenClassScatter () const
@@ -124,8 +126,8 @@ namespace RavlN {
     // This assumes the prior probabilities of the classes are reflected in 
     // the number of samples in each set.
     
-    MatrixC WithinClassScatter () const
-    { return Body().WithinClassScatter (); }
+    MatrixC WithinClassScatter (bool sampleStatistics = false) const
+    { return Body().WithinClassScatter (sampleStatistics); }
     //: Returns within class scatter (covariance) matrix
     // This assumes the prior probabilities of the classes are reflected in 
     // the number of samples in each set.

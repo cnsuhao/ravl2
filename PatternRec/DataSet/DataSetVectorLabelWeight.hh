@@ -52,13 +52,13 @@ namespace RavlN {
     SArray1dC<UIntT> ClassNums () const;
     //: Returns array containing the count of each label value
     
-    SArray1dC<MeanCovarianceC> ClassStats () const;
+    SArray1dC<MeanCovarianceC> ClassStats (bool sampleStatistics = true) const;
     //: Returns mean and covariance of input vectors for each label value
-
+    
     MatrixC BetweenClassScatter () const;
     //: Returns between class scatter (covariance) matrix
-
-    MatrixC WithinClassScatter () const;
+    
+    MatrixC WithinClassScatter (bool sampleStatistics = false) const;
     //: Returns within class scatter (covariance) matrix
     
     DataSetVectorLabelWeightC ExtractPerLabel(UIntT numSamples) const;
@@ -100,11 +100,11 @@ namespace RavlN {
     SArray1dC<DataSet2C<SampleVectorC,SampleC<RealT> > > SeperateLabels() const
     { return Body().SeperateLabels(); }
     //: Create a seperate sample for each label.
-
+    
     VectorC GlobalMean() const
     { return Body().GlobalMean(); }     
     //: returns mean of the input vectors
-
+    
     SArray1dC<VectorC> ClassMeans () const
     { return Body().ClassMeans(); }
     //: Returns mean of input vectors for each label value
@@ -112,25 +112,25 @@ namespace RavlN {
     DataSetVectorLabelC ClassMeansLabels () const
     { return Body().ClassMeansLabels(); }
     //: Returns mean of input vectors for each label along with the label
-
+    
     SArray1dC<UIntT> ClassNums () const
     { return Body().ClassNums(); }
     //: Returns array containing the count of each label value
 
-    SArray1dC<MeanCovarianceC> ClassStats () const
-    { return Body().ClassStats(); }
+    SArray1dC<MeanCovarianceC> ClassStats (bool sampleStatistics = true) const
+    { return Body().ClassStats(sampleStatistics); }
     //: Returns mean and covariance of input vectors for each label value
-
+    
     MatrixC BetweenClassScatter () const
     { return Body().BetweenClassScatter (); }
     //: Returns between class scatter (covariance) matrix
 
-    MatrixC WithinClassScatter () const
-    { return Body().WithinClassScatter (); }
+    MatrixC WithinClassScatter (bool sampleStatistics = false) const
+    { return Body().WithinClassScatter (sampleStatistics ); }
     //: Returns within class scatter (covariance) matrix
     
     DataSetVectorLabelWeightC ExtractPerLabel(UIntT numSamples) const
-      { return Body().ExtractPerLabel(numSamples); }
+    { return Body().ExtractPerLabel(numSamples); }
     //: Extracts numSamples samples per label
 
     

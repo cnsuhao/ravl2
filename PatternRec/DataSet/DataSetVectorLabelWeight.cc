@@ -71,7 +71,7 @@ namespace RavlN {
     return num.Array();
   }
   
-  SArray1dC<MeanCovarianceC> DataSetVectorLabelWeightBodyC::ClassStats () const {
+  SArray1dC<MeanCovarianceC> DataSetVectorLabelWeightBodyC::ClassStats (bool sampleStatistics) const {
     CollectionC<SumsNd2C> stats(10);
     DataSet3IterC<SampleVectorC,SampleLabelC,SampleC<RealT> > it(Sample1(),Sample2(),Sample3());
     if(!it) return SArray1dC<MeanCovarianceC>();
@@ -83,7 +83,7 @@ namespace RavlN {
     }
     SArray1dC<MeanCovarianceC> meancovs(stats.Size());
     for(SArray1dIter2C<MeanCovarianceC,SumsNd2C > it(meancovs,stats.Array());it;it++)
-      it.Data1() = it.Data2().MeanCovariance();
+      it.Data1() = it.Data2().MeanCovariance(sampleStatistics);
     return meancovs;
   }
     
@@ -116,8 +116,8 @@ namespace RavlN {
     return Sb;
   }
 
-  MatrixC DataSetVectorLabelWeightBodyC::WithinClassScatter ()  const {
-    SArray1dC<MeanCovarianceC> stats = ClassStats();
+  MatrixC DataSetVectorLabelWeightBodyC::WithinClassScatter (bool sampleStatistics)  const {
+    SArray1dC<MeanCovarianceC> stats = ClassStats(sampleStatistics);
     SArray1dIterC<MeanCovarianceC> it (stats);
     if(!it) return MatrixC();
     MatrixC Sw = it->Covariance() * it->Number();
