@@ -74,6 +74,10 @@ namespace RavlImageN {
     resRect.LCol() -= rowKernel.IMin();
     resRect.RCol() -= rowKernel.IMax();
     RavlAssertMsg(resRect.Area() > 0,"ConvoleHorz2dC::Apply(), ERROR: Input rectangle too small.");
+    if(resRect.RCol() < resRect.LCol()) { // Check we've got something left.
+      result = ImageC<OutPixelT>(); 
+      return ;
+    }
     if(!result.Rectangle().Contains(resRect)) // Check the result rectangle is large enough.
       result = ImageC<OutPixelT>(resRect); // If its not make another.
     UIntT ksize = rowKernel.Range().Size();

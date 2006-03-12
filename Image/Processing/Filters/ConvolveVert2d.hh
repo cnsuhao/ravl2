@@ -73,6 +73,10 @@ namespace RavlImageN {
     resRect.TRow() -= colKernel.IMin();
     resRect.BRow() -= colKernel.IMax();
     RavlAssertMsg(resRect.Area() > 0,"ConvolveVert2dC::Apply(), ERROR: Input rectangle too small.");
+    if(resRect.BRow() < resRect.TRow()) { // Check we've got something left.
+      result = ImageC<OutPixelT>(); 
+      return ;
+    }
     if(!result.Rectangle().Contains(resRect)) // Check the result rectangle is large enough.
       result = ImageC<OutPixelT>(resRect); // If its not make another.
     UIntT ksize = colKernel.Range().Size();
