@@ -30,7 +30,7 @@ namespace RavlN {
 
   //: Compute the mean and covariance of an array of vectors.
   
-  MeanCovarianceC::MeanCovarianceC(const SArray1dC<VectorC> & data) 
+  MeanCovarianceC::MeanCovarianceC(const SArray1dC<VectorC> & data,bool sampleStatistics) 
     : m(data)
   {
     //ONDEBUG(cerr << "MeanCovarianceC::MeanCovarianceC(), Called with " << data.Size() << " elements. \n");
@@ -47,11 +47,13 @@ namespace RavlN {
       cov += it->OuterProduct();
     }
     m.Mean() /= n;
-    cov /= n;
-    cov -= Mean().OuterProduct();
+    cov.MulAdd(Mean().OuterProduct(),-n);
+    RealT sn = n;
+    if(sampleStatistics) sn--;
+    cov /= sn;
   }
   
-  MeanCovarianceC::MeanCovarianceC(const DListC<VectorC> & data) 
+  MeanCovarianceC::MeanCovarianceC(const DListC<VectorC> & data,bool sampleStatistics) 
     : m(data)
   {
     if(data.Size() == 0)
@@ -67,8 +69,10 @@ namespace RavlN {
       cov += it->OuterProduct();
     }
     m.Mean() /= n;
-    cov /= n;
-    cov -= Mean().OuterProduct();    
+    cov.MulAdd(Mean().OuterProduct(),-n);
+    RealT sn = n;
+    if(sampleStatistics) sn--;
+    cov /= sn;
   }
 
 
@@ -238,12 +242,11 @@ namespace RavlN {
     return *this;
   }
   
-  const MeanCovarianceC & 
-  MeanCovarianceC::SetSum(const MeanCovarianceC & meanCov1,
-			    const MeanCovarianceC & meanCov2) {
+  const MeanCovarianceC &MeanCovarianceC::SetSum(const MeanCovarianceC & meanCov1,
+			  const MeanCovarianceC & meanCov2) {
     return *this = (meanCov1.Copy()+=meanCov2);
   }
-
+  
   //: Calculate the product of the two probability density functions.
   // This assumes the estimates of the distributions are accurate. (The number
   // of samples is ignored) 
@@ -281,7 +284,8 @@ namespace RavlN {
     // Check if the matrix could not be inverted
     if (invCov.Cols() != vec.Size()) {
       cerr << "MeanCovarianceC::MahalanobisDistance, WARNING: Failed to invert matrix. \n";
-      return 1.0/0.0; // Positive infinity.
+      RealT zero = 0.0;
+      return 1.0/zero; // Positive infinity.
     }
     VectorC diff = vec - m;
     return Sqrt(diff.Dot(invCov * diff));

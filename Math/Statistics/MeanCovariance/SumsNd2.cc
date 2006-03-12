@@ -18,10 +18,13 @@ namespace RavlN {
 
   //: Compute mean and covariance of samples
   
-  MeanCovarianceC SumsNd2C::MeanCovariance() const {
-    MatrixRUTC cov = sum2 / n;
+  MeanCovarianceC SumsNd2C::MeanCovariance(bool sampleStatistics) const {
     VectorC mean = sum / n;
-    cov.SubtractOuterProduct(mean);
+    MatrixRUTC cov = sum2.Copy();
+    cov.SubtractOuterProduct(mean,n);
+    RealT sn = n;
+    if(sampleStatistics) sn--;
+    cov /= sn;
     cov.MakeSymmetric();
     return MeanCovarianceC(n,mean,cov);
   }

@@ -26,7 +26,7 @@ namespace RavlN {
   
   class MeanVarianceC {
   public:
-    MeanVarianceC(const SArray1dC<RealT> &data);
+    MeanVarianceC(const SArray1dC<RealT> &data,bool sampleStatistics = true);
     //: Calculate the mean and variance from an array of numbers.
     
     MeanVarianceC()

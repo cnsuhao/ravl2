@@ -20,7 +20,7 @@ namespace RavlN {
   
   //: Calculate the mean and variance from an array of numbers.
   
-  MeanVarianceC::MeanVarianceC(const SArray1dC<RealT> &data) {
+  MeanVarianceC::MeanVarianceC(const SArray1dC<RealT> &data,bool sampleStatistics) {
     n = data.Size();
     var = 0;
     RealT sum = 0;
@@ -30,7 +30,9 @@ namespace RavlN {
     }
     RealT rn = (RealT) n;
     mean = sum / rn;
-    var = (var - Sqr(sum)/rn)/(rn-1);
+    RealT sn = rn;
+    if(sampleStatistics) sn--;
+    var = (var - Sqr(sum)/rn)/sn;
   }
 
   //: Add another MeanVariance to this one.

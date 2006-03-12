@@ -80,11 +80,15 @@ namespace RavlN {
     MeanCovarianceC Copy() const;
     // Returns a new physical copy of this object.
     
-    MeanCovarianceC(const SArray1dC<VectorC> & data);
+    MeanCovarianceC(const SArray1dC<VectorC> & data,bool sampleStatistics = true);
     //: Compute the mean and covariance of an array of vectors.
+    //!param: data - Array containing data to compute statistics on
+    //!param: sampleStatistics - When true compute statistics as a sample of a random variable. (Normalise covariance by n-1 )
     
-    MeanCovarianceC(const DListC<VectorC> & data);
+    MeanCovarianceC(const DListC<VectorC> & data,bool sampleStatistics = true);
     //: Compute the mean and covariance of a list of vectors.
+    //!param: data - List containing data to compute statistics on
+    //!param: sampleStatistics - When true compute statistics as a sample of a random variable. (Normalise covariance by n-1 )
     
     // Information about an object
     // ---------------------------

@@ -16,6 +16,7 @@
 #include "Ravl/MeanCovariance3d.hh"
 #include "Ravl/MeanCovariance.hh"
 #include "Ravl/Matrix2d.hh"
+#include "Ravl/SumsNd2.hh"
 #include "Ravl/Stream.hh"
 
 using namespace RavlN;
@@ -157,7 +158,7 @@ int testMeanCovar2d() {
   //cerr << "Product=" << mc3 << "\n";
   if((mc3.Mean() - Vector2dC(0.2,0.2)).SumOfSqr() > 0.000001) return __LINE__;
   if((mc3.Covariance() - Matrix2dC(0.1,0,0,0.1)).SumOfSqr() > 0.000001) return __LINE__;
-
+  
   Vector2dC at(0.5,0.5);
   RealT val = mc1.Gauss(at);
   cerr << "Gauss=" << val << "\n";
@@ -167,21 +168,37 @@ int testMeanCovar2d() {
 int testMeanCovar() {
   MeanCovarianceC meancov2(2);
   SArray1dC<VectorC > xyz(3);
+  SumsNd2C sums(2);
   for(int i = 0;i < 3;i++) {
     VectorC test((RealT) i,i * 2.0);;
     xyz[i] = test;
     meancov2 += test;
+    sums += test;
   }
-  MeanCovarianceC meancov(xyz);
+  MeanCovarianceC meancov(xyz,false);
+  MeanCovarianceC meancov3 = sums.MeanCovariance(false);
 #if 0
   cerr << "Mean1=" << meancov.Mean() << " Mean2=" << meancov2.Mean() << "\n";
   cerr << "Covar=" << meancov.Covariance() << "\n";
   cerr << "Covar2=" << meancov2.Covariance() << "\n";
+  cerr << "Covar3=" << meancov3.Covariance() << "\n";
 #endif
   if((meancov2.Covariance() - meancov.Covariance()).SumOfSqr() > 0.00001) return __LINE__;
   if(VectorC(meancov2.Mean() - meancov.Mean()).SumOfSqr() > 0.00001) return __LINE__;
-
-
+  
+  if((meancov3.Covariance() - meancov.Covariance()).SumOfSqr() > 0.00001) return __LINE__;
+  if(VectorC(meancov3.Mean() - meancov.Mean()).SumOfSqr() > 0.00001) return __LINE__;
+  
+  MeanCovarianceC smeancov(xyz,true);
+  MeanCovarianceC smeancov3 = sums.MeanCovariance(true);
+#if 0
+  cerr << "Sample Covar=" << smeancov.Covariance() << "\n";
+  cerr << "Sample Covar3=" << smeancov3.Covariance() << "\n";
+#endif
+  if((smeancov3.Covariance() - smeancov.Covariance()).SumOfSqr() > 0.00001) return __LINE__;
+  if(VectorC(smeancov3.Mean() - smeancov.Mean()).SumOfSqr() > 0.00001) return __LINE__;
+  
+  
   MeanCovarianceC mcn1(2);
   mcn1 += VectorC(0,0);
   mcn1 += VectorC(0.5,1);

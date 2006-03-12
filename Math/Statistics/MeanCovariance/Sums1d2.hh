@@ -89,16 +89,21 @@ namespace RavlN {
     { return sum2; }
     //: Sum of squares of all data points.
     
-    MeanVarianceC MeanVariance() const {
+    MeanVarianceC MeanVariance(bool sampleStatistics = true) const {
       RealT rn = (RealT) n;
       RealT mean  = sum / rn;
-      return MeanVarianceC(n,mean,(sum2 - Sqr(sum)/rn)/(rn-1));
+      RealT sn = rn;
+      if(sampleStatistics) sn--;
+      return MeanVarianceC(n,mean,(sum2 - Sqr(sum)/rn)/sn);
     }
     //: Calculate the mean and variance for this sample.
-
-    RealT Variance() const {
+    //!param: sampleStatistics - When true compute statistics as a sample of a random variable. (Normalise covariance by n-1 )
+    
+    RealT Variance(bool sampleStatistics = true) const {
       RealT rn = (RealT) n;
-      return (sum2 - Sqr(sum)/rn)/(rn-1);
+      RealT sn = rn;
+      if(sampleStatistics) sn--;
+      return (sum2 - Sqr(sum)/rn)/sn;
     }
     //: Compute the variance of the sample.
     

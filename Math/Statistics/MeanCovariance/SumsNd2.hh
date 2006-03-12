@@ -90,8 +90,9 @@ namespace RavlN {
     { return sum/n; }
     //: Compute the mean of the sample.
     
-    MeanCovarianceC MeanCovariance() const;
+    MeanCovarianceC MeanCovariance(bool sampleStatistics = true) const;
     //: Compute mean and covariance of samples
+    //!param: sampleStatistics - When true compute statistics as a sample of a random variable. (Normalise covariance by n-1 )
     
   protected:
     RealT n;        // Number of elements.
