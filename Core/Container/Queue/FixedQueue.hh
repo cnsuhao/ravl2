@@ -47,7 +47,9 @@ namespace RavlN {
     
     inline void ForceInsLast(const T &Obj);
     //: Insert data at end of queue, if no space discard oldest element.
-    // returns the place its index in the array.
+    
+    inline void ShiftInsLast(const T &Obj);
+    //: Insert new data, and delete oldest data from the queue
     
     inline bool IsEmpty() const 
     { return head == tail; }
@@ -71,7 +73,7 @@ namespace RavlN {
     inline T &Last() { 
       RavlAssert(!IsEmpty());
       T *l = head - 1;
-      if(l < &(*this)[0])
+      if(l < ArrayStart())
 	l = eoa-1;
       return *l; 
     }
@@ -80,7 +82,7 @@ namespace RavlN {
     inline const T &Last() const { 
       RavlAssert(!IsEmpty());
       T *l = head - 1;
-      if(l < &(*this)[0])
+      if(l < ArrayStart())
 	l = eoa-1;
       return *l; 
     }
@@ -103,7 +105,37 @@ namespace RavlN {
     //: Empty the queue of all contents. 
     // Reset to head=0, tail=0
     
+    T &operator[](IndexC i) {
+      RavlAssert(i < this->Size());
+      T *elem = &(tail[i.V()]);
+      if(elem >= eoa)
+	elem -= SArray1dC<T>::Size();
+      return *elem;
+    }
+    //: Access element in the ring from back from the first entry. 
+    // 0 is first element in the queue (as accessed by First()), 1-second most etc..
+    // Is is up the the user to ensure that no attempt is made to access beyond the last element.
+    
+    const T &operator[](IndexC i) const {
+      RavlAssert(i < this->Size());
+      T *elem = &(tail[i.V()]);
+      if(elem >= eoa)
+	elem -= SArray1dC<T>::Size();
+      return *elem;
+    }
+    //: Access element in the ring from back from the first entry. 
+    // 0 is first element in the queue (as accessed by First()), 1-second most etc..
+    // Is is up the the user to ensure that no attempt is made to access beyond the last element.
+    
   protected:
+    T *ArrayStart()
+    { return &SArray1dC<T>::operator[](0); }
+    //: Get the start of the array.
+    
+    const T *ArrayStart() const
+    { return &SArray1dC<T>::operator[](0); }
+    //: Get the start of the array.
+
     T *head; // Next free location.
     T *tail; // Last used location.
     T *eoa;  // Ptr to end of array.
@@ -131,7 +163,7 @@ namespace RavlN {
       : SArray1dC<T>(queue)
     { First(queue); }
     //: Constructor from a queue.
-    // Note: Chaning the queue after the iterator is contructed
+    // Note: Changing the queue after the iterator is contructed
     // will not affect the indexs iterated, though the data will
     // change.
     
@@ -160,7 +192,7 @@ namespace RavlN {
     void Next() {
       at++;
       if(at == eoa)
-	at = &(*this)[0];
+	at = ArrayStart();
     }
     //: Goto next element.
     
@@ -197,6 +229,14 @@ namespace RavlN {
     //: Access data.
     
   protected:
+    T *ArrayStart()
+    { return &SArray1dC<T>::operator[](0); }
+    //: Get the start of the array.
+    
+    const T *ArrayStart() const
+    { return &SArray1dC<T>::operator[](0); }
+    //: Get the start of the array.
+    
     T *at;
     T *end;
     T *eoa;
@@ -230,9 +270,9 @@ namespace RavlN {
       SArray1dC<T>::operator=(queue);
       at = queue.head;
       end = queue.tail -1;
-      eoa = &((*this)[0]) - 1;
+      eoa = ArrayStart() - 1;
       if(end == eoa)
-	end = &(*this)[this->Size()-1]; 
+	end = &(ArrayStart()[this->Size()-1]); 
       Next();
     }
     //: Goto first element in queue.
@@ -254,7 +294,7 @@ namespace RavlN {
     void Next() {
       at--;
       if(at == eoa)
-	at = &(*this)[this->Size()-1];
+	at = &(ArrayStart()[this->Size()-1]);
     }
     //: Goto next element.
     
@@ -291,6 +331,14 @@ namespace RavlN {
     //: Access data.
     
   protected:
+    T *ArrayStart()
+    { return &SArray1dC<T>::operator[](0); }
+    //: Get the start of the array.
+    
+    const T *ArrayStart() const
+    { return &SArray1dC<T>::operator[](0); }
+    //: Get the start of the array.
+    
     T *at;
     T *end;
     T *eoa;
@@ -303,7 +351,7 @@ namespace RavlN {
   FixedQueueC<T>::FixedQueueC(SizeT Size) 
     : SArray1dC<T>(Size+1)  // Cause we always need space for 1 more item.
   { 
-    head = &((*this)[0]);
+    head = ArrayStart();
     tail = head;
     eoa = &(head[SArray1dC<T>::Size()]);
   }
@@ -313,7 +361,7 @@ namespace RavlN {
   bool FixedQueueC<T>::IsSpace()  {
     T *nhead = head + 1;
     if(nhead >= eoa)
-      nhead = &(*this)[0];
+      nhead = ArrayStart();
     return (nhead != tail);
   }
   
@@ -323,7 +371,7 @@ namespace RavlN {
     RavlAssert(IsSpace());
     *(head++) = Obj;
     if(head >= eoa)
-      head = &(*this)[0];
+      head = ArrayStart();
   }
   
   template<class T>
@@ -331,13 +379,19 @@ namespace RavlN {
   void FixedQueueC<T>::ForceInsLast(const T &Obj) {
     *(head++) = Obj;
     if(head >= eoa)
-      head = &((*this)[0]);
+      head = ArrayStart();
     if(head == tail) { // Need to push tail ?
       if(++tail >= eoa)
-	tail = &((*this)[0]);
+	tail = ArrayStart();
     }
   }
   
+  template<class T>
+  inline 
+  void FixedQueueC<T>::ShiftInsLast(const T &Obj) {
+    DelFirst();
+    InsLast(Obj);
+  }
   
   template<class T>
   inline 
@@ -345,7 +399,7 @@ namespace RavlN {
     RavlAssert(!IsEmpty());
     T Ret = *(tail++);
     if(tail >= eoa)
-      tail = &((*this)[0]);
+      tail = ArrayStart();
     return Ret;
   }
   
@@ -354,7 +408,7 @@ namespace RavlN {
   void  FixedQueueC<T>::DelFirst()  {
     RavlAssert(!IsEmpty());
     if(++tail >= eoa)
-      tail = &((*this)[0]);
+      tail = ArrayStart();
   }
 
   template<class T>
@@ -362,7 +416,7 @@ namespace RavlN {
   SizeT FixedQueueC<T>::Size() const {
     if(head >= tail)
       return (SizeT) (head - tail);
-    return (SizeT) ((eoa - tail) + (head - &((*this)[0])));
+    return (SizeT) ((eoa - tail) + (head - ArrayStart()));
   }
   
   template<class T>
@@ -370,7 +424,7 @@ namespace RavlN {
   bool FixedQueueC<T>::IsInRing(UIntT at) const  {
     if(IsEmpty())
       return false;
-    const T *p = &((*this)[at]);
+    const T *p = &(ArrayStart()[at]);
     if(head > tail)
       return (p >= tail && p < head);
     return (p >= tail || p < head);
@@ -379,7 +433,7 @@ namespace RavlN {
   template<class T>
   inline 
   void FixedQueueC<T>::Empty() {
-    tail = &((*this)[0]);
+    tail = ArrayStart();
     head = tail;
   }
 }

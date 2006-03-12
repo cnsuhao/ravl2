@@ -63,6 +63,10 @@ int TestQueue()
       cerr << "Size test 1 failed. \n";
       return __LINE__;
     }
+    if(q[0] != 1) {
+      cerr << "Indexed access failed. \n";
+      return __LINE__;      
+    }
     if(q.GetFirst() != 1) {
       cerr << "Content test 1 failed. \n";
       return __LINE__;
@@ -90,6 +94,11 @@ int TestQueue()
       cerr << "IsSpace test 2 failed. \n";
       return __LINE__;
     }
+    if(q[0] != 0) return __LINE__;
+    if(q[1] != 1) return __LINE__;
+    if(q[2] != 2) return __LINE__;
+    if(q[3] != 3) return __LINE__;
+    if(q[4] != 4) return __LINE__;
     
     for(int j = 0;j < 5;j++) {
       if(q.IsEmpty()) {
