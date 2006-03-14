@@ -95,7 +95,7 @@ namespace RavlN {
   
   //: Compute the probability of a value higher than a threshold
   
-  RealT MeanVarianceC::ProbabilityOfHigherValue(RealT threshold) const {
+  RealT MeanVarianceC::ProbabilityOfHigherValue(RealT threshold,bool quickApprox) const {
     // Deal with 0 variance case.
     if(var <= 0) {
       if(mean == threshold)
@@ -106,7 +106,7 @@ namespace RavlN {
     }
     // And the rest.
     RealT sig = Sqrt(var);
-    return StatNormalQ((threshold-mean)/sig);
+    return StatNormalQ((threshold-mean)/sig,quickApprox);
   }
 
   //: Calculate the product of the two probability density functions.

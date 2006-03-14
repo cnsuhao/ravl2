@@ -18,6 +18,8 @@
 #include "Ravl/Matrix2d.hh"
 #include "Ravl/SumsNd2.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/Statistics.hh"
+#include "Ravl/OS/Date.hh"
 
 using namespace RavlN;
 
@@ -26,6 +28,8 @@ int testFMean();
 int testFMeanCovar();
 int testMeanCovar();
 int testMeanCovar2d();
+
+int testStatNormalQ();
 
 const RealT small = 0.000000001;
 
@@ -53,6 +57,10 @@ int main() {
     return 1;
   }
   if((ln = testMeanCovar2d()) != 0) {
+    cerr << "testMeanVar, failed. Line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testStatNormalQ()) != 0) {
     cerr << "testMeanVar, failed. Line:" << ln << "\n";
     return 1;
   }
@@ -214,6 +222,30 @@ int testMeanCovar() {
   // cerr << "Product=" << mcn3 << "\n";
   if((mcn3.Mean() - VectorC(0.2,0.2)).SumOfSqr() > 0.000001) return __LINE__;
   if((mcn3.Covariance() - MatrixC(0.1,0,0,0.1)).SumOfSqr() > 0.000001) return __LINE__;
+  return 0;
+}
+
+int testStatNormalQ() {
+#if 0
+  RealT sum = 0;
+  for(IntT j = 0;j < 2;j++) {
+    DateC start = DateC::NowVirtual();
+    for(int i = 0; i < 100000;i++) {
+      for(RealT v = -10;v < 10;v += 0.1) {
+        sum += StatNormalQ(v,j);
+      }
+    }
+    DateC stop = DateC::NowVirtual();
+    cerr << " " << j << " Time=" << (stop - start).Double() << "\n";
+  }
+#endif
+  for(RealT v = -10;v < 10;v += 0.1) {
+    if(Abs(StatNormalQ(v,true) - StatNormalQ(v,false)) > 1e-5)
+      return __LINE__;
+    //cerr << v << " Approx=" << StatNormalQ(v,true) << " True=" << StatNormalQ(v,false) << "\n";
+  }
+  
+  
   return 0;
 }
 

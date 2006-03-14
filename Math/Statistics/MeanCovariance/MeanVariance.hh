@@ -62,8 +62,10 @@ namespace RavlN {
     RealT Probability(RealT low,RealT high) const;
     //: Find the probability of getting a sample with a values between low and high.
     
-    RealT ProbabilityOfHigherValue(RealT threshold) const;
+    RealT ProbabilityOfHigherValue(RealT threshold,bool quickApprox = false) const;
     //: Compute the probability of a value higher than the threshold
+    //!param: threshold - point in distribution.
+    //!param: quickApprox - Use a table based approximation which makes this function 10x faster, but is not as accurate.
     
     RealT Gauss(RealT x) const;
     //: Value of the gauss distribution at x.

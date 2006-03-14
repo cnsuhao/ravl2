@@ -9,15 +9,42 @@
 //! file="Ravl/Math/Statistics/MeanCovariance/Statistics.cc"
 
 #include "Ravl/Statistics.hh"
+#include "Ravl/SArray1d.hh"
 #include "ccmath/ccmath.h"
 
 namespace RavlN {
   
+  static const UIntT statNormalQSampleSize = 1024;
+  static const RealT statNormalQSampleRange = 6;
+  
+  static SArray1dC<RealT> BuildStatNormalQ() {
+    SArray1dC<RealT> tmp(statNormalQSampleSize);
+    for(UIntT i = 0;i < tmp.Size();i++)
+      tmp[i] = qnorm((RealT) (i) * statNormalQSampleRange / (RealT) statNormalQSampleSize);
+    return tmp;
+  }
+  
+  inline static RealT PosStatNormalQ(RealT val) {
+    static const SArray1dC<RealT> table = BuildStatNormalQ();
+    val *= (statNormalQSampleSize / statNormalQSampleRange);
+    IntT at = (IntT) val;
+    if((UIntT) (at+1) >= table.Size()) {
+      // FIXME :- The following approximation could be better.
+      return table[table.Size()-1] * (10.0 / (10.0 + (val - statNormalQSampleSize))); // Fill with a value tending to 1
+    }
+    RealT f = val - (RealT) at;
+    RavlAssert(f >= 0 && f <= 1.0);
+    return (1-f) * table[at] + f * table[at+1];
+  }
   //: Integral from x to infinity of the standard normal distribution.
   // return value: Qn(x) = integral of normal density from x to infinity
   
-  RealT StatNormalQ(RealT val) 
-  { return qnorm(val); }
+  RealT StatNormalQ(RealT val,bool quickApprox) { 
+    if(!quickApprox) 
+      return qnorm(val); 
+    if(val < 0) return 1 - PosStatNormalQ(-1 * val);
+    return PosStatNormalQ(val);
+  }
   
   //: Compute percentage points of the standard normal distribution.
   // pc = probability argument (te< pc <1-te, with te=1.e-9) <p>

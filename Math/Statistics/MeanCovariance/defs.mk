@@ -23,3 +23,5 @@ PLIB=RavlMath
 LIBDEPS=RavlMathMeanCov.def
 
 USESLIBS=RavlMath
+
+PROGLIBS=RavlOS

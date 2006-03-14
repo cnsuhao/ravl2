@@ -18,8 +18,10 @@
 
 namespace RavlN {
   
-  RealT StatNormalQ(RealT x);
+  RealT StatNormalQ(RealT x,bool quickApprox = false);
   //: Integral from x to infinity of the standard normal distribution.
+  //!param: x - Point in distribution 
+  //!param: quickApprox - Use a table based approximation which makes this function 10x faster, but is not as accurate.
   // return value: Qn(x) = integral of normal density from x to infinity
   
   RealT StatNormalPercentage(RealT pc);
