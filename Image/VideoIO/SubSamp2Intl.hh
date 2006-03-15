@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="amma/Image/VidIO/SubSamp2Intl.hh"
 //! lib=RavlImage
-//! docentry="Ravl.Images.IO"
+//! docentry="Ravl.API.Images.IO"
 //! author="Charles Galambos"
 //! date="02/12/99"
 
