@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_SOBELSEQUENCE_HEADER
-#define RAVL_SOBELSEQUENCE_HEADER 1
+#ifndef RAVL_SOBOLSEQUENCE_HEADER
+#define RAVL_SOBOLSEQUENCE_HEADER 1
 ////////////////////////////////////////////////////
 //! file="Ravl/Math/Sequence/SobolSequence.hh"
 //! lib=RavlMath
@@ -19,7 +19,7 @@
 
 namespace RavlN {
   //! userlevel=Normal
-  //: Generate a sobel sequence.
+  //: Generate a Sobol sequence.
   // Re-implementation from numerical recipies 2nd edition. pg 312
   
   class SobolSequenceC {

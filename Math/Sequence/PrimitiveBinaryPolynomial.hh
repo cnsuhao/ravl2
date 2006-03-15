@@ -22,7 +22,7 @@ namespace RavlN {
   //! userlevel=Normal
   //: Evaluate a binary polynomial in a recurance sequence.
   // See Numerical Recipies in 'C' pg 312. (this is a full re-implementation) <p>
-  // These are used in generating sobel sequences.
+  // These are used in generating Sobol sequences.
   // Small object.
   
   class PrimitiveBinaryPolynomialC {
