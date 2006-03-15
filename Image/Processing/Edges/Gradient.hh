@@ -28,6 +28,7 @@ namespace RavlImageN {
 		     (RealT)((rt0[0] - rt2[0]) * 2 + (rt0[1] - rt2[1]) + (rt0[-1] - rt2[-1]))/4);
   }
   //: Measure the gradient at a point in an image using a 3x3 Sobel operator.
+  // Currently this returns the gradient vector in the order: horizontal, vertical.  This conflicts with (a) RAVL convention and (b) EdgeSobelC.  It may change.
   
 }
 
