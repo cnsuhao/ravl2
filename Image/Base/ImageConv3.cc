@@ -39,7 +39,7 @@ namespace RavlImageN {
   
 
  
-  // Real RGB to Real HLS 
+  // Real RGB to Real HSV 
   ImageC<RealHSVValueC> RealRGBImageCT2RealHSVImageCT(const ImageC<RealRGBValueC> & dat) {
     ImageC<RealHSVValueC> ret(dat.Rectangle() ) ;
     for(Array2dIter2C<RealHSVValueC,RealRGBValueC> it(ret,dat);it.IsElm();it.Next()) {
@@ -48,7 +48,7 @@ namespace RavlImageN {
     return ret ;
   }
   
-  // Real HLS to Real RGB 
+  // Real HSV to Real RGB 
   ImageC<RealRGBValueC> RealHSVImageCT2RealRGBImageCT(const ImageC<RealHSVValueC> & dat ) {
     ImageC<RealRGBValueC> ret ( dat.Rectangle() ) ;
     for(Array2dIter2C<RealRGBValueC,RealHSVValueC> it(ret,dat);it.IsElm();it.Next()) {
