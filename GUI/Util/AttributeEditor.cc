@@ -298,7 +298,7 @@ namespace RavlGUIN {
     RavlAssert(cb.IsValid());
     bool value;
     if(attribCtrl.GetAttr(name,value))
-      cb.SetToggle(value);
+      cb.GUISetToggle(value);
     return true;
   }
   
@@ -309,7 +309,7 @@ namespace RavlGUIN {
     RavlAssert(cb.IsValid());
     StringC value;
     if(attribCtrl.GetAttr(name,value))
-      cb.SetText(value);
+      cb.GUISetText(value);
     return true;
   }
   
@@ -319,7 +319,7 @@ namespace RavlGUIN {
     SpinButtonC sb(widge);
     RealT value;
     if(attribCtrl.GetAttr(name,value))
-      sb.SetValue(value);
+      sb.GUISetValue(value);
     return true;
   }
   
@@ -329,7 +329,7 @@ namespace RavlGUIN {
     SliderC sl(widge);
     IntT value;
     if(attribCtrl.GetAttr(name,value))
-      sl.UpdateValue(value);
+      sl.GUIUpdateValue(value);
     return true;
   }
   
@@ -339,7 +339,7 @@ namespace RavlGUIN {
     LabelC lab(widge);
     StringC value;
     if(attribCtrl.GetAttr(name,value))
-      lab.Label(value);
+      lab.GUISetLabel(value);
     return true;
   }
 
@@ -349,7 +349,7 @@ namespace RavlGUIN {
     ComboC cb(widge);
     StringC value;
     if(attribCtrl.GetAttr(name,value))
-      cb.SetSelection(value);
+      cb.GUISetSelection(value);
     return true;
   }
   
