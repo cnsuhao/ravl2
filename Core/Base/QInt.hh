@@ -33,9 +33,7 @@
 
 #include "Ravl/config.h"
 #include <math.h>
-#if RAVL_HAVE_IEEE_DOUBLE
-
-
+#if RAVL_HAVE_IEEE_DOUBLE && !RAVL_COMPILER_GCC4
 
 #if RAVL_LITTLEENDIAN
 #define UNION_USE_BYTE 0 

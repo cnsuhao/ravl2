@@ -23,6 +23,7 @@
 #include "Ravl/FPNumber.hh"
 #include "Ravl/Exception.hh"
 #include "Ravl/QInt.hh"
+#include "Ravl/Index2d.hh"
 
 using namespace RavlN;
 
@@ -34,9 +35,11 @@ public:
   {}
 };
 
+
 int testTypes();
 int testEndian();
 int testIndex();
+int testIndex2d();
 int testMisc();
 int testRefCounter();
 int testSubIndexRange2dIter();
@@ -65,6 +68,10 @@ int main()
     return 1;
   }
   if((ln = testIndex()) != 0) {
+    cerr << "Test failed at line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testIndex2d()) != 0) {
     cerr << "Test failed at line:" << ln << "\n";
     return 1;
   }
@@ -130,11 +137,11 @@ int testTypes()
 int testEndian() {
   UInt16T x = 0x1234;
 #if RAVL_LITTLEENDIAN
-cerr << "\n doing little endian test" ;
+cerr << "\n doing little endian test\n" ;
   if(((char *)(&x))[0] != 0x34) return __LINE__;
   if(((char *)(&x))[1] != 0x12) return __LINE__;
 #else
-cerr << "\n doing big endian test" ;
+cerr << "\n doing big endian test\n" ;
   if(((char *)(&x))[0] != 0x12) return __LINE__;
   if(((char *)(&x))[1] != 0x34) return __LINE__;
 #endif
@@ -196,6 +203,20 @@ int testIndex()
         }
       }
     }
+  }
+  return 0;
+}
+
+
+int testIndex2d()
+{
+  cerr << "testIndex2d() \n";
+  Index2dC start(5,6);
+  
+  {
+    Index2dC pxx = start;
+    pxx = pxx.Step(NEIGH_UP_LEFT);
+    if(pxx != (start + Index2dC(-1, -1))) return __LINE__;
   }
   return 0;
 }

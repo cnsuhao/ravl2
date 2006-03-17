@@ -380,16 +380,25 @@ GenBinIStreamC & GenBinIStreamC::operator>>(Int64T & dat) {
   inline 
   GenBinOStreamC &GenBinOStreamC::operator<<(FloatT dat) {
     RavlAssert(sizeof(FloatT) == sizeof(IntT));
-    (*this) << (*((IntT *) &dat));
+    union {
+      FloatT f;
+      IntT i;
+    } tmp;
+    tmp.f = dat;
+    (*this) << tmp.i;
     return *this;
   }
   
   inline 
   GenBinOStreamC &GenBinOStreamC::operator<<(RealT dat) {
     RavlAssert(sizeof(RealT) == (sizeof(IntT) * 2));
-    IntT *at = (IntT *) (&dat);
-    if(toSwap) (*this) << at[0] << at[1];
-    else (*this) << at[1] << at[0];
+    union {
+      RealT f;
+      IntT i[2];
+    } tmp;
+    tmp.f = dat;
+    if(toSwap) (*this) << tmp.i[0] << tmp.i[1];
+    else (*this) << tmp.i[1] << tmp.i[0];
     return *this;
   }
   
