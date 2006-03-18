@@ -21,7 +21,7 @@ SOURCES= LineABC2d.cc Curve2d.cc Curve2dLine.cc Curve2dLineFit.cc \
  Circle2d.cc FitCircle2d.cc Arc2d.cc Curve2dCircle.cc Curve2dArc.cc \
  FitLineABC2d.cc ConvexHullOfPointSet.cc HEMesh2d.cc DelaunayTriangulation2d.cc \
  TriMesh2d.cc AffineTransformPolygon2d.cc ProjectiveTransformPolygon2d.cc \
- Conic2d.cc Ellipse2d.cc ScanPolygon2d.cc PolyLine2d.cc
+ Conic2d.cc Ellipse2d.cc ScanPolygon2d.cc PolyLine2d.cc Poly2dApprox.cc
 
 PLIB=RavlMath
 

@@ -126,6 +126,13 @@ namespace RavlN {
     //: Measure the fraction of the polygons overlapping as a fraction of the larger of the two polygons.
     //!return: 0= Not overlapping 1=If the two polygons are identical.
     
+    Polygon2dC Approx(RealT distLimit) const;
+    //: Generate an approximation to the given polygon within the given euclidean distance limit.
+    // The approximation is computed by finding the furthest point from the start, and then
+    // the furthest point from that point. The two line segments are then approximated by searching for the
+    // furthest point from the line defined by the two end points and if it is further than the distance limit 
+    // adding it to the approximation. The procedure is then repeated for each of the segments either side
+    // of furthest point.
     
   };
   

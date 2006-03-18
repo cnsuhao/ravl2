@@ -35,6 +35,13 @@ namespace RavlN {
     bool IsSelfIntersecting() const;
     //: Returns true if the polygon is self intersecting, ie do any sides cross
     
+    PolyLine2dC Approx(RealT distLimit) const;
+    //: Generate an approximation to the given polyline within the given euclidean distance limit.
+    // This routine generates the approximation by searching for the furthest point from the
+    // line defined by the two end points and if it is further than the distance limit adding it 
+    // to the approximation. The procedure is then repeated for each of the segments either side
+    // of the furthest point.
+    
   };
 }
 
