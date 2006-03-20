@@ -119,13 +119,13 @@ typedef UInt64T SizeT;
   //: Size of stream.  This is seperate to allow large file support.
   
   template<class DataT>
-  void Swap(DataT &v1,DataT &v2) {
+  inline void Swap(DataT &v1,DataT &v2) {
     DataT t = v1;
     v1 = v2;
     v2 = t;
   }
   //: Swap the values of two variables.
-
+  
   inline
   void SetZero(ByteT &x)
   { x = 0; }
