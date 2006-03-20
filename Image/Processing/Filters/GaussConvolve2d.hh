@@ -65,7 +65,7 @@ namespace RavlImageN {
     
     ImageC<OutPixelT> Apply (const ImageC<InPixelT> &in) const {
       ImageC<OutPixelT> op;
-       ConvolveSeparable2dC<InPixelT,OutPixelT,KernelPixelT,SumTypeT>::Apply(in, op);
+      ConvolveSeparable2dC<InPixelT,OutPixelT,KernelPixelT,SumTypeT>::Apply(in, op);
       return op;
     }
     //: Performs Gaussian filter on image 'in'.

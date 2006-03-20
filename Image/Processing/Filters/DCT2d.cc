@@ -394,7 +394,6 @@ namespace RavlImageN {
   void ChanDCTC::columnsbitreversal(ImageC<RealT>& fi) const
   {
     int v1, v2, v3,i,j,k,rows;
-    double xt;
     /* reverse columns */
     for (rows =0; rows<N; rows ++) {   
       v1 = (m+1)/2; 
@@ -409,11 +408,7 @@ namespace RavlImageN {
 	}
 	j +=k;
 	if(i<j){
-	  RealT &fij = fi[j][rows];
-	  RealT &fii = fi[i][rows];
-	  xt=fij;
-	  fij= fii;
-	  fii=xt;	  
+	  Swap(fi[j][rows],fi[i][rows]);
 	}
       }
     }
@@ -456,33 +451,54 @@ namespace RavlImageN {
   header file for further details
 
   ***************************************************************************/
+#define RAVL_RECRAD_USE_PTRARR 1
   
   VecRadDCTC::VecRadDCTC(unsigned int size, unsigned int pts)
+    : N(0),
+      N0(0),
+      m(0),
+      ct(0),
+      ct2d(0),
+      r(0),
+      cosine_array(0)
+      
   {
-    Initialise(size, pts);
+    Setup(size, pts);
   }
 
   VecRadDCTC::VecRadDCTC()
+    : N(0),
+      N0(0),
+      m(0),
+      ct(0),
+      ct2d(0),
+      r(0),
+      cosine_array(0)
+  {}
+  
+  void VecRadDCTC::Setup(unsigned int size, unsigned int pts)
   {
-    m = 0;
-    N = 0;
-    N0 = 0;
-  }
-
-  void VecRadDCTC::Initialise(unsigned int size, unsigned int pts)
-  {
+    // Already been setup ?
+    if(r != 0)
+      DeleteArrays();
+    
     m = (unsigned int)Ceil(Log(size)/Log(2.0));
-    N = (unsigned int)Pow(2.0, (float)m);
+    N = (unsigned int)Pow(2.0, (RealT )m);
     N0 = (unsigned int)Pow(2.0, Ceil(Log(pts)/Log(2.0))); // must be power of 2
     
     int i;
+    // Allocate ptr array.
     r = new unsigned int * [N];
-    for (i = 0; i < N; i++)
-      r[i] = new unsigned int [N];
-    cosine_array = new float [N*m];
-    ct = new float [N];
-    ct2d = new float [N*N*m];
- 
+    
+    // Allocate space, and initalise ptr array.
+    UIntT *rp = new unsigned int [N*N];
+    for (i = 0; i < N; i++,rp += N)
+      r[i] = rp;
+    
+    cosine_array = new LFloatT [N*m];
+    ct = new LFloatT [N];
+    ct2d = new LFloatT [N*N*m];
+    
     MASK[0] = 0;
     MASK[1] = ~((-1) << m);
 
@@ -490,32 +506,35 @@ namespace RavlImageN {
     expand1d_lookup_table();
     make2Darray();
 
-    scaleDC = 1.0f/(float)N;
-    scaleMix = sqrt(2.0f)/(float)N;
+    scaleDC = 1.0f/(LFloatT)N;
+    scaleMix = sqrt(2.0f)/(LFloatT)N;
     scaleAC = 2.0f * scaleDC;
   }
 
   VecRadDCTC::~VecRadDCTC()
   {
-    int i;
-    for (i = 0; i < N; i++)
-      delete [] r[i];
-    delete [] r;
+    DeleteArrays();
+  }
   
+  //: Free all array's
+  
+  void VecRadDCTC::DeleteArrays() {
+    delete [] r[0];
+    delete [] r;
+    
     delete [] cosine_array;
     delete [] ct;
     delete [] ct2d;
-  
+    
+    r = 0;
   }
 
-
-  void VecRadDCTC::dct_in_place(ImageC<RealT>& dest) const
+  void VecRadDCTC::dct_in_place(ImageC<RealT>& dest,bool modifyOutputRect) const
   {
     int stage,q,bB;
     int i,j;
-    int k1,k2,yi,yi1,yi2,xj,xj1,xj2,mmax,istep,step;
-    double S0,S1,S2,S3;
-    float sum1,sum2,diff1,diff2;
+    int k1,k2,yi,xj,mmax,istep,step;
+    //LFloatT sum1,sum2,diff1,diff2;
 
     firo3(dest);
  	
@@ -526,26 +545,27 @@ namespace RavlImageN {
     step=0;
  
     for (yi=0; yi<N; yi+=2) {
-      yi1 = yi;
-      yi2 = yi1+1;
+      RangeBufferAccessC<RealT > dest_yi1 = dest[yi];
+      RangeBufferAccessC<RealT > dest_yi2 = dest[yi + 1];
+      
       for (xj=0; xj<N; xj +=2) {
-	xj1=xj;
-	xj2=xj1+1;
- 
-	S0=dest[yi1][xj1]; 
-	S1=dest[yi2][xj1];
-	S2=dest[yi1][xj2];
-	S3=dest[yi2][xj2];  
+	IntT xj1=xj;
+	IntT xj2=xj1+1;
 	
-	sum1 = (float)(S0 + S1);
-	sum2 = (float)(S2 + S3);
-	diff1= (float)(S0 - S1);
-	diff2= (float)(S2 - S3);
- 
-	dest[yi1][xj1] = sum1+sum2;
-	dest[yi2][xj1] = (diff1+diff2)*ct2d[step++];
-	dest[yi1][xj2] = (sum1-sum2)* ct2d[step++];
-	dest[yi2][xj2] = (diff1-diff2)*ct2d[step++] ;
+	RealT S0=dest_yi1[xj1]; 
+	RealT S1=dest_yi2[xj1];
+	RealT S2=dest_yi1[xj2];
+	RealT S3=dest_yi2[xj2];  
+	
+	LFloatT sum1 = (LFloatT)(S0 + S1);
+	LFloatT sum2 = (LFloatT)(S2 + S3);
+	LFloatT diff1= (LFloatT)(S0 - S1);
+	LFloatT diff2= (LFloatT)(S2 - S3);
+	
+	dest_yi1[xj1] = sum1+sum2;
+	dest_yi2[xj1] = (diff1+diff2)*ct2d[step++];
+	dest_yi1[xj2] = (sum1-sum2)* ct2d[step++];
+	dest_yi2[xj2] = (diff1-diff2)*ct2d[step++] ;
       }
     }
  
@@ -562,32 +582,30 @@ namespace RavlImageN {
       for (k1=0; k1<mmax; k1++) {
 	for (k2=0; k2<mmax; k2++) {
 	  for (yi=k1; yi<N; yi+=istep) {
-	    yi1=yi; 
-	    yi2=yi1+mmax;
+	    RangeBufferAccessC<RealT > dest_yi1 = dest[yi];
+	    RangeBufferAccessC<RealT > dest_yi2 = dest[yi+mmax];
 	    for (xj=k2; xj<N; xj+=istep) {
-	      xj1=xj;
-	      xj2=xj1+mmax;
-		
-	      S0=dest[yi1][xj1];
-	      S1=dest[yi2][xj1];
-	      S2=dest[yi1][xj2];
-	      S3=dest[yi2][xj2];
-
-	      sum1 = (float)(S0+S1);
-	      sum2 = (float)(S2+S3);
-	      diff1 = (float)(S0-S1);
-	      diff2 = (float)(S2-S3);
-
+	      IntT xj1=xj;
+	      IntT xj2=xj1+mmax;
+	      
+	      RealT S0=dest_yi1[xj1];
+	      RealT S1=dest_yi2[xj1];
+	      RealT S2=dest_yi1[xj2];
+	      RealT S3=dest_yi2[xj2];
+	      
+	      LFloatT sum1 = (LFloatT)(S0+S1);
+	      LFloatT sum2 = (LFloatT)(S2+S3);
+	      LFloatT diff1 = (LFloatT)(S0-S1);
+	      LFloatT diff2 = (LFloatT)(S2-S3);
+	      
 	      if (q<=1) {
-		dest[yi1][xj1] = sum1+sum2;
+		dest_yi1[xj1] = sum1+sum2;
 		step += 3;
-	      }
-
-	      if (q>1) {
-		dest[yi1][xj1] = sum1+sum2;
-		dest[yi2][xj1]=(diff1+diff2)*ct2d[step++];
-		dest[yi1][xj2]=(sum1-sum2)*ct2d[step++] ;
-		dest[yi2][xj2]=(diff1-diff2)*ct2d[step++] ;
+	      } else { // if q > 1
+		dest_yi1[xj1] = sum1+sum2;
+		dest_yi2[xj1]=(diff1+diff2)*ct2d[step++];
+		dest_yi1[xj2]=(sum1-sum2)*ct2d[step++] ;
+		dest_yi2[xj2]=(diff1-diff2)*ct2d[step++] ;
 	      }
 	    }  
 	  }  
@@ -599,54 +617,58 @@ namespace RavlImageN {
     post_adds(dest);
     //Scale coefficients
     dest[0][0] *= scaleDC;
-    for (i = 1; i < N0; i++)
+    RangeBufferAccessC<RealT > destzero = dest[0];
+    for (i = 1; i < N0; i++) {
       dest[i][0] *= scaleMix;
-    for (j = 1; j < N0; j++)
-      dest[0][j] *= scaleMix;
-    for (i = 1; i < N0; i++)
+      destzero[i] *= scaleMix;
+    }
+    for (i = 1; i < N0; i++) {
+      RangeBufferAccessC<RealT > desti = dest[i];
       for (j = 1; j < N0; j++)
-	dest[i][j] *= scaleAC;
+	desti[j] *= scaleAC;
+    }
     
-    dest = ImageC<RealT>(dest,IndexRange2dC(0,N0-1,0, N0-1)); //Inefficient
+    if(modifyOutputRect)
+      dest = ImageC<RealT>(dest,IndexRange2dC(0,N0-1,0, N0-1));
   }
-
+  
   void VecRadDCTC::DCT(const ImageC<RealT>& src, ImageC<RealT>& dest) const {
     RavlAssert( src.Cols() == (SizeT) N && src.Rows() == (SizeT)N );
-    dest = src;
+    dest = src.Copy();
     dct_in_place(dest);
   }
 
   ImageC<RealT> VecRadDCTC::DCT(const ImageC<RealT>& im) const {
-    ImageC<RealT> ret(im);
+    RavlAssert( im.Cols() == (SizeT) N && im.Rows() == (SizeT)N );
+    ImageC<RealT> ret = im.Copy();
     dct_in_place(ret);
     return ret;
   }
-
+  
   void VecRadDCTC::lut_of_cos()
   {
     int e,i,k,l,p,t,inc,len,mm1;
 
-    unsigned int *et = new unsigned int [N];
+    SArray1dC<unsigned int> et(N);
     p=0; mm1=m-1; e=1;
 
     for(k=0; k<m; k++)
       {
 	len=1; inc=N; i=0;
-	et[i]=e; i++; ct[p]=(float)(2.0 * Cos(PIO2 * e / N)); p++;
+	et[i]=e; i++; ct[p]=(LFloatT)(2.0 * Cos(PIO2 * e / N)); p++;
 	for(t=0; t<mm1; t++)
 	  {
 	    for(l=0; l<len; l++)
 	      {
 		et[i] = et[l] + inc;
-		ct[p] = (float)(2.0 * Cos(et[i] * PIO2 /N));
+		ct[p] = (LFloatT)(2.0 * Cos(et[i] * PIO2 /N));
 		i++;  p++;
 	      }
 	    len = len << 1; inc=inc >> 1;
 	  }
 	e = e << 1; mm1=mm1-1;
       }
-
-    delete [] et;
+    
   }
 
   void VecRadDCTC::expand1d_lookup_table()
@@ -671,7 +693,7 @@ namespace RavlImageN {
 	    for(i=0; i<ncb; i++)
 	      {
 		cosine_array[l+step] = 1.0f;
-		cosine_array[step+l+bB]= (float)c;
+		cosine_array[step+l+bB]= (LFloatT)c;
 		value++;
 		l++;
 	      }
@@ -737,9 +759,8 @@ namespace RavlImageN {
 
   void VecRadDCTC::firo3(ImageC<RealT>& fi) const
   {
-    int i,j,eo,group,nog,p,q,F,M,a,b,rows,cols;
-    double t;
-
+    int i,j,eo,group,nog,p,q,F,M,rows,cols;
+    
     M=m;
     bitreversalrows();
  
@@ -754,48 +775,74 @@ namespace RavlImageN {
       for(i=0; i<(nog-1); i++)
 	{
 	  F=0; q=i<<M; p=q>>1;
+#if RAVL_RECRAD_USE_PTRARR
 	  for(j=1; j<group; j++)
 	    {
 	      F=1-F; q++;
-	      a=((r[p][rows]<<1)^MASK[F]); /* CC*/
-	      b=q;  /*CC*/
-	      t=fi[a][rows]; /*CC*/
-	      fi[a][rows] = fi[b][rows]; /*CC*/
-	      fi[b][rows] = t;/*CC*/
+	      IntT a=((r[p][rows]<<1)^MASK[F]); /* CC*/
+	      IntT b=q;  /*CC*/
+	      Swap(fi[a][rows],fi[b][rows]);
 	      p += F;
 	    }
+#else
+	  const UIntT *rrow = &(r[0][rows]);
+	  for(j=1; j<group; j++)
+	    {
+	      F=1-F; q++;
+	      IntT a=((rrow[p * N]<<1)^MASK[F]); /* CC*/
+	      IntT b=q;  /*CC*/
+	      Swap(fi[a][rows],fi[b][rows]);
+	      p += F;
+	    }	  
+#endif
 	  group--;
 	}
 
-      if(eo==0) ; else
-
+      if(eo!=0) { 
 	/*....................... M=odd ..........................*/
-
-	{ group=nog;
-
+	
+	group=nog;
+	
+#if RAVL_RECRAD_USE_PTRARR
 	for(i=1; i<nog; i++)
 	  {
 	    F=0; q=i<<M; p=q>>1; p--; q--;
 	    for(j=1; j<group; j++)
 	      {
 		q--;
-		a=((r[p][rows]<<1)^MASK[F]); /* CC*/
-		b=q;  /*CC*/
-		t=fi[a][rows]; /*CC*/
-		fi[a][rows] = fi[b][rows]; /*CC*/
-		fi[b][rows] = t;/*CC*/
-
+		IntT a=((r[p][rows]<<1)^MASK[F]); /* CC*/
+		IntT b=q;  /*CC*/
+		Swap(fi[a][rows],fi[b][rows]);
 		F=1-F;   p -= F;
 	      }
 	    group--;
 	  }
-	} /* end of 'if' statement */
+#else
+	const UIntT *rrow = &(r[0][rows]);
+	for(i=1; i<nog; i++)
+	  {
+	    F=0; q=i<<M; p=q>>1; p--; q--;
+	    for(j=1; j<group; j++)
+	      {
+		q--;
+		IntT a=((rrow[p * N]<<1)^MASK[F]); /* CC*/		
+		IntT b=q;  /*CC*/
+		Swap(fi[a][rows],fi[b][rows]);
+		F=1-F;   p -= F;
+	      }
+	    group--;
+	  }
+#endif
+        } /* end of 'if' statement */
+
     } /* end for rows */
   
     bitreversalcolumns();
  
     /* Input reordering for the columns */
     for (cols=0; cols<N; cols++) {
+      RangeBufferAccessC<RealT > ficol = fi[cols];
+      UIntT  *rcol = r[cols];
       M=m;
       eo = M%2; M = m>>1;
       group = nog = 1<<M;
@@ -809,11 +856,9 @@ namespace RavlImageN {
 	  for(j=1; j<group; j++)
 	    {
 	      F=1-F; q++;
-	      a=((r[cols][p]<<1)^MASK[F]); /* CC*/
-	      b=q;  /*CC*/
-	      t=fi[cols][a]; /*CC*/
-	      fi[cols][a] = fi[cols][b]; /*CC*/
-	      fi[cols][b] = t;/*CC*/
+	      IntT a=((rcol[p]<<1)^MASK[F]); /* CC*/
+	      IntT b=q;  /*CC*/
+	      Swap(ficol[a],ficol[b]);
 	      p += F;
 	    }
 	  group--;
@@ -831,13 +876,9 @@ namespace RavlImageN {
 	    for(j=1; j<group; j++)
 	      {
 		q--;
-		a=((r[cols][p]<<1)^MASK[F]); /* CC*/
-		b=q;  /*CC*/
-		t=fi[cols][a]; /*CC*/
-		fi[cols][a] = fi[cols][b]; /*CC*/
-		fi[cols][b] = t;/*CC*/
-
-		/*swap( ((r[cols][p]<<1)^MASK[F]), q );*/
+		IntT a=((rcol[p]<<1)^MASK[F]); /* CC*/
+		IntT b=q;  /*CC*/
+		Swap(ficol[a],ficol[b]);
 		F=1-F;   p -= F;
 	      }
 	    group--;
@@ -851,13 +892,30 @@ namespace RavlImageN {
     int i,j,l,rows;
 
     for (rows=0; rows<N; rows++) {
+#if RAVL_RECRAD_USE_PTRARR 
       l=1; 
       r[0][rows]=0;
-      for(i=1; i < m; i++)
-	{
-	  for(j=0; j < l; j++) {r[j][rows]<<= 1; r[j+l][rows]=r[j][rows] + 1; }
-	  l <<= 1;
+      for(i=1; i < m; i++){
+	for(j=0; j < l; j++) {
+	  UIntT &val = r[j][rows]; 
+	  val <<= 1; 
+	  r[j+l][rows]=val + 1; 
 	}
+	l <<= 1;
+      }
+#else 
+      l=1; 
+      UIntT *rr = &(r[rows]);
+      r[rows]=0;
+      for(i=1; i < m; i++){
+	for(j=0; j < l; j++) {
+	  UIntT *val = &(rr[j*N]); 
+	  (*val) <<= 1; 
+	  val[l * N] = *val + 1;  
+	}
+	l <<= 1;
+      }
+#endif
     } /* end for rows */
   }
 
@@ -865,61 +923,70 @@ namespace RavlImageN {
   {
     int i,j,l,cols;
     for (cols=0; cols<N; cols++) {
-      l=1; 
-      r[cols][0]=0;
-      for(i=1; i < m; i++)
-	{
-	  for(j=0; j < l; j++) {r[cols][j]<<= 1;r[cols][j+l]=r[cols][j] +  1;}
-	  l <<= 1;
+      l=1;
+      UIntT *rc = r[cols];
+      rc[0]=0;
+      for(i=1; i < m; i++) {
+	for(j=0; j < l; j++) {
+	  UIntT *val = &(rc[j]);
+	  (*val) <<= 1;
+	  val[l]=(*val) +  1;
 	}
+	l <<= 1;
+      }      
     } /* end for cols */
   }
   
   void VecRadDCTC::post_adds(ImageC<RealT>& fi) const
   {
-    int step,loops,k,ep,j,i,l,cols,rows;
-
     /* Do divisions by 2 */
-    for (i=0; i<N; i++) 
-      for (j=1; j<N; j++) 
-	fi[i][j] = fi[i][j]/2;
-      
-    for (i=1; i<N; i++) 
-      for (j=0; j<N; j++)
-	fi[i][j] = fi[i][j]/2;
-
+    {
+      RangeBufferAccessC<RealT > firow = fi[0];
+      for (IntT j=1; j<N; j++) 
+	firow[j] *= 0.5;
+    }
+    for (IntT i=1; i<N; i++) {
+      RangeBufferAccessC<RealT > firow = fi[i];
+      firow[0] *= 0.5;
+      for (IntT j=1; j<N; j++) 
+	firow[j] *= 0.25;
+    }    
+    
     /* Postadditions for the rows */
-    for (cols=0; cols<N; cols++) {
-      step =N;
-      loops = 1;
-      for (k=1; k<m; k++)  {
-	step = step>>1;
-	ep = step>>1;
-	loops = loops <<1;
-	for (j=0; j<(step>>1); j++) {
-	  l=ep;
-	  for (i=1; i<loops; i++)  {
-	    fi[l+step][cols] = fi[l+step][cols] - fi[l][cols];
-	    l =l+step;
+    for (IntT cols=0; cols<N; cols++) {
+      IntT step = N;
+      IntT loops = 1;
+      for (IntT k=1; k<m; k++)  {
+	step = step >> 1;
+	IntT ep = step >> 1;
+	loops = loops << 1;
+	for (IntT j=0; j < (step>>1); j++) {
+	  IntT l=ep;
+	  for (IntT i=1; i<loops; i++)  {
+	    IntT z = l+step;
+	    fi[z][cols] -= fi[l][cols];
+	    l =z;
 	  }
 	  ep +=1;
 	}
       }
     }
-      
+    
     /* Postaditions for the columns */
-    for (rows=0; rows<N; rows++) {
-      step =N;
-      loops = 1;
-      for (k=1; k<m; k++)  {
+    for (IntT rows=0; rows<N; rows++) {
+      RangeBufferAccessC<RealT > firow = fi[rows];
+      IntT step =N;
+      IntT loops = 1;
+      for (IntT k=1; k<m; k++)  {
 	step = step>>1;
-	ep = step>>1;
+	IntT ep = step>>1;
 	loops = loops <<1;
-	for (j=0; j<(step>>1); j++) {
-	  l=ep;
-	  for (i=1; i<loops; i++)  {
-	    fi[rows][l+step] = fi[rows][l+step]-fi[rows][l];
-	    l =l+step;
+	for (IntT j=0; j<(step>>1); j++) {
+	  IntT l=ep;
+	  for (IntT i=1; i<loops; i++)  {
+	    IntT z = l+step;
+	    firow[z] -= firow[l];
+	    l = z;
 	  }
 	  ep +=1;
 	}

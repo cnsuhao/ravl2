@@ -91,7 +91,7 @@ static ObservationListManagerBodyC dummyvar11 (dummyvar9);
 
 int main() {
   int ln;
-#if 0
+#if 1
 #if !TESTMMX
   if((ln = testConvolve2d()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
@@ -142,20 +142,20 @@ int main() {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
-  if((ln = testDCT()) != 0) {
-    cerr << "Test failed on line " << ln << "\n";
-    return 1;
-  }
   if((ln = testImageExtend()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
-#endif
   if((ln = testImagePyramid()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
   if((ln = testImagePyramidRGB()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+#endif
+  if((ln = testDCT()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -544,17 +544,19 @@ int testDCT() {
   
   ChanDCTC chandct(img.Rows());
   ImageC<RealT> cimg = chandct.DCT(img);
-  //cerr << "CRes=" << cimg << "\n";
+  cerr << "CRes=" << cimg << "\n";
   //cerr << "Error=" << (cimg - res).SumOfSqr()  << "\n";
   if((cimg - res).SumOfSqr() > 0.000001)
     return __LINE__;
-
-  //for(int i = 0;i < 10000;i++)
-  //  cimg = chandct.DCT(img);
   
-#if 0  
-  VecRadDCTC vrdct(8,8);
-  ImageC<RealT> cimg2 = vrdct.DCT(img);
+  for(int i = 0;i < 50000;i++)
+    cimg = chandct.DCT(img);
+  
+#if 1
+  VecRadDCTC vrdct(img.Rows(),6);
+  ImageC<RealT> cimg2;
+  for(int i = 0;i < 50000;i++)
+    cimg2 = vrdct.DCT(img);
   cerr << "CRes=" << cimg2 << "\n";
 #endif
   

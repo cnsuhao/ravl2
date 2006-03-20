@@ -30,6 +30,7 @@
 
 #include "Ravl/Image/Image.hh"
 
+
 namespace RavlN {
   class VectorC;
 };
@@ -67,6 +68,7 @@ namespace RavlImageN {
   public:
     ChanDCTC();
     //: Default constructor.
+    // 'Setup' must be called before DCT computation.
     
     ChanDCTC(unsigned int size);
     //: Construct DCT for image of 'size' rows by 'size' columns
@@ -121,7 +123,9 @@ namespace RavlImageN {
   //! userlevel=Normal
   
   //: Class implementing Fast DCT
-  
+  // This class allows a subset of the DCT coefficents to be calculated.
+  // NOTE: This class is NOT thread safe.
+  //
   // class VecRadDCT is an encapsulation of sofware (URL:
   // ftp://etro.vub.ac.be/pub/COMPRESSION/DCT_ALGORITHMS/) written by
   // Charilaos A. Christopoulos (Email:chchrist@etro.vub.ac.be), based on
@@ -141,17 +145,26 @@ namespace RavlImageN {
   public:
     VecRadDCTC(unsigned int size, unsigned int pts);
     //: Constructor.
+    //!param: size - Size of input image. Must be a power of 2
+    //!param: pts  - Size of output image .Must be a power of 2
     
     VecRadDCTC();
     //: Default constructor.
+    // You must call Initalise to setup the transform before performing a dct transform.
     
     ~VecRadDCTC();
     //: Destructor.
     
-    void Initialise(unsigned int size, unsigned int pts);
+    void Setup(unsigned int size, unsigned int pts);
     //: Initialise for image of 'size' by 'size'
+    //!param: size - Size of input image. Must be a power of 2
+    //!param: pts  - Size of output image .Must be a power of 2
     
-    void dct_in_place(ImageC<RealT>& im) const;
+    void dct_in_place(ImageC<RealT>& im,bool modifyOutputRect = false) const;
+    //: Compute the dct in place.
+    //!param: im = Image to compute DCT on.
+    //!param: modifyOutputRect = If true change image frame to be of the correct scale, otherwise result is left in top left of the original image.
+    // Note the size of m will be reduced.
     
     ImageC<RealT> operator()(const ImageC<RealT>& im) const
     { return DCT(im); }
@@ -162,23 +175,37 @@ namespace RavlImageN {
     void DCT(const ImageC<RealT>& src, ImageC<RealT>& dest) const;
     //: Compute the DCT of src, place the result in 'dest'.
     
+    IntT Size() const
+    { return N; }
+    //: Access the size of a side of the input dct rectangle.
+    
+    IntT OutputSize() const
+    { return N0; }
+    //: Access the size of the output array.
+    
   private:
+    void DeleteArrays();
+    //: Free all array's
+    
     const VecRadDCTC &operator=(const VecRadDCTC &oth)
     { return *this; }
     //: Make assigment operator private.
+
+    typedef RealT LFloatT; // Local definition of a float.
     
     int N;
     int N0;
     int m;
-    float *ct;
-    float *ct2d;
+    LFloatT *ct;
+    LFloatT *ct2d;
     unsigned int **r;
-    float *cosine_array;
+    
+    LFloatT *cosine_array;
     unsigned int MASK[2];
-
-    float scaleDC;
-    float scaleMix;
-    float scaleAC;
+    
+    LFloatT scaleDC;
+    LFloatT scaleMix;
+    LFloatT scaleAC;
 
     void lut_of_cos();
     void expand1d_lookup_table();
