@@ -46,10 +46,28 @@ int main(int nargs,char *args[])
   win.GUIShow();
   
   // Cursor manipulation
-  combo.GUISetCursorPosition(3);
-  cerr << "Cursor pos: " << combo.GetCursorPosition() << endl;
+  const IntT curPos = 3;
+  cerr << "Setting cursor position to: " << curPos << endl;
+  combo.GUISetCursorPosition(curPos);
+  cerr << "Cursor pos reported at: " << combo.GetCursorPosition() << endl << endl;
+
+  // Selection manipulation
+  const IntT curStart = 2;
+  const IntT curEnd = 3;
+  cerr << "Setting selection from " << curStart << " to " << curEnd << endl;
+  combo.GUISetCursorSelection(curStart, curEnd);
+
+  IntT start = -1, end = -1;
+  if (combo.GetCursorSelection(start, end))
+  {
+    cerr << "Selection reported from " << start << " to " << end << endl << endl;
+  }
+  else
+  {
+    cerr << "No current selection" << endl << endl;
+  }
   
   // Start the UI
   Manager.Start();
-  cerr << "\n\nFinished... \n";
+  cerr << "Finished... \n";
 }

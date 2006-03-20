@@ -343,8 +343,7 @@ namespace RavlGUIN {
   bool ComboBodyC::GUISetCursorPosition(const IntT pos)
   {
     StringC str(gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(widget)->entry)));
-    IntT newPos = (pos > str.Size() ? -1 : (pos < 0 ? 0 : pos));
-    gtk_editable_set_position(GTK_EDITABLE(GTK_COMBO(widget)->entry), newPos);
+    gtk_editable_set_position(GTK_EDITABLE(GTK_COMBO(widget)->entry), pos);
     return true;
   }
 
@@ -358,4 +357,28 @@ namespace RavlGUIN {
   
 
 
+  bool ComboBodyC::GetCursorSelection(IntT &start, IntT &end)
+  {
+    ReadBackLockC lock;
+    return gtk_editable_get_selection_bounds(GTK_EDITABLE(GTK_COMBO(widget)->entry), &start, &end);
+  }
+
+
+  
+  bool ComboBodyC::GUISetCursorSelection(const IntT start, const IntT end)
+  {
+    gtk_editable_select_region(GTK_EDITABLE(GTK_COMBO(widget)->entry), start, end);
+    return true;
+  }
+
+
+  
+  bool ComboBodyC::SetCursorSelection(const IntT start, const IntT end)
+  {
+    Manager.Queue(Trigger(ComboC(*this), &ComboC::GUISetCursorSelection, start, end));
+    return true;
+  }
+
+
+  
 }

@@ -101,6 +101,20 @@ namespace RavlGUIN {
     //  0 = left of first character
     // -1 = after the last character
     
+    bool GetCursorSelection(IntT &start, IntT &end);
+    //: Get the text selection
+    // Returns false if nothing selected
+    
+    bool GUISetCursorSelection(const IntT start, const IntT end);
+    //: Set the text selection
+    //  0 = left of first character
+    // -1 = after the last character
+    
+    bool SetCursorSelection(const IntT start, const IntT end);
+    //: Set the text selection
+    //  0 = left of first character
+    // -1 = after the last character
+    
     Signal0C &SigSelected()
     { return sigSelected; }
     //: Short cut clicked signal.
@@ -251,6 +265,23 @@ namespace RavlGUIN {
     bool SetCursorPosition(const IntT pos)
     { return Body().SetCursorPosition(pos); }
     //: Set the cursor position
+    //  0 = left of first character
+    // -1 = after the last character
+    
+    bool GetCursorSelection(IntT &start, IntT &end)
+    { return Body().GetCursorSelection(start, end); }
+    //: Get the text selection
+    // Returns false if nothing selected
+    
+    bool GUISetCursorSelection(const IntT start, const IntT end)
+    { return Body().GUISetCursorSelection(start, end); }
+    //: Set the text selection
+    //  0 = left of first character
+    // -1 = after the last character
+    
+    bool SetCursorSelection(const IntT start, const IntT end)
+    { return Body().SetCursorSelection(start, end); }
+    //: Set the text selection
     //  0 = left of first character
     // -1 = after the last character
     
