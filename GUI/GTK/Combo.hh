@@ -87,6 +87,20 @@ namespace RavlGUIN {
     //: Set maximum length of text entry.
     //!param: chars - Maximum number of charactors in widget, set to -1 for no limits.
     
+    IntT GetCursorPosition();
+    //: Get the cursor position
+    // 0 = left of first character
+    
+    bool GUISetCursorPosition(const IntT pos);
+    //: Set the cursor position
+    //  0 = left of first character
+    // -1 = after the last character
+    
+    bool SetCursorPosition(const IntT pos);
+    //: Set the cursor position
+    //  0 = left of first character
+    // -1 = after the last character
+    
     Signal0C &SigSelected()
     { return sigSelected; }
     //: Short cut clicked signal.
@@ -222,6 +236,23 @@ namespace RavlGUIN {
     { return Body().GUISetMaxLength(chars); }
     //: Set maximum length of text entry.
     //!param: chars - Maximum number of charactors in widget.
+    
+    IntT GetCursorPosition()
+    { return Body().GetCursorPosition(); }
+    //: Get the cursor position
+    // 0 = left of first character
+    
+    bool GUISetCursorPosition(const IntT pos)
+    { return Body().GUISetCursorPosition(pos); }
+    //: Set the cursor position
+    //  0 = left of first character
+    // -1 = after the last character
+    
+    bool SetCursorPosition(const IntT pos)
+    { return Body().SetCursorPosition(pos); }
+    //: Set the cursor position
+    //  0 = left of first character
+    // -1 = after the last character
     
     friend class ComboBodyC;
   };

@@ -15,7 +15,6 @@
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Combo.hh"
 #include "Ravl/GUI/Manager.hh"
-#include "Ravl/GUI/LBox.hh"
 #include "Ravl/Option.hh"
 
 using namespace RavlGUIN;
@@ -30,19 +29,27 @@ bool HandleCombo (ComboC &  combo, StringC & id)
 int main(int nargs,char *args[]) 
 {
   // Start the GUI manager - pass through any command line options
- Manager.Init(nargs,args);
-
- // Setup a list of things to put inside the combo box. 
- DListC<StringC> comboData ; 
- comboData.InsLast("item A") ; 
- comboData.InsLast("item B") ; 
- comboData.InsLast("item C") ; 
- comboData.InsLast("item D") ; 
- 
- WindowC win(100,100,"Combo Test");
- win.Add( Combo( comboData, HandleCombo, StringC("combo 1"), true  ) ) ; 
- win.Show() ; 
-
+  Manager.Init(nargs,args);
+  
+  // Setup a list of things to put inside the combo box. 
+  DListC<StringC> comboData ; 
+  comboData.InsLast("item A") ; 
+  comboData.InsLast("item B") ; 
+  comboData.InsLast("item C") ; 
+  comboData.InsLast("item D") ; 
+  
+  // Window creation
+  WindowC win(100,100,"Combo Test");
+  ComboC combo(comboData, true);
+  Connect(combo.SigSelected(), HandleCombo, combo, StringC(""));
+  win.Add(combo);
+  win.GUIShow();
+  
+  // Cursor manipulation
+  combo.GUISetCursorPosition(3);
+  cerr << "Cursor pos: " << combo.GetCursorPosition() << endl;
+  
+  // Start the UI
   Manager.Start();
   cerr << "\n\nFinished... \n";
 }

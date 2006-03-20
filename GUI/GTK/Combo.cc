@@ -332,4 +332,30 @@ namespace RavlGUIN {
   
 
 
+  IntT ComboBodyC::GetCursorPosition()
+  {
+    ReadBackLockC lock;
+    return gtk_editable_get_position(GTK_EDITABLE(GTK_COMBO(widget)->entry));
+  }
+
+
+  
+  bool ComboBodyC::GUISetCursorPosition(const IntT pos)
+  {
+    StringC str(gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(widget)->entry)));
+    IntT newPos = (pos > str.Size() ? -1 : (pos < 0 ? 0 : pos));
+    gtk_editable_set_position(GTK_EDITABLE(GTK_COMBO(widget)->entry), newPos);
+    return true;
+  }
+
+
+  
+  bool ComboBodyC::SetCursorPosition(const IntT pos)
+  {
+    Manager.Queue(Trigger(ComboC(*this), &ComboC::GUISetCursorPosition, pos));
+    return true;
+  }
+  
+
+
 }
