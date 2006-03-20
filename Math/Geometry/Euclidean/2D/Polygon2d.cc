@@ -328,13 +328,12 @@ namespace RavlN {
   RealT Polygon2dC::Perimeter() const {
     RealT perimeter = 0.0;
     DLIterC<Point2dC> it(*this);
-    Point2dC lastPoint = *it;
-    Point2dC firstPoint = *it;
-    for (it++; it; it++) {
+    if(!it) return 0.0;
+    Point2dC lastPoint = Last();
+    for (; it; it++) {
       perimeter += it->EuclidDistance(lastPoint);
       lastPoint = *it;
     }
-    perimeter += firstPoint.EuclidDistance(lastPoint);
     return perimeter;
   }
   

@@ -114,7 +114,11 @@ namespace RavlN {
 
     RealT Perimeter() const;
     //: Returns the perimeter length of this polygon.
-
+    
+    RealT Length() const
+    { return Perimeter(); }
+    //: Return the length of the curve.
+    
     bool IsSelfIntersecting() const;
     //: Returns true if the polygon is self intersecting, ie do any sides cross
   

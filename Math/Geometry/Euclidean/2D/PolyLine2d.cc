@@ -29,5 +29,18 @@ namespace RavlN {
      return false;
    }
 
+  //: Measure the length of the poly line in euclidean space.
+  
+  RealT PolyLine2dC::Length() const {
+    DLIterC<Point2dC> ft(*this);
+    if(!ft) return 0.0;
+    Point2dC last = *ft;
+    RealT len = 0;
+    for(ft++;ft;ft++) {
+      len += last.EuclidDistance(*ft);
+      last = *ft;
+    }
+    return len;
+  }
 
 }

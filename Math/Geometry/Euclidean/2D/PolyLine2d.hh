@@ -42,6 +42,8 @@ namespace RavlN {
     // to the approximation. The procedure is then repeated for each of the segments either side
     // of the furthest point.
     
+    RealT Length() const;
+    //: Measure the length of the poly line in euclidean space.
   };
 }
 
