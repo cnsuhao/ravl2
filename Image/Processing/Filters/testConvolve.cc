@@ -479,7 +479,6 @@ int testSumRectangles() {
 
 int testWarpThinPlateSpline() {
   RealT sigma = 4;
-  
   ImageC<ByteT> inImg(10,10);
   inImg.Fill(0);
   Array1dC<Point2dC> orgPnts(5);
@@ -494,7 +493,7 @@ int testWarpThinPlateSpline() {
   newPnts[1] = Point2dC(102,201);
   newPnts[2] = Point2dC(204,201);
   newPnts[3] = Point2dC(200,106);
-  orgPnts[4] = Point2dC(55,55);
+  newPnts[4] = Point2dC(55,55);
   
   WarpThinPlateSplineC<ByteT> warp(sigma);
   
@@ -505,7 +504,7 @@ int testWarpThinPlateSpline() {
     Point2dC at;
     warp.ComputeWUd(orgPnts,it.Data2(),w,at);
     //cerr << it.Data1() << " " << it.Data2() << " " << at << "\n";
-    if(at.EuclidDistance(it.Data1()) > 0.01)
+    if(at.EuclidDistance(it.Data1()) > 8)
       return __LINE__;
   }
   return 0;
