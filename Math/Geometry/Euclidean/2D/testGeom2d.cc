@@ -38,6 +38,7 @@ int testBinIO();
 int testCircle2d();
 int testConvexHull2d();
 int testDelaunayTriangulation2d();
+int testCompoundAffine();
 int testFitAffine();
 int testHEMesh2d();
 int testProjective2d();
@@ -66,6 +67,7 @@ int main() {
   TEST(testCircle2d);
   TEST(testConvexHull2d);
   TEST(testDelaunayTriangulation2d);
+  TEST(testCompoundAffine);
   TEST(testFitAffine);
   TEST(testHEMesh2d);
   TEST(testProjective2d);
@@ -224,6 +226,30 @@ int testDelaunayTriangulation2d() {
     
   }
   
+  return 0;
+}
+
+int testCompoundAffine() {
+  cerr << "testCompoundAffine Called. \n";
+  Affine2dC a1(Vector2dC(2,2), RavlConstN::pi_2, Vector2dC(0,0));
+  Affine2dC a2(Vector2dC(1,1), 0, Vector2dC(10,20));
+  Point2dC p(0,0);
+  RealT diff = (a2%a1*p - Point2dC(10,20)).SumOfSqr();
+  if (diff > 0.001) {
+    cout << a1*p << " " << a2%a1*p << " " << diff << endl;
+    return __LINE__;
+  }
+  diff = (a1%a2*p - Point2dC(-40,20)).SumOfSqr();
+  if (diff > 0.001) {
+    cout << a1*p << " " << a1%a2*p << " " << diff << endl;
+    return __LINE__;
+  }
+  Point2dC q(5,4);
+  diff = (a2*(a1*q) - (a2%a1)*q).SumOfSqr();
+  if (diff > 0.001) {
+    cout << diff << endl;
+    return __LINE__;
+  }
   return 0;
 }
 
