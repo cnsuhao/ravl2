@@ -30,9 +30,10 @@ namespace RavlN {
   // Uses RandomMersenneTwisterC
   
   double Random1();
-  //: Returns a random number between 0 and 1 with a uniform distribution.
-  // Uses RandomMersenneTwisterC
-  
+  //: Returns a random number in the range [0 ... 1] with a uniform distribution.
+  // Uses RandomMersenneTwisterC.<br>
+  // Note that it <i>does</i> occasionally return the value 1.0.<br>
+
   float  RandomGauss();
   //: Returns a Gaussian distributed zero mean random
   //: number with variance 1.0.
