@@ -13,6 +13,8 @@
 //! author="Charles Galambos"
 //! file="Ravl/Image/Processing/Edges/EdgeSobel.hh"
 
+#warning The polarity of the edge output has been reversed, to be consistent with EdgeDericheC, and to match the RAVL coordinate conventions
+
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dSqr31Iter2.hh"
 #include "Ravl/Array2dSqr311Iter3.hh"
@@ -22,6 +24,7 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: Sobel edge detection engine.
+  //  The sign convention is: a +ve gradient computed if image intensity is increasing in +ve direction in coordinate system.
   
   template<class DataInT,class DataOutT>
   class EdgeSobelC {
@@ -30,10 +33,11 @@ namespace RavlImageN {
     {}
     
     bool Apply(const ImageC<DataInT> &inImg,ImageC<TFVectorC<DataOutT,2> > &out);
-    //: Apply sobol operator to 'img', put result in 'out'
+    //: Apply Sobel operator to 'img', put result in 'out'
+    // Output gradient vector is in the order: vertical, horizontal gradients
     
-    bool Apply(const ImageC<DataInT> &inImg,ImageC<DataOutT> &outX,ImageC<DataOutT> &outY);
-    //: Apply sobol operator to 'img', put results in 'outX' and 'outY'
+    bool Apply(const ImageC<DataInT> &inImg,ImageC<DataOutT> &Vert,ImageC<DataOutT> &Horz);
+    //: Apply Sobel operator to 'img', put vertical and horizontal gradients in "Vert" and "Horz" respectively
     
   };
   
@@ -44,8 +48,8 @@ namespace RavlImageN {
       out = ImageC<TFVectorC<DataOutT,2> >(ir.Shrink(1));
     }
     for(Array2dSqr31Iter2C<DataInT,DataOutT> it(img,out);it;it++) {
-      it.Data2()[0] = it.DataTL1() + it.DataTM1()*2 + it.DataTR1() - it.DataBL1() - it.DataBM1()*2 - it.DataBR1();
-      it.Data2()[1] = it.DataBL1() + it.DataML1()*2 + it.DataTL1() - it.DataBR1() - it.DataMR1()*2 - it.DataTR1();
+      it.Data2()[0] = it.DataBL1() + it.DataBM1()*2 + it.DataBR1() - it.DataTL1() - it.DataTM1()*2 - it.DataTR1();
+      it.Data2()[1] = it.DataBR1() + it.DataMR1()*2 + it.DataTR1() - it.DataBL1() - it.DataML1()*2 - it.DataTL1();
     }
     return true;
   }
@@ -60,8 +64,8 @@ namespace RavlImageN {
       outY = ImageC<DataOutT>(ir);
     }
     for(Array2dSqr311Iter3C<DataInT,DataOutT,DataOutT> it(img,outX,outY);it;it++) {
-      it.Data2() = it.DataTL1() + it.DataTM1()*2 + it.DataTR1() - it.DataBL1() - it.DataBM1()*2 - it.DataBR1();
-      it.Data3() = it.DataBL1() + it.DataML1()*2 + it.DataTL1() - it.DataBR1() - it.DataMR1()*2 - it.DataTR1();
+      it.Data2() = it.DataBL1() + it.DataBM1()*2 + it.DataBR1() - it.DataTL1() - it.DataTM1()*2 - it.DataTR1();
+      it.Data3() = it.DataBR1() + it.DataMR1()*2 + it.DataTR1() - it.DataBL1() - it.DataML1()*2 - it.DataTL1();
     }
     return true;    
   }

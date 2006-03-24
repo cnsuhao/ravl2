@@ -20,15 +20,16 @@ namespace RavlImageN {
   using namespace RavlN;
   
   template<class DataT>
-  Vector2dC SobelGradient3(const Array2dC<DataT> &img,const Index2dC &pos) {
+  Vector2dC SobelGradient(const Array2dC<DataT> &img,const Index2dC &pos) {
     const DataT *rt0 = &(img[pos[0]-1][pos[1]]);
     const DataT *rt1 = &(img[pos]);
     const DataT *rt2 = &(img[pos[0]+1][pos[1]]);
-    return Vector2dC((RealT)((rt1[-1] - rt1[1]) * 2 + (rt0[-1] - rt0[1]) + (rt2[-1] - rt2[1]))/4, 
-		     (RealT)((rt0[0] - rt2[0]) * 2 + (rt0[1] - rt2[1]) + (rt0[-1] - rt2[-1]))/4);
+    return Vector2dC((RealT)((rt2[0] - rt0[0]) * 2 + (rt2[1] - rt0[1]) + (rt2[-1] - rt0[-1]))/4, 
+		     (RealT)((rt1[1] - rt1[-1]) * 2 + (rt0[1] - rt0[-1]) + (rt2[1] - rt2[-1]))/4);
   }
   //: Measure the gradient at a point in an image using a 3x3 Sobel operator.
-  // Currently this returns the gradient vector in the order: horizontal, vertical.  This conflicts with (a) RAVL convention and (b) EdgeSobelC.  It may change.
+  // This returns the gradient vector with components in this order: vertical, horizontal.<br>
+  // A +ve gradient is returned when the intensity increases in a +ve direction.<br>
   
 }
 

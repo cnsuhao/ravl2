@@ -41,9 +41,9 @@ namespace RavlImageN {
     //: Default constructor.
     // Contents of class are undefined.
     
-    CornerC(const Point2dC &location,RealT ndx,RealT ndy,ByteT nlevel) 
+    CornerC(const Point2dC &location,RealT ndV,RealT ndH,ByteT nlevel) 
       : loc(location),
-	grad(ndx,ndy),
+	grad(ndV,ndH),
 	level(nlevel)
     {}
     //: Constructor.
@@ -71,11 +71,11 @@ namespace RavlImageN {
     { return grad; }
     // Get gradient.
     
-    RealT &DY() { return grad[0]; }
-    // X component of gradient.
+    RealT &DVert() { return grad[0]; }
+    // Vertical component of gradient.
     
-    RealT &DX() { return grad[1]; }
-    // Y component of gradient.
+    RealT &DHor() { return grad[1]; }
+    // Horizontal component of gradient.
     
     ByteT &Level() { return level; }
     // Grey level of pixel.
@@ -89,8 +89,8 @@ namespace RavlImageN {
     //: City block distance from another pixel.
     
     inline RealT Distance(const CornerC &Oth) const;
-    // A somewhat arbitary distance messure between two corners.
-    // Suggestions for a better messure are welcome.
+    // A somewhat arbitrary distance measure between two corners.
+    // Suggestions for a better measure are welcome.
     
   private:
     Point2dC loc;       // Location of corner.
@@ -111,7 +111,7 @@ namespace RavlImageN {
   //: Read corner from a binary stream.
   
   //////////////////////////////////////
-  // A somewhat arbitary distance messure between two corners.
+  // A somewhat arbitrary distance measure between two corners.
 
   inline RealT CornerC::Distance(const CornerC &oth) const {
     return loc.CityBlockDistance(oth.loc) + 
