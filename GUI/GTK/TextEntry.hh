@@ -62,6 +62,16 @@ namespace RavlGUIN {
     //: Hides text entered into this field
     // If the argument is true, text in this field will be displayed as *s
 
+    bool Editable() const;
+    //: Returns the editable state
+    
+    bool GUISetEditable(const bool editable) ; 
+    //: Sets the widget to be editable/not edtiable 
+    // GUI Thread only 
+
+    bool SetEditable(const bool editable); 
+    //: Sets the to be widget editable/not editable  
+
   protected:
     bool SetText(const StringC &txt);
     //: Set text to edit.
@@ -71,13 +81,6 @@ namespace RavlGUIN {
     //: Set text to edit.
     // This should only be called within the GUI thread.
     
-    bool SetEditable (bool editable); 
-    //: Sets the to be widget editable/not editable  
-
-    bool GUISetEditable (bool editable) ; 
-    //: Sets the widget to be editable/not edtiable 
-    // GUI Thread only 
-
     bool GUIHideText(bool hide);
     //: Hides text entered into this field
     // GUI Thread only
@@ -162,15 +165,19 @@ namespace RavlGUIN {
     //: Hides text entered into this field
     // GUI thread only
     
-    bool SetEditable (bool editable)
-    { return Body().SetEditable(editable) ; }  
-    //: Sets the to be widget editable/not editable  
+    bool Editable() const
+    { return Body().Editable(); }
+    //: Returns the editable state
     
-    bool GUISetEditable (bool editable)
+    bool GUISetEditable(const bool editable)
     { return Body().GUISetEditable(editable) ; } 
     //: Sets the widget to be editable/not edtiable 
     // GUI Thread only
 
+    bool SetEditable(const bool editable)
+    { return Body().SetEditable(editable) ; }  
+    //: Sets the to be widget editable/not editable  
+    
     bool HideText(bool hide) 
     { return Body().HideText(hide); }
     //: Hides text entered into this field

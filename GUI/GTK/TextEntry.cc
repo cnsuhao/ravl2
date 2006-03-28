@@ -12,6 +12,7 @@
 
 #include "Ravl/GUI/TextEntry.hh"
 #include "Ravl/GUI/Manager.hh"
+#include "Ravl/GUI/ReadBack.hh"
 #include <gtk/gtk.h>
 
 #define DODEBUG 0
@@ -69,7 +70,7 @@ namespace RavlGUIN {
     if(!text.IsEmpty())
       gtk_entry_set_text (GTK_ENTRY (widget), text);
     GUISetUSize( xsize, ysize ) ; 
-    gtk_entry_set_editable (GTK_ENTRY(widget), isEditable) ;
+    gtk_editable_set_editable(GTK_EDITABLE(widget), isEditable) ;
     ONDEBUG(cerr << "TextEntryBodyC::Create(), Size=" << GTK_ENTRY (widget)->text_size << " Used=" << GTK_ENTRY (widget)->text_length <<" Max=" << GTK_ENTRY (widget)->text_max_length <<"\n");
     
     gtk_signal_connect(GTK_OBJECT(widget), "activate",
@@ -171,22 +172,35 @@ namespace RavlGUIN {
     return true;
   }
 
-  bool TextEntryBodyC::GUISetEditable (bool editable) 
+
+
+  bool TextEntryBodyC::Editable() const
+  {
+    ReadBackLockC rbLock;
+    MutexLockC lock(access);
+    return gtk_editable_get_editable(GTK_EDITABLE(widget));
+  }
+  
+  
+  
+  bool TextEntryBodyC::GUISetEditable(const bool editable) 
   {
     isEditable = editable ; 
     if (widget == 0)
       return true ; 
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
-    gtk_entry_set_editable (GTK_ENTRY (widget), editable) ;
+    gtk_editable_set_editable(GTK_EDITABLE(widget), editable) ;
     return true ; 
   }
 
 
 
-  bool TextEntryBodyC::SetEditable (bool editable) 
+  bool TextEntryBodyC::SetEditable(const bool editable) 
   {
-    Manager.Queue(Trigger(TextEntryC(*this),&TextEntryC::GUISetEditable,editable)) ;
+    Manager.Queue(Trigger(TextEntryC(*this), &TextEntryC::GUISetEditable, editable)) ;
     return true ; 
   }
+
+
 
 }
