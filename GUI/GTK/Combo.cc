@@ -203,6 +203,9 @@ namespace RavlGUIN {
       cmap[*it].InsLast(li);
     }
     
+    if(!editable)
+      gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(widget)->entry), 0);
+    
     if(!selection.IsEmpty())
       gtk_entry_set_text (GTK_ENTRY (GTK_COMBO(widget)->entry), selection.chars());
     
