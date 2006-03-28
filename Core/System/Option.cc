@@ -344,7 +344,7 @@ namespace RavlN {
       if(!it.IsLast())
 	os << ' ';
     }
-    os << ") [ ] " << comment;
+    os << ") [" << def << "] " << comment;
     Comment(os.String());
     return ret;
   }
