@@ -54,11 +54,7 @@ namespace RavlN {
     //: Transform Vector,  Scale, Rotate, Translate.
     // Take a vector and put it though the transformation.
     
-    //inline FAffine<N> operator*(const FAffineC &In) const;
-    // *****************************************************
-    // Note that operator* was implemented incorrectly. It has been replaced by
-    // operator% below temporarily.
-    inline FAffineC<N> operator%(const FAffineC &In) const;
+    inline FAffineC<N> operator*(const FAffineC &In) const;
     //: Compose this transform with 'In'
     
     inline FAffineC<N> operator/(const FAffineC &In) const;
@@ -156,8 +152,7 @@ namespace RavlN {
   }
   
   template<unsigned int N>
-  inline FAffineC<N> FAffineC<N>::operator%(const FAffineC &In) const{
-//    return FAffineC(In.SRMatrix()*SR, In.SRMatrix()*T + In.Translation());
+  inline FAffineC<N> FAffineC<N>::operator*(const FAffineC &In) const{
     return FAffineC(SR*In.SRMatrix(), SR*In.Translation() + T);
   }
   

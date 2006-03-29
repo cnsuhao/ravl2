@@ -71,7 +71,7 @@ namespace RavlImageN {
   Affine2dC CostAffineImageCorrelationBodyC::Vector2Affine(const VectorC &data) const {
     Vector2dC translation (data[0], data[1]);
     Matrix2dC srMatrix (data[2], data[3], data[4], data[5]);
-    return context % Affine2dC(srMatrix, translation);
+    return context * Affine2dC(srMatrix, translation);
   }
   
   //: Determines cost of X
