@@ -234,18 +234,18 @@ int testCompoundAffine() {
   Affine2dC a1(Vector2dC(2,2), RavlConstN::pi_2, Vector2dC(0,0));
   Affine2dC a2(Vector2dC(1,1), 0, Vector2dC(10,20));
   Point2dC p(0,0);
-  RealT diff = (a2%a1*p - Point2dC(10,20)).SumOfSqr();
+  RealT diff = (a2*a1*p - Point2dC(10,20)).SumOfSqr();
   if (diff > 0.001) {
-    cout << a1*p << " " << a2%a1*p << " " << diff << endl;
+    cout << a1*p << " " << a2*a1*p << " " << diff << endl;
     return __LINE__;
   }
-  diff = (a1%a2*p - Point2dC(-40,20)).SumOfSqr();
+  diff = (a1*a2*p - Point2dC(-40,20)).SumOfSqr();
   if (diff > 0.001) {
-    cout << a1*p << " " << a1%a2*p << " " << diff << endl;
+    cout << a1*p << " " << a1*a2*p << " " << diff << endl;
     return __LINE__;
   }
   Point2dC q(5,4);
-  diff = (a2*(a1*q) - (a2%a1)*q).SumOfSqr();
+  diff = (a2*(a1*q) - (a2*a1)*q).SumOfSqr();
   if (diff > 0.001) {
     cout << diff << endl;
     return __LINE__;
