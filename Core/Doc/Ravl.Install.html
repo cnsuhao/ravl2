@@ -13,16 +13,17 @@
     <h2>Compiler installation</h2>
 
     <p> The RAVL library requires the use of the gcc compiler, version 4.0.2
-    or later. If it is not on the system, install it first. After downloading
-    from the <a href="http://gcc.gnu.org/releases.html">Gnu site</a>, the
-    installation might be something like: </p>
+    or later. If it is not on the system, install it first. You may need to be
+    logged in as root for this.  After downloading from the <a
+    href="http://gcc.gnu.org/releases.html">Gnu site</a>, the installation
+    might be something like: </p>
 
     <pre>
-bunzip2 gcc-3.3.5.tar.bz2
-tar -xvf gcc-3.3.5.tar
-mv gcc-3.3.5 gcc-3.3.5-src
-cd gcc-3.3.5-src/
-./configure --prefix=/usr/bin/gcc-3.3.5 --enable-languages=c,c++
+bunzip2 gcc-4.0.2.tar.bz2
+tar -xvf gcc-4.0.2.tar
+mv gcc-4.0.2 gcc-4.0.2-src
+cd gcc-4.0.2-src/
+./configure --prefix=/usr/bin/gcc-4.0.2 --enable-languages=c,c++
 make bootstrap
 setenv LD_LIBRARY_PATH /vol/gcc/lib:/vol/ai/lib:${LD_LIBRARY_PATH}
 make install
@@ -31,31 +32,53 @@ cd ..
 
     <h2>Installing the RAVL library and applications</h2> 
 
-    <p>Decide on a place for the installation and define the environment
-    variable <code>RAVL_INSTALLATION</code> accordingly.  The RAVL library and
-    executables can then be installed as follows:</p>
+    <p>Currently we recommend that you <i>don't</i> log in as root for this
+    installation.  Decide on a place for the installation and define the
+    environment variable <code>RAVL_INSTALLATION</code> accordingly.  The RAVL
+    library and executables can then be installed as follows (selecting the
+    relevant <code>config.local.xxx</code> file if not a standard Linux 32-bit
+    installation):</p>
 
     <pre>
+mkdir -p $RAVL_INSTALLATION
 cd $RAVL_INSTALLATION
-cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/ravl login
-(Do not enter a password - just press return key.)
+cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/ravl login</pre>
+    <p>(Do not enter a password - just press return key.)</p>
+    <pre>
 cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/ravl co Ravl
 cd Ravl
 cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/ravl co Contrib
-cp QMake/config.local.linux ..</pre>
+cp QMake/config.local.linux $RAVL_INSTALLATION</pre>
 
-    <p>Then edit <code>../config.local.linux</code> to pick up the correct
-    compiler and adjust the available resources.  The following is the result
-    of applying <code>diff</code> to an example of the edited and unedited
-    versions.  In this example, extra packages were installed in
-    <code>/vol/ai</code>.</p>
+    <p>Then edit the chosen <code>$RAVL_INSTALLATION/config.local.xxx</code>.  Typical modifications include:  </p>
+    <ul>
+      <li> picking up the correct compiler if a new one has been
+      installed</li> 
+
+      <li> adjusting the available resources.  The packages in the
+      Ravl/Contrib directory all depend on external libraries.  Different
+      operating systems have different sets of these libraries.  The
+      corresponding Ravl packages can be individually disabled by commenting
+      out the relevant <code>RESOURCES</code>.  To find out which this
+      relevant line is:
+        <ul> <li>In the <code>defs.mk</code> file in the
+            <code>Contrib</code> package directory, find the value of the
+            <code>REQUIRES</code> variable</li>
+        </ul>
+      </li>
+     </ul> 
+
+    <p>The following is the result of applying <code>diff</code> to a (rather
+    old) example of the edited and unedited versions of
+    <code>$RAVL_INSTALLATION/config.local.xxx</code>.  In this example, extra
+    packages were installed in <code>/vol/ai</code>. </p>
 
     <pre>
 15a16,17
-> RAVL_CC = /usr/bin/gcc-3.3.5/bin/gcc
-> RAVL_CXX = /usr/bin/gcc-3.3.5/bin/g++
+> RAVL_CC = /usr/bin/gcc-4.0.2/bin/gcc
+> RAVL_CXX = /usr/bin/gcc-4.0.2/bin/g++
 22a25,26
-> EXTRA_LDFLAGS = -Wl,-rpath,/usr/bin/gcc-3.3.5/lib/
+> EXTRA_LDFLAGS = -Wl,-rpath,/usr/bin/gcc-4.0.2/lib/
 >
 49c53
 < RESOURCES += libAudioFile
@@ -85,27 +108,30 @@ cp QMake/config.local.linux ..</pre>
 ---
 > #RESOURCES += devVideo4Linux
 </pre>
-    <p> You may also initially want to turn off the Contrib and Application
-    packages, as they use external libraries.  To do this, remove the trailing
-    ".r" in the relevant fields of the <code>NESTED</code> command in the
-    top-level <code>defs.mk</code> file.</p>
 
     <p>Finally, the installation is:</p>
 
     <pre>
-./install $cwd/../RavlProject auto $cwd/../config.local.linux; rehash</pre> 
+cd $RAVL_INSTALLATION/Ravl
+./install $RAVL_INSTALLATION/RavlProject auto $RAVL_INSTALLATION/config.local.linux; rehash</pre> 
     
     <p>Use the following alias and variable settings for
-    compilation. $PROJECT_OUT controls the directory into which your own code
-    will be compiled. <code>/vol/ai</code> is the
-    directiory in which extra packages were installed in the above example
-    (and may therefore be superfluous).</p>
+    compilation:</p>
 
     <pre>
 setenv PROJECT_OUT ~/ProjOut
 alias qm 'make -f $RAVL_INSTALLATION/RavlProject/share/RAVL/QMake/QMake.mk USERBUILD=1'
-set path = (\$path $PROJECT_OUT/lib/RAVL/linux/bin)
+set path = ($path $PROJECT_OUT/lib/RAVL/linux/bin)
 setenv LD_LIBRARY_PATH /vol/ai/lib</pre>
+
+    <ul>
+      <li>$PROJECT_OUT controls the directory into which your own code
+    will be compiled.</li>
+      <li>qm is the alias for building your own code.</li>
+      <li><code>/vol/ai</code> is the
+    directiory in which extra packages were installed in the above example
+    (and may therefore be superfluous).</li>
+    </ul>
 
     <p>Locally-built documentation for the RAVL classes can then be found at:
       <nobr><code>$RAVL_INSTALLATION/RavlProject/share/doc/RAVL/Auto/Basic/Tree/Ravl.html</code></nobr></p>
@@ -114,7 +140,7 @@ setenv LD_LIBRARY_PATH /vol/ai/lib</pre>
     <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
 <!-- Created: Fri Dec 23 09:31:09 GMT 2005 -->
 <!-- hhmts start -->
-Last modified: Tue Mar  7 15:43:34 GMT 2006
+Last modified: Wed Mar 29 15:59:44 BST 2006
 <!-- hhmts end -->
   </body>
 </html>
