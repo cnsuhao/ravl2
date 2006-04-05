@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! lib=RavlMath
 //! date="17/10/2002"
-//! docentry="Ravl.API.Math.Geometry.2D"
+//! docentry="Ravl.API.Math.Geometry.2D;Ravl.API.Math.Projective Geometry.2D"
 //! file="Ravl/Math/Geometry/Euclidean/2D/Projection2d.hh"
 
 #include "Ravl/Matrix3d.hh"
