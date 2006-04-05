@@ -11,7 +11,7 @@
 //! lib=RavlCore
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.API.Core.Math"
+//! docentry="Ravl.API.Math"
 //! rcsid="$Id$"
 //! date="09/02/1998"
 

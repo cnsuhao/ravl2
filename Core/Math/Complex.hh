@@ -13,7 +13,7 @@
 //! author="Radek Marik"
 //! date="26/01/1994"
 //! example=exComplx.cc
-//! docentry="Ravl.API.Core.Math"
+//! docentry="Ravl.API.Math"
 //! rcsid="$Id$"
 
 #include "Ravl/Types.hh"
@@ -28,8 +28,8 @@ namespace RavlN {
   class ComplexC {
   public:
     
-    // Constructors.
-    // -------------
+    //:--------------
+    //: Constructors.
     
     inline ComplexC();
     //: Creates the complex number (0,0).
@@ -46,8 +46,8 @@ namespace RavlN {
     inline ComplexC DeepCopy(const UIntT levels = (UIntT) -1) const; 
     //: Perform a DeepCopy
     
-    // Access to the parts of a complex number.
-    // ----------------------------------------
+    //:----------------------------------------
+    //: Access to the parts of a complex number.
     
     inline RealT &  Re()
     { return re; }
@@ -67,20 +67,22 @@ namespace RavlN {
     
     inline RealT    Mag() const
     { return Sqrt(re*re + im*im); }
-    //:: The maginude
+    //: The maginude
 
     inline RealT    Arg() const
     { return ATan2(im,re); }
-    //:: The angle
+    //: The angle
     
     inline ComplexC I() const 
     { return ComplexC(-im, re); }
-    //:: Inverse.
+    //: Inverse.
     
     inline ComplexC Conj() const
     { return ComplexC(re, -im); }
-    //:: Get the complex conjugate.
-    
+    //: Get the complex conjugate.
+
+    //:----------
+    //: Operators    
     
     inline const ComplexC & operator+=(RealT a);
     inline const ComplexC & operator+=(const ComplexC & x);
@@ -305,7 +307,7 @@ namespace RavlN {
     struct complex root = csqrt(arg);
     return ComplexC (root.re, root.im);
   }
-//: Returns one of the complex square roots of a
+//: Returns one of the complex square roots of a complex number
 // The 2nd root is the -ve of the given one
 }
 

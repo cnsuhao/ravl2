@@ -46,4 +46,4 @@ EXAMPLES = exComplx.cc
 # Tests - program testing runtime consistency of the software
 TESTEXES = testMath.cc
 
-EHT=Ravl.API.Core.Math.eht
+EHT = RandomGeneration.html

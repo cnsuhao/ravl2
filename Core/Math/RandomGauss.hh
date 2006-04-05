@@ -13,7 +13,7 @@
 //! lib=RavlCore
 //! author="Andrew Stoddart"
 //! date="26/04/1995"
-//! docentry="Ravl.API.Core.Math"
+//! docentry="Ravl.API.Math.Random Numbers"
 
 #include "Ravl/Random.hh"
 #include "Ravl/RandomMersenneTwister.hh"
@@ -21,7 +21,8 @@
 namespace RavlN {  
   
   //! userlevel=Normal
-  //: Generate random number with a gaussian distribution.
+  //: Generate random number with a Gaussian distribution.
+  // The distribution has zero mean and variance = 1.0.
   
   class RandomGaussC {
   public:

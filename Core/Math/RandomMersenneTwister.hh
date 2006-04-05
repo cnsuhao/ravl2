@@ -10,7 +10,7 @@
 //! lib=RavlCore
 //! author="James Smith"
 //! date="31/10/2002"
-//! docentry="Ravl.API.Core.Math"
+//! docentry="Ravl.API.Math.Random Numbers"
 //! license=own
 
 #include "Ravl/Types.hh"
