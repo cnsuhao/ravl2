@@ -1,5 +1,5 @@
 ! author="Charles Galambos"
-! children="Linear Algebra;Geometry;Statistics;Sequences;Signals;Internal"
+! children="Linear Algebra;Geometry;Projective Geometry;Optimisation;Statistics;Random Numbers;Sequences;Signals;Internal"
 : Scalar math, Linear algebra and Geometry
 
 Many of the functions in this library use the ccmath library to perform
