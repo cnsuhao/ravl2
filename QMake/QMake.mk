@@ -329,7 +329,7 @@ fullbuild:
 
         # check build
         ifeq ($(strip $(filter-out $(FULLBUILD_TARGETS),check)),)
-	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=check TARGET=libbuild NOEXEBUILD=1 ; then true; \
+	+ $(SHOWIT)if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=check TARGET=libbuild NOEXEBUILD=1 ; then true; \
         else \
 	  echo "QMAKE: check library build failed. " ; \
 	  exit 1; \
@@ -338,16 +338,16 @@ fullbuild:
 
         # debug build
         ifeq ($(strip $(filter-out $(FULLBUILD_TARGETS),debug)),)
-	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=debug TARGET=libbuild NOEXEBUILD=1 ; then true; \
+	+ $(SHOWIT)if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=debug TARGET=libbuild NOEXEBUILD=1 ; then true; \
         else \
 	  echo "QMAKE: debug library build failed. " ; \
 	  exit 1; \
         fi ; 
-       endif
+        endif
 
-       # opt build
+        # opt build
         ifeq ($(strip $(filter-out $(FULLBUILD_TARGETS),opt)),)
-	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=opt TARGET=libbuild NOEXEBUILD=1 ; then true; \
+	+ $(SHOWIT)if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=opt TARGET=libbuild NOEXEBUILD=1 ; then true; \
         else \
 	  echo "QMAKE: opt library build failed. " ; \
 	  exit 1; \
@@ -356,7 +356,7 @@ fullbuild:
 
         # shared (check) build 
         ifeq ($(strip $(filter-out $(FULLBUILD_TARGETS),shared)),)
-	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=check SHAREDBUILD=1 TARGET=libbuild NOEXEBUILD=1 ; then true; \
+	+ $(SHOWIT)if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=check SHAREDBUILD=1 TARGET=libbuild NOEXEBUILD=1 ; then true; \
         else \
 	  echo "QMAKE: shared library build failed. " ; \
 	  exit 1; \
@@ -365,7 +365,7 @@ fullbuild:
 
         # shared (debug) build 
         ifeq ($(strip $(filter-out $(FULLBUILD_TARGETS),debugshared)),)
-	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=debug SHAREDBUILD=1 TARGET=libbuild NOEXEBUILD=1 ; then true; \
+	+ $(SHOWIT)if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=debug SHAREDBUILD=1 TARGET=libbuild NOEXEBUILD=1 ; then true; \
         else \
 	  echo "QMAKE: debug-shared library build failed. " ; \
 	  exit 1; \
@@ -374,7 +374,7 @@ fullbuild:
 
          # shared (opt) build
         ifeq ($(strip $(filter-out $(FULLBUILD_TARGETS),optshared)),)
-	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=opt SHAREDBUILD=1 TARGET=libbuild NOEXEBUILD=1 ; then true; \
+	+ $(SHOWIT)if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=opt SHAREDBUILD=1 TARGET=libbuild NOEXEBUILD=1 ; then true; \
         else \
 	  echo "QMAKE: opt-shared library build failed. " ; \
 	  exit 1; \
@@ -383,7 +383,7 @@ fullbuild:
 
         # opt fullbuild ( builds the binaries - must have libs already )
         ifeq ($(strip $(filter-out $(FULLBUILD_TARGETS),optbin)),)
-	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=opt TARGET=fullbuild  ; then true; \
+	+ $(SHOWIT)if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=opt TARGET=fullbuild  ; then true; \
         else \
 	  echo "QMAKE: executable build failed. " ; \
 	  exit 1; \
@@ -392,7 +392,7 @@ fullbuild:
 
         # documentation 
         ifeq ($(strip $(filter-out $(FULLBUILD_TARGETS),doc)),)
-	echo "Building documentation. " ; \
+	$(SHOWIT)echo "Building documentation. " ; \
 	$(MAKEDC) $(FULLBUILDFLAGS) doc 
          endif 
 
