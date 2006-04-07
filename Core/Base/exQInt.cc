@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! docentry="Ravl.API.Core.Math.QInt"
+//! docentry="Ravl.API.Math.QInt"
 //! file="Ravl/Core/Base/exQInt.cc"
 
 #include "Ravl/QInt.hh"
