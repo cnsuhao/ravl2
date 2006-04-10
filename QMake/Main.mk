@@ -262,7 +262,7 @@ EXELIB := $(LIBLIBS)
 
 VPATH = $(QCWD)
 
-.PRECIOUS : %$(CXXEXT) %$(CHXXEXT) %$(CEXT) %$(CHEXT) %.tcc %.icc %.def %.tab.cc %.yy.cc 
+.PRECIOUS : %$(CXXEXT) %$(CHXXEXT) %$(CEXT) %$(CHEXT) %.tcc %.icc %.def %.tab.cc %.yy.cc %_wrap.cc
 
 
 ############################
@@ -314,7 +314,8 @@ ifeq ($(SUPPORT_OK),yes)
     $(patsubst %.S,$(INST_OBJS)/%$(OBJEXT), \
     $(patsubst %.y,$(INST_OBJS)/%.tab$(OBJEXT), \
     $(patsubst %.l,$(INST_OBJS)/%.yy$(OBJEXT), \
-    $(patsubst %$(CXXEXT),$(INST_OBJS)/%$(OBJEXT),$(SOURCES))))))
+    $(patsubst %.i,$(INST_OBJS)/%_wrap$(OBJEXT), \
+    $(patsubst %$(CXXEXT),$(INST_OBJS)/%$(OBJEXT),$(SOURCES)))))))
  TARG_OBJS=$(patsubst %$(CXXAUXEXT),$(INST_OBJS)/%$(OBJEXT),$(TARG_BASEOBJS))
  TARG_HDRS:=$(patsubst %,$(INST_HEADER)/%,$(HEADERS))
  ifdef FULLCHECKING
@@ -335,8 +336,9 @@ ifndef NOEXEBUILD
 	       $(patsubst %.S,$(INST_DEPEND)/%.S.d, \
 	       $(patsubst %.y,$(INST_DEPEND)/%.tab.d, \
 	       $(patsubst %.l,$(INST_DEPEND)/%.yy.d, \
+	       $(patsubst %.i,$(INST_DEPEND)/%_wrap.d, \
                $(patsubst %$(CXXEXT),$(INST_DEPEND)/%.d, \
-	       $(patsubst %.java,,$(SOURCES) $(MUSTLINK)))))))) \
+	       $(patsubst %.java,,$(SOURCES) $(MUSTLINK))))))))) \
                $(patsubst %$(CEXT),$(INST_DEPEND)/%.d, \
                $(patsubst %$(CXXEXT),$(INST_DEPEND)/%.d, \
 	       $(patsubst %.java,$(INST_DEPEND)/%.java.d,$(MAINS) $(TESTEXES)))) \
@@ -348,9 +350,10 @@ else
 	       $(patsubst %$(CEXT),$(INST_DEPEND)/%.d, \
 	       $(patsubst %.S,$(INST_DEPEND)/%.S.d, \
 	       $(patsubst %.y,$(INST_DEPEND)/%.tab.d, \
+	       $(patsubst %.i,$(INST_DEPEND)/%_wrap.d, \
 	       $(patsubst %.l,$(INST_DEPEND)/%.yy.d, \
                $(patsubst %$(CXXEXT),$(INST_DEPEND)/%.d, \
-	       $(patsubst %.java,,$(SOURCES) $(MUSTLINK)))))))) $(INST_DEPEND)/.dir
+	       $(patsubst %.java,,$(SOURCES) $(MUSTLINK))))))))) $(INST_DEPEND)/.dir
 endif
  TARG_JAVA    =$(patsubst %.java,$(INST_JAVA)/%.class,$(JAVA_SRC))
  TARG_JAVAEXE =$(patsubst %.java,$(INST_JAVAEXE)/%,$(filter %.java,$(MAINS)))
@@ -655,6 +658,12 @@ endif
 ifndef FLEX
  FLEX=flex
 endif
+ifndef SWIG
+ SWIG=swig
+endif
+ifndef SWIGOPTS
+ SWIGOPTS+=-python
+endif
 
 %.tab$(CXXEXT) %.tab$(CHEXT) : %.y 
 	$(SHOWIT)echo "--- Bison" $< ; \
@@ -665,6 +674,9 @@ endif
 	$(SHOWIT)echo "--- Flex" $< ; \
 	$(FLEX) -o$*.yy$(CXXEXT) $<
 
+%_wrap$(CXXEXT) : %.i
+	$(SHOWIT)echo "--- swig" $< ; \
+	$(SWIG) -c++ $(SWIGOPTS) $(INCLUDES) -o $*_wrap$(CXXEXT) $< 
 
 #############################
 # Build libraries.
