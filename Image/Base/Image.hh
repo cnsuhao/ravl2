@@ -77,14 +77,14 @@ namespace RavlImageN {
     ImageC(UIntT rows,UIntT cols)
       : Array2dC<PixelT>(rows,cols)
     {}
-    //: Construct an image with origin 0,0 and size rows cols.
+    //: Construct an image with origin at top left corner and size rows x cols.
     //!param: rows - Number of rows in the image.
     //!param: cols - Number of column's in the image
     
     ImageC(IndexC rows,IndexC cols)
       : Array2dC<PixelT>(rows.V(),cols.V())
     {}
-    //: Construct an image with origin 0,0 and size rows cols.
+    //: Construct an image with origin at top left corner and size rows x cols.
     //!param: rows - Number of rows in the image.
     //!param: cols - Number of column's in the image
     
@@ -98,7 +98,7 @@ namespace RavlImageN {
     ImageC(UIntT rows,UIntT cols,const BufferC<PixelT> &buf)
       : Array2dC<PixelT>(IndexRange2dC(0,rows-1,0,cols-1),buf)
     {}
-    //: Construct an image with origin 0,0 and size rows cols with space in 'buf'
+    //: Construct an image with origin at top left corner and size rows x cols, with space in 'buf'
     //!param: rows - Number of rows in the image.
     //!param: cols - Number of column's in the image
     //!param: buf - Raw pixel buffer, must contain at least row * cols elements.
@@ -106,7 +106,7 @@ namespace RavlImageN {
     ImageC(UIntT rows,UIntT cols,PixelT *data,bool deletable = true)
       : Array2dC<PixelT>(IndexRange2dC(0,rows-1,0,cols-1),BufferC<PixelT>(rows * cols,data,false,deletable))
     {}
-    //: Construct an image with origin 0,0 and size rows cols with space in 'buf'
+    //: Construct an image with origin at top left corner and size rows x cols, with space in 'buf'
     //!param: rows - Number of rows in the image.
     //!param: cols - Number of column's in the image
     //!param: data - Pointer to continuous array of memory containing image data (rows * cols pixels).
