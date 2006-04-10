@@ -193,9 +193,6 @@ ifdef USESLIBS
   DEFVARNAME:=$(LOCAL_DEFBASE)_AUTO_DEF#
   $(DEFVARNAME) := 1
  endif
-endif
-
-ifdef USESLIBS
  ifneq ($(USESLIBS),)
   ifneq ($(USESLIBS),None)
    ifeq ($(filter Auto,$(USESLIBS)),Auto)
@@ -553,6 +550,8 @@ $(TARG_HDRS) : $(INST_HEADER)/% : % $(INST_HEADER)/.dir
 	cat  $< >> $(INST_HEADER)/$(@F) ; \
 	$(CHMOD) a-w,a+r,a-x $(INST_HEADER)/$(@F)
 
+#	touch -r $< $(INST_HEADER)/$(@F) ; \
+
 build_aux: $(TARG_AUXFILES)
 
 ifndef AUXINSTALL
@@ -603,7 +602,7 @@ ifdef SHAREDBUILD
 VAR_DISPLAY_NAME +=  (shared)
 endif 
 
- $(TARG_MUSTLINK_OBJS) : $(INST_FORCEOBJS)/%$(OBJEXT) : $(INST_OBJS)/%$(OBJEXT) $(INST_FORCEOBJS)/.dir
+$(TARG_MUSTLINK_OBJS) : $(INST_FORCEOBJS)/%$(OBJEXT) : $(INST_OBJS)/%$(OBJEXT) $(INST_FORCEOBJS)/.dir
 	$(SHOWIT)echo "--- Must Link $(@F) " ; \
 	if [ -f $(INST_FORCEOBJS)/$(@F) ] ; then \
 	  $(CHMOD) +w $(INST_FORCEOBJS)/$(@F) ; \
@@ -716,7 +715,6 @@ ifndef TR
 endif 
 
 
-#ifneq ($(VAR),shared)
 ifndef SHAREDBUILD
 ifeq ($(NOLIBRARYPRELINK),1)
 $(INST_LIB)/lib$(PLIB)$(LIBEXT) : $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
@@ -751,7 +749,7 @@ $(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB
 	if $(CXX) $(LDFLAGS) $(INST_LIB)/dummymain$(OBJEXT) $(TARG_OBJS) $(LIBS) -o $(WORKTMP)/a.out ; then \
 	  rm $(WORKTMP)/a.out ; \
 	  echo "---- Doing final build " ; \
-	  $(XARGS) $(CXX) $(LDLIBFLAGS) -o $(INST_LIB)/$(@F) < $(INST_OBJS)/libObjs.txt  ; \
+	  $(XARGS) $(CXX) $(LDLIBFLAGS) $(LIBS) -o $(INST_LIB)/$(@F) < $(INST_OBJS)/libObjs.txt  ; \
 	  $(UNTOUCH) $(INST_LIB)/$(@F) $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) ; \
 	else \
 	  if [ -f $(WORKTMP)/a.out ] ; then \
