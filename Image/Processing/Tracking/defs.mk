@@ -26,7 +26,7 @@ EHT= Ravl.API.Images.Tracking.html Ravl.API.Images.Mosaic.html
 TESTEXES=testTracking.cc
 #testImageTracker.cc
 
-USESLIBS=RavlImage RavlImageProc RavlOptimise RavlImageIO RavlOSIO
+USESLIBS=RavlImageProc 
 
 PROGLIBS=RavlVideoIO RavlImgIOV4L.opt RavlDPDisplay.opt CSPDriver.opt
 
