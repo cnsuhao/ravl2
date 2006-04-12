@@ -121,8 +121,7 @@ endif
  CFLAGS += -fPIC -shared 
  CCFLAGS += -fPIC -shared  
  LDLIBFLAGS = -fPIC -shared
- LDFLAGS +=  -rdynamic  
-#-Wl,-rpath=$(PROJECT_OUT)/lib/RAVL/$(ARC)/$(VAR)/shared
+ LDFLAGS +=  -rdynamic -Wl,-rpath=$(PROJECT_OUT)/lib/RAVL/$(ARC)/$(VAR)/shared
 # -Wl,-export-dynamic
 endif
 
