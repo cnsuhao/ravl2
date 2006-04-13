@@ -88,12 +88,12 @@ namespace RavlGUIN {
   //: Draw a rectangle.
   
   void RawZoomCanvasBodyC::GUIDrawRectangle(GdkGC *gc,const RealRange2dC &rect,bool fill) 
-  { RawCanvasBodyC::GUIDrawRectangle(gc,World2GUIi(rect.Origin()),World2GUIi(rect.End()),fill); }
+  { RawCanvasBodyC::GUIDrawRectangle(gc,World2GUIi(rect.Origin()),World2GUIi(rect.End()) - Index2dC(1, 1), fill); }
   
   //: Draw a rectangle.
   
   void RawZoomCanvasBodyC::GUIDrawRectangle(GdkGC *gc,Point2dC topLeft,Point2dC bottomRight,bool fill) 
-  { RawCanvasBodyC::GUIDrawRectangle(gc,World2GUIi(topLeft),World2GUIi(bottomRight),fill); }
+  { RawCanvasBodyC::GUIDrawRectangle(gc,World2GUIi(topLeft),World2GUIi(bottomRight) - Index2dC(1, 1),fill); }
   
   //: Draw text.
   // 'at' is the bottom left of the text to be drawn.
