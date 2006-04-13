@@ -39,6 +39,7 @@ bool Refresh() {
       last = *it;
     }
   }
+
   return true;
 }
 
@@ -65,7 +66,7 @@ bool UpdateCOffset(RealT &coff) {
 }
 
 int main(int nargs,char **argv) {
-  
+  Manager.Init(nargs,argv); 
   WindowC win(400,400,"Polygon canvas");
   
   canvas = RawZoomCanvasC(100,100);
@@ -77,7 +78,6 @@ int main(int nargs,char **argv) {
     for(int j = 0;j < 256;j++)
       img[i][j] = ByteRGBValueC(i,j,0);
   
-  
   img2 = ImageC<ByteRGBAValueC>(100,100);
   for(int x=0;x <100;x++) {
     for(int y=0;y <100;y++)
@@ -88,10 +88,10 @@ int main(int nargs,char **argv) {
   
   // Create a poly.
   
-  poly.InsLast(Point2dC(10,10));
-  poly.InsLast(Point2dC(100,10));
-  poly.InsLast(Point2dC(100,100));
-  poly.InsLast(Point2dC(10,100));
+  poly.InsLast(Point2dC(50,50));
+  poly.InsLast(Point2dC(128,50));
+  poly.InsLast(Point2dC(128,128));
+  poly.InsLast(Point2dC(50,128));
   
   Connect(canvas.Signal("expose_event"),&Refresh);
   
@@ -100,10 +100,10 @@ int main(int nargs,char **argv) {
   SliderC coffset = SliderH(1,0,100,0.1,&UpdateCOffset);
   
   win.Add(VBox(canvas + 
-	       PackInfoC(scale,false,true) + 
-	       PackInfoC(roffset,false,true) + 
-	       PackInfoC(coffset,false,true)));
-  win.Show();
+               PackInfoC(scale,false,true) + 
+               PackInfoC(roffset,false,true) + 
+               PackInfoC(coffset,false,true)));
+  win.GUIShow();
   Manager.Start();
 
   return 0;

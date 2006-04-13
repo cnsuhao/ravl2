@@ -32,13 +32,12 @@ namespace RavlGUIN {
     if(!img.IsBlock())
       anImg = img.Copy();
     gdk_draw_rgb_image(DrawArea(),
-		       widget->style->black_gc,
-		       at[1].V(),at[0].V(),
-		       anImg.Cols(),anImg.Rows(),
-		       GDK_RGB_DITHER_NORMAL,
-		       (unsigned char *) const_cast<ImageC<ByteRGBValueC> &>(img).Row(anImg.TRow()),
-		       anImg.Stride() * sizeof(ByteRGBValueC));
-    
+                       widget->style->black_gc,
+                       at[1].V(),at[0].V(),
+                       anImg.Cols(),anImg.Rows(),
+                       GDK_RGB_DITHER_NORMAL,
+                       (unsigned char *) const_cast<ImageC<ByteRGBValueC> &>(anImg).Row(anImg.TRow()),
+                       anImg.Stride() * sizeof(ByteRGBValueC));
   }
 
   //: Draw an image into the canvas with its origin offset by 'offset'.
@@ -54,12 +53,12 @@ namespace RavlGUIN {
     if(!img.IsBlock())
       anImg = img.Copy();
     gdk_draw_gray_image(DrawArea(),
-			widget->style->black_gc,
-			at[1].V(),at[0].V(),
-			anImg.Cols(),anImg.Rows(),
-			GDK_RGB_DITHER_NORMAL,
-			const_cast<ImageC<ByteT> &>(img).Row(anImg.TRow()),
-			anImg.Stride());
+                        widget->style->black_gc,
+                        at[1].V(),at[0].V(),
+                        anImg.Cols(),anImg.Rows(),
+                        GDK_RGB_DITHER_NORMAL,
+                        const_cast<ImageC<ByteT> &>(anImg).Row(anImg.TRow()),
+                        anImg.Stride());
   }
 
   
@@ -71,13 +70,13 @@ namespace RavlGUIN {
       return;
     Index2dC at = offset;
     gdk_draw_pixbuf(DrawArea(),
-		    widget->style->black_gc,
-		    const_cast<PixbufC &>(pixbuf).Pixbuf(),
-		    0,0,
-		    at[1].V(),at[0].V(),
-		    pixbuf.Cols(),pixbuf.Rows(),
-		    GDK_RGB_DITHER_NORMAL,
-		    0,0);
+                    widget->style->black_gc,
+                    const_cast<PixbufC &>(pixbuf).Pixbuf(),
+                    0,0,
+                    at[1].V(),at[0].V(),
+                    pixbuf.Cols(),pixbuf.Rows(),
+                    GDK_RGB_DITHER_NORMAL,
+                    0,0);
   }
   
   
