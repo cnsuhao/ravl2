@@ -153,11 +153,20 @@ namespace RavlImageN {
     //: Get a pointer to begining of row.
     //!param: row - Row for which the pointer is returned.
     
+    ImageC<PixelT> Rotate90(Index2dC centre = Index2dC(0,0)) const;
+    //: The values of image "originalImage" rotated about PI/2 rad 
+    //: and shifted to have the original upper-left corner and
+    //: are saved into this image.
+    
     ImageC<PixelT> Rotate180(Index2dC centre = Index2dC(0,0)) const;
     //: Create a copy of the image which is rotated 180 degree's.
     // The image is rotated around the centre given.
     //!param: centre - Centre arround which to rotate.
     
+    ImageC<PixelT> Rotate270(Index2dC centre = Index2dC(0,0)) const;
+    //: The values of image "originalImage" rotated about 3/2*PI rad 
+    //: and shifted to have the original upper-left corner and
+    //: are saved into this image.
   };
   
   template <class PixelT>
@@ -180,6 +189,43 @@ namespace RavlImageN {
     }
     return flipped;
   }
+  
+  
+  template <class PixelT>
+  ImageC<PixelT> ImageC<PixelT>::Rotate90(Index2dC centre) const
+  {
+    Index2dC org(this->Frame().Origin().Col() - centre.Col() + centre.Row(),-this->Frame().Origin().Row() + centre.Col() + centre.Row());
+    ImageC<PixelT> flipped(Rectangle().Rotate90(centre));
+    Index2dC at = org;
+    for(BufferAccess2dIterC<PixelT> it((*this),this->Range2());it;) {
+      do {
+        flipped[at] = *it;
+        at.Row()++;
+      } while(it.Next()) ;
+      at.Row() = org.Row();
+      at.Col()--;
+    }
+    return flipped;
+  }
+  
+  template <class PixelT>
+  ImageC<PixelT> ImageC<PixelT>::Rotate270(Index2dC centre) const
+  {   
+    Index2dC org(-this->Frame().Origin().Col() + centre.Col() + centre.Row(),this->Frame().Origin().Row() - centre.Col() + centre.Row());
+    ImageC<PixelT> flipped(Rectangle().Rotate270(centre));
+    Index2dC at = org;
+    for(BufferAccess2dIterC<PixelT> it((*this),this->Range2());it;) {
+      do {
+        flipped[at] = *it;
+        at.Row()--;
+      } while(it.Next()) ;
+      at.Col()++;
+      at.Row() = org.Row();
+    }
+    return flipped;
+  }
+  
+  
   
   ostream &operator<<(ostream &s,const ImageC<ByteT> &img);
   //: Save byte image to stream 

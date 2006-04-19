@@ -37,6 +37,7 @@ int TestInterlace();
 int TestFont();
 int TestDraw();
 int TestBilinear();
+int TestRotate();
 
 template class ImageC<int>; // Make sure all functions are compiled.
 
@@ -44,6 +45,7 @@ int main()
 {
   cerr << "Testing basic image ops. \n";
   int lineno;
+#if 1
   if((lineno = TestBasic()) != 0) {
     cerr << "Image test failed : " << lineno << "\n";
      return 1;
@@ -69,6 +71,11 @@ int main()
      return 1;
   }
   if((lineno = TestBilinear()) != 0) {
+    cerr << "Image test failed : " << lineno << "\n";
+     return 1;
+  }
+#endif
+  if((lineno = TestRotate()) != 0) {
     cerr << "Image test failed : " << lineno << "\n";
      return 1;
   }
@@ -316,6 +323,35 @@ int TestBilinear() {
       if(Abs(img[i][j] - value) > 0.001) return __LINE__;
     }
   }
+  
+  return 0;
+}
+
+int TestRotate() {
+  ImageC<IntT> img(3,3);
+  int i = 0;
+  for(Array2dIterC<IntT> it(img);it;it++)
+    *it = i++;
+  //cerr << "Img=" << img << "\n";
+  
+  ImageC<IntT> img90a = img.Rotate90(Index2dC(0,0));
+  //cerr << "Img90(0,0)=" << img90a << "\n";
+  
+  ImageC<IntT> img90 = img.Rotate90(Index2dC(1,1));
+  if(img90[Index2dC(1,1)] != img[Index2dC(1,1)])
+    return __LINE__;
+  //cerr << "Img90(2,2)=" << img90 << "\n";
+  
+  ImageC<IntT> img180 = img.Rotate180(Index2dC(1,1));
+  if(img180[Index2dC(1,1)] != img[Index2dC(1,1)])
+    return __LINE__;
+  //cerr << "Img180=" << img180 << "\n";
+  
+  ImageC<IntT> img270 = img.Rotate270(Index2dC(1,1));
+  if(img270[Index2dC(1,1)] != img[Index2dC(1,1)])
+    return __LINE__;
+  //cerr << "Img270=" << img270 << "\n";
+  
   
   return 0;
 }
