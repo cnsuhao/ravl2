@@ -14,6 +14,7 @@
 #include "Ravl/BinStream.hh"
 #include "Ravl/RCWrap.hh"
 #include "Ravl/IndexRange1d.hh"
+#include "Ravl/IndexRange2d.hh"
 #include "Ravl/IntC.hh"
 #include "Ravl/SubIndexRange2dIter.hh"
 #include "Ravl/SubIndexRange3dIter.hh"
@@ -49,6 +50,7 @@ int testIndexRange3dIter();
 int testFPNumber();
 int testException();
 int testQInt();
+int testIndexRange2d();
 
 template class RCHandleC<TestBodyC>;
 template class RCWrapC<IntT>;
@@ -111,7 +113,10 @@ int main()
     cerr << "Test failed at line:" << ln << "\n";
     return 1;
   }
-  cerr << "Test passed ok. \n";
+  if((ln = testIndexRange2d()) != 0) {
+    cerr << "Test failed at line:" << ln << "\n";
+    return 1;
+  }
   return 0;
 }
 
@@ -415,6 +420,21 @@ int testQInt() {
     if(Floor(values[i]) != QFloor(values[i]))
       return __LINE__;
   }
+  
+  return 0;
+}
+
+int testIndexRange2d() {
+  IndexRange2dC start(Index2dC(1,2),Index2dC(9,10));
+  cerr << "Rot90=" << start.Rotate90() << "\n";
+  cerr << "Rot180=" << start.Rotate180() << "\n";
+  cerr << "Rot270=" << start.Rotate270() << "\n";
+
+  cerr << "Rot90 (5,6)=" << start.Rotate90(Index2dC(5,6)) << "\n";
+  cerr << "Rot180 (5,6)=" << start.Rotate180(Index2dC(5,6)) << "\n";
+  cerr << "Rot270 (5,6)=" << start.Rotate270(Index2dC(5,6)) << "\n";
+  
+  
   
   return 0;
 }

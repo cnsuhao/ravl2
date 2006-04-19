@@ -255,12 +255,17 @@ inline const IndexRangeC & operator+=(Int64T i)
     // Returns a reference to this range.
 
 #endif 
-
-
+    
     inline IndexRangeC & ClipBy(const IndexRangeC & r);
     //: This index range is clipped to contain at most the index range 'r'.
+
+    inline IndexRangeC & Clip(const IndexRangeC & r) const {
+      IndexRangeC ret = r;
+      return ret.ClipBy(*this);
+    }
+    //: Clip 'r' by this index range and return it.
     
-    inline IndexC Clip(const IndexC & i) {
+    inline IndexC Clip(const IndexC & i) const {
       IndexC lower = Min() > i? Min(): i;
       return lower < Max()? lower: Max();
     }

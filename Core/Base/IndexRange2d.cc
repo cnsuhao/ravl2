@@ -24,13 +24,30 @@ namespace RavlN {
       cols = IndexRangeC(center.Col(),center.Col());
   }
   
-
+  //: Rotate rectangle 90 degree's around the given centre.
+  
+  IndexRange2dC IndexRange2dC::Rotate90(Index2dC centre) const {
+    Index2dC org(Origin().Col() - centre.Col() + centre.Row(),-End().Row() + centre.Col() + centre.Row());
+    Index2dC end(End().Col() - centre.Col() + centre.Row(),-Origin().Row() + centre.Col() + centre.Row());
+    return IndexRange2dC(org,end);    
+  }
+      
   //: Rotate rectangle 180 degree's around the given center.
   
-  IndexRange2dC IndexRange2dC::Rotate180(Index2dC centre) {
-    return IndexRange2dC((End() * -1) + (centre*2),(Origin() * -1) + (centre * 2));
+  IndexRange2dC IndexRange2dC::Rotate180(Index2dC centre) const {
+    return IndexRange2dC((End() * -1) + (centre*2),
+                         (Origin() * -1) + (centre * 2));
   }
 
+  //: Rotate rectangle 270 degree's around the given centre.
+  
+  IndexRange2dC IndexRange2dC::Rotate270(Index2dC centre) const {
+    Index2dC org(-End().Col() + centre.Col() + centre.Row(),Origin().Row() - centre.Col() + centre.Row());
+    Index2dC end(-Origin().Col() + centre.Col() + centre.Row(),End().Row() - centre.Col() + centre.Row());
+    return IndexRange2dC(org,end);
+  }
+  
+  
   ostream &operator<<(ostream &s,const IndexRange2dC &ir) {
     s << ir.Range1() << ' ' << ir.Range2();
     return s;

@@ -187,8 +187,15 @@ namespace RavlN {
       return *this;
     }
     //: This index range is clipped to contain at most the index range 'r'.
+    // NB. This is inplace.
     
-    inline Index2dC Clip(const Index2dC & i) {
+    inline IndexRange2dC Clip(const IndexRange2dC & r) const {
+      IndexRange2dC ret(r);
+      return ret.ClipBy(*this);
+    }
+    //: Return rectangle 'r' clipped by this one.
+    
+    inline Index2dC Clip(const Index2dC & i) const {
       Index2dC result(Range1().Clip(i[0]), Range2().Clip(i[1]));
       return result;
     }
@@ -295,8 +302,14 @@ namespace RavlN {
     { return oth.Range1() != Range1() || oth.Range2() != Range2(); }
     //: Are two ranges unequal ?
     
-    IndexRange2dC Rotate180(Index2dC centre = Index2dC(0,0));
-    //: Rotate rectangle 180 degree's around the given centre.
+    IndexRange2dC Rotate90(Index2dC centre = Index2dC(0,0)) const;
+    //: Return a rotated rectangle 90 degree's around the origin
+    
+    IndexRange2dC Rotate180(Index2dC centre = Index2dC(0,0)) const;
+    //: Return a rotated rectangle 180 degree's around the given centre.
+    
+    IndexRange2dC Rotate270(Index2dC centre = Index2dC(0,0)) const;
+    //: Return a rotated rectangle 270 degree's around the origin.
     
     inline bool IsOverlapping(const IndexRange2dC & r) const
     { return Range1().IsOverlapping(r.Range1()) && Range2().IsOverlapping(r.Range2()); }
