@@ -19,7 +19,7 @@ SOURCES=GaussianMixture.cc DesignGaussianMixture.cc
 
 PLIB=RavlPatternRec
 
-LIBDEPS=
+LIBDEPS=RavlPatternGaussianMixture.def
 
 USESLIBS=RavlCore RavlIO RavlMath RavlOS RavlPatternRec
 
