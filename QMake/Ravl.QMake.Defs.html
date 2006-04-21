@@ -19,9 +19,9 @@
   <ul>
   <li><a href="#description">Directory description</A>
   <li><a href="#multiple">Multiple directory</A>
-  <li><a href="#platform">Platform support</A>
   <li><a href="#source">Source files</A>
   <li><a href="#libs">Libraries</A>
+  <li><a href="#platform">Platform support</A>
   <li><a href="#examples">Example programs</A>
   <li><a href="#special">Special files</A>
   <li><a href="#documentation">Documentation</A>
@@ -114,20 +114,20 @@ various variables. These fall into several categories listed on the right.
 
 
 
-<H3><A NAME="description"></A>Directory Description</H3>
+    <H3><A NAME="description"></A>Directory Description</H3>
 
-<P>
-The automatic documentation system requires a one line description of each
-directory in your project. This is defined as follows:
-</P>
+    <P>It is useful if each directory in your project has a brief description
+    of its contents. This is defined as follows:
+    </P>
 
-<UL>
-<LI><DT><A NAME="DESCRIPTION"></A><B>DESCRIPTION</B></DT>
-<DD>A one line description of the directory contents. This should give potential
- users an idea about the functionality that this directory contributes to
- the project.
-</DD>
-</UL>
+    <UL>
+      <LI><DT><A NAME="DESCRIPTION"></A><B>DESCRIPTION</B></DT>
+        <DD>A one line description of the directory contents. This should give
+        potential users an idea about the functionality that this directory
+        contributes to the project.  E.g. for the CxxDoc directory:
+          <pre>DESCRIPTION = The RAVL C++ Documentation tool</pre>
+        </DD>
+    </UL>
 
 
 <H3><A NAME="multiple"></A>Multiple Directory Packages</H3>
@@ -146,50 +146,6 @@ following variable is used to specify the branches from the current directory.
 </DD>
 </UL>
 
-
-<H3><A NAME="platform"></A>Platform Support</H3>
-
-<P>
-The default behaviour of the make system is to support all packages on all
-platforms. The packages should be written in such a way that they can survive
-the arrival of new software and hardware architectures quite easily. Software
-written for a specific platform, like an operating system or a hardware card,
-usually dies with the platform which often happens within 2-3 years of writing.
-</P>
-
-<P>
-There is sometimes a necessity to maintain software for special hardware such
-as a frame grabber, etc. For these exceptional circumstances, the following
-variables are provided:
-</P>
-
-<UL>
-<LI><DT><A NAME="SUPPORT_ONLY"></A><B>SUPPORT_ONLY</B></DT>
-<DD>A list of architectures which are supported. If the contents of this
- variable clashes with DONOT_SUPPORT, then the architecture will be supported.
- If neither SUPPORT_ONLY or DONOT_SUPPORT is set, then all architectures are
- supported. For example: <PRE>SUPPORT_ONLY = sol2 alpha</PRE> means that the
- subtree of directories including the current one will be processed only for
- the Solaris2 and Alpha architectures.
-</DD><P>
-
-<LI><DT><A NAME="DONOT_SUPPORT"></A><B>DONOT_SUPPORT</B></DT>
-<DD>A list of architectures which is not supported. For example:
- <PRE>DONOT_SUPPORT = sgi</PRE> means that the subtree of directories including
- the current one will be processed for all architectures except Silicon
- Graphics.
-</DD>
-</UL>
-
-<LI><DT><A NAME="REQUIRES"></A><B>REQUIRES</B></DT>
-<DD>A space-separated list of features required to compile the module. For example:
- <PRE>REQUIRES = libGTK</PRE> means that this directory and its subdirectories
-can only be compiled if resource libGTK is available. A list of available resources
-is generated in the config.local.$(ARC) file and placed in the RESOURCES variable. <br>
-Examples of possible values include: libAudioFile,libDV,libavc1394,libCurl,
-libClipStationPro,libDMedia,devVideo4Linux.
-</DD>
-</UL>
 
 <H3><A NAME="source"></A>Source Files</H3>
 
@@ -277,20 +233,17 @@ the subdirectory path where public header files are copied. For example,
 copied into the directory $PROJECT_OUT/include/Ravl/Surf3d and a header file must
 be included in an implementation file as
 
-<PRE>#include "Ravl/Surf3d/Curve3d.hh"</PRE> 
+          <PRE>#include "Ravl/Surf3d/Curve3d.hh"</PRE> 
 
-The default value of PACKAGE variable is no special path, so header files are
-place directly into $PROJECT_OUT/include.
+          <p>The default value of PACKAGE variable is no special path, so
+          header files are place directly into $PROJECT_OUT/include.</p>
 
-<P>
-<font size = +1>ATTENTION!!</font> For code intended for contribution to
-RAVL. The directories defined by PACKAGE should be
-agreed by a number of contributors, otherwise the whole system will finish with
-hundreds of directories each containing a very few header files. Furthermore,
-the variable should not be changed arbitrarily because it will break code
-that depends on the library.
-.
-</P></DD>
+          <P> <font size = +1><b>ATTENTION!!</b></font> RAVL contributors: The directories defined by PACKAGE should be
+          agreed by the various contributors, otherwise the whole system will
+          finish with hundreds of directories each containing a very few
+          header files. Furthermore, the variable should not be changed
+          arbitrarily because it will break code that depends on the library.
+           </P></DD>
 
 </UL>
 
@@ -304,8 +257,10 @@ These variables control the generation and linking of libraries.
 <PRE>  PLIB = mylib</PRE>
 
 It is the name of the library in which the modules specified by the variable
-SOURCES are archived.  A unique name for each directory is recommended.
-</DD><P>
+SOURCES are archived.  A unique name for each directory is recommended.  On
+the other hand, if you want to use the same PLIB library name for several
+directories, you need in addition to use the <a href="#LIBDEPS">LIBDEPS</a>
+variable.  </DD><P>
 
 <LI><DT><A NAME="USESLIBS"></A><B>USESLIBS</B></DT> <DD>This is an unordered
 list of the libraries needed to build the new library specified by PLIB.  Use
@@ -355,21 +310,79 @@ for some IO libraries (e.g. RavlDPDisplay RavlImgIOV4L ...) we want to include t
 they are available, but ignore them if the are not. This can be achieved by adding
 .opt to the end of the library names, indicating they are optional. For example RavlImgIOV4L would be added as 'RavlImgIOV4L.opt' .     </DD><P>
 
-<LI><DT><A NAME="LIBDEPS"></A><B>LIBDEPS</B></DT>
-<DD>
-LIBDEPS is used to explicitly create references to external libraries.  E.g. the
-following entry in the defs.mk file would create a reference to another
-library CCMath:
-<pre>  LIBDEPS = CCMath.def</pre>
-which could then be referenced in the normal way, e.g.:
-<pre>  USESLIBS = CCMath</pre>
-See the file <a href="../../../html/Example.def.html">Example.def</a> to see what to put in it. 
-<p>
-This is used where the source for a library spans several directories, where each 
-directory creates a .def file but the object files are are added to a single
-library.
+      <LI><DT><A NAME="LIBDEPS"></A><B>LIBDEPS</B></DT>
+        <DD>
+          LIBDEPS has two uses:
+          <ul>
+            <li> It is used to explicitly create references to external
+            libraries.  E.g. the following entry in the defs.mk file would
+            create a reference to another library CCMath: 
+              <pre> LIBDEPS = CCMath.def</pre> 
+              which could then be referenced in the normal way, e.g.: 
+              <pre> USESLIBS = CCMath</pre>
+              See the file <a
+              href="../../../html/Example.def.html">Example.def</a> to see
+              what to put in it. </li>
+           
+            <li>
+              <p>It is also used where the source for a single library spans
+              several directories.  The defs.mk in each directory must contain
+              a <i>unique</i> LIBDEPS entry, of the form
+              <code>sublib.def</code>.  In this case, you don't need to create
+              the .def file itself - it is created automatically.</p>
+              <p><b>Note:</b> The <i>first</i> directory to be compiled must
+              contain all the necessary USESLIBS entries for the whole
+              library.</p> </li>
+          </ul>
+        </DD>
+    </ul>
 
+
+
+<H3><A NAME="platform"></A>Platform Support</H3>
+
+<P>
+The default behaviour of the make system is to support all packages on all
+platforms. The packages should be written in such a way that they can survive
+the arrival of new software and hardware architectures quite easily. Software
+written for a specific platform, like an operating system or a hardware card,
+usually dies with the platform which often happens within 2-3 years of writing.
+</P>
+
+<P>
+There is sometimes a necessity to maintain software for special hardware such
+as a frame grabber, etc. For these exceptional circumstances, the following
+variables are provided:
+</P>
+
+<UL>
+<LI><DT><A NAME="SUPPORT_ONLY"></A><B>SUPPORT_ONLY</B></DT>
+<DD>A list of architectures which are supported. If the contents of this
+ variable clashes with DONOT_SUPPORT, then the architecture will be supported.
+ If neither SUPPORT_ONLY or DONOT_SUPPORT is set, then all architectures are
+ supported. For example: <PRE>SUPPORT_ONLY = sol2 alpha</PRE> means that the
+ subtree of directories including the current one will be processed only for
+ the Solaris2 and Alpha architectures.
 </DD><P>
+
+<LI><DT><A NAME="DONOT_SUPPORT"></A><B>DONOT_SUPPORT</B></DT>
+<DD>A list of architectures which is not supported. For example:
+ <PRE>DONOT_SUPPORT = sgi</PRE> means that the subtree of directories including
+ the current one will be processed for all architectures except Silicon
+ Graphics.
+</DD><P>
+
+<LI><DT><A NAME="REQUIRES"></A><B>REQUIRES</B></DT>
+<DD>A space-separated list of features required to compile the module. For example:
+ <PRE>REQUIRES = libGTK</PRE> means that this directory and its subdirectories
+can only be compiled if resource libGTK is available. A list of available resources
+is generated in the config.local.$(ARC) file and placed in the RESOURCES variable. <br>
+Examples of possible values include: libAudioFile,libDV,libavc1394,libCurl,
+libClipStationPro,libDMedia,devVideo4Linux.
+</DD>
+</UL>
+
+
 
 <H3><A NAME="examples"></A>Example programs</H3>
 
