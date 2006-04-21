@@ -1,21 +1,26 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>2D Coordinate Systems in RAVL</title>
+    <title>2-D Coordinate Systems in RAVL</title>
   </head>
   
   <body>
+    <p>
+      In the image processing community, it is generally accepted in a 2-D
+      image coordinate system that the <i>x</i> axis is pointing horizontally
+      to the right, and the <i>y</i> axis is pointing vertically downwards,
+      i.e. a clockwise coordinate system. </p>
     
     <P>
-      In 2D RAVL objects, such as arrays, matrices and images, the
+      On the other hand, 2-D RAVL objects as arrays, matrices and images, the
       indices are in the order: row, column (as in conventional matrix
-      notation).  In pairs of reals (e.g. 2D vectors and points), the
-      components are in the order <i>x</i>, <i>y</i>.  Normally these
-      two categories of objects do not interact.  However, when they
-      do (e.g. if we want to construct a pixel position, an 
-      <SAMP><a href="../Class/RavlN.Index2dC.html">Index2dC</a></SAMP> from a
-      <SAMP><a href="../Class/RavlN.Point2dC.html">Point2dC</a></SAMP>), the
-      RAVL convention is this:
+      notation).  In pairs of reals (e.g. 2-D vectors and points), the
+      components are in the order <i>x</i>, <i>y</i>.  Normally these two
+      categories of objects do not interact.  However, when they do (e.g. if
+      we want to construct a pixel position, an <SAMP><a
+      href="../Class/RavlN.Index2dC.html">Index2dC</a></SAMP> from a <SAMP><a
+      href="../Class/RavlN.Point2dC.html">Point2dC</a></SAMP>), the usual
+      outcome in RAVL is this:
     </P>
     
     <ul>
@@ -24,18 +29,28 @@
     </ul>
     
     <P>
-      The implication is that RAVL adopts a 2D coordinate system in which the
-      <i>x</i> coordinate points downwards, and the <i>y</i> coordinate to the right.
-      Not what you were expecting?  It was done like this to create a consistent system.  It has the advantages that:
+      The implication is that RAVL adopts a 2-D coordinate system in which the
+      <i>x</i> coordinate points downwards, and the <i>y</i> coordinate to the
+      right.  The opposite of what you were expecting?  It was done like this
+      with the best of intentions to create a consistent system.  It has the
+      advantages that:
     </P>
     
     <ul> 
       <li> the coordinate system is anti-clockwise, as is conventional in mathematics
       <li> the first array coordinate is associated with the first vector component etc.
     </ul>
-    <p>Thus you should <em>always</em> be able to make these associations in
-    RAVL: "<i>x</i>, <i>y</i>", "vector[0], vector[1]", "rows, columns",
-    "down, across".</p>
+    <p>
+      Thus you should <em>always</em> be able to make these associations in
+      RAVL: "<i>x</i>, <i>y</i>", "vector[0], vector[1]", "rows, columns",
+      "down, across".</p>
+
+    <p>
+      However we recognise that this convention has confused almost everyone.
+      We decided that changing x and y was too dangerous, so our compromise
+      has been to remove the symbols <i>x</i> and <i>y</i> wherever possible
+      and replace them with "row" and "col".</p>
+
     <hr>
     
   </body>
