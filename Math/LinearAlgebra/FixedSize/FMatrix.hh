@@ -113,7 +113,7 @@ namespace RavlN {
   }
   //: Solve a general linear system  A*x = b
   // Where a is this matrix, and X is the returned vector.
-  // If matrix is singular a zero length vector is returned.
+  // If the operation failes an exception ExceptionNumericalC is thown
   
   template<unsigned int N,unsigned int M>
   FVectorC<N> SVD(const FMatrixC<N,M> &mat) {
@@ -131,7 +131,7 @@ namespace RavlN {
   //: Singular value decomposition, eg. mat = U * D * V.T(). 
   // The diagonal matrix D is returned as a vector. Values for the
   // other matrixes are not computed.
-  // If the operation failes the returned vector is invalid.
+  // If the operation failes an exception ExceptionNumericalC is thown
   
   
   template<unsigned int N,unsigned int M>
