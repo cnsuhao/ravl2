@@ -239,6 +239,7 @@ namespace RavlGUIN {
   
   bool PlayControlBodyC::Shutdown() {
     MutexLockC hold(access,true);
+    created = false;
     if(sliderUpdate.IsValid())
       sliderUpdate.Terminate();  
     sliderUpdate.Invalidate();
@@ -248,8 +249,10 @@ namespace RavlGUIN {
   //: Undo all references.
   
   void PlayControlBodyC::Destroy() {
+    created = false;
     if(sliderUpdate.IsValid())
       sliderUpdate.Terminate();  
+    sliderUpdate.Invalidate();
     LBoxBodyC::Destroy();
   }
   
@@ -281,6 +284,10 @@ namespace RavlGUIN {
   }
   
   bool PlayControlBodyC::SliderUpdate() {
+    // Do we have a valid controls?
+    if (!created)
+      return false;
+    
     //cerr <<"PlayControlBodyC::SliderUpdate(). \n";
     MutexLockC hold(access,true);
     if(!hold.IsLocked()) // Did lock succeed ?
@@ -296,7 +303,7 @@ namespace RavlGUIN {
     bool updateSlider = false;
     if(pc.FixedEnd() != ((UIntT)-1)) {
       if(pc.FixedEnd() != frameSlider.Upper())
-	updateSlider = true;
+        updateSlider = true;
     }
     bool updateRange = false;
     RealT min = 0,max = 0;
@@ -308,17 +315,17 @@ namespace RavlGUIN {
       updateRange = true;
     } else {
       if(updateSlider) {
-	if(pc.FixedEnd() > loc) {
-	  ONDEBUG(cerr << "Setting slider range " << pc.FixedStart() << " " << pc.FixedEnd()+1 << "\n");
-	  min = pc.FixedStart();
-	  max = pc.FixedEnd();
-	  updateRange = true;
-	} else {
-	  ONDEBUG(cerr << "Setting slider range " << pc.FixedStart() << " " << loc+1 << " (loc) \n");
-	  min = pc.FixedStart();
-	  max = loc;
-	  updateRange = true;
-	}
+        if(pc.FixedEnd() > loc) {
+          ONDEBUG(cerr << "Setting slider range " << pc.FixedStart() << " " << pc.FixedEnd()+1 << "\n");
+          min = pc.FixedStart();
+          max = pc.FixedEnd();
+          updateRange = true;
+        } else {
+          ONDEBUG(cerr << "Setting slider range " << pc.FixedStart() << " " << loc+1 << " (loc) \n");
+          min = pc.FixedStart();
+          max = loc;
+          updateRange = true;
+        }
       }
     }
     bool updateValue = false;
@@ -330,12 +337,12 @@ namespace RavlGUIN {
     // Do GUI updates outside of lock, to avoid deadlocks if GUI Queue() blocks.
     if(updateRange) {
       if(updateValue)
-	frameSlider.Update(loc,min,max);
+        frameSlider.Update(loc,min,max);
       else
-	frameSlider.UpdateRange(min,max);
+        frameSlider.UpdateRange(min,max);
     } else {
       if(updateValue)
-	frameSlider.UpdateValue(loc);
+        frameSlider.UpdateValue(loc);
     }
     sigUpdateFrameNo(loc); // Signal update.
     return true;
@@ -348,6 +355,7 @@ namespace RavlGUIN {
   PlayControlBodyC::PlayControlBodyC(bool nsimpleControls,bool nExtendedControls)
     : LBoxBodyC(true,5,true),
       doneAdd(false),
+      created(false),
       baseSpeed(1),
       skip(1),
       sigUpdateFrameNo((IntT) 1),
@@ -360,6 +368,7 @@ namespace RavlGUIN {
     : LBoxBodyC(true,5,true),
       pc(nctrl),
       doneAdd(false),
+      created(false),
       baseSpeed(1),
       skip(1),
       sigUpdateFrameNo((IntT) 1),
@@ -481,7 +490,7 @@ namespace RavlGUIN {
     textSkip = TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSkip,-1,true);
     if(!simpleControls && extendedControls) {
       enableextras = CheckButtonR("Extended controls","Show extended control panel",false,*this,&PlayControlBodyC::ShowExtended);
-      Add(PackInfoC(enableextras,false,false));
+      GUIAdd(PackInfoC(enableextras,false,false));
       extraControls = PackInfoC(VBox(HBox(LabelC("skip:") + textSkip) +
 				     HBox(LabelC("Start:") + TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSubStart,-1,true)) +
 				     HBox(LabelC("End:") + TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSubEnd,-1,true)) +
@@ -490,7 +499,23 @@ namespace RavlGUIN {
     }
     sliderUpdate = TickerTrigger(0.2,PlayControlC(*this),&PlayControlC::SliderUpdate);
   }
+
+
   
+  bool PlayControlBodyC::Create()
+  {
+    created = LBoxBodyC::Create();
+    return created;
+  }
+
+    
+    
+  bool PlayControlBodyC::Create(GtkWidget *_widget)
+  {
+    created = LBoxBodyC::Create(_widget);
+    return created;
+  }
+
   ////////////////////////////////////////
   //: Destructor.
   

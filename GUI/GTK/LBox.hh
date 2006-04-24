@@ -67,14 +67,22 @@ namespace RavlGUIN {
     virtual ~LBoxBodyC() { }
     //: Virtual destructor
 
-    virtual bool Create();
-    //: Create the widget.
-
+    virtual bool Create()
+    { return CommonCreate(); }
+    //: Create widget.
+    
+    virtual bool Create(GtkWidget *_widget)
+    { return CommonCreate(_widget); }
+    //: Create with a widget supplied from elsewhere.
+    
     virtual bool GUIAdd(const WidgetC &widge);
     //: Add widget.
     // GUI thread only.
     
   protected:
+    bool CommonCreate(GtkWidget *_widget = NULL);
+    //: Common widget create function
+    
     virtual void Destroy()
     { ContainerWidgetBodyC::Destroy(); }
     //: Undo all references.

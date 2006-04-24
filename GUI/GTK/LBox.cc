@@ -26,22 +26,29 @@ namespace RavlGUIN {
 
   //: Create the widget.
   
-  bool LBoxBodyC::Create() {
-    if(widget != 0) 
-      return true;
-    
-    if(vert)
-      widget = gtk_vbox_new (homogeneous,spacing);
+  bool LBoxBodyC::CommonCreate(GtkWidget *_widget) {
+    if (_widget == NULL)
+    {
+      if(widget != 0) 
+        return true;
+      
+      if(vert)
+        widget = gtk_vbox_new (homogeneous,spacing);
+      else
+        widget = gtk_hbox_new (homogeneous,spacing);
+      
+      if(border != 0)
+        gtk_container_set_border_width (GTK_CONTAINER (widget), border);
+    }
     else
-      widget = gtk_hbox_new (homogeneous,spacing);
-    
-    if(border != 0)
-      gtk_container_set_border_width (GTK_CONTAINER (widget), border);
+    {
+      widget = _widget;
+    }
     
     for(DLIterC<WidgetC> it(children);it.IsElm();it.Next()) {
       if(!it->IsValid()) {
-	cerr << "LBoxBodyC::Create(), WARNING: Invalid widget in child list. \n";
-	continue;
+        cerr << "LBoxBodyC::Create(), WARNING: Invalid widget in child list. \n";
+        continue;
       }
       WidgetC &child = *it;
       if(child.Widget() == 0) {
@@ -60,7 +67,9 @@ namespace RavlGUIN {
       }
       gtk_widget_show (child.Widget());
     }
+    
     ConnectSignals();
+    
     return true;
   }
 

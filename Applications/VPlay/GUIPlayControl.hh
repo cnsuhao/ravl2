@@ -44,6 +44,12 @@ namespace RavlGUIN {
     ~PlayControlBodyC();
     //: Destructor.
     
+    virtual bool Create();
+    //: Create widget.
+    
+    virtual bool Create(GtkWidget *_widget);
+    //: Create with a widget supplied from elsewhere.
+    
     bool Rewind();
     //: Rewind to beginning.
     
@@ -139,6 +145,7 @@ namespace RavlGUIN {
     LBoxC extraControls;
     CheckButtonC enableextras;
     bool doneAdd;
+    bool created;
     IntT baseSpeed; // what speed was last set.
     IntT skip;
     

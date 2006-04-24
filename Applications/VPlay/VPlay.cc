@@ -325,7 +325,7 @@ int doVPlay(int nargs,char *args[])
   if(!vidIn.GetAttr("framerate",frameRate))
     frameRate = (RealT) 1.0/delay;
   
-  guiFrameRate.Text(StringC(frameRate));
+  guiFrameRate.GUISetText(StringC(frameRate));
   
   guiPlayControl = PlayControlC(vpCtrl,simpleOnly);
   
@@ -347,21 +347,21 @@ int doVPlay(int nargs,char *args[])
   
   ButtonC examine = Button("Examine",&ExamineFrame,StringC("@X"));
   
-  table.AddObject(menuBar,0,4,0,1,(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),(GtkAttachOptions) GTK_FILL);
+  table.GUIAddObject(menuBar,0,4,0,1,(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),(GtkAttachOptions) GTK_FILL);
   LabelC lt(" Time:");
-  table.AddObject(lt,0,1,1,2,(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),GTK_FILL);
-  table.AddObject(guiTimeCode,1,2,1,2,(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),GTK_FILL);
+  table.GUIAddObject(lt,0,1,1,2,(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),GTK_FILL);
+  table.GUIAddObject(guiTimeCode,1,2,1,2,(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),GTK_FILL);
   LabelC lr(" Rate:");
-  table.AddObject(lr,2,3,1,2,(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),GTK_FILL);
-  table.AddObject(guiFrameRate,3,4,1,2,(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),GTK_FILL);
+  table.GUIAddObject(lr,2,3,1,2,(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),GTK_FILL);
+  table.GUIAddObject(guiFrameRate,3,4,1,2,(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),GTK_FILL);
 
-  table.AddObject(vidout,0,4,2,3,(GtkAttachOptions) (GTK_FILL),(GtkAttachOptions)(GTK_FILL),5,5);
-  table.AddObject(guiPlayControl,0,4,3,4,(GtkAttachOptions) (GTK_FILL | GTK_SHRINK),(GtkAttachOptions)GTK_FILL);
-  table.AddObject(grab,2,4,4,5,(GtkAttachOptions) (GTK_FILL| GTK_EXPAND),(GtkAttachOptions)(GTK_FILL));
-  table.AddObject(examine,0,2,4,5,(GtkAttachOptions) (GTK_FILL| GTK_EXPAND),(GtkAttachOptions)(GTK_FILL));
+  table.GUIAddObject(vidout,0,4,2,3,(GtkAttachOptions) (GTK_FILL),(GtkAttachOptions)(GTK_FILL),5,5);
+  table.GUIAddObject(guiPlayControl,0,4,3,4,(GtkAttachOptions) (GTK_FILL | GTK_SHRINK),(GtkAttachOptions)GTK_FILL);
+  table.GUIAddObject(grab,2,4,4,5,(GtkAttachOptions) (GTK_FILL| GTK_EXPAND),(GtkAttachOptions)(GTK_FILL));
+  table.GUIAddObject(examine,0,2,4,5,(GtkAttachOptions) (GTK_FILL| GTK_EXPAND),(GtkAttachOptions)(GTK_FILL));
   win.Add(table);
 #endif
-  win.Show();
+  win.GUIShow();
   
   // Get GUI going ...
   
