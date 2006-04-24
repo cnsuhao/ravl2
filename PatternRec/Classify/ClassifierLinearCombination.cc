@@ -22,6 +22,26 @@
 
 namespace RavlN {
   
+  //: Constructor.
+  //!param: weakClassifiers - a set of classifiers to be combined
+  //!param: weights         - relative weights for each classifier
+  // Classification is label 1 if sum(weight[i]*classify[i](x)) >= 0.5sum(weight[i])
+  
+  ClassifierLinearCombinationBodyC::ClassifierLinearCombinationBodyC(SArray1dC<ClassifierC> weakClassifiers, SArray1dC<RealT> weights, RealT threshold)
+    : m_weakClassifiers(weakClassifiers),
+      m_weights(weights),
+      m_sumWeights(0.0),
+      m_featureSet(weakClassifiers.Size()),
+      m_threshold(threshold)
+  {
+    RavlAssert(weakClassifiers.Size() == weights.Size());
+    for(SArray1dIter2C<RealT,IndexC> it(weights,m_featureSet); it; it++) {
+      m_sumWeights += it.Data1();
+      it.Data2() = it.Index();
+    }
+    m_sumWeights *= threshold;
+  }
+  
   //: Load from stream.
   
   ClassifierLinearCombinationBodyC::ClassifierLinearCombinationBodyC(istream &strm) 
@@ -29,9 +49,18 @@ namespace RavlN {
   {
     IntT version;
     strm >> version;
-    if(version != 0)
+    if(version < 0 || version > 1)
       throw ExceptionOutOfRangeC("ClassifierLinearCombinationBodyC(istream &), Unrecognised version number in stream. ");
     strm >> m_weakClassifiers >> m_weights >> m_sumWeights >> m_featureSet;
+    if(version > 0) {
+      strm >> m_threshold;
+    } else {
+      // Attempt to recover threshold from weights
+      RealT sum = 0.0;
+      for(SArray1dIterC<RealT> it(m_weights);it;it++)
+        sum += *it;
+      m_threshold = sum / m_sumWeights;
+    }
   }
   
   //: Load from binary stream.
@@ -41,9 +70,18 @@ namespace RavlN {
   {
     IntT version;
     strm >> version;
-    if(version != 0)
+    if(version < 0 || version > 1)
       throw ExceptionOutOfRangeC("ClassifierWeakLinearBodyC(BinIStreamC &), Unrecognised version number in stream. ");
     strm >> m_weakClassifiers >> m_weights >> m_sumWeights >> m_featureSet;
+    if(version > 0) {
+      strm >> m_threshold;
+    } else {
+      // Attempt to recover threshold from weights
+      RealT sum = 0.0;
+      for(SArray1dIterC<RealT> it(m_weights);it;it++)
+        sum += *it;
+      m_threshold = sum / m_sumWeights;
+    }
   }
   
   //: Writes object to stream, can be loaded using constructor
@@ -51,8 +89,8 @@ namespace RavlN {
   bool ClassifierLinearCombinationBodyC::Save (ostream &out) const {
     if(!ClassifierBodyC::Save(out))
       return false;
-    IntT version = 0;
-    out << ' ' << version << ' ' << m_weakClassifiers << ' ' << m_weights << ' ' << m_sumWeights << ' ' << m_featureSet;
+    IntT version = 1;
+    out << ' ' << version << ' ' << m_weakClassifiers << ' ' << m_weights << ' ' << m_sumWeights << ' ' << m_featureSet << ' ' << m_threshold;
     return true;
   }
   
@@ -61,8 +99,8 @@ namespace RavlN {
   bool ClassifierLinearCombinationBodyC::Save (BinOStreamC &out) const {
     if(!ClassifierBodyC::Save(out))
       return false;
-    IntT version = 0;
-    out << version << m_weakClassifiers << m_weights << m_sumWeights << m_featureSet;
+    IntT version = 1;
+    out << version << m_weakClassifiers << m_weights << m_sumWeights << m_featureSet << m_threshold;
     return true;
   }
 
@@ -78,6 +116,18 @@ namespace RavlN {
       weightedSumLabels += it.Data2() * it.Data1().Classify(data,oneFeature);
     }
     return weightedSumLabels >= m_sumWeights; // threshold is included in sum weights
+  }
+  
+  //: Set the array of weights, one for each classifier.
+  // Note: The array must be of the same size as the number of weak classifiers.
+
+  void ClassifierLinearCombinationBodyC::SetWeakClassifierWeights(const SArray1dC<RealT> &weights) {
+    RavlAssert(m_weakClassifiers.Size() == m_weights.Size());
+    for(SArray1dIterC<RealT> it(weights); it; it++) {
+      m_sumWeights += it.Data();
+    }
+    m_sumWeights *= m_threshold;
+    m_weights = weights; 
   }
       
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(ClassifierLinearCombinationBodyC,ClassifierLinearCombinationC,ClassifierC);

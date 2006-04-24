@@ -28,19 +28,7 @@ namespace RavlN {
     : public ClassifierBodyC
   {
   public:
-    ClassifierLinearCombinationBodyC(SArray1dC<ClassifierC> weakClassifiers, SArray1dC<RealT> weights, RealT threshold)
-      :m_weakClassifiers(weakClassifiers),
-       m_weights(weights),
-       m_sumWeights(0.0),
-       m_featureSet(weakClassifiers.Size())
-    {
-      RavlAssert(weakClassifiers.Size() == weights.Size());
-      for(SArray1dIter2C<RealT,IndexC> it(weights,m_featureSet); it; it++) {
-	m_sumWeights += it.Data1();
-	it.Data2() = it.Index();
-      }
-      m_sumWeights *= threshold;
-    }
+    ClassifierLinearCombinationBodyC(SArray1dC<ClassifierC> weakClassifiers, SArray1dC<RealT> weights, RealT threshold);
     //: Constructor.
     //!param: weakClassifiers - a set of classifiers to be combined
     //!param: weights         - relative weights for each classifier
@@ -64,11 +52,28 @@ namespace RavlN {
     virtual UIntT Classify(const VectorC &data,const SArray1dC<IndexC> &featureSet) const;
     //: Classify vector 'data' using only the given subset of features
     
+    SArray1dC<ClassifierC> WeakClassifiers()
+    { return m_weakClassifiers; }
+    //: Access a list of classifiers used
+    
+    void SetWeakClassifiers(const SArray1dC<ClassifierC> &weakClassifiers)
+    { m_weakClassifiers = weakClassifiers; }
+    //: Set classifiers
+    
+    SArray1dC<RealT> WeakClassifierWeights()
+    { return m_weights; }
+    //: Access array of weights, one for each classifier.
+    
+    void SetWeakClassifierWeights(const SArray1dC<RealT> &weights);
+    //: Set the array of weights, one for each classifier.
+    // Note: The array must be of the same size as the number of weak classifiers.
+    
   protected:
     SArray1dC<ClassifierC> m_weakClassifiers;
     SArray1dC<RealT> m_weights;
     RealT m_sumWeights;
     SArray1dC<IndexC> m_featureSet;
+    RealT m_threshold;
   };
   
   //! userlevel=Normal
@@ -96,6 +101,23 @@ namespace RavlN {
     ClassifierLinearCombinationC(BinIStreamC &strm);
     //: Load from binary stream.
     
+    SArray1dC<ClassifierC> WeakClassifiers()
+    { return Body().WeakClassifiers(); }
+    //: Access a list of classifiers used
+    
+    void SetWeakClassifiers(const SArray1dC<ClassifierC> &weakClassifiers)
+    { Body().SetWeakClassifiers(weakClassifiers); }
+    //: Set classifiers
+    
+    SArray1dC<RealT> WeakClassifierWeights()
+    { return Body().WeakClassifierWeights(); }
+    //: Access array of weights, one for each classifier.
+    
+    void SetWeakClassifierWeights(const SArray1dC<RealT> &weights)
+    { Body().SetWeakClassifierWeights(weights); }
+    //: Set the array of weights, one for each classifier.
+    // Note: The array must be of the same size as the number of weak classifiers.
+    
   protected:
     ClassifierLinearCombinationC(ClassifierLinearCombinationBodyC &bod)
       : ClassifierC(bod)
@@ -106,6 +128,15 @@ namespace RavlN {
       : ClassifierC(bod)
     {}
     //: Body ptr constructor.
+    
+    ClassifierLinearCombinationBodyC &Body()
+    { return static_cast<ClassifierLinearCombinationBodyC &>(FunctionC::Body()); }
+    //: Access body.
+    
+    const ClassifierLinearCombinationBodyC &Body() const
+    { return static_cast<const ClassifierLinearCombinationBodyC &>(FunctionC::Body()); }
+    //: Access body.
+
   };
 
   void InitRavlClassifierLinearCombinationIO();
