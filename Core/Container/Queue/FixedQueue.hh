@@ -39,7 +39,7 @@ namespace RavlN {
     //: Constructor.
     
     inline bool IsSpace();
-    //: Is space to data into ring ?
+    //: Is there space to add an item into ring ?
     
     inline void InsLast(const T &Obj);
     //: Insert data at end of queue.
