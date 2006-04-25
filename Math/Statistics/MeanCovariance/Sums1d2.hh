@@ -113,6 +113,20 @@ namespace RavlN {
     }
     //: Compute the mean of the sample.
     
+    inline void AddRollingAverage(UIntT rollLength,RealT value) {
+      if(rollLength < n) {
+        RealT rollFraction = ((RealT) (rollLength-1)/((RealT) rollLength));
+        sum *= rollFraction;
+        sum2 *= rollFraction;
+      } else
+        n++;
+      sum += value;
+      sum2 += Sqr(value);      
+    }
+    //: Add value as part of a rolling average.
+    //!param: rollLen - Length of rolling average.
+    //!param: value   - Value to add.
+    
   protected:
     UIntT n;
     RealT sum; // Sum of data.
