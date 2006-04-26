@@ -27,7 +27,7 @@
 
 namespace RavlImageN {
 
-  
+  //: Read in a mirror mapping.
   bool AAMAppearanceMirrorC::ReadMirror(const StringC &filename) {
     IStreamC is(filename);
     if(!is) {
@@ -39,9 +39,9 @@ namespace RavlImageN {
       readline(is,line);
       SubStringC ss = line.TopAndTail();
       if(ss.Size() <= 0)
-	continue; // Skip empty lines.
+        continue; // Skip empty lines.
       if(ss.firstchar() == '#')
-	continue; // Skip comments.
+        continue; // Skip comments.
       IntT id1,id2;
       //cerr << "Got line:" << line << "\n";
       int sep = ss.index(' ');
@@ -50,26 +50,27 @@ namespace RavlImageN {
       //cerr << "Got line:-" << s1 << "-" << s2  << "-\n";
       id1 = s1.IntValue();
       id2 = s2.IntValue();
-      
+
       if(mirror.IsElm(id1))
-	cerr << "WARNING: Duplicate entry found for id1 " << id1 << " reading mirror file '" << filename << "'\n";
+        cerr << "WARNING: Duplicate entry found for id1 " << id1 << " reading mirror file '" << filename << "'\n";
       mirror[id1] = id2;
       if(id1 != id2) {
-	if(mirror.IsElm(id2))
-	  cerr << "WARNING: Duplicate entry found for id2 " << id2 << " reading mirror file '" << filename << "'\n";
-	mirror[id2] = id1;
+        if(mirror.IsElm(id2))
+          cerr << "WARNING: Duplicate entry found for id2 " << id2 << " reading mirror file '" << filename << "'\n";
+        mirror[id2] = id1;
       }
     }
-    
+
     UIntT size = mirror.Size();
     map = SArray1dC<UIntT>(size);
     for(UIntT i = 0;i < size;i++)
       map[i] = mirror[i];
-    
+
     return true;
   }
-  
-  bool AAMAppearanceMirrorC::Reflect(SampleC<AAMAppearanceC> &sample) {
+
+  //: Reflect a sample set and append it at the end of sample
+  bool AAMAppearanceMirrorC::Reflect(SampleC<AAMAppearanceC> &sample) const {
     SampleC<AAMAppearanceC> reflection(sample.Size());
     for(SampleIterC<AAMAppearanceC> it(sample);it;it++) {
       AAMAppearanceC appear = Reflect(*it);
@@ -80,39 +81,42 @@ namespace RavlImageN {
     return true;
   }
 
-  AAMAppearanceC AAMAppearanceMirrorC::Reflect(AAMAppearanceC &appear) {
+  //: Return reflected appearance
+  AAMAppearanceC AAMAppearanceMirrorC::Reflect(const AAMAppearanceC &appear) const {
       UIntT size = map.Size();
       RavlAssert(appear.Points().Size() == size);
       SArray1dC<Point2dC> newun(appear.Points().Size());
       const SArray1dC<Point2dC> &old = appear.Points();
-      
+
       RealT offset = 0;
       ImageC<ByteT> nimg;
       if(appear.Image().IsValid()) {
-	ReflectVertical(appear.Image(),nimg);
-	offset = (RealT) (nimg.Range2().Max() + nimg.Range2().Min());
+        ReflectVertical(appear.Image(),nimg);
+        offset = (RealT) (nimg.Range2().Max() + nimg.Range2().Min());
       }
       else
       {
-	Point2dC mid(0,0);
-	for(SArray1dIterC<Point2dC> ait(old);ait;ait++)
-	  mid += *ait;
-	mid /= size;
-	offset = mid[1] * 2;
+        Point2dC mid(0,0);
+        for(SArray1dIterC<Point2dC> ait(old);ait;ait++)
+          mid += *ait;
+        mid /= size;
+        offset = mid[1] * 2;
       }
-      
+
       for(SArray1dIter2C<Point2dC,UIntT> pit(newun,map);pit;pit++) {
-	const Point2dC &oth = old[pit.Data2()];
-	pit.Data1() = Point2dC(oth[0],offset - oth[1]);
+        const Point2dC &oth = old[pit.Data2()];
+        pit.Data1() = Point2dC(oth[0],offset - oth[1]);
       }
       AAMAppearanceC reflection(newun,nimg);
       StringC source_file = appear.SourceFile();
       reflection.SourceFile() =  StringListC(source_file, ".").First()+"_reflect.xml";
-      
+
       return reflection;
   }
 
 
+  //: Draw appearance.
+  //  Draws the image and the control points represented as white crosses.
   bool AAMAppearanceC::Draw(const StringC &filename,StringC fileformat,bool verbose) const {
     ImageC<ByteT> img = image.Copy();
     ByteT byte(255);
@@ -125,7 +129,7 @@ namespace RavlImageN {
       cerr << "Warning: unable to save appearance image to " << filename << endl;
       return false;
     }
-    
+
     return true;
   }
 

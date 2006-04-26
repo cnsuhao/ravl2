@@ -23,9 +23,11 @@
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/SArray1dIter3.hh"
 #include "Ravl/PatternRec/FuncMeanProjection.hh"
+#include "Ravl/Array1dIter2.hh"
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
+#include "Ravl/IO.hh"
 #define ONDEBUG(x) x
 #else
 #define ONDEBUG(x)
@@ -34,9 +36,9 @@
 namespace RavlImageN {
 
   using namespace RavlN;
-  
-  //: Load from bin stream.
-  
+
+  //: Constructor.
+  //  Load from bin stream.
   AAMShapeModelBodyC::AAMShapeModelBodyC(BinIStreamC &s)
     : RCBodyVC(s)
   {
@@ -52,6 +54,8 @@ namespace RavlImageN {
     nPoints = meanPoints.Size();
   }
 
+  //: Constructor.
+  //  Load from stream.
   AAMShapeModelBodyC::AAMShapeModelBodyC(istream &s)
     : RCBodyVC(s)
   {
@@ -66,9 +70,7 @@ namespace RavlImageN {
 #endif
     nPoints = meanPoints.Size();
   }
-  
-  //: Save to binary stream 'out'.
-  
+
   bool AAMShapeModelBodyC::Save(BinOStreamC &s) const {
     if(!RCBodyVC::Save(s))
       return false;
@@ -78,7 +80,6 @@ namespace RavlImageN {
   }
 
   //: Save to binary stream 'out'.
-  
   bool AAMShapeModelBodyC::Save(ostream &s) const {
     if(!RCBodyVC::Save(s))
       return false;    
@@ -86,30 +87,30 @@ namespace RavlImageN {
     s << ' ' << version << ' ' << shapeModel << ' ' << invShapeModel << ' ' << meanPoints << ' ' << eigenValues << ' ' << fixedMean;
     return true;
   }
-  
-  //: Generate a raw parameter vector.
-  
+
+  //: Generate raw parameters.
+  //  The raw parameters are the parameters representing the shape before compression using PCA. They consists of the pose parameters, which describe the pose of the model instance in the image, and the shape parameters, which describe its shape.
   bool AAMShapeModelBodyC::RawParameters(const AAMAppearanceC &inst,VectorC &fixedParams,VectorC &freeParams) const {
     IntT size = inst.Points().Size() * 2;
     freeParams = VectorC (size);
     fixedParams = VectorC(NoFixedParameters());
     SArray1dIterC<Point2dC> pi(inst.Points());
-    
+
     // Sort out parameters with fixed meanings.
-    Moments2d2C moments;    
+    Moments2d2C moments;
     for(;pi;pi++)
       moments += *pi;
-    
+
     Point2dC mean = moments.Centroid();
     RealT scale = Sqrt(moments.VarX() + moments.VarY());
-    
+
     fixedParams = VectorC(3);
     fixedParams[0] = mean[0];
     fixedParams[1] = mean[1];
     fixedParams[2] = scale;
-    
+
     // Sort out the point positions.
-    
+
     SArray1dIterC<RealT> vi(freeParams);
     for(pi.First();pi;pi++) {
       *vi = ((*pi)[0] - mean[0]) / scale;
@@ -120,8 +121,7 @@ namespace RavlImageN {
     return true;
   }
 
-  //: Generate points from a raw parameter vector.
-  
+  //: Generate control points defining an appearance from the raw parameters.
   void AAMShapeModelBodyC::RawProject(const VectorC &fixedParams,const VectorC &freeParams,SArray1dC<Point2dC> &out) const {
     //cerr << "nPoints=" << nPoints << "\n";
     RavlAssert((freeParams.Size()/2) == nPoints);
@@ -137,65 +137,62 @@ namespace RavlImageN {
       vi++;
     }
   }
-  
-  
-  //: Convert model instance into a parameter vector.
-  
+
+
+  //: Return a parameter vector representing the appearance 'inst'.
   VectorC AAMShapeModelBodyC::Parameters(const AAMAppearanceC &inst) const {
     VectorC fixedParams;
     VectorC freeParams;
     RawParameters(inst,fixedParams,freeParams);
     return fixedParams.Join(const_cast<FunctionC &>(shapeModel).Apply(freeParams));
   }
-  
-  //: Compute mean points.
-  
+
+  //: Compute mean control points for the list of appearance provided.
   bool AAMShapeModelBodyC::ComputeMean(const SampleC<AAMAppearanceC> &sample) {
     // Don't need to do anything by default.
     return true;
   }
-  
-  //: Design a model given some data.
-  
+
+  //: Design a shape model given some data.
   bool AAMShapeModelBodyC::Design(const SampleC<AAMAppearanceC> &sample,RealT variation, UIntT maxP) {
     SampleVectorC vectors(sample.Size());
-    
+
     //: Do some initial processing, needed for some models.
-    
+
     if(!ComputeMean(sample))
       return false;
-    
+
     //: Generate sample of raw vectors.
-    
+
     SampleIterC<AAMAppearanceC> it(sample);
     if(!it)
       return false; // No data points!
     nPoints = it->Points().Size();
-    
+
     SArray1dC<Sums1d2C> stats(NoFixedParameters());
     for(SArray1dIterC<Sums1d2C> yit(stats);yit;yit++)
       yit->Reset();
-    
+
     for(;it;it++) {
       VectorC vec,nfixed;
       RawParameters(*it,nfixed,vec);
       vectors.Append(vec);
       for(SArray1dIter2C<Sums1d2C,RealT> zit(stats,nfixed);zit;zit++)
-	zit.Data1() += zit.Data2();
+        zit.Data1() += zit.Data2();
     }
-    
+
     fixedMean = VectorC(NoFixedParameters());
     VectorC fixedVar(NoFixedParameters());
     for(SArray1dIter3C<Sums1d2C,RealT,RealT> xit(stats,fixedMean,fixedVar);xit;xit++) {
       xit.Data2() = xit.Data1().Mean();
       xit.Data3() = xit.Data1().Variance();
     }
-    
+
     ONDEBUG(cerr << "FixedMean=" << fixedMean << "\n");
     ONDEBUG(cerr << "FixedVar=" << fixedVar << "\n");
-    
+
     // Do pca.
-    
+
     DesignFuncPCAC designPCA(variation);
     designPCA.Apply(vectors); // Design parameter to shape function.
 
@@ -207,18 +204,17 @@ namespace RavlImageN {
 
     // Create model
     shapeModel = FuncMeanProjectionC(designPCA.Mean(),designPCA.Pca().Matrix());
-    
+
     eigenValues = fixedVar.Join(designPCA.Pca().Vector());
-    
+
     // compute inverse model
     invShapeModel = FuncLinearC(designPCA.Pca().Matrix().T(),designPCA.Mean());
-    
+
     RawProject(fixedMean,designPCA.Mean(),meanPoints);
     return true;
   }
-  
-  //: Synthesis a point set from model parameters.
-  
+
+  //: Synthesis a control point set from a parameter vector.
   SArray1dC<Point2dC> AAMShapeModelBodyC::Synthesize(const VectorC &parm) const {
     SArray1dC<Point2dC> ret;
     VectorC tmp(parm);
@@ -229,13 +225,46 @@ namespace RavlImageN {
     return ret;
   }
 
-  //: Find the number of parameters which have fixed meaning.
-  // offset,scale for example.
-  
-  IntT AAMShapeModelBodyC::NoFixedParameters() const { 
+  //: Make 'parm' a plausible parameter vector.
+  //  This imposes hard limits of +/-3 std to each parameter.
+  void AAMShapeModelBodyC::MakePlausible(VectorC &dat, RealT NbSigma) const {
+
+    VectorC tmp = eigenValues;
+
+    for(Array1dIter2C<RealT,RealT> it(dat.From(NoFixedParameters()),tmp.From(NoFixedParameters()));it;it++) {
+      if(Abs(it.Data1())>NbSigma*Sqrt(it.Data2())) {
+        cerr << ".";
+        if(it.Data1()>0) {
+          it.Data1() = NbSigma*Sqrt(it.Data2());
+        }
+        else {
+          it.Data1() = -NbSigma*Sqrt(it.Data2());
+        }
+      }
+    }
+
+  }
+
+  //: Return vector of point to point errors between shape represented by vector 'parm' and target shape defined by 'points'.
+  bool AAMShapeModelBodyC::P2PError(const VectorC &parm,const SArray1dC<Point2dC> &points,VectorC &errVec) const {
+    RavlAssert(Dimensions() == parm.Size());
+    SArray1dC<Point2dC> synth_points;
+    synth_points = Synthesize(parm);
+
+    errVec = VectorC(synth_points.Size());
+    for(SArray1dIter3C<Point2dC, Point2dC, RealT> it(points,synth_points, errVec);it;it++) {
+      it.Data3() = it.Data1().EuclidDistance(it.Data2());
+    }
+
+    return true;
+  }
+
+  //: Return number of parameters describing the pose
+  //  These parameters include e.g. the position, scale and orientation of the model instance
+  IntT AAMShapeModelBodyC::NoFixedParameters() const {
     return 3; 
   }
-  
+
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(AAMShapeModelBodyC,AAMShapeModelC,RCHandleVC<AAMShapeModelBodyC>);
 
 }

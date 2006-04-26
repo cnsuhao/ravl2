@@ -21,7 +21,7 @@
 #include "Ravl/Image/AAMAppearanceUtil.hh"
 
 namespace RavlImageN {
-  
+
   bool GenerateTypeMap(HashIterC<IntT, ImagePointFeatureC> fit,bool &useTypeId,HashC<IntT,IntT> &typeMap,HashC<StringC,IntT> &namedTypeMap) {
     // Check if we have feature type id's.
     if(fit.Data().TypeID() >= 0)
@@ -42,14 +42,20 @@ namespace RavlImageN {
   }
 
 
+  //: Load ImagePointFeatureSetC object from XML file and store as an appearance.
+  //!param: file - names of XML file.
+  //!param: dir - Name of directory containing appearance files.
+  //!param: ignoreSuspect - Ignore XML files marked as "Suspect"? True = yes.
+  //!param: loadImages - Load image in memory? True = yes.
+  // Note that if 'loadImages' is set to false, only the shape of the model instance will be loaded.
   AAMAppearanceC LoadFeatureFile(const StringC &file,const StringC & dir,bool ignoreSuspect,bool loadImages) {
-    AAMAppearanceC appear;  
-  
+    AAMAppearanceC appear;
+
     HashC<IntT,IntT> typeMap;
     HashC<StringC,IntT> namedTypeMap;
-    
+
     bool useTypeId = false;
-    
+
     ImagePointFeatureSetC fs;
     StringC featureSetFile = dir + '/' + file;
     if(!Load(featureSetFile,fs)) {
@@ -84,14 +90,20 @@ namespace RavlImageN {
     appear = AAMAppearanceC(pnts,img);
     appear.SourceFile() = file;
     cout  << file << " " << flush;
-  
+
     return appear;
   }
 
 
+  //: Load ImagePointFeatureSetC objects from a set of XML files and store as set of appearances.
+  //!param: files - list of names of XML files.
+  //!param: dir - Name of directory containing XML files.
+  //!param: ignoreSuspect - Ignore XML files marked as "Suspect"? True = yes.
+  //!param: loadImages - Load image in memory? True = yes.
+  // Note that if 'loadImages' is set to false, only the shape of the model instance will be loaded.
   SampleC<AAMAppearanceC> LoadFeatureSet(const DListC<StringC> &files,const StringC & dir,bool ignoreSuspect,bool loadImages) {
     SampleC<AAMAppearanceC> appearanceSet;
- 
+
     DirectoryC md(dir);
     if(!md.IsValid()) {
       cerr << "Can't find directory '" << dir << "'\n";
@@ -100,7 +112,7 @@ namespace RavlImageN {
     cerr << "Got " << files.Size() << " files in the list. \n";
     appearanceSet = SampleC<AAMAppearanceC>(files.Size());
     cout << "Loading " << flush;
-     
+
     for(DLIterC<StringC> it(files);it;it++) {
       AAMAppearanceC appear;
       appear = LoadFeatureFile(*it,dir,ignoreSuspect,loadImages);
@@ -109,11 +121,17 @@ namespace RavlImageN {
       }
     }
     cout  << "\n";
-  
+
     return appearanceSet;
   }
 
 
+  //: Load ImagePointFeatureSetC objects from all XML files located in a directory.
+  //!param: dir - Name of directory containing XML files.
+  //!param: ext - Extension of XML files.
+  //!param: ignoreSuspect - Ignore XML files marked as "Suspect"? True = yes.
+  //!param: loadImages - Load image in memory? True = yes.
+  // Note that if 'loadImages' is set to false, only the shape of the model instance will be loaded.
   SampleC<AAMAppearanceC> LoadFeatureSet(const StringC &dir,const StringC &ext,bool ignoreSuspect,bool loadImages) {
     SampleC<AAMAppearanceC> appearanceSet;
     DirectoryC md(dir);
@@ -121,12 +139,12 @@ namespace RavlImageN {
       cerr << "Can't find directory '" << dir << "'\n";
       return appearanceSet;
     }
-  
+
     DListC<StringC> files = md.List("",StringC(".") + ext);
     appearanceSet = LoadFeatureSet(files,dir,ignoreSuspect,loadImages);
-    
+
     return appearanceSet;
   }
-  
+
 }
 

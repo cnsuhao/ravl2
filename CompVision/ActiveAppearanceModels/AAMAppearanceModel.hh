@@ -11,6 +11,7 @@
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMAppearanceModel.hh"
 //! docentry="Ravl.API.Images.AAM"
 //! author="Charles Galambos"
+//! example = "aamBuildAppearanceModel.cc;aamViewShapeModel.cc"
 
 #include "Ravl/DList.hh"
 #include "Ravl/String.hh"
@@ -20,19 +21,24 @@
 #include "Ravl/Image/AAMAppearance.hh"
 #include "Ravl/Image/AAMShapeModel.hh"
 #include "Ravl/Image/WarpMesh2d.hh"
+#include "Ravl/Image/GaussConvolve2d.hh"
 
 namespace RavlImageN {
 
   //! userlevel=Develop
-  //: Appearnce Model
+  //: Statistical model of appearance.
 
-  class AAMAppearanceModelBodyC 
+  class AAMAppearanceModelBodyC
     : public RCBodyVC
   {
   public:
     AAMAppearanceModelBodyC(RealT nWarpSigma = 2);
     //: Constructor.
-    // nWarpSigma, stiffness to use in warping process.
+    //!param: nWarpSigma - stiffness to use in warping process.
+    // Note: this parameter is relevant only in the case where thin-plate splines are used for warping.
+    // In the case of a piece-wise affine warping, this parameter is ignored.
+    // The warping technique to be used is defined at compilation time by the parameter OMNIAAM_USE_THINPLATEWARP
+    // in the file "AAMAppearanceModel.cc".
 
     AAMAppearanceModelBodyC(BinIStreamC &is);
     //: Load from binary stream.
@@ -46,45 +52,70 @@ namespace RavlImageN {
     virtual bool Save(ostream &out) const;
     //: Save to stream 'out'.
 
-    virtual VectorC Parameters(const AAMAppearanceC &inst);
-    //: Convert model instance into a parameter vector.
+    virtual VectorC Parameters(const AAMAppearanceC &inst) const;
+    //: Return a parameter vector representing the appearance 'inst'.
 
-    virtual VectorC RawParameters(const AAMAppearanceC &inst);
-    //: Get raw parameters for 'inst'
+    virtual VectorC RawParameters(const AAMAppearanceC &inst) const;
+    //: Generate raw parameters.
+    //  The raw parameters are the parameters representing the appearance before applying PCA. They consists of the pose parameters, which describe the pose of the model instance in the image, the grey-level scaling and offset, which define the normalisation transformation for pixel intensities, the shape parameters (coordinate of the control points in normalised frame) and the texture parameters (normalised pixel grey-levels).
 
-    ImageC<ByteT> WarpToMaskShape(const AAMAppearanceC &inst);
-    //: Warp appearance to mean shape.
+    ImageC<ByteT> WarpToMaskShape(const AAMAppearanceC &inst) const;
+    //: Warp appearance to the mean shape
+    //  The input appearance 'inst' is warped such that its control points are located at the mean positions in the returned image.
 
-    virtual bool Design(const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile,const Index2dC &maskSize,const RealT varS = 0.95,const RealT varT = 0.95,const RealT varC = 0.95,const UIntT maxS=25,const UIntT maxT=120,const UIntT maxC=80);
-    //: Design a model given some data.
+    virtual bool Design(const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile,const Index2dC &maskSize,const RealT varS = 0.95, RealT varT = 0.95, RealT varC = 0.95, UIntT maxS=25, UIntT maxT=120, UIntT maxC=80);
+    //: Design an appearance model given some data.
+    //!param: filelist    - list of appearance file names.
+    //!param: dir         - name of directory containing appearance files.
+    //!param: mirrorfile  - name of file containing mirror information.
+    //!param: maskSize    - dimensions of the shape free image, i.e. with control points warped to mean positions.
+    //!param: varS        - percentage of shape variation preserved during PCA applied to shape
+    //!param: varT        - percentage of texture variation preserved during PCA applied to grey-level values
+    //!param: varC        - percentage of variation preserved during PCA applied to combined shape and texture vectors
+    //!param: maxS        - limit on number of parameters returned by PCA applied to shape
+    //!param: maxT        - limit on number of parameters returned by PCA applied to grey-level values
+    //!param: maxC        - limit on number of parameters returned by PCA applied to combined shape and texture vectors
 
     virtual void SetMask(const ImageC<IntT> &mask);
-    //: Set mask image to use.
+    //: Set shape free image.
+    //  This sets up the shape free image, its dimension and area.
 
     UIntT Dimensions() const
     { return appearanceModel.OutputSize() + NoFixedParameters(); }
-    //: Size of output vector.
+    //: Size of the parameter vector.
 
-    virtual AAMAppearanceC Synthesize(const VectorC &dat,RealT scale = 1);
-    //: Synthesis an appearance from a parameter vector.
+    virtual AAMAppearanceC Synthesize(const VectorC &dat,RealT scale = 1) const;
+    //: Synthesis an appearance from a parameter vector 'dat'.
+    //  'scale' is used to modify the scale of the appearance.
 
-    virtual bool TextureImage(const VectorC &dat,ImageC<RealT> &res);
-    //: Compute texture image (shape free image)
+    virtual bool TextureImage(const VectorC &dat,ImageC<RealT> &res) const;
+    //: Compute texture image 'res' (shape free image) from a parameter vector 'dat'.
 
     bool ErrorVector(const VectorC &parm,const ImageC<ByteT> &img,VectorC &errImg) const;
-    //: Compute an error vector.
+    //: Conpute error vector.
+    //!param: parm   - parameter vector representing appearance.
+    //!param: img    - target image for comparison.
+    //!param: errImg - vector of intensity differences.
+    // The error values consists of the intensity difference between target image and the texture image synthesized from the parameters parm.
+    // Note that the error is measured in the shape free images for each pixel in the mask area.
 
     virtual bool ErrorVector(const VectorC &parm,const ImageC<RealT> &img,VectorC &errImg) const;
-    //: Compute an error vector.
+    //: Conpute error vector.
+    //!param: parm   - parameter vector representing appearance.
+    //!param: img    - target image for comparison.
+    //!param: errImg - vector of intensity differences.
+    // The error values consists of the intensity difference between target image and the texture image synthesized from the parameters parm.
+    // Note that the error is measured in the shape free images for each pixel in the mask area.
 
     void MakePlausible(VectorC &parm, RealT NbSigma = 3) const;
-    //: Constrains parm to be plausible by applying hard limits of 3 std to each element
+    //: Make 'parm' a plausible parameter vector.
+    //  This imposes hard limits of +/-3 std to each parameter.
 
     const IndexRange2dC &MaskSize() const
     { return maskSize; }
     //: Get size of mask image.
 
-    const IntT &MaskArea() const
+    IntT MaskArea() const
     { return maskArea; }
     //: Get number of pixels in the mask.
 
@@ -98,30 +129,34 @@ namespace RavlImageN {
 
     const FunctionC &AppearanceModel() const
     { return appearanceModel; }
-    //: Access appearance model      
+    //: Access appearance model.
 
     const FunctionC &InvAppearanceModel() const
     { return invAppearanceModel; }
-    //: Access appearance model      
+    //: Access inverse appearance model.
 
     IntT NoFixedParameters() const
     { return shape.NoFixedParameters() + 2; }
-    //: Find the number of parameters which have fixed meaning.
-    // offset,scale for example.
+    //: Find the number of parameters representing the pose and intensity statistics
+    //  e.g. position, orientation, scale, grey-level scaling and offset.
 
     const VectorC &FixedMean() const
     { return fixedMean; }
-    //: Get mean of fixed parameters.
+    //: Get mean pose and grey-level offset and scaling
 
     const VectorC &PixelSize() const
     { return pixelSize; }
-    //: Get mean of fixed parameters.
+    //: Get size of pixel in shape free image.
 
-    VectorC ShapeParameters(const VectorC &aamParams);
-    //: Extract shape parameters from active appearance model ones.
+    VectorC ShapeParameters(const VectorC &aamParams) const;
+    //: Extract shape parameters from the appearance represented by the parameter vector 'aamParams'.
 
-    virtual bool TextureParameters(const ImageC<RealT> &im, VectorC &res);
-    //: Extract texture parameters from shape free image
+    virtual bool TextureParameters(const ImageC<RealT> &im, VectorC &res) const;
+    //: Extract texture parameters 'res' from shape free image 'im'.
+
+    const AAMShapeModelC &ShapeModel() const
+    { return shape; }
+    //: Access shape model.
 
     AAMShapeModelC &ShapeModel()
     { return shape; }
@@ -130,28 +165,37 @@ namespace RavlImageN {
     const TriMesh2dC &Mesh() const
     { return warp.Mesh(); }
     //: Access mesh.
+    //  The mesh defines the triangles which are affinely warped by the piece-wise affine warping.
 
     TriMesh2dC &Mesh()
     { return warp.Mesh(); }
     //: Access mesh.
+    //  The mesh defines the triangles which are affinely warped by the piece-wise affine warping.
+
+    bool MeanTextureAppearanceParameters(const VectorC &sParam, VectorC &aParam) const;
+    //: Compute appearance parameters 'aParam' corresponding to shape parameters 'sParam' and mean texture values.
+
+    bool MeanTextureAppearanceParameters(const SArray1dC<Point2dC> &sPoints, VectorC &aParam) const;
+    //: Compute appearance parameters 'aParam' corresponding to feature points 'sPoints' and mean texture values.
 
   protected:
-    RealT warpSigma;
-    AAMShapeModelC shape;
-    ImageC<IntT> mask; // Which pixels are we interested in?
-    Array1dC<Point2dC> maskPoints; // Position of control points in mask image.
-    IndexRange2dC maskSize;
+    RealT warpSigma; // Stiffness used for warping (only relevant if thin-plate splines are enabled).
+    AAMShapeModelC shape; // Statistical shape model.
+    ImageC<IntT> mask; // Mask defining which pixels are used to define the statistical model of appearance.
+    Array1dC<Point2dC> maskPoints; // Position of control points in shape free image.
+    IndexRange2dC maskSize; // Dimensions of the mask (also the dimension of the shape free image).
     IntT maskArea;     // Number of pixels in the mask.
-    FunctionC appearanceModel;
-    FunctionC invAppearanceModel; // Inverse appearance model.
-    WarpMesh2dC<ByteT> warp;
-    VectorC eigenValues;
-    VectorC fixedMean;
-    VectorC pixelSize;
+    FunctionC appearanceModel; // Appearance model, map raw parameters to appearance parameters.
+    FunctionC invAppearanceModel; // Inverse appearance model, map appearance parameters to raw parameters.
+    WarpMesh2dC<ByteT> warp; // Warping to the shape free image.
+    VectorC eigenValues; // Eigen values.
+    VectorC fixedMean; // Pose and grey level offset and mean patameters.
+    VectorC pixelSize; // Pixel size in the shape free image.
+    GaussConvolve2dC<ByteT> smooth; // Gauss convolver for smoothing images.
   };
 
   //! userlevel=Normal
-  //: Appearnce Model
+  //: Statistical model of appearance.
 
   class AAMAppearanceModelC 
     : public RCHandleVC<AAMAppearanceModelBodyC>
@@ -166,7 +210,11 @@ namespace RavlImageN {
       : RCHandleVC<AAMAppearanceModelBodyC>(*new AAMAppearanceModelBodyC(nWarpSigma))
     {}
     //: Constructor.
-    // nWarpSigma, stiffness to use in warping process.
+    //!param: nWarpSigma - stiffness to use in warping process.
+    // Note: this parameter is relevant only in the case where thin-plate splines are used for warping.
+    // In the case of a piece-wise affine warping, this parameter is ignored.
+    // The warping technique to be used is defined at compilation time by the parameter OMNIAAM_USE_THINPLATEWARP
+    // in the file "AAMAppearanceModel.cc".
 
     AAMAppearanceModelC(BinIStreamC &is);
     //: Load from binary stream.
@@ -197,55 +245,80 @@ namespace RavlImageN {
 
   public:
 
-    VectorC Parameters(const AAMAppearanceC &inst)
+    VectorC Parameters(const AAMAppearanceC &inst) const
     { return Body().Parameters(inst); }
-    //: Convert model instance into a parameter vector.
+    //: Return a parameter vector representing the appearance 'inst'.
 
-    VectorC RawParameters(const AAMAppearanceC &inst)
+    VectorC RawParameters(const AAMAppearanceC &inst) const
     { return Body().RawParameters(inst); }
-    //: Get raw parameters for 'inst'
+    //: Generate raw parameters.
+    //  The raw parameters are the parameters representing the appearance before applying PCA. They consists of the pose parameters, which describe the pose of the model instance in the image, the grey-level scaling and offset, which define the normalisation transformation for pixel intensities, the shape parameters (coordinate of the control points in normalised frame) and the texture parameters (normalised pixel grey-levels).
 
-    ImageC<ByteT> WarpToMaskShape(const AAMAppearanceC &inst)
+    ImageC<ByteT> WarpToMaskShape(const AAMAppearanceC &inst) const
     { return Body().WarpToMaskShape(inst); }
-    //: Warp appearance to mean shape.
+    //: Warp appearance to the mean shape
+    //  The input appearance 'inst' is warped such that its control points are located at the mean positions in the returned image.
 
-    bool Design(const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile,const Index2dC &newMaskSize = Index2dC(50,50),const RealT varS = 0.95,const RealT varT = 0.95,const RealT varC = 0.95,const UIntT maxS=25,const UIntT maxT=120,const UIntT maxC=80)
+    bool Design(const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile,const Index2dC &newMaskSize = Index2dC(50,50), RealT varS = 0.95, RealT varT = 0.95, RealT varC = 0.95, UIntT maxS=25, UIntT maxT=120, UIntT maxC=80)
     { return Body().Design(fileList,dir,mirrorFile,newMaskSize,varS,varT,varC,maxS,maxT,maxC); }
-    //: Design a model given some data.
+    //: Design an appearance model given some data.
+    //!param: filelist    - list of appearance file names.
+    //!param: dir         - name of directory containing appearance files.
+    //!param: mirrorfile  - name of file containing mirror information.
+    //!param: maskSize    - dimensions of the shape free image, i.e. with control points warped to mean positions.
+    //!param: varS        - percentage of shape variation preserved during PCA applied to shape
+    //!param: varT        - percentage of texture variation preserved during PCA applied to grey-level values
+    //!param: varC        - percentage of variation preserved during PCA applied to combined shape and texture vectors
+    //!param: maxS        - limit on number of parameters returned by PCA applied to shape
+    //!param: maxT        - limit on number of parameters returned by PCA applied to grey-level values
+    //!param: maxC        - limit on number of parameters returned by PCA applied to combined shape and texture vectors
 
     void SetMask(const ImageC<IntT> &mask)
     { return Body().SetMask(mask); }
-    //: Set mask image to use.
+    //: Set shape free image.
+    //  This sets up the shape free image, its dimension and area.
 
     UIntT Dimensions() const
     { return Body().Dimensions(); }
-    //: Size of output vector.
+    //: Size of the parameter vector.
 
-    AAMAppearanceC Synthesize(const VectorC &dat,RealT scale = 1)
+    AAMAppearanceC Synthesize(const VectorC &dat,RealT scale = 1) const
     { return Body().Synthesize(dat,scale); }
-    //: Synthesis an appearance from a parameter vector.
+    //: Synthesis an appearance from a parameter vector 'dat'.
+    //  'scale' is used to modify the scale of the appearance.
 
-    bool TextureImage(const VectorC &dat,ImageC<RealT> &res)
+    bool TextureImage(const VectorC &dat,ImageC<RealT> &res) const
     { return Body().TextureImage(dat,res);}
-    //: Compute texture image (shape free image)
+    //: Compute texture image (shape free image).
 
     bool ErrorVector(const VectorC &parm,const ImageC<ByteT> &img,VectorC &errImg) const
     { return Body().ErrorVector(parm,img,errImg); }
-    //: Compute an error vector.
+    //: Conpute error vector.
+    //!param: parm   - parameter vector representing appearance.
+    //!param: img    - target image for comparison.
+    //!param: errImg - vector of intensity differences.
+    // The error values consists of the intensity difference between target image and the texture image synthesized from the parameters parm.
+    // Note that the error is measured in the shape free images for each pixel in the mask area.
 
     bool ErrorVector(const VectorC &parm,const ImageC<RealT> &img,VectorC &errImg) const
     { return Body().ErrorVector(parm,img,errImg); }
-    //: Compute an error vector.
+    //: Conpute error vector.
+    //!param: parm   - parameter vector representing appearance.
+    //!param: img    - target image for comparison.
+    //!param: errImg - vector of intensity differences.
+    // The error values consists of the intensity difference between target image and the texture image synthesized from the parameters parm.
+    // Note that the error is measured in the shape free images for each pixel in the mask area.
 
     void MakePlausible(VectorC &parm, RealT NbSigma = 3) const
     { return Body().MakePlausible(parm,NbSigma); }
-    //: Constrains parm to be plausible by applying hard limits of 3 std to each element
+    //: Make 'parm' a plausible parameter vector.
+    //  This imposes hard limits of +/-3 std to each parameter.
 
     const IndexRange2dC &MaskSize() const
     { return Body().MaskSize(); }
     //: Get size of mask image.
 
-    const IntT &MaskArea() const
+    IntT MaskArea() const
     { return Body().MaskArea(); }
     //: Get number of points in mask.
 
@@ -259,11 +332,11 @@ namespace RavlImageN {
 
     const FunctionC &AppearanceModel() const
     { return Body().AppearanceModel(); }
-    //: Access appearance model      
+    //: Access appearance model.
 
     const FunctionC &InvAppearanceModel() const
     { return Body().InvAppearanceModel(); }
-    //: Access appearance model      
+    //: Access inverse appearance model.
 
     IntT NoFixedParameters() const
     { return Body().NoFixedParameters(); }
@@ -272,25 +345,47 @@ namespace RavlImageN {
 
     const VectorC &FixedMean() const
     { return Body().FixedMean(); }
-    //: Get mean of fixed parameters.
+    //: Get mean pose and grey-level offset and scaling
 
     const VectorC &PixelSize() const
     { return Body().PixelSize(); }
-    //: Get mean of fixed parameters.
+    //: Get size of pixel in shape free image.
 
-    VectorC ShapeParameters(const VectorC &aamParams)
+    VectorC ShapeParameters(const VectorC &aamParams) const
     { return Body().ShapeParameters(aamParams); }
-    //: Extract shape parameters from active appearance model ones.
+    //: Extract shape parameters from the appearance represented by the parameter vector 'aamParams'.
 
-    bool TextureParameters(const ImageC<RealT> &im, VectorC &res)
+    bool TextureParameters(const ImageC<RealT> &im, VectorC &res) const
     { return Body().TextureParameters(im,res); }
-    //: Extract texture parameters from shape free image
+    //: Extract texture parameters 'res' from shape free image 'im'.
 
-    AAMShapeModelC &ShapeModel()
+    const AAMShapeModelC &ShapeModel() const
     { return Body().ShapeModel(); }
     //: Access shape model.
 
+    bool MeanTextureAppearanceParameters(const VectorC &sParam, VectorC &aParam) const
+    { return Body().MeanTextureAppearanceParameters(sParam, aParam);}
+    //: Compute appearance parameters 'aParam' corresponding to shape parameters 'sParam' and mean texture values.
+
+    bool MeanTextureAppearanceParameters(const SArray1dC<Point2dC> &sPoints, VectorC &aParam) const
+    { return Body().MeanTextureAppearanceParameters(sPoints, aParam);}
+    //: Compute appearance parameters 'aParam' corresponding to feature points 'sPoints' and mean texture values.
+
   };
+
+  inline
+  BinOStreamC &operator<<(BinOStreamC &s,const AAMAppearanceModelC &ap) {
+    ap.Save(s);
+    return s;
+  }
+  //: Save appearance model to binary stream.
+
+  inline
+  BinIStreamC &operator>>(BinIStreamC &s,AAMAppearanceModelC &ap) {
+    ap = AAMAppearanceModelC(s);
+    return s;
+  }
+  //: Read appearance model from binary stream.
 
 }
 

@@ -32,55 +32,49 @@ namespace RavlImageN {
 
   void InitScaleRotationShapeModel()
   {}
-  
+
   //: Default constructor.
-  
   AAMScaleRotationShapeModelBodyC::AAMScaleRotationShapeModelBodyC()
   {}
-  
+
   //: Load from bin stream.
-  
   AAMScaleRotationShapeModelBodyC::AAMScaleRotationShapeModelBodyC(BinIStreamC &is)
     : AAMShapeModelBodyC(is)
   {}
-  
+
   //: Load from stream.
-  
   AAMScaleRotationShapeModelBodyC::AAMScaleRotationShapeModelBodyC(istream &is)
     : AAMShapeModelBodyC(is)
   {}
-  
+
   //: Save to binary stream 'out'.
-  
   bool AAMScaleRotationShapeModelBodyC::Save(BinOStreamC &out) const {
     return AAMShapeModelBodyC::Save(out);
   }
-  
+
   //: Save to stream 'out'.
-  
   bool AAMScaleRotationShapeModelBodyC::Save(ostream &out) const {
-    return AAMShapeModelBodyC::Save(out);    
+    return AAMShapeModelBodyC::Save(out);
   }
-  
-  //: Compute mean points.
-  
+
+  //: Compute mean control points for the list of appearance provided.
   bool AAMScaleRotationShapeModelBodyC::ComputeMean(const SampleC<AAMAppearanceC> &sample) {
     SampleIterC<AAMAppearanceC> it(sample);
     if(!it)
       return false; // No data points!
-    
+
     // Generate initial estimate
-    
+
     nPoints = it->Points().Size();
     meanPoints = SArray1dC<Point2dC>(nPoints);
-    
+
     SArray1dIterC<Point2dC> pit(meanPoints);
     for(pit.First();pit;pit++)
       (*pit) = Point2dC(0,0);
-    
+
     for(;it;it++) {
       for(SArray1dIter2C<Point2dC,Point2dC> xit(meanPoints,it->Points());xit;xit++)
-	xit.Data1() += xit.Data2();
+        xit.Data1() += xit.Data2();
     }
     RealT nSamples = (RealT) sample.Size();
     Moments2d2C moments;    
@@ -91,78 +85,80 @@ namespace RavlImageN {
     Point2dC mean = moments.Centroid();
     for(pit.First();pit;pit++)
       (*pit) -= mean;
-    
-    
-    // Refine means iteratively.    
-    
+
+
+    // Refine means iteratively.
+
     for(int i = 0;i < 4;i++) {
       SArray1dC<Point2dC> newMeans(nPoints);
       // Set new means to zero.
       for(pit = newMeans;pit;pit++)
-	(*pit) = Point2dC(0,0);
-      
+        (*pit) = Point2dC(0,0);
+
       // Got through samples taking mean after rotation correction.
-      
+
       for(it.First();it;it++) {
-	Affine2dC fit = FitAffine(it->Points(),meanPoints);
-	
-	Matrix2dC sr = fit.SRMatrix();
-	Matrix2dC u,v;
-	SVD(sr,u,v);
-	Matrix2dC rot = u * v.T(); // Take out scaling.
-	Affine2dC norm(rot,fit.Translation());
-	
-	for(SArray1dIter2C<Point2dC,Point2dC> xit(newMeans,it->Points());xit;xit++)
-	  xit.Data1() += norm * xit.Data2();
+        Affine2dC fit = FitAffine(it->Points(),meanPoints);
+
+        Matrix2dC sr = fit.SRMatrix();
+        Matrix2dC u,v;
+        SVD(sr,u,v);
+        Matrix2dC rot = u * v.T(); // Take out scaling.
+        Affine2dC norm(rot,fit.Translation());
+
+        for(SArray1dIter2C<Point2dC,Point2dC> xit(newMeans,it->Points());xit;xit++)
+          xit.Data1() += norm * xit.Data2();
       }
-      
+
       // Create average
       moments.Reset();
       for(pit.First();pit;pit++) {
-	*pit /= nSamples;
-	moments += *pit;
+        *pit /= nSamples;
+        moments += *pit;
       }
       Point2dC mean = moments.Centroid();
       for(pit.First();pit;pit++)
-	(*pit) -= mean;
-      
+        (*pit) -= mean;
+
       meanPoints = newMeans;
     }
-    
+
     return true;
   }
-  
-  
-  //: Generate a raw parameter vector.
-  
+
+  //: Generate raw parameters.
+  //!param: inst        - input appearance for which we would like to compute the parameters.
+  //!param: fixedParams - output pose parameters (e.g. pose, scale, orientation).
+  //!param: freeParams  - output normalised control point coordinates. This vector consists of the concatenation of the X and Y coordinates of all control points in a normalised frame.
+  //  The raw parameters are the parameters representing the shape before applying PCA. They consists of the pose parameters, which describe the pose of the model instance in the image, and the shape parameters, which describe its shape.
   bool AAMScaleRotationShapeModelBodyC::RawParameters(const AAMAppearanceC &inst,VectorC &fixedParams,VectorC &freeParams) const {
     IntT size = inst.Points().Size() * 2;
     freeParams = VectorC (size);
     fixedParams = VectorC(NoFixedParameters());
     SArray1dIterC<Point2dC> pi(inst.Points());
-    
+
     Moments2d2C moments;    
     for(;pi;pi++)
       moments += *pi;
-    
+
     Point2dC mean = moments.Centroid();
     RealT scale = Sqrt(moments.VarX() + moments.VarY());
-    
+
     // Sort out parameters with fixed meanings.
-    
+
     Affine2dC fit = FitAffine(inst.Points(),meanPoints);
 
     // translation tx, ty    
     fixedParams[0] = mean[0];
     fixedParams[1] = mean[1];
-    
+
     Matrix2dC sr = fit.SRMatrix();
-    
+
     Matrix2dC u,v;
     SVD(sr,u,v);
     Matrix2dC rot = u * v.T();
     RealT angle = ATan2(rot[0][1],rot[0][0]);
-    
+
     ONDEBUG(cerr << "Rotation=" << rot << " SR=" << sr << " Det=" << rot.Det() << " Scale=" << scale << " Angle=" << angle << " \n");
 
     // parameters sx, sy
@@ -174,7 +170,7 @@ namespace RavlImageN {
 
     rot /= scale;
     SArray1dIterC<RealT> vi(freeParams);
-    
+
     for(pi.First();pi;pi++) {
       Point2dC p =  (rot * ((*pi) - mean));
       *vi = p[0];
@@ -185,9 +181,11 @@ namespace RavlImageN {
     return true;
 
   }
-  
-  //: Generate points from a raw parameter vector.
-  
+
+  //: Generate control points defining an appearance from the raw parameters.
+  //!param: fixedParams - input pose parameters (e.g. pose, scale, orientation).
+  //!param: freeParams  - input normalised control point coordinates. This vector consists of the concatenation of the X and Y coordinates of all control points in a normalised frame.
+  //!param: out         - ouput control points
   void AAMScaleRotationShapeModelBodyC::RawProject(const VectorC &fixedParams,const VectorC &freeParams,SArray1dC<Point2dC> &out) const {
     RavlAssert((freeParams.Size()/2) == nPoints);
     if(nPoints != out.Size())
@@ -195,7 +193,7 @@ namespace RavlImageN {
     SArray1dIterC<RealT> vi(freeParams);
     Point2dC mean(fixedParams[0],fixedParams[1]);    
     Matrix2dC sr(1+fixedParams[2],-fixedParams[3],fixedParams[3],1+fixedParams[2]);
-    
+
     for(SArray1dIterC<Point2dC> pi(out);pi;pi++) {
       Point2dC p;
       p[0] = (*vi); vi++;
@@ -203,14 +201,13 @@ namespace RavlImageN {
       (*pi) = (sr * p) + mean;
     }
   }
-  
-  //: Find the number of parameters which have fixed meaning.
-  // offset,scale for example.
-  
+
+  //: Return number of parameters describing the pose
+  //  These parameters include e.g. the position, scale and orientation of the model instance
   IntT AAMScaleRotationShapeModelBodyC::NoFixedParameters() const {
     return 4;
   }
-  
+
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(AAMScaleRotationShapeModelBodyC,AAMScaleRotationShapeModelC,AAMShapeModelC);
 
 }

@@ -34,6 +34,7 @@
 #include "Ravl/MatrixRS.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/DP/FileFormatIO.hh"
+#include "Ravl/Image/GaussConvolve2d.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -45,16 +46,14 @@
 
 namespace RavlImageN {
 
-  using namespace RavlImageN;
-  
+  using namespace RavlN;
+
   //: Constructor.
-  
   AAMActiveAppearanceModelBodyC::AAMActiveAppearanceModelBodyC()
-    : smooth(3)
+    : smooth(5)
   {}
-  
+
   //: Load from bin stream.
-  
   AAMActiveAppearanceModelBodyC::AAMActiveAppearanceModelBodyC(BinIStreamC &is)
     : RCBodyVC(is)
   {
@@ -62,12 +61,11 @@ namespace RavlImageN {
     is >> version;
     if(version != 1)
       throw ExceptionOutOfRangeC("AAMActiveAppearanceModelC:SAAMActiveAppearanceModelC(BinIStreamC &s), Bad version number in stream. ");
-    
+
     is >> refHome >> appearanceModel >> refiner >> smooth;
   }
-  
+
   //: Load from stream.
-  
   AAMActiveAppearanceModelBodyC::AAMActiveAppearanceModelBodyC(istream &is) 
     : RCBodyVC(is)
   {
@@ -75,107 +73,146 @@ namespace RavlImageN {
     is >> version;
     if(version != 1)
       throw ExceptionOutOfRangeC("AAMActiveAppearanceModelC:SAAMActiveAppearanceModelC(istream &s), Bad version number in stream. ");
-    
+
     is >> refHome >> appearanceModel >> refiner >> smooth;
   }
-  
+
   //: Save to binary stream 'out'.
-  
   bool AAMActiveAppearanceModelBodyC::Save(BinOStreamC &out) const {
     if(!RCBodyVC::Save(out))
-      return false;    
+      return false;
     int version = 1;
     out << version << refHome << appearanceModel << refiner << smooth;
     return true;
   }
 
   //: Save to stream 'out'.
-  
   bool AAMActiveAppearanceModelBodyC::Save(ostream &out) const {
     if(!RCBodyVC::Save(out))
       return false;
     int version = 1;
-    out << ' ' << version << ' ' << ' ' << refHome << ' ' << appearanceModel << ' ' << refiner << ' ' << smooth;    
+    out << ' ' << version << ' ' << ' ' << refHome << ' ' << appearanceModel << ' ' << refiner << ' ' << smooth;
     return true;
   }
-  
-  //: Refine pose parameters based on an initial estimate of parameters.
-  VectorC AAMActiveAppearanceModelBodyC::RefinePose(const ImageC<ByteT> &img,VectorC paramEstimate) {    
+
+  //: Returns the optimum appearance parameters for the image 'img' given an initial estimate 'paramEstimate'.
+  //  The optimum parameters are the ones which minimise the residual error between model and image measured in normalised texture frame (i.e. shape free images).
+  VectorC AAMActiveAppearanceModelBodyC::RefinePose(const ImageC<ByteT> &img, const VectorC &paramEstimate) const {
     RealT diff;
     return RefinePose(img,paramEstimate,diff);
   }
 
-  //: Refine pose parameters based on an initial estimate of parameters.
-  VectorC AAMActiveAppearanceModelBodyC::RefinePose(const ImageC<ByteT> &img,VectorC paramEstimate, RealT &diff) {
+  //: Returns the optimum appearance parameters for the image 'img' given an initial estimate 'paramEstimate'.
+  //  The optimum parameters are the ones which minimise the residual error between model and image measured in normalised texture frame (i.e. shape free images).
+  // This function also returns the value of the corresponding residual error in 'diff'.
+  VectorC AAMActiveAppearanceModelBodyC::RefinePose(const ImageC<ByteT> &img, const VectorC &paramEstimate, RealT &diff) const {
     ImageC<RealT> rimg(img.Frame());
     for(Array2dIter2C<RealT,ByteT> it(rimg,img);it;it++)
       it.Data1() = (RealT) it.Data2();
-    
-    rimg = smooth.Apply(rimg); // Filter the image a little.
-    
+
     return RefinePose(rimg,paramEstimate,diff);
   }
-  
-  //: Refine pose parameters based on an initial estimate of parameters.
-  VectorC AAMActiveAppearanceModelBodyC::RefinePose(const ImageC<RealT> &rimg,VectorC paramEstimate, RealT &diff) {
+
+  //: Returns the optimum appearance parameters for the image 'img' given an initial estimate 'paramEstimate'.
+  //  The optimum parameters are the ones which minimise the residual error between model and image measured in normalised texture frame (i.e. shape free images).
+  // This function also returns the value of the corresponding residual error in 'diff'.
+  VectorC AAMActiveAppearanceModelBodyC::RefinePose(const ImageC<RealT> &rimgi, const VectorC &paramEstimate, RealT &diff) const {
+
+    ImageC<RealT> rimg(rimgi.Frame());
+    rimg = smooth.Apply(rimgi); // Filter the image a little.
+
     VectorC lastParm = paramEstimate.Copy();
     VectorC errVec,lastErr;
-    
-    appearanceModel.ErrorVector(lastParm,rimg,errVec); // Compute residual error.
+
+    // Compute residual error.
+    if(appearanceModel.ErrorVector(lastParm,rimg,errVec)==false) {
+      cerr << "WARNING: Input shape exceeds image size.\n";
+      // reduces the scale of the face so that it fits in the image
+      UIntT max_iter = 0;
+      do
+      {
+        lastParm[2] = 0.95*lastParm[2];
+        max_iter++;
+      } while(appearanceModel.ErrorVector(lastParm,rimg,errVec)==false && max_iter<20);
+    }
     diff = errVec.SumOfSqr()/errVec.Size();
     RealT oldDiff;
     UIntT iters =0;
     do {
       oldDiff = diff;
-      
+
       VectorC newDelta = refiner.Apply(errVec);
       VectorC newEst = lastParm - newDelta;
-      appearanceModel.ErrorVector(newEst,rimg,errVec); // Compute residual error.
-      RealT nErr = errVec.SumOfSqr()/errVec.Size();
+      RealT nErr;
+      // Compute residual error.
+      if (appearanceModel.ErrorVector(newEst,rimg,errVec)==false) {
+        // parameter choice leads to shape exceeding image size -> maximum error
+        nErr = RavlConstN::maxReal;
+      } else {
+        nErr = errVec.SumOfSqr()/errVec.Size();
+      }
       iters++;
       if(nErr < diff) {
-	lastParm = newEst;
-	diff = nErr;
-	continue; 
+        lastParm = newEst;
+        diff = nErr;
+        continue; 
       }
       RealT mul = 1.5;
       UIntT scanLimit = 6;
       // Go through successively smaller steps until we fine one thats better.
       for(UIntT i = 0;i < scanLimit;i++,mul /= 2.0) {
-	VectorC newEst = lastParm - newDelta * mul;
-	appearanceModel.ErrorVector(newEst,rimg,errVec); // Compute residual error.
-	RealT nErr = errVec.SumOfSqr()/errVec.Size();
+        VectorC newEst = lastParm - newDelta * mul;
+        RealT nErr;
+        // Compute residual error.
+        if (appearanceModel.ErrorVector(newEst,rimg,errVec)==false) {
+          // parameter choice leads to shape exceeding image size -> maximum error
+          nErr = RavlConstN::maxReal;
+        } else {
+          nErr = errVec.SumOfSqr()/errVec.Size();
+        }
         if(nErr < diff) {
-	  lastParm = newEst;
-	  diff = nErr;
-	  continue; 
+          lastParm = newEst;
+          diff = nErr;
+          continue; 
         }
       }
     }
     while(diff < oldDiff);
 
     cerr << "Finished refinement. Raw Error=" << diff << "\t"  << iters << "\n";
-    
+
     return lastParm;
   }
-    
-  //: Design a model given some data and an existing appearance model.
-  
-  bool AAMActiveAppearanceModelBodyC::Design(const AAMAppearanceModelC apm,const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile, const UIntT incrSize) {
+
+  //: Train the AAM given some data and an existing appearance model.
+  //!param: apm        - input appearance model.
+  //!param: fileList   - list of file names for training.
+  //!param: dir        - name of directory containing training images.
+  //!param: mirrorFile - name of mirror file to use for mirror appearances (if an empty string is provided, mirror images will not be considered).
+  //!param: incrSize   - half number of displacements for each parameter when perturbing the model.
+  // This functions considers each training appearance successively and perturbs the different parameters in order to analyse the effect of errors in the parameters on the residual error. The range of displacement is +/-0.5 standard deviation for each parameter. A value of n for 'incrSize' means that there will be 2n displacements uniformly spread on the interval [-0.5std,+0.5std] for each parameter.
+  bool AAMActiveAppearanceModelBodyC::Design(const AAMAppearanceModelC &apm, const DListC<StringC> &fileList, const StringC &dir, const StringC &mirrorFile, UIntT incrSize) {
     ONDEBUG(cerr << "AAMActiveAppearanceModelBodyC::Design(), Called. \n");
     appearanceModel = apm;
     AAMSampleStreamC ss(appearanceModel,smooth,fileList,dir,mirrorFile,incrSize);
     DesignFuncLSQC design(1,false);
     refiner = design.Apply(ss);
     ONDEBUG(cerr << "\nAAMActiveAppearanceModelBodyC::Design(), Done. \n");
-    
+
     // Should check how well the function works ?
     return true;
   }
-  
-  //: Design a model given some data and an existsing appearance model.
-  
-  bool AAMActiveAppearanceModelBodyC::PreDesign(const AAMAppearanceModelC apm,const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile, const UIntT incrSize, const StringC &op) {
+
+  //: Pre-process some data before final design of the AAM.
+  //!param: apm        - input appearance model.
+  //!param: fileList   - list of file names for training.
+  //!param: dir        - name of directory containing training images.
+  //!param: mirrorFile - name of mirror file to use for mirror appearances (if an empty string is provided, mirror images will not be considered).
+  //!param: incrSize   - half number of displacements for each parameter when perturbing the model.
+  //!param: op         - name of output file containing results of training for this list of file.
+  // This functions considers each training appearance successively and perturbs the different parameters in order to analyse the effect of errors in the parameters on the residual error. The range of displacement is +/-0.5 standard deviation for each parameter. A value of n for 'incrSize' means that there will be 2n displacements uniformly spread on the interval [-0.5std,+0.5std] for each parameter.
+  // Note: contrary to the Design method, PreDesign does not produce a complete appearance model. PreDesign needs to be followed by PostDesign in order to obtain the AAM. PreDesign allows to split the training of the AAM (which is usually computer intensive because of the number of files to process) into a large number of smaller jobs which can be run in parallel.
+  bool AAMActiveAppearanceModelBodyC::PreDesign(const AAMAppearanceModelC &apm,const DListC<StringC> &fileList,const StringC &dir, const StringC &mirrorFile, UIntT incrSize, const StringC &op) {
     ONDEBUG(cerr << "AAMActiveAppearanceModelBodyC::PreDesign(), Called. \n");
     appearanceModel = apm;
     AAMSampleStreamC ss(appearanceModel,smooth,fileList,dir,mirrorFile,incrSize);
@@ -186,12 +223,12 @@ namespace RavlImageN {
       return false;
     }
 
-    // initialise the matrices    
+    // initialise the matrices
     MatrixRUTC aaTu(tup.Data1().Size());
     aaTu.Fill(0);
     MatrixC aTb(tup.Data1().Size(),tup.Data2().Size());
     aTb.Fill(0);
-    
+
      // Reset to the first element.
     ss.First();
     // Do some sums without duplicating data.
@@ -202,26 +239,28 @@ namespace RavlImageN {
 
     // to garantee correct conversion from MatrixRUTC to MatrixC    
     aaTu.ZeroLowerLeft();
-    
+
     SArray1dC<MatrixC> res(2);
     res[0] = aaTu;
     res[1] = aTb;
-    
+
     if(!RavlN::Save(op,res)) {
       return false;
     }
-    
+
     ONDEBUG(cerr << "\nAAMActiveAppearanceModelBodyC::PreDesign(), Done. \n");
 
     return true;
   }
-  
-  //: Design a model given some data and an existsing appearance model.
-  
-  bool AAMActiveAppearanceModelBodyC::PostDesign(const AAMAppearanceModelC apm,const DListC<StringC> &fileList,const StringC &dir, const StringC &op) {
+
+  //: Terminate the design of AAM by merging results of PreDesign.
+  //!param: apm        - input appearance model.
+  //!param: fileList   - list of names of files containing the results of the pre-design.
+  //!param: dir        - name of directory containg results of the pre-design.
+  bool AAMActiveAppearanceModelBodyC::PostDesign(const AAMAppearanceModelC &apm,const DListC<StringC> &fileList,const StringC &dir) {
     ONDEBUG(cerr << "AAMActiveAppearanceModelBodyC::PostDesign(), Called. \n");
     appearanceModel = apm;
- 
+
     // initialise the matrices    
     MatrixRUTC aaTu(appearanceModel.MaskArea());
     aaTu.Fill(0);
@@ -236,28 +275,28 @@ namespace RavlImageN {
       aaTu += res[0];
       aTb += res[1];
     }
-     
+
     aaTu.MakeSymmetric();
     MatrixRSC aaT = aaTu.Copy();
-    
+
     ONDEBUG(cerr << "AAMActiveAppearanceModelBodyC::PostDesign(), Solving equations.. \n");
 
     if(!aaT.InverseIP()) {
       cerr << "AAMActiveAppearanceModelBodyC::PostDesign(), WARNING: Covariance of input has singular values. \n";
       aaT = aaTu.PseudoInverse();
     }
-    
+
     MatrixC A =  (aaT * aTb).T();
 
     VectorC offset(appearanceModel.Dimensions());
     offset.Fill(0); 
     refiner = FuncLinearC(A,offset);
-    
+
     ONDEBUG(cerr << "\nAAMActiveAppearanceModelBodyC::PostDesign(), Done. \n");
 
     return true;
   }
-  
+
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(AAMActiveAppearanceModelBodyC,AAMActiveAppearanceModelC,RCHandleVC<AAMActiveAppearanceModelBodyC>);
-  
+
 }

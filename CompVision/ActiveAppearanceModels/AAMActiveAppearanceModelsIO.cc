@@ -13,46 +13,51 @@
 #include "Ravl/DP/FileFormatBinStream.hh"
 #include "Ravl/DP/Converter.hh"
 #include "Ravl/Image/AAMActiveAppearanceModel.hh"
+#include "Ravl/Image/AAMMultiResActiveAppearanceModel.hh"
 #include "Ravl/Image/AAMAffineShapeModel.hh"
 #include "Ravl/Image/AAMScaleRotationShapeModel.hh"
 
 namespace RavlImageN {
 
-  void ActiveAppearanceModelsIO() 
+  void ActiveAppearanceModelsIO()
   {}
-  
+
   static TypeNameC t1(typeid(AAMAppearanceC),"RavlImageN::AAMAppearanceC");
   static TypeNameC t2(typeid(AAMAppearanceModelC),"RavlImageN::AAMAppearanceModelC");
   static TypeNameC t3(typeid(AAMShapeModelC),"RavlImageN::AAMShapeModelC");
-  static TypeNameC t4(typeid(AAMActiveAppearanceModelC),"RavlImageN::AAMActiveAppearanceModelC"); 
-  static TypeNameC t5(typeid(AAMAffineShapeModelC),"RavlImageN::AAMAffineShapeModelC");
-  static TypeNameC t6(typeid(AAMScaleRotationShapeModelC),"RavlImageN::AAMScaleRotationShapeModelC");
-  
+  static TypeNameC t4(typeid(AAMAffineShapeModelC),"RavlImageN::AAMAffineShapeModelC");
+  static TypeNameC t5(typeid(AAMScaleRotationShapeModelC),"RavlImageN::AAMScaleRotationShapeModelC");
+  static TypeNameC t6(typeid(AAMActiveAppearanceModelC),"RavlImageN::AAMActiveAppearanceModelC"); 
+  static TypeNameC t7(typeid(AAMMultiResActiveAppearanceModelC),"RavlImageN::AAMMultiResActiveAppearanceModelC"); 
+
+  FileFormatStreamC <AAMMultiResActiveAppearanceModelC> FileFormatStream_MultiResActiveAppearanceModel;
+  FileFormatBinStreamC <AAMMultiResActiveAppearanceModelC> FileFormatBinStream_MultiResActiveAppearanceModel;
+
   FileFormatStreamC <AAMActiveAppearanceModelC> FileFormatStream_ActiveAppearanceModel;
-  FileFormatBinStreamC <AAMActiveAppearanceModelC> FileFormatBinStream_ActiveAppearanceModel;  
-  
+  FileFormatBinStreamC <AAMActiveAppearanceModelC> FileFormatBinStream_ActiveAppearanceModel;
+
   FileFormatStreamC <AAMShapeModelC> FileFormatStream_ShapeModel;
-  FileFormatBinStreamC <AAMShapeModelC> FileFormatBinStream_ShapeModel;  
-  
+  FileFormatBinStreamC <AAMShapeModelC> FileFormatBinStream_ShapeModel;
+
   FileFormatStreamC <AAMAffineShapeModelC> FileFormatStream_AffineShapeModel;
-  FileFormatBinStreamC <AAMAffineShapeModelC> FileFormatBinStream_AffineShapeModel;  
-  
+  FileFormatBinStreamC <AAMAffineShapeModelC> FileFormatBinStream_AffineShapeModel;
+
   FileFormatStreamC <AAMScaleRotationShapeModelC> FileFormatStream_ScaleRotationShapeModel;
-  FileFormatBinStreamC <AAMScaleRotationShapeModelC> FileFormatBinStream_ScaleRotationShapeModel;  
-  
+  FileFormatBinStreamC <AAMScaleRotationShapeModelC> FileFormatBinStream_ScaleRotationShapeModel;
+
   FileFormatStreamC <AAMAppearanceModelC> FileFormatStream_AppearanceModel;
-  FileFormatBinStreamC <AAMAppearanceModelC> FileFormatBinStream_AppearanceModel;  
+  FileFormatBinStreamC <AAMAppearanceModelC> FileFormatBinStream_AppearanceModel;
 
   FileFormatStreamC <AAMAppearanceC> FileFormatStream_Appearance;
-  FileFormatBinStreamC <AAMAppearanceC> FileFormatBinStream_Appearance;  
-  
-  AAMShapeModelC AffineShapeModel2ShapeModel(const AAMAffineShapeModelC &anasm) 
+  FileFormatBinStreamC <AAMAppearanceC> FileFormatBinStream_Appearance;
+
+  AAMShapeModelC AffineShapeModel2ShapeModel(const AAMAffineShapeModelC &anasm)
   { return anasm; }
-  
-  AAMShapeModelC ScaleRotationShapeModel2ShapeModel(const AAMScaleRotationShapeModelC &anasm) 
+
+  AAMShapeModelC ScaleRotationShapeModel2ShapeModel(const AAMScaleRotationShapeModelC &anasm)
   { return anasm; }
-  
+
   DP_REGISTER_CONVERSION_NAMED(AffineShapeModel2ShapeModel,1,"AAMShapeModelC RavlImageN::AffineShapeModel2ShapeModel(const AAMAffineShapeModelC &)");
-  
+
   DP_REGISTER_CONVERSION_NAMED(ScaleRotationShapeModel2ShapeModel,1,"AAMShapeModelC RavlImageN::ScaleRotationShapeModel2ShapeModel(const AAMAffineShapeModelC &)");
 }

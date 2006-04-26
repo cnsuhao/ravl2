@@ -6,7 +6,10 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlAAM
-//! file="Ravl/CompVision/ActiveAppearanceModels/aamViewShapeModel.cc"
+//! file="Ravl/CompVision/ActiveAppearanceModels/aamViewShapeModel.hh"
+//! docentry="Ravl.API.Images.AAM"
+//! userlevel="Normal"
+//! author="Jean-Yves Guillemaut"
 
 #include "Ravl/Image/AAMShapeModel.hh"
 #include "Ravl/Image/AAMScaleRotationShapeModel.hh"
@@ -25,6 +28,7 @@
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Image/WarpThinPlateSpline.hh"
 #include "Ravl/EntryPnt.hh"
+
 
 using namespace RavlN;
 using namespace RavlGUIN;
@@ -58,17 +62,14 @@ void RenderModel() {
       Index2dC tr(mid - off);
       Index2dC bl(mid + off);
 
-IntT tr0 = tr[0].V() ; 
-IntT tr1 = tr[1].V() ; 
-IntT bl0 = bl[0].V() ; 
-IntT bl1 = bl[1].V() ;
-
-      canvas.GUIDrawLine(tr1, tr0, bl1, bl0,col);
-      canvas.GUIDrawLine(tr1, tr0, bl1, bl0,col);
-      canvas.GUIDrawLine(tr1, bl0, bl1, tr0,col);
-      canvas.GUIDrawLine(bl1, tr0, tr1, bl0,col);
+      IntT tr1 = tr[1].V(); IntT tr0 = tr[0].V();
+      IntT bl1 = bl[1].V(); IntT bl0 = bl[0].V();
+      canvas.GUIDrawLine(tr1, tr0, bl1, bl0, col);
+      canvas.GUIDrawLine(tr1, tr0, bl1, bl0, col);
+      canvas.GUIDrawLine(tr1, bl0, bl1, tr0, col);
+      canvas.GUIDrawLine(bl1, tr0, tr1, bl0, col);
     }
-  } 
+  }
   if(am.IsValid()) {
     //cerr << "Synthesising appearance. ";
     AAMAppearanceC appear = am.Synthesize(params,scale);
@@ -79,7 +80,7 @@ IntT bl1 = bl[1].V() ;
     //counter++;
     canvas.GUIDrawImage(appear.Image(),off);
   }
-  
+
   canvas.GUIRefresh();
 }
 
@@ -110,14 +111,16 @@ bool ChangeValue(RealT &parm) {
   return true;
 }
 
+//: Visualise shape or appearance model.
+//  This programs allows to visualise interactively the effects of varying the parameters controling the main modes of variation of the shape or appearance model. For more information type "aamViewShapeModel -help".
 int viewShapeModel(int nargs,char **argv) {
   OptionC opt(nargs,argv);
-  bool appear = opt.Boolean("a",false,"Load appearance model. ");
-  StringC fileName = opt.String("f",appear ? "am.abs" : "sm.abs","Model file. ");
+  bool appear = opt.Boolean("a",false,"Load appearance? true=yes. Load only shape if set to false.");
+  StringC fileName = opt.String("f",appear ? "am.abs" : "sm.abs","Input model.");
   IntT varRange = opt.Int("vr",40,"Range to put on the slider. ");
   scale = opt.Real("sc",1,"Scale image. ");
   opt.Check();
-  
+
   if(appear) {
     if(!Load(fileName,am)) {
       cerr << "Failed to load file " << fileName << "\n";
@@ -148,24 +151,23 @@ int viewShapeModel(int nargs,char **argv) {
     fixedMeans = am.FixedMean();
   }
   cout << "Dimentions in model=" << params.Size() << "\n";
-  
+
   WindowC win(100,100,"Shape Model Viewer");
   canvas = CanvasC(600,600);
   canvas.AutoRefresh(false);
   SpinButtonC spinButton(0,1,0.0,0.0,params.Size()-1,1.0);
-  
+
   slider = SliderC(false,0,(RealT) -varRange,(RealT) varRange,0.1);
   Connect(spinButton.SigChanged(),ChangeParameter);
   Connect(slider.SigChanged(),ChangeValue);
-  win.Add(VBox(canvas + HBox(spinButton +
-			     slider)));
-  
+  win.Add(VBox(canvas + HBox(spinButton + slider)));
+
   win.Show();
   RenderModel();
   Manager.Execute();
-  
+
   Manager.Wait();
-  
+
   return 0;
 }
 

@@ -10,6 +10,7 @@
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMAppearanceUtil.hh"
 //! docentry="Ravl.API.Images.AAM"
+//! example = "aamBuildShapeModel.cc;aamBuildAppearanceModel.cc;aamBuildActiveAppearanceModel.cc"
 
 #include "Ravl/PatternRec/Sample.hh"
 #include "Ravl/String.hh"
@@ -20,14 +21,29 @@ namespace RavlImageN {
 
   using namespace RavlN;
 
+  AAMAppearanceC LoadFeatureFile(const StringC &file,const StringC &dir,bool ignoreSuspect = true,bool loadImages = true);
+  //: Load ImagePointFeatureSetC object from XML file and store as an appearance.
+  //!param: file - names of XML file.
+  //!param: dir - Name of directory containing appearance files.
+  //!param: ignoreSuspect - Ignore XML files marked as "Suspect"? True = yes.
+  //!param: loadImages - Load image in memory? True = yes.
+  // Note that if 'loadImages' is set to false, only the shape of the model instance will be loaded.
+
   SampleC<AAMAppearanceC> LoadFeatureSet(const StringC &dir,const StringC &ext,bool ignoreSuspect,bool loadImages);
-  //: Load a feature set.
+  //: Load ImagePointFeatureSetC objects from all XML files located in a directory.
+  //!param: dir - Name of directory containing XML files.
+  //!param: ext - Extension of XML files.
+  //!param: ignoreSuspect - Ignore XML files marked as "Suspect"? True = yes.
+  //!param: loadImages - Load image in memory? True = yes.
+  // Note that if 'loadImages' is set to false, only the shape of the model instance will be loaded.
 
   SampleC<AAMAppearanceC> LoadFeatureSet(const DListC<StringC> &files,const StringC &dir,bool ignoreSuspect,bool loadImages);
-  //: Load a feature set.
-
-  AAMAppearanceC LoadFeatureFile(const StringC &file,const StringC &dir,bool ignoreSuspect = true,bool loadImages = true);
-  //: Load a feature set from one file.
+  //: Load ImagePointFeatureSetC objects from a set of XML files and store as set of appearances.
+  //!param: files - list of names of XML files.
+  //!param: dir - Name of directory containing XML files.
+  //!param: ignoreSuspect - Ignore XML files marked as "Suspect"? True = yes.
+  //!param: loadImages - Load image in memory? True = yes.
+  // Note that if 'loadImages' is set to false, only the shape of the model instance will be loaded.
 
 }
 

@@ -11,53 +11,61 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.AAM"
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMAffineShapeModel.hh"
+//! example = "aamBuildShapeModel.cc;aamViewShapeModel.cc"
 
 #include "Ravl/Image/AAMShapeModel.hh"
 
 namespace RavlImageN {
 
   //! userlevel=Develop
-  //: Shape model with affine normalisation.
-  
+  //: Statistical shape model with affine normalisation.
+
   class AAMAffineShapeModelBodyC
     : public AAMShapeModelBodyC
   {
   public:
     AAMAffineShapeModelBodyC();
     //: Default constructor.
-    
+
     AAMAffineShapeModelBodyC(BinIStreamC &is);
     //: Load from bin stream.
-    
+
     AAMAffineShapeModelBodyC(istream &is);
     //: Load from stream.
-    
+
     virtual bool Save(BinOStreamC &out) const;
     //: Save to binary stream 'out'.
 
     virtual bool Save(ostream &out) const;
     //: Save to stream 'out'.
-    
+
     virtual bool ComputeMean(const SampleC<AAMAppearanceC> &sample);
-    //: Compute mean points.
-    
+    //: Compute mean control points for the list of appearance provided.
+
     virtual bool RawParameters(const AAMAppearanceC &inst,VectorC &fixedParams,VectorC &freeParams) const;
-    //: Generate a raw parameter vector.
-    
+    //: Generate raw parameters.
+    //!param: inst        - input appearance for which we would like to compute the parameters.
+    //!param: fixedParams - output pose parameters (e.g. pose, scale, orientation).
+    //!param: freeParams  - output normalised control point coordinates. This vector consists of the concatenation of the X and Y coordinates of all control points in a normalised frame.
+    //  The raw parameters are the parameters representing the shape before applying PCA. They consists of the pose parameters, which describe the pose of the model instance in the image, and the shape parameters, which describe its shape.
+
     virtual void RawProject(const VectorC &fixedParams,const VectorC &freeParams,SArray1dC<Point2dC> &out) const;
-    //: Generate points from a raw parameter vector.
-    
+    //: Generate control points defining an appearance from the raw parameters.
+    //!param: fixedParams - input pose parameters (e.g. pose, scale, orientation).
+    //!param: freeParams  - input normalised control point coordinates. This vector consists of the concatenation of the X and Y coordinates of all control points in a normalised frame.
+    //!param: out         - ouput control points
+
     virtual IntT NoFixedParameters() const;
-    //: Find the number of parameters which have fixed meaning.
-    // offset,scale for example.
-    
+    //: Return number of parameters describing the pose
+    //  These parameters include e.g. the position, scale and orientation of the model instance
+
   protected:
-    
+
   };
 
   //! userlevel=Normal
-  //: Shape model with affine normalisation.
-  
+  //: Statistical shape model with affine normalisation.
+
   class AAMAffineShapeModelC
     : public AAMShapeModelC
   {
@@ -65,37 +73,37 @@ namespace RavlImageN {
     AAMAffineShapeModelC()
     {}
     //: Default constructor.
-    
+
     AAMAffineShapeModelC(bool)
       : AAMShapeModelC(*new AAMAffineShapeModelBodyC())
     {}
     //: Constructor
-   
+
     AAMAffineShapeModelC(BinIStreamC &is);
     //: Binary stream constructor.
-    
+
     AAMAffineShapeModelC(istream &is);
     //: Stream constructor.
-    
+
   protected:
     AAMAffineShapeModelC(AAMShapeModelBodyC &bod)
       : AAMShapeModelC(bod)
     {}
     //: Body constructor.
-    
+
     AAMAffineShapeModelC(AAMAffineShapeModelBodyC *bod)
       : AAMShapeModelC(bod)
     {}
     //: Body ptr constructor.
-    
+
     AAMAffineShapeModelBodyC &Body()
     { return static_cast<AAMAffineShapeModelBodyC &>(AAMShapeModelC::Body()); }
     //: Access body.
-    
+
     const AAMAffineShapeModelBodyC &Body() const
     { return static_cast<const AAMAffineShapeModelBodyC &>(AAMShapeModelC::Body()); }
     //: Access body.
-    
+
   public:
   };
 
@@ -104,12 +112,14 @@ namespace RavlImageN {
     ap.Save(s);
     return s;
   }
-  
+  //: Save shape model with affine normalisation to binary stream.
+
   inline
-  BinIStreamC &operator<<(BinIStreamC &s,AAMAffineShapeModelC &ap) {
+  BinIStreamC &operator>>(BinIStreamC &s,AAMAffineShapeModelC &ap) {
     ap = AAMAffineShapeModelC(s);
     return s;
   }
+  //: Read shape model with affine normalisation from binary stream.
 
 }
 

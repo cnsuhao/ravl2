@@ -1,13 +1,9 @@
-// This file is part of RAVL, Recognition And Vision Library 
-// Copyright (C) 2005, OmniPerception Ltd.
-// This code may be redistributed under the terms of the GNU Lesser
-// General Public License (LGPL). See the lgpl.licence file for details or
-// see http://www.gnu.org/copyleft/lesser.html
-// file-header-ends-here
-/////////////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlAAM
-//! file="Ravl/CompVision/ActiveAppearanceModels/aamBuildShapeModel.cc"
+//! file="Ravl/CompVision/ActiveAppearanceModels/aamBuildShapeModel.hh"
+//! docentry="Ravl.API.Images.AAM"
+//! userlevel="Normal"
+//! author="Jean-Yves Guillemaut"
 
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/OS/Directory.hh"
@@ -22,6 +18,7 @@
 #include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/Text/TextFile.hh"
 
+#include "Ravl/Image/AAMAppearance.hh"
 #include "Ravl/Image/AAMShapeModel.hh"
 #include "Ravl/Image/AAMScaleRotationShapeModel.hh"
 #include "Ravl/Image/AAMAffineShapeModel.hh"
@@ -31,193 +28,76 @@
 using namespace RavlN;
 using namespace RavlImageN;
 
-bool ReadSection(IStreamC &is,const char *name,Array1dC<Point2dC> &array) {
-  if(!is.SkipTo(name)) {
-    cerr << "Failed to find '" << name << "' \n";
-    return false;
-  }
-  if(!is.SkipTo('('))
-    return false;
-  int nc;
-  is >> nc;
-  if(!is.SkipTo(')'))
-    return false;
-  array = Array1dC<Point2dC>(nc);
-  for(Array1dIterC<Point2dC> it(array);it;it++) {
-    is >> *it;
-    //Swap((*it)[0],(*it)[1]);
-  }
-  return true;
-}
-
-CollectionC<Point2dC> LoadPointSet(IStreamC &is) {
-  CollectionC<Point2dC> points(200);
-  Array1dC<Point2dC> array;
-  ReadSection(is,"Face Border",array);
-  points.Insert(array);
-  ReadSection(is,"Outer Lip",array);
-  points.Insert(array);
-  ReadSection(is,"Inner Lip",array);
-  points.Insert(array);
-  ReadSection(is,"Nose",array);
-  points.Insert(array);
-  ReadSection(is,"Left Outer Eye",array);
-  points.Insert(array);
-  ReadSection(is,"Left Inner Eye",array);
-  points.Insert(array);
-  ReadSection(is,"Right Outer Eye",array);
-  points.Insert(array);
-  ReadSection(is,"Right Inner Eye",array);
-  points.Insert(array);
-  ReadSection(is,"Left Eyebrow",array);
-  points.Insert(array);
-  ReadSection(is,"Right Eyebrow",array);  
-  return points;
-}
-
-
-SampleC<AAMAppearanceC> LoadOtherSet(const StringC &dir,const StringC &ext) {
-  SampleC<AAMAppearanceC> appearanceSet;
-  
-  for(int i = 0;;i++) {    
-    StringC curFile = dir + i + ".txt";
-    IStreamC is(curFile);
-    if(!is)
-      break;
-    CollectionC<Point2dC> points = LoadPointSet(is);
-    AAMAppearanceC app(points.Array());
-#if 0
-    // Sanity check.
-    for(SArray1dIterC<Point2dC> it(points.Array());it;it++) {
-      RavlAssert(Abs((*it)[0]) < 300);
-      RavlAssert(Abs((*it)[1]) < 300);
-    }
-#endif
-    appearanceSet.Append(app);
-    
-  }
-  
-  return appearanceSet;
-}
-
-void AddFeatures(IStreamC &is,const StringC &sec,int &id,ImagePointFeatureSetC &fs) {
-  Array1dC<Point2dC> array;
-  ReadSection(is,sec,array);
-  StringC aName = sec + "-";
-#if 0
-  Array1dIterC<Point2dC> it(array);
-  int lastId = id;
-  fs.AddFeature(ImagePointFeatureC(id++,aName + StringC(it.Index().V()),(*it)[1],(*it)[0]));
-  for(it++;it;it++) {
-    fs.AddFeature(ImagePointFeatureC(id,aName + StringC(it.Index().V()),(*it)[1],(*it)[0]));
-    fs.AddLine(lastId,id);
-    lastId = id++;
-  }
-#else
-  DListC<IntT> ints;
-  for(Array1dIterC<Point2dC> it(array);it;it++) {
-    fs.AddFeature(ImagePointFeatureC(id,aName + StringC(it.Index().V()),(*it)[1],(*it)[0]));
-    ints.InsLast(id);
-    id++;
-  }
-  fs.AddSubset(sec,ints);
-#endif
-}
-
-int SaveModel(const StringC &pos,const StringC &sm) {
-  
-  IStreamC is(pos);
-  ImagePointFeatureSetC fs(true);
-  
-  int id = 0;
-  
-  AddFeatures(is,"Face Border",id,fs);
-  AddFeatures(is,"Outer Lip",id,fs);
-  AddFeatures(is,"Inner Lip",id,fs);
-  AddFeatures(is,"Nose",id,fs);
-  AddFeatures(is,"Left Outer Eye",id,fs);
-  AddFeatures(is,"Left Inner Eye",id,fs);
-  AddFeatures(is,"Right Outer Eye",id,fs);
-  AddFeatures(is,"Right Inner Eye",id,fs);
-  AddFeatures(is,"Left Eyebrow",id,fs);
-  AddFeatures(is,"Right Eyebrow",id,fs);
-  
-  Save(sm,fs);
-  return 0;
-}
-
+//: Build a statistical shape model.
+//  This program reads a set of appearance files and uses them to build a statistical shape model. The appearance files to be read are located in the directory defined by the option "-d" and are specified either by providing a list of file names (option "-l") or by providing the extension of the appearance files (option "-e"). In addition, it is possible to double the effective number of appearances used for building the statistical shape model by considering mirror appearances of the appearance defined in the files. This is done by providing a mirror file (option "-m"). The mirror file consists of a list of pairs of indices which represent feature points in correspondence when carrying out the vertical symmetry (mirror effect). Among the options it is possible to control the proportion of variation preserved by the shape model (option "-vs") and to set a limit to the maximum number of parameters contained in the statistical shape model (option "-maxs"). For more information type "aamBuildShapeModel -help".
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
-  StringC dir = opt.String("d","/vol/vssp/vampire/people/jean-yves/appmodel/markup/","Directory to search for examples. ");
-  StringC list = opt.String("l","/vol/vssp/vampire/people/jean-yves/appmodel/lists/all.list","file list. ");
-  RealT var = opt.Real("vs",0.98,"Preserved variation in appearence. ");
-  UIntT maxP = opt.Int("maxs",25,"Maximum number of shape parameters ");
-  StringC ext = opt.String("e","xml","Extention to expect on markup files. ");
-  bool os = opt.Boolean("os",false,"Other types of sets. ");
-  bool st = opt.Boolean("st",false,"Save template model. ");
-  bool ignoreSuspect = opt.Boolean("is",true,"Ignore suspect markups.");
-  StringC op = opt.String("o","sm.abs","File to save model into.");
-  StringC mirrorFile = opt.String("m","/vol/vssp/vampire/people/jean-yves/appmodel/mirror.txt","Mirror file. ");
-  StringC meanPnts = opt.String("om","","Save position of mean points to a seperate file. ");
+  StringC dir = opt.String("d","/vol/vssp/vampire/people/jean-yves/appmodel/markup/","Directory containing markup files defining the appearances.");
+  StringC list = opt.String("l","/vol/vssp/vampire/people/jean-yves/appmodel/lists/all_half1.list","Input file containing list of markup file names.");
+  StringC ext = opt.String("e","xml","Extention to search for markup files (needed only if no list is provided, i.e. option -l is set to empty string \"\").");
+  StringC mirrorFile = opt.String("m","/vol/vssp/vampire/people/jean-yves/appmodel/mirror.txt","Input mirror file for generation of mirror appearances. To disable mirror appearances, the option -m should be set to the empty string \"\".");
+  RealT var = opt.Real("vs",0.98,"Proportion of variation preserved by the PCA during dimension reduction (must be between 0 and 1).");
+  UIntT maxP = opt.Int("maxs",1000,"Upper limit on number of parameters in the statistical shape model. If number of parameters required to explain the proportion of variation specified by option -vs exceeds this value, the number of parameters will be troncated to this value.");
+  bool ignoreSuspect = opt.Boolean("is",true,"Ignore suspect markups (i.e. files tagged with 'suspect=\"1\"').");
+  StringC op = opt.String("o","/vol/vssp/vampire/people/jean-yves/appmodel/models/sm_all_half1m98.abs","Output file for statistical shape model.");
+  StringC meanPnts = opt.String("om","","Output file for list of mean feature points representing the mean shape.");
   opt.Check();
 
-#if 0  
-  AAMShapeModelC sm(true); // Shape model.
+#if 0
+  AAMShapeModelC sm(true); // Basic shape model.
 #else
-  AAMScaleRotationShapeModelC sm(true); // Shape model.
+  AAMScaleRotationShapeModelC sm(true); // Shape model with scale and rotation normalisation.
 #endif
-  
+
   SampleC<AAMAppearanceC> appearanceSet;
-  
-  if(st) {
-    SaveModel(dir,"model.xml");
-    return 0;
+
+  if(!list.IsEmpty())
+  {
+    // Read file list.
+    DListC<StringC> fileList;
+    TextFileC fl(list);
+    for(UIntT i=1;i<=fl.NoLines();i++)  fileList.InsLast(fl[i].TopAndTail());
+    appearanceSet = LoadFeatureSet(fileList,dir,ignoreSuspect,false);
   }
-  
-  if(!os)
-    if(!list.IsEmpty())
-    {
-      //: load list from file
-      DListC<StringC> fileList;
-      TextFileC fl(list);
-      for(UIntT i=1;i<=fl.NoLines();i++)  fileList.InsLast(fl[i].TopAndTail());
-      appearanceSet = LoadFeatureSet(fileList,dir,ignoreSuspect,false);
-    }
-    else
-    {
-      appearanceSet = LoadFeatureSet(dir,ext,ignoreSuspect,false);
-    }
   else
-    appearanceSet = LoadOtherSet(dir,ext);
-  
+  {
+    // Make file list from all files with extension 'ext' located in directory 'dir'.
+    appearanceSet = LoadFeatureSet(dir,ext,ignoreSuspect,false);
+  }
+
   if(!mirrorFile.IsEmpty()) {
+    // Load mirror file.
     AAMAppearanceMirrorC mirror(mirrorFile);
     if(!mirror.IsValid()) {
       cerr << "ERROR: Failed to read mirror file. \n";
       return 1;
     }
+    // Create mirror appearances
     mirror.Reflect(appearanceSet);
   }
-  
+
   cerr << "Got " << appearanceSet.Size() << " samples. \n";
-  
+
+  // Design shape model from list of appearances.
   sm.Design(appearanceSet,var,maxP);
-  
-  cerr << "Dimensions in shape model = " << sm.Dimensions() << "\n";
-    
+
+  cerr << "Dimension of shape model = " << sm.Dimensions() << "\n";
+
   if(!meanPnts.IsEmpty()) {
+    // Save mean position of feature points (representing mean shape)
     if(!Save(meanPnts,sm.MeanPoints())) {
-      cerr << "Failed to save position of mean points to '" << meanPnts << "'\n";
+      cerr << "Failed to save mean position of feature points to '" << meanPnts << "'\n";
       return 1;
     }
   }
 
   if(!op.IsEmpty()) {
+    // Save shape model
     if(!Save(op,sm)) {
       cerr << "Failed to save model to '" << op << "'\n";
       return 1;
     }
   }
-  
+
   return 0;
 }

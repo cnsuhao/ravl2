@@ -11,6 +11,7 @@
 //! docentry="Ravl.API.Images.AAM"
 //! author="Charles Galambos"
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMSampleStream.hh"
+//! example = aamBuildActiveAppearanceModel.cc
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/Vector.hh"
@@ -29,51 +30,51 @@ namespace RavlImageN {
 
   using namespace RavlN;
   using namespace RavlImageN;
-  
+
   //! userlevel=Develop
   //: AAM Sample body.
-  
+
   class AAMSampleStreamBodyC
     : public DPISPortBodyC<Tuple2C<VectorC,VectorC> >
   {
   public:
     AAMSampleStreamBodyC(const AAMAppearanceModelC &nam,const GaussConvolve2dC<RealT> &smooth,const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile, const UIntT incrSize);
     //: Constructor.
-    
+
     virtual bool Seek(UIntT off);
     //: Seek to location in stream.
-    
+
     virtual UIntT Size() const; 
     //: Find the total size of the stream. (assuming it starts from 0)
-    
+
     virtual Tuple2C<VectorC,VectorC> Get();
     //: Get next piece of data.
-    
+
     virtual bool Get(Tuple2C<VectorC,VectorC> &buff);
     //: Try and get next piece of data.
-    
+
     virtual bool IsGetEOS() const;
-    //: Has the End Of Stream been reached ?
+    //: Has the End Of Stream been reached?
     // true = yes.
 
   protected:
-    AAMAppearanceModelC am;
-    GaussConvolve2dC<RealT> smooth;
-    AAMAppearanceMirrorC mirror;
-    DLIterC<StringC> flit;
-    StringC dir;
-    ImageC<RealT> image; // Current image.
-    VectorC trueVec;
-    VectorC deltaVec;
-    UIntT frames; // number of frames to process.
-    UIntT samplesPerFrame;
-    UIntT sampleNo;
-    UIntT incrSize;
-    bool done;
+    AAMAppearanceModelC am;  // Statistical model of appearance.
+    GaussConvolve2dC<RealT> smooth;  // Gaussian convolver for smoothing.
+    AAMAppearanceMirrorC mirror;  // Mirror for creating mirror appearances.
+    DLIterC<StringC> flit;  // File iterator.
+    StringC dir;  // Name of directory containing appearance files.
+    ImageC<RealT> image;  // Current image frame.
+    VectorC trueVec;  // True parameter vector.
+    VectorC deltaVec;  // Displacement on parameter vector.
+    UIntT frames;  // Number of image frames to process.
+    UIntT samplesPerFrame;  // Number of displacements per appearance.
+    UIntT sampleNo;  // Index of displacement for the current appearance.
+    UIntT incrSize;  // Half number of displacements for each parameter when perturbing the model.
+    bool done;  // Have all files been processed?
   };
-  
+
   //! userlevel=Advanced
-  //: AAM Sample .
+  //: AAM Sample.
 
   class AAMSampleStreamC
     : public SampleStream2C<VectorC,VectorC >
@@ -84,7 +85,7 @@ namespace RavlImageN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
-    
+
   };
 
 }

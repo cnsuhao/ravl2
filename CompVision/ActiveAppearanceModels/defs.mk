@@ -7,29 +7,37 @@
 #! rcsid="$Id$"
 #! file="Ravl/CompVision/ActiveAppearanceModels/defs.mk"
 
-ORGANISATION=OmniPerception Ltd.
-
 DESCRIPTION = Active appearance models
 
 PACKAGE = Ravl/Image
 
 DONOT_SUPPORT = arm
 
-MAINS = aamTestApp.cc aamBuildShapeModel.cc aamBuildAppearanceModel.cc aamBuildActiveAppearanceModel.cc aamCombineActiveAppearanceModel.cc aamViewShapeModel.cc aamAppearance2xml.cc
+MAINS = aamBuildShapeModel.cc aamViewShapeModel.cc aamBuildAppearanceModel.cc aamBuildActiveAppearanceModel.cc \
+ aamCombineActiveAppearanceModel.cc aamLocaliseFace.cc
 
-HEADERS = AAMAppearance.hh AAMShapeModel.hh AAMAppearanceModel.hh AAMActiveAppearanceModel.hh \
- AAMAffineShapeModel.hh AAMScaleRotationShapeModel.hh AAMSampleStream.hh \
- AAMAppearanceUtil.hh
+EXAMPLES = aamBuildShapeModel.cc aamViewShapeModel.cc aamBuildAppearanceModel.cc aamBuildActiveAppearanceModel.cc \
+ aamCombineActiveAppearanceModel.cc aamLocaliseFace.cc
 
-SOURCES = AAMAppearance.cc AAMShapeModel.cc AAMAppearanceModel.cc AAMActiveAppearanceModel.cc \
- AAMActiveAppearanceModelsIO.cc  AAMAffineShapeModel.cc AAMScaleRotationShapeModel.cc \
- AAMSampleStream.cc AAMAppearanceUtil.cc
+HEADERS = AAMAppearance.hh AAMShapeModel.hh AAMAffineShapeModel.hh AAMScaleRotationShapeModel.hh \
+ AAMAppearanceModel.hh AAMAppearanceUtil.hh AAMActiveAppearanceModel.hh AAMSampleStream.hh \
+ AAMMultiResActiveAppearanceModel.hh AAMFaceLocalisation.hh
+
+SOURCES = AAMAppearance.cc AAMShapeModel.cc AAMAffineShapeModel.cc AAMScaleRotationShapeModel.cc \
+ AAMAppearanceModel.cc AAMAppearanceUtil.cc AAMActiveAppearanceModel.cc AAMSampleStream.cc \
+ AAMMultiResActiveAppearanceModel.cc AAMFaceLocalisation.cc AAMActiveAppearanceModelsIO.cc
 
 MUSTLINK = AAMActiveAppearanceModelMustLink.cc
 
 PLIB = RavlAAM
 
-USESLIBS=  RavlCore RavlImageProc  RavlMath RavlOS RavlPatternRec RavlOptimise RavlIO 
-PROGLIBS = RavlImageIO RavlMathIO RavlDPDisplay.opt RavlGUI RavlGUI2D
+USESLIBS = RavlCore RavlImage RavlImageProc  RavlMath RavlOS RavlPatternRec RavlOptimise \
+  RavlDPDisplay RavlIO Optimisation
+
+PROGLIBS = RavlImageIO RavlMathIO RavlGUI RavlGUI2D
 
 EHT = AAM.html
+
+AUXDIR=share/doc/RAVL/Images/AAM
+
+AUXFILES= 000_1_2_090.png 000_1_2_090.xml

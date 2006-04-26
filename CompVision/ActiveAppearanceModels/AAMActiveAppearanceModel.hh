@@ -12,6 +12,7 @@
 //! docentry="Ravl.API.Images.AAM"
 //! userlevel="Develop"
 //! author="Charles Galambos"
+//! example = "aamBuildActiveAppearanceModel.cc;aamCombineActiveAppearanceModel.cc"
 
 #include "Ravl/Image/AAMAppearanceModel.hh"
 #include "Ravl/PatternRec/Function.hh"
@@ -20,7 +21,7 @@
 namespace RavlImageN {
 
   //! userlevel=Develop
-  //: Active Appearance Model
+  //: Active Appearance Model (AAM).
 
   class AAMActiveAppearanceModelBodyC 
     :public RCBodyVC
@@ -41,58 +42,84 @@ namespace RavlImageN {
     virtual bool Save(ostream &out) const;
     //: Save to stream 'out'.
 
-    VectorC RefinePose(const ImageC<ByteT> &img,VectorC paramEstimate);
-    //: Refine pose parameters based on an initial estimate of parameters.
+    VectorC RefinePose(const ImageC<ByteT> &img, const VectorC &paramEstimate) const;
+    //: Returns the optimum appearance parameters for the image 'img' given an initial estimate 'paramEstimate'.
+    //  The optimum parameters are the ones which minimise the residual error between model and image measured in normalised texture frame (i.e. shape free images).
 
-    VectorC RefinePose(const ImageC<ByteT> &img,VectorC paramEstimate,RealT &diff);
-    //: Refine pose parameters based on an initial estimate of parameters.
+    VectorC RefinePose(const ImageC<ByteT> &img, const VectorC &paramEstimate,RealT &diff) const;
+    //: Returns the optimum appearance parameters for the image 'img' given an initial estimate 'paramEstimate'.
+    //  The optimum parameters are the ones which minimise the residual error between model and image measured in normalised texture frame (i.e. shape free images).
+    // This function also returns the value of the corresponding residual error in 'diff'.
 
-    VectorC RefinePose(const ImageC<RealT> &img,VectorC paramEstimate,RealT &diff);
-    //: Refine pose parameters based on an initial estimate of parameters.
+    VectorC RefinePose(const ImageC<RealT> &img, const VectorC &paramEstimate,RealT &diff) const;
+    //: Returns the optimum appearance parameters for the image 'img' given an initial estimate 'paramEstimate'.
+    //  The optimum parameters are the ones which minimise the residual error between model and image measured in normalised texture frame (i.e. shape free images).
+    // This function also returns the value of the corresponding residual error in 'diff'.
 
-    bool Design(const AAMAppearanceModelC apm,const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile, const UIntT incrSize);
-    //: Design a model given some data and an existsing appearance model.
+    bool Design(const AAMAppearanceModelC &apm, const DListC<StringC> &fileList, const StringC &dir, const StringC &mirrorFile, UIntT incrSize);
+    //: Train the AAM given some data and an existing appearance model.
+    //!param: apm        - input appearance model.
+    //!param: fileList   - list of file names for training.
+    //!param: dir        - name of directory containing training images.
+    //!param: mirrorFile - name of mirror file to use for mirror appearances (if an empty string is provided, mirror images will not be considered).
+    //!param: incrSize   - half number of displacements for each parameter when perturbing the model.
+    // This functions considers each training appearance successively and perturbs the different parameters in order to analyse the effect of errors in the parameters on the residual error. The range of displacement is +/-0.5 standard deviation for each parameter. A value of n for 'incrSize' means that there will be 2n displacements uniformly spread on the interval [-0.5std,+0.5std] for each parameter.
 
-    bool PreDesign(const AAMAppearanceModelC apm,const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile, const UIntT incrSize, const StringC &op);
-    //: Pre-process some data in preparation of design of AAM
+    bool PreDesign(const AAMAppearanceModelC &apm,const DListC<StringC> &fileList,const StringC &dir, const StringC &mirrorFile, UIntT incrSize, const StringC &op);
+    //: Pre-process some data before final design of the AAM.
+    //!param: apm        - input appearance model.
+    //!param: fileList   - list of file names for training.
+    //!param: dir        - name of directory containing training images.
+    //!param: mirrorFile - name of mirror file to use for mirror appearances (if an empty string is provided, mirror images will not be considered).
+    //!param: incrSize   - half number of displacements for each parameter when perturbing the model.
+    //!param: op         - name of output file containing results of training for this list of file.
+    // This functions considers each training appearance successively and perturbs the different parameters in order to analyse the effect of errors in the parameters on the residual error. The range of displacement is +/-0.5 standard deviation for each parameter. A value of n for 'incrSize' means that there will be 2n displacements uniformly spread on the interval [-0.5std,+0.5std] for each parameter.
+    // Note: contrary to the Design method, PreDesign does not produce a complete appearance model. PreDesign needs to be followed by PostDesign in order to obtain the AAM. PreDesign allows to split the training of the AAM (which is usually computer intensive because of the number of files to process) into a large number of smaller jobs which can be run in parallel.
 
-    bool PostDesign(const AAMAppearanceModelC apm,const DListC<StringC> &fileList,const StringC &dir, const StringC &op);
-    //: Terminate the design of AAM by merging results of pre-design
+    bool PostDesign(const AAMAppearanceModelC &apm,const DListC<StringC> &fileList,const StringC &dir);
+    //: Terminate the design of AAM by merging results of PreDesign.
+    //!param: apm        - input appearance model.
+    //!param: fileList   - list of names of files containing the results of the pre-design.
+    //!param: dir        - name of directory containg results of the pre-design.
 
     AAMAppearanceModelC &AppearanceModel()
     { return appearanceModel; }
-    //: Access active model.
+    //: Access appearance model.
 
     const AAMAppearanceModelC &AppearanceModel() const
     { return appearanceModel; }
-    //: Access active model.
+    //: Access appearance model.
 
-    AAMShapeModelC &ShapeModel()
+    const AAMShapeModelC &ShapeModel() const
     { return appearanceModel.ShapeModel(); }
-    //: Access active model.
+    //: Access shape model.
 
-    VectorC ShapeParameters(const VectorC &aamParams)
+    VectorC ShapeParameters(const VectorC &aamParams) const
     { return appearanceModel.ShapeParameters(aamParams); }
-    //: Extract shape parameters from active appearance model ones.
+    //: Extract shape parameters from the appearance represented by the parameter vector 'aamParams'.
+
+    const SArray1dC<Point2dC> &RefrenceHome() const
+    { return refHome; }
+    //: Access home position of reference points (i.e. position of the control points in mean shape).
 
     SArray1dC<Point2dC> &RefrenceHome()
     { return refHome; }
-    //: Access refrence points.
+    //: Access home position of reference points (i.e. position of the control points in mean shape).
 
     UIntT Dimensions() const
     { return appearanceModel.Dimensions(); }
-    //: Get number of dimension in the model.
+    //: Size of the parameter vector.
 
   protected:
-    SArray1dC<Point2dC> refHome; // Home position of reference points.
-    AAMAppearanceModelC appearanceModel;
-    FunctionC refiner;
-    GaussConvolve2dC<RealT> smooth; // Gauss convolver for clean up input a little.    
+    SArray1dC<Point2dC> refHome;         // Home position of reference points in shape free image.
+    AAMAppearanceModelC appearanceModel; // Statistical model of appearance.
+    FunctionC refiner;                   // Predicts correction to apply to the model parameters given residual.
+    GaussConvolve2dC<RealT> smooth;      // Gauss convolver for smoothing input images.
   };
 
 
   //! userlevel=Normal
-  //: Active Appearnce Model
+  //: Active Appearance Model (AAM).
 
   class AAMActiveAppearanceModelC 
     : public RCHandleVC<AAMActiveAppearanceModelBodyC>
@@ -132,56 +159,96 @@ namespace RavlImageN {
 
   public:
 
-    VectorC RefinePose(const ImageC<ByteT> &img,VectorC paramEstimate)
+    VectorC RefinePose(const ImageC<ByteT> &img, const VectorC &paramEstimate) const
     { return Body().RefinePose(img,paramEstimate); }
-    //: Refine pose parameters based on an initial estimate of parameters.
+    //: Returns the optimum appearance parameters for the image 'img' given an initial estimate 'paramEstimate'.
+    //  The optimum parameters are the ones which minimise the residual error between model and image measured in normalised texture frame (i.e. shape free images).
 
-    VectorC RefinePose(const ImageC<ByteT> &img,VectorC paramEstimate,RealT &diff)
+    VectorC RefinePose(const ImageC<ByteT> &img, const VectorC &paramEstimate, RealT &diff) const
     { return Body().RefinePose(img,paramEstimate,diff); }
-    //: Refine pose parameters based on an initial estimate of parameters.
+    //: Returns the optimum appearance parameters for the image 'img' given an initial estimate 'paramEstimate'.
+    //  The optimum parameters are the ones which minimise the residual error between model and image measured in normalised texture frame (i.e. shape free images).
+    // This function also returns the value of the corresponding residual error in 'diff'.
 
-    VectorC RefinePose(const ImageC<RealT> &img,VectorC paramEstimate,RealT &diff)
+    VectorC RefinePose(const ImageC<RealT> &img, const VectorC &paramEstimate, RealT &diff) const
     { return Body().RefinePose(img,paramEstimate,diff); }
-    //: Refine pose parameters based on an initial estimate of parameters.
+    //: Returns the optimum appearance parameters for the image 'img' given an initial estimate 'paramEstimate'.
+    //  The optimum parameters are the ones which minimise the residual error between model and image measured in normalised texture frame (i.e. shape free images).
+    // This function also returns the value of the corresponding residual error in 'diff'.
 
-    bool Design(const AAMAppearanceModelC apm,const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile, const UIntT incrSize)
+    bool Design(const AAMAppearanceModelC &apm, const DListC<StringC> &fileList, const StringC &dir, const StringC &mirrorFile, UIntT incrSize)
     { return Body().Design(apm,fileList,dir,mirrorFile,incrSize); }
-    //: Design a model given some data and an existsing appearance model.
+    //: Train the AAM given some data and an existing appearance model.
+    //!param: apm        - input appearance model.
+    //!param: fileList   - list of file names for training.
+    //!param: dir        - name of directory containing training images.
+    //!param: mirrorFile - name of mirror file to use for mirror appearances (if an empty string is provided, mirror images will not be considered).
+    //!param: incrSize   - half number of displacements for each parameter when perturbing the model.
+    // This functions considers each training appearance successively and perturbs the different parameters in order to analyse the effect of errors in the parameters on the residual error. The range of displacement is +/-0.5 standard deviation for each parameter. A value of n for 'incrSize' means that there will be 2n displacements uniformly spread on the interval [-0.5std,+0.5std] for each parameter.
 
-    bool PreDesign(const AAMAppearanceModelC apm,const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile, const UIntT incrSize, const StringC &op)
+    bool PreDesign(const AAMAppearanceModelC &apm,const DListC<StringC> &fileList,const StringC &dir, const StringC &mirrorFile, UIntT incrSize, const StringC &op)
     { return Body().PreDesign(apm,fileList,dir,mirrorFile,incrSize,op); }
-    //: Pre-process some data in preparation of design of AAM
+    //: Pre-process some data before final design of the AAM.
+    //!param: apm        - input appearance model.
+    //!param: fileList   - list of file names for training.
+    //!param: dir        - name of directory containing training images.
+    //!param: mirrorFile - name of mirror file to use for mirror appearances (if an empty string is provided, mirror images will not be considered).
+    //!param: incrSize   - half number of displacements for each parameter when perturbing the model.
+    //!param: op         - name of output file containing results of training for this list of file.
+    // This functions considers each training appearance successively and perturbs the different parameters in order to analyse the effect of errors in the parameters on the residual error. The range of displacement is +/-0.5 standard deviation for each parameter. A value of n for 'incrSize' means that there will be 2n displacements uniformly spread on the interval [-0.5std,+0.5std] for each parameter.
+    // Note: contrary to the Design method, PreDesign does not produce a complete appearance model. PreDesign needs to be followed by PostDesign in order to obtain the AAM. PreDesign allows to split the training of the AAM (which is usually computer intensive because of the number of files to process) into a large number of smaller jobs which can be run in parallel.
 
-    bool PostDesign(const AAMAppearanceModelC apm,const DListC<StringC> &fileList,const StringC &dir, const StringC &op)
-    { return Body().PostDesign(apm,fileList,dir,op); }
-    //: Terminate the design of AAM by merging results of pre-design
-
-    AAMAppearanceModelC &AppearanceModel()
-    { return Body().AppearanceModel(); }
-    //: Access active model.
+    bool PostDesign(const AAMAppearanceModelC &apm,const DListC<StringC> &fileList,const StringC &dir)
+    { return Body().PostDesign(apm,fileList,dir); }
+    //: Terminate the design of AAM by merging results of PreDesign.
+    //!param: apm        - input appearance model.
+    //!param: fileList   - list of names of files containing the results of the pre-design.
+    //!param: dir        - name of directory containg results of the pre-design.
 
     const AAMAppearanceModelC &AppearanceModel() const
     { return Body().AppearanceModel(); }
-    //: Access active model.
+    //: Access appearance model.
 
-    AAMShapeModelC &ShapeModel()
+    AAMAppearanceModelC &AppearanceModel()
+    { return Body().AppearanceModel(); }
+    //: Access appearance model.
+
+    const AAMShapeModelC &ShapeModel() const
     { return Body().ShapeModel(); }
-    //: Access active model.
+    //: Access shape model.
+
+    const SArray1dC<Point2dC> &RefrenceHome() const
+    { return Body().RefrenceHome(); }
+    //: Access home position of reference points (i.e. position of the control points in mean shape).
 
     SArray1dC<Point2dC> &RefrenceHome()
     { return Body().RefrenceHome(); }
-    //: Access refrence points.
+    //: Access home position of reference points (i.e. position of the control points in mean shape).
 
-    VectorC ShapeParameters(const VectorC &aamParams)
+    VectorC ShapeParameters(const VectorC &aamParams) const
     { return Body().ShapeParameters(aamParams); }
-    //: Extract shape parameters from active appearance model ones.
+    //: Extract shape parameters from the appearance represented by the parameter vector 'aamParams'.
 
     UIntT Dimensions() const
     { return Body().Dimensions(); }
-    //: Get number of dimension in the model.
+    //: Size of the parameter vector.
 
     friend class AAMActiveAppearanceModelBodyC;
   };
+
+  inline
+  BinOStreamC &operator<<(BinOStreamC &s,const AAMActiveAppearanceModelC &aam) {
+    aam.Save(s);
+    return s;
+  }
+  //: Save active appearance model to binary stream.
+
+  inline
+  BinIStreamC &operator>>(BinIStreamC &s,AAMActiveAppearanceModelC &aam) {
+    aam = AAMActiveAppearanceModelC(s);
+    return s;
+  }
+  //: Read active appearance model from binary stream.
 
 }
 
