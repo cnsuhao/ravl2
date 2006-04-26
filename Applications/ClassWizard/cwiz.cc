@@ -22,7 +22,7 @@ using namespace RavlN;
 int main(int nargs,char **argv)
 {
   OptionC opts(nargs,argv);
-  StringC prefix = opts.String("p","_","Prefix to add to modified files. ");
+  StringC prefix = opts.String("p","","Prefix to add to modified files, can be used to check results before applying the changes directly. ");
   bool verbose = opts.Boolean("v",false,"Verbose mode. ");
   StringC fileName=opts.String("",".","Input directory. ");
   bool dryRun = opts.Boolean("d",false,"Dry run, don't write any files. ");
