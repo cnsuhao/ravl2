@@ -74,6 +74,26 @@ namespace RavlN {
     //: This returns the cross product of the projection of two orthognal unit vectors.
     // This is usefull if you want to test if the transform is mirrored. i.e. changes
     // the direction of rotations.
+    
+    void Decompose(Point2dC &translation,Vector2dC &scaling,RealT &skew,RealT &rotation) const;
+    //: Decompose affine transform.
+    //!param: translation - Translation of used in the transfrom
+    //!param: scaling - Row and column components of scaling.
+    //!param: skew - Skew component of scaling.
+    //!param: rotation - Angle of rotation.
+    // The decomposition is done such that: <br>
+    // Matrix2dC ScalingRotation = Matrix2dC(Cos(rotation),Sin(rotation),-Sin(rotation),Cos(rotation)) * Matrix2dC(scaling[0],skew,skew,scaling[1]) <br>
+    // The translation component is simply copied.
+    
+    static Affine2dC Compose(Point2dC translation,Vector2dC scaling,RealT skew,RealT rotation);
+    //: Compose an affine transform the components generated from decompose.
+    //!param: translation - Translation of used in the transfrom
+    //!param: scaling - Row and column components of scaling.
+    //!param: skew - Skew component of scaling.
+    //!param: rotation - Angle of rotation.
+    // The composition is done such that: <br>
+    // Matrix2dC ScalingRotation = Matrix2dC(Cos(rotation),Sin(rotation),-Sin(rotation),Cos(rotation)) * Matrix2dC(scaling[0],skew,skew,scaling[1]) <br>
+    // The translation component is simply copied.
   };
   
   Affine2dC FitAffine(const SArray1dC<Point2dC> &orig,const SArray1dC<Point2dC> &newPos,RealT &residual);

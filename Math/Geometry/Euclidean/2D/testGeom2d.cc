@@ -40,6 +40,7 @@ int testConvexHull2d();
 int testDelaunayTriangulation2d();
 int testCompoundAffine();
 int testFitAffine();
+int testAffine();
 int testHEMesh2d();
 int testProjective2d();
 int testLineProjective2d();
@@ -73,7 +74,6 @@ int main() {
   TEST(testProjective2d);
   TEST(testLineProjective2d);
   TEST(testConic2d);
-#endif
   TEST(testEllipse2dA);
   TEST(testEllipse2dB);
   TEST(testEllipse2dC);
@@ -81,7 +81,8 @@ int main() {
   TEST(testScanPolygon);
   TEST(testOverlap);
   TEST(testPolygonClip);
-
+#endif
+  TEST(testAffine);
   cout << "Test passed. \n";
   return 0;
 }
@@ -303,6 +304,24 @@ int testFitAffine() {
   }
 
   
+  return 0;
+}
+
+int testAffine() {
+  
+  Affine2dC aff(Matrix2dC(0.6,0.5,
+                          0.2,0.4),Vector2dC(22,34));
+  
+  cerr << "Original=" << aff << "\n";
+  Point2dC translation;
+  Vector2dC scaling;
+  RealT skew;
+  RealT rotation;
+  
+  aff.Decompose(translation,scaling,skew,rotation);
+  
+  Affine2dC recom = Affine2dC::Compose(translation,scaling,skew,rotation);
+  cerr << "Recomposed=" << recom << "\n";
   return 0;
 }
 

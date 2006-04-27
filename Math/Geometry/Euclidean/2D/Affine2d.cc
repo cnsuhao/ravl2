@@ -198,4 +198,36 @@ namespace RavlN {
     SR = result;
   }
   
+  
+  //: Decompose affine transform.
+  
+  void Affine2dC::Decompose(Point2dC &translation,Vector2dC &scaling,RealT &skew,RealT &rotation) const {
+    translation = T;
+    Matrix2dC u, v;
+    Vector2dC mag = SVD(SR,u,v);
+    
+    // Compute the scaling matrix.
+    Matrix2dC scalingMat = v * Matrix2dC(mag[0],0,
+                                       0,mag[1]) * v.T();
+    scaling[0] = scalingMat[0][0]; // Row scale
+    scaling[1] = scalingMat[1][1]; // Col scale
+    skew       = scalingMat[1][0]; // Skew.
+    
+    // Get the rotation.
+    Matrix2dC rot = u * v.T();
+    rotation = ATan2(rot[0][1],rot[0][0]);
+    
+  }
+
+  
+  //: Compose an affine transform the components generated from decompose.
+  
+  Affine2dC Affine2dC::Compose(Point2dC translation,Vector2dC scaling,RealT skew,RealT rotation) {
+    Matrix2dC scalingMat(scaling[0],skew,
+                      skew,scaling[1]);
+    Matrix2dC rotationMat(Cos(rotation),Sin(rotation),
+                       -Sin(rotation),Cos(rotation));
+    return Affine2dC(rotationMat * scalingMat,translation);
+  }
+
 }
