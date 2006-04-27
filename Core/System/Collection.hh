@@ -122,14 +122,17 @@ namespace RavlN {
     SArray1dC<DataT> Array()
     { return SArray1dC<DataT>(data,n); }
     //: Access data as array.
+    // Obsolete, use SArray1d() instread. <br>
     // Note: The returned array is a direct access
     // to the internal data structure, no operations
     // that modify the collection should be performed 
-    // while its in use. 
+    // while its in use.  
+    
     
     const SArray1dC<DataT> Array() const
     { return SArray1dC<DataT>(data,n); }
     //: Access data as array.
+    // Obsolete, use SArray1d() instread. <br>
     // Note: The returned array is a direct access
     // to the internal data structure, no operations
     // that modify the collection should be performed 
