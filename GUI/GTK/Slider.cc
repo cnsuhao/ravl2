@@ -90,31 +90,41 @@ namespace RavlGUIN {
   
   //: Create the widget.
 
-  bool SliderBodyC::Create() {
-    ONDEBUG(cerr << "Slider create: Low:" << lower << " High:" << upper << " Inc:" << step_increment << "\n");
-    adj = gtk_adjustment_new (value, 
-			      lower, 
-			      upper + step_increment, 
-			      step_increment,
-			      page_increment,
-			      page_size);
-    if(vert) 
-      widget = gtk_vscale_new (GTK_ADJUSTMENT (adj));
-    else
-      widget = gtk_hscale_new (GTK_ADJUSTMENT (adj));
-    
-    if(updateCont) {
-      gtk_range_set_update_policy (GTK_RANGE (widget),
-				   GTK_UPDATE_CONTINUOUS);
-    } else {
-      gtk_range_set_update_policy (GTK_RANGE (widget),
-				   GTK_UPDATE_DISCONTINUOUS);    
+  bool SliderBodyC::CommonCreate(GtkWidget *_widget)
+  {
+    if (_widget == NULL)
+    {
+      ONDEBUG(cerr << "Slider create: Low:" << lower << " High:" << upper << " Inc:" << step_increment << "\n");
+      adj = gtk_adjustment_new(value, 
+                               lower, 
+                               upper + step_increment, 
+                               step_increment,
+                               page_increment,
+                               page_size);
+      if(vert) 
+        widget = gtk_vscale_new(GTK_ADJUSTMENT (adj));
+      else
+        widget = gtk_hscale_new(GTK_ADJUSTMENT (adj));
+      
+      if(updateCont) {
+        gtk_range_set_update_policy (GTK_RANGE (widget),
+             GTK_UPDATE_CONTINUOUS);
+      } else {
+        gtk_range_set_update_policy (GTK_RANGE (widget),
+             GTK_UPDATE_DISCONTINUOUS);    
+      }
+      // GTK_UPDATE_DELAYED
+      
+      gtk_scale_set_digits (GTK_SCALE (widget), digits);
+      gtk_scale_set_value_pos (GTK_SCALE (widget), numPos);
+      gtk_scale_set_draw_value (GTK_SCALE(widget), drawValue);
     }
-    // GTK_UPDATE_DELAYED
-    
-    gtk_scale_set_digits (GTK_SCALE (widget), digits);
-    gtk_scale_set_value_pos (GTK_SCALE (widget), numPos);
-    gtk_scale_set_draw_value (GTK_SCALE(widget), drawValue);
+    else
+    {
+      ONDEBUG(cerr << "Slider create from glade");
+      widget = _widget;
+      adj = GTK_OBJECT(gtk_range_get_adjustment(GTK_RANGE(widget)));
+    }
     
     gtk_signal_connect (GTK_OBJECT (adj), "value_changed",
 			GTK_SIGNAL_FUNC (value_changed), this);

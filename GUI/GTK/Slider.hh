@@ -46,8 +46,13 @@ namespace RavlGUIN {
     virtual ~SliderBodyC() { }
     //: Have virtual methods - need virtual destructor
 
-    virtual bool Create();
+    virtual bool Create()
+    { return CommonCreate(); }
     //: Create the widget.
+    
+    virtual bool Create(GtkWidget *_widget)
+    { return CommonCreate(_widget); }
+    //: Create with a widget supplied from elsewhere.
     
     bool UpdateValue(RealT val);
     //: Update the slider value.
@@ -95,6 +100,8 @@ namespace RavlGUIN {
     //: Access released signal.
     
   protected:
+    bool CommonCreate(GtkWidget *_widget = NULL);
+    //: Common widget creation
     
     bool setConfig;
     
