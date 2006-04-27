@@ -503,7 +503,10 @@ int testObjIO() {
   
   //cerr << "List1=" << list1.Hash() << " List2=" << list2.Hash() << "\n";
   if(list1.VoidPtr() != list2.VoidPtr()) return __LINE__;
-  
+  IntT sum = 0;
+  for(DLIterC<int> it(list1);it;it++)
+    sum += *it;
+  if(sum != 6) return __LINE__;
   return 0;
 }
 

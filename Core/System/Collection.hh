@@ -134,6 +134,22 @@ namespace RavlN {
     // to the internal data structure, no operations
     // that modify the collection should be performed 
     // while its in use. 
+
+    SArray1dC<DataT> SArray1d()
+    { return SArray1dC<DataT>(data,n); }
+    //: Access data as array.
+    // Note: The returned array is a direct access
+    // to the internal data structure, no operations
+    // that modify the collection should be performed 
+    // while its in use. 
+    
+    const SArray1dC<DataT> SArray1d() const
+    { return SArray1dC<DataT>(data,n); }
+    //: Access data as array.
+    // Note: The returned array is a direct access
+    // to the internal data structure, no operations
+    // that modify the collection should be performed 
+    // while its in use. 
     
     CollectionC<DataT> Split(SizeT ne);
     //: Split the collection in two
