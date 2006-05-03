@@ -15,6 +15,7 @@
 #include "Ravl/GUI/Button.hh"
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/LBox.hh"
+#include "Ravl/GUI/Pixmap.hh"
 #include "Ravl/Option.hh"
 
 using namespace RavlGUIN;
@@ -31,6 +32,11 @@ bool buttonB(IntT &v)
   return true;
 }
 
+bool buttonC(IntT &v)
+{
+  cerr << "ButtonC:" << v << "\n";
+  return true;
+}
 
 int main(int nargs,char *args[]) 
 {
@@ -40,12 +46,25 @@ int main(int nargs,char *args[])
   
   WindowC win(100,100,"Hello");
   
-  win.Add(VBox(Button("Button 1",buttonA,1) +
-	       Button("Button 2",buttonB,2)
-	       )
-	  );
-  win.Show();
+  // An empty button
+  ButtonC buttonPix = Button("Test", buttonC, 3);
   
+  // Build and show the GUI
+  win.Add(
+           VBox
+           (
+             Button("Button 1", buttonA, 1) +
+             Button("Button 2", buttonB, 2) +
+             buttonPix
+           )
+         );
+  win.GUIShow();
+ 
+  // Set a pixmap
+  PixmapC pix("info.xpm");
+  buttonPix.GUISetImage(pix);
+  
+  // Start the GUI
   Manager.Start();
   cerr << "Finished... \n";
 }

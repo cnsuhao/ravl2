@@ -54,6 +54,12 @@ namespace RavlGUIN {
     void SetLabel(const StringC &text);
     //: Set toggle label.
     
+    bool GUISetImage(const PixmapC &pixmap);
+    //: Set button image
+    
+    void SetImage(const PixmapC &pixmap);
+    //: Set button image
+    
   protected:
     virtual GtkWidget *BuildWidget(const char *lab = 0);
     //: Create the actual widget.
@@ -129,6 +135,14 @@ namespace RavlGUIN {
     { Body().SetLabel(text); }
     //: Set toggle label.
     
+    bool GUISetImage(const PixmapC &pixmap)
+    { return Body().GUISetImage(pixmap); }
+    //: Set button image
+    
+    void SetImage(const PixmapC &pixmap)
+    { Body().SetImage(pixmap); }
+    //: Set button image
+    
     friend class ButtonBodyC;
   };
   
@@ -165,6 +179,14 @@ namespace RavlGUIN {
   { 
     ButtonC ret = ButtonC(label);
     Connect(ret.Signal("clicked"),func,dat1,dat2);
+    return ret;    
+  }
+  
+  template<class DataT>
+  ButtonC Button(const PixmapC &pix,bool (*func)(DataT dat),const typename TraitsC<DataT>::BaseTypeT &dat,const char *tooltip = 0)
+  {
+    ButtonC ret = ButtonC(pix,NULL,tooltip);
+    Connect(ret.Signal("clicked"),func,dat);
     return ret;    
   }
   

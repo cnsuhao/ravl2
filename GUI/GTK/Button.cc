@@ -25,7 +25,15 @@
 #define ONDEBUG(x) 
 #endif
 
-namespace RavlGUIN {
+namespace RavlGUIN
+{
+  
+  
+  
+  const static IntT g_pixmapBorder = 1;
+  const static IntT g_pixmapPadding = 0;
+  
+  
   
   static void find_label_iter(GtkWidget *widget, gpointer data)
   {
@@ -46,6 +54,20 @@ namespace RavlGUIN {
       *label = widget;
   }
   
+  
+  
+  static void find_pixmap_iter(GtkWidget *widget, gpointer data)
+  {
+    // Stop early if we already have our label
+    GtkWidget **pixmap = (GtkWidget**)data;
+    if (*pixmap != NULL)
+      return;
+    
+    // Do we have a pixmap
+    if (GTK_IS_PIXMAP(widget))
+      *pixmap = widget;
+  }
+  
   // Default constructor.
   
   ButtonBodyC::ButtonBodyC(const char *nlabel,const char *ntooltip)
@@ -62,10 +84,12 @@ namespace RavlGUIN {
       label(nlabel)
   { SetToolTip(tooltip); }
 
+
+
   GtkWidget *ButtonBodyC::BuildWidget(const char *aLab) {
-    if(aLab == 0)
-      return gtk_button_new ();
-    return gtk_button_new_with_label (aLab);
+    if (aLab == NULL)
+      return gtk_button_new();
+    return gtk_button_new_with_label(aLab);
   }
 
   bool ButtonBodyC::GUISetStyle(WidgetStyleC& style) {    
@@ -75,7 +99,7 @@ namespace RavlGUIN {
     if (widget != 0) {
       GtkWidget *child = GTK_BIN(widget)->child;
       if(child != 0 && GTK_IS_LABEL(child)) {
-	gtk_widget_set_style(GTK_WIDGET(child),style.Style());
+        gtk_widget_set_style(GTK_WIDGET(child),style.Style());
       }
     }
     return true;
@@ -86,17 +110,26 @@ namespace RavlGUIN {
   
   bool ButtonBodyC::GUISetLabel(const StringC &text) {
     label = text;
-    GtkWidget *tb;
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     
     // Check the button child
     GtkWidget *child = GTK_BIN(widget)->child;
     if (child != 0)
     {
-      // Find the first label in the nest of children
+      // Is it the label?
       GtkWidget *label = NULL;
-      if (GTK_IS_CONTAINER(child))
-        gtk_container_foreach(GTK_CONTAINER(child), &find_label_iter, &label);
+      if (GTK_IS_LABEL(child))
+      {
+        label = child;
+      }
+      else
+      {
+        // Find the first label in the nest of children
+        if (GTK_IS_CONTAINER(child))
+        {
+          gtk_container_foreach(GTK_CONTAINER(child), &find_label_iter, &label);
+        }
+      }
 
       // If a label was found, reset the text and leave
       if (label != NULL)
@@ -104,14 +137,9 @@ namespace RavlGUIN {
         gtk_label_set(GTK_LABEL(label), text.chars());
         return true;
       }
-      
-      // Hmm, don't know what's there so delete the children and create a new label
-      gtk_container_remove(GTK_CONTAINER(widget), child);
     }
-    tb = gtk_label_new(text.chars());
-    gtk_widget_show(tb);
-    gtk_container_add(GTK_CONTAINER(widget),tb);
-    return true;
+    
+    return false;
   }
   
   //: Set toggle label.
@@ -120,35 +148,154 @@ namespace RavlGUIN {
     Manager.Queue(Trigger(ButtonC(*this),&ButtonC::GUISetLabel,text));
   }
 
-  
-  bool  ButtonBodyC::Create() {
-    if(widget != 0)
-      return true;
-    if(pix.IsValid()) {
-      widget = BuildWidget();
-      pix.Create();
-      GtkWidget *pixmapwid = pix.Widget();
-      gtk_widget_show( pixmapwid );
-      if(label.Size() == 0) 
-	gtk_container_add( GTK_CONTAINER(widget), pixmapwid);
-      else {
-	GtkWidget *box = gtk_hbox_new (false, 0);
-	gtk_container_set_border_width (GTK_CONTAINER (box), 1);
-	GtkWidget *lw = gtk_label_new (label.chars());
-	gtk_box_pack_start (GTK_BOX (box),pixmapwid, false, false, 3);      
-	gtk_box_pack_start (GTK_BOX (box), lw, false, false, 3);
-	gtk_container_add( GTK_CONTAINER(widget), box);
-	gtk_widget_show(lw);
-	gtk_widget_show(box);
-      }
-    } else {
-      ONDEBUG(cerr << "ButtonBodyC::Create() Label:'" << label << "'\n");
-      if(label.Size() == 0)
-	widget = BuildWidget("?");
-      else
-	widget = BuildWidget(label);
+
+
+  bool ButtonBodyC::GUISetImage(const PixmapC &pixmap)
+  {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    
+    ONDEBUG(cerr << "ButtonBodyC::GUISetImage()\n");
+    PixmapC tempPixmap = pixmap;
+    GtkWidget *tempPixmapWidget = NULL;
+    if (tempPixmap.IsValid())
+    {
+      // Create the bitmap
+      tempPixmap.Create(); // This mishapes the window if it hasn't already been shown
+      tempPixmapWidget = tempPixmap.Widget();
+      gtk_widget_show(tempPixmapWidget);
     }
+    else
+      return false;
+    
+    if (tempPixmapWidget == NULL)
+      return false;
+    
+    // Check the button child
+    GtkWidget *child = GTK_BIN(widget)->child;
+    if (child != 0)
+    {
+      // Is it the label?
+      if (GTK_IS_PIXMAP(child) || GTK_IS_IMAGE(child))
+      {
+        ONDEBUG(cerr << "ButtonBodyC::GUISetImage() replacing label for pixmap\n");
+        
+        // Remove the old, add the new and store the pixmap
+        gtk_container_remove(GTK_CONTAINER(widget), child);
+        gtk_container_add(GTK_CONTAINER(widget), tempPixmapWidget);
+        pix = tempPixmap;
+      }
+      else
+      {
+        if (GTK_IS_LABEL(child))
+        {
+          ONDEBUG(cerr << "ButtonBodyC::GUISetImage() replacing label for pixmap and label\n");
+          
+          // Remove the existing label
+          gtk_container_remove(GTK_CONTAINER(widget), child);
+          
+          // Create an hbox
+          GtkWidget *box = gtk_hbox_new(false, 0);
+          gtk_container_set_border_width(GTK_CONTAINER(box), g_pixmapBorder);
+          
+          // Add the label
+          GtkWidget *lw = gtk_label_new(label.chars());
+          gtk_box_pack_start(GTK_BOX(box), tempPixmapWidget, true, true, g_pixmapPadding);
+          gtk_box_pack_start(GTK_BOX(box), lw, true, true, g_pixmapPadding);
+          
+          // Build and add to the button
+          gtk_container_add(GTK_CONTAINER(widget), box);
+          gtk_widget_show(lw);
+          gtk_widget_show(box);
+          
+          // Store the pixmap
+          pix = tempPixmap;
+        }
+        else
+        {
+          // Find the first label in the nest of children
+          if (GTK_IS_CONTAINER(child))
+          {
+            ONDEBUG(cerr << "ButtonBodyC::GUISetImage() replacing pixmap child\n");
+            
+            // Find an existing pixmap
+            GtkWidget *oldPixmapWidget = NULL;
+            gtk_container_foreach(GTK_CONTAINER(child), &find_pixmap_iter, &oldPixmapWidget);
+            
+            if (oldPixmapWidget != NULL)
+            {
+              if (GTK_IS_BOX(child))
+              {
+                // Remove the old, add the new, shuffle it to the front and store the pixmap
+                gtk_container_remove(GTK_CONTAINER(child), oldPixmapWidget);
+                gtk_box_pack_start(GTK_BOX(child), tempPixmapWidget, false, false, 3);
+                gtk_box_reorder_child(GTK_BOX(child), tempPixmapWidget, 0);
+                pix = tempPixmap;
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    return false;
+  }
+
+
+
+  void ButtonBodyC::SetImage(const PixmapC &pixmap)
+  {
+    Manager.Queue(Trigger(ButtonC(*this), &ButtonC::GUISetImage, pixmap));
+  }
+
+
+
+  bool  ButtonBodyC::Create()
+  {
+    if (widget != 0)
+      return true;
+    
+    // Replace an empty string with a question mark for text only buttons
+    StringC strLabel(label.Size() == 0 ? "?" : label);
+    
+    if (pix.IsValid())
+    {
+      // Create the bitmap
+      pix.Create(); // This mishapes the window if it hasn't already been shown
+      GtkWidget *pixmapWidget = pix.Widget();
+      gtk_widget_show(pixmapWidget);
+      
+      // Create the widget
+      widget = BuildWidget(label.Size() == 0 ? NULL : label.chars());
+      if (label.Size() == 0) 
+      {
+        ONDEBUG(cerr << "ButtonBodyC::Create() Pixmap\n");
+        gtk_container_add(GTK_CONTAINER(widget), pixmapWidget);
+      }
+      else
+      {
+        // Create an hbox
+        ONDEBUG(cerr << "ButtonBodyC::Create() Pixmap Label:'" << strLabel << "'\n");
+        GtkWidget *box = gtk_hbox_new(false, 0);
+        gtk_container_set_border_width(GTK_CONTAINER(box), g_pixmapBorder);
+        
+        // Add the label
+        GtkWidget *lw = gtk_label_new(strLabel.chars());
+        gtk_box_pack_start(GTK_BOX(box), pixmapWidget, true, true, g_pixmapPadding);
+        gtk_box_pack_start(GTK_BOX(box), lw, true, true, g_pixmapPadding);
+        
+        // Build and add to the button
+        gtk_container_add(GTK_CONTAINER(widget), box);
+        gtk_widget_show(lw);
+        gtk_widget_show(box);
+      }
+    } else
+    {
+      ONDEBUG(cerr << "ButtonBodyC::Create() Label:'" << strLabel << "'\n");
+      widget = BuildWidget(strLabel);
+    }
+    
     ConnectSignals();
+    
     return true;
   }
 
@@ -162,7 +309,6 @@ namespace RavlGUIN {
   
   ////////////////////////////////
   //: Create a button.
-  
   
   ButtonC::ButtonC(const char *nlabel,const char *ntooltip)
     : WidgetC(*new ButtonBodyC(nlabel,ntooltip))
