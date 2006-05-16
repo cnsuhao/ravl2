@@ -1478,6 +1478,33 @@ namespace RavlN {
     return atof(chars());
   }
   
+  //: Test if this string is exactly the same as 'oth'. 
+  // This is slightly faster than compare, as it doesn't
+  // try and order the strings.
+  
+  bool StringC::IsEqual(const StringC &str2) const {
+    if(Size() != str2.Size()) return false;
+    const char *a = chars();
+    const char *b = str2.chars();
+    
+    // Check if its a no brainer
+    if(a == b) return true;
+    const char *e = &(a[Size()]);
+    
+    // Do what we can in 4 byte chunks
+    int x = Size() / sizeof(int);
+    while(x-- > 0) {
+      if(*reinterpret_cast<const int *>(a) != *reinterpret_cast<const int *>(b))
+	return false;
+      a += sizeof(int);
+      b += sizeof(int);
+    }
+    
+    // Finish off the last few letters
+    for(;a != e;a++,b++) 
+      if(*a != *b) return false;
+    return true;
+  }
   
   int StringC::OK() const {
     if (rep == 0             // don't have a rep

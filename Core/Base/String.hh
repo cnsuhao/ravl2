@@ -684,6 +684,11 @@ namespace RavlN {
     { return rep->len == 0; } 
     //: Test if the string is empty.
     
+    bool IsEqual(const StringC &oth) const;
+    //: Test if this string is exactly the same as 'oth'. 
+    // This is slightly faster than compare, as it doesn't
+    // try and order the strings.
+    
     void alloc(int newsize);
     //: Preallocate some space for StringC
   
@@ -1272,10 +1277,10 @@ namespace RavlN {
   // a zillion comparison operators
   
   inline bool operator==(const StringC& x, const StringC& y) 
-  { return compare(x, y) == 0;  }
+  { return x.IsEqual(y);  }
   
   inline bool operator!=(const StringC& x, const StringC& y)
-  { return compare(x, y) != 0;  }
+  { return !x.IsEqual(y);  }
   
   inline bool operator>(const StringC& x, const StringC& y)
   { return compare(x, y) > 0;  }
