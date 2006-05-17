@@ -464,6 +464,7 @@ namespace RavlN {
     socklen_t namelen = sizeof(sockaddr) + 256;
     struct sockaddr *name = (struct sockaddr *) new char[namelen];
     if(getpeername(fd,name,&namelen) != 0) {
+      delete [] name;
       cerr << "SocketBodyC::ConnectedHost(), gerpeername failed. Error=" << errno << "\n";
       return StringC("unknown");
     }
