@@ -113,6 +113,15 @@ namespace RavlGUIN {
     ret.Show();
     return ret;
   }
+
+  template<class ObjT>
+  MessageBoxC QuestionBoxR(StringC message,ObjT &obj,bool (ObjT::*func)(bool &result), const WindowC* parent = NULL)
+  { 
+    MessageBoxC ret = MessageBoxC(message,true,"Question",parent);
+    ConnectRef(ret.SigDone(),obj,func);
+    ret.Show();
+    return ret;
+  }
   
   template<class ObjT>
   MessageBoxC QuestionBox(StringC message,const ObjT &obj,bool (ObjT::*func)(bool &result), const WindowC* parent = NULL)
