@@ -22,6 +22,7 @@
 #include "Ravl/DP/IOConnect.hh"
 #include "Ravl/DP/Port.hh"
 #include "Ravl/DP/StreamOp.hh"
+#include "Ravl/DP/Method2Proc.hh"
 #include "Ravl/DP/Method2Proc21.hh"
 #include "Ravl/DP/Func2Proc21.hh"
 #include "Ravl/DP/Method2Proc31.hh"
