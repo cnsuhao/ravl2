@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUIEVENTBOX_HEADER
-#define RAVLGUIEVENTBOX_HEADER 1
+#ifndef RAVLGUI_EVENTBOX_HEADER
+#define RAVLGUI_EVENTBOX_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/EventBox.hh"
@@ -13,7 +13,7 @@
 //! userlevel=Normal
 //! docentry="Ravl.API.GUI.Control"
 //! author="Charles Galambos"
-//! date="17/06/99"
+//! date="17/06/1999"
 
 #include "Ravl/GUI/OneChild.hh"
 
@@ -34,9 +34,6 @@ namespace RavlGUIN {
     {}
     //: Default constructor.
     
-    virtual ~EventBoxBodyC() { }
-    //: Have virtual methods - need virtual destructor
-
     virtual bool Create();
     //: Create the widget.
   };
@@ -57,6 +54,11 @@ namespace RavlGUIN {
     {}
     //: Constructor
   
+    EventBoxC(bool)
+      : OneChildC(*new EventBoxBodyC())
+    {}
+    //: Constructor.
+    
   protected:
     EventBoxBodyC &Body() 
     { return static_cast<EventBoxBodyC &>(WidgetC::Body()); }
