@@ -13,7 +13,7 @@ MAINS = convertFeatureSet.cc
 
 HEADERS = Rectangle2dIter.hh SobolImage.hh SubSample.hh SummedAreaTable.hh \
  SummedAreaTable2.hh PyramidScan.hh PeakDetector.hh \
- ImagePointFeatureSet.hh ImagePointFeature.hh 
+ ImagePointFeatureSet.hh ImagePointFeature.hh SubImage.hh
 
 SOURCES = Rectangle2dIter.cc SobolImage.cc PyramidScan.cc \
 ImagePointFeatureSet.cc ImagePointFeature.cc 
