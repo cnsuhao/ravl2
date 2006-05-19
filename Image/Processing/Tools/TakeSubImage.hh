@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLIMAGE_SUBIMAGE_HEADER
-#define RAVLIMAGE_SUBIMAGE_HEADER 1
+#ifndef RAVLIMAGE_TAKESUBIMAGE_HEADER
+#define RAVLIMAGE_TAKESUBIMAGE_HEADER 1
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Misc"
 
@@ -18,10 +18,10 @@ namespace RavlImageN {
   // This class is designed to be used with the Ravl data flow classes.
   
   template<typename PixelT>
-  class SubImageC
+  class TakeSubImageC
   {
   public:
-    SubImageC(const IndexRange2dC &rng)
+     TakeSubImageC(const IndexRange2dC &rng)
       : m_subRange(rng)
     {}
     //: Constructor.
