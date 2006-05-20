@@ -48,7 +48,7 @@ namespace RavlN {
     { return data[0][0]*data[1][1] - data[0][1]*data[1][0]; }
     //: Returns the value of the determinant of this matrix.
     
-    bool Invert(Matrix2dC &op) const {
+    bool Invert(TFMatrixC<RealT,2,2> &op) const {
       RealT det = Det();
       if(det == 0)
 	return false;
