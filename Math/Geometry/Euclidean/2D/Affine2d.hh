@@ -94,6 +94,19 @@ namespace RavlN {
     // The composition is done such that: <br>
     // Matrix2dC ScalingRotation = Matrix2dC(Cos(rotation),Sin(rotation),-Sin(rotation),Cos(rotation)) * Matrix2dC(scaling[0],skew,skew,scaling[1]) <br>
     // The translation component is simply copied.
+    
+    inline FAffineC<2> Inverse() const {
+      FAffineC<2> ret;
+      Matrix2dC(SR).Invert(ret.SRMatrix());
+      Mul(ret.SRMatrix(),T,ret.Translation());
+      ret.Translation() *= -1;
+      return ret;
+    }
+    
+    FAffineC<2> I() const
+    { return Inverse(); }
+    //: Generate an inverse transformation.
+    // This is obsolete, use Inverse().
   };
   
   Affine2dC FitAffine(const SArray1dC<Point2dC> &orig,const SArray1dC<Point2dC> &newPos,RealT &residual);
