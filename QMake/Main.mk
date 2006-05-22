@@ -737,6 +737,11 @@ $(INST_LIB)/lib$(PLIB)$(LIBEXT) : $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB)
 	fi
 endif
 else
+# We don't want to link the must link object files into the dynamic library. Ideally we'd include them
+# in two different variables, but this would mean a huge reworking of the include mechanism, so instead
+# we'll just remove all objects files from the library list. Hence the following line.
+LIBSONLY=$(filter-out %$(OBJEXT),$(LIBS))
+
 $(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
 	$(SHOWIT)echo "--- Building" $(@F) ; \
 	if [ ! -f $(INST_LIB)/$(@F) ] ; then \
@@ -749,7 +754,7 @@ $(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB
 	if $(CXX) $(LDFLAGS) $(INST_LIB)/dummymain$(OBJEXT) $(TARG_OBJS) $(LIBS) -o $(WORKTMP)/a.out ; then \
 	  rm $(WORKTMP)/a.out ; \
 	  echo "---- Doing final build " ; \
-	  $(XARGS) $(CXX) $(LDLIBFLAGS) $(LIBS) -o $(INST_LIB)/$(@F) < $(INST_OBJS)/libObjs.txt  ; \
+	  $(XARGS) $(CXX) $(LDLIBFLAGS) $(LIBSONLY) -o $(INST_LIB)/$(@F) < $(INST_OBJS)/libObjs.txt  ; \
 	  $(UNTOUCH) $(INST_LIB)/$(@F) $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) ; \
 	else \
 	  if [ -f $(WORKTMP)/a.out ] ; then \
