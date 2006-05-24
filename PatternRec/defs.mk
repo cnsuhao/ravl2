@@ -9,6 +9,6 @@
 
 PACKAGE=Ravl
 
-NESTED=DataSet.r Distance.r Cluster.r Optimise.r Modeling.r Classify.r FeatureSelection.r Performance.r IO.r
+NESTED=fann.r DataSet.r Distance.r Cluster.r Optimise.r Modeling.r Classify.r FeatureSelection.r Performance.r IO.r
 
 EHT=Ravl.API.Pattern_Recognition.html
