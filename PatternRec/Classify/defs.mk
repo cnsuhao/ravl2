@@ -19,7 +19,7 @@ HEADERS= DesignClassifierSupervised.hh  \
  ClassifierPreprocess.hh ClassifierFunc1Threshold.hh \
  ClassifierWeakLinear.hh ClassifierLinearCombination.hh \
  DesignWeakLinear.hh \
-ClassifierBayesNormalLinear.hh DesignBayesNormalLinear.hh DesignBayesNormalQuadratic.hh ClassifierBayesNormalQuadratic.hh 
+ClassifierBayesNormalLinear.hh DesignBayesNormalLinear.hh DesignBayesNormalQuadratic.hh ClassifierBayesNormalQuadratic.hh ClassifierNeuralNetwork.hh DesignClassifierNeuralNetwork.hh
 
 SOURCES= DesignClassifierSupervised.cc \
  DesignDiscriminantFunction.cc DesignKNearestNeighbour.cc \
@@ -28,15 +28,15 @@ SOURCES= DesignClassifierSupervised.cc \
  ClassifierPreprocess.cc ClassifierFunc1Threshold.cc \
  ClassifierWeakLinear.cc ClassifierLinearCombination.cc \
  DesignWeakLinear.cc \
-ClassifierBayesNormalLinear.cc DesignBayesNormalLinear.cc DesignBayesNormalQuadratic.cc ClassifierBayesNormalQuadratic.cc 
+ClassifierBayesNormalLinear.cc DesignBayesNormalLinear.cc DesignBayesNormalQuadratic.cc ClassifierBayesNormalQuadratic.cc ClassifierNeuralNetwork.cc DesignClassifierNeuralNetwork.cc 
 
 PLIB = RavlPatternRec
 
-TESTEXES=testClassifier.cc
+TESTEXES=testClassifier.cc exNeuralNetwork.cc
 
 LIBDEPS = RavlPatternRecClassifier.def 
 
-USESLIBS=RavlPatternRec
+USESLIBS=RavlCore RavlOS RavlIO RavlMath RavlPatternRec fann
 
 EHT = Ravl.API.Pattern_Recognition.Classifier.html
 
