@@ -13,7 +13,9 @@
 //! author="Charles Galambos"
 //! file="Ravl/Image/Processing/Edges/EdgeSobel.hh"
 
+#ifndef WIN32
 #warning The polarity of the edge output has been reversed, to be consistent with EdgeDericheC, and to match the RAVL coordinate conventions
+#endif
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dSqr31Iter2.hh"
