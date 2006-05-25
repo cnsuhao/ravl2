@@ -78,7 +78,7 @@ namespace RavlN {
   //: Load a single object.
   //!param: filename - name of file containing object
   //!param: obj - name of C++ object
-  //!param: fileformat - format of object file. If fileformat string is empty, the file format is detected automatically.  To get a list of file formats, type <code>conv -lf</code>
+  //!param: fileformat - format of object file. If fileformat string is empty, the file format is detected automatically. You may add a comma separated list of formats to use or include a list of names prefixed with ! to exclude particular formats.  To get a list of file formats, <code>conv -lf</code>
   //!param: verbose -  if true, a message is printed to stdout describing the filename, the format used, the object type being loaded and any status information. 
   // More information <a href="../Tree/Ravl.API.Core.IO.html#LoadSave">here</a>
   
@@ -102,7 +102,7 @@ namespace RavlN {
   //: Save a single object.
   //!param: filename - name of file containing object
   //!param: obj - name of C++ object
-  //!param: fileformat - format of object file. If fileformat string is empty, the file format is detected automatically.  To get a list of file formats, type <code>conv -lf</code>
+  //!param: fileformat - format of object file. If fileformat string is empty, the file format is detected automatically. You may add a comma separated list of formats to use or include a list of names prefixed with ! to exclude particular formats. To get a list of file formats, type <code>conv -lf</code>
   //!param: verbose -  if true, a message is printed to stdout describing the filename, the format used, the object type being loaded and any status information. 
   // More information <a href="../Tree/Ravl.API.Core.IO.html#LoadSave">here</a>
 
@@ -120,7 +120,7 @@ namespace RavlN {
   //: Load a single object from a stream
   //!param: os - stream from which to load object.
   //!param: obj - name of C++ object
-  //!param: fileformat - format of object file. If fileformat string is empty, the file format is detected automatically.  To get a list of file formats, type <code>conv -lf</code>
+  //!param: fileformat - format of object file. If fileformat string is empty, the file format is detected automatically. You may add a comma separated list of formats to use or include a list of names prefixed with ! to exclude particular formats. To get a list of file formats, type <code>conv -lf</code>
   //!param: verbose -  if true, a message is printed to stdout describing the filename, the format used, the object type being loaded and any status information. 
   // More information <a href="../Tree/Ravl.API.Core.IO.html#LoadSave">here</a>
   
@@ -142,7 +142,7 @@ namespace RavlN {
   //: Save a single object to a stream
   //!param: os - Where to save the stream to.
   //!param: obj - name of C++ object
-  //!param: fileformat - format of object file. If fileformat string is empty, the file format is detected automatically.  To get a list of file formats, type <code>conv -lf</code>
+  //!param: fileformat - format of object file. If fileformat string is empty, the file format is detected automatically. You may add a comma separated list of formats to use or include a list of names prefixed with ! to exclude particular formats. To get a list of file formats, type <code>conv -lf</code>
   //!param: verbose -  if true, a message is printed to stdout describing the filename, the format used, the object type being loaded and any status information. 
   // More information <a href="../Tree/Ravl.API.Core.IO.html#LoadSave">here</a>
   
