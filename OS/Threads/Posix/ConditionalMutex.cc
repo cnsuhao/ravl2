@@ -123,7 +123,7 @@ namespace RavlN
 	// Check if decrement worked, if not try again.
       } while(ret != tmp);
     }
-    bool ret = (rc != WAIT_OBJECT_0);
+    bool ret = (rc == WAIT_OBJECT_0);
     Lock();
 #endif
 #if RAVL_HAVE_POSIX_THREADS
