@@ -96,7 +96,10 @@ namespace RavlGUIN {
 
     bool IsFullScreen();
     //: Find out whether or not the window is in "full screen" mode
-
+    
+    bool GUISetTitle(StringC &str);
+    //: Set the title of the window.
+    
   protected:
     virtual void Destroy();
     //: Undo all references.
@@ -110,8 +113,6 @@ namespace RavlGUIN {
     //: Influences positioning of the window.
     // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWPOSITION">here</A>.
 
-    bool GUISetTitle(StringC &str);
-    //: Set the title of the window.
     
     bool GUICloseDown();
     //: Close down window.
