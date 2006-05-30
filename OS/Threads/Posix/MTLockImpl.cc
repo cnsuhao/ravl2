@@ -71,6 +71,17 @@ namespace RavlN {
       MTUnlockRd = DoMTSysDBUnlockRd;
       MTUnlockWr = DoMTSysDBUnlockWr;
     }
+
+    //Set function pointers to null in destructor to prevent the functions being
+    //accessed after the handles to the mutexes have been closed
+	~PThreadInitC()
+	{
+	   MTGetThreadID = 0;
+           MTReadLock = 0;
+           MTWriteLock = 0;
+           MTUnlockRd = 0;
+           MTUnlockWr = 0;
+	}
   };
   
   PThreadInitC doVThreadInitC;

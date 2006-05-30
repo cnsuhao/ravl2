@@ -9,6 +9,9 @@
 //! lib=RavlNet
 //! file="Ravl/OS/Network/SocketStrm.cc"
 
+#include "Ravl/config.h"
+#if !RAVL_COMPILER_VISUALCPP
+
 #include "Ravl/StreamType.hh"
 #include "Ravl/OS/NetStream.hh"
 #include "Ravl/OS/Filename.hh"
@@ -41,3 +44,4 @@ namespace RavlN {
     
   } Inst_StreamType_NetStream;
 }
+#endif

@@ -206,7 +206,7 @@ namespace RavlN {
 #if RAVL_OS_WIN32
     struct _timeb ltime;
     _ftime(&ltime);
-	return DateC(ltime.time, ltime.millitm * 1000);
+	return DateC((long)ltime.time, (long)ltime.millitm * 1000);
 #else
     throw ExceptionC("DateC::NowUTC(), Not implemented. ");
 #endif
@@ -224,7 +224,7 @@ namespace RavlN {
 #if RAVL_OS_WIN32
     struct _timeb ltime;
     _ftime(&ltime);
-    return DateC(ltime.time, ltime.millitm * 1000);
+    return DateC((long)ltime.time, (long)ltime.millitm * 1000);
 #else
     throw ExceptionC("DateC::NowLocal(), Not implemented. ");
 #endif

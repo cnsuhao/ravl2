@@ -8,8 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlNet
 //! file="Ravl/OS/Network/Socket.cc"
-
 #include "Ravl/config.h"
+#if !RAVL_USE_WINSOCK
+
 #if RAVL_OS_SOLARIS
 #define __EXTENSIONS__ 1
 #include <string.h>
@@ -32,15 +33,12 @@
 #include <netdb.h>
 #endif
 #include <sys/types.h>
-#if RAVL_USE_WINSOCK
-#include <winsock.h>
-#else
+
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
 #if RAVL_HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
-#endif
 #endif
 
 #include <string.h>
@@ -463,7 +461,8 @@ namespace RavlN {
       return ret;
     socklen_t namelen = sizeof(sockaddr) + 256;
     struct sockaddr *name = (struct sockaddr *) new char[namelen];
-    if(getpeername(fd,name,&namelen) != 0) {
+    if(getpeername(fd,name,&namelen) != 0) 
+    {
       delete [] name;
       cerr << "SocketBodyC::ConnectedHost(), gerpeername failed. Error=" << errno << "\n";
       return StringC("unknown");
@@ -807,3 +806,4 @@ namespace RavlN {
   }
 
 }
+#endif

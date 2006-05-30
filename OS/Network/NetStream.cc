@@ -9,6 +9,7 @@
 //! lib=RavlNet
 //! file="Ravl/OS/Network/NetStream.cc"
 #include "Ravl/config.h"
+#if !RAVL_COMPILER_VISUALCPP
 #if RAVL_OS_SOLARIS
 #define __EXTENSIONS__ 1
 #endif
@@ -20,13 +21,13 @@
 
 
 extern "C" {
-#include <unistd.h>
+//#include <unistd.h>
 #include <sys/types.h>
 #ifdef __sgi__
 #include <bstring.h>
 #endif
-#include <sys/time.h>
-#include <sys/select.h>
+//#include <sys/time.h>
+//#include <sys/select.h>
 #include <string.h>
 };
 
@@ -98,7 +99,9 @@ namespace RavlN {
   // Returns true if data is available, on a timeout or other interupt
   // false is returned.
   
-  bool NetIStreamC::WaitForData(RealT timeout) {
+
+  bool NetIStreamC::WaitForData(RealT timeout) 
+  {
     if(!sock.IsOpen())
       return false;
     if(is().rdbuf()->in_avail() > 0)
@@ -123,3 +126,4 @@ namespace RavlN {
   }
 
 }
+#endif

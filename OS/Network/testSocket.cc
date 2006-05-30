@@ -10,13 +10,14 @@
 
 #include "Ravl/Option.hh"
 #include "Ravl/Threads/LaunchThread.hh"
-#include "Ravl/OS/NetStream.hh"
+#include "Ravl/OS/Socket.hh"
 #include "Ravl/Stream.hh"
 #include "Ravl/OS/Date.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/Threads/Semaphore.hh"
+#include "Ravl/Threads/Mutex.hh"
 
-#include <signal.h>
+//#include <signal.h>
 
 using namespace RavlN;
 
@@ -29,34 +30,66 @@ using namespace RavlN;
 
 StringC address;
 bool buffer;
-int totalSize = 100000;
+int g_totalSize = 100000;
 bool testFreeze = false;
 SemaphoreC serverReady(0);
-int timeout = 15;
+SemaphoreC serverCanClose(0);
+int timeout = 1;
 volatile bool error = false;
+MutexC g_consoleMutex;	//Only one thread can write to the console at the same time
 
-bool TransmitThread() {
-  SocketC os(address,true);
-  if(!os.IsOpen()) {
+void WriteToConsole(StringC strMsg)
+{
+	MutexLockC consoleLock(g_consoleMutex);
+	cerr << strMsg;
+}
+
+bool TransmitThread() 
+{
+	//Open a connection to the server
+	WriteToConsole("Opening server socket\n");
+	SocketC acceptSocket;
+    SocketC serverSocket(address,true);
+  if(!serverSocket.IsOpen()) 
+  {
     error = true;
     return true;
   }
+  //Semaphore
   serverReady.Post(); 
-  os = os.Listen();
-  os.SetNonBlocking(true);
-  os.SetWriteTimeout(timeout);
-  cerr << "Transmit started. \n";
-  for(int i = 0;i < totalSize && ! error;) {
+  acceptSocket = serverSocket.Listen();
+  acceptSocket.SetNonBlocking(true);
+  acceptSocket.SetWriteTimeout(timeout);
+
+  //acceptSocket.ConnectedHost();
+  //acceptSocket.ConnectedPort();
+
+  WriteToConsole("Transmit starting. \n");
+  for(int i = 0;i < g_totalSize && ! error;) 
+  {
+	  //Construct three int arrays
     int a[257],b[257],c[257];
+
+	//Initialise the first b1s elements of int array, a
     int b1s = Round(Random1() * 255) + 1;
     for(int k = 0;k < b1s;k++)
+	{
       a[k] = i++;
+	}
+
+	//Initialise the first b2s elements of int array, b
     int b2s = Round(Random1() * 255) + 1;
     for(int k = 0;k < b2s;k++)
+	{
       b[k] = i++;
+	}
+	//Initialise the first b3 elements of int array, c
     int b3s = Round(Random1() * 255) + 1;
     for(int k = 0;k < b3s;k++)
+	{
       c[k] = i++;
+	}
+	//Initialise the buffers and lengths that we're about to transmit
     char *bufs[3];
     int lens[3];
     bufs[0] = (char *) a;
@@ -65,114 +98,208 @@ bool TransmitThread() {
     lens[1] = sizeof(int) * b2s;
     bufs[2] = (char *) c;
     lens[2] = sizeof(int) * b3s;
+
+	//Sum up the total length of all the buffers
     int total = lens[0] + lens[1] + lens[2];
-    int n = os.WriteV((const char **) bufs,lens,3);
-    if(n != total) {
-      cerr << "WriteV(), ERROR: Total=" << total << " n=" << n << "\n";
-      error = true;
+
+	//Write the buffers and get back the number of bytes written
+    int n = acceptSocket.WriteV((const char **) bufs,lens,3);
+		
+    if(n != total) 
+	{
+		char strError[256];
+		sprintf(strError, "Num bytes: array1: %i, array2: %i, array3: %i \n", lens[0], lens[1], lens[2]);
+		WriteToConsole(strError);
+		sprintf(strError, "WriteV(), ERROR: Data size(bytes)=%i num bytes written=%i \n", total, n);
+		WriteToConsole(strError);
+		error = true;
       break;
     }
     //if(Random1() < 0.3)
     // Sleep(0.1);
   }
-  cerr << "Transmit done. \n";
-  Sleep(5);
-  cerr << "Transmit exited. \n";
-  
+  WriteToConsole("Transmit done. \n");
+ // RavlN::Sleep(5);
+ // Sleep((DWORD) 5000);
+  //Prevent this thread from finishing before the client
+  serverCanClose.Wait();  
   return 0;
 }
 
-int RecieveThread() {
-  SocketC is(address,false);
+int RecieveThread() 
+{
+	//Open a client socket
+	WriteToConsole("Opening client socket\n");
+  SocketC clientSocket(address,false);
+  
+  //Check that the socket is open
   int n = 10;
-  while(!is.IsOpen() && n-- > 0) {
-    cerr << "RecieveThread(), Failed to open socket. Retrying. \n";
+  while(!clientSocket.IsOpen() && n-- > 0) 
+  {
+    WriteToConsole("RecieveThread(), Failed to open socket. Retrying. \n");
     Sleep(0.02);
-    is = SocketC(address,false);
+    clientSocket = SocketC(address,false);
   }
-  if(!is.IsOpen()) {
+
+  if(!clientSocket.IsOpen()) 
+  {
     error = true;
     return __LINE__;
   }
+  //Wait for a signal that the server is ready
   serverReady.Wait(); 
-  is.SetNonBlocking(true);
+  clientSocket.SetNonBlocking(true);
   bool error = false;
-  for(int i = 0;i < totalSize && !error;) {
+  for(int i = 0;i < g_totalSize && !error;) 
+  {
+	  //Create three new arrays of equal size
     int a[257],b[257],c[257];
+
+	//Generate numbers representing the number of bytes to read into each array
     int b1s = Round(Random1() * 256) + 1;
     int b2s = Round(Random1() * 256) + 1;
     int b3s = Round(Random1() * 256) + 1;
+
+	//Initialise the buffers and lengths
     char *bufs[3];
     int lens[3];
     bufs[0] = (char *) a;
     lens[0] = sizeof(int) * b1s;
     bufs[1] = (char *) b;
     lens[1] = sizeof(int) * b2s;
+	
     int total = lens[0] + lens[1];
-    int n = is.ReadV(bufs,lens,2);
-    if(n < total) {
-      cerr << "ReadV(), Total=" << total << " n=" << n << " i=" << i << "\n";
-      if(i > (totalSize - 256)) // Just end of stream ?
-	return 0;
-      if(n != total) {
-	error = true;
-	break;
-      }
-    }
-    for(int k = 0;k < b1s;k++)
-      if(a[k] != i++) { error = true; break; }
-    for(int k = 0;k < b2s;k++)
-      if(b[k] != i++) { error = true; break; }
-    total = sizeof(int) * b3s;
-    n = is.Read((char *) c,total);
-    if(n < total) {
-      ONDEBUG(cerr << "Read(), Total=" << total << " n=" << n << " i=" << i << "\n");
-      if(i > (totalSize - 64)) // Just end of stream ?
-	return 0;
-      error = true;
-      break;
-    }
     
-    for(int k = 0;k < b3s;k++)
-      if(c[k] != i++) { error = true; break; }
-    cerr << "." << flush;
-    if(Random1() < 0.4)
-      Sleep(0.1);
-    if(testFreeze)
-      break;
+	//Test the timeout function
+	clientSocket.SetWriteTimeout(timeout);
+	//Read the data into the buffer
+	int n = clientSocket.ReadV(bufs,lens,2);
+    if(n < total) 
+	{
+		char strError[256];
+		sprintf(strError, "Error ReadV(), Total=%i n=%i i=%i\n", total, n, i);
+		WriteToConsole(strError);
+	}
+      if(i > (g_totalSize - 256)) // Just end of stream ?
+	  {
+		  WriteToConsole("End of stream\n");
+		  serverCanClose.Post();
+		  return 0;
+	  }
+      if(n != total) 
+	  {
+		  WriteToConsole("Number of bytes read is incorrect\n");
+		error = true;
+		break;
+      }
+
+	  //Check that the data hasn't been corrupted
+	  bool bDataIntegrityError = false;
+		for(int k = 0;k < b1s;k++)
+		{
+			if(a[k] != i++) 
+			{ 
+				bDataIntegrityError = true; 
+			}
+		}
+
+		for(int k = 0;k < b2s;k++)
+		{
+			if(b[k] != i++) 
+			{ 
+				bDataIntegrityError = true; 
+			}
+		}
+
+		if(bDataIntegrityError)
+		{
+			WriteToConsole("Data integrity error 1\n");
+		    error = true; 
+			break; 
+		}
+
+		total = sizeof(int) * b3s;
+		n = clientSocket.Read((char *) c,total);
+		if(n < total) 
+		{
+			ONDEBUG(cerr << "Read(), Total=" << total << " n=" << n << " i=" << i << "\n");
+		}
+		if(i > (g_totalSize - 64)) // Just end of stream ?
+		{
+			WriteToConsole("End of stream\n");
+			serverCanClose.Post();
+			return 0;
+		}
+    
+		for(int k = 0;k < b3s;k++)
+		{
+			if(c[k] != i++) 
+			{ 
+				WriteToConsole("Data integrity error 2\n");
+				error = true; 
+				break; 
+			}
+		}
+		//cerr << "." << flush;
+		if(Random1() < 0.4)
+		{
+			Sleep(0.1);
+		}
+		if(testFreeze)
+		{
+			break;
+		}
   }
-  if(testFreeze) {
-    cerr << "Freezing reader thread. \n";
+
+  if(testFreeze) 
+  {
+    WriteToConsole("Freezing reader thread. \n");
     while(testFreeze)
-      Sleep(10);
+	{
+		RavlN::Sleep(10000);
+	}
   }
-  if(error) {
-    cerr << "Test failed. \n";
+  
+  if(error) 
+  {
+    WriteToConsole("Test failed. \n");
+	serverCanClose.Post();
     return __LINE__;
   }
-  cerr << "Recieve done. \n";
+  WriteToConsole("Recieve done. \n");
+  serverCanClose.Post();
   return 0;
 }
+
+
 
 int main(int nargs,char **argv)
 {
   OptionC opts(nargs,argv);
-  address = opts.String("h","localhost:4248","Network address to use. ");
+  address = opts.String("h","localhost:20248","Network address to use. ");
   buffer = opts.Boolean("b",false,"Buffer. ");
-  totalSize = opts.Int("s",100000,"Test size. ");
+  g_totalSize = opts.Int("s",10000,"Test size. ");
   testFreeze = opts.Boolean("f",false,"Test reader freeze. ");
   timeout = opts.Int("to",30,"Set write timeout. ");;
   opts.Check();
   
-  // Ignore broken pipe signals
-  signal(SIGPIPE,SIG_IGN);
-  
-  LaunchThread(&TransmitThread);
-  if(RecieveThread() != 0)
-    return 1;
-  if(error) {
-    cerr << "Test failed. \n";
-    return 1;
-  }
+	  LaunchThread(&TransmitThread);
+	  if(RecieveThread() != 0)
+	  {
+		StringC strTemp;
+		cin >> strTemp;
+		return 1;
+	  }
+	  if(error) 
+	  {
+		WriteToConsole("Test failed. \n");
+		StringC strTemp;
+		cin >> strTemp;
+		return 1;
+	  }
+
+  WriteToConsole("Test succeeded\n");
+  StringC strTemp;
+  cin >> strTemp;
   return 0;
 }

@@ -66,11 +66,11 @@ namespace RavlN {
     
     inline const DataC & B() const
     { return item[1]; }
-    // Returns the first object of the pair.
+    // Returns the second object of the pair.
   
     inline DataC & B()
     { return item[1]; }
-    // Access to the first object of the pair.
+    // Access to the second object of the pair.
     
 
     inline const DataC & Data1() const
@@ -83,11 +83,11 @@ namespace RavlN {
     
     inline const DataC & Data2() const
     { return item[1]; }
-    // Returns the first object of the pair.
+    // Returns the second object of the pair.
   
     inline DataC & Data2()
     { return item[1]; }
-    // Access to the first object of the pair.
+    // Access to the second object of the pair.
     
     inline IndexC Size() const
     { return 2; }

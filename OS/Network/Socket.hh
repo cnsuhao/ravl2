@@ -15,6 +15,10 @@
 //! date="15/02/2000"
 //! docentry="Ravl.API.OS.Network"
 
+#include "Ravl/config.h"
+#if RAVL_USE_WINSOCK
+#include "Ravl/OS/WinSocket.hh"
+#else
 #include "Ravl/String.hh"
 #include "Ravl/RefCounter.hh"
 #include "Ravl/RCHandleV.hh"
@@ -38,21 +42,26 @@ namespace RavlN {
     : public RCBodyVC
   {
   public:
+	  
     SocketBodyC(StringC name,bool server = false);
     //: Open socket.
     // The 'name' has the format  'host:port' where port may be a
     // host name or its ip (dotted numbers) address and port is the 
     // number of the port to use.
     
+	
     SocketBodyC(StringC name,UIntT portno,bool server = false);
     //: Open socket.
     
+	
     SocketBodyC(struct sockaddr *addr,int nfd,bool server = false);
     //: Open socket.
     
+	
     ~SocketBodyC();
     //: Open socket.
     
+	
     void SetWriteTimeout(IntT value)
     { writeTimeout = value; }
     //: Set the amount of time you should attempt to write to socket.
@@ -63,50 +72,60 @@ namespace RavlN {
     { return fd; }
     //: Access file descriptor.
     
+	
     bool IsOpen() const
     { return fd >= 0; }
     //: Test if socket is open.
     
+	
     SocketC Listen(bool block = true,int backLog = 1);
     //: Listen for a connection from a client.
     // Can only be used on server sockets.
     // If block is true, the call will not return until there
     // is a valid client.
     
+	
     void Close();
     //: Close the socket.
     
+	
     void SetDontClose(bool ndontClose)
     { dontClose = ndontClose; }
     //: Setup don't close flag.
     
+	
     StringC ConnectedHost();
     //: Get the name of the host at the other end of the connection.
     
+	
     IntT ConnectedPort();
     //: Get the port number at the other end of the connection.
     
+	
     void SetNoDelay();
     //: Send data as soon as possible. 
     // Don't gather data into larger packets. 
     // This should make transactions faster at the expense of sending more 
     // packets over the network.
     
+	
     bool SetNonBlocking(bool block);
     //: Enable non-blocking use of read and write.
     // true= read and write's won't do blocking waits.
     
+	
     bool Cork(bool enable);
     //: Cork stream.  
-    // True indicates that there is going to
+    // True indicates that there are going to
     // be several write operations immediatly following each
     // other and stops the transmition of fragmented packets.
-    // If your not expecting to do any more writes immediatly
-    // you must call 'Cork(false)' immediatly. <br>
-    // False indicates that all the pending data has been written
+    // If you're not expecting to do any more writes immediately
+    // you must call 'Cork(false)' immediately. <br>
+    // False indicates that all the pending data have been written
     // This sends any partial packets still pending. <br>
     // Returns true if Corking is supported by stream.
     
+	
     IntT Read(char *buff,UIntT size);
     //: Read some bytes from a stream.
     
@@ -286,4 +305,5 @@ namespace RavlN {
   };
   
 }
+#endif
 #endif

@@ -29,7 +29,7 @@ namespace RavlN {
   {
   public:
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
-#if !RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP || RAVL_COMPILER_VISUALCPPNET_2005
     typedef RetT (BaseObjT::*FuncT)();    //: Function ptr type.
 #else // Lobotomize for Visual C++
     typedef RetT (ObjT::*FuncT)();    //: Function ptr type.
@@ -74,7 +74,7 @@ namespace RavlN {
   {
   public:
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
-#if !RAVL_COMPILER_VISUALCPP 
+#if !RAVL_COMPILER_VISUALCPP || RAVL_COMPILER_VISUALCPPNET_2005
     typedef RetT (BaseObjT::*FuncT)();    //: Function ptr type.
 #else // Lobotomize for Visual C++
     typedef RetT (ObjT::*FuncT)();    //: Function ptr type.
@@ -103,7 +103,7 @@ namespace RavlN {
   public:
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
     typedef typename TraitsC<DataT>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
-#if !RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP || RAVL_COMPILER_VISUALCPPNET_2005
     typedef RetT (BaseObjT::*FuncT)(DataT);    //: Function ptr type.
 #else // Lobotomize for Visual C++
     typedef RetT (ObjT::*FuncT)(DataT);    //: Function ptr type.
@@ -153,7 +153,7 @@ namespace RavlN {
   public:
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
     typedef typename TraitsC<DataT>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
-#if !RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP || RAVL_COMPILER_VISUALCPPNET_2005
     typedef RetT (BaseObjT::*FuncT)(DataT);    //: Function ptr type.
 #else // Lobotomize for Visual C++
     typedef RetT (ObjT::*FuncT)(DataT);    //: Function ptr type.
@@ -183,7 +183,7 @@ namespace RavlN {
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
     typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
-#if !RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP || RAVL_COMPILER_VISUALCPPNET_2005
     typedef RetT (BaseObjT::*FuncT)(Data1T,Data2T);    //: Function ptr type.
 #else // Lobotomize for Visual C++
     typedef RetT (ObjT::*FuncT)(Data1T,Data2T);    //: Function ptr type.
@@ -239,7 +239,7 @@ namespace RavlN {
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
     typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
-#if !RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP || RAVL_COMPILER_VISUALCPPNET_2005
     typedef RetT (BaseObjT::*FuncT)(Data1T,Data2T);    //: Function ptr type.
 #else // Lobotomize for Visual C++
     typedef RetT (ObjT::*FuncT)(Data1T,Data2T);    //: Function ptr type.
@@ -272,7 +272,7 @@ namespace RavlN {
     typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
-#if !RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP || RAVL_COMPILER_VISUALCPPNET_2005
     typedef RetT (BaseObjT::*FuncT)(Data1T,Data2T,Data3T);    //: Function ptr type.
 #else // Lobotomize for Visual C++
     typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T);    //: Function ptr type.
@@ -333,7 +333,7 @@ namespace RavlN {
     typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
-#if !RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP || RAVL_COMPILER_VISUALCPPNET_2005
     typedef RetT (BaseObjT::*FuncT)(Data1T,Data2T,Data3T);    //: Function ptr type.
 #else // Lobotomize for Visual C++
     typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T);    //: Function ptr type.
@@ -366,7 +366,7 @@ namespace RavlN {
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data4T>::BaseTypeT Arg4T; //: Basic type of arg, ignore references and const's
-#if !RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP || RAVL_COMPILER_VISUALCPPNET_2005
     typedef RetT (BaseObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T);    //: Function ptr type.
 #else // Lobotomize for Visual C++
     typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T);    //: Function ptr type.
@@ -431,7 +431,7 @@ namespace RavlN {
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data4T>::BaseTypeT Arg4T; //: Basic type of arg, ignore references and const's
-#if !RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP || RAVL_COMPILER_VISUALCPPNET_2005
     typedef RetT (BaseObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T);    //: Function ptr type.
 #else // Lobotomize for Visual C++
     typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T);    //: Function ptr type.
@@ -465,7 +465,7 @@ namespace RavlN {
     typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data4T>::BaseTypeT Arg4T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data5T>::BaseTypeT Arg5T; //: Basic type of arg, ignore references and const's
-#if !RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP || RAVL_COMPILER_VISUALCPPNET_2005
     typedef RetT (BaseObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T,Data5T);    //: Function ptr type.
 #else // Lobotomize for Visual C++
     typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T,Data5T);    //: Function ptr type.
@@ -540,7 +540,7 @@ namespace RavlN {
     typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data4T>::BaseTypeT Arg4T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data5T>::BaseTypeT Arg5T; //: Basic type of arg, ignore references and const's
-#if !RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP || RAVL_COMPILER_VISUALCPPNET_2005
     typedef RetT (BaseObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T,Data5T);    //: Function ptr type.
 #else // Lobotomize for Visual C++
     typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T,Data5T);    //: Function ptr type.

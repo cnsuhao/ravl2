@@ -359,7 +359,7 @@ namespace RavlN {
     in = ifstrm;
 #endif //  RAVL_HAVE_INTFILEDESCRIPTORS
     
-#if RAVL_COMPILER_VISUALCPPNET || RAVL_COMPILER_GCC
+#if RAVL_COMPILER_VISUALCPPNET || RAVL_COMPILER_GCC || RAVL_COMPILER_VISUALCPPNET_2005
     if(!buffered) {
       cerr << "WARNING: Unbuffered streams are not currently supported under windows or gcc3.\n";	
     }	

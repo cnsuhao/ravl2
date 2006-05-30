@@ -69,7 +69,7 @@
 #define RAVL_OS_OSF     defined(__osf__)   /* OSF.       */
 #define RAVL_OS_CYGWIN  defined(__CYGWIN__) /* Cygwin is a windows/unix hybrid */
 #else
-/* Unfortunatly the Visual C++ preprocessor doesn't accept defined() as anything but part 
+/* Unfortunately the Visual C++ preprocessor doesn't accept defined() as anything but part 
    of an #if or #elif so the compiler selection breaks. Here are the settings for a windows box.
 */
 #define RAVL_COMPILER_GCC       0
@@ -77,9 +77,28 @@
 #define RAVL_COMPILER_GCC3      0
 #define RAVL_COMPILER_GCC4      0
 #define RAVL_COMPILER_MIPSPRO   0
-#define RAVL_COMPILER_VISUALCPP 1
-#define RAVL_COMPILER_VISUALCPPNET (_MSC_VER >= 1300)
-#define RAVL_COMPILER_VISUALCPP6 (!RAVL_COMPILER_VISUALCPPNET)
+
+#if (!defined(__GNUC__) && defined(WIN32))
+#define RAVL_COMPILER_VISUALCPP 1 /* Visual C++ */
+#if (_MSC_VER >= 1400)
+#define RAVL_COMPILER_VISUALCPP6 0
+#define RAVL_COMPILER_VISUALCPPNET_2005 1
+#define RAVL_COMPILER_VISUALCPPNET 0
+#elif (_MSC_VER >= 1300)
+#define RAVL_COMPILER_VISUALCPP6 0
+#define RAVL_COMPILER_VISUALCPPNET_2005 0
+#define RAVL_COMPILER_VISUALCPPNET 1
+#else
+#define RAVL_COMPILER_VISUALCPP6 1
+#define RAVL_COMPILER_VISUALCPPNET_2005 0
+#define RAVL_COMPILER_VISUALCPPNET 0
+#endif
+#else
+#define RAVL_COMPILER_VISUALCPPNET_2005 0
+#define RAVL_COMPILER_VISUALCPP 0 /* Visual C++ */
+#define RAVL_COMPILER_VISUALCPPNET 0 /* Visual C++ .NET*/
+#define RAVL_COMPILER_VISUALCPP6 0 /* Visual C++ 6 */
+#endif
 
 #define RAVL_CPU_IX86  1
 #define RAVL_CPU_SPARC 0
@@ -203,8 +222,8 @@
 /********************************************************************************/
 /****** Compiler/ C++ Library ***************************************************/
 
-#define RAVL_HAVE_STDNAMESPACE    (RAVL_COMPILER_GCC3 || RAVL_COMPILER_GCC4 || RAVL_COMPILER_VISUALCPPNET) /* Use std namespace. */
-#define RAVL_HAVE_ANSICPPHEADERS  (RAVL_COMPILER_GCC || RAVL_COMPILER_VISUALCPPNET) /* Use ansi complient c++ headers, i.e without the .h */
+#define RAVL_HAVE_STDNAMESPACE    (RAVL_COMPILER_GCC3 || RAVL_COMPILER_GCC4 || _MSC_VER >= 1300) /* Use std namespace. */
+#define RAVL_HAVE_ANSICPPHEADERS  (RAVL_COMPILER_GCC || _MSC_VER >= 1300) /* Use ansi complient c++ headers, i.e without the .h */
 #define RAVL_HAVE_EXCEPTIONS      1                        /* are exceptions enabled ? */
 #define RAVL_HAVE_EXCEPTION_H     !RAVL_COMPILER_VISUALCPP /* Have exception.h ? */
 #define RAVL_HAVE_EXCEPTION_SPECS !RAVL_COMPILER_VISUALCPP /* throw(..) exceptions specs accepted ? */
@@ -214,7 +233,7 @@
 #define RAVL_HAVE_STREAMSIZE      (RAVL_HAVE_STDNAMESPACE || RAVL_COMPILER_GCC)  /* have streamsize type. */
 #define RAVL_HAVE_STREAMASCLASS   !RAVL_HAVE_STDNAMESPACE    /* istream and ostream are classes not typedefs. */
 #define RAVL_VISUALCPP_NAMESPACE_BUG RAVL_COMPILER_VISUALCPP /* Bug in namespace handling under Visual C++ 6.x */
-#define RAVL_VISUALCPP_TYPENAME_BUG (RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET) /* Restrictions in using keyword 'typename' in Visual C++ 6.x */
+#define RAVL_VISUALCPP_TYPENAME_BUG (RAVL_COMPILER_VISUALCPP && _MSC_VER < 1300) /* Restrictions in using keyword 'typename' in Visual C++ 6.x */
 #define RAVL_ISTREAM_UNGET_BUG    RAVL_COMPILER_VISUALCPP    /* Bug in stream unget under Visual C++ 6.x */
 #define RAVL_NEW_ANSI_CXX_DRAFT   (RAVL_COMPILER_GCC || RAVL_COMPILER_VISUALCPPNET) /* The mainly effects the use of <> in templated friend declarations */
 #define RAVL_HAVE_STRINGSTREAM    (RAVL_COMPILER_GCC3 || RAVL_COMPILER_GCC4)        /* Use stringstream instead of strstream */
