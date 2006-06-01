@@ -12,7 +12,7 @@
 #include "Ravl/SourceTools/AutoPortGenerator.hh"
 #include "Ravl/OS/Filename.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG 
 #define ONDEBUG(x) x
 #else

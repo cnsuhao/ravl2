@@ -31,7 +31,8 @@ EHT = autoport.eht
 
 # Deal with template files.
 AUXFILES = libs.tmpl examples.tmpl tests.tmpl mains.tmpl Ravl.dsw.tmpl \
-	   Examples.dsw.tmpl Tests.dsw.tmpl Mains.dsw.tmpl externalLib.xml
+	   Examples.dsw.tmpl Tests.dsw.tmpl Mains.dsw.tmpl externalLib.xml \
+	   header.tmpl
 
 AUXDIR= share/RAVL/AutoPort
 
