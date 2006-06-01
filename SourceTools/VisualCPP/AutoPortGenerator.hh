@@ -38,8 +38,12 @@ namespace RavlN {
     bool Forall(StringC &data);
     //: For all template function.
     
-    bool dos(StringC &data);
-    //: Generate a DOS filename.
+    bool Dos(StringC &data);
+    //: Generate a DOS filename from a unix one
+    
+    bool PathBack(StringC &data);
+    //: Generate path back from a file.
+    // So 'MyDir1/MySubDir/filename' will become '../../'
     
     virtual bool Lookup(const StringC &varname,StringC &buff);
     //: Lookup variable.
@@ -164,6 +168,7 @@ namespace RavlN {
     StringC fileObject;
     StringC outputDir;
     StringC projectOut;
+    StringC outputfile;
     ExtLibTableC extLibs; // Info about external libraries
     
     AutoPortSourceC src; // Info about source.

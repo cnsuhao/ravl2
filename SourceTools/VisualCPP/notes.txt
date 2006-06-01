@@ -1,0 +1,49 @@
+
+
+Variables
+=========
+
+libname      - Library associated with current file (PLIB)
+package      - Value of (PACKAGE)
+srcfile      - Full path to current headerfile
+target       - file currently being generated
+targetfile   - Full path to current file being generated
+filename     - Full path to current file. (Not headers)
+rootname     - Name component of current file
+pathname     - Path to current component
+ProjectOut   - Root of place where files are being generated in windows enviroment
+ExtraInclude - List of extra include directories
+ProgExtraLibPath - Set of paths to where external libraries are kept
+ProgExtraLib - List of external libraries needed for making executables
+Back_ProjectOut - One Back from current project out.
+
+Functions
+=========
+
+forall - $(forall:[For all type]: [some string])  For all instances of some object
+dos - $(dos: [some path])  Convert path to dos style
+pathback - $(pathback: [some path])  Generate path back to the root from a file. So 'MyDir1/MySubDir/filename' will become '../../'
+
+ForAll
+======
+
+libs - All libraries being ported
+useslibs - For all libraries in current useslibs
+soruces - For source files in current library
+headers - For all headers in current library
+mains - For all main programs assoicated with current library
+examples -  For all examples programs assoicated with current library
+tests - For all test executables in current library
+
+
+
+File generation keywords
+========================
+
+one - Just make one file
+lib - One file for each library
+mains - One file for each main program
+examples - One file for each example program
+tests -  One file for each test program
+headers - One file for each header file
+

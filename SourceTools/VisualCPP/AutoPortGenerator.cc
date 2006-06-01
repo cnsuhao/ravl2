@@ -12,7 +12,7 @@
 #include "Ravl/SourceTools/AutoPortGenerator.hh"
 #include "Ravl/OS/Filename.hh"
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG 
 #define ONDEBUG(x) x
 #else
@@ -46,7 +46,8 @@ namespace RavlN {
 
     // Setup commands ?
     SetupCommand("forall",*this,&AutoPortGeneratorBodyC::Forall);
-    SetupCommand("dos",*this,&AutoPortGeneratorBodyC::dos);
+    SetupCommand("dos",*this,&AutoPortGeneratorBodyC::Dos);
+    SetupCommand("pathback",*this,&AutoPortGeneratorBodyC::PathBack);
     
   }
   
@@ -96,6 +97,10 @@ namespace RavlN {
       buff = FilenameC(CurFilename()).PathComponent();
       return true;
     }
+    if(varname == "outputfile") {
+      buff = outputfile;
+      return true;
+    }
     if(varname == "ProjectOut") {
       buff = projectOut;
     }
@@ -112,7 +117,7 @@ namespace RavlN {
 	}
 	if(!exclusive.Contains(*it)) exclusive.InsLast(*it);
       }
-
+      
       //: Now we want to check if there are any external libraries
       //: and add the include paths
       DListC<StringC>includePaths;
@@ -207,13 +212,33 @@ namespace RavlN {
 
   //: Generate a DOS filename.
   
-  bool AutoPortGeneratorBodyC::dos(StringC &data) {
+  bool AutoPortGeneratorBodyC::Dos(StringC &data) {
     StringC newstuff = Interpret(data);
     newstuff.gsub("/","\\");
     output.Top() << newstuff;
     return true;
   }
   
+  //: Generate path back from a file.
+  // So 'MyDir1/MySubDir/filename' will become '../../'
+  
+  bool AutoPortGeneratorBodyC::PathBack(StringC &data) {
+    // Is string empty ?
+    if(data.IsEmpty())
+      return true;
+    StringC idata = Interpret(data);
+    
+    idata.gsub("/./","/");
+    
+    IntT slashes = idata.freq('/');
+    if(idata[0] == '/') // Is it an absolute path?
+      slashes--;
+    ONDEBUG(cerr << "AutoPortGeneratorBodyC::PathBack '" << idata << "' Slashes=" << slashes << "\n");
+    for(int i = 0;i < slashes;i++)
+      output.Top() << "../";
+    return true;
+  }
+
   //: For all template function.
   
   bool AutoPortGeneratorBodyC::Forall(StringC &data) {
@@ -319,11 +344,18 @@ namespace RavlN {
   //: Make a file name for an object.
   StringC AutoPortGeneratorBodyC::MakeFilename(const StringC &obj) {
     StringC ret;
-    if(!outputDir.IsEmpty())
-      ret = outputDir + filenameSeperator + filePattern;
+    if(!outputDir.IsEmpty()) {
+      if(outputDir[outputDir.Size()-1] != filenameSeperator)
+        ret = outputDir + filenameSeperator + filePattern;
+    }
     else
-      ret = filePattern.Copy();
+      ret = filePattern;
     ret.gsub("%",obj);
+    
+    ret = Interpret(ret);
+    
+    // Save current target filename.
+    outputfile = ret;
     return ret;
   }
 
@@ -344,8 +376,8 @@ namespace RavlN {
       for(HashIterC<StringC,LibInfoC> it(src.Libs());it;it++) {
 	ONDEBUG(cerr << "************** File lib  Name=" << it->Name() << " **************************** \n");
 	target = it.Key();
-	StringC fn = MakeFilename(it.Key());
 	context.Push(ContextC(*it));
+	StringC fn = MakeFilename(it.Key());
 	Build(fn);
 	context.DelTop();
       }
@@ -363,12 +395,29 @@ namespace RavlN {
 	ONDEBUG(cerr << "************** File context Name=" << it->Name() << " Type=" << fileObject << " **************************** \n");
 	ONDEBUG(cerr << " Libs=" << it->UsesLibs().Size() << " First=" << ( it->UsesLibs().IsEmpty() ? StringC("NULL") : it->UsesLibs().First() ) << "\n");
 	target = it->Name();
-	StringC fn = MakeFilename(it->Name());
 	context.Push(ContextC(*it));
+	StringC fn = MakeFilename(it->Name());
 	ONDEBUG(cerr << " Libs=" << context.Top().progInfo.UsesLibs().Size() << " " << context.Top().UsesLibs().Size() << "\n");
 	Build(fn);	
 	context.DelTop();
       }
+      return true;
+    }
+    
+    if(fileObject == "headers") {
+      for(HashIterC<StringC,LibInfoC> it(src.Libs());it;it++) {
+	ONDEBUG(cerr << "************** File header  Name=" << it->Name() << " **************************** \n");
+        DListC<HeaderInfoC> hdrInfo = it.Data().Headers();
+        for(DLIterC<HeaderInfoC> hit(hdrInfo);hit;hit++) {
+          target = hit->Name(); // Set current target.
+          context.Push(ContextC(*hit));
+          StringC outName = FilenameC(CurFilename()).NameComponent();
+          StringC fn = MakeFilename(outName);
+          Build(fn);
+          context.DelTop();
+        }
+      }
+      
       return true;
     }
     cerr << "Unknown file object : '" << fileObject << "'\n";

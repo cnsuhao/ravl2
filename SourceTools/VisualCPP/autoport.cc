@@ -79,10 +79,10 @@ int main(int nargs,char **argv) {
   StringC inFile = pathtempl + "/externalLib.xml";
   ExtLibTableC extLibs;
   if(!Load(inFile, extLibs))
-      RavlIssueError("Unable to open external libs file: " + inFile);
-
+    RavlIssueError("Unable to open external libs file: " + inFile);
+  
   // Load in doLibs file if provided
-  DListC<StringC>doLibs;
+  DListC<StringC> doLibs;
   if(option.IsOnCommandLine("dl")) {
     TextFileC file(doLibsFile);
     for(UIntT i=1;i<=file.NoLines();i++) {
@@ -91,7 +91,7 @@ int main(int nargs,char **argv) {
       doLibs.InsLast(line);
     }
   }
-
+  
   
   AutoPortSourceC portInfo(fn, doLibs);
   if(verb) {
