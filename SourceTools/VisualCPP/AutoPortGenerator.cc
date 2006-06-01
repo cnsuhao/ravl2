@@ -11,6 +11,8 @@
 
 #include "Ravl/SourceTools/AutoPortGenerator.hh"
 #include "Ravl/OS/Filename.hh"
+#include "Ravl/OS/ChildOSProcess.hh"
+
 
 #define DODEBUG 0
 #if DODEBUG 
@@ -48,6 +50,7 @@ namespace RavlN {
     SetupCommand("forall",*this,&AutoPortGeneratorBodyC::Forall);
     SetupCommand("dos",*this,&AutoPortGeneratorBodyC::Dos);
     SetupCommand("pathback",*this,&AutoPortGeneratorBodyC::PathBack);
+    SetupCommand("shell",*this,&AutoPortGeneratorBodyC::Shell);
     
   }
   
@@ -243,6 +246,25 @@ namespace RavlN {
     return true;
   }
 
+  //: Execute a shell command and include stdout.
+  
+  bool AutoPortGeneratorBodyC::Shell(StringC &data) {
+    StringC idata = Interpret(data);
+    ChildOSProcessC cproc(idata,true);
+    if(!cproc.ExitedOk() && !cproc.IsRunning()) {
+      cerr << "AutoPortGeneratorBodyC::Shell, ERROR: Failed to execute " << idata << "\n";
+      return false;
+    }
+    if(!cproc.Wait(5.0)) {
+      cproc.Terminate();
+      cerr << "AutoPortGeneratorBodyC::Shell, ERROR: Failed to execute: " << idata << "\n";
+      return false;
+    }
+    cproc.StdOut().CopyTo(output.Top());
+    
+    return true;
+  }
+  
   //: For all template function.
   
   bool AutoPortGeneratorBodyC::Forall(StringC &data) {
@@ -383,6 +405,18 @@ namespace RavlN {
 	context.Push(ContextC(*it));
 	StringC fn = MakeFilename(it.Key());
 	Build(fn);
+	context.DelTop();
+      }
+      return true;
+    }
+    if(fileObject == "newlib") {
+      for(HashIterC<StringC,LibInfoC> it(src.Libs());it;it++) {
+	ONDEBUG(cerr << "************** File lib  Name=" << it->Name() << " **************************** \n");
+	target = it.Key();
+	context.Push(ContextC(*it));
+	FilenameC fn = MakeFilename(it.Key());
+        if(!fn.Exists()) // Only make if it doesn't exist.
+          Build(fn);
 	context.DelTop();
       }
       return true;

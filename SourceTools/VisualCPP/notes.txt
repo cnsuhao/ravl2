@@ -27,6 +27,7 @@ ForAll
 ======
 
 libs - All libraries being ported
+newlib - For all libraries where the target file doesn't already exist (Used for generating GUID's)
 useslibs - For all libraries in current useslibs
 soruces - For source files in current library
 headers - For all headers in current library

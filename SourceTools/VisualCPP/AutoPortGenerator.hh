@@ -45,6 +45,9 @@ namespace RavlN {
     //: Generate path back from a file.
     // So 'MyDir1/MySubDir/filename' will become '../../'
     
+    bool Shell(StringC &data);
+    //: Execute a shell command and include stdout.
+    
     virtual bool Lookup(const StringC &varname,StringC &buff);
     //: Lookup variable.
     // if found put value into 'buff' and return true.
@@ -78,7 +81,7 @@ namespace RavlN {
       return context.Top().progInfo;
     }
     //: Access info about current lib.
-
+    
     
     class ContextC {
     public:
