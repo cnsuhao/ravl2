@@ -66,6 +66,10 @@ namespace RavlN {
       }
       return true;
     }
+    if(varname == "outputdir") { // Output directory
+      buff = outputDir;
+      return true;
+    }
     if(varname == "package") { // Package for header file.
       buff = context.Top().HeaderInfo().Package();
       return true;
@@ -79,12 +83,12 @@ namespace RavlN {
       buff = target;
       return true;
     }
-    if(varname == "filename") { // Get the full path.
+    if(varname == "filename") { // Get the full path. same as 'srcfile'
       buff = CurFilename();
       ONDEBUG(cerr << "Filename="  << CurFilename() << "\n");
       return true;
     }
-    if(varname == "name") { // Get the full path.
+    if(varname == "name") { // Get the full path.  same as 'srcfile'
       buff = CurName();
       ONDEBUG(cerr << "name="  << CurFilename() << "\n");
       return true;

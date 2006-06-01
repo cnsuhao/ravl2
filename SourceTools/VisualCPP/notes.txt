@@ -5,10 +5,9 @@ Variables
 
 libname      - Library associated with current file (PLIB)
 package      - Value of (PACKAGE)
-srcfile      - Full path to current headerfile
 target       - file currently being generated
-targetfile   - Full path to current file being generated
-filename     - Full path to current file. (Not headers)
+outputdir    - Output directory
+filename     - Full path to current file. 
 rootname     - Name component of current file
 pathname     - Path to current component
 ProjectOut   - Root of place where files are being generated in windows enviroment
