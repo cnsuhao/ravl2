@@ -67,7 +67,10 @@ namespace RavlN {
       if(_mkdir(chars()) == 0)
 #endif
 	return true;
-    return false;
+    // If it exists when we exit, return true.
+    // This can catch problems with relative paths, particularly
+    // ones ending in '.'
+    return Exists(); 
   }
   
 // Test if the file/directory given in this path exists.
