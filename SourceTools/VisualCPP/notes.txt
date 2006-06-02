@@ -22,6 +22,8 @@ Functions
 forall - $(forall:[For all type]: [some string])  For all instances of some object
 dos - $(dos: [some path])  Convert path to dos style
 pathback - $(pathback: [some path])  Generate path back to the root from a file. So 'MyDir1/MySubDir/filename' will become '../../'
+topandtail - $(topandtail: [text] )  Remove white space from begining and end of string.
+shell - $(shell: [command] ) Execute command and include output in file.
 
 ForAll
 ======

@@ -48,6 +48,9 @@ namespace RavlN {
     bool Shell(StringC &data);
     //: Execute a shell command and include stdout.
     
+    bool TopAndTail(StringC &data);
+    //: Remove white space from beging and end of string.
+    
     virtual bool Lookup(const StringC &varname,StringC &buff);
     //: Lookup variable.
     // if found put value into 'buff' and return true.

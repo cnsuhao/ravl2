@@ -51,7 +51,7 @@ namespace RavlN {
     SetupCommand("dos",*this,&AutoPortGeneratorBodyC::Dos);
     SetupCommand("pathback",*this,&AutoPortGeneratorBodyC::PathBack);
     SetupCommand("shell",*this,&AutoPortGeneratorBodyC::Shell);
-    
+    SetupCommand("topandtail",*this,&AutoPortGeneratorBodyC::TopAndTail);
   }
   
   //: Lookup variable.
@@ -262,6 +262,14 @@ namespace RavlN {
     }
     cproc.StdOut().CopyTo(output.Top());
     
+    return true;
+  }
+
+  //: Remove white space from beging and end of string.
+  
+  bool AutoPortGeneratorBodyC::TopAndTail(StringC &data) {
+    StringC idata = Interpret(data);
+    output.Top() << idata.TopAndTail();
     return true;
   }
   
