@@ -11,6 +11,7 @@
 
 #include "Ravl/Complex.hh"
 #include "Ravl/Stream.hh"
+#include "ccmath/ccmath.h"
 
 namespace RavlN {
   ostream & 
@@ -24,5 +25,16 @@ namespace RavlN {
     inS >> x.Re() >> x.Im();
     return(inS);
   }
+  
+  inline
+  ComplexC Sqrt(const ComplexC & a) {
+    struct ccomplex arg;
+    arg.re = a.Re();
+    arg.im = a.Im();
+    struct ccomplex root = csqrt(arg);
+    return ComplexC (root.re, root.im);
+  }
+  //: Returns one of the complex square roots of a complex number
+  // The 2nd root is the -ve of the given one
 }
 

@@ -18,7 +18,6 @@
 
 #include "Ravl/Types.hh"
 #include "Ravl/StdMath.hh"
-#include "ccmath/ccmath.h"
 
 namespace RavlN {
   
@@ -289,7 +288,7 @@ namespace RavlN {
   
   inline
   ComplexC CExp(RealT a)
-    // Note: this is when it's exp(i*a), a real
+  // Note: this is when it's exp(i*a), a real
   { return ComplexC(Cos(a), Sin(a)); }
   
   inline
@@ -298,17 +297,10 @@ namespace RavlN {
     return ComplexC(Log(Sqrt(a.re*a.re + a.im*a.im)), 
 		    ATan2(a.im,a.re));
   }  
-
-  inline
-  ComplexC Sqrt(const ComplexC & a) {
-    struct complex arg;
-    arg.re = a.Re();
-    arg.im = a.Im();
-    struct complex root = csqrt(arg);
-    return ComplexC (root.re, root.im);
-  }
-//: Returns one of the complex square roots of a complex number
-// The 2nd root is the -ve of the given one
+  
+  ComplexC Sqrt(const ComplexC & a);
+  //: Returns one of the complex square roots of a complex number
+  // The 2nd root is the -ve of the given one
 }
 
 #endif
