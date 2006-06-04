@@ -8,12 +8,12 @@
 #include "ccmath/ccmath.h"
 #include <stdlib.h>
 #include <math.h>
-void fftgr(double *x,struct complex *ft,int n,int *kk,int inv)
-{ struct complex a,b,z,w,*d,*p,*f,*fb;
+void fftgr(double *x,struct ccomplex *ft,int n,int *kk,int inv)
+{ struct ccomplex a,b,z,w,*d,*p,*f,*fb;
   double tpi=6.283185307179586,sc,q,*t;
   int *mm,*m,kp,i,j,k,jk,jl,ms,mp;
   mm=(int *)malloc((kk[0]+1)*sizeof(int));
-  d=(struct complex *)malloc(kk[*kk]*sizeof(w));
+  d=(struct ccomplex *)malloc(kk[*kk]*sizeof(w));
   for(i=1,*mm=1,m=mm; i<=kk[0] ;++i,++m) *(m+1)= *m*kk[i];
   for(j=0,t=x; j<n ;++j){ jl=j; f=ft;
     for(i=1,m=mm; i<=kk[0] ;++i){

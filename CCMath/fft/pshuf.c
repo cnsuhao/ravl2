@@ -8,7 +8,7 @@
 #include "ccmath/ccmath.h"
 #include <stdlib.h>
 void pshuf(Cpx **pa,Cpx **pb,int *kk,int n)
-{ int *mm,*m,i,j,k,jk; struct complex **p,**q;
+{ int *mm,*m,i,j,k,jk; struct ccomplex **p,**q;
   mm=(int *)malloc((kk[0]+1)*sizeof(int));
   for(i=1,*mm=1,m=mm; i<=kk[0] ;++i,++m) *(m+1)= *m*kk[i];
   for(j=0,p=pb; j<n ;++j){ jk=j; q=pa;

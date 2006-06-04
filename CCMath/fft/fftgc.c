@@ -8,7 +8,7 @@
 #include "ccmath/ccmath.h"
 #include <stdlib.h>
 #include <math.h>
-void fftgc(Cpx **pc,struct complex *ft,int n,int *kk,int inv)
+void fftgc(Cpx **pc,struct ccomplex *ft,int n,int *kk,int inv)
 { Cpx a,b,z,w,*d,*p,**f,**fb;
   double tpi=6.283185307179586,sc,q;
   int *mm,*m,kp,i,j,k,jk,jl,ms,mp;

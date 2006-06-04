@@ -8,10 +8,10 @@
 #include "ccmath/ccmath.h"
 #include <math.h>
 
-void fft2(struct complex *ft,int m,int inv)
+void fft2(struct ccomplex *ft,int m,int inv)
 { int n,i,j,k,mm,mp;
   double s,t,ang,tpi=6.283185307179586;
-  struct complex u,w,*p,*q,*pf;
+  struct ccomplex u,w,*p,*q,*pf;
   n=1; n<<=m; pf=ft+n-1;
   for(j=0,p=ft; p<pf ;++p){ q=ft+j;
     if(p<q){ t=p->re; p->re=q->re; q->re=t;

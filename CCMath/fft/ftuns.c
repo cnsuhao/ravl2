@@ -6,8 +6,8 @@
  * ------------------------------------------------------------------------
  */
 #include "ccmath/ccmath.h"
-void ftuns(struct complex **pt,int n)
-{ struct complex **p,**q; int j; double x,y,u,v,h=2.;
+void ftuns(struct ccomplex **pt,int n)
+{ struct ccomplex **p,**q; int j; double x,y,u,v,h=2.;
   p=pt+1; q=pt+n-1;
   if(n%2==0) n/=2; else n=n/2+1;
   for(j=1; j<n ;++j){

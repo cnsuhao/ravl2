@@ -9,9 +9,9 @@
 #include "ccmath/ccmath.h"
 int pwspec(double *x,int n,int m)
 { int j,kk[32]; double s;
-  struct complex *p,*q;
+  struct ccomplex *p,*q;
   n=pfac(n,kk,'e');
-  p=(struct complex *)malloc(n*sizeof(*p));
+  p=(struct ccomplex *)malloc(n*sizeof(*p));
   fftgr(x,p,n,kk,'d');
   for(s=0.,j=0; j<n ;++j) s+=x[j]*x[j];
   for(s/=n,q=p,j=0; j<n ;++q)

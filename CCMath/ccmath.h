@@ -46,8 +46,8 @@ extern "C" {
                /* Complex Types */
 
 #ifndef CPX
-struct complex {double re,im;};
-typedef struct complex Cpx;
+struct ccomplex {double re,im;};
+typedef struct ccomplex Cpx;
 #define CPX  1
 #endif
 
@@ -360,9 +360,9 @@ struct xpr srt2={{0x3FFF,0xB504,0xF333,0xF9DE,0x6484,0x597D,0x89B3,0x754B}};
 
      /* functional form: double (*func)(double) */
 
-     int plrt(double *cof,int n,struct complex *root,double ra,double rb) ;
+     int plrt(double *cof,int n,struct ccomplex *root,double ra,double rb) ;
 
-     struct complex polyc(struct complex z,double *cof,int n) ;
+     struct ccomplex polyc(struct ccomplex z,double *cof,int n) ;
 
      double secrt(double (*func)(),double x,double dx,double test) ;
 
@@ -466,16 +466,16 @@ struct xpr srt2={{0x3FFF,0xB504,0xF333,0xF9DE,0x6484,0x597D,0x89B3,0x754B}};
 
 
 
-     void fft2(struct complex *ft,int m,int inv) ;
+     void fft2(struct ccomplex *ft,int m,int inv) ;
 
-     void fft2_d(struct complex *a,int m,int n,int f) ;
+     void fft2_d(struct ccomplex *a,int m,int n,int f) ;
 
-     void fftgc(struct complex **pc,struct complex *ft,int n,
+     void fftgc(struct ccomplex **pc,struct ccomplex *ft,int n,
                 int *kk,int inv) ;
 
-     void fftgr(double *x,struct complex *ft,int n,int *kk,int inv) ;
+     void fftgr(double *x,struct ccomplex *ft,int n,int *kk,int inv) ;
 
-     void ftuns(struct complex **pt,int n) ;
+     void ftuns(struct ccomplex **pt,int n) ;
 
      int pfac(int n,int *kk,int fe) ;
 
@@ -706,60 +706,60 @@ struct xpr srt2={{0x3FFF,0xB504,0xF333,0xF9DE,0x6484,0x597D,0x89B3,0x754B}};
 
 
 
-     struct complex cmul(struct complex s,struct complex t) ;
+     struct ccomplex cmul(struct ccomplex s,struct ccomplex t) ;
 
-     struct complex cdiv(struct complex s,struct complex t) ;
+     struct ccomplex cdiv(struct ccomplex s,struct ccomplex t) ;
 
-     struct complex cadd(struct complex s,struct complex t) ;
+     struct ccomplex cadd(struct ccomplex s,struct ccomplex t) ;
 
-     struct complex csub(struct complex s,struct complex t) ;
+     struct ccomplex csub(struct ccomplex s,struct ccomplex t) ;
 
-     struct complex crmu(double a,struct complex z) ;
+     struct ccomplex crmu(double a,struct ccomplex z) ;
 
-     struct complex cimu(double b,struct complex z) ;
+     struct ccomplex cimu(double b,struct ccomplex z) ;
 
-     struct complex ccng(struct complex z) ;
+     struct ccomplex ccng(struct ccomplex z) ;
 
-     struct complex cdef(double r,double i) ;
+     struct ccomplex cdef(double r,double i) ;
 
 #if !defined(__sgi__) && !RAVL_COMPILER_VISUALCPP && !defined(__osf__)
      /* This conflicts with an existing function on sgi */
-     double cabs(struct complex c) ;
+     double cabs(struct ccomplex c) ;
 #endif
 
-     double cnrm(struct complex z) ;
+     double cnrm(struct ccomplex z) ;
 
-     struct complex cexp(struct complex z) ;
+     struct ccomplex cexp(struct ccomplex z) ;
 
 #ifndef __cplusplus
-     struct complex clog(struct complex z) ;
+     struct ccomplex clog(struct ccomplex z) ;
 #endif
 
-     struct complex csinh(struct complex z) ;
+     struct ccomplex csinh(struct ccomplex z) ;
 
-     struct complex ccosh(struct complex z) ;
+     struct ccomplex ccosh(struct ccomplex z) ;
 
-     struct complex ctanh(struct complex z) ;
+     struct ccomplex ctanh(struct ccomplex z) ;
 
-     struct complex casinh(struct complex z) ;
+     struct ccomplex casinh(struct ccomplex z) ;
 
-     struct complex cacosh(struct complex z) ;
+     struct ccomplex cacosh(struct ccomplex z) ;
 
-     struct complex catanh(struct complex z) ;
+     struct ccomplex catanh(struct ccomplex z) ;
 
-     struct complex casin(struct complex z) ;
+     struct ccomplex casin(struct ccomplex z) ;
 
-     struct complex cacos(struct complex z) ;
+     struct ccomplex cacos(struct ccomplex z) ;
 
-     struct complex catan(struct complex z) ;
+     struct ccomplex catan(struct ccomplex z) ;
 
-     struct complex csqrt(struct complex z) ;
+     struct ccomplex csqrt(struct ccomplex z) ;
 
-     struct complex csin(struct complex z) ;
+     struct ccomplex csin(struct ccomplex z) ;
 
-     struct complex ccos(struct complex z) ;
+     struct ccomplex ccos(struct ccomplex z) ;
 
-     struct complex ctan(struct complex z) ;
+     struct ccomplex ctan(struct ccomplex z) ;
 
 
 
