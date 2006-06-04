@@ -71,22 +71,24 @@ namespace RavlN {
   inline UIntT StdHash(const unsigned char dat) 
   { return (UIntT) (dat >> 3) ^ dat; }
   //: Hash unsigned char.
-  
-  inline
-  UIntT StdHash(void *ptr) { 
-#if RAVL_OS_LINUX64
-return (reinterpret_cast<UInt64T>(ptr) >> 2 ) ^ (reinterpret_cast<UInt64T>(ptr)>>15) ;
-#else 
-return (reinterpret_cast<UIntT>(ptr) >> 2) ^ (reinterpret_cast<UIntT>(ptr) >> 15);
-#endif 
-}
-  //: Hash function for void ptr's.
-  
+
 // Disable "possible loss of data" warning
 #if RAVL_COMPILER_VISUALCPP
 #pragma warning ( push )
 #pragma warning ( disable : 4244 )
+#pragma warning ( disable : 4311 )
 #endif
+
+  inline
+  UIntT StdHash(void *ptr) { 
+#if RAVL_OS_LINUX64
+	return (reinterpret_cast<UInt64T>(ptr) >> 2 ) ^ (reinterpret_cast<UInt64T>(ptr)>>15) ;
+#else 
+	return (reinterpret_cast<UIntT>(ptr) >> 2) ^ (reinterpret_cast<UIntT>(ptr) >> 15);
+#endif 
+}
+  //: Hash function for void ptr's.
+  
 
   inline UIntT StdHash(const Int64T dat) 
   { return (UIntT) (dat >> 17) ^ (dat >> 32) ^ dat; }

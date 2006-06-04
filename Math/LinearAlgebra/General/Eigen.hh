@@ -367,7 +367,7 @@ namespace RavlN
    
 	    NumT g = d[l];
 	    NumT p = (d[l+1] - g) / (2.0 * e[l]);
-	    NumT r = hypot(p,1.0);
+	    NumT r = Hypot(p,1.0);
 	    if (p < 0) {
 	      r = -r;
 	    }
@@ -395,7 +395,7 @@ namespace RavlN
 	      s2 = s;
 	      g = c * e[i];
 	      h = c * p;
-	      r = hypot(p,e[i]);
+	      r = Hypot(p,e[i]);
 	      e[i+1] = s * r;
 	      s = e[i] / r;
 	      c = p / r;

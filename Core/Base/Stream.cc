@@ -9,6 +9,8 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Base/Stream.cc"
 
+
+
 #include "Ravl/Stream.hh"
 #include "Ravl/StreamType.hh"
 #include "Ravl/Calls.hh"
@@ -277,12 +279,14 @@ namespace RavlN {
   // buffer of 4096 bytes. 
   
   ostream& OStreamC::form(const char *format ...) {
-    const int formSize = 4096;
+    
     va_list args;
     va_start(args,format);
-    char buff[formSize];
-#if RAVL_OS_WIN32
-    int x = vsprintf(buff,format,args);
+    
+	const int formSize = 4096;
+	char buff[formSize];
+#if RAVL_COMPILER_VISUALCPP
+	int x = vsprintf_s(buff,formSize,format,args);
 #else
     int x = vsnprintf(buff,formSize,format,args);
 #endif
@@ -290,6 +294,7 @@ namespace RavlN {
       cerr << "OStreamC::form(...), WARNING: Output string is over buffer length. \n";
     else
       os() << buff;
+
     va_end(args);
     return *this;
   }

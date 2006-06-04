@@ -32,6 +32,10 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #define USE_STREAMPUT 0
 
+#ifdef RAVL_COMPILER_VISUALCPP
+//#define _CRT_SECURE_NO_DEPRECATE 1
+#endif
+
 #include "Ravl/String.hh"
 #include "Ravl/Index.hh"
 
@@ -125,13 +129,17 @@ namespace RavlN {
   }
   
   // copy until null
-  inline static void scopy(const char* from, char* to) {
+  inline static void scopy(const char* from, char* to,int maxBuffer) {
     if (from == 0) 
       return ;
 #if !USE_CSTRING
     while((*to++ = *from++) != 0);
 #else
+#if RAVL_COMPILER_VISUALCPPNET_2005
+   strcpy_s(to,maxBuffer,from);
+#else
     strcpy(to,from);
+#endif
 #endif
   }
   
@@ -450,10 +458,14 @@ namespace RavlN {
     : rep(&_nilStrRepC)
   {
     char TBuff[32];
-#if RAVL_OS_LINUX64  
+#if RAVL_CPUTYPE_64 
   sprintf(TBuff,"%lld",n.V());
 #else 
+#if RAVL_COMPILER_VISUALCPPNET_2005
+  sprintf_s(TBuff,32,"%d",n.V());
+#else
   sprintf(TBuff,"%d",n.V());
+#endif
 #endif 
     *this = TBuff;
   }
@@ -462,7 +474,11 @@ namespace RavlN {
     : rep(&_nilStrRepC)
   {
     char TBuff[32];
+#if RAVL_COMPILER_VISUALCPPNET_2005
+    sprintf_s(TBuff,32,"%d",n);
+#else
     sprintf(TBuff,"%d",n);
+#endif
     *this = TBuff;
   }
 
@@ -470,7 +486,11 @@ namespace RavlN {
     : rep(&_nilStrRepC)
   {
     char TBuff[32];
+#if RAVL_COMPILER_VISUALCPPNET_2005
+    sprintf_s(TBuff,32,"%d",n);
+#else
     sprintf(TBuff,"%d",n);
+#endif
     *this = TBuff;
   }
   
@@ -478,7 +498,11 @@ namespace RavlN {
     : rep(&_nilStrRepC)
   {
     char TBuff[64];
-    sprintf(TBuff,"%f",f);
+#if RAVL_COMPILER_VISUALCPPNET_2005
+    sprintf_s(TBuff,64,"%f",f);
+#else
+	sprintf(TBuff,"%f",f);
+#endif
     *this = TBuff;
   }
   
@@ -486,7 +510,11 @@ namespace RavlN {
   
   StringC::StringC(Int64T n) {
     char TBuff[64];
+#if RAVL_COMPILER_VISUALCPP
+    sprintf_s(TBuff,64,"%lld",n);
+#else
     sprintf(TBuff,"%lld",n);
+#endif
     *this = TBuff;
   }
     
@@ -494,7 +522,11 @@ namespace RavlN {
   
   StringC::StringC(UInt64T n) {
     char TBuff[64];
+#if RAVL_COMPILER_VISUALCPP
+	sprintf_s(TBuff,64,"%llu",n);
+#else
     sprintf(TBuff,"%llu",n);
+#endif
     *this = TBuff;    
   }
 
@@ -600,7 +632,7 @@ namespace RavlN {
       targ = Sresize(0, sl);
       ncopy(oldtarg->s, targ->s, pos);
       ncopy(ys, &(targ->s[pos]), ylen);
-      scopy(&(oldtarg->s[pos + len]), &(targ->s[pos + ylen]));
+      scopy(&(oldtarg->s[pos + len]), &(targ->s[pos + ylen]),(ylen-pos)+1);
 #if 0
       oldtarg->DecRefs();
 #endif
@@ -609,7 +641,7 @@ namespace RavlN {
       ncopy(ys, &(targ->s[pos]), len);
     else if (ylen < ((int) len)) {
       ncopy(ys, &(targ->s[pos]), ylen);
-      scopy(&(targ->s[pos + len]), &(targ->s[pos + ylen]));
+      scopy(&(targ->s[pos + len]), &(targ->s[pos + ylen]),ylen-pos+1);
     } else {
       revcopy(&(targ->s[targ->len]), &(targ->s[sl]), targ->len-pos-len +1);
       ncopy(ys, &(targ->s[pos]), ylen);
@@ -808,8 +840,8 @@ namespace RavlN {
     va_start(args,format);
     char buff[formSize];
     int x;
-#if RAVL_OS_WIN32
-    if((x = vsprintf(buff,format,args)) < 0)
+#if RAVL_COMPILER_VISUALCPP
+    if((x = vsprintf_s(buff,formSize,format,args)) < 0)
       cerr << "WARNING: StringC::form(...), String truncated!! \n";
     StringC oth(buff);
     (*this) = oth;  // Slower, but saves memory.

@@ -9,6 +9,8 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Base/MTLocks.cc"
 
+#include "Ravl/config.h"
+
 #include "Ravl/MTLocks.hh"
 
 #if RAVL_COMPILER_VISUALCPP 
@@ -29,7 +31,7 @@ namespace RavlN {
   //: Get thread id.
   int SysGetThreadID() {
     if(MTGetThreadID == 0)
-#if RAVL_COMPILER_VISUALCPP && 0
+#if RAVL_COMPILER_VISUALCPPNET_2005
       return _getpid();
 #else
     return getpid();

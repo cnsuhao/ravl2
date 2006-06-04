@@ -447,7 +447,7 @@ int testBase64() {
   for(int i = 0;i <100;i++) {
     SArray1dC<char> data(RandomInt() % 400);
     for(SArray1dIterC<char> it(data);it;it++)
-      *it = RandomInt() % 256;
+      *it = (char) (RandomInt() % 256);
     StringC enc = Base64C::Encode(data);
     enc = " \n  " + enc + "\n";
     //cerr << "Encoded string=" << enc << "\n";

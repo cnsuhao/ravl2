@@ -192,9 +192,9 @@ namespace RavlN {
   StringC TimeCodeC::ToText() const {
     IntT hour,minute,second,frame;
     if (ConvertTo(hour,minute,second,frame)) {
-      char buff[16];
-      sprintf(buff, "%.2d:%.2d:%.2d:%.2d", hour, minute, second, frame);
-      return StringC(buff);
+	  StringC ret;
+      ret.form("%.2d:%.2d:%.2d:%.2d", hour, minute, second, frame);
+      return ret;
     }
     else return StringC("--:--:--:--");
   }

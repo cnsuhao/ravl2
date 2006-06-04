@@ -9,6 +9,7 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Base/Assert.cc"
 
+
 #include "Ravl/config.h"
 #include "Ravl/Assert.hh"
 #include "Ravl/String.hh"
@@ -106,7 +107,11 @@ namespace RavlN {
     va_list args;
     va_start(args,msg);
     char buff[formSize];
+#if RAVL_COMPILER_VISUALCPPNET_2005
+   int x = vsprintf_s(buff,formSize,msg,args);
+#else
     int x = vsprintf(buff,msg,args);
+#endif
     if(x > (formSize - 256)) 
       cerr << "OStreamC::form(...), WARNING: Ouput string is near or over buffer length. \n";
     cerr << buff;
@@ -127,7 +132,11 @@ namespace RavlN {
     va_list args;
     va_start(args,msg);
     char buff[formSize];
+#if RAVL_COMPILER_VISUALCPPNET_2005
+    int x = vsprintf_s(buff,formSize,msg,args);
+#else
     int x = vsprintf(buff,msg,args);
+#endif
     if(x > (formSize - 256)) 
       cerr << "OStreamC::form(...), WARNING: Ouput string is near or over buffer length. \n";
     cerr << buff;

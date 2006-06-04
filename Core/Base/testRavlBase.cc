@@ -117,6 +117,7 @@ int main()
     cerr << "Test failed at line:" << ln << "\n";
     return 1;
   }
+  cout << "Test completed ok. \n";
   return 0;
 }
 

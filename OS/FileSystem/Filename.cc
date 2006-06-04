@@ -127,7 +127,13 @@ namespace RavlN {
   // Returns false if failed.
   
   bool FilenameC::SetPermissions(const FilePermissionC &perm)
-  { return chmod(chars(),perm.Mode()) == 0; }
+  { 
+#if RAVL_COMPILER_VISUALCPP
+	  return _chmod(chars(),perm.Mode()) == 0; 
+#else
+	  return chmod(chars(),perm.Mode()) == 0; 
+#endif
+  }
   
   
   // Return the path component of a Filename, ie. upto last /
@@ -193,9 +199,15 @@ namespace RavlN {
   bool FilenameC::Remove() const  {
     if(IsEmpty())
       return false;
+#if RAVL_COMPILER_VISUALCPP
     if(IsDirectory())
       return (rmdir(*this) == 0);
     return (unlink(*this) == 0);
+#else
+    if(IsDirectory())
+      return (_rmdir(*this) == 0);
+    return (_unlink(*this) == 0);
+#endif
   }
   
   
@@ -316,10 +328,17 @@ namespace RavlN {
       return false; // Copy failed. Error message ??
     }
 #endif
+#if RAVL_COMPILER_VISUALCPP
+    if(_chmod(oth.chars(),sbuff.st_mode) != 0) {
+      cerr << "FilenameC::CopyTo(), Error changing file mode for:" << oth << endl;
+      return false; // Write stats failed.
+    }
+#else
     if(chmod(oth.chars(),sbuff.st_mode) != 0) {
       cerr << "FilenameC::CopyTo(), Error changing file mode for:" << oth << endl;
       return false; // Write stats failed.
     }
+#endif
     return true;
   }
   
