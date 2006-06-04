@@ -116,7 +116,7 @@ namespace RavlN {
     //: Are these handles to the same object ?
     
     UIntT Hash() const
-    { return StdHash(ptr); }
+    { return StdHash((const void *) ptr); }
     //: Create a hash value for the pointer.
     
     IOPtrActionC *Actions()

@@ -35,7 +35,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
    every part of the ANNs can be parametized to create specialized and highly optimal ANNs.
  */
 /* Group: Creation, Destruction & Execution */
-	
+#define FANN_NO_DLL 1	
 #ifndef FANN_INCLUDE
 /* just to allow for inclusion of fann.h in normal stuations where only floats are needed */ 
 #ifdef FIXEDFANN

@@ -29,6 +29,7 @@
 
 #ifdef WIN32
 #include <windows.h>
+#include <wchar.h>
 #else
 #if RAVL_HAVE_UNIXDIRFUNCS
 #include <dirent.h>
@@ -53,6 +54,34 @@
 
 namespace RavlN {
 
+
+#if 0
+	wchar_t *atow(char *s, int *wscnt)
+	{
+	errno_t mbstowcs_s(
+		size_t *pConvertedChars,
+		wchar_t *wcstr,
+		size_t sizeInWords,
+		const char *mbstr,
+		size_t count 
+		);
+
+		wchar_t *ws;
+		int	wslen, wcnt;
+		wslen = strlen(s) + 1;
+        ws = (wchar_t*)malloc(sizeof(wchar_t) * wslen);
+		if ((wcnt = mbstowcs(ws, s, wslen)) == -1) {
+			//printf("mbstowcs convert error.\n");
+			free(ws);
+			return NULL;
+		}
+		return ws;
+	}
+#endif
+
+
+
+
   static inline bool ReturnInList(const char *nm) {
     if(nm[0] != '.')
       return true;
@@ -73,12 +102,29 @@ namespace RavlN {
     WIN32_FIND_DATA dataFind;
     memset(&dataFind, 0, sizeof(WIN32_FIND_DATA));
     StringC strSearch = StringC(chars()) + "/*";
-    HANDLE hFindFile = FindFirstFile(strSearch, &dataFind);
+#if !RAVL_COMPILER_VISUALCPPNET_2005
+    HANDLE hFindFile = FindFirstFile(strSearch.chars(), &dataFind);
     BOOL bFoundNext = hFindFile ? true : false;
     while (bFoundNext) {
       ret.InsLast(StringC(dataFind.cFileName));
       bFoundNext = FindNextFile(hFindFile, &dataFind);
     }
+#else
+	wchar_t wsbuff[1025];
+	size_t size = 0;
+	mbstowcs_s(&size,wsbuff, 1024,strSearch.chars(), strSearch.length());
+    HANDLE hFindFile = FindFirstFile(wsbuff, &dataFind);
+    BOOL bFoundNext = hFindFile ? true : false;
+    while (bFoundNext) {
+	  mbstate_t state;
+	  char cbuff[1025];
+	  size_t csize = 0;
+	  wchar_t *wname = dataFind.cFileName;
+	  wcsrtombs_s(&csize,cbuff,1024,(const wchar_t **) &wname,1024,&state);
+      ret.InsLast(StringC(cbuff));
+      bFoundNext = FindNextFile(hFindFile, &dataFind);
+    }
+#endif
     return ret;
 #else
 #if RAVL_HAVE_UNIXDIRFUNCS

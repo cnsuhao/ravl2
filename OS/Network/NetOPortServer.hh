@@ -76,7 +76,7 @@ namespace RavlN {
     StringC portName;
     DPOPortBaseC oportBase;
     DPSeekCtrlC seekCtrl;
-    UIntT at;
+    Int64T at;
     Signal0C sigConnectionClosed;
   };
   

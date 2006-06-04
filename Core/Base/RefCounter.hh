@@ -19,6 +19,7 @@
 #include "Ravl/Atomic.hh"
 #include "Ravl/Exception.hh"
 #include "Ravl/Assert.hh"
+#include "Ravl/StdHash.hh"
 
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <typeinfo>
@@ -144,13 +145,8 @@ namespace RavlN {
     { return body != oth.body; }
     //: Are handles to different objects ?
     
-    UIntT Hash() const{ 
-#if RAVL_OS_LINUX64
-      return ((UInt64T) body) >> 2;
-#else
-      return ((UIntT) body) >> 2;
-#endif 
-}
+    UIntT Hash() const
+	{ return StdHash(reinterpret_cast<void *>(body)); }
     //: Default hash function.
     // This hashes on the address of the body.
     

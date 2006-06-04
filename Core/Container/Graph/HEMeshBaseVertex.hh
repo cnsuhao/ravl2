@@ -14,6 +14,7 @@
 //! file="Ravl/Core/Container/Graph/HEMeshBaseVertex.hh"
 
 #include "Ravl/DLink.hh"
+#include "Ravl/StdHash.hh"
 
 namespace RavlN {
   
@@ -159,15 +160,9 @@ namespace RavlN {
     bool operator!=(const HEMeshBaseVertexBodyC &vert) const
     { return body != &vert; }
     //: Is this a handle to the vertex.
-
-
-    UIntT Hash() const {
-#if RAVL_OS_LINUX64
-      return ((UInt64T) body) >> 3 ;
-#else
-      return ((UIntT) body) >> 3;
-#endif 
-    }
+	
+    UIntT Hash() const 
+	{ return StdHash(reinterpret_cast<const void *>(this)); }
     //: Hash value for handle.
     
     bool operator==(const HEMeshBaseVertexC &oth) const

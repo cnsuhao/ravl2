@@ -11,6 +11,13 @@
 //! file="Ravl/OS/Exec/FileUser.cc"
 
 #define RAVL_USE_PAWD 0
+#include "Ravl/config.h"
+
+#if RAVL_COMPILER_VISUALCPP
+// Turn off deprecated warnings for now, they're not deprecated on other platforms
+// may introduce more platform specific fixes later.
+#define _CRT_SECURE_NO_DEPRECATE 1
+#endif
 
 #include "Ravl/OS/FilePermission.hh"
 #include "Ravl/OS/UserInfo.hh"
@@ -31,6 +38,15 @@ namespace RavlN {
   static bool gotPAWD = true; // Try and use PAWD, if false don't bother.
 #endif
   
+  static StringC GetCwd() {
+    char buff[2048];
+#if RAVL_COMPILER_VISUALCPPNET_2005
+    return StringC(_getcwd(buff,2048));
+#else
+	return StringC(getcwd(buff,2048));
+#endif
+  }
+  
   /////////////////////////////////
   //: Make an absolute path.
   // If removeAMD is true, any automount prefix will also
@@ -38,18 +54,17 @@ namespace RavlN {
 
   FilenameC FilenameC::Absolute(bool removeAMD) const 
   {
-    char buff[1024];
     FilenameC ret = (*this);
     if(ret.IsEmpty())
-      ret = getcwd(buff,1024);
+		ret = GetCwd();
     while(ret[0] != '/') {
       if(ret == StringC(".")) {
-	ret = getcwd(buff,1024);
+		ret = GetCwd();
 	break;
       }
       if(ret.matches("./",0,false)) {
-	ret = StringC(getcwd(buff,1024)) + ret.after(".");
-	break;
+		  ret = GetCwd();
+		  break;
       }
       if(ret[0] == '~') { // Relative to home directory ?
 	StringC tmp = ret.after(1);
@@ -61,7 +76,7 @@ namespace RavlN {
 	ret = ui.HomeDir() + '/' + theRest;
 	break;
       }
-      ret = StringC(getcwd(buff,1024)) + '/' + ret;
+      ret = GetCwd() + '/' + ret;
       break;
     };
   

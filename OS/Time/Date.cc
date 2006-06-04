@@ -23,6 +23,9 @@
 #define _GNU_SOURCE 1
 #endif
 #if RAVL_OS_WIN32
+// Turn off deprecated warnings for now, they're not deprecated on other platforms
+// may introduce more platform specific fixes later.
+#define _CRT_SECURE_NO_DEPRECATE 1
 #include <sys/timeb.h>
 #endif
 #include <time.h>

@@ -32,8 +32,9 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #define USE_STREAMPUT 0
 
-#ifdef RAVL_COMPILER_VISUALCPP
-//#define _CRT_SECURE_NO_DEPRECATE 1
+#if RAVL_COMPILER_VISUALCPP
+#pragma warning ( disable : 4244 )
+#pragma warning ( disable : 4267 )
 #endif
 
 #include "Ravl/String.hh"

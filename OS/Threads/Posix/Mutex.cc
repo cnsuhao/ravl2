@@ -104,8 +104,14 @@ namespace RavlN
   //: Report an error, with an error number.
   
   void MutexC::Error(const char *msg,int anerrno,int rc) {
+#if RAVL_COMPILER_VISUALCPPNET_2005
+	 char buff[1024];
+	 strerror_s(buff,1024,anerrno);
+     cerr << "MutexC::Error() err=" << anerrno << " (" << buff << ") : " << msg << " \n";
+#else
     cerr << "MutexC::Error() err=" << anerrno << " (" << strerror(anerrno) << ") : " << msg << " \n";
     cerr << "MutexC::Error()  rc=" << rc << " (" << strerror(rc) << ") \n";
+#endif
     cerr << "MutexC::Error() @:" << ((void*) this) << "\n";
     RavlAssert(0);
   }

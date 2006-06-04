@@ -44,7 +44,7 @@ namespace RavlN {
     
     //cerr << "NetOSPortServerBodyC<DataT>::ReqData(), Pos=" << pos << " at=" << at << " Tell=" << oport.Tell() <<"\n";
     if(at != pos && pos != (UIntT)(-1) && seekCtrl.IsValid()) {
-      seekCtrl.Seek(pos);
+      seekCtrl.Seek64(pos);
       at = pos;
     }
     

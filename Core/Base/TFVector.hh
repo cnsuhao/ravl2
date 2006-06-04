@@ -621,7 +621,7 @@ namespace RavlN {
   //: Loop unrolled subtract.
   
   
-#if !RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP || RAVL_COMPILER_VISUALCPPNET_2005
   template<unsigned int N>
   inline ostream &operator<<(ostream &out,const TFVectorC<ByteT,N> &dat) {
     for(UIntT i = 0;i < N;i++)

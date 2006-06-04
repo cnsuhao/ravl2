@@ -80,7 +80,7 @@ namespace RavlN {
 #endif
 
   inline
-  UIntT StdHash(void *ptr) { 
+  UIntT StdHash(const void *ptr) { 
 #if RAVL_OS_LINUX64
 	return (reinterpret_cast<UInt64T>(ptr) >> 2 ) ^ (reinterpret_cast<UInt64T>(ptr)>>15) ;
 #else 
@@ -89,6 +89,10 @@ namespace RavlN {
 }
   //: Hash function for void ptr's.
   
+  inline
+  UIntT StdHash(void *ptr) 
+  { return StdHash(static_cast<const void *>(ptr)); }
+  //: Hash function for void ptr's.
 
   inline UIntT StdHash(const Int64T dat) 
   { return (UIntT) (dat >> 17) ^ (dat >> 32) ^ dat; }

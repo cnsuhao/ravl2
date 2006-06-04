@@ -91,10 +91,7 @@ namespace RavlN {
     
     explicit Array1dC(const IndexRangeC & range);
     //: An array with the range <'range'.Min(), 'range'.Max()>.
-    
-    Array1dC(istream & s);
-    //: Creates an 1-dimensional array from the input stream.
-    
+        
     Array1dC(const Array1dC<DataT> & vv);
     //: Another access to the array 'vv'.
     
@@ -331,8 +328,7 @@ namespace RavlN {
     // is returned.
 
     bool SetIMin(IndexC imin) {
-      IntT startIndex = buff.ReferenceElm() - this->ReferenceElm();
-      if(imin < startIndex)
+      if(imin < (buff.ReferenceElm() - this->ReferenceElm()))
 	return false;
       this->range.Min() = imin;
       return true;
@@ -341,8 +337,7 @@ namespace RavlN {
     // This checks the index is within the allocated buffer.
     
     bool SetIMax(IndexC imax) {
-      IntT startIndex = buff.ReferenceElm() - this->ReferenceElm();
-      if(imax >= (startIndex + buff.Size()) )
+      if(imax >= ((buff.ReferenceElm() - this->ReferenceElm()) + buff.Size()))
 	return false;
       this->range.Max() = imax;
       return true;      
