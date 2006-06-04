@@ -199,7 +199,7 @@ namespace RavlN {
   bool FilenameC::Remove() const  {
     if(IsEmpty())
       return false;
-#if RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP
     if(IsDirectory())
       return (rmdir(*this) == 0);
     return (unlink(*this) == 0);
