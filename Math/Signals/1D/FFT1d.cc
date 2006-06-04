@@ -71,31 +71,31 @@ namespace RavlN {
       RavlAssert(dat.Size() == (UIntT) n);
       tmpArr = dat.Copy();
     }
-    Array1dC<complex *> ptrArr(n);    
+    Array1dC<ccomplex *> ptrArr(n);    
     //ptrArr.Fill(0);
     //cerr << dat <<  "\n";
     // FIXME :- Would it be quicker to copy the array and use fft2 if length is a power of two ?
     if(inv) { // Do inverse.
-      for(BufferAccessIter2C<complex *,ComplexC> it(ptrArr,tmpArr);it;it++)
-	it.Data1() = (complex *) (&it.Data2());
-      fftgc((complex **) ((void *)&(ptrArr[0])),
-	    (complex *) ((void *)&(tmpArr[0])),
+      for(BufferAccessIter2C<ccomplex *,ComplexC> it(ptrArr,tmpArr);it;it++)
+	it.Data1() = (ccomplex *) (&it.Data2());
+      fftgc((ccomplex **) ((void *)&(ptrArr[0])),
+	    (ccomplex *) ((void *)&(tmpArr[0])),
 	    n,
 	    primeFactors,
 	    'i');
-      for(BufferAccessIter2C<complex *,ComplexC> itb(ptrArr,ret);itb;itb++) 
+      for(BufferAccessIter2C<ccomplex *,ComplexC> itb(ptrArr,ret);itb;itb++) 
 	itb.Data2() = *((ComplexC *)itb.Data1());
     } else { // Do forward.
-      for(BufferAccessIter2C<complex *,ComplexC> it(ptrArr,ret);it;it++)
-	it.Data1() = (complex *) (&it.Data2());
+      for(BufferAccessIter2C<ccomplex *,ComplexC> it(ptrArr,ret);it;it++)
+	it.Data1() = (ccomplex *) (&it.Data2());
       
-      fftgc((complex **) ((void *)&(ptrArr[0])),
-	    (complex *) ((void *)&(tmpArr[0])),
+      fftgc((ccomplex **) ((void *)&(ptrArr[0])),
+	    (ccomplex *) ((void *)&(tmpArr[0])),
 	    n,
 	    primeFactors,
 	    'd');
       
-      for(BufferAccessIter2C<complex *,ComplexC> itb(ptrArr,ret);itb;itb++) 
+      for(BufferAccessIter2C<ccomplex *,ComplexC> itb(ptrArr,ret);itb;itb++) 
 	itb.Data2() = *((ComplexC *)itb.Data1());
     }
     
@@ -124,13 +124,13 @@ namespace RavlN {
     Array1dC<ComplexC> ret(n); 
     if(inv)
       fftgr((double *) &(dat[0]),
-	    (complex *) ((void *)&(ret[0])),
+	    (ccomplex *) ((void *)&(ret[0])),
 	    n,
 	    primeFactors,
 	    'i');
     else
       fftgr((double *) &(dat[0]),
-	    (complex *) ((void *)&(ret[0])),
+	    (ccomplex *) ((void *)&(ret[0])),
 	    n,
 	    primeFactors,
 	    'd');

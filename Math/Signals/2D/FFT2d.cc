@@ -87,9 +87,9 @@ namespace RavlN {
       ret = dat.Copy();
       //cerr << dat <<  "\n";
       if(inv)
-	fft2_d((complex *) ((void *) ret[0].DataStart()),m,n,'i');
+	fft2_d((ccomplex *) ((void *) ret[0].DataStart()),m,n,'i');
       else
-	fft2_d((complex *) ((void *) ret[0].DataStart()),m,n,'d');
+	fft2_d((ccomplex *) ((void *) ret[0].DataStart()),m,n,'d');
       //cerr << "result:" << ret << "\n";;
       return ret;
     }
@@ -106,7 +106,7 @@ namespace RavlN {
       // fft of rows.
       for(i = 0;i < (int) dat.Size1();i++)
 	fftgc((Cpx **)((void *) (tmp1Ptr[i].DataStart())),
-	      (complex *)((void *) (tmp1[i].DataStart())),
+	      (ccomplex *)((void *) (tmp1[i].DataStart())),
 	      size[1].V(),primeFactors2,'i');
       
       // fft of cols.
@@ -116,8 +116,8 @@ namespace RavlN {
 	for(BufferAccessIter2C<ComplexC *,ComplexC> it(ptrArr,idat);it;it++)
 	  it.Data1() = &it.Data2();
 	//cerr << idat << "\n";
-	fftgc((complex **) ((void *)&(ptrArr[0])),
-	      (complex *) ((void *) idat.DataStart()),
+	fftgc((ccomplex **) ((void *)&(ptrArr[0])),
+	      (ccomplex *) ((void *) idat.DataStart()),
 	      idat.Size(),primeFactors1,'i');
 	
 	for(Slice1dIter2C<ComplexC *,ComplexC> itb(ptrArr.Slice1d(),ret.SliceColumn(j));itb;itb++)
@@ -127,7 +127,7 @@ namespace RavlN {
       // fft of rows.
       for(i = 0;i < (int) dat.Size1();i++)
 	fftgc((Cpx **)((void *) (tmp1Ptr[i].DataStart())),
-	      (complex *)((void *) (tmp1[i].DataStart())),
+	      (ccomplex *)((void *) (tmp1[i].DataStart())),
 	      size[1].V(),primeFactors2,'d');
       // fft of cols.
       for(j = 0;j < (int) dat.Size2();j++) {
@@ -137,8 +137,8 @@ namespace RavlN {
 	for(BufferAccessIter2C<ComplexC *,ComplexC> it(ptrArr,idat);it;it++)
 	  it.Data1() = &it.Data2();
 	
-	fftgc((complex **) ((void *) ptrArr.DataStart()),
-	      (complex *) ((void *) idat.DataStart()),
+	fftgc((ccomplex **) ((void *) ptrArr.DataStart()),
+	      (ccomplex *) ((void *) idat.DataStart()),
 	      idat.Size(),primeFactors1,'d');
 	
 	for(Slice1dIter2C<ComplexC *,ComplexC> itb(ptrArr.Slice1d(),ret.SliceColumn(j));itb;itb++)
@@ -160,9 +160,9 @@ namespace RavlN {
 	it.Data2() = ComplexC(it.Data1(),0);
       //cerr << dat <<  "\n";
       if(inv)
-	fft2_d((complex *) ((void *) ret[0].DataStart()),m,n,'i');
+	fft2_d((ccomplex *) ((void *) ret[0].DataStart()),m,n,'i');
       else
-	fft2_d((complex *) ((void *) ret[0].DataStart()),m,n,'d');
+	fft2_d((ccomplex *) ((void *) ret[0].DataStart()),m,n,'d');
       //cerr << "result:" << ret << "\n";;
       return ret;
     }
@@ -174,7 +174,7 @@ namespace RavlN {
       // fft of rows.
       for(i = 0;i < (int) dat.Size1();i++)
 	fftgr(dat[i].DataStart(),
-	      (complex *)((void *) tmp1[i].DataStart()),
+	      (ccomplex *)((void *) tmp1[i].DataStart()),
 	      size[1].V(),primeFactors2,'i');
       // fft of cols.
       for(j = 0;j < (int) dat.Size2();j++) {
@@ -182,8 +182,8 @@ namespace RavlN {
 	for(BufferAccessIter2C<ComplexC *,ComplexC> it(ptrArr,idat);it;it++) 
 	  it.Data1() = &it.Data2();
 	
-	fftgc((complex **) ((void *)&(ptrArr[0])),
-	      (complex *) ((void *) idat.DataStart()),
+	fftgc((ccomplex **) ((void *)&(ptrArr[0])),
+	      (ccomplex *) ((void *) idat.DataStart()),
 	      idat.Size(),primeFactors1,'i');
 	
 	for(Slice1dIter2C<ComplexC *,ComplexC> itb(ptrArr.Slice1d(),ret.SliceColumn(j));itb;itb++)
@@ -193,7 +193,7 @@ namespace RavlN {
       // fft of rows.
       for(i = 0;i < (int) dat.Size1();i++)
 	fftgr(dat[i].DataStart(),
-	      (complex *)((void *) tmp1[i].DataStart()),
+	      (ccomplex *)((void *) tmp1[i].DataStart()),
 	      size[1].V(),primeFactors2,'d');
       // fft of cols.
       for(j = 0;j < (int) dat.Size2();j++) {
@@ -201,8 +201,8 @@ namespace RavlN {
 	for(BufferAccessIter2C<ComplexC *,ComplexC> it(ptrArr,idat);it;it++) 
 	  it.Data1() = &it.Data2();
 	
-	fftgc((complex **) ((void *)&(ptrArr[0])),
-	      (complex *) ((void *) idat.DataStart()),
+	fftgc((ccomplex **) ((void *)&(ptrArr[0])),
+	      (ccomplex *) ((void *) idat.DataStart()),
 	      idat.Size(),primeFactors1,'d');
 	
 	for(Slice1dIter2C<ComplexC *,ComplexC> itb(ptrArr.Slice1d(),ret.SliceColumn(j));itb;itb++)
