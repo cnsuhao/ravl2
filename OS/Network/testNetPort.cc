@@ -40,33 +40,27 @@ int main(int nargs,char **argv)
   int ln;
   
   cerr << "testNetPort(), Start port server. \n";
-  if(!NetPortOpen(g_server)) 
-  {
+  if(!NetPortOpen(g_server)) {
     cerr << "Failed to open netPortManager. \n";
     return __LINE__;
   }
-  if(iport) 
-  {
-    if((ln = testNetIPort("ia")) != 0) 
-	{
+  
+  if(iport)  {
+    if((ln = testNetIPort("ia")) != 0) {
       cerr << "Test failed on line :" << ln << "\n";
       return 1;
     }
     // Need to give read threads time to shutdown.
   }
-  if(iport2) 
-  {
-    if((ln = testNetIPort("ib")) != 0) 
-	{
+  if(iport2) {
+    if((ln = testNetIPort("ib")) != 0) {
       cerr << "Test failed on line :" << ln << "\n";
       return 1;
     }
     // Need to give read threads time to shutdown.
   }
-  if(oport) 
-  {
-    if((ln = testNetOPort()) != 0) 
-	{
+  if(oport) {
+    if((ln = testNetOPort()) != 0) {
       cerr << "Test failed on line :" << ln << "\n";
       return 1;
     }
@@ -74,8 +68,7 @@ int main(int nargs,char **argv)
   }
   cout << "Waiting for cleanup. \n";
   NetPortClose();
-  Sleep(RealT(6));
-  //Sleep(6);
+  RavlN::Sleep(RealT(6));
   cout << "Test passed ok. \n";
   return 0;
 }
@@ -97,8 +90,7 @@ int testNetIPort(char *name)
   DPIPortC<IntT> op = DPIContainer(lst);
 
   // Export the stream 'op' as test1
-  if(!NetExport(name,op)) 
-  {
+  if(!NetExport(name,op)) {
     cerr << "Failed to export 'test1' \n";
     return __LINE__;
   }
@@ -106,7 +98,7 @@ int testNetIPort(char *name)
   // ********************** CLIENT SIDE ******************************
   
   cerr << "testNetPort(), Setup  NetIPort. \n";
-
+  
   // Make a connection to the server.
   NetISPortC<IntT>  isp (g_server,name);
   
@@ -122,6 +114,7 @@ int testNetIPort(char *name)
   // ********************** CHECK IT WORKED ************************
   
   cerr << "testNetPort(), Check data. Elements=" << list2.Size() << "\n";
+  cerr << "List2=" << list2 << "  Lst=" << lst << "\n";
   // Check the results.
   if(list2.Size() != lst.Size()) return __LINE__;
   if(list2.First() != lst.First()) return __LINE__;
@@ -170,23 +163,14 @@ int testNetOPort()
   cerr << "testNetPort(), Transfer data. \n";
   
   DPIContainer(list2) >> osp;
-//  RavlN::Sleep(1); // Wait for data to be sent.
+  RavlN::Sleep(1); // Wait for data to be sent.
   
   // ********************** CHECK IT WORKED ************************
   
   cerr << "testNetPort(), Check data. Elements=" << lst.Size() << "\n";
   // Check the results.
-  if(list2.Size() != lst.Size()) 
-  {
-	  return __LINE__;
-  }
-  if(list2.First() != lst.First()) 
-  {
-	  return __LINE__;
-  }
-  if(list2.Last() != lst.Last()) 
-  {
-	  return __LINE__;
-  }
+  if(list2.Size() != lst.Size())  return __LINE__;
+  if(list2.First() != lst.First())  return __LINE__;
+  if(list2.Last() != lst.Last())  return __LINE__;
   return 0;
 }

@@ -83,7 +83,8 @@ namespace RavlN {
     
     StringC portName;
     DPSeekCtrlC seekCtrl;
-    Int64T at;
+    //Int64T at;
+    UIntT at;
     
     DPTypeInfoC typeInfo;
     DPIPortBaseC iportBase;

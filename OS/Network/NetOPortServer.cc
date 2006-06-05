@@ -104,15 +104,16 @@ namespace RavlN {
   
   bool NetOSPortServerBaseBodyC::ReqStats() {
     ONDEBUG(cerr << "NetOSPortServerBaseBodyC::ReqStats(), Called. \n");
-    Int64T at = 0;
+    Int64T lat = 0;
     Int64T start = 0;
     Int64T size = ((UIntT) -1);
     if(seekCtrl.IsValid()) {
-      at = seekCtrl.Tell64();
+      lat = seekCtrl.Tell64();
       start = seekCtrl.Start64();
       size = seekCtrl.Size64();
+      at = lat;
     }
-    ep.Send(NPMsg_StreamInfo,at,start,size);
+    ep.Send(NPMsg_StreamInfo,lat,start,size);
     ONDEBUG(cerr << "NetOSPortServerBaseBodyC::ReqStats(), Sent: At=" << at << " Start=" << start << " Size=" << size << "\n");
     return true;
   }
