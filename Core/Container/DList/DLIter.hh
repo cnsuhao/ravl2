@@ -421,13 +421,6 @@ namespace RavlN {
     DLinkC *place;
     
     friend class DListBodyC<DataT>;
-#if RAVL_NEW_ANSI_CXX_DRAFT
-    friend ostream &operator<< <DataT>(ostream &strm,const DListBodyC<DataT> &lst); 
-    friend BinOStreamC &operator<< <DataT>(BinOStreamC &strm,const DListBodyC<DataT> &lst); 
-#else
-    friend ostream &operator<<(ostream &strm,const DListBodyC<DataT> &lst); 
-    friend BinOStreamC &operator<<(BinOStreamC &strm,const DListBodyC<DataT> &lst); 
-#endif
   };
 
 }
