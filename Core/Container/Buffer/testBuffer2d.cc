@@ -23,9 +23,24 @@
 using namespace RavlN;
 
 int TestSingleBuffer();
+int TestBuffer2d();
 
 int main()
 {
+  int ln;
+  if((ln = TestSingleBuffer()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  if((ln = TestBuffer2d()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  cerr << "Test passed ok. \n";
+  return 0;
+}
+
+int TestBuffer2d() {
   cerr << "Single Buffer Size=" << sizeof(SingleBufferBodyC<RealT>) - sizeof(RealT) << "\n";
   
   BufferC<int> bf1d (6);
@@ -85,14 +100,19 @@ int main()
   }
   for(;it;it++)
     *it = 0;
-  int ln;
-  if((ln = TestSingleBuffer()) != 0) {
-    cerr << "Test failed at " << ln << "\n";
-    return 1;
-  }
-  cerr << "Test passed ok. \n";
   return 0;
 }
+
+class TestObjC {
+public:
+  TestObjC() 
+  { val = 123; }
+  
+  int Value()
+  { return val; }
+protected:
+  int val;
+};
 
 int TestSingleBuffer() {
   for(int i = 0;i < 100;i++) {
@@ -110,6 +130,12 @@ int TestSingleBuffer() {
   IntC *end = &(at[buff2.Size()]);
   for(;at != end;at++)
     if(*at != 0) return __LINE__;
+  
+  SingleBufferC<TestObjC> buff3(100);
+  TestObjC *at3 = buff3.ReferenceElm();
+  TestObjC *end3 = &(at3[buff3.Size()]);
+  for(;at3 != end3;at3++)
+    if(at3->Value() != 123) return __LINE__;
   return 0;
 }
 
