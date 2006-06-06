@@ -102,12 +102,12 @@ namespace RavlN {
   
   VectorC ClassifierNeuralNetworkBodyC::Apply(const VectorC &data) const {
      //: Convert input vector to one that fann can use
-    fann_type inp[data.Size()];
+    SArray1dC<fann_type> inp(data.Size());
     for(UIntT i=0;i<data.Size();i++)
-      inp[i] = data[i];
+      inp[i] = static_cast<fann_type>(data[i]);
 
     //: Run it through the network
-    m_output = fann_run(m_ann, inp);
+    m_output = fann_run(m_ann, &(inp[0]));
  
     VectorC out(m_nOutputs);
     for(UIntT i=0;i<m_nOutputs;i++) {

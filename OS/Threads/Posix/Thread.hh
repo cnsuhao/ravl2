@@ -113,7 +113,7 @@ namespace RavlN
     // THREAD SAFE.
     
     inline UIntT ID() const
-    { return ((UIntT) threadID); }
+    { return (UIntT) (this - (ThreadBodyC *)0); }
     //: Get a unique ID for this thread.
     // NB. An id may no be assigned to the thread until
     // after Execute() has been called.

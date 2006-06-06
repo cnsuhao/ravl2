@@ -67,7 +67,7 @@ namespace RavlN {
 	return true;
       }
       if(at != atIn) {
-	if(inPort.Seek(at))
+	if(inPort.Seek64(at))
 	  atIn = at;
 	// If seek fails, we'll reset 'at' to an appropriate value.
       }

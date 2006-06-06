@@ -25,7 +25,7 @@ using namespace RavlGUIN;
 
 LabelC aLabel;
 
-int updateLabel() {
+int updateLabel(int n) {
   int i = 0;
   while(1) {
     StringC x(i++);
@@ -65,7 +65,7 @@ int main(int nargs,char *args[])
   label5.Wrap(wrap);
 
   win.Add(VBox(FrameC(label1,1) + FrameC(label2,1) + FrameC(label3,1) + FrameC(label4,1) + FrameC(label5,1)));
-  LaunchThread(Trigger(&updateLabel));
+  LaunchThread(Trigger(&updateLabel,(IntT) 1));
   win.Show();  
   Manager.Start();
 }

@@ -53,14 +53,14 @@ namespace RavlN {
     //: Seek to position in stream.
     
     inline bool DSeek(IntT off) 
-    { return sinput.DSeek((Int64T) off * sampleRate); }
+    { return sinput.DSeek64((Int64T) off * sampleRate); }
     //: Delta seek
     
     virtual UIntT Tell() const { 
       UIntT pos = sinput.Tell();
       if(pos == ((UIntT) -1))
 	return pos;
-      return (pos - startFrame) / sampleRate; 
+      return static_cast<UIntT>((pos - startFrame) / sampleRate); 
     }
     //: Get current position in stream.
     
@@ -68,12 +68,12 @@ namespace RavlN {
       UIntT size = sinput.Size();
       if(size == ((UIntT) -1))
 	return size;
-      return (size - startFrame) / sampleRate;
+      return static_cast<UIntT>((size - startFrame) / sampleRate);
     }
     //: Get size of stream
     
     virtual UIntT Start() const 
-    { return (sinput.Start64() - startFrame) / sampleRate; }
+    { return static_cast<UIntT>((sinput.Start64() - startFrame) / sampleRate); }
     //: First frame.
     
     virtual bool Seek64(Int64T off) 
@@ -81,7 +81,7 @@ namespace RavlN {
     //: Seek to position in stream.
     
     inline bool DSeek64(Int64T off) 
-    { return sinput.DSeek(off * sampleRate); }
+    { return sinput.DSeek64(off * sampleRate); }
     //: Delta seek
     
     virtual Int64T Tell64() const { 
@@ -106,7 +106,7 @@ namespace RavlN {
     
     virtual DataT Get()  {
       DataT ret = sinput.Get();
-      if(!sinput.DSeek(sampleRate-1)) {
+      if(!sinput.DSeek64(sampleRate-1)) {
 	if(sampleRate < 1) {
 	  cerr << "WARNING: SampleStreamC, Can't use negative sample rates on a non-seekable stream. \n";
 	  return ret;
@@ -122,7 +122,7 @@ namespace RavlN {
     virtual bool Get(DataT &buff) { 
       if(!sinput.Get(buff))
 	return false;
-      if(!sinput.DSeek(sampleRate-1)) {
+      if(!sinput.DSeek64(sampleRate-1)) {
 	if(sampleRate < 1) {
 	  cerr << "WARNING: SampleStreamC, Can't use negative sample rates on a non-seekable stream. \n";
 	  return false;
