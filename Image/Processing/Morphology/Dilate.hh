@@ -24,6 +24,11 @@ namespace RavlImageN
   void BinaryDilate(const ImageC<DataT>& image, const ImageC<DataT>& kernel,ImageC<DataT>& result,DataT inRegion = 1)
   {
     ImageRectangleC resRect(image.Rectangle());
+    // Is image large enough to operate on ?
+    if(resRect.Rows() < kernel.Rows() || resRect.Cols() < kernel.Cols()) {
+      result = ImageC<DataT>();
+      return ;
+    }
     resRect.TRow() -= kernel.Rectangle().TRow();
     resRect.BRow() -= kernel.Rectangle().BRow();
     resRect.LCol() -= kernel.Rectangle().LCol();

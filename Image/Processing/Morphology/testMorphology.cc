@@ -16,6 +16,7 @@
 using namespace RavlImageN;
 
 int testMorphology();
+int testStressMorphology();
 
 int main(int nargs,char **argv)
 {
@@ -24,6 +25,11 @@ int main(int nargs,char **argv)
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
+  if((ln = testStressMorphology()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  
   cerr << "Test passed. \n";
   return 0;
 }
@@ -66,5 +72,35 @@ int testMorphology() {
   if(res2[3][4]) return __LINE__;
   if(res2[2][3]) return __LINE__;
   if(res2[4][4]) return __LINE__;
+  return 0;
+}
+
+int testStressMorphology() {
+  
+  ImageC<UIntT> kernel(IndexRangeC(-1,1),
+		       IndexRangeC(-1,1));
+  kernel.Fill(1);
+  
+  // Check nothing nasty happens on degenerate images.
+  for(int i = 0;i < 5;i++) {
+    for(int j = 0;j < 5;j++) {
+      ImageC<UIntT> test(i,j);
+      test.Fill(1);
+      ImageC<UIntT> res2(test.Rectangle());
+      BinaryDilate(test,kernel,res2);
+    }
+  }
+
+  
+  // Check nothing nasty happens on degenerate images.
+  for(int i = 0;i < 5;i++) {
+    for(int j = 0;j < 5;j++) {
+      ImageC<UIntT> test(i,j);
+      test.Fill(1);
+      ImageC<UIntT> res2(test.Rectangle());
+      BinaryErode(test,kernel,res2);
+    }
+  }
+  
   return 0;
 }
