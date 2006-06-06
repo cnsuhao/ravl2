@@ -144,6 +144,7 @@ namespace RavlN {
 	this->CheckAdd();
       const UIntT ind = hashVal % this->table.Size();
       HashElemC<KeyT,CacheEntryC<DataT> > *he = new HashElemC<KeyT,CacheEntryC<DataT> >(key,hashVal,CacheEntryC<DataT>(data));
+	  RavlAssert(he == DLink2Entry(he->Data().Link()));
       this->table[ind].InsFirst(*he);
       list.InsFirst(he->Data().Link()); // Put it at the end of the age list.
       return false;  // Had to be added.

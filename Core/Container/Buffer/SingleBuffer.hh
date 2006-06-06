@@ -22,12 +22,12 @@ namespace RavlN {
   template<typename DataT>
   inline
   void ConstructRawArray(DataT *data,SizeT size) {
-#if VISUAL_CPP
+#if RAVL_COMPILER_VISUALCPP
     DataT *at = data;
     DataT *end = &at[size];
 	try {
       for(;at != end;at++)
-        new(at) DataT;
+        new(at) DataT();
 	} catch(...) {
 	  DataT *die = data;
 	  for(;die != at;die++)

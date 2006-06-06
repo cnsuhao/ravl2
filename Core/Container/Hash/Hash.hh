@@ -44,12 +44,6 @@ namespace RavlN {
   template<class K,class T> class HashC;
   template<class K,class T> class HashElemC;
   
-  template<class K,class T> ostream &operator<<(ostream &out,const HashC<K,T> &obj);
-  template<class K,class T> istream &operator>>(istream &out,HashC<K,T> &obj);
-  template<class K,class T> BinOStreamC &operator<<(BinOStreamC &out,const HashC<K,T> &obj);
-  template<class K,class T> BinIStreamC &operator>>(BinIStreamC &ib,HashC<K,T> &obj);
-  
-
   ///////////////////////////
   //! userlevel=Develop
   //: Base class for table.
@@ -161,6 +155,12 @@ namespace RavlN {
     HashC(BinIStreamC &in);
     //: Recreate from stream.
     //!param: in - Binary stream to construct table from
+    
+    void Save(ostream &strm) const;
+    //: Save to stream.
+    
+    void Save(BinOStreamC &strm) const;
+    //: Save to binary stream.
     
     HashC<K,T> Copy() const;
     //: Make a copy of the table.
@@ -374,15 +374,6 @@ namespace RavlN {
     SArray1dC<IntrDListC<HashElemC<K,T> > > table; // Table of lists.
 
     friend class HashIterC<K,T>;
-
-    //  friend HashIterT<K,T>;
-#if !defined(__sgi__) && !(RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET)
-    friend ostream &operator<< <> (ostream &out,const HashC<K,T> &obj);
-    friend BinOStreamC &operator<< <> (BinOStreamC &out,const HashC<K,T> &obj);
-#else
-    friend ostream &operator<<(ostream &out,const HashC<K,T> &obj);
-    friend BinOStreamC &operator<<(BinOStreamC &out,const HashC<K,T> &obj);
-#endif
   };
   
   ///////////////////////////////////////
@@ -541,32 +532,39 @@ namespace RavlN {
   }
 
   template<class K,class T>
-  ostream &operator<<(ostream &out,const HashC<K,T> &obj) { 
-    out << obj.elements << '\n';
-    for(BufferAccessIterC<IntrDListC<HashElemC<K,T> > > it(obj.table);it;it++) {
+  void HashC<K,T>::Save(ostream &out) const {
+    out << elements << '\n';
+    for(BufferAccessIterC<IntrDListC<HashElemC<K,T> > > it(table);it;it++) {
       for(IntrDLIterC<HashElemC<K,T> > place(*it);place;place++)
 	out << *place << '\n';
-    }
-    return out; 
+    }    
   }
+  
+  template<class K,class T>
+  void HashC<K,T>::Save(BinOStreamC &out) const {
+    out << elements;
+    for(BufferAccessIterC<IntrDListC<HashElemC<K,T> > > it(table);it;it++) {
+      for(IntrDLIterC<HashElemC<K,T> > place(*it);place;place++)
+	out << *place;
+    }    
+  }
+    
+
+  template<class K,class T>
+  inline ostream &operator<<(ostream &out,const HashC<K,T> &obj) 
+  { obj.Save(out);  return out;  }
   
   
   template<class K,class T>
-  istream &operator>>(istream &in,HashC<K,T> &obj) { 
+  inline istream &operator>>(istream &in,HashC<K,T> &obj) { 
     HashC<K,T> newun(in);
     obj.Move(newun);
     return in;
   }
   
   template<class K,class T>
-  BinOStreamC &operator<<(BinOStreamC &out,const HashC<K,T> &obj) { 
-    out << obj.elements;
-    for(BufferAccessIterC<IntrDListC<HashElemC<K,T> > > it(obj.table);it;it++) {
-      for(IntrDLIterC<HashElemC<K,T> > place(*it);place;place++)
-	out << *place;
-    }
-    return out; 
-  }
+  inline BinOStreamC &operator<<(BinOStreamC &out,const HashC<K,T> &obj) 
+  { obj.Save(out); return out; }
   
   
   template<class K,class T>
