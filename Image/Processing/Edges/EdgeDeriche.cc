@@ -50,7 +50,7 @@ namespace RavlImageN {
       return ImageC<RealT>();
     ImageC<RealT> ret(inImg.Rectangle());
     for(Array2dIter3C<RealT,RealT,RealT> it(ret,dx,dy);it;it++)
-      it.Data1() = hypot(it.Data2(),it.Data3());    
+      it.Data1() = Hypot(it.Data2(),it.Data3());    
     return ret;
   }
     
