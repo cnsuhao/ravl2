@@ -185,8 +185,8 @@ namespace RavlGUIN {
   void ManagerC::Init(int &nargs,char *args[])  {
     ONDEBUG(cerr << "ManagerC::Init(), Called. \n");
     RavlAssert(!initCalled); // Init should only be called once.
-
-    g_thread_init(0);
+    
+    //g_thread_init(0);
     gdk_threads_init();
     
 #if  RAVL_USE_GTKTHREADS
@@ -378,8 +378,13 @@ namespace RavlGUIN {
 #if RAVL_USE_IDLEMETHOD
     eventProcPending = false;
     TriggerC trig;
-    while(events.TryGet(trig))
+    while(events.TryGet(trig)) {
+      if(!trig.IsValid()) {
+        gtk_main_quit ();
+        return 1;
+      }
       trig.Invoke();
+    }
     return true;
 #else
 #if !RAVL_USE_GTKTHREADS 
