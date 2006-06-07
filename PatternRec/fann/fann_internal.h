@@ -21,6 +21,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define __fann_internal_h__
 /* internal include file, not to be included directly
  */
+/* Make sure RAVL header tests passes. */
+#ifdef FANN_EXTERNAL
 
 #include <math.h>
 #include <stdio.h>
@@ -141,5 +143,5 @@ void fann_set_shortcut_connections(struct fann *ann);
 #define fann_random_weight() (fann_rand(-0.1f,0.1f))
 
 #endif
-
+#endif
 #endif

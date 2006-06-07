@@ -20,6 +20,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef __fann_data_h__
 #define __fann_data_h__
 
+/* Make sure RAVL header tests passes. */
+#ifdef FANN_EXTERNAL
+
 #include <stdio.h>
 
 /* Section: FANN Datatypes
@@ -348,7 +351,7 @@ struct fann_neuron
 	unsigned int first_con;
 	unsigned int last_con;
 	/* The sum of the inputs multiplied with the weights */
-	fann_type sum;
+        fann_type sum;
 	/* The value of the activation function applied to the sum */
 	fann_type value;
 	/* The steepness of the activation function */
@@ -670,4 +673,5 @@ struct fann
 	
 };
 
+#endif
 #endif

@@ -20,6 +20,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef __fann_train_h__
 #define __fann_train_h__
 
+/* Make sure RAVL header tests passes. */
+#ifdef FANN_EXTERNAL
+
 /* Section: FANN Training 
  
  	There are many different ways of training neural networks and the FANN library supports
@@ -438,8 +441,7 @@ FANN_EXTERNAL enum fann_train_enum FANN_API fann_get_training_algorithm(struct f
 
    This function appears in FANN >= 1.0.0.   	
  */ 
-FANN_EXTERNAL void FANN_API fann_set_training_algorithm(struct fann *ann,
-														enum fann_train_enum training_algorithm);
+FANN_EXTERNAL void FANN_API fann_set_training_algorithm(struct fann *ann, enum fann_train_enum training_algorithm);
 
 
 /* Function: fann_get_learning_rate
@@ -916,4 +918,5 @@ FANN_EXTERNAL float FANN_API fann_get_rprop_delta_max(struct fann *ann);
 */
 FANN_EXTERNAL void FANN_API fann_set_rprop_delta_max(struct fann *ann, float rprop_delta_max);
 
+#endif
 #endif

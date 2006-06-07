@@ -20,6 +20,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef __fann_cascade_h__
 #define __fann_cascade_h__
 
+#include "fann.h"
+
 /* Section: FANN Cascade Training
    Cascade training differs from ordinary training in the sense that it starts with an empty neural network
    and then adds neurons one by one, while it trains the neural network. The main benefit of this approach,
