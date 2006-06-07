@@ -60,7 +60,7 @@ namespace RavlImageN {
     virtual const type_info &DefaultType() const; 
     //: Get prefered IO type.
     
-    virtual IntT Priority() const { return 1; }
+    virtual IntT Priority() const { return 0; }
     //: Find the priority of the format. the higher the better.
     // Default is zero, this is better than the default (streams.)
     
