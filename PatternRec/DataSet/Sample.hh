@@ -25,9 +25,6 @@ namespace RavlN {
   template<class SampleT> class SampleIterC;
   template<class SampleT> class SampleC;
   
-  template <class DataT> ostream &operator<<(ostream &s,const SampleC<DataT> &dat);
-  template <class DataT> istream &operator>>(istream &s,SampleC<DataT> &dat);
-  
   
   //! userlevel=Normal
   //: Sample of DataT's
@@ -51,6 +48,7 @@ namespace RavlN {
     //: Create a sample of data from an array
     // Note: The data is NOT copied; any operations done
     // on the sample may effect the contents of the original array.
+    
   protected: 
     SampleC(const DArray1dC<DataT> & dat)
      : DArray1dC<DataT> (dat) 
@@ -164,15 +162,7 @@ namespace RavlN {
     bool IsValid() const
     { return DArray1dC<DataT>::IsValid(); }
     //: Is this a valid handle ?
-    
-#if RAVL_NEW_ANSI_CXX_DRAFT
-    friend ostream &operator<< <>(ostream &s,const SampleC<DataT> &dat);
-    friend istream &operator>> <>(istream &s,SampleC<DataT> &dat);
-#else
-    friend ostream &operator<<(ostream &s,const SampleC<DataT> &dat);
-    friend istream &operator>>(istream &s,SampleC<DataT> &dat);
-#endif
-    
+  
   }; // end of class SampleC 
   
   template <class DataT>
