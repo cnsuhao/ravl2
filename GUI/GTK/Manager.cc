@@ -17,10 +17,11 @@
 #include "Ravl/HashIter.hh"
 #include "Ravl/Threads/TimedTriggerQueue.hh"
 
-#if 1
+#if 0
 #define RAVL_USE_GTKTHREADS  RAVL_OS_WIN32  /* Use thread based event handling stratagy. */
 #else
-#define RAVL_USE_GTKTHREADS  1  /* Use thread based event handling stratagy. */
+#define RAVL_USE_GTKTHREADS  0  /* Use thread based event handling stratagy. */
+#define RAVL_USE_IDLEMETHOD  1  /* Use thread based event handling stratagy. */
 #endif
 
 //#include "Ravl/GUI/Label.hh"
@@ -116,7 +117,7 @@ namespace RavlGUIN {
     m_strDebugWarning += "To fix this, either:\n1. Invoke the function directly if it always called on the GUI thread\n";
     m_strDebugWarning += "2. Replace the call to Queue with a call to QueueOnGUI if the calling thread changes.\n\n";
     m_strDebugWarning += "THIS MESSAGE APPEARS IN DEBUG MODE ONLY\n";
-#if !RAVL_USE_GTKTHREADS
+#if !RAVL_USE_GTKTHREADS && !RAVL_USE_IDLEMETHOD
     int p[2];
     if(pipe(p) != 0) {
       perror("ManagerC::ManagerC(), Failed. \n");
@@ -151,7 +152,7 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "ManagerC::~ManagerC(), Removing final reference to root win.. \n");
     
     delayEvents.Empty();
-#if !RAVL_USE_GTKTHREADS
+#if !RAVL_USE_GTKTHREADS && !RAVL_USE_IDLEMETHOD
     close(ifp);
     close(ofp);
     ifp = -1;
@@ -185,10 +186,10 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "ManagerC::Init(), Called. \n");
     RavlAssert(!initCalled); // Init should only be called once.
 
-#if  RAVL_USE_GTKTHREADS
     g_thread_init(0);
     gdk_threads_init();
     
+#if  RAVL_USE_GTKTHREADS
     // In theory no other threads should be running yet so the following
     // lock is not nessary.
     
@@ -210,7 +211,7 @@ namespace RavlGUIN {
   }
   
   
-#if !RAVL_USE_GTKTHREADS
+#if !RAVL_USE_GTKTHREADS && !RAVL_USE_IDLEMETHOD
   static gboolean manager_input_callback(GIOChannel   *source,
 					 GIOCondition  condition,
 					 gpointer      data) {
@@ -221,7 +222,16 @@ namespace RavlGUIN {
     return true;
   }
 #endif
-  
+
+#if RAVL_USE_IDLEMETHOD
+  static gboolean manager_idle_callback(gpointer data) {
+    cerr << "Idle method called. \n";
+    ManagerC &manager =  *((ManagerC *) data);
+    manager.HandleNotify();
+    return false;
+  }
+#endif
+
   bool StartFunc() {
     Manager.Start();  
     return true;
@@ -283,10 +293,12 @@ namespace RavlGUIN {
     screensize.Set(gdk_screen_height(),gdk_screen_width());
     physicalScreensize = Point2dC(gdk_screen_height_mm(),gdk_screen_width_mm());
     
+#if !RAVL_USE_IDLEMETHOD
     // Setup IO...
     GIOChannel *channel = g_io_channel_unix_new(ifp);
     g_io_add_watch_full(channel,G_PRIORITY_DEFAULT_IDLE+10,G_IO_IN,manager_input_callback, this,0);
     g_io_channel_unref (channel);
+#endif
     
     startupDone.Post();
     
@@ -322,7 +334,7 @@ namespace RavlGUIN {
   //: Finishup and exit.
   
   bool ManagerC::Shutdown() {
-#if RAVL_USE_GTKTHREADS
+#if RAVL_USE_GTKTHREADS || RAVL_USE_IDLEMETHOD
     Queue(TriggerC());
 #else
     Notify(0);
@@ -331,7 +343,7 @@ namespace RavlGUIN {
   }
   
   void ManagerC::Quit() { 
-#if RAVL_USE_GTKTHREADS
+#if RAVL_USE_GTKTHREADS || RAVL_USE_IDLEMETHOD
     Queue(TriggerC());
     Queue(TriggerC());
 #else
@@ -344,13 +356,17 @@ namespace RavlGUIN {
   
   bool ManagerC::Notify(IntT id) {
     //cerr << "Nofity. \n";
-#if !RAVL_USE_GTKTHREADS
+#if RAVL_USE_IDLEMETHOD
+    gtk_idle_add(&manager_idle_callback,this);
+#else
+#if !RAVL_USE_GTKTHREADS 
     if(write(ofp,&id,sizeof(IntT)) != sizeof(id)) {
       perror("ManagerC::Notify(),  Failed ");
       return false;
     }
 #else
     RavlAssert(0);
+#endif
 #endif
     return true;
   }
@@ -359,7 +375,14 @@ namespace RavlGUIN {
   //: Handle notify request.
   
   bool ManagerC::HandleNotify() {
-#if !RAVL_USE_GTKTHREADS
+#if RAVL_USE_IDLEMETHOD
+    eventProcPending = false;
+    TriggerC trig;
+    while(events.TryGet(trig))
+      trig.Invoke();
+    return true;
+#else
+#if !RAVL_USE_GTKTHREADS 
     ONDEBUG(cerr << "ManagerC::HandleNotify(), Got event. \n");
     IntT r;
     if(read(ifp,&r,sizeof(IntT)) != sizeof(IntT)) {
@@ -381,6 +404,7 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "ManagerC::HandleNotify() Called on " << r << " Done.\n");
 #else
     RavlAssert(0);
+#endif
 #endif
     return true;
   }
