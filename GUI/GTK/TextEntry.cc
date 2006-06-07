@@ -178,7 +178,7 @@ namespace RavlGUIN {
   {
     ReadBackLockC rbLock;
     MutexLockC lock(access);
-    return gtk_editable_get_editable(GTK_EDITABLE(widget));
+    return gtk_editable_get_editable(GTK_EDITABLE(widget)) != 0;
   }
   
   

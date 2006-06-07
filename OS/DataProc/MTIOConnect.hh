@@ -368,7 +368,7 @@ namespace RavlN {
 	  }
 	}
       }
-    } catch(ExceptionEndOfStreamC &eos) {
+    } catch(ExceptionEndOfStreamC &) {
       // Shut down quietly
     } catch(...) {
       cerr << "An exception occured in: " << typeid(*this).name() << endl;

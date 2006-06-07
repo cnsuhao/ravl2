@@ -363,7 +363,7 @@ namespace RavlGUIN {
   bool ComboBodyC::GetCursorSelection(IntT &start, IntT &end)
   {
     ReadBackLockC lock;
-    return gtk_editable_get_selection_bounds(GTK_EDITABLE(GTK_COMBO(widget)->entry), &start, &end);
+    return gtk_editable_get_selection_bounds(GTK_EDITABLE(GTK_COMBO(widget)->entry), &start, &end) != 0;
   }
 
 

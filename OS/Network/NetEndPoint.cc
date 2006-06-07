@@ -581,8 +581,7 @@ namespace RavlN {
       while(!shutdown) {
 	UIntT size;
 	if(istrm.Read((char *) &size,sizeof(UIntT)) != (IntT) sizeof(UIntT)) {
-	  if(!shutdown)
-	    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Read size failed. Assuming connection broken. ");
+	  ONDEBUG(if(!shutdown) SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::R unRecieve(), Read size failed. Assuming connection broken. ");
 	  break;
 	}
 	if(size == 0)
@@ -674,7 +673,7 @@ namespace RavlN {
 	  continue;
 	Dispatch(pkt);
       }
-    } catch(ExceptionOperationFailedC &ex) {
+    } catch(ExceptionOperationFailedC &) {
       // protocol error...
       Close();
     } catch(ExceptionC &e) {

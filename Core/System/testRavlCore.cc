@@ -68,6 +68,7 @@ int testSArrayIO();
 int testIndexRange2dSet();
 int testBase64();
 int testObjIO();
+int testVectorIO();
 
 int testRavlCore(int argc,char **argv) {
   int line = 0;
@@ -124,6 +125,10 @@ int testRavlCore(int argc,char **argv) {
     return 1;
   }
   if((line = testObjIO()) != 0) {
+    cerr << "Base64 io test failed line :" << line << "\n";
+    return 1;
+  }
+  if((line = testVectorIO()) != 0) {
     cerr << "Base64 io test failed line :" << line << "\n";
     return 1;
   }
@@ -507,6 +512,13 @@ int testObjIO() {
   for(DLIterC<int> it(list1);it;it++)
     sum += *it;
   if(sum != 6) return __LINE__;
+  return 0;
+}
+
+int testVectorIO() {
+  TFVectorC<int,3> value;
+  value.Fill(0);
+  cout << value;
   return 0;
 }
 

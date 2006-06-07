@@ -7,6 +7,8 @@
 #! rcsid="$Id$"
 #! file="Ravl/Applications/ClassWizard/defs.mk"
 
+DONOT_SUPPORT=VCPP
+
 PACKAGE=Ravl/SourceTools
 
 HEADERS= ClassWizard.hh SourceCursor.hh

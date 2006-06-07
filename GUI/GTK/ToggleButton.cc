@@ -110,14 +110,16 @@ namespace RavlGUIN {
   
   //: Test if button is active.
   
+
   bool ToggleButtonBodyC::GUIIsActive() const { 
     if(widget == 0) {
       ONDEBUG(cerr << "ToggleButtonBodyC::GUIIsActive() No widget. \n");
       return initState;
     }
+	
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
 #if 1
-    return gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    return gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)) != 0;
 #else
     return GTK_TOGGLE_BUTTON(widget)->active;
 #endif

@@ -38,20 +38,6 @@ namespace RavlN {
   
   template<typename DataT,unsigned int N>
   inline BinOStreamC &operator<<(BinOStreamC &in,const TFVectorC<DataT,N> &dat);
-  
-#if !RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET
-  template<unsigned int N>
-  inline ostream &operator<<(ostream &out,const TFVectorC<ByteT,N> &dat);
-  
-  template<unsigned int N>
-  inline istream &operator>>(istream &in,TFVectorC<ByteT,N> &dat);
-  
-  template<unsigned int N>
-  inline ostream &operator<<(ostream &out,const TFVectorC<SByteT,N> &dat);
-  
-  template<unsigned int N>
-  inline istream &operator>>(istream &in,TFVectorC<SByteT,N> &dat);
-#endif
 
   //! userlevel=Advanced
   //: Fixed size vector.
@@ -214,30 +200,7 @@ namespace RavlN {
     inline const TFMatrixC<DataT,1,N> &T() const;
     //: Transpose vector.
     // The implementation for this can be found in "Ravl/TFMatrix.hh"
-#if RAVL_COMPILER_VISUALCPPNET
-    friend istream &operator>> <DataT,N>(istream &in,TFVectorC<DataT,N> &dat);  
-    friend ostream &operator<< <DataT,N>(ostream &in,const TFVectorC<DataT,N> &dat);  
-    friend BinIStreamC &operator>> <DataT,N>(BinIStreamC &in,TFVectorC<DataT,N> &dat);
-    friend BinOStreamC &operator<< <DataT,N>(BinOStreamC &in,const TFVectorC<DataT,N> &dat);
-#else
-#if RAVL_NEW_ANSI_CXX_DRAFT
-    friend istream &operator>> <>(istream &in,TFVectorC<DataT,N> &dat);  
-    friend ostream &operator<< <>(ostream &in,const TFVectorC<DataT,N> &dat);  
-    friend BinIStreamC &operator>> <>(BinIStreamC &in,TFVectorC<DataT,N> &dat);
-    friend BinOStreamC &operator<< <>(BinOStreamC &in,const TFVectorC<DataT,N> &dat);
-#if RAVL_COMPILER_GCC3_4 || RAVL_COMPILER_GCC4
-    friend ostream &operator<< <>(ostream &out,const TFVectorC<ByteT,N> &dat);
-    friend istream &operator>> <>(istream &in,TFVectorC<ByteT,N> &dat);
-    friend ostream &operator<< <>(ostream &out,const TFVectorC<SByteT,N> &dat);
-    friend istream &operator>> <>(istream &in,TFVectorC<SByteT,N> &dat);
-#endif
-#else
-    friend istream &operator>> (istream &in,TFVectorC<DataT,N> &dat);  
-    friend ostream &operator<< (ostream &in,const TFVectorC<DataT,N> &dat);  
-    friend BinIStreamC &operator>> (BinIStreamC &in,TFVectorC<DataT,N> &dat);
-    friend BinOStreamC &operator<< (BinOStreamC &in,const TFVectorC<DataT,N> &dat);
-#endif
-#endif
+
   protected:
     DataT data[N];
   };
@@ -522,7 +485,7 @@ namespace RavlN {
   inline
   ostream &operator<<(ostream &out,const TFVectorC<DataT,N> &dat) {
     for(UIntT i = 0;i < N;i++)
-      out << dat.data[i] << ' ';
+      out << dat[i] << ' ';
     return out;
   }
   
@@ -530,7 +493,7 @@ namespace RavlN {
   inline
   istream &operator>>(istream &in,TFVectorC<DataT,N> &dat) {
     for(UIntT i = 0;i < N;i++)
-      in >> dat.data[i];
+      in >> dat[i];
     return in;
   }
   
@@ -625,7 +588,7 @@ namespace RavlN {
   template<unsigned int N>
   inline ostream &operator<<(ostream &out,const TFVectorC<ByteT,N> &dat) {
     for(UIntT i = 0;i < N;i++)
-      out << ((int) dat.data[i]) << ' ';
+      out << ((int) dat[i]) << ' ';
     return out;
   }
   //: Specialise byte vectors so they're treated as numerical values.
@@ -635,7 +598,7 @@ namespace RavlN {
     int x;
     for(UIntT i = 0;i < N;i++) {
       in >> x;
-      dat.data[i] = (ByteT) x;
+      dat[i] = (ByteT) x;
     }
     return in;
   }
@@ -644,7 +607,7 @@ namespace RavlN {
   template<unsigned int N>
   inline ostream &operator<<(ostream &out,const TFVectorC<SByteT,N> &dat) {
     for(UIntT i = 0;i < N;i++)
-      out << ((int) dat.data[i]) << ' ';
+      out << ((int) dat[i]) << ' ';
     return out;
   }
   //: Specialise byte vectors so they're treated as numerical values.
@@ -654,7 +617,7 @@ namespace RavlN {
     int x;
     for(UIntT i = 0;i < N;i++) {
       in >> x;
-      dat.data[i] = (ByteT) x;
+      dat[i] = (ByteT) x;
     }
     return in;
   }

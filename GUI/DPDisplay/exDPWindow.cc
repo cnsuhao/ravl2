@@ -47,7 +47,7 @@ int main() {
     return 1;
   }
   
-  //while(1)
-  //  Sleep(1);
+  while(1)
+    RavlN::Sleep(1);
   return 0;
 }

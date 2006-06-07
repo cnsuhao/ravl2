@@ -184,11 +184,15 @@ int doVPlay(int nargs,char *args[])
 {
   bool noDisplay = false;
   // Make sure you can list options even when you don't have a display.
+#if !RAVL_OS_WIN32
   if(getenv("DISPLAY") != 0) { 
     Manager.Init(nargs,args);
   } else {
     noDisplay = true;
   }
+#else
+  Manager.Init(nargs,args);
+#endif
     
   OptionC option(nargs,args,true);
   IntT noOfFrames(option.Int("nf",-1, "Max no. of frames read"));
@@ -331,17 +335,6 @@ int doVPlay(int nargs,char *args[])
   
   Connect(guiPlayControl.SigUpdateFrameNo(),&DisplayTimeCode,1,guiTimeCode);
 
-#if 0  
-  LBoxC timeCodeInfo = HBox(LabelC(" Time:") + PackInfoC(guiTimeCode,false,false) + 
-			    LabelC(" Rate(Hz):") + PackInfoC(guiFrameRate,false,false));
-  win.Add(VBox(PackInfoC(menuBar,false,true) + 
-	       PackInfoC(timeCodeInfo,false,true) +
-	       PackInfoC(Box(vidout,5,true),false,false) + 
-	       PackInfoC(guiPlayControl,false,true) +
-	       PackInfoC(Button("Grab Frame",GetFileForGrab),false,false)
-	       )
-	  );
-#else
   TableC table(4,5);
   ButtonC grab = Button("Grab Frame",&GetFileForGrab);
   
@@ -360,14 +353,16 @@ int doVPlay(int nargs,char *args[])
   table.GUIAddObject(grab,2,4,4,5,(GtkAttachOptions) (GTK_FILL| GTK_EXPAND),(GtkAttachOptions)(GTK_FILL));
   table.GUIAddObject(examine,0,2,4,5,(GtkAttachOptions) (GTK_FILL| GTK_EXPAND),(GtkAttachOptions)(GTK_FILL));
   win.Add(table);
-#endif
   win.GUIShow();
   
   // Get GUI going ...
   
   ONDEBUG(cerr << "Executing manager... \n");
+#if !RAVL_OS_WIN32
+  // On windows the gui thread must be the main thread.
   Manager.Execute();
   Sleep(0.1); // Give it a chance to setup the display before starting the video.
+#endif
   
   ONDEBUG(cerr << "Starting video... \n");
   DPEventSetC es;  
@@ -376,9 +371,14 @@ int doVPlay(int nargs,char *args[])
   
   es += src >> DPGovernorC<ImageC<ByteRGBValueC> >(delay) >> CacheFrame >>=  OMethod(vidout,&CanvasC::DrawRGBImage);
   
+#if !RAVL_OS_WIN32
   es.Wait();
   Manager.Shutdown();
-  
+#else
+  // On windows the gui thread must be the main thread.
+  Manager.Start();
+#endif
+
   ONDEBUG(cerr << "Terminating... \n");
   exit(0);
   return 0;

@@ -141,7 +141,11 @@ namespace RavlN {
 	DPGovernorBaseBodyC(oth)
     {}
     //: Copy Constructor
-    
+
+    virtual bool Save(ostream &out) const 
+    { return DPGovernorBaseBodyC::Save(out); }
+    //: Save to ostream.
+
     virtual DataT Get() { 
       DataT ret = this->input.Get(); 
       WaitForTimeup();
@@ -192,6 +196,10 @@ namespace RavlN {
       : DPEntityC(*new DPGovernorBodyC<DataT>(ndelay,nminDelay))
     {}
     //: Constructor  
+
+    bool Save(ostream &out) const 
+    { return DPGovernorBaseC::Save(out); }
+    //: Save to ostream.
   };
   
 }

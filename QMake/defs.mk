@@ -8,6 +8,7 @@
 #! file="Ravl/QMake/defs.mk"
 
 #PACKAGENAME= QMake
+DONOT_SUPPORT=VCPP
 
 DESCRIPTION = Quick Make System
 

@@ -7,6 +7,8 @@
 #! rcsid="$Id$"
 #! file="Ravl/SourceTools/CodeManager/defs.mk"
 
+DONOT_SUPPORT=VCPP
+
 PACKAGENAME = CxxDoc
 
 DESCRIPTION = The RAVL C++ Documentation tool

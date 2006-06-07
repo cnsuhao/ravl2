@@ -8,6 +8,8 @@
 #! rcsid="$Id$"
 #! file="Ravl/OS/Validate/defs.mk"
 
+DONOT_SUPPORT=VCPP
+
 DESCRIPTION= Ravl Validation programs
 
 SOURCES = Extra.cc

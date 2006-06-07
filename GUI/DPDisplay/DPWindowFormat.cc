@@ -15,7 +15,8 @@
 #include "Ravl/TypeName.hh"
 #include "Ravl/Hash.hh"
 #include "Ravl/GUI/DPWindowFormat.hh"
-#define DODEBUG 0
+
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -50,6 +51,7 @@ namespace RavlGUIN {
     StringC device = ExtractDevice(filename);
     if(device != "X" && device != "XA")
       return typeid(void);
+    ONDEBUG(cerr << "DPWindowFormatBodyC::ProbeSave(), Target accepted. \n"); 
     return typeid(DPDisplayObjC);
   }
   

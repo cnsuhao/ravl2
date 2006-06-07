@@ -25,18 +25,11 @@ extern "C" {
 
   // GtkSelectionData
   
-#if !defined(VISUAL_CPP) && !RAVL_USE_GTK2  
-  typedef struct _GdkWindow GdkWindow;
-  typedef struct _GdkWindow GdkPixmap;
-  typedef struct _GdkWindow GdkDrawable;
-  typedef struct _GdkWindow GdkBitmap;
-#else
+
   typedef struct _GdkDrawable GdkDrawable;
   typedef struct _GdkDrawable GdkBitmap;
   typedef struct _GdkDrawable GdkPixmap;
   typedef struct _GdkDrawable GdkWindow;
-#endif
-  
 
 #if RAVL_USE_GTK2
   typedef struct _GtkTreeModel GtkTreeModel;

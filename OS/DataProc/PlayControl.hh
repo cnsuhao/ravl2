@@ -334,7 +334,11 @@ namespace RavlN {
       this->MapBackChangedSignal("size");
     }
     //: Constructor.
-    
+
+    virtual bool Save(ostream &out) const 
+    { return DPPlayControlBodyC::Save(out); }
+    //: Save to ostream.
+
     virtual StringC OpName() const
     { return StringC("playcontrol"); }
     //: Op type name.
@@ -505,7 +509,15 @@ namespace RavlN {
       return *this;
     }
     //: Assignment 
-    
+
+    bool Save(ostream &out) const 
+    { return DPPlayControlC::Save(out); }
+    //: Save to ostream.
+
+    bool Save(BinOStreamC &out) const 
+    { return DPPlayControlC::Save(out); }
+    //: Save to ostream.
+
     inline const DPISPortC<DataT> &Input() 
     { return Body().Input(); }
     //: Access input port.

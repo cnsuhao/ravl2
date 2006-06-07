@@ -39,8 +39,6 @@ namespace RavlN {
   // Forward declarations.
   
   template<class BodyT> class RCHandleC;
-  template<class BodyT> ostream &operator<<(ostream &strm,const RCHandleC<BodyT> &obj);
-  template<class BodyT> istream &operator>>(istream &strm,RCHandleC<BodyT> &obj);
   
   //! userlevel=Normal
   //: Base class for all reference counted objects
@@ -112,6 +110,14 @@ namespace RavlN {
     //: Constructor.
     // creates a body class with its default constructor.
     
+    RCHandleC(istream &is)
+      : body(new BodyT())
+    { 
+      body->IncRefCounter(); 
+      is >> *body;
+    }
+    //: Load body from stream.
+    
     ~RCHandleC() {
       if(body == 0)
 	return;
@@ -120,6 +126,10 @@ namespace RavlN {
     }
     //: Destructor.
     // Decrement reference count, and delete object if it reaches zero.
+    
+    bool Save(ostream &out)
+    { out << *body; return true; }
+    //: Save body to stream.
     
     const RCHandleC<BodyT> &operator=(const RCHandleC<BodyT> &oth) { 
       if(oth.body != 0)
@@ -203,7 +213,6 @@ namespace RavlN {
       : body(&static_cast<BodyT &>(bod))
     { body->IncRefCounter(); }
     //: Body base constructor.
-
     
     BodyT &Body() { 
       RAVL_PARANOID(RavlAssertMsg(IsValid(),"Attempt to access invalid handle. "));
@@ -240,17 +249,9 @@ namespace RavlN {
     { return Body().References(); }
     //: Find the number of references to the body of this object.
     
-    
-#if RAVL_NEW_ANSI_CXX_DRAFT
-    friend ostream &operator<< <>(ostream &strm,const RCHandleC<BodyT> &obj);
-    friend istream &operator>> <>(istream &strm,RCHandleC<BodyT> &obj);
-#else
-    friend ostream &operator<<(ostream &strm,const RCHandleC<BodyT> &obj);
-    friend istream &operator>>(istream &strm,RCHandleC<BodyT> &obj);
-#endif
     friend class SmartPtrC<BodyT>; 
   };
-
+  
   
   istream &operator>>(istream &,RCBodyC &obj);
   //: Input body.
@@ -262,16 +263,14 @@ namespace RavlN {
     
   template<class BodyT>
   ostream &operator<<(ostream &strm,const RCHandleC<BodyT> &obj) { 
-    strm << obj.Body(); 
+    obj.Save(strm); 
     return strm;
   }
   //: Write a handle to a stream.
-
+  
   template<class BodyT>
   istream &operator>>(istream &strm,RCHandleC<BodyT> &obj) {
-    if(!obj.IsValid())
-      obj = RCHandleC<BodyT>(CreateBodyE);
-    strm >> obj.Body(); 
+    obj = RCHandleC<BodyT>(strm);
     return strm;
   }
   //: Read a handle from a stream.

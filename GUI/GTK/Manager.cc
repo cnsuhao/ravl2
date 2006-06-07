@@ -188,7 +188,7 @@ namespace RavlGUIN {
     
     //g_thread_init(0);
     gdk_threads_init();
-    
+
 #if  RAVL_USE_GTKTHREADS
     // In theory no other threads should be running yet so the following
     // lock is not nessary.
@@ -225,7 +225,6 @@ namespace RavlGUIN {
 
 #if RAVL_USE_IDLEMETHOD
   static gboolean manager_idle_callback(gpointer data) {
-    cerr << "Idle method called. \n";
     ManagerC &manager =  *((ManagerC *) data);
     manager.HandleNotify();
     return false;

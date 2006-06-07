@@ -70,4 +70,20 @@ namespace RavlGUIN {
     return strm;
   }
 
+  //: Write to stream.
+  // NOT IMPLEMENTED.
+  
+  ostream &operator<<(ostream &strm,const DPDisplayObjC  &obj) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+
+  //: Read from stream.
+  // NOT IMPLEMENTED.
+
+  istream &operator>>(istream &strm,DPDisplayObjC  &obj) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+
 }

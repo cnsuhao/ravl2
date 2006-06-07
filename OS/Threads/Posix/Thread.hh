@@ -112,8 +112,7 @@ namespace RavlN
     //!return: 0 to 32767, Higher means more runtime will be given to the thread.
     // THREAD SAFE.
     
-    inline UIntT ID() const
-    { return (UIntT) (this - (ThreadBodyC *)0); }
+    UIntT ID() const;
     //: Get a unique ID for this thread.
     // NB. An id may no be assigned to the thread until
     // after Execute() has been called.

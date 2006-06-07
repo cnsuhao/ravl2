@@ -7,6 +7,8 @@
 #! rcsid="$Id$"
 #! file="Ravl/SourceTools/ToMake/defs.mk"
 
+DONOT_SUPPORT=VCPP
+
 PACKAGENAME= TOMAKE
 
 DESCRIPTION = Porting to the normal make system

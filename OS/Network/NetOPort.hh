@@ -162,7 +162,7 @@ namespace RavlN {
     
     virtual UIntT Tell() const { 
       WaitForInfo();
-      return at; 
+      return static_cast<UIntT>(at); 
     }
     //: Find current location in stream.
     // Defined as the index of the next object to be written or read.
@@ -170,14 +170,14 @@ namespace RavlN {
     
     virtual UIntT Size() const { 
       WaitForInfo();
-      return size; 
+      return static_cast<UIntT>(size); 
     }
     //: Find the total size of the stream. (assuming it starts from 0)
     // May return ((UIntT) (-1)) if not implemented.
     
     virtual UIntT Start() const { 
       WaitForInfo();
-      return start; 
+      return static_cast<UIntT>(start); 
     }
     //: Find the offset where the stream begins, normally zero.
     // Defaults to 0

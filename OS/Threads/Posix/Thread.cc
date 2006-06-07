@@ -377,7 +377,20 @@ namespace RavlN {
   }
 #endif
 
-  
+  //: Get a unique ID for this thread.
+  // NB. An id may no be assigned to the thread until
+  // after Execute() has been called.
+  // THREAD SAFE.
+
+  UIntT ThreadBodyC::ID() const { 
+#if RAVL_HAVE_WIN32_THREADS
+    return (UIntT) threadID; 
+#else
+    return (UIntT) threadID;
+#endif
+  }
+   
+
   //: Get ID for this thread.
   
   UIntT ThisThreadID() { 

@@ -111,6 +111,14 @@ namespace RavlGUIN {
   //: Read from binary stream.
   // NOT IMPLEMENTED.
 
+  ostream &operator<<(ostream &strm,const DPDisplayObjC  &obj);
+  //: Write to stream.
+  // NOT IMPLEMENTED.
+  
+  istream &operator>>(istream &strm,DPDisplayObjC  &obj);
+  //: Read from stream.
+  // NOT IMPLEMENTED.
+
 }
 
 

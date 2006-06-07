@@ -40,7 +40,7 @@ namespace RavlN {
     if(from == to)
       return true;
     DListC<GraphEdgeIterC<StringC,DPConverterBaseC> > conv;
-#if !(RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET)
+#if !(RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET) || RAVL_COMPILER_VISUALCPPNET_2005
     RealT finalCost;
     // Visual C++ can't handle ptr's to functions with reference args.
     // hopefull we'll find a way aroung this but for now its out.
@@ -63,7 +63,7 @@ namespace RavlN {
     ONDEBUG(cout << "Asked to convert " << from.name() << " to " << to.name() << endl);
     DListC<GraphEdgeIterC<StringC,DPConverterBaseC> > conv;  
     //  typedef RealT (*AFuncT)(const DPConverterBaseC &);
-#if !(RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET)
+#if !(RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET)  || RAVL_COMPILER_VISUALCPPNET_2005
 	// Visual C++ can't handle ptr's to functions with reference args.
     // hopefull we'll find a way aroung this but for now its out.
     RealT finalCost = 0;
@@ -96,7 +96,7 @@ namespace RavlN {
     ONDEBUG(cout << "Asked to convert " << from.name() << " to " << to.name() << endl);
     DListC<GraphEdgeIterC<StringC,DPConverterBaseC> > conv;  
     //  typedef RealT (*AFuncT)(const DPConverterBaseC &);
-#if !(RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET)
+#if !(RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET) || RAVL_COMPILER_VISUALCPPNET_2005
     // Visual C++ can't handle ptr's to functions with reference args.
     // hopefull we'll find a way aroung this but for now its out.
     conv = GraphBestRoute(ConvGraph(),
