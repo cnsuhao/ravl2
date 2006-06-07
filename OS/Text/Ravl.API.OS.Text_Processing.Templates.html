@@ -56,7 +56,7 @@
       <tr><td> <B>$(else:a)</B></td><td> If the last condition failed, expand 'a' </td></tr>
       
       <tr><td> <B>$(include:a) </B></td><td> Include the file 'a' as if where part of
-	  this file </td></tr>
+	  this file.  Normaly this file is prefixed with the path to the template directory, but if the name is prefix with @, no prefix is applied. </td></tr>
       
       <tr><td> <B>$(sub:a)</B></td><td> Expand 'a' in new environment,
 	  with no variables set. The values of any variables set within
@@ -94,12 +94,12 @@
       <tr><td> <B>$(marktruncate:n:a:b)</B></td><td> Expand 'b', and truncate the string to 'n' charactors. if the string is truncated replace the last charactors in the string with 'a' </td></tr>
       
       <tr><td> <B>$(silent:a)</B></td><td> Expand 'a', but discard the output. This
-	  maybe user to comment the setup of variables, without sending
+	  maybe used to comment the setup of variables, without sending
 	  the comments to the output file. </td></tr>
       
-      <tr><td> <B>$(FilePattern:a)</B></td><td> Special keyword, ignored. (well kinda) </td></tr>
+      <tr><td> <B>$(FilePattern:a)</B></td><td> Special keyword, ignored. Used in derived classes to indicate what files to generate. </td></tr>
       
-      <tr><td> <B>$(FileObject:a)</B></td><td> Special keyword, ignored. (well kinda) </td></tr>
+      <tr><td> <B>$(FileObject:a)</B></td><td> Special keyword, ignored.  Used in derived classes to indicate what files to generate. </td></tr>
     </table>
     
     <h3> Conditions </h3>
@@ -123,7 +123,7 @@
     <address><a href="mailto:ees1cg@syzygy.ee.surrey.ac.uk">Charles Galambos</a></address>
 <!-- Created: Tue Feb 29 08:53:27 GMT 2000 -->
 <!-- hhmts start -->
-Last modified: Mon May 12 11:51:41 BST 2003
+Last modified: Thu Jun  1 16:25:08 BST 2006
 <!-- hhmts end -->
   </body>
 </html>
