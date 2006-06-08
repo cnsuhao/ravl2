@@ -10,7 +10,6 @@
 //! file="Ravl/OS/Network/SocketStrm.cc"
 
 #include "Ravl/config.h"
-#if !RAVL_COMPILER_VISUALCPP
 
 #include "Ravl/StreamType.hh"
 #include "Ravl/OS/NetStream.hh"
@@ -20,6 +19,7 @@ namespace RavlN {
   void StreamType_NetStream_MustLink()
   {}
   
+#if !RAVL_COMPILER_VISUALCPP
   //: Networked streams.
   
   static class StreamType_NetStreamC 
@@ -43,5 +43,6 @@ namespace RavlN {
     //: Open ouput stream.
     
   } Inst_StreamType_NetStream;
-}
+
 #endif
+}
