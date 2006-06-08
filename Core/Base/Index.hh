@@ -491,32 +491,32 @@ inline IndexC (long int i)
     /* -----------------------------------------------*/
 
     inline bool operator==(const UInt64T i) const
-    { return v == IntT(i); }
+    { return v == ISizeT(i); }
     //: Returns true if the value of this index is equal to 
     //: the integer number 'i'.
     
     inline bool operator!=(const UInt64T i) const
-    { return v != IntT(i); }
+    { return v != ISizeT(i); }
     //: Returns true if the value of this index is not equal to 
     //: the integer number 'i'.
     
     inline bool operator<(const UInt64T i) const
-    { return v < IntT(i); }
+    { return v < ISizeT(i); }
     //: Returns true if the value of this index is smaller than
     //: the integer number 'i'.
     
     inline bool operator<=(const UInt64T i) const
-    { return v <= IntT(i); }
+    { return v <= ISizeT(i); }
     //: Returns true if the value of this index is smaller than
     //: or equal to the integer number 'i'.
 
     inline bool operator>(const UInt64T i) const
-    { return v > IntT(i); }
+    { return v > ISizeT(i); }
     //: Returns true if the value of this index is greater than
     //: the integer number 'i'.
     
     inline bool operator>=(const UInt64T i) const
-    { return v >= IntT(i); }
+    { return v >= ISizeT(i); }
     //: Returns true if the value of this index is greater than
     //: or equal to the integer number 'i'.
 
