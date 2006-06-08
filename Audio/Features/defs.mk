@@ -9,7 +9,8 @@
 
 PACKAGE=Ravl/Audio
 
-MAINS=exFeatureMFCC.cc
+MAINS=
+#exFeatureMFCC.cc
 
 HEADERS=MelSpectrum.hh MelCepstrum.hh PreEmphasis.hh FeatureMFCC.hh VectorDelta012.hh
 
