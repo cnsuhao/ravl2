@@ -372,7 +372,7 @@ namespace RavlN {
   bool BinaryTreeBodyC<KeyT,DataT>::Find(const KeyT &key,DataT &result) {
     BinaryTreeNodeC<KeyT,DataT> *place = FindNode(key);
     if(place == 0)
-      return place;
+      return false;
     if(place->IsDeleted())
       return false;
     result = place->Data();
