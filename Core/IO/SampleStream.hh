@@ -47,7 +47,11 @@ namespace RavlN {
 	sampleRate(nSampleRate)
     {}
     //: Constructor
-    
+
+    virtual bool Save(ostream &out) const 
+    { return DPIStreamOpBodyC<DataT,DataT>::Save(out); }
+    //: Save to ostream.
+
     virtual bool Seek(UIntT off) 
     { return sinput.Seek64(startFrame + (Int64T) off * sampleRate); }
     //: Seek to position in stream.

@@ -50,7 +50,11 @@ namespace RavlN {
       SetInput(newPort);
     }
     //: Constructor from port and size.
-    
+
+    virtual bool Save(ostream &out) const 
+    { return DPISPortBodyC<DataT>::Save(out); }
+    //: Save to ostream.
+
     const DPISPortC<DataT> &Input() const
     { return inPort; }
     //: Access input port.
