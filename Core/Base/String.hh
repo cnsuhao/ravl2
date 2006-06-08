@@ -637,6 +637,20 @@ namespace RavlN {
       return rep->s[i];
     }
     
+#if RAVL_CPUTYPE_64
+
+    inline char&       operator[](SizeT i) { 
+      RavlAssertMsg(i < length(),"invalid index");
+      return rep->s[i];
+    }
+    
+    inline const char& operator[](SizeT i) const { 
+      RavlAssertMsg(i < length(),"invalid index");
+      return rep->s[i];
+    }
+    
+#endif
+
     char    elem(int i) const { 
       RavlAssertMsg(((unsigned)i) < length(),"invalid index");
       return rep->s[i];
