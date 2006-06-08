@@ -18,12 +18,17 @@
 #include "Ravl/Exception.hh"
 #include "Ravl/RCAbstract.hh"
 
+#define RAVL_VIRTUALCONSTRUCTOR(strm,targType) VCLoad(strm,(targType *) 0)
+
 namespace RavlN {
-//  class RCAbstractC;
- 
+  
   template<class BodyT> class RCHandleVC;  
-  template<class BodyT> istream &operator>>(istream &strm,RCHandleVC<BodyT> &obj);  
-  template<class BodyT> BinIStreamC &operator>>(BinIStreamC &strm,RCHandleVC<BodyT> &obj);
+  
+  RCBodyVC *VCLoad(istream &s);
+  //: Load object from a stream via a virtual constructor
+  
+  RCBodyVC *VCLoad(BinIStreamC &s);
+  //: Load object from a binary stream via a virtual constructor
   
   //! userlevel=Normal
   //: Handle from objects derived from RCBodyVC.
@@ -43,6 +48,16 @@ namespace RavlN {
     {}
     //: Copy Constructor.
     // Creates a new reference to 'oth'
+
+    RCHandleVC(istream &strm)
+      : RCHandleC<BodyT>(dynamic_cast<BodyT *>(VCLoad(strm)))
+    {}
+    //: Stream constructor.
+    
+    RCHandleVC(BinIStreamC &strm)
+      : RCHandleC<BodyT>(dynamic_cast<BodyT *>(VCLoad(strm)))
+    {}
+    //: Binary stream constructor.
     
   protected:    
     RCHandleVC(BodyT &bod)
@@ -73,11 +88,11 @@ namespace RavlN {
     bool Save(BinOStreamC &out) const
     { return Body().Save(out); }
     //: Save to binary stream 'out'.
-//#if !RAVL_COMPILER_VISUALCPP  
+    
     RCAbstractC Abstract()
     { return RCAbstractC(Body()); }
     //: Create an abstract handle.    
-//#endif    
+    
     RCHandleVC<BodyT> Copy() const
     { return RCHandleVC<BodyT>(Body().Copy()); }
     //: Make copy of body.
@@ -86,13 +101,6 @@ namespace RavlN {
     { return RCHandleVC<BodyT>(Body().DeepCopy(levels)); }
     //: Make a deep copy of body.
     
-#if RAVL_NEW_ANSI_CXX_DRAFT
-    friend istream &operator>> <BodyT>(istream &strm,RCHandleVC<BodyT> &obj);
-    friend BinIStreamC &operator>> <BodyT>(BinIStreamC &strm,RCHandleVC<BodyT> &obj);
-#else
-    friend istream &operator>> (istream &strm,RCHandleVC<BodyT> &obj);
-    friend BinIStreamC &operator>> (BinIStreamC &strm,RCHandleVC<BodyT> &obj);
-#endif
   };
   
   typedef RCHandleC<RCBodyVC> AbstractC;
@@ -100,12 +108,6 @@ namespace RavlN {
   // Note: Objects which used abstract handles MUST be derived
   // from RCBodyVC.
   
-  RCBodyVC *VCLoad(istream &s);
-  //: Load object from a stream via a virtual constructor
-  
-  RCBodyVC *VCLoad(BinIStreamC &s);
-  //: Load object from a binary stream via a virtual constructor
-
   template<class BodyT>
   BodyT *VCLoad(istream &s,BodyT *) { 
     RCBodyVC *bp = VCLoad(s);
@@ -128,8 +130,6 @@ namespace RavlN {
     return ret; 
   }
   
-#define RAVL_VIRTUALCONSTRUCTOR(strm,targType) VCLoad(strm,(targType *) 0)
-  
   template<class BodyT>
   ostream &operator<<(ostream &strm,const RCHandleVC<BodyT> &obj) {
     RavlAssertMsg(obj.IsValid(),"Attempt to write an invalid object handle.");
@@ -148,14 +148,14 @@ namespace RavlN {
   
   template<class BodyT>
   istream &operator>>(istream &strm,RCHandleVC<BodyT> &obj) {
-    obj = RCHandleVC<BodyT>(dynamic_cast<BodyT *>(VCLoad(strm)));
+    obj = RCHandleVC<BodyT>(strm);
     return strm;
   }
   //: Read a handle from a stream.
   
   template<class BodyT>
   BinIStreamC &operator>>(BinIStreamC &strm,RCHandleVC<BodyT> &obj) {
-    obj = RCHandleVC<BodyT>(dynamic_cast<BodyT *>(VCLoad(strm)));
+    obj = RCHandleVC<BodyT>(strm);
     return strm;
   }
   //: Read a handle from a binary stream.
