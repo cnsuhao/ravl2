@@ -186,7 +186,7 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "ManagerC::Init(), Called. \n");
     RavlAssert(!initCalled); // Init should only be called once.
     
-    //g_thread_init(0);
+    g_thread_init(0);
     gdk_threads_init();
 
 #if  RAVL_USE_GTKTHREADS
