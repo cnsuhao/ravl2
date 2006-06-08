@@ -127,7 +127,7 @@ namespace RavlN {
     //: Destructor.
     // Decrement reference count, and delete object if it reaches zero.
     
-    bool Save(ostream &out)
+    bool Save(ostream &out) const
     { out << *body; return true; }
     //: Save body to stream.
     
