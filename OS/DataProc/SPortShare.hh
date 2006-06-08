@@ -455,7 +455,10 @@ namespace RavlN {
 	input.DeregisterClient();
     }
     //: Destructor
-    
+
+    virtual bool Save(ostream &out) const 
+    { return DPISPortBodyC<DataT>::Save(out); }
+    //: Save to ostream.
     //:----------------------------------------------------------
     // Get controls
     
