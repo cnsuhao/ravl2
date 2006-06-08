@@ -9,7 +9,7 @@
 
 PACKAGE=Ravl
 
-NESTED= CCMath.r LinearAlgebra.r Geometry.r Statistics.r Sequence.r Signals.r IO.r Optimisation.r
+NESTED= CCMath.r LinearAlgebra.r Geometry.r Statistics.r Sequence.r Complex.r Signals.r IO.r Optimisation.r
 
 EHT= Ravl.API.Math.eht Ravl.API.Math.Internal.html
 

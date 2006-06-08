@@ -17,13 +17,13 @@ MAINS	 =
 
 # HEADERS = all include files of this project to be exported
 HEADERS = StdMath.hh Random.hh RandomGauss.hh Angle.hh ScalMath.hh \
- Complex.hh TFMatrix.hh RandomMersenneTwister.hh
+ TFMatrix.hh RandomMersenneTwister.hh
 
 
 # SOURCES = all C modules, not containing main separated by space. The compiled
 #   code of these modules is stored in the project library.
 SOURCES = StdMath.cc Random.cc RandomGauss.cc Angle.cc ScalMath.cc \
- Complex.cc RandomMersenneTwister.cc Erf.cc
+ RandomMersenneTwister.cc Erf.cc
 
 # EMGRavl.cc UsefulFn.cc Erf.cc
 
@@ -40,7 +40,6 @@ USESLIBS = RavlCore
 LIBDEPS = RavlCoreMath.def
 
 # Examples - programs demonstrating using of software in this directory.
-EXAMPLES = exComplx.cc
 # exUsefFn.cc 
 
 # Tests - program testing runtime consistency of the software
