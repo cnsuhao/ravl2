@@ -48,6 +48,14 @@ namespace RavlN {
 	  useslibs += *it;
       }
     }
+    {
+      StringListC ul(defs["AUXFILES"]);
+      for(DLIterC<StringC> it(ul);it;it++) {
+	if(!auxfiles.Contains(*it))
+	  auxfiles += dir + filenameSeperator + *it;
+      }
+      auxdir = defs["AUXDIR"];
+    }
     if(defs.IsDefined("MUSTLINK")) {
       mustLink += dir + filenameSeperator + defs["MUSTLINK"];
     } else

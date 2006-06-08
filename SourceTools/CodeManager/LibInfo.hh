@@ -37,7 +37,7 @@ namespace RavlN {
     //: Constructor.
     
     StringC &Name()
-      { return name; }
+    { return name; }
     //: Name of headerfile (without path.)
     
     const StringC &Name() const
@@ -45,11 +45,11 @@ namespace RavlN {
     //: Name of headerfile (without path.)
     
     StringC &Package()
-      { return package; }
+    { return package; }
     //: Where is should be installed.
     
     StringC &SrcFile()
-      { return src; }
+    { return src; }
     //: Where it is in the source tree.
     
   protected:
@@ -76,20 +76,28 @@ namespace RavlN {
     // True is returned if operation succeeded.
     
     const StringC &Name() const
-      { return libName; }
+    { return libName; }
     //: Get library name.
     
     DListC<StringC> &UsesLibs()
-      { return useslibs; }
+    { return useslibs; }
     //: Libraries required by this one.
     
     DListC<StringC> Sources()
-      { return sources; }
+    { return sources; }
     //: Source files in the library.
     
     DListC<HeaderInfoC> Headers()
-      { return headers; }
+    { return headers; }
     //: Headers for the library.
+    
+    DListC<StringC> &AuxFiles()
+    { return auxfiles; }
+    //: List of aux files.
+    
+    StringC &AuxDir()
+    { return auxdir; }
+    //: Aux directory.
     
     bool IsDummy() const
     { return dummy; }
@@ -105,7 +113,9 @@ namespace RavlN {
     StringC libName;
     DListC<StringC> useslibs;// Libraries required by this one.
     DListC<StringC> sources;  // Source files in the library.
+    DListC<StringC> auxfiles;  // Source files in the library.
     DListC<HeaderInfoC > headers; // Headers for the library.
+    StringC auxdir;
     StringC mustLink; // Is there an object file required for linking ?
   };
 
@@ -117,35 +127,43 @@ namespace RavlN {
   {
   public:
     LibInfoC()
-      {}
+    {}
     //: Default constructor,
     // creates an invalid handle.
     
     LibInfoC(const StringC &libraryName,bool isDummy = false)
       : RCHandleC<LibInfoBodyC>(*new LibInfoBodyC(libraryName,isDummy))
-      {}
+    {}
     //: Constructor.
     
     bool Add(DefsMkFileC &defs,const StringC &fromDir)
-      { return Body().Add(defs,fromDir); }
+    { return Body().Add(defs,fromDir); }
     //: Add information from defs file 'defs'.
     // True is returned if operation succeeded.
     
     const StringC &Name() const
-      { return Body().Name(); }
+    { return Body().Name(); }
     //: Get library name.
     
     DListC<StringC> &UsesLibs()
-      { return Body().UsesLibs(); }
+    { return Body().UsesLibs(); }
     //: Libraries directly required by this one.
     
     DListC<StringC> Sources()
-      { return Body().Sources(); }
+    { return Body().Sources(); }
     //: Source files in the library.
     
     DListC<HeaderInfoC> Headers()
-      { return Body().Headers(); }
+    { return Body().Headers(); }
     //: Headers for the library.
+
+    DListC<StringC> &AuxFiles()
+    { return Body().AuxFiles(); }
+    //: List of aux files.
+    
+    StringC &AuxDir()
+    { return Body().AuxDir(); }
+    //: Aux directory.
 
     bool IsDummy() const
     { return Body().IsDummy(); }
