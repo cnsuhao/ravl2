@@ -15,7 +15,8 @@ HEADERS=Canvas.hh RawZoomCanvas.hh
 SOURCES=Canvas.cc RawCanvas2d.cc RawZoomCanvas.cc
 #Graph1d.cc
 
-MAINS=exRawZoomCanvas.cc
+MAINS=
+#exRawZoomCanvas.cc
 
 PLIB=RavlGUI2D
 
