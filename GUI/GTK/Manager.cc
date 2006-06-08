@@ -185,10 +185,11 @@ namespace RavlGUIN {
   void ManagerC::Init(int &nargs,char *args[])  {
     ONDEBUG(cerr << "ManagerC::Init(), Called. \n");
     RavlAssert(!initCalled); // Init should only be called once.
+    if(!g_thread_supported ()) {
+      g_thread_init(0);
+      gdk_threads_init();
+    }
     
-    g_thread_init(0);
-    gdk_threads_init();
-
 #if  RAVL_USE_GTKTHREADS
     // In theory no other threads should be running yet so the following
     // lock is not nessary.
