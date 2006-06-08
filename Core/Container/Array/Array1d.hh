@@ -328,7 +328,7 @@ namespace RavlN {
     // is returned.
 
     bool SetIMin(IndexC imin) {
-      if(imin < (buff.ReferenceElm() - this->ReferenceElm()))
+      if(imin.V() < (buff.ReferenceElm() - this->ReferenceElm()))
 	return false;
       this->range.Min() = imin;
       return true;
