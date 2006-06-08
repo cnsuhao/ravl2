@@ -9,7 +9,7 @@
 
 PACKAGE=Ravl/Logic
 
-MAINS=testNonLinearPlanner.cc
+MAINS=
 
 HEADERS=NLPCausalLink.hh NLPStep.hh NLPAgendaItem.hh NLPAction.hh NLPAgenda.hh \
  NonLinearPlan.hh NLPTypes.hh NLPlanner.hh
