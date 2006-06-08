@@ -283,7 +283,10 @@ namespace RavlN {
     MatrixC invCov = Covariance().Inverse();
     // Check if the matrix could not be inverted
     if (invCov.Cols() != vec.Size()) {
-      cerr << "MeanCovarianceC::MahalanobisDistance, WARNING: Failed to invert matrix. \n";
+      if (invCov.Cols() == 0)
+        cerr << "MeanCovarianceC::MahalanobisDistance, WARNING: Failed to invert covariance matrix. \n";
+      else
+        cerr << "MeanCovarianceC::MahalanobisDistance, WARNING: Vector size did not match that of covariance matrix.\n";
       RealT zero = 0.0;
       return 1.0/zero; // Positive infinity.
     }
