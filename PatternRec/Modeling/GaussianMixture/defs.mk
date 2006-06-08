@@ -11,7 +11,9 @@ DESCRIPTION = Gaussian Mixture Modelling
 
 PACKAGE = Ravl/PatternRec
 
-MAINS=testGaussianMixture.cc 
+MAINS=
+
+TESTEXES=testGaussianMixture.cc 
 
 HEADERS=GaussianMixture.hh DesignGaussianMixture.hh
 
