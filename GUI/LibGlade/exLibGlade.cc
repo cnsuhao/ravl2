@@ -38,7 +38,7 @@ bool OnQuit()
 int main(int nargs,char **argv) {
   Manager.Init(nargs,argv);
   OptionC opts(nargs,argv);
-  StringC xmlfile = opts.String("f","exlibglade.glade","Interface description file. ");
+  StringC xmlfile = opts.String("f",PROJECT_OUT "/share/RAVL/Glade/exlibglade.glade","Interface description file. ");
   opts.Check();
   
   cerr << "Create widgets. \n";

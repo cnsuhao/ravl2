@@ -19,8 +19,8 @@ PLIB= RavlLibGlade
 
 USESLIBS= RavlGUI libglade
 
-AUXFILES= libglade.def
+AUXFILES= exlibgladecustommain.glade  exlibgladecustomwidget.glade  exlibglade.glade
 
-AUXDIR=lib/RAVL/libdep
+AUXDIR=share/RAVL/Glade
 
 EXAMPLES= exLibGlade.cc exLibGladeCustom.cc

@@ -28,7 +28,7 @@ public:
     m_signal(true)    
   {
     // Demonstrate deferred GladeXML set
-    SetXML(GladeXMLC("exlibgladecustomwidget.glade"));
+    SetXML(GladeXMLC(PROJECT_OUT "/share/RAVL/Glade/exlibgladecustomwidget.glade"));
   }
   //: Constructor.
   
@@ -125,7 +125,7 @@ int main(int nargs,char **argv) {
   cerr << "Create widgets." << endl;
 
   // Create the main window
-  GladeXMLC glade("exlibgladecustommain.glade");
+  GladeXMLC glade(PROJECT_OUT "/share/RAVL/Glade/exlibgladecustommain.glade");
   GladeWidgetC mainWindow(glade, "window1");
   Connect(mainWindow.Signal("delete_event"), &OnQuit);
 
