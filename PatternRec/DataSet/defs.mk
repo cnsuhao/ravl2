@@ -30,7 +30,7 @@ EXAMPLES = exSample.cc exSampleStream.cc
 
 TESTEXES=testDataSet.cc
 
-USESLIBS=RavlCore RavlMath RavlOSIO RavlIO
+USESLIBS=RavlCore RavlMath RavlOSIO RavlIO fann
 
 PROGLIBS=RavlOS
 

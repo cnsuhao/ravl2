@@ -21,7 +21,7 @@ LIBDEPS = RavlPatternRecPerformance.def
 
 TESTEXES=
 
-USESLIBS=Auto
+USESLIBS= RavlPatternRec
 
 EHT = 
 
