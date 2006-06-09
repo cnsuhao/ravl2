@@ -67,9 +67,12 @@ namespace RavlN {
     bool RdLock(void) { 
       IntT ret;
       errno = 0;
+      RavlAssert(isValid);
       do {
-	if((ret = pthread_rwlock_rdlock(&id)) == 0)
+	if((ret = pthread_rwlock_rdlock(&id)) == 0) {
+          RavlAssert(isValid);
 	  return true;
+        }
       } while(errno == EINTR || ret == EINTR) ;
       Error("Failed to get RdLock",ret);
       return false;
@@ -83,25 +86,35 @@ namespace RavlN {
     bool WrLock(void) { 
       IntT ret;
       errno = 0;
+      RavlAssert(isValid);
       do {
-	if((ret = pthread_rwlock_wrlock(&id)) == 0)
+	if((ret = pthread_rwlock_wrlock(&id)) == 0) {
+          RavlAssert(isValid);
 	  return true;
+        }
       } while(errno == EINTR || ret == EINTR) ;	
+      RavlAssert(isValid);
       Error("Failed to get WrLock",ret);
       return false;
     }
     //: Get a write lock.
     
-    bool TryWrLock(void) 
-    { return (pthread_rwlock_trywrlock(&id) == 0); }
+    bool TryWrLock(void) {
+      RavlAssert(isValid);      
+      return (pthread_rwlock_trywrlock(&id) == 0); 
+    }
     //: Try and get a write lock.
     
-    bool UnlockWr(void) 
-    { return (pthread_rwlock_unlock(&id) == 0); }
+    bool UnlockWr(void) { 
+      RavlAssert(isValid);      
+      return (pthread_rwlock_unlock(&id) == 0); 
+    }
     //: Unlock write lock.
     
-    bool UnlockRd(void)
-    { return (pthread_rwlock_unlock(&id) == 0); }
+    bool UnlockRd(void) { 
+      RavlAssert(isValid);      
+      return (pthread_rwlock_unlock(&id) == 0); 
+    }
     //: Unlock read lock.
     
   private:
@@ -110,6 +123,7 @@ namespace RavlN {
     //: Dissable copy constructor.
     
     pthread_rwlock_t id;
+    bool isValid; // Flag a valid lock. Used for debugging.
   };
 
 #else

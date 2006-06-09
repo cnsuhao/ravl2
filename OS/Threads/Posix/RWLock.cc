@@ -20,10 +20,13 @@ namespace RavlN
   
   //: Constructor.
   
-  RWLockC::RWLockC() { 
+  RWLockC::RWLockC() 
+    : isValid(false)
+  {
     int ret = pthread_rwlock_init(&id,0); 
     if(ret != 0)
       Error("RWLockC::RWLockC, Init failed ",ret);
+    else isValid = true;
   }
   
   // Destructor.
@@ -33,6 +36,7 @@ namespace RavlN
     // This could fail if lock is held.
     while(pthread_rwlock_destroy(&id) && x-- > 0)
       OSYield();
+    isValid = false;
     if(x == 0) 
       cerr << "WARNING: Failed to destory RWLock. \n";
   }
