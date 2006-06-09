@@ -103,40 +103,55 @@ namespace RavlN {
 
   //: Checks for equals assignment
   bool TimeCodeC::operator==(const TimeCodeC &in) const {
-    return (m_liFrame == in.m_liFrame);
+    if (frameRate == in.FrameRate())
+      return (m_liFrame == in.m_liFrame);
+    else
+      return (m_liFrame*in.FrameRate() == in.m_liFrame*frameRate);
   }
   
   
   //: Checks for not equals assignment
   bool TimeCodeC::operator!=(const TimeCodeC &in) {
-    return (m_liFrame != in.m_liFrame);
+    if (frameRate == in.FrameRate())
+      return (m_liFrame != in.m_liFrame);
+    else
+      return (m_liFrame*in.FrameRate() != in.m_liFrame*frameRate);
   }
 
 
   //: Checks if timecode smaller than input timecode
   bool TimeCodeC::operator<(const TimeCodeC &in) const {
-    return (m_liFrame < in.m_liFrame);
+    if (frameRate == in.FrameRate())
+      return (m_liFrame < in.m_liFrame);
+    else
+      return (m_liFrame*in.FrameRate() < in.m_liFrame*frameRate);
   }
   
   
   //: Checks if timecode is bigger than input
   bool TimeCodeC::operator>(const TimeCodeC &in) const {
-    if(m_liFrame > in.m_liFrame) return true;
-    return false;
+    if (frameRate == in.FrameRate())
+      return (m_liFrame > in.m_liFrame);
+    else
+      return (m_liFrame*in.FrameRate() > in.m_liFrame*frameRate);
   }
   
   
   //: Checks if timecode is bigger or equal to input
   bool TimeCodeC::operator<=(const TimeCodeC &in) const {
-    if(m_liFrame <= in.m_liFrame) return true;
-    return false;
+    if (frameRate == in.FrameRate())
+      return (m_liFrame <= in.m_liFrame);
+    else
+      return (m_liFrame*in.FrameRate() <= in.m_liFrame*frameRate);
   }
   
   
   //: Checks if timecode is smaller or equal to input
   bool TimeCodeC::operator>=(const TimeCodeC &in) const {
-    if(m_liFrame >= in.m_liFrame) return true;
-    return false;
+    if (frameRate == in.FrameRate())
+      return (m_liFrame >= in.m_liFrame);
+    else
+      return (m_liFrame*in.FrameRate() >= in.m_liFrame*frameRate);
   }
   
   
