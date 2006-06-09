@@ -44,6 +44,12 @@ namespace RavlN {
 #if RAVL_HAVE_STRINGSTREAM
   static bool CallUserTrigger(ostringstream *oss,TriggerC &trigger) {
     CallFunc1C<const char *> call(trigger);
+    // Make sure there's a null terminator
+#if RAVL_COMPILER_VISUALCPP
+    // Make sure there's a null terminator
+    char term = 0;
+    oss->write(&term,1);
+#endif
     string str = oss->str();
     const char *data = str.data(); 
     if(call.IsValid())
@@ -55,6 +61,11 @@ namespace RavlN {
 #else
   static bool CallUserTrigger(ostrstream *oss,TriggerC &trigger) {
     CallFunc1C<const char *> call(trigger);
+#if RAVL_COMPILER_VISUALCPP
+    // Make sure there's a null terminator
+    char term = 0;
+    oss->write(&term,1);
+#endif
     const char *data = &(oss->str()[0]);  
     if(call.IsValid())
       call.Call(data);
