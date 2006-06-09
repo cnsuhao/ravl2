@@ -34,7 +34,7 @@ namespace RavlN {
   StrOStreamC::StrOStreamC()
     :
 #if RAVL_HAVE_STRINGSTREAM
-    OStreamC(*(oss = new ostringstream()),true)
+  OStreamC(*(oss = new ostringstream(ostringstream::binary)),true)
 #else
     OStreamC(*(oss = new ostrstream()),true)
 #endif
@@ -127,7 +127,7 @@ namespace RavlN {
   StrIStreamC::StrIStreamC(const StringC &dat)
     :
 #if RAVL_HAVE_STRINGSTREAM
-    IStreamC(*(iss = new istringstream(string(dat.chars(),dat.length()))),true),
+  IStreamC(*(iss = new istringstream(string(dat.chars(),dat.length()),istringstream::binary)),true),
 #else
 #if RAVL_COMPILER_VISUALCPP
     IStreamC(*(iss = new istrstream(const_cast<char *>(dat.chars()),dat.length())),true),
