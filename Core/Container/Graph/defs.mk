@@ -24,7 +24,7 @@ PLIB=RavlCore
 
 LIBDEPS=RavlGraph.def
 
-TESTEXES= testGraph.cc testTHEMesh.cc
+TESTEXES= testGraph.cc # testTHEMesh.cc
 
 EXAMPLES=exGraph.cc
 
