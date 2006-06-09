@@ -60,6 +60,7 @@ namespace RavlImageN {
     : maam(saam)
   {
     EyeCentresInit(exampleFile);
+    IrisCentresInit(exampleFile);
     TemplatesInit();
   }
 
@@ -72,6 +73,7 @@ namespace RavlImageN {
     : maam(saam)
   {
     EyeCentresInit(exampleFile);
+    IrisCentresInit(exampleFile);
     TemplatesInit(tpDir);
   }
 
@@ -92,6 +94,28 @@ namespace RavlImageN {
         leftEyeIDs.InsLast(feat.TypeID()-1);
       else if(feat.Description().contains("Right Outer Eye-0") || feat.Description().contains("Right Outer Eye-4"))
         rightEyeIDs.InsLast(feat.TypeID()-1);
+    }
+
+    return true;
+  }
+
+  //: Sets parameters 'leftIrisIDs' and 'rightIrisIDs' for locating centres of the eyes.
+  bool AAMFaceLocalisationBodyC::IrisCentresInit(FilenameC exampleFile)
+  {
+    // determine mark-ups related to the inner eye for iris centre estimation
+    // Warning: left and right sides have been swapped in mark-up file
+    // i.e. the true left eye is called right because appears on the right handside in the image and vice versa
+    ImagePointFeatureSetC fs;
+    if(!Load(exampleFile,fs)) {
+      cerr << "WARNING: Failed to load file ' featureSet File \n";
+      return  1;
+    }
+    for(HashIterC<IntT, ImagePointFeatureC> it(fs.FeatureIterator());it;it++ ) {
+      ImagePointFeatureC feat= it.Data();
+      if(feat.Description().contains("Left Inner Eye"))
+        leftIrisIDs.InsLast(feat.TypeID()-1);
+      else if(feat.Description().contains("Right Inner Eye"))
+        rightIrisIDs.InsLast(feat.TypeID()-1);
     }
 
     return true;
@@ -175,12 +199,49 @@ namespace RavlImageN {
     return true;
   }
 
+  bool AAMFaceLocalisationBodyC::GetIrisCentres(const AAMAppearanceC &app, PairC<Point2dC> &irisCentres) const
+  {
+    return GetIrisCentres(app.Points(), irisCentres);
+  }
+
+  bool AAMFaceLocalisationBodyC::GetIrisCentres(const SArray1dC<Point2dC> &points, PairC<Point2dC> &irisCentres) const
+  {
+    // get the iris centres positions
+    Point2dC leftIris(0.0,0.0), rightIris(0.0,0.0);
+
+    for(DLIterC<IntT>It(leftIrisIDs);It.IsElm();It.Next())
+      leftIris += points[It.Data()];
+    leftIris /= (RealT) leftIrisIDs.Size();
+
+    for(DLIterC<IntT>It(rightIrisIDs);It.IsElm();It.Next())
+      rightIris += points[It.Data()];
+    rightIris /= (RealT) rightIrisIDs.Size();
+
+    irisCentres = PairC<Point2dC>(leftIris, rightIris);
+
+    return true;
+  }
+
   //: Multi-resolution AAM search algorithm.
   //!param: inImage - Input image.
   //!param: eyeCentres - Estimate of the position of the centre of the eyes.
   //!param: resAppear - Output appearance fitted to the image.
   //!param: useAM - Synthesize texture using appearance model? Yes = true. If set to false the texture of the appearance image is obtained from the input image, i.e. the search algorithm is used only to find the location of the feature points defining the shape.
   bool AAMFaceLocalisationBodyC::FitModel(const ImageC<ByteT> &inImage, const PairC<Point2dC> &eyeCentres, AAMAppearanceC &resAppear, bool useAM) const
+  {
+    ImageC<RealT> rImage(inImage.Frame());
+    for(Array2dIter2C<RealT,ByteT> it(rImage,inImage);it;it++)
+      it.Data1() = (RealT) it.Data2();
+
+    return FitModel(rImage, eyeCentres, resAppear, useAM);
+  }
+
+  //: Multi-resolution AAM search algorithm.
+  //!param: inImage - Input image.
+  //!param: eyeCentres - Estimate of the position of the centre of the eyes.
+  //!param: resAppear - Output appearance fitted to the image.
+  //!param: useAM - Synthesize texture using appearance model? Yes = true. If set to false the texture of the appearance image is obtained from the input image, i.e. the search algorithm is used only to find the location of the feature points defining the shape.
+  bool AAMFaceLocalisationBodyC::FitModel(const ImageC<RealT> &inImage, const PairC<Point2dC> &eyeCentres, AAMAppearanceC &resAppear, bool useAM) const
   {
 
     Point2dC leftEyeI = eyeCentres.Data1();

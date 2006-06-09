@@ -20,6 +20,7 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/RCHash.hh"
 #include "Ravl/PatternRec/Sample.hh"
+#include "Ravl/Array2dIter2.hh"
 
 namespace RavlImageN {
 
@@ -35,6 +36,16 @@ namespace RavlImageN {
     AAMAppearanceC()
     {}
     //: Default constructor.
+
+    AAMAppearanceC(const SArray1dC<Point2dC> &npoints,const ImageC<RealT> &img)
+      : points(npoints)
+    {
+      image = ImageC<ByteT>(img.Frame());
+      for(Array2dIter2C<ByteT,RealT> it(image,img);it;it++)
+        it.Data1() = (ByteT) it.Data2();
+    }
+    //: Constructor.
+    //  Creates an appearance made of image 'img' and control points 'npoints'.
 
     AAMAppearanceC(const SArray1dC<Point2dC> &npoints,const ImageC<ByteT> &img)
       : points(npoints),

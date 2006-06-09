@@ -74,6 +74,11 @@ namespace RavlImageN {
     //  The optimum parameters are the ones which minimise the residual error between model and image measured in normalised texture frame (i.e. shape free images).
     // This function also returns the value of the corresponding residual error in 'diff'.
 
+    VectorC RefinePose(const ImageC<RealT> &img,const VectorC &paramEstimate, RealT &diff) const;
+    //: Returns the optimum appearance parameters for the image 'img' given an initial estimate 'paramEstimate'.
+    //  The optimum parameters are the ones which minimise the residual error between model and image measured in normalised texture frame (i.e. shape free images).
+    // This function also returns the value of the corresponding residual error in 'diff'.
+
   protected:
     SampleC<AAMActiveAppearanceModelC> maam;  // Multi-resolution active appearance model.
   };
@@ -167,6 +172,12 @@ namespace RavlImageN {
     // Return number of levels in the multi-resolution AAM.
 
     VectorC RefinePose(const ImageC<ByteT> &img,const VectorC &paramEstimate, RealT &diff) const
+    { return Body().RefinePose(img, paramEstimate, diff); }
+    //: Returns the optimum appearance parameters for the image 'img' given an initial estimate 'paramEstimate'.
+    //  The optimum parameters are the ones which minimise the residual error between model and image measured in normalised texture frame (i.e. shape free images).
+    // This function also returns the value of the corresponding residual error in 'diff'.
+
+    VectorC RefinePose(const ImageC<RealT> &img,const VectorC &paramEstimate, RealT &diff) const
     { return Body().RefinePose(img, paramEstimate, diff); }
     //: Returns the optimum appearance parameters for the image 'img' given an initial estimate 'paramEstimate'.
     //  The optimum parameters are the ones which minimise the residual error between model and image measured in normalised texture frame (i.e. shape free images).

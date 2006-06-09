@@ -46,6 +46,13 @@ namespace RavlImageN {
     //!param: resAppear - Output appearance fitted to the image.
     //!param: useAM - Synthesize texture using appearance model? Yes = true. If set to false the texture of the appearance image is obtained from the input image, i.e. the search algorithm is used only to find the location of the feature points defining the shape.
 
+    bool FitModel(const ImageC<RealT> &inImage, const PairC<Point2dC> &eyeCentres, AAMAppearanceC &resAppear, bool useAM = false) const;
+    //: Multi-resolution AAM search algorithm.
+    //!param: inImage - Input image.
+    //!param: eyeCentres - Estimate of the position of the centre of the eyes.
+    //!param: resAppear - Output appearance fitted to the image.
+    //!param: useAM - Synthesize texture using appearance model? Yes = true. If set to false the texture of the appearance image is obtained from the input image, i.e. the search algorithm is used only to find the location of the feature points defining the shape.
+
     const AAMMultiResActiveAppearanceModelC &MultiResActiveAppearanceModel() const
     { return maam; }
     //: Get multi-resolution active appearance model.
@@ -63,16 +70,33 @@ namespace RavlImageN {
     //: Return coordinates of the eye centres 'eyeCentres' for the appearance defined by 'app'.
     //  This function computes the coordinates of the eye centres from the position of the other feature points.
     //  The eye centre is defined as the midpoint of the segment defined by the left and right corners of the outer contour of the eye.
+    //  The eye centre IS NOT gaze-dependent.
 
     bool GetEyeCentres(const SArray1dC<Point2dC> &points, PairC<Point2dC> &eyeCentres) const;
     //: Return coordinates of the eye centres 'eyeCentres' for the appearance with feature points 'points'.
     //  This function computes the coordinates of the eye centres from the position of the other feature points.
     //  The eye centre is defined as the midpoint of the segment defined by the left and right corners of the outer contour of the eye.
+    //  The eye centre IS NOT gaze-dependent.
+
+    bool GetIrisCentres(const AAMAppearanceC &app, PairC<Point2dC> &irisCentres) const;
+    //: Return coordinates of the iris centres 'irisCentres' for the appearance defined by 'app'.
+    //  This function computes the coordinates of the iris centres from the position of the other feature points.
+    //  The iris centre is defined as the centroid of the corners defining the inner contour of the eye.
+    //  The iris centre IS gaze-dependent.
+
+    bool GetIrisCentres(const SArray1dC<Point2dC> &points, PairC<Point2dC> &irisCentres) const;
+    //: Return coordinates of the iris centres 'irisCentres' for the appearance with feature points 'points'.
+    //  This function computes the coordinates of the iris centres from the position of the other feature points.
+    //  The iris centre is defined as the centroid of the corners defining the inner contour of the eye.
+    //  The iris centre is gaze-dependent.
 
   protected:
 
     bool EyeCentresInit(FilenameC exampleFile);
     //: Sets parameters 'leftEyeIDs' and 'rightEyeIDs' for locating centres of the eyes.
+
+    bool IrisCentresInit(FilenameC exampleFile);
+    //: Sets parameters 'leftIrisIDs' and 'rightIrisIDs' for locating centres of the eyes.
 
     bool TemplatesInit(FilenameC tpDir = "");
     //: Sets list of initiliasation 'initialisationList' for AAM search.
@@ -86,6 +110,8 @@ namespace RavlImageN {
     DListC<Tuple2C<SArray1dC<Point2dC>, PairC<Point2dC> > > initialisationList;  // List of initialisations for AAM search.
     DListC<IntT> leftEyeIDs;  // Indices of the feature points used to locate the centre of the left eye.
     DListC<IntT> rightEyeIDs;  // Indices of the feature points used to locate the centre of the right eye.
+    DListC<IntT> leftIrisIDs;  // Indices of the feature points used to locate the centre of the left iris.
+    DListC<IntT> rightIrisIDs;  // Indices of the feature points used to locate the centre of the right iris.
   };
 
 
@@ -149,17 +175,41 @@ namespace RavlImageN {
     //!param: resAppear - Output appearance fitted to the image.
     //!param: useAM - Synthesize texture using appearance model? Yes = true. If set to false the texture of the appearance image is obtained from the input image, i.e. the search algorithm is used only to find the location of the feature points defining the shape.
 
+    bool FitModel(const ImageC<RealT> &inImage, const PairC<Point2dC> &eyeCentres, AAMAppearanceC &resAppear, bool useAM = false) const
+    {  return Body().FitModel(inImage, eyeCentres, resAppear, useAM); }
+    //: Multi-resolution AAM search algorithm.
+    //!param: inImage - Input image.
+    //!param: eyeCentres - Estimate of the position of the centre of the eyes.
+    //!param: resAppear - Output appearance fitted to the image.
+    //!param: useAM - Synthesize texture using appearance model? Yes = true. If set to false the texture of the appearance image is obtained from the input image, i.e. the search algorithm is used only to find the location of the feature points defining the shape.
+
     bool GetEyeCentres(const AAMAppearanceC &app, PairC<Point2dC> &eyeCentres) const
     {  return Body().GetEyeCentres(app, eyeCentres); }
     //: Return coordinates of the eye centres 'eyeCentres' for the appearance defined by 'app'.
     //  This function computes the coordinates of the eye centres from the position of the other feature points.
     //  The eye centre is defined as the midpoint of the segment defined by the left and right corners of the outer contour of the eye.
+    //  The eye centre IS NOT gaze-dependent.
 
     bool GetEyeCentres(const SArray1dC<Point2dC> &points, PairC<Point2dC> &eyeCentres) const
     {  return Body().GetEyeCentres(points, eyeCentres); }
     //: Return coordinates of the eye centres 'eyeCentres' for the appearance with feature points 'points'.
     //  This function computes the coordinates of the eye centres from the position of the other feature points.
     //  The eye centre is defined as the midpoint of the segment defined by the left and right corners of the outer contour of the eye.
+    //  The eye centre IS NOT gaze-dependent.
+
+    bool GetIrisCentres(const AAMAppearanceC &app, PairC<Point2dC> &irisCentres) const
+    {  return Body().GetIrisCentres(app, irisCentres); }
+    //: Return coordinates of the iris centres 'irisCentres' for the appearance defined by 'app'.
+    //  This function computes the coordinates of the iris centres from the position of the other feature points.
+    //  The iris centre is defined as the centroid of the corners defining the inner contour of the eye.
+    //  The iris centre IS gaze-dependent.
+
+    bool GetIrisCentres(const SArray1dC<Point2dC> &points, PairC<Point2dC> &irisCentres) const
+    {  return Body().GetIrisCentres(points, irisCentres); }
+    //: Return coordinates of the iris centres 'irisCentres' for the appearance with feature points 'points'.
+    //  This function computes the coordinates of the iris centres from the position of the other feature points.
+    //  The iris centre is defined as the centroid of the corners defining the inner contour of the eye.
+    //  The iris centre is gaze-dependent.
 
     const AAMMultiResActiveAppearanceModelC &MultiResActiveAppearanceModel() const
     { return Body().MultiResActiveAppearanceModel(); }

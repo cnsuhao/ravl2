@@ -1,6 +1,6 @@
 //! rcsid="$Id$"
 //! lib=RavlAAM
-//! file="Ravl/CompVision/ActiveAppearanceModels/aamSynthesizeFrontal.hh"
+//! file="Ravl/CompVision/ActiveAppearanceModels/aamLocaliseFace.hh"
 //! docentry="Ravl.API.Images.AAM"
 //! userlevel="Normal"
 //! author="Jean-Yves Guillemaut"
@@ -37,6 +37,8 @@
 #include "Ravl/Image/GaussConvolve2d.hh"
 #include "Ravl/Image/HistogramEqualise.hh"
 #include "Ravl/Polygon2d.hh"
+#include "Ravl/DList.hh"
+#include "Ravl/DLIter.hh"
 
 #include "Ravl/Image/ImagePointFeatureSet.hh"
 #include "Ravl/Image/AAMAppearance.hh"
@@ -52,7 +54,7 @@ using namespace RavlImageN;
 
 
 //: Localise face features in an image.
-//  This program uses an multi-resolution Active Appearance Model to localise a face in an arbitrary pose in an input image. The input image to be processed are located in the directory defined by the option -d and are specified either by providing a list of file names (option "-l") or by providing the extension of the image files (option "-e"). The location of the face is semi-automatic in the sense that the AAM search must be initialised with the coordinates of the eyes centre (option -gtd). The convergence of the AAM may be difficult in the case of large pose variations; for this reason it is possible to specify several possible shapes for initialisation (option -tf), typically these initialisation correspond to different poses such as subject looking left, right, up or down. The multi-resolution AAM can consist of up to 5 levels sorted in increasing order of resolution and specified using the option -aam1, -aam2, -aam3, -aam4 and -aam5. For more information type "aamLocaliseFace -help".
+//  This program uses an multi-resolution Active Appearance Model to localise a face in an arbitrary pose in an input image. The input image to be processed are located in the directory defined by the option -d and are specified either by providing a list of file names (option "-l") or by providing the extension of the image files (option "-e"). The location of the face is semi-automatic in the sense that the AAM search must be initialised with the coordinates of the eyes centre (option -gtd). The convergence of the AAM may be difficult in the case of large pose variations; for this reason it is possible to specify several possible shapes for initialisation (option -tf), typically these initialisation correspond to different poses such as subject looking left, right, up or down. The multi-resolution AAM consists of an arbitrary number of AAMs sorted in order of increasing resolution. For more information type "aamLocaliseFace -help".
 int main (int argc, char** argv)
 {
   OptionC cmd(argc,argv);
@@ -61,14 +63,9 @@ int main (int argc, char** argv)
   StringC ext = cmd.String("e","ppm","Extention to search for image files (needed only if no list is provided, i.e. option -l is set to empty string \"\").");
   FilenameC GTDir = cmd.String("gtd","/vol/vssp/vampire/people/jean-yves/appmodel/eyeGT/nonfrontal/", "Directory containing ground truth eye positions to initialise search.");
   FilenameC tpDir = cmd.String("tf","/vol/vssp/vampire/people/jean-yves/appmodel/template5/", "Directory containing shape initialisation files for AAM search.");
-  FilenameC xmlList = cmd.String("xl","", "Input file containing list of xml file names (only needed if xml and image names are labelled differently apart from extension).");
   StringC ip = cmd.String("i","/vol/vssp/vampire/people/jean-yves/appmodel/models/pose_sm_all_half1_100x88m98_98_98.abs","Input statistical model of pose variation.");
   bool useAM = cmd.Boolean("uam",false,"Synthesize texture of corrected image using appearance model if true, otherwise compute texture by warping of the original image.");
-  StringC aamFile1 = cmd.String("aam1","/vol/vssp/vampire/people/jean-yves/appmodel/models/aam_all_half1_50x44m98_98_95.abs" ,"AAM file 1 (files must be sorted in order of increasing resolution, level 1 corresponding to the lowest resolution, unused levels can be left empty).");
-  StringC aamFile2 = cmd.String("aam2","/vol/vssp/vampire/people/jean-yves/appmodel/models/aam_all_half1_100x88m98_98_95.abs" ,"AAM file 2 (files must be sorted in order of increasing resolution, level 1 corresponding to the lowest resolution, unused levels can be left empty).");
-  StringC aamFile3 = cmd.String("aam3","/vol/vssp/vampire/people/jean-yves/appmodel/models/aam_all_half1_100x88m98_98_98.abs" ,"AAM file 3 (files must be sorted in order of increasing resolution, level 1 corresponding to the lowest resolution, unused levels can be left empty).");
-  StringC aamFile4 = cmd.String("aam4","" ,"AAM file 4 (files must be sorted in order of increasing resolution, level 1 corresponding to the lowest resolution, unused levels can be left empty).");
-  StringC aamFile5 = cmd.String("aam5","" ,"AAM file 5 (files must be sorted in order of increasing resolution, level 1 corresponding to the lowest resolution, unused levels can be left empty).");
+  DListC<StringC> aamList  = cmd.List("aam", "List of AAM sorted in order of increasing resolution.");
   FilenameC  exampleFile = cmd.String("ex","/vol/vssp/vampire/people/jean-yves/appmodel/markup/frontal/000_1_1_000.xml", "Example of markup file representing an appearance (required to identify which feature points are associated to the eyes).");
   Index2dC imageSize = cmd.Index2d("os",55,51,"Dimensions of the normalised output image.");
   Point2dC leftEyePos = cmd.Point2d("le",19.0,38.0,"Coordinates of the left eye in the normalised output image.");
@@ -82,43 +79,11 @@ int main (int argc, char** argv)
 
   SampleC<AAMActiveAppearanceModelC> saam;
 
-  // load appearance models
-  if(!aamFile1.IsEmpty()){
+  for(DLIterC<StringC>it(aamList);it;it++) {
+    // load list of appearance models
     AAMActiveAppearanceModelC aam;
-    if(!Load(aamFile1,aam)) {
-      cerr << "Failed to load model from '" << aamFile1 << "' \n";
-      return 1;
-    }
-    saam.Append(aam);
-  }
-  if(!aamFile2.IsEmpty()){
-    AAMActiveAppearanceModelC aam;
-    if(!Load(aamFile2,aam)) {
-      cerr << "Failed to load model from '" << aamFile2 << "' \n";
-      return 1;
-    }
-    saam.Append(aam);
-  }
-  if(!aamFile3.IsEmpty()){
-    AAMActiveAppearanceModelC aam;
-    if(!Load(aamFile3,aam)) {
-      cerr << "Failed to load model from '" << aamFile3 << "' \n";
-      return 1;
-    }
-    saam.Append(aam);
-  }
-  if(!aamFile4.IsEmpty()){
-    AAMActiveAppearanceModelC aam;
-    if(!Load(aamFile4,aam)) {
-      cerr << "Failed to load model from '" << aamFile4 << "' \n";
-      return 1;
-    }
-    saam.Append(aam);
-  }
-  if(!aamFile5.IsEmpty()){
-    AAMActiveAppearanceModelC aam;
-    if(!Load(aamFile5,aam)) {
-      cerr << "Failed to load model from '" << aamFile5 << "' \n";
+    if(!Load(it.Data(),aam)) {
+      cerr << "Failed to load model from '" << it.Data() << "' \n";
       return 1;
     }
     saam.Append(aam);
@@ -165,9 +130,6 @@ int main (int argc, char** argv)
     // Generate multi-resolution AAM
     AAMMultiResActiveAppearanceModelC maam = FaceLoc.MultiResActiveAppearanceModel();
 
-    // load markup file (note that the markup file is used ONLY to check whether the image is suspect or not)
-    StringC posFileName = GTDir+fileRoot+".pos";
-
     // load current image
     Load(imDir+fileList.Nth(i),inImage);
     if(verbose) {
@@ -175,6 +137,7 @@ int main (int argc, char** argv)
     }
 
     // load GT eye centres to initialise search
+    StringC posFileName = GTDir+fileRoot+".pos";
     IStreamC fin(posFileName);
     fin >> leftEyeI >> rightEyeI;
 
