@@ -176,7 +176,7 @@ namespace RavlN {
     //: Set first edge.
     
     UIntT Hash() const
-    { return StdHash(reinterpret_cast<const void *>(body)); }
+    { return StdHash(static_cast<const void *>(body)); }
     //: Hash value for handle.
     
     bool operator==(const HEMeshBaseFaceC &oth) const
