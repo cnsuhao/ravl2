@@ -105,9 +105,10 @@ namespace RavlN
   
   void MutexC::Error(const char *msg,int anerrno,int rc) {
 #if RAVL_COMPILER_VISUALCPPNET_2005
-	 char buff[1024];
-	 strerror_s(buff,1024,anerrno);
-     cerr << "MutexC::Error() err=" << anerrno << " (" << buff << ") : " << msg << " \n";
+    char buff[1024];
+    strerror_s(buff,1024,anerrno);
+    cerr << "MutexC::Error() err=" << anerrno << " (" << buff << ") : " << msg << " \n";
+    RavlAlwaysAssert(0);
 #else
     cerr << "MutexC::Error() err=" << anerrno << " (" << strerror(anerrno) << ") : " << msg << " \n";
     cerr << "MutexC::Error()  rc=" << rc << " (" << strerror(rc) << ") \n";
@@ -118,24 +119,25 @@ namespace RavlN
   
   //: Destructor.
   MutexC::~MutexC() { 
-#if RAVL_HAVE_POSIX_THREADS
     ONDEBUG(cerr << "MutexC::~MutexC(), Destroying mutex. (@:" << ((void*) this) << ")\n");
     int maxRetry = 100;
     while(--maxRetry > 0) {
       if(TryLock()) { // Try get an exclusive lock.
 	Unlock(); // Unlock... and destroy.
+#if RAVL_HAVE_POSIX_THREADS
 	if(pthread_mutex_destroy(&mutex) == 0)
 	  break; // It worked ok..
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+        if(CloseHandle(mutex)) 
+          break;
+        cerr << "WARNING: MutexC::~MutexC(), destroy failed. " << GetLastError() << "\n";   
+#endif
       }
       OSYield();
     }
     if(maxRetry <= 0)
       cerr << "WARNING: MutexC::~MutexC(), destroy failed. \n";
-#endif
-#if RAVL_HAVE_WIN32_THREADS
-    if(!CloseHandle(mutex))
-      cerr << "WARNING: MutexC::~MutexC(), destroy failed. " << GetLastError() << "\n";
-#endif    
   }
   
 #if !RAVL_USE_INLINEMUTEXCALLS  
