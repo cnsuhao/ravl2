@@ -118,7 +118,7 @@ int testTwistEdge() {
   
   mesh.InsertFace(tempFace2,edgeTab); // Insert initial face.
   
-  cerr << "Checking initial mesh. \n";
+  cerr << "Checking initial mesh.  EdgeTabSize=" << edgeTab.Size() << "\n";
   if(!mesh.CheckMesh(true)) return __LINE__;
   
   HEMeshBaseEdgeC edge = edgeTab[Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC>(tempFace1[1],tempFace1[2])];

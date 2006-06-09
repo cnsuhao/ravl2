@@ -313,7 +313,7 @@ namespace RavlN {
     //: Access vertex this edge comes from.
     
     UIntT Hash() const
-	{ return StdHash(reinterpret_cast<const void *>(this)); }
+    { return StdHash(static_cast<const void *>(body)); }
     //: Hash value for handle.
     
     bool operator==(const HEMeshBaseEdgeC &oth) const

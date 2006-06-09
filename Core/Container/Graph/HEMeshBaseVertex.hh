@@ -160,9 +160,9 @@ namespace RavlN {
     bool operator!=(const HEMeshBaseVertexBodyC &vert) const
     { return body != &vert; }
     //: Is this a handle to the vertex.
-	
+    
     UIntT Hash() const 
-	{ return StdHash(reinterpret_cast<const void *>(this)); }
+    { return StdHash(static_cast<const void *>(body)); }
     //: Hash value for handle.
     
     bool operator==(const HEMeshBaseVertexC &oth) const
