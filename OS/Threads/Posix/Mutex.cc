@@ -29,6 +29,7 @@
 #if RAVL_HAVE_WIN32_THREADS
 #include <windows.h>
 #include <conio.h>
+#include "Ravl/OS/Date.hh"
 #endif
 
 namespace RavlN
@@ -37,11 +38,13 @@ namespace RavlN
   //: Default constructor.
   
   MutexC::MutexC() 
+    : isValid(false)
   { Init(false); }
   
   //: Constructor.
   
   MutexC::MutexC(bool recursive) 
+    : isValid(false)
   { Init(recursive); }
   
   //: Setup mutex.
@@ -83,8 +86,12 @@ namespace RavlN
 	throw ExceptionOperationFailedC("ERROR: Recursive mutex's not available. ");
     }
     int rc;
-    if((rc = pthread_mutex_init(&mutex,&mutAttr)) != 0)
+    if((rc = pthread_mutex_init(&mutex,&mutAttr)) != 0) {
       Error("Failed to create mutex.",errno,rc); 
+    } else {
+      isValid = true;
+    }
+    
     pthread_mutexattr_destroy(&mutAttr);
 #endif
 #endif
@@ -92,7 +99,8 @@ namespace RavlN
 #if RAVL_HAVE_WIN32_THREADS
     if((mutex = CreateMutex(0,false,0)) == 0) {
       Error("Failed to create mutex.",errno,0); 
-    }
+    } else
+      isValid = true;
 #endif
   }
   
@@ -121,6 +129,8 @@ namespace RavlN
   MutexC::~MutexC() { 
     ONDEBUG(cerr << "MutexC::~MutexC(), Destroying mutex. (@:" << ((void*) this) << ")\n");
     int maxRetry = 100;
+    // We need to make sure there's no threads waiting for the lock. There shouldn't be
+    // if we're freeing it, as the resource its waiting for is probably on its way out too.
     while(--maxRetry > 0) {
       if(TryLock()) { // Try get an exclusive lock.
 	Unlock(); // Unlock... and destroy.
@@ -134,8 +144,13 @@ namespace RavlN
         cerr << "WARNING: MutexC::~MutexC(), destroy failed. " << GetLastError() << "\n";   
 #endif
       }
+#if RAVL_HAVE_WIN32_THREADS
+      RavlN::Sleep(0.01);
+#else
       OSYield();
+#endif
     }
+    isValid = false;
     if(maxRetry <= 0)
       cerr << "WARNING: MutexC::~MutexC(), destroy failed. \n";
   }
@@ -145,6 +160,8 @@ namespace RavlN
   
   bool MutexC::Lock(void) {
     int rc;
+    RavlAssert(isValid);
+    
 #if RAVL_HAVE_POSIX_THREADS
     //ONDEBUG(cerr << "MutexC::Lock() Start @:" << ((void*) this) << " \n");
     if((rc = pthread_mutex_lock(&mutex)) == 0) {
@@ -159,6 +176,7 @@ namespace RavlN
     }
     Error("Lock failed",GetLastError(),rc);
 #endif    
+    RavlAssert(isValid);
     return false;
   }
     
@@ -166,6 +184,7 @@ namespace RavlN
   
   bool MutexC::TryLock(void) {
     int rc;
+    RavlAssert(isValid);
 #if RAVL_HAVE_POSIX_THREADS
     //ONDEBUG(cerr << "MutexC:TryLock() @:" << ((void*) this) << " \n");
     if((rc = pthread_mutex_trylock(&mutex)) == 0) {
@@ -188,6 +207,7 @@ namespace RavlN
   bool MutexC::Unlock(void) {
     //RavlAssertMsg(!TryLock(),"MutexC::Unlock() called on an unlocked mutex.");
     int rc = 0;
+    RavlAssert(isValid);
 #if RAVL_HAVE_POSIX_THREADS
     //ONDEBUG(cerr << "MutexC:Unlock() @:" << ((void*) this) << "\n");
     if((rc = pthread_mutex_unlock(&mutex)) == 0) {

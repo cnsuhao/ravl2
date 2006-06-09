@@ -107,6 +107,7 @@ namespace RavlN
 #if RAVL_HAVE_WIN32_THREADS
     HANDLE mutex;
 #endif
+    bool isValid; // Used for debugging.
     
     void Error(const char *msg);  
     //: Report an error.
