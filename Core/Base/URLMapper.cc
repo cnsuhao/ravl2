@@ -36,6 +36,17 @@ namespace RavlN {
     int sep = fn.index(':');
     if(sep < 0)
       return StringC(fn); // No seperator, take as normal filename.
+    
+#if RAVL_OS_WIN32
+    // Look out for driver letters.
+    if(sep == 1) {
+      if((fn[0] >= 'A' && fn[0] <= 'Z') ||
+         (fn[0] >= 'a' && fn[0] <= 'z')) {
+        return StringC(fn);
+      }
+    }
+#endif
+    
     SubStringC urltype = StringC(fn).before(sep);
     if(urltype == "file") { // Got a file descriptor.
       StringC theRest = StringC(fn).after(sep);
