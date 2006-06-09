@@ -32,7 +32,8 @@ ClassifierBayesNormalLinear.cc DesignBayesNormalLinear.cc DesignBayesNormalQuadr
 
 PLIB = RavlPatternRec
 
-TESTEXES=testClassifier.cc exNeuralNetwork.cc
+TESTEXES=testClassifier.cc
+# exNeuralNetwork.cc
 
 LIBDEPS = RavlPatternRecClassifier.def 
 
