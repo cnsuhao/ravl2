@@ -66,7 +66,7 @@ namespace RavlN {
   BufOStreamC::BufOStreamC()
     : 
 #if RAVL_HAVE_STRINGSTREAM
-    OStreamC(*(oss = new ostringstream()),true)
+    OStreamC(*(oss = new ostringstream(ostringstream::binary)),true)
 #else
     OStreamC(*(oss = new ostrstream()),true)
 #endif
@@ -107,11 +107,11 @@ namespace RavlN {
   
   BufIStreamC::BufIStreamC(const SArray1dC<char> &dat) 
     :
-#if RAVL_COMPILER_VISUALCPP
+#if RAVL_COMPILER_VISUALCPP && !RAVL_HAVE_STRINGSTREAM
     IStreamC(*(iss = new istrstream(const_cast<char *>(dat.ReferenceElm()),dat.Size())),true),
 #else
 #if RAVL_HAVE_STRINGSTREAM
-    IStreamC(*(iss = new istringstream(string(dat.ReferenceElm(),dat.Size()))),true),
+    IStreamC(*(iss = new istringstream(string(dat.ReferenceElm(),dat.Size()),istringstream::binary)),true),
 #else
     IStreamC(*(iss = new istrstream(dat.ReferenceElm(),dat.Size())),true),
 #endif
