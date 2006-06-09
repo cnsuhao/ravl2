@@ -21,24 +21,13 @@
 #include "Ravl/DP/SequenceIO.hh"
 #include "Ravl/CDLIter.hh"
 #include "Ravl/Stream.hh"
-
-#if RAVL_HAVE_UNISTD_H
-#include <unistd.h>
-#else
-#ifdef WIN32
-#include <io.h>
-#ifndef R_OK
-#define R_OK 04
-#endif
-#endif
-#endif
+#include "Ravl/OS/Filename.hh"
 
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <iomanip>
 #else
 #include <iomanip.h>
 #endif
-
 
 namespace RavlImageN
 {
@@ -69,28 +58,28 @@ namespace RavlImageN
       for (UIntT iview = 0; true; iview++) 
       {
 	// filename of first frame for this view
-	StrOStreamC fnFirstFile;
+	FilenameC fnFirstFile;
 	fnFirstFile.form("%s.%d.00000.%s", 
 			 (const char*)fnBase,
 			 iview,
 			 (const char*)fnFormat);
 
 	// check it exists
-	if (access(fnFirstFile.String(), R_OK) != 0)
+	if (!fnFirstFile.IsReadable())
 	  break;
-
+        
 	// filename of sequence
-	StrOStreamC fnSequence;
+	FilenameC fnSequence;
 	fnSequence.form("%s.%d.%s.%s", 
 			(const char*)fnBase,
 			iview,
 			"%05d",
 			(const char*)fnFormat);
-
+        
 	// add to list
-	view_list += fnSequence.String();
+	view_list += fnSequence;
       }
-
+      
       // load files
       if (!LoadFileList(view_list))
 	return;
@@ -101,13 +90,13 @@ namespace RavlImageN
       {
 	while (1)
 	{
-	  StrOStreamC str_frame; 
+	  FilenameC str_frame; 
 	  str_frame.form("%s.0.%05d.%s",
 			 (const char*)fnBase,
 			 numframes,
 			 (const char*)fnFormat);
 	  // cerr << "Looking for: " << str_frame.String() << endl;
-	  if (access(str_frame.String(), R_OK) != 0)
+	  if (!str_frame.IsReadable())
 	    break;
 	  ++numframes;
 	}
