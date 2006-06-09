@@ -32,7 +32,7 @@ EHT=Ravl.API.OS.Network.html Ravl.API.OS.Network.NetPort.html
 
 EXAMPLES = exSocket.cc exEndPoint.cc exNetPort.cc
 
-TESTEXES=testNetPort.cc testSocket.cc
+TESTEXES=testNetPort.cc #testSocket.cc
 
 USESLIBS = RavlOS RavlCore Socket RavlThreads RavlIO
 
