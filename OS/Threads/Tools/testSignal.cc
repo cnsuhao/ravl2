@@ -16,9 +16,15 @@
 #include "Ravl/Threads/Signal1.hh"
 #include "Ravl/Threads/Signal2.hh"
 #include "Ravl/Threads/Signal3.hh"
+#include "Ravl/Threads/SignalConnectionSet.hh"
 #include "Ravl/Option.hh"
-
-//#include "Ravl/Threads/LaunchThread.hh"
+#include "Ravl/RandomMersenneTwister.hh"
+#include "Ravl/Threads/LaunchThread.hh"
+#include "Ravl/Threads/Semaphore.hh"
+#include "Ravl/Collection.hh"
+#include "Ravl/Random.hh"
+#include "Ravl/Calls.hh"
+#include "Ravl/OS/Date.hh"
 
 using namespace RavlN;
 
@@ -35,6 +41,16 @@ bool test2(int x) {
 }
 
 bool test3(bool x) {
+  callcount += 2;
+  return true;
+}
+
+bool test_2(bool x,int z) {
+  callcount += 2;
+  return true;
+}
+
+bool test_3(bool x,int z,float y) {
   callcount += 2;
   return true;
 }
@@ -68,17 +84,14 @@ public:
 
 }; 
 
-int main(int argc,char **argv)
-{
-  OptionC option(argc,argv);
-  option.Check();
+
+int testBasic() {
   
   Signal0C sig1(true);
   
   SignalConnectorC c1 = Connect(sig1,&test1);
   SignalConnectorC c2 = Connect(sig1,&test2);
-
-
+  
   sig1();
   if(callcount != 3) {
     cerr<< "Signal test failed \n";
@@ -104,12 +117,13 @@ int main(int argc,char **argv)
     cerr<< "Signal test failed  " << callcount << "\n";
     return 1;
   }
-
+  
 #if 1
   // Some extra checks.
   Signal1C<bool> sig3(true);
   Signal2C<bool,int> sig4(true,1);
   Signal3C<bool,int,RealT> sig5(true,1,2.2);
+
   SignalConnectorC c4 = Connect(sig3,&test3);
   SignalConnectorC c5 = Connect(sig4,&test3);
 
@@ -122,8 +136,175 @@ int main(int argc,char **argv)
   SignalConnectorC c4b = ConnectR(sig3,aclass,&TestClassC::test3);
   SignalConnectorC c5b = ConnectR(sig4,aclass,&TestClassC::test_2);
   SignalConnectorC c6b = ConnectR(sig5,aclass,&TestClassC::test_3);
+  
+  Connect(sig2,sig4);
+  Connect(sig3,sig4);
+  Connect(sig5,sig3);
+  
 #endif
 #endif
+  return 0;
+}
+
+volatile bool done = false;
+SemaphoreC semaThreadDone(0);
+
+bool invokeThread(SArray1dC<Signal0C> signals,RCRWLockC rwLock) {
+  // We want to avoid using global locks so use a local random number generator 
+  // seeded from the global one.
+  RandomMersenneTwisterC rmt(RandomInt());
+  CollectionC<SignalConnectorC> connections(40);
+  CollectionC<SignalConnectorC> invokes(40);
+  TestClassC aclass;
+  
+  while(!done) {
+    switch(rmt.Int() % 7) {
+    case 0: 
+    case 1: {
+      // Invoke a signal
+      RWLockHoldC hold(rwLock,RWLOCK_READONLY);
+      IntT id = Abs(rmt.Int()) % signals.Size();
+      Signal0C sig = signals[id];
+      hold.Unlock();
+      sig.Invoke();
+    } break;
+    case 2:
+    case 3: {
+      // Change a connection
+      if(connections.Size() > signals.Size()) {
+	IntT nc = connections.Size();
+	IntT cid = Abs(rmt.Int()) % nc;
+	connections[cid].Disconnect();
+	connections.Delete(cid);
+      }
+      IntT id1 = Abs(rmt.Int()) % (signals.Size()-1);
+      // Generate an id with a larger value so we never create a loop
+      IntT id2 = (Abs(rmt.Int()) % (signals.Size()-(id1+1))) + id1 + 1;
+      RWLockHoldC hold(rwLock,RWLOCK_READONLY);
+      Signal0C sig1 = signals[id1];
+      Signal0C sig2 = signals[id2];
+      hold.Unlock();
+      connections.Insert(Connect(sig1,sig2));
+    } break;
+    case 4: {
+      // Replace a signal
+      RWLockHoldC hold(rwLock,RWLOCK_WRITE); 
+      IntT id = Abs(rmt.Int()) % signals.Size();
+      signals[id] = Signal0C(true);
+    } break;
+    case 5: {
+      // Disconnect everything from a signal
+      RWLockHoldC hold(rwLock,RWLOCK_READONLY); 
+      IntT id = Abs(rmt.Int()) % signals.Size();
+      Signal0C sig = signals[id];
+      hold.Unlock();
+      sig.DisconnectAll();
+    } break;
+    case 6: {
+      // Change a connection
+      if(invokes.Size() > signals.Size()) {
+	IntT nc = invokes.Size();
+	IntT cid = Abs(rmt.Int()) % nc;
+	invokes[cid].Disconnect();
+	invokes.Delete(cid);
+      }
+      IntT id1 = Abs(rmt.Int()) % (signals.Size());
+      RWLockHoldC hold(rwLock,RWLOCK_READONLY);
+      Signal0C sig1 = signals[id1];
+      hold.Unlock();
+      SignalConnectorC nc;
+      switch(Abs(rmt.Int()) % 15) {
+      case 0: nc = Connect(sig1,&test1); break;
+      case 1: nc = Connect(sig1,&test2); break;
+      case 2: nc = Connect(sig1,&test3); break; 
+      case 3: nc = Connect(sig1,&test_2); break;
+      case 4: nc = Connect(sig1,&test_3); break;
+      case 5: nc = Connect(sig1,aclass,&TestClassC::test1); break;
+      case 6: nc = Connect(sig1,aclass,&TestClassC::test2); break;
+      case 7: nc = Connect(sig1,aclass,&TestClassC::test3); break;
+      case 8: nc = Connect(sig1,aclass,&TestClassC::test_2); break;
+      case 9: nc = Connect(sig1,aclass,&TestClassC::test_3); break;
+      case 10: nc = ConnectR(sig1,aclass,&TestClassC::test1); break;
+      case 11: nc = ConnectR(sig1,aclass,&TestClassC::test2); break;
+      case 12: nc = ConnectR(sig1,aclass,&TestClassC::test3); break;
+      case 13: nc = ConnectR(sig1,aclass,&TestClassC::test_2); break;
+      case 14: nc = ConnectR(sig1,aclass,&TestClassC::test_3); break;
+      }
+      
+      invokes.Insert(nc);
+    } break;
+    }
+  }
+  semaThreadDone.Post();
+  return true;
+}
+
+
+int testInterconnect() {
+
+  // Test various dissconect situations
+  {
+    SignalConnectionSetC cs;
+    Signal0C sig1(true);
+    Signal0C sig2(true);
+    SignalConnectorC sc = Connect(sig1,sig2);
+    sc.Disconnect();
+    if(sc.IsConnected()) return __LINE__;
+  }
+  
+  {
+    SignalConnectionSetC cs;
+    Signal0C sig1(true);
+    Signal0C sig2(true);
+    SignalConnectorC sc = Connect(sig1,sig2);
+    sig1.Invalidate();
+    if(sc.IsConnected()) return __LINE__;
+    sc.Disconnect();
+  }
+  
+  {
+    SignalConnectionSetC cs;
+    Signal0C sig1(true);
+    Signal0C sig2(true);
+    SignalConnectorC sc = Connect(sig1,sig2);
+    sig2.Invalidate();
+    if(sc.IsConnected()) return __LINE__;
+    sc.Disconnect();
+  }
+
+  // Now really hammer the connect dissconnect stuff.
+  
+  SArray1dC<Signal0C> signals(40);
+  RCRWLockC rwLock(true);
+  for(SArray1dIterC<Signal0C> it(signals);it;it++) {
+    *it = Signal0C(true);
+  }
+  
+  cerr << "Starting thread test. \n";
+  IntT numberOfThreads = 10;
+  for(int i = 0;i < numberOfThreads;i++)
+    LaunchThread(Trigger(&invokeThread,signals,rwLock));
+  RavlN::Sleep(20);
+  cerr << "Shutting down. \n";
+  done = true;
+  for(int i = 0;i < numberOfThreads;i++)
+    semaThreadDone.Wait();
+  cerr << "Test done. Passed ok. \n";
+  return 0;
+}
+
+
+int main(int argc,char **argv)
+{
+  int ln;
+  if((ln = testBasic()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testInterconnect()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
   
   //  Launch(ae,&ExampleC::DoItArg,1);
   cerr << "testSignal(): Passed. \n";

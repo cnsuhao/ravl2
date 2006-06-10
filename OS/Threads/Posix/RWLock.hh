@@ -55,6 +55,10 @@ namespace RavlN {
   public:
     RWLockC();
     //: Constructor.
+
+    RWLockC(const RWLockC &);
+    //: Copy constructor.
+    // This just creates another lock.
     
     ~RWLockC(); 
     //: Destructor.
@@ -118,9 +122,6 @@ namespace RavlN {
     //: Unlock read lock.
     
   private:
-    RWLockC(const RWLockC &)
-    { RavlAssert(0); }
-    //: Dissable copy constructor.
     
     pthread_rwlock_t id;
     bool isValid; // Flag a valid lock. Used for debugging.
@@ -134,8 +135,12 @@ namespace RavlN {
   
   class RWLockC {
   public:
-    inline RWLockC();
+    RWLockC();
     // Constructor.
+
+    RWLockC(const RWLockC &);
+    //: Copy constructor.
+    // This just creates another lock.    
     
     inline bool RdLock(void);  
     // Get a read lock.
@@ -162,13 +167,7 @@ namespace RavlN {
     void Error(const char *msg, int ret );
     //: Print an error.
     
-  private:
-    RWLockC(const RWLockC &)
-    : WriteQueue(1),
-      ReadQueue(1)
-      { RavlAssert(0); }
-    //: Dissable copy constructor.
-    
+  private:    
     MutexC AccM; // Access control.
     int RdCount; // Count of readers with locks. -1=Writing
     int WrWait;  // Count of writers waiting.
@@ -180,15 +179,6 @@ namespace RavlN {
   ///////////////////////
   // Constructor.
   
-  inline 
-  RWLockC::RWLockC() 
-    : AccM(), 
-      RdCount(0), 
-      WrWait(0), 
-      RdWait(0), 
-      WriteQueue(0),
-      ReadQueue(0) 
-  {} 
   
   inline 
   bool RWLockC::RdLock()  {

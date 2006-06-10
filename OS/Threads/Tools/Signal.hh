@@ -15,7 +15,7 @@
 //! file="Ravl/OS/Threads/Tools/Signal.hh"
 //! example=exSignal.cc
 
-#include "Ravl/Threads/RWLock.hh"
+#include "Ravl/Threads/RCRWLock.hh"
 #include "Ravl/RefCounter.hh"
 #include "Ravl/DLink.hh"
 #include "Ravl/SArray1d.hh"
@@ -23,6 +23,7 @@
 #include "Ravl/Assert.hh"
 #include "Ravl/IntrDList.hh"
 #include "Ravl/Types.hh"
+#include "Ravl/RCLayer.hh"
 
 namespace RavlN {
 
@@ -42,10 +43,10 @@ namespace RavlN {
     {}
     //: Constructor.
     
-    inline SignalConnector0BodyC(Signal0BodyC &from);
+    inline void Connect(Signal0BodyC &from);
     //: Constructor.
     
-    inline SignalConnector0BodyC(Signal0C &from);
+    inline void Connect(Signal0C &from);
     //: Constructor.
     
     virtual ~SignalConnector0BodyC();
@@ -63,7 +64,8 @@ namespace RavlN {
     
   protected:
     Signal0BodyC *sigbod;
-    IntT ind; // Index of entry in Signal0BodyC.
+    IntT ind; // Index of entry in Signal0BodyC. -1 = Disconnected.
+    RCRWLockC sigAccess; // RWLock for source signal, used to ensure the lock is not deleted before its finished with.
     
     friend class Signal0BodyC;
   };
@@ -142,14 +144,14 @@ namespace RavlN {
     {}
     //: Constructor.
     
-    SignalInterConnect0BodyC(Signal0BodyC &from,Signal0BodyC &targ);
-    //: Constructor.
-    
-    SignalInterConnect0BodyC(Signal0C &from,Signal0C &targ);
-    //: Constructor.
-    
     ~SignalInterConnect0BodyC();
     //: Destructor.
+    
+    void Connect(Signal0BodyC &from,Signal0BodyC &targ);
+    //: Constructor.
+    
+    void Connect(Signal0C &from,Signal0C &targ);
+    //: Constructor.
     
     virtual void Disconnect(bool waitThreadsExit);
     //: Disconnect from input list.
@@ -169,7 +171,9 @@ namespace RavlN {
     }
     //: Get target for connection.
     
-  private:
+  protected:
+    RCLayerC<RCLayerBodyC> targetHandle; // Reference to taret handle to ensure its not deleted before all signals are processed.
+    RCRWLockC sigTargetAccess; // RWLock for target signal, used to ensure the lock is not deleted before its finished with.    
     Signal0BodyC *target; // Target to send signal to.
     
     friend class Signal0BodyC;
@@ -195,7 +199,15 @@ namespace RavlN {
       : SignalConnectorC(bod)
     {}
     //: Body constructor.
-  
+    
+    const SignalInterConnect0BodyC &Body() const
+    { return dynamic_cast<const SignalInterConnect0BodyC &>(RCHandleC<SignalConnector0BodyC>::Body()); }
+    //: Access body.
+    
+    SignalInterConnect0BodyC &Body() 
+    { return dynamic_cast<SignalInterConnect0BodyC &>(RCHandleC<SignalConnector0BodyC>::Body()); }
+    //: Access body.
+    
     friend class Signal0BodyC;
   };
 
@@ -205,10 +217,12 @@ namespace RavlN {
   //: Signal base body.
   
   class Signal0BodyC
-    : public RCBodyVC
+    : public RCLayerBodyC
   {
   public:
     Signal0BodyC()
+      : access(true),
+	execLock(true)
     {}
     //: Default constructor.
     
@@ -241,20 +255,26 @@ namespace RavlN {
     //: Access the number of inputs to the signal.
     
   protected:
+    virtual void ZeroOwners();
+    //: Called when owner handles drop to zero.
+    
     void Connect(SignalConnector0BodyC &con);
     //: Connect a new output.
     
-    void Disconnect(SignalConnector0BodyC &con,bool waitThreadsExit);
+    void Disconnect(SignalConnector0BodyC &con,bool waitThreadsExit,RCRWLockC &signalLock);
     //: Disconnect an output.
-    
+    //!param: con - Connector to remove
+    //!param: waitThreadsExist - Wait for all threads to exit?
+    //!param: signalLock - Handle to the lock for THIS signal. Needed to avoid problems if signal has been destroyed before the connector has been removed.
+
     void ConnectInput(SignalInterConnect0BodyC &in);
     //: Connect an input.
     
     void DisconnectInput(SignalInterConnect0BodyC &in);
     //: Disconnect an input.
     
-    RWLockC access; // Access control for structure.
-    RWLockC execLock; // Execution control, used to manage disconnection.
+    RCRWLockC access; // Access control for structure.
+    RCRWLockC execLock; // Execution control, used to manage disconnection.
     SArray1dC<SignalConnectorC> outputs; // List of outputs.
     IntrDListC<SignalInterConnect0BodyC > inputs; // List of inputs.
     
@@ -266,7 +286,7 @@ namespace RavlN {
   //: Signal 0 handle.
   
   class Signal0C
-    : public RCHandleC<Signal0BodyC>
+    : public RCLayerC<Signal0BodyC>
   {
   public:
     typedef bool (*FuncT)(void);
@@ -277,29 +297,34 @@ namespace RavlN {
     // Creates an invalid handle.
     
     Signal0C(bool makeBod)
-      : RCHandleC<Signal0BodyC>(*new Signal0BodyC())
+      : RCLayerC<Signal0BodyC>(*new Signal0BodyC())
     {}
     //: Constructor.
     
   protected:
-    Signal0C(Signal0BodyC &bod)
-      : RCHandleC<Signal0BodyC>(bod)
+    Signal0C(Signal0BodyC &bod,RCLayerHandleT handleType = RCLH_OWNER)
+      : RCLayerC<Signal0BodyC>(bod,handleType)
     {}
     //: Body constructor.
     
-    Signal0C(const Signal0BodyC *bod)
-      : RCHandleC<Signal0BodyC>(bod)
+    Signal0C(const Signal0BodyC *bod,RCLayerHandleT handleType = RCLH_OWNER)
+      : RCLayerC<Signal0BodyC>(bod,handleType)
     {}
     //: Body constructor.
+    
+    Signal0C(const Signal0C &other,RCLayerHandleT handleType)
+      : RCLayerC<Signal0BodyC>(other,handleType)
+    {}
+    //: Change handle type.
     
     inline 
     Signal0BodyC &Body() 
-    { return RCHandleC<Signal0BodyC>::Body(); }
+    { return RCLayerC<Signal0BodyC>::Body(); }
     //: Access body.
     
     inline 
     const Signal0BodyC &Body() const 
-    { return RCHandleC<Signal0BodyC>::Body(); }
+    { return RCLayerC<Signal0BodyC>::Body(); }
     //: Access body.
     
   public:
@@ -368,10 +393,13 @@ namespace RavlN {
   public:
     typedef bool (*FuncT)(void);
     
-    Signal0FuncBodyC(Signal0C &from,FuncT nFunc)
-      : SignalConnector0BodyC(from),
-	func(nFunc)
-    {}
+    Signal0FuncBodyC(FuncT nFunc)
+      : func(nFunc)
+    { 
+      // We can't connect to the signal here
+      // as there's just a chance it'll construct a reference and delete it again
+      // before we've returned.
+    }
     //: Constructor.
     
     virtual bool Invoke()
@@ -390,8 +418,8 @@ namespace RavlN {
   {
   public:
     Signal0FuncC(Signal0C &from,Signal0FuncBodyC::FuncT nFunc)
-      : SignalConnectorC(*new Signal0FuncBodyC(from,nFunc))
-    {}
+      : SignalConnectorC(*new Signal0FuncBodyC(nFunc))
+    { Body().Connect(from); }
     //: Constructor.
   };
   
@@ -410,8 +438,7 @@ namespace RavlN {
     Signal0MethodBodyC(Signal0C &from,
 		       const DataT &ndata,
 		       FuncT nFunc)
-      : SignalConnector0BodyC(from),
-	data(ndata),
+      : data(ndata),
 	func(nFunc)
     {}
     //: Constructor.
@@ -456,11 +483,9 @@ namespace RavlN {
   public:
     typedef bool (DataT::*FuncT)();
     
-    Signal0MethodRefBodyC(Signal0C &from,
-			  DataT &ndata,
+    Signal0MethodRefBodyC(DataT &ndata,
 			  FuncT nFunc)
-      : SignalConnector0BodyC(from),
-	data(ndata),
+      : data(ndata),
 	func(nFunc)
     {}
     //: Constructor.
@@ -488,24 +513,26 @@ namespace RavlN {
     Signal0MethodRefC(Signal0C &from,
 		      DataT &ndata,
 		      bool (DataT::*nFunc)())
-      : SignalConnectorC(*new Signal0MethodRefBodyC<DataT>(from,ndata,nFunc))
-    {}
+      : SignalConnectorC(*new Signal0MethodRefBodyC<DataT>(ndata,nFunc))
+    { Body().Connect(from); }
     //: Constructor.
   };
   
   ////////////////////////////////////////////
   
   inline
-  SignalConnector0BodyC::SignalConnector0BodyC(Signal0BodyC &from)
-    : sigbod(& from),
-      ind(-1)
-  { from.Connect(*this); }
+  void SignalConnector0BodyC::Connect(Signal0BodyC &from) {
+    RavlAssert(ind == -1); // Signal can't already be connected
+    sigbod = &from;
+    from.Connect(*this); 
+  }
   
   inline 
-  SignalConnector0BodyC::SignalConnector0BodyC(Signal0C &from)
-    : sigbod(&(from.Body())),
-      ind(-1)
-  { sigbod->Connect(*this); }
+  void SignalConnector0BodyC::Connect(Signal0C &from) { 
+    RavlAssert(ind == -1); // Signal can't already be connected
+    sigbod = &(from.Body());
+    sigbod->Connect(*this); 
+  }
   
   ////////////////////////////////////////////////////////////////
   

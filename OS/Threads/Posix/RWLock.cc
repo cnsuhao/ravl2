@@ -17,6 +17,17 @@ namespace RavlN
 {
 
 #if RAVL_HAVE_POSIX_THREADS_RWLOCK
+  //: Copy constructor.
+  // This just creates another lock.
+  
+  RWLockC::RWLockC(const RWLockC &)
+    : isValid(false)
+  {
+    int ret = pthread_rwlock_init(&id,0); 
+    if(ret != 0)
+      Error("RWLockC::RWLockC, Init failed ",ret);
+    else isValid = true;    
+  }
   
   //: Constructor.
   
@@ -40,6 +51,25 @@ namespace RavlN
     if(x == 0) 
       cerr << "WARNING: Failed to destory RWLock. \n";
   }
+#else
+  
+  RWLockC::RWLockC() 
+    : AccM(), 
+      RdCount(0), 
+      WrWait(0), 
+      RdWait(0), 
+      WriteQueue(0),
+      ReadQueue(0) 
+  {} 
+  
+  RWLockC::RWLockC(const RWLockC &) 
+    : AccM(), 
+      RdCount(0), 
+      WrWait(0), 
+      RdWait(0), 
+      WriteQueue(0),
+      ReadQueue(0) 
+  {} 
   
 #endif  
   

@@ -46,14 +46,7 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    inline SignalConnector1BodyC(Signal0C &from)
-      : SignalConnector0BodyC(from)
-    {}
-    //: Constructor.
-    
-    inline SignalConnector1BodyC(Signal0C &from,const DataT &def)
-      : SignalConnector0BodyC(from),
-	defaultVal(def)
+    inline SignalConnector1BodyC()
     {}
     //: Constructor.
     
@@ -81,9 +74,6 @@ namespace RavlN {
     {}
     //: Constructor.
     
-    SignalInterConnect1BodyC(Signal0C &from,Signal1C<DataT> &targ);
-    //: Constructor.
-    
     inline virtual bool Invoke(DataT &);
     //: Invoke signal, with value.
     
@@ -101,13 +91,14 @@ namespace RavlN {
   
   template<class DataT>
   class SignalInterConnect1C
-    : public SignalConnectorC
+    : public SignalInterConnect0C
   {
   public:
     SignalInterConnect1C(Signal0C &from,Signal1C<DataT> &targ)
-      : SignalConnectorC(*new SignalInterConnect1BodyC<DataT>(from,targ))
-    {}
+      : SignalInterConnect0C(*new SignalInterConnect1BodyC<DataT>())
+    { Body().Connect(from,targ); }
     //: Constructor.
+    
   };
   
   ///////////////////////////////////////////////////
@@ -122,9 +113,8 @@ namespace RavlN {
     typedef typename TraitsC<DataT>::BaseTypeT Arg1T; //: Type of arguments without const's and refs.
     typedef bool (*Func1T)(DataT val);
     
-    Signal1FuncBodyC(Signal0C &from,Func1T nFunc,const Arg1T &def)
-      : SignalConnector0BodyC(from),
-	SignalConnector1BodyC<typename TraitsC<DataT>::BaseTypeT>(from,def),
+    Signal1FuncBodyC(Func1T nFunc,const Arg1T &def)
+      : SignalConnector1BodyC<typename TraitsC<DataT>::BaseTypeT>(def),
 	func(nFunc)
     {}
     //: Constructor.
@@ -153,8 +143,8 @@ namespace RavlN {
     typedef typename TraitsC<DataT>::BaseTypeT Arg1T; //: Type of arguments without const's and refs.
     
     Signal1FuncC(Signal0C &from,typename Signal1FuncBodyC<DataT>::Func1T nFunc,const Arg1T &def = Arg1T())
-      : SignalConnectorC(*new Signal1FuncBodyC<DataT>(from,nFunc,def))
-    {}
+      : SignalConnectorC(*new Signal1FuncBodyC<DataT>(nFunc,def))
+    { Body().Connect(from); }
     //: Constructor.
   };
   
@@ -175,12 +165,10 @@ namespace RavlN {
     typedef bool (ObjT::*Func1T)(DataT dat);
 #endif
     
-    Signal1MethodBodyC(Signal0C &from,
-		       BaseObjT &nobj,
+    Signal1MethodBodyC(BaseObjT &nobj,
 		       Func1T nFunc,
 		       const Arg1T &dat = Arg1T())
-      : SignalConnector0BodyC(from),
-	SignalConnector1BodyC<typename TraitsC<DataT>::BaseTypeT>(from,dat),
+      : SignalConnector1BodyC<typename TraitsC<DataT>::BaseTypeT>(dat),
 	obj(nobj),
 	func(nFunc)
     {}
@@ -222,8 +210,8 @@ namespace RavlN {
 		   BaseObjT &nobj,
 		   typename Signal1MethodBodyC<DataT,ObjT>::Func1T nFunc,
 		   const Arg1T &dat = Arg1T())
-      : SignalConnectorC(*new Signal1MethodBodyC<DataT,ObjT>(from,nobj,nFunc,dat))
-    {}
+      : SignalConnectorC(*new Signal1MethodBodyC<DataT,ObjT>(nobj,nFunc,dat))
+    { Body().Connect(from); }
     //: Constructor.
   };
   
@@ -241,12 +229,10 @@ namespace RavlN {
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Type of object without const's and refs.
     typedef bool (ObjT::*Func1T)(DataT dat);
     
-    Signal1MethodRefBodyC(Signal0C &from,
-			  BaseObjT &nobj,
+    Signal1MethodRefBodyC(BaseObjT &nobj,
 			  Func1T nFunc,
 			  const Arg1T &dat = Arg1T())
-      : SignalConnector0BodyC(from),
-	SignalConnector1BodyC<typename TraitsC<DataT>::BaseTypeT>(from,dat),
+      : SignalConnector1BodyC<typename TraitsC<DataT>::BaseTypeT>(dat),
 	obj(nobj),
 	func(nFunc)
     {}
@@ -285,7 +271,7 @@ namespace RavlN {
 		      typename Signal1MethodRefBodyC<DataT,ObjT>::Func1T nFunc,
 		      const Arg1T &dat = Arg1T())
       : SignalConnectorC(*new Signal1MethodRefBodyC<DataT,ObjT>(from,nobj,nFunc,dat))
-    {}
+    { Body().Connect(from); }
     //: Constructor.
   };
 
@@ -309,11 +295,12 @@ namespace RavlN {
     virtual bool Invoke(DataT &v) {
       RWLockHoldC hold(access,true);
       SArray1dIterC<SignalConnectorC> it(outputs);
+      RCRWLockC refExecLock = this->execLock;
       hold.Unlock();
       // Flag that we're executing signal code.
       // This is used to ensure all threads have left the signal handlers
       // before they are disconnected.
-      RWLockHoldC holdExec(execLock,RWLOCK_READONLY);
+      RWLockHoldC holdExec(refExecLock,RWLOCK_READONLY);
       bool ret = true;
       for(;it;it++) {
 	SignalConnector1BodyC<DataT> *sc1 = dynamic_cast<SignalConnector1BodyC<DataT> *>(&it.Data().Body());
@@ -326,24 +313,8 @@ namespace RavlN {
     }
     //: Send signal with value.
     
-    virtual bool Invoke() { 
-      RWLockHoldC hold(access,true); 
-      SArray1dIterC<SignalConnectorC> it(outputs);
-      hold.Unlock();
-      // Flag that we're executing signal code.
-      // This is used to ensure all threads have left the signal handlers
-      // before they are disconnected.
-      RWLockHoldC holdExec(execLock,RWLOCK_READONLY);
-      bool ret = true;
-      for(;it;it++) {
-	SignalConnector1BodyC<DataT> *sc1 = dynamic_cast<SignalConnector1BodyC<DataT> *>(&it.Data().Body());
-	if(sc1 != 0)
-	  ret &= sc1->Invoke(defaultVal);
-	else
-	  ret &= it.Data().Invoke();
-      }
-      return ret;
-    }
+    virtual bool Invoke() 
+    { return Invoke(defaultVal); }
     //: Send signal with default value where needed.
     
     DataT &DefaultValue1()
@@ -373,7 +344,7 @@ namespace RavlN {
     // Creates an invalid handle.
     
     Signal1C(const Signal0C &base)
-      : Signal0C(dynamic_cast<const Signal1BodyC<DataT> *>(RCHandleC<Signal0BodyC>::BodyPtr(base)))
+      : Signal0C(dynamic_cast<const Signal1BodyC<DataT> *>(BodyPtr(base)))
     {}
     //: Base constructor.
     // Creates an invalid handle if body type
@@ -441,17 +412,27 @@ namespace RavlN {
   ////////////////////////////
   
   template<class DataT>
-  SignalInterConnect1BodyC<DataT>::SignalInterConnect1BodyC(Signal0C &from,Signal1C<DataT> &targ)
-    : SignalConnector0BodyC(from),
-      SignalConnector1BodyC<DataT>(from),
-      SignalInterConnect0BodyC(from,targ)
-  {}
-  
-  template<class DataT>
   inline
   bool SignalInterConnect1BodyC<DataT>::Invoke(DataT &dat) { 
+    RWLockHoldC hold(sigTargetAccess,RWLOCK_READONLY);
+    
+    // Check if its been disconnected.
+    if(target == 0) return false;
+    
+    // Little bit of sanity checking.
     RavlAssert(dynamic_cast<Signal1BodyC<DataT> *>(&Target()) != 0);
-    return dynamic_cast<Signal1BodyC<DataT> &>(Target()).Invoke(dat);
+    
+    // Copy pointer in case its zero'd
+    Signal0BodyC *tmp = &Target();
+    
+    // Make handle to target signal to ensure its not deleted before we're finished.
+    RCLayerC<RCLayerBodyC> localHandle = targetHandle;
+    
+    // Don't hold a lock while we're working.
+    hold.Unlock();
+    
+    // Do actual call.
+    return dynamic_cast<Signal1BodyC<DataT> &>(*tmp).Invoke(dat);
   }
   
   template<class DataT>
@@ -464,7 +445,7 @@ namespace RavlN {
   SignalConnectorC Connect(Signal0C &from,Signal1C<DataT> &oth) { 
     RavlAssert(from.IsValid());
     RavlAssert(oth.IsValid());
-    return SignalInterConnect1C<DataT>(from,oth);  
+    return SignalInterConnect1C<DataT>(from,oth);
   }
   //! userlevel=Normal  
   //: Connect two signals together.

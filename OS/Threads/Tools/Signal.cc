@@ -26,11 +26,13 @@ namespace RavlN {
   //: Connect new output.
   
   void Signal0BodyC::Connect(SignalConnector0BodyC &con) {
-    RWLockHoldC hold(access,false); //
+    con.sigAccess = access;     // Take a reference to the rwlock
+    
+    RWLockHoldC hold(access,RWLOCK_WRITE); //
     // Make new array 1 bigger than old one.
     SArray1dC<SignalConnectorC> newouts(outputs.Size() + 1);
     for(SArray1dIter2C<SignalConnectorC,SignalConnectorC> it(outputs,newouts);it;it++)
-      it.Data2() = it.Data1();   // Copy existing...
+      it.Data2() = it.Data1();   // Copy existing connections
     con.ind = outputs.Size();  // Put in new index.
     con.sigbod = this;          // Make sure we've got the right signal.
     newouts[con.ind] = SignalConnectorC(con);
@@ -39,8 +41,8 @@ namespace RavlN {
   
   //: Disonnect old output.
   
-  void Signal0BodyC::Disconnect(SignalConnector0BodyC &con,bool waitThreadsExit) {
-    RWLockHoldC hold(access,false); //
+  void Signal0BodyC::Disconnect(SignalConnector0BodyC &con,bool waitThreadsExit,RCRWLockC &sigRWLock) {
+    RWLockHoldC hold(sigRWLock,RWLOCK_WRITE); // Obtain write lock.
     int ind = con.ind;
     if(ind < 0)
       return ; // Disconnected already.
@@ -55,12 +57,17 @@ namespace RavlN {
     }
     con.ind = -1; // Flag as disconnected.
     outputs = newouts; // Replace outputs.
+    
+    // Make sure we're hold a reference to the exe lock, otherwise
+    // another thread may destroy it before we're finished with it.
+    RCRWLockC refExecLock = execLock;
     hold.Unlock();
+    
     if(waitThreadsExit) {
       // This ensures all threads have left this signal on exit.
       // Unfortunatly if this disconnect is being called from this signal
       // it will deadlock. 
-      RWLockHoldC holdExec(execLock,RWLOCK_WRITE);
+      RWLockHoldC holdExec(refExecLock,RWLOCK_WRITE);
     }
   }
   
@@ -79,6 +86,7 @@ namespace RavlN {
   
   void Signal0BodyC::ConnectInput(SignalInterConnect0BodyC &in) {
     RWLockHoldC hold(access,false);
+    in.sigTargetAccess = access;
     inputs.InsFirst(in);
   }
   
@@ -89,11 +97,14 @@ namespace RavlN {
     // Lock output list while we obtain a handle to it.
     RWLockHoldC hold(access,RWLOCK_READONLY); 
     SArray1dIterC<SignalConnectorC> it(outputs);
+    // Make sure we're hold a reference to the exe lock, otherwise
+    // another thread may destroy it before we're finished with it.
+    RCRWLockC refExecLock = execLock;
     hold.Unlock();
     // Flag that we're executing signal code.
     // This is used to ensure all threads have left the signal handlers
     // before they are disconnected.
-    RWLockHoldC holdExec(execLock,RWLOCK_READONLY);
+    RWLockHoldC holdExec(refExecLock,RWLOCK_READONLY);
     bool ret = true;
     for(;it;it++) 
       ret &= it.Data().Invoke();
@@ -159,9 +170,13 @@ namespace RavlN {
   
   //: Disconnect all outputs from this signal.
   
+  // This method is always called with a reference count held
+  // so we don't have to worry about the destructor being called
+  // on another thread.
+  
   void Signal0BodyC::DisconnectOutputs(bool waitThreadsExit) {
+    
     RWLockHoldC hold(access,false); 
-    // Disconnect all outputs.
     hold.Unlock();
     do {
       hold.LockRd();
@@ -190,17 +205,24 @@ namespace RavlN {
     DisconnectOutputs(waitThreadsExit);
   }
   
+  //: Called when owner handles drop to zero.
+  
+  void Signal0BodyC::ZeroOwners() {
+    DisconnectAll(false);
+  }
+  
   //// SignalIterConnect0 ////////////////////////////////////////////////
   
   SignalInterConnect0C::SignalInterConnect0C(Signal0C &from,Signal0C &targ)
-    : SignalConnectorC(*new SignalInterConnect0BodyC(from.Body(),targ.Body()))
-  {}
-  
-  
-  SignalConnector0BodyC::~SignalConnector0BodyC() {
-    if(ind >= 0 && sigbod != 0) // Disconnect.
-      sigbod->Disconnect(*this,false);
+    : SignalConnectorC(*new SignalInterConnect0BodyC())
+  { 
+    // Need to do this after we've got a reference to the object.
+    Body().Connect(from,targ); 
   }
+  
+  
+  SignalConnector0BodyC::~SignalConnector0BodyC() 
+  { Disconnect(false); }
   
   //: Pass signal on.
   
@@ -212,8 +234,11 @@ namespace RavlN {
   
   //: Disconnect from input list.
   
-  void SignalConnector0BodyC::Disconnect(bool waitThreadsExit) { 
-    sigbod->Disconnect(*this,waitThreadsExit); 
+  void SignalConnector0BodyC::Disconnect(bool waitThreadsExit) {    
+    if(ind < 0) // Not connected ?
+      return; 
+    RavlAssert(sigbod != 0);
+    sigbod->Disconnect(*this,waitThreadsExit,sigAccess); 
   }
   
   ostream &operator<<(ostream &os,const SignalConnectorC &sc) {
@@ -225,17 +250,28 @@ namespace RavlN {
   
   //: Constructor.
   
-  SignalInterConnect0BodyC::SignalInterConnect0BodyC(Signal0C &from,Signal0C &targ)
-    :  SignalConnector0BodyC(from.Body()),
-       target(&targ.Body())
-  { targ.Body().ConnectInput(*this); }
+  void SignalInterConnect0BodyC::Connect(Signal0BodyC &from,Signal0BodyC &targ) {
+    // Setup desination for signal first.
+    targetHandle = RCLayerC<RCLayerBodyC>(targ,RCLH_CALLBACK);
+    target = &targ;
+    targ.ConnectInput(*this);
+    
+    // Now setup source.
+    SignalConnector0BodyC::Connect(from);
+  }
   
-  SignalInterConnect0BodyC::SignalInterConnect0BodyC(Signal0BodyC &from,Signal0BodyC &targ)
-    :  SignalConnector0BodyC(from),
-       target(&targ)
-  { targ.ConnectInput(*this); }
+  //: Constructor.
   
-  
+  void SignalInterConnect0BodyC::Connect(Signal0C &from,Signal0C &targ) {
+    // Setup desination for signal first.
+    targetHandle = RCLayerC<RCLayerBodyC>(targ.Body(),RCLH_CALLBACK);
+    target = &targ.Body();
+    targ.Body().ConnectInput(*this);
+    
+    // Now setup source.
+    SignalConnector0BodyC::Connect(from);
+  }
+ 
   //: Destructor.
   
   SignalInterConnect0BodyC::~SignalInterConnect0BodyC() { 
@@ -245,14 +281,28 @@ namespace RavlN {
   //: Invoke signal.
   
   bool SignalInterConnect0BodyC::Invoke() {
-    RavlAssert(target != 0);
-    return target->Invoke();
+    RWLockHoldC hold(sigTargetAccess,RWLOCK_READONLY);
+    if(target == 0) // Has it been deleted?
+      return false;
+    
+    // Copy pointer in case its zero'd
+    Signal0BodyC *tmp = target;
+    // Make handle to target signal to ensure its not deleted before we're finished.
+    RCLayerC<RCLayerBodyC> localHandle = targetHandle;
+    hold.Unlock();
+    return tmp->Invoke();
   }
   
   void SignalInterConnect0BodyC::Disconnect(bool waitThreadsExit)  { 
-    if(target != 0)
-      target->DisconnectInput(*this);
+    RWLockHoldC hold(sigTargetAccess,RWLOCK_WRITE);
+    target = 0;
+    if(!IsSelfPointing()) {
+      Unlink(); 
+      SetSelfPointing(); // Flag as deleted.
+    }
+    hold.Unlock();
     SignalConnector0BodyC::Disconnect(waitThreadsExit); 
+    targetHandle.Invalidate();
   }
 }
 
