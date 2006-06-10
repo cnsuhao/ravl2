@@ -300,9 +300,15 @@ namespace RavlN {
       Unlink(); 
       SetSelfPointing(); // Flag as deleted.
     }
+    // Calling 'Invalidate' on a handle is NOT thread safe, so to avoid problems invalidate the handle
+    // with a lock held.  To avoid calling the destructor of the targetHandle with a lock held
+    // (which could cause a deadlock) we make a local copy of the the handle which will
+    // be free'd after we've released the lock. This ensures only 1
+    RCLayerC<RCLayerBodyC> localHandle = targetHandle;
+    targetHandle.Invalidate();
     hold.Unlock();
     SignalConnector0BodyC::Disconnect(waitThreadsExit); 
-    targetHandle.Invalidate();
+    
   }
 }
 
