@@ -267,10 +267,10 @@ namespace RavlN {
     typedef ObjT BaseObjT; //: Type of object without const's and refs.
     
     Signal1MethodRefC(Signal0C &from,
-		      BaseObjT &nobj,
-		      typename Signal1MethodRefBodyC<DataT,ObjT>::Func1T nFunc,
-		      const Arg1T &dat = Arg1T())
-      : SignalConnectorC(*new Signal1MethodRefBodyC<DataT,ObjT>(from,nobj,nFunc,dat))
+					  BaseObjT &nobj,
+					  typename Signal1MethodRefBodyC<DataT,ObjT>::Func1T nFunc,
+		              const Arg1T &dat = Arg1T())
+      : SignalConnectorC(*new Signal1MethodRefBodyC<DataT,ObjT>(nobj,nFunc,dat))
     { Body().Connect(from); }
     //: Constructor.
   };
@@ -344,7 +344,7 @@ namespace RavlN {
     // Creates an invalid handle.
     
     Signal1C(const Signal0C &base)
-      : Signal0C(dynamic_cast<const Signal1BodyC<DataT> *>(BodyPtr(base)))
+		: Signal0C(dynamic_cast<const Signal1BodyC<DataT> *>(RCLayerC<Signal0BodyC>::BodyPtr(base)))
     {}
     //: Base constructor.
     // Creates an invalid handle if body type

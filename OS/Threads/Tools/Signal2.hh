@@ -298,8 +298,8 @@ namespace RavlN {
 		      typename Signal2MethodBodyC<Data1T,Data2T,ObjT>::Func2T nFunc,
 		      const Arg1T &dat1 = Arg1T(),
 		      const Arg2T &dat2 = Arg2T())
-      : SignalConnectorC(*new Signal2MethodRefBodyC<Data1T,Data2T,ObjT>(from,nobj,nFunc,dat1,dat2))
-    {}
+      : SignalConnectorC(*new Signal2MethodRefBodyC<Data1T,Data2T,ObjT>(nobj,nFunc,dat1,dat2))
+    { Body().Connect(from); }
     //: Constructor.
   };
   
@@ -392,7 +392,7 @@ namespace RavlN {
     // Creates an invalid handle.
     
     Signal2C(const Signal0C &base)
-      : Signal1C<Data1T>(dynamic_cast<const Signal2BodyC<Data1T,Data2T> *>(this->BodyPtr(base)))
+		: Signal1C<Data1T>(dynamic_cast<const Signal2BodyC<Data1T,Data2T> *>(RCLayerC<Signal0BodyC>::BodyPtr(base)))
     {}
     //: Base constructor.
     // Creates an invalid handle if body type
