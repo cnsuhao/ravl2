@@ -435,8 +435,7 @@ namespace RavlN {
   public:
     typedef bool (DataT::*FuncT)();
     
-    Signal0MethodBodyC(Signal0C &from,
-		       const DataT &ndata,
+    Signal0MethodBodyC(const DataT &ndata,
 		       FuncT nFunc)
       : data(ndata),
 	func(nFunc)
@@ -463,8 +462,8 @@ namespace RavlN {
     Signal0MethodC(Signal0C &from,
 		   const DataT &ndata,
 		   bool (DataT::*nFunc)())
-      : SignalConnectorC(*new Signal0MethodBodyC<DataT>(from,ndata,nFunc))
-    {}
+      : SignalConnectorC(*new Signal0MethodBodyC<DataT>(ndata,nFunc))
+    { Body().Connect(from); }
     //: Constructor.
   };
   
