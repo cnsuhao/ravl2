@@ -25,14 +25,21 @@ FULLBUILD_TARGETS += doc
 ################ Compiler ##################################
 
 # paths for cc and c++ compiler
-RAVL_CC  = gcc
-RAVL_CXX = g++
+
+GCCPATH = /opt/Omni/gcc-4.0.3
+#GCCPATH = /opt/Omni/gcc-3.4.4
+
+EXTRA_LDFLAGS += -B/opt/Omni/binutils-2.15.94.0.2/bin
+
+SWIG=/opt/Omni/swig-1.3.29/bin/swig
 
 # extra CFLAGS (c)
-# EXTRA_CFLAGS =
+EXTRA_CFLAGS = 
+#-msse2
 
 # extra CCFLAGS (c++)
-# EXTRA_CCFLAGS =
+EXTRA_CCFLAGS = 
+#-msse2
 
 ################# LIBRARIES #################
 
@@ -75,7 +82,7 @@ RESOURCES += libAudioFile
 
 ## libavc1394 ################################################
 
-#RESOURCES += libavc1394
+RESOURCES += libavc1394
 #LIBAVC1394_HOME=
 
 ## libdc1394 ################################################
@@ -133,11 +140,11 @@ LIBMPEG2_HOME=/opt/PDsoft/mpeg2dec
 
 ## dvdread ##################################################
 
-#RESOURCES += dvdread
+RESOURCES += dvdread
 
 ## libmcrypt ##################################################
 
-#RESOURCES += libmcrypt
+RESOURCES += libmcrypt
 
 ## Intel's Math Kernel Library  ############################################
 
@@ -157,3 +164,7 @@ RESOURCES += LibJasper
 ## LibGnome2 ##############################
 
 RESOURCES += LibGnome
+
+RESOURCES += libffmpeg
+
+LIB1394DC_HOME=/opt/Omni/libdc1394-1.1.0
