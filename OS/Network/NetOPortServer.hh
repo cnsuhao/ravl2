@@ -259,7 +259,7 @@ namespace RavlN {
     }
     //cerr << "NetOSPortServerBodyC<DataT>::ReqData(), Pos=" << pos << " at=" << at << " Tell=" << oport.Tell() <<"\n";
     if(at != pos && pos != (UIntT)(-1)) {
-      oport.Seek(pos);
+      oport.Seek64(pos);
       at = pos;
     }
     if(oport.Put(data)) {
