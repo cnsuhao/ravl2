@@ -16,7 +16,7 @@ to support its use in a wider community.</p>
     <ul>
       <li>search the class/namespace documentation using <a href="http://www.swish-e.org/">swish-e</a>:
         <center> 
-          <FORM method="GET" action="../../../../../../RavlDoc/RavlSearch/index.php">
+          <FORM method="GET" action="../../../../../../RavlSearch/index.php">
             <INPUT TYPE=text name=searchString size=31 maxlength=255 value="">
             <INPUT type=submit VALUE="Search RAVL">
           </FORM>
