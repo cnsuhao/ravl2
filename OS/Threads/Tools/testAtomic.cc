@@ -26,7 +26,7 @@ ravl_atomic_t counter = RAVL_ATOMIC_INIT(0);
 bool TestAtomic(void) {
   cerr << "TestAtomic(), Called. \n";
   OSYield();
-  for(int i = 0;i < 200000;i++) {
+  for(int i = 0;i < 5000000;i++) {
     ravl_atomic_inc(&counter);
     ravl_atomic_dec(&counter);
   }
