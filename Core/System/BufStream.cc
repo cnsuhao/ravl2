@@ -78,14 +78,10 @@ namespace RavlN {
   
   SArray1dC<char> &BufOStreamC::Data() {
 #if RAVL_HAVE_STRINGSTREAM
-#if 0
-    data = SArray1dC<char>((char *) oss->str().data(),oss->str().size());
-#else
     string astr = oss->str();
     SizeT size = astr.size();
     BufferStringC buf(astr,size);
     data = SArray1dC<char>(buf,size);
-#endif
 #else
 
     // Fix horrible bug in irix implementation. 
