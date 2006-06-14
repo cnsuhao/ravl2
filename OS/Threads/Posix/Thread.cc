@@ -398,7 +398,7 @@ namespace RavlN {
     return (UIntT) pthread_self(); 
 #endif
 #if RAVL_HAVE_WIN32_THREADS
-    return (UIntT) GetCurrentThread();
+    return (UIntT) GetCurrentThreadId();
 #endif
   }
   
