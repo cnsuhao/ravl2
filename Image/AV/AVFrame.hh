@@ -25,7 +25,6 @@ namespace RavlImageN {
   
   //! userlevel=Develop
   //: Audio-Video frame.
-  //: ----------------------------------------------------------------------------------------------------------------------------------------------------------
   class AVFrameBodyC : public RCBodyC 
   {
   public:
@@ -71,7 +70,6 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: Audio-Video frame.
-  //: ----------------------------------------------------------------------------------------------------------------------------------------------------------
   class AVFrameC : public RCHandleC<AVFrameBodyC> 
   {
   public : 
