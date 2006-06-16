@@ -11,7 +11,7 @@
 
 #include "Ravl/Threads/TickerTrigger.hh"
 #include "Ravl/Stream.hh"
-
+#include "Ravl/OS/SysLog.hh"
 #define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
@@ -20,11 +20,15 @@
 #endif
 
 namespace RavlN {
+
+  //: Thread shutdown.
+  
+  void TickerTriggerBodyC::Terminate() {
+    Shutdown();
+  }
   
   int TickerTriggerBodyC::Start() { 
-#if 0
     try {
-#endif
       ONDEBUG(cerr << "Ticker started... " <<  ((void *) this) <<". Delay:" << delay << " \n");
       if(!se.IsValid()) {
 	cerr << "ERROR: TickerTriggerBodyC::Startup(), ask to launch an invalid event.\n";
@@ -37,13 +41,10 @@ namespace RavlN {
 	se.Invoke();
 	next.Wait();
       }
-#if 0
     } catch(...) {
       // FIXME: Is there any valid exception that can pass through here ???
-      cerr << "WARNING: Ticker aborted on exception. " << ((void *) this)  << "\n";
-      throw ;
+      SysLog(SYSLOG_WARNING) << "Ticker aborted on exception. " << ((void *) this)  << "\n";
     }
-#endif
     ONDEBUG(cerr << "Ticker done... " <<  ((void *) this) <<". Delay:" << delay << " \n");
     return 0;
   }

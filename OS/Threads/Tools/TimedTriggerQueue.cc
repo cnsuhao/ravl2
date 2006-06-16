@@ -74,8 +74,7 @@ namespace RavlN
   TimedTriggerQueueBodyC::~TimedTriggerQueueBodyC() {
     Shutdown();
   }
-
-
+  
   //: Shutdown even queue.
   
   void TimedTriggerQueueBodyC::Shutdown() {

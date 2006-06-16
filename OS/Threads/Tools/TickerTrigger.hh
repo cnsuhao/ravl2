@@ -39,6 +39,10 @@ namespace RavlN {
     virtual int Start();
     //: Called on startup.
     
+    virtual void Terminate();
+    //: Thread shutdown.
+    // Provide a clean way of shuting down this thread.
+    
     void SendTerminate()
     { delay = -1; }
     //: Set terminate.

@@ -24,7 +24,7 @@
 
 #define USE_NEW_TIMEDTRIGGERQUEUE 1
 // The new timed trigger code doesn't rely the un*x select system call,
-// but seems to give worse timing errors.  
+// but gives less accurate timing.  
 
 namespace RavlN
 {

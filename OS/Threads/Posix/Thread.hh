@@ -90,9 +90,9 @@ namespace RavlN
     // use this command to start thread running after it has been created.  This function can only be called 
     // once.
     
-    void Terminate();
+    virtual void Terminate();
     //: Terminate thread.
-    // This function is very dangerous. Stopping a thread whilst its
+    // The default version of this function is very dangerous. Stopping a thread whilst its
     // running is likely to cause memory leaks, and deadlocks. <br>
     // It is much better to have a thread check a flag (see ThreadEventC) 
     // and exit normally. <br>
@@ -208,7 +208,7 @@ namespace RavlN
     void Terminate()
     { Body().Terminate(); }
     //: Terminate thread.
-    // This function is very dangerous. Stopping a thread whilst its
+    // The default versin of this function is very dangerous. Stopping a thread whilst its
     // running is likely to cause memory leaks, and deadlocks. <br>
     // It is much better to have a thread check a flag (see ThreadEventC) 
     // and exit normally. <br>
