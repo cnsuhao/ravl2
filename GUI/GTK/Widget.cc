@@ -942,6 +942,11 @@ namespace RavlGUIN {
 #endif
     return true;
   }
+
+  void GUIBeep() {
+    gdk_beep();
+  }
+  //: Emit a short beep
   
   
 }

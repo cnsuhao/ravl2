@@ -21,7 +21,6 @@
 #include "Ravl/GUI/Widget.hh"
 
 #include <gtk/gtkenums.h>
-#include <gtk/gtk.h>
 
 // Namespace fix for Visual C++
 #if RAVL_COMPILER_VISUALCPP6

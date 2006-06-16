@@ -37,6 +37,7 @@ extern "C" {
   typedef struct _GtkTreePath GtkTreePath;
   typedef struct _GtkTreeViewColumn GtkTreeViewColumn;
 #endif
+  typedef struct _GtkStyle  GtkStyle;
 
   typedef struct _GdkFont GdkFont;
   typedef struct _GdkCursor GdkCursor;
@@ -50,6 +51,7 @@ extern "C" {
   typedef struct _GtkSelectionData GtkSelectionData;
   typedef struct _GtkTargetEntry   GtkTargetEntry;
   
+  typedef struct _GdkColor  GdkColor;
   
   typedef int DragProtocolT; // GtkDragProtocolT
   typedef int DragActionT;   // GdkDragAction
