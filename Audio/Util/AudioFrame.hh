@@ -26,14 +26,9 @@ namespace RavlAudioN {
   
   public:
     AudioFrameBodyC()
-      : channels(0),freq(0),bits(0) {}
+      : channels(0),freq(0) {}
     //: Default constructor.
-    
-
-    AudioFrameBodyC(const SArray1dC<ByteT> &data, IntT nchannels, RealT nfreq, IntT nbits);
-    //: Construct from components.
-    
-    
+        
     AudioFrameBodyC(const SArray1dC<SampleElemC<2,Int16T> > &data,RealT nfreq);
     //: Construct from components.
 
@@ -55,27 +50,16 @@ namespace RavlAudioN {
     //: Access frequency.
 
     
-    IntT AudioBits() const
-    { return bits; }
-    //: Bits per sample.
-
-    
-    const SArray1dC<ByteT> &AudioData() const
-    { return audio; }
-    //: Access audio data.
-
-    
     const SArray1dC<SampleElemC<2,Int16T> > &Stereo() const
     { return stereoData; }
     //: Get as stereo data. 
 
     
   protected:
-    SArray1dC<ByteT> audio; // Raw audio data.
+    //SArray1dC<ByteT> audio; // Raw audio data.
     SArray1dC<SampleElemC<2,Int16T> > stereoData; // Data in 16-bit stereo.
     IntT channels;
     RealT freq;
-    IntT bits;
   };
 
 
@@ -92,11 +76,6 @@ namespace RavlAudioN {
     : RCHandleC<AudioFrameBodyC> ( * new AudioFrameBodyC ) {} 
     //: Default constructor. - Creates an empty frame
     
-  
-  inline AudioFrameC(const SArray1dC<ByteT> &data, IntT nchannels, RealT nfreq, IntT nbits)
-    : RCHandleC<AudioFrameBodyC> ( * new AudioFrameBodyC ( data, nchannels, nfreq, nbits ) ) {} 
- //: Construct from components.
-  
   
   inline AudioFrameC(const SArray1dC<SampleElemC<2,Int16T> > &data,RealT nfreq)
     : RCHandleC<AudioFrameBodyC> ( * new AudioFrameBodyC ( data, nfreq ) ) {} 
@@ -121,16 +100,6 @@ namespace RavlAudioN {
   inline RealT AudioFrequency() const
     { return Body().AudioFrequency() ; }
     //: Access frequency.
-
-    
-  inline IntT AudioBits() const
-    { return Body().AudioBits() ; }
-  //: Bits per sample.
-
-  
-    inline const SArray1dC<ByteT> &AudioData() const
-    { return Body().AudioData() ; }
-    //: Access audio data.
 
     
     inline const SArray1dC<SampleElemC<2,Int16T> > &Stereo() const

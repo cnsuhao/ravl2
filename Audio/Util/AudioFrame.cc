@@ -13,25 +13,12 @@
 
 namespace RavlAudioN {
 
-  //: Construct from components.
-  //: --------------------------------------------------------------------------------------------------------------------------  
-  AudioFrameBodyC::AudioFrameBodyC(const SArray1dC<ByteT> &data,
-			   IntT nchannels,
-			   RealT nfreq,
-			   IntT nbits)
-    : audio(data),
-      channels(nchannels),
-      freq(nfreq),
-      bits(nbits)
-  {}
-  
   //: Constructor from stereo
   //: --------------------------------------------------------------------------------------------------------------------------
   AudioFrameBodyC::AudioFrameBodyC(const SArray1dC<SampleElemC<2,Int16T> > &data,RealT nfreq) 
     : stereoData(data),
       channels(2),
-      freq(nfreq),
-      bits(16)
+      freq(nfreq)
   {}
 
 
@@ -39,11 +26,11 @@ namespace RavlAudioN {
   //: --------------------------------------------------------------------------------------------------------------------------
   AudioFrameBodyC::AudioFrameBodyC ( BinIStreamC & stream ) 
 {
-  stream >> channels >> freq >> bits ; 
+  stream >> channels >> freq ; 
   if ( channels  == 2 ) 
     stream >> stereoData ; 
-  else 
-    stream >> audio ; 
+  //else 
+  //    stream >> audio ; 
 }
 
 
@@ -51,11 +38,11 @@ namespace RavlAudioN {
   //: --------------------------------------------------------------------------------------------------------------------------
   AudioFrameBodyC::AudioFrameBodyC ( istream & stream ) 
 {
- stream >> channels >> freq >> bits ; 
+ stream >> channels >> freq ; 
   if ( channels  == 2 ) 
     stream >> stereoData ; 
-  else 
-    stream >> audio ; 
+  //else 
+  //    stream >> audio ; 
 }
 
 
@@ -63,11 +50,12 @@ namespace RavlAudioN {
   //: --------------------------------------------------------------------------------------------------------------------------
  bool AudioFrameBodyC::Save(ostream & stream) const
 {
-  stream << channels << " " << freq << " " << bits ; 
+  stream << channels << " " << freq ; 
   if ( channels == 2 ) 
     stream << stereoData ; 
   else 
-    stream << audio ; 
+    return false;
+  //stream << audio ; 
 return true ; 
 }
 
@@ -76,11 +64,12 @@ return true ;
   //: --------------------------------------------------------------------------------------------------------------------------
   bool  AudioFrameBodyC::Save ( BinOStreamC & stream ) const 
 {
-  stream << channels << freq << bits ; 
+  stream << channels << freq ; 
   if ( channels == 2 ) 
     stream << stereoData ; 
   else 
-    stream << audio ; 
+    return false;
+  //    stream << audio ; 
 return true ; 
 }
 
