@@ -12,7 +12,7 @@
 #include "Ravl/GUI/ReadBack.hh"
 
 #if 1
-#define RAVL_USE_GTKTHREADS  RAVL_OS_WIN32  /* Use thread based event handling stratagy. */
+#define RAVL_USE_GTKTHREADS  0  /* Use thread based event handling stratagy. */
 #else
 #define RAVL_USE_GTKTHREADS  1  /* Use thread based event handling stratagy. */
 #endif
