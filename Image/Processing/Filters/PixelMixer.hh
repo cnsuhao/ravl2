@@ -29,7 +29,7 @@ namespace RavlImageN {
     //: Default constructor.
     
     void operator()(OutT &pixel,const InT &mixin)
-    { pixel = mixin; }
+    { pixel = static_cast<OutT>(mixin); }
     //: Mix operator
   };
   
@@ -45,7 +45,7 @@ namespace RavlImageN {
     //: Default constructor.
     
     void operator()(OutT &pixel,const InT &mixin)
-    { pixel = (mixin + pixel)/2; }
+    { pixel = static_cast<OutT>((mixin + pixel)/2); }
     //: Mix operator
   };
   
