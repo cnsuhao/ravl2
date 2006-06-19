@@ -1,0 +1,22 @@
+# This file is part of RAVL, Recognition And Vision Library 
+# Copyright (C) 2003, University of Surrey
+# This code may be redistributed under the terms of the GNU Lesser
+# General Public License (LGPL). See the lgpl.licence file for details or
+# see http://www.gnu.org/copyleft/lesser.html
+# file-header-ends-here
+ifndef LIBDV_DEF
+LIBDV_DEF=1
+
+#  libdv ##################################################
+
+#LIBDV_HOME=/vol/vssp/dera/src/digitalvideo
+#LIBDV_INCLUDE=$(LIBDV_HOME)/include
+#LIBDV_LIBS=$(LIBDV_HOME)/lib
+#INCLUDES += -I$(LIBDV_INCLUDE)
+#EXELIB := $(LIBDV_LIBS) -ldv  $(EXELIB)
+
+# These libs can be obtained as rpm's for most linux systems.
+
+EXELIB := -ldv $(EXELIB)
+
+endif

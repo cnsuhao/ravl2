@@ -1,0 +1,37 @@
+# This file is part of RAVL, Recognition And Vision Library 
+# Copyright (C) 2003, University of Surrey
+# This code may be redistributed under the terms of the GNU
+# General Public License (GPL). See the gpl.licence file for details or
+# see http://www.gnu.org/copyleft/gpl.html
+# file-header-ends-here
+ifndef LIBMCRYPT_DEF
+LIBMCRYPT_DEF=1
+
+include Math.def
+
+ifdef LIBCRYPT_HOME
+  ifeq ($(LIBCRYPT_HOME),/usr)
+    EXELIB := -lmcrypt $(EXELIB)
+  else
+    # Directory to look for include files.
+    ifndef LIBMCRYPT_INCLUDE
+      LIBMCRYPT_INCLUDE=$(LIBMCRYPT_HOME)/include
+    endif
+
+    # Directory to look for libraries.
+    ifndef LIBMCRYPT_LIBS
+      LIBMCRYPT_LIBS=$(LIBMCRYPT_HOME)/lib
+    endif
+
+    # Set things up.
+    EXELIB := -L$(LIBMCRYPT_LIBS) -lmcrypt $(EXELIB)
+    INCLUDES += -I$(LIBMCRYPT_INCLUDE)
+  endif
+
+else
+
+    EXELIB := -lmcrypt $(EXELIB)
+
+endif
+
+endif

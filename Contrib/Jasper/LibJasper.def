@@ -1,0 +1,38 @@
+# This file is part of RAVL, Recognition And Vision Library
+# Copyright (C) 2005, OmniPerception Ltd.
+# This code may be redistributed under the terms of the GNU lesser
+# public license (LGPL). See the lgpl.licence file for details or
+# see http://www.gnu.org/copyleft/lesser.html
+# file-header-ends-here
+ifndef LIBJASPER_DEF
+LIBJASPER_DEF = 1
+
+  include Math.def
+
+  CPPFLAGS += -DRAVL_HAVE_LIBJASPER
+  CCPPFLAGS += -DRAVL_HAVE_LIBJASPER
+
+  ifndef LIBJASPER_HOME
+    EXELIB := -ljpeg -ljasper $(EXELIB) 
+  else 
+    INCLUDES += -I$(LIBJASPER_HOME)/include 
+
+    ifeq ($(ARC),linux)
+      EXELIB := -ljpeg -Wl,-rpath,$(LIBJASPER_HOME)/lib -L$(LIBJASPER_HOME)/lib -ljasper $(EXELIB)
+    else
+
+      ifeq ($(ARC),sgi)
+        EXELIB := -ljpeg -R $(LIBJASPER_HOME)/lib32 -L$(LIBJASPER_HOME)/lib32 -ljasper $(EXELIB)
+      else
+
+        ifneq ($(filter $(ARC), sol2_7 sol2_9),)
+          EXELIB := -ljpeg -R $(LIBJASPER_HOME)/lib -L$(LIBJASPER_HOME)/lib -ljasper $(EXELIB)
+        else 
+
+          EXELIB := -ljpeg -L$(LIBJASPER_HOME)/lib -ljasper $(EXELIB)
+        endif 
+      endif 
+    endif 
+  endif 
+
+endif

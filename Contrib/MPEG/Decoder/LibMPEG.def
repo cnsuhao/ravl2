@@ -1,0 +1,8 @@
+ifndef LIBMPEG_DEF
+LIBMPEG_DEF=1
+
+include Math.def
+
+EXELIB := -lmpeg $(EXELIB)
+
+endif
