@@ -65,7 +65,7 @@ namespace RavlAudioN {
 
 
 
-  //! userlevel=Develop
+  //! userlevel=Normal
   //: Frame of audio data.
   class AudioFrameC : public RCHandleC<AudioFrameBodyC> 
 {
