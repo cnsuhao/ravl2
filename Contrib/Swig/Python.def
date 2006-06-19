@@ -1,0 +1,14 @@
+ifndef PYTHON_DEF
+PYTHON_DEF=1
+
+include Math.def
+
+ifndef PYTHON_HOME
+PYTHON_HOME=/usr
+endif
+
+INCLUDES += -I/usr/include/python2.3
+EXELIB :=  -lpython2.3 $(EXELIB)
+
+
+endif

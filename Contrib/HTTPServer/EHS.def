@@ -1,0 +1,24 @@
+# This file is part of RAVL, Recognition And Vision Library 
+# Copyright (C) 2005, University of Surrey
+# This code may be redistributed under the terms of the GNU Lesser
+# General Public License (LGPL). See the lgpl.licence file for details or
+# see http://www.gnu.org/copyleft/lesser.html
+# file-header-ends-here
+ifndef EHS_Def 
+EHS_Def = 1
+
+EHS_EXELIB = 
+
+ifdef PME_HOME
+  INCLUDES += -I$(PME_HOME)/include
+  EHS_EXELIB += -L$(PME_HOME)/lib
+endif
+
+ifdef EHS_HOME
+  INCLUDES += -I$(EHS_HOME)/include
+  EHS_EXELIB += -L$(EHS_HOME)/lib
+endif
+
+EXELIB := $(EHS_EXELIB) -lehs -lpme $(EXELIB)
+
+endif

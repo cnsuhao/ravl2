@@ -1,0 +1,40 @@
+# This file is part of RAVL, Recognition And Vision Library 
+# Copyright (C) 2003, University of Surrey
+# This code may be redistributed under the terms of the GNU
+# General Public License (GPL). See the gpl.licence file for details or
+# see http://www.gnu.org/copyleft/gpl.html
+# file-header-ends-here
+ifndef LIBMPEG2_DEF
+  LIBMPEG2_DEF=1
+
+  include Math.def
+
+  ifdef LIBMPEG2_HOME
+    ifeq ($(LIBMPEG2_HOME),/usr)
+
+      EXELIB := -lmpeg2 $(EXELIB)
+
+    else
+
+      # Directory to look for include files.
+      ifndef LIBMPEG2_INCLUDE
+        LIBMPEG2_INCLUDE=$(LIBMPEG2_HOME)/include
+      endif
+
+      # Directory to look for libraries.
+      ifndef LIBMPEG2_LIBS
+        LIBMPEG2_LIBS=$(LIBMPEG2_HOME)/lib
+      endif
+
+      # Set things up.
+      EXELIB := -L$(LIBMPEG2_LIBS) -lmpeg2 $(EXELIB)
+      INCLUDES += -I$(LIBMPEG2_INCLUDE)
+
+    endif
+
+  else
+
+    EXELIB := -lmpeg2 $(EXELIB)
+
+  endif
+endif

@@ -1,0 +1,14 @@
+
+INSTALLATION
+------------
+
+To use the library you need the mpeg_lib version 1.3.1 you can download
+this from http://www.netsw.org/graphic/movie/mpeg/mpeg_lib
+
+once you have down loaded and installed this package edit the LibMPEG.def
+file in this directory and build it in the usual way. To include MPEG support
+in your program include 'RavlMPEG' in the USESLIBS line of your defs.mk.
+
+Because of limitations of the mpeg_lib library, you can only play back one
+mpg file at a time. There are currently no checks on this so the results attempting
+this are unpredictable.

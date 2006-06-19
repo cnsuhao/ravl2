@@ -1,0 +1,21 @@
+# This file is part of RAVL, Recognition And Vision Library 
+# Copyright (C) 2003, OmniPerception Ltd.
+# This code may be redistributed under the terms of the GNU Lesser
+# General Public License (LGPL). See the lgpl.licence file for details or
+# see http://www.gnu.org/copyleft/lesser.html
+# file-header-ends-here
+ifndef GUPPI_DEF
+GUPPI_DEF=1
+
+ifndef GUPPI_CFLAGS
+GUPPI_CFLAGS = `gnome-config libguppi --cflags` -I/usr/include/gnome-1.0/libguppi
+endif 
+
+ifndef GUPPI_LIBS
+GUPPI_LIBS = -lguppitank   `gnome-config libguppi --libs`
+endif 
+
+INCLUDES += $(GUPPI_CFLAGS)
+EXELIB := $(GUPPI_LIBS) $(EXELIB)
+
+endif
