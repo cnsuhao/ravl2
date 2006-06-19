@@ -7,7 +7,10 @@
 
   <body>
 
-    <p> This document provides a guideline for installation, but has not been tested thoroughly.</p>
+    <p> This document provides a guideline for installation, but has not been
+    tested thoroughly.  The instructions are for a Linux environment.  However
+    RAVL should also compile under M$ Windows, provided that a compiler is
+    used that is broadly ANSI compatible.</p>
 
 
     <h2>Compiler installation</h2>
@@ -42,12 +45,9 @@ cd ..
     <pre>
 mkdir -p $RAVL_INSTALLATION
 cd $RAVL_INSTALLATION
-cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/ravl login</pre>
-    <p>(Do not enter a password - just press return key.)</p>
-    <pre>
-cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/ravl co Ravl
+svn co https://svn.sourceforge.net/svnroot/ravl/main/Ravl
 cd Ravl
-cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/ravl co Contrib
+svn co https://svn.sourceforge.net/svnroot/ravl/main/Contrib
 cp QMake/config.local.linux $RAVL_INSTALLATION</pre>
 
     <p>Then edit the chosen <code>$RAVL_INSTALLATION/config.local.xxx</code>.  Typical modifications include:  </p>
@@ -129,7 +129,7 @@ setenv LD_LIBRARY_PATH /vol/ai/lib</pre>
     will be compiled.</li>
       <li>qm is the alias for building your own code.</li>
       <li><code>/vol/ai</code> is the
-    directiory in which extra packages were installed in the above example
+    directory in which extra packages were installed in the above example
     (and may therefore be superfluous).</li>
     </ul>
 
@@ -140,7 +140,7 @@ setenv LD_LIBRARY_PATH /vol/ai/lib</pre>
     <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
 <!-- Created: Fri Dec 23 09:31:09 GMT 2005 -->
 <!-- hhmts start -->
-Last modified: Wed Mar 29 15:59:44 BST 2006
+Last modified: Mon Jun 19 10:28:02 BST 2006
 <!-- hhmts end -->
   </body>
 </html>
