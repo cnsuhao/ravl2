@@ -287,7 +287,7 @@ namespace RavlGUIN {
     // Do we have a valid controls?
     if (!created)
       return false;
-    
+
     //cerr <<"PlayControlBodyC::SliderUpdate(). \n";
     MutexLockC hold(access,true);
     if(!hold.IsLocked()) // Did lock succeed ?
@@ -344,7 +344,10 @@ namespace RavlGUIN {
       if(updateValue)
         frameSlider.UpdateValue(loc);
     }
-    sigUpdateFrameNo(loc); // Signal update.
+    if(updateRange || updateValue)
+    {
+      sigUpdateFrameNo(loc); // Signal update.
+    }
     return true;
   }
   
