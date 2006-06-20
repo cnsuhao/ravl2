@@ -27,10 +27,7 @@ namespace RavlAudioN {
   AudioFrameBodyC::AudioFrameBodyC ( BinIStreamC & stream ) 
 {
   stream >> channels >> freq ; 
-  if ( channels  == 2 ) 
-    stream >> stereoData ; 
-  //else 
-  //    stream >> audio ; 
+  if ( channels  == 2 )  stream >> stereoData ; 
 }
 
 
@@ -38,11 +35,8 @@ namespace RavlAudioN {
   //: --------------------------------------------------------------------------------------------------------------------------
   AudioFrameBodyC::AudioFrameBodyC ( istream & stream ) 
 {
- stream >> channels >> freq ; 
-  if ( channels  == 2 ) 
-    stream >> stereoData ; 
-  //else 
-  //    stream >> audio ; 
+  stream >> channels >> freq ; 
+  if ( channels == 2 )  stream >> stereoData ; 
 }
 
 
@@ -50,13 +44,12 @@ namespace RavlAudioN {
   //: --------------------------------------------------------------------------------------------------------------------------
  bool AudioFrameBodyC::Save(ostream & stream) const
 {
-  stream << channels << " " << freq ; 
+  stream << channels << " " << freq << " " ; 
   if ( channels == 2 ) 
     stream << stereoData ; 
   else 
     return false;
-  //stream << audio ; 
-return true ; 
+  return true ; 
 }
 
 
@@ -69,8 +62,7 @@ return true ;
     stream << stereoData ; 
   else 
     return false;
-  //    stream << audio ; 
-return true ; 
+  return true ; 
 }
 
 
