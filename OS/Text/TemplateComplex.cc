@@ -43,6 +43,16 @@ namespace RavlN {
     vars.Push(RCHashC<StringC,StringC>(true) ); // Push base variables.
     InitCommands();
   }
+
+  //: Start build of document, write results to given stream.
+  
+  bool TemplateComplexBodyC::BuildToStream(OStreamC &out) {
+    output.Push(out);
+    incDepth = 0;
+    bool ret = BuildSub(templFile);
+    output.DelTop();
+    return ret;
+  }
   
   //: Start build of document.
   
@@ -59,15 +69,12 @@ namespace RavlN {
 	}
       }
     }
-    output.Push(OStreamC(fn));
-    if(!output.Top().good()) {
+    OStreamC outs(fn);
+    if(!outs.good()) {
       cerr << "Failed to open output file '" << fn << "'\n";
       return false;
     }
-    incDepth = 0;
-    bool ret = BuildSub(templFile);
-    output.DelTop();
-    return ret;
+    return BuildToStream(outs);
   }
   
   //: Setup command func.

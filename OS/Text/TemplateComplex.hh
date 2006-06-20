@@ -52,6 +52,9 @@ namespace RavlN {
     bool Build(StringC &fn);
     //: Start build of document.
     
+    bool BuildToStream(OStreamC &out);
+    //: Start build of document, write results to given stream.
+    
     bool BuildSub(TextFileC &templ);
     //: Start build of document.
     
@@ -216,25 +219,28 @@ namespace RavlN {
   public:
     
     bool Build(StringC &fn)
-      { return Body().Build(fn); }
+    { return Body().Build(fn); }
     //: Start build of document.
     
+    bool BuildToStream(OStreamC &out)
+    { return Body().BuildToStream(out); }
+    //: Start build of document, write results to given stream.
+    
     void SetupPresets(const HSetC<StringC> &nameset)
-      { Body().SetupPresets(nameset); }
+    { Body().SetupPresets(nameset); }
     //: Setup presets.
     
     void SetVar(const StringC &var,const StringC &val)
-      { Body().SetVar(var,val); }
+    { Body().SetVar(var,val); }
     //: Set value of variable.
     
     StringC GetVar(const StringC &var)
-      { return Body().GetVar(var); }
+    { return Body().GetVar(var); }
     //: Get value of a variable.
     
     StringC Interpret(const StringC &str)
-      { return Body().Interpret(str); }
-    //: Interpret string 'str' and return the result.
-    
+    { return Body().Interpret(str); }
+    //: Interpret string 'str' and return the result.    
   };
 
 
