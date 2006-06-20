@@ -11,14 +11,14 @@ EHS_EXELIB =
 
 ifdef PME_HOME
   INCLUDES += -I$(PME_HOME)/include
-  EHS_EXELIB += -L$(PME_HOME)/lib
+  EHS_EXELIB += -L$(PME_HOME)/lib -Wl,-rpath,$(PME_HOME)/lib 
 endif
 
 ifdef EHS_HOME
   INCLUDES += -I$(EHS_HOME)/include
-  EHS_EXELIB += -L$(EHS_HOME)/lib
+  EHS_EXELIB += -L$(EHS_HOME)/lib -Wl,-rpath,$(EHS_HOME)/lib 
 endif
 
-EXELIB := $(EHS_EXELIB) -lehs -lpme $(EXELIB)
+EXELIB := -lpme -lehs  $(EHS_EXELIB)  $(EXELIB)
 
 endif
