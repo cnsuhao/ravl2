@@ -59,6 +59,8 @@ namespace RavlN
     int rc;
     if((rc = pthread_mutex_init(&mutex,0)) != 0)
       Error("Failed to create mutex.",errno,rc); 
+    else
+      isValid = true;
 #else
 #if defined(PTHREAD_MUTEX_ERRORCHECK) || defined(PTHREAD_MUTEX_ERRORCHECK_NP) || RAVL_OS_LINUX
     ONDEBUG(cerr << "MutexC::Init(), Constructing debuging mutex. (@:" << ((void*) this) << ") \n");
