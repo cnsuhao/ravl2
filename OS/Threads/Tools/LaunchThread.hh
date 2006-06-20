@@ -144,20 +144,26 @@ namespace RavlN {
 
   template<class DataT>
   inline
-  LaunchThreadC LaunchThread(bool (*nFunc)(DataT &),const DataT &dat)
-  { return LaunchThreadC(Trigger(nFunc,dat)); }
+  LaunchThreadC LaunchThread(bool (*nFunc)(DataT),
+                const typename TraitsC<DataT>::BaseTypeT &def =  TraitsC<DataT>::BaseTypeT())
+  { return LaunchThreadC(Trigger(nFunc,def)); }
   //: Launch a routine on another thread.
 
   template<class Data1T,class Data2T>
   inline
-  LaunchThreadC LaunchThread(bool (*nFunc)(Data1T &,Data2T &),const Data1T &dat1,const Data2T &dat2)
-  { return LaunchThreadC(Trigger(nFunc,dat1,dat2)); }
+  LaunchThreadC LaunchThread(bool (*nFunc)(Data1T,Data2T),
+                const typename TraitsC<Data1T>::BaseTypeT &def1 =  TraitsC<Data1T>::BaseTypeT(),
+		const typename TraitsC<Data2T>::BaseTypeT &def2 =  TraitsC<Data2T>::BaseTypeT())
+  { return LaunchThreadC(Trigger(nFunc,def1,def2)); }
   //: Launch a routine on another thread.
-
+ 
   template<class Data1T,class Data2T,class Data3T>
   inline
-  LaunchThreadC LaunchThread(bool (*nFunc)(Data1T &,Data2T &,Data3T &),const Data1T &dat1,const Data2T &dat2,const Data3T &dat3)
-  { return LaunchThreadC(Trigger(nFunc,dat1,dat2,dat3)); }
+  LaunchThreadC LaunchThread(bool (*nFunc)(Data1T,Data2T,Data3T),
+                const typename TraitsC<Data1T>::BaseTypeT &def1 =  TraitsC<Data1T>::BaseTypeT(),
+                const typename TraitsC<Data2T>::BaseTypeT &def2 =  TraitsC<Data1T>::BaseTypeT(),
+                const typename TraitsC<Data3T>::BaseTypeT &def3 =  TraitsC<Data1T>::BaseTypeT())
+  { return LaunchThreadC(Trigger(nFunc,def1,def2,def3)); }
   //: Launch a routine on another thread.
   
   template<class ObjT>
@@ -167,32 +173,47 @@ namespace RavlN {
   // This calls a method on a copy of object 'nObj'.
   
   template<class ObjT,class DataT>
-  LaunchThreadC LaunchThread(const ObjT &nObj,bool (ObjT::*nFunc)(DataT &),const DataT &nDat) 
-  { return LaunchThreadC(Trigger(nObj,nFunc,nDat)); }
+  LaunchThreadC LaunchThread(const ObjT &nObj,bool (ObjT::*nFunc)(DataT),
+                const typename TraitsC<DataT>::BaseTypeT &def =  TraitsC<DataT>::BaseTypeT()) 
+  { return LaunchThreadC(Trigger(nObj,nFunc,def)); }
   //: Launch a method on another thread.
   // This calls a method on a copy of object 'nObj'.
   
   template<class ObjT,class Data1T,class Data2T>
-  LaunchThreadC LaunchThread(const ObjT &nObj,bool (ObjT::*nFunc)(Data1T &,Data2T &),const Data1T &nDat1,const Data2T &nDat2) 
-  { return LaunchThreadC(Trigger(nObj,nFunc,nDat1,nDat2)); }
+  LaunchThreadC LaunchThread(const ObjT &nObj,bool (ObjT::*nFunc)(Data1T,Data2T),
+    const typename TraitsC<Data1T>::BaseTypeT &def1 =  TraitsC<Data1T>::BaseTypeT(),
+    const typename TraitsC<Data2T>::BaseTypeT &def2 =  TraitsC<Data2T>::BaseTypeT()) 
+  { return LaunchThreadC(Trigger(nObj,nFunc,def1,def2)); }
   //: Launch a method on another thread.
   // This calls a method on a copy of object 'nObj'.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T>
-  LaunchThreadC LaunchThread(const ObjT &nObj,bool (ObjT::*nFunc)(Data1T &,Data2T &,Data3T &),const Data1T &nDat1,const Data2T &nDat2,const Data3T &nDat3) 
-  { return LaunchThreadC(Trigger(nObj,nFunc,nDat1,nDat2,nDat3)); }
+  LaunchThreadC LaunchThread(const ObjT &nObj,bool (ObjT::*nFunc)(Data1T,Data2T,Data3T),
+    const typename TraitsC<Data1T>::BaseTypeT &def1 =  TraitsC<Data1T>::BaseTypeT(),
+    const typename TraitsC<Data2T>::BaseTypeT &def2 =  TraitsC<Data2T>::BaseTypeT(),
+    const typename TraitsC<Data3T>::BaseTypeT &def3 =  TraitsC<Data3T>::BaseTypeT()) 
+  { return LaunchThreadC(Trigger(nObj,nFunc,def1,def2,def3)); }
   //: Launch a method on another thread.
   // This calls a method on a copy of object 'nObj'.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T>
-  LaunchThreadC LaunchThread(const ObjT &nObj,bool (ObjT::*nFunc)(Data1T &,Data2T &,Data3T &,Data4T &),const Data1T &nDat1,const Data2T &nDat2,const Data3T &nDat3,const Data4T &nDat4)
-  { return LaunchThreadC(Trigger(nObj,nFunc,nDat1,nDat2,nDat3,nDat4)); }
+  LaunchThreadC LaunchThread(const ObjT &nObj,bool (ObjT::*nFunc)(Data1T,Data2T,Data3T,Data4T),
+    const typename TraitsC<Data1T>::BaseTypeT &def1 =  TraitsC<Data1T>::BaseTypeT(),
+    const typename TraitsC<Data2T>::BaseTypeT &def2 =  TraitsC<Data2T>::BaseTypeT(),
+    const typename TraitsC<Data3T>::BaseTypeT &def3 =  TraitsC<Data3T>::BaseTypeT(),
+    const typename TraitsC<Data4T>::BaseTypeT &def4 =  TraitsC<Data4T>::BaseTypeT())
+  { return LaunchThreadC(Trigger(nObj,nFunc,def1,def2,def3,def4)); }
   //: Launch a method on another thread.
   // This calls a method on a copy of object 'nObj'.
 
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T>
-  LaunchThreadC LaunchThread(const ObjT &nObj,bool (ObjT::*nFunc)(Data1T &,Data2T &,Data3T &,Data4T &,Data5T &),const Data1T &nDat1,const Data2T &nDat2,const Data3T &nDat3,const Data4T &nDat4,const Data5T &nDat5)
-  { return LaunchThreadC(Trigger(nObj,nFunc,nDat1,nDat2,nDat3,nDat4,nDat5)); }
+  LaunchThreadC LaunchThread(const ObjT &nObj,bool (ObjT::*nFunc)(Data1T,Data2T,Data3T,Data4T,Data5T),
+    const typename TraitsC<Data1T>::BaseTypeT &def1 =  TraitsC<Data1T>::BaseTypeT(),
+    const typename TraitsC<Data2T>::BaseTypeT &def2 =  TraitsC<Data2T>::BaseTypeT(),
+    const typename TraitsC<Data3T>::BaseTypeT &def3 =  TraitsC<Data3T>::BaseTypeT(),
+    const typename TraitsC<Data4T>::BaseTypeT &def4 =  TraitsC<Data4T>::BaseTypeT(),
+    const typename TraitsC<Data5T>::BaseTypeT &def5 =  TraitsC<Data5T>::BaseTypeT())
+  { return LaunchThreadC(Trigger(nObj,nFunc,def1,def2,def3,def4,def5)); }
   //: Launch a method on another thread.
   // This calls a method on a copy of object 'nObj'.
   
@@ -203,32 +224,47 @@ namespace RavlN {
   // This calls a method on a reference to object 'nObj'.
   
   template<class ObjT,class DataT>
-  LaunchThreadC LaunchThreadR(ObjT &nObj,bool (ObjT::*nFunc)(DataT &),const DataT &nDat) 
-  { return LaunchThreadC(TriggerR(nObj,nFunc,nDat)); }
+  LaunchThreadC LaunchThreadR(ObjT &nObj,bool (ObjT::*nFunc)(DataT),
+    const typename TraitsC<DataT>::BaseTypeT &def =  TraitsC<DataT>::BaseTypeT()) 
+  { return LaunchThreadC(TriggerR(nObj,nFunc,def)); }
   //: Launch a method on another thread.
   // This calls a method on a reference to object 'nObj'.
   
   template<class ObjT,class Data1T,class Data2T>
-  LaunchThreadC LaunchThreadR(ObjT &nObj,bool (ObjT::*nFunc)(Data1T &,Data2T &),const Data1T &nDat1,const Data2T &nDat2) 
-  { return LaunchThreadC(TriggerR(nObj,nFunc,nDat1,nDat2)); }
+  LaunchThreadC LaunchThreadR(ObjT &nObj,bool (ObjT::*nFunc)(Data1T,Data2T),
+    const typename TraitsC<Data1T>::BaseTypeT &def1 =  TraitsC<Data1T>::BaseTypeT(),
+    const typename TraitsC<Data2T>::BaseTypeT &def2 =  TraitsC<Data2T>::BaseTypeT()) 
+  { return LaunchThreadC(TriggerR(nObj,nFunc,def1,def2)); }
   //: Launch a method on another thread.
   // This calls a method on a reference to object 'nObj'.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T>
-  LaunchThreadC LaunchThreadR(ObjT &nObj,bool (ObjT::*nFunc)(Data1T &,Data2T &,Data3T &),const Data1T &nDat1,const Data2T &nDat2,const Data3T &nDat3) 
-  { return LaunchThreadC(TriggerR(nObj,nFunc,nDat1,nDat2,nDat3)); }
+  LaunchThreadC LaunchThreadR(ObjT &nObj,bool (ObjT::*nFunc)(Data1T,Data2T,Data3T),
+    const typename TraitsC<Data1T>::BaseTypeT &def1 =  TraitsC<Data1T>::BaseTypeT(),
+    const typename TraitsC<Data2T>::BaseTypeT &def2 =  TraitsC<Data2T>::BaseTypeT(),
+    const typename TraitsC<Data3T>::BaseTypeT &def3 =  TraitsC<Data3T>::BaseTypeT()) 
+  { return LaunchThreadC(TriggerR(nObj,nFunc,def1,def2,def3)); }
   //: Launch a method on another thread.
   // This calls a method on a reference to object 'nObj'.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T>
-  LaunchThreadC LaunchThreadR(ObjT &nObj,bool (ObjT::*nFunc)(Data1T &,Data2T &,Data3T &,Data4T &),const Data1T &nDat1,const Data2T &nDat2,const Data3T &nDat3,const Data4T &nDat4)
-  { return LaunchThreadC(TriggerR(nObj,nFunc,nDat1,nDat2,nDat3,nDat4)); }
+  LaunchThreadC LaunchThreadR(ObjT &nObj,bool (ObjT::*nFunc)(Data1T,Data2T,Data3T,Data4T),
+    const typename TraitsC<Data1T>::BaseTypeT &def1 =  TraitsC<Data1T>::BaseTypeT(),
+    const typename TraitsC<Data2T>::BaseTypeT &def2 =  TraitsC<Data2T>::BaseTypeT(),
+    const typename TraitsC<Data3T>::BaseTypeT &def3 =  TraitsC<Data3T>::BaseTypeT(),
+    const typename TraitsC<Data4T>::BaseTypeT &def4 =  TraitsC<Data4T>::BaseTypeT())
+  { return LaunchThreadC(TriggerR(nObj,nFunc,def1,def2,def3,def4)); }
   //: Launch a method on another thread.
   // This calls a method on a reference to object 'nObj'.
 
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T>
-  LaunchThreadC LaunchThreadR(ObjT &nObj,bool (ObjT::*nFunc)(Data1T &,Data2T &,Data3T &,Data4T &,Data5T &),const Data1T &nDat1,const Data2T &nDat2,const Data3T &nDat3,const Data4T &nDat4,const Data5T &nDat5)
-  { return LaunchThreadC(TriggerR(nObj,nFunc,nDat1,nDat2,nDat3,nDat4,nDat5)); }
+  LaunchThreadC LaunchThreadR(ObjT &nObj,bool (ObjT::*nFunc)(Data1T,Data2T,Data3T,Data4T,Data5T),
+    const typename TraitsC<Data1T>::BaseTypeT &def1 =  TraitsC<Data1T>::BaseTypeT(),
+    const typename TraitsC<Data2T>::BaseTypeT &def2 =  TraitsC<Data2T>::BaseTypeT(),
+    const typename TraitsC<Data3T>::BaseTypeT &def3 =  TraitsC<Data3T>::BaseTypeT(),
+    const typename TraitsC<Data4T>::BaseTypeT &def4 =  TraitsC<Data4T>::BaseTypeT(),
+    const typename TraitsC<Data1T>::BaseTypeT &def5 =  TraitsC<Data5T>::BaseTypeT())
+  { return LaunchThreadC(TriggerR(nObj,nFunc,def1,def2,def3,def4,def5)); }
   //: Launch a method on another thread.
   // This calls a method on a reference to object 'nObj'.
   
