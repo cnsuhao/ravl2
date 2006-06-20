@@ -66,13 +66,28 @@ namespace RavlN
     rfd = iofds[0];
     wfd = iofds[1];
 #endif
-    LaunchThread(TimedTriggerQueueC(*this),&TimedTriggerQueueC::Process);
+    LaunchThread(TimedTriggerQueueC(*this,RCLH_CALLBACK),&TimedTriggerQueueC::Process);
   }
   
   //: Destructor.
   
   TimedTriggerQueueBodyC::~TimedTriggerQueueBodyC() {
-    Shutdown();
+  }
+  
+  //: Called when owning handles drops to zero.
+  
+  void TimedTriggerQueueBodyC::ZeroOwners() {
+    // Start shutdown
+    done = true;
+    
+#if !USE_NEW_TIMEDTRIGGERQUEUE
+    IntT nEvent = 0;
+    if(write(wfd,&nEvent,sizeof(IntT)) != sizeof(IntT))
+      cerr << "TimedTriggerQueueBodyC::Schedule(), WARNING: Failed to write to schedule queue.  \n";
+#endif
+    
+    // Pass back to parent on principle.
+    RCLayerBodyC::ZeroOwners();
   }
   
   //: Shutdown even queue.
@@ -84,7 +99,6 @@ namespace RavlN
     if(write(wfd,&nEvent,sizeof(IntT)) != sizeof(IntT))
       cerr << "TimedTriggerQueueBodyC::Schedule(), WARNING: Failed to write to schedule queue.  \n";
 #endif
-    hasShutdown.Wait(); // Wait for shutdown to complete.
   }
   
   //: Schedule event for running after time 't' (in seconds).
@@ -189,7 +203,6 @@ namespace RavlN
 #endif
       ONDEBUG(cerr << "Time to check things out.\n");
     } while(!done);
-    hasShutdown.Post();
     return true;
    }
   

@@ -17,6 +17,7 @@
 #include "Ravl/OS/Date.hh"
 #include "Ravl/PriQueue.hh"
 #include "Ravl/Hash.hh"
+#include "Ravl/RCLayer.hh"
 #include "Ravl/Threads/Mutex.hh"
 #include "Ravl/Threads/Semaphore.hh"
 #include "Ravl/Threads/ThreadEvent.hh"
@@ -36,7 +37,7 @@ namespace RavlN
   // See the handle class for more details.
   
   class TimedTriggerQueueBodyC 
-    : public RCBodyC
+    : public RCLayerBodyC
   {
   public:
     TimedTriggerQueueBodyC();
@@ -70,12 +71,14 @@ namespace RavlN
     bool Process();
     //: Process event queue.
     
+    virtual void ZeroOwners();
+    //: Called when owning handles drops to zero.
+    
     MutexC access;
     UIntT eventCount;
     PriQueueC<DateC,UIntT> schedule;
     HashC<UIntT,TriggerC> events;
     bool done;
-    ThreadEventC hasShutdown;
     // Queue fd's
 #if USE_NEW_TIMEDTRIGGERQUEUE
     SemaphoreC semaSched;
@@ -95,60 +98,60 @@ namespace RavlN
   // spawn a new thread to complete it.   
   
   class TimedTriggerQueueC 
-    : public RCHandleC<TimedTriggerQueueBodyC>
+    : public RCLayerC<TimedTriggerQueueBodyC>
   {
   public:
     TimedTriggerQueueC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
 
     TimedTriggerQueueC(bool )
-      : RCHandleC<TimedTriggerQueueBodyC>(*new TimedTriggerQueueBodyC())
-      {}
+      : RCLayerC<TimedTriggerQueueBodyC>(*new TimedTriggerQueueBodyC())
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
   protected:
-    TimedTriggerQueueC(TimedTriggerQueueBodyC &bod)
-      : RCHandleC<TimedTriggerQueueBodyC>(bod)
-      {}
+    TimedTriggerQueueC(TimedTriggerQueueBodyC &bod,RCLayerHandleT handleType = RCLH_OWNER)
+      : RCLayerC<TimedTriggerQueueBodyC>(bod,handleType)
+    {}
     //: Body constructor.
-
+    
     TimedTriggerQueueBodyC &Body() 
-      { return RCHandleC<TimedTriggerQueueBodyC>::Body(); }
+    { return RCLayerC<TimedTriggerQueueBodyC>::Body(); }
     //: Access body.
 
     const TimedTriggerQueueBodyC &Body() const
-      { return RCHandleC<TimedTriggerQueueBodyC>::Body(); }
+    { return RCLayerC<TimedTriggerQueueBodyC>::Body(); }
     //: Access body.
     
     bool Process()
-      { return Body().Process(); }
+    { return Body().Process(); }
     //: Used to start internal thread.
   public:
     UIntT Schedule(RealT t,const TriggerC &se)
-      { return Body().Schedule(t,se); }
+    { return Body().Schedule(t,se); }
     //: Schedule event for running after time 't' (in seconds).
     // Thread safe.
     // Returns an ID for the event, which can
     // be used for canceling it. 
     
     UIntT Schedule(DateC &at,const TriggerC &se)
-      { return Body().Schedule(at,se); }
+    { return Body().Schedule(at,se); }
     //: Schedule event for running.
     // Thread safe.
     // Returns an ID for the event, which can
     // be used for canceling it.
     
     bool Cancel(UIntT eventID)
-      { return Body().Cancel(eventID); }
+    { return Body().Cancel(eventID); }
     //: Cancel pending event.
     // Will return TRUE if event in canceled before
     // it was run.
     
     void Shutdown()
-      { Body().Shutdown(); }
+    { Body().Shutdown(); }
     //: Shutdown even queue.
     // NB. This will block until shutdown is complete
     
