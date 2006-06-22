@@ -105,10 +105,10 @@ namespace RavlN {
   //: Normalise an array of points.
   // This finds the mean and variation of euclidean point position. It corrects the mean to zero
   // and the average variation to 1.
-  //!param: raw - Raw points to be normalised
-  //!param: norm - Normalised points.
-  //!param: normMat - Normalisation matrix 
-  //!return: Normalisation found and applied.
+  //!param: raw - Points to be normalised
+  //!param: norm - Array to write normalised points into. A new array is always created as assigned to this handle. Note: If the array is of the required size it may be resused.
+  //!param: normMat - Normalisation matrix. Multiplying the normalised points by this matrix will map them to the original space.
+  //!return: true if normalisation found and applied.
 
 }
 
