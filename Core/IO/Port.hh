@@ -469,6 +469,10 @@ namespace RavlN {
   /////////////////////////////////
   //! userlevel=Normal
   //: Input port.
+  // Note that, after its creation, the port must be connected to a 
+  // source, e.g. by using <a href=
+  // "RavlN.OpenISequenceObDPIPortCLtDataTGt_Amp_const_StringC_Amp_const_StringC_Amp_boolCb.html">
+  // OpenOSequence</a>, before applying most of the methods.
   
   template<class DataT>
   class DPIPortC 
@@ -610,6 +614,10 @@ namespace RavlN {
   //////////////////////////////
   //! userlevel=Normal
   //: Output port.
+  // Note that, after its creation, the port must be connected to a 
+  // destination, e.g. by using <a href=
+  // "RavlN.OpenOSequenceObDPOPortCLtDataTGt_Amp_const_StringC_Amp_const_StringC_Amp_boolCb.html">
+  // OpenOSequence</a>, before applying most of the methods.
   
   template<class DataT>
   class DPOPortC 
