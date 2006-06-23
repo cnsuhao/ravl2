@@ -141,13 +141,13 @@ ifneq (,$(SUPPORT_ONLY))
  ifeq ($(ARC),$(filter $(ARC),$(SUPPORT_ONLY)))
   SUPPORT_OK=yes
  else
-  SUPPORT_OK=no
-  NOINCDEFS=1
+  SUPPORT_OK=no 
+  NOINCDEFS=1 # Tell the system to ignore the .def files.
  endif
 else
  ifeq ($(ARC),$(filter $(ARC),$(DONOT_SUPPORT)))
   SUPPORT_OK=no
-  NOINCDEFS=1
+  NOINCDEFS=1 # Tell the system to ignore the .def files.
  else
   SUPPORT_OK=yes
  endif
@@ -180,6 +180,9 @@ ifeq ($(SUPPORT_OK),yes)
 ifndef MKMUSTLINK
   MKMUSTLINK := $(patsubst %$(CEXT),$(INST_FORCEOBJS)/%$(OBJEXT), $(patsubst %$(CXXEXT),%$(CEXT), $(MUSTLINK)))
 endif
+
+#######################################
+# Sort out library dependancies from USESLIBS
 
 ifdef USESLIBS
  ifndef LIBDEPS
@@ -222,7 +225,13 @@ endif
 ifdef PLIB
  EXELIB := $(MKMUSTLINK) -l$(PLIB) $(EXELIB)
 endif
-LIBLIBS := $(EXELIB)
+
+########################### 
+# Sort out libraries needed for executables from PROGLIBS
+
+
+# Record the contents of EXELIB before we add prog libs in LIBLIBS
+LIBLIBS := $(EXELIB) 
 ifndef NOINCDEFS
  REQUIRED_PROGLIBS=$(patsubst %,%.def,$(filter-out %.opt,$(PROGLIBS)))
  OPTIONAL_PROGLIBS=$(patsubst %.opt,%.def,$(PROGLIBS))
@@ -235,6 +244,10 @@ $(OPTIONAL_PROGLIBS) : $(INST_LIB)/.dir
 	@true;
  endif
 endif
+
+# Has the user included Auto in there useslibs ?
+# If so attempt to automaticly generate dependancies.
+
 ifeq ($(filter Auto,$(USESLIBS)),Auto)
  ifneq ($(strip $(MAINS) $(TESTEXES)),)
   AUTOPROGLIBS := $(shell $(QLIBS) -prog -d -p $(ROOTDIR))
@@ -254,6 +267,28 @@ endif
 endif
 
 LINKLIBS := $(EXELIB)
+
+######################################
+# Sort out libraries needed for test executables. TESTLIBS 
+
+ifndef NOINCDEFS
+ ifdef TESTLIBS
+ REQUIRED_TESTLIBS=$(patsubst %,%.def,$(filter-out %.opt,$(TESTLIBS)))
+ OPTIONAL_TESTLIBS=$(patsubst %.opt,%.def,$(TESTLIBS))
+ ifneq ($(strip $(REQUIRED_TESTLIBS)),)
+  include $(REQUIRED_TESTLIBS)
+ endif
+ ifneq ($(strip $(OPTIONAL_TESTLIBS)),)
+  -include $(OPTIONAL_TESTLIBS)
+$(OPTIONAL_TESTLIBS) : $(INST_LIB)/.dir
+	@true;
+ endif
+ endif
+endif
+
+LINKTESTLIBS := $(EXELIB)
+
+# Restore EXELIB to be library libs
 EXELIB := $(LIBLIBS)
 
 
@@ -270,14 +305,13 @@ VPATH = $(QCWD)
 
 PREPROCFLAGS = -DPROJECT_OUT=\"$(PROJECT_OUT)\" -DCPUG_ARCH=\"$(ARC)\"
 
+# Set pre processor flag if we're doing a shared build
 
 ifdef SHAREDBUILD
 PREPROCFLAGS += -DCPUG_VAR_SHARED=1
 endif 
 
-#ifeq ($(VAR),shared)
-#PREPROCFLAGS += -DCPUG_VAR_SHARED=1
-#endif
+# Make sure current directory is included in path if we have local headers.
 
 ifdef LOCALHEADERS
  INCLUDES+=-I.
@@ -291,7 +325,7 @@ CFLAGS += $(USERCFLAGS) $(ANSIFLAG)
 CCPPFLAGS += $(USERCPPFLAGS) $(PREPROCFLAGS) 
 CCFLAGS += $(USERCFLAGS) $(ANSIFLAG)
 
-
+# If QMAKE_INFO is set don't prepend commands with @ so we can see what they are.
 ifdef QMAKE_INFO
   SHOWIT=
 else
@@ -403,19 +437,19 @@ endif
 CINCLUDES =  -I$(INST_HEADER) $(INCLUDES) -I$(BASE_INSTALL)/include/$(ARC) -I$(BASE_INSTALL)/include
 
 ifndef SHAREDBUILD 
-BINLIBS += -L$(INST_LIB) $(LINKLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)
-LIBS += -L$(INST_LIB) $(EXELIB) -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)
+ TESTBINLIBS += -L$(INST_LIB) $(LINKTESTLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)
+ BINLIBS += -L$(INST_LIB) $(LINKLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)
+ LIBS += -L$(INST_LIB) $(EXELIB) -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)
 else
-BINLIBS += -L$(INST_LIB) $(LINKLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)/shared
-LIBS += -L$(INST_LIB) $(EXELIB) -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)/shared
+ TESTBINLIBS += -L$(INST_LIB) $(LINKTESTLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)/shared
+ BINLIBS += -L$(INST_LIB) $(LINKLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)/shared
+ LIBS += -L$(INST_LIB) $(EXELIB) -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)/shared
 endif 
 
 
 # setup some library paths, so that binaries will always be able to find correct libraries. 
 ifdef SHAREDBUILD 
-ifneq ($(BASE_VAR),none)
-  #LDFLAGS += $(LIBPATHSWITCH)$(ROOTDIR)/lib/RAVL/$(ARC)/$(BASE_VAR)/$(VAR) $(LIBPATHSWITCH)$(RAVL_LIB)
-  #LDFLAGS += $(LIBPATHSWITCH)$(ROOTDIR)/lib/RAVL/$(ARC)/$(BASE_VAR)/$(VAR)/shared
+ ifneq ($(BASE_VAR),none)
   LDFLAGS += $(LIBPATHSWITCH)$(ROOTDIR)/lib/RAVL/$(ARC)/$(VAR)/shared
   LDFLAGS += $(LIBPATHSWITCH)$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)/shared
  else 
@@ -608,6 +642,8 @@ ifdef SHAREDBUILD
 VAR_DISPLAY_NAME +=  (shared)
 endif 
 
+# Must link objects
+
 $(TARG_MUSTLINK_OBJS) : $(INST_FORCEOBJS)/%$(OBJEXT) : $(INST_OBJS)/%$(OBJEXT) $(INST_FORCEOBJS)/.dir
 	$(SHOWIT)echo "--- Must Link $(@F) " ; \
 	if [ -f $(INST_FORCEOBJS)/$(@F) ] ; then \
@@ -655,7 +691,7 @@ $(INST_OBJS)/%$(OBJEXT) : %.S $(INST_OBJS)/.dir
 
 # $(UNTOUCH) $(INST_LIB)/lib$(PLIB)$(LIBEXT)  ; \
 
-# Sort out some default.
+# Sort out some defaults.
 
 ifndef BISON
  BISON=bison
@@ -867,7 +903,7 @@ endif
 
 $(TARG_TESTEXE) : $(INST_TESTBIN)/%$(EXEEXT) : $(INST_OBJS)/%$(OBJEXT) $(TARG_LIBS) $(EXTRAOBJS) $(TARG_HDRCERTS) $(INST_TESTBIN)/.dir
 	$(SHOWIT)echo "--- Linking test program $(@F)  ( $(INST_TESTBIN)/$(@F) ) " ; \
-	if $(CXX) $(LDFLAGS) $(INST_OBJS)/$*$(OBJEXT)  $(EXTRAOBJS) $(BINLIBS) -o $(INST_TESTBIN)/$(@F) ; then \
+	if $(CXX) $(LDFLAGS) $(INST_OBJS)/$*$(OBJEXT)  $(EXTRAOBJS) $(TESTBINLIBS) -o $(INST_TESTBIN)/$(@F) ; then \
 	  $(SYNC) ; \
 	  $(CHMOD) 555 $(INST_TESTBIN)/$(@F) ; \
 	  echo "$(@F)" >> $(INST_TESTDB) ; \
@@ -991,6 +1027,7 @@ info:
 	@echo "Includes        :" $(INCLUDES)
 	@echo "Library libs    :" $(EXELIB)
 	@echo "Executable libs :" $(LINKLIBS)
+	@echo "Test libs       :" $(LINKTESTLIBS)
 	@echo "Temp            :" $(LOCALTMP)
 	@echo "Auto            :" $(AUTOUSELIBS)
 

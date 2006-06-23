@@ -52,6 +52,7 @@
   <li><a href="#PLIB">PLIB</A>
   <li><a href="#USESLIBS">USESLIBS</A>
   <li><a href="#PROGLIBS">PROGLIBS</A>
+  <li><a href="#TESTLIBS">TESTLIBS</A>
   <li><a href="#EXAMPLES">EXAMPLES</A>
   <li><a href="#TESTEXES">TESTEXES</A>
   <li><a href="#AUXFILES">AUXFILES,AUXDIR</A>
@@ -309,7 +310,20 @@ methods described under USESLIBS for PROGLIBS as well. <P> Normally all librarie
 in PROGLIBS are required to exist to create the executables. This is not always ideal, particularly 
 for some IO libraries (e.g. RavlDPDisplay RavlImgIOV4L ...) we want to include them if
 they are available, but ignore them if the are not. This can be achieved by adding
-.opt to the end of the library names, indicating they are optional. For example RavlImgIOV4L would be added as 'RavlImgIOV4L.opt' .     </DD><P>
+.opt to the end of the library names, indicating they are optional. For example RavlImgIOV4L would be added as 'RavlImgIOV4L.opt' .     
+</DD><P>
+
+<LI><DT><A NAME="TESTLIBS"></A><B>TESTLIBS</B></DT> <DD>The name of the
+libraries used to create test executables specified in either TESTEXES that
+are not already included with the USESLIBS variable.  Typically you would
+include things like the CCPUnit test suite code which is not need for the PLIB library or a normal executable
+. For example: <PRE>TESTLIBS = CPPUnit </PRE> NOTE: You currently can't use the automatic
+methods described under USESLIBS these libraries must be specified manually. <P> Normally all libraries specified
+in TESTLIBS are required to exist to create the executables. This is not always ideal, particularly 
+for some IO libraries (e.g. RavlDPDisplay RavlImgIOV4L ...) we want to include them if
+they are available, but ignore them if the are not. This can be achieved by adding
+.opt to the end of the library names, indicating they are optional. For example RavlImgIOV4L would be added as 'RavlImgIOV4L.opt'.
+</DD><P>
 
       <LI><DT><A NAME="LIBDEPS"></A><B>LIBDEPS</B></DT>
         <DD>
