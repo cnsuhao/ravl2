@@ -33,12 +33,16 @@ using namespace RavlN;
 bool verb = false;
 bool dryRun = false;
 bool setFileloc = false;
+bool replaceExistsingHeaders= false;
 HashC<Tuple2C<StringC,StringC>,TextFileC> srcHeaders;// Tuple is license, file extension
 HashC<StringC,StringC> defaultVars;
 StringC defaultLicense = "LGPL";
 StringC defaultOrganisation;
 StringC defaultName;
 StringC defaultDesc;
+StringC defaultAuthor;
+StringC defaultDocEntry;
+bool forceDefaults = false;
 
 static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
   if(verb)
@@ -92,7 +96,7 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
       cerr << "Checking file :" << fn << "\n";
     if(license != "own") {// Does file have its own license ?
       // We should check which license to acutaly use.
-      theFile.CheckHeader(hdr,StringC(),name,desc,org);
+      theFile.CheckHeader(hdr,StringC(),name,desc,org,replaceExistsingHeaders);
     }
     for(HashIterC<StringC,StringC> it(defaultVars);it;it++) {
       ONDEBUG(cerr << "Checking var '" << it.Key() <<  "' \n");
@@ -102,8 +106,20 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
       if(theFile.FileType() != "Make" && theFile.FileType() != "Perl" && theFile.FileType() != "Java")
 	theFile.CheckDocVar("lib",lib,true); // Force lib be correct.
     }
+    
+    // Setup the author if requested.
+    if(!defaultAuthor.IsEmpty()) {
+      theFile.CheckDocVar("author",defaultAuthor,forceDefaults);
+    }
+    
+    // Set doc entry ?
+    if(!defaultDocEntry.IsEmpty()) {
+      theFile.CheckDocVar("docentry",defaultDocEntry,forceDefaults);
+    }
+    
     if(setFileloc) // If its an absolute path.
       theFile.CheckDocVar("file",StringC('"') + fn + StringC('"'),true); // Force the file location to be correct.
+
     if(theFile.IsModified()) {
       cerr << "Updated file :" << fn << "\n";
       if(!dryRun)
@@ -167,7 +183,11 @@ int main(int nargs,char **argv) {
   dryRun = option.Boolean("d",false,"Do a dry run. Don't change anything. ");
   setFileloc = option.Boolean("fl",setFileloc,"If true the file location will be updated. ");
   bool all = option.Boolean("a",true,"Go into inactive directories as well. ");
+  replaceExistsingHeaders = option.Boolean("rh",false,"Replace existing headers. ");
   verb = option.Boolean("v",false,"Verbose mode.");
+  defaultAuthor = option.String("sa","","Set author for files if not already set. ");
+  defaultDocEntry = option.String("sd","","Set default doc entry if not already set. ");
+  forceDefaults = option.Boolean("fd",false,"Force setting of defaults for author and docentry. ");
   option.Check();
   
   if(!SetupHeaders(hdrConfig)) 

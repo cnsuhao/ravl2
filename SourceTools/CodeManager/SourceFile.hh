@@ -57,7 +57,7 @@ namespace RavlN {
     //: Find a return a documentation value from the buffer.
     // Returns empty string if not found.
     
-    bool CheckHeader(const TextBufferC &hdr,const StringC &eoh,const StringC &name,const StringC &desc,const StringC &org);
+    bool CheckHeader(const TextBufferC &hdr,const StringC &eoh,const StringC &name,const StringC &desc,const StringC &org,bool replaceExisting = false);
     //: Check a header is on file.
     
     bool GetDocVars(HashC<StringC,StringC> &vars);
@@ -189,8 +189,8 @@ namespace RavlN {
     // Returns empty string if not found.
     
     bool CheckHeader(const TextBufferC &hdr,const StringC &eoh,
-		     const StringC &name,const StringC &desc,const StringC &org)
-    { return Body().CheckHeader(hdr,eoh,name,desc,org); }
+		     const StringC &name,const StringC &desc,const StringC &org,bool replaceExisting = false)
+    { return Body().CheckHeader(hdr,eoh,name,desc,org,replaceExisting); }
     //: Check a header is on file.
     // eoh, is the string that marks the 'end of header'.
     // Returns true if the header has been updated.

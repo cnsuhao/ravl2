@@ -28,7 +28,7 @@ class SubstsC
 {
 public:
   SubstsC()
-    {}
+  {}
   //: Default constructor.
   
   SubstsC(const StringC &l,const StringC &o,const StringC &n,bool v,bool dr, bool headers=true, bool mains=false, bool tests=false, bool examples=false)
@@ -41,7 +41,7 @@ public:
       doMains(mains),
       doTests(tests),
       doExamples(examples)
-    {}
+  {}
   //: Constructor.
   
   bool Process(StringC &dir,DefsMkFileC &where);
@@ -74,16 +74,16 @@ bool SubstsC::Process(StringC &dir,DefsMkFileC &where) {
     cerr << "Processing: " << dir << "\n";
 
   StringListC hdrs ; 
-if ( doHeaders )
-	hdrs += (where.Value("HEADERS"));
-if (doMains)
-	hdrs += (where.Value("MAINS") ) ; 
-if (doTests) 
-	hdrs += (where.Value("TESTEXES") ) ; 
-if (doExamples) 
-	hdrs += (where.Value("EXAMPLES") ) ;
-
-
+  if ( doHeaders )
+    hdrs += (where.Value("HEADERS"));
+  if (doMains)
+    hdrs += (where.Value("MAINS") ) ; 
+  if (doTests) 
+    hdrs += (where.Value("TESTEXES") ) ; 
+  if (doExamples) 
+    hdrs += (where.Value("EXAMPLES") ) ;
+  
+  
   for(DLIterC<StringC> it(hdrs);it.IsElm();it.Next()) {
     if(it.Data().length() <= 3) {
       cerr << "WARNING: Short header file name detected :'" << it.Data() << "'\n";
@@ -91,10 +91,10 @@ if (doExamples)
     }
 
     if( (!it.Data().matches(".hh",it.Data().length()-3) ) &&  ( !it.Data().matches(".cc", it.Data().length()-3)) ) 
- {
-      //cerr << "WARNING: Non C++ header file ignored:'" + it.Data() + "'\n";
-      continue; // C++ Files only.
-}
+      {
+        //cerr << "WARNING: Non C++ header file ignored:'" + it.Data() + "'\n";
+        continue; // C++ Files only.
+      }
    
     FilenameC file(dir + '/' + it.Data());
     //cerr << file << " ";
@@ -112,7 +112,7 @@ if (doExamples)
     }
     
     // Update variable
-IntT lines =  DoSubst(hdrfile); 
+    IntT lines =  DoSubst(hdrfile); 
     
     // Update repository
     
@@ -132,46 +132,52 @@ IntT lines =  DoSubst(hdrfile);
 
 //: Subsitute value.
 /*
-bool SubstsC::DoSubst(TextFileC &buff) {
+  bool SubstsC::DoSubst(TextFileC &buff) {
   // FIXME - Var could turn out to be a prefix of something else ??
   IntT atline = buff.FindLineMatch("//! " + label);
   if(atline < 0)
-    return false; // Not found...
+  return false; // Not found...
   if(buff[atline].gsub(original,newun) > 0)
-    buff.SetModified();
+  buff.SetModified();
   return true;
-}
+  }
 */
 /*
-IntT SubstsC::DoSubst(TextFileC &buff) {
-int count = 0 ; 
+  IntT SubstsC::DoSubst(TextFileC &buff) {
+  int count = 0 ; 
   // FIXME - Var could turn out to be a prefix of something else ??
   IntT atline = 0;
-while (true){
-atline = buff.FindLineMatch("//! " + label, atline+1 ) ;
-cerr << "\n atline :" << atline ;
-if ( atline < 0 ) break ;
- if(buff[atline].gsub(original,newun) > 0)
- {  buff.SetModified()  ; ++ count ; }
-}
-return count ; 
-}
+  while (true){
+  atline = buff.FindLineMatch("//! " + label, atline+1 ) ;
+  cerr << "\n atline :" << atline ;
+  if ( atline < 0 ) break ;
+  if(buff[atline].gsub(original,newun) > 0)
+  {  buff.SetModified()  ; ++ count ; }
+  }
+  return count ; 
+  }
 */
 
 
 //: Do the substitution in the text file
 IntT SubstsC::DoSubst(TextFileC &buff) 
 {
-int count = 0 ; 
+  int count = 0 ; 
   // FIXME - Var could turn out to be a prefix of something else ??
-const StringC expression( "//! " + label) ; 
-for ( DLIterC<TextFileLineC> it (buff.Lines() ) ; it ; it ++ ) {
-	IntT index = it.Data().Text().index(expression);
-	if ( index < 0 ) continue ; // move on to next line if not found.
-	// otherwise replace it. 
-	if ( it.Data().Text().gsub(original, newun) > 0 )
-		{ buff.SetModified() ; ++ count ; } }
-return count ;
+  const StringC expression( "//! " + label) ; 
+  for ( DLIterC<TextFileLineC> it (buff.Lines() ) ; it ; it ++ ) {
+    IntT index = it.Data().Text().index(expression);
+    
+    if ( index < 0 ) 
+      continue ; // move on to next line if not found.
+    // otherwise replace it. 
+    
+    if ( it.Data().Text().gsub(original, newun) > 0 ){ 
+      buff.SetModified() ; 
+      ++ count ; 
+    } 
+  }
+  return count ;
 }
 
 

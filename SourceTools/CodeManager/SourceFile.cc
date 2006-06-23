@@ -317,7 +317,7 @@ namespace RavlN {
 
   //: Check a header is on file.
   
-  bool SourceFileBodyC::CheckHeader(const TextBufferC &hdr,const StringC &ceoh,const StringC &name,const StringC &desc,const StringC &org) {
+  bool SourceFileBodyC::CheckHeader(const TextBufferC &hdr,const StringC &ceoh,const StringC &name,const StringC &desc,const StringC &org,bool replaceExisting) {
     StringC eoh(ceoh);
     // Setup default end of header value.
     if(eoh.IsEmpty()) {
@@ -344,12 +344,10 @@ namespace RavlN {
 	cerr << "WARNING: End of header marker more than 30 lines into the file. (" << eohAt <<") \n";
 	return false;
       }
-#if 1
-      // Don't replace existing header.
-      return true;
-#else
-      it2.Nth(eohAt).Head(); // Goto the last line, and remove the head of the list.
-#endif
+      if(replaceExisting)
+        it2.Nth(eohAt).Head(); // Goto the last line, and remove the head of the list.
+      else
+        return true;      // Don't replace existing header.
     }
     // Copy in new section.
     it2.First();
