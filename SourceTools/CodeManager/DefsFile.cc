@@ -20,14 +20,16 @@
 
 namespace RavlN {
   
-  char *validtags[38] = {"DESCRIPTION","MAINS","HEADERS","SOURCES","PLIB",
-			 "USESLIBS","PROGLIBS","NESTED","SUPPORT_ONLY",
-			 "DONOT_SUPPORT","PACKAGE","OPTLIB","OPTINCPATH",
-			 "OPTLIBPATH","LIBDEPS","EXAMPLES","TESTEXES",
-			 "LOCAL_FILES","HTML","MAN1","MAN3","MAN5","LOCALHEADERS","PRIVATE",
-			 "AUXDIR","AUXFILES","AUXINSTALL","EHT","STATE",
-			 "DOCNODE","SCRIPTS","MUSTLINK","ANSIFLAG","LICENSE","PACKAGENAME",
-			 "REQUIRES","ORGANISATION",0 };
+  char *validtags[] = {"DESCRIPTION","MAINS","HEADERS","SOURCES","PLIB",
+                       "USESLIBS","PROGLIBS","NESTED","SUPPORT_ONLY",
+                       "DONOT_SUPPORT","PACKAGE","OPTLIB","OPTINCPATH",
+                       "OPTLIBPATH","LIBDEPS","EXAMPLES","TESTEXES",
+                       "LOCAL_FILES","HTML","MAN1","MAN3","MAN5","LOCALHEADERS","PRIVATE",
+                       "AUXDIR","AUXFILES","AUXINSTALL","EHT","STATE",
+                       "DOCNODE","SCRIPTS","MUSTLINK","ANSIFLAG","LICENSE","PACKAGENAME",
+                       "REQUIRES","ORGANISATION","OBJEXT",
+                       "CXXEXT","CXXAUXEXT","CHXXEXT","CEXT","CHEXT","EXEEXT","USERCPPFLAGS",
+                         0 };
   
   /////////////////
   // Construct from a filename.
@@ -166,6 +168,13 @@ namespace RavlN {
 	      done = true;
 	      break;
 	    }
+            if(tc.Char() == '\r') { // Look out for line feeds and ingore.
+              tc.NextChar();
+              if(!tc.IsElm()) {
+                done = true;
+                break;
+              }
+            }
 	    if(tc.Char() != '\n') {
 	      cerr << "Escaped : " <<  ((int) tc.Char()) << " " << ((int) '\\') << endl;
 	      cerr << " '" << tc.LineText() << "'\n";
@@ -178,6 +187,8 @@ namespace RavlN {
 	    break;
 	  case '#':
 	    tc.NextLine();
+          case '\r':
+            break; // Discard line feeds.
 	  case '\n':
 	    nf.End() = tc;
 	    nf.End().PrevChar();
