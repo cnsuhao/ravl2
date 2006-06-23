@@ -40,7 +40,7 @@ namespace RavlN {
       (*it) -= mean;
       d += Hypot((*it)[0],(*it)[1]);
     }
-    d = IsSmall(d) ? 1 : static_cast<RealT>(raw.Size())/d;
+    d = IsSmall(d) ? 1.0 : (static_cast<RealT>(raw.Size())/d);
     for(SArray1dIterC<Point2dC> it(norm);it;it++)
       (*it) *= d;
     normMat = Matrix3dC(d,0,-mean[0] * d,
