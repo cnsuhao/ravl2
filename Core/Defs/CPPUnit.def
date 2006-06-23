@@ -12,7 +12,7 @@ ifndef CPPUNIT_HOME
  EXELIB := `cppunit-config --libs` $(EXELIB)
 else
  INCLUDES += -I$(CPPUNIT_HOME)/include
- EXELIB :=  -L$(CPPUNIT_HOME)/lib  -lcppunit -ldl $(EXELIB)
+ EXELIB :=  -L$(CPPUNIT_HOME)/lib -Wl,-rpath,$(CPPUNIT_HOME)/lib  -lcppunit -ldl $(EXELIB)
 endif
 
 endif
