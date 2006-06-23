@@ -7,7 +7,12 @@
 ifndef CPPUNIT_DEF
 CPPUNIT_DEF = 1
 
-INCLUDES += `cppunit-config --cflags`
-EXELIB := `cppunit-config --libs` $(EXELIB)
+ifndef CPPUNIT_HOME
+ INCLUDES += `cppunit-config --cflags`
+ EXELIB := `cppunit-config --libs` $(EXELIB)
+else
+ INCLUDES += -I$(CPPUNIT_HOME)/include
+ EXELIB :=  -L$(CPPUNIT_HOME)/lib  -lcppunit -ldl $(EXELIB)
+endif
 
 endif
