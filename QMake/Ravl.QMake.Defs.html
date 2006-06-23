@@ -55,6 +55,7 @@
   <li><a href="#EXAMPLES">EXAMPLES</A>
   <li><a href="#TESTEXES">TESTEXES</A>
   <li><a href="#AUXFILES">AUXFILES,AUXDIR</A>
+  <li><a href="#PREBUILDSTEP">PREBUILDSTEP</A>
   <li><a href="#LIBDEPS">LIBDEPS</A>
   <li><a href="#SUPPORT_ONLY">SUPPORT_ONLY</A>
   <li><a href="#DONOT_SUPPORT">DONOT_SUPPORT</A>
@@ -431,6 +432,12 @@ AUXDIR = share/data
 
 </UL>
 
+<UL>
+<LI><DT><A NAME="PREBUILDSTEP"></A><B>PREBUILDSTEP</B></DT>
+<DD> Command to execute before compiling libraries or executables. This should in bourn shell script. Make macro's like $(PROJECT_OUT) for the output directory may be expected.
+</DD>
+
+</UL>
 
 
 <H3><A NAME="documentation"></A>Documentation</H3>

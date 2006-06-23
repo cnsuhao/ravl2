@@ -430,20 +430,27 @@ endif
          all build_aux build_test test build_pureexe fullbuild testbuild purifybuild cheadbuild \
          buildjavalibs libbuild localsrc
 
-all: srcfiles build_aux
+all: prebuildstep srcfiles build_aux 
 	@echo "Internal error: No valid build target "
 
-fullbuild: build_subdirs build_libs build_exe build_aux  $(TARG_HDRCERTS)
+fullbuild: prebuildstep build_subdirs build_libs build_exe build_aux  $(TARG_HDRCERTS)
 
-testbuild: build_subdirs build_libs build_test  $(TARG_HDRCERTS)
+testbuild: prebuildstep build_subdirs build_libs build_test  $(TARG_HDRCERTS)
 
-libbuild: build_subdirs build_libs build_aux
+libbuild: prebuildstep build_subdirs build_libs build_aux
 
-purifybuild: build_subdirs build_libs build_pureexe
+purifybuild: prebuildstep  build_subdirs build_libs build_pureexe
 
 srcfiles: $(TARG_DEFS) $(TARG_HDRS) $(LOCAL_FILES) $(LOCALHEADERS) $(SOURCES) $(MAINS) $(AUXFILES) $(HEADERS) \
  $(EXAMPLES) $(TESTEXES) $(DOCNODE) $(HTML) $(MAN1) $(MAN2) $(MAN3) $(EHT) $(MUSTLINK)
 
+prebuildstep:
+ifdef PREBUILDSTEP
+	@echo "--- Running prebuild step. "; \
+	$(PREBUILDSTEP)
+else
+	@true;
+endif
 
 ifdef FULLCHECKING
 cheadbuild: build_subdirs $(TARG_HDRCERTS)
@@ -682,18 +689,16 @@ endif
 .SECONDARY : $(INST_LIB)/dummymain$(OBJEXT) 
 
 ifneq ($(strip $(TARG_JAVA)),)
-build_libs: $(TARG_LIBS) buildjavalibs
-#build_libs: $(TARG_LIBS) $(strip $(TARG_LIBS))($(strip $(TARG_BASEOBJS))) buildjavalibs
+build_libs: $(TARG_LIBS) buildjavalibs prebuildstep
 else
 ifneq ($(strip $(PLIB)),)
 ifneq ($(strip $(SOURCES)),)
-build_libs: $(TARG_LIBS) $(TARG_LIBS)
-#build_libs: $(TARG_LIBS) $(strip $(TARG_LIBS))($(strip $(TARG_BASEOBJS)))
+build_libs: $(TARG_LIBS) $(TARG_LIBS) prebuildstep
 else
-build_libs:
+build_libs: prebuildstep
 endif
 else
-build_libs:
+build_libs: prebuildstep
 endif
 endif
 
@@ -778,7 +783,7 @@ $(INST_LIB)/%$(OBJEXT) : $(INST_OBJS)/%$(OBJEXT)
 # Build executables.
 
 ifndef NOEXEBUILD
-build_exe: $(TARG_EXE) $(TARG_SCRIPT) $(TARG_JAVAEXE)
+build_exe: $(TARG_EXE) $(TARG_SCRIPT) $(TARG_JAVAEXE) prebuildstep
 else
 build_exe:
 	@true

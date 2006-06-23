@@ -12,6 +12,8 @@ DONOT_SUPPORT=VCPP
 
 DESCRIPTION = Quick Make System
 
+#PREBUILDSTEP=echo $(PROJECT_OUT)
+
 LICENSE= GPL
 
 MAINS=SysConf.cc untouch.cc findBuildTag.cc
