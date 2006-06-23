@@ -217,23 +217,33 @@ namespace RavlN {
 	    quoteStart = tc.LineNo();  
 	    inQuotes = !inQuotes;
 	    break;
+          case '\r': // Discard line feeds.
+	    tc.NextChar();
+            break;
 	  case '\\':
 	    tc.NextChar();
 	    if(!tc.IsElm()) {
 	      done = true;
 	      break;
 	    }
-	    if(tc.Char() != '\n') {
-	      if(tc.Char() != '"' && tc.Char() != '$' && tc.Char() != '#' && tc.Char() != '\\') {
-		cerr << "Escaped : " <<  ((int) tc.Char()) << " " << ((int) '\\') << endl;
-		cerr << " '" << tc.LineText() << "'\n";
-		for(unsigned int i = 0;i < tc.LineText().length();i++) {
-		  cerr << (int) tc.LineText()[i] << " ";
-		}
-		cerr << endl;
-	      }
-	      data += tc.Char(); // Added escaped character.
-	    }
+            if(tc.Char() == '\r') { // Look out for line feeds and ingore.
+              tc.NextChar();
+              if(!tc.IsElm()) {
+                done = true;
+                break;
+              }
+            }
+            if(tc.Char() != '\n') {
+              if(tc.Char() != '"' && tc.Char() != '$' && tc.Char() != '#' && tc.Char() != '\\') {
+                cerr << "Escaped : " <<  ((int) tc.Char()) << " " << ((int) '\\') << endl;
+                cerr << " '" << tc.LineText() << "'\n";
+                for(unsigned int i = 0;i < tc.LineText().length();i++) {
+                  cerr << (int) tc.LineText()[i] << " ";
+                }
+                cerr << endl;
+              }
+              data += tc.Char(); // Added escaped character.
+            }
 	    break;
 	  case '#':
 	    if(!inQuotes)
