@@ -4,15 +4,9 @@
 # public license (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-ifndef CPPUNIT_DEF
-CPPUNIT_DEF = 1
+ifndef QTTESTRUNNER_DEF
+QTTESTRUNNER = 1
 
-ifndef CPPUNIT_HOME
- INCLUDES += `cppunit-config --cflags`
- EXELIB := `cppunit-config --libs` $(EXELIB)
-else
- INCLUDES += -I$(CPPUNIT_HOME)/include
- EXELIB :=  -L$(CPPUNIT_HOME)/lib -Wl,-rpath,$(CPPUNIT_HOME)/lib -lcppunit -ldl $(EXELIB)
-endif
+EXELIB :=  -L/usr/lib -Wl,-rpath,/usr/lib -lQtTestRunner $(EXELIB)
 
 endif
