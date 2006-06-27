@@ -28,7 +28,7 @@ namespace RavlN {
   class FileFormatBinStreamBodyC : public FileFormatBodyC {
   public:
     FileFormatBinStreamBodyC(bool deletable)
-      : FileFormatBodyC("bin","RAVL binary stream. ",deletable)
+      : FileFormatBodyC("abs","RAVL binary stream. ",deletable)
       {}
     //: Default constructor.
     
