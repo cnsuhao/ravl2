@@ -40,11 +40,21 @@ bool EditCallback(TreeModelIterC &at,StringC &str2) {
 }
 
 bool ToggleCallback(TreeModelIterC &at) {
-  cerr << "Toggle callback. \n";
-  bool val;
-  treeStore.GetValue(at,3,val);
-  val = !val;
-  treeStore.GUISetValue(at,3,val);
+  cerr << "Toggle callback - ";
+  bool inconsistent;
+  treeStore.GetValue(at,5,inconsistent);
+  if (inconsistent)
+  {
+    cerr << "inconsistent" << endl;
+  }
+  else
+  {
+    bool val;
+    treeStore.GetValue(at,3,val);
+    cerr << (val ? "on" : "off") << " -> " << (!val ? "on" : "off") << endl;
+    val = !val;
+    treeStore.GUISetValue(at,3,val);
+  }
   return true;
 }
 #endif
@@ -59,13 +69,14 @@ int main(int nargs,char **argv) {
   
   //: Create tree store.
   
-  SArray1dC<AttributeTypeC> types(5);
+  SArray1dC<AttributeTypeC> types(6);
   //types[0] = AttributeTypeNumC<IntT>("ANumber","...");
   types[0] = AttributeTypeStringC("Another","...");
   types[1] = AttributeTypeStringC("AString","...");
   types[2] = AttributeTypeMiscC("AImage","...",AVT_ByteRGBImage);
   types[3] = AttributeTypeBoolC("ABool","...");   
   types[4] = AttributeTypeStringC("Colour","..."); // This is used for controling the colour of column 1 
+  types[5] = AttributeTypeBoolC("BoolState","..."); // This is used for controling the inconsistent state of column 3 
   treeStore = TreeStoreC(types);
   
   //: Put some data into the tree store.
@@ -79,6 +90,7 @@ int main(int nargs,char **argv) {
   treeStore.GUISetValue(iter,2, map);
   treeStore.GUISetValue(iter,3,true);
   treeStore.GUISetValue(iter,4,"red");
+  treeStore.GUISetValue(iter,5,false);
   
   // Add another line to the tree store.
   TreeModelIterC iter1;
@@ -87,7 +99,8 @@ int main(int nargs,char **argv) {
   treeStore.GUISetValue(iter1,1,"ping");
   treeStore.GUISetValue(iter1,2, map);
   treeStore.GUISetValue(iter1,3,false);
-  treeStore.GUISetValue(iter1,4,"green");
+  treeStore.GUISetValue(iter1,4,"#0000ff");
+  treeStore.GUISetValue(iter1,5,true);
 
   // Add another line to the tree store.
   TreeModelIterC iter2;
@@ -97,6 +110,7 @@ int main(int nargs,char **argv) {
   treeStore.GUISetValue(iter2,2, map); //GTK_STOCK_ADD
   treeStore.GUISetValue(iter2,3,false);
   treeStore.GUISetValue(iter2,4,"green");
+  treeStore.GUISetValue(iter2,5,false);
 
   // Add another line to the tree store.
   TreeModelIterC iter3;
@@ -106,6 +120,7 @@ int main(int nargs,char **argv) {
   treeStore.GUISetValue(iter3,2, map);
   treeStore.GUISetValue(iter3,3,false);
   treeStore.GUISetValue(iter3,4,"yellow");
+  treeStore.GUISetValue(iter3,5,false);
   
   // Make a list of columns we want to see from the store.
   
@@ -121,6 +136,9 @@ int main(int nargs,char **argv) {
   // Use the colour from column 'Colour' from the store to set the forground of column 1
   treeView.SetAttribute(1,"foreground","Colour"); 
   
+  // Allow bool to be inconsistent
+  treeView.SetAttribute(3,"inconsistent","BoolState");
+
   // Always set the editable flag to true for column 1.
   treeView.SetAttribute("AString","editable","1",false);  // You can also use column names for setting attributes.
   
@@ -129,6 +147,7 @@ int main(int nargs,char **argv) {
 
   // Always set the sortable flag to true for column 3.
   treeView.SetAttribute(0,"sortable","1",false);
+  treeView.SetAttribute(1,"sortable","1",false);
 
   // Allow all columns to be reordered
   treeView.SetAttribute(0,"reorderable","1",false); 
@@ -151,7 +170,7 @@ int main(int nargs,char **argv) {
   // Setup the widgets, and off we go!
   win.Add(treeView);
   
-  treeView.GUISort("Another",true);
+  treeView.GUISort("AString",true);
 
   win.GUIShow();
 
