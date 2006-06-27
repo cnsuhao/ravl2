@@ -111,7 +111,7 @@ namespace RavlGUIN {
   { 
     MessageBoxC ret = MessageBoxC(message,true,"Question",parent);
     Connect(ret.SigDone(),func);
-    Manager.QueueOnGUI(Trigger(WidgetC(ret), &MessageBoxC::GUIShow));
+    Manager.QueueOnGUI(Trigger(WidgetC(ret), &WidgetC::GUIShow));
     return ret;
   }
 
@@ -120,7 +120,7 @@ namespace RavlGUIN {
   { 
     MessageBoxC ret = MessageBoxC(message,true,"Question",parent);
     ConnectRef(ret.SigDone(),obj,func);
-    Manager.QueueOnGUI(Trigger(WidgetC(ret), &MessageBoxC::GUIShow));
+    Manager.QueueOnGUI(Trigger(WidgetC(ret), &WidgetC::GUIShow));
     return ret;
   }
   
@@ -129,7 +129,7 @@ namespace RavlGUIN {
   { 
     MessageBoxC ret = MessageBoxC(message,true,"Question",parent);
     Connect(ret.SigDone(),obj,func);
-    Manager.QueueOnGUI(Trigger(WidgetC(ret), &MessageBoxC::GUIShow));
+    Manager.QueueOnGUI(Trigger(WidgetC(ret), &WidgetC::GUIShow));
     return ret;
   }
   
@@ -139,7 +139,7 @@ namespace RavlGUIN {
     MessageBoxC ret = MessageBoxC(message,true,"Question",parent);
     bool tmp = true;
     ConnectRef(ret.SigDone(),obj,func,tmp,data);
-    Manager.QueueOnGUI(Trigger(WidgetC(ret), &MessageBoxC::GUIShow));
+    Manager.QueueOnGUI(Trigger(WidgetC(ret), &WidgetC::GUIShow));
     return ret;
   }
 
@@ -149,7 +149,7 @@ namespace RavlGUIN {
     MessageBoxC ret = MessageBoxC(message,true,"Question",parent);
     bool tmp = true;
     Connect(ret.SigDone(),obj,func,tmp,data);
-    Manager.QueueOnGUI(Trigger(WidgetC(ret), &MessageBoxC::GUIShow));
+    Manager.QueueOnGUI(Trigger(WidgetC(ret), &WidgetC::GUIShow));
     return ret;
   }
   
@@ -157,7 +157,7 @@ namespace RavlGUIN {
   MessageBoxC AlertBox(StringC message, const WindowC* parent = NULL)
   { 
     MessageBoxC ret = MessageBoxC(message,false,"Alert",parent);
-    Manager.QueueOnGUI(Trigger(WidgetC(ret), &MessageBoxC::GUIShow));
+    Manager.QueueOnGUI(Trigger(WidgetC(ret), &WidgetC::GUIShow));
     return ret;
   }
 
@@ -166,7 +166,7 @@ namespace RavlGUIN {
   { 
     MessageBoxC ret = MessageBoxC(message,false,"Alert",parent);
     Connect(ret.SigDone(),func);
-    Manager.QueueOnGUI(Trigger(WidgetC(ret), &MessageBoxC::GUIShow));
+    Manager.QueueOnGUI(Trigger(WidgetC(ret), &WidgetC::GUIShow));
     return ret;
   }
   
@@ -175,7 +175,7 @@ namespace RavlGUIN {
   { 
     MessageBoxC ret = MessageBoxC(message,false,"Alert",parent);
     Connect(ret.SigDone(),obj,func);
-    Manager.QueueOnGUI(Trigger(WidgetC(ret), &MessageBoxC::GUIShow));
+    Manager.QueueOnGUI(Trigger(WidgetC(ret), &WidgetC::GUIShow));
     return ret;
   }
 
@@ -184,7 +184,7 @@ namespace RavlGUIN {
   { 
     MessageBoxC ret = MessageBoxC(message,false,"Alert",parent);
     ConnectRef(ret.SigDone(),obj,func);
-    Manager.QueueOnGUI(Trigger(WidgetC(ret), &MessageBoxC::GUIShow));
+    Manager.QueueOnGUI(Trigger(WidgetC(ret), &WidgetC::GUIShow));
     return ret;
   }
 
