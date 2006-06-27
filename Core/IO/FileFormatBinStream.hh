@@ -28,7 +28,7 @@ namespace RavlN {
   class FileFormatBinStreamBodyC : public FileFormatBodyC {
   public:
     FileFormatBinStreamBodyC(bool deletable)
-      : FileFormatBodyC("abs","Amma Binary Stream. ",deletable)
+      : FileFormatBodyC("bin","RAVL binary stream. ",deletable)
       {}
     //: Default constructor.
     
@@ -75,7 +75,7 @@ namespace RavlN {
 	return typeid(void); // Nope.
       if(filename[0] == '@')
 	return typeid(void); // Nope.
-      if(ext == ""  || ext == "abs") 
+      if(ext == ""  || ext == "abs" || ext == "bin") 
 	return typeid(DataT); // Yep, can save in format.
       return typeid(void); // Nope.
     }

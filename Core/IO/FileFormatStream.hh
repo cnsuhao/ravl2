@@ -64,7 +64,7 @@ namespace RavlN {
 	return typeid(void); // Nope.
       if(filename[0] == '@')
 	return typeid(void); // Nope.
-      if(ext == ""  || ext == "strm") 
+      if(ext == ""  || ext == "strm" || ext == "txt") 
 	return typeid(DataT); // Yep, can save in format.
       return typeid(void); // Nope.
     }
