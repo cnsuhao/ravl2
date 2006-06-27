@@ -1,5 +1,8 @@
 # Dynamic library format   information.
 
+# fields are:
+# module pre|post   string  lib
+
 display  filePrefix @X      RavlDPDisplay
 csp      filePrefix @CSP    CSPDriver
 DIVO     filePrefix @DIVO   RavlDMedia
