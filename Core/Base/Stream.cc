@@ -285,10 +285,10 @@ namespace RavlN {
     
 	const int formSize = 4096;
 	char buff[formSize];
-#if RAVL_COMPILER_VISUALCPP
+#if RAVL_COMPILER_VISUALCPPNET_2005
 	int x = vsprintf_s(buff,formSize,format,args);
 #else
-    int x = vsnprintf(buff,formSize,format,args);
+    int x = _vsnprintf(buff,formSize,format,args);
 #endif
     if(x < 0) 
       cerr << "OStreamC::form(...), WARNING: Output string is over buffer length. \n";

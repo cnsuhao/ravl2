@@ -35,6 +35,7 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #if RAVL_COMPILER_VISUALCPP
 #pragma warning ( disable : 4244 )
 #pragma warning ( disable : 4267 )
+#include <stdarg.h>
 #endif
 
 #include "Ravl/String.hh"
@@ -511,7 +512,7 @@ namespace RavlN {
   
   StringC::StringC(Int64T n) {
     char TBuff[64];
-#if RAVL_COMPILER_VISUALCPP
+#if RAVL_COMPILER_VISUALCPPNET_2005
     sprintf_s(TBuff,64,"%lld",n);
 #else
     sprintf(TBuff,"%lld",n);
@@ -523,7 +524,7 @@ namespace RavlN {
   
   StringC::StringC(UInt64T n) {
     char TBuff[64];
-#if RAVL_COMPILER_VISUALCPP
+#if RAVL_COMPILER_VISUALCPPNET_2005
 	sprintf_s(TBuff,64,"%llu",n);
 #else
     sprintf(TBuff,"%llu",n);
@@ -841,13 +842,13 @@ namespace RavlN {
     va_start(args,format);
     char buff[formSize];
     int x;
-#if RAVL_COMPILER_VISUALCPP
+#if RAVL_COMPILER_VISUALCPPNET_2005
     if((x = vsprintf_s(buff,formSize,format,args)) < 0)
       cerr << "WARNING: StringC::form(...), String truncated!! \n";
     StringC oth(buff);
     (*this) = oth;  // Slower, but saves memory.
 #else
-    if((x = vsnprintf(buff,formSize,format,args)) < 0)
+    if((x = _vsnprintf(buff,formSize,format,args)) < 0)
       cerr << "WARNING: StringC::form(...), String truncated!! \n";
     (*this) = StringC(buff);  // Slower, but saves memory.
 #endif
