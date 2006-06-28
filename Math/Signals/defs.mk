@@ -7,6 +7,5 @@
 #! rcsid="$Id$"
 #! file="Ravl/Math/Signals/defs.mk"
 
-NESTED=1D.r 2D.r HiddenMarkovModels.r
-
+NESTED=1D.r 2D.r
 EHT=Ravl.API.Math.Signals.html

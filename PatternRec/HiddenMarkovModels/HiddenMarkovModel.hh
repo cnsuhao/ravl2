@@ -9,7 +9,7 @@
 //! author="Charles Galambos, Akiel Khan"
 //! rcsid="$Id$"
 //! lib=RavlHMM
-//! docentry="Ravl.API.Math.Signals"
+//! docentry="Ravl.API.Pattern Recognition.Markov Processes"
 //! file="Ravl/Math/Signals/HiddenMarkovModels/HiddenMarkovModel.hh"
 //! example="exHiddenMarkovModel.cc"
 
