@@ -1,23 +1,42 @@
 <!doctype html public "-//w3c//dtd html 4.0 transitional//en">
 <html>
-<head>
-   <title>Debugging RAVL code.</title>
-   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; SunOS 5.7 sun4u) [Netscape]">
-</head>
-<body>
+  <head>
+    <title>Debugging RAVL code.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; SunOS 5.7 sun4u) [Netscape]">
+  </head>
+  <body>
+    <p>
+      This will eventually be a serious page on how to debug with RAVL.  For
+      the moment, here is a small list of tips when looking at data in
+      <code>ddd</code>, the GUI for the GNU debugger <code>gdb</code>:</p>
 
-This will eventually be a serious page on how to debug with RAVL.
-<p>For the moment, here is a small list of tips when <b>looking at data in gdb</b>, which will be updated from time to time and, at some point, organised.
-<br>&nbsp;
-<ul>
-<li>
-If you want to know the contents of a&nbsp; <tt>StringC mystring:</tt></li>
-<p><tt>(gdb) print (char*) mystring.rep.Where->s</tt>
-<br>&nbsp;
-<p>
-    <address><a href="mailto:eep1lm@ee.surrey.ac.uk">Luis Molina
-    Tanco</a></address> 
+    <ul>
+      <li>Printing salars, or scalar array members, is straightforward.  Thus
+      if you have an array SArray1dC a(3), you can look at an element:
+      <pre>print a[2]</pre></li> <li>Printing the contents of complex data
+      structures is not so straightforward at present.  If you print the array
+      - <pre>print a</pre> - you get the contents of the handle:
 
-</body>
+<pre>$1 = {<RavlN::RangeBufferAccessC<RavlN::IntT>> = {<RavlN::BufferAccessC<RavlN::IntT>> = {buff = 0x805f8b8}, 
+range = {minI = {v = 0}, maxI = {v = 2}}},
+buff = {<RavlN::RCHandleVC<RavlN::BufferBodyC<RavlN::IntT> >> = {<RavlN::RCHandleC<RavlN::BufferBodyC<RavlN::IntT> >> = {body = 0x805f8a0},
+<No data fields>}, <No data fields>}}</pre>  
+        
+        However, if you open the <strong>Data->Memory</strong> window from
+        ddd, and fill in the number of elements and the buffer adress from the
+        "<code>print a</code>" results, you get the array contents.</li>
+
+      <li>
+        If you want to know the contents of a&nbsp; <tt>StringC mystring:</tt>
+        <pre>(gdb) print (char*) mystring.rep.Where->s</pre></li> 
+
+      <li>It does seem that you can use at least some of the methods of a
+      class in a print statement.  Unfortunately it just doesn't understand
+      "<code>cout &lt;&lt;</code>".  Neither does it understand the RAVL
+      <code>Save()</code> function - this has a meaning withing gdb.</li>
+      </ul> <address><a href="mailto:ees1wc@surrey.ac.uk">Bill Christmas</a>,
+      Luis Molina Tanco, <a href="mailto:eep2ak@surrey.ac.uk">Akiel Khan</a></address>
+    
+  </body>
 </html>
