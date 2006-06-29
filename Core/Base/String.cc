@@ -847,8 +847,12 @@ namespace RavlN {
       cerr << "WARNING: StringC::form(...), String truncated!! \n";
     StringC oth(buff);
     (*this) = oth;  // Slower, but saves memory.
-#else
+#elif RAVL_COMPILER_VISUALCPP
     if((x = _vsnprintf(buff,formSize,format,args)) < 0)
+      cerr << "WARNING: StringC::form(...), String truncated!! \n";
+    (*this) = StringC(buff);  // Slower, but saves memory.
+#else
+    if((x = vsnprintf(buff,formSize,format,args)) < 0)
       cerr << "WARNING: StringC::form(...), String truncated!! \n";
     (*this) = StringC(buff);  // Slower, but saves memory.
 #endif
