@@ -12,12 +12,15 @@
       <code>ddd</code>, the GUI for the GNU debugger <code>gdb</code>:</p>
 
     <ul>
-      <li><p>Printing salars, or scalar array members, is straightforward.
-      Thus if you have an array SArray1dC&lt;IntT&gt; a(3), you can look at an
-      element: <pre>print a[2]</pre></li> <li>Printing the contents of data
-      structures is a bit more complicated, depending on the structure.  If
-      you print the array - <pre>print a</pre> - you get the contents of the
-      handle:</p>
+      <li>
+        <p>Printing salars, or scalar array members, is straightforward.  Thus
+        if you have an array SArray1dC&lt;IntT&gt; a(3), you can look at an
+        element: <pre>print a[2]</pre></li> 
+
+      <li>
+        Printing the contents of data structures is a bit more complicated,
+        depending on the structure.  If you print the array <code>a</code>
+        above - <pre>print a</pre> - you get the contents of the handle:</p>
 
 <pre>$1 = {<RavlN::RangeBufferAccessC<RavlN::IntT>> = {<RavlN::BufferAccessC<RavlN::IntT>> = {buff = 0x805f8b8}, 
 range = {minI = {v = 0}, maxI = {v = 2}}},
@@ -27,14 +30,14 @@ buff = {<RavlN::RCHandleVC<RavlN::BufferBodyC<RavlN::IntT> >> = {<RavlN::RCHandl
         <p>However, in this example, if you open the
         <strong>Data->Memory</strong> window from ddd, fill in the number,
         type and size of elements, and put <code>(int)a</code> in the "from"
-        field, you get the array contents.</p></li>
+        field, you get the array contents.</p>
+      </li>
 
       <li>
         If you want to know the contents of a&nbsp; <code>StringC
-        mystring:</code> <pre>(gdb) print (char*)
-        mystring.rep.Where->s</pre></li>
+        mystring:</code> <pre>print mystring.chars()</pre></li>
 
-      <li>It does seem that you can use at least some of the methods of a
+      <li>So it does seem that you can use at least some of the methods of a
       class in a print statement.  Unfortunately it just doesn't understand
       "<code>cout &lt;&lt;</code>".  Neither does it understand the RAVL
       <code>Save()</code> function - this has a meaning withing gdb.</li>
