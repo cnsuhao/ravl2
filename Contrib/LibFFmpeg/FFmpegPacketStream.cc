@@ -263,7 +263,7 @@ namespace RavlN {
         attrValue = StringC();
         return true;
       }
-      attrValue = StringC(pFormatCtx->duration);
+      attrValue = StringC((Int64T)(pFormatCtx->duration));
       return true;
     }
     if(attrName=="filename") {
