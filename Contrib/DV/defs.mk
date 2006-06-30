@@ -11,7 +11,7 @@ PACKAGE = Ravl/Image
 
 DESCRIPTION = Digital Video Classes
 
-SUPPORT_ONLY = linux  
+SUPPORT_ONLY = linux  linux64
 
 REQUIRES = libDV
 
@@ -34,3 +34,4 @@ PROGLIBS= RavlDPDisplay.opt RavlDPDisplay RavlDevAudio
 MUSTLINK = RAVLVidIDV.cc
 
 EHT = DV.html
+

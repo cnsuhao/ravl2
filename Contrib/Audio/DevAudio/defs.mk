@@ -9,7 +9,7 @@
 
 ORGANISATION=OmniPerception Ltd.
 
-SUPPORT_ONLY = linux  
+SUPPORT_ONLY = linux  linux64
 
 PACKAGE= Ravl/Audio
 
