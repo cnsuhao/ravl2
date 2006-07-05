@@ -10,6 +10,8 @@
 %{
 #include "Ravl/IO.hh"
 #include "Ravl/DP/PrintIOInfo.hh"
+#include "Ravl/Stream.hh"
+
 %}
 
 namespace std {
@@ -19,13 +21,13 @@ namespace std {
 namespace RavlN {
   using namespace std;
   
-  void PrintIOFormats(ostream &os = cout);
+  void PrintIOFormats(ostream &os = std::cout);
   //: Print in human readable format, information about available formats to 'os'.
   
-  void PrintIOConversions(ostream &os = cout);
+  void PrintIOConversions(ostream &os = std::cout);
   //: Print in human readable format, information about available type conversions to 'os'.
   
-  void PrintIOClassTypes(ostream &os = cout);
+  void PrintIOClassTypes(ostream &os = std::cout);
   //: Print in human readable format, information about available class types to 'os'.
   
 }

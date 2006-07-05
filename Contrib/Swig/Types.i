@@ -7,6 +7,7 @@
 
 %{
 #include "Ravl/Types.hh"
+#include "Ravl/Stream.hh"
 %}
 
 namespace RavlN {
