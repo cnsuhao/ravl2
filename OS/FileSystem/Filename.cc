@@ -129,14 +129,15 @@ namespace RavlN {
   bool FilenameC::SetPermissions(const FilePermissionC &perm)
   { 
 #if RAVL_COMPILER_VISUALCPP
-	  return _chmod(chars(),perm.Mode()) == 0; 
+    return _chmod(chars(),perm.Mode()) == 0; 
 #else
-	  return chmod(chars(),perm.Mode()) == 0; 
+    return chmod(chars(),perm.Mode()) == 0; 
 #endif
   }
   
   
   // Return the path component of a Filename, ie. upto last /
+  
   FilenameC FilenameC::PathComponent() const  {
     if(IsEmpty())
       return FilenameC();
@@ -144,6 +145,7 @@ namespace RavlN {
   }
   
   // Return the name component of a Filename, ie. upto last / 
+  
   FilenameC FilenameC::NameComponent() const  {
     if(IsEmpty())
       return FilenameC();

@@ -31,6 +31,7 @@ using namespace RavlN;
 
 int TestStream(FilenameC &fn);
 int TestBinStream(FilenameC &fn);
+int TestFilename();
 
 /////////////////
 bool verb = false;
@@ -45,6 +46,7 @@ int main(int argc,char **argv)
   verb = option.Boolean("v",false,"Verbose. \n");
   option.Check();
   int ret;
+#if 1
   if((ret = TestStream(infile)) != 0) {
     cerr << "Test Stream failed :" << ret << "\n";
     return 1;
@@ -53,7 +55,64 @@ int main(int argc,char **argv)
     cerr << "Test BinStream failed :" << ret << "\n";
     return 1;
   }
+#endif
+  if((ret = TestFilename()) != 0) {
+    cerr << "Test filename failed on line " << ret << "\n";
+    return 1;
+  }
   cout << "TEST PASSED. \n";
+  return 0;
+}
+
+int TestFilename() {
+  
+  // Check name component.
+  
+  if(FilenameC("name").NameComponent() != "name")
+    return __LINE__;
+  
+  if(FilenameC("path/name").NameComponent() != "name")
+    return __LINE__;
+  
+  if(FilenameC("path/").NameComponent() != "")
+    return __LINE__;
+  
+  if(FilenameC("/name").NameComponent() != "name")
+    return __LINE__;
+
+  if(FilenameC("/name/xyz").NameComponent() != "xyz")
+    return __LINE__;
+  
+  if(FilenameC("/name/xyz/123").NameComponent() != "123")
+    return __LINE__;
+  
+  if(FilenameC("/name/xyz/123/").NameComponent() != "")
+    return __LINE__;
+  
+
+  // Check path component.
+  
+  if(FilenameC("name").PathComponent() != "")
+    return __LINE__;
+  
+  if(FilenameC("path/name").PathComponent() != "path")
+    return __LINE__;
+  
+  if(FilenameC("path/").PathComponent() != "path")
+    return __LINE__;
+  
+  if(FilenameC("/name").PathComponent() != "")
+    return __LINE__;
+  
+  if(FilenameC("/name/xyz").PathComponent() != "/name")
+    return __LINE__;
+  
+  if(FilenameC("/name/xyz/123").PathComponent() != "/name/xyz")    
+    return __LINE__;
+  
+  if(FilenameC("/name/xyz/123/").PathComponent() != "/name/xyz/123")
+    return __LINE__;
+  
   return 0;
 }
 
