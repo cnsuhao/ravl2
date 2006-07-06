@@ -53,6 +53,9 @@ case "${UNAME_MACHINE}:${UNAME_SYSTEM}:${UNAME_RELEASE}" in
     alpha:Linux:*)
 	echo "linux_alpha"
 	exit 0 ;;
+    'Power Macintosh':Darwin:*)
+	echo "macosx"
+	exit 0 ;;
     *:*:*)
 	echo "unknown"
 	echo "Unknown machine '${UNAME_MACHINE}:${UNAME_SYSTEM}:${UNAME_RELEASE}' " >&2

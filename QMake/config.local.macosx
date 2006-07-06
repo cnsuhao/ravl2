@@ -1,0 +1,159 @@
+##################################################
+#### Site Specific Configuration file
+##################################################
+##
+## Any undefined variables will be assigned  
+## architecture specific defaults. 
+##
+##################################################
+
+################ Install options #############################
+# This variable determines which kinds of library are built by the default installation (fullbuild)
+# These flags include check, debug and opt builds, along with their shared library counterparts (shared, optshared, debugshared). 
+# The ravl binaries are built if  'optbin' is set, this also builds 'opt' libraries. The 'doc' flag controls building of documentation. 
+ 
+FULLBUILD_TARGETS += check
+FULLBUILD_TARGETS += debug 
+FULLBUILD_TARGETS += opt
+FULLBUILD_TARGETS += shared
+#FULLBUILD_TARGETS += debugshared
+#FULLBUILD_TARGETS += optshared
+FULLBUILD_TARGETS += optbin
+FULLBUILD_TARGETS += doc
+
+
+################ Compiler ##################################
+
+# paths for cc and c++ compiler
+RAVL_CC  = gcc
+RAVL_CXX = g++
+
+# extra CFLAGS (c)
+# EXTRA_CFLAGS =
+
+# extra CCFLAGS (c++)
+# EXTRA_CCFLAGS =
+
+################# LIBRARIES #################
+
+## GTK 2.x #####################################
+
+RESOURCES += libGTK libGTK2
+
+RESOURCES += libglade2
+
+## GTK 1.x #####################################
+
+#RESOURCES += libGTK 
+
+# gtk path 
+#GTKPATH =  /opt/PDlibs/gtk++-1.2.10
+
+# glib path 
+#GLIBPATH = /opt/PDlibs/glib-1.2.10
+
+# override gtk compile flags 
+# GTKCFLAGS = 
+
+# override glib compile flags
+# GLIBCFLAGS = 
+
+# override gtk link flags 
+# GTKLIBS =
+
+# ovveride glib link flags 
+# GLIBLIBS = 
+
+## libAudioFile ################################################
+
+RESOURCES += libAudioFile
+
+## libDV ################################################
+
+#RESOURCES += libDV
+#LIBDV_HOME=
+
+## libavc1394 ################################################
+
+#RESOURCES += libavc1394
+#LIBAVC1394_HOME=
+
+## libdc1394 ################################################
+# Camera control.
+
+#RESOURCES += libdc1394
+
+## libcurl ################################################
+
+RESOURCES += libCurl
+
+## libClipStationPro ################################################
+
+#RESOURCES += libClipStationPro
+
+## libDMedia ################################################
+
+#RESOURCES += libDMedia
+
+## libGuppi ################################################
+
+#RESOURCES += libGuppi
+
+## devVideo4Linux ################################################
+
+RESOURCES += devVideo4Linux
+
+## devVideo4Linux2 ################################################
+
+RESOURCES += devVideo4Linux2
+
+## libmpeg2 ################################################
+
+RESOURCES += libmpeg2
+LIBMPEG2_HOME=/opt/PDsoft/mpeg2dec
+
+## FFTW ####################################################
+#FFTW_HOME=
+
+## JAVASCRIPT ##############################################
+#JAVASCRIPT_HOME=
+
+## LIBJPEG #################################################
+#LIBJPEG_HOME=
+
+## LIBPNG_HOME #############################################
+#LIBPNG_HOME=
+
+## LIBTIFF_HOME ############################################
+#LIBTIFF_HOME=
+
+## avifile ##################################################
+
+#RESOURCES += avifile
+
+## dvdread ##################################################
+
+#RESOURCES += dvdread
+
+## libmcrypt ##################################################
+
+#RESOURCES += libmcrypt
+
+## Intel's Math Kernel Library  ############################################
+
+RESOURCES += libmkl
+INTELMKL_HOME=/opt/Intel/mkl70
+
+## Jasper image io library  ############################################
+
+RESOURCES += LibJasper
+
+## Embedded HTTP Server (EHS) ##############################
+
+#PME_HOME = /opt/pme-1.0.4
+#EHS_HOME = /opt/ehs-1.3.1
+#RESOURCES += libehs
+
+## LibGnome2 ##############################
+
+RESOURCES += LibGnome

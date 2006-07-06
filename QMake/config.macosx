@@ -1,0 +1,146 @@
+###########################
+# Make info for solaris systems
+# $Id: config.linux 5451 2006-04-12 18:13:54Z craftit $
+
+#######################
+# Programs to use.
+
+ifdef GCCPATH
+ GCCPATH:=$(strip $(GCCPATH))#
+ RAVL_CC  = $(GCCPATH)/bin/gcc -B$(GCCPATH)/bin
+ RAVL_CXX = $(GCCPATH)/bin/g++ -B$(GCCPATH)/bin
+ EXTRA_LDFLAGS += -Wl,-rpath=$(GCCPATH)/lib
+endif
+
+ifdef RAVL_CC
+ CC = $(RAVL_CC)
+else
+ CC = gcc
+endif
+
+ifdef RAVL_CXX
+ CXX = $(RAVL_CXX) 
+else 
+ CXX = g++
+endif 
+
+MKDEPFLAGS = -MM
+
+ifdef RAVL_AR
+ AR = $(RAVL_AR) 
+else 
+ AR = ar
+endif 
+
+ifndef XARGS 
+ XARGS = xargs 
+endif 
+
+ifndef TR 
+ TR = tr	
+endif 
+
+ifndef DYNAMICFLAG
+ DYNAMICFLAG = -rdynamic 
+endif 
+
+ARFLAGS = ruc
+MKDIR = mkdir -p
+CP = cp
+CHMOD = chmod
+TOUCH=/usr/bin/touch
+RM=rm
+
+LIBPATHSWITCH = -Wl,-rpath=#
+
+AMKDEPFLAGS = -Wp,-MMD,$(WORKTMP)/$*.d
+MKDEPUP = echo -n '$$(INST_OBJS)/' > $(INST_DEPEND)/$*.d ; cat $(WORKTMP)/$*.d  >> $(INST_DEPEND)/$*.d ; \
+ rm $(WORKTMP)/$*.d
+
+NOLIBRARYPRELINK=1
+
+
+
+############################
+# Universal flags.
+
+CFLAGS   = -Wall -pipe -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fno-merge-constants
+CFLAGS   += $(EXTRA_CFLAGS) 
+
+CCFLAGS  = -pipe -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fno-merge-constants
+CCFLAGS  += $(EXTRA_CCFLAGS)
+
+CCPPFLAGS= -DGNU -Dunix
+CPPFLAGS = -DGNU -Dunix
+
+LDFLAGS = 
+LDFLAGS += $(EXTRA_LDFLAGS)
+
+PAR_MAKE = --jobs=$(PROCS)
+
+UNDEFSYMB = -u #
+
+OPTCFLAGS  = -O2 -ffast-math -march=i686 
+# -O2 -ffast-math -mcpu=i686 -mfpmath=sse
+
+OPTCCFLAGS = -O2  -ffast-math -march=i686 
+# -O2 -ffast-math -mcpu=i686 -mfpmath=sse
+
+############################
+# 'debug' variant.
+
+ifeq ($(VAR),debug)
+ CFLAGS += -g  -DQMAKE_CHECK -DQMAKE_PARANOID
+ CCFLAGS += -g -DQMAKE_CHECK -DQMAKE_PARANOID
+ LDFLAGS += -g  
+endif
+
+############################
+# 'check' variant.
+
+ifeq ($(VAR),check)
+ CFLAGS += -O -DQMAKE_CHECK
+ CCFLAGS += -O  -DQMAKE_CHECK
+ LDFLAGS += -O 
+endif
+
+############################
+# 'opt' variant.
+
+ifeq ($(VAR),opt)
+ CFLAGS += $(OPTCFLAGS) 
+ CCFLAGS += $(OPTCFLAGS)
+ LDFLAGS += -O 
+endif
+
+############################
+# 'shared' variant.
+
+#ifeq ($(VAR),shared)
+ ifdef SHAREDBUILD
+ CFLAGS += -fPIC -shared 
+ CCFLAGS += -fPIC -shared  
+ LDLIBFLAGS = -fPIC -shared
+ LDFLAGS +=  -rdynamic -Wl,-rpath=$(PROJECT_OUT)/lib/RAVL/$(ARC)/$(VAR)/shared
+# -Wl,-export-dynamic
+endif
+
+############################
+# 'prof' variant.
+
+ifeq ($(VAR),prof)
+ CFLAGS += -p -g $(OPTCFLAGS)
+ CCFLAGS += -p -g $(OPTCFLAGS)
+ LDFLAGS += -p -O2 -g
+endif
+
+############################
+# 'gprof' variant.
+
+ifeq ($(VAR),gprof)
+ CFLAGS += -pg -g   $(OPTCFLAGS)
+ CCFLAGS += -pg -g $(OPTCFLAGS)
+ LDFLAGS += -pg -g -O2
+endif
+
+
