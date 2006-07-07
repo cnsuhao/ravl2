@@ -11,6 +11,9 @@
 //! lib=RavlOS
 //! file="Ravl/OS/Time/Date.cc"
 
+#undef _ANSI_SOURCE
+#undef _POSIX_C_SOURCE
+
 #include "Ravl/config.h"
 #if RAVL_OS_SOLARIS
 #define _POSIX_PTHREAD_SEMANTICS 1
@@ -29,6 +32,13 @@
 #include <sys/timeb.h>
 #endif
 #include <time.h>
+
+#ifdef RAVL_OS_MACOSX
+char *asctime_r(const struct tm *, char *);
+char *ctime_r(const time_t *, char *);
+struct tm *gmtime_r(const time_t *, struct tm *);
+struct tm *localtime_r(const time_t *, struct tm *);
+#endif
 
 
 #include "Ravl/Exception.hh"
@@ -238,7 +248,7 @@ namespace RavlN {
   
   DateC DateC::NowVirtual() {
 #if !RAVL_OS_WIN32
-    DateC ret(0,clock());
+    DateC ret((long)0,(long)clock());
     ret.NormalisePos();
     return ret;
 #else

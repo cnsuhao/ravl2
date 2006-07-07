@@ -146,6 +146,8 @@ namespace RavlN {
   int GetTCPProtocolNumber() {
 #if RAVL_OS_LINUX || RAVL_OS_LINUX64
     return SOL_TCP;
+#elif RAVL_OS_MACOSX
+    return getprotobyname("tcp")->p_proto;
 #else
     struct protoent entry;
     char buffer[1024];
@@ -220,6 +222,9 @@ namespace RavlN {
         break;
       }
       opErrno = h_errno;
+#elif RAVL_OS_MACOSX
+	  if((result = gethostbyname(name)) != 0)
+	break;  
 #else
       if((result = gethostbyname_r(name,&ent,hostentData,buffSize,&opErrno)) != 0)
 	break;
@@ -316,6 +321,12 @@ namespace RavlN {
 #elif RAVL_OS_IRIX 
       ulong tmp_addr = ((sockaddr_in &)sin).sin_addr.s_addr ; 
       gethostbyaddr_r ((const char *) & tmp_addr, sizeof(tmp_addr), AF_INET, &ent, hostentData, buffSize, &error) ; 
+#elif RAVL_OS_MACOSX
+      {
+      	struct hostent *pHostent = gethostbyaddr((const char *) &((sockaddr_in &)sin).sin_addr,sinLen,AF_INET);
+      	if (pHostent == 0)
+      	  break;
+      }
 #else
       gethostbyaddr_r((const char *) &((sockaddr_in &)sin).sin_addr,sinLen,AF_INET,&ent,hostentData,buffSize,&error);
 #endif
@@ -438,10 +449,10 @@ namespace RavlN {
 	return SocketC(); // Failed.
       }
       ONDEBUG(cerr  << "Accepting. \n");
-      int addrBuffSize = sizeof(sockaddr) + 256;
+      socklen_t addrBuffSize = sizeof(sockaddr) + 256;
       struct sockaddr *cn_addr = (struct sockaddr *) new char [addrBuffSize];
       do {
-	int nfd = accept(fd,cn_addr,(socklen_t *) &addrBuffSize);
+	int nfd = accept(fd,cn_addr, &addrBuffSize);
 	ONDEBUG(cerr  << "Got connection. \n");
 	if(nfd >= 0)
 	  return SocketC(cn_addr,nfd); // Socket accepted ok.

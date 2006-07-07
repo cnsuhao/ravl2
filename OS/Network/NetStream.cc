@@ -9,7 +9,7 @@
 //! lib=RavlNet
 //! file="Ravl/OS/Network/NetStream.cc"
 #include "Ravl/config.h"
-#if !RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP && !RAVL_OS_MACOSX
 #if RAVL_OS_SOLARIS
 #define __EXTENSIONS__ 1
 #endif

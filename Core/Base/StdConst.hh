@@ -114,12 +114,20 @@ namespace RavlConstN {
   const double minReal =  DBL_MIN;
   //: Smallest +ve value a real may have.  
 #else
+#ifdef __DBL_MAX__
+  const double maxReal = __DBL_MAX__;
+  //: Maximum real number.
+  
+  const double minReal = __DBL_MIN__;
+  //: Smallest +ve value a real may have.
+#else
 #error "DBL_MIN not defined."
   const double maxReal =  1.0e200;
   //: Maximum real number.
   
   const double minReal = 1.0e-200;
   //: Smallest +ve value a real may have.  
+#endif
 #endif
 #endif
   
@@ -151,6 +159,13 @@ namespace RavlConstN {
   const float minFloat = FLT_MIN;
   //: Smallest +ve value a float may have.  
 #else
+#ifdef __FLT_MAX__
+  const float maxFloat = __FLT_MAX__;
+  //: Biggest value a float may have.
+  
+  const float minFloat = __FLT_MIN__;
+  //: Smallest +ve value a float may have.  
+#else
 #error "FLT_MIN not defined."
   const double maxReal =  1.0e30;
   //: Biggest value a float may have.
@@ -159,6 +174,8 @@ namespace RavlConstN {
   //: Smallest +ve value a float may have.  
 #endif
 #endif
+#endif
+
   //! userlevel=Develop
   const union u_nan_t { int i ; float f; } u_nan = {0x7ff80000};
   // internal nan.

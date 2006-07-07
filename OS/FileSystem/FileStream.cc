@@ -11,6 +11,7 @@
 //! file="Ravl/OS/FileSystem/FileStream.cc"
 
 #include "Ravl/OS/FileStream.hh"
+#include "Ravl/OS/Filename.hh"
 
 #if !RAVL_COMPILER_VISUALCPP
 #include <unistd.h>
@@ -19,7 +20,6 @@
 #include <fcntl.h>
 #include <errno.h>
 #else
-#include "Ravl/OS/Filename.hh"
 #include <direct.h>
 #include <memory.h>
 #include <io.h>

@@ -255,7 +255,7 @@ ChildOSProcessC::ChildOSProcessC(StringC cmd,bool useStdOut,bool useStdErr,bool 
   // If failed returns -1.
   
   int ChildOSProcessBodyC::SetupPipe(IStreamC &strm) {
-#if !RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP && !RAVL_OS_MACOSX
     int fds[2];
     if(pipe(fds) != 0) { // 0-Read 1-Write
       cerr << "ChildOSProcessBodyC::SetupIPipe(), Failed to create pipe. \n";
@@ -276,7 +276,7 @@ ChildOSProcessC::ChildOSProcessC(StringC cmd,bool useStdOut,bool useStdErr,bool 
   // If failed returns -1.
   
   int ChildOSProcessBodyC::SetupPipe(OStreamC &strm) {
-#if !RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP && !RAVL_OS_MACOSX
     int fds[2];
     if(pipe(fds) != 0) { // 0-Read 1-Write
       cerr << "ChildOSProcessBodyC::SetupOPipe(), Failed to create pipe. \n";

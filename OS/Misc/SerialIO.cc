@@ -59,8 +59,12 @@ namespace RavlN {
       case 9600: speedVal = B9600; break;
       case 19200: speedVal = B19200; break;
       case 38400: speedVal = B38400; break;
+#ifdef B57600
       case 57600: speedVal = B57600; break;
+#endif
+#ifdef B115200
       case 115200: speedVal = B115200; break;
+#endif
 #ifdef B153600
       case 153600: speedVal = B153600; break;
 #endif
