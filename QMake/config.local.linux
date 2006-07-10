@@ -157,3 +157,15 @@ RESOURCES += LibJasper
 ## LibGnome2 ##############################
 
 RESOURCES += LibGnome
+
+## LibFFmpeg ##############################
+
+#RESOURCES += libffmpeg
+
+## LibGd ##############################
+
+#RESOURCES += LibGd
+
+## Python ##############################
+ 
+#RESOURCES += LibPython
