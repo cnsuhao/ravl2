@@ -141,8 +141,8 @@ LIBMPEG2_HOME=/opt/PDsoft/mpeg2dec
 
 ## Intel's Math Kernel Library  ############################################
 
-RESOURCES += libmkl
-INTELMKL_HOME=/opt/Intel/mkl70
+#RESOURCES += libmkl
+#INTELMKL_HOME=/opt/Intel/mkl70
 
 ## Jasper image io library  ############################################
 
