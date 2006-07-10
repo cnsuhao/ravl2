@@ -38,7 +38,7 @@ RAVL_CXX = g++
 
 ## GTK 2.x #####################################
 
-RESOURCES += libGTK libGTK2
+#RESOURCES += libGTK libGTK2
 
 RESOURCES += libglade2
 
@@ -66,7 +66,7 @@ RESOURCES += libglade2
 
 ## libAudioFile ################################################
 
-RESOURCES += libAudioFile
+#RESOURCES += libAudioFile
 
 ## libDV ################################################
 
@@ -109,8 +109,8 @@ RESOURCES += devVideo4Linux2
 
 ## libmpeg2 ################################################
 
-RESOURCES += libmpeg2
-LIBMPEG2_HOME=/opt/PDsoft/mpeg2dec
+#RESOURCES += libmpeg2
+#LIBMPEG2_HOME=/opt/PDsoft/mpeg2dec
 
 ## FFTW ####################################################
 #FFTW_HOME=
@@ -146,7 +146,7 @@ LIBMPEG2_HOME=/opt/PDsoft/mpeg2dec
 
 ## Jasper image io library  ############################################
 
-RESOURCES += LibJasper
+#RESOURCES += LibJasper
 
 ## Embedded HTTP Server (EHS) ##############################
 
@@ -156,4 +156,4 @@ RESOURCES += LibJasper
 
 ## LibGnome2 ##############################
 
-RESOURCES += LibGnome
+#RESOURCES += LibGnome
