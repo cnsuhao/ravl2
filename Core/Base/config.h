@@ -180,7 +180,7 @@
 #define RAVL_HAVE_GETPW_RET_PW !RAVL_OS_OSF     /* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
 #define RAVL_HAVE_GETPW_WITH_RESULT  RAVL_OS_IRIX  || RAVL_OS_SOLARIS /* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
 #define RAVL_HAVE_HSTRERROR    (RAVL_OS_IRIX || RAVL_OS_LINUX || RAVL_OS_LINUX64)  /* have hstrerror, otherwise use strerror. */
-#define RAVL_HAVE_SOCKLEN_T    (RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_SOLARIS)  /* Have socklen_t */
+#define RAVL_HAVE_SOCKLEN_T    (RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_SOLARIS || RAVL_OS_MACOSX)  /* Have socklen_t */
 #define RAVL_HAVE_INTFILEDESCRIPTORS (!RAVL_COMPILER_VISUALCPP && !RAVL_OS_MACOSX)  /* Support integer file descriptors */
 
 /********************************************************************************/
