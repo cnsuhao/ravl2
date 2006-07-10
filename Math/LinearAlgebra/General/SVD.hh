@@ -400,7 +400,7 @@ namespace RavlN
 	  RealT b = ((spm1 + sp)*(spm1 - sp) + epm1*epm1)/2.0;
 	  RealT c = (sp*epm1)*(sp*epm1);
 	  RealT shift = 0.0;
-	  if ((b != 0.0) | (c != 0.0)) {
+	  if ((bool)(b != 0.0) | (bool)(c != 0.0)) {
 	    shift = sqrt(b*b + c);
 	    if (b < 0.0) {
 	      shift = -shift;
