@@ -8,7 +8,7 @@
 
 ORGANISATION=OmniPerception Ltd.
 
-REQUIRES=
+REQUIRES=LibJasper
 
 PACKAGE=Ravl/Image
 
