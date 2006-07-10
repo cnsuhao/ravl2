@@ -195,7 +195,7 @@ namespace RavlImageN {
       if ( nK1 < 0.0 )
 	thres_R2 = -MODEL_FRACTION*MODEL_FRACTION*0.333333333/nK1;
       else
-	thres_R2 = thres_dR = outer_a = outer_b = DBL_MAX;
+	thres_R2 = thres_dR = outer_a = outer_b = RavlConstN::maxReal;
     }
     else {
       RealT disc = 0.09*nK1*nK1 - 0.2*nK2;
@@ -215,14 +215,14 @@ namespace RavlImageN {
 	else if ( R2b > 0.0 )
 	  thres_R2 = R2b;
 	else
-	  thres_R2 = thres_dR = outer_a = outer_b = DBL_MAX;
+	  thres_R2 = thres_dR = outer_a = outer_b = RavlConstN::maxReal;
       }
       else
-	thres_R2 = thres_dR = outer_a = outer_b = DBL_MAX;
+	thres_R2 = thres_dR = outer_a = outer_b = RavlConstN::maxReal;
     }
 
     // check whether a limit on radial distance has been imposed
-    if ( thres_R2 != DBL_MAX ) {
+    if ( thres_R2 != RavlConstN::maxReal ) {
       double R = sqrt(thres_R2);
 
       // compute limited on distorted radial distance
