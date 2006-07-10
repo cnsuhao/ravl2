@@ -524,7 +524,7 @@ namespace RavlN {
   // Returns false on error.
   
   bool SocketBodyC::WaitForRead() {
-#if 1
+#if !RAVL_OS_MACOSX
     fd_set rfds;
     struct timeval tv;
     FD_ZERO(&rfds);
@@ -582,6 +582,7 @@ namespace RavlN {
   // Returns false on error.
   
   bool SocketBodyC::WaitForWrite() {
+#if !RAVL_OS_MACOSX
     struct timeval timeout;
     fd_set wfds;
     FD_ZERO(&wfds);
@@ -602,6 +603,7 @@ namespace RavlN {
 	break;
       // Retry.
     }
+#endif
     return false;
   }
   
