@@ -11,7 +11,7 @@ HEADERS=Types.i Point2d.i Polygon2d.i Image.i IndexRange2d.i Index2d.i Array2d.i
 
 SOURCES=Ravl.i
 
-PLIB=RavlPython
+PLIB=RavlPythonSwig
 
 USESLIBS=RavlDPDisplay RavlCore RavlMath RavlImage RavlImageIO Python 
 
@@ -19,6 +19,6 @@ SWIGOPTS=-python
 
 PROGLIBS=
 
-AUXDIR=lib/RAVL/libdep
+AUXDIR=
 
-AUXFILES=Python.def
+AUXFILES=

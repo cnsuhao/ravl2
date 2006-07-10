@@ -1,0 +1,13 @@
+# This file is part of RAVL, Recognition And Vision Library
+# Copyright (C) 2005, University of Surrey
+# This code may be redistributed under the terms of the GNU Lesser
+# General Public License (LGPL). See the lgpl.licence file for details or
+# see http://www.gnu.org/copyleft/lesser.html
+# file-header-ends-here
+ifndef PYTHON_DEF
+PYTHON_DEF = 1
+
+INCLUDES += -I/usr/include/python2.3
+EXELIB := -lpython2.3 $(EXELIB)
+
+endif
