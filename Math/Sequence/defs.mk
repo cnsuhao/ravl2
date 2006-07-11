@@ -11,12 +11,14 @@ PACKAGE=Ravl
 
 HEADERS = PrimitiveBinaryPolynomial.hh SobolSequence.hh \
  CircleIter.hh PermutationIter.hh CombinationIter.hh \
- SquareIter.hh ZigZagIter.hh Polygon2dIter.hh Array2dPolygon2dIter.hh
+ SquareIter.hh ZigZagIter.hh Polygon2dIter.hh Array2dPolygon2dIter.hh \
+ ThinPlateSpline1d.hh
 
 SOURCES= PrimitiveBinaryPolynomial.cc SobolSequence.cc \
-  CircleIter.cc SquareIter.cc ZigZagIter.cc Polygon2dIter.cc
+ CircleIter.cc SquareIter.cc ZigZagIter.cc Polygon2dIter.cc \
+ ThinPlateSpline1d.cc
 
-TESTEXES = testCircleIter.cc testCombinationIter.cc testPolygon2dIter.cc
+TESTEXES = testCircleIter.cc testCombinationIter.cc testPolygon2dIter.cc testThinPlateSpline1d.cc
 
 EXAMPLES = exPrimiteBinaryPolynomial.cc testSquareIterFill.cc
 
