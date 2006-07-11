@@ -12,7 +12,7 @@ DESCRIPTION = VPlay - Video Player.
 
 NESTED = Bitmaps.r
 
-REQUIRES = libGtk
+REQUIRES = libGTK
 
 DONOT_SUPPORT=arm
 
