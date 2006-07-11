@@ -20,7 +20,7 @@ SOURCES= PrimitiveBinaryPolynomial.cc SobolSequence.cc \
 
 TESTEXES = testCircleIter.cc testCombinationIter.cc testPolygon2dIter.cc testThinPlateSpline1d.cc
 
-EXAMPLES = exPrimiteBinaryPolynomial.cc testSquareIterFill.cc
+EXAMPLES = exPrimiteBinaryPolynomial.cc testSquareIterFill.cc exThinPlateSpline1d.cc
 
 PLIB=RavlMath
 
@@ -28,6 +28,6 @@ LIBDEPS=RavlMathSequence.def
 
 USESLIBS=RavlMath
 
-PROGLIBS=RavlImage RavlImageIO
+PROGLIBS=RavlImage RavlImageIO RavlDPDisplay
 
 EHT=Ravl.API.Math.Sequences.html
