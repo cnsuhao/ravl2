@@ -8,7 +8,7 @@
 ifndef LIBFFMPEG_DEF
   LIBFFMPEG_DEF=1
 
-  LIBFFMPEG_LIBS=-lavformat -lavcodec -lz
+  LIBFFMPEG_LIBS=-lavformat -lavcodec -lavutil -lz
   
   ifdef LIBFFMPEG_HOME
     ifeq ($(LIBFFMPEG_HOME),/usr)

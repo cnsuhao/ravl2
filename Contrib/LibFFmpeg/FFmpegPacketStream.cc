@@ -78,11 +78,11 @@ namespace RavlN {
     
     // Find the first video stream
     for (IntT i = 0; i < pFormatCtx->nb_streams; i++) {
-      if (pFormatCtx->streams[i]->codec.codec_type != CODEC_TYPE_VIDEO) 
+      if (pFormatCtx->streams[i]->codec->codec_type != CODEC_TYPE_VIDEO) 
         continue;
       
       // Get a pointer to the codec context for the video stream
-      AVCodecContext *pCodecCtx = &pFormatCtx->streams[i]->codec;
+      AVCodecContext *pCodecCtx = pFormatCtx->streams[i]->codec;
       
       // Find the decoder for the video stream
       AVCodec *pCodec = avcodec_find_decoder(pCodecCtx->codec_id);
@@ -111,8 +111,8 @@ namespace RavlN {
       positionRefStream = videoStreamId;
       AVStream *avstream = pFormatCtx->streams[positionRefStream];
       
-      frameRate     = avstream->r_frame_rate;
-      frameRateBase = avstream->r_frame_rate_base;
+      frameRate     = avstream->r_frame_rate.num;
+      frameRateBase = avstream->r_frame_rate.den;
       startFrame = Time2Frame(pFormatCtx->start_time);      
       
       ONDEBUG(cerr << "FFmpegPacketStreamBodyC::FirstVideoStream Index=" << av_find_default_stream_index(pFormatCtx) << " " << positionRefStream << " \n");
@@ -139,11 +139,11 @@ namespace RavlN {
     
     // Find the first video stream
     for (IntT i = 0; i < pFormatCtx->nb_streams; i++) {
-      if (pFormatCtx->streams[i]->codec.codec_type != CODEC_TYPE_VIDEO) 
+      if (pFormatCtx->streams[i]->codec->codec_type != CODEC_TYPE_VIDEO) 
         continue;
       
       // Get a pointer to the codec context for the video stream
-      AVCodecContext *pCodecCtx = &pFormatCtx->streams[i]->codec;
+      AVCodecContext *pCodecCtx = pFormatCtx->streams[i]->codec;
       
       // Find the decoder for the video stream
       AVCodec *pCodec = avcodec_find_decoder(pCodecCtx->codec_id);
@@ -198,8 +198,8 @@ namespace RavlN {
     // Setup some default values.
     if(pFormatCtx->nb_streams >= 1) {
       positionRefStream = 0;
-      frameRate     = pFormatCtx->streams[positionRefStream]->r_frame_rate;
-      frameRateBase = pFormatCtx->streams[positionRefStream]->r_frame_rate_base;
+      frameRate     = pFormatCtx->streams[positionRefStream]->r_frame_rate.num;
+      frameRateBase = pFormatCtx->streams[positionRefStream]->r_frame_rate.den;
       ONDEBUG(cerr << "FFmpegPacketStreamBodyC::Open, FrameRate=" << frameRate << " FrameRateBase=" << frameRateBase << " \n");
     }
       
@@ -430,7 +430,7 @@ namespace RavlN {
       cerr << "FFmpegPacketStreamBodyC::Seek64, Format doesn't support seeking. \n";
       return false;
     }
-    if(av_seek_frame(pFormatCtx, positionRefStream, Frame2Time(off)) < 0) {
+    if(av_seek_frame(pFormatCtx, positionRefStream, Frame2Time(off), 0) < 0) {
       cerr << "FFmpegPacketStreamBodyC::Seek, Seek failed. " << off << " \n";
       return false;
     }
