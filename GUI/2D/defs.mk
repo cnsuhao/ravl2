@@ -9,19 +9,22 @@
 
 PACKAGE=Ravl/GUI
 
-HEADERS=Canvas.hh RawZoomCanvas.hh
-#Graph1d.hh
+HEADERS=Canvas.hh RawZoomCanvas.hh GUIMarkupLayerEditor.hh MarkupImageRGBA.hh  MarkupInfo.hh \
+  MarkupLine2d.hh  MarkupPoint2d.hh FrameMarkup.hh  GUIMarkupCanvas.hh  MarkupImageByte.hh \
+  MarkupImageRGB.hh   MarkupLayerInfo.hh  MarkupNote.hh    MarkupPolygon2d.hh
 
-SOURCES=Canvas.cc RawCanvas2d.cc RawZoomCanvas.cc
-#Graph1d.cc
+SOURCES=Canvas.cc RawCanvas2d.cc RawZoomCanvas.cc FrameMarkup.cc GUIMarkupLayerEditor.cc \
+  MarkupImageRGB.cc   MarkupLine2d.cc   MarkupPolygon2d.cc MarkupImageByte.cc  MarkupInfo.cc \
+  MarkupNote.cc GUIMarkupCanvas.cc  MarkupImageRGBA.cc MarkupLayerInfo.cc  MarkupPoint2d.cc  
+
 
 MAINS=
 #exRawZoomCanvas.cc
 
 PLIB=RavlGUI2D
 
-USESLIBS=RavlGUI RavlImage
+USESLIBS=RavlGUI RavlImage RavlIO 
 
-EXAMPLES= exCanvas.cc exRawZoomCanvas.cc
+EXAMPLES= exCanvas.cc exRawZoomCanvas.cc exGUIMarkupCanvas.cc 
 
 HTML=canvas_colours.html
