@@ -94,11 +94,15 @@ endif
 # Setup default build target.
 TARGET=fullbuild
 
+ifndef QMAKECONFIGHOME
+QMAKECONFIGHOME = $(MAKEHOME)
+endif
+
 # Include a local config file 
 ifdef CONFIGFILE
 include ${CONFIGFILE}
 else
-include $(MAKEHOME)/config.local.$(ARC)
+include $(QMAKECONFIGHOME)/config.local.$(ARC)
 endif
 
 # Include system config and Directories 

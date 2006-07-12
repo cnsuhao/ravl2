@@ -46,11 +46,15 @@ ifndef VAR
  VAR=check
 endif
 
+ifndef QMAKECONFIGHOME
+QMAKECONFIGHOME = $(MAKEHOME)
+endif
+
 # Include a local system file
 ifdef CONFIGFILE
 include ${CONFIGFILE}
 else
-include $(MAKEHOME)/config.local.$(ARC)
+include $(QMAKECONFIGHOME)/config.local.$(ARC)
 endif
 
 # Include system stuff.
