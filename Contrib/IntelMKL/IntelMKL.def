@@ -12,7 +12,7 @@ IntelMKL_Def = 1
       EXELIB :=  -lmkl_ia32 -lguide -lpthread -lm $(EXELIB)
     else
       INCLUDES += -I$(INTELMKL_HOME)/include
-      EXELIB :=  -L$(INTELMKL_HOME)/lib/32 -lmkl_ia32 -lguide -lpthread -lm $(EXELIB)
+      EXELIB :=  -Wl,-rpath,$(INTELMKL_HOME)/lib/32 -L$(INTELMKL_HOME)/lib/32 -lmkl_ia32 -lguide -lpthread -lm $(EXELIB)
     endif
   else
     EXELIB :=  -lmkl_ia32 -lguide -lpthread -lm $(EXELIB)
