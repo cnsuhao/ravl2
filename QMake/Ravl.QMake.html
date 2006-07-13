@@ -47,6 +47,26 @@ main program, the defs.mk file would contain the single line: </p>
 <pre>MAINS = fred.cc</pre> 
 
 
+<h2> Advanced Configuration </h2>
+
+
+<p> QMake uses a configuration file to establish what libraries are available called config.local.(system name) . e.g. config.local.linux.
+To avoid problems with changes to the default ravl config files, there is an environment variable which if set redirects QMake to a local
+configuration file. This should avoid odd problems with compilers changing unexpectedly, or different libraries being enabled/disabled.
+Just added the following to your .cshrc :
+</p>
+
+<code>
+setenv QMAKECONFIGHOME /vol/src/QMakeConfig
+</code>
+<p>
+or for bash users the following should be added to .bashrc
+</p>
+<code>
+export QMAKECONFIGHOME=/vol/src/QMakeConfig
+</code>
+
+
 <!-- <li>Xemacs users: there is an <a href="../html/Ravl-mode.html">Xemacs</a>
 enhancement to allow easy QMake compilation from within Xemac. -->
 </p>
