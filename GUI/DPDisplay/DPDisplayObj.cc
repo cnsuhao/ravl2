@@ -26,11 +26,13 @@ namespace RavlGUIN {
   //: Default constructor.
   
   DPDisplayObjBodyC::DPDisplayObjBodyC()
+    : m_id(-1)
   {}
 
-  //: Draw object to canvas.
   
-  bool DPDisplayObjBodyC::Draw(DPDisplayViewBodyC &canvas) {
+  //: Method to build markup list.
+  
+  bool DPDisplayObjBodyC::Draw(FrameMarkupC &markup) {
     RavlAssertMsg(0,"DPDisplayObjBodyC::Draw(RawCanvasC &), Abstract method called. ");    
     return true;
   }

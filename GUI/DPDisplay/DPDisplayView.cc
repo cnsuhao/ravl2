@@ -33,10 +33,15 @@ namespace RavlGUIN {
       refreshQueued(false),
       vRuler(true),
       hRuler(false),
-      offset(size.Range1().Min(),size.Range2().Min()),
       lastMousePos(-1000,-1000),
       backMenu("BackMenu")
   {}
+  
+  //: Need virtual destructor for class with virtual methods
+  
+  DPDisplayViewBodyC::~DPDisplayViewBodyC() {
+    connections.DisconnectAll();  
+  }
   
   //: Create the widget.
   
@@ -47,7 +52,7 @@ namespace RavlGUIN {
     menuBar.GUIAdd(MenuItemR("Save",*this, &DPDisplayViewBodyC::CallbackStartSave));
     
     fileSelector = FileSelectorC("@X Save");
-    ConnectRef(fileSelector.Selected(),*this,&DPDisplayViewBodyC::CallbackSave);
+    connections += ConnectRef(fileSelector.Selected(),*this,&DPDisplayViewBodyC::CallbackSave);
     
     int rows = winSize.Cols();
     int cols = winSize.Rows();
@@ -60,7 +65,8 @@ namespace RavlGUIN {
       cols = 800;
     if(cols < 30)
        cols = 30;
-    canvas = RawCanvasC(rows,cols);
+    
+    canvas = GUIMarkupCanvasC(rows,cols);
     colPos=LabelC("0");
     rowPos=LabelC("0");
     info=LabelC("-");
@@ -70,43 +76,49 @@ namespace RavlGUIN {
     
     DPDisplayViewC thisH(*this);
     
-    int r1min = winSize.Range1().Min().V();
-    int r2min = winSize.Range2().Min().V();
-    int r1max = winSize.Range1().Max().V();
-    int r2max = winSize.Range2().Max().V();
-    
-    vSlider = SliderVR(r1min,r1min,r1max,1.0,*this,&DPDisplayViewBodyC::CallbackYOffset);
-    hSlider = SliderHR(r2min,r2min,r2max,1.0,*this,&DPDisplayViewBodyC::CallbackXOffset);
-    vSlider.SetDrawValue(false);
-    hSlider.SetDrawValue(false);
-    
-    vRuler.GUIAttachTo(canvas);
-    hRuler.GUIAttachTo(canvas);
+    //vRuler.GUIAttachTo(canvas);
+    //hRuler.GUIAttachTo(canvas);
 
     TableBodyC::GUIAddObject(menuBar,0,3,0,1,(GtkAttachOptions)(GTK_EXPAND|GTK_FILL|GTK_SHRINK),(GtkAttachOptions) (GTK_SHRINK|GTK_FILL));    
     TableBodyC::GUIAddObject(vRuler,0,1,2,3,GTK_FILL,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL));
     TableBodyC::GUIAddObject(hRuler,1,2,1,2,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL),GTK_FILL);
-    TableBodyC::GUIAddObject(vSlider,2,3,2,3,GTK_FILL,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL));
-    TableBodyC::GUIAddObject(hSlider,1,2,3,4,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL),GTK_FILL);
+    //TableBodyC::GUIAddObject(vSlider,2,3,2,3,GTK_FILL,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL));
+    //TableBodyC::GUIAddObject(hSlider,1,2,3,4,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL),GTK_FILL);
     TableBodyC::GUIAddObject(HBox(PackInfoC(Label(" Row="),false,false) + PackInfoC(rowPos,false,false) +
-			       PackInfoC(Label(" Col="),false,false) + PackInfoC(colPos,false,false) + 
-			       PackInfoC(Label("  Value="),false,false) + PackInfoC(info,true,false)),
-			  0,3,4,5,
-			  (GtkAttachOptions)(GTK_FILL),
-			  (GtkAttachOptions)(GTK_FILL));
+                                  PackInfoC(Label(" Col="),false,false) + PackInfoC(colPos,false,false) + 
+                                  PackInfoC(Label("  Value="),false,false) + PackInfoC(info,true,false)),
+                             0,3,4,5,
+                             (GtkAttachOptions)(GTK_FILL),
+                             (GtkAttachOptions)(GTK_FILL));
     
     TableBodyC::GUIAddObject(canvas,1,2,2,3,
-			  (GtkAttachOptions)(GTK_FILL|GTK_SHRINK),
-			  (GtkAttachOptions)(GTK_FILL|GTK_SHRINK)
-			  );
-    ConnectRef(canvas.Signal("expose_event"),*this,&DPDisplayViewBodyC::CallbackExpose);
-    ConnectRef(canvas.Signal("configure_event"),*this,&DPDisplayViewBodyC::CallbackConfigure,(GdkEvent *) 0);    
-    ConnectRef(canvas.Signal("motion_notify_event"),*this,&DPDisplayViewBodyC::CallbackMouseMotion);    
-    ConnectRef(canvas.Signal("button_press_event"),*this,&DPDisplayViewBodyC::CallbackMousePress); 
-    
+                             (GtkAttachOptions)(GTK_FILL|GTK_SHRINK),
+                             (GtkAttachOptions)(GTK_FILL|GTK_SHRINK)
+                             );
+    connections += ConnectRef(canvas.Signal("expose_event"),*this,&DPDisplayViewBodyC::CallbackExpose);
+    connections += ConnectRef(canvas.Signal("configure_event"),*this,&DPDisplayViewBodyC::CallbackConfigure,(GdkEvent *) 0);    
+    connections += ConnectRef(canvas.Signal("motion_notify_event"),*this,&DPDisplayViewBodyC::CallbackMouseMotion);    
+    connections += ConnectRef(canvas.Signal("button_press_event"),*this,&DPDisplayViewBodyC::CallbackMousePress); 
+    connections += ConnectRef(canvas.SignalDisplayRange(),*this,&DPDisplayViewBodyC::HandleUpdateDisplayRange);
     if(!TableBodyC::Create())
       return false;
     
+    return true;
+  }
+
+  //: Called when the underlying widget it destroyed.
+  // The default version of this method simpily 0's the widget ptr.
+  
+  void DPDisplayViewBodyC::Destroy() {
+    connections.DisconnectAll();  
+    TableBodyC::Destroy();
+  }
+  
+  //: Update range.
+  
+  bool DPDisplayViewBodyC::HandleUpdateDisplayRange(RealRange2dC &rng) {
+    //cerr << "DPDisplayViewBodyC::HandleUpdateDisplayRange(),  \n";
+    GUIUpdateRuler();    
     return true;
   }
   
@@ -153,12 +165,13 @@ namespace RavlGUIN {
       refreshQueued = false;
       return false;
     }
+    FrameMarkupC frameMarkup;
     RWLockHoldC hold(lockDisplayList,RWLOCK_READONLY);
     refreshQueued = false;
     for(DLIterC<DPDisplayObjC> it(displayList);it;it++)
-      it->Draw(*this);
+      it->Draw(frameMarkup);
     hold.Unlock();
-    UpdateSlider();
+    canvas.GUIUpdateMarkup(frameMarkup);
     UpdateInfo(lastMousePos);
     return true;
   }
@@ -167,11 +180,11 @@ namespace RavlGUIN {
   
   bool DPDisplayViewBodyC::GUIUpdateRuler() {
     ONDEBUG(cerr << "DPDisplayViewBodyC::UpdateRuler(), Called. \n");
-    Index2dC canSize = canvas.Size();
-    RealT val1 = offset[0] + canSize[0];
-    vRuler.GUISetRange(offset[0],val1);
-    RealT val2 = offset[0] + canSize[0];
-    hRuler.GUISetRange(offset[1],val2);    
+    Point2dC origin = canvas.GUI2World(Point2dC(0,0));
+    Point2dC canSize = canvas.GUI2World(canvas.Size());
+    
+    vRuler.GUISetRangeAndPosition(origin[0],canSize[0],lastMousePos[0]);
+    hRuler.GUISetRangeAndPosition(origin[1],canSize[1],lastMousePos[1]);
     return true;
   }
   
@@ -179,34 +192,6 @@ namespace RavlGUIN {
   
   bool DPDisplayViewBodyC::UpdateRuler() {
     Manager.QueueOnGUI(Trigger(DPDisplayViewC(*this),&DPDisplayViewC::GUIUpdateRuler));    
-    return true;
-  }
-
-  bool DPDisplayViewBodyC::UpdateSlider() {
-    Manager.QueueOnGUI(Trigger(DPDisplayViewC(*this),&DPDisplayViewC::GUIUpdateSlider));        
-    return true;
-  }
-  
-  //: Update sliders info.
-  
-  bool DPDisplayViewBodyC::GUIUpdateSlider() {
-    RWLockHoldC hold(lockDisplayList,RWLOCK_READONLY); // To protect access to displaySize.
-    Index2dC canSize = canvas.Size();
-    int vdiff = displaySize.Range1().Max().V() - canSize[0].V();
-    int hdiff = displaySize.Range2().Max().V() - canSize[1].V();
-    ONDEBUG(cerr << "DPDisplayViewBodyC::UpdateSlider(), Called. canSize=" << canSize <<" DisplaySize=" << displaySize.Rows() << " " << displaySize.Cols()<< " \n");
-    if(vdiff < 0)
-      vdiff = 0;
-    if(hdiff < 0)
-      hdiff = 0;
-    vSlider.GUIUpdateRange(displaySize.Range1().Min().V(),vdiff);
-    if(vdiff == 0 && displaySize.Range1().Min() >= 0) 
-      vSlider.GUIHide();
-    else vSlider.GUIShow();      
-    hSlider.GUIUpdateRange(displaySize.Range2().Min().V(),hdiff);
-    if(hdiff == 0 && displaySize.Range2().Min() >= 0)
-      hSlider.GUIHide();
-    else hSlider.GUIShow();      
     return true;
   }
   
@@ -230,8 +215,11 @@ namespace RavlGUIN {
   bool DPDisplayViewBodyC::CallbackExpose(GdkEvent *&event) {
     ONDEBUG(cerr << "DPDisplayViewBodyC::Expose(), Called \n");
     RWLockHoldC hold(lockDisplayList,RWLOCK_READONLY);
+    FrameMarkupC frameMarkup;
     for(DLIterC<DPDisplayObjC> it(displayList);it;it++)
-      it->Draw(*this);
+      it->Draw(frameMarkup);
+    hold.Unlock();
+    canvas.GUIUpdateMarkup(frameMarkup);    
     return true;
   }
 
@@ -239,38 +227,19 @@ namespace RavlGUIN {
   
   bool DPDisplayViewBodyC::CallbackConfigure(GdkEvent *&event) {
     ONDEBUG(cerr << "DPDisplayViewBodyC::CallbackConfigure(), Called. \n");
-    GUIUpdateRuler();
-    GUIUpdateSlider();
+    //GUIUpdateRuler();
     return true;
   }
   
-  //: Set X offset.
-  
-  bool DPDisplayViewBodyC::CallbackXOffset(RealT &val) {
-    ONDEBUG(cerr << "DPDisplayViewBodyC::CallbackXOffset(), Called. Value=" << val << "\n");
-    offset[1]=val;
-    GUIUpdateRuler();
-    GUIRefresh();
-    return true;
-  }
-  
-  //: Set Y offset.
-  
-  bool DPDisplayViewBodyC::CallbackYOffset(RealT &val) {
-    ONDEBUG(cerr << "DPDisplayViewBodyC::CallbackYOffset(), Called. Value=" << val << "\n");
-    offset[0]=val;
-    GUIUpdateRuler();
-    GUIRefresh();
-    return true;
-  }
-
   //: Call back for mouse movements in the window.
   
   bool DPDisplayViewBodyC::CallbackMouseMotion(MouseEventC &mouseEvent) {
     Index2dC idx ( mouseEvent.At() ) ;  // gets the position of the mose event in RAVL co-ordinates not GTK
-    Vector2dC pos ( idx[0] , idx[1]  ) ; 
+    Vector2dC pos = canvas.GUI2World(idx) ; 
+    
     UpdateInfo(pos);
     lastMousePos = pos;
+    GUIUpdateRuler();
     return true;
   }
   
@@ -286,9 +255,7 @@ namespace RavlGUIN {
   //: Update info for mouse position.
   
   bool DPDisplayViewBodyC::UpdateInfo(const Vector2dC &at) {
-    if(at[0] < 0 || at[1] < 0)
-      return false;
-    Vector2dC pos = at+ offset; // ravl co-ords
+    Vector2dC pos = at; // ravl co-ords
     StringC rowps((int) pos[0]);
     rowPos.Label(rowps);
     StringC colps((int) pos[1]);

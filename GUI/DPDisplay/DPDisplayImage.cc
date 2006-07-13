@@ -20,6 +20,8 @@
 #include "Ravl/StdConst.hh"
 #include "Ravl/IO.hh"
 #include "Ravl/GUI/DPDisplayImage.hh"
+#include "Ravl/GUI/MarkupImageRGB.hh"
+#include "Ravl/GUI/MarkupImageByte.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -48,21 +50,8 @@ namespace RavlGUIN {
   
   //: Draw object to canvas.
   
-  bool DPDisplayImageRGBBodyC::Draw(DPDisplayViewBodyC &canvas) {
-    Index2dC ioffset(canvas.Offset()[0],canvas.Offset()[1]);
-    Index2dC off = img.Frame().Origin() - ioffset;
-    int atx = off.Col().V();
-    int aty = off.Row().V();
-    if(img.Frame().Area() <= 0)
-      return true; // Nothing to draw!    
-    gdk_draw_rgb_image(canvas.Canvas().DrawArea(),
-		       canvas.Canvas().Widget()->style->black_gc,
-		       atx,aty,
-		       img.Cols(),img.Rows(),
-		       GDK_RGB_DITHER_NORMAL,
-		       (unsigned char *) img.Row(img.TRow()),
-		       img.Stride() * 3);
-    
+  bool DPDisplayImageRGBBodyC::Draw(FrameMarkupC &markup) {
+    markup.Markup().InsLast(MarkupImageRGBC(m_id,0,img));
     return true;
   }
   
@@ -112,20 +101,8 @@ namespace RavlGUIN {
   
   //: Draw object to canvas.
   
-  bool DPDisplayImageRealBodyC::Draw(DPDisplayViewBodyC &canvas) {
-    Index2dC ioffset(canvas.Offset()[0],canvas.Offset()[1]);
-    Index2dC off = img.Frame().Origin() - ioffset;
-    int atx = off.Col().V();
-    int aty = off.Row().V();
-    if(img.Frame().Area() <= 0)
-      return true; // Nothing to draw!
-    gdk_draw_gray_image(canvas.Canvas().DrawArea(),
-			canvas.Canvas().Widget()->style->black_gc,
-			atx,aty,
-			img.Cols(),img.Rows(),
-			GDK_RGB_DITHER_NORMAL,
-			img.Row(img.TRow()),
-			img.Stride());
+  bool DPDisplayImageRealBodyC::Draw(FrameMarkupC &markup) {
+    markup.Markup().InsLast(MarkupImageByteC(m_id,0,img));
     return true;
   }
   
@@ -198,21 +175,8 @@ namespace RavlGUIN {
   
   //: Draw object to canvas.
   
-  bool DPDisplayImageByteBodyC::Draw(DPDisplayViewBodyC &canvas) {
-    Index2dC ioffset(canvas.Offset()[0],canvas.Offset()[1]);
-    Index2dC off = img.Frame().Origin() - ioffset;
-    int atx = off.Col().V();
-    int aty = off.Row().V();
-    if(img.Frame().Area() <= 0)
-      return true; // Nothing to draw!    
-    gdk_draw_gray_image(canvas.Canvas().DrawArea(),
-			canvas.Canvas().Widget()->style->black_gc,
-			atx,aty,
-			img.Cols(),img.Rows(),
-			GDK_RGB_DITHER_NORMAL,
-			img.Row(img.TRow()),
-			img.Stride());
-    
+  bool DPDisplayImageByteBodyC::Draw(FrameMarkupC &markup) {
+    markup.Markup().InsLast(MarkupImageByteC(m_id,0,img)); 
     return true;
   }
   

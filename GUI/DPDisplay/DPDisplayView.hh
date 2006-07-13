@@ -14,16 +14,16 @@
 //! docentry="Ravl.API.GUI.Data Display"
 
 #include "Ravl/GUI/Table.hh"
-#include "Ravl/GUI/RawCanvas.hh"
+#include "Ravl/GUI/GUIMarkupCanvas.hh"
 #include "Ravl/GUI/DPDisplayObj.hh"
 #include "Ravl/Threads/RWLock.hh"
 #include "Ravl/GUI/Ruler.hh"
-#include "Ravl/GUI/Slider.hh"
 #include "Ravl/GUI/TextEntry.hh"
 #include "Ravl/GUI/Label.hh"
 #include "Ravl/GUI/Menu.hh"
 #include "Ravl/GUI/FileSelector.hh"
 #include "Ravl/Vector2d.hh"
+#include "Ravl/Threads/SignalConnectionSet.hh"
 
 namespace RavlGUIN {
   class DPDisplayViewC;
@@ -38,14 +38,17 @@ namespace RavlGUIN {
     DPDisplayViewBodyC(const IndexRange2dC &size);
     //: Default constructor.
     
-    virtual ~DPDisplayViewBodyC() { }
+    virtual ~DPDisplayViewBodyC();
     //: Need virtual destructor for class with virtual methods
-
+    
     virtual bool Create();
     //: Create the widget.
     
     bool AddObject(const DPDisplayObjC &obj);
     //: Add object to the display list.
+    
+    bool HandleUpdateDisplayRange(RealRange2dC &rng);
+    //: Update range.
     
     bool Clear();
     //: Clear the display list.
@@ -53,21 +56,13 @@ namespace RavlGUIN {
     bool Refresh();
     //: Refresh the display.
     
-    RawCanvasC &Canvas()
+    GUIMarkupCanvasC &Canvas()
     { return canvas; }
     //: Access canvas.
 
-    const RawCanvasC &Canvas() const
+    const GUIMarkupCanvasC &Canvas() const
     { return canvas; }
     //: Access canvas.
-    
-    Vector2dC Offset() const
-    { return offset; }
-    //: Current offset for origin of window.
-    
-    void Offset(const Vector2dC &vec2)
-    { offset = vec2; }
-    //: Set the offset.
     
   protected:
     bool GUIRefresh();
@@ -79,12 +74,6 @@ namespace RavlGUIN {
     bool GUIUpdateRuler();
     //: Update ruler info.
     
-    bool UpdateSlider();
-    //: Update sliders info.
-
-    bool GUIUpdateSlider();
-    //: Update sliders info.
-    
     bool Query(Vector2dC pos,StringC &info);
     //: Query position,
     
@@ -93,12 +82,6 @@ namespace RavlGUIN {
     
     bool CallbackConfigure(GdkEvent *&event);
     //: Handle configure callback.
-    
-    bool CallbackXOffset(RealT &val);
-    //: Set X offset.
-    
-    bool CallbackYOffset(RealT &val);
-    //: Set Y offset.
     
     bool CallbackMouseMotion(MouseEventC &mouseEvent);
     //: Call back for mouse movements in the window.
@@ -115,8 +98,11 @@ namespace RavlGUIN {
     bool CallbackSave(StringC &str);
     //: Save image to a file.
     
+    virtual void Destroy();
+    //: Handle widget destruction
+    
     IndexRange2dC winSize;
-    RawCanvasC canvas;
+    GUIMarkupCanvasC canvas;
     RWLockC lockDisplayList;
     DListC<DPDisplayObjC> displayList;
     
@@ -124,10 +110,8 @@ namespace RavlGUIN {
     bool refreshQueued;
     
     RulerC vRuler,hRuler;
-    SliderC vSlider,hSlider;
     LabelC rowPos,  colPos,info;
     
-    Vector2dC offset;
     IndexRange2dC displaySize; // Size of displayable objects.
     
     Vector2dC lastMousePos;
@@ -135,6 +119,8 @@ namespace RavlGUIN {
     MenuC backMenu;
     MenuBarC menuBar;
     FileSelectorC fileSelector;
+
+    SignalConnectionSetC connections;
     friend class DPDisplayViewC;
   };
 
@@ -181,9 +167,9 @@ namespace RavlGUIN {
     { return Body().GUIUpdateRuler(); }
     //: Update ruler info.
     
-    bool GUIUpdateSlider()
-    { return Body().GUIUpdateSlider(); }
-    //: Update sliders info.
+    bool HandleUpdateDisplayRange(RealRange2dC &rng)
+    { return Body().HandleUpdateDisplayRange(rng); }
+    //: Update range.
     
   public:
     
@@ -203,10 +189,6 @@ namespace RavlGUIN {
     { return Body().Refresh(); }
     //: Refresh the display.
     
-    void Offset(const Vector2dC &vec)
-    { Body().Offset(vec); }
-    //: Set the offset.
-
     friend class DPDisplayViewBodyC;
   };
 }

@@ -17,6 +17,8 @@
 #include "Ravl/IndexRange2d.hh"
 #include "Ravl/Vector2d.hh"
 #include "Ravl/String.hh"
+#include "Ravl/DList.hh"
+#include "Ravl/GUI/FrameMarkup.hh"
 
 namespace RavlGUIN {
   using namespace RavlN;
@@ -35,9 +37,9 @@ namespace RavlGUIN {
     
     virtual ~DPDisplayObjBodyC() { }
     //: Need virtual destructor for class with virtual methods
-
-    virtual bool Draw(DPDisplayViewBodyC &canvas);
-    //: Draw object to canvas.
+    
+    virtual bool Draw(FrameMarkupC &markup);
+    //: Method to build markup list.
     
     virtual IndexRange2dC Frame() const;
     //: Find bounding box for object.
@@ -50,6 +52,7 @@ namespace RavlGUIN {
     //: Save to a file.
     
   protected:
+    Int64T m_id;
   };
   
   //! userlevel=Normal
@@ -84,8 +87,8 @@ namespace RavlGUIN {
     //: Access body.
   public:
     
-    bool Draw(DPDisplayViewBodyC &canvas)
-    { return Body().Draw(canvas); }
+    bool Draw(FrameMarkupC &markup)
+    { return Body().Draw(markup); }
     //: Draw object to canvas.
     
     IndexRange2dC Frame() const

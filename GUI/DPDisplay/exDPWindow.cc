@@ -46,8 +46,9 @@ int main() {
     cerr << "Failed to save image 2. \n";
     return 1;
   }
-  
+#if 0
   while(1)
     RavlN::Sleep(1);
+#endif
   return 0;
 }

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUI_MARKUPIMAGE_HEADER
-#define RAVLGUI_MARKUPIMAGE_HEADER 1
+#ifndef RAVLGUI_MARKUPIMAGEBYTE_HEADER
+#define RAVLGUI_MARKUPIMAGEBYTE_HEADER 1
 //! rcsid="$Id: fixSource.cfg 5642 2006-06-23 10:51:11Z craftit $"
 //! lib=RavlGUI2D
 //! docentry="Ravl.API.GUI.Markup Canvas"

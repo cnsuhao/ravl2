@@ -19,7 +19,7 @@ PLIB=RavlDPDisplay
 
 MUSTLINK=RavlGUIDisplay.cc
 
-USESLIBS=RavlIO RavlGUI RavlImageIO
+USESLIBS=RavlIO RavlGUI RavlImageIO RavlGUI2D
 
 EXAMPLES=exDPWindow.cc
 

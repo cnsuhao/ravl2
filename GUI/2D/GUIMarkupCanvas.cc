@@ -48,6 +48,7 @@ namespace RavlGUIN
       fitToFrame(true),
       sigMarkupUpdate(0,MarkupInfoC()),
       sigSelection(DListC<Int64T>()),
+      sigDisplayRange(RealRange2dC()),
       m_selectedLayerId(-1),
       m_layerEditor(true)
   { ONDEBUG(SysLog(SYSLOG_DEBUG) << "GUIMarkupCanvasBodyC::GUIMarkupCanvasBodyC(), \n"); }
@@ -55,22 +56,31 @@ namespace RavlGUIN
   //: Destructor.
   
   GUIMarkupCanvasBodyC::~GUIMarkupCanvasBodyC() {
+    connections.DisconnectAll();
     if(gcDrawContext != 0)
       gdk_gc_unref(gcDrawContext);
+  }
+  
+  //: Handle widget destruction
+  
+  void GUIMarkupCanvasBodyC::Destroy() {
+    connections.DisconnectAll();
+    RawZoomCanvasBodyC::Destroy();
   }
   
   //: Do the common creation stuff.
   
   bool GUIMarkupCanvasBodyC::CommonCreate() {
-    ConnectRef(Signal("expose_event"),*this,&GUIMarkupCanvasBodyC::EventExpose);
-    ConnectRef(Signal("button_press_event"),*this,&GUIMarkupCanvasBodyC::EventMousePress);
-    ConnectRef(Signal("button_release_event"),*this,&GUIMarkupCanvasBodyC::EventMouseRelease);
-    ConnectRef(Signal("motion_notify_event"),*this,&GUIMarkupCanvasBodyC::EventMouseMove);
-    ConnectRef(Signal("key_press_event"),*this,&GUIMarkupCanvasBodyC::EventKeyPress);
-    ConnectRef(Signal("scroll_event"),*this,&GUIMarkupCanvasBodyC::EventScroll);
+    connections += ConnectRef(Signal("expose_event"),*this,&GUIMarkupCanvasBodyC::EventExpose);
+    connections += ConnectRef(Signal("button_press_event"),*this,&GUIMarkupCanvasBodyC::EventMousePress);
+    connections += ConnectRef(Signal("button_release_event"),*this,&GUIMarkupCanvasBodyC::EventMouseRelease);
+    connections += ConnectRef(Signal("motion_notify_event"),*this,&GUIMarkupCanvasBodyC::EventMouseMove);
+    connections += ConnectRef(Signal("key_press_event"),*this,&GUIMarkupCanvasBodyC::EventKeyPress);
+    connections += ConnectRef(Signal("scroll_event"),*this,&GUIMarkupCanvasBodyC::EventScroll);
     return true;
   }
-
+  
+  
   //: Create the widget.
   
   bool GUIMarkupCanvasBodyC::Create() {
@@ -293,8 +303,11 @@ namespace RavlGUIN
       if(refresh)
 	GUIRender(updateArea);
     }
-    if(backgroundDrag)
+    if(backgroundDrag) {
       GUISetOffset(mouseViewOffset + (Point2dC(me.At()) - mouseRawPressAt));
+      RealRange2dC rng(GUI2World(Point2dC(0,0)),GUI2World(Size()));
+      sigDisplayRange(rng);
+    }
     
     if(selectBox) 
     {
@@ -395,6 +408,9 @@ namespace RavlGUIN
     Vector2dC newOffset = guiOn - worldOn * Scale();
     GUISetOffset(newOffset);
     
+    RealRange2dC rng(GUI2World(Point2dC(0,0)),GUI2World(Size()));
+    sigDisplayRange(rng);
+    
     backgroundDrag = false;
     GUIRefresh();
     return true;
@@ -407,7 +423,8 @@ namespace RavlGUIN
     if(!RawZoomCanvasBodyC::EventConfigure(event))
       return false;
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "GUIMarkupCanvasBodyC::EventConfigure(), Size=" << widgetSize << " ");
-    
+    RealRange2dC rng(GUI2World(Point2dC(0,0)),GUI2World(Size()));
+    sigDisplayRange(rng);
     return true;
   }
   

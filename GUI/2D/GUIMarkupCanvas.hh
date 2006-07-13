@@ -23,6 +23,7 @@
 #include "Ravl/GUI/FrameMarkup.hh"
 #include "Ravl/GUI/MarkupLayerInfo.hh"
 #include "Ravl/GUI/GUIMarkupLayerEditor.hh"
+#include "Ravl/Threads/SignalConnectionSet.hh"
 
 namespace RavlGUIN {
   
@@ -94,12 +95,16 @@ namespace RavlGUIN {
     { return sigMarkupUpdate; }
     //: Signal called on button release mouse button in a polygon update.
     
+    Signal1C<RealRange2dC> &SignalDisplayRange()
+    { return sigDisplayRange; }
+    //: Signal called on change of display range.
+    
     const HSetC<Int64T> &GUISelected() const
     { return selected; }
-    //: Access list of selected polygons
+    //: Access list of selected objects
     
     DListC<Int64T> Selected() const;
-    //: Access list of selected polygons
+    //: Access list of selected objects
     
     GdkGC *GcDrawContext()
     { return gcDrawContext; }
@@ -223,6 +228,9 @@ namespace RavlGUIN {
     bool GUISetLayerInfo(MarkupLayerInfoC layerInfo);
     //: Set the layer visibility
     
+    virtual void Destroy();
+    //: Handle widget destruction
+    
     RWLockC accessLock;
 
     FrameMarkupC m_frameMarkup; // Current frame info.
@@ -255,11 +263,17 @@ namespace RavlGUIN {
     Signal1C<DListC<Int64T> > sigSelection;
     //: Selection changed signal.
     
+    Signal1C<RealRange2dC> sigDisplayRange;
+    //: Signal called on change of display range.
+    
     DListC<MarkupLayerInfoC> m_layerInfo;
     IntT m_selectedLayerId;
     GUIMarkupLayerEditorC m_layerEditor;
     
+    SignalConnectionSetC connections;
+    
     friend class GUIMarkupCanvasC;
+    
   };
   
   
@@ -364,6 +378,10 @@ namespace RavlGUIN {
     { return Body().SignalPolygonUpdate(); }
     //: Signal called on button release mouse button in a polygon update. 
     //!cwiz:author
+    
+    Signal1C<RealRange2dC> &SignalDisplayRange()
+    { return Body().SignalDisplayRange(); }
+    //: Signal called on change of display range.
     
     const HSetC<Int64T> & GUISelected() const
     { return Body().GUISelected(); }
