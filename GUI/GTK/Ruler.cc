@@ -97,6 +97,23 @@ namespace RavlGUIN {
     return true;
   }
   
+  //: Set range and position for the ruler.
+  // GUI Thread only.
+  
+  bool RulerBodyC::GUISetRangeAndPosition(RealT &nlower,RealT &nupper,RealT &pos) {
+    
+    lower = nlower;
+    upper = nupper;
+    position = pos;
+    if(widget == 0)
+      return true;
+    gtk_ruler_set_range(GTK_RULER(widget),
+                        lower,upper,
+                        position,max_size);
+    
+    return true;
+  }
+
   /////////////////////////////////////////////////////////////////////
   
   void RulerC::SetRange(RealT lower,RealT upper) { 

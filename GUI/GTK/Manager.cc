@@ -476,11 +476,10 @@ namespace RavlGUIN {
   {
     //Warn developers if this is being called from the GUI thread (message box only appears in debug mode)
 #ifdef QMAKE_PARANOID
-     if(IsGUIThread())
-     {
-	WindowC* rootWindow = &GetRootWindow();
-	DebugDialogWrapperC warnUserDlg(m_strDebugWarning, "Debug Warning", rootWindow);
-     }
+    if(IsGUIThread() && se.IsValid()) {
+      WindowC* rootWindow = &GetRootWindow();
+      DebugDialogWrapperC warnUserDlg(m_strDebugWarning, "Debug Warning", rootWindow);
+    }
 #endif
     
 #if RAVL_USE_GTKTHREADS

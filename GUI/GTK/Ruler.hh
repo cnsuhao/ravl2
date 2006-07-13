@@ -47,6 +47,10 @@ namespace RavlGUIN {
     //: Set range of ruler.
     // GUI Thread only.
     
+    bool GUISetRangeAndPosition(RealT &lower,RealT &upper,RealT &pos);
+    //: Set range and position for the ruler.
+    // GUI Thread only.
+    
   protected:
     virtual bool Create();
     //: Create widget
@@ -95,6 +99,11 @@ namespace RavlGUIN {
     bool GUISetRange(RealT &lower,RealT &upper)
     { return Body().GUISetRange(lower,upper); }
     //: Set range of ruler.
+    // GUI Thread only.
+    
+    bool GUISetRangeAndPosition(RealT &lower,RealT &upper,RealT &pos)
+    { return Body().GUISetRangeAndPosition(lower,upper,pos); }
+    //: Set range and position for the ruler.
     // GUI Thread only.
     
     bool AttachTo(WidgetC &widge);

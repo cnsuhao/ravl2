@@ -30,10 +30,10 @@ namespace RavlGUIN {
       sigSelected(StringC()),
       maxEntryLength(-1)
   {
-    signals["combo_activate"] = Signal1C<StringC>(StringC("-none-"));
-    ConnectRef(signals["combo_activate"],*this,&ComboBodyC::FilterSignal);
+    signals["combo_activate"] = Tuple2C<Signal0C,IntT>(Signal1C<StringC>(StringC("-none-")),-1);
+    ConnectRef(signals["combo_activate"].Data1(),*this,&ComboBodyC::FilterSignal);
   }
-
+  
   //: Constructor.
   
   ComboBodyC::ComboBodyC(bool neditable)
@@ -42,8 +42,8 @@ namespace RavlGUIN {
       sigSelected(StringC()),
       maxEntryLength(-1)
   {
-    signals["combo_activate"] = Signal1C<StringC>(StringC("-none-"));
-    ConnectRef(signals["combo_activate"],*this,&ComboBodyC::FilterSignal);
+    signals["combo_activate"] = Tuple2C<Signal0C,IntT>(Signal1C<StringC>(StringC("-none-")),-1);
+    ConnectRef(signals["combo_activate"].Data1(),*this,&ComboBodyC::FilterSignal);
   }
   
   //: Get currently selected string.

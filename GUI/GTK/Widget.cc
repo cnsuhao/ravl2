@@ -365,7 +365,16 @@ namespace RavlGUIN {
   WidgetBodyC::~WidgetBodyC() { 
     ONDEBUG(cerr << "WidgetBodyC::~WidgetBodyC(), Started  " << ((void *) this) << " Name=" << GUIWidgetName() << "\n");
     //RavlAssert(IsValidObject());
+
+    // Disconnect signals
+    for(HashIterC<const char *,Tuple2C<Signal0C,IntT> > it(signals);it.IsElm();it.Next()) {
+      if(widget != 0 && GTK_IS_WIDGET(widget) && it.Data().Data2() >= 0) // Incase it was destroyed within GTK.
+        gtk_signal_disconnect (GTK_OBJECT(widget), it.Data().Data2() );
+      it.Data().Data1().DisconnectAll();
+    }
+    signals.Empty();
     
+    // Clean up other stuff.
     if(widget != 0) {
       if(GTK_IS_WIDGET(widget)) { // Incase it was destroyed within GTK.
         if(destroySigId >= 0)
@@ -373,7 +382,6 @@ namespace RavlGUIN {
         gtk_widget_hide (widget);
         if(gotRef) {
           gtk_object_unref(GTK_OBJECT(widget));
-          //gtk_widget_destroy(widget);
         }
       }
       widget = 0;
@@ -460,7 +468,7 @@ namespace RavlGUIN {
   
   Signal0C &WidgetBodyC::Signal(const char *nm) {
     ReadBackLockC lock;
-    Signal0C &ret = signals[nm];
+    Signal0C &ret = signals[nm].Data1();
     if(ret.IsValid()) 
       return ret;
     
@@ -520,28 +528,31 @@ namespace RavlGUIN {
         cerr << "WidgetBodyC::Signal(), ERROR Unknown signal type:" << nm << " Type:" << (IntT) (si.signalType) << "\n";
         return ret;
     }
-    ConnectUp(nm,ret);
+    
+    // Remember the connection id.
+    signals[nm].Data2() = ConnectUp(nm,ret);
     return ret;
   }
 
   //: Connect up a signal.
 
 
-  void WidgetBodyC::ConnectUp(const char *nm,Signal0C &sig) {
+  IntT WidgetBodyC::ConnectUp(const char *nm,Signal0C &sig) {
     if(widget == 0)
-      return ;
+      return -1;
     if(StringC(nm) == "combo_activate")
-    return ;
-    UIntT id = 0;
+      return -1;
+    IntT id = 0;
     GTKSignalInfoC &si = SigInfo(nm);
     if(si.name == 0) {
       cerr << "WidgetBodyC::ConnectUp(), ERROR: Unknown signal: '" << nm << "'\n";
-      return ;
+      return -1;
     }
     id = gtk_signal_connect (GTK_OBJECT (widget), nm,
                              (GtkSignalFunc) si.func,&sig);
     if(id == 0)
       cerr << "WidgetBodyC::ConnectUp(), Warning failed to connect signal " << nm << "\n";
+    return id;
   }
   
   //: Set the tool tip for the widget.
@@ -590,9 +601,8 @@ namespace RavlGUIN {
       GTK_WIDGET_SET_FLAGS(widget,GTK_CAN_FOCUS);    
     destroySigId = gtk_signal_connect (GTK_OBJECT (widget), "destroy",(GtkSignalFunc) gtkDestroy, this);
     if (!signals.IsEmpty()) {
-      for(HashIterC<const char *,Signal0C> it(signals);it.IsElm();it.Next()) {
-        ConnectUp(it.Key(),it.Data());
-      }
+      for(HashIterC<const char *,Tuple2C<Signal0C,IntT> > it(signals);it.IsElm();it.Next())
+        it.Data().Data2() = ConnectUp(it.Key(),it.Data().Data1());
     }
     if(tooltip != 0) 
     {
@@ -697,8 +707,11 @@ namespace RavlGUIN {
   // destructor.
   
   void WidgetBodyC::Destroy() { 
-    for(HashIterC<const char *,Signal0C> it(signals);it.IsElm();it.Next())
-      it.Data().DisconnectAll();
+    for(HashIterC<const char *,Tuple2C<Signal0C,IntT> > it(signals);it.IsElm();it.Next()) {
+      if(widget != 0 && GTK_IS_WIDGET(widget) && it.Data().Data2() >= 0) // Incase it was destroyed within GTK.
+        gtk_signal_disconnect (GTK_OBJECT(widget), it.Data().Data2() );
+      it.Data().Data1().DisconnectAll();
+    }
     signals.Empty();
     widgetId = 0;
   }

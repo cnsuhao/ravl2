@@ -89,6 +89,8 @@ namespace RavlGUIN {
     // Thread safe.
     
     void QueueOnGUI(const TriggerC &se);
+    //: Queue an event for running in the GUI thread if its not on the GUI thread already.
+    // Thread safe.
     
     void Queue(RealT t,const TriggerC &se);
     //: Queue an event for running after delay 't'

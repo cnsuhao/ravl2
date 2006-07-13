@@ -225,10 +225,10 @@ namespace RavlGUIN {
     void ConnectSignals();
     //: Connect the default signals to the underly widget.
     
-    void ConnectUp(const char *nm,Signal0C &sig);
+    IntT ConnectUp(const char *nm,Signal0C &sig);
     //: Connect up a signal.
     
-    HashC<const char *,Signal0C> signals;
+    HashC<const char *,Tuple2C<Signal0C,IntT> > signals;
     //: Table of created signals.
     
     GtkWidget *widget;  
