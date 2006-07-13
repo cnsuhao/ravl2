@@ -66,7 +66,7 @@ namespace RavlGUIN {
     if(cols < 30)
        cols = 30;
     
-    canvas = GUIMarkupCanvasC(rows,cols);
+    canvas = GUIMarkupCanvasC(cols,rows);
     colPos=LabelC("0");
     rowPos=LabelC("0");
     info=LabelC("-");
