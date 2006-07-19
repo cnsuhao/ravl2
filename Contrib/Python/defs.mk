@@ -16,13 +16,13 @@ SOURCES = Python.cc PythonObject.cc
 
 PLIB = RavlPython
 
-USESLIBS = RavlOS RavlCore Python
+USESLIBS = RavlOS RavlCore RavlThreads Python
 
 PROGLIBS =  
 
 TESTEXES = 
 
-EXAMPLES = exPython.cc
+EXAMPLES = exPython.cc exPythonThreaded.cc
 
 AUXDIR = lib/RAVL/libdep
  

@@ -13,12 +13,15 @@
 
 #include "Python.h"
 #include "Ravl/RefCounter.hh"
-#include "Ravl/PythonObject.hh"
 #include "Ravl/Hash.hh"
+#include "Ravl/Threads/Mutex.hh"
 
 namespace RavlN
 {
-
+  
+  class PythonC;
+  class PythonObjectC;
+  
   //! userlevel=develop
   //: Class managing a Python interpreter
   
@@ -32,13 +35,24 @@ namespace RavlN
     ~PythonBodyC();
     //: Destructor
     
+    const bool Initialised() const
+    { return m_threadState != NULL; }
+    //: Is the interpreter ready?
+    
     void AppendSystemPath(const StringC &path);
     //: Append a string to 'sys.path'
     
     bool Import(const StringC &module);
     //: Load a module using Python 'import' notation
     
-    PythonObjectC Call(const StringC &module, const StringC &name, PythonObjectC args = PythonObjectC());
+    PythonObjectC NewObject();
+    //: Create a new Python object
+    
+    PythonObjectC Call(const StringC &module, const StringC &name);
+    //: Call a function with arguments
+    // Returns an invalid object on failure
+    
+    PythonObjectC Call(const StringC &module, const StringC &name, const PythonObjectC &args);
     //: Call a function with arguments
     //!param: args - Must represent a tuple containing all the required arguments
     // Returns an invalid object on failure
@@ -50,23 +64,40 @@ namespace RavlN
     PythonObjectC GetGlobal(const StringC &name);
     //: Get a result object called 'name' from the globals
     
+    PyThreadState *GetThreadState() const
+    { return m_threadState; }
+    //: Return the Python interpreter thread state
+    
   private:
+    void InitialiseEnvironment();
+    //: Initialise the Python thread state environment
+    
     PyObject *GetModuleDictionary(const StringC &name);
     //: Get a dictionary from the named module, NULL if none
     
+    bool CheckError();
+    //: Handle a Python error
+    
   private:
-    PyGILState_STATE m_lock;
+    static MutexC m_initLock;
+    static PythonC m_mainInterpreter;
+    bool m_subInterpreter;
+    PyThreadState *m_mainThreadState;
+    PyThreadState *m_threadState;
     HashC<StringC, PyObject*> m_modules;
+    MutexC m_lock;
   };
   
   //! userlevel=normal
-  //: Class containing a Python interpreter
+  //: Class managing a Python interpreter
+  // BIG OBJECT
   
   class PythonC :
     public RCHandleC<PythonBodyC>
   {
   public:
-    PythonC();
+    PythonC()
+    {}
     //: Default constructor
     // Creates an invalid handle
     
@@ -75,6 +106,10 @@ namespace RavlN
     {}
     //: Constructor
     
+    const bool Initialised() const
+    { return Body().Initialised(); }
+    //: Is the interpreter ready?
+
     void AppendSystemPath(const StringC &path)
     { Body().AppendSystemPath(path); }
     //: Append a string to 'sys.path'
@@ -83,10 +118,15 @@ namespace RavlN
     { return Body().Import(module); }
     //: Load a module using Python 'import' notation
     
-    PythonObjectC Call(const StringC &module, const StringC &name, PythonObjectC args = PythonObjectC())
-    { return Body().Call(module, name, args); }
+    PythonObjectC NewObject();
+    //: Create a new Python object
+    
+    PythonObjectC Call(const StringC &module, const StringC &name);
     //: Call a function with arguments
-    //!param: args - Must represent a tuple containing all the required arguments
+    // Returns an invalid object on failure
+    
+    PythonObjectC Call(const StringC &module, const StringC &name, const PythonObjectC &args);
+    //: Call a function with arguments
     // Returns an invalid object on failure
     
     bool Run(const StringC &script)
@@ -94,9 +134,12 @@ namespace RavlN
     //: Load a Python script into the main environment and execute immediately
     // Note: has no access to modules loaded through PythonC::Import
     
-    PythonObjectC GetGlobal(const StringC &name)
-    { return Body().GetGlobal(name); }
+    PythonObjectC GetGlobal(const StringC &name);
     //: Get a result object called 'name' from the globals
+    
+    PyThreadState *GetThreadState() const
+    { return Body().GetThreadState(); }
+    //: Return the Python interpreter thread state
     
   private:
     PythonC(PythonBodyC &body) : 
@@ -111,6 +154,8 @@ namespace RavlN
     const PythonBodyC& Body() const
     { return static_cast<const PythonBodyC &>(RCHandleC<PythonBodyC>::Body()); }
     //: Body Access. 
+    
+    friend class PythonBodyC;
   };
 
   

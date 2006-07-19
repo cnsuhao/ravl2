@@ -12,11 +12,14 @@
 //! author="Warren Moore"
 
 #include "Python.h"
+#include "Ravl/Python.hh"
 #include "Ravl/String.hh"
 #include "Ravl/DList.hh"
 
 namespace RavlN
 {
+  
+  class PythonC;
 
   //! userlevel=normal
   //: Class encapsulating a Python object
@@ -24,26 +27,8 @@ namespace RavlN
   class PythonObjectC
   {
   public:
-    PythonObjectC();
-    //: Constructor
-    
     PythonObjectC(const PythonObjectC &copy);
     //: Copy constructor
-    
-    PythonObjectC(const IntT val);
-    //: Constructor from an int
-    
-    PythonObjectC(const Int64T val);
-    //: Constructor from a 64-bit int
-    
-    PythonObjectC(const RealT val);
-    //: Constructor from a real
-    
-    PythonObjectC(const StringC &val);
-    //: Constructor from a real
-    
-    PythonObjectC(const DListC<PythonObjectC> &val);
-    //: Constructor from a real
     
     ~PythonObjectC();
     //: Destructor
@@ -101,11 +86,20 @@ namespace RavlN
     //: Get the tuple object list
     
   private:
-    PythonObjectC(PyObject *object);
-    //: Construct from an existing object
+    PythonObjectC();
+    //: Constructor
+    // Private and undefined as cannot be created without an interpreter handle
+    
+    PythonObjectC(const PythonC &interpreter, PyObject *object = NULL);
+    //: Constructor
+    // Construct with an interpreter handle and optionally an existing object
+    
+    PyObject *GetObject() const
+    { return m_object; }
+    //: Get the object handle
     
   private:
-    PyGILState_STATE m_lock;
+    PythonC m_interpreter;
     PyObject *m_object;
     
     friend class PythonBodyC;

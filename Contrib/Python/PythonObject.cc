@@ -10,6 +10,7 @@
 
 #include "Ravl/PythonObject.hh"
 #include "Ravl/String.hh"
+#include "Ravl/Python.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -20,30 +21,33 @@
 
 namespace RavlN
 {
-  
 
   
-  PythonObjectC::PythonObjectC() :
-    m_object(NULL)
-  {
-  }
-
-
   
-  PythonObjectC::PythonObjectC(PyObject *object) :
+  PythonObjectC::PythonObjectC(const PythonC &interpreter, PyObject *object) :
+    m_interpreter(interpreter),
     m_object(object)
   {
-    // Ref counter is either incremented by the function that returns the 
-    // object, or incremented externally if 'borrowed'
+    RavlAssert(m_interpreter.IsValid());
+    
+    // Ref counter for the Python object is either incremented by the 
+    // function that returns the object, or incremented externally if 'borrowed'
   }
 
 
   
   PythonObjectC::PythonObjectC(const PythonObjectC &copy)
   {
+    RavlAssert(copy.m_interpreter.IsValid());
+    
+    // Up the ref counter on the interpreter to ensure it remains 
+    // until the object is no longer needed
+    m_interpreter = copy.m_interpreter;
+    
     if (Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_interpreter.GetThreadState());
       
       m_object = copy.m_object;
       if (m_object)
@@ -52,62 +56,27 @@ namespace RavlN
         Py_INCREF(m_object);
       }
       
-      PyGILState_Release(m_lock);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
     }
-  }
-  
-  
-  
-  PythonObjectC::PythonObjectC(const IntT val) :
-    m_object(NULL)
-  {
-    BuildInt(val);
-  }
-
-
-  
-  PythonObjectC::PythonObjectC(const Int64T val) :
-    m_object(NULL)
-  {
-    BuildInt64(val);
-  }
-
-
-  
-  PythonObjectC::PythonObjectC(const RealT val) :
-    m_object(NULL)
-  {
-    BuildReal(val);
-  }
-
-
-  
-  PythonObjectC::PythonObjectC(const StringC &val) :
-    m_object(NULL)
-  {
-    BuildString(val);
-  }
-
-
-  
-  PythonObjectC::PythonObjectC(const DListC<PythonObjectC> &valList) :
-    m_object(NULL)
-  {
-    BuildTuple(valList);
   }
   
   
   
   PythonObjectC::~PythonObjectC()
   {
+    RavlAssert(m_interpreter.IsValid());
+
     if (Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_interpreter.GetThreadState());
       
       ONDEBUG(if (m_object) cerr << "PythonObjectC::~PythonObjectC DECREF" << endl);
       Py_XDECREF(m_object);
-      
-      PyGILState_Release(m_lock);
+
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
     }
   }
 
@@ -115,9 +84,12 @@ namespace RavlN
   
   PythonObjectC &PythonObjectC::operator= (const PythonObjectC &rhs)
   {
+    RavlAssert(m_interpreter.IsValid());
+
     if (Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_interpreter.GetThreadState());
       
       ONDEBUG(if (m_object) cerr << "PythonObjectC::operator= DECREF" << endl);
       Py_XDECREF(m_object);
@@ -130,7 +102,8 @@ namespace RavlN
         Py_INCREF(m_object);
       }
       
-      PyGILState_Release(m_lock);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
     }
     
     return *this;
@@ -140,16 +113,20 @@ namespace RavlN
   
   bool PythonObjectC::BuildInt(const IntT val)
   {
+    RavlAssert(m_interpreter.IsValid());
+
     if (Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_interpreter.GetThreadState());
       
       Py_XDECREF(m_object);
       m_object = NULL;
       
       m_object = PyInt_FromLong(val);
       
-      PyGILState_Release(m_lock);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
       
       return (m_object != NULL);
     }
@@ -161,16 +138,20 @@ namespace RavlN
   
   bool PythonObjectC::BuildInt64(const Int64T val)
   {
+    RavlAssert(m_interpreter.IsValid());
+
     if (Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_interpreter.GetThreadState());
       
       Py_XDECREF(m_object);
       m_object = NULL;
       
       m_object = PyLong_FromLongLong(val);
       
-      PyGILState_Release(m_lock);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
       
       return (m_object != NULL);
     }
@@ -182,16 +163,20 @@ namespace RavlN
   
   bool PythonObjectC::BuildReal(const RealT val)
   {
+    RavlAssert(m_interpreter.IsValid());
+
     if (Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_interpreter.GetThreadState());
       
       Py_XDECREF(m_object);
       m_object = NULL;
       
       m_object = PyFloat_FromDouble(val);
       
-      PyGILState_Release(m_lock);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
       
       return (m_object != NULL);
     }
@@ -203,16 +188,20 @@ namespace RavlN
   
   bool PythonObjectC::BuildString(const StringC &val)
   {
+    RavlAssert(m_interpreter.IsValid());
+
     if (Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_interpreter.GetThreadState());
       
       Py_XDECREF(m_object);
       m_object = NULL;
       
       m_object = PyString_FromString(val.chars());
       
-      PyGILState_Release(m_lock);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
       
       return (m_object != NULL);
     }
@@ -224,9 +213,12 @@ namespace RavlN
   
   bool PythonObjectC::BuildTuple(const DListC<PythonObjectC> &valList)
   {
+    RavlAssert(m_interpreter.IsValid());
+
     if (Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_interpreter.GetThreadState());
       
       Py_XDECREF(m_object);
       m_object = NULL;
@@ -243,7 +235,7 @@ namespace RavlN
           {
             if (it->IsValid())
             {
-              IntT ret = PyTuple_SetItem(m_object, pos, it->m_object);
+              PyTuple_SetItem(m_object, pos, it->m_object);
               ONDEBUG(cerr << "PythonObjectC::BuildTuple adding item " << (ret == 0 ? "OK" : "FAILED") << endl);
               Py_INCREF(it->m_object); // Reference is stolen by SetItem
             }
@@ -261,7 +253,8 @@ namespace RavlN
         }
       }
       
-      PyGILState_Release(m_lock);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
       
       return (m_object != NULL);
     }
@@ -273,13 +266,18 @@ namespace RavlN
   
   bool PythonObjectC::IsInt()
   {
+    RavlAssert(m_interpreter.IsValid());
+
     if (IsValid() && Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_interpreter.GetThreadState());
       
       bool ret = PyInt_Check(m_object);
       
-      PyGILState_Release(m_lock);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
+
       return ret;
     }
     
@@ -290,13 +288,18 @@ namespace RavlN
   
   IntT PythonObjectC::Int()
   {
+    RavlAssert(m_interpreter.IsValid());
+
     if (IsValid() && Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_interpreter.GetThreadState());
       
       IntT ret = PyInt_AsLong(m_object);
       
-      PyGILState_Release(m_lock);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
+
       return ret;
     }
     
@@ -307,13 +310,18 @@ namespace RavlN
   
   bool PythonObjectC::IsInt64()
   {
+    RavlAssert(m_interpreter.IsValid());
+
     if (IsValid() && Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_interpreter.GetThreadState());
       
       bool ret = PyLong_Check(m_object);
       
-      PyGILState_Release(m_lock);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
+
       return ret;
     }
     
@@ -324,9 +332,12 @@ namespace RavlN
   
   Int64T PythonObjectC::Int64()
   {
+    RavlAssert(m_interpreter.IsValid());
+
     if (IsValid() && Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_interpreter.GetThreadState());
       
       Int64T ret = PyLong_AsLongLong(m_object);
       if (PyErr_Occurred())
@@ -336,7 +347,9 @@ namespace RavlN
         ret = -1;
       }
       
-      PyGILState_Release(m_lock);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
+
       return ret;
     }
     
@@ -347,13 +360,18 @@ namespace RavlN
   
   bool PythonObjectC::IsReal()
   {
+    RavlAssert(m_interpreter.IsValid());
+
     if (IsValid() && Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_interpreter.GetThreadState());
       
       bool ret = PyFloat_Check(m_object);
       
-      PyGILState_Release(m_lock);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
+
       return ret;
     }
     
@@ -364,13 +382,18 @@ namespace RavlN
   
   RealT PythonObjectC::Real()
   {
+    RavlAssert(m_interpreter.IsValid());
+
     if (IsValid() && Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_interpreter.GetThreadState());
       
       RealT ret = PyFloat_AsDouble(m_object);
       
-      PyGILState_Release(m_lock);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
+
       return ret;
     }
     
@@ -381,13 +404,18 @@ namespace RavlN
   
   bool PythonObjectC::IsString()
   {
+    RavlAssert(m_interpreter.IsValid());
+
     if (IsValid() && Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_interpreter.GetThreadState());
       
       bool ret = PyString_Check(m_object);
       
-      PyGILState_Release(m_lock);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
+
       return ret;
     }
     
@@ -398,16 +426,21 @@ namespace RavlN
   
   StringC PythonObjectC::String()
   {
+    RavlAssert(m_interpreter.IsValid());
+
     if (IsValid() && Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_interpreter.GetThreadState());
       
       char *str = PyString_AsString(m_object);
       StringC ret;
       if (str)
         ret = StringC(str);
       
-      PyGILState_Release(m_lock);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
+
       return ret;
     }
     
@@ -418,13 +451,18 @@ namespace RavlN
 
   bool PythonObjectC::IsTuple()
   {
+    RavlAssert(m_interpreter.IsValid());
+
     if (IsValid() && Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_interpreter.GetThreadState());
       
       bool ret = PyTuple_Check(m_object);
       
-      PyGILState_Release(m_lock);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
+
       return ret;
     }
     
@@ -435,9 +473,12 @@ namespace RavlN
   
   DListC<PythonObjectC> PythonObjectC::Tuple()
   {
+    RavlAssert(m_interpreter.IsValid());
+
     if (IsValid() && Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_interpreter.GetThreadState());
       
       DListC<PythonObjectC> ret;
       for (IntT i = 0; i < PyTuple_Size(m_object); i++)
@@ -446,11 +487,13 @@ namespace RavlN
         if (item)
         {
           Py_INCREF(item); // GetItem returns borrowed reference
-          ret.InsLast(PythonObjectC(item));
+          ret.InsLast(PythonObjectC(m_interpreter, item));
         }
       }
       
-      PyGILState_Release(m_lock);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
+
       return ret;
     }
     

@@ -10,69 +10,82 @@
 //! author = "Warren Moore"
 //! file = "Ravl/Contrib/Python/exPython.cc"
 
+#include "Ravl/Option.hh"
 #include "Ravl/Python.hh"
 #include "Ravl/PythonObject.hh"
 #include "Ravl/String.hh"
+#include "Ravl/Threads/LaunchThread.hh"
+#include "Ravl/OS/Date.hh"
 
 using namespace RavlN;
 
-int main(int argc, char **argv)
+bool startThread(const IntT num)
 {
-  // Initialise the python module
   PythonC python(true);
   
-  if (!python.Initialised())
-  {
-    cerr << "Failed to initialise interpreter" << endl;
-    return -1;
-  }
-    
-  // Import a module
+  // Initialise the python module
   python.AppendSystemPath(".");
+  
+  // Import a module
   bool ret = python.Import("ravlexample");
-  cerr << "Importing 'ravlexample': " << (ret ? "OK" : "FAIL") << endl;
+  cerr << "(" << num << ") Importing 'ravlexample': " << (ret ? "OK" : "FAIL") << endl;
   
   //  Build the arguments list
   PythonObjectC name = python.NewObject();
-  name.BuildString("your-name-here");
+  name.BuildString(StringC(num));
   DListC<PythonObjectC> argList;
   argList.InsLast(name);
   PythonObjectC args = python.NewObject();
   args.BuildTuple(argList);
   
   // Call the example function and display the results
-  cerr << "Calling 'ravlexample.myprint(" << name.String() << ")'" << endl;
+  cerr << "(" << num << ") Calling 'ravlexample.myprint(" << name.String() << ")'" << endl;
   PythonObjectC res = python.Call("ravlexample", "myprint", args);
-  cerr << "Result valid: " << (res.IsValid() ? "YES" : "NO") << endl;
-  if (res.IsValid())
-  {
-    if (res.IsString())
-      cerr << "Result(string): " << res.String() << endl;
-  }
-  else
-  {
-    cerr << "Failed to import and call script" << endl;
-    return -1;
-  }
-  
+  cerr << "(" << num << ") Result valid: " << (res.IsValid() ? "YES" : "NO") << endl;
+  if (res.IsString())
+    cerr << "(" << num << ") Result(string): " << res.String() << endl;
+
   // Run a script from a string
-  const char* script = "print 'hello again'\nx = 5";
+  StringC script("print 'hello'\nx = ");
+  script += StringC(num);
   cerr << "Calling script from string" << endl;
   if (python.Run(script))
   {
     // Read the globals from the script
     PythonObjectC x = python.GetGlobal("x");
     cerr << "Found 'x': " << (x.IsValid() ? "YES" : "NO") << endl;
-    if (x.IsValid() && x.IsInt())
+    if (x.IsInt())
       cerr << "'x'= " << x.Int() << endl;
     else
       cerr << "'x' not an int" << endl;
   }
   else
-  {
     cerr << "Failed to run script" << endl;
-    return -1;
-  }
+  
+  return true;
+}
 
+int main(int argc, char **argv)
+{
+  // Cmd line options
+  OptionC opts(argc, argv);
+  IntT threads = opts.Int("n", 100, "Number of threads");
+  opts.Check();
+  
+  {
+    // Create an initial Python object to ensure it intialises the Python interpreter
+    // Create it in a local scope so we can ensure it is destroyed first
+    PythonC mainPython(true);
+    
+    // Launch several other threads
+    for (IntT i = 0; i < threads; i++)
+    {
+      LaunchThread(&startThread, i);
+    }
+  }
+  
+  // Wait until the threads have completed
+  Sleep(1);
+  
   return 0;
 }

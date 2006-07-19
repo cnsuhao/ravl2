@@ -9,6 +9,7 @@
 //! file="Ravl/Contrib/Python/Python.cc"
 
 #include "Ravl/Python.hh"
+#include "Ravl/PythonObject.hh"
 #include "Ravl/HashIter.hh"
 #include <iostream>
 
@@ -24,32 +25,92 @@ namespace RavlN
   
 
   
-  PythonBodyC::PythonBodyC()
+  MutexC PythonBodyC::m_initLock;
+  PythonC PythonBodyC::m_mainInterpreter;
+  
+  
+  
+  PythonBodyC::PythonBodyC() :
+    m_subInterpreter(false),
+    m_threadState(NULL)
   {
-    ONDEBUG(cerr << "PythonBodyC::PythonBodyC" << endl);
-    Py_Initialize();
-
-    if (Py_IsInitialized())
+    MutexLockC lock(m_lock);
+    MutexLockC initLock(m_initLock);
+    
+    ONDEBUG(cerr << "PythonBodyC::PythonBodyC(" << this << ")" << endl);
+    
+    if (!m_mainInterpreter.IsValid())
     {
-      m_lock = PyGILState_Ensure();
-      
-      PyObject *mainModule = PyImport_AddModule("__main__");
-      if (mainModule)
+      // Enable threads and initialise the only instance of the main Python interpreter
+      Py_Initialize();
+      PyEval_InitThreads();
+    
+      if (Py_IsInitialized())
       {
-        Py_INCREF(mainModule); // AddModule returns borrowed reference
-        m_modules.Update("__main__", mainModule);
+        ONDEBUG(cerr << "  PythonBodyC::PythonBodyC(" << this << ") initialised" << endl);
         
-        PyGILState_Release(m_lock);
+        // Store the pointer to the main Python interpreter
+        m_mainInterpreter = PythonC(*this);
+        
+        // Get the main thread state
+        m_mainThreadState = PyThreadState_Get();
+        
+        // Create a new thread state
+        m_threadState = PyThreadState_New(m_mainThreadState->interp);
+
+        if (m_threadState)
+        {
+          InitialiseEnvironment();
+        }
+        else
+        {
+          cerr << "PythonBodyC::PythonBodyC(" << this << ") failed to initialise Python thread state" << endl;
+        }
+        
+        CheckError();
+        
+        PyThreadState_Swap(NULL);
+        PyEval_ReleaseLock();
       }
       else
       {
-        cerr << "PythonBodyC::PythonBodyC failed to initialise main environment" << endl;
-        Py_Finalize();
+        cerr << "PythonBodyC::PythonBodyC(" << this << ") failed to initialise Python interpreter" << endl;
       }
     }
     else
     {
-      cerr << "PythonBodyC::PythonBodyC failed to initialise Python interpreter" << endl;
+      PyEval_AcquireLock();
+      PyThreadState_Swap(NULL);
+      m_mainThreadState = Py_NewInterpreter();
+      
+      if (m_mainThreadState)
+      {
+        ONDEBUG(cerr << "  PythonBodyC::PythonBodyC(" << this << ") sub-interpreter created" << endl);
+        
+        // Note we are a Python sub-interpreter
+        m_subInterpreter = true;
+        
+        // Create a new thread state
+        m_threadState = PyThreadState_New(m_mainThreadState->interp);
+        
+        if (m_threadState)
+        {
+          InitialiseEnvironment();
+        }
+        else
+        {
+          cerr << "PythonBodyC::PythonBodyC(" << this << ") failed to initialise Python sub-thread state" << endl;
+        }
+      }
+      else
+      {
+        cerr << "PythonBodyC::PythonBodyC(" << this << ") failed to create Python sub-interpreter" << endl;
+      }
+      
+      CheckError();
+      
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
     }
   }
   
@@ -57,31 +118,66 @@ namespace RavlN
   
   PythonBodyC::~PythonBodyC()
   {
-    ONDEBUG(cerr << "PythonBodyC::~PythonBodyC" << endl);
+    MutexLockC lock(m_lock);
+    MutexLockC initLock(m_initLock);
+  
+    ONDEBUG(cerr << "PythonBodyC::~PythonBodyC(" << this << ")" << endl);
+
     if (Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
-      
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_mainThreadState); // Doesn't matter if it's NULL
+
       for (HashIterC<StringC, PyObject*> it(m_modules); it; it++)
       {
-        ONDEBUG(cerr << "PythonBodyC::~PythonBodyC DECREF module=" << it.Key() << endl);
+        ONDEBUG(cerr << "  PythonBodyC::~PythonBodyC(" << this << ") DECREF module=" << it.Key() << endl);
         Py_DECREF(it.Data());
       }
       
-      PyGILState_Release(m_lock);
+      if (m_threadState)
+      {
+        PyThreadState_Clear(m_threadState);
+        PyThreadState_Delete(m_threadState);
+        
+        m_threadState = NULL;
+      }
+      
+      if (m_subInterpreter)
+      {
+        ONDEBUG(cerr << "  PythonBodyC::~PythonBodyC(" << this << ") sub-interpreter destroyed" << endl);
+        
+        if (m_mainThreadState)
+        {
+          Py_EndInterpreter(m_mainThreadState);
+        }
+
+        PyThreadState_Swap(NULL);
+        PyEval_ReleaseLock();
+      }
+      else
+      {
+        ONDEBUG(cerr << "  PythonBodyC::~PythonBodyC(" << this << ") finalised" << endl);
+        
+        Py_Finalize();
+      }
+      
+      m_mainThreadState = NULL;
     }
-                                                          
-    Py_Finalize();
   }
   
   
   
   void PythonBodyC::AppendSystemPath(const StringC &path)
   {
-    ONDEBUG(cerr << "PythonBodyC::AppendSystemPath path=" << path << endl);
+    ONDEBUG(cerr << "PythonBodyC::AppendSystemPath(" << this << ") path=" << path << endl);
+    RavlAssert(m_threadState);
+    
     if (Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      MutexLockC lock(m_lock);
+      
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_threadState);
       
       PyObject *sysModule = PyImport_AddModule("sys");
       if (sysModule)
@@ -99,7 +195,10 @@ namespace RavlN
         }
       }
       
-      PyGILState_Release(m_lock);
+      CheckError();
+      
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
     }
   }
   
@@ -107,22 +206,29 @@ namespace RavlN
   
   bool PythonBodyC::Import(const StringC &module)
   {
-    ONDEBUG(cerr << "PythonBodyC::Import name=" << module << endl);
+    ONDEBUG(cerr << "PythonBodyC::Import(" << this << ") name=" << module << endl);
+    RavlAssert(m_threadState);
+    
     if (Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      MutexLockC lock(m_lock);
+      
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_threadState);
       
       PyObject *modulePtr = PyImport_ImportModule(const_cast<char*>(module.chars()));
       if (modulePtr)
       {
-        ONDEBUG(cerr << "PythonBodyC::Import imported=" << module << endl);
+        ONDEBUG(cerr << "  PythonBodyC::Import(" << this << ") imported=" << module << endl);
         m_modules.Update(module, modulePtr);
       }
+
+      bool result = !CheckError() && modulePtr;
       
-      PyGILState_Release(m_lock);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
       
-      if (modulePtr)
-        return true;
+      return result;
     }
     
     return false;
@@ -130,12 +236,31 @@ namespace RavlN
   
   
   
-  PythonObjectC PythonBodyC::Call(const StringC &module, const StringC &name, PythonObjectC args)
+  PythonObjectC PythonBodyC::NewObject()
   {
-    ONDEBUG(cerr << "PythonBodyC::Call module=" << module << " name=" << name << endl);
+    return PythonObjectC(PythonC(*this));
+  }
+  
+  
+  
+  PythonObjectC PythonBodyC::Call(const StringC &module, const StringC &name)
+  {
+    return Call(module, name, PythonObjectC(PythonC(*this)));
+  }
+  
+  
+  
+  PythonObjectC PythonBodyC::Call(const StringC &module, const StringC &name, const PythonObjectC &args)
+  {
+    ONDEBUG(cerr << "PythonBodyC::Call(" << this << ") module=" << module << " name=" << name << endl);
+    RavlAssert(m_threadState);
+    
     if (Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      MutexLockC lock(m_lock);
+      
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_threadState);
       
       PyObject *ret = NULL;
       PyObject *modulePtr = NULL;
@@ -144,13 +269,13 @@ namespace RavlN
         PyObject *func = PyObject_GetAttrString(modulePtr, const_cast<char*>(name.chars()));
         if (func && PyCallable_Check(func))
         {
-          if (args.IsValid())
+          if (args.GetObject())
           {
-            if (args.IsTuple())
+            if (PyTuple_Check(args.GetObject()))
             {
-              ret = PyObject_CallObject(func, args.m_object);
+              ret = PyObject_CallObject(func, args.GetObject());
               
-              ONDEBUG(cerr << "PythonBodyC::Call name='" << name << "' args=" << PyTuple_Size(args.m_object) << " " << (ret ? "OK" : "FAILED") << endl);
+              ONDEBUG(cerr << "  PythonBodyC::Call(" << this << ") name='" << name << "' args=" << PyTuple_Size(args.GetObject()) << " " << (ret ? "OK" : "FAILED") << endl);
             }
             else
               cerr << "PythonBodyC::Call tuple not supplied as arguments" << endl;
@@ -159,42 +284,48 @@ namespace RavlN
           {
             ret = PyObject_CallObject(func, NULL);
             
-            ONDEBUG(cerr << "PythonBodyC::Call name='" << name << "' " << (ret ? "OK" : "FAILED") << endl);
+            ONDEBUG(cerr << "  PythonBodyC::Call(" << this << ") name='" << name << "' " << (ret ? "OK" : "FAILED") << endl);
           }
           
           Py_DECREF(func);
         }
         else
-          cerr << "PythonBodyC::Call failed to find function '"  << name << "'" << endl;
+          cerr << "PythonBodyC::Call(" << this << ") failed to find function '"  << name << "'" << endl;
       }
       
-      PyGILState_Release(m_lock);
+      CheckError();
       
-      return PythonObjectC(ret);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
+      
+      return PythonObjectC(PythonC(*this), ret);
     }
     
-    return PythonObjectC();
+    return PythonObjectC(PythonC(*this));
   }
   
   
   
   bool PythonBodyC::Run(const StringC &script)
   {
-    ONDEBUG(cerr << "PythonBodyC::Run" << endl);
+    ONDEBUG(cerr << "PythonBodyC::Run(" << this << ")" << endl);
+    RavlAssert(m_threadState);
+    
     if (Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      MutexLockC lock(m_lock);
       
-      PyObject *ret = NULL;
-      PyObject *mainDict = GetModuleDictionary("__main__");
-      if (mainDict)
-      {
-        ret = PyRun_String(script, Py_file_input, mainDict, mainDict);
-      }
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_threadState);
+
+      int ret = PyRun_SimpleString(script);
       
-      PyGILState_Release(m_lock);
+      bool result = !CheckError() && (ret == 0);
       
-      return (ret != NULL);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
+      
+      return result;
     }
     
     return false;
@@ -204,51 +335,117 @@ namespace RavlN
   
   PythonObjectC PythonBodyC::GetGlobal(const StringC &name)
   {
-    ONDEBUG(cerr << "PythonBodyC::GetGlobal name=" << name << endl);
+    ONDEBUG(cerr << "PythonBodyC::GetGlobal(" << this << ") name=" << name << endl);
+    RavlAssert(m_threadState);
+    
     if (Py_IsInitialized())
     {
-      m_lock = PyGILState_Ensure();
+      MutexLockC lock(m_lock);
+      
+      PyEval_AcquireLock();
+      PyThreadState_Swap(m_threadState);
       
       PyObject *object = NULL;
       PyObject *mainDict = GetModuleDictionary("__main__");
       if (mainDict)
       {
         object = PyDict_GetItemString(mainDict, name);
-        ONDEBUG(if (object == NULL) cerr << "PythonBodyC::GetGlobal failed to find '" << name << "' in globals" << endl);
+        ONDEBUG(if (object == NULL) cerr << "  PythonBodyC::GetGlobal(" << this << ") failed to find '" << name << "' in globals" << endl);
       }
       
-      PyGILState_Release(m_lock);
+      CheckError();
       
-      return PythonObjectC(object);
+      PyThreadState_Swap(NULL);
+      PyEval_ReleaseLock();
+      
+      return PythonObjectC(PythonC(*this), object);
     }
     
-    return PythonObjectC();
+    return PythonObjectC(PythonC(*this));
+  }
+  
+  
+  
+  void PythonBodyC::InitialiseEnvironment()
+  {
+    ONDEBUG(cerr << "PythonBodyC::InitialiseEnvironment(" << this << ")" << endl);
+    RavlAssert(Py_IsInitialized());
+    RavlAssert(m_threadState);
+   
+    // Get access to the main module
+    PyObject *mainModule = PyImport_AddModule("__main__");
+    if (mainModule)
+    {
+      Py_INCREF(mainModule); // AddModule returns borrowed reference
+      m_modules.Update("__main__", mainModule);
+    }
+    else
+    {
+      cerr << "PythonBodyC::PythonBodyC(" << this << ") failed to initialise main environment" << endl;
+    }
   }
   
   
   
   PyObject *PythonBodyC::GetModuleDictionary(const StringC &name)
   {
-    ONDEBUG(cerr << "PythonBodyC::GetModuleDictionary name=" << name << endl);
-    if (Py_IsInitialized())
-    {
-      m_lock = PyGILState_Ensure();
-      
-      PyObject *mainModule = NULL;
-      PyObject *mainDict = NULL;
-      if (m_modules.Lookup(name, mainModule))
-      {
-        mainDict = PyObject_GetAttrString(mainModule, "__dict__");
-      }
-
-      PyGILState_Release(m_lock);
-      
-      return mainDict;
-    }
+    ONDEBUG(cerr << "PythonBodyC::GetModuleDictionary(" << this << ") name=" << name << endl);
+    RavlAssert(Py_IsInitialized());
+    RavlAssert(m_threadState);
     
-    return NULL;
+    PyObject *mainModule = NULL;
+    PyObject *mainDict = NULL;
+    if (m_modules.Lookup(name, mainModule))
+    {
+      mainDict = PyObject_GetAttrString(mainModule, "__dict__");
+    }
+
+    return mainDict;
   }
   
   
   
+  bool PythonBodyC::CheckError()
+  {
+    if (PyErr_Occurred())
+    {
+      PyErr_Print();
+      PyErr_Clear();
+      
+      return true;
+    }
+    
+    return false;
+  }
+  
+  
+  
+  PythonObjectC PythonC::NewObject()
+  {
+    return Body().NewObject();
+  }
+
+
+  
+  PythonObjectC PythonC::Call(const StringC &module, const StringC &name)
+  {
+    return Body().Call(module, name);
+  }
+
+
+
+  PythonObjectC PythonC::Call(const StringC &module, const StringC &name, const PythonObjectC &args)
+  {
+    return Body().Call(module, name, args);
+  }
+
+
+
+  PythonObjectC PythonC::GetGlobal(const StringC &name)
+  {
+    return Body().GetGlobal(name);
+  }
+
+
+
 }
