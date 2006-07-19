@@ -13,19 +13,23 @@ PACKAGE = Ravl/Image
 
 DONOT_SUPPORT = arm
 
-MAINS = aamBuildShapeModel.cc aamViewShapeModel.cc aamBuildAppearanceModel.cc aamBuildActiveAppearanceModel.cc \
- aamCombineActiveAppearanceModel.cc aamLocaliseFace.cc
+MAINS = aamBuildShapeModel.cc aamViewShapeModel.cc  aamBuildAppearanceModel.cc \
+ aamBuildActiveAppearanceModel.cc  aamCombineActiveAppearanceModel.cc aamLocaliseFace.cc \
+ aamBuildPoseEstimator.cc aamSynthesizeFrontal.cc
 
-EXAMPLES = aamBuildShapeModel.cc aamViewShapeModel.cc aamBuildAppearanceModel.cc aamBuildActiveAppearanceModel.cc \
- aamCombineActiveAppearanceModel.cc aamLocaliseFace.cc
+EXAMPLES = aamBuildShapeModel.cc aamViewShapeModel.cc aamBuildAppearanceModel.cc \
+ aamBuildActiveAppearanceModel.cc aamCombineActiveAppearanceModel.cc aamLocaliseFace.cc \
+ aamBuildPoseEstimator.cc aamSynthesizeFrontal.cc
 
 HEADERS = AAMAppearance.hh AAMShapeModel.hh AAMAffineShapeModel.hh AAMScaleRotationShapeModel.hh \
  AAMAppearanceModel.hh AAMAppearanceUtil.hh AAMActiveAppearanceModel.hh AAMSampleStream.hh \
- AAMMultiResActiveAppearanceModel.hh AAMFaceLocalisation.hh
+ AAMMultiResActiveAppearanceModel.hh AAMFaceLocalisation.hh AAMPoseEstimateCostFunction.hh \
+ AAMPoseEstimate.hh AAMFaceCorrection.hh
 
 SOURCES = AAMAppearance.cc AAMShapeModel.cc AAMAffineShapeModel.cc AAMScaleRotationShapeModel.cc \
  AAMAppearanceModel.cc AAMAppearanceUtil.cc AAMActiveAppearanceModel.cc AAMSampleStream.cc \
- AAMMultiResActiveAppearanceModel.cc AAMFaceLocalisation.cc AAMActiveAppearanceModelsIO.cc
+ AAMMultiResActiveAppearanceModel.cc AAMFaceLocalisation.cc AAMPoseEstimateCostFunction.cc \
+ AAMPoseEstimate.cc AAMFaceCorrection.cc AAMActiveAppearanceModelsIO.cc
 
 MUSTLINK = AAMActiveAppearanceModelMustLink.cc
 

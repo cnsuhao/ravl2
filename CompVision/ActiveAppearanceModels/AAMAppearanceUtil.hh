@@ -16,6 +16,9 @@
 #include "Ravl/String.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/Image/AAMAppearanceModel.hh"
+#include "Ravl/Image/AAMAppearance.hh"
+#include "Ravl/Image/ImagePointFeatureSet.hh"
+#include "Ravl/OS/Filename.hh"
 
 namespace RavlImageN {
 
@@ -44,6 +47,10 @@ namespace RavlImageN {
   //!param: ignoreSuspect - Ignore XML files marked as "Suspect"? True = yes.
   //!param: loadImages - Load image in memory? True = yes.
   // Note that if 'loadImages' is set to false, only the shape of the model instance will be loaded.
+
+  bool SaveFeatureSet(const AAMAppearanceC &appear, const ImagePointFeatureSetC &ModelFeatureSet, ImagePointFeatureSetC &featureSet, const FilenameC Name="");
+  //: Convert appearance to ImagePointFeatureSetC .
+
 
 }
 

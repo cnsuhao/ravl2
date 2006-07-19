@@ -8,7 +8,7 @@
   <body>
 
   <p>
-  We describe here a set of classes for designing and manipulating statistical model of shape and appearance. Although a small number of classes have been designed specifically for human faces, the majority of classes are generic and can be applied to arbitrary object types. We give a brief overview of the classes included. This requires preliminar knowledge of the concepts of statistical models of shape and appearance. The user is referred to the publications from <a href="http://www.wiau.man.ac.uk/~bim/">Tim Cootes' website</a> for a detailed description of such concepts.
+  We describe here a set of classes for designing and manipulating statistical model of shape and appearance. Although a small number of classes have been designed specifically for human faces, the majority of classes are generic and can be applied to arbitrary object types. We give a brief overview of the classes included. This requires preliminary knowledge of the concepts of statistical models of shape and appearance. The user is referred to the publications from <a href="http://www.wiau.man.ac.uk/~bim/">Tim Cootes' website</a> for a detailed description of such concepts.
   </p>
 
 
@@ -31,19 +31,28 @@
   <h3> Face localisation </h3>
 
   <p>
-  In order to be applicable for image interpretation, it is necessary to be able identify the model parameters which represent best the image of interest. From an optimisation point of view, fitting a model to an image consists in finding the appearance parameters that minimise the difference between the target image and the one synthesized by the appearance model. This is a priori a complicated general optimisation problem because of the possibly large number of parameters involved. However Cootes has shown that it is possible to learn how to correct the model parameters according to the residual. The class <a href="../Class/RavlImageN.AAMActiveAppearanceModelC.html">AAMActiveAppearanceModelC</a> is an implementation of the Active Appearance Model (AAM) described by Cootes. This requires again training with a database of appearances, which can be done with the application <a href="../Application/aamBuildActiveAppearanceModel.html">aamBuildActiveAppearanceModel</a>. Note that designing the AAM can be a very computer intensive operation, for this reason the applications <a href="../Application/aamBuildActiveAppearanceModel.html">aamBuildActiveAppearanceModel</a> can be run in parallel on several machines and the application <a href="../Application/aamCombineActiveAppearanceModel.html">aamCombineActiveAppearanceModel</a> used to combine the results and produce the final AAM.
+  In order to be applicable for image interpretation, it is necessary to be able identify the model parameters which represent best the image of interest. From an optimisation point of view, fitting a model to an image consists in finding the appearance parameters that minimise the difference between the target image and the one synthesised by the appearance model. This is a priori a complicated general optimisation problem because of the possibly large number of parameters involved. However Cootes has shown that it is possible to learn how to correct the model parameters according to the residual. The class <a href="../Class/RavlImageN.AAMActiveAppearanceModelC.html">AAMActiveAppearanceModelC</a> is an implementation of the Active Appearance Model (AAM) described by Cootes. This requires again training with a database of appearances, which can be done with the application <a href="../Application/aamBuildActiveAppearanceModel.html">aamBuildActiveAppearanceModel</a>. Note that designing the AAM can be a very computer intensive operation, for this reason the applications <a href="../Application/aamBuildActiveAppearanceModel.html">aamBuildActiveAppearanceModel</a> can be run in parallel on several machines and the application <a href="../Application/aamCombineActiveAppearanceModel.html">aamCombineActiveAppearanceModel</a> used to combine the results and produce the final AAM.
   </p>
 
   <p>
   In order to improve the convergence properties and speed of the search algorithm, it is possible to use a multi-resolution framework. In this approach several AAM sorted in order of increasing resolution are provided. The search starts at the coarsest level and is progressively refined until the highest resolution is reached. This is implemented in the class <a href="../Class/RavlImageN.AAMMultiResActiveAppearanceModelC.html">AAMMultiResActiveAppearanceModelC</a>.
   </p>
 
+  <h3> Pose estimation and correction </h3>
+
+  <p>
+  The class <a href="../Class/RavlImageN.AAMPoseEstimateC.html">AAMPoseEstimateC</a> provides methods for estimating the pose of an object in a given appearance and also for synthesising novel appearances corresponding to the same object but under different poses. The pose is represented by two angles corresponding to pan and tilt angles. The pose estimator is trained on a set of appearances for which the pose is known. The application <a href="../Application/aamBuildPoseEstimator.html">aamBuildPoseEstimator</a> is used to build such a model.
+  </p>
+
   <h3> Special case of human faces </h3>
 
   <p>
-  The class <a href="../Class/RavlImageN.AAMFaceLocalisationC.html">AAMFaceLocalisationC</a> is designed for locating human faces. The current implementation is semi-automatic in the sense it requires initialisation of the search with some eye coordinates. Such information can be otained from an eye locator. The application <a href="../Application/aamLocaliseFace.html">aamLocaliseFace</a> shows an example of fitting an appearance model to an image.
+  The class <a href="../Class/RavlImageN.AAMFaceLocalisationC.html">AAMFaceLocalisationC</a> is designed for locating human faces. The current implementation is semi-automatic in the sense it requires initialisation of the search with some eye coordinates. Such information can be obtained from an eye locator. The application <a href="../Application/aamLocaliseFace.html">aamLocaliseFace</a> shows an example of fitting an appearance model to an image.
   </p>
 
+  <p>
+  The class <a href="../Class/RavlImageN.AAMFaceCorrectionC.html">AAMFaceCorrectionC</a> is designed for pose estimation and correction of human faces. It includes methods for geometric normalisation based on the eyes coordinates. The application <a href="../Application/aamSynthesizeFrontal.html">aamSynthesizeFrontal</a> synthesise a frontal view of faces from a single view in an arbitrary unknown pose.
+  </p>
 
   </body>
 </html>

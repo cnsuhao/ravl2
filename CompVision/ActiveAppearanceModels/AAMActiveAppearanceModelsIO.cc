@@ -16,6 +16,7 @@
 #include "Ravl/Image/AAMMultiResActiveAppearanceModel.hh"
 #include "Ravl/Image/AAMAffineShapeModel.hh"
 #include "Ravl/Image/AAMScaleRotationShapeModel.hh"
+#include "Ravl/Image/AAMPoseEstimate.hh"
 
 namespace RavlImageN {
 
@@ -28,7 +29,8 @@ namespace RavlImageN {
   static TypeNameC t4(typeid(AAMAffineShapeModelC),"RavlImageN::AAMAffineShapeModelC");
   static TypeNameC t5(typeid(AAMScaleRotationShapeModelC),"RavlImageN::AAMScaleRotationShapeModelC");
   static TypeNameC t6(typeid(AAMActiveAppearanceModelC),"RavlImageN::AAMActiveAppearanceModelC"); 
-  static TypeNameC t7(typeid(AAMMultiResActiveAppearanceModelC),"RavlImageN::AAMMultiResActiveAppearanceModelC"); 
+  static TypeNameC t7(typeid(AAMMultiResActiveAppearanceModelC),"RavlImageN::AAMMultiResActiveAppearanceModelC");
+  static TypeNameC t8(typeid(AAMPoseEstimateC),"RavlImageN::AAMPoseEstimateC");
 
   FileFormatStreamC <AAMMultiResActiveAppearanceModelC> FileFormatStream_MultiResActiveAppearanceModel;
   FileFormatBinStreamC <AAMMultiResActiveAppearanceModelC> FileFormatBinStream_MultiResActiveAppearanceModel;
@@ -50,6 +52,9 @@ namespace RavlImageN {
 
   FileFormatStreamC <AAMAppearanceC> FileFormatStream_Appearance;
   FileFormatBinStreamC <AAMAppearanceC> FileFormatBinStream_Appearance;
+
+  FileFormatStreamC <AAMPoseEstimateC> FileFormatStream_PoseEstimate;
+  FileFormatBinStreamC <AAMPoseEstimateC> FileFormatBinStream_PoseEstimate;
 
   AAMShapeModelC AffineShapeModel2ShapeModel(const AAMAffineShapeModelC &anasm)
   { return anasm; }

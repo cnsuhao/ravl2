@@ -17,8 +17,9 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/IO.hh"
 #include "Ravl/Image/ImagePointFeatureSet.hh"
-
+#include "Ravl/Image/AAMAppearance.hh"
 #include "Ravl/Image/AAMAppearanceUtil.hh"
+#include "Ravl/OS/Filename.hh"
 
 namespace RavlImageN {
 
@@ -41,6 +42,41 @@ namespace RavlImageN {
     return true;
   }
 
+
+  //: Convert appearance to ImagePointFeatureSetC .
+  bool SaveFeatureSet(const AAMAppearanceC &appear, const ImagePointFeatureSetC &ModelFeatureSet, ImagePointFeatureSetC &featureSet, const FilenameC Name) {
+
+    featureSet = ModelFeatureSet.Copy();
+
+    HashC<IntT,IntT> typeMap;
+    HashC<StringC,IntT> namedTypeMap;
+
+    bool useTypeId = false;
+
+    SArray1dC<Point2dC> pnts = appear.Points();
+    if(typeMap.IsEmpty()) { // Do we need to build a type map ?
+      GenerateTypeMap(ModelFeatureSet.FeatureIterator(),useTypeId,typeMap,namedTypeMap);
+    }
+    for(HashIterC<IntT, ImagePointFeatureC> fit(ModelFeatureSet.FeatureIterator());fit;fit++) {
+      if(useTypeId) {
+        IntT id = fit->TypeID();
+        if(id < 0) {
+          featureSet.Set(fit->Description(),pnts[namedTypeMap[fit->Description()]]);
+          featureSet.Set(fit->ID(),pnts[namedTypeMap[fit->Description()]]);
+        } else {
+          featureSet.Set(fit->Description(),pnts[typeMap[id]]);
+          featureSet.Set(fit->ID(),pnts[typeMap[id]]);
+        }
+      } else {
+        // Use description, its more reliable.;
+        featureSet.Set(fit->Description(),pnts[namedTypeMap[fit->Description()]]);
+        featureSet.Set(fit->ID(),pnts[namedTypeMap[fit->Description()]]);
+      }
+    }
+    featureSet.ImageFile() = Name;
+
+    return true;
+  }
 
   //: Load ImagePointFeatureSetC object from XML file and store as an appearance.
   //!param: file - names of XML file.
@@ -71,10 +107,11 @@ namespace RavlImageN {
     for(HashIterC<IntT, ImagePointFeatureC> fit(fs.FeatureIterator());fit;fit++) {
       if(useTypeId) {
         IntT id = fit->TypeID();
-        if(id < 0) 
+        if(id < 0) {
           pnts[namedTypeMap[fit->Description()]] = fit.Data(); 
-        else
+        } else {
           pnts[typeMap[id]] = fit.Data();
+        }
       } else {
         // Use description, its more reliable.;
         pnts[namedTypeMap[fit->Description()]] = fit.Data(); 
