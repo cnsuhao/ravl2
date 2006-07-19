@@ -9,6 +9,11 @@ EHS_Def = 1
 
 EHS_EXELIB = 
 
+ifdef PCRE_HOME
+  INCLUDES += -I$(PCRE_HOME)/include
+  EHS_EXELIB += -L$(PCRE_HOME)/lib -Wl,-rpath,$(PCRE_HOME)/lib 
+endif
+
 ifdef PME_HOME
   INCLUDES += -I$(PME_HOME)/include
   EHS_EXELIB += -L$(PME_HOME)/lib -Wl,-rpath,$(PME_HOME)/lib 

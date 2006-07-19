@@ -130,6 +130,7 @@ INTELMKL_HOME=/opt/Intel/mkl70
 
 ## Embedded HTTP Server (EHS) ##############################
 
+#PCRE_HOME = /opt/Omni/pcre
 #PME_HOME = /opt/Omni/pme
 #EHS_HOME = /opt/Omni/ehs
 #RESOURCES += libehs
