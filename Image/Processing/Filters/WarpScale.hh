@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_WARPSCALE_HEADER
 #define RAVLIMAGE_WARPSCALE_HEADER 1
 ///////////////////////////////////////////////////////////////
-//! docentry="Ravl.API.Images.Warping"
+//! docentry="Ravl.API.Images.Scaling and Warping"
 //! lib=RavlImageProc
 //! author="Kieron Messer"
 //! rcsid="$Id$"

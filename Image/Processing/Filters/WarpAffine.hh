@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_WARPAFFINE_HEADER
 #define RAVLIMAGE_WARPAFFINE_HEADER 1
 ///////////////////////////////////////////////////////////////
-//! docentry="Ravl.API.Images.Warping"
+//! docentry="Ravl.API.Images.Scaling and Warping"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! rcsid="$Id$"

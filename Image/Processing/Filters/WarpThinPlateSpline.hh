@@ -8,7 +8,7 @@
 #define RAVLIMAGE_WARPTHINPLATESPLINE_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlImageProc
-//! docentry="Ravl.API.Images.Warping"
+//! docentry="Ravl.API.Images.Scaling and Warping"
 //! author="Charles Galambos"
 //! date="22/11/2002"
 //! file="Ravl/Image/Processing/Filters/WarpThinPlateSpline.hh"
