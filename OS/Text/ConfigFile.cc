@@ -155,7 +155,7 @@ namespace RavlN {
 	      scope.Top().AddSection(tag,conf,TextFragmentC(tc,tc));
 	    } else
 	      conf = ConfigFileC(scope.Top().Body().sec[tag]);
-	    RavlAssert(conf.IsValid());
+            RavlAssert(conf.IsValid());
 	    scope.Push(conf);
 	  }
 	  continue;
@@ -243,6 +243,7 @@ namespace RavlN {
 	  case '#':
 	    if(!inQuotes)
 	      tc.NextLine();
+            // Fall through.
 	  case '\n':
 	    if(!inQuotes) {
 	      nf.End() = tc;
