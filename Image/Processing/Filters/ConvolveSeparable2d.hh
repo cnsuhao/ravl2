@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
-//! author="Charles Galambos"
+//! author="Charles Galambos, Bill Christmas"
 //! docentry="Ravl.API.Images.Filtering"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Filters/ConvolveSeparable2d.hh"
@@ -43,13 +43,17 @@ namespace RavlImageN {
     {}
     //: Default constructor.
 
-    ConvolveSeparable2dC(const Array1dC<KernelPixelT> &nvertKernel,const Array1dC<KernelPixelT> &nhorzKernel)
-    { SetKernel(nvertKernel,nhorzKernel); }
-    //: Constructor on vertical and horizontal kernels respectively.
+    ConvolveSeparable2dC(const Array1dC<KernelPixelT> &VertKernel,const Array1dC<KernelPixelT> &HorzKernel)
+    { SetKernel(VertKernel,HorzKernel); }
+    //: Constructor from vertical and horizontal kernels respectively.
     
-    void SetKernel(const Array1dC<KernelPixelT> &nvertKernel,const Array1dC<KernelPixelT> &nhorzKernel) { 
-      vert.SetKernel(nvertKernel);
-      horz.SetKernel(nhorzKernel);
+    ConvolveSeparable2dC(const Array1dC<KernelPixelT> &Kernel)
+    { SetKernel(Kernel,Kernel); }
+    //: Constructor for filter using the same 1-D kernel for vertical and horizontal.
+    
+    void SetKernel(const Array1dC<KernelPixelT> &VertKernel,const Array1dC<KernelPixelT> &HorzKernel) { 
+      vert.SetKernel(VertKernel);
+      horz.SetKernel(HorzKernel);
     }
     //: Set the convolution kernel.
     
