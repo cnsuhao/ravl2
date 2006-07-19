@@ -10,7 +10,7 @@
 //! lib=RavlImageProc
 //! docentry="Ravl.API.Images.Feature Points"
 //! userlevel="Basic"
-//! file="Ravl/Image/Processing/Tools/ImagePointFeatureSet/ImagePointFeature.hh"
+//! file="Ravl/Image/Processing/Tools/ImagePointFeature.hh"
 
 #include "Ravl/XMLStream.hh"
 #include "Ravl/String.hh"
