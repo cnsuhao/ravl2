@@ -16,7 +16,3 @@ AUXFILES= DMedia.def GTK.def LibPNG.def Xaw.def posixThreads.def zlib.def \
  GNUReadline.def LibJPEG.def Math.def Socket.def glib.def x11.def FFTW.def \
  libHints AudioFile.def libDepends formatInfo libptp2.def libglade.def CPPUnit.def QtTestRunner.def
 
-
-
-
-

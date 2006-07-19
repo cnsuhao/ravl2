@@ -9,20 +9,23 @@ OPENGL_DEF = 1
 
 include x11.def
 
-ifndef MESAHOME
-  MESAHOME=/opt/PDmesa/Mesa-3.2.1
+ifdef MESAHOME
+  OPENGLHOME=$(MESAHOME)
 endif
 
-#EXELIB := -L$(MESAHOME)/lib -lGL -lGLU $(EXELIB)
-INCLUDES := -I$(MESAHOME)/include $(INCLUDES)
+INCLUDES := -I$(OPENGLHOME)/include $(INCLUDES)
 
+ifndef OPENGLHOME
+EXELIB := -lGL -lGLU $(EXELIB)
+else
 ifeq ($(ARC),linux)
-EXELIB := -Wl,-rpath=$(MESAHOME)/lib -L$(MESAHOME)/lib -lGL -lGLU $(EXELIB)
+EXELIB := -Wl,-rpath=$(OPENGLHOME)/lib -L$(OPENGLHOME)/lib -lGL -lGLU $(EXELIB)
 else
 ifneq ($(ARC),sgi)
-EXELIB := -R$(MESAHOME)/lib -L$(MESAHOME)/lib -lGL -lGLU $(EXELIB)
+EXELIB := -R$(OPENGLHOME)/lib -L$(OPENGLHOME)/lib -lGL -lGLU $(EXELIB)
 else
-EXELIB := -L$(MESAHOME)/lib -lGL -lGLU $(EXELIB)
+EXELIB := -L$(OPENGLHOME)/lib -lGL -lGLU $(EXELIB)
+endif
 endif
 endif
 
