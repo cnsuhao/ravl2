@@ -20,7 +20,7 @@
 namespace RavlN {
   
   
-  //! userlevel=Normal
+  //! userlevel=Develop
   //: Convert a polygon to a set of scan lines.
   // This assumes the boundary does not cross itself and is
   // oriented clockwise (in the Ravl coordinate system). <br>
