@@ -187,13 +187,13 @@ namespace RavlN {
 	    break;
 	  case '#':
 	    tc.NextLine();
-          case '\r':
-            break; // Discard line feeds.
 	  case '\n':
 	    nf.End() = tc;
 	    nf.End().PrevChar();
 	    done = true;
 	    break;
+          case '\r':
+            break; // Discard line feeds.
 	  default:
 	    //cout << tc.Char();
 	    data += tc.Char();
