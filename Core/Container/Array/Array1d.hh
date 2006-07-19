@@ -631,7 +631,7 @@ namespace RavlN {
   
   template<class DataT>
   Array1dC<DataT> Array1dC<DataT>::operator+(const Array1dC<DataT> & arr) const {
-    Array1dC<DataT> ret(Size());
+    Array1dC<DataT> ret(Range());
     for(BufferAccessIter3C<DataT,DataT,DataT> it(ret,*this,arr);it;it++)
       it.Data1() = it.Data2() + it.Data3();
     return ret;
@@ -639,7 +639,7 @@ namespace RavlN {
   
   template<class DataT>
   Array1dC<DataT> Array1dC<DataT>::operator-(const Array1dC<DataT> & arr) const {
-    Array1dC<DataT> ret(Size());
+    Array1dC<DataT> ret(Range());
     for(BufferAccessIter3C<DataT,DataT,DataT> it(ret,*this,arr);it;it++)
       it.Data1() = it.Data2() - it.Data3();
     return ret;
@@ -647,7 +647,7 @@ namespace RavlN {
   
   template<class DataT>
   Array1dC<DataT> Array1dC<DataT>::operator*(const Array1dC<DataT> & arr) const {
-    Array1dC<DataT> ret(Size());
+    Array1dC<DataT> ret(Range());
     for(BufferAccessIter3C<DataT,DataT,DataT> it(ret,*this,arr);it;it++)
       it.Data1() = it.Data2() * it.Data3();
     return ret;
@@ -655,7 +655,7 @@ namespace RavlN {
   
   template<class DataT>
   Array1dC<DataT> Array1dC<DataT>::operator/(const Array1dC<DataT> & arr) const {
-    Array1dC<DataT> ret(Size());
+    Array1dC<DataT> ret(Range());
     for(BufferAccessIter3C<DataT,DataT,DataT> it(ret,*this,arr);it;it++)
       it.Data1() = it.Data2() / it.Data3();
     return ret;
@@ -671,7 +671,7 @@ namespace RavlN {
   
   template<class DataT>
   Array1dC<DataT> Array1dC<DataT>::operator-(const DataT &number) const {
-    Array1dC<DataT> ret(Size());
+    Array1dC<DataT> ret(Range());
     for(BufferAccessIter2C<DataT,DataT> it(ret,*this);it;it++)
       it.Data1() = it.Data2() - number;
     return ret;
@@ -679,7 +679,7 @@ namespace RavlN {
   
   template<class DataT>
   Array1dC<DataT> Array1dC<DataT>::operator*(const DataT &number) const {
-    Array1dC<DataT> ret(Size());
+    Array1dC<DataT> ret(Range());
     for(BufferAccessIter2C<DataT,DataT> it(ret,*this);it;it++)
       it.Data1() = it.Data2() * number;
     return ret;
@@ -687,7 +687,7 @@ namespace RavlN {
   
   template<class DataT>
   Array1dC<DataT> Array1dC<DataT>::operator/(const DataT &number) const {
-    Array1dC<DataT> ret(Size());
+    Array1dC<DataT> ret(Range());
     for(BufferAccessIter2C<DataT,DataT> it(ret,*this);it;it++)
       it.Data1() = it.Data2() / number;
     return ret;
