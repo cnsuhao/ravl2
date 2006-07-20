@@ -272,11 +272,12 @@ namespace RavlImageN {
   {
     ImagePointFeatureSetBodyC *feat = new ImagePointFeatureSetBodyC();
 
-    for(HashIterC<IntT, ImagePointFeatureC> it(this->m_hFeatures);it;it++ )
-      feat->m_hFeatures[it.Key()] = it.Data().Copy();
-    for(HashIterC<StringC, ImagePointFeatureC> it(this->m_hFeaturesByStr);it;it++ )
-      feat->m_hFeaturesByStr[it.Key()] = it.Data().Copy();
-
+    for(HashIterC<IntT, ImagePointFeatureC> it(this->m_hFeatures);it;it++ ) {
+      ImagePointFeatureC feature = it.Data().Copy();
+      feat->m_hFeatures[it.Key()] = feature;
+      feat->m_hFeaturesByStr[feature.Description()] = feat;      
+    }
+    
     feat->m_hSubsets = this->m_hSubsets.Copy();
     feat->m_lLines = this->m_lLines.Copy();
     feat->m_strImageFile = this->m_strImageFile.Copy();
