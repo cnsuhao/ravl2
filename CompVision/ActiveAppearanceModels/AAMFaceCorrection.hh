@@ -8,6 +8,10 @@
 //! author="Jean-Yves Guillemaut"
 //! example = aamSynthesizeFrontal.cc
 
+#include "Ravl/RCBodyV.hh"
+#include "Ravl/Image/AAMPoseEstimate.hh"
+#include "Ravl/Image/AAMAppearanceModel.hh"
+
 namespace RavlImageN {
 
   //! userlevel=Develop
