@@ -38,18 +38,34 @@ int main() {
     cerr << "test failed on line " << line << "\n";
     return 1;
   }
-
   cerr << "Test passed ok. \n";
   return 0;
 }
 
 int Simple() {
+
+  // Do some simple tests to make sure basic things compile.
+  
   TMatrixC<RealT> mat(2,2);
   mat.Fill(0);
   mat[Index2dC(0,0)] = 1;
   mat[1][1] = 1;
   TMatrixC<RealT> mat2 = mat + mat;
-  cerr << mat2;
+  
+  // Check conversions between matrices are vectors are consistent
+  
+  TVectorC<RealT> vec(2);
+  vec[0] = 0.1;
+  vec[1] = 0.2;
+  
+  mat[0][0] =1;
+  mat[0][1] =2;
+  mat[1][0] =3;
+  mat[1][1] =4;
+  
+  if(Abs((TMatrixC<RealT>(mat * vec) - mat * TMatrixC<RealT>(vec)).SumOfSqr()) > 0.001)
+    return __LINE__;
+   
   return 0;
 }
 
@@ -213,3 +229,4 @@ int testOuterProduct() {
   if((ops - op).SumOfSqr() > 0.00000001) return __LINE__;
   return 0;
 }
+
