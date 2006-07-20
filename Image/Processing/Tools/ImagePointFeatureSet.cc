@@ -173,6 +173,10 @@ namespace RavlImageN {
     ImagePointFeatureC* feat = m_hFeatures.Lookup(id);
     if (feat != NULL) {
       feat->Location() = position;
+    }
+    ImagePointFeatureC* feat2 = m_hFeaturesByStr.Lookup(feat->Description());
+    if (feat2 != NULL) {
+      feat2->Location() = position;
       return true;
     }
     cerr << "ImagePointFeatureSetBodyC::Set(), Warning failed to set feature position for id " << id << "\n";
@@ -203,6 +207,10 @@ namespace RavlImageN {
     ImagePointFeatureC* feat = m_hFeaturesByStr.Lookup(desc);
     if (feat != NULL) {
       feat->Location() = position;
+    }
+    ImagePointFeatureC* feat2 = m_hFeatures.Lookup(feat->ID());
+    if (feat2 != NULL) {
+      feat2->Location() = position;
       return true;
     }
     cerr << "ImagePointFeatureSetBodyC::Set(), Warning failed to set feature position for '" << desc << "'\n";
@@ -275,7 +283,7 @@ namespace RavlImageN {
     for(HashIterC<IntT, ImagePointFeatureC> it(this->m_hFeatures);it;it++ ) {
       ImagePointFeatureC feature = it.Data().Copy();
       feat->m_hFeatures[it.Key()] = feature;
-      feat->m_hFeaturesByStr[feature.Description()] = feat;      
+      feat->m_hFeaturesByStr[feature.Description()] = feature;
     }
     
     feat->m_hSubsets = this->m_hSubsets.Copy();
