@@ -17,7 +17,7 @@ SOURCES=Date.cc DateIO.cc DeadLineTimer.cc
 
 PLIB=RavlOS
 
-USESLIBS=RavlCore
+USESLIBS=RavlCore system
 
 TESTEXES= testDate.cc testDeadLineTimer.cc
 

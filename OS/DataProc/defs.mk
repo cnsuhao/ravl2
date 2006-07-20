@@ -21,4 +21,4 @@ TESTEXES = testOSDataProc.cc
 
 PLIB=RavlDPMT
 
-USESLIBS=RavlOS RavlIO RavlThreads
+USESLIBS=RavlOS RavlIO RavlThreads system

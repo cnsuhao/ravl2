@@ -21,7 +21,7 @@ MUSTLINK=RavlOSIOMustLink.cc
 
 PLIB=RavlOSIO
 
-USESLIBS=RavlOS RavlIO DynLink
+USESLIBS=RavlOS RavlIO DynLink system
 
 TESTEXES= testSequenceIO.cc
 

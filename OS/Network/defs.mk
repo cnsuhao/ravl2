@@ -34,6 +34,6 @@ EXAMPLES = exSocket.cc exEndPoint.cc exNetPort.cc
 
 TESTEXES=testNetPort.cc #testSocket.cc
 
-USESLIBS = RavlOS RavlCore Socket RavlThreads RavlIO
+USESLIBS = RavlOS RavlCore Socket RavlThreads RavlIO system
 
 PROGLIBS= RavlThreads
