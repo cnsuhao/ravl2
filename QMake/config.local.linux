@@ -155,3 +155,7 @@ RESOURCES += LibGnome
 ## Python ##############################
  
 #RESOURCES += LibPython
+
+## Simplified Wrapper and Interface Generator (Swig) ##############################
+
+#RESOURCES += Swig
