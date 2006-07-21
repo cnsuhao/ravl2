@@ -13,7 +13,7 @@ include x11.def
 
 # Check if we're using GTK2
 
-ifneq ($(strip $(filter-out $(RESOURCES),libGTK2)),)
+ifneq ($(strip $(filter-out $(RESOURCES),libGTK)),)
 
 ifdef GTKPATH 
 GTKCONFIG = $(GTKPATH)/bin/gtk-config 
