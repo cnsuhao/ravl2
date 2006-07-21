@@ -7,7 +7,7 @@
 #! rcsid="$Id$"
 #! file="Ravl/GUI/LibGlade/defs.mk"
 
-REQUIRES=libglade2 libGTK2
+REQUIRES=libglade2 libGTK
 
 PACKAGE=Ravl/GUI
 

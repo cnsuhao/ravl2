@@ -12,8 +12,6 @@ DESCRIPTION = VPlay - Video Player.
 
 NESTED = Bitmaps.r
 
-REQUIRES = libGTK
-
 DONOT_SUPPORT=arm
 
 HEADERS = GUIPlayControl.hh

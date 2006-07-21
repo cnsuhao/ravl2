@@ -9,6 +9,4 @@
 
 DESCRIPTION = GUI Tools.
 
-#REQUIRES= libGTK
-
 NESTED=GTK.r 2D.r 3D.r LibGlade.r Util.r DPDisplay.r 

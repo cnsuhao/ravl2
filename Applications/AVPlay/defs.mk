@@ -12,8 +12,6 @@ DESCRIPTION = AVPlay - Audio / Video Player.
 
 DONOT_SUPPORT=arm
 
-REQUIRES = libGTK
-
 PACKAGE = Ravl/VPlay
 
 MAINS= AVPlay.cc 
