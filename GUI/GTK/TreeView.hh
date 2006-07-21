@@ -15,9 +15,6 @@
 //! file="Ravl/GUI/GTK/TreeView.hh"
 
 #include "Ravl/config.h"
-
-#if RAVL_USE_GTK2
-
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/GUI/TreeModel.hh"
 #include "Ravl/Threads/Signal1.hh"
@@ -781,7 +778,4 @@ namespace RavlGUIN {
   };
   
 }
-#else 
-#warning TreeViewC is not supported (requires gtk2) 
-#endif
 #endif

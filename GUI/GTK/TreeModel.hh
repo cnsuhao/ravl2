@@ -15,9 +15,6 @@
 //! file="Ravl/GUI/GTK/TreeModel.hh"
 
 #include "Ravl/config.h"
-
-#if RAVL_USE_GTK2
-
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/GUI/Pixbuf.hh"
 #include "Ravl/DP/AttributeType.hh"
@@ -516,7 +513,4 @@ namespace RavlGUIN {
   
 }
 
-#else 
-#warning TreeModelC is not supported (requires gtk2)
-#endif
 #endif

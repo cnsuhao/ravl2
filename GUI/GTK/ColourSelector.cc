@@ -11,9 +11,6 @@
 //! file="Ravl/GUI/GTK/ColourSelector.cc"
 
 #include "Ravl/GUI/ColourSelector.hh"
-
-#if RAVL_USE_GTK2
-
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/GUI/Manager.hh"
 #include <gtk/gtk.h>
@@ -119,4 +116,3 @@ namespace RavlGUIN {
   
 }
 
-#endif

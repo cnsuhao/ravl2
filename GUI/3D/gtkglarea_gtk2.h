@@ -24,7 +24,6 @@
 
 #ifndef __GTK_GL_AREA_H__
 #define __GTK_GL_AREA_H__
-#if RAVL_USE_GTK2
 
 #include <gdk/gdk.h>
 #include "Ravl/GUI/gdkgl_gtk2.h"
@@ -85,5 +84,4 @@ void       gtk_gl_area_swap_buffers(GtkGLArea *glarea);
 #endif
 
 G_END_DECLS
-#endif
 #endif /* __GTK_GL_AREA_H__ */

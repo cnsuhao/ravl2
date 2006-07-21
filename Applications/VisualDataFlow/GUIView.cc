@@ -200,11 +200,7 @@ namespace RavlDFN {
   
   GdkFont *GUIViewBodyC::DrawFont() {
     RavlAssert(Widget() != 0);
-#if RAVL_USE_GTK2
     GdkFont *cfont = gtk_style_get_font(widget->style);
-#else
-    GdkFont *cfont = widget->style->font;
-#endif
     return cfont;
   }
   

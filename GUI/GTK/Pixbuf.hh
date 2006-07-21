@@ -18,8 +18,6 @@
 #include "Ravl/Image/ByteRGBAValue.hh"
 #include "Ravl/GUI/Widget.hh"
 
-#if RAVL_USE_GTK2
-
 extern "C" {
   typedef struct _GdkPixbuf GdkPixbuf;
 }
@@ -89,7 +87,4 @@ namespace RavlGUIN {
   };
   
 }
-#else 
-#warning PixbufC is not supported (requires gtk2)
-#endif
 #endif

@@ -23,7 +23,6 @@
 
 #ifndef __GDK_GL_H__
 #define __GDK_GL_H__
-#if RAVL_USE_GTK2
 
 #include <glib.h>
 
@@ -134,6 +133,5 @@ void gdk_gl_use_gdk_font(GdkFont *font, int first, int count, int list_base);
 
 G_END_DECLS
 
-#endif
 #endif /* __GDK_GL_H__ */
 

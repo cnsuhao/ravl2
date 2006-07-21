@@ -48,11 +48,7 @@ namespace RavlGUIN {
   RealT SpinButtonBodyC::Value() const { 
     if(adj == 0) return value; 
     ReadBackLockC lock;
-#if RAVL_USE_GTK2
     return gtk_adjustment_get_value(GTK_ADJUSTMENT (adj));
-#else
-    return GTK_ADJUSTMENT (adj)->value; 
-#endif
   }
 
   //: Create with a widget supplied from elsewhere.

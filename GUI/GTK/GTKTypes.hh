@@ -31,12 +31,10 @@ extern "C" {
   typedef struct _GdkDrawable GdkPixmap;
   typedef struct _GdkDrawable GdkWindow;
 
-#if RAVL_USE_GTK2
   typedef struct _GtkTreeModel GtkTreeModel;
   typedef struct _GtkTreeIter GtkTreeIter;
   typedef struct _GtkTreePath GtkTreePath;
   typedef struct _GtkTreeViewColumn GtkTreeViewColumn;
-#endif
   typedef struct _GtkStyle  GtkStyle;
 
   typedef struct _GdkFont GdkFont;

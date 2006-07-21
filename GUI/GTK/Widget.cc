@@ -82,10 +82,8 @@ namespace RavlGUIN {
 #define GTKSIG_DNDDATARECIEVED (GtkSignalFunc) WidgetBodyC::gtkDNDDataRecieved,SigTypeDNDData
 #define GTKSIG_INT      (GtkSignalFunc) WidgetBodyC::gtkInt,SigTypeInt
 #define GTKSIG_WIDGET_INT (GtkSignalFunc) WidgetBodyC::gtkWidgetInt,SigTypeWidgetInt
-#if RAVL_USE_GTK2
 #define GTKSIG_TREEROW (GtkSignalFunc) WidgetBodyC::gtkTreeRow,SigTypeTreeRow
 #define GTKSIG_TREEPATHCOL (GtkSignalFunc) WidgetBodyC::gtkTreePathCol,SigTypeTreePathCol
-#endif
   //: Get init information about signals.
 
   Tuple2C<const char *,GTKSignalInfoC> *WidgetBodyC::SigInfoInit() {
@@ -137,11 +135,9 @@ namespace RavlGUIN {
       GTKSIG("drag_data_received"   ,GTKSIG_DNDDATARECIEVED),// gtkwidget
       GTKSIG("change-current-page"  ,GTKSIG_INT),// gtkNotebook
       GTKSIG("switch-page"          ,GTKSIG_WIDGET_INT),// gtkNotebook
-#if RAVL_USE_GTK2
       GTKSIG("row-collapsed"        ,GTKSIG_TREEROW ), // GtkTreeView
       GTKSIG("row-expanded"         ,GTKSIG_TREEROW ), // GtkTreeView
       GTKSIG("row-activated"        ,GTKSIG_TREEPATHCOL ), // GtkTreeView
-#endif
       GTKSIG("destroy",GTKSIG_TERM)  // Duplicate first key to terminate array.
     };
     return signalInfo;
@@ -302,7 +298,6 @@ namespace RavlGUIN {
     return 1;
   }
 
-#if RAVL_USE_GTK2
   int WidgetBodyC::gtkTreeRow(GtkWidget *widge, GtkTreeIter *iter, GtkTreePath *path, Signal0C *sigptr) {
     RavlAssert(sigptr != 0);
     // Get signal
@@ -335,7 +330,6 @@ namespace RavlGUIN {
     // Done
     return 1;
   }
-#endif
 
 
   //: Default constructor.
@@ -519,10 +513,8 @@ namespace RavlGUIN {
       case SigTypeDNDData: { DNDDataInfoC dnd; ret = Signal1C<DNDDataInfoC>(dnd); } break;
       case SigTypeInt:         ret = Signal1C<IntT>(0); break;
       case SigTypeWidgetInt:         ret = Signal1C<UIntT>((UIntT)0); break;
-#if RAVL_USE_GTK2
       case SigTypeTreeRow:      ret = Signal2C<TreeModelIterC,TreeModelPathC>(TreeModelIterC(),TreeModelPathC()); break;
       case SigTypeTreePathCol: ret = Signal2C<TreeModelPathC,StringC>(TreeModelPathC(),StringC()); break;
-#endif
       case SigTypeUnknown:
       default:
         cerr << "WidgetBodyC::Signal(), ERROR Unknown signal type:" << nm << " Type:" << (IntT) (si.signalType) << "\n";
@@ -922,16 +914,7 @@ namespace RavlGUIN {
     color.green = (IntT) colour.Green() * 255;
     color.blue = (IntT) colour.Blue() * 255;
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
-#if RAVL_USE_GTK2
     gtk_widget_modify_bg (widget, state, &color);
-#else
-    GtkRcStyle *rc_style;
-    rc_style = gtk_rc_style_new ();
-    rc_style->bg[state] = color;
-    rc_style->color_flags[state] = (GtkRcFlags)( rc_style->color_flags[state] | GTK_RC_BG);
-    gtk_widget_modify_style (widget, rc_style);
-    gtk_rc_style_unref (rc_style);
-#endif
     return true;
   }
   
@@ -943,16 +926,7 @@ namespace RavlGUIN {
     color.green = (IntT) colour.Green() * 255;
     color.blue = (IntT) colour.Blue() * 255;
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
-#if RAVL_USE_GTK2
     gtk_widget_modify_fg (widget, state, &color);
-#else
-    GtkRcStyle *rc_style;
-    rc_style = gtk_rc_style_new ();
-    rc_style->fg[state] = color;
-    rc_style->color_flags[state] = (GtkRcFlags)( rc_style->color_flags[state] | GTK_RC_FG);
-    gtk_widget_modify_style (widget, rc_style);
-    gtk_rc_style_unref (rc_style);
-#endif
     return true;
   }
 

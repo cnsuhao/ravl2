@@ -10,7 +10,6 @@
 
 #include "Ravl/GUI/ListStore.hh"
 
-#if RAVL_USE_GTK2
 
 #include "Ravl/SArray1dIter2.hh"
 #include <gtk/gtk.h>
@@ -40,4 +39,3 @@ namespace RavlGUIN {
 
 }
 
-#endif

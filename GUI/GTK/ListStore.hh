@@ -15,7 +15,6 @@
 
 #include "Ravl/config.h"
 
-#if RAVL_USE_GTK2
 
 #include "Ravl/GUI/TreeModel.hh"
 
@@ -74,7 +73,4 @@ namespace RavlGUIN {
   };
   
 }
-#else 
-#warning ListStoreC is NOT supported (requires gtk2 ) 
-#endif
 #endif

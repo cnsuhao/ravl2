@@ -453,11 +453,7 @@ namespace RavlGUIN {
       gc = DrawGC();
       gdk_gc_set_foreground(gc,&GetColour(c));
     }
-#if RAVL_USE_GTK2
     GdkFont *cfont = gtk_style_get_font(widget->style);
-#else
-    GdkFont *cfont = widget->style->font;
-#endif
     gdk_draw_text(DrawArea(),
                   cfont,
                   gc,

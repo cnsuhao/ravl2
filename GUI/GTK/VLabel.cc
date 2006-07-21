@@ -46,11 +46,7 @@ namespace RavlGUIN {
     StringC text = vlb.Name();
     int py = 0;
     
-#if RAVL_USE_GTK2
     GdkFont *cfont = gtk_style_get_font(widget->style);
-#else
-    GdkFont *cfont = widget->style->font;
-#endif
     
     if(ah > vlb.TextHeight())
       py += (ah - vlb.TextHeight())/2;
@@ -106,11 +102,7 @@ namespace RavlGUIN {
       cerr << "VLabelBodyC::SizeUpText(), ERROR: No style found.  \n";
       return;
     }
-#if RAVL_USE_GTK2
     GdkFont *font = gtk_style_get_font(widget->style);
-#else
-    GdkFont *font = widget->style->font;
-#endif
     if(font == 0) {
       cerr << "VLabelBodyC::SizeUpText(), ERROR: No font found.  \n";
       return;

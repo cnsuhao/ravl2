@@ -20,11 +20,7 @@
 #define ONDEBUG(x)
 #endif
 
-#if !RAVL_USE_GTK2
-#define EVENT_METHOD(i, x) GTK_WIDGET_CLASS(GTK_OBJECT(i)->klass)->x
-#else
 #define EVENT_METHOD(i, x) GTK_WIDGET_GET_CLASS(i)->x
-#endif
 
 namespace RavlGUIN {
 
@@ -51,17 +47,9 @@ namespace RavlGUIN {
     }
     
     gtk_widget_add_events(widge.Widget(), GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK );
-#if RAVL_USE_GTK2
     g_signal_connect_swapped (G_OBJECT (widge.Widget()), "motion_notify_event",
 			      G_CALLBACK (EVENT_METHOD (Widget(), motion_notify_event)),
 			      Widget());
-#else
-    gtk_signal_connect_object(GTK_OBJECT(widge.Widget()), "motion_notify_event",
-			      (GtkSignalFunc)EVENT_METHOD(Widget(), motion_notify_event),
-			      GTK_OBJECT(Widget()) );
-    AddEventMask(GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK);
-#endif
-    
     ConnectSignals();
     
     return true;

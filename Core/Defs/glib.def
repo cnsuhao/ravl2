@@ -13,28 +13,13 @@ include Math.def
 #INCLUDES += `$(GLIBHOME)/bin/glib-config --cflags`
 #EXELIB := `$(GLIBHOME)/bin/glib-config --libs`  $(EXELIB)
 
-# Check if we're using GTK2
-
-ifneq ($(strip $(filter-out $(RESOURCES),libGTK2)),)
-
-# GTK 1
-ifndef GLIBCFLAGS 
-GLIBCFLAGS = `glib-config --cflags`
-endif 
-ifndef GLIBLIBS
-GLIBLIBS = `glib-config --libs`
-endif 
-
-# GTK 2
-else
 ifndef GLIBCFLAGS
-GLIBCFLAGS =  `pkg-config glib-2.0 --cflags` -DRAVL_USE_GTK2=1
+GLIBCFLAGS =  `pkg-config glib-2.0 --cflags` -DRAVL_USE_GTK=1
 endif 
 ifndef GLIBLIBS
 GLIBLIBS =  `pkg-config glib-2.0 --libs`
 endif
 
-endif
 INCLUDES += $(GLIBCFLAGS) 
 EXELIB := $(GLIBLIBS) $(EXELIB) 
 

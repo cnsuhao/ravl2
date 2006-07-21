@@ -362,7 +362,7 @@ namespace RavlN {
 	  if(!ctrl.DSeek(inc-1)) {
 	    cerr << "DSeek failed : " << inc -1 << "\n";
 	    at = ctrl.Tell();
-	    if(at == ((UIntT)-1))
+	    if(at == -1)
 	      at = oldAt;
 	  }
 	}
@@ -373,7 +373,7 @@ namespace RavlN {
 	  if(!ctrl.Seek(end)) { // Show last frame.
 	    cerr << "Warning: Seek to end failed. \n";
 	    at = ctrl.Tell();
-	    if(at == ((UIntT)-1))
+	    if(at == -1)
 	      at = oldAt + 1;
 	  } else
 	    at = end;
@@ -391,7 +391,7 @@ namespace RavlN {
 	if(!ctrl.DSeek(inc-1)) {
 	  ONDEBUG(cerr << "DSeek failed : "<< at << "  Inc:" << inc-1 <<" Start@ " << start << "\n");
 	  at = ctrl.Tell();
-	  if(at == ((UIntT)-1))
+	  if(at == -1)
 	    at = oldAt + 1;
 	}
       } else {
@@ -400,7 +400,7 @@ namespace RavlN {
 	  if(!ctrl.Seek(start)) {
 	    cerr << "Warning: Seek to start failed. \n";
 	    at = ctrl.Tell();
-	    if(at == ((UIntT)-1))
+	    if(at == -1)
 	      at = oldAt + 1;
 	  } else
 	    at = start;
@@ -415,7 +415,7 @@ namespace RavlN {
     at++; // Allow for frame read.
     
     // Check for last frame in sequence.
-    if(lastFrame == (int) end)
+    if(lastFrame == end)
       at = end;
     ONDEBUG(cerr << " Last frame :" << lastFrame << " Tell:" << ctrl.Tell() << " At:" << at << "\n");  
     return ret;
@@ -437,7 +437,7 @@ namespace RavlN {
       end = sSize;
     if(lastFrame == oldEnd && end > oldEnd)
       at++;
-    if(at >= end)
+    if(at >= (IntT) end)
       at = end;
     return true;
   }

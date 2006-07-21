@@ -12,9 +12,7 @@
 
 #include "Ravl/GUI/Pixbuf.hh"
 
-#if RAVL_USE_GTK2
 #include <gdk/gdk.h>
-#endif
 
 #define DODEBUG 0
 #if DODEBUG
@@ -25,8 +23,6 @@
 
 namespace RavlGUIN {
   
-#if RAVL_USE_GTK2
-
   static void DeleteImageRef(guchar *pixels, gpointer data)
   {
     ONDEBUG(cerr << "DeleteImageRef(), Called. \n");
@@ -169,5 +165,4 @@ namespace RavlGUIN {
     return (pixbuf != 0 ? gdk_pixbuf_get_width(pixbuf) : 0);
   }
   
-#endif
 }

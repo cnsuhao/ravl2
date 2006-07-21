@@ -254,14 +254,11 @@ namespace RavlGUIN {
   }
 
   void WindowBodyC::Maximise(bool& maximise) {
-#ifdef RAVL_USE_GTK2      
     Manager.Queue(Trigger(WindowC(*this),&WindowC::GUIMaximise,maximise));
-#endif
   }
 
   bool WindowBodyC::GUIMaximise(bool& maximise) {
     RavlAssert(Manager.IsGUIThread());
-#ifdef RAVL_USE_GTK2      
     if (widget==0) return true;
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if (maximise) {
@@ -270,7 +267,6 @@ namespace RavlGUIN {
     else {
       gtk_window_unmaximize(GTK_WINDOW(widget));
     }
-#endif
     return true;
   }
 

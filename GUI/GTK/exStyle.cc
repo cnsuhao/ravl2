@@ -58,11 +58,7 @@ int main(int nargs,char *args[]) {
   // Setup button style
   WidgetStyleC buttonstyle;
   // Set font
-#if RAVL_USE_GTK2
   StringC font("Arial 30");
-#else
-  StringC font("-*-arial-bold-r-normal--*-160-*-*-*-*-iso8859-1");
-#endif
   buttonstyle.SetFont(font);
   // Set red background in all modes
   WidgetColourTypeT coltype = WIDGET_COLOUR_BG;

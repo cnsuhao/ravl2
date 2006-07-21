@@ -11,9 +11,6 @@
 //! file="Ravl/GUI/GTK/TreeView.cc"
 
 #include "Ravl/GUI/TreeView.hh"
-
-#if RAVL_USE_GTK2
-
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/Pixmap.hh"
 #include "Ravl/Threads/Signal2.hh"
@@ -1042,5 +1039,3 @@ namespace RavlGUIN {
   
 }
 
-
-#endif

@@ -15,7 +15,6 @@
 
 #include "Ravl/config.h"
 
-#if RAVL_USE_GTK2
 
 #include "Ravl/GUI/TreeStore.hh"
 #include "Ravl/GUI/TreeView.hh"
@@ -57,10 +56,8 @@ bool ToggleCallback(TreeModelIterC &at) {
   }
   return true;
 }
-#endif
 
 int main(int nargs,char **argv) {
-#if RAVL_USE_GTK2
   Manager.Init(nargs,argv);
   OptionC opts(nargs,argv);
   opts.Check();
@@ -175,6 +172,5 @@ int main(int nargs,char **argv) {
   win.GUIShow();
 
   Manager.Start();
-#endif  
   return 0;
 }

@@ -170,7 +170,7 @@ namespace RavlN {
     IntT subEnd;      // final frame no of sub sequence.   (this is a valid frame. )
     bool doneRev;     // Used in palindrome mode.
     IntT at;          // Cache of input stream position.
-    IntT lastFrame;   // Last frame displayed.
+    UIntT lastFrame;   // Last frame displayed.
     
     IntT triggerSizeUpdate; // Id for size updated trigger.
     IntT triggerStartUpdate; // Id for start updated trigger.

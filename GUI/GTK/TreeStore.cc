@@ -14,9 +14,6 @@
 #include "Ravl/GUI/Pixmap.hh"
 #include "Ravl/GUI/ReadBack.hh"
 #include "Ravl/GUI/Manager.hh"
-
-#if RAVL_USE_GTK2
-
 #include "Ravl/SArray1dIter2.hh"
 #include  <gtk/gtk.h>
 
@@ -128,4 +125,3 @@ namespace RavlGUIN {
   }
 
 }
-#endif

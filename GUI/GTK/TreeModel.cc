@@ -15,7 +15,6 @@
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/ReadBack.hh"
 
-#if RAVL_USE_GTK2
 
 #include <gtk/gtk.h>
 
@@ -508,4 +507,3 @@ namespace RavlGUIN {
     
 }
 
-#endif

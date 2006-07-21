@@ -15,9 +15,6 @@
 //! file="Ravl/GUI/GTK/TreeStore.hh"
 
 #include "Ravl/config.h"
-
-#if RAVL_USE_GTK2
-
 #include "Ravl/GUI/TreeModel.hh"
 
 extern "C" {
@@ -117,7 +114,4 @@ namespace RavlGUIN {
   };
   
 }
-#else 
-#warning TreeStoreC is not supported ( requires gtk2 ) 
-#endif
 #endif

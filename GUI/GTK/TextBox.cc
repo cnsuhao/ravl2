@@ -12,9 +12,7 @@
 
 #include "Ravl/config.h"
 
-#if RAVL_USE_GTK2
 #define GTK_ENABLE_BROKEN 1
-#endif
 
 #include "Ravl/GUI/TextBox.hh"
 #include "Ravl/GUI/Manager.hh"
@@ -45,11 +43,7 @@ namespace RavlGUIN {
     if(widget != 0)
       return true; // Done already.
     widget = gtk_text_new(0,0);
-#if RAVL_USE_GTK2
     GdkFont *cfont = gtk_style_get_font(widget->style);
-#else
-    GdkFont *cfont = widget->style->font;
-#endif
     gtk_text_insert(GTK_TEXT(widget),
 		    cfont,
 		    &widget->style->black, 
@@ -82,11 +76,7 @@ namespace RavlGUIN {
   //: Insert text in window.
   
   bool TextBoxBodyC::GUIInsert(StringC &txt) {
-#if RAVL_USE_GTK2
     GdkFont *cfont = gtk_style_get_font(widget->style);
-#else
-    GdkFont *cfont = widget->style->font;
-#endif
     gtk_text_insert(GTK_TEXT(widget),
 		    cfont,
 		    &widget->style->black, 

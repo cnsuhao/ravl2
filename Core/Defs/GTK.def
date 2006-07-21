@@ -11,7 +11,7 @@ GTKDEF = 1
 
 include x11.def
 
-# Check if we're using GTK2
+# Check if we're using GTK
 
 ifneq ($(strip $(filter-out $(RESOURCES),libGTK)),)
 
@@ -48,7 +48,7 @@ GTKLIBS += -lgthread
 else
 
 ifndef GTKCFLAGS
-GTKCFLAGS= `pkg-config gtk+-2.0 --cflags` -DRAVL_USE_GTK2=1
+GTKCFLAGS= `pkg-config gtk+-2.0 --cflags` -DRAVL_USE_GTK=1
 endif
 ifndef GTKLIBS
 GTKLIBS= -lgthread-2.0 `pkg-config gtk+-2.0 --libs`

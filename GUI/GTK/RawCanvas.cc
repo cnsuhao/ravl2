@@ -75,11 +75,7 @@ namespace RavlGUIN {
   GdkFont *RawCanvasBodyC::GUIDrawFont() {
     RavlAssert(Widget() != 0);
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
-#if RAVL_USE_GTK2
     GdkFont *cfont = gtk_style_get_font(widget->style);
-#else
-    GdkFont *cfont = widget->style->font;
-#endif
     return cfont;
   }
   

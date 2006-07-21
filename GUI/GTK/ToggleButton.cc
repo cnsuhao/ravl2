@@ -161,11 +161,7 @@ namespace RavlGUIN {
     if(widget == 0)
       return false;
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
-#if RAVL_USE_GTK2
     gtk_toggle_button_set_inconsistent(GTK_TOGGLE_BUTTON(widget),val);
-#else
-    cerr << "ToggleButtonBodyC::GUISetInconsistent(), Only supported on GTK2 and above. \n";
-#endif
     return true;
   }
   

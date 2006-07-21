@@ -22,9 +22,6 @@ namespace RavlGUIN {
   static
   Tuple2C<const char *,GdkCursorType> cursorNames[] = 
   {
-#if !RAVL_USE_GTK2
-    GDKCURSOR(GDK_NUM_GLYPHS),  // Referenced in Terminator don't move!
-#endif
     GDKCURSOR(GDK_X_CURSOR),
     GDKCURSOR(GDK_ARROW),
     GDKCURSOR(GDK_BASED_ARROW_DOWN),
@@ -102,11 +99,7 @@ namespace RavlGUIN {
     GDKCURSOR(GDK_UR_ANGLE),
     GDKCURSOR(GDK_WATCH),
     GDKCURSOR(GDK_XTERM),
-#if !RAVL_USE_GTK2
-    GDKCURSOR(GDK_NUM_GLYPHS) // Terminator
-#else
     GDKCURSOR(GDK_X_CURSOR),
-#endif
   };
   
   static HashC<const char *,GdkCursorType> cursorTable(cursorNames);
