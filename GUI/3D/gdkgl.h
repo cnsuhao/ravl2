@@ -21,16 +21,11 @@
 /*! userlevel=Develop */
 /*! docentry="Ravl.API.GUI.3D.Internal" */
 
-<<<<<<< .mine
 #ifndef __GDK_GL_H__
 #define __GDK_GL_H__
 
 #include <glib.h>
-=======
-#include "Ravl/GUI/gdkgl_gtk2.h"
->>>>>>> .r5770
 
-<<<<<<< .mine
 #ifdef G_OS_WIN32
  /* The GL/gl.h on Windows requires you to include <windows.h>
   * anyway, so we might as well include it here.
@@ -140,5 +135,3 @@ G_END_DECLS
 
 #endif /* __GDK_GL_H__ */
 
-=======
->>>>>>> .r5770
