@@ -12,20 +12,28 @@
 //! docentry="Ravl.API.GUI.Dialogs"
 //! userlevel=Normal
 
+#include "Ravl/GUI/Window.hh"
+#include "Ravl/GUI/Button.hh"
+#include "Ravl/GUI/LBox.hh"
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/MessageBox.hh"
 #include "Ravl/GUI/ButtonBox.hh"
 
 using namespace RavlGUIN;
 
-bool result2()
+bool AlertBoxDone()
 {
   cerr << "Alert box finished!" << endl;
-  Manager.Quit();
   return true;
 }
 
-bool result1(bool& bResult)
+bool AlertBoxStart()
+{
+  AlertBox("This is just a message box", AlertBoxDone);
+  return true;
+}
+
+bool QuestionBoxDone(bool &bResult)
 {
   cerr << "Question box finished! Result: ";
   if (bResult) {
@@ -37,7 +45,14 @@ bool result1(bool& bResult)
   return true;
 }
 
-bool OnButtonClick(UIntT & buttonNo) {
+bool QuestionBoxStart()
+{
+  QuestionBox("Do you want to run a pointless function?", QuestionBoxDone);
+  return true;
+}
+
+bool OnButtonClick(UIntT &buttonNo)
+{
   if(buttonNo == 0) 
     cerr << "Yes" << endl;
   else if(buttonNo ==1) 
@@ -51,28 +66,47 @@ bool OnButtonClick(UIntT & buttonNo) {
   return true;
 }
 
-int main(int nargs,char *args[]) 
+bool ButtonBoxStart()
 {
-  Manager.Init(nargs,args);
-  Manager.Execute();
-  cerr << "Opening window 1 \n";
-  QuestionBox("Do you want to run a pointless function?",result1);
-  cerr << "Opening window 2 \n";
-  AlertBox("This is just a message box");
-  cerr << "Opening window 3 \n";
-  AlertBox("This alert box will quit the whole program",result2);
-  
-  cerr << "Opening window 4 \n";
-  
-  //: An example of ButtonBox in action
-  SArray1dC<StringC>button(3);
+  SArray1dC<StringC> button(3);
   button[0] = "Yes";
   button[1] = "No";
   button[2] = "Cancel";
-  ButtonBox("Do something here?", button,"Action Required", OnButtonClick); 
+  ButtonBox("Do something here?", button, "Action Required", OnButtonClick); 
+  return true;
+}
+
+bool QuitBoxDone(bool &bResult)
+{
+  if (bResult)
+    Manager.Quit();
+  return true;
+}
+
+bool QuitBoxStart()
+{
+  QuestionBox("Are you sure you want to quit?", QuitBoxDone);
+  return true;
+}
+
+int main(int nargs,char *args[]) 
+{
+  Manager.Init(nargs,args);
+
+  WindowC win(100, 100, "Message Box");
   
-  cerr << "Waiting fox exit... \n";
-  
-  Manager.Wait();
+  win.Add(
+           VBox
+           (
+             Button("Question Box", QuestionBoxStart) +
+             Button("Alert Box", AlertBoxStart) + 
+             Button("Button Box", ButtonBoxStart) +
+             Button("Quit", QuitBoxStart)
+           )
+         );
+  win.GUIShow();
+ 
+  Manager.Start();
+
   cerr << "Finished... \n";
 }

@@ -38,7 +38,7 @@ namespace RavlGUIN {
     // Add widgets
     LBoxC lbox(false);
     for(SArray1dIterC<StringC>it(m_buttons);it;it++) {
-      lbox.Add(ButtonR(*it,*this,&ButtonBoxBodyC::OnClick,(UIntT)it.Index().V()));
+      lbox.GUIAdd(ButtonR(*it,*this,&ButtonBoxBodyC::OnClick,(UIntT)it.Index().V()));
     }
     Add(VBox(Label(m_strMessage) + lbox,30,false,20));
 
@@ -52,7 +52,7 @@ namespace RavlGUIN {
   
   bool ButtonBoxBodyC::OnClick(UIntT & buttonNo) {
     // First, hide the window
-    Hide();
+    GUIHide();
     // Send the "done" signal
     sigDone(buttonNo);
     // Delete the box if we are holding the only reference

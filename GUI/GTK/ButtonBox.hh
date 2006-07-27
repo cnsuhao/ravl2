@@ -16,6 +16,7 @@
 //! example="exButtonBox.cc"
 
 #include "Ravl/GUI/Window.hh"
+#include "Ravl/GUI/Manager.hh"
 #include "Ravl/String.hh"
 #include "Ravl/OS/Date.hh"
 #include "Ravl/SArray1d.hh"
@@ -109,7 +110,7 @@ namespace RavlGUIN {
   { 
     ButtonBoxC ret = ButtonBoxC(message,buttons,title,parent);
     Connect(ret.SigDone(),func);
-    ret.Show();
+    Manager.QueueOnGUI(Trigger(WidgetC(ret), &WidgetC::GUIShow));
     return ret;
   }
   
@@ -118,7 +119,7 @@ namespace RavlGUIN {
   { 
     ButtonBoxC ret = ButtonBoxC(message,buttons,title,parent);
     Connect(ret.SigDone(),obj,func);
-    ret.Show();
+    Manager.QueueOnGUI(Trigger(WidgetC(ret), &WidgetC::GUIShow));
     return ret;
   }
 
@@ -127,7 +128,7 @@ namespace RavlGUIN {
   { 
     ButtonBoxC ret = ButtonBoxC(message,buttons,title,parent);
     ConnectRef(ret.SigDone(),obj,func);
-    ret.Show();
+    Manager.QueueOnGUI(Trigger(WidgetC(ret), &WidgetC::GUIShow));
     return ret;
   }
   
