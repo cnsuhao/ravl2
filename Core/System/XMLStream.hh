@@ -24,6 +24,7 @@
 #include "Ravl/TypeName.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/SArray1dIter.hh"
+#include "Ravl/StrStream.hh"
 
 namespace RavlN {
 
@@ -696,6 +697,16 @@ namespace RavlN {
   
   XMLIStreamC &operator>>(XMLIStreamC &strm,StringC &str);
   //: Read tag contents as string.
+
+  template<class DataT>
+  XMLOStreamC &operator<<(XMLOStreamC &strm,const DataT &data) {
+    StrOStreamC strStrm;
+    strStrm << data;
+    strm << strStrm.String();
+    return strm;
+  }
+  //: Handle writting of some arbitary data. 
+  // Convert to a string and write into content section of the tags.
   
   inline
   XMLOStreamC &operator<<(XMLOStreamC &strm,int val)
