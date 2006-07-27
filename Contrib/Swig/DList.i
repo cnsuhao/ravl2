@@ -12,7 +12,7 @@
 %}
 
 namespace RavlN {
-  
+
   template<typename DataT>
   class DListC {
   public:
@@ -24,14 +24,13 @@ namespace RavlN {
     DataT PopLast();
     void MoveFirst(DListC<DataT> & lst);
     void MoveLast(DListC<DataT> & lst);
-    DataT &First();
-    DataT &Last();
+    DataT First();
+    DataT Last();
     bool Del(const DataT &x);
     bool Contains(const DataT &x);
-    DataT &Nth(int n);
+    DataT Nth(int n);
   };
-  
-  
+
   template<class DataT> 
   class DLIterC {
   public:
@@ -48,20 +47,20 @@ namespace RavlN {
     void NextCrc();
     void PrevCrc();
     void Nth(IntT n);    
-    DataT &NextData();
-    DataT &PrevData();
-    DataT &NextCrcData();
-    DataT &PrevCrcData();
+    DataT NextData();
+    DataT PrevData();
+    DataT NextCrcData();
+    DataT PrevCrcData();
     DListC<DataT> Tail();
     DListC<DataT> Head();
     DListC<DataT> InclusiveTail();
     DListC<DataT> InclusiveHead();    
-    DataT &Data();
+    DataT Data();
     DataT *operator->();
   };
 
   %template(DListInt64C) DListC<Int64T>; 
-  %template(DLIterInt64C) DLIterC<Int64T>; 
+  %template(DLIterInt64C) DLIterC<Int64T>;
 
 }
 

@@ -20,10 +20,14 @@ namespace RavlN {
     StringC(const char *);
     
     bool IsEmpty() const;
+    
     const char *chars() const;
-    %extend {
-      const char *__str__() 
-	{ return self->chars(); }
+    
+    SizeT Size() const;
+    
+    %typemap(out) StringC
+    {
+      $result = PyString_FromStringAndSize($1.chars(), $1.Size());
     }
   };
   

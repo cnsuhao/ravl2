@@ -15,7 +15,7 @@
 namespace RavlN {
   
   template<typename DataT>
-  class SArray1dC<DataT> {
+  class SArray1dC {
   public:
     SArray1dC<DataT>(SizeT size);
     SArray1dC<DataT>();

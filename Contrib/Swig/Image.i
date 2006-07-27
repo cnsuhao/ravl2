@@ -4,7 +4,6 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 
-
 %include "Ravl/Swig/Array2d.i"
 %include "Ravl/Swig/Types.i"
 %include "Ravl/Swig/IO.i"
@@ -56,6 +55,8 @@ namespace RavlImageN {
     ImageC(const ImageC<PixelT> &img,const IndexRange2dC &range);
     // Take a sub image.
     
+    SizeT Rows() const;
+    SizeT Cols() const;
   };
   
   %template(ImageByteRGBValueC) ImageC<ByteRGBValueC>; 
