@@ -59,8 +59,59 @@ namespace RavlN {
     DataT *operator->();
   };
 
-  %template(DListInt64C) DListC<Int64T>; 
-  %template(DLIterInt64C) DLIterC<Int64T>;
-
 }
+
+%define TOLIST_TYPE(name, type, converter)
+%template(DList ## name ## C) RavlN::DListC<type>; 
+%template(DList ## name ## IterC) RavlN::DLIterC<type>;
+%inline %{
+  PyObject *ToList(RavlN::DListC<type> list)
+  {
+    PyObject *obj = PyList_New(0);
+    if (PyErr_Occurred())
+      SWIG_fail;
+    for (RavlN::DLIterC<type> it(list); it; it++)
+    {
+      PyObject *temp = converter(*it);
+      if (PyErr_Occurred())
+        SWIG_fail;
+      PyList_Append(obj, temp);
+    }
+    return obj;
+    fail:
+    return NULL;
+  }
+%}
+%enddef
+
+TOLIST_TYPE(Real,  RavlN::RealT,  PyFloat_FromDouble)
+TOLIST_TYPE(Int,   RavlN::IntT,   PyInt_FromLong)
+TOLIST_TYPE(UInt,  RavlN::UIntT,  PyInt_FromLong)
+TOLIST_TYPE(Int64, RavlN::Int64T, PyLong_FromLongLong)
+TOLIST_TYPE(Int16, RavlN::Int16T, PyInt_FromLong)
+TOLIST_TYPE(Byte,  RavlN::ByteT,  PyInt_FromLong)
+
+%define TOLIST_OBJECT(name, type)
+%template(DList ## name ## C) RavlN::DListC<type>; 
+%template(DList ## name ## IterC) RavlN::DLIterC<type>;
+%inline %{
+  PyObject *ToList(RavlN::DListC<type> list)
+  {
+    PyObject *obj = PyList_New(0);
+    if (PyErr_Occurred())
+      SWIG_fail;
+    swig_type_info *typeInfo = SWIG_TypeQuery(#type " *");
+    for (RavlN::DLIterC<type> it(list); it; it++)
+    {
+      PyObject *temp = SWIG_NewPointerObj((void*)&it.Data(), typeInfo, 0);
+      if (PyErr_Occurred())
+        SWIG_fail;
+      PyList_Append(obj, temp);
+    }
+    return obj;
+    fail:
+    return NULL;
+  }
+%}
+%enddef
 

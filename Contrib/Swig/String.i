@@ -12,9 +12,11 @@
 #include "Ravl/String.hh"
 %}
 
-namespace RavlN {
+namespace RavlN
+{
   
-  class StringC {
+  class StringC
+  {
   public:
     StringC();
     StringC(const char *);
@@ -24,12 +26,21 @@ namespace RavlN {
     const char *chars() const;
     
     SizeT Size() const;
-    
-    %typemap(out) StringC
+
+    %extend
+    {
+      const char *__str__() 
+      {
+        return self->chars();
+      }
+    }
+
+    %typemap(python, out) StringC
     {
       $result = PyString_FromStringAndSize($1.chars(), $1.Size());
     }
   };
-  
+
 }
+
 
