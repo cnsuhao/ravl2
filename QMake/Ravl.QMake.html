@@ -67,9 +67,29 @@ export QMAKECONFIGHOME=/vol/src/QMakeConfig
 </code>
 
 
-<!-- <li>Xemacs users: there is an <a href="../html/Ravl-mode.html">Xemacs</a>
-enhancement to allow easy QMake compilation from within Xemac. -->
+<h2>Build Tags</h2>
+
+<p>
+If you have several versions of a piece of source code, built to different project outs it is very easy to get 
+them confused and build the a piece of code to the wrong place.   To avoid doing this you can use a feature of
+QMake called "Build Tags".   This feature attaches a tags your project out, build alias and source tree and then 
+checks the tags are consistent before making a directory.
 </p>
+To use this feature you must:
+
+<ul>
+<li> Set BUILD_TAG=(Some tag) in your build alias or shell environment. 
+<li> Write a file in the root of your project out called 'buildTag' containing the name of the build
+<li> Write a file in the root of the source tree called 'buildTag' containing the name of the build
+</ul>
+<p>
+When you do a build QMake will first go up the source tree looking for the 'buildTag' file, it will use the 
+contents of the first one it finds.  It will then check that the value in the file match (less any whitespace) the 
+one in the environment variable BUILD_TAG.  It will also check that the buildTag in the project out matches the 
+BUILD_TAG value. Only if these two tests pass will QMake execute the compile command.
+</p>
+
+<!-- <li>Xemacs users: there is an <a href="../html/Ravl-mode.html">Xemacs</a> enhancement to allow easy QMake compilation from within Xemac. -->
 
 </body>
 </html>
