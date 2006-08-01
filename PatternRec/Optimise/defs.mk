@@ -14,12 +14,12 @@ PACKAGE = Ravl/PatternRec
 
 SOURCES = Parameters.cc Cost.cc CostInvert.cc CostFunction.cc CostFunction1d.cc \
         BracketMinimum.cc \
-	Optimise.cc OptimiseDescent.cc OptimiseRandomUniform.cc \
+	Optimise.cc OptimiseDescent.cc OptimiseConjugateGradient.cc  OptimiseRandomUniform.cc \
 	OptimiseSobol.cc OptimiseBrent.cc OptimisePowell.cc OptimiseGrid.cc
 
 HEADERS = Parameters.hh Cost.hh CostInvert.hh CostFunction.hh CostFunction1d.hh \
         BracketMinimum.hh \
-	Optimise.hh OptimiseDescent.hh OptimiseRandomUniform.hh \
+	Optimise.hh OptimiseDescent.hh OptimiseConjugateGradient.hh OptimiseRandomUniform.hh \
 	OptimiseSobol.hh OptimiseBrent.hh OptimisePowell.hh OptimiseGrid.hh
 
 MAINS = 
