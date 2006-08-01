@@ -50,34 +50,37 @@ namespace RavlN
   //: Setup mutex.
   
   void MutexC::Init(bool recursive) {
-
+    
     // ---------------------------------- POSIX ----------------------------------
 #if RAVL_HAVE_POSIX_THREADS
-#if defined(NDEBUG)
-    ONDEBUG(cerr << "MutexC::Init(), Constructing normal mutex. (@:" << ((void*) this) << ") \n");
-    // Build a fast mutex.
-    int rc;
-    if((rc = pthread_mutex_init(&mutex,0)) != 0)
-      Error("Failed to create mutex.",errno,rc); 
-    else
-      isValid = true;
-#else
 #if defined(PTHREAD_MUTEX_ERRORCHECK) || defined(PTHREAD_MUTEX_ERRORCHECK_NP) || RAVL_OS_LINUX
-    ONDEBUG(cerr << "MutexC::Init(), Constructing debuging mutex. (@:" << ((void*) this) << ") \n");
 #else
     ONDEBUG(cerr << "MutexC::Init(), Attempting to construct debuging mutex but don't know how. \n");
 #endif
+    
     // Build an error checking mutex.
     pthread_mutexattr_t mutAttr;
     pthread_mutexattr_init(&mutAttr);
-#if defined(PTHREAD_MUTEX_ERRORCHECK) || RAVL_OS_LINUX
+    
+    // Check if we want to enable debugging.
+#if !defined(NDEBUG)
+    ONDEBUG(cerr << "MutexC::Init(), Constructing debuging mutex. (@:" << ((void*) this) << ") \n");
+    
+    // Enable error checking, if available.
+#if defined(PTHREAD_MUTEX_ERRORCHECK) || defined(PTHREAD_MUTEX_ERRORCHECK_NP) || RAVL_OS_LINUX
+    // Set appropriate attribute.
+#if defined(PTHREAD_MUTEX_ERRORCHECK)
     pthread_mutexattr_settype(&mutAttr,PTHREAD_MUTEX_ERRORCHECK);
 #else
-#if defined(PTHREAD_MUTEX_ERRORCHECK_NP)
     pthread_mutexattr_settype(&mutAttr,PTHREAD_MUTEX_ERRORCHECK_NP);
 #endif
 #endif
-    if(recursive) { // Do we need a recursive mutex ?
+    
+#else
+    ONDEBUG(cerr << "MutexC::Init(), Constructing normal mutex. (@:" << ((void*) this) << ") \n");    
+#endif
+    
+    if(recursive) {  // Try and build a recursive mutex ?
 #if ( RAVL_OS_LINUX || RAVL_OS_LINUX64)
       if(pthread_mutexattr_settype(&mutAttr,PTHREAD_MUTEX_RECURSIVE_NP) != 0) // Linux.
 #else
@@ -85,7 +88,7 @@ namespace RavlN
 	if(pthread_mutexattr_settype(&mutAttr,PTHREAD_MUTEX_RECURSIVE) != 0) // Solaris and maybe other ?
 #endif
 #endif
-	throw ExceptionOperationFailedC("ERROR: Recursive mutex's not available. ");
+          throw ExceptionOperationFailedC("ERROR: Recursive mutex's not available. ");
     }
     int rc;
     if((rc = pthread_mutex_init(&mutex,&mutAttr)) != 0) {
@@ -95,8 +98,7 @@ namespace RavlN
     }
     
     pthread_mutexattr_destroy(&mutAttr);
-#endif
-#endif
+#endif // RAVL_HAVE_POSIX_THREADS
     // ---------------------------------- WIN32 ----------------------------------
 #if RAVL_HAVE_WIN32_THREADS
     if((mutex = CreateMutex(0,false,0)) == 0) {
@@ -104,6 +106,7 @@ namespace RavlN
     } else
       isValid = true;
 #endif
+    RavlAssert(isValid);
   }
   
   void MutexC::Error(const char *msg)  {

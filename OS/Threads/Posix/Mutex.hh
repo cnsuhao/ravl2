@@ -126,6 +126,7 @@ namespace RavlN
     //: Make sure there's no assignment.
     
     MutexC(const MutexC &)
+      : isValid(false)
     { RavlAssert(0); }
     //: Make sure there's no attempt to use the copy constructor.
   };
