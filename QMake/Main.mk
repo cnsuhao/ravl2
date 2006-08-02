@@ -186,6 +186,14 @@ ifndef MKMUSTLINK
 endif
 
 #######################################
+# Sort out external library dependancies.
+
+ifdef TARG_EXTERNALLIBS
+# Remove the .def from the name to make it match other external libs.
+ USESLIBS += $(patsubst %,%.def,$(TARG_EXTERNALLIBS))
+endif
+
+#######################################
 # Sort out library dependancies from USESLIBS
 
 ifdef USESLIBS
@@ -397,6 +405,7 @@ endif
  OBJS_DEPEND = $(patsubst %$(CEXT),$$(INST_OBJS)/%$(OBJEXT),$(patsubst %$(CXXEXT),$$(INST_OBJS)/%$(OBJEXT) ,$(SOURCES) $(MUSTLINK)))
  TARG_USESLIBS = $(patsubst %,%.def,$(filter-out Auto,$(USESLIBS)))
  TARG_AUXFILES = $(patsubst %,$(INST_AUX)/%,$(AUXFILES))
+ TARG_EXTERNALLIBS= $(patsubst %,$(INST_LIBDEF)/%,$(EXTERNALLIBS))
 
  ifdef USESLIBS
   ifndef LIBDEPS
@@ -480,7 +489,7 @@ libbuild: prebuildstep build_subdirs build_libs build_aux
 purifybuild: prebuildstep  build_subdirs build_libs build_pureexe
 
 srcfiles: $(TARG_DEFS) $(TARG_HDRS) $(LOCAL_FILES) $(LOCALHEADERS) $(SOURCES) $(MAINS) $(AUXFILES) $(HEADERS) \
- $(EXAMPLES) $(TESTEXES) $(DOCNODE) $(HTML) $(MAN1) $(MAN2) $(MAN3) $(EHT) $(MUSTLINK)
+ $(EXAMPLES) $(TESTEXES) $(DOCNODE) $(HTML) $(MAN1) $(MAN2) $(MAN3) $(EHT) $(MUSTLINK) $(EXTERNALLIBS)
 
 prebuildstep:
 ifdef PREBUILDSTEP
@@ -596,7 +605,7 @@ $(TARG_HDRS) : $(INST_HEADER)/% : % $(INST_HEADER)/.dir
 
 #	touch -r $< $(INST_HEADER)/$(@F) ; \
 
-build_aux: $(TARG_AUXFILES)
+build_aux: $(TARG_AUXFILES) $(TARG_EXTERNALLIBS)
 
 ifndef AUXINSTALL
   AUXINSTALL=$(CP)
@@ -610,6 +619,14 @@ $(TARG_AUXFILES) : $(INST_AUX)/% : % $(INST_AUX)/.dir
 	$(AUXINSTALL) $< $(INST_AUX)/$(@F) ; \
 	$(CHMOD) a-w $(INST_AUX)/$(@F)
 
+
+$(TARG_EXTERNALLIBS) : $(INST_LIBDEF)/% : % $(INST_LIBDEF)/.dir
+	$(SHOWIT)echo "--- Install def file $(@F)" ; \
+	if [ -f $(INST_LIBDEF)/$(@F) ] ; then \
+	  $(CHMOD) +w $(INST_LIBDEF)/$(@F) ; \
+	fi ; \
+	$(CP) $< $(INST_LIBDEF)/$(@F) ; \
+	$(CHMOD) a-w $(INST_LIBDEF)/$(@F)
 
 #############################
 # Build depends
