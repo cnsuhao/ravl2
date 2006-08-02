@@ -325,31 +325,31 @@ they are available, but ignore them if the are not. This can be achieved by addi
 .opt to the end of the library names, indicating they are optional. For example RavlImgIOV4L would be added as 'RavlImgIOV4L.opt'.
 </DD><P>
 
-      <LI><DT><A NAME="LIBDEPS"></A><B>LIBDEPS</B></DT>
-        <DD>
-          LIBDEPS has two uses:
+      <LI><A NAME="LIBDEPS"></A><B>LIBDEPS</B> 
+
+        <p> LIBDEPS is used to define an optional <code>.def</code> file.
+        This file has two possible uses:</p>
           <ul>
-            <li> It is used to explicitly create references to external
-            libraries.  E.g. the following entry in the defs.mk file would
-            create a reference to another library CCMath: 
-              <pre> LIBDEPS = CCMath.def</pre> 
-              which could then be referenced in the normal way, e.g.: 
-              <pre> USESLIBS = CCMath</pre>
-              See the file <a
-              href="../../../html/Example.def.html">Example.def</a> to see
-              what to put in it. </li>
+            <li> It can be used to explicitly create references to external
+            libraries.  E.g. the following entry in the <code>defs.mk</code>
+            file would create a reference to another library CCMath: <pre>
+            LIBDEPS = CCMath.def</pre> which could then be referenced in the
+            normal way, e.g.: <pre> USESLIBS = CCMath</pre> See <a
+            href="../../../html/Example.def.html">Example.def</a> to see what
+            to put in the <code>.def</code> file. </li>
            
             <li>
-              <p>It is also used where the source for a single library spans
-              several directories.  The defs.mk in each directory must contain
-              a <i>unique</i> LIBDEPS entry, of the form
-              <code>sublib.def</code>.  In this case, you don't need to create
-              the .def file itself - it is created automatically.</p>
-              <p><b>Note:</b> The <i>first</i> directory to be compiled must
-              contain all the necessary USESLIBS entries for the whole
-              library.</p> </li>
+              <p>It is also required where the source for a single library
+              spans several directories.  The <code>defs.mk</code> in each
+              directory must contain a <i>unique</i> LIBDEPS entry, of the
+              form <code>sublib.def</code>.  In this case, you don't need to
+              create the <code>.def</code> file itself - it is created
+              automatically.  <b>N.B.</b> The <i>first</i> directory to be
+              compiled must contain all the necessary USESLIBS entries for the
+              whole library.</p> </li>
           </ul>
-        </DD>
+        <p><b>Note:</b> You must <i>not</i> have more than one .def file in a
+          directory.</p>
     </ul>
 
 
