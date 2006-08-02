@@ -18,11 +18,10 @@ SOURCES= Gnome.cc
 
 PLIB=RavlGUIGnome
 
+EXTERNALLIBS= LibGnome.def
+
 USESLIBS=RavlGUI LibGnome
 
 EXAMPLES=exGnome.cc
 
-AUXDIR=lib/RAVL/libdep
-
-AUXFILES=LibGnome.def
 
