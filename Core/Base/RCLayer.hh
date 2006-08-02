@@ -13,6 +13,7 @@
 //! example=testRCLayer.cc
 
 #include "Ravl/RCHandleV.hh"
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
   enum RCLayerHandleT { RCLH_OWNER,RCLH_CALLBACK };
@@ -33,6 +34,10 @@ namespace RavlN {
     { ravl_atomic_set(&owners,0); }
     //: Default constructor.
     
+    ~RCLayerBodyC()
+    { RavlAssert(ravl_atomic_read(&owners) == 0); }
+    //: Destructor
+    
     virtual void ZeroOwners();
     //: Called when owner handles drop to zero.
     
@@ -41,8 +46,17 @@ namespace RavlN {
     //: Increment owner reference counter.
     
     void DecOwners() {
-      if(ravl_atomic_dec_and_test(&owners) != 0)
-        ZeroOwners();
+      // Note care should be taken as ZeroOwners() may invalidate this handle again.
+      // and so cause a double free.
+      if(ravl_atomic_dec_and_test(&owners) != 0) {
+        try {
+          ZeroOwners();
+        } catch(...) {
+          // Warn the user that something is wrong.  Exceptions shouldn't be allowed
+          // to get this far as this may be called in a destructor.
+          cerr << "RAVL WARNING: Exception caught from virtual method RCLayerBodyC::ZeroOwners(). \n";
+        }
+      }
     }
     //: Decrement owner counter, if drops to zero call ZeroOwners().
     
@@ -110,8 +124,13 @@ namespace RavlN {
     //: Constructor from a pointer
     
     ~RCLayerC() {
-      if(this->BodyPtr() != 0 && IsHandleOwner())
+      if(this->BodyPtr() != 0 && IsHandleOwner()) {
+        // The following could modify this handle before we're done
+        // so create another handle to ensure its not deleted before we're
+        // ready.
+        RCHandleC<BodyT> tmpHandle = *this;
         this->BodyPtr()->DecOwners();
+      }
     }
     //: Destructor.
     
@@ -119,11 +138,16 @@ namespace RavlN {
       // Increment owners for incoming handle.
       if(oth.IsHandleOwner() && oth.BodyPtr() != 0)
         const_cast<BodyT *>(oth.BodyPtr())->IncOwners();
-      // Decrement owners for old destination
+      // There is a danger DecOwners could change the incoming
+      // handle. So store copies of all the information we need,
+      // including a temporary reference counted handle.
+      bool isOwner = oth.IsHandleOwner();
+      RCHandleC<BodyT> tmpHandle = oth;
+      // Decrement owners for old destination.
       if(IsHandleOwner() && this->BodyPtr() != 0)
-      this->BodyPtr()->DecOwners();
-      ownerHandle = oth.IsHandleOwner();
-      RCHandleVC<BodyT>::operator=(oth);
+        this->BodyPtr()->DecOwners();
+      ownerHandle = isOwner;
+      RCHandleC<BodyT>::operator=(tmpHandle);
       return *this;
     }
     //: Assign handle.
