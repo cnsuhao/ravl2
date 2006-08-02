@@ -44,13 +44,8 @@ namespace RavlN {
     Vector3dC axb(Vector().Cross(line.Vector()));
     RealT     axbNorm = axb.SumOfSqr();
     
-    if (IsAlmostZero(axbNorm)) {
-      cerr << "parallel line:\n"
-	   << "lineA: " << *this << '\n'
-	   << "lineB: " << line;
-      RavlAssert(0);
-    }
-    
+    if (IsAlmostZero(axbNorm))
+      throw ExceptionNumericalC("LinePV3dC::ShortestLine(): the lines are almost parallel");    
     Vector3dC pmr(FirstPoint() - line.FirstPoint());
     Point3dC p1(FirstPoint()
 		+ Vector() * ((axb.Dot(line.Vector().Cross(pmr))) / axbNorm));

@@ -19,12 +19,8 @@ namespace RavlN {
   
   Point3dC PlaneABCD3dC::Intersection(const LinePV3dC & l) const {
     RealT nu = normal.Dot(l.Vector());
-    if (IsAlmostZero(nu)) {
-	cerr << "PlaneABCD3dC::Intersection(), ERROR: the line is parallel to the plane:\n"
-	     << "the line:  " << l << '\n'
-	     << "the plane: " << *this;
-	RavlAssert(0);
-      }
+    if (IsAlmostZero(nu)) 
+      throw ExceptionNumericalC("PlaneABCD3dC::Intersection(): the line is almost parallel to the plane:\n");
     return l.PointT(-Value(l.FirstPoint())/nu);
   }
   
@@ -34,13 +30,7 @@ namespace RavlN {
     Vector3dC n1xn2(Normal().Cross(planeB.Normal()));
     RealT     tripleSP = n1xn2.Dot(planeC.Normal());
     if (IsAlmostZero(tripleSP))
-      {
-	cerr << "PlaneABCD3dC::Intersection(), ERROR: the planes are parallel:\n"
-	     << "the planeA: " << *this  << '\n'
-	     << "the planeB: " << planeB << '\n'
-	     << "the planeC: " << planeC;
-	RavlAssert(0);
-      }
+      throw ExceptionNumericalC("PlaneABCD3dC::Intersection(): the planes are almost parallel");
     Vector3dC n2xn3(planeB.Normal().Cross(planeC.Normal()));
     Vector3dC n3xn1(planeC.Normal().Cross(Normal()));
     return Point3dC(n2xn3 * D() + n3xn1 * planeB.D() + n1xn2 * planeC.D())
@@ -51,12 +41,7 @@ namespace RavlN {
     Vector3dC direction(Normal().Cross(plane.Normal()));
     RealT     den = direction.SumOfSqr();
     if (IsAlmostZero(den))
-      {
-	cerr << "PlaneABCD3dC::Intersection(), ERROR: the planes are parallel:\n"
-	     << "the planeA: " << *this << '\n'
-	     << "the planeB: " << plane;
-	RavlAssert(0);
-      }
+      throw ExceptionNumericalC("PlaneABCD3dC::Intersection(): the planes are almost parallel");
     Vector3dC n212(plane.Normal().Cross(direction));
     Vector3dC n121(direction.Cross(Normal()));
     return LinePV3dC((n212 * D() + n121 * plane.D())/(-den), direction); 
