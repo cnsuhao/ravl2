@@ -9,9 +9,7 @@
 
 DESCRIPTION= Defintion files for external packages that may be used in RAVL.  
 
-AUXDIR=lib/RAVL/libdep
-
-AUXFILES= DMedia.def GTK.def LibPNG.def Xaw.def posixThreads.def zlib.def \
+EXTERNALLIBS= DMedia.def GTK.def LibPNG.def Xaw.def posixThreads.def zlib.def \
  DynLink.def JavaScript.def LibTIFF.def OpenGL.def Xt.def system.def \
  GNUReadline.def LibJPEG.def Math.def Socket.def glib.def x11.def FFTW.def \
  libHints AudioFile.def libDepends formatInfo libptp2.def libglade.def CPPUnit.def QtTestRunner.def
