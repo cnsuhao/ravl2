@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
-#! file="Ravl/Math/Signals/HiddenMarkovModels/defs.mk"
+#! file="Ravl/PatternRec/HiddenMarkovModels/defs.mk"
 
 PACKAGE=Ravl
 

@@ -7,7 +7,8 @@
 //! author="Charles Galambos, Akiel Khan"
 //! rcsid="$Id$"
 //! lib=RavlHMM
-//! file="Ravl/Math/Signals/HiddenMarkovModels/testHiddenMarkovModel.cc"
+//! file="Ravl/PatternRec/HiddenMarkovModels/testHiddenMarkovModel.cc"
+//! docentry="Ravl.API.Pattern Recognition.Markov Processes"
 
 #include "Ravl/HiddenMarkovModel.hh"
 #include "Ravl/Option.hh"

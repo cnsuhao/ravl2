@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlHMM
 //! docentry="Ravl.API.Pattern Recognition.Markov Processes"
-//! file="Ravl/Math/Signals/HiddenMarkovModels/HiddenMarkovModel.hh"
+//! file="Ravl/PatternRec/HiddenMarkovModels/HiddenMarkovModel.hh"
 //! example="exHiddenMarkovModel.cc"
 
 #include "Ravl/Matrix.hh"
