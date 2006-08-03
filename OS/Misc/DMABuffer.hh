@@ -29,7 +29,7 @@ namespace RavlN {
       : BufferBodyC<DataT>(size,0,false,false)
     {
       raw = new char [((size * sizeof(DataT)) + (align-1))];
-      void *aligned = (void *) ((((UIntT) raw) + (align-1)) & (~(align-1)));
+      void *aligned = (void *) ((((SizeT) raw) + (align-1)) & (~(align-1)));
       //cerr << "Raw:" << raw << " Aligned:" << aligned << "\n";
       this->buff = ((DataT *)aligned);
     }
