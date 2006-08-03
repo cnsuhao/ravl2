@@ -159,3 +159,8 @@ RESOURCES += LibGnome
 ## Simplified Wrapper and Interface Generator (Swig) ##############################
 
 #RESOURCES += Swig
+
+## uuid ############################################
+
+#RESOURCES += uuid
+#UUID_HOME=/opt/Omni/uuid
