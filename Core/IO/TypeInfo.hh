@@ -60,7 +60,7 @@ namespace RavlN {
     // Will throw ExceptionErrorCastC if types aren't correct, or in debug mode
     // an assert may fail.
   
-    virtual RCWrapAbstractC Get(DPIPortBaseC &port) RAVL_THROW(ExceptionErrorCastC);
+    virtual RCWrapAbstractC Get(DPIPortBaseC &port) RAVL_THROW2(ExceptionErrorCastC,DataNotReadyC);
     //: Get generic object from port.
     // Will throw ExceptionErrorCastC if types aren't correct, or in debug mode
     // an assert may fail.
@@ -153,7 +153,7 @@ namespace RavlN {
     // Will throw ExceptionErrorCastC if types aren't correct, or in debug mode
     // an assert may fail.
     
-    inline RCWrapAbstractC Get(DPIPortBaseC &port) RAVL_THROW(ExceptionErrorCastC)
+    inline RCWrapAbstractC Get(DPIPortBaseC &port) RAVL_THROW2(ExceptionErrorCastC,DataNotReadyC)
     { return Body().Get(port); }
     //: Get generic object from port.
     // Will throw ExceptionErrorCastC if types aren't correct, or in debug mode
@@ -256,7 +256,7 @@ namespace RavlN {
     // Will throw ExceptionErrorCastC if types aren't correct, or in debug mode
     // an assert may fail.
     
-    virtual RCWrapAbstractC Get(DPIPortBaseC &port) RAVL_THROW(ExceptionErrorCastC) {
+    virtual RCWrapAbstractC Get(DPIPortBaseC &port) RAVL_THROW2(ExceptionErrorCastC,DataNotReadyC) {
       if(!port.IsValid()) {
         cerr << "DPTypeInfoInstBodyC::Get(), ERROR: Invalid arguments. \n";
         RavlAssert(0);
