@@ -27,7 +27,7 @@ typedef unsigned long ulong;
 
 #define USE_MMAP 1
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
