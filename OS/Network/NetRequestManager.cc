@@ -49,8 +49,8 @@ namespace RavlN {
   
   //: Deliver data to waiting thread.
   
-  bool NetRequestManagerC::DeliverReq(UIntT id,const RCWrapAbstractC &data) {
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetRequestManagerC::::DeliverReq(), ReqId=" << id << " Called. ");
+  bool NetRequestManagerC::DeliverReqAbstract(UIntT id,const RCWrapAbstractC &data) {
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetRequestManagerC::::DeliverReq(), ReqId=" << id << " Called.  Type=" << TypeName(data.DataType()) << " ");
     MutexLockC hold(reqAccess);
     NetRequestDataC reqInfo;
     if(!id2reqResults.Lookup(id,reqInfo)) {
@@ -66,7 +66,7 @@ namespace RavlN {
   // Returns false on time out.
   
   bool NetRequestManagerC::WaitForReq(UIntT id,RCWrapAbstractC &data) {
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetRequestManagerC::WaitForReq(), ReqId=" << id);
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetRequestManagerC::WaitForReq(), ReqId=" << id << " ");
     // Setup request.
     MutexLockC hold(reqAccess);
     if(!connectionOk) {
@@ -87,7 +87,7 @@ namespace RavlN {
     
     // Extract data from request reply.
     data = reqInfo.Data();
-    if(!data.IsValid()) { // Request fail for some reason ?
+    if(!data.IsValid()) { // Request failed for some reason ?
       SysLog(SYSLOG_ERR) << "NetRequestManagerC::WaitForReq(), ERROR: Request Failed. ";
       if(throwExceptionOnFail)
 	throw ExceptionOperationFailedC("NetRequestManagerC::WaitForReq(), Failed. ");

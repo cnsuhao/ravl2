@@ -16,6 +16,7 @@
 #include "Ravl/Threads/Mutex.hh"
 #include "Ravl/OS/NetEndPoint.hh"
 #include "Ravl/RCWrap.hh"
+//#include "Ravl/TypeName.hh"
 
 namespace RavlN {
   
@@ -89,17 +90,17 @@ namespace RavlN {
     bool CreateReq(UIntT &id);
     //: Create new request.
     
-    bool DeliverReq(UIntT id,const RCWrapAbstractC &data);
+    bool DeliverReqAbstract(UIntT id,const RCWrapAbstractC &data);
     //: Deliver data to waiting thread.
     
     template<class Data1T>
     bool DeliverReq(UIntT id,const Data1T &data1) 
-    { return DeliverReq(id,(const RCWrapAbstractC &) RCWrapC<Data1T>(data1)); }
+    { return DeliverReqAbstract(id,RCWrap(data1)); }
     //: Deliver a reply with 1 arg
 
     template<class Data1T,class Data2T>
     bool DeliverReq(UIntT id,const Data1T &data1,const Data2T &data2) 
-    { return DeliverReq(id,(const RCWrapAbstractC &) RCWrapC<Tuple2C<Data1T,Data2T> >(Tuple2C<Data1T,Data2T>(data1,data2))); }
+    { return DeliverReqAbstract(id,RCWrap(Tuple2C<Data1T,Data2T>(data1,data2))); }
     //: Deliver a reply with 2 args
     
     bool WaitForReq(UIntT id,RCWrapAbstractC &data);
@@ -108,9 +109,13 @@ namespace RavlN {
     
     template<class DataT>
     bool WaitForReq(UIntT id,DataT &data) {
-      RCWrapC<DataT> wrap;
-      if(!WaitForReq(id,(RCWrapAbstractC &) wrap))
+      RCWrapAbstractC awrap;
+      if(!WaitForReq(id,awrap))
 	return false;
+      RCWrapC<DataT> wrap(awrap,true);
+      // The following can be used to identify problems with types.
+      //if(!wrap.IsValid()) { cerr << "Type mismatch data:" << TypeName(awrap.DataType()) << " and arg:" << TypeName(typeid(DataT)) << "\n"; }
+      RavlAssert(wrap.IsValid()); // Check the types are what we expect.
       data = wrap.Data();
       return true;
     }
@@ -118,9 +123,11 @@ namespace RavlN {
     
     template<class Data1T,class Data2T>
     bool WaitForReq(UIntT id,Data1T &data1,Data2T &data2) {
-      RCWrapC<Tuple2C<Data1T,Data2T> > wrap;
-      if(!WaitForReq(id,(RCWrapAbstractC &) wrap))
+      RCWrapAbstractC awrap;
+      if(!WaitForReq(id,awrap))
 	return false;
+      RCWrapC<Tuple2C<Data1T,Data2T> > wrap(awrap,true);
+      RavlAssert(wrap.IsValid());      
       data1 = wrap.Data().Data1();
       data2 = wrap.Data().Data2();
       return true;
