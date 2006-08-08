@@ -27,7 +27,7 @@ typedef unsigned long ulong;
 
 #define USE_MMAP 1
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -216,10 +216,12 @@ namespace RavlImageN {
       }
       bufLen = mbuf.size;
       buffer = (ByteT *) mmap(0,bufLen,PROT_READ |PROT_WRITE,MAP_PRIVATE,fd,0);
+      ONDEBUG(cerr << "Buffer @ " << ((void *) buffer) << " Length=" << bufLen << "\n");
       buf_grey=buffer;
       memmap = true;
-      if(buffer == 0) {
-	cerr << "Failed to map memory. \n";
+      if(buffer == MAP_FAILED) {
+	perror("Failed to map video device.");
+	//cerr << "Failed to map memory. Errno=" << errno << "\n";
 	return false;
       }
       for(int j = 0;j < mbuf.frames;j++) {
