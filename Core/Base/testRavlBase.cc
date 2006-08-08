@@ -51,6 +51,7 @@ int testFPNumber();
 int testException();
 int testQInt();
 int testIndexRange2d();
+int testRCWrap();
 
 template class RCHandleC<TestBodyC>;
 template class RCWrapC<IntT>;
@@ -114,6 +115,10 @@ int main()
     return 1;
   }
   if((ln = testIndexRange2d()) != 0) {
+    cerr << "Test failed at line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testRCWrap()) != 0) {
     cerr << "Test failed at line:" << ln << "\n";
     return 1;
   }
@@ -437,5 +442,22 @@ int testIndexRange2d() {
   
   
   
+  return 0;
+}
+
+int testRCWrap() {  
+  //cerr << "Testing testRCWrap() \n";
+  RCWrapC<int> wrap(true);
+  if(!wrap.IsValid()) return __LINE__;
+  wrap.Data() = 10;
+  RCWrapAbstractC aWrap;
+  if(aWrap.IsValid()) return __LINE__;
+  aWrap = wrap;
+  if(!aWrap.IsValid()) return __LINE__;
+  RCWrapC<int> newwrap(aWrap,true);
+  RCWrapC<float> wrongwrap(aWrap,true);
+  if(wrongwrap.IsValid()) return __LINE__;
+  if(!newwrap.IsValid()) return __LINE__;
+  if(newwrap.Data() != 10) return __LINE__;
   return 0;
 }
