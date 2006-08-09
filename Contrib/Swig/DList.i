@@ -61,9 +61,32 @@ namespace RavlN {
 
 }
 
-%define TOLIST_TYPE(name, type, converter)
+%define DLIST_TOLIST_TYPE(name, type, converter)
+
 %template(DList ## name ## C) RavlN::DListC<type>; 
 %template(DList ## name ## IterC) RavlN::DLIterC<type>;
+
+%typemap(python, out) RavlN::DListC<type> 
+{
+  $result = PyList_New(0);
+  if (!PyErr_Occurred())
+  {
+    for (RavlN::DLIterC<type> it($1); it; it++)
+    {
+      PyObject *temp = converter(*it);
+      if (PyErr_Occurred())
+      {
+        Py_XDECREF(temp);
+        Py_DECREF($result);
+        $result = NULL;
+        break;
+      }
+      
+      PyList_Append($result, temp);
+    }
+  }
+}
+
 %inline %{
   PyObject *ToList(RavlN::DListC<type> list)
   {
@@ -82,18 +105,42 @@ namespace RavlN {
     return NULL;
   }
 %}
+
 %enddef
 
-TOLIST_TYPE(Real,  RavlN::RealT,  PyFloat_FromDouble)
-TOLIST_TYPE(Int,   RavlN::IntT,   PyInt_FromLong)
-TOLIST_TYPE(UInt,  RavlN::UIntT,  PyInt_FromLong)
-TOLIST_TYPE(Int64, RavlN::Int64T, PyLong_FromLongLong)
-TOLIST_TYPE(Int16, RavlN::Int16T, PyInt_FromLong)
-TOLIST_TYPE(Byte,  RavlN::ByteT,  PyInt_FromLong)
+DLIST_TOLIST_TYPE(Real,  RavlN::RealT,  PyFloat_FromDouble)
+DLIST_TOLIST_TYPE(Int,   RavlN::IntT,   PyInt_FromLong)
+DLIST_TOLIST_TYPE(UInt,  RavlN::UIntT,  PyInt_FromLong)
+DLIST_TOLIST_TYPE(Int64, RavlN::Int64T, PyLong_FromLongLong)
+DLIST_TOLIST_TYPE(Int16, RavlN::Int16T, PyInt_FromLong)
+DLIST_TOLIST_TYPE(Byte,  RavlN::ByteT,  PyInt_FromLong)
 
-%define TOLIST_OBJECT(name, type)
+%define DLIST_TOLIST_OBJECT(name, type)
+
 %template(DList ## name ## C) RavlN::DListC<type>; 
 %template(DList ## name ## IterC) RavlN::DLIterC<type>;
+
+%typemap(python, out) RavlN::DListC<type> 
+{
+  $result = PyList_New(0);
+  if (!PyErr_Occurred())
+  {
+    for (RavlN::DLIterC<type> it($1); it; it++)
+    {
+      PyObject *temp = SWIG_NewPointerObj((void*)&it.Data(), $1_descriptor, 0);
+      if (PyErr_Occurred())
+      {
+        Py_XDECREF(temp);
+        Py_DECREF($result);
+        $result = NULL;
+        break;
+      }
+      
+      PyList_Append($result, temp);
+    }
+  }
+}
+
 %inline %{
   PyObject *ToList(RavlN::DListC<type> list)
   {
@@ -114,4 +161,3 @@ TOLIST_TYPE(Byte,  RavlN::ByteT,  PyInt_FromLong)
   }
 %}
 %enddef
-
