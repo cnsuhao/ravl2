@@ -28,5 +28,6 @@ namespace RavlGUIN {
 %include "Ravl/Swig/SArray1d.i"
 %include "Ravl/Swig/Affine2d.i"
 %include "Ravl/Swig/DList.i"
+%include "Ravl/Swig/Date.i"
 
 
