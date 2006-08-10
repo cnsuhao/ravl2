@@ -88,14 +88,6 @@ namespace RavlN {
     //: Set the origin of the range to 'newOrigin'
     // Returns a reference to this rectangle.
     
-    inline Index2dC Origin() const
-    { return Index2dC(rows.Min(),cols.Min()); }
-    //: Returns the top-left index of the rectangle.
-    
-    inline Index2dC  End() const
-    { return Index2dC(rows.Max(),cols.Max()); }
-    //: Returns the bottom-right index of the rectangle.
-    
     inline Index2dC TopRight() const
     { return Index2dC(rows.Min(),cols.Max()); }
     //: Returns the top-right index of the rectangle.
@@ -381,6 +373,16 @@ namespace RavlN {
     IndexRange2dC AlignWithin(IntT alignment) const 
     { return IndexRange2dC(Range1().AlignWithin(alignment),Range2().AlignWithin(alignment)); }
     //: Return a range within this range that has start and end points which are integer multples of 'alignment' 
+    
+    inline Index2dC Origin() const
+    { return Index2dC(rows.Min(),cols.Min()); }
+#warning "Obsolete: use TopLeft() instead"
+    //: This method is obsolete: use TopLeft() instead.
+    
+    inline Index2dC  End() const
+    { return Index2dC(rows.Max(),cols.Max()); }
+#warning "Obsolete: use BottomRight() instead"
+    //: This method is obsolete: use BottomRight() instead.
     
   protected:
     inline const IndexRange2dC & Range() const
