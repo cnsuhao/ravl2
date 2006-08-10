@@ -376,12 +376,10 @@ namespace RavlN {
     
     inline Index2dC Origin() const
     { return Index2dC(rows.Min(),cols.Min()); }
-#warning "Obsolete: use TopLeft() instead"
     //: This method is obsolete: use TopLeft() instead.
     
     inline Index2dC  End() const
     { return Index2dC(rows.Max(),cols.Max()); }
-#warning "Obsolete: use BottomRight() instead"
     //: This method is obsolete: use BottomRight() instead.
     
   protected:
