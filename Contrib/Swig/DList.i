@@ -147,15 +147,17 @@ DLIST_TOLIST_TYPE(Byte,  RavlN::ByteT,  PyInt_FromLong)
     PyObject *obj = PyList_New(0);
     if (PyErr_Occurred())
       SWIG_fail;
-    swig_type_info *typeInfo = SWIG_TypeQuery(#type " *");
-    for (RavlN::DLIterC<type> it(list); it; it++)
     {
-      PyObject *temp = SWIG_NewPointerObj((void*)&it.Data(), typeInfo, 0);
-      if (PyErr_Occurred())
-        SWIG_fail;
-      PyList_Append(obj, temp);
+      swig_type_info *typeInfo = SWIG_TypeQuery(#type " *");
+      for (RavlN::DLIterC<type> it(list); it; it++)
+      {
+        PyObject *temp = SWIG_NewPointerObj((void*)&it.Data(), typeInfo, 0);
+        if (PyErr_Occurred())
+          SWIG_fail;
+        PyList_Append(obj, temp);
+      }
+      return obj;
     }
-    return obj;
     fail:
     return NULL;
   }
