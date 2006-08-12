@@ -15,6 +15,7 @@ using namespace RavlImageN;
 int main(int nargs,char **argv)
 {
   OptionC opts(nargs,argv);
+  bool doDisplay = opts.Boolean("d",false,"Display output ");
   opts.Check();
   
   // Create an image
@@ -35,7 +36,8 @@ int main(int nargs,char **argv)
   ImageC<ByteRGBValueC> imageOut(imageGd.GetImage());
   
   // Display the image
-  Save("@X", imageOut);
-
+  if(doDisplay)
+    Save("@X", imageOut);
+  
   return 0;
 }
