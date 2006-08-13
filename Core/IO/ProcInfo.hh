@@ -64,11 +64,11 @@ namespace RavlN {
     
     virtual RCAbstractC Apply1(const DPProcessBaseC &proc,const RCAbstractC &arg);
     //: Apply process using abstract data handle.
-    // Use only is you know the process uses 1 arg ! 
+    // Use only if you know the process uses 1 arg ! 
     
     virtual RCAbstractC Apply2(const DPProcessBaseC &proc,const RCAbstractC &arg1,const RCAbstractC &arg2);
     //: Apply process using abstract data handle.
-    // Use only is you know the process uses 2 args ! 
+    // Use only if you know the process uses 2 args ! 
     
     static DListC<DPProcInfoC> &Procs();
     //: List of process types.
@@ -142,12 +142,12 @@ namespace RavlN {
     inline RCAbstractC Apply1(const DPProcessBaseC &proc,const RCAbstractC &arg)
       { return Body().Apply1(proc,arg); }
     //: Apply process using abstract data handle.
-    // Use only is you know the process uses 1 arg ! 
+    // Use only if you know the process uses 1 arg ! 
   
     inline RCAbstractC Apply2(const DPProcessBaseC &proc,const RCAbstractC &arg1,const RCAbstractC &arg2)
       { return Body().Apply2(proc,arg1,arg2); }
     //: Apply process using abstract data handle.
-  // Use only is you know the process uses 2 args ! 
+    // Use only if you know the process uses 2 args ! 
     
     friend class DPProcInfoBodyC;
     
