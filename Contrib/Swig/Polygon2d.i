@@ -6,6 +6,7 @@
 
 
 %include "Ravl/Swig/Point2d.i"
+%include "Ravl/Swig/PointSet2d.i"
 
 %{
 #include "Ravl/Polygon2d.hh"
@@ -13,7 +14,9 @@
 
 namespace RavlN {
 
-  class Polygon2dC {
+  class Polygon2dC :
+    public PointSet2dC
+  {
   public:
     Polygon2dC();
     void InsLast(Point2dC &point);
