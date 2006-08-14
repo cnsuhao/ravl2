@@ -91,7 +91,7 @@ static ObservationListManagerBodyC dummyvar11 (dummyvar9);
 
 int main() {
   int ln;
-#if 1
+#if 0
 #if !TESTMMX
   if((ln = testConvolve2d()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
@@ -543,7 +543,7 @@ int testDCT() {
   
   ChanDCTC chandct(img.Rows());
   ImageC<RealT> cimg = chandct.DCT(img);
-  cerr << "CRes=" << cimg << "\n";
+  cerr << "ChanRes=" << cimg << "\n";
   //cerr << "Error=" << (cimg - res).SumOfSqr()  << "\n";
   if((cimg - res).SumOfSqr() > 0.000001)
     return __LINE__;
@@ -556,7 +556,7 @@ int testDCT() {
   ImageC<RealT> cimg2;
   for(int i = 0;i < 50000;i++)
     cimg2 = vrdct.DCT(img);
-  cerr << "CRes=" << cimg2 << "\n";
+  cerr << "VecRadRes=" << cimg2 << "\n";
 #endif
   
   return 0;
@@ -626,8 +626,9 @@ int testImagePyramidRGB() {
   //cerr << "testImagePyramidRGB, Called \n";
   ImageC<ByteRGBValueC> img(100,100);
   ByteT v = 1;
-  for(Array2dIterC<ByteRGBValueC> it(img);it;it++)
-    *it = ByteRGBValueC(v++,v % 27,v % 91);
+  for(Array2dIterC<ByteRGBValueC> it(img);it;it++,v++) {
+    *it = ByteRGBValueC(v,v % 27,v % 91);
+  }
   
   ImagePyramidC<ByteRGBValueC,RealRGBValueC> pyramid(img,3,true);
   if(pyramid.Images().Size() != 3) return __LINE__;
