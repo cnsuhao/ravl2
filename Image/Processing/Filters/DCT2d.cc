@@ -451,7 +451,6 @@ namespace RavlImageN {
   header file for further details
 
   ***************************************************************************/
-#define RAVL_RECRAD_USE_PTRARR 1
   
   VecRadDCTC::VecRadDCTC(unsigned int size, unsigned int pts)
     : N(0),
@@ -763,47 +762,34 @@ namespace RavlImageN {
     
     M=m;
     bitreversalrows();
- 
     for (rows=0; rows<N; rows++) {
       M=m;
       eo = M%2; M = m>>1;
       group = nog = 1<<M;
       if(eo==1) M++;
-
+      
       /*..................... M=even/odd ..........................*/
-
+      
+      //cerr << "VecRadDCTC::firo3 Loop1 \n";
       for(i=0; i<(nog-1); i++)
 	{
 	  F=0; q=i<<M; p=q>>1;
-#if RAVL_RECRAD_USE_PTRARR
-	  for(j=1; j<group; j++)
-	    {
-	      F=1-F; q++;
-	      IntT a=((r[p][rows]<<1)^MASK[F]); /* CC*/
-	      IntT b=q;  /*CC*/
-	      Swap(fi[a][rows],fi[b][rows]);
-	      p += F;
-	    }
-#else
-	  const UIntT *rrow = &(r[0][rows]);
-	  for(j=1; j<group; j++)
-	    {
-	      F=1-F; q++;
-	      IntT a=((rrow[p * N]<<1)^MASK[F]); /* CC*/
-	      IntT b=q;  /*CC*/
-	      Swap(fi[a][rows],fi[b][rows]);
-	      p += F;
-	    }	  
-#endif
+	  for(j=1; j<group; j++) {
+	    F=1-F; q++;
+	    IntT a=(((r[p][rows])<<1)^(MASK[F])); /* CC*/
+	    Swap(fi[a][rows],fi[q][rows]);
+	    p += F;
+	  }
 	  group--;
 	}
-
+      //cerr << "VecRadDCTC::firo3 Loop2 \n";
+      
       if(eo!=0) { 
 	/*....................... M=odd ..........................*/
 	
 	group=nog;
+	//cerr << "VecRadDCTC::firo3 Loop2 \n";
 	
-#if RAVL_RECRAD_USE_PTRARR
 	for(i=1; i<nog; i++)
 	  {
 	    F=0; q=i<<M; p=q>>1; p--; q--;
@@ -817,28 +803,13 @@ namespace RavlImageN {
 	      }
 	    group--;
 	  }
-#else
-	const UIntT *rrow = &(r[0][rows]);
-	for(i=1; i<nog; i++)
-	  {
-	    F=0; q=i<<M; p=q>>1; p--; q--;
-	    for(j=1; j<group; j++)
-	      {
-		q--;
-		IntT a=((rrow[p * N]<<1)^MASK[F]); /* CC*/		
-		IntT b=q;  /*CC*/
-		Swap(fi[a][rows],fi[b][rows]);
-		F=1-F;   p -= F;
-	      }
-	    group--;
-	  }
-#endif
         } /* end of 'if' statement */
 
     } /* end for rows */
   
     bitreversalcolumns();
- 
+    //cerr << "VecRadDCTC::firo3 Loop3 \n";
+    
     /* Input reordering for the columns */
     for (cols=0; cols<N; cols++) {
       RangeBufferAccessC<RealT > ficol = fi[cols];
@@ -864,12 +835,11 @@ namespace RavlImageN {
 	  group--;
 	}
 
-      if(eo==0) ; else
-
+      if(eo!=0) {
 	/*....................... M=odd ..........................*/
-
-	{ group=nog;
-
+	group=nog;
+	//cerr << "VecRadDCTC::firo3 Loop4 \n";
+	
 	for(i=1; i<nog; i++)
 	  {
 	    F=0; q=i<<M; p=q>>1; p--; q--;
@@ -892,7 +862,6 @@ namespace RavlImageN {
     int i,j,l,rows;
 
     for (rows=0; rows<N; rows++) {
-#if RAVL_RECRAD_USE_PTRARR 
       l=1; 
       r[0][rows]=0;
       for(i=1; i < m; i++){
@@ -903,19 +872,6 @@ namespace RavlImageN {
 	}
 	l <<= 1;
       }
-#else 
-      l=1; 
-      UIntT *rr = &(r[rows]);
-      r[rows]=0;
-      for(i=1; i < m; i++){
-	for(j=0; j < l; j++) {
-	  UIntT *val = &(rr[j*N]); 
-	  (*val) <<= 1; 
-	  val[l * N] = *val + 1;  
-	}
-	l <<= 1;
-      }
-#endif
     } /* end for rows */
   }
 
