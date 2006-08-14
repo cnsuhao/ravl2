@@ -7,15 +7,15 @@
 %module Ravl
 
 %{
-namespace RavlGUIN {
-
+namespace RavlGUIN
+{
   extern void InitDPWindowFormat();
   extern void InitDPDisplayImage();
-  void XInitRavlGUIDisplay() {
+  void XInitRavlGUIDisplay()
+  {
     InitDPWindowFormat();
     InitDPDisplayImage();
   }
-
 }
 %}
 
@@ -25,9 +25,12 @@ namespace RavlGUIN {
 %include "Ravl/Swig/Polygon2d.i"
 %include "Ravl/Swig/String.i"
 %include "Ravl/Swig/Font.i"
+%include "Ravl/Swig/Array2d.i"
 %include "Ravl/Swig/SArray1d.i"
 %include "Ravl/Swig/Affine2d.i"
 %include "Ravl/Swig/DList.i"
 %include "Ravl/Swig/Date.i"
-
+%include "Ravl/Swig/PointSet2d.i"
+%include "Ravl/Swig/RealRange.i"
+%include "Ravl/Swig/RealRange2d.i"
 

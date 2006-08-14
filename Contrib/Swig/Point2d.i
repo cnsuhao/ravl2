@@ -5,6 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 
 %include "Ravl/Swig/Types.i"
+%include "Ravl/Swig/DList.i"
 
 %{
 #include "Ravl/Point2d.hh"
@@ -20,3 +21,4 @@ namespace RavlN {
   };
 }
 
+DLIST_TOLIST_OBJECT(Point2d, RavlN::Point2dC)
