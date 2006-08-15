@@ -192,7 +192,7 @@ namespace RavlGUIN {
                              const StringC &filename,
                              bool (*func)(StringC &filename,FileSelectorC &,DataT &ref),
                              bool sendEmptyStringOnCancel = false,
-                             const DataT &dat)
+                             const DataT &dat = DataT())
   { 
     FileSelectorC ret(fsname,filename,sendEmptyStringOnCancel);
     StringC fn(filename); // Convert to a real filename.
