@@ -55,6 +55,16 @@ namespace RavlGUIN {
     ConnectSignals();
     return true;
   }
+
+
+
+  bool ProgressBarBodyC::Create(GtkWidget *_widget)
+  {
+    RavlAssert(_widget != NULL);
+    widget = _widget;
+    ConnectSignals();
+    return true;
+  }
   
   //: Update percentage done on bar.
   

@@ -54,6 +54,9 @@ namespace RavlGUIN{
     virtual bool Create();
     //: Create the widget.
     
+    virtual bool Create(GtkWidget *_widget);
+    //: Create the widget.
+    
     bool GUIUpdate(const float &percentage);
     //: Update percentage done on bar.
     
