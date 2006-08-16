@@ -42,9 +42,6 @@ namespace RavlGUIN {
     ThumbNailTimeLineBodyC(UIntT frameSkip =1);
     //: Constructor.
     
-    virtual bool Create();
-    //: Create the widget.
-    
     bool GUISetVideo(const DPISPortC<ImageC<ByteRGBValueC> > &nvideo);
     //: Set the current video stream to use.
     
@@ -93,7 +90,16 @@ namespace RavlGUIN {
     virtual bool GUIHide();
     //: Hide timeline.
     
+    virtual bool Create();
+    //: Create the widget.
+    
+    virtual bool Create(GtkWidget *_widget);
+    //: Create the widget.
+    
   protected:
+    bool CommonCreate(GtkWidget *_widget);
+    //: Create widget.
+    
     bool GUIUpdateDisplayRange();
     //: Compute display range.
     

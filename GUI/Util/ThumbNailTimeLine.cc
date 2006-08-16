@@ -91,14 +91,29 @@ namespace RavlGUIN {
   //: Create the widget.
   
   bool ThumbNailTimeLineBodyC::Create() {
+    return CommonCreate(0);
+  }
     
+  //: Create the widget.
+  
+  bool ThumbNailTimeLineBodyC::Create(GtkWidget *_widget) {
+    return CommonCreate(_widget);
+  }
+  
+  //: Create the widget.
+  
+  bool ThumbNailTimeLineBodyC::CommonCreate(GtkWidget *_widget) {
     ConnectRef(Signal("expose_event"),*this,&ThumbNailTimeLineBodyC::EventExpose);
     ConnectRef(Signal("configure_event"),*this,&ThumbNailTimeLineBodyC::EventConfigure);
     ConnectRef(Signal("button_press_event"),*this,&ThumbNailTimeLineBodyC::EventMousePress);
     
-    if(!RawCanvasBodyC::Create())
-      return false;
-    return true;
+    bool ret = false;
+    if (_widget == NULL)
+      ret = RawCanvasBodyC::Create();
+    else
+      ret = RawCanvasBodyC::Create(_widget);
+    
+    return ret;
   }
   
   //: Set the current video stream to use.
