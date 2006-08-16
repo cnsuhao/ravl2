@@ -197,6 +197,16 @@ namespace RavlGUIN {
       } else
         // Draw the line
         mv.GUIDrawLine(dc,last,*it);
+        
+      if (selected)
+      {
+        const IntT boxSize = 2;
+        mv.GUIDrawLine(dc, Point2dC(*it - Point2dC(-boxSize, -boxSize)), Point2dC(*it - Point2dC(-boxSize,  boxSize)));
+        mv.GUIDrawLine(dc, Point2dC(*it - Point2dC( boxSize, -boxSize)), Point2dC(*it - Point2dC( boxSize,  boxSize)));
+        mv.GUIDrawLine(dc, Point2dC(*it - Point2dC( boxSize, -boxSize)), Point2dC(*it - Point2dC(-boxSize, -boxSize)));
+        mv.GUIDrawLine(dc, Point2dC(*it - Point2dC( boxSize,  boxSize)), Point2dC(*it - Point2dC(-boxSize,  boxSize)));
+      }
+      
       last = *it;
     }
     return true;
