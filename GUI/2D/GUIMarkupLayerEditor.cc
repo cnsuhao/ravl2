@@ -54,8 +54,9 @@ namespace RavlGUIN
   
   
   
-  GUIMarkupLayerEditorBodyC::GUIMarkupLayerEditorBodyC() :
+  GUIMarkupLayerEditorBodyC::GUIMarkupLayerEditorBodyC(GUIMarkupCanvasC &canvas) :
     WindowBodyC(300, 300, "Canvas Layer Editor", GTK_WINDOW_DIALOG, 0, false),
+    m_canvas(canvas),
     m_sigVisibility(-1, true),
     m_sigLayerChange(MarkupLayerInfoC())
   {
@@ -213,8 +214,18 @@ namespace RavlGUIN
         HSetC<IntT> zOrderList = it->ZOrderSet();
         if (zOrderList.Size() > 0)
         {
+          bool visible = true;
+          for (HSetIterC<IntT> it(zOrderList); it; it++)
+          {
+            if (m_canvas.ZOrderExcluded(*it))
+            {
+              visible = false;
+              break;
+            }
+          }
+          
           // Set visible value true and editable
-          m_treeStore.GUISetValue(row, MLEVisible, true);
+          m_treeStore.GUISetValue(row, MLEVisible, visible);
           m_treeStore.GUISetValue(row, MLEVisibleInconsistent, false);
           
           // Store the row

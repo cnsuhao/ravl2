@@ -22,12 +22,9 @@
 #include "Ravl/RCAbstract.hh"
 #include "Ravl/GUI/FrameMarkup.hh"
 #include "Ravl/GUI/MarkupLayerInfo.hh"
-#include "Ravl/GUI/GUIMarkupLayerEditor.hh"
 #include "Ravl/Threads/SignalConnectionSet.hh"
 
 namespace RavlGUIN {
-  
-  class GUIMarkupCanvasC;  
   
   //! userlevel=Develop
   //: Image with polygon markups.
@@ -268,7 +265,6 @@ namespace RavlGUIN {
     
     DListC<MarkupLayerInfoC> m_layerInfo;
     IntT m_selectedLayerId;
-    GUIMarkupLayerEditorC m_layerEditor;
     
     SignalConnectionSetC connections;
     

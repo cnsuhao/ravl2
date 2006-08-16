@@ -22,6 +22,8 @@
 #include "Ravl/GUI/TreeView.hh"
 #include "Ravl/GUI/ColourSelector.hh"
 #include "Ravl/Threads/Mutex.hh"
+#include "Ravl/GUI/GUIMarkupCanvas.hh"
+
 
 namespace RavlGUIN
 {
@@ -32,7 +34,7 @@ namespace RavlGUIN
     public WindowBodyC
   {
   public:
-    GUIMarkupLayerEditorBodyC();
+    GUIMarkupLayerEditorBodyC(GUIMarkupCanvasC &canvas);
     //: Glade constructor.
     
     virtual ~GUIMarkupLayerEditorBodyC();
@@ -85,6 +87,8 @@ namespace RavlGUIN
     //: Signal the layers of the update and update the tree toggles
     
   private:
+    GUIMarkupCanvasC m_canvas;
+    
     DListC<MarkupLayerInfoC> m_layerList;
     HashC<IntT, DListC<TreeModelIterC> > m_zOrderRows;
     MutexC m_lock;
@@ -109,8 +113,8 @@ namespace RavlGUIN
     //: Default constructor
     // Creates an invalid handle
 
-    GUIMarkupLayerEditorC(bool) :
-      WindowC(*new GUIMarkupLayerEditorBodyC())
+    GUIMarkupLayerEditorC(GUIMarkupCanvasC &canvas) :
+      WindowC(*new GUIMarkupLayerEditorBodyC(canvas))
     {}
     //: Constructor
     

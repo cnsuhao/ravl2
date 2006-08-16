@@ -16,6 +16,7 @@
 #include "Ravl/GUI/ReadBack.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/GUI/GUIMarkupLayerEditor.hh"
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -49,8 +50,7 @@ namespace RavlGUIN
       sigMarkupUpdate(0,MarkupInfoC()),
       sigSelection(DListC<Int64T>()),
       sigDisplayRange(RealRange2dC()),
-      m_selectedLayerId(-1),
-      m_layerEditor(true)
+      m_selectedLayerId(-1)
   { ONDEBUG(SysLog(SYSLOG_DEBUG) << "GUIMarkupCanvasBodyC::GUIMarkupCanvasBodyC(), \n"); }
   
   //: Destructor.
@@ -774,7 +774,7 @@ namespace RavlGUIN
   void GUIMarkupCanvasBodyC::GUIAddLayerInfo(const MarkupLayerInfoC &layerInfo)
   {
     m_layerInfo.InsLast(layerInfo);
-    m_layerEditor.GUISetLayerList(m_layerInfo);
+    // TODO: Update the dialog
   }
   
   
@@ -805,11 +805,12 @@ namespace RavlGUIN
   
   bool GUIMarkupCanvasBodyC::GUIShowLayerDialog()
   {
-    m_layerEditor = GUIMarkupLayerEditorC(true);
-    m_layerEditor.GUISetLayerList(m_layerInfo);
-    ConnectRef(m_layerEditor.SigVisibilityChanged(), *this, &GUIMarkupCanvasBodyC::GUISetLayerVisibility);
-    ConnectRef(m_layerEditor.SigLayerInfoChanged(), *this, &GUIMarkupCanvasBodyC::GUISetLayerInfo);
-    m_layerEditor.GUIShow();
+    GUIMarkupCanvasC ref(*this);
+    GUIMarkupLayerEditorC layerEditor(ref);
+    layerEditor.GUISetLayerList(m_layerInfo);
+    ConnectRef(layerEditor.SigVisibilityChanged(), *this, &GUIMarkupCanvasBodyC::GUISetLayerVisibility);
+    ConnectRef(layerEditor.SigLayerInfoChanged(), *this, &GUIMarkupCanvasBodyC::GUISetLayerInfo);
+    layerEditor.GUIShow();
     return true;
   }
   
