@@ -67,7 +67,7 @@ namespace RavlN {
   // <li> The simplest possible non-trivial Gaussian filter is a 2nd-order one,
   // which from symmetry considerations will have two equal coefficients.
   // <li> Higher-order filters can be viewed as convolved 2nd-order filters,
-  // i.e. an <i>n</i>th order filter is a convolution of <i>n</i>+1 2nd-order filters.
+  // i.e. an <i>n</i>th order filter is a convolution of <i>n</i>-1 2nd-order filters.
   // By the Central Limit Theorem these will approximate a Gaussian profile
   // more and more closely as the order increases.
   // <li> At the same time because they are of finite width they avoid the
