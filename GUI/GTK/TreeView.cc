@@ -366,9 +366,9 @@ namespace RavlGUIN {
     else if (attrName == "sortable") {
       IntT colNum;
       if(attrValue == "1") // For backward compatibility
-        colNum = treeModel.ColNumber(colName);
+        colNum = ColumnName2Number(colName);
       else
-        colNum = treeModel.ColNumber(attrValue);
+        colNum = ColumnName2Number(attrValue);
       if(colNum >= 0)
         gtk_tree_view_column_set_sort_column_id(GTK_TREE_VIEW_COLUMN(column), colNum);
       else 
