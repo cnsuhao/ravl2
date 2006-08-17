@@ -206,6 +206,9 @@ namespace RavlGUIN {
     bool GUIShowLayerDialog();
     //: Show the layer properties dialog
     
+    bool LayerDialogShowLine(const bool showLine);
+    //: Should the layer editor dialog show the line column?
+    
   protected:
     bool CommonCreate();
     //: Do the common creation stuff.
@@ -265,6 +268,7 @@ namespace RavlGUIN {
     
     DListC<MarkupLayerInfoC> m_layerInfo;
     IntT m_selectedLayerId;
+    bool m_dialogshowLine;
     
     SignalConnectionSetC connections;
     
@@ -528,6 +532,10 @@ namespace RavlGUIN {
     bool GUIShowLayerDialog()
     { return Body().GUIShowLayerDialog(); }
     //: Show the layer properties dialog
+    
+    bool LayerDialogShowLine(const bool showLine)
+    { return Body().LayerDialogShowLine(showLine); }
+    //: Should the layer editor dialog show the line setting?
     
     friend class GUIMarkupCanvasBodyC;
   };

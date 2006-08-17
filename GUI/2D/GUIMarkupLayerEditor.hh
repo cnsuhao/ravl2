@@ -34,7 +34,7 @@ namespace RavlGUIN
     public WindowBodyC
   {
   public:
-    GUIMarkupLayerEditorBodyC(GUIMarkupCanvasC &canvas);
+    GUIMarkupLayerEditorBodyC(GUIMarkupCanvasC &canvas, const bool showLine = true);
     //: Glade constructor.
     
     virtual ~GUIMarkupLayerEditorBodyC();
@@ -83,7 +83,7 @@ namespace RavlGUIN
     bool CBColourSelected(UInt16RGBValueC &colour);
     //: Colour chosen in colour selector
     
-    void UpdateZOrderLayerData(HSetC<IntT> &zOrderSet, const bool visible);
+    void UpdateZOrderLayerData(HashC<IntT, bool> &zOrderSet, const bool visible);
     //: Signal the layers of the update and update the tree toggles
     
   private:
@@ -93,6 +93,7 @@ namespace RavlGUIN
     HashC<IntT, DListC<TreeModelIterC> > m_zOrderRows;
     MutexC m_lock;
     
+    bool m_showLine;
     TreeStoreC m_treeStore;
     TreeViewC m_teeView;
     ColourSelectorC m_colourSelector;
@@ -113,8 +114,8 @@ namespace RavlGUIN
     //: Default constructor
     // Creates an invalid handle
 
-    GUIMarkupLayerEditorC(GUIMarkupCanvasC &canvas) :
-      WindowC(*new GUIMarkupLayerEditorBodyC(canvas))
+    GUIMarkupLayerEditorC(GUIMarkupCanvasC &canvas, const bool showLine = true) :
+      WindowC(*new GUIMarkupLayerEditorBodyC(canvas, showLine))
     {}
     //: Constructor
     

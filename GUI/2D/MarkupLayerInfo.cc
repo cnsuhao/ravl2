@@ -110,9 +110,14 @@ namespace RavlGUIN
   {
   }
   
-  void MarkupLayerInfoC::AddZOrder(const IntT zOrder)
+  void MarkupLayerInfoC::AddZOrder(const IntT zOrder, const bool showVisibility)
   {
-    m_zOrderList.Insert(zOrder);
+    m_zOrderList.Update(zOrder, showVisibility);
+  }
+    
+  const bool MarkupLayerInfoC::ZOrderVisibility(const IntT zOrder)
+  {
+    return m_zOrderList.Lookup(zOrder);
   }
     
   bool MarkupLayerInfoC::SetColour(const ByteRGBValueC colour)

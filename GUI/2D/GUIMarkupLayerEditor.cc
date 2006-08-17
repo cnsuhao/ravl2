@@ -15,7 +15,7 @@
 #include "Ravl/GUI/Button.hh"
 #include "Ravl/GUI/PackInfo.hh"
 #include "Ravl/GUI/LBox.hh"
-#include "Ravl/HSet.hh"
+#include "Ravl/Hash.hh"
 
 #include <gtk/gtk.h>
 
@@ -54,9 +54,10 @@ namespace RavlGUIN
   
   
   
-  GUIMarkupLayerEditorBodyC::GUIMarkupLayerEditorBodyC(GUIMarkupCanvasC &canvas) :
+  GUIMarkupLayerEditorBodyC::GUIMarkupLayerEditorBodyC(GUIMarkupCanvasC &canvas, const bool showLine) :
     WindowBodyC(300, 300, "Canvas Layer Editor", GTK_WINDOW_DIALOG, 0, false),
     m_canvas(canvas),
+    m_showLine(showLine),
     m_sigVisibility(-1, true),
     m_sigLayerChange(MarkupLayerInfoC())
   {
@@ -93,14 +94,16 @@ namespace RavlGUIN
     cols.InsLast("Visible");
     cols.InsLast("Name");
     cols.InsLast("Colour");
-    cols.InsLast("Line");
+    if (m_showLine)
+      cols.InsLast("Line");
     
     // Create a new tree view displaying the columns
     TreeViewC m_treeView(m_treeStore, cols, GTK_SELECTION_NONE);
     m_treeView.SetAttribute(0, "inconsistent", "VisibleInconsistent"); 
     m_treeView.SetAttribute(2, "foreground", "ColourFore");
     m_treeView.SetAttribute(2, "background", "ColourBack");
-    m_treeView.SetAttribute(3, "foreground", "LineFore");
+    if (m_showLine)
+      m_treeView.SetAttribute(3, "foreground", "LineFore");
 
     // Load the data
     LoadTree();
@@ -160,12 +163,13 @@ namespace RavlGUIN
     MutexLockC lock(m_lock);
    
     // Get all effected layers
-    HSetC<IntT> zOrderSet;
+    HashC<IntT, bool> zOrderSet;
     for (DLIterC<MarkupLayerInfoC> it(m_layerList); it; it++)
     {
-      if (it->ZOrderSet().Contains(zOrder))
+      bool showVisibility = true;
+      if (it->ZOrderSet().Lookup(zOrder, showVisibility))
       {
-        zOrderSet += it->ZOrderSet();
+        zOrderSet.Add(it->ZOrderSet());
       }
     }
     
@@ -211,13 +215,13 @@ namespace RavlGUIN
         m_treeStore.GUISetValue(row, MLEId, it->Id());
         
         // Visible
-        HSetC<IntT> zOrderList = it->ZOrderSet();
+        HashC<IntT, bool> zOrderList = it->ZOrderSet();
         if (zOrderList.Size() > 0)
         {
           bool visible = true;
-          for (HSetIterC<IntT> it(zOrderList); it; it++)
+          for (HashIterC<IntT, bool> it(zOrderList); it; it++)
           {
-            if (m_canvas.ZOrderExcluded(*it))
+            if (it.Data() && m_canvas.ZOrderExcluded(it.Key()))
             {
               visible = false;
               break;
@@ -229,12 +233,12 @@ namespace RavlGUIN
           m_treeStore.GUISetValue(row, MLEVisibleInconsistent, false);
           
           // Store the row
-          for (HSetIterC<IntT> itZOrder(zOrderList); itZOrder; itZOrder++)
+          for (HashIterC<IntT, bool> itZOrder(zOrderList); itZOrder; itZOrder++)
           {
             DListC<TreeModelIterC> rowList;
-            m_zOrderRows.Lookup(*itZOrder, rowList);
+            m_zOrderRows.Lookup(itZOrder.Key(), rowList);
             rowList.InsLast(row);
-            m_zOrderRows.Update(*itZOrder, rowList);
+            m_zOrderRows.Update(itZOrder.Key(), rowList);
           }
         }
         else
@@ -300,7 +304,7 @@ namespace RavlGUIN
       visible = !visible;
       
       // Do these layers effect any other selections?
-      HSetC<IntT> zOrderSet;
+      HashC<IntT, bool> zOrderSet;
       SArray1dC<bool> toggleFlag(m_layerList.Size());
       toggleFlag.Fill(false);
       SArray1dIterC<bool> itToggleFlag(toggleFlag);
@@ -312,17 +316,18 @@ namespace RavlGUIN
           // Add the toggled row
           if (it->Id() == id)
           {
-            zOrderSet += it->ZOrderSet();
+            zOrderSet.Add(it->ZOrderSet());
           }
           else
           {
             // Will toggling this layer effect all any other layers
-            for (HSetIterC<IntT> itZOrder(it->ZOrderSet()); itZOrder; itZOrder++)
+            for (HashIterC<IntT, bool> itZOrder(it->ZOrderSet()); itZOrder; itZOrder++)
             {
               // If this markup layer is effected, add it's layers to the set
-              if (zOrderSet.Contains(*itZOrder))
+              bool showVisibility = true;
+              if (zOrderSet.Lookup(*itZOrder, showVisibility))
               {
-                zOrderSet += it->ZOrderSet();
+                zOrderSet.Add(it->ZOrderSet());
                 effected = true;
                 break;
               }
@@ -446,18 +451,18 @@ namespace RavlGUIN
   
   
 
-  void GUIMarkupLayerEditorBodyC::UpdateZOrderLayerData(HSetC<IntT> &zOrderSet, const bool visible)
+  void GUIMarkupLayerEditorBodyC::UpdateZOrderLayerData(HashC<IntT, bool> &zOrderSet, const bool visible)
   {
     ONDEBUG(cerr << "GUIMarkupLayerEditorBodyC::UpdateZOrderLayerData setSize=" << zOrderSet.Size() << " visible=" << (visible? "Y" : "N") << endl);
     
     // Signal all effected layers
-    for (HSetIterC<IntT> it(zOrderSet); it; it++)
+    for (HashIterC<IntT, bool> it(zOrderSet); it; it++)
     {
-      m_sigVisibility(*it, visible);
+      m_sigVisibility(it.Key(), visible);
       
       // Update all layer toggles
       DListC<TreeModelIterC> rowList;
-      m_zOrderRows.Lookup(*it, rowList);
+      m_zOrderRows.Lookup(it.Key(), rowList);
       for (DLIterC<TreeModelIterC> it(rowList); it; it++)
       {
         m_treeStore.GUISetValue(*it, MLEVisible, visible);

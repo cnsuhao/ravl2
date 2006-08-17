@@ -50,7 +50,8 @@ namespace RavlGUIN
       sigMarkupUpdate(0,MarkupInfoC()),
       sigSelection(DListC<Int64T>()),
       sigDisplayRange(RealRange2dC()),
-      m_selectedLayerId(-1)
+      m_selectedLayerId(-1),
+      m_dialogshowLine(true)
   { ONDEBUG(SysLog(SYSLOG_DEBUG) << "GUIMarkupCanvasBodyC::GUIMarkupCanvasBodyC(), \n"); }
   
   //: Destructor.
@@ -806,7 +807,7 @@ namespace RavlGUIN
   bool GUIMarkupCanvasBodyC::GUIShowLayerDialog()
   {
     GUIMarkupCanvasC ref(*this);
-    GUIMarkupLayerEditorC layerEditor(ref);
+    GUIMarkupLayerEditorC layerEditor(ref, m_dialogshowLine);
     layerEditor.GUISetLayerList(m_layerInfo);
     ConnectRef(layerEditor.SigVisibilityChanged(), *this, &GUIMarkupCanvasBodyC::GUISetLayerVisibility);
     ConnectRef(layerEditor.SigLayerInfoChanged(), *this, &GUIMarkupCanvasBodyC::GUISetLayerInfo);
@@ -855,4 +856,12 @@ namespace RavlGUIN
   
   
     
+  bool GUIMarkupCanvasBodyC::LayerDialogShowLine(const bool showLine)
+  {
+    m_dialogshowLine = showLine;
+    return true;
+  }
+  
+  
+  
 }

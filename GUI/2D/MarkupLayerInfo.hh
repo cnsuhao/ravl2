@@ -14,7 +14,8 @@
 
 #include "Ravl/String.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
-#include "Ravl/HSet.hh"
+#include "Ravl/Hash.hh"
+#include "Ravl/Tuple2.hh"
 
 namespace RavlGUIN
 {
@@ -81,12 +82,15 @@ namespace RavlGUIN
       { return m_name; }
       //: Get the name
       
-      void AddZOrder(const IntT zOrder);
+      void AddZOrder(const IntT zOrder, const bool showVisibility = true);
       //: Add the Z order layer
       
-      const HSetC<IntT> ZOrderSet() const
+      const HashC<IntT, bool> ZOrderSet() const
       { return m_zOrderList; }
       //: Get the associated Z order
+      
+      const bool ZOrderVisibility(const IntT zOrder);
+      //: Should the layer visibility be shown in the layer dialog?
       
       const ByteRGBValueC Colour() const
       { return m_colour; }
@@ -131,7 +135,7 @@ namespace RavlGUIN
     private:
       IntT m_layerId;                 //: The layer id
       StringC m_name;                 //: Layer text name
-      HSetC<IntT> m_zOrderList;      //: Z-order layer list
+      HashC<IntT, bool> m_zOrderList;       //: Z-order layer list
       ByteRGBValueC m_colour;         //: Layer colour
       bool m_colourEditable;          //: Can the colour be changed?
       bool m_colourDefault;           //: Is the colour marked as default?
