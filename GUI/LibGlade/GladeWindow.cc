@@ -51,4 +51,21 @@ namespace RavlGUIN {
   
   
 
+  bool GladeWindowBodyC::SetTitle(const StringC &title)
+  {
+    Manager.Queue(Trigger(GladeWindowC(*this), &GladeWindowC::GUISetTitle, title));
+    return true;
+  }
+  
+  
+  
+  bool GladeWindowBodyC::GUISetTitle(const StringC &title)
+  {
+    if (widget != NULL)
+      gtk_window_set_title(GTK_WINDOW(widget), title.chars());
+    return true;
+  }
+  
+  
+  
 }

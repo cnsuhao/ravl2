@@ -37,23 +37,28 @@ namespace RavlGUIN {
     //: Set a Glade XML object to use
     // NOTE: Will be ignored if one has already been set
     
-    virtual bool Create();
+    virtual bool Create()
+    { return CommonCreate(); }
     //: Create the widget.
     
-    virtual bool Create(GtkWidget *widget);
+    virtual bool Create(GtkWidget *_widget)
+    { return CommonCreate(_widget); }
     //: Create with a widget supplied from elsewhere.
     
-    bool AddObject(const StringC &name,const WidgetC &widget);
+    bool AddObject(const StringC &name,const WidgetC &widget, bool optional = false);
     //: Add named widget.
-    
-    bool AddObject(const StringC &name,const WidgetC &widget, bool optional);
-    //: Add named widget.
+    //!param: name - Name of the widget to search for in the Glade file
+    //!param: widget - Widget object to connect to the named object
+    //!param: optional - If false, warn if the widget is not found
     
   protected:
     bool InterceptDeleteEvent();
     //: Intercept the "delete-event", and just hide the widget.
     // Useful on windows where you just want to make them dissapear.
     // Note: Must be called after widget has been initialised
+    
+    bool CommonCreate(GtkWidget *_widget = NULL);
+    //: Common object creation
     
     GladeXMLC xml;
     StringC name;
@@ -99,13 +104,12 @@ namespace RavlGUIN {
     //: Access widget body.
     
   public:
-    bool AddObject(const StringC &name,const WidgetC &widget)
-    { return Body().AddObject(name,widget); }
-    //: Add named widget.
-    
-    bool AddObject(const StringC &name,const WidgetC &widget, bool optional)
+    bool AddObject(const StringC &name,const WidgetC &widget, bool optional = false)
     { return Body().AddObject(name,widget,optional); }
     //: Add named widget.
+    //!param: name - Name of the widget to search for in the Glade file
+    //!param: widget - Widget object to connect to the named object
+    //!param: optional - If false, warn if the widget is not found
     
   };
 

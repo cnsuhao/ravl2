@@ -57,96 +57,74 @@ namespace RavlGUIN {
     
     return xml.IsValid();
   }
+
+
   
-  //: Create the widget.
-  
-  bool GladeWidgetBodyC::Create() {
-    ONDEBUG(cerr << "GladeWidgetBodyC::Create(), Called. Name=" << name << "\n");
+  bool GladeWidgetBodyC::CommonCreate(GtkWidget *_widget) {
+    ONDEBUG(cerr << "GladeWidgetBodyC::CommonCreate(GtkWidget *), Called. Name=" << name << " \n");
 
     if (!xml.IsValid())
     {
-      cerr << "GladeWidgetBodyC::Create called with no XML set" << endl;
+      cerr << "GladeWidgetBodyC::CommonCreate called with no XML set" << endl;
       return false;
     }
 
-    if(widget != 0)
+    if(widget != NULL)
       return true;
-    widget = xml.Widget(name);
-    if(widget == 0) {
+    
+    if (_widget == NULL)
+      widget = xml.Widget(name);
+    else
+    {
+      widget = _widget;
+
+      if (customWidget)
+      {
+        if (!GTK_IS_CONTAINER(widget))
+        {
+          cerr << "ERROR: Custom widget for " << name << " isn't a container. (Try putting an event box here.) \n";
+          RavlAssert(0);
+          return false;
+        }
+        
+        ONDEBUG(cerr << "Adding custom child widget '" << name << "' into parent. \n");  
+        GtkWidget *childWidget = xml.Widget(name);
+        if (childWidget == 0)
+        {
+          cerr << "ERROR: No child widget found for '" << name << "' \n";
+          return false;
+        }
+        
+        gtk_widget_show(childWidget);
+        gtk_container_add(GTK_CONTAINER(widget), childWidget);
+      }
+    }
+    
+    if (widget == NULL)
+    {
       cerr << "ERROR: Failed to find widget '" << name << "' in '" << xml.Filename() << "'\n";
-      RavlAssert(0);
+      RavlAssert(false);
       return false;
     }
-    ONDEBUG(cerr << " Setting up children. \n");
-    for(HashIterC<StringC, Tuple2C<WidgetC, bool> > it(children);it;it++) {
-      GtkWidget *childWidget = xml.Widget(it.Key());
-      if(childWidget == 0) {
-        if (!it.Data().Data2())
-          cerr << "WARNING: Can't find child widget '" << it.Key() << "'\n";
-        continue;
-      }
-      if(!it.Data().Data1().IsValid()) {
-        cerr << "ERROR: Invalid widget wrapper provided for " << it.Key() << "\n";
-        continue;
-      }
-      it.Data().Data1().Create(childWidget);
-    }
-    ONDEBUG(cerr << " Connecting signals \n");
-    ConnectSignals();
-    ONDEBUG(cerr << "GladeWidgetBodyC::Create(), Done. Name=" << name << "\n");
-    return true;
-  }
-  
-  //: Create with a widget supplied from elsewhere.
-  
-  bool GladeWidgetBodyC::Create(GtkWidget *newWidget) {
-    ONDEBUG(cerr << "GladeWidgetBodyC::Create(GtkWidget *), Called. Name=" << name << " \n");
-
-    if (!xml.IsValid())
+    
+    for (HashIterC<StringC, Tuple2C<WidgetC, bool> > it(children); it; it++)
     {
-      cerr << "GladeWidgetBodyC::Create called with no XML set" << endl;
-      return false;
-    }
-
-    if(widget != 0)
-      return true;
-    widget = newWidget;
-    if(customWidget) {
-      if(!GTK_IS_CONTAINER(widget)) {
-	cerr << "ERROR: Custom widget for " << name << " isn't a container. (Try putting an event box here.) \n";
-	RavlAssert(0);
-	return false;
-      }
-      ONDEBUG(cerr << "Adding custom child widget '" << name << "' into parent. \n");  
-      GtkWidget *childWidget = xml.Widget(name);
-      if(childWidget == 0) {
-	cerr << "ERROR: No child widget found for '" << name << "' \n";
-        return false;
-      }
-      gtk_widget_show (childWidget);
-      gtk_container_add(GTK_CONTAINER(widget),childWidget);
-    }
-    for(HashIterC<StringC, Tuple2C<WidgetC, bool> > it(children);it;it++) {
       GtkWidget *childWidget = xml.Widget(it.Key());
-      if(childWidget == 0) {
+      if (childWidget == NULL)
+      {
         if (!it.Data().Data2())
           cerr << "WARNING: Can't find widget for '" << it.Key() << "'\n";
         continue;
       }
-      if(it->Data1().IsValid())
+      if (it->Data1().IsValid())
         it->Data1().Create(childWidget);
       else
         cerr << "WARNING: Invalid handle for widget '" << it.Key() << "' \n";
     }
+    
     ConnectSignals();    
+    
     ONDEBUG(cerr << "GladeWidgetBodyC::Create(GtkWidget *), Done. Name=" << name << "\n");
-    return true;
-  }
-
-  //: Add named widget.
-  
-  bool GladeWidgetBodyC::AddObject(const StringC &name,const WidgetC &widget) {
-    children[name] = Tuple2C<WidgetC, bool>(widget, false);
     return true;
   }
 

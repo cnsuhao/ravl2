@@ -143,7 +143,7 @@ int main(int nargs,char **argv) {
   
   cerr << "Show widgets. \n";
   
-  mainWindow.Show();
+  mainWindow.GUIShow();
   
   cerr << "Start GUI. \n";
   

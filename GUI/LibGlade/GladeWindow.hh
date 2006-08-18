@@ -35,8 +35,11 @@ namespace RavlGUIN {
     bool GUIRaise();
     //: Raise window to top
     
-  protected:
+    bool SetTitle(const StringC &title);
+    //: Set the window title
     
+    bool GUISetTitle(const StringC &title);
+    //: Set the window title
   };
   
   //! userlevel=Normal
@@ -85,6 +88,14 @@ namespace RavlGUIN {
     { return Body().GUIRaise(); }
     //: Raise window to top
     
+    bool SetTitle(const StringC &title)
+    { return Body().SetTitle(title); }
+    //: Set the window title
+    
+    bool GUISetTitle(const StringC &title)
+    { return Body().GUISetTitle(title); }
+    //: Set the window title
+
     friend class GladeWindowBodyC;
   };
 
