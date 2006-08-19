@@ -36,8 +36,7 @@ namespace RavlN {
   {
   public:
     explicit DPISPortShareBodyC()
-      : lastOffset((UIntT) -1),
-	clients(0)
+      :	clients(0)
     {
       this->MapBackChangedSignal("start");
       this->MapBackChangedSignal("size");
@@ -45,8 +44,7 @@ namespace RavlN {
     //: Default constructor.
     
     explicit DPISPortShareBodyC(const DPISPortC<DataT> &ip)
-      : input(ip),
-	lastOffset((UIntT) -1),
+      : input(ip)
 	clients(0)
     {
       this->MapBackChangedSignal("start");
@@ -57,7 +55,6 @@ namespace RavlN {
     virtual bool ConnectPort(const DPIPortBaseC &port) {
       MutexLockC lock(access);
       input = SPort(DPIPortC<DataT>(const_cast<DPIPortBaseC &>(port)));
-      lastOffset = (UIntT) -1;
       lock.Unlock();
       ReparentAttributeCtrl(input); // Make sure changed signals are changed appropriately.
       return port.IsValid();
@@ -67,7 +64,6 @@ namespace RavlN {
     bool ConnectPort(DPIPortC<DataT> &sp) {
       MutexLockC lock(access);
       input = sp;
-      lastOffset = (UIntT) -1;
       lock.Unlock();
       ReparentAttributeCtrl(sp); // Make sure changed signals are changed appropriately.
       return true;
@@ -88,19 +84,7 @@ namespace RavlN {
     
     bool Get(UIntT frameNo,DataT &buf) {
       MutexLockC lock(access);
-      if(frameNo != lastOffset) {
-	if(!input.Seek(frameNo)) {
-	  //cerr << "DPISPortShareBodyC(), Failed to seek to frame " << frameNo << ".\n";
-	  // Input doesn't support seeking or we're out of the valid range, 
-	  // so just get the last frameno, if available as set it as last.
-	  lastOffset = input.Tell(); 
-	} else
-	  lastOffset = frameNo;
-      }
-      if(input.Get(buf)) {
-	lastOffset++;
-	return true;
-      }
+      return input.GetAt(frameNo,buf);
       return false;
     }
     //: Get frameNo from stream.
@@ -108,15 +92,11 @@ namespace RavlN {
     IntT GetArray(UIntT frameNo,SArray1dC<DataT> &buf) {
       MutexLockC lock(access);
       int n;
-      if(frameNo != lastOffset) {
-	if(!input.Seek(frameNo)) {
-	  cerr << "DPISPortShareBodyC(), Failed to seek to frame " << frameNo << ".\n";
-	  return 0;
-	}
-	lastOffset = frameNo;
+      if(!input.Seek(frameNo)) {
+	cerr << "DPISPortShareBodyC(), Failed to seek to frame " << frameNo << ".\n";
+	return 0;
       }
       n = input.GetArray(buf);
-      lastOffset += n;
       return n;
     }
     //: Get an array of data from stream.
@@ -290,7 +270,6 @@ namespace RavlN {
     
   protected:
     DPISPortC<DataT> input;
-    UIntT lastOffset;
     UIntT clients; // Number of clients currently using the port.
     MutexC access;
     TriggerC triggerCountZero; // Called when client count drops to zero.
@@ -543,6 +522,19 @@ namespace RavlN {
       return false;
     }
     //: Try and get next piece of data.
+    
+    virtual bool GetAt(StreamPosT off,DataT &buffer) {
+      if(input.Get(off,buffer)) {
+	offset = off + 1;
+	return true;
+      }
+      return false;
+    }
+    //: Get data from the given offset.
+    //!param: off - Offset to retrieve data from.
+    //!param: buffer - buffer to store retrieved data in.
+    //!return: true if data retrieved successfully.
+    // Note: The position next get in stream after this operation is not garanteed.
     
     virtual IntT GetArray(SArray1dC<DataT> &data) {
       IntT n = input.GetArray(offset,data);
