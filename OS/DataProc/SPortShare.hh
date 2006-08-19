@@ -44,7 +44,7 @@ namespace RavlN {
     //: Default constructor.
     
     explicit DPISPortShareBodyC(const DPISPortC<DataT> &ip)
-      : input(ip)
+      : input(ip),
 	clients(0)
     {
       this->MapBackChangedSignal("start");
