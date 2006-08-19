@@ -24,6 +24,9 @@ namespace RavlN {
   
   //! userlevel=Develop
   //: Blackboard body.
+  // This container allows arbitary data to be associated with
+  // a string key. This class supports loading and saving even where the type
+  // of objects is unknown to the program by storing it as a binary stream. 
   
   class BlackboardBodyC
     : public RCBodyVC
@@ -85,7 +88,11 @@ namespace RavlN {
   
   //! userlevel=Develop
   //: Blackboard.
-
+  // This container allows arbitary data to be associated with
+  // a string key.  Also supports IO event where the type
+  // of objects is unknown to the program. Though the object is
+  // not accessable.
+  
   class BlackboardC
     : public RCHandleVC<BlackboardBodyC>
   {
@@ -125,15 +132,19 @@ namespace RavlN {
     bool Get(const StringC &tag,DataT &value) 
     { return Body().Get(tag,value); }
     //: Lookup entry in blackboard
+    // Get an item from the blackboard. The type conversion
+    // mechanism will be used if types don't match exactly
     
     template<typename DataT>
     bool Put(const StringC &tag,const DataT &value)
     { return Body().Put(tag,value); }
     //: Lookup entry to blackboard
+    // Put a piece of data into the blackboard.
     
     bool Remove(const StringC &tag) 
     { return Body().Remove(tag); }
     //: Remove entry from blackboard.
+    // Remove data with the given tag from the blackboard.
     
   };
   
