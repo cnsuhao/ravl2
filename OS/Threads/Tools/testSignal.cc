@@ -24,6 +24,7 @@
 #include "Ravl/Collection.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/Calls.hh"
+#include "Ravl/SmartPtr.hh"
 #include "Ravl/OS/Date.hh"
 
 using namespace RavlN;
@@ -84,10 +85,36 @@ public:
 
 }; 
 
+class TestClassBodyC 
+  : public RCBodyVC
+{
+public:
+  bool test0() {
+    callcount++;
+    return true;
+  }
+  
+  bool test1(int x) {
+    callcount++;
+    return true;
+  }
+  
+  bool test2(int x,float y) {
+    callcount++;
+    return true;
+  }
+  
+  bool test3(int x,float y,bool z) {
+    callcount++;
+    return true;
+  }
+}
+;
 
 int testBasic() {
   
   Signal0C sig1(true);
+  
   
   SignalConnectorC c1 = Connect(sig1,&test1);
   SignalConnectorC c2 = Connect(sig1,&test2);
@@ -117,8 +144,18 @@ int testBasic() {
     cerr<< "Signal test failed  " << callcount << "\n";
     return 1;
   }
+
+  Signal0C sig6(true);
   
-#if 1
+  SmartPtrC<TestClassBodyC> handle(new TestClassBodyC);
+  ConnectPtr(sig6,handle,&TestClassBodyC::test3);
+  ConnectPtr(sig6,handle,&TestClassBodyC::test2);
+  ConnectPtr(sig6,handle,&TestClassBodyC::test1);
+  ConnectPtr(sig6,handle,&TestClassBodyC::test0);
+  sig6();
+  if(callcount != 19) 
+    return __LINE__;
+  
   // Some extra checks.
   Signal1C<bool> sig3(true);
   Signal2C<bool,int> sig4(true,1);
@@ -132,7 +169,6 @@ int testBasic() {
   SignalConnectorC c5a = Connect(sig4,aclass,&TestClassC::test_2);
   SignalConnectorC c6a = Connect(sig5,aclass,&TestClassC::test_3);
 
-#if 1
   SignalConnectorC c4b = ConnectR(sig3,aclass,&TestClassC::test3);
   SignalConnectorC c5b = ConnectR(sig4,aclass,&TestClassC::test_2);
   SignalConnectorC c6b = ConnectR(sig5,aclass,&TestClassC::test_3);
@@ -141,8 +177,6 @@ int testBasic() {
   Connect(sig3,sig4);
   Connect(sig5,sig3);
   
-#endif
-#endif
   return 0;
 }
 

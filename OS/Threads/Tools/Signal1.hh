@@ -213,6 +213,13 @@ namespace RavlN {
       : SignalConnectorC(*new Signal1MethodBodyC<DataT,ObjT>(nobj,nFunc,dat))
     { Body().Connect(from); }
     //: Constructor.
+
+  protected:
+    Signal1MethodC(Signal1MethodBodyC<DataT,ObjT> *body)
+      : SignalConnectorC(body)
+    {}
+    //: Body constructor.
+    
   };
   
 #if RAVL_COMPILER_VISUALCPP 
@@ -267,15 +274,80 @@ namespace RavlN {
     typedef ObjT BaseObjT; //: Type of object without const's and refs.
     
     Signal1MethodRefC(Signal0C &from,
-					  BaseObjT &nobj,
-					  typename Signal1MethodRefBodyC<DataT,ObjT>::Func1T nFunc,
-		              const Arg1T &dat = Arg1T())
+		      BaseObjT &nobj,
+		      typename Signal1MethodRefBodyC<DataT,ObjT>::Func1T nFunc,
+		      const Arg1T &dat = Arg1T())
       : SignalConnectorC(*new Signal1MethodRefBodyC<DataT,ObjT>(nobj,nFunc,dat))
     { Body().Connect(from); }
     //: Constructor.
   };
 
 #endif
+  
+  //! userlevel=Develop
+  //: Call a method on a pointer object 
+  
+  template<class DataT,class HandleT,class ObjT>
+  class Signal1MethodPtrBodyC
+    : public SignalConnector1BodyC<typename TraitsC<DataT>::BaseTypeT>
+  {
+  public:
+    typedef typename TraitsC<DataT>::BaseTypeT Arg1T; //: Type of arguments without const's and refs.
+    typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Type of object without const's and refs.
+    typedef bool (ObjT::*Func1T)(DataT dat);
+    
+    Signal1MethodPtrBodyC(const HandleT &nobj,
+			  Func1T nFunc,
+			  const Arg1T &dat = Arg1T())
+      : SignalConnector1BodyC<typename TraitsC<DataT>::BaseTypeT>(dat),
+	obj(nobj),
+	func(nFunc)
+    {}
+    //: Constructor.
+    
+    virtual bool Invoke()
+    { return (obj->*func)(this->defaultVal); }
+    //: Call function.
+    
+    virtual bool Invoke(Arg1T &val)
+    { return (obj->*func)(val); }
+    //: Call function.
+    
+    inline bool operator()(Arg1T &val)
+    { return Invoke(val); }
+    //: Simple invokation.
+    
+  protected:
+    HandleT obj;
+    Func1T func;
+  };
+  
+  //! userlevel=Advanced
+  //: Signal a method via a ptr.
+  
+  template<class DataT,class HandleT,class ObjT>
+  class Signal1MethodPtrC
+    : public SignalConnectorC
+  {
+  public:
+    typedef typename TraitsC<DataT>::BaseTypeT Arg1T; //: Type of arguments without const's and refs.
+    typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Type of object without const's and refs.
+    
+    Signal1MethodPtrC(Signal0C &from,
+		      const HandleT &nobj,
+		      typename Signal1MethodPtrBodyC<DataT,HandleT,ObjT>::Func1T nFunc,
+		      const Arg1T &dat = Arg1T())
+      : SignalConnectorC(*new Signal1MethodPtrBodyC<DataT,HandleT,ObjT>(nobj,nFunc,dat))
+    { this->Body().Connect(from); }
+    //: Constructor.
+
+  protected:
+    Signal1MethodPtrC(Signal1MethodPtrBodyC<DataT,HandleT,ObjT> *body)
+      : SignalConnectorC(body)
+    {}
+    //: Body constructor.
+    
+  };
   
   ////////////////////////////////////////////////////////////////
   
@@ -468,6 +540,17 @@ namespace RavlN {
   } 
   //! userlevel=Normal  
   //: Connect a signal to a method.
+
+  template<class HandleT,class ObjT,class DataT>
+  inline
+  SignalConnectorC ConnectPtr(Signal0C &from,const HandleT &obj,bool (ObjT::* func)(DataT),
+			      const typename TraitsC<DataT>::BaseTypeT &def = VCPPARGFIX(typename) TraitsC<DataT>::BaseTypeT()) { 
+    RavlAssert(from.IsValid());
+    return Signal1MethodPtrC<DataT,HandleT,ObjT>(from,obj,func,def);
+  } 
+  //! userlevel=Normal  
+  //: Connect a signal to a method. Uses the -> operator
+  // to invoke the method.
   
   template<class ObjT,class DataT>
   inline

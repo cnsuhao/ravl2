@@ -466,6 +466,51 @@ namespace RavlN {
     { Body().Connect(from); }
     //: Constructor.
   };
+
+  
+  ////////////////////////////////////////////////////////////////
+  
+  //! userlevel=Develop
+  //: Signal a method
+  
+  template<class HandleT,class DataT>
+  class Signal0MethodPtrBodyC 
+    : public SignalConnector0BodyC
+  {
+  public:
+    typedef bool (DataT::*FuncT)();
+    
+    Signal0MethodPtrBodyC(const HandleT &ndata,
+		       FuncT nFunc)
+      : data(ndata),
+	func(nFunc)
+    {}
+    //: Constructor.
+    
+    virtual bool Invoke()
+    { return (data->*func)(); }
+    //: Call function.
+    
+  protected:
+    HandleT data;
+    FuncT func;
+  };
+  
+  //! userlevel=Advanced
+  //: Signal a method.
+
+  template<class HandleT,class DataT>
+  class Signal0MethodPtrC 
+    : public SignalConnectorC
+  {
+  public:
+    Signal0MethodPtrC(Signal0C &from,
+		      const HandleT &ndata,
+		      bool (DataT::*nFunc)())
+      : SignalConnectorC(*new Signal0MethodPtrBodyC<HandleT,DataT>(ndata,nFunc))
+    { Body().Connect(from); }
+    //: Constructor.
+  };
   
   ////////////////////////////////////////////////////////////////
   
@@ -561,6 +606,17 @@ namespace RavlN {
   //! userlevel=Normal
   //: Connect signal to a method with 0 args.
   // This holds a handle to the class to be called.
+  
+  template<class HandleT,class DataT>
+  inline 
+  SignalConnectorC ConnectPtr(Signal0C &from,const HandleT &obj,bool (DataT::* func)()) { 
+    RavlAssert(from.IsValid());
+    return Signal0MethodPtrC<HandleT,DataT>(from,obj,func); 
+  }
+  //! userlevel=Normal
+  //: Connect signal to a method with 0 args.
+  // This holds a handle to the class to be called. Uses the -> operator
+  // to invoke the method.
   
   template<class DataT>
   inline 
