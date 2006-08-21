@@ -244,6 +244,10 @@ namespace RavlN {
     if(lastFrame == end && inc <= 0)
       at--;
     
+    // To ensure the results of Tell() and LastFrame() return something consistany
+    // update the lastFrame.
+    lastFrame = pos;
+    
     ONDEBUG(cerr << "DPPlayControlBodyC::Seek(), Seek to :" << pos << " (Comp:" << seekto << ") Tell:" << ctrl.Tell() << " Inc:" << inc << " End=" << end << " LastFrame=" << lastFrame << "\n");
     if(pause) { // Make sure it gets displayed if we're paused.
       lock.Unlock();// Unlock access.
