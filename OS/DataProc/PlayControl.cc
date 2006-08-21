@@ -181,7 +181,8 @@ namespace RavlN {
   // -1=Reverse play 
   // 2=Double speed forward etc..
   
-  IntT DPPlayControlBodyC::Speed(IntT ninc) { 
+  IntT DPPlayControlBodyC::Speed(IntT ninc) 
+  {
     inc = ninc;  
     return inc;
   }
@@ -289,6 +290,7 @@ namespace RavlN {
       Pause();
     //MutexLockC lock(access);
     inc = frames;
+    
     //CheckUpdate();
     //lock.Unlock(); // Unlock access before post.
     if(sema.Count() < 1)
@@ -367,7 +369,6 @@ namespace RavlN {
 	at += (inc-1);
 	if(inc != 1) 
         {
-          cerr << "seek to " << (inc-1) << "\n";
 	  if(!ctrl.DSeek(inc-1)) 
           {
 	    cerr << "DSeek failed : " << inc -1 << "\n";
@@ -409,7 +410,6 @@ namespace RavlN {
       }
       if(at >= ((IntT) start)) 
       {
-        cerr << "seek to frame: " << (inc -1) << "\n";
 	if(!ctrl.DSeek(inc-1)) 
         {
 	  ONDEBUG(cerr << "DSeek failed : "<< at << "  Inc:" << inc-1 <<" Start@ " << start << "\n");
