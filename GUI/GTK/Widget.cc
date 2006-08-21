@@ -906,6 +906,42 @@ namespace RavlGUIN {
     return true;
   }
   
+  //: Set text colour.
+  
+  bool WidgetBodyC::SetTextColour(const ByteRGBValueC &colour,GtkStateType &state) {
+    Manager.Queue(Trigger(WidgetC(*this),&WidgetC::GUISetTextColour,colour,state));
+    return true;
+  }
+
+  //: Set base colour.
+  
+  bool WidgetBodyC::SetBaseColour(const ByteRGBValueC &colour,GtkStateType &state) {
+    Manager.Queue(Trigger(WidgetC(*this),&WidgetC::GUISetBaseColour,colour,state));
+    return true;
+  }
+  
+  bool WidgetBodyC::GUISetTextColour(const ByteRGBValueC &colour,GtkStateType &state) {
+    GdkColor color;
+    color.red = (IntT) colour.Red() * 255;
+    color.green = (IntT) colour.Green() * 255;
+    color.blue = (IntT) colour.Blue() * 255;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    gtk_widget_modify_text (widget, state, &color);
+    return true;
+  }
+
+  //: Set base colour.
+  
+  bool WidgetBodyC::GUISetBaseColour(const ByteRGBValueC &colour,GtkStateType &state) {
+    GdkColor color;
+    color.red = (IntT) colour.Red() * 255;
+    color.green = (IntT) colour.Green() * 255;
+    color.blue = (IntT) colour.Blue() * 255;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    gtk_widget_modify_base (widget, state, &color);    
+    return true;
+  }
+
   //: Set background colour.
   
   bool WidgetBodyC::GUISetBackgroundColour(const ByteRGBValueC &colour,GtkStateType &state) {
@@ -929,7 +965,7 @@ namespace RavlGUIN {
     gtk_widget_modify_fg (widget, state, &color);
     return true;
   }
-
+  
   void GUIBeep() {
     gdk_beep();
   }

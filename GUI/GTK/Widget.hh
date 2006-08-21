@@ -160,12 +160,24 @@ namespace RavlGUIN {
     
     bool SetForgroundColour(const ByteRGBValueC &colour,GtkStateType &state);
     //: Set background colour.
+
+    bool SetTextColour(const ByteRGBValueC &colour,GtkStateType &state);
+    //: Set text colour.
+    
+    bool SetBaseColour(const ByteRGBValueC &colour,GtkStateType &state);
+    //: Set base colour.
+    
+    bool GUISetTextColour(const ByteRGBValueC &colour,GtkStateType &state);
+    //: Set text colour.
+    
+    bool GUISetBaseColour(const ByteRGBValueC &colour,GtkStateType &state);
+    //: Set base colour.
     
     bool GUISetBackgroundColour(const ByteRGBValueC &colour,GtkStateType &state);
     //: Set background colour.
     
     bool GUISetForgroundColour(const ByteRGBValueC &colour,GtkStateType &state);
-    //: Set background colour.
+    //: Set forground colour.
     
     static Tuple2C<const char *,GTKSignalInfoC> *SigInfoInit();
     //: Get init information about signals.
@@ -505,6 +517,22 @@ namespace RavlGUIN {
     bool SetForgroundColour(const ByteRGBValueC &colour,GtkStateType state  = GTK_STATE_NORMAL)
     { return Body().SetForgroundColour(const_cast<ByteRGBValueC &>(colour),state); }
     //: Set the widgets forground colour.
+
+    bool SetTextColour(const ByteRGBValueC &colour,GtkStateType state)
+    { return Body().SetTextColour(colour,state); }
+    //: Set text colour.
+    
+    bool SetBaseColour(const ByteRGBValueC &colour,GtkStateType state)
+    { return Body().SetBaseColour(colour,state); }
+    //: Set base colour.
+    
+    bool GUISetTextColour(const ByteRGBValueC &colour,GtkStateType state)
+    { return Body().GUISetTextColour(colour,state); }
+    //: Set text colour.
+    
+    bool GUISetBaseColour(const ByteRGBValueC &colour,GtkStateType state)
+    { return Body().GUISetBaseColour(colour,state); }
+    //: Set base colour.
     
     bool GUISetBackgroundColour(const ByteRGBValueC &colour,GtkStateType state)
     { return Body().GUISetBackgroundColour(colour,state); }
