@@ -90,7 +90,8 @@ namespace RavlN {
   
   //: Open new video stream.
   // Access must be locked when calling this function.
-  bool DPPlayControlBodyC::Open(const DPSeekCtrlC &nCntrl) {
+  bool DPPlayControlBodyC::Open(const DPSeekCtrlC &nCntrl, bool bPlayMode /*=true*/) 
+  {
     
     // Free up any existing size and start change triggers.
     if(ctrl.IsValid()) {
@@ -111,7 +112,7 @@ namespace RavlN {
     }
     
     // Get on with sorting out the new sequence.
-    inc = 1;
+    inc = (bPlayMode == true ? 1 : 0);
     ok = true;
     ctrl = nCntrl;
     playMode = 0;
@@ -359,22 +360,31 @@ namespace RavlN {
     // Deal with normal backward/forward playing.
     
     UIntT oldAt = at;
-    if(inc >= 1) {
-      if((at + inc) <= ((IntT) end)) { // before end ?
+    if(inc >= 1) 
+    {
+      if((at + inc) <= ((IntT) end)) // before end ?
+      { 
 	at += (inc-1);
-	if(inc != 1) {
-	  if(!ctrl.DSeek(inc-1)) {
+	if(inc != 1) 
+        {
+          cerr << "seek to " << (inc-1) << "\n";
+	  if(!ctrl.DSeek(inc-1)) 
+          {
 	    cerr << "DSeek failed : " << inc -1 << "\n";
 	    at = ctrl.Tell();
 	    if(at == -1)
 	      at = oldAt;
 	  }
 	}
-      } else { 
+      } 
+      else 
+      { 
 	ONDEBUG(cerr << "Hit end : "<< at << " Inc:" << inc <<"\n");
 	// Failed, hit end.
-	if(end != ((UIntT) -1) && playMode < 2) {
-	  if(!ctrl.Seek(end)) { // Show last frame.
+	if(end != ((UIntT) -1) && playMode < 2) 
+        {
+	  if(!ctrl.Seek(end)) 
+          { // Show last frame.
 	    cerr << "Warning: Seek to end failed. \n";
 	    at = ctrl.Tell();
 	    if(at == -1)
@@ -385,20 +395,31 @@ namespace RavlN {
 	  Pause();
 	}
       }
-    } else {
-      // inc is negative
+    } 
+    else 
+    {
+      // inc is negative or zero
       if((UIntT) lastFrame == end)
+      {
 	at += inc; // If we're at the end the stream won't be one beyond.
+      }
       else
+      {
 	at += (inc-1);
-      if(at >= ((IntT) start)) {
-	if(!ctrl.DSeek(inc-1)) {
+      }
+      if(at >= ((IntT) start)) 
+      {
+        cerr << "seek to frame: " << (inc -1) << "\n";
+	if(!ctrl.DSeek(inc-1)) 
+        {
 	  ONDEBUG(cerr << "DSeek failed : "<< at << "  Inc:" << inc-1 <<" Start@ " << start << "\n");
 	  at = ctrl.Tell();
 	  if(at == -1)
 	    at = oldAt + 1;
 	}
-      } else {
+      } 
+      else 
+      {
 	ONDEBUG(cerr << "Hit start : "<< at << "  Inc:" << inc <<" Start@ " << start << "\n");
 	if(start != ((UIntT) -1) && playMode < 2) {
 	  if(!ctrl.Seek(start)) {

@@ -141,7 +141,7 @@ namespace RavlN {
     // 0 - Effectively paused, -1=backard 1=forward.
     
   protected:  
-    bool Open(const DPSeekCtrlC &nCntrl);
+    bool Open(const DPSeekCtrlC &nCntrl, bool bPlayMode);
     //: Open new video stream.
     // This assumes the input stream is locked by the calling function.
     
@@ -418,9 +418,10 @@ namespace RavlN {
     //: Has the End Of Stream been reached ?
     // true = yes.
     
-    bool Open(const DPISPortC<DataT> &nPort) {
+    bool Open(const DPISPortC<DataT> &nPort, bool bPlayMode) 
+    {
       MutexLockC lock(access);
-      if(!DPPlayControlBodyC::Open(nPort))
+      if(!DPPlayControlBodyC::Open(nPort, bPlayMode))
 	return false;
       input = nPort;
       lock.Unlock();
@@ -522,8 +523,8 @@ namespace RavlN {
     { return Body().Input(); }
     //: Access input port.
 
-    inline bool Open(const DPISPortC<DataT> &nPort)
-    { return Body().Open(nPort); }
+    inline bool Open(const DPISPortC<DataT> &nPort, bool bPlayMode = true)
+    { return Body().Open(nPort, bPlayMode); }
     //: Open a new input.
     
     friend class DPIPlayControlBodyC<DataT>;
