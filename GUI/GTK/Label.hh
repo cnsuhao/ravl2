@@ -41,6 +41,9 @@ namespace RavlGUIN {
     
     virtual bool Create();
     //: Create the widget.
+
+    virtual bool Create(GtkWidget *widget);
+    //: Create with a widget supplied from elsewhere.
     
     StringC &Label() { return text; }
     //: Access string.

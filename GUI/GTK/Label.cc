@@ -39,6 +39,14 @@ namespace RavlGUIN  {
     ConnectSignals();
     return true;
   }
+
+  //: Create with a widget supplied from elsewhere.
+  
+  bool LabelBodyC::Create(GtkWidget *_widget) {
+    widget = _widget;
+    ConnectSignals();    
+    return true;
+  }
   
   //: Set label.
   
