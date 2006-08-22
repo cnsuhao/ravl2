@@ -131,45 +131,45 @@ int main(int nargs,char **argv) {
   TreeViewC treeView(treeStore,cols);
   
   // Use the colour from column 'Colour' from the store to set the forground of column 1
-  treeView.SetAttribute(1,"foreground","Colour"); 
+  treeView.SetAttribute("AString","foreground","Colour"); 
   
   // Allow bool to be inconsistent
-  treeView.SetAttribute(3,"inconsistent","BoolState");
+  treeView.SetAttribute("ABool","inconsistent","BoolState");
 
   // Always set the editable flag to true for column 1.
-  treeView.SetAttribute("AString","editable","1",false);  // You can also use column names for setting attributes.
+  treeView.SetAttribute("AString","editable","1",false);
   
   // Always set the activatable flag to true for column 3.
-  treeView.SetAttribute(3,"activatable","1",false);
+  treeView.SetAttribute("ABool","activatable","1",false);
 
   // Always set the sortable flag to true for column 3.
-  treeView.SetAttribute(0,"sortable","1",false);
-  treeView.SetAttribute(1,"sortable","1",false);
+  treeView.SetAttribute("Another","sortable","1",false);
+  treeView.SetAttribute("AString","sortable","1",false);
 
   // Allow all columns to be reordered
-  treeView.SetAttribute(0,"reorderable","1",false); 
-  treeView.SetAttribute(1,"reorderable","1",false); 
-  treeView.SetAttribute(2,"reorderable","1",false);
-  treeView.SetAttribute(3,"reorderable","1",false);
+  treeView.SetAttribute("Another","reorderable","1",false); 
+  treeView.SetAttribute("AString","reorderable","1",false); 
+  treeView.SetAttribute("AImage","reorderable","1",false);
+  treeView.SetAttribute("ABool","reorderable","1",false);
 
-  // Allow all columns to be resized
+  // Allow all columns to be resized (using column index instead of name)
   treeView.SetAttribute(0,"resizable","1",false); 
   treeView.SetAttribute(1,"resizable","1",false); 
   treeView.SetAttribute(2,"resizable","1",false);
   treeView.SetAttribute(3,"resizable","1",false);
 
   // Connect the changed signal for column 1 to 'EditCallback'
-  Connect(treeView.ChangedSignal(1),&EditCallback);
+  Connect(treeView.ChangedSignal("AString"),&EditCallback);
 
   // Connect the changed signal for column 3 to 'ToggleCallback'  
-  Connect(treeView.ChangedSignal(3),&ToggleCallback);
+  Connect(treeView.ChangedSignal("ABool"),&ToggleCallback);
   
   // Setup the widgets, and off we go!
   win.Add(treeView);
   
-  treeView.GUISort("AString",true);
-
   win.GUIShow();
+
+  treeView.GUISort("AString",true);
 
   Manager.Start();
   return 0;

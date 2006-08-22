@@ -366,9 +366,9 @@ namespace RavlGUIN {
     else if (attrName == "sortable") {
       IntT colNum;
       if(attrValue == "1") // For backward compatibility
-        colNum = ColumnName2Number(colName);
+        colNum = treeModel.ColNumber(colName);
       else
-        colNum = ColumnName2Number(attrValue);
+        colNum = treeModel.ColNumber(attrValue);
       if(colNum >= 0)
         gtk_tree_view_column_set_sort_column_id(GTK_TREE_VIEW_COLUMN(column), colNum);
       else 
@@ -399,14 +399,7 @@ namespace RavlGUIN {
     gtk_tree_view_set_model(GTK_TREE_VIEW(widget),treeModel.TreeModel());
     
     // Build view 
-    
-    UIntT cols = displayColumns.Size();
-    if(cols == 0) 
-      displayColumns = SArray1dC<TreeViewColumnC>(treeModel.Cols());
-    //cerr << "Cols=" << cols << " treeModel.Cols()= " << treeModel.Cols() << "\n";
-    
-    UIntT i = 0;
-    for(SArray1dIterC<TreeViewColumnC> it(displayColumns);it;it++,i++) {
+    for(SArray1dIterC<TreeViewColumnC> it(displayColumns);it;it++) {
       GtkCellRenderer *renderer = 0;
       IntT col_offset = 0;
       
@@ -448,14 +441,7 @@ namespace RavlGUIN {
         gtk_tree_view_column_pack_start(column,
                                         renderer,
                                         rit->Expand());
-	
-        if (it->Sort())
-        {
-          gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(treeModel.TreeModel()),
-                                               col_offset,
-                                               it->SortAscending() ? GTK_SORT_ASCENDING : GTK_SORT_DESCENDING);
-        }
-	
+        
         // Setup attributes.
         for(HashIterC<StringC,Tuple2C<StringC,bool> > ait(rit->Attributes());ait;ait++) {
           SetAttribute(column,     /* Current column. */
@@ -555,9 +541,11 @@ namespace RavlGUIN {
     // Set sorting
     if(widget != 0) {
       IntT colId = displayColumns[colNum].ColumnId();
+      ONDEBUG(cerr << "TreeViewBodyC::GUISort colNum=" << colNum << " colId=" << colId << endl);
       RavlAssert(colId >= 0);
-      gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(treeModel.TreeModel()),colId,
-					   bAscending ? GTK_SORT_ASCENDING : GTK_SORT_DESCENDING);
+      gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(treeModel.TreeModel()),
+                                           colId,
+                                           bAscending ? GTK_SORT_ASCENDING : GTK_SORT_DESCENDING);
     }
     return true;
   }
@@ -573,7 +561,7 @@ namespace RavlGUIN {
   
   bool TreeViewBodyC::GUISort(const StringC &colName, bool bAscending) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
-    IntT colNum = ColumnName2Number(colName);
+    IntT colNum = treeModel.ColNumber(colName);
     if(colNum < 0) {
       cerr << "TreeViewBodyC::GUISort(), Unknown column '" << colName << "' \n";
       return false;
