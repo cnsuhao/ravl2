@@ -15,6 +15,7 @@
 #include "Ravl/Stream.hh"
 #include "Ravl/RealRange2d.hh"
 #include "Ravl/DList.hh"
+#include "Ravl/Hash.hh"
 
 namespace RavlGUIN {
   using namespace RavlN;
@@ -93,6 +94,10 @@ namespace RavlGUIN {
     { return m_layerId; }
     //: Get the layer id list
     
+    HashC<StringC, StringC> &Info()
+    { return m_info; }
+    //: Get extra markup info
+    
   protected:
     bool SetDrawStyle(GUIMarkupCanvasBodyC &mv);
     //: Setup up the drawing context
@@ -102,7 +107,8 @@ namespace RavlGUIN {
     IntT zOrder;
     RealRange2dC coverage;
     RealRange2dC extent;
-    DListC<IntT> m_layerId;     //: Ordered list of render layers affecting this markup
+    DListC<IntT> m_layerId;           //: Ordered list of render layers affecting this markup
+    HashC<StringC, StringC> m_info;   //: Hash of extra parameters
   };
   
   //! userlevel=normal
@@ -205,6 +211,10 @@ namespace RavlGUIN {
     const DListC<IntT> LayerList() const
     { return Body().LayerList(); }
     //: Get the layer id list
+    
+    HashC<StringC, StringC> &Info()
+    { return Body().Info(); }
+    //: Get extra markup info
     
   protected:
     MarkupInfoC(MarkupInfoBodyC &bod)

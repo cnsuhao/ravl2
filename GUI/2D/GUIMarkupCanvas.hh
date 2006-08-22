@@ -209,6 +209,9 @@ namespace RavlGUIN {
     bool LayerDialogShowLine(const bool showLine);
     //: Should the layer editor dialog show the line column?
     
+    bool FrameContains(const StringC &key, const StringC val);
+    //: Does the markup info contain a key with the specified val?
+    
   protected:
     bool CommonCreate();
     //: Do the common creation stuff.
@@ -536,6 +539,10 @@ namespace RavlGUIN {
     bool LayerDialogShowLine(const bool showLine)
     { return Body().LayerDialogShowLine(showLine); }
     //: Should the layer editor dialog show the line setting?
+    
+    bool FrameContains(const StringC &key, const StringC val)
+    { return Body().FrameContains(key, val); }
+    //: Does the markup info contain a key with the specified val?
     
     friend class GUIMarkupCanvasBodyC;
   };

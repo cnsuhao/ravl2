@@ -294,15 +294,15 @@ namespace RavlGUIN
       RealRange2dC updateArea = m_mouseObj.Extent(*this);
       if(m_mouseObj.MouseEventMove(*this,at,me,mouseState,refresh)) 
       {
-	updateArea.Involve(m_mouseObj.Extent(*this));
+        updateArea.Involve(m_mouseObj.Extent(*this));
       } 
       else 
       {
-	m_mouseObj.Invalidate();
-	mouseInfo.Invalidate();	
+        m_mouseObj.Invalidate();
+        mouseInfo.Invalidate();	
       }
       if(refresh)
-	GUIRender(updateArea);
+        GUIRender(updateArea);
     }
     if(backgroundDrag) {
       GUISetOffset(mouseViewOffset + (Point2dC(me.At()) - mouseRawPressAt));
@@ -315,20 +315,20 @@ namespace RavlGUIN
       // Look at what to select...
       RealRange2dC box(mousePressAt,mouseLastEvent);
       if(box.TRow() > box.BRow())
-	Swap(box.TRow(),box.BRow());
+        Swap(box.TRow(),box.BRow());
       if(box.LCol() > box.RCol())
-	Swap(box.LCol(),box.RCol());
+        Swap(box.LCol(),box.RCol());
       HSetC<Int64T> oldSelected = selected.Copy();
       
       if(!me.IsCntrl() && !me.IsShift())
-	GUIClearSelect(false);
+        GUIClearSelect(false);
       
       for(DLIterC<MarkupInfoC> it(m_frameMarkup.Markup());it;it++) 
       {
-	if(it->Id() < 0)
-	  continue;
-	if(box.Contains(it->Extent(*this))) 
-	  GUIAddSelect(it->Id(),false);
+        if(it->Id() < 0)
+          continue;
+        if(box.Contains(it->Extent(*this))) 
+          GUIAddSelect(it->Id(),false);
       }
       
       RealRange2dC redraw = box;
@@ -337,12 +337,12 @@ namespace RavlGUIN
       lastSelectBox = box;
       
       if(oldSelected != selected)
-	sigSelection(HSet2DList(selected));
+        sigSelection(HSet2DList(selected));
     } 
     else 
     {
       if(backgroundDrag)
-	GUIRefresh();
+        GUIRefresh();
     }
     return true;
   }
@@ -860,6 +860,20 @@ namespace RavlGUIN
   {
     m_dialogshowLine = showLine;
     return true;
+  }
+  
+  
+  
+  bool GUIMarkupCanvasBodyC::FrameContains(const StringC &key, const StringC val)
+  {
+    for (DLIterC<MarkupInfoC> it(m_frameMarkup.Markup()); it; it++)
+    {
+      StringC strVal;
+      if (it->Info().Lookup(key, strVal))
+        if (strVal == val)
+          return true;
+    }
+    return false;
   }
   
   
