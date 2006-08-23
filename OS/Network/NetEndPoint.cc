@@ -125,6 +125,7 @@ namespace RavlN {
       pingSeqNo(1),
       optimiseThroughput(_optimiseThroughput)
   {
+    localInfo.appName = SysLogApplicationName();
     // Increment count of open connections.
     ravl_atomic_inc(&openNetEndPointCount);
   }
@@ -158,6 +159,13 @@ namespace RavlN {
 #endif
     msgReg[nmsg.Id()] = nmsg;
     return true;
+  }
+  
+  //: Remove message handler for given id.
+  
+  bool NetEndPointBodyC::Deregister(UIntT id) {
+    MutexLockC lock(accessMsgReg);
+    return msgReg.Del(id);
   }
   
   //: Search for message decode/encode of type 'id'.
