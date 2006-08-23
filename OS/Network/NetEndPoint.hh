@@ -246,6 +246,9 @@ namespace RavlN {
     bool Register(const NetMsgRegisterC &nmsg);
     //: Register new message handler.
     
+    bool Deregister(UIntT id);
+    //: Remove message handler for given id.
+    
     NetMsgRegisterC Find(UIntT id) const;
     //: Search for message decode/encode of type 'id'.
 
@@ -565,6 +568,10 @@ namespace RavlN {
     bool Register(const NetMsgRegisterC &nmsg)
     { return Body().Register(nmsg); }
     //: Register new message handler.
+    
+    bool Deregister(UIntT id)
+    { return Body().Deregister(id); }
+    //: Remove message handler for given id.
     
     bool Send(UIntT id)
     { return Body().Send(id); }
