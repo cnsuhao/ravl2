@@ -167,9 +167,9 @@ int main(int nargs,char **argv) {
   // Setup the widgets, and off we go!
   win.Add(treeView);
   
-  win.GUIShow();
+  treeView.GUISort("AString",true); 
 
-  treeView.GUISort("AString",true);
+  win.GUIShow();
 
   Manager.Start();
   return 0;

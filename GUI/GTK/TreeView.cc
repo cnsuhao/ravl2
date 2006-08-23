@@ -441,7 +441,14 @@ namespace RavlGUIN {
         gtk_tree_view_column_pack_start(column,
                                         renderer,
                                         rit->Expand());
-        
+
+        if (it->Sort())
+        {
+          gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(treeModel.TreeModel()),
+                                               col_offset,
+                                               it->SortAscending() ? GTK_SORT_ASCENDING : GTK_SORT_DESCENDING);
+        }
+
         // Setup attributes.
         for(HashIterC<StringC,Tuple2C<StringC,bool> > ait(rit->Attributes());ait;ait++) {
           SetAttribute(column,     /* Current column. */
