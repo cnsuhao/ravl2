@@ -256,13 +256,9 @@ namespace RavlN {
   //: Wait for setup to complete.
   
   bool NetEndPointBodyC::WaitSetupComplete(RealT timeOut) {
-    if(!setupComplete.Wait(timeOut)) {
-      if(!IsOpen()) {
-	
-	return false;
-      }
-    }
-    return true;
+    if(!setupComplete.Wait(timeOut))
+      return false;
+    return IsOpen();
   }
   
   //: Wait for the transmit queue to clear.
