@@ -43,7 +43,9 @@
 #include "Ravl/GUI/PackInfo.hh"
 #include "Ravl/GUI/Label.hh"
 #include "Ravl/GUI/FileSelector.hh"
-
+#include <gdk/gdkkeys.h>
+#include <gdk/gdkevents.h>
+#include <gdk/gdkkeysyms.h>
 #include "Ravl/GUI/Table.hh"
 
 #include "Ravl/GUI/AttributeEditorWindow.hh"
@@ -86,7 +88,8 @@ PlayControlC guiPlayControl;
 
 static bool gui_quit(DPIPlayControlC<ImageC<ByteRGBValueC> > &pc) 
 {
-  //cerr << "Quitting. \n";
+  cerr << "Quitting. \n";
+  //cout << "Quitting." << endl;
   terminateVPlay = true;
   pc.Continue();
   //cerr << "Shutting down play control. \n";
@@ -95,6 +98,44 @@ static bool gui_quit(DPIPlayControlC<ImageC<ByteRGBValueC> > &pc)
   Manager.Quit(); // Initate shutdown.
   return true;
 }
+
+DPIPlayControlC<ImageC<ByteRGBValueC> > vpCtrlSwap;
+//Handle the intercepted key presses
+static bool HandleKeyPress(GdkEventKey * keyEvent) {
+  
+  //cerr << keyEvent->hardware_keyval << " \n";
+  switch(keyEvent->keyval) {
+  case(GDK_s) :
+     guiPlayControl.Stop();
+     break;
+  case(GDK_p) :
+     guiPlayControl.Play();
+     break;
+  case(GDK_b) :
+     guiPlayControl.Back();
+     break;
+  case(GDK_q) :
+       cerr << terminateVPlay << " \n"; 
+       gui_quit(vpCtrlSwap);
+       break;
+  case(GDK_Left) :
+     guiPlayControl.JBkw();
+     break;
+  case(GDK_Right) :
+     guiPlayControl.JFwd();
+     break;
+  case(GDK_Up) :
+     guiPlayControl.Playx2();
+     break;
+  case(GDK_Down) :
+     guiPlayControl.Backx2();
+     break;
+  default:
+     cerr << "unrecognised key pressed. \n";   
+  }
+  return 0;
+}
+
 
 ////////// TIME CODES //////////////////////////////////////////
 
@@ -210,7 +251,7 @@ int doVPlay(int nargs,char *args[])
   bool noSeek = option.Boolean("ns",false,"Suppress seeking. ");
   bool listFormats    = option.Boolean("lf",    false,                    "Print list of available data formats. ");
   bool listConversions= option.Boolean("lc",    false,                    "Print list of available data converters. ");
-  
+  option.Comment("Keyboard short cuts p play s stop b back q quit -> jump forward <- jump back up arrow = playx2 downarrow = backx2");
   StringC infile = option.String("","","Input filename");  
   if(infile.IsEmpty())
     infile = option.String("","in.pgm","Input filename");
@@ -263,7 +304,8 @@ int doVPlay(int nargs,char *args[])
     vidIn = DeinterlaceStreamC<ByteRGBValueC>(vidIn);
   
   DPIPlayControlC<ImageC<ByteRGBValueC> > vpCtrl(vidIn,false,start,endFrame);  
-  
+  vpCtrlSwap = vpCtrl;   
+
   ONDEBUG(cerr << "VPlay: Play control built.\n");
   
   DPIPortC<ImageC<ByteRGBValueC> > src =  vpCtrl;// >> YUVImageCT2RGBImageCT;
@@ -300,6 +342,9 @@ int doVPlay(int nargs,char *args[])
   
   Connect(win.Signal("delete_event"),gui_quit,vpCtrl);
 
+  //Connect Key event handler to the frame widget.
+  Connect(win.Signal("key_press_event"),&HandleKeyPress);
+  
   CanvasC vidout(sx,sy,directDraw);  
   
   StringC strinfile(infile);
