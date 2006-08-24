@@ -17,9 +17,9 @@ namespace RavlN {
   void IncPThreadSysDBLock()
   {}
   
-  static const int noLocks = 4;
+  static const int noLocks = 5;
   
-  RWLockC posixDBRWLock[4];
+  RWLockC posixDBRWLock[5];
   
   static inline void CheckLockID(int &lockId) {
     if(lockId >= noLocks || lockId < 0) {
