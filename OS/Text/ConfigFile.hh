@@ -229,7 +229,11 @@ namespace RavlN {
     // be created. <p>
     // **** Derived classes MUST overload this function to
     // ensure the correct class is created. ****
-
+    
+    bool Load(TextFileC &af,bool doCheck = true)
+    { return Body().Load(af,doCheck); }
+    //: Read from an existing text buffer.
+    
     bool Load(XMLIStreamC &strm,bool doCheck = true) {
       if(!IsValid())
 	(*this) = ConfigFileC(true);
@@ -238,11 +242,12 @@ namespace RavlN {
     //: Read from XML stream.
 
     bool Load(BinIStreamC & strm) 
-      { return Body().Load(strm) ; } 
-
+    { return Body().Load(strm) ; } 
+    //: Load from a binary stream
+    
     bool Save(BinOStreamC & strm) const 
-      { return Body().Save(strm) ; } 
-
+    { return Body().Save(strm) ; } 
+    //: Save to a binary stream
     
     bool Save(XMLIStreamC &strm) const 
     { return Body().Save(strm); }
