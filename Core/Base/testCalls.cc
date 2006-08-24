@@ -16,6 +16,7 @@
 #include "Ravl/Calls.hh"
 #include "Ravl/CallMethods.hh"
 #include "Ravl/CallMethodRefs.hh"
+#include "Ravl/CallMethodPtrs.hh"
 
 using namespace RavlN;
 
@@ -104,6 +105,13 @@ int TestCalls()
 #if !defined(__sgi__)
   TriggerC ctv = Trigger(ac,&ATestClassC::testVoid,2,let,f,d,t);
 #endif
+  
+  TriggerC pct1 = TriggerPtr(&ac,&ATestClassC::test1,1);
+  TriggerC pct2 = TriggerPtr(&ac,&ATestClassC::test2,2,let);
+  TriggerC pct3 = TriggerPtr(&ac,&ATestClassC::test3,2,let,f);
+  TriggerC pct4 = TriggerPtr(&ac,&ATestClassC::test4,2,let,f,d);
+  TriggerC pct5 = TriggerPtr(&ac,&ATestClassC::test5,2,let,f,d,t);  
+
   
   TriggerC rct1 = TriggerR(ac,&ATestClassC::test1,1);
   TriggerC rct2 = TriggerR(ac,&ATestClassC::test2,2,let);

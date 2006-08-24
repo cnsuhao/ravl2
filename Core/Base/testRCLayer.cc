@@ -10,6 +10,7 @@
 
 #include "Ravl/RCLayer.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/SmartLayerPtr.hh"
 
 using namespace RavlN;
 

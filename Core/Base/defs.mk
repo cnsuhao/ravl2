@@ -23,7 +23,7 @@ HEADERS=Types.hh config.h Pair.hh Resource.hh \
  RealRange1d.hh RealRange2d.hh RealRange3d.hh \
  RCBodyV.hh RCHandleV.hh IndexRange2dIter.hh IndexRange3dIter.hh fdstreambuf.hh \
  fdstream.hh GenBinStream.hh Traits.hh FPNumber.hh QInt.hh CompilerHints.hh \
- stdio_fdstream.hh AMutex.hh RCLayer.hh
+ stdio_fdstream.hh AMutex.hh RCLayer.hh SmartLayerPtr.hh CallMethodPtrs.hh
 
 SOURCES=Assert.cc Exception.cc EntryPnt.cc Index.cc String.cc \
  RefCounter.cc HandleRefCounter.cc Trigger.cc Calls.cc \
