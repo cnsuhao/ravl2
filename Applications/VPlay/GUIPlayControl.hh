@@ -81,6 +81,9 @@ namespace RavlGUIN {
     //: Setup control.
     
     void AddStream(DPPlayControlC &strm);
+    //: Add stream to control list.
+    // Thread safe
+    
     void GUIAddStream(DPPlayControlC &strm);
     //: Add stream to control list.
     // If no master stream exists  the new stream
