@@ -28,7 +28,7 @@ namespace RavlN {
                        "AUXDIR","AUXFILES","AUXINSTALL","EHT","STATE",
                        "DOCNODE","SCRIPTS","MUSTLINK","ANSIFLAG","LICENSE","PACKAGENAME",
                        "REQUIRES","ORGANISATION","OBJEXT",
-                       "CXXEXT","CXXAUXEXT","CHXXEXT","CEXT","CHEXT","EXEEXT","USERCPPFLAGS",
+                       "CXXEXT","CXXAUXEXT","CHXXEXT","CEXT","CHEXT","EXEEXT","USERCPPFLAGS","EXTERNALLIBS",
                          0 };
   
   /////////////////
