@@ -28,6 +28,7 @@
 #include "Ravl/OS/NetMessage.hh"
 #include "Ravl/OS/NetMsgCall.hh"
 #include "Ravl/CallMethodRefs.hh"
+#include "Ravl/CallMethodPtrs.hh"
 #include "Ravl/CallMethods.hh"
 #include "Ravl/Threads/Thread.hh"
 
@@ -327,6 +328,46 @@ namespace RavlN {
     template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T>
     bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T,Data2T,Data3T,Data4T)) {
       return Register(NetMsgCall4C<Data1T,Data2T,Data3T,Data4T>(mid,msgName,CallMethod4C<ObjT,Data1T,Data2T,Data3T,Data4T,bool>(obj,func))); 
+    }
+    //: Register new message handler.
+    // NB. This does not make a handle to 'obj', it is the users responsibility to 
+    // ensure it is not deleted.
+    
+    template<class HandleT,class ObjT>
+    bool RegisterPtr(UIntT mid,const StringC &msgName,const HandleT &obj,bool (ObjT::*func)()) {
+      return Register(NetMsgCall0C(mid,msgName,CallMethodPtr0C<HandleT,ObjT,bool>(obj,func))); 
+    }
+    //: Register new message handler.
+    // NB. This does not make a handle to 'obj', it is the users responsibility to 
+    // ensure it is not deleted.
+    
+    template<class HandleT,class ObjT,class DataT>
+    bool RegisterPtr(UIntT mid,const StringC &msgName,const HandleT &obj,bool (ObjT::*func)(DataT)) {
+      return Register(NetMsgCall1C<DataT>(mid,msgName,CallMethodPtr1C<HandleT,ObjT,DataT,bool>(obj,func))); 
+    }
+    //: Register new message handler.
+    // NB. This does not make a handle to 'obj', it is the users responsibility to 
+    // ensure it is not deleted.
+
+    template<class HandleT,class ObjT,class Data1T,class Data2T>
+    bool RegisterPtr(UIntT mid,const StringC &msgName,const HandleT &obj,bool (ObjT::*func)(Data1T,Data2T)) {
+      return Register(NetMsgCall2C<Data1T,Data2T>(mid,msgName,CallMethodPtr2C<HandleT,ObjT,Data1T,Data2T,bool>(obj,func))); 
+    }
+    //: Register new message handler.
+    // NB. This does not make a handle to 'obj', it is the users responsibility to 
+    // ensure it is not deleted.
+
+    template<class HandleT,class ObjT,class Data1T,class Data2T,class Data3T>
+    bool RegisterPtr(UIntT mid,const StringC &msgName,const HandleT &obj,bool (ObjT::*func)(Data1T,Data2T,Data3T)) {
+      return Register(NetMsgCall3C<Data1T,Data2T,Data3T>(mid,msgName,CallMethodPtr3C<HandleT,ObjT,Data1T,Data2T,Data3T,bool>(obj,func))); 
+    }
+    //: Register new message handler.
+    // NB. This does not make a handle to 'obj', it is the users responsibility to 
+    // ensure it is not deleted.
+    
+    template<class HandleT,class ObjT,class Data1T,class Data2T,class Data3T,class Data4T>
+    bool RegisterPtr(UIntT mid,const StringC &msgName,const HandleT &obj,bool (ObjT::*func)(Data1T,Data2T,Data3T,Data4T)) {
+      return Register(NetMsgCall4C<Data1T,Data2T,Data3T,Data4T>(mid,msgName,CallMethodPtr4C<HandleT,ObjT,Data1T,Data2T,Data3T,Data4T,bool>(obj,func))); 
     }
     //: Register new message handler.
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
@@ -659,6 +700,36 @@ namespace RavlN {
     template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T>
     bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T,Data2T,Data3T,Data4T))
     { return Body().Register(mid,msgName,obj,func); }
+    //: Register new message handler.
+    // Hold a handle to the object called.
+    
+    template<class HandleT,class ObjT>
+    bool RegisterPtr(UIntT mid,const StringC &msgName,const HandleT &obj,bool (ObjT::*func)())
+    { return Body().RegisterPtr(mid,msgName,obj,func); }
+    //: Register new message handler.
+    // Hold a handle to the object called.
+    
+    template<class HandleT,class ObjT,class DataT>
+    bool RegisterPtr(UIntT mid,const StringC &msgName,const HandleT &obj,bool (ObjT::*func)(DataT ))
+    { return Body().RegisterPtr(mid,msgName,obj,func); }
+    //: Register new message handler.
+    // Hold a handle to the object called.
+    
+    template<class HandleT,class ObjT,class Data1T,class Data2T>
+    bool RegisterPtr(UIntT mid,const StringC &msgName,const HandleT &obj,bool (ObjT::*func)(Data1T,Data2T))
+    { return Body().RegisterPtr(mid,msgName,obj,func); }
+    //: Register new message handler.
+    // Hold a handle to the object called.
+
+    template<class HandleT,class ObjT,class Data1T,class Data2T,class Data3T>
+    bool RegisterPtr(UIntT mid,const StringC &msgName,const HandleT &obj,bool (ObjT::*func)(Data1T,Data2T,Data3T))
+    { return Body().RegisterPtr(mid,msgName,obj,func); }
+    //: Register new message handler.
+    // Hold a handle to the object called.
+    
+    template<class HandleT,class ObjT,class Data1T,class Data2T,class Data3T,class Data4T>
+    bool RegisterPtr(UIntT mid,const StringC &msgName,const HandleT &obj,bool (ObjT::*func)(Data1T,Data2T,Data3T,Data4T))
+    { return Body().RegisterPtr(mid,msgName,obj,func); }
     //: Register new message handler.
     // Hold a handle to the object called.
     
