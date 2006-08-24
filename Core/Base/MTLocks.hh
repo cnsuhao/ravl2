@@ -26,6 +26,7 @@
 // Id 1 is used for locking the random number generator.
 // Id 2 is used for non-reentrant 'C' library calls.
 // Id 3 is reserved for use in RavlLogic & RavlIO.
+// Id 4 is used for generating uuid's
 
 //: Ravl namespace.
 
