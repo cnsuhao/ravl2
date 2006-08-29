@@ -66,27 +66,6 @@ namespace RavlN {
 %template(DList ## name ## C) RavlN::DListC<type>; 
 %template(DList ## name ## IterC) RavlN::DLIterC<type>;
 
-%typemap(python, out) RavlN::DListC<type> 
-{
-  $result = PyList_New(0);
-  if (!PyErr_Occurred())
-  {
-    for (RavlN::DLIterC<type> it($1); it; it++)
-    {
-      PyObject *temp = converter(*it);
-      if (PyErr_Occurred())
-      {
-        Py_XDECREF(temp);
-        Py_DECREF($result);
-        $result = NULL;
-        break;
-      }
-      
-      PyList_Append($result, temp);
-    }
-  }
-}
-
 %inline %{
   PyObject *ToList(RavlN::DListC<type> list)
   {
@@ -119,27 +98,6 @@ DLIST_TOLIST_TYPE(Byte,  RavlN::ByteT,  PyInt_FromLong)
 
 %template(DList ## name ## C) RavlN::DListC<type>; 
 %template(DList ## name ## IterC) RavlN::DLIterC<type>;
-
-%typemap(python, out) RavlN::DListC<type> 
-{
-  $result = PyList_New(0);
-  if (!PyErr_Occurred())
-  {
-    for (RavlN::DLIterC<type> it($1); it; it++)
-    {
-      PyObject *temp = SWIG_NewPointerObj((void*)&it.Data(), $1_descriptor, 0);
-      if (PyErr_Occurred())
-      {
-        Py_XDECREF(temp);
-        Py_DECREF($result);
-        $result = NULL;
-        break;
-      }
-      
-      PyList_Append($result, temp);
-    }
-  }
-}
 
 %inline %{
   PyObject *ToList(RavlN::DListC<type> list)

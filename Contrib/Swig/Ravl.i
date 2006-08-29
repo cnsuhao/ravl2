@@ -33,4 +33,5 @@ namespace RavlGUIN
 %include "Ravl/Swig/PointSet2d.i"
 %include "Ravl/Swig/RealRange.i"
 %include "Ravl/Swig/RealRange2d.i"
+%include "Ravl/Swig/Hash.i"
 
