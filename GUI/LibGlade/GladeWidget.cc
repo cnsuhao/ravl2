@@ -155,6 +155,13 @@ namespace RavlGUIN {
                         this);
     return true;
   }
+  
+  //: Called when gtk widget is destroyed.
+  
+  void GladeWidgetBodyC::WidgetDestroy() {
+    // Just call back to parent.
+    WidgetBodyC::WidgetDestroy();
+  }
 
   
 }

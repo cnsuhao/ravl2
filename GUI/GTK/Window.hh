@@ -107,6 +107,9 @@ namespace RavlGUIN {
     // The function is called by the root window in its
     // destructor.
     
+    virtual void WidgetDestroy();
+    //: Called when the underlying widget it destroyed.
+    
     bool GUISetPositioning(GtkWindowPosition& pos);
     //: Influences positioning of the window.
     // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWPOSITION">here</A>.

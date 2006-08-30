@@ -115,6 +115,14 @@ namespace RavlGUIN {
     }
 #endif
   }
+
+  //: Called when the underlying widget it destroyed.
+  
+  void WindowBodyC::WidgetDestroy() {
+    // Just call parent
+    WidgetBodyC::WidgetDestroy();
+  }
+  
   
   //: Close window.
   // Thread safe.

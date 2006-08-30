@@ -57,6 +57,9 @@ namespace RavlGUIN {
     // Useful on windows where you just want to make them dissapear.
     // Note: Must be called after widget has been initialised
     
+    virtual void WidgetDestroy();
+    //: Called when gtk widget is destroyed.
+    
     bool CommonCreate(GtkWidget *_widget = NULL);
     //: Common object creation
     
