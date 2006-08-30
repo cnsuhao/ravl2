@@ -9,7 +9,7 @@ namespace RavlN {
 #define cpuid_mmx       8388608         // 2^23 (bit 23)
 #define cpuid_sse       33554432        // 2^25 (bit 25)
 #define cpuid_sse2      67108864        // 2^26 (bit 26)
-#define cpuid_htt       268435400       // 2^28 (bit 28)
+#define cpuid_htt       268435456       // 2^28 (bit 28)
 
 #if CHECK_FOR_3DNOW
 // These features can be checked on register edx at address 0x80000001
@@ -22,6 +22,7 @@ unsigned long cpudetect(unsigned long address)
   
   //: need to protect ebx and ecx for being clobbered
   unsigned long id = 0;
+#if RAVL_CPU_IX86
 #if RAVL_OS_WIN32
   
   __asm {
@@ -49,7 +50,7 @@ unsigned long cpudetect(unsigned long address)
        );
   
 #endif
-
+#endif
   return id;
 }
 
