@@ -103,7 +103,7 @@ DPIPlayControlC<ImageC<ByteRGBValueC> > vpCtrlSwap;
 //Handle the intercepted key presses
 static bool HandleKeyPress(GdkEventKey * keyEvent) {
   
-  //cerr << keyEvent->hardware_keyval << " \n";
+  //cerr << keyEvent->hardware_keycode << " Event state is " << keyEvent->state << " \n";
   switch(keyEvent->keyval) {
   case(GDK_s) :
      guiPlayControl.Stop();
@@ -119,16 +119,22 @@ static bool HandleKeyPress(GdkEventKey * keyEvent) {
        gui_quit(vpCtrlSwap);
        break;
   case(GDK_Left) :
-     guiPlayControl.JBkw();
+     switch(keyEvent->state) {
+     case(GDK_SHIFT_MASK) :
+        guiPlayControl.Backx2();
+        break;
+     default:
+        guiPlayControl.JBkw();
+     }
      break;
   case(GDK_Right) :
-     guiPlayControl.JFwd();
-     break;
-  case(GDK_Up) :
-     guiPlayControl.Playx2();
-     break;
-  case(GDK_Down) :
-     guiPlayControl.Backx2();
+     switch(keyEvent->state) {
+     case(GDK_SHIFT_MASK) :
+        guiPlayControl.Playx2();
+        break;
+     default:
+        guiPlayControl.JFwd();
+     }
      break;
   default:
      cerr << "unrecognised key pressed. \n";   
