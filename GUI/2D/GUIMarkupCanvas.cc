@@ -870,6 +870,9 @@ namespace RavlGUIN
   
   bool GUIMarkupCanvasBodyC::FrameContains(const StringC &key, const StringC val)
   {
+    // Make sure markup doesn't change while we're checking.
+    RWLockHoldC hold(accessLock,RWLOCK_READONLY);
+
     for (DLIterC<MarkupInfoC> it(m_frameMarkup.Markup()); it; it++)
     {
       StringC strVal;
