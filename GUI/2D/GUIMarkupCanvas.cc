@@ -123,7 +123,11 @@ namespace RavlGUIN
     if(id >= 0 && selected.Insert(id)) 
     {
       if(signal) 
+      {
         sigSelection(HSet2DList(selected));
+      }
+
+      GUIRefresh();
       return true;
     }
     return false;
