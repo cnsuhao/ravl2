@@ -430,6 +430,19 @@ namespace RavlN {
     val = atof(tv);
     return true;
   }
+
+  //: Get a boolean valued attribute for entity.
+  // This can only be called between StartTag and StartContents.
+  // This returns true if attribute is set.
+  
+  bool XMLIStreamC::GetAttrib(const StringC &name,bool &val) {
+    StringC tv;
+    if(!XMLBaseC::GetAttrib(name,tv))
+      return false;
+    val = (atoi(tv) != 0);
+    return true;    
+  }
+
   
   //// XMLOStreamC //////////////////////////////////////////////////////////
 
