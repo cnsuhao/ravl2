@@ -122,6 +122,7 @@ namespace RavlGUIN {
   
   void RawZoomCanvasBodyC::GUIDrawImage(const ImageC<ByteRGBValueC> &image,const Point2dC &doffset,bool ignoreImageOrigin) {
     ONDEBUG(cerr << "RawZoomCanvasBodyC::GUIDrawImage(), Called. Offset=" << offset << "\n");
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     IndexRange2dC imgRect = World2GUIi(IndexRange2dC(image.Frame().RowRange().Min(), image.Frame().RowRange().Max() + 1, image.Frame().ColRange().Min(), image.Frame().ColRange().Max() + 1) + doffset);
     IndexRange2dC drawRect = IndexRange2dC(imgRect.RowRange().Min(), imgRect.RowRange().Max() - 1, imgRect.ColRange().Min(), imgRect.ColRange().Max() - 1);
     ONDEBUG(cerr << "DrawRect=" << drawRect << " widgetSize=" << widgetSize << "\n");
@@ -200,6 +201,7 @@ namespace RavlGUIN {
   
   void RawZoomCanvasBodyC::GUIDrawImage(const ImageC<ByteRGBAValueC> &image,const Point2dC &doffset,bool ignoreImageOrigin) {
     ONDEBUG(cerr << "RawZoomCanvasBodyC::GUIDrawImage(), Called. Offset=" << offset << "\n");
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     IndexRange2dC imgRect = World2GUIi(IndexRange2dC(image.Frame().RowRange().Min(), image.Frame().RowRange().Max() + 1, image.Frame().ColRange().Min(), image.Frame().ColRange().Max() + 1) + doffset);
     IndexRange2dC drawRect = IndexRange2dC(imgRect.RowRange().Min(), imgRect.RowRange().Max() - 1, imgRect.ColRange().Min(), imgRect.ColRange().Max() - 1);
     ONDEBUG(cerr << "DrawRect=" << drawRect << " widgetSize=" << widgetSize << "\n");
@@ -241,6 +243,7 @@ namespace RavlGUIN {
   // Note: You have to include the RavlGUI2d library to use this function.
   
   void RawZoomCanvasBodyC::GUIDrawImage(const ImageC<ByteIAValueC> &image,const Point2dC &doffset,bool ignoreImageOrigin) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     ONDEBUG(cerr << "RawZoomCanvasBodyC::GUIDrawImage(), Called. Offset=" << offset << "\n");
     IndexRange2dC imgRect = World2GUIi(IndexRange2dC(image.Frame().RowRange().Min(), image.Frame().RowRange().Max() + 1, image.Frame().ColRange().Min(), image.Frame().ColRange().Max() + 1) + doffset);
     IndexRange2dC drawRect = IndexRange2dC(imgRect.RowRange().Min(), imgRect.RowRange().Max() - 1, imgRect.ColRange().Min(), imgRect.ColRange().Max() - 1);

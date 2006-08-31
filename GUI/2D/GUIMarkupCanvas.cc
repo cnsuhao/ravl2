@@ -120,6 +120,7 @@ namespace RavlGUIN
   //: Add id to selection. 
   bool GUIMarkupCanvasBodyC::GUIAddSelect(Int64T id,bool signal) 
   {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(id >= 0 && selected.Insert(id)) 
     {
       if(signal) 
@@ -136,6 +137,7 @@ namespace RavlGUIN
   //: Remove id from selection. 
   bool GUIMarkupCanvasBodyC::GUIDelSelect(Int64T id,bool signal) 
   {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(selected.Remove(id)) 
     {
       if(signal) 
@@ -148,6 +150,7 @@ namespace RavlGUIN
   //: Clear current selection.  
   bool GUIMarkupCanvasBodyC::GUIClearSelect(bool signal) 
   {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(selected.IsEmpty())
       return false;
     
@@ -482,6 +485,7 @@ namespace RavlGUIN
   //: Update current markup.
   
   bool GUIMarkupCanvasBodyC::GUIUpdateMarkup(const FrameMarkupC &markup) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "GUIMarkupCanvasBodyC::GUIUpdateMarkup(), Called. ");
     RWLockHoldC hold(accessLock,RWLOCK_WRITE);
     m_frameMarkup = markup;
@@ -495,6 +499,7 @@ namespace RavlGUIN
   //: Fit current display to screen.
   
   bool GUIMarkupCanvasBodyC::GUIFitImageToScreen(RealT aspectRatio) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     ImageC<ByteRGBValueC> img = m_frameMarkup.Image();
     if(img.Frame().Area() <= 0)
       return false;
@@ -544,6 +549,7 @@ namespace RavlGUIN
   //: Set the current aspect ratio
   
   bool GUIMarkupCanvasBodyC::GUIFixAspectRatio(RealT aspectRatio) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     Vector2dC tmpScale = Scale();
     tmpScale = Vector2dC(tmpScale[0],tmpScale[0] * aspectRatio);
     GUISetScale(tmpScale);
@@ -679,6 +685,7 @@ namespace RavlGUIN
   bool GUIMarkupCanvasBodyC::GUIRefresh() {
     if(widget == 0) // Are we ready to go ?
       return true; 
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     displayArea = DisplayArea();
     if(displayArea.Range1().Size() < 0 || displayArea.Range2().Size() < 0) {
       //SysLog(SYSLOG_WARNING) << "GUIMarkupCanvasBodyC::GUIRefresh(), Negative display area=" << displayArea << " ";
@@ -708,6 +715,7 @@ namespace RavlGUIN
   bool GUIMarkupCanvasBodyC::GUISetSelection(const DListC<Int64T> &list,bool sigChanged) 
   {
     ONDEBUG(SysLog(SYSLOG_WARNING) << "GUIMarkupCanvasBodyC::GUISetSelection(), Called.  List.Size()=" << list.Size() << " sigChanged=" << sigChanged);
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     HSetC<Int64T> newSelected = DList2HSet(list);
     if(newSelected == selected) // Same as old selection ?
       return true;
@@ -734,6 +742,7 @@ namespace RavlGUIN
   //: Exclude a Z order layer from display.
   
   bool GUIMarkupCanvasBodyC::GUIExcludeZOrder(IntT zOrder) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     bool ok = removeZOrder.Insert(zOrder);
     if(ok)
     {
@@ -745,6 +754,7 @@ namespace RavlGUIN
   //: Include a Z order layer in display.
   
   bool GUIMarkupCanvasBodyC::GUIIncludeZOrder(IntT zOrder) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     bool ok = removeZOrder.Remove(zOrder);
     if(ok)
     {
@@ -757,6 +767,7 @@ namespace RavlGUIN
   
   bool GUIMarkupCanvasBodyC::ZOrderExcluded(const IntT zOrder)
   {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     return removeZOrder.Contains(zOrder);
   }
   
@@ -764,6 +775,7 @@ namespace RavlGUIN
   
   void GUIMarkupCanvasBodyC::UpdateCoverage()
   {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     coverage.Empty();
     for (DLIterC<MarkupInfoC> it(m_frameMarkup.Markup()); it; it++)
     {
@@ -778,6 +790,7 @@ namespace RavlGUIN
 
   void GUIMarkupCanvasBodyC::GUIAddLayerInfo(const MarkupLayerInfoC &layerInfo)
   {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     m_layerInfo.InsLast(layerInfo);
     // TODO: Update the dialog
   }
@@ -786,6 +799,7 @@ namespace RavlGUIN
   
   bool GUIMarkupCanvasBodyC::LayerInfo(const IntT layerId, MarkupLayerInfoC &layerInfo)
   {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     bool found = false;
     for (DLIterC<MarkupLayerInfoC> it(m_layerInfo); it; it++)
     {
@@ -810,6 +824,7 @@ namespace RavlGUIN
   
   bool GUIMarkupCanvasBodyC::GUIShowLayerDialog()
   {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     GUIMarkupCanvasC ref(*this);
     GUIMarkupLayerEditorC layerEditor(ref, m_dialogshowLine);
     layerEditor.GUISetLayerList(m_layerInfo);
@@ -841,6 +856,7 @@ namespace RavlGUIN
   
   bool GUIMarkupCanvasBodyC::GUISetLayerInfo(MarkupLayerInfoC layerInfo)
   {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if (layerInfo.Id() >= 0)
     {
       for (DLIterC<MarkupLayerInfoC> it(m_layerInfo); it; it++)

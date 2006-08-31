@@ -281,6 +281,7 @@ namespace RavlGUIN {
   // Call with GUI thread only!
   
   bool CanvasBodyC::GUIDrawImage(ImageC<ByteT> &img,Index2dC &ioffset) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawImage(), WARNING: Asked to render data before canvas is initialise. \n");
       TriggerC trigger = TriggerR(*this,&CanvasBodyC::GUIDrawImage,img,ioffset);
@@ -335,6 +336,7 @@ namespace RavlGUIN {
   // Call with GUI thread only!
   
   bool CanvasBodyC::GUIDrawRGBImage(ImageC<ByteRGBValueC> &img,Index2dC &ioffset) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawRGBImage(), WARNING: Asked to render data before canvas is initialise. \n");
       TriggerC trigger = TriggerR(*this,&CanvasBodyC::GUIDrawRGBImage,img,ioffset);
@@ -381,6 +383,7 @@ namespace RavlGUIN {
   //: Draw a line.
   
   bool CanvasBodyC::GUIDrawLine(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &c) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawLine(), WARNING: Asked to render data before canvas is initialise. \n");
       TriggerC trigger = TriggerR(*this,&CanvasBodyC::GUIDrawLine,x1,y1,x2,y2,c);
@@ -408,6 +411,7 @@ namespace RavlGUIN {
   //: Draw an arc
   
   bool CanvasBodyC::GUIDrawArc(ImageRectangleC& rect, IntT& start, IntT& angle, IntT& colId, bool& fill) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawArc(), WARNING: Asked to render data before canvas is initialised. \n");
       TriggerC trigger = TriggerR(*this,&CanvasBodyC::GUIDrawArc,rect,start,angle,colId,fill);
@@ -440,6 +444,7 @@ namespace RavlGUIN {
   //: Draw some text.
   
   bool CanvasBodyC::GUIDrawText(IntT &x1,IntT &y1,StringC &text,IntT &c) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawText(), WARNING: Asked to render data before canvas is initialise. \n");
       TriggerC trigger = TriggerR(*this,&CanvasBodyC::GUIDrawText,x1,y1,text,c);
@@ -470,6 +475,7 @@ namespace RavlGUIN {
   //: Draw a rectangle.
   
   bool CanvasBodyC::GUIDrawRectangle(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &c) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawRectangle(), WARNING: Asked to render data before canvas is initialise. \n");
       TriggerC trigger = TriggerR(*this,&CanvasBodyC::GUIDrawRectangle,x1,y1,x2,y2,c);
@@ -496,6 +502,7 @@ namespace RavlGUIN {
   }
 
   bool CanvasBodyC::GUIDrawFrame(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &c) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawFrame(), WARNING: Asked to render data before canvas is initialise. \n");
       TriggerC trigger = TriggerR(*this,&CanvasBodyC::GUIDrawFrame,x1,y1,x2,y2,c);
@@ -524,6 +531,7 @@ namespace RavlGUIN {
   //: Refresh display.
   
   bool CanvasBodyC::GUIRefresh() {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(widget == 0) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIRefresh(), WARNING: Asked to refresh before canvas is initialise. \n");
       toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIRefresh));
@@ -549,6 +557,7 @@ namespace RavlGUIN {
   // GUI Thread only
 
   bool CanvasBodyC::GUIResize(int &nsx,int &nsy) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(nsx == sx && nsy == sy)
       return true; // No change!
     sx = nsx;
@@ -585,6 +594,7 @@ namespace RavlGUIN {
   // GUI thread only.
   
   GdkColor &CanvasBodyC::GetColour(int n) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     //: special treatment for black - not in the default colormap
     if(n==65) {
       GdkColor ret;
@@ -620,6 +630,7 @@ namespace RavlGUIN {
   //: Setup colour table.
   
   void CanvasBodyC::SetupColours() {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(colourTab.IsValid())
       return ; // Done already.
     
@@ -642,6 +653,7 @@ namespace RavlGUIN {
   bool CanvasBodyC::GUIClear() {
     if(widget == 0)
       return true;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gdk_draw_rectangle (pixmap,
                         widget->style->black_gc,
                         true,

@@ -142,6 +142,7 @@ namespace RavlGUIN
   
   bool GUIMarkupLayerEditorBodyC::GUISetLayerList(DListC<MarkupLayerInfoC> &layerList)
   {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     MutexLockC lock(m_lock);
    
     m_layerList = layerList.Copy();
@@ -160,6 +161,7 @@ namespace RavlGUIN
   
   bool GUIMarkupLayerEditorBodyC::GUISetZOrderVisible(const IntT zOrder, const bool visible)
   {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     MutexLockC lock(m_lock);
    
     // Get all effected layers
@@ -201,6 +203,7 @@ namespace RavlGUIN
     if (!m_treeStore.IsValid())
       return;
     
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     m_treeStore.GUIEmpty();
     m_zOrderRows.Empty();
     
@@ -361,6 +364,7 @@ namespace RavlGUIN
   bool GUIMarkupLayerEditorBodyC::CBActivated(TreeModelPathC &path, StringC &colName)
   {
     ONDEBUG(cerr << "GUIMarkupLayerEditorBodyC::CBActivated colName=" << colName << endl);
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     
     // Get the row values
     TreeModelIterC row = m_treeStore.Path2Iter(path.Text());
@@ -407,6 +411,7 @@ namespace RavlGUIN
   bool GUIMarkupLayerEditorBodyC::CBColourSelected(UInt16RGBValueC &colour)
   {
     ONDEBUG(cerr << "GUIMarkupLayerEditorBodyC::CBColourSelected colour=" << colour[0] / 256 << ", " << colour[1] / 256 << ", " << colour[2] / 256 << endl);
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
 
     MutexLockC lock(m_lock);
    
@@ -454,6 +459,7 @@ namespace RavlGUIN
   void GUIMarkupLayerEditorBodyC::UpdateZOrderLayerData(HashC<IntT, bool> &zOrderSet, const bool visible)
   {
     ONDEBUG(cerr << "GUIMarkupLayerEditorBodyC::UpdateZOrderLayerData setSize=" << zOrderSet.Size() << " visible=" << (visible? "Y" : "N") << endl);
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     
     // Signal all effected layers
     for (HashIterC<IntT, bool> it(zOrderSet); it; it++)
