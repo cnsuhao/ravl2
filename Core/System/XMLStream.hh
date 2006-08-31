@@ -570,6 +570,11 @@ namespace RavlN {
     // This can only be called between StartTag and StartContents.
     // This returns true if attribute is set.
     
+    bool GetAttrib(const StringC &name,bool &val);
+    //: Get a boolean valued attribute for entity.
+    // This can only be called between StartTag and StartContents.
+    // This returns true if attribute is set.
+    
     template<class DataT>
     bool GetAttrib(const StringC &name,DataT &val) {
       StringC strval;
