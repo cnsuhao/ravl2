@@ -21,28 +21,28 @@ namespace RavlN {
     CPUIDC();
     //: Construct
 
-    bool mmx()
+    bool mmx() const
       { return m_mmx; }
     //: do we have mmx
 
-    bool sse()
+    bool sse() const
       { return m_sse; }
     //: do we have sse
 
-    bool sse2()
+    bool sse2() const
       { return m_sse2; }
     //: do we have sse2
 
-    bool htt()
+    bool htt() const
       { return m_htt; }
     //: do we have hyperthreading processor 
 
 #if CHECK_FOR_3DNOW
-    bool ThreeDNow()
+    bool ThreeDNow() const
       { return m_3dnow; }
     //: do we have 3d now
 
-    bool ThreeDNowExt()
+    bool ThreeDNowExt() const
       { return m_3dnow_p; }
     //: do we have 3d now with extensions
 #endif
