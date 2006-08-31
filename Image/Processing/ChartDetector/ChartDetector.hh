@@ -81,7 +81,7 @@ namespace RavlImageN {
     RealT acceptCorrelationThreshold; // Threshold at which to accept hypothesis.
   };
   
-  //! userlevel=normal
+  //! userlevel=Normal
   //: Chart detector. 
   //!cwiz:author
   

@@ -75,7 +75,7 @@ namespace RavlImageN {
     bool verbose;
   };
   
-  //! userlevel=normal
+  //! userlevel=Normal
   //: Fine localisation for chart points. 
   // It is assumed that the chart features are black on white and that the extreme
   // values of the chart points match those of the black patches in the example image.

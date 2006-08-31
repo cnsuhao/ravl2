@@ -47,7 +47,7 @@ namespace RavlGUIN {
     Vector2dC offset;
   };
   
-  //! userlevel=normal
+  //! userlevel=Normal
   //: Handle for MarkupImageByteBodyC
   //!cwiz:author
   

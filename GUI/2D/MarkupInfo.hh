@@ -111,7 +111,7 @@ namespace RavlGUIN {
     HashC<StringC, StringC> m_info;   //: Hash of extra parameters
   };
   
-  //! userlevel=normal
+  //! userlevel=Normal
   //: Info about a particular markup. 
   //!cwiz:author
   

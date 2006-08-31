@@ -80,7 +80,7 @@ namespace RavlGUIN {
     Signal1C<Point2dC> m_sigPosition;
   };
   
-  //! userlevel=normal
+  //! userlevel=Normal
   //: Line 2d Markup
   //!cwiz:author
   

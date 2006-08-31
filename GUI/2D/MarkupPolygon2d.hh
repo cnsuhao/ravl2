@@ -106,7 +106,7 @@ namespace RavlGUIN {
     ByteRGBValueC colour; // Colour for markup.
   };
   
-  //! userlevel=normal
+  //! userlevel=Normal
   //: Polygon 
   //!cwiz:author
   

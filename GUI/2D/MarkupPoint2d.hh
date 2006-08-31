@@ -68,7 +68,7 @@ namespace RavlGUIN {
     Signal1C<Point2dC> sigPosition;
   };
   
-  //! userlevel=normal
+  //! userlevel=Normal
   //: Polygon 
   //!cwiz:author
   

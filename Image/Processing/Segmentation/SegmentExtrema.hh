@@ -10,7 +10,6 @@
 //! lib=RavlImageProc
 //! author="Charles Galambos, based on code by Jiri Matas."
 //! docentry="Ravl.API.Images.Segmentation"
-//! userlevel=Normal
 //! file="Ravl/Image/Processing/Segmentation/SegmentExtrema.hh"
 //! example="extrema.cc" 
 
@@ -190,7 +189,8 @@ namespace RavlImageN {
   };
   
   
-  //! userlevel=Normal : Extremal region segmentation.  
+  //! userlevel=Normal
+  // : Extremal region segmentation.  
 
   // <p>In most images there are regions that can be detected with high repeatability since they
   // possess some distinguishing, invariant and stable property, the so called extremal regions.

@@ -47,7 +47,7 @@ namespace RavlGUIN {
     
   };
   
-  //! userlevel=normal
+  //! userlevel=Normal
   //: Polygon 
   //!cwiz:author
   

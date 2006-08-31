@@ -64,7 +64,7 @@ namespace RavlImageN {
     Point2dC centroid; // Centroid of region.
   };
   
-  //! userlevel=normal
+  //! userlevel=Normal
   //: Chart detector Region model 
   //!cwiz:author
   
