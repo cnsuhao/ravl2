@@ -108,34 +108,43 @@ static bool HandleKeyPress(GdkEventKey * keyEvent) {
   case(GDK_s) :
      guiPlayControl.Stop();
      break;
+  case(GDK_0) :
+     guiPlayControl.Stop();
+     break;
   case(GDK_p) :
      guiPlayControl.Play();
      break;
   case(GDK_b) :
      guiPlayControl.Back();
      break;
-  case(GDK_q) :
-       cerr << terminateVPlay << " \n"; 
-       gui_quit(vpCtrlSwap);
-       break;
-  case(GDK_Left) :
-     switch(keyEvent->state) {
-     case(GDK_SHIFT_MASK) :
-        guiPlayControl.Backx2();
-        break;
-     default:
-        guiPlayControl.JBkw();
-     }
-     break;
-  case(GDK_Right) :
+  case(GDK_Up) :
      switch(keyEvent->state) {
      case(GDK_SHIFT_MASK) :
         guiPlayControl.Playx2();
         break;
      default:
-        guiPlayControl.JFwd();
+        guiPlayControl.Play();
      }
      break;
+  case(GDK_Down) :
+     switch(keyEvent->state) {
+     case(GDK_SHIFT_MASK) :
+        guiPlayControl.Backx2();
+        break;
+     default:
+        guiPlayControl.Back();
+     }
+     break;
+  case(GDK_q) :
+       cerr << terminateVPlay << " \n"; 
+       gui_quit(vpCtrlSwap);
+       break;
+  case(GDK_Left) :
+        guiPlayControl.JBkw();
+        break;
+  case(GDK_Right) :
+        guiPlayControl.JFwd();
+        break;
   default:
      cerr << "unrecognised key pressed. \n";   
   }
