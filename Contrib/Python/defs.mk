@@ -16,7 +16,7 @@ SOURCES = Python.cc PythonObject.cc
 
 PLIB = RavlPython
 
-USESLIBS = RavlOS RavlCore RavlThreads Python
+USESLIBS = RavlOS RavlCore RavlThreads Python LibPython
 
 PROGLIBS =  
 
