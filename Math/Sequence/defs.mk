@@ -28,6 +28,6 @@ LIBDEPS=RavlMathSequence.def
 
 USESLIBS=RavlMath
 
-PROGLIBS=RavlImage RavlImageIO RavlDPDisplay
+PROGLIBS=RavlImage RavlImageIO RavlDPDisplay.opt
 
 EHT=Ravl.API.Math.Sequences.html
