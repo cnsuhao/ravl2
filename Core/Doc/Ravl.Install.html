@@ -30,6 +30,9 @@
 setenv RAVL_INSTALLATION ~/src  
     </pre>
 
+    <p>(If using a bash shell, use <code>export</code> instead of
+    <code>setenv</code>.) </p>
+
     <p> The RAVL library and executables can then be installed as follows
     (selecting the relevant <code>config.local.xxx</code> file if not a
     standard Linux 32-bit installation):</p>
@@ -40,66 +43,23 @@ cd $RAVL_INSTALLATION
 svn co https://svn.sourceforge.net/svnroot/ravl/main/Ravl
 cp Ravl/QMake/config.local.linux .</pre>
 
-    <p>(If using a bash shell, use <code>export</code> instead of
-    <code>setenv</code>.)  Then edit the chosen <code>config.local.xxx</code>.
+    <p>  Then edit the chosen <code>config.local.xxx</code>.
     Typical modifications include: </p>
     <ul>
       <li> picking up the correct compiler if a new one has been
-      installed</li> 
+        installed, or adding <code>ccache</code></li> 
 
       <li> adjusting the available resources.  The packages in the
       Ravl/Contrib directory all depend on external libraries.  Different
-      operating systems have different sets of these libraries.  The
-      corresponding Ravl packages can be individually disabled by commenting
-      out the relevant <code>RESOURCES</code>.  To find out which this
-      relevant line is:
-        <ul> <li>In the <code>defs.mk</code> file in the
-            <code>Contrib</code> package directory, find the value of the
-            <code>REQUIRES</code> variable</li>
-        </ul>
+      operating systems have different sets of these libraries.  Most of them
+      are turned off by default.  It is probably best to leave them turned off
+      when first installing RAVL.  Here is an <a
+      href="Ravl.Config.Example.html">example</a> of some edits from an actual
+      installation.
       </li>
      </ul> 
 
-    <p>The following is the result of applying <code>diff</code> to a (rather
-    old) example of the edited and unedited versions of
-    <code>$RAVL_INSTALLATION/config.local.xxx</code>.  In this example, extra
-    packages were installed in <code>/vol/ai</code>. </p>
-
-    <pre>
-15a16,17
-> RAVL_CC = /usr/bin/gcc-4.0.2/bin/gcc
-> RAVL_CXX = /usr/bin/gcc-4.0.2/bin/g++
-22a25,26
-> EXTRA_LDFLAGS = -Wl,-rpath,/usr/bin/gcc-4.0.2/lib/
->
-49c53
-< RESOURCES += libAudioFile
----
-> #RESOURCES += libAudioFile
-53,54c57,58
-< #RESOURCES += libDV
-< #LIBDV_HOME=
----
-> RESOURCES += libDV
-> LIBDV_HOME=/vol/ai
-
-58,59c62,63
-< #RESOURCES += libavc1394
-< #LIBAVC1394_HOME=
----
-> RESOURCES += libavc1394
-> LIBAVC1394_HOME=/vol/ai
-73,76d76
-< ## libGuppi ################################################
-<
-< RESOURCES += libGuppi
-<
-79,80c79
-< RESOURCES += devVideo4Linux
-<
----
-> #RESOURCES += devVideo4Linux
-</pre>
+   
 
     <p>Finally, the installation is:</p>
 
@@ -134,7 +94,7 @@ set path = ($path $PROJECT_OUT/lib/RAVL/linux/bin $RAVL_INSTALLATION/RavlProject
     <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
 <!-- Created: Fri Dec 23 09:31:09 GMT 2005 -->
 <!-- hhmts start -->
-Last modified: Mon Aug 14 14:25:58 BST 2006
+Last modified: Mon Sep  4 12:02:44 BST 2006
 <!-- hhmts end -->
   </body>
 </html>
