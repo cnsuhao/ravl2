@@ -27,7 +27,7 @@ namespace RavlN {
   NetPortClientBodyC::NetPortClientBodyC(SocketC &skt,NetPortManagerC &nManager) 
     : NetEndPointBodyC(skt,false),
       manager(nManager)
-  { Init(); }
+  {}
   
   //: Destructor.
   

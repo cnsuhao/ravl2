@@ -72,7 +72,7 @@ namespace RavlN {
     
     NetPortClientC(SocketC &skt,NetPortManagerC &manager)
       : NetEndPointC(*new NetPortClientBodyC(skt,manager))
-    {}
+    { Body().Init(); }
     //: Socket constructor.
     
   protected:
