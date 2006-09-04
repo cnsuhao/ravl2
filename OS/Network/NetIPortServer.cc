@@ -93,6 +93,8 @@ namespace RavlN {
   
   bool NetISPortServerBaseBodyC::Init() {
     ONDEBUG(cerr << "NetISPortServerBaseBodyC::Init(), Called. \n");
+    ep.LocalInfo().ProtocolName("IPortServer");
+    ep.LocalInfo().ProtocolVersion("1.0");
     ep.RegisterR(NPMsg_ReqInfo,"ReqState",*this,&NetISPortServerBaseBodyC::ReqStats);
     ep.RegisterR(NPMsg_ReqData,"ReqData",*this,&NetISPortServerBaseBodyC::ReqData);
     return true;

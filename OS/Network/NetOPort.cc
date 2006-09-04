@@ -12,6 +12,7 @@
 
 #include "Ravl/OS/NetOPort.hh"
 #include "Ravl/TypeName.hh"
+#include "Ravl/OS/SysLog.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -50,6 +51,8 @@ namespace RavlN {
     }
     if(!NetPortBaseC::Connect(ep))
       return false;
+    ep.LocalInfo().ProtocolName("OPortClient");
+    ep.LocalInfo().ProtocolVersion("1.0");
     ep.RegisterR(NPMsg_StreamInfo,"StreamInfo",*this,&NetOSPortBaseC::RecvState);
     ep.RegisterR(NPMsg_ReqFailed,"ReqFailed",*this,&NetOSPortBaseC::ReqFailed);
     ep.Ready();
@@ -58,6 +61,19 @@ namespace RavlN {
       ep.Close();
       return false;
     }
+    
+    if(ep.PeerInfo().ProtocolName() != "PortServer") {
+      SysLog(SYSLOG_ERR) << "Unexpected connection protocol '" << ep.PeerInfo().ProtocolName() << "'";
+      ep.Close();
+      return false;
+    }
+    
+    if(ep.PeerInfo().ProtocolVersion() != ep.LocalInfo().ProtocolVersion()) {
+      SysLog(SYSLOG_ERR) << "Unexpected protocol version '" << ep.PeerInfo().ProtocolVersion() << "'  (Local version "  << ep.LocalInfo().ProtocolVersion() << ") ";
+      ep.Close();
+      return false;
+    }
+    
     ep.Send(NPMsg_ReqConnection,portName,dataType,false);  // Request connection.
     if(!WaitForConnect())
       return false;

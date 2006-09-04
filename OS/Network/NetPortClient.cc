@@ -11,6 +11,7 @@
 //! file="Ravl/OS/Network/NetPortClient.cc"
 
 #include "Ravl/OS/NetPortClient.hh"
+#include "Ravl/OS/SysLog.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -40,6 +41,8 @@ namespace RavlN {
   
   bool NetPortClientBodyC::Init() {
     ONDEBUG(cerr << "NetPortClientBodyC::Init(), Called. \n");
+    LocalInfo().ProtocolName("PortServer");
+    LocalInfo().ProtocolVersion("1.0");        
     RegisterR(NPMsg_ReqConnection,"ConnectTo",*this,&NetPortClientBodyC::MsgConnectTo);
     RegisterR(NPMsg_Close,"Close",*this,&NetPortClientBodyC::MsgClose);
     Ready();
@@ -48,6 +51,20 @@ namespace RavlN {
       Close();
       return false;
     }
+    // Check protocol.
+    
+    if(PeerInfo().ProtocolName() !=  "IPortClient" && PeerInfo().ProtocolName() !=  "OPortClient") {
+      SysLog(SYSLOG_ERR) << "Unexpected connection protocol '" << PeerInfo().ProtocolName() << "' Expected:'OPortClient' or 'IPortClient'";
+      Close();
+      return false;
+    }
+    
+    if(PeerInfo().ProtocolVersion() != "1.0") {
+      SysLog(SYSLOG_ERR) << "Unexpected protocol version '" << PeerInfo().ProtocolVersion() << "'  (Local version "  << LocalInfo().ProtocolVersion() << ") ";
+      Close();
+      return false;
+    }
+    
     return true;
   }
   

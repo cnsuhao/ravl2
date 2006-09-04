@@ -721,10 +721,7 @@ namespace RavlN {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::MsgInit(), Called. User:" << user);
     remoteUser = user;
     peerInfo = nPeerInfo;
-    if(peerInfo.ProtocolName() != localInfo.ProtocolName()) {
-      SysLog(SYSLOG_ERR) << "ERROR: Protocol mismatch Local='" << localInfo.ProtocolName() << "' Remote='" << peerInfo.ProtocolName() << "'";
-      throw ExceptionOperationFailedC("Failed to connect, protocol error. ");
-    }
+    // Its up to the user to check the protocol.
     setupComplete.Post();
     return true;
   }

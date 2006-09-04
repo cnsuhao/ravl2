@@ -49,23 +49,23 @@ namespace RavlN {
 		   );
     //: Constructor.
 
-    void ProtocolName(StringC &str)
+    void ProtocolName(const StringC &str)
     { protocol = str; }
     //: Set Name of protocol being used.
     
-    void ProtocolVersion(StringC & str)
-    { protocol = str; }
+    void ProtocolVersion(const StringC & str)
+    { protocolVersion = str; }
     //: Set Version of protocol being used.
     
-    void AppName(StringC &str)
+    void AppName(const StringC &str)
     { appName = str; }
     //: Set Name of application
     
-    void AppVersion(StringC &str)
+    void AppVersion(const StringC &str)
     { appVersion = str; }
     //: Set Version of application
     
-    void HostType(StringC &str)
+    void HostType(const StringC &str)
     { hostType = str; }
     //: Set type of host.
     
@@ -74,7 +74,7 @@ namespace RavlN {
     //: Name of protocol being used.
     
     const StringC &ProtocolVersion() const
-    { return protocol; }
+    { return protocolVersion; }
     //: Version of protocol being used.
     
     const StringC &AppName() const
