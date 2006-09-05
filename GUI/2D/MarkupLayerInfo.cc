@@ -117,7 +117,7 @@ namespace RavlGUIN
     
   const bool MarkupLayerInfoC::ZOrderVisibility(const IntT zOrder)
   {
-    return m_zOrderList.Lookup(zOrder);
+    return m_zOrderList.Lookup(zOrder) != 0;
   }
     
   bool MarkupLayerInfoC::SetColour(const ByteRGBValueC colour)
