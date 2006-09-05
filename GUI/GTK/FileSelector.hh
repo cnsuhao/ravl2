@@ -98,6 +98,14 @@ namespace RavlGUIN {
       : WidgetC(bod)
       {}
     //: Body constructor.
+
+    FileSelectorC(bool createBody)
+    {
+      if(createBody)
+        *this = FileSelectorC();
+    }
+    //: Constructor.
+    // Will create an invalid handle if passed false.
     
   protected:
     FileSelectorBodyC &Body()
