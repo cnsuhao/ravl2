@@ -44,7 +44,7 @@ namespace RavlGUIN {
     IndexRange2dC rng(area.IndexRange());
     rng = rng.ClipBy(image.Frame());
     if((rng.Range1().Min() > rng.Range1().Max()) || (rng.Range2().Min() > rng.Range2().Max())) {
-      SysLog(SYSLOG_ERR) << "MarkupImageRGBBodyC::Render, Illegal render request: Image=" << image.Frame() << " Area=" << area << " ";
+      ONDEBUG(SysLog(SYSLOG_ERR) << "MarkupImageRGBBodyC::Render, Illegal render request: Image=" << image.Frame() << " Area=" << area << " ");
       return true;
     }
     if(rng.Area() > 0)
