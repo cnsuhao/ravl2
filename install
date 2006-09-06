@@ -111,8 +111,8 @@ else
   exit 1
 fi
 
-# Print some usage instructions
-echo "Use the following alias for compilation.  PROJECT_OUT controls the directory "
-echo "into which your own code will be compiled. The default is 'build' in your home directory. "
-echo "alias qm '${MAKE} -f ${INSTALL_SITE}/share/RAVL/QMake/QMake.mk USERBUILD=1 PROJECT_OUT=$HOME/build ${TARGETARC}'"
+echo "\nInstallation was successful.\n"
+
+echo "Refer to file:$RAVL_INSTALLATION/RavlProject/share/doc/RAVL/Auto/Basic/Tree/Ravl.Installation.html#USAGE for usage."
+
 exit 0

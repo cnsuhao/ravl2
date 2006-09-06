@@ -12,6 +12,10 @@
     C shell.  However RAVL should also compile under M$ Windows, provided that
     a compiler is used that is broadly ANSI compatible.</p>
 
+    <p> The installation process by default will build several versions of the
+    library, including varying degrees of optimisation and debug information,
+    and also including shared and static versions.</p>
+
 
     <h2>Compiler installation</h2>
 
@@ -46,6 +50,13 @@ cp Ravl/QMake/config.local.linux .</pre>
     <p>  Then edit the chosen <code>config.local.xxx</code>.
     Typical modifications include: </p>
     <ul>
+      <li> deciding which versions of the library you want to build:<ul>
+          <li>debug - includes debugging information and array bound checking</li>
+          <li>check - includes array bound checking</li>
+          <li>opt - generates optimised code with no array bound checking</li>
+          <li>shared - builds shared versions of the above</li>
+        </ul>
+</li>
       <li> picking up the correct compiler if a new one has been
         installed, or adding <code>ccache</code></li> 
 
@@ -67,24 +78,29 @@ cp Ravl/QMake/config.local.linux .</pre>
 cd $RAVL_INSTALLATION/Ravl
 ./install $RAVL_INSTALLATION/RavlProject auto $RAVL_INSTALLATION/config.local.linux
 rehash</pre> 
+
+    <h2> Usage </h2><a name="USAGE">
     
-    <p>Put the following alias and variable settings for
+    </a><p>Put the following alias and variable settings for
     compilation (modified if appropriate) in your .cshrc file:</p>
 
     <pre>
 setenv RAVL_INSTALLATION ~/src
 setenv PROJECT_OUT ~/ProjOut
 alias qm 'make -f $RAVL_INSTALLATION/RavlProject/share/RAVL/QMake/QMake.mk USERBUILD=1'
-set path = ($path $PROJECT_OUT/lib/RAVL/linux/bin $RAVL_INSTALLATION/RavlProject/bin)
+setenv PATH = ($PATH:$PROJECT_OUT/lib/RAVL/linux/bin:$RAVL_INSTALLATION/RavlProject/bin)
 </pre>
 
     <ul>
-      <li>$PROJECT_OUT controls the directory into which your own code
-    will be compiled.</li>
-      <li>qm is the alias for building your own code.</li>
-      <li><code>/vol/ai</code> is the
-    directory in which extra packages were installed in the above example
-    (and may therefore be superfluous).</li>
+      <li>RAVL_INSTALLATION must be set as above.</li>
+
+      <li>$PROJECT_OUT controls the directory into which your own code will be
+      compiled.</li>
+
+      <li>qm is the alias for building your own code.  Type <code>qm
+      help</code> for options for qm.</li>
+
+      <li>The additions to $PATH will include your own executables built using qm, as well as some RAVL utilities.</li>
     </ul>
 
     <p>Locally-built documentation for the RAVL classes can then be found at:
@@ -94,7 +110,7 @@ set path = ($path $PROJECT_OUT/lib/RAVL/linux/bin $RAVL_INSTALLATION/RavlProject
     <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
 <!-- Created: Fri Dec 23 09:31:09 GMT 2005 -->
 <!-- hhmts start -->
-Last modified: Mon Sep  4 12:02:44 BST 2006
+Last modified: Wed Sep  6 15:36:23 BST 2006
 <!-- hhmts end -->
   </body>
 </html>
