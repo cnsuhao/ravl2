@@ -19,4 +19,5 @@ MAINS= AVPlay.cc
 PROGLIBS = RavlAV RavlVPlay RavlDV.opt RavlImgIOV4L.opt RavlExtImgIO RavlDPDisplay \
  RavlImageIO RavlVideoIO CSPDriver.opt RavlURLIO.opt RavlAudioFile.opt RavlDevAudio.opt RavlAudioIO
 
+REQUIRES = libGTK2
 

@@ -10,6 +10,6 @@ DESCRIPTION = VGrab - Video Frame Grabber/tmp/ees3lg/ProjectOut/lib/RAVL/linux/b
 DONOT_SUPPORT=arm
 MAINS = VGrab.cc
 PROGLIBS = RavlCore RavlOS RavlVideoIO RavlImage RavlOSIO \
-RavlDV.opt RavlImgIOV4L.opt RavlExtImgIO.opt RavlDPDisplay \
+RavlDV.opt RavlImgIOV4L.opt RavlExtImgIO.opt RavlDPDisplay.opt \
  RavlImageIO RavlMPEG2.opt CSPDriver.opt 
 
