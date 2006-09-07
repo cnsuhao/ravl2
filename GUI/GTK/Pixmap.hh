@@ -26,6 +26,8 @@ namespace RavlGUIN {
   
   using namespace RavlImageN;
 
+  class PixmapC;
+  
   //! userlevel=Develop
   //: Pixmap body
   
@@ -50,8 +52,13 @@ namespace RavlGUIN {
     virtual ~PixmapBodyC() { }
     //: Have virtual methods - need virtual destructor
 
-    virtual bool Create();
+    virtual bool Create()
+    { return CommonCreate(); }
     //: Create the widget.
+
+    virtual bool Create(GtkWidget *_widget)
+    { return CommonCreate(_widget); }
+    //: Create with a widget supplied from elsewhere.
     
     GdkPixmap * &Pixmap() 
     { return pixmap; }
@@ -67,7 +74,16 @@ namespace RavlGUIN {
     // if unknown (The pixmap is unallocated. )
     // Call only with the GUI thread.
     
+    bool GUISetPixmap(PixmapC &pix);
+    //: Copy a pixmap into the current pixmap
+    
+    bool SetPixmap(PixmapC &pix);
+    //: Copy a pixmap into the current pixmap
+    
   protected:
+    bool CommonCreate(GtkWidget *_widget = NULL);
+    //: Common widget creation function
+    
     WidgetC rootWin;  // Handle to root win, invalidated after Create.
     GdkPixmap *pixmap;  
     GdkBitmap *mask;
@@ -128,6 +144,16 @@ namespace RavlGUIN {
     // Creates an invalid handle.
     
   protected:
+    PixmapC(PixmapBodyC &body) : 
+      WidgetC(body)
+    {}
+    //: Body constructor.
+    
+    PixmapC(const PixmapBodyC *body) :
+      WidgetC(body)
+    {}
+    //: Body constructor.
+    
     PixmapBodyC &Body()
     { return static_cast<PixmapBodyC &>(WidgetC::Body()); }
     //: Access body.
@@ -151,9 +177,20 @@ namespace RavlGUIN {
     // Will return false and leave 'width' and 'height' unchanged
     // if unknown (The pixmap is unallocated. )
     // Call only with the GUI thread.
+
+    bool GUISetPixmap(PixmapC &pix)
+    { return Body().GUISetPixmap(pix); }
+    //: Copy a pixmap into the current pixmap
+    
+    bool SetPixmap(PixmapC &pix)
+    { return Body().SetPixmap(pix); }
+    //: Copy a pixmap into the current pixmap
+
+    friend class PixmapBodyC;
   };
   
   extern const char * xpmData_OpenFile[];
+
 };
 
 #endif

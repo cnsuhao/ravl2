@@ -70,8 +70,8 @@ namespace RavlGUIN {
   
   //: Create the widget.
   
-  bool PixmapBodyC::Create() {  
-
+  bool PixmapBodyC::CommonCreate(GtkWidget *_widget)
+  {
     if(widget != 0)
       return true; // Shown already.
     
@@ -100,13 +100,13 @@ namespace RavlGUIN {
 			      -1);
       // Load image into pixmap
       if (pixmap && style->black_gc) {
-	gdk_draw_rgb_image(pixmap,
-			   style->black_gc,
-			   0,0,
-			   image.Cols(),image.Rows(),
-			   GDK_RGB_DITHER_NORMAL,
-			   (unsigned char *) image.Row(image.TRow()),
-			   image.Cols() * 3);
+        gdk_draw_rgb_image(pixmap,
+			               style->black_gc,
+			               0,0,
+			               image.Cols(),image.Rows(),
+			               GDK_RGB_DITHER_NORMAL,
+			               (unsigned char *) image.Row(image.TRow()),
+			               image.Cols() * 3);
       }
     }
     else {
@@ -123,8 +123,16 @@ namespace RavlGUIN {
     }
     
     /* a pixmap widget to contain the pixmap */
-    widget = gtk_pixmap_new( pixmap, mask );
-    
+    if (_widget == NULL)
+    {
+      widget = gtk_pixmap_new(pixmap, mask);
+    }
+    else
+    {
+      widget = _widget;
+      gtk_pixmap_set(GTK_PIXMAP(widget), pixmap, mask);
+    }
+
     rootWin.Invalidate(); // Finished with it, so let it go.
     return true;
   }
@@ -138,6 +146,34 @@ namespace RavlGUIN {
     gdk_window_get_size(pixmap,&width,&height);
     return true;
   }
+
+
+  
+  bool PixmapBodyC::GUISetPixmap(PixmapC &pix)
+  {
+    if (pixmap == 0)
+      return false;
+    
+    GdkPixmap *val = NULL, *mask = NULL;
+    gtk_pixmap_get(GTK_PIXMAP(pix.Widget()), &val, &mask);
+    
+    if (val != NULL && mask != NULL)
+    {
+      gtk_pixmap_set(GTK_PIXMAP(widget), val, mask);
+    }
+    
+    return true;
+  }
+
+
+  
+  bool PixmapBodyC::SetPixmap(PixmapC &pix)
+  {
+    Manager.Queue(Trigger(PixmapC(*this), &PixmapC::GUISetPixmap, pix));
+    return true;
+  }
+  
+  
   
   /* XPM data of Open-File icon */
   const char * xpmData_OpenFile[] = {
