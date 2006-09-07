@@ -8,12 +8,12 @@
 
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/Image/Image.hh"
-
 #include "Ravl/Image/WindowsMediaConverter.hh"
+#include "Ravl/DP/AttributeValueTypes.hh"
 #include "atlcomcli.h" //For CComQIPtr
 #include "comutil.h"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -40,7 +40,8 @@ namespace RavlImageN
      m_pSampleGrabber(NULL), 
      m_pMediaControl(NULL), 
      m_pMediaEventEx(NULL), 
-     m_pSeek(NULL)
+     m_pSeek(NULL),
+     m_pVideoFrameStep(NULL)
   {
     m_strFileName = filename;
     m_strFileName.gsub("/","\\");
@@ -111,6 +112,11 @@ namespace RavlImageN
     {
       m_pGraphBuilder->Release();
       m_pGraphBuilder = NULL;
+    } 
+    if(m_pVideoFrameStep) 
+    {
+      m_pVideoFrameStep->Release();
+      m_pVideoFrameStep = NULL;
     }
   }
 
@@ -236,7 +242,7 @@ namespace RavlImageN
     // QueryInterface for some basic interfaces
     m_pGraphBuilder->QueryInterface(IID_IMediaControl, (void **)&m_pMediaControl);
     m_pGraphBuilder->QueryInterface(IID_IMediaEvent, (void **)&m_pMediaEventEx);
-
+    //m_pGraphBuilder->QueryInterface(IID_IVideoFrameStep, (void **)&m_pVideoFrameStep);
     if (m_pMediaControl == NULL || m_pMediaEventEx == NULL)
     {
       ONDEBUG(cerr << "RAVL Direct Show: Failed to get handles to media controls. " << endl);
@@ -531,29 +537,29 @@ namespace RavlImageN
       ONDEBUG(cerr << "DPWinFileRendererC::GetBufferImage, Stream is not seekable, failed to get buffer. \n");
       return false;
     }
-    
-    // Convert the current frame number to a time in seconds
-    double multFactor = m_dStreamLength / m_numFrames;
-    double dTimeInSeconds = m_currentFrame * multFactor;
-    double dStopTimeInSeconds = (m_currentFrame +1.1) * multFactor;
-    dStopTimeInSeconds = (dStopTimeInSeconds > m_dStreamLength ? m_dStreamLength : dStopTimeInSeconds);   
+    if(m_pVideoFrameStep == NULL) {
+      // Convert the current frame number to a time in seconds
+      double multFactor = m_dStreamLength / m_numFrames;
+      double dTimeInSeconds = m_currentFrame * multFactor;
+      double dStopTimeInSeconds = (m_currentFrame +1.1) * multFactor;
+      dStopTimeInSeconds = (dStopTimeInSeconds > m_dStreamLength ? m_dStreamLength : dStopTimeInSeconds);   
 
-    REFERENCE_TIME rtStart = (m_bFrameFormat ? (LONGLONG) m_currentFrame : REFERENCE_TIME (dTimeInSeconds * ONE_SECOND));
-    REFERENCE_TIME rtStop = (m_bFrameFormat ? (LONGLONG) (m_currentFrame) : REFERENCE_TIME (dStopTimeInSeconds * ONE_SECOND));
+      REFERENCE_TIME rtStart = (m_bFrameFormat ? (LONGLONG) m_currentFrame : REFERENCE_TIME (dTimeInSeconds * ONE_SECOND));
+      REFERENCE_TIME rtStop = (m_bFrameFormat ? (LONGLONG) (m_currentFrame) : REFERENCE_TIME (dStopTimeInSeconds * ONE_SECOND));
     	
-    // Set the new "current" position to rtStart also set the stop position to this frame since we're only
-    // capturing one image. Use AM_SEEKING_SeekToKeyFrame
-    // for absolute position. This functionality is not supported by any of the standard DirectShow filters
-    HRESULT hr = m_pSeek->SetPositions(&rtStart, AM_SEEKING_AbsolutePositioning,&rtStop, AM_SEEKING_AbsolutePositioning);
-    if (FAILED(hr))
-    {
-      ONDEBUG(cerr << "DPWinFileRendererC::GetBufferImage, Failed to set position. \n");
-      GetErrorMsg(hr, strErrorMsg);
-      return false;
-    }
-    
+      // Set the new "current" position to rtStart also set the stop position to this frame since we're only
+      // capturing one image. Use AM_SEEKING_SeekToKeyFrame
+      // for absolute position. This functionality is not supported by any of the standard DirectShow filters
+      HRESULT hr = m_pSeek->SetPositions(&rtStart, AM_SEEKING_AbsolutePositioning,&rtStop, AM_SEEKING_AbsolutePositioning);
+      if (FAILED(hr))
+      {
+        ONDEBUG(cerr << "DPWinFileRendererC::GetBufferImage, Failed to set position. \n");
+        GetErrorMsg(hr, strErrorMsg);
+        return false;
+      }
+    } 
     //Tell the sample grabber we're only grabbing one frame  
-    hr = m_pSampleGrabber->SetBufferSamples(TRUE);
+    HRESULT hr = m_pSampleGrabber->SetBufferSamples(TRUE);
     if (FAILED(hr))
     {
       ONDEBUG(cerr << "Set buffer samples failed. \n");
@@ -579,16 +585,23 @@ namespace RavlImageN
       return false;
     }
 #endif
-
-    // Run the graph and wait for completion.
-    hr = m_pMediaControl->Run();
-    if (FAILED(hr))
-    {
-      ONDEBUG(cerr << "DPWinFileRendererC::GetBufferImage, Failed to run sequence. \n");
-      GetErrorMsg(hr, strErrorMsg);
-      return false;
+    if(m_pVideoFrameStep != 0) {
+      HRESULT hr = m_pVideoFrameStep->Step(1,0);
+      if(FAILED(hr)) {
+        ONDEBUG(cerr << "DPWinFileRendererC::GetBufferImage, Failed to step footage \n");
+        GetErrorMsg(hr, strErrorMsg);
+        return false;
+      }
+    } else {
+      // Run the graph and wait for completion.
+      hr = m_pMediaControl->Run();
+      if (FAILED(hr))
+      {
+        ONDEBUG(cerr << "DPWinFileRendererC::GetBufferImage, Failed to run sequence. \n");
+        GetErrorMsg(hr, strErrorMsg);
+        return false;
+      }
     }
-
     long evCode;
     hr = m_pMediaEventEx->WaitForCompletion(m_msTimeout, &evCode);
     if (FAILED(hr))
@@ -608,7 +621,7 @@ namespace RavlImageN
     hr = m_pSampleGrabber->GetCurrentBuffer(&buffSize,(long*) buffPtr); 
 
     // Did we get the image ok ?
-    if (!FAILED(hr))
+    if (!FAILED(hr) && buffPtr != 0)
       return true; // Yep.
     
     if(buffSize < 1) {
@@ -645,7 +658,7 @@ namespace RavlImageN
       return false;
     }
     long buffSize = 0;
-    if(!GetBufferImage(buffSize, m_buffer, strErrorMsg))
+    if(!GetBufferImage(m_buffer, strErrorMsg))
     {
       ONDEBUG(cerr << "Failed to get image buffer. Error:" << strErrorMsg << endl);
       return false;
@@ -669,7 +682,7 @@ namespace RavlImageN
   void DPWinFileRendererC::WriteToBuffer_RGB32(SArray1dC<char> &buff, ImageC<ByteRGBValueC>& image)
   {    
     // Loop through the rows
-    
+    RavlAssert(buff.Size() >= (image.Frame().Area()*3));
     long lNumRows = image.Rows();
     long lNumCols = image.Cols();
     long lHeightIndex = lNumRows -1;
@@ -677,9 +690,9 @@ namespace RavlImageN
     
     for (long y = 0; y < lNumRows; y++, lHeightIndex--)
     { 
-      ByteRGBValueC *pixelVal = &(image[(long)lHeightIndex][0]);
+      ByteRGBValueC *pixelVal = &(image[lHeightIndex][0]);
       ByteRGBValueC *pixelEnd = &(pixelVal[lNumCols]);
-      for (;pixelVal < pixelEnd; pixelVal++) {
+      for (;pixelVal != pixelEnd; pixelVal++) {
         pixelVal->Blue()  = *(dataPtr++);
         pixelVal->Green() = *(dataPtr++);
         pixelVal->Red()   = *(dataPtr++);
@@ -768,7 +781,7 @@ namespace RavlImageN
   
   bool DPWinFileRendererC::BuildAttributes(AttributeCtrlBodyC &attrCtrl) {
     //RegisterAttribute(AttributeTypeStringC("aspectratio", "Aspect ratio", true, false));
-    RegisterAttribute(AttributeTypeStringC("framerate",   "Frame rate",   true, false));
+    attrCtrl.RegisterAttribute(AttributeTypeStringC("framerate",   "Frame rate",   true, false));
     return true;
   }
   

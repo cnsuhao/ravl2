@@ -120,7 +120,7 @@ namespace RavlImageN
     //: Offset the current frame number by lFrameOffset
     
   private:
-    void WriteToBuffer_RGB32(BYTE *pData, ImageC<ByteRGBValueC>& image); 
+    void WriteToBuffer_RGB32(SArray1dC<char> &buffer, ImageC<ByteRGBValueC>& image); 
     //: Write the buffer image to an ImageC
     
     void FreeMediaType(AM_MEDIA_TYPE& mt); 
@@ -144,7 +144,7 @@ namespace RavlImageN
     bool InitialiseSourceInfo(StringC& strErrorMsg); 
     //: Initialise the source info including footage length
     
-    bool GetBufferImage(long& buffSize, char*& pBuff, StringC& strErrorMsg); 
+    bool GetBufferImage(SArray1dC<char> &buffer, StringC& strErrorMsg); 
     //: Get the buffered image from the filter graph
     
     bool RawBuffersIdentical(long buffSizeA, char* pBuffA, long buffSizeB, char* pBuffB); 
@@ -156,6 +156,7 @@ namespace RavlImageN
     bool GetFrameSize(IndexRange2dC &size);
     //: Get the frame size from the stream.
     
+  protected:
     bool HandleGetAttr(const StringC &attrName, StringC &attrValue);
     //: Handle get attribute (string)
     // Returns false if the attribute name is unknown.
@@ -174,7 +175,8 @@ namespace RavlImageN
     
     bool BuildAttributes(AttributeCtrlBodyC &attrCtrl);
     //: Build list of attributes.
-    
+
+  private:
 
     bool m_bCanRenderFile;  //: Can the filter graph handle this footage
     bool m_bInitSucceeded;  //: Has initialisation succeeded
@@ -195,11 +197,12 @@ namespace RavlImageN
     IMediaControl* m_pMediaControl;
     IMediaEvent* m_pMediaEventEx;
     IMediaSeeking* m_pSeek;
+    IVideoFrameStep* m_pVideoFrameStep;
     
     IndexRange2dC m_imageSize;
 
     SampleGrabberCallback m_grabberCB;
-    SArray1dC<byte> m_buffer; // Buffer for data.
+    SArray1dC<char> m_buffer; // Buffer for data.
   };
   
   //******************************WindowsMediaConverterBodyC************************************
