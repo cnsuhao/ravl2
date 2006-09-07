@@ -33,3 +33,6 @@ EHT= Ravl.API.Images.Video.Video_IO.Meteor1.html
 USESLIBS = RavlImageIO
 
 PROGLIBS = RavlGUI RavlGUI2D
+
+REQUIRES = libGTK2
+

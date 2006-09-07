@@ -24,4 +24,4 @@ USESLIBS=RavlGUI LibGnome
 
 EXAMPLES=exGnome.cc
 
-
+REQUIRES = libGTK2

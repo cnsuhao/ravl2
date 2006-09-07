@@ -13,7 +13,7 @@ PACKAGE = Ravl/Image
 
 DONOT_SUPPORT = arm
 
-MAINS = aamBuildShapeModel.cc aamViewShapeModel.cc  aamBuildAppearanceModel.cc \
+#MAINS = aamBuildShapeModel.cc aamViewShapeModel.cc  aamBuildAppearanceModel.cc \
  aamBuildActiveAppearanceModel.cc  aamCombineActiveAppearanceModel.cc aamLocaliseFace.cc \
  aamBuildPoseEstimator.cc aamSynthesizeFrontal.cc
 
@@ -38,7 +38,7 @@ PLIB = RavlAAM
 USESLIBS = RavlCore RavlImage RavlImageProc  RavlMath RavlOS RavlPatternRec RavlOptimise \
  RavlIO Optimisation
 
-PROGLIBS = RavlImageIO RavlMathIO RavlGUI RavlGUI2D RavlDPDisplay 
+PROGLIBS = RavlImageIO RavlMathIO RavlGUI.opt RavlGUI2D.opt RavlDPDisplay.opt
 
 EHT = AAM.html
 

@@ -17,7 +17,7 @@ PLIB=RavlMPEG2
 
 USESLIBS=RavlVideoIO RavlOS
 
-PROGLIBS=RavlDPDisplay
+PROGLIBS=RavlDPDisplay.opt
 
 MUSTLINK= MustLinkMPEG2.cc
 

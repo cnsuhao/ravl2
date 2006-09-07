@@ -23,7 +23,7 @@ MUSTLINK = MustLinkV4L2.cc
 
 USESLIBS = RavlImage RavlIO RavlThreads
 
-PROGLIBS = RavlOSIO RavlDPDisplay
+PROGLIBS = RavlOSIO RavlDPDisplay.opt
 
 ANSIFLAG =
 
