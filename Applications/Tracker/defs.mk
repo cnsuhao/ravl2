@@ -19,5 +19,5 @@ PROGLIBS=RavlImageProc RavlVideoIO RavlGUI2D RavlImgIOV4L.opt \
 
 #EHT = Ravl.Applications.Mosaic.mosaic.html Ravl.Applications.Mosaic.xmosaic.html Ravl.Applications.tracker.html
 
-REQUIRES = libGTK2
+REQUIRES = libGTK
 
