@@ -16,14 +16,17 @@
 
 namespace RavlImageN 
 {
-  class FileFormatDirectShowRGBBody : public FileFormatBodyC
+  class FileFormatDirectShowRGBBodyC : public FileFormatBodyC
   {
   public:
-    FileFormatDirectShowRGBBody(void) {}; //Default constructor
-    ~FileFormatDirectShowRGBBody(void) {};  //Destructor
+    FileFormatDirectShowRGBBodyC(void) {}; 
+    //Default constructor
+
+    ~FileFormatDirectShowRGBBodyC(void) {};  
+    //Destructor
 
   private:
-    FileFormatDirectShowRGBBody(const FileFormatDirectShowRGBBody& rhs) {}; //Private copy constructor
+    FileFormatDirectShowRGBBodyC(const FileFormatDirectShowRGBBodyC& rhs) {}; //Private copy constructor
   public:
 
     //Probe load, the input parameter obj_type is not used
@@ -37,14 +40,19 @@ namespace RavlImageN
 
 
 
-  class FileFormatDirectShowRGB : public FileFormatC<ImageC<ByteRGBValueC> >
+  class FileFormatDirectShowRGBC : public FileFormatC<ImageC<ByteRGBValueC> >
   {
   public:
-    FileFormatDirectShowRGB(void)
-      : FileFormatC<ImageC<ByteRGBValueC> >(*new FileFormatDirectShowRGBBody()) {}; //Default constructor
-    ~FileFormatDirectShowRGB(void) {};  //Destructor
+    FileFormatDirectShowRGBC(void)
+      : FileFormatC<ImageC<ByteRGBValueC> >(*new FileFormatDirectShowRGBBodyC()) 
+    {}; 
+    //Default constructor
+
+    ~FileFormatDirectShowRGBC(void) 
+    {};  
+    //Destructor
   private:
-    FileFormatDirectShowRGB(const FileFormatDirectShowRGB& rhs) {}; //Private copy constructor
+    FileFormatDirectShowRGBC(const FileFormatDirectShowRGBC& rhs) {}; //Private copy constructor
     
   };
 }

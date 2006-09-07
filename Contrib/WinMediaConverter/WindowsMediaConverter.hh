@@ -100,7 +100,7 @@ namespace RavlImageN
 
   private:
     //Write the buffer image to an ImageC
-    void WriteToBuffer_RGB32(BYTE *pData, long lNumRows, long lNumCols, ImageC<ByteRGBValueC>& image); 
+    void WriteToBuffer_RGB32(BYTE *pData, ImageC<ByteRGBValueC>& image); 
     void FreeMediaType(AM_MEDIA_TYPE& mt); //Free media type memory
     void GetErrorMsg(HRESULT hr, StringC& strErr) const; //Get a string representing a specific error
     void ReleaseInterfaces(); //Release the COM interfaces
@@ -111,6 +111,9 @@ namespace RavlImageN
     bool GetBufferImage(long& buffSize, char*& pBuff, StringC& strErrorMsg); //Get the buffered image from the filter graph
     bool RawBuffersIdentical(long buffSizeA, char* pBuffA, long buffSizeB, char* pBuffB); //Check whether two images are identical
     bool GetFootageLengthAccurate();//Run through the entire footage to get a more accurate length estimate
+
+    bool GetFrameSize(IndexRange2dC &size);
+    //: Get the frame size from the stream.
 
     //Member variables
     bool m_bCanRenderFile;  //Can the filter graph handle this footage
@@ -133,32 +136,52 @@ namespace RavlImageN
     IMediaEvent* m_pMediaEventEx;
     IMediaSeeking* m_pSeek;
     
+    IndexRange2dC m_imageSize;
+
     SampleGrabberCallback m_grabberCB;
   };
 
   //******************************WindowsMediaConverterBodyC************************************
-  class WindowsMediaConverterBodyC : public DPISPortBodyC<ImageC<ByteRGBValueC> >,  public DPWinFileRendererC
+  class WindowsMediaConverterBodyC 
+    : public DPISPortBodyC<ImageC<ByteRGBValueC> >,  
+      public DPWinFileRendererC
   {
   public:
-    WindowsMediaConverterBodyC();   //Default constructor
-    WindowsMediaConverterBodyC(const StringC& strFileName); //Constructor
-    ~WindowsMediaConverterBodyC() {}; //Destructor
+    WindowsMediaConverterBodyC();   
+    //: Default constructor
+
+    WindowsMediaConverterBodyC(const StringC& strFileName); 
+    //: Constructor
 
   public:
-    virtual ImageC<ByteRGBValueC> Get();  //Get an image at the current frame number
-    virtual bool Get(ImageC<ByteRGBValueC> &buff);  //Get an image at the current frame number
-    virtual bool Seek(UIntT nFrame); //Update the current frame number by seeking to nFrame
-    virtual UIntT Tell() const; //Return the current frame number
-    virtual UIntT Size() const; //Return the total number of frames in the clip
-    bool CanRenderFile();       //Can the filter graph render this file
+    virtual ImageC<ByteRGBValueC> Get();  
+    //: Get an image at the current frame number
+
+    virtual bool Get(ImageC<ByteRGBValueC> &buff);  
+    //: Get an image at the current frame number
+
+    virtual bool Seek(UIntT nFrame); 
+    //: Update the current frame number by seeking to nFrame
+
+    virtual UIntT Tell() const; 
+    //: Return the current frame number
+
+    virtual UIntT Size() const; 
+    //: Return the total number of frames in the clip
+
+    bool CanRenderFile();       
+    //: Can the filter graph render this file
   };
 
-  //******************************WindowsMediaConverterC************************************
-  class WindowsMediaConverterC : public DPISPortC<ImageC<ByteRGBValueC> > 
+  //: Windows direct show playback
+  class WindowsMediaConverterC 
+    : public DPISPortC<ImageC<ByteRGBValueC> > 
   {
   public:
-    WindowsMediaConverterC(const StringC &strFileName)    //Constructor
-      : DPEntityC(*new WindowsMediaConverterBodyC(strFileName)) {};
+    WindowsMediaConverterC(const StringC &strFileName)
+      : DPEntityC(*new WindowsMediaConverterBodyC(strFileName)) 
+    {}
+    //: Constructor from file name
   };
 };
 

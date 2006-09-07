@@ -11,7 +11,7 @@
 namespace RavlImageN 
 {
 
-  const type_info& FileFormatDirectShowRGBBody::ProbeLoad(const StringC & filename,IStreamC& notUsed,const type_info & obj_type) const
+  const type_info& FileFormatDirectShowRGBBodyC::ProbeLoad(const StringC & filename,IStreamC& notUsed,const type_info & obj_type) const
   {
     WindowsMediaConverterBodyC tempMediaConverter(filename);
     if(tempMediaConverter.IsInitialised())
@@ -25,7 +25,7 @@ namespace RavlImageN
     return typeid(void);
   };
   
-  DPIPortBaseC FileFormatDirectShowRGBBody::CreateInput(const StringC & filename,const type_info & obj_type) const
+  DPIPortBaseC FileFormatDirectShowRGBBodyC::CreateInput(const StringC & filename,const type_info & obj_type) const
   {
     if(obj_type == typeid(ImageC<ByteRGBValueC>))
     {
@@ -37,7 +37,7 @@ namespace RavlImageN
     }
   }
 
-  DPIPortBaseC FileFormatDirectShowRGBBody::CreateInput(IStreamC &,const type_info &) const
+  DPIPortBaseC FileFormatDirectShowRGBBodyC::CreateInput(IStreamC &,const type_info &) const
   {
     return DPIPortBaseC(); 
   }
@@ -48,5 +48,5 @@ namespace RavlImageN
     return strMsg;
   }
 
-  static FileFormatDirectShowRGB sDirectShowFormat;
+  static FileFormatDirectShowRGBC sDirectShowFormat;
 }
