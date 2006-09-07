@@ -20,6 +20,7 @@
 #include "Ravl/Image/AAMAppearance.hh"
 #include "Ravl/Image/AAMAppearanceUtil.hh"
 #include "Ravl/OS/Filename.hh"
+#include "Ravl/PatternRec/SampleIter.hh"
 
 namespace RavlImageN {
 
@@ -62,21 +63,62 @@ namespace RavlImageN {
         IntT id = fit->TypeID();
         if(id < 0) {
           featureSet.Set(fit->Description(),pnts[namedTypeMap[fit->Description()]]);
-          featureSet.Set(fit->ID(),pnts[namedTypeMap[fit->Description()]]);
         } else {
           featureSet.Set(fit->Description(),pnts[typeMap[id]]);
-          featureSet.Set(fit->ID(),pnts[typeMap[id]]);
         }
       } else {
         // Use description, its more reliable.;
         featureSet.Set(fit->Description(),pnts[namedTypeMap[fit->Description()]]);
-        featureSet.Set(fit->ID(),pnts[namedTypeMap[fit->Description()]]);
       }
     }
     featureSet.ImageFile() = Name;
 
     return true;
   }
+
+
+  //: Convert appearance to ImagePointFeatureSetC .
+  bool SaveFeatureSet(const AAMAppearanceC &appear, const ImagePointFeatureSetC &ModelFeatureSet, const StringC &file,const StringC &dir, const FilenameC Name) {
+
+    // Firstly convert AAMAppearanceC to ImagePointFeatureSetC format...
+    ImagePointFeatureSetC featureSet;
+    if (!SaveFeatureSet(appear, ModelFeatureSet, featureSet, Name)) {
+      cerr << "WARNING: Failed to convert AAMAppearanceC appear into ImagePointFeatureSetC format.\n";
+      return false;
+    }
+
+    // ... then save as a file
+    StringC featureSetFile = dir + '/' + file;
+    if(!Load(featureSetFile,featureSet)) {
+      cerr << "WARNING: Failed to save ImagePointFeatureSetC to file '" << featureSetFile << "' \n";
+      return false;
+    }
+
+    return true;
+  }
+
+
+  //: Convert appearance to ImagePointFeatureSetC .
+  bool SaveFeatureSet(const SampleC<AAMAppearanceC> &appears, const ImagePointFeatureSetC &ModelFeatureSet, const DListC<StringC> &files,const StringC &dir, const DListC<FilenameC> Names) {
+    DLIterC<StringC> it1(files);
+    if (Names.IsEmpty()) {
+      for(SampleIterC<AAMAppearanceC> it(appears);it;it++) {
+        SaveFeatureSet(it.Data(), ModelFeatureSet, it1.Data(), dir);
+        it1++;
+      }
+    } else {
+      DLIterC<FilenameC> it2(Names);
+      for(SampleIterC<AAMAppearanceC> it(appears);it;it++) {
+        SaveFeatureSet(it.Data(), ModelFeatureSet, it1.Data(), dir, it2.Data());
+        it1++; it2++;
+      }
+    }
+
+    return true;
+
+  }
+
+
 
   //: Load ImagePointFeatureSetC object from XML file and store as an appearance.
   //!param: file - names of XML file.

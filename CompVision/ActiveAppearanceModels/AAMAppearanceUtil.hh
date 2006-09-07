@@ -51,6 +51,12 @@ namespace RavlImageN {
   bool SaveFeatureSet(const AAMAppearanceC &appear, const ImagePointFeatureSetC &ModelFeatureSet, ImagePointFeatureSetC &featureSet, const FilenameC Name="");
   //: Convert appearance to ImagePointFeatureSetC .
 
+  bool SaveFeatureSet(const AAMAppearanceC &appear, const ImagePointFeatureSetC &ModelFeatureSet, const StringC &file,const StringC &dir, const FilenameC Name="");
+  //: Convert appearance to ImagePointFeatureSetC .
+
+  bool SaveFeatureSet(const SampleC<AAMAppearanceC> &appears, const ImagePointFeatureSetC &ModelFeatureSet, const DListC<StringC> &files,const StringC &dir, const DListC<FilenameC> Names=DListC<FilenameC>());
+  //: Convert appearance to ImagePointFeatureSetC .
+
 
 }
 
