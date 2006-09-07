@@ -8,6 +8,11 @@
 
 %{
 #include "Ravl/Image/Font.hh"
+
+// The following is a fix for windows.
+#ifdef DrawText
+#undef DrawText
+#endif
 %}
 
 namespace RavlImageN {

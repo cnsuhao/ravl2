@@ -964,6 +964,11 @@ RavlImageN::RealRGBValueC &RavlN_Array2dClRavlImageN_RealRGBValueC_g_Access_____
 
 #include "Ravl/Image/Font.hh"
 
+// The following is a fix for windows.
+#ifdef DrawText
+#undef DrawText
+#endif
+
 
 #include "Ravl/SArray1d.hh"
 
