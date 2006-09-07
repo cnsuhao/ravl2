@@ -23,9 +23,8 @@
 namespace RavlImageN 
 {
   #define ONE_SECOND 10000000
-
-  //**********************Implementation of the DPWinFileRendererC class**********************
-
+  
+  
   DPWinFileRendererC::DPWinFileRendererC(const StringC &filename) 
    : m_bCanRenderFile(false), 
      m_bInitSucceeded(false),
@@ -46,32 +45,32 @@ namespace RavlImageN
     m_strFileName = filename;
     m_strFileName.gsub("/","\\");
     StringC strError;
-    //Initialise the filter graph and get a ROUGH estimate of the footage length
+    // Initialise the filter graph and get a ROUGH estimate of the footage length
     if(!Initialise(strError)) {
       ONDEBUG(cerr << "Failed to initialise direct show :" << strError << endl);
       return ;
     }
-    //Enable the call below to get an accurate estimate of the footage length 
-    //GetFootageLengthAccurate();
+    // Enable the call below to get an accurate estimate of the footage length 
+    // GetFootageLengthAccurate();
     ONDEBUG(cerr << "Ravl DirectShow setup complete. \n");
   }
-
+  
   DPWinFileRendererC::DPWinFileRendererC() 
     : m_bCanRenderFile(false), 
-    m_bInitSucceeded(false),
-    m_bCanSeek(false), 
-    m_bFrameFormat(false), 
-    m_numFrames(0), 
-    m_currentFrame(0), 
-    m_msTimeout(10000),
-    m_dFrameRate(0), 
-    m_dStreamLength(0),  
-    m_pGraphBuilder(NULL), 
-    m_pGrabberBaseFilter(NULL), 
-    m_pSampleGrabber(NULL), 
-    m_pMediaControl(NULL), 
-    m_pMediaEventEx(NULL), 
-    m_pSeek(NULL)
+      m_bInitSucceeded(false),
+      m_bCanSeek(false), 
+      m_bFrameFormat(false), 
+      m_numFrames(0), 
+      m_currentFrame(0), 
+      m_msTimeout(10000),
+      m_dFrameRate(0), 
+      m_dStreamLength(0),  
+      m_pGraphBuilder(NULL), 
+      m_pGrabberBaseFilter(NULL), 
+      m_pSampleGrabber(NULL), 
+      m_pMediaControl(NULL), 
+      m_pMediaEventEx(NULL), 
+      m_pSeek(NULL)
   {
     m_strFileName = "";
   }
@@ -174,22 +173,24 @@ namespace RavlImageN
       GetErrorMsg(hr, strErrorMsg);
       return false;
     }
-
-     //Create the "Grabber filter"
+    
+    // Create the "Grabber filter"
     hr = ::CoCreateInstance(CLSID_SampleGrabber, NULL, CLSCTX_INPROC_SERVER, IID_IBaseFilter, (LPVOID *)&m_pGrabberBaseFilter);
     if (FAILED(hr))
-    {
+      {
       GetErrorMsg(hr, strErrorMsg);
       return false;
     }
-    //Add the grabber filter to the filter graph
+    
+    // Add the grabber filter to the filter graph
     hr = m_pGraphBuilder->AddFilter(m_pGrabberBaseFilter,L"Grabber");
     if (FAILED(hr))
     {
       GetErrorMsg(hr, strErrorMsg);
       return false;
     }
-    //Get the sample grabber interface
+    
+    // Get the sample grabber interface
     m_pGrabberBaseFilter->QueryInterface(IID_ISampleGrabber, (void**)&m_pSampleGrabber);
     if (FAILED(hr))
     {
@@ -202,8 +203,8 @@ namespace RavlImageN
       return false;
     }
     
-    //Set the media type 
-    //For RGB 24, every pixel is an RGBTRIPLE. Each color is one byte, with a value from 0 to 255, inclusive.
+    // Set the media type 
+    // For RGB 24, every pixel is an RGBTRIPLE. Each color is one byte, with a value from 0 to 255, inclusive.
     AM_MEDIA_TYPE   mt;
     ZeroMemory(&mt, sizeof(AM_MEDIA_TYPE));
     mt.majortype = MEDIATYPE_Video;
@@ -216,10 +217,10 @@ namespace RavlImageN
       GetErrorMsg(hr, strErrorMsg);
       return false;
     }
-    //Free the media type
+    // Free the media type
     FreeMediaType(mt);
 
-    //RenderFile builds the filter graph
+    // RenderFile builds the filter graph
     WCHAR wFile[MAX_PATH];
     MultiByteToWideChar( CP_ACP, 0, m_strFileName, -1, wFile, MAX_PATH );
     hr = m_pGraphBuilder->RenderFile(wFile,NULL);
@@ -262,7 +263,7 @@ namespace RavlImageN
       GetErrorMsg(hr, strErrorMsg);
       return false;
     }
-    //Get the IMediaSeeking interface
+    // Get the IMediaSeeking interface
     m_pGraphBuilder->QueryInterface(IID_IMediaSeeking, (void**)&m_pSeek);
     if (m_pSeek == NULL)
     {
@@ -271,7 +272,7 @@ namespace RavlImageN
       return false;     
     }
 
-    //Check whether the file has absolute seeking `capabilities
+    // Check whether the file has absolute seeking `capabilities
     DWORD dwReqCaps = AM_SEEKING_CanSeekAbsolute | AM_SEEKING_CanSeekForwards;
     HRESULT hrCanSeek = m_pSeek->CheckCapabilities(&dwReqCaps);
     if (hrCanSeek != S_OK) 
@@ -310,6 +311,7 @@ namespace RavlImageN
   }
 
   // Initialise the source info and filter graph
+  
   bool DPWinFileRendererC::Initialise(StringC& strError)
   {
     if(!InitialiseSourceInfo(strError) || !InitialiseFilterGraph(strError))
@@ -323,6 +325,7 @@ namespace RavlImageN
       m_dFrameRate = 25; 
       m_numFrames = Round(m_dStreamLength * m_dFrameRate);
     }
+    
     m_bInitSucceeded = true;
     return true;
   }
@@ -337,8 +340,8 @@ namespace RavlImageN
 
     CComQIPtr<IMediaDet> pMediaDet;
     HRESULT hr = ::CoCreateInstance(CLSID_MediaDet, NULL, CLSCTX_INPROC_SERVER, IID_IMediaDet, (void**)&pMediaDet);
-
-    //Does the file exist and can it be read
+    
+    // Does the file exist and can it be read
     if(!CanOpenFile())
     {
       strErrorMsg = "Can't open file.";
@@ -348,7 +351,7 @@ namespace RavlImageN
     char* fileName = const_cast<char*> (m_strFileName.chars());
     BSTR bstrFileName = _com_util::ConvertStringToBSTR(fileName);   
 
-    //Tell the graph which file to render
+    // Tell the graph which file to render
     hr = pMediaDet->put_Filename(bstrFileName);
     SysFreeString(bstrFileName);
     if(FAILED(hr))
@@ -366,7 +369,7 @@ namespace RavlImageN
       GetErrorMsg(hr, strErrorMsg);
       return false;
     }
-    //Iterate through the streams and set the current stream to the video stream
+    // Iterate through the streams and set the current stream to the video stream
     bool bVideoStreamExists = false;   //Paranoia really
     
     for(int i = 0; i < lNumStreams; i++)
@@ -391,31 +394,28 @@ namespace RavlImageN
       cerr << "RAVL Direct Show: No video stream found but only 1 channel. Attempting to setup video decode in blind optimism \n";
     }
 
-    //Get a rough estimate of the number of frames, stream length and frame rate
+    // Get a rough estimate of the number of frames, stream length and frame rate
     hr = pMediaDet->get_FrameRate(&m_dFrameRate);
     if(FAILED(hr))
     {
       ONDEBUG(cerr << "RAVL Direct Show: failed to read framerate. \n");
-      GetErrorMsg(hr, strErrorMsg);
-      //  return false;
     }
 
     hr = pMediaDet->get_StreamLength(&m_dStreamLength);
     if(FAILED(hr))
     {
       ONDEBUG(cerr << "RAVL Direct Show: failed to read stream length. ");
-      GetErrorMsg(hr, strErrorMsg);
-      // return false;
     }
 
-    //Estimate the number of frames     
+    // Estimate the number of frames     
     m_numFrames = (long) (m_dStreamLength * m_dFrameRate);    
     
     ONDEBUG(cerr << "RAVL Direct Show: Setup source ok. \n");
     return true;
   }
 
-  //This funtion provides a more accurate estimate of footage length
+  // This funtion provides a more accurate estimate of footage length
+  
   bool DPWinFileRendererC::GetFootageLengthAccurate()
   {
     cerr <<"Begin calc footage length\n";
@@ -426,7 +426,7 @@ namespace RavlImageN
 
     m_pSampleGrabber->SetBufferSamples(FALSE);
     m_pSampleGrabber->SetOneShot(FALSE);
-    m_grabberCB.Init(); //Initialise the callback class
+    m_grabberCB.Init(); // Initialise the callback class
     m_pSampleGrabber->SetCallback(&m_grabberCB, 0); // 0 = Use the SampleCB callback method
 
     //Make sure the video is not rendered to a window
@@ -523,18 +523,16 @@ namespace RavlImageN
  
   //Get the raw buffer image
 
-  bool DPWinFileRendererC::GetBufferImage(long& buffSize, char*& pBuff, StringC& strErrorMsg)
+  bool DPWinFileRendererC::GetBufferImage( SArray1dC<char> &buffer, StringC& strErrorMsg)
   {
-    pBuff = NULL;
-    buffSize = 0;
     if(!m_bCanSeek || !m_bCanRenderFile)
     {
       strErrorMsg = "Not setup correctly.";
       ONDEBUG(cerr << "DPWinFileRendererC::GetBufferImage, Stream is not seekable, failed to get buffer. \n");
       return false;
     }
-
-    //Convert the current frame number to a time in seconds
+    
+    // Convert the current frame number to a time in seconds
     double multFactor = m_dStreamLength / m_numFrames;
     double dTimeInSeconds = m_currentFrame * multFactor;
     double dStopTimeInSeconds = (m_currentFrame +1.1) * multFactor;
@@ -543,9 +541,9 @@ namespace RavlImageN
     REFERENCE_TIME rtStart = (m_bFrameFormat ? (LONGLONG) m_currentFrame : REFERENCE_TIME (dTimeInSeconds * ONE_SECOND));
     REFERENCE_TIME rtStop = (m_bFrameFormat ? (LONGLONG) (m_currentFrame) : REFERENCE_TIME (dStopTimeInSeconds * ONE_SECOND));
     	
-    //Set the new "current" position to rtStart also set the stop position to this frame since we're only
-    //capturing one image. Use AM_SEEKING_SeekToKeyFrame
-    //for absolute position. This functionality is not supported by any of the standard DirectShow filters
+    // Set the new "current" position to rtStart also set the stop position to this frame since we're only
+    // capturing one image. Use AM_SEEKING_SeekToKeyFrame
+    // for absolute position. This functionality is not supported by any of the standard DirectShow filters
     HRESULT hr = m_pSeek->SetPositions(&rtStart, AM_SEEKING_AbsolutePositioning,&rtStop, AM_SEEKING_AbsolutePositioning);
     if (FAILED(hr))
     {
@@ -570,11 +568,11 @@ namespace RavlImageN
       return false;
     }
     // Prevent the image from being displayed in the DirectShow video window (disable if you want to see
-    //the image you're capturing)
+    // the image you're capturing)
 #if 1
     CComQIPtr<IVideoWindow> pVideoWindow = m_pGraphBuilder;
     hr = pVideoWindow->put_AutoShow(OAFALSE);
-    if (FAILED(hr))
+    if (FAILED(hr)) 
     {
       ONDEBUG(cerr << "DPWinFileRendererC::GetBufferImage, Failed to disable autoshow. \n");
       GetErrorMsg(hr, strErrorMsg);
@@ -593,42 +591,42 @@ namespace RavlImageN
 
     long evCode;
     hr = m_pMediaEventEx->WaitForCompletion(m_msTimeout, &evCode);
-    //hr = m_pMediaEventEx->WaitForCompletion(INFINITE, &evCode);
     if (FAILED(hr))
     {
       ONDEBUG(cerr << "DPWinFileRendererC::GetBufferImage, Failed to wait for completion. \n");
       GetErrorMsg(hr, strErrorMsg);
       return false;
     }
+
+    // Attempt to retrieve the image in the buffer.
+    long buffSize = buffer.Size();
+    char *buffPtr = 0;
+    if(buffSize > 0)
+      buffPtr = &(buffer[0]);
     
-    //Get the image size
-    hr = m_pSampleGrabber->GetCurrentBuffer(&buffSize, NULL); 
-    if (FAILED(hr))
-    {
-      GetErrorMsg(hr, strErrorMsg);
-      return false;
-    }
-    if(buffSize < 1)
-    {
+    // Get the image size
+    hr = m_pSampleGrabber->GetCurrentBuffer(&buffSize,(long*) buffPtr); 
+
+    // Did we get the image ok ?
+    if (!FAILED(hr))
+      return true; // Yep.
+    
+    if(buffSize < 1) {
       strErrorMsg = "Invalid buffer size";
       return false;
     }
-    pBuff = new char[buffSize];
-    if (!pBuff) 
-    {
-      strErrorMsg = "Out of memory";
-      return false;
-    }
-
-    hr = m_pSampleGrabber->GetCurrentBuffer(&buffSize, (long*)pBuff);
-    if (FAILED(hr))
-    {
+    
+    // Resize the buffer.
+    buffer = SArray1dC<char>(buffSize);
+    buffPtr = &(buffer[0]);
+    
+    // Attempt another get.
+    hr = m_pSampleGrabber->GetCurrentBuffer(&buffSize,(long*)buffPtr);
+    if (FAILED(hr)) {
       GetErrorMsg(hr, strErrorMsg);
-      delete [] pBuff;
-      pBuff = 0;
       return false;
     }
-
+    
     return true;
   }
   
@@ -637,7 +635,8 @@ namespace RavlImageN
     return m_numFrames;
   }
 
-  //Get the RGB image. 
+  // Get the RGB image. 
+  
   bool DPWinFileRendererC::GetRGBImage(ImageC<ByteRGBValueC>& byteImage, StringC& strErrorMsg)
   {
     if(m_currentFrame > m_numFrames || !m_bInitSucceeded)
@@ -646,42 +645,45 @@ namespace RavlImageN
       return false;
     }
     long buffSize = 0;
-    char* pBuff = NULL;
-    if(!GetBufferImage(buffSize, pBuff, strErrorMsg))
+    if(!GetBufferImage(buffSize, m_buffer, strErrorMsg))
     {
       ONDEBUG(cerr << "Failed to get image buffer. Error:" << strErrorMsg << endl);
       return false;
     }
 
-    //Get the number of rows and columns in pixels
+    // Get the number of rows and columns in pixels
     IndexRange2dC frameSize;
     if(!GetFrameSize(frameSize)) {
-      delete [] pBuff;
       return false;
     }
-    byteImage = ImageC<ByteRGBValueC>(frameSize);    
-    WriteToBuffer_RGB32((BYTE*)pBuff,byteImage);
-    delete [] pBuff;
-
+    
+    // Create new image.
+    byteImage = ImageC<ByteRGBValueC>(frameSize);
+    
+    // Copy data in.
+    WriteToBuffer_RGB32(m_buffer,byteImage);
+    
     return true;
   }
 
-  void DPWinFileRendererC::WriteToBuffer_RGB32(BYTE *pData, ImageC<ByteRGBValueC>& image)
+  void DPWinFileRendererC::WriteToBuffer_RGB32(SArray1dC<char> &buff, ImageC<ByteRGBValueC>& image)
   {    
     // Loop through the rows
+    
     long lNumRows = image.Rows();
     long lNumCols = image.Cols();
-    int nBufferIndex = 0;
     long lHeightIndex = lNumRows -1;
+    char *dataPtr = &(buff[0]);
+    
     for (long y = 0; y < lNumRows; y++, lHeightIndex--)
     { 
-        for (long x = 0; x < lNumCols; x++)
-        {          
-          ByteRGBValueC& pixelVal = image[(long)lHeightIndex][(long)x];
-          pixelVal.Blue() = pData[nBufferIndex++];
-          pixelVal.Green() = pData[nBufferIndex++];
-          pixelVal.Red() = pData[nBufferIndex++];
-        }
+      ByteRGBValueC *pixelVal = &(image[(long)lHeightIndex][0]);
+      ByteRGBValueC *pixelEnd = &(pixelVal[lNumCols]);
+      for (;pixelVal < pixelEnd; pixelVal++) {
+        pixelVal->Blue()  = *(dataPtr++);
+        pixelVal->Green() = *(dataPtr++);
+        pixelVal->Red()   = *(dataPtr++);
+      }
     }
   }
 
@@ -701,7 +703,7 @@ namespace RavlImageN
     }
   }
   
-  //Bounds checking on m_currentFrame left out on purpose, Get(...) returns false if frame out of range
+  // Bounds checking on m_currentFrame left out on purpose, Get(...) returns false if frame out of range
 
   long DPWinFileRendererC::GetCurrentFrame() const
   {
@@ -720,18 +722,70 @@ namespace RavlImageN
     return true;
   }
   
+  //: Handle get attribute (string)
+  // Returns false if the attribute name is unknown.
+  
+  bool DPWinFileRendererC::HandleGetAttr(const StringC &attrName, StringC &attrValue) {
+    if (attrName == "framerate"){
+      attrValue.form("%2.2f", m_dFrameRate);
+      return true;
+    }
+#if 0
+    if (attrName == "aspectratio") {
+      attrValue = ????
+      return true;
+    }
+#endif
+    return false;
+  }
+  
+  //: Handle get attribute (int)
+  // Returns false if the attribute name is unknown.
+  
+  bool DPWinFileRendererC::HandleGetAttr(const StringC &attrName, IntT &attrValue) {
+    return false;
+  }
+  
+  //: Handle get attribute (int)
+  // Returns false if the attribute name is unknown.
+  
+  bool DPWinFileRendererC::HandleGetAttr(const StringC &attrName, RealT &attrValue) {
+    if (attrName == "framerate"){
+      attrValue = m_dFrameRate;
+      return true;
+    }
+    return false;
+  }
+  
+  //: Handle get attribute (bool)
+  // Returns false if the attribute name is unknown.
+  
+  bool DPWinFileRendererC::HandleGetAttr(const StringC &attrName, bool &attrValue) {
+    return false;
+  }
+  
+  //: Build list of attributes.
+  
+  bool DPWinFileRendererC::BuildAttributes(AttributeCtrlBodyC &attrCtrl) {
+    //RegisterAttribute(AttributeTypeStringC("aspectratio", "Aspect ratio", true, false));
+    RegisterAttribute(AttributeTypeStringC("framerate",   "Frame rate",   true, false));
+    return true;
+  }
+  
   //**********************Implementation of the WindowsMediaConverterBodyC class**********************
 
   WindowsMediaConverterBodyC::WindowsMediaConverterBodyC()
     : DPWinFileRendererC()
   {
+    BuildAttributes(*this);
   }
-
+  
   WindowsMediaConverterBodyC::WindowsMediaConverterBodyC(const StringC& strFileName) 
     : DPWinFileRendererC(strFileName)
   {
+    BuildAttributes(*this);
   }
-
+  
   ImageC<ByteRGBValueC> WindowsMediaConverterBodyC::Get()
   {
     StringC strErrorMsg;
@@ -760,31 +814,36 @@ namespace RavlImageN
     
     return true;
   }
+  
+  bool WindowsMediaConverterBodyC::Seek(UIntT nFrame)
+  {
+    if(!IsInitialised()) {
+      ONDEBUG(cerr << "Failed to seek, stream not initalised \n");
+      return false;
+    }
+    return SetCurrentFrame(nFrame);
+  }
+  
+  // Return the current frame number
 
-   bool WindowsMediaConverterBodyC::Seek(UIntT nFrame)
-   {
-     if(!IsInitialised())
-     {
-       ONDEBUG(cerr << "Failed to seek, stream not initalised \n");
-       return false;
-     }
-     return SetCurrentFrame(nFrame);
-   }
-
-   UIntT WindowsMediaConverterBodyC::Tell() const //Return the current frame number
-   {
-     return (UIntT) GetCurrentFrame();
-   }
-
-   UIntT WindowsMediaConverterBodyC::Size() const//Return the total number of frames in the clip
-   {
-     return (UIntT) GetTotalFrames();
-   }
-
-   bool WindowsMediaConverterBodyC::CanRenderFile()
+  UIntT WindowsMediaConverterBodyC::Tell() const 
+  {
+    return (UIntT) GetCurrentFrame();
+  }
+  
+  // Return the total number of frames in the clip
+  
+  UIntT WindowsMediaConverterBodyC::Size() const
+  {
+    return (UIntT) GetTotalFrames();
+  }
+  
+  bool WindowsMediaConverterBodyC::CanRenderFile()
   {
     return DPWinFileRendererC::CanRenderFile();
   }
+
+
  
 }
  
