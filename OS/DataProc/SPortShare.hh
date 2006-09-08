@@ -36,7 +36,8 @@ namespace RavlN {
   {
   public:
     explicit DPISPortShareBodyC()
-      :	clients(0)
+      :	inputUpdateCount(1),
+        clients(0)
     {
       this->MapBackChangedSignal("start");
       this->MapBackChangedSignal("size");
@@ -44,7 +45,8 @@ namespace RavlN {
     //: Default constructor.
     
     explicit DPISPortShareBodyC(const DPISPortC<DataT> &ip)
-      : input(ip),
+      : inputUpdateCount(1),
+        input(ip),
 	clients(0)
     {
       this->MapBackChangedSignal("start");
@@ -54,6 +56,7 @@ namespace RavlN {
     
     virtual bool ConnectPort(const DPIPortBaseC &port) {
       MutexLockC lock(access);
+      inputUpdateCount++;
       input = SPort(DPIPortC<DataT>(const_cast<DPIPortBaseC &>(port)));
       lock.Unlock();
       ReparentAttributeCtrl(input); // Make sure changed signals are changed appropriately.
@@ -63,6 +66,7 @@ namespace RavlN {
     
     bool ConnectPort(DPIPortC<DataT> &sp) {
       MutexLockC lock(access);
+      inputUpdateCount++;
       input = sp;
       lock.Unlock();
       ReparentAttributeCtrl(sp); // Make sure changed signals are changed appropriately.
@@ -268,7 +272,13 @@ namespace RavlN {
     { return triggerCountZero; }
     //: Access trigger called when client count drops to zero.
     
+    UIntT InputUpdateCount() const
+    { return inputUpdateCount; }
+    //: Count of the number of times the input has changed.
+    // used to flag an update in stream size and start is needed.
+    
   protected:
+    volatile UIntT inputUpdateCount;
     DPISPortC<DataT> input;
     UIntT clients; // Number of clients currently using the port.
     MutexC access;
@@ -384,6 +394,11 @@ namespace RavlN {
     { return Body().TriggerCountZero(); }
     //: Access trigger called when client count drops to zero.
     
+    UIntT InputUpdateCount() const
+    { return Body().InputUpdateCount(); }
+    //: Count of the number of times the input has changed.
+    // used to flag an update in stream size and start is needed.
+    
   }; 
   
   //:---------------------------------------------------------------------------------------------
@@ -402,7 +417,8 @@ namespace RavlN {
     DPISPortShareClientBodyC()
       : offset(0),
 	start(0),
-	size((UIntT) -1)
+	size((UIntT) -1),
+        lastUpdateCount(0)
     {
       this->MapBackChangedSignal("start");
       this->MapBackChangedSignal("size");
@@ -411,7 +427,8 @@ namespace RavlN {
     
     DPISPortShareClientBodyC(const DPISPortShareC<DataT> &sharedPort)
       : offset(0),
-	input(sharedPort)
+	input(sharedPort),
+        lastUpdateCount(0)
     {
       input.RegisterClient();
       
@@ -426,6 +443,7 @@ namespace RavlN {
       offset = input.Start();
       size = input.Size();
       start =  input.Start();
+      lastUpdateCount = input.InputUpdateCount();
     }
     //: Constructor.
     
@@ -481,12 +499,24 @@ namespace RavlN {
     // May return ((UIntT) (-1)) if not implemented.
     
     virtual UIntT Size() const
-    { return size; }
+    { 
+      // Check the cache is upto date before using it
+      // InputUpdateCount() doesn't do any locking so its quick.
+      if(lastUpdateCount == input.InputUpdateCount())
+        return size;
+      return input.Size(); 
+    }
     //: Find the total size of the stream. (assuming it starts from 0)
     // May return ((UIntT) (-1)) if not implemented.
     
     virtual UIntT Start() const
-    { return start; }
+    { 
+      // Check the cache is upto date before using it
+      // InputUpdateCount() doesn't do any locking so its quick.
+      if(lastUpdateCount == input.InputUpdateCount())
+        return start;
+      return input.Start(); 
+    }
     //: Find the offset where the stream begins, normally zero.
     // Defaults to 0
     
@@ -555,14 +585,26 @@ namespace RavlN {
     
   protected:
     bool CBStartChanged() { 
-      start = input.Start();
+      // Check cache is current
+      if(lastUpdateCount != input.InputUpdateCount()) {
+        lastUpdateCount = input.InputUpdateCount();
+        start = input.Start();
+        size = input.Size();
+      } else
+        start = input.Start();
       //cerr << "DPISPortShareClientBodyC::CBStartChanged, Called. Start="<< start << "\n";
       return true; 
     }
     //: Callback on input start changing.
     
     bool CBSizeChanged() {
-      size = input.Size();
+      // Check cache is current
+      if(lastUpdateCount != input.InputUpdateCount()) {
+        lastUpdateCount = input.InputUpdateCount();
+        start = input.Start();
+        size = input.Size();
+      } else
+        size = input.Size();
       //cerr << "DPISPortShareClientBodyC::CBSizeChanged, Called. Size=" << size << "\n";
       return true;
     }
@@ -572,6 +614,7 @@ namespace RavlN {
     UIntT size;
     UIntT offset;
     DPISPortShareC<DataT> input;
+    UIntT lastUpdateCount;
     
     AttributeCtrlUpdateSignalC attrCtrlUpdateStart;
     AttributeCtrlUpdateSignalC attrCtrlUpdateSize;
