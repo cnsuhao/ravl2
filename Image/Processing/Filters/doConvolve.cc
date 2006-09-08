@@ -4,18 +4,20 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: doFilter.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! file="Ravl/Image/Processing/Filters/doFilter.cc"
 //! userlevel=Normal
 //! docentry="Ravl.API.Images.Filtering"
 
-//: Apply the homomorphic transform to an image.
+//: Apply a user-specified separable convolution to an image.
 
 #include "Ravl/Option.hh"
 #include "Ravl/IO.hh"
-#include "Ravl/Image/HomomorphicFilter.hh"
+#include "Ravl/Image/ConvolveSeparable2d.hh"
+#include "Ravl/Array1d.hh"
+#include "Ravl/Array1dIter.hh"
 #include "Ravl/DP/SequenceIO.hh"
 
 using namespace RavlN;
@@ -23,26 +25,31 @@ using namespace RavlImageN;
 
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
-  bool bypass = opt.Boolean("b",false,"Bypass filter. ");
-  RealT depth = opt.Real("d",0.5,"Depth of momomorphic filter. ");
-  RealT sigma = opt.Real("s",5,"Width of filter. ");
   bool seq = opt.Boolean("seq",false,"Process a sequence. ");
+  bool norm = opt.Boolean("norm",false,"Normalise coefficients");
+  DListC<StringC>coeffList = opt.List("","1","List of coefficients");
   StringC inf = opt.String("","in.ppm","Input file.");
   StringC outf = opt.String("","out.ppm","Input file.");
   opt.Check();
   
   ImageC<RealT> img;
   ImageC<RealT> res;
-  HomomorphicFilterC hf(sigma,depth);
+  SizeT s(coeffList.Size());
+  Array1dC<RealT> coeffs(-(s/2),s-(s/2)-1);
+  RealT sum(0);
+  for (Array1dIterC<RealT>i(coeffs); i; ++i) {
+    *i = coeffList.First().RealValue();
+    sum += Abs(*i);
+    coeffList.PopFirst();
+  }
+  if (norm) coeffs /= sum;
+  ConvolveSeparable2dC<RealT,RealT> hf(coeffs);
   if(!seq) {
     if(!Load(inf,img)) {
       cerr << "Failed to load image '" << inf << "'\n";
       return 1;
     }
-    if(!bypass)
-      res = hf.Apply(img);
-    else
-      res = img;
+    res = hf.Apply(img);
     if(!Save(outf,res)) {
       cerr << "Failed to save image '" << outf << "'\n";
       return 1;
@@ -60,10 +67,7 @@ int main(int nargs,char **argv) {
     }
     ImageC<RealT> img;
     while(in.Get(img)) {
-      if(!bypass)
-	res = hf.Apply(img);
-      else
-	res = img;
+      res = hf.Apply(img);
       out.Put(res);
     }
   }
