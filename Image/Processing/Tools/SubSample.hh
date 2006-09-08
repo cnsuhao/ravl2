@@ -8,7 +8,7 @@
 #define RAVLIMAGE_SUBSAMPLE_HEADER 1
 ////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.API.Images.Warping"
+//! docentry="Ravl.API.Images.Scaling and Warping"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Tools/SubSample.hh"
 //! author="Charles Galambos"
