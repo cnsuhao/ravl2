@@ -27,9 +27,9 @@ int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   bool seq = opt.Boolean("seq",false,"Process a sequence. ");
   bool norm = opt.Boolean("norm",false,"Normalise coefficients");
+  StringC inf = opt.String("i","in.ppm","Input file.");
+  StringC outf = opt.String("o","out.ppm","Input file.");
   DListC<StringC>coeffList = opt.List("","1","List of coefficients");
-  StringC inf = opt.String("","in.ppm","Input file.");
-  StringC outf = opt.String("","out.ppm","Input file.");
   opt.Check();
   
   ImageC<RealT> img;
