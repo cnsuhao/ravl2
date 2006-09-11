@@ -36,5 +36,3 @@ PROGLIBS=RavlIO RavlImageIO RavlExtImgIO RavlOSIO RavlOptimise  RavlDPDisplay.op
 
 EHT= Ravl.API.Images.Filtering.html Ravl.API.Images.Warping.html
 
-AUXFILES = antialias.png
-AUXDIR = share/doc/RAVL/Images
