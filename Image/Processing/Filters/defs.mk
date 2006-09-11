@@ -16,7 +16,7 @@ HEADERS= Convolve2d.hh ConvolveSeparable2d.hh ConvolveHorz2d.hh \
   Correlate2d.hh NormalisedCorrelation.hh GaborFilter2d.hh GabourFilter2d.hh HomomorphicFilter.hh HistogramEqualise.hh \
  Matching.hh WarpScale.hh WarpAffine.hh WarpProjective.hh \
  PixelMixer.hh RemoveDistortion.hh WarpThinPlateSpline.hh \
- SpatialDifference.hh SpecificFilters.hh  SumRectangles.hh DeinterlaceStream.hh \
+ SpatialDifference.hh SumRectangles.hh DeinterlaceStream.hh \
  DCT2d.hh ImageExtend.hh ImagePyramid.hh WarpMesh2d.hh
 
 SOURCES= HomomorphicFilter.cc Correlate2d.cc Matching.cc WarpThinPlateSpline.cc \
