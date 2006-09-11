@@ -12,9 +12,12 @@
     packages were installed in <code>/vol/ai</code>. </p>
 
     <pre>
-15a16,17
-> RAVL_CC = /usr/bin/gcc-4.0.2/bin/gcc
-> RAVL_CXX = /usr/bin/gcc-4.0.2/bin/g++
+15,16c16,17
+< RAVL_CC  = gcc
+< RAVL_CXX = g++
+---
+> RAVL_CC = ccache /usr/bin/gcc-4.0.2/bin/gcc
+> RAVL_CXX = ccache /usr/bin/gcc-4.0.2/bin/g++
 22a25,26
 > EXTRA_LDFLAGS = -Wl,-rpath,/usr/bin/gcc-4.0.2/lib/
 >
@@ -52,7 +55,7 @@
     <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
 <!-- Created: Mon Sep  4 11:21:25 BST 2006 -->
 <!-- hhmts start -->
-Last modified: Wed Sep  6 15:33:21 BST 2006
+Last modified: Mon Sep 11 12:31:41 BST 2006
 <!-- hhmts end -->
   </body>
 </html>
