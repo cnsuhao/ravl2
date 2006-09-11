@@ -26,14 +26,13 @@ are welcome they can be posted on the sourceforge web pages
 C.Galambos@eim.surrey.ac.uk
 
 
-INSTALLATION UNIX
------------------
+INSTALLATION UNDER LINUX/UNIX
+-----------------------------
 
-To install go the root RAVL directory and type:
+Up-to-date installation instructions should be found at:
 
-./install [location]
+http://www.ee.surrey.ac.uk/Research/VSSP/RavlDoc/share/doc/RAVL/Auto/Basic/Tree/Ravl.Installation.html
 
-Where [location] is the absolute path to the  directory in which you want RAVL installed.
 
 Once RAVL is installed programs can be compiled with an alias similar
 to the following:
@@ -48,16 +47,17 @@ Some notes on installation:
 - RAVL is getting quite large, if you don't want to compile all the modules
   you can remove the '.r' from the end of the directory names in the root 
   defs.mk file.  In general modules later in the list generally depend on 
-  those found earlier so care must be with which modules are disabled.  
+  those found earlier so care must be with which modules are disabled.  (But
+  there *may* be some circular dependencies.)
   Required modules for particular tools can be found in the documentation. 
   (Or will be soon...)
 
-- By default the install process uses the compiler in your path, this
+- By default the install process uses the compiler in your path.  This
   isn't always best and you may want to change it. This can be done by
   setting CC and CXX to the locations of the C and C++ compilers
   respectively in the system configuration file. The configuration
   file can be found in Ravl/QMake/config.$(ARC) where arc is one of
-  linux,sgi or sol2, depending on your machine.
+  linux, sgi, sol2 etc., depending on your machine.
 
 - A version of the ccmath source code which will compile under QMake is
   included the RAVL releases and as a separate file available for download.
@@ -69,19 +69,18 @@ Some notes on installation:
 - RAVL can be made to use an external version of CCMath.  The code
   has been tested with version 2.2.1, but I would expect it to work with   
   older versions as well.  The location of the ccmath package is set
-  in Ravl/Math/CCMath/CCMath.def, set the 'CCMATH' variable to appropriate
-  directory uncomment two lines following it, and comment out any other
+  in Ravl/Math/CCMath/CCMath.def: set the 'CCMATH' variable to the appropriate
+  directory, uncomment two lines following it, and comment out any other
   'EXELIB' lines later in the file.  
 
 - The appropriate version of perl (Tested with 5.005_03) must be in your 
   default path.
 
-- If you want to compile the GUI code 'gtk-config' and 'glib-config' should
-  be on your path before running the install script. If you don't need the
-  module just remove '.r' after the directory name in the root defs.mk file.
-  If you do this you may need to disable some programs in the Applications
-  directory, this can be done by modifying the defs.mk in this directory in 
-  a similar way.
+- If you want to compile the GUI code 'pkg-config' should be on your path
+  before running the install script. If you don't need the module just remove
+  '.r' after the directory name in the root defs.mk file.  If you do this you
+  may need to disable some programs in the Applications directory, this can be
+  done by modifying the defs.mk in this directory in a similar way.
 
 - If you want temporary files to go somewhere other that /tmp you need
   to set the enviromental variable DEFAULTTMP.  And add something like
@@ -90,14 +89,16 @@ Some notes on installation:
 
   to your enviroment setup (.cshrc for me)
 
-NOTE: Most of the development of RAVL is being done on a Redhat 7.3
-box with gcc-3.2, at this stage in development things are most
+NOTE: Most of the development of RAVL is being done on a Suse 10
+box with gcc-4.0.2; at this stage in development things are most
 likely to work on a similar box.  The installation system should be 
 changed to use a 'configure' script, its on my todo list.
 
 
 INSTALLATION FOR VISUAL C++
 ---------------------------
+
+These instructions are hideously out-of-date.
 
 In order to compile RAVL with Visual C++ two things are needed.
 First you will need the latest service pack for Visual Studio. Secondly,
