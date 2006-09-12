@@ -127,9 +127,9 @@ namespace RavlGUIN
       if(signal) 
       {
         sigSelection(HSet2DList(selected));
+        GUIRefresh();
       }
-
-      GUIRefresh();
+      
       return true;
     }
     return false;
