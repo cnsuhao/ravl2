@@ -51,7 +51,8 @@ namespace RavlGUIN
       sigSelection(DListC<Int64T>()),
       sigDisplayRange(RealRange2dC()),
       m_selectedLayerId(-1),
-      m_dialogshowLine(true)
+      m_dialogshowLine(true),
+      m_aspectRatio(0)
   { ONDEBUG(SysLog(SYSLOG_DEBUG) << "GUIMarkupCanvasBodyC::GUIMarkupCanvasBodyC(), \n"); }
   
   //: Destructor.
@@ -433,6 +434,13 @@ namespace RavlGUIN
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "GUIMarkupCanvasBodyC::EventConfigure(), Size=" << widgetSize << " ");
     RealRange2dC rng(GUI2World(Point2dC(0,0)),GUI2World(Size()));
     sigDisplayRange(rng);
+    
+    // Have we done a fit to canvas in the last half second ?
+    if((DateC::NowUTC() - lastTimeOfFitToFrame).Double() < 0.5) { 
+      // If so, redo fit for the display size.
+      GUIFitImageToScreen(m_aspectRatio);
+    }
+    
     return true;
   }
   
@@ -500,6 +508,9 @@ namespace RavlGUIN
   
   bool GUIMarkupCanvasBodyC::GUIFitImageToScreen(RealT aspectRatio) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    m_aspectRatio = aspectRatio;
+    lastTimeOfFitToFrame = DateC::NowUTC();
+    
     ImageC<ByteRGBValueC> img = m_frameMarkup.Image();
     if(img.Frame().Area() <= 0)
       return false;
@@ -534,6 +545,7 @@ namespace RavlGUIN
     
     GUISetScale(newScale);
     GUISetOffset(Vector2dC(Point2dC(img.Frame().Origin()))+(slack/2));
+
     GUIRefresh();
     return true;
   }
@@ -549,6 +561,7 @@ namespace RavlGUIN
   
   bool GUIMarkupCanvasBodyC::GUISetAspectRatio(RealT aspectRatio) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    m_aspectRatio = aspectRatio;
     
     // We have to compute the pixel aspect ratio from the size of the current image.
     RealT pixelAspectRatio = 1.0;

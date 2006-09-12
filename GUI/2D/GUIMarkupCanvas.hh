@@ -23,6 +23,7 @@
 #include "Ravl/GUI/FrameMarkup.hh"
 #include "Ravl/GUI/MarkupLayerInfo.hh"
 #include "Ravl/Threads/SignalConnectionSet.hh"
+#include "Ravl/OS/Date.hh"
 
 namespace RavlGUIN {
   
@@ -262,6 +263,7 @@ namespace RavlGUIN {
     GdkGC *gcDrawContext;
     
     bool fitToFrame;
+    DateC lastTimeOfFitToFrame; // The time of the last fit to frame, used to flag updates if window geometry changes shortly after
     
     Signal2C<Int64T,MarkupInfoC> sigMarkupUpdate; // Signal called on button release of a polygon update.
     //: Signal called on button release mouse button in a polygon update.
@@ -277,6 +279,8 @@ namespace RavlGUIN {
     bool m_dialogshowLine;
     
     SignalConnectionSetC connections;
+
+    RealT m_aspectRatio;
     
     friend class GUIMarkupCanvasC;
     
