@@ -175,8 +175,11 @@ namespace RavlGUIN {
     //: Fit current display to screen.
     // If aspect ratio is <=0 square pixels are assumed.
     
+    bool GUISetAspectRatio(RealT aspectRatio);
+    //: Set the current aspect ratio of the displayed image.
+    
     bool GUIFixAspectRatio(RealT aspectRatio);
-    //: Set the current aspect ratio
+    //: Set the current aspect ratio of a pixel
     
     bool ExcludeZOrder(IntT zOrder);
     //: Exclude a Z order layer from display.
@@ -490,7 +493,11 @@ namespace RavlGUIN {
     
     bool GUIFixAspectRatio(RealT aspectRatio)
     { return Body().GUIFixAspectRatio(aspectRatio); }
-    //: Set the current aspect ratio
+    //: Set the current aspect ratio of a pixel
+    
+    bool GUISetAspectRatio(RealT aspectRatio)
+    { return Body().GUISetAspectRatio(aspectRatio); }
+    //: Set the current aspect ratio of an image.
     
     bool ExcludeZOrder(IntT zOrder)
     { return Body().ExcludeZOrder(zOrder); }

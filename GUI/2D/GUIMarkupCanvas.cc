@@ -545,11 +545,40 @@ namespace RavlGUIN
     return true;
   }
   
+  //: Set the current aspect ratio of the displayed image.
+  
+  bool GUIMarkupCanvasBodyC::GUISetAspectRatio(RealT aspectRatio) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    
+    // We have to compute the pixel aspect ratio from the size of the current image.
+    RealT pixelAspectRatio = 1.0;
+    if(aspectRatio > 0.0001) {
+      ImageC<ByteRGBValueC> img = m_frameMarkup.Image();
+      if(img.Frame().Area() > 0) {
+        Vector2dC newScale;
+        Vector2dC imageSize((RealT) img.Frame().Rows(),(RealT) img.Frame().Cols());
+        RealT imageRatio;
+        if(imageSize[0] > 0 && imageSize[1] > 0)
+          imageRatio = imageSize[1]/imageSize[0];
+        else
+          imageRatio = 1;
+        pixelAspectRatio = aspectRatio / imageRatio;
+      }
+    }
+    
+    // Modify the displayed ratio.
+    Vector2dC tmpScale = Scale();
+    tmpScale = Vector2dC(tmpScale[0],tmpScale[0] * pixelAspectRatio);
+    GUISetScale(tmpScale);
+    return true;
+  }
+  
   
   //: Set the current aspect ratio
   
   bool GUIMarkupCanvasBodyC::GUIFixAspectRatio(RealT aspectRatio) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    // Modify the displayed ratio.
     Vector2dC tmpScale = Scale();
     tmpScale = Vector2dC(tmpScale[0],tmpScale[0] * aspectRatio);
     GUISetScale(tmpScale);
