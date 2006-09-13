@@ -163,6 +163,26 @@ namespace RavlGUIN {
     return true;
   }
 
+  
+  
+  bool WindowBodyC::GUISetIcon(const PixbufC &pix)
+  {
+    RavlAssert(Manager.IsGUIThread());
+
+    if (!pix.IsValid())
+      return false;
+    
+    // Store the icon (in case we're not 'shown' yet)
+    icon = PixbufC(pix);
+
+    if (widget == NULL)
+      return false;
+
+    gtk_window_set_icon(GTK_WINDOW(widget), icon.Pixbuf());
+    
+    return true;
+  }
+  
 
   //: Show widget to the world.
   // Call only from GUI thread.
@@ -172,7 +192,9 @@ namespace RavlGUIN {
     if (!WidgetBodyC::GUIShow())
       return false;
     if (cursor.IsValid() && widget != 0)
-      cursor.SetWindow(widget->window);    
+      cursor.SetWindow(widget->window);
+    if (icon.IsValid())
+      GUISetIcon(icon);
     return true;
   }
   

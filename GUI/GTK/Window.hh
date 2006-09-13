@@ -16,6 +16,7 @@
 
 #include "Ravl/GUI/OneChild.hh"
 #include "Ravl/GUI/Cursor.hh"
+#include "Ravl/GUI/Pixbuf.hh"
 
 #include <gtk/gtkenums.h>
 
@@ -98,6 +99,9 @@ namespace RavlGUIN {
     bool GUISetTitle(StringC &str);
     //: Set the title of the window.
     
+    bool GUISetIcon(const PixbufC &pix);
+    //: Set an icon for the window
+    
   protected:
     virtual void Destroy();
     //: Undo all references.
@@ -172,6 +176,7 @@ namespace RavlGUIN {
     GtkWindowPosition m_wPosition;
     bool isFullscreen;
     bool connectDeleteEvent;
+    PixbufC icon;
     
     friend class WindowC;
   };
@@ -311,6 +316,10 @@ namespace RavlGUIN {
     { return Body().GUISetTitle(str); }
     //: Set the title of the window.
     // GUI thread only.
+    
+    bool GUISetIcon(const PixbufC &pix)
+    { return Body().GUISetIcon(pix); }
+    //: Set an icon for the window
     
     void SetPositioning(GtkWindowPosition& pos)
     { Body().SetPositioning(pos); }
