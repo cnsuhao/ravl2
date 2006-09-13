@@ -325,35 +325,44 @@ they are available, but ignore them if the are not. This can be achieved by addi
 .opt to the end of the library names, indicating they are optional. For example RavlImgIOV4L would be added as 'RavlImgIOV4L.opt'.
 </DD><P>
 
-      <LI><DT><A NAME="EXTERNALLIBS"></A><B>EXTERNALLIBS</B></DT> <DD> It is often useful to include external libraries in a RAVL program or library. 
-To do this QMake must be told where to look for the headers and the library archive.  This is done with a library definition file or .def file.
-An example of one of these can be can be found in <a href="../../../html/Example.def.html">Example.def</a>.  Any number of external definition files
-can be listed and they may be accessed directly by adding there name without the .def extention in USESLIBS,PROGLIBS or TESTLIBS as any other RAVL
-library would.  Adding a library to EXTERNALLIBS automaticly adds the specified libraries to the current directories USESLIBS, and will be treated
-as a normal dependency if a normal RAVL library is also being created. E.g. the following entry in the defs.mk file would
-            create a reference to another library CCMath: 
-              <pre> EXTERNALLIBS = CCMath.def</pre> 
-              which could then be referenced in the normal way, e.g.: 
-              <pre> USESLIBS = CCMath</pre>
+      <LI><DT><A NAME="EXTERNALLIBS"></A><B>EXTERNALLIBS</B></DT> <DD>
+
+          It is often useful to include external libraries in a RAVL program
+          or library. To do this QMake must be told where to look for the
+          headers and the library archive.  This is done with a library
+          definition file or .def file.  An example of one of these can be can
+          be found in <a
+          href="../../../html/Example.def.html">Example.def</a>.  Any number
+          of external definition files can be listed and they may be accessed
+          directly by adding there name without the .def extention in
+          USESLIBS,PROGLIBS or TESTLIBS as any other RAVL library would.
+          Adding a library to EXTERNALLIBS automaticly adds the specified
+          libraries to the current directories USESLIBS, and will be treated
+          as a normal dependency if a normal RAVL library is also being
+          created. E.g. the following entry in the defs.mk file would create a
+          reference to another library CCMath:
+
+        <pre>  EXTERNALLIBS = CCMath.def</pre> 
+
+        which could then be referenced in the normal way, e.g.:
+
+        <pre>  USESLIBS = CCMath</pre>
         </DD><P>
 
+      <LI><DT><A NAME="LIBDEPS"></A><B>LIBDEPS</B></DT> 
 
-      <LI><DT><A NAME="LIBDEPS"></A><B>LIBDEPS</B></DT>
-        <DD>
-          <p> LIBDEPS is used to redefine the name of the <code>.def</code>
-          file associated with the directory.  It is needed where the source
-          for a single library spans several directories.  The
-          <code>defs.mk</code> in each directory must contain a <i>unique</i>
-          LIBDEPS entry, of the form <code>sublib.def</code>.  In this case,
-          you don't need to create the <code>.def</code> file itself - it is
-          created automatically.  <b>N.B.</b> The <i>first</i> directory to be
-          compiled must contain all the necessary USESLIBS entries for the
-          whole library.</p>
+        <DD> LIBDEPS is used to redefine the name of the <code>.def</code> file
+        associated with the directory.  It is needed where the source for a
+        single library spans several directories.  The <code>defs.mk</code> in
+        each directory must contain a <i>unique</i> LIBDEPS entry, of the form
+        <code>sublib.def</code>.  In this case, you don't need to create the
+        <code>.def</code> file itself - it is created automatically.
+        <b>N.B.</b> The <i>first</i> directory to be compiled must contain all
+        the necessary USESLIBS entries for the whole library.
 
-          <p> There is also a deprecated usage, to explicitly create
-          references to external libraries. This has been replaced by
-          EXTERNALLIBS above.  </p>
-        </DD>
+        <p> There is also a deprecated usage, to explicitly create references
+        to external libraries. This has been replaced by EXTERNALLIBS.
+        above. </DD>
       </LI>
     </UL>
 
