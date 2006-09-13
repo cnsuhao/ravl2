@@ -10,6 +10,7 @@
 //! lib=RavlVPlay
 
 #include "Ravl/Tuple2.hh"
+#include "Ravl/GUI/Frame.hh"
 #include "Ravl/VPlay/GUIPlayControl.hh"
 #include "Ravl/GUI/Button.hh"
 #include "Ravl/GUI/Pixmap.hh"
@@ -32,6 +33,13 @@
 #include "Bitmaps/theend.xpm"
 #include "Ravl/Threads/TickerTrigger.hh"
 
+////////////////////////////////////////////
+#include <gdk/gdk.h>
+#include <gtk/gtk.h>
+#include <gdk/gdkkeys.h>
+#include <gdk/gdkevents.h>
+#include <gdk/gdkkeysyms.h>
+////////////////////////////////////////////
 #include <ctype.h>
 #include <stdlib.h>
 
@@ -264,22 +272,25 @@ namespace RavlGUIN {
     //ONDEBUG(cerr << " Seeking to :" << val << " At " << pc.Tell() << "\n");
     return true;
   }
-  
+
   //: Set the frame skip value.
   
   bool PlayControlBodyC::SetSkip(StringC &val) {
-    if(val.length() < 1)
+    if(val.length() < 1) {
       return true;
-    if(!isdigit(val[0]))
+    }
+    if(!isdigit(val[0])) {
       return true;
+    }
     skip = atoi(val);
     if(skip == 0) {
       skip = 1;
-      StringC nv(skip);
-      textSkip.SetText(nv);
     }
+    StringC nv(skip);
+    textSkip.SetText(nv);
     // Make sure skip text is accurate...
     Speed(baseSpeed); // Update the current speed.
+    gtk_editable_set_position(GTK_EDITABLE(textSkip.Widget()),val.length());
     return true;
   }
   
@@ -351,7 +362,6 @@ namespace RavlGUIN {
     return true;
   }
   
-  /////////////////////////////
   
   //: Default constructor.
   
@@ -381,7 +391,7 @@ namespace RavlGUIN {
   { InitGUI(); }
   
   //: Show/Hide extended controls.
-  
+
   bool PlayControlBodyC::ShowExtended(bool &doit)  {
     ONDEBUG(cerr << "PlayControlBodyC::ShowExtended(), Called. \n");
     if(doit) {
@@ -390,30 +400,52 @@ namespace RavlGUIN {
 	doneAdd = true;
       }
       extraControls.Show();
-    } else
+    } else {
       extraControls.Hide();
+      textBoxSelected = -1;
+    }
     return true;
   }
   
   //: Set start of sub-sequence
   
   bool PlayControlBodyC::SetSubStart(StringC &text) {
+    if(text.length() < 1) {
+      return true;
+    }
+    if(!isdigit(text[0])) {
+      return true;
+    }
     IntT val = atoi(text);
-    if(val < 0)
+    if(val < 0) {
       val = 0;
-    pc.SubSeqStart() = (UIntT) val;
+    }
     ONDEBUG(cerr << "PlayControlBodyC::SetStart(), Start: " << val << " \n");
+    StringC nv(val);
+    textStart.SetText(nv);
+    gtk_editable_set_position(GTK_EDITABLE(textStart.Widget()),text.length());
+    pc.SubSeqStart() = (UIntT) val;
     return true;
   }
   
   //: Set end of sub-sequence
   
   bool PlayControlBodyC::SetSubEnd(StringC &text) {
+    if(text.length() < 1) {
+      return true;
+    }
+    if(!isdigit(text[0])) {
+      return true;
+    }
     IntT val = atoi(text);
-    if(val < 0)
+    if(val < 0) {
       val = 0;
-    pc.SubSeqEnd() = (UIntT) val;  
+    }
+    StringC nv(val);
+    textEnd.SetText(nv);  
     ONDEBUG(cerr << "PlayControlBodyC::SetEnd(), End: " << val << " \n");
+    gtk_editable_set_position(GTK_EDITABLE(textEnd.Widget()),text.length());
+    pc.SubSeqEnd() = (UIntT) val;
     return true;
   }
 
@@ -490,13 +522,15 @@ namespace RavlGUIN {
 	PackInfoC(frameSlider,false,true,2)
 	);
     
-    textSkip = TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSkip,-1,true);
     if(!simpleControls && extendedControls) {
       enableextras = CheckButtonR("Extended controls","Show extended control panel",false,*this,&PlayControlBodyC::ShowExtended);
       GUIAdd(PackInfoC(enableextras,false,false));
-      extraControls = PackInfoC(VBox(HBox(LabelC("skip:") + textSkip) +
-				     HBox(LabelC("Start:") + TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSubStart,-1,true)) +
-				     HBox(LabelC("End:") + TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSubEnd,-1,true)) +
+      textSkip = TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSkip,-1,true);
+      textStart = TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSubStart,-1,true);
+      textEnd = TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSubEnd,-1,true);
+      extraControls = PackInfoC(VBox(HBox(LabelC("skip:") + textSkip)+ //TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSkip,-1,true)) +
+				     HBox(LabelC("Start:") + textStart) + //TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSubStart,-1,true)) +
+				     HBox(LabelC("End:") + textEnd) + //TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSubEnd,-1,true)) +
 				     ComboR(StringListC("Full Single Loop Palindrome"),*this,&PlayControlBodyC::SetRepeatMode,false)
 				     ),false,true);
     }

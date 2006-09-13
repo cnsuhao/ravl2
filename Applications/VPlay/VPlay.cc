@@ -35,6 +35,7 @@
 #include "Ravl/Option.hh"
 
 #include "Ravl/GUI/Window.hh"
+#include "Ravl/GUI/Frame.hh"
 #include "Ravl/GUI/Canvas.hh"
 #include "Ravl/GUI/Button.hh"
 #include "Ravl/GUI/Manager.hh"
@@ -43,11 +44,15 @@
 #include "Ravl/GUI/PackInfo.hh"
 #include "Ravl/GUI/Label.hh"
 #include "Ravl/GUI/FileSelector.hh"
+#include "Ravl/GUI/MouseEvent.hh"
+#include "Ravl/GUI/Widget.hh"
+#include <gdk/gdk.h>
+#include <gtk/gtk.h>
 #include <gdk/gdkkeys.h>
 #include <gdk/gdkevents.h>
 #include <gdk/gdkkeysyms.h>
 #include "Ravl/GUI/Table.hh"
-
+#include "Ravl/Text/TextCursor.hh"
 #include "Ravl/GUI/AttributeEditorWindow.hh"
 
 #include "Ravl/VPlay/GUIPlayControl.hh"
@@ -81,10 +86,13 @@ using namespace RavlImageN;
 
 NetPortFormatC<ImageC<ByteRGBValueC> > formatNetRGBImage;
 NetPortFormatC<ImageC<ByteYUVValueC> > formatNetYUVImage;
-
+WindowC win;
+TableC table;
+bool set = false;
 volatile bool terminateVPlay = false;
 
 PlayControlC guiPlayControl;
+//IntT textBoxSelected;
 
 static bool gui_quit(DPIPlayControlC<ImageC<ByteRGBValueC> > &pc) 
 {
@@ -99,16 +107,36 @@ static bool gui_quit(DPIPlayControlC<ImageC<ByteRGBValueC> > &pc)
   return true;
 }
 
+static bool textskip(MouseEventC &me) {
+   guiPlayControl.setTextBoxSelected(1);
+   guiPlayControl.textskip().GUIGrabFocus();
+   return true;
+}
+
+static bool textstart() {
+   guiPlayControl.setTextBoxSelected(2);
+   guiPlayControl.textstart().GUIGrabFocus();
+   return true;
+}
+
+static bool textend() {
+   guiPlayControl.setTextBoxSelected(3);
+   guiPlayControl.textend().GUIGrabFocus();
+   return true;
+}
+
 DPIPlayControlC<ImageC<ByteRGBValueC> > vpCtrlSwap;
 //Handle the intercepted key presses
 static bool HandleKeyPress(GdkEventKey * keyEvent) {
-  
   //cerr << keyEvent->hardware_keycode << " Event state is " << keyEvent->state << " \n";
   switch(keyEvent->keyval) {
   case(GDK_s) :
      guiPlayControl.Stop();
      break;
-  case(GDK_0) :
+  //case(GDK_0) :
+     //guiPlayControl.Stop();
+     //break;
+  case(GDK_KP_0) :
      guiPlayControl.Stop();
      break;
   case(GDK_p) :
@@ -145,10 +173,56 @@ static bool HandleKeyPress(GdkEventKey * keyEvent) {
   case(GDK_Right) :
         guiPlayControl.JFwd();
         break;
+  case(GDK_Home) :
+        guiPlayControl.Rewind();
+        break;
+  case(GDK_End) :
+        guiPlayControl.TheEnd();
+        break;
   default:
-     cerr << "unrecognised key pressed. \n";   
+     StringC tmp(keyEvent->string);
+     switch(guiPlayControl.getTextBoxSelected()) {
+         case(1) :
+             if(keyEvent->keyval == GDK_BackSpace) {
+                 IntT len = guiPlayControl.textskip().Text().length()-1;
+                 StringC current = guiPlayControl.textskip().Text();
+                 current.del(len,1);
+                 guiPlayControl.setSkip(current);
+             }
+             else {
+                StringC sc = guiPlayControl.textskip().Text() + tmp;
+                guiPlayControl.setSkip(sc);
+             }
+             break;
+         case(2) :
+             if(keyEvent->keyval == GDK_BackSpace) {
+                 IntT len = guiPlayControl.textstart().Text().length()-1;
+                 StringC current = guiPlayControl.textstart().Text();
+                 current.del(len,1);
+                 guiPlayControl.setsubStart(current);
+             }
+             else {
+                StringC sc = guiPlayControl.textstart().Text() + tmp;
+                guiPlayControl.setsubStart(sc);
+             }
+             break;
+         case(3) :
+             if(keyEvent->keyval == GDK_BackSpace) {
+                 IntT len =guiPlayControl.textend().Text().length()-1;
+                 StringC current = guiPlayControl.textend().Text();
+                 current.del(len,1);
+                 guiPlayControl.setsubEnd(current);
+             }
+             else {
+                StringC sc = guiPlayControl.textend().Text() + tmp;
+                guiPlayControl.setsubEnd(sc);
+             }
+             break;
+         default :
+            cerr << "unrecognised key pressed. \n";
+      }
   }
-  return 0;
+  return false;
 }
 
 
@@ -266,7 +340,7 @@ int doVPlay(int nargs,char *args[])
   bool noSeek = option.Boolean("ns",false,"Suppress seeking. ");
   bool listFormats    = option.Boolean("lf",    false,                    "Print list of available data formats. ");
   bool listConversions= option.Boolean("lc",    false,                    "Print list of available data converters. ");
-  option.Comment("Keyboard short cuts p play s stop b back q quit -> jump forward <- jump back up arrow = playx2 downarrow = backx2");
+  option.Comment("Keyboard short cuts p play s stop b back q quit -> jump forward <- jump back up arrow = play downarrow = back shift + up arrow = playx2 shift + downarrow = backx2 Home = start End = end 0 = stop");
   StringC infile = option.String("","","Input filename");  
   if(infile.IsEmpty())
     infile = option.String("","in.pgm","Input filename");
@@ -353,13 +427,14 @@ int doVPlay(int nargs,char *args[])
   
   ONDEBUG(cerr << "Setting up GUI ... \n");
   
-  WindowC win(sx,sy,infile);
-  
+  //WindowC win(sx,sy,infile);
+  win = WindowC(sx,sy,infile);
   Connect(win.Signal("delete_event"),gui_quit,vpCtrl);
 
   //Connect Key event handler to the frame widget.
   Connect(win.Signal("key_press_event"),&HandleKeyPress);
   
+
   CanvasC vidout(sx,sy,directDraw);  
   
   StringC strinfile(infile);
@@ -394,8 +469,12 @@ int doVPlay(int nargs,char *args[])
   guiPlayControl = PlayControlC(vpCtrl,simpleOnly);
   
   Connect(guiPlayControl.SigUpdateFrameNo(),&DisplayTimeCode,1,guiTimeCode);
+  Connect(guiPlayControl.textskip().Signal("button_press_event"),&textskip);
+  Connect(guiPlayControl.textstart().Signal("button_press_event"),&textstart);
+  Connect(guiPlayControl.textend().Signal("button_press_event"),&textend);
 
   TableC table(4,5);
+
   ButtonC grab = Button("Grab Frame",&GetFileForGrab);
   
   ButtonC examine = Button("Examine",&ExamineFrame,StringC("@X"));
@@ -423,7 +502,7 @@ int doVPlay(int nargs,char *args[])
   Manager.Execute();
   Sleep(0.1); // Give it a chance to setup the display before starting the video.
 #endif
-  
+
   ONDEBUG(cerr << "Starting video... \n");
   DPEventSetC es;  
   

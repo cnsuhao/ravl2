@@ -26,7 +26,7 @@
 namespace RavlGUIN {
   
   class PlayControlC;
-  
+
   ////////////////////////////
   //! userlevel=Develop
   //: Play Control GUI interface body.
@@ -96,7 +96,7 @@ namespace RavlGUIN {
     
     bool SetSkip(StringC &val);
     //: Set the frame skip value.
-    
+
     bool ShowExtended(bool &doit);
     //: Show/Hide extended controls.
     
@@ -109,15 +109,22 @@ namespace RavlGUIN {
     bool SetRepeatMode(StringC &text);
     //: Set sub-sequence mode.
     
+    bool HandleKeyPress(GdkEventKey * keyEvent);
+
     Signal1C<IntT> &SigUpdateFrameNo()
     { return sigUpdateFrameNo; }
     //: Access update frame number signal.
     // Note this is NOT called every frame, only about 5 to 10 times
     // a second.
-    
+
     bool Shutdown();
     //: Shutdown play control.
-    
+
+    /*bool testskipfunc() {
+       GrabFocus();
+       return true;
+    }*/
+
   protected:
     virtual void Destroy();
     //: Undo all references.
@@ -144,13 +151,14 @@ namespace RavlGUIN {
     DListC<DPPlayControlC> pcs; // Slave sequences.
     ThreadC sliderUpdate;
     SliderC frameSlider;
-    TextEntryC textSkip;  
+    TextEntryC textSkip,textStart,textEnd;  
     LBoxC extraControls;
     CheckButtonC enableextras;
     bool doneAdd;
     bool created;
     IntT baseSpeed; // what speed was last set.
     IntT skip;
+    IntT textBoxSelected;
     
     Signal1C<IntT> sigUpdateFrameNo; // Signal frame number update.
     bool simpleControls;
@@ -205,8 +213,8 @@ namespace RavlGUIN {
     { return Body().SliderCallback(num); }
     //: Position updates from slider.
   
-  public:
-    
+  public:  
+
     bool Rewind()
     { return Body().Rewind(); }
     //: Rewind to beginning.
@@ -269,10 +277,45 @@ namespace RavlGUIN {
     //: Access update frame number signal.
     // Note this is NOT called every frame, only about 5 to 10 times
     // a second.
-    
+     
     bool Shutdown()
     { return Body().Shutdown(); }
     //: Shutdown play control.
+   
+    void setSkip(StringC &val) {
+       Body().SetSkip(val);
+    }
+    //: Set the frame skip value.
+    
+ 
+    void setsubStart(StringC &val) {
+       Body().SetSubStart(val);
+    }
+
+    void setsubEnd(StringC &val) {
+       Body().SetSubEnd(val);
+    }
+
+    TextEntryC textskip() {
+        return Body().textSkip;
+    }
+
+    TextEntryC textstart() {
+        return Body().textStart;
+    }
+
+    TextEntryC textend() {
+        return Body().textEnd;
+    }
+
+    IntT getTextBoxSelected() {
+        return Body().textBoxSelected;
+    }
+    void setTextBoxSelected(IntT in) {
+        Body().textBoxSelected = in;
+    }
+
+    //: Access body.
     
     friend class PlayControlBodyC;
   };
