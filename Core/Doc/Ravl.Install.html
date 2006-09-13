@@ -51,27 +51,40 @@ cp Ravl/QMake/config.local.linux .</pre>
     <p>  Then edit the chosen <code>config.local.xxx</code>.
     Typical modifications include: </p>
     <ul>
-      <li> turning off some of the compilation options set in the
-      FULLBUILD_TARGETS variable (especially if space is limited - a full
-      install currently uses about 2Gbyte).</li>
-      <li> deciding which versions of the library you want to build:<ul>
-          <li>debug - includes debugging information and array bound checking</li>
-          <li>check - includes array bound checking</li>
-          <li>opt - generates optimised code with no array bound checking</li>
-          <li>shared - builds shared versions of the above</li>
+      <li> turning off some of the library versions via the
+      <code>FULLBUILD_TARGETS</code> variable (especially if space is limited
+      - a full install currently uses about 2Gbyte):
+        <ul>
+          
+          <li><code>debug</code> - includes debugging information and array
+          bound checking</li>
+
+          <li><code>check</code> - includes array bound checking</li>
+
+          <li><code>opt</code> - generates optimised code with no array bound
+          checking</li>
+
+          <li><code>debugshared, checkshared, optshared</code> - builds shared
+          versions of the above.  These link faster </li>
+
+          <li><code>optbin</code> - builds application binaries - including
+          <code>CxxDoc</code>, the program that builds this documentation.  So
+          if you turn <code>optbin</code> off, you need to build
+          <code>CxxDoc</code> separately to get a complete installation.</li>
         </ul>
       </li>
       <li> picking up the correct compiler if a new one has been installed, or
-      adding <code>ccache</code></li>
+      incorporating <code>ccache</code></li>
 
-      <li> adjusting the available resources using the RESOURCES variable.
-      The packages in the Ravl/Contrib directory all depend on external
-      libraries.  Different operating systems have different sets of these
-      libraries.  Most of them are turned off by default.  It is probably best
-      to leave them turned off when first installing RAVL.  Also if your
-      system doesn't have for example gtk, that needs turning off.  Here is an
-      <a href="Ravl.Config.Example.html">example</a> of some edits from an
-      actual installation.
+      <li> adjusting the available resources using the <code>RESOURCES</code>
+      variable.  The packages in the <code>Ravl/Contrib</code> directory all
+      depend on various external libraries; different operating systems have
+      different sets of these libraries.  Most of them are turned off by
+      default.  It is probably best to leave them turned off when first
+      installing RAVL.  Also if your system doesn't have for example
+      <code>gtk</code>, needed by the RAVL <code>GUI</code> module, that needs
+      turning off.  Here is an <a href="Ravl.Config.Example.html">example</a>
+      of some edits from an actual installation.
       </li>
      </ul> 
 
@@ -122,7 +135,7 @@ setenv PATH = ($PATH:$PROJECT_OUT/lib/RAVL/linux/bin:$RAVL_INSTALLATION/RavlProj
     <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
 <!-- Created: Fri Dec 23 09:31:09 GMT 2005 -->
 <!-- hhmts start -->
-Last modified: Mon Sep 11 18:15:57 BST 2006
+Last modified: Wed Sep 13 11:18:16 BST 2006
 <!-- hhmts end -->
   </body>
 </html>
