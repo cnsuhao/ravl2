@@ -68,7 +68,7 @@ namespace RavlN {
 #if RAVL_HAVE_STRINGSTREAM
     OStreamC(*(oss = new ostringstream(ostringstream::binary)),true)
 #else
-    OStreamC(*(oss = new ostrstream()),true)
+    OStreamC(*(oss = new ostrstream(0,0,ios_base::app | ios_base::binary)),true)
 #endif
   {}
   
