@@ -293,7 +293,7 @@ namespace RavlN
 		socklen_t namelen = sizeof(peerName); 
 		getpeername( m_nSocket, (sockaddr*) &peerName, &namelen );
 		IntT nPortNo = ntohs( peerName.sin_port );
-		cerr << "Port number: " << nPortNo << "\n";
+		ONDEBUG(cerr << "Port number: " << nPortNo << "\n");
 		return nPortNo;
 	}
 
@@ -376,7 +376,7 @@ namespace RavlN
 				nTotBytes += bytesRecv;
 				if ( bytesRecv == 0) 
 				{
-					cerr <<  "Connection closed gracefully.\n";
+					ONDEBUG(cerr <<  "Connection closed gracefully.\n");
 					break;
 				}
 			}
@@ -386,7 +386,7 @@ namespace RavlN
 				
 				if( nError == WSAECONNRESET)
 				{
-					cerr << "Connection closed disgracefully.\n";
+					ONDEBUG(cerr << "Connection closed disgracefully.\n");
 					break;
 				}
 				else if(nError != WSAEWOULDBLOCK) //We don't care about blocking errors
