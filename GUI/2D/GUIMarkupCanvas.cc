@@ -436,7 +436,7 @@ namespace RavlGUIN
     sigDisplayRange(rng);
     
     // Have we done a fit to canvas in the last half second ?
-    if((DateC::NowUTC() - lastTimeOfFitToFrame).Double() < 0.5) { 
+    if((DateC::NowUTC() - lastTimeOfFitToFrame).Double() < 0.8) { 
       // If so, redo fit for the display size.
       GUIFitImageToScreen(m_aspectRatio);
     }
