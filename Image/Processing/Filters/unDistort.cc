@@ -7,7 +7,9 @@
 //! rcsid="$Id$"
 //! file="Ravl/Image/Processing/Filters/unDistort.cc"
 //! lib=RavlImageProc
-//! docentry="Ravl.Applications.Video;Ravl.API.Images.Scaling and Warping"
+//! docentry="Ravl.Applications.Image;Ravl.API.Images.Scaling and Warping"
+//! userlevel=Normal
+//: Corrects radial distortion in images
 
 #include "Ravl/Option.hh"
 #include "Ravl/Image/RemoveDistortion.hh"
@@ -22,6 +24,7 @@ using namespace RavlImageN;
 
 int Mosaic(int nargs,char **argv) {
   OptionC opt(nargs,argv);
+  opt.Comment("Corrects radial distortion in images");
   RealT cx_ratio = opt.Real("cx",0.5,"Image centre x coordinate as ratio of image width. ");
   RealT cy_ratio = opt.Real("cy",0.5,"Image centre y coordinate as ratio of image height. ");
   RealT fx = opt.Real("fx",1.0,"Focal distance in vertical pixels. ");
