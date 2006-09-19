@@ -26,13 +26,13 @@ namespace RavlN
   //: Class managing a Python interpreter
   
   class PythonBodyC :
-    public RCBodyC
+    public RCBodyVC
   {
   public:
     PythonBodyC();
     //: Constructor
     
-    ~PythonBodyC();
+    virtual ~PythonBodyC();
     //: Destructor
     
     const bool Initialised() const
