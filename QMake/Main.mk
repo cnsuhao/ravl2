@@ -801,7 +801,12 @@ else
 # We don't want to link the must link object files into the dynamic library. Ideally we'd include them
 # in two different variables, but this would mean a huge reworking of the include mechanism, so instead
 # we'll just remove all objects files from the library list. Hence the following line.
-LIBSONLY=$(filter-out %$(OBJEXT),$(LIBS))
+
+ifdef NOSHAREDLIBDEPENDS
+  LIBSONLY=
+else
+  LIBSONLY=$(filter-out %$(OBJEXT),$(LIBS))
+endif
 
 $(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
 	$(SHOWIT)echo "--- Building" $(@F) ; \
