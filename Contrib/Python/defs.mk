@@ -25,5 +25,5 @@ TESTEXES =
 EXAMPLES = exPython.cc exPythonThreaded.cc
 
 AUXDIR = lib/RAVL/libdep
- 
+
 AUXFILES = Python.def

@@ -5,7 +5,7 @@
 // file-header-ends-here
 ////////////////////////////////////////////////
 //! rcsid="$Id: Window.cc 5325 2006-01-23 11:40:28Z apanman $"
-//! lib=RavlGUI
+//! lib=RavlPython
 //! file="Ravl/Contrib/Python/PythonObject.cc"
 
 #include "Ravl/PythonObject.hh"
