@@ -4,6 +4,8 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 
+NOSHAREDLIBDEPENDS=1
+
 REQUIRES=Swig
 
 PACKAGE=Ravl/Swig
@@ -21,6 +23,6 @@ SWIGOPTS=-python
 
 PROGLIBS=
 
-AUXDIR=
+AUXDIR=Python
 
-AUXFILES=
+AUXFILES=Ravl.py
