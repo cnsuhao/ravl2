@@ -200,7 +200,17 @@ namespace RavlImageN {
     template<class PixelT,class CmpT>
     UIntT MergeComponents(ImageC<PixelT> &dat,UIntT thrSize,RealT maxDist,CmpT &cmp,IntT iter = 1)
     { return Body().MergeComponents(dat,thrSize,maxDist,cmp,iter); }
-    //: Merge simlar components smaller than 'thrSize'.
+    //: Merge regions smaller than <code>thrSize</code> into neighbouring regions of sufficiently similar value
+    // It compares pixel pairs across the boundary to establish the similarity of the regions, comparing the value returned by <code>cmp</code> with <code>maxDist</code>.<br>
+    // It does not detect if all suitable candidates have been merged; it just goes through the process <code>iter</code> times.<br>
+    // The argument <code>cmp</code> should be an instance of a simple user-specified class containing the <code>operator()</code> method, as in this example:
+    //<pre>
+    //class CmpPixelsC { 
+    //  public:
+    //    RealT operator() (const RealRGBValueC &arg1,const RealRGBValueC &arg2) {
+    //      return arg1.SqrEuclidDistance(arg2);
+    //    }
+    //};</pre>
     
     ImageC<UIntT> &SegMap()
     { return Body().SegMap(); }
