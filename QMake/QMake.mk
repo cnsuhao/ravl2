@@ -123,7 +123,8 @@ endif
 .PHONY : all depend opt qopt qdb debug develop qd check distclean \
  clean pack unpack org help isdep srcp srcd org orgopt orgdebug chead \
  lib_info defs mdoc notes qc qcheck src mirror srcinst doconly log \
- fulldoc fullcheck fullsrc fulltest fullbuild shared debugshared optshared
+ fulldoc fullcheck fullsrc fulltest fullbuild shared sharedne \
+ debugshared debugsharedne optshared optsharedne
 
 ##################################
 # Do makes.
@@ -161,26 +162,44 @@ src:
 novar:
 	$(SMAKEMD) fullbuild TARGET=fullbuild  
 
+check:
+	$(SMAKEMD) fullbuild VAR=check TARGET=fullbuild  
+
 opt:
 	$(SMAKEMD) fullbuild VAR=opt TARGET=fullbuild  
-
-shared:
-	$(SMAKEMD) fullbuild VAR=check TARGET=fullbuild SHAREDBUILD=1  
-
-debugshared:
-	$(SMAKEMD) fullbuild VAR=debug BASE_VAR=debug TARGET=fullbuild SHAREDBUILD=1
-
-optshared:
-	$(SMAKEMD) fullbuild VAR=opt TARGET=fullbuild SHAREDBUILD=1 
 
 debug:
 	$(SMAKEMD) fullbuild VAR=debug TARGET=fullbuild  
 
+shared:
+	$(SMAKEMD) fullbuild VAR=check TARGET=fullbuild SHAREDBUILD=1  
+
+optshared:
+	$(SMAKEMD) fullbuild VAR=opt TARGET=fullbuild SHAREDBUILD=1 
+
+debugshared:
+	$(SMAKEMD) fullbuild VAR=debug BASE_VAR=debug TARGET=fullbuild SHAREDBUILD=1
+
+ne:	
+	$(SMAKEMD) fullbuild VAR=check TARGET=fullbuild NOEXEBUILD=1 
+
+optne:
+	$(SMAKEMD) fullbuild VAR=opt TARGET=fullbuild NOEXEBUILD=1 
+
+debugne:
+	$(SMAKEMD) fullbuild VAR=debug TARGET=fullbuild NOEXEBUILD=1 
+                                    
+sharedne:
+	$(SMAKEMD) fullbuild VAR=check TARGET=fullbuild SHAREDBUILD=1 NOEXEBUILD=1
+
+optsharedne:
+	$(SMAKEMD) fullbuild VAR=debug BASE_VAR=debug TARGET=fullbuild SHAREDBUILD=1 NOEXEBUILD=1
+
+debugsharedne:
+	$(SMAKEMD) fullbuild VAR=debug BASE_VAR=debug TARGET=fullbuild SHAREDBUILD=1 NOEXEBUILD=1
+
 debugall:
 	$(SMAKEMD) fullbuild VAR=debug BASE_VAR=debug TARGET=fullbuild  
-
-check:
-	$(SMAKEMD) fullbuild VAR=check TARGET=fullbuild  
 
 purify:
 	$(SMAKEMD) purifybuild VAR=debug PROCS=1 TARGET=purifybuild  
@@ -194,20 +213,8 @@ gprof:
 chead:
 	$(SMAKEMD) cheadbuild FULLCHECKING=1 TARGET=cheadbuild  
 
-ne:	
-	$(SMAKEMD) fullbuild VAR=check TARGET=fullbuild NOEXEBUILD=1 
-
-optne:
-	$(SMAKEMD) fullbuild VAR=opt TARGET=fullbuild NOEXEBUILD=1 
-
-debugne:
-	$(SMAKEMD) fullbuild VAR=debug TARGET=fullbuild NOEXEBUILD=1 
-
 gprofne:
 	$(SMAKEMD) fullbuild VAR=gprof TARGET=fullbuild NOEXEBUILD=1 
-
-sharedne:
-	$(SMAKEMD) fullbuild VAR=check TARGET=fullbuild SHAREDBUILD=1 NOEXEBUILD=1
 
 test: src
 	@if [ ! -d $(INST_TESTBIN) ] ; then \
