@@ -193,7 +193,7 @@ sharedne:
 	$(SMAKEMD) fullbuild VAR=check TARGET=fullbuild SHAREDBUILD=1 NOEXEBUILD=1
 
 optsharedne:
-	$(SMAKEMD) fullbuild VAR=debug BASE_VAR=debug TARGET=fullbuild SHAREDBUILD=1 NOEXEBUILD=1
+	$(SMAKEMD) fullbuild VAR=opt TARGET=fullbuild SHAREDBUILD=1 NOEXEBUILD=1
 
 debugsharedne:
 	$(SMAKEMD) fullbuild VAR=debug BASE_VAR=debug TARGET=fullbuild SHAREDBUILD=1 NOEXEBUILD=1
