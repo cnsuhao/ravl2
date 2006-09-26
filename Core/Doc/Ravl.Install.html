@@ -29,14 +29,17 @@
 
     <p> Currently we recommend that you <i>don't</i> log in as root for this
     installation.  Decide on a place for the installation and define the
-    environment variable <code>RAVL_INSTALLATION</code> accordingly, e.g.:</p>
+    environment variable <code>RAVL_INSTALLATION</code> accordingly, e.g. for C shell:</p>
 
     <pre>
 setenv RAVL_INSTALLATION ~/src  
     </pre>
 
-    <p>(If using a bash shell, use <code>export</code> instead of
-    <code>setenv</code>.) </p>
+    <p>or for bash shell:</p>
+
+    <pre>
+export RAVL_INSTALLATION=~/src  
+    </pre>
 
     <p> The RAVL library and executables can then be installed as follows
     (selecting the relevant <code>config.local.xxx</code> file if not a
@@ -99,20 +102,22 @@ rehash</pre>
 
     <p>(The <code>rehash</code> is only necessary if using a C-shell.)</p>
 
-    <h2> Usage </h2><a name="USAGE">
-    
-    </a><p>Put the following alias and variable settings for
-    compilation (modified if appropriate) in your .cshrc file:</p>
+    <h2> Usage </h2><a name="USAGE"></a>
+
+    <p>Put the following alias and variable settings for compilation (modified
+    if appropriate) in your <code>.cshrc</code> file:</p>
 
     <pre>
 setenv RAVL_INSTALLATION ~/src
 setenv PROJECT_OUT ~/ProjOut
 alias qm 'make -f $RAVL_INSTALLATION/RavlProject/share/RAVL/QMake/QMake.mk USERBUILD=1'
-setenv PATH = ($PATH:$PROJECT_OUT/lib/RAVL/linux/bin:$RAVL_INSTALLATION/RavlProject/bin)
+setenv PATH  $PATH:$PROJECT_OUT/lib/RAVL/linux/bin:$RAVL_INSTALLATION/RavlProject/bin
 </pre>
-
+    <p>(Bash shell users will need to modify these commands appropriately and
+    add them to the <code>.bashrc</code> file instead.)</p>
     <ul>
-      <li>RAVL_INSTALLATION must be set as above.</li>
+      <li>RAVL_INSTALLATION <i>must</i> be set to the same as for the
+      installation above.</li>
 
       <li>$PROJECT_OUT controls the directory into which your own code will be
       compiled.</li>
@@ -135,7 +140,7 @@ setenv PATH = ($PATH:$PROJECT_OUT/lib/RAVL/linux/bin:$RAVL_INSTALLATION/RavlProj
     <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
 <!-- Created: Fri Dec 23 09:31:09 GMT 2005 -->
 <!-- hhmts start -->
-Last modified: Wed Sep 13 11:18:16 BST 2006
+Last modified: Tue Sep 26 17:29:57 BST 2006
 <!-- hhmts end -->
   </body>
 </html>
