@@ -38,4 +38,3 @@ USESLIBS = RavlImage RavlIO LibJPEG LibPNG LibTIFF RavlImageIO
 
 PROGLIBS = RavlDPDisplay.opt
 
-REQUIRES = LibTIFF
