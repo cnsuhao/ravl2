@@ -480,13 +480,13 @@ endif
 all: prebuildstep srcfiles build_aux 
 	@echo "Internal error: No valid build target "
 
-fullbuild: prebuildstep build_subdirs build_libs build_exe build_aux  $(TARG_HDRCERTS)
+fullbuild: prebuildstep build_subdirs build_libs build_exe build_aux  $(TARG_HDRCERTS) postbuildstepexe
 
-testbuild: prebuildstep build_subdirs build_libs build_test  $(TARG_HDRCERTS)
+testbuild: prebuildstep build_subdirs build_libs build_test  $(TARG_HDRCERTS) postbuildstep
 
-libbuild: prebuildstep build_subdirs build_libs build_aux
+libbuild: prebuildstep build_subdirs build_libs build_aux postbuildstep
 
-purifybuild: prebuildstep  build_subdirs build_libs build_pureexe
+purifybuild: prebuildstep  build_subdirs build_libs build_pureexe postbuildstep
 
 srcfiles: $(TARG_DEFS) $(TARG_HDRS) $(LOCAL_FILES) $(LOCALHEADERS) $(SOURCES) $(MAINS) $(AUXFILES) $(HEADERS) \
  $(EXAMPLES) $(TESTEXES) $(DOCNODE) $(HTML) $(MAN1) $(MAN2) $(MAN3) $(EHT) $(MUSTLINK) $(EXTERNALLIBS)
@@ -498,6 +498,23 @@ ifdef PREBUILDSTEP
 else
 	@true;
 endif
+
+postbuildstep:  build_subdirs build_libs 
+ifdef POSTBUILDSTEP
+	@echo "--- Running postbuild step. "; \
+	$(POSTBUILDSTEP)
+else
+	@true;
+endif
+
+postbuildstepexe: build_subdirs build_libs build_exe
+ifdef POSTBUILDSTEP
+	@echo "--- Running postbuild step. "; \
+	$(POSTBUILDSTEP)
+else
+	@true;
+endif
+
 
 ifdef FULLCHECKING
 cheadbuild: build_subdirs $(TARG_HDRCERTS)
