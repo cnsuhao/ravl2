@@ -106,6 +106,7 @@ RESOURCES += devVideo4Linux2
 
 ## LIBTIFF_HOME ############################################
 #LIBTIFF_HOME=
+#RESOURCES += LibTIFF
 
 ## avifile ##################################################
 
