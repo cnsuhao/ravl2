@@ -102,7 +102,10 @@ namespace RavlN
     WORD sockVersion = MAKEWORD(2, 3);			// Winsock version 2.2
 
     // We begin by initializing Winsock
-    WSAStartup(sockVersion, &wsaData);
+    int ret = WSAStartup(sockVersion, &wsaData);
+    if(ret != 0) {
+      cerr << "Failed to setup socket layer. Error=" << ret << "\n";
+    }
   }
 
   bool SocketBodyC::OpenClient(StringC strHost, int nPort)
