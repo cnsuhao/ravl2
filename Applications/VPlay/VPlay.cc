@@ -125,7 +125,6 @@ static bool textend() {
    return true;
 }
 
-DPIPlayControlC<ImageC<ByteRGBValueC> > vpCtrlSwap;
 //Handle the intercepted key presses
 static bool HandleKeyPress(GdkEventKey * keyEvent) {
   //cerr << keyEvent->hardware_keycode << " Event state is " << keyEvent->state << " \n";
@@ -165,7 +164,7 @@ static bool HandleKeyPress(GdkEventKey * keyEvent) {
      break;
   case(GDK_q) :
        cerr << terminateVPlay << " \n"; 
-       gui_quit(vpCtrlSwap);
+       win.Signal("delete_event").Invoke();
        break;
   case(GDK_Left) :
         guiPlayControl.JBkw();
@@ -393,7 +392,6 @@ int doVPlay(int nargs,char *args[])
     vidIn = DeinterlaceStreamC<ByteRGBValueC>(vidIn);
   
   DPIPlayControlC<ImageC<ByteRGBValueC> > vpCtrl(vidIn,false,start,endFrame);  
-  vpCtrlSwap = vpCtrl;   
 
   ONDEBUG(cerr << "VPlay: Play control built.\n");
   
