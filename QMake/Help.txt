@@ -15,7 +15,9 @@ Common targets (some compile targets may not have been installed on your system)
   optshared Build "opt"  version but generating & using shared libraries.
   ne, debugne, optne, gprofne, sharedne
             As check,debug, opt etc. but only building libraries, not executables.
-  buildall  Build check,debug,opt and the documentation.
+  build     Build check, debug, opt and executables
+  buildall  Build check, debug, opt, executables and the documentation.
+  fullbuild Builds all the variants specified by the FULLBUILD_TARGETS variable that is normally set in the relevant config.local.xxx file
   prof      Output optimised code with profiling info suitable for prof.
   gprof     Output optimised code with profiling info suitable for gprof.
   purify    Build all executables in the CURRENT directory with purify.
