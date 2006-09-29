@@ -45,23 +45,33 @@
 #include "Ravl/IO.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ImgIO.hh"
+#include "Ravl/Array2dIter.hh"
 
 using namespace RavlImageN;
 using namespace RavlN;
 
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
-  StringC infile = opt.String("i","infile.ppm","Input filename");
+  StringC infile  = opt.String("i","infile.pgm", "Input filename");
+  StringC outfile = opt.String("o","outfile.pgm","Output filename");
   opt.Check();
   
   ImageC&lt;ByteT&gt; img;
   if(!Load(infile,img)) {
-    cerr << "Failed to load file " << infile << "\n";
+    cerr &lt;&lt; "Failed to load file " &lt;&lt; infile &lt;&lt; "\n";
     return 1;
   }  	
-  cout << img.Frame() << endl;  // see how big it is
+  cout &lt;&lt; img.Frame() &lt;&lt; endl;  // see how big it is
 
   //.... Process img here ....
+  for (Array2dIterC&lt;ByteT&gt; i(img); i; i++) {
+    *i = 255 - *i;
+  }
+  
+  if(!Save(outfile,img)) {
+    cerr &lt;&lt; "Failed to save file " &lt;&lt; outfile &lt;&lt; "\n";
+    return 1;
+  }  	
   
   return 0;
 }
@@ -103,7 +113,8 @@ int main(int nargs,char **argv) {
 
 <pre>% myprog -help
 Usage: myprog [options] 
-   -i (infile.ppm) [infile.ppm] Input filename 
+   -i (infile.pgm) [infile.pgm] Input filename 
+   -o (outfile.pgm) [outfile.pgm] Output filename 
    -help (true) [false] Print usage information. 
 </pre>
 
@@ -114,7 +125,10 @@ Usage: myprog [options]
       Note: This example should be able to read in images in any of the pnm
       formats.  If you want to use this example to read in images in other
       formats, depending on the image format you may need to link in extra <a
-      href="Ravl.API.Images.IO.html">image I/O libraries</a>.</p>
+      href="Ravl.API.Images.IO.html">image I/O libraries</a>.  If you want to
+      display the result straight to the screen, you need to include the <a
+      href="Ravl.API.GUI.Data_Display.html">RavlDPDisplay</a> library, and
+      specify "@X" as the output file.</p>
 
   </body>
 </html>
