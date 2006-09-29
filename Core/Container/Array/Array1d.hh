@@ -23,6 +23,7 @@
 #include "Ravl/BfAccIter2.hh"
 #include "Ravl/Types.hh"
 #include "Ravl/SingleBuffer.hh"
+#include "Ravl/Array1dIter.hh"
 
 
 
