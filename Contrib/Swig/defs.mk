@@ -23,6 +23,6 @@ SWIGOPTS=-python
 
 PROGLIBS=
 
-#AUXDIR=Python
+AUXDIR=/share/Python
 
-#AUXFILES=Ravl.py
+AUXFILES=Ravl.py
