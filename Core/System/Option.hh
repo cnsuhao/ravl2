@@ -35,8 +35,8 @@ namespace RavlN {
   // dash followed by one or more alpha-numeric characters. </p>
 
   // <p><font color="#FF0000">Bug:</font> "Unnamed" arguments (i.e. arguments without a tag) <font color="#AA0000">MUST</font> be
-  // processed last in the code for this class to work correctly.
-  // On the other hand they can appear anywhere in the command line.
+  // processed last in the <i>code</i> for this class to work correctly.
+  // On the other hand they can appear anywhere on the <i>command line</i>.
   
   class OptionC {
   public:
@@ -141,6 +141,7 @@ namespace RavlN {
         
     bool Boolean(const char * name, bool def,const char * comment);
     //: Gets toggle (boolean value).
+    //!deprecated: the "def" argument causes endless confusion to the users; use previous Boolean() method,.
         
     DListC<StringC> List(const char * name, const char * def, const char * comment );
     //: Gets a list of strings following the option 'name'. 
