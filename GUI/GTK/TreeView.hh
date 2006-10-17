@@ -452,6 +452,18 @@ namespace RavlGUIN {
     //: Get iter for row at position 'pos' in the tree.
     // 'pos' must be widget coordinates.
     
+    bool GUISetCursorOnCell(TreeModelPathC &path,bool startEditing = false,IntT colId = -1,IntT subColId = -1);
+    //: Send keyboard focus to specified cell and optionally start editing.
+    //!param: path - path to row to select
+    //!param: startEditing - If true the cell will start being edited
+    //!param: colId - If set specifies the column to start editing. (Else the first one found in the row is used.)
+    //!param: subColId - If set specifies the sub column to start editing. (Else the first one found in the row is used.)
+    // Returns true if cell found, and operation succeeded.
+    
+    SArray1dC<TreeViewColumnC> &DisplayColumns()
+    { return displayColumns; }
+    //: Access column information.
+    
   protected:
     virtual bool GUIDNDSource(ModifierTypeT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions);
     //: Setup widget as drag and drop source.
@@ -772,6 +784,15 @@ namespace RavlGUIN {
     { return Body().GUIGetIter(pos); }
     //: Get iter for row at position 'pos' in the tree.
     // 'pos' must be widget coordinates.
+    
+    bool GUISetCursorOnCell(TreeModelPathC &path,bool startEditing = false,IntT colId = -1,IntT subColId = -1)
+    { return Body().GUISetCursorOnCell(path,startEditing,colId,subColId); }
+    //: Send keyboard focus to specified cell and optionally start editing.
+    // Returns true if cell found, and operation succeeded.
+    
+    SArray1dC<TreeViewColumnC> &DisplayColumns()
+    { return Body().DisplayColumns(); }
+    //: Access column information.
     
     friend class TreeViewBodyC;
 

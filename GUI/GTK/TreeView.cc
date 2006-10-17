@@ -240,7 +240,6 @@ namespace RavlGUIN {
   // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
   
   bool TreeViewBodyC::GUISetAttribute(IntT colNum,const StringC &key,const StringC &value,bool proxy) {
-    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     displayColumns[colNum].Attributes()[key] = Tuple2C<StringC,bool>(value,proxy);
     
     StringC name = displayColumns[colNum].Name();    
@@ -265,8 +264,7 @@ namespace RavlGUIN {
   
   bool TreeViewBodyC::SetAttribute(IntT colNum,const StringC &key,const StringC &value,bool proxy) {
     displayColumns[colNum].Attributes()[key] = Tuple2C<StringC,bool>(value,proxy);
-
-    //: This really should check if its on the GUI thread.
+    
     StringC name = displayColumns[colNum].Name();
     GtkTreeViewColumn *column = const_cast<GtkTreeViewColumn *>(displayColumns[colNum].TreeViewColumn());
     if(column == 0) return true; // Column not setup yet.
@@ -290,7 +288,6 @@ namespace RavlGUIN {
   bool TreeViewBodyC::SetAttribute(IntT colNum,UIntT subCol,const StringC &key,const StringC &value,bool proxy) {
     displayColumns[colNum].Renderers()[subCol].Attributes()[key] = Tuple2C<StringC,bool>(value,proxy);
     
-    //: This really should check if its on the GUI thread.
     StringC name = displayColumns[colNum].Name();
     GtkTreeViewColumn *column = const_cast<GtkTreeViewColumn *>(displayColumns[colNum].TreeViewColumn());
     if(column == 0) return true; // Column not setup yet.
@@ -310,6 +307,7 @@ namespace RavlGUIN {
   // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
   
   bool TreeViewBodyC::SetAttribute(const StringC &colName,const StringC &key,const StringC &value,bool proxy) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     IntT colNum = ColumnName2Number(colName);
     if (colNum >= 0 && displayColumns[colNum].Renderers().Size() == 1)
     {
@@ -360,7 +358,7 @@ namespace RavlGUIN {
     if(attrName == "editable" || attrName == "activatable") {
       gboolean val = (attrValue == "1") ? 1 : 0;
       RavlAssert(renderer != 0);
-      g_object_set(G_OBJECT(renderer), attrName,val,0);
+      g_object_set(G_OBJECT(renderer), attrName,val,NULL);
     }
     // Enable sorting
     else if (attrName == "sortable") {
@@ -381,8 +379,9 @@ namespace RavlGUIN {
     // Enable column resizing
     else if (attrName == "resizable") {
       gtk_tree_view_column_set_resizable(GTK_TREE_VIEW_COLUMN(column), true);
+    } else { // Don't know!!
+      cerr << "TreeViewBodyC::SetAttribute, WARNING: Unknown attribute '" << attrName << "' \n";
     }
-    
     return true;
   }
   
@@ -437,7 +436,11 @@ namespace RavlGUIN {
           cerr << "Unknown rendered type '" << rit->RenderType() << "'\n";
           RavlAssert(0);
         }
-	
+        
+        // Store a pointer to the renderer
+        if(renderer != 0)
+          rit->SetRenderer(renderer);
+        
         gtk_tree_view_column_pack_start(column,
                                         renderer,
                                         rit->Expand());
@@ -448,7 +451,7 @@ namespace RavlGUIN {
                                                col_offset,
                                                it->SortAscending() ? GTK_SORT_ASCENDING : GTK_SORT_DESCENDING);
         }
-
+        
         // Setup attributes.
         for(HashIterC<StringC,Tuple2C<StringC,bool> > ait(rit->Attributes());ait;ait++) {
           SetAttribute(column,     /* Current column. */
@@ -964,6 +967,34 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "TreeViewBodyC::GUIGetIter, Path='" << path.Text() << "' \n");
     return  treeModel.Path2Iter(path.Text());
   }
+
+  //: Send cursor to cell and optionally start editing.
+  
+  bool TreeViewBodyC::GUISetCursorOnCell(TreeModelPathC &path,bool startEditing,IntT colId,IntT subColId) {
+    if(!path.IsValid())
+      return false;
+    
+    GtkTreeViewColumn *focus_column = 0;
+    GtkCellRenderer *focus_cell = 0;
+    if(colId >= 0) {
+      RavlAssert(colId < (IntT) displayColumns.Size());
+      TreeViewColumnC &treeViewCol = displayColumns[colId];
+      focus_column = treeViewCol.ColumnView();
+      if(subColId >= 0) {
+        RavlAssert(subColId < (IntT) treeViewCol.Renderers().Size());
+        focus_cell = treeViewCol.Renderers()[subColId].Renderer();
+      }
+    }
+    
+    gtk_tree_view_set_cursor_on_cell(GTK_TREE_VIEW(widget),
+                                     path.TreePath(),
+                                     focus_column,
+                                     focus_cell,
+                                     startEditing);
+    
+    return true;
+  }
+
   
   //: Setup widget as drag and drop source.
   
