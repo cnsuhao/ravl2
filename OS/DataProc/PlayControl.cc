@@ -14,7 +14,7 @@
 
 #define FORCE_AT 0
 
-#define DPDEBUG 0
+#define DPDEBUG 1
 #if DPDEBUG 
 #define ONDEBUG(x) x
 #else
@@ -202,6 +202,8 @@ namespace RavlN {
     // Unlock access here.
     return ret;
 #else
+    // Lock to make sure value is correct before returning value.
+    MutexLockC lock(access);
     return at;
 #endif
   }
@@ -233,7 +235,6 @@ namespace RavlN {
       inc = 1;
     }
     
-    
     // Do the seek.
     
     if(!ctrl.Seek(seekto)) {
@@ -241,10 +242,6 @@ namespace RavlN {
       return false;
     }
     at = seekto;
-
-    // Allow for correct applied if the last frame was the 'end'
-    if(lastFrame == end && inc <= 0)
-      at--;
     
     // To ensure the results of Tell() and LastFrame() return something consistany
     // update the lastFrame.
