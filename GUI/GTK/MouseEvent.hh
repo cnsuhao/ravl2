@@ -45,23 +45,11 @@ namespace RavlGUIN {
     MouseEventC(GdkEventMotion &ev);
     //: Constructor.
     
-    RealT X() const { return x; }
-    //: Get "x" component of position in GTK coord system.
-    // Obsolete! Use Col()
-    
-    RealT Y() const { return y; }
-    //: Get "y" component of position in GTK coord system.
-    // Obsolete! Use Row()
-    
     RealT Row() const { return y; }
     //: Get row number of position.
     
     RealT Col() const { return x; }
     //: Get column number of position.
-    
-    Index2dC Position() const { return Index2dC(x,y); }
-    //: Get position in GTK co-ordinates (col, row).
-    // This method is deprecated, use At() instead.
     
     Index2dC At() const { return Index2dC(y,x); }
     //: Get position.
@@ -83,7 +71,7 @@ namespace RavlGUIN {
     //: Is control down ?
     
   protected:
-    RealT x,y;   // Current position.
+    RealT x,y;   // Current position in GTK coords.
     IntT state;  // Current state.
     IntT change; // Change flags.
     UIntT time;  // Time of event.

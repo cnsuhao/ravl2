@@ -20,7 +20,7 @@
 namespace RavlGUIN {
 
   //! userlevel=Develop
-  //: Body of a  object set in a 3d world.
+  //: Body of a  object set in a 3D world.
   
   class DCube3DBodyC
     : public DObject3DBodyC
@@ -41,7 +41,7 @@ namespace RavlGUIN {
   };
   
   //! userlevel=Normal
-  //: Handle to basic object in a 3d world.
+  //: Basic object in a 3d world.
   
   class DCube3DC
     : public DObject3DC

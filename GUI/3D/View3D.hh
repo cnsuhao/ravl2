@@ -10,7 +10,6 @@
 //! rcsid="$Id$"
 //! file="Ravl/GUI/3D/View3D.hh"
 //! lib=RavlGUI3D
-//! userlevel=Normal
 //! docentry="Ravl.API.GUI.3D"
 //! author="James Smith"
 
@@ -24,7 +23,8 @@ namespace RavlGUIN {
   class MouseEventC;
   class View3DC;
   
-  //: 3D Viewer widget.
+  //! userlevel=Develop
+  //: Body for 3D Viewer widget.
   
   class View3DBodyC
     : public Canvas3DBodyC
@@ -125,7 +125,7 @@ namespace RavlGUIN {
     Index2dC m_pixButton0Pos;
     Index2dC m_pixButton1Pos;
     
-    // Camera position params
+    // Camera position params in GTK coords
     RealT m_fXRotation;
     RealT m_fYRotation;
     RealT m_fXTranslation;
@@ -144,7 +144,15 @@ namespace RavlGUIN {
   };
   
 
+  //! userlevel=Normal
   //: 3D Viewer widget.
+  // <p>This class enables you to manipulate a 3D object as you view it, using the mouse.  </p>
+  // <ul>
+  // <li> Button 1 rotates about horizontal and vertical axes </li>
+  // <li> Button 2 <i>should</i> translate in x and y directions, but the code needs fixing</li>
+  // <li> Button 3 provides a menu of rendering options <li>
+  // <li> The wheel <i>should</i> zoom in and out, but the code needs fixing</li>
+  // </ul>
   
   class View3DC
     : public Canvas3DC

@@ -20,8 +20,8 @@
 namespace RavlGUIN 
 {
   
-  //! userlevel=Normal
-  //: Draw a Point Set
+  //! userlevel=Develop
+  //: Body to draw a Point Set
 
   class DPointSet3dBodyC
     : public DObject3DBodyC
@@ -48,6 +48,9 @@ namespace RavlGUIN
   };
   
     
+  //! userlevel=Normal
+  //: Draw a Point Set
+
   class DPointSet3dC
     : public DObject3DC
   {

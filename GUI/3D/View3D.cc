@@ -15,6 +15,7 @@
 #include "Ravl/GUI/MouseEvent.hh"
 #include "Ravl/StdMath.hh"
 #include "Ravl/StdConst.hh"
+#include "Ravl/AxisAngle.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -104,9 +105,9 @@ namespace RavlGUIN {
   bool View3DBodyC::MousePress(MouseEventC &me) {
     ONDEBUG(cerr << "View3DBodyC::MousePress(), Called. '" << me.HasChanged(0) << " " << me.HasChanged(1) << " " << me.HasChanged(2) <<"' \n");
     if(me.HasChanged(0)) 
-      m_pixButton0Pos = me.Position();
+      m_pixButton0Pos = me.At();
     else if(me.HasChanged(1)) 
-      m_pixButton1Pos = me.Position();
+      m_pixButton1Pos = me.At();
     else if(me.HasChanged(2)) {
       ONDEBUG(cerr << "Show menu. \n");
       backMenu.Popup(); 
@@ -140,13 +141,13 @@ namespace RavlGUIN {
     // Zoom in and out if buttons 0 and 1 are pressed
     if (me.IsPressed(0) && me.IsPressed(1)) {
       // Calculate change
-      Index2dC change = me.Position() -  m_pixButton0Pos; 
+      Index2dC change = me.At() -  m_pixButton0Pos; 
       
       // Calculate individual rotations
       m_fZoom += change.Col();
       
       // Store new position
-      m_pixButton0Pos = m_pixButton1Pos = me.Position();
+      m_pixButton0Pos = m_pixButton1Pos = me.At();
       
       // Update display
       Refresh();
@@ -155,18 +156,18 @@ namespace RavlGUIN {
     // Rotate when button 0 pressed
     else if(me.IsPressed(0)) {
       // Calculate change
-      Index2dC change = me.Position() -  m_pixButton0Pos; 
+      Index2dC change = me.At() -  m_pixButton0Pos; 
       
       // Calculate individual rotations
-      m_fXRotation += change.Col();
-      m_fYRotation += change.Row();
+      m_fXRotation += change.Row();
+      m_fYRotation += change.Col();
       
       // Limit X rotation
       if (m_fXRotation > upper_limit) m_fXRotation = upper_limit;
       else if (m_fXRotation < lower_limit) m_fXRotation = lower_limit;
       
       // Store new position
-      m_pixButton0Pos = me.Position();
+      m_pixButton0Pos = me.At();
       
       // Update display
       Refresh();
@@ -175,14 +176,15 @@ namespace RavlGUIN {
     // Translate when button 1 pressed
     else if (me.IsPressed(1)) {
       // Calculate change
-      Index2dC change = me.Position() -  m_pixButton1Pos; 
+      Index2dC change = me.At() -  m_pixButton1Pos; 
       
-      // Calculate individual translations (Y is inverted)
-      m_fXTranslation += (RealT)change.Row() / 100.0;
-      m_fYTranslation -= (RealT)change.Col() / 100.0;
+      // Calculate individual translations
+      // X & Y in GTK coords; hence also Y is inverted
+      m_fXTranslation += (RealT)change.Col() / 100.0;
+      m_fYTranslation -= (RealT)change.Row() / 100.0;
       
       // Store new position
-      m_pixButton1Pos = me.Position();
+      m_pixButton1Pos = me.At();
       
       // Update display
       Refresh();
@@ -400,7 +402,7 @@ namespace RavlGUIN {
     
     // Translate scene
     //Vector3dC vecTranslation(m_fXTranslation,0,0);
-    //vecTranslation = vecTranslation.Rotation(Vector3dC(0,1,0),m_fYRotation);
+    //vecTranslation = AxisAngleC(0,m_fYRotation,0).Matrix() * vecTranslation;
     //glTranslated(vecTranslation.X(),m_fYTranslation,vecTranslation.Z());
     //glTranslated(m_fXTranslation,m_fYTranslation,0);  
     

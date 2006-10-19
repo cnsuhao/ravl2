@@ -32,7 +32,7 @@ namespace RavlGUIN {
   class Canvas3DC;
   
   //! userlevel=Develop
-  //: Body of a basic display object in a 3d world.
+  //: Body of a basic display object in a 3D world.
   
   class DObject3DBodyC
     : public RCBodyVC
@@ -101,7 +101,7 @@ namespace RavlGUIN {
   };
   
   //! userlevel=Normal
-  //: Handle to basic object in a 3d world.
+  //: Basic object in a 3D world.
   
   class DObject3DC
     : public RCHandleC<DObject3DBodyC>
@@ -164,7 +164,7 @@ namespace RavlGUIN {
   ////////////////////////////////////
   
   //! userlevel=Develop
-  //: Body for OpenGL code invokation class.
+  //: Body for OpenGL code invocation class.
   
   class DOpenGLBodyC
     : public DObject3DBodyC
@@ -197,7 +197,7 @@ namespace RavlGUIN {
   };
   
   //! userlevel=Normal
-  //: OpenGL code invokation class.
+  //: OpenGL code invocation class.
   
   class DOpenGLC
     : public DObject3DC
@@ -225,7 +225,7 @@ namespace RavlGUIN {
   ////////////////////////////////////
   
   //! userlevel=Develop
-  //: Body of a  object set in a 3d world.
+  //: Body of an  object set in a 3D world.
   
   class DObjectSet3DBodyC
     : public DObject3DBodyC
@@ -259,7 +259,7 @@ namespace RavlGUIN {
   };
   
   //! userlevel=Normal
-  //: Handle to basic object in a 3d world.
+  //: Set of basic objects in a 3D world.
   
   class DObjectSet3DC
     : public DObject3DC
