@@ -36,7 +36,7 @@ namespace RavlGUIN {
   
   class MouseEventC {
   public:
-    MouseEventC(IntT x = 0,IntT y = 0,IntT state = 0,IntT changed = 0);
+    MouseEventC(IntT col = 0,IntT row = 0,IntT state = 0,IntT changed = 0);
     //: Constructor.
     
     MouseEventC(GdkEventButton &ev);
@@ -46,26 +46,26 @@ namespace RavlGUIN {
     //: Constructor.
     
     RealT X() const { return x; }
-    //: Get X component of position.
+    //: Get "x" component of position in GTK coord system.
     // Obsolete! Use Col()
     
     RealT Y() const { return y; }
-    //: Get Y component of position.
+    //: Get "y" component of position in GTK coord system.
     // Obsolete! Use Row()
     
     RealT Row() const { return y; }
-    //: Get X component of position.
+    //: Get row number of position.
     
     RealT Col() const { return x; }
-    //: Get Y component of position.
+    //: Get column number of position.
     
     Index2dC Position() const { return Index2dC(x,y); }
-    //: Get position in GTK co-ordinates.
-    // This method is depricated, use At() instead.
+    //: Get position in GTK co-ordinates (col, row).
+    // This method is deprecated, use At() instead.
     
     Index2dC At() const { return Index2dC(y,x); }
     //: Get position.
-    // Position of mouse click in RAVL co-ordinates.
+    // Position of mouse click in RAVL co-ordinates (row, col).
     
     bool IsPressed(IntT buttonNo = 0) const;
     //: Test if a button is pessed.
