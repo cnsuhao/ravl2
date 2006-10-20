@@ -107,7 +107,8 @@ namespace RavlImageN {
 
   //! userlevel=Normal
   //: Connected component labelling. 
-  // This class identifies each connected region in an image and labels it with a unique integer.  The criterion for connectedness will vary with the pixel type - it can be over-ridden by the <code><a href="RavlImageN.ConnectedComponentsCompareC.html">ConnectedComponentsCompareC</a> compMethod</code> argument.  For example, if the input image is the result of a binary segmentation, it will look for a connected region of identical pixel vaules.
+  // <p>This class identifies each connected region in an image and labels it with a unique integer.  The label set is contiguous, starting from 1.</p>  
+  // <p>The criterion for connectedness will vary with the pixel type - it can be over-ridden by the <code><a href="RavlImageN.ConnectedComponentsCompareC.html">ConnectedComponentsCompareC</a> compMethod</code> argument.  For example, if the input image is the result of a binary segmentation, it will look for a connected region of identical pixel vaules.</p>
   
   template <class DataTypeT,typename CompareT = ConnectedComponentsCompareC<DataTypeT> >
   class ConnectedComponentsC
