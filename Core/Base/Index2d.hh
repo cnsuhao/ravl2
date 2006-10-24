@@ -203,7 +203,7 @@ namespace RavlN {
     { return Index2dC(*this).Up().Right(); }
     //: Returns the coordinates of the upperright neighbouring pixel 
 
-    inline Index2dC Neighbour(NeighbourOrderT dir) const;
+    Index2dC Neighbour(NeighbourOrderT dir) const;
     //: Returns the index of the neighbour in the direction 'dir'.
     
     inline bool IsRelNeighbour8() const
@@ -267,21 +267,6 @@ namespace RavlN {
   inline 
   bool TFVectorC<IndexC,2>::operator!=(const TFVectorC<IndexC,2> & ind) const 
   { return (data[0] != ind[0]) || (data[1] != ind[1]);  }
-  
-  inline Index2dC Index2dC::Neighbour(NeighbourOrderT neighOrder) const {
-    switch(neighOrder) {
-    case NEIGH_RIGHT:      return Index2dC(Row()  , Col()+1);
-    case NEIGH_DOWN_RIGHT: return Index2dC(Row()+1, Col()+1);
-    case NEIGH_DOWN:       return Index2dC(Row()+1, Col()  );
-    case NEIGH_DOWN_LEFT:  return Index2dC(Row()+1, Col()-1);
-    case NEIGH_LEFT:       return Index2dC(Row()  , Col()-1);
-    case NEIGH_UP_LEFT:    return Index2dC(Row()-1, Col()-1);
-    case NEIGH_UP:         return Index2dC(Row()-1, Col()  );
-    case NEIGH_UP_RIGHT:   return Index2dC(Row()-1, Col()+1);
-    case NEIGH_CENTER:     return Index2dC(Row()  , Col()  );
-    };
-    return Index2dC(-1000,-1000);
-  }
   
   inline IntT Index2dC::Area2(const Index2dC & second, const Index2dC & third) const {
     // Area of tringle (*this, second, third) is equal to the area

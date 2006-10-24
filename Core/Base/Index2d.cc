@@ -42,7 +42,6 @@ namespace RavlN {
 			     { IndexC(4), IndexC(8), IndexC(0)},
 			     { IndexC(3), IndexC(2), IndexC(1)}};
   
-  
   bool Index2dC::IsInside(const IndexRange2dC & range) const 
   { return range.RowRange().Contains(Row()) && range.ColRange().Contains(Col()); }
   
@@ -54,4 +53,19 @@ namespace RavlN {
   IndexC Index2dC::NeighbourOrder(const Index2dC & pxl) const 
   { return Index2dC(pxl - (*this)).NeighbourOrder(); }  
     
+  Index2dC Index2dC::Neighbour(NeighbourOrderT neighOrder) const {
+    switch(neighOrder) {
+    case NEIGH_RIGHT:      return Index2dC(Row()  , Col()+1);
+    case NEIGH_DOWN_RIGHT: return Index2dC(Row()+1, Col()+1);
+    case NEIGH_DOWN:       return Index2dC(Row()+1, Col()  );
+    case NEIGH_DOWN_LEFT:  return Index2dC(Row()+1, Col()-1);
+    case NEIGH_LEFT:       return Index2dC(Row()  , Col()-1);
+    case NEIGH_UP_LEFT:    return Index2dC(Row()-1, Col()-1);
+    case NEIGH_UP:         return Index2dC(Row()-1, Col()  );
+    case NEIGH_UP_RIGHT:   return Index2dC(Row()-1, Col()+1);
+    case NEIGH_CENTER:     return Index2dC(Row()  , Col()  );
+    };
+    return Index2dC(-1000,-1000);
+  }
+  
 }
