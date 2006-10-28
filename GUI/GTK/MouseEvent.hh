@@ -70,6 +70,26 @@ namespace RavlGUIN {
     bool IsCntrl() const;
     //: Is control down ?
     
+    bool IsLock() const;
+    //: Is the caps lock key down ?
+    
+    bool IsAlt() const;
+    //: Is the alt key pressed?
+    
+    bool IsMod5() const;
+    //: Forth modifier key.
+    
+    bool IsMod6() const;
+    //: Sixth modifier key.
+
+    bool IsMod7() const;
+    //: Seventh modifier key.
+    // Can be 'Windows Key'
+    
+    bool IsMod8() const;
+    //: Eight modifier key.
+    // Can be 'Alt Gr'
+    
   protected:
     RealT x,y;   // Current position in GTK coords.
     IntT state;  // Current state.

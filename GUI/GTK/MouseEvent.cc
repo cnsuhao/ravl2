@@ -95,6 +95,43 @@ namespace RavlGUIN {
     return (state & GDK_CONTROL_MASK) != 0; 
   }
   
+  //: Is the caps lock key down ?
+  
+  bool MouseEventC::IsLock() const {
+    return (state & GDK_LOCK_MASK) != 0;
+  }
+  
+  //: Is the alt key pressed?
+  
+  bool MouseEventC::IsAlt() const {
+    return (state & GDK_MOD1_MASK) != 0;
+  }
+  
+  //: Forth modifier key.
+  
+  bool MouseEventC::IsMod5() const {
+    return (state & GDK_MOD2_MASK) != 0;
+  }
+
+  //: Sixth modifier key.
+  
+  bool MouseEventC::IsMod6() const {
+    return (state & GDK_MOD3_MASK) != 0;
+  }
+
+  //: Seventh modifier key.
+  
+  bool MouseEventC::IsMod7() const {
+    return (state & GDK_MOD4_MASK) != 0;
+  }
+  
+  //: Eight modifier key.
+  
+  bool MouseEventC::IsMod8() const {
+    return (state & GDK_MOD5_MASK) != 0;
+  }
+
+
   ostream &operator<<(ostream &s,const MouseEventC &me) {
     //s << " x:" << me.X() << " y:" << me.Y();
     return s;
