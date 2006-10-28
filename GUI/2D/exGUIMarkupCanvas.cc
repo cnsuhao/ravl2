@@ -68,6 +68,11 @@ bool ShowLayerList() {
   return true;
 }
 
+bool BackMenuReq() {
+  cerr << "Back menu requested. \n";
+  return true;
+}
+
 //======== Main
 
 int main(int nargs,char **argv) {
@@ -94,6 +99,9 @@ int main(int nargs,char **argv) {
 
   // Set the selected layer id
   canvas.SetSelectedLayer(LI_Selected);
+  
+  // Connect back menu request.
+  Connect(canvas.SignalBackMenu(),&::BackMenuReq);
   
   // Create an image.
   ImageC<ByteRGBValueC> img(256,256);

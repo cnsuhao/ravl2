@@ -97,6 +97,10 @@ namespace RavlGUIN {
     { return sigDisplayRange; }
     //: Signal called on change of display range.
     
+    Signal1C<MouseEventC> &SignalBackMenu()
+    { return sigBackMenu; }
+    //: Signal request for back menu.
+    
     const HSetC<Int64T> &GUISelected() const
     { return selected; }
     //: Access list of selected objects
@@ -274,6 +278,9 @@ namespace RavlGUIN {
     Signal1C<RealRange2dC> sigDisplayRange;
     //: Signal called on change of display range.
     
+    Signal1C<MouseEventC> sigBackMenu;
+    //: Signal request for back menu.
+    
     DListC<MarkupLayerInfoC> m_layerInfo;
     IntT m_selectedLayerId;
     bool m_dialogshowLine;
@@ -392,6 +399,10 @@ namespace RavlGUIN {
     Signal1C<RealRange2dC> &SignalDisplayRange()
     { return Body().SignalDisplayRange(); }
     //: Signal called on change of display range.
+    
+    Signal1C<MouseEventC> &SignalBackMenu()
+    { return Body().SignalBackMenu(); }
+    //: Signal request for back menu.
     
     const HSetC<Int64T> & GUISelected() const
     { return Body().GUISelected(); }

@@ -50,6 +50,7 @@ namespace RavlGUIN
       sigMarkupUpdate(0,MarkupInfoC()),
       sigSelection(DListC<Int64T>()),
       sigDisplayRange(RealRange2dC()),
+      sigBackMenu(MouseEventC()), 
       m_selectedLayerId(-1),
       m_dialogshowLine(true),
       m_aspectRatio(0)
@@ -209,8 +210,12 @@ namespace RavlGUIN
   {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "GUIMarkupCanvasBodyC::EventMousePress(), Called. \n");
     GUIGrabFocus();    
-  
-    //RWLockHoldC hold(accessLock,RWLOCK_WRITE);
+    
+    if(me.HasChanged(2)) {
+      sigBackMenu(me);
+      return true;
+    }
+    
     mouseRawPressAt = me.At();
     mousePressAt = GUI2World(mouseRawPressAt);
     mouseLastEvent = mousePressAt;
@@ -264,7 +269,7 @@ namespace RavlGUIN
       }
     }
     
-    if(me.HasChanged(0))  //Left mouse button 
+    if(me.HasChanged(0) && !m_mouseObj.IsValid())  //Left mouse button 
     {
       selectBox = true;
       if(!selected.IsEmpty() && (!me.IsCntrl() && !me.IsShift())) {

@@ -289,8 +289,10 @@ namespace RavlGUIN {
       RealT score = -1;
       if(FindClosestPoint(at,score,newState)) {
         state = newState;
-        if(newState == 0 && (me.IsMod7() || me.IsMod8()))
-	   state = 100; // Put it into markup mode.
+        if((me.IsMod7() || me.IsMod8() || me.IsAlt())) {// newState == 0 && 
+	  //cerr << "NewState=" << newState << "\n";
+	  state = 100 + newState; // Put it into markup mode.
+	}
         return true;
       }
     }
@@ -477,7 +479,7 @@ namespace RavlGUIN {
     } else { // State >= 0, initial create mode.
       IntT size = poly.Size();
       state++;
-      if((state - 100) == size || !(me.IsMod7() || me.IsMod8())) {
+      if((state - 100) == size || !(me.IsMod7() || me.IsMod8() || me.IsAlt())) {
         UpdateDb();
         return false;
       }
