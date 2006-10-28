@@ -4,14 +4,16 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
+//! rcsid="$Id: fixSource.cfg 5642 2006-06-23 10:51:11Z craftit $"
+//! lib=RavlGUI2D
+
 #include "Ravl/GUI/MarkupPolygon2d.hh"
 #include "Ravl/GUI/GUIMarkupCanvas.hh"
 #include "Ravl/Projection2d.hh"
+#include "Ravl/Affine2d.hh"
 #include "Ravl/OS/SysLog.hh"
 #include "Ravl/RCWrap.hh"
 #include "Ravl/GUI/MarkupLayerInfo.hh"
-//! rcsid="$Id: fixSource.cfg 5642 2006-06-23 10:51:11Z craftit $"
-//! lib=RavlGUI2D
 
 #include <gdk/gdk.h>
 
@@ -262,6 +264,17 @@ namespace RavlGUIN {
   bool MarkupPolygon2dBodyC::MouseEventPress(GUIMarkupCanvasBodyC &mv,const Point2dC &at,const MouseEventC &me,IntT &state,bool &refresh) {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "MarkupPolygon2dBodyC::MouseEventPress() At=" << at << " State=" << state << " " << " ");
     ONDEBUG(SysLog(SYSLOG_DEBUG) << " Press " << me.HasChanged(0) << " " << me.HasChanged(1) << " " << me.HasChanged(2) << " " << me.HasChanged(3) << " " << " " << me.HasChanged(4) << " ");
+    ONDEBUG(SysLog(SYSLOG_DEBUG) 
+	    << " Press Ctrl=" << me.IsCntrl() 
+	    << " Lock=" << me.IsLock() 
+	    << " Shift=" << me.IsShift() 
+	    << " Alt=" << me.IsAlt() 
+	    << " Mod5=" << me.IsMod5() 
+	    << " Mod6=" << me.IsMod6() 
+	    << " Mod7=" << me.IsMod7() // 'Special Key'
+ 	    << " Mod8=" << me.IsMod8() // 'Atl Gr'
+	    << " ");
+    
     if(state >= 100) {
       IntT size = (IntT) poly.Size();
       IntT pat = state - 100;
@@ -276,8 +289,8 @@ namespace RavlGUIN {
       RealT score = -1;
       if(FindClosestPoint(at,score,newState)) {
         state = newState;
-        if(newState == 0 && me.HasChanged(1))
-          state = 100; // Put it into markup mode.
+        if(newState == 0 && (me.IsMod7() || me.IsMod8()))
+	   state = 100; // Put it into markup mode.
         return true;
       }
     }
@@ -354,13 +367,101 @@ namespace RavlGUIN {
       IntT pat = state - 100;
       if(pat >= (IntT) poly.Size())
         return false;
-      poly.Nth(pat) = at;
+      QuickMarkPoint(pat,at,me.IsMod8());
       if(!me.IsCntrl())
         MovePoly();
       refresh = true;	
       return true;
     }
     return false;
+  }
+  
+  //: Move a point with quick markup.
+  
+  bool MarkupPolygon2dBodyC::QuickMarkPoint(int pnt,Point2dC pos,bool markVert) {
+    // 0. Move whole thing
+    // 1. Change horz angle and scale.
+    // 2. Change vert angle and scale.
+    // 3. Change perspective
+    DLIterC<Point2dC> oit(orgPoly);
+    DLIterC<Point2dC> pit(poly);
+    switch(pnt) {
+    case 0: { // Move whole thing
+      Vector2dC offset = pos - *oit;
+      for(;pit && oit;pit++,oit++)
+	*pit = *oit + offset;
+      if(markVert) {
+	// Make the last point directly below this one.
+	poly.Nth(-1).Col() = pos.Col();
+
+	// Make the other side the average of the two offsets.
+	Point2dC &p1 = poly.Nth(1);
+	Point2dC p2 = poly.Nth(2);
+	p1.Col() = (p1.Col() + p2.Col())/2.0;
+      }
+    } break;
+    case 1: { // Move horzontal angle and scale.
+      SArray1dC<Point2dC> op(3);
+      SArray1dC<Point2dC> np(3);
+      op[0] = *oit; oit++;
+      op[1] = *oit; oit++;
+      op[2] = *oit;
+      
+      np[0] = *pit;
+      np[1] = pos;
+
+      RealT d2 = op[0].EuclidDistance(op[1]);
+      if(d2 <= 0) d2 = 0.1; // Avoid potential division by zero.
+      RealT scale = np[0].EuclidDistance(pos) / d2;
+      if(markVert) {
+	// Make sure np[2] is directly below np[1]
+	np[2] = pos + Vector2dC((op[2].Row() - op[1].Row()) * scale,0);
+      } else {
+	np[2] = pos + (op[2] - op[1]) * scale;
+      }
+      
+      Affine2dC trans = FitAffine(op,np);
+      poly = trans * orgPoly;
+      
+      if(markVert) {	// Need to do vertical correction on final point?
+	poly.Nth(-1).Col() = poly.First().Col();
+      }
+      
+    } break;
+    case 2: { // Affine change.
+      SArray1dC<Point2dC> op(3);
+      SArray1dC<Point2dC> np(3);
+      op[0] = *oit; oit++;
+      op[1] = *oit; oit++;
+      op[2] = *oit;
+      
+      np[0] = *pit; pit++;
+      np[1] = *pit; pit++;
+      np[2] = pos;
+      
+      if(markVert) {
+	// Make sure it stays vertical.
+	np[2].Col() = np[1].Col();
+      }
+      
+      Affine2dC trans = FitAffine(op,np);
+      poly = trans * orgPoly;      
+      
+      if(markVert) {	// Need to do vertical correction on final point?
+	poly.Nth(-1).Col() = poly.First().Col();
+      }
+    } break;
+    case 3: {
+      if(markVert) 
+	pos.Col() = poly.First().Col();
+      poly.Nth(pnt) = pos;
+    } break;
+    default:
+      poly.Nth(pnt) = pos;
+      break;
+    }
+    
+    return true;
   }
   
   //: Handle mouse event.
@@ -376,7 +477,7 @@ namespace RavlGUIN {
     } else { // State >= 0, initial create mode.
       IntT size = poly.Size();
       state++;
-      if((state - 100) == size) {
+      if((state - 100) == size || !(me.IsMod7() || me.IsMod8())) {
         UpdateDb();
         return false;
       }

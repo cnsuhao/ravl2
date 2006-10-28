@@ -95,6 +95,9 @@ namespace RavlGUIN {
     //: Call when some part of the polygon has been updated.
     // This will update the position of any child polygons appropriatly.
     
+    bool QuickMarkPoint(int pnt,Point2dC pos,bool markVert);
+    //: Move a point with quick markup.
+    
     Polygon2dC poly;
     Polygon2dC orgPoly; // Original polygon, used for drags
     

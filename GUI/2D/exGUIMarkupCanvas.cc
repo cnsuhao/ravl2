@@ -106,9 +106,9 @@ int main(int nargs,char **argv) {
   // Create a small poly.
   Polygon2dC smallPoly;
   smallPoly.InsLast(Point2dC(20,20));
-  smallPoly.InsLast(Point2dC(50,20));
-  smallPoly.InsLast(Point2dC(50,50));
   smallPoly.InsLast(Point2dC(20,50));
+  smallPoly.InsLast(Point2dC(50,50));
+  smallPoly.InsLast(Point2dC(50,20));
 
   MarkupPolygon2dC smallPolyMarkup(1,ZO_Polygon,smallPoly);
   smallPolyMarkup.PushLayer(LI_DottedPolygons);
@@ -117,9 +117,9 @@ int main(int nargs,char **argv) {
   // Create a poly.
   Polygon2dC poly;
   poly.InsLast(Point2dC(10,-20));
-  poly.InsLast(Point2dC(100,-20));
-  poly.InsLast(Point2dC(100,100));
   poly.InsLast(Point2dC(10,100));
+  poly.InsLast(Point2dC(100,100));
+  poly.InsLast(Point2dC(100,-20));
   
   MarkupPolygon2dC polyMarkup(2,ZO_Polygon,poly);
   polyMarkup.Insert(smallPolyMarkup);
