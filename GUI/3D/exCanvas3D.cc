@@ -54,17 +54,17 @@ bool InitGL()
 }
 
 bool pressFunc(MouseEventC &me) {
-  cerr << "Press " << me.X() << " " << me.Y() << "\n";
+  cerr << "Press " << me.Row() << " " << me.Col() << "\n";
   return true;
 }
 
 bool releaseFunc(MouseEventC &me) {
-  cerr << "Release " << me.X() << " " << me.Y() << "\n";
+  cerr << "Release " << me.Row() << " " << me.Col() << "\n";
   return true;
 }
 
 bool moveFunc(MouseEventC &me) {
-  cerr << "Move " << me.X() << " " << me.Y() << "\n";
+  cerr << "Move " << me.Row() << " " << me.Col() << "\n";
   return true;
 }
 
