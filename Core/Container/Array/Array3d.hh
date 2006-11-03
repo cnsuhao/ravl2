@@ -213,7 +213,7 @@ namespace RavlN {
   Array3dC<DataT>::Array3dC(IndexC minI,IndexC maxI,
 			    IndexC minJ,IndexC maxJ,
 			    IndexC minK,IndexC maxK)
-    : RangeBufferAccess3dC<DataT>(IndexRangeC(minJ,maxI),IndexRangeC(minK,maxK)),
+    : RangeBufferAccess3dC<DataT>(IndexRangeC(minJ,maxJ),IndexRangeC(minK,maxK)),
       data(IndexRangeC(minI,maxI).Size(),IndexRangeC(minJ,maxJ).Size(),IndexRangeC(minK,maxK).Size())
   {
     RavlAssert(minI <= maxI);
