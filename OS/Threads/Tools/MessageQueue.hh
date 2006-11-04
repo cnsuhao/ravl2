@@ -51,13 +51,13 @@ namespace RavlN {
     void Dump(void) const; 
     //: Dump contents to stdout.
     
-    IntT MaxSize() const { return maxSize; }
-    //: Get size of pipe.
+    IntT MaxSize() const { return maxSize-2; }
+    //: Get maximum number of items that may be held in the queue.
     
   protected:
     inline bool IsSpace() const {
       IntT nHead = head + 1;
-      if(nHead >= MaxSize())
+      if(nHead >= maxSize)
 	nHead = 0;
       return (nHead != tail);
     }
@@ -155,7 +155,7 @@ namespace RavlN {
     new((void *) &(data[head])) T(Data); // Possible exception.
     // If exception constructing object following code won't be called.
     head++;
-    if(head >= MaxSize())
+    if(head >= maxSize)
       head = 0;
     lock.Unlock();
     ready.Post();
@@ -171,7 +171,7 @@ namespace RavlN {
     new((void *) &(data[head])) T(Data); // Possible exception.
     // If exception constructing object following code won't be called.
     head++;
-    if(head >= MaxSize())
+    if(head >= maxSize)
       head = 0;
     lock.Unlock();
     ready.Post();
@@ -190,7 +190,7 @@ namespace RavlN {
     new((void *) &(data[head])) T(Data); // Possible exception.
     // If exception constructing object following code won't be called.
     head++;
-    if(head >= MaxSize())
+    if(head >= maxSize)
       head = 0;  
     lock.Unlock();
     ready.Post();
@@ -209,7 +209,7 @@ namespace RavlN {
     // If copy failed we're in trouble anyway.
     data[tail].~T(); // Possible exception.
     tail++;
-    if(tail >= MaxSize())
+    if(tail >= maxSize)
       tail = 0;  
     lock.Unlock();
     putSema.Post();
@@ -229,7 +229,7 @@ namespace RavlN {
     // If copy failed we're in trouble anyway.
     data[tail].~T(); // Possible exception.
     tail++;
-    if(tail >= MaxSize())
+    if(tail >= maxSize)
       tail = 0; 
     lock.Unlock();
     putSema.Post();
@@ -250,7 +250,7 @@ namespace RavlN {
     Data = data[tail]; // Possible exception.
     data[tail].~T();   // Possible exception.
     tail++;
-    if(tail >= MaxSize())
+    if(tail >= maxSize)
       tail = 0;  
     lock.Unlock();
     putSema.Post();
@@ -284,7 +284,7 @@ namespace RavlN {
     MutexLockC lock(access);
     if(head >= tail)
       return head-tail;
-    return (MaxSize() - tail) + head;
+    return (maxSize - tail) + head;
     // Unlock here.
   }
   
