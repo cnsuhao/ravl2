@@ -62,7 +62,7 @@ namespace RavlN {
 
   // <p>It can be used as a finite approximation of a Gaussian, but with the property that the spectral content at &frac12; sampling frequency = 0.  The
   // "variance" of this Gaussian is (size-1)/4.
-  // The rational is this:
+  // The rationale is this:
   // <ul>
   // <li> The simplest possible non-trivial Gaussian filter is a 2nd-order one,
   // which from symmetry considerations will have two equal coefficients.
