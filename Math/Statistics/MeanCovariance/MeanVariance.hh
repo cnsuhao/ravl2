@@ -45,11 +45,11 @@ namespace RavlN {
     //: Constructor.
     
     RealT StdDeviation() const
-    { return Sqrt(var); }
+    { return (var<0.0) ? 0.0 : Sqrt(var); }
     //: Get the standard deviation.
     
     RealT Variance() const
-    { return var; }
+    { return (var<0.0) ? 0.0 : var; }
     //: Access the variance.
     
     SizeT Number() const
