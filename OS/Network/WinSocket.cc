@@ -386,17 +386,27 @@ namespace RavlN
         else
           {
             int nError = WSAGetLastError();
-				
-            if( nError == WSAECONNRESET)
-              {
+	
+            switch(nError) {
+              case WSAECONNRESET: {
                 ONDEBUG(cerr << "Connection closed disgracefully.\n");
-                break;
+                return (IntT) nTotBytes;
               }
-            else if(nError != WSAEWOULDBLOCK) //We don't care about blocking errors
-              {
+              case WSAEINPROGRESS: // Some other operation is waiting.
+                ::Sleep(10);
+                break;
+              case WSAEINTR:
+              case WSAEWOULDBLOCK: // We don't care about blocking errors
+                break;
+              case WSAECONNABORTED:
+              //case WSAENOTSOCK:
+                // Happens when socket is closed.
+                return (IntT) nTotBytes;
+              default: {
                 cerr << "Receive failed with error code: " << nError << "\n";
-                break;
+                return (IntT) nTotBytes;
               }
+            }
           }
       }	
     return (IntT) nTotBytes;
@@ -437,18 +447,22 @@ namespace RavlN
         int numBytesSent = 0;
         numBytesSent = send(m_nSocket, &(buff[numBytesSent]), (size - numBytesSent), 0);
         nError = WSAGetLastError();
-        if(numBytesSent == SOCKET_ERROR)
-          {
-            if(nError != WSAEWOULDBLOCK)
-              {
+        if(numBytesSent == SOCKET_ERROR) {
+          switch(nError) {
+            case WSAEINTR:
+            case WSAEWOULDBLOCK: // Just ignore.
+              break;
+            case WSAEINPROGRESS:
+              ::Sleep(10);
+              break;
+            default: {
                 cerr << "SocketBodyC failed to transmit data, error: " << nError << "\n";
-                return 0;
+                return nTotBytesSent;
               }
           }
-        else
-          {
-            nTotBytesSent += numBytesSent;
-          }
+        } else {
+          nTotBytesSent += numBytesSent;
+        }
         //This read has succeeded so reset the time out data
         if(numBytesSent > 0)
           {
@@ -458,7 +472,7 @@ namespace RavlN
         //Check whether the time taken has exceeded the time out value
         if(m_nTimeout > -1 && nCounter++ >= nPoll)
           {				
-            Sleep(5000);
+            Sleep(100); 
             time_t currentTime;
             time(&currentTime);
             int nElapsedSeconds = (int) currentTime - (int)startTime;
@@ -478,15 +492,13 @@ namespace RavlN
   //: Write an array of bytes to a stream.
   IntT SocketBodyC::WriteV(const char **buffer,IntT *len,int numEntries)
   {
-    if(m_nSocket <= 0)
-      {
-        return 0;
-      }
+    if(m_nSocket <= 0) {
+      return 0;
+    }
     int nTotBytesSent = 0;
-    for(int n = 0; n < numEntries; n++)
-      {
-        nTotBytesSent += Write(&(*buffer[n]), len[n]);
-      }
+    for(int n = 0; n < numEntries; n++) {
+      nTotBytesSent += Write(&(*buffer[n]), len[n]);
+    }
     return nTotBytesSent;
   }	
 	
