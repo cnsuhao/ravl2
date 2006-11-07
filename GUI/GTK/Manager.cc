@@ -185,10 +185,14 @@ namespace RavlGUIN {
   void ManagerC::Init(int &nargs,char *args[])  {
     ONDEBUG(cerr << "ManagerC::Init(), Called. \n");
     RavlAssert(!initCalled); // Init should only be called once.
+#if !(RAVL_USE_IDLEMETHOD && RAVL_OS_WIN32)
+    // Disable thread support on windows as it seems
+    // to cause hangs on most XP boxes
     if(!g_thread_supported ()) {
       g_thread_init(0);
       gdk_threads_init();
     }
+#endif
     
 #if  RAVL_USE_GTKTHREADS
     // In theory no other threads should be running yet so the following
@@ -229,6 +233,11 @@ namespace RavlGUIN {
     ManagerC &manager =  *((ManagerC *) data);
     manager.HandleNotify();
     return false;
+  }
+
+  static gboolean manager_idle_timeout(gpointer data) {
+
+    return true;
   }
 #endif
 
@@ -298,6 +307,10 @@ namespace RavlGUIN {
     GIOChannel *channel = g_io_channel_unix_new(ifp);
     g_io_add_watch_full(channel,G_PRIORITY_DEFAULT_IDLE+10,G_IO_IN,manager_input_callback, this,0);
     g_io_channel_unref (channel);
+#else
+#if RAVL_OS_WIN32
+    g_timeout_add(500,&manager_idle_timeout,0);
+#endif
 #endif
     
     startupDone.Post();
@@ -357,7 +370,7 @@ namespace RavlGUIN {
   bool ManagerC::Notify(IntT id) {
     //cerr << "Nofity. \n";
 #if RAVL_USE_IDLEMETHOD
-    gtk_idle_add(&manager_idle_callback,this);
+    g_idle_add_full(G_PRIORITY_HIGH_IDLE,&manager_idle_callback,this,NULL);
 #else
 #if !RAVL_USE_GTKTHREADS 
     if(write(ofp,&id,sizeof(IntT)) != sizeof(id)) {
