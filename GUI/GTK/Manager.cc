@@ -185,14 +185,17 @@ namespace RavlGUIN {
   void ManagerC::Init(int &nargs,char *args[])  {
     ONDEBUG(cerr << "ManagerC::Init(), Called. \n");
     RavlAssert(!initCalled); // Init should only be called once.
-#if !(RAVL_USE_IDLEMETHOD && RAVL_OS_WIN32)
-    // Disable thread support on windows as it seems
-    // to cause hangs on most XP boxes
+
+
     if(!g_thread_supported ()) {
+      //cerr << "Enable glib threads. \n";
       g_thread_init(0);
+#if !(RAVL_USE_IDLEMETHOD && RAVL_OS_WIN32)
+      // Disable thread support on windows as it seems
+      // to cause hangs on most XP boxes
       gdk_threads_init();
-    }
 #endif
+    }
     
 #if  RAVL_USE_GTKTHREADS
     // In theory no other threads should be running yet so the following
@@ -271,6 +274,7 @@ namespace RavlGUIN {
       cerr << "ManagerC::Start(), WARNING: Manager already started. \n";
       return ;
     }
+    guiThreadID = ThisThreadID();
     managerStarted = true;
     lock.Unlock();
     
@@ -296,7 +300,6 @@ namespace RavlGUIN {
     gtkLock.Unlock();
     ONDEBUG(cerr << "ManagerC::Start(), gtk_main() Done.\n");
 #else
-    guiThreadID = ThisThreadID();
     
     // Get screen size from GDK
     screensize.Set(gdk_screen_height(),gdk_screen_width());
@@ -309,7 +312,7 @@ namespace RavlGUIN {
     g_io_channel_unref (channel);
 #else
 #if RAVL_OS_WIN32
-    g_timeout_add(500,&manager_idle_timeout,0);
+    //g_timeout_add(500,&manager_idle_timeout,0);
 #endif
 #endif
     
