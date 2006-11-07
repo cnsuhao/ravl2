@@ -28,6 +28,7 @@ namespace RavlN {
   public:
     MeanVarianceC(const SArray1dC<RealT> &data,bool sampleStatistics = true);
     //: Calculate the mean and variance from an array of numbers.
+    //!param: sampleStatistics - When true compute statistics as a sample of a random variable. (Normalise covariance by n-1 )
     
     MeanVarianceC()
       : n(0),

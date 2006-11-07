@@ -94,7 +94,9 @@ namespace RavlN {
       RealT mean  = sum / rn;
       RealT sn = rn;
       if(sampleStatistics) sn--;
-      return MeanVarianceC(n,mean,(sum2 - Sqr(sum)/rn)/sn);
+      RealT var = (sum2 - Sqr(sum)/rn)/sn;
+      if (var < 0.0) var = 0.0;
+      return MeanVarianceC(n,mean,var);
     }
     //: Calculate the mean and variance for this sample.
     //!param: sampleStatistics - When true compute statistics as a sample of a random variable. (Normalise covariance by n-1 )
