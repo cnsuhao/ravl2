@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Posix/ConditionalMutex.cc"
+
 #include "Ravl/config.h"
 #if RAVL_OS_SOLARIS
 #define __EXTENSIONS__ 1
@@ -91,7 +92,7 @@ namespace RavlN
     : count(0)
   {
 #if RAVL_HAVE_WIN32_THREADS
-    sema = CreateSemaphore(0,0,65535,0);
+    sema = CreateSemaphore(0,0,0x7fffffff,0);
 #endif
   }
   
@@ -103,33 +104,54 @@ namespace RavlN
 #endif
   }
   
+  static bool DecrementNotBelowZero(volatile LONG &count) {
+    LONG tmp,ret;
+    do {
+      tmp = count;
+      if(tmp == 0) 
+        return false;
+      ret = InterlockedCompareExchange(&count,tmp-1,tmp); // Try and decrement by one.
+      // Check if decrement worked, if not try again.
+    } while(ret != tmp);
+    return true;
+  }
+
   bool ConditionalMutexC::Wait(RealT maxTime) {
 #if RAVL_HAVE_WIN32_THREADS
     int rc;
+    InterlockedIncrement(&count); // Register our interest in getting signalled
     Unlock();
-    InterlockedIncrement(&count);
     rc = WaitForSingleObject(sema,Round(maxTime * 1000.0));
-    if(rc == WAIT_TIMEOUT) {
-      // Decrement without going less than zero.  This may happen if
-      // there's been a broadcast just after WaitForSignleObject. In
-      // that case we'll just end up with the semaphore count 1 too high and
-      // the program and a Wait() will return early. This shouldn't be problem...
-      LONG tmp,ret;
-      do {
-	tmp = count;
-	if(tmp == 0) 
-	  break;
-	ret = InterlockedCompareExchange(&count,tmp-1,tmp); // Try and decrement by one.
-	// Check if decrement worked, if not try again.
-      } while(ret != tmp);
-    }
-    bool ret = (rc == WAIT_OBJECT_0);
     Lock();
+    if(rc != WAIT_OBJECT_0) {
+      if(rc != WAIT_TIMEOUT) {
+        // Warn if something unexpected happend.
+        cerr << "ConditionalMutexC::Wait(delay), Failed to wait for conditional mutex. \n";
+      }
+      // Decrement without going less than zero.  This may happen if
+      // there's been a broadcast just after WaitForSingleObject. In
+      // that case we'll just end up with the semaphore count 1 too high and
+      // the program and a Wait() will return early. 
+      if(!DecrementNotBelowZero(count)) {
+        // If we get here an extra signal must have been posted, decrement it
+        // to keep accounting straight.
+        cerr <<  "ConditionalMutexC::Wait(delay), Removing left over sema. \n";
+        int rc2 = 0;
+        do {
+          rc2 = WaitForSingleObject(sema,2000);
+          if(rc2 != WAIT_OBJECT_0) {
+            // This shouldn't happen, though its possible if the machine is heavily loaded.
+            cerr << "ConditionalMutexC::Wait(delay), WARNING: Unexpected failure to wait for semaphore. \n";
+          }
+        } while(rc2 != WAIT_OBJECT_0);
+      }
+    }
+
 #endif
 #if RAVL_HAVE_POSIX_THREADS
     RavlAssert(0);// Not implemented.
 #endif
-    return ret;
+    return (rc == WAIT_OBJECT_0);
   }
   
   
@@ -142,11 +164,13 @@ namespace RavlN
 #endif
 #if RAVL_HAVE_WIN32_THREADS
     LONG tmp = 0; 
-    // Exchange count with zero and post that that to the semaphore, this will restart all threads
+    // Exchange count with zero and post that to the semaphore, this will restart all threads
     // current waiting.
     tmp = InterlockedExchange(&count,tmp);
     if(tmp == 0) return ; // Nothing waiting for signal!
-    ReleaseSemaphore(sema,tmp,0);
+    if(ReleaseSemaphore(sema,tmp,0) == 0) {
+      cerr << "ERROR: ConditionalMutex failed to broadcast! \n";
+    }
     return ;
 #endif
   }
@@ -161,14 +185,11 @@ namespace RavlN
 #if RAVL_HAVE_WIN32_THREADS
     // Decrement atomicly if greater than 0 and then post to semaphore.
     // else just return.
-    LONG tmp,ret;
-    do {
-      tmp = count;
-      if(tmp == 0) return ; // Nothing waiting to signal!
-      ret = InterlockedCompareExchange(&count,tmp-1,tmp); // Try and decrement by one.
-      // Check if decrement worked, if not try again.
-    } while(ret != tmp);
-    ReleaseSemaphore(sema,1,0);
+    if(!DecrementNotBelowZero(count))
+      return ; // Counter is zero, nothing to signal!
+    if(ReleaseSemaphore(sema,1,0) == 0) {
+      cerr << "ERROR: ConditionalMutexC::Signal, ERROR: failed to signal!";
+    }
     return ;
 #endif
   }
@@ -176,10 +197,31 @@ namespace RavlN
   void ConditionalMutexC::Wait() { 
 #if RAVL_HAVE_WIN32_THREADS
     int rc;
-    Unlock();
     InterlockedIncrement(&count); // Register our interest in getting signalled
+    Unlock();
     rc = WaitForSingleObject(sema,INFINITE); // Wait for signal
     Lock();
+
+    if(rc != WAIT_OBJECT_0) {
+      cerr << "ConditionalMutexC::Wait, Failed to wait for conditional mutex. \n";
+      // Decrement without going less than zero.  This may happen if
+      // there's been a broadcast just after WaitForSingleObject. In
+      // that case we'll just end up with the semaphore count 1 too high and
+      // the program and a Wait() will return early.
+      if(!DecrementNotBelowZero(count)) { 
+        // If we get here an extra signal must have been posted, decrement it
+        // to keep accounting straight.
+        cerr << "ConditionalMutexC::Wait(delay), Decrement leftover semaphore. \n";
+        int rc2 = 0;
+        do {
+          rc2 = WaitForSingleObject(sema,2000);
+          if(rc2 != WAIT_OBJECT_0) {
+            // This shouldn't happen, unless the machine is heavily loaded.
+            cerr << "ConditionalMutexC::Wait(delay), WARNING: Unexpected failure to wait for semaphore. \n";
+          }
+        } while(rc2 != WAIT_OBJECT_0);
+      }
+    }
 #endif
 #if RAVL_HAVE_POSIX_THREADS
     RavlAssert(0); // Not implemented.
