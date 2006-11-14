@@ -139,6 +139,7 @@ namespace RavlGUIN {
   //: Update the slider value.
   
   bool SliderBodyC::GUIUpdateValue(const RealT &val) {
+    bool updateVal = val != value;
     value = val;
     if(widget == 0)
       return true;
@@ -146,6 +147,12 @@ namespace RavlGUIN {
     GTK_ADJUSTMENT (adj)->value = val;
     ONDEBUG(cerr << "Slider setting: Value:" << value << " (L: " << GTK_ADJUSTMENT (adj)->lower << " U:" << GTK_ADJUSTMENT (adj)->upper << ") \n");
     gtk_signal_emit_by_name (GTK_OBJECT (adj), "changed");
+    
+    // FIX for slider value update bug.
+    // A bit of a sledge hammer, but this ensures the number displayed above the slider is
+    // correct.
+    if(updateVal)
+      gtk_widget_queue_draw (widget);
     return true;
   }
   
