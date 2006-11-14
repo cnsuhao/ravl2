@@ -138,8 +138,9 @@ namespace RavlGUIN {
     DListC<Tuple2C<IndexRange2dC,UIntT> > rect2frameno;
     
     AttributeCtrlUpdateSignalC inputStreamSizeChangedSignal;
-
-    UIntT midFrame; // Frame to display in the middle of the sequence.
+    
+    UIntT requestedMidFrame; // Frame requested to be in the middle of the sequence.
+    UIntT midFrame; // Frame to display in the middle of the sequence. (Nearest to reqestedMidFrame in frame skip steps)
     IntT frameSkip; // No of frame's between those being displayed.
     IntT vertSpace; // Space to leave between images.
     UIntT updateId; // Update ID. Use to discard unneed draw requests.

@@ -31,6 +31,7 @@ namespace RavlGUIN {
       video(nvideo),
       imageCache(100),
       warpScale(IndexRange2dC(0,100,0,100),WARPSCALE_NEARESTNEIGHBOUR),
+      requestedMidFrame(10),
       midFrame(10),
       frameSkip(nFrameSkip),
       vertSpace(4),
@@ -52,6 +53,7 @@ namespace RavlGUIN {
       aspectRatio(1.333),
       imageCache(100),
       warpScale(IndexRange2dC(0,100,0,100),WARPSCALE_NEARESTNEIGHBOUR),
+      requestedMidFrame(10),
       midFrame(10),
       frameSkip(nFrameSkip),
       vertSpace(4),
@@ -122,6 +124,7 @@ namespace RavlGUIN {
     RWLockHoldC hold(access,RWLOCK_WRITE);
     imageCache.Empty();
     video = nvideo;
+    requestedMidFrame = 0;
     midFrame = 0;
     inputStreamSizeChangedSignal.ChangeControl(nvideo);
     hold.Unlock();
@@ -417,6 +420,7 @@ namespace RavlGUIN {
   
   bool ThumbNailTimeLineBodyC::Goto(UIntT newFrameNo) {
     RWLockHoldC hold(access,RWLOCK_WRITE);
+    requestedMidFrame = newFrameNo;
     UIntT frameNo = Floor((RealT) newFrameNo / frameSkip) * frameSkip;
     if(midFrame == frameNo) return true;
     midFrame = frameNo;
@@ -442,6 +446,9 @@ namespace RavlGUIN {
     if(frameSkip == (int) skip)
       return true;
     frameSkip = skip;
+    // Re-center as needed.
+    midFrame = Floor((RealT) requestedMidFrame / frameSkip) * frameSkip;
+    
     hold.Unlock();
     semaUpdate.Post(); // Flag update.
     UpdateDisplayRange();
