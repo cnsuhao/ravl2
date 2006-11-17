@@ -22,7 +22,7 @@
 namespace RavlImageN {
 
   //! userlevel=Develop
-  //: V4L File format information.
+  //: MPEG File format information.
   
   class FileFormatMPEG2BodyC 
     : public FileFormatBodyC 
@@ -42,12 +42,12 @@ namespace RavlImageN {
     
     virtual DPIPortBaseC CreateInput(IStreamC &in,const type_info &obj_type) const;
     //: Create a input port for loading.
-    // This creates a plain V4L stream.
+    // This creates a plain MPEG stream.
     // Will create an Invalid port if not supported.
     
     virtual DPOPortBaseC CreateOutput(OStreamC &out,const type_info &obj_type) const;
     //: Create a output port for saving.
-    // This creates a plain V4L stream.
+    // This creates a plain MPEG stream.
     // Will create an Invalid port if not supported.
     
     virtual DPIPortBaseC CreateInput(const StringC &filename,const type_info &obj_type) const;
@@ -74,7 +74,7 @@ namespace RavlImageN {
   
   /////////////////////////////
   //! userlevel=Advanced
-  //: Create an instance of a V4L File Format.
+  //: Create an instance of an MPEG File Format.
   
   class FileFormatMPEG2C 
     : public FileFormatC<ImageC<ByteYUVValueC> > 
