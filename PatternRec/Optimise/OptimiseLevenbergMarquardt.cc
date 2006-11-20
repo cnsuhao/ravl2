@@ -47,7 +47,7 @@ namespace RavlN {
     RealT lambda = 0.0001;
     
     ONDEBUG(cerr << "Lambda=" << lambda << " Cost=" << currentCost << "\n");
-    int i = 0;
+    UIntT i = 0;
     MatrixC mA;
     VectorC mJ;
     for(;i < _iterations;i++) {
@@ -56,7 +56,7 @@ namespace RavlN {
       
       RealT newCost = 0;
       ONDEBUG(cerr << "mX=" << mX << "\n");
-      int j = 0;
+      UIntT j = 0;
       for(;j < 16;j++) {
         VectorC mdX = MatrixC(mA + mI * lambda).Inverse() * mb;
         VectorC mnX = mX + mdX;
