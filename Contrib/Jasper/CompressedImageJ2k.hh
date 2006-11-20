@@ -7,6 +7,8 @@
 #ifndef RAVLIMAGE_COMPRESSEDIMAGEJ2K_HEADER
 #define RAVLIMAGE_COMPRESSEDIMAGEJ2K_HEADER 1
 //! author="Charles Galambos"
+//! rcsid="$Id$"
+//! lib=RavlImgIOJasper
 
 #include "Ravl/Array1d.hh"
 #include "Ravl/BinStream.hh"

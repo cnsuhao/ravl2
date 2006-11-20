@@ -5,6 +5,8 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! author="Charles Galambos"
+//! rcsid="$Id$"
+//! lib=RavlImgIOJasper
 
 #include "Ravl/Image/ImgIOJasper.hh"
 #include "Ravl/Image/CompressedImageJ2k.hh"

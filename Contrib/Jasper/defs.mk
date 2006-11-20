@@ -8,6 +8,8 @@
 
 ORGANISATION=OmniPerception Ltd.
 
+DONOT_SUPPORT=VCPP
+
 REQUIRES=LibJasper
 
 PACKAGE=Ravl/Image
@@ -17,7 +19,6 @@ HEADERS=ImgIOJasper.hh JasperFormat.hh CompressedImageJ2k.hh
 SOURCES=ImgIOJasper.cc JasperFormat.cc CompressedImageJ2k.cc
 
 MUSTLINK=JasperImgIO.cc
-
 
 PLIB=RavlImgIOJasper
 
