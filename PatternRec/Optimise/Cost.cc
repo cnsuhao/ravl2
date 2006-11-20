@@ -23,9 +23,17 @@ namespace RavlN {
   }
   
   CostBodyC::CostBodyC (istream &in)
-    :FunctionBodyC(in),
-     _parameters(in)
+    : Function1BodyC(in),
+      _parameters(in)
   {}
+  
+  //: Apply function to 'data'
+  
+  VectorC CostBodyC::Apply(const VectorC &X) const {
+    VectorC Y (1);
+    Y[0] = Cost (X);
+    return Y;    
+  }
   
   VectorC CostBodyC::Evaluate (const VectorC &X) const
   {

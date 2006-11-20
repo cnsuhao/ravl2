@@ -32,9 +32,6 @@ namespace RavlN {
   
   class CostFunctionBodyC: public CostBodyC
   {
-    VectorC _Yd;
-    FunctionC _function;
-    DistanceC _metric;
   public:
     CostFunctionBodyC (const ParametersC &parameters,
 		       const VectorC &Yd, 
@@ -57,6 +54,11 @@ namespace RavlN {
     
     virtual bool Save (ostream &out) const;
     //: Writes object to stream, can be loaded using constructor
+    
+  protected:
+    VectorC _Yd;
+    FunctionC _function;
+    DistanceC _metric;
   };
   
   

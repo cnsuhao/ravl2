@@ -31,9 +31,6 @@ namespace RavlN {
   
   class CostFunction1dBodyC: public CostBodyC
   {
-    CostC _cost;
-    VectorC _point;
-    VectorC _direction;
   public:
     CostFunction1dBodyC (const ParametersC parameters,
                          const CostC &cost,
@@ -54,6 +51,14 @@ namespace RavlN {
     
     virtual bool Save (ostream &out) const;
     //: Writes object to stream, can be loaded using constructor
+    
+    virtual RealT Apply1(const VectorC &data) const;
+    //: Apply function to 'data'
+
+  protected:
+    CostC _cost;
+    VectorC _point;
+    VectorC _direction;
   };
   
   

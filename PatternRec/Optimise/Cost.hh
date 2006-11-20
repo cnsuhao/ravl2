@@ -16,7 +16,7 @@
 //! docentry="Ravl.API.Pattern Recognition.Optimisation.Cost Functions"
 //! rcsid="$Id$"
 
-#include "Ravl/PatternRec/Function.hh"
+#include "Ravl/PatternRec/Function1.hh"
 #include "Ravl/PatternRec/Parameters.hh"
 
 namespace RavlN {
@@ -35,7 +35,8 @@ namespace RavlN {
   // to give maxima instead of minima and cost functions can be combined by
   // summing them.
   
-  class CostBodyC: public FunctionBodyC
+  class CostBodyC
+    : public Function1BodyC
   {
   public:
     CostBodyC (const ParametersC &parameters);
@@ -102,6 +103,10 @@ namespace RavlN {
 
   private:
     ParametersC _parameters;
+    
+    virtual VectorC Apply(const VectorC &data) const;
+    //: Apply function to 'data'
+    
   };
   
   extern MatrixC numCostEmptyMatrix;
@@ -122,13 +127,19 @@ namespace RavlN {
   // the function being optimised should only be aware of the vector P.
   // NumCostC provides the interface between these two.
   
-  class CostC: public FunctionC
+  class CostC
+    : public Function1C
   {
   protected:
     CostC (CostBodyC &oth)
-      : FunctionC(oth)
+      : Function1C(oth)
     {}
-    //: Constructs from base class
+    //: Body constructor
+
+    CostC (CostBodyC *oth)
+      : Function1C(oth)
+    {}
+    //: Body constructor.
     
     inline CostBodyC & Body()
     { return static_cast<CostBodyC&>(FunctionC::Body()); }
@@ -144,7 +155,7 @@ namespace RavlN {
     //: Default constructor
     
     CostC (istream &in)
-      : FunctionC(in)
+      : Function1C(in)
     { CheckHandleType(Body()); }
     //: Constructs from stream
     
@@ -185,6 +196,7 @@ namespace RavlN {
   };
   
   /////////////////////////////////////////////////////////
+  
   const ParametersC & CostC::GetParameters () const
   { return Body().GetParameters (); }
 

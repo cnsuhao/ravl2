@@ -53,5 +53,12 @@ namespace RavlN {
     out << _point << "\n" << _direction << "\n";
     return true;
   }
+
+  //: Apply function to 'data'
+  
+  RealT CostFunction1dBodyC::Apply1(const VectorC &X) const {
+    return Cost (X);
+  }
+
   
 }

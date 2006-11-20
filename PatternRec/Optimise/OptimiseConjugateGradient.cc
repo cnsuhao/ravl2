@@ -122,7 +122,7 @@ namespace RavlN {
       currentCost = minimumCost; // Reset for next iteration.
       
       // Determine current Jacobian
-      dYdX = domain.Jacobian(iterX).SliceRow(0);
+      dYdX = domain.Jacobian1(iterX);
       
       // Compute conjugate direction.
       RealT gg = 0;
