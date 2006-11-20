@@ -38,7 +38,7 @@ namespace RavlN {
     NEIGH_CENTER      /* 8 */
   };
 
-  IndexC Neighbours[3][3] = {{ IndexC(5), IndexC(6), IndexC(7)},
+  static IndexC Neighbours[3][3] = {{ IndexC(5), IndexC(6), IndexC(7)},
 			     { IndexC(4), IndexC(8), IndexC(0)},
 			     { IndexC(3), IndexC(2), IndexC(1)}};
   
