@@ -1,0 +1,3082 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "RavlAAM"=..\RavlAAM.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImageProc
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlPatternRec
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOptimise
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Optimisation
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlVPlay"=..\RavlVPlay.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOSIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlGUI
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlDPMT
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlGUI2D
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlGUIUtil
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlImageIO"=..\RavlImageIO.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImage
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "fann"=..\fann.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name system
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "ccmath"=..\ccmath.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name Math
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlGUIGnome"=..\RavlGUIGnome.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlGUI
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name LibGnome
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlAudioFeatures"=..\RavlAudioFeatures.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlAudioUtil
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlAudioIO
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlCore"=..\RavlCore.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name Math
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlExtImgIO"=..\RavlExtImgIO.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlImage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name LibJPEG
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name LibPNG
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name LibTIFF
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImageIO
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlGUI2D"=..\RavlGUI2D.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlGUI
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImage
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlAudioFile"=..\RavlAudioFile.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name AudioFile
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlAudioUtil
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlAudioIO
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "Optimisation"=..\Optimisation.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlPatternRec
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlAudioIO"=..\RavlAudioIO.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlAudioUtil
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOSIO
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlOptimise"=..\RavlOptimise.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlMath"=..\RavlMath.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ccmath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Math
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlEHS"=..\RavlEHS.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name EHS
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlThreads
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlOS"=..\RavlOS.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlImgGd"=..\RavlImgGd.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlImage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name LibGd
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlImage"=..\RavlImage.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlLogicNLP"=..\RavlLogicNLP.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlLogic
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlIntelMKL"=..\RavlIntelMKL.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name IntelMKL
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlPatternRecIO"=..\RavlPatternRecIO.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlPatternRec
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "Ravl3D"=..\Ravl3D.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlCameraCal
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlDPDisplay"=..\RavlDPDisplay.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlGUI
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImageIO
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "Ravl3DIO"=..\Ravl3DIO.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name Ravl3D
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlGUIUtil"=..\RavlGUIUtil.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlGUI
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlGUI2D
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlGUI"=..\RavlGUI.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name GTK
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlThreads
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name system
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlChartDetector"=..\RavlChartDetector.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlImage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImageProc
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImageIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Optimisation
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlIO"=..\RavlIO.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlImageProc"=..\RavlImageProc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlImage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlThreads
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOSIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOptimise
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlMathIO"=..\RavlMathIO.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlLogicAgent"=..\RavlLogicAgent.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlLogic
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlDPMT
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlLogicNLP
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlCameraCal"=..\RavlCameraCal.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlAudioUtil"=..\RavlAudioUtil.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlHMM"=..\RavlHMM.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlOSIO"=..\RavlOSIO.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name DynLink
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlMPEG2"=..\RavlMPEG2.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlVideoIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlLogic"=..\RavlLogic.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlPatternRec
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlVideo"=..\RavlVideo.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImage
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlAV"=..\RavlAV.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlAudioUtil
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImageIO
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlVideoIO"=..\RavlVideoIO.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlImageIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOSIO
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlNet"=..\RavlNet.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+}}}
+
+###############################################################################
+
+Project: "RavlZLib"=..\RavlZLib.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name zlib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlImgIOJasper"=..\RavlImgIOJasper.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlImage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name LibJasper
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlLibGlade"=..\RavlLibGlade.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlGUI
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libglade
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlThreads"=..\RavlThreads.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name posixThreads
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name system
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlDPMT"=..\RavlDPMT.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlThreads
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlPatternRec"=..\RavlPatternRec.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOSIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name fann
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlURLIO"=..\RavlURLIO.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlThreads
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libcurl
+    End Project Dependency
+}}}
+
+
+
+###############################################################################
+
+Project: "testRavlBase.cc"=.\testRavlBase.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testCalls.cc"=.\testCalls.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testString.cc"=.\testString.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testStream.cc"=.\testStream.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testTFVector.cc"=.\testTFVector.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testRCLayer.cc"=.\testRCLayer.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testBuffer2d.cc"=.\testBuffer2d.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testBuffer3d.cc"=.\testBuffer3d.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testSlice.cc"=.\testSlice.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testSArray1d.cc"=.\testSArray1d.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testSArray2d.cc"=.\testSArray2d.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testSArray3d.cc"=.\testSArray3d.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testArray1d.cc"=.\testArray1d.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testArray2d.cc"=.\testArray2d.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testArray3d.cc"=.\testArray3d.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testStack.cc"=.\testStack.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testBlkStack.cc"=.\testBlkStack.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testBinTable.cc"=.\testBinTable.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testPriQH.cc"=.\testPriQH.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testPriQ.cc"=.\testPriQ.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testPriQueue.cc"=.\testPriQueue.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testFixedQueue.cc"=.\testFixedQueue.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testQueue.cc"=.\testQueue.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testBinaryTree.cc"=.\testBinaryTree.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testHashTree.cc"=.\testHashTree.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testDList.cc"=.\testDList.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testHash.cc"=.\testHash.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testHSet.cc"=.\testHSet.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testGraph.cc"=.\testGraph.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testTHEMesh.cc"=.\testTHEMesh.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testBGraph.cc"=.\testBGraph.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testBranch.cc"=.\testBranch.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testMath.cc"=.\testMath.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testRavlCore.cc"=.\testRavlCore.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testXMLStream.cc"=.\testXMLStream.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testCollection.cc"=.\testCollection.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlCore
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testDataProc.cc"=.\testDataProc.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testCompress.cc"=.\testCompress.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlZLib
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testDate.cc"=.\testDate.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testDeadLineTimer.cc"=.\testDeadLineTimer.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testFileFormat.cc"=.\testFileFormat.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testChildProc.cc"=.\testChildProc.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testRWLock.cc"=.\testRWLock.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlThreads
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testLaunchThread.cc"=.\testLaunchThread.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlThreads
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testTickerTrigger.cc"=.\testTickerTrigger.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlThreads
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testTimedTriggerQueue.cc"=.\testTimedTriggerQueue.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlThreads
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testSignal.cc"=.\testSignal.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlThreads
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testAtomic.cc"=.\testAtomic.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlThreads
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testNetPort.cc"=.\testNetPort.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlNet
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlThreads
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "USESLIBS"=.\USESLIBS.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlNet
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlThreads
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "="=.\=.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlNet
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlThreads
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlOS"=.\RavlOS.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlNet
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlThreads
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlCore"=.\RavlCore.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlNet
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlThreads
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "Socket"=.\Socket.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlNet
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlThreads
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlThreads"=.\RavlThreads.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlNet
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlThreads
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RavlIO"=.\RavlIO.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlNet
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlThreads
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testTextFile.cc"=.\testTextFile.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testSequenceIO.cc"=.\testSequenceIO.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlOSIO
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testOSDataProc.cc"=.\testOSDataProc.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlDPMT
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testValS.cc"=.\testValS.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name ccmath
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testTMatrix.cc"=.\testTMatrix.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testMatInv.cc"=.\testMatInv.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testMatrix.cc"=.\testMatrix.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testTSMatrix.cc"=.\testTSMatrix.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testSpecificFMatrix.cc"=.\testSpecificFMatrix.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testLine2d.cc"=.\testLine2d.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlDPDisplay.opt
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testGeom2d.cc"=.\testGeom2d.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlDPDisplay.opt
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testGeom3d.cc"=.\testGeom3d.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testBoundry.cc"=.\testBoundry.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testFundamentalMatrix2d.cc"=.\testFundamentalMatrix2d.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testMeanCovar.cc"=.\testMeanCovar.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testHistogram.cc"=.\testHistogram.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testCircleIter.cc"=.\testCircleIter.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImageIO
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testCombinationIter.cc"=.\testCombinationIter.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImageIO
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testPolygon2dIter.cc"=.\testPolygon2dIter.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImageIO
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testGenerateSignal1d.cc"=.\testGenerateSignal1d.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testSignal1d.cc"=.\testSignal1d.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testFFT2d.cc"=.\testFFT2d.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "OrthogonalRegressionTest.cc"=.\OrthogonalRegressionTest.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlOptimise
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "QuadraticFitTest.cc"=.\QuadraticFitTest.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlOptimise
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "Homography2dFitTest.cc"=.\Homography2dFitTest.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlOptimise
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "Affine2dFitTest.cc"=.\Affine2dFitTest.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlOptimise
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testDataSet.cc"=.\testDataSet.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlPatternRec
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testMeasure.cc"=.\testMeasure.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlPatternRec
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testBrent.cc"=.\testBrent.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name Optimisation
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testBasicModels.cc"=.\testBasicModels.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlPatternRec
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testGaussianMixture.cc"=.\testGaussianMixture.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlPatternRec
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testClassifier.cc"=.\testClassifier.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlPatternRec
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testHiddenMarkovModel.cc"=.\testHiddenMarkovModel.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlHMM
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testAudioUtil.cc"=.\testAudioUtil.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlAudioUtil
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testAudioFeatures.cc"=.\testAudioFeatures.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlAudioFeatures
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOSIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlDevAudio.opt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlAudioIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlAudioFile.opt
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testImage.cc"=.\testImage.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlImage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImageIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlDPDisplay.opt
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testHSVValue.cc"=.\testHSVValue.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlImage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImageIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlDPDisplay.opt
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "test_imgdiff.cc"=.\test_imgdiff.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlImage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImageIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlMath
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlDPDisplay.opt
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testImgIO.cc"=.\testImgIO.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlImageIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testImageTools.cc"=.\testImageTools.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlImageProc
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testConvolve.cc"=.\testConvolve.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlImageProc
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImageIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOSIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOptimise
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlDPDisplay.opt
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testConnectedComponents.cc"=.\testConnectedComponents.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlImageProc
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImageIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlVideoIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlMathIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlDPDisplay.opt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImgIOV4L.opt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlExtImgIO.opt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlLibFFmpeg.opt
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testMorphology.cc"=.\testMorphology.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlImageProc
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testLineDet.cc"=.\testLineDet.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlImageProc
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOS
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlOSIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImageIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlMathIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImgIOV4L.opt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlDPDisplay.opt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlExtImgIO
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testTracking.cc"=.\testTracking.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlImageProc
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlVideoIO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlImgIOV4L.opt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlDPDisplay.opt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name CSPDriver.opt
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testHEMesh.cc"=.\testHEMesh.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name Ravl3D
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testLogic.cc"=.\testLogic.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlLogic
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testLiteralIndex.cc"=.\testLiteralIndex.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlLogic
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testBLiteralIndex.cc"=.\testBLiteralIndex.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlLogic
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testDecisionTree.cc"=.\testDecisionTree.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlLogic
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testNonLinearPlanner.cc"=.\testNonLinearPlanner.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlLogicNLP
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testActiveBlackboard.cc"=.\testActiveBlackboard.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlLogicAgent
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testIntelFFT2d.cc"=.\testIntelFFT2d.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlIntelMKL
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testImgIOJasper.cc"=.\testImgIOJasper.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlImgIOJasper
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlDPDisplay
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "testGd.cc"=.\testGd.cc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+
+    Begin Project Dependency
+    Project_Dep_Name RavlImgGd
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name RavlDPDisplay
+    End Project Dependency
+}}}
+
+
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+
