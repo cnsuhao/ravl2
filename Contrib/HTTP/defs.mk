@@ -9,6 +9,8 @@
 
 REQUIRES= libCurl
 
+DONOT_SUPPORT=VCPP
+
 PACKAGE=Ravl/IO
 
 EXAMPLES = exURL.cc
