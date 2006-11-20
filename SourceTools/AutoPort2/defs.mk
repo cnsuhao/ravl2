@@ -11,6 +11,8 @@ PACKAGENAME= VCPP
 
 DESCRIPTION = Visual C++ porting tool for QMake projects
 
+DONOT_SUPPORT=VCPP
+
 LICENSE = GPL
 
 PACKAGE=Ravl/AutoPort2
