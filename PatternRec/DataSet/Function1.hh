@@ -33,6 +33,21 @@ namespace RavlN {
     Function1BodyC(BinIStreamC &strm);
     //: Load from binary stream.
     
+    virtual VectorC Jacobian1(const VectorC &X) const;
+    //: Calculate Jacobian at X for single valued function
+    // The default implementation performs numerical estimation of the Jacobian using differences. This
+    // function has and should be overloaded for all cases where the Jacobian
+    // can be calculated analytically.
+    
+    virtual MatrixC Hessian(const VectorC &X) const;
+    //: Obtain the hessian of the function at X
+    // The default implementation performs numerical estimation of the Jacobian using differences. The
+    // default method does not provide a good approximation.
+    
+    virtual bool EvaluateValueJacobianHessian(const VectorC &X,RealT &value,VectorC &jacobian,MatrixC &hessian) const;
+    //: Evaluate the value,jacobian, and hessian of the function at point X
+    // Returns true if all values are provide, false if one or more is approximated.
+    
     virtual bool Save (ostream &out) const;
     //: Writes object to stream, can be loaded using constructor
     
@@ -91,6 +106,24 @@ namespace RavlN {
     //: Access body.
     
   public:
+
+    MatrixC Hessian(const VectorC &X) const
+    { return Body().Hessian(X); }
+    //: Obtain the hessian of the function at X
+    // The default implementation performs numerical estimation of the Jacobian using differences. The
+    // default method does not provide a good approximation.
+    
+    bool EvaluateValueJacobianHessian(const VectorC &X,RealT &value,VectorC &jacobian,MatrixC &hessian) const
+    { return Body().EvaluateValueJacobianHessian(X,value,jacobian,hessian); }
+    //: Evaluate the value,jacobian, and hessian of the function at point X
+    // Returns true if all values are provide, false if one or more is approximated.
+    
+    VectorC Jacobian1(const VectorC &X) const
+    { return Body().Jacobian1(X); }
+    //: Calculate Jacobian at X
+    // The default implementation performs numerical estimation of the Jacobian using differences. This
+    // function has and should be overloaded for all cases where the Jacobian
+    // can be calculated analytically.
     
     RealT Apply1(const VectorC &data) const
     { return Body().Apply1(data); }

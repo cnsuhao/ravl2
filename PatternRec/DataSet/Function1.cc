@@ -59,6 +59,31 @@ namespace RavlN {
     return 0;
   }
 
+  
+  VectorC Function1BodyC::Jacobian1(const VectorC &X) const {
+    return Jacobian(X).SliceRow(0);
+  }
+
+  //: Obtain the hessian of the function at X
+  // The default implementation performs numerical estimation of the Jacobian using differences. The
+  // default method does not provide a good approximation.
+  
+  MatrixC Function1BodyC::Hessian(const VectorC &X) const {
+    // Compute something numerically ?
+    return MatrixC();
+  }
+    
+  //: Evaluate the value,jacobian, and hessian of the function at point X
+  // Returns true if all values are provide, false if one or more is approximated.
+  
+  bool Function1BodyC::EvaluateValueJacobianHessian(const VectorC &X,RealT &value,VectorC &jacobian,MatrixC &hessian) const {
+    value = Apply1(X);
+    jacobian = Jacobian1(X);
+    hessian = Hessian(X);
+    return false;
+  }
+                                                                                                                        
+
   ///////////////////////////////////////////////////////////
 
   //: Load from stream.

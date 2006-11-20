@@ -65,13 +65,22 @@ namespace RavlN {
     
     virtual MatrixC Jacobian (const VectorC &X) const;
     //: Calculate Jacobian matrix at X
-    // Performs numerical estimation of the Jacobian using differences. This
+    // The default implementation performs numerical estimation of the Jacobian using differences. This
     // function has and should be overloaded for all cases where the Jacobian
     // can be calculated analytically.
     
     virtual VectorMatrixC Evaluate(const VectorC &X);
     //: Evalate the function and its jacobian at the same time.
     // This method defaults to calling 'Apply' and 'Jacobian' sperately.
+    // OBSOLETE Use, bool Evaluate(const VectorC &X,RealT &value,VectorC &jacobian);
+    
+    virtual bool EvaluateValueJacobian(const VectorC &X,VectorC &value,MatrixC &jacobian) const;
+    //: Evaluate the value,jacobian of the function at point X
+    // Returns true if all values are provide, false if one or more is approximated.
+    
+    virtual bool EvaluateValue(const VectorC &X,VectorC &value) const;
+    //: Evaluate the value of the function at point X
+    // Returns true if all values are provide, false if one or more is approximated.
     
     inline UIntT InputSize() const
     { return inputSize; }
@@ -164,6 +173,16 @@ namespace RavlN {
     { return Body().Evaluate(X); }
     //: Evalate the function and its jacobian at the same time.
     // This method defaults to calling 'Apply' and 'Jacobian' sperately.
+    
+    inline bool EvaluateValueJacobian(const VectorC &X,VectorC &value,MatrixC &jacobian) const
+    { return Body().EvaluateValueJacobian(X,value,jacobian); }
+    //: Evaluate the value,jacobian of the function at point X
+    // Returns true if all values are provide, false if one or more is approximated.
+    
+    inline bool EvaluateValue(const VectorC &X,VectorC &value) const
+    { return Body().EvaluateValue(X,value); }
+    //: Evaluate the value of the function at point X
+    // Returns true if all values are provide, false if one or more is approximated.
     
     inline UIntT InputSize() const
     { return Body().InputSize(); }

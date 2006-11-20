@@ -82,13 +82,31 @@ namespace RavlN {
     }
     return J;
   }
-
+  
   //: Evalate the function and its jacobian at the same time.
   // This method defaults to calling 'Apply' and 'Jacobian' sperately.
   
   VectorMatrixC FunctionBodyC::Evaluate(const VectorC &X) {
     return VectorMatrixC(Apply(X),Jacobian(X));
   }
+  
+  //: Evaluate the value,jacobian of the function at point X
+  // Returns true if all values are provide, false if one or more is approximated.
+  
+  bool FunctionBodyC::EvaluateValueJacobian(const VectorC &X,VectorC &value,MatrixC &jacobian) const {
+    value = Apply(X);
+    jacobian = Jacobian (X);
+    return false;
+  }
+  
+  //: Evaluate the value of the function at point X
+  // Returns true if all values are provide, false if one or more is approximated.
+  
+  bool FunctionBodyC::EvaluateValue(const VectorC &X,VectorC &value) const {
+    value = Apply(X);
+    return true;
+  }
+  
   
   //////////////////////////////////////////////////////////
   
