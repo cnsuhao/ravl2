@@ -10,6 +10,8 @@ ORGANISATION=OmniPerception Ltd.
 
 REQUIRES=LibGd
 
+DONOT_SUPPORT=VCPP
+
 PACKAGE=Ravl/Image
 
 HEADERS=Gd.hh
