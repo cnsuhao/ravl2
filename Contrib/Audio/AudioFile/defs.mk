@@ -10,6 +10,8 @@
 
 REQUIRES = libAudioFile
 
+DONOT_SUPPORT=VCPP
+
 PACKAGE= Ravl/Audio
 
 HEADERS= AudioFileIO.hh AudioFileFormat.hh
