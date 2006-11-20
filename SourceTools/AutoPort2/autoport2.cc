@@ -78,7 +78,7 @@ int main(int nargs,char **argv) {
   StringC fn    = option.String("i",".",     "(input)  Directory for unix src tree. ");
   StringC fout  = option.String("o","MSVC",      "(output) Directory for VCPP src tree.  ");
   StringC pathtempl= option.String("pt", PROJECT_OUT "/share/RAVL/AutoPort2","Where to look for template files.");
-  StringC projectOut= option.String("p", "C:/Build2","Project out to use in windows. (With UNIX style seperators)");
+  StringC projectOut= option.String("p", "C:/Build","Project out to use in windows. (With UNIX style seperators)");
   StringC doLibsFile =option.String("dl", "", "Text file containing names of Ravl libraries to port.  If no file provided all libraries will be done");
   projectOut.gsub("/","\\"); // "../ProjectOut"
   
