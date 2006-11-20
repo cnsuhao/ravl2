@@ -9,6 +9,8 @@
 
 REQUIRES=libmkl
 
+DONOT_SUPPORT=VCPP
+
 PACKAGE=Ravl
 
 HEADERS=IntelFFT2d.hh
