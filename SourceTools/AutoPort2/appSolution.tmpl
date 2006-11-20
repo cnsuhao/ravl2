@@ -1,0 +1,32 @@
+$(FileObject:mains)$(FilePattern:Mains/%.sln)
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+$(forall:libs:Project("$(topandtail:$(include:@MSVC/GUID/$(name)_Solution.sguid))") = "$(libname)", "$(libname).vcproj", "$(topandtail:$(include:@MSVC/GUID/$(libname).guid))"
+$(ifany:useslibs:	ProjectSection(ProjectDependencies) = postProject 
+$(forall:useslibs:$(IfFileExists:MSVC/GUID/$(name).guid:		$(topandtail:$(include:@MSVC/GUID/$(name).guid)) = $(topandtail:$(include:@MSVC/GUID/$(name).guid))
+))	EndProjectSection
+)EndProject
+)Project("$(topandtail:$(include:@MSVC/GUID/$(name)_solution.psguid))") = "$(name)", "Mains/$(name).vcproj", "$(topandtail:$(include:@MSVC/GUID/$(name).guid))"
+	ProjectSection(ProjectDependencies) = postProject 
+                MSVC/GUID/$(name).guid:		$(topandtail:$(include:@MSVC/GUID/$(name).guid)) = $(topandtail:$(include:@MSVC/GUID/$(name).guid))
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+$(forall:libs:		$(topandtail:$(include:@MSVC/GUID/$(name).guid)).Debug|Win32.ActiveCfg = Debug|Win32
+		$(topandtail:$(include:@MSVC/GUID/$(name).guid)).Debug|Win32.Build.0 = Debug|Win32
+		$(topandtail:$(include:@MSVC/GUID/$(name).guid)).Release|Win32.ActiveCfg = Release|Win32
+		$(topandtail:$(include:@MSVC/GUID/$(name).guid)).Release|Win32.Build.0 = Release|Win32
+)$(forall:mains:		$(topandtail:$(include:@MSVC/GUID/$(name).guid)).Debug|Win32.ActiveCfg = Debug|Win32
+		$(topandtail:$(include:@MSVC/GUID/$(name).guid)).Debug|Win32.Build.0 = Debug|Win32
+		$(topandtail:$(include:@MSVC/GUID/$(name).guid)).Release|Win32.ActiveCfg = Release|Win32
+		$(topandtail:$(include:@MSVC/GUID/$(name).guid)).Release|Win32.Build.0 = Release|Win32
+)       EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

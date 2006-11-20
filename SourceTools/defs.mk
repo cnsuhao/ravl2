@@ -9,6 +9,6 @@
 
 DONOT_SUPPORT=VCPP
 
-NESTED=  CodeManager.r VisualCPP.r CxxDoc.r ToMake.r
+NESTED=  CodeManager.r VisualCPP.r CxxDoc.r ToMake.r AutoPort2.r
 
 EHT= Ravl.API.Source_Tools.eht
