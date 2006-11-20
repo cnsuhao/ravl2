@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exVariableLengthCode"
-	ProjectGUID="{24aea0cf-5a2d-4e60-97a5-0cb093cf258a}"
+	ProjectGUID="{4c3d664a-af61-46a3-997d-ffff1aae3279}"
 	RootNamespace="exVariableLengthCode"
 	Keyword="Win32Proj"
 	>

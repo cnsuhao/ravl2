@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exFrame"
-	ProjectGUID="{57cc3add-6a21-4254-9ec9-b1119440df46}"
+	ProjectGUID="{884d212f-69a3-47be-8f72-561b590502e8}"
 	RootNamespace="exFrame"
 	Keyword="Win32Proj"
 	>

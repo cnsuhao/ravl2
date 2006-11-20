@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exFont"
-	ProjectGUID="{512c2715-a7f6-45f9-9cf5-eb57289c7e3f}"
+	ProjectGUID="{a0aaff20-d741-494f-8111-75f8da2fb278}"
 	RootNamespace="exFont"
 	Keyword="Win32Proj"
 	>

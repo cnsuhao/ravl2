@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testBLiteralIndex"
-	ProjectGUID="{afb07af5-556a-43b0-9ba7-f9eee6c2d265}"
+	ProjectGUID="{470ff815-a196-435f-b1e9-b769a80ba5c0}"
 	RootNamespace="testBLiteralIndex"
 	Keyword="Win32Proj"
 	>

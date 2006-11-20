@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="rdialog"
-	ProjectGUID="{82e09aa4-d1e4-4a29-b825-0c150e000a51}"
+	ProjectGUID="{dc3f4e29-011b-4bf1-aada-8f93e6eea7da}"
 	RootNamespace="rdialog"
 	Keyword="Win32Proj"
 	>

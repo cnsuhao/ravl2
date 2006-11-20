@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="aamCombineActiveAppearanceModel"
-	ProjectGUID="{f37f2005-6ccf-4a79-a575-08aa12183cd8}"
+	ProjectGUID="{8757e654-8e7d-4936-a662-6f1360157180}"
 	RootNamespace="aamCombineActiveAppearanceModel"
 	Keyword="Win32Proj"
 	>

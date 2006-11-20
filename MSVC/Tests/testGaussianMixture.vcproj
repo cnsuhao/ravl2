@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testGaussianMixture"
-	ProjectGUID="{d44dad43-4a72-45d0-8732-9500758b8b58}"
+	ProjectGUID="{48cffde5-0f28-4ae3-a660-c82dd3cd023b}"
 	RootNamespace="testGaussianMixture"
 	Keyword="Win32Proj"
 	>

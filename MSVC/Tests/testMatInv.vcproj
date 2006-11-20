@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testMatInv"
-	ProjectGUID="{c4f5833f-7333-4f1e-9d74-9cbb64db19f4}"
+	ProjectGUID="{88b12d15-cf40-4d0d-ba7f-10922da265c4}"
 	RootNamespace="testMatInv"
 	Keyword="Win32Proj"
 	>

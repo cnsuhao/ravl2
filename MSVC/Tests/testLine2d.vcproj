@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testLine2d"
-	ProjectGUID="{798aa890-17cb-495b-aa47-04cd65e6d550}"
+	ProjectGUID="{73e5c73d-6d04-4261-8f18-b98feed477d9}"
 	RootNamespace="testLine2d"
 	Keyword="Win32Proj"
 	>

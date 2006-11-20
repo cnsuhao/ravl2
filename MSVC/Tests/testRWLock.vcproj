@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testRWLock"
-	ProjectGUID="{7a6eda5a-6c0a-474e-bc2a-92bab455af0a}"
+	ProjectGUID="{eaa26b68-0063-4c77-80b8-88b7353bd35d}"
 	RootNamespace="testRWLock"
 	Keyword="Win32Proj"
 	>

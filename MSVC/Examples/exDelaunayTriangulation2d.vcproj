@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exDelaunayTriangulation2d"
-	ProjectGUID="{1e776c2d-9489-4c3d-8cae-115c45a86b1f}"
+	ProjectGUID="{acbf286e-3790-40ae-b8af-f62f26c99adc}"
 	RootNamespace="exDelaunayTriangulation2d"
 	Keyword="Win32Proj"
 	>

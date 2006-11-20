@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="VGrab"
-	ProjectGUID="{28062b20-0943-4aed-950e-6689a00564ed}"
+	ProjectGUID="{89445bea-adbe-40b1-9cfc-d917bdee6fd3}"
 	RootNamespace="VGrab"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testHSVValue"
-	ProjectGUID="{d834db6f-2ef5-47c5-9697-b6a5d7a5d33c}"
+	ProjectGUID="{95fbcf1c-b5d7-4646-87f3-34582db287ec}"
 	RootNamespace="testHSVValue"
 	Keyword="Win32Proj"
 	>

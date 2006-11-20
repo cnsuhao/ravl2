@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testAudioFeatures"
-	ProjectGUID="{39fe1819-4301-4029-83a1-668280538997}"
+	ProjectGUID="{ecd8d40e-56e8-49f4-b43e-ab2d2ccf5bf5}"
 	RootNamespace="testAudioFeatures"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exDynamicFormat"
-	ProjectGUID="{217c0d6a-8d19-4b3a-a0d6-1c1d12c8bf27}"
+	ProjectGUID="{d7b91e35-cb7d-4379-80b9-71e750790fc2}"
 	RootNamespace="exDynamicFormat"
 	Keyword="Win32Proj"
 	>

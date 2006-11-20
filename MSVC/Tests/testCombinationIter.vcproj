@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testCombinationIter"
-	ProjectGUID="{181fbf53-4ba5-40a4-b550-38ea902a9a8c}"
+	ProjectGUID="{a740dd05-69e8-482b-983d-565221c1bbed}"
 	RootNamespace="testCombinationIter"
 	Keyword="Win32Proj"
 	>

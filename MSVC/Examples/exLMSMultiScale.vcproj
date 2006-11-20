@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exLMSMultiScale"
-	ProjectGUID="{ffd4bb18-6d12-46bf-9d82-45b5d07fbac8}"
+	ProjectGUID="{d9ce509a-3bff-4256-b522-b5d88d5e06c3}"
 	RootNamespace="exLMSMultiScale"
 	Keyword="Win32Proj"
 	>

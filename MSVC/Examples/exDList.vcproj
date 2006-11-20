@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exDList"
-	ProjectGUID="{7e4ee173-6a4a-43a8-94fe-b45972a31149}"
+	ProjectGUID="{35c1ce32-3396-4b68-9d84-1b3bc9929c61}"
 	RootNamespace="exDList"
 	Keyword="Win32Proj"
 	>

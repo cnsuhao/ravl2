@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testCompress"
-	ProjectGUID="{aef6d88d-bcc4-438e-b91b-ec55c3a1e141}"
+	ProjectGUID="{e0e44d2e-10b1-47d5-8cdc-dc583d8750ce}"
 	RootNamespace="testCompress"
 	Keyword="Win32Proj"
 	>

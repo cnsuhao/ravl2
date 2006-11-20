@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="doPPHT"
-	ProjectGUID="{5ef91992-d321-4a6a-8e99-51a415fa670f}"
+	ProjectGUID="{28272eb0-f336-4359-8f7b-c78fc10df361}"
 	RootNamespace="doPPHT"
 	Keyword="Win32Proj"
 	>

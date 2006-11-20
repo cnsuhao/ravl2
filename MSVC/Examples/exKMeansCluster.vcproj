@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exKMeansCluster"
-	ProjectGUID="{98772e30-436f-4020-9885-35d2c0e5bbfd}"
+	ProjectGUID="{dda1bc01-3833-47f9-bf7c-89091fa00698}"
 	RootNamespace="exKMeansCluster"
 	Keyword="Win32Proj"
 	>

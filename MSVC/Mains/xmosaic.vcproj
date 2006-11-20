@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="xmosaic"
-	ProjectGUID="{2a9547f0-0129-4326-ab1e-07e8915212c7}"
+	ProjectGUID="{1f812501-00da-4242-99d8-ccd3c2fa3b72}"
 	RootNamespace="xmosaic"
 	Keyword="Win32Proj"
 	>

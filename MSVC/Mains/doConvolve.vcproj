@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="doConvolve"
-	ProjectGUID="{26b2a205-1c8b-4e46-b997-45950e9fff55}"
+	ProjectGUID="{dcb39581-dcca-44bf-a2c4-53995ebba15c}"
 	RootNamespace="doConvolve"
 	Keyword="Win32Proj"
 	>

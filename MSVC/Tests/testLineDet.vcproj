@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testLineDet"
-	ProjectGUID="{cdb046d4-8ee3-4a39-ac81-4d810784680b}"
+	ProjectGUID="{60133eac-e607-4a41-915f-c1e9bb842da4}"
 	RootNamespace="testLineDet"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testTimedTriggerQueue"
-	ProjectGUID="{33185409-3f43-4fb7-9332-400e6b987de4}"
+	ProjectGUID="{d9a2c87d-5391-46d4-8962-b2cdab2c8cd2}"
 	RootNamespace="testTimedTriggerQueue"
 	Keyword="Win32Proj"
 	>

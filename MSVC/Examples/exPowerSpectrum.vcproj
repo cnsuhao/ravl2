@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exPowerSpectrum"
-	ProjectGUID="{79c7c69a-7320-44f2-96cc-a5d7c2e58c63}"
+	ProjectGUID="{9b7697b2-4058-4335-944f-afa4b99a5bca}"
 	RootNamespace="exPowerSpectrum"
 	Keyword="Win32Proj"
 	>

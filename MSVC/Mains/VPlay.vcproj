@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="VPlay"
-	ProjectGUID="{9f005522-66e4-4dcb-96a1-f4706956638a}"
+	ProjectGUID="{2c863232-cc29-4939-b45a-75d20fff52dc}"
 	RootNamespace="VPlay"
 	Keyword="Win32Proj"
 	>

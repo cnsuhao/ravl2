@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="imgdiff"
-	ProjectGUID="{0bbf242a-c7b3-4347-b2f1-a2926443607a}"
+	ProjectGUID="{e88d4047-526f-4b49-812c-69a47212f0ef}"
 	RootNamespace="imgdiff"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exGUIMarkupCanvas"
-	ProjectGUID="{6d17595e-45cf-4636-a3b9-a9003ab0963b}"
+	ProjectGUID="{31543a54-6512-4cf7-be1e-c279d2a38f2a}"
 	RootNamespace="exGUIMarkupCanvas"
 	Keyword="Win32Proj"
 	>

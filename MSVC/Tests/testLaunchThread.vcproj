@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testLaunchThread"
-	ProjectGUID="{3031f17c-c110-4657-82da-6ded1ac1fc5a}"
+	ProjectGUID="{38c86968-5b20-4d01-8999-6705e9184977}"
 	RootNamespace="testLaunchThread"
 	Keyword="Win32Proj"
 	>

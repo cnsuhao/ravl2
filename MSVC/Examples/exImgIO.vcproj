@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exImgIO"
-	ProjectGUID="{dadd50ff-d178-4cd5-8a3c-7e32f081e3a9}"
+	ProjectGUID="{7ff3f272-5772-4315-bc87-e64a744278f6}"
 	RootNamespace="exImgIO"
 	Keyword="Win32Proj"
 	>

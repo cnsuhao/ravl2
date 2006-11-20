@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testImgIO"
-	ProjectGUID="{d13abfb2-e757-43b8-8523-6c0b9f57e1b2}"
+	ProjectGUID="{1401feb9-54ad-4263-afcd-31ee6039a3c9}"
 	RootNamespace="testImgIO"
 	Keyword="Win32Proj"
 	>

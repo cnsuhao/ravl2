@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testTickerTrigger"
-	ProjectGUID="{f351c47e-3d85-494c-a1b2-3d4a198e8b52}"
+	ProjectGUID="{0ce3c1c1-c84b-4196-88b8-7960fcca10a0}"
 	RootNamespace="testTickerTrigger"
 	Keyword="Win32Proj"
 	>

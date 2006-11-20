@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exRefCounterInherit"
-	ProjectGUID="{811c10b5-1568-40d4-9e20-3dc4caff1ed2}"
+	ProjectGUID="{48a70db1-1c3b-4f68-919a-17ebdf2baeeb}"
 	RootNamespace="exRefCounterInherit"
 	Keyword="Win32Proj"
 	>

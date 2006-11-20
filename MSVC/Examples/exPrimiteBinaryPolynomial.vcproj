@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exPrimiteBinaryPolynomial"
-	ProjectGUID="{c8c38a43-94a9-46eb-a33b-343be94724c4}"
+	ProjectGUID="{f0ecf596-4fd0-4d2c-ad03-b3b3f8022fc1}"
 	RootNamespace="exPrimiteBinaryPolynomial"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exPythonThreaded"
-	ProjectGUID="{ac4c5aeb-1d60-45d7-bb5c-68445e695aee}"
+	ProjectGUID="{4518e626-49a9-43e1-865f-565952517b63}"
 	RootNamespace="exPythonThreaded"
 	Keyword="Win32Proj"
 	>

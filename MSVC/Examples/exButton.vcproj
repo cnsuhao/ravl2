@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exButton"
-	ProjectGUID="{0e6c875a-6d81-4976-8478-ce6b185f5629}"
+	ProjectGUID="{88da033d-3846-4475-89ac-721e9c622086}"
 	RootNamespace="exButton"
 	Keyword="Win32Proj"
 	>

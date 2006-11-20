@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testClassifier"
-	ProjectGUID="{3a2f848a-b2d5-4989-9c65-8698dba23ec8}"
+	ProjectGUID="{58aa8ff4-5a7e-45de-a1e8-56930c2cf323}"
 	RootNamespace="testClassifier"
 	Keyword="Win32Proj"
 	>

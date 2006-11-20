@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testPolygon2dIter"
-	ProjectGUID="{e56f7c1d-6314-4bda-85c7-0301c2aa7da5}"
+	ProjectGUID="{5ba9673a-9e77-407a-a02c-a01a32d173d7}"
 	RootNamespace="testPolygon2dIter"
 	Keyword="Win32Proj"
 	>

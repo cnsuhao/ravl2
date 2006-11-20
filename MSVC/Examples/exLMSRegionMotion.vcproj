@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exLMSRegionMotion"
-	ProjectGUID="{babceb10-0b10-4eec-84be-edb087993bd7}"
+	ProjectGUID="{de709724-436d-4b92-9e43-8b57e3eb861a}"
 	RootNamespace="exLMSRegionMotion"
 	Keyword="Win32Proj"
 	>

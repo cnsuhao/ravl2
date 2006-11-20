@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exFixed"
-	ProjectGUID="{113d66b3-7c77-43ac-81be-b5043c4d5d46}"
+	ProjectGUID="{dea2ba88-dbaa-4130-b98a-9caddb957842}"
 	RootNamespace="exFixed"
 	Keyword="Win32Proj"
 	>

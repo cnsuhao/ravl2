@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="doHomomorphicFilter"
-	ProjectGUID="{3fea0c41-52bb-497c-8128-bd1ce33aa1f6}"
+	ProjectGUID="{451ee754-7260-4219-90b8-2350ee85bb4c}"
 	RootNamespace="doHomomorphicFilter"
 	Keyword="Win32Proj"
 	>

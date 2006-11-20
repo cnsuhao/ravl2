@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exCursor"
-	ProjectGUID="{edc1b72d-27ed-48ad-ac54-d6f4a0366c0f}"
+	ProjectGUID="{e19f24b7-3f59-438a-9760-201c48ad8e64}"
 	RootNamespace="exCursor"
 	Keyword="Win32Proj"
 	>

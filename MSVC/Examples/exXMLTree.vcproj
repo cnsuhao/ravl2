@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exXMLTree"
-	ProjectGUID="{051377d3-b1e1-4880-901e-460f05f3e3de}"
+	ProjectGUID="{26fa8520-d88a-43c4-a2b8-f66ab6322fd1}"
 	RootNamespace="exXMLTree"
 	Keyword="Win32Proj"
 	>

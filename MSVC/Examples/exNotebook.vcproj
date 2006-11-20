@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exNotebook"
-	ProjectGUID="{b1dcaaab-7d51-4db5-ab22-b1d8addeebd9}"
+	ProjectGUID="{375737fe-0da7-4d7a-b4da-ebbfe95410b0}"
 	RootNamespace="exNotebook"
 	Keyword="Win32Proj"
 	>

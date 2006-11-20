@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exNetPort"
-	ProjectGUID="{22b0fe99-e186-4203-b2f2-7ecea6badf2c}"
+	ProjectGUID="{6bd63b8a-cc0a-4173-a00d-ee1813077072}"
 	RootNamespace="exNetPort"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exLBox"
-	ProjectGUID="{d4b7116b-b02c-47e8-be16-ac2b1db16e12}"
+	ProjectGUID="{d4efa04e-81d8-4c28-9910-33342dcad708}"
 	RootNamespace="exLBox"
 	Keyword="Win32Proj"
 	>

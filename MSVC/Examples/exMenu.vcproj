@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exMenu"
-	ProjectGUID="{42b1d862-3086-4c7e-928e-539e7fec3464}"
+	ProjectGUID="{ef74f08c-37cd-43e9-bdd9-b2d4c64a2084}"
 	RootNamespace="exMenu"
 	Keyword="Win32Proj"
 	>

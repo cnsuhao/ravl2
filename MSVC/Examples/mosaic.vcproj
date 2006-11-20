@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="mosaic"
-	ProjectGUID="{abcbff43-d867-423b-a283-fc6dfbe9ed64}"
+	ProjectGUID="{fd0755cf-5f93-4f9b-aca7-03ec4e69c5f3}"
 	RootNamespace="mosaic"
 	Keyword="Win32Proj"
 	>

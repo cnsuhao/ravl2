@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exThinPlateSpline1d"
-	ProjectGUID="{a08c2fce-7119-4839-8afb-503e5ab18e1e}"
+	ProjectGUID="{5a6e1afa-6578-4396-83e5-761e2bebb5e5}"
 	RootNamespace="exThinPlateSpline1d"
 	Keyword="Win32Proj"
 	>

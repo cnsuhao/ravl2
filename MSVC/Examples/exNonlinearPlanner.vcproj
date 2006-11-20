@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exNonlinearPlanner"
-	ProjectGUID="{b26eea09-0341-4c27-b107-3b89ad6236fd}"
+	ProjectGUID="{9680fc9f-d2af-429a-9dc2-21de1c447a75}"
 	RootNamespace="exNonlinearPlanner"
 	Keyword="Win32Proj"
 	>

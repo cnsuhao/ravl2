@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="SkinBlobFind"
-	ProjectGUID="{af6ba332-18b5-404c-8d95-429eb9c637f0}"
+	ProjectGUID="{60a8d09e-3521-49a9-9d54-90d5de825bc7}"
 	RootNamespace="SkinBlobFind"
 	Keyword="Win32Proj"
 	>

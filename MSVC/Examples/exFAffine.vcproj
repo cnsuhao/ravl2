@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exFAffine"
-	ProjectGUID="{ebebc743-cd27-4a0e-bd0b-7ec8ad7042a9}"
+	ProjectGUID="{bab28ec7-1cdf-43d2-ae8c-91ac11edebaf}"
 	RootNamespace="exFAffine"
 	Keyword="Win32Proj"
 	>

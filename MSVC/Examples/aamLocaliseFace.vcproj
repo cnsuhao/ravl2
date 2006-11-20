@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="aamLocaliseFace"
-	ProjectGUID="{6d8a6a05-97db-4081-a1bc-3c103c20fb77}"
+	ProjectGUID="{eaa95d2a-89e2-43ad-b207-59f7967e10f0}"
 	RootNamespace="aamLocaliseFace"
 	Keyword="Win32Proj"
 	>

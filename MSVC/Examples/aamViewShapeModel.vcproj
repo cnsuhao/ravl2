@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="aamViewShapeModel"
-	ProjectGUID="{124c68d2-5799-49b6-aef9-a80c63ecf701}"
+	ProjectGUID="{32e48c92-c9bb-4172-b908-43a4a11c47bd}"
 	RootNamespace="aamViewShapeModel"
 	Keyword="Win32Proj"
 	>

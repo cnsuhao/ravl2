@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="unDistort"
-	ProjectGUID="{3802a36e-efbb-4737-9125-6427d137a9fe}"
+	ProjectGUID="{349b55bb-b821-4c2a-a32f-bb7d1d61f0c9}"
 	RootNamespace="unDistort"
 	Keyword="Win32Proj"
 	>

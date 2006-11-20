@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exGaborFilter"
-	ProjectGUID="{e922c995-b444-4dea-b23a-43ca596890f6}"
+	ProjectGUID="{2f9e0096-14dc-4d55-8500-2f2f90027988}"
 	RootNamespace="exGaborFilter"
 	Keyword="Win32Proj"
 	>

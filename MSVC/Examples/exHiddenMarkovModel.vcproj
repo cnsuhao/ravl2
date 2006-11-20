@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exHiddenMarkovModel"
-	ProjectGUID="{68ac89c1-3fd7-4403-9ec4-ca83ac26fbfe}"
+	ProjectGUID="{30846c90-460e-4cdd-a78a-41f116a24979}"
 	RootNamespace="exHiddenMarkovModel"
 	Keyword="Win32Proj"
 	>

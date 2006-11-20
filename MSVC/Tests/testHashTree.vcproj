@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testHashTree"
-	ProjectGUID="{6532be9e-8092-4a84-a19c-08590c62dcca}"
+	ProjectGUID="{fd09365d-14d7-4221-ae66-cafba6507a47}"
 	RootNamespace="testHashTree"
 	Keyword="Win32Proj"
 	>

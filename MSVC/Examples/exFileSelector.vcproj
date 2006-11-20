@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exFileSelector"
-	ProjectGUID="{a3c51c60-ad96-4ef4-9afd-458255e9bd36}"
+	ProjectGUID="{4e48e38b-5812-467a-a62a-e73dc113863b}"
 	RootNamespace="exFileSelector"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testOSDataProc"
-	ProjectGUID="{317f0b34-6c21-48d1-8258-43fc99c1fff5}"
+	ProjectGUID="{fcb1a03c-96b6-4db0-b6f4-95514805b9df}"
 	RootNamespace="testOSDataProc"
 	Keyword="Win32Proj"
 	>

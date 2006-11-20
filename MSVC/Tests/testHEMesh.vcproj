@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testHEMesh"
-	ProjectGUID="{028df49d-66b7-4435-be1e-f12baad558c1}"
+	ProjectGUID="{ca7db5f0-ad19-4db4-bf56-ca7358dd8a18}"
 	RootNamespace="testHEMesh"
 	Keyword="Win32Proj"
 	>

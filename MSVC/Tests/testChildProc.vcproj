@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testChildProc"
-	ProjectGUID="{cd139484-0c1f-41e8-9487-eb67cf1b202f}"
+	ProjectGUID="{7b37649d-69c4-4faa-bfef-90b6bf0d8652}"
 	RootNamespace="testChildProc"
 	Keyword="Win32Proj"
 	>

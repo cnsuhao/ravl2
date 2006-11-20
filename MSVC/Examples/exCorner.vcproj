@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exCorner"
-	ProjectGUID="{22cd1d39-d25b-4d67-a7ce-a76b40efdc04}"
+	ProjectGUID="{8976cf24-f006-429b-a7fa-3d6c822ff8cd}"
 	RootNamespace="exCorner"
 	Keyword="Win32Proj"
 	>

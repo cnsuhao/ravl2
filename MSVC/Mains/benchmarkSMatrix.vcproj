@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="benchmarkSMatrix"
-	ProjectGUID="{550298ff-625c-4c3b-aa43-c2eacea3a3df}"
+	ProjectGUID="{e2d8ecc6-142f-422f-a46e-b1c43c5b56e0}"
 	RootNamespace="benchmarkSMatrix"
 	Keyword="Win32Proj"
 	>

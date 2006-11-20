@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exSegmentation"
-	ProjectGUID="{69773e12-02cc-4d1f-8dfd-50870c2a0a25}"
+	ProjectGUID="{f93584ae-7d1e-487b-a5be-866bd996f956}"
 	RootNamespace="exSegmentation"
 	Keyword="Win32Proj"
 	>

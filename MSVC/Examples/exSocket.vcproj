@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exSocket"
-	ProjectGUID="{0de92ffb-5618-4916-b685-4d51505aa3e1}"
+	ProjectGUID="{b0928de9-a78a-4018-9caf-784e04df798c}"
 	RootNamespace="exSocket"
 	Keyword="Win32Proj"
 	>

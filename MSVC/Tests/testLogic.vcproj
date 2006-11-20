@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testLogic"
-	ProjectGUID="{6a12f7a7-6c80-40fd-81f0-a840a68cc68d}"
+	ProjectGUID="{c3e0da45-9d16-4b3a-ad4e-6194c8eb7d62}"
 	RootNamespace="testLogic"
 	Keyword="Win32Proj"
 	>

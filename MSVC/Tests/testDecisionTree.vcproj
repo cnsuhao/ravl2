@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testDecisionTree"
-	ProjectGUID="{1b5f7172-44ac-49fc-80f0-7a7ede084f8b}"
+	ProjectGUID="{37dfeeee-498a-4d9e-8304-99bc89ce0ed4}"
 	RootNamespace="testDecisionTree"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="aamSynthesizeFrontal"
-	ProjectGUID="{642b384c-1679-4fc3-b719-bf395afc3318}"
+	ProjectGUID="{3167ffb8-99c3-40fc-9b46-8f18fd2dd720}"
 	RootNamespace="aamSynthesizeFrontal"
 	Keyword="Win32Proj"
 	>

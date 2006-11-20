@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exGnome"
-	ProjectGUID="{ce0fdfe3-4d42-40fa-9fdc-211353f58d1b}"
+	ProjectGUID="{ef33fca3-42cf-4197-a4f8-172c7b32a747}"
 	RootNamespace="exGnome"
 	Keyword="Win32Proj"
 	>

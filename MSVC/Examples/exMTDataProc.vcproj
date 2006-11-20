@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exMTDataProc"
-	ProjectGUID="{ecb8ef3d-35e9-41a7-a101-a486dddaeba0}"
+	ProjectGUID="{ec9256f6-9a35-4a33-abe9-80458f04e347}"
 	RootNamespace="exMTDataProc"
 	Keyword="Win32Proj"
 	>

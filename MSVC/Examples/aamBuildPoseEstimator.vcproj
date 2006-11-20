@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="aamBuildPoseEstimator"
-	ProjectGUID="{f27b76ca-2ab0-4d8d-b9c8-e65ec5528a79}"
+	ProjectGUID="{b7f981f8-5dbc-43f4-b23d-50b5467f2483}"
 	RootNamespace="aamBuildPoseEstimator"
 	Keyword="Win32Proj"
 	>

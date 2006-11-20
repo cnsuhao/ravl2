@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exXMLStream"
-	ProjectGUID="{678d9cf5-7c0c-47af-8b5e-e5ccdbe8d5b5}"
+	ProjectGUID="{9009f3c3-ba99-4016-9e3e-85cbd3a84753}"
 	RootNamespace="exXMLStream"
 	Keyword="Win32Proj"
 	>

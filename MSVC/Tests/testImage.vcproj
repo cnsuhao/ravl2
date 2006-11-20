@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testImage"
-	ProjectGUID="{bf2242e2-dcdf-4afd-a74d-3ff0dfec5d9d}"
+	ProjectGUID="{8c46a93d-3224-4fe4-82a9-34088cc2d946}"
 	RootNamespace="testImage"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exKNearestNeighbour"
-	ProjectGUID="{c0745291-a924-4b17-9bc6-6e67ee59dd7d}"
+	ProjectGUID="{d2171d88-27bf-401f-b0e1-990e7a23ef11}"
 	RootNamespace="exKNearestNeighbour"
 	Keyword="Win32Proj"
 	>

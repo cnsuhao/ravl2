@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testNetPort"
-	ProjectGUID="{e29a7dfe-70c9-45d5-bbbb-12f3038be6b3}"
+	ProjectGUID="{a5bc2c5d-4a30-49cf-8b9b-417ba84bf370}"
 	RootNamespace="testNetPort"
 	Keyword="Win32Proj"
 	>

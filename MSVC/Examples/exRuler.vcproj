@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exRuler"
-	ProjectGUID="{8b99a5f2-a018-4905-b058-5be202f59ebf}"
+	ProjectGUID="{66cdf907-5177-4e4c-9a95-379c81ea3f14}"
 	RootNamespace="exRuler"
 	Keyword="Win32Proj"
 	>

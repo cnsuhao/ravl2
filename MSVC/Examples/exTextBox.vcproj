@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exTextBox"
-	ProjectGUID="{d08c2d87-c6bc-4450-9a90-ecceb9381857}"
+	ProjectGUID="{182db59e-1277-4fbe-8b4a-768bf98494c0}"
 	RootNamespace="exTextBox"
 	Keyword="Win32Proj"
 	>

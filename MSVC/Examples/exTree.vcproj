@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exTree"
-	ProjectGUID="{312ffc3a-5cc2-4d9f-95f1-30fc89b523b5}"
+	ProjectGUID="{f1482706-5215-49a8-8e73-db2001a35099}"
 	RootNamespace="exTree"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exImgSeq"
-	ProjectGUID="{9d1b97dd-e95e-4129-8cea-7b2a25d62d1f}"
+	ProjectGUID="{7ba6adad-2dc0-498e-a1a4-46f457c65145}"
 	RootNamespace="exImgSeq"
 	Keyword="Win32Proj"
 	>

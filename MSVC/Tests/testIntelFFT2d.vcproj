@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testIntelFFT2d"
-	ProjectGUID="{766c1220-741f-4f80-ac47-f25bd39d68dd}"
+	ProjectGUID="{b26476d6-0602-4931-966b-9e9037912f73}"
 	RootNamespace="testIntelFFT2d"
 	Keyword="Win32Proj"
 	>

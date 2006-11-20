@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exFeatureMFCC"
-	ProjectGUID="{40c2b66f-b4a9-4436-bc68-5a53203142aa}"
+	ProjectGUID="{020a33c7-18b9-4a74-bc39-bfa0a18e5113}"
 	RootNamespace="exFeatureMFCC"
 	Keyword="Win32Proj"
 	>

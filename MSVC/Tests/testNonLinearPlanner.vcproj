@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testNonLinearPlanner"
-	ProjectGUID="{97e7019d-a4bc-44ec-8b6b-2c883f808b86}"
+	ProjectGUID="{0ef34568-ecdc-4b53-8fbb-6529cda252d5}"
 	RootNamespace="testNonLinearPlanner"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="doThinPlateWarp"
-	ProjectGUID="{a49ab9ed-b92b-45c4-acd0-e2fb08a91f3e}"
+	ProjectGUID="{dd49aeba-2719-47fa-b8e1-5a618147aea9}"
 	RootNamespace="doThinPlateWarp"
 	Keyword="Win32Proj"
 	>

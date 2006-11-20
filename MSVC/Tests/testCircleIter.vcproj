@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testCircleIter"
-	ProjectGUID="{33d69f2c-3720-41de-9245-34eaad600d28}"
+	ProjectGUID="{25e5d1e5-d3e3-4760-8375-bf2992abc242}"
 	RootNamespace="testCircleIter"
 	Keyword="Win32Proj"
 	>

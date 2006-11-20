@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testFixedQueue"
-	ProjectGUID="{329a4206-759b-42f9-b6bb-b54eef2393c2}"
+	ProjectGUID="{d65c56ef-832e-42ab-a14f-0882c7a0017e}"
 	RootNamespace="testFixedQueue"
 	Keyword="Win32Proj"
 	>

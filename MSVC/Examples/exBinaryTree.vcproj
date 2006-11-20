@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exBinaryTree"
-	ProjectGUID="{55f19535-31d3-48f0-bf53-f651300400e7}"
+	ProjectGUID="{bb39474f-3814-4794-87ad-df4a3664f8fe}"
 	RootNamespace="exBinaryTree"
 	Keyword="Win32Proj"
 	>

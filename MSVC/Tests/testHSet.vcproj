@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testHSet"
-	ProjectGUID="{712f0683-5e8c-446a-871e-74d6494d92ec}"
+	ProjectGUID="{6eae482c-3644-417f-8efe-b76238adfb85}"
 	RootNamespace="testHSet"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exRawZoomCanvas"
-	ProjectGUID="{7e41402b-5610-40ce-b7c1-ec667b8be9ec}"
+	ProjectGUID="{be4624f9-af28-4220-aee5-21514b2d55e6}"
 	RootNamespace="exRawZoomCanvas"
 	Keyword="Win32Proj"
 	>

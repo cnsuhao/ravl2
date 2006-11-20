@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exFuzzyCMeansCluster"
-	ProjectGUID="{a23b4d2a-808d-4e28-af6a-84d1293c0730}"
+	ProjectGUID="{2cfa0d25-f850-4795-a62e-e927927ddfdc}"
 	RootNamespace="exFuzzyCMeansCluster"
 	Keyword="Win32Proj"
 	>

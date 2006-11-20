@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exRBfAcc"
-	ProjectGUID="{f5fdbee2-2ee6-4d7d-bfc6-37e0d6174c17}"
+	ProjectGUID="{98581594-2b02-46d2-8622-6cad5b9530d4}"
 	RootNamespace="exRBfAcc"
 	Keyword="Win32Proj"
 	>

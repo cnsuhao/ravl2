@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testDataSet"
-	ProjectGUID="{83b350b7-d495-4989-bf40-a5817faaef99}"
+	ProjectGUID="{bcd5e5ab-15b8-4bcb-a3fb-a50a7ed5cd88}"
 	RootNamespace="testDataSet"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exSysLog"
-	ProjectGUID="{033ce8c5-80e0-4a98-a3bf-9570caf11be7}"
+	ProjectGUID="{5b5e69cf-6a28-4124-955b-f4d80f6cdb72}"
 	RootNamespace="exSysLog"
 	Keyword="Win32Proj"
 	>

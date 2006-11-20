@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testTHEMesh"
-	ProjectGUID="{5f5f6237-c281-4f25-a719-8e6503740eff}"
+	ProjectGUID="{09a75087-41d2-4764-9df9-19327c520137}"
 	RootNamespace="testTHEMesh"
 	Keyword="Win32Proj"
 	>

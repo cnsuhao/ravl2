@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testConnectedComponents"
-	ProjectGUID="{18115999-f054-4885-8dc2-27bf4ac88e6f}"
+	ProjectGUID="{30cac13c-256f-4497-9420-71aa9b876343}"
 	RootNamespace="testConnectedComponents"
 	Keyword="Win32Proj"
 	>

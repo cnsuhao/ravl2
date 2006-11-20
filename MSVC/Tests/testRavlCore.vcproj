@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testRavlCore"
-	ProjectGUID="{a1a1094f-d528-4436-8a1d-dac3c5fbd8c9}"
+	ProjectGUID="{5bb38571-f979-4e84-9dee-60cf495f1f8b}"
 	RootNamespace="testRavlCore"
 	Keyword="Win32Proj"
 	>

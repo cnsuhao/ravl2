@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exAudioFile"
-	ProjectGUID="{08be5806-b7e3-421d-8688-3b2980cc9cb5}"
+	ProjectGUID="{4df1ce36-7fb2-4d3f-9892-7223a5d618f2}"
 	RootNamespace="exAudioFile"
 	Keyword="Win32Proj"
 	>

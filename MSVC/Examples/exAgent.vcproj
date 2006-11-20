@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exAgent"
-	ProjectGUID="{aab9524a-8c32-454b-837e-3d642a0bf96a}"
+	ProjectGUID="{4bdf4957-671d-4152-97d3-87aaa279b8fd}"
 	RootNamespace="exAgent"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testTracking"
-	ProjectGUID="{0d009b12-dbeb-4f56-9969-c8c847768a13}"
+	ProjectGUID="{8ee86f08-9a21-4deb-b8d1-37248750ba38}"
 	RootNamespace="testTracking"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="Homography2dFitTest"
-	ProjectGUID="{a523f135-1ca1-4e34-a552-03b009b00427}"
+	ProjectGUID="{7d8a50dd-9282-4026-bafd-9ce42c0b2c3b}"
 	RootNamespace="Homography2dFitTest"
 	Keyword="Win32Proj"
 	>

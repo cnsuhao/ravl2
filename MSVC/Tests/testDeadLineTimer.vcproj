@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testDeadLineTimer"
-	ProjectGUID="{66fddea9-2287-4ca8-ad87-3adc81773e42}"
+	ProjectGUID="{16acb602-2d21-4215-bc57-ab35337a1de8}"
 	RootNamespace="testDeadLineTimer"
 	Keyword="Win32Proj"
 	>

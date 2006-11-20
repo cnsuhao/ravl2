@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="Affine2dFitTest"
-	ProjectGUID="{7bcc7952-2b70-4a77-901e-4ad04464c0ef}"
+	ProjectGUID="{b449898c-fe3f-4ecc-9ec8-1ca8cfa2131e}"
 	RootNamespace="Affine2dFitTest"
 	Keyword="Win32Proj"
 	>

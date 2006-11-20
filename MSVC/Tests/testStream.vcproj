@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testStream"
-	ProjectGUID="{0c48c857-860f-4002-8a9b-0ef463543de0}"
+	ProjectGUID="{22646c5c-09bb-434e-b415-c4185d12edaa}"
 	RootNamespace="testStream"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="VCopy"
-	ProjectGUID="{10c2a372-bb8f-4dc3-a4bb-59aae9e27751}"
+	ProjectGUID="{94e16f9f-c3fe-48fd-bb50-6eb3bd656f10}"
 	RootNamespace="VCopy"
 	Keyword="Win32Proj"
 	>

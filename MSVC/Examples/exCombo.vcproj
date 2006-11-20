@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exCombo"
-	ProjectGUID="{3594866d-4264-4fff-8790-34949402f5be}"
+	ProjectGUID="{3754c399-5b44-4ab3-8d69-d1a829e23595}"
 	RootNamespace="exCombo"
 	Keyword="Win32Proj"
 	>

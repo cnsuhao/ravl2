@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testBrent"
-	ProjectGUID="{2d6dcaa3-fa39-49d9-9920-b928a4eb1dc8}"
+	ProjectGUID="{ceb20399-cfc4-42a1-8d55-0e55427c3531}"
 	RootNamespace="testBrent"
 	Keyword="Win32Proj"
 	>

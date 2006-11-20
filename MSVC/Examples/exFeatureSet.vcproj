@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exFeatureSet"
-	ProjectGUID="{42e06b3a-a172-4264-a004-1e735a438d0e}"
+	ProjectGUID="{1b35510d-b28a-4481-b973-bffe2ec85421}"
 	RootNamespace="exFeatureSet"
 	Keyword="Win32Proj"
 	>

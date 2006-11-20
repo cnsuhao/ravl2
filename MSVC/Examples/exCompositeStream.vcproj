@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exCompositeStream"
-	ProjectGUID="{a979f3c2-6430-409b-869a-85a3760ca214}"
+	ProjectGUID="{a0d334a6-d57d-41fb-abd6-07eb79072662}"
 	RootNamespace="exCompositeStream"
 	Keyword="Win32Proj"
 	>

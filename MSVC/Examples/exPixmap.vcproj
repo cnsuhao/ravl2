@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exPixmap"
-	ProjectGUID="{e4a1b01e-54c6-4bb2-8982-0f537fe38a8f}"
+	ProjectGUID="{a714837e-5543-4c82-997f-5b196a8d584a}"
 	RootNamespace="exPixmap"
 	Keyword="Win32Proj"
 	>

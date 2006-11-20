@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exAttributeEditor"
-	ProjectGUID="{747c66e7-1916-4731-b873-f192f71ab1ca}"
+	ProjectGUID="{e05c3898-15f5-46cc-be05-b98f3b947978}"
 	RootNamespace="exAttributeEditor"
 	Keyword="Win32Proj"
 	>

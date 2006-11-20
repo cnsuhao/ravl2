@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exAVLTree"
-	ProjectGUID="{9feeb491-fe6a-4932-ae11-4f41223e3839}"
+	ProjectGUID="{9a810fae-d06a-40a6-b7b2-ad059068e007}"
 	RootNamespace="exAVLTree"
 	Keyword="Win32Proj"
 	>
