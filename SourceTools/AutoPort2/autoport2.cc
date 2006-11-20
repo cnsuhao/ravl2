@@ -63,7 +63,7 @@ void BuildTemplates(StringC &templFile,AutoPortSourceC &src,StringC &outFile,con
     return;
   }
   cout << "Processing template file : '" << templFile << "'\n";
-
+  
   
   AutoPortGeneratorC fg(src,templFile,outFile,projectOut,extLibs);
   fg.BuildFiles();

@@ -609,22 +609,27 @@ namespace RavlN {
       }
       return true;
     }
-    if(fileObject == "mains" || fileObject == "examples" || fileObject == "tests") {
+    if(fileObject == "mains" || fileObject == "examples" || fileObject == "tests" ||
+       fileObject == "newmains" || fileObject == "newexamples" || fileObject == "newtests"
+       ) {
       DListC<ProgInfoC> pi;
-      if(fileObject == "mains")
+      if(fileObject == "mains" || fileObject == "mains")
 	pi = src.Mains();
-      else if(fileObject == "examples")
+      else if(fileObject == "examples" || fileObject == "newexamples")
 	pi = src.Examples();
       else
 	pi = src.Tests();
+      bool newOnly = fileObject.contains("new") == 1;
       for(DLIterC<ProgInfoC> it(pi);it;it++) {
 	ONDEBUG(cerr << "************** File context Name=" << it->Name() << " Type=" << fileObject << " **************************** \n");
 	ONDEBUG(cerr << " Libs=" << it->UsesLibs().Size() << " First=" << ( it->UsesLibs().IsEmpty() ? StringC("NULL") : it->UsesLibs().First() ) << "\n");
 	target = it->Name();
 	context.Push(ContextC(*it));
-	StringC fn = MakeFilename(it->Name());
+	FilenameC fn = MakeFilename(it->Name());
+        if(!newOnly || !fn.Exists()) // Only make if it doesn't exist.
+          Build(fn);
+        
 	ONDEBUG(cerr << " Libs=" << context.Top().progInfo.UsesLibs().Size() << " " << context.Top().UsesLibs().Size() << "\n");
-	Build(fn);	
 	context.DelTop();
       }
       return true;
