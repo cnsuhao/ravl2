@@ -7,6 +7,9 @@
 #! rcsid="$Id$"
 #! file="Ravl/CompVision/ActiveAppearanceModels/defs.mk"
 
+DONOT_SUPPORT=VCPP
+# Not current support because of some variable name problems.
+
 DESCRIPTION = Active appearance models
 
 PACKAGE = Ravl/Image
