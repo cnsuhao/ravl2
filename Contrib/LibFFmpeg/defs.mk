@@ -25,15 +25,14 @@ PLIB = RavlLibFFmpeg
 
 MUSTLINK = MustLinkLibFFmpeg.cc
 
-USESLIBS = RavlImage RavlIO LibFFmpeg 
+EXTERNALLIBS=LibFFmpeg.def
+
+USESLIBS = RavlImage RavlIO 
 
 PROGLIBS = RavlGUI RavlDPDisplay
 
 EXAMPLES = exFFmpeg.cc exFFmpegSeek.cc
 
-AUXDIR = lib/RAVL/libdep
-
-AUXFILES = LibFFmpeg.def
 
 EHT = LibFFmpeg.html
 
