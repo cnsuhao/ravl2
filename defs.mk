@@ -16,4 +16,4 @@ Image.r 3D.r Logic.r CompVision.r SourceTools.r GUI.r Contrib.r Applications.r
 
 LOCAL_FILES=install lgpl.license gpl.license README
 
-EHT=Ravl.eht Ravl.Contrib.html Ravl.API.html
+EHT=Ravl.eht Ravl.API.html
