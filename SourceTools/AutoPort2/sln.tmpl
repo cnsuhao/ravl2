@@ -1,4 +1,4 @@
-$(FileObject:one)$(FilePattern:proj.sln)Microsoft Visual Studio Solution File, Format Version 9.00
+$(FileObject:one)$(FilePattern:Ravl.sln)Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 $(forall:libs:Project("$(topandtail:$(include:@MSVC/GUID/Solution.sguid))") = "$(libname)", "$(libname).vcproj", "$(topandtail:$(include:@MSVC/GUID/$(libname).guid))"
 $(ifany:useslibs:	ProjectSection(ProjectDependencies) = postProject 
