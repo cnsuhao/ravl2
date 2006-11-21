@@ -7,14 +7,13 @@
 
   <body>
 
-    <p> This document provides a guideline for installation, but has not been
-    tested thoroughly.  The instructions are for a Linux environment, using a
-    C shell.  However RAVL should also compile under M$ Windows, provided that
-    a compiler is used that is broadly ANSI compatible.</p>
+    <p> These instructions are for a Linux environment, mostly assuming use of
+    a C shell.  There are also instructions for compiling RAVL under <a
+    href="Ravl.Installation.Windows.html">M$ Windows</a>.</p>
 
     <p> The installation process by default will build several versions of the
     library, including varying degrees of optimisation and debug information,
-    and also including shared and static versions.</p>
+    and also including shared and static versions of the libraries.</p>
 
     <h2>RAVL Prerequisites</h2>
 
@@ -22,7 +21,9 @@
     or later. If it is not on the system, <a
     href="Ravl.Installation.Compiler.html">install it first</a>.</p>
 
-    <p>The gtk library is strongly recommended.  Much of RAVL will not build if gtk is not installed.</p>
+    <p>The <a href="Ravl.Installation.Contrib.html">gtk library</a> is
+    strongly recommended.  Much of RAVL will not build if gtk is not
+    installed.</p>
 
     
     <h2>Installing the RAVL library and applications</h2> 
@@ -32,13 +33,12 @@
     environment variable <code>RAVL_INSTALLATION</code> accordingly, e.g. for C shell:</p>
 
     <pre>
-setenv RAVL_INSTALLATION ~/src  
-    </pre>
+setenv RAVL_INSTALLATION ~/src</pre>
 
     <p>or for bash shell:</p>
 
     <pre>
-export RAVL_INSTALLATION=~/src  
+export RAVL_INSTALLATION=~/src 
     </pre>
 
     <p> The RAVL library and executables can then be installed as follows
@@ -141,7 +141,7 @@ setenv PATH  $PATH:$PROJECT_OUT/lib/RAVL/linux/bin:$RAVL_INSTALLATION/RavlProjec
     <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
 <!-- Created: Fri Dec 23 09:31:09 GMT 2005 -->
 <!-- hhmts start -->
-Last modified: Tue Nov 21 10:15:07 GMT 2006
+Last modified: Tue Nov 21 17:14:48 GMT 2006
 <!-- hhmts end -->
   </body>
 </html>
