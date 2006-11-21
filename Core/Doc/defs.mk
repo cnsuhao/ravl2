@@ -10,6 +10,6 @@
 EHT= Ravl.Introduction.html Ravl.Introduction.Debugging.html \
  Ravl.Introduction.Reference_Counting.html Ravl.Introduction.Naming_Conventions.html \
  Ravl.Introduction.Reference_Counting.Notes.html Ravl.Introduction.Coordinate_Systems.html \
- Ravl.Getting_Started.html  Ravl.Getting_Started.Windows.html Ravl.Install.html Ravl.Compiler.html Ravl.Config.Example.html  Ravl.Contrib.html
+ Ravl.Getting_Started.html  Ravl.Getting_Started.Windows.html Ravl.Install.html Ravl.Compiler.html Ravl.Config.Example.html  Ravl.Contrib.html Ravl.Install.MS.html
 
 
