@@ -6,30 +6,7 @@
 
 <!-- ***************** Table Of Contents (On RHS of Page)  ***************** -->
 
-<table align="right" width=160 cellspacing=5><tr>
-<td bgcolor="#007FFF">
-  &nbsp;
-  <font size=2 face="arial,helvetica" color="white">
-  <B>CATEGORIES</B>
-  </font>
-</td>
-</tr><tr>
-<td>
-  <font face="arial,helvetica" size=2>
-  <ul>
-  <li><a href="#description">Directory description</A>
-  <li><a href="#multiple">Multiple directory</A>
-  <li><a href="#source">Source files</A>
-  <li><a href="#libs">Libraries</A>
-  <li><a href="#platform">Platform support</A>
-  <li><a href="#examples">Example programs</A>
-  <li><a href="#special">Special files</A>
-  <li><a href="#documentation">Documentation</A>
-  </ul>
-  </font>
-</td>
-</tr>
-
+<table align="right" width=160 cellspacing=5>
 <tr>
 <td bgcolor="#007FFF">
   &nbsp;
@@ -41,30 +18,51 @@
 <td>
   <font face="arial,helvetica" size=2>
   <ul>
-  <li><a href="#DESCRIPTION">DESCRIPTION</A>
-  <li><a href="#NESTED">NESTED</A>
-  <li><a href="#MAINS">MAINS</A>
-  <li><a href="#SCRIPTS">SCRIPTS</A>
+  <li><a href="#description">Directory structure</A>
+  <ul>
+  <li><a href="#NESTED">NESTED</A></li>
+  <li><a href="#DESCRIPTION">DESCRIPTION</A></li>
+  </ul>
+  <li><a href="#source">Source files</A>
+  <ul>
+  <li><a href="#MAINS">MAINS</A></li>
+  <li><a href="#SCRIPTS">SCRIPTS</A></li>
   <li><a href="#SOURCES">SOURCES</A>
-  <li><a href="#HEADERS">HEADERS</A>
   <li><a href="#MUSTLINK">MUSTLINK</A>
+  <li><a href="#HEADERS">HEADERS</A>
   <li><a href="#LOCALHEADERS">LOCALHEADERS</A>
+  <li><a href="#PACKAGE">PACKAGE</A>
+  </ul>
+  <li><a href="#libs">Libraries</A>
+  <ul>
   <li><a href="#PLIB">PLIB</A>
   <li><a href="#USESLIBS">USESLIBS</A>
   <li><a href="#PROGLIBS">PROGLIBS</A>
   <li><a href="#TESTLIBS">TESTLIBS</A>
-  <li><a href="#EXAMPLES">EXAMPLES</A>
-  <li><a href="#TESTEXES">TESTEXES</A>
-  <li><a href="#AUXFILES">AUXFILES,AUXDIR</A>
-  <li><a href="#PREBUILDSTEP">PREBUILDSTEP</A>
-  <li><a href="#POSTBUILDSTEP">POSTBUILDSTEP</A>
+  <li><a href="#EXTERNALLIBS">EXTERNALLIBS</A>
   <li><a href="#LIBDEPS">LIBDEPS</A>
+  </ul>
+  <li><a href="#platform">Platform support</A>
+  <ul>
   <li><a href="#SUPPORT_ONLY">SUPPORT_ONLY</A>
   <li><a href="#DONOT_SUPPORT">DONOT_SUPPORT</A>
   <li><a href="#REQUIRES">REQUIRES</A>
-  <li><a href="#PACKAGE">PACKAGE</A>
-  <lI><A HREF="#DOCNODE">DOCNODE</A>
+  </ul>
+  <li><a href="#examples">Example programs</A>
+  <ul>
+  <li><a href="#EXAMPLES">EXAMPLES</A>
+  <li><a href="#TESTEXES">TESTEXES</A>
+  </ul>
+  <li><a href="#special">Special files</A>
+  <ul>
+  <li><a href="#AUXFILES">AUXFILES,AUXDIR</A>
+  <li><a href="#PREBUILDSTEP">PREBUILDSTEP</A>
+  <li><a href="#POSTBUILDSTEP">POSTBUILDSTEP</A>
+  </ul>
+  <li><a href="#documentation">Documentation</A>
+  <ul>
   <lI><A HREF="#EHT">EHT</A>
+  <lI><A HREF="#DOCNODE">DOCNODE</A>
   <li><a href="#HTML">HTML</A>
   <li><a href="#MAN1">MAN1</A>
   <li><a href="#MAN3">MAN3</A>
@@ -101,53 +99,52 @@
 </tr></table>
 
 
-
-
 <!-- *************************** Main Page Text  *************************** -->
 
+<table align=center><tr>
+<td>
 <P>
 The "defs.mk" description file is used by QMake to determine what files are to
 be processed when building the current directory. It achieves this by setting
-various variables. These fall into several categories listed on the right.
+various categories of variables, listed on the right.
 </P>
-<P>&nbsp;
-<P>&nbsp;
-<P>&nbsp;
-<P>&nbsp;
+</td>
+</tr></table>
+<p>&nbsp;</p>
+<hr>
 
 
 
-    <H3><A NAME="description"></A>Directory Description</H3>
 
-    <P>It is useful if each directory in your project has a brief description
-    of its contents. This is defined as follows:
+    <H3><A NAME="description"></A>Directory structure</H3>
+
+
+    <P>
+      The QMake system is capable of building a tree of directories. The
+      following variable is used to specify the branches from the current
+      directory.
     </P>
-
     <UL>
-      <LI><DT><A NAME="DESCRIPTION"></A><B>DESCRIPTION</B></DT>
-        <DD>A one line description of the directory contents. This should give
-        potential users an idea about the functionality that this directory
-        contributes to the project.  E.g. for the CxxDoc directory:
+      <LI><DT><A NAME="NESTED"></A><B>NESTED</B></DT>
+        <DD>The QMake system is capable of building a tree of
+        directories. NESTED defines the list of subdirectories which are built
+        before the current directory.  A suffix '.r' flag is used to indicate
+        that the directory is ready to be built otherwise it is ignored. For
+        example: 
+          <PRE>NESTED = Vector.r Matrix List.r</PRE>
+        means that the directory Vector is built first and List is built
+        second. Matrix is skipped.
+        </DD><BR>&nbsp;
+
+      <LI><DT><A NAME="DESCRIPTION"></A><B>DESCRIPTION</B></DT> 
+        <DD>The DESCRIPTION variable defines a one line description of the
+        directory contents. This should give potential users an idea about the
+        functionality that this directory contributes to the project.
+        E.g. for the CxxDoc directory: 
           <pre>DESCRIPTION = The RAVL C++ Documentation tool</pre>
         </DD>
     </UL>
 
-
-<H3><A NAME="multiple"></A>Multiple Directory Packages</H3>
-
-<P>
-The QMake system is capable of building a tree of directories. The
-following variable is used to specify the branches from the current directory.
-
-<UL>
-<LI><DT><A NAME="NESTED"></A><B>NESTED</B></DT>
-<DD>The list of subdirectories which are built before the current directory.
- A suffix '.r' flag is used to indicate that the directory is ready to be built
- otherwise it is ignored. For example:
- <PRE>NESTED = Vector.r Matrix List.r</PRE> means that the directory Vector is
- built first and List is built second. Matrix is skipped.
-</DD>
-</UL>
 
 
 <H3><A NAME="source"></A>Source Files</H3>
@@ -335,19 +332,20 @@ they are available, but ignore them if the are not. This can be achieved by addi
           be found in <a
           href="../../../html/Example.def.html">Example.def</a>.  Any number
           of external definition files can be listed and they may be accessed
-          directly by adding there name without the .def extention in
+          directly by adding their names without the .def extention in
           USESLIBS,PROGLIBS or TESTLIBS as any other RAVL library would.
-          Adding a library to EXTERNALLIBS automaticly adds the specified
-          libraries to the current directories USESLIBS, and will be treated
+          Adding a library to EXTERNALLIBS automatically adds the specified
+          libraries to the current directory's USESLIBS, and will be treated
           as a normal dependency if a normal RAVL library is also being
           created. E.g. the following entry in the defs.mk file would create a
           reference to another library CCMath:
 
         <pre>  EXTERNALLIBS = CCMath.def</pre> 
 
-        which could then be referenced in the normal way, e.g.:
+        which could then be referenced elsewhere in the normal way, e.g.:
 
         <pre>  USESLIBS = CCMath</pre>
+          
         </DD><P>
 
       <LI><DT><A NAME="LIBDEPS"></A><B>LIBDEPS</B></DT> 
