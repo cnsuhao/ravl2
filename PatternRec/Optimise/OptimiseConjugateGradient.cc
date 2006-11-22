@@ -88,7 +88,7 @@ namespace RavlN {
     OptimiseBrentC _brent(_iterations, _tolerance);
     RealT currentCost = domain.Cost (iterX);      // Evaluate current cost
     
-    VectorC dYdX = domain.Jacobian(iterX).SliceRow(0) * -1.0; // Determine current Jacobian
+    VectorC dYdX = domain.Jacobian1(iterX) * -1.0; // Determine current Jacobian
     VectorC gdYdX = dYdX.Copy();
     VectorC hdYdX = dYdX.Copy();
     
