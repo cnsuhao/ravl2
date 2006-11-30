@@ -89,7 +89,7 @@ namespace RavlImageN {
 
     // ... then save as a file
     StringC featureSetFile = dir + '/' + file;
-    if(!Load(featureSetFile,featureSet)) {
+    if(!Save(featureSetFile,featureSet)) {
       cerr << "WARNING: Failed to save ImagePointFeatureSetC to file '" << featureSetFile << "' \n";
       return false;
     }

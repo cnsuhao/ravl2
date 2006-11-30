@@ -50,6 +50,11 @@ namespace RavlImageN {
 
   bool SaveFeatureSet(const AAMAppearanceC &appear, const ImagePointFeatureSetC &ModelFeatureSet, ImagePointFeatureSetC &featureSet, const FilenameC Name="");
   //: Convert appearance to ImagePointFeatureSetC .
+  //!param: appear - Appearance to be converted.
+  //!param: ModelFeatureSet - Example of feature set.
+  //!param: featureSet - Output feature set representing appearance.
+  //!param: Name - Path of the image corresponding to the feature set (optional).
+  // Note that ModelFeatureSet is required to define the convention used for feature set representation, its content is not important as long as it respects the convention adopted.
 
   bool SaveFeatureSet(const AAMAppearanceC &appear, const ImagePointFeatureSetC &ModelFeatureSet, const StringC &file,const StringC &dir, const FilenameC Name="");
   //: Convert appearance to ImagePointFeatureSetC .
