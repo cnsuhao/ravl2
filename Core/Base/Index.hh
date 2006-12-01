@@ -84,11 +84,6 @@ namespace RavlN {
   // <code>int</code>.  In particular you can't use an IndexC object directly as
   // an <code>int</code> function argument.  You need to use the <a
   // href="#IndexC_V_void__const">V()</a> member function to achieve this.  (We <i>could</i> have provided the implicit conversion, but it would then be very difficult sometimes to know which was actually being used.) </ul>
-#if RAVL_CPUTYPE_64
-typedef Int64T ISizeT ; 
-#else 
-typedef IntT ISizeT ;
-#endif 
 
   class IndexC {
   public:

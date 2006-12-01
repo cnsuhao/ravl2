@@ -99,11 +99,20 @@ typedef int IntT;
 #endif
   
 #if RAVL_OS_LINUX64
-typedef UInt64T SizeT;
+  typedef UInt64T SizeT;
+  //: Unsigned type which can index any item in memory. 
+  // I.e. it has number of bits to match virtual address space (typically 32 or 64 bits) 
+  typedef Int64T ISizeT ; 
+  //: Signed type which can index any item in memory. 
+  // I.e. it has number of bits to match virtual address space (typically 32 or 64 bits) 
 #else
   typedef UIntT SizeT;
+  //: Unsigned type which can index any item in memory. 
+  // I.e. it has number of bits to match virtual address space (typically 32 or 64 bits) 
+  typedef IntT ISizeT ;
+  //: Signed type which can index any item in memory. 
+  // I.e. it has number of bits to match virtual address space (typically 32 or 64 bits) 
 #endif 
-  //: Type which can index any item in memory. 
   
 #if RAVL_USE_LARGEFILESUPPORT
   typedef UInt64T StreamOffsetT;
