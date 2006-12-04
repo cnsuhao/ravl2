@@ -21,7 +21,7 @@
 namespace RavlN {
   
   //! userlevel=Advanced
-  //: Duel SArray1d iterator.
+  //: Dual SArray1d iterator.
   // Fast simple array iterator.
   
   template<class Data1T,class Data2T>

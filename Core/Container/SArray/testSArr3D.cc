@@ -63,7 +63,7 @@ int main()
   }  
   //Array3dC<int> arr3(10,10,10);
   
-  // Check the duel iter.
+  // Check the dual iter.
   for(SArray3dIter2C<int,int> it(arr,arr2);it;it++) 
     it.Data1() = it.Data2();
   //cerr << typeid(arr[(IndexC) 1]).name() << "\n";

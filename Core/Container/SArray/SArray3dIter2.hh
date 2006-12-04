@@ -20,8 +20,8 @@
 
 namespace RavlN {
   //! userlevel=Advanced
-  //: Duel SArray3dC iterator.
-  // Duel Simple 3d array iterator.
+  //: Dual SArray3dC iterator.
+  // Dual Simple 3d array iterator.
   
   template<class Data1T,class Data2T>
   class SArray3dIter2C 
