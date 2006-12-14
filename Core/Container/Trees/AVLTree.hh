@@ -79,10 +79,13 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: AVL Tree.
-  // AVL (Adelson-Velskii and Landis) binary trees gives approximantly O(log N) 
-  // for all operations. <p>
-  // Deletion is partly lazy, it will only remove nodes that are
-  // easy, the rest it flags for removal later.
+  // <p>AVL (Adelson-Velskii and Landis) binary trees gives approximantly 
+  // O(log N) for all operations. </p>
+  //
+  // <p>Deletion is partly lazy, it will only remove nodes that are
+  // easy, the rest it flags for removal later.</p>
+  // <p>Use <code>BinaryTreeUpIterC</code> and <code>BinaryTreeDownIterC</code>
+  // as iterators.
   
   template<class KeyT,class DataT>
   class AVLTreeC
