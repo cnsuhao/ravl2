@@ -48,13 +48,11 @@ namespace RavlN {
   class BinIStreamC;
 
 
-typedef int IntT;
-
-
-  //: Integer of at least 32 bits
+  typedef int IntT;
+  //: Signed integer of at least 32 bits
   
   typedef unsigned int UIntT;
-  //: Unsigned Integer of at least 32 bits
+  //: Unsigned integer of at least 32 bits
   
   typedef double RealT;
   //: Real value of at least 64 bits.
