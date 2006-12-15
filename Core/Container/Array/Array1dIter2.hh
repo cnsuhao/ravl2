@@ -38,8 +38,9 @@ namespace RavlN {
         dat2(arr2)
     {
       if(matching) {
-	RavlAssert(arr1.Range() == arr2.Range());
+	RavlAssertMsg(arr1.Range().Size() == arr2.Range().Size(),"Array1dIter2C, First and second array sizes don't match.");
       } else {
+	RavlAssertMsg(arr1.Range().Size() <= arr2.Range().Size(),"Array1dIter2C, Second array smaller than first.");
 	RavlAssert(arr1.Range().Size() <= arr2.Range().Size());
       }
     }

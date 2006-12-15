@@ -42,9 +42,9 @@ namespace RavlN {
 	dat4(arr4)
     {
       if(matching) {
-	RavlAssertMsg(arr1.Range() == arr2.Range(),"Array1dIter4C, First and second array ranges don't match.");
-	RavlAssertMsg(arr1.Range() == arr3.Range(),"Array1dIter4C, First and third array ranges don't match.");
-	RavlAssertMsg(arr1.Range() == arr4.Range(),"Array1dIter4C, First and fourth array ranges don't match.");
+	RavlAssertMsg(arr1.Range().Size() == arr2.Range().Size(),"Array1dIter4C, First and second array sizes don't match.");
+	RavlAssertMsg(arr1.Range().Size() == arr3.Range().Size(),"Array1dIter4C, First and third array sizes don't match.");
+	RavlAssertMsg(arr1.Range().Size() == arr4.Range().Size(),"Array1dIter4C, First and fourth array sizes don't match.");
       } else {
 	RavlAssertMsg(arr1.Range().Size() <= arr2.Range().Size(),"Array1dIter4C, Second array smaller than first.");
 	RavlAssertMsg(arr1.Range().Size() <= arr3.Range().Size(),"Array1dIter4C, Third array smaller than first");

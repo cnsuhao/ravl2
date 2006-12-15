@@ -47,12 +47,12 @@ namespace RavlN {
 	dat7(arr7)
     {
       if(matching) {
-	RavlAssertMsg(arr1.Range() == arr2.Range(),"Array1dIter7C, First and second array ranges don't match.");
-	RavlAssertMsg(arr1.Range() == arr3.Range(),"Array1dIter7C, First and third array ranges don't match.");
-	RavlAssertMsg(arr1.Range() == arr4.Range(),"Array1dIter7C, First and fourth array ranges don't match.");
-	RavlAssertMsg(arr1.Range() == arr5.Range(),"Array1dIter7C, First and fifth array ranges don't match.");
-	RavlAssertMsg(arr1.Range() == arr6.Range(),"Array1dIter7C, First and sixth array ranges don't match.");
-	RavlAssertMsg(arr1.Range() == arr7.Range(),"Array1dIter7C, First and seventh array ranges don't match.");
+	RavlAssertMsg(arr1.Range().Size() == arr2.Range().Size(),"Array1dIter7C, First and second array sizes don't match.");
+	RavlAssertMsg(arr1.Range().Size() == arr3.Range().Size(),"Array1dIter7C, First and third array sizes don't match.");
+	RavlAssertMsg(arr1.Range().Size() == arr4.Range().Size(),"Array1dIter7C, First and fourth array sizes don't match.");
+	RavlAssertMsg(arr1.Range().Size() == arr5.Range().Size(),"Array1dIter7C, First and fifth array sizes don't match.");
+	RavlAssertMsg(arr1.Range().Size() == arr6.Range().Size(),"Array1dIter7C, First and sixth array sizes don't match.");
+	RavlAssertMsg(arr1.Range().Size() == arr7.Range().Size(),"Array1dIter7C, First and seventh array sizes don't match.");
       } else {
 	RavlAssertMsg(arr1.Range().Size() <= arr2.Range().Size(),"Array1dIter7C, Second array smaller than first.");
 	RavlAssertMsg(arr1.Range().Size() <= arr3.Range().Size(),"Array1dIter7C, Third array smaller than first");
