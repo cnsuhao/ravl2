@@ -98,10 +98,11 @@ namespace RavlN {
     
     Array1dC(DataT *             data,
 	     const IndexRangeC & range,
-	     bool                removable = true);
+	     bool                removable);
     //: An array is created from the data at memory location 'data' with the
     //: range of access in <'range'.Min(), 'range'.Max()>.
-    //!param: data  - address of the data to be used as the array comtents
+    // <font color="red">Warning:</font>  the <code>data</code>argument is a pointer, with all the attendant problems.
+    //!param: data  - address of the data to be used as the array contents
     //!param: removable - if true, "data" is  deallocated from the heap during destruction of the array
 
     // <p> It is typically used to create an <code>Array1dC</code> initialised from some constant array, like this:<pre>
@@ -111,7 +112,7 @@ namespace RavlN {
     //    };
     //    Array1dC<RealT> coeffs(values, IndexRangeC(-4,4), false);
     //</pre>
-    // Here, <code>removable</code> is set false as the data was not allocated on the heap in the first place.</p>
+    // Here, <code>removable</code> is set <b>false</b> as the data was not allocated on the heap in the first place.</p>
     
     Array1dC(BufferC<DataT> & bf, const IndexRangeC & range);
     //: Creates the array with limits 'range' using the buffer 'bf'.
@@ -497,7 +498,7 @@ namespace RavlN {
   Array1dC<DataT>
   Array1dC<DataT>::Copy() const {
     return Array1dC<DataT>(RangeBufferAccessC<DataT>::Copy().DataStart(), 
-			   Range());
+			   Range(), true);
   }
   
   template <class DataT>
