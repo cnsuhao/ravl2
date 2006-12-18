@@ -32,8 +32,8 @@ namespace RavlImageN {
   // 2. Handing multi-channel images. (Such as RGB.) <br>
   // The exact requirements of these types depends on the gain and type of the filter being used.
   // In multi-channel filters SumPixelT should be a multi-channel value as well. e.g.
-  // to filter an ImageC<ByteRGBValueC> you may use:
-  // InPixelT=ByteRGBValueC, OutPixelT=ByteRGBValueC,KernelPixelT=RealT,SumType=RealRGBValueC
+  // to filter an ImageC&lt;ByteRGBValueC&gt; you might use:
+  // InPixelT=ByteRGBValueC, OutPixelT=ByteRGBValueC, KernelPixelT=RealT, SumType=RealRGBValueC
   
   
   template<class InPixelT,class OutPixelT = InPixelT,class KernelPixelT = InPixelT,class SumTypeT = KernelPixelT>
