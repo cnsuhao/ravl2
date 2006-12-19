@@ -1,16 +1,26 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>Image filtering</title>
+    <title>Spatial image filtering</title>
   </head>
   <body>
-    <p> The center of the kernel for these operators is assumed to be the
-    origin (0,0). So the kernel for a 7 by 7 filter would be a 2d array with
-    an index range from -3 to 3 in both dimensions.</p>
-    <p> Most of these filters are area-based.  As a result, the default
-    behaviour is that the resulting image is smaller than the original.  If
-    this is not what is needed, the original image should be expanded before
-    filtering, e.g. by using one of the <a href="#ExtendImage">ExtendImage
-    functions</a> below. </p>
+    <p> The centre of the kernel for these operators is assumed to be the
+    origin (0,0). So the kernel for a 7 by 7 <i>separable</i> filter would be a 1-D
+    array with an index range from -3 to 3.  This can be
+    conveniently initalised by one of these methods: </p>
+
+    <pre>
+Array1dC &lt;RealT&gt; coeffs;
+StrIStreamC ("-3 3 1 3 5 7 5 3 1") >> coeffs;
+</pre>
+
+<pre>
+static RealT values[7] = { 1, 3, 5, 7, 5, 3, 1 };
+Array1dC &lt;RealT&gt; coeffs(values, IndexRangeC(-3,3), false);
+</pre>
+    <p> Since these filters are area-based, the resulting image is smaller
+    than the original.  If this is not what is needed, the original image
+    should be expanded before filtering, e.g. by using one of the <a
+    href="#ExtendImage">ExtendImage functions</a> below. </p>
   </body>
 </html>
