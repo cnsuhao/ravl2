@@ -15,7 +15,7 @@ image of reals from standard input:
 
 <pre>
 ImageC&lt;RealT&gt; x;
-cin >> x;
+cin &gt;&gt; x;
 </pre>
 
 This mechanism has been implemented for most of the RAVL classes.  If you find
@@ -31,8 +31,8 @@ href="../Class/RavlN.StrOStreamC.html">StrOStreamC</a> classes.  This is especia
 useful for initialising small arrays, e.g.:
 
 <pre>
-  SArray1dC<RealT> coeffs(5);
-  StrIStreamC ("5 0.363 0.291 0.135 0.012 -0.030") >> coeffs;
+  SArray1dC&lt;RealT&gt; coeffs(5);
+  StrIStreamC ("5 0.363 0.291 0.135 0.012 -0.030") &gt;&gt; coeffs;
 </pre>
 
 <p>For some classes there are also stream operators for the <a
@@ -75,7 +75,7 @@ once to a stream you wrap the variable in a IOPtr() call.
 BinOStreamC os;
 DListC<int> list1;
 DListC<int> list2 = list1;
-os << ObjIO(list1) << ObjIO(list2);
+os &lt;&lt; ObjIO(list1) &lt;&lt; ObjIO(list2);
 </pre>
 
 <p> To load:
@@ -83,7 +83,7 @@ os << ObjIO(list1) << ObjIO(list2);
 BinIStreamC is;
 DListC<int> list1;
 DListC<int> list2;
-os >> ObjIO(list1) >> ObjIO(list2);
+os &gt;&gt; ObjIO(list1) &gt;&gt; ObjIO(list2);
 </pre>
 
 Using this mechanism the list will only be saved once, and upon load list1 and list2
