@@ -85,11 +85,11 @@ namespace RavlN {
     // Constructs an owner handle by default.
     
     DataT *BodyPtr()
-    { return this->body; }
+    { return &(this->Body()); }
     //: Access pointer to body.
     
     const DataT *BodyPtr() const
-    { return this->body; }
+    { return &(this->Body()); }
     //: Access pointer to body.
     
     DataT *operator->()
