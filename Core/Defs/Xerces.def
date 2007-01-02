@@ -1,0 +1,11 @@
+ifndef XERCES_DEF
+XERCES_DEF=1
+
+ifdef XERCES_HOME
+EXELIB := -L$(XERCES_HOME)/lib -lxerces-c $(EXELIB)
+INCLUDES += -L$(XERCES_HOME)/include
+else
+EXELIB := -lxerces-c $(EXELIB)
+endif
+
+endif
