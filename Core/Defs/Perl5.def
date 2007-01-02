@@ -1,0 +1,16 @@
+# This file is part of RAVL, Recognition And Vision Library
+# Copyright (C) 2001, University of Surrey.
+# This code may be redistributed under the terms of the GNU lesser
+# public license (LGPL). See the lgpl.licence file for details or
+# see http://www.gnu.org/copyleft/lesser.html
+# file-header-ends-here
+ifndef Perl5DEF
+Perl5DEF = 1
+
+
+ifeq ($(ARC),linux)
+INCLUDES += -D_REENTRANT -D_GNU_SOURCE -DTHREADS_HAVE_PIDS -DDEBUGGING -fno-strict-aliasing -pipe -Wdeclaration-after-statement -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -I/usr/lib/perl5/5.8.8/i586-linux-thread-multi/CORE
+EXELIB := -L/usr/lib/perl5/5.8.8/i586-linux-thread-multi/CORE -lperl $(EXELIB)
+endif
+
+endif
