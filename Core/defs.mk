@@ -11,4 +11,4 @@ PACKAGE=Ravl
 
 NESTED=Defs.r Machine.r Base.r Container.r Math.r System.r IO.r Doc.r
 
-EHT=Ravl.API.Core.eht Ravl.API.Core.Typedefs.html
+EHT=Ravl.API.Core.eht
