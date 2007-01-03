@@ -27,12 +27,12 @@ main(int argc, char **argv)
   
   IntT  a = option.Int("alpha",10,"first parameter");
   IntT  d = option.Int("beta",a/10,"lower threshold");
-  RealT f = option.Real("pi",3.14,"define you own pie");
+  RealT f = option.Real("pi",3.14,"define you own pi");
   
   StringC filename  = option.String("i","","input filename");
   unsigned char sw = option.UnsignedChar("filter",'c',
 					 "switch selector for my filter");
-  bool expand   = option.Boolean("expand",0,"expand my panel");
+  bool expand   = option.Boolean("expand","expand my panel");
   StringC optionN    = option.String("o", "", "option string");
   DListC<StringC> opts = option.List("x","List of strings. ");
   StringC file1 = option.String("","","test file 1");
