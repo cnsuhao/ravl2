@@ -162,6 +162,26 @@ namespace RavlN {
     // of equivlent keys (think strings.) to save memory.
     // Returns true if key exists in the table, false otherwise.
     
+    UIntT Hash() const
+    { return this->Data().Hash(); }
+    //: Compute hash value for table.
+    
+    bool operator==(const RCHashC<Key,Dat> &oth) const
+    { return this->Data() == oth.Data(); }
+    //: Test if this hash table is equal to another.
+    
+    bool operator!=(const RCHashC<Key,Dat> &oth) const
+    { return this->Data() != oth.Data(); }
+    //: Test if this hash table is different to another.
+
+    bool operator==(const HashC<Key,Dat> &oth) const
+    { return this->Data() == oth; }
+    //: Test if this hash table is equal to another.
+    
+    bool operator!=(const HashC<Key,Dat> &oth) const
+    { return this->Data() != oth; }
+    //: Test if this hash table is different to another.
+
   };
 
 }
