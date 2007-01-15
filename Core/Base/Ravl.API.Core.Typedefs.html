@@ -7,33 +7,21 @@
   </head>
   <body>
     
-    There are a few typedefs commonly used in RAVL code. These make
+    <p>There are a few typedefs commonly used in RAVL code. These make
     it easier to port code transparently between different platforms
     as it allows you to make assumptions about types you can't make
-    about the standard 'C' types.  e.g. In RAVL IntT is guaranteed to
-    always be at least a 32-bit integer. <p></p>
-    
-    It's also worth noting the IndexC 
-    class, this has been introduced to as a work around for the many
-    problems that can arise from C's rounding and sign conversion
-    rules. For more details see <a href="../Class/RavlN.IndexC.html">IndexC's documentation</a>. <p></p>
-    
-    Following is a summary of the most commonly used typedefs:
-    
-    <ul>
-      <li><b>IntT</b> - A signed integer with at least 32 bit representation. </li>
-      <li><b>UIntT</b> - An unsigned integer with at least 32 bit representation. </li>
-      <li><b>ByteT</b> - An unsigned char of at least 8 bits. </li>
-      <li><b>SByteT</b> - A signed char of at least 8 bits. </li>
-      <li><b>Int16T</b> - An signed integer of exactly 16 bits. </li>
-      <li><b>UInt16T</b> - An unsigned integer of exactly 16 bits. </li>
-      <li><b>RealT</b> - A floating point value of at least 64 bits and that provides fast arithmetic.  </li>
-      <li><b>FloatT</b> - A floating point value of at least 32 bits.  </li>
-      <li><b>SizeT</b> - An unsigned integer which enough precision to represent the size of the largest array that can be created in a program on the machine.  </li>
-      
-    </ul>
+    about the standard 'C' types.  E.g. in RAVL, IntT is guaranteed to
+    always be at least a 32-bit integer. 
 
-    <p>The full list is mostly <a href="../Class/RavlN.html#IntT">here</a>.</p>
+    <p> Most of them are defined <a href="../Class/RavlN.html#IntT">here</a>.
+    However, due to problems with the way the documentation system handles
+    multiple platforms, you might prefer to use the corresponding <a
+    href="../../../../../../include/Ravl/Types.hh">header file</a>. </p>
+    
+    <p>It's also worth noting the <a href= "../Class/RavlN.IndexC.html">
+    IndexC</a> class: this has been introduced as an alternative efficient
+    signed integer of at least 32 bits, as a work around for the many problems
+    that can arise from C's rounding and sign conversion rules. </p>
     
   </body>
 </html>

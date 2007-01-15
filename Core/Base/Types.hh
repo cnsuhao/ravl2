@@ -61,10 +61,10 @@ namespace RavlN {
   //: Real value of at least 32 bits.
   
   typedef unsigned char ByteT;
-  //: Unigned byte of 8 bits
+  //: Unsigned byte of 8 bits
   
   typedef unsigned char UByteT;
-  //: Unigned byte of 8 bits
+  //: Unsigned byte of 8 bits
   
   typedef signed char SByteT;
   //: Signed byte of 8 bits

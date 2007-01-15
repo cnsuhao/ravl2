@@ -24,9 +24,9 @@ namespace RavlN {
   
   //: Index class for indexing 1D arrays: an integer class with modified rounding and other operations
   
-  // The class IndexC is designed as a replacement for the built-in C
+  // <p>The class <code>IndexC</code> is designed as a replacement for the built-in C
   // <code>int</code> type, in an attempt to correct some of the perceived
-  // deficiencies of <code>int</code>:
+  // deficiencies of <code>int</code>:</p>
   
   // <dl>
   // <dt> Unsigned integers:
@@ -40,30 +40,31 @@ namespace RavlN {
   // involved, this behaviour is often not what is required, particularly for
   // indexing purposes.  
   // </dl>
-  // The behaviour of IndexC therefore differs from that of <code>int</code>, to
-  // provide more consistent behaviour for indexing purposes, and to improve
-  // portability of code. 
-  
-  // <p> The major differences between IndexC and <code>int</code> are: 
+  // <p>The behaviour of <code>IndexC</code> therefore differs from that of 
+  // <code>int</code>, toprovide more consistent behaviour for indexing
+  // purposes, and to improve portability of code.  The major differences are: 
   // <dl>
   // <dt> Unsigned integers:
   // <dd> Where relevant, unsigned integers are converted to signed before
-  // combining with IndexC.
+  // combining with <code>IndexC</code>.
   // <dt>Rounding:
   // <dd>Rounding is always to the nearest more negative integer, except as
   // stated below.  This affects:
   // <ul> 
-  // <li> Truncation of floating point values on conversion to IndexC.
-  // <li> Integer division operations involving IndexC:
+  // <li> Truncation of floating point values on conversion to
+  // <code>IndexC</code>.
+  // <li> Integer division operations involving <code>IndexC</code>:
   // <ul> 
   // <li> If the divisor is positive, the quotient is always rounded towards
   // the nearest more negative integer, regardless of the sign of the dividend.
   // <li> If the divisor is negative, the signs of both divisor and quotient
-  // are reversed.  This means the result is rounded <i>up</i>; this ensures that the modulo operator always generates a +ve result.
+  // are reversed.  This means the result is rounded <i>up</i>; this ensures
+  // that the modulo operator always generates a +ve result.
   // </ul>
-  // Thus (IndexC) -4 / 3 yields -2, and (IndexC) -4 % 3 yields 2.
+  // </ul>
+  // Thus <code>(IndexC) -4 / 3</code> yields -2, and <code>(IndexC) -4 % 3
+  // </code> yields 2.
   // With the <code>int</code> type, the results would probably be -1 and -1 respectively. 
-  // </ul>
   // <dt> Modulo operator:
   // <dd> The modulo operator is always consistent with the divide operator, as
   // per the C and C++ standards.  I.e.:
