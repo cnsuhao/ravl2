@@ -1,0 +1,11 @@
+ifndef RLOG_DEF
+RLOG_DEF=1
+
+ifdef RLOG_HOME
+EXELIB := -L$(RLOG_HOME)/lib -lrlog $(EXELIB)
+INCLUDES += -L$(RLOG_HOME)/include
+else
+EXELIB := -lrlog $(EXELIB)
+endif
+
+endif
