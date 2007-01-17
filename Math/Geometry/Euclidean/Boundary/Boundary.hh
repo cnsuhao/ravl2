@@ -30,8 +30,13 @@ namespace RavlN {
   //! userlevel=Normal
   //: Crack code boundary
 
-  // The class BoundaryC represents the 4-connected oriented boundary of an
-  // image/array region. If the image is interpreted as an array of pixels on the form of square tiles, the boundary follows the edges of the tiles
+  // <p>The class BoundaryC represents the 4-connected oriented boundary of an
+  // image/array region. If the image is interpreted as an array of pixels in
+  // the form of square tiles, the boundary follows the edges of the tiles.</p>
+  //
+  // <p>If the region has holes in it, or several regions are labelled with the
+  // same label, the object will include all of the relevant boundaries. These
+  // can be separated using the <code>OrderEdges()</code> method.</p>
   
   class BoundaryC
     : public DListC<CrackC>
@@ -45,13 +50,16 @@ namespace RavlN {
     // If orient is true, the object is on the left of the boundary.
     
     BoundaryC(const Array2dC<IntT> &emask,IntT inLabel);
-    //: Creates an unsorted list of boundary elements (CrackC) from the edges between 'inLabel' pixels an other values
+    //: Creates an unsorted list of boundary elements (CrackC) from the edges between 'inLabel' pixels and other values
     
     BoundaryC(const Array2dC<UIntT> &emask,IntT inLabel);
-    //: Creates an unsorted list of boundary elements (CrackC) from the edges between 'inLabel' pixels an other values
+    //: Creates an unsorted list of boundary elements (CrackC) from the edges between 'inLabel' pixels and other values
+    // <code>emask</code> could be for example the image returned by the
+    // <code><a href= "RavlImageN.SegmentationC.html#SegMapObvoidCb">
+    // SegmentationC::SegMap()</a> method.
     
     BoundaryC(const DListC<CrackC> & edgeList, bool orient);
-    //: Create the boundary from the list of edges with a appropriate orientation. 
+    //: Create the boundary from the list of edges with an appropriate orientation. 
     // The 'edgeList' will be a part of boundary.  If orient is true, the object
     // is on the left of the boundary.
     
@@ -74,10 +82,10 @@ namespace RavlN {
     // Each item in the list corresponds to a single complete boundary contour.<br>
     // The edges in each boundary are ordered along the boundary.<br> 
     // The direction of the boundaries is determined by the constructor.<br>
-    // Boundaries that terminate at the edge of the array/image are left open.<br>
+    // Boundaries that terminate at the edge of the array/image are left open.
     
     DListC<BoundaryC> Order(const CrackC & firstCrack, bool orient = true);
-    //!deprecated: Order boundary from edge. <br> Order the edgels of this boundary such that it can be traced continuously along the direction of the first edge. The orientation of the boundary is set according to 'orient'. If the boundary is open, 'firstCrack' and 'orient' are ignored.<br>  Note: There is a bug in this code which can cause an infinite loop for some edge patterns. In particular where the two edges go through the same vertex.<br>
+    //!deprecated: Order boundary from edge. <br> Order the edgels of this boundary such that it can be traced continuously along the direction of the first edge. The orientation of the boundary is set according to 'orient'. If the boundary is open, 'firstCrack' and 'orient' are ignored.<br>  Note: There is a bug in this code which can cause an infinite loop for some edge patterns. In particular where the two edges go through the same vertex.
     
     bool Orient() const
     { return orientation; }
