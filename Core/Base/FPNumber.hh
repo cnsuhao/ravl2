@@ -121,14 +121,14 @@ namespace RavlN {
     
     template<UIntT M>
     FPNumberC<N> &operator+=(FPNumberC<M> n) {
-      v += (n.v << (N - M));
+      v += (n.V() << (N - M));
       return (*this);
     }
     //: Add a value.
 
     template<UIntT M>
     FPNumberC<N> &operator-=(FPNumberC<M> n) {
-      v -= (n.v << (N - M));
+      v -= (n.V() << (N - M));
       return (*this);
     }
     //: Subtract a value.
@@ -224,13 +224,13 @@ namespace RavlN {
   template<typename ValueT,UIntT N>
   inline
   FPNumberC<N> operator+(const ValueT &vt,FPNumberC<N> n2)
-  { return FPNumberC<N>((vt * (1 << N)) + n2.v,true); }
+  { return FPNumberC<N>((vt * (1 << N)) + n2.V(),true); }
   //: Add
   
   template<typename ValueT,UIntT N>
   inline
   FPNumberC<N> operator-(const ValueT &vt,FPNumberC<N> n2)
-  { return FPNumberC<N>((vt * (1 << N)) - n2.v,true); }
+  { return FPNumberC<N>((vt * (1 << N)) - n2.V(),true); }
   //: Subtract
   
   template<typename ValueT,UIntT N>
@@ -242,7 +242,7 @@ namespace RavlN {
   template<typename ValueT,UIntT N>
   inline
   FPNumberC<N> operator/(const ValueT &vt,FPNumberC<N> n2)
-  { return FPNumberC<N>((vt * (1 << N)) / n2.v,true); }
+  { return FPNumberC<N>((vt * (1 << N)) / n2.V(),true); }
   //: Divide
   
   ///////////////////////////////////////////////////////////////
@@ -250,25 +250,25 @@ namespace RavlN {
   template<typename ValueT,UIntT N>
   inline
   FPNumberC<N> operator+(FPNumberC<N> n1,const ValueT &vt)
-  { return FPNumberC<N>(n1.v + (vt * (1 << N)),true); }
+  { return FPNumberC<N>(n1.V() + (vt * (1 << N)),true); }
   //: Add
   
   template<typename ValueT,UIntT N>
   inline
   FPNumberC<N> operator-(FPNumberC<N> n1,const ValueT &vt)
-  { return FPNumberC<N>(n1 - (vt * (1 << N)).v,true); }
+  { return FPNumberC<N>(n1 - (vt * (1 << N)).V(),true); }
   //: Subtract
   
   template<typename ValueT,UIntT N>
   inline
   FPNumberC<N> operator*(FPNumberC<N> n1,const ValueT &vt)
-  { return FPNumberC<N>(Round(Round((ValueT) n1.v) * vt),true); }
+  { return FPNumberC<N>(Round(Round((ValueT) n1.V()) * vt),true); }
   //: Multiply
   
   template<typename ValueT,UIntT N>
   inline
   FPNumberC<N> operator/(FPNumberC<N> n1,const ValueT &vt)
-  { return FPNumberC<N>(Round(n1.v / vt),true); }
+  { return FPNumberC<N>(Round(n1.V() / vt),true); }
   //: Divide
 
   ///////////////////////////////////////////////////////////////
@@ -277,7 +277,7 @@ namespace RavlN {
   inline
   FPNumberC<(N+M)/2> operator+(FPNumberC<N> n1,FPNumberC<M> n2) { 
     const UIntT RN = (N+M)/2;
-    return FPNumberC<RN>(BitShift(n1.v,(RN - N)) + BitShift(n2.v, (RN - M)),true); 
+    return FPNumberC<RN>(BitShift(n1.V(),(RN - N)) + BitShift(n2.V(), (RN - M)),true); 
   }
   //: Add
   
@@ -285,7 +285,7 @@ namespace RavlN {
   inline
   FPNumberC<(N+M)/2> operator-(FPNumberC<N> n1,FPNumberC<M> n2) {
     const UIntT RN = (N+M)/2;
-    return FPNumberC<RN>(BitShift(n1.v, (RN - N)) - BitShift(n2.v,(RN - M)),true); 
+    return FPNumberC<RN>(BitShift(n1.V(), (RN - N)) - BitShift(n2.V(),(RN - M)),true); 
   }
   //: Subtract
   
@@ -293,7 +293,7 @@ namespace RavlN {
   inline
   FPNumberC<(N+M)/2> operator*(FPNumberC<N> n1,FPNumberC<M> n2) { 
     const UIntT RN = (N+M)/2;
-    return FPNumberC<RN>(BitShift(n1.v * n2.v,RN - (N+M)) ,true); 
+    return FPNumberC<RN>(BitShift(n1.V() * n2.V(),RN - (N+M)) ,true); 
   }
   //: Multiply
   
@@ -301,7 +301,7 @@ namespace RavlN {
   inline
   FPNumberC<(N+M)/2> operator/(FPNumberC<N> n1,FPNumberC<M> n2) { 
     const UIntT RN = (N+M)/2;
-    return FPNumberC<RN>(BitShift(n1.v,RN - (N - M)) / n2.v ,true); 
+    return FPNumberC<RN>(BitShift(n1.V(),RN - (N - M)) / n2.V(),true); 
   }
   //: Divide.
 
