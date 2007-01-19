@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=Ravl3DIO
-//! docentry="Ravl.API.3D.IO"
+//! docentry="Ravl.API.3D.IO;Ravl.API.3D.Mesh"
 //! file="Ravl/3D/MeshIO/TriFileIO.hh"
 
 #include "Ravl/3D/TriMesh.hh"
@@ -42,7 +42,7 @@ namespace Ravl3DN {
     bool done;
   };
   
-  //! userlevel=Advanced
+  //! userlevel=Normal
   //: Load TriMeshC from .tri files
 
   class DPITriFileC
@@ -86,7 +86,7 @@ namespace Ravl3DN {
     bool done;
   };
   
-  //! userlevel=Advanced
+  //! userlevel=Normal
   //: Save TriMeshC to .tri files
 
   class DPOTriFileC
