@@ -31,7 +31,7 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Fixed Point Number.
-  // A real number with a fixed number N of fractional binary digits
+  // A 32-bit real number with a fixed number N of fractional binary digits
   
   template<UIntT N>
   class FPNumberC {
@@ -199,8 +199,9 @@ namespace RavlN {
     
     IntT &V()
     { return v; }
-    //: Access value.
+    //: Access underlying integer value.
   
+  protected:
     IntT v;
   };
   
