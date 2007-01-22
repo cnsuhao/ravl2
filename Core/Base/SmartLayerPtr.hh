@@ -85,29 +85,32 @@ namespace RavlN {
     // Constructs an owner handle by default.
     
     DataT *BodyPtr()
-    { return &(this->Body()); }
+    { return RCLayerC<DataT>::BodyPtr(); }
     //: Access pointer to body.
     
     const DataT *BodyPtr() const
-    { return &(this->Body()); }
+    { return RCLayerC<DataT>::BodyPtr(); }
     //: Access pointer to body.
     
     DataT *operator->()
-    { return &RCLayerC<DataT>::Body(); }
+    { return RCLayerC<DataT>::BodyPtr(); }
     //: Access body.
     
     const DataT *operator->() const
-    { return &RCLayerC<DataT>::Body(); }
+    { return RCLayerC<DataT>::BodyPtr(); }
     //: Access body.
     
     operator DataT *()
-    { return this->body; }
+    { return RCLayerC<DataT>::BodyPtr(); }
     //: Access body.
     
     operator const DataT *() const
-    { return this->body; }
+    { return RCLayerC<DataT>::BodyPtr(); }
     //: Access body.
     
+    UIntT Hash() const 
+    { return StdHash(reinterpret_cast<const void *>(BodyPtr())); }
+    //: Compute hash value for handle.
   };
 
 }
