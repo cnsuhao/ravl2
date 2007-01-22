@@ -57,17 +57,17 @@ namespace RavlN {
     
     template<UIntT M>
     FPNumberC(FPNumberC<M> num)
-      : v(BitShift(num.v,(int) N - (int) M))
+      : v(BitShift(num.V(),(int) N - (int) M))
     {}
     //: Convert from a another fixed point number.
     
     bool operator==(FPNumberC<N> n) const
-    { return v == n.v; }
+    { return v == n.V(); }
     //: Equal to another number ?
     
     template<UIntT M>
     bool operator==(FPNumberC<M> n) const
-    { return v == BitShift(n.v,N-M) && BitShift(v,M-N) == n.v; }
+    { return v == BitShift(n.V(),N-M) && BitShift(v,M-N) == n.V(); }
     //: Equal to another number ?
 
     template<UIntT M>
@@ -80,22 +80,22 @@ namespace RavlN {
     //: Equal to an integer ?
     
     bool operator!=(FPNumberC<N> n) const
-    { return v != n.v; }
+    { return v != n.V(); }
     
     bool operator!=(IntT n) const
     { return !((*this) == n); }
     
     bool operator<(FPNumberC<N> n) const
-    { return v < n.v; }
+    { return v < n.V(); }
     
     bool operator>(FPNumberC<N> n) const
-    { return v > n.v; }
+    { return v > n.V(); }
     
     bool operator<=(FPNumberC<N> n) const
-    { return v <= n.v; }
+    { return v <= n.V(); }
     
     bool operator>=(FPNumberC<N> n) const
-    { return v >= n.v; }
+    { return v >= n.V(); }
     
     FPNumberC<N> operator++()
     { return v += (1 << N); }
@@ -135,7 +135,7 @@ namespace RavlN {
     
     template<UIntT M>
     FPNumberC<N> &operator*=(FPNumberC<M> n) {
-      v *= n.v;
+      v *= n.V();
       v = v >> M;
       return (*this);
     }
@@ -143,7 +143,7 @@ namespace RavlN {
     
     template<UIntT M>
     FPNumberC<N> &operator/=(FPNumberC<M> n) {
-      v /= n.v;
+      v /= n.V();
       v = v << M;
       return (*this);
     }
@@ -236,7 +236,7 @@ namespace RavlN {
   template<typename ValueT,UIntT N>
   inline
   FPNumberC<N> operator*(const ValueT &vt,FPNumberC<N> n2)
-  { return FPNumberC<N>(Round(vt * ((ValueT) n2.v)),true); }
+  { return FPNumberC<N>(Round(vt * ((ValueT) n2.V())),true); }
   //: Multiply
 
   template<typename ValueT,UIntT N>
