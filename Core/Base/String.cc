@@ -61,9 +61,11 @@ extern "C" { extern long long atoll(const char *); } ;
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <new>
 #include <iostream>
+#include <string>
 #else
 #include <new.h>
 #include <iostream.h>
+#include <string.h>
 #endif
 
 #ifndef __GNUG__
@@ -534,6 +536,16 @@ namespace RavlN {
 
   StringC::StringC(istream & in) {
     in >> *this;
+  }
+
+  //: Construct from a STL string.
+  
+  StringC::StringC(const std::string& x) 
+    : rep(Salloc(0, x.data(), -1, x.size())) 
+  {}
+  
+  StringC::operator std::string () const {
+    return std::string(chars(),Size());
   }
   
   /* 

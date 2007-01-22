@@ -294,6 +294,9 @@ namespace RavlN {
     explicit StringC(istream & in);
     //: Create a string from the stream "in"
     
+    StringC(const std::string& x);
+    //: Construct from a STL string.
+    
     ~StringC()
     {}
     //: Destructor.
@@ -672,7 +675,14 @@ namespace RavlN {
     inline const char* chars() const
     { return &(rep->s[0]); }    
     //: Access as a 'C' sytle string.
-  
+    
+    inline const char* data() const
+    { return &(rep->s[0]); }    
+    //: Access as a 'C' sytle string, in the stl style.
+    
+    operator std::string () const;
+    //: Convert to a STL string.
+    
     // IO
     
     friend ostream& operator<<(ostream& s, const StringC& x);
@@ -713,6 +723,10 @@ namespace RavlN {
     inline SizeT Size() const
     { return rep->len; }
     //: Get the length of this string.
+    
+    inline SizeT size() const
+    { return rep->len; }
+    //: Get the length of this string, stl style.
     
     int  OK() const;
     //: Check it valid.
