@@ -78,9 +78,9 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: AVL Tree.
-  // <p>AVL (Adelson-Velskii and Landis) binary trees gives approximantly 
-  // O(log N) for all operations. </p>
+  //: Adelson-Velskii and Landis binary tree.
+  // <p>Adelson-Velskii and Landis (AVL) binary trees take approximately 
+  // O(log N) time for all operations. </p>
   //
   // <p>Deletion is partly lazy, it will only remove nodes that are
   // easy, the rest it flags for removal later.</p>
