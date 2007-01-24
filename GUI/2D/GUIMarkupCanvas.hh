@@ -316,6 +316,10 @@ namespace RavlGUIN {
     //: Create the widget. 
     //!cwiz:author
     
+    bool Create(GtkWidget *widget)
+    { return Body().Create(widget); }
+    //: Create the widget.
+    
   protected:
     GUIMarkupCanvasC(GUIMarkupCanvasBodyC &bod)
       : RawZoomCanvasC(bod)
