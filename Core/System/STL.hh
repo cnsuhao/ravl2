@@ -36,7 +36,7 @@ namespace RavlN {
   
   template<typename DataT>
   BinOStreamC &operator<<(BinOStreamC &strm,const std::vector<DataT> &vec) {
-    SizeT size = vec.Size();
+    SizeT size = vec.size();
     strm << size;
     for(SizeT i = 0;i <size;i++)
       strm << vec[i];
