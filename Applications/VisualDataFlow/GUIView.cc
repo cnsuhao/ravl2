@@ -398,12 +398,12 @@ namespace RavlDFN {
   
   bool GUIViewBodyC::EventMouseMove(MouseEventC &me) {
     //ONDEBUG(cerr << "GUIViewBodyC::EventMouseMove(MouseEventC &) Called. \n");
-    mouseAt = me.Position();
+    mouseAt = me.At();
     switch(viewState) {
     case VS_DRAG:
       if(hold.IsValid() && !hold.Component()) { // Can't drag components...
 	IndexRange2dC old = hold.Frame();
-	hold.Move(me.Position() - holdOffset);
+	hold.Move(me.At() - holdOffset);
 	hold.Selected(true); // If its being dragged, its selected.
 	if(old.IsOverlapping(hold.Frame())) {
 	  old.Involve(hold.Frame());
@@ -420,7 +420,7 @@ namespace RavlDFN {
     case VS_LINK:
       {
 	Index2dC from = hold.AttachPoint();
-	Index2dC to = me.Position();
+	Index2dC to = me.At();
 	IndexRange2dC area(from,0);
 	area.Involve(holdOffset);
 	area.Dilate();
@@ -519,7 +519,7 @@ namespace RavlDFN {
   
   bool GUIViewBodyC::EventMousePress(MouseEventC &me) {
     //ONDEBUG(cerr << "GUIViewBodyC::EventMousePress(MouseEventC &) Called. " << me.HasChanged(0) << " " << me.HasChanged(2) << " At=" << me.Position() << "\n");
-    ViewElementC el = FindElement(me.Position());
+    ViewElementC el = FindElement(me.At());
     DFMouseActionT ma = DFMA_NONE;
     if(!el.IsValid()) {
       if(me.HasChanged(0)) {
@@ -542,7 +542,7 @@ namespace RavlDFN {
 	el.Selected(!el.Selected());
 	ONDEBUG(cerr << "GUIViewBodyC::EventMousePress(), Got object. Selected:" << el.Selected() << "\n");
 	hold = el;
-	holdOffset = me.Position() - el.At();
+	holdOffset = me.At() - el.At();
 	viewState = VS_DRAG;
 	Render(hold.Frame());
 	return true;
@@ -562,7 +562,7 @@ namespace RavlDFN {
 	    }
 	  } break;
 	  case VS_LINK: {
-	    holdOffset = me.Position();
+	    holdOffset = me.At();
 	    bool clear = true;
 	    if(el.IsValid()) {
 	      if(CreateLink(hold,el)) {

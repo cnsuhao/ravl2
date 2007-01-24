@@ -97,7 +97,7 @@ namespace RavlDFN {
       ret = object.Render(view,at,DFRM_NORMAL);
     for(DLIterC<ViewElementC> it(parts);it;it++) {
       //      if(!it->Component())
-	ret &= it->Render(view);
+      ret &= it->Render(view);
     }
     return ret;
   }
@@ -109,8 +109,7 @@ namespace RavlDFN {
       cerr << "ViewElementBodyC::MouseClick(), ERROR: No object. \n";
       return DFMA_NONE;
     }
-    MouseEventC nme(me);
-    nme.Position() -= at;
+    MouseEventC nme(nme.Col() - at.Col(),nme.Row() - at.Row(),nme.RawState(),nme.RawChanged(),nme.Time());
     return object.MouseClick(view,nme);
   }
 
