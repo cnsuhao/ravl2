@@ -12,7 +12,7 @@
 //! docentry="Ravl.API.Core.Reference Counting"
 //! file="Ravl/Core/Base/SmartPtr.hh"
 
-#include "Ravl/RefCounter.hh"
+#include "Ravl/RCHandleV.hh"
 
 namespace RavlN {
   
@@ -38,7 +38,7 @@ namespace RavlN {
     {}
     //: Construct from data.
 
-    SmartPtrC(DataT *data)
+    SmartPtrC(const DataT *data)
       : RCHandleC<DataT>(data)
     {}
     //: Construct from data.
@@ -91,9 +91,74 @@ namespace RavlN {
     DataT *get()
     { return this->body; }
     //: Boost compatibility. Get Ptr.
-    
-    
   };
+  
+  //!userlevel=Develop
+  
+  template<typename StreamT,typename BodyT>
+  void SaveStreamImpl(StreamT &strm,const SmartPtrC<BodyT> &ptr,const RCBodyVC &) {
+    char handleStatus = ptr.IsValid() ? 'V' : 'I';
+    strm << handleStatus;
+    if(ptr.IsValid()) ptr->Save(strm);
+  }  
+  
+  template<typename StreamT,typename BodyT>
+  void SaveStreamImpl(StreamT &strm,const SmartPtrC<BodyT> &ptr,const RCBodyC &) {
+    char handleStatus = ptr.IsValid() ? 'V' : 'I';
+    strm << handleStatus;
+    if(ptr.IsValid()) strm << *ptr;
+  }
+  
+  
+  template<typename StreamT,typename BodyT>
+  void LoadStreamImpl(StreamT &strm,SmartPtrC<BodyT> &ptr,const RCBodyC &) {
+    char handleStatus = 0;
+    strm >> handleStatus;
+    if(handleStatus == 'V') {
+      ptr = new BodyT();
+      strm >> *ptr;
+    } else 
+      ptr = 0; // Ensure an invalid handle.
+  }
+  
+  template<typename StreamT,typename BodyT>
+  void LoadStreamImpl(StreamT &strm,SmartPtrC<BodyT> &ptr,const RCBodyVC &) {
+    char handleStatus = 0;
+    strm >> handleStatus;
+    if(handleStatus == 'V') {
+      ptr = RAVL_VIRTUALCONSTRUCTOR(strm,BodyT);
+    } else 
+      ptr = 0; // Ensure an invalid handle.
+  }
+  
+  //!userlevel=Normal
+  
+  //: Write entity from binary stream
+  template<typename BodyT>
+  BinOStreamC &operator<<(BinOStreamC &strm,const SmartPtrC<BodyT> &ptr) {
+    SaveStreamImpl(strm,ptr,*ptr);
+    return strm;
+  }
+  
+  //: Read entity from binary stream
+  template<typename BodyT>
+  BinIStreamC &operator>>(BinIStreamC &strm,SmartPtrC<BodyT> &ptr) {
+    LoadStreamImpl(strm,ptr,*ptr);
+    return strm;
+  }
 
+  //: Write entity from text stream
+  template<typename BodyT>
+  ostream &operator<<(ostream &strm,const SmartPtrC<BodyT> &ptr) {
+    SaveStreamImpl(strm,ptr,*ptr);
+    return strm;
+  }
+  
+  //: Read entity from text stream
+  template<typename BodyT>
+  istream &operator>>(istream &strm,SmartPtrC<BodyT> &ptr) {
+    LoadStreamImpl(strm,ptr,*ptr);
+    return strm;
+  }
 }
 #endif

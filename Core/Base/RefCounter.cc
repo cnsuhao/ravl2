@@ -52,5 +52,17 @@ namespace RavlN {
   //: Output body.
   // No-op.
 
+  BinIStreamC &operator>>(BinIStreamC &strm,RCBodyC &obj) {
+    return strm;
+  }
+  //: Input body.
+  // No-op.
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const RCBodyC &obj) {
+    return strm;
+  }
+  //: Output body.
+  // No-op.
+
 
 }

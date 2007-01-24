@@ -253,11 +253,19 @@ namespace RavlN {
   };
   
   
-  istream &operator>>(istream &,RCBodyC &obj);
+  istream &operator>>(istream &strm,RCBodyC &obj);
   //: Input body.
   // No-op.
   
-  ostream &operator<<(ostream &,const RCBodyC &obj);
+  ostream &operator<<(ostream &strm,const RCBodyC &obj);
+  //: Output body.
+  // No-op.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,RCBodyC &obj);
+  //: Input body.
+  // No-op.
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const RCBodyC &obj);
   //: Output body.
   // No-op.
     

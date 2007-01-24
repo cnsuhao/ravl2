@@ -72,6 +72,14 @@ namespace RavlN {
   //: Output virtual body.
   // No-op.
   
+  BinIStreamC &operator>>(BinIStreamC &strm,RCBodyVC &obj);
+  //: Input virtual body.
+  // No-op.
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const RCBodyVC &obj);
+  //: Output virtual body.
+  // No-op.
+  
   
 };
 
