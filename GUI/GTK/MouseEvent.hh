@@ -36,7 +36,7 @@ namespace RavlGUIN {
   
   class MouseEventC {
   public:
-    MouseEventC(IntT col = 0,IntT row = 0,IntT state = 0,IntT changed = 0);
+    MouseEventC(RealT col = 0,RealT row = 0,IntT state = 0,IntT changed = 0,UIntT time = 0);
     //: Constructor.
     
     MouseEventC(GdkEventButton &ev);
@@ -90,6 +90,17 @@ namespace RavlGUIN {
     //: Eight modifier key.
     // Can be 'Alt Gr'
     
+    IntT RawState() const
+    { return state; }
+    //: Access raw state value.
+    
+    IntT RawChanged() const
+    { return change; }
+    //: Raw button changed bits.
+    
+    UIntT Time() const
+    { return time; }
+    //: Time of event (from gdk)
   protected:
     RealT x,y;   // Current position in GTK coords.
     IntT state;  // Current state.
