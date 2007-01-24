@@ -38,6 +38,8 @@
 #include "Ravl/Random.hh"
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/PointerManager.hh"
+#include "Ravl/SmartPtr.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 #include <string.h>
 
@@ -69,9 +71,11 @@ int testIndexRange2dSet();
 int testBase64();
 int testObjIO();
 int testVectorIO();
+int testSmartPtr();
 
 int testRavlCore(int argc,char **argv) {
   int line = 0;
+#if 0
   if((line = testArray1()) != 0) {
     cerr << "Array1 test failed line :" << line << "\n";
     return 1;
@@ -130,6 +134,11 @@ int testRavlCore(int argc,char **argv) {
   }
   if((line = testVectorIO()) != 0) {
     cerr << "Base64 io test failed line :" << line << "\n";
+    return 1;
+  }
+#endif
+  if((line = testSmartPtr()) != 0) {
+    cerr << "SmartPtr io test failed line :" << line << "\n";
     return 1;
   }
   cout << "Test passed. \n";
@@ -519,6 +528,104 @@ int testVectorIO() {
   TFVectorC<int,3> value;
   value.Fill(0);
   cout << value;
+  return 0;
+}
+
+/***************************************************************************************************/
+
+class TestDerivedC
+  : public RCBodyC
+{
+public:
+  TestDerivedC()
+    : m_i(0)
+  {}
+  
+  TestDerivedC(int i)
+    : m_i(i)
+  {}
+  
+  int m_i;
+};
+
+class TestDerived2C
+  : public RCBodyVC
+{
+public:
+  TestDerived2C(BinIStreamC &strm)
+    : RCBodyVC(strm)
+  { strm >> m_i; }
+
+  TestDerived2C(istream &strm)
+    : RCBodyVC(strm)
+  { strm >> m_i; }
+  
+  TestDerived2C(int i)
+    : m_i(i)
+  {}
+  
+  bool Save(BinOStreamC &strm) const {
+    if(!RCBodyVC::Save(strm))
+      return false;
+    strm << m_i;
+    return true;
+  }
+  
+  int m_i;
+};
+
+
+BinOStreamC &operator<<(BinOStreamC &strm,const TestDerivedC &obj) {
+  strm << obj.m_i;
+  return strm;
+}
+
+BinIStreamC &operator>>(BinIStreamC &strm,TestDerivedC &obj) {
+  strm >> obj.m_i;
+  return strm;
+}
+
+RAVL_INITVIRTUALCONSTRUCTOR_NAMED(TestDerived2C,"TestDerived2C");
+
+int testSmartPtr() {
+  cerr << "testSmartPtr, Called \n";
+  
+  {
+    StrOStreamC outs;
+    BinOStreamC bos(outs);
+    SmartPtrC<TestDerivedC> sptr = new TestDerivedC(2);
+    bos << sptr;
+    
+    SmartPtrC<TestDerived2C> sptrb;
+    bos << sptrb;
+    
+    StrIStreamC ins(outs.String());
+    BinIStreamC bis(ins);
+    SmartPtrC<TestDerivedC> lptr;
+    bis >> lptr;
+    if(!lptr.IsValid()) return __LINE__;
+    if(lptr->m_i != 2) return __LINE__;
+    bis >> lptr;
+    if(sptrb.IsValid()) return __LINE__;
+  }  
+  {
+    StrOStreamC outs;
+    BinOStreamC bos(outs);
+    SmartPtrC<TestDerived2C> sptr2 = new TestDerived2C(3);
+    bos << sptr2;
+    
+    SmartPtrC<TestDerived2C> sptr2b;
+    bos << sptr2b;
+    
+    StrIStreamC ins(outs.String());
+    BinIStreamC bis(ins);
+    SmartPtrC<TestDerived2C> lptr;
+    bis >> lptr;
+    if(!lptr.IsValid()) return __LINE__;
+    if(lptr->m_i != 3) return __LINE__;
+    bis >> lptr;
+    if(lptr.IsValid()) return __LINE__;
+  }
   return 0;
 }
 

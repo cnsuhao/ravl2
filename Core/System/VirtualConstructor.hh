@@ -33,10 +33,10 @@ namespace RavlN {
     : public RCBodyVC
   {
   public:
-    VirtualConstructorBodyC(const type_info &,const char *typesname);
+    VirtualConstructorBodyC(const std::type_info &,const char *typesname);
     //: Default constructor.
     
-    VirtualConstructorBodyC(istream &in);
+    VirtualConstructorBodyC(std::istream &in);
     //: Construct from an istream.
     // Dummy method.
 
@@ -44,7 +44,7 @@ namespace RavlN {
     //: Construct from an istream.
     // Dummy method
     
-    virtual RCBodyVC *Load(istream &in) const;
+    virtual RCBodyVC *Load(std::istream &in) const;
     //: Load an object of this type from an istream
     
     virtual RCBodyVC *Load(BinIStreamC &in) const;
@@ -63,7 +63,7 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    RCBodyVC *Load(istream &in) const
+    RCBodyVC *Load(std::istream &in) const
     { return Body().Load(in); }
     //: Load an object of this type from an istream
     
@@ -93,7 +93,7 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    virtual RCBodyVC *Load(istream &in) const
+    virtual RCBodyVC *Load(std::istream &in) const
     { return new DataT(in); }
     //: Load an object of this type from an istream.
     
@@ -117,25 +117,25 @@ namespace RavlN {
     //: Constructor.
   };
   
-  RCBodyVC *VCLoad(istream &s);
+  RCBodyVC *VCLoad(std::istream &s);
   //: Load object from a stream via a virtual constructor
   
   RCBodyVC *VCLoad(BinIStreamC &s);
   //: Load object from a binary stream via a virtual constructor
   
 #define RAVL_INITVIRTUALCONSTRUCTOR(bodyname) \
- static VirtualConstructorInstC<bodyname> vc_function_ ## bodyname(# bodyname );
+  static RavlN::VirtualConstructorInstC<bodyname> vc_function_ ## bodyname(# bodyname );
 
 #define RAVL_INITVIRTUALCONSTRUCTOR_NAMED(bodyname,name) \
- static VirtualConstructorInstC<bodyname> vc_function_ ## bodyname(name );
+  static RavlN::VirtualConstructorInstC<bodyname> vc_function_ ## bodyname(name );
 
   // Just initalise the virtual constructor.
 
 #define RAVL_VIRTUALCONSTRUCTOR_HANDLE(bodyname,handlename,basename) \
- handlename::handlename(istream &strm) \
+ handlename::handlename(std::istream &strm) \
   : basename(RAVL_VIRTUALCONSTRUCTOR(strm,bodyname)) \
  {} \
- handlename::handlename(BinIStreamC &strm) \
+    handlename::handlename(RavlN::BinIStreamC &strm) \
   : basename(RAVL_VIRTUALCONSTRUCTOR(strm,bodyname)) \
  {}
 
