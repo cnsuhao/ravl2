@@ -8,15 +8,15 @@
 //! docentry="Ravl"
 //! file="Ravl/Core"
 //! author="Kieron J Messer"
- 
+
 #include "Ravl/config.h"
 
 #define CHECK_FOR_3DNOW 0
 
 namespace RavlN {
-  
+
   class CPUIDC {
-    
+
   public:
     CPUIDC();
     //: Construct
@@ -35,7 +35,7 @@ namespace RavlN {
 
     bool htt() const
       { return m_htt; }
-    //: do we have hyperthreading processor 
+    //: do we have hyperthreading processor
 
 #if CHECK_FOR_3DNOW
     bool ThreeDNow() const
@@ -72,6 +72,18 @@ namespace RavlN {
     //: do we have 3d now extensions
 #endif
   };
+
+  bool MMX();
+  //: do we have mmx
+
+  bool SSE();
+  //: do we have sse
+
+  bool SSE2();
+  //: do we have sse2
+
+  bool HTT();
+  //: do we have hyperthreading processor
 }
 
 
