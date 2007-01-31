@@ -343,6 +343,12 @@ namespace RavlN {
     { return DListC<DataT>(static_cast<DListBodyC<DataT> &>(Body().Copy())); }
     //: Make a copy of this list.
     
+    DListC<DataT> DeepCopy(UIntT levels = ((UIntT) -1)) const
+    { return DListC<DataT>(static_cast<DListBodyC<DataT> &>(Body().DeepCopy(levels))); }
+    //: Make a deep copy
+    // If levels == 0, no copy is made.
+    // levels == 1 is equivelent to Copy().
+    
     void InsFirst(const DataT &dat)
     { Body().InsFirst(dat); }
     //: Push element onto the begining of the list.
