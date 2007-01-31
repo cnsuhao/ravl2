@@ -22,6 +22,10 @@ FULLBUILD_TARGETS += optbin
 FULLBUILD_TARGETS += doc
 
 
+## Use SSE2 instructions where possible ####################
+
+#RESOURCES += USE_SSE2
+
 ################ Compiler ##################################
 
 #GCCPATH=/opt/Omni/gcc-3.4.4
