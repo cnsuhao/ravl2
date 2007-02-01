@@ -60,7 +60,7 @@ namespace RavlGUIN {
     virtual void WidgetDestroy();
     //: Called when gtk widget is destroyed.
     
-    bool CommonCreate(GtkWidget *_widget = NULL);
+    virtual bool CommonCreate(GtkWidget *_widget = NULL);
     //: Common object creation
     
     GladeXMLC xml;
