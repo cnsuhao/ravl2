@@ -51,6 +51,7 @@ unsigned long cpudetect(unsigned long address)
 
 #endif
 #endif
+  //std::cerr << "CPUID:\t\t" << (int)id << std::endl;
   return id;
 }
 
@@ -104,55 +105,55 @@ unsigned long cpudetect(unsigned long address)
 #endif
   }
 
-static unsigned long __cpu_id = 0;
-static bool __cpu_id_initialized = false;
+static unsigned long cpu_id = 0;
+static bool cpu_id_initialized = false;
 
 //: do we have mmx
 bool MMX()
 {
-  if(!__cpu_id_initialized)
+  if(!cpu_id_initialized)
   {
-    __cpu_id = cpudetect(0x00000001);
-    __cpu_id_initialized = true;
+    cpu_id = cpudetect(0x00000001);
+    cpu_id_initialized = true;
   }
 
-  return cpuid_mmx & __cpu_id;
+  return cpuid_mmx & cpu_id;
 }
 
 //: do we have sse
 bool SSE()
 {
-  if(!__cpu_id_initialized)
+  if(!cpu_id_initialized)
   {
-    __cpu_id = cpudetect(0x00000001);
-    __cpu_id_initialized = true;
+    cpu_id = cpudetect(0x00000001);
+    cpu_id_initialized = true;
   }
 
-  return cpuid_sse & __cpu_id;
+  return cpuid_sse & cpu_id;
 }
 
 //: do we have sse2
 bool SSE2()
 {
-  if(!__cpu_id_initialized)
+  if(!cpu_id_initialized)
   {
-    __cpu_id = cpudetect(0x00000001);
-    __cpu_id_initialized = true;
+    cpu_id = cpudetect(0x00000001);
+    cpu_id_initialized = true;
   }
 
-  return cpuid_sse2 & __cpu_id;
+  return cpuid_sse2 & cpu_id;
 }
 
 //: do we have hyperthreading processor
 bool HTT()
 {
-  if(!__cpu_id_initialized)
+  if(!cpu_id_initialized)
   {
-    __cpu_id = cpudetect(0x00000001);
-    __cpu_id_initialized = true;
+    cpu_id = cpudetect(0x00000001);
+    cpu_id_initialized = true;
   }
 
-  return cpuid_htt & __cpu_id;
+  return cpuid_htt & cpu_id;
 }
 
 }
