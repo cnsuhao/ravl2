@@ -5,10 +5,19 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
-#! file="Ravl/Image/defs.mk"
+#! file="Ravl/Image/Base/defs.mk"
+
+REQUIRES=USE_SSE2
 
 PACKAGE=Ravl/Image
 
-NESTED=Base.r BaseSSE.r ImageIO.r VideoIO.r ExternalImageIO.r Processing.r AV.r 
+HEADERS=
 
-EHT=Ravl.API.Images.eht Ravl.API.Images.Converters.html
+SOURCES=ImageConvSSE.cc
+
+PLIB=RavlImage
+
+USESLIBS=RavlCore
+
+USERCPPFLAGS=-msse2
+
