@@ -19,6 +19,7 @@
 #include "Ravl/StringList.hh"
 #include "Ravl/GUI/DragAndDrop.hh"
 #include "Ravl/OS/SysLog.hh"
+#include "Ravl/DP/AttributeValueTypes.hh"
 
 #include  <gtk/gtk.h>
 
@@ -155,10 +156,16 @@ namespace RavlGUIN {
             // Get value from 'pixbuf' from column '*it'
             rit->Attributes()[attrPixbuf] = Tuple2C<StringC,bool>(name,true);
             break;
+          case AVT_Enum:
+#if 0
+            renderType ="combo";
+            // Get value from 'text' from column '*it'
+            rit->Attributes()[attrText] = Tuple2C<StringC,bool>(name,true);            
+            break;
+#endif
           case AVT_String:  
           case AVT_Int: 
           case AVT_Real:
-          case AVT_Enum: 
             renderType ="text";
             // Get value from 'text' from column '*it'
             rit->Attributes()[attrText] = Tuple2C<StringC,bool>(name,true);
@@ -432,7 +439,16 @@ namespace RavlGUIN {
           }
         } else if (renderType == "pixbuf") {
           renderer = gtk_cell_renderer_pixbuf_new();
-        } else {
+        } else if (renderType == "combo") {
+          renderer = gtk_cell_renderer_combo_new(); 
+        } else if (renderType == "progress") {
+          renderer = gtk_cell_renderer_progress_new(); 
+#if 0
+        } else if (renderType == "spin") {
+          renderer = gtk_cell_renderer_spin_new (); 
+#endif
+        } else
+        {
           cerr << "Unknown rendered type '" << rit->RenderType() << "'\n";
           RavlAssert(0);
         }

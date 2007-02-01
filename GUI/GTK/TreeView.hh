@@ -705,7 +705,7 @@ namespace RavlGUIN {
     void Deselect(TreeModelPathC path)
     { Body().Deselect(path); }
     //: Deselect the specified path
-
+    
     void Deselect(TreeModelIterC iter)
     { Body().Deselect(iter); }
     //: Deselect the specified row iterator

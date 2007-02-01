@@ -282,16 +282,16 @@ namespace RavlGUIN {
     //: Delete a row.
     
     bool GetValue(TreeModelIterC &rowIter,IntT col, IntT &value);
-    //: Set int value.
+    //: Get int value.
     
     bool GetValue(TreeModelIterC &rowIter,IntT col, bool &value);
-    //: Set bool value.
+    //: Get bool value.
     
     bool GetValue(TreeModelIterC &rowIter,IntT col, StringC &value);
-    //: Set bool value.
+    //: Get string value.
     
     bool GetValue(TreeModelIterC &rowIter,IntT col, PixbufC &value);
-    //: Set bool value. 
+    //: Get pixbuf value. 
     
     bool SetValue(TreeModelIterC &rowIter,IntT col, IntT value);
     //: Set int value.
