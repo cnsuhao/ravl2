@@ -62,9 +62,9 @@ namespace RavlN {
 	cols(centre.Col()-size,centre.Col()+size)
     {}
     //: Create an 2d range from a centre point and a size.
-    // Size is the distance from the centre to the edge, so
-    // a size of 0 gives a single pixel, and a size of 1 generates
-    // a 3x3 square.
+    // "size" is the distance from the centre to the edge, so
+    // a size of 0 gives a single pixel, and a size of 2 generates
+    // a 5x5 square.
     
     IndexRange2dC(const Index2dC &centre,SizeT nrows,SizeT ncols);
     //: Create an 2d range from a centre point and a size for rows and cols.

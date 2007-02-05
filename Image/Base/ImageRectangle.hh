@@ -59,6 +59,9 @@ namespace RavlImageN {
       : IndexRange2dC(center,size)
     {}
     //: Construct a square from center and size.
+    // "size" is the distance from the centre to the edge, so
+    // a size of 0 gives a single pixel, and a size of 2 generates
+    // a 5x5 square.
     
     ImageRectangleC(const Index2dC &centre,SizeT rows,SizeT cols)
       : IndexRange2dC(centre,rows,cols)
