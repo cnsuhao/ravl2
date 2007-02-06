@@ -17,7 +17,7 @@
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/BinStream.hh"
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -116,7 +116,15 @@ namespace RavlImageN {
     rect = ImageRectangleC(height,width);
     SetupIO();
     ONDEBUG(cerr << " BlockSize=" << blockSize << " Width=" << width << " Height=" << height << " \n");
-    seqSize = (StreamSizeT) ((strm.Size() / (StreamSizeT) frameSize)) - 1;
+    
+    StreamSizeT imageData = strm.Size() - offset;
+    seqSize = (StreamSizeT) (imageData / (StreamSizeT) frameSize);
+    
+    // There maybe unwritten padding for the last block.
+    UIntT imgSize = (rect.Area() * 2);
+    if((imageData % frameSize) >= imgSize)
+      seqSize++; 
+    
     ONDEBUG(cerr << "DPIImageJSBodyC::ReadHeader(), Sequence size=" << seqSize << " Filesize=" << strm.Size() << "\n");      
     
     return true;
