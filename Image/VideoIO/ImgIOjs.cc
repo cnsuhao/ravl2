@@ -17,7 +17,7 @@
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/BinStream.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
