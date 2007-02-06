@@ -19,6 +19,7 @@
 #include "Ravl/Array2d.hh"
 #include "Ravl/TFVector.hh"
 #include "Ravl/Image/ImageRectangle.hh"
+#include "Ravl/Array2dIter2.hh"
 
 namespace RavlImageN {
   using namespace RavlN;
@@ -115,7 +116,26 @@ namespace RavlImageN {
     ImageC<PixelT> Copy() const
     { return ImageC<PixelT>(Array2dC<PixelT>::Copy()); }
     //: Make copy of an image.
+
+    ImageC<PixelT> Expand(IntT width, PixelT fill) const {
+      ImageC<PixelT> expanded(Frame().Expand(width));
+      expanded.Fill(fill);
+      for (Array2dIter2C<PixelT,PixelT> i(*this, expanded, Frame()); i; ++i)
+        i.Data2() = i.Data1();
+      return expanded;
+    }
+    //: Expand image by "width" pixels and fill border with "fill"
+    // The returned image is a new image, not a link to this one.
     
+    ImageC<PixelT> Expand(IntT width) const {
+      ImageC<PixelT> expanded(Frame().Expand(width));
+      for (Array2dIter2C<PixelT,PixelT> i(*this, expanded, Frame()); i; ++i)
+        i.Data2() = i.Data1();
+      return expanded;
+    }
+    //: Expand image by "width" pixels, but do not initialise border.
+    // The returned image is a new image, not a link to this one.
+
     SizeT Rows() const
     { return this->Range1().Size(); }
     //: Number of rows in image.
