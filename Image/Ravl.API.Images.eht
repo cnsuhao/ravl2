@@ -15,7 +15,7 @@ object can contain one or more "image rectangles" (<a
 href="../Class/RavlImageN.ImageRectangleC.html">ImageRectangleC</a>).  When an
 image is constructed, it has one associated rectangle corresponding to the
 border of the image.  However other rectangles can also be attached,
-corresponding to subimages; they can also be moved around the image.  These
+corresponding to subimages; they can also be <a href="../Class/RavlImageN.Rectangle2dIterC.html">moved around the image</a>.  These
 can be useful for spatial filtering and other neighbourhood operations.</p>
 
 <h4> Image IO and type conversion:</h4>
