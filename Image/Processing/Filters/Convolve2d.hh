@@ -20,7 +20,7 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: 2D Convolution
-  // <b>Template args:</b> <br>
+  // <p><b>Template args:</b> <br>
   // InPixelT = Type of pixel in input image. <br>
   // OutPixelT = Type of pixel in output image. (Default = InPixelT) <br>
   // KernelPixelT = Type of pixel in convolution kernel. (Default = InPixelT)  <br>
@@ -31,7 +31,11 @@ namespace RavlImageN {
   // The exact requirements of these types depends on the gain and type of the filter being used.
   // In multi-channel filters SumPixelT should be a multi-channel value as well. e.g.
   // to filter an ImageC<ByteRGBValueC> you may use:
-  // InPixelT=ByteRGBValueC, OutPixelT=ByteRGBValueC,KernelPixelT=RealT,SumType=RealRGBValueC
+  // InPixelT=ByteRGBValueC, OutPixelT=ByteRGBValueC,KernelPixelT=RealT,SumType=RealRGBValueC</p>
+  //
+  // <p> This class rotates the kernel by 180 deg. and then uses Correlate2dC::Apply().
+  // For rotationally symmetric kernels, it is therefore faster to use <a
+  // href="RavlImageN.Correlate2dC.html">Correlate2dC</a> directly.</p>
 
   template<class InPixelT,class OutPixelT = InPixelT,class KernelPixelT = InPixelT,class SumTypeT = KernelPixelT>
   class Convolve2dC 
@@ -45,7 +49,7 @@ namespace RavlImageN {
     
     Convolve2dC(const ImageC<KernelPixelT> &nkernel)
     { SetKernel(nkernel); }
-    //: Default constructor.
+    //: Construct using kernel.
     
     void SetKernel(const ImageC<KernelPixelT> &nkernel) { 
       // The apply method actualy does correlation.
@@ -60,6 +64,7 @@ namespace RavlImageN {
     
     void operator()(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const
     { Apply(in,result); }    
+    //: Do convolution on image 'in', put the output in 'result' 
   };
   
 }

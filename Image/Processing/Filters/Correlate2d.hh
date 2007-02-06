@@ -32,28 +32,29 @@ namespace RavlImageN {
 
     Correlate2dC(const ImageC<KernelPixelT> &nkernel)
     { SetKernel(nkernel); }
-    //: Default constructor.
+    //: Construct using "kernel" image.
     
     void SetKernel(const ImageC<KernelPixelT> &nkernel) 
     { kernel = nkernel; }
-    //: Set the convolution kernel.
+    //: Set the correlation kernel image.
     
     void Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const;
-    //: Do convolution on image 'in', put the output in 'result' 
+    //: Do correlation on image 'in', put the output in 'result' 
     
     void operator()(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const
     { Apply(in,result); }
-    
+    //: Do correlation on image 'in', put the output in 'result' 
+
   protected:
     ImageC<KernelPixelT> kernel;
   };
   
   template<class InPixelT,class OutPixelT,class KernelPixelT,class SumTypeT>
   void Correlate2dC<InPixelT,OutPixelT,KernelPixelT,SumTypeT>::Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const {
-    RavlAssertMsg(kernel.Frame().Area() > 0,"Convolution kernel too small. ");
+    RavlAssertMsg(kernel.Frame().Area() > 0,"Convolution / correlation kernel has zero size. ");
     ImageRectangleC resRect = in.Rectangle();
     resRect -= kernel.Rectangle();
-    RavlAssertMsg(resRect.Area() > 0,"Convole2dC::Apply(), ERROR: Input rectangle too small.");
+    RavlAssertMsg(resRect.Area() > 0,"Convolution / correlation: kernel is too big for input rectangle.");
     if(!result.Rectangle().Contains(resRect)) // Check the result rectangle is large enough.
       result = ImageC<OutPixelT>(resRect); // If its not make another.
       
@@ -68,7 +69,7 @@ namespace RavlImageN {
       *res =(OutPixelT) sum;
     }
   }
-  //: Do convolution.
+  //: Do correlation.
 
 #if RAVL_USE_MMX
   template <> void Correlate2dC<short,short,short,short>::Apply(const ImageC<short> &in,ImageC<short> &result) const;
