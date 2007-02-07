@@ -26,7 +26,7 @@ namespace RavlImageN {
 #endif
 
 
-  //: BGRA Pixel.
+  //: BGR Pixel.
   
   template<class CompT>
   class BGRValueC
@@ -43,21 +43,20 @@ namespace RavlImageN {
       this->data[1] = g;
       this->data[0] = b;
     }
-    //: Constructs a colour from four colour components. 
-    // Note: the arguments are given in the order r,g,b,a.
+    //: Constructs a colour from three colour components. 
+    // Note: the arguments are given in the order r,g,b.
     
     BGRValueC(const RGBValueC<CompT> & rgb) {
       this->data[2] = rgb.Red();
       this->data[1] = rgb.Green();
       this->data[0] = rgb.Blue();
     }
-    // Creates the colour from the triple RGB colour 'rgb' and the fourth
-    // colour component 'x'.
+    //: Constructs the colour from the triple RGB colour 'rgb'
     
     inline
     RGBValueC<CompT> RGB() const
     { return RGBValueC<CompT>(Red(),Green(),Blue()); }
-    //: Get a RGB pixel value.
+    //: Get an RGB pixel value.
     
     inline const CompT & Red() const
     { return this->data[2]; }
