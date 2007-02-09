@@ -16,8 +16,10 @@
 #include "Ravl/Types.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Image/ByteBGRValue.hh"
-#include "Ravl/Image/ByteBGRAValue.hh"
+#include "Ravl/Image/RealRGBValue.hh"
+#include "Ravl/Image/RealBGRValue.hh"
 #include "Ravl/Image/ByteRGBAValue.hh"
+#include "Ravl/Image/ByteBGRAValue.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/Array2dIter2.hh"
 
@@ -47,6 +49,27 @@ namespace RavlImageN
 
   DP_REGISTER_CONVERSION_NAMED(Image_ByteBGRValue2Image_ByteRGBValue,1,
 			       "ImageC<ByteRGBValueC>  RavlImageN::Convert(const ImageC<ByteBGRValueC> &)");
+
+  
+  ImageC<RealBGRValueC> Image_RealRGBValue2Image_RealBGRValue(const ImageC<RealRGBValueC> &img) {
+    ImageC<RealBGRValueC> ret(img.Frame());
+    for(Array2dIter2C<RealBGRValueC,RealRGBValueC> it(ret,img);it;it++) 
+      it.Data1() = RealBGRValueC(it.Data2().Red(),it.Data2().Green(),it.Data2().Blue());
+    return ret;
+  }
+  
+  ImageC<RealRGBValueC> Image_RealBGRValue2Image_RealRGBValue(const ImageC<RealBGRValueC> &img) {
+    ImageC<RealRGBValueC> ret(img.Frame());
+    for(Array2dIter2C<RealBGRValueC,RealRGBValueC> it(img,ret);it;it++) 
+      it.Data2() = it.Data1().RGB();
+    return ret;
+  }
+  
+  DP_REGISTER_CONVERSION_NAMED(Image_RealRGBValue2Image_RealBGRValue,1,
+			       "ImageC<RealBGRValueC>  RavlImageN::Convert(const ImageC<RealRGBValueC> &)");
+
+  DP_REGISTER_CONVERSION_NAMED(Image_RealBGRValue2Image_RealRGBValue,1,
+			       "ImageC<RealRGBValueC>  RavlImageN::Convert(const ImageC<RealBGRValueC> &)");
 
   
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////

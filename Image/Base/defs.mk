@@ -9,15 +9,23 @@
 
 PACKAGE=Ravl/Image
 
-HEADERS=ImageRectangle.hh Image.hh RGBValue.hh RGBAValue.hh YUVValue.hh \
- ByteRGBValue.hh ByteYUVValue.hh ByteRGBAValue.hh IAValue.hh ByteIAValue.hh \
- RealRGBValue.hh RealYUVValue.hh UInt16RGBValue.hh RGBcYUV.hh YUVAValue.hh \
- ByteYUVAValue.hh ByteBGRAValue.hh BGRAValue.hh BGRValue.hh ByteBGRValue.hh \
+HEADERS=ImageRectangle.hh Image.hh \
+ RGBValue.hh ByteRGBValue.hh UInt16RGBValue.hh RealRGBValue.hh \
+ RGBAValue.hh ByteRGBAValue.hh \
+ BGRValue.hh ByteBGRValue.hh RealBGRValue.hh BGRAValue.hh ByteBGRAValue.hh \
+ YUVValue.hh ByteYUVValue.hh RealYUVValue.hh \
+ YUVAValue.hh ByteYUVAValue.hh \
  YUV422Value.hh ByteYUV422Value.hh \
- ByteRGBMedian.hh RealRGBAverage.hh  ScaleValues.hh Reflect.hh \
- Deinterlace.hh VYUValue.hh ByteVYUValue.hh DrawFrame.hh DrawCross.hh DrawMask.hh \
- Font.hh PSFFont.h DrawLine.hh DrawCircle.hh DrawPolygon.hh RealHSVValue.hh FixedPointHSVValue.hh \
- BilinearInterpolation.hh ImageConv.hh DrawEllipse.hh
+ VYUValue.hh ByteVYUValue.hh \
+ RealHSVValue.hh FixedPointHSVValue.hh \
+ IAValue.hh ByteIAValue.hh \
+ ByteRGBMedian.hh RealRGBAverage.hh \
+ ScaleValues.hh Reflect.hh \
+ RGBcYUV.hh ImageConv.hh \
+ Font.hh PSFFont.h \
+ DrawFrame.hh DrawCross.hh DrawMask.hh \
+ DrawLine.hh DrawCircle.hh DrawPolygon.hh  DrawEllipse.hh\
+ Deinterlace.hh BilinearInterpolation.hh
 
 SOURCES=ImageRectangle.cc Image.cc ByteRGBValue.cc ByteYUVValue.cc RealRGBValue.cc \
  RealYUVValue.cc RGBcYUV.cc Font.cc ImageConv.cc ImageConv2.cc ImageConv3.cc ImageConv4.cc \
