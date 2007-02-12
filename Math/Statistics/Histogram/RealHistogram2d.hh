@@ -8,7 +8,7 @@
 #define RAVL_REALHISTOGRAM2D_HEADER 1
 /////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! author="Charles Galambos"
+//! author="Charles Galambos, Bill Christmas"
 //! docentry="Ravl.API.Math.Statistics.Histogram"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/Histogram/RealHistogram2d.hh"
@@ -73,14 +73,21 @@ namespace RavlN {
     // In check mode this will cause an error, in optimised it will corrupt
     // memory.
     
-    bool CheckVote(const Point2dC &v) { 
+    void Vote(const Point2dC &v, UIntT nvotes)
+    { (*this)[Bin(v)]+=nvotes; }
+    //: Vote "nvotes" times for value.
+    // Note, this will not check that the value is within the histogram.
+    // In check mode this will cause an error, in optimised it will corrupt
+    // memory.
+    
+    bool CheckVote(const Point2dC &v, UIntT nvotes=1) { 
       Index2dC b =  Bin(v);
       if(!Contains(b))
 	return false;
-      (*this)[b]++; 
+      (*this)[b]+=nvotes; 
       return true;
     }
-    //: Vote for value.
+    //: Vote "nvotes" times for value.
     // Returns false if value is out of range.
     
     UIntT TotalVotes() const;
