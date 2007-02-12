@@ -244,12 +244,12 @@ namespace RavlN {
     
     DataT &Nth(int n);
     //: Find the nth element in the list.
-    // 0 is the first element, 2 the second etc.
+    // 0 is the first element, 1 the second etc.
     // -1 is the last, -2 second from last.
     
     const DataT &Nth(int n) const;
     //: Find the nth element in the list.
-    // 0 is the first element, 2 the second etc.
+    // 0 is the first element, 1 the second etc.
     // -1 is the last, -2 second from last.
     
     friend class DListC<DataT>;
@@ -449,13 +449,13 @@ namespace RavlN {
     DataT &Nth(int n)
     { return Body().Nth(n); }
     //: Find the nth element in the list.
-    // 0 is the first element, 2 the second etc.
+    // 0 is the first element, 1 the second etc.
     // -1 is the last, -2 second from last.
     
     const DataT &Nth(int n) const
     { return Body().Nth(n); }
     //: Find the nth element in the list.
-    // 0 is the first element, 2 the second etc.
+    // 0 is the first element, 1 the second etc.
     // -1 is the last, -2 second from last.
     
     UIntT Hash() const
