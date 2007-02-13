@@ -123,7 +123,7 @@ namespace RavlImageN {
     ImageC<ComplexC> trans = forward.Apply(rim);
     
     //: Next apply the filters in turn to the FT image
-    SArray1dC<ImageC<RealT> > out(8);
+    SArray1dC<ImageC<RealT> > out(filter.Size());
     ImageC<ComplexC> cop(rim.Frame());
     
     for(UIntT d=0;d<filter.Size();d++) {
