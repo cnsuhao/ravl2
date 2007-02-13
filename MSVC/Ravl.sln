@@ -210,6 +210,11 @@ Project("{3effb7e3-9769-4dcd-bbb7-662725822104}") = "RavlLogicAgent", "RavlLogic
 		{afcafe39-3871-49aa-b1b5-fc192d5be702} = {afcafe39-3871-49aa-b1b5-fc192d5be702}
 	EndProjectSection
 EndProject
+Project("{3effb7e3-9769-4dcd-bbb7-662725822104}") = "RavlOpenCV", "RavlOpenCV.vcproj", "{80dcc85d-9e8d-44b3-b59f-54f018d1a9d3}"
+	ProjectSection(ProjectDependencies) = postProject 
+		{d185d525-1fdb-4d13-a796-27196cdcd9de} = {d185d525-1fdb-4d13-a796-27196cdcd9de}
+	EndProjectSection
+EndProject
 Project("{3effb7e3-9769-4dcd-bbb7-662725822104}") = "RavlGUI", "RavlGUI.vcproj", "{ec571b7c-6428-4ff8-8431-846ccef03150}"
 	ProjectSection(ProjectDependencies) = postProject 
 		{b685c0de-7fde-432b-9d86-8eb7e714a8d1} = {b685c0de-7fde-432b-9d86-8eb7e714a8d1}
@@ -415,6 +420,10 @@ Global
 		{0d2a1f88-a947-421d-964c-f0a54f911efc}.Debug|Win32.Build.0 = Debug|Win32
 		{0d2a1f88-a947-421d-964c-f0a54f911efc}.Release|Win32.ActiveCfg = Release|Win32
 		{0d2a1f88-a947-421d-964c-f0a54f911efc}.Release|Win32.Build.0 = Release|Win32
+		{80dcc85d-9e8d-44b3-b59f-54f018d1a9d3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{80dcc85d-9e8d-44b3-b59f-54f018d1a9d3}.Debug|Win32.Build.0 = Debug|Win32
+		{80dcc85d-9e8d-44b3-b59f-54f018d1a9d3}.Release|Win32.ActiveCfg = Release|Win32
+		{80dcc85d-9e8d-44b3-b59f-54f018d1a9d3}.Release|Win32.Build.0 = Release|Win32
 		{ec571b7c-6428-4ff8-8431-846ccef03150}.Debug|Win32.ActiveCfg = Debug|Win32
 		{ec571b7c-6428-4ff8-8431-846ccef03150}.Debug|Win32.Build.0 = Debug|Win32
 		{ec571b7c-6428-4ff8-8431-846ccef03150}.Release|Win32.ActiveCfg = Release|Win32

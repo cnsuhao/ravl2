@@ -561,11 +561,19 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Math\Geometry\Eu
 				>
 			</File>
 			<File
+				RelativePath="..\.\Math\Statistics\Histogram\RealHistogram3d.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\Math\Statistics\Histogram\RealHist1dBinaryIO.cc"
 				>
 			</File>
 			<File
 				RelativePath="..\.\Math\Statistics\Histogram\RealHist2dBinaryIO.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Statistics\Histogram\RealHist3dBinaryIO.cc"
 				>
 			</File>
 			<File
@@ -1084,6 +1092,10 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Math\Geometry\Eu
 			</File>
 			<File
 				RelativePath="..\.\Math\Statistics\Histogram\RealHistogram2d.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Statistics\Histogram\RealHistogram3d.hh"
 				>
 			</File>
 			<File

@@ -25,7 +25,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				CommandLine="
-if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;&#x0A;copy ..\.\Image\Base\default8x16.psf C:\Build\share\RAVL\Fonts\default8x16.psf&#x0D;&#x0A;"
+if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Image\Base\default8x16.psf C:\Build\\default8x16.psf&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -104,7 +104,7 @@ if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;
 			<Tool
 				Name="VCPreBuildEventTool"
 				CommandLine="
-if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;&#x0A;copy ..\.\Image\Base\default8x16.psf C:\Build\share\RAVL\Fonts\default8x16.psf&#x0D;&#x0A;"
+if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Image\Base\default8x16.psf C:\Build\\default8x16.psf&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -244,6 +244,10 @@ if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;
 				RelativePath="..\.\Image\Base\ByteYUVAValue.cc"
 				>
 			</File>
+			<File
+				RelativePath="..\.\Image\BaseSSE\ImageConvSSE.cc"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -263,39 +267,7 @@ if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\RGBAValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\YUVValue.hh"
-				>
-			</File>
-			<File
 				RelativePath="..\.\Image\Base\ByteRGBValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\ByteYUVValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\ByteRGBAValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\IAValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\ByteIAValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\RealRGBValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\RealYUVValue.hh"
 				>
 			</File>
 			<File
@@ -303,23 +275,15 @@ if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\RGBcYUV.hh"
+				RelativePath="..\.\Image\Base\RealRGBValue.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\YUVAValue.hh"
+				RelativePath="..\.\Image\Base\RGBAValue.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\ByteYUVAValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\ByteBGRAValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\BGRAValue.hh"
+				RelativePath="..\.\Image\Base\ByteRGBAValue.hh"
 				>
 			</File>
 			<File
@@ -331,11 +295,67 @@ if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;
 				>
 			</File>
 			<File
+				RelativePath="..\.\Image\Base\RealBGRValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\BGRAValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\ByteBGRAValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\YUVValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\ByteYUVValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\RealYUVValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\YUVAValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\ByteYUVAValue.hh"
+				>
+			</File>
+			<File
 				RelativePath="..\.\Image\Base\YUV422Value.hh"
 				>
 			</File>
 			<File
 				RelativePath="..\.\Image\Base\ByteYUV422Value.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\VYUValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\ByteVYUValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\RealHSVValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\FixedPointHSVValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\IAValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\ByteIAValue.hh"
 				>
 			</File>
 			<File
@@ -355,15 +375,19 @@ if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\Deinterlace.hh"
+				RelativePath="..\.\Image\Base\RGBcYUV.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\VYUValue.hh"
+				RelativePath="..\.\Image\Base\ImageConv.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\ByteVYUValue.hh"
+				RelativePath="..\.\Image\Base\Font.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\PSFFont.h"
 				>
 			</File>
 			<File
@@ -379,14 +403,6 @@ if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\Font.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\PSFFont.h"
-				>
-			</File>
-			<File
 				RelativePath="..\.\Image\Base\DrawLine.hh"
 				>
 			</File>
@@ -399,23 +415,15 @@ if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\RealHSVValue.hh"
+				RelativePath="..\.\Image\Base\DrawEllipse.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\FixedPointHSVValue.hh"
+				RelativePath="..\.\Image\Base\Deinterlace.hh"
 				>
 			</File>
 			<File
 				RelativePath="..\.\Image\Base\BilinearInterpolation.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\ImageConv.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\DrawEllipse.hh"
 				>
 			</File>
 		</Filter>
