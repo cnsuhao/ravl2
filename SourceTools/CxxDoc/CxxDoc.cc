@@ -148,7 +148,7 @@ int BuildCxx(int argc, char **argv)
   projName = opt.String("pn","Ravl","Project Name. ").TopAndTail();
   projDesc = opt.String("pd","RAVL, Recognition And Vision Library","Project description. ").TopAndTail();
   StringC localProjOut = opt.String("p",prjo,"Project out. ");
-  StringC inFiles = opt.String("i",localProjOut + "/include/Ravl" , "Directory containing header files");
+  StringC inFiles = opt.String("i",localProjOut + "/include" , "Directory containing header files");
   StringC outFile = opt.String("o",localProjOut + "/share/doc/RAVL/Auto", "output document");
   StringC sourceTree = opt.String("st",".", "Source tree.");
   StringC ehtFiles = opt.String("eht",localProjOut + "/share/RAVL/Admin/AutoDoc/EHT","Location of EHT files. ");
@@ -167,7 +167,7 @@ int BuildCxx(int argc, char **argv)
   bool doDoc = opt.Boolean("w",true,"Write documentation. ");
   
   opt.Check();
-  cerr << "Hello" << endl;  
+
   RavlCxxDocN::ParserC pt(true);
   
   if(!noParse)
