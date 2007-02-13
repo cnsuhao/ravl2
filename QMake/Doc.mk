@@ -64,6 +64,14 @@ else
 PACKAGEDESC_OPT= 
 endif
 
+ifdef INCLUDEDIR
+INCLUDE_OPT=-i $(INCLUDEDIR)
+else
+INCLUDE_OPT= 
+endif
+
+
+
 SLIB:=$(strip $(SLIB))
 PLIB:=$(strip $(PLIB))
 
@@ -127,7 +135,7 @@ docinit: docfiles
 doc: docinit $(INST_INCLUDE)/.dir $(TARG_DOCNODE)
 ifeq ($(ARC),$(LOCALARC))
 	$(SHOWIT)echo "--- Generating documentation" ; \
-	$(CXXDOC) $(PACKAGENAME_OPT) $(PACKAGEDESC_OPT) -ih $(INSTALLHOME) -p $(PROJECT_OUT)
+	$(CXXDOC) $(PACKAGENAME_OPT) $(PACKAGEDESC_OPT) $(INCLUDE_OPT) -ih $(INSTALLHOME) -p $(PROJECT_OUT)
 endif
 
 $(INST_EHT)/% : % $(INST_EHT)/.dir
