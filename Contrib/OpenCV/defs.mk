@@ -10,7 +10,7 @@ SOURCES = OpenCVConvert.cc
 
 PLIB = RavlOpenCV
 
-AUXFILES = OpenCV.def
+EXTERNALLIBS = OpenCV.def
 
 USESLIBS = RavlImage OpenCV 
 

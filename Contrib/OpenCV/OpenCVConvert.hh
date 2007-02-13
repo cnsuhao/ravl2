@@ -2,7 +2,6 @@
 #define RAVL_OPENCVCONVERT_HH
 
 //! lib=RavlOpenCV
-//! userlevel=Normal
 //! docentry="Ravl.API.Images.Converters.OpenCV"
 
 #include <opencv/cv.h>
@@ -18,6 +17,7 @@ namespace RavlImageN {
   
   using namespace RavlN;
   
+//! userlevel=Normal
   
   template <class PixelT> 
   bool RavlImage2IplImage(const ImageC<PixelT> & src, IplImage*& pdest)
@@ -29,6 +29,9 @@ namespace RavlImageN {
   //: Converts selected RAVL image types to OpenCVformat
   // Only converts the following RAVL image types:<br>
   // ByteT, RealT, ByteRGBValueC, RealRGBValueC
+
+//:-
+//! userlevel=Develop
 
   template <>
   bool RavlImage2IplImage(const ImageC<ByteT> & src, IplImage*& pdest);
@@ -44,9 +47,12 @@ namespace RavlImageN {
 
   template <>
   bool RavlImage2IplImage(const ImageC<RealRGBValueC> & src, IplImage*& pdest);
-  //: (template specialisation)
+  //: (ttemplate specialisation)
 
   
+//:-
+//! userlevel=Normal
+
   template <class PixelT> 
   bool IplImage2RavlImage(IplImage* src, ImageC<PixelT> & dest)
   {
