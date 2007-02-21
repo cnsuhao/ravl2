@@ -15,11 +15,11 @@
 FULLBUILD_TARGETS += check
 #FULLBUILD_TARGETS += debug 
 #FULLBUILD_TARGETS += opt
-#FULLBUILD_TARGETS += shared
-#FULLBUILD_TARGETS += debugshared
-#FULLBUILD_TARGETS += optshared
-#FULLBUILD_TARGETS += optbin
-#FULLBUILD_TARGETS += doc
+FULLBUILD_TARGETS += shared
+FULLBUILD_TARGETS += debugshared
+FULLBUILD_TARGETS += optshared
+FULLBUILD_TARGETS += optbin
+FULLBUILD_TARGETS += doc
 
 
 ################ Compiler ##################################
