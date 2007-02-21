@@ -122,7 +122,6 @@ namespace RavlLogicN {
 	  break;
 	case '@':
 	case '~':
-	case '¬':
 	case '{':
 	case '}':
 	case '[':
@@ -130,8 +129,6 @@ namespace RavlLogicN {
 	case '^':
 	case '*':
 	case '%':
-	case '£':
-	case '\'':
 	case '`':
 	case '+':
 	case ':':
@@ -166,7 +163,7 @@ namespace RavlLogicN {
 	  // Fall through.
 	default: { // Constant
 	  StringC x(let);
-	  x += is.ClipWord(" \t\n\r()\\/:;+<>{}[]|=%*^.,£#$@!~¬");
+	  x += is.ClipWord(" \t\n\r()\\/:;+<>{}[]|=%*^.,#$@!~");
 	  // Check for numbers ?
 	  LiteralC lit;
 	  if(!loadContext.Lookup(x,lit)) {
