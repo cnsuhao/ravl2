@@ -46,38 +46,51 @@ namespace RavlN {
     RealT currentCost = domain.Cost (mX);      // Evaluate current cost
     RealT lambda = 0.0001;
     
-    ONDEBUG(cerr << "Lambda=" << lambda << " Cost=" << currentCost << "\n");
+    //mX[6]=0;mX[7]=0; //affine
+    ONDEBUG(cerr << "Lambda=" << lambda << " Initial Cost=" << currentCost << "\n");
     UIntT i = 0;
     MatrixC mA;
     VectorC mJ;
     for(;i < _iterations;i++) {
+      ONDEBUG(cerr <<endl<<"---- iter ="<<i <<" _iterations= " <<_iterations<<endl);
+         // mX[6]=0;mX[7]=0; //affine
       domain.EvaluateValueJacobianHessian(mX,currentCost,mJ,mA);
-      VectorC mb = (mJ * currentCost *-2.0);
-      
+      //VectorC mb = (mJ * currentCost *-2.0);
+      VectorC mb = mJ;
+ 
       RealT newCost = 0;
-      ONDEBUG(cerr << "mX=" << mX << "\n");
+      ONDEBUG(cerr << "--mX=" << mX << "\n");
+      ONDEBUG(cerr << "--mb=" << mb << "\n");
+      ONDEBUG(cerr << "--mA=" << mA << "\n");
       UIntT j = 0;
       for(;j < 16;j++) {
+        //cout<<"mA= \n"<< mA<<endl;
+        //cout<< "lambda"<<lambda<<endl;
+        //cout<< "MatrixC(mA + mI * lambda).Inverse()\n"<<MatrixC(mA + mI * lambda).Inverse()<<endl;
         VectorC mdX = MatrixC(mA + mI * lambda).Inverse() * mb;
+        
         VectorC mnX = mX + mdX;
+          //  mnX[6]=0;mnX[7]=0; //affine
         newCost = domain.Cost (mnX);      // Evaluate current cost
-        ONDEBUG(cerr << "mdX=" << mdX << "   Cost=" << newCost << "\n");
+        ONDEBUG(cerr << "  mdX=" << mdX << "   Cost=" << newCost << "\n");
         if(newCost < currentCost) {
           lambda /= 10;
           mX = mnX; // Store new estimate
           minimumCost = currentCost;
+          ONDEBUG(cerr << " Cost decreased! start new iteration "<<"\n"); 
           break;
         }
         lambda *= 10;
+        ONDEBUG(cerr << " Lambda increased =" << lambda <<  "\n"); 
       }
       if(j >= 16) {
         // Can't improve on current estimate.
+        ONDEBUG(cerr << " Lambda increased 16 times no improvement....start new iteration"<<  "\n"); 
         break;
       }
-      ONDEBUG(cerr << "Lambda=" << lambda << " Cost=" << newCost << "\n");
+      ONDEBUG(cerr << " Current Lambda=" << lambda << " Cost=" << newCost << "\n");
       
       // Check if we're stopped converging.
-      
       RealT costdiff = currentCost - newCost;
       if (2.0*Abs(costdiff) <= _tolerance*(Abs(currentCost)+Abs(newCost))) {
         ONDEBUG(cerr << "CostDiff=" << costdiff << " Tolerance=" << _tolerance*(Abs(currentCost)+Abs(minimumCost)) << "\n");
@@ -85,9 +98,8 @@ namespace RavlN {
       }
       
       // Update cost for another go.
-      
-      currentCost = newCost;
-    }
+       currentCost = newCost;
+     }
     ONDEBUG(cerr << "Final Lambda=" << lambda << " Cost=" << minimumCost << " Iterations=" << i << "\n");
     return domain.ConvertX2P (mX);            // Return final estimate
   }
