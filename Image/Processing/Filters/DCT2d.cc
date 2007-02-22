@@ -157,7 +157,10 @@ namespace RavlImageN {
   
   ChanDCTC::ChanDCTC(unsigned int size)
     : cosines(0)
-  { Setup(size); }
+  { 
+    if(size > 0)
+      Setup(size); 
+  }
   
   ChanDCTC::~ChanDCTC()
   { delete [] cosines; }
@@ -462,9 +465,10 @@ namespace RavlImageN {
       cosine_array(0)
       
   {
-    Setup(size, pts);
+    if(size > 0)
+      Setup(size, pts);
   }
-
+  
   VecRadDCTC::VecRadDCTC()
     : N(0),
       N0(0),
@@ -518,7 +522,8 @@ namespace RavlImageN {
   //: Free all array's
   
   void VecRadDCTC::DeleteArrays() {
-    delete [] r[0];
+    if(r != 0)
+      delete [] r[0];
     delete [] r;
     
     delete [] cosine_array;
