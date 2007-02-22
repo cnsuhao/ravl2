@@ -38,21 +38,6 @@ namespace RavlN {
       cerr << "RegionMaskBodyC::Boundary(), Mask too small to compute boundary. \n";
       return;
     }
-#if 0
-    for(Array2dSqr3IterC<IntT> it(emask);it;it++) {
-      if(it.DataMM() != inLabel)
-	continue;
-      if(it.DataMR() != inLabel)
-	InsLast(CrackC(it.Index(),CR_UP));
-      if(it.DataML() != inLabel)
-	InsLast(CrackC(it.Index(),CR_DOWN));
-      if(it.DataTM() != inLabel)
-	InsLast(CrackC(it.Index(),CR_LEFT));
-      if(it.DataBM() != inLabel)
-	InsLast(CrackC(it.Index(),CR_RIGHT));
-    }
-#else
-    // Ever so slightly quicker than the above.
     for(Array2dSqr2IterC<IntT> it(emask);it;it++) {
       if(it.DataBR() == inLabel) {
         if(it.DataTR() != inLabel) 
@@ -66,7 +51,6 @@ namespace RavlN {
           InsLast(CrackC(it.Index()+Index2dC(0,-1),CR_UP));
       }
     }
-#endif
   }
 
   //: Create a boundary from the edges between 'inLabel' pixels an other values
@@ -348,8 +332,7 @@ namespace RavlN {
     return hashtable;
   }
 
-  BoundaryC BoundaryC::OrderContinuous(const RCHashC<BVertexC, 
-				       PairC<BVertexC> > & hashtable, 
+  BoundaryC BoundaryC::OrderContinuous(const RCHashC<BVertexC,PairC<BVertexC> > & hashtable, 
 				       const CrackC & firstEdge, 
 				       bool orient
 				       ) const

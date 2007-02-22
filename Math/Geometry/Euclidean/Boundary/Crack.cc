@@ -33,34 +33,6 @@ namespace RavlN {
     return Point2dC(0,0);
   }
   
-  // return the pixel on the right side of the crack.
-  
-  Index2dC CrackC::RPixel() const {
-    Index2dC px(*this);
-    switch (crackCode) {
-    case CR_DOWN : px = CrackStep(px,CR_LEFT);  break;
-    case CR_RIGHT:                              break;
-    case CR_UP   : px = CrackStep(px,CR_UP);    break;
-    case CR_LEFT : px.Step(NEIGH_UP_LEFT);      break;
-    case CR_NODIR:                              break;
-    }
-    return px; 
-  }
-  
-  // return the pixel on the left side of the crack.
-  
-  Index2dC CrackC::LPixel() const {
-    Index2dC px(*this);
-    switch (crackCode) {
-    case CR_DOWN :                                break;
-    case CR_RIGHT: px = CrackStep(px,CR_UP);      break;
-    case CR_UP   : px.Step(NEIGH_UP_LEFT);        break;
-    case CR_LEFT : px = CrackStep(px,CR_LEFT);    break;
-    case CR_NODIR:                                break;
-    }
-    return px; 
-  }
-  
 
 }
 

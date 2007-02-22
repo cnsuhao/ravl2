@@ -186,8 +186,14 @@ namespace RavlN {
   
   inline
   Index2dC CrackStep(const Index2dC &pixel,CrackCodeT crackCode) {
-    return Index2dC(pixel.Row() + CrackCodeC::offsetRow[crackCode],
-		    pixel.Col() + CrackCodeC::offsetCol[crackCode]);
+    switch (crackCode) {
+    case CR_DOWN : return Index2dC(pixel.Row()+1,pixel.Col());
+    case CR_RIGHT: return Index2dC(pixel.Row(),pixel.Col()+1);
+    case CR_UP   : return Index2dC(pixel.Row()-1,pixel.Col());
+    case CR_LEFT : return Index2dC(pixel.Row(),pixel.Col()-1);
+    case CR_NODIR: break;
+    }
+    return pixel;
   }
   //: Step one pixel in the direction of the crack code.
   

@@ -95,10 +95,29 @@ namespace RavlN {
     //:-----------------------------------------
     //: Access to elements of an elementary crack.
     
-    Index2dC RPixel() const;
-    //: Returns the pixel on the right side of the crack.
 
-    Index2dC LPixel() const;
+    Index2dC RPixel() const {
+      switch (crackCode) {
+      case CR_DOWN : return Index2dC(Row(),Col()-1);
+      case CR_RIGHT: break;
+      case CR_UP   : return Index2dC(Row()-1,Col());
+      case CR_LEFT : return Index2dC(Row()-1,Col()-1);
+      case CR_NODIR: break;
+      }
+      return *this;
+    }
+    //: Returns the pixel on the right side of the crack.
+    
+    Index2dC LPixel() const {
+      switch (crackCode) {
+      case CR_DOWN : break;
+      case CR_RIGHT: return Index2dC(Row()-1,Col());
+      case CR_UP   : return Index2dC(Row()-1,Col()-1);
+      case CR_LEFT : return Index2dC(Row(),Col()-1);
+      case CR_NODIR: break;
+      }
+      return *this;
+    }
     //: Returns the pixel on the left side of the crack.
     
     Point2dC MidPoint() const; 
@@ -126,7 +145,8 @@ namespace RavlN {
     UIntT Hash() const
     { return Index2dC::Hash() + (UIntT) crackCode; }
     //: Crack code.
-    
+
+  protected:
   };
   
   inline ostream & operator<<(ostream & s, const CrackC & crack)
