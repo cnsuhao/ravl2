@@ -14,6 +14,7 @@
 
 #include "Ravl/Crack.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/Point2d.hh"
 
 namespace RavlN {
   
