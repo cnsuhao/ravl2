@@ -227,7 +227,10 @@ namespace RavlImageN {
     //!param:minMargin - Threshold for region stability.
     
     DListC<BoundaryC> Apply(const ImageC<PixelT> &img) {
-      SortPixels(img);
+      if(typeid(PixelT) == typeid(ByteT)) // Should decided at compile time.
+        SortPixelsByte(img);
+      else
+        SortPixels(img);
       GenerateRegions();
       Thresholds();
       return GrowRegionBoundary(img);
@@ -237,7 +240,10 @@ namespace RavlImageN {
     // boundries you can use its 'Order()' method to sort them.
     
     DListC<ImageC<IntT> > ApplyMask(const ImageC<PixelT> &img) {
-      SortPixels(img);
+      if(typeid(PixelT) == typeid(ByteT)) // Should decided at compile time.
+        SortPixelsByte(img);
+      else
+        SortPixels(img);
       GenerateRegions();
       Thresholds();
       return GrowRegionMask(img);
@@ -268,6 +274,9 @@ namespace RavlImageN {
     bool SortPixels(const ImageC<PixelT> &nimg);
     //: Do initial sorting of pixels.
     
+    bool SortPixelsByte(const ImageC<PixelT> &nimg);
+    //: Do initial sorting of pixels.
+    
     bool SortPixels(const ImageC<PixelT> &img,const IndexRange2dSetC &roi);
     //: Build a list from a byte image in regions of interest.
 
@@ -293,22 +302,21 @@ namespace RavlImageN {
   bool SegmentExtremaC<PixelT>::SortPixels(const ImageC<PixelT> &img) {
     
     SetupImage(img.Frame());
-    
     // Find range of values in image.
     {
       Array2dIterC<PixelT> it(img);
       PixelT lmin = *it;
       PixelT lmax = *it;
       for(;it;it++) {
-	if(*it < lmin)
-	  lmin = *it;
-	if(*it > lmax)
-	  lmax = *it;
+        if(*it < lmin)
+          lmin = *it;
+        if(*it > lmax)
+          lmax = *it;
       }
       valueRange.Min() = (IntT) lmin;
       valueRange.Max() = (IntT) lmax;
     }
-
+    
     if(valueRange.Max() >= limitMaxValue)
       valueRange.Max() = limitMaxValue-1;
     
@@ -327,13 +335,50 @@ namespace RavlImageN {
       PixelT val = it.Data1();
       if(val >= limitMaxValue) {
         it.Data2().next = 0;
-	continue;
+        continue;
       }
       ExtremaChainPixelC * &tmp = levels[val]; 
       it.Data2().next = tmp;
       tmp = &it.Data2();
     }
+    //cerr << "SegmentExtremaC<PixelT>::SortPixels, Value Range=" << valueRange << "\n";
     
+    return true;
+  }
+  
+  
+  template<class PixelT>
+  bool SegmentExtremaC<PixelT>::SortPixelsByte(const ImageC<PixelT> &img) {
+    SetupImage(img.Frame());
+    
+    // Check level list allocation.
+    
+    if(levels.Size() == 0)
+      levels = Array1dC<ExtremaChainPixelC *>(IndexRangeC(-4,257));
+    levels.Fill(0);
+    
+    // Sort pixels into appropriate lists.
+    
+    Array2dIter2C<PixelT,ExtremaChainPixelC> it(img,pixs,img.Frame());
+    PixelT lmin = it.Data1();
+    PixelT lmax = it.Data1();
+    for(;it;it++) {
+      it.Data2().region = 0;
+      PixelT val = it.Data1();
+      if(val >= limitMaxValue) {
+        it.Data2().next = 0;
+        continue;
+      }
+      if(val < lmin) lmin = val;
+      if(val > lmax) lmax = val;
+      ExtremaChainPixelC * &tmp = levels[val]; 
+      it.Data2().next = tmp;
+      tmp = &it.Data2();
+    }
+    
+    valueRange.Min() = (IntT) lmin;
+    valueRange.Max() = (IntT) lmax;
+    //cerr << "SegmentExtremaC<PixelT>::SortPixels, Value Range=" << valueRange << "\n";
     return true;
   }
   

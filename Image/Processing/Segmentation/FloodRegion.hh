@@ -141,123 +141,9 @@ namespace RavlImageN {
     ImageC<IntT> marki;
     IntT id;
     InclusionTestT inclusionTest;
-
-#if 0    
-    BlkQueueC<Index2dC> pixQueue;
-    
-    inline
-    bool AddIfInside(Index2dC at) {
-      if(!inclusionTest(img[at]))
-	return true; // Is outside the region.
-      if(marki[at] != id) {
-	// Put in to do list.
-	marki[at] = id;
-	pixQueue.InsLast(at);
-      }
-      return false;
-    }
-    //: Add a pixel to a region if its inside it.
-    
-    inline 
-    void AddPixels(DListC<CrackC> &boundary,Index2dC at) {
-      if(at[1] >= marki.Frame().Range2().Max() || AddIfInside(Index2dC(at[0],at[1]+1)))
-	boundary.InsLast(CrackC(at,CR_UP));
-      if(at[1] <= marki.Frame().Range2().Min() || AddIfInside(Index2dC(at[0],at[1]-1)))
-	boundary.InsLast(CrackC(at,CR_DOWN));
-      if(at[0] >= marki.Frame().Range1().Max() || AddIfInside(Index2dC(at[0]+1,at[1])))
-	boundary.InsLast(CrackC(at,CR_RIGHT));
-      if(at[0] <= marki.Frame().Range1().Min() || AddIfInside(Index2dC(at[0]-1,at[1])))
-	boundary.InsLast(CrackC(at,CR_LEFT));  
-    }
-    //: Add pixels with a boundary.
-    
-    inline 
-    void AddPixels(IndexRange2dC &rng,Index2dC at) {
-      rng.Involve(at);
-      if(at[1] < marki.Frame().Range2().Max())
-	AddIfInside(Index2dC(at[0],at[1]+1));
-      if(at[1] > marki.Frame().Range2().Min())
-	AddIfInside(Index2dC(at[0],at[1]-1));
-      if(at[0] < marki.Frame().Range1().Max())
-	AddIfInside(Index2dC(at[0]+1,at[1]));
-      if(at[0] > marki.Frame().Range1().Min())
-	AddIfInside(Index2dC(at[0]-1,at[1]));
-    }
-    //: Add pixels to a region.
-#else
     BlkQueueC<FloodRegionLineC > pixQueue;    
-#endif    
   };
   
-#if 0
-  template<class PixelT,class InclusionTestT>
-  IntT FloodRegionC<PixelT,InclusionTestT>::GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,BoundaryC &boundary,IntT maxSize) {
-    RavlAssert(pixQueue.IsEmpty());
-    inclusionTest = inclusionCriteria;
-    boundary = BoundaryC(); // Create a new boundary list
-    if(!inclusionTest(img[seed]))
-      return false; // Empty region.
-    pixQueue.InsLast(seed);
-    id++;
-    IntT size = 0;
-    if(maxSize == 0) {
-      while(!pixQueue.IsEmpty()) {
-        AddPixels(boundary,pixQueue.GetFirst());
-        size++;
-      }
-    } else {
-      while(!pixQueue.IsEmpty() && size < maxSize) {
-        AddPixels(boundary,pixQueue.GetFirst());
-        size++;
-      }
-      if(!pixQueue.IsEmpty()) {
-        pixQueue.Empty();
-        return false;
-      }
-    }
-    return size;
-  }
-  
-  template<class PixelT,class InclusionTestT>
-  template<typename MaskT>
-  IntT FloodRegionC<PixelT,InclusionTestT>::GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,ImageC<MaskT> &mask,IntT padding,IntT maxSize) {
-    inclusionTest = inclusionCriteria;    
-    RavlAssert(pixQueue.IsEmpty());
-    if(!inclusionTest(img[seed]))
-      return false; // Empty region.
-    pixQueue.InsLast(seed);
-    id++;
-    IntT size = 0;
-    IndexRange2dC rng(seed,1,1);
-    if(maxSize <= 0) {
-      while(!pixQueue.IsEmpty())
-        AddPixels(rng,pixQueue.GetFirst());
-    } else {
-      while(!pixQueue.IsEmpty() && size < maxSize) {
-        AddPixels(rng,pixQueue.GetFirst());
-        size++;
-      }
-      if(!pixQueue.IsEmpty()) {
-        pixQueue.Empty();
-        return false; // Region too big.
-      }
-    }
-    mask = ImageC<MaskT>(rng.Expand(padding));
-    if(padding > 0)
-      DrawFrame(mask,(MaskT) 0,padding,mask.Frame());
-    size = 0;
-    for(Array2dIter2C<MaskT,IntT> it(mask,marki,rng);it;it++) {
-      if(it.Data2() == id) {
-        size++;
-        it.Data1() = 1;
-      } else
-        it.Data1() = 0;
-    }
-    return size;
-  }
-
-
-#else
   
   //: Base grow region routine.
   // A rewrite of code from: A Seed Fill Algorithm by Paul Heckbert from "Grahics Gems", Academic Press, 1990
@@ -387,9 +273,7 @@ namespace RavlImageN {
     }
     return size;
   }
-  
-  
-#endif  
+    
 }
 
 #endif

@@ -16,6 +16,7 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/IO.hh"
 #include "Ravl/DP/SequenceIO.hh"
+#include "Ravl/OS/Date.hh"
 
 using namespace RavlImageN;
 
@@ -29,6 +30,7 @@ int main(int nargs,char **argv) {
   bool drawBlack = opt.Boolean("db",false,"Draw results into a black background.");
   bool invert = opt.Boolean("inv",false,"Invert image before processing. ");
   bool verbose = opt.Boolean("v",false,"Verbose mode. ");
+  bool useMasks = opt.Boolean("m",false,"Use masks. ");
   IntT trim = opt.Int("t",0,"Trim the image being processed. ");
   StringC fn = opt.String("","test.pgm","Input image. ");
   StringC ofn = opt.String("","","Output boundries. ");  
@@ -58,9 +60,9 @@ int main(int nargs,char **argv) {
   trimSet = trimSet.Add(IndexRange2dC(trim,trim));
   
   ImageC<ByteT> pimg;
+  int numberOfFrames = 0;
+  DateC start = DateC::NowUTC();
   while(inp.Get(img)) {
-
-
     if(invert) {
       if(pimg.IsEmpty())
 	pimg = ImageC<ByteT>(img.Frame());
@@ -69,37 +71,47 @@ int main(int nargs,char **argv) {
     } else
       pimg = img;
     //RavlN::Save("@X",pimg);
-    DListC<BoundaryC> bounds;
-    if(trim > 0)
-      bounds = lst.Apply(pimg,trimSet);
-    else
-      bounds = lst.Apply(pimg);
-    
-    if(verbose)
-      cerr << "Regions=" << bounds.Size() << "\n";
-    if(drawResults) {
-      ImageC<ByteT> res;
-      if(!drawBlack)
-	res = ImageC<ByteT>(img.Copy());
-      else {
-	res = ImageC<ByteT>(img.Frame());
-	res.Fill(0);
+    if(useMasks) {
+      DListC<ImageC<IntT> > masks = lst.ApplyMask(pimg);
+      numberOfFrames++;
+    } else {
+      DListC<BoundaryC> bounds;
+      if(trim > 0)
+        bounds = lst.Apply(pimg,trimSet);
+      else
+        bounds = lst.Apply(pimg);
+      numberOfFrames++;
+      if(verbose)
+        cerr << "Regions=" << bounds.Size() << "\n";
+      if(drawResults) {
+        ImageC<ByteT> res;
+        if(!drawBlack)
+          res = ImageC<ByteT>(img.Copy());
+        else {
+          res = ImageC<ByteT>(img.Frame());
+          res.Fill(0);
+        }
+        
+        // Draw boundries into image and display.
+        for(DLIterC<BoundaryC> bit(bounds);bit;bit++)
+          for(DLIterC<CrackC> it(*bit);it;it++)
+            res[it->LPixel()] = 255;
+        Save("@X",res);
       }
-      
-      // Draw boundries into image and display.
-      for(DLIterC<BoundaryC> bit(bounds);bit;bit++)
-	for(DLIterC<CrackC> it(*bit);it;it++)
-	  res[it->LPixel()] = 255;
-      Save("@X",res);
-    }
-    if(outp.IsValid()) {
-      if(!outp.Put(bounds)) {
-	cerr << "ABORT: Failed to write output. \n";
-	return 1;
+      if(outp.IsValid()) {
+        if(!outp.Put(bounds)) {
+          cerr << "ABORT: Failed to write output. \n";
+          return 1;
+        }
       }
     }
     if(!seq)
       break;
+  }
+  DateC end = DateC::NowUTC();
+  if(verbose){
+    cerr << "Frames a second " << numberOfFrames/(end-start).Double() << "\n";
+    cerr << "Pixels a second " << (img.Frame().Area() * numberOfFrames)/(end-start).Double() << "\n";
   }
   return 0;
 }
