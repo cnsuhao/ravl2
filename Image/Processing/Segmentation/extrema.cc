@@ -61,7 +61,7 @@ int main(int nargs,char **argv) {
   
   ImageC<ByteT> pimg;
   int numberOfFrames = 0;
-  DateC start = DateC::NowUTC();
+  RealT totalTime = 0;
   while(inp.Get(img)) {
     if(invert) {
       if(pimg.IsEmpty())
@@ -76,10 +76,13 @@ int main(int nargs,char **argv) {
       numberOfFrames++;
     } else {
       DListC<BoundaryC> bounds;
+      DateC start = DateC::NowUTC();
       if(trim > 0)
-        bounds = lst.Apply(pimg,trimSet);
+	bounds = lst.Apply(pimg,trimSet);
       else
-        bounds = lst.Apply(pimg);
+	bounds = lst.Apply(pimg);
+      DateC end = DateC::NowUTC();
+      totalTime += (end-start).Double();
       numberOfFrames++;
       if(verbose)
         cerr << "Regions=" << bounds.Size() << "\n";
@@ -108,10 +111,7 @@ int main(int nargs,char **argv) {
     if(!seq)
       break;
   }
-  DateC end = DateC::NowUTC();
-  if(verbose){
-    cerr << "Frames a second " << numberOfFrames/(end-start).Double() << "\n";
-    cerr << "Pixels a second " << (img.Frame().Area() * numberOfFrames)/(end-start).Double() << "\n";
-  }
+  cerr << "Frames a second " << numberOfFrames/totalTime << "\n";
+  cerr << "Pixels a second " << (img.Frame().Area() * numberOfFrames)/totalTime << "\n";
   return 0;
 }
