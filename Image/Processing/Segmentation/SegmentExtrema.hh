@@ -32,6 +32,7 @@ namespace RavlImageN {
     int thresh;
     int pos;
     int margin;
+    UIntT area; // Expected area of region.
   };
   
   //! userlevel=Develop

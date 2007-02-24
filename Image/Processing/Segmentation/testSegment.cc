@@ -75,7 +75,6 @@ int testFloodRegion() {
   return 0;
 }
 
-#if 1
 int testSegmentExtrema() {
   ImageC<ByteT> img(100,100);
   img.Fill(196);
@@ -98,4 +97,3 @@ int testSegmentExtrema() {
   
   return 0;
 }
-#endif

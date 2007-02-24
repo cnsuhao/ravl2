@@ -292,7 +292,9 @@ namespace RavlImageN {
           }
 	  continue; // Reject it, not enough difference.
 	}
-	newthresh[nt++] = thresh[j];
+	newthresh[nt] = thresh[j];
+        newthresh[nt].area = chist[newthresh[nt].thresh];
+        nt++;
 	lastSize = size;
 	lastInd = j;
       }
