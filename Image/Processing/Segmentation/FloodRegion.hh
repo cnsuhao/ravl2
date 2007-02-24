@@ -167,7 +167,7 @@ namespace RavlImageN {
     pixQueue.InsFirst(FloodRegionLineC(seed.Row(),seed.Col(),seed.Col(),-1));
     
     // Misc bits a pieces.
-    rng = IndexRange2dC(seed,1,1);
+    rng = IndexRange2dC(seed,seed);
     id++;
     
     // Lookout for id wrap around.
