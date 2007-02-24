@@ -41,6 +41,14 @@ namespace RavlN {
       First(); 
     }
     //: Constructor.
+
+    Array2dSqr2Iter2C(const Array2dC<Data1T> &narray1,const Array2dC<Data2T> &narray2,const IndexRange2dC &rng) 
+      : array1(narray1,rng),
+	array2(narray2,rng)
+    { 
+      First(); 
+    }
+    //: Constructor.
     
     bool First() { 
       IndexRangeC nrng1(array1.Range2().Min()+1,array1.Range2().Max());

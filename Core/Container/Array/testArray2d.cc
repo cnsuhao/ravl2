@@ -277,6 +277,18 @@ int testSqr2() {
       it2.DataBR2() + it2.DataBL2() + it2.DataTR2() + it2.DataTL2();
   if(sqrs != 9) return __LINE__;
   if(count != 342) return __LINE__;
+  
+  Array2dSqr2Iter2C<IntT,IntT> it2a(data,data);
+  if(it2a.DataTL1() != 1) return __LINE__;
+  if(it2a.DataTR1() != 2) return __LINE__;
+  if(it2a.DataBL1() != 5) return __LINE__;
+  if(it2a.DataBR1() != 6) return __LINE__;
+  for(;it2a;it2a++) {
+    if(it2a.DataBR1() != it2a.DataBR2()) return __LINE__;
+    if(it2a.DataTR1() != it2a.DataTR2()) return __LINE__;
+    if(it2a.DataBL1() != it2a.DataBL2()) return __LINE__;
+    if(it2a.DataTL1() != it2a.DataTL2()) return __LINE__;
+  }
   return 0;
 }
 
