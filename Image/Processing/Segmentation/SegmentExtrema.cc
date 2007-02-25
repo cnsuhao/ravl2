@@ -288,6 +288,7 @@ namespace RavlImageN {
 	if((lastSize * 1.15) > size) { // Is size only slighly different ?
 	  if(thresh[j].margin > thresh[lastInd].margin) {
 	    newthresh[nt-1] = thresh[j]; // Move threshold if margin is bigger.
+	    newthresh[nt-1].area = size;
             lastSize = size;
           }
 	  continue; // Reject it, not enough difference.
