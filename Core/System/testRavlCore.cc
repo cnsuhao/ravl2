@@ -163,8 +163,10 @@ int testArray1() {
   }
   if(count != 20) return __LINE__;
 
+#if 0
   DListC<Array1dC<int> > listOfArray;
   DListC<Array1dC<int> > list2 = listOfArray.DeepCopy();
+#endif
   return 0;
 }
 
