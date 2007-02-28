@@ -87,7 +87,7 @@ namespace RavlN {
   }
   
   MatrixC DataSetVectorLabelBodyC::BetweenClassScatter () const {
-    CollectionC<Tuple2C<VectorC,UIntT> > means(10);
+    CollectionC<Tuple2C<VectorC,UIntT> > means(1024);
     DataSet2IterC<SampleVectorC,SampleLabelC> it(Sample1(),Sample2());
     if(!it) return MatrixC(); // No samples.
     UIntT dim = it.Data1().Size();
@@ -110,8 +110,10 @@ namespace RavlN {
     globalMean /= total;
     MatrixC Sb(globalMean.Size(),globalMean.Size(),0.0);
     for(mit.First();mit;mit++) {
-      VectorC diff = (mit->Data1() / mit->Data2()) - globalMean;
-      Sb.AddOuterProduct(diff,diff);
+      if(mit->Data2() > 0) {
+        VectorC diff = (mit->Data1() / mit->Data2()) - globalMean;
+        Sb.AddOuterProduct(diff,diff);
+      }
     }
     return Sb;
   }
