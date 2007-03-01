@@ -418,7 +418,7 @@ namespace RavlGUIN {
       
       for(SArray1dIterC<TreeViewColumnRendererC> rit(it->Renderers());rit;rit++) {
         const StringC &renderType = rit->RenderType();
-	
+	renderer = 0;
         if (renderType == "bool") { // Bool render
           renderer = gtk_cell_renderer_toggle_new(); 
           if(rit->SignalChanged().IsValid()) {
@@ -440,16 +440,20 @@ namespace RavlGUIN {
         } else if (renderType == "pixbuf") {
           renderer = gtk_cell_renderer_pixbuf_new();
         } else if (renderType == "combo") {
+#ifdef __GTK_CELL_RENDERER_COMBO_H__
           renderer = gtk_cell_renderer_combo_new(); 
+#endif
         } else if (renderType == "progress") {
+#ifdef  __GTK_CELL_RENDERER_PROGRESS_H__
           renderer = gtk_cell_renderer_progress_new(); 
-#if 0
+#endif
         } else if (renderType == "spin") {
+#ifdef  __GTK_CELL_RENDERER_SPIN_H__
           renderer = gtk_cell_renderer_spin_new (); 
 #endif
-        } else
-        {
-          cerr << "Unknown rendered type '" << rit->RenderType() << "'\n";
+        }
+        if(renderer == 0) {
+          cerr << "Unknown or unsupported render type '" << rit->RenderType() << "'\n";
           RavlAssert(0);
         }
         
