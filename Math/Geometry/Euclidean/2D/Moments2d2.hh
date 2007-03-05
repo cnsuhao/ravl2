@@ -156,13 +156,23 @@ namespace RavlN {
     inline RealT VarY() const 
     { return m02/m00 - Sqr(CentroidY()); }
     //: Returns the variance of the y.
-
+    
+    inline RealT CentroidRow() const
+    { return M10()/M00(); }
+    //: Returns the row co-ordinate of the centroid.
+    // The M00 moment must be different 0.
+    
+    inline RealT CentroidCol() const
+    { return M01()/M00(); }
+    //: Returns the col co-ordinate of the centroid.
+    // The M00 moment must be different 0.
+    
     inline RealT VarRows() const
-    { return m20/m00 - Sqr(CentroidX()); }
+    { return m20/m00 - Sqr(CentroidRow()); }
     //: Returns the variance along the row axis.
     
     inline RealT VarCols() const 
-    { return m02/m00 - Sqr(CentroidY()); }
+    { return m02/m00 - Sqr(CentroidCol()); }
     //: Returns the variance along the column axis
     
     inline RealT SlopeY() const;
@@ -185,7 +195,7 @@ namespace RavlN {
     //: Return the covariance matrix.
     
     Point2dC Centroid() const
-    { return Point2dC(CentroidX(),CentroidY()); }
+    { return Point2dC(CentroidRow(),CentroidCol()); }
     //: Calculate the centroid.
     
     Moments2d2C operator+(const Moments2d2C &m) const
