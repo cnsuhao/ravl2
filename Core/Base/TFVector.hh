@@ -429,7 +429,7 @@ namespace RavlN {
   DataT TFVectorC<DataT,N>::MaxValueDistance(const TFVectorC<DataT,N> & o) const {
     DataT ret = RavlN::Abs(data[0] - o[0]);
     for(UIntT i =1;i <N;i++) {
-      DataT d = RavlN::Abs(data[i] - o[0]);
+      DataT d = RavlN::Abs(data[i] - o[i]);
       if(ret > d)
 	ret = d;
     }
