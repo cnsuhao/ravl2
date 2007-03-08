@@ -45,6 +45,7 @@ namespace RavlN {
     
     static DateC NowVirtual();
     //: Get the time since the process started.
+    // Note on some systems this counter wraps after about 36 minutes.
     
     static DateC TimeZoneOffset();
     //: Get the local timezone offset.  (Note around daylight saving this may change.)
@@ -117,14 +118,16 @@ namespace RavlN {
     
     void SetToNow(bool useVirt = false);
     //: Set value of variable to now!
-    //!param: useVirt - If true use process time.
+    //!param: useVirt - If true use process time, otherwise use UTC (Universal Coordinate Time)
+    // Note. The static methods NowUTC(), NowLocal() and NowVirtual()
+    // are the prefered method of getting the current time.
     
     inline long MaxUSeconds() const { return 1000000; }
-    //: Maximum mircro seconds.
+    //: Maximum value for mircro seconds, to avoid problems with mistyped number of zero's
     
     inline long Resolution() const
     { return 10000; }
-    //: Get resolution of timer in microseconds.
+    //: Get an estimate of the resolution of timer in microseconds.
     // NB. This assumes 100Hz by default.
     
     inline void NormalisePos();
@@ -191,15 +194,15 @@ namespace RavlN {
     
     inline long USeconds() const
     { return usec; }
-    //: Get micro seconds.
+    //: Get fractional part of the current second in micro seconds.
     
     inline long TotalSeconds() const
     { return sec; }
-    //: Get total seconds.
+    //: Get total whole seconds that have passed.
     
     inline double Double() const
     { return (double) sec + (((double)usec) / ((double) MaxUSeconds())); }
-    //: Get time in double form.
+    //: Get time in seconds from the epoc in double form.
     
     IntT Seconds(bool convertUTCToLocal = false) const;
     //: Return number of seconds after minuite. 0,61 (61 for leap seconds.)
