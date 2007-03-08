@@ -23,7 +23,7 @@ extern "C" {
   int solvps(double *s,double *x,int n) ;
   int solvru(double *a,double *b,int n) ;
   void solvtd(double *a,double *b,double *c,double *x,int m) ;
-  void eigen(double *a,double *eval,int n) ;
+  int eigen(double *a,double *eval,int n) ;
   void eigval(double *a,double *eval,int n) ;
   double evmax(double *a,double *u,int n) ;
   int svdval(double *d,double *a,int m,int n) ;

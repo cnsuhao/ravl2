@@ -16,6 +16,7 @@ int qrevec(double *ev,double *evec,double *dp,int n)
       if(fabs(dp[k])<=fabs(ev[m])*tzr) --m;
       else{ x=(ev[k]-ev[m])/2.; h=sqrt(x*x+dp[k]*dp[k]);
         if(m>1 && fabs(dp[m-2])>fabs(ev[k])*tzr) break;
+        if(h==0.0) return -2;
 	if((cc=sqrt((1.+x/h)/2.))!=0.) sc=dp[k]/(2.*cc*h); else sc=1.;
         x+=ev[m]; ev[m--]=x-h; ev[m--]=x+h;
         for(i=0,p=evec+n*(m+1); i<n ;++i,++p){
@@ -29,6 +30,7 @@ int qrevec(double *ev,double *evec,double *dp,int n)
     for(k=0; k<m ;++k){
       x=ev[k]*cc-y; y=dp[k]*cc; h=sqrt(x*x+dp[k]*dp[k]);
       if(k>0) dp[k-1]=sc*h;
+      if(h==0.0) return -2;
       ev[k]=cc*h; cc=x/h; sc=dp[k]/h; ev[k+1]-=d; y*=sc;
       ev[k]=cc*(ev[k]+y)+ev[k+1]*sc*sc+d;
       for(i=0,p=evec+n*k; i<n ;++i,++p){

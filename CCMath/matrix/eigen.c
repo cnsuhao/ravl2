@@ -7,10 +7,12 @@
  */
 #include "ccmath/ccmath.h"
 #include <stdlib.h>
-void eigen(double *a,double *ev,int n)
+int eigen(double *a,double *ev,int n)
 { double *dp;
   dp=(double *)calloc(n,sizeof(double));
   housev(a,ev,dp,n);
-  qrevec(ev,a,dp,n); trnm(a,n);
+  if (!qrevec(ev,a,dp,n)) return -1; 
+  trnm(a,n);
   free(dp);
+  return 0;
 }
