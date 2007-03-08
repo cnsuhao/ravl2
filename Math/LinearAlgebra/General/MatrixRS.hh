@@ -71,6 +71,8 @@ namespace RavlN {
     
   };
 
+//! docentry="Ravl.API.Math.Linear Algebra.Equation Solvers"
+
   bool SolveIP(MatrixRSC &A,VectorC &b);
   //: Solve a general linear system  A*x = b
   // The input vector is b, which is replaced by the ouput x. <p>

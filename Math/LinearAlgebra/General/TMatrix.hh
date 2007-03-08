@@ -24,7 +24,7 @@
 
 namespace RavlN {
   //! userlevel=Advanced
-  //: Templated matrix's.
+  //: Templated matrices.
   
   template<class DataT>
   class TMatrixC 

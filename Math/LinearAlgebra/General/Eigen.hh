@@ -2,7 +2,7 @@
 #define RAVL_EIGEN_HEADER 1
 //! license=own
 //! userlevel=Normal
-//! docentry="Ravl.API.Math.Linear Algebra"
+//! docentry="Ravl.API.Math.Linear Algebra.Matrix Decomposition"
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/Eigen.hh"
@@ -15,14 +15,16 @@ namespace RavlN
 {
 
   //: Computes eigenvalues and eigenvectors of a real (non-complex) matrix. 
-  // NOTE: This code has only recently been ported to RAVL and its interface
-  // has not been stabilized. 
-  // <P>
-  // If A is symmetric, then A = V*D*V' where the eigenvalue matrix D is
-  // diagonal and the eigenvector matrix V is orthogonal. That is,
-  // the diagonal values of D are the eigenvalues, and
-  // V*V' = I, where I is the identity matrix.  The columns of V 
-  // represent the eigenvectors in the sense that A*V = V*D.
+  // <P>NOTE: This code has only recently been ported to RAVL and its interface
+  // has not been stabilized.</P> 
+  //
+  // <p> Since the class is templated, it can be used with floating point representations of different degrees of precision.</p>
+  //
+  // <P> The results are as follows.  If A is symmetric, then A = V*D*V' where
+  // the eigenvalue matrix D is diagonal and the eigenvector matrix V is
+  // orthogonal. That is, the diagonal values of D are the eigenvalues, and
+  // V*V' = I, where I is the identity matrix.  The columns of V represent the
+  // eigenvectors in the sense that A*V = V*D.</P>
   //  
   //<P>
   // If A is not symmetric, then the eigenvalue matrix D is block diagonal
@@ -49,17 +51,17 @@ namespace RavlN
   // .        .        .          .      .    y
   // </pre>
   // This keeps V a real matrix in both symmetric and non-symmetric
-  // cases, and A*V = V*D.
+  // cases, and A*V = V*D.</P> 
   // 
   // <p>
   // The matrix V may be badly
   // conditioned, or even singular, so the validity of the equation
-  // A = V*D*inverse(V) depends upon the condition number of V.
+  // A = V*D*inverse(V) depends upon the condition number of V.</P> 
   // 
   // <p>
   // (Adapted from <a href =
   // "http://math.nist.gov/javanumerics/jama">JAMA</a>, a Java Matrix
-  // Library, developed jointly by the Mathworks and NIST.)
+  // Library, developed jointly by the Mathworks and NIST.)</P> 
   
   template <class NumT>
   class EigenValueC
@@ -146,35 +148,9 @@ namespace RavlN
       }
     }
     //:Computes the block diagonal eigenvalue matrix.
-    // If the original matrix A is not symmetric, then the eigenvalue 
-    // matrix D is block diagonal with the real eigenvalues in 1-by-1 
-    // blocks and any complex eigenvalues,
-    // a + i*b, in 2-by-2 blocks, [a, b; -b, a].  That is, if the complex
-    // eigenvalues look like
-    // <pre>
-    // 
-    // u + iv     .        .          .      .    .
-    // .      u - iv     .          .      .    .
-    // .        .      a + ib       .      .    .
-    // .        .        .        a - ib   .    .
-    // .        .        .          .      x    .
-    // .        .        .          .      .    y
-    // </pre>
-    //  then D looks like
-    // <pre>
-    // 
-    // u        v        .          .      .    .
-    // -v        u        .          .      .    . 
-    // .        .        a          b      .    .
-    // .        .       -b          a      .    .
-    // .        .        .          .      x    .
-    // .        .        .          .      .    y
-    // </pre>
-    // This keeps V a real matrix in both symmetric and non-symmetric
-    // cases, and A*V = V*D.
-    // 
-    // Paramiter D: upon return, the matrix is filled with the block diagonal 
-    // eigenvalue matrix.
+    // Upon return, the matrix D is filled with the block diagonal 
+    // eigenvalue matrix.  
+    //See preamble above for details.
     
     bool IsSymmetric() const
     { return issymmetric; }

@@ -108,6 +108,9 @@ namespace RavlN {
   MatrixRUTC OuterProductRUT(const VectorC &vec,RealT a);
   //: Return outer product of 'vec' as a right upper triangular matrix multiplied by a.
   
+  //:---
+  //! docentry="Ravl.API.Math.Linear Algebra.Equation Solvers"
+
   bool SolveIP(MatrixRUTC &A,VectorC &b);
   //: Solve a general linear system  A*x = b
   // The input vector is b, which is replaced by the ouput x. <p>

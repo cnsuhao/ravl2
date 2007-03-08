@@ -158,6 +158,9 @@ namespace RavlN {
   };
   
   
+  //:---
+  //! docentry="Ravl.API.Math.Linear Algebra.Equation Solvers"
+
   VectorC Solve(const MatrixC &A, const VectorC &b);
   //: Solve a general linear system  A*<b>x</b> = <b>b</b>
   // The solution vector <b>x</b> is the return value.<br>
@@ -180,6 +183,8 @@ namespace RavlN {
   // The matrix A is replaced by the L-U factored form. <br> 
   // If A is singular, the return value is false; otherwise the return value is true.<br> 
   
+  //:---
+  //! docentry="Ravl.API.Math.Linear Algebra.Matrix Decomposition"
   VectorC SVD(const MatrixC &M);
   //: Singular value decomposition, eg. M = U * D * V.T(). 
   // The diagonal matrix D is returned as a vector. Values for the
@@ -244,6 +249,8 @@ namespace RavlN {
   RealT MaxEigenValue(const MatrixC &A,VectorC &maxv);
   //: Get the maximum eigen value and its vector, for real symmetric matrices
   
+  //:---
+  //! docentry="Ravl.API.Math.Linear Algebra"
   MatrixC RandomMatrix(int n,int m,RealT scale = 1);
   //: Create a random matrix of values between -scale and scale with the given size.
   

@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/MatrixDecomposition.hh"
-//! docentry="Ravl.API.Math.Linear Algebra"
+//! docentry="Ravl.API.Math.Linear Algebra.Matrix Decomposition"
 //! author="Charles Galambos"
 //! userlevel=Normal
 

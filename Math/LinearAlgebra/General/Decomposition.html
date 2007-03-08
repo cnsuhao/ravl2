@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Eigen, singular value and other decomposition</title>
+    <!--! docentry= "Ravl.API.Math.Linear_Algebra.Matrix_Decomposition" -->
+  </head>
+
+  <body>
+
+    <h2>Eigen decomposition or SVD?</h2>
+    <p>Eigen decomposition decomposes a matrix M thus:  <pre>   M * E = E * L</pre> where L is a diagonal matrix of eigenvalues, and E is a matrix of eigenvectors.  On the other hand, SVD decomposes M thus: <pre>   M * V = U * S</pre> where S is a diagonal matrix of singular values, and U and V are orthogonal matrices.  In general, S and L are not the same.  But it is easy to show that, <i>for symmetrical matrices</i>, these two decompositions are identical: <code>S = L</code> and <code>U = V = E</code>.  In this case, you have the choice of which to use.  It is generally reckoned that <b>SVD</b> is more stable, and is likely to give a more accurate answer than eigen decomposition.</p>
+
+    <h2>Which eigen decomposition?</h2>
+    <p>If you are nevertheless using eigendecomposition, there are currently two algorithms in RAVL: one from the CCMath library and one from the JAMA library.  The CCMath ones are the functions named <code>FastEigen....</code>.  This algorithm is faster, but occasionally fails for ill-conditioned matrices.  The remaining functions are based on the JAMA algorithm implemented in  <a href="../Class/RavlN.EigenValueC.html">EigenValueC</a>.  Note that <code>EigenValueC</code> is templated, so that different floating point representations may be used.</p>
+
+
+
+    <hr>
+    <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
+<!-- Created: Thu Mar  8 14:01:00 GMT 2007 -->
+<!-- hhmts start -->
+Last modified: Thu Mar  8 16:17:27 GMT 2007
+<!-- hhmts end -->
+  </body>
+</html>
