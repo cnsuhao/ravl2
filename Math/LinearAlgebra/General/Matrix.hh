@@ -115,11 +115,11 @@ namespace RavlN {
     // singular. 
     
     bool InverseIP(RealT &det);
-    //: Calculate the inverse of this matrix and its determinent in place.
+    //: Calculate the inverse of this matrix and its determinant in place.
     // Returns false if matrix is singular. <p>
     // Notes:
     // The matrix must be square <p>
-    // If the matrix is not stored in a continous area of memory a slightly
+    // If the matrix is not stored in a continuous area of memory a slightly
     // different routine is used to do the inversion.      
     
     bool InverseIP()
@@ -128,7 +128,7 @@ namespace RavlN {
     // Returns false if matrix is singular. <p>
     // Notes:
     // The matrix must be square <p>
-    // If the matrix is not stored in a continous area of memory a slightly
+    // If the matrix is not stored in a continuous area of memory a slightly
     // different routine is used to do the inversion.  
     
     MatrixC PseudoInverse(RealT thresh = 1e-5) const;
@@ -174,7 +174,7 @@ namespace RavlN {
   
   MatrixC Solve(const MatrixC &A, const MatrixC &B);
   //: Solve a general linear system  A*X = B
-  // The solution matrixX is the return value.<br>
+  // The solution matrix is the return value.<br>
   // If A is singular a zero-sized matrix is returned.
   
   bool SolveIP(MatrixC &A, MatrixC &B);
@@ -219,26 +219,26 @@ namespace RavlN {
   //: Calculate the eigenvalues of this matrix, for real symmetric matrices
   // This matrix remains unchanged.  <br>
   // A vector of the eigen values is returned.
-  // If any errors occured a zero length vector is generated.
+  // If any errors occurred a zero length vector is generated.
   
   VectorC EigenValuesIP(MatrixC &M);
   //: Calculate the eigenvalues of this matrix, for real symmetric matrices
   // The contents of this matrix is destroyed, but less memory is needed than for <a href="RavlN.EigenValuesObconst_MatrixC_AmpCb.html">EigenValues(const MatrixC &M)</a>.  <br>
   // A vector of the eigen values is returned. 
-  // If any errors occured a zero length vector is generated.
+  // If any errors occurred a zero length vector is generated.
   
   VectorC FastEigenValues(MatrixC &M);
   //: Calculate the eigenvalues of this matrix, for real symmetric matrices
   // As <a href="RavlN.EigenValuesIPObMatrixC_AmpCb.html">EigenValuesIP(MatrixC &M)</a>, but uses a faster algorithm (from CCMath) that occasionally fails for ill-conditioned matrices.<br>
   // The contents of this matrix is destroyed.  <br>
   // A vector of the eigen values is returned.  
-  // If any errors occured a zero length vector is generated.<br>
+  // If any errors occur a zero length vector is generated.<br>
   
   VectorC EigenVectors(const MatrixC &M,MatrixC &E);
   //: Calculate the eigenvalues and vectors of this matrix, for real symmetric matrices.
   // M = E*L*E~ where L is the diagonal matrix of eigenvalues.<br>
   // The matrix M remains unchanged. <br>
-  // D is returned as a VectorC.
+  // L is returned as a VectorC.
   
   VectorMatrixC EigenVectors(const MatrixC &M);
   //: Calculate the eigenvalues and vectors of this matrix, for real symmetric matrices.
@@ -250,13 +250,14 @@ namespace RavlN {
   //: Calculate the eigenvalues and vectors of this matrix, for real symmetric matrices
   // As <a href="RavlN.EigenVectorsObconst_MatrixC_AmpCb.html">EigenVectors(MatrixC &M)</a>, except that eigenvalue matrix E is returned through the argument A.<br>
   // The eigenvalues L are returned as VectorC.
-   
+
   VectorC FastEigenVectors(MatrixC &M);
   //: Calculate the eigen values and vectors of this matrix, for real symmetric matrices
   // As <a href="RavlN.EigenVectorsIPObMatrixC_AmpCb.html">EigenVectorsIP(MatrixC &M)</a>, but uses a faster algorithm (from CCMath) that occasionally fails for ill-conditioned matrices.<br>
-  // the eigenvalue matrix E is returned through the argument M.<br>
+  // The eigenvalue matrix E is returned through the argument M.<br>
   // L is returned as a VectorC.
-   
+  // If any errors occur a zero length vector is generated.<br>
+
   RealT MaxEigenValue(const MatrixC &M,VectorC &maxv);
   //: Get the maximum eigen value and its vector, for real symmetric matrices
   
