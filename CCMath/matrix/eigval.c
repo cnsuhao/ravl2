@@ -7,10 +7,11 @@
  */
 #include "ccmath/ccmath.h"
 #include <stdlib.h>
-void eigval(double *a,double *ev,int n)
+int eigval(double *a,double *ev,int n)
 { double *dp;
   dp=(double *)calloc(n,sizeof(double));
   house(a,ev,dp,n);
-  qreval(ev,dp,n);
+  if (!qreval(ev,dp,n)) return -1;
   free(dp);
+  return 0;
 }

@@ -27,6 +27,7 @@ using namespace RavlN;
 
 int testSVD();
 int testEigen();
+int testFastEigen();
 int testMisc();
 int testMatrixRUT();
 int testDet();
@@ -150,6 +151,33 @@ int testEigen() {
   D = vm.Vector();
   md =MatrixC(D.Size(),D.Size());
   E = vm.Matrix();
+  md.Fill(0);
+  md.SetDiagonal(D);
+  cerr << "E=" << E << "\n";
+  cerr << "md=" << md << "\n";
+  m = E * md * E.Inverse();
+  if((m - test).SumOfSqr() > 0.0000001) return __LINE__;
+  
+  return 0;
+}
+
+int testFastEigen() {
+  cerr << "testFastEigen() Called \n";
+  MatrixC test = RandomSymmetricMatrix(5);
+  VectorC D = FastEigenVectors(test);
+  MatrixC md(D.Size(),D.Size());
+  MatrixC E = test;
+  md.Fill(0);
+  md.SetDiagonal(D);
+  MatrixC m = E * md * E.Inverse();
+  if((m - test).SumOfSqr() > 0.0000001) return __LINE__;
+
+  // Check it works on a 1x1 matrix.
+  
+  test = RandomSymmetricMatrix(1);
+  D = FastEigenVectors(test);
+  md = MatrixC(D.Size(),D.Size());
+  E = test;
   md.Fill(0);
   md.SetDiagonal(D);
   cerr << "E=" << E << "\n";

@@ -24,7 +24,7 @@ SOURCES = TMatrix.cc Matrix.cc MatrixInverse.cc MatrixSVD.cc \
  MatrixEigen.cc MatrixSolve.cc MatrixRUT.cc MatrixRS.cc Vector.cc \
  MatrixNearSingular.cc LeastSquares.cc VectorMatrix.cc MatrixRandom.cc \
  MatrixDeterminant.cc MatrixLUDecomposition.cc TSMatrixSparse.cc \
- SMatrix.cc RawMatrix.cc
+ SMatrix.cc RawMatrix.cc FastMatrixEigen.cc
 
 MAINS= benchmarkSMatrix.cc
 #EXAMPLES = exVMT.cc

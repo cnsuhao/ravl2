@@ -149,7 +149,7 @@ struct xpr srt2={{0x3FFF,0xB504,0xF333,0xF9DE,0x6484,0x597D,0x89B3,0x754B}};
 
      int eigen(double *a,double *eval,int n) ;
 
-     void eigval(double *a,double *eval,int n) ;
+     int eigval(double *a,double *eval,int n) ;
 
      double evmax(double *a,double *u,int n) ;
 

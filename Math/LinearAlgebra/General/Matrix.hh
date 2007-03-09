@@ -186,67 +186,78 @@ namespace RavlN {
   //:---
   //! docentry="Ravl.API.Math.Linear Algebra.Matrix Decomposition"
   VectorC SVD(const MatrixC &M);
-  //: Singular value decomposition, eg. M = U * D * V.T(). 
-  // The diagonal matrix D is returned as a vector. Values for the
-  // other matrixes are not computed.
-  // If the operation failes the returned vector is invalid.
+  //: Singular value decomposition, eg. M = U * S * V.T(). 
+  // The diagonal matrix S is returned as a vector. Values for the
+  // other matrices are not computed.
+  // If the operation fails the returned vector is invalid.
   
   VectorC SVD_IP(MatrixC &M);
-  //: Singular value decomposition, eg. M = U * D * V.T(). 
-  // The diagonal matrix D is returned as a vector. Values for the
+  //: Singular value decomposition, eg. M = U * S * V.T(). 
+  // The diagonal matrix S is returned as a vector. Values for the
   // other matrixes are not computed.
-  // If the operation failes the returned vector is invalid. <p>
-  // NB. This function destory's the contents of this matrix!
+  // If the operation fails the returned vector is invalid. <p>
+  // NB. This function destroys the contents of this matrix.
   
   VectorC SVD(const MatrixC &M,MatrixC & u, MatrixC & v);
-  //: Singular value decomposition, eg. M = U * D * V.T(). 
-  // The diagonal matrix D is returned as a vector.
-  // This also returns the matrix u and v matrixes, the passed
-  // matrixes will be used to store the results if they are
-  // of the correct size.
-  // If the operation failes the returned vector is invalid.
+  //: Singular value decomposition, eg. M = U * S * V.T(). 
+  // The diagonal matrix S is returned as a vector.<br>
+  // This also returns the U and V matrices.  The passed
+  // matrices will be used to store the results if they are
+  // of the correct size; otherwise new matrices will be allocated.<br>
+  // If the operation fails the returned vector is invalid.
   
   VectorC SVD_IP(MatrixC &M,MatrixC & u, MatrixC & v);
   //: Singular value decomposition, eg. M = U * D * V.T(). 
   // The diagonal matrix D is returned as a vector.
-  // This also returns the matrix u and v matrixes, the passed
+  // This also returns the U and V matrices.  The passed
   // matrixes will be used to store the results if they are
-  // of the correct size.
-  // If the operation failes the returned vector is invalid.
-  // NB. This function destory's the contents of this matrix!
+  // of the correct size; otherwise new matrices will be allocated.<br>
+  // If the operation fails the returned vector is invalid.<br>
+  // NB. This function destroys the contents of this matrix.
   
   VectorC EigenValues(const MatrixC &M);
-  //: Calculate the eigen values of this matrix, for real symmetric matrices
-  // This matrix remains unchanged. A vector of the eigen
-  // values is returned. <p>
+  //: Calculate the eigenvalues of this matrix, for real symmetric matrices
+  // This matrix remains unchanged.  <br>
+  // A vector of the eigen values is returned.
   // If any errors occured a zero length vector is generated.
   
   VectorC EigenValuesIP(MatrixC &M);
-  //: Calculate the eigen values of this matrix, for real symmetric matrices
-  // The contents of this matrix is destroyed. A vector of the eigen
-  // values is returned.   <p>
+  //: Calculate the eigenvalues of this matrix, for real symmetric matrices
+  // The contents of this matrix is destroyed, but less memory is needed than for <a href="RavlN.EigenValuesObconst_MatrixC_AmpCb.html">EigenValues(const MatrixC &M)</a>.  <br>
+  // A vector of the eigen values is returned. 
   // If any errors occured a zero length vector is generated.
   
+  VectorC FastEigenValues(MatrixC &M);
+  //: Calculate the eigenvalues of this matrix, for real symmetric matrices
+  // As <a href="RavlN.EigenValuesIPObMatrixC_AmpCb.html">EigenValuesIP(MatrixC &M)</a>, but uses a faster algorithm (from CCMath) that occasionally fails for ill-conditioned matrices.<br>
+  // The contents of this matrix is destroyed.  <br>
+  // A vector of the eigen values is returned.  
+  // If any errors occured a zero length vector is generated.<br>
+  
   VectorC EigenVectors(const MatrixC &M,MatrixC &E);
-  //: Calculate the eigen values and vectors of this matrix, for real symmetric matrices
-  // A = E*D*E~ where D is the diagonal matrix of eigenvalues
-  //   D[i,j] = ret[i] if i=j and 0 otherwise. 'ret' is the
-  // returned vector.
+  //: Calculate the eigenvalues and vectors of this matrix, for real symmetric matrices.
+  // M = E*L*E~ where L is the diagonal matrix of eigenvalues.<br>
+  // The matrix M remains unchanged. <br>
+  // D is returned as a VectorC.
   
-  VectorMatrixC EigenVectors(const MatrixC &A);
-  //: Calculate the eigen values and vectors of this matrix, for real symmetric matrices
-  // A = E*D*E~ where D is the diagonal matrix of eigenvalues
-  // D[i,j] = ret[i] if i=j and 0 otherwise. 'ret' is the
-  // returned vector and E is the returned matrix.
+  VectorMatrixC EigenVectors(const MatrixC &M);
+  //: Calculate the eigenvalues and vectors of this matrix, for real symmetric matrices.
+  // M = E*L*E~ where L is the diagonal matrix of eigenvalues.<br>
+  // The matrix M remains unchanged. <br>
+  // L and E are returned as the vector and matrix components respectively of the returned VectorMatrixC.
   
-  VectorC EigenVectorsIP(MatrixC &A);
+  VectorC EigenVectorsIP(MatrixC &M);
+  //: Calculate the eigenvalues and vectors of this matrix, for real symmetric matrices
+  // As <a href="RavlN.EigenVectorsObconst_MatrixC_AmpCb.html">EigenVectors(MatrixC &M)</a>, except that eigenvalue matrix E is returned through the argument A.<br>
+  // The eigenvalues L are returned as VectorC.
+   
+  VectorC FastEigenVectors(MatrixC &M);
   //: Calculate the eigen values and vectors of this matrix, for real symmetric matrices
-  // This matrix is filed with the eigen vectors
-  // A = E*D*E~ where D is the diagonal matrix of eigenvalues
-  //   D[i,j] = ret[i] if i=j and 0 otherwise. 'ret' is the
-  // returned vector.
-  
-  RealT MaxEigenValue(const MatrixC &A,VectorC &maxv);
+  // As <a href="RavlN.EigenVectorsIPObMatrixC_AmpCb.html">EigenVectorsIP(MatrixC &M)</a>, but uses a faster algorithm (from CCMath) that occasionally fails for ill-conditioned matrices.<br>
+  // the eigenvalue matrix E is returned through the argument M.<br>
+  // L is returned as a VectorC.
+   
+  RealT MaxEigenValue(const MatrixC &M,VectorC &maxv);
   //: Get the maximum eigen value and its vector, for real symmetric matrices
   
   //:---
