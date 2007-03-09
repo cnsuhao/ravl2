@@ -23,28 +23,29 @@ namespace RavlN {
   
   //: Intrinsic list iterator.
   // See IntrDListC for more details.
-  // FIXME :- of this need not be templated, should make a base class?
+  // FIXME :- Most of this need not be templated, should make a base class?
   
-  template <class DataT>
+  template <class DataT,typename DeRefT = IntrDListDefaultDeRefC<DataT> >
   class IntrDLIterC {
   public:
     IntrDLIterC()
       : head(0),
         place(0)
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid iterator.
     
-    IntrDLIterC(const IntrDListC<DataT> &lst)
-      : head(const_cast<IntrDListC<DataT> *>(&lst)), // Nasty but...
-        place(const_cast<DLinkC *>(&lst.Head().Next()))
-      {}
+    IntrDLIterC(const IntrDListC<DataT,DeRefT> &lst)
+      : head(const_cast<IntrDListC<DataT,DeRefT> *>(&lst)), // Nasty but...
+        place(const_cast<DLinkC *>(&lst.Head().Next())),
+        m_deRef(lst.m_deRef)
+    {}
     //: Constructor.
     // Constructs an iterator pointing to the 
     // first element in the list.
-
+    
     bool IsValid() const
-      { return head != 0; }
+    { return head != 0; }
     //: Is iterator valid ?
     // true is returned for a valid iterator.
 
@@ -61,30 +62,30 @@ namespace RavlN {
     //: Goto the last element in the list.
     
     operator bool() const
-      { return place != &Head(); }
+    { return place != &Head(); }
     //: At a valid node ?
     
     bool IsElm() const
-      { return place != &Head(); }
+    { return place != &Head(); }
     //: At a valid element in the list ?
     // AMMA compatibilty function, use operator bool() instread.
 
     bool IsFirst() const
-      { return place != &Head().Next(); }
+    { return place != &Head().Next(); }
     //: At the first element in the list ?
     // AMMA compatibilty function.
     
     bool IsLast() const
-      { return place != &Head().Next(); }
+    { return place != &Head().Next(); }
     //: At the last element in the list ?
     // AMMA compatibilty function.
 
     void operator++()
-      { place = &place->Next(); }
+    { place = &place->Next(); }
     //: Goto next element in list.
     
     void operator++(int)
-      { place = &place->Next(); }
+    { place = &place->Next(); }
     //: Goto next element in list.
     
     void operator--(int)
@@ -92,12 +93,12 @@ namespace RavlN {
     //: Goto previous element in list.
     
     void Next() 
-      { (*this)++; }
+    { (*this)++; }
     //: Goto next element in list.
     // AMMA compatibilty function, use operator++() instread.
 
     void Prev() 
-      { (*this)--; }
+    { (*this)--; }
     //: Goto previous element in list.
     // AMMA compatibilty function, use operator--() instread.
 
@@ -116,32 +117,32 @@ namespace RavlN {
     // AMMA compatibilty function.
     
     DataT &operator*()
-      { return static_cast<DataT &>(*place); }
+    { return m_deRef(*place); }
     //: Access data.
     // NB. The iterator MUST be valid. check with 'operator bool()'.
 
     const DataT &operator*() const
-      { return static_cast<DataT &>(*place); }
+    { return m_deRef(*place); }
     //:Constant access to data.
     // NB. The iterator MUST be valid. check with 'operator bool()'.
 
     DataT *operator->()
-      { return static_cast<DataT *>(place); }
+    { return &m_deRef(*place); }
     //: Access data.
     // NB. The iterator MUST be valid. check with 'operator bool()'.
 
     const DataT *operator->() const
-      { return static_cast<DataT *>(place); }
+    { return &m_deRef(*place); }
     //:Constant access to data.
     // NB. The iterator MUST be valid. check with 'operator bool()'.
 
     DataT &Data()
-      { return static_cast<DataT &>(*place); }
+    { return m_deRef(*place); }
     //: Access data.
     // NB. The iterator MUST be valid. check with 'operator bool()'.
     
     const DataT &Data() const
-      { return static_cast<DataT &>(*place); }
+    { return m_deRef(*place); }
     //:Constant access to data.
     // NB. The iterator MUST be valid. check with 'operator bool()'.
     
@@ -150,7 +151,7 @@ namespace RavlN {
       DLinkC* ret = place;
       place = &place->Prev();
       ret->Unlink();
-      return static_cast<DataT &>(*ret);
+      return m_deRef(*ret);
     }
     //: Extract the current element from the list. 
     // Do not delete it, the user is responsible for ensuring this happens
@@ -159,7 +160,7 @@ namespace RavlN {
     // The iterator must be valid.
     
     void Del() { 
-      if(static_cast<IntrDListC<DataT> &>(*head).deleteEntries)
+      if(static_cast<IntrDListC<DataT,DeRefT> &>(*head).deleteEntries)
 	delete &Extract(); 
       else
 	Extract();
@@ -169,23 +170,23 @@ namespace RavlN {
     // The iterator must be valid.
 
     void InsertBef(DataT &dat)
-      { place->LinkBef(dat); }
+    { place->LinkBef(m_deRef.Ref(dat)); }
     //: Insert data before current element.
     // if at the head of the list  (i.e. operator bool() failes.)
     // then add at end.
     
     void InsertAft(DataT &dat)
-      { place->LinkAft(dat); }
+    { place->LinkAft(m_deRef.Ref(dat)); }
     //: Insert data after current element.
     // if at the head of the list  (i.e. operator bool() failes.)
     // then add at begining.
     
-    IntrDListC<DataT> &List()
-      { return static_cast<IntrDListC<DataT> &>(*head); }
+    IntrDListC<DataT,DeRefT> &List()
+    { return static_cast<IntrDListC<DataT,DeRefT> &>(*head); }
     //: Access the list we're iterating.
-
-    const IntrDListC<DataT> &List() const
-      { return static_cast<IntrDListC<DataT> &>(*head); }
+    
+    const IntrDListC<DataT,DeRefT> &List() const
+    { return static_cast<IntrDListC<DataT,DeRefT> &>(*head); }
     //: Access the list we're iterating.
     
     bool Invalidate()
@@ -194,33 +195,34 @@ namespace RavlN {
     
   protected:
     
-    IntrDLIterC(const IntrDListC<DataT> &lst,DataT &nplace)
-      : head(const_cast<IntrDListC<DataT> *>(&lst)), // Nasty but...
+    IntrDLIterC(const IntrDListC<DataT,DeRefT> &lst,DataT &nplace)
+      : head(const_cast<IntrDListC<DataT,DeRefT> *>(&lst)), // Nasty but...
         place(&nplace)
-      {}
+    {}
     //: Constructor.
     // Constructs an iterator pointing to the the element 'place'.
     // The user MUST ensure that 'place' is in the given list.
 
-    void SetIter(const IntrDListC<DataT> &lst,DataT &nplace)  {
-      head = const_cast<IntrDListC<DataT> *>(&lst);
+    void SetIter(const IntrDListC<DataT,DeRefT> &lst,DataT &nplace)  {
+      head = const_cast<IntrDListC<DataT,DeRefT> *>(&lst);
       place = &nplace;
     }
     //: Set iterator to new value.
     
     DLinkC &Head()
-      { return List().Head(); }
+    { return List().Head(); }
     //: Get head of list.
   
     const DLinkC &Head() const
-      { return List().Head();; }
+    { return List().Head(); }
     //: Get head of list.
     
     
     DLinkHeadC *head;
     DLinkC *place;
+    DeRefT m_deRef;
     
-    friend class IntrDListC<DataT>;
+    friend class IntrDListC<DataT,DeRefT>;
   };
 
 }

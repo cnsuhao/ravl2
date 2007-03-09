@@ -17,6 +17,7 @@
 #include "Ravl/StrStream.hh"
 #include "Ravl/BinStream.hh"
 #include "Ravl/Stream.hh"
+#include <stddef.h>
 
 using namespace RavlN;
 
@@ -46,6 +47,7 @@ template IntrDLIterC<StuffC>; // Force instanciation of all methods.
 int testDListBinIO();
 int testIntrDList();
 int testDLIter();
+int testDoubleLinked();
 
 int main(int nargs,char *argv[])
 {
@@ -60,6 +62,10 @@ int main(int nargs,char *argv[])
   }
   if((lineno = testDListBinIO()) != 0) {
     cerr << "testDListIO test failed on line "<< lineno << "\n";
+    return 1;
+  }
+  if((lineno = testDoubleLinked()) != 0) {
+    cerr << "testDoubleLinked test failed on line "<< lineno << "\n";
     return 1;
   }
   cerr << "Test passed ok. \n";	      
@@ -178,5 +184,70 @@ int testDLIter() {
   itz.Tail();
   itz.Head();
 #endif
+  return 0;
+}
+
+
+
+
+
+
+struct DoubleLinkedC 
+{
+  
+public:
+  DoubleLinkedC(int n = 0)
+    : m_data(n)
+  {}
+  
+  DLinkC m_link1;
+  DLinkC m_link2;
+  IntT m_data;
+  
+  typedef IntrDListOffsetDeRefC<DoubleLinkedC,sizeof(DLinkC) * 0> Ring1T;
+  typedef IntrDListOffsetDeRefC<DoubleLinkedC,sizeof(DLinkC) * 1> Ring2T;
+};
+
+
+int testDoubleLinked() {
+  //cerr << "Offset1=" << offsetof(DoubleLinkedC,m_link1) << "\n";
+  //cerr << "Offset2=" << offsetof(DoubleLinkedC,m_link2) << "\n";
+  //cerr << "size=" << sizeof(DLinkC) << "\n";
+  typedef IntrDListC<DoubleLinkedC,DoubleLinkedC::Ring1T> ListRing1T;
+  typedef IntrDListC<DoubleLinkedC,DoubleLinkedC::Ring2T> ListRing2T;
+  typedef IntrDLIterC<DoubleLinkedC,DoubleLinkedC::Ring1T> IterRing1T;
+  typedef IntrDLIterC<DoubleLinkedC,DoubleLinkedC::Ring2T> IterRing2T;
+  
+  ListRing1T list1(false);
+  ListRing2T list2(false);
+  
+  DoubleLinkedC listElements[20];
+  
+  IterRing2T it(list2);
+  if(it) return __LINE__;
+  list2.InsLast(listElements[0]);
+  it = list2;
+  if(!it) return __LINE__;
+  list2.InsLast(listElements[1]);
+  list2.InsLast(listElements[2]);
+  int count = 0;
+  for(IterRing2T it2(list2);it2;it2++)
+    count++;
+  cerr << "Count=" << count <<"\n";
+  if(count != 3) return __LINE__;
+  
+  for(int i = 0;i < 20;i++)
+    list1.InsLast(listElements[i]);
+  
+  count = 0;
+  for(IterRing1T it2(list1);it2;it2++)
+    count++;
+  cerr << "Count=" << count <<"\n";
+  if(count != 20) return __LINE__;
+  count = 0;
+  for(IterRing2T it2(list2);it2;it2++)
+    count++;
+  cerr << "Count=" << count <<"\n";
+  if(count != 3) return __LINE__;
   return 0;
 }
