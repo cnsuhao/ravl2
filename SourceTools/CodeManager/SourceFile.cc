@@ -372,7 +372,6 @@ namespace RavlN {
     SourceFileC me(*this);
     TextCursorC at((TextFileC &)me);
     const StringC &comStr = commentString[fileType];
-    const StringC &comEndStr = commentEndString[fileType];
     StringC leadStart = comStr + ":";
     //cerr << "LeadStart='" << leadStart <<"'\n";
     title = StringC();
