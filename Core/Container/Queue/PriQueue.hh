@@ -194,9 +194,8 @@ namespace RavlN {
   
   template <class KeyT,class DataT>
   bool PriQueueC<KeyT,DataT>::Check() {
-    SDArray1dC<Tuple2C<KeyT,DataT> > &arr = Array();
     for(UIntT i = 1;i < Size();i++) {
-      RavlAssert(arr[((i+1)/2)-1].Data1() < arr[i].Data1());
+      RavlAssert(Array()[((i+1)/2)-1].Data1() < Array()[i].Data1());
     }
     return true;
   }

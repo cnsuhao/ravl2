@@ -169,7 +169,7 @@ namespace RavlImageN {
     //const RealT CheckY[] = {  1,  0, -1, 1, -1,  1,  0, -1 };
     const RealT CheckX[] = { -1, 0,  0, 1 };
     const RealT CheckY[] = {  0, 1, -1, 0 };
-    Point2dC Ret,BinSize = Map.BinSize();
+    Point2dC Ret(0,0),BinSize = Map.BinSize();
     Point2dC Newun;
     RealT NNPar = RavlConstN::nanReal;
     //RealT MinDist =RavlConstN::maxReal;
