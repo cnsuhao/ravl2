@@ -59,6 +59,14 @@ namespace RavlN {
     { return &RCHandleC<DataT>::Body(); }
     //: Access body.
     
+    bool operator==(const SmartPtrC<DataT> &other) const
+    { return this->body == other.body; }
+    //: Equality test with another smart ptr.
+    
+    bool operator==(const DataT *other) const
+    { return this->body == other; }
+    //: Equality test with a direct ptr.
+    
     operator DataT *()
     { return this->body; }
     //: Access body.
