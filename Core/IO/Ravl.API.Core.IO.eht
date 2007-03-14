@@ -3,61 +3,68 @@
 : Input Output system
 
 <p> There are two mechanisms for doing I/O in RAVL: via streams, and
-via the <code>Load()</code> / <code>Save()</code> functions.  
+via the <code>Load()</code> / <code>Save()</code> functions. </p> 
 
-The standard C++ stream mechanism (See "The C++ Programming Language" by
+<p>The standard C++ stream mechanism (See "The C++ Programming Language" by
 B. Stroustrup) will read and write objects in a format unique to RAVL.
 The details for this mechanism and a variation that allows the
 creation of binary streams can be found in <a
 href="Ravl.API.Core.IO.Streams.html">Rav.APIl.Core.IO.Streams</a>. On the other hand,
 <code>Load()</code> / <code>Save()</code> mechanism is useful where
 there is a choice of file formats, or where implicit data conversion
-is needed.
-<p>
-There is also a mechanism for dealing with sequences of objects, a
+is needed.</p>
+
+<p> There is also a mechanism for dealing with sequences of objects, a
 description of which can be found in <a
-href="Ravl.API.OS.Sequence.html">Ravl.API.OS.Sequence</a>.
+href="Ravl.API.OS.Sequence.html">Ravl.API.OS.Sequence</a>.</p>
 
 <h2> <a name="LoadSave"></a>Using the <a href=
 "../Class/RavlN.LoadObconst_StringC_Amp_DataT_Amp_StringC_boolCb.html">
 <code>Load()</code></a> / <a href=
 "../Class/RavlN.SaveObconst_StringC_Amp_const_DataT_Amp_StringC_boolCb.html"> <code>Save()</code></a> functions</h2>
 
-The <code>Load()</code> / <code>Save()</code> global functions provide a more
-sophisticated I/O mechanism.  They were originally developed for the <a
+<p>The <code>Load()</code> / <code>Save()</code> global functions provide a
+more sophisticated I/O mechanism.  They were originally developed for the <a
 href="../Class/RavlImageN.ImageC.html">ImageC</a> template class (see <a
-href="Ravl.API.Images.IO.html">Image I/O</a>), but are now available for 
-other classes as well.  The mechanism identifies the type of file being loaded,
-and selects the appropriate code for loading it, if it exists.  It will also do
+href="Ravl.API.Images.IO.html">Image I/O</a>), but are now available for other
+classes as well.  The mechanism identifies the type of file being loaded, and
+selects the appropriate code for loading it, if it exists.  It will also do
 certain type conversions automatically where its is deemed safe to do so.  The
 algorithm picks the conversion with the least conversion cost, resolving any
-ambiguity by using the format with the highest priority.
+ambiguity by using the format with the highest priority.</p>
 
 <p>For example, to read a real image from an RAVL ASCII "streams" format file
-and store it in a pgm file:
+and store it in a pgm file:</p>
 
 <pre>
-ImageC&lt;RealT&gt; x;
-Load("fred", x);
-Save("jim.pgm", x);
+  ImageC&lt;RealT&gt; x;
+  Load("fred", x);
+  Save("jim.pgm", x);
 </pre>
 
-The pixel types in the files "fred" and "jim.pgm" are unknown at compile time; the appropriate
-type conversions therefore have to be selected at run time.
+<p>The pixel types in the files "fred" and "jim.pgm" are unknown at compile time; the appropriate
+type conversions therefore have to be selected at run time.</p>
+
+<p>When saving using <code>Save()</code>, the format can be specified either in the filename extension or in the "fileformat" argument. The two basic file types are "abs" (binary) and "streams" (ASCII).  If no hint of the file type is given, the "streams" ASCII format is used.  When loading with <code>Load()</code>, the RAVL I/O system usually seems to be smart enough to work out the file format for itself.</p>
 
 <p> A more complete example of how to use this mechanism is given in <a
-href="../../../Auto/Examples/exFileFormat.cc.html">exFileFormat.cc</a>.  To use this
-mechanism you'll have to include the <code>RavlIO</code> library in
-<code>defs.mk</code>:
+href="../../../Auto/Examples/exFileFormat.cc.html">exFileFormat.cc</a>.  Because the necessary I/O library is not known to QMake at compile time, to use this
+mechanism you'll have to includeit explicitly in
+<code>defs.mk</code>, e.g.:</p>
 
-<pre> USESLIBS = RavlIO .... </pre>
+<pre>  USESLIBS = RavlIO .... </pre>
+
+<p>Sometimes the documetation gives a hint of which library to use.  If not,
+at present the only way of determining the correct library is guesswork: pick
+a likely one from the available libraries in the lib directory.  We need to
+work on this.</p>
 
 <p>A list of currently supported formats can be obtained with the
-<code>conv</code> program: 
-<pre> conv -lf </pre>
+<code>conv</code> program: </p>
+<pre>  conv -lf </pre>
 
  A list of automatic type conversions that are available can also be found:
-<pre> conv -lc </pre>
+<pre>  conv -lc </pre>
 
 <p> <b>N.B.</b> If you are not using shared libraries (see "shared" command-line option in <a href="Ravl.QMake.html">QMake</a>), the increase 
 in size of your executable from this library can be <font size = +4>large</font>, because all of
@@ -77,17 +84,17 @@ The following example shows how a file format for loading and saving <code>RealT
 objects to ASCII streams (type "stream") was created.
 
 <pre>
-#include "Ravl/DP/FileFormatStream.hh"
+  #include "Ravl/DP/FileFormatStream.hh"
 
-FileFormatStreamC &lt;RealT&gt; FileFormatStream_RealT;
+  FileFormatStreamC &lt;RealT&gt; FileFormatStream_RealT;
 </pre>
 
 If you wanted to write the data to a binary stream (type "abs") instead, you would use:
 
 <pre>
-#include "Ravl/DP/FileFormatBinStream.hh"
+  #include "Ravl/DP/FileFormatBinStream.hh"
 
-FileFormatBinStreamC &lt;RealT&gt; FileFormatBinStream_RealT;
+  FileFormatBinStreamC &lt;RealT&gt; FileFormatBinStream_RealT;
 </pre>
 
 
@@ -104,12 +111,12 @@ degree of loss. (1 indicates no loss; 8 used to indicate double -> unsigned
 byte).
 
 <pre>
-#include "Ravl/DP/Converter.hh"
+  #include "Ravl/DP/Converter.hh"
 
-RealT DPConvIntT2RealT(const IntT &val) 
-{ return (RealT) val; }
+  RealT DPConvIntT2RealT(const IntT &val) 
+  { return (RealT) val; }
 
-DP_REGISTER_CONVERSION(DPConvIntT2RealT,1);
+  DP_REGISTER_CONVERSION(DPConvIntT2RealT,1);
 </pre>
 
 <h4>Creating a new file format</h4>
