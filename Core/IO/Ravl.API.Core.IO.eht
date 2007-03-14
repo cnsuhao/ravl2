@@ -49,12 +49,12 @@ type conversions therefore have to be selected at run time.</p>
 
 <p> A more complete example of how to use this mechanism is given in <a
 href="../../../Auto/Examples/exFileFormat.cc.html">exFileFormat.cc</a>.  Because the necessary I/O library is not known to QMake at compile time, to use this
-mechanism you'll have to includeit explicitly in
+mechanism you'll have to include it explicitly in
 <code>defs.mk</code>, e.g.:</p>
 
 <pre>  USESLIBS = RavlIO .... </pre>
 
-<p>Sometimes the documetation gives a hint of which library to use.  If not,
+<p>Sometimes the documentation gives a hint of which library to use.  If not,
 at present the only way of determining the correct library is guesswork: pick
 a likely one from the available libraries in the lib directory.  We need to
 work on this.</p>
@@ -127,15 +127,15 @@ give only an outline of the procedure here:
 <ol>
 
 <li> Create a new class each format that you wish to add one for loading and
-one for saving. These shoud be derived from DPIPortBodyC<> and DPOPortBodyC<>
+one for saving. These should be derived from DPIPortBodyC<> and DPOPortBodyC<>
 respectively.
 
 <li> Create a new FileFormatXXXC class derived from FileFormatBodyC. In this
-class overide the virtuals functions which identify the file format and create
+class override the virtual functions which identify the file format and create
 the input and output streams.
 
 <li> Create a static instance of the new file format class, to register it with
-the IO mechansim.
+the IO mechanism.
 
 </ol>
 
