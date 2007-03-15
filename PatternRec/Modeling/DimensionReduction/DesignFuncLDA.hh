@@ -169,7 +169,7 @@ namespace RavlN {
     //: Create dimensionality reduction function from the 2 streams.
     // This method uses streams so that you don't have to store all the data in memory.<br>
     //!param: inPca - uses this unlabelled stream to do some initial PCA dimension reduction (could be same stream as <code>inLda</code>)
-    //!param: inLda - uses this labelled stream of vectors to do dimension reduction using LDA
+    //!param: inLda - uses this labelled stream of vectors to do dimension reduction using LDA. Note, it is assumed that the labels are grouped together.
 
   };
 
