@@ -3,41 +3,46 @@
 # fields are:
 # module pre|post   string  lib
 
-display  filePrefix @X      RavlDPDisplay
-csp      filePrefix @CSP    CSPDriver
-DIVO     filePrefix @DIVO   RavlDMedia
-net      filePrefix @NET    RavlNet
-v4l	 filePrefix @V4L    RavlImgIOV4L
-devaudio filePrefix @DEVAUDIO RavlDevAudio
-meteor1  filePrefix @METEOR RavlImgIOMeteor1
-graph	 filePrefix @GRAPH  RavlDPGraph
-curl	 filePrefix @http   RavlURLIO
-curl	 filePrefix @https  RavlURLIO
-curl	 filePrefix @ftp    RavlURLIO
-curl	 filePrefix @ldap   RavlURLIO
-jpeg	 fileExt    jpg     RavlExtImgIO
-png	 fileExt    png     RavlExtImgIO
-cif	 fileExt    cif	    RavlVideoIO
-cif	 fileExt    qcif    RavlVideoIO
-cif	 fileExt    sqcif   RavlVideoIO
-yuv	 fileExt    yuv     RavlVideoIO
-syuv	 fileExt    syuv    RavlVideoIO
-avi	 fileExt    avi     RavlVideoIO
-dv	 fileExt    dv      RavlDV
-pgm	 fileExt    pgm     RavlImageIO
-ppm	 fileExt    ppm     RavlImageIO
-pbm	 fileExt    pbm     RavlImageIO
-rgb	 fileExt    rgb     RavlImageIO
-tri	 fileExt    tri     Ravl3DIO
-obj	 fileExt    obj	    Ravl3DIO
-wrl	 fileExt    wrl	    Ravl3DIO
-libaudio fileExt    wav	    RavlAudioFile
-libaudio fileExt    aiff    RavlAudioFile
-libaudio fileExt    aiffc   RavlAudioFile
-libaudio fileExt    au      RavlAudioFile
-libaudio fileExt    nextsnd RavlAudioFile
-libaudio fileExt    bicsf   RavlAudioFile
-mpeg2	 fileExt    mpeg    RavlMPEG2
+display  filePrefix @X          RavlDPDisplay
+csp      filePrefix @CSP        CSPDriver
+DIVO     filePrefix @DIVO       RavlDMedia
+net      filePrefix @NET        RavlNet
+v4l	 filePrefix @V4L        RavlImgIOV4L
+v4l	 filePrefix @V4LH       RavlImgIOV4L
+
+devaudio filePrefix @DEVAUDIO   RavlDevAudio
+meteor1  filePrefix @METEOR     RavlImgIOMeteor1
+graph	 filePrefix @GRAPH      RavlDPGraph
+curl	 filePrefix @http       RavlURLIO
+curl	 filePrefix @https      RavlURLIO
+curl	 filePrefix @ftp        RavlURLIO
+curl	 filePrefix @ldap       RavlURLIO
+1394dc   filePrefix @IIDC       RavlImgIO1394dc
+jpeg	 fileExt    jpg         RavlExtImgIO
+png	 fileExt    png         RavlExtImgIO
+cif	 fileExt    cif	        RavlVideoIO
+cif	 fileExt    qcif        RavlVideoIO
+cif	 fileExt    sqcif       RavlVideoIO
+yuv	 fileExt    yuv         RavlVideoIO
+syuv	 fileExt    syuv        RavlVideoIO
+avi	 fileExt    avi         RavlVideoIO
+dv	 fileExt    dv          RavlDV
+pgm	 fileExt    pgm         RavlImageIO
+ppm	 fileExt    ppm         RavlImageIO
+pbm	 fileExt    pbm         RavlImageIO
+rgb	 fileExt    rgb         RavlImageIO
+tri	 fileExt    tri         Ravl3DIO
+obj	 fileExt    obj	        Ravl3DIO
+wrl	 fileExt    wrl	        Ravl3DIO
+libaudio fileExt    wav	        RavlAudioFile
+libaudio fileExt    aiff        RavlAudioFile
+libaudio fileExt    aiffc       RavlAudioFile
+libaudio fileExt    au          RavlAudioFile
+libaudio fileExt    nextsnd     RavlAudioFile
+libaudio fileExt    bicsf       RavlAudioFile
+mpeg2	 fileExt    mpeg        RavlMPEG2
+ffmpeg   fileExt    avi         RavlLibFFmpeg
+ffmpeg   fileExt    mpg         RavlLibFFmpeg
 
 # DataSets
 
@@ -84,4 +89,46 @@ abs	 symb	    RavlN::DistanceEuclideanC			RavlPatternRecIO
 abs	 symb	    RavlN::DistanceSqrEuclideanC		RavlPatternRecIO
 abs	 symb	    RavlN::DistanceCityBlockC			RavlPatternRecIO
 abs	 symb	    RavlN::DistanceRobustC			RavlPatternRecIO
+
+# Maths
+
+abs     symb    Vector2dC               RavlMathIO
+abs     symb    Vector3dC               RavlMathIO
+abs     symb    Vector4dC               RavlMathIO
+abs     symb    SArray1dC<Vector2dC>    RavlMathIO
+abs     symb    SArray1dC<Vector3dC>    RavlMathIO
+abs     symb    SArray1dC<Vector4dC>    RavlMathIO
+
+
+abs     symb    DListC<BoundaryC>       RavlMathIO
+abs     symb    BoundaryC               RavlMathIO
+abs     symb    Matrix2dC               RavlMathIO
+abs     symb    Matrix3dC               RavlMathIO
+abs     symb    Matrix4dC               RavlMathIO
+abs     symb    SArray1dC<Matrix2dC>    RavlMathIO
+abs     symb    SArray1dC<Matrix3dC>    RavlMathIO
+abs     symb    SArray1dC<Matrix4dC>    RavlMathIO
+
+abs     symb    Point2dC                RavlMathIO
+abs     symb    Point3dC                RavlMathIO
+abs     symb    Point4dC                RavlMathIO
+abs     symb    SArray1dC<Point2dC>     RavlMathIO
+abs     symb    SArray1dC<Point3dC>     RavlMathIO
+abs     symb    SArray1dC<Point4dC>     RavlMathIO
+
+abs     symb    LinePP2dC               RavlMathIO
+abs     symb    DListC<LinePP2dC>       RavlMathIO
+abs     symb    Polygon2dC              RavlMathIO
+
+abs     symb    RavlN::MatrixC                  RavlMathIO
+abs     symb    RavlN::VectorC                  RavlMathIO
+abs     symb    RavlN::VectorMatrixC            RavlMathIO
+abs     symb    RavlN::SArray1dC<MatrixC>       RavlMathIO
+abs     symb    RavlN::SArray1dC<VectorC>       RavlMathIO
+abs     symb    RavlN::SArray1dC<VectorMatrixC> RavlMathIO
+
+abs     symb    RavlN::TMatrixC<FloatT>                 RavlMathIO
+abs     symb    RavlN::TVectorC<FloatT>                 RavlMathIO
+abs     symb    RavlN::SArray1dC<TMatrixC<FloatT>>      RavlMathIO
+abs     symb    RavlN::SArray1dC<TVectorC<FloatT>>      RavlMathIO
 
