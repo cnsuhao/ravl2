@@ -17,6 +17,8 @@ HEADERS=Segmentation.hh RegionSet.hh ConnectedComponents.hh \
 SOURCES=ChromaThreshold.cc Segmentation.cc ConnectedComponents.cc \
  BlueScreen.cc SegmentExtrema.cc PixelSelectStack.cc 
 
+CCPPFLAGS += -g
+LDFLAGS += -g
 MAINS=extrema.cc
 
 PLIB=RavlImageProc

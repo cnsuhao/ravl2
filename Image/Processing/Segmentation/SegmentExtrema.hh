@@ -355,25 +355,37 @@ namespace RavlImageN {
     
     if(levels.Size() == 0)
       levels = Array1dC<ExtremaChainPixelC *>(IndexRangeC(-4,257));
-    levels.Fill(0);
+    memset(&(levels[levels.IMin()]),0,levels.Size() * sizeof(ExtremaChainPixelC *));
     
     // Sort pixels into appropriate lists.
     
-    Array2dIter2C<PixelT,ExtremaChainPixelC> it(img,pixs,img.Frame());
+    BufferAccess2dIter2C<PixelT,ExtremaChainPixelC> it(img,img.Frame().Range1(),img.Frame().Range2(),
+                                                       pixs,img.Frame().Range1(),img.Frame().Range2());
     PixelT lmin = it.Data1();
     PixelT lmax = it.Data1();
-    for(;it;it++) {
-      it.Data2().region = 0;
-      PixelT val = it.Data1();
-      if(val > limitMaxValue)
-        continue;
-      if(val < lmin) lmin = val;
-      if(val > lmax) lmax = val;
-      ExtremaChainPixelC * &tmp = levels[val]; 
-      it.Data2().next = tmp;
-      tmp = &it.Data2();
+    if(limitMaxValue >= 255) {
+      for(;it;it++) {
+        it.Data2().region = 0;
+        PixelT val = it.Data1();
+        if(val < lmin) lmin = val;
+        if(val > lmax) lmax = val;
+        ExtremaChainPixelC * &tmp = levels[val]; 
+        it.Data2().next = tmp;
+        tmp = &it.Data2();
+      }
+    } else {
+      for(;it;it++) {
+        it.Data2().region = 0;
+        PixelT val = it.Data1();
+        if(val > limitMaxValue)
+          continue;
+        if(val < lmin) lmin = val;
+        if(val > lmax) lmax = val;
+        ExtremaChainPixelC * &tmp = levels[val]; 
+        it.Data2().next = tmp;
+        tmp = &it.Data2();
+      }
     }
-    
     valueRange.Min() = (IntT) lmin;
     valueRange.Max() = (IntT) lmax;
     //cerr << "SegmentExtremaC<PixelT>::SortPixels, Value Range=" << valueRange << "\n";

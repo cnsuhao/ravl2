@@ -81,6 +81,10 @@ int main(int nargs,char **argv) {
 	bounds = lst.Apply(pimg,trimSet);
       else
 	bounds = lst.Apply(pimg);
+#if 0
+      for(DLIterC<BoundaryC> it(bounds);it;it++)
+        it->OrderEdges();
+#endif
       DateC end = DateC::NowUTC();
       totalTime += (end-start).Double();
       numberOfFrames++;

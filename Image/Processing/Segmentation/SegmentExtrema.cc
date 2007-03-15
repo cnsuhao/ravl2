@@ -191,7 +191,7 @@ namespace RavlImageN {
     IntT n, clevel = levels.Range().Min().V();
     ExtremaRegionC *labels[6];
     
-    for(Array1dIterC<ExtremaChainPixelC *> lit(levels);lit;lit++,clevel++) {
+    for(BufferAccessIterC<ExtremaChainPixelC *> lit(levels);lit;lit++,clevel++) {
       //ONDEBUG(cerr << "Level=" << clevel << " \n");
       for(at = *lit;at != 0;at = at->next) {
 	// Got a standard pixel.
@@ -241,6 +241,7 @@ namespace RavlImageN {
       // look for threshold that guarantee area bigger than minSize.
       for(i = minValue; i <= maxValue;i++)
 	if(chist[i] >= minSize) break; 
+      
       // Find thresholds.
       nthresh = 0;
       ONDEBUG(cerr << "Min=" << minValue << " Max=" << maxValue << " Init=" << i << " MaxSize=" << maxSize << "\n");
