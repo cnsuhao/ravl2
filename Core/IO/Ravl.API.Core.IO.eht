@@ -54,9 +54,7 @@ mechanism you'll have to include it explicitly in
 
 <pre>  USESLIBS = RavlIO .... </pre>
 
-<p>Sometimes the documentation gives a hint of which library to use.  If not,
-at present the only way of determining the correct library is guesswork: pick
-a likely one from the available libraries in the lib directory.  We need to
+    <p>Sometimes the documentation gives a hint of which library to use.  If not, try <a href="Ravl.API.Core.IO.IOHacks.html">here</a>.  We need to
 work on this.</p>
 
 <p>A list of currently supported formats can be obtained with the

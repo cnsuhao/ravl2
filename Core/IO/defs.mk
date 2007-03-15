@@ -48,7 +48,7 @@ TESTEXES= testDataProc.cc
 
 EXAMPLES = exComposeSingle.cc exDataProc.cc exFileFormat.cc
 
-EHT=Ravl.API.Core.IO.eht \
+EHT=Ravl.API.Core.IO.eht IOHacks.html \
     Ravl.API.Core.IO.Formats.html \
     Ravl.API.Core.IO.Type_Converter.html \
     Ravl.API.Core.IO.Virtual_Files.html
