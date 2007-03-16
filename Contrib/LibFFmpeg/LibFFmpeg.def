@@ -5,6 +5,8 @@
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
 
+include DynLink.def
+
 ifndef LIBFFMPEG_DEF
   LIBFFMPEG_DEF=1
 
