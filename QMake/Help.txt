@@ -10,10 +10,11 @@ Common targets (some compile targets may not have been installed on your system)
             "debug" RAVL libs.  NB. The executables may be very large.
   opt       Optimised build. 
   shared    Build "check" version but generating & using shared libraries.
-  debugshared
+  debugshared (or 'ds' for short)
             Build "debugall" version but generating & using shared debug libs. 
-  optshared Build "opt"  version but generating & using shared libraries.
-  ne, debugne, optne, gprofne, sharedne
+  optshared (or 'os' for short)
+            Build "opt"  version but generating & using shared libraries.
+  ne, debugne, optne, gprofne, sharedne, dsne
             As check,debug, opt etc. but only building libraries, not executables.
   build     Build check, debug, opt and executables
   buildall  Build check, debug, opt, executables and the documentation.

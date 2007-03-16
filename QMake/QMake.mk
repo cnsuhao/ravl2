@@ -124,7 +124,7 @@ endif
  clean pack unpack org help isdep srcp srcd org orgopt orgdebug chead \
  lib_info defs mdoc notes qc qcheck src mirror srcinst doconly log \
  fulldoc fullcheck fullsrc fulltest fullbuild shared sharedne \
- debugshared debugsharedne optshared optsharedne
+ debugshared debugsharedne optshared optsharedne sdb os osne ds dsne
 
 ##################################
 # Do makes.
@@ -152,6 +152,17 @@ all: check
  endif
 endif
 allns: all
+
+############################
+# Some compile shortcuts.
+
+os: optshared 
+
+osne: optsharedne
+
+ds: debugshared
+
+dsne: debugsharedne
 
 ############################
 # Compilation targets.
@@ -188,7 +199,7 @@ optne:
 
 debugne:
 	$(SMAKEMD) fullbuild VAR=debug TARGET=fullbuild NOEXEBUILD=1 
-                                    
+
 sharedne:
 	$(SMAKEMD) fullbuild VAR=check TARGET=fullbuild SHAREDBUILD=1 NOEXEBUILD=1
 
