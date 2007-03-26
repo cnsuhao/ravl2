@@ -142,7 +142,7 @@ namespace RavlImageN {
     
     SizeT Cols() const
     { return this->Range2().Size(); }
-    //: Number of rows in image.
+    //: Number of cols in image.
     
     inline IndexC TRow() const
     { return this->Range1().Min(); }
