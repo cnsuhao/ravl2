@@ -6,6 +6,7 @@
 
 #include "Ravl/Image/SumRectangles.hh"
 #include "Ravl/Image/Image.hh"
+#include "Ravl/Array2dIter.hh"
 
 namespace RavlImageN {
   using namespace RavlN;
@@ -38,7 +39,8 @@ namespace RavlImageN {
     ImageC<OutPixelT> Apply (const ImageC<InPixelT> &in) const {
       ImageC<OutPixelT> op;
       SumRectangles(in, mask, op) ;
-      if (norm) op /= mask.Area();
+      if (norm) 
+        for (Array2dIterC<OutPixelT> i(op); i; ++i) *i /= mask.Area();
       return op;
     }
     //: Performs an averaging filter on image 'in'.
