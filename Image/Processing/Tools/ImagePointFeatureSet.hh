@@ -73,11 +73,11 @@ namespace RavlImageN {
     // If a subset with the same name already exists, it will be overwritten
     
     int Find(Point2dC position, RealT tolerance) const;
-    //: Find ID of closest feature within <tolerance> of <position>
+    //: Find ID of closest feature within <code>tolerance</code> of <code>position</code>
     // Returns -1 if no features are in range
 
     bool Move(IntT id, Point2dC change);
-    //: Move a particular feature by <change>
+    //: Move a particular feature by <code>change</code>
     // Returns false if id could not be found
 
     bool Set(IntT id, Point2dC position);
@@ -98,7 +98,7 @@ namespace RavlImageN {
     
     bool Feature(IntT id, ImagePointFeatureC& feature) const;
     //: Get a feature 
-    // Feature is returned in <feature>.
+    // Feature is returned in <code>feature</code>.
     // Returns false if id could not be found.
     
     bool DeleteFeature(IntT id);
@@ -109,7 +109,7 @@ namespace RavlImageN {
     
     bool Feature(const StringC& desc, ImagePointFeatureC& feature) const;
     //: Get a feature by string
-    // Feature is returned in <feature>.
+    // Feature is returned in <code>feature</code>.
     // Returns false if id could not be found.
  
     bool Rename(const StringC& oldName, const StringC& newName);
@@ -122,7 +122,7 @@ namespace RavlImageN {
 
     bool Subset(StringC name, DListC<IntT>& subset);
     //: Get an ordered subset
-    // Subset is returned in <subset>.
+    // Subset is returned in <code>subset</code>.
     // Returns false if name could not be found.
 
     HashIterC<IntT, ImagePointFeatureC> FeatureIterator(void) const
@@ -278,12 +278,12 @@ namespace RavlImageN {
 
     int Find(Point2dC position, RealT tolerance=10.0) const
     { return Body().Find(position,tolerance); }
-    //: Find ID of closest feature within <tolerance> of <position>
+    //: Find ID of closest feature within <code>tolerance</code> of <code>position</code>
     // Returns -1 if no features are in range
 
     bool Move(IntT id, Point2dC change)
     { return Body().Move(id,change); }
-    //: Move a particular feature by <change>
+    //: Move a particular feature by <code>change</code>
     // Returns false if feature could not be found
 
     bool Set(IntT id, Point2dC position)
@@ -309,13 +309,13 @@ namespace RavlImageN {
     bool Feature(IntT id, ImagePointFeatureC& feature) const
     { return Body().Feature(id,feature); }
     //: Get a feature 
-    // Feature is returned in <feature>.
+    // Feature is returned in <code>feature</code>.
     // Returns false if id could not be found.
 
     bool Feature(const StringC& desc, ImagePointFeatureC& feature) const 
     { return Body().Feature(desc,feature); }
     //: Get a feature by string
-    // Feature is returned in <feature>.
+    // Feature is returned in <code>feature</code>.
     // Returns false if id could not be found.
 
     bool Rename(const StringC& oldName, const StringC& newName)
@@ -331,7 +331,7 @@ namespace RavlImageN {
     bool Subset(StringC name, DListC<IntT>& subset) 
     { return Body().Subset(name,subset); }
     //: Get an ordered subset
-    // Subset is returned in <subset>.
+    // Subset is returned in <code>subset</code>.
     // Returns false if name could not be found.
 
     HashIterC<IntT, ImagePointFeatureC> FeatureIterator(void) const
