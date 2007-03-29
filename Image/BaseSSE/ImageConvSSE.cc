@@ -8,22 +8,14 @@
 //! lib=RavlImage
 //! file="Ravl/Image/Base/ImageConv.cc"
 
-#include "Ravl/Image/ImageConv.hh"
-//#include "Ravl/Array2dIter2.hh"
-//#include "Ravl/Image/ByteRGBValue.hh"
-//#include "Ravl/Image/ByteYUVValue.hh"
-//#include "Ravl/Image/RealRGBValue.hh"
-//#include "Ravl/Image/RealYUVValue.hh"
-//#include "Ravl/Image/RGBcYUV.hh"
-
-#include "Ravl/CPUID.hh"
+#include "Ravl/Image/ImageConvSSE.hh"
 
 #include <emmintrin.h>
 
 namespace RavlImageN
 {
 
-static ImageC<ByteT> RealImage2ByteImage(const ImageC<RealT> &img)
+ImageC<ByteT> RealImage2ByteImageSSE2(const ImageC<RealT> &img)
 {
   ImageC< ByteT> ret(img.Rectangle());
 
@@ -55,26 +47,5 @@ static ImageC<ByteT> RealImage2ByteImage(const ImageC<RealT> &img)
 
   return ret;
 }
-
-//magic trick which changes the usual image convertion behaviour
-typedef ImageC<ByteT> DoubleImageCT2ByteImageCT_T(const ImageC< RealT> &Dat);
-extern DoubleImageCT2ByteImageCT_T *DoubleImageCT2ByteImageCT_F;
-
-static int SetNewFunctions()
-{
-  if(SSE2())
-  {
-    //cout << "ImageConvSSE: Using SSE instructions." << endl;
-    DoubleImageCT2ByteImageCT_F = &RealImage2ByteImage;
-  }
-  else
-  {
-    //cout << "ImageConvSSE: CPU does not have SSE instructions." << endl;
-  }
-  return 1;
-}
-
-static int a = SetNewFunctions();
-
 
 }

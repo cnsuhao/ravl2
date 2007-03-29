@@ -15,6 +15,10 @@ HEADERS=
 
 SOURCES=ImageConvSSE.cc
 
+HEADERS=ImageConvSSE.hh
+
+MUSTLINK=InitImageConvSSE.cc
+
 PLIB=RavlImage
 
 USESLIBS=RavlCore
