@@ -25,7 +25,7 @@
 namespace RavlImageN {
 
   //! userlevel=Develop
-  //: Deinterlace base class.
+  //: De-interlace base class.
   
   class DeinterlaceStreamBaseC {
   public:
@@ -62,7 +62,7 @@ namespace RavlImageN {
   };
   
   //! userlevel=Develop
-  //: Deinterlace an incoming stream of images.
+  //: De-interlace an incoming stream of images.
   
   template<class PixelT>
   class DeinterlaceStreamBodyC
@@ -154,7 +154,7 @@ namespace RavlImageN {
     }
     //: Seek to location in stream.
     // Returns false, if seek failed. 
-    // if an error occurered (Seek returned False) then stream
+    // if an error occurred (Seek returned False) then stream
     // position will not be changed.
     
     virtual bool DSeek(IntT off) {
@@ -163,7 +163,7 @@ namespace RavlImageN {
 	return false; // If tell doesn't work it'll fail.
       IntT at = tmp;
       //cerr << "DSeek by " << off << " " << at  << " State=" << state << "\n";
-      // There may be slight more efficent ways of doing this, but
+      // There may be slight more efficient ways of doing this, but
       // it will work for now.
       if(off < 0 && (-off) > at)
 	return false;
@@ -171,7 +171,7 @@ namespace RavlImageN {
       return Seek(at);
     }
     //: Delta Seek, goto location relative to the current one.
-    // if an error occurered (DSeek returned False) then stream
+    // if an error occurred (DSeek returned False) then stream
     // position will not be changed.
     
     virtual UIntT Tell() const {
@@ -275,9 +275,9 @@ namespace RavlImageN {
     // Returns false if the attribute name is unknown.
     // This is for handling stream attributes such as frame rate, and compression ratios.
 
-    bool DeinteralaceFunc(const CallFunc3C<const ImageC<PixelT>&,ImageC<PixelT>&,ImageC<PixelT>& > &func)
+    bool DeinterlaceFunc(const CallFunc3C<const ImageC<PixelT>&,ImageC<PixelT>&,ImageC<PixelT>& > &func)
     { deinterlace = func; return deinterlace.IsValid(); }
-    //: Set deinterlacing function.
+    //: Set de-interlacing function.
     
   protected:
     bool Deinterlace(const ImageC<PixelT> &img,ImageC<PixelT> &field0,ImageC<PixelT> &field1);
@@ -291,6 +291,8 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: Deinterlace an incoming stream of images.
+  //
+  // <p>The default behaviour of this class is to return fields rescaled to match the original frames size, as defined in the <code>DeinterlaceStreamBodyC<PixelT>::Deinterlace()</code> method (see the header file linked above).  If different behaviour is required, use the <code>DeinterlaceFunc()</code> method, as described below.</p>
   
   template<class PixelT>
   class DeinterlaceStreamC
@@ -323,9 +325,17 @@ namespace RavlImageN {
     //: Access body.
     
   public:    
-    bool DeinteralaceFunc(const CallFunc3C<const ImageC<PixelT> &,ImageC<PixelT> &,ImageC<PixelT> &> &func)
-    { return Body().DeinteralaceFunc(func); }
-    //: Set deinterlacing function.
+    bool DeinterlaceFunc(const CallFunc3C<const ImageC<PixelT> &,ImageC<PixelT> &,ImageC<PixelT> &> &func)
+    { return Body().DeinterlaceFunc(func); }
+    //: Set user-defined de-interlacing function.
+    // The user-defined function <code>func</code> replaces the default
+    // expansion of the field to a frame-sized image.  The function should take
+    // 3 arguments, in this order: 
+    // <blockquote>
+    // <code>input frame</code><br>
+    // <code>output field 1</code><br>
+    // <code>output field 2</code><br>
+    // </blockquote>
   };
   
   //: DeinterlaceStream a frame.
@@ -340,14 +350,14 @@ namespace RavlImageN {
       // Do even lines.
       do {
 	it.Data3() = it.DataMM1();
-	it.Data2() = Average(it.DataTM1(),it.DataBM1());
+	it.Data2() = Average<PixelT>(it.DataTM1(),it.DataBM1());
       } while(it.Next());
       if(!it)
 	break;
       // Do odd lines.
       do {
 	it.Data2() = it.DataMM1();
-	it.Data3() = Average(it.DataTM1(),it.DataBM1());
+	it.Data3() = Average<PixelT>(it.DataTM1(),it.DataBM1());
       } while(it.Next());
       if(!it)
 	break;
