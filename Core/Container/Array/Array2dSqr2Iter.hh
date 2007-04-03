@@ -55,12 +55,22 @@ namespace RavlN {
     }
     //: Goto first element in the array.
     
+    bool NextRow(int n = 1) {
+      this->rit += n;
+      if(!this->rit)
+	return false;
+      up = &((&(*(this->rit)))[-1][this->rng.Min()]);
+      this->cit.First(this->rit.Data(),this->rng);
+      return true;
+    }
+    //: Goto the next row.
+    
     bool Next() { 
       up++;
       this->cit++;
       if(this->cit)
 	return true;
-      up = &((*this->rit)[this->rng.Min()]);
+      up = &((*(this->rit))[this->rng.Min()]);
       this->rit++;
       if(!this->rit)
 	return false;
@@ -69,6 +79,25 @@ namespace RavlN {
     }
     //: Goto next element.
     // Returns true if its on the same row.
+
+    bool Next(int n) { 
+      up += n;
+      this->cit += n;
+      if(this->cit)
+	return true;
+      NextRow(n);
+      return false;
+    }
+    //: Goto next element.
+    // Returns true if its on the same row.
+    
+    void NextCol(int n) { 
+      up += n;
+      this->cit += n;
+    }
+    //: Goto next column
+    // This will NOT automaticly go to the next row.
+    // Returns true if is a valid element.
     
     bool IsElm() const
     { return this->cit.IsElm(); }
