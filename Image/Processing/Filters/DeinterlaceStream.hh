@@ -71,8 +71,7 @@ namespace RavlImageN {
   {
   public:
     DeinterlaceStreamBodyC(DPIPortC<ImageC<PixelT> > &inPort,bool nEvenFieldDominant = true)
-      : DPISPortBodyC<ImageC<PixelT> >(inPort),
-	DeinterlaceStreamBaseC(DPSeekCtrlAttachC(inPort,true),nEvenFieldDominant),
+      : DeinterlaceStreamBaseC(DPSeekCtrlAttachC(inPort,true),nEvenFieldDominant),
 	input(inPort)
     { 
       deinterlace = TriggerR(*this,&DeinterlaceStreamBodyC<PixelT>::Deinterlace,ImageC<PixelT>(),ImageC<PixelT>(),ImageC<PixelT>());
