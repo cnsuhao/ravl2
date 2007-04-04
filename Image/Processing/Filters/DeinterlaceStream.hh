@@ -350,14 +350,14 @@ namespace RavlImageN {
       // Do even lines.
       do {
 	it.Data3() = it.DataMM1();
-	it.Data2() = Average<PixelT>(it.DataTM1(),it.DataBM1());
+	it.Data2() = Average(it.DataTM1(),it.DataBM1());
       } while(it.Next());
       if(!it)
 	break;
       // Do odd lines.
       do {
 	it.Data2() = it.DataMM1();
-	it.Data3() = Average<PixelT>(it.DataTM1(),it.DataBM1());
+	it.Data3() = Average(it.DataTM1(),it.DataBM1());
       } while(it.Next());
       if(!it)
 	break;
