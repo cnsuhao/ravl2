@@ -17,13 +17,13 @@
 // This program uses the RAVL sequence handling to read a 
 // video sequence and display it using the GTK based GUI interface.
 
+#include "Ravl/Image/DeinterlaceStream.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteYUVValue.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Tuple2.hh"
 
 #include "Ravl/Image/ImageConv.hh"
-#include "Ravl/Image/DeinterlaceStream.hh"
 
 #include "Ravl/DP/Compose.hh"
 #include "Ravl/DP/MTIOConnect.hh"
