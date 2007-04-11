@@ -84,6 +84,7 @@ namespace RavlImageN {
     SegmentExtremaBaseC(IntT nMinSize,RealT nMinMargin,IntT nlimitMaxValue = 255)
       : labelAlloc(1),
 	minSize(nMinSize),
+        maxSize(0), // This gets modified later.
 	minMargin(nMinMargin),
 	limitMaxValue(Max(nlimitMaxValue,3)),
 	histStack(0)

@@ -63,7 +63,8 @@ namespace RavlImageN {
     ReallocRegionMap(rect.Area()/2);
     
     // ...
-    maxSize = rect.Area();
+    if(maxSize == 0)
+      maxSize = rect.Area();
   }
   
   //: Find matching label.
