@@ -9,7 +9,7 @@ via the <code>Load()</code> / <code>Save()</code> functions. </p>
 B. Stroustrup) will read and write objects in a format unique to RAVL.
 The details for this mechanism and a variation that allows the
 creation of binary streams can be found in <a
-href="Ravl.API.Core.IO.Streams.html">Rav.APIl.Core.IO.Streams</a>. On the other hand,
+href="Ravl.API.Core.IO.Streams.html">Rav.API.Core.IO.Streams</a>. On the other hand,
 <code>Load()</code> / <code>Save()</code> mechanism is useful where
 there is a choice of file formats, or where implicit data conversion
 is needed.</p>
