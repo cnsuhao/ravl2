@@ -149,16 +149,8 @@ namespace RavlN {
     Matrix3dC Homography() const;
     //: Get homography
     // This returns the projection normalised to make the projective scales both = 1
-
-    FAffineC<2> AffineApproximation() const {
-      RealT t1 = trans[0][2] / trans[2][2];
-      RealT t2 = trans[1][2] / trans[2][2];
-      RealT h1 = trans[0][0] / trans[2][2]  - t1 * trans[2][0];
-      RealT h2 = trans[0][1] / trans[2][2] - t1 * trans[2][1];
-      RealT h3 = trans[1][0] / trans[2][2] - t2 * trans[2][0];
-      RealT h4 = trans[1][1] / trans[2][2] - t2 * trans[2][1];
-      return FAffineC<2>(Matrix2dC(h1,h2,h3,h4), Vector2dC(t1,t2));
-    }
+    
+    FAffineC<2> AffineApproximation() const;
     //: Get an affine approximation of this projective transform
     //!return: the affine approximation
     

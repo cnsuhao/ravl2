@@ -35,6 +35,19 @@ namespace RavlN {
     Matrix3dC ret = mat2.Inverse() * trans * mat1;
     return ret;
   }
+
+  FAffineC<2> Projection2dC::AffineApproximation() const {
+    Matrix3dC htrans = Homography();
+    RealT t1 = htrans[0][2] / htrans[2][2];
+    RealT t2 = htrans[1][2] / htrans[2][2];
+    RealT h1 = htrans[0][0] / htrans[2][2]  - t1 * htrans[2][0];
+    RealT h2 = htrans[0][1] / htrans[2][2] - t1 * htrans[2][1];
+    RealT h3 = htrans[1][0] / htrans[2][2] - t2 * htrans[2][0];
+    RealT h4 = htrans[1][1] / htrans[2][2] - t2 * htrans[2][1];
+    return FAffineC<2>(Matrix2dC(h1,h2,h3,h4), Vector2dC(t1,t2));
+  }
+  //: Get an affine approximation of this projective transform
+  //!return: the affine approximation
   
 
   //: Fit a projective transform given to the mapping between original and newPos.
