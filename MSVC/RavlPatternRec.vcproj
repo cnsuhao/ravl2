@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlPatternRec"
-	ProjectGUID="{0b6cb823-e045-4c76-909c-def010994797}"
-        RootNamespace="RavlPatternRec"
+	ProjectGUID="{0B6CB823-E045-4C76-909C-DEF010994797}"
+	RootNamespace="RavlPatternRec"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -24,8 +24,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="
-if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Modeling\GaussianMixture\class5.strm C:\Build\\class5.strm&#x0D;&#x0A;"
+				CommandLine="if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Modeling\GaussianMixture\class5.strm C:\Build\\class5.strm&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -103,8 +102,7 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Model
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="
-if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Modeling\GaussianMixture\class5.strm C:\Build\\class5.strm&#x0D;&#x0A;"
+				CommandLine="if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Modeling\GaussianMixture\class5.strm C:\Build\\class5.strm&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -133,8 +131,8 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Model
 				ObjectFile="C:\Build\win32\opt\obj\RavlPatternRec\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlPatternRec\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -170,7 +168,6 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Model
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
-	
 	</Configurations>
 	<References>
 	</References>
@@ -179,189 +176,8 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Model
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			
-			<File
-				RelativePath="..\.\PatternRec\DataSet\SampleVector.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\DataSet\SampleLabel.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\DataSet\DataSetBase.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\DataSet\Function.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\DataSet\Function1.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\DataSet\Designer.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\DataSet\DesignFunctionUnsupervised.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\DataSet\DesignFunctionSupervised.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\DataSet\VectorLabelIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\DataSet\DataSetVectorLabel.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\DataSet\SampleStreamVector.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\DataSet\DataSetVectorLabelWeight.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Distance\Distance.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Distance\DistanceEuclidean.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Distance\DistanceMax.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Distance\DistanceCityBlock.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Distance\DistanceMahalanobis.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Distance\DistanceSqrEuclidean.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Distance\DistanceRobust.cc"
-				>
-			</File>
 			<File
 				RelativePath="..\.\PatternRec\Cluster\Classifier.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Cluster\DesignClassifierUnsupervised.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Cluster\ClassifierNearestNeighbour.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Cluster\DesignKMeans.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Cluster\DesignMeanShiftCluster.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Cluster\DesignCluster.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Cluster\DesignKohonenNet.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Cluster\ClassifierFuzzyCMeans.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Cluster\DesignFuzzyCMeansCluster.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Modeling\Basic\FuncLinearCoeff.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Modeling\Basic\FuncLinear.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Modeling\Basic\FuncQuadratic.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Modeling\Basic\FuncOrthPolynomial.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Modeling\Basic\DesignFuncLSQ.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Modeling\Basic\FuncPDF.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Modeling\Basic\FuncPDFNormal.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Modeling\Basic\FuncMeanProjection.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Modeling\DimensionReduction\FuncSubset.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Modeling\DimensionReduction\DesignFuncReduce.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Modeling\DimensionReduction\DesignFuncPCA.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Modeling\DimensionReduction\DesignFuncLDA.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Modeling\GaussianMixture\GaussianMixture.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Modeling\GaussianMixture\DesignGaussianMixture.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Classify\DesignClassifierSupervised.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Classify\DesignDiscriminantFunction.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Classify\DesignKNearestNeighbour.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Classify\ClassifierKNearestNeighbour.cc"
 				>
 			</File>
 			<File
@@ -369,19 +185,15 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Model
 				>
 			</File>
 			<File
+				RelativePath="..\.\PatternRec\Classify\ClassifierBayesNormalLinear.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Classify\ClassifierBayesNormalQuadratic.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\PatternRec\Classify\ClassifierDiscriminantFunction.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Classify\ClassifierGaussianMixture.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Classify\DesignClassifierGaussianMixture.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Classify\ClassifierPreprocess.cc"
 				>
 			</File>
 			<File
@@ -389,7 +201,15 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Model
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Classify\ClassifierWeakLinear.cc"
+				RelativePath="..\.\PatternRec\Cluster\ClassifierFuzzyCMeans.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Classify\ClassifierGaussianMixture.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Classify\ClassifierKNearestNeighbour.cc"
 				>
 			</File>
 			<File
@@ -397,11 +217,31 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Model
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Classify\DesignWeakLinear.cc"
+				RelativePath="..\.\PatternRec\Cluster\ClassifierNearestNeighbour.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Classify\ClassifierBayesNormalLinear.cc"
+				RelativePath="..\.\PatternRec\Classify\ClassifierNeuralNetwork.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Classify\ClassifierPreprocess.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Classify\ClassifierWeakLinear.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\DataSet\DataSetBase.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\DataSet\DataSetVectorLabel.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\DataSet\DataSetVectorLabelWeight.cc"
 				>
 			</File>
 			<File
@@ -413,11 +253,7 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Model
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Classify\ClassifierBayesNormalQuadratic.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Classify\ClassifierNeuralNetwork.cc"
+				RelativePath="..\.\PatternRec\Classify\DesignClassifierGaussianMixture.cc"
 				>
 			</File>
 			<File
@@ -425,7 +261,107 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Model
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\FeatureSelection\FeatureSelector.cc"
+				RelativePath="..\.\PatternRec\Classify\DesignClassifierSupervised.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Cluster\DesignClassifierUnsupervised.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Cluster\DesignCluster.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Classify\DesignDiscriminantFunction.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\DataSet\Designer.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Modeling\DimensionReduction\DesignFuncLDA.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Modeling\Basic\DesignFuncLSQ.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Modeling\DimensionReduction\DesignFuncPCA.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Modeling\DimensionReduction\DesignFuncReduce.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\DataSet\DesignFunctionSupervised.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\DataSet\DesignFunctionUnsupervised.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Cluster\DesignFuzzyCMeansCluster.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Modeling\GaussianMixture\DesignGaussianMixture.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Cluster\DesignKMeans.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Classify\DesignKNearestNeighbour.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Cluster\DesignKohonenNet.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Cluster\DesignMeanShiftCluster.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Classify\DesignWeakLinear.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Distance\Distance.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Distance\DistanceCityBlock.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Distance\DistanceEuclidean.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Distance\DistanceMahalanobis.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Distance\DistanceMax.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Distance\DistanceRobust.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Distance\DistanceSqrEuclidean.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Performance\Error.cc"
 				>
 			</File>
 			<File
@@ -433,7 +369,67 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Model
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Performance\Error.cc"
+				RelativePath="..\.\PatternRec\FeatureSelection\FeatureSelector.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Modeling\Basic\FuncLinear.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Modeling\Basic\FuncLinearCoeff.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Modeling\Basic\FuncMeanProjection.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Modeling\Basic\FuncOrthPolynomial.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Modeling\Basic\FuncPDF.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Modeling\Basic\FuncPDFNormal.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Modeling\Basic\FuncQuadratic.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Modeling\DimensionReduction\FuncSubset.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\DataSet\Function.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\DataSet\Function1.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Modeling\GaussianMixture\GaussianMixture.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\DataSet\SampleLabel.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\DataSet\SampleStreamVector.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\DataSet\SampleVector.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\DataSet\VectorLabelIO.cc"
 				>
 			</File>
 		</Filter>
@@ -441,29 +437,60 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Model
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-                        
 			<File
-				RelativePath="..\.\PatternRec\DataSet\Sample.hh"
+				RelativePath="..\.\PatternRec\Cluster\Classifier.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\DataSet\SampleIter.hh"
+				RelativePath="..\.\PatternRec\Classify\ClassifierAverageNearestNeighbour.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\DataSet\SampleVector.hh"
+				RelativePath="..\.\PatternRec\Classify\ClassifierBayesNormalLinear.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\DataSet\SampleLabel.hh"
+				RelativePath="..\.\PatternRec\Classify\ClassifierBayesNormalQuadratic.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\DataSet\SampleDiscrete.hh"
+				RelativePath="..\.\PatternRec\Classify\ClassifierDiscriminantFunction.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\DataSet\DataSetBase.hh"
+				RelativePath="..\.\PatternRec\Classify\ClassifierFunc1Threshold.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Cluster\ClassifierFuzzyCMeans.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Classify\ClassifierGaussianMixture.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Classify\ClassifierKNearestNeighbour.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Classify\ClassifierLinearCombination.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Cluster\ClassifierNearestNeighbour.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Classify\ClassifierNeuralNetwork.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Classify\ClassifierPreprocess.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Classify\ClassifierWeakLinear.hh"
 				>
 			</File>
 			<File
@@ -499,31 +526,7 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Model
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\DataSet\SampleIO.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\DataSet\Function.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\DataSet\Function1.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\DataSet\Designer.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\DataSet\DesignFunctionUnsupervised.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\DataSet\DesignFunctionSupervised.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\DataSet\VectorLabelIO.hh"
+				RelativePath="..\.\PatternRec\DataSet\DataSetBase.hh"
 				>
 			</File>
 			<File
@@ -535,43 +538,23 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Model
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\DataSet\SampleStream.hh"
+				RelativePath="..\.\PatternRec\Classify\DesignBayesNormalLinear.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\DataSet\SampleStreamVector.hh"
+				RelativePath="..\.\PatternRec\Classify\DesignBayesNormalQuadratic.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Distance\Distance.hh"
+				RelativePath="..\.\PatternRec\Classify\DesignClassifierGaussianMixture.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Distance\DistanceEuclidean.hh"
+				RelativePath="..\.\PatternRec\Classify\DesignClassifierNeuralNetwork.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Distance\DistanceMax.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Distance\DistanceCityBlock.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Distance\DistanceMahalanobis.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Distance\DistanceSqrEuclidean.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Distance\DistanceRobust.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Cluster\Classifier.hh"
+				RelativePath="..\.\PatternRec\Classify\DesignClassifierSupervised.hh"
 				>
 			</File>
 			<File
@@ -579,27 +562,39 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Model
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Cluster\ClassifierNearestNeighbour.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Cluster\DesignKMeans.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Cluster\DesignMeanShiftCluster.hh"
-				>
-			</File>
-			<File
 				RelativePath="..\.\PatternRec\Cluster\DesignCluster.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Cluster\DesignKohonenNet.hh"
+				RelativePath="..\.\PatternRec\Classify\DesignDiscriminantFunction.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Cluster\ClassifierFuzzyCMeans.hh"
+				RelativePath="..\.\PatternRec\DataSet\Designer.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Modeling\DimensionReduction\DesignFuncLDA.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Modeling\Basic\DesignFuncLSQ.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Modeling\DimensionReduction\DesignFuncPCA.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Modeling\DimensionReduction\DesignFuncReduce.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\DataSet\DesignFunctionSupervised.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\DataSet\DesignFunctionUnsupervised.hh"
 				>
 			</File>
 			<File
@@ -607,7 +602,67 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Model
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Modeling\Basic\FuncLinearCoeff.hh"
+				RelativePath="..\.\PatternRec\Modeling\GaussianMixture\DesignGaussianMixture.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Cluster\DesignKMeans.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Classify\DesignKNearestNeighbour.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Cluster\DesignKohonenNet.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Cluster\DesignMeanShiftCluster.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Classify\DesignWeakLinear.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Distance\Distance.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Distance\DistanceCityBlock.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Distance\DistanceEuclidean.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Distance\DistanceMahalanobis.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Distance\DistanceMax.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Distance\DistanceRobust.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Distance\DistanceSqrEuclidean.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Performance\Error.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\FeatureSelection\FeatureSelectAsymmetricAdaBoost.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\FeatureSelection\FeatureSelector.hh"
 				>
 			</File>
 			<File
@@ -615,15 +670,15 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Model
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Modeling\Basic\FuncQuadratic.hh"
+				RelativePath="..\.\PatternRec\Modeling\Basic\FuncLinearCoeff.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\Modeling\Basic\FuncMeanProjection.hh"
 				>
 			</File>
 			<File
 				RelativePath="..\.\PatternRec\Modeling\Basic\FuncOrthPolynomial.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Modeling\Basic\DesignFuncLSQ.hh"
 				>
 			</File>
 			<File
@@ -635,7 +690,7 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Model
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Modeling\Basic\FuncMeanProjection.hh"
+				RelativePath="..\.\PatternRec\Modeling\Basic\FuncQuadratic.hh"
 				>
 			</File>
 			<File
@@ -643,15 +698,11 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Model
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Modeling\DimensionReduction\DesignFuncReduce.hh"
+				RelativePath="..\.\PatternRec\DataSet\Function.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Modeling\DimensionReduction\DesignFuncPCA.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Modeling\DimensionReduction\DesignFuncLDA.hh"
+				RelativePath="..\.\PatternRec\DataSet\Function1.hh"
 				>
 			</File>
 			<File
@@ -659,95 +710,39 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\PatternRec\Model
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Modeling\GaussianMixture\DesignGaussianMixture.hh"
+				RelativePath="..\.\PatternRec\DataSet\Sample.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Classify\DesignClassifierSupervised.hh"
+				RelativePath="..\.\PatternRec\DataSet\SampleDiscrete.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Classify\DesignDiscriminantFunction.hh"
+				RelativePath="..\.\PatternRec\DataSet\SampleIO.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Classify\DesignKNearestNeighbour.hh"
+				RelativePath="..\.\PatternRec\DataSet\SampleIter.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Classify\ClassifierKNearestNeighbour.hh"
+				RelativePath="..\.\PatternRec\DataSet\SampleLabel.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Classify\ClassifierAverageNearestNeighbour.hh"
+				RelativePath="..\.\PatternRec\DataSet\SampleStream.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Classify\ClassifierDiscriminantFunction.hh"
+				RelativePath="..\.\PatternRec\DataSet\SampleStreamVector.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Classify\ClassifierGaussianMixture.hh"
+				RelativePath="..\.\PatternRec\DataSet\SampleVector.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\Classify\DesignClassifierGaussianMixture.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Classify\ClassifierPreprocess.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Classify\ClassifierFunc1Threshold.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Classify\ClassifierWeakLinear.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Classify\ClassifierLinearCombination.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Classify\DesignWeakLinear.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Classify\ClassifierBayesNormalLinear.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Classify\DesignBayesNormalLinear.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Classify\DesignBayesNormalQuadratic.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Classify\ClassifierBayesNormalQuadratic.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Classify\ClassifierNeuralNetwork.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Classify\DesignClassifierNeuralNetwork.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\FeatureSelection\FeatureSelector.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\FeatureSelection\FeatureSelectAsymmetricAdaBoost.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\Performance\Error.hh"
+				RelativePath="..\.\PatternRec\DataSet\VectorLabelIO.hh"
 				>
 			</File>
 		</Filter>

@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlChartDetector"
-	ProjectGUID="{bb713c2a-7d2d-47f0-92ad-3a8527d67e59}"
-        RootNamespace="RavlChartDetector"
+	ProjectGUID="{BB713C2A-7D2D-47F0-92AD-3A8527D67E59}"
+	RootNamespace="RavlChartDetector"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -24,10 +24,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="
-if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#x0D;&#x0A;copy ..\.\Image\Processing\ChartDetector\CalibrationChart.ps C:\Build\share\RAVL\pixmaps\CalibrationChart.ps&#x0D;&#x0A;
-if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#x0D;&#x0A;copy ..\.\Image\Processing\ChartDetector\CalibrationChart.jpg C:\Build\share\RAVL\pixmaps\CalibrationChart.jpg&#x0D;&#x0A;
-if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#x0D;&#x0A;copy ..\.\Image\Processing\ChartDetector\CalibrationChart.coords C:\Build\share\RAVL\pixmaps\CalibrationChart.coords&#x0D;&#x0A;"
+				CommandLine="if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#x0D;&#x0A;copy ..\.\Image\Processing\ChartDetector\CalibrationChart.ps C:\Build\share\RAVL\pixmaps\CalibrationChart.ps&#x0D;&#x0A;if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#x0D;&#x0A;copy ..\.\Image\Processing\ChartDetector\CalibrationChart.jpg C:\Build\share\RAVL\pixmaps\CalibrationChart.jpg&#x0D;&#x0A;if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#x0D;&#x0A;copy ..\.\Image\Processing\ChartDetector\CalibrationChart.coords C:\Build\share\RAVL\pixmaps\CalibrationChart.coords&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -105,10 +102,7 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="
-if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#x0D;&#x0A;copy ..\.\Image\Processing\ChartDetector\CalibrationChart.ps C:\Build\share\RAVL\pixmaps\CalibrationChart.ps&#x0D;&#x0A;
-if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#x0D;&#x0A;copy ..\.\Image\Processing\ChartDetector\CalibrationChart.jpg C:\Build\share\RAVL\pixmaps\CalibrationChart.jpg&#x0D;&#x0A;
-if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#x0D;&#x0A;copy ..\.\Image\Processing\ChartDetector\CalibrationChart.coords C:\Build\share\RAVL\pixmaps\CalibrationChart.coords&#x0D;&#x0A;"
+				CommandLine="if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#x0D;&#x0A;copy ..\.\Image\Processing\ChartDetector\CalibrationChart.ps C:\Build\share\RAVL\pixmaps\CalibrationChart.ps&#x0D;&#x0A;if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#x0D;&#x0A;copy ..\.\Image\Processing\ChartDetector\CalibrationChart.jpg C:\Build\share\RAVL\pixmaps\CalibrationChart.jpg&#x0D;&#x0A;if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#x0D;&#x0A;copy ..\.\Image\Processing\ChartDetector\CalibrationChart.coords C:\Build\share\RAVL\pixmaps\CalibrationChart.coords&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -137,8 +131,8 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 				ObjectFile="C:\Build\win32\opt\obj\RavlChartDetector\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlChartDetector\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -174,7 +168,6 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
-	
 	</Configurations>
 	<References>
 	</References>
@@ -183,7 +176,6 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			
 			<File
 				RelativePath="..\.\Image\Processing\ChartDetector\ChartDetector.cc"
 				>
@@ -205,7 +197,6 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-                        
 			<File
 				RelativePath="..\.\Image\Processing\ChartDetector\ChartDetector.hh"
 				>

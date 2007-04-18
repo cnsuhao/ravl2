@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlOpenCV"
-	ProjectGUID="{80dcc85d-9e8d-44b3-b59f-54f018d1a9d3}"
-        RootNamespace="RavlOpenCV"
+	ProjectGUID="{80DCC85D-9E8D-44B3-B59F-54F018D1A9D3}"
+	RootNamespace="RavlOpenCV"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -24,8 +24,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="
-if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Contrib\OpenCV\OpenCV.def C:\Build\\OpenCV.def&#x0D;&#x0A;"
+				CommandLine="if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Contrib\OpenCV\OpenCV.def C:\Build\\OpenCV.def&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -103,8 +102,7 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Contrib\OpenCV\O
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="
-if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Contrib\OpenCV\OpenCV.def C:\Build\\OpenCV.def&#x0D;&#x0A;"
+				CommandLine="if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Contrib\OpenCV\OpenCV.def C:\Build\\OpenCV.def&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -133,8 +131,8 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Contrib\OpenCV\O
 				ObjectFile="C:\Build\win32\opt\obj\RavlOpenCV\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlOpenCV\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -170,7 +168,6 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Contrib\OpenCV\O
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
-	
 	</Configurations>
 	<References>
 	</References>
@@ -179,7 +176,6 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Contrib\OpenCV\O
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			
 			<File
 				RelativePath="..\.\Contrib\OpenCV\OpenCVConvert.cc"
 				>
@@ -189,7 +185,6 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Contrib\OpenCV\O
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-                        
 			<File
 				RelativePath="..\.\Contrib\OpenCV\OpenCVConvert.hh"
 				>

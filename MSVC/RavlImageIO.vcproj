@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlImageIO"
-	ProjectGUID="{09ddf42d-584a-4214-88ec-b66e64c5fb34}"
-        RootNamespace="RavlImageIO"
+	ProjectGUID="{09DDF42D-584A-4214-88EC-B66E64C5FB34}"
+	RootNamespace="RavlImageIO"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -24,8 +24,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="
-if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#x0D;&#x0A;copy ..\.\Image\ImageIO\monkey.ppm C:\Build\share\RAVL\pixmaps\monkey.ppm&#x0D;&#x0A;"
+				CommandLine="if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#x0D;&#x0A;copy ..\.\Image\ImageIO\monkey.ppm C:\Build\share\RAVL\pixmaps\monkey.ppm&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -103,8 +102,7 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="
-if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#x0D;&#x0A;copy ..\.\Image\ImageIO\monkey.ppm C:\Build\share\RAVL\pixmaps\monkey.ppm&#x0D;&#x0A;"
+				CommandLine="if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#x0D;&#x0A;copy ..\.\Image\ImageIO\monkey.ppm C:\Build\share\RAVL\pixmaps\monkey.ppm&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -133,8 +131,8 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 				ObjectFile="C:\Build\win32\opt\obj\RavlImageIO\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlImageIO\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -170,7 +168,6 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
-	
 	</Configurations>
 	<References>
 	</References>
@@ -179,17 +176,12 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			
 			<File
-				RelativePath="..\.\Image\ImageIO\ImgIOPNM.cc"
+				RelativePath="..\.\Image\ImageIO\ImgCnvRGB.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\ImageIO\PNMFormat.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\ImageIO\ImgIOInt.cc"
+				RelativePath="..\.\Image\ImageIO\ImgCnvYUV.cc"
 				>
 			</File>
 			<File
@@ -197,15 +189,39 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\ImageIO\ImgIOUInt16.cc"
-				>
-			</File>
-			<File
 				RelativePath="..\.\Image\ImageIO\ImgIOByteRGB.cc"
 				>
 			</File>
 			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOByteRGBA.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOByteVYU.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\Image\ImageIO\ImgIOByteYUV.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOByteYUV422.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOByteYUVA.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOFloat.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOInt.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOPNM.cc"
 				>
 			</File>
 			<File
@@ -217,31 +233,15 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\ImageIO\ImgIOByteRGBA.cc"
-				>
-			</File>
-			<File
 				RelativePath="..\.\Image\ImageIO\ImgIORealYUV.cc"
 				>
 			</File>
 			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOUInt16.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\Image\ImageIO\ImgIOUInt16RGB.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\ImageIO\ImgIOByteYUVA.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\ImageIO\ImgCnvRGB.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\ImageIO\ImgCnvYUV.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\ImageIO\ImgIOFloat.cc"
 				>
 			</File>
 			<File
@@ -261,15 +261,11 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\ImageIO\ImgIOByteYUV422.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\ImageIO\ImgIOByteVYU.cc"
-				>
-			</File>
-			<File
 				RelativePath="..\.\Image\ImageIO\ImgTypeCnv5.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\PNMFormat.cc"
 				>
 			</File>
 			<File
@@ -281,9 +277,8 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-                        
 			<File
-				RelativePath="..\.\Image\ImageIO\ImgIOPNMB.hh"
+				RelativePath="..\.\Image\ImageIO\ImgIO.hh"
 				>
 			</File>
 			<File
@@ -291,11 +286,11 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\ImageIO\PNMFormat.hh"
+				RelativePath="..\.\Image\ImageIO\ImgIOPNMB.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\ImageIO\ImgIO.hh"
+				RelativePath="..\.\Image\ImageIO\PNMFormat.hh"
 				>
 			</File>
 		</Filter>

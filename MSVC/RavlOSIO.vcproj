@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlOSIO"
-	ProjectGUID="{48cf4b3f-b179-4f52-8ed1-7dfddd3a53ed}"
-        RootNamespace="RavlOSIO"
+	ProjectGUID="{48CF4B3F-B179-4F52-8ED1-7DFDDD3A53ED}"
+	RootNamespace="RavlOSIO"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlOSIO\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlOSIO\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,7 +166,6 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
-	
 	</Configurations>
 	<References>
 	</References>
@@ -175,41 +174,8 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			
-			<File
-				RelativePath="..\.\OS\IO\FileSequence.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\IO\SequenceIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\IO\FileListIO.cc"
-				>
-			</File>
 			<File
 				RelativePath="..\.\OS\IO\CompositeStream.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\IO\FileFormatComposite.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\IO\PlayList.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\IO\SubSequenceSpec.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\IO\EditSpec.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\IO\FileFormatDynamic.cc"
 				>
 			</File>
 			<File
@@ -217,7 +183,39 @@
 				>
 			</File>
 			<File
+				RelativePath="..\.\OS\IO\EditSpec.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\IO\FileFormatComposite.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\IO\FileFormatDynamic.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\IO\FileListIO.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\IO\FileSequence.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\IO\PlayList.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\OS\IO\RavlOSIOMustLink.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\IO\SequenceIO.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\IO\SubSequenceSpec.cc"
 				>
 			</File>
 		</Filter>
@@ -225,41 +223,12 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-                        
-			<File
-				RelativePath="..\.\OS\IO\FileSequence.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\IO\SequenceIO.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\IO\FileListIO.hh"
-				>
-			</File>
 			<File
 				RelativePath="..\.\OS\IO\CompositeStream.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\IO\FileFormatComposite.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\IO\PlayList.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\IO\SubSequenceSpec.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\IO\EditSpec.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\IO\FileFormatDynamic.hh"
+				RelativePath="..\.\OS\IO\DynamicIO.hh"
 				>
 			</File>
 			<File
@@ -267,7 +236,35 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\IO\DynamicIO.hh"
+				RelativePath="..\.\OS\IO\EditSpec.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\IO\FileFormatComposite.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\IO\FileFormatDynamic.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\IO\FileListIO.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\IO\FileSequence.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\IO\PlayList.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\IO\SequenceIO.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\IO\SubSequenceSpec.hh"
 				>
 			</File>
 		</Filter>

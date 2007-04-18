@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlNet"
-	ProjectGUID="{232c2623-ce01-40be-90fe-9f1d0cb3e4a6}"
-        RootNamespace="RavlNet"
+	ProjectGUID="{232C2623-CE01-40BE-90FE-9F1D0CB3E4A6}"
+	RootNamespace="RavlNet"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlNet\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlNet\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,7 +166,6 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
-	
 	</Configurations>
 	<References>
 	</References>
@@ -175,33 +174,20 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			
 			<File
-				RelativePath="..\.\OS\Network\Socket.cc"
+				RelativePath="..\.\OS\Network\NetAttributeCtrl.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Network\NetStream.cc"
+				RelativePath="..\.\OS\Network\NetAttributeCtrlServer.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Network\SocketStrm.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Network\Packet.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Network\NetMessage.cc"
+				RelativePath="..\.\OS\Network\NetByteStream.cc"
 				>
 			</File>
 			<File
 				RelativePath="..\.\OS\Network\NetEndPoint.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Network\NetMsgCall.cc"
 				>
 			</File>
 			<File
@@ -213,15 +199,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Network\NetPortManager.cc"
+				RelativePath="..\.\OS\Network\NetMessage.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Network\NetPortClient.cc"
+				RelativePath="..\.\OS\Network\NetMsgCall.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Network\NetPortFormat.cc"
+				RelativePath="..\.\OS\Network\NetMsgOPortData.cc"
 				>
 			</File>
 			<File
@@ -237,7 +223,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Network\NetAttributeCtrl.cc"
+				RelativePath="..\.\OS\Network\NetPortClient.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Network\NetPortFormat.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Network\NetPortManager.cc"
 				>
 			</File>
 			<File
@@ -245,23 +239,27 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Network\NetAttributeCtrlServer.cc"
+				RelativePath="..\.\OS\Network\NetStream.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Network\NetByteStream.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Network\NetMsgOPortData.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Network\WinSocket.cc"
+				RelativePath="..\.\OS\Network\Packet.cc"
 				>
 			</File>
 			<File
 				RelativePath="..\.\OS\Network\RavlSysNetworkML.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Network\Socket.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Network\SocketStrm.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Network\WinSocket.cc"
 				>
 			</File>
 		</Filter>
@@ -269,33 +267,20 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-                        
 			<File
-				RelativePath="..\.\OS\Network\SktError.hh"
+				RelativePath="..\.\OS\Network\NetAttributeCtrl.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Network\Socket.hh"
+				RelativePath="..\.\OS\Network\NetAttributeCtrlServer.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Network\NetStream.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Network\Packet.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Network\NetMessage.hh"
+				RelativePath="..\.\OS\Network\NetByteStream.hh"
 				>
 			</File>
 			<File
 				RelativePath="..\.\OS\Network\NetEndPoint.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Network\NetMsgCall.hh"
 				>
 			</File>
 			<File
@@ -307,15 +292,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Network\NetPortManager.hh"
+				RelativePath="..\.\OS\Network\NetMessage.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Network\NetPortClient.hh"
+				RelativePath="..\.\OS\Network\NetMsgCall.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Network\NetPortFormat.hh"
+				RelativePath="..\.\OS\Network\NetMsgOPortData.hh"
 				>
 			</File>
 			<File
@@ -331,7 +316,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Network\NetAttributeCtrl.hh"
+				RelativePath="..\.\OS\Network\NetPortClient.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Network\NetPortFormat.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Network\NetPortManager.hh"
 				>
 			</File>
 			<File
@@ -339,15 +332,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Network\NetAttributeCtrlServer.hh"
+				RelativePath="..\.\OS\Network\NetStream.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Network\NetByteStream.hh"
+				RelativePath="..\.\OS\Network\Packet.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Network\NetMsgOPortData.hh"
+				RelativePath="..\.\OS\Network\SktError.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Network\Socket.hh"
 				>
 			</File>
 			<File

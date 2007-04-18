@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="Ravl3D"
-	ProjectGUID="{a9a93866-4be9-4d68-850f-604cc9b5f41e}"
-        RootNamespace="Ravl3D"
+	ProjectGUID="{A9A93866-4BE9-4D68-850F-604CC9B5F41E}"
+	RootNamespace="Ravl3D"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\Ravl3D\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\Ravl3D\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,7 +166,6 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
-	
 	</Configurations>
 	<References>
 	</References>
@@ -175,33 +174,8 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			
 			<File
-				RelativePath="..\.\3D\Mesh\Vertex.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\Mesh\Tri.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\Mesh\TriMesh.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\Mesh\TriMeshBinIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\Mesh\TexTriMesh.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\Mesh\TexTriMeshBinIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\Mesh\HEMeshVertex.cc"
+				RelativePath="..\.\3D\Mesh\HEMesh.cc"
 				>
 			</File>
 			<File
@@ -213,23 +187,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\3D\Mesh\HEMesh.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\Mesh\TriMesh2HEMesh.cc"
-				>
-			</File>
-			<File
 				RelativePath="..\.\3D\Mesh\HEMeshFaceIter.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\3D\Mesh\VertexColourByteRGB.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\Carve3D\VoxelSet.cc"
+				RelativePath="..\.\3D\Mesh\HEMeshVertex.cc"
 				>
 			</File>
 			<File
@@ -240,30 +202,49 @@
 				RelativePath="..\.\3D\Carve3D\SurfacePoint3dArray.cc"
 				>
 			</File>
+			<File
+				RelativePath="..\.\3D\Mesh\TexTriMesh.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\Mesh\TexTriMeshBinIO.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\Mesh\Tri.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\Mesh\TriMesh.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\Mesh\TriMesh2HEMesh.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\Mesh\TriMeshBinIO.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\Mesh\Vertex.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\Mesh\VertexColourByteRGB.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\Carve3D\VoxelSet.cc"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-                        
 			<File
-				RelativePath="..\.\3D\Mesh\Vertex.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\Mesh\Tri.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\Mesh\TriMesh.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\Mesh\TexTriMesh.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\Mesh\HEMeshVertex.hh"
+				RelativePath="..\.\3D\Mesh\HEMesh.hh"
 				>
 			</File>
 			<File
@@ -275,23 +256,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\3D\Mesh\HEMesh.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\Mesh\HEMeshVertexIter.hh"
-				>
-			</File>
-			<File
 				RelativePath="..\.\3D\Mesh\HEMeshFaceIter.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\3D\Mesh\VertexColourByteRGB.hh"
+				RelativePath="..\.\3D\Mesh\HEMeshVertex.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\3D\Carve3D\VoxelSet.hh"
+				RelativePath="..\.\3D\Mesh\HEMeshVertexIter.hh"
 				>
 			</File>
 			<File
@@ -300,6 +273,30 @@
 			</File>
 			<File
 				RelativePath="..\.\3D\Carve3D\SurfacePoint3dArray.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\Mesh\TexTriMesh.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\Mesh\Tri.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\Mesh\TriMesh.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\Mesh\Vertex.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\Mesh\VertexColourByteRGB.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\Carve3D\VoxelSet.hh"
 				>
 			</File>
 		</Filter>

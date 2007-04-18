@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlVPlay"
-	ProjectGUID="{0e66ca83-2ad5-40b4-9d7a-ac3ec3413793}"
-        RootNamespace="RavlVPlay"
+	ProjectGUID="{0E66CA83-2AD5-40B4-9D7A-AC3EC3413793}"
+	RootNamespace="RavlVPlay"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlVPlay\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlVPlay\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,7 +166,6 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
-	
 	</Configurations>
 	<References>
 	</References>
@@ -175,7 +174,6 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			
 			<File
 				RelativePath="..\.\Applications\VPlay\GUIPlayControl.cc"
 				>
@@ -185,7 +183,6 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-                        
 			<File
 				RelativePath="..\.\Applications\VPlay\GUIPlayControl.hh"
 				>

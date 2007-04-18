@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlLogic"
-	ProjectGUID="{46bd35cc-f3ba-4f53-88f1-c3350642f17d}"
-        RootNamespace="RavlLogic"
+	ProjectGUID="{46BD35CC-F3BA-4F53-88F1-C3350642F17D}"
+	RootNamespace="RavlLogic"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlLogic\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlLogic\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,7 +166,6 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
-	
 	</Configurations>
 	<References>
 	</References>
@@ -175,17 +174,8 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			
 			<File
-				RelativePath="..\.\Logic\Base\Literal.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\Var.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\Unify.cc"
+				RelativePath="..\.\Logic\Base\And.cc"
 				>
 			</File>
 			<File
@@ -193,79 +183,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Logic\Base\Tuple.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\LList.cc"
-				>
-			</File>
-			<File
 				RelativePath="..\.\Logic\Base\Condition.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\MinTerm.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\Or.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\And.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\Not.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\LiteralIter.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\State.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\LiteralIter1.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\StateOrIter.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\StateSet.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\LiteralFilterIter.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\StateAndIter.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\NamedLiteral.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\NamedVar.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\LiteralIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\MinTermIter.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\Value.cc"
 				>
 			</File>
 			<File
@@ -273,51 +191,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Logic\Index\LiteralIndexBase.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Index\LiteralIndexElement.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Index\LiteralIndexLeaf.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Index\LiteralIndexNode.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Index\LiteralIndexIter.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Index\LiteralIndexFilterBase.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Index\LiteralIndexLeafIter.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Index\LiteralIndexLeafVarIter.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Index\StateIndexed.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Index\LiteralIndexFilterRaw.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\DecisionTree\DecisionTreeElement.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\DecisionTree\DecisionTreeLeaf.cc"
+				RelativePath="..\.\Logic\DecisionTree\DecisionExamples.cc"
 				>
 			</File>
 			<File
@@ -333,11 +207,99 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Logic\DecisionTree\DecisionExamples.cc"
+				RelativePath="..\.\Logic\DecisionTree\DecisionTreeElement.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\DecisionTree\DecisionTreeLeaf.cc"
 				>
 			</File>
 			<File
 				RelativePath="..\.\Logic\DecisionTree\Discriminator.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\Literal.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\LiteralFilterIter.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndexBase.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndexElement.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndexFilterBase.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndexFilterRaw.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndexIter.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndexLeaf.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndexLeafIter.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndexLeafVarIter.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndexNode.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\LiteralIO.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\LiteralIter.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\LiteralIter1.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\LList.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\MinTerm.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\MinTermIter.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\NamedLiteral.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\NamedVar.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\Not.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\Or.cc"
 				>
 			</File>
 			<File
@@ -348,154 +310,53 @@
 				RelativePath="..\.\Logic\DecisionTree\SampleState.cc"
 				>
 			</File>
+			<File
+				RelativePath="..\.\Logic\Base\State.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\StateAndIter.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\StateIndexed.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\StateOrIter.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\StateSet.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\Tuple.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\Unify.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\Value.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\Var.cc"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-                        
-			<File
-				RelativePath="..\.\Logic\Base\Literal.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\Var.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\Unify.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\BindSet.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\Tuple.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\LList.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\Condition.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\MinTerm.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\Or.hh"
-				>
-			</File>
 			<File
 				RelativePath="..\.\Logic\Base\And.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Logic\Base\Not.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\LiteralIter.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\LiteralIterWrap.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\LiteralMapIter.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\LiteralMapListIter.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\State.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\LiteralIter1.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\StateOrIter.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\StateSet.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\LiteralFilterIter.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\StateAndIter.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\NamedLiteral.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\NamedVar.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\LiteralIO.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\MinTermIter.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\Value.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Base\Context.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Index\LiteralIndexBase.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Index\LiteralIndexElement.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Index\LiteralIndexLeaf.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Index\LiteralIndexNode.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Index\LiteralIndex.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Index\LiteralIndexIter.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Index\LiteralIndexFilterBase.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Index\LiteralIndexFilter.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\Index\LiteralIndexLeafIter.hh"
+				RelativePath="..\.\Logic\Base\BindSet.hh"
 				>
 			</File>
 			<File
@@ -515,31 +376,23 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Logic\Index\LiteralIndexLeafVarIter.hh"
+				RelativePath="..\.\Logic\Base\Condition.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Logic\Index\StateIndexed.hh"
+				RelativePath="..\.\Logic\Base\Context.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Logic\Index\LiteralIndexFilterRaw.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\DecisionTree\DecisionTreeElement.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\DecisionTree\DecisionTreeLeaf.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\DecisionTree\DecisionTreeBase.hh"
+				RelativePath="..\.\Logic\DecisionTree\DecisionExamples.hh"
 				>
 			</File>
 			<File
 				RelativePath="..\.\Logic\DecisionTree\DecisionTree.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\DecisionTree\DecisionTreeBase.hh"
 				>
 			</File>
 			<File
@@ -551,11 +404,119 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Logic\DecisionTree\DecisionExamples.hh"
+				RelativePath="..\.\Logic\DecisionTree\DecisionTreeElement.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\DecisionTree\DecisionTreeLeaf.hh"
 				>
 			</File>
 			<File
 				RelativePath="..\.\Logic\DecisionTree\Discriminator.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\Literal.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\LiteralFilterIter.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndex.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndexBase.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndexElement.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndexFilter.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndexFilterBase.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndexFilterRaw.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndexIter.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndexLeaf.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndexLeafIter.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndexLeafVarIter.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\LiteralIndexNode.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\LiteralIO.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\LiteralIter.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\LiteralIter1.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\LiteralIterWrap.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\LiteralMapIter.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\LiteralMapListIter.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\LList.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\MinTerm.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\MinTermIter.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\NamedLiteral.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\NamedVar.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\Not.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\Or.hh"
 				>
 			</File>
 			<File
@@ -564,6 +525,42 @@
 			</File>
 			<File
 				RelativePath="..\.\Logic\DecisionTree\SampleState.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\State.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\StateAndIter.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Index\StateIndexed.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\StateOrIter.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\StateSet.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\Tuple.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\Unify.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\Value.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\Base\Var.hh"
 				>
 			</File>
 		</Filter>

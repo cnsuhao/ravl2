@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlHMM"
-	ProjectGUID="{8a64a980-67b9-4b6c-978c-f78067c6075c}"
-        RootNamespace="RavlHMM"
+	ProjectGUID="{8A64A980-67B9-4B6C-978C-F78067C6075C}"
+	RootNamespace="RavlHMM"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlHMM\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlHMM\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,7 +166,6 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
-	
 	</Configurations>
 	<References>
 	</References>
@@ -175,7 +174,6 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			
 			<File
 				RelativePath="..\.\PatternRec\HiddenMarkovModels\HiddenMarkovModel.cc"
 				>
@@ -185,7 +183,6 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-                        
 			<File
 				RelativePath="..\.\PatternRec\HiddenMarkovModels\HiddenMarkovModel.hh"
 				>

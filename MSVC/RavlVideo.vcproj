@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlVideo"
-	ProjectGUID="{a258fa37-33a7-4ae6-b34a-3da9219608f4}"
-        RootNamespace="RavlVideo"
+	ProjectGUID="{A258FA37-33A7-4AE6-B34A-3DA9219608F4}"
+	RootNamespace="RavlVideo"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlVideo\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlVideo\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,7 +166,6 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
-	
 	</Configurations>
 	<References>
 	</References>
@@ -175,7 +174,6 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			
 			<File
 				RelativePath="..\.\CompVision\ShotBoundary\ShotBoundHistInt.cc"
 				>
@@ -185,7 +183,6 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-                        
 			<File
 				RelativePath="..\.\CompVision\ShotBoundary\ShotBoundHistInt.hh"
 				>

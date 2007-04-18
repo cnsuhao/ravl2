@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlGUIUtil"
-	ProjectGUID="{093fe437-5675-4db0-87bb-d5a8308aa374}"
-        RootNamespace="RavlGUIUtil"
+	ProjectGUID="{093FE437-5675-4DB0-87BB-D5A8308AA374}"
+	RootNamespace="RavlGUIUtil"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlGUIUtil\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlGUIUtil\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,7 +166,6 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
-	
 	</Configurations>
 	<References>
 	</References>
@@ -175,7 +174,6 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			
 			<File
 				RelativePath="..\.\GUI\Util\AttributeEditor.cc"
 				>
@@ -185,11 +183,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\Util\ThumbNailTimeLine.cc"
+				RelativePath="..\.\GUI\Util\EventTimeLine.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\Util\EventTimeLine.cc"
+				RelativePath="..\.\GUI\Util\ThumbNailTimeLine.cc"
 				>
 			</File>
 		</Filter>
@@ -197,7 +195,6 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-                        
 			<File
 				RelativePath="..\.\GUI\Util\AttributeEditor.hh"
 				>
@@ -207,11 +204,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\Util\ThumbNailTimeLine.hh"
+				RelativePath="..\.\GUI\Util\EventTimeLine.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\Util\EventTimeLine.hh"
+				RelativePath="..\.\GUI\Util\ThumbNailTimeLine.hh"
 				>
 			</File>
 		</Filter>

@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlExtImgIO"
-	ProjectGUID="{b913855f-2eee-4d72-8b4f-97c8c683ac9c}"
-        RootNamespace="RavlExtImgIO"
+	ProjectGUID="{B913855F-2EEE-4D72-8B4F-97C8C683AC9C}"
+	RootNamespace="RavlExtImgIO"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlExtImgIO\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlExtImgIO\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,7 +166,6 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
-	
 	</Configurations>
 	<References>
 	</References>
@@ -175,31 +174,6 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			
-			<File
-				RelativePath="..\.\Image\ExternalImageIO\ImgIOJPeg.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\ExternalImageIO\JPEGFormat.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\ExternalImageIO\ImgIOPNG.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\ExternalImageIO\PNGFormat.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\ExternalImageIO\ImgIOTiff.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\ExternalImageIO\TiffFormat.cc"
-				>
-			</File>
 			<File
 				RelativePath="..\.\Image\ExternalImageIO\CompressedImageJPEG.cc"
 				>
@@ -208,22 +182,49 @@
 				RelativePath="..\.\Image\ExternalImageIO\ExtImgIO.cc"
 				>
 			</File>
+			<File
+				RelativePath="..\.\Image\ExternalImageIO\ImgIOJPeg.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ExternalImageIO\ImgIOPNG.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ExternalImageIO\ImgIOTiff.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ExternalImageIO\JPEGFormat.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ExternalImageIO\PNGFormat.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ExternalImageIO\TiffFormat.cc"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-                        
+			<File
+				RelativePath="..\.\Image\ExternalImageIO\CompressedImageJPEG.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ExternalImageIO\ExtImgIO.hh"
+				>
+			</File>
 			<File
 				RelativePath="..\.\Image\ExternalImageIO\ImgIOJPeg.hh"
 				>
 			</File>
 			<File
 				RelativePath="..\.\Image\ExternalImageIO\ImgIOJPegB.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\ExternalImageIO\JPEGFormat.hh"
 				>
 			</File>
 			<File
@@ -235,10 +236,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\ExternalImageIO\PNGFormat.hh"
-				>
-			</File>
-			<File
 				RelativePath="..\.\Image\ExternalImageIO\ImgIOTiff.hh"
 				>
 			</File>
@@ -247,15 +244,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\.\Image\ExternalImageIO\JPEGFormat.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ExternalImageIO\PNGFormat.hh"
+				>
+			</File>
+			<File
 				RelativePath="..\.\Image\ExternalImageIO\TiffFormat.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\ExternalImageIO\ExtImgIO.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\ExternalImageIO\CompressedImageJPEG.hh"
 				>
 			</File>
 		</Filter>

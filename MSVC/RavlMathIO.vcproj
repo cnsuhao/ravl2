@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlMathIO"
-	ProjectGUID="{5da1aea5-6ab1-4841-9914-e1c762626970}"
-        RootNamespace="RavlMathIO"
+	ProjectGUID="{5DA1AEA5-6AB1-4841-9914-E1C762626970}"
+	RootNamespace="RavlMathIO"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlMathIO\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlMathIO\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,7 +166,6 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
-	
 	</Configurations>
 	<References>
 	</References>
@@ -175,13 +174,8 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			
 			<File
-				RelativePath="..\.\Math\IO\FixedVectorIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\IO\FixedPointIO.cc"
+				RelativePath="..\.\Math\IO\BoundryIO.cc"
 				>
 			</File>
 			<File
@@ -189,15 +183,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Math\IO\BoundryIO.cc"
+				RelativePath="..\.\Math\IO\FixedPointIO.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Math\IO\MatrixIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\IO\TMatrixIO.cc"
+				RelativePath="..\.\Math\IO\FixedVectorIO.cc"
 				>
 			</File>
 			<File
@@ -208,12 +198,19 @@
 				RelativePath="..\.\Math\IO\MathIO.cc"
 				>
 			</File>
+			<File
+				RelativePath="..\.\Math\IO\MatrixIO.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\IO\TMatrixIO.cc"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-                        
 			<File
 				RelativePath="..\.\Math\IO\MathIO.hh"
 				>

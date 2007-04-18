@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlThreads"
-	ProjectGUID="{efed3ac0-d73c-4044-8755-3c04176968f0}"
-        RootNamespace="RavlThreads"
+	ProjectGUID="{EFED3AC0-D73C-4044-8755-3C04176968F0}"
+	RootNamespace="RavlThreads"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlThreads\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlThreads\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,7 +166,6 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
-	
 	</Configurations>
 	<References>
 	</References>
@@ -175,13 +174,8 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			
 			<File
-				RelativePath="..\.\OS\Threads\Posix\Thread.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Threads\Posix\Mutex.cc"
+				RelativePath="..\.\OS\Threads\Posix\AMutexImpl.cc"
 				>
 			</File>
 			<File
@@ -189,31 +183,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Threads\Posix\Semaphore.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Threads\Posix\RWLock.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Threads\Posix\SemaphoreRC.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Threads\Posix\MTLockImpl.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Threads\Posix\ThreadEvent.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Threads\Posix\AMutexImpl.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Threads\Posix\RCRWLock.cc"
+				RelativePath="..\.\OS\Threads\Tools\LaunchThread.cc"
 				>
 			</File>
 			<File
@@ -221,15 +191,27 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Threads\Tools\LaunchThread.cc"
+				RelativePath="..\.\OS\Threads\Posix\MTLockImpl.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Threads\Tools\TickerTrigger.cc"
+				RelativePath="..\.\OS\Threads\Posix\Mutex.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Threads\Tools\TimedTriggerQueue.cc"
+				RelativePath="..\.\OS\Threads\Posix\RCRWLock.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Threads\Posix\RWLock.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Threads\Posix\Semaphore.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Threads\Posix\SemaphoreRC.cc"
 				>
 			</File>
 			<File
@@ -240,46 +222,29 @@
 				RelativePath="..\.\OS\Threads\Tools\SignalConnectionSet.cc"
 				>
 			</File>
+			<File
+				RelativePath="..\.\OS\Threads\Posix\Thread.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Threads\Posix\ThreadEvent.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Threads\Tools\TickerTrigger.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Threads\Tools\TimedTriggerQueue.cc"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-                        
-			<File
-				RelativePath="..\.\OS\Threads\Posix\Thread.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Threads\Posix\Mutex.hh"
-				>
-			</File>
 			<File
 				RelativePath="..\.\OS\Threads\Posix\ConditionalMutex.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Threads\Posix\Semaphore.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Threads\Posix\RWLock.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Threads\Posix\SemaphoreRC.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Threads\Posix\ThreadEvent.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Threads\Posix\RCRWLock.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Threads\Tools\MessageQueue.hh"
 				>
 			</File>
 			<File
@@ -287,11 +252,31 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Threads\Tools\TickerTrigger.hh"
+				RelativePath="..\.\OS\Threads\Tools\MessageQueue.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Threads\Tools\TimedTriggerQueue.hh"
+				RelativePath="..\.\OS\Threads\Tools\MTPriQueueL.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Threads\Posix\Mutex.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Threads\Posix\RCRWLock.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Threads\Posix\RWLock.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Threads\Posix\Semaphore.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Threads\Posix\SemaphoreRC.hh"
 				>
 			</File>
 			<File
@@ -315,7 +300,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Threads\Tools\MTPriQueueL.hh"
+				RelativePath="..\.\OS\Threads\Posix\Thread.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Threads\Posix\ThreadEvent.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Threads\Tools\TickerTrigger.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Threads\Tools\TimedTriggerQueue.hh"
 				>
 			</File>
 		</Filter>

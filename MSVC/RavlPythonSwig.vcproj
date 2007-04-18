@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlPythonSwig"
-	ProjectGUID="{9fd175b7-204f-46a0-bbc1-7498394f8509}"
-        RootNamespace="RavlPythonSwig"
+	ProjectGUID="{9FD175B7-204F-46A0-BBC1-7498394F8509}"
+	RootNamespace="RavlPythonSwig"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -24,8 +24,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="
-if not exist C:\Build\\share\Python\NUL mkdir C:\Build\\share\Python&#x0D;&#x0A;copy ..\.\Contrib\Swig\Ravl.py C:\Build\\share\Python\Ravl.py&#x0D;&#x0A;"
+				CommandLine="if not exist C:\Build\\share\Python\NUL mkdir C:\Build\\share\Python&#x0D;&#x0A;copy ..\.\Contrib\Swig\Ravl.py C:\Build\\share\Python\Ravl.py&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -103,8 +102,7 @@ if not exist C:\Build\\share\Python\NUL mkdir C:\Build\\share\Python&#x0D;&#x0A;
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="
-if not exist C:\Build\\share\Python\NUL mkdir C:\Build\\share\Python&#x0D;&#x0A;copy ..\.\Contrib\Swig\Ravl.py C:\Build\\share\Python\Ravl.py&#x0D;&#x0A;"
+				CommandLine="if not exist C:\Build\\share\Python\NUL mkdir C:\Build\\share\Python&#x0D;&#x0A;copy ..\.\Contrib\Swig\Ravl.py C:\Build\\share\Python\Ravl.py&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -133,8 +131,8 @@ if not exist C:\Build\\share\Python\NUL mkdir C:\Build\\share\Python&#x0D;&#x0A;
 				ObjectFile="C:\Build\win32\opt\obj\RavlPythonSwig\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlPythonSwig\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -170,7 +168,6 @@ if not exist C:\Build\\share\Python\NUL mkdir C:\Build\\share\Python&#x0D;&#x0A;
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
-	
 	</Configurations>
 	<References>
 	</References>
@@ -179,7 +176,6 @@ if not exist C:\Build\\share\Python\NUL mkdir C:\Build\\share\Python&#x0D;&#x0A;
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			
 			<File
 				RelativePath="..\.\Contrib\Swig\Ravl.i"
 				>
@@ -189,29 +185,8 @@ if not exist C:\Build\\share\Python\NUL mkdir C:\Build\\share\Python&#x0D;&#x0A;
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-                        
 			<File
-				RelativePath="..\.\Contrib\Swig\Types.i"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Contrib\Swig\Point2d.i"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Contrib\Swig\Polygon2d.i"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Contrib\Swig\Image.i"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Contrib\Swig\IndexRange2d.i"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Contrib\Swig\Index2d.i"
+				RelativePath="..\.\Contrib\Swig\Affine2d.i"
 				>
 			</File>
 			<File
@@ -219,27 +194,7 @@ if not exist C:\Build\\share\Python\NUL mkdir C:\Build\\share\Python&#x0D;&#x0A;
 				>
 			</File>
 			<File
-				RelativePath="..\.\Contrib\Swig\Index.i"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Contrib\Swig\String.i"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Contrib\Swig\IO.i"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Contrib\Swig\Font.i"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Contrib\Swig\SArray1d.i"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Contrib\Swig\Affine2d.i"
+				RelativePath="..\.\Contrib\Swig\Date.i"
 				>
 			</File>
 			<File
@@ -247,11 +202,43 @@ if not exist C:\Build\\share\Python\NUL mkdir C:\Build\\share\Python&#x0D;&#x0A;
 				>
 			</File>
 			<File
-				RelativePath="..\.\Contrib\Swig\Date.i"
+				RelativePath="..\.\Contrib\Swig\Font.i"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Contrib\Swig\Hash.i"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Contrib\Swig\Image.i"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Contrib\Swig\Index.i"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Contrib\Swig\Index2d.i"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Contrib\Swig\IndexRange2d.i"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Contrib\Swig\IO.i"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Contrib\Swig\Point2d.i"
 				>
 			</File>
 			<File
 				RelativePath="..\.\Contrib\Swig\PointSet2d.i"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Contrib\Swig\Polygon2d.i"
 				>
 			</File>
 			<File
@@ -263,7 +250,15 @@ if not exist C:\Build\\share\Python\NUL mkdir C:\Build\\share\Python&#x0D;&#x0A;
 				>
 			</File>
 			<File
-				RelativePath="..\.\Contrib\Swig\Hash.i"
+				RelativePath="..\.\Contrib\Swig\SArray1d.i"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Contrib\Swig\String.i"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Contrib\Swig\Types.i"
 				>
 			</File>
 		</Filter>

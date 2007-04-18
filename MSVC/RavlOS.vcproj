@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlOS"
-	ProjectGUID="{355df368-8f99-45d6-9655-eacbed33f6ff}"
-        RootNamespace="RavlOS"
+	ProjectGUID="{355DF368-8F99-45D6-9655-EACBED33F6FF}"
+	RootNamespace="RavlOS"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlOS\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlOS\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,7 +166,6 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
-	
 	</Configurations>
 	<References>
 	</References>
@@ -175,7 +174,22 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			
+			<File
+				RelativePath="..\.\OS\Exec\ChildOSProcess.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Exec\ChildOSProcessStream.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Exec\ChildOSProcessWait.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Text\ConfigFile.cc"
+				>
+			</File>
 			<File
 				RelativePath="..\.\OS\Time\Date.cc"
 				>
@@ -189,7 +203,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\FileSystem\FilePermission.cc"
+				RelativePath="..\.\OS\FileSystem\Directory.cc"
 				>
 			</File>
 			<File
@@ -197,7 +211,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\FileSystem\Directory.cc"
+				RelativePath="..\.\OS\FileSystem\FileOwner.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\FileSystem\FilePermission.cc"
 				>
 			</File>
 			<File
@@ -205,15 +223,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\FileSystem\UserInfo.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\FileSystem\FileOwner.cc"
-				>
-			</File>
-			<File
 				RelativePath="..\.\OS\FileSystem\FileStream.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Exec\FileUser.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Exec\MailUser.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Exec\OSProcess.cc"
 				>
 			</File>
 			<File
@@ -225,43 +247,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Exec\OSProcess.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Exec\ChildOSProcess.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Exec\ChildOSProcessWait.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Exec\ChildOSProcessStream.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Exec\MailUser.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Exec\FileUser.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Text\TextFileLine.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Text\TextBuffer.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Text\TextFile.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Text\TextCursor.cc"
+				RelativePath="..\.\OS\Text\TemplateComplex.cc"
 				>
 			</File>
 			<File
@@ -269,15 +255,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\.\OS\Text\TextBuffer.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Text\TextCursor.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Text\TextFile.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Text\TextFileLine.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\OS\Text\TextFragment.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Text\ConfigFile.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Text\TemplateComplex.cc"
+				RelativePath="..\.\OS\FileSystem\UserInfo.cc"
 				>
 			</File>
 		</Filter>
@@ -285,7 +283,14 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-                        
+			<File
+				RelativePath="..\.\OS\Exec\ChildOSProcess.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Text\ConfigFile.hh"
+				>
+			</File>
 			<File
 				RelativePath="..\.\OS\Time\Date.hh"
 				>
@@ -295,27 +300,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\FileSystem\FilePermission.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\FileSystem\Filename.hh"
-				>
-			</File>
-			<File
 				RelativePath="..\.\OS\FileSystem\Directory.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\FileSystem\UserInfo.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\FileSystem\FileStream.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Misc\SerialIO.hh"
 				>
 			</File>
 			<File
@@ -323,7 +308,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Misc\SysLog.hh"
+				RelativePath="..\.\OS\FileSystem\Filename.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\FileSystem\FilePermission.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\FileSystem\FileStream.hh"
 				>
 			</File>
 			<File
@@ -331,23 +324,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Exec\ChildOSProcess.hh"
+				RelativePath="..\.\OS\Misc\SerialIO.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Text\TextFileLine.hh"
+				RelativePath="..\.\OS\Misc\SysLog.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Text\TextBuffer.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Text\TextFile.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Text\TextCursor.hh"
+				RelativePath="..\.\OS\Text\TemplateComplex.hh"
 				>
 			</File>
 			<File
@@ -355,15 +340,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\.\OS\Text\TextBuffer.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Text\TextCursor.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Text\TextFile.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Text\TextFileLine.hh"
+				>
+			</File>
+			<File
 				RelativePath="..\.\OS\Text\TextFragment.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\Text\ConfigFile.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\Text\TemplateComplex.hh"
+				RelativePath="..\.\OS\FileSystem\UserInfo.hh"
 				>
 			</File>
 		</Filter>

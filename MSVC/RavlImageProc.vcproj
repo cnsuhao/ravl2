@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlImageProc"
-	ProjectGUID="{f72bd711-8a68-47d6-a0bb-85385ce75221}"
-        RootNamespace="RavlImageProc"
+	ProjectGUID="{F72BD711-8A68-47D6-A0BB-85385CE75221}"
+	RootNamespace="RavlImageProc"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlImageProc\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlImageProc\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,7 +166,6 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
-	
 	</Configurations>
 	<References>
 	</References>
@@ -175,101 +174,8 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			
 			<File
-				RelativePath="..\.\Image\Processing\Tools\Rectangle2dIter.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Tools\SobolImage.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Tools\PyramidScan.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Tools\ImagePointFeatureSet.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Tools\ImagePointFeature.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\HomomorphicFilter.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\Correlate2d.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\Matching.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\WarpThinPlateSpline.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\GaborFilter2d.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\DCT2d.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\DeinterlaceStream.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\WarpMesh2d.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Edges\EdgeSobel.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Edges\EdgeDeriche.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Edges\SqrComposition.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Edges\EdgeNonMaxSuppression.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Edges\Edgel.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Edges\EdgeLink.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Edges\EdgeDetector.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Edges\EdgeIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Segmentation\ChromaThreshold.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Segmentation\Segmentation.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Segmentation\ConnectedComponents.cc"
+				RelativePath="..\.\Image\Processing\Lines\ArcDetector.cc"
 				>
 			</File>
 			<File
@@ -277,39 +183,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Segmentation\SegmentExtrema.cc"
+				RelativePath="..\.\Image\Processing\Segmentation\ChromaThreshold.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Segmentation\PixelSelectStack.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Lines\PixelMap.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Lines\PixelMapSearch.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Lines\PCPixel.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Lines\PCPixelList.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Lines\PCMapping.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Lines\PPHT.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Lines\ArcDetector.cc"
+				RelativePath="..\.\Image\Processing\Segmentation\ConnectedComponents.cc"
 				>
 			</File>
 			<File
@@ -329,43 +207,43 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Motion\LMSGradient\LMSOpticFlow.cc"
+				RelativePath="..\.\Image\Processing\Filters\Correlate2d.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Motion\LMSGradient\LMSMultiScaleMotion.cc"
+				RelativePath="..\.\Image\Processing\Filters\DCT2d.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Motion\LMSGradient\LMSRegionMotion.cc"
+				RelativePath="..\.\Image\Processing\Filters\DeinterlaceStream.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Tracking\PointTrack.cc"
+				RelativePath="..\.\Image\Processing\Edges\EdgeDeriche.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Tracking\PointTrackModel.cc"
+				RelativePath="..\.\Image\Processing\Edges\EdgeDetector.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Tracking\PointTracker.cc"
+				RelativePath="..\.\Image\Processing\Edges\EdgeIO.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Tracking\MosaicBuilder.cc"
+				RelativePath="..\.\Image\Processing\Edges\Edgel.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Tracking\ImageTracker.cc"
+				RelativePath="..\.\Image\Processing\Edges\EdgeLink.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Tracking\ImageMatcher.cc"
+				RelativePath="..\.\Image\Processing\Edges\EdgeNonMaxSuppression.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Tracking\MatchNormalisedCorrelation.cc"
+				RelativePath="..\.\Image\Processing\Edges\EdgeSobel.cc"
 				>
 			</File>
 			<File
@@ -373,7 +251,127 @@
 				>
 			</File>
 			<File
+				RelativePath="..\.\Image\Processing\Filters\GaborFilter2d.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\HomomorphicFilter.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tracking\ImageMatcher.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tools\ImagePointFeature.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tools\ImagePointFeatureSet.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tracking\ImageTracker.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Motion\LMSGradient\LMSMultiScaleMotion.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Motion\LMSGradient\LMSOpticFlow.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Motion\LMSGradient\LMSRegionMotion.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\Matching.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tracking\MatchNormalisedCorrelation.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tracking\MosaicBuilder.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Lines\PCMapping.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Lines\PCPixel.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Lines\PCPixelList.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Lines\PixelMap.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Lines\PixelMapSearch.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Segmentation\PixelSelectStack.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tracking\PointTrack.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tracking\PointTracker.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tracking\PointTrackModel.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Lines\PPHT.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tools\PyramidScan.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tools\Rectangle2dIter.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Segmentation\Segmentation.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Segmentation\SegmentExtrema.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tools\SobolImage.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Edges\SqrComposition.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\Image\Processing\Tracking\TrackingHomog.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\WarpMesh2d.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\WarpThinPlateSpline.cc"
 				>
 			</File>
 		</Filter>
@@ -381,69 +379,8 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-                        
 			<File
-				RelativePath="..\.\Image\Processing\Tools\Rectangle2dIter.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Tools\SobolImage.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Tools\SubSample.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Tools\SummedAreaTable.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Tools\SummedAreaTable2.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Tools\PyramidScan.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Tools\PeakDetector.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Tools\ImagePointFeatureSet.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Tools\ImagePointFeature.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Tools\TakeSubImage.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\Convolve2d.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\ConvolveSeparable2d.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\ConvolveHorz2d.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\ConvolveVert2d.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\GaussConvolve2d.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\GaussConvolve.hh"
+				RelativePath="..\.\Image\Processing\Lines\ArcDetector.hh"
 				>
 			</File>
 			<File
@@ -451,127 +388,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Filters\Correlate2d.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\NormalisedCorrelation.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\GaborFilter2d.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\GabourFilter2d.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\HomomorphicFilter.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\HistogramEqualise.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\Matching.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\WarpScale.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\WarpAffine.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\WarpProjective.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\PixelMixer.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\RemoveDistortion.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\WarpThinPlateSpline.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\SpatialDifference.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\SumRectangles.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\DeinterlaceStream.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\DCT2d.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\ImageExtend.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\ImagePyramid.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\WarpMesh2d.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Edges\EdgeSobel.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Edges\EdgeDeriche.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Edges\SqrComposition.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Edges\EdgeNonMaxSuppression.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Edges\Edgel.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Edges\EdgeLink.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Edges\EdgeDetector.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Edges\Gradient.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Segmentation\Segmentation.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Segmentation\RegionSet.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Segmentation\ConnectedComponents.hh"
+				RelativePath="..\.\Image\Processing\Segmentation\BlueScreen.hh"
 				>
 			</File>
 			<File
@@ -579,91 +396,23 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Segmentation\BlueScreen.hh"
+				RelativePath="..\.\Image\Processing\Segmentation\ConnectedComponents.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Segmentation\SegmentExtrema.hh"
+				RelativePath="..\.\Image\Processing\Filters\Convolve2d.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Segmentation\FloodRegion.hh"
+				RelativePath="..\.\Image\Processing\Filters\ConvolveHorz2d.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Segmentation\SegmentRegion.hh"
+				RelativePath="..\.\Image\Processing\Filters\ConvolveSeparable2d.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Segmentation\RegionGrow.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Segmentation\RegionGrowSteal.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Segmentation\PixelSelectStack.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Segmentation\PixelClassifyGrey.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Segmentation\PixelClassifyColour.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Segmentation\PixelClassifyMotion.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Morphology\Erode.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Morphology\Dilate.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Morphology\DilateSubSample2X.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Morphology\MorphOpen.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Morphology\MorphClose.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Lines\PixelMap.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Lines\PixelMapSearch.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Lines\PCPixel.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Lines\PCPixelList.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Lines\PCMapping.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Lines\PPHT.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Lines\ArcDetector.hh"
+				RelativePath="..\.\Image\Processing\Filters\ConvolveVert2d.hh"
 				>
 			</File>
 			<File
@@ -683,47 +432,55 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Motion\LMSGradient\LMSOpticFlow.hh"
+				RelativePath="..\.\Image\Processing\Filters\Correlate2d.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Motion\LMSGradient\LMSMultiScaleMotion.hh"
+				RelativePath="..\.\Image\Processing\Filters\DCT2d.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Motion\LMSGradient\LMSRegionMotion.hh"
+				RelativePath="..\.\Image\Processing\Filters\DeinterlaceStream.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Tracking\PointTrack.hh"
+				RelativePath="..\.\Image\Processing\Morphology\Dilate.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Tracking\PointTrackModel.hh"
+				RelativePath="..\.\Image\Processing\Morphology\DilateSubSample2X.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Tracking\PointTracker.hh"
+				RelativePath="..\.\Image\Processing\Edges\EdgeDeriche.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Tracking\MosaicBuilder.hh"
+				RelativePath="..\.\Image\Processing\Edges\EdgeDetector.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Tracking\MatchPatch.hh"
+				RelativePath="..\.\Image\Processing\Edges\Edgel.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Tracking\ImageTracker.hh"
+				RelativePath="..\.\Image\Processing\Edges\EdgeLink.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Tracking\ImageMatcher.hh"
+				RelativePath="..\.\Image\Processing\Edges\EdgeNonMaxSuppression.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Processing\Tracking\MatchNormalisedCorrelation.hh"
+				RelativePath="..\.\Image\Processing\Edges\EdgeSobel.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Morphology\Erode.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Segmentation\FloodRegion.hh"
 				>
 			</File>
 			<File
@@ -731,7 +488,247 @@
 				>
 			</File>
 			<File
+				RelativePath="..\.\Image\Processing\Filters\GaborFilter2d.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\GabourFilter2d.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\GaussConvolve.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\GaussConvolve2d.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Edges\Gradient.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\HistogramEqualise.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\HomomorphicFilter.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\ImageExtend.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tracking\ImageMatcher.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tools\ImagePointFeature.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tools\ImagePointFeatureSet.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\ImagePyramid.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tracking\ImageTracker.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Motion\LMSGradient\LMSMultiScaleMotion.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Motion\LMSGradient\LMSOpticFlow.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Motion\LMSGradient\LMSRegionMotion.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\Matching.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tracking\MatchNormalisedCorrelation.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tracking\MatchPatch.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Morphology\MorphClose.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Morphology\MorphOpen.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tracking\MosaicBuilder.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\NormalisedCorrelation.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Lines\PCMapping.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Lines\PCPixel.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Lines\PCPixelList.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tools\PeakDetector.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Segmentation\PixelClassifyColour.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Segmentation\PixelClassifyGrey.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Segmentation\PixelClassifyMotion.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Lines\PixelMap.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Lines\PixelMapSearch.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\PixelMixer.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Segmentation\PixelSelectStack.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tracking\PointTrack.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tracking\PointTracker.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tracking\PointTrackModel.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Lines\PPHT.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tools\PyramidScan.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tools\Rectangle2dIter.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Segmentation\RegionGrow.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Segmentation\RegionGrowSteal.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Segmentation\RegionSet.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\RemoveDistortion.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Segmentation\Segmentation.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Segmentation\SegmentExtrema.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Segmentation\SegmentRegion.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tools\SobolImage.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\SpatialDifference.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Edges\SqrComposition.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tools\SubSample.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tools\SummedAreaTable.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tools\SummedAreaTable2.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\SumRectangles.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Tools\TakeSubImage.hh"
+				>
+			</File>
+			<File
 				RelativePath="..\.\Image\Processing\Tracking\TrackingHomog.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\WarpAffine.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\WarpMesh2d.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\WarpProjective.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\WarpScale.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Processing\Filters\WarpThinPlateSpline.hh"
 				>
 			</File>
 		</Filter>
