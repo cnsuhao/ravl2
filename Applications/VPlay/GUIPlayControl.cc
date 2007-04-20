@@ -11,7 +11,7 @@
 
 #include "Ravl/Tuple2.hh"
 #include "Ravl/GUI/Frame.hh"
-#include "Ravl/VPlay/GUIPlayControl.hh"
+#include "Ravl/GUI/GUIPlayControl.hh"
 #include "Ravl/GUI/Button.hh"
 #include "Ravl/GUI/Pixmap.hh"
 #include "Ravl/GUI/Slider.hh"
