@@ -18,7 +18,7 @@ HEADERS = GUIPlayControl.hh
 
 SOURCES = GUIPlayControl.cc
 
-PACKAGE = Ravl/VPlay
+PACKAGE = Ravl/GUI
 
 MAINS= VPlay.cc VCopy.cc
 
