@@ -26,20 +26,27 @@
 UNAME_MACHINE=`(uname -m) 2>/dev/null` || UNAME_MACHINE=unknown
 UNAME_SYSTEM=`(uname -s) 2>/dev/null` || UNAME_SYSTEM=unknown
 UNAME_RELEASE=`(uname -r) 2>/dev/null` || UNAME_RELEASE=unknown
-# Note: order is significant - the case branches are not exclusive.
 
-case "${UNAME_MACHINE}:${UNAME_SYSTEM}:${UNAME_RELEASE}" in
+# Note: order is significant - the case branches are not exclusive.
+ID="${UNAME_MACHINE}:${UNAME_SYSTEM}:${UNAME_RELEASE}"
+case $ID in
     *:IRIX64:*)
 	echo "sgi" ;
 	exit 0 ;;
-    sun4*:SunOS:5.7)
-	echo "sol2_7"
-	exit 0 ;;
     sun4*:SunOS:5.9)
 	echo "sol2_9"
+	exit 0 ;; 
+    i*86:Linux:*.fc6)
+	echo "fc6_32"
+	exit 0 ;;
+    i*86:Linux:2.6.11*)
+	echo "linux_glibc23"
 	exit 0 ;;
     i*86:Linux:*)
 	echo "linux"
+	exit 0 ;;
+    x86_64:Linux:*.fc6)
+	echo "fc6_64"
 	exit 0 ;;
     x86_64:Linux:*)
 	echo "linux64"
@@ -58,7 +65,7 @@ case "${UNAME_MACHINE}:${UNAME_SYSTEM}:${UNAME_RELEASE}" in
 	exit 0 ;;
     *:*:*)
 	echo "unknown"
-	echo "Unknown machine '${UNAME_MACHINE}:${UNAME_SYSTEM}:${UNAME_RELEASE}' " >&2
+	echo "Unknown machine $ID " >&2
 	exit 0 ;;
 esac
 
