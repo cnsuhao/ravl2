@@ -35,18 +35,9 @@ case $ID in
 	exit 0 ;;
     sun4*:SunOS:5.9)
 	echo "sol2_9"
-	exit 0 ;; 
-    i*86:Linux:*.fc6)
-	echo "fc6_32"
-	exit 0 ;;
-    i*86:Linux:2.6.11*)
-	echo "linux_glibc23"
 	exit 0 ;;
     i*86:Linux:*)
 	echo "linux"
-	exit 0 ;;
-    x86_64:Linux:*.fc6)
-	echo "fc6_64"
 	exit 0 ;;
     x86_64:Linux:*)
 	echo "linux64"
