@@ -40,7 +40,7 @@ namespace RavlImageN {
   class WarpScaleC
   {
   public:
-    WarpScaleC(const ImageRectangleC &ir, ScaleMethodT meth = WARPSCALE_BILINEAR)
+    WarpScaleC(const ImageRectangleC &or, ScaleMethodT meth = WARPSCALE_BILINEAR)
       : rec(ir),
 	method(meth)
     {}
