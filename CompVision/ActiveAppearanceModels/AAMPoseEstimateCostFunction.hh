@@ -21,8 +21,8 @@ namespace RavlImageN {
   //! userlevel=Develop
   //: Cost function measuring the residual error between a given appearance and the appearance predicted by the statistical model of pose for a given pose value.
   // The cost function defined is:
-  // <p><i>d(theta, phi) = || _C-(_C0 + _CT cos(theta) + _ST sin(theta) + _CP cos(phi) + _SP sin(phi) + _CTCP cos(theta) cos(phi) + _CTSP cos(theta) sin(phi) + _STCP sin(theta) cos(phi) + _STSP sin(theta) sin(phi) ||</i>,</p>
-  // where '_C0', '_CT', '_ST', '_CP', '_SP', '_CTCP', '_CTSP', '_STCP', '_STSP' are vectors defining the statitical model of pose variation and '_C' is the parameter vector representing the given appearance. The pose is represented by the pan angle 'theta' and the tilt angle 'phi'; both values are expressed in radians.
+  // <p><i>d(theta, phi) = || p_C-(p_C0 + p_CT cos(theta) + p_ST sin(theta) + p_CP cos(phi) + p_SP sin(phi) + p_CTCP cos(theta) cos(phi) + p_CTSP cos(theta) sin(phi) + p_STCP sin(theta) cos(phi) + p_STSP sin(theta) sin(phi) ||</i>,</p>
+  // where 'p_C0', 'p_CT', 'p_ST', 'p_CP', 'p_SP', 'p_CTCP', 'p_CTSP', 'p_STCP', 'p_STSP' are vectors defining the statitical model of pose variation and 'p_C' is the parameter vector representing the given appearance. The pose is represented by the pan angle 'theta' and the tilt angle 'phi'; both values are expressed in radians.
 
   class AAMPoseEstimateCostFunctionBodyC: public CostBodyC
   {
@@ -31,29 +31,29 @@ namespace RavlImageN {
     AAMPoseEstimateCostFunctionBodyC (const ParametersC &parameters, const VectorC &C0, const VectorC &CT, const VectorC &ST, const VectorC &CP, const VectorC &SP, const VectorC &CTCP, const VectorC &CTSP, const VectorC &STCP, const VectorC &STSP, const VectorC &C);
     //: Constructor.
     //!param: parameters - Parameters of the cost function.
-    //!param: C0 - Input value for _C0.
-    //!param: CT - Input value for _CT.
-    //!param: ST - Input value for _ST.
-    //!param: CP - Input value for _CP.
-    //!param: SP - Input value for _SP.
-    //!param: CTCP - Input value for _CTCP.
-    //!param: CTSP - Input value for _CTSP.
-    //!param: STCP - Input value for _STCP.
-    //!param: STSP - Input value for _STSP.
-    //!param: C - Input value for _C.
+    //!param: C0 - Input value for p_C0.
+    //!param: CT - Input value for p_CT.
+    //!param: ST - Input value for p_ST.
+    //!param: CP - Input value for p_CP.
+    //!param: SP - Input value for p_SP.
+    //!param: CTCP - Input value for p_CTCP.
+    //!param: CTSP - Input value for p_CTSP.
+    //!param: STCP - Input value for p_STCP.
+    //!param: STSP - Input value for p_STSP.
+    //!param: C - Input value for p_C.
     // This defines the cost function as defined above.
 
   protected:
-    VectorC _C0;
-    VectorC _CT;
-    VectorC _ST;
-    VectorC _CP;
-    VectorC _SP;
-    VectorC _CTCP;
-    VectorC _CTSP;
-    VectorC _STCP;
-    VectorC _STSP;
-    VectorC _C;
+    VectorC p_C0;
+    VectorC p_CT;
+    VectorC p_ST;
+    VectorC p_CP;
+    VectorC p_SP;
+    VectorC p_CTCP;
+    VectorC p_CTSP;
+    VectorC p_STCP;
+    VectorC p_STSP;
+    VectorC p_C;
 
     virtual VectorC Apply (const VectorC &X) const;
     //: Evaluate cost function at pose vector 'X'.
@@ -68,8 +68,8 @@ namespace RavlImageN {
   //! userlevel=Advanced
   //: Cost function measuring the residual error between a given appearance and the appearance predicted by the statistical model of pose for a given pose value.
   // The cost function defined is:
-  // <p><i>d(theta, phi) = || _C-(_C0 + _CT cos(theta) + _ST sin(theta) + _CP cos(phi) + _SP sin(phi) + _CTCP cos(theta) cos(phi) + _CTSP cos(theta) sin(phi) + _STCP sin(theta) cos(phi) + _STSP sin(theta) sin(phi) ||</i>,</p>
-  // where '_C0', '_CT', '_ST', '_CP', '_SP', '_CTCP', '_CTSP', '_STCP', '_STSP' are vectors defining the statitical model of pose variation and '_C' is the parameter vector representing the given appearance. The pose is represented by the pan angle 'theta' and the tilt angle 'phi'; both values are expressed in radians.
+  // <p><i>d(theta, phi) = || p_C-(p_C0 + p_CT cos(theta) + p_ST sin(theta) + p_CP cos(phi) + p_SP sin(phi) + p_CTCP cos(theta) cos(phi) + p_CTSP cos(theta) sin(phi) + p_STCP sin(theta) cos(phi) + p_STSP sin(theta) sin(phi) ||</i>,</p>
+  // where 'p_C0', 'p_CT', 'p_ST', 'p_CP', 'p_SP', 'p_CTCP', 'p_CTSP', 'p_STCP', 'p_STSP' are vectors defining the statitical model of pose variation and 'p_C' is the parameter vector representing the given appearance. The pose is represented by the pan angle 'theta' and the tilt angle 'phi'; both values are expressed in radians.
 
   class AAMPoseEstimateCostFunctionC: public CostC
   {
@@ -78,16 +78,16 @@ namespace RavlImageN {
       :CostC(*(new AAMPoseEstimateCostFunctionBodyC (parameters, C0, CT, ST, CP, SP, CTCP, CTSP, STCP, STSP, C))) {}
     //: Constructor.
     //!param: parameters - Parameters of the cost function.
-    //!param: C0 - Input value for _C0.
-    //!param: CT - Input value for _CT.
-    //!param: ST - Input value for _ST.
-    //!param: CP - Input value for _CP.
-    //!param: SP - Input value for _SP.
-    //!param: CTCP - Input value for _CTCP.
-    //!param: CTSP - Input value for _CTSP.
-    //!param: STCP - Input value for _STCP.
-    //!param: STSP - Input value for _STSP.
-    //!param: C - Input value for _C.
+    //!param: C0 - Input value for p_C0.
+    //!param: CT - Input value for p_CT.
+    //!param: ST - Input value for p_ST.
+    //!param: CP - Input value for p_CP.
+    //!param: SP - Input value for p_SP.
+    //!param: CTCP - Input value for p_CTCP.
+    //!param: CTSP - Input value for p_CTSP.
+    //!param: STCP - Input value for p_STCP.
+    //!param: STSP - Input value for p_STSP.
+    //!param: C - Input value for p_C.
     // This defines the cost function as defined above.
   };
 

@@ -24,29 +24,29 @@ namespace RavlImageN {
 
   //: Constructor.
   //!param: parameters - Parameters of the cost function.
-  //!param: C0 - Input value for _C0.
-  //!param: CT - Input value for _CT.
-  //!param: ST - Input value for _ST.
-  //!param: CP - Input value for _CP.
-  //!param: SP - Input value for _SP.
-  //!param: CTCP - Input value for _CTCP.
-  //!param: CTSP - Input value for _CTSP.
-  //!param: STCP - Input value for _STCP.
-  //!param: STSP - Input value for _STSP.
-  //!param: C - Input value for _C.
+  //!param: C0 - Input value for p_C0.
+  //!param: CT - Input value for p_CT.
+  //!param: ST - Input value for p_ST.
+  //!param: CP - Input value for p_CP.
+  //!param: SP - Input value for p_SP.
+  //!param: CTCP - Input value for p_CTCP.
+  //!param: CTSP - Input value for p_CTSP.
+  //!param: STCP - Input value for p_STCP.
+  //!param: STSP - Input value for p_STSP.
+  //!param: C - Input value for p_C.
   // This defines the cost function as defined above.
   AAMPoseEstimateCostFunctionBodyC::AAMPoseEstimateCostFunctionBodyC (const ParametersC &parameters, const VectorC &C0, const VectorC &CT, const VectorC &ST, const VectorC &CP, const VectorC &SP, const VectorC &CTCP, const VectorC &CTSP, const VectorC &STCP, const VectorC &STSP, const VectorC &C)
     :CostBodyC(parameters),
-     _C0(C0),
-     _CT(CT),
-     _ST(ST),
-     _CP(CP),
-     _SP(SP),
-     _CTCP(CTCP),
-     _CTSP(CTSP),
-     _STCP(STCP),
-     _STSP(STSP),
-     _C(C)
+     p_C0(C0),
+     p_CT(CT),
+     p_ST(ST),
+     p_CP(CP),
+     p_SP(SP),
+     p_CTCP(CTCP),
+     p_CTSP(CTSP),
+     p_STCP(STCP),
+     p_STSP(STSP),
+     p_C(C)
   {
   }
 
@@ -58,7 +58,7 @@ namespace RavlImageN {
     PairC<RealT> angles(X[0],X[1]);
 
     // residual
-    VectorC r = _C - (_C0+_CT*Cos(angles.Data1())+_ST*Sin(angles.Data1())+_CP*Cos(angles.Data2())+_SP*Sin(angles.Data2())+_CTCP*Cos(angles.Data1())*Cos(angles.Data2())+_CTSP*Cos(angles.Data1())*Sin(angles.Data2())+_STCP*Sin(angles.Data1())*Cos(angles.Data2())+_STSP*Sin(angles.Data1())*Sin(angles.Data2()));
+    VectorC r = p_C - (p_C0+p_CT*Cos(angles.Data1())+p_ST*Sin(angles.Data1())+p_CP*Cos(angles.Data2())+p_SP*Sin(angles.Data2())+p_CTCP*Cos(angles.Data1())*Cos(angles.Data2())+p_CTSP*Cos(angles.Data1())*Sin(angles.Data2())+p_STCP*Sin(angles.Data1())*Cos(angles.Data2())+p_STSP*Sin(angles.Data1())*Sin(angles.Data2()));
 
     return r.SumOfSqr();
   }
