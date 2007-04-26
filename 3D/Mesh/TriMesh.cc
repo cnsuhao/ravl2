@@ -106,13 +106,13 @@ namespace Ravl3DN {
       itVerts.Data().Normal() = zero;
     }
     // Create the tri faces from the face vertex indices
-    RavlAssert(faceInd.Size() == (faces.Size() * 3));
+    RavlAssert(faceInd.Size() == (faces.Size()));
     DLIterC<Index3dC> iit(faceInd);
     SArray1dIterC<TriC> fit(faces);
     /* Create vertex pointers, and some inital vertex normals. */
-    for(;fit;fit++) {
+    for(;fit;fit++,iit++) {
       UIntT i;
-      for(i = 0;i < 3;i++,iit++)
+      for(i = 0;i < 3;i++)
         fit.Data().VertexPtr(i) = &(vertices[(*iit)[i]]);
       fit->UpdateFaceNormal();
       Vector3dC norm = fit->FaceNormal();
