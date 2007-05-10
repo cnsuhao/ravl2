@@ -140,5 +140,12 @@ namespace RavlN {
   // Sets the projective transformation elements according to the values
   // read from input stream 'inS'.
   
+  BinOStreamC & operator<<(BinOStreamC & strm, const PProjection3dC & p);
+  // Saves the projection 'p' into the output binary stream 'strm'.
+  
+  BinIStreamC & operator>>(BinIStreamC & strm, PProjection3dC & p);
+  // Sets the projective transformation elements according to the values
+  // read from binary stream 'strm'.
+  
 }
 #endif

@@ -305,6 +305,12 @@ namespace RavlN {
   istream & operator>>(istream & inS, PPointPlane3dC & p);
   // Reads the point/plane parameters from the input stream.
   
+  BinOStreamC & operator<<(BinOStreamC & strm, const PPointPlane3dC & p);
+  // Writes the 'point' into the output stream.
+  
+  BinIStreamC & operator>>(BinIStreamC & strm, PPointPlane3dC & p);
+  // Reads the point parameters from the input stream.
+  
 }
 #endif
 

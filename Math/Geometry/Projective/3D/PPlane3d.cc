@@ -12,6 +12,7 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 
+#include "Ravl/BinStream.hh"
 #include "Ravl/PPlane3d.hh"
 
 namespace RavlN {
@@ -29,5 +30,19 @@ namespace RavlN {
     inS >> p.P1() >> p.P2() >> p.P3() >> p.P4();
     return inS;
   }
+
+  BinOStreamC & operator<<(BinOStreamC & strm, const PPlane3dC & p)
+  {
+    strm << p.P1() << p.P2() << p.P3() << p.P4();
+    return strm;
+  }
+  // Writes the 'point' into the output stream.
+  
+  BinIStreamC & operator>>(BinIStreamC & strm, PPlane3dC & p) 
+  {
+    strm >> p.P1() >> p.P2() >> p.P3() >> p.P4();
+    return strm;
+  }
+  // Reads the point parameters from the input stream.
 
 }

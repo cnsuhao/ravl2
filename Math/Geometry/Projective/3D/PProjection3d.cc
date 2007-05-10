@@ -16,6 +16,7 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 
+#include "Ravl/BinStream.hh"
 #include "Ravl/PProjection3d.hh"
 
 namespace RavlN {
@@ -38,4 +39,18 @@ namespace RavlN {
 	inS >> p[i][j];
     return inS;
   }
+
+  // Saves the projection 'p' into the output binary stream 'strm'.
+  BinOStreamC & operator<<(BinOStreamC & strm, const PProjection3dC & p) {
+    strm << p.Matrix();
+    return strm;
+  }
+  
+  // Sets the projective transformation elements according to the values
+  // read from binary stream 'strm'.
+  BinIStreamC & operator>>(BinIStreamC & strm, PProjection3dC & p) {
+    strm >> p.Matrix();
+    return strm;
+  }
+
 }
