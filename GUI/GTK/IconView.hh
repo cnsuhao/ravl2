@@ -59,6 +59,10 @@ namespace RavlGUIN {
     : public WidgetC
   {
   public:
+    IconViewC()
+    {}
+    //: Default constructor
+    
     IconViewC(const TreeModelC &treeModel,UIntT textColumn,UIntT pixbufColumn,UIntT itemWidth = 0)
       : WidgetC(*new IconViewBodyC(treeModel,textColumn,pixbufColumn,itemWidth))
     {}
