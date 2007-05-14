@@ -253,9 +253,9 @@ namespace RavlN {
 
 #if !RAVL_HAVE_TEMPLATEDFUNCPTR_BUG
 #define DP_REGISTER_CONVERSION(func,cost) \
-DPConverterBaseC DPConv_ ## func(RavlN::RegisterConversion(func,cost));
+  RavlN::DPConverterBaseC DPConv_ ## func(RavlN::RegisterConversion(func,cost));
 #define DP_REGISTER_CONVERSION_NAMED(func,cost,fname) \
-DPConverterBaseC DPConv_ ## func(RavlN::RegisterConversion(func,cost,fname));
+  RavlN::DPConverterBaseC DPConv_ ## func(RavlN::RegisterConversion(func,cost,fname));
 #else
   // Labotomise automatic type conversion.
   // Where the conversion is required on use DP_REGISTER_CONVERSION_FT
@@ -265,10 +265,10 @@ DPConverterBaseC DPConv_ ## func(RavlN::RegisterConversion(func,cost,fname));
 
   // Fixed type conversion macro
 #define DP_REGISTER_CONVERSION_FT(InT,OutT,func,cost) \
-DPConverterFuncC<InT,OutT > DPConv_ ## func(func,cost);
+  RavlN::DPConverterFuncC<InT,OutT > DPConv_ ## func(func,cost);
 
 #define DP_REGISTER_CONVERSION_FT_NAMED(InT,OutT,func,cost,fname) \
-DPConverterFuncC<InT,OutT > DPConv_ ## func(func,cost,fname);
+  RavlN::DPConverterFuncC<InT,OutT > DPConv_ ## func(func,cost,fname);
 
 }
 #endif
