@@ -31,12 +31,30 @@ namespace RavlGUIN {
     ListStoreBodyC();
     //: Constructor.
     
-    virtual ~ListStoreBodyC() { }
-    //: Have virtual methods - need virtual destructor
-
+    ListStoreBodyC(const SArray1dC<AttributeTypeC> &nColTypes);
+    //: List store.
+    
     virtual bool Create();
     //: Create the widget.
     
+    virtual bool AppendRow(TreeModelIterC &rowHandle);
+    //: Append a row.
+
+    virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, IntT value);
+    //: Set int value.
+    
+    virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, bool value);
+    //: Set bool value.
+    
+    virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, const StringC &value);
+    //: Set string value.
+    
+    virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value);
+    //: Set pixbuf value.
+    
+    virtual void GUIEmpty();
+    //: Clear store of all values.
+
   protected:
     
   };
@@ -53,6 +71,12 @@ namespace RavlGUIN {
     {}
     //: Default constructor
     // Creates an invalid handle.
+    
+    ListStoreC(const SArray1dC<AttributeTypeC> &nColTypes)
+      : TreeModelC(*new ListStoreBodyC(nColTypes))
+    {}
+    
+    //: List store.
     
   protected:
     ListStoreC(ListStoreBodyC &bod)

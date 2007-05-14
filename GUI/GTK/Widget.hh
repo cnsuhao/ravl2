@@ -287,6 +287,7 @@ namespace RavlGUIN {
 
     static int gtkTreeRow(GtkWidget *widget, GtkTreeIter *iter, GtkTreePath *path, Signal0C *sigptr);
     static int gtkTreePathCol(GtkWidget *widget, GtkTreePath *path, GtkTreeViewColumn *col, Signal0C *sigptr);
+    static int gtkTreePath(GtkWidget *widget, GtkTreePath *path,Signal0C *sigptr);
     
     friend class ManagerC;
     friend class WidgetC;

@@ -9,7 +9,7 @@
 //! file="Ravl/GUI/GTK/ListStore.cc"
 
 #include "Ravl/GUI/ListStore.hh"
-
+#include "Ravl/GUI/Manager.hh"
 
 #include "Ravl/SArray1dIter2.hh"
 #include <gtk/gtk.h>
@@ -18,10 +18,17 @@ namespace RavlGUIN {
   
   extern GType Ravl2GTKType(AttributeValueTypeT vtype);
   
+
   //: Constructor.
   
   ListStoreBodyC::ListStoreBodyC()
   {}
+  
+  //: List store.
+  
+  ListStoreBodyC::ListStoreBodyC(const SArray1dC<AttributeTypeC> &nColTypes) 
+    : TreeModelBodyC(nColTypes)
+  { Create(); }
   
   //: Create the widget.
   
@@ -36,6 +43,64 @@ namespace RavlGUIN {
     
     return true;
   }
+
+  //: Append a row.
+  
+  bool ListStoreBodyC::AppendRow(TreeModelIterC &rowHandle) {
+    RavlAssert(model != 0);
+    
+    gtk_list_store_append(GTK_LIST_STORE(model),rowHandle.TreeIter());
+    
+    return true;
+  }
+  
+  
+  //: Set int value.
+  
+  bool ListStoreBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, IntT value) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    if(!rowIter.IsElm())
+      return false;
+    gtk_list_store_set(GTK_LIST_STORE(model),rowIter.TreeIter(),col,value,-1);
+    return true;
+  }
+  //: Set bool value.
+  
+  bool ListStoreBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, bool value) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    if(!rowIter.IsElm())
+      return false;
+    gtk_list_store_set(GTK_LIST_STORE(model),rowIter.TreeIter(),col,value,-1);
+    return true;
+  }
+  
+  //: Set bool value.
+  
+  bool ListStoreBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, const StringC &value) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    if(!rowIter.IsElm())
+      return false;
+    gtk_list_store_set(GTK_LIST_STORE(model),rowIter.TreeIter(),col,const_cast<char *>(value.chars()),-1);
+    return true;    
+  }
+
+  //: Set bool value.
+  
+  bool ListStoreBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    if(!rowIter.IsElm())
+      return false;
+    gtk_list_store_set(GTK_LIST_STORE(model),rowIter.TreeIter(),col,value.Pixbuf(),-1);
+    return true;
+  }
+
+  //: Clear store of all values.
+  
+  void ListStoreBodyC::GUIEmpty() {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    gtk_list_store_clear(GTK_LIST_STORE(model));
+  }
+
 
 }
 

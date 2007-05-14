@@ -43,6 +43,7 @@ namespace RavlGUIN {
     SigTypeWidgetInt,
     SigTypeTreeRow,
     SigTypeTreePathCol,
+    SigTypeTreePath,
   };
   
   //: Signal info

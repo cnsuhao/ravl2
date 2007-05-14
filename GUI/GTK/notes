@@ -1,32 +1,11 @@
-  false ; \
-fi 
-echo "--- Compile" check Widget.cc ; \
-if /opt/GNUdevelop/gcc-2.95.2/bin/g++ -c -DGNU -D__linux__ -Dunix -DNEWGCC  -DPROJECT_OUT=\"/buf/ees1cg/install\" -DCPUG_ARCH=\"linux\"  -pipe  -O -DAMMA_CHECK  -an
-si -I/buf/ees1cg/install/inc/linux -I/buf/ees1cg/install/inc -I/vol/vssp/local/gama/inc/gama -I/opt/GNUdevelop/include  `/opt/PDgtk/gtk+-1.2.7/bin/gtk-config --cfla
-gs` -D_POSIX_C_SOURCE=199506L  -I. -Wp,-MMD,/tmp/ees1cg/qm//buf/ees1cg/install//amma/GUI/GUI/linux/check/Widget.d -o /tmp/ees1cg/qm//buf/ees1cg/install//amma/GUI/GU
-I/linux/check/objs/Widget.o Widget.cc ;  then \
-  echo -n '$(INST_OBJS)/' > /buf/ees1cg/install/linux/depend/amma/GUI/GUI/Widget.d ; cat /tmp/ees1cg/qm//buf/ees1cg/install//amma/GUI/GUI/linux/check/Widget.d  >> /
-buf/ees1cg/install/linux/depend/amma/GUI/GUI/Widget.d ; rm /tmp/ees1cg/qm//buf/ees1cg/install//amma/GUI/GUI/linux/check/Widget.d ; \
-else \
-  false ; \
-fi 
-echo "--- Compile" check Window.cc ; \
-if /opt/GNUdevelop/gcc-2.95.2/bin/g++ -c -DGNU -D__linux__ -Dunix -DNEWGCC  -DPROJECT_OUT=\"/buf/ees1cg/install\" -DCPUG_ARCH=\"linux\"  -pipe  -O -DAMMA_CHECK  -an
-si -I/buf/ees1cg/install/inc/linux -I/buf/ees1cg/install/inc -I/vol/vssp/local/gama/inc/gama -I/opt/GNUdevelop/include  `/opt/PDgtk/gtk+-1.2.7/bin/gtk-config --cfla
-gs` -D_POSIX_C_SOURCE=199506L  -I. -Wp,-MMD,/tmp/ees1cg/qm//buf/ees1cg/install//amma/GUI/GUI/linux/check/Window.d -o /tmp/ees1cg/qm//buf/ees1cg/install//amma/GUI/GU
-I/linux/check/objs/Window.o Window.cc ;  then \
-  echo -n '$(INST_OBJS)/' > /buf/ees1cg/install/linux/depend/amma/GUI/GUI/Window.d ; cat /tmp/ees1cg/qm//buf/ees1cg/install//amma/GUI/GUI/linux/check/Window.d  >> /
-buf/ees1cg/install/linux/depend/amma/GUI/GUI/Window.d ; rm /tmp/ees1cg/qm//buf/ees1cg/install//amma/GUI/GUI/linux/check/Window.d ; \
-else \
-  false ; \
-fi 
-echo "--- Compile" check Canvas.cc ; \
-if /opt/GNUdevelop/gcc-2.95.2/bin/g++ -c -DGNU -D__linux__ -Dunix -DNEWGCC  -DPROJECT_OUT=\"/buf/ees1cg/install\" -DCPUG_ARCH=\"linux\"  -pipe  -O -DAMMA_CHECK  -an
-si -I/buf/ees1cg/install/inc/linux -I/buf/ees1cg/install/inc -I/vol/vssp/local/gama/inc/gama -I/opt/GNUdevelop/include  `/opt/PDgtk/gtk+-1.2.7/bin/gtk-config --cfla
-gs` -D_POSIX_C_SOURCE=199506L  -I. -Wp,-MMD,/tmp/ees1cg/qm//buf/ees1cg/install//amma/GUI/GUI/linux/check/Canvas.d -o /tmp/ees1cg/qm//buf/ees1cg/install//amma/GUI/GU
-I/linux/check/objs/Canvas.o Canvas.cc ;  then \
-  echo -n '$(INST_OBJS)/' > /buf/ees1cg/install/linux/depend/amma/GUI/GUI/Canvas.d ; cat /tmp/ees1cg/qm//buf/ees1cg/install//amma/GUI/GUI/linux/check/Canvas.d  >> /
-buf/ees1cg/install/linux/depend/amma/GUI/GUI/Canvas.d ; rm /tmp/ees1cg/qm//buf/ees1cg/install//amma/GUI/GUI/linux/check/Canvas.d ; \
-else \
-  false ; \
-fi 
+
+
+
+
+"item-activated"
+            void        user_function      (GtkIconView *iconview,
+                                            GtkTreePath *arg1,
+                                            gpointer user_data);
+
+
+

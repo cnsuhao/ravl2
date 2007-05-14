@@ -84,6 +84,8 @@ namespace RavlGUIN {
 #define GTKSIG_WIDGET_INT (GtkSignalFunc) WidgetBodyC::gtkWidgetInt,SigTypeWidgetInt
 #define GTKSIG_TREEROW (GtkSignalFunc) WidgetBodyC::gtkTreeRow,SigTypeTreeRow
 #define GTKSIG_TREEPATHCOL (GtkSignalFunc) WidgetBodyC::gtkTreePathCol,SigTypeTreePathCol
+#define GTKSIG_TREEPATH (GtkSignalFunc) WidgetBodyC::gtkTreePath,SigTypeTreePath
+
   //: Get init information about signals.
 
   Tuple2C<const char *,GTKSignalInfoC> *WidgetBodyC::SigInfoInit() {
@@ -134,10 +136,11 @@ namespace RavlGUIN {
       GTKSIG("drag_data_get"        ,GTKSIG_DNDDATAGET),     // gtkwidget
       GTKSIG("drag_data_received"   ,GTKSIG_DNDDATARECIEVED),// gtkwidget
       GTKSIG("change-current-page"  ,GTKSIG_INT),// gtkNotebook
-      GTKSIG("switch-page"          ,GTKSIG_WIDGET_INT),// gtkNotebook
-      GTKSIG("row-collapsed"        ,GTKSIG_TREEROW ), // GtkTreeView
-      GTKSIG("row-expanded"         ,GTKSIG_TREEROW ), // GtkTreeView
-      GTKSIG("row-activated"        ,GTKSIG_TREEPATHCOL ), // GtkTreeView
+      GTKSIG("switch-page"          ,GTKSIG_WIDGET_INT),     // gtkNotebook
+      GTKSIG("row-collapsed"        ,GTKSIG_TREEROW ),       // GtkTreeView
+      GTKSIG("row-expanded"         ,GTKSIG_TREEROW ),       // GtkTreeView
+      GTKSIG("row-activated"        ,GTKSIG_TREEPATHCOL ),   // GtkTreeView
+      GTKSIG("item-activated"       ,GTKSIG_TREEPATH ),  // GtkIconView
       GTKSIG("destroy",GTKSIG_TERM)  // Duplicate first key to terminate array.
     };
     return signalInfo;
@@ -330,6 +333,23 @@ namespace RavlGUIN {
     // Done
     return 1;
   }
+  
+  int WidgetBodyC::gtkTreePath(GtkWidget *widget, GtkTreePath *path, Signal0C *sigptr) {
+    RavlAssert(sigptr != 0);
+    // Get signal
+    Signal1C<TreeModelPathC> sig(*sigptr);
+    
+    RavlAssert(sig.IsValid());
+    // Convert data
+    
+    TreeModelPathC rpath(path,false);
+    
+    // Send signal
+    sig(rpath);
+    
+    // Done
+    return 1;    
+  }
 
 
   //: Default constructor.
@@ -515,6 +535,7 @@ namespace RavlGUIN {
       case SigTypeWidgetInt:         ret = Signal1C<UIntT>((UIntT)0); break;
       case SigTypeTreeRow:      ret = Signal2C<TreeModelIterC,TreeModelPathC>(TreeModelIterC(),TreeModelPathC()); break;
       case SigTypeTreePathCol: ret = Signal2C<TreeModelPathC,StringC>(TreeModelPathC(),StringC()); break;
+      case SigTypeTreePath: ret = Signal1C<TreeModelPathC>(TreeModelPathC()); break;
       case SigTypeUnknown:
       default:
         cerr << "WidgetBodyC::Signal(), ERROR Unknown signal type:" << nm << " Type:" << (IntT) (si.signalType) << "\n";

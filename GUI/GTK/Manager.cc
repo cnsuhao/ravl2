@@ -491,7 +491,7 @@ namespace RavlGUIN {
   void ManagerC::Queue(const TriggerC &se) 
   {
     //Warn developers if this is being called from the GUI thread (message box only appears in debug mode)
-#ifdef QMAKE_PARANOID
+#if defined(QMAKE_PARANOID) && 0
     if(IsGUIThread() && se.IsValid()) {
       WindowC* rootWindow = &GetRootWindow();
       DebugDialogWrapperC warnUserDlg(m_strDebugWarning, "Debug Warning", rootWindow);
