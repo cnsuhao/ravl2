@@ -123,6 +123,9 @@ namespace RavlImageN {
   ImageC<ByteRGBValueC> ByteYUV422ImageCT2ByteRGBImageCT(const ImageC<ByteYUV422ValueC> &dat);
   //: Byte YUV -> Byte YUV422
   
+  ImageC<ByteRGBValueC> ByteDVSYUV422ImageCT2ByteDVSRGBImageCT(const ImageC<ByteYUV422ValueC> &dat);
+  //: Byte DVSYUV422 -> Byte DVSRGB
+
   ImageC<ByteT> ByteYUV422ImageCT2ByteImageCT(const ImageC<ByteYUV422ValueC> &dat);
   //: Byte YUV422 -> Byte
   

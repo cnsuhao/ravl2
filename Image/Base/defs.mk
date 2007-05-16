@@ -25,11 +25,13 @@ HEADERS=ImageRectangle.hh Image.hh \
  Font.hh PSFFont.h \
  DrawFrame.hh DrawCross.hh DrawMask.hh \
  DrawLine.hh DrawCircle.hh DrawPolygon.hh  DrawEllipse.hh\
- Deinterlace.hh BilinearInterpolation.hh
+ Deinterlace.hh BilinearInterpolation.hh \
+ RealDVSRGBValue.hh RealDVSYUVValue.hh dvsRGBcdvsYUV422.hh 
 
 SOURCES=ImageRectangle.cc Image.cc ByteRGBValue.cc ByteYUVValue.cc RealRGBValue.cc \
  RealYUVValue.cc RGBcYUV.cc Font.cc ImageConv.cc ImageConv2.cc ImageConv3.cc ImageConv4.cc \
- ByteRGBAValue.cc ByteVYUValue.cc ByteYUV422Value.cc ByteYUVAValue.cc
+ ByteRGBAValue.cc ByteVYUValue.cc ByteYUV422Value.cc ByteYUVAValue.cc \
+ RealDVSRGBValue.cc RealDVSYUVValue.cc dvsRGBcdvsYUV422.cc
 
 PLIB=RavlImage
 
