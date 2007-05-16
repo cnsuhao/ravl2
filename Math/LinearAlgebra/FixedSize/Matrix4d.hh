@@ -58,6 +58,17 @@ namespace RavlN {
     }
     //: Constructor.
     
+    Matrix4dC(const FVectorC<4> &v0,const FVectorC<4> &v1,const FVectorC<4> &v2,const FVectorC<4> &v3)
+    {
+      for(int i = 0;i < 4;i++) {
+	data[i][0] = v0[i];
+	data[i][1] = v1[i];
+	data[i][2] = v2[i];
+	data[i][3] = v3[i];
+      }
+    }
+    // Compose the matrix from 3 column vectors.
+    
     inline RealT Det() const;
     // Returns the determinant of the matrix.
 

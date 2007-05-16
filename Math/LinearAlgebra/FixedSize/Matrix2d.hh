@@ -43,6 +43,15 @@ namespace RavlN {
       data[1][1] = v11;
     }
     //: Constructor.
+
+    Matrix2dC(const FVectorC<2> &v0,const FVectorC<2> &v1)
+    {
+      data[0][0] = v0[0];
+      data[0][1] = v1[0];
+      data[1][0] = v0[1];
+      data[1][1] = v1[1];
+    }
+    //: Compose the matrix from 2 column vectors.
     
     inline RealT Det() const 
     { return data[0][0]*data[1][1] - data[0][1]*data[1][0]; }

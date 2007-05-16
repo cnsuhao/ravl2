@@ -35,6 +35,16 @@ namespace RavlN {
     {}
     //: Constructor.
     
+    Matrix3dC(const FVectorC<3> &v0,const FVectorC<3> &v1,const FVectorC<3> &v2)
+    {
+      for(int i = 0;i < 3;i++) {
+	data[i][0] = v0[i];
+	data[i][1] = v1[i];
+	data[i][2] = v2[i];
+      }
+    }
+    // Compose the matrix from 3 column vectors.
+    
     Matrix3dC(RealT v00,RealT v01,RealT v02,
 	      RealT v10,RealT v11,RealT v12,
 	      RealT v20,RealT v21,RealT v22) { 
