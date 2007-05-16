@@ -44,10 +44,11 @@ namespace RavlImageN {
   extern void InitImgIOByteYUV422();
   extern void InitImgIOByteVYU();
   extern void InitImgIOFloat();
-
   
   extern void InitCompatIORGB();
   extern void InitCompatIOYUV();
   extern void InitCompatIOY();
+  extern void InitDVSYUV422Format();
+
 }
 #endif
