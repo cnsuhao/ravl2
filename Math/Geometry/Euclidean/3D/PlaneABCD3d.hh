@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_PLANE3ABC_HEADER 
-#define RAVL_PLANE3ABC_HEADER
+#ifndef RAVL_PLANE3ABCD_HEADER 
+#define RAVL_PLANE3ABCD_HEADER
 /////////////////////////////////////////////////////////////////////////
 //! lib=RavlMath
 //! userlevel=Normal
@@ -116,18 +116,17 @@ namespace RavlN {
     Point3dC Intersection(const LinePV3dC & l) const;
     //: Returns the point which is the intersection of this plane with
     //: the line 'l'. 
-    // If the intersection does not exist the function exits the program. 
+    // If the intersection does not exist the function throw an ExceptionNumericalC
     
     Point3dC Intersection(const PlaneABCD3dC & planeB,
 			  const PlaneABCD3dC & planeC) const;
     //: Returns the point which is the intersection of three planes.
-    // If the intersection does not exist the function
-    // exits the program. 
+    // If the intersection does not exist the function throw an ExceptionNumericalC
     
     LinePV3dC Intersection(const PlaneABCD3dC & plane) const;
     //: Returns the line which is the intersection of this plane with
     // the plane 'plane'. 
-    // If the intersection does not exist the function exits the program.
+    // If the intersection does not exist the function throw an ExceptionNumericalC
     
   private:
     Vector3dC normal;
