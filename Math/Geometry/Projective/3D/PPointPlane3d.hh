@@ -256,7 +256,7 @@ namespace RavlN {
     
     //:------------------
     // Special functions.
-
+    
     static inline 
     RealT AdjointDet(RealT b00, RealT b01, RealT b02,
                      RealT b10, RealT b11, RealT b12,

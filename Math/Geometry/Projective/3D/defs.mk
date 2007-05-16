@@ -25,7 +25,8 @@ SOURCES   =  PPointPlane3d.cc  \
              PPoint3d.cc \
              PPlane3d.cc \
              PProjection3d.cc  \
-             PPerspective3d.cc
+             PPerspective3d.cc \
+	     PLinePV3d.cc
 
 
 # HEADERS = all include files of this project to be exported
@@ -33,7 +34,8 @@ HEADERS =    PPointPlane3d.hh   \
              PPoint3d.hh  \
              PPlane3d.hh  \
              PProjection3d.hh   \
-             PPerspective3d.hh 
+             PPerspective3d.hh \
+	     PLinePV3d.hh
 
 # PLIB = the project library ... where the objects will be archived
 PLIB = RavlMath
