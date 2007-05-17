@@ -32,7 +32,7 @@ namespace RavlN {
   // of points and planes in 3D projective space.
   
   class PPointPlane3dC
-    : public Point4dC
+    : public TFVectorC<RealT,4>
   {
   public:
     
@@ -40,39 +40,44 @@ namespace RavlN {
     // Constructors, assigment, copy, and destructor.
     
     inline PPointPlane3dC()
-      : Point4dC(0,0,0,0)
-    {}
-    // Constructs the point/plane whose coordinates are zeros, eg. non-existing
-    // projective object.
-
+    { Fill(0); }
+    //: Constructs the point/plane whose coordinates are zeros
+    
     inline PPointPlane3dC(RealT x, RealT y, RealT z)
-      : Point4dC(x, y, z, 1)
-    {}
+      : TFVectorC<RealT,4>(Point4d(x, y, z, 1))
+    {
+    }
     // Constructs the point/plane (x, y, z, 1). x,y,z represent either
     // point Cartesian coordinates or plane normal expressed as vector
     // Cartesian coordinates.
 
     inline PPointPlane3dC(const Point3dC & p)
-      : Point4dC(p[0], p[1], p[2], 1)
+      : TFVectorC<RealT,4>(Point4d(p[0], p[1], p[2], 1))
     {}
     // Constructs the projective point/line (p.X(), p.Y(), p.Z(), 1) related
     // to the Euclidian point 'p'.
 
     inline PPointPlane3dC(const Vector3dC & v)
-      : Point4dC(v[0], v[1], v[2], 0)
+      : TFVectorC<RealT,4>(Point4d(v[0], v[1], v[2], 0))
     {}
     // Constructs the projective point/line (v.X(), v.Y(), v.Z(), 0) related
     // to the Euclidian direction 'v'.
 
     inline PPointPlane3dC(RealT p0, RealT p1, RealT p2, RealT p3)
-      : Point4dC(p0, p1, p2, p3)
+      : TFVectorC<RealT,4>(Point4d(p0, p1, p2, p3))
     {}
     // Constructs the point/plane (p0, p1, p2, p3).
+    
+    inline PPointPlane3dC(const RavlN::TFVectorC<RealT, 4> & p)
+      : TFVectorC<RealT,4>(p)
+    {}
+    // Creates the projective point/plane in 3D space from values of 
+    // the point 'p'.
     
     PPointPlane3dC(const PlaneABCD3dC & p);
     // Constructs the projective point/plane corresponding to the Euclidian
     // plane 'p'.
-
+    
     PPointPlane3dC(const PPointPlane3dC & p0,
                    const PPointPlane3dC & p1,
                    const PPointPlane3dC & p2);
@@ -81,14 +86,6 @@ namespace RavlN {
     
     //:--------------------------------
     // Access to the object parameters.
-    
-    inline const RealT & operator[](UIntT i) const
-    { return Point4dC::operator[](i); }
-    // Returns the value of the (i+1)-th coordinate.
-
-    inline RealT & operator[](UIntT i)
-    { return Point4dC::operator[](i); }
-    // Access the value of the (i+1)-th coordinate.
     
     inline RealT Scale() const
     { return P4(); }
@@ -167,19 +164,19 @@ namespace RavlN {
     // Logical conditions.
     
     inline bool operator==(const PPointPlane3dC & p) const
-    { return Point4dC::operator==(p); }
+    { return TFVectorC<RealT,4>::operator==(p); }
     // Returns true iff 2 points/planes are the same projective point/plane.
     // Two projective points/planes are equal iff their 4D Cartesian
     // representants are equal.
 
     inline bool operator!=(const PPointPlane3dC & p) const
-    { return Point4dC::operator!=(p); }
+    { return TFVectorC<RealT,4>::operator!=(p); }
     // Returns true iff 2 points/planes are different projective points/planes.
     // Two projective points/planes are different iff they are not
     // equal in the sense of the operator '=='.
     
     inline bool IsIdealPoint() const  {
-      const RealT sum = Point4dC::SumOfAbs();
+      const RealT sum = SumOfAbs();
       return IsAlmostZero(sum) 
 	? false 
 	: IsAlmostZero(Scale()/sum);
@@ -207,49 +204,55 @@ namespace RavlN {
     // Arithmetical operations.
 
     inline RealT Sum() const
-    { return Point4dC::Sum(); }
+    { return TFVectorC<RealT,4>::Sum(); }
     // Returns the sum of coordinates.
     
     inline RealT SumOfAbs() const
-    { return Point4dC::SumOfAbs(); }
+    { return TFVectorC<RealT,4>::SumOfAbs(); }
     // Returns the sum of absolute value of coordinates.
     
     inline const PPointPlane3dC & operator+=(const PPointPlane3dC & p)
-    { Point4dC::operator+=(p); return *this; }
+    { TFVectorC<RealT,4>::operator+=(p); return *this; }
     // Adds the values of the coordinates of the 'p' to this point/plane.
     
     inline const PPointPlane3dC & operator-=(const PPointPlane3dC & p)
-    { Point4dC::operator-=(p); return *this; }
+    { TFVectorC<RealT,4>::operator-=(p); return *this; }
     // Subtracts the values of the coordinates of the 'p' from this
     // point/plane.
     
     inline const PPointPlane3dC & operator*=(const RealT alpha)
-    { Point4dC::operator*=(alpha); return *this; }
+    { TFVectorC<RealT,4>::operator*=(alpha); return *this; }
     // Multiplies all coordinates by 'alpha'.
 
     inline const PPointPlane3dC & operator/=(const RealT alpha)
-    { Point4dC::operator/=(alpha); return *this; }
+    { TFVectorC<RealT,4>::operator/=(alpha); return *this; }
     // Divides all coordinates by 'alpha'.
     
     inline PPointPlane3dC operator+(const PPointPlane3dC & p) const
-    { return Point4dC::operator+(p); }
+    { return TFVectorC<RealT,4>::operator+(p); }
     // Returns the point/plane which is the sum of this point and the 'p'.
 
     inline PPointPlane3dC operator*(const RealT alpha) const
-    { return Point4dC::operator*(alpha); }
+    { return TFVectorC<RealT,4>::operator*(alpha); }
     // Returns the point/plane which coordinates are multiplied by 'alpha'.
 
     inline PPointPlane3dC operator/(const RealT alpha) const
-    { return Point4dC::operator/(alpha); }
+    { return TFVectorC<RealT,4>::operator/(alpha); }
     // Returns the point/plane which coordinates are divided by 'alpha'.
     
-    operator const TFVectorC<RealT,4> &() const
-    { return *this; }
-    //: Access as basic vector.
-    
   protected:
+    static TFVectorC<RealT,4> Point4d(RealT x,RealT y,RealT z,RealT w) {
+      TFVectorC<RealT,4> ret;
+      ret[0] = x;
+      ret[1] = y;
+      ret[2] = z;
+      ret[3] = w;
+      return ret;
+    }
+    // Assemble point from components
+    
     inline PPointPlane3dC Translation(const PPointPlane3dC & newOrigin) const
-    { return Point4dC::operator+(newOrigin); }
+    { return TFVectorC<RealT,4>::operator+(newOrigin); }
     // Returns the point/plane with projective coordinates related
     // to the new origin 'newOrigin'.
     
@@ -267,18 +270,7 @@ namespace RavlN {
     }
     // Computes the determinant of the matrix 3x3 created from b[ij] 
     // elements.
-                       
-    inline PPointPlane3dC(const Point4dC & p)
-      : Point4dC(p)
-    {}
-    // Creates the projective point/plane in 3D space from values of 
-    // the point 'p'.
     
-    inline PPointPlane3dC(const RavlN::TFVectorC<RealT, 4> & p)
-      : Point4dC(p)
-    {}
-    // Creates the projective point/plane in 3D space from values of 
-    // the point 'p'.
 
     friend inline PPointPlane3dC operator*(RealT lambda, const PPointPlane3dC & p);
     friend inline PPointPlane3dC operator/(RealT lambda, const PPointPlane3dC & p);

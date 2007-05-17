@@ -27,23 +27,24 @@ namespace RavlN {
 				 const PPointPlane3dC & p1,
 				 const PPointPlane3dC & p2)
     // Ref.: pp. 80 - 81
-    : Point4dC(AdjointDet(p0.P2(), p0.P3(), p0.P4(), 
-			  p1.P2(), p1.P3(), p1.P4(), 
-			  p2.P2(), p2.P3(), p2.P4()), 
-	       AdjointDet(p0.P1(), p0.P4(), p0.P3(),  
-			  p1.P1(), p1.P4(), p1.P3(),  
-			  p2.P1(), p2.P4(), p2.P3()), 
-	       AdjointDet(p0.P1(), p0.P2(), p0.P4(),  
-			  p1.P1(), p1.P2(), p1.P4(),  
-			  p2.P1(), p2.P2(), p2.P4()), 
-	       AdjointDet(p0.P1(), p0.P3(), p0.P2(),  
-			  p1.P1(), p1.P3(), p1.P2(),  
-			  p2.P1(), p2.P3(), p2.P2()))
+    : TFVectorC<RealT,4>(Point4d(AdjointDet(p0.P2(), p0.P3(), p0.P4(), 
+                                            p1.P2(), p1.P3(), p1.P4(), 
+                                            p2.P2(), p2.P3(), p2.P4()), 
+                                 AdjointDet(p0.P1(), p0.P4(), p0.P3(),  
+                                            p1.P1(), p1.P4(), p1.P3(),  
+                                            p2.P1(), p2.P4(), p2.P3()), 
+                                 AdjointDet(p0.P1(), p0.P2(), p0.P4(),  
+                                            p1.P1(), p1.P2(), p1.P4(),  
+                                            p2.P1(), p2.P2(), p2.P4()), 
+                                 AdjointDet(p0.P1(), p0.P3(), p0.P2(),  
+                                            p1.P1(), p1.P3(), p1.P2(),  
+                                            p2.P1(), p2.P3(), p2.P2()))
+                         )
   {}
   
   
   PPointPlane3dC::PPointPlane3dC(const PlaneABCD3dC & p)
-    : Point4dC(p.A(), p.B(), p.C(), p.D())
+    : TFVectorC<RealT,4>(Point4d(p.A(), p.B(), p.C(), p.D()))
   {}
   
   ostream & 

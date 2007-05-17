@@ -77,6 +77,12 @@ namespace RavlN {
     // Constructs the point of intersection of three projective planes 'p0',
     // 'p1', and 'p2'.
     
+    inline PPoint3dC(const RavlN::TFVectorC<RealT, 4> & p)
+      : PPointPlane3dC(p)
+    {}
+    // Creates the projective point in 1D space from values of 
+    // the point 'p'.
+    
     // Access to the object.
     // ---------------------
 
@@ -158,11 +164,6 @@ namespace RavlN {
     // the point 'p'.
 #endif
     
-    inline PPoint3dC(const RavlN::TFVectorC<RealT, 4> & p)
-      : PPointPlane3dC(p)
-    {}
-    // Creates the projective point in 1D space from values of 
-    // the point 'p'.
     
     friend inline PPoint3dC operator*(RealT lambda, const PPoint3dC & p);
     friend inline PPoint3dC operator/(RealT lambda, const PPoint3dC & p);

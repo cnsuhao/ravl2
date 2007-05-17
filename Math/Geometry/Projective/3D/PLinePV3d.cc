@@ -8,6 +8,7 @@
 #include "Ravl/PLinePV3d.hh"
 #include "Ravl/PPlane3d.hh"
 #include "Ravl/PProjection3d.hh"
+#include "Ravl/LinePV3d.hh"
 
 namespace RavlN {
 
@@ -21,10 +22,11 @@ namespace RavlN {
   PPoint3dC PLinePV3dC::Intersection(const PPlane3dC &plane) 
   { return Value(IntersectionParam(plane)); }
   
-
   //: Transform a line
   
   PLinePV3dC operator*(const PProjection3dC &projection,const PLinePV3dC &line) 
   { return PLinePV3dC(projection * line.P(),projection * line.V()); }
   
+  
+
 }

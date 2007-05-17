@@ -273,6 +273,11 @@ namespace RavlN {
     { return TFVectorC<RealT,3>::operator/(o); }
     //: Element wise devision
     
+    operator const TFVectorC<double, 3u> &() const
+    { return *this; }
+    //: Cast to a simple vector.
+    // This allow's matrix multiplies etc to work.
+    
   protected:
 
     //:------------------
