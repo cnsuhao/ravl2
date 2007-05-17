@@ -33,7 +33,7 @@ namespace RavlImageN {
     //: Default constructor.
     // creates an undefined RGB pixel.
 
-    inline RealDVSRGBValueC(const RealYUVValueC &);
+    inline RealDVSRGBValueC(const RealYUVValueC &v);
     //: Convert from a YUV pixel.
     // Implementation in Ravl/Image/RGBcYUV.hh include
     // this header when needed.
