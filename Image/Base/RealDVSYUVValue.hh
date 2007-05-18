@@ -16,6 +16,7 @@
 //! docentry="Ravl.API.Images.Pixel Types"
 
 #include "Ravl/Image/YUVValue.hh"
+#include "Ravl/Image/RealRGBValue.hh"
 
 namespace RavlImageN {
   
