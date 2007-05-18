@@ -127,6 +127,10 @@ namespace RavlN
     { return d; }
     //: Access vector of the real part of the eigen values.
     
+    TVectorC<NumT> &ImgEigenValues()
+    { return e; }
+    //: Access vector of the imaginary part of the eigen values.
+    
     void getImagEigenvalues (TVectorC<NumT> &e_) {
       e_ = e;
       return;
