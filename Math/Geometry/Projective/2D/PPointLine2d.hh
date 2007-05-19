@@ -304,10 +304,10 @@ namespace RavlN {
   inline PPointLine2dC operator*(RealT lambda, const PPointLine2dC & p)
   { return p * lambda; }
   // Returns the point/line which is the 'lambda' multiplication of 'p'.
-
+  
   inline
   PPointLine2dC operator/(RealT lambda, const PPointLine2dC & p)
-  { return operator/(lambda, (Point3dC) p ); }
+  { return PPointLine2dC(lambda/p.P1(),lambda/p.P2(), lambda/p.P3()); }
   // Returns the point/line which coordinates are the 'lambda' divided by the
   // corresponding coordinate of 'p'.
 
