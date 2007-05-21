@@ -133,7 +133,19 @@ namespace RavlImageN {
   
   BinIStreamC &operator>>(BinIStreamC &in,ImageC<ByteYUVValueC> &img);  
   //: Load byte image from binary stream 
-
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const ByteYUVValueC &img) {
+    out << img.Y() << img.U() << img.V();
+    return out;
+  }
+  //: Save pixel to binary stream
+  
+  inline BinIStreamC &operator>>(BinIStreamC &in,ByteYUVValueC &img) {
+    in >> img.Y() >> img.U() >> img.V();
+    return in;
+  }
+  //: Load pixel from binary stream
+  
 }
 
 
