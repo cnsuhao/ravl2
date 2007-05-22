@@ -55,8 +55,8 @@ namespace RavlN
   // THREAD SAFE.
   //!param: priority - 0 to 32767, Higher means more runtime will be given to the thread.
   //!return: true if priority change succeeded, false otherwise.
-
-  int CurrentThreadPriority(UIntT priority);
+  
+  int CurrentThreadPriority();
   //: Get the priority of the process
   // THREAD SAFE.
   //!return: priority - 0 to 32767, Higher means more runtime will be given to the thread.

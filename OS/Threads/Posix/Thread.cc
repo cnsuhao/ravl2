@@ -114,7 +114,7 @@ namespace RavlN {
   // THEAD SAFE.
   //!return: priority - 0 to 32767, Higher means more runtime will be given to the thread.
   
-  int CurrentThreadPriority(UIntT priority) {
+  int CurrentThreadPriority() {
 #if RAVL_HAVE_POSIX_THREADS    
     pthread_t threadID = pthread_self();
     int policy;
