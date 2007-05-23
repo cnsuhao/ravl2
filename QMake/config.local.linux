@@ -68,7 +68,7 @@ RESOURCES += libAudioFile
 
 ## libcurl ################################################
 
-#RESOURCES += libCurl
+RESOURCES += libCurl
 
 ## libClipStationPro ################################################
 

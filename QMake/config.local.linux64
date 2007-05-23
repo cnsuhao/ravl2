@@ -13,11 +13,11 @@
 # The ravl binaries are built if  'optbin' is set, this also builds 'opt' libraries. The 'doc' flag controls building of documentation. 
  
 FULLBUILD_TARGETS += check
-#FULLBUILD_TARGETS += debug 
-#FULLBUILD_TARGETS += opt
+FULLBUILD_TARGETS += debug 
+FULLBUILD_TARGETS += opt
 FULLBUILD_TARGETS += shared
-FULLBUILD_TARGETS += debugshared
-FULLBUILD_TARGETS += optshared
+#FULLBUILD_TARGETS += debugshared
+#FULLBUILD_TARGETS += optshared
 FULLBUILD_TARGETS += optbin
 FULLBUILD_TARGETS += doc
 
@@ -25,8 +25,8 @@ FULLBUILD_TARGETS += doc
 ################ Compiler ##################################
 
 # paths for cc and c++ compiler
-RAVL_CC  = /vol/vssp/localsoft/gcc/linux64/bin/gcc
-RAVL_CXX = /vol/vssp/localsoft/gcc/linux64/bin/g++
+RAVL_CC  = gcc
+RAVL_CXX = g++
 
 # extra CFLAGS (c)
 # EXTRA_CFLAGS =
@@ -39,30 +39,7 @@ RAVL_CXX = /vol/vssp/localsoft/gcc/linux64/bin/g++
 ## GTK 2.x #####################################
 
 RESOURCES += libGTK libGTK2
-
 RESOURCES += libglade2
-
-## GTK 1.x #####################################
-
-#RESOURCES += libGTK 
-
-# gtk path 
-#GTKPATH =  /opt/PDlibs/gtk++-1.2.10
-
-# glib path 
-#GLIBPATH = /opt/PDlibs/glib-1.2.10
-
-# override gtk compile flags 
-# GTKCFLAGS = 
-
-# override glib compile flags
-# GLIBCFLAGS = 
-
-# override gtk link flags 
-# GTKLIBS =
-
-# ovveride glib link flags 
-# GLIBLIBS = 
 
 ## libAudioFile ################################################
 
