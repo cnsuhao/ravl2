@@ -17,6 +17,7 @@
 
 namespace RavlN {
   
+ 
   ostream & 
   operator<<(ostream & outS, const PPlane3dC & p)
   {

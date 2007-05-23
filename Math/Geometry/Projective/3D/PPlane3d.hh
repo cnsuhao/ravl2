@@ -22,10 +22,12 @@
 namespace RavlN {
   
   class Point3dC;
+  class PPoint3dC;
   class Vector3dC;
   class PlanePVV3dC;
   class PlaneABCD3dC;
   class Point4dC;
+  template<class DataT> class SArray1dC;
   
   //! userlevel=Normal
   //: Plane in 3D projective space
@@ -44,14 +46,14 @@ namespace RavlN {
     inline PPlane3dC()
       : PPointPlane3dC(0,0,0,0)
     {}
-    // Constructs the plane whose coordinates are zeros, eg. non-existing
-    // projective plane.
-
+    //: Constructs the plane whose coordinates are zeros,
+    //: an invalid projective plane.
+    
     inline PPlane3dC(const Vector3dC & n, RealT d)
       : PPointPlane3dC(n.X(), n.Y(), n.Z(), d)
     {}
-    // Constructs the projective plane equivalent to the Euiclidian
-    // plane determined by the equation n.X()*x + n.Y()*y + n.Z()*z + d = 0.
+    //: Constructs the projective plane equivalent to the Euiclidian
+    //: plane determined by the equation n.X()*x + n.Y()*y + n.Z()*z + d = 0.
     
     inline PPlane3dC(const Point3dC & p1,
 		     const Point3dC & p2,
@@ -71,13 +73,6 @@ namespace RavlN {
       : PPointPlane3dC(p1, p2, p3, p4)
     {}
     // Constructs the plane (p1, p2, p3, p4).
-
-#if 0    
-    inline PPlane3dC(const PlanePVV3dC & p)
-      : PPointPlane3dC(p.PlaneABCD3d())
-    {}
-    // Constructs the projective plane from the Euclidian plane 'p'.
-#endif
     
     inline PPlane3dC(const PlaneABCD3dC & p)
       : PPointPlane3dC(p)
@@ -150,30 +145,25 @@ namespace RavlN {
     friend istream & operator>>(istream & inS, PPlane3dC & point);
   };
   
+  bool FitPPlane3d(const SArray1dC<PPoint3dC> &points,PPlane3dC &plane);
+  //: Fit plane to a set of points.
+  
   inline
   PPlane3dC operator*(RealT lambda, const PPlane3dC & p)
   { return p * lambda; }
-  // Returns the point which is the 'lambda' multiplication of 'p'.
-  
-#if 0
-  inline
-  PPlane3dC operator/(RealT lambda, const PPlane3dC & p)
-  { return ::operator/(lambda, (PPointPlane3dC) p ); }
-  // Returns the point which coordinates are the 'lambda' divided by the
-  // corresponding coordinate of 'p'.
-#endif
+  //: Returns the point which is the 'lambda' multiplication of 'p'.
   
   ostream & operator<<(ostream & outS, const PPlane3dC & point);
-  // Writes the 'point' into the output stream.
+  //: Writes the 'point' into the output stream.
 
   istream & operator>>(istream & inS, PPlane3dC & point);
-  // Reads the point parameters from the input stream.
+  //: Reads the point parameters from the input stream.
   
   BinOStreamC & operator<<(BinOStreamC & strm, const PPlane3dC & p);
-  // Writes the 'point' into the output stream.
+  //: Writes the 'point' into the output stream.
   
   BinIStreamC & operator>>(BinIStreamC & strm, PPlane3dC & p);
-  // Reads the point parameters from the input stream.
+  //: Reads the point parameters from the input stream.
   
 }
 #endif
