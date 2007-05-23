@@ -70,7 +70,7 @@ namespace RavlN {
     RealT Distance(const Point3dC & p) const;
     //: Returns the distance between the point 'p' and this line.
     
-    inline LinePP3dC ShortestLine(const LinePP3dC & line);
+    LinePP3dC ShortestLine(const LinePP3dC & line);
     //: Returns the shortest line connecting this to 'line'.
     // The returned line has the first point on this
     // line and the second point on the 'line'.

@@ -52,6 +52,10 @@ namespace RavlN {
     { return point[1]; }
     //: Returns the end point of the line segment.
     
+    FPointC<N> MidPoint() const
+    { return (point[1] + point[0])/2.0; }
+    //: Returns the mid point of the line segment.
+    
     const FPointC<N> & P1() const
     { return point[0]; }
     //: Returns the start point of the line segment. 
