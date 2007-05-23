@@ -30,81 +30,87 @@ namespace RavlN {
   // starts from 0.
   
   class PPointLine2dC
-    : protected Point3dC
+    : public TFVectorC<double, 3u>
   {  
   public:
     //:----------------------------------------------
     // Constructors, assigment, copy, and destructor.
     
     inline PPointLine2dC()
-      : Point3dC(0,0,0)
-    {}
+    { Fill(0); }
     // Constructs the point/line whose coordinates are zeros, eg. non-existing
     // projective object.
 
     inline PPointLine2dC(RealT row, RealT col)
-      : Point3dC(row, col, 1)
-    {}
+    {
+      (*this)[0] = row;
+      (*this)[1] = col;
+      (*this)[2] = 1.0;
+    }
     // Constructs the point/line (row, col, 1). row,col represent either
     // point Cartesian coordinates or a line normal expressed as vector
     // Cartesian coordinates.
     
     inline PPointLine2dC(const Point2dC & p)
-      : Point3dC(p.Row(), p.Col(), 1)
-    {}
+    {
+      (*this)[0] = p.Row();
+      (*this)[1] = p.Col();
+      (*this)[2] = 1.0;
+    }
     // Constructs the projective point/line (p.Row(), p.Col(), 1) related
     // to the Euclidian point 'p'.
     
     inline PPointLine2dC(const Vector2dC & v)
-      : Point3dC(v.Row(), v.Col(), 0)
-    {}
+    {
+      (*this)[0] = v.Row();
+      (*this)[1] = v.Col();
+      (*this)[2] = 1.0;
+    }
     // Constructs the projective point/line (v.Row(), v.Col(), 0) related
     // to the Euclidian direction 'v'.
     
     inline PPointLine2dC(RealT p1, RealT p2, RealT p3)
-      : Point3dC(p1, p2, p3)
-    {}
+    {
+      (*this)[0] = p1;
+      (*this)[1] = p2;
+      (*this)[2] = p3;
+    }
     // Constructs the point/line (p1, p2, p3).
     
     inline PPointLine2dC(const PPointLine2dC & p0, const PPointLine2dC & p1)
       // Ref.: pp 66 - 67
-      : Point3dC(Det(p0.P2(), p0.P3(),
-		     p1.P2(), p1.P3()),
-		 Det(p0.P3(), p0.P1(),
-		     p1.P3(), p1.P1()),
-		 Det(p0.P1(), p0.P2(),
-		     p1.P1(), p1.P2()))
-    {}
+    {
+      (*this)[0] = Det(p0.P2(), p0.P3(),
+                       p1.P2(), p1.P3());
+      
+      (*this)[1] = Det(p0.P3(), p0.P1(),
+                       p1.P3(), p1.P1());
+      
+      (*this)[2] = Det(p0.P1(), p0.P2(),
+                       p1.P1(), p1.P2());
+    }
     // Constructs the projective point/line determined by two 
     // projective lines/points, resp.
     
     inline PPointLine2dC(const Point3dC & p)
-      : Point3dC(p)
+      : TFVectorC<double, 3u>(p)
     {}
     // Creates the projective point/line in 2D space from values of 
     // the point 'p'.
     
     inline PPointLine2dC(const RavlN::TFVectorC<RealT, 3> & p)
-      : Point3dC(p)
+      : TFVectorC<double, 3u>(p)
     {}
     // Creates the projective point/line in 2D space from values of 
     // the point 'p'.
     
     //:---------------------------
     // Access to the object items.
-
-    inline const RealT & operator[](UIntT i) const
-    { return Point3dC::operator[](i); }
-    // Returns the value of the i-th coordinate.
-
-    inline RealT & operator[](UIntT i)
-    { return Point3dC::operator[](i); }
-    // Access the value of the i-th coordinate.
     
     inline RealT Scale() const
     { return P3(); }
     // Returns the value of the last projective coordinate P3().
- 
+    
     inline const RealT & P1() const
     { return (*this)[0]; }
     // Returns the value of the 1st coordinate.
@@ -146,27 +152,13 @@ namespace RavlN {
     inline const PPointLine2dC & PPointLine2d() const
     { return *this; }
     // Access to this constant object.
-
+    
     inline PPointLine2dC & PPointLine2d()
     { return *this; }
     // Access to the point/line.
      
     //:-------------------
     // Logical conditions.
-    
-#if 0
-    inline bool operator==(const PPointLine2dC & p) const
-    { return Point3dC::operator==(p); }
-    // Returns true iff 2 points/lines are the same projective point/line.
-    // Two projective points/lines are equal iff their 3D Cartesian
-    // representants are equal.
-
-    inline bool operator!=(const PPointLine2dC & p) const
-    { return Point3dC::operator!=(p); }
-    // Returns true iff 2 points/lines are different projective points/lines.
-    // Two projective points/lines are different iff they are not
-    // equal in the sense of the operator '=='.
-#endif
     
     inline bool IsIdealPoint() const{
       const RealT sum = SumOfAbs();
@@ -187,59 +179,12 @@ namespace RavlN {
     // the threshold 'Point3dC::relZero'.
 
     inline bool IsValid() const
-    { return !IsAlmostZero(Point3dC::SumOfAbs()); }
+    { return !IsAlmostZero(SumOfAbs()); }
     // Returns true if the sum of absolute values of the projective coordinates
     // is bigger than the threshold 'Point3dC::zeroDistance'.
     
     //:------------------------
     // Arithmetical operations.
-
-    inline RealT Sum() const
-    { return Point3dC::Sum(); }
-    // Returns the sum of coordinates.
-    
-    inline RealT SumOfAbs() const
-    { return Point3dC::SumOfAbs(); }
-    // Returns the sum of absolute value of coordinates.
-    
-#if 0    
-    inline const PPointLine2dC & operator+=(const PPointLine2dC & p) {
-      Point3dC::operator+=(p);
-      return *this;
-    }
-    // Adds the values of the coordinates of the 'p' to this point/line.
-
-    inline const PPointLine2dC & operator-=(const PPointLine2dC & p) {
-      Point3dC::operator-=(p);
-      return *this;
-    }
-    // Subtracts the values of the coordinates of the 'p' from this
-    // point/line.
-    
-    inline PPointLine2dC operator+(const PPointLine2dC & p) const
-    { return Point3dC::operator+(p); }
-    // Returns the point/line which is the sum of this point and the 'p'.
-#endif
-    
-    inline const PPointLine2dC & operator*=(const RealT alpha) {
-      Point3dC::operator*=(alpha);
-      return *this;
-    }
-    // Multiplies all coordinates by 'alpha'.
-    
-    inline const PPointLine2dC & operator/=(const RealT alpha) {
-      Point3dC::operator/=(alpha);
-      return *this;
-    }
-    // Divides all coordinates by 'alpha'.
-
-    inline PPointLine2dC operator*(RealT alpha) const
-    { return Point3dC::operator*(alpha); }
-    // Returns the point/line which coordinates are multiplied by 'alpha'.
-
-    inline PPointLine2dC operator/(RealT alpha) const
-    { return Point3dC::operator/(alpha); }
-    // Returns the point/line which coordinates are divided by 'alpha'.
     
     inline PPointLine2dC Intersection(const PPointLine2dC &l2) const {
       return PPointLine2dC(l2.P3()*P2() - l2.P2()*P3(),
@@ -273,19 +218,10 @@ namespace RavlN {
     { return TFVectorC<RealT,3>::operator/(o); }
     //: Element wise devision
     
-    operator const TFVectorC<double, 3u> &() const
-    { return *this; }
-    //: Cast to a simple vector.
-    // This allow's matrix multiplies etc to work.
-    
   protected:
 
     //:------------------
     // Special functions.
-#if 0
-    inline PPointLine2dC Translation(const PPointLine2dC & newOrigin) const
-    { return Point3dC::operator+(newOrigin); }
-#endif
     
     // Returns the point/line with projective coordinates related
     // to the new origin 'newOrigin'.
@@ -300,9 +236,9 @@ namespace RavlN {
     friend istream & operator>>(istream & inS, PPointLine2dC & point);
     friend class PProjection2dC;
   };
-
+  
   inline PPointLine2dC operator*(RealT lambda, const PPointLine2dC & p)
-  { return p * lambda; }
+  { return PPointLine2dC(p[0] * lambda,p[1] * lambda,p[2] * lambda); }
   // Returns the point/line which is the 'lambda' multiplication of 'p'.
   
   inline

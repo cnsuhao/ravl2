@@ -161,10 +161,6 @@ namespace RavlN {
     friend class PProjection2dC;
   };
   
-  inline
-  PPoint2dC operator*(RealT lambda, const PPoint2dC & p)
-  { return p * lambda; }
-  // Returns the point which is the 'lambda' multiplication of 'p'.
   
   bool Normalise(const SArray1dC<PPoint2dC> &raw,SArray1dC<PPoint2dC> &norm,Matrix3dC &normMat);
   //: Normalise an array of points.
