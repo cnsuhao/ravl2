@@ -235,8 +235,18 @@ namespace RavlN {
     
     static int defaultPermissions = 0644;
     IntT fd = open(filename.chars(),mode,defaultPermissions); 
-    ofstrm = new stdofdstream(fd);
-    Init(out = ofstrm,filename);     
+    if(fd >= 0) {
+      ofstrm = new stdofdstream(fd);
+      Init(out = ofstrm,filename);     
+    } else {
+      // Open with a normal ofstream call. This helps ensure consistant behaviour
+      // with ofstream for a file that failed to open.
+      
+      Init(ofstrm = new ofstream(filename.chars(),(std::_Ios_Openmode) fmode),filename);
+      if(!buffered) {
+        cerr << "WARNING: Unbuffered streams are not currently supported under gcc3.\n";
+      }
+    }
 #else    
     Init(ofstrm = new ofstream(filename.chars(),(std::_Ios_Openmode) fmode),filename);
     if(!buffered) {
@@ -350,16 +360,25 @@ namespace RavlN {
     if(binary)
       fmode |= ios::binary;
 #endif
-
-#if RAVL_HAVE_INTFILEDESCRIPTORS 
+    
+#if RAVL_HAVE_INTFILEDESCRIPTORS
     // We can't use the native open, because we need to be able to handle large files.
     //cerr << "USING NEW OPEN. \n";
     int mode = O_RDONLY | O_LARGEFILE;
     int fd = open(filename.chars(),mode);
-    istream *ifs = new stdifdstream(fd,static_cast<std::ios_base::openmode>(fmode));
-    Init(ifs ,filename);
-    in = ifs;
-#else        
+    if(fd >= 0) {
+      istream *ifs = new stdifdstream(fd,static_cast<std::ios_base::openmode>(fmode));
+      Init(ifs ,filename);
+      in = ifs;
+    } else {
+      // If we failed to open it as file descriptor try again with the normal istream interface.
+      // This keeps behaviour consistant with the behavour of ifstream of files that failed to open.
+      ifstream *ifstrm = 0;
+      fmode |= ios::binary;
+      Init(ifstrm = new ifstream(filename,static_cast<std::ios_base::openmode>(fmode)),filename);
+      in = ifstrm;
+    }
+#else
     ifstream *ifstrm = 0;
     fmode |= ios::binary;
     Init(ifstrm = new ifstream(filename,static_cast<std::ios_base::openmode>(fmode)),filename);
