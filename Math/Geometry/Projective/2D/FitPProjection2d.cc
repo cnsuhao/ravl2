@@ -22,16 +22,17 @@ namespace RavlN {
     UIntT neq = from.Size();
     if(neq < 4) return false;
     
+    Matrix3dC fromNorm;
+    Matrix3dC toNorm;
+    
     // Normalise 'from' points.
     
     SArray1dC<PPoint2dC> fromN;
-    Matrix3dC fromNorm;
     Normalise(from,fromN,fromNorm);
     
     // Normalise 'to' points.
     
     SArray1dC<PPoint2dC> toN;
-    Matrix3dC toNorm;
     Normalise(to,toN,toNorm);
     
     // Build matrix.

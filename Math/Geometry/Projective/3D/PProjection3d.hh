@@ -132,20 +132,23 @@ namespace RavlN {
     
     friend class PPerspective3dC;
   };    
-
+  
+  bool FitPProjection(SArray1dC<PPoint3dC> &p1,SArray1dC<PPoint3dC> &p2,PProjection3dC &proj);
+  //: Fit a 3d projection such that  p2 = proj * p1
+  
   ostream & operator<<(ostream & outS, const PProjection3dC & p);
-  // Saves the projection 'p' into the output stream 'outS'.
+  //: Saves the projection 'p' into the output stream 'outS'.
 
   istream & operator>>(istream & inS, PProjection3dC & p);
-  // Sets the projective transformation elements according to the values
-  // read from input stream 'inS'.
+  //: Sets the projective transformation elements according to the values
+  //: read from input stream 'inS'.
   
   BinOStreamC & operator<<(BinOStreamC & strm, const PProjection3dC & p);
-  // Saves the projection 'p' into the output binary stream 'strm'.
+  //: Saves the projection 'p' into the output binary stream 'strm'.
   
   BinIStreamC & operator>>(BinIStreamC & strm, PProjection3dC & p);
-  // Sets the projective transformation elements according to the values
-  // read from binary stream 'strm'.
+  //: Sets the projective transformation elements according to the values
+  //: read from binary stream 'strm'.
   
 }
 #endif

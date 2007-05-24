@@ -23,6 +23,8 @@ namespace RavlN {
   class Point3dC;
   class Vector3dC;
   class Point4dC;
+  class Matrix4dC;
+  template<typename DataT> class SArray1dC;
   
   //! userlevel=Normal
   //: Point in 3D projective space
@@ -170,6 +172,16 @@ namespace RavlN {
     friend istream & operator>>(istream & inS, PPoint3dC & point);
     friend class PProjection3dC;
   };
+  
+  bool Normalise(const SArray1dC<PPoint3dC> &raw,SArray1dC<PPoint3dC> &norm,Matrix4dC &normMat);
+  //: Normalise an array of points.
+  // This finds the mean and variation of euclidean point position. It corrects the mean to zero
+  // and the average variation to 1.
+  // This assumes there are no points at infinity.
+  //!param: raw - Raw points to be normalised
+  //!param: norm - Normalised points.
+  //!param: normMat - Normalisation matrix 
+  //!return: Normalisation found and applied.
   
   inline
   PPoint3dC operator*(RealT lambda, const PPoint3dC & p)
