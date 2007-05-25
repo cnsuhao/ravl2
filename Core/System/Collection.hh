@@ -16,6 +16,7 @@
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/RefCounter.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
   
@@ -358,6 +359,23 @@ namespace RavlN {
     
   };
 
+  
+  template <class DataT>
+  BinOStreamC & operator<<(BinOStreamC & s, const CollectionC<DataT> &col)
+  {
+    s << col.Array();
+    return s;
+  }
+  
+  template <class DataT>
+  BinIStreamC & operator>>(BinIStreamC& s, CollectionC<DataT> &col)
+  {
+    SArray1dC<DataT> arr;
+    s >> arr;
+    col = CollectionC<DataT>(arr);
+    return s;
+  }
+  
   template<class DataT>
   ostream &operator<<(ostream &s,const CollectionC<DataT> &d) {
     s << d.Array();
