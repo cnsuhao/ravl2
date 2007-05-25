@@ -113,7 +113,7 @@ namespace RavlN {
     // if it is at the end of the array.
     
     bool NextRow(IndexC off) {
-      rit.Next();
+      rit.Next(off.V());
       if(!rit.IsElm())
 	return false;
       IndexC s1 = rng.Min() + off;
