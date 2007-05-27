@@ -31,14 +31,7 @@ namespace RavlN {
     strm >> strSize;
     str.clear();
     str.resize(strSize);
-    IntT at = 0;
-    char buff[1024];
-    for(;at < strSize;) {
-      IntT nbytes = Min(strSize - at,1024);
-      strm.IBuff(buff,nbytes);
-      str.append(buff,nbytes);
-      at += nbytes;
-    }
+    strm.IBuff(&(str[0]),strSize);
     return strm; 
   }
   
