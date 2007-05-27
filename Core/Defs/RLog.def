@@ -2,7 +2,7 @@ ifndef RLOG_DEF
 RLOG_DEF=1
 
 ifdef RLOG_HOME
-EXELIB := -L$(RLOG_HOME)/lib -lrlog $(EXELIB)
+EXELIB := -L$(RLOG_HOME)/lib -Wl,-rpath,$(RLOG_HOME)/lib -lrlog $(EXELIB)
 INCLUDES += -I$(RLOG_HOME)/include
 else
 EXELIB := -lrlog $(EXELIB)
