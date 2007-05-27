@@ -13,6 +13,7 @@
 //! file="Ravl/Core/Base/SmartPtr.hh"
 
 #include "Ravl/RCHandleV.hh"
+#include "Ravl/Exception.hh"
 
 namespace RavlN {
   
@@ -114,7 +115,7 @@ namespace RavlN {
   void SaveStreamImpl(StreamT &strm,const SmartPtrC<BodyT> &ptr,const RCBodyC &) {
     char handleStatus = ptr.IsValid() ? 'V' : 'I';
     strm << handleStatus;
-    if(ptr.IsValid()) strm << *ptr;
+    if(ptr.IsValid()) ptr->Save(strm);
   }
   
   
@@ -123,10 +124,12 @@ namespace RavlN {
     char handleStatus = 0;
     strm >> handleStatus;
     if(handleStatus == 'V') {
-      ptr = new BodyT();
-      strm >> *ptr;
-    } else 
+      ptr = new BodyT(strm);
+    } else {
+      if(handleStatus != 'I')
+        throw ExceptionOperationFailedC("Unexpected value in input stream.");
       ptr = 0; // Ensure an invalid handle.
+    }
   }
   
   template<typename StreamT,typename BodyT>
@@ -135,8 +138,11 @@ namespace RavlN {
     strm >> handleStatus;
     if(handleStatus == 'V') {
       ptr = RAVL_VIRTUALCONSTRUCTOR(strm,BodyT);
-    } else 
+    } else {
+      if(handleStatus != 'I')
+        throw ExceptionOperationFailedC("Unexpected value in input stream.");
       ptr = 0; // Ensure an invalid handle.
+    }
   }
   
   //!userlevel=Normal
