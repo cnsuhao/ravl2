@@ -21,7 +21,7 @@ namespace RavlN {
   
   Matrix2dC Moments2d2C::Covariance() const {
     if( IsSmall(m00) )
-      return Matrix2dC(1,0,0,1); // if m00 is too small (division by zero)
+      return Matrix2dC(1,0,0,1); // if m00 is too small (prevent effective division by zero)
     RealT cent1 = CentroidX();
     RealT cent2 = CentroidY();
     RealT diag = m11 / m00 - cent1*cent2;
