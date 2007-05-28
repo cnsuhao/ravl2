@@ -30,8 +30,10 @@ namespace RavlN {
     IntT strSize;
     strm >> strSize;
     str.clear();
-    str.resize(strSize);
-    strm.IBuff(&(str[0]),strSize);
+    if(strSize > 0) {
+      str.resize(strSize);
+      strm.IBuff(&(str[0]),strSize);
+    }
     return strm; 
   }
   

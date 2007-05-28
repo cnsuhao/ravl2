@@ -75,7 +75,7 @@ int testSmartPtr();
 
 int testRavlCore(int argc,char **argv) {
   int line = 0;
-#if 0
+#if 1
   if((line = testArray1()) != 0) {
     cerr << "Array1 test failed line :" << line << "\n";
     return 1;
@@ -545,10 +545,17 @@ public:
   TestDerivedC()
     : m_i(0)
   {}
+
+  TestDerivedC(BinIStreamC &strm)
+    : m_i(0)
+  { strm >> m_i; }
   
   TestDerivedC(int i)
     : m_i(i)
   {}
+  
+  bool Save(BinOStreamC &strm) const
+  { strm << m_i; return true; }
   
   int m_i;
 };
@@ -579,7 +586,7 @@ public:
   int m_i;
 };
 
-
+#if 0
 BinOStreamC &operator<<(BinOStreamC &strm,const TestDerivedC &obj) {
   strm << obj.m_i;
   return strm;
@@ -589,6 +596,7 @@ BinIStreamC &operator>>(BinIStreamC &strm,TestDerivedC &obj) {
   strm >> obj.m_i;
   return strm;
 }
+#endif
 
 RAVL_INITVIRTUALCONSTRUCTOR_NAMED(TestDerived2C,"TestDerived2C");
 
