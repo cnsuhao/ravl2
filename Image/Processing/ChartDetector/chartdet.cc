@@ -66,7 +66,7 @@ int main(int nargs,char **argv) {
   UIntT minRegionSize = opt.Int("ms",100,"Minimum region size to consider.");
   UIntT minRegionMargin = opt.Int("mm",10,"Minimum region stability margin.");
   UIntT patchSize = opt.Int("p",40,"Patch size. ");
-  StringC chartName = opt.String("c",PROJECT_OUT "/share/RAVL/pixmaps/CalibrationChart.jpg","Image of chart to search for. ");
+  StringC chartName = opt.String("c",PROJECT_OUT "/share/RAVL/pixmaps/CalibrationChart.png","Image of chart to search for. ");
   StringC chartCoordFile = opt.String("co",PROJECT_OUT "/share/RAVL/pixmaps/CalibrationChart.coords","Calibration coordinages in the chart. ");
   StringC matchFilename = opt.String("mf","","File containing matched coordinates.");
   StringC sceneName = opt.String("","image.pgm","Image in which to search for chart. ");

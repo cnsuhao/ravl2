@@ -23,6 +23,6 @@ USESLIBS=RavlImage RavlImageProc RavlImageIO  Optimisation
 
 PROGLIBS=RavlDPDisplay.opt RavlExtImgIO RavlOS
 
-AUXFILES=CalibrationChart.ps CalibrationChart.jpg CalibrationChart.coords
+AUXFILES=CalibrationChart.ps CalibrationChart.png CalibrationChart.coords
 
 AUXDIR=share/RAVL/pixmaps
