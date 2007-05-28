@@ -172,7 +172,7 @@ namespace RavlImageN {
 
   // Uses the DVS matrix to do conversion from ycrcb to RGB..
   DP_REGISTER_CONVERSION_NAMED(ByteDVSYUV422ImageCT2ByteDVSRGBImageCT,1.1,
-			       "ImageC<ByteRGBValueC> RavlImageN::Convert(const ImageC<ByteYUV422ValueC> &)");
+			       "ImageC<ByteDVSRGBValueC> RavlImageN::Convert(const ImageC<ByteDVSYUV422ValueC> &)");
   
   DP_REGISTER_CONVERSION_NAMED(ByteYUV422ImageCT2ByteImageCT,2,
 			       "ImageC<ByteT> RavlImageN::Convert(const ImageC<ByteYUV422ValueC> &)");
