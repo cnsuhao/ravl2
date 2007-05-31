@@ -135,8 +135,7 @@ namespace RavlN {
     PProjection2dC T() const
     { return Matrix3dC::T(); }
     //: Transpose operator
-
-  protected:    
+    
     inline PProjection2dC(const RavlN::FMatrixC<3,3> & m)
       : Matrix3dC(m)
     {}
@@ -146,6 +145,7 @@ namespace RavlN {
       : Matrix3dC(m)
     {}
     // Creates a projectivity transformation defined by the matrix 'm'..
+  protected:    
   };    
   
   bool FitPProjection(const SArray1dC<PPoint2dC> &from,const SArray1dC<PPoint2dC> &to,PProjection2dC &proj);
