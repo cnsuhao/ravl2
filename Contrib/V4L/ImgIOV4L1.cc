@@ -25,7 +25,7 @@ typedef unsigned long ulong;
 
 #include <linux/videodev.h>
 
-#define USE_MMAP 1
+#define USE_MMAP 0
 
 #define DODEBUG 0
 #if DODEBUG
