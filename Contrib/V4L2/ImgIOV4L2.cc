@@ -113,10 +113,10 @@ namespace RavlImageN
 
 
 
-  const static UIntT g_defaultWidth = 320;
+  const static UIntT g_defaultWidth = 720; // 320
   //: Default capture width (usually overridden by getting with initial format)
-
-  const static UIntT g_defaultHeight = 240;
+  
+  const static UIntT g_defaultHeight = 576; // 240
   //: Default capture height (usually overridden by getting with initial format)
 
   const static UIntT g_defaultBuffers = 3;
@@ -462,81 +462,65 @@ namespace RavlImageN
 
     // Get the maximum width
     m_widthMax = m_width;
-    while (true)
+    for(UIntT i = m_width;i < 1024;i++)
     {
-      pfmt->width = m_widthMax + 1;
+      pfmt->width = i;
       pfmt->height = m_height;
       pfmt->pixelformat = m_pixelFormat;
       pfmt->field = g_supportedField[m_fieldFormat].m_field;
       if (ioctl(m_fd, VIDIOC_S_FMT, &fmt) != -1)
       {
-        if (pfmt->width == m_widthMax + 1)
+        if (pfmt->width == i)
           m_widthMax = pfmt->width;
-        else
-          break;
       }
-      else
-        break;
     }
-    ONDEBUG(cerr << "ImgIOV4L2BaseC::CheckFormat width max(" << m_widthMax << ")" << endl;)
+    ONDEBUG(cerr << "ImgIOV4L2BaseC::CheckFormat width max(" << m_widthMax << ")" << endl);
     
     // Get the minimum width
     m_widthMin = m_width;
-    while (true)
+    for(UIntT i = m_width;i > 8;i--)
     {
-      pfmt->width = m_widthMin - 1;
+      pfmt->width = i;
       pfmt->height = m_height;
       pfmt->pixelformat = m_pixelFormat;
       pfmt->field = g_supportedField[m_fieldFormat].m_field;
       if (ioctl(m_fd, VIDIOC_S_FMT, &fmt) != -1)
       {
-        if (pfmt->width == m_widthMin - 1)
+        if (pfmt->width == i)
           m_widthMin = pfmt->width;
-        else
-          break;
       }
-      else
-        break;
     } 
-    ONDEBUG(cerr << "ImgIOV4L2BaseC::CheckFormat width min(" << m_widthMin << ")" << endl;)
+    ONDEBUG(cerr << "ImgIOV4L2BaseC::CheckFormat width min(" << m_widthMin << ")" << endl);
     
     // Get the maximum height
     m_heightMax = m_height;
-    while (true)
+    for(UIntT i = m_height;i < 1024;i++)
     {
       pfmt->width = m_width;
-      pfmt->height = m_heightMax + 1;
+      pfmt->height = i;
       pfmt->pixelformat = m_pixelFormat;
       pfmt->field = g_supportedField[m_fieldFormat].m_field;
       if (ioctl(m_fd, VIDIOC_S_FMT, &fmt) != -1)
       {
-        if (pfmt->height == m_heightMax + 1)
+        if (pfmt->height == i)
           m_heightMax = pfmt->height;
-        else
-          break;
       }
-      else
-        break;
     }
     ONDEBUG(cerr << "ImgIOV4L2BaseC::CheckFormat height max(" << m_heightMax << ")" << endl;)
     
     // Get the minimum height
     m_heightMin = m_height;
-    while (true)
+    for(UIntT i = m_height;i > 8;i--)
     {
       pfmt->width = m_width;
-      pfmt->height = m_heightMin - 1;
+      pfmt->height = i;
       pfmt->pixelformat = m_pixelFormat;
       pfmt->field = g_supportedField[m_fieldFormat].m_field;
       if (ioctl(m_fd, VIDIOC_S_FMT, &fmt) != -1)
       {
-        if (pfmt->height == m_heightMin - 1)
+        if (pfmt->height == i)
           m_heightMin = pfmt->height;
-        else
-          break;
       }
-      else
-        break;
     } 
     ONDEBUG(cerr << "ImgIOV4L2BaseC::CheckFormat height min(" << m_heightMin << ")" << endl;)
     
@@ -551,7 +535,6 @@ namespace RavlImageN
   }
   
   
-  
   bool ImgIOV4L2BaseC::ConfigureCapture()
   {
     RavlAssertMsg(IsOpen(), "ImgIOV4L2BaseC::ConfigureCapture device not open");
@@ -562,7 +545,7 @@ namespace RavlImageN
     if (ioctl(m_fd, VIDIOC_S_STD, &stdId) == -1)
     {
       cerr << "ImgIOV4L2BaseC::ConfigureCapture ioctl(VIDIOC_S_STD) failed to set standard(" << g_supportedStandard[m_standard].m_name << ")" << endl;
-      return false;
+      //return false;
     }
     
     // Set the input

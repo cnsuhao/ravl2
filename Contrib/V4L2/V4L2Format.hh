@@ -8,7 +8,7 @@
 #define RAVL_MPEG2DEMUX_HEADER 1
 //////////////////////////////////////////////////////////////////
 //! rcsid = "$Id$"
-//! lib=RavlIOV4L2
+//! lib=RavlImgIOV4L2
 //! author = "Warren Moore"
 //! file="Ravl/Contrib/V4L2/V4L2Format.hh"
 

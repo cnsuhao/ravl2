@@ -10,6 +10,7 @@
 //! author = "Warren Moore"
 //! file="Ravl/Contrib/V4L2/V4L2Format.cc"
 
+#include "Ravl/Image/ByteYUVValue.hh"
 #include "Ravl/Image/V4L2Format.hh"
 #include "Ravl/Image/ImgIOV4L2.hh"
 #include "Ravl/TypeName.hh"
@@ -63,7 +64,10 @@ namespace RavlImageN
 
     // Create the V4L2 object (will not be open after construction if not supported)
     ImgIOV4L2BaseC v4l2(device, channel, obj_type);
-    ONDEBUG(cerr << "FileFormatV4L2BodyC::ProbeLoad format supported(" << (v4l2.IsOpen() ? "Y" : "N") << ")" << endl;)
+    ONDEBUG(cerr << "FileFormatV4L2BodyC::ProbeLoad format supported(" << (v4l2.IsOpen() ? "Y" : "N") << ")" << endl);
+    
+    if (obj_type == typeid(ImageC<ByteYUVValueC>))
+      return typeid(ImageC<ByteRGBValueC>);
     
     return (v4l2.IsOpen() ? obj_type : typeid(void));
   }
