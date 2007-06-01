@@ -1,6 +1,6 @@
-# This file is part of QMake, Quick Make System 
+# This file is part of QMake, Quick Make System
 # Copyright (C) 2001, University of Surrey
-# This code may be redistributed under the terms of the GNU General 
+# This code may be redistributed under the terms of the GNU General
 # Public License (GPL). See the gpl.licence file for details or
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
@@ -17,7 +17,7 @@ endif
 
 export TARGET
 
-MAKEFLAGS += --no-print-directory -r 
+MAKEFLAGS += --no-print-directory -r
 
 ifndef QCWD
  QCWD :=$(shell sh -c "if [ -x /usr/bin/pawd ] ; then /usr/bin/pawd ; else pwd ; fi")
@@ -145,7 +145,7 @@ ifneq (,$(SUPPORT_ONLY))
  ifeq ($(ARC),$(filter $(ARC),$(SUPPORT_ONLY)))
   SUPPORT_OK=yes
  else
-  SUPPORT_OK=no 
+  SUPPORT_OK=no
   NOINCDEFS=1 # Tell the system to ignore the .def files.
  endif
 else
@@ -212,18 +212,26 @@ ifdef USESLIBS
   ifneq ($(USESLIBS),None)
    ifeq ($(filter Auto,$(USESLIBS)),Auto)
     AUTOUSELIBS := $(shell $(QLIBS) -use -d -p $(ROOTDIR))
-    EXTRA_USESLIBS = $(AUTOUSELIBS) $(patsubst %,%.def,$(filter-out Auto,$(USESLIBS)))
+    EXTRA_USESLIBS = $(AUTOUSELIBS) $(filter-out Auto,$(USESLIBS))
     ifdef LIBDEPS
      ifdef PLIB
       AUTOUSELIBS := $(PLIB).def $(AUTOUSELIBS)
-     endif 
+     endif
     endif
    else
-    EXTRA_USESLIBS = $(patsubst %,%.def,$(USESLIBS))
+    EXTRA_USESLIBS = $(USESLIBS)
    endif
    ifndef NOINCDEFS
-    ifneq ($(strip $(EXTRA_USESLIBS)),)
-     include $(EXTRA_USESLIBS)
+# split optional and required libs
+    REQUIRED_USESLIBS=$(patsubst %,%.def,$(filter-out %.opt,$(EXTRA_USESLIBS)))
+    OPTIONAL_USESLIBS=$(patsubst %.opt,%.def,$(filter %.opt,$(EXTRA_USESLIBS)))
+    ifneq ($(strip $(REQUIRED_USESLIBS)),)
+     include $(REQUIRED_USESLIBS)
+    endif
+    ifneq ($(strip $(OPTIONAL_USESLIBS)),)
+     -include $(OPTIONAL_USESLIBS)
+$(OPTIONAL_USESLIBS) : $(INST_LIB)/.dir
+	@true;
     endif
    endif
   endif
@@ -238,15 +246,15 @@ ifdef PLIB
  EXELIB := $(MKMUSTLINK) -l$(PLIB) $(EXELIB)
 endif
 
-########################### 
+###########################
 # Sort out libraries needed for executables from PROGLIBS
 
 
 # Record the contents of EXELIB before we add prog libs in LIBLIBS
-LIBLIBS := $(EXELIB) 
+LIBLIBS := $(EXELIB)
 ifndef NOINCDEFS
  REQUIRED_PROGLIBS=$(patsubst %,%.def,$(filter-out %.opt,$(PROGLIBS)))
- OPTIONAL_PROGLIBS=$(patsubst %.opt,%.def,$(PROGLIBS))
+ OPTIONAL_PROGLIBS=$(patsubst %.opt,%.def,$(filter %.opt,$(PROGLIBS)))
  ifneq ($(strip $(REQUIRED_PROGLIBS)),)
   include $(REQUIRED_PROGLIBS)
  endif
@@ -281,12 +289,12 @@ endif
 LINKLIBS := $(EXELIB)
 
 ######################################
-# Sort out libraries needed for test executables. TESTLIBS 
+# Sort out libraries needed for test executables. TESTLIBS
 
 ifndef NOINCDEFS
  ifdef TESTLIBS
  REQUIRED_TESTLIBS=$(patsubst %,%.def,$(filter-out %.opt,$(TESTLIBS)))
- OPTIONAL_TESTLIBS=$(patsubst %.opt,%.def,$(TESTLIBS))
+ OPTIONAL_TESTLIBS=$(patsubst %.opt,%.def,$(filter %.opt,$(TESTLIBS)))
  ifneq ($(strip $(REQUIRED_TESTLIBS)),)
   include $(REQUIRED_TESTLIBS)
  endif
@@ -321,7 +329,7 @@ PREPROCFLAGS = -DPROJECT_OUT=\"$(PROJECT_OUT)\" -DCPUG_ARCH=\"$(ARC)\"
 
 ifdef SHAREDBUILD
 PREPROCFLAGS += -DCPUG_VAR_SHARED=1
-endif 
+endif
 
 # Make sure current directory is included in path if we have local headers.
 
@@ -329,12 +337,12 @@ ifdef LOCALHEADERS
  INCLUDES+=-I.
 endif
 
-# C Flags. 
+# C Flags.
 CPPFLAGS += $(USERCPPFLAGS) $(PREPROCFLAGS)
 CFLAGS += $(USERCFLAGS) $(ANSIFLAG)
 
 # C++ Flags
-CCPPFLAGS += $(USERCPPFLAGS) $(PREPROCFLAGS) 
+CCPPFLAGS += $(USERCPPFLAGS) $(PREPROCFLAGS)
 CCFLAGS += $(USERCFLAGS) $(ANSIFLAG)
 
 # If QMAKE_INFO is set don't prepend commands with @ so we can see what they are.
@@ -449,7 +457,7 @@ endif
 
 CINCLUDES =  -I$(INST_HEADER) $(INCLUDES) -I$(BASE_INSTALL)/include/$(ARC) -I$(BASE_INSTALL)/include
 
-ifndef SHAREDBUILD 
+ifndef SHAREDBUILD
  TESTBINLIBS += -L$(INST_LIB) $(LINKTESTLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)
  BINLIBS += -L$(INST_LIB) $(LINKLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)
  LIBS += -L$(INST_LIB) $(EXELIB) -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)
@@ -457,15 +465,15 @@ else
  TESTBINLIBS += -L$(INST_LIB) $(LINKTESTLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)/shared
  BINLIBS += -L$(INST_LIB) $(LINKLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)/shared
  LIBS += -L$(INST_LIB) $(EXELIB) -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)/shared
-endif 
+endif
 
 
-# setup some library paths, so that binaries will always be able to find correct libraries. 
-ifdef SHAREDBUILD 
+# setup some library paths, so that binaries will always be able to find correct libraries.
+ifdef SHAREDBUILD
  ifneq ($(BASE_VAR),none)
   LDFLAGS += $(LIBPATHSWITCH)$(ROOTDIR)/lib/RAVL/$(ARC)/$(VAR)/shared
   LDFLAGS += $(LIBPATHSWITCH)$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)/shared
- else 
+ else
   LDFLAGS += $(LIBPATHSWITCH)$(ROOTDIR)/lib/RAVL/$(ARC)/$(BASE_VAR)/$(VAR)/shared
  endif
 endif
@@ -477,7 +485,7 @@ endif
          all build_aux build_test test build_pureexe fullbuild testbuild purifybuild cheadbuild \
          buildjavalibs libbuild localsrc
 
-all: prebuildstep srcfiles build_aux 
+all: prebuildstep srcfiles build_aux
 	@echo "Internal error: No valid build target "
 
 fullbuild: prebuildstep build_subdirs build_libs build_exe build_aux  $(TARG_HDRCERTS) postbuildstepexe
@@ -499,7 +507,7 @@ else
 	@true;
 endif
 
-postbuildstep:  build_subdirs build_libs 
+postbuildstep:  build_subdirs build_libs
 ifdef POSTBUILDSTEP
 	@echo "--- Running postbuild step. "; \
 	$(POSTBUILDSTEP)
@@ -597,7 +605,7 @@ $(INST_HEADERCERT)/%$(CHXXEXT) : %$(CHXXEXT) $(TARG_HDRS) $(INST_HEADERCERT)/.di
 	  $(RM) $(WORKTMP)/$<$(OBJEXT) $(WORKTMP)/$<$(CXXEXT) ; \
 	  exit 1 ; \
 	fi ; \
-	$(RM) $(WORKTMP)/$<$(OBJEXT) $(WORKTMP)/$<$(CXXEXT)  
+	$(RM) $(WORKTMP)/$<$(OBJEXT) $(WORKTMP)/$<$(CXXEXT)
 
 $(INST_HEADERCERT)/%$(CHEXT) : %$(CHEXT) $(TARG_HDRS) $(INST_HEADERCERT)/.dir $(WORKTMP)/.dir
 	$(SHOWIT)echo "--- Checking header $(@F)" ; \
@@ -667,18 +675,18 @@ $(TARG_HDRFLAG) : $(TARG_HDRS) $(LOCAL_FILES) $(LOCALHEADERS) $(INST_DEPEND)/.di
 	@echo "#Just a dummy file. " > $(TARG_HDRFLAG)
 
 ifdef LOCAL_DEFBASE
- LOCALDEF_FILE = $(INST_LIBDEF)/$(LOCAL_DEFBASE).def 
+ LOCALDEF_FILE = $(INST_LIBDEF)/$(LOCAL_DEFBASE).def
 endif
 
 ###########################
 # compile objects.
 
 
-#define a name for the build type to be displayed to the user. 
-VAR_DISPLAY_NAME=$(VAR) 
-ifdef SHAREDBUILD 
+#define a name for the build type to be displayed to the user.
+VAR_DISPLAY_NAME=$(VAR)
+ifdef SHAREDBUILD
 VAR_DISPLAY_NAME +=  (shared)
-endif 
+endif
 
 # Must link objects
 
@@ -688,7 +696,7 @@ $(TARG_MUSTLINK_OBJS) : $(INST_FORCEOBJS)/%$(OBJEXT) : $(INST_OBJS)/%$(OBJEXT) $
 	  $(CHMOD) +w $(INST_FORCEOBJS)/$(@F) ; \
 	fi ; \
 	$(CP) $(INST_OBJS)/$*$(OBJEXT) $(INST_FORCEOBJS)/$*$(OBJEXT) ; \
-	$(CHMOD) a-w $(INST_FORCEOBJS)/$*$(OBJEXT) 
+	$(CHMOD) a-w $(INST_FORCEOBJS)/$*$(OBJEXT)
 
 $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CXXAUXEXT) $(INST_OBJS)/.dir $(INST_DEPEND)/.dir
 	$(SHOWIT)echo "--- Compile $(VAR_DISPLAY_NAME) $<" ; \
@@ -710,7 +718,7 @@ $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CXXEXT) $(INST_OBJS)/.dir $(INST
 	  $(MKDEPUP) ; \
 	else \
 	  false ; \
-	fi 
+	fi
 
 $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CEXT) $(INST_OBJS)/.dir $(INST_DEPEND)/.dir
 	$(SHOWIT)echo "--- Compile $(VAR_DISPLAY_NAME) $< "; \
@@ -721,7 +729,7 @@ $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CEXT) $(INST_OBJS)/.dir $(INST_D
 	  $(MKDEPUP) ; \
 	else \
 	  false ; \
-	fi 
+	fi
 
 $(INST_OBJS)/%$(OBJEXT) : %.S $(INST_OBJS)/.dir
 	$(SHOWIT)echo "--- Assemble $(VAR_DISPLAY_NAME) $< "; \
@@ -744,7 +752,7 @@ ifndef SWIGOPTS
  SWIGOPTS+=-python
 endif
 
-%.tab$(CXXEXT) %.tab$(CHEXT) : %.y 
+%.tab$(CXXEXT) %.tab$(CHEXT) : %.y
 	$(SHOWIT)echo "--- Bison" $< ; \
 	$(BISON) -d -o$*.tab$(CEXT) $< ; \
 	mv $*.tab$(CEXT) $*.tab$(CXXEXT)
@@ -755,12 +763,12 @@ endif
 
 %_wrap$(CXXEXT) : %.i *.i
 	$(SHOWIT)echo "--- swig" $< ; \
-	$(SWIG) -c++ $(SWIGOPTS) $(INCLUDES) -o $*_wrap$(CXXEXT) $< 
+	$(SWIG) -c++ $(SWIGOPTS) $(INCLUDES) -o $*_wrap$(CXXEXT) $<
 
 #############################
 # Build libraries.
 
-.SECONDARY : $(INST_LIB)/dummymain$(OBJEXT) 
+.SECONDARY : $(INST_LIB)/dummymain$(OBJEXT)
 
 ifneq ($(strip $(TARG_JAVA)),)
 build_libs: $(TARG_LIBS) buildjavalibs prebuildstep
@@ -788,9 +796,9 @@ ifndef XARGS
   XARGS = xargs
 endif
 
-ifndef TR 
-  TR = tr 
-endif 
+ifndef TR
+  TR = tr
+endif
 
 
 ifndef SHAREDBUILD
@@ -798,7 +806,7 @@ ifeq ($(NOLIBRARYPRELINK),1)
 $(INST_LIB)/lib$(PLIB)$(LIBEXT) : $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
 	$(SHOWIT)echo "--- Building" $(@F) ; \
 	$(AR) $(ARFLAGS) $(INST_LIB)/$(@F) $(TARG_OBJS) ; \
-	$(UNTOUCH) $(INST_LIB)/$(@F) $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) ; 
+	$(UNTOUCH) $(INST_LIB)/$(@F) $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) ;
 else
 $(INST_LIB)/lib$(PLIB)$(LIBEXT) : $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
 	$(SHOWIT)echo "--- Building" $(@F) ; \
@@ -880,22 +888,22 @@ $(TARG_SCRIPT) : $(INST_GENBIN)/% : % $(INST_GENBIN)/.dir
 	  $(CHMOD) +w $(INST_GENBIN)/$(@F) ; \
 	fi ; \
 	$(SCRIPT_INSTALL) $* $(INST_GENBIN)/$* ; \
-	$(CHMOD) 555 $(INST_GENBIN)/$* 
+	$(CHMOD) 555 $(INST_GENBIN)/$*
 
 
 # If there's no library include objects from SOURCES directly.
 # Always include MUSTLINK_OBJS from this directory.
 
 ifndef PLIB
- EXTRAOBJS = $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) 
+ EXTRAOBJS = $(TARG_OBJS) $(TARG_MUSTLINK_OBJS)
 else
- EXTRAOBJS = 
+ EXTRAOBJS =
 #$(TARG_MUSTLINK_OBJS)
 endif
 
 $(TARG_PUREEXE) : $(INST_BIN)/pure_%$(EXEEXT) : $(INST_OBJS)/%$(OBJEXT) $(EXTRAOBJS) $(TARG_LIBS) $(INST_BIN)/.dir $(TARG_HDRCERTS)
 	$(SHOWIT)echo "--- Purify $(@F)  ( $(INST_BIN)/$(@F) ) " ; \
-	purify -g++ -best-effort $(CXX) $(LDFLAGS) $(INST_OBJS)/$*$(OBJEXT) $(EXTRAOBJS) $(BINLIBS) -o $(INST_BIN)/$(@F)$(EXEEXT) ; 
+	purify -g++ -best-effort $(CXX) $(LDFLAGS) $(INST_OBJS)/$*$(OBJEXT) $(EXTRAOBJS) $(BINLIBS) -o $(INST_BIN)/$(@F)$(EXEEXT) ;
 
 $(TARG_EXE) : $(INST_BIN)/%$(EXEEXT) : $(INST_OBJS)/%$(OBJEXT) $(INST_GENBIN)/% $(EXTRAOBJS) $(TARG_LIBS) $(INST_BIN)/.dir $(TARG_HDRCERTS)
 	$(SHOWIT)echo "--- Linking $(VAR_DISPLAY_NAME) $(@F) ( $(INST_BIN)/$*$(EXEEXT) ) " ; \
@@ -1017,7 +1025,7 @@ $(INST_LIBDEF)/$(LOCAL_DEFBASE).def: defs.mk $(INST_LIBDEF)/.dir $(HEADERS) $(SO
 	  $(CHMOD) +w $(INST_LIBDEF)/$(@F) ; \
 	fi ; \
 	echo 'ifndef $(LOCAL_DEFBASE)_AUTO_DEF' > $(INST_LIBDEF)/$(@F) ; \
-	echo '$(LOCAL_DEFBASE)_AUTO_DEF=1' >> $(INST_LIBDEF)/$(@F) ; 
+	echo '$(LOCAL_DEFBASE)_AUTO_DEF=1' >> $(INST_LIBDEF)/$(@F) ;
  ifdef USESLIBS
   ifneq ($(USESLIBS),)
    ifneq ($(USESLIBS),None)
@@ -1062,9 +1070,9 @@ lib_info:
 	@echo "Libs: $(LIBS)"
 
 info:
-	@echo "C++ Compiler    :" $(CXX) 
+	@echo "C++ Compiler    :" $(CXX)
 	@echo "C++ Flags       :" $(CCFLAGS) $(CCPPFLAGS)
-	@echo "C Compiler      :" $(CC) 
+	@echo "C Compiler      :" $(CC)
 	@echo "C Flags         :" $(CFLAGS) $(CPPFLAGS)
 	@echo "Link Flags      :" $(LDFLAGS)
 	@echo "Includes        :" $(INCLUDES)
