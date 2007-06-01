@@ -8,7 +8,7 @@
 #! file="Ravl/QMake/Main.mk"
 
 ifndef MAKEHOME
-  MAKEHOME=.
+  MAKEHOME=/user/alex/Projects/Ravl/Build/share/RAVL/QMake
 endif
 
 ifndef INSTALLHOME
@@ -221,16 +221,20 @@ ifdef USESLIBS
    else
     EXTRA_USESLIBS = $(USESLIBS)
    endif
+   REQUIRED_USESLIBS=$(patsubst %.def.def,%.def,$(patsubst %,%.def,$(filter-out %.opt,$(EXTRA_USESLIBS))))
+   OPTIONAL_USESLIBS=$(filter %.opt,$(EXTRA_USESLIBS))
+   EXTRA_USESLIBS := $(REQUIRED_USESLIBS) $(OPTIONAL_USESLIBS)
+#   ifneq ($(shell ~/bin/log.pl 'EXTRA_USESLIBS: $(EXTRA_USESLIBS)'),)
+#     aa=asa
+#   endif
    ifndef NOINCDEFS
-# split optional and required libs
-    REQUIRED_USESLIBS=$(patsubst %.def.def,%.def,$(patsubst %,%.def,$(filter-out %.opt,$(EXTRA_USESLIBS))))
-    OPTIONAL_USESLIBS=$(patsubst %.opt,%.def,$(filter %.opt,$(EXTRA_USESLIBS)))
     ifneq ($(strip $(REQUIRED_USESLIBS)),)
      include $(REQUIRED_USESLIBS)
     endif
-    ifneq ($(strip $(OPTIONAL_USESLIBS)),)
-     -include $(OPTIONAL_USESLIBS)
-$(OPTIONAL_USESLIBS) : $(INST_LIB)/.dir
+    OPTIONAL_USESLIBS_D=$(patsubst %.opt,%.def,$(OPTIONAL_USESLIBS))
+    ifneq ($(strip $(OPTIONAL_USESLIBS_D)),)
+     -include $(OPTIONAL_USESLIBS_D)
+$(OPTIONAL_USESLIBS_D) : $(INST_LIB)/.dir
 	@true;
     endif
    endif
