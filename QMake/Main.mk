@@ -223,7 +223,7 @@ ifdef USESLIBS
    endif
    ifndef NOINCDEFS
 # split optional and required libs
-    REQUIRED_USESLIBS=$(patsubst %,%.def,$(filter-out %.opt,$(EXTRA_USESLIBS)))
+    REQUIRED_USESLIBS=$(patsubst %.def.def,%.def,$(patsubst %,%.def,$(filter-out %.opt,$(EXTRA_USESLIBS))))
     OPTIONAL_USESLIBS=$(patsubst %.opt,%.def,$(filter %.opt,$(EXTRA_USESLIBS)))
     ifneq ($(strip $(REQUIRED_USESLIBS)),)
      include $(REQUIRED_USESLIBS)
