@@ -35,11 +35,12 @@ namespace RavlN {
     virtual const type_info &ProbeLoad(IStreamC &in,const type_info &/*obj_type*/) const  {
       if(!in.good())
 	return typeid(void);
-      XMLIStreamC ix(in);
       streampos mark = in.Tell();
+      XMLIStreamC ix(in);
       if(!ix.ReadHeader()) {
-	// ReadHeader() will attempt to restore the stream state
-	// so we can just return.
+        //cerr << "FileFormatXMLStreamBodyC, No XML header found. \n";
+        in.is().clear();
+	in.Seek(mark);
 	return typeid(void); // Don't know how to load this.
       }
       // Read RAVL processing instruction.
@@ -47,12 +48,14 @@ namespace RavlN {
       RCHashC<StringC,StringC> attr;
       XMLTagOpsT top = ix.ReadTag(name,attr);
       if(name != "RAVL" || top != XML_PI) {
+        //cerr << "FileFormatXMLStreamBodyC, No xml RAVL header found. \n";
 	in.Seek(mark);
 	return typeid(void);
       }
       // Extract class name.
       StringC classname = attr["class"];
       in.Seek(mark);
+      //cerr << "FileFormatXMLStreamBodyC, Got class '" << classname << "' Looking for='" << TypeName(typeid(DataT)) << "'\n";
       if(classname != StringC(TypeName(typeid(DataT)))) 
 	return typeid(void); // Don't know how to load this.
       return typeid(DataT);
