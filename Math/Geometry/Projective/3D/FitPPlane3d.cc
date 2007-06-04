@@ -38,10 +38,10 @@ namespace RavlN {
   
   //: Fit a 3d projection such that  p2 = proj * p1
   
-  bool FitPProjection(SArray1dC<PPoint3dC> &from,SArray1dC<PPoint3dC> &to,PProjection3dC &proj) {
+  bool FitPProjection(const SArray1dC<PPoint3dC> &from,const SArray1dC<PPoint3dC> &to,PProjection3dC &proj) {
     RavlAssert(from.Size() == to.Size());
     UIntT neq = from.Size();
-    if(neq < 4) return false;
+    if(neq < 6) return false;
     
     Matrix4dC fromNorm;
     Matrix4dC toNorm;
