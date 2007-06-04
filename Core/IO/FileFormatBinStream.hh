@@ -29,8 +29,13 @@ namespace RavlN {
   public:
     FileFormatBinStreamBodyC(bool deletable)
       : FileFormatBodyC("abs","RAVL binary stream. ",deletable)
-      {}
-    //: Default constructor.
+    {}
+    //: Constructor.
+    
+    FileFormatBinStreamBodyC(const StringC &formatId,const StringC &formatDescriptor,bool deletable = true)
+      : FileFormatBodyC(formatId,formatDescriptor,deletable)
+    {}
+    //: Constructor with full format info.
     
     virtual const type_info &ProbeLoad(IStreamC &in,const type_info &/*obj_type*/) const  {
       if(!in.good())
@@ -75,7 +80,7 @@ namespace RavlN {
 	return typeid(void); // Nope.
       if(filename[0] == '@')
 	return typeid(void); // Nope.
-      if(ext == ""  || ext == "abs" || ext == "bin") 
+      if(ext == ""  || ext == "abs" || ext == "bin" || ext == formatName) 
 	return typeid(DataT); // Yep, can save in format.
       return typeid(void); // Nope.
     }
@@ -138,7 +143,13 @@ namespace RavlN {
   public:
     FileFormatBinStreamC()
       : FileFormatC<DataT>(*new FileFormatBinStreamBodyC<DataT>(true))
-      {}
+    {}
+    
+    FileFormatBinStreamC(const StringC &formatId,const StringC &formatDescriptor)
+      : FileFormatC<DataT>(*new FileFormatBinStreamBodyC<DataT>(formatId,formatDescriptor))
+    {}
+    //: Construct will format id and descriptor
+    
   };
 
 }
