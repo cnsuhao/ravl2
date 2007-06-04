@@ -7,12 +7,12 @@
 #ifndef RAVLGUI_GLADEWIDGET_HEADER
 #define RAVLGUI_GLADEWIDGET_HEADER 1
 //! docentry="Ravl.API.GUI.LibGlade"
-//! rcsid="$Id$"
 //! lib=RavlLibGlade
 //! file="Ravl/GUI/LibGlade/GladeWidget.hh"
 
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/GUI/GladeXML.hh"
+#include "Ravl/SmartPtr.hh"
 
 namespace RavlGUIN {
 
@@ -41,14 +41,20 @@ namespace RavlGUIN {
     { return CommonCreate(); }
     //: Create the widget.
     
-    virtual bool Create(GtkWidget *_widget)
-    { return CommonCreate(_widget); }
+    virtual bool Create(GtkWidget *newWidget)
+    { return CommonCreate(newWidget); }
     //: Create with a widget supplied from elsewhere.
     
-    bool AddObject(const StringC &name,const WidgetC &widget, bool optional = false);
+    bool AddObject(const StringC &name,const WidgetC &newWidget, bool optional = false);
     //: Add named widget.
     //!param: name - Name of the widget to search for in the Glade file
-    //!param: widget - Widget object to connect to the named object
+    //!param: newWidget - Widget object to connect to the named object
+    //!param: optional - If false, warn if the widget is not found
+    
+    bool AddObject(const StringC &name, const RavlN::SmartPtrC<WidgetBodyC> &newWidget, bool optional = false);
+    //: Add named widget.
+    //!param: name - Name of the widget to search for in the Glade file
+    //!param: newWidget - Widget object to connect to the named object
     //!param: optional - If false, warn if the widget is not found
     
   protected:
@@ -60,12 +66,12 @@ namespace RavlGUIN {
     virtual void WidgetDestroy();
     //: Called when gtk widget is destroyed.
     
-    virtual bool CommonCreate(GtkWidget *_widget = NULL);
+    virtual bool CommonCreate(GtkWidget *newWidget = NULL);
     //: Common object creation
     
     GladeXMLC xml;
     StringC name;
-    HashC<StringC, Tuple2C<WidgetC, bool> > children;
+    HashC<StringC, Tuple2C<RavlN::SmartPtrC<WidgetBodyC>, bool> > children;
     bool customWidget;
   };
   

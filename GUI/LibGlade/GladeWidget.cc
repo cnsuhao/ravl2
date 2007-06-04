@@ -4,7 +4,6 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
 //! lib=RavlLibGlade
 //! file="Ravl/GUI/LibGlade/GladeWidget.cc"
 
@@ -20,6 +19,8 @@
 #endif
 
 namespace RavlGUIN {
+  
+  using RavlN::SmartPtrC;
   
   //: Constructor
   
@@ -60,7 +61,7 @@ namespace RavlGUIN {
 
 
   
-  bool GladeWidgetBodyC::CommonCreate(GtkWidget *_widget) {
+  bool GladeWidgetBodyC::CommonCreate(GtkWidget *newWidget) {
     ONDEBUG(cerr << "GladeWidgetBodyC::CommonCreate(GtkWidget *), Called. Name=" << name << " \n");
 
     if (!xml.IsValid())
@@ -72,11 +73,11 @@ namespace RavlGUIN {
     if(widget != NULL)
       return true;
     
-    if (_widget == NULL)
+    if (newWidget == NULL)
       widget = xml.Widget(name);
     else
     {
-      widget = _widget;
+      widget = newWidget;
 
       if (customWidget)
       {
@@ -107,7 +108,7 @@ namespace RavlGUIN {
       return false;
     }
     
-    for (HashIterC<StringC, Tuple2C<WidgetC, bool> > it(children); it; it++)
+    for (HashIterC<StringC, Tuple2C<SmartPtrC<WidgetBodyC>, bool> > it(children); it; it++)
     {
       GtkWidget *childWidget = xml.Widget(it.Key());
       if (childWidget == NULL)
@@ -117,7 +118,7 @@ namespace RavlGUIN {
         continue;
       }
       if (it->Data1().IsValid())
-        it->Data1().Create(childWidget);
+        it->Data1()->Create(childWidget);
       else
         cerr << "WARNING: Invalid handle for widget '" << it.Key() << "' \n";
     }
@@ -130,8 +131,16 @@ namespace RavlGUIN {
 
   //: Add named widget.
   
-  bool GladeWidgetBodyC::AddObject(const StringC &name,const WidgetC &widget, bool optional) {
-    children[name] = Tuple2C<WidgetC, bool>(widget, optional);
+  bool GladeWidgetBodyC::AddObject(const StringC &name,const WidgetC &newWidget, bool optional) {
+    children[name] = Tuple2C<SmartPtrC<WidgetBodyC>, bool>(newWidget, optional);
+    return true;
+  }
+
+
+  
+  bool GladeWidgetBodyC::AddObject(const StringC &name, const SmartPtrC<WidgetBodyC> &newWidget, bool optional)
+  {
+    children[name] = Tuple2C<SmartPtrC<WidgetBodyC>, bool>(newWidget, optional);
     return true;
   }
 
