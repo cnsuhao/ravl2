@@ -43,6 +43,14 @@ namespace RavlN {
     const PPoint3dC &V() const
     { return m_v; }
     //: Direction vector
+
+    PPoint3dC &P()
+    { return m_p; }
+    //: Position of first point.
+    
+    PPoint3dC &V()
+    { return m_v; }
+    //: Direction vector
     
     PPoint3dC Value(RealT t) const
     { return m_p + t * m_v; }
@@ -65,6 +73,20 @@ namespace RavlN {
   
   PLinePV3dC operator*(const PProjection3dC &projection,const PLinePV3dC &line);
   //: Transform a line
+  
+  
+  ostream &operator<<(ostream &strm,const PLinePV3dC &line);
+  //: Write to text stream.
+  
+  istream &operator>>(istream &strm,PLinePV3dC &line);
+  //: Read from text stream.
+
+  BinOStreamC &operator<<(BinOStreamC &strm,const PLinePV3dC &line);
+  //: Write to binary stream.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,PLinePV3dC &line);
+  //: Read from binary stream.
+  
 }
 
 

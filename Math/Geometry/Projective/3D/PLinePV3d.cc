@@ -27,6 +27,32 @@ namespace RavlN {
   PLinePV3dC operator*(const PProjection3dC &projection,const PLinePV3dC &line) 
   { return PLinePV3dC(projection * line.P(),projection * line.V()); }
   
+  //: Write to text stream.
   
+  ostream &operator<<(ostream &strm,const PLinePV3dC &line) {
+    strm << line.P() << ' ' << line.V();
+    return strm;
+  }
+  
+  //: Read from text stream.
+  
+  istream &operator>>(istream &strm,PLinePV3dC &line) {
+    strm >> line.P() >> line.V();
+    return strm;
+  }
+  
+  //: Write to binary stream.
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const PLinePV3dC &line) {
+    strm << line.P() << line.V();    
+    return strm;
+  }
+  
+  //: Read from binary stream.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,PLinePV3dC &line) {
+    strm >> line.P() >> line.V();
+    return strm;
+  }
 
 }
