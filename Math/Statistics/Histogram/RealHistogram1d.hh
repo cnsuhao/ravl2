@@ -32,16 +32,18 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    RealHistogram1dC(RealT min,RealT max,UIntT steps);
+    RealHistogram1dC(RealT min,RealT max,UIntT noOfBins,Array1dC<RealT> data=Array1dC<RealT>());
     //: Create a histogram.
-    
+    // If "data" is specified, histogram is preloaded using values from "data".
+    // In this case, any data outside histogram range is discarded.
+   
     RealHistogram1dC(RealT nscale,RealT noffset,const SArray1dC<UIntC> &array)
       : SArray1dC<UIntC>(array),
 	scale(nscale),
 	offset(noffset)
     {}
     //: Create a histogram from an offset, scale and an existing  SArray1dC of binned values.
-    
+
     RealT Scale() const
     { return scale; } 
     //: Scaling.

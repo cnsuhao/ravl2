@@ -11,18 +11,20 @@
 #include "Ravl/RealHistogram1d.hh"
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/SArray1dIterR.hh"
+#include "Ravl/Array1dIter.hh"
 #include "Ravl/DList.hh"
 
 namespace RavlN {
   
   //: Create a histogram.
   
-  RealHistogram1dC::RealHistogram1dC(RealT min,RealT max,UIntT steps) 
-    : SArray1dC<UIntC>(steps)
+  RealHistogram1dC::RealHistogram1dC(RealT min,RealT max,UIntT noOfBins,Array1dC<RealT> data) 
+    : SArray1dC<UIntC>(noOfBins)
   {
-    scale = (max - min) / ((RealT) steps - 1e-8);
+    scale = (max - min) / ((RealT) noOfBins - 1e-8);
     offset = min;
     Reset();
+    if (data.Size()>0) for (Array1dIterC<RealT> i(data); i; ++i) CheckVote(*i);
   }
   
   //: Find the total number of votes cast.

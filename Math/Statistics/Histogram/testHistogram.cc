@@ -19,7 +19,7 @@
 using namespace RavlN;
 
 int testBasic();
-int testCompair();
+int testCompare();
 int testRealHistogram1d();
 int testRealHistogram2d();
 int testRealHistogram3d();
@@ -31,7 +31,7 @@ int main() {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
-  if((ln = testCompair()) != 0) {
+  if((ln = testCompare()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -65,7 +65,7 @@ int testBasic() {
   return 0;
 }
 
-int testCompair() {
+int testCompare() {
   HistogramC<int> h1,h2;
   h1.Vote(1,2);
   h1.Vote(2,3);
@@ -95,7 +95,13 @@ int testRealHistogram1d() {
   RealHistogram1dC rhist(0,1,100);
   rhist.Vote(1);
   rhist.Vote(0);
+  rhist.CheckVote(23);
   if(rhist.TotalVotes() != 2) return __LINE__;
+  Array1dC<RealT> a(16);
+  a.Fill(0.6);
+  rhist = RealHistogram1dC(0,1,100,a);
+  if(rhist.TotalVotes() != 16) return __LINE__;
+  if (rhist[rhist.Bin(0.6)] != 16) return __LINE__;
   return 0;
 }
 
