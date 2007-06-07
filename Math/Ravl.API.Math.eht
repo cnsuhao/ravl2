@@ -2,10 +2,12 @@
 ! children="Linear Algebra;Geometry;Projective Geometry;Optimisation;Statistics;Random Numbers;Sequences;Signals;Internal"
 : Scalar math, Linear algebra and Geometry
 
-Many of the functions in this library use the <a
+<p>Many of the functions in this library use the <a
 href="http://unix.freshmeat.net/projects/ccmath/">ccmath</a> library to
 perform computations. A version of ccmath is included in the RAVL source;
 however it doesn't contain the hand-tuned assembler or build options that come
 with the full version.  If you want to use another installation of these
 libraries you can change the version it uses by changing the
-'Ravl/Math/CCMath/CCMath.def' file.
+'Ravl/Math/CCMath/CCMath.def' file.</p>
+
+    <p>Some useful constants are defined under <a href="../Class.RavlConstN.html">RavlConstN</a>.</p>
