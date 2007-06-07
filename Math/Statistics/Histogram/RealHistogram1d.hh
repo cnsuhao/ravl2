@@ -32,10 +32,8 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    RealHistogram1dC(RealT min,RealT max,UIntT noOfBins,Array1dC<RealT> data=Array1dC<RealT>());
+    RealHistogram1dC(RealT min,RealT max,UIntT noOfBins);
     //: Create a histogram.
-    // If "data" is specified, histogram is preloaded using values from "data".
-    // In this case, any data outside histogram range is discarded.
    
     RealHistogram1dC(RealT nscale,RealT noffset,const SArray1dC<UIntC> &array)
       : SArray1dC<UIntC>(array),
@@ -113,6 +111,10 @@ namespace RavlN {
     }
     //: Vote for value n times.
     // Returns false if value is out of range.
+
+    bool ArrayVote(const Array1dC<RealT> &data);
+    //: Add to histogram bins using "data"
+    // Returns false if any values from "data" are out of range.
     
     UIntT TotalVotes() const;
     //: Find the total number of votes cast.

@@ -99,8 +99,8 @@ int testRealHistogram1d() {
   if(rhist.TotalVotes() != 2) return __LINE__;
   Array1dC<RealT> a(16);
   a.Fill(0.6);
-  rhist = RealHistogram1dC(0,1,100,a);
-  if(rhist.TotalVotes() != 16) return __LINE__;
+  rhist.ArrayVote(a);
+  if(rhist.TotalVotes() != 18) return __LINE__;
   if (rhist[rhist.Bin(0.6)] != 16) return __LINE__;
   return 0;
 }

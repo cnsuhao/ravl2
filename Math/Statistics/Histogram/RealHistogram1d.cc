@@ -18,15 +18,23 @@ namespace RavlN {
   
   //: Create a histogram.
   
-  RealHistogram1dC::RealHistogram1dC(RealT min,RealT max,UIntT noOfBins,Array1dC<RealT> data) 
+  RealHistogram1dC::RealHistogram1dC(RealT min,RealT max,UIntT noOfBins) 
     : SArray1dC<UIntC>(noOfBins)
   {
     scale = (max - min) / ((RealT) noOfBins - 1e-8);
     offset = min;
     Reset();
-    if (data.Size()>0) for (Array1dIterC<RealT> i(data); i; ++i) CheckVote(*i);
   }
   
+
+  //: Add to histogram bins using "data"
+  
+  bool RealHistogram1dC::ArrayVote(const Array1dC<RealT> &data) {
+    bool inrange(true);
+    for (Array1dIterC<RealT> i(data); i; ++i) inrange &= CheckVote(*i);
+    return inrange;
+  }
+
   //: Find the total number of votes cast.
   
   UIntT RealHistogram1dC::TotalVotes() const {
