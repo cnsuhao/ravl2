@@ -6,34 +6,27 @@
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/Histogram/Parzen.hh"
 
-
 #include "Ravl/Array1d.hh"
 
-  //! userlevel=Normal
+//! userlevel=Normal
 
 namespace RavlN {
 
-  //: Generate Parzen estimates of a p.d.f. from a set of N samples
+  class MeanVarianceC;
+
+  //: Generate Parzen estimates of a p.d.f. from a set of samples
   // The smoothing kernel is a Gaussian of unit "variance".<br/>
-  // The actual smoothing width used is h<sub>1</sub> / &radic;N.
+  // The actual smoothing width used is h<sub>1</sub> &times; s<sub>N-1</sub> / &radic;N, where s<sub>N-1</sub> is the sample standard deviation of the N samples.<br/>
   
   class ParzenWindowC : private Array1dC<RealT> {
     
   public:
-    ParzenWindowC (const Array1dC<RealT>& samples, RealT h_1)
-      : Array1dC<RealT>(samples),
-      bandwidth(h_1*Sqrt(2.0/this->Size()))
-      {}
+    ParzenWindowC (const Array1dC<RealT>& samples, RealT h_1);
     //: Constructor
     //!param: samples - array of samples whose density is to be estimated
-    //!param: h_1 - smoothing parameter h<sub>1</sub>, typically about 0.25
+    //!param: h_1 - smoothing parameter h<sub>1</sub>, typically about 1.0
     
-    RealT PdfEstimate(RealT arg) {
-      RealT estimate(0.0);
-      for (Array1dIterC<RealT> i(*this); i; ++i) 
-        estimate += exp(-Sqr((arg-(*i))/bandwidth));
-      return estimate/(this->Size()*bandwidth*Sqrt(RavlConstN::pi));
-    }
+    RealT PdfEstimate(RealT arg);
     //: Estimate the pdf at the value "arg"
 
   private:

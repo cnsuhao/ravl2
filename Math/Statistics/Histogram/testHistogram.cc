@@ -133,7 +133,7 @@ int testParzen() {
   Array1dC<RealT> a(16);
   a.Fill(0.6);
   a[12] = 1.6;
-  ParzenWindowC p(a, .8);
+  ParzenWindowC p(a, 3.2);
   if(Abs(p.PdfEstimate(1.0)-0.25446761)>10e-8) return __LINE__;
   return 0;
 }
