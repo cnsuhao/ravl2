@@ -10,7 +10,7 @@
 
 PACKAGE=Ravl
 
-HEADERS=Histogram.hh RealHistogram1d.hh RealHistogram2d.hh RealHistogram3d.hh 
+HEADERS=Histogram.hh RealHistogram1d.hh RealHistogram2d.hh RealHistogram3d.hh Parzen.hh
 
 SOURCES=RealHistogram1d.cc RealHistogram2d.cc RealHistogram3d.cc \
  RealHist1dBinaryIO.cc RealHist2dBinaryIO.cc RealHist3dBinaryIO.cc

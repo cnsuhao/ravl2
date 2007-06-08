@@ -15,6 +15,7 @@
 #include "Ravl/RealHistogram1d.hh"
 #include "Ravl/RealHistogram2d.hh"
 #include "Ravl/RealHistogram3d.hh"
+#include "Ravl/Parzen.hh"
 
 using namespace RavlN;
 
@@ -23,6 +24,7 @@ int testCompare();
 int testRealHistogram1d();
 int testRealHistogram2d();
 int testRealHistogram3d();
+int testParzen();
 
 int main() {
   int ln;
@@ -44,6 +46,10 @@ int main() {
     return 1;
   }
   if((ln = testRealHistogram3d()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testParzen()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -120,5 +126,14 @@ int testRealHistogram3d() {
   rhist.Vote(Point3dC(0,0,0));
   rhist.Vote(Point3dC(5,5,5));
   if(rhist.TotalVotes() != 3) return __LINE__;
+  return 0;
+}
+
+int testParzen() {
+  Array1dC<RealT> a(16);
+  a.Fill(0.6);
+  a[12] = 1.6;
+  ParzenWindowC p(a, .8);
+  if(Abs(p.PdfEstimate(1.0)-0.25446761)>10e-8) return __LINE__;
   return 0;
 }
