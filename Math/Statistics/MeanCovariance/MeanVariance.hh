@@ -69,8 +69,7 @@ namespace RavlN {
     //!param: quickApprox - Use a table based approximation which makes this function 10x faster, but is not as accurate.
     
     RealT Gauss(RealT x) const;
-    //: Value of the gauss distribution at x.
-    // Also known as the normal distribution.
+    //: Value of the normal (Gaussian) distribution at x, using this mean and variance.
     
     MeanVarianceC &operator+=(const MeanVarianceC &mv);
     //: Add another MeanVariance to this one.
