@@ -103,12 +103,18 @@ namespace RavlN {
     // The point is an ideal projective point if the absolute value of
     // the ratio Scale()/SumAbs() is smaller or equal to 
     // the threshold 'Point4dC::relZero'.
-
+    
+    inline Point3dC Point3d() const
+    { RavlAssert(!IsIdeal()); return Point3dC((*this)[0]/(*this)[3],(*this)[1]/(*this)[3],(*this)[1]/(*this)[3]); }
+    // Returns the point in Euclidian space related to this projective point.
+    // It is assumed that the point is not ideal. The function
+    // does not check if the point is ideal or not.
+    
     inline
     bool IsColinear(const PPoint3dC & q2, const PPoint3dC & q3) const
     { RavlAssertMsg(0,"not implemented"); return true; }
     // Returns true iff this point and the points 'q2' and 'q3' are
-    // colinear.
+    // colinear. NOT IMPLEMENTED
     
     //:------------------------
     // Arithmetical operations.
@@ -187,14 +193,6 @@ namespace RavlN {
   PPoint3dC operator*(RealT lambda, const PPoint3dC & p)
   { return p * lambda; }
   // Returns the point which is the 'lambda' multiplication of 'p'.
-
-#if 0  
-  inline
-  PPoint3dC operator/(RealT lambda, const PPoint3dC & p)
-  { return ::operator/(lambda, (PPointPlane3dC) p ); }
-  // Returns the point which coordinates are the 'lambda' divided by the
-  // corresponding coordinate of 'p'.
-#endif
   
   ostream & operator<<(ostream & outS, const PPoint3dC & point);
   // Writes the 'point' into the output stream.
