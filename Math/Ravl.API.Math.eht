@@ -10,4 +10,4 @@ with the full version.  If you want to use another installation of these
 libraries you can change the version it uses by changing the
 'Ravl/Math/CCMath/CCMath.def' file.</p>
 
-    <p>Some useful constants are defined under <a href="../Class.RavlConstN.html">RavlConstN</a>.</p>
+    <p>Some useful constants are defined under <a href="../Class/RavlConstN.html">RavlConstN</a>.</p>
