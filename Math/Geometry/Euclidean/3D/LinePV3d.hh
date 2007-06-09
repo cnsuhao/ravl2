@@ -87,7 +87,7 @@ namespace RavlN {
     //:-------------------------
     // Geometrical computations.
     
-    RealT Distance(const LinePV3dC & line);
+    RealT Distance(const LinePV3dC & line) const;
     //: Returns the shortest distance between the lines. 
     
     inline RealT Distance(const Point3dC & p) const

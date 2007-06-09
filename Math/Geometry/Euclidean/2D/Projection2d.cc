@@ -68,7 +68,7 @@ namespace RavlN {
   
   Projection2dC FitProjection(const SArray1dC<Point2dC> &org,const SArray1dC<Point2dC> &newPos,RealT &residual) {
     RavlAssertMsg(org.Size() == newPos.Size(),"Projection2dC FitProjection(), Point arrays must have the same size.");
-    // we need at least four points to fit a 2D line
+    // we need at least four points to fit a 2D homography
     if (org.Size() < 4)
       throw ExceptionC("Sample size too small in Projection2dC. ");
     RealT zh1 = 1.0,zh2 = 1.0;

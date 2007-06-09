@@ -29,7 +29,7 @@
 
 namespace RavlN {
   
-  RealT LinePV3dC::Distance(const LinePV3dC & line) { 
+  RealT LinePV3dC::Distance(const LinePV3dC & line) const { 
     // more information in Rektorys: 
     // Prehled uzite matematiky, SNTL, Praha 1988, p. 205
     

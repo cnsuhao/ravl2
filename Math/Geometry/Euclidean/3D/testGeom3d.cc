@@ -15,16 +15,22 @@
 #include "Ravl/AxisAngle.hh"
 #include "Ravl/StdConst.hh"
 #include "Ravl/LinePP3d.hh"
+#include "Ravl/LinePV3d.hh"
 #include "Ravl/BinStream.hh"
 
 using namespace RavlN;
 
 int testAngles();
 int testLine();
+int testLineDist();
 
 int main(int nargs,char **argv) {
   int ln;
   if((ln = testLine()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testLineDist()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -58,6 +64,20 @@ int testLine() {
   if(Abs(val-0.5) > 0.0000001) return __LINE__;
   val = line.ParClosest(p3);
   if(Abs(val-2) > 0.0000001) return __LINE__;
+  return 0;
+}
+
+int testLineDist() {
+  
+  LinePV3dC line1(Point3dC(0,0,0),Vector3dC(1,0,0));
+  LinePV3dC line2(Point3dC(0,1,0),Vector3dC(0,0,1));
+  if(Abs(line1.Distance(line2) - 1) > 0.0000001) return __LINE__;
+  if((line1.Intersection(line2) - Point3dC(0,0.5,0)).SumOfSqr() > 0.000001) return __LINE__;
+  
+  LinePV3dC line3(Point3dC(0.5,0.5,0.5),Vector3dC(0.5,0.5,0.5));
+  if(Abs(line1.Distance(line3)) > 0.000001) return __LINE__;
+  
+  
   return 0;
 }
 
