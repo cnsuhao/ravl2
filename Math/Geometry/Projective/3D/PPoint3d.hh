@@ -105,7 +105,7 @@ namespace RavlN {
     // the threshold 'Point4dC::relZero'.
     
     inline Point3dC Point3d() const
-    { RavlAssert(!IsIdeal()); return Point3dC((*this)[0]/(*this)[3],(*this)[1]/(*this)[3],(*this)[1]/(*this)[3]); }
+    { RavlAssert(!IsIdeal()); return Point3dC((*this)[0]/(*this)[3],(*this)[1]/(*this)[3],(*this)[2]/(*this)[3]); }
     // Returns the point in Euclidian space related to this projective point.
     // It is assumed that the point is not ideal. The function
     // does not check if the point is ideal or not.
