@@ -113,7 +113,7 @@ int main(int nargs,char *args[])
    
     area.Transform (i * increment, rotation, object); // Object to draw.
     area.SwapBuffers();
-    //Sleep(1);
+    Sleep(0.01);
   }
   cerr << "Execute done, waiting... \n";
   Manager.Wait();

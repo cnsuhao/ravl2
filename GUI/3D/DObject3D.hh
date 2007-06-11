@@ -53,26 +53,26 @@ namespace RavlGUIN {
     bool RenderDL(Canvas3DC &c3d);
     //: Render, checking for display lists.
     
-    inline
+    static inline
     void GLColour(const RealRGBValueC &colour)
     { glColor3d(colour.Red(),colour.Green(),colour.Blue()); }
     //: Set current colour.
     
-    inline
+    static inline
     void GLVertex(const Point3dC &v)
     { glVertex3d(v.X(),v.Y(),v.Z()); }
     //: Set a vertex.
     
-    inline
+    static inline
     void GLNormal(const Vector3dC &v)
     { glNormal3d(v.X(),v.Y(),v.Z()); }
     //: Set a vertex.
     
-    inline
+    static inline
     void GLTexCoord(const Point2dC &p)
     { glTexCoord2d(p.Col(),p.Row()); }
     //: Set a texture coordinate
-  
+    
     virtual Vector3dC Center()
     { return Vector3dC(0,0,0); }
     //: Get center of object.
