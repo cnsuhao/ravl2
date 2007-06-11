@@ -72,10 +72,24 @@ namespace RavlN {
     Point3dC PointT(RealT lambda) const
     { return point + direction * lambda; }
     //: Returns the point FirstPoint() + lambda * direction.
+    // Obsolete, use Point(l)
+    
+    Point3dC Point(RealT lambda) const
+    { return point + direction * lambda; }
+    //: Returns the point FirstPoint() + lambda * direction.
+    
+    RealT ParClosest(const Point3dC &pnt) const 
+    { return direction.Dot(pnt - point) / direction.SumOfSqr(); }
+    //: Return the paramiter of the closest point on the line to 'pnt'.
+    // Use Point() to get to the corresponding point on the line.
     
     inline const Vector3dC & Vector() const
     { return direction; }
     //: Returns the direction vector of this line.
+    
+    void MakeDirectionUnitVector()
+    { direction.MakeUnit(); }
+    //: Make the direction part of the line a unit vector.
     
     LinePP3dC LinePP() const;
     //: Returns the line segment represented by the start point and the end
