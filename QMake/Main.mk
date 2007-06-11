@@ -8,7 +8,7 @@
 #! file="Ravl/QMake/Main.mk"
 
 ifndef MAKEHOME
-  MAKEHOME=/user/alex/Projects/Ravl/Build/share/RAVL/QMake
+  MAKEHOME=.
 endif
 
 ifndef INSTALLHOME
@@ -224,9 +224,6 @@ ifdef USESLIBS
    REQUIRED_USESLIBS=$(patsubst %.def.def,%.def,$(patsubst %,%.def,$(filter-out %.opt,$(EXTRA_USESLIBS))))
    OPTIONAL_USESLIBS=$(filter %.opt,$(EXTRA_USESLIBS))
    EXTRA_USESLIBS := $(REQUIRED_USESLIBS) $(OPTIONAL_USESLIBS)
-#   ifneq ($(shell ~/bin/log.pl 'EXTRA_USESLIBS: $(EXTRA_USESLIBS)'),)
-#     aa=asa
-#   endif
    ifndef NOINCDEFS
     ifneq ($(strip $(REQUIRED_USESLIBS)),)
      include $(REQUIRED_USESLIBS)
@@ -415,7 +412,6 @@ endif
  TARG_NESTED =$(patsubst %.r,%,$(filter %.r,$(NESTED)))
  TARG_SCRIPT =$(patsubst %,$(INST_GENBIN)/%,$(SCRIPTS))
  OBJS_DEPEND = $(patsubst %$(CEXT),$$(INST_OBJS)/%$(OBJEXT),$(patsubst %$(CXXEXT),$$(INST_OBJS)/%$(OBJEXT) ,$(SOURCES) $(MUSTLINK)))
- TARG_USESLIBS = $(patsubst %,%.def,$(filter-out Auto,$(USESLIBS)))
  TARG_AUXFILES = $(patsubst %,$(INST_AUX)/%,$(AUXFILES))
  TARG_EXTERNALLIBS= $(patsubst %,$(INST_LIBDEF)/%,$(EXTERNALLIBS))
 
@@ -1014,6 +1010,11 @@ else
 endif
 
 
+TARG_USESLIBS_R = $(patsubst %,%.def,$(filter-out %.opt,$(filter-out Auto,$(USESLIBS))))
+TARG_USESLIBS_O = $(patsubst %.opt,%.def,$(filter %.opt,$(filter-out Auto,$(USESLIBS))))
+EXTRA_USESLIBS_R = $(filter-out %.opt,$(EXTRA_USESLIBS))
+EXTRA_USESLIBS_O = $(patsubst %.opt,%.def,$(filter %.opt,$(EXTRA_USESLIBS)))
+
 ifdef LOCAL_DEFBASE
 ifdef USESLIBS
  ifneq (($(filter Auto,$(USESLIBS)),Auto),Auto)
@@ -1034,12 +1035,20 @@ $(INST_LIBDEF)/$(LOCAL_DEFBASE).def: defs.mk $(INST_LIBDEF)/.dir $(HEADERS) $(SO
   ifneq ($(USESLIBS),)
    ifneq ($(USESLIBS),None)
     ifneq ($(filter Auto,$(USESLIBS)),Auto)
-     ifneq ($(strip $(TARG_USESLIBS)),)
-	$(SHOWIT)echo 'include $(TARG_USESLIBS)' >> $(INST_LIBDEF)/$(@F) ;
+     ifneq ($(strip $(TARG_USESLIBS_R)),)
+	$(SHOWIT)echo 'include $(TARG_USESLIBS_R)' >> $(INST_LIBDEF)/$(@F) ;
+     endif
+     ifneq ($(strip $(TARG_USESLIBS_O)),)
+	$(SHOWIT)echo '-include $(TARG_USESLIBS_O)' >> $(INST_LIBDEF)/$(@F) ;
      endif
     else
      ifneq ($(strip $(AUTOUSELIBS)),)
-	$(SHOWIT)echo 'include $(EXTRA_USESLIBS)' >> $(INST_LIBDEF)/$(@F) ;
+      ifneq ($(strip $(EXTRA_USESLIBS_R)),)
+	$(SHOWIT)echo 'include $(EXTRA_USESLIBS_R)' >> $(INST_LIBDEF)/$(@F) ;
+      endif
+      ifneq ($(strip $(EXTRA_USESLIBS_O)),)
+	$(SHOWIT)echo '-include $(EXTRA_USESLIBS_O)' >> $(INST_LIBDEF)/$(@F) ;
+      endif
      endif
     endif
    endif
