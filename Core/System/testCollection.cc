@@ -16,6 +16,7 @@
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/DArray1d.hh"
 #include "Ravl/DArray1dIter.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/DArray1dIter2.hh"
 #include "Ravl/DArray1dIter3.hh"
 #include "Ravl/DArray1dIter4.hh"
@@ -107,6 +108,11 @@ int testDArray1d() {
   for(DArray1dIterC<int> it(test);it;it++,i++) 
     if(*it != i) return __LINE__;
   
+  // Check SArray() method.
+  i = 0;
+  for(SArray1dIterC<int> dit(test.SArray(false));dit;dit++,i++)
+    if(*dit != i) return __LINE__;
+  
   DArray1dC<int> test2(5,true);
   for(i = 0;i < testSize;i++) {
     if(test2.Size() != (UIntT) i) {
@@ -147,6 +153,10 @@ int testDArray1dMore() {
   if(test1.Size() != 8) return __LINE__;
   for(i = 0;i < 8;i++)
     if(test1[i] != i) return __LINE__;
+
+  SArray1dC<int> sarray = test1.SArray(false);
+  for(i = 0;i < 8;i++)
+    if(sarray[i] != i) return __LINE__;
   
   // More checks for append.
   

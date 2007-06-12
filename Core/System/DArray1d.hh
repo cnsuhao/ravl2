@@ -14,6 +14,7 @@
 
 #include "Ravl/IntrDList.hh"
 #include "Ravl/Array1d.hh"
+#include "Ravl/SArray1d.hh"
 #include "Ravl/Stream.hh"
 
 namespace RavlN {
@@ -244,6 +245,15 @@ namespace RavlN {
     
     void Fill(const DataT &value);
     //: Fill array with given value.
+    
+    SArray1dC<DataT> SArray(bool alwaysCopy = false);
+    //: Access content's of DArray as single array.
+    // This assumes the array starts at zero. If it does
+    // not the contents of they array maybe shifted so it does.
+    // This method does not preserve index's. If there are
+    // holes in the DArray they will be filled. It also should
+    // be noted that the data may not be copied at all unless
+    // the 'alwaysCopy' flag is set.
     
     IndexRangeC Range() const { 
       if(chunks.IsEmpty())
@@ -500,6 +510,16 @@ namespace RavlN {
     const DataT &Last() const
     { return Body().Last(); }
     //: Access last element in the array.
+    
+    SArray1dC<DataT> SArray(bool alwaysCopy = false)
+    { return Body().SArray(alwaysCopy); }
+    //: Access content's of DArray as single array.
+    // This assumes the array starts at zero. If it does
+    // not the contents of they array maybe shifted so it does.
+    // This method does not preserve index's. If there are
+    // holes in the DArray they will be filled. It also should
+    // be noted that the data may not be copied at all unless
+    // the 'alwaysCopy' flag is set.
     
   protected:
     bool FindChunk(int i,IntrDLIterC<DChunkC<DataT> > &it) const
@@ -821,6 +841,40 @@ namespace RavlN {
     if(it && it->Contains(max))
       it->Data().SetSubRange(max+1,it->IMax());
     return true;
+  }
+
+  //: Access content's of DArray as single array.
+  
+  template<class DataT>    
+  SArray1dC<DataT> DArray1dBodyC<DataT>::SArray(bool alwaysCopy) {
+    IntrDLIterC<DChunkC<DataT> > it(chunks);
+    
+    // Compute the number of elements in the array.
+    SizeT size = 0;
+    SizeT chunks = 0;
+    for(;it;it++) {
+      size += it->Data().Size();
+      chunks++;
+    }
+    // Is it an empty array ?
+    if(chunks == 0 || size == 0) 
+      return SArray1dC<DataT>();
+    // If there's 1 chunk the operation is trivial
+    it.First();
+    if(chunks == 1) {
+      if(alwaysCopy) // Always need a copy ?
+        return it->Data().SArray1d(true).Copy();  
+      return it->Data().SArray1d(true);
+    }
+    // We have to copy the data...
+    // Go through copying the elements of the array into SArray1dC
+    SArray1dC<DataT> ret(size);
+    BufferAccessIterC<DataT> dit(ret);
+    for(;it;it++) {
+      for(BufferAccessIterC<DataT> sit(it->Data());sit;sit++,dit++)
+        *dit = *sit;
+    }
+    return ret;
   }
 
 }
