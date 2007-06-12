@@ -361,6 +361,11 @@ namespace RavlN {
     void InsLast(const DataT &dat)
     { Body().InsLast(dat); }
     //: Push element onto the end of the list.
+
+    void Append(const DataT &dat)
+    { Body().Append(dat); }
+    //: Insert element into the end of the list.
+    // For compatibility with other containers.
     
     DataT PopFirst()  
     { return Body().PopFirst(); }
