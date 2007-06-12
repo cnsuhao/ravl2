@@ -80,7 +80,7 @@ namespace RavlImageN {
       cam_format(FORMAT_VGA_NONCOMPRESSED),
       cam_mode(-1),
       cam_speed(SPEED_400),
-      cam_framerate(FRAMERATE_15),
+      cam_framerate(FRAMERATE_30),
       oneShotMode(false)
   {
     if(pixelType == typeid(ByteT)) {
@@ -183,6 +183,18 @@ namespace RavlImageN {
       camera_euid = strm.String();
     }
     
+#if 0
+    // Query modes.
+    quadlet_t supportedModes;
+    if(dc1394_query_supported_modes(raw1394handle, camera.node, cam_format,&supportedModes) != DC1394_SUCCESS) {
+      
+      cerr << "Failed to query modes. \n";
+      return false;
+    }
+    cerr << "Modes=" << hex << supportedModes << "\n";
+#endif
+    
+    
     // Query framerates.
     if(dc1394_query_supported_framerates(raw1394handle, camera.node, cam_format,
                                          cam_mode, &available_framerates) != DC1394_SUCCESS)
@@ -192,7 +204,7 @@ namespace RavlImageN {
     }
 
     cerr << "Rate=" << hex << available_framerates << "\n" << dec;
-
+    
     // Find fastest supported framerate.
     if (available_framerates & (1U << (31-5)))
       cam_framerate = FRAMERATE_60;
@@ -206,7 +218,7 @@ namespace RavlImageN {
       cam_framerate = FRAMERATE_3_75;
     else if (available_framerates & (1U << (31-0)))
       cam_framerate = FRAMERATE_1_875;
-
+    
     // Setup capture.
     if(cam_channel >= 100) // DMA
     {
