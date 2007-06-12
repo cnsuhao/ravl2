@@ -96,7 +96,12 @@ namespace RavlN {
     void InsLast(const DataT &dat)
     { DLinkHeadC::InsLast(*new DLinkDataC<DataT>(dat)); }
     //: Insert element into the end of the list.
-
+    
+    void Append(const DataT &dat)
+    { DLinkHeadC::InsLast(*new DLinkDataC<DataT>(dat)); }
+    //: Insert element into the end of the list.
+    // For compatibility with other containers.
+    
     DataT PopFirst()  { 
       RavlAssert(!IsEmpty());
       DataT tmp(FirstLink().Data());

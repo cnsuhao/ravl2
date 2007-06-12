@@ -76,6 +76,23 @@ namespace RavlN {
     // The first index at which the items were placed is returned.
     
     inline
+    UIntT Append(const DataT &dat)
+    { return Insert(dat); }
+    //: Add a data item to the end of the collection.
+    //  NB. This may cause the storage array to 
+    // be reallocated which will invalidate any iterators
+    // held on the collection. <p>
+    // The index at which the item was placed is returned.
+    
+    inline UIntT Append(const Array1dC<DataT> &dat)
+    { return Insert(dat); }
+    //: Add an array of data items to the end of the collection.
+    //  NB. This may cause the storage array to 
+    // be reallocated which will invalidate any iterators
+    // held on the collection. <p>
+    // The first index at which the items were placed is returned.
+    
+    inline
     UIntT InsertRandom(const DataT &dat);
     //: Add a data item to the collection in a random place.
     //  NB. This may cause the storage array to 
@@ -182,6 +199,21 @@ namespace RavlN {
     }
     //: Array style access.
     
+    DataT &Last()
+    { return data[Size()-1]; }
+    //: Access last element in the collection.
+
+    const DataT &Last() const
+    { return data[Size()-1]; }
+    //: Access last element in the collection.
+    
+    DataT &First()
+    { return data[Size()-1]; }
+    //: Access first element in the collection.
+    
+    const DataT &First() const
+    { return data[Size()-1]; }
+    //: Access first element in the collection.
     
   protected:
     SArray1dC<DataT> data;
@@ -190,8 +222,7 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Collection of data
-  // An unordered collection of data.
-  
+  // A collection of data.
   
   template<class DataT>
   class CollectionC 
@@ -241,7 +272,24 @@ namespace RavlN {
     // be reallocated which will invalidate any iterators
     // held on the collection. <p>
     // The first index at which the items were placed is returned.
-
+    
+    inline
+    UIntT Append(const DataT &dat)
+    { return Body().Append(dat); }
+    //: Add a data item to the end of the collection.
+    //  NB. This may cause the storage array to 
+    // be reallocated which will invalidate any iterators
+    // held on the collection. <p>
+    // The index at which the item was placed is returned.
+    
+    inline UIntT Append(const Array1dC<DataT> &dat)
+    { return Body().Append(dat); }
+    //: Add an array of data items to the end of the collection.
+    //  NB. This may cause the storage array to 
+    // be reallocated which will invalidate any iterators
+    // held on the collection. <p>
+    // The first index at which the items were placed is returned.
+    
     inline
     UIntT InsertRandom(const DataT &dat)
     { return Body().InsertRandom(dat); }
@@ -344,6 +392,22 @@ namespace RavlN {
     const DataT &operator[](IndexC ind) const
     { return Body().operator[](ind); }
     //: Array style access.
+
+    DataT &Last()
+    { return Body().Last(); }
+    //: Access last element in the collection.
+
+    const DataT &Last() const
+    { return Body().Last(); }
+    //: Access last element in the collection.
+    
+    DataT &First()
+    { return Body().First(); }
+    //: Access first element in the collection.
+    
+    const DataT &First() const
+    { return Body().First(); }
+    //: Access first element in the collection.
     
     typedef CollectionIterC<DataT> IteratorT;
     //: Type of iterator.
