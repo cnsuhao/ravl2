@@ -67,10 +67,10 @@ namespace RavlN {
 	+ data[2][0] * (data[0][1]*data[1][2] - data[0][2]*data[1][1]);
     }
     
-    bool Invert(Matrix3dC &op) const;
+    bool Invert(TFMatrixC<RealT,3,3> &op) const;
     //: Invert this matrix put the result in 'op'
     // Returns false if matrix is singular.
-    // Note 'op' must no be this matrix.
+    // Note 'op' must not be this matrix.
     
     Matrix3dC Invert() const {
       Matrix3dC ret;

@@ -14,7 +14,7 @@ namespace RavlN {
 
   //: Invert this matrix.
   
-  bool Matrix3dC::Invert(Matrix3dC &op) const {
+  bool Matrix3dC::Invert(TFMatrixC<RealT,3,3> &op) const {
     RealT d1 = data[1][1]*data[2][2]-data[1][2]*data[2][1];
     RealT d2 = data[1][2]*data[2][0]-data[1][0]*data[2][2];
     RealT d3 = data[1][0]*data[2][1]-data[1][1]*data[2][0];
