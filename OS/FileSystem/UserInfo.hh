@@ -51,6 +51,9 @@ namespace RavlN
     void NullUser();
     //: Make this entry invalid.
     
+    const UIntT UID() const { return uid; }
+    //: Get UID.
+
     const StringC Login() const { return login; }
     //: Get login.
     
