@@ -40,6 +40,9 @@ namespace RavlGUIN {
     virtual bool AppendRow(TreeModelIterC &rowHandle);
     //: Append a row.
 
+    using TreeModelBodyC::GUISetValue;
+    //: Pull in all the base 'set value' functions
+    
     virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, IntT value);
     //: Set int value.
     

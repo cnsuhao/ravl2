@@ -323,6 +323,10 @@ namespace RavlGUIN {
     virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value);
     //: Set pixbuf value.
     
+    virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, const char *value)
+    { return GUISetValue(rowIter, col, StringC(value)); }
+    //: Set pixbuf value.
+    
     virtual void GUIEmpty();
     //: Clear store of all values.
     
@@ -362,12 +366,12 @@ namespace RavlGUIN {
     //: Default constructor
     // Creates an invalid handle.
     
-  protected:
     TreeModelC(TreeModelBodyC &bod)
       : RCHandleC<TreeModelBodyC>(bod)
     {}
     //: Body constructor.
     
+  protected:
     TreeModelBodyC &Body()
     { return RCHandleC<TreeModelBodyC>::Body(); }
     //: Access body.
@@ -462,7 +466,7 @@ namespace RavlGUIN {
     //: Set pixbuf value.
     
     bool GUISetValue(TreeModelIterC &rowIter,IntT col, const char *value)
-    { return Body().GUISetValue(rowIter,col,StringC(value)); }
+    { return Body().GUISetValue(rowIter,col,value); }
     //: Set 'C' style string value.
     
     void GUIEmpty()
