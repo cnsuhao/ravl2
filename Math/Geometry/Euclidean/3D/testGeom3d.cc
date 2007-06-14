@@ -17,12 +17,16 @@
 #include "Ravl/LinePP3d.hh"
 #include "Ravl/LinePV3d.hh"
 #include "Ravl/BinStream.hh"
+#include "Ravl/Affine3d.hh"
+#include "Ravl/Point2d.hh"
+#include "Ravl/SArray1d.hh"
 
 using namespace RavlN;
 
 int testAngles();
 int testLine();
 int testLineDist();
+int testFitAffine();
 
 int main(int nargs,char **argv) {
   int ln;
@@ -34,7 +38,11 @@ int main(int nargs,char **argv) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
-#if 0
+  if((ln = testFitAffine()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+#if 1
   if((ln = testAngles()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
@@ -76,6 +84,54 @@ int testLineDist() {
   
   LinePV3dC line3(Point3dC(0.5,0.5,0.5),Vector3dC(0.5,0.5,0.5));
   if(Abs(line1.Distance(line3)) > 0.000001) return __LINE__;
+  
+  
+  return 0;
+}
+
+int testFitAffine() {
+  cerr << "testFitAffine Called. \n";
+
+  // Try 3d -> 3d case.
+  
+  SArray1dC<Point3dC> ipnt(4);
+  ipnt[0] = Point3dC(1,1,3);
+  ipnt[1] = Point3dC(2,1,4);
+  ipnt[2] = Point3dC(1,3,5);
+  ipnt[3] = Point3dC(2,4,6);
+  
+  SArray1dC<Point3dC> opnt(4);
+  opnt[0] = Point3dC(2,2,6);
+  opnt[1] = Point3dC(3,2,5);
+  opnt[2] = Point3dC(2,4,4);
+  opnt[3] = Point3dC(3,3,3);
+  
+  Affine3dC aff = FitAffine(ipnt,opnt);
+  int i;
+  for(i=0;i < 4;i++) {
+    //std::cerr << "i=" << i << " " << ipnt[i] << " -> " << opnt[i] << " " << (aff * ipnt[i]) << "\n";
+    if(((aff * ipnt[i]) - opnt[i]).SumOfSqr() > 0.001)
+      return __LINE__;
+  }
+  
+  // Test 2d -> 3d stuff.
+  
+  SArray1dC<Point2dC> ipnt2(3);
+  ipnt2[0] = Point2dC(1,1);
+  ipnt2[1] = Point2dC(2,1);
+  ipnt2[2] = Point2dC(1,3);
+  
+  SArray1dC<Point3dC> opnt2(3);
+  opnt2[0] = Point3dC(2,2,6);
+  opnt2[1] = Point3dC(3,2,5);
+  opnt2[2] = Point3dC(2,4,4);
+  
+  aff = FitAffine(ipnt2,opnt2);
+  for(i=0;i < 3;i++) {
+    //std::cerr << "i=" << i << " " << ipnt[i] << " -> " << opnt[i] << " " << (aff * ipnt[i]) << "\n";
+    if(((aff * Point3dC(ipnt2[i][0],ipnt2[i][1],0)) - opnt2[i]).SumOfSqr() > 0.001)
+      return __LINE__;
+  }
   
   
   return 0;

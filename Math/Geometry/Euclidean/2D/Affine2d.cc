@@ -24,7 +24,11 @@ namespace RavlN {
     return FitAffine(org,newPos, weights, residual);
   }
   
-  Affine2dC FitAffine(const SArray1dC<Point2dC> &org,const SArray1dC<Point2dC> &newPos, const SArray1dC<RealT> &weights, RealT& residual)
+  Affine2dC FitAffine(const SArray1dC<Point2dC> &org,
+                      const SArray1dC<Point2dC> &newPos, 
+                      const SArray1dC<RealT> &weights, 
+                      RealT& residual
+                      )
   {
     UIntT samples = org.Size();
     RavlAssertMsg(samples == newPos.Size(),"Affine2dC FitAffine(), Point arrays must have the same size.");
@@ -33,7 +37,7 @@ namespace RavlN {
     RealT meanWeight = weights.Sum() / static_cast<RealT>(weights.Size());
     
     if ( samples < 3 )
-      throw ExceptionC("Sample size too small in FitAffine2dPointsBodyC::FitModel(). ");
+      throw ExceptionC("Sample size too small in FitAffine(). ");
     
     MatrixC A(samples,3);
     VectorC b(samples);
