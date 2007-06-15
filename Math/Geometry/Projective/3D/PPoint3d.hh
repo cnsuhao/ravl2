@@ -158,10 +158,6 @@ namespace RavlN {
     // Returns the point with projective coordinates related to the new origin
     // 'newOrigin'.
     
-    operator const TFVectorC<RealT,4> &() const
-    { return this->operator const TFVectorC<RealT,4> &(); }
-    //: Access as basic vector.
-
   protected:
     
 #if 0
