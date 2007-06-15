@@ -3,6 +3,7 @@
 
 //! lib=RavlOpenCV
 //! docentry="Ravl.API.Images.Converters.OpenCV"
+//! example="exOpenCV.cc"
 
 #include <opencv/cv.h>
 #include "Ravl/Image/Image.hh"
