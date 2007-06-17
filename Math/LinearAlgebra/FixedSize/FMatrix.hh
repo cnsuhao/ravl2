@@ -223,6 +223,7 @@ namespace RavlN {
     return evmax(&mat[0][0],&maxv[0],N);
   }
   //: Get the maximum eigen value and its vector.
+
   
 }
 

@@ -8,16 +8,18 @@
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/FixedSize/testSpecificFMatrix.cc"
 
+#include "Ravl/Matrix.hh"
 #include "Ravl/Matrix3d.hh"
 #include "Ravl/Matrix2d.hh"
 #include "Ravl/Vector2d.hh"
 #include "Ravl/Vector3d.hh"
+#include "Ravl/TFMatrixDecomposition.hh"
 
 using namespace RavlN;
 
 int testMatrix2d();
 int testMatrix3d();
-
+int testCholeskyDecomposition();
 int main() {
   int ln;
   if((ln = testMatrix2d()) != 0) {
@@ -28,6 +30,11 @@ int main() {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
+  if((ln = testCholeskyDecomposition()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  
   cout << "Test passed ok. \n";
   return 0;
 }
@@ -91,5 +98,23 @@ int testMatrix3d() {
   Vector3dC v3a(1,2,3),v3b(3,2,1);
   Vector3dC v = v3a + v3b;
   if(v[0] != 4 || v[1] != 4 || v[2] != 4) return __LINE__;
+  return 0;
+}
+
+int testCholeskyDecomposition() {
+  //cerr << "testCholeskyDecomposition(), Called. \n";
+  for(int i = 0;i < 5;i++) {
+    MatrixC rsx = RandomPositiveDefiniteMatrix(3);  
+    TFMatrixC<RealT,3,3> rs = rsx;
+    
+    //cerr << "RS=" << rs << "\n";
+    TFMatrixC<RealT,3,3> cd;
+    
+    if(!CholeskyDecomposition(rs,cd)) return __LINE__;
+    //cerr << "l=" << cd <<"\n";
+    TFMatrixC<RealT,3,3> nrs = cd * cd.T();
+    //cerr << "nrs=" << nrs <<"\n";
+    if((rs - nrs).SumOfSqr() > 0.000001) return __LINE__;
+  }
   return 0;
 }
