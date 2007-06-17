@@ -85,6 +85,10 @@ namespace RavlN {
     }
     //: Invert matrix in place.
     
+    bool RQDecomposition(TFMatrixC<RealT,3,3> &R,TFMatrixC<RealT,3,3> &Q) const;
+    //: Decompose this matrix such that *this = R * Q
+    //: Where R is upper right triangular and Q is orthogonal.
+    
   protected:
   };
 

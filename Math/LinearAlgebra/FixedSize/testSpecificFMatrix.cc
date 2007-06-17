@@ -20,6 +20,8 @@ using namespace RavlN;
 int testMatrix2d();
 int testMatrix3d();
 int testCholeskyDecomposition();
+int testRQDecomposition();
+
 int main() {
   int ln;
   if((ln = testMatrix2d()) != 0) {
@@ -31,6 +33,10 @@ int main() {
     return 1;
   }
   if((ln = testCholeskyDecomposition()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testRQDecomposition()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -116,5 +122,27 @@ int testCholeskyDecomposition() {
     //cerr << "nrs=" << nrs <<"\n";
     if((rs - nrs).SumOfSqr() > 0.000001) return __LINE__;
   }
+  return 0;
+}
+
+int testRQDecomposition() {
+  
+  for(int i = 0;i < 5;i++) {
+    MatrixC t = RandomMatrix(3,3,2.0);
+    
+    Matrix3dC A;
+    for(int i = 0;i < 3;i++)
+      for(int j = 0;j < 3;j++)
+        A[i][j] = t[i][j];
+    
+    Matrix3dC R,Q;
+    A.RQDecomposition(R,Q);
+    Matrix3dC Ar = R * Q;
+    
+    //cerr << "R=" << R << "\nQ=" << Q << "\n";
+    //cerr << "Ar=" << Ar << "\nA=" << A << "\n";
+    if((A - Ar).SumOfSqr() > 0.000001) return __LINE__;
+  }
+  
   return 0;
 }

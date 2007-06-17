@@ -35,5 +35,99 @@ namespace RavlN {
     
     return true;
   }
+  
+  
+  // The following code is Copyright (C) 2007, OmniPerception Ltd.
+  
+  static inline bool SolveSinCos(RealT v1,RealT v2,RealT &s,RealT &c) {
+    RealT b = Sqrt(Sqr(v1) + Sqr(v2));
+    if(b == 0)
+      return false;
+    c = -v1/b;
+    s = v2/b;
+    return true;
+  }
+  // Solve,  v1 * c + v2 * s = 0  where Sqr(c) + Sqr(s) = 1.
+  
+  static inline void RotateX(const TFMatrixC<RealT,3,3> &b,RealT c,RealT s,TFMatrixC<RealT,3,3> &a) {
+    a[0][0] = b[0][0];
+    a[0][1] = b[0][1] * c + b[0][2] * s;
+    a[0][2] = b[0][2] * c - b[0][1] * s;
+    
+    a[1][0] = b[1][0];
+    a[1][1] = b[1][1] * c + b[1][2] * s;
+    a[1][2] = b[1][2] * c - b[1][1] * s;
+    
+    a[2][0] = b[2][0];
+    a[2][1] = b[2][1] * c + b[2][2] * s;
+    a[2][2] = b[2][2] * c - b[2][1] * s;
+  }
+  // a = b * RotX(c,s)
+  
+  static inline void RotateY(const TFMatrixC<RealT,3,3> &b,RealT c,RealT s,TFMatrixC<RealT,3,3> &a) {
+    a[0][0] = b[0][0] * c - b[0][2] * s;
+    a[0][1] = b[0][1];
+    a[0][2] = b[0][0] * s + b[0][2] * c;
+    
+    a[1][0] = b[1][0] * c - b[1][2] * s;
+    a[1][1] = b[1][1];
+    a[1][2] = b[1][0] * s + b[1][2] * c;
+    
+    a[2][0] = b[2][0] * c - b[2][2] * s;
+    a[2][1] = b[2][1];
+    a[2][2] = b[2][0] * s + b[2][2] * c;
+  }
+  // a = b * RotY(c,s)
+  
+  static inline void RotateZ(const TFMatrixC<RealT,3,3> &b,RealT c,RealT s,TFMatrixC<RealT,3,3> &a) {
+    a[0][0] = b[0][0] * c + b[0][1] * s;
+    a[0][1] = b[0][1] * c - b[0][0] * s;
+    a[0][2] = b[0][2];
+    
+    a[1][0] = b[1][0] * c + b[1][1] * s;
+    a[1][1] = b[1][1] * c - b[1][0] * s;
+    a[1][2] = b[1][2];
+    
+    a[2][0] = b[2][0] * c + b[2][1] * s;
+    a[2][1] = b[2][1] * c - b[2][0] * s;
+    a[2][2] = b[2][2];
+  }
+  // a = b * RotZ(c,s)
+  
+  
+  bool Matrix3dC::RQDecomposition(TFMatrixC<RealT,3,3> &R,TFMatrixC<RealT,3,3> &Q) const {
+    const Matrix3dC &M = *this;
+    
+    // m21*c+m22*s == 0 to make A21 zero.
+    RealT cx,sx;    
+    if(!SolveSinCos(M[2][1],M[2][2],cx,sx))
+      return false;
+    RotateX(M,cx,sx,R);
+    
+    // m20*c-m22*s == 0 to make A20 zero
+    RealT cy,sy;
+    if(!SolveSinCos(R[2][0],-R[2][2],cy,sy))
+      return false;
+    Matrix3dC Ro;
+    RotateY(R,cy,sy,Ro);
+    
+    // m10*c+m11*s == 0 to make A10 zero
+    RealT cz,sz;
+    if(!SolveSinCos(Ro[1][0],Ro[1][1],cz,sz))
+      return false;
+    RotateZ(Ro,cz,sz,R);
+    
+    // Q = Qz.T() * Qy.T() * Qx.T()
+    Q = Matrix3dC(cz*cy  ,sz*cx+cz*sy*sx ,sz*sx-cz*sy*cx,
+                  -sz*cy ,cz*cx-sz*sy*sx ,cz*sx+sz*sy*cx,
+                  sy     ,-cy*sx         ,cy*cx);
+    
+    // Tidy up rounding errors.
+    R[2][1] = 0.0;
+    R[2][0] = 0.0;
+    R[1][0] = 0.0;
+    
+    return true;
+  }
 
 }
