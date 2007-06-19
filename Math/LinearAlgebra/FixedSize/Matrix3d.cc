@@ -129,5 +129,41 @@ namespace RavlN {
     
     return true;
   }
+  
+  //: Decompose this matrix such that *this = R * Q
+  //: This method generates the sin of the angles of each rotation.
+  
+  bool Matrix3dC::RQDecomposition(TFMatrixC<RealT,3,3> &R,RealT &rx,RealT &ry,RealT &rz) const {
+    const Matrix3dC &M = *this;
+    
+    // m21*c+m22*s == 0 to make A21 zero.
+    RealT cx,sx;    
+    if(!SolveSinCos(M[2][1],M[2][2],cx,sx))
+      return false;
+    RotateX(M,cx,sx,R);
+    rx = ATan2(sx,cx);
+    
+    // m20*c-m22*s == 0 to make A20 zero
+    RealT cy,sy;
+    if(!SolveSinCos(R[2][0],-R[2][2],cy,sy))
+      return false;
+    Matrix3dC Ro;
+    RotateY(R,cy,sy,Ro);
+    ry = ATan2(sy,cy);
+    
+    // m10*c+m11*s == 0 to make A10 zero
+    RealT cz,sz;
+    if(!SolveSinCos(Ro[1][0],Ro[1][1],cz,sz))
+      return false;
+    rz = ATan2(sz,cz);
+    
+    // Tidy up rounding errors.
+    R[2][1] = 0.0;
+    R[2][0] = 0.0;
+    R[1][0] = 0.0;
+    
+    return true;
+  }
+
 
 }

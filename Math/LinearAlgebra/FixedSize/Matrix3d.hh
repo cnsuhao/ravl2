@@ -89,6 +89,11 @@ namespace RavlN {
     //: Decompose this matrix such that *this = R * Q
     //: Where R is upper right triangular and Q is orthogonal.
     
+    bool RQDecomposition(TFMatrixC<RealT,3,3> &R,RealT &rx,RealT &ry,RealT &rz) const;
+    //: Decompose this matrix such that *this = R * Q
+    //: This method generates the angle of each rotation. The angles are in radians.
+    
+    
   protected:
   };
 
