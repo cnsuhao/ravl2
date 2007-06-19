@@ -43,7 +43,8 @@ namespace RavlN {
   enum RWLockModeT { RWLOCK_READONLY, 
 		     RWLOCK_WRITE,
 		     RWLOCK_TRY_READONLY, 
-		     RWLOCK_TRY_WRITE 
+		     RWLOCK_TRY_WRITE,
+                     RWLOCK_NOLOCK
   };
   //: Lock type.
   
@@ -330,6 +331,7 @@ namespace RavlN {
       case RWLOCK_WRITE:        wLocked = rwlock.WrLock();    break;
       case RWLOCK_TRY_READONLY: rLocked = rwlock.TryRdLock(); break;
       case RWLOCK_TRY_WRITE:    wLocked = rwlock.TryWrLock(); break;
+      case RWLOCK_NOLOCK:       break;
       }
     };
     //: Create a lock on a rwlock.
