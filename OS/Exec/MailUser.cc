@@ -35,14 +35,15 @@ namespace RavlN {
     if(!Exists())
       return false;
     ChildOSProcessC mailProc(RAVLMailProg,false,false,true);
-    mailProc.StdIn() << Content << "\n" << flush ;
+    mailProc.StdIn() << Content << "\n.\n"  << flush ; // "." flags eof for sendmail
     //mailProc.StdIn().Close();
     bool ok = mailProc.Wait(10);
     if(ok)
       ok = mailProc.ExitedOk();
     // Report an error ?
     if(!ok) 
-      cerr << "Warning: Failed to send mail to " << login << "\n";
+      cerr << "Warning: Failed to send mail to " << login << "\n"
+           << "Exit code " << mailProc.ExitCode() << endl;
     return ok;
   }
   
