@@ -25,7 +25,7 @@ namespace RavlN
   
   class TextFileC;
   
-  //: User information.
+  //: User information and mailing.
   // This is a small object.
   
   class UserInfoC {
@@ -71,13 +71,13 @@ namespace RavlN
     
     bool Mail(StringC Content);
     //: Attempt to mail the user
-    // This takes a raw message and formats in appropriately.
-    // It expects the message to be in the following format.<p>
-    // To:xxx<p>
-    // Subject:xxx<p>
-    // (empty line)<p>
-    // Message contents.
-    
+    // This takes a raw message and formats in appropriately.<br/>
+    // The message should be formatted something like this:<pre>
+    //  To:xxx
+    //  Subject:xxx
+    //  (empty line)
+    //  Message contents.</pre>
+
     bool Mail(StringC Subject,StringC Content);
     //: Attempt to mail the user
     
