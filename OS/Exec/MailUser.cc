@@ -18,8 +18,6 @@
 #include <errno.h>
 #include <stdio.h>
 
-const char *RAVLMailProg = "/usr/lib/sendmail -t ";
-
 #define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
@@ -31,6 +29,8 @@ namespace RavlN {
   ////////////////////////////
   // Attempt to mail the user
   
+  StringC UserInfoC::RAVLMailProg("/usr/lib/sendmail -t ");
+
   bool UserInfoC::Mail(StringC Content) {
     if(!Exists())
       return false;

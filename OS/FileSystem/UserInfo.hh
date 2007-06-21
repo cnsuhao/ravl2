@@ -87,6 +87,11 @@ namespace RavlN
     bool MailFile(StringC Subject,StringC Filename);
     //: Attempt to mail the user
     
+    static void SetMailProg(StringC cmd)
+      { RAVLMailProg = cmd; }
+    //: Define the mail command to be used to send email messages
+    // Default is <code>"/usr/lib/sendmail -t "</code>
+    
     bool operator==(const UserInfoC &oth) const 
       { return (uid == oth.uid); }
     //: Are two users equal ?
@@ -97,20 +102,20 @@ namespace RavlN
     
     bool IsRoot() const
       { return uid == 0; }
-    //: Test is user is root.
+    //: Test if user is root.
     
     static UserInfoC WhoAmI();
     //: Get current user.
-    
+
   protected:
     bool Init(UIntT aUserid);
-    //: Initalise from userid.
+    //: Initialise from userid.
     
     bool Init(StringC aLogin);
-    //: Initalise from a login.
+    //: Initialise from a login.
     
     void Init(struct passwd *pw);
-    //: Initalise from a password structure.
+    //: Initialise from a password structure.
     
   private:
     bool exists; // true = is a real user.
@@ -120,6 +125,7 @@ namespace RavlN
     StringC fullname;// Full name.
     StringC homedir; // Home directory.
     StringC shell;   // Shell
+    static StringC RAVLMailProg; // command to email someone a message
   };
   
   //: Stream operator.
