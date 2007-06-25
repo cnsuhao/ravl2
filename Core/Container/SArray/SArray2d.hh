@@ -84,11 +84,11 @@ namespace RavlN {
     
     inline SizeT Size1() const
     { return SizeBufferAccess2dC<DataT>::Size1(); }
-    //: Size 1
+    //: Range of 1st index is [0..Size1()-1]
     
     inline SizeT Size2() const
     { return SizeBufferAccess2dC<DataT>::Size2(); }
-    //: Size.
+    //: Range of 2nd index is [0..Size2()-1]
     
     //:------------------
     // Special operations
