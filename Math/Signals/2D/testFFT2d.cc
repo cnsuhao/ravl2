@@ -11,6 +11,7 @@
 #include "Ravl/FFT2d.hh"
 #include "Ravl/SArray2dIter.hh"
 #include "Ravl/SArray2dIter2.hh"
+#include "Ravl/SArray2dIter3.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/StrStream.hh"
@@ -190,9 +191,12 @@ int testRealFFT2d() {
   SArray2dC<ComplexC> ires = ffti.Apply(fres);
   
   //cerr << ires << "\n";
+
+  SArray2dC<RealT> rres = ffti.Real(ires);
+
   
-  for(SArray2dIter2C<RealT,ComplexC> rit(indat,ires);rit;rit++) {
-    if(Abs(rit.Data1() - rit.Data2().Re()) > 0.000001)
+  for(SArray2dIter3C<RealT,ComplexC,RealT> rit(indat,ires,rres);rit;rit++) {
+    if(Abs(rit.Data1() - rit.Data3()) > 0.000001)
       return __LINE__;
     if(Abs(rit.Data2().Im()) > 0.000001)
       return __LINE__;

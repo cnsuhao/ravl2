@@ -150,6 +150,18 @@ namespace RavlN {
     // DC moved from top left to centre or centre to top left. 
     // FFTShift(FFTShift(a)) == a; for even sized a, not quite for odd sized a.
     
+    static  SArray2dC<RealT> Real(const SArray2dC<ComplexC> &dat);
+    //: Returns real part of complex image
+
+    static  SArray2dC<RealT> Imag(const SArray2dC<ComplexC> &dat);
+    //: Returns imaginary part of complex image
+
+    static  Array2dC<RealT> Real(const Array2dC<ComplexC> &dat);
+    //: Returns real part of complex image
+
+    static  Array2dC<RealT> Imag(const Array2dC<ComplexC> &dat);
+    //: Returns imaginary part of complex image
+
   };
 
 }
