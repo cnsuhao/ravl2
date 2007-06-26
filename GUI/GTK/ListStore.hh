@@ -81,12 +81,12 @@ namespace RavlGUIN {
     
     //: List store.
     
-  protected:
     ListStoreC(ListStoreBodyC &bod)
       : TreeModelC(bod)
     {}
     //: Body constructor.
     
+  protected:
     ListStoreBodyC &Body()
     { return static_cast<ListStoreBodyC &>(TreeModelC::Body()); }
     //: Access body.
