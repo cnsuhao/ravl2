@@ -1,10 +1,7 @@
-# This file is part of OmniSoft, Pattern recognition software
-# Copyright (C) 2003, OmniPerception Ltd.
-# file-header-ends-here
 #! rcsid="$Id: defs.mk 9410 2006-09-08 15:25:47Z charles $"
 #! file="Contrib/UUId/defs.mk"
 
-LICENSE=Copyright
+LICENSE=LGPL
 
 ORGANISATION=OmniPerception Ltd.
 
