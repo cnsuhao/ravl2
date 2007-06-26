@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="ccmath"
-	ProjectGUID="{24341B1B-F01E-4811-86C5-969D717D4A83}"
-	RootNamespace="ccmath"
+	ProjectGUID="{24341b1b-f01e-4811-86c5-969d717d4a83}"
+        RootNamespace="ccmath"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\ccmath\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\ccmath\"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
+				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,6 +166,7 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+	
 	</Configurations>
 	<References>
 	</References>
@@ -174,6 +175,7 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
+			
 			<File
 				RelativePath="..\.\CCMath\matrix\atou1.c"
 				>
@@ -183,19 +185,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\CCMath\cfit\chcof.c"
-				>
-			</File>
-			<File
 				RelativePath="..\.\CCMath\matrix\chouse.c"
 				>
 			</File>
 			<File
 				RelativePath="..\.\CCMath\matrix\chousv.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\cfit\chpade.c"
 				>
 			</File>
 			<File
@@ -223,27 +217,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\CCMath\cfit\csfit.c"
-				>
-			</File>
-			<File
 				RelativePath="..\.\CCMath\matrix\csolv.c"
 				>
 			</File>
 			<File
-				RelativePath="..\.\CCMath\cfit\cspl.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\cfit\csplp.c"
-				>
-			</File>
-			<File
 				RelativePath="..\.\CCMath\matrix\cvmul.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\cfit\dcspl.c"
 				>
 			</File>
 			<File
@@ -256,50 +234,6 @@
 			</File>
 			<File
 				RelativePath="..\.\CCMath\matrix\evmax.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\cfit\evpsq.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\cfit\evpsqv.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\fft\fft2.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\fft\fft2_d.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\fft\fftgc.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\fft\fftgr.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\cfit\fitval.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\cfit\ftch.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\fft\ftuns.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\statf\gaml.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\cfit\gnlsq.c"
 				>
 			</File>
 			<File
@@ -339,18 +273,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\CCMath\matrix\lrana.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\matrix\lrand.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\cfit\lsqsv.c"
-				>
-			</File>
-			<File
 				RelativePath="..\.\CCMath\matrix\matprt.c"
 				>
 			</File>
@@ -383,79 +305,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\CCMath\statf\pctb.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\statf\pctbn.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\statf\pctg.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\statf\pctgn.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\statf\pctn.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\fft\pfac.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\cfit\plsq.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\cfit\pplsq.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\fft\pshuf.c"
-				>
-			</File>
-			<File
 				RelativePath="..\.\CCMath\matrix\psinv.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\cfit\psqcf.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\cfit\psqvar.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\fft\pwspec.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\statf\qbeta.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\statf\qbnc.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\statf\qgama.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\statf\qgnc.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\statf\qnorm.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\cfit\qrbdbv.c"
 				>
 			</File>
 			<File
@@ -483,14 +333,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\CCMath\cfit\qrlsq.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\cfit\qrvar.c"
-				>
-			</File>
-			<File
 				RelativePath="..\.\CCMath\matrix\rmmult.c"
 				>
 			</File>
@@ -499,19 +341,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\CCMath\cfit\seqlsq.c"
-				>
-			</File>
-			<File
 				RelativePath="..\.\CCMath\matrix\smgen.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\fft\smoo.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\matrix\solv.c"
 				>
 			</File>
 			<File
@@ -527,10 +357,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\CCMath\cfit\sv2lsq.c"
-				>
-			</File>
-			<File
 				RelativePath="..\.\CCMath\matrix\sv2u1v.c"
 				>
 			</File>
@@ -540,10 +366,6 @@
 			</File>
 			<File
 				RelativePath="..\.\CCMath\matrix\sv2val.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\cfit\svdlsq.c"
 				>
 			</File>
 			<File
@@ -559,19 +381,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\CCMath\cfit\tnsfit.c"
-				>
-			</File>
-			<File
 				RelativePath="..\.\CCMath\matrix\trncm.c"
 				>
 			</File>
 			<File
 				RelativePath="..\.\CCMath\matrix\trnm.c"
-				>
-			</File>
-			<File
-				RelativePath="..\.\CCMath\matrix\unfl.c"
 				>
 			</File>
 			<File
@@ -590,11 +404,200 @@
 				RelativePath="..\.\CCMath\matrix\vmul.c"
 				>
 			</File>
+			<File
+				RelativePath="..\.\CCMath\matrix\unfl.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\matrix\lrand.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\matrix\lrana.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\matrix\solv.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\fft\fft2.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\fft\fft2_d.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\fft\fftgc.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\fft\fftgr.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\fft\ftuns.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\fft\pfac.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\fft\pshuf.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\fft\pwspec.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\fft\smoo.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\chcof.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\csfit.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\csplp.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\evpsq.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\fitval.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\gnlsq.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\plsq.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\psqcf.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\qrbdbv.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\qrvar.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\sv2lsq.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\tnsfit.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\chpade.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\cspl.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\dcspl.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\evpsqv.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\ftch.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\lsqsv.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\pplsq.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\psqvar.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\qrlsq.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\seqlsq.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\cfit\svdlsq.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\statf\gaml.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\statf\pctb.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\statf\pctbn.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\statf\pctg.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\statf\pctgn.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\statf\pctn.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\statf\qbeta.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\statf\qbnc.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\statf\qgama.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\statf\qgnc.c"
+				>
+			</File>
+			<File
+				RelativePath="..\.\CCMath\statf\qnorm.c"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+                        
 			<File
 				RelativePath="..\.\CCMath\ccmath.h"
 				>

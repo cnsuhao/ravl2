@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlAudioFeatures"
-	ProjectGUID="{18DA3976-7092-4D5B-84F3-E975FE74FDBE}"
-	RootNamespace="RavlAudioFeatures"
+	ProjectGUID="{18da3976-7092-4d5b-84f3-e975fe74fdbe}"
+        RootNamespace="RavlAudioFeatures"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlAudioFeatures\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlAudioFeatures\"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
+				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,6 +166,7 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+	
 	</Configurations>
 	<References>
 	</References>
@@ -174,8 +175,9 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
+			
 			<File
-				RelativePath="..\.\Audio\Features\FeatureMFCC.cc"
+				RelativePath="..\.\Audio\Features\MelSpectrum.cc"
 				>
 			</File>
 			<File
@@ -183,7 +185,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Audio\Features\MelSpectrum.cc"
+				RelativePath="..\.\Audio\Features\FeatureMFCC.cc"
 				>
 			</File>
 			<File
@@ -195,8 +197,9 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+                        
 			<File
-				RelativePath="..\.\Audio\Features\FeatureMFCC.hh"
+				RelativePath="..\.\Audio\Features\MelSpectrum.hh"
 				>
 			</File>
 			<File
@@ -204,11 +207,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Audio\Features\MelSpectrum.hh"
+				RelativePath="..\.\Audio\Features\PreEmphasis.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Audio\Features\PreEmphasis.hh"
+				RelativePath="..\.\Audio\Features\FeatureMFCC.hh"
 				>
 			</File>
 			<File

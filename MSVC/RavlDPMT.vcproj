@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlDPMT"
-	ProjectGUID="{77394949-2501-422C-95F7-192C30113A14}"
-	RootNamespace="RavlDPMT"
+	ProjectGUID="{77394949-2501-422c-95f7-192c30113a14}"
+        RootNamespace="RavlDPMT"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlDPMT\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlDPMT\"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
+				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,6 +166,7 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+	
 	</Configurations>
 	<References>
 	</References>
@@ -174,14 +175,7 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			<File
-				RelativePath="..\.\OS\DataProc\Blackboard.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\DataProc\Governor.cc"
-				>
-			</File>
+			
 			<File
 				RelativePath="..\.\OS\DataProc\MTIOConnect.cc"
 				>
@@ -190,13 +184,30 @@
 				RelativePath="..\.\OS\DataProc\PlayControl.cc"
 				>
 			</File>
+			<File
+				RelativePath="..\.\OS\DataProc\Governor.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\DataProc\Blackboard.cc"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+                        
 			<File
-				RelativePath="..\.\OS\DataProc\Blackboard.hh"
+				RelativePath="..\.\OS\DataProc\MTIOConnect.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\DataProc\PlayControl.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\DataProc\ThreadPipe.hh"
 				>
 			</File>
 			<File
@@ -216,19 +227,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\DataProc\MTIOConnect.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\OS\DataProc\PlayControl.hh"
-				>
-			</File>
-			<File
 				RelativePath="..\.\OS\DataProc\SerialisePort.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\DataProc\SplitI.hh"
+				RelativePath="..\.\OS\DataProc\Blackboard.hh"
 				>
 			</File>
 			<File
@@ -236,7 +239,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\OS\DataProc\ThreadPipe.hh"
+				RelativePath="..\.\OS\DataProc\SplitI.hh"
 				>
 			</File>
 		</Filter>

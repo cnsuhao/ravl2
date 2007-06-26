@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlAV"
-	ProjectGUID="{C9903E5A-F6B9-4DC0-ACD9-78D199A797B9}"
-	RootNamespace="RavlAV"
+	ProjectGUID="{c9903e5a-f6b9-4dc0-acd9-78d199a797b9}"
+        RootNamespace="RavlAV"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlAV\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlAV\"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
+				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,6 +166,7 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+	
 	</Configurations>
 	<References>
 	</References>
@@ -174,6 +175,7 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
+			
 			<File
 				RelativePath="..\.\Image\AV\AVFrame.cc"
 				>
@@ -187,6 +189,7 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+                        
 			<File
 				RelativePath="..\.\Image\AV\AVFrame.hh"
 				>

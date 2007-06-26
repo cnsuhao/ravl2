@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlGUI2D"
-	ProjectGUID="{78675316-A42B-4594-86A7-66177973DE20}"
-	RootNamespace="RavlGUI2D"
+	ProjectGUID="{78675316-a42b-4594-86a7-66177973de20}"
+        RootNamespace="RavlGUI2D"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlGUI2D\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlGUI2D\"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
+				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,6 +166,7 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+	
 	</Configurations>
 	<References>
 	</References>
@@ -174,56 +175,9 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
+			
 			<File
 				RelativePath="..\.\GUI\2D\Canvas.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\2D\FrameMarkup.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\2D\GUIMarkupCanvas.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\2D\GUIMarkupLayerEditor.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\2D\MarkupImageByte.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\2D\MarkupImageRGB.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\2D\MarkupImageRGBA.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\2D\MarkupInfo.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\2D\MarkupLayerInfo.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\2D\MarkupLine2d.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\2D\MarkupNote.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\2D\MarkupPoint2d.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\2D\MarkupPolygon2d.cc"
 				>
 			</File>
 			<File
@@ -234,33 +188,70 @@
 				RelativePath="..\.\GUI\2D\RawZoomCanvas.cc"
 				>
 			</File>
+			<File
+				RelativePath="..\.\GUI\2D\FrameMarkup.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\2D\GUIMarkupLayerEditor.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\2D\MarkupImageRGB.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\2D\MarkupLine2d.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\2D\MarkupPolygon2d.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\2D\MarkupImageByte.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\2D\MarkupInfo.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\2D\MarkupNote.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\2D\GUIMarkupCanvas.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\2D\MarkupImageRGBA.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\2D\MarkupLayerInfo.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\2D\MarkupPoint2d.cc"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+                        
 			<File
 				RelativePath="..\.\GUI\2D\Canvas.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\2D\FrameMarkup.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\2D\GUIMarkupCanvas.hh"
+				RelativePath="..\.\GUI\2D\RawZoomCanvas.hh"
 				>
 			</File>
 			<File
 				RelativePath="..\.\GUI\2D\GUIMarkupLayerEditor.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\2D\MarkupImageByte.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\2D\MarkupImageRGB.hh"
 				>
 			</File>
 			<File
@@ -272,15 +263,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\2D\MarkupLayerInfo.hh"
-				>
-			</File>
-			<File
 				RelativePath="..\.\GUI\2D\MarkupLine2d.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\2D\MarkupNote.hh"
 				>
 			</File>
 			<File
@@ -288,11 +271,31 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\2D\MarkupPolygon2d.hh"
+				RelativePath="..\.\GUI\2D\FrameMarkup.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\2D\RawZoomCanvas.hh"
+				RelativePath="..\.\GUI\2D\GUIMarkupCanvas.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\2D\MarkupImageByte.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\2D\MarkupImageRGB.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\2D\MarkupLayerInfo.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\2D\MarkupNote.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\2D\MarkupPolygon2d.hh"
 				>
 			</File>
 		</Filter>

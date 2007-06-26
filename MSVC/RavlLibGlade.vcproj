@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlLibGlade"
-	ProjectGUID="{87902FA6-5010-4ADB-987D-F7ECE1343F93}"
-	RootNamespace="RavlLibGlade"
+	ProjectGUID="{87902fa6-5010-4adb-987d-f7ece1343f93}"
+        RootNamespace="RavlLibGlade"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -24,7 +24,10 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="if not exist C:\Build\share\RAVL\Glade\NUL mkdir C:\Build\share\RAVL\Glade&#x0D;&#x0A;copy ..\.\GUI\LibGlade\exlibgladecustommain.glade C:\Build\share\RAVL\Glade\exlibgladecustommain.glade&#x0D;&#x0A;if not exist C:\Build\share\RAVL\Glade\NUL mkdir C:\Build\share\RAVL\Glade&#x0D;&#x0A;copy ..\.\GUI\LibGlade\exlibgladecustomwidget.glade C:\Build\share\RAVL\Glade\exlibgladecustomwidget.glade&#x0D;&#x0A;if not exist C:\Build\share\RAVL\Glade\NUL mkdir C:\Build\share\RAVL\Glade&#x0D;&#x0A;copy ..\.\GUI\LibGlade\exlibglade.glade C:\Build\share\RAVL\Glade\exlibglade.glade&#x0D;&#x0A;"
+				CommandLine="
+if not exist C:\Build\share\RAVL\Glade\NUL mkdir C:\Build\share\RAVL\Glade&#x0D;&#x0A;copy ..\.\GUI\LibGlade\exlibgladecustommain.glade C:\Build\share\RAVL\Glade\exlibgladecustommain.glade&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\Glade\NUL mkdir C:\Build\share\RAVL\Glade&#x0D;&#x0A;copy ..\.\GUI\LibGlade\exlibgladecustomwidget.glade C:\Build\share\RAVL\Glade\exlibgladecustomwidget.glade&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\Glade\NUL mkdir C:\Build\share\RAVL\Glade&#x0D;&#x0A;copy ..\.\GUI\LibGlade\exlibglade.glade C:\Build\share\RAVL\Glade\exlibglade.glade&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -102,7 +105,10 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="if not exist C:\Build\share\RAVL\Glade\NUL mkdir C:\Build\share\RAVL\Glade&#x0D;&#x0A;copy ..\.\GUI\LibGlade\exlibgladecustommain.glade C:\Build\share\RAVL\Glade\exlibgladecustommain.glade&#x0D;&#x0A;if not exist C:\Build\share\RAVL\Glade\NUL mkdir C:\Build\share\RAVL\Glade&#x0D;&#x0A;copy ..\.\GUI\LibGlade\exlibgladecustomwidget.glade C:\Build\share\RAVL\Glade\exlibgladecustomwidget.glade&#x0D;&#x0A;if not exist C:\Build\share\RAVL\Glade\NUL mkdir C:\Build\share\RAVL\Glade&#x0D;&#x0A;copy ..\.\GUI\LibGlade\exlibglade.glade C:\Build\share\RAVL\Glade\exlibglade.glade&#x0D;&#x0A;"
+				CommandLine="
+if not exist C:\Build\share\RAVL\Glade\NUL mkdir C:\Build\share\RAVL\Glade&#x0D;&#x0A;copy ..\.\GUI\LibGlade\exlibgladecustommain.glade C:\Build\share\RAVL\Glade\exlibgladecustommain.glade&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\Glade\NUL mkdir C:\Build\share\RAVL\Glade&#x0D;&#x0A;copy ..\.\GUI\LibGlade\exlibgladecustomwidget.glade C:\Build\share\RAVL\Glade\exlibgladecustomwidget.glade&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\Glade\NUL mkdir C:\Build\share\RAVL\Glade&#x0D;&#x0A;copy ..\.\GUI\LibGlade\exlibglade.glade C:\Build\share\RAVL\Glade\exlibglade.glade&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -131,8 +137,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlLibGlade\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlLibGlade\"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
+				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -168,6 +174,7 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+	
 	</Configurations>
 	<References>
 	</References>
@@ -176,16 +183,17 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
+			
 			<File
 				RelativePath="..\.\GUI\LibGlade\GladeWidget.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\LibGlade\GladeWindow.cc"
+				RelativePath="..\.\GUI\LibGlade\GladeXML.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\LibGlade\GladeXML.cc"
+				RelativePath="..\.\GUI\LibGlade\GladeWindow.cc"
 				>
 			</File>
 		</Filter>
@@ -193,16 +201,17 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+                        
 			<File
 				RelativePath="..\.\GUI\LibGlade\GladeWidget.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\LibGlade\GladeWindow.hh"
+				RelativePath="..\.\GUI\LibGlade\GladeXML.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\LibGlade\GladeXML.hh"
+				RelativePath="..\.\GUI\LibGlade\GladeWindow.hh"
 				>
 			</File>
 		</Filter>

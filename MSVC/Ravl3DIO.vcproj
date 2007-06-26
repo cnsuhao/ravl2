@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="Ravl3DIO"
-	ProjectGUID="{07E7EAB7-7E47-4D42-8187-07A3EE0D1BA9}"
-	RootNamespace="Ravl3DIO"
+	ProjectGUID="{07e7eab7-7e47-4d42-8187-07a3ee0d1ba9}"
+        RootNamespace="Ravl3DIO"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -24,7 +24,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="if not exist C:\Build\share\RAVL\data\NUL mkdir C:\Build\share\RAVL\data&#x0D;&#x0A;copy ..\.\3D\MeshIO\cube.tri C:\Build\share\RAVL\data\cube.tri&#x0D;&#x0A;"
+				CommandLine="
+if not exist C:\Build\share\RAVL\data\NUL mkdir C:\Build\share\RAVL\data&#x0D;&#x0A;copy ..\.\3D\MeshIO\cube.tri C:\Build\share\RAVL\data\cube.tri&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -102,7 +103,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="if not exist C:\Build\share\RAVL\data\NUL mkdir C:\Build\share\RAVL\data&#x0D;&#x0A;copy ..\.\3D\MeshIO\cube.tri C:\Build\share\RAVL\data\cube.tri&#x0D;&#x0A;"
+				CommandLine="
+if not exist C:\Build\share\RAVL\data\NUL mkdir C:\Build\share\RAVL\data&#x0D;&#x0A;copy ..\.\3D\MeshIO\cube.tri C:\Build\share\RAVL\data\cube.tri&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -131,8 +133,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\Ravl3DIO\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\Ravl3DIO\"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
+				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -168,6 +170,7 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+	
 	</Configurations>
 	<References>
 	</References>
@@ -176,6 +179,15 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
+			
+			<File
+				RelativePath="..\.\3D\MeshIO\VRMLFileIO.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\MeshIO\FormatVRMLFile.cc"
+				>
+			</File>
 			<File
 				RelativePath="..\.\3D\MeshIO\CTriFileIO.cc"
 				>
@@ -185,11 +197,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\3D\MeshIO\FormatMeshObj.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\MeshIO\FormatPOVRayFile.cc"
+				RelativePath="..\.\3D\MeshIO\TriFileIO.cc"
 				>
 			</File>
 			<File
@@ -197,31 +205,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\3D\MeshIO\FormatVRMLFile.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\MeshIO\MeshConv.cc"
-				>
-			</File>
-			<File
 				RelativePath="..\.\3D\MeshIO\MeshIOObj.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\3D\MeshIO\POVRayFileIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\MeshIO\RavlMeshIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\MeshIO\TexTriMeshIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\MeshIO\TriFileIO.cc"
+				RelativePath="..\.\3D\MeshIO\FormatMeshObj.cc"
 				>
 			</File>
 			<File
@@ -229,7 +217,23 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\3D\MeshIO\VRMLFileIO.cc"
+				RelativePath="..\.\3D\MeshIO\TexTriMeshIO.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\MeshIO\POVRayFileIO.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\MeshIO\FormatPOVRayFile.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\MeshIO\MeshConv.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\MeshIO\RavlMeshIO.cc"
 				>
 			</File>
 		</Filter>
@@ -237,6 +241,19 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+                        
+			<File
+				RelativePath="..\.\3D\MeshIO\RavlMeshIO.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\MeshIO\VRMLFileIO.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\MeshIO\FormatVRMLFile.hh"
+				>
+			</File>
 			<File
 				RelativePath="..\.\3D\MeshIO\CTriFileIO.hh"
 				>
@@ -246,11 +263,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\3D\MeshIO\FormatMeshObj.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\MeshIO\FormatPOVRayFile.hh"
+				RelativePath="..\.\3D\MeshIO\TriFileIO.hh"
 				>
 			</File>
 			<File
@@ -258,11 +271,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\3D\MeshIO\FormatVRMLFile.hh"
+				RelativePath="..\.\3D\MeshIO\MeshIOObj.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\3D\MeshIO\MeshIOObj.hh"
+				RelativePath="..\.\3D\MeshIO\FormatMeshObj.hh"
 				>
 			</File>
 			<File
@@ -270,15 +283,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\3D\MeshIO\RavlMeshIO.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\MeshIO\TriFileIO.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\3D\MeshIO\VRMLFileIO.hh"
+				RelativePath="..\.\3D\MeshIO\FormatPOVRayFile.hh"
 				>
 			</File>
 		</Filter>

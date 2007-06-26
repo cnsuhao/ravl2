@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlZLib"
-	ProjectGUID="{23DA0370-87A1-4712-821C-6D840EA55195}"
-	RootNamespace="RavlZLib"
+	ProjectGUID="{23da0370-87a1-4712-821c-6d840ea55195}"
+        RootNamespace="RavlZLib"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlZLib\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlZLib\"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
+				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,6 +166,7 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+	
 	</Configurations>
 	<References>
 	</References>
@@ -174,6 +175,7 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
+			
 			<File
 				RelativePath="..\.\OS\Compress\Compress.cc"
 				>
@@ -183,6 +185,7 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+                        
 			<File
 				RelativePath="..\.\OS\Compress\Compress.hh"
 				>

@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlAudioIO"
-	ProjectGUID="{C8FB29FE-1B0A-4736-91ED-F509C93F2CDA}"
-	RootNamespace="RavlAudioIO"
+	ProjectGUID="{c8fb29fe-1b0a-4736-91ed-f509c93f2cda}"
+        RootNamespace="RavlAudioIO"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlAudioIO\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlAudioIO\"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
+				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,6 +166,7 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+	
 	</Configurations>
 	<References>
 	</References>
@@ -174,20 +175,17 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
+			
 			<File
 				RelativePath="..\.\Audio\IO\AudioSample.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Audio\IO\RavlAudioSample.cc"
+				RelativePath="..\.\Audio\IO\SphereIO.cc"
 				>
 			</File>
 			<File
 				RelativePath="..\.\Audio\IO\SphereFormat.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Audio\IO\SphereIO.cc"
 				>
 			</File>
 			<File
@@ -198,17 +196,22 @@
 				RelativePath="..\.\Audio\IO\TranscriptionStream.cc"
 				>
 			</File>
+			<File
+				RelativePath="..\.\Audio\IO\RavlAudioSample.cc"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+                        
 			<File
-				RelativePath="..\.\Audio\IO\SphereFormat.hh"
+				RelativePath="..\.\Audio\IO\SphereIO.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Audio\IO\SphereIO.hh"
+				RelativePath="..\.\Audio\IO\SphereFormat.hh"
 				>
 			</File>
 			<File

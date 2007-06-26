@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlCameraCal"
-	ProjectGUID="{14DC1419-DBF6-45BD-B229-816059AC8E64}"
-	RootNamespace="RavlCameraCal"
+	ProjectGUID="{14dc1419-dbf6-45bd-b229-816059ac8e64}"
+        RootNamespace="RavlCameraCal"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlCameraCal\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlCameraCal\"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
+				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,6 +166,7 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+	
 	</Configurations>
 	<References>
 	</References>
@@ -174,6 +175,7 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
+			
 			<File
 				RelativePath="..\.\3D\CameraCal\PinholeCamera0.cc"
 				>
@@ -183,6 +185,7 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+                        
 			<File
 				RelativePath="..\.\3D\CameraCal\PinholeCamera0.hh"
 				>

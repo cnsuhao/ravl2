@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlGUI"
-	ProjectGUID="{EC571B7C-6428-4FF8-8431-846CCEF03150}"
-	RootNamespace="RavlGUI"
+	ProjectGUID="{ec571b7c-6428-4ff8-8431-846ccef03150}"
+        RootNamespace="RavlGUI"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlGUI\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlGUI\"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
+				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,6 +166,7 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+	
 	</Configurations>
 	<References>
 	</References>
@@ -174,96 +175,13 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			<File
-				RelativePath="..\.\GUI\GTK\AspectFrame.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Bitmap.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Button.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\ButtonBox.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\CList.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\ColourSelector.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Combo.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Cursor.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\CWidget.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\DebugAssertDialog.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\DragAndDrop.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\EventBox.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\FileSelector.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Fixed.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Frame.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Label.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\LBox.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\List.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\ListStore.cc"
-				>
-			</File>
+			
 			<File
 				RelativePath="..\.\GUI\GTK\Manager.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\Menu.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\MenuCheck.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\MessageBox.cc"
+				RelativePath="..\.\GUI\GTK\Widget.cc"
 				>
 			</File>
 			<File
@@ -271,83 +189,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\Notebook.cc"
+				RelativePath="..\.\GUI\GTK\Window.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\OneChild.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\PackInfo.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Paned.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Pixbuf.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Pixmap.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\ProgressBar.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\RadioButton.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\RawCanvas.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\ReadBack.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Ruler.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\ScrolledArea.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Separator.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Slider.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\SpinButton.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\StatusBar.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Table.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\TextBox.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\TextEntry.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\ToggleButton.cc"
+				RelativePath="..\.\GUI\GTK\Cursor.cc"
 				>
 			</File>
 			<File
@@ -355,7 +201,159 @@
 				>
 			</File>
 			<File
+				RelativePath="..\.\GUI\GTK\CWidget.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Button.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Pixmap.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\PackInfo.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\OneChild.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\LBox.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Menu.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Label.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\FileSelector.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\TextEntry.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Slider.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\ScrolledArea.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Fixed.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\EventBox.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Frame.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\ToggleButton.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\StatusBar.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Combo.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\List.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\MenuCheck.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\RawCanvas.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Table.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Ruler.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\SpinButton.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\GUI\GTK\Tree.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Separator.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Bitmap.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Notebook.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\CList.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\VLabel.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\RadioButton.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\ProgressBar.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\TextBox.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\DragAndDrop.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Paned.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\MessageBox.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\WidgetStyle.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\ReadBack.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\WaitForExit.cc"
 				>
 			</File>
 			<File
@@ -371,23 +369,31 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\VLabel.cc"
+				RelativePath="..\.\GUI\GTK\ListStore.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\WaitForExit.cc"
+				RelativePath="..\.\GUI\GTK\Pixbuf.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\Widget.cc"
+				RelativePath="..\.\GUI\GTK\AspectFrame.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\WidgetStyle.cc"
+				RelativePath="..\.\GUI\GTK\ButtonBox.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\Window.cc"
+				RelativePath="..\.\GUI\GTK\ColourSelector.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\DebugAssertDialog.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\IconView.cc"
 				>
 			</File>
 		</Filter>
@@ -395,64 +401,13 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+                        
 			<File
-				RelativePath="..\.\GUI\GTK\AspectFrame.hh"
+				RelativePath="..\.\GUI\GTK\Manager.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\Bitmap.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Button.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\ButtonBox.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\CList.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\ColourSelector.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Combo.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Cursor.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\CWidget.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\DebugAssertDialog.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\DragAndDrop.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\EventBox.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\FileSelector.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Fixed.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Frame.hh"
+				RelativePath="..\.\GUI\GTK\Widget.hh"
 				>
 			</File>
 			<File
@@ -460,35 +415,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\Label.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\LBox.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\List.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\ListStore.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Manager.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Menu.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\MenuCheck.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\MessageBox.hh"
+				RelativePath="..\.\GUI\GTK\SignalInfo.hh"
 				>
 			</File>
 			<File
@@ -496,7 +423,27 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\Notebook.hh"
+				RelativePath="..\.\GUI\GTK\Window.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Cursor.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\ToolTips.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\CWidget.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Button.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Pixmap.hh"
 				>
 			</File>
 			<File
@@ -508,67 +455,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\Paned.hh"
+				RelativePath="..\.\GUI\GTK\LBox.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\Pixbuf.hh"
+				RelativePath="..\.\GUI\GTK\Menu.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\Pixmap.hh"
+				RelativePath="..\.\GUI\GTK\Label.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\ProgressBar.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\RadioButton.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\RawCanvas.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\ReadBack.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Ruler.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\ScrolledArea.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Separator.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\SignalInfo.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Slider.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\SpinButton.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\StatusBar.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\Table.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\GUI\GTK\TextBox.hh"
+				RelativePath="..\.\GUI\GTK\FileSelector.hh"
 				>
 			</File>
 			<File
@@ -576,15 +475,119 @@
 				>
 			</File>
 			<File
+				RelativePath="..\.\GUI\GTK\Slider.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\ScrolledArea.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Fixed.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\EventBox.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Frame.hh"
+				>
+			</File>
+			<File
 				RelativePath="..\.\GUI\GTK\ToggleButton.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\ToolTips.hh"
+				RelativePath="..\.\GUI\GTK\StatusBar.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Combo.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\List.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\MenuCheck.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\RawCanvas.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Table.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Ruler.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\SpinButton.hh"
 				>
 			</File>
 			<File
 				RelativePath="..\.\GUI\GTK\Tree.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Separator.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Bitmap.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Notebook.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\CList.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\VLabel.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\RadioButton.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\ProgressBar.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\TextBox.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\DragAndDrop.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\Paned.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\MessageBox.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\WidgetStyle.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\ReadBack.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\WaitForExit.hh"
 				>
 			</File>
 			<File
@@ -600,23 +603,31 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\VLabel.hh"
+				RelativePath="..\.\GUI\GTK\ListStore.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\WaitForExit.hh"
+				RelativePath="..\.\GUI\GTK\Pixbuf.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\Widget.hh"
+				RelativePath="..\.\GUI\GTK\AspectFrame.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\WidgetStyle.hh"
+				RelativePath="..\.\GUI\GTK\ButtonBox.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\GUI\GTK\Window.hh"
+				RelativePath="..\.\GUI\GTK\ColourSelector.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\DebugAssertDialog.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\IconView.hh"
 				>
 			</File>
 		</Filter>

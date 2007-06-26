@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlLogicNLP"
-	ProjectGUID="{AFCAFE39-3871-49AA-B1B5-FC192D5BE702}"
-	RootNamespace="RavlLogicNLP"
+	ProjectGUID="{afcafe39-3871-49aa-b1b5-fc192d5be702}"
+        RootNamespace="RavlLogicNLP"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlLogicNLP\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlLogicNLP\"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
+				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,6 +166,7 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+	
 	</Configurations>
 	<References>
 	</References>
@@ -174,6 +175,19 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
+			
+			<File
+				RelativePath="..\.\Logic\NonLinearPlanner\NLPCausalLink.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\NonLinearPlanner\NLPStep.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\NonLinearPlanner\NLPAgendaItem.cc"
+				>
+			</File>
 			<File
 				RelativePath="..\.\Logic\NonLinearPlanner\NLPAction.cc"
 				>
@@ -183,23 +197,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Logic\NonLinearPlanner\NLPAgendaItem.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\NonLinearPlanner\NLPCausalLink.cc"
+				RelativePath="..\.\Logic\NonLinearPlanner\NonLinearPlan.cc"
 				>
 			</File>
 			<File
 				RelativePath="..\.\Logic\NonLinearPlanner\NLPlanner.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\NonLinearPlanner\NLPStep.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\NonLinearPlanner\NonLinearPlan.cc"
 				>
 			</File>
 		</Filter>
@@ -207,6 +209,19 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+                        
+			<File
+				RelativePath="..\.\Logic\NonLinearPlanner\NLPCausalLink.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\NonLinearPlanner\NLPStep.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Logic\NonLinearPlanner\NLPAgendaItem.hh"
+				>
+			</File>
 			<File
 				RelativePath="..\.\Logic\NonLinearPlanner\NLPAction.hh"
 				>
@@ -216,19 +231,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Logic\NonLinearPlanner\NLPAgendaItem.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\NonLinearPlanner\NLPCausalLink.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\NonLinearPlanner\NLPlanner.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Logic\NonLinearPlanner\NLPStep.hh"
+				RelativePath="..\.\Logic\NonLinearPlanner\NonLinearPlan.hh"
 				>
 			</File>
 			<File
@@ -236,7 +239,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Logic\NonLinearPlanner\NonLinearPlan.hh"
+				RelativePath="..\.\Logic\NonLinearPlanner\NLPlanner.hh"
 				>
 			</File>
 		</Filter>

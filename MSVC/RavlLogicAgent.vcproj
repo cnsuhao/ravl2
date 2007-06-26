@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlLogicAgent"
-	ProjectGUID="{0D2A1F88-A947-421D-964C-F0A54F911EFC}"
-	RootNamespace="RavlLogicAgent"
+	ProjectGUID="{0d2a1f88-a947-421d-964c-f0a54f911efc}"
+        RootNamespace="RavlLogicAgent"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlLogicAgent\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlLogicAgent\"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
+				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,6 +166,7 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+	
 	</Configurations>
 	<References>
 	</References>
@@ -174,6 +175,7 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
+			
 			<File
 				RelativePath="..\.\Logic\Agent\ActiveBlackboard.cc"
 				>
@@ -191,6 +193,7 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+                        
 			<File
 				RelativePath="..\.\Logic\Agent\ActiveBlackboard.hh"
 				>

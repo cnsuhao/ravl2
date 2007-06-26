@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlPatternRecIO"
-	ProjectGUID="{89E28984-1AD5-4877-824B-688A120D5CAB}"
-	RootNamespace="RavlPatternRecIO"
+	ProjectGUID="{89e28984-1ad5-4877-824b-688a120d5cab}"
+        RootNamespace="RavlPatternRecIO"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlPatternRecIO\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlPatternRecIO\"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
+				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,6 +166,7 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+	
 	</Configurations>
 	<References>
 	</References>
@@ -174,12 +175,9 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
+			
 			<File
-				RelativePath="..\.\PatternRec\IO\Classifier2IO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\PatternRec\IO\ClassifierIO.cc"
+				RelativePath="..\.\PatternRec\IO\SampleIO.cc"
 				>
 			</File>
 			<File
@@ -187,7 +185,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\IO\DistanceIO.cc"
+				RelativePath="..\.\PatternRec\IO\ClassifierIO.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\PatternRec\IO\Classifier2IO.cc"
 				>
 			</File>
 			<File
@@ -199,11 +201,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\IO\RavlPatternRecIO.cc"
+				RelativePath="..\.\PatternRec\IO\DistanceIO.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\PatternRec\IO\SampleIO.cc"
+				RelativePath="..\.\PatternRec\IO\RavlPatternRecIO.cc"
 				>
 			</File>
 		</Filter>
@@ -211,6 +213,7 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+                        
 		</Filter>
 	</Files>
 	<Globals>

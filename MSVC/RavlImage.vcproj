@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlImage"
-	ProjectGUID="{D185D525-1FDB-4D13-A796-27196CDCD9DE}"
-	RootNamespace="RavlImage"
+	ProjectGUID="{d185d525-1fdb-4d13-a796-27196cdcd9de}"
+        RootNamespace="RavlImage"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -24,7 +24,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Image\Base\default8x16.psf C:\Build\\default8x16.psf&#x0D;&#x0A;"
+				CommandLine="
+if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;&#x0A;copy ..\.\Image\Base\default8x16.psf C:\Build\share\RAVL\Fonts\default8x16.psf&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -102,7 +103,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Image\Base\default8x16.psf C:\Build\\default8x16.psf&#x0D;&#x0A;"
+				CommandLine="
+if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;&#x0A;copy ..\.\Image\Base\default8x16.psf C:\Build\share\RAVL\Fonts\default8x16.psf&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -131,8 +133,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlImage\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlImage\"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
+				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -168,6 +170,7 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+	
 	</Configurations>
 	<References>
 	</References>
@@ -176,8 +179,13 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
+			
 			<File
-				RelativePath="..\.\Image\Base\ByteRGBAValue.cc"
+				RelativePath="..\.\Image\Base\ImageRectangle.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\Image.cc"
 				>
 			</File>
 			<File
@@ -185,27 +193,23 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\ByteVYUValue.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\ByteYUV422Value.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\ByteYUVAValue.cc"
-				>
-			</File>
-			<File
 				RelativePath="..\.\Image\Base\ByteYUVValue.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\Font.cc"
+				RelativePath="..\.\Image\Base\RealRGBValue.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\Image.cc"
+				RelativePath="..\.\Image\Base\RealYUVValue.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\RGBcYUV.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\Font.cc"
 				>
 			</File>
 			<File
@@ -225,23 +229,31 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\BaseSSE\ImageConvSSE.cc"
+				RelativePath="..\.\Image\Base\ByteRGBAValue.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\ImageRectangle.cc"
+				RelativePath="..\.\Image\Base\ByteVYUValue.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\RealRGBValue.cc"
+				RelativePath="..\.\Image\Base\ByteYUV422Value.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\RealYUVValue.cc"
+				RelativePath="..\.\Image\Base\ByteYUVAValue.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\RGBcYUV.cc"
+				RelativePath="..\.\Image\Base\RealDVSRGBValue.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\RealDVSYUVValue.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\dvsRGBcdvsYUV422.cc"
 				>
 			</File>
 		</Filter>
@@ -249,100 +261,9 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+                        
 			<File
-				RelativePath="..\.\Image\Base\BGRAValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\BGRValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\BilinearInterpolation.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\ByteBGRAValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\ByteBGRValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\ByteIAValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\ByteRGBAValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\ByteRGBMedian.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\ByteRGBValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\ByteVYUValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\ByteYUV422Value.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\ByteYUVAValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\ByteYUVValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\Deinterlace.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\DrawCircle.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\DrawCross.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\DrawEllipse.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\DrawFrame.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\DrawLine.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\DrawMask.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\DrawPolygon.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\FixedPointHSVValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\Font.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\IAValue.hh"
+				RelativePath="..\.\Image\Base\ImageRectangle.hh"
 				>
 			</File>
 			<File
@@ -350,59 +271,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\ImageConv.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\BaseSSE\ImageConvSSE.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\ImageRectangle.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\PSFFont.h"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\RealBGRValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\RealHSVValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\RealRGBAverage.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\RealRGBValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\RealYUVValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\Reflect.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\RGBAValue.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Base\RGBcYUV.hh"
-				>
-			</File>
-			<File
 				RelativePath="..\.\Image\Base\RGBValue.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\ScaleValues.hh"
+				RelativePath="..\.\Image\Base\ByteRGBValue.hh"
 				>
 			</File>
 			<File
@@ -410,11 +283,47 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\VYUValue.hh"
+				RelativePath="..\.\Image\Base\RealRGBValue.hh"
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\YUV422Value.hh"
+				RelativePath="..\.\Image\Base\RGBAValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\ByteRGBAValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\BGRValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\ByteBGRValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\RealBGRValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\BGRAValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\ByteBGRAValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\YUVValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\ByteYUVValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\RealYUVValue.hh"
 				>
 			</File>
 			<File
@@ -422,7 +331,119 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\Base\YUVValue.hh"
+				RelativePath="..\.\Image\Base\ByteYUVAValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\YUV422Value.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\ByteYUV422Value.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\VYUValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\ByteVYUValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\RealHSVValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\FixedPointHSVValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\IAValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\ByteIAValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\ByteRGBMedian.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\RealRGBAverage.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\ScaleValues.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\Reflect.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\RGBcYUV.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\ImageConv.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\Font.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\PSFFont.h"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\DrawFrame.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\DrawCross.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\DrawMask.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\DrawLine.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\DrawCircle.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\DrawPolygon.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\DrawEllipse.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\Deinterlace.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\BilinearInterpolation.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\RealDVSRGBValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\RealDVSYUVValue.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\dvsRGBcdvsYUV422.hh"
 				>
 			</File>
 		</Filter>

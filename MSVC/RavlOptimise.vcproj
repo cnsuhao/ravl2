@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlOptimise"
-	ProjectGUID="{965096E7-F001-42F5-8BF0-01D0723C62D4}"
-	RootNamespace="RavlOptimise"
+	ProjectGUID="{965096e7-f001-42f5-8bf0-01d0723c62d4}"
+        RootNamespace="RavlOptimise"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlOptimise\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlOptimise\"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
+				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,6 +166,7 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+	
 	</Configurations>
 	<References>
 	</References>
@@ -174,82 +175,7 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
-			<File
-				RelativePath="..\.\Math\Optimisation\EvaluateLikelihood.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\EvaluateNumInliers.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\EvaluateSolution.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\FitAffine2dPoints.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\FitHomog2dPoints.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\FitLine2dPoints.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\FitQuadraticPoints.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\FitToSample.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\LevenbergMarquardt.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\Observation.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\ObservationAffine2dPoint.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\ObservationExplicit.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\ObservationHomog2dPoint.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\ObservationImpHomog2dPoint.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\ObservationImplicit.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\ObservationImpQuadraticPoint.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\ObservationLine2dPoint.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\ObservationManager.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\ObservationQuadraticPoint.cc"
-				>
-			</File>
+			
 			<File
 				RelativePath="..\.\Math\Optimisation\ObsVector.cc"
 				>
@@ -263,35 +189,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Math\Optimisation\Optimise2dAffineHomography.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\Optimise2dHomography.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\OptimiseOrthogonalRegression.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\OptimiseQuadraticCurve.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\Ransac.cc"
-				>
-			</File>
-			<File
 				RelativePath="..\.\Math\Optimisation\StateVector.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\StateVectorAffine2d.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\StateVectorHomog2d.cc"
 				>
 			</File>
 			<File
@@ -303,11 +201,115 @@
 				>
 			</File>
 			<File
+				RelativePath="..\.\Math\Optimisation\StateVectorHomog2d.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\Math\Optimisation\StateVectorRot3d.cc"
 				>
 			</File>
 			<File
+				RelativePath="..\.\Math\Optimisation\Observation.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\ObservationExplicit.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\ObservationQuadraticPoint.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\ObservationImplicit.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\ObservationLine2dPoint.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\ObservationImpQuadraticPoint.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\ObservationHomog2dPoint.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\ObservationImpHomog2dPoint.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\Math\Optimisation\StoredState.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\LevenbergMarquardt.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\Ransac.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\ObservationManager.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\FitToSample.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\EvaluateSolution.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\EvaluateNumInliers.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\EvaluateLikelihood.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\FitLine2dPoints.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\FitQuadraticPoints.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\FitHomog2dPoints.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\ObservationAffine2dPoint.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\StateVectorAffine2d.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\FitAffine2dPoints.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\OptimiseQuadraticCurve.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\OptimiseOrthogonalRegression.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\Optimise2dHomography.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\Optimise2dAffineHomography.cc"
 				>
 			</File>
 		</Filter>
@@ -315,82 +317,7 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
-			<File
-				RelativePath="..\.\Math\Optimisation\EvaluateLikelihood.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\EvaluateNumInliers.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\EvaluateSolution.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\FitAffine2dPoints.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\FitHomog2dPoints.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\FitLine2dPoints.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\FitQuadraticPoints.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\FitToSample.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\LevenbergMarquardt.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\Observation.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\ObservationAffine2dPoint.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\ObservationExplicit.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\ObservationHomog2dPoint.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\ObservationImpHomog2dPoint.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\ObservationImplicit.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\ObservationImpQuadraticPoint.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\ObservationLine2dPoint.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\ObservationManager.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\ObservationQuadraticPoint.hh"
-				>
-			</File>
+                        
 			<File
 				RelativePath="..\.\Math\Optimisation\ObsVector.hh"
 				>
@@ -404,43 +331,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\.\Math\Optimisation\Optimise2dAffineHomography.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\Optimise2dHomography.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\OptimiseOrthogonalRegression.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\OptimiseQuadraticCurve.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\Point2dObs.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\Point2dPairObs.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\Ransac.hh"
-				>
-			</File>
-			<File
 				RelativePath="..\.\Math\Optimisation\StateVector.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\StateVectorAffine2d.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Math\Optimisation\StateVectorHomog2d.hh"
 				>
 			</File>
 			<File
@@ -452,11 +343,123 @@
 				>
 			</File>
 			<File
+				RelativePath="..\.\Math\Optimisation\StateVectorHomog2d.hh"
+				>
+			</File>
+			<File
 				RelativePath="..\.\Math\Optimisation\StateVectorRot3d.hh"
 				>
 			</File>
 			<File
+				RelativePath="..\.\Math\Optimisation\Observation.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\ObservationExplicit.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\ObservationQuadraticPoint.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\ObservationImplicit.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\ObservationLine2dPoint.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\ObservationImpQuadraticPoint.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\ObservationHomog2dPoint.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\ObservationImpHomog2dPoint.hh"
+				>
+			</File>
+			<File
 				RelativePath="..\.\Math\Optimisation\StoredState.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\LevenbergMarquardt.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\Ransac.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\ObservationManager.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\FitToSample.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\EvaluateSolution.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\EvaluateNumInliers.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\EvaluateLikelihood.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\FitLine2dPoints.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\FitQuadraticPoints.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\FitHomog2dPoints.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\ObservationAffine2dPoint.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\StateVectorAffine2d.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\FitAffine2dPoints.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\OptimiseQuadraticCurve.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\OptimiseOrthogonalRegression.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\Optimise2dHomography.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\Optimise2dAffineHomography.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\Point2dObs.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Optimisation\Point2dPairObs.hh"
 				>
 			</File>
 		</Filter>

@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlMPEG2"
-	ProjectGUID="{C3603769-4F12-46B5-AFD5-D0C8CD39B149}"
-	RootNamespace="RavlMPEG2"
+	ProjectGUID="{c3603769-4f12-46b5-afd5-d0c8cd39b149}"
+        RootNamespace="RavlMPEG2"
 	Keyword="win32Proj"
 	>
 	<Platforms>
@@ -129,8 +129,8 @@
 				ObjectFile="C:\Build\win32\opt\obj\RavlMPEG2\"
 				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlMPEG2\"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
+				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,6 +166,7 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+	
 	</Configurations>
 	<References>
 	</References>
@@ -174,6 +175,7 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
+			
 			<File
 				RelativePath="..\.\Contrib\MPEG\mpeg2dec\ImgIOmpeg2dec.cc"
 				>
@@ -191,6 +193,7 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl"
 			>
+                        
 			<File
 				RelativePath="..\.\Contrib\MPEG\mpeg2dec\ImgIOmpeg2dec.hh"
 				>
