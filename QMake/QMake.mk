@@ -292,7 +292,7 @@ buildall:
 # The last INST_LIBDEF is because the calling PROJECT_OUT may not
 # be the one we using.
 
-FULLBUILDSRC := BASE_VAR=none FULLCHECKING=1
+FULLBUILDSRC := FULLCHECKING=1
 
 FULLBUILDFLAGS = NOCHECKOUT=1  $(FULLBUILDSRC)
 
@@ -342,7 +342,6 @@ FULLBUILD_TARGETS+=opt
 endif 
 
 fullbuild:
-	+ $(SHOWIT)-rm $(LOCALTMP)/$(ARC)/*/shared/objs/libObjs.txt >& /dev/null;
 	+ $(SHOWIT)if $(MAKEMO) $(FULLBUILDFLAGS) src_all NOINCDEFS=1 ; then true; \
         else \
 	  echo "QMAKE: Installation of header files failed. " ; \
