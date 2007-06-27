@@ -1,5 +1,7 @@
 PACKAGE = Ravl/Image
 
+DONOT_SUPPORT=VCPP
+
 REQUIRES = OpenCV
 
 MAINS =  exOpenCV.cc
