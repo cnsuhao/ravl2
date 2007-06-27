@@ -197,9 +197,21 @@ namespace RavlN {
   UIntT DataSet4BodyC<Sample1T,Sample2T,Sample3T,Sample4T>::Append(const Element1T &data1,const Element2T &data2,
 								   const Element3T &data3,const Element4T &data4) {
     UIntT no1 = this->samp1.Append(data1);
-    UIntT no2 = this->samp2.Append(data2);
-    UIntT no3 = this->samp3.Append(data3);
-    UIntT no4 = samp4.Append(data4);
+#if RAVL_CHECK
+    // This avoids an unused variable warning where RavlAssert() is not used.
+    UIntT no2 = 
+#endif
+      this->samp2.Append(data2);
+#if RAVL_CHECK
+    // This avoids an unused variable warning where RavlAssert() is not used.
+    UIntT no3 = 
+#endif
+      this->samp3.Append(data3);
+#if RAVL_CHECK
+    // This avoids an unused variable warning where RavlAssert() is not used.
+    UIntT no4 = 
+#endif
+      samp4.Append(data4);
     RavlAssert(no1==no2 && no1==no3 && no1==no4);
     return no1;
   }

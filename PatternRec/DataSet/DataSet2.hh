@@ -189,7 +189,11 @@ namespace RavlN {
   template<class Sample1T,class Sample2T>
   UIntT DataSet2BodyC<Sample1T,Sample2T>::Append(const Element1T &data1,const Element2T &data2) {
     UIntT no1 = this->samp1.Append(data1);
-    UIntT no2 = samp2.Append(data2);
+#if RAVL_CHECK
+    // This avoids an unused variable warning where RavlAssert() is not used.
+    UIntT no2 = 
+#endif
+      samp2.Append(data2);
     RavlAssert(no1==no2);
     return no1;
   }
