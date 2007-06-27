@@ -6,7 +6,7 @@
 # file-header-ends-here
 #! rcsid="$Id$"
 
-REQUIRES = LibGnome
+REQUIRES = LibGnome libGTK2
 
 ORGANISATION=Omniperception Ltd.
 
@@ -23,5 +23,3 @@ EXTERNALLIBS= LibGnome.def
 USESLIBS=RavlGUI LibGnome
 
 EXAMPLES=exGnome.cc
-
-REQUIRES = libGTK2
