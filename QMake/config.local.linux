@@ -167,5 +167,5 @@ RESOURCES += LibGnome
 
 ## uuid ############################################
 
-#RESOURCES += uuid
-#UUID_HOME=/opt/Omni/uuid
+#RESOURCES += UUIdTheo
+#UUIDTHEO_HOME=/usr
