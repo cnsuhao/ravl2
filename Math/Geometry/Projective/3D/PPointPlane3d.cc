@@ -19,7 +19,7 @@
 #include "Ravl/Matrix3d.hh"
 #include "Ravl/PlaneABCD3d.hh"
 #include "Ravl/PPointPlane3d.hh"
-
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
   

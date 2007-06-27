@@ -9,6 +9,7 @@
 #include "Ravl/PPlane3d.hh"
 #include "Ravl/PProjection3d.hh"
 #include "Ravl/LinePV3d.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
 
