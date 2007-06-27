@@ -63,20 +63,20 @@ ifndef NOVAR
 endif
 
 ifndef BASE_VAR
-  ifeq ($(VAR),prof)
-    BASE_VAR=opt#
+ ifeq ($(VAR),prof)
+  BASE_VAR=opt#
+ else
+  ifeq ($(VAR),gprof)
+   BASE_VAR=opt#
   else
-   ifeq ($(VAR),gprof)
-     BASE_VAR=opt#
+   ifeq ($(VAR),opt)
+    BASE_VAR=opt#
    else
-    ifeq ($(VAR),opt)
-      BASE_VAR=opt#
-      else
-        BASE_VAR=check#
-       endif 
-      endif
-    endif
-   endif
+    BASE_VAR=check#
+   endif 
+  endif
+ endif
+endif
 
 ##########################
 # Roots of working directories.
