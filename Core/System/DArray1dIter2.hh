@@ -78,7 +78,7 @@ namespace RavlN {
     { Next(); }
     //: Goto next element.
     
-    IndexC Index() 
+    IndexC Index() const
     { return it1.Index(); }
     //: Get index of current element.
     

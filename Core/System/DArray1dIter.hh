@@ -96,7 +96,7 @@ namespace RavlN {
     { Next(); }
     //: Goto next element.
     
-    IndexC Index() 
+    IndexC Index() const
     { return IndexC((IntT)( &(*it) - cit.Data().Data().ReferenceElm())); }
     //: Get index of current element.
     
