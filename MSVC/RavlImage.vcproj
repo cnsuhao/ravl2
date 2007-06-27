@@ -25,7 +25,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				CommandLine="
-if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;&#x0A;copy ..\.\Image\Base\default8x16.psf C:\Build\share\RAVL\Fonts\default8x16.psf&#x0D;&#x0A;"
+if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Image\Base\default8x16.psf C:\Build\\default8x16.psf&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -104,7 +104,7 @@ if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;
 			<Tool
 				Name="VCPreBuildEventTool"
 				CommandLine="
-if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;&#x0A;copy ..\.\Image\Base\default8x16.psf C:\Build\share\RAVL\Fonts\default8x16.psf&#x0D;&#x0A;"
+if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Image\Base\default8x16.psf C:\Build\\default8x16.psf&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -254,6 +254,14 @@ if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;
 			</File>
 			<File
 				RelativePath="..\.\Image\Base\dvsRGBcdvsYUV422.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\BaseSSE\ImageConvSSE.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 		</Filter>
@@ -444,6 +452,10 @@ if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;
 			</File>
 			<File
 				RelativePath="..\.\Image\Base\dvsRGBcdvsYUV422.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\BaseSSE\ImageConvSSE.hh"
 				>
 			</File>
 		</Filter>

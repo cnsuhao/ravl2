@@ -186,6 +186,10 @@
 				RelativePath="..\..\.\3D\Mesh\testHEMesh.cc"
 				>
 			</File>
+			<File
+				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
+				>
+			</File>
 
 		</Filter>
 		<Filter
