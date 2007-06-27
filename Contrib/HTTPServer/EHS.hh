@@ -8,7 +8,7 @@
 #define RAVL_EHS_HEADER 1
 //////////////////////////////////////////////////////////////////
 //! rcsid = "$Id$"
-//! lib = RavlEHS
+//! lib=RavlEHS
 //! author = "Warren Moore"
 //! file = "Ravl/Contrib/EHS/EHS.hh"
 

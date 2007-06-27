@@ -8,7 +8,7 @@
 #define RAVL_HTTPRESPONSE_HEADER 1
 //////////////////////////////////////////////////////////////////
 //! rcsid = "$Id$"
-//! lib = RavlEHS
+//! lib=RavlEHS
 //! author = "Warren Moore"
 //! file = "Ravl/Contrib/EHS/HTTPResponse.hh"
 

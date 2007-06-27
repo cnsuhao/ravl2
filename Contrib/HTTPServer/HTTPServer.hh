@@ -8,7 +8,7 @@
 #define RAVL_HTTPSERVER_HEADER 1
 //////////////////////////////////////////////////////////////////
 //! rcsid = "$Id$"
-//! lib = RavlEHS
+//! lib=RavlEHS
 //! author = "Warren Moore"
 //! file = "Ravl/Contrib/EHS/HTTPServer.hh"
 

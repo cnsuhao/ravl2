@@ -8,6 +8,8 @@
 
 REQUIRES = libehs
 
+DONOT_SUPPORT=VCPP
+
 PACKAGE = Ravl
 
 HEADERS = HTTPRequest.hh HTTPResponse.hh HTTPServer.hh EHS.hh
@@ -23,6 +25,6 @@ PROGLIBS =
 TESTEXES = 
 
 AUXDIR = lib/RAVL/libdep
- 
+
 AUXFILES = EHS.def
 
