@@ -25,6 +25,14 @@ namespace RavlN {
   //!param:url - URL to retrieve
   //!param:buf - buffer to store data into.
   //!return: Error code, 0 if all's well.
+
+  IntT URLRetrieve(const StringC &url,const StringC &user,const StringC &passwd,SArray1dC<char> &buf);
+  //: Retrieve file into a byte array.
+  //!param:url - URL to retrieve
+  //!param:user - Username
+  //!param:passwd - Password
+  //!param:buf - buffer to store data into.
+  //!return: Error code, 0 if all's well.
   
   //:-
   
@@ -43,6 +51,10 @@ namespace RavlN {
     
     URLIStreamC(const StringC &url,bool buffered=true);
     //: Open net connection for input
+    
+    URLIStreamC(const StringC &url,const StringC &user,const StringC &password);
+    //: Open net connection for input.
+    //: Uses Basic http authentication with the given username and password. 
     
     ~URLIStreamC();
     //: Destructor
