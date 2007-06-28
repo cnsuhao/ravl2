@@ -173,6 +173,11 @@ namespace RavlImageN {
     //: Get a pointer to begining of row.
     //!param: row - Row for which the pointer is returned.
     
+    const PixelT *Row(IndexC row) const
+    { return &(RangeBufferAccessC<BufferAccessC<PixelT> >::operator[](row)[this->rng2.Min()]); }
+    //: Get a pointer to begining of row for const image.
+    //!param: row - Row for which the pointer is returned.
+    
     ImageC<PixelT> Rotate90(Index2dC centre = Index2dC(0,0)) const;
     //: The values of image "originalImage" rotated about PI/2 rad 
     //: and shifted to have the original upper-left corner and
