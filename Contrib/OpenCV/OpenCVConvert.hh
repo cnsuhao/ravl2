@@ -64,10 +64,10 @@ namespace RavlImageN {
     case IPL_DEPTH_8U: case IPL_DEPTH_8S:
       switch (src->nChannels) {
       case 1: 
-        status = DPTypeConvert(ImageC<ByteT>(src->height, src->widthStep, (ByteT*)src->imageData, false), dest);
+        status = DPTypeConvert(ImageC<ByteT>(src->height, src->widthStep/src->nChannels, (ByteT*)src->imageData, false), dest);
         break;
       case 3:
-        status = DPTypeConvert(ImageC<ByteBGRValueC>(src->height, src->widthStep, (ByteBGRValueC*)src->imageData, false), dest);
+        status = DPTypeConvert(ImageC<ByteBGRValueC>(src->height, src->widthStep/src->nChannels, (ByteBGRValueC*)src->imageData, false), dest);
         break;
       default:
         return false;
@@ -76,10 +76,10 @@ namespace RavlImageN {
     case IPL_DEPTH_64F:
       switch (src->nChannels) {
       case 1: 
-        status = DPTypeConvert(ImageC<RealT>(src->height, src->widthStep, (RealT*)src->imageData, false), dest);
+        status = DPTypeConvert(ImageC<RealT>(src->height, src->widthStep/(8*src->nChannels), (RealT*)src->imageData, false), dest);
         break;
       case 3:
-        status = DPTypeConvert(ImageC<RealBGRValueC>(src->height, src->widthStep, (RealBGRValueC*)src->imageData, false), dest);
+        status = DPTypeConvert(ImageC<RealBGRValueC>(src->height, src->widthStep/(8*src->nChannels), (RealBGRValueC*)src->imageData, false), dest);
         break;
       default:
         return false;

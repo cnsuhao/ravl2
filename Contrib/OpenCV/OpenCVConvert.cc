@@ -6,7 +6,7 @@ namespace RavlImageN{
 
   template <>
   bool RavlImage2IplImage(const ImageC<ByteT> & src, IplImage*& dest)
-  {
+{
     CvSize size; size.width = src.Cols(); size.height = src.Rows();
     dest = cvCreateImage(size, IPL_DEPTH_8U, 1);
     char *dr = dest->imageData;
@@ -34,7 +34,7 @@ namespace RavlImageN{
         *dc++      = *sc++;
         *(dc++ -2) = *sc++;
       }
-      dr += dest->widthStep;
+      dr += dest->widthStep/3;
     }
     return true;
   }
@@ -50,7 +50,7 @@ namespace RavlImageN{
       double *dc = dr;
       for (IndexC c(src.LCol()); c<=src.RCol(); ++c) 
         *dc++ = *sc++;
-      dr += dest->widthStep;
+      dr += dest->widthStep/8;
     }
     return true;
   }
@@ -69,7 +69,7 @@ namespace RavlImageN{
         *dc++      = *sc++;
         *(dc++ -2) = *sc++;
       }
-    dr += dest->widthStep;
+    dr += dest->widthStep/24;
     }
     return true;
   }
