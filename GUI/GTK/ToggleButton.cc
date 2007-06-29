@@ -85,6 +85,8 @@ namespace RavlGUIN {
        return false;
     if(initState)  // Default state is off.
       GUISetActive(initState); // This will actual cause a signal ??
+    if(initInconsistant)
+      GUISetInconsistent(initInconsistant);
     Connect(Signal("toggled"),ToggleButtonC(*this),&ToggleButtonC::SignalState);
     return true;
   }
