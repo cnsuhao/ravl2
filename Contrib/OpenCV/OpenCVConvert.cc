@@ -8,10 +8,15 @@ namespace RavlImageN{
   bool RavlImage2IplImage(const ImageC<ByteT> & src, IplImage*& dest)
   {
     CvSize size; size.width = src.Cols(); size.height = src.Rows();
-    char *pt = *((char**) src.DataStart());
     dest = cvCreateImage(size, IPL_DEPTH_8U, 1);
-    char *pd = dest->imageData;
-    for (IntT i=0; i<dest->imageSize; ++i)  *pd++ = *pt++;
+    char *dr = dest->imageData;
+    for (IndexC r(src.TRow()); r<=src.BRow(); ++r) {
+      const ByteT *sc = src.Row(r);
+      char *dc = dr;
+      for (IndexC c(src.LCol()); c<=src.RCol(); ++c)
+        *dc++ = *sc++;
+      dr += dest->widthStep;
+    }
     return true;
   }
   
@@ -19,13 +24,17 @@ namespace RavlImageN{
   bool RavlImage2IplImage(const ImageC<ByteRGBValueC> & src, IplImage*& dest)
   {
     CvSize size; size.width = src.Cols(); size.height = src.Rows();
-    char *pt = *((char**) src.DataStart());
     dest = cvCreateImage(size, IPL_DEPTH_8U, 3);
-    char *pd = dest->imageData;
-    for (IntT i=0; i<dest->imageSize/3; ++i) {
-      *(pd++ +2) = *pt++;
-      *pd++      = *pt++;
-      *(pd++ -2) = *pt++;
+    char *dr = dest->imageData;
+    for (IndexC r(src.TRow()); r<=src.BRow(); ++r) {
+      const ByteT *sc = (ByteT*)src.Row(r);
+      char *dc = dr;
+      for (IndexC c(src.LCol()); c<=src.RCol(); ++c) {
+        *(dc++ +2) = *sc++; // dodgy code to do RGB->BGR
+        *dc++      = *sc++;
+        *(dc++ -2) = *sc++;
+      }
+      dr += dest->widthStep;
     }
     return true;
   }
@@ -34,10 +43,15 @@ namespace RavlImageN{
   bool RavlImage2IplImage(const ImageC<RealT> & src, IplImage*& dest)
   {
     CvSize size; size.width = src.Cols(); size.height = src.Rows();
-    char *pt = *((char**) src.DataStart());
     dest = cvCreateImage(size, IPL_DEPTH_64F, 1);
-    char *pd = dest->imageData;
-    for (IntT i=0; i<dest->imageSize; ++i)  *pd++ = *pt++;
+    double *dr = (double *)dest->imageData;
+    for (IndexC r(src.TRow()); r<=src.BRow(); ++r) {
+      const RealT *sc = src.Row(r);
+      double *dc = dr;
+      for (IndexC c(src.LCol()); c<=src.RCol(); ++c) 
+        *dc++ = *sc++;
+      dr += dest->widthStep;
+    }
     return true;
   }
   
@@ -45,13 +59,17 @@ namespace RavlImageN{
   bool RavlImage2IplImage(const ImageC<RealRGBValueC> & src, IplImage*& dest)
   {
     CvSize size; size.width = src.Cols(); size.height = src.Rows();
-    double *pt = *((double**) src.DataStart());
     dest = cvCreateImage(size, IPL_DEPTH_64F, 3);
-    double *pd = (double *)dest->imageData;
-    for (IntT i=0; i<dest->imageSize/24; ++i) {
-      *(pd++ +2) = *pt++;
-      *pd++      = *pt++;
-      *(pd++ -2) = *pt++;
+    double *dr = (double *)dest->imageData;
+    for (IndexC r(src.TRow()); r<=src.BRow(); ++r) {
+      const RealT *sc = (RealT*)src.Row(r);
+      double *dc = dr;
+      for (IndexC c(src.LCol()); c<=src.RCol(); ++c) {
+        *(dc++ +2) = *sc++;
+        *dc++      = *sc++;
+        *(dc++ -2) = *sc++;
+      }
+    dr += dest->widthStep;
     }
     return true;
   }

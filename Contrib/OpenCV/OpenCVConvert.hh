@@ -59,32 +59,37 @@ namespace RavlImageN {
   {
     RavlAssertMsg((src->depth == (int)IPL_DEPTH_8U) || (src->depth == (int)IPL_DEPTH_8S) || (src->depth == (int)IPL_DEPTH_64F), "IplImage2RavlImage: can only convert IPL_DEPTH_8U|S and IPL_DEPTH_64F image depths");
     RavlAssertMsg((src->nChannels == 1) || (src->nChannels == 3), "IplImage2RavlImage: can only convert 1 or 3 channel formats");
+    bool status(false);
     switch (src->depth) {
     case IPL_DEPTH_8U: case IPL_DEPTH_8S:
       switch (src->nChannels) {
       case 1: 
-        return DPTypeConvert(ImageC<ByteT>(src->height, src->width, (ByteT*)src->imageData, false), dest);
+        status = DPTypeConvert(ImageC<ByteT>(src->height, src->widthStep, (ByteT*)src->imageData, false), dest);
         break;
       case 3:
-        return DPTypeConvert(ImageC<ByteBGRValueC>(src->height, src->width, (ByteBGRValueC*)src->imageData, false), dest);
+        status = DPTypeConvert(ImageC<ByteBGRValueC>(src->height, src->widthStep, (ByteBGRValueC*)src->imageData, false), dest);
         break;
       default:
         return false;
       }
+      break;
     case IPL_DEPTH_64F:
       switch (src->nChannels) {
       case 1: 
-        return DPTypeConvert(ImageC<RealT>(src->height, src->width, (RealT*)src->imageData, false), dest);
+        status = DPTypeConvert(ImageC<RealT>(src->height, src->widthStep, (RealT*)src->imageData, false), dest);
         break;
       case 3:
-        return DPTypeConvert(ImageC<RealBGRValueC>(src->height, src->width, (RealBGRValueC*)src->imageData, false), dest);
+        status = DPTypeConvert(ImageC<RealBGRValueC>(src->height, src->widthStep, (RealBGRValueC*)src->imageData, false), dest);
         break;
       default:
         return false;
       }
+      break;
     default: 
       return false;
     }
+    dest = ImageC<PixelT>(dest, IndexRange2dC(src->height,src->width));
+    return status;
   }
   //: Converts these OpenCV images - BRG colour or grey-level, ByteT or RealT -  to any RAVL image type
 
