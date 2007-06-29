@@ -16,8 +16,7 @@
   #include <uuid/uuid.h>
 #endif
 
-namespace OmniN {
-  using namespace RavlN;
+namespace RavlN {
   
   //: Geneate a UUId in string form.
   
