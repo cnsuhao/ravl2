@@ -27,16 +27,6 @@
 #endif
 
 namespace RavlGUIN {
-
-  /* When glarea widget size changes, viewport size is set to match the new size */
-  static gint reshape(GtkWidget *widget, GdkEventConfigure *event) {
-    /* OpenGL functions can be called only if make_current returns true */
-    if (gtk_gl_area_make_current(GTK_GL_AREA(widget))) {
-      //cerr << "Reshape. " << widget->allocation.width << " " << widget->allocation.height << "\n";
-      glViewport(0,0, widget->allocation.width, widget->allocation.height);
-    }
-    return true;
-  }
   
   //: Initalise GL info
   
@@ -65,14 +55,15 @@ namespace RavlGUIN {
   
   //: Create a 3D canvas
   
-  Canvas3DBodyC::Canvas3DBodyC(int x,int y,int *nglattrlist)
+  Canvas3DBodyC::Canvas3DBodyC(int x,int y,int *nglattrlist,bool autoConfigure)
     : glattrlist(nglattrlist),
       sx(x),
       sy(y),
       m_eRenderMode(C3D_SMOOTH),
       m_bTexture(false),
-      m_bLighting(true)
-  { 
+      m_bLighting(true),
+      m_autoConfigure(autoConfigure)
+  {
     ONDEBUG(cerr << "Canvas3DBodyC::Canvas3DBodyC(), Called.\n");
   }
 
@@ -103,9 +94,11 @@ namespace RavlGUIN {
     }
     ONDEBUG(cerr << "Canvas3DBodyC::Create(), Setting draw area size to " << sx << " " << sy <<". \n");
     gtk_drawing_area_size (GTK_DRAWING_AREA (widget), sx, sy); 
-    /* When window is resized viewport needs to be resized also. */
-    gtk_signal_connect(GTK_OBJECT(widget), "configure_event",
-		       GTK_SIGNAL_FUNC(reshape), NULL);
+    
+    // When window is resized viewport needs to be resized also. 
+    if(m_autoConfigure)
+      ConnectRef(Signal("configure_event"),*this,&Canvas3DBodyC::CBConfigureEvent);
+    
     gtk_quit_add_destroy(1, GTK_OBJECT(widget));
     
     ONDEBUG(cerr << "Canvas3DBodyC::Create(), Connect Signals. \n");
@@ -114,6 +107,57 @@ namespace RavlGUIN {
 
     ONDEBUG(cerr << "Canvas3DBodyC::Create(), Complete. \n");
     return true;
+  }
+
+  //: Create with a widget supplied from elsewhere.
+  
+  bool Canvas3DBodyC::Create(GtkWidget *owidget) {
+    // The widget supplied is unlikely to be the correct type,
+    // so we assume its a container into which we'll create
+    // the graphics context.
+    
+    // Initalise opengl
+    if(!InitGL())
+      throw ExceptionC("OpenGL not supported on display. \n"); 
+    ONDEBUG(cerr << "Canvas3DBodyC::Create(GtkWidget *), Setting up canvas. \n");
+    
+    gint attrlist[] = {
+      GDK_GL_RGBA,
+      GDK_GL_DOUBLEBUFFER,
+      GDK_GL_DEPTH_SIZE, 16,
+      GDK_GL_NONE
+    };
+    if(glattrlist == 0)
+      glattrlist = attrlist; // Use default.
+    
+    widget = gtk_gl_area_new(glattrlist);
+    if(widget == 0) {
+      cerr << "Canvas3DBodyC::Create(GtkWidget *) ERROR: Widget create failed. \n";
+      return false;
+    }
+    
+    // Add in child widget...
+    gtk_container_add (GTK_CONTAINER (owidget), widget);
+    //gtk_widget_show (widget);
+    
+
+    // Setup drawing area.
+    ONDEBUG(cerr << "Canvas3DBodyC::Create(GtkWidget *), Setting draw area size to " << sx << " " << sy <<". \n");
+    
+    
+    // When window is resized viewport needs to be resized also.
+    if(m_autoConfigure)
+      ConnectRef(Signal("configure_event"),*this,&Canvas3DBodyC::CBConfigureEvent);
+    
+    gtk_quit_add_destroy(1, GTK_OBJECT(widget));
+    
+    ONDEBUG(cerr << "Canvas3DBodyC::Create(GtkWidget *), Connect Signals. \n");
+    
+    ConnectSignals();
+
+    ONDEBUG(cerr << "Canvas3DBodyC::Create(GtkWidget *), Complete. \n");
+    return true;
+    
   }
   
   //: swap buffers.
@@ -153,6 +197,16 @@ namespace RavlGUIN {
     return true;
   }
   
+  //: Handle configure event
+
+  bool Canvas3DBodyC::CBConfigureEvent(GdkEvent *event) {
+    if (gtk_gl_area_make_current(GTK_GL_AREA(widget))) {
+      ONDEBUG(cerr << "Reshape. " << widget->allocation.width << " " << widget->allocation.height << "\n");
+      glViewport(0,0, widget->allocation.width, widget->allocation.height);
+    }   
+    return true;
+  }
+
   //: Put render instructon into pipe.
   bool Canvas3DBodyC::Put(const DObject3DC &obj) {
     Manager.Queue(Trigger(Canvas3DC(*this),&Canvas3DC::ProcessReq,obj)); 

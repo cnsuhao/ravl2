@@ -102,8 +102,8 @@ int main(int nargs,char *args[])
   
   if(useDisplayList)
     object.EnableDisplayList();
-
-
+  
+  
   Vector3dC rotation ( .1,1,.1) ; 
   rotation.MakeUnit() ;
   

@@ -48,11 +48,14 @@ namespace RavlGUIN {
     : public WidgetBodyC 
   {
   public:
-    Canvas3DBodyC(int x,int y,int *nglattrlist = 0);
+    Canvas3DBodyC(int x,int y,int *nglattrlist = 0,bool autoConfigure = true);
     //: Create a 3D canvas
     
     virtual bool Create();
     //: Create the widget.
+    
+    virtual bool Create(GtkWidget *widget);
+    //: Create with a widget supplied from elsewhere.
     
     bool BeginGL();
     //: Call before using any GL commands.
@@ -104,6 +107,9 @@ namespace RavlGUIN {
       return true;
     }
     
+    bool CBConfigureEvent(GdkEvent *event);
+    //: Handle configure event
+    
     int *glattrlist;
     //: Attribute list. 
     // see GUI/3D/gdkgl.h for a list of attributes.
@@ -116,13 +122,17 @@ namespace RavlGUIN {
 
     Canvas3DRenderMode m_eRenderMode;
     //: Rendering mode
+    
     bool m_bTexture;
     //: Texture mode
     // true = use texture when rendering.
+    
     bool m_bLighting;
     //: Lighting mode
     // true = Use lighting when rendering.
     
+    bool m_autoConfigure;
+    //: Handle viewport configure events internally.
   private:
 
     Canvas3DBodyC(const Canvas3DBodyC &);
@@ -143,9 +153,9 @@ namespace RavlGUIN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
-
-    Canvas3DC(int x,int y,int *nglattrlist = 0)
-      : WidgetC(*new Canvas3DBodyC(x,y,nglattrlist))
+    
+    Canvas3DC(int x,int y,int *nglattrlist = 0,bool autoConfigure = true)
+      : WidgetC(*new Canvas3DBodyC(x,y,nglattrlist,autoConfigure))
     {}
     //: Constructor.
     // see GUI/3D/gdkgl.h for a list of attributes for nglattrlist,
@@ -178,6 +188,16 @@ namespace RavlGUIN {
     { return Body().SwapBuffers(); }
     //: swap buffers.
     // NB. Only call from the GUI thread.
+    
+    bool GUIBeginGL()
+    { return Body().BeginGL(); }
+    //: Call before using any GL commands.
+    // Should only be called by GUI thread.
+    
+    bool GUIEndGL()
+    { return Body().EndGL(); }
+    //: Call aftern finished with GL
+    // Should only be called by GUI thread.
     
     bool GUIClearBuffers() 
     { return Body().ClearBuffers() ; }
@@ -283,10 +303,10 @@ namespace RavlGUIN {
     // Clears color buffer and depth buffer
     // Thread safe
     
-    bool SetTextureMode(bool& bTexture) {return Body().SetTextureMode(bTexture);}
+    bool SetTextureMode(bool &bTexture) {return Body().SetTextureMode(bTexture);}
     //: Enable or disable texturing
     
-    bool SetLightingMode(bool& bLighting) {return Body().SetLightingMode(bLighting);}
+    bool SetLightingMode(bool &bLighting) {return Body().SetLightingMode(bLighting);}
     //: Enable or disable lighting
     
     bool SetRenderMode(Canvas3DRenderMode eRenderMode) {return Body().SetRenderMode(eRenderMode);}
