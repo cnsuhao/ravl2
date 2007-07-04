@@ -80,17 +80,17 @@ namespace Ravl3DN {
 	// Generate texture coordinates for the triangle in the top left corner of the square
 	TriC& faceTL = itFaces.Data();
 	faceTL.TextureID() = 0;
-	faceTL.TextureCoord(0) = Vector2dC(dXBase + dSize*0.05, dYBase + dSize*0.90);
+	faceTL.TextureCoord(0) = Vector2dC(dXBase + dSize*0.05, dYBase + dSize*0.95);
 	faceTL.TextureCoord(1) = Vector2dC(dXBase + dSize*0.05, dYBase + dSize*0.05);
-	faceTL.TextureCoord(2) = Vector2dC(dXBase + dSize*0.90, dYBase + dSize*0.05);
+	faceTL.TextureCoord(2) = Vector2dC(dXBase + dSize*0.95, dYBase + dSize*0.05);
 	itFaces++;
 	if (itFaces) {
 	  // Generate texture coordinates for the triangle in the bottom right corner of the square
 	  TriC& faceBR = itFaces.Data();
 	  faceBR.TextureID() = 0;
-	  faceBR.TextureCoord(0) = Vector2dC(dXBase + dSize*0.95, dYBase + dSize*0.10);
+	  faceBR.TextureCoord(0) = Vector2dC(dXBase + dSize*0.95, dYBase + dSize*0.05);
 	  faceBR.TextureCoord(1) = Vector2dC(dXBase + dSize*0.95, dYBase + dSize*0.95);
-	  faceBR.TextureCoord(2) = Vector2dC(dXBase + dSize*0.10, dYBase + dSize*0.95);
+	  faceBR.TextureCoord(2) = Vector2dC(dXBase + dSize*0.05, dYBase + dSize*0.95);
 	  itFaces++;
 	}
       }
