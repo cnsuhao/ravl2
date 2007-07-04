@@ -167,6 +167,10 @@ namespace RavlN {
   { return cos(x); }
   //: Returns the cosine of 'x', where 'x' is in radians.
   
+  inline RealT Tan(RealT x)
+  { return tan(x); }
+  //: Returns the tangent of 'x', where 'x' is in radians.
+  
   inline RealT ACos(RealT x) { 
     RavlAssertMsg(x >= -1 && x <= 1,"ACos(RealT r): Value out range, r < -1 or r > 1. ");
     return acos(x); 
