@@ -15,7 +15,7 @@
 #include "Ravl/SArray1dIter.hh"
 #include "GL/gl.h"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
