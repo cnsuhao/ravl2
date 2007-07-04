@@ -4,14 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
+//! rcsid="$Id$"
+//! lib=Ravl3DIO
+//! file="Ravl/3D/MeshIO/FormatVRMLFile.cc"
+
 #include "Ravl/config.h"
 #include "Ravl/3D/FormatVRMLFile.hh"
 #include "Ravl/3D/VRMLFileIO.hh"
 #include "Ravl/3D/TriMesh.hh"
 #include "Ravl/TypeName.hh"
-//! rcsid="$Id$"
-//! lib=Ravl3DIO
-//! file="Ravl/3D/MeshIO/FormatVRMLFile.cc"
 
 #define DPDEBUG 0
 #if DPDEBUG
@@ -24,7 +25,7 @@ namespace Ravl3DN {
 
   void InitVRMLFormat() 
   { }
-    
+  
   // VRML ///////////////////////////////////////////////////////////////
   
   //: Constructor.

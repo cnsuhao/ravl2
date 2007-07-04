@@ -18,7 +18,7 @@
 #include "Ravl/DListExtra.hh"
 #include "Ravl/Index3d.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -93,26 +93,25 @@ namespace Ravl3DN {
 	inf.Unget(&let,1);
 	StringC word = inf.ClipWord(" \t\n",true);
 	if(word == "ImageTexture") {
-	if(!inf.SkipTo('{'))
-	  continue;
-	StringC texType = inf.ClipWord(" \t\n",true);
-	if(!inf.SkipTo('\"')) {
-	  cerr << "ERROR: Failed to find quoted texture name. \n";
-	  continue;
+          if(!inf.SkipTo('{'))
+            continue;
+          StringC texType = inf.ClipWord(" \t\n",true);
+          if(!inf.SkipTo('\"')) {
+            cerr << "ERROR: Failed to find quoted texture name. \n";
+            continue;
+          }
+          texFile = path + inf.ClipTo('\"');
+          
+          
+          ONDEBUG(cerr << "Loading texture map '" << texFile << "'\n");
+          if(!RavlN::Load(texFile,texImage)) {
+            cerr << "WARNING: Failed to load texture map '" << texFile << "'\n";
+          }
+          inf.SkipTo('}'); // Skip to end of texture block.
+          continue;
 	}
-	texFile = path + inf.ClipTo('\"');
-	
-		
-	ONDEBUG(cerr << "Loading texture map '" << texFile << "'\n");
-	if(!RavlN::Load(texFile,texImage)) {
-	  cerr << "WARNING: Failed to load texture map '" << texFile << "'\n";
-	}
-	inf.SkipTo('}'); // Skip to end of texture block.
-	continue;
-	
-	}
-	
-	if(word == "Coordinate") {
+        
+	if(word == "Coordinate" || word == "Coordinate3") {
 	  ONDEBUG(cerr << "Found vertexs. \n");
 	  GetVectors(inf,verts,numVerts);
 	  continue;
@@ -122,7 +121,7 @@ namespace Ravl3DN {
 	  GetVectors(inf,norms,numNorms);
 	  continue;
 	}
-	if(word == "TextureCoordinate") {
+	if(word == "TextureCoordinate" || word == "TextureCoordinate2") {
 	  ONDEBUG(cerr << "Found texture coordinates \n");
 	  GetVectors(inf,tex,numTexCoord);
 	  continue;
@@ -132,7 +131,7 @@ namespace Ravl3DN {
 	  GetVectors(inf,triVert,numFaces,true);
 	  continue;
 	}
-	if(word == "texCoordIndex") {
+	if(word == "texCoordIndex" || word == "textureCoordIndex") {
 	  ONDEBUG(cerr << "Found face texture index \n");
 	  GetVectors(inf,triTex,numFacesTex,true);
 	}
@@ -222,6 +221,11 @@ namespace Ravl3DN {
       ONDEBUG(cerr << "Creating mesh.\n");
       mesh= TriMeshC(vertArray,triArray);
     }
+    
+    // If there were no normals provided, generate some.
+    if(norms.IsEmpty())
+      mesh.UpdateVertexNormals();
+    
     return true;
   }
   
@@ -547,13 +551,15 @@ namespace Ravl3DN {
       outf << "\t\t}\n";
       outf << "\t}\n";
       // Save the texture image
-      if (!RavlN::Save(path + texName,itTex.Data1())) {
-        cerr << "Error: Could not save texture\n";
-        done = true;
-        return false;
+      if(itTex.Data1().Frame().Area() > 0) {
+        if (!RavlN::Save(path + texName,itTex.Data1())) {
+          cerr << "Error: Could not save texture\n";
+          done = true;
+          return false;
+        }
       }
     }
-
+    
     // Finish the group of IFS
     outf << "\t]\n";
     outf << "}\n";
