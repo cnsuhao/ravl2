@@ -36,7 +36,7 @@ SYNC=sync
 
 # Setup defaults first
 
-ANSIFLAG = -ansi
+ANSIFLAG = -std=c99
 
 ifdef USERBUILD
  USESLIBS = Auto
