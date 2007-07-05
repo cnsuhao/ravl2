@@ -40,9 +40,12 @@ namespace RavlN {
   // Returns a uniform random number between 0 and 1.
   double Random1(bool inclusive) {
     MTWriteLockC lock(1);
-    RealT num;
-    do {num = twister.Double();} while (num == 1.0);
-    return num;
+    if (inclusive) return twister.Double();
+    else {
+      RealT num;
+      do {num = twister.Double();} while (num == 1.0);
+      return num;
+    }
   }
 
 }
