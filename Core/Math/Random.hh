@@ -29,10 +29,12 @@ namespace RavlN {
   //: Returns an integer between 0 and RandomIntMaxValue.
   // Uses RandomMersenneTwisterC
   
-  double Random1();
+  double Random1(bool inclusive=true);
   //: Returns a random number in the range [0 ... 1] with a uniform distribution.
+  // Note that it <i>does</i> occasionally return the value 1.0.  However, if
+  // "inclusive" = false, the range is limited to [0 ... 1); i.e. the value
+  // 1.0 is specifically excluded.<br>
   // Uses RandomMersenneTwisterC.<br>
-  // Note that it <i>does</i> occasionally return the value 1.0.<br>
 
   float  RandomGauss();
   //: Returns a Gaussian distributed zero mean random

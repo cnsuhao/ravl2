@@ -100,6 +100,10 @@ int testRandom() {
     return __LINE__;
   }
   cerr <<"Values between " << min << " " << max << "\n";
+  if (Random1(false) == 1.0) {
+    cerr << "Random1(false) should never return value of 1.0\n";
+    return __LINE__;
+  }
   return 0;
 }
 
