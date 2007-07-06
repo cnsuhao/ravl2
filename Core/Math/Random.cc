@@ -43,7 +43,7 @@ namespace RavlN {
     if (inclusive) return twister.Double();
     else {
       RealT num;
-      do {num = twister.Double();} while (num == 1.0);
+      do {num = twister.Double();} while (num >= 1.0);
       return num;
     }
   }
