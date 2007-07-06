@@ -92,11 +92,10 @@ namespace Ravl3DN {
     const SArray1dC< StringC >& TexFilenames() const
     { return m_strFilenames; }
     //: Access the textures.
-
-  protected:
+    
     bool GenerateTextureMap(void);
     //: Automatically generate texture coordinates and a texture image
-
+    
   protected:
     SArray1dC< ImageC<ByteRGBValueC> > m_textures;
     SArray1dC< StringC > m_strFilenames;
@@ -176,7 +175,11 @@ namespace Ravl3DN {
     TexTriMeshC Copy() const
     { return TexTriMeshC(static_cast<TexTriMeshBodyC &>(Body().Copy())); }
     //: Make a copy of the mesh.
-
+    
+    bool GenerateTextureMap(void)
+    { return Body().GenerateTextureMap(); }
+    //: Generate a default set of texture coordinates and a texture image
+    
     SArray1dC< ImageC<ByteRGBValueC> >& Textures()
     { return Body().Textures(); }
     //: Access the textures.

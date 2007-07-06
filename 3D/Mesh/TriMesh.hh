@@ -108,8 +108,8 @@ namespace Ravl3DN {
 
     void Transform(const RigidTransform3dC&  rt);
     //: transform each vert by rt
-
-	SArray1dC<UIntT> FaceIndices() const;
+    
+    SArray1dC<UIntT> FaceIndices() const;
     //: Create an array of faces indices.
     // each successive triple of indices represents a face in the mesh.
     
@@ -236,8 +236,8 @@ namespace Ravl3DN {
     //: Centre of triset.
     // - average vertex position
     
-	void Transform(const RigidTransform3dC & rt)
-	{ return Body().Transform(rt); }
+    void Transform(const RigidTransform3dC & rt)
+    { return Body().Transform(rt); }
     //: transform each vert by rt
 
     SArray1dC<UIntT> FaceIndices() const
@@ -270,8 +270,8 @@ namespace Ravl3DN {
     { Body().SetTextureCoord(val); }
     //: Set have texture coordinates flag.
 
-	TriMeshC operator+ (TriMeshC &t2)
-	{ return Body() +t2;}
+    TriMeshC operator+ (TriMeshC &t2)
+    { return Body() +t2;}
     
   };
 

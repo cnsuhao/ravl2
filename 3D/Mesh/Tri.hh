@@ -116,7 +116,7 @@ namespace Ravl3DN {
     { return vertices[n]->Position(); }
     //: Access normal for a vertex.
     
-    const Vector3dC Position(UIntT n) const
+    const Vector3dC &Position(UIntT n) const
     { return vertices[n]->Position(); }
     //: Access normal for a vertex.
     
