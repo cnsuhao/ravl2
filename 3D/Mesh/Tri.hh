@@ -14,6 +14,7 @@
 //! file="Ravl/3D/Mesh/Tri.hh"
 
 #include "Ravl/3D/Vertex.hh"
+#include "Ravl/Point2d.hh"
 
 namespace Ravl3DN {
 #if RAVL_VISUALCPP_NAMESPACE_BUG
@@ -50,7 +51,7 @@ namespace Ravl3DN {
       colour[2] = 196;
     }
     //: Construct from another vector.
-
+    
     TriC(VertexC &v0,VertexC &v1,VertexC &v2) 
       : normal(0,0,0)
     {
@@ -62,11 +63,33 @@ namespace Ravl3DN {
       colour[2] = 196;
     }
     //: Construct from vertices.
+
+    TriC(VertexC &v0,VertexC &v1,VertexC &v2,
+	 const Point2dC &tex0,const Point2dC &tex1, const Point2dC &tex2,
+	 UByteT texId = 0
+	 )
+      : normal(0,0,0)
+    {
+      vertices[0] = &v0;
+      vertices[1] = &v1;
+      vertices[2] = &v2;
+      texture[0] = tex0;
+      texture[1] = tex1;
+      texture[2] = tex2;
+      textureID = texId;
+      colour[0] = 196;
+      colour[1] = 196;
+      colour[2] = 196;
+    }
+    //: Construct from vertices and texture coordinates.
     
     TriC(const TFVectorC<VertexC *,3> &v, 
 	 const TFVectorC<Vector2dC,3> &t, 
 	 UByteT texID)
-      : vertices(v), textureID(texID), texture(t)
+      : vertices(v), 
+	textureID(texID), 
+	texture(t),
+	normal(0,0,0)
     {
       colour[0] = 196;
       colour[1] = 196;
@@ -103,7 +126,11 @@ namespace Ravl3DN {
     Vector3dC &FaceNormal()
     { return normal; }
     //: Unit normal orthogonal to triangle plane
-        
+    
+    void SetFaceNormal(const Vector3dC &val)
+    { normal = val; }
+    //: Update the face normal.
+    
     Vector3dC &Normal(UIntT n) 
     { return vertices[n]->Normal(); }
     //: Access normal for a vertex.

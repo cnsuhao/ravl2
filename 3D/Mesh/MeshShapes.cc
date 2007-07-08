@@ -17,60 +17,85 @@ namespace Ravl3DN {
   //: Create a flat plane
   
   TriMeshC CreateTriMeshPlane(RealT size) {
-    SArray1dC<Vector3dC> vertex(4);
     RealT hSize = size/2.0;
-    vertex[0] = Vector3dC( hSize, hSize,0);
-    vertex[1] = Vector3dC( hSize,-hSize,0);
-    vertex[2] = Vector3dC(-hSize,-hSize,0);
-    vertex[3] = Vector3dC(-hSize, hSize,0);
     
-    SArray1dC<UIntT> tri(6);
-    tri[0] = 0;
-    tri[1] = 1;
-    tri[2] = 2;
-
-    tri[3] = 2;
-    tri[4] = 3;
-    tri[5] = 0;
+    SArray1dC<VertexC> vertex(4);
+    Vector3dC norm(0,0,1);
+    vertex[0] = VertexC(Point3dC( hSize, hSize,0),norm);
+    vertex[1] = VertexC(Point3dC( hSize,-hSize,0),norm);
+    vertex[2] = VertexC(Point3dC(-hSize,-hSize,0),norm);
+    vertex[3] = VertexC(Point3dC(-hSize, hSize,0),norm);
     
-    return TriMeshC(vertex,tri);
+    SArray1dC<TriC> tri(2);
+    tri[0] = TriC(vertex[0],vertex[1],vertex[2],Point2dC(0,0),Point2dC(0,1),Point2dC(1,1));
+    tri[1] = TriC(vertex[2],vertex[3],vertex[0],Point2dC(0,0),Point2dC(1,1),Point2dC(1,0));
+    
+    tri[0].SetFaceNormal(norm);
+    tri[1].SetFaceNormal(norm);
+    
+    return TriMeshC(vertex,tri,true);
   }
   
-  
-  static UIntT cubeFaces[36] = 
-    { 0, 1, 2, // Front
-      2, 3, 0,
-      6, 5, 4, // Back
-      4, 7, 6,
-      4, 5, 1, // Top
-      0, 4, 1,
-      7, 3, 2, // Bottom
-      2, 6, 7,
-      4, 0, 7, // Left
-      0, 3, 7,
-      1, 5, 2, // Right
-      5, 6, 2
-    };
   
   // Create a cube.
   
   TriMeshC CreateTriMeshCube(RealT size) {
-    SArray1dC<Vector3dC> vertex(8);
     RealT hSize = size/2.0;
+    SArray1dC<VertexC> vertex(8);
+    vertex[0] = VertexC(Point3dC( hSize, hSize,-hSize));
+    vertex[1] = VertexC(Point3dC( hSize,-hSize,-hSize));
+    vertex[2] = VertexC(Point3dC(-hSize,-hSize,-hSize));
+    vertex[3] = VertexC(Point3dC(-hSize, hSize,-hSize));
     
-    vertex[0] = Vector3dC( hSize, hSize,-hSize);
-    vertex[1] = Vector3dC( hSize,-hSize,-hSize);
-    vertex[2] = Vector3dC(-hSize,-hSize,-hSize);
-    vertex[3] = Vector3dC(-hSize, hSize,-hSize);
+    vertex[4] = VertexC(Point3dC( hSize, hSize,hSize));
+    vertex[5] = VertexC(Point3dC( hSize,-hSize,hSize));
+    vertex[6] = VertexC(Point3dC(-hSize,-hSize,hSize));
+    vertex[7] = VertexC(Point3dC(-hSize, hSize,hSize));
     
-    vertex[4] = Vector3dC( hSize, hSize,hSize);
-    vertex[5] = Vector3dC( hSize,-hSize,hSize);
-    vertex[6] = Vector3dC(-hSize,-hSize,hSize);
-    vertex[7] = Vector3dC(-hSize, hSize,hSize);
+    SArray1dC<TriC> tri(36);
+    UIntT tn = 0;
+    RealT sep = 1.0/60.0;
     
-    static SArray1dC<UIntT> tri(cubeFaces,36,false);
+    RealT tr0 = sep;
+    RealT tr1 = 0.5 - sep;
+    RealT tr2 = 0.5 + sep;
+    RealT tr3 = 1.0 - sep;
     
-    return TriMeshC(vertex,tri.Copy());
+    RealT tc0 = sep;
+    RealT tc1 = 1.0/3.0 - sep;
+    RealT tc2 = 1.0/3.0 + sep; 
+    
+    RealT tc3 = 2.0/3.0 - sep;
+    RealT tc4 = 2.0/3.0 + sep; 
+    RealT tc5 = 1.0 - sep;
+    
+    // Front
+    tri[tn++] = TriC(vertex[0],vertex[1],vertex[2],Point2dC(tr0,tc0),Point2dC(tr0,tc1),Point2dC(tr1,tc1));
+    tri[tn++] = TriC(vertex[2],vertex[3],vertex[0],Point2dC(tr1,tc1),Point2dC(tr1,tc0),Point2dC(tr0,tc0));
+    
+    // Back
+    tri[tn++] = TriC(vertex[6],vertex[5],vertex[4],Point2dC(tr2,tc0),Point2dC(tr2,tc1),Point2dC(tr3,tc1));
+    tri[tn++] = TriC(vertex[4],vertex[7],vertex[6],Point2dC(tr3,tc1),Point2dC(tr3,tc0),Point2dC(tr2,tc0));
+    
+    // Top
+    tri[tn++] = TriC(vertex[4],vertex[5],vertex[1],Point2dC(tr0,tc2),Point2dC(tr0,tc3),Point2dC(tr1,tc3));
+    tri[tn++] = TriC(vertex[0],vertex[4],vertex[1],Point2dC(tr1,tc2),Point2dC(tr0,tc2),Point2dC(tr1,tc3));
+    
+    // Bottom
+    tri[tn++] = TriC(vertex[7],vertex[3],vertex[2],Point2dC(tr2,tc2),Point2dC(tr3,tc2),Point2dC(tr3,tc3));
+    tri[tn++] = TriC(vertex[2],vertex[6],vertex[7],Point2dC(tr3,tc3),Point2dC(tr2,tc3),Point2dC(tr2,tc2));
+    
+    // Left
+    tri[tn++] = TriC(vertex[4],vertex[0],vertex[7],Point2dC(tr0,tc4),Point2dC(tr0,tc5),Point2dC(tr1,tc4));
+    tri[tn++] = TriC(vertex[0],vertex[3],vertex[7],Point2dC(tr0,tc5),Point2dC(tr1,tc5),Point2dC(tr1,tc4));
+    
+    // Right
+    tri[tn++] = TriC(vertex[1],vertex[5],vertex[2],Point2dC(tr2,tc5),Point2dC(tr2,tc4),Point2dC(tr3,tc5));
+    tri[tn++] = TriC(vertex[5],vertex[6],vertex[2],Point2dC(tr2,tc4),Point2dC(tr3,tc4),Point2dC(tr3,tc5));
+    
+    TriMeshC ret(vertex,tri,true);
+    //ret.UpdateVertexNormals();
+    return ret;
   }
   
   // Create a sphere.

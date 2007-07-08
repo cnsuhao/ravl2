@@ -166,17 +166,18 @@ namespace Ravl3DN {
   }
   
   //: Transform mesh with RT
+  
   void TriMeshBodyC::Transform(const RigidTransform3dC & rt){
-
-	  for(SArray1dIterC<VertexC> it(vertices);it;it++){
-		  Vector3dC v(it->Position());
-		  it->Position() = rt.Transform(v);
-		  it->Normal()=rt.ExportRotationMatrix()*(it->Normal());
-	  }
-
-	  for(SArray1dIterC<TriC> iv(faces);iv;iv++)
-		  iv->FaceNormal()=rt.ExportRotationMatrix()*(iv->FaceNormal());
-
+    
+    for(SArray1dIterC<VertexC> it(vertices);it;it++){
+      Vector3dC v(it->Position());
+      it->Position() = rt.Transform(v);
+      it->Normal()=rt.ExportRotationMatrix()*(it->Normal());
+    }
+    
+    for(SArray1dIterC<TriC> iv(faces);iv;iv++)
+      iv->FaceNormal()=rt.ExportRotationMatrix()*(iv->FaceNormal());
+    
   }
 
   //: Create an array of faces indices.
@@ -256,8 +257,8 @@ namespace Ravl3DN {
   }
   
   istream &operator>>(istream &s,TriMeshC &ts) {
-  
-	SArray1dC<VertexC> verts;
+    
+    SArray1dC<VertexC> verts;
     s >> verts;
     IntT iHaveTexture;
     s >> iHaveTexture;
