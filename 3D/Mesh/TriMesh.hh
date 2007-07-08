@@ -135,8 +135,8 @@ namespace Ravl3DN {
     { haveTexture = val; }
     //: Set have texture coordinates flag.
     
-	TriMeshC operator+ (TriMeshC &t2);
-
+    TriMeshC operator+ (const TriMeshC &t2) const;
+    //: Add another mesh to this one
   protected:
     SArray1dC<VertexC> vertices; // Array of vertex positions.
     SArray1dC<TriC> faces;     // Array of triangles.

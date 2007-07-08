@@ -278,60 +278,54 @@ namespace Ravl3DN {
     ts = TriMeshC(verts,faces,bHaveTexture);
     return s;
   }
+  
+  TriMeshC TriMeshBodyC::operator+ (const TriMeshC &t2) const {
+    SArray1dC<VertexC> verts(Vertices().Size()+t2.Vertices().Size());
 
-  TriMeshC TriMeshBodyC::operator+ (TriMeshC &t2){
-
- 
- 
-  SArray1dC<VertexC> verts(Vertices().Size()+t2.Vertices().Size());
-
-  // put this in first 
-SArray1dIterC<VertexC> vit(verts);
-for(UIntT ivL=0;ivL<Vertices().Size();ivL++){
-	  vit->Position()=Vertices()[ivL].Position();
+    // put this in first 
+    SArray1dIterC<VertexC> vit(verts);
+    for(UIntT ivL=0;ivL<Vertices().Size();ivL++){
+      vit->Position()=Vertices()[ivL].Position();
       vit->Normal() = Vertices()[ivL].Normal();
-	  vit++;
+      vit++;
     }
-for(UIntT ivM=0;ivM<t2.Vertices().Size();ivM++){
-	  vit->Position()=t2.Vertices()[ivM].Position();
+    for(UIntT ivM=0;ivM<t2.Vertices().Size();ivM++){
+      vit->Position()=t2.Vertices()[ivM].Position();
       vit->Normal() = t2.Vertices()[ivM].Normal();
-	  vit++;
+      vit++;
     }
-
+    
     SArray1dC<TriC> faces(Faces().Size()+t2.Faces().Size());    
     SArray1dIterC<TriC> it(faces);
     UIntT ii = 0;
-	const VertexC *Lv0 = &(Vertices()[0]);
+    const VertexC *Lv0 = &(Vertices()[0]);
     for(;ii < Faces().Size();ii++) {
-		UIntT i0=Faces()[ii].VertexPtr(0)-Lv0;
-		UIntT i1=Faces()[ii].VertexPtr(1)-Lv0;
-		UIntT i2=Faces()[ii].VertexPtr(2)-Lv0;
-
+      UIntT i0=Faces()[ii].VertexPtr(0)-Lv0;
+      UIntT i1=Faces()[ii].VertexPtr(1)-Lv0;
+      UIntT i2=Faces()[ii].VertexPtr(2)-Lv0;
+      
       it->VertexPtr(0) = &(verts[i0]);
       it->VertexPtr(1) = &(verts[i1]);
       it->VertexPtr(2) = &(verts[i2]);
       it->FaceNormal()=Faces()[ii].FaceNormal();
-	  it++;
-	}
-
-
-	const VertexC *Mv0 = &(t2.Vertices()[0]);
+      it++;
+    }
+    
+    
+    const VertexC *Mv0 = &(t2.Vertices()[0]);
     for(ii=0;ii < t2.Faces().Size();ii++) {
-		UIntT i0=t2.Faces()[ii].VertexPtr(0)-Mv0+Vertices().Size();
-		UIntT i1=t2.Faces()[ii].VertexPtr(1)-Mv0+Vertices().Size();
-		UIntT i2=t2.Faces()[ii].VertexPtr(2)-Mv0+Vertices().Size();
-
+      UIntT i0=t2.Faces()[ii].VertexPtr(0)-Mv0+Vertices().Size();
+      UIntT i1=t2.Faces()[ii].VertexPtr(1)-Mv0+Vertices().Size();
+      UIntT i2=t2.Faces()[ii].VertexPtr(2)-Mv0+Vertices().Size();
+      
       it->VertexPtr(0) = &(verts[i0]);
       it->VertexPtr(1) = &(verts[i1]);
       it->VertexPtr(2) = &(verts[i2]);
       it->FaceNormal()=t2.Faces()[ii].FaceNormal();
-	  it++;
-	}
-
-	
-	return TriMeshC(verts,faces);
-
-
+      it++;
+    }
+    
+    return TriMeshC(verts,faces);
   }
 	 
 
