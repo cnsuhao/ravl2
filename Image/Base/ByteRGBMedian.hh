@@ -115,11 +115,13 @@ namespace RavlImageN {
     // returns true on success 
 
     void Update (void) { 
+      if(pixels.Size() < 1) // Check if we have any info at all.
+        return ;
       ByteRGBGreyValueC rgb_grey = pixels.KthHighest(pixels.Size()/2) ; 
       Set( rgb_grey.Red(), rgb_grey.Green(), rgb_grey.Blue() ) ; 
     }
     //: Computes the median and updates the median value. 
-
+    
   public:
     CollectionC<ByteRGBGreyValueC> pixels;
   };
