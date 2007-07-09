@@ -22,6 +22,7 @@
 #include "Ravl/GUI/DTexTriMesh3D.hh"
 #include "Ravl/GUI/DTriMesh3D.hh"
 #include "Ravl/DP/FileFormatIO.hh"
+#include "Ravl/3D/MeshShapes.hh"
 
 #include <GL/gl.h>
 
@@ -49,24 +50,9 @@ int main(int nargs,char *args[])
   
   // Create a simple mesh.
   
-  SArray1dC<Vector3dC> verts(4);
-  verts[0] = Vector3dC(0,0,0);
-  verts[1] = Vector3dC(0,1,0);
-  verts[2] = Vector3dC(1,1,0);
-  verts[3] = Vector3dC(1,0,0);
+  TexTriMeshC mesh(CreateTriMeshPlane(),true);
   
-  SArray1dC<UIntT> faces(6);
-  faces [0] = 2;
-  faces [1] = 1;
-  faces [2] = 0;
-  faces [3] = 0;
-  faces [4] = 3;
-  faces [5] = 2;
-  
-  TexTriMeshC mesh(verts,faces);
-
   // Add a texture to the mesh.
-  // This uses the default texture coordinates, which aren't quite right.
   
   SArray1dC<ImageC<ByteRGBValueC> > textures(1);
   textures[0] = img;

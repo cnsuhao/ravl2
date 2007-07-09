@@ -22,7 +22,7 @@
 #define ONDEBUG(x)
 #endif
 
-#define USEMESHCOLOUR 1
+#define USEMESHCOLOUR 0
 
 namespace RavlGUIN {
   
@@ -58,8 +58,8 @@ namespace RavlGUIN {
 	// Setup texture parameters
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 	// Setup texture image
 	glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,tmodel.Textures()[i].Cols(),tmodel.Textures()[i].Rows(),
 		     0,GL_RGB,GL_UNSIGNED_BYTE,
@@ -149,7 +149,7 @@ namespace RavlGUIN {
 	ONDEBUG(cerr << "Smooth render. \n");
 	IntT eGLShadeModel;
 	glGetIntegerv(GL_SHADE_MODEL,&eGLShadeModel);
-	glShadeModel(GL_SMOOTH); // Flat shading
+	glShadeModel(GL_SMOOTH); // smooth shading
 	// Draw filled polygon
 	for(SArray1dIterC<TriC> it(model.Faces());it;it++) {
 #if USEMESHCOLOUR
