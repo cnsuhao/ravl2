@@ -23,7 +23,7 @@ MAINS=
 
 PLIB=RavlGUI2D
 
-USESLIBS=RavlGUI RavlImage RavlIO 
+USESLIBS=RavlGUI RavlImage RavlIO RavlMath
 
 EXAMPLES= exCanvas.cc exRawZoomCanvas.cc exGUIMarkupCanvas.cc 
 
