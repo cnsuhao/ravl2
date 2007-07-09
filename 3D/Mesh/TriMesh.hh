@@ -137,6 +137,10 @@ namespace Ravl3DN {
     
     TriMeshC operator+ (const TriMeshC &t2) const;
     //: Add another mesh to this one
+    
+    bool GenerateTextureCoords(void);
+    //: Automatically generate texture coordinates.
+
   protected:
     SArray1dC<VertexC> vertices; // Array of vertex positions.
     SArray1dC<TriC> faces;     // Array of triangles.
@@ -269,7 +273,11 @@ namespace Ravl3DN {
     void SetTextureCoord(bool val)
     { Body().SetTextureCoord(val); }
     //: Set have texture coordinates flag.
-
+    
+    bool GenerateTextureCoords(void)
+    { return Body().GenerateTextureCoords(); }
+    //: Automatically generate texture coordinates.
+    
     TriMeshC operator+ (TriMeshC &t2)
     { return Body() +t2;}
     

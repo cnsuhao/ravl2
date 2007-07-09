@@ -238,47 +238,6 @@ namespace Ravl3DN {
       itv->Normal() = itv->Normal().Unit();
   }
   
-  ostream &operator<<(ostream &s,const TriMeshC &ts) {
-    RavlAssert(ts.IsValid());
-    s << ts.Vertices(); 
-    s << (IntT)ts.HaveTextureCoord() << '\n';
-    s << ts.Faces().Size() << '\n'; 
-    const VertexC *x = &(ts.Vertices()[0]);
-    SArray1dIterC<TriC> it(ts.Faces());
-    for(; it; it++) {
-      s << (it->VertexPtr(0) - x) << ' ' 
-	<< (it->VertexPtr(1) - x) << ' ' 
-	<< (it->VertexPtr(2) - x) << ' ';
-      s << it->TextureID() << ' ';
-      s << it->TextureCoords() << ' ';
-      s << it->Colour() << '\n';
-    }
-    return s;
-  }
-  
-  istream &operator>>(istream &s,TriMeshC &ts) {
-    
-    SArray1dC<VertexC> verts;
-    s >> verts;
-    IntT iHaveTexture;
-    s >> iHaveTexture;
-    bool bHaveTexture = (iHaveTexture) ? true : false;
-    UIntT nfaces,i1,i2,i3;
-    s >> nfaces;
-    SArray1dC<TriC> faces(nfaces);
-    for(SArray1dIterC<TriC> it(faces);it;it++) {
-      s >> i1 >> i2 >> i3;
-      s >> it->TextureID();
-      s >> it->TextureCoords();
-      s >> it->Colour();
-      it->VertexPtr(0) = &(verts[i1]);
-      it->VertexPtr(1) = &(verts[i2]);
-      it->VertexPtr(2) = &(verts[i3]);
-      it->UpdateFaceNormal();
-    }
-    ts = TriMeshC(verts,faces,bHaveTexture);
-    return s;
-  }
   
   TriMeshC TriMeshBodyC::operator+ (const TriMeshC &t2) const {
     SArray1dC<VertexC> verts(Vertices().Size()+t2.Vertices().Size());
@@ -328,7 +287,94 @@ namespace Ravl3DN {
     
     return TriMeshC(verts,faces);
   }
-	 
+  
+  //: Automatically generate texture coordinates.
+  
+  bool TriMeshBodyC::GenerateTextureCoords(void) {
+    
+    // Check that we have a valid mesh
+    IntT iNumFaces = faces.Size();
+    if (iNumFaces==0) return false;
+
+    // Work out how many squares we need to take all our triangles
+    IntT iNumSquares = iNumFaces / 2;
+    if ( (iNumFaces%2) ) iNumSquares++;
+    // Work out how many squares to a side of the texture (rounded up square root)
+    IntT iDim = IntT(ceil(Sqrt(iNumSquares)));
+    RealT dSize = 1.0/(RealT)iDim;
+    // Generate texture coordinates for each triangle.
+    SArray1dIterC<TriC> itFaces(faces);
+    IntT x,y;
+    for (x=0; (x<iDim && itFaces); x++) {
+      RealT dXBase = x*dSize;
+      for (y=0; (y<iDim && itFaces); y++) {
+	RealT dYBase = y*dSize;
+	// Generate texture coordinates for the triangle in the top left corner of the square
+	TriC& faceTL = itFaces.Data();
+	faceTL.TextureID() = 0;
+	faceTL.TextureCoord(0) = Vector2dC(dXBase + dSize*0.05, dYBase + dSize*0.90);
+	faceTL.TextureCoord(1) = Vector2dC(dXBase + dSize*0.05, dYBase + dSize*0.05);
+	faceTL.TextureCoord(2) = Vector2dC(dXBase + dSize*0.90, dYBase + dSize*0.05);
+	itFaces++;
+	if (itFaces) {
+	  // Generate texture coordinates for the triangle in the bottom right corner of the square
+	  TriC& faceBR = itFaces.Data();
+	  faceBR.TextureID() = 0;
+	  faceBR.TextureCoord(0) = Vector2dC(dXBase + dSize*0.95, dYBase + dSize*0.10);
+	  faceBR.TextureCoord(1) = Vector2dC(dXBase + dSize*0.95, dYBase + dSize*0.95);
+	  faceBR.TextureCoord(2) = Vector2dC(dXBase + dSize*0.10, dYBase + dSize*0.95);
+	  itFaces++;
+	}
+      }
+    }
+    
+    haveTexture = true;
+    
+    return true;
+  }
+
+
+  ostream &operator<<(ostream &s,const TriMeshC &ts) {
+    RavlAssert(ts.IsValid());
+    s << ts.Vertices(); 
+    s << (IntT)ts.HaveTextureCoord() << '\n';
+    s << ts.Faces().Size() << '\n'; 
+    const VertexC *x = &(ts.Vertices()[0]);
+    SArray1dIterC<TriC> it(ts.Faces());
+    for(; it; it++) {
+      s << (it->VertexPtr(0) - x) << ' ' 
+	<< (it->VertexPtr(1) - x) << ' ' 
+	<< (it->VertexPtr(2) - x) << ' ';
+      s << it->TextureID() << ' ';
+      s << it->TextureCoords() << ' ';
+      s << it->Colour() << '\n';
+    }
+    return s;
+  }
+  
+  istream &operator>>(istream &s,TriMeshC &ts) {
+    
+    SArray1dC<VertexC> verts;
+    s >> verts;
+    IntT iHaveTexture;
+    s >> iHaveTexture;
+    bool bHaveTexture = (iHaveTexture) ? true : false;
+    UIntT nfaces,i1,i2,i3;
+    s >> nfaces;
+    SArray1dC<TriC> faces(nfaces);
+    for(SArray1dIterC<TriC> it(faces);it;it++) {
+      s >> i1 >> i2 >> i3;
+      s >> it->TextureID();
+      s >> it->TextureCoords();
+      s >> it->Colour();
+      it->VertexPtr(0) = &(verts[i1]);
+      it->VertexPtr(1) = &(verts[i2]);
+      it->VertexPtr(2) = &(verts[i3]);
+      it->UpdateFaceNormal();
+    }
+    ts = TriMeshC(verts,faces,bHaveTexture);
+    return s;
+  }
 
   
 }

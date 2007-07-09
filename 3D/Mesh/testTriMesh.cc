@@ -1,5 +1,6 @@
 
 #include "Ravl/3D/TriMesh.hh"
+#include "Ravl/3D/TexTriMesh.hh"
 #include "Ravl/3D/MeshShapes.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/DrawPolygon.hh"
@@ -7,80 +8,96 @@
 
 using namespace Ravl3DN;
 
-int testTriMesh();
-int testTexTriMesh();
-int testMeshShapes();
+int testMeshPlane();
+int testMeshCube();
+int testMeshSphere();
 
 int main() {
   int ln;
-  if((ln = testTriMesh()) != 0) {
+  if((ln = testMeshPlane()) != 0) {
     cerr << "Error line " << ln << "\n";
     return 1;
   }
-  if((ln = testTexTriMesh()) != 0) {
+  if((ln = testMeshCube()) != 0) {
     cerr << "Error line " << ln << "\n";
     return 1;
   }
-#if 0
-  if((ln = testMeshShapes()) != 0) {
+  if((ln = testMeshSphere()) != 0) {
     cerr << "Error line " << ln << "\n";
     return 1;
   }
-#endif
   cerr << "Test passed. \n";
   return 0;
 }
 
 // Display the texture coorinates of a mesh.
 
-void DisplayTexCoords(const TriMeshC &mesh) {
+bool TestTexCoords(const TriMeshC &mesh) {
   RavlImageN::ImageC<ByteT> img(512,512);
   img.Fill(0);
+
+  RealRange2dC texRect(RealRangeC(0.0,1.0),RealRangeC(0.0,1.0));
   
   for(SArray1dIterC<TriC> it(mesh.Faces());it;it++) {
     Polygon2dC poly;
+    // Check texture coordinates are legal.
+    if(!texRect.Contains(it->TextureCoord(0)))
+      return false;
+    if(!texRect.Contains(it->TextureCoord(1)))
+      return false;
+    if(!texRect.Contains(it->TextureCoord(2)))
+      return false;
+    
+    // Check area.
     poly.InsLast(it->TextureCoord(0)*512);
     poly.InsLast(it->TextureCoord(1)*512);
     poly.InsLast(it->TextureCoord(2)*512);
+    
+    if(poly.Area() == 0) {
+      cerr << "Warning: Texture map for tri " << it.Index() << " has zero area. \n";
+      return false;
+    }
+    
+    // For visual check.
     RavlImageN::DrawPolygon(img,(ByteT) 255,poly);
   }
-  Save("@X",img);
-}
-
-int testTriMesh() {
 #if 0
-  SArray1dC<Vector3dC> verts(10);
-  for(int i = 0;i < 10;i++)
-    verts[i] = Vector3dC(i%3,(i+1)%3,(i+2)%3);
-  SArray1dC<UIntT> faces(30);
-  for(int i = 0;i < 30;i++)
-    faces[i] = i % verts.Size();
-  TriMeshC tm;
-  tm = TriMeshC(verts,faces);
-  if(tm.Faces().Size() != (faces.Size() /3)) return __LINE__;
+  // Enable to display mapping for faces onto the texture.
+  static int testCount =0;
+  Save(StringC("@X:Tex") + StringC(testCount++),img);
 #endif
-  return 0;
+  return true;
 }
 
-int testTexTriMesh() {
-  
-  
-  
-  return 0;
-}
 
-int testMeshShapes() {
-  //TriMeshC mesh = CreateTriMeshPlane(1.0);
-  TriMeshC mesh = CreateTriMeshCube(1.0);
+int testMeshPlane() {
+  TriMeshC mesh = CreateTriMeshPlane(1.0);
   
-#if 0
   RealT ns = mesh.Vertices()[0].Normal()[2];
   mesh.UpdateVertexNormals();
   // Check the normals are consistant
   if(Sign(ns) != Sign(mesh.Vertices()[0].Normal()[2])) return __LINE__;
-#endif
   
-  DisplayTexCoords(mesh);
+  if(!TestTexCoords(mesh))
+    return __LINE__;
+  
+  return 0;
+}
+
+int testMeshCube() {
+  TriMeshC mesh = CreateTriMeshCube(1.0);
+  
+  if(!TestTexCoords(mesh))
+    return __LINE__;
+  
+  return 0;
+}
+
+int testMeshSphere() {
+  TriMeshC mesh = CreateTriMeshSphere(3,8,1.0);
+  
+  if(!TestTexCoords(mesh))
+    return __LINE__;
   
   return 0;
 }

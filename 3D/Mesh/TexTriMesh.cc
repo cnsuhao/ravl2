@@ -59,51 +59,15 @@ namespace Ravl3DN {
   bool TexTriMeshBodyC::GenerateTextureMap(void)
   { 
     ONDEBUG(cerr << "Generating a texture map...\n"); 
-
-    // Check that we have a valid mesh
-    IntT iNumFaces = faces.Size();
-    if (iNumFaces==0) return false;
-
-    // Work out how many squares we need to take all our triangles
-    IntT iNumSquares = iNumFaces / 2;
-    if ( (iNumFaces%2) ) iNumSquares++;
-    // Work out how many squares to a side of the texture (rounded up square root)
-    IntT iDim = IntT(ceil(Sqrt(iNumSquares)));
-    RealT dSize = 1.0/(RealT)iDim;
-    // Generate texture coordinates for each triangle.
-    SArray1dIterC<TriC> itFaces(faces);
-    IntT x,y;
-    for (x=0; (x<iDim && itFaces); x++) {
-      RealT dXBase = x*dSize;
-      for (y=0; (y<iDim && itFaces); y++) {
-	RealT dYBase = y*dSize;
-	// Generate texture coordinates for the triangle in the top left corner of the square
-	TriC& faceTL = itFaces.Data();
-	faceTL.TextureID() = 0;
-	faceTL.TextureCoord(0) = Vector2dC(dXBase + dSize*0.05, dYBase + dSize*0.90);
-	faceTL.TextureCoord(1) = Vector2dC(dXBase + dSize*0.05, dYBase + dSize*0.05);
-	faceTL.TextureCoord(2) = Vector2dC(dXBase + dSize*0.90, dYBase + dSize*0.05);
-	itFaces++;
-	if (itFaces) {
-	  // Generate texture coordinates for the triangle in the bottom right corner of the square
-	  TriC& faceBR = itFaces.Data();
-	  faceBR.TextureID() = 0;
-	  faceBR.TextureCoord(0) = Vector2dC(dXBase + dSize*0.95, dYBase + dSize*0.10);
-	  faceBR.TextureCoord(1) = Vector2dC(dXBase + dSize*0.95, dYBase + dSize*0.95);
-	  faceBR.TextureCoord(2) = Vector2dC(dXBase + dSize*0.10, dYBase + dSize*0.95);
-	  itFaces++;
-	}
-      }
-    }
-
+    
+    // Create coordinates.
+    GenerateTextureCoords();
+    
     // Create the texture image
     m_textures = SArray1dC< ImageC<ByteRGBValueC> >(1);
     m_textures[0] = ImageC<ByteRGBValueC>(1024,1024);
     m_strFilenames = SArray1dC< StringC >(1);
     m_strFilenames[0] = StringC("texture.ppm");
-
-    // Set the mesh as textured
-    haveTexture = true;
     
     // Done
     return true;

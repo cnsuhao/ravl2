@@ -50,9 +50,10 @@ namespace Ravl3DN {
     // A texture map and texture coordinates are generated for the mesh.
     
     TexTriMeshBodyC(const SArray1dC<VertexC> &vertices,
-		    const SArray1dC<TriC> &faces)
+		    const SArray1dC<TriC> &faces,
+                    bool generateTexCoords = true)
       : TriMeshBodyC(vertices,faces)
-    { GenerateTextureMap(); }
+    { if(generateTexCoords) GenerateTextureMap(); }
     //: Construct from an array of vertices and an array of tri's.
     // The TriC's must refer to elements in 'v'.
     // A texture map and texture coordinates are generated for the mesh.
@@ -125,8 +126,9 @@ namespace Ravl3DN {
     // A texture map and texture coordinates are generated for the mesh.
 
     TexTriMeshC(const SArray1dC<VertexC> &vertices,
-		const SArray1dC<TriC> &faces)
-      : TriMeshC(*new TexTriMeshBodyC(vertices,faces))
+		const SArray1dC<TriC> &faces,
+                bool generateTexCoord = true)
+      : TriMeshC(*new TexTriMeshBodyC(vertices,faces,generateTexCoord))
     {}
     //: Construct from an array of vertices and an array of tri's.
     // The TriC's must refer to elements in 'v'.
@@ -137,7 +139,7 @@ namespace Ravl3DN {
     {
       // Don't like this, but it maintains compatability with old code...
       if(forceConv && !IsValid() && mesh.IsValid())
-        (*this) = TexTriMeshC(mesh.Vertices(),mesh.Faces());
+        (*this) = TexTriMeshC(mesh.Vertices(),mesh.Faces(),!mesh.HaveTextureCoord());
     }
     //: Construct from a TriMesh.
     // Creates a textured mesh that references the vertices and faces in the TriMesh.

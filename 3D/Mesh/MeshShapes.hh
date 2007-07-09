@@ -27,7 +27,7 @@ namespace Ravl3DN {
   
   //: Create a sphere.
   // There must be at least 2 layers, and 2 slices.
-  TriMeshC CreateTriMeshSphere(UIntT layers,UIntT slices,RealT radius);
+  TriMeshC CreateTriMeshSphere(UIntT layers,UIntT slices,RealT radius = 1.0);
   
 }
 
