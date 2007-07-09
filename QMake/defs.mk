@@ -18,7 +18,7 @@ LICENSE= GPL
 
 MAINS=SysConf.cc untouch.cc findBuildTag.cc
 
-AUXDIR=share/RAVL/QMake
+AUXDIR=share/doc/RAVL/QMake
 
 AUXFILES =  QMake.mk \
   Dirs.mk Main.mk MainDep.mk Util.mk rcs.mk Doc.mk Clean.mk \

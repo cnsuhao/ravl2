@@ -5,46 +5,73 @@
 <!--! children="Defs;autoport;sysconf" -->
 <body>
     
-      <p>QMake is a flexible compilation aid, based on the GNU "make" program.
-      It was originally developed for building the RAVL (and its predecessors)
-      library, but it can be used for compiling any software project, however
-      big or small.</p>
+    <p>QMake is a flexible compilation aid, based on the GNU "make" program.
+    It was originally developed for building the RAVL (and its predecessors)
+    library, but it can be used for compiling any software project, however
+    big or small.</p>
 
-      <p>There are a number of <a href="../../../../../RAVL/QMake/Help.txt">QMake
-            command-line options</a> you can use, e.g.:  </p>
+    <h2>Running QMake</h2>
+
+    <p>The basic command is <code>qm</code>, which is an alias for
+    <code>make</code> that is defined when you set up the RAVL
+    environment.</p>
+
+    <p>Typing <code>qm</code> with no arguments will build code that contains
+    basic checks such as array bound violations.  It will use (and optionally
+    create) static libraries. </p>
+
+    <p>There are <a href="../../../QMake/Help.txt">various other QMake
+    command-line options</a> you can use, e.g.: </p>
 
       <ul>
-      <li>Typing <code>qm</code> with no arguments will
-        build code that contains basic checks such as array bound violations.
-        (<code>qm</code> is an alias defined when you set up the
-        RAVL environment.) </li> 
-      <li>The debug options will build in debugging information.</li>
-      <li>  The optimised versions produce optimised code with no checking.</li>
-      <li>  You can include either static or shared RAVL libraries in your
-        executable.</li>
-      <li>You can list the <a href="../../../../../RAVL/QMake/Help.txt">
-          command-line options</a> at any time by typing <code> qm help</code>.</li>
+
+      <li>The debug options (e.g. <code>qm debug</code>) will build in
+      debugging information.</li>
+
+      <li> The optimised versions (e.g. <code>qm opt</code>) produce optimised
+      code with no checking.</li>
+
+      <li> You can include (and create) shared rather than static RAVL
+      libraries in your executable (e.g. <code>qm shared</code>, <code>qm
+      optshared</code>).</li>
+
+      <li>You can list the <a href="../../../QMake/Help.txt"> command-line
+      options</a> at any time by typing <code> qm help</code>.  <code><a
+      href="../../../QMake/Notes.txt">qm notes</a> </code> will generate a few
+      more hints. </li>
     </ul>
+
+    <h2>The "defs.mk" file</h2>
 
     <p>QMake relies on a simple text file ("<code>defs.mk</code>") being
     present in <i>each</i> directory of the project.  Each
-    <code>defs.mk</code> describes what must be compiled <i>from that
-    directory</i>.</p>
-<p>Information describing the many variables in the <code>defs.mk</code> file
-for controlling what is built is given  under <a href="Ravl.QMake.Defs.html">Description File Variables </a>.
-But to begin with, all you probably need is one or two of these:</p>
-<ul>
-<li> <a href="Ravl.QMake.Defs.html#MAINS">MAINS</a> A list of programs to compile.
-<li> <a href="Ravl.QMake.Defs.html#SOURCES">SOURCES</a> Source files to compile.
-<li> <a href="Ravl.QMake.Defs.html#HEADERS">HEADERS</a> Header files for this source code that need to be shared.
-<li> <a href="Ravl.QMake.Defs.html#PLIB">PLIB</a> Name of library to create.
-<li> <a href="Ravl.QMake.Defs.html#USESLIBS">USESLIBS</a> Libraries needed to compile source code.
-<li> <a href="Ravl.QMake.Defs.html#NESTED">NESTED</a> Subdirectories to compile.
-</ul>
-<p>
-E.g. if all you wanted to compile was one file called "fred.cc" containing a
-main program, the defs.mk file would contain the single line: </p>
-<pre>MAINS = fred.cc</pre> 
+    <code>defs.mk</code> contains a set of variables that describe what must
+    be compiled <i>from that directory</i>.</p> 
+
+    <p>Information describing the many variables in the <code>defs.mk</code>
+    file for controlling what is built is given under <a
+    href="Ravl.QMake.Defs.html">Description File Variables </a>.  But to begin
+    with, all you probably need is one or two of these:</p>
+
+    <ul>
+      <li> <a href="Ravl.QMake.Defs.html#MAINS">MAINS</a> A list of programs to compile.
+      <li> <a href="Ravl.QMake.Defs.html#SOURCES">SOURCES</a> Source files to compile.
+      <li> <a href="Ravl.QMake.Defs.html#HEADERS">HEADERS</a> Header files for this source code that need to be shared.
+      <li> <a href="Ravl.QMake.Defs.html#PLIB">PLIB</a> Name of library to create.
+      <li> <a href="Ravl.QMake.Defs.html#USESLIBS">USESLIBS</a> Libraries needed to compile source code.
+      <li> <a href="Ravl.QMake.Defs.html#NESTED">NESTED</a> Subdirectories to compile.
+    </ul>
+    <p>E.g. if all you wanted to compile was one file called "fred.cc"
+    containing a main program, the defs.mk file would contain the single line:
+    </p> <pre>MAINS = fred.cc</pre>
+
+    <p>Any of these variables can also be overridden on the command line,
+    e.g.:</p>
+
+    <pre>qm "MAINS = fred.cc"</pre> 
+
+    <p>However a <code>defs.mk</code> file, even if empty, <i>must</i> exist
+    in the current directory.</p>
 
 
 <h2> Advanced Configuration </h2>

@@ -42,7 +42,6 @@ Common targets (some compile targets may not have been installed on your system)
   defs      List of public ".def" files.
   test	    Compile and run test executables.
   retest    Rerun the final stage of RAVL testing.
-  notes     Print help on more obscure/unstable parts of the QMake system. 
 
 Variables: 
   PROCS=       Number of processors to use. (Default varies with no. of c.p.u.s on machine.) 
@@ -51,6 +50,9 @@ Variables:
   USERCFLAGS= ... Pass extra options to the compiler.
   NOEXEBUILD=1 Build libraries only, don't compile or link executables.
   TMP=         Directory to use for temporary files. Default = /tmp 
+  ANSIFLAG=  Switch off strict ansi compilation (or switch to other gcc options).
+  CXXEXT=    Name of extension for SOURCES/MAIN files.  E.g. CXXEXT=.cpp
+  CHXXEXT=   Name of extension for HEADERS files.  E.g. CHXXEXT=.hpp
 
 
 Examples: 
