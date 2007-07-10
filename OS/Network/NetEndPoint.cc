@@ -362,7 +362,7 @@ namespace RavlN {
       if(!ostrm.GetAttr("ConnectedPort",conPort))
         conPort = "Unknown";
       
-      int maxRetry = 45 * 2;
+      int maxRetry = 45 * 2; // Wait up to 45 seconds for connection.
       // Wait still we got a stream header from peer 
       bool issuedMessage = false;
       while(--maxRetry > 0 && !shutdown) {
@@ -443,8 +443,10 @@ namespace RavlN {
           // Queue a ping packet for processing, this keeps some activity on 
           // the connection and will ensure that the link is actually open. The ping
           // is sent every 20 seconds.
-          if(timeOutCount++ > 4)
+          if(timeOutCount++ > 4) {
             Send(NEPMsgPing,pingSeqNo++,false);
+            timeOutCount = 0;
+          }
 	  continue;
         }
         timeOutCount = 0;
