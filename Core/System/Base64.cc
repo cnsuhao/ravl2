@@ -68,7 +68,7 @@ namespace RavlN {
   //: Encode buffer.
   
   StringC Base64C::Encode(const SArray1dC<char> &buffer) {
-    StringC ret;
+    StringC ret("",Floor((RealT) buffer.Size() * 1.41)+4);
     ByteT igroup[3];
     StringC tmp("1234");
     ByteT *ogroup = (ByteT *) &(tmp[0]);
@@ -101,7 +101,7 @@ namespace RavlN {
   SArray1dC<char> Base64C::Decode(const StringC &buffer) {
     if(buffer.Size() == 0)
       return SArray1dC<char>();
-    SArray1dC<char> ret(Floor((RealT) buffer.Size() * 1.34)+1);
+    SArray1dC<char> ret(Floor((RealT) buffer.Size() * 0.75)+4);
     SArray1dIterC<char> it(ret);
     const char *at = &(buffer[0]);
     const char *end = &(at[buffer.Size()]);
