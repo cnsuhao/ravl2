@@ -482,6 +482,45 @@ int testBase64() {
       }
     }
   }
+  
+  // Check some corner cases.
+  StringC testStr("");
+  SArray1dC<char> dat = Base64C::Decode(testStr);
+  if(dat.Size() != 0) return __LINE__;
+  
+  testStr = "====";
+  dat = Base64C::Decode(testStr);
+  if(dat.Size() != 1) return __LINE__;
+  
+  // Check we throw an exception on invalid strings.
+  StringC sourceStr = "ABCD";
+  for(int i = 1;i < 4;i++) {
+    try {
+      // Pass an invalid strings
+      StringC enc;
+      for(int k = 0;k < i;k++)
+        enc += sourceStr[k];
+      dat = Base64C::Decode(enc);
+      return __LINE__;
+    } catch(...) {
+    }
+  }
+
+  // Throw rubish at the decoder.
+  // Is should either return data, or throw an exception.
+  UIntT datCount = 0,excCount = 0;
+  for(int i = 0;i < 10000;i++) {
+    StringC edata(RandomInt() % 2048,"");
+    for(UIntT k = 0;k < edata.Size();k++)
+      edata[k] = RandomInt() % 256;
+    try {
+      SArray1dC<char> dat = Base64C::Decode(edata);
+      datCount++;
+    } catch(...) {
+      excCount++;
+    }
+  }
+  //cerr << "Data count=" << datCount << " Exception count=" << excCount << "\n";
   return 0;
 }
 
