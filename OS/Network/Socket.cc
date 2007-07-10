@@ -530,10 +530,13 @@ namespace RavlN {
     FD_ZERO(&rfds);
     
     while(fd >= 0) {
-      FD_SET(fd,&rfds);
+      int checkFd = fd;
+      if(checkFd < 0)
+        break;
+      FD_SET(checkFd,&rfds);
       tv.tv_sec = 5;
       tv.tv_usec = 0;
-      int rn = select(fd+1,&rfds,0,0,&tv);
+      int rn = select(checkFd+1,&rfds,0,0,&tv);
       if(rn == 0) {
 	//SysLog(SYSLOG_DEBUG) << "SocketBodyC::WaitForRead(), Timeout retry! " << errno;
 	continue; // Timeout, check if sockets been closed.
@@ -593,10 +596,13 @@ namespace RavlN {
 	SysLog(SYSLOG_WARNING) << "SocketBodyC::WaitForWrite(), Timeout writting to socket. : " << errno;
 	break;
       }
-      FD_SET(fd,&wfds);
+      int checkFd = fd; // Read it from the class, it might be set to -1 at any time.
+      if(checkFd < 0)
+        break;
+      FD_SET(checkFd,&wfds);
       timeout.tv_sec = Round(timeToGo);
       timeout.tv_usec = 0;
-      int rn = select(fd+1,0,&wfds,0,&timeout);
+      int rn = select(checkFd+1,0,&wfds,0,&timeout);
       if(rn == 0) continue; // Go check if timeout has expired.
       if(rn > 0) return fd >= 0; // Ready to write.
       if(!CheckErrors("SocketBodyC::WaitForWrite()"))
