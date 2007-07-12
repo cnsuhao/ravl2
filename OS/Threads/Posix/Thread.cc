@@ -166,7 +166,7 @@ namespace RavlN {
     threadID = 0; // Forget the ID, no other function will work now.
     CloseHandle(threadID);
 #endif
-    live = false;
+    RavlAssert(!live);
   }
 
   //: Called when thread started.  
@@ -192,6 +192,7 @@ namespace RavlN {
   // NOT A USER FUNTION, DO NOT CALL DIRECTLY.
   
   void ThreadBodyC::Cancel() { 
+    RavlAssert(live); // This should be a live thread.
     terminatePending = true;
     try {
       End();
@@ -205,13 +206,15 @@ namespace RavlN {
       cerr << "Unknown exception caught. \n";
       cerr << "While terminating thread. \n";
     }
-    live = false;
-    // Lastlt remove reference to class from thread.
+    // Lastly remove reference to class from thread.
     // and delete if needed.
-    if(DecRefCounter())
-      delete this;
+    if(live) { // This should only be called once, on a live thread.
+      live = false;
+      if(DecRefCounter())
+        delete this;
+    }
   }
-
+  
   // Thread cancellation function.
   
   void cancellationHandler(void *data) {
