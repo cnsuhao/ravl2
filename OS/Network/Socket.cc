@@ -77,7 +77,7 @@ namespace RavlN {
       server(nserver),
       addr(0),
       dontClose(false),
-      writeTimeout(180)
+      writeTimeout(60)
   {
     int at = name.index(':');
     if(at < 0) {

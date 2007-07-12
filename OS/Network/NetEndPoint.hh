@@ -152,6 +152,11 @@ namespace RavlN {
     ~NetEndPointBodyC();
     //: Destructor.
     
+    void StartPacketProcessing();
+    //: Call to start packet processing.
+    // This should only be called by the thread that called the constructor in order 
+    // to avoid race conditions. Only the first call will have any effect.
+    
     static IntT CountOpenConnections();
     //: Return a count of the number of the current number of open connections.
     
@@ -460,6 +465,7 @@ namespace RavlN {
     bool useBigEndianBinStream;
     IntT pingSeqNo;          // Sequence number used for pings.
     bool optimiseThroughput; // Optimise through put at the expense of latency.
+    bool threadsStarted;
   };
   
   //! userlevel=Normal
@@ -493,14 +499,14 @@ namespace RavlN {
 
     NetEndPointC(SocketC &socket,bool autoInit = true,bool optimiseThroughput = false)
       : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(socket,autoInit,optimiseThroughput))
-    {}
+    { StartPacketProcessing(); }
     //: Constructor.  
     //!param: socket - connext to existing socket
     //!param: autoInit - If false, you must call the Ready() function when you are ready to start processing network messages. If true, messages will start being processed as soon as the connection is established.
     
     NetEndPointC(const StringC &address,bool autoInit = true,bool optimiseThroughput = false)
       : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(address,autoInit,optimiseThroughput))
-    {}
+    { StartPacketProcessing(); }
     //: Constructor.
     // This connects to the given port address. <p>
     //!param: address -  has the format  `host:port' where `host' may be a host name or its IP address (e.g. 122.277.96.255) and `port' is the number of the port to use.
@@ -508,7 +514,7 @@ namespace RavlN {
     
     NetEndPointC(const DPIByteStreamC &istrm,const DPOByteStreamC &ostrm,const StringC &protocolName,const StringC &protocolVersion,bool autoInit = true,bool optimiseThroughput = false)
       : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(istrm,ostrm,protocolName,protocolVersion,autoInit,optimiseThroughput))
-    {}
+    { StartPacketProcessing(); }
     //: Constructor.
     //!param: istrm - Input comunications stream
     //!param: ostrm - Output comunications stream
@@ -547,6 +553,9 @@ namespace RavlN {
     { return Body().RunDecode(); }
     //: Decodes incoming packets.
     
+    void StartPacketProcessing()
+    { return Body().StartPacketProcessing(); }
+    //: Start processing packets.
   public:    
     bool IsOpen() const
     { return Body().IsOpen(); }

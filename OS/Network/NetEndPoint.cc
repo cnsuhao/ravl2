@@ -44,7 +44,8 @@ namespace RavlN {
       sigConnectionBroken(true),
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
       pingSeqNo(1),
-      optimiseThroughput(_optimiseThroughput)
+      optimiseThroughput(_optimiseThroughput),
+      threadsStarted(false)
   {
     // Increment count of open connections.
     ravl_atomic_inc(&openNetEndPointCount);
@@ -64,7 +65,8 @@ namespace RavlN {
       sigConnectionBroken(true),
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
       pingSeqNo(1),
-      optimiseThroughput(_optimiseThroughput)
+      optimiseThroughput(_optimiseThroughput),
+      threadsStarted(false)
   {
     // Increment count of open connections.
     ravl_atomic_inc(&openNetEndPointCount);
@@ -84,7 +86,8 @@ namespace RavlN {
       localInfo(protocolName,protocolVersion),
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
       pingSeqNo(1),
-      optimiseThroughput(_optimiseThroughput )
+      optimiseThroughput(_optimiseThroughput ),
+      threadsStarted(false)
   { 
     // Increment count of open connections.
     ravl_atomic_inc(&openNetEndPointCount);
@@ -104,7 +107,8 @@ namespace RavlN {
       localInfo(protocolName,protocolVersion),
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
       pingSeqNo(1),
-      optimiseThroughput(_optimiseThroughput)
+      optimiseThroughput(_optimiseThroughput),
+      threadsStarted(false)
   { 
     // Increment count of open connections.
     ravl_atomic_inc(&openNetEndPointCount);
@@ -123,7 +127,8 @@ namespace RavlN {
       sigConnectionBroken(true),
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
       pingSeqNo(1),
-      optimiseThroughput(_optimiseThroughput)
+      optimiseThroughput(_optimiseThroughput),
+      threadsStarted(false)
   {
     localInfo.appName = SysLogApplicationName();
     // Increment count of open connections.
@@ -221,24 +226,44 @@ namespace RavlN {
       SndInit(auser);
     }
     
-    // This is a little dangerous as if threads fail to start we'll decrement 
-    // the refrence counter to zero. That probably means we're out of memory
-    // and things are going badly wrong anyway.
-    
+    if(!threadsStarted && References() > 0)
+      StartPacketProcessing();
+    return true;
+  }
+  
+  //: Call to start packet processing.
+  
+  void NetEndPointBodyC::StartPacketProcessing() {
+    if(threadsStarted)
+      return ;
+    threadsStarted = true;
     NetEndPointC me(*this);
-    
+    // If the following assert failes, it is because in order
+    // to avoid race conditions with referencce counting you need 
+    // setup the connection outside of the constructor of NetEndPointBodyC
+    // derived classes. (There must be at least 1 handle to the object. )
+    // Contact Charles Galambos if you need further information.
+    RavlAssert(References() > 0); 
     LaunchThread(me,&NetEndPointC::RunReceive);
     LaunchThread((SizeT) 1e5,Trigger(me,&NetEndPointC::RunTransmit)); // Transmit thread only needs a small stack.
 #if RAVL_USE_DECODE_THREAD
     if(optimiseThroughput) 
       LaunchThread(me,&NetEndPointC::RunDecode);
 #endif
-    return true;
   }
   
   //: Initalise link.
   
   bool NetEndPointBodyC::Ready() {
+    if(References() > 0 && !threadsStarted)
+      StartPacketProcessing(); // Start processing threads.
+    // If the following assert failes, it is because in order
+    // to avoid race conditions with referencce counting you need 
+    // setup the connection outside of the constructor of NetEndPointBodyC
+    // derived classes. (There must be at least 1 handle to the object. )
+    // Contact Charles Galambos if you need further information.
+    RavlAssert(threadsStarted); 
+    
     if(autoInit)
       return true;
     autoInit = true;
@@ -256,6 +281,7 @@ namespace RavlN {
   //: Wait for setup to complete.
   
   bool NetEndPointBodyC::WaitSetupComplete(RealT timeOut) {
+    RavlAssert(threadsStarted);
     if(!setupComplete.Wait(timeOut))
       return false;
     return IsOpen();
@@ -264,7 +290,12 @@ namespace RavlN {
   //: Wait for the transmit queue to clear.
   
   bool NetEndPointBodyC::WaitTransmitQClear() {
-    transmitQ.Put(NetPacketC()); // Put an empty packet to ensure all is sent before we return.
+    // Put an empty packet to ensure all is sent before we return.
+    while(!transmitQ.TryPut(NetPacketC(),20)) {
+      if(!IsOpen())
+        return false;
+    }
+    
     while(IsOpen() && !transmitQ.IsEmpty())
       Sleep(0.1);
     return true;
@@ -293,8 +324,17 @@ namespace RavlN {
     msgReg.Empty(); 
     ostrm.PutEOS();
     //istrm.PutEOS();
-    receiveQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
-    transmitQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
+    
+#if RAVL_USE_DECODE_THREAD
+    // Put an empty packet to indicate shutdown.
+    if(!receiveQ.TryPut(NetPacketC(),20))
+      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::Close(), Failed to notify recieveQ of shutdown ";
+#endif
+    
+    // Put an empty packet to indicate shutdown.
+    if(!transmitQ.TryPut(NetPacketC(),20))
+      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::Close(), Failed to notify transmitQ of shutdown ";
+    
     return true;
   }
   
@@ -318,7 +358,11 @@ namespace RavlN {
   
   bool NetEndPointBodyC::Transmit(const NetPacketC &pkt) { 
     if(shutdown) return false; // Don't Q new stuff if we're shutting down.
-    transmitQ.Put(pkt);
+    while(!transmitQ.TryPut(pkt,10)) {
+      // Has the transmitted been shutdown ?
+      if(shutdown)
+        return false;
+    }
     return true;
   }
   
@@ -611,8 +655,13 @@ namespace RavlN {
 	// Queue'd dispatch.
 	if(!optimiseThroughput) 	 
 	  Dispatch(pkt);
-	else
-	  receiveQ.Put(pkt);
+	else {
+	  while(!receiveQ.TryPut(pkt,10)) {
+            // Have we shutdown ?
+            if(shutdown)
+              break;
+          }
+        }
 #else
 	// Direct
 	Dispatch(pkt);
@@ -699,7 +748,9 @@ namespace RavlN {
      
     while(receiveQ.TryGet(pkt)) ;
     // Put an empty packet to indicate shutdown. 
-    transmitQ.Put(NetPacketC()); 
+    if(!transmitQ.TryPut(NetPacketC(),20)) {
+      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunDecode(), Failed to notift recieve queue of close.";
+    }
     
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunDecode(), Terminated. "); 
     return true;
