@@ -53,6 +53,7 @@ namespace RavlN
     // As Wait(), but only wait for semaphore for up to
     // 'maxDelay' seconds. If the time expires return
     // false. If the semaphore is recieved then return true.
+    // Wait(0), is the equivelent to TryWait().
     
     bool TryWait() {
       if(count == 0)

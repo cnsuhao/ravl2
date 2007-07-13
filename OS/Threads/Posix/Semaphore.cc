@@ -42,6 +42,8 @@ namespace RavlN
   }
   
   bool SemaphoreC::Wait(RealT maxDelay) {
+    if(maxDelay == 0)
+      return TryWait();
     cond.Lock();
     while(count <= 0) {
       if(!cond.Wait(maxDelay)) {
