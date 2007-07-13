@@ -78,7 +78,7 @@ namespace RavlN {
       if(!Signal(SIGKILL))
 	return false;
     } else {
-      if(!Signal(SIGQUIT))
+      if(!Signal(SIGINT))
 	return false;
     }
     // Do anything ??
