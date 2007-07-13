@@ -99,7 +99,10 @@ namespace RavlN {
     //: Copy constructor.
     
     ~MessageQueueC() { 
+      // By now we should be the only thread running in this class, 
+      // so the following should completely empty the queue.
       Empty();
+      RavlAssert(!IsElm());
       delete [] (char *) data; 
     }
     //: Destructor.
@@ -126,6 +129,11 @@ namespace RavlN {
     inline bool TryGet(T &Data);
     //: Try and get data from queue.
     // Ret:false = No data available.
+    
+    inline bool Discard(RealT maxWait = -1);
+    //: Discard element from queue.
+    // If maxWait is negative it will block until data arrives otherwise the 
+    // discard will time out after the given number of seconds.
     
     inline bool IsElm();
     //: Is there data in the queue ?
@@ -256,12 +264,33 @@ namespace RavlN {
     putSema.Post();
     return true;
   }
+
+  //: Discard element from queue.
+  
+  template<class T>
+  inline 
+  bool MessageQueueC<T>::Discard(RealT maxWait) {
+    if(maxWait < 0) { // Wait forever ?
+      ready.Wait();
+    } else { // Just until the timeout.
+      if(!ready.Wait(maxWait))
+        return false;
+    }
+    MutexLockC lock(access);
+    data[tail].~T();   // Possible exception.
+    tail++;
+    if(tail >= maxSize)
+      tail = 0;  
+    lock.Unlock();
+    putSema.Post();
+    return true;    
+  }
   
   //: Empty pipe of all its contents.
   template<class T>
   void MessageQueueC<T>::Empty() {
     while(IsElm())
-      Get();
+      Discard(0);
   }
   
   /////////////////////////
