@@ -234,7 +234,7 @@ namespace RavlN {
   //: Call to start packet processing.
   
   void NetEndPointBodyC::StartPacketProcessing() {
-    if(threadsStarted)
+    if(threadsStarted || shutdown)
       return ;
     threadsStarted = true;
     NetEndPointC me(*this);
@@ -373,7 +373,7 @@ namespace RavlN {
   
   bool NetEndPointBodyC::RunTransmit() {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunTransmit(), Started. ");
-    if(!ostrm.IsPutReady()) {
+    if(!ostrm.IsValid() || !ostrm.IsPutReady()) {
       SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: No connection. ";
       CloseTransmit();
       return false;       
@@ -583,7 +583,7 @@ namespace RavlN {
   
   bool NetEndPointBodyC::RunReceive() {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunReceive(), Started. ");
-    if(!istrm.IsGetReady()) {
+    if(!istrm.IsValid() || !istrm.IsGetReady()) {
       SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunReceive(), ERROR: No connection. ";
       return false;       
     }
