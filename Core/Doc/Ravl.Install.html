@@ -108,6 +108,14 @@ rehash</pre>
 
     <p>(The <code>rehash</code> is only necessary if using a C-shell.)</p>
 
+    <h3>Troubleshooting</h3>
+
+    <p>If the install fails (usually because libraries that are required in  <code>config.local.xxx</code> are not actually installed), after fixing the problem it is usually sufficient to simply re-run the <code>./install</code> again.  However, if this leads to further compilation errors, you should remove these two directory trees before reinstalling:</p>
+    <pre>
+$RAVL_INSTALLATION/RavlProject
+/tmp/$USER/qm
+</pre>
+
     <h2> Usage </h2><a name="USAGE"></a>
 
     <p>Put the following alias and variable settings for compilation (modified
@@ -146,7 +154,7 @@ setenv PATH  $PATH:$PROJECT_OUT/lib/RAVL/linux/bin:$RAVL_INSTALLATION/RavlProjec
     <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
 <!-- Created: Fri Dec 23 09:31:09 GMT 2005 -->
 <!-- hhmts start -->
-Last modified: Thu Jul 12 12:22:55 BST 2007
+Last modified: Mon Jul 16 12:21:56 BST 2007
 <!-- hhmts end -->
   </body>
 </html>
