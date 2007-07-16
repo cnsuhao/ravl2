@@ -60,14 +60,17 @@ namespace RavlN {
     MTReadLockC(int nlockId = 0)
       : lockId(nlockId),
         held(false)
-      { Lock(); }
+    { Lock(); }
     //: Construct lock.
     
-    ~MTReadLockC()
-      {  
-	if(held)
-	  MTUnlockRd(lockId);
+    ~MTReadLockC(){  
+      if(held) {
+        // There is a danger during program shutdown
+        // that MTUnlockRd maybe reset to zero.
+        MTLockFuncT unlockRd = MTUnlockRd;
+        if(unlockRd != 0) unlockRd(lockId);
       }
+    }
     //: Construct lock.
     
     void Unlock() {
