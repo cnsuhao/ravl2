@@ -157,7 +157,14 @@ int testBasic() {
     cerr << "Empty array test failed. \n";
     return __LINE__;
   }
-
+  
+  // Check we can cut to an empty array.
+  SArray1dC<IntT> cutToZero(sarr1,0);
+  SArray1dC<IntT> cutToWhole(sarr1,sarr1.Size());
+  SArray1dC<IntT> zeroLength(0);
+  SArray1dIterC<IntT> itOnZero(zeroLength);
+  if(itOnZero.IsElm()) return __LINE__;
+  
   // Numerical opertions...
   
   SArray1dC<IntT> sarrSum = sarr1 + sarr2;
