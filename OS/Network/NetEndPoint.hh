@@ -522,6 +522,26 @@ namespace RavlN {
     //!param: protocolVersion - Version of communication protocol being used.
     //!param: autoInit - If false, you must call the Ready() function when you are ready to start processing network messages. If true, messages will start being processed as soon as the connection is established.
     
+    NetEndPointC(SocketC &socket,const StringC &protocolName,const StringC &protocolVersion,bool autoInit = true,bool optimiseThroughput = false)
+      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(socket,protocolName,protocolVersion,autoInit,optimiseThroughput))
+    { StartPacketProcessing(); }
+    //: Constructor.
+    //!param: socket - connext to existing socket
+    //!param: protocolName - Name of communication protocol being used.
+    //!param: protocolVersion - Version of communication protocol being used.
+    //!param: autoInit - If false, you must call the Ready() function when you are ready to start processing network messages. If true, messages will start being processed as soon as the connection is established.
+    //!param: optimiseThroughput - If true optimise for total throughput at the expense of comminication latency. If false optimise for latency
+    
+    NetEndPointC(const StringC &address,const StringC &protocolName,const StringC &protocolVersion,bool autoInit = true,bool optimiseThroughput = false) 
+      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(address,protocolName,protocolVersion,autoInit,optimiseThroughput))
+    { StartPacketProcessing(); }
+    //: Constructor.
+    //!param: address -  has the format  `host:port' where `host' may be a host name or its IP address (e.g. 122.277.96.255) and `port' is the number of the port to use.
+    //!param: protocolName - Name of communication protocol being used.
+    //!param: protocolVersion - Version of communication protocol being used.
+    //!param: autoInit - If false, you must call the Ready() function when you are ready to start processing network messages. If true, messages will start being processed as soon as the connection is established.
+    //!param: optimiseThroughput - If true optimise for total throughput at the expense of comminication latency. If false optimise for latency
+
     explicit NetEndPointC(bool)
       : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC())
     {}
