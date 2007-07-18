@@ -62,13 +62,14 @@ namespace RavlGUIN {
   }
 
   
+#ifdef GTK_TYPE_ICON_VIEW
   static void  listSelected(GtkIconView *icon_view,
                             GtkTreePath *path,
                             Tuple2C<DListC<TreeModelIterC>,GtkTreeModel * > *results) 
   {
     results->Data1().InsLast(TreeModelIterC(results->Data2(),path));
   }
-  
+#endif  
   //: Get list of selected rows.
   
   DListC<TreeModelIterC> IconViewBodyC::GUISelected() {
