@@ -229,7 +229,7 @@ return ((UIntT) body) >> 3;
     // Returns true if the new element is valid.
     
     bool IsFirst()
-    { return at != first && at != 0; }
+    { return at == first && at != 0; }
     //: Is this the first element in list.
     
     bool Next() { 
