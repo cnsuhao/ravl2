@@ -1,0 +1,39 @@
+# This file is part of RAVL, Recognition And Vision Library
+# Copyright (C) 2007, OmniPerception Ltd.
+# This code may be redistributed under the terms of the GNU lesser
+# public license (LGPL). See the lgpl.licence file for details or
+# see http://www.gnu.org/copyleft/lesser.html
+# file-header-ends-here
+ifndef SQLITE3_DEF
+SQLITE3_DEF = 1
+
+ifndef SQLITE3_HOME 
+EXELIB := -lsqlite3 $(EXELIB) 
+else 
+
+INCLUDES += -I$(SQLITE3_HOME)/include 
+
+  ifeq ($(ARC),sgi)  
+   EXELIB := -R$(SQLITE3_HOME)/lib -L$(SQLITE3_HOME)/lib -lsqlite3 $(EXELIB)
+  else 
+
+     ifneq ($(filter $(ARC), sol2_7 sol2_9),)
+      EXELIB := -R$(SQLITE3_HOME)/lib -L$(SQLITE3_HOME)/lib -lsqlite3 $(EXELIB)
+     else 
+
+        ifeq ($(ARC),linux)  
+         EXELIB := -Wl,-rpath,$(SQLITE3_HOME)/lib -L$(SQLITE3_HOME)/lib -lsqlite3 $(EXELIB)
+        else 
+	ifeq ($(ARC),linux64)
+	 EXELIB := -Wl,-rpath,$(SQLITE3_HOME)/lib64 -L$(SQLITE3_HOME)/lib64 -lsqlite3 $(EXELIB)
+	else
+         EXELIB := -L$(SQLITE3_HOME)/lib -lsqlite3 $(EXELIB)
+        endif
+	endif 
+     endif 
+  endif 
+endif 
+
+
+endif
+
