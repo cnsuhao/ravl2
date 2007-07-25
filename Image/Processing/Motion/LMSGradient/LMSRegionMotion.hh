@@ -37,7 +37,7 @@ namespace RavlImageN {
   //
   // This method computes the solution to the motion constraint equation over an
   // image patch (as described <a
-  // href="http://www.ee.surrey.ac.uk/CVSSP/Publications/ShortList.php?id=Christmas-bmvc98">here</a>).
+  // href="http://www.ee.surrey.ac.uk/CVSSP/Publications/papers/christmas_bmvc98.pdf">here</a>).
   // The covariance matrix for the motion vector and the variance of the fit are
   // also available.  The default noise parameter value = 1.0.
   
