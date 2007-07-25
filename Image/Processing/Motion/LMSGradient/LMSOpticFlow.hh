@@ -30,7 +30,7 @@ namespace RavlImageN {
   //<p>
   // The method finds, for each pixel, the least mean squared solution to the
   // motion constraint equation over an image patch (as described <a
-  // href="http://www.ee.surrey.ac.uk/cgi-bin/G.Matas/genSelectKey.cgi?key=Christmas-bmvc98&file=/public/www/Research/VSSP/publications/vsspBib.bib">here</a>).
+  // href="http://www.ee.surrey.ac.uk/CVSSP/Publications/papers/christmas_bmvc98.pdf">here</a>).
   // It also generates a field of covariances of the motion vectors, and a field
   // of variances of the motion constraint equation error.  The default
   // parameters are:<br>
