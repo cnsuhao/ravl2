@@ -46,15 +46,18 @@ setenv RAVL_INSTALLATION ~/src</pre>
 export RAVL_INSTALLATION=~/src 
     </pre>
 
-    <p> The RAVL library and executables can then be installed as follows
-    (selecting the relevant <code>config.local.xxx</code> file if not a
-    standard Linux 32-bit installation):</p>
+    <p> The RAVL library and executables can then be installed as follows.
+    First decide on the relevant config.local file from
+    <code>$RAVL_INSTALLATION/Ravl/QMake</code>. For a standard Linux
+    installation on a 32-bit machine this is <code>config.local.linux</code>,
+    or <code>config.local.linux64</code> for a 64-bit machine.  In what
+    follows it is referred to as <code>config.local.xxx</code>.  Then:</p>
 
     <pre>
 mkdir -p $RAVL_INSTALLATION
 cd $RAVL_INSTALLATION
 svn co https://ravl.svn.sourceforge.net/svnroot/ravl/main/Ravl
-cp Ravl/QMake/config.local.linux .</pre>
+cp Ravl/QMake/config.local.xxx .</pre>
 
     <p>  Then edit the chosen <code>config.local.xxx</code>.
     Typical modifications include: </p>
@@ -103,7 +106,7 @@ cp Ravl/QMake/config.local.linux .</pre>
 
     <pre>
 cd $RAVL_INSTALLATION/Ravl
-./install $RAVL_INSTALLATION/RavlProject auto $RAVL_INSTALLATION/config.local.linux
+./install $RAVL_INSTALLATION/RavlProject auto $RAVL_INSTALLATION/config.local.xxx
 rehash</pre> 
 
     <p>(The <code>rehash</code> is only necessary if using a C-shell.)</p>
@@ -154,7 +157,7 @@ setenv PATH  $PATH:$PROJECT_OUT/lib/RAVL/linux/bin:$RAVL_INSTALLATION/RavlProjec
     <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
 <!-- Created: Fri Dec 23 09:31:09 GMT 2005 -->
 <!-- hhmts start -->
-Last modified: Mon Jul 16 12:43:04 BST 2007
+Last modified: Thu Jul 26 10:53:00 BST 2007
 <!-- hhmts end -->
   </body>
 </html>
