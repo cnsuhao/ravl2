@@ -576,11 +576,11 @@ $(MAKEHOME)/MainDep.mk :
 # Help
 
 defs:
-	@$(PAGER) $(INST_HTML)/Defs.txt
+	@$(PAGER) $(MAKEHOME)/Defs.txt
 
 defs.mk:
 	@echo "Can't find defs.mk in current directory, aborting. ";
 	@echo "Use 'qm defs' for more information. ";
 
 .DEFAULT help:
-	@$(PAGER) $(INST_HTML)/Help.txt
+	@$(PAGER) $(MAKEHOME)/Help.txt
