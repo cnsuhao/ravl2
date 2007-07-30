@@ -23,6 +23,7 @@ AUXDIR=share/RAVL/QMake
 AUXFILES =  QMake.mk \
   Dirs.mk Main.mk MainDep.mk Util.mk rcs.mk Doc.mk Clean.mk \
   Sys.def Install.pl dummymain.c \
+  Help.txt Defs.txt \
   config.arc BinDep.pl mkdefs.pl \
   config.linux_alpha config.sgi \
   config.sol2_7 config.sol2_9 \
@@ -39,7 +40,7 @@ else
 AUXFILES += $(CONFIGFILE)
 endif
 
-HTML=Example.def.html Help.txt Defs.txt 
+HTML=Example.def.html  
 
 EHT= exeSysConf.eht Ravl.QMake.html Ravl.QMake.Defs.html  \
  Ravl.QMake.Build_Structure.html Ravl.QMake.AutoBuild.html
