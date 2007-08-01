@@ -34,83 +34,100 @@
     <h2>Installing the RAVL library and applications</h2> 
 
     <p> Currently we recommend that you <i>don't</i> log in as root for this
-    installation.  Decide on a place for the installation and define the
-    environment variable <code>RAVL_INSTALLATION</code> accordingly, e.g. for C shell:</p>
+    installation.  Installation of the RAVL library and executables is rather
+    non-standard, but seems to work for most people:</p>
 
-    <pre>
-setenv RAVL_INSTALLATION ~/src</pre>
+    <ol>
+      <li>  Decide on a place for the installation and define the
+    environment variable <code>RAVL_INSTALLATION</code> accordingly, e.g. for C shell:
 
-    <p>or for bash shell:</p>
-
-    <pre>
-export RAVL_INSTALLATION=~/src 
-    </pre>
-
-    <p> The RAVL library and executables can then be installed as follows.
-    First decide on the relevant config.local file from
-    <code>$RAVL_INSTALLATION/Ravl/QMake</code>. For a standard Linux
-    installation on a 32-bit machine this is <code>config.local.linux</code>,
-    or <code>config.local.linux64</code> for a 64-bit machine.  In what
-    follows it is referred to as <code>config.local.xxx</code>.  Then:</p>
-
-    <pre>
+        <pre>
+setenv RAVL_INSTALLATION ~/src
 mkdir -p $RAVL_INSTALLATION
-cd $RAVL_INSTALLATION
-svn co https://ravl.svn.sourceforge.net/svnroot/ravl/main/Ravl
-cp Ravl/QMake/config.local.xxx .</pre>
+cd $RAVL_INSTALLATION</pre>
 
-    <p>  Then edit the chosen <code>config.local.xxx</code>.
-    Typical modifications include: </p>
-    <ul>
-      <li> turning off some of the library versions via the
-      <code>FULLBUILD_TARGETS</code> variable (especially if space is limited
-      - a full install currently uses about 2Gbyte):
-        <ul>
-          
-          <li><code>debug</code> - includes debugging information and array
-          bound checking</li>
+        <p>or for bash shell:</p>
 
-          <li><code>check</code> - includes array bound checking</li>
-
-          <li><code>opt</code> - generates optimised code with no array bound
-          checking</li>
-
-          <li><code>debugshared, checkshared, optshared</code> - builds shared
-          versions of the above.  These link faster </li>
-
-          <li><code>optbin</code> - builds application binaries - including
-          <code>CxxDoc</code>, the program that builds this documentation.  So
-          if you turn <code>optbin</code> off, you need to build
-          <code>CxxDoc</code> separately to get a complete installation.</li>
-        </ul>
+        <pre>
+export RAVL_INSTALLATION=~/src
+etc.</pre>
       </li>
-      <li> picking up the correct compiler if a new one has been installed, or
-      incorporating <code>ccache</code></li>
 
-      <li> adjusting the available resources using the <code>RESOURCES</code>
-      variable.  The packages in the <code><a
-      href="Ravl.Installation.Contrib.html">Ravl/Contrib</a></code> directory
-      all depend on various external libraries; different operating systems
-      have different sets of these libraries.  Most of them are turned off by
-      default.  It is probably best to leave them turned off when first
-      installing RAVL.  Also if your system doesn't have for example
-      <code>gtk</code>, needed by the RAVL <code>GUI</code> module, that needs
-      turning off.  Here is an <a href="Ravl.Installation.Config.html">example</a>
-      of some edits from an actual installation.
-      </li>
-     </ul> 
-
-   
-
-    <p>Finally, the installation is:</p>
-
+      <li>Download the source code:
     <pre>
+svn co https://ravl.svn.sourceforge.net/svnroot/ravl/main/Ravl</pre>
+      </li>
+
+      <li> Select the relevant <code>config.local</code> file from
+      <code>$RAVL_INSTALLATION/Ravl/QMake</code> as follows.  Determine the
+      correct suffix for the file by running:
+<pre>
+$RAVL_INSTALLATION/Ravl/QMake/config.arc</pre> 
+
+      If this script generates an error message you will need to hack it.
+      Sorry.  For a standard Linux installation on a 32-bit machine the config
+      file is usually <code>config.local.linux</code>, or
+      <code>config.local.linux64</code> for a 64-bit machine.  In what follows
+      it is referred to as <code>config.local.xxx</code>.  Then:
+    <pre>
+cp Ravl/QMake/config.local.xxx .</pre></li>
+
+      <li>  Then edit the chosen copied <code>config.local.xxx</code>.
+    Typical modifications include:
+        <ul>
+          <li> turning off some of the library versions via the
+          <code>FULLBUILD_TARGETS</code> variable (especially if space is
+          limited - a full install currently uses about 2Gbyte):
+            <ul>
+          
+              <li><code>debug</code> - includes debugging information and array
+                bound checking</li>
+              
+              <li><code>check</code> - includes array bound checking</li>
+              
+              <li><code>opt</code> - generates optimised code with no array
+              bound checking</li>
+              
+              <li><code>debugshared, checkshared, optshared</code> - builds
+              shared versions of the above.  These link faster </li>
+              
+              <li><code>optbin</code> - builds application binaries -
+              including <code>CxxDoc</code>, the program that builds this
+              documentation.  So if you turn <code>optbin</code> off, you need
+              to build <code>CxxDoc</code> separately to get a complete
+              installation.</li>
+            </ul>
+          </li>
+          <li> picking up the correct compiler if a new one has been installed, or
+            incorporating <code>ccache</code></li>
+          
+          <li> adjusting the available resources using the
+          <code>RESOURCES</code> variable.  The packages in the <code><a
+          href="Ravl.Installation.Contrib.html">Ravl/Contrib</a></code>
+          directory all depend on various external libraries; different
+          operating systems have different sets of these libraries.  Most of
+          them are turned off by default.  It is probably best to leave them
+          turned off when first installing RAVL.  Also if your system doesn't
+          have for example <code>gtk</code>, needed by the RAVL
+          <code>GUI</code> module, that needs turning off. </li>
+
+          
+        </ul> 
+
+        Here is an <a href="Ravl.Installation.Config.html">example</a> of some
+        edits from an actual installation.</li>
+      
+      
+      <li>Finally, the installation is:
+
+        <pre>
 cd $RAVL_INSTALLATION/Ravl
 ./install $RAVL_INSTALLATION/RavlProject auto $RAVL_INSTALLATION/config.local.xxx
 rehash</pre> 
-
-    <p>(The <code>rehash</code> is only necessary if using a C-shell.)</p>
-
+    (<code>rehash</code> is only necessary if using a C-shell.)
+      </li>
+    </ol>
+    
     <h3>Troubleshooting</h3>
 
     <p>If the install fails (usually because libraries that are required in  <code>config.local.xxx</code> are not actually installed), after fixing the problem it is usually sufficient to simply re-run the <code>./install ...</code> command.  However, if this leads to further compilation errors, you should remove these two directory trees before reinstalling:</p>
@@ -157,7 +174,7 @@ setenv PATH  $PATH:$PROJECT_OUT/lib/RAVL/linux/bin:$RAVL_INSTALLATION/RavlProjec
     <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
 <!-- Created: Fri Dec 23 09:31:09 GMT 2005 -->
 <!-- hhmts start -->
-Last modified: Thu Jul 26 10:53:00 BST 2007
+Last modified: Wed Aug  1 18:25:25 BST 2007
 <!-- hhmts end -->
   </body>
 </html>
