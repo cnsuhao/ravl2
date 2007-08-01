@@ -24,7 +24,7 @@
 extern "C"
 {
   #include <mpeg2dec/convert.h>
-  #include <mpeg2dec/mpeg2_internal.h>
+  #include <libmpeg2/mpeg2_internal.h>
 }
 
 #define DODEBUG 0

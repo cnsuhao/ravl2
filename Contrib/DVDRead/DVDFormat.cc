@@ -10,6 +10,7 @@
 //! author = "Warren Moore"
 //! file="Ravl/Contrib/DVDRead/DVDFormat.cc"
 
+#include <stdint.h>
 #include "Ravl/DVDFormat.hh"
 #include "Ravl/DVDRead.hh"
 #include "Ravl/ImgIOMPEG2DVD.hh"

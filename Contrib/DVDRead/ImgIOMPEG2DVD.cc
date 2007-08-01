@@ -10,6 +10,7 @@
 //! author = "Warren Moore"
 //! file="Ravl/Contrib/DVDRead/ImgIOMPEG2DVD.cc"
 
+#include <stdint.h>
 #include "Ravl/ImgIOMPEG2DVD.hh"
 #include "Ravl/Image/MPEG2Demux.hh"
 #include "Ravl/Threads/Signal.hh"

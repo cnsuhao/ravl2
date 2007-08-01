@@ -8,6 +8,8 @@
 
 REQUIRES = dvdread libmpeg2
 
+CCPPFLAGS += -D__STDC_LIMIT_MACROS 
+
 DONOT_SUPPORT=VCPP
 
 PACKAGE = Ravl

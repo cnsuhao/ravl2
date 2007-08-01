@@ -10,6 +10,7 @@
 //! author = "Warren Moore"
 //! file="Ravl/Contrib/DVDRead/DVDRead.cc"
 
+#include <stdint.h>
 #include "Ravl/DVDRead.hh"
 #include "dvdread/ifo_read.h"
 #include "dvdread/ifo_print.h"
