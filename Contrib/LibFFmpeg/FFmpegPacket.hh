@@ -11,7 +11,9 @@
 //! docentry = "Ravl.API.Images.Video.Video IO.LibFFmpeg"
 
 #include "Ravl/RefCounter.hh"
+extern "C" {
 #include <ffmpeg/avformat.h>
+}
 
 namespace RavlN {
 

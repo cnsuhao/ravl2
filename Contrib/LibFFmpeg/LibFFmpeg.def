@@ -12,6 +12,8 @@ ifndef LIBFFMPEG_DEF
 
   LIBFFMPEG_LIBS=-lavformat -lavcodec -lavutil -lz
   
+# -lswscale 
+
   ifdef LIBFFMPEG_HOME
     ifeq ($(LIBFFMPEG_HOME),/usr)
 

@@ -11,6 +11,13 @@
 #include "Ravl/Exception.hh"
 #include "Ravl/DP/AttributeValueTypes.hh"
 
+#if LIBAVFORMAT_VERSION_INT >= ((51<<16)+(12<<8)+1)
+extern "C" {
+#include <ffmpeg/swscale.h>
+}
+#endif
+
+
 #define DODEBUG 0
 
 #if DODEBUG
@@ -29,7 +36,8 @@ namespace RavlN {
       pFrame(0),
       bytesRemaining(0),
       rawData(0),
-      streamInfo(0)
+      streamInfo(0),
+      pSWSCtx(0)
   {
     if(!Open(_packetStream,_videoStreamId,_codecId))
       throw ExceptionOperationFailedC("Failed to open video stream. ");
@@ -43,9 +51,10 @@ namespace RavlN {
       pFrame(0),
       bytesRemaining(0),
       rawData(0),
-      streamInfo(0)
+      streamInfo(0),
+      pSWSCtx(0)
   {}
-
+  
   //: Destructor.
   
   FFmpegVideoDecoderBaseC::~FFmpegVideoDecoderBaseC() {
@@ -54,6 +63,8 @@ namespace RavlN {
       avcodec_close(pCodecCtx);
     if(pFrame != 0)
       av_free(pFrame);
+    if(pSWSCtx != 0)
+      sws_freeContext(pSWSCtx); 
   }
   
   //: Open a stream.
@@ -168,7 +179,17 @@ namespace RavlN {
     IntT numBytes=avpicture_get_size(PIX_FMT_RGB24, pCodecCtx->width,pCodecCtx->height);
     uint8_t *buffer=new uint8_t[numBytes];
     avpicture_fill((AVPicture *)pFrameRGB, buffer, PIX_FMT_RGB24,pCodecCtx->width, pCodecCtx->height);
+    
+#if LIBAVFORMAT_VERSION_INT < ((51<<16)+(12<<8)+1)
     img_convert((AVPicture *)pFrameRGB, PIX_FMT_RGB24, (AVPicture*)pFrame, pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height);
+#else    
+    // Need to setup scaler ?
+    if(pSWSCtx == 0) {
+      pSWSCtx = sws_getContext(pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height, PIX_FMT_RGB24, SWS_BICUBIC, NULL, NULL, NULL);
+    }
+    
+    sws_scale(pSWSCtx, pFrame->data, pFrame->linesize, 0, pCodecCtx->height, pFrameRGB->data, pFrameRGB->linesize);
+#endif
     
     frame = ImageC<ByteRGBValueC>(pCodecCtx->height,pCodecCtx->width,static_cast<ByteRGBValueC *>((void *)buffer),true);
     av_free(pFrameRGB);

@@ -13,6 +13,10 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
 
+extern "C" {
+struct SwsContext;
+}
+
 namespace RavlN {
   using namespace RavlImageN;
   
@@ -110,6 +114,7 @@ namespace RavlN {
     int      bytesRemaining;
     uint8_t  *rawData;
     AVStream *streamInfo;
+    SwsContext *pSWSCtx;
   };
   
 
