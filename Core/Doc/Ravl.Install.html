@@ -64,11 +64,12 @@ svn co https://ravl.svn.sourceforge.net/svnroot/ravl/main/Ravl</pre>
 <pre>
 $RAVL_INSTALLATION/Ravl/QMake/config.arc</pre> 
 
-      If this script generates an error message you will need to hack it.
-      Sorry.  For a standard Linux installation on a 32-bit machine the config
-      file is usually <code>config.local.linux</code>, or
-      <code>config.local.linux64</code> for a 64-bit machine.  In what follows
-      it is referred to as <code>config.local.xxx</code>.  Then:
+        For a standard Linux installation on a 32-bit machine the returned
+        string should be <code>linux</code>, and so the required config file
+        is <code>config.local.linux</code> (<code>config.local.linux64</code>
+        for a 64-bit machine).  (If the script generates an error message you
+        will need to hack it to match your installation.  Sorry.)  In what
+        follows it is referred to as <code>config.local.xxx</code>.  Then:
     <pre>
 cp Ravl/QMake/config.local.xxx .</pre></li>
 
@@ -174,7 +175,7 @@ setenv PATH  $PATH:$PROJECT_OUT/lib/RAVL/linux/bin:$RAVL_INSTALLATION/RavlProjec
     <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
 <!-- Created: Fri Dec 23 09:31:09 GMT 2005 -->
 <!-- hhmts start -->
-Last modified: Wed Aug  1 18:25:25 BST 2007
+Last modified: Thu Aug  2 17:58:31 BST 2007
 <!-- hhmts end -->
   </body>
 </html>
