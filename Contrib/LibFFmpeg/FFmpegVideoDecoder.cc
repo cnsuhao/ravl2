@@ -63,7 +63,7 @@ namespace RavlN {
       avcodec_close(pCodecCtx);
     if(pFrame != 0)
       av_free(pFrame);
-#if LIBAVFORMAT_VERSION_INT < ((51<<16)+(12<<8)+1)
+#if LIBAVFORMAT_VERSION_INT >= ((51<<16)+(12<<8)+1)
     if(pSWSCtx != 0)
       sws_freeContext(pSWSCtx); 
 #endif
