@@ -164,6 +164,21 @@ namespace RavlN {
     
     return true;
   }
-
-
+  
+  
+  //: Compose a rotation matrix for rotations around the x,y and z axis and assign it to 'matrix'
+  //: Angles are in radians.
+  
+  Matrix3dC Matrix3dC::ComposeRotation(RealT rx,RealT ry,RealT rz) {
+    Matrix3dC tmp1(1,0,0,
+                   0,1,0,
+                   0,0,1);
+    Matrix3dC tmp2;
+    // TODO :- Merge all this into one calculation.
+    RotateX(tmp1,Cos(rx),Sin(rx),tmp2);
+    RotateY(tmp2,Cos(ry),Sin(ry),tmp1);
+    RotateZ(tmp1,Cos(rz),Sin(rz),tmp2);
+    return tmp2;
+  }
+  
 }

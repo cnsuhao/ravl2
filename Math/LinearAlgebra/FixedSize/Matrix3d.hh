@@ -85,6 +85,10 @@ namespace RavlN {
     }
     //: Invert matrix in place.
     
+    static Matrix3dC ComposeRotation(RealT rx,RealT ry,RealT rz);
+    //: Compose a rotation matrix for rotations around the x,y and z axis and assign it to 'matrix'
+    //: Angles are in radians.
+    
     bool RQDecomposition(TFMatrixC<RealT,3,3> &R,TFMatrixC<RealT,3,3> &Q) const;
     //: Decompose this matrix such that *this = R * Q
     //: Where R is upper right triangular and Q is orthogonal.
