@@ -27,7 +27,8 @@
 
 namespace RavlN {
   // This code is in a seperate file because is uses
-  // the deadline class.
+  // the deadline class. This avoids pulling in dependancies
+  // if they are not needed.
   
   //: Wait for program to exit.
   // maxTime in the maximum time in seconds,
