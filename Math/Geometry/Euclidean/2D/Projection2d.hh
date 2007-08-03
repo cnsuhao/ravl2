@@ -125,10 +125,14 @@ namespace RavlN {
     Matrix3dC &Matrix()
     { return trans; }
     //: Access transformation matrix.
-
+    // NOTE: This is NOT the homography between images
+    // unless the scaling factors are both 1.
+    
     const Matrix3dC &Matrix() const
     { return trans; }
     //: Access transformation matrix.
+    // NOTE: This is NOT the homography between images
+    // unless the scaling factors are both 1.
     
     RealT IZ() const
     { return iz; }
