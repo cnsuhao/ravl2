@@ -20,6 +20,7 @@
 #include "Ravl/Average.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dSqr311Iter3.hh"
+#include "Ravl/Array2dIter.hh"
 #include "Ravl/CallMethods.hh"
 
 namespace RavlImageN {
@@ -72,7 +73,7 @@ namespace RavlImageN {
   public:
     DeinterlaceStreamBodyC(DPIPortC<ImageC<PixelT> > &inPort,bool nEvenFieldDominant = true)
       : DeinterlaceStreamBaseC(DPSeekCtrlAttachC(inPort,true),nEvenFieldDominant),
-	input(inPort)
+	input(inPort),rescale(true)
     { 
       deinterlace = TriggerR(*this,&DeinterlaceStreamBodyC<PixelT>::Deinterlace,ImageC<PixelT>(),ImageC<PixelT>(),ImageC<PixelT>());
       inputBase = input;
@@ -82,7 +83,7 @@ namespace RavlImageN {
     
     DeinterlaceStreamBodyC(DPISPortC<ImageC<PixelT> > &inPort,bool nEvenFieldDominant = true)
       : DeinterlaceStreamBaseC(DPSeekCtrlAttachC((const DPSeekCtrlC &) inPort),nEvenFieldDominant),
-	input(inPort)
+	input(inPort),rescale(true)
     { 
       deinterlace = TriggerR(*this,&DeinterlaceStreamBodyC<PixelT>::Deinterlace,ImageC<PixelT>(),ImageC<PixelT>(),ImageC<PixelT>());
       inputBase = input;
@@ -90,6 +91,10 @@ namespace RavlImageN {
     }
     //: Constructor.
     
+    void NoRescale()
+    { rescale = false; }
+    //: Don't rescale field to original frame size
+
     virtual StringC OpName() const
     { return StringC("deinterlace"); }
     //: Op type name.
@@ -286,13 +291,14 @@ namespace RavlImageN {
     CallFunc3C<const ImageC<PixelT>&,ImageC<PixelT>&,ImageC<PixelT>& > deinterlace;
     ImageC<PixelT> fields[2];
     DPIPortC<ImageC<PixelT> > input; // Where to get data from.
+    bool rescale; // Rescale field to frame size
   };
   
   
   //! userlevel=Normal
   //: Deinterlace an incoming stream of images.
   //
-  // <p>The default behaviour of this class is to return fields rescaled to match the original frames size, as defined in the <code>DeinterlaceStreamBodyC<PixelT>::Deinterlace()</code> method (see the header file linked above).  If different behaviour is required, use the <code>DeinterlaceFunc()</code> method, as described below.</p>
+  // <p>The default behaviour of this class is to return fields rescaled to match the original frames size, as defined in the <code>DeinterlaceStreamBodyC<PixelT>::Deinterlace()</code> method (see the header file linked above).  If different behaviour is required, use the <code>NoRescale()</code> or <code>DeinterlaceFunc()</code> methods, as described below.</p>
   
   template<class PixelT>
   class DeinterlaceStreamC
@@ -314,6 +320,10 @@ namespace RavlImageN {
       : DPEntityC(*new DeinterlaceStreamBodyC<PixelT>(inPort,nEvenFieldDominant))
     {}
     //: Constructor.
+
+    void NoRescale()
+    { Body().NoRescale(); }
+    //: Don't rescale field to original frame size
 
   protected:
     DeinterlaceStreamBodyC<PixelT> &Body()
@@ -343,29 +353,51 @@ namespace RavlImageN {
   template<class PixelT>
   bool DeinterlaceStreamBodyC<PixelT>::Deinterlace(const ImageC<PixelT> &img,ImageC<PixelT> &field0,ImageC<PixelT> &field1) {
     // Make sure images are allocated.
-    field0 = ImageC<PixelT>(img.Frame());
-    field1 = ImageC<PixelT>(img.Frame());
-    
-    for(Array2dSqr311Iter3C<PixelT,PixelT,PixelT> it(img,field0,field1);it;) {
-      // Do even lines.
-      do {
-	it.Data3() = it.DataMM1();
-	it.Data2() = Average(it.DataTM1(),it.DataBM1());
-      } while(it.Next());
-      if(!it)
-	break;
-      // Do odd lines.
-      do {
-	it.Data2() = it.DataMM1();
-	it.Data3() = Average(it.DataTM1(),it.DataBM1());
-      } while(it.Next());
-      if(!it)
-	break;
+    if (rescale) {
+      field0 = ImageC<PixelT>(img.Frame());
+      field1 = ImageC<PixelT>(img.Frame());
+      
+      for(Array2dSqr311Iter3C<PixelT,PixelT,PixelT> it(img,field0,field1);it;) {
+        // Do even lines.
+        do {
+          it.Data3() = it.DataMM1();
+          it.Data2() = Average(it.DataTM1(),it.DataBM1());
+        } while(it.Next());
+        if(!it)
+          break;
+        // Do odd lines.
+        do {
+          it.Data2() = it.DataMM1();
+          it.Data3() = Average(it.DataTM1(),it.DataBM1());
+        } while(it.Next());
+        if(!it)
+          break;
+      }
+    }
+    else {
+      field0 = ImageC<PixelT>(img.Frame().RowRange()/2, img.Frame().ColRange());
+      field1 = ImageC<PixelT>(img.Frame().RowRange()/2, img.Frame().ColRange());
+      Array2dIterC<PixelT> it0(field0);
+      Array2dIterC<PixelT> it1(field1);
+      for(Array2dIterC<PixelT>it(img);it;) {
+        // Do even lines.
+        do {
+          *it0 = *it;
+          it0.Next();
+        } while(it.Next());
+        if(!it || !it0)
+          break;
+        // Do odd lines.
+        do {
+          *it1 = *it;
+          it1.Next();
+        } while(it.Next());
+        if(!it || !it1)
+          break;
+      }
     }
     return true;
   }
-  
-  
 }
 
 #endif
