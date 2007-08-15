@@ -120,6 +120,18 @@ namespace RavlGUIN {
     //: Short cut clicked signal.
     // This should be used instead of signals["combo_activate"],
     // as it filters unwanted GTK signals
+
+    virtual bool GUISetTextColour(const ByteRGBValueC &colour,GtkStateType &state);
+    //: Set text colour.
+    
+    virtual bool GUISetBaseColour(const ByteRGBValueC &colour,GtkStateType &state);
+    //: Set base colour.
+    
+    virtual bool GUISetBackgroundColour(const ByteRGBValueC &colour,GtkStateType &state);
+    //: Set background colour.
+    
+    virtual bool GUISetForgroundColour(const ByteRGBValueC &colour,GtkStateType &state);
+    //: Set forground colour.
     
   protected:
     virtual bool Create();

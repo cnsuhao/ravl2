@@ -160,23 +160,23 @@ namespace RavlGUIN {
     
     bool SetForgroundColour(const ByteRGBValueC &colour,GtkStateType &state);
     //: Set background colour.
-
+    
     bool SetTextColour(const ByteRGBValueC &colour,GtkStateType &state);
     //: Set text colour.
     
     bool SetBaseColour(const ByteRGBValueC &colour,GtkStateType &state);
     //: Set base colour.
     
-    bool GUISetTextColour(const ByteRGBValueC &colour,GtkStateType &state);
+    virtual bool GUISetTextColour(const ByteRGBValueC &colour,GtkStateType &state);
     //: Set text colour.
     
-    bool GUISetBaseColour(const ByteRGBValueC &colour,GtkStateType &state);
+    virtual bool GUISetBaseColour(const ByteRGBValueC &colour,GtkStateType &state);
     //: Set base colour.
     
-    bool GUISetBackgroundColour(const ByteRGBValueC &colour,GtkStateType &state);
+    virtual bool GUISetBackgroundColour(const ByteRGBValueC &colour,GtkStateType &state);
     //: Set background colour.
     
-    bool GUISetForgroundColour(const ByteRGBValueC &colour,GtkStateType &state);
+    virtual bool GUISetForgroundColour(const ByteRGBValueC &colour,GtkStateType &state);
     //: Set forground colour.
     
     static Tuple2C<const char *,GTKSignalInfoC> *SigInfoInit();

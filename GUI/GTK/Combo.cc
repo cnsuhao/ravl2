@@ -309,15 +309,11 @@ namespace RavlGUIN {
     return true;
   }
   
-
-
   IntT ComboBodyC::GetCursorPosition()
   {
     ReadBackLockC lock;
     return gtk_editable_get_position(GTK_EDITABLE(GTK_COMBO(widget)->entry));
   }
-
-
   
   bool ComboBodyC::GUISetCursorPosition(const IntT pos)
   {
@@ -325,8 +321,6 @@ namespace RavlGUIN {
     gtk_editable_set_position(GTK_EDITABLE(GTK_COMBO(widget)->entry), pos);
     return true;
   }
-
-
   
   bool ComboBodyC::SetCursorPosition(const IntT pos)
   {
@@ -334,23 +328,17 @@ namespace RavlGUIN {
     return true;
   }
   
-
-
   bool ComboBodyC::GetCursorSelection(IntT &start, IntT &end)
   {
     ReadBackLockC lock;
     return gtk_editable_get_selection_bounds(GTK_EDITABLE(GTK_COMBO(widget)->entry), &start, &end) != 0;
   }
-
-
   
   bool ComboBodyC::GUISetCursorSelection(const IntT start, const IntT end)
   {
     gtk_editable_select_region(GTK_EDITABLE(GTK_COMBO(widget)->entry), start, end);
     return true;
   }
-
-
   
   bool ComboBodyC::SetCursorSelection(const IntT start, const IntT end)
   {
@@ -358,6 +346,67 @@ namespace RavlGUIN {
     return true;
   }
 
+  bool ComboBodyC::GUISetTextColour(const ByteRGBValueC &colour,GtkStateType &state) {
+    if(widget == 0)
+      return false;
+    GdkColor color;
+    color.red = (IntT) colour.Red() * 255;
+    color.green = (IntT) colour.Green() * 255;
+    color.blue = (IntT) colour.Blue() * 255;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    gtk_widget_modify_text (GTK_COMBO(widget)->entry, state, &color);
+    gtk_widget_modify_text (GTK_COMBO(widget)->list, state, &color);    
+    gtk_widget_modify_text (widget, state, &color);    
+    return true;
+  }
+
+  //: Set base colour.
+  
+  bool ComboBodyC::GUISetBaseColour(const ByteRGBValueC &colour,GtkStateType &state) {
+    if(widget == 0)
+      return false;
+    GdkColor color;
+    color.red = (IntT) colour.Red() * 255;
+    color.green = (IntT) colour.Green() * 255;
+    color.blue = (IntT) colour.Blue() * 255;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    gtk_widget_modify_base (GTK_COMBO(widget)->entry, state, &color);    
+    gtk_widget_modify_base (GTK_COMBO(widget)->list, state, &color);    
+    gtk_widget_modify_base (widget, state, &color);    
+    return true;
+  }
+  
+  //: Set background colour.
+  
+  bool ComboBodyC::GUISetBackgroundColour(const ByteRGBValueC &colour,GtkStateType &state) {
+    if(widget == 0)
+      return false;
+    GdkColor color;
+    color.red = (IntT) colour.Red() * 255;
+    color.green = (IntT) colour.Green() * 255;
+    color.blue = (IntT) colour.Blue() * 255;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    gtk_widget_modify_bg (GTK_COMBO(widget)->entry, state, &color);
+    gtk_widget_modify_bg (GTK_COMBO(widget)->list, state, &color);    
+    gtk_widget_modify_bg (widget, state, &color);    
+    return true;
+  }
+  
+  //: Set background colour.
+  
+  bool ComboBodyC::GUISetForgroundColour(const ByteRGBValueC &colour,GtkStateType &state) {
+    if(widget == 0)
+      return false;
+    GdkColor color;
+    color.red = (IntT) colour.Red() * 255;
+    color.green = (IntT) colour.Green() * 255;
+    color.blue = (IntT) colour.Blue() * 255;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    gtk_widget_modify_fg (GTK_COMBO(widget)->entry, state, &color);
+    gtk_widget_modify_fg (GTK_COMBO(widget)->list, state, &color);    
+    gtk_widget_modify_fg (widget, state, &color);    
+    return true;
+  }
 
   
 }
