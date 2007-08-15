@@ -14,6 +14,7 @@ int testMeshSphere();
 
 int main() {
   int ln;
+#if 0
   if((ln = testMeshPlane()) != 0) {
     cerr << "Error line " << ln << "\n";
     return 1;
@@ -22,6 +23,7 @@ int main() {
     cerr << "Error line " << ln << "\n";
     return 1;
   }
+#endif
   if((ln = testMeshSphere()) != 0) {
     cerr << "Error line " << ln << "\n";
     return 1;
@@ -40,6 +42,7 @@ bool TestTexCoords(const TriMeshC &mesh) {
   
   for(SArray1dIterC<TriC> it(mesh.Faces());it;it++) {
     Polygon2dC poly;
+#if 1
     // Check texture coordinates are legal.
     if(!texRect.Contains(it->TextureCoord(0)))
       return false;
@@ -47,6 +50,7 @@ bool TestTexCoords(const TriMeshC &mesh) {
       return false;
     if(!texRect.Contains(it->TextureCoord(2)))
       return false;
+#endif
     
     // Check area.
     poly.InsLast(it->TextureCoord(0)*512);
@@ -61,7 +65,7 @@ bool TestTexCoords(const TriMeshC &mesh) {
     // For visual check.
     RavlImageN::DrawPolygon(img,(ByteT) 255,poly);
   }
-#if 0
+#if 1
   // Enable to display mapping for faces onto the texture.
   static int testCount =0;
   Save(StringC("@X:Tex") + StringC(testCount++),img);

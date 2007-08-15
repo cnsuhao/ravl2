@@ -106,19 +106,25 @@ namespace Ravl3DN {
     RavlAssert(layers >= 1);
     RavlAssert(slices >= 2);
     
+    RealT texRowSize = 1.0/layers;
+    RealT texColSize = 1.0/slices;
+    
     RealT sliceStep = 2*RavlConstN::pi / slices;
     RealT layerStep = RavlConstN::pi / layers;
     
-    SArray1dC<Vector3dC> vertex(2 + (layers-1) * slices);
+    SArray1dC<VertexC> vertex(2 + (layers-1) * slices);
     UIntT numTri = slices * 2 + (layers-2) * slices * 2;
-    SArray1dC<UIntT> tri(numTri * 3);
+    //SArray1dC<UIntT> tri(numTri * 3);
+    SArray1dC<TriC> tri(numTri);
+    
+    
     UIntT tn = 0,vn = 0;
     
     // Cache cos and sin values for slice angles.
     SArray1dC<RealT> sliceCos(slices);
     SArray1dC<RealT> sliceSin(slices);
     
-    RealT sliceAngle = 0;
+    RealT sliceAngle = -RavlConstN::pi;
     for(SArray1dIter2C<RealT,RealT> it(sliceCos,sliceSin);it;it++) {
       it.Data1() = Cos(sliceAngle) * radius;
       it.Data2() = Sin(sliceAngle) * radius;
@@ -131,30 +137,39 @@ namespace Ravl3DN {
     // ----- Put in top fan. -----
     
     IntT topVert = vn;
-    vertex[vn++] = Vector3dC(0,radius,0);
-
+    vertex[vn++] = VertexC(Point3dC(0,radius,0));
+    
     RealT layerAngle = layerStep;
     
     RealT lc = Cos(layerAngle) * radius;
     RealT ls = Sin(layerAngle);
-      
+    
     vLastLayer[0] = vn;
-    vertex[vn++] = Vector3dC(ls * sliceSin[0],lc,ls  * sliceCos[0]);
+    vertex[vn++] = VertexC(Point3dC(ls * sliceSin[0],lc,ls  * sliceCos[0]));
+    
+    RealT texRow0 = 0;
+    RealT texRow1 = texRowSize;
+    RealT texCol0; 
+    RealT texCol1 = texColSize; 
     
     for(UIntT s = 1;s < slices;s++) {
-      // Put together face.
-      tri[tn++] = topVert;
-      tri[tn++] = vn-1;
-      tri[tn++] = vn;
+      
+      texCol0 = texColSize * s;
+      texCol1 = texCol0 + texColSize;
+      
+      tri[tn++] = TriC(vertex[topVert],vertex[vn-1],vertex[vn],
+                       Point2dC(texRow0,texCol0 + texColSize/2.0),Point2dC(texRow1,texCol0),Point2dC(texRow1,texCol1));
       
       vLastLayer[s] = vn;
-      vertex[vn++] = Vector3dC(ls * sliceSin[s],lc,ls  * sliceCos[s]);
+      vertex[vn++] = VertexC(Point3dC(ls * sliceSin[s],lc,ls  * sliceCos[s]));
     }
     
-    // Put together final face on top fan
-    tri[tn++] = topVert;
-    tri[tn++] = vn-1;
-    tri[tn++] = vLastLayer[0];
+    texCol0 = 0;
+    texCol1 = texColSize;
+    
+    tri[tn++] = TriC(vertex[topVert],vertex[vn-1],vertex[vLastLayer[0]],
+                     Point2dC(texRow0,texCol0 + texColSize/2.0),Point2dC(texRow1,texCol0),Point2dC(texRow1,texCol1)
+                     );
     
     
     // ---- Put in mid layers ----
@@ -167,33 +182,38 @@ namespace Ravl3DN {
       UIntT lastTopVert = vLastLayer[0];
       UIntT lastBotVert = vn;
       UIntT firstVirt = vn;
-      vertex[vn++] = Vector3dC(ls * sliceSin[0],lc,ls  * sliceCos[0]);
+      vertex[vn++] = VertexC(Point3dC(ls * sliceSin[0],lc,ls  * sliceCos[0]));
+      
+      RealT texRow0 = l * texRowSize;
+      RealT texRow1 = texRow0 + texRowSize;
       
       for(UIntT s = 1;s < slices;s++) {
+        texCol0 = texColSize * s;
+        texCol1 = texCol0 + texColSize;
+        
 	// Put in face triangles.
-	tri[tn++] = vn;
- 	tri[tn++] = lastTopVert;
-	tri[tn++] = lastBotVert;
-	
-	tri[tn++] = vLastLayer[s];
- 	tri[tn++] = lastTopVert;
-	tri[tn++] = vn;
-	
+        tri[tn++] = TriC(vertex[vn],vertex[lastTopVert],vertex[lastBotVert],
+                         Point2dC(texRow1,texCol1),Point2dC(texRow0,texCol0),Point2dC(texRow1,texCol0));
+        
+        tri[tn++] = TriC(vertex[vLastLayer[s]],vertex[lastTopVert],vertex[vn],
+                         Point2dC(texRow0,texCol1),Point2dC(texRow0,texCol0),Point2dC(texRow1,texCol1));
+        
 	// Put in new vertex.
 	lastTopVert = vLastLayer[s];
 	lastBotVert = vn;
 	vLastLayer[s] = vn;
-	vertex[vn++] = Vector3dC(ls * sliceSin[s],lc,ls  * sliceCos[s]);
+	vertex[vn++] = VertexC(Point3dC(ls * sliceSin[s],lc,ls  * sliceCos[s]));
       }
       
-      // Put in final face triangles.
-      tri[tn++] = firstVirt;
-      tri[tn++] = lastTopVert;
-      tri[tn++] = lastBotVert;
+      texCol0 = 0;
+      texCol1 = texColSize;
       
-      tri[tn++] = vLastLayer[0];
-      tri[tn++] = lastTopVert;
-      tri[tn++] = firstVirt;
+      // Put in final face triangles.
+      tri[tn++] = TriC(vertex[firstVirt],vertex[lastTopVert],vertex[lastBotVert],
+                       Point2dC(texRow1,texCol1),Point2dC(texRow0,texCol0),Point2dC(texRow1,texCol0));
+      
+      tri[tn++] = TriC(vertex[vLastLayer[0]],vertex[lastTopVert],vertex[firstVirt],
+                       Point2dC(texRow0,texCol1),Point2dC(texRow0,texCol0),Point2dC(texRow1,texCol1));
       
       vLastLayer[0] = firstVirt;
     }
@@ -201,27 +221,40 @@ namespace Ravl3DN {
     // ---- Put in bottom fan ----
     
     IntT botVert = vn;
-    vertex[vn++] = Vector3dC(0,-radius,0);
+    vertex[vn++] = VertexC(Point3dC(0,-radius,0));
     
     // Put together face.
-    tri[tn++] = vLastLayer[slices-1];
-    tri[tn++] = botVert;
-    UIntT lastVert = vLastLayer[0];
-    tri[tn++] = lastVert;
+    texRow0 = 1.0-texRowSize;
+    texRow1 = 1.0;
+    
+    UIntT nextVert = vLastLayer[0];
+    texCol0 = 0;
+    texCol1 = texColSize;
+    tri[tn++] = TriC(vertex[vLastLayer[slices-1]],vertex[botVert],vertex[nextVert],
+                     Point2dC(texRow0,texCol1),Point2dC(texRow0,texCol0),Point2dC(texRow1,texCol0 + texColSize/2.0));
+    
+    UIntT lastVert = nextVert;
+    
     
     for(UIntT s = 1;s < slices;s++) {
       // Put together face.
-      tri[tn++] = lastVert;
-      tri[tn++] = botVert;
-      lastVert = vLastLayer[s];
-      tri[tn++] = lastVert;
+      UIntT nextVert = vLastLayer[s];
+      
+      texCol0 = texColSize * s;
+      texCol1 = texCol0 + texColSize;
+      
+      tri[tn++] = TriC(vertex[lastVert],vertex[botVert],vertex[nextVert],
+                       Point2dC(texRow0,texCol1),Point2dC(texRow0,texCol0),Point2dC(texRow1,texCol0 + texColSize/2.0));
+      
+      lastVert = nextVert;
     }
     
     RavlAssert(tn == tri.Size());
     RavlAssert(vn == vertex.Size());
     
-    TriMeshC ret(vertex,tri);
-    ret.GenerateTextureCoords();
+    TriMeshC ret(vertex,tri,true);
+    //TriMeshC ret(vertex,tri);
+    //ret.GenerateTextureCoords();
     ret.UpdateVertexNormals();
     return ret;
   }
