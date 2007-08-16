@@ -65,7 +65,7 @@ bool TestTexCoords(const TriMeshC &mesh) {
     // For visual check.
     RavlImageN::DrawPolygon(img,(ByteT) 255,poly);
   }
-#if 1
+#if 0
   // Enable to display mapping for faces onto the texture.
   static int testCount =0;
   Save(StringC("@X:Tex") + StringC(testCount++),img);
