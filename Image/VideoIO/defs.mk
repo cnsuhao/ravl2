@@ -38,7 +38,7 @@ PLIB = RavlVideoIO
 
 EXAMPLES = exImgSeq.cc
 
-USESLIBS = RavlImageIO RavlOSIO DVSDevice
+USESLIBS = RavlImageIO RavlOSIO
 
 PROGLIBS= RavlDPDisplay.opt
 
