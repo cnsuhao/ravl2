@@ -67,8 +67,17 @@ namespace RavlImageN {
 
   ImageC<ByteRGBValueC> YUVImageCT2RGBImageCT(const ImageC<ByteYUVValueC> &dat) {
     ImageC<ByteRGBValueC> ret(dat.Rectangle());
-    for(Array2dIter2C<ByteRGBValueC,ByteYUVValueC> it(ret,dat);it.IsElm();it.Next())
+    for(Array2dIter2C<ByteRGBValueC,ByteYUVValueC> it(ret,dat);it.IsElm();it.Next()) {
+#if 1
       ByteYUV2RGB(it.Data2().Y(),it.Data2().U(),it.Data2().V(),it.Data1());
+#else
+      // VIA reals for testing.
+      RealRGBValueC v(RealYUVValueC(it.Data2()));
+      v.Limit(0,255);
+      it.Data1().Set((ByteT) v.Red(),(ByteT) v.Green(),(ByteT) v.Blue());
+#endif
+      
+    }
     return ret;
   }
 
@@ -78,7 +87,7 @@ namespace RavlImageN {
     ImageC<ByteYUVValueC> ret(dat.Rectangle());
     for(Array2dIter2C<ByteYUVValueC,ByteRGBValueC> it(ret,dat);it.IsElm();it.Next()) {
       RealYUVValueC v(RealRGBValueC(it.Data2()));
-      v.Limit(0,255);
+      v.LimitYUV(0,255,-128,127);
       it.Data1().Set((ByteT) v.Y(),(ByteT) v.U(),(ByteT) v.V());
     }
     return ret;

@@ -42,13 +42,12 @@ namespace RavlImageN {
   const TFMatrixC<RealT,3,3> ImageYUVtoRGBMatrix(Init_YUVtoRGB_Matrix);
   
   const TFMatrixC<RealT,3,3> ImageRGBtoYUVMatrix(ImageRGBtoYUVMatrixStd * ((1./1.175)));
-
-
+  
   IntT *UBLookup() {
     static IntT values[256];
     IntT *off = &(values[128]);
     for(int i = -128;i < 128;i++)
-      off[i] = Round((RealT) i * 2.032);
+      off[i] = Round((RealT) i * 2.0325203252033);
     return off;
   }
 
@@ -56,7 +55,7 @@ namespace RavlImageN {
     static IntT values[256];
     IntT *off = &(values[128]);
     for(int i = -128;i < 128;i++)
-      off[i] = Round((RealT) i * 1.140);
+      off[i] = Round((RealT) i * 1.1402508551881);
     return off;
   }
 
@@ -64,7 +63,7 @@ namespace RavlImageN {
     static IntT values[256 * 256];
     for(int u = 0;u < 256;u++)
       for(int v = 0;v < 256;v++)
-	values[u + 256 * v] = Round((RealT) (u-128) * -0.395 + (RealT) (v-128) * -0.581);
+	values[u + 256 * v] = Round((RealT) (u-128) * -0.3947313749117 + (RealT) (v-128) * -0.5808092090311);
     return &(values[128 + 256 * 128]);
   }
   

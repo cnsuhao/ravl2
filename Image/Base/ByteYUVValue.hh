@@ -44,11 +44,25 @@ namespace RavlImageN {
     
     template<class OCompT>
     ByteYUVValueC(YUVValueC<OCompT> &oth) {
-      y = oth.Y();
-      u = oth.U();
-      v = oth.V();
+      y = static_cast<ByteT>(oth.Y());
+      u = static_cast<SByteT>(oth.U());
+      v = static_cast<SByteT>(oth.V());
     }
     //: Construct from another component type.
+
+    ByteYUVValueC(YUVValueC<RealT> &oth) {
+      y = static_cast<ByteT>(Round(oth.Y()));
+      u = static_cast<SByteT>(Round(oth.U()));
+      v = static_cast<SByteT>(Round(oth.V()));
+    }
+    //: Construct from real value.
+    
+    ByteYUVValueC(YUVValueC<float> &oth) {
+      y = static_cast<ByteT>(Round(oth.Y()));
+      u = static_cast<SByteT>(Round(oth.U()));
+      v = static_cast<SByteT>(Round(oth.V()));
+    }
+    //: Construct from a float value
 
     void Set(const ByteT &ny,const SByteT &nu,const SByteT &nv) {
       y =ny;
@@ -56,31 +70,49 @@ namespace RavlImageN {
       v =nv;
     }
     //: Set the values.
+
+    void LimitYUV(const ByteT &minY,const ByteT &maxY,const SByteT &minUV,const SByteT &maxUV) {
+      if(this->y < minY)
+        this->y = minY;
+      if(this->y > maxY)
+        this->y = maxY;
+      
+      if(this->u < minUV)
+        this->u = minUV;
+      if(this->u > maxUV)
+        this->u = maxUV;
+      
+      if(this->v < minUV)
+        this->v = minUV;
+      if(this->v > maxUV)
+        this->v = maxUV;
+    }
+    //: Limit colour values.
     
     inline const ByteT & Y() const
-      { return y; }
+    { return y; }
     //: Returns the level of the Y component.
     
     inline const SByteT & U() const
-      { return u; }
+    { return u; }
     //: Returns the level of the U component.
     
     inline const SByteT & V() const
-      { return v; }
+    { return v; }
     //: Returns the level of the V component.
     
     inline ByteT & Y() 
-      { return y; }
+    { return y; }
     //: Returns the level of the Y component.
     
     inline SByteT & U()
-      { return u; }
+    { return u; }
     //: Returns the level of the U component.
     
     inline SByteT & V()
-      { return v; }
+    { return v; }
     //: Returns the level of the V component.
-
+    
     operator YUVValueC<RealT> () const
     { return YUVValueC<RealT>((RealT)y,(RealT)u,(RealT)v); }
     //: Convert to real values.

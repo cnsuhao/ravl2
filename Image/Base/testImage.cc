@@ -24,6 +24,8 @@
 #include "Ravl/Image/DrawCircle.hh"
 #include "Ravl/Image/DrawEllipse.hh"
 #include "Ravl/Image/Reflect.hh"
+#include "Ravl/Image/RGBcYUV.hh"
+#include "Ravl/Image/ByteYUVValue.hh"
 #include "Ravl/Image/BilinearInterpolation.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/IO.hh"
@@ -38,6 +40,7 @@ int TestFont();
 int TestDraw();
 int TestBilinear();
 int TestRotate();
+int TestRGB2YUV();
 
 template class ImageC<int>; // Make sure all functions are compiled.
 
@@ -74,8 +77,12 @@ int main()
     cerr << "Image test failed : " << lineno << "\n";
      return 1;
   }
-#endif
   if((lineno = TestRotate()) != 0) {
+    cerr << "Image test failed : " << lineno << "\n";
+     return 1;
+  }
+#endif
+  if((lineno = TestRGB2YUV()) != 0) {
     cerr << "Image test failed : " << lineno << "\n";
      return 1;
   }
@@ -353,5 +360,68 @@ int TestRotate() {
   //cerr << "Img270=" << img270 << "\n";
   
   
+  return 0;
+}
+
+int TestRGB2YUV() {
+  
+  UIntT diff = 0;
+  for(IntT r = 0;r < 256;r += 4) {
+    for(IntT g = 0;g < 256;g += 4) {
+      for(IntT b = 0;b < 256;b += 4) {
+        // Convert to YUV.
+        RealRGBValueC rrgb(r,g,b);
+        RealYUVValueC ryuv(rrgb);
+        ryuv.LimitYUV(0,255,-128,127);
+        ByteYUVValueC yuv(ryuv);
+        
+        ByteRGBValueC rgb;
+        
+        {
+#if 1
+          // Direct conversion.
+          ByteYUV2RGB(yuv.Y(),yuv.U(),yuv.V(),rgb);
+#else
+          // Convert via real.
+          RealYUVValueC cv_ryuv(yuv);
+          RealRGBValueC cv_rrgb(ryuv);
+          cv_rrgb.Limit(0,255);
+          rgb = ByteRGBValueC(cv_rrgb);
+#endif
+        }
+        
+        RealRGBValueC rrgb2(rgb);
+        RealYUVValueC ryuv2(rrgb2);
+        ryuv2.LimitYUV(0,255,-128,127);
+        ByteYUVValueC yuv2(ryuv2);
+        
+        IntT val = Abs((IntT) yuv2.Y() - (IntT) yuv.Y());
+        diff += val;
+        if(val > 1) {
+          std::cerr << "\n RYUV=" << ryuv << "\n";
+          std::cerr << "YUV1=" << yuv << "\n";
+          std::cerr << "YUV2=" << yuv2 << "\n";
+          std::cerr << " Y=" << val << " "; 
+        }
+        
+        val = Abs((IntT) yuv2.U() - (IntT) yuv.U());
+        diff += val;
+        if(val > 1) std::cerr << " U=" << val << " "; 
+        
+        val = Abs((IntT) yuv2.V() - (IntT) yuv.V());
+        if(val > 1) {
+          std::cerr << "\n RYUV=" << ryuv << "\n";
+          std::cerr << "YUV1=" << yuv << "\n";
+          std::cerr << "YUV2=" << yuv2 << "\n";
+          std::cerr << " V=" << val << "\n"; 
+        }
+        diff += val;
+      }
+    }
+  }
+  
+  // std::cout << "DIff=" << diff << "\n";
+  if(diff > 3400)
+    return __LINE__;
   return 0;
 }

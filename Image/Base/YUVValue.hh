@@ -66,6 +66,24 @@ namespace RavlImageN {
     }
     //: Set the values.
     
+    void LimitYUV(const CompT &minY,const CompT &maxY,const CompT &minUV,const CompT &maxUV) {
+      if(this->data[0] < minY)
+        this->data[0] = minY;
+      if(this->data[0] > maxY)
+        this->data[0] = maxY;
+      
+      if(this->data[1] < minUV)
+        this->data[1] = minUV;
+      if(this->data[1] > maxUV)
+        this->data[1] = maxUV;
+      
+      if(this->data[2] < minUV)
+        this->data[2] = minUV;
+      if(this->data[2] > maxUV)
+        this->data[2] = maxUV;
+    }
+    //: Limit colour values.
+    
     inline const CompT & Y() const
     { return this->data[0]; }
     //: Returns the level of the Y component.
