@@ -22,7 +22,7 @@ namespace RavlGUIN {
     : public MarkupInfoBodyC
   {
   public:
-    MarkupNoteBodyC(Int64T id,IntT zOrder,const StringC &text,const MarkupInfoC &obj);
+    MarkupNoteBodyC(Int64T id,IntT zOrder,const StringC &text,const MarkupInfoC &obj,const Vector2dC &offset = Vector2dC(0,0));
     //: Constructor.
     
     virtual RealRange2dC Coverage(GUIMarkupCanvasBodyC &mv) const;
@@ -44,7 +44,7 @@ namespace RavlGUIN {
     
     StringC text;
     MarkupInfoC obj;
-    
+    Vector2dC offset;
   };
   
   //! userlevel=Normal
@@ -55,8 +55,8 @@ namespace RavlGUIN {
     : public MarkupInfoC
   {
   public:
-    MarkupNoteC(Int64T id,IntT zOrder,const StringC & text,const MarkupInfoC & obj) 
-      : MarkupInfoC(*new MarkupNoteBodyC(id,zOrder,text,obj))
+    MarkupNoteC(Int64T id,IntT zOrder,const StringC & text,const MarkupInfoC & obj,const Vector2dC &offset = Vector2dC(0,0)) 
+      : MarkupInfoC(*new MarkupNoteBodyC(id,zOrder,text,obj,offset))
     {}
     //: Constructor. 
     //!cwiz:author

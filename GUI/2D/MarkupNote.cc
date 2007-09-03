@@ -15,10 +15,11 @@ namespace RavlGUIN {
   
   //: Constructor.
   
-  MarkupNoteBodyC::MarkupNoteBodyC(Int64T id,IntT zOrder,const StringC &_text,const MarkupInfoC &_obj) 
+  MarkupNoteBodyC::MarkupNoteBodyC(Int64T id,IntT zOrder,const StringC &_text,const MarkupInfoC &_obj,const Vector2dC &_offset) 
     : MarkupInfoBodyC(id,zOrder),
       text(_text),
-      obj(_obj)
+      obj(_obj),
+      offset(_offset)
   {}
   
   //: Range of pixels covered by this one (Garanteed) 
@@ -57,14 +58,14 @@ namespace RavlGUIN {
     
     GdkFont *font = mv.GUIDrawFont();
     Point2dC textSize = Point2dC(mv.GUITextSize(font,text));
-    Point2dC centroid = obj.Centroid(mv);
+    Point2dC centroid = obj.Centroid(mv) + offset;
     
     Point2dC origin = centroid -  Point2dC(textSize[0]/2,textSize[1]/2);
     Index2dC iorigin(origin - off);
     Index2dC iend(origin + textSize + off);
     rect = IndexRange2dC(iorigin,iend);
     
-    txtPosition  = centroid + Point2dC(textSize[0]/2,-textSize[1]/2);
+    txtPosition  = centroid  + Point2dC(textSize[0]/2,-textSize[1]/2);
     return true;
   }
   
