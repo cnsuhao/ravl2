@@ -70,6 +70,13 @@ namespace RavlImageN {
     }
     //: Performs Gaussian filter on image 'in'.
     // Returns a new filtered image.
+
+    ImageC<OutPixelT> Apply (const ImageC<InPixelT> &in,ImageC<OutPixelT> &op) const {
+      ConvolveSeparable2dC<InPixelT,OutPixelT,KernelPixelT,SumTypeT>::Apply(in, op);
+      return op;
+    }
+    //: Performs Gaussian filter on image 'in', put the result in op.
+    // Returns a new filtered image.
     
     Array1dC<KernelPixelT> &Filter()
     { return binomial; }
