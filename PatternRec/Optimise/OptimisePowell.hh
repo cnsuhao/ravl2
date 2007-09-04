@@ -31,15 +31,9 @@ namespace RavlN {
   // PatternRec toolbox. The OptimisePowellC handle class should be used.
   
   class OptimisePowellBodyC: public OptimiseBodyC
-  {
-    UIntT _iterations;
-    RealT _tolerance;
-    OptimiseBrentC _brent;
-    bool _useBracketMinimum;
-//    ParametersC _parameters1d;
-    
+  {    
   public:
-    OptimisePowellBodyC (UIntT iterations, RealT tolerance, bool useBracketMinimum);
+    OptimisePowellBodyC (UIntT iterations, RealT tolerance, bool useBracketMinimum,bool verbose = false);
     //: Constructor requires the number of iterations to use
     
     OptimisePowellBodyC (istream &in);
@@ -54,6 +48,13 @@ namespace RavlN {
     
     virtual bool Save (ostream &out) const;
     //: Writes object to stream, can be loaded using constructor
+
+  private:
+    UIntT _iterations;
+    RealT _tolerance;
+    OptimiseBrentC _brent;
+    bool _useBracketMinimum;
+    bool _verbose; 
   };
   
   //: Powell's (roughly) quadratically convergent non-gradient optimisation
@@ -61,12 +62,13 @@ namespace RavlN {
   //
   // Optimisation algorithm that does not use gradient but has roughly quadratic
   // convergence.
- 
+  
   class OptimisePowellC: public OptimiseC
   {
   public:
-    OptimisePowellC (UIntT iterations, RealT tolerance = 1e-6, bool useBracketMinimum = true)
-      :OptimiseC(*(new OptimisePowellBodyC (iterations, tolerance, useBracketMinimum))) {}
+    OptimisePowellC (UIntT iterations, RealT tolerance = 1e-6, bool useBracketMinimum = true,bool verbose = false)
+      :OptimiseC(*(new OptimisePowellBodyC (iterations, tolerance, useBracketMinimum,verbose))) 
+    {}
     //: Constructor
     //!param: iterations - maximum number of iterations to use
   };

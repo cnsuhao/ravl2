@@ -16,12 +16,13 @@
 
 namespace RavlN {
 
-  OptimisePowellBodyC::OptimisePowellBodyC (UIntT iterations, RealT tolerance, bool useBracketMinimum)
+  OptimisePowellBodyC::OptimisePowellBodyC (UIntT iterations, RealT tolerance, bool useBracketMinimum,bool verbose)
     :OptimiseBodyC("OptimisePowellBodyC"),
      _iterations(iterations),
      _tolerance(tolerance),
      _brent(iterations,tolerance),
-     _useBracketMinimum(useBracketMinimum)
+     _useBracketMinimum(useBracketMinimum),
+     _verbose(verbose)
   {}
   
   OptimisePowellBodyC::OptimisePowellBodyC (istream &in)
@@ -115,6 +116,9 @@ namespace RavlN {
           valueOfBiggest = diff;
           indexOfBiggest = it.Index();
         }
+        
+        if((_verbose && it.Index().V() % 20) == 19)
+          std::cerr << "Iter " << iter << " D=" << it.Index().V() << " Cost=" << minimumCost << "\n";
       }
       // Compute the reduction in the cost function.
       RealT fPdiff = fP-minimumCost;
@@ -150,6 +154,8 @@ namespace RavlN {
           Di[numDim-1] = Pdiff.Copy();              // Put in new direction vector.
         }
       }
+      if(_verbose)
+        std::cerr << "Iter " << iter << " Cost=" << minimumCost << "\n";
     }
     return P;
   }
