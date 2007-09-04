@@ -16,6 +16,10 @@
 
 namespace RavlGUIN {
 
+  enum MarkupPoint2dStyleT
+    { MP2DS_Eye,
+      MP2DS_CrossHair };
+
   class MarkupPoint2dC;
   
   //! userlevel = Develop
@@ -25,7 +29,7 @@ namespace RavlGUIN {
     : public MarkupInfoBodyC
   {
   public:
-    MarkupPoint2dBodyC(Int64T id,IntT zOrder,Point2dC & position);
+    MarkupPoint2dBodyC(Int64T id,IntT zOrder,Point2dC & position,MarkupPoint2dStyleT style = MP2DS_Eye);
     //: Constructor.
         
     virtual bool Render(GUIMarkupCanvasBodyC &mv,const RealRange2dC &area,bool selected);
@@ -56,16 +60,16 @@ namespace RavlGUIN {
 
     bool Position(const Point2dC & newPosition);
     //: Force update of position
-
-    Signal1C<Point2dC>&SigPosition() {
-      return sigPosition;
-    }
+    
+    Signal1C<Point2dC>&SigPosition() 
+    { return sigPosition; }
     //: Signal position change on mouse release
-
+    
   protected:
     Point2dC centre;
     Point2dC oldPosition;    
     Signal1C<Point2dC> sigPosition;
+    MarkupPoint2dStyleT style;
   };
   
   //! userlevel=Normal
@@ -81,8 +85,8 @@ namespace RavlGUIN {
     //: Default constructor
     // Creates in invalid handle.
     
-    MarkupPoint2dC(Int64T id,IntT zOrder, Point2dC & position) 
-      : MarkupInfoC(*new MarkupPoint2dBodyC(id,zOrder,position))
+    MarkupPoint2dC(Int64T id,IntT zOrder, Point2dC & position,MarkupPoint2dStyleT style = MP2DS_Eye) 
+      : MarkupInfoC(*new MarkupPoint2dBodyC(id,zOrder,position,style))
     {}
     //: Constructor. 
     //!cwiz:author

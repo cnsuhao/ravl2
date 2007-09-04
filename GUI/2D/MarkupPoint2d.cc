@@ -24,12 +24,13 @@ namespace RavlGUIN {
   
   //: Constructor.
   
-  MarkupPoint2dBodyC::MarkupPoint2dBodyC(Int64T id, IntT zOrder, Point2dC & cn)
+  MarkupPoint2dBodyC::MarkupPoint2dBodyC(Int64T id, IntT zOrder, Point2dC & cn,MarkupPoint2dStyleT _style)
     : MarkupInfoBodyC(id,zOrder),
       centre(cn),
-      sigPosition(Point2dC())
+      sigPosition(Point2dC()),
+      style(_style)
   {}
-
+  
   
   //: Method for rendering frame.  
   bool MarkupPoint2dBodyC::Render(GUIMarkupCanvasBodyC &mv,const RealRange2dC &area,bool selected) { 
@@ -38,43 +39,61 @@ namespace RavlGUIN {
       return true;
     GdkGC *dc = mv.GcDrawContext();
 
-    IntT size = 10;
-    Point2dC ver(0,size/2);
-    Point2dC hor(size/2,0);
-
-    for (int i=0; i<2; i++) {
-      for (int j=0; j<2; j++) {
-        Point2dC start(centre);
-        if (i==0) start += ver;
-        else start -= ver;
-        if (j==0) start += hor;
-        else start -= hor;
-        for (int k=0; k<2; k++) {
-          Point2dC end(start);
-          // Vertical
-          if (k==0) {
-            if (i==0) end += ver;
-            else end -= ver;
+    
+    switch(style) {
+    case MP2DS_Eye: {
+      RealT size = 10;
+      Point2dC ver(0,size/2.0);
+      Point2dC hor(size/2.0,0);
+      for (int i=0; i<2; i++) {
+        for (int j=0; j<2; j++) {
+          Point2dC start(centre);
+          if (i==0) start += ver;
+          else start -= ver;
+          if (j==0) start += hor;
+          else start -= hor;
+          for (int k=0; k<2; k++) {
+            Point2dC end(start);
+            // Vertical
+            if (k==0) {
+              if (i==0) end += ver;
+              else end -= ver;
+            }
+            // Horizontal
+            else {
+              if (j==0) end += hor;
+              else end -= hor;
+            }	  
+            // Draw
+            Index2dC from(start);
+            Index2dC to(end);
+            mv.GUIDrawLine(dc, from, to);
           }
-          // Horizontal
-          else {
-            if (j==0) end += hor;
-            else end -= hor;
-          }	  
-          // Draw
-          Index2dC from(start);
-          Index2dC to(end);
-          mv.GUIDrawLine(dc, from, to);
         }
       }
+      Index2dC horline(Round(centre.Row()), Round(centre.Col()-5.));
+      Index2dC horline2(Round(centre.Row()), Round(centre.Col()+5));
+      Index2dC verline(Round(centre.Row()-5.), Round(centre.Col()));
+      Index2dC verline2(Round(centre.Row()+5.), Round(centre.Col()));
+      
+      mv.GUIDrawLine(dc, horline, horline2);
+      mv.GUIDrawLine(dc, verline, verline2);
+    } break;
+    default:
+    case MP2DS_CrossHair: {
+      RealT size = 10;
+      Vector2dC ver1(0,2);
+      Vector2dC ver2(0,size);
+      Vector2dC hor1(2,0);
+      Vector2dC hor2(size,0);
+      
+      mv.GUIDrawLine(dc, Point2dC(centre + hor1),Point2dC(centre + hor2));
+      mv.GUIDrawLine(dc, Point2dC(centre - hor1),Point2dC(centre - hor2));
+      mv.GUIDrawLine(dc, Point2dC(centre + ver1),Point2dC(centre + ver2));
+      mv.GUIDrawLine(dc, Point2dC(centre - ver1),Point2dC(centre - ver2));
+    } break;
     }
-    Index2dC horline(Round(centre.Row()), Round(centre.Col()-5.));
-    Index2dC horline2(Round(centre.Row()), Round(centre.Col()+5));
-    Index2dC verline(Round(centre.Row()-5.), Round(centre.Col()));
-    Index2dC verline2(Round(centre.Row()+5.), Round(centre.Col()));
-
-    mv.GUIDrawLine(dc, horline, horline2);
-    mv.GUIDrawLine(dc, verline, verline2);
+      
 
     return true;
   }
