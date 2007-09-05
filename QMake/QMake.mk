@@ -59,10 +59,10 @@ endif
 export PROCS
 
 ifndef PROJECT_OUT
-  PROJECT_OUT := $(shell 'pwd')
+  PROJECT_OUT := /tmp/$(USER)/ProjectOut
 else
 ifeq ($(PROJECT_OUT),"")
-  PROJECT_OUT := $(shell 'pwd')
+  PROJECT_OUT := /tmp/$(USER)/ProjectOut
 endif
 endif
 
