@@ -765,6 +765,8 @@ namespace RavlN {
       return false;
     if(it->IMax() == i) { // At the end of a chunk ?
       if(it->IMin() == i) { // Is this the last element in the chunk ?
+        if(it->Data().Buffer() == lastBlk.Buffer())
+          lastBlk = Array1dC<DataT>(); // Empty last block holder.
 	it.Del(); // If so delete it.
 	return true;
       }
@@ -772,6 +774,8 @@ namespace RavlN {
       return true;
     }
     if(it->IMin() == i) { // At the beginnig of a chunk ?
+      // If the block sizes were equal we wouldn't get this far.
+      // so we don't have to worry about deleting blocks.
       it->Data().SetSubRange(it->IMin()+1,it->IMax());
       return true;
     }
@@ -835,8 +839,11 @@ namespace RavlN {
       it++; // We want this block!
     }
     // Cut out whole chunks between min and max.
-    for(;it && (it->IMax() <= max);it++)
+    for(;it && (it->IMax() <= max);it++) {
+      if(it->Data().Buffer() == lastBlk.Buffer())
+        lastBlk = Array1dC<DataT>(); // Empty last block holder.
       it.Del();
+    }
     // Cut off begining of chunk before max.
     if(it && it->Contains(max))
       it->Data().SetSubRange(max+1,it->IMax());
