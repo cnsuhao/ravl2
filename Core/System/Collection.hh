@@ -106,6 +106,13 @@ namespace RavlN {
     // Note the last item in the collection will be moved
     // to replace element at 'ind'
     
+    inline void Remove(IndexC ind)
+    { data[ind] = data[--n]; }
+    //: Remove item at 'ind' from the collection.
+    // Note the last item in the collection will be moved
+    // to replace element at 'ind'.
+    // Same as Delete, added for consistancy with DArray1dC.
+    
     DataT Pick();
     //: Pick a random item from the collection.
     // the element will be removed from the set.

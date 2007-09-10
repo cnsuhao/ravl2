@@ -27,6 +27,7 @@ using namespace RavlN;
 int testBasic();
 int testDArray1d();
 int testDArray1dMore();
+int testDArray1dEvenMore();
 
 int main()
 {
@@ -43,7 +44,10 @@ int main()
     cerr << "Test failed line :" << err <<"\n";
     return 1;
   }
-  
+  if((err = testDArray1dEvenMore()) != 0) {
+    cerr << "Test failed line :" << err <<"\n";
+    return 1;
+  }
   cerr << "Collection test passed. \n";
   return 0;
 }
@@ -209,6 +213,45 @@ int testDArray1dMore() {
 	return __LINE__;
       }
     }
+  }
+  
+  return 0;
+}
+
+int testDArray1dEvenMore() {
+  cerr << "testDArray1d(), Add/Delete. \n";
+  DArray1dC<IntT> anArray;
+  CollectionC<UIntT> validIndex(64);
+  IntT opSize = 128;
+  for(int j = 0;j < 10000;j++) {
+    IntT opVal = RandomInt();
+    IntT op = opVal % 2;
+    switch(op)
+      {
+      case 0 : { // Append element.
+        IntT count = RandomInt() % opSize;
+        //UIntT oldSize = validIndex.Size();
+        for(int k = 0;k < count; k++)
+          validIndex.Append(anArray.Append(opVal).V());
+        //if(oldSize <= 1024 && validIndex.Size() > 1024) std::cerr <<  "Block added. \n";
+      } break;
+      default:
+      case 1: { // Delete element
+        if(validIndex.Size() < 1) {
+          //cerr << "Empty!\n";
+          break; // Nothing to delete.
+        }
+        
+        IntT count = (RandomInt() % (Round(validIndex.Size()*0.7))+1);
+        for(int k = 0;k < count; k++) {
+          UIntT index = RandomInt() % validIndex.Size();
+          UIntT dindex = validIndex[index];
+          validIndex.Delete(index);
+          if(!anArray.Remove(dindex)) return __LINE__;
+        } break;
+      }
+    //cerr << "Size=" << validIndex.Size()  << "\n";
+      }
   }
   
   return 0;
