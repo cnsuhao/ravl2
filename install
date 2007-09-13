@@ -94,7 +94,7 @@ fi
 echo "Architecture: '${ARC}'"
 
 # Install make system.
-if ${MAKE} -C QMake -f ./QMake.mk MAKEHOME=`pwd`/QMake BASEINSTALL=1 PROJECT_OUT=${INSTALL_SITE} ROOTDIR=${BUILDDIR} PROCS=1 FULLBUILDSRC='BASE_VAR=none' ${CONFIGFILE} ; then
+if ${MAKE} -C QMake -f ./QMake.mk MAKEHOME=`pwd`/QMake BASEINSTALL=1 PROJECT_OUT=${INSTALL_SITE} BUILD_TAG= ROOTDIR=${BUILDDIR} PROCS=1 FULLBUILDSRC='BASE_VAR=none' ${CONFIGFILE} ; then
   true
 else
   echo "ERROR: Failed to install make system. "
@@ -103,7 +103,7 @@ else
 fi
 
 # Compile libraries
-if ${MAKE} -f ${BUILDDIR}/share/RAVL/QMake/QMake.mk MAKEHOME=${BUILDDIR}/share/RAVL/QMake BASEINSTALL=1 INSTALLHOME=${BUILDDIR} PROJECT_OUT=${INSTALL_SITE}  ROOTDIR=${BUILDDIR} ${BUILDTYPE} ${TARGETARC}  FULLBUILDSRC='BASE_VAR=none' INCLUDEDIR=${BUILDDIR}/include/Ravl; then 
+if ${MAKE} -f ${BUILDDIR}/share/RAVL/QMake/QMake.mk MAKEHOME=${BUILDDIR}/share/RAVL/QMake BASEINSTALL=1 INSTALLHOME=${BUILDDIR} PROJECT_OUT=${INSTALL_SITE} BUILD_TAG= ROOTDIR=${BUILDDIR} ${BUILDTYPE} ${TARGETARC} FULLBUILDSRC='BASE_VAR=none' INCLUDEDIR=${BUILDDIR}/include/Ravl; then 
   true
 else
   echo "ERROR: Failed to build libraries. "
