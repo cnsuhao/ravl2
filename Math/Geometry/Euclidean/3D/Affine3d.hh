@@ -69,6 +69,9 @@ namespace RavlN {
   Affine3dC FitAffine(const SArray1dC<Point2dC> &orig,const SArray1dC<Point3dC> &newPos,RealT &residual);
   //: Fit points on a 2d plane (this assumes the z position is always zero) to a 3d position.
   
+  Affine3dC FitAffineDirection(const SArray1dC<Point3dC> &points,const SArray1dC<Vector3dC> &directions);
+  //: Fit an affine transformation given some directions and positions.
+  
   inline Affine3dC FitAffine(const SArray1dC<Point3dC> &orig,const SArray1dC<Point3dC> &newPos) {
     RealT residual;
     return FitAffine(orig,newPos,residual);

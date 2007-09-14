@@ -1,3 +1,12 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2007, OmniPerception Ltd.
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+//! author="Charles Galambos"
+//! date="17/3/2007"
+//! docentry="Ravl.API.Math.Geometry.3D"
 
 #include "Ravl/Affine3d.hh"
 #include "Ravl/Matrix.hh"
@@ -5,6 +14,7 @@
 #include "Ravl/Point2d.hh"
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/LeastSquares.hh"
+#include "Ravl/Sums1d2.hh"
 
 namespace RavlN {
   
@@ -126,6 +136,149 @@ namespace RavlN {
     
     return Affine3dC(sr,tr);
   }
+  
+  
+  //: Fit an affine transformation given some directions and positions.
+  // The transform takes a point and from newPos into dir's
+  
+  Affine3dC FitAffineDirection(const SArray1dC<Point3dC> &points,const SArray1dC<Vector3dC> &directions) {
+    RavlAssert(points.Size() == directions.Size());
+    
+    
+    // Gather some stats about the 3d points.
+    
+    Sums1d2C sums[3];
+    for(SArray1dIterC<Point3dC> it(points);it;it++) {
+      for(int i = 0;i < 3;i++)
+        sums[i] += (*it)[i];
+    }
+    
+    Vector3dC gain;
+    Vector3dC offset;
+    for(int i = 0;i < 3;i++) {
+      offset[i] = sums[i].Mean();
+#if 1
+      RealT var = sums[i].Variance(false);
+      if(IsNan(var) || IsInf(var)) {
+        gain[i] = 1.0;
+      } else 
+        gain[i] = 1.0/Sqrt(var);
+#else
+      gain[i] = 1.0;
+#endif
+    }
+    
+    // Normalise points and form matrix.
+    
+    MatrixC A(points.Size() * 3,12);
+    
+    // v := {v0,v1,v2}; 
+    // q := {q0,q1,q2}; 
+    // ar := {{ar00,ar01,a02},{ar10,ar11,ar12},{ar20,ar21,ar22}};
+    // at := {at0,at1,at2};
+    
+    // CrossProduct(v,ar * q + at) = 0;
+    
+    // ar00 ar01 ar02  ar10 ar11 ar12  ar20 ar21 ar22  at0 at1 at2
+    
+    
+    // q -> v
+    
+    UIntT row = 0;
+    for(SArray1dIter2C<Vector3dC,Point3dC> it(directions,points);it;it++) {
+      Point3dC q = (it.Data2() - offset) * gain;
+      Vector3dC v = it.Data1().Unit();
+      
+      // v1*ar20*q0 +v1*ar21*q1 +v1*ar22*q2 -q2*v2*ar12 -q1*v2*ar11 -q0*v2*ar10 +v1*at2 -v2*at1
+      {
+        A[row][ 0] = 0;            // ar00
+        A[row][ 1] = 0;            // ar01
+        A[row][ 2] = 0;            // ar02
+        
+        A[row][ 3] = -v[2] * q[0];  // ar10
+        A[row][ 4] = -v[2] * q[1];  // ar11
+        A[row][ 5] = -v[2] * q[2];  // ar12
+        
+        A[row][ 6] = v[1] * q[0];  // ar20
+        A[row][ 7] = v[1] * q[1];  // ar21
+        A[row][ 8] = v[1] * q[2];  // ar22
+        
+        A[row][ 9] = 0;            // at0
+        A[row][10] = -v[2];        // at1
+        A[row][11] = v[1];         // at2
+        
+        row++;
+      }
+      
+      //v2*ar00*q0 +v2*ar01*q1 +v2*ar02*q2 -q2*v0*ar22 -q1*v0*ar21 -q0*v0*ar20 +v2*at0 -v0*at2
+      {
+        A[row][ 0] = v[2] * q[0]; // ar00
+        A[row][ 1] = v[2] * q[1]; // ar01
+        A[row][ 2] = v[2] * q[2]; // ar02
+        
+        A[row][ 3] = 0;            // ar10
+        A[row][ 4] = 0;            // ar11
+        A[row][ 5] = 0;            // ar12
 
+        A[row][ 6] = -v[0] * q[0];  // ar20
+        A[row][ 7] = -v[0] * q[1];  // ar21
+        A[row][ 8] = -v[0] * q[2];  // ar22
+        
+        A[row][ 9] = v[2];         // at0
+        A[row][10] = 0;            // at1
+        A[row][11] = -v[0];        // at2
+        
+        row++;
+      }
+      
+      //v0*ar10*q0 +v0*ar11*q1 +v0*ar12*q2 -q2*v1*ar02 -q1*v1*ar01 -q0*v1*ar00 +v0*at1 -v1*at0
+      {
+        A[row][ 0] = -v[1] * q[0];   // ar00
+        A[row][ 1] = -v[1] * q[1];   // ar01
+        A[row][ 2] = -v[1] * q[2];   // ar02
+        
+        A[row][ 3] = v[0] * q[0];    // ar10
+        A[row][ 4] = v[0] * q[1];    // ar11
+        A[row][ 5] = v[0] * q[2];    // ar12
+        
+        A[row][ 6] = 0;              // ar20
+        A[row][ 7] = 0;              // ar21
+        A[row][ 8] = 0;              // ar22
+        
+        A[row][ 9] = -v[1];          // at0
+        A[row][10] = v[0];           // at1
+        A[row][11] = 0;              // at2
+        
+        row++;
+      }
+    }
+    
+    RavlAssert(row = A.Rows());
+    
+    VectorC v;
+    LeastSquaresEq0Mag1(A,v);
+    
+    Matrix3dC SR(v[0]*gain[0],v[1]*gain[1],v[2]*gain[2],
+                 v[3]*gain[0],v[4]*gain[1],v[5]*gain[2],
+                 v[6]*gain[0],v[7]*gain[1],v[8]*gain[2]);
+    
+    
+    Vector3dC T(v[9],v[10],v[11]);
+    
+    // (SR * In) + T;
+    // q = (it.Data2() - offset) * gain;
+    
+    Affine3dC ret;
+    
+    // Is the solution a mirror image of the required one ?
+    if(SR.Det() >= 0)
+      ret = Affine3dC(SR,T - SR * offset);
+    else
+      ret = Affine3dC(SR * -1,(T - SR * offset) * -1);
+    
+    //std::cerr << "Aff=" << ret << " Det=" << ret.SRMatrix().Det() << "\n";
+    
+    return ret;
+  }
   
 }

@@ -27,6 +27,7 @@ int testAngles();
 int testLine();
 int testLineDist();
 int testFitAffine();
+int testFitAffineDirections();
 
 int main(int nargs,char **argv) {
   int ln;
@@ -42,12 +43,14 @@ int main(int nargs,char **argv) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
-#if 1
+  if((ln = testFitAffineDirections()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
   if((ln = testAngles()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
-#endif
   
   cerr << "Test passed ok. \n";
   return 0;
@@ -132,15 +135,63 @@ int testFitAffine() {
     if(((aff * Point3dC(ipnt2[i][0],ipnt2[i][1],0)) - opnt2[i]).SumOfSqr() > 0.001)
       return __LINE__;
   }
+  return 0;
+}
+
+int testFitAffineDirections() {
+  
+  cerr << "testFitAffineDirections Called. \n";
+  
+  // Setup some test points.
+  
+  SArray1dC<Point3dC> ipnt(6);
+  ipnt[0] = Point3dC(1,1,3);
+  ipnt[1] = Point3dC(2,1,4);
+  ipnt[2] = Point3dC(1,3,5);
+  ipnt[3] = Point3dC(2,4,6);
+  ipnt[4] = Point3dC(3,2,5);
+  ipnt[5] = Point3dC(4,2,3);
+  
+  SArray1dC<Point3dC> opnt(ipnt.Size());
+  
+  
+  Point3dC center(2.2,3.3,4.4);
+  
+  SArray1dC<Vector3dC> odir(ipnt.Size());
+  
+  Affine3dC testTransform(Matrix3dC(2,0,0,
+                                    0,3,0,
+                                    0,0,2),Vector3dC(1,2,3));
+  
+  // Create direction vectors.
+  
+  for(int i = 0;i < ipnt.Size();i++) {
+    opnt[i] = testTransform * ipnt[i];
+    odir[i] = opnt[i] - center;
+  }
+  
+  // Scale is ambiguous.
+  Affine3dC aff = FitAffineDirection(ipnt,odir);
+  // ipnt -> odir
+  
+  int i;
+  for(i=0;i < ipnt.Size();i++) {
+    //std::cerr << "i=" << i << "  " << ipnt[i] << " -> " << opnt[i] << " Dir=" << odir[i].Unit()  << " " << Vector3dC(aff * ipnt[i]).Unit() << " @ " << aff * ipnt[i] << "\n";
+    
+    if(((aff * ipnt[i]).Unit() - odir[i].Unit()).SumOfSqr() > 0.001)
+      return __LINE__;
+  }
   
   
   return 0;
 }
 
+
 //! date="7/12/2002"
 //! author="Joel Mitchelson"
 
 int testAngles() {
+  
   cerr << "Testing Euler angles...";
   
   for (int sequence = 0; sequence < EulerSequenceC::NumSequences; sequence++)
