@@ -167,12 +167,17 @@ int testFitAffineDirections() {
   
   for(int i = 0;i < ipnt.Size();i++) {
     opnt[i] = testTransform * ipnt[i];
-    odir[i] = opnt[i] - center;
+    odir[i] = opnt[i] - testTransform * center;
   }
   
   // Scale is ambiguous.
   Affine3dC aff = FitAffineDirection(ipnt,odir);
   // ipnt -> odir
+  
+  Point3dC fittedCenter = aff.Inverse() * Vector3dC(0,0,0);
+  //std::cerr << "Fitted center=" << fittedCenter << "\n";
+  if((fittedCenter - center).SumOfSqr() > 0.000001) return __LINE__;
+  
   
   int i;
   for(i=0;i < ipnt.Size();i++) {

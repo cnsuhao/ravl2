@@ -253,7 +253,7 @@ namespace RavlN {
       }
     }
     
-    RavlAssert(row = A.Rows());
+    RavlAssert(row == A.Rows());
     
     VectorC v;
     LeastSquaresEq0Mag1(A,v);
