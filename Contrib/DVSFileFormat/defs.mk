@@ -15,12 +15,13 @@ HEADERS = ImgIOdvsyuv.hh ImgIOdvsrgb.hh GrabfileCommon.hh GrabfileReader.hh Grab
 
 SOURCES = ImgIOdvsyuv.cc ImgIOdvsrgb.cc dvsFormat.cc GrabfileReader.cc GrabfileReaderV1.cc GrabfileWriterV1.cc LegacyGrabfileReader.cc NewGrabfileReader.cc NewGrabfileWriter.cc Utilities.cc
 
-PLIB = RavlVideoIO
+PLIB = RavlGrabIO
 
-LIBDEBS=DVSFileFormat
+#LIBDEBS=DVSFileFormat
 
 #EXAMPLES =
 
 USESLIBS = RavlImageIO RavlOSIO RavlImage RavlExtImgIO
 
+MUSTLINK=RavlGrabIO.cc
 #MAINS= readgrab.cc
