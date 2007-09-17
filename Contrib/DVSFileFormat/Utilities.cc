@@ -288,14 +288,12 @@ ByteFormatT IdToByteFormat(int id)
 {
   // Video Mode
   ByteFormatT format = UNKNOWN_BYTEFORMAT;
-  cout << "IdToByteFormat for id " << id << endl;
   switch(id) {
   case 0:
     format = UNKNOWN_BYTEFORMAT;
     break;
   case 1:
     format = BITS_10_DVS;
-    cout << "Format is BITS_10_DVS" << endl;
     break;
   case 2:
     format = BITS_8;
@@ -303,7 +301,6 @@ ByteFormatT IdToByteFormat(int id)
   default:
     RavlIssueError("Unknown Byte Format Id in IdToByteFormat().") ;
   }
-  cout << "format is " << format << endl;
   return format;
 }
 
