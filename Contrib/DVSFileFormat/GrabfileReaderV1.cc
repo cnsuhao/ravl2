@@ -139,7 +139,6 @@ bool GrabfileReaderV1::GetNextFrametest(BufferC<char> &bu, UIntT &vsize, UIntT &
    }
    ++m_frames_loaded;
   }
-  cout << "GetNextFrametes returning " << ok << endl;
   return ok;
 }
 

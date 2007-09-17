@@ -216,7 +216,6 @@ void GrabfileWriterV1::Reset(VideoModeT vmode,ByteFormatT bformat, IntT vbuf) {
    //Re write Byte format.
    m_outfile.seekp(bfpos-1);
    const uint8_t byte_format_id = ByteFormatToId(bformat);  //modein.ByteFormat());
-   cout << "Writing byteformat " << byte_format_id << endl;
    m_outfile.put(byte_format_id);
    m_byte_format = byte_format_id;
 

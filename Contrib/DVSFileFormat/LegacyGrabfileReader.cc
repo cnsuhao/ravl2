@@ -50,7 +50,6 @@ bool LegacyGrabfileReader::Open(const char* const filename, CardModeC& mode)
 // Open file and read file header.
 bool LegacyGrabfileReader::Open(const char* const filename) //, CardModeC& mode)
 {
-  cout << "LegacyGrabfileReader" << endl;
   // Is the file alread open? It shouldn't be!
   if(m_infile.is_open()) {
     RavlIssueError("LegacyGrabfileReader: Class already contains an open file.");
@@ -62,7 +61,6 @@ bool LegacyGrabfileReader::Open(const char* const filename) //, CardModeC& mode)
     m_infile.open(filename, std::ios::binary | std::ios::in);
   //  ok = IsGrabfile(m_infile);
   //}
-  cout << "bool ok is " << ok << endl;
   // Is the version correct, (this code will only deal with version 1,
   // hence the hardcode below.
   /*if(ok) {
@@ -97,10 +95,10 @@ bool LegacyGrabfileReader::Open(const char* const filename) //, CardModeC& mode)
     char frameratearr[8];
     m_infile.read(framesarr,4);
     m_infile.read(frameratearr,8);
-    cout << "sizeof UIntT" << sizeof(IntT) << endl;
+    
     //char videomodearr[4];
     m_infile.read(reinterpret_cast<char*>(&videomode),4);
-    cout << "videomode is " << videomode << endl;
+    
     //uint8_t id = m_infile.get();
     //m_mode.VideoMode(IdToVideoMode(id));
     //videomode = IdToVideoMode(id);
@@ -112,18 +110,18 @@ bool LegacyGrabfileReader::Open(const char* const filename) //, CardModeC& mode)
     //id = (uint8_t)id2;
     //cout << "Saving byte format " << IdToByteFormat(id2) << endl;
     //byteformat = int(id2);  //IdToByteFormat(id);
-    cout << "legacy reader byteformat setting is " << byteformat << endl;
+    
 
     //char id3 = m_infile.get();
     m_infile.read(reinterpret_cast<char*>(&colourmode),4);
-    cout << "colourmode is " << colourmode << endl;
+    
     //m_mode.ColourMode(IdToColourMode(id));
     //colourmode = int(id3);  //IdToColourMode(id);
 
     AudioChannelsT audioChannels;
     AudioBitsT audioBits;
     AudioFreqT audioFreq;
-    cout << "sizeof audiochannels" << sizeof(audioFreq) << endl;
+    
     char audiochannels[4];
     char audiobits[4];
     char audiofreq[4];

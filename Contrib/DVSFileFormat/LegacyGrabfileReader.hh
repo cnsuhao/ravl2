@@ -54,11 +54,9 @@ public:
   //: The version of the reader.
 
   virtual ByteFormatT getByteFormat() { 
-  cout << "legacy reader ByteFormat is " << byteformat << endl;
   return byteformat;}
 
   virtual ColourModeT getColourMode() { 
-  cout << "legacy reader ColourMode is " << colourmode << endl;
   return colourmode;}
 
   //--------------------------------------------------------------------------//
