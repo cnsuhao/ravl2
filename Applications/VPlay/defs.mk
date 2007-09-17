@@ -30,7 +30,8 @@ PROGLIBS =  RavlImgIOV4L.opt RavlExtImgIO.opt RavlDPDisplay \
  RavlImageIO RavlVideoIO  CSPDriver.opt RavlURLIO.opt RavlLibMPEG2.opt \
   RavlImageProc RavlNet RavlDVDRead.opt RavlAVIFile.opt \
  RavlIOV4L2.opt RavlImgIOJasper.opt RavlDV.opt RavlImgIO1394dc.opt \
- RavlLibFFmpeg.opt
+ RavlLibFFmpeg.opt RavlGrabIO.opt
+
 
 #EHT = exeVPlay.eht
 
