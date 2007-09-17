@@ -27,7 +27,6 @@ namespace RavlImageN {
   extern void InitImgIOComposites(); // Composite image streams.
   extern void InitJSFormat(); // Initalise format for js files. 
   extern void InitAviFormat(); // Initalise AVI IO.
-  extern void InitDVSYUV422Format();  // Grab file yuv422 formats.
   
 }
 #endif

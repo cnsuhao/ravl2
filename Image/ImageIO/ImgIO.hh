@@ -48,7 +48,6 @@ namespace RavlImageN {
   extern void InitCompatIORGB();
   extern void InitCompatIOYUV();
   extern void InitCompatIOY();
-  extern void InitDVSYUV422Format();
 
 }
 #endif
