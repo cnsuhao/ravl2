@@ -263,7 +263,6 @@ ByteFormatT IdToByteFormat(uint8_t id)
 {
   // Video Mode
   ByteFormatT format = UNKNOWN_BYTEFORMAT;
-  //cout << "IdToByteFormat for id " << id << endl;
   switch(id) {
   case 0:
     format = UNKNOWN_BYTEFORMAT;

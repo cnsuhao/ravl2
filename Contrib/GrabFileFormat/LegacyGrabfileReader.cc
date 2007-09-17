@@ -73,7 +73,7 @@ bool LegacyGrabfileReader::Open(const char* const filename) //, CardModeC& mode)
     // Video buffer size
     m_infile.read(reinterpret_cast<char*>(&dummy_int), 4);
     m_video_buffer_size = dummy_int;
-    //cout << "m_video_buffer_size is " << dummy_int << endl;
+    
   
     // Audio buffer size
     m_infile.read(reinterpret_cast<char*>(&dummy_int), 4);
@@ -108,7 +108,7 @@ bool LegacyGrabfileReader::Open(const char* const filename) //, CardModeC& mode)
     m_infile.read(reinterpret_cast<char*>(&byteformat),4);
     //m_mode.ByteFormat(IdToByteFormat(id));
     //id = (uint8_t)id2;
-    //cout << "Saving byte format " << IdToByteFormat(id2) << endl;
+   
     //byteformat = int(id2);  //IdToByteFormat(id);
     
 

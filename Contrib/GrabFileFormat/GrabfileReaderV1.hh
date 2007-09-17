@@ -75,11 +75,9 @@ public:
   virtual IntT ColourMode() {return colourmode;}
 
   virtual ByteFormatT getByteFormat() { 
-  //cout << "ByteFormat is " << IdToByteFormat((int)byteformat) << endl;
   return IdToByteFormat((UIntT)byteformat);}
 
   virtual ColourModeT getColourMode() { 
-  //cout << "ColourMode is " << IdToColourMode(colourmode) << endl;
   return IdToColourMode((UIntT)colourmode);}
 
 

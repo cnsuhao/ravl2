@@ -64,9 +64,7 @@ bool GrabfileReaderV1::Open(const char* const filename) //, CardModeC& mode)
     char id2 = m_infile.get();
     //m_mode.ByteFormat(IdToByteFormat(id));
     //id = (uint8_t)id2;
-    //cout << "Saving byte format " << IdToByteFormat(id2) << endl;
     byteformat = int(id2);  //IdToByteFormat(id);
-    //cout << "byteformat is " << byteformat << endl;
 
     char id3 = m_infile.get();
     //m_mode.ColourMode(IdToColourMode(id));
