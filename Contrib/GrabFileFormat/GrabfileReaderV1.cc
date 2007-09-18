@@ -59,7 +59,7 @@ bool GrabfileReaderV1::Open(const char* const filename) //, CardModeC& mode)
 
     UIntT id = m_infile.get();
     //m_mode.VideoMode(IdToVideoMode(id));
-    videomode = IdToVideoMode(id);
+    videomode = id;
 
     char id2 = m_infile.get();
     //m_mode.ByteFormat(IdToByteFormat(id));
