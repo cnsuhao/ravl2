@@ -7,6 +7,11 @@
 //! rcsid="$Id$"
 //! lib=RavlLibFFmpeg
 
+#ifndef __STDC_CONSTANT_MACROS
+#define __STDC_CONSTANT_MACROS 1
+#include <stdint.h>
+#endif
+
 #include "Ravl/Image/FFmpegVideoDecoder.hh"
 #include "Ravl/Exception.hh"
 #include "Ravl/DP/AttributeValueTypes.hh"

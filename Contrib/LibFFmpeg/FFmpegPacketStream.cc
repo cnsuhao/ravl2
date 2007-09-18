@@ -7,9 +7,6 @@
 //! rcsid="$Id$"
 //! lib=RavlLibFFmpeg
 
-#define __STDC_CONSTANT_MACROS 1
-#include <stdint.h>
-
 #include "Ravl/Image/FFmpegPacketStream.hh"
 #include "Ravl/DP/AttributeValueTypes.hh"
 #include "Ravl/Exception.hh"
@@ -80,7 +77,7 @@ namespace RavlN {
   bool FFmpegPacketStreamBodyC::FirstVideoStream(IntT &videoStreamId,IntT &codecId) {
     
     // Find the first video stream
-    for (IntT i = 0; i < pFormatCtx->nb_streams; i++) {
+    for (IntT i = 0; i < (IntT)pFormatCtx->nb_streams; i++) {
       if (pFormatCtx->streams[i]->codec->codec_type != CODEC_TYPE_VIDEO) 
         continue;
       
@@ -141,7 +138,7 @@ namespace RavlN {
     ONDEBUG(cerr << "FFmpegPacketStreamBodyC::CheckForVideo streams= "<< pFormatCtx->nb_streams << endl);
     
     // Find the first video stream
-    for (IntT i = 0; i < pFormatCtx->nb_streams; i++) {
+    for (IntT i = 0; i < (IntT)pFormatCtx->nb_streams; i++) {
       if (pFormatCtx->streams[i]->codec->codec_type != CODEC_TYPE_VIDEO) 
         continue;
       

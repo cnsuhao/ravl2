@@ -10,6 +10,11 @@
 //! author = "Warren Moore"
 //! file="Ravl/Contrib/LibFFmpeg/LibFFmpegFormat.cc"
 
+#ifndef __STDC_CONSTANT_MACROS
+#define __STDC_CONSTANT_MACROS 1
+#include <stdint.h>
+#endif
+
 #include "Ravl/Image/LibFFmpegFormat.hh"
 #include "Ravl/Image/ImgIOFFmpeg.hh"
 #include <ctype.h>

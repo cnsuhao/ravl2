@@ -10,6 +10,11 @@
 //! lib=RavlLibFFmpeg
 //! docentry = "Ravl.API.Images.Video.Video IO.LibFFmpeg"
 
+#ifndef __STDC_CONSTANT_MACROS
+#define __STDC_CONSTANT_MACROS 1
+#include <stdint.h>
+#endif
+
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/Image/FFmpegPacket.hh"
 
