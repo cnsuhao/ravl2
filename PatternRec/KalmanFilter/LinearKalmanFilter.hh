@@ -42,13 +42,6 @@ namespace RavlN {
     // calculate the Updated State and Covariance
     // Also known as the 'Update Stage'
     // R is the measurement noise covariance
-		  
-    virtual VectorMatrixC Update( const VectorMatrixC &Xk, const VectorC &Uk, const MatrixC &Qk,
-				  const VectorC &Zk, const MatrixC &R ) const;
-    //: Evaluate the EKF for the Predict and Update Stage
-    // Given a system model, with measurement model h. For the previous state Xk with error Qk,
-    // along with the measurement Zk with error R, calculate the updated state
-    // Qk is process noise covariance
     
     virtual bool SetSystemModel(const MatrixC &a, const MatrixC &b );
     //: Set the system model
