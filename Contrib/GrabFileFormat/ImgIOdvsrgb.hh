@@ -98,7 +98,7 @@ namespace RavlImageN {
     DPIImageDVSRGBBodyC(GrabfileReader& file_reader,const IStreamC &nStrm,const Index2dC &size = Index2dC(576,720));
     //: Constructor from stream 
     
-    DPIImageDVSRGBBodyC(const StringC &fn,bool useHdr = true);
+    DPIImageDVSRGBBodyC(GrabfileReader& file_reader,const StringC &fn,bool useHdr = true);
     //: Constructor from filename
     
     virtual bool Seek(UIntT off);

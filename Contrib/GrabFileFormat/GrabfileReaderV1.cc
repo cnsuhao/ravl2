@@ -206,9 +206,9 @@ BufferC<char> GrabfileReaderV1::GetNextFrame()
        
       }
   }
-  else {
+  //else {
      return BufferC<char>();
-  }
+  //}
 /*
   if(ok) {
     ++m_frames_loaded;

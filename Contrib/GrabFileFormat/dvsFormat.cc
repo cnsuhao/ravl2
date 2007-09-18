@@ -68,10 +68,11 @@ namespace RavlImageN {
           }
         }
     }
-    else {
+    //else {
+    //Got this far then unable to open grab file so issue error.
        RavlIssueError("Could not open grab file.") ;
        return typeid(void);
-    }
+    //}
   }
   
   const type_info &
@@ -121,6 +122,8 @@ namespace RavlImageN {
 	     return typeid(void);
           }
         }
+	RavlIssueError("Could not open output grabfile");
+        return typeid(void);
     }
   
   //: Create a input port for loading.

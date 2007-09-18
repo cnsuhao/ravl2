@@ -143,7 +143,7 @@ namespace RavlImageN {
   DPOImageDVSYUV422BodyC::DPOImageDVSYUV422BodyC(GrabfileWriter& file_write,const OStreamC &nStrm,const Index2dC &size)
     : DPImageDVSYUV422BaseBodyC(size),
       strm(nStrm),
-      Imgcopy(),
+      //Imgcopy(),
       file_writer(file_write)
   {
     if(!file_write.Ok()) {

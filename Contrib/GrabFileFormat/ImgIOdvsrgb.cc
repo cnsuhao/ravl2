@@ -82,7 +82,7 @@ namespace RavlImageN {
   
   //: Constructor from stream 
   
-  DPIImageDVSRGBBodyC::DPIImageDVSRGBBodyC(const StringC &fn,bool useHdr) : file_read()  {
+  DPIImageDVSRGBBodyC::DPIImageDVSRGBBodyC(GrabfileReader& file_reader,const StringC &fn,bool useHdr) : file_read(file_reader)  {
     rawMode = true;
     fd = open(fn.chars(),O_RDONLY);
   }
