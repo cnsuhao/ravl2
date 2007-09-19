@@ -68,7 +68,7 @@ public:
   virtual BufferC<char> GetNextFrame() {return false;}
   //: Read the next frame to a buffer.
 
-  virtual BufferC<char> BufferWithAVSize() {return false;}
+  //virtual BufferC<char> BufferWithAVSize() {return false;}
  
   virtual bool CanGetByFrameNumber() {return false;}
   //: Is the reader able to read a specific frame?

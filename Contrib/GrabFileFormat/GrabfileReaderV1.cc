@@ -141,7 +141,7 @@ bool GrabfileReaderV1::GetNextFrametest(BufferC<char> &bu, UIntT &vsize, UIntT &
 }
 
 
-BufferC<char> GrabfileReaderV1::BufferWithAVSize() {
+/*BufferC<char> GrabfileReaderV1::BufferWithAVSize() {
    if(m_infile.good()) {
       int csize = m_video_buffer_size + 8; 
       char * obuf = new char[csize];
@@ -153,7 +153,7 @@ BufferC<char> GrabfileReaderV1::BufferWithAVSize() {
       //infile not good so return null.
       return BufferC<char>();
    }
-}
+}*/
 
 
 BufferC<char> GrabfileReaderV1::GetNextFrame()

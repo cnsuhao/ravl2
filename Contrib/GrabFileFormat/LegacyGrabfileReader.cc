@@ -208,20 +208,20 @@ bool LegacyGrabfileReader::GetNextFrametest(BufferC<char> &bu, UIntT &vsize, UIn
    
     VideoOffsetsT videoOffsets;
     AudioOffsetsT audioOffsets;
-    char videooffsets[8];
-    char audiooffsets[32];
+    //char videooffsets[8];
+    //char audiooffsets[32];
     
-    m_infile.read(videooffsets,8);
+    m_infile.read(reinterpret_cast<char*>(&videoOffsets[0]),8);
     
-    m_infile.read(audiooffsets,32);
+    m_infile.read(reinterpret_cast<char*>(&audioOffsets[0]),32);
     //IntT frames;
     //RealT frameRate;
-    char framesarr[4];
-    char framesratearr[8];
+    //char framesarr[4];
+    //char framesratearr[8];
   
-    m_infile.read(framesarr,4);
+    m_infile.read(reinterpret_cast<char*>(&m_number_of_frames),4);
    
-    m_infile.read(framesratearr,8);
+    m_infile.read(reinterpret_cast<char*>(&m_frame_rate),8);
 
     m_infile.read(reinterpret_cast<char*>(&videomode),4);
 
@@ -235,18 +235,18 @@ bool LegacyGrabfileReader::GetNextFrametest(BufferC<char> &bu, UIntT &vsize, UIn
     colourmode = cmt;
     
 
-    //AudioChannelsT audioChannels;
-    //AudioBitsT audioBits;
-    //AudioFreqT audioFreq;
-    char audiochannels[4];
-    char audiobits[4];
-    char audiofreq[4];
+    AudioChannelsT audioChannels;
+    AudioBitsT audioBits;
+    AudioFreqT audioFreq;
+    //char audiochannels[4];
+    //char audiobits[4];
+    //char audiofreq[4];
   
-    m_infile.read(audiochannels,4);
+    m_infile.read(reinterpret_cast<char*>(&audioChannels),4);
    
-    m_infile.read(audiobits,4);
+    m_infile.read(reinterpret_cast<char*>(&audioBits),4);
  
-    m_infile.read(audiofreq,4);
+    m_infile.read(reinterpret_cast<char*>(&audioFreq),4);
    
     if(m_infile.good()) {
       int csize = m_video_buffer_size + m_audio_buffer_size; 

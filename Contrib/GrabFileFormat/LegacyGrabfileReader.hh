@@ -71,6 +71,10 @@ protected:
 
   int m_audio_buffer_size;
 
+  IntT m_number_of_frames;
+
+  RealT m_frame_rate;
+
   VideoModeT videomode;
   ByteFormatT byteformat;
   ColourModeT colourmode;

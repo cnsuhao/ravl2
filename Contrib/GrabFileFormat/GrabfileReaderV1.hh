@@ -62,7 +62,7 @@ public:
   virtual bool GetNextFrametest(BufferC<char> &bu,UIntT &vsize,UIntT &asize);
   //: Read the next frame to a buffer.
 
-  virtual BufferC<char> BufferWithAVSize();
+  //virtual BufferC<char> BufferWithAVSize();
 
   virtual BufferC<char> GetNextFrame();
   //: Read the next frame to a buffer.
