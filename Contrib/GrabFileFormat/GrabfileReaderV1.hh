@@ -80,6 +80,10 @@ public:
   virtual ColourModeT getColourMode() { 
   return IdToColourMode((UIntT)colourmode);}
 
+  virtual RealT getFrameRate() {return m_frame_rate;}
+
+  virtual IntT getNumberOfFrames() {return m_number_of_frames;}
+
 
 
 protected:
@@ -92,10 +96,10 @@ protected:
   int m_audio_buffer_size;
   //: The audio buffer size in bytes.
 
-  int m_frame_rate;
+  RealT m_frame_rate;
   //: The frame rate.
 
-  int m_number_of_frames;
+  IntT m_number_of_frames;
   //: The number of frames.
 
   //CardModeC m_mode;

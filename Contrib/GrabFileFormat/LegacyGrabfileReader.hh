@@ -59,6 +59,11 @@ public:
   virtual ColourModeT getColourMode() { 
   return colourmode;}
 
+  virtual RealT getFrameRate() {return m_frame_rate;}
+
+  virtual IntT getNumberOfFrames() {return m_number_of_frames;}
+
+
   //--------------------------------------------------------------------------//
 
 protected:

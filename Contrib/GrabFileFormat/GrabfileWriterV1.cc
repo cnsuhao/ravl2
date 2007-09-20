@@ -112,7 +112,8 @@ bool GrabfileWriterV1::Openva(const char* const filename,
     //dummy_int = htonl(card.InputFifo().VideoBufferSize());
     dummy_int = htonl(videobuffersize);
     
-    
+     cout << "Video buffer position is " << m_outfile.tellp() << endl;
+
     m_outfile.write(reinterpret_cast<char*>(&dummy_int), 4);
     m_video_buffer_size = videobuffersize;
 
@@ -123,22 +124,29 @@ bool GrabfileWriterV1::Openva(const char* const filename,
     m_audio_buffer_size = dummy_int;
 
    //TimeCode.
- /*  pos = m_outfile.tellp();
-   m_outfile.write(reinterpret_cast<char*>('0'),4);
-   dummy_int = htonl(25);
-   m_outfile.write(reinterpret_cast<char*>(&dummy_int),8);  */
-    
+   //nbrframes = m_outfile.tellp();
+   cout << "Number of frames position is " << pos << endl;
+   IntT nf = 3;
+   m_outfile.write(reinterpret_cast<char*>(&nf),4);
+   RealT dummy = 25;
+   dummy_int = htonl(dummy);
+   cout << "Frame rate position is " << m_outfile.tellp() << endl;
+   m_outfile.write(reinterpret_cast<char*>(&dummy_int),8);
+    //cout << "video mode position is " << m_outfile.tellp() << endl;
+ 
     const uint8_t mode_id = VideoModeToId(videomode);  //mode.VideoMode());
     m_outfile.put(mode_id);
  
 
 
-  
+   cout << "video mode position is " << m_outfile.tellp() << endl;
+
     const uint8_t byte_format_id = ByteFormatToId(byteformat);  //mode.ByteFormat());
     m_outfile.put(byte_format_id);
     m_byte_format = byte_format_id;
    
 
+ cout << "byte format position is " << m_outfile.tellp() << endl;
 
     const uint8_t colour_mode_id =  ColourModeToId(colourmode);  //mode.ColourMode());
     m_outfile.put(colour_mode_id);
@@ -155,6 +163,11 @@ bool GrabfileWriterV1::Openva(const char* const filename,
 // Close file.
 void GrabfileWriterV1::Close()
 {
+   m_outfile.flush();
+   m_outfile.seekp(nbrframes-4);
+   uint32_t dummy_int = htonl(m_frames_written);
+   m_outfile.write(reinterpret_cast<char*>(&dummy_int),4);
+  cout << "m_frames_written " << m_frames_written << endl;
   m_outfile.close();
 }
 
@@ -164,8 +177,8 @@ void GrabfileWriterV1::Close()
 //Close file and re write frame number.
 void GrabfileWriterV1::Close(int numberofframes) {
    m_outfile.flush();
-   m_outfile.seekp(pos);
-   m_outfile.write(reinterpret_cast<char*>(htonl(numberofframes)),1);
+   m_outfile.seekp(nbrframes-4);
+   m_outfile.write(reinterpret_cast<char*>(htonl(numberofframes)),4);
    //may need to change this if the close call writes characters to the file as it is in the middle of the header at this point.
    m_outfile.close();
 }
@@ -245,6 +258,7 @@ bool GrabfileWriterV1::PutFrame2(BufferC<char> &fr,UIntT &te) {
     m_outfile.write(fr.BufferAccess().DataStart(),fr.BufferAccess().Size());
 
     }
+    ++m_frames_written;
     return true;
 
 }

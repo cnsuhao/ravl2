@@ -51,12 +51,12 @@ bool GrabfileReaderV1::Open(const char* const filename) //, CardModeC& mode)
     m_audio_buffer_size = ntohl(dummy_int);
 
    //code to possible deal with time codes in the future.
-  //  m_infile.read(reinterpret_cast<char*>(&dummy_int),4);
-  //  m_number_of_frames = ntohl(dummy_int);
-
-   // m_infile.read(reinterpret_cast<char*>(&dummy_int),8);
-   // m_frame_rate = ntohl(dummy_int);
-
+    m_infile.read(reinterpret_cast<char*>(&dummy_int),4);
+    m_number_of_frames = ntohl(dummy_int);
+    cout << "number of frames read is " << m_number_of_frames << endl;
+    m_infile.read(reinterpret_cast<char*>(&dummy_int),8);
+    m_frame_rate = ntohl(dummy_int);
+    cout << "frame rate read is " << m_frame_rate << endl;
     UIntT id = m_infile.get();
     //m_mode.VideoMode(IdToVideoMode(id));
     videomode = id;

@@ -91,6 +91,10 @@ public:
 
   virtual ColourModeT getColourMode() {return ColourModeT();}
 
+  virtual RealT getFrameRate() {return 0;}
+
+  virtual IntT getNumberOfFrames() {return 0;}
+
   // Non-virtual functions
 
   inline frame_number_t FramesLoaded() const { return m_frames_loaded; }

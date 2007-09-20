@@ -88,17 +88,22 @@ protected:
   int pos;
   //: Position of the number of frames in the outputfile used to rewrite the number of frames upon closing the file.
 
+  int m_frames_written;
+
 private:
   static const int m_version_number = 1;
 
   static const int vbpos = 12;
   //: Position of videobuffer data in output file.
 
-  static const int vmpos = 17;
+  static const int vmpos = 29;
   //: Position of video mode data in output file.
 
-  static const int bfpos = 18;
+  static const int bfpos = 30;
   //: Position of video byte format data in output file.
+
+  static const int nbrframes = 20;
+  //: Position of number of frames data in output file.
 
 };
 
