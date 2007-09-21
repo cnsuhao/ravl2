@@ -7,7 +7,7 @@
 namespace RavlImageN {
 //==========================================================================//
 
-LegacyGrabfileReader::~LegacyGrabfileReader()
+LegacyGrabfileReaderC::~LegacyGrabfileReaderC()
 {
   if(m_infile.is_open()) {
     m_infile.close();
@@ -48,7 +48,7 @@ bool LegacyGrabfileReader::Open(const char* const filename, CardModeC& mode)
 }
 */
 // Open file and read file header.
-bool LegacyGrabfileReader::Open(const char* const filename) //, CardModeC& mode)
+bool LegacyGrabfileReaderC::Open(const char* const filename) //, CardModeC& mode)
 {
   // Is the file alread open? It shouldn't be!
   if(m_infile.is_open()) {
@@ -147,7 +147,7 @@ bool LegacyGrabfileReader::Open(const char* const filename) //, CardModeC& mode)
 //--------------------------------------------------------------------------//
 
 // Close file.
-void LegacyGrabfileReader::Close()
+void LegacyGrabfileReaderC::Close()
 {
   //fclose (m_file);
   //m_file = 0;
@@ -156,7 +156,7 @@ void LegacyGrabfileReader::Close()
 
 
 //-------------------------------------------------------------------------//
-bool LegacyGrabfileReader::HaveMoreFrames()
+bool LegacyGrabfileReaderC::HaveMoreFrames()
 {
   m_infile.peek();
   return m_infile.eof();
@@ -167,7 +167,7 @@ bool LegacyGrabfileReader::HaveMoreFrames()
 //--------------------------------------------------------------------------//
 
 // Are there any problems with the IO?
-bool LegacyGrabfileReader::Ok() const
+bool LegacyGrabfileReaderC::Ok() const
 {
   return m_infile.good();
 }
@@ -188,7 +188,7 @@ bool LegacyGrabfileReader::GetNextFrame(DVSBufferC &buffer)
 */
 
 // Read the next frame to a buffer.
-bool LegacyGrabfileReader::GetNextFrametest(BufferC<char> &bu, UIntT &vsize, UIntT &asize)   //(DVSBufferC &buffer)
+bool LegacyGrabfileReaderC::GetNextFrametest(BufferC<char> &bu, UIntT &vsize, UIntT &asize)   //(DVSBufferC &buffer)
 {
   bool ok = HaveMoreFrames();
  

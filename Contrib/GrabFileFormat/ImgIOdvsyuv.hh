@@ -28,7 +28,7 @@
 #include "Ravl/Image/NewGrabfileReader.hh"
 #include "Ravl/Image/NewGrabfileWriter.hh"
 #include "Ravl/Image/WarpScale.hh"
-//#include "Ravl/Image/CardMode.hh"
+
 using namespace RavlImageN;
 using namespace RavlN;
 
@@ -96,7 +96,7 @@ namespace RavlImageN {
       public DPImageDVSYUV422BaseBodyC
   {
   public:  
-    DPIImageDVSYUV422BodyC(GrabfileReader& file_reader,const IStreamC &nStrm,const Index2dC &size = Index2dC(576,720));
+    DPIImageDVSYUV422BodyC(GrabfileReaderC& file_reader,const IStreamC &nStrm,const Index2dC &size = Index2dC(576,720));
     //: Constructor from stream 
     
     virtual bool Seek(UIntT off);
@@ -138,7 +138,7 @@ namespace RavlImageN {
     
   protected:
     IStreamC strm; 
-    GrabfileReader& file_read;  
+    GrabfileReaderC& file_read;  
     //CardModeC card;
   };
   
@@ -151,7 +151,7 @@ namespace RavlImageN {
       public DPImageDVSYUV422BaseBodyC
   {
   public:
-    DPOImageDVSYUV422BodyC(GrabfileWriter& file_write,const OStreamC &nStrm,const Index2dC &size  = Index2dC(576,720));
+    DPOImageDVSYUV422BodyC(GrabfileWriterC& file_write,const OStreamC &nStrm,const Index2dC &size  = Index2dC(576,720));
     //: Constructor from stream 
     
     virtual bool Seek(UIntT off);
@@ -183,7 +183,7 @@ namespace RavlImageN {
    
   protected: 
     OStreamC strm;
-    GrabfileWriter& file_writer;
+    GrabfileWriterC& file_writer;
     //mutable CardModeC card, cards;
     mutable VideoModeT vmode;
     mutable ByteFormatT bformat;
@@ -198,10 +198,10 @@ namespace RavlImageN {
     : public DPISPortC<ImageC<ByteYUV422ValueC> >
   {
   public:
-    DPIImageDVSYUV422C(GrabfileReader& file_reader,const StringC &fn);
+    DPIImageDVSYUV422C(GrabfileReaderC& file_reader,const StringC &fn);
     //: Constructor from filename.  
     
-    DPIImageDVSYUV422C(GrabfileReader& file_reader,const IStreamC &nStrm,const Index2dC &size = Index2dC(576,720))
+    DPIImageDVSYUV422C(GrabfileReaderC& file_reader,const IStreamC &nStrm,const Index2dC &size = Index2dC(576,720))
       : DPEntityC(*new DPIImageDVSYUV422BodyC(file_reader,nStrm,size))
       {}
     //: Constructor from stream 
@@ -215,10 +215,10 @@ namespace RavlImageN {
     : public DPOSPortC<ImageC<ByteYUV422ValueC> >
   {
   public:
-    DPOImageDVSYUV422C(GrabfileWriter& file_write,const StringC &fn);
+    DPOImageDVSYUV422C(GrabfileWriterC& file_write,const StringC &fn);
     //: Constructor from filename.  
     
-    DPOImageDVSYUV422C(GrabfileWriter& file_write,const OStreamC &nStrm,const Index2dC &size = Index2dC(576,720))
+    DPOImageDVSYUV422C(GrabfileWriterC& file_write,const OStreamC &nStrm,const Index2dC &size = Index2dC(576,720))
       : DPEntityC(*new DPOImageDVSYUV422BodyC(file_write,nStrm,size))
       {}
     //: Constructor from stream 

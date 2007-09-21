@@ -10,7 +10,6 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/SArray1d.hh"
-//#include "Ravl/Image/CardMode.hh"
 
 namespace RavlImageN {
 
@@ -22,9 +21,9 @@ namespace RavlImageN {
 //: Write the data from the DVS capture system to a file.
 // This is the base class for Grabfile writers. It should not contain
 // any pure virtual functions except for Version().
-class GrabfileWriter {
+class GrabfileWriterC {
 public:
-  GrabfileWriter()
+  GrabfileWriterC()
     :
     m_frame_number(-1),
     m_frames_written(0)
@@ -32,11 +31,11 @@ public:
     // Do nothing
   }
 
-  virtual ~GrabfileWriter() {}
+  virtual ~GrabfileWriterC() {}
 
   //==========================================================================//
 
-  typedef GrabfileCommon::frame_number_t frame_number_t;
+  typedef GrabfileCommonN::frame_number_t frame_number_t;
   //: Type to store the frame number.
 
   virtual bool Openva(const char* const filename,

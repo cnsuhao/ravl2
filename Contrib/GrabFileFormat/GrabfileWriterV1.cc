@@ -1,8 +1,4 @@
 #include "Ravl/Image/GrabfileWriterV1.hh"
-
-//#include "Buffer.hh"
-//#include "Ravl/Image/CardMode.hh"
-//#include "DVSCard.hh"
 #include "Ravl/Assert.hh"
 #include "Ravl/StrStream.hh"
 #include "Ravl/SArray1d.hh"
@@ -11,7 +7,7 @@
 namespace RavlImageN {
 //==========================================================================//
 
-GrabfileWriterV1::~GrabfileWriterV1()
+GrabfileWriterV1C::~GrabfileWriterV1C()
 {
   if(m_outfile.is_open()) {
     Close();
@@ -77,7 +73,7 @@ bool GrabfileWriterV1::Open(const char* const filename,
 
 
 // Open file and write file header.
-bool GrabfileWriterV1::Openva(const char* const filename,
+bool GrabfileWriterV1C::Openva(const char* const filename,
                           //DVSCardC& card,
                           //CardModeC& mode,
 			  VideoModeT videomode, ByteFormatT byteformat, ColourModeT colourmode, IntT videobuffersize,IntT audiobuffersize)
@@ -128,8 +124,8 @@ bool GrabfileWriterV1::Openva(const char* const filename,
    cout << "Number of frames position is " << pos << endl;
    IntT nf = 3;
    m_outfile.write(reinterpret_cast<char*>(&nf),4);
-   RealT dummy = 25;
-   dummy_int = htonl(dummy);
+   //RealT dummy = 25;
+   dummy_int = htonl(frame_rate);
    cout << "Frame rate position is " << m_outfile.tellp() << endl;
    m_outfile.write(reinterpret_cast<char*>(&dummy_int),8);
     //cout << "video mode position is " << m_outfile.tellp() << endl;
@@ -161,7 +157,7 @@ bool GrabfileWriterV1::Openva(const char* const filename,
 //--------------------------------------------------------------------------//
 
 // Close file.
-void GrabfileWriterV1::Close()
+void GrabfileWriterV1C::Close()
 {
    m_outfile.flush();
    m_outfile.seekp(nbrframes-4);
@@ -175,7 +171,7 @@ void GrabfileWriterV1::Close()
 
 //-------------------------------------------------------------------------//
 //Close file and re write frame number.
-void GrabfileWriterV1::Close(int numberofframes) {
+void GrabfileWriterV1C::Close(int numberofframes) {
    m_outfile.flush();
    m_outfile.seekp(nbrframes-4);
    m_outfile.write(reinterpret_cast<char*>(htonl(numberofframes)),4);
@@ -185,7 +181,7 @@ void GrabfileWriterV1::Close(int numberofframes) {
 
 
 // Are there any problems with the IO?
-bool GrabfileWriterV1::Ok() const
+bool GrabfileWriterV1C::Ok() const
 {
   return m_outfile.good();
 }
@@ -207,12 +203,12 @@ bool GrabfileWriterV1::PutFrame(const DVSBufferC &buffer)
   return ok;
 }*/
 
-int GrabfileWriterV1::VideoBuffer() {
+int GrabfileWriterV1C::VideoBuffer() {
    return m_video_buffer_size;
    }
 
 
-void GrabfileWriterV1::Reset(VideoModeT vmode,ByteFormatT bformat, IntT vbuf) {
+void GrabfileWriterV1C::Reset(VideoModeT vmode,ByteFormatT bformat, IntT vbuf) {
    int currentpos = m_outfile.tellp();
    uint32_t dummy_int = 0;
    //Re write video buffer size.
@@ -236,7 +232,7 @@ void GrabfileWriterV1::Reset(VideoModeT vmode,ByteFormatT bformat, IntT vbuf) {
    //m_outfile.flush();
 }
 
-bool GrabfileWriterV1::PutFrame2(BufferC<char> &fr,UIntT &te) {
+bool GrabfileWriterV1C::PutFrame2(BufferC<char> &fr,UIntT &te) {
  //SArray1dC<char> mov(fr.Size());
  //for(int z=0;z<fr.Size();z++) {
  //   mov[z] = fr.BufferAccess()[z];
@@ -264,7 +260,7 @@ bool GrabfileWriterV1::PutFrame2(BufferC<char> &fr,UIntT &te) {
 }
 
 // Write frame.
-bool GrabfileWriterV1::PutFrameA(SArray1dC<char> &ar)
+bool GrabfileWriterV1C::PutFrameA(SArray1dC<char> &ar)
 {
   // Write the frame header.
 

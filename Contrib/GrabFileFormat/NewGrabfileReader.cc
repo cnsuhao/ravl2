@@ -7,17 +7,17 @@ namespace RavlImageN {
 
 //==========================================================================//
 
-GrabfileReader* NewGrabfileReader(const char* const filename, bool legacy)
+GrabfileReaderC* NewGrabfileReader(const char* const filename, bool legacy)
 {
-  GrabfileReader* p = 0;
+  GrabfileReaderC* p = 0;
 
   if(legacy) {
-    p = new LegacyGrabfileReader();
+    p = new LegacyGrabfileReaderC();
   } else {
-    const int version = GrabfileReader::FileVersion(filename);
+    const int version = GrabfileReaderC::FileVersion(filename);
     switch(version) {
     case 1:
-      p = new GrabfileReaderV1();
+      p = new GrabfileReaderV1C();
       break;
     }
   }

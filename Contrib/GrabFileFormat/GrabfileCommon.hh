@@ -3,7 +3,7 @@
 
 namespace RavlImageN {
 
-namespace GrabfileCommon {
+namespace GrabfileCommonN {
 
 const char GrabfileFOURCC[4] = {'G', 'r', 'a', 'b'};
 

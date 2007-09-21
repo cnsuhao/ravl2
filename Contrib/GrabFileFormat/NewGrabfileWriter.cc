@@ -6,12 +6,12 @@ namespace RavlImageN {
 
 //==========================================================================//
 
-GrabfileWriter* NewGrabfileWriter(const int version)
+GrabfileWriterC* NewGrabfileWriter(const int version)
 {
-  GrabfileWriter* p = 0;
+  GrabfileWriterC* p = 0;
   switch(version) {
   case 1:
-    p = new GrabfileWriterV1();
+    p = new GrabfileWriterV1C();
     break;
   }
 

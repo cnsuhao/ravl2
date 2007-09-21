@@ -70,7 +70,7 @@ namespace RavlImageN {
   ///////////////////////////
   //: Constructor from stream 
   
-  DPIImageDVSRGBBodyC::DPIImageDVSRGBBodyC(GrabfileReader& file_reader,const IStreamC &nStrm,const Index2dC &size)
+  DPIImageDVSRGBBodyC::DPIImageDVSRGBBodyC(GrabfileReaderC& file_reader,const IStreamC &nStrm,const Index2dC &size)
     : DPImageDVSRGBBaseBodyC(size),
       strm(nStrm),
       file_read(file_reader)
@@ -82,7 +82,7 @@ namespace RavlImageN {
   
   //: Constructor from stream 
   
-  DPIImageDVSRGBBodyC::DPIImageDVSRGBBodyC(GrabfileReader& file_reader,const StringC &fn,bool useHdr) : file_read(file_reader)  {
+  DPIImageDVSRGBBodyC::DPIImageDVSRGBBodyC(GrabfileReaderC& file_reader,const StringC &fn,bool useHdr) : file_read(file_reader)  {
     rawMode = true;
     fd = open(fn.chars(),O_RDONLY);
   }
@@ -176,7 +176,7 @@ namespace RavlImageN {
   
   //: Constructor from stream.  
   
-  DPOImageDVSRGBBodyC::DPOImageDVSRGBBodyC(GrabfileWriter& file_write,const OStreamC &nStrm,const Index2dC &size)
+  DPOImageDVSRGBBodyC::DPOImageDVSRGBBodyC(GrabfileWriterC& file_write,const OStreamC &nStrm,const Index2dC &size)
     : DPImageDVSRGBBaseBodyC(size),
       strm(nStrm),
       file_writer(file_write)
@@ -188,7 +188,7 @@ namespace RavlImageN {
   
   //: Constructor from filename
   
-  DPOImageDVSRGBBodyC::DPOImageDVSRGBBodyC(GrabfileWriter& file_write,const StringC &fn,bool useHdr) : file_writer(file_write)
+  DPOImageDVSRGBBodyC::DPOImageDVSRGBBodyC(GrabfileWriterC& file_write,const StringC &fn,bool useHdr) : file_writer(file_write)
   {
     cerr << "DPOImageRGBBodyC::DPOImageRGBBodyC(), WARNING: Not fully implemented. \n";
     rawMode = true;
@@ -292,13 +292,13 @@ namespace RavlImageN {
   
   //: Constructor from filename.  
   
-  DPIImageDVSRGBC::DPIImageDVSRGBC(GrabfileReader& file_reader,const StringC &fn)
+  DPIImageDVSRGBC::DPIImageDVSRGBC(GrabfileReaderC& file_reader,const StringC &fn)
     : DPEntityC(*new DPIImageDVSRGBBodyC(file_reader,IStreamC(fn)))
   {}
   
   //: Constructor from filename.  
   
-  DPOImageDVSRGBC::DPOImageDVSRGBC(GrabfileWriter& file_write,const StringC &fn)
+  DPOImageDVSRGBC::DPOImageDVSRGBC(GrabfileWriterC& file_write,const StringC &fn)
     : DPEntityC(*new DPOImageDVSRGBBodyC(file_write,OStreamC(fn)))
   {}
 }

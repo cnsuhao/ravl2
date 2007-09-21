@@ -9,7 +9,7 @@
 
 namespace RavlImageN {
 
-GrabfileWriter* NewGrabfileWriter(const int version);
+GrabfileWriterC* NewGrabfileWriter(const int version);
 //: Creates a new grabfile writer.
 // This allocates an new GrabfileWriter. The caller is responsible for deleting the allocated object.
 //!param: version - The version of the writer to create.

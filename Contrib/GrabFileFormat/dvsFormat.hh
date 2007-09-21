@@ -20,7 +20,6 @@
 #include "Ravl/Image/ByteYUV422Value.hh"
 #include "Ravl/Image/NewGrabfileReader.hh"
 #include "Ravl/Image/NewGrabfileWriter.hh"
-//#include "Ravl/Image/CardMode.hh"
 
 using namespace RavlImageN;
 
@@ -82,8 +81,8 @@ namespace RavlImageN {
     StringC vName;  // Variant name.
     StringC filename;
     Index2dC vSize; // Variant image size.
-    mutable GrabfileReader* file_reader_pointer;
-    mutable GrabfileWriter* file_writer_pointer;
+    mutable GrabfileReaderC* file_reader_pointer;
+    mutable GrabfileWriterC* file_writer_pointer;
     mutable IntT cmode,bformat,vmode;
     //mutable CardModeC mode,modesave;
   };

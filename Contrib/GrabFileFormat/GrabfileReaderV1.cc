@@ -9,7 +9,7 @@
 namespace RavlImageN {
 //==========================================================================//
 
-GrabfileReaderV1::~GrabfileReaderV1()
+GrabfileReaderV1C::~GrabfileReaderV1C()
 {
   if(m_infile.is_open()) {
     m_infile.close();
@@ -19,7 +19,7 @@ GrabfileReaderV1::~GrabfileReaderV1()
 //--------------------------------------------------------------------------//
 
 // Open file and read file header.
-bool GrabfileReaderV1::Open(const char* const filename) //, CardModeC& mode)
+bool GrabfileReaderV1C::Open(const char* const filename) //, CardModeC& mode)
 {
   // Is the file alread open? It shouldn't be!
   if(m_infile.is_open()) {
@@ -87,7 +87,7 @@ bool GrabfileReaderV1::Open(const char* const filename) //, CardModeC& mode)
 //--------------------------------------------------------------------------//
 
 // Close file.
-void GrabfileReaderV1::Close()
+void GrabfileReaderV1C::Close()
 {
   m_infile.close();
 }
@@ -95,14 +95,14 @@ void GrabfileReaderV1::Close()
 //--------------------------------------------------------------------------//
 
 // Are there any problems with the IO?
-bool GrabfileReaderV1::Ok() const
+bool GrabfileReaderV1C::Ok() const
 {
   return m_infile.good();
 }
 
 //--------------------------------------------------------------------------//
 
-bool GrabfileReaderV1::HaveMoreFrames()
+bool GrabfileReaderV1C::HaveMoreFrames()
 {
   m_infile.peek();
   return m_infile.eof();
@@ -111,7 +111,7 @@ bool GrabfileReaderV1::HaveMoreFrames()
 //--------------------------------------------------------------------------//
 
 // Read the next frame to a buffer.
-bool GrabfileReaderV1::GetNextFrametest(BufferC<char> &bu, UIntT &vsize, UIntT &asize)   //(DVSBufferC &buffer)
+bool GrabfileReaderV1C::GetNextFrametest(BufferC<char> &bu, UIntT &vsize, UIntT &asize)   //(DVSBufferC &buffer)
 {
  
   // Set the card mode.
@@ -156,7 +156,7 @@ bool GrabfileReaderV1::GetNextFrametest(BufferC<char> &bu, UIntT &vsize, UIntT &
 }*/
 
 
-BufferC<char> GrabfileReaderV1::GetNextFrame()
+BufferC<char> GrabfileReaderV1C::GetNextFrame()
 {
   uint32_t dummy_int = 0;
   // Video buffer size

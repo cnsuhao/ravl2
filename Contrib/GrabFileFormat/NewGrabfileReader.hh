@@ -9,7 +9,7 @@
 
 namespace RavlImageN {
 
-GrabfileReader* NewGrabfileReader(const char* filename, bool legacy = false);
+GrabfileReaderC* NewGrabfileReader(const char* filename, bool legacy = false);
 //: Creates a new grabfile reader.
 // This allocates an new GrabfileReader. The caller is responsible for deleting the allocated object.
 //!param: filename - The filename to create the reader for.
