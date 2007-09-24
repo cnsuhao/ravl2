@@ -19,7 +19,7 @@ GrabfileReaderV1C::~GrabfileReaderV1C()
 //--------------------------------------------------------------------------//
 
 // Open file and read file header.
-bool GrabfileReaderV1C::Open(const char* const filename) //, CardModeC& mode)
+bool GrabfileReaderV1C::Open(const char* const filename)
 {
   // Is the file alread open? It shouldn't be!
   if(m_infile.is_open()) {
@@ -52,27 +52,17 @@ bool GrabfileReaderV1C::Open(const char* const filename) //, CardModeC& mode)
 
    //code to possible deal with time codes in the future.
     m_infile.read(reinterpret_cast<char*>(&dummy_int),4);
-    m_number_of_frames = ntohl(dummy_int);
-    cout << "number of frames read is " << m_number_of_frames << endl;
+    m_frames_loaded = ntohl(dummy_int);
     m_infile.read(reinterpret_cast<char*>(&dummy_int),8);
     m_frame_rate = ntohl(dummy_int);
-    cout << "frame rate read is " << m_frame_rate << endl;
     UIntT id = m_infile.get();
-    //m_mode.VideoMode(IdToVideoMode(id));
     videomode = id;
 
     char id2 = m_infile.get();
-    //m_mode.ByteFormat(IdToByteFormat(id));
-    //id = (uint8_t)id2;
-    byteformat = int(id2);  //IdToByteFormat(id);
+    byteformat = int(id2);
 
     char id3 = m_infile.get();
-    //m_mode.ColourMode(IdToColourMode(id));
-    colourmode = int(id3);  //IdToColourMode(id);
-
-    //mode.VideoMode(m_mode.VideoMode());
-    //mode.ByteFormat(m_mode.ByteFormat());
-    //mode.ColourMode(m_mode.ColourMode());
+    colourmode = int(id3);
 
     ok = Ok();
   }
@@ -111,7 +101,7 @@ bool GrabfileReaderV1C::HaveMoreFrames()
 //--------------------------------------------------------------------------//
 
 // Read the next frame to a buffer.
-bool GrabfileReaderV1C::GetNextFrametest(BufferC<char> &bu, UIntT &vsize, UIntT &asize)   //(DVSBufferC &buffer)
+bool GrabfileReaderV1C::GetNextFrame(BufferC<char> &bu, UIntT &vsize, UIntT &asize)   //(DVSBufferC &buffer)
 {
  
   // Set the card mode.
@@ -136,24 +126,10 @@ bool GrabfileReaderV1C::GetNextFrametest(BufferC<char> &bu, UIntT &vsize, UIntT 
       bu = BufferC<char> (csize,start,false,false);
    }
    ++m_frames_loaded;
+   ++m_frame_number;
   }
   return ok;
 }
-
-
-/*BufferC<char> GrabfileReaderV1::BufferWithAVSize() {
-   if(m_infile.good()) {
-      int csize = m_video_buffer_size + 8; 
-      char * obuf = new char[csize];
-      char * start = obuf;
-      m_infile.read(obuf,csize);
-      return BufferC<char> (csize,start,false,false);
-   }
-   else {
-      //infile not good so return null.
-      return BufferC<char>();
-   }
-}*/
 
 
 BufferC<char> GrabfileReaderV1C::GetNextFrame()
@@ -161,11 +137,9 @@ BufferC<char> GrabfileReaderV1C::GetNextFrame()
   uint32_t dummy_int = 0;
   // Video buffer size
   m_infile.read(reinterpret_cast<char*>(&dummy_int), 4);
-  //const unsigned int video_buffer_size = ntohl(dummy_int);
 
   // Audio buffer size
   m_infile.read(reinterpret_cast<char*>(&dummy_int), 4);
-  //const unsigned int audio_buffer_size = ntohl(dummy_int);
  
  
   bool ok = m_infile.good();
@@ -177,13 +151,14 @@ BufferC<char> GrabfileReaderV1C::GetNextFrame()
 	    ret[z] = m_infile.get();
          }
          ++m_frames_loaded;
+	 ++m_frame_number;
          return BufferC<char> (ret.Size(),ret.DataStart(),false,false);
 	 
          
       }
       if(IdToByteFormat(byteformat) == BITS_10_DVS) {
          //Convert to 8 Bits
-         unsigned int osize = m_video_buffer_size * 3 / 4 ; // reduce 10bit to 8.
+         unsigned int osize = m_video_buffer_size * 3 / 4 ;
          char * obuf= new char[osize];
          char * start = obuf;
 	 
@@ -202,19 +177,14 @@ BufferC<char> GrabfileReaderV1C::GetNextFrame()
             vbuf ++ ;
 	}
 	++m_frames_loaded;
-        return BufferC<char> (osize, start, false, false) ; // memory will not be freed when buffer is destroyed !!!!!. Image usually deletes buffer.
+	++m_frame_number;
+        return BufferC<char> (osize, start, false, false) ;
        
       }
   }
-  //else {
-     return BufferC<char>();
-  //}
-/*
-  if(ok) {
-    ++m_frames_loaded;
-  }
   
-  return ok;*/
+     return BufferC<char>();
+  
 }
 
 

@@ -239,12 +239,8 @@ namespace RavlImageN {
        i+=2;
     }   
    
-    file_writer.PutFrameA(chararray);
+    file_writer.PutFrame(chararray);
     frameNo++;
-    /*if(frameNo > seqSize)
-      seqSize = frameNo;
-      
-    return strm.good();*/
     return file_writer.Ok();
   }
   

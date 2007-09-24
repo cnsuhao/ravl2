@@ -109,7 +109,7 @@ namespace RavlImageN {
        //: Setup the card
    
 	file_writer_pointer = NewGrabfileWriter(1);
-    if(file_writer_pointer->Openva(nfilename,IdToVideoMode(vmode),IdToByteFormat(bformat),IdToColourMode(cmode),1245184,0)) {
+    if(file_writer_pointer->Open(nfilename,IdToVideoMode(vmode),IdToByteFormat(bformat),IdToColourMode(cmode),1245184,0)) {
        //Check for YUV422 or RGB in header then return appropriate typeid.
           if(obj_type == typeid(ImageC<ByteYUV422ValueC>)) {
              return typeid(ImageC<ByteYUV422ValueC>);

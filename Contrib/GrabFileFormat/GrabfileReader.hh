@@ -58,21 +58,15 @@ public:
   virtual bool HaveMoreFrames() {return false;}
   //: Are there more frames to read?
 
-  //virtual bool GetNextFrametest(DVSBufferC &buffer) {return false;}
-  virtual bool GetNextFrametest(BufferC<char> &bu,UIntT &vsize,UIntT &asize) {return false;}
+  virtual bool GetNextFrame(BufferC<char> &bu,UIntT &vsize,UIntT &asize) {return false;}
   //: Read the next frame to a buffer.
 
   virtual BufferC<char> GetNextFrame() {return false;}
   //: Read the next frame to a buffer.
-
-  //virtual BufferC<char> BufferWithAVSize() {return false;}
  
   virtual bool CanGetByFrameNumber() {return false;}
   //: Is the reader able to read a specific frame?
- /*
-  virtual bool GetFrameNumber(DVSBufferC &buffer, const int n) {return false;}
-  //: Read frame number <tt>n</tt> to the buffer.
-*/
+
   virtual frame_number_t NumberOfFrames() {return 0;}
   //: Returns the number of frames in the sequence.
   // The method will return 0 if the number of frames is unknown.
@@ -88,16 +82,14 @@ public:
 
   virtual ColourModeT getColourMode() {return ColourModeT();}
 
-  virtual RealT getFrameRate() {return 0;}
-
-  virtual IntT getFrameNumber() {return 0;}
+  virtual RealT FrameRate() {return 0;}
 
   // Non-virtual functions
 
-  inline frame_number_t FramesLoaded() const { return m_frames_loaded; }
+  virtual frame_number_t FramesLoaded() const { return m_frames_loaded; }
   //: Return the number of frames loaded.
 
-  frame_number_t FrameNumber() const {return m_frame_number;}
+  virtual frame_number_t FrameNumber() const {return m_frame_number;}
   //: The frame number of the most recently loaded frame.
 
   // Static functions

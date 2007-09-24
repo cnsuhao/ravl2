@@ -26,16 +26,19 @@ class GrabfileWriterV1C : public GrabfileWriterC {
 public:
   GrabfileWriterV1C()
     :
-    m_outfile()
+    m_outfile(),
+    m_frame_number(0),
+    m_frames_written(0)
   {
     // Do nothing
   }
 
   virtual ~GrabfileWriterV1C();
+  typedef GrabfileCommonN::frame_number_t frame_number_t;
 
   //==========================================================================//
 
-  virtual bool Openva(const char* const filename,
+  virtual bool Open(const char* const filename,
                     //DVSCardC& card,
                     //CardModeC& mode,
 		    VideoModeT videomode, ByteFormatT byteformat, ColourModeT colourmode, IntT videobuffersize = 0, IntT audiobuffersize = 0);
@@ -50,7 +53,7 @@ public:
   virtual void Close();
   //: Close file.
 
-  virtual void Close(int numberofframes);
+  //virtual void Close(int numberofframes);
   //: Close file and write number of frames to header.
   
   virtual bool Ok() const;
@@ -59,9 +62,9 @@ public:
 //  virtual bool PutFrame(const DVSBufferC &buffer);
   //: Write frame.
 
-   virtual bool PutFrame2(BufferC<char> &fr,UIntT &te);
+   virtual bool PutFrame(BufferC<char> &fr,UIntT &te);
 
-  virtual bool PutFrameA(SArray1dC<char> &re);
+  virtual bool PutFrame(SArray1dC<char> &re);
   //: Write frame.
 
   virtual void Reset(VideoModeT vmode,ByteFormatT bformat, IntT vbuf);
@@ -73,9 +76,8 @@ public:
   virtual int Version() const {return m_version_number;}
   //: The version of the writer.
 
-  //virtual IntT getFrames() {return m_frames_written;}
-
-  //virtual RealT getFrameRate() {return frame_rate;}
+  virtual frame_number_t FramesWritten() const { return m_frames_written; }
+  //: The number of frames written to the file.
 
 protected:
   std::ofstream m_outfile;
@@ -92,7 +94,11 @@ protected:
   int pos;
   //: Position of the number of frames in the outputfile used to rewrite the number of frames upon closing the file.
 
-  int m_frames_written;
+  frame_number_t m_frame_number;
+  //: The frame number of the most recently written frame.
+
+  frame_number_t m_frames_written;
+  //: The number of frames written.
 
 private:
   static const int m_version_number = 1;

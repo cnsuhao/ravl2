@@ -140,7 +140,6 @@ namespace RavlImageN {
   protected:
     IStreamC strm;
     GrabfileReaderC& file_read;
-    //mutable CardModeC card;
   };
   
   ///////////////////////////////////
@@ -189,7 +188,6 @@ namespace RavlImageN {
     OStreamC strm;
     GrabfileWriterC& file_writer;
     mutable ImageC<ByteRGBValueC> Imgcopy;
-    //mutable CardModeC cards;
     mutable VideoModeT vmode;
     mutable ByteFormatT bformat;
     mutable IntT vbuffer;

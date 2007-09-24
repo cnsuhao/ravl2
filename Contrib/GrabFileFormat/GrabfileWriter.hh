@@ -38,27 +38,18 @@ public:
   typedef GrabfileCommonN::frame_number_t frame_number_t;
   //: Type to store the frame number.
 
-  virtual bool Openva(const char* const filename,
-                    //DVSCardC& card,
-                    //CardModeC& mode,
+  virtual bool Open(const char* const filename,
 		    VideoModeT vmode,ByteFormatT bformat, ColourModeT cmode,IntT videobuffersize, IntT audiobuffersize) {
     return false;
   }
   //: Open file and write file header.
   //!return false
-/*
-  virtual bool Open(const char* const filename,
-                    DVSCardC& card,
-                    CardModeC& mode) {
-     return false;
-  }*/
-  //: Open file and write file header.
 
 
   virtual void Close() {}
   //: Close file.
 
-  virtual void Close(int numberofframes) {}
+  //virtual void Close(int numberofframes) {}
   //: Close file and write number of frames.
 
   virtual bool Ok() const {return false;}
@@ -67,9 +58,9 @@ public:
   virtual bool PutFrame(const DVSBufferC &buffer) {return false;}
   //: Write frame.
    */
-  virtual bool PutFrame2(BufferC<char> &fr,UIntT &te) {return false;}
+  virtual bool PutFrame(BufferC<char> &fr,UIntT &te) {return false;}
 
-  virtual bool PutFrameA(SArray1dC<char> &re) {return false;}
+  virtual bool PutFrame(SArray1dC<char> &re) {return false;}
   //: Write frame.
 
   virtual void Reset(VideoModeT vmode,ByteFormatT bformat,IntT vbuf) {}
@@ -84,7 +75,7 @@ public:
 
   //--------------------------------------------------------------------------//
 
-  frame_number_t FramesWritten() const { return m_frames_written; }
+  virtual frame_number_t FramesWritten() const { return m_frames_written; }
   //: The number of frames written to the file.
 
 

@@ -25,7 +25,6 @@ public:
   LegacyGrabfileReaderC()
     :
     GrabfileReaderC()
-    //m_file(0)
   {
     // Do nothing
   }
@@ -34,7 +33,6 @@ public:
 
   //==========================================================================//
 
-  //virtual bool Open(const char* const filename, CardModeC& mode);
   virtual bool Open(const char* const filename);
   //: Open file and read file header.
 
@@ -46,8 +44,7 @@ public:
 
   virtual bool HaveMoreFrames();
 
-  //virtual bool GetNextFrame(DVSBufferC &buffer);
-  virtual bool GetNextFrametest(BufferC<char> &bu, UIntT &vsize, UIntT &asize);
+  virtual bool GetNextFrame(BufferC<char> &bu, UIntT &vsize, UIntT &asize);
   //: Read the next frame to a buffer.
 
   virtual int Version() const {return 0;}
@@ -70,11 +67,9 @@ protected:
 
   std::ifstream m_infile;
 
-  //FILE * m_file;
-  //: The file handle to be read from.
-  int m_video_buffer_size;
+  IntT m_video_buffer_size;
 
-  int m_audio_buffer_size;
+  IntT m_audio_buffer_size;
 
   IntT m_number_of_frames;
 

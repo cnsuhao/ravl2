@@ -16,66 +16,8 @@ GrabfileWriterV1C::~GrabfileWriterV1C()
 
 //--------------------------------------------------------------------------//
 
-/*
 // Open file and write file header.
-bool GrabfileWriterV1::Open(const char* const filename,
-                          DVSCardC& card,
-                          CardModeC& mode)
-{
-  bool ok = true;
-
-  // Reset the frame count.
-  m_frames_written = 0;
-
-  // Is the file alread open? It shouldn't be!
-  if(m_outfile.is_open()) {
-    RavlIssueError("GrabfileWriterV1: Class already contains an open file.")
-  }
-
-  if(ok) {
-    m_outfile.open(filename, std::ios::binary | std::ios::out);
-    ok = Ok();
-  }
-
-  if(ok) {
-    char file_id[4] = {'G', 'r', 'a', 'b'};
-    m_outfile.write(file_id, 4);
-
-    uint32_t header_version = m_version_number;
-    header_version = htonl(header_version);
-    m_outfile.write(reinterpret_cast<char*>(&header_version), 4);
-
-    uint32_t dummy_int = 0;
-
-    // Video buffer size
-    dummy_int = htonl(card.InputFifo().VideoBufferSize());
-    m_outfile.write(reinterpret_cast<char*>(&dummy_int), 4);
-
-    // Audio buffer size
-    dummy_int = htonl(card.InputFifo().AudioBufferSize());
-    m_outfile.write(reinterpret_cast<char*>(&dummy_int), 4);
-
-    const uint8_t mode_id = VideoModeToId(mode.VideoMode());
-    m_outfile.put(mode_id);
-
-    const uint8_t byte_format_id = ByteFormatToId(mode.ByteFormat());
-    m_outfile.put(byte_format_id);
-
-    const uint8_t colour_mode_id =  ColourModeToId(mode.ColourMode());
-    m_outfile.put(colour_mode_id);
-
-    ok = Ok();
-  }
-
-  return ok;
-}
-*/
-
-
-// Open file and write file header.
-bool GrabfileWriterV1C::Openva(const char* const filename,
-                          //DVSCardC& card,
-                          //CardModeC& mode,
+bool GrabfileWriterV1C::Open(const char* const filename,
 			  VideoModeT videomode, ByteFormatT byteformat, ColourModeT colourmode, IntT videobuffersize,IntT audiobuffersize)
 {
   bool ok = true;
@@ -105,46 +47,31 @@ bool GrabfileWriterV1C::Openva(const char* const filename,
     uint32_t dummy_int = 0;
 
     // Video buffer size
-    //dummy_int = htonl(card.InputFifo().VideoBufferSize());
     dummy_int = htonl(videobuffersize);
-    
-     cout << "Video buffer position is " << m_outfile.tellp() << endl;
 
     m_outfile.write(reinterpret_cast<char*>(&dummy_int), 4);
     m_video_buffer_size = videobuffersize;
 
     // Audio buffer size
-    //dummy_int = htonl(card.InputFifo().AudioBufferSize());
     dummy_int = htonl(audiobuffersize);
     m_outfile.write(reinterpret_cast<char*>(&dummy_int), 4);
     m_audio_buffer_size = dummy_int;
 
    //TimeCode.
-   //nbrframes = m_outfile.tellp();
-   cout << "Number of frames position is " << pos << endl;
    IntT nf = 3;
    m_outfile.write(reinterpret_cast<char*>(&nf),4);
-   //RealT dummy = frame_rate;
    dummy_int = htonl(frame_rate);
-   cout << "Frame rate position is " << m_outfile.tellp() << endl;
+  
    m_outfile.write(reinterpret_cast<char*>(&dummy_int),8);
-    //cout << "video mode position is " << m_outfile.tellp() << endl;
  
-    const uint8_t mode_id = VideoModeToId(videomode);  //mode.VideoMode());
+    const uint8_t mode_id = VideoModeToId(videomode);
     m_outfile.put(mode_id);
- 
 
-
-   cout << "video mode position is " << m_outfile.tellp() << endl;
-
-    const uint8_t byte_format_id = ByteFormatToId(byteformat);  //mode.ByteFormat());
+    const uint8_t byte_format_id = ByteFormatToId(byteformat);
     m_outfile.put(byte_format_id);
     m_byte_format = byte_format_id;
-   
 
- cout << "byte format position is " << m_outfile.tellp() << endl;
-
-    const uint8_t colour_mode_id =  ColourModeToId(colourmode);  //mode.ColourMode());
+    const uint8_t colour_mode_id =  ColourModeToId(colourmode);
     m_outfile.put(colour_mode_id);
 
     ok = Ok();
@@ -163,23 +90,10 @@ void GrabfileWriterV1C::Close()
    m_outfile.seekp(nbrframes-4);
    uint32_t dummy_int = htonl(m_frames_written);
    m_outfile.write(reinterpret_cast<char*>(&dummy_int),4);
-  cout << "m_frames_written " << m_frames_written << endl;
   m_outfile.close();
 }
 
 //--------------------------------------------------------------------------//
-
-//-------------------------------------------------------------------------//
-//Close file and re write frame number.
-void GrabfileWriterV1C::Close(int numberofframes) {
-   m_outfile.flush();
-   m_outfile.seekp(nbrframes-4);
-   m_outfile.write(reinterpret_cast<char*>(htonl(numberofframes)),4);
-   //may need to change this if the close call writes characters to the file as it is in the middle of the header at this point.
-   m_outfile.close();
-}
-
-
 // Are there any problems with the IO?
 bool GrabfileWriterV1C::Ok() const
 {
@@ -187,21 +101,6 @@ bool GrabfileWriterV1C::Ok() const
 }
 
 //--------------------------------------------------------------------------//
-/*
-// Write frame.
-bool GrabfileWriterV1::PutFrame(const DVSBufferC &buffer)
-{
-  // Write the frame header.
-
-  // Write the frame data.
-  bool ok = buffer.Save(m_outfile);
-
-  if(ok) {
-    ++m_frames_written;
-  }
-
-  return ok;
-}*/
 
 int GrabfileWriterV1C::VideoBuffer() {
    return m_video_buffer_size;
@@ -229,16 +128,9 @@ void GrabfileWriterV1C::Reset(VideoModeT vmode,ByteFormatT bformat, IntT vbuf) {
    m_byte_format = byte_format_id;
 
    m_outfile.seekp(currentpos);
-   //m_outfile.flush();
 }
 
-bool GrabfileWriterV1C::PutFrame2(BufferC<char> &fr,UIntT &te) {
- //SArray1dC<char> mov(fr.Size());
- //for(int z=0;z<fr.Size();z++) {
- //   mov[z] = fr.BufferAccess()[z];
- //}   
- //return PutFrameA(mov);
-
+bool GrabfileWriterV1C::PutFrame(BufferC<char> &fr,UIntT &te) {
      // Write the frame data.
   if(m_outfile.good()) {
     uint32_t dummy_int = 0;
@@ -260,7 +152,7 @@ bool GrabfileWriterV1C::PutFrame2(BufferC<char> &fr,UIntT &te) {
 }
 
 // Write frame.
-bool GrabfileWriterV1C::PutFrameA(SArray1dC<char> &ar)
+bool GrabfileWriterV1C::PutFrame(SArray1dC<char> &ar)
 {
   // Write the frame header.
 
@@ -276,11 +168,7 @@ bool GrabfileWriterV1C::PutFrameA(SArray1dC<char> &ar)
     dummy_int = htonl(m_audio_buffer_size);
     m_outfile.write(reinterpret_cast<char*>(&dummy_int), 4);
     //If data is 10 bits.
-    if(m_byte_format == 1) {   //m_video_buffer_size == 8294400 || m_video_buffer_size == 5529600) {
-     /* SArray1dC<char> bits8(ar.Size());
-      for(int u=0;u<ar.Size();u++) {
-         bits8[u] = ar[u];  
-      }*/
+    if(m_byte_format == 1) {
 
     const char * vbuf = ar.DataStart() ;
     unsigned int osize = m_video_buffer_size; //10bit frame size.
@@ -303,22 +191,13 @@ bool GrabfileWriterV1C::PutFrameA(SArray1dC<char> &ar)
           temp.Fill('0');
           ar.Append(temp);
       }
-    
-      //for(int i=0;i<ar.Size();i++) {
-         //m_outfile.write(reinterpret_cast<char*>(&ar[i]),1);
-      //}
       m_outfile.write(ar.DataStart(),ar.Size());
       m_outfile.flush();
     }
   }
   
-
-  //if(ok) {
-    ++m_frames_written;
-  //}
- 
+  ++m_frames_written;
   return true;
-  //return m_outfile.good();
 }
 
 

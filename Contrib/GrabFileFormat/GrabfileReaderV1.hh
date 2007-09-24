@@ -30,8 +30,9 @@ public:
     GrabfileReaderC(),
     m_infile(),
     m_video_buffer_size(0),
-    m_audio_buffer_size(0)
-    //m_mode()
+    m_audio_buffer_size(0),
+    m_frame_number(0),
+    m_frames_loaded(0)
   {
     // Do nothing
   }
@@ -41,10 +42,12 @@ public:
   //: Destructor
 
   //==========================================================================//
+  typedef GrabfileCommonN::frame_number_t frame_number_t;
+  //: Type to store the frame number.
 
   // Virtual functions
 
-  virtual bool Open(const char* const filename);  //, CardModeC& mode);
+  virtual bool Open(const char* const filename);
   //: Open file and read file header.
 
   virtual void Close();
@@ -55,11 +58,8 @@ public:
 
   virtual bool HaveMoreFrames();
 
-  //virtual bool GetNextFrametest(DVSBufferC &buffer);
-  virtual bool GetNextFrametest(BufferC<char> &bu,UIntT &vsize,UIntT &asize);
+  virtual bool GetNextFrame(BufferC<char> &bu,UIntT &vsize,UIntT &asize);
   //: Read the next frame to a buffer.
-
-  //virtual BufferC<char> BufferWithAVSize();
 
   virtual BufferC<char> GetNextFrame();
   //: Read the next frame to a buffer.
@@ -77,32 +77,40 @@ public:
   virtual ColourModeT getColourMode() { 
   return IdToColourMode((UIntT)colourmode);}
 
-  virtual RealT getFrameRate() {return m_frame_rate;}
+  virtual RealT FrameRate() {return m_frame_rate;}
 
-  virtual IntT getFrameNumber() {return m_frames_loaded;}
+  //virtual IntT getFrameNumber() {return m_frames_loaded;}
+
+  virtual frame_number_t FramesLoaded() const { return m_frames_loaded; }
+  //: Return the number of frames loaded.
+
+  virtual frame_number_t FrameNumber() const {return m_frame_number;}
+  //: The frame number of the most recently loaded frame.
+
 
 
 protected:
   std::ifstream m_infile;
   //: Stream we are reading from.
 
-  int m_video_buffer_size;
+  IntT m_video_buffer_size;
   //: The video buffer size in bytes.
 
-  int m_audio_buffer_size;
+  IntT m_audio_buffer_size;
   //: The audio buffer size in bytes.
 
   RealT m_frame_rate;
   //: The frame rate.
 
-  IntT m_number_of_frames;
-  //: The number of frames.
-
-  IntT m_frames_loaded;
-
-  //CardModeC m_mode;
   IntT videomode,byteformat,colourmode;
   //: The card mode.
+
+  frame_number_t m_frame_number;
+  //: The frame number of the most recently loaded frame.
+
+  frame_number_t m_frames_loaded;
+  //: The number of frames loaded.
+
 
 private:
   static const int m_version_number = 1;
