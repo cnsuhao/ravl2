@@ -124,7 +124,7 @@ bool GrabfileWriterV1C::Openva(const char* const filename,
    cout << "Number of frames position is " << pos << endl;
    IntT nf = 3;
    m_outfile.write(reinterpret_cast<char*>(&nf),4);
-   //RealT dummy = 25;
+   //RealT dummy = frame_rate;
    dummy_int = htonl(frame_rate);
    cout << "Frame rate position is " << m_outfile.tellp() << endl;
    m_outfile.write(reinterpret_cast<char*>(&dummy_int),8);

@@ -109,7 +109,7 @@ private:
   static const int nbrframes = 20;
   //: Position of number of frames data in output file.
 
-  static const RealT frame_rate = 25;
+  static const IntT frame_rate = 25;
 
 };
 
