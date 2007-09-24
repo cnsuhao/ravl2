@@ -53,7 +53,7 @@ Variables:
   ANSIFLAG=  Switch off strict ansi compilation (or switch to other gcc options).
   CXXEXT=    Name of extension for SOURCES/MAIN files.  E.g. CXXEXT=.cpp
   CHXXEXT=   Name of extension for HEADERS files.  E.g. CHXXEXT=.hpp
-
+  QMAKECONFIGHOME=  Directory containing alternative RAVL config file.
 
 Examples: 
 
