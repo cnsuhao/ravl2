@@ -4,9 +4,17 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
-#! file="Ravl/Core/Machine/defs.mk"
+#! rcsid="$Id: defs.mk 4777 2005-01-18 14:28:18Z ees1wc $"
+#! file="Ravl/Core/Machine/i386-linux-gnu/defs.mk"
 
-DESCRIPTION= Machine/Compiler specific header files
+DESCRIPTION= Atomic operations for i386-linux
 
-NESTED = Generic.r i386-linux-gnu.r x86-64-linux-gnu.r mips-irix-mpro.r sparc-solaris-gnu-7.r sparc-solaris-gnu-9.r  alpha-dec-osf4.0f.r  i386-win32-vc.r i386-macosx-gnu.r
+PACKAGE=macosx386/Ravl
+
+SUPPORT_ONLY=macosx386
+
+HEADERS=Atomic.hh mmx.hh
+
+PLIB=RavlCore
+
+USESLIBS=Math
