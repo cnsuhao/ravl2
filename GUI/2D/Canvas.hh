@@ -116,6 +116,11 @@ namespace RavlGUIN {
     bool GUIDrawLine(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId); 
     //: Draw a line.
     // Call with GUI thread only!
+
+    bool GUIDrawLine(Index2dC & start, Index2dC & end, IntT &colId); 
+    //: Draw a line.
+    // Call with GUI thread only!
+
     
     bool GUIDrawArc(ImageRectangleC& rect, IntT& start, IntT& angle, IntT& colId, bool& fill); 
     //: Draw an arc.
@@ -145,7 +150,10 @@ namespace RavlGUIN {
     
     bool GUIDrawFrame(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId); 
     //: Draw an empty rectangle
-    
+
+    bool GUIDrawFrame(Index2dC & topLeft, Index2dC & bottomRight, IntT &colId); 
+    //: Draw an empty rectangle
+
     bool GUIClear();
     //: Clear canvas to given colour.
     

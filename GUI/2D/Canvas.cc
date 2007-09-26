@@ -408,6 +408,16 @@ namespace RavlGUIN {
     return true;
   } 
 
+  bool CanvasBodyC::GUIDrawLine(Index2dC & start, Index2dC & end, IntT &c) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    IntT x1 = start.Col().V();
+    IntT y1 = start.Row().V();
+    IntT x2 = end.Col().V();
+    IntT y2 = end.Row().V();
+    return GUIDrawLine(x1, y1, x2, y2, c);
+  } 
+
+
   //: Draw an arc
   
   bool CanvasBodyC::GUIDrawArc(ImageRectangleC& rect, IntT& start, IntT& angle, IntT& colId, bool& fill) {
@@ -527,6 +537,16 @@ namespace RavlGUIN {
     return true;
     
   }
+
+  bool CanvasBodyC::GUIDrawFrame(Index2dC & topLeft, Index2dC & bottomRight, IntT &c) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    IntT x1 = topLeft.Col().V();
+    IntT y1 = topLeft.Row().V();
+    IntT width = (bottomRight.Col() - topLeft.Col()).V();
+    IntT height = (bottomRight.Row() - topLeft.Row()).V();
+    return GUIDrawFrame(x1, y1, width, height, c);                                                     
+  }
+
   
   //: Refresh display.
   
