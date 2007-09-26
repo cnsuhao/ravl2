@@ -408,7 +408,7 @@ namespace RavlGUIN {
     return true;
   } 
 
-  bool CanvasBodyC::GUIDrawLine(Index2dC & start, Index2dC & end, IntT &c) {
+  bool CanvasBodyC::GUIDrawLine(Index2dC start, Index2dC end, IntT &c) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     IntT x1 = start.Col().V();
     IntT y1 = start.Row().V();
@@ -538,7 +538,7 @@ namespace RavlGUIN {
     
   }
 
-  bool CanvasBodyC::GUIDrawFrame(Index2dC & topLeft, Index2dC & bottomRight, IntT &c) {
+  bool CanvasBodyC::GUIDrawFrame(Index2dC topLeft, Index2dC bottomRight, IntT &c) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     IntT x1 = topLeft.Col().V();
     IntT y1 = topLeft.Row().V();
