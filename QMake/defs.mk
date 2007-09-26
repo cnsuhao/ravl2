@@ -29,6 +29,7 @@ AUXFILES =  QMake.mk \
   config.sol2_7 config.sol2_9 \
   config.alpha       config.unknown config.linux config.linux64 config.cygwin config.arm \
   config.macosx config.local.macosx \
+  config.macosx386 config.local.macosx386 \
   QLibs.pl GlobalMake qmake.cshrc qmake.sh \
   RAVLExec AutoBuild.pl AutoBuild.sample.conf 
 

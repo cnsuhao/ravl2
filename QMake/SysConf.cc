@@ -20,6 +20,7 @@ int main(int narg,char **argv) {
   int i;
   long Ret;
   long int val;
+//  std::cerr << "Arg:" <<_SC_NPROCESSORS_ONLN<<"\n";
   for(i = 1;i < narg;i++) {
     if(argv[i][0] == '-') {
       switch(argv[i][1]) 
@@ -31,12 +32,6 @@ int main(int narg,char **argv) {
 	  val = sysconf(_SC_NPROC_ONLN);  /* One Porcessor default */
 #else
 	  val = 1;  /* One Porcessor default */
-#endif
-
-//#if defined(__sol2__) && 0 
-#if defined(RAVL_OS_SOLARIS) && 0
-	  if(val > 2)
-	    val = 2; // Limit processor usage to 2.
 #endif
 	  printf("%ld\n",val);
 	  break;

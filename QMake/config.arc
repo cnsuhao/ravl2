@@ -54,6 +54,9 @@ case $ID in
     'Power Macintosh':Darwin:*)
 	echo "macosx"
 	exit 0 ;;
+    i386:Darwin:*)
+        echo "macosx386"
+        exit 0 ;;
     *:*:*)
 	echo "unknown"
 	echo "Unknown machine $ID " >&2

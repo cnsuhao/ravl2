@@ -3,4 +3,4 @@ QMAKE_INSTALL=/vol/vssp/local/Ravl/Tools/QMake ;
 if test -z ${PROJECT_OUT} ; then
   PROJECT_OUT=${HOME}/build 
 fi
-gmake -f ${QMAKE_INSTALL}/QMake.mk USERBUILD=1 $*
+make -f ${QMAKE_INSTALL}/QMake.mk USERBUILD=1 $*
