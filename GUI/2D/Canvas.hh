@@ -117,7 +117,7 @@ namespace RavlGUIN {
     //: Draw a line.
     // Call with GUI thread only!
 
-    bool GUIDrawLine(Index2dC start, Index2dC end, IntT &colId); 
+    bool GUIDrawLine(Index2dC start, Index2dC end, IntT colId); 
     //: Draw a line.
     // Call with GUI thread only!
 
@@ -151,7 +151,7 @@ namespace RavlGUIN {
     bool GUIDrawFrame(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId); 
     //: Draw an empty rectangle
 
-    bool GUIDrawFrame(Index2dC topLeft, Index2dC bottomRight, IntT &colId); 
+    bool GUIDrawFrame(Index2dC topLeft, Index2dC bottomRight, IntT colId); 
     //: Draw an empty rectangle
 
     bool GUIClear();
