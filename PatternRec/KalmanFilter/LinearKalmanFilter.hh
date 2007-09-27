@@ -14,6 +14,9 @@ namespace RavlN {
 
   //!userlevel=Develop
   //: Linear Kalman Filter Class
+  // 
+  // WARNING: This class is incomplete, it doesn't correctly integrate control information (Uk)
+  //
   
   class LinearKalmanFilterBodyC
     : public KalmanFilterBodyC
@@ -58,7 +61,7 @@ namespace RavlN {
   //!userlevel=Normal
   //: Linear Kalman Filter Class
   // 
-  // WARNING: This class is incomplete, it doesn't correctly intergreate control information (Uk)
+  // WARNING: This class is incomplete, it doesn't correctly integrate control information (Uk)
   //
   
   class LinearKalmanFilterC
