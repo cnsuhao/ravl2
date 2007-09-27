@@ -77,7 +77,7 @@ namespace RavlImageN {
     //!param: cRow, cCol - image centre coordinates
     //!param: fRow, fCol - focal distance in vertical / horizontal pixels respectively
     //!param: K1 - cubic radial distortion coefficient. Typical value is around 10^-7
-    //!param: K1 - quintic radial distortion coefficient. If used, typical value is 10^-14 (but set K1 first).
+    //!param: K2 - quintic radial distortion coefficient. If used, typical value is 10^-14 (but set K1 first).
     //!param: FillBackground - fill background with black
     //!param: mix - pixel type for calculations internal to class
     
