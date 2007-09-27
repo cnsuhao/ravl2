@@ -12,7 +12,7 @@
 #include  <iomanip>
 #include <stdint.h>
 //! rcsid="$Id: fixSource.cfg,v 1.6 2005/03/02 09:28:41 craftit Exp $"
-//! lib=DVS
+//! lib=RawVid
 
 #define DODEBUG 0
 #if DODEBUG

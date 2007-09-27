@@ -1,9 +1,9 @@
 #if !defined(RAVL_NEWGRABFILEREADER_HEADER)
 #define RAVL_NEWGRABFILEREADER_HEADER
 //! rcsid="$Id: $"
-//! author=
-//! docentry=
-//! lib=
+//! lib=RawVid
+//! author="Simon Tredwell"
+//! docentry="Ravl.API.Images.Video.Video IO.RawVid"
 
 #include "Ravl/Image/GrabfileReader.hh"
 

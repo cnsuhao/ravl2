@@ -2,8 +2,7 @@
 #define RAVL_GRABFILEWRITERV1_HEADER
 //! rcsid="$Id: $"
 //! author="Simon Tredwell"
-//! docentry="Ravl.API.Images.Video.Video IO.DVS"
-//! lib=DVS
+//! lib=RawVid
 
 #include "Ravl/Image/GrabfileWriter.hh"
 

@@ -6,9 +6,9 @@
 // file-header-ends-here
 #if !defined(RAVL_GRABFILEREADER_HEADER)
 #define RAVL_GRABFILEREADER_HEADER
-//! lib=DVS
+//! lib=RawVid
 //! author="Simon Tredwell"
-//! docentry="Ravl.API.Images.Video.Video IO.DVS"
+//! docentry="Ravl.API.Images.Video.Video IO.RawVid"
 
 #include "Ravl/Image/GrabfileCommon.hh"
 #include "Ravl/Image/Utilities.hh"

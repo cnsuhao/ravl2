@@ -2,8 +2,7 @@
 #define LEGACYGRABFILEREADER_HH
 //! rcsid="$Id: $"
 //! author="Simon Tredwell"
-//! docentry="Ravl.API.Images.Video.Video IO.DVS"
-//! lib=DVS
+//! lib=RawVid
 
 #include "Ravl/Image/GrabfileReader.hh"
 

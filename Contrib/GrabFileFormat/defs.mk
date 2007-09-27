@@ -5,17 +5,17 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id: defs.mk 5240 2005-12-06 17:16:50Z plugger $"
-#! file="cvsspSoftware/DVSFileFormat/defs.mk"
+#! file="cvsspSoftware/GrabFileFormat/defs.mk"
 
 PACKAGE = Ravl/Image
 
-DESCRIPTION = DVS grab file IO classes.
+DESCRIPTION = Raw video IO classes.
 
 HEADERS = ImgIOdvsyuv.hh ImgIOdvsrgb.hh GrabfileCommon.hh GrabfileReader.hh GrabfileReaderV1.hh GrabfileWriter.hh GrabfileWriterV1.hh LegacyGrabfileReader.hh NewGrabfileReader.hh NewGrabfileWriter.hh dvsFormat.hh Utilities.hh
 
 SOURCES = ImgIOdvsyuv.cc ImgIOdvsrgb.cc dvsFormat.cc GrabfileReader.cc GrabfileReaderV1.cc GrabfileWriterV1.cc LegacyGrabfileReader.cc NewGrabfileReader.cc NewGrabfileWriter.cc Utilities.cc
 
-PLIB = RavlGrabIO
+PLIB = RavlRawVidIO
 
 #LIBDEBS=DVSFileFormat
 
@@ -23,5 +23,7 @@ PLIB = RavlGrabIO
 
 USESLIBS = RavlImageIO RavlOSIO RavlImage RavlExtImgIO
 
-MUSTLINK=RavlGrabIO.cc
+MUSTLINK=RavlRawVidIO.cc
 #MAINS= readgrab.cc
+
+EHT=RawVid.html

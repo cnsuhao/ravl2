@@ -9,10 +9,9 @@
 #include "Ravl/TFVector.hh"
 #include <stdint.h>
 //! rcsid="$Id: fixSource.cfg,v 1.6 2005/03/02 09:28:41 craftit Exp $"
-//! lib=DVS
+//! lib=RavlRawVidIO
 //! userlevel=Develop
 //! author="Lee Gregory"
-//! docentry="Ravl.API.Images.Video.Video IO.DVS"
 #ifndef RAVL_DVS_TYPES
 #define RAVL_DVS_TYPES 1
 namespace RavlImageN {
