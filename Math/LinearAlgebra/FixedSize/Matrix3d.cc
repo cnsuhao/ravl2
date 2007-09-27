@@ -40,6 +40,8 @@ namespace RavlN {
   // The following code is Copyright (C) 2007, OmniPerception Ltd.
   
   static inline bool SolveSinCos(RealT v1,RealT v2,RealT &s,RealT &c) {
+    if(IsNan(v1) || IsNan(v2))
+      return false;
     RealT b = Sqrt(Sqr(v1) + Sqr(v2));
     if(b == 0)
       return false;
