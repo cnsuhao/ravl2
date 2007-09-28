@@ -38,13 +38,13 @@ namespace RavlN {
   //: Measure the distance from d1 to d2.
   
   RealT DistanceMaxBodyC::Measure(const VectorC &d1,const VectorC &d2) const {
-    return VectorC(d1 - d2).MaxMagintude();
+    return VectorC(d1 - d2).MaxMagnitude();
   }
   
   //: Measure the magnitude of d1.
   
   RealT DistanceMaxBodyC::Magnitude(const VectorC &d1) const {
-    return d1.MaxMagintude();
+    return d1.MaxMagnitude();
   }
 
   //: Calculates Jacobian matrix at X

@@ -103,11 +103,19 @@ namespace RavlN {
     DataT MaxValue() const;
     //: Largest value in the array.
     
-    DataT MaxMagintude() const;
+    DataT MaxMagnitude() const;
     //: Value of the largest magnitude in the vector.
+    
+    DataT MaxAbsValue() const
+    { return MaxMagnitude(); }
+    //: Value of the largest magnitude in the vector.
+    //: This is an alias for MaxMagnitude.
     
     DataT MinValue() const;
     //: Smalleset value in the array.
+    
+    DataT MinAbsValue() const;
+    //: Smalleset absolute value in the array.
     
     const TVectorC<DataT> & Reciprocal();
     //: All elements of the vector are changed to their reciprocal values. 
@@ -167,7 +175,7 @@ namespace RavlN {
     
     DataT EuclidDistance(const TVectorC<DataT> & i) const;
     //: Returns the distance of two indexes in square Euclid metric.
-
+    
     IndexC MaxIndex() const;
     //: Find the index with the most positive valued index.
     
@@ -276,7 +284,7 @@ namespace RavlN {
   }
 
   template<class DataT>
-  DataT TVectorC<DataT>::MaxMagintude() const {
+  DataT TVectorC<DataT>::MaxMagnitude() const {
     DataT max;
     BufferAccessIterC<DataT> it(*this);
     if(!it.IsElm()) {
@@ -305,6 +313,23 @@ namespace RavlN {
       if(*it < min)
 	min = *it;
     return min;
+  }
+
+  template<class DataT>
+  DataT TVectorC<DataT>::MinAbsValue() const {
+    DataT min;
+    BufferAccessIterC<DataT> it(*this);
+    if(!it.IsElm()) {
+      SetZero(min);
+      return min;
+    }
+    min = Abs(*it);
+    for(it++;it;it++) {
+      DataT mag = Abs(*it);
+      if(mag < min)
+	min = mag;
+    }
+    return min;    
   }
   
   template<class DataT>

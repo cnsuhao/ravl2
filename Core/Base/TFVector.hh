@@ -197,6 +197,35 @@ namespace RavlN {
     DataT SumOfAbs() const;
     //: Calculate the sum of the absolute values of all the vector elements.
     
+    DataT MaxValue() const;
+    //: Largest value in the array.
+    
+    DataT MaxMagnitude() const;
+    //: Value of the largest magnitude in the vector.
+    
+    DataT MaxAbsValue() const
+    { return MaxMagnitude(); }
+    //: Value of the largest absolute value in the vector.
+    //: This is an alias for MaxMagnitude() for constancy with MaxAbsIndex()
+    
+    DataT MinValue() const;
+    //: Smallest value in the array.
+    
+    DataT MinAbsValue() const;
+    //: Smallest absolute value in the array.
+    
+    IndexC MaxIndex() const;
+    //: Find the index with the most positive valued index.
+    
+    IndexC MaxAbsIndex() const;
+    //: Find the index with the absolute maximum valued index.
+    
+    IndexC MinIndex() const;
+    //: Find the index with the most negative valued index.
+    
+    IndexC MinAbsIndex() const;
+    //: Find the index with the absolute minimum valued index.
+    
     inline const TFMatrixC<DataT,1,N> &T() const;
     //: Transpose vector.
     // The implementation for this can be found in "Ravl/TFMatrix.hh"
@@ -480,6 +509,100 @@ namespace RavlN {
       ret += RavlN::Abs(data[i]);
     return ret;
   }
+
+  template<class DataT,unsigned int N>
+  DataT TFVectorC<DataT,N>::MaxValue() const {
+    DataT max = data[0];
+    for(int i = 1;i < N;i++) 
+      if(data[i] > max)
+	max = data[i];
+    return max;
+  }
+  
+  template<class DataT,unsigned int N>
+  DataT TFVectorC<DataT,N>::MaxMagnitude() const {
+    DataT max = Abs(data[0]);
+    for(int i = 1;i < N;i++) {
+      register DataT tmp = Abs(data[i]);
+      if(tmp > max)
+	max = tmp;
+    }
+    return max;
+  }
+  
+  template<class DataT,unsigned int N>
+  DataT TFVectorC<DataT,N>::MinValue() const {
+    DataT min = data[0];
+    for(int i = 1;i < N;i++) 
+      if(data[i] < min)
+	min = data[i];
+    return min;
+  }
+  
+  template<class DataT,unsigned int N>
+  DataT TFVectorC<DataT,N>::MinAbsValue() const {
+    DataT min = Abs(data[0]);
+    for(int i = 1;i < N;i++) {
+      register DataT tmp = Abs(data[i]);
+      if(tmp < min)
+	min = tmp;
+    }
+    return min;
+  }
+  
+  template<class DataT,unsigned int N>
+  IndexC TFVectorC<DataT,N>::MaxIndex() const {
+    IndexC ind = 0;
+    DataT maxVal = data[0];
+    for(int i = 1;i < N;i++) {
+      if(data[i] > maxVal) {
+	maxVal = data[i];
+	ind = i;
+      }
+    }
+    return ind;
+  }
+  
+  template<class DataT,unsigned int N>
+  IndexC TFVectorC<DataT,N>::MaxAbsIndex() const {
+    IndexC ind = 0;
+    DataT maxVal = data[0];
+    for(int i = 1;i < N;i++) {
+      register DataT absVal = Abs(data[i]);
+      if(absVal > maxVal) {
+	maxVal = absVal;
+	ind = i;
+      }
+    }
+    return ind;
+  }
+  
+  template<class DataT,unsigned int N>
+  IndexC TFVectorC<DataT,N>::MinIndex() const {
+    IndexC ind = 0;
+    DataT minVal = data[0];
+    for(int i = 1;i < N;i++) {
+      if(data[i] < minVal) {
+	minVal = data[i];
+	ind = i;
+      }
+    }
+    return ind;
+  }
+  
+  template<class DataT,unsigned int N>
+  IndexC TFVectorC<DataT,N>::MinAbsIndex() const {
+    IndexC ind = 0;
+    DataT minVal = data[0];
+    for(int i = 1;i < N;i++) {
+      register DataT absVal = Abs(data[i]);
+      if(absVal < minVal) {
+	minVal = absVal;
+	ind = i;
+      }
+    }
+    return ind;
+  }
   
   template<typename DataT,unsigned int N>
   inline
@@ -583,6 +706,7 @@ namespace RavlN {
   }
   //: Loop unrolled subtract.
   
+
   
 #if !RAVL_COMPILER_VISUALCPP || RAVL_COMPILER_VISUALCPPNET_2005
   template<unsigned int N>
