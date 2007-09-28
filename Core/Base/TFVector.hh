@@ -513,7 +513,7 @@ namespace RavlN {
   template<class DataT,unsigned int N>
   DataT TFVectorC<DataT,N>::MaxValue() const {
     DataT max = data[0];
-    for(int i = 1;i < N;i++) 
+    for(UIntT i = 1;i < N;i++) 
       if(data[i] > max)
 	max = data[i];
     return max;
@@ -522,7 +522,7 @@ namespace RavlN {
   template<class DataT,unsigned int N>
   DataT TFVectorC<DataT,N>::MaxMagnitude() const {
     DataT max = Abs(data[0]);
-    for(int i = 1;i < N;i++) {
+    for(UIntT i = 1;i < N;i++) {
       register DataT tmp = Abs(data[i]);
       if(tmp > max)
 	max = tmp;
@@ -533,7 +533,7 @@ namespace RavlN {
   template<class DataT,unsigned int N>
   DataT TFVectorC<DataT,N>::MinValue() const {
     DataT min = data[0];
-    for(int i = 1;i < N;i++) 
+    for(UIntT i = 1;i < N;i++) 
       if(data[i] < min)
 	min = data[i];
     return min;
@@ -542,7 +542,7 @@ namespace RavlN {
   template<class DataT,unsigned int N>
   DataT TFVectorC<DataT,N>::MinAbsValue() const {
     DataT min = Abs(data[0]);
-    for(int i = 1;i < N;i++) {
+    for(UIntT i = 1;i < N;i++) {
       register DataT tmp = Abs(data[i]);
       if(tmp < min)
 	min = tmp;
@@ -554,7 +554,7 @@ namespace RavlN {
   IndexC TFVectorC<DataT,N>::MaxIndex() const {
     IndexC ind = 0;
     DataT maxVal = data[0];
-    for(int i = 1;i < N;i++) {
+    for(UIntT i = 1;i < N;i++) {
       if(data[i] > maxVal) {
 	maxVal = data[i];
 	ind = i;
@@ -581,7 +581,7 @@ namespace RavlN {
   IndexC TFVectorC<DataT,N>::MinIndex() const {
     IndexC ind = 0;
     DataT minVal = data[0];
-    for(int i = 1;i < N;i++) {
+    for(UIntT i = 1;i < N;i++) {
       if(data[i] < minVal) {
 	minVal = data[i];
 	ind = i;
@@ -594,7 +594,7 @@ namespace RavlN {
   IndexC TFVectorC<DataT,N>::MinAbsIndex() const {
     IndexC ind = 0;
     DataT minVal = data[0];
-    for(int i = 1;i < N;i++) {
+    for(UIntT i = 1;i < N;i++) {
       register DataT absVal = Abs(data[i]);
       if(absVal < minVal) {
 	minVal = absVal;
