@@ -102,8 +102,8 @@ namespace RavlN {
     //: Returns true if the minimum limit is bigger than the maximum limit. 
     
     inline bool IsValid() const
-    { return Min() > Max(); }
-    //: Returns true if the minimum limit is bigger than the maximum limit. 
+    { return Min() <= Max(); }
+    //: Returns true if the minimum limit is smaller than or equal to the maximum value
     
     inline bool Contains(RealT i) const
     { return (Min() <= i) && (i <= Max()); }
