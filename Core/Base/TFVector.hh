@@ -521,9 +521,9 @@ namespace RavlN {
   
   template<class DataT,unsigned int N>
   DataT TFVectorC<DataT,N>::MaxMagnitude() const {
-    DataT max = Abs(data[0]);
+    DataT max = RavlN::Abs(data[0]);
     for(UIntT i = 1;i < N;i++) {
-      register DataT tmp = Abs(data[i]);
+      register DataT tmp = RavlN::Abs(data[i]);
       if(tmp > max)
 	max = tmp;
     }
@@ -541,9 +541,9 @@ namespace RavlN {
   
   template<class DataT,unsigned int N>
   DataT TFVectorC<DataT,N>::MinAbsValue() const {
-    DataT min = Abs(data[0]);
+    DataT min = RavlN::Abs(data[0]);
     for(UIntT i = 1;i < N;i++) {
-      register DataT tmp = Abs(data[i]);
+      register DataT tmp = RavlN::Abs(data[i]);
       if(tmp < min)
 	min = tmp;
     }
@@ -568,7 +568,7 @@ namespace RavlN {
     IndexC ind = 0;
     DataT maxVal = data[0];
     for(int i = 1;i < N;i++) {
-      register DataT absVal = Abs(data[i]);
+      register DataT absVal = RavlN::Abs(data[i]);
       if(absVal > maxVal) {
 	maxVal = absVal;
 	ind = i;
@@ -595,7 +595,7 @@ namespace RavlN {
     IndexC ind = 0;
     DataT minVal = data[0];
     for(UIntT i = 1;i < N;i++) {
-      register DataT absVal = Abs(data[i]);
+      register DataT absVal = RavlN::Abs(data[i]);
       if(absVal < minVal) {
 	minVal = absVal;
 	ind = i;
