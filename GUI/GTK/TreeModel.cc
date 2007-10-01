@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2003, OmniPerception Ltd.
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -21,7 +21,7 @@
 #include "Ravl/HashIter.hh"
 
 namespace RavlGUIN {
-  
+
   GType Ravl2GTKType(AttributeValueTypeT vtype) {
     switch(vtype) {
     case AVT_Bool:     return G_TYPE_BOOLEAN;
@@ -37,28 +37,28 @@ namespace RavlGUIN {
     }
     return G_TYPE_INVALID;
   }
-  
+
   //:----------------------------------------------------------------------------
-  
+
   //: Constructor.
-  
-  TreeModelIterBodyC::TreeModelIterBodyC() 
+
+  TreeModelIterBodyC::TreeModelIterBodyC()
     : model(0),
       treeIter(g_new (GtkTreeIter, 1)),
       isElm(true)
   {}
-  
+
   //: Constructor.
-  
+
   TreeModelIterBodyC::TreeModelIterBodyC(GtkTreeIter *ntreeIter)
     : model(0),
       treeIter(g_new (GtkTreeIter, 1)),
       isElm(true) // FIXME:- How to check ?
   {}
-  
+
   //: Construct from tree model.
-  
-  TreeModelIterBodyC::TreeModelIterBodyC(TreeModelC &ntreeModel) 
+
+  TreeModelIterBodyC::TreeModelIterBodyC(TreeModelC &ntreeModel)
     : model(0),
       treeIter(g_new (GtkTreeIter, 1)),
       isElm(false)
@@ -66,8 +66,8 @@ namespace RavlGUIN {
     model = ntreeModel.Body().model;
     if(gtk_tree_model_get_iter_first (model,treeIter))
       isElm = true;
-  }    
-  
+  }
+
   TreeModelIterBodyC::TreeModelIterBodyC(GtkTreeModel *nmodel,GtkTreeIter *ntreeIter)
     : model(nmodel),
       treeIter(gtk_tree_iter_copy (ntreeIter)),
@@ -75,29 +75,29 @@ namespace RavlGUIN {
   {}
 
   //: Construct from tree model and path.
-  
+
   TreeModelIterBodyC::TreeModelIterBodyC(GtkTreeModel *nmodel,GtkTreePath *treePath)
     : model(nmodel),
       treeIter(g_new (GtkTreeIter, 1)),
       isElm(false)
-  {    
+  {
     RavlAssert(model != 0);
     RavlAssert(treePath != 0);
     if(gtk_tree_model_get_iter(model,treeIter,treePath))
       isElm = true;
   }
-  
+
   //: Destructor.
-  
-  TreeModelIterBodyC::~TreeModelIterBodyC() 
+
+  TreeModelIterBodyC::~TreeModelIterBodyC()
   {
     RavlAssert(treeIter != 0);
-    gtk_tree_iter_free(treeIter); 
+    gtk_tree_iter_free(treeIter);
   }
-  
+
   //: Goto next element at current level.
   // Returns true if succeeded.
-  
+
   bool TreeModelIterBodyC::Next() {
     RavlAssert(model != 0);
     RavlAssert(treeIter != 0);
@@ -108,10 +108,10 @@ namespace RavlGUIN {
     isElm = false;
     return false;
   }
-  
+
   //: Return iterator for first child.
   // Will return an invalid iterator if none.
-  
+
   TreeModelIterC TreeModelIterBodyC::Children() {
     RavlAssert(model != 0);
     RavlAssert(treeIter != 0);
@@ -121,18 +121,18 @@ namespace RavlGUIN {
       ret.Invalidate();
     return ret;
   }
-  
+
   //: Does current node have children ?
-  
+
   bool TreeModelIterBodyC::HasChildren() {
     RavlAssert(model != 0);
     RavlAssert(treeIter != 0);
     return gtk_tree_model_iter_has_child(model,treeIter) != 0;
   }
-  
+
   //: Get iterator for parent.
   // Returns an invalid handle if none.
-  
+
   TreeModelIterC TreeModelIterBodyC::Parent() {
     RavlAssert(model != 0);
     RavlAssert(treeIter != 0);
@@ -142,26 +142,26 @@ namespace RavlGUIN {
       ret.Invalidate();
     return ret;
   }
-  
+
   //: Create a copy of the iterator.
-  
+
   TreeModelIterC TreeModelIterBodyC::Copy() {
     RavlAssert(model != 0);
     RavlAssert(treeIter != 0);
     return TreeModelIterC(model,treeIter);
   }
 
-  
+
   //:----------------------------------------------------------------------------
-  
+
   //: Constructor.
-  
-  TreeModelPathBodyC::TreeModelPathBodyC() 
+
+  TreeModelPathBodyC::TreeModelPathBodyC()
     : treePath(0)
   { treePath = gtk_tree_path_new (); }
-  
+
   //: Constructor.
-  
+
   TreeModelPathBodyC::TreeModelPathBodyC(TreeModelIterC treeIter)
     :  treePath(0)
   {
@@ -170,7 +170,7 @@ namespace RavlGUIN {
     treePath = gtk_tree_model_get_path(treeIter.Model(), treeIter.TreeIter());
   }
   //: Constructor.
-  
+
   TreeModelPathBodyC::TreeModelPathBodyC(GtkTreePath *ntreePath,bool canFree)
     : treePath(0)
   {
@@ -179,18 +179,18 @@ namespace RavlGUIN {
     else
       treePath = gtk_tree_path_copy (ntreePath);
   }
-  
+
   //: Destructor.
-  
-  TreeModelPathBodyC::~TreeModelPathBodyC() { 
+
+  TreeModelPathBodyC::~TreeModelPathBodyC() {
     if(treePath != 0) {
       ReadBackLockC lock;
       gtk_tree_path_free (treePath);
     }
   }
-  
+
   //: Path as text.
-  
+
   StringC TreeModelPathBodyC::Text() const {
     // I've lookat the source for the following function and it looks thread safe. CG.
     char *str = gtk_tree_path_to_string(treePath);
@@ -200,106 +200,106 @@ namespace RavlGUIN {
   }
 
   //:----------------------------------------------------------------------------
-  
+
   //"row-changed"
   static void handle_row_changed(GtkTreeModel *treemodel,
-				 GtkTreePath *arg1,
-				 GtkTreeIter *arg2,
-				 gpointer user_data) {
+         GtkTreePath *arg1,
+         GtkTreeIter *arg2,
+         gpointer user_data) {
     TreeModelPathC path(arg1,false);
     TreeModelIterC row(arg2);
     (*((Signal2C<TreeModelPathC,TreeModelIterC> *) user_data))(path,row);
   }
-  
+
   //"row-deleted"
   static void handle_row_deleted(GtkTreeModel *treemodel,
-				 GtkTreePath *arg1,
-				 gpointer user_data) {
+         GtkTreePath *arg1,
+         gpointer user_data) {
     TreeModelPathC path(arg1,false);
     TreeModelIterC row;
     (*((Signal2C<TreeModelPathC,TreeModelIterC> *) user_data))(path,row);
   }
-  
+
   //"row-has-child-toggled"
   static void handle_row_has_child_toggled(GtkTreeModel *treemodel,
-					   GtkTreePath *arg1,
-					   GtkTreeIter *arg2,
-					   gpointer user_data) {
+             GtkTreePath *arg1,
+             GtkTreeIter *arg2,
+             gpointer user_data) {
     TreeModelPathC path(arg1,false);
     TreeModelIterC row(arg2);
     (*((Signal2C<TreeModelPathC,TreeModelIterC> *) user_data))(path,row);
   }
-  
+
   //"row-inserted"
   static void handle_row_inserted(GtkTreeModel *treemodel,
-				  GtkTreePath *arg1,
-				  GtkTreeIter *arg2,
-				  gpointer user_data) {
+          GtkTreePath *arg1,
+          GtkTreeIter *arg2,
+          gpointer user_data) {
     TreeModelPathC path(arg1,false);
     TreeModelIterC row(arg2);
     (*((Signal2C<TreeModelPathC,TreeModelIterC> *) user_data))(path,row);
   }
-  
+
   //"rows-reordered"
   static void handle_rows_reordered(GtkTreeModel *treemodel,
-				   GtkTreePath *arg1,
-				   GtkTreeIter *arg2,
-				   gpointer arg3,
-				   gpointer user_data) {
-    
+           GtkTreePath *arg1,
+           GtkTreeIter *arg2,
+           gpointer arg3,
+           gpointer user_data) {
+
     TreeModelPathC path(arg1,false);
     TreeModelIterC row(arg2);
     (*((Signal2C<TreeModelPathC,TreeModelIterC> *) user_data))(path,row);
   }
-  
-  
+
+
   //:----------------------------------------------------------------------------
-    
+
   //: Constructor.
-  
+
   TreeModelBodyC::TreeModelBodyC()
     : model(0)
   {}
-  
+
   //: Constructor from a list of types.
-  
+
   TreeModelBodyC::TreeModelBodyC(const SArray1dC<AttributeTypeC> &ncolTypes)
     : model(0),
       colTypes(ncolTypes)
   {}
-  
+
 
   //: Destructor.
-  
+
   TreeModelBodyC::~TreeModelBodyC()
   {}
-  
-  
+
+
   //: Look up column number of named column.
-  
+
   UIntT TreeModelBodyC::ColNumber(const StringC &name) const {
-    
+
     for(SArray1dIterC<AttributeTypeC> it(colTypes);it;it++)
       if(it->Name() == name)
-	return it.Index().V();
+  return it.Index().V();
     return ((UIntT) -1);
   }
 
   //: Create the widget.
-  
+
   bool TreeModelBodyC::Create() {
     // Connect signals...
     for(HashIterC<StringC,Signal2C<TreeModelPathC,TreeModelIterC> > it(signals);it;it++)
       ConnectUp(it.Key());
     return true;
   }
-  
+
   //: Create a new signal.
-  
+
   void TreeModelBodyC::ConnectUp(StringC name) {
     int id;
     //, "row-deleted","row-has-child-toggled","row-inserted","rows-reordered"
-    Signal2C<TreeModelPathC,TreeModelIterC> &ret =  signals[name];   
+    Signal2C<TreeModelPathC,TreeModelIterC> &ret =  signals[name];
     if(name == "row-changed") {
       id = g_signal_connect (model, name,G_CALLBACK (handle_row_changed),&ret);
       return;
@@ -320,12 +320,12 @@ namespace RavlGUIN {
       id = g_signal_connect (model, name,G_CALLBACK (handle_rows_reordered),&ret);
       return;
     }
-    RavlAssertMsg(0,"Unknown signal type. ");    
+    RavlAssertMsg(0,"Unknown signal type. ");
   }
-  
-  
+
+
   //: Set int value.
-  
+
   bool TreeModelBodyC::GetValue(TreeModelIterC &rowIter,IntT col, IntT &value) {
     if(!rowIter.IsElm())
       return false;
@@ -333,9 +333,9 @@ namespace RavlGUIN {
     gtk_tree_model_get(model,rowIter.TreeIter(),col,&value,-1);
     return true;
   }
-  
-  //: Set bool value. 
-  
+
+  //: Set bool value.
+
   bool TreeModelBodyC::GetValue(TreeModelIterC &rowIter,IntT col, bool &value) {
     if(!rowIter.IsElm())
       return false;
@@ -345,9 +345,9 @@ namespace RavlGUIN {
     value = tmp != 0;
     return true;
   }
-  
+
   //: Set bool value.
-  
+
   bool TreeModelBodyC::GetValue(TreeModelIterC &rowIter,IntT col, StringC &value) {
     if(!rowIter.IsElm())
       return false;
@@ -358,120 +358,131 @@ namespace RavlGUIN {
     g_free(text);
     return true;
   }
-  
+
   //: Set bool value.
-  
+
   bool TreeModelBodyC::GetValue(TreeModelIterC &rowIter,IntT col, PixbufC &value) {
     RavlAssertMsg(0,"TreeModelBodyC::GetValue(,,PixbufC&), Not implemented.");
     return true;
   }
-  
+
   //: Set int value.
-  
+
   bool TreeModelBodyC::SetValue(TreeModelIterC &rowIter,IntT col, IntT value) {
     Manager.Queue(Trigger(TreeModelC(*this),&TreeModelC::GUISetValueInt,rowIter,col,value));
     return false;
   }
-  
+
   //: Set bool value.
-  
+
   bool TreeModelBodyC::SetValue(TreeModelIterC &rowIter,IntT col, bool value) {
     Manager.Queue(Trigger(TreeModelC(*this),&TreeModelC::GUISetValueBool,rowIter,col,value));
     return false;
   }
-  
+
   //: Set bool value.
-  
+
   bool TreeModelBodyC::SetValue(TreeModelIterC &rowIter,IntT col, const StringC &value) {
     //if(!Manager.IsManagerStarted())
     //return GUISetValue(rowIter,col,value);
     Manager.Queue(Trigger(TreeModelC(*this),&TreeModelC::GUISetValueString,rowIter,col,value));
     return true;
   }
-  
+
   //: Set bool value.
-  
+
   bool TreeModelBodyC::SetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value) {
     Manager.Queue(Trigger(TreeModelC(*this),&TreeModelC::GUISetValuePixbuf,rowIter,col,value));
     return true;
   }
-  
+
   //: Clear store of all values.
-  
-  void TreeModelBodyC::Empty() { 
-    Manager.Queue(Trigger(TreeModelC(*this),&TreeModelC::GUIEmpty)); 
+
+  void TreeModelBodyC::Empty() {
+    Manager.Queue(Trigger(TreeModelC(*this),&TreeModelC::GUIEmpty));
   }
-  
+
   //: Append a row.
-  
+
   bool TreeModelBodyC::AppendRow(TreeModelIterC &rowHandle) {
     RavlAssertMsg(0,"Not implemented. ");
     return false;
   }
-  
+
+
+
+  bool TreeModelBodyC::InsertRowBefore(TreeModelIterC &rowHandle, TreeModelIterC &targetRowHandle) {
+    RavlAssertMsg(0,"Not implemented. ");
+    return false;
+  }
+
   //: Delete a row.
-  
+
   bool TreeModelBodyC::DeleteRow(TreeModelIterC &rowHandle) {
     //if(!Manager.IsManagerStarted())
-    //return GUIDeleteRow(rowHandle); 
+    //return GUIDeleteRow(rowHandle);
     Manager.Queue(Trigger(TreeModelC(*this),&TreeModelC::GUIDeleteRow,rowHandle));
     return true;
   }
-  
-  
+
+
   //: Delete a row.
-  
+
   bool TreeModelBodyC::GUIDeleteRow(TreeModelIterC &rowHandle) {
     RavlAssert(0);
-    return false;    
+    return false;
   }
-  
+
   //: Set int value.
-  
+
   bool TreeModelBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, IntT value) {
     RavlAssertMsg(0,"TreeModelBodyC::SetValue(TreeModelIterC &,IntT,IntT) Not implemented. ");
     return false;
   }
-  
+
   //: Set bool value.
-  
+
   bool TreeModelBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, bool value) {
     RavlAssertMsg(0,"TreeModelBodyC::SetValue(TreeModelIterC &,IntT,bool) Not implemented. ");
     return false;
   }
-  
+
   //: Set bool value.
-  
+
   bool TreeModelBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, const StringC &value) {
     RavlAssertMsg(0,"TreeModelBodyC::SetValue(TreeModelIterC &,IntT,const StringC &) Not implemented. ");
     return false;
   }
-  
+
   //: Set bool value.
-  
+
   bool TreeModelBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value) {
     RavlAssertMsg(0,"TreeModelBodyC::SetValue(TreeModelIterC &,IntT,const PixbufC &) Not implemented. ");
     return false;
   }
-  
+
   //: Clear store of all values.
-  
+
   void TreeModelBodyC::GUIEmpty() {
     RavlAssertMsg(0,"TreeModelBodyC::Empty() Not implemented. ");
     return ;
   }
-  
+
   //: Access tree signal.
   // Where name is one of "row-changed", "row-deleted","row-has-child-toggled","row-inserted","rows-reordered"
-  
+
   Signal2C<TreeModelPathC,TreeModelIterC> &TreeModelBodyC::Signal(const char *nname) {
     Signal2C<TreeModelPathC,TreeModelIterC> *ret;
     StringC name(nname);
     if((ret = signals.Lookup(name)) != 0)
       return *ret;
-    if(name == "row-changed" || name == "row-deleted"  || name == "row-has-child-toggled" || name == "row-inserted" || name == "rows-reordered") {
+    if(name == "row-changed" ||
+       name == "row-deleted" ||
+       name == "row-has-child-toggled" ||
+       name == "row-inserted" ||
+       name == "rows-reordered") {
       TreeModelIterC tmp2;
-      TreeModelPathC tmp1; 
+      TreeModelPathC tmp1;
       signals[name] = Signal2C<TreeModelPathC,TreeModelIterC>(tmp1,tmp2);
       ret = &signals[name];
     } else {
@@ -484,7 +495,7 @@ namespace RavlGUIN {
   }
 
   //: Get iterator from path text.
-  
+
   TreeModelIterC TreeModelBodyC::Path2Iter(const char *pathName) {
     TreeModelIterC ret;
     ret.Model(model);
@@ -504,6 +515,6 @@ namespace RavlGUIN {
       ret.Invalidate();
     return ret;
   }
-    
+
 }
 
