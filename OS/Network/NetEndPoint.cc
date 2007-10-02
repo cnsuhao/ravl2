@@ -326,9 +326,9 @@ namespace RavlN {
       return true;
     MutexLockC lock(accessMsgReg);
     shutdown = true;
-    msgReg.Empty(); 
-    ostrm.PutEOS();
-    //istrm.PutEOS();
+    msgReg.Empty();
+    if(ostrm.IsValid())
+      ostrm.PutEOS();
     
 #if RAVL_USE_DECODE_THREAD
     // Put an empty packet to indicate shutdown.
