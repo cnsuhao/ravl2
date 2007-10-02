@@ -18,7 +18,7 @@ namespace RavlImageN {
 //class CardModeC;
 
 //! userlevel=Normal
-//: Write the data from the DVS capture system to a file.
+//: Write raw video files.
 // This is the base class for Grabfile writers. It should not contain
 // any pure virtual functions except for Version().
 class GrabfileWriterC {
