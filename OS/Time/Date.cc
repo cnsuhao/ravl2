@@ -34,10 +34,12 @@
 #include <time.h>
 
 #ifdef RAVL_OS_MACOSX
-char *asctime_r(const struct tm *, char *);
-char *ctime_r(const time_t *, char *);
-struct tm *gmtime_r(const time_t *, struct tm *);
-struct tm *localtime_r(const time_t *, struct tm *);
+extern "C" {
+  char *asctime_r(const struct tm *, char *);
+  char *ctime_r(const time_t *, char *);
+  struct tm *gmtime_r(const time_t *, struct tm *);
+  struct tm *localtime_r(const time_t *, struct tm *);
+}
 #endif
 
 

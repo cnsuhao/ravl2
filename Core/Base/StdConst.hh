@@ -145,7 +145,7 @@ namespace RavlConstN {
   //: Minimum integer used by GNU C++ compiler.
 #endif
   
-#ifdef MAXFLOAT
+#if defined(MAXFLOAT) && defined(MINFLOAT)
   const float maxFloat = MAXFLOAT;
   //: Biggest value a float may have.
   
