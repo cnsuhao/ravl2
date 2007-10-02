@@ -553,6 +553,11 @@ namespace RavlN {
     {}
     //: Body constructor.
     
+    NetEndPointC(NetEndPointBodyC *bod)
+      : RCHandleC<NetEndPointBodyC>(bod)
+    {}
+    //: Body constructor.
+    
     NetEndPointBodyC &Body() 
     { return RCHandleC<NetEndPointBodyC>::Body(); }
     //: Access body.
