@@ -44,18 +44,18 @@ namespace Ravl3DN {
 
   // Create a cube.
   
-  TriMeshC CreateTriMeshCube(RealT size) {
+  TriMeshC CreateTriMeshCube(RealT size, const Point3dC &origin) {
     RealT hSize = size/2.0;
     SArray1dC<VertexC> vertex(8);
-    vertex[0] = VertexC(World3d( hSize, hSize,-hSize));
-    vertex[1] = VertexC(World3d( hSize,-hSize,-hSize));
-    vertex[2] = VertexC(World3d(-hSize,-hSize,-hSize));
-    vertex[3] = VertexC(World3d(-hSize, hSize,-hSize));
+    vertex[0] = VertexC(World3d( hSize, hSize,-hSize) + origin);
+    vertex[1] = VertexC(World3d( hSize,-hSize,-hSize) + origin);
+    vertex[2] = VertexC(World3d(-hSize,-hSize,-hSize) + origin);
+    vertex[3] = VertexC(World3d(-hSize, hSize,-hSize) + origin);
     
-    vertex[4] = VertexC(World3d( hSize, hSize,hSize));
-    vertex[5] = VertexC(World3d( hSize,-hSize,hSize));
-    vertex[6] = VertexC(World3d(-hSize,-hSize,hSize));
-    vertex[7] = VertexC(World3d(-hSize, hSize,hSize));
+    vertex[4] = VertexC(World3d( hSize, hSize,hSize) + origin);
+    vertex[5] = VertexC(World3d( hSize,-hSize,hSize) + origin);
+    vertex[6] = VertexC(World3d(-hSize,-hSize,hSize) + origin);
+    vertex[7] = VertexC(World3d(-hSize, hSize,hSize) + origin);
     
     SArray1dC<TriC> tri(12);
     UIntT tn = 0;

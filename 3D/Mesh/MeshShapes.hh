@@ -23,7 +23,7 @@ namespace Ravl3DN {
   //: Create a cube.
   // Where the length of each side is 'size'
   
-  TriMeshC CreateTriMeshCube(RealT size = 1.0);
+  TriMeshC CreateTriMeshCube(RealT size = 1.0, const Point3dC &origin = Point3dC(0, 0, 0));
   
   //: Create a sphere.
   // There must be at least 2 layers, and 2 slices.
