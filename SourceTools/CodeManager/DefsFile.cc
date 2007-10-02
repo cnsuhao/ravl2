@@ -1,6 +1,6 @@
-// This file is part of CxxDoc, The RAVL C++ Documentation tool 
+// This file is part of CxxDoc, The RAVL C++ Documentation tool
 // Copyright (C) 2001, University of Surrey
-// This code may be redistributed under the terms of the GNU General 
+// This code may be redistributed under the terms of the GNU General
 // Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
@@ -19,7 +19,7 @@
 #define DDEBUG 1
 
 namespace RavlN {
-  
+
   char *validtags[] = {"DESCRIPTION","MAINS","HEADERS","SOURCES","PLIB",
                        "USESLIBS","PROGLIBS","NESTED","SUPPORT_ONLY",
                        "DONOT_SUPPORT","PACKAGE","OPTLIB","OPTINCPATH",
@@ -29,19 +29,19 @@ namespace RavlN {
                        "DOCNODE","SCRIPTS","MUSTLINK","ANSIFLAG","LICENSE","PACKAGENAME",
                        "REQUIRES","ORGANISATION","OBJEXT",
                        "CXXEXT","CXXAUXEXT","CHXXEXT","CEXT","CHEXT","EXEEXT","USERCPPFLAGS","EXTERNALLIBS",
-                         0 };
-  
+                       "LICENCE",  0 };
+
   /////////////////
   // Construct from a filename.
-  
-  DefsMkFileC::DefsMkFileC(const StringC &fn,bool doChecking) { 
-    Load(fn,doChecking); 
+
+  DefsMkFileC::DefsMkFileC(const StringC &fn,bool doChecking) {
+    Load(fn,doChecking);
   }
 
   //: Load a def file.
-  
+
   bool DefsMkFileC::Load(const StringC &fn,bool doChecking) {
-    TextFileC af;  
+    TextFileC af;
     if(!af.Load(fn)) {
       cerr << "ERROR: Failed to load defs file :'" << fn << "'\n";
       return false;
@@ -50,12 +50,12 @@ namespace RavlN {
     HashC<StringC,TextFragmentC> frags;
     return Load(af,doChecking,frags);
   }
-  
+
   static SArray1dC<bool> DefMKFile_SkipSpace = TextCursorC::BuildClipTable(" \t\r\n");
-  
+
   ///////////////////////
   // Load a def file.
-  
+
   bool DefsMkFileC::Load(TextFileC &af,bool doChecking,HashC<StringC,TextFragmentC> &frags) {
     bool ret = true;
     tab.Empty();
@@ -82,7 +82,7 @@ namespace RavlN {
 	cerr << "ERROR: reading tag at " << tc.PositionTxt() << "\n";
 	ret = false;
 	return false;
-      } 
+      }
       if(tab.IsElm(tag)) {
 	cerr << "ERROR: repeated definition of variable '" << tag <<"' at " << tc.PositionTxt() << "  Value:" << tab[tag] << endl;
 	return false;
@@ -92,14 +92,14 @@ namespace RavlN {
       if(tag == "ifeq" || tag == "ifneq" || tag == "ifndef" || tag == "ifdef") {
 	ifnest++;
 	tc.NextLine(); // Ignore them.
-	continue;      
+	continue;
       }
       if(tag =="endif") {
 	ifnest--;
 	if(ifnest == 0)
 	  ignore = false;
 	tc.NextLine(); // Skip 'ifndef'
-	continue;      
+	continue;
       }
       if(tag == "else") { // Ignore all in 'else'
 	if(!ignore) {
@@ -117,7 +117,7 @@ namespace RavlN {
 	}
       }
       tc.SkipWhite();
-      if(!tc.IsElm()) 
+      if(!tc.IsElm())
 	break;
       if(tc.Char() != '=') {
 	addTo = false;
@@ -130,7 +130,7 @@ namespace RavlN {
 	if(!addTo) {
 	  cerr << "ERROR: assignment expected at " << tc.PositionTxt() << "\n";
 	  ret = false;
-	  tc.NextLine(); 
+	  tc.NextLine();
 	  continue; // Skip line.
 	}
       }
@@ -138,7 +138,7 @@ namespace RavlN {
       tc.NextChar();
       if(!tc.IsElm())
       break;
-      
+
       tc.SkipChars(DefMKFile_SkipSpace);
       if(!tc.IsElm()) {
 	if(!ignore) {
@@ -154,11 +154,11 @@ namespace RavlN {
 	}
 	continue;
       }
-      
+
       //cout << tag << "=";
       bool done = false;
-      
-      TextFragmentC nf(startData,tc);    
+
+      TextFragmentC nf(startData,tc);
       while(tc.IsElm()) {
 	switch(tc.Char())
 	  {
@@ -218,10 +218,10 @@ namespace RavlN {
     }
     return ret;
   }
-  
+
   //////////////////////////
   // Check if a tag is valid.
-  
+
   bool DefsMkFileC::CheckTag(StringC tag)  {
     char **place = validtags;
     for(;*place != 0;place++) {
@@ -230,11 +230,11 @@ namespace RavlN {
     }
     return false;
   }
-  
+
   //: Make a list of all source files that should exists.
   // FIXME :- A better way of doing this, add flag to list
   // of var names ??
-  
+
   StringListC DefsMkFileC::AllSources() {
     HSetC<StringC> sources;
     // Source code.
@@ -265,13 +265,13 @@ namespace RavlN {
     ret += sources;
     return ret;
   }
-  
-  
+
+
   ////////////////////////////////
   //: Make a list of nested directories.
   // This returns both active and inactive directories.
   // the .r's are striped from all strings.
-  
+
   StringListC DefsMkFileC::AllNested() {
     StringListC ret(Value("NESTED"));
     for(DLIterC<StringC> it(ret);it.IsElm();it.Next()) {
@@ -280,12 +280,12 @@ namespace RavlN {
     }
     return ret;
   }
-  
+
   //////////////////////////////////////
   //: Make a list of nested directories.
   // This returns only active directories.
   // the .r's are striped from all strings.
-  
+
   StringListC DefsMkFileC::Nested() {
     StringListC ret(Value("NESTED"));
     for(DLIterC<StringC> it(ret);it.IsElm();it.Next()) {
@@ -296,5 +296,5 @@ namespace RavlN {
     }
     return ret;
   }
-  
+
 }

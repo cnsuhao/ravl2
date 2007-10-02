@@ -61,13 +61,23 @@ namespace RavlN {
       }
       // Sort out subdirectories.
       StringListC subDirs = defs.Nested();
+      
+      //check subdirs for duplicates
+      DListC<StringC> checkList;      
+      
       DLIterC<StringC> it(subDirs);
       for(it.Last();it;it--)
+      {
 	toDo.InsFirst(at + filenameSeperator + *it);
+	if(checkList.Contains(*it))
+	{
+	  cerr << "ERROR: duplicate nested dirs in " << at + filenameSeperator + "defs.mk" << endl;
+	}
+	else
+	  checkList.InsLast(*it);
+      }
     }
     return true;
-  }
-
-  
+  }  
   
 }

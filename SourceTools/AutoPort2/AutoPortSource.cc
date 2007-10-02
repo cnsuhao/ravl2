@@ -46,6 +46,17 @@ namespace RavlN {
       chkit.SetVerbose(true);
     chkit.ForAllDirs(CallMethod2C<AutoPortSourceC,StringC &,DefsMkFileC &,bool>(AutoPortSourceC(*this) ,
 										&AutoPortSourceC::ScanDirectory));
+										
+    //check if all libraries in list were found
+    if(!doLibs.IsEmpty()) 
+    {
+      for(DLIterC<StringC>it(doLibs);it;it++) 
+      {
+	if(!libs.IsElm(*it))
+          cerr << "ERROR: Can't find library : " << *it << "\n";
+      }
+    }    
+    										
     return true;
   }
 
@@ -54,15 +65,6 @@ namespace RavlN {
   bool AutoPortSourceBodyC::ScanDirectory(StringC &where,DefsMkFileC &defs) {
     if(verbose)
       cerr << "Scanning '" << where << "'\n";
-    // Check this directory supports VCPP.
-    if(defs.Value("DONOT_SUPPORT").contains("VCPP")) 
-      return true;
-    StringC supportOnly = defs.Value("SUPPORT_ONLY");
-    if(!supportOnly.IsEmpty()) {
-      if(!supportOnly.contains("VCPP")) 
-	return true;
-    }
-    
     StringC libName = defs["PLIB"].TopAndTail();
     
     //: If we have been supplied with an external list of libraries to do
@@ -73,9 +75,27 @@ namespace RavlN {
 	  found=true;
       }
       if(!found)
+      {
+        //cout << "My skipping library " << libName << endl;
 	return true;
+      } 
     }
 
+    // Check this directory supports VCPP.
+    if(defs.Value("DONOT_SUPPORT").contains("VCPP")) 
+    {
+      cerr << "WARNING: Library " << libName << " does not support Visual Studio\n";
+      return true;
+    }
+    StringC supportOnly = defs.Value("SUPPORT_ONLY");
+    if(!supportOnly.IsEmpty()) {
+      if(!supportOnly.contains("VCPP")) 
+      {
+        cerr << "WARNING: Library " << libName << " does not support Visual Studio\n";
+	return true;
+      }
+    }
+    
     if(!libName.IsEmpty()) {
       LibInfoC &li = libs[libName];
       if(!li.IsValid()) // Need to create it?
