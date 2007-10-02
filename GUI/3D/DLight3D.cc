@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -14,19 +14,20 @@
 namespace RavlGUIN {
 
   //: Render object.
-  
-  bool DLight3DBodyC::Render(Canvas3DC &) {
+  bool DLight3DBodyC::GUIRender(Canvas3DC &) const
+  {
+    const GLenum lightNo = LightNo(n);
+
     glClearColor(0,0,0,0);
-    glEnable(GL_AUTO_NORMAL);
-    glEnable(GL_NORMALIZE);
-    
+    //glEnable(GL_AUTO_NORMAL);
+    //glEnable(GL_NORMALIZE);
+
     glEnable(GL_LIGHTING);
-    glEnable(LightNo(n));
-    
+    glEnable(lightNo);
+
     // Material defaults.
-    
     float mat[4];
-    
+
     mat[0] = 1;
     mat[1] = 1;
     mat[2] = 1;
@@ -40,19 +41,22 @@ namespace RavlGUIN {
     mat[1] = 0;
     mat[2] = 0;
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mat);
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 0);
-    
+    //glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 0);
+
     // Set position...
-    
     GLfloat fpos[4];
     fpos[0] = pos.X();
     fpos[1] = pos.Y();
     fpos[2] = pos.Z();
-    fpos[3] =1;
-    glLightfv(LightNo(n),GL_POSITION,fpos);
-    
+    fpos[3] = 1.;
+    //cerr << "Light position:" << pos << endl;
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+    glLightfv(lightNo, GL_POSITION, fpos);
+    glPopMatrix();
+
     // Set colour....
-    
     GLfloat col1[4],col2[4];
     col1[0] = colour.Red();
     col1[1] = colour.Green();
@@ -60,19 +64,19 @@ namespace RavlGUIN {
     col1[3] = 1;
     for(IntT i = 0;i < 4;i++)
       col2[i] = col1[i] * 0.1;  // Ambient is 10% of full.
-    
-    glLightfv(LightNo(n),GL_AMBIENT,col2);
-    glLightfv(LightNo(n),GL_DIFFUSE,col1);
-    glLightfv(LightNo(n),GL_SPECULAR,col1);
-    
+
+    glLightfv(lightNo, GL_AMBIENT,  col2);
+    glLightfv(lightNo, GL_DIFFUSE,  col1);
+    glLightfv(lightNo, GL_SPECULAR, col1);
+
     return true;
   }
-  
+
   //: Convert Light number.
-  
-  GLenum DLight3DBodyC::LightNo(IntT no) {
-    switch(no) 
-      {
+  GLenum DLight3DBodyC::LightNo(IntT no) const
+  {
+    switch(no)
+    {
       case 0: return GL_LIGHT0;
       case 1: return GL_LIGHT1;
       case 2: return GL_LIGHT2;
@@ -82,9 +86,8 @@ namespace RavlGUIN {
       case 6: return GL_LIGHT6;
       case 7: return GL_LIGHT7;
       default:
-	RavlAssert(0);
-      }
+        RavlAssert(0);
+    }
     return GL_LIGHT0;
   }
-  
 }

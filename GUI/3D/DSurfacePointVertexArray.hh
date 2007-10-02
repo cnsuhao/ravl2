@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2002, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -18,7 +18,7 @@
 namespace RavlGUIN
 {
   using namespace Ravl3DN;
-  
+
   //! userlevel=Normal
   //: Direct OpenGL render of vertex array, using current colour.
   void DSurfacePointVertexArray(const SurfacePoint3dArrayC<VertexC>& s);
@@ -26,50 +26,48 @@ namespace RavlGUIN
   //! userlevel=Develop
   //: Rendering class for vertex array.
   //  Does not set the colour, so will use current OpenGL colour
-  class DSurfacePointVertexArrayBodyC
-    : public DObject3DBodyC
+  class DSurfacePointVertexArrayBodyC : public DObject3DBodyC
   {
   public:
     DSurfacePointVertexArrayBodyC(const SurfacePoint3dArrayC<VertexC>& s)
       : surface(s)
-    {}
+      {}
     //: Constructor.
-    
-    virtual bool Render(Canvas3DC &c3d)
-    {  
-      DSurfacePointVertexArray(surface); 
-      return true; 
-    }
+
+    virtual bool GUIRender(Canvas3DC &c3d) const
+      {
+        DSurfacePointVertexArray(surface);
+        return true;
+      }
     //: Render object.
-    
-    virtual Vector3dC Center();
+
+    virtual Vector3dC GUICenter() const;
     //: Get center of object.
-    
-    virtual RealT Extent();
+
+    virtual RealT GUIExtent() const;
     //: Get extent of object.
-    
+
   protected:
     SurfacePoint3dArrayC<VertexC> surface;
   };
-  
+
   //! userlevel=Normal
   //: Rendering class for vertex array, using current OpenGL colour
   //  Does not set the colour, so will use current OpenGL colour
-    
-  class DSurfacePointVertexArrayC
-    : public DObject3DC
+
+  class DSurfacePointVertexArrayC : public DObject3DC
   {
   public:
     DSurfacePointVertexArrayC()
-    {}
+      {}
     //: Default constructor, creates an invalid drawing object.
-    
+
     DSurfacePointVertexArrayC(const SurfacePoint3dArrayC<VertexC>& s)
       : DObject3DC(*new DSurfacePointVertexArrayBodyC(s))
-    {}
+      {}
     //: Construct drawing object from array of surface points.
   };
 }
- 
+
 
 #endif

@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -25,18 +25,16 @@
 #define USEMESHCOLOUR 1
 
 namespace RavlGUIN {
-  
+
   //: Constructor.
-  
   DTriMesh3DBodyC::DTriMesh3DBodyC(const TriMeshC &oTriMesh)
     : model(oTriMesh),
-      doneCenter(false)
+      doneInfo(false)
   {}
 
-  //: Comput center and extent of mesh.
-  
-  void DTriMesh3DBodyC::ComputeInfo() {
-    doneCenter = true;
+  //: Compute center and extent of mesh.
+  void DTriMesh3DBodyC::ComputeInfo() const
+  {
     center = model.Centroid();
     extent = 0;
     for(SArray1dIterC<VertexC> it(model.Vertices());it;it++) {
@@ -45,34 +43,37 @@ namespace RavlGUIN {
 	extent = dist;
     }
     extent = Sqrt(extent);
+    doneInfo = true;
     ONDEBUG(cerr << "Center=" << center << " Extent=" << extent << "\n");
   }
 
 
   //: Get center of object.
   // defaults to 0,0,0
-  
-  Vector3dC DTriMesh3DBodyC::Center() {
-    if(!doneCenter)
+  Vector3dC DTriMesh3DBodyC::GUICenter() const
+  {
+    if(!doneInfo)
       ComputeInfo();
+    //cerr << "DTriMesh3DBodyC::GUICenter(): " << center << endl;
     return center;
   }
-  
+
   //: Get extent of object.
   // defaults to 1
-  
-  RealT DTriMesh3DBodyC::Extent() {
-    if(!doneCenter)
+  RealT DTriMesh3DBodyC::GUIExtent() const
+  {
+    if(!doneInfo)
       ComputeInfo();
+    //cerr << "DTriMesh3DBodyC::GUIExtent(): " << extent << endl;
     return extent;
   }
-  
+
   //: Render object.
-  
-  bool DTriMesh3DBodyC::Render(Canvas3DC &canvas) {
+  bool DTriMesh3DBodyC::GUIRender(Canvas3DC &canvas) const
+  {
     if (!model.IsValid())
       return true; // Don't do anything.
-    
+
     // Setup materials and colours as appropriate
     if (canvas.GetLightingMode()) {
       GLfloat ambient[]  = {0.2,0.2,0.2,1.0};
@@ -85,25 +86,25 @@ namespace RavlGUIN {
     // Render
     Canvas3DRenderMode eMode = canvas.GetRenderMode();
     SArray1dC<VertexC> verts = model.Vertices();
-    
+
 #if USEMESHCOLOUR
     glEnable(GL_COLOR_MATERIAL);
     glColorMaterial(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE);
 #endif
-    
+
     switch(eMode) {
     case C3D_SMOOTH:
     case C3D_POINT:
     case C3D_WIRE:
       glEnableClientState(GL_NORMAL_ARRAY);
       glNormalPointer(GL_DOUBLE,sizeof(VertexC),(void *)&(verts[0].Normal()));
-    case C3D_FLAT:      
+    case C3D_FLAT:
       glEnableClientState(GL_VERTEX_ARRAY);
       glVertexPointer(3,GL_DOUBLE,sizeof(VertexC),(void *)&(verts[0].Position()));
       break;
     }
-    
-    switch(eMode) 
+
+    switch(eMode)
       {
       case C3D_POINT: {
 	// Draw individual points
@@ -137,7 +138,7 @@ namespace RavlGUIN {
 	}
 	glShadeModel((GLenum)eGLShadeModel); // Restore old shade model
       } break;
-      case C3D_SMOOTH: {	
+      case C3D_SMOOTH: {
 	ONDEBUG(cerr << "Smooth render. \n");
 	IntT eGLShadeModel;
 	glGetIntegerv(GL_SHADE_MODEL,&eGLShadeModel);
@@ -162,7 +163,7 @@ namespace RavlGUIN {
     case C3D_POINT:
     case C3D_WIRE:
       glDisableClientState(GL_NORMAL_ARRAY);
-    case C3D_FLAT:      
+    case C3D_FLAT:
       glDisableClientState(GL_VERTEX_ARRAY);
       break;
     }
@@ -171,12 +172,12 @@ namespace RavlGUIN {
 #endif
     return true;
   }
-  
+
   ostream &operator<<(ostream &strm,const DTriMesh3DC &) {
     RavlAssert(0);
     return strm;
   }
-  
+
   istream &operator>>(istream &strm,DTriMesh3DC &) {
     RavlAssert(0);
     return strm;

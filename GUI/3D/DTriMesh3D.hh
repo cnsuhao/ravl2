@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -19,71 +19,59 @@
 
 namespace RavlGUIN {
   using namespace Ravl3DN;
-  
+
   //! userlevel=Develop
   //: Draw a TriMesh
-  
-  class DTriMesh3DBodyC
-    : public DObject3DBodyC
+
+  class DTriMesh3DBodyC : public DObject3DBodyC
   {
   public:
     DTriMesh3DBodyC(const TriMeshC &oTriMesh);
     //: Constructor.
-    
-    virtual bool Render(Canvas3DC &c3d);
+
+    virtual bool GUIRender(Canvas3DC &c3d) const;
     //: Render object.
-    
-    virtual Vector3dC Center();
+
+    virtual Vector3dC GUICenter() const;
     //: Get center of object.
     // defaults to 0,0,0
-    
-    virtual RealT Extent();
+
+    virtual RealT GUIExtent() const;
     //: Get extent of object.
     // defaults to 1
-    
+
   protected:
     TriMeshC model;
-    
-    void ComputeInfo();
+
+    void ComputeInfo() const;
     //: Comput center and extent of mesh.
-    
-    bool doneCenter;
-    Vector3dC center;
-    RealT extent;
+
+    mutable bool doneInfo;
+    mutable Vector3dC center;
+    mutable RealT extent;
   };
-  
+
   //! userlevel=Normal
   //: Draw a TriMesh
-  
-  class DTriMesh3DC
-    : public DObject3DC
+  class DTriMesh3DC : public DObject3DC
   {
   public:
     DTriMesh3DC()
-    {}
+      {}
     //: Default constructor.
     // creat an invalid handle.
-    
+
     DTriMesh3DC(const TriMeshC &oTriMesh)
       : DObject3DC(*new DTriMesh3DBodyC(oTriMesh))
-    {}
+      {}
     //: Constructor.
-    
   protected:
     DTriMesh3DC(DTriMesh3DBodyC &bod)
       : DObject3DC(bod)
-    {}
+      {}
     //: Body constructor.
-    
-    DTriMesh3DBodyC &Body() 
-    { return dynamic_cast<DTriMesh3DBodyC &>(DObject3DC::Body()); }
-    
-    const DTriMesh3DBodyC &Body() const
-    { return dynamic_cast<const DTriMesh3DBodyC &>(DObject3DC::Body()); }  
-    
-  public:  
   };
-  
+
   ostream &operator<<(ostream &strm,const DTriMesh3DC &);
   istream &operator>>(istream &strm,DTriMesh3DC &);
 }

@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -13,18 +13,27 @@
 #include "Ravl/GUI/Canvas3D.hh"
 
 namespace RavlGUIN {
-  
+
   //: Render object.
-  
-  bool DTransform3DBodyC::Render(Canvas3DC &c3d) {
-    glPushMatrix();
-    if(doRot)
-      glRotated(angle,axis.X(),axis.Y(),axis.Z());
-    if(doTrans)
-      glTranslated(trans.X(),trans.Y(),trans.Z());
-    for(DLIterC<DObject3DC> it(parts);it.IsElm();it.Next())
-      it.Data().RenderDL(c3d);
-    glPopMatrix();
+  bool DTransform3DBodyC::GUIRender(Canvas3DC &c3d) const
+  {
+    //glPushMatrix();
+
+    glMatrixMode(GL_MODELVIEW);
+    //glMatrixMode(GL_PROJECTION);
+    if(mode & DTransform3D_RESET)
+      glLoadIdentity();
+
+    if(mode & DTransform3D_ROTATION)
+      glRotated(angle, axis.X(), axis.Y(), axis.Z());
+
+    if(mode & DTransform3D_TRANSLATION)
+      glTranslated(trans.X(), trans.Y(), trans.Z());
+
+    for(DLIterC<DObject3DC> it(parts); it.IsElm(); it.Next())
+      it.Data().GUIRenderDL(c3d);
+
+    //glPopMatrix();
     return true;
   }
 }

@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -21,48 +21,43 @@ namespace RavlGUIN {
 
   //! userlevel=Develop
   //: Body of a  object set in a 3D world.
-  
-  class DCube3DBodyC
-    : public DObject3DBodyC
+  class DCube3DBodyC : public DObject3DBodyC
   {
   public:
-    DCube3DBodyC(const Vector3dC &nDiag,const RealRGBValueC &col)
+    DCube3DBodyC(const Vector3dC &nDiag, const RealRGBValueC &col)
       : diag(nDiag),
       colour(col)
       {}
     //: Constructor.
-  
-    virtual bool Render(Canvas3DC &c3d);
+
+    virtual bool GUIRender(Canvas3DC &c3d) const;
     //: Render object.
-    
+
+     virtual Vector3dC GUICenter() const
+      { return Vector3dC(0, 0, 0); }
+    //: Get center of object.
+    // defaults to 0,0,0
+
+    virtual RealT GUIExtent() const
+      { return 1; }
+    //: Get extent of object.
+    // defaults to 1
+
   protected:
     Vector3dC diag;
     RealRGBValueC colour;
   };
-  
+
   //! userlevel=Normal
   //: Basic object in a 3d world.
-  
-  class DCube3DC
-    : public DObject3DC
+  class DCube3DC : public DObject3DC
   {
   public:
-    DCube3DC(const Vector3dC &nDiag = Vector3dC(1,1,1),const RealRGBValueC &col = RealRGBValueC(1,0,0))
-      : DObject3DC(*new DCube3DBodyC(nDiag,col))
+    DCube3DC(const Vector3dC &nDiag = Vector3dC(1, 1, 1),
+             const RealRGBValueC &col = RealRGBValueC(1, 0, 0))
+      : DObject3DC(*new DCube3DBodyC(nDiag, col))
       {}
-    //: Default constructor.
-    // Creates an invalid handle.
-    
-  protected:
-    DCube3DBodyC &Body() 
-      { return dynamic_cast<DCube3DBodyC &>(DObject3DC::Body()); }
-    
-    const DCube3DBodyC &Body() const
-      { return dynamic_cast<const DCube3DBodyC &>(DObject3DC::Body()); }
-    
-  public:
-    
-    
+    //: Constructor.
   };
 
 }

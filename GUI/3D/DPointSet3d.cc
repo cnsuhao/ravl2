@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -19,13 +19,13 @@
 #endif
 
 namespace RavlGUIN {
-  
+
   // Render object.
-  bool DPointSet3dBodyC::Render(Canvas3DC& canvas) 
+  bool DPointSet3dBodyC::GUIRender(Canvas3DC& canvas) const
   {
-    ONDEBUG(cerr << "DPointSet3dBodyC::Render(), Called. \n");
+    ONDEBUG(cerr << "DPointSet3dBodyC::GUIRender(), Called. \n");
     // cerr << "Point set render number: " << pointSet.RenderNumber() << endl;
-    
+
     glColor3d(1.0,1.0,1.0);
     glBegin(GL_POINTS);
     for (DLIterC<Point3dC> it(pointSet); it; it++) {
@@ -33,29 +33,29 @@ namespace RavlGUIN {
       glVertex3d(v[0],v[1],v[2]);
     }
     glEnd();
-    
-#if 0    
+
+#if 0
     cerr << "vertex[0].Position(): " << verts[0].Position() << endl;
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3,GL_DOUBLE,sizeof(VertexC),&verts[0].Position()[0]);
     glDrawArrays(GL_POINTS,0,pointSet.RenderNumber());
 #endif
-    
+
     return true;
   }
 
 
   //: Get center of object.
   // defaults to 0,0,0
-  
-  Vector3dC DPointSet3dBodyC::Center() {    
+  Vector3dC DPointSet3dBodyC::GUICenter() const
+  {
     return pointSet.Centroid();
   }
-  
+
   //: Get extent of object.
   // defaults to 1
-  
-  RealT DPointSet3dBodyC::Extent() {
+  RealT DPointSet3dBodyC::GUIExtent() const
+  {
     Vector3dC ncenter = pointSet.Centroid();
     RealT dist = 0;
     for(DLIterC<Point3dC> it(pointSet);it;it++)

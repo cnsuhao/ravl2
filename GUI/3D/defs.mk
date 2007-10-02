@@ -26,7 +26,7 @@ endif
 
 DESCRIPTION = Interface to open GL.
 
-MAINS = #v3d.cc
+#MAINS = #v3d.cc
 
 HEADERS = gdkgl.h gtkglarea.h \
  DObject3D.hh DLight3D.hh Util.hh Canvas3D.hh DViewPoint3D.hh \
@@ -41,7 +41,8 @@ SOURCES = gdkgl.c gtkglarea.c DObject3D.cc  DLight3D.cc \
 
 PLIB = RavlGUI3D
 
-EXAMPLES = exCanvas3D.cc exView3D.cc exDTexTriMesh3d.cc
+#EXAMPLES
+MAINS = exCanvas3D.cc exView3D.cc exDTexTriMesh3d.cc
 
 USESLIBS = RavlCore RavlGeom RavlGUI OpenGL Ravl3D x11
 

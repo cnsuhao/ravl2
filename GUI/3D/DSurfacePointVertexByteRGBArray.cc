@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2002, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -22,22 +22,22 @@ namespace RavlGUIN
     }
     glEnd();
   }
-  
-  
-  
+
+
+
   //: Get center of object.
-  
-  Vector3dC DSurfacePointVertexByteRGBArrayBodyC::Center() {
+  Vector3dC DSurfacePointVertexByteRGBArrayBodyC::GUICenter() const
+  {
     Vector3dC vec(0,0,0);
     for(SArray1dIterC<VertexColourByteRGBC> it(surface);it;it++)
       vec += it->Position();
     vec /= (RealT)surface.Size();
     return vec;
   }
-  
+
   //: Get extent of object.
-  
-  RealT DSurfacePointVertexByteRGBArrayBodyC::Extent() {
+  RealT DSurfacePointVertexByteRGBArrayBodyC::GUIExtent() const
+  {
     Vector3dC vec(0,0,0);
     for(SArray1dIterC<VertexColourByteRGBC> it(surface);it;it++)
       vec += it->Position();
@@ -48,6 +48,6 @@ namespace RavlGUIN
     return dist;
   }
 
-  
-  
+
+
 }
