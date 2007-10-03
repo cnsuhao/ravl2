@@ -305,9 +305,15 @@ namespace RavlGUIN {
   {
     ONDEBUG(cerr << "View3DBodyC::MousePress(), Called. '" << me.HasChanged(0) << " " << me.HasChanged(1) << " " << me.HasChanged(2) <<"' \n");
     ONDEBUG(cerr << "View3DBodyC::MousePress(),         '" << me.IsPressed(0) << " " << me.IsPressed(1) << " " << me.IsPressed(2) <<"' \n");
-    //save reference position
-    m_lastMousePos = me.At();
 
+    if(me.HasChanged(0))
+    {
+      //save reference position
+      m_lastMousePos = me.At();
+      GUIBeginGL();
+      glMatrixMode(GL_MODELVIEW);
+      glPushMatrix(); //pop will be in mouse move and mouse release
+    }
     if(me.HasChanged(2))
     {
       ONDEBUG(cerr << "Show menu. \n");
@@ -320,7 +326,23 @@ namespace RavlGUIN {
   //: Handle button release.
   bool View3DBodyC::MouseRelease(MouseEventC &me)
   {
-    ONDEBUG(cerr << "View3DBodyC::MouseRelease(), Called.\n");
+    ONDEBUG(cerr << "View3DBodyC::MouseRelease(), Called. '" << me.HasChanged(0) << " " << me.HasChanged(1) << " " << me.HasChanged(2) <<"' \n");
+    ONDEBUG(cerr << "View3DBodyC::MouseRelease(),         '" << me.IsPressed(0) << " " << me.IsPressed(1) << " " << me.IsPressed(2) <<"' \n");
+    if(me.HasChanged(0))
+    {
+      GUIBeginGL();
+      glMatrixMode(GL_MODELVIEW);
+
+      //save current matrix
+      FMatrixC<4, 4> modelviewMat;
+      glGetDoublev(GL_MODELVIEW_MATRIX, &(modelviewMat[0][0]));
+
+      // pops matrix save in mouse press
+      glPopMatrix();
+
+      //load current matrix again
+      glLoadMatrixd(&(modelviewMat[0][0]));
+    }
     return true;
   }
 
@@ -333,9 +355,6 @@ namespace RavlGUIN {
     // Calculate change
     Index2dC change = me.At() - m_lastMousePos;
     //cerr << "change:" << change << endl;
-
-    // Store new position
-    m_lastMousePos = me.At();
 
     // Rotate when button 0 pressed
     if(me.IsPressed(0))
@@ -353,6 +372,8 @@ namespace RavlGUIN {
 
       //get current modelview matrix
       glMatrixMode(GL_MODELVIEW);
+      glPopMatrix();
+      glPushMatrix();
       FMatrixC<4, 4> modelviewMat;
       glGetDoublev(GL_MODELVIEW_MATRIX, &(modelviewMat[0][0]));
 
@@ -366,6 +387,7 @@ namespace RavlGUIN {
       //cerr << "angle:" << angle << endl;
 
       FVectorC<4> b = modelviewMat * a;
+      //cerr << "vector:" << b << endl;
 
       //issue rotation
       glRotatef(angle, b[0], b[1], b[2]);
