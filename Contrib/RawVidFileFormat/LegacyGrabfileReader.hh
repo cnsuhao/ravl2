@@ -42,6 +42,7 @@ public:
   //: Are there any problems with the IO?
 
   virtual bool HaveMoreFrames();
+  //: Check for more frames.
 
   virtual bool GetNextFrame(BufferC<char> &bu, UIntT &vsize, UIntT &asize);
   //: Read the next frame to a buffer.
@@ -51,33 +52,45 @@ public:
 
   virtual ByteFormatT getByteFormat() { 
   return byteformat;}
+  //: Return the byte format.
 
   virtual ColourModeT getColourMode() { 
   return colourmode;}
+  //: Return the colour mode.
 
   virtual RealT getFrameRate() {return m_frame_rate;}
+  //: Return the frame rate.
 
   virtual IntT getNumberOfFrames() {return m_number_of_frames;}
-
+  //: Return the number of frames.
 
   //--------------------------------------------------------------------------//
 
 protected:
 
   std::ifstream m_infile;
+  //: Input stream.
 
   IntT m_video_buffer_size;
+  //: Video buffer size.
 
   IntT m_audio_buffer_size;
+  //: Audio buffer size.
 
   IntT m_number_of_frames;
+  //: Number of frames.
 
   RealT m_frame_rate;
+  //: Frame rate.
 
   VideoModeT videomode;
-  ByteFormatT byteformat;
-  ColourModeT colourmode;
+  //: Video mode.
 
+  ByteFormatT byteformat;
+  //: Byte format.
+
+  ColourModeT colourmode;
+  //: Colour mode.
 };
 
 }

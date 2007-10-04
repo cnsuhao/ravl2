@@ -67,16 +67,21 @@ public:
   //: The version of the reader.
 
   virtual IntT VideoMode() {return videomode;}
+  //: Return the video mode.
 
   virtual IntT ColourMode() {return colourmode;}
+  //: Return the colour mode.
 
   virtual ByteFormatT getByteFormat() { 
   return IdToByteFormat((UIntT)byteformat);}
+  //: Return the byte format.
 
   virtual ColourModeT getColourMode() { 
   return IdToColourMode((UIntT)colourmode);}
+  //: Return the colour mode.
 
   virtual RealT FrameRate() {return m_frame_rate;}
+  //: Return the frame rate.
 
   //virtual IntT getFrameNumber() {return m_frames_loaded;}
 
@@ -113,6 +118,7 @@ protected:
 
 private:
   static const int m_version_number = 1;
+  //: The version number.
 };
 
 }

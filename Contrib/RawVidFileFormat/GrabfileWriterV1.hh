@@ -38,22 +38,11 @@ public:
   //==========================================================================//
 
   virtual bool Open(const char* const filename,
-                    //DVSCardC& card,
-                    //CardModeC& mode,
 		    VideoModeT videomode, ByteFormatT byteformat, ColourModeT colourmode, IntT videobuffersize = 0, IntT audiobuffersize = 0);
   //: Open file and write file header.
 
-   /* virtual bool Open(const char* const filename,
-                    DVSCardC& card,
-                    CardModeC& mode);
-  //: Open file and write file header.
-*/
-
   virtual void Close();
   //: Close file.
-
-  //virtual void Close(int numberofframes);
-  //: Close file and write number of frames to header.
   
   virtual bool Ok() const;
   //: Are there any problems with the IO?
@@ -61,7 +50,8 @@ public:
 //  virtual bool PutFrame(const DVSBufferC &buffer);
   //: Write frame.
 
-   virtual bool PutFrame(BufferC<char> &fr,UIntT &te);
+  virtual bool PutFrame(BufferC<char> &fr,UIntT &te);
+  //: Write a frame.
 
   virtual bool PutFrame(SArray1dC<char> &re);
   //: Write frame.
@@ -89,6 +79,7 @@ protected:
   //: The audio buffer size in bytes.
 
   int m_byte_format;
+  //: The byte format.
 
   int pos;
   //: Position of the number of frames in the outputfile used to rewrite the number of frames upon closing the file.
@@ -101,6 +92,7 @@ protected:
 
 private:
   static const int m_version_number = 1;
+  //: The version number.
 
   static const int vbpos = 12;
   //: Position of videobuffer data in output file.
@@ -115,7 +107,7 @@ private:
   //: Position of number of frames data in output file.
 
   static const IntT frame_rate = 25;
-
+  //: The frame rate.
 };
 
 }

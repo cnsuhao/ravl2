@@ -75,14 +75,19 @@ public:
   //: The version of the reader.
 
   virtual IntT VideoMode() {return -1;}
+  //: Return the video mode.
 
   virtual IntT ColourMode() {return -1;}
+  //: Return the colour mode.
 
   virtual ByteFormatT getByteFormat() {return ByteFormatT();}
+  //: Return the byte format.
 
   virtual ColourModeT getColourMode() {return ColourModeT();}
+  //: Return the colour mode.
 
   virtual RealT FrameRate() {return 0;}
+  //: return the frame rate.
 
   // Non-virtual functions
 
