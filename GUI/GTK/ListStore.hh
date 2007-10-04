@@ -40,6 +40,9 @@ namespace RavlGUIN {
     virtual bool AppendRow(TreeModelIterC &rowHandle);
     //: Append a row.
 
+    virtual bool GUIDeleteRow(TreeModelIterC &rowHandle);
+    //: Delete a row.
+
     virtual bool InsertRowBefore(TreeModelIterC &rowHandle, TreeModelIterC &targetRowHandle);
     //: Insert a row before the target row.
 

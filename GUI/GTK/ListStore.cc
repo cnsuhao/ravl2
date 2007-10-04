@@ -56,6 +56,15 @@ namespace RavlGUIN {
 
 
 
+  bool ListStoreBodyC::GUIDeleteRow(TreeModelIterC &rowHandle)
+  {
+    RavlAssert(model != 0);
+
+    return gtk_list_store_remove(GTK_LIST_STORE(model), rowHandle.TreeIter());
+  }
+
+
+
   bool ListStoreBodyC::InsertRowBefore(TreeModelIterC &rowHandle, TreeModelIterC &targetRowHandle)
   {
     RavlAssert(model != 0);
