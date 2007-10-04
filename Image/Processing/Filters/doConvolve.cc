@@ -29,7 +29,7 @@ int main(int nargs,char **argv) {
   bool norm = opt.Boolean("norm",false,"Normalise coefficients");
   StringC inf = opt.String("i","in.ppm","Input file.");
   StringC outf = opt.String("o","out.ppm","Input file.");
-  DListC<StringC>coeffList = opt.List("","1","List of coefficients");
+  DListC<StringC>coeffList = opt.List("c","1","List of coefficients");
   opt.Check();
   
   ImageC<RealT> img;
