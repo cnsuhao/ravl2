@@ -202,7 +202,7 @@
 /****** Numerical functions and headers *****************************************/
 
 #define RAVL_HAVE_VALUES_H (!RAVL_OS_WIN32 && !RAVL_OS_CYGWIN && !RAVL_OS_MACOSX)   /* have values.h        */
-#define RAVL_HAVE_FLOAT_H  (RAVL_OS_WIN32  || RAVL_OS_CYGWIN) /* have float.h         */
+#define RAVL_HAVE_FLOAT_H  (RAVL_OS_WIN32  || RAVL_OS_CYGWIN || RAVL_OS_MACOSX) /* have float.h         */
 #define RAVL_HAVE_NAN_H    (RAVL_OS_SOLARIS || RAVL_OS_IRIX) /* have nan.h           */
 #define RAVL_HAVE_IEEEFP_H (RAVL_OS_SOLARIS || RAVL_OS_IRIX) /* have ieeefp.h        */
 #define RAVL_HAVE_HYPOT    !RAVL_OS_WIN32   /* have hypot() in libm */
