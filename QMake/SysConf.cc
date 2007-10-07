@@ -16,11 +16,16 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#if !defined(_SC_NPROCESSORS_ONLN) && !defined(_SC_NPROC_ONLN)
+// MACOSX
+#include <sys/types.h>
+#include <sys/sysctl.h>
+#endif
+
 int main(int narg,char **argv) {
   int i;
   long Ret;
   long int val;
-//  std::cerr << "Arg:" <<_SC_NPROCESSORS_ONLN<<"\n";
   for(i = 1;i < narg;i++) {
     if(argv[i][0] == '-') {
       switch(argv[i][1]) 
@@ -31,7 +36,15 @@ int main(int narg,char **argv) {
 #elif defined(_SC_NPROC_ONLN)
 	  val = sysconf(_SC_NPROC_ONLN);  /* One Porcessor default */
 #else
-	  val = 1;  /* One Porcessor default */
+	  {
+	    // The follow works on MACOSX
+	    size_t len = sizeof(int);
+	    int ncpu = 1;
+	    if(sysctlbyname("hw.ncpu",&ncpu,&len,NULL,0) == 0) {
+	      val = ncpu;
+	    } else
+	      val = 1;  /* One Processor default */
+	  }
 #endif
 	  printf("%ld\n",val);
 	  break;
