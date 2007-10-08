@@ -13,7 +13,7 @@ MAINS=doConvolve.cc doHomomorphicFilter.cc unDistort.cc doThinPlateWarp.cc
 
 HEADERS= Convolve2d.hh ConvolveSeparable2d.hh ConvolveHorz2d.hh \
  ConvolveVert2d.hh GaussConvolve2d.hh GaussConvolve.hh Averaging2d.hh \
-  Correlate2d.hh NormalisedCorrelation.hh GaborFilter2d.hh GabourFilter2d.hh HomomorphicFilter.hh HistogramEqualise.hh \
+  Correlate2d.hh NormalisedCorrelation.hh GaborFilter2d.hh HomomorphicFilter.hh HistogramEqualise.hh \
  Matching.hh WarpScale.hh WarpAffine.hh WarpProjective.hh \
  PixelMixer.hh RemoveDistortion.hh WarpThinPlateSpline.hh \
  SpatialDifference.hh SumRectangles.hh DeinterlaceStream.hh \
