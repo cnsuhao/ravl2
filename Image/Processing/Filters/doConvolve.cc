@@ -25,10 +25,12 @@ using namespace RavlImageN;
 
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
-  bool seq = opt.Boolean("seq",false,"Process a sequence. ");
-  bool norm = opt.Boolean("norm",false,"Normalise coefficients");
-  StringC inf = opt.String("i","in.ppm","Input file.");
-  StringC outf = opt.String("o","out.ppm","Input file.");
+  bool seq = opt.Boolean("seq","Process a sequence. ");
+  bool norm = opt.Boolean("norm","Normalise coefficients");
+  StringC inf = opt.String("i","in.ppm","Input file");
+  StringC outf = opt.String("o","out.ppm","Output file");
+  bool row = opt.Boolean("h","horizontal filtering only");
+  bool col = opt.Boolean("v","vertical filtering only");
   DListC<StringC>coeffList = opt.List("c","1","List of coefficients");
   opt.Check();
   
@@ -43,7 +45,12 @@ int main(int nargs,char **argv) {
     coeffList.PopFirst();
   }
   if (norm) coeffs /= sum;
-  ConvolveSeparable2dC<RealT,RealT> hf(coeffs);
+  Array1dC<RealT> dummy(1);
+  dummy[0] = 1.0;
+  ConvolveSeparable2dC<RealT,RealT> hf;
+  if (row) hf.SetKernel(dummy, coeffs);
+  else if (col) hf.SetKernel(coeffs, dummy);
+  else hf.SetKernel(coeffs, coeffs);
   if(!seq) {
     if(!Load(inf,img)) {
       cerr << "Failed to load image '" << inf << "'\n";
