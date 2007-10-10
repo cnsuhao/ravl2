@@ -21,7 +21,7 @@
 #include <gdk/gdk.h>
 #include <GL/glu.h>
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 static RavlN::StringC GLGetString(GLenum Name)
@@ -403,15 +403,13 @@ namespace RavlGUIN {
       //issue rotation
       glRotatef(angle, b[0], b[1], b[2]);
 
-      glGetDoublev(GL_MODELVIEW_MATRIX, &(modelviewMat[0][0]));
       // posponded update display
       //Put(DTransform3DC(change.Row(), Vector3dC(1, 0, 0)));
       //Put(DTransform3DC(change.Col(), Vector3dC(0, 1, 0)));
       GUIRefresh();
+      // Make slaved views move
+      SendSlaveSignal();
 
-      if (m_bMaster) { 
-        m_sMatrixTx(modelviewMat);
-      }
     }
 
     // Translate when button 1 pressed
@@ -424,9 +422,21 @@ namespace RavlGUIN {
       //m_fYTranslation -= (RealT)change.Row() / 100.0;
 
       // Update display
-      Refresh();
+      GUIRefresh();
+      // Make slaved views move
+      SendSlaveSignal();
     }
+
     return true;
+  }
+
+  //: Sends the updated matrix to slave views
+  void View3DBodyC::SendSlaveSignal() {
+    if (m_bMaster) {
+      FMatrixC<4, 4> modelviewMat;
+      glGetDoublev(GL_MODELVIEW_MATRIX, &(modelviewMat[0][0]));
+      m_sMatrixTx(modelviewMat);
+    }
   }
 
   //: Handle mouse wheel.

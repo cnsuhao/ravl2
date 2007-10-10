@@ -139,6 +139,8 @@ namespace RavlGUIN {
     //: Matrix receiving signal
     bool SlaveMatrix(FMatrixC<4,4>& matrix);
     //: Matrix slaving function
+    void SendSlaveSignal();
+    //: Sends the updated matrix to slave views
 
     bool sceneComplete;
     DObjectSet3DC scene; // List of current render instructions.
