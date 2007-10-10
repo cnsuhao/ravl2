@@ -21,7 +21,7 @@
 #include <gdk/gdk.h>
 #include <GL/glu.h>
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 static RavlN::StringC GLGetString(GLenum Name)
