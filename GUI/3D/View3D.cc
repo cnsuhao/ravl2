@@ -21,7 +21,7 @@
 #include <gdk/gdk.h>
 #include <GL/glu.h>
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 static RavlN::StringC GLGetString(GLenum Name)
@@ -51,6 +51,7 @@ namespace RavlGUIN {
       m_sceneCenter(0, 0, 0),
       m_bTextureStatus(enableTexture),
       m_bLightingStatus(enableLighting),
+      m_bIsDragging(false),
       m_bFront(true),
       m_bBack(false)
   {
@@ -318,6 +319,7 @@ namespace RavlGUIN {
     {
       //save reference position
       m_lastMousePos = me.At();
+      m_bIsDragging = true;
       GUIBeginGL();
       glMatrixMode(GL_MODELVIEW);
       glPushMatrix(); //pop will be in mouse move and mouse release
@@ -339,6 +341,7 @@ namespace RavlGUIN {
     if(me.HasChanged(0))
     {
       GUIBeginGL();
+      m_bIsDragging = false;
       glMatrixMode(GL_MODELVIEW);
 
       //save current matrix
@@ -365,7 +368,7 @@ namespace RavlGUIN {
     //cerr << "change:" << change << endl;
 
     // Rotate when button 0 pressed
-    if(me.IsPressed(0))
+    if(me.IsPressed(0) && m_bIsDragging)
     {
       //cerr << "rotation\n";
 
@@ -412,7 +415,7 @@ namespace RavlGUIN {
     }
 
     // Translate when button 1 pressed
-    else if (me.IsPressed(1)) {
+    else if (me.IsPressed(1) && m_bIsDragging) {
       cerr << "translation\n";
 
       // Calculate individual translations

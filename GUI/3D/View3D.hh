@@ -161,6 +161,7 @@ namespace RavlGUIN {
 
     // Mouse position storage
     Index2dC m_lastMousePos;
+    bool m_bIsDragging;
 
     // Render mode menu option handles
     MenuCheckItemC m_oRenderOpts[4];
