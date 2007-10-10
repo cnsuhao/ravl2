@@ -21,7 +21,7 @@
 #include <gdk/gdk.h>
 #include <GL/glu.h>
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 static RavlN::StringC GLGetString(GLenum Name)
@@ -505,6 +505,8 @@ namespace RavlGUIN {
 
     ONDEBUG(cerr << "View3DBodyC::GUIRefresh(), Called. " << ((void *) widget) << "\n");
 
+    GUIBeginGL();
+
     GUIClearBuffers();
     // Render scene
     {
@@ -524,9 +526,10 @@ namespace RavlGUIN {
     }
 
     // show scene
-    GUISwapBuffers();
+    GUISwapBuffers();   
 
     // Finished
+    GUIEndGL();
     return true;
   }
 
