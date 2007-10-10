@@ -93,16 +93,16 @@ int main(int nargs,char *args[])
   // Slave views together
   view.Master(true);
   view.Slave(false);
-  Connect(view.SigMatrixTx(), view2.SigMatrixRx());
-  Connect(view.SigMatrixTx(), view3.SigMatrixRx());
+  Connect(view.SigRotationTx(), view2.SigRotationRx());
+  Connect(view.SigRotationTx(), view3.SigRotationRx());
   view2.Master(true);
   view2.Slave(true);
-  Connect(view2.SigMatrixTx(), view.SigMatrixRx());
-  Connect(view2.SigMatrixTx(), view3.SigMatrixRx());
+  Connect(view2.SigRotationTx(), view.SigRotationRx());
+  Connect(view2.SigRotationTx(), view3.SigRotationRx());
   view3.Master(true);
   view3.Slave(true);
-  Connect(view3.SigMatrixTx(), view.SigMatrixRx());
-  Connect(view3.SigMatrixTx(), view2.SigMatrixRx());
+  Connect(view3.SigRotationTx(), view.SigRotationRx());
+  Connect(view3.SigRotationTx(), view2.SigRotationRx());
 
   Manager.Wait();
 

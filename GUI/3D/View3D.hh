@@ -14,6 +14,7 @@
 //! author="James Smith"
 
 #include "Ravl/GUI/Canvas3D.hh"
+#include "Ravl/Vector2d.hh"
 #include "Ravl/GUI/Table.hh"
 #include "Ravl/GUI/Menu.hh"
 #include "Ravl/GUI/MenuCheck.hh"
@@ -80,11 +81,11 @@ namespace RavlGUIN {
     bool Refresh();
     //: Refresh display. (Thread safe postponded refresh)
 
-    Signal1C<FMatrixC<4,4> > &SigMatrixTx(void) {return m_sMatrixTx;}
-    //: Access to matrix send signal
+    Signal1C<Vector2dC> &SigRotationTx(void) {return m_sRotationTx;}
+    //: Access to rotation send signal
   
-    Signal1C<FMatrixC<4,4> > &SigMatrixRx(void) {return m_sMatrixRx;}
-    //: Access to matrix receive signal
+    Signal1C<Vector2dC> &SigRotationRx(void) {return m_sRotationRx;}
+    //: Access to rotation receive signal
 
     bool Master(bool& bMaster) {m_bMaster = bMaster; return true;}
     //: Enable or disable camera mastering
@@ -133,14 +134,16 @@ namespace RavlGUIN {
     //: Are we controlling other cameras?
     bool m_bSlave;
     //: Are we slaved to other cameras?
-    Signal1C<FMatrixC<4,4> > m_sMatrixTx; 
-    //: Matrix sending signal
-    Signal1C<FMatrixC<4,4> > m_sMatrixRx; 
-    //: Matrix receiving signal
-    bool SlaveMatrix(FMatrixC<4,4>& matrix);
-    //: Matrix slaving function
+    Signal1C<Vector2dC> m_sRotationTx; 
+    //: Rotation sending signal
+    Signal1C<Vector2dC> m_sRotationRx; 
+    //: Rotation receiving signal
+    bool SlaveRotation(Vector2dC& rotation);
+    //: Rotation slaving function
     void SendSlaveSignal();
-    //: Sends the updated matrix to slave views
+    //: Sends the updated rotation to slave views
+    Vector2dC m_vRotation;
+    //: View rotation parameters
 
     bool sceneComplete;
     DObjectSet3DC scene; // List of current render instructions.
@@ -272,11 +275,11 @@ namespace RavlGUIN {
     { Body().GUIRefresh(); }
     //: Auto center output.
 
-    Signal1C<FMatrixC<4,4> > &SigMatrixTx(void) {return Body().SigMatrixTx();}
-    //: Access to matrix send signal
+    Signal1C<Vector2dC> &SigRotationTx(void) {return Body().SigRotationTx();}
+    //: Access to rotation send signal
   
-    Signal1C<FMatrixC<4,4> > &SigMatrixRx(void) {return Body().SigMatrixRx();}
-    //: Access to matrix receive signal
+    Signal1C<Vector2dC> &SigRotationRx(void) {return Body().SigRotationRx();}
+    //: Access to rotation receive signal
 
     bool Master(bool bMaster) {return Body().Master(bMaster);}
     //: Enable or disable camera mastering

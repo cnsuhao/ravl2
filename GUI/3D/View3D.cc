@@ -42,8 +42,9 @@ namespace RavlGUIN {
     : Canvas3DBodyC(sx,sy),
       m_bMaster(false),
       m_bSlave(false),
-      m_sMatrixTx(FMatrixC<4,4>()),
-      m_sMatrixRx(FMatrixC<4,4>()),
+      m_sRotationTx(Vector2dC()),
+      m_sRotationRx(Vector2dC()),
+      m_vRotation(0,0),
       sceneComplete(false),
       initDone(false),
       m_sceneExtent(1),
@@ -98,7 +99,7 @@ namespace RavlGUIN {
     ConnectRef(Signal("motion_notify_event"),  *this, &View3DBodyC::MouseMove);
     ConnectRef(Signal("scroll_event"),         *this, &View3DBodyC::MouseWheel);
     ConnectRef(Signal("expose_event"),         *this, &View3DBodyC::Refresh);
-    ConnectRef(m_sMatrixRx,                    *this, &View3DBodyC::SlaveMatrix);
+    ConnectRef(m_sRotationRx,                  *this, &View3DBodyC::SlaveRotation);
 
     if(!Canvas3DBodyC::Create(Parent))
     {
@@ -320,9 +321,6 @@ namespace RavlGUIN {
       //save reference position
       m_lastMousePos = me.At();
       m_bIsDragging = true;
-      GUIBeginGL();
-      glMatrixMode(GL_MODELVIEW);
-      glPushMatrix(); //pop will be in mouse move and mouse release
     }
     if(me.HasChanged(2))
     {
@@ -340,19 +338,7 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "View3DBodyC::MouseRelease(),         '" << me.IsPressed(0) << " " << me.IsPressed(1) << " " << me.IsPressed(2) <<"' \n");
     if(me.HasChanged(0))
     {
-      GUIBeginGL();
       m_bIsDragging = false;
-      glMatrixMode(GL_MODELVIEW);
-
-      //save current matrix
-      FMatrixC<4, 4> modelviewMat;
-      glGetDoublev(GL_MODELVIEW_MATRIX, &(modelviewMat[0][0]));
-
-      // pops matrix save in mouse press
-      glPopMatrix();
-
-      //load current matrix again
-      glLoadMatrixd(&(modelviewMat[0][0]));
     }
     return true;
   }
@@ -365,6 +351,7 @@ namespace RavlGUIN {
 
     // Calculate change
     Index2dC change = me.At() - m_lastMousePos;
+    m_lastMousePos = me.At();
     //cerr << "change:" << change << endl;
 
     // Rotate when button 0 pressed
@@ -374,38 +361,10 @@ namespace RavlGUIN {
 
       if(change.Row() == 0 && change.Col() == 0)
         return true;
-
-      GUIBeginGL();
-
-      //get viewport parameters
-      GLint viewport[4];
-      glGetIntegerv(GL_VIEWPORT,viewport);
-
-      //get current modelview matrix
-      glMatrixMode(GL_MODELVIEW);
-      glPopMatrix();
-      glPushMatrix();
-      FMatrixC<4, 4> modelviewMat;
-      glGetDoublev(GL_MODELVIEW_MATRIX, &(modelviewMat[0][0]));
-
-      //calculate rotation parameters
-      FVectorC<4> a;
-      a[0] = change.Row();
-      a[1] = change.Col();
-      a[2] = 0.;
-      a[3] = 0.;
-      RealT angle = a.Magnitude() / (double)(viewport[2] + 1) * 180.0;
-      //cerr << "angle:" << angle << endl;
-
-      FVectorC<4> b = modelviewMat * a;
-      //cerr << "vector:" << b << endl;
-
-      //issue rotation
-      glRotatef(angle, b[0], b[1], b[2]);
-
-      // posponded update display
-      //Put(DTransform3DC(change.Row(), Vector3dC(1, 0, 0)));
-      //Put(DTransform3DC(change.Col(), Vector3dC(0, 1, 0)));
+      m_vRotation[0] += change[0];
+      m_vRotation[1] += change[1];
+      if (m_vRotation[0] > 90) m_vRotation[0] = 90;
+      if (m_vRotation[0] < -90) m_vRotation[0] = -90;
       GUIRefresh();
       // Make slaved views move
       SendSlaveSignal();
@@ -430,12 +389,10 @@ namespace RavlGUIN {
     return true;
   }
 
-  //: Sends the updated matrix to slave views
+  //: Sends the updated rotation to slave views
   void View3DBodyC::SendSlaveSignal() {
     if (m_bMaster) {
-      FMatrixC<4, 4> modelviewMat;
-      glGetDoublev(GL_MODELVIEW_MATRIX, &(modelviewMat[0][0]));
-      m_sMatrixTx(modelviewMat);
+      m_sRotationTx(m_vRotation);
     }
   }
 
@@ -476,14 +433,11 @@ namespace RavlGUIN {
     return true;
   }
 
-  //: Matrix slaving function
-  bool View3DBodyC::SlaveMatrix(FMatrixC<4,4>& matrix)
+  //: Rotation slaving function
+  bool View3DBodyC::SlaveRotation(Vector2dC& rotation)
   { 
     if (m_bSlave) {
-      GUIBeginGL();
-      glMatrixMode(GL_MODELVIEW);
-      glLoadMatrixd(&(matrix[0][0]));
-      GUIEndGL();
+      m_vRotation = rotation;
       GUIRefresh();
     }
     return true;
@@ -529,11 +483,12 @@ namespace RavlGUIN {
         //shift origin to scene centre
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
+        glRotated(m_vRotation[0],1,0,0);
+        glRotated(m_vRotation[1],0,1,0);
         glTranslated(-m_sceneCenter.X(), -m_sceneCenter.Y(), -m_sceneCenter.Z());
 
         Canvas3DC my(*this);
         scene.GUIRender(my);
-        glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
       }
     }
