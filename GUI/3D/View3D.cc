@@ -300,13 +300,9 @@ namespace RavlGUIN {
   //: Center output.
   bool View3DBodyC::GUIResetRotation() {
     ONDEBUG(cerr << "View3DBodyC::GUIResetRotation(), Called. \n");
-    if(GUIBeginGL())
-    {
-      glMatrixMode(GL_MODELVIEW);
-      glLoadIdentity();
-    }
-    GUIEndGL();
+    m_vRotation = Vector2dC(0,0);
     GUIRefresh();
+    SendSlaveSignal();
     return true;
   }
 
