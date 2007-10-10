@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2003, OmniPerception Ltd.
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -23,57 +23,57 @@ extern "C" {
 
 namespace RavlGUIN {
   class PixmapC;
-  
+
   //! userlevel=Develop
   //: List store body.
   // Available on GTK+-2.0 and above only.
-  
+
   class TreeStoreBodyC
     : public TreeModelBodyC
   {
   public:
     TreeStoreBodyC(const SArray1dC<AttributeTypeC> &nColTypes);
     //: Constructor.
-    
+
     virtual ~TreeStoreBodyC() { }
     //: Have virtual methods - need virtual destructor
-    
+
     virtual bool Create();
     //: Create the widget.
-    
+
     bool AppendRow(TreeModelIterC &rowIter,TreeModelIterC &parentIter);
     //: Append a row.
-    
+
     virtual bool AppendRow(TreeModelIterC &rowHandle);
     //: Append a row.
-    
+
     virtual bool GUIDeleteRow(TreeModelIterC &rowHandle);
     //: Delete a row.
     // After return, the iterator will point to the next row at the same level,
     // or will be invalidated if such a row does not exist.
-    
+
     virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, IntT value);
     //: Set int value.
-    
+
     virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, bool value);
     //: Set bool value.
-    
+
     virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, const StringC &value);
     //: Set string value.
-    
+
     virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value);
     //: Set pixbuf value.
-    
+
     virtual void GUIEmpty();
     //: Clear store of all values.
 
   protected:
   };
-  
+
   //! userlevel=Normal
   //: List Store
   // Available on GTK+-2.0 and above only.
-  
+
   class TreeStoreC
     : public TreeModelC
   {
@@ -87,31 +87,31 @@ namespace RavlGUIN {
       : TreeModelC(*new TreeStoreBodyC(nColTypes))
     {}
     //: Constructor.
-    
-  protected:
+
     TreeStoreC(TreeStoreBodyC &bod)
       : TreeModelC(bod)
     {}
     //: Body constructor.
-    
+
+  protected:
     TreeStoreBodyC &Body()
     { return static_cast<TreeStoreBodyC &>(TreeModelC::Body()); }
     //: Access body.
-    
+
     const TreeStoreBodyC &Body() const
     { return static_cast<const TreeStoreBodyC &>(TreeModelC::Body()); }
     //: Access body.
-    
+
   public:
     bool AppendRow(TreeModelIterC &rowHandle,TreeModelIterC &parentHandle)
     { return Body().AppendRow(rowHandle,parentHandle); }
     //: Append a row.
-    
+
     bool AppendRow(TreeModelIterC &rowHandle)
     { return Body().AppendRow(rowHandle); }
     //: Append a row.
 
   };
-  
+
 }
 #endif
