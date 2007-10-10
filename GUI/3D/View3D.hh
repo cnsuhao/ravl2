@@ -80,6 +80,18 @@ namespace RavlGUIN {
     bool Refresh();
     //: Refresh display. (Thread safe postponded refresh)
 
+    Signal1C<FMatrixC<4,4> > &SigMatrixTx(void) {return m_sMatrixTx;}
+    //: Access to matrix send signal
+  
+    Signal1C<FMatrixC<4,4> > &SigMatrixRx(void) {return m_sMatrixRx;}
+    //: Access to matrix receive signal
+
+    bool Master(bool& bMaster) {m_bMaster = bMaster; return true;}
+    //: Enable or disable camera mastering
+
+    bool Slave(bool& bSlave) {m_bSlave = bSlave; return true;}
+    //: Enable or disable camera slaving
+
   protected:
     bool MousePress(MouseEventC &me);
     //: Handle button press.
@@ -116,6 +128,17 @@ namespace RavlGUIN {
 
     void CalcViewParams(bool AutoExtent);
     //: Calculate parameters of view on the scene
+ 
+    bool m_bMaster;
+    //: Are we controlling other cameras?
+    bool m_bSlave;
+    //: Are we slaved to other cameras?
+    Signal1C<FMatrixC<4,4> > m_sMatrixTx; 
+    //: Matrix sending signal
+    Signal1C<FMatrixC<4,4> > m_sMatrixRx; 
+    //: Matrix receiving signal
+    bool SlaveMatrix(FMatrixC<4,4>& matrix);
+    //: Matrix slaving function
 
     bool sceneComplete;
     DObjectSet3DC scene; // List of current render instructions.
@@ -245,6 +268,18 @@ namespace RavlGUIN {
     void GUIRefresh()
     { Body().GUIRefresh(); }
     //: Auto center output.
+
+    Signal1C<FMatrixC<4,4> > &SigMatrixTx(void) {return Body().SigMatrixTx();}
+    //: Access to matrix send signal
+  
+    Signal1C<FMatrixC<4,4> > &SigMatrixRx(void) {return Body().SigMatrixRx();}
+    //: Access to matrix receive signal
+
+    bool Master(bool bMaster) {return Body().Master(bMaster);}
+    //: Enable or disable camera mastering
+
+    bool Slave(bool bSlave) {return Body().Slave(bSlave);}
+    //: Enable or disable camera slaving
 
   protected:
     View3DBodyC &Body()

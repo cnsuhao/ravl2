@@ -14,6 +14,7 @@
 //: 3D View window example.
 
 #include "Ravl/GUI/Window.hh"
+#include "Ravl/GUI/LBox.hh"
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/View3D.hh"
 #include "Ravl/Option.hh"
@@ -69,8 +70,14 @@ int main(int nargs,char *args[])
   Manager.Init(nargs,args);
 
   WindowC win(100,100,file);
+  LBoxC layout(false);
   View3DC view(400,400);
-  win.Add(view);
+  View3DC view2(400,400);
+  View3DC view3(400,400);
+  layout.Add(view);
+  layout.Add(view2);
+  layout.Add(view3);
+  win.Add(layout);
   win.Show();
 
   cout << "Starting gui. \n";
@@ -78,6 +85,24 @@ int main(int nargs,char *args[])
 
   view.Add(object);
   view.SceneComplete();
+  view2.Add(object);
+  view2.SceneComplete();
+  view3.Add(object);
+  view3.SceneComplete();
+
+  // Slave views together
+  view.Master(true);
+  view.Slave(false);
+  Connect(view.SigMatrixTx(), view2.SigMatrixRx());
+  Connect(view.SigMatrixTx(), view3.SigMatrixRx());
+  view2.Master(true);
+  view2.Slave(true);
+  Connect(view2.SigMatrixTx(), view.SigMatrixRx());
+  Connect(view2.SigMatrixTx(), view3.SigMatrixRx());
+  view3.Master(true);
+  view3.Slave(true);
+  Connect(view3.SigMatrixTx(), view.SigMatrixRx());
+  Connect(view3.SigMatrixTx(), view2.SigMatrixRx());
 
   Manager.Wait();
 

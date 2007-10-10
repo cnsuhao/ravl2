@@ -40,6 +40,10 @@ namespace RavlGUIN {
   //: Default constructor.
   View3DBodyC::View3DBodyC(int sx,int sy,bool enableLighting,bool enableTexture)
     : Canvas3DBodyC(sx,sy),
+      m_bMaster(false),
+      m_bSlave(false),
+      m_sMatrixTx(FMatrixC<4,4>()),
+      m_sMatrixRx(FMatrixC<4,4>()),
       sceneComplete(false),
       initDone(false),
       m_sceneExtent(1),
@@ -93,6 +97,7 @@ namespace RavlGUIN {
     ConnectRef(Signal("motion_notify_event"),  *this, &View3DBodyC::MouseMove);
     ConnectRef(Signal("scroll_event"),         *this, &View3DBodyC::MouseWheel);
     ConnectRef(Signal("expose_event"),         *this, &View3DBodyC::Refresh);
+    ConnectRef(m_sMatrixRx,                    *this, &View3DBodyC::SlaveMatrix);
 
     if(!Canvas3DBodyC::Create(Parent))
     {
@@ -133,6 +138,9 @@ namespace RavlGUIN {
                      MenuItemR("Upright",          *this, &View3DBodyC::GUIResetRotation) +
                      //MenuCheckItemR("Auto Center", *this, &View3DBodyC::GUIAutoCenter) +
                      //MenuCheckItemR("Auto Fit",    *this, &View3DBodyC::GUIAutoFit) +
+                     MenuItemSeparator() +		      
+		                 MenuCheckItemR("Master",m_bMaster,*this,&View3DBodyC::Master) +
+		                 MenuCheckItemR("Slave",m_bSlave,*this,&View3DBodyC::Slave) +
                      MenuItemSeparator() +
                      renderMenu +
                      facesMenu
@@ -392,10 +400,15 @@ namespace RavlGUIN {
       //issue rotation
       glRotatef(angle, b[0], b[1], b[2]);
 
+      glGetDoublev(GL_MODELVIEW_MATRIX, &(modelviewMat[0][0]));
       // posponded update display
       //Put(DTransform3DC(change.Row(), Vector3dC(1, 0, 0)));
       //Put(DTransform3DC(change.Col(), Vector3dC(0, 1, 0)));
-      Refresh();
+      GUIRefresh();
+
+      if (m_bMaster) { 
+        m_sMatrixTx(modelviewMat);
+      }
     }
 
     // Translate when button 1 pressed
@@ -447,6 +460,19 @@ namespace RavlGUIN {
     }
     //cout << "vp:" << m_viewPoint << endl;
 
+    return true;
+  }
+
+  //: Matrix slaving function
+  bool View3DBodyC::SlaveMatrix(FMatrixC<4,4>& matrix)
+  { 
+    if (m_bSlave) {
+      GUIBeginGL();
+      glMatrixMode(GL_MODELVIEW);
+      glLoadMatrixd(&(matrix[0][0]));
+      GUIEndGL();
+      GUIRefresh();
+    }
     return true;
   }
 
