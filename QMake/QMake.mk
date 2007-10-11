@@ -235,12 +235,12 @@ test: src
 	  $(MKDIR) $(INST_TESTLOG); \
 	fi 
 	+ $(SHOWIT)touch $(INST_TESTDB); \
-	if $(MAKEMD) VAR=shared testbuild FULLCHECKING=1 NOEXEBUILD=1 TARGET=testbuild ; then true ; \
+	if $(MAKEMD) VAR=shared SHAREDBUILD=1 testbuild FULLCHECKING=1 NOEXEBUILD=1 TARGET=testbuild ; then true ; \
 	else \
 	  echo "test: Failed to do initial build for test. "; \
 	  exit 1 ; \
 	fi ; \
-	if $(MAKEMD) VAR=shared testbuild FULLCHECKING=1 TARGET=testbuild ; then true ; \
+	if $(MAKEMD) VAR=shared SHAREDBUILD=1 testbuild FULLCHECKING=1 TARGET=testbuild ; then true ; \
 	else \
 	  echo "test: Failed to do executable build. " ; \
 	  exit 1 ; \
