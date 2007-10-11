@@ -275,6 +275,7 @@ namespace RavlGUIN {
     static int gtkEventKeyboard(GtkWidget *widget,GdkEvent *event,Signal0C *data);
     static int gtkGeneric(GtkWidget *widget,Signal0C *data);
     static int gtkString(GtkWidget *widget,Signal0C *data);
+    static int gtkEventFocus(GtkWidget *widget,GdkEvent *focus,Signal0C *data);
 
     static int gtkCListSelect(GtkWidget *widget,IntT row,IntT column,GdkEventButton *event,Signal0C *data);
     static int gtkCListCol(GtkWidget *widget,IntT column,Signal0C *data);

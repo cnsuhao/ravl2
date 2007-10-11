@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -23,7 +23,7 @@
 
 namespace RavlGUIN {
   //: Signal types.
-  
+
   enum SignalTypeT
   {
     SigTypeUnknown,
@@ -33,6 +33,7 @@ namespace RavlGUIN {
     SigTypeEventMouseButton,
     SigTypeEventMouseMotion,
     SigTypeEventKeyboard,
+    SigTypeEventFocus,
     SigTypeString,
     SigTypeCListSel,
     SigTypeCListCol,
@@ -45,23 +46,23 @@ namespace RavlGUIN {
     SigTypeTreePathCol,
     SigTypeTreePath,
   };
-  
+
   //: Signal info
-  
+
   struct GTKSignalInfoC {
     GTKSignalInfoC()
       : name(0),
-	signalType(SigTypeUnknown)
+  signalType(SigTypeUnknown)
     {}
     //: Constructor to ensure name defaults to 0.
-    
+
     GTKSignalInfoC(const char *nname,GtkSignalFunc nfunc,SignalTypeT nsignalType)
       : name(nname),
-	func(nfunc),
-	signalType(nsignalType)
+  func(nfunc),
+  signalType(nsignalType)
     {}
     //: Constructor.
-    
+
     const char *name;
     GtkSignalFunc func;
     SignalTypeT signalType;

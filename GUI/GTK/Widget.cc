@@ -70,6 +70,7 @@ namespace RavlGUIN {
 #define GTKSIG_EVENTDELETE (GtkSignalFunc) WidgetBodyC::gtkEventDelete,SigTypeEventDelete
 #define GTKSIG_EVENT_MOUSEBUTTON   (GtkSignalFunc) WidgetBodyC::gtkEventMouseButton,SigTypeEventMouseButton
 #define GTKSIG_EVENT_MOUSEMOTION   (GtkSignalFunc) WidgetBodyC::gtkEventMouseMotion,SigTypeEventMouseMotion
+#define GTKSIG_EVENT_FOCUS (GtkSignalFunc) WidgetBodyC::gtkEventFocus,SigTypeEventFocus
 #define GTKSIG_STRING   (GtkSignalFunc) WidgetBodyC::gtkString,SigTypeString
 #define GTKSIG_CLISTSEL (GtkSignalFunc) WidgetBodyC::gtkCListSelect,SigTypeCListSel
 #define GTKSIG_CLISTCOL (GtkSignalFunc) WidgetBodyC::gtkCListCol,SigTypeCListCol
@@ -108,6 +109,8 @@ namespace RavlGUIN {
       GTKSIG("show"                 ,GTKSIG_GENERIC ), // gtkwidget
       GTKSIG("map"                  ,GTKSIG_GENERIC ), // gtkwidget
       GTKSIG("unmap"                ,GTKSIG_GENERIC ), // gtkwidget
+      GTKSIG("focus-in-event"       ,GTKSIG_EVENT_FOCUS), // gtkwidget
+      GTKSIG("focus-out-event"      ,GTKSIG_EVENT_FOCUS), // gtkwidget
       GTKSIG("activate"             ,GTKSIG_GENERIC ), // gtkmenu
       GTKSIG("toggled"              ,GTKSIG_GENERIC ), // gtktogglebutton
       GTKSIG("pressed"              ,GTKSIG_GENERIC ), // gtkbutton
@@ -205,6 +208,14 @@ namespace RavlGUIN {
   int WidgetBodyC::gtkGeneric(GtkWidget *widget,Signal0C *data)
   {
     (*data)();
+    return 1;
+  }
+
+  int WidgetBodyC::gtkEventFocus(GtkWidget *widget,GdkEvent *focus,Signal0C *data)
+  {
+    Signal0C sig(*data);
+    RavlAssert(sig.IsValid());
+    sig();
     return 1;
   }
 
@@ -522,6 +533,10 @@ namespace RavlGUIN {
                      GDK_POINTER_MOTION_HINT_MASK |
                      GDK_LEAVE_NOTIFY_MASK);
         ret = Signal1C<MouseEventC>(MouseEventC(0,0,0));  break;
+        break;
+      case SigTypeEventFocus: // Focus events
+        AddEventMask(GDK_FOCUS_CHANGE_MASK);
+        ret = Signal0C(true);
         break;
       case SigTypeCListSel: {CListEventC val; ret = Signal1C<CListEventC>(val); }  break;
       case SigTypeCListCol: ret = Signal1C<IntT>(-1);  break;
