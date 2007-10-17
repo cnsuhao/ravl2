@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2007, OmniPerception Ltd.
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -25,36 +25,43 @@ extern "C" {
 
 namespace RavlGUIN {
 
-  //! Icon view body 
-  
+  //! Icon view body
+
   class IconViewBodyC
     : public WidgetBodyC
   {
   public:
     IconViewBodyC(const TreeModelC &treeModel,UIntT textColumn,UIntT pixbufColumn,UIntT itemWidth = 0);
     //: Constructor.
-    
+
     DListC<TreeModelIterC> GUISelected();
     //: Get list of selected entries.
-    
+
+    bool GUISelectPath(TreeModelPathC &path);
+    //: Select the specified path
+    //: GUI thread
+
+    bool GUIDeselectAll();
+    //: Clear the selection
+    //: GUI thread
+
   protected:
     virtual bool Create();
     //: Create widget.
-    
+
     virtual bool Create(GtkWidget *widget);
     //: Create with a widget supplied from elsewhere.
-    
+
     TreeModelC m_treeModel;
-    
+
     UIntT m_textColumn;
     UIntT m_pixbufColumn;
     UIntT m_iconWidth;
-    
+
   };
-  
-  
-  //! Icon view 
-  
+
+  //! Icon view
+
   class IconViewC
     : public WidgetC
   {
@@ -62,16 +69,27 @@ namespace RavlGUIN {
     IconViewC()
     {}
     //: Default constructor
-    
+
     IconViewC(const TreeModelC &treeModel,UIntT textColumn,UIntT pixbufColumn,UIntT itemWidth = 0)
       : WidgetC(*new IconViewBodyC(treeModel,textColumn,pixbufColumn,itemWidth))
     {}
     //: Constructor.
-    
+
     DListC<TreeModelIterC> GUISelected()
     { return Body().GUISelected(); }
     //: Get list of selected entries.
-    
+    //: GUI thread
+
+    bool GUISelectPath(TreeModelPathC &path)
+    { return Body().GUISelectPath(path); }
+    //: Select the specified path
+    //: GUI thread
+
+    bool GUIDeselectAll()
+    { return Body().GUIDeselectAll(); }
+    //: Clear the selection
+    //: GUI thread
+
   protected:
     IconViewBodyC &Body()
     { return static_cast<IconViewBodyC &>(WidgetC::Body()); }
