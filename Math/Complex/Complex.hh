@@ -7,7 +7,7 @@
 #ifndef RAVL_COMPLEX_HEADER
 #define RAVL_COMPLEX_HEADER 1
 /////////////////////////////////////////////////////////////////////////
-//! file="Ravl/Core/Math/Complex.hh"
+//! file="Ravl/Math/Complex/Complex.hh"
 //! lib=RavlCore
 //! userlevel=Normal
 //! author="Radek Marik"
@@ -50,35 +50,35 @@ namespace RavlN {
     
     inline RealT &  Re()
     { return re; }
-    //: Returns the real part.
+    //: Real part
     
     inline RealT    Re() const
     { return re; }
-    //: Returns the real part.
+    //: Real part
     
     inline RealT &  Im()
     { return im; }
-    //: Returns the imaginary part of the complex number.
+    //: Imaginary part
     
     inline RealT    Im() const
     { return im; }
-    //: Returns the imaginary part of the complex number.
+    //: Imaginary part
     
     inline RealT    Mag() const
     { return Sqrt(re*re + im*im); }
-    //: The maginude
+    //: Magnitude
 
     inline RealT    Arg() const
     { return ATan2(im,re); }
-    //: The angle
+    //: Angle
     
     inline ComplexC I() const 
     { return ComplexC(-im, re); }
-    //: Inverse.
+    //: Inverse
     
     inline ComplexC Conj() const
     { return ComplexC(re, -im); }
-    //: Get the complex conjugate.
+    //: Complex conjugate
 
     //:----------
     //: Operators    
