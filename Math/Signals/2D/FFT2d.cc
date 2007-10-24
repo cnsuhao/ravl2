@@ -400,6 +400,15 @@ namespace RavlN {
   }
 
 
+  //: Returns modulus of complex image
+  SArray2dC<RealT> FFT2dC::Mag(const SArray2dC<ComplexC> &dat)
+  {
+    SArray2dC<RealT> out(dat.Size1(),dat.Size2());
+    for (SArray2dIter2C<RealT,ComplexC> i(out,dat); i; ++i) i.Data1() = i.Data2().Mag();
+    return out;
+  }
+
+
   //: Returns real part of complex image
   Array2dC<RealT> FFT2dC::Real(const Array2dC<ComplexC> &dat)
   {
@@ -414,6 +423,15 @@ namespace RavlN {
   {
     Array2dC<RealT> out(dat.Frame());
     for (Array2dIter2C<RealT,ComplexC> i(out,dat); i; ++i) i.Data1() = i.Data2().Im();
+    return out;
+  }
+
+
+  //: Returns imaginary part of complex image
+  Array2dC<RealT> FFT2dC::Mag(const Array2dC<ComplexC> &dat)
+  {
+    Array2dC<RealT> out(dat.Frame());
+    for (Array2dIter2C<RealT,ComplexC> i(out,dat); i; ++i) i.Data1() = i.Data2().Mag();
     return out;
   }
 

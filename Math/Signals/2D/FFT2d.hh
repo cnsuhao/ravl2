@@ -156,11 +156,17 @@ namespace RavlN {
     static  SArray2dC<RealT> Imag(const SArray2dC<ComplexC> &dat);
     //: Returns imaginary part of complex image
 
+    static  SArray2dC<RealT> Mag(const SArray2dC<ComplexC> &dat);
+    //: Returns magnitude of complex image
+
     static  Array2dC<RealT> Real(const Array2dC<ComplexC> &dat);
     //: Returns real part of complex image
 
     static  Array2dC<RealT> Imag(const Array2dC<ComplexC> &dat);
     //: Returns imaginary part of complex image
+
+    static  Array2dC<RealT> Mag(const Array2dC<ComplexC> &dat);
+    //: Returns magnitude part of complex image
 
   };
 
