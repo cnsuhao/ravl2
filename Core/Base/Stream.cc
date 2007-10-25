@@ -236,7 +236,10 @@ namespace RavlN {
     static int defaultPermissions = 0644;
     IntT fd = open(filename.chars(),mode,defaultPermissions); 
     if(fd >= 0) {
-      ofstrm = new stdofdstream(fd);
+      if(buffered)
+        ofstrm = new stdofdstream(fd,static_cast<std::ios_base::openmode>(fmode));
+      else
+        ofstrm = new stdofdstream(fd,static_cast<std::ios_base::openmode>(fmode),0);
       Init(out = ofstrm,filename);     
     } else {
       // Open with a normal ofstream call. This helps ensure consistant behaviour
@@ -367,7 +370,12 @@ namespace RavlN {
     int mode = O_RDONLY | O_LARGEFILE;
     int fd = open(filename.chars(),mode);
     if(fd >= 0) {
-      istream *ifs = new stdifdstream(fd,static_cast<std::ios_base::openmode>(fmode));
+      istream *ifs;
+      if(buffered) {
+        ifs = new stdifdstream(fd,static_cast<std::ios_base::openmode>(fmode));
+      } else {
+        ifs = new stdifdstream(fd,static_cast<std::ios_base::openmode>(fmode),0);        
+      }
       Init(ifs ,filename);
       in = ifs;
     } else {
