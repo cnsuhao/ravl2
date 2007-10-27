@@ -84,6 +84,37 @@ namespace RavlN {
   }
   //: Fit points on a 2d plane (this assumes the z position is always zero) to a 3d position.
   
+  bool FitSimilarity(const SArray1dC<Point3dC> &points1,
+                     const SArray1dC<Point3dC> &points2,
+                     Matrix3dC &rotation,
+                     Vector3dC &translation,
+                     RealT &scaling,
+                     bool forceUnitScale = false
+                     );
+  //: Least squares fit of a similarity transform between the two point sets.
+  // If 'forceUnitScale' is true then unit scaling will be assumed, though
+  // the measured scale will still be assigned to 'scaling'.  This may
+  // effect the computed translation in particular. The transform will
+  // map points1 to points2
+  
+  bool FitSimilarity(const SArray1dC<Point3dC> &points1,
+                     const SArray1dC<Point3dC> &points2,
+                     Affine3dC &transform,
+                     bool forceUnitScale = false
+                     );
+  //: Least squares fit of a similarity transform between the two point sets.
+  // If 'forceUnitScale' is true then unit scaling will be assumed.
+  // The transform will map points1 to points2
+  
+  inline bool FitIsometry(const SArray1dC<Point3dC> &points1,
+                          const SArray1dC<Point3dC> &points2,
+                          Affine3dC &transform)
+  { return FitSimilarity(points1,points2,transform,true); }
+  //: Least squares fit of a isometry transform between the two point sets.
+  // If 'forceUnitScale' is true then unit scaling will be assumed.
+  // The transform will map points1 to points2
+  
+                     
 }
 
 #endif

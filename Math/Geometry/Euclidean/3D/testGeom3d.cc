@@ -20,6 +20,8 @@
 #include "Ravl/Affine3d.hh"
 #include "Ravl/Point2d.hh"
 #include "Ravl/SArray1d.hh"
+#include "Ravl/Collection.hh"
+#include "Ravl/SArray1dIter2.hh"
 
 using namespace RavlN;
 
@@ -28,6 +30,7 @@ int testLine();
 int testLineDist();
 int testFitAffine();
 int testFitAffineDirections();
+int testSimilarity();
 
 int main(int nargs,char **argv) {
   int ln;
@@ -48,6 +51,10 @@ int main(int nargs,char **argv) {
     return 1;
   }
   if((ln = testAngles()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testSimilarity()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -165,7 +172,7 @@ int testFitAffineDirections() {
   
   // Create direction vectors.
   
-  for(int i = 0;i < ipnt.Size();i++) {
+  for(UIntT i = 0;i < ipnt.Size();i++) {
     opnt[i] = testTransform * ipnt[i];
     odir[i] = opnt[i] - testTransform * center;
   }
@@ -179,7 +186,7 @@ int testFitAffineDirections() {
   if((fittedCenter - center).SumOfSqr() > 0.000001) return __LINE__;
   
   
-  int i;
+  UIntT i;
   for(i=0;i < ipnt.Size();i++) {
     //std::cerr << "i=" << i << "  " << ipnt[i] << " -> " << opnt[i] << " Dir=" << odir[i].Unit()  << " " << Vector3dC(aff * ipnt[i]).Unit() << " @ " << aff * ipnt[i] << "\n";
     
@@ -288,4 +295,79 @@ int testAngles() {
   
   return 0;
 
+}
+
+
+int testSimilarity() {
+  
+  CollectionC<Point3dC> points(16);
+  points.Append(Point3dC(1,4,6));
+  points.Append(Point3dC(3,2,9));
+  points.Append(Point3dC(7,3,3));
+  points.Append(Point3dC(9,7,2));
+  points.Append(Point3dC(5,3,2));
+  
+  // Generate a random rotation.
+  
+  Vector3dC rotAngle(Random1() * RavlConstN::pi * 2.0 - RavlConstN::pi,
+                     Random1() * RavlConstN::pi * 2.0 - RavlConstN::pi,
+                     Random1() * RavlConstN::pi * 2.0 - RavlConstN::pi);
+  
+  Matrix3dC rot;
+  EulerXYZToMatrix(rotAngle,rot);
+  
+  Vector3dC offset(Random1() * 10 - 5,
+                   Random1() * 10 - 5,
+                   Random1() * 10 - 5);
+  
+  RealT scale = 0.75;
+  
+  SArray1dC<Point3dC> transformedPoints(points.Size());  
+  for(SArray1dIter2C<Point3dC,Point3dC> it(transformedPoints,points.Array());it;it++) {
+    it.Data1() = rot * it.Data2() * scale + offset;
+  }
+  
+  
+  //! Fit a rigid transform between the two point sets.
+
+  Vector3dC fittedTranslation;
+  Matrix3dC fittedRotation;
+  RealT fittedScaling;
+  
+  if(!FitSimilarity(points.Array(),
+                    transformedPoints,
+                    fittedRotation,
+                    fittedTranslation,
+                    fittedScaling
+                    )) return __LINE__;
+  
+
+#if 0
+  std::cerr << "Translation=" << offset << "\n";
+  std::cerr << "Rotation=" << rot << "\n";
+  std::cerr << "Scaling=" << scale << "\n";
+
+  std::cerr << "Fitted Translation=" << fittedTranslation << "\n";
+  std::cerr << "Fitted Rotation=" << fittedRotation << "\n";
+  std::cerr << "Fitted Scaling=" << fittedScaling << "\n";
+#endif  
+  
+  if(Sqr(fittedScaling - scale) > 0.0001) return __LINE__;
+  if((fittedRotation - rot).SumOfSqr() > 0.0001) return __LINE__;
+  if((fittedTranslation - offset).SumOfSqr() > 0.0001) return __LINE__;
+  
+  // Check the affine version.
+  
+  Affine3dC aff;
+  if(!FitSimilarity(points.Array(),
+                    transformedPoints,
+                    aff
+                    )) return __LINE__;
+  
+  for(SArray1dIter2C<Point3dC,Point3dC> it(transformedPoints,points.Array());it;it++) {
+    if((it.Data1() - aff * it.Data2()).SumOfSqr() > 0.0001) return __LINE__;
+  }
+  
+
+  return 0;
 }

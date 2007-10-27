@@ -280,5 +280,108 @@ namespace RavlN {
     
     return ret;
   }
+
   
+  //! Fit a rigid transform between the two point sets.
+  //
+  // See 'Least-Squares Estimation of Transformation Parametres Between Two Point Patterns' by
+  // Shinji Umeyama.  IEEE Transactions on Pattern Analysis and Machine Intelligence Vol 13, No 4
+  // April 1991. Page 376
+  //
+  // TODO: This actually works with any number of dimentions.  Generalise code.
+  
+  bool FitSimilarity(const SArray1dC<Point3dC> &points1,
+                     const SArray1dC<Point3dC> &points2,
+                     Matrix3dC &rotation,
+                     Vector3dC &translation,
+                     RealT &scale,
+                     bool forceUnitScale
+                     ) 
+  {
+    
+    // Compute the means.
+    
+    RealT n = points1.Size();
+    Point3dC mean1(0,0,0),mean2(0,0,0);
+    for(SArray1dIter2C<Point3dC,Point3dC> it(points1,points2);it;it++) {
+      mean1 += it.Data1();
+      mean2 += it.Data2();
+    }
+    
+    mean1 /= n;
+    mean2 /= n;
+    
+    // Compute the covariance matrix.
+    
+    Matrix3dC covar(0,0,0,
+                    0,0,0,
+                    0,0,0);
+    
+    RealT ps1 = 0,ps2 = 0;
+    
+    for(SArray1dIter2C<Point3dC,Point3dC> it(points1,points2);it;it++) {
+      Point3dC p1 = (it.Data1() - mean1);
+      ps1 += Sqr(p1[0]) + Sqr(p1[1]) + Sqr(p1[2]);
+      Point3dC p2 = (it.Data2() - mean2);      
+      ps2 += Sqr(p2[0]) + Sqr(p2[1]) + Sqr(p2[2]);
+      for(int i = 0;i < 3;i++) {
+        covar[i][0] += p1[0] * p2[i];
+        covar[i][1] += p1[1] * p2[i];
+        covar[i][2] += p1[2] * p2[i];
+      }
+    }
+    
+    // Compute the scaling.
+    scale = Sqrt(ps2/ps1);
+    
+    // Compute the rotation from the covariance matrix.
+    covar /= n;
+    Matrix3dC u,v;
+    Vector3dC d = RavlN::SVD_IP(covar,u,v);
+    
+    // FIXME :- Make this faster by avoiding use of so many temporaries.
+    
+    Matrix3dC s(1,0,0,
+                0,1,0,
+                0,0,1);
+    
+    // Correct mirroring.
+    
+    if((u.Det() * v.Det()) < 0) {
+      s[2][2] = -1;
+      d[2] *= -1;
+    }
+    
+    rotation = u * s * v.T();
+    
+    // Compute the translation.
+    if(forceUnitScale) {
+      translation = mean2 - rotation * mean1;
+    } else {
+      translation = mean2 - rotation * mean1 * scale;
+    }
+    
+    return true;
+  }
+
+  //! Fit a rigid transform between the two point sets.
+  //! If 'forceUnitScale' is true then unit scaling will be assumed.
+  
+  bool FitSimilarity(const SArray1dC<Point3dC> &points1,
+                     const SArray1dC<Point3dC> &points2,
+                     Affine3dC &transform,
+                     bool forceUnitScale
+                     ) {
+    Matrix3dC rotation;
+    Vector3dC translation;
+    RealT scale;
+    if(!FitSimilarity(points1,points2,rotation,translation,scale,forceUnitScale))
+      return false;
+    if(forceUnitScale)
+      transform = Affine3dC(rotation,translation);
+    else
+      transform = Affine3dC(rotation * scale,translation);
+    return true;
+  }
+ 
 }
