@@ -111,10 +111,8 @@ namespace RavlN {
                           Affine3dC &transform)
   { return FitSimilarity(points1,points2,transform,true); }
   //: Least squares fit of a isometry transform between the two point sets.
-  // If 'forceUnitScale' is true then unit scaling will be assumed.
-  // The transform will map points1 to points2
   
-                     
+  
 }
 
 #endif
