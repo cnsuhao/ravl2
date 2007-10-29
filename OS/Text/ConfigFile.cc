@@ -391,5 +391,12 @@ namespace RavlN {
     }
     return true ;
   }
+
+ UIntT ConfigFileBodyC::Order(const StringC &tag) {
+    UIntT ret = 0;
+    order.Lookup(tag,ret);
+    return ret;
+ }
+
   
 }
