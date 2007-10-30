@@ -102,6 +102,12 @@ namespace RavlN {
     //: Access the mean.
     // Returns the mean vector of data points which are represented
     // by this object.
+
+    VectorC & Mean()
+    { return m.Mean(); }
+    //: Access the mean.
+    // Returns the mean vector of data points which are represented
+    // by this object.
     
     const MeanNdC & MeanNd() const
     { return m; }

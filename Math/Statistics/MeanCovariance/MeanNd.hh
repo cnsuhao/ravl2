@@ -113,10 +113,11 @@ namespace RavlN {
     // Be carefull to remove points which was already added to the set,
     // otherwise the representation will not describe a real set.
     
-  protected:
     VectorC &Mean()
     { return (VectorC &) *this; }
     //: Access the mean vector.
+    
+  protected:
     
     // Object representation
     // ---------------------
