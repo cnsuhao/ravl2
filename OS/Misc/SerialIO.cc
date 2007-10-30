@@ -389,5 +389,19 @@ namespace RavlN {
 #endif
   }
 
+  bool IOSerialC::Close()
+  {
+#if RAVL_HAVE_TERMIOS
+    if (fid >= 0)
+    {
+      ((IStreamC &)(*this)) = IStreamC();
+      ((OStreamC &)(*this)) = OStreamC();
+      close(fid);
+      fid = -1;
+    }
+#endif
+    return true;
+  }
+
 }
 

@@ -36,7 +36,7 @@ namespace RavlN {
     //: open a device for initialize;
 
     bool Setup(IntT i_speed = 9600,
-         	     IntT o_speed = 9600,
+                IntT o_speed = 9600,
                IntT stop_bit = 1,
                ParityT par = PARITY_NONE,
                IntT char_size = 8);
@@ -160,6 +160,9 @@ namespace RavlN {
     bool IsOpen() const
     { return fid >= 0 && IStreamC::IsOpen(); }
     //: Is stream open ?
+
+    bool Close();
+    //! Close the stream.
 
   };
 }
