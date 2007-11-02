@@ -159,13 +159,16 @@ RESOURCES += LibGnome
 
 ## Python ##############################
  
-#RESOURCES += LibPython
+RESOURCES += LibPython
 
 ## Simplified Wrapper and Interface Generator (Swig) ##############################
 
-#RESOURCES += Swig
+RESOURCES += Swig
 
 ## uuid ############################################
 
-#RESOURCES += UUIdTheo
+RESOURCES += UUIdTheo
 #UUIDTHEO_HOME=/usr
+
+POSTGRESQL_HOME=/sw
+

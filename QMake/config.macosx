@@ -118,9 +118,9 @@ endif
 
 #ifeq ($(VAR),shared)
  ifdef SHAREDBUILD
- CFLAGS += -fPIC -shared 
- CCFLAGS += -fPIC -shared  
- LDLIBFLAGS = -fPIC -shared
+ CFLAGS += -fPIC
+ CCFLAGS += -fPIC
+ LDLIBFLAGS = -fPIC 
  LDFLAGS +=  -rdynamic -Wl,-rpath=$(PROJECT_OUT)/lib/RAVL/$(ARC)/$(VAR)/shared
 # -Wl,-export-dynamic
 endif

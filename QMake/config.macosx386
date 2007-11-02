@@ -9,7 +9,7 @@ ifdef GCCPATH
  GCCPATH:=$(strip $(GCCPATH))#
  RAVL_CC  = $(GCCPATH)/bin/gcc -B$(GCCPATH)/bin
  RAVL_CXX = $(GCCPATH)/bin/g++ -B$(GCCPATH)/bin
- EXTRA_LDFLAGS += -Wl,-rpath=$(GCCPATH)/lib
+ EXTRA_LDFLAGS += 
 endif
 
 ifdef RAVL_CC
@@ -51,15 +51,15 @@ CHMOD = chmod
 TOUCH=/usr/bin/touch
 RM=rm
 
-LIBPATHSWITCH = -Wl,-rpath=#
+LIBPATHSWITCH = -Wl,-F#
 
 AMKDEPFLAGS = -Wp,-MMD,$(WORKTMP)/$*.d
-MKDEPUP = echo -n '$$(INST_OBJS)/' > $(INST_DEPEND)/$*.d ; cat $(WORKTMP)/$*.d  >> $(INST_DEPEND)/$*.d ; \
+MKDEPUP = echo '$$(INST_OBJS)/\' > $(INST_DEPEND)/$*.d ; cat $(WORKTMP)/$*.d  >> $(INST_DEPEND)/$*.d ; \
  rm $(WORKTMP)/$*.d
 
 NOLIBRARYPRELINK=1
 
-
+DYNAMICLIBEXT=.dylib#
 
 ############################
 # Universal flags.
@@ -80,11 +80,9 @@ PAR_MAKE = --jobs=$(PROCS)
 
 UNDEFSYMB = -u #
 
-OPTCFLAGS  = -O2 -ffast-math -march=i686 
-# -O2 -ffast-math -mcpu=i686 -mfpmath=sse
+OPTCFLAGS  = -O2 -ffast-math -march=i686 -fno-strict-aliasing
 
-OPTCCFLAGS = -O2  -ffast-math -march=i686 
-# -O2 -ffast-math -mcpu=i686 -mfpmath=sse
+OPTCCFLAGS = -O2  -ffast-math -march=i686 -fno-strict-aliasing
 
 ############################
 # 'debug' variant.
@@ -118,10 +116,10 @@ endif
 
 #ifeq ($(VAR),shared)
  ifdef SHAREDBUILD
- CFLAGS += -fPIC -shared 
- CCFLAGS += -fPIC -shared  
- LDLIBFLAGS = -fPIC -shared
- LDFLAGS +=  -rdynamic -Wl,-rpath=$(PROJECT_OUT)/lib/RAVL/$(ARC)/$(VAR)/shared
+ CFLAGS += -fPIC 
+ CCFLAGS += -fPIC   
+ LDLIBFLAGS = -fPIC
+ LDFLAGS += -dynamiclib
 # -Wl,-export-dynamic
 endif
 
