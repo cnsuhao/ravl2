@@ -140,6 +140,8 @@ namespace RavlN {
   //: Decompose this matrix such that *this = R * Q
   //: This method generates the sin of the angles of each rotation.
   
+  // See Multiple View Geometry in Computer Vision, Second Edition. R.Hartley & A.Zisserman. Pg 579
+  
   bool Matrix3dC::RQDecomposition(TFMatrixC<RealT,3,3> &R,RealT &rx,RealT &ry,RealT &rz) const {
     const Matrix3dC &M = *this;
     
