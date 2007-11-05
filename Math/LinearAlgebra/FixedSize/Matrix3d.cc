@@ -39,12 +39,17 @@ namespace RavlN {
   
   // The following code is Copyright (C) 2007, OmniPerception Ltd.
   
+  static RealT g_smallValue = 1e-12;
   static inline bool SolveSinCos(RealT v1,RealT v2,RealT &s,RealT &c) {
     if(IsNan(v1) || IsNan(v2))
       return false;
+    if(Abs(v1) < g_smallValue) {
+      s = 0;
+      c = 1.0;
+      return true;
+    }
     RealT b = Sqrt(Sqr(v1) + Sqr(v2));
-    if(b == 0)
-      return false;
+    RavlAssert(b > 0);
     c = -v1/b;
     s = v2/b;
     return true;
