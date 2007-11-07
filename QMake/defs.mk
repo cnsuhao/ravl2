@@ -41,7 +41,7 @@ else
 AUXFILES += $(CONFIGFILE)
 endif
 
-HTML=Example.def.html  
+HTML=Example.def.html  Help.txt
 
 EHT= exeSysConf.eht Ravl.QMake.html Ravl.QMake.Defs.html  \
  Ravl.QMake.Build_Structure.html Ravl.QMake.AutoBuild.html
