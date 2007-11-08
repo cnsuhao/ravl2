@@ -341,22 +341,21 @@ namespace RavlN {
 		 r.Min().V(),r.Max().V(),ba.Range().Min().V(),ba.Range().Max().V());
 #endif
   }
-
-
+  
+  
   template<class DataT> 
-  inline RangeBufferAccessC<DataT> RangeBufferAccessC<DataT>::DeepCopy(UIntT levels) const 
-{
-  if ( levels == 0) return *this ;
-  DataT * newBuf = new DataT[Size()];
-  RangeBufferAccessC<DataT> ret (newBuf, range);
- 
-  const DataT *at = DataStart();
-  DataT *at2 = ret.DataStart();
-  const DataT *endOfRow = &at[range.Size()];
-  for(;at != endOfRow;at++,at2++)
-    *at2 = StdDeepCopy(*at,levels-1) ;
-  return ret;
-}
+  inline RangeBufferAccessC<DataT> RangeBufferAccessC<DataT>::DeepCopy(UIntT levels) const {
+    if ( levels == 0) return *this ;
+    DataT * newBuf = new DataT[Size()];
+    RangeBufferAccessC<DataT> ret (newBuf, range);
+    
+    const DataT *at = DataStart();
+    DataT *at2 = ret.DataStart();
+    const DataT *endOfRow = &at[range.Size()];
+    for(;at != endOfRow;at++,at2++)
+      *at2 = StdDeepCopy(*at,levels-1) ;
+    return ret;
+  }
   
   ///////////////////////////////////////////////////////////
   
@@ -480,6 +479,25 @@ namespace RavlN {
     RavlAssert(Range().Contains(first) && Range().Contains((first + len) - 1));
     return RangeBufferAccessC<DataT>(&((*this)[first]),IndexRangeC(first,(first+len)-1));
   }
+  
+  
+  //: Save real array to binary stream 
+  BinOStreamC &operator<<(BinOStreamC &out,const RangeBufferAccessC<RealT> &img);
+  
+  //: Load real array image from binary stream 
+  BinIStreamC &operator>>(BinIStreamC &in,RangeBufferAccessC<RealT> &img);  
+  
+  //: Save float array image to binary stream 
+  BinOStreamC &operator<<(BinOStreamC &out,const RangeBufferAccessC<FloatT> &img);
+  
+  //: Load float array image from binary stream 
+  BinIStreamC &operator>>(BinIStreamC &in,RangeBufferAccessC<FloatT> &img);  
+  
+  //: Save byte array to binary stream 
+  BinOStreamC &operator<<(BinOStreamC &out,const RangeBufferAccessC<ByteT> &img);
+  
+  //: Load byte array from binary stream 
+  BinIStreamC &operator>>(BinIStreamC &in,RangeBufferAccessC<ByteT> &img);  
   
 }
 #endif

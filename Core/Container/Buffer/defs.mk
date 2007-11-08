@@ -17,9 +17,8 @@ HEADERS=Buffer.hh CompositeBuffer.hh RBfAcc.hh SBfAcc.hh BufferAccess.hh \
  Buffer3d.hh BfAcc3Iter.hh BfAcc3Iter2.hh BfAcc3Iter3.hh \
  SBfAcc3d.hh RBfAcc3d.hh BufferAccessIterR.hh SingleBuffer.hh
 
-#BfAcc3Iter.hh
 
-SOURCES=
+SOURCES=RBfAcc2d.cc SBfAcc2d.cc RBfAcc.cc SBfAcc.cc
 
 PLIB= RavlCore
 

@@ -408,6 +408,25 @@ namespace RavlN {
       strm >> *at;
     return strm;
   }
+
+  //: Save real array to binary stream 
+  BinOStreamC &operator<<(BinOStreamC &out,const SizeBufferAccessC<RealT> &img);
+  
+  //: Load real array image from binary stream 
+  BinIStreamC &operator>>(BinIStreamC &in,SizeBufferAccessC<RealT> &img);  
+  
+  //: Save float array image to binary stream 
+  BinOStreamC &operator<<(BinOStreamC &out,const SizeBufferAccessC<FloatT> &img);
+  
+  //: Load float array image from binary stream 
+  BinIStreamC &operator>>(BinIStreamC &in,SizeBufferAccessC<FloatT> &img);  
+  
+  //: Save byte array to binary stream 
+  BinOStreamC &operator<<(BinOStreamC &out,const SizeBufferAccessC<ByteT> &img);
+  
+  //: Load byte array from binary stream 
+  BinIStreamC &operator>>(BinIStreamC &in,SizeBufferAccessC<ByteT> &img);  
+
 }
 #endif
 
