@@ -37,10 +37,10 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Rigid transform in 3 dimensions.
-  // A RigigTransC is a 3D Rigid body transformation comprising of a 
+  // A RigigTransform3dC is a 3D Rigid body transformation comprising of a 
   // rotation followed by a translation. The order is very important.
   // <p>
-  // A  RigigTransC can also be thought of as a Pose, i.e. a position and
+  // A  RigigTransform3dC can also be thought of as a Pose, i.e. a position and
   // orientation.
   // <p>
   // This library is based on an active scheme, i.e. there is one fixed
@@ -244,6 +244,19 @@ namespace RavlN {
   RigidTransform3dC ConvertV6toRT(VectorC v);
   // Converts a 6 component vector containing 3 vector r and 3 vector trans
   // to a RigidTransform3dC
+
+  
+  ostream & operator<<(ostream & outS, const RigidTransform3dC & rt);
+  //: Text stream output
+  
+  istream & operator>>(istream & ins, RigidTransform3dC & rt);
+  //: Text stream input
+  
+  BinOStreamC & operator<<(BinOStreamC & outS, const RigidTransform3dC & rt);
+  //: Output binary stream operator
+  
+  BinIStreamC & operator>>(BinIStreamC & ins, RigidTransform3dC & rt);
+  //: Input binary stream operator
   
   
 }
