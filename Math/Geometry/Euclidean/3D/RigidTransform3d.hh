@@ -246,18 +246,6 @@ namespace RavlN {
   // to a RigidTransform3dC
 
   
-  ostream & operator<<(ostream & outS, const RigidTransform3dC & rt);
-  //: Text stream output
-  
-  istream & operator>>(istream & ins, RigidTransform3dC & rt);
-  //: Text stream input
-  
-  BinOStreamC & operator<<(BinOStreamC & outS, const RigidTransform3dC & rt);
-  //: Output binary stream operator
-  
-  BinIStreamC & operator>>(BinIStreamC & ins, RigidTransform3dC & rt);
-  //: Input binary stream operator
-  
   
 }
 #endif
