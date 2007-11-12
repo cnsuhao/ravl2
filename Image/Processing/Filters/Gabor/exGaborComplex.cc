@@ -32,7 +32,8 @@ int main(int argc, char* argv[]) {
   RealT efactor    = opt.Real("E", 1,   "rescaling filter aspect ratio");
   bool offset      = opt.Boolean("O",   "alternate scales are offset");
   StringC ipfile   = opt.String("i","", "Name of input image (default: uses impulse)");
-  StringC opfile   = opt.String("p","@X", "Name of filter plot");
+  StringC opfile   = opt.String("o","", "Name of filter output images (default: none)");
+  StringC freqplot = opt.String("p","@X:frequency plot", "Name of filter plot");
   IntT im_size     = opt.Int ("is",200, "image size (if using impulse image)");
   opt.DependXor("i is");
   opt.Check();
@@ -61,10 +62,14 @@ int main(int argc, char* argv[]) {
   for (IntT iscale=0; iscale < nscale; ++iscale) {
     for (IntT itheta=0; itheta < ntheta; ++itheta) {
       fft_filt += bank.Mask()[itheta][iscale];
-      // Next commented-out line generates plots of point spread functions
-      // Save(StringC("@X:frequency = ")+centreFreq/pow(ratio,iscale) + "f_s; orientation = " + itheta + "pi/" + ntheta, out[itheta][iscale]);
+      if (opt.IsOnCommandLine("o")) {
+        if (opfile.contains("@X", 0))
+          Save(StringC("@X:frequency = ") + centreFreq/pow(ratio,iscale) + "f_s; orientation = " + itheta + "pi/" + ntheta, out[itheta][iscale]);
+        else
+          Save(opfile + "_" + iscale + "_" + itheta + ".pgm", out[itheta][iscale]);
+      }
     }
   }
-  Save(opfile, FFT2dC::Mag(fft_filt)*128);
+  Save(freqplot, FFT2dC::Mag(fft_filt)*128);
 
 }

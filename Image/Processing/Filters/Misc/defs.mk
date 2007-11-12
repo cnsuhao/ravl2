@@ -9,8 +9,6 @@
 
 PACKAGE=Ravl/Image
 
-NESTED = GaborComplex.r
-
 MAINS=doHomomorphicFilter.cc unDistort.cc 
 
 HEADERS=  HomomorphicFilter.hh HistogramEqualise.hh \
