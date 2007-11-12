@@ -12,7 +12,7 @@ using namespace RavlConstN;
 GaborComplexC::GaborComplexC (const ImageRectangleC& size, IntT ntheta, IntT nscale, bool isOffset)
   : Size(size), Ntheta(ntheta), Nscale(nscale), sratio(2),
     sigma_factor(1.0), lambda_factor(1.0),
-    isoffset(isoffset), mask(ntheta,nscale), init(false)
+    isoffset(isOffset), mask(ntheta,nscale), init(false)
 { SetFreq(0.4); }
 
 Array2dC<ImageC<RealT> > GaborComplexC::Apply(const ImageC<RealT>& in)

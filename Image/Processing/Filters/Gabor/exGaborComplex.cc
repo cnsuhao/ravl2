@@ -30,10 +30,11 @@ int main(int argc, char* argv[]) {
   RealT ratio      = opt.Real("R", 2,   "filter radial scale ratio");
   RealT sfactor    = opt.Real("S", 1,   "rescaling sigma");
   RealT efactor    = opt.Real("E", 1,   "rescaling filter aspect ratio");
-  bool offset     = !opt.Boolean("NO",  "alternate scales are NOT offset");
+  bool offset      = opt.Boolean("O",   "alternate scales are offset");
   StringC ipfile   = opt.String("i","", "Name of input image (default: uses impulse)");
-  StringC opfile   = opt.String("o","@X", "Name of filter plot");
-  IntT im_size     = opt.Int ("", 200,  "image size");
+  StringC opfile   = opt.String("p","@X", "Name of filter plot");
+  IntT im_size     = opt.Int ("is",200, "image size (if using impulse image)");
+  opt.DependXor("i is");
   opt.Check();
 
   // if no image specified, create image of delta function
@@ -61,7 +62,7 @@ int main(int argc, char* argv[]) {
     for (IntT itheta=0; itheta < ntheta; ++itheta) {
       fft_filt += bank.Mask()[itheta][iscale];
       // Next commented-out line generates plots of point spread functions
-      Save(StringC("@X:frequency = ")+centreFreq/pow(ratio,iscale) + "f_s; orientation = " + itheta + "pi/" + ntheta, out[itheta][iscale]);
+      // Save(StringC("@X:frequency = ")+centreFreq/pow(ratio,iscale) + "f_s; orientation = " + itheta + "pi/" + ntheta, out[itheta][iscale]);
     }
   }
   Save(opfile, FFT2dC::Mag(fft_filt)*128);
