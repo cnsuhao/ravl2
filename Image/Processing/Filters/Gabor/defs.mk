@@ -4,11 +4,11 @@ SOURCES = GaborComplex.cc GaborFilter2d.cc
 
 HEADERS = GaborComplex.hh GaborFilter2d.hh
 
-PLIB = RavlImageProc
-
 LIBDEPS = RavlImageGabor.def
 
-USESLIBS=  RavlCore RavlImage  RavlMath
+PLIB = RavlImageProc
+
+USESLIBS=  RavlImageProc
 
 PROGLIBS = RavlDPDisplay RavlExtImgIO
 

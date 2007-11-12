@@ -16,7 +16,7 @@ LIBDEPS=RavlImageMatching.def
 
 PLIB=RavlImageProc
 
-USESLIBS=RavlImageProc RavlMath
+USESLIBS=RavlImageProc
 
 PROGLIBS=RavlIO RavlImageIO RavlExtImgIO RavlOSIO RavlOptimise  RavlDPDisplay.opt
 

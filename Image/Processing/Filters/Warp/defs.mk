@@ -16,12 +16,11 @@ HEADERS=  WarpScale.hh WarpAffine.hh WarpProjective.hh \
 
 SOURCES=  WarpThinPlateSpline.cc WarpMesh2d.cc
 
-
 LIBDEPS=RavlImageWarp.def
 
 PLIB=RavlImageProc
 
-USESLIBS=RavlImageProc RavlMath
+USESLIBS=RavlImageProc
 
 PROGLIBS=RavlIO RavlImageIO RavlExtImgIO RavlOSIO RavlOptimise  RavlDPDisplay.opt
 

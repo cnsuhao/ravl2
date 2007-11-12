@@ -23,7 +23,7 @@ EXAMPLES = exGaussConvolve.cc
 
 PLIB=RavlImageProc
 
-USESLIBS=RavlImageProc RavlMath
+USESLIBS=RavlImageProc
 
 PROGLIBS=RavlIO RavlImageIO RavlExtImgIO RavlOSIO RavlOptimise  RavlDPDisplay.opt
 
