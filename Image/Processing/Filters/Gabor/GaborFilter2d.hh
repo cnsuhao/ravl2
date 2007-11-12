@@ -87,7 +87,7 @@ namespace RavlImageN {
     
   protected:
     void MakeGaborFilters(int ymax, int xmax);
-    //: Generate gabour filters.
+    //: Generate Gabor filters.
     
     Array1dC<ImageC<RealT> > filter;
     //: the filters for the given parameters
@@ -103,8 +103,9 @@ namespace RavlImageN {
 
   };
 
-  //! userlevel=Normal
+  //! userlevel=Develop
   //: Gabor filters.
+  // This class is kept for backwards compatibility.  Use <a href="RavlImageN.GaborComplexC.html"> GaborComplexC </a> instead.
   
   class GaborFilterBank2dC 
     : public RCHandleC<GaborFilterBank2dBodyC>
@@ -201,9 +202,10 @@ namespace RavlImageN {
   // **********  IPGaborC  ********************************************
   // --------------------------------------------------------------------------
 
-  //! userlevel=Normal
+  //! userlevel=Develop
   //: Compute Gabor feature images
-  
+  // This class is kept for backwards compatibility.  Use <a href="RavlImageN.GaborComplexC.html"> GaborComplexC </a> instead.
+
   template <class PixelT>
   class GaborFilter2dC
     : public GaborFilterBank2dC

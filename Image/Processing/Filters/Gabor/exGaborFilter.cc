@@ -5,6 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! docentry="Ravl.API.Images.Filtering"
+//! userlevel=Develop
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
