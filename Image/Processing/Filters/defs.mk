@@ -9,7 +9,7 @@
 
 PACKAGE=Ravl/Image
 
-NESTED = Convolve.r Gabor.r Matching.r Warp.r
+NESTED = Misc.r Convolve.r Gabor.r Matching.r Warp.r 
 
 EHT= Ravl.API.Images.Filtering.html 
 
