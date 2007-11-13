@@ -184,7 +184,7 @@ namespace RavlN {
     //: This will create a copy of the access structure without copying the data itself.
     // The access is shifted by rowShift vertically and colShift horizontally. 
     
-    //!section: Operators -  These operators assume that the arrays have equal size, although they do not need to have the same origin.
+    //!section: Operators -  These operators assume that the arrays have equal size, although they do not need to have the same origin.  The returned image has the same coordinates as <code>*this</code>.
   
     Array2dC<DataT> operator+(const Array2dC<DataT> & arr) const;
     //: Sums 2 numerical arrays. 
