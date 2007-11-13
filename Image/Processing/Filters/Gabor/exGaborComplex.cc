@@ -26,6 +26,7 @@ int main(int argc, char* argv[]) {
   OptionC opt(argc, argv);
   IntT ntheta      = opt.Int ("t", 6,   "no. of angles");
   IntT nscale      = opt.Int ("s", 3,   "no. of scales");
+  RealT subsample  = opt.Real("ss",1,   "output image shrunk by this factor (>1)");
   RealT centreFreq = opt.Real("U", 0.4, "prototype filter centre frequency");
   RealT ratio      = opt.Real("R", 2,   "filter radial scale ratio");
   RealT sfactor    = opt.Real("S", 1,   "rescaling sigma");
@@ -49,6 +50,7 @@ int main(int argc, char* argv[]) {
 
   // create Gabor filter bank and apply it
   GaborComplexC bank(in.Frame(), ntheta, nscale, offset);
+  if (opt.IsOnCommandLine("ss"))bank.SetSubsample(subsample);  
   if (opt.IsOnCommandLine("U")) bank.SetFreq(centreFreq);  
   if (opt.IsOnCommandLine("S")) bank.AdjustSigma(sfactor);  
   if (opt.IsOnCommandLine("E")) bank.AdjustLambda(efactor);
