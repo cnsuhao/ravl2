@@ -11,7 +11,7 @@
 //! docentry="Ravl.API.Images.Correlation"
 //! author="Charles Galambos"
 //! userlevel=Normal
-//! file="Ravl/Image/Processing/Filters/Correlate2d.hh"
+//! file="Ravl/Image/Processing/Filters/Matching/Correlate2d.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter.hh"

@@ -1,8 +1,16 @@
 #ifndef RAVLIMAGE_AVERAGING2D_HEADER
 #define RAVLIMAGE_AVERAGING2D_HEADER 1
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 
 //! author="Bill Christmas"
 //! docentry="Ravl.API.Images.Filtering"
+//! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Filters/Convolve/Convolve2d.hh"
 
 #include "Ravl/Image/SumRectangles.hh"
 #include "Ravl/Image/Image.hh"

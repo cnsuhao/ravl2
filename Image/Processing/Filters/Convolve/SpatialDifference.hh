@@ -11,7 +11,7 @@
 //! docentry="Ravl.API.Images.Filtering"
 //! author="Charles Galambos, based on code written by Bill Chrismas"
 //! userlevel=Normal
-//! file="Ravl/Image/Processing/Filters/SpatialDifference.hh"
+//! file="Ravl/Image/Processing/Filters/Convolve/SpatialDifference.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Vector2d.hh"

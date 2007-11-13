@@ -11,7 +11,7 @@
 //! lib=RavlImageProc
 //! rcsid="$Id$"
 //! userlevel=Normal 
-//! file="Ravl/Image/Processing/Filters/ImageExtend.hh"
+//! file="Ravl/Image/Processing/Filters/Misc/ImageExtend.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter2.hh"

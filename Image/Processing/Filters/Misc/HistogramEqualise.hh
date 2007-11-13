@@ -11,7 +11,7 @@
 //! docentry="Ravl.API.Images.Scaling and Warping"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
-//! file="Ravl/Image/Processing/Filters/HistogramEqualise.hh"
+//! file="Ravl/Image/Processing/Filters/Misc/HistogramEqualise.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array1d.hh"

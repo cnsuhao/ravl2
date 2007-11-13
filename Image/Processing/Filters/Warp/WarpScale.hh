@@ -12,7 +12,7 @@
 //! author="Kieron Messer"
 //! rcsid="$Id$"
 //! date="05/05/1999"
-//! file="Ravl/Image/Processing/Filters/WarpScale.hh"
+//! file="Ravl/Image/Processing/Filters/Warp/WarpScale.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/BilinearInterpolation.hh"

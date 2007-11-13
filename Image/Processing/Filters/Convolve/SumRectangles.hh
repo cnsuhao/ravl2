@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! date="7/1/2003"
 //! docentry="Ravl.API.Images.Filtering"
-//! file="Ravl/Image/Processing/Filters/SumRectangles.hh"
+//! file="Ravl/Image/Processing/Filters/Convolve/SumRectangles.hh"
 
 #include "Ravl/Array2d.hh"
 #include "Ravl/IndexRange2d.hh"

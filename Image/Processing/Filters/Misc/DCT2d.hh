@@ -26,7 +26,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! docentry="Ravl.API.Images.Transforms"
-//! file="Ravl/Image/Processing/Filters/DCT2d.hh"
+//! file="Ravl/Image/Processing/Filters/Misc/DCT2d.hh"
 
 #include "Ravl/Image/Image.hh"
 

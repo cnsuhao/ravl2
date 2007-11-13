@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! docentry="Ravl.API.Images.Scaling and Warping"
-//! file="Ravl/Image/Processing/Filters/RemoveDistortion.hh"
+//! file="Ravl/Image/Processing/Filters/Misc/RemoveDistortion.hh"
 //! author="Philip McLauchlan, Alex Kostin, Bill Christmas"
 //! date="16/07/2002"
 

@@ -10,7 +10,7 @@
 //! docentry="Ravl.API.Images.Filtering"
 //! lib=RavlImageProc
 //! rcsid="$Id$"
-//! file="Ravl/Image/Processing/Filters/GaussConvolve.hh"
+//! file="Ravl/Image/Processing/Filters/Convolve/GaussConvolve.hh"
 
 #if !RAVL_COMPILER_VISUALCPP
 #warning "GaussConvolveC is obsolete: please use GaussConvolve2dC"

@@ -11,7 +11,7 @@
 //! docentry="Ravl.API.Images.Scaling and Warping"
 //! example=exWarpMesh.cc
 //! author="Charles Galambos"
-//! file="Ravl/Image/Processing/Filters/WarpMesh2d.hh"
+//! file="Ravl/Image/Processing/Filters/Warp/WarpMesh2d.hh"
 
 #include "Ravl/TriMesh2d.hh"
 #include "Ravl/Image/Image.hh"

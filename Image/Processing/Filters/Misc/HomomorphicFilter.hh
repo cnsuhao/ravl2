@@ -11,7 +11,7 @@
 //! docentry="Ravl.API.Images.Filtering"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
-//! file="Ravl/Image/Processing/Filters/HomomorphicFilter.hh"
+//! file="Ravl/Image/Processing/Filters/Misc/HomomorphicFilter.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/FFT2d.hh"

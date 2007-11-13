@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! date="16/07/2002"
-//! file="Ravl/Image/Processing/Filters/WarpAffine.hh"
+//! file="Ravl/Image/Processing/Filters/Warp/WarpAffine.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter.hh"

@@ -11,7 +11,7 @@
 //! docentry="Ravl.API.Images.Scaling and Warping"
 //! author="Charles Galambos"
 //! date="22/11/2002"
-//! file="Ravl/Image/Processing/Filters/WarpThinPlateSpline.hh"
+//! file="Ravl/Image/Processing/Filters/Warp/WarpThinPlateSpline.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Point2d.hh"

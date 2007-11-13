@@ -12,7 +12,7 @@
 //! author="Charles Galambos, Bill Christmas"
 //! docentry="Ravl.API.Images.Filtering"
 //! lib=RavlImageProc
-//! file="Ravl/Image/Processing/Filters/ConvolveSeparable2d.hh"
+//! file="Ravl/Image/Processing/Filters/Convolve/ConvolveSeparable2d.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ConvolveHorz2d.hh"
