@@ -14,9 +14,8 @@
 
 #include "Ravl/Threads/ThreadEvent.hh"
 #include "Ravl/Threads/Mutex.hh"
-#include "Ravl/OS/NetEndPoint.hh"
 #include "Ravl/RCWrap.hh"
-//#include "Ravl/TypeName.hh"
+#include "Ravl/Hash.hh"
 
 namespace RavlN {
   
