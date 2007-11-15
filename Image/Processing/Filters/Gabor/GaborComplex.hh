@@ -15,8 +15,7 @@
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2d.hh"
-#include "Ravl/Complex.hh"
-#include "Ravl/Point2d.hh"
+#include "Ravl/FFT2d.hh"
 
 namespace RavlImageN {
 using namespace RavlN;
@@ -26,15 +25,19 @@ using namespace RavlN;
 
   //: Gabor filters
 
-  // This class generates a set of complex Gabor filters of varying
-  // frequency and orientation.  For more detail, see <a
-  // href="../../../html/Gabor.pdf">complex Gabor filter theory</a>.
+  // <p>This class generates a set of complex Gabor filters of varying
+  // frequency and orientation.  For more detail, see <a href=
+  // "../../../html/Gabor.pdf">complex Gabor filter theory</a>.</p>
+  //
+  // <p>Remember to ensure that both input and outout image sizes are highly
+  // composite to ensure an efficient FFT.</p>
+
 
   class GaborComplexC {
     
   public:
 
-  GaborComplexC (const ImageRectangleC& size, IntT ntheta, IntT nscale, bool isOffset=false);
+  GaborComplexC (IntT nscale, IntT ntheta, bool isOffset=false);
   //: Constructor on size of image, no. of orientations, no. of scales
   //!param: isOffset - if true, every other scale is offset by &frac12; angular spacing 
 
@@ -43,8 +46,8 @@ using namespace RavlN;
   // Returns the modulus of the complex images<br>
   // Array is organised as: no. of angles &times; no. of scales
 
-  void SetFreq(RealT offset)
-  { U = Min(Size.Rows(),Size.Cols())*offset; init=false; }
+  void SetFreq(RealT freq)
+  { rel_offset = freq; init=false; }
   //: Sets centre frequency magnitude of highest frequency filters
   // Centre frequency is expressed as fraction of sampling frequency of shorter axis<br>
   // Default is 2/5 
@@ -62,7 +65,8 @@ using namespace RavlN;
   // Default: result is same size as i/p image.<br>
   // Subsampling is performend by cropping the filtered spectrum by <code>factor</code>, centred on filter centre.
   // The result is that the output image is subsampled by <code>factor</code> (>=1).<br>
-  // Where part of the cropped would lie partly outside the spectrum, the cropped region is shifted to avoid this. 
+  // Where part of the cropped would lie partly outside the spectrum, the cropped region is shifted to avoid this. <br>
+  // <b>N.B.</b> Depending on the arrangement of filters in the spectrum and the subsampling factor, some areas of the spectrum may be omitted entirely.  Use the <code>FilterSpectrum()</code> method to view the spectral coverage
 
   void AdjustSigma(RealT factor)
     { sigma_factor = factor; init=false; }
@@ -73,28 +77,33 @@ using namespace RavlN;
   //: Adjusts &sigma;_r so that  ratio of radial to tangential filter widths in <i>spatial</i> domain is increased by <code>factor</code>
   // This is in addition to the adjustment to &sigma;_r provided by <code>AdjustSigma()</code>
 
-  const Array2dC<ImageC<ComplexC> > Mask() const
+  const Array2dC<ImageC<RealT> > Mask() const
     { return mask; }
   //: Const access to frequency masks as 2D array
   // Array is organised as: no. of angles &times; no. of scales
 
+  ImageC<RealT> FilterSpectrum() const;
+  //: Returns an image of all of the filter spectra superimposed.
+
  protected:
 
-  ImageRectangleC Size; // FFT size
-  IntT Ntheta;          // no. of filter angles
+  ImageRectangleC Frame;// FFT size, with centred coord system
+  FFT2dC fft_fwd;       // forward FFT
+  FFT2dC fft_inv;       // inverse FFT
   IntT Nscale;          // no. of filter scales
-  RealT U;              // offset of prototype filter centre frequency as proportion of sampling frequency
+  IntT Ntheta;          // no. of filter angles
+  RealT rel_offset;     // offset of prototype filter centre frequency as proportion of sampling frequency
   RealT sratio;         // ratio of filter scales: consecutive sigma_r's
   RealT subsample;      // output image is subsampled by this factor (>=1)
   RealT sigma_factor;   // manual adjustment to sigma
   RealT lambda_factor;  // manual adjustment to lambda
   bool isoffset;        // if true, alternate scales are offset by 1/2 filter separation
-  Array2dC<ImageC<ComplexC> > mask; // frequency domain filter kernels
-  Array2dC<Point2dC> centreFreq;    // centre frequencies of kernels
+  Array2dC<ImageC<RealT> > mask; // frequency domain filter kernels
   bool init;
 
-  void Init();
+  bool Init(const ImageRectangleC& frame);
   //: Initialises frequency domain masks
+  // Called each time a parameter is altered or image size changes
 
 };
 

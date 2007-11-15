@@ -2,20 +2,24 @@
 
 \usepackage{graphicx,subfigure,a4wide,noparindent}
 
-\title{Complex Gabor filters}
+\title{Designing complex Gabor filters}
 \author{Bill Christmas}
 
 \begin{document}
 
 \maketitle
 
-In order to detect texture in scenes, the human visual system uses a set of bandpass filters that vary in orientation and centre frequency.  A Gabor filter bank is a set of regularly spaced filters that attempt to mimic this behaviour.  Typical filters might have point spread functions such as:
+\section{Introduction}
+
+In order to detect texture in scenes, the human visual system uses a set of bandpass filters that vary in orientation and centre frequency.  A Gabor filter bank is a set of regularly spaced filters that very approximately mimic this behaviour.  Typical filters might have point spread functions such as:
 
 \begin{center}
   \includegraphics{psf}  \hspace{2cm} \includegraphics{psf45}
 \end{center}
 
-Taking the first example as our prototype, such a filter has a point spread function of the form:
+\section{Design principles}
+
+Consider first a single prototype filter, for example the left-hand example above.  Such a filter has a point spread function of the form:
 
 \[ g(x,y) = {1 \over 2 \pi  \sigma_r\sigma_\theta}\;
 \exp \left\{ -{1\over2} \left[{\left(x\over\sigma_r\right)^2+\left(y \over \sigma_\theta\right)^2}\right]\right\} \;
@@ -46,6 +50,9 @@ The result is a set of filters that covers one half of the complex frequency pla
   \subfigure[with alternate scales offset]{\includegraphics{offsetfig}\label{fig:shifted}}
   \caption{Spectral representation of filters: $M=3$, $N=6$, $s=2$\label{fig:spectra}}
 \end{figure}
+
+\section{Setting the scale parameters}
+
 
 The filter scale parameters are set as follows.  Note that $\sigma_\theta$, $\sigma_r$ are the filter scales in the {\em spatial} domain.  
 
@@ -102,14 +109,10 @@ In the general case, for a desired value of $s$ we can use (\ref{eq:sigma_r}), (
 \[ \sigma_r = {s+1 \over s-1}\: {s_c-1 \over s_c+1}\: \sigma_\theta \]
 
 
+\section{Speeding up the filtering}
+
+A common complaint of Gabor filters is that the inverse FFT that has to be performed for each of the filters makes the system too slow to be useful.   The basic method performs a 2D inverse FFT over the whole filtered image spectrum.  However, most of this spectrum has almost no energy for a given filter.  If instead we shift the coordinates of the spectrum to the centre frequency of the filter, and crop this spectrum so that we only include regions where the filter has a significant response, the FFT will be correspondingly smaller and hence faster.  Because of the shift of frequency coordinates, the output image is multiplied by a phase term.  Since we take the modulus of the output image, this phase term is removed.  The output image is also smaller: it is the same size as the cropped spectrum.  However, if needed, it can be reinterpolated up to the original image size.  
 
 \end{document}
 
 
-we put 
-\[ \sigma_r = {N_c\over N}\, \sigma_\theta
-\approx \sqrt{-\ln \delta \over 2\pi} \;{\sqrt{2s+1}\over (s-1) U} \]
-which for $s=2$, $\delta={1\over2}$, gives:
-\[ \sigma_r \approx {0.74\over U} \]
-
- 

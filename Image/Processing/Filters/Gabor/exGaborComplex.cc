@@ -8,15 +8,15 @@
 //! userlevel=Normal
 //! rcsid="$Id: exGaborFilter.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlImageProc
-//! author="Charles Galambos"
+//! author="Bill Christmas"
 //! file="Ravl/Image/Processing/Filters/exGaborComplex.cc"
 
 #include "Ravl/Image/GaborComplex.hh"
 #include "Ravl/Array2d.hh"
+#include "Ravl/Array2dIter2.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/IO.hh"
 #include "Ravl/Option.hh"
-#include "Ravl/FFT2d.hh"
 
 using namespace RavlN;
 using namespace RavlImageN;
@@ -24,8 +24,8 @@ using namespace RavlImageN;
 int main(int argc, char* argv[]) {
 
   OptionC opt(argc, argv);
-  IntT ntheta      = opt.Int ("t", 6,   "no. of angles");
   IntT nscale      = opt.Int ("s", 3,   "no. of scales");
+  IntT ntheta      = opt.Int ("t", 6,   "no. of angles");
   RealT subsample  = opt.Real("ss",1,   "output image shrunk by this factor (>1)");
   RealT centreFreq = opt.Real("U", 0.4, "prototype filter centre frequency");
   RealT ratio      = opt.Real("R", 2,   "filter radial scale ratio");
@@ -48,30 +48,29 @@ int main(int argc, char* argv[]) {
   else
     Load (ipfile, in, "", true);
 
-  // create Gabor filter bank and apply it
-  GaborComplexC bank(in.Frame(), ntheta, nscale, offset);
+  // create Gabor filter bank
+  GaborComplexC bank(nscale, ntheta, offset);
   if (opt.IsOnCommandLine("ss"))bank.SetSubsample(subsample);  
   if (opt.IsOnCommandLine("U")) bank.SetFreq(centreFreq);  
   if (opt.IsOnCommandLine("S")) bank.AdjustSigma(sfactor);  
   if (opt.IsOnCommandLine("E")) bank.AdjustLambda(efactor);
   if (opt.IsOnCommandLine("R")) bank.SetRadialScale(ratio);  
+
+  // apply filter bank to image
   Array2dC<ImageC<RealT> > out = bank.Apply(in);
 
-  // plot filter magnitudes
-  ImageC<ComplexC> fft_filt(in.Frame());
-  fft_filt.ShiftArray(-(in.Frame().Center()));
-  fft_filt.Fill(0.0);
+  // plot filter outputs
   for (IntT iscale=0; iscale < nscale; ++iscale) {
     for (IntT itheta=0; itheta < ntheta; ++itheta) {
-      fft_filt += bank.Mask()[itheta][iscale];
       if (opt.IsOnCommandLine("o")) {
         if (opfile.contains("@X", 0))
-          Save(StringC("@X:frequency = ") + centreFreq/pow(ratio,iscale) + "f_s; orientation = " + itheta + "pi/" + ntheta, out[itheta][iscale]);
+          Save(StringC("@X:frequency = ") + centreFreq/pow(ratio,iscale) + "f_s; orientation = " + itheta + "pi/" + ntheta, out[iscale][itheta]);
         else
-          Save(opfile + "_" + iscale + "_" + itheta + ".pgm", out[itheta][iscale]);
+          Save(opfile + "_" + iscale + "_" + itheta + ".pgm", out[iscale][itheta]);
       }
     }
   }
-  Save(freqplot, FFT2dC::Mag(fft_filt)*128);
+  // plot filter spectra
+  Save(freqplot, bank.FilterSpectrum()*128);
 
 }
