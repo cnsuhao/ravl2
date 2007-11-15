@@ -54,7 +54,7 @@ RM=rm
 LIBPATHSWITCH = -Wl,-F#
 
 AMKDEPFLAGS = -Wp,-MMD,$(WORKTMP)/$*.d
-MKDEPUP = echo '$$(INST_OBJS)/\' > $(INST_DEPEND)/$*.d ; cat $(WORKTMP)/$*.d  >> $(INST_DEPEND)/$*.d ; \
+MKDEPUP = /bin/bash -c "echo -n '\$$(INST_OBJS)/'" > $(INST_DEPEND)/$*.d ; cat $(WORKTMP)/$*.d  >> $(INST_DEPEND)/$*.d ; \
  rm $(WORKTMP)/$*.d
 
 NOLIBRARYPRELINK=1
