@@ -18,7 +18,20 @@ border of the image.  However other rectangles can also be attached,
 corresponding to subimages; they can also be <a href="../Class/RavlImageN.Rectangle2dIterC.html">moved around the image</a>.  These
 can be useful for spatial filtering and other neighbourhood operations.</p>
 
-<h4> Image IO and type conversion:</h4>
+<h4> Image type conversion:</h4>
+
+<p>The simplest approach is to use the <a
+href="../Class/RavlN.DPTypeConvertObconst_InT_Amp_OutT_AmpCb.html">
+DPTypeConvert</a> function, that will convert between images with
+different pixel types.  This mechanism will find the right specific converter,
+or assemble it out of more than one converter if necessary.  You can also <a
+href="Ravl.API.Core.IO.Type_Converter.html">add more conversions</a>.</p>
+
+<p>Alternatively you can use these (rather verbose) <a
+href="Ravl.API.Images.Converters.html"> explicit conversion functions</a>.</p>
+
+
+<h4> Image I/O:</h4>
 
 <p>There is a comprehensive <a href="Ravl.API.Core.IO.html">I/O
 package</a> within RAVL, including <a href="Ravl.API.Images.IO.html">image
@@ -26,10 +39,8 @@ I/O</a>.  It can deal with a large and expanding range of file
 formats.</p>
 
 <p>The underlying mechanism used to convert between the file format and the
-image pixel type can also be used to convert from <a href =
-"Ravl.API.Core.IO.Type_Converter.html">one image type to another</a>.  If you
-find this baffling, you can use these (rather verbose) <a
-href="Ravl.API.Images.Converters.html"> explicit conversion functions</a>.</p>
+image pixel type is the same as that used for converting between images with different pixel types.</p>
+
 
 <h4> Image coordinate systems and Indexing images:</h4>
 
