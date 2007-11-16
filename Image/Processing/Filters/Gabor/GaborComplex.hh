@@ -47,10 +47,10 @@ using namespace RavlN;
   // Array is organised as: no. of angles &times; no. of scales
 
   void SetFreq(RealT freq)
-  { rel_offset = freq; init=false; }
+  { U = freq; init=false; }
   //: Sets centre frequency magnitude of highest frequency filters
-  // Centre frequency is expressed as fraction of sampling frequency of shorter axis<br>
-  // Default is 2/5 
+  // Centre frequency is expressed as fraction of sampling frequency<br>
+  // Default is 0.35, chosen as compromise between clipping the response and covering the whole spectrum. 
 
   void SetRadialScale(RealT ratio)
     { sratio = ratio; init = false;}
@@ -62,7 +62,7 @@ using namespace RavlN;
   void SetSubsample(RealT factor)
     { subsample = factor; init = false;}
   //: Subsamples final image to speed up the inverse FFTs
-  // Default: result is same size as i/p image.<br>
+  // Default: no subsampling.<br>
   // Subsampling is performend by cropping the filtered spectrum by <code>factor</code>, centred on filter centre.
   // The result is that the output image is subsampled by <code>factor</code> (>=1).<br>
   // Where part of the cropped would lie partly outside the spectrum, the cropped region is shifted to avoid this. <br>
@@ -74,7 +74,7 @@ using namespace RavlN;
 
   void AdjustLambda(RealT factor)
     { lambda_factor = factor; init=false; }
-  //: Adjusts &sigma;_r so that  ratio of radial to tangential filter widths in <i>spatial</i> domain is increased by <code>factor</code>
+  //: Adjusts &sigma;_r so that  ratio of radial to tangential filter widths in <i>spatial</i> domain = <code>factor</code>
   // This is in addition to the adjustment to &sigma;_r provided by <code>AdjustSigma()</code>
 
   const Array2dC<ImageC<RealT> > Mask() const
@@ -92,7 +92,7 @@ using namespace RavlN;
   FFT2dC fft_inv;       // inverse FFT
   IntT Nscale;          // no. of filter scales
   IntT Ntheta;          // no. of filter angles
-  RealT rel_offset;     // offset of prototype filter centre frequency as proportion of sampling frequency
+  RealT U;     // offset of prototype filter centre frequency as proportion of sampling frequency
   RealT sratio;         // ratio of filter scales: consecutive sigma_r's
   RealT subsample;      // output image is subsampled by this factor (>=1)
   RealT sigma_factor;   // manual adjustment to sigma

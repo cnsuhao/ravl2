@@ -11,7 +11,7 @@ using namespace RavlConstN;
 
 GaborComplexC::GaborComplexC (IntT nscale, IntT ntheta, bool isOffset)
   : Frame(0,0),
-    Nscale(nscale), Ntheta(ntheta), rel_offset(0.4), sratio(2), subsample(1.0),
+    Nscale(nscale), Ntheta(ntheta), U(0.35), sratio(2), subsample(1.0),
     sigma_factor(1.0), lambda_factor(1.0), isoffset(isOffset),
     mask(Nscale,Ntheta), init(false)
 {}
@@ -58,17 +58,17 @@ ImageC<RealT> GaborComplexC::FilterSpectrum() const
 
 bool GaborComplexC::Init(const ImageRectangleC& frame)
 {
+  // See Gabor.pdf in this directory for theory
+
   // Set up freq domain frame & coords
   Frame = ImageRectangleC(frame.Rows(), frame.Cols());
   Frame -= Frame.Size()/2;// shift range to put origin in centre
   // Initialise FFTs
   fft_fwd = FFT2dC(Frame.Size());                 // forward FFT
   fft_inv = FFT2dC(Frame.Size()/subsample, true); // inverse FFT
-  // U is offset of prototype centre freq.
-  RealT U = Min(Frame.Rows(),Frame.Cols())*rel_offset; 
   // sigma is tangential filter size (sigma_theta in doc)
-  RealT sigma = 1.0/(3.0*U*sin(pi/(2.0*Ntheta))) * sigma_factor; 
-  // lambda is ratio of radial to tangential size.
+  RealT sigma = Sqrt(log(2.0)/2.0)/(pi*U*sin(pi/(2.0*Ntheta))) * sigma_factor; 
+  // lambda is ratio of radial to tangential size, i.e. sigma_r/sigma_theta.
   RealT lambda(1.0); 
   if (isoffset) { // see documentation of explanation of these calculations
     RealT t  = Sin(pi*(Ntheta+1)/(2*Ntheta));
@@ -91,7 +91,9 @@ bool GaborComplexC::Init(const ImageRectangleC& frame)
       // set up mask frame & coords
       if (subsample > 1.0) { 
         // set up filter frame cropped and centred on filter centre
-        Point2dC centreFreq(-Sin(theta)*U/scale,Cos(theta)*U/scale);
+        // (coords rotated 90deg to give more familiar representation)
+        Point2dC centreFreq(-Sin(theta)*Frame.Rows()*U/scale,
+                             Cos(theta)*Frame.Cols()*U/scale);
         ImageRectangleC smallFrame(centreFreq, (int)(Frame.Rows()/subsample), (int)(Frame.Cols()/subsample));
         // if filter frame not inside image FFT frame, nudge it in
         if (!Frame.Contains(smallFrame)) {
@@ -121,9 +123,9 @@ bool GaborComplexC::Init(const ImageRectangleC& frame)
       // fill mask with filter spectrum
       for (Array2dIterC<RealT> i(mask[iscale][itheta]); i; ++i) {
         Index2dC p(i.Index());
-        RealT r1 =  p[0]*Cos(theta) + p[1]*Sin(theta);
-        RealT c1 = -p[0]*Sin(theta) + p[1]*Cos(theta);
-        *i = exp(-2.0*pi*Sqr(sigma)*(Sqr(lambda*(scale*c1-U))+Sqr(scale*r1)));
+        RealT r1 =  p[0]*Cos(theta)/Frame.Rows() + p[1]*Sin(theta)/Frame.Cols();
+        RealT c1 = -p[0]*Sin(theta)/Frame.Rows() + p[1]*Cos(theta)/Frame.Cols();
+        *i = exp(-2.0*Sqr(pi*sigma)*(Sqr(lambda*(scale*c1-U))+Sqr(scale*r1)));
       }
     }
   }

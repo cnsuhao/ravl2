@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
   IntT nscale      = opt.Int ("s", 3,   "no. of scales");
   IntT ntheta      = opt.Int ("t", 6,   "no. of angles");
   RealT subsample  = opt.Real("ss",1,   "output image shrunk by this factor (>1)");
-  RealT centreFreq = opt.Real("U", 0.4, "prototype filter centre frequency");
+  RealT centreFreq = opt.Real("U", 0.35,"prototype filter centre frequency");
   RealT ratio      = opt.Real("R", 2,   "filter radial scale ratio");
   RealT sfactor    = opt.Real("S", 1,   "rescaling sigma");
   RealT efactor    = opt.Real("E", 1,   "rescaling filter aspect ratio");
