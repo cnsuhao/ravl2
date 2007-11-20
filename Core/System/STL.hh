@@ -12,6 +12,7 @@
 //! lib=RavlCore
 //! date="12/11/2007"
 //! docentry="Ravl.API.Core.STL"
+//! userlevel=Normal
 //! rcsid="$Id$"
 
 // STL Compatibily methods.
@@ -26,13 +27,11 @@ namespace RavlN {
   class BinOStreamC;
   class BinIStreamC;
   
-  //: Write a stl string to binary stream.
   BinOStreamC &operator<<(BinOStreamC &strm,const std::string &str);
+  //: Write an STL string to binary stream.
   
-  //: Read a stl string from binary stream.
   BinIStreamC &operator>>(BinIStreamC &strm,std::string &str);
-
-  //: Write a stl vector to binary stream.
+  //: Read an STL string from binary stream.
   
   template<typename DataT>
   BinOStreamC &operator<<(BinOStreamC &strm,const std::vector<DataT> &vec) {
@@ -42,9 +41,8 @@ namespace RavlN {
       strm << vec[i];
     return strm;
   }
-  
-  //: Read a stl vector from binary stream.
-  
+  //: Write an STL vector to binary stream.
+    
   template<typename DataT>
   BinIStreamC &operator>>(BinIStreamC &strm,std::vector<DataT> &vec) {
     SizeT size = 0;
@@ -54,16 +52,16 @@ namespace RavlN {
       strm >> vec[i];
     return strm;
   }
+  //: Read an STL vector from binary stream.
   
-  //: Hash function for type info's
   inline UIntT StdHash(const std::type_info &ti)
   { return StdHash(ti.name()); }
-  
-  //: Hash function for type info's
+  //: Hash value for type info
+
   inline UIntT StdHash(const std::string &ti)
   { return StdHash(ti.data()); }
+  //: Hash value for STL string
 
-  //: Compute a hash value for a stl vector.
   template<typename DataT>
   inline UIntT StdHash(const std::vector<DataT> &vec)
   { 
@@ -74,13 +72,14 @@ namespace RavlN {
     }
     return hv;
   }
-  
-  //: Turn a STL vector into a SArray1dC.
+  //: Hash value for STL vector.
+
   template<typename DataT>
   SArray1dC<DataT> SArrayOf(const std::vector<DataT> &data) {
     if(data.size() < 1) return SArray1dC<DataT>();
     return SArray1dC<DataT>(&(data[0]),data.size());
   }
+  //: Turn an STL vector into an SArray1dC.
 }
 
 
