@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exDelaunayTriangulation2d"
-	ProjectGUID="{acbf286e-3790-40ae-b8af-f62f26c99adc}"
+	ProjectGUID="{b00ec755-5eb6-4e1a-aca9-4ca36487ce02}"
 	RootNamespace="exDelaunayTriangulation2d"
 	Keyword="Win32Proj"
 	>
@@ -188,10 +188,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

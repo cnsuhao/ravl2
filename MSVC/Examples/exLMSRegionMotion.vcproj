@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exLMSRegionMotion"
-	ProjectGUID="{de709724-436d-4b92-9e43-8b57e3eb861a}"
+	ProjectGUID="{766816ed-698a-4d41-8acf-06ac5f409e4c}"
 	RootNamespace="exLMSRegionMotion"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\Motion\LMSGradient\exLMSRegionMotion.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlLogicAgent"
-	ProjectGUID="{0d2a1f88-a947-421d-964c-f0a54f911efc}"
+	ProjectGUID="{c8f98bd1-351a-46ad-b93e-7af5a2de9035}"
         RootNamespace="RavlLogicAgent"
 	Keyword="win32Proj"
 	>

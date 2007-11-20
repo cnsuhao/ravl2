@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="audioconv"
-	ProjectGUID="{add0ff43-82bc-40c8-ae68-6a8fcfa458b0}"
+	ProjectGUID=""
 	RootNamespace="audioconv"
 	Keyword="Win32Proj"
 	>

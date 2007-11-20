@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exEndPoint"
-	ProjectGUID="{6f0db0be-e3e6-4d23-95df-d35fa65305c9}"
+	ProjectGUID="{942c4ef6-cfa7-4f50-af27-c966088a2e42}"
 	RootNamespace="exEndPoint"
 	Keyword="Win32Proj"
 	>

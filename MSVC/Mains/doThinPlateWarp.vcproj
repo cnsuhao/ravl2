@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="doThinPlateWarp"
-	ProjectGUID="{dd49aeba-2719-47fa-b8e1-5a618147aea9}"
+	ProjectGUID=""
 	RootNamespace="doThinPlateWarp"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\Filters\doThinPlateWarp.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

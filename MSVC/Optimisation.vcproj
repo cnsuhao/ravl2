@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="Optimisation"
-	ProjectGUID="{7ce765a7-3075-4439-ac7c-741c8e2493fa}"
+	ProjectGUID="{1b0b3ac1-424f-483a-b8e7-eebb465f206e}"
         RootNamespace="Optimisation"
 	Keyword="win32Proj"
 	>

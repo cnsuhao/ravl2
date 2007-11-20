@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testThinPlateSpline1d"
-	ProjectGUID="{db5f0052-0ac8-4a89-b035-82855eb5f90e}"
+	ProjectGUID="{c11308aa-4a54-4dfd-9036-ae642a012c3e}"
 	RootNamespace="testThinPlateSpline1d"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Math\Sequence\testThinPlateSpline1d.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

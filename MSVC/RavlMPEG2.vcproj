@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlMPEG2"
-	ProjectGUID="{c3603769-4f12-46b5-afd5-d0c8cd39b149}"
+	ProjectGUID="{51c0167e-bfe3-4f23-b3bf-6aebf981f2b7}"
         RootNamespace="RavlMPEG2"
 	Keyword="win32Proj"
 	>

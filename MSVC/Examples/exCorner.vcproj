@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exCorner"
-	ProjectGUID="{8976cf24-f006-429b-a7fa-3d6c822ff8cd}"
+	ProjectGUID="{27758047-7302-44d2-b9b7-2fbfce581af4}"
 	RootNamespace="exCorner"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\Corners\exCorner.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

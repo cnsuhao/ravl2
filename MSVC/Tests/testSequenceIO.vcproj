@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testSequenceIO"
-	ProjectGUID="{35e371b6-6713-4c8f-91e1-7a4e91473fbb}"
+	ProjectGUID="{6cc1ed14-481f-4a35-802a-c18742cb5fe2}"
 	RootNamespace="testSequenceIO"
 	Keyword="Win32Proj"
 	>

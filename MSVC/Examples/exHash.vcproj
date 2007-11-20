@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exHash"
-	ProjectGUID="{451ce0d2-83e8-43a4-9f95-2d4c5a6ac5fb}"
+	ProjectGUID="{9852a66c-160b-4d89-8daf-40e80af8f0bb}"
 	RootNamespace="exHash"
 	Keyword="Win32Proj"
 	>

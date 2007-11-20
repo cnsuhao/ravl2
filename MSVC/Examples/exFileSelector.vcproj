@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exFileSelector"
-	ProjectGUID="{4e48e38b-5812-467a-a62a-e73dc113863b}"
+	ProjectGUID="{fb17b5b9-cd59-4676-b04f-b73ba0f4876d}"
 	RootNamespace="exFileSelector"
 	Keyword="Win32Proj"
 	>
@@ -188,10 +188,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

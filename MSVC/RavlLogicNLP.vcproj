@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlLogicNLP"
-	ProjectGUID="{afcafe39-3871-49aa-b1b5-fc192d5be702}"
+	ProjectGUID="{48ce6bed-02aa-453c-89ed-32b6af8b2e54}"
         RootNamespace="RavlLogicNLP"
 	Keyword="win32Proj"
 	>

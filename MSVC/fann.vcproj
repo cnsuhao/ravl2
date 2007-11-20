@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="fann"
-	ProjectGUID="{f6a68319-97f4-4706-ae78-b547a41d0b79}"
+	ProjectGUID="{4404e2bd-76e6-4770-a2d8-38b3d42b71ec}"
         RootNamespace="fann"
 	Keyword="win32Proj"
 	>

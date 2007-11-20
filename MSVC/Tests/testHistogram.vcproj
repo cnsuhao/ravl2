@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testHistogram"
-	ProjectGUID="{8c2fd12c-e2d2-4586-8920-2591fe44efa8}"
+	ProjectGUID="{2f87cfd3-cc4f-4ef2-b0d0-d532dac69c45}"
 	RootNamespace="testHistogram"
 	Keyword="Win32Proj"
 	>

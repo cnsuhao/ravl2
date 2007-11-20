@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlNet"
-	ProjectGUID="{232c2623-ce01-40be-90fe-9f1d0cb3e4a6}"
+	ProjectGUID="{d7e51c73-7a7f-4692-bd75-b2b114989e1f}"
         RootNamespace="RavlNet"
 	Keyword="win32Proj"
 	>

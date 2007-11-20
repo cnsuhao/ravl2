@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="VGrab"
-	ProjectGUID="{89445bea-adbe-40b1-9cfc-d917bdee6fd3}"
+	ProjectGUID=""
 	RootNamespace="VGrab"
 	Keyword="Win32Proj"
 	>
@@ -188,10 +188,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

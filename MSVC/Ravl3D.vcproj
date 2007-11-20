@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="Ravl3D"
-	ProjectGUID="{a9a93866-4be9-4d68-850f-604cc9b5f41e}"
+	ProjectGUID="{e2457338-0c47-49b7-8c5a-cc002d93a6c4}"
         RootNamespace="Ravl3D"
 	Keyword="win32Proj"
 	>
@@ -229,6 +229,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\.\3D\Mesh\MeshShapes.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\3D\Carve3D\VoxelSet.cc"
 				>
 			</File>
@@ -288,6 +292,10 @@
 			</File>
 			<File
 				RelativePath="..\.\3D\Mesh\VertexColourByteRGB.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\Mesh\MeshShapes.hh"
 				>
 			</File>
 			<File

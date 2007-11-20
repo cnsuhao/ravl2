@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="doConvolve"
-	ProjectGUID="{dcb39581-dcca-44bf-a2c4-53995ebba15c}"
+	ProjectGUID=""
 	RootNamespace="doConvolve"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\Filters\doConvolve.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

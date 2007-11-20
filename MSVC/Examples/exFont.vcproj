@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exFont"
-	ProjectGUID="{a0aaff20-d741-494f-8111-75f8da2fb278}"
+	ProjectGUID="{69815cc3-0754-4d9b-ac6a-ce5663d28492}"
 	RootNamespace="exFont"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Base\exFont.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

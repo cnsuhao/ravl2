@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="aamViewShapeModel"
-	ProjectGUID="{32e48c92-c9bb-4172-b908-43a4a11c47bd}"
+	ProjectGUID="{78702894-c023-4bf2-9b46-dc84df4b89d3}"
 	RootNamespace="aamViewShapeModel"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\CompVision\ActiveAppearanceModels\aamViewShapeModel.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

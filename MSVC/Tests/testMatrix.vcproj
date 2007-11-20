@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testMatrix"
-	ProjectGUID="{efac27d6-7570-4b6e-bb9c-faf317672c66}"
+	ProjectGUID="{1428255d-ab11-498b-8d8d-24b29cd5f244}"
 	RootNamespace="testMatrix"
 	Keyword="Win32Proj"
 	>

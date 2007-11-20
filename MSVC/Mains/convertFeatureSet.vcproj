@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="convertFeatureSet"
-	ProjectGUID="{c17b4829-9f3d-4bc5-b337-3e705009404e}"
+	ProjectGUID=""
 	RootNamespace="convertFeatureSet"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\Tools\convertFeatureSet.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

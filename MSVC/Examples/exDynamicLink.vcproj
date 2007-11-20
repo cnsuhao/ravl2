@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exDynamicLink"
-	ProjectGUID="{0499eb75-b137-4958-9261-ee660f77a87c}"
+	ProjectGUID="{314f3eca-40e2-4835-a42a-b99c489d8270}"
 	RootNamespace="exDynamicLink"
 	Keyword="Win32Proj"
 	>

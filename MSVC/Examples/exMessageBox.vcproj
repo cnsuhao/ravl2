@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exMessageBox"
-	ProjectGUID="{de73ace8-ed72-4b6a-b2ad-b2bc0dab38ba}"
+	ProjectGUID="{b54a65ca-b1c8-46ac-ba23-6ff8cf651d6a}"
 	RootNamespace="exMessageBox"
 	Keyword="Win32Proj"
 	>
@@ -188,10 +188,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

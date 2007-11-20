@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testTFVector"
-	ProjectGUID="{41fd8eb6-580d-4e7e-a7df-eacb7549de22}"
+	ProjectGUID="{d27f5366-718e-49de-9800-f3866009d833}"
 	RootNamespace="testTFVector"
 	Keyword="Win32Proj"
 	>

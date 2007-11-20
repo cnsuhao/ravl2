@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exComposeSingle"
-	ProjectGUID="{348a7a3f-7974-46de-bae4-ef86cd1c9fde}"
+	ProjectGUID="{8cca3671-4d9b-434f-bef4-73463e523a70}"
 	RootNamespace="exComposeSingle"
 	Keyword="Win32Proj"
 	>

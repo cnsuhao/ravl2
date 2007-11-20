@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testPriQueue"
-	ProjectGUID="{aecaa484-b94a-4831-881a-aa437de7dfdf}"
+	ProjectGUID="{4e891c01-da85-422c-aad0-37100057f4d5}"
 	RootNamespace="testPriQueue"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="doArcs"
-	ProjectGUID="{01524be0-9f90-4712-9588-d4627ec53a8a}"
+	ProjectGUID="{b11037dc-b2cd-41ae-be35-9a70c2dcfe0f}"
 	RootNamespace="doArcs"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\Lines\doArcs.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

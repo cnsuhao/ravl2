@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exDraw"
-	ProjectGUID="{d80c609e-1c12-43a3-9978-739d71d7b749}"
+	ProjectGUID="{81dc1c98-769c-4d1c-a053-2d0247d9aabf}"
 	RootNamespace="exDraw"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Base\exDraw.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

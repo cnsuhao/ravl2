@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testDList"
-	ProjectGUID="{d26ff93b-da16-47e5-9781-9437101a769b}"
+	ProjectGUID="{5c47ab0c-2ca8-4413-b8c1-a2208aed6b42}"
 	RootNamespace="testDList"
 	Keyword="Win32Proj"
 	>

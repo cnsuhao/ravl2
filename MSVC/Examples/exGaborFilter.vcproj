@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exGaborFilter"
-	ProjectGUID="{2f9e0096-14dc-4d55-8500-2f2f90027988}"
+	ProjectGUID="{d0d0ced1-687c-42d8-b0b2-9dc5eb8b928d}"
 	RootNamespace="exGaborFilter"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\Filters\exGaborFilter.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

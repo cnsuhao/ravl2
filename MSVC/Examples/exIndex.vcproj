@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exIndex"
-	ProjectGUID="{fcc7a0d9-cb53-4b54-ba4a-c5252f35a455}"
+	ProjectGUID="{5fbccd92-de31-4e2c-9080-70cbdafc0e93}"
 	RootNamespace="exIndex"
 	Keyword="Win32Proj"
 	>

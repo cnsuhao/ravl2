@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="doEdgeDet"
-	ProjectGUID="{5795bc6c-7b7a-4b21-b46b-9805f38d854d}"
+	ProjectGUID="{d95b378e-c02a-432f-add2-71821dff9e18}"
 	RootNamespace="doEdgeDet"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\Edges\doEdgeDet.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

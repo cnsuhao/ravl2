@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exRadioButton"
-	ProjectGUID="{36d7dcda-64f9-4414-8d65-07cd428db199}"
+	ProjectGUID="{44ae505a-c649-4548-8d5d-d1d65d3733d9}"
 	RootNamespace="exRadioButton"
 	Keyword="Win32Proj"
 	>
@@ -188,10 +188,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

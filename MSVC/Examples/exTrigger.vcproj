@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exTrigger"
-	ProjectGUID="{461799ae-dca6-4ee9-98cc-e274981cc770}"
+	ProjectGUID="{d5600add-8771-4066-aa35-6c8750257f48}"
 	RootNamespace="exTrigger"
 	Keyword="Win32Proj"
 	>

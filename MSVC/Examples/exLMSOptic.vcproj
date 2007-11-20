@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exLMSOptic"
-	ProjectGUID="{b35aba90-4420-467d-9afb-f2dcd71e5507}"
+	ProjectGUID="{8e375ee3-14f5-46b4-8f01-e3b1a6cf6471}"
 	RootNamespace="exLMSOptic"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\Motion\LMSGradient\exLMSOptic.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

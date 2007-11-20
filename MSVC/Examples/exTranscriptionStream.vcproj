@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exTranscriptionStream"
-	ProjectGUID="{5b25d59b-3fa6-4a04-9d6b-e3cf2424cf48}"
+	ProjectGUID="{e24e23c0-34ae-4d50-b5fe-20d8f296897c}"
 	RootNamespace="exTranscriptionStream"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="conv"
-	ProjectGUID="{c98068bd-9433-443e-b0ff-18189fdbc2f0}"
+	ProjectGUID=""
 	RootNamespace="conv"
 	Keyword="Win32Proj"
 	>
@@ -192,10 +192,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\OS\IO\RavlOSIOMustLink.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testCombinationIter"
-	ProjectGUID="{a740dd05-69e8-482b-983d-565221c1bbed}"
+	ProjectGUID="{6f94cf37-1510-4ae0-b6a6-2eb288086f8b}"
 	RootNamespace="testCombinationIter"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Math\Sequence\testCombinationIter.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exTemplateFile"
-	ProjectGUID="{c279e42a-8d09-4f66-a1f4-868ef9221183}"
+	ProjectGUID="{9cfeda2b-bfc0-4729-a8cd-5733b66c7290}"
 	RootNamespace="exTemplateFile"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="VPlay"
-	ProjectGUID="{2c863232-cc29-4939-b45a-75d20fff52dc}"
+	ProjectGUID=""
 	RootNamespace="VPlay"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Applications\VPlay\VPlay.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

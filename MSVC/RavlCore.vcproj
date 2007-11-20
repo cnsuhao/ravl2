@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlCore"
-	ProjectGUID="{b685c0de-7fde-432b-9d86-8eb7e714a8d1}"
+	ProjectGUID="{acc215fb-d5ce-4527-a4ae-c79ccdefe909}"
         RootNamespace="RavlCore"
 	Keyword="win32Proj"
 	>
@@ -322,6 +322,22 @@
 			</File>
 			<File
 				RelativePath="..\.\Core\Base\CPUID.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Core\Container\Buffer\RBfAcc2d.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Core\Container\Buffer\SBfAcc2d.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Core\Container\Buffer\RBfAcc.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Core\Container\Buffer\SBfAcc.cc"
 				>
 			</File>
 			<File

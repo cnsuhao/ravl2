@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="chartdet"
-	ProjectGUID="{ec79c6cc-fa27-4149-bbda-3e2ffef26c3e}"
+	ProjectGUID=""
 	RootNamespace="chartdet"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\ChartDetector\chartdet.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exTextBox"
-	ProjectGUID="{182db59e-1277-4fbe-8b4a-768bf98494c0}"
+	ProjectGUID="{6f6c917a-fb94-49db-ab45-feece4929340}"
 	RootNamespace="exTextBox"
 	Keyword="Win32Proj"
 	>
@@ -188,10 +188,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

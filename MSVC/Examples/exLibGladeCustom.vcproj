@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exLibGladeCustom"
-	ProjectGUID="{ee13ea8f-5ec6-41b5-a876-d37ef0e77835}"
+	ProjectGUID="{3f400fc6-181b-4a34-92e5-505e956b8d7d}"
 	RootNamespace="exLibGladeCustom"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exFeatureSet"
-	ProjectGUID="{1b35510d-b28a-4481-b973-bffe2ec85421}"
+	ProjectGUID="{0181232f-a25e-40c2-a0d4-29555688659a}"
 	RootNamespace="exFeatureSet"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\Tools\exFeatureSet.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

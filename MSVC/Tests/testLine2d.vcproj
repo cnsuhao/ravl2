@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testLine2d"
-	ProjectGUID="{73e5c73d-6d04-4261-8f18-b98feed477d9}"
+	ProjectGUID="{403abaa5-90ba-4040-8224-33f4bc13564f}"
 	RootNamespace="testLine2d"
 	Keyword="Win32Proj"
 	>
@@ -188,10 +188,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

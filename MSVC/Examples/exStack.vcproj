@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exStack"
-	ProjectGUID="{493a3f4b-4126-4bdc-819b-be3b8d6e2090}"
+	ProjectGUID="{b971ed05-84f7-4a63-b8cb-2d857181cde6}"
 	RootNamespace="exStack"
 	Keyword="Win32Proj"
 	>

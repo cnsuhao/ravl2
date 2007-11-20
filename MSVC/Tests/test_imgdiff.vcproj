@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="test_imgdiff"
-	ProjectGUID="{24241887-0831-4a7e-b88d-153f39ec4ea4}"
+	ProjectGUID="{9be7f171-8af9-4d0a-9ab7-b4e4fcc8f9fa}"
 	RootNamespace="test_imgdiff"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Base\test_imgdiff.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

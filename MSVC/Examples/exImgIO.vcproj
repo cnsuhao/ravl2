@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exImgIO"
-	ProjectGUID="{7ff3f272-5772-4315-bc87-e64a744278f6}"
+	ProjectGUID="{b137ff75-e7b5-41ca-a765-d41e576aa81b}"
 	RootNamespace="exImgIO"
 	Keyword="Win32Proj"
 	>
@@ -188,10 +188,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

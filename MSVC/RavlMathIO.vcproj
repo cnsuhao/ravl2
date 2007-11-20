@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlMathIO"
-	ProjectGUID="{5da1aea5-6ab1-4841-9914-e1c762626970}"
+	ProjectGUID="{ab3a5634-0b3f-4b28-a43a-4eb7e935b53c}"
         RootNamespace="RavlMathIO"
 	Keyword="win32Proj"
 	>

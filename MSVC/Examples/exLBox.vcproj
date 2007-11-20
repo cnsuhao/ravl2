@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exLBox"
-	ProjectGUID="{d4efa04e-81d8-4c28-9910-33342dcad708}"
+	ProjectGUID="{17f7d602-c0f9-4a33-a9ad-286fe2274cc9}"
 	RootNamespace="exLBox"
 	Keyword="Win32Proj"
 	>
@@ -188,10 +188,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

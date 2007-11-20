@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlCameraCal"
-	ProjectGUID="{14dc1419-dbf6-45bd-b229-816059ac8e64}"
+	ProjectGUID="{23aec6bf-0a90-4924-ad17-e7009cd7892d}"
         RootNamespace="RavlCameraCal"
 	Keyword="win32Proj"
 	>

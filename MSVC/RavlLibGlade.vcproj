@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlLibGlade"
-	ProjectGUID="{87902fa6-5010-4adb-987d-f7ece1343f93}"
+	ProjectGUID="{96f7e53b-f860-4964-855a-c90d5437606e}"
         RootNamespace="RavlLibGlade"
 	Keyword="win32Proj"
 	>

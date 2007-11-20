@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testImageTools"
-	ProjectGUID="{ae40d4b0-8a1d-437d-950c-1b9c3b9ac25e}"
+	ProjectGUID="{79ad4fb1-2dca-4f92-a70c-ff41693acb7e}"
 	RootNamespace="testImageTools"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\Tools\testImageTools.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

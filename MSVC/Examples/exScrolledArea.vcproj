@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exScrolledArea"
-	ProjectGUID="{57f3cae2-4ca4-4572-ba44-a4fecdb73af3}"
+	ProjectGUID="{47bc8e41-25e9-4265-b844-673a583272d2}"
 	RootNamespace="exScrolledArea"
 	Keyword="Win32Proj"
 	>
@@ -188,10 +188,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlHMM"
-	ProjectGUID="{8a64a980-67b9-4b6c-978c-f78067c6075c}"
+	ProjectGUID="{479f37ee-4aa0-497d-b59d-8cb51b34d7bc}"
         RootNamespace="RavlHMM"
 	Keyword="win32Proj"
 	>

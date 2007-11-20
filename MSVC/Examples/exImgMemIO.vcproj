@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exImgMemIO"
-	ProjectGUID="{4fcaa978-3792-4100-907c-1b6cd6e5665d}"
+	ProjectGUID="{56a879d4-82e3-46c3-9eaf-409c391d40d2}"
 	RootNamespace="exImgMemIO"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\ExternalImageIO\exImgMemIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

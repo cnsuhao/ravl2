@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testRCLayer"
-	ProjectGUID="{450869ff-23f4-4b3f-bfed-dab2dca5d9de}"
+	ProjectGUID="{c586938f-4bd4-4a52-a5e4-3c644871f40b}"
 	RootNamespace="testRCLayer"
 	Keyword="Win32Proj"
 	>

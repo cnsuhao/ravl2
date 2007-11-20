@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="SkinBlobFind"
-	ProjectGUID="{60a8d09e-3521-49a9-9d54-90d5de825bc7}"
+	ProjectGUID=""
 	RootNamespace="SkinBlobFind"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Applications\SkinBlobFind\SkinBlobFind.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

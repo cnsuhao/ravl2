@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlDPDisplay"
-	ProjectGUID="{400adb41-f4bc-43f9-9bc5-45bc5737b920}"
+	ProjectGUID="{e5703c47-315b-49b9-aec8-dd4d7fc92119}"
         RootNamespace="RavlDPDisplay"
 	Keyword="win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testHash"
-	ProjectGUID="{9b979397-0db7-47b0-9dfa-55e180247fa7}"
+	ProjectGUID="{5a4c1c49-5935-4598-8122-158e19af383f}"
 	RootNamespace="testHash"
 	Keyword="Win32Proj"
 	>

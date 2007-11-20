@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exGUIMarkupCanvas"
-	ProjectGUID="{31543a54-6512-4cf7-be1e-c279d2a38f2a}"
+	ProjectGUID="{159c0589-d8e5-4be2-b9d6-540d631535d9}"
 	RootNamespace="exGUIMarkupCanvas"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\GUI\2D\exGUIMarkupCanvas.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

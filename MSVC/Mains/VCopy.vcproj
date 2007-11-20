@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="VCopy"
-	ProjectGUID="{94e16f9f-c3fe-48fd-bb50-6eb3bd656f10}"
+	ProjectGUID=""
 	RootNamespace="VCopy"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Applications\VPlay\VCopy.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

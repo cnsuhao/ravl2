@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exDPSplit"
-	ProjectGUID="{38bfc45c-66d3-405b-bfcd-b9d7e2e5ed2a}"
+	ProjectGUID="{b63258ac-6193-410b-8d79-2a486b851fe5}"
 	RootNamespace="exDPSplit"
 	Keyword="Win32Proj"
 	>

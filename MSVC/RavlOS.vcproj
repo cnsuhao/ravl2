@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlOS"
-	ProjectGUID="{355df368-8f99-45d6-9655-eacbed33f6ff}"
+	ProjectGUID="{44a31567-5f0f-46af-ad2c-75b9cf13de5e}"
         RootNamespace="RavlOS"
 	Keyword="win32Proj"
 	>

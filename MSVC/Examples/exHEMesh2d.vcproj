@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exHEMesh2d"
-	ProjectGUID="{f5a321c8-3935-40ec-acd3-76f6259a7c77}"
+	ProjectGUID="{e7af68b7-40ff-477c-b2af-397a9ba98d1b}"
 	RootNamespace="exHEMesh2d"
 	Keyword="Win32Proj"
 	>
@@ -188,10 +188,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

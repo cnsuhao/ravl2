@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlVideoIO"
-	ProjectGUID="{659b178a-6d60-480b-9171-181342947512}"
+	ProjectGUID="{4bf5f567-a469-4cb2-a093-bf324eaaa175}"
         RootNamespace="RavlVideoIO"
 	Keyword="win32Proj"
 	>

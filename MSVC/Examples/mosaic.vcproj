@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="mosaic"
-	ProjectGUID="{fd0755cf-5f93-4f9b-aca7-03ec4e69c5f3}"
+	ProjectGUID="{20cc4edb-451a-4ec9-aa89-45faf8968c12}"
 	RootNamespace="mosaic"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Applications\Tracker\mosaic.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

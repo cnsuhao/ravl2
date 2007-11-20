@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exFixed"
-	ProjectGUID="{dea2ba88-dbaa-4130-b98a-9caddb957842}"
+	ProjectGUID="{3e08465b-c4e9-4381-82ca-aa0500414492}"
 	RootNamespace="exFixed"
 	Keyword="Win32Proj"
 	>
@@ -188,10 +188,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

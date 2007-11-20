@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exQInt"
-	ProjectGUID="{f1fb98b0-717b-41b4-824f-0034c3ec70cf}"
+	ProjectGUID="{964e4110-52f4-496e-a0a0-f256e287dc2d}"
 	RootNamespace="exQInt"
 	Keyword="Win32Proj"
 	>

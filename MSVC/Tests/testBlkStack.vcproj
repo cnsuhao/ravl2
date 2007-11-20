@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testBlkStack"
-	ProjectGUID="{f0a6c32e-5c2c-4fd6-92aa-c5faacf4b769}"
+	ProjectGUID="{3a470eb7-e20d-4945-a206-4e00ffb7ffa1}"
 	RootNamespace="testBlkStack"
 	Keyword="Win32Proj"
 	>

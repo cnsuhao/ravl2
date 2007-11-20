@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlOSIO"
-	ProjectGUID="{48cf4b3f-b179-4f52-8ed1-7dfddd3a53ed}"
+	ProjectGUID="{deb1b8a9-7ace-418f-8d50-fbb0f06ff675}"
         RootNamespace="RavlOSIO"
 	Keyword="win32Proj"
 	>

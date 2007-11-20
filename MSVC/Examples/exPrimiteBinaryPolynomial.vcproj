@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exPrimiteBinaryPolynomial"
-	ProjectGUID="{f0ecf596-4fd0-4d2c-ad03-b3b3f8022fc1}"
+	ProjectGUID="{10a68752-6956-4c73-82ac-f4ba212231b4}"
 	RootNamespace="exPrimiteBinaryPolynomial"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Math\Sequence\exPrimiteBinaryPolynomial.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

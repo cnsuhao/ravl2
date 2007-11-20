@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="aamCombineActiveAppearanceModel"
-	ProjectGUID="{8757e654-8e7d-4936-a662-6f1360157180}"
+	ProjectGUID="{e30c7b7e-ae2c-45af-9a88-3b6ee92e299b}"
 	RootNamespace="aamCombineActiveAppearanceModel"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\CompVision\ActiveAppearanceModels\aamCombineActiveAppearanceModel.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exGaussConvolve"
-	ProjectGUID="{13c03d65-4848-4cf0-b497-1d8be7ad58d1}"
+	ProjectGUID="{bdb55f37-3ab7-43cc-8a7d-bbb3a8ab118b}"
 	RootNamespace="exGaussConvolve"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\Filters\exGaussConvolve.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

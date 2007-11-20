@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exAttributeEditor"
-	ProjectGUID="{e05c3898-15f5-46cc-be05-b98f3b947978}"
+	ProjectGUID="{001dd3c2-7f7a-49ed-a12b-5ee8c127faf8}"
 	RootNamespace="exAttributeEditor"
 	Keyword="Win32Proj"
 	>
@@ -188,10 +188,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 

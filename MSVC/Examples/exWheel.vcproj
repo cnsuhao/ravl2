@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exWheel"
-	ProjectGUID="{165109b2-ffe1-4725-a712-3f0e9009e4cf}"
+	ProjectGUID="{b291b38a-57ae-4655-92ee-57ee5d2d8281}"
 	RootNamespace="exWheel"
 	Keyword="Win32Proj"
 	>
@@ -188,10 +188,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

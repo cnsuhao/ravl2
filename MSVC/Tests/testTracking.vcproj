@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testTracking"
-	ProjectGUID="{8ee86f08-9a21-4deb-b8d1-37248750ba38}"
+	ProjectGUID="{03df84db-a565-45fe-9435-5ec919534284}"
 	RootNamespace="testTracking"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\Tracking\testTracking.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

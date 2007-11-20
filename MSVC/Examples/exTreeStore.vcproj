@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exTreeStore"
-	ProjectGUID="{2225dc80-4a25-479f-9a5d-83babcbd7350}"
+	ProjectGUID="{7903edc5-80a6-4c0c-b74d-a7bd12b4ac4c}"
 	RootNamespace="exTreeStore"
 	Keyword="Win32Proj"
 	>
@@ -188,10 +188,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

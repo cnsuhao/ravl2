@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exImgSeq"
-	ProjectGUID="{7ba6adad-2dc0-498e-a1a4-46f457c65145}"
+	ProjectGUID="{ad5174d3-0af3-431a-915d-68aa9459c889}"
 	RootNamespace="exImgSeq"
 	Keyword="Win32Proj"
 	>
@@ -188,10 +188,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

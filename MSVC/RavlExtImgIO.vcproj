@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlExtImgIO"
-	ProjectGUID="{b913855f-2eee-4d72-8b4f-97c8c683ac9c}"
+	ProjectGUID="{34ec6926-2afb-499e-b028-bdf9ff316355}"
         RootNamespace="RavlExtImgIO"
 	Keyword="win32Proj"
 	>

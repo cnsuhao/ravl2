@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testBinTable"
-	ProjectGUID="{adcf7cfb-08a5-4fab-8883-549a32f2b6bc}"
+	ProjectGUID="{d832ecb3-b110-4078-8314-188925fe7041}"
 	RootNamespace="testBinTable"
 	Keyword="Win32Proj"
 	>

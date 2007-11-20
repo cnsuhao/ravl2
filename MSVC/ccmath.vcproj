@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="ccmath"
-	ProjectGUID="{24341b1b-f01e-4811-86c5-969d717d4a83}"
+	ProjectGUID="{a312d5fd-afef-438a-b5c8-a36f5b4d9999}"
         RootNamespace="ccmath"
 	Keyword="win32Proj"
 	>

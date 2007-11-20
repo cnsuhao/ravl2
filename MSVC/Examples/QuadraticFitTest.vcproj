@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="QuadraticFitTest"
-	ProjectGUID="{b7e77684-09ac-4c6f-b4f6-bc16f47a6ed0}"
+	ProjectGUID="{109ec0d2-9c08-4599-a8fd-1244ee3e94bc}"
 	RootNamespace="QuadraticFitTest"
 	Keyword="Win32Proj"
 	>

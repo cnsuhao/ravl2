@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exArray3"
-	ProjectGUID="{44fc7569-6c6f-4154-9627-99fd9fc4950d}"
+	ProjectGUID="{529d5f26-0a31-4c04-be80-13f027a84755}"
 	RootNamespace="exArray3"
 	Keyword="Win32Proj"
 	>

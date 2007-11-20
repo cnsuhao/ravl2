@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlAudioFeatures"
-	ProjectGUID="{18da3976-7092-4d5b-84f3-e975fe74fdbe}"
+	ProjectGUID="{add0af83-2124-4eb7-ad6e-e923648cc402}"
         RootNamespace="RavlAudioFeatures"
 	Keyword="win32Proj"
 	>

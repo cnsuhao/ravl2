@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlGUIGnome"
-	ProjectGUID="{98e833dc-167c-4d7e-80cd-98761274eb0a}"
+	ProjectGUID="{e5a27e49-f4f5-4d36-b3b1-f7203260ec38}"
         RootNamespace="RavlGUIGnome"
 	Keyword="win32Proj"
 	>

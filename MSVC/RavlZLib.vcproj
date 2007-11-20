@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlZLib"
-	ProjectGUID="{23da0370-87a1-4712-821c-6d840ea55195}"
+	ProjectGUID="{712f0d8c-c75b-4655-91b2-fe36d9082b83}"
         RootNamespace="RavlZLib"
 	Keyword="win32Proj"
 	>

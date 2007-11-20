@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="WordFreq"
-	ProjectGUID="{868dc78d-2842-4b8e-9997-34bbe25075be}"
+	ProjectGUID="{8bae0d25-fd81-4e71-b564-c9596a9cba6f}"
 	RootNamespace="WordFreq"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlPythonSwig"
-	ProjectGUID="{9fd175b7-204f-46a0-bbc1-7498394f8509}"
+	ProjectGUID="{7a33072d-bfda-4f30-8f6a-ab14a39e1075}"
         RootNamespace="RavlPythonSwig"
 	Keyword="win32Proj"
 	>

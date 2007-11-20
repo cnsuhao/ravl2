@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlImage"
-	ProjectGUID="{d185d525-1fdb-4d13-a796-27196cdcd9de}"
+	ProjectGUID="{77c6e4ee-f41a-414a-9c88-288763f220f0}"
         RootNamespace="RavlImage"
 	Keyword="win32Proj"
 	>
@@ -25,7 +25,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				CommandLine="
-if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Image\Base\default8x16.psf C:\Build\\default8x16.psf&#x0D;&#x0A;"
+if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;&#x0A;copy ..\.\Image\Base\default8x16.psf C:\Build\share\RAVL\Fonts\default8x16.psf&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -104,7 +104,7 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Image\Base\defau
 			<Tool
 				Name="VCPreBuildEventTool"
 				CommandLine="
-if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Image\Base\default8x16.psf C:\Build\\default8x16.psf&#x0D;&#x0A;"
+if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;&#x0A;copy ..\.\Image\Base\default8x16.psf C:\Build\share\RAVL\Fonts\default8x16.psf&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -254,14 +254,6 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Image\Base\defau
 			</File>
 			<File
 				RelativePath="..\.\Image\Base\dvsRGBcdvsYUV422.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\BaseSSE\ImageConvSSE.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 		</Filter>
@@ -452,10 +444,6 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Image\Base\defau
 			</File>
 			<File
 				RelativePath="..\.\Image\Base\dvsRGBcdvsYUV422.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\BaseSSE\ImageConvSSE.hh"
 				>
 			</File>
 		</Filter>

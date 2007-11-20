@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testGeom3d"
-	ProjectGUID="{75de8694-41a3-480b-804e-f386f111962d}"
+	ProjectGUID="{2906a8fb-f53b-4538-b3c1-cae9f6142513}"
 	RootNamespace="testGeom3d"
 	Keyword="Win32Proj"
 	>

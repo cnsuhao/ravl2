@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testLineDet"
-	ProjectGUID="{60133eac-e607-4a41-915f-c1e9bb842da4}"
+	ProjectGUID="{d6096d4e-9194-428a-acb7-e1dbaf16bd96}"
 	RootNamespace="testLineDet"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\Lines\testLineDet.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

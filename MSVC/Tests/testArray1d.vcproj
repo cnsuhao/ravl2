@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testArray1d"
-	ProjectGUID="{b053ca82-7256-4311-a8ed-6a7e919318d0}"
+	ProjectGUID="{d66d3b70-742e-456b-befa-f77ee1b8fedf}"
 	RootNamespace="testArray1d"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exDesignMeanShiftCluster"
-	ProjectGUID="{d6d509c4-3768-4164-951b-2b0724aee953}"
+	ProjectGUID="{6e55d9ff-f560-4c38-9ad9-a0080334a782}"
 	RootNamespace="exDesignMeanShiftCluster"
 	Keyword="Win32Proj"
 	>

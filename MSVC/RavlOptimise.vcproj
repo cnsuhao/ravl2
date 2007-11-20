@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlOptimise"
-	ProjectGUID="{965096e7-f001-42f5-8bf0-01d0723c62d4}"
+	ProjectGUID="{c466fbed-c355-4587-a87d-1acd50fc5ae6}"
         RootNamespace="RavlOptimise"
 	Keyword="win32Proj"
 	>

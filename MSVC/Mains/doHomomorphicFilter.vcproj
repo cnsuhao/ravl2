@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="doHomomorphicFilter"
-	ProjectGUID="{451ee754-7260-4219-90b8-2350ee85bb4c}"
+	ProjectGUID=""
 	RootNamespace="doHomomorphicFilter"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\Filters\doHomomorphicFilter.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exDPWindow"
-	ProjectGUID="{4573850d-8594-4b4a-8651-76a33d4c83a6}"
+	ProjectGUID="{bd10a11c-079a-4f66-b036-e56c0c8b7dda}"
 	RootNamespace="exDPWindow"
 	Keyword="Win32Proj"
 	>
@@ -188,10 +188,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

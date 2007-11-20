@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="tracker"
-	ProjectGUID="{ec90ba5c-4653-4cf4-9e1d-d44b694f1cc0}"
+	ProjectGUID="{60153722-b7f0-4302-ad16-33ee0654f3c9}"
 	RootNamespace="tracker"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Applications\Tracker\tracker.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

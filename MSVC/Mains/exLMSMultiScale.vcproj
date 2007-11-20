@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exLMSMultiScale"
-	ProjectGUID="{d9ce509a-3bff-4256-b522-b5d88d5e06c3}"
+	ProjectGUID="{be56d58e-ed4e-4310-8811-96f76b9cbb4f}"
 	RootNamespace="exLMSMultiScale"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\Motion\LMSGradient\exLMSMultiScale.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

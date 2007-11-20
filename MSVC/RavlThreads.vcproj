@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlThreads"
-	ProjectGUID="{efed3ac0-d73c-4044-8755-3c04176968f0}"
+	ProjectGUID="{6ab11963-f0e5-4f03-b6a7-b401cd6e884f}"
         RootNamespace="RavlThreads"
 	Keyword="win32Proj"
 	>

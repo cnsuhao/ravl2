@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exOption"
-	ProjectGUID="{464bbbe3-a75d-4435-b14c-7e6934c520f6}"
+	ProjectGUID="{3b759791-c954-400b-95ac-ac2134d6acad}"
 	RootNamespace="exOption"
 	Keyword="Win32Proj"
 	>

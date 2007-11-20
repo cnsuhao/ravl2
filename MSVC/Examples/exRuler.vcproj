@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exRuler"
-	ProjectGUID="{66cdf907-5177-4e4c-9a95-379c81ea3f14}"
+	ProjectGUID="{a124c6db-5032-4691-81f3-d9f48f15332b}"
 	RootNamespace="exRuler"
 	Keyword="Win32Proj"
 	>
@@ -188,10 +188,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

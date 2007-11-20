@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="OrthogonalRegressionTest"
-	ProjectGUID="{b284d5d6-1a8b-4506-b739-d307305591f7}"
+	ProjectGUID="{d68ad84c-bad1-4bb1-b30a-feee7a5d7bf3}"
 	RootNamespace="OrthogonalRegressionTest"
 	Keyword="Win32Proj"
 	>

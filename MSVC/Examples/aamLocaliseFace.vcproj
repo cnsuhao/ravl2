@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="aamLocaliseFace"
-	ProjectGUID="{eaa95d2a-89e2-43ad-b207-59f7967e10f0}"
+	ProjectGUID="{c665156c-b7b0-4e34-9471-3dfa71435718}"
 	RootNamespace="aamLocaliseFace"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\CompVision\ActiveAppearanceModels\aamLocaliseFace.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

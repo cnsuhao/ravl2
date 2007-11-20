@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlImageIO"
-	ProjectGUID="{09ddf42d-584a-4214-88ec-b66e64c5fb34}"
+	ProjectGUID="{325af53c-7e6b-4cb7-9004-cee66db54655}"
         RootNamespace="RavlImageIO"
 	Keyword="win32Proj"
 	>

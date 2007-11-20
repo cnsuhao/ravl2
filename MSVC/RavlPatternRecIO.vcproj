@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlPatternRecIO"
-	ProjectGUID="{89e28984-1ad5-4877-824b-688a120d5cab}"
+	ProjectGUID="{f2500982-02ee-48ed-a67e-37699be0cdec}"
         RootNamespace="RavlPatternRecIO"
 	Keyword="win32Proj"
 	>

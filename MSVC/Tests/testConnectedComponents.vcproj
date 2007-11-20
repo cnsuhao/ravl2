@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testConnectedComponents"
-	ProjectGUID="{30cac13c-256f-4497-9420-71aa9b876343}"
+	ProjectGUID="{8bd54557-8b39-4fae-8e8b-6ad86935e823}"
 	RootNamespace="testConnectedComponents"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\Segmentation\testConnectedComponents.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

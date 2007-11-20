@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exLaunchThread"
-	ProjectGUID="{b8d7c763-ced1-4fe8-8e57-2857f13a35b7}"
+	ProjectGUID="{6ce4f915-132f-406f-a07f-463d5a14faac}"
 	RootNamespace="exLaunchThread"
 	Keyword="Win32Proj"
 	>

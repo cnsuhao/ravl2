@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testSquareIterFill"
-	ProjectGUID="{c95b005f-c19f-466d-ac24-d755c215d896}"
+	ProjectGUID="{ba7d60ad-eca6-4487-a2cc-04c74ab55117}"
 	RootNamespace="testSquareIterFill"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Math\Sequence\testSquareIterFill.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

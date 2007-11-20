@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlImageProc"
-	ProjectGUID="{f72bd711-8a68-47d6-a0bb-85385ce75221}"
+	ProjectGUID="{b65e92d9-5b2d-4eaf-b293-c787434b6c72}"
         RootNamespace="RavlImageProc"
 	Keyword="win32Proj"
 	>
@@ -460,10 +460,6 @@
 			</File>
 			<File
 				RelativePath="..\.\Image\Processing\Filters\GaborFilter2d.hh"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\Processing\Filters\GabourFilter2d.hh"
 				>
 			</File>
 			<File

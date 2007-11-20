@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testConvolve"
-	ProjectGUID="{18d9b429-1968-48e6-a06c-e179b70c7514}"
+	ProjectGUID="{d8348e34-e278-4d9f-a9df-28033cdfa2eb}"
 	RootNamespace="testConvolve"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\Filters\testConvolve.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

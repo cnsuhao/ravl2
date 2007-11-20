@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="aamSynthesizeFrontal"
-	ProjectGUID="{3167ffb8-99c3-40fc-9b46-8f18fd2dd720}"
+	ProjectGUID="{8db10d77-72a3-47fb-bd4b-1ec556d79d5c}"
 	RootNamespace="aamSynthesizeFrontal"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\CompVision\ActiveAppearanceModels\aamSynthesizeFrontal.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

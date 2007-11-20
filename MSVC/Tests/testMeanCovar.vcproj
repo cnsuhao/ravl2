@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testMeanCovar"
-	ProjectGUID="{7df9e81f-a9ad-4e25-98c6-fa674a7ee5b9}"
+	ProjectGUID="{0c14e104-bdd4-4b12-8e82-f57518e2aba2}"
 	RootNamespace="testMeanCovar"
 	Keyword="Win32Proj"
 	>

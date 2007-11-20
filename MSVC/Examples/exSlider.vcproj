@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exSlider"
-	ProjectGUID="{05e5c894-815a-4356-8379-d810b92bc0aa}"
+	ProjectGUID="{0d2c42bd-af2a-42b7-a855-4752026ca278}"
 	RootNamespace="exSlider"
 	Keyword="Win32Proj"
 	>
@@ -188,10 +188,6 @@
 			</File>
 			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

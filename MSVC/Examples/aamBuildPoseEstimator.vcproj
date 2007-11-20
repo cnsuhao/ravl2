@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="aamBuildPoseEstimator"
-	ProjectGUID="{b7f981f8-5dbc-43f4-b23d-50b5467f2483}"
+	ProjectGUID="{d0569686-a7a4-4fca-bb2a-565d8a8491a1}"
 	RootNamespace="aamBuildPoseEstimator"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\CompVision\ActiveAppearanceModels\aamBuildPoseEstimator.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

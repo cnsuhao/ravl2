@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testBoundry"
-	ProjectGUID="{35149744-d521-4819-a7f6-809e16dd2831}"
+	ProjectGUID="{9be15660-9de4-4b66-8e62-23a85e0a1f82}"
 	RootNamespace="testBoundry"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlAAM"
-	ProjectGUID="{ed1716ae-393b-42a6-b965-352d3fc7d48f}"
+	ProjectGUID="{4626a87c-2b68-49c3-8c41-4acb7e71eb50}"
         RootNamespace="RavlAAM"
 	Keyword="win32Proj"
 	>

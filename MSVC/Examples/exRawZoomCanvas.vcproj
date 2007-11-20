@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exRawZoomCanvas"
-	ProjectGUID="{be4624f9-af28-4220-aee5-21514b2d55e6}"
+	ProjectGUID="{efb6dffc-888e-41ce-99df-f003b428cf70}"
 	RootNamespace="exRawZoomCanvas"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\GUI\2D\exRawZoomCanvas.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

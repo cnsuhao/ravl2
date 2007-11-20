@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="exGraph"
-	ProjectGUID="{a400b233-f744-4b7e-90f7-8f34765a9c7c}"
+	ProjectGUID="{97260511-c1a1-40e3-8925-45af353d79c5}"
 	RootNamespace="exGraph"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testAudioUtil"
-	ProjectGUID="{0b1ca176-4d00-495b-961a-6c25d8f9d44e}"
+	ProjectGUID="{5e06bdc7-f98d-41df-8d3d-8168a0ee5197}"
 	RootNamespace="testAudioUtil"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testActiveBlackboard"
-	ProjectGUID="{50797c64-c601-42b9-8da1-1c098e03d128}"
+	ProjectGUID="{533d07ab-6119-4b6f-99b8-ce1bd419f934}"
 	RootNamespace="testActiveBlackboard"
 	Keyword="Win32Proj"
 	>

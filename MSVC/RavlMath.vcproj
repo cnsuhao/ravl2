@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlMath"
-	ProjectGUID="{ea98b370-65b5-41ba-a033-f763438dbdfd}"
+	ProjectGUID="{ec9c079d-9b57-4b80-b83a-f9b7f4684603}"
         RootNamespace="RavlMath"
 	Keyword="win32Proj"
 	>

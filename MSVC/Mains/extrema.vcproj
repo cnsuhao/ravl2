@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="extrema"
-	ProjectGUID="{4cdb6ce1-e759-4eaa-9a83-adeff80f752d}"
+	ProjectGUID="{b9390b72-236c-46e5-8697-a0d02b88bbe3}"
 	RootNamespace="extrema"
 	Keyword="Win32Proj"
 	>
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\Segmentation\extrema.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

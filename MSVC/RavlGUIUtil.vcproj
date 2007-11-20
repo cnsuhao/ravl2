@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="RavlGUIUtil"
-	ProjectGUID="{093fe437-5675-4db0-87bb-d5a8308aa374}"
+	ProjectGUID="{86c2d9b0-891c-45f4-bf03-e8c339f94371}"
         RootNamespace="RavlGUIUtil"
 	Keyword="win32Proj"
 	>

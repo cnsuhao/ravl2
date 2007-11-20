@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="testBuffer3d"
-	ProjectGUID="{8da66b39-a190-40d2-bc27-26da1c8b0916}"
+	ProjectGUID="{6a85b0f7-1051-463f-a526-24e9fdbe613a}"
 	RootNamespace="testBuffer3d"
 	Keyword="Win32Proj"
 	>
