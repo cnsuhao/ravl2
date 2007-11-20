@@ -60,10 +60,15 @@ namespace RavlAudioN {
     // 16 bit samples     
     if (sampwidth == 16) {
       ONDEBUG(cerr << "16 bit samples " ) ; 
-      if(channels == 1)
+      if(channels == 1) {
 	return typeid(SampleElemC<1,Int16T>);
-      if(channels == 2)
+      }
+      if(channels == 2) {
 	return typeid(SampleElemC<2,Int16T>);
+      }
+      if(channels == 8) {
+        return typeid(SampleElemC<8,Int16T>);
+      }
     }
     // 8 bit samples 
     if (sampwidth == 8) {
@@ -120,6 +125,11 @@ namespace RavlAudioN {
     // 2 channels 16 bit 
     if(obj_type == typeid(SampleElemC<2,Int16T> ))
       return DPIAudioC<SampleElemC<2,Int16T>,AudioFileBaseC>(filename,0);
+
+    // 8 channel 16 bit 
+    if(obj_type == typeid(SampleElemC<8,Int16T> )) {
+      return DPIAudioC<SampleElemC<8,Int16T>,AudioFileBaseC>(filename,0);
+    }
    
     // 1 channel 8 bit 
     if(obj_type == typeid(SampleElemC<1,UByteT> ))

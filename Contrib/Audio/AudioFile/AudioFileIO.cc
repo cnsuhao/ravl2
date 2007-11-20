@@ -96,6 +96,8 @@ namespace RavlAudioN {
       frameSize = sizeof(SampleElemC<1,Int16T>);
     } else if(ndtype == typeid(SampleElemC<2,Int16T>)) {
       frameSize = sizeof(SampleElemC<2,Int16T>);
+    } else if(ndtype == typeid(SampleElemC<8,Int16T>)) {
+      frameSize = sizeof(SampleElemC<8,Int16T>);
     } else {
       cerr << "AudioFileBaseC::IOpen(), ERROR: Unrecognised sample type:" << ndtype.name() << "\n";
       return false;
