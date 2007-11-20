@@ -233,9 +233,17 @@ int testRealFFT2dPwr2() {
 }
 
 
-
 int testFFTShift() {
   cerr << "testFFTShift(), Started \n";
+
+  // Using RotateFreq should work even for odd sizes
+  Array2dC<int> in(-5,-1,-1,1);
+  for (Array2dIterC<int> i(in); i; ++i) *i = (i.Index().Row()*i.Index().Col()).V();
+  FFT2dC forw(in.Frame().Size()), inv(in.Frame().Size(),true);
+  Array2dC<int> diff(inv.RotateFreq(forw.RotateFreq(in))-in);
+  for (Array2dIterC<int> i(diff); i; ++i) {
+    if (*i != 0)  return __LINE__;
+  }
 
   // Check even size using: evenSize = fftshift(fftshift(evenSize))
   SArray2dC<ComplexC> evenSize(2,4);
