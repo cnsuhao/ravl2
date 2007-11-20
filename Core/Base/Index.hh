@@ -377,14 +377,23 @@ inline IndexC (long int i)
     //: Returns a value of this index subtracted by the value
     //: of index 'i'.
 
-    inline IndexC operator/(const IndexC & i) const
-    { return v/i.v; }
-    //: Returns a new index with value of this index divided by the value
-    //: of index 'i'.
-
     inline IndexC operator*(const IndexC & i) const
     { return v*i.v; }
     //: Returns a new index with value of this index multiplied by the value
+    //: of index 'i'.
+
+    inline IndexC operator/(const IndexC & i) const { 
+      if(i.v >= 0) return (v >= 0) ? (v/i.v) : (v-i.v+1)/i.v;
+      else return -((*this)/(-i));
+    }
+    //: Returns a new index with value of this index divided by the value
+    //: of index 'i'.
+
+    inline IndexC operator%(const IndexC & i) const {
+      if(i.v >= 0) return (v >= 0) ? (v%i.v) : i.v-(-v)%i.v;
+      else return (*this)%(-i);
+    }
+    //: Returns a new index with value of this index modulo the value
     //: of index 'i'.
 
     inline const IndexC & operator+=(const IndexC & i)
@@ -400,7 +409,7 @@ inline IndexC (long int i)
     //: Returns this index multiplied by index 'i'.
     
     inline const IndexC & operator/=(const IndexC & i)
-    { v /= i.v; return *this; }
+    { *this = *this / i; return *this; }
     //: Returns this index divided by index 'i'.
     
     // <h2>Modifications of indices:</h2>
