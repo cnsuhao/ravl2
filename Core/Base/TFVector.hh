@@ -567,7 +567,7 @@ namespace RavlN {
   IndexC TFVectorC<DataT,N>::MaxAbsIndex() const {
     IndexC ind = 0;
     DataT maxVal = data[0];
-    for(int i = 1;i < N;i++) {
+    for(UIntT i = 1;i < N;i++) {
       register DataT absVal = RavlN::Abs(data[i]);
       if(absVal > maxVal) {
 	maxVal = absVal;
