@@ -10,7 +10,7 @@
 //! file="Ravl/Core/Base/Index.hh"
 //! lib=RavlCore
 //! userlevel=Basic
-//! author="Radek Marik"
+//! author="Radek Marik, Bill Christmas"
 //! date="2/1/1996"
 //! docentry="Ravl.API.Core.Indexing"
 //! example=exIndex.cc
@@ -90,8 +90,8 @@ namespace RavlN {
   public:
 
 
-    // <p><h2>Constructors, copies, assigment, and destructor:</h2>
-    /* ----------------------------------------------- */
+    //:-
+    // <h2>Constructors, copies, assigment, and destructor</h2>
     
 #if RAVL_CPUTYPE_64
 inline IndexC (Int64T i) 
@@ -100,8 +100,7 @@ inline IndexC (Int64T i)
 
 
 inline IndexC (long int i) 
-: v(i) 
-{}
+: v(i) {}
 
 
 //inline IndexC(void) 
@@ -134,8 +133,8 @@ inline IndexC (long int i)
     {}
     //: Creates the index = Floor(i)
     
-    // <p><h2>Access functions:</h2>
-    /* ---------------- */
+    //:-
+    // <h2>Access functions</h2>
     
     inline ISizeT V() const
     { return v; }
@@ -149,13 +148,13 @@ inline IndexC (long int i)
     { return (SizeT) v < size; }
     //: True if 0 <= this < size
     
-    // <p><h2>Conversions:</h2>
-    /* ----------- */
-    // The obvious conversions from index to integer numbers
+    //:-
+    // <h2>Conversions</h2>
+    // The obvious conversions from index to integers
     // are missing to avoid automatic conversion of an index expression
     // into integer expression. In this way such a conversion
     // is detected in compilation time and one can decide which
-    // type of expression is proper one.
+    // type of expression is the proper one.
     
     inline operator bool() const
     { return v!=0; }
@@ -177,8 +176,11 @@ inline IndexC (long int i)
     { return (RealT) v; }
     //: Converts the index value into double representation.
 
-    // <p><h2>Arithmetical operations:</h2>
-    /* -----------------------*/
+    //:-
+    // <h2>Arithmetical operators</h2>
+
+    //:-
+    // <h3>Unary operators</h3>
 
     inline IndexC operator-() const
     { return -v; }
@@ -200,6 +202,9 @@ inline IndexC (long int i)
     { return v--; }
     //: The postfix operator decrements the index value by 1.
     
+    //:-
+    // <h3>Arithmetical operators with signed 32-bit integers</h3>
+
     inline IndexC operator+(IntT i) const
     { return v + i; }
     //: Returns a new index with value of this index added by integer 'i'.
@@ -217,16 +222,6 @@ inline IndexC (long int i)
       else return -((*this)/(-i));
     }
     //: Returns a new index with value of this index divided by integer 'i'.
-
-#if 0
-    inline IndexC operator/(Int64T i) const {
-      if(i >= 0) return (v >= 0) ? (v/i) : (v-i+1)/i;
-      else return -((*this)/(-i));
-    }
-
-#endif 
-
-
 
     inline IndexC operator%(IntT i) const {
       if(i >= 0) return (v >= 0) ? (v%i) : i-(-v)%i;
@@ -253,6 +248,9 @@ inline IndexC (long int i)
     }
     //: Returns this index divided by integer 'i'.
     
+    //:-
+    // <h3>Arithmetical operators with unsigned 32-bit integers</h3>
+
     inline IndexC operator+(const UIntT i) const
     { return v + i; }
     //: Returns a new index with value of this index added by integer 'i'.
@@ -293,6 +291,9 @@ inline IndexC (long int i)
     //: Returns this index divided by integer 'i'.
 
 #if RAVL_CPUTYPE_64
+    //:-
+    // <h3>Arithmetical operators with unsigned 64-bit integers</h3>
+
     inline IndexC operator+(const UInt64T i) const
     { return v + i; }
     //: Returns a new index with value of this index added by integer 'i'.
@@ -331,7 +332,18 @@ inline IndexC (long int i)
       return *this;
     }
     //: Returns this index divided by integer 'i'.
+
+#if 0
+    inline IndexC operator/(Int64T i) const {
+      if(i >= 0) return (v >= 0) ? (v/i) : (v-i+1)/i;
+      else return -((*this)/(-i));
+    }
+
+#endif 
 #endif
+
+    //:-
+    // <h3>Arithmetical operators with floating point numbers</h3>
 
     inline RealT operator+(RealT i) const
     { return (RealT) v + i; }
@@ -367,14 +379,17 @@ inline IndexC (long int i)
     //: This index is converted to RealT, divided by 'i', and replaced
     //: with the result rounded down to IndexC.
     
+    //:-
+    // <h3>Arithmetical operators with indexes</h3>
+
     inline IndexC operator+(const IndexC & i) const
     { return v+i.v; }
-    //: Returns a new index with value of this index added by the value
+    //: Returns a new index with value of this index plus the value
     //: of index 'i'.
 
     inline IndexC operator-(const IndexC & i) const
     { return v-i.v; }
-    //: Returns a value of this index subtracted by the value
+    //: Returns a new index with value of this index minus the value
     //: of index 'i'.
 
     inline IndexC operator*(const IndexC & i) const
@@ -412,8 +427,8 @@ inline IndexC (long int i)
     { *this = *this / i; return *this; }
     //: Returns this index divided by index 'i'.
     
-    // <h2>Modifications of indices:</h2>
-    /* ------------------------*/
+    //:-
+    // <h2>Shifting indexes</h2>
 
     inline IndexC operator<<(IntT i) const
     { return v << i; }
@@ -425,118 +440,119 @@ inline IndexC (long int i)
     //: Returns the new index with the value equal to the value of this
     //: index shifted 'i' position to the right.
 
-    // <h2>Logical operators with integer numbers:</h2>
-    /* --------------------------------------*/
+    //:-
+    // <h2>Logical operators</h2>
 
+    // <h3>Logical operators with signed 32-bit integers</h3>
     inline bool operator==(IntT i) const
     { return v == i; }
     //: Returns true if the value of this index is equal to 
-    //: the integer number 'i'.
+    //: the integer 'i'.
     
     inline bool operator!=(IntT i) const
     { return v != i; }
     //: Returns true if the value of this index is not equal to 
-    //: the integer number 'i'.
+    //: the integer 'i'.
 
     inline bool operator<(IntT i) const
     { return v < i; }
     //: Returns true if the value of this index is smaller than
-    //: the integer number 'i'.
+    //: the integer 'i'.
 
     inline bool operator<=(IntT i) const
     { return v <= i; }
     //: Returns true if the value of this index is smaller than
-    //: or equal to the integer number 'i'.
+    //: or equal to the integer 'i'.
 
     inline bool operator>(IntT i) const
     { return v > i; }
     //: Returns true if the value of this index is greater than
-    //: the integer number 'i'.
+    //: the integer 'i'.
 
 
     inline bool operator>=(IntT i) const
     { return v >= i; }
     //: Returns true if the value of this index is greater than
-    //: or equal to the integer number 'i'.
+    //: or equal to the integer 'i'.
 
-    // <h2>Logical operators with unsigned 32-bit integer numbers:</h2>
-    /* -----------------------------------------------*/
+    //:-
+    // <h3>Logical operators with unsigned 32-bit integers</h3>
 
     inline bool operator==(const UIntT i) const
     { return v == IntT(i); }
     //: Returns true if the value of this index is equal to 
-    //: the integer number 'i'.
+    //: the integer 'i'.
     
     inline bool operator!=(const UIntT i) const
     { return v != IntT(i); }
     //: Returns true if the value of this index is not equal to 
-    //: the integer number 'i'.
+    //: the integer 'i'.
     
     inline bool operator<(const UIntT i) const
     { return v < IntT(i); }
     //: Returns true if the value of this index is smaller than
-    //: the integer number 'i'.
+    //: the integer 'i'.
     
     inline bool operator<=(const UIntT i) const
     { return v <= IntT(i); }
     //: Returns true if the value of this index is smaller than
-    //: or equal to the integer number 'i'.
+    //: or equal to the integer 'i'.
 
     inline bool operator>(const UIntT i) const
     { return v > IntT(i); }
     //: Returns true if the value of this index is greater than
-    //: the integer number 'i'.
+    //: the integer 'i'.
     
     inline bool operator>=(const UIntT i) const
     { return v >= IntT(i); }
     //: Returns true if the value of this index is greater than
-    //: or equal to the integer number 'i'.
+    //: or equal to the integer 'i'.
 
-    // <h2>Logical operators with unsigned integer numbers:</h2>
-    /* -----------------------------------------------*/
+    //:-
+    // <h3>Logical operators with unsigned 64-bit integers</h3>
 
     inline bool operator==(const UInt64T i) const
     { return v == ISizeT(i); }
     //: Returns true if the value of this index is equal to 
-    //: the integer number 'i'.
+    //: the integer 'i'.
     
     inline bool operator!=(const UInt64T i) const
     { return v != ISizeT(i); }
     //: Returns true if the value of this index is not equal to 
-    //: the integer number 'i'.
+    //: the integer 'i'.
     
     inline bool operator<(const UInt64T i) const
     { return v < ISizeT(i); }
     //: Returns true if the value of this index is smaller than
-    //: the integer number 'i'.
+    //: the integer 'i'.
     
     inline bool operator<=(const UInt64T i) const
     { return v <= ISizeT(i); }
     //: Returns true if the value of this index is smaller than
-    //: or equal to the integer number 'i'.
+    //: or equal to the integer 'i'.
 
     inline bool operator>(const UInt64T i) const
     { return v > ISizeT(i); }
     //: Returns true if the value of this index is greater than
-    //: the integer number 'i'.
+    //: the integer 'i'.
     
     inline bool operator>=(const UInt64T i) const
     { return v >= ISizeT(i); }
     //: Returns true if the value of this index is greater than
-    //: or equal to the integer number 'i'.
+    //: or equal to the integer 'i'.
 
-    // <h2>Logical operators with double numbers:</h2>
-    /* -------------------------------------*/
+    //:-
+    // <h3>Logical operators with double numbers</h3>
 
     inline bool operator==(RealT i ) const
     { return v == i; }
     //: Returns true if the value of this index is equal to 
-    //: the integer number 'i'.
+    //: the integer 'i'.
 
     inline bool operator!=(RealT i ) const
     { return v != i; }
     //: Returns true if the value of this index is not equal to 
-    //: the integer number 'i'.
+    //: the integer 'i'.
     
     inline bool operator<(RealT i) const
     { return v < i; }
@@ -558,8 +574,8 @@ inline IndexC (long int i)
     //: Returns true if the value of this index is greater than
     //: or equal to the double number 'i'.
 
-    // <h2>Logical operators with another index:</h2>
-    /* ------------------------------------*/
+    //:-
+    // <h3>Logical operators with another index</h3>
 
     inline bool operator==(const IndexC & i ) const
     { return v==i.v; }
@@ -590,17 +606,17 @@ inline IndexC (long int i)
     //: Returns true if the value of this index is greater than
     //: or equal to the value of index 'i'.
 
-    // <h2>Miscellaneous functions:</h2>
-    /* -------------------------*/
+    //:-
+    // <h2>Miscellaneous functions</h2>
 
     inline IndexC Abs() const
     { return RavlN::Abs(v); }
-    //: Returns the index whose index value is equal to the absolute value
-    //: of this index value.
+    //: Returns the index whose value is equal to the absolute value
+    //: of this index.
 
     inline IndexC & SetAbs()
     { v = RavlN::Abs(v); return *this; }
-    //: Returns this index whose index value is equal to the absolute value
+    //: Changes this index to have the absolute value
     //: of the original index value.
     
     inline IndexC ILog2() const{
@@ -618,10 +634,10 @@ inline IndexC (long int i)
     
     inline IndexC Max(const IndexC & i) const
     { return v >= i.v ? *this : i; }
-    //: Returns the index with the greater value.
+    //: Returns the index with the larger value.
     
-    // <h2>Special member functions:</h2>
-    /* ------------------------*/
+    //:-
+    // <h2>Special member functions</h2>
   
     inline SizeT Hash() const
     { return SizeT(v); }
@@ -630,10 +646,13 @@ inline IndexC (long int i)
     inline SizeT Size() const
     { return dim; }
     //: Returns the number of dimensions indexed.
+
+    //:-
+    // <h2>See also <a href= "../Tree/Ravl.API.Core.Indexing.html">helper functions</a></h2>
     
   private:
-    /* Object Representation
-     * ---------------------*/
+
+    // Object Representation
     enum {dim = 1};  // number of indexes     
 
     ISizeT v; // The value of the index.
@@ -644,240 +663,239 @@ inline IndexC (long int i)
   // -------------
   
   istream & operator>>(istream & s, IndexC & r);
-  //: Read information from the intput stream 's' and sets the index 'r'
-  //: according obtained data.
+  //: Reads value for index from an input stream
   
   ostream & operator<<(ostream & s, const IndexC & r);
-  //: Saves the index 'r' into the output stream 's'.
+  //: Writes the index index to an output stream
   
   
-  // Operations of integer numbers and indices
+  // Operations of integers and indexes
   // -----------------------------------------
   
   inline IndexC operator+(IntT i, const IndexC & j)
   { return i+j.V(); }
   
-  //: Returns the integer number constructed as addition of integer number 'i'
+  //: Returns an index constructed from addition of integer 'i'
   //: and index value 'j'.
   
   inline IndexC operator-(IntT i, const IndexC & j)
   { return i-j.V(); }
-  //: Returns the integer number constructed as subtraction of index value 'j'
-  //: from integer number 'i'.
+  //: Returns an index constructed from subtraction of index value 'j'
+  //: from integer 'i'.
   
   inline IndexC operator*(IntT i, const IndexC & j)
   { return i*j.V(); }
-  //: Returns the integer number constructed as multiplication
-  //: of integer number 'i' and index value 'j'.
+  //: Returns an index constructed from multiplication
+  //: of integer 'i' and index value 'j'.
   
   inline IndexC operator/(IntT i, const IndexC & j)
   { return (IndexC(i)/j); }
-  //: Returns the integer number constructed as division
-  //: of integer number 'i' and index value 'j'.
+  //: Returns an index constructed from division
+  //: of integer 'i' by index value 'j'.
   
   inline const IntT & operator+=(IntT & i, const IndexC & j)
   { return i += j.V(); }
-  //: Adds index value 'j' to integer number 'i'.
+  //: Adds index value 'j' to integer 'i'.
   
   inline const IntT & operator-=(IntT & i, const IndexC & j)
   { return i -= j.V(); }
-  //: Subtracts index value 'j' from integer number 'i'.
+  //: Subtracts index value 'j' from integer 'i'.
   
   inline const IntT & operator*=(IntT & i, const IndexC & j)
   { return i *= j.V(); }
-  //: Multiplies index value 'j' by integer number 'i'.
+  //: Multiplies index value 'j' by integer 'i'.
   
   inline const IntT & operator/=(IntT & i, const IndexC & j) {
     i = (i / j).V();
     return i;
   }
-  //: Divides index value 'j' by integer number 'i'.
+  //: Divides index value 'j' by integer 'i'.
   
   inline bool operator==(IntT i, const IndexC & j)
   { return i==j.V(); }
-  //: Returns true if the value of index 'j' is equal to 
-  //: the integer number 'i'.
+  //: Returns true if the value of index 'j' and
+  //: integer 'i' are equal.
   
   inline bool operator!=(IntT i, const IndexC & j)
   { return i!=j.V(); }
-  //: Returns true if the values of index 'j' is not equal to 
-  //: the integer number 'i'.
+  //: Returns true if the value of index 'j' and
+  //: integer 'i' are not equal.
   
   inline bool operator<(IntT i, const IndexC & j)
   { return i < j.V(); }
-  //: Returns true if the integer number 'i' is smaller than  
+  //: Returns true if integer 'i' is less than  
   //: the value of index 'j' .
   
   inline bool operator<=(IntT i, const IndexC & j)
   { return i <= j.V(); }
-  //: Returns true if the integer number 'i' is smaller than  
+  //: Returns true if integer 'i' is less than  
   //: or equal to the value of index 'j' .
   
   inline bool operator>(IntT i, const IndexC & j)
   { return i > j.V(); }
-  //: Returns true if the integer number 'i' is greater than  
+  //: Returns true if integer 'i' is greater than  
   //: the value of index 'j' .
   
   inline bool operator>=(IntT i, const IndexC & j)
   { return i >= j.V(); }
-  //: Returns true if the integer number 'i' is greater than  
+  //: Returns true if integer 'i' is greater than  
   //: or equal to the value of index 'j' .
   
-  // Operations of 32-bit unsigned integer numbers and indices
+  // Operations of 32-bit unsigned integers and indexes
   // --------------------------------------------------
   
   inline IndexC operator+(const UIntT i, const IndexC & j)
   { return IndexC(i+j.V()); }
-  //: Returns the integer number constructed as addition of integer number 'i'
+  //: Returns the integer constructed as addition of integer 'i'
   //: and index value 'j'.
   
   inline IndexC operator-(const UIntT i, const IndexC & j)
   { return IndexC(i-j.V()); }
-  //: Returns the integer number constructed as subtraction of index value 'j'
-  //: from integer number 'i'.
+  //: Returns the integer constructed as subtraction of index value 'j'
+  //: from integer 'i'.
   
   inline IndexC operator*(const UIntT i, const IndexC & j)
   { return IndexC(i*j.V()); }
-  //: Returns the integer number constructed as multiplication
-  //: of integer number 'i' and index value 'j'.
+  //: Returns the integer constructed as multiplication
+  //: of integer 'i' and index value 'j'.
   
   inline IndexC operator/(const UIntT i, const IndexC & j) {
     RavlAssertMsg(j>0,
-		  "Illegal division of unsigned by non-+ve.\n" 
-		  "In function: IntT operator/(const UIntT i, const IndexC & j)");
+	  "Illegal division of unsigned by non-+ve.\n" 
+	  "In function: IntT operator/(const UIntT i, const IndexC & j)");
     return i/j.V();
   }
-  //: Returns the integer number constructed as division
-  //: of integer number 'i' and index value 'j'.
+  //: Returns the integer constructed as division
+  //: of integer 'i' and index value 'j'.
   
   inline const UIntT & operator+=(UIntT & i, const IndexC & j) 
   { return i += j.V(); }
-  //: Adds index value 'j' to integer number 'i'.
+  //: Adds index value 'j' to integer 'i'.
 
   inline const UIntT & operator-=(UIntT & i, const IndexC & j)
   { return i -= j.V(); }
-  //: Subtracts index value 'j' from integer number 'i'.
+  //: Subtracts index value 'j' from integer 'i'.
   
   inline const UIntT & operator*=(UIntT & i, const IndexC & j)
   { return i *= j.V(); }
-  //: Multiplies index value 'j' by integer number 'i'.
+  //: Multiplies index value 'j' by integer 'i'.
   
   inline const UIntT & operator/=(UIntT & i, const IndexC & j){
     i = (i / j).V();
     return i;
   }
-  //: Divides index value 'j' by integer number 'i'.
+  //: Divides index value 'j' by integer 'i'.
   
   inline bool operator==(const UIntT i, const IndexC & j)
   { return IntT(i) == j.V(); }
   //: Returns true if the value of index 'j' is equal to 
-  //: the integer number 'i'.
+  //: the integer 'i'.
   
   inline bool operator!=(const UIntT i, const IndexC & j)
   { return IntT(i) != j.V(); }
   //: Returns true if the values of index 'j' is not equal to 
-  //: the integer number 'i'.
+  //: the integer 'i'.
   
   inline bool operator<(const UIntT i, const IndexC & j)
   { return IntT(i) < j.V(); }
-  //: Returns true if the integer number 'i' is smaller than  
+  //: Returns true if the integer 'i' is smaller than  
   //: the value of index 'j' .
   
   inline bool operator<=(const UIntT i, const IndexC & j)
   { return IntT(i) <= j.V(); }
-  //: Returns true if the integer number 'i' is smaller than  
+  //: Returns true if the integer 'i' is smaller than  
   //: or equal to the value of index 'j' .
   
   inline bool operator>(const UIntT i, const IndexC & j)
   { return IntT(i) > j.V(); }
-  //: Returns true if the integer number 'i' is greater than  
+  //: Returns true if the integer 'i' is greater than  
   //: the value of index 'j' .
   
   inline bool operator>=(const UIntT i, const IndexC & j)
   { return IntT(i) >= j.V(); }
-  //: Returns true if the integer number 'i' is greater than  
+  //: Returns true if the integer 'i' is greater than  
   //: or equal to the value of index 'j' .
   
-  // Operations of 64-bit unsigned integer numbers and indices
+  // Operations of 64-bit unsigned integers and indexes
   // --------------------------------------------------
   
   inline IndexC operator+(const UInt64T i, const IndexC & j)
   { return IndexC(i+j.V()); }
-  //: Returns the integer number constructed as addition of integer number 'i'
+  //: Returns the integer constructed as addition of integer 'i'
   //: and index value 'j'.
   
   inline IndexC operator-(const UInt64T i, const IndexC & j)
   { return IndexC(i-j.V()); }
-  //: Returns the integer number constructed as subtraction of index value 'j'
-  //: from integer number 'i'.
+  //: Returns the integer constructed as subtraction of index value 'j'
+  //: from integer 'i'.
   
   inline IndexC operator*(const UInt64T i, const IndexC & j)
   { return IndexC(i*j.V()); }
-  //: Returns the integer number constructed as multiplication
-  //: of integer number 'i' and index value 'j'.
+  //: Returns the integer constructed as multiplication
+  //: of integer 'i' and index value 'j'.
   
   inline IndexC operator/(const UInt64T i, const IndexC & j) {
     RavlAssertMsg(j>0,
-		  "Illegal division of unsigned by non-+ve.\n" 
-		  "In function: IntT operator/(const UInt64T i, const IndexC & j)");
+	  "Illegal division of unsigned by non-+ve.\n" 
+	  "In function: IntT operator/(const UInt64T i, const IndexC & j)");
     return i/j.V();
   }
-  //: Returns the integer number constructed as division
-  //: of integer number 'i' and index value 'j'.
+  //: Returns the integer constructed as division
+  //: of integer 'i' and index value 'j'.
   
   inline const UInt64T & operator+=(UInt64T & i, const IndexC & j) 
   { return i += j.V(); }
-  //: Adds index value 'j' to integer number 'i'.
+  //: Adds index value 'j' to integer 'i'.
 
   inline const UInt64T & operator-=(UInt64T & i, const IndexC & j)
   { return i -= j.V(); }
-  //: Subtracts index value 'j' from integer number 'i'.
+  //: Subtracts index value 'j' from integer 'i'.
   
   inline const UInt64T & operator*=(UInt64T & i, const IndexC & j)
   { return i *= j.V(); }
-  //: Multiplies index value 'j' by integer number 'i'.
+  //: Multiplies index value 'j' by integer 'i'.
   
   inline const UInt64T & operator/=(UInt64T & i, const IndexC & j){
     i = (i / j).V();
     return i;
   }
-  //: Divides index value 'j' by integer number 'i'.
+  //: Divides index value 'j' by integer 'i'.
   
   inline bool operator==(const UInt64T i, const IndexC & j)
   { return IntT(i) == j.V(); }
   //: Returns true if the value of index 'j' is equal to 
-  //: the integer number 'i'.
+  //: the integer 'i'.
   
   inline bool operator!=(const UInt64T i, const IndexC & j)
   { return IntT(i) != j.V(); }
   //: Returns true if the values of index 'j' is not equal to 
-  //: the integer number 'i'.
+  //: the integer 'i'.
   
   inline bool operator<(const UInt64T i, const IndexC & j)
   { return IntT(i) < j.V(); }
-  //: Returns true if the integer number 'i' is smaller than  
+  //: Returns true if the integer 'i' is smaller than  
   //: the value of index 'j' .
   
   inline bool operator<=(const UInt64T i, const IndexC & j)
   { return IntT(i) <= j.V(); }
-  //: Returns true if the integer number 'i' is smaller than  
+  //: Returns true if the integer 'i' is smaller than  
   //: or equal to the value of index 'j' .
   
   inline bool operator>(const UInt64T i, const IndexC & j)
   { return IntT(i) > j.V(); }
-  //: Returns true if the integer number 'i' is greater than  
+  //: Returns true if the integer 'i' is greater than  
   //: the value of index 'j' .
   
   inline bool operator>=(const UInt64T i, const IndexC & j)
   { return IntT(i) >= j.V(); }
-  //: Returns true if the integer number 'i' is greater than  
+  //: Returns true if the integer 'i' is greater than  
   //: or equal to the value of index 'j' .
   
 
-  // Operations of byte (unsigned char) numbers and indices
+  // Operations of byte (unsigned char) numbers and indexes
   // --------------------------------------------------
-  // ByteT binary operators omitted, as I don't feel they make much sense (maybe
-  // wrong)
+  // ByteT binary operators omitted, as I don't feel they make much sense
+  // (maybe I'm wrong)
   
   
   inline const UByteT & operator+=(UByteT & i, const IndexC & j)
@@ -894,8 +912,8 @@ inline IndexC (long int i)
   
   inline const UByteT & operator/=(UByteT & i, const IndexC & j) {
     RavlAssertMsg(j>0,
-		  "Illegal division of unsigned by non-+ve\n"
-		  "const UByteT & operator/=(UByteT & i, const IndexC & j))");
+	  "Illegal division of unsigned by non-+ve\n"
+	  "const UByteT & operator/=(UByteT & i, const IndexC & j))");
     return i /= j.V();
   }
   //: Divides index value 'j' by byte number 'i'.
@@ -930,7 +948,7 @@ inline IndexC (long int i)
   //: Returns true if the byte number 'i' is greater than  
   //: or equal to the value of index 'j' .
   
-  // Operations of double numbers and indices
+  // Operations of double numbers and indexes
   // ----------------------------------------
   
   inline RealT operator+(RealT i, const IndexC & j)
