@@ -1474,8 +1474,20 @@ namespace RavlN {
   
   Int64T StringC::Int64Value() const {
 #if RAVL_COMPILER_VISUALCPP
+    if (matches("0x", 0, false))
+    {
+      Int64T val = 0;
+      sscanf_s(chars(), "0x%llx", &val);
+      return val;
+    }
     return atol(chars());
 #else
+    if (matches("0x", 0, false))
+    {
+      Int64T val = 0;
+      sscanf(chars(), "0x%llx", &val);
+      return val;
+    }
     return atoll(chars());
 #endif
   }
@@ -1484,8 +1496,20 @@ namespace RavlN {
   
   UInt64T StringC::UInt64Value() const {
 #if RAVL_COMPILER_VISUALCPP
+    if (matches("0x", 0, false))
+    {
+      Int64T val = 0;
+      sscanf_s(chars(), "0x%llx", &val);
+      return static_cast<UInt64T>(val);
+    }
     return (UInt64T) atol(chars());
 #else
+    if (matches("0x", 0, false))
+    {
+      Int64T val = 0;
+      sscanf(chars(), "0x%llx", &val);
+      return static_cast<UInt64T>(val);
+    }
     return (UInt64T) atoll(chars());
 #endif
   }

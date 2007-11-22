@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -32,9 +32,9 @@ int main()
   return 0;
 }
 
-int testString() {  
+int testString() {
   StringC hello("hello");
-  if(hello.length() != 5) 
+  if(hello.length() != 5)
     return __LINE__;
   if(hello.index('h') != 0)
     return __LINE__;
@@ -62,18 +62,24 @@ int testString() {
     StringC ui(i);
     //cerr<< " '" << ui << "' " << ui.Int64Value() << "\n";
     if(ui.Int64Value() != i) return __LINE__;
-    
+
     StringC sui((UInt64T)i);
     if(sui.UInt64Value() != (UInt64T)i) return __LINE__;
+
+    Int64T val = i + 0x8000000000000000LL;
+    StringC hex;
+    hex.form("0x%016llx", val);
+    if (hex.Int64Value() != val) return __LINE__;
+    if (hex.UInt64Value() != (UInt64T)val) return __LINE__;
   }
-  
+
   return 0;
 }
 
 int testSubString() {
   StringC hello("hello");
   SubStringC ss = hello;
-  if(ss.length() != 5) 
+  if(ss.length() != 5)
     return __LINE__;
   if(ss != hello)
     return __LINE__;
@@ -96,7 +102,7 @@ int testSubString() {
   ss = ss.before(3);
   if(ss.length() != 3)
     return __LINE__;
-  if(ss != "ell") 
+  if(ss != "ell")
     return __LINE__;
   if(ss.firstchar() != 'e')
     return __LINE__;
