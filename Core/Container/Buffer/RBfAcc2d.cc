@@ -6,6 +6,7 @@
 // file-header-ends-here
 
 #include "Ravl/RBfAcc2d.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
 
