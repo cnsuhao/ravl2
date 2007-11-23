@@ -72,7 +72,27 @@ namespace RavlLogicN {
     }
     //: Lookup value associated with the key in the index.
     //  if cound copy the value to 'val' and true is return.
+    
+    DataT *Lookup(const LiteralC &key) {
+      LiteralIndexLeafC leaf = LiteralIndexBaseBodyC::Lookup(key);
+      if(!leaf.IsValid())
+	return 0;
+      LiteralIndexLeafDataC<DataT> t(leaf);
+      return &t.Data();
+    }
+    //: Lookup value associated with the key in the index.
+    //  if cound copy the value to 'val' and true is return.
 
+    const DataT *Lookup(const LiteralC &key) const {
+      LiteralIndexLeafC leaf = LiteralIndexBaseBodyC::Lookup(key);
+      if(!leaf.IsValid())
+	return 0;
+      LiteralIndexLeafDataC<DataT> t(leaf);
+      return &t.Data();
+    }
+    //: Lookup value associated with the key in the index.
+    //  if cound copy the value to 'val' and true is return.
+    
     bool Insert(const LiteralC &key,const DataT &data) {
       LiteralIndexLeafDataC<DataT> t(LiteralIndexBaseBodyC::Insert(key));
       RavlAssert(t.IsValid());
@@ -95,7 +115,7 @@ namespace RavlLogicN {
   //! userlevel=Normal
   //! autolink="on"
   //: Literal index.
-  // This is an index of 'DataT's based on a Literal key. It maybe queryied directly
+  // This is an index of 'DataT's based on a Literal key. It maybe queried directly
   // with 'Lookup' or iterated through for data items matching a pattern with a 
   // 'LiteralIndexFilterC'
   
@@ -141,6 +161,11 @@ namespace RavlLogicN {
   public:
     bool Lookup(const LiteralC &key,DataT &val)
     { return Body().Lookup(key,val); }
+    //: Lookup value associated with the key in the index.
+    //  if cound copy the value to 'val' and true is return.
+    
+    DataT *Lookup(const LiteralC &key)
+    { return Body().Lookup(key); }
     //: Lookup value associated with the key in the index.
     //  if cound copy the value to 'val' and true is return.
     
