@@ -52,6 +52,7 @@ namespace RavlLogicN {
 
     virtual bool Ask(const LiteralC &lit,BindSetC &binds) const;
     //: Ask if a literal is set.
+    // 'binds' will be modified to include the bindings of the first solution.
     
     virtual bool Tell(const LiteralC &lit);
     //: Set a literal.
