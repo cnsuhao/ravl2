@@ -181,20 +181,35 @@ namespace RavlN {
 
     DArray1dBodyC( istream & stream ) 
       : nextFree(0),allocBlocksize(1024)
-      {
-	UIntT noChunks ; 
-	stream >> noChunks ;  
-	for ( IndexC cnum=1 ; cnum <= noChunks ; cnum ++ ) 
-	  {
-	    Array1dC<DataT> arr ; 
-	    stream >> arr ; 
-	    chunks.InsLast ( *new DChunkC<DataT> (arr) ) ; 
-	  } 
-      }
+    {
+      UIntT noChunks ; 
+      stream >> noChunks ;  
+      for ( IndexC cnum=1 ; cnum <= noChunks ; cnum ++ )  {
+        Array1dC<DataT> arr ; 
+        stream >> arr ; 
+        chunks.InsLast ( *new DChunkC<DataT> (arr) ) ; 
+      } 
+    }
     //: Construct from a stream 
-
-
+    
+    DArray1dBodyC(BinIStreamC &stream) 
+      : nextFree(0),allocBlocksize(1024)
+    {
+      UIntT noChunks ; 
+      stream >> noChunks ;  
+      for ( IndexC cnum=1 ; cnum <= noChunks ; cnum ++ )  {
+        Array1dC<DataT> arr ; 
+        stream >> arr ; 
+        chunks.InsLast ( *new DChunkC<DataT> (arr) ) ; 
+      } 
+    }
+    //: Construct from a binary stream 
+    
+    
     bool Save(ostream &strm) const;
+    //: Save to stream.
+    
+    bool Save(BinOStreamC &strm) const;
     //: Save to stream.
     
     DArray1dC<DataT> Copy() const;
@@ -383,15 +398,29 @@ namespace RavlN {
     // Uses 'arr' to build a dynamic array.  Note, the data is NOT copied,
     // modifications to elements of 'arr' will be visible in the new array.
     
-    DArray1dC( istream & stream ) 
-      : RCHandleC<DArray1dBodyC<DataT> > (*new DArray1dBodyC<DataT> ( stream) ) {}
+    DArray1dC(istream & stream) 
+      : RCHandleC<DArray1dBodyC<DataT> > (*new DArray1dBodyC<DataT> ( stream) ) 
+    {}
     //: stream constructor 
     
-
+    DArray1dC(BinIStreamC & stream) 
+      : RCHandleC<DArray1dBodyC<DataT> > (*new DArray1dBodyC<DataT> ( stream) ) 
+    {}
+    //: stream constructor 
+    
     bool Save(ostream &strm) const { 
       if(this->IsValid())
 	return Body().Save(strm); 
       cerr << "0\n";
+      return true;
+    }
+    //: Save to stream.
+
+    bool Save(BinOStreamC &strm) const { 
+      if(this->IsValid())
+	return Body().Save(strm); 
+      UIntT numChunks = 0;
+      strm << numChunks;
       return true;
     }
     //: Save to stream.
@@ -557,6 +586,20 @@ namespace RavlN {
     return stream ; 
   }
 
+  //: Output operator 
+  template<class DataT>
+  BinOStreamC &operator<<(BinOStreamC &s,const DArray1dC<DataT> &obj) {
+    obj.Save(s);
+    return s;
+  }
+  
+  //: Input operator 
+  template<class DataT> 
+  BinIStreamC & operator >> (BinIStreamC & stream, DArray1dC<DataT> & obj) { 
+    obj = DArray1dC<DataT> (stream) ; 
+    return stream ; 
+  }
+
 
 
   //: Save to stream.
@@ -565,6 +608,16 @@ namespace RavlN {
     s << chunks.Size() << "\n";
     for(IntrDLIterC<DChunkC<DataT> > it(chunks);it;it++)
       s << it->Data() << "\n";
+    return true;
+  }
+
+  //: Save to stream.
+  template<class DataT>
+  bool DArray1dBodyC<DataT>::Save(BinOStreamC &s) const {
+    UIntT numChunks = chunks.Size();
+    s << numChunks;
+    for(IntrDLIterC<DChunkC<DataT> > it(chunks);it;it++)
+      s << it->Data();
     return true;
   }
   

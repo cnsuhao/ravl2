@@ -13,6 +13,7 @@
 
 #include "Ravl/Collection.hh"
 #include "Ravl/CollectionIter.hh"
+#include "Ravl/BinStream.hh"
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/DArray1d.hh"
 #include "Ravl/DArray1dIter.hh"
@@ -21,11 +22,13 @@
 #include "Ravl/DArray1dIter3.hh"
 #include "Ravl/DArray1dIter4.hh"
 #include "Ravl/DList.hh"
+#include "Ravl/StrStream.hh"
 
 using namespace RavlN;
 
 int testBasic();
 int testDArray1d();
+int testDArray1dIO();
 int testDArray1dMore();
 int testDArray1dEvenMore();
 
@@ -37,6 +40,10 @@ int main()
     return 1;
   }
   if((err = testDArray1d()) != 0) {
+    cerr << "Test failed line :" << err <<"\n";
+    return 1;
+  }
+  if((err = testDArray1dIO()) != 0) {
     cerr << "Test failed line :" << err <<"\n";
     return 1;
   }
@@ -139,6 +146,35 @@ int testDArray1d() {
     if(it.Index() != i) return __LINE__;
   }
   if(i != 10) return __LINE__;
+  return 0;
+}
+
+int testDArray1dIO() {
+  std::cerr << "testDArray1dIO() Called \n";
+  const UIntT checkVal = 0x12349876;
+  for(int j = 0;j < 2;j++) {
+    int i;
+    DArray1dC<int> test1;
+    if(j == 1) {
+      for(i = 0;i < 7623;i++)
+        test1.Append(i);
+    }
+    
+    StrOStreamC sos;
+    BinOStreamC bos(sos);
+    bos << test1 << checkVal;
+    
+    DArray1dC<int> test2;
+    StrIStreamC sis(sos.String());
+    BinIStreamC bis(sis);
+    UIntT loadedCheckVal;
+    bis >> test2 >> loadedCheckVal;
+    if(loadedCheckVal != checkVal) return __LINE__;
+    if(test1.Size() != test2.Size()) return __LINE__;
+    
+    for(DArray1dIter2C<int,int> it(test1,test2);it;it++)
+      if(it.Data1() != it.Data2()) return __LINE__;
+  }
   return 0;
 }
 
