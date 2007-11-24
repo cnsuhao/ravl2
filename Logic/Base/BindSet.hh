@@ -134,6 +134,10 @@ namespace RavlLogicN {
     BindSetBodyC(const HashC<LiteralC,LiteralC> &tab);
     //: Construct from a table of mappings.
     
+    BindSetBodyC &Copy() const
+    { return *new BindSetBodyC(*this); }
+    //: Make a copy of this bind set.
+    
     bool IsBound(const LiteralC &var) const 
     { return Lookup(var) != 0; }
     //: Is variable bound ?
@@ -193,7 +197,6 @@ namespace RavlLogicN {
 
   //! userlevel=Normal
   //: Set of bindings.
-  // Note: This is a small object.
   
   class BindSetC 
     : public RCHandleC<BindSetBodyC>
@@ -225,7 +228,12 @@ namespace RavlLogicN {
     {}
     //: Construct from a binary stream.
     
-  protected:    
+  protected:
+    BindSetC(BindSetBodyC &body)
+      : RCHandleC<BindSetBodyC>(body)
+    {}
+    //: Body constructor.
+    
     BindSetBodyC &Body()
     { return RCHandleC<BindSetBodyC>::Body(); }
     //: Access body.
@@ -242,6 +250,10 @@ namespace RavlLogicN {
     bool Save(BinOStreamC &out) const
     { return Body().Save(out); }
     //: Save to binary stream 'out'.
+    
+    BindSetC Copy() const 
+    { return BindSetC(Body().Copy()); }
+    //: Make a copy of some bindings.
     
     bool IsBound(const LiteralC &var) const 
     { return Body().IsBound(var); }
