@@ -21,6 +21,7 @@ namespace RavlLogicN {
   //: Default constructor
   
   StateIndexedBodyC::StateIndexedBodyC()
+    : index(true)
   {}
   
   //: Stream constructor

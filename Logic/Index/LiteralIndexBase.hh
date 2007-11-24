@@ -109,6 +109,11 @@ namespace RavlLogicN {
     {}
     //: Default constructor.
     // creates an invalid handle.
+
+    LiteralIndexBaseC(bool)
+      : RCHandleC<LiteralIndexBaseBodyC>(new LiteralIndexBaseBodyC())
+    {}
+    //: Creates an empty index
     
     LiteralIndexBaseC(BinIStreamC &strm)
       : RCHandleC<LiteralIndexBaseBodyC>(*new LiteralIndexBaseBodyC())

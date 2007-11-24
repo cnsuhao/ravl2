@@ -146,7 +146,13 @@ namespace RavlLogicN {
     result = LiteralC(const_cast<LiteralBodyC &>(*this));
     return false;    
   }
-
+  
+  //: Generate a set of positive and negative terms used in the condition.
+  
+  void LiteralBodyC::ListConditionTerms(HSetC<LiteralC> &posTerms,HSetC<LiteralC> &negTerms) const {
+    posTerms += LiteralC(this);
+  }
+  
   ////////////////////////////////////////////////////////////////
   
   //: Return iterator through possibile solutions, if any.

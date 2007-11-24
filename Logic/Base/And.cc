@@ -102,9 +102,9 @@ namespace RavlLogicN {
   
   void AndBodyC::AndAdd(const LiteralC &lit) {
     // FIXME :- Try and minimize
-    AndC an(lit);
-    if(an.IsValid()) 
-      AndAdd(an.Terms().After(0));
+    const AndBodyC *bod = dynamic_cast<const AndBodyC *>(&lit.Body());
+    if(bod != 0) 
+      AndAdd(const_cast<AndBodyC *>(bod)->Terms().After(0));
     else
       AddTerm(lit);
 #if DODEBUG
@@ -149,6 +149,17 @@ namespace RavlLogicN {
     }
     result = AndC(const_cast<AndBodyC &>(*this));
     return false;
+  }
+  
+  //: Generate a set of positive and negative terms used in the condition.
+  
+  void AndBodyC::ListConditionTerms(HSetC<LiteralC> &posTerms,HSetC<LiteralC> &negTerms) const {
+    SArray1dIterC<LiteralC> it(Args());
+    RavlAssert(it);
+    it++; // Skip 'And' marker
+    for(;it;it++) {
+      it->ListConditionTerms(posTerms,negTerms);
+    }
   }
   
 }

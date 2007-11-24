@@ -73,6 +73,9 @@ namespace RavlLogicN {
     virtual bool IsCondition() const;
     //: Test if this is a condition.
     
+    virtual void ListConditionTerms(HSetC<LiteralC> &posTerms,HSetC<LiteralC> &negTerms) const;
+    //: Generate a set of positive and negative terms used in the condition.
+    
   protected:
     void AddTerms(const SArray1dC<LiteralC> &terms);
     //: Add some terms.
@@ -127,7 +130,7 @@ namespace RavlLogicN {
     void AddTerm(const LiteralC &term)
     { Body().AddTerm(term); }
     //: Add some terms.
-
+    
   public:
     ConditionC(const LiteralC &term)
       : TupleC(dynamic_cast<const ConditionBodyC *>(BodyPtr(term)))

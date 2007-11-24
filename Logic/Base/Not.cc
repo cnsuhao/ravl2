@@ -118,14 +118,20 @@ namespace RavlLogicN {
     result = NotC(const_cast<NotBodyC &>(*this));
     return false;
   }
+
+  //: Generate a set of positive and negative terms used in the condition.
+  
+  void NotBodyC::ListConditionTerms(HSetC<LiteralC> &posTerms,HSetC<LiteralC> &negTerms) const {
+    Term().ListConditionTerms(posTerms,negTerms);
+  }
   
   //: Not operator.
   // FIXME :- Do more simplification.
 
   LiteralC operator!(const LiteralC &lit) {
-    NotC xnot(lit);
-    if(xnot.IsValid())
-      return xnot.Term(); // Double not simplifies.
+    const NotBodyC *ptr = dynamic_cast<const NotBodyC *>(&lit.Body());
+    if(ptr != 0)
+      return ptr->Term(); // Double not simplifies.
     return NotC(true,lit);
   }
   

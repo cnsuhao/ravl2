@@ -129,7 +129,14 @@ namespace RavlLogicN {
     RavlAlwaysAssertMsg(0,"ConditionBodyC::Substitute(), Abstract method called.");
     return false;
   }
-
+  
+  //: Generate a set of positive and negative terms used in the condition.
+  
+  void ConditionBodyC::ListConditionTerms(HSetC<LiteralC> &posTerms,HSetC<LiteralC> &negTerms) const 
+  {
+    RavlAssertMsg(0,"abstract methods");
+  }
+  
   //: Get hash value for symbol.
   
   UIntT ConditionBodyC::Hash() const {

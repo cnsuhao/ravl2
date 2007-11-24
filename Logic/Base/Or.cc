@@ -151,6 +151,17 @@ namespace RavlLogicN {
     AddTerms(lits);
   }
   
+  //: Generate a set of positive and negative terms used in the condition.
+  
+  void OrBodyC::ListConditionTerms(HSetC<LiteralC> &posTerms,HSetC<LiteralC> &negTerms) const {
+    SArray1dIterC<LiteralC> it(Args());
+    RavlAssert(it);
+    it++; // Skip 'And' marker
+    for(;it;it++) {
+      it->ListConditionTerms(posTerms,negTerms);
+    }
+  }
+  
   //////////////////////////////////////////////////////////////////////
   
   //: Or two literals.

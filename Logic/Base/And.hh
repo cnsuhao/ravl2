@@ -78,6 +78,9 @@ namespace RavlLogicN {
     void AndAdd(const SArray1dC<LiteralC> &lits);
     //: Add literals.
     
+    virtual void ListConditionTerms(HSetC<LiteralC> &posTerms,HSetC<LiteralC> &negTerms) const;
+    //: Generate a set of positive and negative terms used in the condition.
+    
   };
   
   //! userlevel=Normal

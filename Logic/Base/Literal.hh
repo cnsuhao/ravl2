@@ -110,6 +110,9 @@ namespace RavlLogicN {
     // The mapping between the replacements and the new values is returned in 'subs'
     // If no new replacements where found, false is returned.
     
+    virtual void ListConditionTerms(HSetC<LiteralC> &posTerms,HSetC<LiteralC> &negTerms) const;
+    //: Generate a set of positive and negative terms used in the condition.
+    
   protected:
     virtual bool UnifyLiteral(const LiteralBodyC &oth,BindSetC &bs) const;
     //: Unify with simple literal.
@@ -153,15 +156,14 @@ namespace RavlLogicN {
     {}
     //: Body constructor.
     
+  public:
     LiteralBodyC &Body()
     { return RCHandleVC<LiteralBodyC>::Body(); }
     //: Access body.
-
+    
     const LiteralBodyC &Body() const
     { return RCHandleVC<LiteralBodyC>::Body(); }
     //: Access body.
-    
-  public:
     
     StringC Name() const { 
       if(!IsValid())
@@ -234,6 +236,10 @@ namespace RavlLogicN {
     //: Replace all vars in this literal with new ones.
     // The mapping between the replacements and the new values is returned in 'subs'
     // If no new replacements where found, false is returned.
+    
+    void ListConditionTerms(HSetC<LiteralC> &posTerms,HSetC<LiteralC> &negTerms) const
+    { Body().ListConditionTerms(posTerms,negTerms); }
+    //: Generate a set of positive and negative terms used in the condition.
     
     friend class LiteralBodyC;
     friend class VarBodyC;
