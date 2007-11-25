@@ -241,7 +241,11 @@ namespace RavlLogicN {
   }
   //! userlevel=Normal
   //: Create a tuple with 3 paramiters
-
+  
+  
+  LiteralC TupleArg(const LiteralC &s1,UIntT argno);
+  //: Get an the numbered arg of a tuple.
+  //: An invalid literal is returned if types don't match.
 }
 
 #endif

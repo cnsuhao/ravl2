@@ -40,10 +40,13 @@ namespace RavlLogicN {
     virtual bool Save(BinOStreamC &strm) const;
     //: Save to a binary stream.
     
-    LiteralIndexLeafC Lookup(const LiteralC &key);
+    LiteralIndexLeafC *Lookup(const LiteralC &key);
     //: Lookup exact match in index.
     // returns an invalid handle if not found.
 
+    const LiteralIndexLeafC *Lookup(const LiteralC &key) const;
+    //: Lookup exact match in index.
+    // returns an invalid handle if not found.
     
     LiteralIndexLeafC Insert(const LiteralC &key);
     //: Insert key into index.
@@ -148,7 +151,12 @@ namespace RavlLogicN {
     { return Body().Save(strm); }
     //: Save to a binary stream.
     
-    LiteralIndexLeafC Lookup(const LiteralC &key)
+    LiteralIndexLeafC *Lookup(const LiteralC &key)
+    { return Body().Lookup(key); }
+    //: Lookup value associated with the key in the index.
+    // returns an invalid handle if not found.
+    
+    const LiteralIndexLeafC *Lookup(const LiteralC &key) const
     { return Body().Lookup(key); }
     //: Lookup value associated with the key in the index.
     // returns an invalid handle if not found.

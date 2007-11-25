@@ -63,32 +63,35 @@ namespace RavlLogicN {
     
   public:
     bool Lookup(const LiteralC &key,DataT &val) {
-      LiteralIndexLeafC leaf = LiteralIndexBaseBodyC::Lookup(key);
-      if(!leaf.IsValid())
-	return false;
-      LiteralIndexLeafDataC<DataT> t(leaf);
-      val = t.Data();
+      LiteralIndexLeafC *leaf = LiteralIndexBaseBodyC::Lookup(key);
+      if(leaf == 0) return false;
+      RavlAssert(leaf->IsValid());
+      LiteralIndexLeafDataBodyC<DataT> *t = dynamic_cast<LiteralIndexLeafDataBodyC<DataT> *>(&leaf->Body());
+      RavlAssert(t != 0);
+      val = t->Data();
       return true;
     }
     //: Lookup value associated with the key in the index.
     //  if cound copy the value to 'val' and true is return.
     
     DataT *Lookup(const LiteralC &key) {
-      LiteralIndexLeafC leaf = LiteralIndexBaseBodyC::Lookup(key);
-      if(!leaf.IsValid())
-	return 0;
-      LiteralIndexLeafDataC<DataT> t(leaf);
-      return &t.Data();
+      LiteralIndexLeafC *leaf = LiteralIndexBaseBodyC::Lookup(key);
+      if(leaf == 0 ) return 0;
+      RavlAssert(leaf->IsValid());
+      LiteralIndexLeafDataBodyC<DataT> *t = dynamic_cast<LiteralIndexLeafDataBodyC<DataT> *>(&leaf->Body());
+      RavlAssert(t != 0);
+      return &t->Data();
     }
     //: Lookup value associated with the key in the index.
     //  if cound copy the value to 'val' and true is return.
 
     const DataT *Lookup(const LiteralC &key) const {
-      LiteralIndexLeafC leaf = LiteralIndexBaseBodyC::Lookup(key);
-      if(!leaf.IsValid())
-	return 0;
-      LiteralIndexLeafDataC<DataT> t(leaf);
-      return &t.Data();
+      const LiteralIndexLeafC *leaf = LiteralIndexBaseBodyC::Lookup(key);
+      if(leaf == 0) return 0;
+      RavlAssert(leaf->IsValid());
+      const LiteralIndexLeafDataBodyC<DataT> *t = dynamic_cast<const LiteralIndexLeafDataBodyC<DataT> *>(&leaf->Body());
+      RavlAssert(t != 0);
+      return &t->Data();
     }
     //: Lookup value associated with the key in the index.
     //  if cound copy the value to 'val' and true is return.
@@ -165,6 +168,11 @@ namespace RavlLogicN {
     //  if cound copy the value to 'val' and true is return.
     
     DataT *Lookup(const LiteralC &key)
+    { return Body().Lookup(key); }
+    //: Lookup value associated with the key in the index.
+    //  if cound copy the value to 'val' and true is return.
+    
+    const DataT *Lookup(const LiteralC &key) const
     { return Body().Lookup(key); }
     //: Lookup value associated with the key in the index.
     //  if cound copy the value to 'val' and true is return.

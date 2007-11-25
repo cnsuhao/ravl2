@@ -202,5 +202,17 @@ namespace RavlLogicN {
     out << Name();
   }
   
+  //: Get an the numbered arg of a tuple.
+  //: An invalid literal is returned if types don't match.
+  
+  LiteralC TupleArg(const LiteralC &s1,UIntT argno) {
+    if(!s1.IsValid())
+      return LiteralC();
+    const TupleBodyC *tb = dynamic_cast<const TupleBodyC *>(&s1.Body());
+    if(tb == 0 || argno >= tb->Args().Size())
+      return LiteralC();
+    return tb->Args()[argno];
+  }
+  
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(TupleBodyC,TupleC,LiteralC);
 }

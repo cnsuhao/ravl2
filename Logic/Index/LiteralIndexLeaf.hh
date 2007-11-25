@@ -85,6 +85,7 @@ namespace RavlLogicN {
     {}
     //: Body constructor
     
+  public:
     LiteralIndexLeafBodyC &Body()
     { return static_cast<LiteralIndexLeafBodyC &>(LiteralIndexElementC::Body()); }
     //: Access body.
@@ -93,7 +94,6 @@ namespace RavlLogicN {
     { return static_cast<const LiteralIndexLeafBodyC &>(LiteralIndexElementC::Body()); }
     //: Access body.
 
-  public:
 
     LiteralIndexLeafC(const LiteralIndexElementC &base)
       : LiteralIndexElementC(dynamic_cast<const LiteralIndexLeafBodyC *>(BodyPtr(base)))
@@ -176,6 +176,7 @@ namespace RavlLogicN {
     {}
     //: Body constructor.
     
+  public:
     LiteralIndexLeafDataBodyC<DataT> &Body()
     { return static_cast<LiteralIndexLeafDataBodyC<DataT> & >(LiteralIndexElementC::Body()); }
     //: Access body.
@@ -184,7 +185,6 @@ namespace RavlLogicN {
     { return static_cast<const LiteralIndexLeafDataBodyC<DataT> & >(LiteralIndexElementC::Body()); }
     //: Access body.
     
-  public:
     LiteralIndexLeafDataC(const LiteralIndexLeafC &base)
       : LiteralIndexLeafC(dynamic_cast<const LiteralIndexLeafDataBodyC<DataT> *>(BodyPtr(base)))
     {}

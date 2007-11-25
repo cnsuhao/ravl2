@@ -16,6 +16,7 @@
 //! docentry="Ravl.API.Logic"
 
 #include "Ravl/Logic/Literal.hh"
+#include "Ravl/Logic/Tuple.hh"
 #include "Ravl/StrStream.hh"
 
 namespace RavlLogicN {
@@ -235,5 +236,27 @@ namespace RavlLogicN {
     return data == isval.Data();
   }
   
+  
+  template<class DataT>
+  bool ValueOf(const LiteralC &oth,DataT &value) {
+    if(!oth.IsValid())
+      return false;
+    const ValueBodyC<DataT> *bod = dynamic_cast<const ValueBodyC<DataT> *>(&oth.Body());
+    if(bod == 0)
+      return false;
+    value = bod->Data();
+    return true;
+  }
+  //: Extract the value from a literal. Returns true if types
+  //: match and value was extracted ok, false otherwise
+
+  template<class DataT>
+  bool ValueOfArg(const LiteralC &oth,UIntT argNo,DataT &value) {
+    return ValueOf(TupleArg(oth,argNo),value);
+  }
+  //: Extract the value from a argument of a tuple. Returns true if types
+  //: match and value was extracted ok, false otherwise
+  
+          
 }  
 #endif

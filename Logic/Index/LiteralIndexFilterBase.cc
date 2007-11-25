@@ -92,16 +92,17 @@ namespace RavlLogicN {
     // Check if the operation is trivial.
     if(filter.IsGrounded()) {
       if(index.IsGrounded()) {
-	at = index.Lookup(filter); 
+        LiteralIndexLeafC *ptr = index.Lookup(filter);
+	at = ptr != 0 ? *ptr : LiteralIndexLeafC(); 
 	ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::First(), Grounded filter [" << filter << "], just doing a lookup. Data=" << Data().Key().Name() << " \n");
 	return at.IsValid();
       }
       if(!filter.IsTuple()) {
 	// We need to go through all simple variables, plus the exact match.
-	LiteralIndexLeafC leaf = index.Lookup(filter); 
+        LiteralIndexLeafC *leafPtr = index.Lookup(filter);
 	LiteralMapIterC<LiteralIndexElementC> newit;
-	if(leaf.IsValid()) // Is there an exact match ?
-	  newit = LiteralIndexLeafVarIterC(index,filter,leaf); // Just iterate through the index.
+	if(leafPtr != 0 && leafPtr->IsValid()) // Is there an exact match ?
+	  newit = LiteralIndexLeafVarIterC(index,filter,*leafPtr); // Just iterate through the index.
 	else
 	  newit = LiteralIndexLeafIterC(index,true); // Just iterate through the index var's.
 	stack.Push(LiteralIndexFilterChoicePointC(index.Body().root,binds.Mark(),filter,newit));

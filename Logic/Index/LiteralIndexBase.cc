@@ -88,10 +88,15 @@ namespace RavlLogicN {
   //: Lookup value associated with the key in the index.
   // return an invalid handle if not found.
   
-  LiteralIndexLeafC LiteralIndexBaseBodyC::Lookup(const LiteralC &key) {
-    LiteralIndexLeafC ret;
-    map.Lookup(key,ret);
-    return ret;
+  LiteralIndexLeafC *LiteralIndexBaseBodyC::Lookup(const LiteralC &key) {
+    return map.Lookup(key);
+  }
+
+  //: Lookup value associated with the key in the index.
+  // return an invalid handle if not found.
+  
+  const LiteralIndexLeafC *LiteralIndexBaseBodyC::Lookup(const LiteralC &key) const {
+    return map.Lookup(key);
   }
   
   //: Generate a new leaf.
