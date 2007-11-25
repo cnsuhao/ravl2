@@ -143,7 +143,7 @@ namespace RavlLogicN {
 
     virtual StringC Name() const {
       StrOStreamC ostr;
-      ostr << data;
+      ostr << "D:" << data;
       return ostr.String();
     }
     //: Name for value.

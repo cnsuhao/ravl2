@@ -18,19 +18,19 @@ namespace RavlLogicN {
   //: Construct from a stream.
   
   NamedVarBodyC::NamedVarBodyC(istream &strm)
-    : LiteralBodyC(strm)
+    : VarBodyC(strm)
   { strm >> name; }
     
   //: Construct from a binary stream.
   
   NamedVarBodyC::NamedVarBodyC(BinIStreamC &strm) 
-    : LiteralBodyC(strm)
+    : VarBodyC(strm)
   { strm >> name; }
     
   //: Save to stream 'out'.
   
   bool NamedVarBodyC::Save(ostream &out) const { 
-    if(!LiteralBodyC::Save(out)) return false;
+    if(!VarBodyC::Save(out)) return false;
     out << ' ' << name;
     return true;
   }
@@ -38,7 +38,7 @@ namespace RavlLogicN {
   //: Save to binary stream 'out'.
   
   bool NamedVarBodyC::Save(BinOStreamC &out) const { 
-    if(!LiteralBodyC::Save(out))
+    if(!VarBodyC::Save(out))
       return false;
     out << name;
     return true; 
@@ -71,6 +71,6 @@ namespace RavlLogicN {
     return oth.Name() == name;
   }
   
-  RAVL_INITVIRTUALCONSTRUCTOR_FULL(NamedVarBodyC,NamedVarC,LiteralC);
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(NamedVarBodyC,NamedVarC,VarC);
   
 }

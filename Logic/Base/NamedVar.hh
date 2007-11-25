@@ -21,7 +21,7 @@ namespace RavlLogicN {
   //: Named literal body.
   
   class NamedVarBodyC 
-    : public LiteralBodyC 
+    : public VarBodyC 
   {
   public:
     NamedVarBodyC()
@@ -72,7 +72,7 @@ namespace RavlLogicN {
   // behavour will result.
   
   class NamedVarC 
-    : public LiteralC 
+    : public VarC 
   {
   public:
     NamedVarC()
@@ -81,12 +81,17 @@ namespace RavlLogicN {
     // Creates an invalid handle.
     
     NamedVarC(const StringC &name)
-      : LiteralC(*new NamedVarBodyC(name))
+      : VarC(*new NamedVarBodyC(name))
+    {}
+    //: Constructor.
+
+    NamedVarC(const char *name)
+      : VarC(*new NamedVarBodyC(StringC(name)))
     {}
     //: Constructor.
     
     NamedVarC(const LiteralC &oth)
-      : LiteralC(dynamic_cast<const NamedVarBodyC *>(BodyPtr(oth)))
+      : VarC(dynamic_cast<const NamedVarBodyC *>(BodyPtr(oth)))
     {}
     //: Base class constructor.
     // if 'oth' isn't a named literal an invalid handle

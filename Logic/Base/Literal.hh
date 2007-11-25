@@ -136,9 +136,9 @@ namespace RavlLogicN {
     {}
     //: Constructor.
     
-    LiteralC(const char *name);
+    explicit LiteralC(const char *name);
     //: Create a named literal.
-
+    
     LiteralC(istream &strm);
     //: Load from stream.
 
