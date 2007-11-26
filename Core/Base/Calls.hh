@@ -53,9 +53,12 @@ namespace RavlN {
     //: Invoke event.
 
     virtual RetT Call()
-    {  return (*FuncPtr())(); }
+    { return (*FuncPtr())(); }
     //: Call signal
-
+    
+    RetT operator()()
+    { return Call(); }
+    
     virtual RCBodyVC &Copy() const
     { return *new CallFunc0BodyC<RetT>(func); }
     //: Copy call.
@@ -146,7 +149,7 @@ namespace RavlN {
     RetT Call()
     { return Body().Call(); }
     //: Call function.
-
+    
     RetT operator()()
     { return Body().Call(); }
     //: Call function.
@@ -312,6 +315,10 @@ namespace RavlN {
     RetT Call(Arg1T &pd)
     { return Body().Call(pd); }
     //: Invoke event, with parameter.
+    
+    RetT operator()()
+    { return Body().Call(); }
+    //: Call function.
     
     RetT operator()(Arg1T &pd)
     { return Body().Call(pd); }
@@ -496,11 +503,23 @@ namespace RavlN {
     RetT Call()
     { return Body().Call(); }
     //: Call function.
-   
+    
+    RetT Call(Arg1T &pd1)
+    { return Body().Call(pd1); }
+    //: Invoke event, with parameters.
+    
     RetT Call(Arg1T &pd1,Arg2T &pd2)
     { return Body().Call(pd1,pd2); }
     //: Invoke event, with parameters.
 
+    RetT operator()()
+    { return Call(); }
+    //: Call function.
+    
+    RetT operator()(Arg1T &pd1)
+    { return Call(pd1); }
+    //: Call function.
+    
     RetT operator()(Arg1T &pd1,Arg2T &pd2)
     { return Body().Call(pd1,pd2); }
     //: Call function with parameters
@@ -687,10 +706,26 @@ namespace RavlN {
     { return Body().Call(); }
     //: Call function.
     
+    RetT Call(Arg1T &pd1)
+    { return Body().Call(pd1); }
+    //: Invoke event, with parameters.
+    
+    RetT Call(Arg1T &pd1,Arg2T &pd2)
+    { return Body().Call(pd1,pd2); }
+    //: Invoke event, with parameters.
+    
     RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
     { return Body().Call(pd1,pd2,pd3); }
     //: Invoke event, with parameters.
 
+    RetT operator()(Arg1T &pd1)
+    { return Body().Call(pd1); }
+    //: Call function with parameters
+    
+    RetT operator()(Arg1T &pd1,Arg2T &pd2)
+    { return Body().Call(pd1,pd2); }
+    //: Call function with parameters
+    
     RetT operator()(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
     { return Body().Call(pd1,pd2,pd3); }
     //: Call function with parameters
@@ -885,9 +920,37 @@ namespace RavlN {
     { return Body().Call(); }
     //: Call function.
     
+    RetT Call(Arg1T &pd1)
+    { return Body().Call(pd1); }
+    //: Invoke event, with parameters.
+    
+    RetT Call(Arg1T &pd1,Arg2T &pd2)
+    { return Body().Call(pd1,pd2); }
+    //: Invoke event, with parameters.
+
+    RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
+    { return Body().Call(pd1,pd2,pd3); }
+    //: Invoke event, with parameters.
+    
     RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4)
     { return Body().Call(pd1,pd2,pd3,pd4); }
     //: Invoke event, with parameters.
+    
+    RetT operator()()
+    { return Body().Call(); }
+    //: Call function with parameters
+    
+    RetT operator()(Arg1T &pd1)
+    { return Body().Call(pd1); }
+    //: Call function with parameters
+    
+    RetT operator()(Arg1T &pd1,Arg2T &pd2)
+    { return Body().Call(pd1,pd2); }
+    //: Call function with parameters
+
+    RetT operator()(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
+    { return Body().Call(pd1,pd2,pd3); }
+    //: Call function with parameters
 
     RetT operator()(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4)
     { return Body().Call(pd1,pd2,pd3,pd4); }
@@ -1099,10 +1162,46 @@ namespace RavlN {
     { return Body().Call(); }
     //: Call function.
     
+    RetT Call(Arg1T &pd1)
+    { return Body().Call(pd1); }
+    //: Invoke event, with parameters.
+    
+    RetT Call(Arg1T &pd1,Arg2T &pd2)
+    { return Body().Call(pd1,pd2); }
+    //: Invoke event, with parameters.
+    
+    RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
+    { return Body().Call(pd1,pd2,pd3); }
+    //: Invoke event, with parameters.
+    
+    RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4)
+    { return Body().Call(pd1,pd2,pd3,pd4); }
+    //: Invoke event, with parameters.
+    
     RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4,Arg5T &pd5)
     { return Body().Call(pd1,pd2,pd3,pd4,pd5); }
     //: Invoke event, with parameters.
 
+    RetT operator()()
+    { return Body().Call(); }
+    //: Call function with parameters
+    
+    RetT operator()(Arg1T &pd1)
+    { return Body().Call(pd1); }
+    //: Call function with parameters
+
+    RetT operator()(Arg1T &pd1,Arg2T &pd2)
+    { return Body().Call(pd1,pd2); }
+    //: Call function with parameters
+    
+    RetT operator()(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
+    { return Body().Call(pd1,pd2,pd3); }
+    //: Call function with parameters
+    
+    RetT operator()(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4)
+    { return Body().Call(pd1,pd2,pd3,pd4); }
+    //: Call function with parameters
+    
     RetT operator()(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4,Arg5T &pd5)
     { return Body().Call(pd1,pd2,pd3,pd4,pd5); }
     //: Call function with parameters
