@@ -71,7 +71,35 @@ namespace RavlN {
   inline UIntT StdHash(const unsigned char dat) 
   { return (UIntT) (dat >> 3) ^ dat; }
   //: Hash unsigned char.
-
+  
+  inline UIntT StdHash(const RealT dat)
+  { 
+    union {
+      RealT rv;
+      UIntT iv[2];
+    } tmp;
+    tmp.rv = dat;
+    if(sizeof(RealT) >= sizeof(UIntT)*2) // This should be optimised out at compile time
+      tmp.iv[0] ^= tmp.iv[1];
+    return tmp.iv[0];
+  }
+  //: Hash a real number.
+  //: This is not good practice, but is useful
+  //: to satisfy some template instances.
+  
+  inline UIntT StdHash(const FloatT dat)
+  { 
+    union {
+      FloatT fv;
+      UIntT iv;
+    } tmp;
+    tmp.fv = dat;
+    return tmp.iv;
+  }
+  //: Hash a real number.
+  //: This is not good practice, but is useful
+  //: to satisfy some template instances. 
+  
 // Disable "possible loss of data" warning
 #if RAVL_COMPILER_VISUALCPP
 #pragma warning ( push )
