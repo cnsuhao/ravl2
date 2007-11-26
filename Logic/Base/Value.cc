@@ -15,6 +15,8 @@
 #include "Ravl/Logic/Value.hh"
 #include "Ravl/BinStream.hh"
 #include "Ravl/VirtualConstructor.hh"
+#include "Ravl/StdHash.hh"
+
 
 namespace RavlLogicN {
   

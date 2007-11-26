@@ -139,12 +139,18 @@ namespace RavlLogicN {
     //: Save to binary stream 'out'.
     
     virtual bool IsEqual(const LiteralC &oth) const;
-    //: Is this equial to another LiteralC ?
-
+    
+    //: Hash this value.
+    virtual UIntT Hash() const 
+    { return StdHash(data); }
+    
     virtual StringC Name() const {
       StrOStreamC ostr;
       ostr << "D:" << data;
-      return ostr.String();
+      StringC nm = ostr.String();
+      nm.gsub("\n","_");
+      nm.gsub(" ","_");
+      return nm;
     }
     //: Name for value.
     
@@ -235,7 +241,6 @@ namespace RavlLogicN {
     if(!isval.IsValid()) return false;
     return data == isval.Data();
   }
-  
   
   template<class DataT>
   bool ValueOf(const LiteralC &oth,DataT &value) {
