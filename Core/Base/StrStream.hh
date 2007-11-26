@@ -110,6 +110,16 @@ namespace RavlN {
 #endif
     StringC buff;
   };
+  
+  //! Convert an object to a string.
+  template<class DataT>
+  RavlN::StringC StringOf(const DataT &data)
+  {
+    RavlN::StrOStreamC ss;
+    ss << data;
+    return ss.String();
+  }
+  
 }
 
 
