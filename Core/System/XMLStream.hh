@@ -142,10 +142,18 @@ namespace RavlN {
     { return emptyTag; }
     //: Is tag empty ?
     
+    StringC &Content()
+    { return content; }
+    //: Access contents of element.
+    
+    const StringC &Content() const
+    { return content; }
+    //: Access contents of element.
   protected:
     StringC name;
     RCHashC<StringC,StringC> attribs;
     bool emptyTag;
+    StringC content;
   };
   
   //! userlevel=Advanced
@@ -200,6 +208,14 @@ namespace RavlN {
     void SetEmptyTag(bool v)
     { Body().SetEmptyTag(v); }
     //: Set empty tag flag.
+    
+    StringC &Content()
+    { return Body().Content(); }
+    //: Access contents of element.
+    
+    const StringC &Content() const
+    { return Body().Content(); }
+    //: Access contents of element.
     
   };
 
@@ -338,7 +354,7 @@ namespace RavlN {
     //: Is there a context pushed ?
     
     StringC &Content()
-    { return content; }
+    { return context.Top().Content(); }
     //: Content.
     
     StringC &LastOpenTag()
@@ -356,7 +372,6 @@ namespace RavlN {
     XMLTagOpsT pushedOp;
     XMLElementC pushedElem;
     StringC pushedName;
-    StringC content;
     StringC lastOpenTag;
   };
   
