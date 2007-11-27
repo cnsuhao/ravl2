@@ -60,16 +60,22 @@ namespace RavlImageN
     IntT channel;
     if (!FindParams(filename, device, channel))
       return typeid(void);
-    ONDEBUG(cerr << "FileFormatV4L2BodyC::ProbeLoad device(" << device << ") channel(" << channel << ")" << endl;)
+    ONDEBUG(cerr << "FileFormatV4L2BodyC::ProbeLoad device(" << device << ") channel(" << channel << ")" << endl);
 
     // Create the V4L2 object (will not be open after construction if not supported)
     ImgIOV4L2BaseC v4l2(device, channel, obj_type);
+    if(!v4l2.IsOpen())
+      return typeid(void);
+    
     ONDEBUG(cerr << "FileFormatV4L2BodyC::ProbeLoad format supported(" << (v4l2.IsOpen() ? "Y" : "N") << ")" << endl);
     
     if (obj_type == typeid(ImageC<ByteYUVValueC>))
       return typeid(ImageC<ByteRGBValueC>);
     
-    return (v4l2.IsOpen() ? obj_type : typeid(void));
+    if (obj_type == typeid(ImageC<ByteT>) || obj_type == typeid(ImageC<FloatT>) || obj_type == typeid(ImageC<RealT>))
+      return typeid(ImageC<ByteT>);
+    
+    return typeid(ImageC<ByteRGBValueC>);
   }
   
   
@@ -107,14 +113,15 @@ namespace RavlImageN
     IntT channel;
     if (!FindParams(filename, device, channel))
       return DPIPortBaseC();
-    ONDEBUG(cerr << "FileFormatV4L2BodyC::CreateInput device(" << device << ") channel(" << channel << ")" << endl;)
-
+    ONDEBUG(cerr << "FileFormatV4L2BodyC::CreateInput device(" << device << ") channel(" << channel << ")" << endl);
+    
     // Create the relevant port
-    if (obj_type == typeid(ImageC<ByteRGBValueC>))
-      return ImgIOV4L2C<ByteRGBValueC>(device, channel);
+    
     if (obj_type == typeid(ImageC<ByteT>))
       return ImgIOV4L2C<ByteT>(device, channel);
-
+    if (obj_type == typeid(ImageC<ByteRGBValueC>))
+      return ImgIOV4L2C<ByteRGBValueC>(device, channel);
+    
     return DPIPortBaseC();
   }
   
