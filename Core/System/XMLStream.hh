@@ -353,8 +353,11 @@ namespace RavlN {
     { return pushed; }
     //: Is there a context pushed ?
     
-    StringC &Content()
-    { return context.Top().Content(); }
+    StringC &Content() { 
+      if(context.IsEmpty())
+        return globalContents;
+      return context.Top().Content(); 
+    }
     //: Content.
     
     StringC &LastOpenTag()
@@ -366,6 +369,7 @@ namespace RavlN {
     StackC<XMLElementC> context;
     bool contents;
     bool autoIndent;
+    StringC globalContents;
 
     // Pushed context info.
     bool pushed;
