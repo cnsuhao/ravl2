@@ -145,9 +145,7 @@ namespace RavlLogicN {
     { return StdHash(data); }
     
     virtual StringC Name() const {
-      StrOStreamC ostr;
-      ostr << "D:" << data;
-      StringC nm = ostr.String();
+      StringC nm = StringOf(data);
       nm.gsub("\n","_");
       nm.gsub(" ","_");
       return nm;
