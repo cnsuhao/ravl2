@@ -104,6 +104,22 @@ namespace RavlImageN {
     { return levels.Size(); }
     //: Get number of levels being considered.
     
+    IntT MinSize() const 
+    { return minSize; }
+    //: Access minimum size.
+    
+    IntT MaxSize() const 
+    { return maxSize; }
+    //: Access maximum size.
+    
+    RealT MinMargin() const
+    { return minMargin; }
+    //: Access minimum margin
+    
+    IntT LimitMaxValue() const
+    { return limitMaxValue; }
+    //: Access value limit
+    
     Array1dC<ExtremaChainPixelC *> &LevelSets()
     { return levels; }
     //: Access level set array.
