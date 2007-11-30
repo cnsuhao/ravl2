@@ -89,6 +89,10 @@ namespace RavlN {
     }
     //: Assign handle.
     
+    SmartPtrC<DataT> Copy() const
+    { return dynamic_cast<DataT &>(this->body->Copy()); }
+    //: Make a copy of the referenced object.
+    
     void reset()
     { this->Invalidate(); }
     //: Boost compatibility. Release handle
