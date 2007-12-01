@@ -25,7 +25,7 @@
 
 namespace RavlLogicN {
   
-  LiteralC literalOr("or");
+  const LiteralC literalOr("or");
 
   //: Default constructor.
   

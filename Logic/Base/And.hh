@@ -182,7 +182,7 @@ namespace RavlLogicN {
   TupleC operator*(const LiteralC &l1,const LiteralC &l2);
   //: And operator.
 
-  extern LiteralC literalAnd;
+  extern const LiteralC literalAnd;
   
 }
 

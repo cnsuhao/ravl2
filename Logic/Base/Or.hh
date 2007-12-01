@@ -186,7 +186,7 @@ namespace RavlLogicN {
   TupleC operator+(const LiteralC &l1,const LiteralC &l2);
   //: Or two literals.
 
-  extern LiteralC literalOr;
+  extern const LiteralC literalOr;
   
 }
 

@@ -25,7 +25,7 @@
 
 namespace RavlLogicN {
   
-  LiteralC literalAnd("and");
+  const LiteralC literalAnd("and");
   
   //: Default constructor.
   
