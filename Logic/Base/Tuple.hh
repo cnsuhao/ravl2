@@ -166,6 +166,29 @@ namespace RavlLogicN {
     }
     //: Create a tuple containing two literals.
 
+    TupleC(const LiteralC &a1,const LiteralC &a2,const LiteralC &a3,const LiteralC &a4,const LiteralC &a5)
+      : LiteralC(*new TupleBodyC(5))
+    {
+      SetArg(0,a1);
+      SetArg(1,a2);
+      SetArg(2,a3);
+      SetArg(3,a4);
+      SetArg(4,a5);
+    }
+    //: Create a tuple containing two literals.
+    
+    TupleC(const LiteralC &a1,const LiteralC &a2,const LiteralC &a3,const LiteralC &a4,const LiteralC &a5,const LiteralC &a6)
+      : LiteralC(*new TupleBodyC(6))
+    {
+      SetArg(0,a1);
+      SetArg(1,a2);
+      SetArg(2,a3);
+      SetArg(3,a4);
+      SetArg(4,a5);
+      SetArg(5,a6);
+    }
+    //: Create a tuple containing two literals.
+
     TupleC(istream &strm);
     //: Load from stream.
 
@@ -221,27 +244,33 @@ namespace RavlLogicN {
     return e;
   }
   //! userlevel=Normal
-  //: Create a tuple with 1 paramiter
+  //: Create a tuple with 1 parameter
+  
+  inline TupleC Tuple(const LiteralC &s1,const LiteralC &s2) 
+  { return TupleC(s1,s2); }
+  //! userlevel=Normal
+  //: Create a tuple with 2 parameters
+  
+  inline TupleC Tuple(const LiteralC &s1,const LiteralC &s2,const LiteralC &s3) 
+  { return TupleC(s1,s2,s3); }
+  
+  //! userlevel=Normal
+  //: Create a tuple with 3 parameters
+  
+  inline TupleC Tuple(const LiteralC &s1,const LiteralC &s2,const LiteralC &s3,const LiteralC &s4) 
+  { return Tuple(s1,s2,s3,s4); }
+  //! userlevel=Normal
+  //: Create a tuple with 4 parameters
 
-  inline TupleC Tuple(const LiteralC &s1,const LiteralC &s2) {
-    TupleC e(2);
-    e.SetArg(0,s1);
-    e.SetArg(1,s2);
-    return e;
-  }
+  inline TupleC Tuple(const LiteralC &s1,const LiteralC &s2,const LiteralC &s3,const LiteralC &s4,const LiteralC &s5) 
+  { return Tuple(s1,s2,s3,s4,s5); }
   //! userlevel=Normal
-  //: Create a tuple with 2 paramiters
-  
-  inline TupleC Tuple(const LiteralC &s1,const LiteralC &s2,const LiteralC &s3) {
-    TupleC e(3);
-    e.SetArg(0,s1);
-    e.SetArg(1,s2);
-    e.SetArg(2,s3);
-    return e;
-  }
+  //: Create a tuple with 5 parameters
+
+  inline TupleC Tuple(const LiteralC &s1,const LiteralC &s2,const LiteralC &s3,const LiteralC &s4,const LiteralC &s5,const LiteralC &s6) 
+  { return Tuple(s1,s2,s3,s4,s5,s6); }
   //! userlevel=Normal
-  //: Create a tuple with 3 paramiters
-  
+  //: Create a tuple with 5 parameters
   
   LiteralC TupleArg(const LiteralC &s1,UIntT argno);
   //: Get an the numbered arg of a tuple.
