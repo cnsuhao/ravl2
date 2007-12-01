@@ -60,11 +60,11 @@ namespace RavlN {
     { return lastBlk->d[last-1]; }
     //: Access the last element in the queue.
     
-    inline int IsEmpty() const
+    inline bool IsEmpty() const
     { return last==first && lastBlk==firstBlk; }
     //: Is queue empty ?
     
-    inline int Size() const
+    inline SizeT Size() const
     { return last-first + blkTotal; }
     //: Returns the number of items in the queue.
     
