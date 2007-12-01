@@ -28,31 +28,31 @@ namespace RavlN {
   // Note this may failed if exceptions are not supported,
   // in which case it will return false.
   
-  void AssertFailed(char *file,int lineNo);
+  void AssertFailed(const char *file,int lineNo);
   //: Called if assertion failed.
   // This will either cause the program to trap to the debugger
   // or thow an 'ExceptionAssertionFailedC'
 
-  void AssertFailed(char *file,int lineNo,const char *msg);
+  void AssertFailed(const char *file,int lineNo,const char *msg);
   //: Called if assertion failed, with message.
   // This will either cause the program to trap to the debugger
   // or thow an 'ExceptionAssertionFailedC'
   
-  void IssueError(char *file,int lineNo,const char *msg ...);
+  void IssueError(const char *file,int lineNo,const char *msg ...);
   //: Call when program encounters an error.
   // This will either cause the program to trap to the debugger
   // or thow an 'ExceptionAssertionFailedC'
 
-  void IssueWarning(char *file,int lineNo,const char *msg ...);
+  void IssueWarning(const char *file,int lineNo,const char *msg ...);
   //: Call when program encounters an a unexpected occurance.
   // this prints the message and continues.
   
-  void IssueError(char *file,int lineNo,const StringC &str);
+  void IssueError(const char *file,int lineNo,const StringC &str);
   //: Call when program encounters an error.
   // This will either cause the program to trap to the debugger
   // or thow an 'ExceptionAssertionFailedC'
   
-  void IssueWarning(char *file,int lineNo,const StringC &str);
+  void IssueWarning(const char *file,int lineNo,const StringC &str);
   //: Call when program encounters an a unexpected occurance.
   // this prints the message and continues.
   
