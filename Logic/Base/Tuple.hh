@@ -258,17 +258,17 @@ namespace RavlLogicN {
   //: Create a tuple with 3 parameters
   
   inline TupleC Tuple(const LiteralC &s1,const LiteralC &s2,const LiteralC &s3,const LiteralC &s4) 
-  { return Tuple(s1,s2,s3,s4); }
+  { return TupleC(s1,s2,s3,s4); }
   //! userlevel=Normal
   //: Create a tuple with 4 parameters
 
   inline TupleC Tuple(const LiteralC &s1,const LiteralC &s2,const LiteralC &s3,const LiteralC &s4,const LiteralC &s5) 
-  { return Tuple(s1,s2,s3,s4,s5); }
+  { return TupleC(s1,s2,s3,s4,s5); }
   //! userlevel=Normal
   //: Create a tuple with 5 parameters
 
   inline TupleC Tuple(const LiteralC &s1,const LiteralC &s2,const LiteralC &s3,const LiteralC &s4,const LiteralC &s5,const LiteralC &s6) 
-  { return Tuple(s1,s2,s3,s4,s5,s6); }
+  { return TupleC(s1,s2,s3,s4,s5,s6); }
   //! userlevel=Normal
   //: Create a tuple with 5 parameters
   
