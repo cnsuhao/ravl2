@@ -1,3 +1,6 @@
-INCLUDES += -I$(OPENCV_HOME)/include
-EXELIB :=  -L$(OPENCV_HOME)/lib -lcxcore -lcv -lcvaux -lhighgui $(EXELIB)
-
+ifdef OPENCV_HOME
+ INCLUDES += -I$(OPENCV_HOME)/include
+ EXELIB :=  -L$(OPENCV_HOME)/lib -lcxcore -lcv -lcvaux -lhighgui $(EXELIB)
+else
+ EXELIB :=  -lcxcore -lcv -lcvaux -lhighgui $(EXELIB)
+endif
