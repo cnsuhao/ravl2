@@ -142,8 +142,8 @@ namespace RavlGUIN {
       for(;it;) {
         pat[1] = start[1];
         do {
-          Index2dC at(QFloor(pat[0] < image.TRow().V() ? image.TRow().V() : pat[0]),
-                      QFloor(pat[1] < image.LCol().V() ? image.LCol().V() : pat[1]));
+          Index2dC at(Floor(pat[0] <= image.TRow().V() ? image.TRow().V() : pat[0]),
+                      Floor(pat[1] <= image.LCol().V() ? image.LCol().V() : pat[1]));
           
           if(image.Frame().Contains(at))
             *it = image[at];
