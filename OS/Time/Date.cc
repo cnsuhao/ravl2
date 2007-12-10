@@ -117,7 +117,8 @@ namespace RavlN {
     StringC numS(str);
     sec = atol(StringC(numS.before(sep)));
     usec = 0;
-    for (UIntT i(sep+1); i<str.Size(); ++i)  usec = (usec + str[i]) * 10;
+    for (UIntT i(sep+1); i<str.Size(); ++i)
+      usec = (usec *10 + atoi(StringC(str[i])));
   }
   
   //: Is give year a leap year ?
