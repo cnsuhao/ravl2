@@ -80,7 +80,7 @@ namespace RavlImageN {
     if(!forceFormat) {
       if(filename.IsEmpty() || filename[0]=='@') // Is this a special file ?
         return typeid(void);
-      if(Extension(filename) != "tif" && filename != "-")
+      if(!(Extension(filename) == "tif" || Extension(filename) == "tiff" || filename == "-"))
 	return typeid(void);
     }
     const type_info &pref = ChooseFormat(obj_type);
