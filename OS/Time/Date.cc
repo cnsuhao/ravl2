@@ -106,17 +106,16 @@ namespace RavlN {
   // Expects data in sec.usec format 
   // as produced by Text() method.
   
-  DateC::DateC(const StringC &str) {
+  DateC::DateC(const StringC &str) 
+    : sec(0), usec(0)
+  {
     int sep = str.index('.');
     if(sep < 0) {
       cerr << "DateC::DateC(), ERROR: String in unrecognised format. '" << str << "'\n";
-      sec = 0;
-      usec = 0;
       return ;
     }
     StringC numS(str);
     sec = atol(StringC(numS.before(sep)));
-    usec = 0;
     for (UIntT i(sep+1); i<str.Size(); ++i)
       usec = (usec *10 + atoi(StringC(str[i])));
   }
