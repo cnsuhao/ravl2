@@ -23,7 +23,7 @@ namespace RavlN {
   class BinOStreamC;
   
   //: Date & Time information.
-  // SMALL OBJECT.
+  // SMALL OBJECT.<br>
   // NB. The virtual timer uses the clock() system call. This
   // means virtual timing will only make sense for the first
   // 36 minutes. After that the timer will wrap.
@@ -53,14 +53,14 @@ namespace RavlN {
     inline DateC(bool setval,bool useVirt = false);
     //: Constructor.
     // This constructor is obsolete. Use one of NowUTC,NowLocal or NowVirtual.
-    //!param: setval - is false an invalid date is created, otherwise a time is set.
+    //!param: setval - if false an invalid date is created, otherwise a time is set.
     //!param: useVirt - If true use virtual process time.
     
     DateC(RealT val);
     //: Construct from a real in seconds.
     
     DateC(IntT year,IntT month,IntT day,IntT hour = 0,IntT min = 0,IntT sec = 0,IntT usec = 0,bool useLocalTimeZone = false);
-    //: Constructer.
+    //: Constructor.
     //!param: year - Year (Must be from 1901 to 2038 inclusive)
     //!param: month - Month in year 1-12
     //!param: day - Day in the month 1 to 31
@@ -87,7 +87,7 @@ namespace RavlN {
     
     DateC(const StringC &str);
     //: String constructor
-    // Expects data in sec:usec format 
+    // Expects data in sec.usec format 
     // as produced by Text() method.
 
     DateC Copy() const
@@ -120,10 +120,10 @@ namespace RavlN {
     //: Set value of variable to now!
     //!param: useVirt - If true use process time, otherwise use UTC (Universal Coordinate Time)
     // Note. The static methods NowUTC(), NowLocal() and NowVirtual()
-    // are the prefered method of getting the current time.
+    // are the preferred method of getting the current time.
     
     inline long MaxUSeconds() const { return 1000000; }
-    //: Maximum value for mircro seconds, to avoid problems with mistyped number of zero's
+    //: Maximum value for micro seconds, to avoid problems with mistyped number of zeros
     
     inline long Resolution() const
     { return 10000; }
@@ -137,7 +137,7 @@ namespace RavlN {
     //: Normalise time representation after subtraction
     
     inline bool operator==(const DateC &oth) const;
-    //: Compre times.
+    //: Compare times.
     
     inline bool operator!=(const DateC &oth) const
     { return !operator==(oth); }
@@ -162,32 +162,32 @@ namespace RavlN {
     //: Subtract times.
     
     inline const DateC &operator-=(const DateC &val);
-    //: Inplace subtraction.
+    //: In-place subtraction.
     
     inline const DateC &operator-=(double val);
-    //: Inplace subtraction (seconds).
+    //: In-place subtraction (seconds).
     
     inline const DateC &operator+=(const DateC &val);
-    //: Inplace addition.
+    //: In-place addition.
     
     inline const DateC &operator+=(double val);
-    //: Inplace addition (seconds).
+    //: In-place addition (seconds).
     
     StringC Text() const;
     //: Get the time in string form.
-    // This currently prints the time in the form
-    // sec:usec.
+    // This prints the time in decimal form: <code>sec.usec</code>.
+    // There are always 6 digits after the decimal point.
     
     StringC ODBC(bool convertUTCToLocal = false) const;
     //: Return the date and time in ODBC format
     
     bool SetODBC(const StringC &odbcStr);
-    //: Set date to odbc specified time string.
-    // Returns true if conversion succesfull, false
+    //: Set date to ODBC specified time string.
+    // Returns true if conversion successful, false
     // if string is not recognised.
     
     StringC CTime(bool convertUTCToLocal = false) const;
-    //: Returns results equivelent to calling ctime().
+    //: Returns results equivalent to calling ctime().
     
     StringC CTimeShort(bool convertUTCToLocal = false) const;
     //: Returns a short string containing date/time.
@@ -202,10 +202,10 @@ namespace RavlN {
     
     inline double Double() const
     { return (double) sec + (((double)usec) / ((double) MaxUSeconds())); }
-    //: Get time in seconds from the epoc in double form.
+    //: Get time in seconds from the epoch in double form.
     
     IntT Seconds(bool convertUTCToLocal = false) const;
-    //: Return number of seconds after minuite. 0,61 (61 for leap seconds.)
+    //: Return number of seconds after minute. 0,61 (61 for leap seconds.)
     
     IntT Minute(bool convertUTCToLocal = false) const;
     //: Get minute.
@@ -226,13 +226,13 @@ namespace RavlN {
     //: Get day of year. 0 to 365
     
     IntT DayInWeek(bool convertUTCToLocal = false) const;
-    //: Get day of week. Since sunday, 0 to 6
+    //: Get day of week. Since Sunday, 0 to 6
     
     const StringC &TextDayInWeek(bool convertUTCToLocal = false) const;
     //: Get day of week in text form.
     
     bool DaylightSaving() const;
-    //: Are we daylight saveing ?
+    //: Are we daylight saving ?
     // True = yes
     
     bool Wait() const;
