@@ -158,6 +158,21 @@ int testRQDecomposition() {
     //cerr << "Ar=" << Ar << "\nA=" << A << "\n";
     if((A - Ar).SumOfSqr() > 0.000001) return __LINE__;
   }
+
+  // Check a corner case:
+  {
+    Matrix3dC A(1000,       0,   288,
+                0   , 1066.67,   360,
+                0   ,       0,     1);
+    
+    Matrix3dC R,Q;
+    A.RQDecomposition(R,Q);
+    Matrix3dC Ar = R * Q;
+    
+    //cerr << "R=" << R << "\nQ=" << Q << "\n";
+    //cerr << "Ar=" << Ar << "\nA=" << A << "\n";
+    if((A - Ar).SumOfSqr() > 0.000001) return __LINE__;
+  }
   
   return 0;
 }
