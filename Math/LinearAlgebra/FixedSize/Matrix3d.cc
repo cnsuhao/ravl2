@@ -104,7 +104,7 @@ namespace RavlN {
   
   bool Matrix3dC::RQDecomposition(TFMatrixC<RealT,3,3> &R,TFMatrixC<RealT,3,3> &Q) const {
     const Matrix3dC &M = *this;
-    const RealT verySmall = 1e-25;
+    const RealT verySmall = M.SumOfAbs() * 1e-16;
     
     // Check if matrix is already triangular.
     if(Abs(M[1][0]) < verySmall && Abs(M[2][0]) < verySmall && Abs(M[2][1])  < verySmall) {
@@ -154,7 +154,7 @@ namespace RavlN {
   
   bool Matrix3dC::RQDecomposition(TFMatrixC<RealT,3,3> &R,RealT &rx,RealT &ry,RealT &rz) const {
     const Matrix3dC &M = *this;
-    const RealT verySmall = 1e-25;
+    RealT verySmall = M.SumOfAbs() * 1e-16;
     
     // Check if matrix is already triangular.
     if(Abs(M[1][0]) < verySmall && Abs(M[2][0]) < verySmall && Abs(M[2][1])  < verySmall) {
