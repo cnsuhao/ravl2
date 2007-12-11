@@ -110,6 +110,7 @@ namespace RavlN {
     : sec(0), usec(0)
   {
     int sep = str.index('.');
+    if(sep < 0) sep = str.index(':');
     if(sep < 0) {
       cerr << "DateC::DateC(), ERROR: String in unrecognised format. '" << str << "'\n";
       return ;
