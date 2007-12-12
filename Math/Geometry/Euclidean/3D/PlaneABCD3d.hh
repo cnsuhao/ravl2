@@ -89,7 +89,12 @@ namespace RavlN {
     { return(d); }
     //: Returns parameter d.
     
-    inline PlaneABCD3dC & UnitNormal();
+    inline PlaneABCD3dC & UnitNormal() {
+      RealT size = normal.Magnitude();
+      normal /= size;
+      d      /= size;
+      return(*this);
+    }
     //: Normalizes the normal vector to be unit.
     
     inline RealT Value(const Point3dC & p) const
@@ -97,16 +102,32 @@ namespace RavlN {
     //: Returns the value of the expression 'normal.Dot(p) + d'
     // This is often used in analytical geometry.
     
-    inline RealT DirEuclidDistance(const Point3dC & p) const
+    Point3dC ClosestPoint(const Point3dC & p) const 
+    { return p + normal * (-(normal.Dot(p) + d)/normal.SumOfSqr()); }
+    //: Find closest point to 'p' that lies on the plane.
+    
+    inline RealT DirectedEuclideanDistance(const Point3dC & p) const
     { return Value(p)/normal.Magnitude(); }
     //: Returns the directed Euclidian distance of the point 'p' from
     //: this plane. 
     // If returned value is positive the point is in the direction of the
     // plane normal.
     
-    inline RealT EuclidDistance(const Point3dC & p) const
+    inline RealT DirEuclidDistance(const Point3dC & p) const
+    { return DirectedEuclideanDistance(p); }
+    //: Returns the directed Euclidian distance of the point 'p' from
+    //: this plane. 
+    // If returned value is positive the point is in the direction of the
+    // plane normal.
+    // Obsolete, use DirectedEuclideanDistance()
+    
+    inline RealT EuclideanDistance(const Point3dC & p) const
     { return RavlN::Abs(DirEuclidDistance(p)); }
-    //: Returns the Euclidan distance of the point 'p' from this plane.
+    //: Returns the Euclidean distance of the point 'p' from this plane.
+    
+    inline RealT EuclidDistance(const Point3dC & p) const
+    { return EuclideanDistance(p); }
+    //: Returns the Euclidean distance of the point 'p' from this plane.
     
     inline PlaneABCD3dC ParallelPlane(const Point3dC & p) const
     { return PlaneABCD3dC(Normal(), p); }
@@ -137,14 +158,6 @@ namespace RavlN {
   
   ostream & operator<<(ostream & outS, const PlaneABCD3dC & plane);
   istream & operator>>(istream & inS, PlaneABCD3dC & plane);
-  
-  
-  inline PlaneABCD3dC &PlaneABCD3dC::UnitNormal() {
-    RealT size = normal.Magnitude();
-    normal /= size;
-    d      /= size;
-    return(*this);
-  }
   
 }
 

@@ -17,12 +17,13 @@
 
 #include "Ravl/Types.hh" //RealT
 #include "Ravl/Point3d.hh"
+#include "Ravl/Point2d.hh"
 #include "Ravl/Vector3d.hh"
 
 namespace RavlN {
 
   class Point2dC;
-  class Line3dPPC;
+  class LinePV3dC;
   class PlaneABCD3dC;
   
   //: Plane in 3D space
@@ -91,15 +92,21 @@ namespace RavlN {
     //:-=============================================-
     //: Geometrical constructions.
     
+    RealT EuclideanDistance(const Point3dC &point) const;
+    // Measure the euclidean distance between 'point' and the plane.
+    
+    Point3dC ClosestPoint(const Point3dC &p) const;
+    // Find the closest point on the plane to 'p'
+    
+    Point3dC Intersection(const LinePV3dC & l) const;
+    // Returns the point of intersection of this plane with the line 'l'.
+    
     Point2dC ProjectionOnto(const Point3dC & point);
     // Returns the coordinates (t1,t2) of the point projected onto
     // the plane. The coordinate system is determined by the point of
     // the plane and its two vectors.
     
-    Point3dC Intersection(const Line3dPPC & l) const;
-    // Returns the point of intersection of this plane with the line 'l'.
-    
-    Point2dC ParIntersection(const Line3dPPC & l) const;
+    Point2dC ProjectedIntersection(const LinePV3dC & l) const;
     // Returns the coordinates (t1,t2) of the point of intersection
     // of this plane with the line 'l'. The coordinate system of the returned
     // point is determined by the point of the plane and its two vectors.
@@ -108,6 +115,12 @@ namespace RavlN {
     { return Point() + vector1 * t1 + vector2 * t2; }
     // Returns the point of the plane: point + t1 * vector1 + t2 * vector2.
     
+    inline Point3dC Point(const Point2dC &par) const
+    { return Point() + vector1 * par[0] + vector2 * par[1]; }
+    // Returns the point of the plane: point + t1 * vector1 + t2 * vector2.
+    
+    Point2dC Project(const Point3dC &pointOnPlane) const;
+    //: Project a point into the coordinate system of the plane
   private:
     
     //:-======================-

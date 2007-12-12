@@ -22,11 +22,14 @@
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Collection.hh"
 #include "Ravl/SArray1dIter2.hh"
+#include "Ravl/PlaneABCD3d.hh"
+#include "Ravl/PlanePVV3d.hh"
 
 using namespace RavlN;
 
 int testAngles();
 int testLine();
+int testPlane();
 int testLineDist();
 int testFitAffine();
 int testFitAffineDirections();
@@ -57,6 +60,10 @@ int main(int nargs,char **argv) {
   if((ln = testSimilarity()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
+  }
+  if((ln = testPlane()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;    
   }
   
   cerr << "Test passed ok. \n";
@@ -369,5 +376,51 @@ int testSimilarity() {
   }
   
 
+  return 0;
+}
+
+RealT RandomValue(RealT scale) 
+{ return (Random1() - 0.5) * scale * 2.0; }
+
+int testPlane() {
+  cerr << "Testing planes.";
+  
+  for(int i =0 ;i < 100;i++) {
+    
+    PlaneABCD3dC plane(Vector3dC(RandomValue(10),RandomValue(10),RandomValue(10)), 
+                       Point3dC(RandomValue(10),RandomValue(10),RandomValue(10))
+                       );
+    
+    Point3dC testPoint(RandomValue(10),RandomValue(10),RandomValue(10));
+    
+    Point3dC closestPoint = plane.ClosestPoint(testPoint);
+    RealT distance = closestPoint.EuclideanDistance(testPoint);
+    if(Abs(distance - plane.EuclideanDistance(testPoint)) > 0.000000001)
+      return __LINE__;
+  }
+  
+  cerr << ".";
+  for(int i =0 ;i < 100;i++) {
+    
+    PlanePVV3dC plane(Point3dC(RandomValue(10),RandomValue(10),RandomValue(10)),
+                       Vector3dC(RandomValue(10),RandomValue(10),RandomValue(10)), 
+                       Vector3dC(RandomValue(10),RandomValue(10),RandomValue(10))
+                       );
+    
+    Point3dC testPoint(RandomValue(10),RandomValue(10),RandomValue(10));
+    
+    Point3dC closestPoint = plane.ClosestPoint(testPoint);
+    RealT distance = closestPoint.EuclideanDistance(testPoint);
+    if(Abs(distance - plane.EuclideanDistance(testPoint)) > 0.000000001)
+      return __LINE__;
+    
+    // Check 'ProjectionOnto'
+    Point2dC pCloesestPoint = plane.ProjectionOnto(testPoint);
+    if(closestPoint.EuclideanDistance(plane.Point(pCloesestPoint)) > 0.00000001) return __LINE__;
+    
+  }
+  
+  
+  cerr << " OK \n";
   return 0;
 }
