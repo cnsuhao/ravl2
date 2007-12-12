@@ -87,6 +87,10 @@ namespace RavlN {
     { return direction; }
     //: Returns the direction vector of this line.
     
+    inline const Vector3dC & Direction() const
+    { return direction; }
+    //: Returns the direction vector of this line.
+    
     void MakeDirectionUnitVector()
     { direction.MakeUnit(); }
     //: Make the direction part of the line a unit vector.
