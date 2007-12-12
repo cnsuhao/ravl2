@@ -415,7 +415,7 @@ int testPlane() {
       return __LINE__;
     
     // Check 'ProjectionOnto'
-    Point2dC pCloesestPoint = plane.ProjectionOnto(testPoint);
+    Point2dC pCloesestPoint = plane.Projection(testPoint);
     if(closestPoint.EuclideanDistance(plane.Point(pCloesestPoint)) > 0.00000001) return __LINE__;
     
   }

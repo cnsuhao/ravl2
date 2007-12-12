@@ -43,7 +43,7 @@ namespace RavlN {
   
   //: Project a point into the coordinate system of the plane
   
-  Point2dC PlanePVV3dC::Project(const Point3dC &pointOnPlane) const {
+  Point2dC PlanePVV3dC::Projection(const Point3dC &pointOnPlane) const {
     FMatrixC<3,2> a;
     a[0][0] = vector1[0];
     a[1][0] = vector1[1];
@@ -62,18 +62,8 @@ namespace RavlN {
   // the plane. The coordinate system is determined by the point of
   // the plane and its two vectors.
   
-  
-  Point2dC PlanePVV3dC::ProjectionOnto(const Point3dC & point) {
-    Vector3dC normal = Normal();
-    return Project(point + normal * (-normal.Dot(point) + normal.Dot(*this))/normal.Dot(normal));
-  }
-  
-  // Returns the coordinates (t1,t2) of the point of intersection
-  // of this plane with the line 'l'. The coordinate system of the returned
-  // point is determined by the point of the plane and its two vectors.
-  
   Point2dC PlanePVV3dC::ProjectedIntersection(const LinePV3dC & l) const 
-  { return Project(PlanePVV3dC::Intersection(l)); }
+  { return Projection(PlanePVV3dC::Intersection(l)); }
   
   ostream & operator<<(ostream & outS, const PlanePVV3dC & plane) {
     const Point3dC  & p  = plane.Point();

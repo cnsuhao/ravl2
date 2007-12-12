@@ -101,9 +101,10 @@ namespace RavlN {
     Point3dC Intersection(const LinePV3dC & l) const;
     // Returns the point of intersection of this plane with the line 'l'.
     
-    Point2dC ProjectionOnto(const Point3dC & point);
-    // Returns the coordinates (t1,t2) of the point projected onto
-    // the plane. The coordinate system is determined by the point of
+    Point2dC Projection(const Point3dC & point) const;
+    //: Returns the coordinates (t1,t2) of the point projected onto
+    //: the plane. 
+    // The coordinate system is determined by the point of
     // the plane and its two vectors.
     
     Point2dC ProjectedIntersection(const LinePV3dC & l) const;
@@ -119,8 +120,6 @@ namespace RavlN {
     { return Point() + vector1 * par[0] + vector2 * par[1]; }
     // Returns the point of the plane: point + t1 * vector1 + t2 * vector2.
     
-    Point2dC Project(const Point3dC &pointOnPlane) const;
-    //: Project a point into the coordinate system of the plane
   private:
     
     //:-======================-
