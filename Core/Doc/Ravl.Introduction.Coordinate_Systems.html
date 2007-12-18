@@ -6,21 +6,21 @@
   
   <body>
     <p>
-      In the image processing community, it is generally accepted in a 2-D
-      image coordinate system that the <i>x</i> axis is pointing horizontally
+      In the image processing community the usual convention is that, in a
+      2-D image coordinate system, the <i>x</i> axis is pointing horizontally
       to the right, and the <i>y</i> axis is pointing vertically downwards,
       i.e. a clockwise coordinate system. </p>
     
     <P>
-      On the other hand, 2-D RAVL objects as arrays, matrices and images, the
-      indices are in the order: row, column (as in conventional matrix
+      On the other hand, 2-D RAVL objects such as arrays, matrices and images,
+      the indices are in the order: row, column (as in conventional matrix
       notation).  In pairs of reals (e.g. 2-D vectors and points), the
       components are in the order <i>x</i>, <i>y</i>.  Normally these two
       categories of objects do not interact.  However, when they do (e.g. if
-      we want to construct a pixel position, an <SAMP><a
-      href="../Class/RavlN.Index2dC.html">Index2dC</a></SAMP> from a <SAMP><a
-      href="../Class/RavlN.Point2dC.html">Point2dC</a></SAMP>), the usual
-      outcome in RAVL is this:
+      we want to construct an <SAMP><a
+      href="../Class/RavlN.Index2dC.html">Index2dC</a></SAMP> pixel position
+      from a <SAMP><a href="../Class/RavlN.Point2dC.html">Point2dC</a></SAMP>
+      position vector), the outcome in RAVL is this:
     </P>
     
     <ul>
@@ -41,8 +41,8 @@
       <li> the first array coordinate is associated with the first vector component etc.
     </ul>
     <p>
-      Thus you should <em>always</em> be able to make these associations in
-      RAVL: "<i>x</i>, <i>y</i>", "vector[0], vector[1]", "rows, columns",
+      Thus you can <em>always</em> make these associations in RAVL: "<i>x</i>,
+      <i>y</i>" &hArr; "vector[0], vector[1]" &hArr; "rows, columns" &hArr;
       "down, across".</p>
 
     <p>
