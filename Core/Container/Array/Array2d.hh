@@ -73,7 +73,7 @@ namespace RavlN {
     Array2dC(const IndexRange2dC & rect,const BufferC<DataT> &data);
     //: Create 2D array with the range covering indices in 'rect' from data.
     // Note: It is the users responsibility to ensure that 'data' is
-    // large enought to contain 'rect'.
+    // large enough to contain 'rect'.
     
     Array2dC(const Array2dC<DataT> &arr,const IndexRange2dC & rect);
     //: Create a sub array of 'arr' covering indices 'rect'.
@@ -83,14 +83,14 @@ namespace RavlN {
     // This copies the access.
     
     Array2dC(const SArray2dC<DataT> &sarr);
-    //: Construct 2d array from sarray.
+    //: Construct 2d array from SArray.
     // Note: This does NOT make a copy, it just creates
     // another access to the buffer.
     
     Array2dC(const RangeBufferAccess2dC<DataT> &rbf,Buffer2dC<DataT> &buf);
     //: Construct an array with buffer access 'rbf' and data area 'buf'
     // Expert users only! This allows the creation of arrays that have
-    // unusual access structures. e.g. deinterlacing an image without 
+    // unusual access structures. e.g. de-interlacing an image without 
     // copying any data.
     
     Array2dC<DataT> Copy() const;
@@ -103,15 +103,15 @@ namespace RavlN {
     //: Create an access as an SArray.
     // Note: This does NOT copy the data, it only make a new access to it.
     // If doShift is true element Range1().Min(),Range2().Min() will
-    // become 0,0 of the sarray. Otherwise if the array does not 
-    // contain element '0,0' an error will occure in check mode, 
+    // become 0,0 of the SArray. Otherwise if the array does not 
+    // contain element '0,0' an error will occur in check mode, 
     // when optimised is enabled an empty array  will be returned. 
     
     SArray1dC<DataT> AsVector(bool alwaysCopy = false);
     //: Access 2d array as 1d vector.
     // This will only copy the data if the data isn't continuous or
-    // alwaysCopy is true, this can make it much more effecient than
-    // a straigh copy.
+    // alwaysCopy is true, this can make it much more efficient than
+    // a straight copy.
     
     Array1dC<DataT> SliceRow(IndexC i)
     { return Array1dC<DataT>(data.Data(),(*this)[i]); }
@@ -195,7 +195,7 @@ namespace RavlN {
     // The operator returns the result as a new array.
     
     Array2dC<DataT> operator*(const Array2dC<DataT> & arr) const;
-    //: Mutliplies 2 numerical arrays. 
+    //: Multiplies 2 numerical arrays. 
     // The operator returns the result as a new array.
     
     Array2dC<DataT> operator/(const Array2dC<DataT> & arr) const;
@@ -343,14 +343,14 @@ namespace RavlN {
   void Array2dC<DataT>::ShiftIndexes2(IndexC offset) {
     for(BufferAccessIterC<BufferAccessC<DataT> > it(*this);it.IsElm();it.Next()) 
       it.Data() += offset;
-    this->rng2 -= offset.V(); // Keep dim2 uptodate.
+    this->rng2 -= offset.V(); // Keep dim2 up-to-date.
   }
   
   template <class DataT>
   void Array2dC<DataT>::ShiftCols(IndexC offset) {
     for(BufferAccessIterC<BufferAccessC<DataT> > it(*this);it.IsElm();it.Next()) 
       it.Data() -= offset;
-    this->rng2 += offset.V(); // Keep dim2 uptodate.
+    this->rng2 += offset.V(); // Keep dim2 up-to-date.
   }
   
   template <class DataT>

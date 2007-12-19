@@ -67,8 +67,8 @@ namespace RavlN {
     
     Array3dC(const IndexRange3dC & rect,const BufferC<DataT> &data);
     //: Create 3D array with the range covering indexes in 'rect' from data.
-    // NB. It is the users responsability to ensure that 'data' is
-    // large enought to contain 'rect'.
+    // NB. It is the users responsibility to ensure that 'data' is
+    // large enough to contain 'rect'.
     
     Array3dC(const Array3dC<DataT> &arr,const IndexRange3dC & rect);
     //: Create a sub array of 'arr' covering indexes 'rect'.
@@ -141,15 +141,15 @@ namespace RavlN {
     //: Divides the array elements by the 'number'.
     
     Array2dC<DataT> Slice1(IndexC i);
-    //: Take a slice accross the first dimension of the 3d array.
+    //: Take a slice across the first dimension of the 3d array.
     // Note this does NOT copy the data, any changes made to this slice
     // will be seen in the original 3d volume. 
 
     Array2dC<DataT> Slice2(IndexC j);
-    //: Take a slice accross the second dimension of the 3d array.
+    //: Take a slice across the second dimension of the 3d array.
     // Note this does NOT copy the data, any changes made to this slice
     // will be seen in the original 3d volume. <p>
-    // Note: This routine is slighly slower than Slice1 as it has to construct
+    // Note: This routine is slightly slower than Slice1 as it has to construct
     // a new access array.
     
     Buffer3dC<DataT> &Buffer()
@@ -167,7 +167,7 @@ namespace RavlN {
     
     inline const IndexRangeC &Range3() const
     { return RangeBufferAccess3dC<DataT>::Range3(); }
-    //: Range of second index.
+    //: Range of third index.
     
   protected:
     void ConstructAccess(const IndexRangeC &rng1);

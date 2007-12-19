@@ -38,9 +38,9 @@ namespace RavlN {
   //: 1 Dimensional array
   // The class Array1dC is a  reference counted container with a fixed number
   // of items which can accessed in randomly using indexing in a specified
-  // range of indeces. The item is expected
-  // to have a default constructor, a copy constructor, and an assigment.
-  // The class Array1dC is a big object, eg. it has a reference counter. <p>
+  // range of indices. The item is expected
+  // to have a default constructor, a copy constructor, and an assignment.
+  // The class Array1dC is a big object, e.g. it has a reference counter. <p>
   //  BIG OBJECT
   
   template <class DataT>
@@ -53,7 +53,7 @@ namespace RavlN {
     
     enum ExtensionT {
       SoftExt, // The new values are taken from a father array if it exists.
-      HardExt  // The new values are always taken from the current subarray.
+      HardExt  // The new values are always taken from the current sub-array.
     };
     
     typedef DataT ElementT;
@@ -69,7 +69,7 @@ namespace RavlN {
     //: Type of iterator.
     
     //:---------------------------------------------
-    // Constructors, copy, assigment, and destructor
+    // Constructors, copy, assignment, and destructor
     
     Array1dC()
     {}
@@ -103,7 +103,7 @@ namespace RavlN {
     //: range of access in <'range'.Min(), 'range'.Max()>.
     // <font color="red">Warning:</font>  the <code>data</code>argument is a pointer, with all the attendant problems.
     //!param: data  - address of the data to be used as the array contents
-    //!param: removable - if true, "data" is  deallocated from the heap during destruction of the array
+    //!param: removable - if true, "data" is  de-allocated from the heap during destruction of the array
 
     // <p> It is typically used to create an <code>Array1dC</code> initialised from some constant array, like this:<pre>
     //   static RealT values[9] = {  -0.02311234,   0.00958230,   0.10377361,
@@ -121,7 +121,7 @@ namespace RavlN {
     //: Creates the array in 'bf' using access rbf..
     
     Array1dC(const Array1dC<DataT> & vv, const IndexRangeC & range);
-    //: The subarray of the 'vv' with the 'range'.
+    //: The sub-array of the 'vv' with the 'range'.
     
     Array1dC(const Array1dC<DataT> & vv, IndexC origin);
     //: Create a new access to array vv with the origin at the given offset.
@@ -150,13 +150,13 @@ namespace RavlN {
     Array1dC<DataT> & Copy(const IndexC off, const Array1dC<DataT> & a);
     //: Copies the maximum possible part of array 'a' into this array.
     // The first element of array 'a' is placed into the element 
-    // of this array with index  'off'. The functio returns this array.
+    // of this array with index  'off'. The function returns this array.
     
     Array1dC<DataT> &Copy(const Slice1dC<DataT> &data);
     //: Copy data from slice into this array.
     
     const Array1dC<DataT> & operator=(const Array1dC<DataT> & vv);
-    //: Assigment, as for a BIG_OBJECT.
+    //: Assignment, as for a BIG_OBJECT.
     
     // Access to the object elements.
     // ------------------------------
@@ -170,11 +170,11 @@ namespace RavlN {
     //: Access to the whole array.
     
     inline SArray1dC<DataT> SArray1d(bool doShift = false);
-    //: Create an access as an sarray.
+    //: Create an access as an SArray.
     // NB. This does NOT copy the data, it only make a new access to it.
     // If doShift is true element IMin() will become element 0 of the 
     // SArray while the size stays the same. Otherwise if the array 
-    // does not contain element '0' an error will occure in check mode, 
+    // does not contain element '0' an error will occur in check mode, 
     // when optimised is enabled an empty array will be returned. 
 
     Slice1dC<DataT> Slice1d()
@@ -200,7 +200,7 @@ namespace RavlN {
     
     inline bool IsSharing(const Array1dC<DataT> & arr) const
     { return buff == arr.buff; }
-    //: Returns true if this array and the array 'arr' are subarrays of the
+    //: Returns true if this array and the array 'arr' are sub-arrays of the
     //: the same array.
     
     //:-------------------
@@ -351,7 +351,7 @@ namespace RavlN {
       this->range.Max() = imax;
       return true;      
     }
-    //: Attempty to change the end of the array.
+    //: Attempt to change the end of the array.
     // This checks the index is within the allocated buffer.
 
     inline SizeT Size() const
@@ -360,7 +360,7 @@ namespace RavlN {
     
     inline const IndexRangeC & Range() const
     { return RangeBufferAccessC<DataT>::Range(); }
-    // Returns the usable range of indeces expressed by this object.
+    // Returns the usable range of indices expressed by this object.
     
   private:
     BufferC<DataT> buff;  //: The reference counted storage.
