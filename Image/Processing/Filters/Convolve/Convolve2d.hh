@@ -20,22 +20,25 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: 2D Convolution
-  // <p><b>Template args:</b> <br>
+  //
+  // <h3>Template arguments</h3>
   // InPixelT = Type of pixel in input image. <br>
   // OutPixelT = Type of pixel in output image. (Default = InPixelT) <br>
   // KernelPixelT = Type of pixel in convolution kernel. (Default = InPixelT)  <br>
-  // SumTypeT = A type appropriate for summing the product of KernelPixelT and InPixelT. (Default = KernelPixelT <br>
-  // There are two main issues when choosing these types.<br>
-  // 1. Underflow and overflow of the sums and product operations. <br>
-  // 2. Handing multi-channel images. (Such as RGB.) <br>
+  // SumTypeT = A type appropriate for summing the product of KernelPixelT and InPixelT. (Default = KernelPixelT) <br>
+  // <p>
+  // There are two main issues when choosing these arguments:<ol>
+  // <li> Underflow and overflow of the sums and product operations. </li>
+  // <li> Handing multi-channel images (such as RGB). </li></ol>
   // The exact requirements of these types depends on the gain and type of the filter being used.
-  // In multi-channel filters SumPixelT should be a multi-channel value as well. e.g.
-  // to filter an ImageC<ByteRGBValueC> you may use:
+  // In multi-channel filters SumPixelT should be a multi-channel value as well.
+  // E.g. to filter an ImageC&lt;ByteRGBValueC&gt; you might use:
   // InPixelT=ByteRGBValueC, OutPixelT=ByteRGBValueC,KernelPixelT=RealT,SumType=RealRGBValueC</p>
   //
-  // <p> This class rotates the kernel by 180 deg. and then uses Correlate2dC::Apply().
-  // For rotationally symmetric kernels, it is therefore faster to use <a
-  // href="RavlImageN.Correlate2dC.html">Correlate2dC</a> directly.</p>
+  // <p> <b>N.B.</b> This class rotates the kernel by 180&deg; and then uses Correlate2dC::Apply().
+  // For rotationally symmetric non-separable kernels, it is therefore slightly
+  // faster to use <a // href="RavlImageN.Correlate2dC.html">Correlate2dC</a>
+  // directly.</p>
 
   template<class InPixelT,class OutPixelT = InPixelT,class KernelPixelT = InPixelT,class SumTypeT = KernelPixelT>
   class Convolve2dC 
@@ -56,7 +59,6 @@ namespace RavlImageN {
       Correlate2dC<InPixelT,OutPixelT,KernelPixelT,SumTypeT>::SetKernel(nkernel.Rotate180());
     }
     //: Set the convolution kernel.
-    // Note: This method flips the kernel, so does take some time.
     
     void Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const
     { Correlate2dC<InPixelT,OutPixelT,KernelPixelT,SumTypeT>::Apply(in,result); }
