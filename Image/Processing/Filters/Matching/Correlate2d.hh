@@ -22,6 +22,8 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: 2D Correlation
+  //
+  // See <a href="RavlImageN.Convolve2dC.html">Convolve2dC</a> for information on setting template arguments
   
   template<class InPixelT,class OutPixelT = InPixelT,class KernelPixelT = InPixelT,class SumTypeT = KernelPixelT>
   class Correlate2dC {
