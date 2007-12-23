@@ -120,7 +120,7 @@ namespace RavlN {
     void GetLimits(RealT &Low,RealT &High,const IndexRange2dC &Rect) const;
     //: Get limits of paramiter if shape is within Rect.
     
-    inline char *GetName() const { return "Curve2dLine"; }
+    inline const char *GetName() const { return "Curve2dLine"; }
     //: Name of primitive.
     
     inline IntT CodeSize() const { return 30; }
