@@ -68,6 +68,9 @@ namespace RavlImageN {
   }
   
   //: Find matching label.
+  // This looks at the region assosciated with a given pixel, 
+  // and resolves any merged regions to the current label.
+  
   inline
   ExtremaRegionC * SegmentExtremaBaseC::FindLabel(ExtremaChainPixelC *cp) {
     register ExtremaRegionC *lab = cp->region;
@@ -75,7 +78,7 @@ namespace RavlImageN {
     register ExtremaRegionC *at = lab->merge;
     while(at->merge != 0)
       at = at->merge;
-    // Relabel mappings.
+    // Relabel mappings so its faster next time.
     do {
       register ExtremaRegionC *tmp = lab;
       lab = lab->merge;
@@ -85,9 +88,12 @@ namespace RavlImageN {
     return at;
   }
 
-  //: Find the labels around the pixel 'pix'
-  // put the results into 'labelArray' which must be at least 4 labels long.
-  // The number of labels found is returned.
+  //: Find the number of distinct labels around the pixel 'pix'
+  // This eliminates duplicate values by comparing each result to
+  // those obtrained previously.
+  // Puts the results into 'labelArray' which must be at least 4 labels long.
+  // The total number of labels found is returned.
+  
   inline
   int SegmentExtremaBaseC::ConnectedLabels(ExtremaChainPixelC *pix,ExtremaRegionC **labelArray) {
     //cerr << "SegmentExtremaBaseC::ConnectedLabels(), Pix=" << ((void *) pix) << "\n";
@@ -192,16 +198,31 @@ namespace RavlImageN {
     IntT n, clevel = levels.Range().Min().V();
     ExtremaRegionC *labels[6];
     
+    // For each grey level value in image.
     for(BufferAccessIterC<ExtremaChainPixelC *> lit(levels);lit;lit++,clevel++) {
       //ONDEBUG(cerr << "Level=" << clevel << " \n");
+      
+      // Go through linked list of pixels at the current brightness level.
       for(at = *lit;at != 0;at = at->next) {
 	// Got a standard pixel.
 	//ONDEBUG(cerr << "Pixel=" << (void *) at << " Region=" << at->region << "\n");
+
+        // Look at the region membership of the pixels surrounding the new
+        // one.  n is the number of different regions found.
 	n = ConnectedLabels(at,labels);
+        
 	switch(n) {
-	case 0: AddRegion(at,clevel);  break;
-	case 1: AddPixel(at,clevel,labels[0]); break;
-	default: MergeRegions(at,clevel,labels,n); break;
+	case 0: // Add a new region ?
+          AddRegion(at,clevel);  
+          break;
+          
+	case 1: // 1 adjacent region to this pixel.
+          AddPixel(at,clevel,labels[0]); 
+          break;
+          
+	default: // 2 or more adjacent regions to merge.
+          MergeRegions(at,clevel,labels,n); 
+          break;
 	}
       }
     }
