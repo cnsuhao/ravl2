@@ -10,6 +10,7 @@
 //! file="Ravl/Core/IO/FileFormatXMLStream.cc"
 
 #include "Ravl/DP/FileFormatXMLStream.hh"
+#include "Ravl/XMLTree.hh"
 
 namespace RavlN {
   
@@ -17,11 +18,6 @@ namespace RavlN {
   {}
   
   // Some basic file types.
-
-#if 0  
-  FileFormatBinStreamC<RealT> FileFormatBinStream_RealT;
-  FileFormatBinStreamC<IntT> FileFormatBinStream_IntT;
-  FileFormatBinStreamC<UIntT> FileFormatBinStream_UIntT;
-  FileFormatBinStreamC<StringC> FileFormatBinStream_StringC;
-#endif
+  
+  FileFormatXMLStreamC<XMLTreeC> FileFormatXMLStream_XMLTree;
 }
