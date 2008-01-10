@@ -9,6 +9,7 @@
 //! file="Ravl/Core/System/XMLTree.cc"
 
 #include "Ravl/XMLTree.hh"
+#include "Ravl/TypeName.hh"
 
 #define DODEBUG 0
 
@@ -129,6 +130,13 @@ namespace RavlN {
     children.InsLast(item);
     return HashTreeBodyC<StringC,RCHashC<StringC,StringC> >::Add(item.Name(),item,true);
   }
+  
+  //: lookup child in tree.
+  // Returns true and updates parameter 'child' if child is found.
+  
+  bool XMLTreeBodyC::Child(const StringC &key,XMLTreeC &child) const {
+    return const_cast<XMLTreeBodyC*>(this)->HashTreeBodyC<StringC,RCHashC<StringC,StringC> >::Child(key,child);
+  }
 
   //: Indents the XML listing
 
@@ -158,5 +166,6 @@ namespace RavlN {
     }
     return out;
   }
-
+  
+  static TypeNameC type0(typeid(XMLTreeC),"RavlN::XMLTreeC");
 }

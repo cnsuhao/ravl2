@@ -92,7 +92,61 @@ namespace RavlN {
     const DListC<XMLTreeC> &Children() const
     { return children; }
     //: Access list of children.
+    
+    bool Child(const StringC &key,XMLTreeC &child) const;
+    //: lookup child in tree.
+    // Returns true and updates parameter 'child' if child is found.
+    
+    StringC AttributeString(const StringC &name,const StringC &defaultValue = StringC("")) const {
+      const StringC *value = Data().Lookup(name);
+      if(value == 0) return defaultValue;
+      return *value;
+    }
+    //: Access attribute.
+    
+    UIntT AttributeUInt(const StringC &name,UIntT defaultValue = 0) const {
+      const StringC *value = Data().Lookup(name);
+      if(value == 0) return defaultValue;
+      return value->UIntValue();
+    }
+    //: Access attribute.
+    
+    IntT AttributeInt(const StringC &name,IntT defaultValue = 0) const {
+      const StringC *value = Data().Lookup(name);
+      if(value == 0) return defaultValue;
+      return value->IntValue();
+    }
+    //: Access attribute.
+    
+    RealT AttributeReal(const StringC &name,RealT defaultValue = 0) const {
+      const StringC *value = Data().Lookup(name);
+      if(value == 0) return defaultValue;
+      return value->RealValue();
+    }
+    //: Access attribute.
 
+    UInt64T AttributeUInt64(const StringC &name,UInt64T defaultValue = 0) const {
+      const StringC *value = Data().Lookup(name);
+      if(value == 0) return defaultValue;
+      return value->UInt64Value();
+    }
+    //: Access attribute.
+
+    Int64T AttributeInt64(const StringC &name,Int64T defaultValue = 0) const {
+      const StringC *value = Data().Lookup(name);
+      if(value == 0) return defaultValue;
+      return value->Int64Value();
+    }
+    //: Access attribute.
+    
+    bool AttributeBool(const StringC &name,bool defaultValue = false) const {
+      const StringC *value = Data().Lookup(name);
+      if(value == 0) return defaultValue;
+      return (*value) == "1" || *value == "t" || *value == "T" || *value == "true" || *value == "True";
+    }
+    //: Access attribute.
+    
+    
   protected:
 
     static ostream &Indent(ostream &out,int level);
@@ -207,6 +261,38 @@ namespace RavlN {
     const DListC<XMLTreeC> &Children() const
     { return Body().Children(); }
     //: Access list of children.
+    
+    bool Child(const StringC &key,XMLTreeC &child) const
+    { return Body().Child(key,child); }
+    //: lookup child in tree.
+    // Returns true and updates parameter 'child' if child is found.
+    
+    StringC AttributeString(const StringC &name,const StringC &defaultValue = StringC("")) const 
+    { return Body().AttributeString(name,defaultValue); }
+    //: Access attribute.
+    
+    UIntT AttributeUInt(const StringC &name,UIntT defaultValue = 0) const 
+    { return Body().AttributeUInt(name,defaultValue); }
+    //: Access attribute.
+    
+    IntT AttributeInt(const StringC &name,IntT defaultValue = 0) const 
+    { return Body().AttributeInt(name,defaultValue); }
+    //: Access attribute.
+    
+    RealT AttributeReal(const StringC &name,RealT defaultValue = 0) const 
+    { return Body().AttributeReal(name,defaultValue); }
+    //: Access attribute.
+    
+    UInt64T AttributeUInt64(const StringC &name,UInt64T defaultValue = 0) const 
+    { return Body().AttributeUInt64(name,defaultValue); }
+    //: Access attribute.
+    
+    Int64T AttributeInt64(const StringC &name,Int64T defaultValue = 0) const 
+    { return Body().AttributeInt64(name,defaultValue); }
+    //: Access attribute.
+
+    bool AttributeBool(const StringC &name,bool defaultValue = false) const 
+    { return Body().AttributeBool(name,defaultValue); }
 
     friend class XMLTreeBodyC;
   };
