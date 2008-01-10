@@ -833,6 +833,11 @@ else
   LIBSONLY=$(filter-out %$(OBJEXT),$(LIBS))
 endif
 
+ifdef USE_SHAREDPREBUILD
+# This is better as it catches unresolved symbols earlier, this however can cause
+# problems when code is changed, particulary when there is more than one directory
+# being built into a single shared object.
+
 $(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
 	$(SHOWIT)echo "--- Building" $(@F) ; \
 	if [ ! -f $(INST_LIB)/$(@F) ] ; then \
@@ -853,6 +858,19 @@ $(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB
 	  fi ; \
 	  exit 1 ; \
 	fi
+else
+$(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
+	$(SHOWIT)echo "--- Building" $(@F) ; \
+	if [ ! -f $(INST_LIB)/$(@F) ] ; then \
+	  $(CC) $(LDLIBFLAGS) -o $(INST_LIB)/$(@F) $(TARG_OBJS) ; \
+	fi ; \
+	echo "---- Building object list " ; \
+	echo "$(patsubst %$(OBJEXT),%$(OBJEXT)@,$(TARG_OBJS))" | $(TR) '@' '\n' >> $(INST_OBJS)/libObjs.txt ; \
+	sort -b -u $(INST_OBJS)/libObjs.txt -o $(INST_OBJS)/libObjs.txt ; \
+        echo "---- Building library " ; \
+	$(XARGS) $(CXX) $(LDLIBFLAGS) $(LIBSONLY) -o $(INST_LIB)/$(@F) < $(INST_OBJS)/libObjs.txt  ; \
+	$(UNTOUCH) $(INST_LIB)/$(@F) $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) ; 
+endif
 endif
 
 $(INST_LIB)/lib$(PLIB)$(LIBEXT)(%$(OBJEXT)) : $(INST_OBJS)/%$(OBJEXT)
