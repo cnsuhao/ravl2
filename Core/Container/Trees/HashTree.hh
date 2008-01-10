@@ -141,7 +141,7 @@ namespace RavlN {
     HashTreeNodeC<KeyT,DataT> Follow(const DListC<KeyT> &lst);
     //: Follow list of keys to a node.
     // If node is not found then an invalid handle is returned.
-
+    
     bool Child(const KeyT &key,HashTreeNodeC<KeyT,DataT> &child) 
     { return children.Lookup(key,child); }
     //: lookup child in tree.
@@ -178,7 +178,7 @@ namespace RavlN {
     // class to provide a better function.
     
   protected:
-      HashC<KeyT,HashTreeNodeC<KeyT,DataT> > children;
+    HashC<KeyT,HashTreeNodeC<KeyT,DataT> > children;
   };
   
   //! userlevel=Normal
