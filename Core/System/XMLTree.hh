@@ -36,9 +36,9 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    XMLTreeBodyC(const StringC &nname,RCHashC<StringC,StringC> &attrs) 
+    XMLTreeBodyC(const StringC &nname,RCHashC<StringC,StringC> &attrs,bool _isPI = false) 
       : HashTreeBodyC<StringC,RCHashC<StringC,StringC> >(attrs),
-	isPI(false),
+	isPI(_isPI),
 	name(nname)
     {}
     //: Construct from a name and an attribute table.
@@ -184,8 +184,8 @@ namespace RavlN {
     {}
     //: Constructor.
     
-    XMLTreeC(const StringC &name,RCHashC<StringC,StringC> &attrs)
-      : HashTreeC<StringC,RCHashC<StringC,StringC> >(*new XMLTreeBodyC(name,attrs))
+    XMLTreeC(const StringC &name,RCHashC<StringC,StringC> &attrs,bool _isPI = false)
+      : HashTreeC<StringC,RCHashC<StringC,StringC> >(*new XMLTreeBodyC(name,attrs,_isPI))
     {}
     //: Constructor.
     

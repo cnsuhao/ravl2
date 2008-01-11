@@ -41,6 +41,7 @@ namespace RavlN {
     if(thisTag == XML_PI)
       isPI = true;
 #endif
+    
     while(in) {
       StringC name;
       RCHashC<StringC,StringC> attr;
@@ -57,7 +58,6 @@ namespace RavlN {
       
       XMLTagOpsT tt = in.ReadTag(name,attr);
       
-      
       if(tt == XMLContent) {
 	ONDEBUG(cerr << "Found tag '" << name << "' XMLContent \n");
 	continue;
@@ -66,7 +66,8 @@ namespace RavlN {
 	ONDEBUG(cerr << "Found end tag '" << name << "' \n");
 	break;
       }
-      XMLTreeC subtree(name,attr);
+      
+      XMLTreeC subtree(name,attr,tt == XML_PI);
       
       if(tt == XMLBeginTag) {
 	ONDEBUG(cerr << "Found begin tag '" << name << "' \n");
