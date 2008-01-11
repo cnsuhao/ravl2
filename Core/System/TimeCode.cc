@@ -89,11 +89,11 @@ namespace RavlN {
     IntT frame = items.PopFirst().IntValue();
     if ((hour<24) && (hour>=0) && (min<60)  && (min>=0)
 	&& (sec<60) && (sec>=0) && (frame<(IntT) frameRate) && (frame>=0)) 
-   return ConvertFrom(hour,min,sec,frame) ;
-    else {
-      frameRate = RavlConstN::nanReal;
-      return false;
-    }
+      return ConvertFrom(hour,min,sec,frame) ;
+
+    // Invalid value given.
+    frameRate = RavlConstN::nanReal;
+    return false;
   }
 
   //: Convert from string 
