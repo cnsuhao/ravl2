@@ -276,18 +276,18 @@ namespace RavlGUIN {
   //: Set the frame skip value.
   
   bool PlayControlBodyC::SetSkip(StringC &val) {
-    if(val.length() < 1) {
-      return true;
+    if(val.length() > 0) {
+       if(!isdigit(val.lastchar())) {
+         return true;
+       }
+       if(val.firstchar() == '0') {
+          val.del(0,1);
+       }
     }
-    if(!isdigit(val[0])) {
-      return true;
+    if(val.length() == 0) {
+       val = StringC("0");
     }
-    skip = atoi(val);
-    if(skip == 0) {
-      skip = 1;
-    }
-    StringC nv(skip);
-    textSkip.SetText(nv);
+    textSkip.SetText(val);
     // Make sure skip text is accurate...
     Speed(baseSpeed); // Update the current speed.
     gtk_editable_set_position(GTK_EDITABLE(textSkip.Widget()),val.length());
@@ -410,19 +410,23 @@ namespace RavlGUIN {
   //: Set start of sub-sequence
   
   bool PlayControlBodyC::SetSubStart(StringC &text) {
-    if(text.length() < 1) {
-      return true;
+    if(text.length() > 0) {
+       if(!isdigit(text.lastchar())) {
+          return true;
+       }
+       if(text.firstchar() == '0') {
+          text.del(0,1);
+       }
     }
-    if(!isdigit(text[0])) {
-      return true;
+    if(text.length() == 0) {
+       text = StringC("0");
     }
     IntT val = atoi(text);
     if(val < 0) {
       val = 0;
     }
     ONDEBUG(cerr << "PlayControlBodyC::SetStart(), Start: " << val << " \n");
-    StringC nv(val);
-    textStart.SetText(nv);
+    textStart.SetText(text);
     gtk_editable_set_position(GTK_EDITABLE(textStart.Widget()),text.length());
     pc.SubSeqStart() = (UIntT) val;
     return true;
@@ -431,18 +435,22 @@ namespace RavlGUIN {
   //: Set end of sub-sequence
   
   bool PlayControlBodyC::SetSubEnd(StringC &text) {
-    if(text.length() < 1) {
-      return true;
+    if(text.length() > 0) {
+       if(!isdigit(text.lastchar())) {
+          return true;
+       }
+       if(text.firstchar() == '0') {
+          text.del(0,1);
+       }
     }
-    if(!isdigit(text[0])) {
-      return true;
+    if(text.length() == 0) {
+       text = StringC("0");
     }
     IntT val = atoi(text);
     if(val < 0) {
       val = 0;
     }
-    StringC nv(val);
-    textEnd.SetText(nv);  
+    textEnd.SetText(text);  
     ONDEBUG(cerr << "PlayControlBodyC::SetEnd(), End: " << val << " \n");
     gtk_editable_set_position(GTK_EDITABLE(textEnd.Widget()),text.length());
     pc.SubSeqEnd() = (UIntT) val;
