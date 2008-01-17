@@ -93,15 +93,16 @@ cp Ravl/QMake/config.local.xxx .</pre></li>
               <li><code>debugshared, checkshared, optshared</code> - builds
               shared versions of the above.  These link faster </li>
               
-              <li><code>optbin</code> - builds application binaries -
-              including <code>CxxDoc</code>, the program that builds this
-              documentation.  So if you turn <code>optbin</code> off, you need
-              to build <code>CxxDoc</code> separately to get a complete
+              <li><code>optbin</code> - builds application binaries.  Strongly
+              recommended to leave it turned on, in order to build
+              <code>CxxDoc</code>, the program that builds this documentation.
+              If you turn <code>optbin</code> off, you need to build
+              <code>CxxDoc</code> separately to get a complete
               installation.</li>
             </ul>
           </li>
-          <li> picking up the correct compiler if a new one has been installed, or
-            incorporating <code>ccache</code></li>
+          <li> picking up the correct compiler if a new one has been
+          installed, or incorporating <code>ccache</code></li>
           
           <li> adjusting the available resources using the
           <code>RESOURCES</code> variable.  The packages in the <code><a
@@ -193,7 +194,7 @@ export PATH=${PATH}:${PROJECT_OUT}/lib/RAVL/linux/bin:${RAVL_INSTALLATION}/RavlP
     <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
 <!-- Created: Fri Dec 23 09:31:09 GMT 2005 -->
 <!-- hhmts start -->
-Last modified: Wed Sep 26 17:56:21 BST 2007
+Last modified: Thu Jan 17 16:52:27 GMT 2008
 <!-- hhmts end -->
   </body>
 </html>
