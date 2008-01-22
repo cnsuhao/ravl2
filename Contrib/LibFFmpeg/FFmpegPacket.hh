@@ -23,10 +23,9 @@ extern "C" {
    #include <avcodec.h>
 }
 
-//fix complaint about INT64_C
-#define INT64_C
-#define __STDC_CONSTANT_MACROS
-#include <stdint.h>
+#ifndef INT64_C
+#define INT64_C 1
+#endif
 	     	     
 //define new AV_NOPTS_VALUE1
 #define   AV_NOPTS_VALUE1  0x8000000000000000LL
