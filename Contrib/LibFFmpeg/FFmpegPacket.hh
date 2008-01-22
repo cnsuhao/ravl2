@@ -16,9 +16,20 @@
 #endif
 
 #include "Ravl/RefCounter.hh"
+
+//link ffmpeg as a purely c library since all c++ wrapper functions were removed
 extern "C" {
-#include <ffmpeg/avformat.h>
+   #include <avformat.h>
+   #include <avcodec.h>
 }
+
+//fix complaint about INT64_C
+#define INT64_C
+#define __STDC_CONSTANT_MACROS
+#include <stdint.h>
+	     	     
+//define new AV_NOPTS_VALUE1
+#define   AV_NOPTS_VALUE1  0x8000000000000000LL
 
 namespace RavlN {
 

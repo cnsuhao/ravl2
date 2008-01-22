@@ -17,11 +17,14 @@
 #include "Ravl/DP/AttributeValueTypes.hh"
 
 #if LIBAVFORMAT_VERSION_INT >= ((51<<16)+(12<<8)+1)
-extern "C" {
-#include <ffmpeg/swscale.h>
-}
+#define LIBAVFORMAT_USE_SWSCALER
 #endif
 
+#ifdef LIBAVFORMAT_USE_SWSCALER
+extern "C" {
+  #include <swscale.h>
+}
+#endif
 
 #define DODEBUG 0
 
@@ -68,7 +71,7 @@ namespace RavlN {
       avcodec_close(pCodecCtx);
     if(pFrame != 0)
       av_free(pFrame);
-#if LIBAVFORMAT_VERSION_INT >= ((51<<16)+(12<<8)+1)
+#ifdef LIBAVFORMAT_USE_SWSCALER
     if(pSWSCtx != 0)
       sws_freeContext(pSWSCtx); 
 #endif
@@ -187,15 +190,15 @@ namespace RavlN {
     uint8_t *buffer=new uint8_t[numBytes];
     avpicture_fill((AVPicture *)pFrameRGB, buffer, PIX_FMT_RGB24,pCodecCtx->width, pCodecCtx->height);
     
-#if LIBAVFORMAT_VERSION_INT < ((51<<16)+(12<<8)+1)
-    img_convert((AVPicture *)pFrameRGB, PIX_FMT_RGB24, (AVPicture*)pFrame, pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height);
-#else    
+#ifdef LIBAVFORMAT_USE_SWSCALER
     // Need to setup scaler ?
     if(pSWSCtx == 0) {
       pSWSCtx = sws_getContext(pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height, PIX_FMT_RGB24, SWS_BICUBIC, NULL, NULL, NULL);
     }
     
     sws_scale(pSWSCtx, pFrame->data, pFrame->linesize, 0, pCodecCtx->height, pFrameRGB->data, pFrameRGB->linesize);
+#else    
+    img_convert((AVPicture *)pFrameRGB, PIX_FMT_RGB24, (AVPicture*)pFrame, pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height);
 #endif
     
     frame = ImageC<ByteRGBValueC>(pCodecCtx->height,pCodecCtx->width,static_cast<ByteRGBValueC *>((void *)buffer),true);
@@ -314,14 +317,17 @@ namespace RavlN {
     if(!input.IsValid()) return false;
     ONDEBUG(cerr << "FFmpegVideoDecoderBaseC::Seek64 to " << off << " \n");
     // Be carefull seeking forward with some codec's
-#if 1
-    if(pCodecCtx->codec_id == CODEC_ID_MPEG2VIDEO) {
+
+#if 0
+    if(pCodecCtx->codec_id == CODEC_ID_MPEG2VIDEO){
       ONDEBUG(cerr << "FFmpegVideoDecoderBaseC::Seek64, Using seek hack. " << off << " @ " << Tell64() << "\n");
-      Int64T delta = off - Tell64();
-      if(delta >= 0 && delta < 128)
-        return DSeek64(delta);
+      input.Seek64(off-25);
+      for(UIntT i = 0; i < 25;i++)
+        DecodeFrame();
+      return true;
     }
 #endif
+
     return input.Seek64(off);
   }
   
@@ -342,8 +348,10 @@ namespace RavlN {
   //: Change position relative to the current one.
   
   bool FFmpegVideoDecoderBaseC::DSeek64(Int64T off) {
-    if(!input.IsValid()) return false;
-#if 1
+    if(!input.IsValid())
+      return false;
+
+#if 0
     // Be carefull seeking forward with some codec's
     if(pCodecCtx->codec_id == CODEC_ID_MPEG2VIDEO) {
       ONDEBUG(cerr << "FFmpegVideoDecoderBaseC::DSeek64, Using seek hack." << off << " \n");
@@ -355,6 +363,7 @@ namespace RavlN {
       }
     }
 #endif
+
     return input.DSeek64(off);
   }
   

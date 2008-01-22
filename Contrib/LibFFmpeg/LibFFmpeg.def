@@ -5,41 +5,17 @@
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
 
-include DynLink.def
-
 ifndef LIBFFMPEG_DEF
   LIBFFMPEG_DEF=1
 
-  LIBFFMPEG_LIBS=-lavformat -lavcodec -lavutil -lz
-  
-# -lswscale 
-
   ifdef LIBFFMPEG_HOME
-    ifeq ($(LIBFFMPEG_HOME),/usr)
-
-      EXELIB := $(LIBFFMPEG_LIBS) $(EXELIB)
-
-    else
-
-      # Directory to look for include files.
-      ifndef LIBFFMPEG_INCLUDE
-        LIBFFMPEG_INCLUDE=$(LIBFFMPEG_HOME)/include
-      endif
-
-      # Directory to look for libraries.
-      ifndef LIBFFMPEG_LIBDIR
-        LIBFFMPEG_LIBDIR=$(LIBFFMPEG_HOME)/lib
-      endif
-
-      # Set things up.
-      EXELIB := -L$(LIBFFMPEG_LIBDIR) $(LIBFFMPEG_LIBS) $(EXELIB)
-      INCLUDES += -I$(LIBFFMPEG_INCLUDE)
-
-    endif
-
-  else
-
-    EXELIB := $(LIBFFMPEG_LIBS) $(EXELIB)
-
+    PKG_CONFIG_PATH := $(LIBFFMPEG_HOME)/lib/pkgconfig:$(PKG_CONFIG_PATH)
   endif
+
+  LIBFFMPEG_INCLUDES := $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config libavformat --cflags-only-I)
+  LIBFFMPEG_LIBS := $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config libavformat --libs)
+
+  INCLUDES := $(LIBFFMPEG_INCLUDES) $(INCLUDES)
+  EXELIB := $(LIBFFMPEG_LIBS) $(EXELIB)
 endif
+

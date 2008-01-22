@@ -19,7 +19,7 @@ HEADERS = ImgIOFFmpeg.hh LibFFmpegFormat.hh FFmpegPacket.hh FFmpegPacketStream.h
  FFmpegVideoDecoder.hh
 
 SOURCES = ImgIOFFmpeg.cc LibFFmpegFormat.cc FFmpegPacket.cc FFmpegPacketStream.cc \
- FFmpegVideoDecoder.cc
+  FFmpegVideoDecoder.cc
 
 PLIB = RavlLibFFmpeg
 
@@ -33,6 +33,4 @@ PROGLIBS = RavlGUI RavlDPDisplay
 
 EXAMPLES = exFFmpeg.cc exFFmpegSeek.cc
 
-
 EHT = LibFFmpeg.html
-

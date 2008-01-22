@@ -19,7 +19,7 @@
 #include "Ravl/Image/FFmpegPacket.hh"
 
 extern "C" {
-#include <ffmpeg/avformat.h>
+#include <avformat.h>
 }
 
 namespace RavlN {
@@ -201,6 +201,120 @@ namespace RavlN {
     bool FirstVideoStream(IntT &videoStreamId,IntT &codecId)
     { return Body().FirstVideoStream(videoStreamId,codecId); }
     //: Find info about first video stream.
+    
+    FFmpegPacketC Get() 
+    { return Body().Get(); }
+    //: Get a packet from the stream. 
+    //!cwiz:author
+    
+    bool Get(FFmpegPacketC & packet) 
+    { return Body().Get(packet); }
+    //: Get a packet from the stream. 
+    //!cwiz:author
+    
+    bool IsGetReady() const
+    { return Body().IsGetReady(); }
+    //: Is get ready ? 
+    //!cwiz:author
+    
+    bool IsGetEOS() const
+    { return Body().IsGetEOS(); }
+    //: End of stream ? 
+    //!cwiz:author
+    
+    bool GetAttr(const StringC & attrName,StringC & attrValue) 
+    { return Body().GetAttr(attrName,attrValue); }
+    //: Get a attribute. 
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    //!cwiz:author
+    
+    bool GetAttr(const StringC & attrName,IntT & attrValue) 
+    { return Body().GetAttr(attrName,attrValue); }
+    //: Get a attribute. 
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    //!cwiz:author
+    
+    bool GetAttr(const StringC & attrName,RealT & attrValue) 
+    { return Body().GetAttr(attrName,attrValue); }
+    //: Get a attribute. 
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    //!cwiz:author
+    
+    bool GetAttr(const StringC & attrName,bool & attrValue) 
+    { return Body().GetAttr(attrName,attrValue); }
+    //: Get a attribute. 
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    //!cwiz:author
+    
+    bool Seek(UIntT off) 
+    { return Body().Seek(off); }
+    //: Seek to location in stream. 
+    // Returns FALSE, if seek failed. (Maybe because its
+    // not implemented.)
+    // if an error occurered (Seek returned False) then stream
+    // position will not be changed.
+    //!cwiz:author
+    
+    bool DSeek(IntT off) 
+    { return Body().DSeek(off); }
+    //: Seek to location in stream. 
+    // Returns FALSE, if seek failed. (Maybe because its
+    // not implemented.)
+    // if an error occurered (Seek returned False) then stream
+    // position will not be changed.
+    //!cwiz:author
+    
+    UIntT Tell() const
+    { return Body().Tell(); }
+    //: Find current location in stream. 
+    //!cwiz:author
+    
+    UIntT Size() const
+    { return Body().Size(); }
+    //: Find the total size of the stream. 
+    //!cwiz:author
+    
+    UIntT Start() const
+    { return Body().Start(); }
+    //: Find the total size of the stream. 
+    //!cwiz:author
+    
+    Int64T Tell64() const
+    { return Body().Tell64(); }
+    //: Find current location in stream. 
+    //!cwiz:author
+    
+    bool DSeek64(Int64T off) 
+    { return Body().DSeek64(off); }
+    //: Seek to location in stream. 
+    // Returns FALSE, if seek failed. (Maybe because its
+    // not implemented.)
+    // if an error occurered (Seek returned False) then stream
+    // position will not be changed.
+    //!cwiz:author
+    
+    bool Seek64(Int64T off) 
+    { return Body().Seek64(off); }
+    //: Seek to location in stream. 
+    // Returns FALSE, if seek failed. (Maybe because its
+    // not implemented.)
+    // if an error occurered (Seek returned False) then stream
+    // position will not be changed.
+    //!cwiz:author
+    
+    Int64T Size64() const
+    { return Body().Size64(); }
+    //: Find the total size of the stream. 
+    //!cwiz:author
+    
+    Int64T Start64() const
+    { return Body().Start64(); }
+    //: Find the total size of the stream. 
+    //!cwiz:author
     
   protected:
     FFmpegPacketStreamC(FFmpegPacketStreamBodyC &bod)
