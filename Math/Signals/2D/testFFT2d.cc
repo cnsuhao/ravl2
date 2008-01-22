@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2002, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -8,6 +8,8 @@
 //! lib=RavlMath
 //! file="Ravl/Math/Signals/2D/testFFT2d.cc"
 
+#include "Ravl/Complex.hh"
+#include "Ravl/Stream.hh"
 #include "Ravl/FFT2d.hh"
 #include "Ravl/SArray2dIter.hh"
 #include "Ravl/SArray2dIter2.hh"
@@ -15,6 +17,7 @@
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/StrStream.hh"
+#include "Ravl/OS/Date.hh"
 
 using namespace RavlN;
 
@@ -26,6 +29,8 @@ int testRealFFT2dPwr2();
 
 int testFFTShift();
 int testRealFFTShift();
+
+int testSpeed();
 
 int main()
 {
@@ -54,6 +59,10 @@ int main()
     cerr << "Error line " << ln << "\n";
     return 1;
   }
+  if((ln = testSpeed()) != 0) {
+    cerr << "Error line " << ln << "\n";
+    return 1;
+  }
   cout << "Test passed. \n";
   return 0;
 }
@@ -67,17 +76,17 @@ int testFFT2d() {
   int i = 0;
   for(SArray2dIterC<ComplexC> it(indat);it;it++)
     *it = ComplexC(i++,0);
-  
+
   FFT2dC fftf(indat.Size1(),indat.Size2(),false); // create forward transform.
   SArray2dC<ComplexC> fres = fftf.Apply(indat);
-  
+
   //cerr << fres << "\n";
-  
+
   FFT2dC ffti(indat.Size1(),indat.Size2(),true);// create reverse transform.
   SArray2dC<ComplexC> ires = ffti.Apply(fres);
-  
+
   //cerr << ires << "\n";
-  
+
   for(SArray2dIter2C<ComplexC,ComplexC> rit(indat,ires);rit;rit++) {
     if(Abs(rit.Data1().Re() - rit.Data2().Re()) > 0.000001)
       return __LINE__;
@@ -151,19 +160,19 @@ int testFFT2dPwr2() {
   int i = 0;
   for(SArray2dIterC<ComplexC> it(indat);it;it++)
     *it = ComplexC(i++,0);
-  
+
   FFT2dC fftf(indat.Size1(),indat.Size2(),false); // create forward transform.
   SArray2dC<ComplexC> fres = fftf.Apply(indat);
-  
+
   //cerr << fres << "\n";
-  
+
   FFT2dC ffti(indat.Size1(),indat.Size2(),true);// create reverse transform.
   SArray2dC<ComplexC> ires = ffti.Apply(fres);
-  
+
   //cerr << ires << "\n";
-  
+
   // Check results.
-  
+
   for(SArray2dIter2C<ComplexC,ComplexC> rit(indat,ires);rit;rit++) {
     if(Abs(rit.Data1().Re() - rit.Data2().Re()) > 0.000001)
       return __LINE__;
@@ -181,20 +190,20 @@ int testRealFFT2d() {
   int i = 0;
   for(SArray2dIterC<RealT> it(indat);it;it++)
     *it = (RealT) i++;
-  
+
   FFT2dC fftf(indat.Size1(),indat.Size2(),false); // create forward transform.
   SArray2dC<ComplexC> fres = fftf.Apply(indat);
-  
+
   //cerr << fres << "\n";
-  
+
   FFT2dC ffti(indat.Size1(),indat.Size2(),true);// create reverse transform.
   SArray2dC<ComplexC> ires = ffti.Apply(fres);
-  
+
   //cerr << ires << "\n";
 
   SArray2dC<RealT> rres = ffti.Real(ires);
 
-  
+
   for(SArray2dIter3C<RealT,ComplexC,RealT> rit(indat,ires,rres);rit;rit++) {
     if(Abs(rit.Data1() - rit.Data3()) > 0.000001)
       return __LINE__;
@@ -210,19 +219,19 @@ int testRealFFT2dPwr2() {
   int i = 0;
   for(SArray2dIterC<RealT> it(indat);it;it++)
     *it = i++;
-  
+
   FFT2dC fftf(indat.Size1(),indat.Size2(),false); // create forward transform.
   SArray2dC<ComplexC> fres = fftf.Apply(indat);
-  
+
   //cerr << fres << "\n";
-  
+
   FFT2dC ffti(indat.Size1(),indat.Size2(),true);// create reverse transform.
   SArray2dC<ComplexC> ires = ffti.Apply(fres);
-  
+
   //cerr << ires << "\n";
-  
+
   // Check results.
-  
+
   for(SArray2dIter2C<RealT,ComplexC> rit(indat,ires);rit;rit++) {
     if(Abs(rit.Data1() - rit.Data2().Re()) > 0.000001)
       return __LINE__;
@@ -263,17 +272,17 @@ int testFFTShift() {
     if(Abs(rit.Data1().Im() - rit.Data2().Im()) > 0.000001)
       return __LINE__;
   }
- 
+
   // Fixed test for odd size
   SArray2dC<ComplexC> oddSize(3,5);
   int c=0;
   for( SArray2dIterC<ComplexC> it(oddSize); it; it++ )
     {
-      int i = c++ ; 
-      int j = c++ ;  
+      int i = c++ ;
+      int j = c++ ;
       *it = ComplexC(i,j) ;
     }
-  
+
   SArray2dC<ComplexC> sOddSize = FFT2dC::FFTShift(oddSize);
 
   SArray2dC<ComplexC> correctSOddSize(3,5);
@@ -323,6 +332,30 @@ int testRealFFTShift() {
     if(Abs(rit.Data1() - rit.Data2()) > 0.000001)
       return __LINE__;
   }
+
+  return 0;
+}
+
+int testSpeed()
+{
+  cerr << "testSpeed(), Started \n";
+
+  SArray2dC<RealT> array(300, 300);
+  int i = 0;
+  for(SArray2dIterC<RealT> it(array); it; it++)
+    *it = i++;
+
+  FFT2dC fftf(array.Size1(), array.Size2(),false); // create forward transform.
+  FFT2dC ffti(array.Size1(), array.Size2(),true);// create reverse transform.
+
+  DateC startTime = DateC::NowLocal();
+  for(int i = 0; i < 40; i++)
+  {
+    SArray2dC<ComplexC> fres = fftf.Apply(array);
+    SArray2dC<ComplexC> ires = ffti.Apply(fres);
+  }
+  RealT time = (DateC::NowLocal().Double() - startTime.Double()) / 40.;
+  cerr << "Time:" << time << endl;
 
   return 0;
 }

@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -28,28 +28,28 @@
 
 
 namespace RavlN {
-  
-#if RAVL_COMPILER_MIPSPRO
-  static Slice1dC<ComplexC*> fixSGIBug1;
-  static Slice1dIter2C<ComplexC*,ComplexC> fixSGIBug2;
-#endif
+
+//#if RAVL_COMPILER_MIPSPRO
+//  static Slice1dC<ComplexC*> fixSGIBug1;
+//  static Slice1dIter2C<ComplexC*,ComplexC> fixSGIBug2;
+//#endif
 
   //: Constructor.
-  
-  FFT2dBodyC::FFT2dBodyC(Index2dC nn,bool iinv) 
+
+  FFT2dBodyC::FFT2dBodyC(Index2dC nn,bool iinv)
     : n(0),
       m(0),
       inv(iinv),
       base2(false)
   { Init(nn,iinv); }
-  
+
   //: Destructor
-  
+
   FFT2dBodyC::~FFT2dBodyC()  {
   }
-  
+
   //: Create a plan with the given setup.
-  
+
   bool FFT2dBodyC::Init(Index2dC nsize,bool iinv) {
     // Remeber settings in case we asked...
     inv = iinv;
@@ -70,16 +70,14 @@ namespace RavlN {
       StringC errTxt1 = ((StringC)"FFT2dBodyC::Init(), column size of " +  StringC( size[1].V() ) + (StringC)" has a prime factor > 101.");
       RavlAlwaysAssertMsg( size[0].V() == nf1, &errTxt0[0]);
       RavlAlwaysAssertMsg( size[1].V() == nf2, &errTxt1[0]);
-
-      tmp1 = SArray2dC<ComplexC>(size[0].V(),size[1].V());
-      tmp1Ptr = SArray2dC<ComplexC *>(size[0].V(),size[1].V());
     }
     return true;
   }
-  
+
   //: Apply transform to array.
-  
-  SArray2dC<ComplexC> FFT2dBodyC::Apply(const SArray2dC<ComplexC> &dat) {
+
+  SArray2dC<ComplexC> FFT2dBodyC::Apply(const SArray2dC<ComplexC> &dat) const
+  {
     ONDEBUG(cerr << "FFT2dBodyC::Apply(SArray2dC<ComplexC>) n=" << n << " inv=" << inv << " Size=" << size << "\n");
     RavlAssert(dat.Size1() == (UIntT) size[0].V());
     RavlAssert(dat.Size2() == (UIntT) size[1].V());
@@ -94,6 +92,8 @@ namespace RavlN {
       //cerr << "result:" << ret << "\n";;
       return ret;
     }
+    SArray2dC<ComplexC> tmp1(size[0].V(),size[1].V());
+    SArray2dC<ComplexC *> tmp1Ptr(size[0].V(),size[1].V());
     ret = SArray2dC<ComplexC>(size[0].V(),size[1].V());
     int i,j;
     SArray1dC<ComplexC> idat(size[0].V());
@@ -102,14 +102,14 @@ namespace RavlN {
       it.Data2() = it.Data3();
       it.Data1() = &it.Data2();
     }
-    
+
     if(inv) {
       // fft of rows.
       for(i = 0;i < (int) dat.Size1();i++)
 	fftgc((Cpx **)((void *) (tmp1Ptr[i].DataStart())),
 	      (ccomplex *)((void *) (tmp1[i].DataStart())),
-	      size[1].V(),primeFactors2,'i');
-      
+	      size[1].V(),(int*)primeFactors2,'i');
+
       // fft of cols.
       for(j = 0;j < (int) dat.Size2();j++) {
 	Slice1dC<ComplexC> slice(tmp1.Buffer().Data(),tmp1Ptr[0][j],tmp1.Size1(),tmp1.Stride());
@@ -119,8 +119,8 @@ namespace RavlN {
 	//cerr << idat << "\n";
 	fftgc((ccomplex **) ((void *)&(ptrArr[0])),
 	      (ccomplex *) ((void *) idat.DataStart()),
-	      idat.Size(),primeFactors1,'i');
-	
+	      idat.Size(),(int*)primeFactors1,'i');
+
 	for(Slice1dIter2C<ComplexC *,ComplexC> itb(ptrArr.Slice1d(),ret.SliceColumn(j));itb;itb++)
 	  itb.Data2() = *itb.Data1();
       }
@@ -129,7 +129,7 @@ namespace RavlN {
       for(i = 0;i < (int) dat.Size1();i++)
 	fftgc((Cpx **)((void *) (tmp1Ptr[i].DataStart())),
 	      (ccomplex *)((void *) (tmp1[i].DataStart())),
-	      size[1].V(),primeFactors2,'d');
+	      size[1].V(),(int*)primeFactors2,'d');
       // fft of cols.
       for(j = 0;j < (int) dat.Size2();j++) {
 	Slice1dC<ComplexC> slice(tmp1.Buffer().Data(),tmp1Ptr[0][j],dat.Size1(),dat.Stride());
@@ -137,21 +137,21 @@ namespace RavlN {
 	//cerr << const_cast<SArray2dC<ComplexC> &>(dat).SliceColumn(j) << "\n";
 	for(BufferAccessIter2C<ComplexC *,ComplexC> it(ptrArr,idat);it;it++)
 	  it.Data1() = &it.Data2();
-	
+
 	fftgc((ccomplex **) ((void *) ptrArr.DataStart()),
 	      (ccomplex *) ((void *) idat.DataStart()),
-	      idat.Size(),primeFactors1,'d');
-	
+	      idat.Size(),(int*)primeFactors1,'d');
+
 	for(Slice1dIter2C<ComplexC *,ComplexC> itb(ptrArr.Slice1d(),ret.SliceColumn(j));itb;itb++)
-	  itb.Data2() = *itb.Data1();      
+	  itb.Data2() = *itb.Data1();
       }
     }
     return ret;
   }
-  
+
   //: Apply transform to array.
-  
-  SArray2dC<ComplexC> FFT2dBodyC::Apply(const SArray2dC<RealT> &dat) {
+
+  SArray2dC<ComplexC> FFT2dBodyC::Apply(const SArray2dC<RealT> &dat) const {
     ONDEBUG(cerr << "FFT2dBodyC::Apply(SArray2dC<ComplexC>) n=" << n << " inv=" << inv << " \n");
     RavlAssert(dat.Size1() == (UIntT) size[0].V());
     RavlAssert(dat.Size2() == (UIntT) size[1].V());
@@ -170,23 +170,25 @@ namespace RavlN {
     int i,j;
     SArray1dC<ComplexC> idat(size[0].V());
     SArray1dC<ComplexC *> ptrArr(size[0].V());
-    
+    SArray2dC<ComplexC> tmp1(size[0].V(),size[1].V());
+    SArray2dC<ComplexC *> tmp1Ptr(size[0].V(),size[1].V());
+
     if(inv) {
       // fft of rows.
       for(i = 0;i < (int) dat.Size1();i++)
 	fftgr(dat[i].DataStart(),
 	      (ccomplex *)((void *) tmp1[i].DataStart()),
-	      size[1].V(),primeFactors2,'i');
+	      size[1].V(),(int*)primeFactors2,'i');
       // fft of cols.
       for(j = 0;j < (int) dat.Size2();j++) {
 	idat.CopyFrom(tmp1.SliceColumn(j));
-	for(BufferAccessIter2C<ComplexC *,ComplexC> it(ptrArr,idat);it;it++) 
+	for(BufferAccessIter2C<ComplexC *,ComplexC> it(ptrArr,idat);it;it++)
 	  it.Data1() = &it.Data2();
-	
+
 	fftgc((ccomplex **) ((void *)&(ptrArr[0])),
 	      (ccomplex *) ((void *) idat.DataStart()),
-	      idat.Size(),primeFactors1,'i');
-	
+	      idat.Size(),(int*)primeFactors1,'i');
+
 	for(Slice1dIter2C<ComplexC *,ComplexC> itb(ptrArr.Slice1d(),ret.SliceColumn(j));itb;itb++)
 	  itb.Data2() = *itb.Data1();
       }
@@ -195,17 +197,17 @@ namespace RavlN {
       for(i = 0;i < (int) dat.Size1();i++)
 	fftgr(dat[i].DataStart(),
 	      (ccomplex *)((void *) tmp1[i].DataStart()),
-	      size[1].V(),primeFactors2,'d');
+	      size[1].V(),(int*)primeFactors2,'d');
       // fft of cols.
       for(j = 0;j < (int) dat.Size2();j++) {
 	idat.CopyFrom(tmp1.SliceColumn(j));
-	for(BufferAccessIter2C<ComplexC *,ComplexC> it(ptrArr,idat);it;it++) 
+	for(BufferAccessIter2C<ComplexC *,ComplexC> it(ptrArr,idat);it;it++)
 	  it.Data1() = &it.Data2();
-	
+
 	fftgc((ccomplex **) ((void *)&(ptrArr[0])),
 	      (ccomplex *) ((void *) idat.DataStart()),
-	      idat.Size(),primeFactors1,'d');
-	
+	      idat.Size(),(int*)primeFactors1,'d');
+
 	for(Slice1dIter2C<ComplexC *,ComplexC> itb(ptrArr.Slice1d(),ret.SliceColumn(j));itb;itb++)
 	  itb.Data2() = *itb.Data1();
       }
@@ -230,13 +232,13 @@ namespace RavlN {
     if( dat.Size1() & true ) datQuartile3TopLeft.Row()++;
     if( dat.Size2() & true ) datQuartile3TopLeft.Col()++;
 
-    IndexRange2dC datQuartile0Range( 0, datQuartile3TopLeft.Row() - 1, 
+    IndexRange2dC datQuartile0Range( 0, datQuartile3TopLeft.Row() - 1,
                                      0, datQuartile3TopLeft.Col() - 1 );
-    IndexRange2dC datQuartile1Range( 0, datQuartile3TopLeft.Row() - 1, 
+    IndexRange2dC datQuartile1Range( 0, datQuartile3TopLeft.Row() - 1,
                                      datQuartile3TopLeft.Col(), dat.Size2() - 1 );
     IndexRange2dC datQuartile2Range( datQuartile3TopLeft.Row(), dat.Size1() - 1,
                                      0, datQuartile3TopLeft.Col() - 1 );
-    IndexRange2dC datQuartile3Range( datQuartile3TopLeft.Row(), dat.Size1() - 1, 
+    IndexRange2dC datQuartile3Range( datQuartile3TopLeft.Row(), dat.Size1() - 1,
                                      datQuartile3TopLeft.Col(), dat.Size2() - 1 );
 
     //: Output quartiles
@@ -246,9 +248,9 @@ namespace RavlN {
     IndexRange2dC resQuartile2Range = datQuartile1Range;
     IndexRange2dC resQuartile3Range = datQuartile0Range;
 
-    Index2dC resQuartile0Origin( 0              , 0 ); 
-    Index2dC resQuartile1Origin( 0              , dat.Size2() / 2 ); 
-    Index2dC resQuartile2Origin( dat.Size1() / 2, 0 ); 
+    Index2dC resQuartile0Origin( 0              , 0 );
+    Index2dC resQuartile1Origin( 0              , dat.Size2() / 2 );
+    Index2dC resQuartile2Origin( dat.Size1() / 2, 0 );
     Index2dC resQuartile3Origin( dat.Size1() / 2, dat.Size2() / 2 );
 
     resQuartile0Range.SetOrigin(resQuartile0Origin);
@@ -300,13 +302,13 @@ namespace RavlN {
     if( dat.Size1() & true ) datQuartile3TopLeft.Row()++;
     if( dat.Size2() & true ) datQuartile3TopLeft.Col()++;
 
-    IndexRange2dC datQuartile0Range( 0, datQuartile3TopLeft.Row() - 1, 
+    IndexRange2dC datQuartile0Range( 0, datQuartile3TopLeft.Row() - 1,
                                      0, datQuartile3TopLeft.Col() - 1 );
-    IndexRange2dC datQuartile1Range( 0, datQuartile3TopLeft.Row() - 1, 
+    IndexRange2dC datQuartile1Range( 0, datQuartile3TopLeft.Row() - 1,
                                      datQuartile3TopLeft.Col(), dat.Size2() - 1 );
     IndexRange2dC datQuartile2Range( datQuartile3TopLeft.Row(), dat.Size1() - 1,
                                      0, datQuartile3TopLeft.Col() - 1 );
-    IndexRange2dC datQuartile3Range( datQuartile3TopLeft.Row(), dat.Size1() - 1, 
+    IndexRange2dC datQuartile3Range( datQuartile3TopLeft.Row(), dat.Size1() - 1,
                                      datQuartile3TopLeft.Col(), dat.Size2() - 1 );
 
     //: Output quartiles
@@ -316,9 +318,9 @@ namespace RavlN {
     IndexRange2dC resQuartile2Range = datQuartile1Range;
     IndexRange2dC resQuartile3Range = datQuartile0Range;
 
-    Index2dC resQuartile0Origin( 0              , 0 ); 
-    Index2dC resQuartile1Origin( 0              , dat.Size2() / 2 ); 
-    Index2dC resQuartile2Origin( dat.Size1() / 2, 0 ); 
+    Index2dC resQuartile0Origin( 0              , 0 );
+    Index2dC resQuartile1Origin( 0              , dat.Size2() / 2 );
+    Index2dC resQuartile2Origin( dat.Size1() / 2, 0 );
     Index2dC resQuartile3Origin( dat.Size1() / 2, dat.Size2() / 2 );
 
     resQuartile0Range.SetOrigin(resQuartile0Origin);
@@ -352,7 +354,7 @@ namespace RavlN {
 
     return shifted;
   }
-  
+
   //: FFTShift image.
   Array2dC<ComplexC> FFT2dC::FFTShift(const Array2dC<ComplexC> &dat)
   {
@@ -363,10 +365,10 @@ namespace RavlN {
     // Translate shifted to dat position
     shifted.ShiftIndexes1(-dat.Range1().Min());
     shifted.ShiftIndexes2(-dat.Range2().Min());
-  
+
     return shifted;
   }
-  
+
   //: FFTShift image.
   Array2dC<RealT> FFT2dC::FFTShift(const Array2dC<RealT> &dat)
   {
@@ -377,7 +379,7 @@ namespace RavlN {
     // Translate shifted to dat position
     shifted.ShiftIndexes1(-dat.Range1().Min());
     shifted.ShiftIndexes2(-dat.Range2().Min());
-  
+
     return shifted;
   }
 

@@ -21,4 +21,5 @@ PLIB=RavlMath
 
 USESLIBS= RavlMath
 
+PROGLIBS=RavlOS
 
