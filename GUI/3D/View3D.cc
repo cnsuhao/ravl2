@@ -259,7 +259,8 @@ namespace RavlGUIN {
 
     //setup light
     Canvas3DC me(*this);
-    DLight3DC(RealRGBValueC(1., 1., 1.), m_viewPoint).GUIRender(me);
+    RealRGBValueC val(1., 1., 1.);
+    DLight3DC(val, m_viewPoint).GUIRender(me);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
