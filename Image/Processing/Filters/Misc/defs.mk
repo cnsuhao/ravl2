@@ -13,7 +13,7 @@ MAINS=doHomomorphicFilter.cc unDistort.cc
 
 HEADERS=  HomomorphicFilter.hh HistogramEqualise.hh \
  PixelMixer.hh RemoveDistortion.hh DeinterlaceStream.hh \
- DCT2d.hh ImageExtend.hh ImagePyramid.hh 
+ DCT2d.hh ImageExtend.hh ImagePyramid.hh MedianFilter.hh
 
 SOURCES= HomomorphicFilter.cc  DCT2d.cc DeinterlaceStream.cc 
 
