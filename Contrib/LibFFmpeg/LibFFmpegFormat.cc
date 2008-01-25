@@ -23,8 +23,8 @@
 #include "Ravl/Image/FFmpegPacketStream.hh"
 #include "Ravl/Image/FFmpegVideoDecoder.hh"
 
-#include <ffmpeg/avcodec.h>
-#include <ffmpeg/avformat.h>
+#include <avcodec.h>
+#include <avformat.h>
 
 #define DODEBUG 0
 
