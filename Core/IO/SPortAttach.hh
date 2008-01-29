@@ -48,6 +48,21 @@ namespace RavlN {
     //: Find the offset where the stream begins, normally zero.
     // Defaults to 0
     
+    virtual bool Seek64(StreamPosT off);
+    //: Seek to location in stream.
+    
+    virtual bool DSeek64(StreamPosT off);
+    //: Seek to location in stream.
+
+    virtual StreamPosT Tell64() const; 
+    //: Find current location in stream.
+    
+    virtual StreamPosT Size64() const; 
+    //: Find the total size of the stream. (assuming it starts from 0)
+    
+    virtual StreamPosT Start64() const; 
+    //: Find the offset where the stream begins, normally zero.
+
     virtual void SetSeekCtrl(const DPSeekCtrlC &sc);
     //: Set seek control.
     
@@ -159,6 +174,26 @@ namespace RavlN {
     { return sctrl.Start(); }
     //: Find the offset where the stream begins, normally zero.
     // Defaults to 0
+    
+    virtual bool Seek64(StreamPosT off)
+    { return sctrl.Seek64(off); }
+    //: Seek to location in stream.
+    
+    virtual bool DSeek64(StreamPosT off)
+    { return sctrl.DSeek64(off); }
+    //: Seek to location in stream.
+
+    virtual StreamPosT Tell64() const
+    { return sctrl.Tell64(); }
+    //: Find current location in stream.
+    
+    virtual StreamPosT Size64() const
+    { return sctrl.Size64(); }
+    //: Find the total size of the stream. (assuming it starts from 0)
+    
+    virtual StreamPosT Start64() const
+    { return sctrl.Start64(); }
+    //: Find the offset where the stream begins, normally zero.
     
     virtual bool IsGetReady() const
     { return port.IsGetReady(); }
@@ -289,6 +324,26 @@ namespace RavlN {
     { return sctrl.Start(); }
     //: Find the offset where the stream begins, normally zero.
     // Defaults to 0
+
+    virtual bool Seek64(StreamPosT off)
+    { return sctrl.Seek64(off); }
+    //: Seek to location in stream.
+    
+    virtual bool DSeek64(StreamPosT off)
+    { return sctrl.DSeek64(off); }
+    //: Seek to location in stream.
+
+    virtual StreamPosT Tell64() const
+    { return sctrl.Tell64(); }
+    //: Find current location in stream.
+    
+    virtual StreamPosT Size64() const
+    { return sctrl.Size64(); }
+    //: Find the total size of the stream. (assuming it starts from 0)
+    
+    virtual StreamPosT Start64() const
+    { return sctrl.Start64(); }
+    //: Find the offset where the stream begins, normally zero.
     
     virtual void PutEOS()
     { port.PutEOS(); }

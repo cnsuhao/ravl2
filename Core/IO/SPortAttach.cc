@@ -63,6 +63,7 @@ namespace RavlN {
   
   bool DPSeekCtrlAttachBodyC::DSeek(IntT off)
   { return sctrl.DSeek(off); }
+
   
   //: Find current location in stream.
   
@@ -79,6 +80,32 @@ namespace RavlN {
   
   UIntT DPSeekCtrlAttachBodyC::Start() const
   { return sctrl.Start(); }
+
+  //: Seek to location in stream.
+  
+  bool DPSeekCtrlAttachBodyC::Seek64(StreamPosT off) 
+  { return sctrl.Seek64(off); }
+  
+  //: Seek to relative location in stream.
+  
+  bool DPSeekCtrlAttachBodyC::DSeek64(StreamPosT off) 
+  { return sctrl.DSeek64(off); }
+
+  //: Find current location in stream.
+  
+  StreamPosT DPSeekCtrlAttachBodyC::Tell64() const
+  { return sctrl.Tell64(); }
+  
+  //: Find the total size of the stream. (assuming it starts from 0)
+  
+  StreamPosT DPSeekCtrlAttachBodyC::Size64() const 
+  { return sctrl.Size64(); }
+    
+  //: Find the offset where the stream begins, normally zero.
+  
+  StreamPosT DPSeekCtrlAttachBodyC::Start64() const 
+  { return sctrl.Start64();  }
+  
   
   //: Set seel control.
   
