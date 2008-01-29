@@ -58,8 +58,21 @@ namespace RavlImageN
   {
     return false;
   }
-  
 
+  //: Seek to location in stream.
+  
+  bool ImgILibFFmpegBodyC::DSeek64(StreamPosT off) {
+    RavlAssert(0);
+    return false;    
+  }
+    
+  //: Seek to location in stream.
+  
+  bool ImgILibFFmpegBodyC::DSeek(IntT off) {
+    RavlAssert(0);
+    return false;
+  }
+  
   
   bool ImgILibFFmpegBodyC::Seek(UIntT off)
   {

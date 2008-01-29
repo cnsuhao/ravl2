@@ -115,6 +115,7 @@ namespace RavlN {
     uint8_t  *rawData;
     AVStream *streamInfo;
     SwsContext *pSWSCtx;
+    bool m_haveFullSeek;
   };
   
 
@@ -246,7 +247,6 @@ namespace RavlN {
     //: Discard the next input datum.
 
   protected:
-    
   };
 
   template<class ImageT> 

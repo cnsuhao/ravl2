@@ -45,7 +45,8 @@ namespace RavlN {
       bytesRemaining(0),
       rawData(0),
       streamInfo(0),
-      pSWSCtx(0)
+      pSWSCtx(0),
+      m_haveFullSeek(true)
   {
     if(!Open(_packetStream,_videoStreamId,_codecId))
       throw ExceptionOperationFailedC("Failed to open video stream. ");
@@ -60,7 +61,8 @@ namespace RavlN {
       bytesRemaining(0),
       rawData(0),
       streamInfo(0),
-      pSWSCtx(0)
+      pSWSCtx(0),
+      m_haveFullSeek(true)
   {}
   
   //: Destructor.
@@ -131,6 +133,10 @@ namespace RavlN {
 
     // Allocate a frame.
     pFrame=avcodec_alloc_frame();
+    
+    if(!packetStream.GetAttr("fullseek",m_haveFullSeek))
+      m_haveFullSeek = true; // Be optimisitic, its not actually reporting a problem.
+    
     return true;
   }
   
@@ -306,31 +312,7 @@ namespace RavlN {
     if(!input.IsValid()) return 0;
     return input.Tell64();
   }
-  
-  //: Seek to location in stream.
-  // Returns FALSE, if seek failed. (Maybe because its
-  // not implemented.)
-  // if an error occurered (Seek returned False) then stream
-  // position will not be changed.
-  
-  bool FFmpegVideoDecoderBaseC::Seek64(Int64T off) {
-    if(!input.IsValid()) return false;
-    ONDEBUG(cerr << "FFmpegVideoDecoderBaseC::Seek64 to " << off << " \n");
-    // Be carefull seeking forward with some codec's
 
-#if 0
-    if(pCodecCtx->codec_id == CODEC_ID_MPEG2VIDEO){
-      ONDEBUG(cerr << "FFmpegVideoDecoderBaseC::Seek64, Using seek hack. " << off << " @ " << Tell64() << "\n");
-      input.Seek64(off-25);
-      for(UIntT i = 0; i < 25;i++)
-        DecodeFrame();
-      return true;
-    }
-#endif
-
-    return input.Seek64(off);
-  }
-  
   //: Find the total size of the stream.
   
   Int64T FFmpegVideoDecoderBaseC::Size64() const {
@@ -344,18 +326,50 @@ namespace RavlN {
     if(!input.IsValid()) return 0;
     return input.Start64();
   }
+  
+  //: Seek to location in stream.
+  // Returns FALSE, if seek failed. (Maybe because its
+  // not implemented.)
+  // if an error occurered (Seek returned False) then stream
+  // position will not be changed.
+  
+  bool FFmpegVideoDecoderBaseC::Seek64(Int64T off) {
+    if(!input.IsValid()) return false;
+    ONDEBUG(cerr << "FFmpegVideoDecoderBaseC::Seek64 to " << off << " \n");
+    // Be carefull seeking forward with some codec's
+    
+#if 1
+    if(!m_haveFullSeek) { //(pCodecCtx->codec_id == CODEC_ID_MPEG2VIDEO)
+      
+      ONDEBUG(cerr << "FFmpegVideoDecoderBaseC::Seek64, Using seek hack. " << off << " @ " << Tell64() << "\n");
+      // FIXME :- Should fill in the true gop length.
+      Int64T readBack = 17; // Typical gop length.
+      if(off < readBack)
+        readBack = off;
+      
+      Int64T offset = off-readBack;
+      input.Seek64(offset);
+      for(Int64T i = 0; i < readBack;i++)
+        DecodeFrame();
+      return true;
+    }
+#endif
 
+    return input.Seek64(off);
+  }
+  
+  
   //: Change position relative to the current one.
   
   bool FFmpegVideoDecoderBaseC::DSeek64(Int64T off) {
     if(!input.IsValid())
       return false;
-
-#if 0
+    
+#if 1
     // Be carefull seeking forward with some codec's
-    if(pCodecCtx->codec_id == CODEC_ID_MPEG2VIDEO) {
+    if(!m_haveFullSeek) {
       ONDEBUG(cerr << "FFmpegVideoDecoderBaseC::DSeek64, Using seek hack." << off << " \n");
-      if(off >= 0) {
+      if(off >= 0 && off < 100) {
         // Seek forward by decoding frames.
         for(Int64T i = 0;i < off;i++)
           DecodeFrame();

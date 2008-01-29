@@ -131,6 +131,9 @@ namespace RavlN {
     virtual Int64T Start64() const; 
     //: Find the total size of the stream.
     
+    bool HaveSeek() const
+    { return haveSeek; }
+    //: Test if we have a reliable seek.
   protected:
     void Init();
     //: Initalise attributes.

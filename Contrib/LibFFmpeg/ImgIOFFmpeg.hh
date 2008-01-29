@@ -66,6 +66,12 @@ namespace RavlImageN
     { return -1; }
     //: Find current location in stream.
     
+    virtual bool DSeek64(StreamPosT off);
+    //: Seek to location in stream.
+    
+    virtual bool DSeek(IntT off);
+    //: Seek to location in stream.
+    
     virtual bool Seek64(StreamPosT off);
     //: Seek to location in stream.
     
