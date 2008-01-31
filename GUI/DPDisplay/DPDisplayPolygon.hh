@@ -24,7 +24,7 @@ namespace RavlGUIN {
     : public DPDisplayObjBodyC
   {
   public:
-    DPDisplayPolygon2dBodyC(const Polygon2dC &polygon);
+    DPDisplayPolygon2dBodyC(const Polygon2dC &polygon,bool openPoly = false);
     //: Constructor
     
     virtual bool Draw(FrameMarkupC &markup);
@@ -42,6 +42,7 @@ namespace RavlGUIN {
     
   protected:
     Polygon2dC m_polygon;
+    bool m_openPolygon;
   };
   
 
@@ -53,8 +54,8 @@ namespace RavlGUIN {
     {}
     //: Default constructor
 
-    DPDisplayPolygon2dC(const Polygon2dC &polygon)
-      : DPDisplayObjC(new DPDisplayPolygon2dBodyC(polygon))
+    DPDisplayPolygon2dC(const Polygon2dC &polygon,bool openPoly = false)
+      : DPDisplayObjC(new DPDisplayPolygon2dBodyC(polygon,openPoly))
     {}
     //: Constructor
     

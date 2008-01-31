@@ -15,6 +15,8 @@
 #include "Ravl/GUI/DPDisplayImage.hh"
 #include "Ravl/OS/Date.hh"
 #include "Ravl/IO.hh"
+#include "Ravl/PolyLine2d.hh"
+#include "Ravl/LinePP2d.hh"
 
 using namespace RavlGUIN;
 
@@ -43,6 +45,13 @@ int main() {
     cerr << "Failed to save point. \n";
     return 1;
   }
+  
+  PolyLine2dC aPolyLine(Polygon2dC(RealRange2dC(Point2dC(60,25),10)));
+  if(!Save("@XA:hello",aPolyLine)) {
+    cerr << "Failed to save point. \n";
+    return 1;
+  }
+  
   
   IndexRangeC rr(-100,100);
   IndexRangeC cr(-100,200);

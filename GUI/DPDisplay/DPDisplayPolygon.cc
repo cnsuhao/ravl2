@@ -7,22 +7,26 @@
 
 #include "Ravl/GUI/DPDisplayPolygon.hh"
 #include "Ravl/GUI/MarkupPolygon2d.hh"
+#include "Ravl/PolyLine2d.hh"
 #include "Ravl/StrStream.hh"
 #include "Ravl/DP/Converter.hh"
+#include "Ravl/PolyLine2d.hh"
+#include "Ravl/LinePP2d.hh"
 
 namespace RavlGUIN {
 
   
   //: Constructor
   
-  DPDisplayPolygon2dBodyC::DPDisplayPolygon2dBodyC(const Polygon2dC &polygon) 
-    : m_polygon(polygon)
+  DPDisplayPolygon2dBodyC::DPDisplayPolygon2dBodyC(const Polygon2dC &polygon,bool openPoly) 
+    : m_polygon(polygon),
+      m_openPolygon(openPoly)
   {}
   
   //: Draw object to canvas.
   
   bool DPDisplayPolygon2dBodyC::Draw(FrameMarkupC &markup) {
-    markup.Markup().InsLast(MarkupPolygon2dC(m_id,1,m_polygon,true));
+    markup.Markup().InsLast(MarkupPolygon2dC(m_id,1,m_polygon,m_openPolygon,true));
     return true;
   }
   
@@ -38,7 +42,13 @@ namespace RavlGUIN {
     if(m_polygon.Contains(pnt)) {
       StringC tmp = StringOf(m_polygon);
       tmp.gsub("\n",",");
-      text = StringC("Polygon:") + tmp;
+      if(m_openPolygon) {
+        if(m_polygon.Size() > 2)
+          text = StringC("PolyLine:") + tmp;
+        else
+          text = StringC("Line:") + tmp;
+      } else
+        text = StringC("Polygon:") + tmp;
       return true;
     }
     return false;
@@ -59,6 +69,40 @@ namespace RavlGUIN {
   
   DP_REGISTER_CONVERSION_NAMED(Polygon2dPDisplayObj,1,"DPDisplayObjC Polygon2d2DPDisplayObj(const Polygon2dC &) ");
   
+  
+  DPDisplayObjC PolyLine2dPDisplayObj(const PolyLine2dC &poly) 
+  { 
+    PointSet2dC pntSet = poly;
+    return DPDisplayPolygon2dC(Polygon2dC(pntSet),true); 
+  }
+  
+  DP_REGISTER_CONVERSION_NAMED(PolyLine2dPDisplayObj,1,"DPDisplayObjC PolyLine2d2DPDisplayObj(const PolyLine2dC &) ");
+
+  DPDisplayObjC LinePP2dPDisplayObj(const LinePP2dC &line) 
+  { 
+    Polygon2dC poly;
+    poly.InsFirst(line.P1());
+    poly.InsFirst(line.P2());
+    return DPDisplayPolygon2dC(poly,true); 
+  }
+  
+  DP_REGISTER_CONVERSION_NAMED(LinePP2dPDisplayObj,1,"DPDisplayObjC LinePP2d2DPDisplayObj(const LinePP2dC &) ");
+  
+  DPDisplayObjC RealRange2dPDisplayObj(const RealRange2dC &rect) {
+    Polygon2dC poly(rect);
+    return DPDisplayPolygon2dC(poly);
+  }
+  
+  DP_REGISTER_CONVERSION_NAMED(RealRange2dPDisplayObj,1,"DPDisplayObjC RealRange2d2DPDisplayObj(const RealRange2dC &) ");
+  
+  DPDisplayObjC IndexRange2dPDisplayObj(const IndexRange2dC &rect) {
+    Polygon2dC poly(rect);
+    return DPDisplayPolygon2dC(poly);
+  }
+  
+  DP_REGISTER_CONVERSION_NAMED(IndexRange2dPDisplayObj,1,"DPDisplayObjC IndexRange2d2DPDisplayObj(const RealRange2dC &) ");
+  
+
   void InitDPDisplayPolygon2d() 
   {}
   
