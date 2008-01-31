@@ -49,7 +49,11 @@ namespace RavlLogicN
     virtual bool Insert(const TupleC &key,LiteralIndexElementC &next);
     //: Insert/Replace element into the node.
     
-    virtual LiteralMapIterC<LiteralIndexElementC> Filter(const LiteralC &key,LiteralIndexElementC &next,BindSetC &binds,LiteralC &var);
+    virtual LiteralMapIterC<LiteralIndexElementC> Filter(const LiteralC &key,
+                                                         LiteralIndexElementC &next,
+                                                         BindSetC &binds,
+                                                         LiteralC &var
+                                                         );
     //: Filter next level in tree.
     // If there's a choice return an iterator otherwise the next branch
     // in the tree is assigned to 'next'.  var is the variable to witch

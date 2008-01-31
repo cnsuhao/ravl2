@@ -32,9 +32,9 @@ namespace RavlLogicN {
       index(nindex)
   { 
     initialMark = binds.Mark();
-    ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::LiteralIndexFilterBaseBodyC(), Called. Filter [" << nfilter << "]\n");
+    ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::LiteralIndexFilterBaseBodyC(), @" << ((void *) this) << "  Called. Filter [" << nfilter << "]\n");
     First(); 
-    ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::LiteralIndexFilterBaseBodyC(), First=" << IsElm() << "\n"); 
+    ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::LiteralIndexFilterBaseBodyC(), @" << ((void *) this) << " Complete. First=" << IsElm() << "\n"); 
   }
   
   //: Construct a new filter with variable bindings.
@@ -76,7 +76,11 @@ namespace RavlLogicN {
 	// We're filtering on a unbound variable.
 	ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::First(), Filter on var. \n");
 	LiteralIndexLeafIterC it(index); // Just iterate through the index.
-	stack.Push(LiteralIndexFilterChoicePointC(index.Body().root,binds.Mark(),filter,(LiteralMapIterC<LiteralIndexElementC> &) it));
+	stack.Push(LiteralIndexFilterChoicePointC(index.Body().root,
+                                                  binds.Mark(),
+                                                  filter,
+                                                  (LiteralMapIterC<LiteralIndexElementC> &) it)
+                   );
 	if(it) {
 	  at = it.MappedData();
 	  ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::First(), Filter on var, solutions found. Data='" << Data().Key().Name() << "'\n");
@@ -94,7 +98,7 @@ namespace RavlLogicN {
       if(index.IsGrounded()) {
         LiteralIndexLeafC *ptr = index.Lookup(filter);
 	at = ptr != 0 ? *ptr : LiteralIndexLeafC(); 
-	ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::First(), Grounded filter [" << filter << "], just doing a lookup. Data=" << Data().Key().Name() << " \n");
+	ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::First(), Grounded filter [" << filter << "], just doing a lookup. Data=" << (Data().IsValid() ? Data().Key().Name() : "NULL") << " \n");
 	return at.IsValid();
       }
       if(!filter.IsTuple()) {
@@ -134,25 +138,40 @@ namespace RavlLogicN {
     LiteralIndexElementC next; 
     LiteralMapIterC<LiteralIndexElementC> filterIter;
     LiteralC nextvar; // Holder for next variable to bind if there is one.
+    ONDEBUG(UIntT loopDetect = 0);
     while(place.IsValid()) {
-      ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::ExploreMatches(), Filtering. \n");
-      BindMarkT mark = binds.Mark();
-      filterIter = place.Filter(filter,next,binds,nextvar);
-      if(filterIter.IsValid()) {
-	// We have a choice...
-	if(filterIter.IsElm()) {
-	  stack.Push(LiteralIndexFilterChoicePointC(place,mark,nextvar,filterIter));
-	  place = filterIter.MappedData();
-	  RavlAssert(nextvar.IsValid());
-	  if(filterIter.Data().IsVariable())
-	    binds.Bind(filterIter.Data(),nextvar);
-	  else {
-	    if(nextvar.IsVariable())
-	      binds.Bind(nextvar,filterIter.Data());
-	  }
-	  continue;
-	}
+#if DODEBUG      
+      if(loopDetect++ > 1000) {
+        index.Dump(std::cerr);
+        RavlAssert(0);
       }
+#endif
+      ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::ExploreMatches(), Filtering. @" << (void *) this << " Place=@" << place.Hash() << "\n");
+      BindMarkT mark = binds.Mark();
+      filterIter = place.Filter(filter,
+                                next,
+                                binds,
+                                nextvar);
+      
+      if(filterIter.IsValid() && filterIter.IsElm()) { // We have a valid iterator to data ?
+        ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::ExploreMatches(), Pushing onto stack @" << (void *) this << " Stack Depth=" << stack.Size() << "\n");
+        stack.Push(LiteralIndexFilterChoicePointC(place,
+                                                  mark,
+                                                  nextvar,
+                                                  filterIter));
+        
+        place = filterIter.MappedData();
+        RavlAssert(nextvar.IsValid());
+        if(filterIter.Data().IsVariable())
+          binds.Bind(filterIter.Data(),nextvar);
+        else {
+          if(nextvar.IsVariable())
+            binds.Bind(nextvar,filterIter.Data());
+        }
+        //next.Invalidate();
+        continue;
+      }
+      
       if(!next.IsValid()) {
 	// Either this is a deadend or we've found a solution.
 	at = place;
@@ -165,6 +184,8 @@ namespace RavlLogicN {
 	  }
 	}
       }
+      
+      RavlAssert(place != next);
       place = next;
     }
     ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::ExploreMatches(), Out of choices, have to backtrack. \n");

@@ -70,7 +70,11 @@ namespace RavlLogicN {
   // in the tree is assigned to 'next'.  var is the variable to which
   // the value of the iterator should be bound.
   
-  LiteralMapIterC<LiteralIndexElementC> LiteralIndexNodeBodyC::Filter(const LiteralC &key,LiteralIndexElementC &next,BindSetC &binds,LiteralC &var) {
+  LiteralMapIterC<LiteralIndexElementC> LiteralIndexNodeBodyC::Filter(const LiteralC &key,
+                                                                      LiteralIndexElementC &next,
+                                                                      BindSetC &binds,
+                                                                      LiteralC &var) 
+  {
     ONDEBUG(cerr << "LiteralIndexNodeBodyC::Filter(), Called Key:" << key << "  Var="  << var << " Term=" << term << "\n");
     TupleC tup(key);
     RavlAssert(tup.IsValid());
@@ -83,6 +87,8 @@ namespace RavlLogicN {
 	next.Invalidate(); // The lookup failed.
       return LiteralMapIterC<LiteralIndexElementC>();
     }
+    
+    next.Invalidate();
     // Return an iterator through possible sub keys.
     return LiteralIndexFilterC<LiteralIndexElementC>(index,subkey,binds);
   }
