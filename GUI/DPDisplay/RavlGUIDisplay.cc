@@ -11,8 +11,13 @@
 namespace RavlGUIN {
   extern void InitDPWindowFormat();
   extern void InitDPDisplayImage();
+  extern void InitDPDisplayPoints();
+  extern void InitDPDisplayPolygon2d();
+  
   void InitRavlGUIDisplay() {
     InitDPWindowFormat();
     InitDPDisplayImage();
+    InitDPDisplayPoints();
+    InitDPDisplayPolygon2d();
   }
 }

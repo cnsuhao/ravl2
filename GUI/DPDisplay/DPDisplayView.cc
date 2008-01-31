@@ -50,6 +50,7 @@ namespace RavlGUIN {
     
     backMenu.GUIAdd(MenuItemR("Save",*this, &DPDisplayViewBodyC::CallbackStartSave));
     menuBar.GUIAdd(MenuItemR("Save",*this, &DPDisplayViewBodyC::CallbackStartSave));
+    //menuBar.GUIAdd(MenuItemR("Fit To Window",*this, &DPDisplayViewBodyC::CallbackFitToWindow));
     
     fileSelector = FileSelectorC("@X Save");
     connections += ConnectRef(fileSelector.Selected(),*this,&DPDisplayViewBodyC::CallbackSave);
@@ -127,11 +128,11 @@ namespace RavlGUIN {
   bool DPDisplayViewBodyC::AddObject(const DPDisplayObjC &obj) {
     ONDEBUG(cerr << "DPDisplayViewBodyC::AddObject(), Called \n");
     RWLockHoldC hold(lockDisplayList,RWLOCK_WRITE);
-    if(displayList.IsEmpty())
+    if(displayList.IsEmpty()) {
       displaySize = obj.Frame();
-    else
+    } else
       displaySize.Involve(obj.Frame());
-    displayList.InsLast(obj);
+    displayList.InsFirst(obj);
     hold.Unlock();
     Refresh();
     return true;
@@ -249,6 +250,14 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "DPDisplayViewBodyC::CallbackMousePress(), Called. \n");
     if(mouseEvent.HasChanged(2))
       backMenu.Popup();
+    return true;
+  }
+
+  //: Fit image to window.
+  
+  bool DPDisplayViewBodyC::CallbackFitToWindow() {
+    if(canvas.IsValid())
+      canvas.FitImageToScreen();
     return true;
   }
   

@@ -10,10 +10,10 @@
 PACKAGE=Ravl/GUI
 
 HEADERS=DPWindow.hh DPDisplayObj.hh DPDisplayImage.hh DPWindowOPort.hh \
- DPWindowFormat.hh DPDisplayView.hh
+ DPWindowFormat.hh DPDisplayView.hh DPDisplayPoints.hh DPDisplayPolygon.hh
 
 SOURCES=DPWindow.cc DPDisplayObj.cc DPDisplayImage.cc DPWindowOPort.cc \
- DPWindowFormat.cc DPDisplayView.cc
+ DPWindowFormat.cc DPDisplayView.cc DPDisplayPoints.cc DPDisplayPolygon.cc
 
 PLIB=RavlDPDisplay
 

@@ -31,6 +31,19 @@ int main() {
     return 1;
   }
   
+  // Add a point to the image.
+  Point2dC aPnt(128,64);
+  if(!Save("@XA:hello",aPnt)) {
+    cerr << "Failed to save point. \n";
+    return 1;
+  }
+  
+  Polygon2dC aPoly(RealRange2dC(Point2dC(30,25),10));
+  if(!Save("@XA:hello",aPoly)) {
+    cerr << "Failed to save point. \n";
+    return 1;
+  }
+  
   IndexRangeC rr(-100,100);
   IndexRangeC cr(-100,200);
   ImageC<ByteT> img2(rr,cr);

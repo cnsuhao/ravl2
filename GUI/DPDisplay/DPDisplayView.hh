@@ -89,6 +89,9 @@ namespace RavlGUIN {
     bool CallbackMousePress(MouseEventC &mouseEvent);
     //: Call back for mouse press events.
     
+    bool CallbackFitToWindow();
+    //: Fit image to window.
+    
     bool UpdateInfo(const Vector2dC &at);
     //: Update info for mouse position.
     
