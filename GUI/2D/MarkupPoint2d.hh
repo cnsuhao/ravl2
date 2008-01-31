@@ -29,7 +29,7 @@ namespace RavlGUIN {
     : public MarkupInfoBodyC
   {
   public:
-    MarkupPoint2dBodyC(Int64T id,IntT zOrder,Point2dC & position,MarkupPoint2dStyleT style = MP2DS_Eye);
+    MarkupPoint2dBodyC(Int64T id,IntT zOrder,Point2dC & position,MarkupPoint2dStyleT style = MP2DS_Eye,bool isFixed = false);
     //: Constructor.
         
     virtual bool Render(GUIMarkupCanvasBodyC &mv,const RealRange2dC &area,bool selected);
@@ -70,6 +70,7 @@ namespace RavlGUIN {
     Point2dC oldPosition;    
     Signal1C<Point2dC> sigPosition;
     MarkupPoint2dStyleT style;
+    bool m_fixed; // Is the point fixed, i.e. not movable
   };
   
   //! userlevel=Normal
@@ -85,8 +86,8 @@ namespace RavlGUIN {
     //: Default constructor
     // Creates in invalid handle.
     
-    MarkupPoint2dC(Int64T id,IntT zOrder, Point2dC & position,MarkupPoint2dStyleT style = MP2DS_Eye) 
-      : MarkupInfoC(*new MarkupPoint2dBodyC(id,zOrder,position,style))
+    MarkupPoint2dC(Int64T id,IntT zOrder, Point2dC & position,MarkupPoint2dStyleT style = MP2DS_Eye,bool isFixed = false) 
+      : MarkupInfoC(*new MarkupPoint2dBodyC(id,zOrder,position,style,isFixed))
     {}
     //: Constructor. 
     //!cwiz:author

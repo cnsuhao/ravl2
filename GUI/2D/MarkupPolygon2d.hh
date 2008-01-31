@@ -31,10 +31,10 @@ namespace RavlGUIN {
     : public MarkupInfoBodyC
   {
   public:
-    MarkupPolygon2dBodyC(Int64T id,IntT zOrder,const Polygon2dC &poly);
+    MarkupPolygon2dBodyC(Int64T id,IntT zOrder,const Polygon2dC &poly,bool isFixed = false);
     //: Constructor.
 
-    MarkupPolygon2dBodyC(Int64T id,IntT zOrder,const Polygon2dC &poly,const ByteRGBValueC &colour);
+    MarkupPolygon2dBodyC(Int64T id,IntT zOrder,const Polygon2dC &poly,const ByteRGBValueC &colour,bool isFixed = false);
     //: Constructor.
     
     void SetColour(const ByteRGBValueC &colour);
@@ -107,6 +107,7 @@ namespace RavlGUIN {
 
     bool useCustomColour;
     ByteRGBValueC colour; // Colour for markup.
+    bool m_fixed; // Is this polygon unmovable ?
   };
   
   //! userlevel=Normal
@@ -122,14 +123,14 @@ namespace RavlGUIN {
     //: Default constructor
     // Creates in invalid handle.
     
-    MarkupPolygon2dC(Int64T id,IntT zOrder,const Polygon2dC & poly) 
-      : MarkupInfoC(*new MarkupPolygon2dBodyC(id,zOrder,poly))
+    MarkupPolygon2dC(Int64T id,IntT zOrder,const Polygon2dC & poly,bool isFixed = false) 
+      : MarkupInfoC(*new MarkupPolygon2dBodyC(id,zOrder,poly,isFixed))
     {}
     //: Constructor. 
     //!cwiz:author
     
-    MarkupPolygon2dC(Int64T id,IntT zOrder,const Polygon2dC & poly,const ByteRGBValueC &colour) 
-      : MarkupInfoC(*new MarkupPolygon2dBodyC(id,zOrder,poly,colour))
+    MarkupPolygon2dC(Int64T id,IntT zOrder,const Polygon2dC & poly,const ByteRGBValueC &colour,bool isFixed = false) 
+      : MarkupInfoC(*new MarkupPolygon2dBodyC(id,zOrder,poly,colour,isFixed))
     {}
     //: Constructor. 
     //!cwiz:author

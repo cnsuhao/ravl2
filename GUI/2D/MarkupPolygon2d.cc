@@ -28,22 +28,24 @@ namespace RavlGUIN {
   
   //: Constructor.
   
-  MarkupPolygon2dBodyC::MarkupPolygon2dBodyC(Int64T id,IntT zOrder,const Polygon2dC &_poly)
+  MarkupPolygon2dBodyC::MarkupPolygon2dBodyC(Int64T id,IntT zOrder,const Polygon2dC &_poly,bool isFixed)
     : MarkupInfoBodyC(id,zOrder),
       poly(_poly),
       orgPoly(_poly.Copy()),
       useCustomColour(false),
-      colour(255,255,0) 
+      colour(255,255,0),
+      m_fixed(isFixed)
   {}
 
   //: Constructor.
   
-  MarkupPolygon2dBodyC::MarkupPolygon2dBodyC(Int64T id,IntT zOrder,const Polygon2dC &_poly,const ByteRGBValueC &_colour)
+  MarkupPolygon2dBodyC::MarkupPolygon2dBodyC(Int64T id,IntT zOrder,const Polygon2dC &_poly,const ByteRGBValueC &_colour,bool isFixed)
     : MarkupInfoBodyC(id,zOrder),
       poly(_poly),
       orgPoly(_poly.Copy()),
       useCustomColour(true),
-      colour(_colour) 
+      colour(_colour),
+      m_fixed(isFixed)
   {}
   
   //: Extent of object.
@@ -275,6 +277,9 @@ namespace RavlGUIN {
  	    << " Mod8=" << me.IsMod8() // 'Atl Gr'
 	    << " ");
     
+    if(m_fixed)
+      return false;
+    
     if(state >= 100) {
       IntT size = (IntT) poly.Size();
       IntT pat = state - 100;
@@ -339,6 +344,8 @@ namespace RavlGUIN {
   bool MarkupPolygon2dBodyC::MouseEventMove(GUIMarkupCanvasBodyC &mv,const Point2dC &at,const MouseEventC &me,IntT &state,bool &refresh) {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "MarkupPolygon2dBodyC::MouseEventMove() At=" << at << " State=" << state << " " << " ");
     ONDEBUG(SysLog(SYSLOG_DEBUG) << " Press " << me.HasChanged(0) << " " << me.HasChanged(1) << " " << me.HasChanged(2) << " " << me.HasChanged(3) << " " << " " << me.HasChanged(4) << " ");
+    if(m_fixed)
+      return false;
     if(state == -2)
       return false;
     if(state == -1) { // Move whole polygon ?
@@ -472,6 +479,8 @@ namespace RavlGUIN {
   bool MarkupPolygon2dBodyC::MouseEventRelease(GUIMarkupCanvasBodyC &mv,const Point2dC &at,const MouseEventC &me,IntT &state,bool &refresh) {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "MarkupPolygon2dBodyC::MouseEventRelease() At=" << at << " State=" << state << " " << " ");
     ONDEBUG(SysLog(SYSLOG_DEBUG) << " Press " << me.HasChanged(0) << " " << me.HasChanged(1) << " " << me.HasChanged(2) << " " << me.HasChanged(3) << " " << " " << me.HasChanged(4) << " ");
+    if(m_fixed)
+      return false;
     if(state == -2)
       return false;
     if(state < 100 && state >= -1) {

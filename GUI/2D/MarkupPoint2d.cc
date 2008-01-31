@@ -24,11 +24,12 @@ namespace RavlGUIN {
   
   //: Constructor.
   
-  MarkupPoint2dBodyC::MarkupPoint2dBodyC(Int64T id, IntT zOrder, Point2dC & cn,MarkupPoint2dStyleT _style)
+  MarkupPoint2dBodyC::MarkupPoint2dBodyC(Int64T id, IntT zOrder, Point2dC & cn,MarkupPoint2dStyleT _style,bool isFixed)
     : MarkupInfoBodyC(id,zOrder),
       centre(cn),
       sigPosition(Point2dC()),
-      style(_style)
+      style(_style),
+      m_fixed(isFixed)
   {}
   
   
@@ -115,7 +116,7 @@ namespace RavlGUIN {
   bool MarkupPoint2dBodyC::MouseEventPress(GUIMarkupCanvasBodyC &mv,const Point2dC &at,const MouseEventC &me,IntT &state,bool &refresh) {
     //cerr << "MarkupPoint2dBodyC::MouseEventPress() At=" << at << " State=" << state << " " << " ";
     //cerr << " Press " << me.HasChanged(0) << " " << me.HasChanged(1) << " " << me.HasChanged(2) << " " << me.HasChanged(3) << " " << " " << me.HasChanged(4) << " ";
-    if(me.HasChanged(0)) { // Button 0 press ?
+    if(!m_fixed && me.HasChanged(0)) { // Button 0 press ?
       mv.GUIClearSelect(false);
       mv.GUIAddSelect(Id());
       oldPosition = mv.MousePressAt();
@@ -131,6 +132,8 @@ namespace RavlGUIN {
   bool MarkupPoint2dBodyC::MouseEventMove(GUIMarkupCanvasBodyC &mv,const Point2dC &at,const MouseEventC &me,IntT &state,bool &refresh) {
     //cerr << "MarkupPoint2dBodyC::MouseEventMove() At=" << at << " State=" << state << " " << " ";
     //cerr << " Press " << me.HasChanged(0) << " " << me.HasChanged(1) << " " << me.HasChanged(2) << " " << me.HasChanged(3) << " " << " " << me.HasChanged(4) << " ";
+    if(m_fixed) 
+      return true;
     Point2dC offset = (at - oldPosition);
     centre += offset;
     oldPosition = centre;
@@ -144,6 +147,8 @@ namespace RavlGUIN {
   bool MarkupPoint2dBodyC::MouseEventRelease(GUIMarkupCanvasBodyC &mv,const Point2dC &at,const MouseEventC &me,IntT &state,bool &refresh) {
     //cerr << "MarkupPoint2dBodyC::MouseEventRelease() At=" << at << " State=" << state << " " << " ";
     //cerr << " Press " << me.HasChanged(0) << " " << me.HasChanged(1) << " " << me.HasChanged(2) << " " << me.HasChanged(3) << " " << " " << me.HasChanged(4) << " ";
+    if(m_fixed) 
+      return true;
     //: Signal position change on mouse release
     sigPosition(centre);
     return false;
