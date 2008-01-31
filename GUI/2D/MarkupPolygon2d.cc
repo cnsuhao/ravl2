@@ -28,24 +28,26 @@ namespace RavlGUIN {
   
   //: Constructor.
   
-  MarkupPolygon2dBodyC::MarkupPolygon2dBodyC(Int64T id,IntT zOrder,const Polygon2dC &_poly,bool isFixed)
+  MarkupPolygon2dBodyC::MarkupPolygon2dBodyC(Int64T id,IntT zOrder,const Polygon2dC &_poly,bool openPoly,bool isFixed)
     : MarkupInfoBodyC(id,zOrder),
       poly(_poly),
       orgPoly(_poly.Copy()),
       useCustomColour(false),
       colour(255,255,0),
-      m_fixed(isFixed)
+      m_fixed(isFixed),
+      m_openPoly(openPoly)
   {}
-
+  
   //: Constructor.
   
-  MarkupPolygon2dBodyC::MarkupPolygon2dBodyC(Int64T id,IntT zOrder,const Polygon2dC &_poly,const ByteRGBValueC &_colour,bool isFixed)
+  MarkupPolygon2dBodyC::MarkupPolygon2dBodyC(Int64T id,IntT zOrder,const Polygon2dC &_poly,const ByteRGBValueC &_colour,bool openPoly,bool isFixed)
     : MarkupInfoBodyC(id,zOrder),
       poly(_poly),
       orgPoly(_poly.Copy()),
       useCustomColour(true),
       colour(_colour),
-      m_fixed(isFixed)
+      m_fixed(isFixed),
+      m_openPoly(openPoly)
   {}
   
   //: Extent of object.
@@ -198,9 +200,11 @@ namespace RavlGUIN {
         
         // Draw the line
         mv.GUIDrawLine(dc,p1,*it);
-      } else
+      } else {
         // Draw the line
-        mv.GUIDrawLine(dc,last,*it);
+        if(n != 0 || !m_openPoly)
+          mv.GUIDrawLine(dc,last,*it);
+      }
         
       if (selected)
       {
