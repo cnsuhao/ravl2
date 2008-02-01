@@ -29,6 +29,8 @@ namespace RavlImageN
   {}
   
   static TypeNameC type1(typeid(ImageC<ByteBGRValueC>),"RavlImageN::ImageC<ByteBGRValueC>");  
+  static TypeNameC type2(typeid(ImageC<RealBGRValueC>),"RavlImageN::ImageC<RealBGRValueC>");  
+  static TypeNameC type3(typeid(ImageC<ByteBGRAValueC>),"RavlImageN::ImageC<ByteBGRAValueC>");  
   
   ImageC<ByteBGRValueC> Image_ByteRGBValue2Image_ByteBGRValue(const ImageC<ByteRGBValueC> &img) {
     ImageC<ByteBGRValueC> ret(img.Frame());
@@ -75,7 +77,6 @@ namespace RavlImageN
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // BGRA
   
-  static TypeNameC type2(typeid(ImageC<ByteBGRAValueC>),"RavlImageN::ImageC<ByteBGRAValueC>");  
   
   ImageC<ByteBGRAValueC> Image_ByteRGBAValue2Image_ByteBGRAValue(const ImageC<ByteRGBAValueC> &img) {
     ImageC<ByteBGRAValueC> ret(img.Frame());

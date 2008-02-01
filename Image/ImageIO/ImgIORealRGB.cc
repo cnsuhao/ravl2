@@ -19,12 +19,12 @@
 //#include "Ravl/Array2dIter2.hh"
 
 namespace RavlImageN {
-
+  
   void InitImgIORealRGB()
   {}
   
   static TypeNameC type1(typeid(ImageC<RealRGBValueC>),"ImageC<RealRGBValueC>");  
-
+  
   FileFormatStreamC<ImageC<RealRGBValueC> > FileFormatStream_ImageC_RealRGBValueC;
   FileFormatBinStreamC<ImageC<RealRGBValueC> > FileFormatBinStream_ImageC_RealRGBValueC;
 }

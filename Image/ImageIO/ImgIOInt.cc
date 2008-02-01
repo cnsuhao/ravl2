@@ -22,9 +22,24 @@ namespace RavlImageN {
   
   static TypeNameC type1(typeid(ImageC<IntT>),"ImageC<IntT>");  
   static TypeNameC type2(typeid(ImageC<UIntT>),"ImageC<UIntT>");  
+  static TypeNameC type3(typeid(RavlN::Array2dC<IntT>),"RavlN::Array2dC<RavlN::IntT>");  
+  static TypeNameC type4(typeid(RavlN::Array2dC<UIntT>),"RavlN::Array2dC<RavlN::UIntT>");  
   
   void InitImgIOInt()
   {}
+  
+  ImageC<IntT> Array2dInt2ImageInt(const Array2dC<IntT> &dat)   
+  { return dat; }
+  
+  Array2dC<IntT> ImageInt2Array2dInt(const ImageC<IntT> &dat)   
+  { return dat; }
+  
+  DP_REGISTER_CONVERSION_NAMED(Array2dInt2ImageInt,1,
+			       "RavlImageN::ImageC<RavlN::IntT> Array2dInt2ImageInt(const RavlN::Array2dC<RavlN::IntT> &)");
+  
+  DP_REGISTER_CONVERSION_NAMED(ImageInt2Array2dInt,1,
+			       "RavlN::Array2dC<RavlN::IntT> ImageInt2Array2dInt(const RavlImageN::ImageC<RavlN::IntT> &)");
+  
   
   // Byte to double image.
 

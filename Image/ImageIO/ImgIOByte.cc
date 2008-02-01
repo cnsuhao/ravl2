@@ -27,6 +27,8 @@ namespace RavlImageN {
   
   static TypeNameC type1(typeid(ImageC<ByteT>),"ImageC<ByteT>");  
   static TypeNameC type2(typeid(ImageC<SByteT>),"ImageC<SByteT>");
+  static TypeNameC type3(typeid(Array2dC<ByteT>),"RavlN::Array2dC<ByteT>");  
+  static TypeNameC type4(typeid(Array2dC<SByteT>),"RavlN::Array2dC<SByteT>");
   
   ImageC<ByteT>  BoolImageC2ByteImageCT(const ImageC<bool> &dat)   { 
     ImageC<ByteT> ret(dat.Rectangle()); 

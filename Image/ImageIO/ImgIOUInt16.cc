@@ -12,7 +12,7 @@
 
 #include "Ravl/DP/FileFormatStream.hh"
 #include "Ravl/DP/FileFormatBinStream.hh"
-//#include "Ravl/DP/Converter.hh"
+#include "Ravl/DP/Converter.hh"
 #include "Ravl/Image/Image.hh"
 //#include "Ravl/Array2dIter2.hh"
 #include "Ravl/TypeName.hh"
@@ -24,7 +24,23 @@ namespace RavlImageN {
   
   static TypeNameC type1(typeid(ImageC<Int16T>),"ImageC<Int16T>");  
   static TypeNameC type2(typeid(ImageC<UInt16T>),"ImageC<UInt16T>");
+  static TypeNameC type3(typeid(Array2dC<Int16T>),"RavlN::Array2dC<RavlN::Int16T>");  
+  static TypeNameC type4(typeid(Array2dC<UInt16T>),"RavlN::Array2dC<RavlN::UInt16T>");
   
+  ImageC<Int16T> Array2dInt162ImageInt16(const Array2dC<Int16T> &dat)   
+  { return dat; }
+  
+  Array2dC<Int16T> ImageInt162Array2dInt16(const ImageC<Int16T> &dat)   
+  { return dat; }
+  
+  DP_REGISTER_CONVERSION_NAMED(Array2dInt162ImageInt16,1,
+			       "RavlImageN::ImageC<RavlN::Int16T> Array2dInt2ImageInt(const RavlN::Array2dC<RavlN::Int16T> &)");
+  
+  DP_REGISTER_CONVERSION_NAMED(ImageInt162Array2dInt16,1,
+			       "RavlN::Array2dC<RavlN::Int16T> ImageInt2Array2dInt(const RavlImageN::ImageC<RavlN::Int16T> &)");
+  
+
+
   FileFormatStreamC<ImageC<UInt16T> > FileFormatStream_ImageC_UInt16T;
   FileFormatBinStreamC<ImageC<UInt16T> > FileFormatBinStream_ImageC_UInt16T;
   
