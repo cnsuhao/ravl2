@@ -20,7 +20,7 @@
 #include "Ravl/Point3d.hh"
 
 namespace RavlN {
-
+  template<class DataT> class SArray1dC;
   class MeanCovariance3dC;
   class Point3dC;
   class LinePV3dC;
@@ -155,6 +155,10 @@ namespace RavlN {
     
     friend istream & operator>>(istream & inS, PlaneABCD3dC & plane);
   };
+  
+  //: Least squares fit of a plane to a set of points in 3d
+  // At least 3 points are needed.
+  bool FitPlane(const SArray1dC<Point3dC> &points,PlaneABCD3dC &plane);
   
   ostream & operator<<(ostream & outS, const PlaneABCD3dC & plane);
   istream & operator>>(istream & inS, PlaneABCD3dC & plane);

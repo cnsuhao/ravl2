@@ -15,7 +15,7 @@ HEADERS= LinePP3d.hh  LinePV3d.hh  PlaneABCD3d.hh  PlanePVV3d.hh Point3d.hh \
 
 SOURCES= LinePP3d.cc  LinePV3d.cc  PlaneABCD3d.cc  PlanePVV3d.cc \
  Quatern3d.cc RigidTransform3d.cc EulerAngle.cc AxisAngle.cc PointSet3d.cc \
- HEMesh3d.cc Affine3d.cc
+ HEMesh3d.cc Affine3d.cc FitPlaneABCD3d.cc FitPlanePVV3d.cc
 
 PLIB=RavlMath
 

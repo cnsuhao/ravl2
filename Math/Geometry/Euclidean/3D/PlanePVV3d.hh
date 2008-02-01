@@ -35,21 +35,39 @@ namespace RavlN {
   {
   public:
     
-    inline PlanePVV3dC();
+    inline PlanePVV3dC()
+      : Point3dC(0,0,0),
+	vector1(0,0,0),
+	vector2(0,0,0)
+    {}
     // Creates the plane P:(0,0,0),V1:[0,0,0],V2:[0,0,0].
     
-    inline PlanePVV3dC(const PlanePVV3dC & plane);
+    inline PlanePVV3dC(const PlanePVV3dC & plane)    
+      : Point3dC(plane),
+	vector1(plane.vector1),
+	vector2(plane.vector2)
+    {}
+    
     // Copy constructor.
     
     inline PlanePVV3dC(const Point3dC  & p1,
 		       const Point3dC  & p2,
-		       const Point3dC  & p3);
+		       const Point3dC  & p3)    
+      : Point3dC(p1),
+	vector1(p2-p1),
+	vector2(p3-p1)
+    {}
+    
     // Creates the plane determined by three points 'p1', 'p2', and 'p3'.
     // The first vector is equal to p2-p1, the second one to p3-p1.
     
     inline PlanePVV3dC(const Point3dC  & p,
 		       const Vector3dC & v1,
-		       const Vector3dC & v2);
+		       const Vector3dC & v2)
+      : Point3dC(p),
+	vector1(v1),
+	vector2(v2)
+    {}
     // Creates the plane [p; v1; v2].
     
     //:-=============================================-
@@ -86,7 +104,11 @@ namespace RavlN {
     PlaneABCD3dC PlaneABCD3d() const;
     // Converts this plane representation.
     
-    inline PlanePVV3dC & UnitVectors();
+    inline PlanePVV3dC & UnitVectors() {
+      vector1.Unit();
+      vector2.Unit();
+      return *this;
+    }  
     // Normalizes the vectors to be unit.
     
     //:-=============================================-
@@ -132,47 +154,11 @@ namespace RavlN {
   
   ostream & operator<<(ostream & outS, const PlanePVV3dC & plane);
   istream & operator>>(istream & inS, PlanePVV3dC & plane);
+
+  //: Least squares fit of a plane to a set of points in 3d
+  // At least 3 points are needed.
+  bool FitPlane(const SArray1dC<Point3dC> &points,PlanePVV3dC &plane);
   
-  
-  inline 
-  PlanePVV3dC::PlanePVV3dC()
-    : Point3dC(0,0,0),
-      vector1(0,0,0),
-      vector2(0,0,0)
-  {}
-  
-  inline 
-  PlanePVV3dC::PlanePVV3dC(const PlanePVV3dC & plane)
-    : Point3dC(plane),
-      vector1(plane.vector1),
-      vector2(plane.vector2)
-  {}
-  
-  inline 
-  PlanePVV3dC::PlanePVV3dC(const Point3dC  & p1,
-			   const Point3dC  & p2,
-			   const Point3dC  & p3)
-    : Point3dC(p1),
-      vector1(p2-p1),
-      vector2(p3-p1)
-  {}
-  
-  inline 
-  PlanePVV3dC::PlanePVV3dC(const Point3dC  & p,
-			   const Vector3dC & v1,
-			   const Vector3dC & v2)
-    : Point3dC(p),
-      vector1(v1),
-      vector2(v2)
-  {}
-  
-  inline 
-  PlanePVV3dC & 
-  PlanePVV3dC::UnitVectors() {
-    vector1.Unit();
-    vector2.Unit();
-    return *this;
-  }  
   
 }
 

@@ -30,6 +30,7 @@ using namespace RavlN;
 int testAngles();
 int testLine();
 int testPlane();
+int testPlaneFit();
 int testLineDist();
 int testFitAffine();
 int testFitAffineDirections();
@@ -37,6 +38,7 @@ int testSimilarity();
 
 int main(int nargs,char **argv) {
   int ln;
+#if 1
   if((ln = testLine()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
@@ -62,6 +64,11 @@ int main(int nargs,char **argv) {
     return 1;
   }
   if((ln = testPlane()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;    
+  }
+#endif
+  if((ln = testPlaneFit()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;    
   }
@@ -422,5 +429,40 @@ int testPlane() {
   
   
   cerr << " OK \n";
+  return 0;
+}
+
+
+int testPlaneFit() {
+  
+  SArray1dC<Point3dC> points(3);
+  points[0] = Point3dC(1,1,1);
+  points[1] = Point3dC(1,2,1);
+  points[2] = Point3dC(2,1,2);
+  
+  {
+    PlaneABCD3dC plane;
+    if(!FitPlane(points,plane))
+      return __LINE__;
+    
+    for(int i =0;i < 3;i++) {
+      if(plane.EuclideanDistance(points[i]) > 0.001)
+	return __LINE__;
+    }
+  }
+
+  {
+    PlanePVV3dC plane;
+    if(!FitPlane(points,plane))
+      return __LINE__;
+    
+    for(int i =0;i < 3;i++) {
+      if(plane.EuclideanDistance(points[i]) > 0.001)
+	return __LINE__;
+    }
+  }
+  
+  //std::cerr << "Plane= " << plane << "\n";
+  
   return 0;
 }
