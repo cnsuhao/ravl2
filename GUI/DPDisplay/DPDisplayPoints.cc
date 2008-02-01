@@ -9,6 +9,7 @@
 #include "Ravl/GUI/MarkupPoint2d.hh"
 #include "Ravl/StrStream.hh"
 #include "Ravl/DP/Converter.hh"
+#include "Ravl/DListExtra.hh"
 
 namespace RavlGUIN {
 
@@ -80,14 +81,34 @@ namespace RavlGUIN {
   DPDisplayObjC Point2d2DPDisplayObj(const Point2dC &point) 
   { return DPDisplayPointsC(point); }
   
-  DP_REGISTER_CONVERSION_NAMED(Point2d2DPDisplayObj,1,"DPDisplayObjC Point2d2DPDisplayObj(const Point2dC &) ");
+  DP_REGISTER_CONVERSION_NAMED(Point2d2DPDisplayObj,1,"RavlGUIN::DPDisplayObjC Point2d2DPDisplayObj(const RavlN::Point2dC &) ");
   
   
+  // List of points.
   
   DPDisplayObjC DList_Point2d2DPDisplayObj(const DListC<Point2dC> &points) 
   { return DPDisplayPointsC(points); }
   
-  DP_REGISTER_CONVERSION_NAMED(DList_Point2d2DPDisplayObj,1,"DPDisplayObjC DList_Point2d2DPDisplayObj(const DListC<Point2dC> &) ");
+  DP_REGISTER_CONVERSION_NAMED(DList_Point2d2DPDisplayObj,1,"RavlGUIN::DPDisplayObjC DList_Point2d2DPDisplayObj(const RavlN::DListC<RavlN::Point2dC> &) ");
+
+  // Array of points.
+  
+  DPDisplayObjC SArray1d_Point2d2DPDisplayObj(const SArray1dC<Point2dC> &points) 
+  { return DPDisplayPointsC(DListOf(points));  }
+  
+  DP_REGISTER_CONVERSION_NAMED(SArray1d_Point2d2DPDisplayObj,1,"RavlGUIN::DPDisplayObjC SArray1d_Point2d2DPDisplayObj(const SArray1dC<Point2dC> &) ");
+
+  // Array of points.
+  
+  DPDisplayObjC Tuple2_Point2d2DPDisplayObj(const Tuple2C<Point2dC,Point2dC> &points) 
+  { 
+    DListC<Point2dC> pnts;
+    pnts.InsLast(points.Data1());
+    pnts.InsLast(points.Data2());
+    return DPDisplayPointsC(pnts);  
+  }
+  
+  DP_REGISTER_CONVERSION_NAMED(Tuple2_Point2d2DPDisplayObj,1,"RavlGUIN::DPDisplayObjC Tuple2_Point2d2DPDisplayObj(const RavlN::Tuple2C<RavlN::Point2dC,RavlN::Point2dC> &) ");
   
   void InitDPDisplayPoints() 
   {}
