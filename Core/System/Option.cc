@@ -605,7 +605,7 @@ namespace RavlN {
     for(DLIterC<StringC> it(usage);it.IsElm();it.Next())
       sout << "   " << it.Data() << endl;
     if(!depend.IsEmpty()) {
-      sout << "\nDependancies:\n";
+      sout << "\nDependencies:\n";
       for(DLIterC<StringC> it(depend);it.IsElm();it.Next())
 	sout << "   " << it.Data() << endl;
     }
