@@ -13,6 +13,7 @@
 #include "Ravl/LinePP2d.hh"
 #include "Ravl/Polygon2d.hh"
 #include "Ravl/PolyLine2d.hh"
+#include "Ravl/Tuple2.hh"
 
 #include "Ravl/DP/FileFormatStream.hh"
 #include "Ravl/DP/FileFormatBinStream.hh"
@@ -28,6 +29,7 @@ namespace RavlN {
   static TypeNameC type4(typeid(PolyLine2dC),"RavlN::PolyLine2dC");
   static TypeNameC type5(typeid(RavlN::PointSet2dC),"RavlN::PointSet2dC");
   static TypeNameC type6(typeid(DListC<Point2dC>),"RavlN::DListC<RavlN::Point2dC>");
+  static TypeNameC type7(typeid(Tuple2C<Point2dC,Point2dC>),"RavlN::Tuple2C<RavlN::Point2dC,RavlN::Point2dC>");
   
   FileFormatStreamC<Point2dC> FileFormatStream_LinePP2d;
   FileFormatBinStreamC<Point2dC> FileFormatBinStream_LinePP2d;
