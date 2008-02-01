@@ -25,6 +25,7 @@
 
 namespace RavlGUIN {
   
+  
   //: Default constructor.
   
   DPDisplayViewBodyC::DPDisplayViewBodyC(const IndexRange2dC &size) 
@@ -46,14 +47,19 @@ namespace RavlGUIN {
   //: Create the widget.
   
   bool DPDisplayViewBodyC::Create() {
+    static const ByteRGBValueC layerColours[8] =
+      { ByteRGBValueC(255,255,255),
+	ByteRGBValueC(255,0,0),
+	ByteRGBValueC(0,255,0),
+	ByteRGBValueC(0,0,255),
+	ByteRGBValueC(255,0,255),
+	ByteRGBValueC(0,255,255),
+	ByteRGBValueC(255,255,0),
+	ByteRGBValueC(255,255,255)
+      };
+	
     ONDEBUG(cerr << "DPDisplayViewBodyC::Create(), Called \n");
     
-    backMenu.GUIAdd(MenuItemR("Save",*this, &DPDisplayViewBodyC::CallbackStartSave));
-    menuBar.GUIAdd(MenuItemR("Save",*this, &DPDisplayViewBodyC::CallbackStartSave));
-    //menuBar.GUIAdd(MenuItemR("Fit To Window",*this, &DPDisplayViewBodyC::CallbackFitToWindow));
-    
-    fileSelector = FileSelectorC("@X Save");
-    connections += ConnectRef(fileSelector.Selected(),*this,&DPDisplayViewBodyC::CallbackSave);
     
     int rows = winSize.Cols();
     int cols = winSize.Rows();
@@ -68,6 +74,27 @@ namespace RavlGUIN {
        cols = 30;
     
     canvas = GUIMarkupCanvasC(cols,rows);
+    
+    backMenu.GUIAdd(MenuItemR("Save",*this, &DPDisplayViewBodyC::CallbackStartSave));
+    backMenu.GUIAdd(MenuItem("Layer Editor",canvas, &GUIMarkupCanvasC::GUIShowLayerDialog));
+    menuBar.GUIAdd(MenuItemR("Save",*this, &DPDisplayViewBodyC::CallbackStartSave));
+    menuBar.GUIAdd(MenuItem("Layer Editor",canvas, &GUIMarkupCanvasC::GUIShowLayerDialog));    
+    //menuBar.GUIAdd(MenuItemR("Fit To Window",*this, &DPDisplayViewBodyC::CallbackFitToWindow));
+    
+    fileSelector = FileSelectorC("@X Save");
+    connections += ConnectRef(fileSelector.Selected(),*this,&DPDisplayViewBodyC::CallbackSave);
+    
+    // Setup Display layers.
+    MarkupLayerInfoC infoImage(0, "Image", ByteRGBValueC(255, 255, 255), MLI_LineNormal, true);
+    infoImage.AddZOrder(0,true);
+    canvas.GUIAddLayerInfo(infoImage);
+    
+    for(int i = 1;i < 8;i++) {
+      MarkupLayerInfoC infoMarkup(i, StringC("Markup-") + StringC(i), layerColours[i], MLI_LineNormal, true);
+      infoMarkup.AddZOrder(i,true);
+      canvas.GUIAddLayerInfo(infoMarkup);
+    }
+    
     colPos=LabelC("0");
     rowPos=LabelC("0");
     info=LabelC("-");

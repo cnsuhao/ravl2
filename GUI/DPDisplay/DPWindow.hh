@@ -68,6 +68,7 @@ namespace RavlGUIN {
     WindowC win;
     IndexRange2dC winSize;
     DPDisplayViewC view;
+    UIntT m_layerCount;
     friend class DPWindowC;    
   };
   

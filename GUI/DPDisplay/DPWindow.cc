@@ -28,7 +28,8 @@ namespace RavlGUIN {
   
   DPWindowBodyC::DPWindowBodyC(const StringC &nname,const IndexRange2dC &nWinSize)
     : name(nname),
-      winSize(nWinSize)
+      winSize(nWinSize),
+      m_layerCount(0)
   {}
   
   //: Called when window is closed.
@@ -73,7 +74,8 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "DPWindowBodyC::AddObject(), Called \n");
     MutexLockC hold(accessMutex);
     if(!view.IsValid()) 
-      Init(obj.Frame()); 
+      Init(obj.Frame());
+    DPDisplayObjC(obj).SetLayerNo(m_layerCount++);
     view.AddObject(obj);
     //view.Refresh();
     return true;
@@ -87,6 +89,8 @@ namespace RavlGUIN {
     if(!view.IsValid()) 
       Init(obj.Frame());
     view.Clear();
+    m_layerCount = 0;
+    DPDisplayObjC(obj).SetLayerNo(m_layerCount++);
     view.AddObject(obj);
     //view.Refresh();
     return true;

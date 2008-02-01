@@ -26,7 +26,7 @@ namespace RavlGUIN {
   //: Draw object to canvas.
   
   bool DPDisplayPolygon2dBodyC::Draw(FrameMarkupC &markup) {
-    markup.Markup().InsLast(MarkupPolygon2dC(m_id,1,m_polygon,m_openPolygon,true));
+    markup.Markup().InsLast(MarkupPolygon2dC(m_id,LayerNo(),m_polygon,m_openPolygon,true));
     return true;
   }
   

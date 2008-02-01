@@ -26,9 +26,10 @@ namespace RavlGUIN {
   //: Default constructor.
   
   DPDisplayObjBodyC::DPDisplayObjBodyC()
-    : m_id(-1)
+    : m_id(-1),
+      m_layerNo(1)
   {}
-
+  
   
   //: Method to build markup list.
   

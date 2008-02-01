@@ -28,7 +28,7 @@ namespace RavlGUIN {
   
   bool DPDisplayPointsBodyC::Draw(FrameMarkupC &markup) {
     for(DLIterC<Point2dC> it(m_points);it;it++) {
-      markup.Markup().InsLast(MarkupPoint2dC(m_id,1,*it,MP2DS_CrossHair,true));
+      markup.Markup().InsLast(MarkupPoint2dC(m_id,LayerNo(),*it,MP2DS_CrossHair,true));
     }
     return true;
   }

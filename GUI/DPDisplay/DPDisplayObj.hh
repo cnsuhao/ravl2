@@ -35,8 +35,13 @@ namespace RavlGUIN {
     DPDisplayObjBodyC();
     //: Default constructor.
     
-    virtual ~DPDisplayObjBodyC() { }
-    //: Need virtual destructor for class with virtual methods
+    void SetLayerNo(IntT layerNo)
+    { m_layerNo = layerNo; }
+    //: Set the layer id for this object
+    
+    IntT LayerNo() const
+    { return m_layerNo; }
+    //: Access the layer number of this object.
     
     virtual bool Draw(FrameMarkupC &markup);
     //: Method to build markup list.
@@ -53,6 +58,7 @@ namespace RavlGUIN {
     
   protected:
     Int64T m_id;
+    IntT m_layerNo;
   };
   
   //! userlevel=Normal
@@ -86,6 +92,14 @@ namespace RavlGUIN {
     { return RCHandleC<DPDisplayObjBodyC>::Body(); }
     //: Access body.
   public:
+    
+    void SetLayerNo(IntT layerNo)
+    { Body().SetLayerNo(layerNo); }
+    //: Set the layer id for this object
+    
+    IntT LayerNo() const
+    { return Body().LayerNo(); }
+    //: Access the layer number of this object.
     
     bool Draw(FrameMarkupC &markup)
     { return Body().Draw(markup); }
