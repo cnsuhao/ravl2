@@ -29,6 +29,15 @@ namespace RavlN {
   }
   //: Convert a DList to an SArray1dC.
   
+  template<class DataT>
+  DListC<DataT> DListOf(const SArray1dC<DataT> &arr) {
+    DListC<DataT> ret;
+    for(SArray1dIterC<DataT> it(arr);it;it++)
+      ret.InsLast(*it);
+    return ret;
+  }
+  //: Convert a SArray1dC to a DList
+  
 }
 
 
