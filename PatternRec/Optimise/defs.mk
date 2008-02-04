@@ -28,9 +28,9 @@ PLIB = Optimisation
 
 USESLIBS = RavlCore RavlPatternRec
 
-EXAMPLES = 
+EXAMPLES = testBrent.cc
 
-EHT = 
+EHT = Optimise.html
 
 HTML = 
 

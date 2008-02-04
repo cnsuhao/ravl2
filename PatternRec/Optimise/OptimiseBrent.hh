@@ -11,7 +11,7 @@
 //! lib=Optimisation
 //! date="06/8/2003"
 //! userlevel=Normal
-//! example=testOptimise.cc
+//! example=testBrent.cc
 //! file="Ravl/PatternRec/Optimise/OptimiseBrent.hh"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation.Implementation"
 //! rcsid="$Id$"

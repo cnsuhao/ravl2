@@ -10,7 +10,6 @@
 //! author="Robert Crida"
 //! lib=Optimisation
 //! date="9/2/1998"
-//! userlevel=Normal
 //! example=testOptimise.cc
 //! file="Ravl/PatternRec/Optimise/Optimise.hh"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation"
@@ -23,6 +22,7 @@
 
 namespace RavlN {
   
+  //! userlevel=Develop
   // --------------------------------------------------------------------------
   // **********  OptimiseBodyC  ***********************************************
   // --------------------------------------------------------------------------
@@ -88,6 +88,7 @@ namespace RavlN {
     //: Writes object to stream, can be loaded using constructor
   };
   
+  //! userlevel=Normal
   // --------------------------------------------------------------------------
   // **********  OptimiseC  ************************************************
   // --------------------------------------------------------------------------
