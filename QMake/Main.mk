@@ -761,7 +761,7 @@ endif
 	$(SHOWIT)echo "--- Flex" $< ; \
 	$(FLEX) -o$*.yy$(CXXEXT) $<
 
-%_wrap$(CXXEXT) %.py : %.i *.i
+%_wrap$(CXXEXT) : %.i *.i
 	$(SHOWIT)echo "--- swig" $< ; \
 	$(SWIG) -c++ $(SWIGOPTS) $(INCLUDES) -o $*_wrap$(CXXEXT) $<
 
