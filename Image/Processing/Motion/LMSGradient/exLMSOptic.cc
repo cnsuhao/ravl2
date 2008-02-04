@@ -29,6 +29,8 @@
 #include "Ravl/Image/GaussConvolve2d.hh"
 #include "Ravl/Image/SpatialDifference.hh"
 #include "Ravl/Image/Image.hh"
+#include "Ravl/GUI/DPDisplayImage.hh"
+#include "Ravl/Image/ImgIO.hh"
 
 using namespace RavlN;
 using namespace RavlImageN;
