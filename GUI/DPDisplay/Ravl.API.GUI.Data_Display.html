@@ -25,37 +25,56 @@
   }
 </pre>
     <p>To give the window a label "Images", invoke it like this:</p>
-    <pre>  Save(outp,"@X:Images", img)
-</pre>
+    <pre>  Save("@X:Images", img);</pre>
 
     <p>If you would like to display several images in separate windows, use different labels: <code>@X:Image1</code>, <code>@X:Image2</code> etc.</p>
 
-    <h2>Adding things to images  using the "@XA" virtual file</h2>
+    <h2>Adding graphical objects to images  using the "@XA" virtual file name</h2>
 
-    <p>  Normally repeated saves to the same window will replace its contents, if you want to accumulate the results of processing in a window you can use <B>"@XA"</B>.  This is relevant if you want for example to add graphics to an image.  There are two approaches to adding graphics:</p><ol>
-      <li><p>You can draw graphical objects onto the image object using these <a href="Ravl.API.Images.Drawing.html">pixel-based drawing functions</a>.</p></li>
+    <p> Normally repeated saves to the same window will replace its contents.
+    However if you want to accumulate the results of processing in a window
+    you can use <B>"@XA"</B>.  For example if you want to add some points:</p>
+<pre>
+  Save("@X:Images", img);
+  Save("@XA:Images", arrayOfPoints);
+</pre>
 
-      <li><p>You can instead draw the graphical objects to the display itself.
-      The main differences are:</p><ul> 
+    <p>This is relevant if you want for example to add
+    graphics to an image.  You can of course add graphical objects to the
+    image object, using the <a href="Ravl.API.Images.Drawing.html">pixel-based
+    drawing functions</a>.  The advantages to using the "@XA" virtual file
+    approach are:</p><ul>
 
-          <li><p>Since the objects are no longer part of the image itself, when
-          you rescale the display (using the mouse wheel), the widths of the
-          lines that render the objects remain at the same scale (2 screen
-          pixels).  I.e. they no longer become pixellated as you blow the
-          image up.</p></li>
+      <li><p>Since the objects are no longer part of the image itself, when
+      you rescale the display (using the mouse wheel), the widths of the lines
+      that render the objects remain at the same scale (2 screen pixels).
+      I.e. they no longer become pixellated as you blow the image up.</p></li>
 
-          <li><p>The objects can be placed with sub-pixel accuracy.  In this
-          regard, it is worth noting that the coordinate system is subtly
-          different.  For example if a point has integer coordinates, it will
-          be placed at the top left-hand corner of the corresponding pixel.
-          The pixel-based drawing functions on the other hand are placed
-          relative to the centre of the pixel.</p>  </li>
+      <li><p>The objects can be placed with sub-pixel accuracy.  In this
+      regard, it is worth noting that the coordinate system is subtly
+      different.  For example if a point has integer coordinates, it will be
+      placed at the top left-hand corner of the corresponding pixel.  The
+      pixel-based drawing functions on the other hand are placed relative to
+      the centre of the pixel.</p> </li>
 
-        </ul>
-        <p>Hints as to which objects can be drawn this way are <a
-        href="Ravl.API.GUI.Markup_Canvas.html">here</a>.</p>
+    </ul>
+
+    <p>On the other hand:</p>
+
+    <ul>
+      <li> <p>Because the virtual file
+    system was not designed with this application in mind, you do not have
+    much control over the appearance of the objects.  For example colours are
+    assigned in an arbitrary (but deterministic) order.  If you want several
+    objects plotted in the same colour, they have to be plotted in the same
+    <code>Save()</code> call.</p></li>
+
+      <li><p>The only simple way to find out what kind of objects can be
+      plotted (if on a Unix-type system) is to run: </p> 
+        
+        <pre>  $RAVL_INSTALLATION/bin/conv -lc | grep DPDisplay</pre>
       </li>
-    </ol>
+</ul>
 
   </body>
 </html>
