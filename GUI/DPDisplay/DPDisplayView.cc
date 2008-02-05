@@ -34,6 +34,7 @@ namespace RavlGUIN {
       refreshQueued(false),
       vRuler(true),
       hRuler(false),
+      displaySize(Index2dC(0,0),Index2dC(128,128)), // Setup a default size.
       lastMousePos(-1000,-1000),
       backMenu("BackMenu")
   {}
@@ -75,6 +76,8 @@ namespace RavlGUIN {
     
     canvas = GUIMarkupCanvasC(cols,rows);
     
+    canvas.GUISetOffset(-Point2dC(displaySize.Origin()));
+    
     backMenu.GUIAdd(MenuItemR("Save",*this, &DPDisplayViewBodyC::CallbackStartSave));
     backMenu.GUIAdd(MenuItem("Layer Editor",canvas, &GUIMarkupCanvasC::GUIShowLayerDialog));
     menuBar.GUIAdd(MenuItemR("Save",*this, &DPDisplayViewBodyC::CallbackStartSave));
@@ -104,9 +107,6 @@ namespace RavlGUIN {
     
     DPDisplayViewC thisH(*this);
     
-    //vRuler.GUIAttachTo(canvas);
-    //hRuler.GUIAttachTo(canvas);
-
     TableBodyC::GUIAddObject(menuBar,0,3,0,1,(GtkAttachOptions)(GTK_EXPAND|GTK_FILL|GTK_SHRINK),(GtkAttachOptions) (GTK_SHRINK|GTK_FILL));    
     TableBodyC::GUIAddObject(vRuler,0,1,2,3,GTK_FILL,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL));
     TableBodyC::GUIAddObject(hRuler,1,2,1,2,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL),GTK_FILL);
@@ -146,7 +146,7 @@ namespace RavlGUIN {
   
   bool DPDisplayViewBodyC::HandleUpdateDisplayRange(RealRange2dC &rng) {
     //cerr << "DPDisplayViewBodyC::HandleUpdateDisplayRange(),  \n";
-    GUIUpdateRuler();    
+    //GUIUpdateRuler();    
     return true;
   }
   
@@ -157,6 +157,8 @@ namespace RavlGUIN {
     RWLockHoldC hold(lockDisplayList,RWLOCK_WRITE);
     if(displayList.IsEmpty()) {
       displaySize = obj.Frame();
+      if(canvas.IsValid())
+	canvas.SetOffset(-Point2dC(displaySize.Origin()));
     } else
       displaySize.Involve(obj.Frame());
     displayList.InsFirst(obj);
@@ -210,7 +212,6 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "DPDisplayViewBodyC::UpdateRuler(), Called. \n");
     Point2dC origin = canvas.GUI2World(Point2dC(0,0));
     Point2dC canSize = canvas.GUI2World(canvas.Size());
-    
     vRuler.GUISetRangeAndPosition(origin[0],canSize[0],lastMousePos[0]);
     hRuler.GUISetRangeAndPosition(origin[1],canSize[1],lastMousePos[1]);
     return true;
@@ -242,12 +243,15 @@ namespace RavlGUIN {
   
   bool DPDisplayViewBodyC::CallbackExpose(GdkEvent *&event) {
     ONDEBUG(cerr << "DPDisplayViewBodyC::Expose(), Called \n");
+#if 0
+    // The markup canvas handles this itself.
     RWLockHoldC hold(lockDisplayList,RWLOCK_READONLY);
     FrameMarkupC frameMarkup;
     for(DLIterC<DPDisplayObjC> it(displayList);it;it++)
       it->Draw(frameMarkup);
     hold.Unlock();
     canvas.GUIUpdateMarkup(frameMarkup);    
+#endif
     return true;
   }
 
@@ -255,7 +259,7 @@ namespace RavlGUIN {
   
   bool DPDisplayViewBodyC::CallbackConfigure(GdkEvent *&event) {
     ONDEBUG(cerr << "DPDisplayViewBodyC::CallbackConfigure(), Called. \n");
-    //GUIUpdateRuler();
+    GUIUpdateRuler();
     return true;
   }
   
