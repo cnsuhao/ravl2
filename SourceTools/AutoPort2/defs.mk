@@ -33,7 +33,7 @@ USESLIBS = RavlOS RavlSourceTools RavlCore RavlIO RavlMath system GTK
 
 AUXFILES= header.tmpl guid.tmpl externalLib.xml  sln.tmpl vcproj.tmpl solution.guid.tmpl \
  testProgram.guid.tmpl testProgram.tmpl exampleProgram.tmpl mainProgram.tmpl program.stmpl \
- mainProgram.guid.tmpl exampleProgram.guid.tmpl
+ mainProgram.guid.tmpl exampleProgram.guid.tmpl makefile.tmpl mainmak.tmpl
 
 AUXDIR= share/RAVL/AutoPort2
 

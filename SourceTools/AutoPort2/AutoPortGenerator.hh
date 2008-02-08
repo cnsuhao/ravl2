@@ -60,6 +60,12 @@ namespace RavlN {
     bool DoLibDepends(StringC &data); 
     //: Go through all dependant libraries.
 
+    bool DoObjectFile(StringC &data); 
+    //: Turn filename into object file, simply by changing extension
+
+    bool DoFileBaseName(StringC &data); 
+    //: Turn filename into basename only (i.e. after last / and before .)
+
     bool HelpLibDepends(StringC &data,const StringC &library,HSetC<StringC> &done); 
     //: Helper functionf or DoLibDepends.
     
@@ -98,6 +104,9 @@ namespace RavlN {
     //: Access info about current lib.
     
     StringC VarExtraInclude();
+    //: Compute value of extra inclue variable.
+
+    StringC VarNMakeExtraInclude();
     //: Compute value of extra inclue variable.
     
     StringC VarExtraLibPath();
@@ -153,7 +162,8 @@ namespace RavlN {
 	switch(ctype) {
 	case 1: {
 	  DListC<StringC>srcs = libInfo.Sources();
-	  if(libInfo.MustLink().Size()>0) srcs.InsLast(libInfo.MustLink());
+	  if(libInfo.MustLink().Size()>0 && !srcs.Contains(libInfo.MustLink()))
+            srcs.InsLast(libInfo.MustLink());
 	  return srcs;
 	}
 	case 2: return progInfo.Sources();
