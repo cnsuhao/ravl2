@@ -18,11 +18,27 @@
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Image/ByteYUVValue.hh"
 #include "Ravl/Image/ImageConv.hh"
+#include "Ravl/TypeName.hh"
 
 namespace RavlImageN
 {
   void InitStdImageCnv()
   {}
+  
+  static TypeNameC type1(typeid(ImageRectangleC),"RavlImageN::ImageRectangleC");
+  
+  static IndexRange2dC ImageRectangle2IndexRange(const ImageRectangleC &rect) 
+  { return IndexRange2dC(rect); }
+  
+  static ImageRectangleC IndexRange2ImageRectangle(const IndexRange2dC &rect) 
+  { return IndexRange2dC(rect); }
+  
+  DP_REGISTER_CONVERSION_NAMED(ImageRectangle2IndexRange   ,1,
+			       "RavlN::IndexRange2dC RavlImageN::ImageRectangle2IndexRange(const RavlImageN::ImageRectangleC &)");
+
+  DP_REGISTER_CONVERSION_NAMED(IndexRange2ImageRectangle   ,1,
+			       "RavlImageN::ImageRectangleC RavlImageN::IndexRange2ImageRectangle(const RavlN::IndexRange2dC &)");
+  
   
   // Handle converters.
   
@@ -39,4 +55,6 @@ namespace RavlImageN
   DP_REGISTER_CONVERSION_NAMED(IntImageCT2DoubleImageCT     ,1,
 			       "ImageC<RealT> RavlImageN::Convert(const ImageC<IntT> &)");
 
+  
+  
 }
