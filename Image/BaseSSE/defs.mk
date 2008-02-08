@@ -11,8 +11,6 @@ REQUIRES=USE_SSE2
 
 PACKAGE=Ravl/Image
 
-HEADERS=
-
 SOURCES=ImageConvSSE.cc
 
 HEADERS=ImageConvSSE.hh
