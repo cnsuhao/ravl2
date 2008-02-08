@@ -9,6 +9,8 @@
 
 PACKAGE = Ravl/Image
 
+DONOT_SUPPORT=VCPP
+
 DESCRIPTION = Raw video IO classes.
 
 HEADERS = ImgIOdvsyuv.hh ImgIOdvsrgb.hh GrabfileCommon.hh GrabfileReader.hh GrabfileReaderV1.hh GrabfileWriter.hh GrabfileWriterV1.hh LegacyGrabfileReader.hh NewGrabfileReader.hh NewGrabfileWriter.hh dvsFormat.hh Utilities.hh
