@@ -56,6 +56,9 @@ namespace RavlGUIN {
     bool Refresh();
     //: Refresh the display.
     
+    bool SetResizeOnNextObject();
+    //: Resize on display of next object.
+    
     GUIMarkupCanvasC &Canvas()
     { return canvas; }
     //: Access canvas.
@@ -124,6 +127,8 @@ namespace RavlGUIN {
     FileSelectorC fileSelector;
 
     SignalConnectionSetC connections;
+    bool m_resizeOnNextObject;
+    
     friend class DPDisplayViewC;
   };
 
@@ -191,6 +196,10 @@ namespace RavlGUIN {
     bool Refresh()
     { return Body().Refresh(); }
     //: Refresh the display.
+    
+    bool SetResizeOnNextObject()
+    { return Body().SetResizeOnNextObject(); }
+    //: Resize on display of next object.
     
     friend class DPDisplayViewBodyC;
   };

@@ -83,12 +83,14 @@ namespace RavlGUIN {
   
   //: This clears the display list then adds 'obj'.
   
-  bool DPWindowBodyC::ReplaceObject(const DPDisplayObjC &obj) {
+  bool DPWindowBodyC::ReplaceObject(const DPDisplayObjC &obj,bool resetPosition) {
     ONDEBUG(cerr << "DPWindowBodyC::ReplaceObject(), Called \n");
     MutexLockC hold(accessMutex);
     if(!view.IsValid()) 
       Init(obj.Frame());
     view.Clear();
+    if(resetPosition)
+      view.SetResizeOnNextObject();
     m_layerCount = 0;
     DPDisplayObjC(obj).SetLayerNo(m_layerCount++);
     view.AddObject(obj);

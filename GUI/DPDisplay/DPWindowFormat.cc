@@ -49,7 +49,7 @@ namespace RavlGUIN {
     if(filename[0] != '@')
       return typeid(void);
     StringC device = ExtractDevice(filename);
-    if(device != "X" && device != "XA")
+    if(device != "X" && device != "XA" && device != "XR")
       return typeid(void);
     ONDEBUG(cerr << "DPWindowFormatBodyC::ProbeSave(), Target accepted. \n"); 
     return typeid(DPDisplayObjC);
@@ -77,12 +77,15 @@ namespace RavlGUIN {
     // Setup a new port to the window and return it.
     DPWindowOPortC port;
     bool accum = false;
-    if(device == "XA") 
+    bool resetWin = false;
+    if(device == "XR")
+      resetWin = true;
+    else if(device == "XA") 
       accum = true;
     else {
       RavlAssert(device == "X");
     }
-    return DPWindowOPortC(win,accum);
+    return DPWindowOPortC(win,accum,resetWin);
   }
 
 

@@ -36,7 +36,8 @@ namespace RavlGUIN {
       hRuler(false),
       displaySize(Index2dC(0,0),Index2dC(128,128)), // Setup a default size.
       lastMousePos(-1000,-1000),
-      backMenu("BackMenu")
+      backMenu("BackMenu"),
+      m_resizeOnNextObject(false)
   {}
   
   //: Need virtual destructor for class with virtual methods
@@ -134,6 +135,14 @@ namespace RavlGUIN {
     return true;
   }
 
+  //: Resize on display of next object.
+  
+  bool DPDisplayViewBodyC::SetResizeOnNextObject() {
+    RWLockHoldC hold(lockDisplayList,RWLOCK_WRITE);
+    m_resizeOnNextObject = true;
+    return true;
+  }
+  
   //: Called when the underlying widget it destroyed.
   // The default version of this method simpily 0's the widget ptr.
   
@@ -157,8 +166,15 @@ namespace RavlGUIN {
     RWLockHoldC hold(lockDisplayList,RWLOCK_WRITE);
     if(displayList.IsEmpty()) {
       displaySize = obj.Frame();
-      if(canvas.IsValid())
-	canvas.SetOffset(-Point2dC(displaySize.Origin()));
+      if(m_resizeOnNextObject) {
+        if(canvas.IsValid()) {
+          canvas.SetOffset(-Point2dC(displaySize.Origin()));
+          canvas.SetScale(Vector2dC(1.0,1.0));
+        }
+        
+        m_resizeOnNextObject = false;
+      }
+      
     } else
       displaySize.Involve(obj.Frame());
     displayList.InsFirst(obj);

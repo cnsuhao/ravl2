@@ -64,13 +64,16 @@ int main() {
 	img2[x][y] = x;
     }
   
-  if(!Save("@X:hello2",img2,"",true)) {
+  if(!Save("@X:hello2",img,"",true)) {
     cerr << "Failed to save image 2. \n";
     return 1;
   }
-#if 0
-  while(1)
-    RavlN::Sleep(1);
-#endif
+  
+  // Display a new image, and reset the origin and scale
+  if(!Save("@XR:hello2",img2,"",true)) {
+    cerr << "Failed to save image 2. \n";
+    return 1;
+  }
+  
   return 0;
 }

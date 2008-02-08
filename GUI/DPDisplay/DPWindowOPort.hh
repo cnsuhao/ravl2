@@ -24,7 +24,7 @@ namespace RavlGUIN {
     : public DPOPortBodyC<DPDisplayObjC>
   {
   public:
-    DPWindowOPortBodyC(DPWindowC &win,bool accum = false);
+    DPWindowOPortBodyC(DPWindowC &win,bool accum = false,bool resetWin = false);
     //: Constructor.
     
     virtual ~DPWindowOPortBodyC() { }
@@ -35,6 +35,7 @@ namespace RavlGUIN {
     
   protected:
     bool accumulate;
+    bool m_resetWin;
     DPWindowC win;
   };
 
@@ -45,8 +46,8 @@ namespace RavlGUIN {
     : public DPOPortC<DPDisplayObjC>
   {
   public:
-    DPWindowOPortC(DPWindowC &win,bool accum = false)
-      : DPEntityC(*new DPWindowOPortBodyC(win,accum))
+    DPWindowOPortC(DPWindowC &win,bool accum = false,bool resetWin = false)
+      : DPEntityC(*new DPWindowOPortBodyC(win,accum,resetWin))
     {}
     //: Constructor.
     

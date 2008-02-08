@@ -17,8 +17,9 @@ namespace RavlGUIN {
   
   //: Constructor.
   
-  DPWindowOPortBodyC::DPWindowOPortBodyC(DPWindowC &nwin,bool accum) 
+  DPWindowOPortBodyC::DPWindowOPortBodyC(DPWindowC &nwin,bool accum,bool resetWin) 
     : accumulate(accum),
+      m_resetWin(resetWin),
       win(nwin)
   {}
   
@@ -26,10 +27,11 @@ namespace RavlGUIN {
   
   bool DPWindowOPortBodyC::Put(const DPDisplayObjC &newObj) {
     bool wasOpen = win.IsOpen();
-    if(accumulate)
+    if(accumulate) {
       win.AddObject(newObj);
-    else
-      win.ReplaceObject(newObj);
+    } else {
+      win.ReplaceObject(newObj,m_resetWin);
+    }
     // Wait for initial window to open before returning, this avoids
     // some race conditions if the program exists soon after displaying
     // something.

@@ -46,7 +46,7 @@ namespace RavlGUIN {
     bool AddObject(const DPDisplayObjC &obj);
     //: Add object to the display list.
     
-    bool ReplaceObject(const DPDisplayObjC &obj);
+    bool ReplaceObject(const DPDisplayObjC &obj,bool resetPosition = false);
     //: This clears the display list then adds 'obj'.
     
     bool Clear();
@@ -111,8 +111,8 @@ namespace RavlGUIN {
     { return Body().AddObject(obj); }
     //: Add object to the display list.
     
-    bool ReplaceObject(const DPDisplayObjC &obj)
-    { return Body().ReplaceObject(obj); }
+    bool ReplaceObject(const DPDisplayObjC &obj,bool resetPosition = false)
+    { return Body().ReplaceObject(obj,resetPosition); }
     //: This clears the display list then adds 'obj'.
     
     bool Clear()
