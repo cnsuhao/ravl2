@@ -123,6 +123,78 @@ namespace RavlN {
     { return StdHash(reinterpret_cast<const void *>(BodyPtr())); }
     //: Compute hash value for handle.
   };
+  
+  // ------------------------------------------------
+
+  template<typename StreamT,typename BodyT>
+  void SaveStreamImpl(StreamT &strm,const SmartOwnerPtrC<BodyT> &ptr,const RCBodyVC &) {
+    char handleStatus = ptr.IsValid() ? 'V' : 'I';
+    strm << handleStatus;
+    if(ptr.IsValid()) ptr->Save(strm);
+  }  
+  
+  template<typename StreamT,typename BodyT>
+  void SaveStreamImpl(StreamT &strm,const SmartOwnerPtrC<BodyT> &ptr,const RCBodyC &) {
+    char handleStatus = ptr.IsValid() ? 'V' : 'I';
+    strm << handleStatus;
+    if(ptr.IsValid()) ptr->Save(strm);
+  }
+  
+  template<typename StreamT,typename BodyT>
+  void LoadStreamImpl(StreamT &strm,SmartOwnerPtrC<BodyT> &ptr,const RCBodyC &) {
+    char handleStatus = 0;
+    strm >> handleStatus;
+    if(handleStatus == 'V') {
+      ptr = new BodyT(strm);
+    } else {
+      if(handleStatus != 'I')
+        throw ExceptionOperationFailedC("Unexpected value in input stream.");
+      ptr.Invalidate(); // Ensure an invalid handle.
+    }
+  }
+  
+  template<typename StreamT,typename BodyT>
+  void LoadStreamImpl(StreamT &strm,SmartOwnerPtrC<BodyT> &ptr,const RCBodyVC &) {
+    char handleStatus = 0;
+    strm >> handleStatus;
+    if(handleStatus == 'V') {
+      ptr = RAVL_VIRTUALCONSTRUCTOR(strm,BodyT);
+    } else {
+      if(handleStatus != 'I')
+        throw ExceptionOperationFailedC("Unexpected value in input stream.");
+      ptr.Invalidate(); // Ensure an invalid handle.
+    }
+  }
+  
+  // ------------------------------------------------
+  
+  //: Write entity from binary stream
+  template<typename BodyT>
+  BinOStreamC &operator<<(BinOStreamC &strm,const SmartOwnerPtrC<BodyT> &ptr) {
+    SaveStreamImpl(strm,ptr,*ptr);
+    return strm;
+  }
+  
+  //: Read entity from binary stream
+  template<typename BodyT>
+  BinIStreamC &operator>>(BinIStreamC &strm,SmartOwnerPtrC<BodyT> &ptr) {
+    LoadStreamImpl(strm,ptr,*ptr);
+    return strm;
+  }
+
+  //: Write entity from text stream
+  template<typename BodyT>
+  ostream &operator<<(ostream &strm,const SmartOwnerPtrC<BodyT> &ptr) {
+    SaveStreamImpl(strm,ptr,*ptr);
+    return strm;
+  }
+  
+  //: Read entity from text stream
+  template<typename BodyT>
+  istream &operator>>(istream &strm,SmartOwnerPtrC<BodyT> &ptr) {
+    LoadStreamImpl(strm,ptr,*ptr);
+    return strm;
+  }
 
 }
 #endif
