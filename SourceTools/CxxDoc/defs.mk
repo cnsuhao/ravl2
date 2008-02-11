@@ -30,13 +30,7 @@ HEADERS= Object.hh Document.hh Parser.hh CxxElements.hh \
 
 SOURCES = Object.cc Document.cc Parser.cc \
  CxxElements.cc CxxScope.cc DocExe.cc DocNode.cc DocTree.cc \
- Strings.cc   cxx.y Executables.cc tokenizer.yy.cc
-#tokenizer.yy.cc
-#cxx.tab.cc tokenizer.l 
-
-# the output of flex and bison is not compatibile with gcc-3.1, it needs
-# a little tweeking, so don't compile these directly :
-#   
+ Strings.cc Executables.cc cxx.y tokenizer.l
 
 PLIB = RavlCxxDoc
 
@@ -52,6 +46,3 @@ EHT= Ravl.API.Source_Tools.CxxDoc.html Documentation.html \
 USESLIBS=  RavlCore RavlOS RavlSourceTools
 
 PROGLIBS=  
-
-
-

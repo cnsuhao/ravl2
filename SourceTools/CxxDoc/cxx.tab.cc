@@ -1,7 +1,7 @@
-/* A Bison parser, made by GNU Bison 1.875.  */
+/* A Bison parser, made by GNU Bison 2.1.  */
 
 /* Skeleton parser for Yacc-like parsing with Bison,
-   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,8 +15,8 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330,
-   Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street, Fifth Floor,
+   Boston, MA 02110-1301, USA.  */
 
 /* As a special exception, when this file is copied by Bison into a
    Bison output file, you may use that output file without restriction.
@@ -35,6 +35,9 @@
 
 /* Identify Bison output.  */
 #define YYBISON 1
+
+/* Bison version.  */
+#define YYBISON_VERSION "2.1"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -83,6 +86,7 @@
      DOCSECTION = 285
    };
 #endif
+/* Tokens.  */
 #define IDENTIFIER 258
 #define CLCL 259
 #define PUBLIC 260
@@ -160,6 +164,11 @@
 # define YYERROR_VERBOSE 0
 #endif
 
+/* Enabling the token table.  */
+#ifndef YYTOKEN_TABLE
+# define YYTOKEN_TABLE 0
+#endif
+
 #if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
 typedef int YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -172,22 +181,48 @@ typedef int YYSTYPE;
 /* Copy the second part of user declarations.  */
 
 
-/* Line 214 of yacc.c.  */
-#line 176 "cxx.tab.c"
+/* Line 219 of yacc.c.  */
+#line 186 "cxx.tab.c"
+
+#if ! defined (YYSIZE_T) && defined (__SIZE_TYPE__)
+# define YYSIZE_T __SIZE_TYPE__
+#endif
+#if ! defined (YYSIZE_T) && defined (size_t)
+# define YYSIZE_T size_t
+#endif
+#if ! defined (YYSIZE_T) && (defined (__STDC__) || defined (__cplusplus))
+# include <stddef.h> /* INFRINGES ON USER NAME SPACE */
+# define YYSIZE_T size_t
+#endif
+#if ! defined (YYSIZE_T)
+# define YYSIZE_T unsigned int
+#endif
+
+#ifndef YY_
+# if YYENABLE_NLS
+#  if ENABLE_NLS
+#   include <libintl.h> /* INFRINGES ON USER NAME SPACE */
+#   define YY_(msgid) dgettext ("bison-runtime", msgid)
+#  endif
+# endif
+# ifndef YY_
+#  define YY_(msgid) msgid
+# endif
+#endif
 
 #if ! defined (yyoverflow) || YYERROR_VERBOSE
 
 /* The parser invokes alloca or malloc; define the necessary symbols.  */
 
-# if YYSTACK_USE_ALLOCA
-#  define YYSTACK_ALLOC alloca
-# else
-#  ifndef YYSTACK_USE_ALLOCA
-#   if defined (alloca) || defined (_ALLOCA_H)
-#    define YYSTACK_ALLOC alloca
+# ifdef YYSTACK_USE_ALLOCA
+#  if YYSTACK_USE_ALLOCA
+#   ifdef __GNUC__
+#    define YYSTACK_ALLOC __builtin_alloca
 #   else
-#    ifdef __GNUC__
-#     define YYSTACK_ALLOC __builtin_alloca
+#    define YYSTACK_ALLOC alloca
+#    if defined (__STDC__) || defined (__cplusplus)
+#     include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
+#     define YYINCLUDED_STDLIB_H
 #    endif
 #   endif
 #  endif
@@ -196,25 +231,51 @@ typedef int YYSTYPE;
 # ifdef YYSTACK_ALLOC
    /* Pacify GCC's `empty if-body' warning. */
 #  define YYSTACK_FREE(Ptr) do { /* empty */; } while (0)
-# else
-#  if defined (__STDC__) || defined (__cplusplus)
-#   include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
-#   define YYSIZE_T size_t
+#  ifndef YYSTACK_ALLOC_MAXIMUM
+    /* The OS might guarantee only one guard page at the bottom of the stack,
+       and a page size can be as small as 4096 bytes.  So we cannot safely
+       invoke alloca (N) if N exceeds 4096.  Use a slightly smaller number
+       to allow for a few compiler-allocated temporary stack slots.  */
+#   define YYSTACK_ALLOC_MAXIMUM 4032 /* reasonable circa 2005 */
 #  endif
-#  define YYSTACK_ALLOC malloc
-#  define YYSTACK_FREE free
+# else
+#  define YYSTACK_ALLOC YYMALLOC
+#  define YYSTACK_FREE YYFREE
+#  ifndef YYSTACK_ALLOC_MAXIMUM
+#   define YYSTACK_ALLOC_MAXIMUM ((YYSIZE_T) -1)
+#  endif
+#  ifdef __cplusplus
+extern "C" {
+#  endif
+#  ifndef YYMALLOC
+#   define YYMALLOC malloc
+#   if (! defined (malloc) && ! defined (YYINCLUDED_STDLIB_H) \
+	&& (defined (__STDC__) || defined (__cplusplus)))
+void *malloc (YYSIZE_T); /* INFRINGES ON USER NAME SPACE */
+#   endif
+#  endif
+#  ifndef YYFREE
+#   define YYFREE free
+#   if (! defined (free) && ! defined (YYINCLUDED_STDLIB_H) \
+	&& (defined (__STDC__) || defined (__cplusplus)))
+void free (void *); /* INFRINGES ON USER NAME SPACE */
+#   endif
+#  endif
+#  ifdef __cplusplus
+}
+#  endif
 # endif
 #endif /* ! defined (yyoverflow) || YYERROR_VERBOSE */
 
 
 #if (! defined (yyoverflow) \
      && (! defined (__cplusplus) \
-	 || (YYSTYPE_IS_TRIVIAL)))
+	 || (defined (YYSTYPE_IS_TRIVIAL) && YYSTYPE_IS_TRIVIAL)))
 
 /* A type that is properly aligned for any stack member.  */
 union yyalloc
 {
-  short yyss;
+  short int yyss;
   YYSTYPE yyvs;
   };
 
@@ -224,20 +285,20 @@ union yyalloc
 /* The size of an array large to enough to hold all stacks, each with
    N elements.  */
 # define YYSTACK_BYTES(N) \
-     ((N) * (sizeof (short) + sizeof (YYSTYPE))				\
+     ((N) * (sizeof (short int) + sizeof (YYSTYPE))			\
       + YYSTACK_GAP_MAXIMUM)
 
 /* Copy COUNT objects from FROM to TO.  The source and destination do
    not overlap.  */
 # ifndef YYCOPY
-#  if 1 < __GNUC__
+#  if defined (__GNUC__) && 1 < __GNUC__
 #   define YYCOPY(To, From, Count) \
       __builtin_memcpy (To, From, (Count) * sizeof (*(From)))
 #  else
 #   define YYCOPY(To, From, Count)		\
       do					\
 	{					\
-	  register YYSIZE_T yyi;		\
+	  YYSIZE_T yyi;				\
 	  for (yyi = 0; yyi < (Count); yyi++)	\
 	    (To)[yyi] = (From)[yyi];		\
 	}					\
@@ -266,7 +327,7 @@ union yyalloc
 #if defined (__STDC__) || defined (__cplusplus)
    typedef signed char yysigned_char;
 #else
-   typedef short yysigned_char;
+   typedef short int yysigned_char;
 #endif
 
 /* YYFINAL -- State number of the termination state. */
@@ -287,7 +348,7 @@ union yyalloc
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   285
 
-#define YYTRANSLATE(YYX) 						\
+#define YYTRANSLATE(YYX)						\
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
 
 /* YYTRANSLATE[YYLEX] -- Bison symbol number corresponding to YYLEX.  */
@@ -327,7 +388,7 @@ static const unsigned char yytranslate[] =
 #if YYDEBUG
 /* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
    YYRHS.  */
-static const unsigned short yyprhs[] =
+static const unsigned short int yyprhs[] =
 {
        0,     0,     3,     5,     7,    10,    11,    13,    15,    17,
       19,    25,    31,    33,    36,    38,    41,    46,    48,    50,
@@ -465,7 +526,7 @@ static const yysigned_char yyrhs[] =
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
-static const unsigned short yyrline[] =
+static const unsigned short int yyrline[] =
 {
        0,    79,    79,    84,    85,    88,    89,    92,    93,    94,
       95,    96,   105,   106,   107,   108,   109,   110,   111,   118,
@@ -503,37 +564,37 @@ static const unsigned short yyrline[] =
 };
 #endif
 
-#if YYDEBUG || YYERROR_VERBOSE
-/* YYTNME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
+#if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
+/* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals. */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "IDENTIFIER", "CLCL", "PUBLIC", 
-  "PROTECTED", "PRIVATE", "NAMESPACE", "STRING", "CONSTANT", "CPVIRTUAL", 
-  "ENUM", "CPTYPEDEF", "CPFRIEND", "CPOPERATOR", "TEMPLATE", "CPTHROW", 
-  "CPTRY", "CPCATCH", "SCSPEC", "TYPENAME_KEYWORD", "USING", "EXTERN", 
-  "ELLIPSIS", "ASM_KEYWORD", "CV_QUALIFIER", "TYPEQUAL", "BINOP", 
-  "BUILTIN", "DOCSECTION", "'{'", "','", "';'", "':'", "'='", "'~'", 
-  "'('", "'['", "')'", "'}'", "']'", "'<'", "'>'", "'+'", "'-'", "'&'", 
-  "'/'", "'*'", "'%'", "'|'", "'^'", "'!'", "$accept", "program", 
-  "extdefs", "extdefs_opt", "extdef", "datadef", "enum_name_list_opt", 
-  "enum_name_list", "enum_name_elem", "string", "unqualified_id", 
-  "qualified_id", "maybe_identifier", "any_id", "scope_id", 
-  "scope_resolved_id", "namespace_alias", "using_directive", "using_decl", 
-  "template_def", "template_inst_args_opt", "template_inst_args", 
-  "template_header", "template_parm_list", "parm", "template_type_parm", 
-  "template_template_parm", "template_parm", "class_inherit_list_all", 
-  "class_inherit_list", "class_inherit_mode", "class_inherit_def", 
-  "class_lst", "class_def", "expr_no_commas_list_opt", 
-  "expr_no_commas_list", "expr_no_commas", "type_id", "type_id_bod", 
-  "var_name_list_opt", "var_name_list", "var_name_array", "var_name_elem", 
-  "type_id_qual", "base_class_constructors_list", "constructor_expr", 
-  "arg_expr_list_all", "arg_expr_list", "arg_expr_list_item", "fndef", 
-  "func_decl", "func_def", "operator_types", "func_arg_templ_qual", 
-  "func_arg_prototype", "func_prototype", "func_throw_spec", 
-  "list_scoped_ids_opt", "list_scoped_ids", "func_arg_list_all", 
-  "func_arg_list", "func_arg_def", "function_ptr_def", "func_qualifier", 
-  "func_body", "func_body_opt_constr", "func_body_contents_list", 
+  "$end", "error", "$undefined", "IDENTIFIER", "CLCL", "PUBLIC",
+  "PROTECTED", "PRIVATE", "NAMESPACE", "STRING", "CONSTANT", "CPVIRTUAL",
+  "ENUM", "CPTYPEDEF", "CPFRIEND", "CPOPERATOR", "TEMPLATE", "CPTHROW",
+  "CPTRY", "CPCATCH", "SCSPEC", "TYPENAME_KEYWORD", "USING", "EXTERN",
+  "ELLIPSIS", "ASM_KEYWORD", "CV_QUALIFIER", "TYPEQUAL", "BINOP",
+  "BUILTIN", "DOCSECTION", "'{'", "','", "';'", "':'", "'='", "'~'", "'('",
+  "'['", "')'", "'}'", "']'", "'<'", "'>'", "'+'", "'-'", "'&'", "'/'",
+  "'*'", "'%'", "'|'", "'^'", "'!'", "$accept", "program", "extdefs",
+  "extdefs_opt", "extdef", "datadef", "enum_name_list_opt",
+  "enum_name_list", "enum_name_elem", "string", "unqualified_id",
+  "qualified_id", "maybe_identifier", "any_id", "scope_id",
+  "scope_resolved_id", "namespace_alias", "using_directive", "using_decl",
+  "template_def", "template_inst_args_opt", "template_inst_args",
+  "template_header", "template_parm_list", "parm", "template_type_parm",
+  "template_template_parm", "template_parm", "class_inherit_list_all",
+  "class_inherit_list", "class_inherit_mode", "class_inherit_def",
+  "class_lst", "class_def", "expr_no_commas_list_opt",
+  "expr_no_commas_list", "expr_no_commas", "type_id", "type_id_bod",
+  "var_name_list_opt", "var_name_list", "var_name_array", "var_name_elem",
+  "type_id_qual", "base_class_constructors_list", "constructor_expr",
+  "arg_expr_list_all", "arg_expr_list", "arg_expr_list_item", "fndef",
+  "func_decl", "func_def", "operator_types", "func_arg_templ_qual",
+  "func_arg_prototype", "func_prototype", "func_throw_spec",
+  "list_scoped_ids_opt", "list_scoped_ids", "func_arg_list_all",
+  "func_arg_list", "func_arg_def", "function_ptr_def", "func_qualifier",
+  "func_body", "func_body_opt_constr", "func_body_contents_list",
   "func_body_contents", 0
 };
 #endif
@@ -541,7 +602,7 @@ static const char *const yytname[] =
 # ifdef YYPRINT
 /* YYTOKNUM[YYLEX-NUM] -- Internal token number corresponding to
    token YYLEX-NUM.  */
-static const unsigned short yytoknum[] =
+static const unsigned short int yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
@@ -631,7 +692,7 @@ static const unsigned char yyr2[] =
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
    STATE-NUM when YYTABLE doesn't specify something else to do.  Zero
    means the default is an error.  */
-static const unsigned short yydefact[] =
+static const unsigned short int yydefact[] =
 {
        0,     0,    52,     0,    47,    47,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,   168,   168,    18,    17,
@@ -691,7 +752,7 @@ static const unsigned short yydefact[] =
 };
 
 /* YYDEFGOTO[NTERM-NUM]. */
-static const short yydefgoto[] =
+static const short int yydefgoto[] =
 {
       -1,    21,    22,    23,    24,    25,   305,   306,   307,   158,
       68,    69,    45,    70,    26,    52,    28,    29,    30,    31,
@@ -705,7 +766,7 @@ static const short yydefgoto[] =
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
 #define YYPACT_NINF -391
-static const short yypact[] =
+static const short int yypact[] =
 {
     1057,   293,     0,    44,    49,   313,  1193,  1085,  1204,    23,
      343,   367,   302,   273,   122,  1223,   314,  -391,  -391,  -391,
@@ -765,7 +826,7 @@ static const short yypact[] =
 };
 
 /* YYPGOTO[NTERM-NUM].  */
-static const short yypgoto[] =
+static const short int yypgoto[] =
 {
     -391,  -391,  -391,  -110,   -17,  -391,   459,  -391,   327,  -391,
      -40,     3,     9,   -19,    60,    11,  -391,  -391,  -391,  -391,
@@ -781,7 +842,7 @@ static const short yypgoto[] =
    number is the opposite.  If zero, do what YYDEFACT says.
    If YYTABLE_NINF, syntax error.  */
 #define YYTABLE_NINF -164
-static const short yytable[] =
+static const short int yytable[] =
 {
       53,    59,    62,    54,   245,    88,    97,    76,   132,   303,
      313,    27,   457,    81,    47,    74,    48,    60,    58,   227,
@@ -914,7 +975,7 @@ static const short yytable[] =
       16,     0,    17,     0,     0,     0,     0,     0,     0,    20
 };
 
-static const short yycheck[] =
+static const short int yycheck[] =
 {
        6,     7,     8,     6,   106,    22,    32,    13,    62,   119,
      132,     0,   385,    15,     5,    12,     5,     7,     7,   100,
@@ -1108,22 +1169,6 @@ static const unsigned char yystos[] =
      112,    39,   116,    39,   116
 };
 
-#if ! defined (YYSIZE_T) && defined (__SIZE_TYPE__)
-# define YYSIZE_T __SIZE_TYPE__
-#endif
-#if ! defined (YYSIZE_T) && defined (size_t)
-# define YYSIZE_T size_t
-#endif
-#if ! defined (YYSIZE_T)
-# if defined (__STDC__) || defined (__cplusplus)
-#  include <stddef.h> /* INFRINGES ON USER NAME SPACE */
-#  define YYSIZE_T size_t
-# endif
-#endif
-#if ! defined (YYSIZE_T)
-# define YYSIZE_T unsigned int
-#endif
-
 #define yyerrok		(yyerrstatus = 0)
 #define yyclearin	(yychar = YYEMPTY)
 #define YYEMPTY		(-2)
@@ -1131,7 +1176,8 @@ static const unsigned char yystos[] =
 
 #define YYACCEPT	goto yyacceptlab
 #define YYABORT		goto yyabortlab
-#define YYERROR		goto yyerrlab1
+#define YYERROR		goto yyerrorlab
+
 
 /* Like YYERROR except do call yyerror.  This remains here temporarily
    to ease the transition to the new meaning of YYERROR, for GCC.
@@ -1152,25 +1198,58 @@ do								\
       goto yybackup;						\
     }								\
   else								\
-    { 								\
-      yyerror ("syntax error: cannot back up");\
+    {								\
+      yyerror (YY_("syntax error: cannot back up")); \
       YYERROR;							\
     }								\
 while (0)
 
+
 #define YYTERROR	1
 #define YYERRCODE	256
 
-/* YYLLOC_DEFAULT -- Compute the default location (before the actions
-   are run).  */
 
+/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
+   If N is 0, then set CURRENT to the empty location which ends
+   the previous symbol: RHS[0] (always defined).  */
+
+#define YYRHSLOC(Rhs, K) ((Rhs)[K])
 #ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N)         \
-  Current.first_line   = Rhs[1].first_line;      \
-  Current.first_column = Rhs[1].first_column;    \
-  Current.last_line    = Rhs[N].last_line;       \
-  Current.last_column  = Rhs[N].last_column;
+# define YYLLOC_DEFAULT(Current, Rhs, N)				\
+    do									\
+      if (N)								\
+	{								\
+	  (Current).first_line   = YYRHSLOC (Rhs, 1).first_line;	\
+	  (Current).first_column = YYRHSLOC (Rhs, 1).first_column;	\
+	  (Current).last_line    = YYRHSLOC (Rhs, N).last_line;		\
+	  (Current).last_column  = YYRHSLOC (Rhs, N).last_column;	\
+	}								\
+      else								\
+	{								\
+	  (Current).first_line   = (Current).last_line   =		\
+	    YYRHSLOC (Rhs, 0).last_line;				\
+	  (Current).first_column = (Current).last_column =		\
+	    YYRHSLOC (Rhs, 0).last_column;				\
+	}								\
+    while (0)
 #endif
+
+
+/* YY_LOCATION_PRINT -- Print the location on the stream.
+   This macro was not mandated originally: define only if we know
+   we won't break user code: when these are the locations we know.  */
+
+#ifndef YY_LOCATION_PRINT
+# if YYLTYPE_IS_TRIVIAL
+#  define YY_LOCATION_PRINT(File, Loc)			\
+     fprintf (File, "%d.%d-%d.%d",			\
+              (Loc).first_line, (Loc).first_column,	\
+              (Loc).last_line,  (Loc).last_column)
+# else
+#  define YY_LOCATION_PRINT(File, Loc) ((void) 0)
+# endif
+#endif
+
 
 /* YYLEX -- calling `yylex' with the right arguments.  */
 
@@ -1194,36 +1273,30 @@ do {						\
     YYFPRINTF Args;				\
 } while (0)
 
-# define YYDSYMPRINT(Args)			\
-do {						\
-  if (yydebug)					\
-    yysymprint Args;				\
-} while (0)
-
-# define YYDSYMPRINTF(Title, Token, Value, Location)		\
+# define YY_SYMBOL_PRINT(Title, Type, Value, Location)		\
 do {								\
   if (yydebug)							\
     {								\
       YYFPRINTF (stderr, "%s ", Title);				\
-      yysymprint (stderr, 					\
-                  Token, Value);	\
+      yysymprint (stderr,					\
+                  Type, Value);	\
       YYFPRINTF (stderr, "\n");					\
     }								\
 } while (0)
 
 /*------------------------------------------------------------------.
 | yy_stack_print -- Print the state stack from its BOTTOM up to its |
-| TOP (cinluded).                                                   |
+| TOP (included).                                                   |
 `------------------------------------------------------------------*/
 
 #if defined (__STDC__) || defined (__cplusplus)
 static void
-yy_stack_print (short *bottom, short *top)
+yy_stack_print (short int *bottom, short int *top)
 #else
 static void
 yy_stack_print (bottom, top)
-    short *bottom;
-    short *top;
+    short int *bottom;
+    short int *top;
 #endif
 {
   YYFPRINTF (stderr, "Stack now");
@@ -1253,13 +1326,13 @@ yy_reduce_print (yyrule)
 #endif
 {
   int yyi;
-  unsigned int yylineno = yyrline[yyrule];
-  YYFPRINTF (stderr, "Reducing stack by rule %d (line %u), ",
-             yyrule - 1, yylineno);
+  unsigned long int yylno = yyrline[yyrule];
+  YYFPRINTF (stderr, "Reducing stack by rule %d (line %lu), ",
+             yyrule - 1, yylno);
   /* Print the symbols being reduced, and their result.  */
   for (yyi = yyprhs[yyrule]; 0 <= yyrhs[yyi]; yyi++)
-    YYFPRINTF (stderr, "%s ", yytname [yyrhs[yyi]]);
-  YYFPRINTF (stderr, "-> %s\n", yytname [yyr1[yyrule]]);
+    YYFPRINTF (stderr, "%s ", yytname[yyrhs[yyi]]);
+  YYFPRINTF (stderr, "-> %s\n", yytname[yyr1[yyrule]]);
 }
 
 # define YY_REDUCE_PRINT(Rule)		\
@@ -1273,8 +1346,7 @@ do {					\
 int yydebug;
 #else /* !YYDEBUG */
 # define YYDPRINTF(Args)
-# define YYDSYMPRINT(Args)
-# define YYDSYMPRINTF(Title, Token, Value, Location)
+# define YY_SYMBOL_PRINT(Title, Type, Value, Location)
 # define YY_STACK_PRINT(Bottom, Top)
 # define YY_REDUCE_PRINT(Rule)
 #endif /* !YYDEBUG */
@@ -1289,12 +1361,8 @@ int yydebug;
    if the built-in stack extension method is used).
 
    Do not make this value too large; the results are undefined if
-   SIZE_MAX < YYSTACK_BYTES (YYMAXDEPTH)
+   YYSTACK_ALLOC_MAXIMUM < YYSTACK_BYTES (YYMAXDEPTH)
    evaluated with infinite-precision integer arithmetic.  */
-
-#if YYMAXDEPTH == 0
-# undef YYMAXDEPTH
-#endif
 
 #ifndef YYMAXDEPTH
 # define YYMAXDEPTH 10000
@@ -1317,7 +1385,7 @@ yystrlen (yystr)
      const char *yystr;
 #   endif
 {
-  register const char *yys = yystr;
+  const char *yys = yystr;
 
   while (*yys++ != '\0')
     continue;
@@ -1342,8 +1410,8 @@ yystpcpy (yydest, yysrc)
      const char *yysrc;
 #   endif
 {
-  register char *yyd = yydest;
-  register const char *yys = yysrc;
+  char *yyd = yydest;
+  const char *yys = yysrc;
 
   while ((*yyd++ = *yys++) != '\0')
     continue;
@@ -1353,7 +1421,55 @@ yystpcpy (yydest, yysrc)
 #  endif
 # endif
 
-#endif /* !YYERROR_VERBOSE */
+# ifndef yytnamerr
+/* Copy to YYRES the contents of YYSTR after stripping away unnecessary
+   quotes and backslashes, so that it's suitable for yyerror.  The
+   heuristic is that double-quoting is unnecessary unless the string
+   contains an apostrophe, a comma, or backslash (other than
+   backslash-backslash).  YYSTR is taken from yytname.  If YYRES is
+   null, do not copy; instead, return the length of what the result
+   would have been.  */
+static YYSIZE_T
+yytnamerr (char *yyres, const char *yystr)
+{
+  if (*yystr == '"')
+    {
+      size_t yyn = 0;
+      char const *yyp = yystr;
+
+      for (;;)
+	switch (*++yyp)
+	  {
+	  case '\'':
+	  case ',':
+	    goto do_not_strip_quotes;
+
+	  case '\\':
+	    if (*++yyp != '\\')
+	      goto do_not_strip_quotes;
+	    /* Fall through.  */
+	  default:
+	    if (yyres)
+	      yyres[yyn] = *yyp;
+	    yyn++;
+	    break;
+
+	  case '"':
+	    if (yyres)
+	      yyres[yyn] = '\0';
+	    return yyn;
+	  }
+    do_not_strip_quotes: ;
+    }
+
+  if (! yyres)
+    return yystrlen (yystr);
+
+  return yystpcpy (yyres, yystr) - yyres;
+}
+# endif
+
+#endif /* YYERROR_VERBOSE */
 
 
 
@@ -1377,15 +1493,15 @@ yysymprint (yyoutput, yytype, yyvaluep)
   (void) yyvaluep;
 
   if (yytype < YYNTOKENS)
-    {
-      YYFPRINTF (yyoutput, "token %s (", yytname[yytype]);
-# ifdef YYPRINT
-      YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
-# endif
-    }
+    YYFPRINTF (yyoutput, "token %s (", yytname[yytype]);
   else
     YYFPRINTF (yyoutput, "nterm %s (", yytname[yytype]);
 
+
+# ifdef YYPRINT
+  if (yytype < YYNTOKENS)
+    YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
+# endif
   switch (yytype)
     {
       default:
@@ -1401,16 +1517,21 @@ yysymprint (yyoutput, yytype, yyvaluep)
 
 #if defined (__STDC__) || defined (__cplusplus)
 static void
-yydestruct (int yytype, YYSTYPE *yyvaluep)
+yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep)
 #else
 static void
-yydestruct (yytype, yyvaluep)
+yydestruct (yymsg, yytype, yyvaluep)
+    const char *yymsg;
     int yytype;
     YYSTYPE *yyvaluep;
 #endif
 {
   /* Pacify ``unused variable'' warnings.  */
   (void) yyvaluep;
+
+  if (!yymsg)
+    yymsg = "Deleting";
+  YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
 
   switch (yytype)
     {
@@ -1439,10 +1560,10 @@ int yyparse ();
 
 
 
-/* The lookahead symbol.  */
+/* The look-ahead symbol.  */
 int yychar;
 
-/* The semantic value of the lookahead symbol.  */
+/* The semantic value of the look-ahead symbol.  */
 YYSTYPE yylval;
 
 /* Number of syntax errors so far.  */
@@ -1468,17 +1589,17 @@ yyparse (void)
 #else
 int
 yyparse ()
-
+    ;
 #endif
 #endif
 {
   
-  register int yystate;
-  register int yyn;
+  int yystate;
+  int yyn;
   int yyresult;
   /* Number of tokens to shift before error messages enabled.  */
   int yyerrstatus;
-  /* Lookahead token as an internal (translated) token number.  */
+  /* Look-ahead token as an internal (translated) token number.  */
   int yytoken = 0;
 
   /* Three stacks and their tools:
@@ -1490,14 +1611,14 @@ yyparse ()
      to reallocate them elsewhere.  */
 
   /* The state stack.  */
-  short	yyssa[YYINITDEPTH];
-  short *yyss = yyssa;
-  register short *yyssp;
+  short int yyssa[YYINITDEPTH];
+  short int *yyss = yyssa;
+  short int *yyssp;
 
   /* The semantic value stack.  */
   YYSTYPE yyvsa[YYINITDEPTH];
   YYSTYPE *yyvs = yyvsa;
-  register YYSTYPE *yyvsp;
+  YYSTYPE *yyvsp;
 
 
 
@@ -1554,14 +1675,14 @@ yyparse ()
 	   these so that the &'s don't force the real ones into
 	   memory.  */
 	YYSTYPE *yyvs1 = yyvs;
-	short *yyss1 = yyss;
+	short int *yyss1 = yyss;
 
 
 	/* Each stack pointer address is followed by the size of the
 	   data in use in that stack, in bytes.  This used to be a
 	   conditional around just the two extra args, but that might
 	   be undefined if yyoverflow is a macro.  */
-	yyoverflow ("parser stack overflow",
+	yyoverflow (YY_("memory exhausted"),
 		    &yyss1, yysize * sizeof (*yyssp),
 		    &yyvs1, yysize * sizeof (*yyvsp),
 
@@ -1572,21 +1693,21 @@ yyparse ()
       }
 #else /* no yyoverflow */
 # ifndef YYSTACK_RELOCATE
-      goto yyoverflowlab;
+      goto yyexhaustedlab;
 # else
       /* Extend the stack our own way.  */
       if (YYMAXDEPTH <= yystacksize)
-	goto yyoverflowlab;
+	goto yyexhaustedlab;
       yystacksize *= 2;
       if (YYMAXDEPTH < yystacksize)
 	yystacksize = YYMAXDEPTH;
 
       {
-	short *yyss1 = yyss;
+	short int *yyss1 = yyss;
 	union yyalloc *yyptr =
 	  (union yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));
 	if (! yyptr)
-	  goto yyoverflowlab;
+	  goto yyexhaustedlab;
 	YYSTACK_RELOCATE (yyss);
 	YYSTACK_RELOCATE (yyvs);
 
@@ -1618,18 +1739,18 @@ yyparse ()
 yybackup:
 
 /* Do appropriate processing given the current state.  */
-/* Read a lookahead token if we need one and don't already have one.  */
+/* Read a look-ahead token if we need one and don't already have one.  */
 /* yyresume: */
 
-  /* First try to decide what to do without reference to lookahead token.  */
+  /* First try to decide what to do without reference to look-ahead token.  */
 
   yyn = yypact[yystate];
   if (yyn == YYPACT_NINF)
     goto yydefault;
 
-  /* Not known => get a lookahead token if don't already have one.  */
+  /* Not known => get a look-ahead token if don't already have one.  */
 
-  /* YYCHAR is either YYEMPTY or YYEOF or a valid lookahead symbol.  */
+  /* YYCHAR is either YYEMPTY or YYEOF or a valid look-ahead symbol.  */
   if (yychar == YYEMPTY)
     {
       YYDPRINTF ((stderr, "Reading a token: "));
@@ -1644,7 +1765,7 @@ yybackup:
   else
     {
       yytoken = YYTRANSLATE (yychar);
-      YYDSYMPRINTF ("Next token is", yytoken, &yylval, &yylloc);
+      YY_SYMBOL_PRINT ("Next token is", yytoken, &yylval, &yylloc);
     }
 
   /* If the proper action on seeing token YYTOKEN is to reduce or to
@@ -1664,8 +1785,8 @@ yybackup:
   if (yyn == YYFINAL)
     YYACCEPT;
 
-  /* Shift the lookahead token.  */
-  YYDPRINTF ((stderr, "Shifting token %s, ", yytname[yytoken]));
+  /* Shift the look-ahead token.  */
+  YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
 
   /* Discard the token being shifted unless it is eof.  */
   if (yychar != YYEOF)
@@ -1716,137 +1837,137 @@ yyreduce:
     {
         case 2:
 #line 79 "cxx.y"
-    { results = yyvsp[0]; ;}
+    { results = (yyvsp[0]); ;}
     break;
 
   case 3:
 #line 84 "cxx.y"
-    { ScopeC ol(STR(extdefs)); yyval=ol; ol.Append(yyvsp[0]);  ;}
+    { ScopeC ol(STR(extdefs)); (yyval)=ol; ol.Append((yyvsp[0]));  ;}
     break;
 
   case 4:
 #line 85 "cxx.y"
-    { ObjectListC ol(yyvsp[-1]); yyval=yyvsp[-1]; ol.Append(yyvsp[0]);  ;}
+    { ObjectListC ol((yyvsp[-1])); (yyval)=(yyvsp[-1]); ol.Append((yyvsp[0]));  ;}
     break;
 
   case 5:
 #line 88 "cxx.y"
-    { ScopeC ol(STR(extdefs)); yyval=ol; ;}
+    { ScopeC ol(STR(extdefs)); (yyval)=ol; ;}
     break;
 
   case 6:
 #line 89 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 7:
 #line 92 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 8:
 #line 93 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 9:
 #line 94 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 10:
 #line 95 "cxx.y"
-    { yyval=ObjectC(); ;}
+    { (yyval)=ObjectC(); ;}
     break;
 
   case 11:
 #line 96 "cxx.y"
     { 
                                                            StringC name;
-                                                           if(yyvsp[-3].IsValid())
-                                                             name = yyvsp[-3].Name();
-                                                           yyval=ScopeC(name,yyvsp[-1]); 
-							   yyval.UpdateComment(yyvsp[-4].Comment());
-    	                                                   yyval.SetVar(STR(dectype),STR(definition));
-                                                           yyval.SetVar(STR(storageType),STR(namespace));
+                                                           if((yyvsp[-3]).IsValid())
+                                                             name = (yyvsp[-3]).Name();
+                                                           (yyval)=ScopeC(name,(yyvsp[-1])); 
+							   (yyval).UpdateComment((yyvsp[-4]).Comment());
+    	                                                   (yyval).SetVar(STR(dectype),STR(definition));
+                                                           (yyval).SetVar(STR(storageType),STR(namespace));
 	                                                 ;}
     break;
 
   case 12:
 #line 105 "cxx.y"
-    { yyval=ObjectC(); ;}
+    { (yyval)=ObjectC(); ;}
     break;
 
   case 13:
 #line 106 "cxx.y"
-    { yyval=ObjectC(); ;}
+    { (yyval)=ObjectC(); ;}
     break;
 
   case 14:
 #line 107 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 15:
 #line 108 "cxx.y"
-    { yyval=ObjectC(); ;}
+    { (yyval)=ObjectC(); ;}
     break;
 
   case 16:
 #line 109 "cxx.y"
-    { yyval=ObjectC(); ;}
+    { (yyval)=ObjectC(); ;}
     break;
 
   case 17:
 #line 110 "cxx.y"
-    { yyval=ObjectC(); ;}
+    { (yyval)=ObjectC(); ;}
     break;
 
   case 18:
 #line 111 "cxx.y"
     { 
-	                     yyval=DocNodeC(StringC("anon?") + StringC(anonCount++)); 
-          		     hookCommentObj = yyval;
+	                     (yyval)=DocNodeC(StringC("anon?") + StringC(anonCount++)); 
+          		     hookCommentObj = (yyval);
                            ;}
     break;
 
   case 19:
 #line 118 "cxx.y"
-    { ObjectListC ol(yyvsp[-1]);
+    { ObjectListC ol((yyvsp[-1]));
 						   ObjectListC ret(STR(varList),true);
 						   for(DLIterC<ObjectC> it(ol.List());it.IsElm();it.Next()) {
-						     VariableC avar(yyvsp[-2],it.Data().Name());
+						     VariableC avar((yyvsp[-2]),it.Data().Name());
 						     ret.Append(avar);
 						   }
           				           hookCommentObj = ret; 
-                                                   yyval.SetupLineNos(yyvsp[-2],yyvsp[0]);
-						   yyval=ret;
+                                                   (yyval).SetupLineNos((yyvsp[-2]),(yyvsp[0]));
+						   (yyval)=ret;
                                                  ;}
     break;
 
   case 20:
 #line 128 "cxx.y"
-    { yyval=TypedefC(yyvsp[-1].Name(),yyvsp[-2]);
-                                                   yyval.SetupLineNos(yyvsp[-3],yyvsp[0]);
-          				           hookCommentObj = yyval; 
+    { (yyval)=TypedefC((yyvsp[-1]).Name(),(yyvsp[-2]));
+                                                   (yyval).SetupLineNos((yyvsp[-3]),(yyvsp[0]));
+          				           hookCommentObj = (yyval); 
                                                  ;}
     break;
 
   case 21:
 #line 133 "cxx.y"
-    { yyvsp[-5].SetVar(STR(array),STR(1)); 
-                                                               yyval=TypedefC(yyvsp[-4].Name(),yyvsp[-5]); 
-          				                       hookCommentObj = yyval; 
-                                                               yyval.SetupLineNos(yyvsp[-6],yyvsp[0]);
+    { (yyvsp[-5]).SetVar(STR(array),STR(1)); 
+                                                               (yyval)=TypedefC((yyvsp[-4]).Name(),(yyvsp[-5])); 
+          				                       hookCommentObj = (yyval); 
+                                                               (yyval).SetupLineNos((yyvsp[-6]),(yyvsp[0]));
                                                              ;}
     break;
 
   case 22:
 #line 138 "cxx.y"
-    { DataTypeC dt(yyvsp[-1]);
-                                                               yyval=TypedefC(dt.Alias(),dt);
-                                                               yyval.SetupLineNos(yyvsp[-2],yyvsp[0]);
-          				                       hookCommentObj = yyval; 
+    { DataTypeC dt((yyvsp[-1]));
+                                                               (yyval)=TypedefC(dt.Alias(),dt);
+                                                               (yyval).SetupLineNos((yyvsp[-2]),(yyvsp[0]));
+          				                       hookCommentObj = (yyval); 
                                                              ;}
     break;
 
@@ -1854,98 +1975,98 @@ yyreduce:
 #line 144 "cxx.y"
     { 
 							       StringC className;
-							       if(yyvsp[-6].IsValid())
-								 className = yyvsp[-6].Name();
+							       if((yyvsp[-6]).IsValid())
+								 className = (yyvsp[-6]).Name();
 							       else 
 								 className = StringC("anon?") + StringC(anonCount++);
-							       ClassC aclass(className,yyvsp[-3],yyvsp[-5]);
+							       ClassC aclass(className,(yyvsp[-3]),(yyvsp[-5]));
                                                                aclass.SetVar(STR(dectype),STR(definition));
-                                                               aclass.SetVar(STR(storageType),yyvsp[-7].Name());
-							       TypedefC td(yyvsp[-2].Name(),DataTypeC(className));
+                                                               aclass.SetVar(STR(storageType),(yyvsp[-7]).Name());
+							       TypedefC td((yyvsp[-2]).Name(),DataTypeC(className));
 							       td.SetDefinition(aclass);
 							       ObjectListC ret(STR(x),true);
 							       ret.Append(td);
-							       if(yyvsp[-6].IsValid())
+							       if((yyvsp[-6]).IsValid())
 								 ret.Append(aclass);
-                                                               yyval.SetupLineNos(yyvsp[-8],yyvsp[0]);
-							       yyval = ret;
-          				                       hookCommentObj = yyval;
+                                                               (yyval).SetupLineNos((yyvsp[-8]),(yyvsp[0]));
+							       (yyval) = ret;
+          				                       hookCommentObj = (yyval);
 							     ;}
     break;
 
   case 24:
 #line 163 "cxx.y"
-    { yyval=ObjectC(); ;}
+    { (yyval)=ObjectC(); ;}
     break;
 
   case 25:
 #line 164 "cxx.y"
     { 
 							       StringC enumName;
-							       if(yyvsp[-5].IsValid())
-								 enumName = yyvsp[-5].Name();
+							       if((yyvsp[-5]).IsValid())
+								 enumName = (yyvsp[-5]).Name();
 							       else 
 								 enumName = StringC("anon_enum?") + StringC(anonCount++);
-                                                               EnumC anEnum(enumName,yyvsp[-3]);
+                                                               EnumC anEnum(enumName,(yyvsp[-3]));
                                                                anEnum.SetVar(STR(dectype),STR(definition));
                                                                anEnum.SetVar(STR(storageType),STR(enum));
-							       TypedefC td(yyvsp[-1].Name(),DataTypeC(enumName));
+							       TypedefC td((yyvsp[-1]).Name(),DataTypeC(enumName));
 							       td.SetDefinition(anEnum);
 							       ObjectListC ret("x",true);
 							       ret.Append(td);
-							       if(yyvsp[-5].IsValid())
+							       if((yyvsp[-5]).IsValid())
 								 ret.Append(anEnum);
-                                                               yyval.SetupLineNos(yyvsp[-7],yyvsp[0]);
-							       yyval = ret;
-          				                       hookCommentObj = yyval;
+                                                               (yyval).SetupLineNos((yyvsp[-7]),(yyvsp[0]));
+							       (yyval) = ret;
+          				                       hookCommentObj = (yyval);
                                                              ;}
     break;
 
   case 26:
 #line 183 "cxx.y"
     {
-                                                  if(yyvsp[-5].IsValid())
-						    yyval=EnumC(yyvsp[-5].Name(),yyvsp[-3]);
+                                                  if((yyvsp[-5]).IsValid())
+						    (yyval)=EnumC((yyvsp[-5]).Name(),(yyvsp[-3]));
 						  else
-						    yyval=EnumC(StringC("anon_enum?") + StringC(anonCount++),yyvsp[-3]);
-						  hookCommentObj = yyval;
+						    (yyval)=EnumC(StringC("anon_enum?") + StringC(anonCount++),(yyvsp[-3]));
+						  hookCommentObj = (yyval);
                                                 ;}
     break;
 
   case 27:
 #line 190 "cxx.y"
-    { yyval=ClassC(yyvsp[-1].Name());
-						  yyval.UpdateComment(yyvsp[-2].Comment()); 
-						  yyval.SetVar(STR(storageType),yyvsp[-2].Name());
-                                                  yyval.SetVar(STR(dectype),STR(forward));
+    { (yyval)=ClassC((yyvsp[-1]).Name());
+						  (yyval).UpdateComment((yyvsp[-2]).Comment()); 
+						  (yyval).SetVar(STR(storageType),(yyvsp[-2]).Name());
+                                                  (yyval).SetVar(STR(dectype),STR(forward));
                                                 ;}
     break;
 
   case 28:
 #line 195 "cxx.y"
-    { yyval=EnumC(yyvsp[-1].Name());
-						  yyval.UpdateComment(yyvsp[-2].Comment()); 
-						  yyval.SetVar(STR(storageType),STR(enum));
-                                                  yyval.SetVar(STR(dectype),STR(forward));
+    { (yyval)=EnumC((yyvsp[-1]).Name());
+						  (yyval).UpdateComment((yyvsp[-2]).Comment()); 
+						  (yyval).SetVar(STR(storageType),STR(enum));
+                                                  (yyval).SetVar(STR(dectype),STR(forward));
                                                 ;}
     break;
 
   case 29:
 #line 200 "cxx.y"
-    { yyval=yyvsp[-1]; 
-                                                  yyval.SetVar(STR(dectype),STR(friend));  
+    { (yyval)=(yyvsp[-1]); 
+                                                  (yyval).SetVar(STR(dectype),STR(friend));  
                                                 ;}
     break;
 
   case 30:
 #line 204 "cxx.y"
     { 
-						  ClassC newClass(yyvsp[-6].Name(),yyvsp[-3],yyvsp[-5]);
-						  yyval = newClass;
-						  yyval.UpdateComment(yyvsp[-7].Comment()); 
-						  yyval.SetupLineNos(yyvsp[-7],yyvsp[0]);
+						  ClassC newClass((yyvsp[-6]).Name(),(yyvsp[-3]),(yyvsp[-5]));
+						  (yyval) = newClass;
+						  (yyval).UpdateComment((yyvsp[-7]).Comment()); 
+						  (yyval).SetupLineNos((yyvsp[-7]),(yyvsp[0]));
 						  newClass.SetVar(STR(dectype),STR(definition));
-						  newClass.SetVar(STR(storageType),yyvsp[-7].Name());
+						  newClass.SetVar(STR(storageType),(yyvsp[-7]).Name());
 						;}
     break;
 
@@ -1953,145 +2074,145 @@ yyreduce:
 #line 212 "cxx.y"
     {
                                                   StringC nname;
-						  if(yyvsp[-6].IsValid())
-						    nname = yyvsp[-6].Name();
+						  if((yyvsp[-6]).IsValid())
+						    nname = (yyvsp[-6]).Name();
 						  else
 						    nname = StringC("anon_struct?") + StringC(anonCount++);
-						  ClassC newClass(nname,yyvsp[-3],yyvsp[-5]);
-						  yyval = newClass;
-						  yyval.UpdateComment(yyvsp[-8].Comment()); 
-						  yyval.SetupLineNos(yyvsp[-8],yyvsp[-1]);
+						  ClassC newClass(nname,(yyvsp[-3]),(yyvsp[-5]));
+						  (yyval) = newClass;
+						  (yyval).UpdateComment((yyvsp[-8]).Comment()); 
+						  (yyval).SetupLineNos((yyvsp[-8]),(yyvsp[-1]));
 						  newClass.SetVar(STR(dectype),STR(definition));
-						  newClass.SetVar(STR(storageType),yyvsp[-7].Name());
+						  newClass.SetVar(STR(storageType),(yyvsp[-7]).Name());
                                                 ;}
     break;
 
   case 32:
 #line 225 "cxx.y"
-    { yyval=ObjectC(); ;}
+    { (yyval)=ObjectC(); ;}
     break;
 
   case 33:
 #line 226 "cxx.y"
-    { yyval = yyvsp[-1]; ObjectListC ol(yyvsp[-1]); ol.SetWrapper(true); ;}
+    { (yyval) = (yyvsp[-1]); ObjectListC ol((yyvsp[-1])); ol.SetWrapper(true); ;}
     break;
 
   case 34:
 #line 227 "cxx.y"
-    { yyval=ObjectC(); ;}
+    { (yyval)=ObjectC(); ;}
     break;
 
   case 35:
 #line 231 "cxx.y"
-    { ObjectListC ol(STR(EnumNameList)); yyval=ol; ;}
+    { ObjectListC ol(STR(EnumNameList)); (yyval)=ol; ;}
     break;
 
   case 36:
 #line 232 "cxx.y"
-    { yyval=yyvsp[0];}
+    { (yyval)=(yyvsp[0]);}
     break;
 
   case 37:
 #line 234 "cxx.y"
-    { ObjectListC ol(STR(VarNameList)); ol.Append(yyvsp[0]); yyval = ol;  ;}
+    { ObjectListC ol(STR(VarNameList)); ol.Append((yyvsp[0])); (yyval) = ol;  ;}
     break;
 
   case 38:
 #line 235 "cxx.y"
-    { ObjectListC ol(yyvsp[-2]); ol.Append(yyvsp[0]); yyval = ol; ;}
+    { ObjectListC ol((yyvsp[-2])); ol.Append((yyvsp[0])); (yyval) = ol; ;}
     break;
 
   case 39:
 #line 237 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 40:
 #line 238 "cxx.y"
-    { yyval = yyvsp[-2].Name() +  StringC(" = ") + yyvsp[0].Name(); ;}
+    { (yyval) = (yyvsp[-2]).Name() +  StringC(" = ") + (yyvsp[0]).Name(); ;}
     break;
 
   case 43:
 #line 250 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 44:
 #line 253 "cxx.y"
-    { yyval = yyvsp[-2].Name() + strp_ColonColon + yyvsp[0].Name(); ;}
+    { (yyval) = (yyvsp[-2]).Name() + strp_ColonColon + (yyvsp[0]).Name(); ;}
     break;
 
   case 45:
 #line 254 "cxx.y"
-    { yyval = yyvsp[-2].Name() + strp_ColonColon + yyvsp[0].Name(); ;}
+    { (yyval) = (yyvsp[-2]).Name() + strp_ColonColon + (yyvsp[0]).Name(); ;}
     break;
 
   case 46:
 #line 257 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 47:
 #line 258 "cxx.y"
-    { yyval=ObjectC(); ;}
+    { (yyval)=ObjectC(); ;}
     break;
 
   case 48:
 #line 262 "cxx.y"
-    { yyval = yyvsp[0]; ;}
+    { (yyval) = (yyvsp[0]); ;}
     break;
 
   case 49:
 #line 263 "cxx.y"
-    { yyval = yyvsp[0]; ;}
+    { (yyval) = (yyvsp[0]); ;}
     break;
 
   case 50:
 #line 264 "cxx.y"
-    { yyval=ObjectC(strp_ColonColon + yyvsp[0].Name()); ;}
+    { (yyval)=ObjectC(strp_ColonColon + (yyvsp[0]).Name()); ;}
     break;
 
   case 51:
 #line 265 "cxx.y"
-    { yyval=ObjectC(strp_ColonColon + yyvsp[0].Name()); ;}
+    { (yyval)=ObjectC(strp_ColonColon + (yyvsp[0]).Name()); ;}
     break;
 
   case 52:
 #line 270 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 53:
 #line 271 "cxx.y"
-    { yyval = ObjectC(StringC("~") + yyvsp[0].Name()); yyval.CopyLineNo(yyvsp[0]); ;}
+    { (yyval) = ObjectC(StringC("~") + (yyvsp[0]).Name()); (yyval).CopyLineNo((yyvsp[0])); ;}
     break;
 
   case 54:
 #line 272 "cxx.y"
-    { yyval = ObjectTemplateC(yyvsp[-3].Name(),yyvsp[-1]); ;}
+    { (yyval) = ObjectTemplateC((yyvsp[-3]).Name(),(yyvsp[-1])); ;}
     break;
 
   case 55:
 #line 276 "cxx.y"
-    { ObjectListC ol(yyvsp[0].Name()); ol.Append(yyvsp[0]); yyval=ol; yyval.CopyLineNo(yyvsp[0]); ;}
+    { ObjectListC ol((yyvsp[0]).Name()); ol.Append((yyvsp[0])); (yyval)=ol; (yyval).CopyLineNo((yyvsp[0])); ;}
     break;
 
   case 56:
 #line 277 "cxx.y"
-    { ObjectListC ol(yyvsp[0].Name()); 
+    { ObjectListC ol((yyvsp[0]).Name()); 
                                        ObjectC newun(strp_ColonColon);
                                        ol.Append(newun);
-				       ol.Append(yyvsp[0]);
-				       yyval = ol;
+				       ol.Append((yyvsp[0]));
+				       (yyval) = ol;
                                      ;}
     break;
 
   case 57:
 #line 283 "cxx.y"
-    { ObjectListC ol(yyvsp[-2]); 
-				       ol.Append(yyvsp[0]);
-				       ol.Name() = yyvsp[0].Name();  // Give name of last component to list.
-				       yyval = ol;
+    { ObjectListC ol((yyvsp[-2])); 
+				       ol.Append((yyvsp[0]));
+				       ol.Name() = (yyvsp[0]).Name();  // Give name of last component to list.
+				       (yyval) = ol;
                                      ;}
     break;
 
@@ -2099,887 +2220,887 @@ yyreduce:
 #line 297 "cxx.y"
     {
 	    InheritC inh(SAPublic,true);
-	    inh.SetScopeDef(yyvsp[-1]);  
-	    yyval = inh;
+	    inh.SetScopeDef((yyvsp[-1]));  
+	    (yyval) = inh;
 	  ;}
     break;
 
   case 63:
 #line 317 "cxx.y"
-    { yyval =  ClassTemplateC(yyvsp[-5].Name(),yyvsp[-2],yyvsp[-4],yyvsp[-7]);
-						  yyval.SetVar(STR(dectype),STR(definition));
-						  yyval.SetVar(STR(storageType),yyvsp[-6].Name());
-						  yyval.UpdateComment(yyvsp[-7].Comment());
+    { (yyval) =  ClassTemplateC((yyvsp[-5]).Name(),(yyvsp[-2]),(yyvsp[-4]),(yyvsp[-7]));
+						  (yyval).SetVar(STR(dectype),STR(definition));
+						  (yyval).SetVar(STR(storageType),(yyvsp[-6]).Name());
+						  (yyval).UpdateComment((yyvsp[-7]).Comment());
 						;}
     break;
 
   case 64:
 #line 322 "cxx.y"
-    { yyval = ClassTemplateC(yyvsp[-1].Name(),yyvsp[-3]); 
-						    yyval.SetVar(STR(dectype),STR(forward));
-						    yyval.SetVar(STR(storageType),yyvsp[-2].Name());
-						    yyval.UpdateComment(yyvsp[-3].Comment());
+    { (yyval) = ClassTemplateC((yyvsp[-1]).Name(),(yyvsp[-3])); 
+						    (yyval).SetVar(STR(dectype),STR(forward));
+						    (yyval).SetVar(STR(storageType),(yyvsp[-2]).Name());
+						    (yyval).UpdateComment((yyvsp[-3]).Comment());
                                                   ;}
     break;
 
   case 65:
 #line 327 "cxx.y"
-    { yyval = yyvsp[0];
-                                                    ObjectListC ol1(yyvsp[-1]);
-						    yyval.UpdateComment(yyvsp[-1].Comment());
+    { (yyval) = (yyvsp[0]);
+                                                    ObjectListC ol1((yyvsp[-1]));
+						    (yyval).UpdateComment((yyvsp[-1]).Comment());
                                                   ;}
     break;
 
   case 66:
 #line 331 "cxx.y"
-    { yyval = yyvsp[0];
-                                                    ObjectListC ol1(yyvsp[-2]);
-                                                    ObjectListC ol2(yyvsp[-1]);
-						    yyval.UpdateComment(yyvsp[-2].Comment());
+    { (yyval) = (yyvsp[0]);
+                                                    ObjectListC ol1((yyvsp[-2]));
+                                                    ObjectListC ol2((yyvsp[-1]));
+						    (yyval).UpdateComment((yyvsp[-2]).Comment());
                                                   ;}
     break;
 
   case 67:
 #line 341 "cxx.y"
-    { yyval=ObjectListC(STR(TemplateInstArgs)); ;}
+    { (yyval)=ObjectListC(STR(TemplateInstArgs)); ;}
     break;
 
   case 68:
 #line 342 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 69:
 #line 345 "cxx.y"
-    { ObjectListC ol(STR(TemplateInstArgs)); yyval=ol; ol.Append(yyvsp[0]); ;}
+    { ObjectListC ol(STR(TemplateInstArgs)); (yyval)=ol; ol.Append((yyvsp[0])); ;}
     break;
 
   case 70:
 #line 346 "cxx.y"
-    { ObjectListC ol(STR(TemplateInstArgs)); yyval=ol; ol.Append(yyvsp[0]); ;}
+    { ObjectListC ol(STR(TemplateInstArgs)); (yyval)=ol; ol.Append((yyvsp[0])); ;}
     break;
 
   case 71:
 #line 347 "cxx.y"
-    { ObjectListC ol(yyvsp[-2]); yyval=yyvsp[-2]; ol.Append(yyvsp[0]); ;}
+    { ObjectListC ol((yyvsp[-2])); (yyval)=(yyvsp[-2]); ol.Append((yyvsp[0])); ;}
     break;
 
   case 72:
 #line 348 "cxx.y"
-    { ObjectListC ol(yyvsp[-2]); yyval=yyvsp[-2]; ol.Append(yyvsp[0]); ;}
+    { ObjectListC ol((yyvsp[-2])); (yyval)=(yyvsp[-2]); ol.Append((yyvsp[0])); ;}
     break;
 
   case 73:
 #line 352 "cxx.y"
-    { yyval=yyvsp[-1]; yyval.UpdateComment(yyvsp[-3].Comment()); ;}
+    { (yyval)=(yyvsp[-1]); (yyval).UpdateComment((yyvsp[-3]).Comment()); ;}
     break;
 
   case 74:
 #line 353 "cxx.y"
-    { yyval=ObjectListC(STR(TemplateDefArgs)); yyval.UpdateComment(yyvsp[-2].Comment()); ;}
+    { (yyval)=ObjectListC(STR(TemplateDefArgs)); (yyval).UpdateComment((yyvsp[-2]).Comment()); ;}
     break;
 
   case 75:
 #line 356 "cxx.y"
-    { ObjectListC ol(STR(TemplateDefArgs)); yyval=ol; ol.Append(yyvsp[0]); ;}
+    { ObjectListC ol(STR(TemplateDefArgs)); (yyval)=ol; ol.Append((yyvsp[0])); ;}
     break;
 
   case 76:
 #line 357 "cxx.y"
-    { yyval=yyvsp[-2]; ObjectListC ol(yyvsp[-2]); ol.Append(yyvsp[0]); ;}
+    { (yyval)=(yyvsp[-2]); ObjectListC ol((yyvsp[-2])); ol.Append((yyvsp[0])); ;}
     break;
 
   case 77:
 #line 360 "cxx.y"
-    { yyval=yyvsp[-1]; 
-                                      if(yyvsp[0].IsValid()) { 
-                                        DataTypeC dt(yyvsp[-1]); 
-					dt.SetAlias(yyvsp[0].Name()); 
+    { (yyval)=(yyvsp[-1]); 
+                                      if((yyvsp[0]).IsValid()) { 
+                                        DataTypeC dt((yyvsp[-1])); 
+					dt.SetAlias((yyvsp[0]).Name()); 
                                       } 
                                     ;}
     break;
 
   case 78:
 #line 369 "cxx.y"
-    { yyval= DataTypeC(STR(class),yyvsp[0]); ;}
+    { (yyval)= DataTypeC(STR(class),(yyvsp[0])); ;}
     break;
 
   case 79:
 #line 370 "cxx.y"
-    { yyval= DataTypeC(STR(typename),yyvsp[0]);  ;}
+    { (yyval)= DataTypeC(STR(typename),(yyvsp[0]));  ;}
     break;
 
   case 80:
 #line 371 "cxx.y"
-    { yyval= DataTypeC(yyvsp[-7].Name() + " (" + yyvsp[-5].Name() + ")(" + yyvsp[-2].Name() + ")" + yyvsp[-1].Name(),yyvsp[-5]); ;}
+    { (yyval)= DataTypeC((yyvsp[-7]).Name() + " (" + (yyvsp[-5]).Name() + ")(" + (yyvsp[-2]).Name() + ")" + (yyvsp[-1]).Name(),(yyvsp[-5])); ;}
     break;
 
   case 81:
 #line 375 "cxx.y"
-    { yyval=ObjectC("template<> class " + yyvsp[-2].Name()); ;}
+    { (yyval)=ObjectC("template<> class " + (yyvsp[-2]).Name()); ;}
     break;
 
   case 82:
 #line 386 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 83:
 #line 387 "cxx.y"
-    { yyval=yyvsp[-2]; ;}
+    { (yyval)=(yyvsp[-2]); ;}
     break;
 
   case 84:
 #line 388 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 85:
 #line 389 "cxx.y"
-    { yyval=yyvsp[-2]; ;}
+    { (yyval)=(yyvsp[-2]); ;}
     break;
 
   case 86:
 #line 390 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 87:
 #line 391 "cxx.y"
-    { yyval=yyvsp[-2]; ;}
+    { (yyval)=(yyvsp[-2]); ;}
     break;
 
   case 88:
 #line 404 "cxx.y"
-    { yyval=ObjectListC(STR(classInherit)); ;}
+    { (yyval)=ObjectListC(STR(classInherit)); ;}
     break;
 
   case 89:
 #line 405 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 90:
 #line 408 "cxx.y"
-    { yyval = yyvsp[-2]; ObjectListC ol(yyvsp[-2]); ol.Append(yyvsp[0]);  ;}
+    { (yyval) = (yyvsp[-2]); ObjectListC ol((yyvsp[-2])); ol.Append((yyvsp[0]));  ;}
     break;
 
   case 91:
 #line 409 "cxx.y"
-    { ObjectListC ol(STR(classInherit),true); ol.Append(yyvsp[0]); yyval = ol; ;}
+    { ObjectListC ol(STR(classInherit),true); ol.Append((yyvsp[0])); (yyval) = ol; ;}
     break;
 
   case 92:
 #line 411 "cxx.y"
-    { yyval = InheritC(SAPublic);    yyval.CopyLineNo(yyvsp[0]); ;}
+    { (yyval) = InheritC(SAPublic);    (yyval).CopyLineNo((yyvsp[0])); ;}
     break;
 
   case 93:
 #line 412 "cxx.y"
-    { yyval = InheritC(SAPrivate);   yyval.CopyLineNo(yyvsp[0]); ;}
+    { (yyval) = InheritC(SAPrivate);   (yyval).CopyLineNo((yyvsp[0])); ;}
     break;
 
   case 94:
 #line 413 "cxx.y"
-    { yyval = InheritC(SAProtected); yyval.CopyLineNo(yyvsp[0]); ;}
+    { (yyval) = InheritC(SAProtected); (yyval).CopyLineNo((yyvsp[0])); ;}
     break;
 
   case 95:
 #line 415 "cxx.y"
-    { yyval = yyvsp[-1];
-							  InheritC inh(yyval);
-							  inh.SetScopeDef(yyvsp[0]);
+    { (yyval) = (yyvsp[-1]);
+							  InheritC inh((yyval));
+							  inh.SetScopeDef((yyvsp[0]));
 							;}
     break;
 
   case 96:
 #line 419 "cxx.y"
-    { yyval = yyvsp[-1];
-                                                          InheritC inh(yyval);
-							  inh.SetScopeDef(yyvsp[0]);
+    { (yyval) = (yyvsp[-1]);
+                                                          InheritC inh((yyval));
+							  inh.SetScopeDef((yyvsp[0]));
 							  inh.SetVirtual(true);
 							;}
     break;
 
   case 97:
 #line 424 "cxx.y"
-    { yyval = yyvsp[-2];
-                                                          InheritC inh(yyval);
-							  inh.SetScopeDef(yyvsp[0]);
+    { (yyval) = (yyvsp[-2]);
+                                                          InheritC inh((yyval));
+							  inh.SetScopeDef((yyvsp[0]));
 							  inh.SetVirtual(true);
 							;}
     break;
 
   case 98:
 #line 429 "cxx.y"
-    { yyval = InheritC(SAPrivate);
-                                                          InheritC inh(yyval);
-							  inh.SetScopeDef(yyvsp[0]);
+    { (yyval) = InheritC(SAPrivate);
+                                                          InheritC inh((yyval));
+							  inh.SetScopeDef((yyvsp[0]));
 							;}
     break;
 
   case 99:
 #line 435 "cxx.y"
-    { yyval = ObjectListC(STR(ClassContents)); ;}
+    { (yyval) = ObjectListC(STR(ClassContents)); ;}
     break;
 
   case 100:
 #line 436 "cxx.y"
-    { ObjectListC ol(yyvsp[-1]); ol.Append(yyvsp[0]); yyval = ol; ;}
+    { ObjectListC ol((yyvsp[-1])); ol.Append((yyvsp[0])); (yyval) = ol; ;}
     break;
 
   case 101:
 #line 438 "cxx.y"
-    { yyval = MarkerC(STR(protected)); yyval.SetupLineNos(yyvsp[-1],yyvsp[0]); ;}
+    { (yyval) = MarkerC(STR(protected)); (yyval).SetupLineNos((yyvsp[-1]),(yyvsp[0])); ;}
     break;
 
   case 102:
 #line 439 "cxx.y"
-    { yyval = MarkerC(STR(private));   yyval.SetupLineNos(yyvsp[-1],yyvsp[0]); ;}
+    { (yyval) = MarkerC(STR(private));   (yyval).SetupLineNos((yyvsp[-1]),(yyvsp[0])); ;}
     break;
 
   case 103:
 #line 440 "cxx.y"
-    { yyval = MarkerC(STR(public));    yyval.SetupLineNos(yyvsp[-1],yyvsp[0]); ;}
+    { (yyval) = MarkerC(STR(public));    (yyval).SetupLineNos((yyvsp[-1]),(yyvsp[0])); ;}
     break;
 
   case 104:
 #line 441 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 105:
 #line 442 "cxx.y"
-    { yyval=yyvsp[0]; yyval.SetVar(STR(virtual),STR(1)); yyval.IncludeLineNo(yyvsp[-1]) ;}
+    { (yyval)=(yyvsp[0]); (yyval).SetVar(STR(virtual),STR(1)); (yyval).IncludeLineNo((yyvsp[-1])) ;}
     break;
 
   case 106:
 #line 446 "cxx.y"
-    { yyval=ObjectC(""); ;}
+    { (yyval)=ObjectC(""); ;}
     break;
 
   case 107:
 #line 447 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 108:
 #line 449 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 109:
 #line 450 "cxx.y"
-    { yyval = yyvsp[-1].Name() + ' ' +  yyvsp[0].Name(); ;}
+    { (yyval) = (yyvsp[-1]).Name() + ' ' +  (yyvsp[0]).Name(); ;}
     break;
 
   case 110:
 #line 452 "cxx.y"
-    { yyval=ObjectC(strp_OpenBracket + yyvsp[-1].Name() + strp_CloseBracket); ;}
+    { (yyval)=ObjectC(strp_OpenBracket + (yyvsp[-1]).Name() + strp_CloseBracket); ;}
     break;
 
   case 111:
 #line 453 "cxx.y"
-    { yyval=ObjectC(StringC("[") + yyvsp[-1].Name() + "]"); ;}
+    { (yyval)=ObjectC(StringC("[") + (yyvsp[-1]).Name() + "]"); ;}
     break;
 
   case 112:
 #line 454 "cxx.y"
-    { yyval=ObjectC(StringC("{") + yyvsp[-1].Name() + "}"); ;}
+    { (yyval)=ObjectC(StringC("{") + (yyvsp[-1]).Name() + "}"); ;}
     break;
 
   case 119:
 #line 456 "cxx.y"
-    { yyval=ObjectC("<"); ;}
+    { (yyval)=ObjectC("<"); ;}
     break;
 
   case 120:
 #line 457 "cxx.y"
-    { yyval=ObjectC(">"); ;}
+    { (yyval)=ObjectC(">"); ;}
     break;
 
   case 121:
 #line 458 "cxx.y"
-    { yyval=ObjectC(strp_equals); ;}
+    { (yyval)=ObjectC(strp_equals); ;}
     break;
 
   case 122:
 #line 459 "cxx.y"
-    { yyval=ObjectC(strp_plus); ;}
+    { (yyval)=ObjectC(strp_plus); ;}
     break;
 
   case 123:
 #line 460 "cxx.y"
-    { yyval=ObjectC("-"); ;}
+    { (yyval)=ObjectC("-"); ;}
     break;
 
   case 124:
 #line 461 "cxx.y"
-    { yyval=ObjectC("~"); ;}
+    { (yyval)=ObjectC("~"); ;}
     break;
 
   case 125:
 #line 462 "cxx.y"
-    { yyval=ObjectC(strp_ampersand); ;}
+    { (yyval)=ObjectC(strp_ampersand); ;}
     break;
 
   case 126:
 #line 463 "cxx.y"
-    { yyval=ObjectC("/"); ;}
+    { (yyval)=ObjectC("/"); ;}
     break;
 
   case 127:
 #line 464 "cxx.y"
-    { yyval=ObjectC(strp_asterisk); ;}
+    { (yyval)=ObjectC(strp_asterisk); ;}
     break;
 
   case 128:
 #line 465 "cxx.y"
-    { yyval=ObjectC("%"); ;}
+    { (yyval)=ObjectC("%"); ;}
     break;
 
   case 129:
 #line 466 "cxx.y"
-    { yyval=ObjectC("|"); ;}
+    { (yyval)=ObjectC("|"); ;}
     break;
 
   case 130:
 #line 467 "cxx.y"
-    { yyval=ObjectC("^"); ;}
+    { (yyval)=ObjectC("^"); ;}
     break;
 
   case 131:
 #line 468 "cxx.y"
-    { yyval=ObjectC("!"); ;}
+    { (yyval)=ObjectC("!"); ;}
     break;
 
   case 132:
 #line 469 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 133:
 #line 470 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 134:
 #line 471 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 135:
 #line 472 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 136:
 #line 473 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 137:
 #line 474 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 138:
 #line 475 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 139:
 #line 476 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 140:
 #line 477 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 141:
 #line 478 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 142:
 #line 479 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 143:
 #line 483 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 144:
 #line 484 "cxx.y"
-    { yyval=yyvsp[0]; DataTypeC dt(yyvsp[0]); dt.SetPreQual(yyvsp[-1].Name()); ;}
+    { (yyval)=(yyvsp[0]); DataTypeC dt((yyvsp[0])); dt.SetPreQual((yyvsp[-1]).Name()); ;}
     break;
 
   case 145:
 #line 485 "cxx.y"
-    { yyval=yyvsp[0]; DataTypeC dt(yyvsp[0]); dt.SetPreQual(yyvsp[-2].Name() + " " + yyvsp[-1].Name()); ;}
+    { (yyval)=(yyvsp[0]); DataTypeC dt((yyvsp[0])); dt.SetPreQual((yyvsp[-2]).Name() + " " + (yyvsp[-1]).Name()); ;}
     break;
 
   case 146:
 #line 486 "cxx.y"
-    { yyval=yyvsp[0]; DataTypeC dt(yyvsp[0]); dt.SetPreQual(yyvsp[-3].Name() + " " + yyvsp[-2].Name() + " " + yyvsp[-1].Name()); ;}
+    { (yyval)=(yyvsp[0]); DataTypeC dt((yyvsp[0])); dt.SetPreQual((yyvsp[-3]).Name() + " " + (yyvsp[-2]).Name() + " " + (yyvsp[-1]).Name()); ;}
     break;
 
   case 147:
 #line 489 "cxx.y"
-    { yyval=DataTypeC(StringC(""),yyvsp[-1],yyvsp[0].Name()); 
-	                                           yyval.SetupLineNos(yyvsp[-1],yyvsp[0]); 
+    { (yyval)=DataTypeC(StringC(""),(yyvsp[-1]),(yyvsp[0]).Name()); 
+	                                           (yyval).SetupLineNos((yyvsp[-1]),(yyvsp[0])); 
                                                  ;}
     break;
 
   case 148:
 #line 492 "cxx.y"
-    { yyval=DataTypeC(yyvsp[-2].Name(),yyvsp[-1],yyvsp[0].Name()); 
-	                                           yyval.SetVar(STR(storageType),yyvsp[-2].Name());
-	                                           yyval.SetupLineNos(yyvsp[-2],yyvsp[-1],yyvsp[0]); 
+    { (yyval)=DataTypeC((yyvsp[-2]).Name(),(yyvsp[-1]),(yyvsp[0]).Name()); 
+	                                           (yyval).SetVar(STR(storageType),(yyvsp[-2]).Name());
+	                                           (yyval).SetupLineNos((yyvsp[-2]),(yyvsp[-1]),(yyvsp[0])); 
 	                                         ;}
     break;
 
   case 149:
 #line 496 "cxx.y"
-    { yyval=DataTypeC(yyvsp[-2].Name(),yyvsp[-1],yyvsp[0].Name()); 
-	                                           yyval.SetVar(STR(storageType),yyvsp[-2].Name());
-	                                           yyval.SetupLineNos(yyvsp[-2],yyvsp[-1],yyvsp[0]); 
+    { (yyval)=DataTypeC((yyvsp[-2]).Name(),(yyvsp[-1]),(yyvsp[0]).Name()); 
+	                                           (yyval).SetVar(STR(storageType),(yyvsp[-2]).Name());
+	                                           (yyval).SetupLineNos((yyvsp[-2]),(yyvsp[-1]),(yyvsp[0])); 
 	                                         ;}
     break;
 
   case 150:
 #line 500 "cxx.y"
-    { yyval=DataTypeC(StringC(""),yyvsp[-1],yyvsp[0].Name()); 
-	                                           yyval.SetupLineNos(yyvsp[-1],yyvsp[0]);
+    { (yyval)=DataTypeC(StringC(""),(yyvsp[-1]),(yyvsp[0]).Name()); 
+	                                           (yyval).SetupLineNos((yyvsp[-1]),(yyvsp[0]));
 	                                         ;}
     break;
 
   case 151:
 #line 503 "cxx.y"
-    { yyval=DataTypeC(StringC(""),yyvsp[-1], yyvsp[0].Name()); 
-                                                   yyval.SetupLineNos(yyvsp[-1],yyvsp[0]); 
+    { (yyval)=DataTypeC(StringC(""),(yyvsp[-1]), (yyvsp[0]).Name()); 
+                                                   (yyval).SetupLineNos((yyvsp[-1]),(yyvsp[0])); 
                                                  ;}
     break;
 
   case 152:
 #line 506 "cxx.y"
-    { yyval=DataTypeC(yyvsp[-2].Name(),yyvsp[-1],yyvsp[0].Name()); 
-	                                           yyval.SetupLineNos(yyvsp[-2],yyvsp[-1],yyvsp[0]); 
+    { (yyval)=DataTypeC((yyvsp[-2]).Name(),(yyvsp[-1]),(yyvsp[0]).Name()); 
+	                                           (yyval).SetupLineNos((yyvsp[-2]),(yyvsp[-1]),(yyvsp[0])); 
 	                                         ;}
     break;
 
   case 153:
 #line 509 "cxx.y"
-    { yyval=DataTypeC(yyvsp[-2].Name(),yyvsp[-1],yyvsp[0].Name()); 
-	                                           yyval.SetupLineNos(yyvsp[-2],yyvsp[-1],yyvsp[0]); 
+    { (yyval)=DataTypeC((yyvsp[-2]).Name(),(yyvsp[-1]),(yyvsp[0]).Name()); 
+	                                           (yyval).SetupLineNos((yyvsp[-2]),(yyvsp[-1]),(yyvsp[0])); 
 	                                         ;}
     break;
 
   case 154:
 #line 512 "cxx.y"
-    { yyval=DataTypeC(yyvsp[-3].Name() + " " + yyvsp[-2].Name(),yyvsp[-1],yyvsp[0].Name()); 
-	                                           yyval.SetupLineNos(yyvsp[-3],yyvsp[-1],yyvsp[0]); 
+    { (yyval)=DataTypeC((yyvsp[-3]).Name() + " " + (yyvsp[-2]).Name(),(yyvsp[-1]),(yyvsp[0]).Name()); 
+	                                           (yyval).SetupLineNos((yyvsp[-3]),(yyvsp[-1]),(yyvsp[0])); 
 	                                         ;}
     break;
 
   case 155:
 #line 515 "cxx.y"
-    { yyval=DataTypeC(yyvsp[-3].Name() + " " + yyvsp[-2].Name(),yyvsp[-1],yyvsp[0].Name()); 
-	                                           yyval.SetupLineNos(yyvsp[-3],yyvsp[-1],yyvsp[0]);
+    { (yyval)=DataTypeC((yyvsp[-3]).Name() + " " + (yyvsp[-2]).Name(),(yyvsp[-1]),(yyvsp[0]).Name()); 
+	                                           (yyval).SetupLineNos((yyvsp[-3]),(yyvsp[-1]),(yyvsp[0]));
 	                                         ;}
     break;
 
   case 156:
 #line 518 "cxx.y"
-    { yyval= DataTypeC(STR(typename),yyvsp[-1],yyvsp[0].Name());  
-	                                           yyval.SetupLineNos(yyvsp[-2],yyvsp[-1],yyvsp[0]);
+    { (yyval)= DataTypeC(STR(typename),(yyvsp[-1]),(yyvsp[0]).Name());  
+	                                           (yyval).SetupLineNos((yyvsp[-2]),(yyvsp[-1]),(yyvsp[0]));
 	                                         ;}
     break;
 
   case 157:
 #line 523 "cxx.y"
-    { yyval=ObjectListC(STR(VarNameList)); ;}
+    { (yyval)=ObjectListC(STR(VarNameList)); ;}
     break;
 
   case 158:
 #line 524 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 159:
 #line 526 "cxx.y"
-    { ObjectListC ol(STR(VarNameList)); ol.Append(yyvsp[0]); yyval = ol; ;}
+    { ObjectListC ol(STR(VarNameList)); ol.Append((yyvsp[0])); (yyval) = ol; ;}
     break;
 
   case 160:
 #line 527 "cxx.y"
-    { ObjectListC ol(yyvsp[-2]); ol.Append(yyvsp[0]); yyval = ol; ;}
+    { ObjectListC ol((yyvsp[-2])); ol.Append((yyvsp[0])); (yyval) = ol; ;}
     break;
 
   case 161:
 #line 529 "cxx.y"
-    { yyval=ObjectC("[]"); ;}
+    { (yyval)=ObjectC("[]"); ;}
     break;
 
   case 162:
 #line 530 "cxx.y"
-    { yyval=yyvsp[-3]; yyvsp[-3].Name() += "[]" ;}
+    { (yyval)=(yyvsp[-3]); (yyvsp[-3]).Name() += "[]" ;}
     break;
 
   case 163:
 #line 532 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 164:
 #line 533 "cxx.y"
-    { yyval=yyvsp[-2]; yyvsp[-2].Name() += StringC(" = ") + yyvsp[0].Name(); ;}
+    { (yyval)=(yyvsp[-2]); (yyvsp[-2]).Name() += StringC(" = ") + (yyvsp[0]).Name(); ;}
     break;
 
   case 165:
 #line 534 "cxx.y"
-    { yyval=yyvsp[-1]; yyvsp[-1].Name() += yyvsp[0].Name(); yyval.SetVar(STR(array),STR(1)); ;}
+    { (yyval)=(yyvsp[-1]); (yyvsp[-1]).Name() += (yyvsp[0]).Name(); (yyval).SetVar(STR(array),STR(1)); ;}
     break;
 
   case 166:
 #line 536 "cxx.y"
-    { yyval=yyvsp[-5]; yyvsp[-5].Name() += yyvsp[-4].Name(); yyval.SetVar(STR(array),STR(1)); ;}
+    { (yyval)=(yyvsp[-5]); (yyvsp[-5]).Name() += (yyvsp[-4]).Name(); (yyval).SetVar(STR(array),STR(1)); ;}
     break;
 
   case 167:
 #line 537 "cxx.y"
-    { yyval=yyvsp[0]; yyvsp[0].Name() = StringC(" = ") + yyvsp[0].Name(); ;}
+    { (yyval)=(yyvsp[0]); (yyvsp[0]).Name() = StringC(" = ") + (yyvsp[0]).Name(); ;}
     break;
 
   case 168:
 #line 539 "cxx.y"
-    { yyval=ObjectC(""); ;}
+    { (yyval)=ObjectC(""); ;}
     break;
 
   case 169:
 #line 540 "cxx.y"
-    { yyval=yyvsp[-1]; yyval.Name() += strp_asterisk;  ;}
+    { (yyval)=(yyvsp[-1]); (yyval).Name() += strp_asterisk;  ;}
     break;
 
   case 170:
 #line 541 "cxx.y"
-    { yyval=yyvsp[-1]; yyval.Name() += strp_ampersand;  ;}
+    { (yyval)=(yyvsp[-1]); (yyval).Name() += strp_ampersand;  ;}
     break;
 
   case 171:
 #line 542 "cxx.y"
-    { yyval=yyvsp[-1]; yyval.Name() += yyvsp[0].Name();  ;}
+    { (yyval)=(yyvsp[-1]); (yyval).Name() += (yyvsp[0]).Name();  ;}
     break;
 
   case 176:
 #line 552 "cxx.y"
-    { yyval =ObjectC(""); ;}
+    { (yyval) =ObjectC(""); ;}
     break;
 
   case 177:
 #line 553 "cxx.y"
-    { yyval = yyvsp[0]; ;}
+    { (yyval) = (yyvsp[0]); ;}
     break;
 
   case 178:
 #line 555 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 179:
 #line 556 "cxx.y"
-    { yyvsp[-1] = yyvsp[-1].Name() + yyvsp[0].Name(); ;}
+    { (yyvsp[-1]) = (yyvsp[-1]).Name() + (yyvsp[0]).Name(); ;}
     break;
 
   case 180:
 #line 558 "cxx.y"
-    { yyval=ObjectC(strp_OpenBracket + yyvsp[-1].Name() + strp_CloseBracket); ;}
+    { (yyval)=ObjectC(strp_OpenBracket + (yyvsp[-1]).Name() + strp_CloseBracket); ;}
     break;
 
   case 201:
 #line 563 "cxx.y"
-    { yyval=ObjectC(strp_Colon); ;}
+    { (yyval)=ObjectC(strp_Colon); ;}
     break;
 
   case 202:
 #line 564 "cxx.y"
-    { yyval=ObjectC("<"); ;}
+    { (yyval)=ObjectC("<"); ;}
     break;
 
   case 203:
 #line 565 "cxx.y"
-    { yyval=ObjectC(">"); ;}
+    { (yyval)=ObjectC(">"); ;}
     break;
 
   case 204:
 #line 566 "cxx.y"
-    { yyval=ObjectC(strp_equals); ;}
+    { (yyval)=ObjectC(strp_equals); ;}
     break;
 
   case 205:
 #line 567 "cxx.y"
-    { yyval=ObjectC(strp_plus); ;}
+    { (yyval)=ObjectC(strp_plus); ;}
     break;
 
   case 206:
 #line 568 "cxx.y"
-    { yyval=ObjectC("-"); ;}
+    { (yyval)=ObjectC("-"); ;}
     break;
 
   case 207:
 #line 569 "cxx.y"
-    { yyval=ObjectC(strp_Tilda); ;}
+    { (yyval)=ObjectC(strp_Tilda); ;}
     break;
 
   case 208:
 #line 570 "cxx.y"
-    { yyval=ObjectC(strp_ampersand); ;}
+    { (yyval)=ObjectC(strp_ampersand); ;}
     break;
 
   case 209:
 #line 571 "cxx.y"
-    { yyval=ObjectC("/"); ;}
+    { (yyval)=ObjectC("/"); ;}
     break;
 
   case 210:
 #line 572 "cxx.y"
-    { yyval=ObjectC(strp_asterisk); ;}
+    { (yyval)=ObjectC(strp_asterisk); ;}
     break;
 
   case 211:
 #line 573 "cxx.y"
-    { yyval=ObjectC("%"); ;}
+    { (yyval)=ObjectC("%"); ;}
     break;
 
   case 212:
 #line 574 "cxx.y"
-    { yyval=ObjectC("|"); ;}
+    { (yyval)=ObjectC("|"); ;}
     break;
 
   case 213:
 #line 575 "cxx.y"
-    { yyval=ObjectC("^"); ;}
+    { (yyval)=ObjectC("^"); ;}
     break;
 
   case 214:
 #line 576 "cxx.y"
-    { yyval=ObjectC("!"); ;}
+    { (yyval)=ObjectC("!"); ;}
     break;
 
   case 215:
 #line 577 "cxx.y"
-    { yyval=ObjectC("["); ;}
+    { (yyval)=ObjectC("["); ;}
     break;
 
   case 216:
 #line 578 "cxx.y"
-    { yyval=ObjectC("]"); ;}
+    { (yyval)=ObjectC("]"); ;}
     break;
 
   case 217:
 #line 579 "cxx.y"
-    { yyval=ObjectC(strp_Semicolon); ;}
+    { (yyval)=ObjectC(strp_Semicolon); ;}
     break;
 
   case 218:
 #line 580 "cxx.y"
-    { yyval=ObjectC(strp_Comma); ;}
+    { (yyval)=ObjectC(strp_Comma); ;}
     break;
 
   case 219:
 #line 585 "cxx.y"
-    { yyval=yyvsp[0]; hookCommentObj = yyvsp[0];  ;}
+    { (yyval)=(yyvsp[0]); hookCommentObj = (yyvsp[0]);  ;}
     break;
 
   case 220:
 #line 586 "cxx.y"
-    { yyval=yyvsp[0]; hookCommentObj = yyvsp[0];  ;}
+    { (yyval)=(yyvsp[0]); hookCommentObj = (yyvsp[0]);  ;}
     break;
 
   case 221:
 #line 587 "cxx.y"
-    { yyval=yyvsp[0]; 
-                                          yyval.SetVar(STR(dectype),STR(friend));
-					  yyval.IncludeLineNo(yyvsp[-1]);
-					  hookCommentObj = yyvsp[0];
+    { (yyval)=(yyvsp[0]); 
+                                          (yyval).SetVar(STR(dectype),STR(friend));
+					  (yyval).IncludeLineNo((yyvsp[-1]));
+					  hookCommentObj = (yyvsp[0]);
                                         ;}
     break;
 
   case 222:
 #line 593 "cxx.y"
-    { yyval = yyvsp[-1]; 
-                                          yyval.SetVar(STR(dectype),STR(prototype)); 
-					  yyval.IncludeLineNo(yyvsp[0]);
+    { (yyval) = (yyvsp[-1]); 
+                                          (yyval).SetVar(STR(dectype),STR(prototype)); 
+					  (yyval).IncludeLineNo((yyvsp[0]));
                                         ;}
     break;
 
   case 223:
 #line 597 "cxx.y"
-    { yyval=yyvsp[-3];   /* "=0"; */
-                                          yyval.SetVar(STR(dectype),STR(abstract));
-					  yyval.IncludeLineNo(yyvsp[0]);
+    { (yyval)=(yyvsp[-3]);   /* "=0"; */
+                                          (yyval).SetVar(STR(dectype),STR(abstract));
+					  (yyval).IncludeLineNo((yyvsp[0]));
                                         ;}
     break;
 
   case 224:
 #line 601 "cxx.y"
-    { yyval=yyvsp[-1]; 
-                                          yyval.SetVar(STR(dectype),STR(extern));    
-					  yyval.IncludeLineNo(yyvsp[0]);
+    { (yyval)=(yyvsp[-1]); 
+                                          (yyval).SetVar(STR(dectype),STR(extern));    
+					  (yyval).IncludeLineNo((yyvsp[0]));
                                         ;}
     break;
 
   case 225:
 #line 607 "cxx.y"
-    { yyval = yyvsp[-1];
-                                             yyval.SetVar(STR(dectype),STR(definition)); 
-					     yyval.IncludeLineNo(yyvsp[0]);
+    { (yyval) = (yyvsp[-1]);
+                                             (yyval).SetVar(STR(dectype),STR(definition)); 
+					     (yyval).IncludeLineNo((yyvsp[0]));
                                            ;}
     break;
 
   case 226:
 #line 612 "cxx.y"
-    { yyval=ObjectC(strp_plus); ;}
+    { (yyval)=ObjectC(strp_plus); ;}
     break;
 
   case 227:
 #line 613 "cxx.y"
-    { yyval=ObjectC("-"); ;}
+    { (yyval)=ObjectC("-"); ;}
     break;
 
   case 228:
 #line 614 "cxx.y"
-    { yyval=ObjectC(strp_Tilda); ;}
+    { (yyval)=ObjectC(strp_Tilda); ;}
     break;
 
   case 229:
 #line 615 "cxx.y"
-    { yyval=ObjectC(strp_ampersand); ;}
+    { (yyval)=ObjectC(strp_ampersand); ;}
     break;
 
   case 230:
 #line 616 "cxx.y"
-    { yyval=ObjectC("/"); ;}
+    { (yyval)=ObjectC("/"); ;}
     break;
 
   case 231:
 #line 617 "cxx.y"
-    { yyval=ObjectC(strp_asterisk); ;}
+    { (yyval)=ObjectC(strp_asterisk); ;}
     break;
 
   case 232:
 #line 618 "cxx.y"
-    { yyval=ObjectC("%"); ;}
+    { (yyval)=ObjectC("%"); ;}
     break;
 
   case 233:
 #line 619 "cxx.y"
-    { yyval=ObjectC("|"); ;}
+    { (yyval)=ObjectC("|"); ;}
     break;
 
   case 234:
 #line 620 "cxx.y"
-    { yyval=ObjectC("^"); ;}
+    { (yyval)=ObjectC("^"); ;}
     break;
 
   case 235:
 #line 621 "cxx.y"
-    { yyval=ObjectC("!"); ;}
+    { (yyval)=ObjectC("!"); ;}
     break;
 
   case 236:
 #line 622 "cxx.y"
-    { yyval=ObjectC(strp_equals); ;}
+    { (yyval)=ObjectC(strp_equals); ;}
     break;
 
   case 237:
 #line 623 "cxx.y"
-    { yyval=ObjectC("<"); ;}
+    { (yyval)=ObjectC("<"); ;}
     break;
 
   case 238:
 #line 624 "cxx.y"
-    { yyval=ObjectC(">"); ;}
+    { (yyval)=ObjectC(">"); ;}
     break;
 
   case 239:
 #line 625 "cxx.y"
-    { yyval=ObjectC("--"); ;}
+    { (yyval)=ObjectC("--"); ;}
     break;
 
   case 240:
 #line 626 "cxx.y"
-    { yyval=ObjectC("++"); ;}
+    { (yyval)=ObjectC("++"); ;}
     break;
 
   case 241:
 #line 627 "cxx.y"
-    { yyval=ObjectC("[]"); ;}
+    { (yyval)=ObjectC("[]"); ;}
     break;
 
   case 242:
 #line 628 "cxx.y"
-    { yyval=ObjectC("()"); ;}
+    { (yyval)=ObjectC("()"); ;}
     break;
 
   case 243:
 #line 629 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 244:
 #line 630 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 245:
 #line 632 "cxx.y"
-    { yyval = ObjectListC(STR(EmptyArgList)); ;}
+    { (yyval) = ObjectListC(STR(EmptyArgList)); ;}
     break;
 
   case 246:
 #line 633 "cxx.y"
-    { yyval = yyvsp[-1]; ;}
+    { (yyval) = (yyvsp[-1]); ;}
     break;
 
   case 247:
 #line 636 "cxx.y"
-    { yyval = yyvsp[-1]; ;}
+    { (yyval) = (yyvsp[-1]); ;}
     break;
 
   case 248:
 #line 640 "cxx.y"
-    { yyval = MethodC(yyvsp[-2].Name(),DataTypeC(yyvsp[-3]),ObjectListC(yyvsp[-1]),yyvsp[0]); 
-	yyval.IncludeLineNo(yyvsp[-3]);
-	yyval.IncludeLineNo(yyvsp[-2]);
-	yyval.IncludeLineNo(yyvsp[-1]);
-	yyval.IncludeLineNo(yyvsp[0]);
+    { (yyval) = MethodC((yyvsp[-2]).Name(),DataTypeC((yyvsp[-3])),ObjectListC((yyvsp[-1])),(yyvsp[0])); 
+	(yyval).IncludeLineNo((yyvsp[-3]));
+	(yyval).IncludeLineNo((yyvsp[-2]));
+	(yyval).IncludeLineNo((yyvsp[-1]));
+	(yyval).IncludeLineNo((yyvsp[0]));
       ;}
     break;
 
   case 249:
 #line 647 "cxx.y"
-    { yyval = MethodC(yyvsp[-3].Name(),DataTypeC(yyvsp[-6]),ObjectListC(yyvsp[-1]),yyvsp[0]);
-        yyval.SetScope(yyvsp[-5]);
-	yyval.IncludeLineNo(yyvsp[-6]);
-	yyval.IncludeLineNo(yyvsp[-5]);
-	yyval.IncludeLineNo(yyvsp[0]);
+    { (yyval) = MethodC((yyvsp[-3]).Name(),DataTypeC((yyvsp[-6])),ObjectListC((yyvsp[-1])),(yyvsp[0]));
+        (yyval).SetScope((yyvsp[-5]));
+	(yyval).IncludeLineNo((yyvsp[-6]));
+	(yyval).IncludeLineNo((yyvsp[-5]));
+	(yyval).IncludeLineNo((yyvsp[0]));
       ;}
     break;
 
   case 250:
 #line 654 "cxx.y"
-    { MethodC amethod(yyvsp[-2].Name(), DataTypeC(STR(void)),ObjectListC(yyvsp[-1]),yyvsp[0]); 
-        amethod.IncludeLineNo(yyvsp[-2]);
-        amethod.IncludeLineNo(yyvsp[-1]);
-	amethod.IncludeLineNo(yyvsp[0]);
+    { MethodC amethod((yyvsp[-2]).Name(), DataTypeC(STR(void)),ObjectListC((yyvsp[-1])),(yyvsp[0])); 
+        amethod.IncludeLineNo((yyvsp[-2]));
+        amethod.IncludeLineNo((yyvsp[-1]));
+	amethod.IncludeLineNo((yyvsp[0]));
         amethod.SetConstructor(true);
-        yyval = amethod;
-	ObjectC subScope = yyvsp[-2].GetScope();
+        (yyval) = amethod;
+	ObjectC subScope = (yyvsp[-2]).GetScope();
 	if(subScope.IsValid()) {
 	  ObjectListC ol(subScope);
 	  DListC<ObjectC> tmp = ol.List().Copy();
@@ -2988,7 +3109,7 @@ yyreduce:
 	  if(!tmp.IsEmpty()) {
 	    //cerr << "Got constructor:  SetScope to Path:" << PathName(tmp) << " \n";
 	    ObjectListC oln(STR(ConstructorScopePath),tmp);
-	    yyval.SetScope(oln);
+	    (yyval).SetScope(oln);
 	  }
 	}
       ;}
@@ -2996,155 +3117,156 @@ yyreduce:
 
   case 251:
 #line 674 "cxx.y"
-    { yyval = MethodC(STR(operator) + yyvsp[-3].Name(), DataTypeC(yyvsp[-5]),ObjectListC(yyvsp[-1]),yyvsp[0]); 
-        yyval.IncludeLineNo(yyvsp[-5]);
-        yyval.IncludeLineNo(yyvsp[-4]);
-        yyval.IncludeLineNo(yyvsp[0]);
+    { (yyval) = MethodC(STR(operator) + (yyvsp[-3]).Name(), DataTypeC((yyvsp[-5])),ObjectListC((yyvsp[-1])),(yyvsp[0])); 
+        (yyval).IncludeLineNo((yyvsp[-5]));
+        (yyval).IncludeLineNo((yyvsp[-4]));
+        (yyval).IncludeLineNo((yyvsp[0]));
       ;}
     break;
 
   case 252:
 #line 681 "cxx.y"
-    { yyval = MethodC(STR(operator) + yyvsp[-3].Name(), DataTypeC(yyvsp[-7]),ObjectListC(yyvsp[-1]),yyvsp[0]); 
-         yyval.SetScope(yyvsp[-6]);
-         yyval.IncludeLineNo(yyvsp[-7]);
-         yyval.IncludeLineNo(yyvsp[-6]);
-         yyval.IncludeLineNo(yyvsp[0]);
+    { (yyval) = MethodC(STR(operator) + (yyvsp[-3]).Name(), DataTypeC((yyvsp[-7])),ObjectListC((yyvsp[-1])),(yyvsp[0])); 
+         (yyval).SetScope((yyvsp[-6]));
+         (yyval).IncludeLineNo((yyvsp[-7]));
+         (yyval).IncludeLineNo((yyvsp[-6]));
+         (yyval).IncludeLineNo((yyvsp[0]));
        ;}
     break;
 
   case 253:
 #line 689 "cxx.y"
-    { yyval = MethodC(STR(operator), DataTypeC(yyvsp[-2]),ObjectListC(yyvsp[-1]),yyvsp[0],true);
-        yyval.IncludeLineNo(yyvsp[-3]);
-        yyval.IncludeLineNo(yyvsp[0]);
+    { (yyval) = MethodC(STR(operator), DataTypeC((yyvsp[-2])),ObjectListC((yyvsp[-1])),(yyvsp[0]),true);
+        (yyval).IncludeLineNo((yyvsp[-3]));
+        (yyval).IncludeLineNo((yyvsp[0]));
       ;}
     break;
 
   case 254:
 #line 694 "cxx.y"
-    { yyval = MethodC(STR(operator), DataTypeC(yyvsp[-2]),ObjectListC(yyvsp[-1]),yyvsp[0],true); 
-        yyval.SetScope(yyvsp[-5]);
-        yyval.IncludeLineNo(yyvsp[-5]);
-        yyval.IncludeLineNo(yyvsp[-4]);
-        yyval.IncludeLineNo(yyvsp[0]);
+    { (yyval) = MethodC(STR(operator), DataTypeC((yyvsp[-2])),ObjectListC((yyvsp[-1])),(yyvsp[0]),true); 
+        (yyval).SetScope((yyvsp[-5]));
+        (yyval).IncludeLineNo((yyvsp[-5]));
+        (yyval).IncludeLineNo((yyvsp[-4]));
+        (yyval).IncludeLineNo((yyvsp[0]));
       ;}
     break;
 
   case 260:
 #line 710 "cxx.y"
-    {  yyval=ObjectListC(STR(FuncArgList)); ;}
+    {  (yyval)=ObjectListC(STR(FuncArgList)); ;}
     break;
 
   case 261:
 #line 711 "cxx.y"
-    {  yyval=yyvsp[0]; ;}
+    {  (yyval)=(yyvsp[0]); ;}
     break;
 
   case 262:
 #line 713 "cxx.y"
-    { ObjectListC ol(STR(FuncArgList)); yyval= ol; ol.Append(yyvsp[0]); ;}
+    { ObjectListC ol(STR(FuncArgList)); (yyval)= ol; ol.Append((yyvsp[0])); ;}
     break;
 
   case 263:
 #line 714 "cxx.y"
-    { yyval=yyvsp[-2]; ObjectListC ol(yyvsp[-2]); ol.Append(yyvsp[0]); ;}
+    { (yyval)=(yyvsp[-2]); ObjectListC ol((yyvsp[-2])); ol.Append((yyvsp[0])); ;}
     break;
 
   case 264:
 #line 715 "cxx.y"
-    { yyval=yyvsp[-1]; ObjectListC ol(yyvsp[-1]); DataTypeC ell("..."); ol.Append(ell); ;}
+    { (yyval)=(yyvsp[-1]); ObjectListC ol((yyvsp[-1])); DataTypeC ell("..."); ol.Append(ell); ;}
     break;
 
   case 265:
 #line 717 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 266:
 #line 718 "cxx.y"
-    { yyval=yyvsp[-1]; DataTypeC dt(yyvsp[-1]); dt.SetAlias(yyvsp[0].Name()); ;}
+    { (yyval)=(yyvsp[-1]); DataTypeC dt((yyvsp[-1])); dt.SetAlias((yyvsp[0]).Name()); ;}
     break;
 
   case 267:
 #line 719 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 268:
 #line 720 "cxx.y"
-    { yyval= DataTypeC("..."); ;}
+    { (yyval)= DataTypeC("..."); ;}
     break;
 
   case 269:
 #line 724 "cxx.y"
     { 
 	  StringC name;
-	  if(yyvsp[-5].IsValid())
-	    name = yyvsp[-5].Name();
+	  if((yyvsp[-5]).IsValid())
+	    name = (yyvsp[-5]).Name();
 	  else
 	    name = StringC("anon?") + StringC(anonCount++);
-	  MethodC meth(name,DataTypeC(yyvsp[-8]),ObjectListC(yyvsp[-2]),yyvsp[0],false,true);
+	  MethodC meth(name,DataTypeC((yyvsp[-8])),ObjectListC((yyvsp[-2])),(yyvsp[0]),false,true);
 	  //$$=DataTypeC($1.Name() + StringC(" (*)(") + $7.Name() + strp_CloseBracket + $9.Name(),name); 
 	  ObjectListC ol("(*)");
 	  ol.Append(meth);
-	  yyval = DataTypeC(name,"",ol);
-	  yyval.SetupLineNos(yyvsp[-8],yyvsp[-1],yyvsp[0]);
+	  (yyval) = DataTypeC(name,"",ol);
+	  (yyval).SetupLineNos((yyvsp[-8]),(yyvsp[-1]),(yyvsp[0]));
 	;}
     break;
 
   case 270:
 #line 738 "cxx.y"
     {
-	  MethodC meth(yyvsp[-5].Name(),DataTypeC(yyvsp[-10]),ObjectListC(yyvsp[-2]),yyvsp[0],false,true);
+	  MethodC meth((yyvsp[-5]).Name(),DataTypeC((yyvsp[-10])),ObjectListC((yyvsp[-2])),(yyvsp[0]),false,true);
 	  ObjectListC ol("(*)");
 	  ol.Append(meth);	  
 	  //$$=DataTypeC($1.Name() + StringC(" (*)(") + $9.Name() + strp_CloseBracket + $11.Name(),$6.Name());
-	  yyval = DataTypeC(yyvsp[-4].Name(),"",ol);
-	  yyval.SetupLineNos(yyvsp[-10],yyvsp[-1],yyvsp[0]);
+	  (yyval) = DataTypeC((yyvsp[-4]).Name(),"",ol);
+	  (yyval).SetupLineNos((yyvsp[-10]),(yyvsp[-1]),(yyvsp[0]));
 	;}
     break;
 
   case 271:
 #line 748 "cxx.y"
-    { yyval=ObjectC(""); ;}
+    { (yyval)=ObjectC(""); ;}
     break;
 
   case 272:
 #line 749 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 273:
 #line 750 "cxx.y"
-    { yyval=yyvsp[-1]; ;}
+    { (yyval)=(yyvsp[-1]); ;}
     break;
 
   case 274:
 #line 751 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 275:
 #line 754 "cxx.y"
-    { yyval=yyvsp[-1]; yyval.SetupLineNos(yyvsp[-2],yyvsp[0]); ;}
+    { (yyval)=(yyvsp[-1]); (yyval).SetupLineNos((yyvsp[-2]),(yyvsp[0])); ;}
     break;
 
   case 276:
 #line 756 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
   case 277:
 #line 757 "cxx.y"
-    { yyval=yyvsp[0]; ;}
+    { (yyval)=(yyvsp[0]); ;}
     break;
 
 
+      default: break;
     }
 
-/* Line 991 of yacc.c.  */
-#line 3147 "cxx.tab.c"
+/* Line 1126 of yacc.c.  */
+#line 3270 "cxx.tab.c"
 
   yyvsp -= yylen;
   yyssp -= yylen;
@@ -3183,104 +3305,153 @@ yyerrlab:
 
       if (YYPACT_NINF < yyn && yyn < YYLAST)
 	{
-	  YYSIZE_T yysize = 0;
 	  int yytype = YYTRANSLATE (yychar);
-	  char *yymsg;
-	  int yyx, yycount;
+	  YYSIZE_T yysize0 = yytnamerr (0, yytname[yytype]);
+	  YYSIZE_T yysize = yysize0;
+	  YYSIZE_T yysize1;
+	  int yysize_overflow = 0;
+	  char *yymsg = 0;
+#	  define YYERROR_VERBOSE_ARGS_MAXIMUM 5
+	  char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
+	  int yyx;
 
-	  yycount = 0;
+#if 0
+	  /* This is so xgettext sees the translatable formats that are
+	     constructed on the fly.  */
+	  YY_("syntax error, unexpected %s");
+	  YY_("syntax error, unexpected %s, expecting %s");
+	  YY_("syntax error, unexpected %s, expecting %s or %s");
+	  YY_("syntax error, unexpected %s, expecting %s or %s or %s");
+	  YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s");
+#endif
+	  char *yyfmt;
+	  char const *yyf;
+	  static char const yyunexpected[] = "syntax error, unexpected %s";
+	  static char const yyexpecting[] = ", expecting %s";
+	  static char const yyor[] = " or %s";
+	  char yyformat[sizeof yyunexpected
+			+ sizeof yyexpecting - 1
+			+ ((YYERROR_VERBOSE_ARGS_MAXIMUM - 2)
+			   * (sizeof yyor - 1))];
+	  char const *yyprefix = yyexpecting;
+
 	  /* Start YYX at -YYN if negative to avoid negative indexes in
 	     YYCHECK.  */
-	  for (yyx = yyn < 0 ? -yyn : 0;
-	       yyx < (int) (sizeof (yytname) / sizeof (char *)); yyx++)
-	    if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR)
-	      yysize += yystrlen (yytname[yyx]) + 15, yycount++;
-	  yysize += yystrlen ("syntax error, unexpected ") + 1;
-	  yysize += yystrlen (yytname[yytype]);
-	  yymsg = (char *) YYSTACK_ALLOC (yysize);
-	  if (yymsg != 0)
-	    {
-	      char *yyp = yystpcpy (yymsg, "syntax error, unexpected ");
-	      yyp = yystpcpy (yyp, yytname[yytype]);
+	  int yyxbegin = yyn < 0 ? -yyn : 0;
 
-	      if (yycount < 5)
+	  /* Stay within bounds of both yycheck and yytname.  */
+	  int yychecklim = YYLAST - yyn;
+	  int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
+	  int yycount = 1;
+
+	  yyarg[0] = yytname[yytype];
+	  yyfmt = yystpcpy (yyformat, yyunexpected);
+
+	  for (yyx = yyxbegin; yyx < yyxend; ++yyx)
+	    if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR)
+	      {
+		if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
+		  {
+		    yycount = 1;
+		    yysize = yysize0;
+		    yyformat[sizeof yyunexpected - 1] = '\0';
+		    break;
+		  }
+		yyarg[yycount++] = yytname[yyx];
+		yysize1 = yysize + yytnamerr (0, yytname[yyx]);
+		yysize_overflow |= yysize1 < yysize;
+		yysize = yysize1;
+		yyfmt = yystpcpy (yyfmt, yyprefix);
+		yyprefix = yyor;
+	      }
+
+	  yyf = YY_(yyformat);
+	  yysize1 = yysize + yystrlen (yyf);
+	  yysize_overflow |= yysize1 < yysize;
+	  yysize = yysize1;
+
+	  if (!yysize_overflow && yysize <= YYSTACK_ALLOC_MAXIMUM)
+	    yymsg = (char *) YYSTACK_ALLOC (yysize);
+	  if (yymsg)
+	    {
+	      /* Avoid sprintf, as that infringes on the user's name space.
+		 Don't have undefined behavior even if the translation
+		 produced a string with the wrong number of "%s"s.  */
+	      char *yyp = yymsg;
+	      int yyi = 0;
+	      while ((*yyp = *yyf))
 		{
-		  yycount = 0;
-		  for (yyx = yyn < 0 ? -yyn : 0;
-		       yyx < (int) (sizeof (yytname) / sizeof (char *));
-		       yyx++)
-		    if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR)
-		      {
-			const char *yyq = ! yycount ? ", expecting " : " or ";
-			yyp = yystpcpy (yyp, yyq);
-			yyp = yystpcpy (yyp, yytname[yyx]);
-			yycount++;
-		      }
+		  if (*yyp == '%' && yyf[1] == 's' && yyi < yycount)
+		    {
+		      yyp += yytnamerr (yyp, yyarg[yyi++]);
+		      yyf += 2;
+		    }
+		  else
+		    {
+		      yyp++;
+		      yyf++;
+		    }
 		}
 	      yyerror (yymsg);
 	      YYSTACK_FREE (yymsg);
 	    }
 	  else
-	    yyerror ("syntax error; also virtual memory exhausted");
+	    {
+	      yyerror (YY_("syntax error"));
+	      goto yyexhaustedlab;
+	    }
 	}
       else
 #endif /* YYERROR_VERBOSE */
-	yyerror ("syntax error");
+	yyerror (YY_("syntax error"));
     }
 
 
 
   if (yyerrstatus == 3)
     {
-      /* If just tried and failed to reuse lookahead token after an
+      /* If just tried and failed to reuse look-ahead token after an
 	 error, discard it.  */
 
-      /* Return failure if at end of input.  */
-      if (yychar == YYEOF)
+      if (yychar <= YYEOF)
         {
-	  /* Pop the error token.  */
-          YYPOPSTACK;
-	  /* Pop the rest of the stack.  */
-	  while (yyss < yyssp)
-	    {
-	      YYDSYMPRINTF ("Error: popping", yystos[*yyssp], yyvsp, yylsp);
-	      yydestruct (yystos[*yyssp], yyvsp);
-	      YYPOPSTACK;
-	    }
-	  YYABORT;
+	  /* Return failure if at end of input.  */
+	  if (yychar == YYEOF)
+	    YYABORT;
         }
-
-      YYDSYMPRINTF ("Error: discarding", yytoken, &yylval, &yylloc);
-      yydestruct (yytoken, &yylval);
-      yychar = YYEMPTY;
-
+      else
+	{
+	  yydestruct ("Error: discarding", yytoken, &yylval);
+	  yychar = YYEMPTY;
+	}
     }
 
-  /* Else will try to reuse lookahead token after shifting the error
+  /* Else will try to reuse look-ahead token after shifting the error
      token.  */
-  goto yyerrlab2;
+  goto yyerrlab1;
 
 
-/*----------------------------------------------------.
-| yyerrlab1 -- error raised explicitly by an action.  |
-`----------------------------------------------------*/
+/*---------------------------------------------------.
+| yyerrorlab -- error raised explicitly by YYERROR.  |
+`---------------------------------------------------*/
+yyerrorlab:
+
+  /* Pacify compilers like GCC when the user code never invokes
+     YYERROR and the label yyerrorlab therefore never appears in user
+     code.  */
+  if (0)
+     goto yyerrorlab;
+
+yyvsp -= yylen;
+  yyssp -= yylen;
+  yystate = *yyssp;
+  goto yyerrlab1;
+
+
+/*-------------------------------------------------------------.
+| yyerrlab1 -- common code for both syntax error and YYERROR.  |
+`-------------------------------------------------------------*/
 yyerrlab1:
-
-  /* Suppress GCC warning that yyerrlab1 is unused when no action
-     invokes YYERROR.  */
-#if defined (__GNUC_MINOR__) && 2093 <= (__GNUC__ * 1000 + __GNUC_MINOR__) \
-    && !defined __cplusplus
-  __attribute__ ((__unused__))
-#endif
-
-
-  goto yyerrlab2;
-
-
-/*---------------------------------------------------------------.
-| yyerrlab2 -- pop states until the error token can be shifted.  |
-`---------------------------------------------------------------*/
-yyerrlab2:
   yyerrstatus = 3;	/* Each real token shifted decrements this.  */
 
   for (;;)
@@ -3301,21 +3472,21 @@ yyerrlab2:
       if (yyssp == yyss)
 	YYABORT;
 
-      YYDSYMPRINTF ("Error: popping", yystos[*yyssp], yyvsp, yylsp);
-      yydestruct (yystos[yystate], yyvsp);
-      yyvsp--;
-      yystate = *--yyssp;
 
+      yydestruct ("Error: popping", yystos[yystate], yyvsp);
+      YYPOPSTACK;
+      yystate = *yyssp;
       YY_STACK_PRINT (yyss, yyssp);
     }
 
   if (yyn == YYFINAL)
     YYACCEPT;
 
-  YYDPRINTF ((stderr, "Shifting error token, "));
-
   *++yyvsp = yylval;
 
+
+  /* Shift the error token. */
+  YY_SYMBOL_PRINT ("Shifting", yystos[yyn], yyvsp, yylsp);
 
   yystate = yyn;
   goto yynewstate;
@@ -3336,16 +3507,25 @@ yyabortlab:
   goto yyreturn;
 
 #ifndef yyoverflow
-/*----------------------------------------------.
-| yyoverflowlab -- parser overflow comes here.  |
-`----------------------------------------------*/
-yyoverflowlab:
-  yyerror ("parser stack overflow");
+/*-------------------------------------------------.
+| yyexhaustedlab -- memory exhaustion comes here.  |
+`-------------------------------------------------*/
+yyexhaustedlab:
+  yyerror (YY_("memory exhausted"));
   yyresult = 2;
   /* Fall through.  */
 #endif
 
 yyreturn:
+  if (yychar != YYEOF && yychar != YYEMPTY)
+     yydestruct ("Cleanup: discarding lookahead",
+		 yytoken, &yylval);
+  while (yyssp != yyss)
+    {
+      yydestruct ("Cleanup: popping",
+		  yystos[*yyssp], yyvsp);
+      YYPOPSTACK;
+    }
 #ifndef yyoverflow
   if (yyss != yyssa)
     YYSTACK_FREE (yyss);
