@@ -168,6 +168,11 @@ namespace RavlN {
   { x = 0; } 
   //: Set integer value to zero.
 
+  inline 
+  void SetZero(UInt16T &x) 
+  { x = 0; } 
+  //: Set integer value to zero.
+
   inline
   void SetZero(Int64T &x)
   { x = 0; }
