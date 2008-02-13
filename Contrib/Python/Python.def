@@ -12,14 +12,14 @@ PYTHON_DEF = 1
   endif
 
   ifndef PYTHON_INCLUDE
-    PYTHON_HOME = /usr/include/python$(PYTHON_VERSION)
+    PYTHON_INCLUDE = /usr/include/python$(PYTHON_VERSION)
   endif
 
   ifndef PYTHON_LIB
     PYTHON_LIB = python$(PYTHON_VERSION)
   endif
 
-  INCLUDES += -I$(PYTHON_HOME)
+  INCLUDES += -I$(PYTHON_INCLUDE)
   EXELIB := -l$(PYTHON_LIB) $(EXELIB)
 
 endif
