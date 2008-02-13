@@ -87,23 +87,28 @@ RESOURCES += devVideo4Linux2
 ## libmpeg2 ################################################
 
 #RESOURCES += libmpeg2
-#LIBMPEG2_HOME=/opt/PDsoft/mpeg2dec
+#LIBMPEG2_HOME = 
 
 ## FFTW ####################################################
+
 #FFTW_HOME=
 
 ## JAVASCRIPT ##############################################
+
 #JAVASCRIPT_HOME=
 
 ## LIBJPEG #################################################
+
 #LIBJPEG_HOME=
 
 ## LIBPNG_HOME #############################################
+
 #LIBPNG_HOME=
 
 ## LIBTIFF_HOME ############################################
-#LIBTIFF_HOME=
+
 RESOURCES += LibTIFF
+#LIBTIFF_HOME=
 
 ## avifile ##################################################
 
@@ -120,7 +125,7 @@ RESOURCES += LibTIFF
 ## Intel's Math Kernel Library  ############################################
 
 #RESOURCES += libmkl
-#INTELMKL_HOME=/opt/Intel/mkl70
+#INTELMKL_HOME =
 
 ## Jasper image io library  ############################################
 
@@ -128,8 +133,9 @@ RESOURCES += LibTIFF
 
 ## Embedded HTTP Server (EHS) ##############################
 
-#PME_HOME = /opt/pme-1.0.4
-#EHS_HOME = /opt/ehs-1.3.1
+#PCRE_HOME = 
+#PME_HOME = 
+#EHS_HOME = 
 #RESOURCES += libehs
 
 ## LibGnome2 ##############################

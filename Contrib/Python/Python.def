@@ -7,7 +7,19 @@
 ifndef PYTHON_DEF
 PYTHON_DEF = 1
 
-INCLUDES += -I/usr/include/python2.3
-EXELIB := -lpython2.3 $(EXELIB)
+  ifndef PYTHON_VERSION
+    PYTHON_VERSION = 2.3
+  endif
+
+  ifndef PYTHON_INCLUDE
+    PYTHON_HOME = /usr/include/python$(PYTHON_VERSION)
+  endif
+
+  ifndef PYTHON_LIB
+    PYTHON_LIB = python$(PYTHON_VERSION)
+  endif
+
+  INCLUDES += -I$(PYTHON_HOME)
+  EXELIB := -l$(PYTHON_LIB) $(EXELIB)
 
 endif

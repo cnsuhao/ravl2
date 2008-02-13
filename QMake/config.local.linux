@@ -28,7 +28,7 @@ FULLBUILD_TARGETS += doc
 
 ################ Compiler ##################################
 
-#GCCPATH=/opt/Omni/gcc-3.4.4
+#GCCPATH=/opt/Omni/gcc-3.4.6
 
 # paths for cc and c++ compiler
 RAVL_CC  = gcc
@@ -94,23 +94,28 @@ RESOURCES += devVideo4Linux2
 ## libmpeg2 ################################################
 
 #RESOURCES += libmpeg2
-#LIBMPEG2_HOME=/opt/PDsoft/mpeg2dec
+#LIBMPEG2_HOME = 
 
 ## FFTW ####################################################
+
 #FFTW_HOME=
 
 ## JAVASCRIPT ##############################################
+
 #JAVASCRIPT_HOME=
 
 ## LIBJPEG #################################################
+
 #LIBJPEG_HOME=
 
 ## LIBPNG_HOME #############################################
+
 #LIBPNG_HOME=
 
 ## LIBTIFF_HOME ############################################
-#LIBTIFF_HOME=
+
 RESOURCES += LibTIFF
+#LIBTIFF_HOME = 
 
 ## avifile ##################################################
 
@@ -127,7 +132,7 @@ RESOURCES += LibTIFF
 ## Intel's Math Kernel Library  ############################################
 
 #RESOURCES += libmkl
-#INTELMKL_HOME=/opt/Intel/mkl70
+#INTELMKL_HOME = 
 
 ## Jasper image io library  ############################################
 
@@ -135,9 +140,9 @@ RESOURCES += LibTIFF
 
 ## Embedded HTTP Server (EHS) ##############################
 
-#PCRE_HOME = /opt/Omni/pcre
-#PME_HOME = /opt/Omni/pme
-#EHS_HOME = /opt/Omni/ehs
+#PCRE_HOME = 
+#PME_HOME = 
+#EHS_HOME = 
 #RESOURCES += libehs
 
 ## LibGnome2 ##############################
@@ -147,11 +152,12 @@ RESOURCES += LibGnome
 ## CPPUnit ##############################
 
 #RESOURCES += CPPUnit
-#CPPUNIT_HOME=/opt/Omni/cppunit#
+#CPPUNIT_HOME=/opt/Omni/cppunit
 
 ## LibFFmpeg ##############################
 
 #RESOURCES += libffmpeg
+#LIBFFMPEG_HOME = 
 
 ## LibGd ##############################
 
@@ -160,6 +166,10 @@ RESOURCES += LibGnome
 ## Python ##############################
  
 #RESOURCES += LibPython
+#PYTHON_VERSION = 
+#PYTHON_HOME =  
+#PYTHON_LIB = 
+
 
 ## Simplified Wrapper and Interface Generator (Swig) ##############################
 
