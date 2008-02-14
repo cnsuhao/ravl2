@@ -1,5 +1,5 @@
 /* XPM */
-static char * jogbkw_xpm[] = {
+static const char * jogbkw_xpm[] = {
 "16 16 2 1",
 " 	c none",
 ".	c #000000000000",
