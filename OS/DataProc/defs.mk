@@ -10,9 +10,10 @@
 PACKAGE=Ravl/DP
 
 HEADERS= MTIOConnect.hh PlayControl.hh ThreadPipe.hh Buffer.hh FixedBuffer.hh \
- Governor.hh Hold.hh SerialisePort.hh Blackboard.hh SPortShare.hh SplitI.hh
+ Governor.hh Hold.hh SerialisePort.hh Blackboard.hh SPortShare.hh SplitI.hh \
+ TailIStream.hh
 
-SOURCES= MTIOConnect.cc PlayControl.cc Governor.cc Blackboard.cc
+SOURCES= MTIOConnect.cc PlayControl.cc Governor.cc Blackboard.cc TailIStream.cc
 
 EXAMPLES= exMTDataProc.cc exDPSplit.cc
 #	exFailOver.cc  exDPMultiplex.cc 
