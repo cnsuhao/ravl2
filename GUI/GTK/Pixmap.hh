@@ -35,7 +35,7 @@ namespace RavlGUIN {
     : public WidgetBodyC
   {
   public:
-    PixmapBodyC(const char **data,const WidgetC &rwin = WidgetC());
+    PixmapBodyC(const char * const *data,const WidgetC &rwin = WidgetC());
     //: Constructor.
     
     PixmapBodyC(const StringC &filename,const WidgetC &rwin = WidgetC());
@@ -88,7 +88,7 @@ namespace RavlGUIN {
     GdkPixmap *pixmap;  
     GdkBitmap *mask;
     StringC filename;
-    const char **data;
+    const char * const *data;
     int width,height,depth;
     ImageC<ByteRGBValueC> image;
   };
@@ -103,8 +103,8 @@ namespace RavlGUIN {
     : public WidgetC
   {
   public:
-    PixmapC(const WidgetC &rootWin,char **data)
-      : WidgetC(*new PixmapBodyC((const char **) data,rootWin))
+    PixmapC(const WidgetC &rootWin,const char * const *data)
+      : WidgetC(*new PixmapBodyC(data,rootWin))
     {}
     //: Constructor
     
@@ -118,8 +118,8 @@ namespace RavlGUIN {
     {}
     //: Constructor.
 
-    explicit PixmapC(char **data)
-      : WidgetC(*new PixmapBodyC((const char **) data))
+    explicit PixmapC(const char *const *data)
+      : WidgetC(*new PixmapBodyC(data))
     {}
     //: Constructor
     

@@ -25,7 +25,7 @@ namespace RavlGUIN {
   
   //: Constructor.
   
-  PixmapBodyC::PixmapBodyC(const char **ndata,const WidgetC &nrootWin)
+  PixmapBodyC::PixmapBodyC(const char * const *ndata,const WidgetC &nrootWin)
     : rootWin(nrootWin),
       pixmap(0),
       mask(0),
