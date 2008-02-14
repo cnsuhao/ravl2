@@ -45,13 +45,11 @@ namespace RavlImageN {
     if(bit_depth <= 8) {
       if(obj_type == typeid(ImageC<ByteRGBValueC>))
 	return obj_type; // We know how do this as well.
-      if(obj_type == typeid(ImageC<ByteT>))
-	return obj_type; // We know how do this as well.
       if(obj_type == typeid(ImageC<ByteRGBAValueC>))
 	return obj_type; // We know how do this as well.  
-      if(obj_type == typeid(ImageC<ByteT>)) 
-	return obj_type; // We know how do this as well.    
-     
+      if(obj_type == typeid(ImageC<ByteT>))
+	return obj_type; // We know how do this as well.
+      
       // PNG doesn't know to convert 8 bits images to 16.
       if(obj_type == typeid(ImageC<UInt16T>))
 	return typeid(ImageC<ByteT>);

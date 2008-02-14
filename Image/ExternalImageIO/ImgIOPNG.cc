@@ -277,8 +277,10 @@ namespace RavlImageN {
     
 #if 1
     if(req_color_type == PNG_COLOR_TYPE_GRAY || req_color_type == PNG_COLOR_TYPE_GRAY_ALPHA) {
-      ONDEBUG(cerr << "DPOImageIOPNGBaseC::ReadHeader(), png_set_rgb_to_gray_fixed(png_ptr), Called. \n");
-      png_set_rgb_to_gray_fixed(png_ptr, 1,-1,-1);
+      if(color_type == PNG_COLOR_TYPE_RGB || color_type == PNG_COLOR_TYPE_RGB_ALPHA) {
+        ONDEBUG(cerr << "DPOImageIOPNGBaseC::ReadHeader(), png_set_rgb_to_gray_fixed(png_ptr), Called. \n");
+        png_set_rgb_to_gray_fixed(png_ptr, 1,-1,-1);
+      }
     }
 #endif
     
@@ -302,7 +304,8 @@ namespace RavlImageN {
     
     /* Do some sanity checking. */
     
-    ONDEBUG(cerr << "Width:" << width << " Height:" << height << " ReqBitDepth:" << req_bit_depth <<  " Channels:" << req_chan << "\n");
+    ONDEBUG(cerr << "Width:" << width << " Height:" << height << " ReqBitDepth:" << req_bit_depth <<  " Channels:" << req_chan << " ReqColourType=" << req_color_type << "\n");
+    ONDEBUG(cerr << " Actual BitDepth:" << bit_depth <<  " ColourType=" << color_type << "\n");
     ONDEBUG(cerr << "Row bytes " << png_get_rowbytes(png_ptr, info_ptr) << " Expected:" << (width * (req_bit_depth/8) * req_chan) << "\n");
     // Check the configuration is at least roughly right!!
     RavlAssert(png_get_rowbytes(png_ptr, info_ptr)  == (width * (req_bit_depth/8) * req_chan));
@@ -453,7 +456,7 @@ namespace RavlImageN {
 #endif
     png_text_struct text_ptr[1];
     text_ptr[0].key = "Description";
-    text_ptr[0].text = "Generated with AMMA.";
+    text_ptr[0].text = "Generated with RAVL.";
     text_ptr[0].compression = PNG_TEXT_COMPRESSION_NONE;
 #ifdef PNG_iTXt_SUPPORTED
     text_ptr[0].lang = NULL;
