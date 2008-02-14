@@ -144,6 +144,9 @@ namespace RavlGUIN {
       GTKSIG("row-expanded"         ,GTKSIG_TREEROW ),       // GtkTreeView
       GTKSIG("row-activated"        ,GTKSIG_TREEPATHCOL ),   // GtkTreeView
       GTKSIG("item-activated"       ,GTKSIG_TREEPATH ),  // GtkIconView
+      GTKSIG("realize"              ,GTKSIG_GENERIC ),
+      GTKSIG("map"                  ,GTKSIG_GENERIC ),
+      GTKSIG("map-event"            ,GTKSIG_EVENT ),
       GTKSIG("destroy",GTKSIG_TERM)  // Duplicate first key to terminate array.
     };
     return signalInfo;
