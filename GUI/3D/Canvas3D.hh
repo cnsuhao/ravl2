@@ -109,7 +109,11 @@ namespace RavlGUIN {
       else glDisable(GL_LIGHTING);
       return true;
     }
-
+    
+    //: Do we have non power of two textures?
+    bool HaveExtNonPowerOfTwoTexture() const
+    { return m_glExtNonPowerOfTwoTexture; }
+    
   protected:
     virtual bool CBConfigureEvent(GdkEvent *event);
     //: Handle configure event
@@ -135,7 +139,9 @@ namespace RavlGUIN {
     // true = Use lighting when rendering.
 
     bool m_autoConfigure;  //: Handle viewport configure events internally.
-
+    
+    bool m_glExtNonPowerOfTwoTexture; // Do we have non power of two textures ?
+    bool m_initDone;
   private:
     Canvas3DBodyC(const Canvas3DBodyC &)
     {}
@@ -312,15 +318,18 @@ namespace RavlGUIN {
     //: Is lighting enabled?
 
     Canvas3DRenderMode GetRenderMode(void) const
-      { return Body().GetRenderMode(); }
+    { return Body().GetRenderMode(); }
     //: Get rendering mode
 
+    bool HaveExtNonPowerOfTwoTexture() const
+    { return Body().HaveExtNonPowerOfTwoTexture(); }
+    
   protected:
     Canvas3DBodyC &Body()
-      { return static_cast<Canvas3DBodyC &>(WidgetC::Body()); }
+    { return static_cast<Canvas3DBodyC &>(WidgetC::Body()); }
 
     const Canvas3DBodyC &Body() const
-      { return static_cast<const Canvas3DBodyC &>(WidgetC::Body()); }
+    { return static_cast<const Canvas3DBodyC &>(WidgetC::Body()); }
 
   };
 

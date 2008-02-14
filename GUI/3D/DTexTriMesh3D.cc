@@ -35,6 +35,8 @@ namespace RavlGUIN {
   //: Constructor.
 
   DTexTriMesh3DBodyC::~DTexTriMesh3DBodyC() {
+    //glDeleteTextures( 1, &texNames );
+    
     if(texNames != NULL)
       delete[] texNames;
   }
@@ -85,23 +87,31 @@ namespace RavlGUIN {
         const ImageC<ByteRGBValueC> &curTexture = tmodel.Textures()[i];
         //cerr << "size:" << curTexture.Cols() << "  " << curTexture.Rows() << endl;
 
-        //create texture with power of two size
         IntT newRows = PowerOfTwo(curTexture.Rows());
         IntT newCols = PowerOfTwo(curTexture.Cols());
-        //cerr << "size:" << newCols << "  " << newRows << endl;
-        ImageC<ByteRGBValueC> texture =
+        
+        if(canvas.HaveExtNonPowerOfTwoTexture() || ((IntT) curTexture.Rows() == newRows &&
+                                                    (IntT) curTexture.Cols() == newCols)) {
+          // We don't care what size the texture is, we can use it.
+          glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+                       curTexture.Cols(), curTexture.Rows(),
+                       0, GL_RGB, GL_UNSIGNED_BYTE,
+                       (void *)(curTexture.Row(curTexture.TRow())));
+          
+        } else {
+          
+          // Create texture with power of two size
+          //cerr << "size:" << newCols << "  " << newRows << endl;
+          ImageC<ByteRGBValueC> texture =
             WarpScaleC<ByteRGBValueC, ByteRGBValueC>(ImageRectangleC(newRows, newCols)).
             Apply(curTexture);
-        //cerr << "size:" << texture.Cols() << "  " << texture.Rows() << endl;
-
-        //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
-        //             curTexture.Cols(), curTexture.Rows(),
-        //             0, GL_RGB, GL_UNSIGNED_BYTE,
-        //             (void *)(curTexture.Row(curTexture.TRow())));
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
-                     texture.Cols(), texture.Rows(),
-                     0, GL_RGB, GL_UNSIGNED_BYTE,
-                     (void *)(texture.Row(texture.TRow())));
+          //cerr << "size:" << texture.Cols() << "  " << texture.Rows() << endl;
+          
+          glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+                       texture.Cols(), texture.Rows(),
+                       0, GL_RGB, GL_UNSIGNED_BYTE,
+                       (void *)(texture.Row(texture.TRow())));
+        }
       }
       //cerr << "tex names ok\n";
     }

@@ -36,6 +36,33 @@ static gint defaultAttrlist[] = {
 
 namespace RavlGUIN
 {
+
+  static GLboolean CheckExtension(const char *extName )
+  {
+    /*
+    ** Search for extName in the extensions string.  Use of strstr()
+    ** is not sufficient because extension names can be prefixes of
+    ** other extension names.  Could use strtok() but the constant
+    ** string returned by glGetString can be in read-only memory.
+    */
+    char *p = (char *) glGetString(GL_EXTENSIONS);
+    char *end;
+    int extNameLen;
+    
+    extNameLen = strlen(extName);
+    end = p + strlen(p);
+    
+    while (p < end) {
+      int n = strcspn(p, " ");
+      if ((extNameLen == n) && (strncmp(extName, p, n) == 0)) {
+        return GL_TRUE;
+      }
+      p += (n + 1);
+    }
+    return GL_FALSE;
+  }
+  
+  
   //: Create a 3D canvas
   Canvas3DBodyC::Canvas3DBodyC(int x, int y, int *nglattrlist,
                                bool autoConfigure)
@@ -45,7 +72,9 @@ namespace RavlGUIN
       m_eRenderMode(C3D_SMOOTH),
       m_bTexture(false),
       m_bLighting(true),
-      m_autoConfigure(autoConfigure)
+      m_autoConfigure(autoConfigure),
+      m_glExtNonPowerOfTwoTexture(false),
+      m_initDone(false)
   {
     ONDEBUG(cerr << "Canvas3DBodyC::Canvas3DBodyC(), Called.\n");
   }
@@ -54,6 +83,7 @@ namespace RavlGUIN
   bool Canvas3DBodyC::GUIInitGL() {
     ONDEBUG(cerr << "Canvas3DBodyC::GUIInitGL(), GL Avaliable ? \n");
     bool ret = gdk_gl_query();
+    
     if(!ret) {
 #if defined(__sgi__)
       cerr << "No native OpenGL supported on this display. \n";
@@ -64,6 +94,7 @@ namespace RavlGUIN
       //cerr << "No native OpenGL not supported on this display. \n";
 #endif
     }
+    
     ONDEBUG(cerr << "Canvas3DBodyC::GUIInitGL(), Found " << ret << " \n");
     return ret;
   }
@@ -105,12 +136,11 @@ namespace RavlGUIN
       ONDEBUG(cerr << "Canvas3DBodyC::Create(GtkWidget *), Setting draw area size to " << sx << " " << sy <<". \n");
       gtk_drawing_area_size (GTK_DRAWING_AREA (widget), sx, sy);
     }
-
+    
+    
     // When window is resized viewport needs to be resized also.
-    if(m_autoConfigure)
-      ConnectRef(Signal("configure_event"), *this,
-                 &Canvas3DBodyC::CBConfigureEvent);
-
+    ConnectRef(Signal("configure_event"), *this,&Canvas3DBodyC::CBConfigureEvent);
+    
     gtk_quit_add_destroy(1, GTK_OBJECT(widget));
 
     ONDEBUG(cerr << "Canvas3DBodyC::Create(GtkWidget *), Connect Signals. \n");
@@ -130,6 +160,11 @@ namespace RavlGUIN
     if (!gtk_gl_area_make_current(GTK_GL_AREA(widget))) {
       ONDEBUG(cerr << "WARNING: Canvas3DBodyC::BeginGL(), Failed. \n");
       return false;
+    }
+    if(!m_initDone) {
+      m_initDone = true;
+      m_glExtNonPowerOfTwoTexture = CheckExtension("GL_ARB_texture_non_power_of_two");
+      ONDEBUG(std::cerr << "Non power of two texture: " << m_glExtNonPowerOfTwoTexture << "\n");
     }
     return true;
   }
@@ -187,15 +222,14 @@ namespace RavlGUIN
 
   //: Handle configure event
   bool Canvas3DBodyC::CBConfigureEvent(GdkEvent *event) {
-    if(GUIBeginGL())
-    {
+    ONDEBUG(std::cerr << "Canvas3DBodyC::CBConfigureEvent, Called. ");
+    if(!GUIBeginGL())
+      return false;
+    if(m_autoConfigure) {
       ONDEBUG(cerr << "Reshape. " << widget->allocation.width << " " << widget->allocation.height << "\n");
       glViewport(0, 0, widget->allocation.width, widget->allocation.height);
-
-      //FMatrixC<4, 4> projectionMat;
-      //glGetDoublev(GL_PROJECTION_MATRIX, &(projectionMat[0][0]));
-      //cerr << "pMat:\n" << projectionMat << endl;
     }
+    
     GUIEndGL();
     return true;
   }

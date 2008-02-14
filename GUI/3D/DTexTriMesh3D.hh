@@ -19,6 +19,7 @@
 #include "Ravl/3D/TexTriMesh.hh"
 
 namespace RavlGUIN {
+  
   using namespace Ravl3DN;
 
   //! userlevel=Develop
