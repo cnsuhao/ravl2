@@ -223,7 +223,7 @@ namespace RavlN {
   // Check if a tag is valid.
 
   bool DefsMkFileC::CheckTag(StringC tag)  {
-    char **place = validtags;
+    const char **place = validtags;
     for(;*place != 0;place++) {
       if(tag == *place)
 	return true;
