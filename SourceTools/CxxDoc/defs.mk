@@ -30,7 +30,13 @@ HEADERS= Object.hh Document.hh Parser.hh CxxElements.hh \
 
 SOURCES = Object.cc Document.cc Parser.cc \
  CxxElements.cc CxxScope.cc DocExe.cc DocNode.cc DocTree.cc \
- Strings.cc Executables.cc cxx.y tokenizer.l
+ Strings.cc Executables.cc \
+ cxx.tab.cc tokenizer.yy.cc # (1) Comment out this line is you do not wish to use the pre-generated lexer/parser
+# cxx.y tokenizer.l # (2) Uncomment this line to generate a new lexer/parser
+# If you wish to generate a new lexer/parser with flex/bison then 
+# comment out the line marked (1) and uncomment the line marked (2).
+# Please note that FlexLexer.h is provided by the flex package and is
+# not usable with lexers generated from different versions.
 
 PLIB = RavlCxxDoc
 
@@ -40,8 +46,8 @@ EHT= Ravl.API.Source_Tools.CxxDoc.html Documentation.html \
  Documentation.Code.html Documentation.Sections.html \
  Documentation.docentry.html Documentation.Changes.html\
  Ravl.API.Source_Tools.CxxDoc.Templates.html Ravl.API.Source_Tools.CxxDoc.Internal.html \
- Ravl.undocumented.html Ravl.undocumented.anonymous.html \
-#  Documentation.Formatting.html
+ Ravl.undocumented.html Ravl.undocumented.anonymous.html
+# Documentation.Formatting.html
 
 USESLIBS=  RavlCore RavlOS RavlSourceTools
 
