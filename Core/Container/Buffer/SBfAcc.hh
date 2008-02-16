@@ -172,6 +172,18 @@ namespace RavlN {
     // slice must have the same length as this buffer. <br>
     // Implementation can be found in Slice1d.hh 
     
+    template<unsigned int N>
+    void CopyFrom(const TFVectorC<DataT,N> &vec) {
+      RavlAssert(Size() == N);
+      register DataT *to = ReferenceElm();
+      register const DataT *from = &(vec[0]);
+      register const DataT *endOfRow = &to[Size()];
+      for(;to != endOfRow;to++,from++)
+	*to = *from;
+    }
+    //: Copy values from vec into this array.
+    // Vector must have the same length as this buffer.
+    
     void Reverse();
     //: Reverse the order of elements in this array in place.
     
@@ -206,9 +218,9 @@ namespace RavlN {
   void 
   SizeBufferAccessC<DataT>::CopyFrom(const SizeBufferAccessC<DataT> &oth) {
     RavlAssert(oth.Size() == Size());
-    DataT *to = ReferenceElm();
-    DataT *from = oth.ReferenceElm();
-    DataT *endOfRow = &to[Size()];
+    register DataT *to = ReferenceElm();
+    register const DataT *from = oth.ReferenceElm();
+    register DataT *endOfRow = &to[Size()];
     for(;to != endOfRow;to++,from++)
       *to = *from;
   }
@@ -408,7 +420,7 @@ namespace RavlN {
       strm >> *at;
     return strm;
   }
-
+  
   //: Save real array to binary stream 
   BinOStreamC &operator<<(BinOStreamC &out,const SizeBufferAccessC<RealT> &img);
   
