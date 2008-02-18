@@ -753,17 +753,23 @@ ifndef SWIGOPTS
 endif
 
 %.tab$(CXXEXT) %.tab$(CHEXT) : %.y
+ifeq ($(SUPPORT_OK),yes)
 	$(SHOWIT)echo "--- Bison" $< ; \
 	$(BISON) -d -o$*.tab$(CEXT) $< ; \
 	mv $*.tab$(CEXT) $*.tab$(CXXEXT)
+endif
 
 %.yy$(CXXEXT) : %.l
+ifeq ($(SUPPORT_OK),yes)
 	$(SHOWIT)echo "--- Flex" $< ; \
 	$(FLEX) -o$*.yy$(CXXEXT) $<
+endif
 
-%_wrap$(CXXEXT) : %.i *.i
+%_wrap$(CXXEXT) %.py : %.i *.i
+ifeq ($(SUPPORT_OK),yes)
 	$(SHOWIT)echo "--- swig" $< ; \
 	$(SWIG) -c++ $(SWIGOPTS) $(INCLUDES) -o $*_wrap$(CXXEXT) $<
+endif
 
 #############################
 # Build libraries.
