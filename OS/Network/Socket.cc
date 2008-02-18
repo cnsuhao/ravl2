@@ -210,6 +210,7 @@ namespace RavlN {
     struct hostent *result = 0;
     if(*name == 0)
       name = "localhost";
+    ent.h_addrtype = 0;
     while(1) {
       ONDEBUG(cerr << " Looking for '" << name << "'\n");
       opErrno = 0;
@@ -299,6 +300,8 @@ namespace RavlN {
     int buffSize = 1024;
     char *hostentData = new char [buffSize];
     struct hostent ent;
+    ent.h_name = 0;
+    
     int error = 0;
     while(1) {
 #if RAVL_OS_LINUX || RAVL_OS_LINUX64
