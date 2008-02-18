@@ -21,6 +21,9 @@
 #include "Ravl/Point2d.hh"
 #include "Ravl/Point3d.hh"
 #include "Ravl/DList.hh"
+#ifdef VISUAL_CPP
+#include <windows.h>
+#endif
 #include <GL/gl.h>
 #include "Ravl/Assert.hh"
 

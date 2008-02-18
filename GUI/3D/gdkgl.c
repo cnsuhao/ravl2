@@ -19,6 +19,8 @@
 /*! lib=RavlGUI3D */
 /*! license=own */
 
+#ifndef VISUAL_CPP
+
 #include "Ravl/GUI/gdkgl.h"
 
 #include <gdk/gdkx.h>
@@ -413,3 +415,4 @@ void gdk_gl_use_gdk_font(GdkFont *font, int first, int count, int list_base)
   glXUseXFont(gdk_font_id(font), first, count, list_base);
 }
 
+#endif

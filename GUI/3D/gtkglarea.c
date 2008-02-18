@@ -20,6 +20,8 @@
 /*! lib=RavlGUI3D */
 /*! license=own */
 
+#ifndef VISUAL_CPP
+
 #include "Ravl/GUI/gdkgl.h"
 #include "Ravl/GUI/gtkglarea.h"
 #include <GL/gl.h>
@@ -202,3 +204,5 @@ void gtk_gl_area_swap_buffers(GtkGLArea *gl_area)
 
   gdk_gl_swap_buffers(GTK_WIDGET(gl_area)->window);
 }
+
+#endif

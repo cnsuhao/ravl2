@@ -11,14 +11,22 @@
 
 #include "Ravl/GUI/Canvas3D.hh"
 //#include "Ravl/StdError.hh"
+#ifndef VISUAL_CPP
 #include "Ravl/GUI/gdkgl.h"
 #include "Ravl/GUI/gtkglarea.h"
+#endif
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/FMatrix.hh"
 
 #include <gtk/gtk.h>
 #include <GL/gl.h>
+#ifdef VISUAL_CPP
+#include <GL/glu.h>
+#include <gtk/gtkgl.h>
+#include <gdk/gdkgl.h>
+#else
 #include <GL/glx.h>
+#endif
 
 #define DODEBUG 0
 #if DODEBUG
@@ -28,15 +36,17 @@
 #endif
 
 static gint defaultAttrlist[] = {
-      GDK_GL_RGBA,
-      GDK_GL_DOUBLEBUFFER,
-      GDK_GL_DEPTH_SIZE, 16,
-      GDK_GL_NONE
-    };
+  GDK_GL_RGBA,
+  GDK_GL_DOUBLEBUFFER,
+  GDK_GL_DEPTH_SIZE, 16,
+  GDK_GL_NONE
+};
 
 namespace RavlGUIN
 {
 
+
+#ifndef VISUAL_CPP
   static GLboolean CheckExtension(const char *extName )
   {
     /*
@@ -61,7 +71,7 @@ namespace RavlGUIN
     }
     return GL_FALSE;
   }
-  
+#endif
   
   //: Create a 3D canvas
   Canvas3DBodyC::Canvas3DBodyC(int x, int y, int *nglattrlist,
@@ -77,40 +87,75 @@ namespace RavlGUIN
       m_initDone(false)
   {
     ONDEBUG(cerr << "Canvas3DBodyC::Canvas3DBodyC(), Called.\n");
+#ifdef VISUAL_CPP
+    if(!gtk_gl_init_check(NULL, NULL))
+      RavlIssueError("Touble initialising gtk_gl\n");
+    if(!gdk_gl_init_check(NULL, NULL))
+      RavlIssueError("Trouble initialising gdk_gl\n");  
+#endif
   }
 
   //: Initalise GL info
   bool Canvas3DBodyC::GUIInitGL() {
     ONDEBUG(cerr << "Canvas3DBodyC::GUIInitGL(), GL Avaliable ? \n");
-    bool ret = gdk_gl_query();
-    
+	bool ret = false;
+#ifdef VISUAL_CPP
+    gint major, minor;
+    gdk_gl_query_version(&major, &minor);
+    ONDEBUG(cerr << "OpenGL extension version - %d.%d\n" << major << " " << minor << endl);
+	if(major > 0) ret = true;
+#else
+    ret = gdk_gl_query();    
     if(!ret) {
 #if defined(__sgi__)
       cerr << "No native OpenGL supported on this display. \n";
       cerr << "You could try: 'setenv LD_LIBRARY_PATH /opt/PDmesa/Mesa-3.1/lib' \n";
       cerr << "Then restarting your program. \n";
       RavlAssertMsg(0,"OpenGL not supported. ");
-#else
-      //cerr << "No native OpenGL not supported on this display. \n";
 #endif
-    }
-    
-    ONDEBUG(cerr << "Canvas3DBodyC::GUIInitGL(), Found " << ret << " \n");
+	  ONDEBUG(cerr << "OpenGL not found" << endl);
+	}
+#endif
     return ret;
   }
 
   //: Create with a widget supplied from elsewhere.
   bool Canvas3DBodyC::Create(GtkWidget *Parent)
   {
+    
     // Initalise opengl
     if(!GUIInitGL())
 #if 0
       throw ExceptionC("OpenGL not supported on display. \n");
 #else
-      cerr << "WARNING: OpenGL not supported on this X server. \n";
+    cerr << "WARNING: OpenGL not supported on this X server. \n";
 #endif
+
     ONDEBUG(cerr << "Canvas3DBodyC::Create(GtkWidget *), Setting up canvas. \n");
 
+#ifdef VISUAL_CPP
+
+	widget = gtk_drawing_area_new();
+	if(widget == 0) {
+		cerr << "Canvas3DBodyC::Create(GtkWidget *) ERROR: Widget create failed. \n";
+		return false;
+	}
+	GdkGLConfig *glconfig;
+	// Try double-buffered visual
+	glconfig = gdk_gl_config_new_by_mode ((GdkGLConfigMode)(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH | GDK_GL_MODE_DOUBLE));
+	if (glconfig == NULL) {
+		g_print ("*** Cannot find the double-buffered visual.\n");
+		g_print ("*** Trying single-buffered visual.\n");
+
+		/* Try single-buffered visual */
+		glconfig = gdk_gl_config_new_by_mode ((GdkGLConfigMode)(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH));
+		if (glconfig == NULL) {
+			g_print ("*** No appropriate OpenGL-capable visual found.\n");
+			exit (1);
+		}
+	}
+	gtk_widget_set_gl_capability (widget, glconfig, NULL, TRUE, GDK_GL_RGBA_TYPE);	    
+#else
     if(glattrlist == 0)
       glattrlist = defaultAttrlist; // Use default.
 
@@ -119,7 +164,8 @@ namespace RavlGUIN
       cerr << "Canvas3DBodyC::Create(GtkWidget *) ERROR: Widget create failed. \n";
       return false;
     }
-
+#endif
+    
     if(Parent != NULL)
     {
       // The widget supplied is unlikely to be the correct type,
@@ -157,6 +203,12 @@ namespace RavlGUIN
       ONDEBUG(cerr << "Canvas3DBodyC::BeginGL(), ERROR: Called with invalid widget. \n");
       return false;
     }
+#ifdef VISUAL_CPP
+    GdkGLContext *glcontext = gtk_widget_get_gl_context (widget);
+    GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (widget);
+    if (!gdk_gl_drawable_gl_begin (gldrawable, glcontext))
+      return FALSE;
+#else
     if (!gtk_gl_area_make_current(GTK_GL_AREA(widget))) {
       ONDEBUG(cerr << "WARNING: Canvas3DBodyC::BeginGL(), Failed. \n");
       return false;
@@ -166,12 +218,17 @@ namespace RavlGUIN
       m_glExtNonPowerOfTwoTexture = CheckExtension("GL_ARB_texture_non_power_of_two");
       ONDEBUG(std::cerr << "Non power of two texture: " << m_glExtNonPowerOfTwoTexture << "\n");
     }
+#endif
     return true;
   }
 
   //: Call after finished with GL
   bool Canvas3DBodyC::GUIEndGL()
   {
+#ifdef VISUAL_CPP
+    GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (widget);
+    gdk_gl_drawable_gl_end (gldrawable);
+#endif
     //glFinish();
     //cerr << "WARNING: Canvas3DBodyC::BeginGL(), Failed. \n";
     return true;
@@ -180,9 +237,17 @@ namespace RavlGUIN
   //: swap buffers.
   bool Canvas3DBodyC::GUISwapBuffers()
   {
+#ifdef VISUAL_CPP
+    GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (widget);    
+    if (gdk_gl_drawable_is_double_buffered (gldrawable))
+      gdk_gl_drawable_swap_buffers (gldrawable);
+    else
+      glFlush ();
+#else
     gtk_gl_area_swapbuffers(GTK_GL_AREA(widget));
     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     //glLoadIdentity();
+#endif
     return true;
   }
 
