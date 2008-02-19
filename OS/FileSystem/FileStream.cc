@@ -57,7 +57,9 @@ namespace RavlN {
 	flags =  O_RDONLY;
     } else
       flags = O_WRONLY | O_CREAT | O_TRUNC;
+#ifdef O_LARGEFILE
     flags |= O_LARGEFILE;
+#endif
     fd = open(filename.chars(),flags,0666);
   }
 #else
@@ -86,7 +88,12 @@ namespace RavlN {
   
   bool FileStreamC::Seek(StreamOffsetT offset) { 
 #if RAVL_HAVE_INTFILEDESCRIPTORS 
+#if RAVL_HAVE_LSEEK64
     return lseek64(fd,offset,SEEK_SET) >= 0; 
+#else
+    RavlAssert(sizeof(off_t) == 8); // Check off_t is 64 bit.
+    return lseek(fd,offset,SEEK_SET) >= 0;     
+#endif
 #else
     if(forRead)
       is.Seek(offset);
@@ -197,10 +204,14 @@ namespace RavlN {
 #if RAVL_HAVE_INTFILEDESCRIPTORS 
     if(fd < 0)
       return false;
+#if RAVL_HAVE_FDATASYNC
     if(metaDataToo)
       return fsync(fd) == 0;
     else
       return fdatasync(fd) == 0;
+#else
+    return fsync(fd) == 0;    
+#endif
 #endif    
     return true;
   }

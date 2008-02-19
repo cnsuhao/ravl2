@@ -14,6 +14,9 @@
 // This config stuff should be moved elseware.
 
 #include "Ravl/config.h"
+#if RAVL_OS_MACOSX
+#define _DARWIN_C_SOURCE 1
+#endif
 
 #if RAVL_OS_SOLARIS
 #define _POSIX_PTHREAD_SEMANTICS 1
@@ -31,6 +34,7 @@
 #include <windows.h>
 #include <wchar.h>
 #else
+
 #if RAVL_HAVE_UNIXDIRFUNCS
 #include <dirent.h>
 #endif
@@ -358,10 +362,14 @@ namespace RavlN {
     if(fd < 0) { // Check we've got a file descriptor.
       cerr << "DirectoryC::Sync, failed to find file descriptor\n";
     } else {
+#if RAVL_HAVE_FDATASYNC
       if(metaDataToo)
         ret = (fsync(fd) == 0);
       else
         ret = (fdatasync(fd) == 0);
+#else
+      ret = (fsync(fd) == 0);
+#endif
       if(!ret) {
         cerr << "DirectoryC::Sync, Sync failed error=" << errno << "\n";
       }

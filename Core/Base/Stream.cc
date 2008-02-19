@@ -227,7 +227,11 @@ namespace RavlN {
 #if RAVL_COMPILER_GCC
 #if RAVL_HAVE_INTFILEDESCRIPTORS 
     // We can't use the native open, because we need to be able to handle large files.
-    int mode = O_WRONLY | O_CREAT | O_LARGEFILE;
+    int mode = O_WRONLY | O_CREAT;
+    
+#ifdef O_LARGEFILE
+    mode = mode | O_LARGEFILE;
+#endif
     if(append)
       mode |= O_APPEND;
     else
@@ -367,7 +371,11 @@ namespace RavlN {
 #if RAVL_HAVE_INTFILEDESCRIPTORS
     // We can't use the native open, because we need to be able to handle large files.
     //cerr << "USING NEW OPEN. \n";
-    int mode = O_RDONLY | O_LARGEFILE;
+    int mode = O_RDONLY;
+#ifdef O_LARGEFILE
+    mode = mode | O_LARGEFILE;
+#endif
+    
     int fd = open(filename.chars(),mode);
     if(fd >= 0) {
       istream *ifs;
