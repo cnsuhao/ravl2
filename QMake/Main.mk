@@ -753,22 +753,28 @@ ifndef SWIGOPTS
 endif
 
 %.tab$(CXXEXT) %.tab$(CHEXT) : %.y
+ifndef BISON_DO_NOT_GENERATE
 ifeq ($(SUPPORT_OK),yes)
 	$(SHOWIT)echo "--- Bison" $< ; \
 	$(BISON) -d -o$*.tab$(CEXT) $< ; \
 	mv $*.tab$(CEXT) $*.tab$(CXXEXT)
 endif
+endif
 
 %.yy$(CXXEXT) : %.l
+ifndef FLEX_DO_NOT_GENERATE
 ifeq ($(SUPPORT_OK),yes)
 	$(SHOWIT)echo "--- Flex" $< ; \
 	$(FLEX) -o$*.yy$(CXXEXT) $<
 endif
+endif
 
 %_wrap$(CXXEXT) %.py : %.i *.i
+ifndef SWIG_DO_NOT_GENERATE
 ifeq ($(SUPPORT_OK),yes)
 	$(SHOWIT)echo "--- swig" $< ; \
 	$(SWIG) -c++ $(SWIGOPTS) $(INCLUDES) -o $*_wrap$(CXXEXT) $<
+endif
 endif
 
 #############################
