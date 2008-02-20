@@ -33,6 +33,12 @@ SOURCES = Object.cc Document.cc Parser.cc \
  Strings.cc Executables.cc \
  cxx.tab.cc tokenizer.yy.cc
 
+# We don't need to generate the lexer/parser unless we're actually extending CxxDoc
+# so just use the checked-in versions (plus flex output if dependent on the 
+# version of FlexLexer.h checked in)
+FLEX_DO_NOT_GENERATE = 1
+BISON_DO_NOT_GENERATE = 1
+
 PLIB = RavlCxxDoc
 
 MAINS = CxxDoc.cc 
