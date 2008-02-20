@@ -41,6 +41,7 @@
 <includepath>C:\GTKWIN32\include\glib-2.0</includepath>
 <includepath>C:\GTKWIN32\include\pango-1.0</includepath>
 <includepath>C:\GTKWIN32\include\atk-1.0</includepath>
+<includepath>C:\GTKWIN32\include\gtkglext-1.0</includepath>
 <libpath>C:\GTKWIN32\lib\</libpath>
 <lib>atk-1.0.lib</lib>
 <lib>glib-2.0.lib</lib>
@@ -51,6 +52,10 @@
 <lib>gdk-win32-2.0.lib</lib>
 <lib>gdk_pixbuf-2.0.lib</lib>
 <lib>pango-1.0.lib</lib>
+<lib>gtkglext-win32-1.0.lib</lib>
+<lib>gdkglext-win32-1.0.lib</lib>
+<lib>OpenGL32.lib</lib>
+<lib>Glu32.lib</lib>
 </extlib>
 
 
@@ -90,16 +95,16 @@
 <lib>comsuppw.lib</lib>
 </extlib>
 
-  <extlib name="Python">
-    <includepath>C:\Python24\include</includepath>
-    <libpath>C:\Python24\DLLs</libpath>
-    <libpath>C:\Python24\libs</libpath>
-  </extlib>
+<extlib name="Python">
+  <includepath>C:\Python24\include</includepath>
+  <libpath>C:\Python24\DLLs</libpath>
+  <libpath>C:\Python24\libs</libpath>
+</extlib>
 
-  <extlib name="OmniMagCore">
-    <lib>Rpcrt4.lib</lib>
-    <lib>comsuppw.lib</lib>
-  </extlib>
+<extlib name="OmniMagCore">
+  <lib>Rpcrt4.lib</lib>
+  <lib>comsuppw.lib</lib>
+</extlib>
 
 <extlib name="SentinelSuperPro">
 <includepath>C:\Program Files\SafeNet Sentinel\Visual C++</includepath>
