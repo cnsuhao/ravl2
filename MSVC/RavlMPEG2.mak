@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlMPEG2
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlMPEG2
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlMPEG2
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlMPEG2
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/ImgIOmpeg2dec.obj $(OPTOBJDIR)/MPEG2Format.obj $(OPTOBJDIR)/MustLinkMPEG2.obj

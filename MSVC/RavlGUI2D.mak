@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlGUI2D
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlGUI2D
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlGUI2D
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlGUI2D
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/Canvas.obj $(OPTOBJDIR)/RawCanvas2d.obj $(OPTOBJDIR)/RawZoomCanvas.obj $(OPTOBJDIR)/FrameMarkup.obj $(OPTOBJDIR)/GUIMarkupLayerEditor.obj $(OPTOBJDIR)/MarkupImageRGB.obj $(OPTOBJDIR)/MarkupLine2d.obj $(OPTOBJDIR)/MarkupPolygon2d.obj $(OPTOBJDIR)/MarkupImageByte.obj $(OPTOBJDIR)/MarkupInfo.obj $(OPTOBJDIR)/MarkupNote.obj $(OPTOBJDIR)/GUIMarkupCanvas.obj $(OPTOBJDIR)/MarkupImageRGBA.obj $(OPTOBJDIR)/MarkupLayerInfo.obj $(OPTOBJDIR)/MarkupPoint2d.obj

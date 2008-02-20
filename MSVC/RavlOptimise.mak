@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlOptimise
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlOptimise
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlOptimise
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlOptimise
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/ObsVector.obj $(OPTOBJDIR)/ObsVectorBiGaussian.obj $(OPTOBJDIR)/ObsVectorPoint2dPair.obj $(OPTOBJDIR)/StateVector.obj $(OPTOBJDIR)/StateVectorLine2d.obj $(OPTOBJDIR)/StateVectorQuadratic.obj $(OPTOBJDIR)/StateVectorHomog2d.obj $(OPTOBJDIR)/StateVectorRot3d.obj $(OPTOBJDIR)/Observation.obj $(OPTOBJDIR)/ObservationExplicit.obj $(OPTOBJDIR)/ObservationQuadraticPoint.obj $(OPTOBJDIR)/ObservationImplicit.obj $(OPTOBJDIR)/ObservationLine2dPoint.obj $(OPTOBJDIR)/ObservationImpQuadraticPoint.obj $(OPTOBJDIR)/ObservationHomog2dPoint.obj $(OPTOBJDIR)/ObservationImpHomog2dPoint.obj $(OPTOBJDIR)/StoredState.obj $(OPTOBJDIR)/LevenbergMarquardt.obj $(OPTOBJDIR)/Ransac.obj $(OPTOBJDIR)/ObservationManager.obj $(OPTOBJDIR)/FitToSample.obj $(OPTOBJDIR)/EvaluateSolution.obj $(OPTOBJDIR)/EvaluateNumInliers.obj $(OPTOBJDIR)/EvaluateLikelihood.obj $(OPTOBJDIR)/FitLine2dPoints.obj $(OPTOBJDIR)/FitQuadraticPoints.obj $(OPTOBJDIR)/FitHomog2dPoints.obj $(OPTOBJDIR)/ObservationAffine2dPoint.obj $(OPTOBJDIR)/StateVectorAffine2d.obj $(OPTOBJDIR)/FitAffine2dPoints.obj $(OPTOBJDIR)/OptimiseQuadraticCurve.obj $(OPTOBJDIR)/OptimiseOrthogonalRegression.obj $(OPTOBJDIR)/Optimise2dHomography.obj $(OPTOBJDIR)/Optimise2dAffineHomography.obj

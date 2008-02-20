@@ -187,6 +187,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
 				>
 			</File>

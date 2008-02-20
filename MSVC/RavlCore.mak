@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlCore
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlCore
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlCore
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlCore
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/Assert.obj $(OPTOBJDIR)/Exception.obj $(OPTOBJDIR)/EntryPnt.obj $(OPTOBJDIR)/Index.obj $(OPTOBJDIR)/String.obj $(OPTOBJDIR)/RefCounter.obj $(OPTOBJDIR)/HandleRefCounter.obj $(OPTOBJDIR)/Trigger.obj $(OPTOBJDIR)/Calls.obj $(OPTOBJDIR)/MTLocks.obj $(OPTOBJDIR)/StreamType.obj $(OPTOBJDIR)/Stream.obj $(OPTOBJDIR)/StrStream.obj $(OPTOBJDIR)/BinStream.obj $(OPTOBJDIR)/BitStream.obj $(OPTOBJDIR)/IndexRange1d.obj $(OPTOBJDIR)/IndexRange2d.obj $(OPTOBJDIR)/Index2d.obj $(OPTOBJDIR)/Index3d.obj $(OPTOBJDIR)/IntC.obj $(OPTOBJDIR)/StdConst.obj $(OPTOBJDIR)/RCAbstract.obj $(OPTOBJDIR)/BinString.obj $(OPTOBJDIR)/RCWrap.obj $(OPTOBJDIR)/IndexRange3d.obj $(OPTOBJDIR)/Math.obj $(OPTOBJDIR)/RealC.obj $(OPTOBJDIR)/RealRange1d.obj $(OPTOBJDIR)/RealRange2d.obj $(OPTOBJDIR)/RealRange3d.obj $(OPTOBJDIR)/RCBodyV.obj $(OPTOBJDIR)/URLMapper.obj $(OPTOBJDIR)/GenBinStream.obj $(OPTOBJDIR)/Resource.obj $(OPTOBJDIR)/AMutex.obj $(OPTOBJDIR)/RCLayer.obj $(OPTOBJDIR)/CPUID.obj $(OPTOBJDIR)/RBfAcc2d.obj $(OPTOBJDIR)/SBfAcc2d.obj $(OPTOBJDIR)/RBfAcc.obj $(OPTOBJDIR)/SBfAcc.obj $(OPTOBJDIR)/Stack.obj $(OPTOBJDIR)/DLink.obj $(OPTOBJDIR)/DList.obj $(OPTOBJDIR)/Hash.obj $(OPTOBJDIR)/GraphBase.obj $(OPTOBJDIR)/Graph.obj $(OPTOBJDIR)/GraphBaseLinearIter.obj $(OPTOBJDIR)/GraphBConIt.obj $(OPTOBJDIR)/HEMeshBaseVertex.obj $(OPTOBJDIR)/HEMeshBaseEdge.obj $(OPTOBJDIR)/HEMeshBaseFace.obj $(OPTOBJDIR)/HEMeshBase.obj $(OPTOBJDIR)/HEMeshBaseFaceIter.obj $(OPTOBJDIR)/BGraphBase.obj $(OPTOBJDIR)/BGraphBaseIter.obj $(OPTOBJDIR)/BGraphLinearIter.obj $(OPTOBJDIR)/StdMath.obj $(OPTOBJDIR)/Random.obj $(OPTOBJDIR)/RandomGauss.obj $(OPTOBJDIR)/Angle.obj $(OPTOBJDIR)/ScalMath.obj $(OPTOBJDIR)/RandomMersenneTwister.obj $(OPTOBJDIR)/Erf.obj $(OPTOBJDIR)/LogValue.obj $(OPTOBJDIR)/StringList.obj $(OPTOBJDIR)/Option.obj $(OPTOBJDIR)/TypeName.obj $(OPTOBJDIR)/BufStream.obj $(OPTOBJDIR)/SubStringList.obj $(OPTOBJDIR)/XMLStream.obj $(OPTOBJDIR)/XMLTree.obj $(OPTOBJDIR)/StreamParse.obj $(OPTOBJDIR)/VirtualConstructor.obj $(OPTOBJDIR)/FunctionRegister.obj $(OPTOBJDIR)/IndexNd.obj $(OPTOBJDIR)/VariableLengthCode.obj $(OPTOBJDIR)/IndexRange2dSet.obj $(OPTOBJDIR)/Base64.obj $(OPTOBJDIR)/PointerManager.obj $(OPTOBJDIR)/RealRange2dSet.obj $(OPTOBJDIR)/TimeCode.obj $(OPTOBJDIR)/STL.obj

@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlPatternRecIO
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlPatternRecIO
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlPatternRecIO
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlPatternRecIO
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/SampleIO.obj $(OPTOBJDIR)/DataSetIO.obj $(OPTOBJDIR)/ClassifierIO.obj $(OPTOBJDIR)/Classifier2IO.obj $(OPTOBJDIR)/FunctionIO.obj $(OPTOBJDIR)/GaussianMixtureIO.obj $(OPTOBJDIR)/DistanceIO.obj $(OPTOBJDIR)/RavlPatternRecIO.obj

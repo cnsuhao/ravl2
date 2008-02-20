@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlIO
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlIO
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlIO
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlIO
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/Entity.obj $(OPTOBJDIR)/Process.obj $(OPTOBJDIR)/Port.obj $(OPTOBJDIR)/SPort.obj $(OPTOBJDIR)/SPortAttach.obj $(OPTOBJDIR)/ProcInfo.obj $(OPTOBJDIR)/Converter.obj $(OPTOBJDIR)/TypeInfo.obj $(OPTOBJDIR)/Pipes.obj $(OPTOBJDIR)/FileFormat.obj $(OPTOBJDIR)/FileFormatDesc.obj $(OPTOBJDIR)/FileFormatStream.obj $(OPTOBJDIR)/FileFormatBinStream.obj $(OPTOBJDIR)/FileFormatGen.obj $(OPTOBJDIR)/FileFormatIO.obj $(OPTOBJDIR)/TypeConverter.obj $(OPTOBJDIR)/FileFormatRegistry.obj $(OPTOBJDIR)/IndexIO.obj $(OPTOBJDIR)/Event.obj $(OPTOBJDIR)/EventSet.obj $(OPTOBJDIR)/Plug.obj $(OPTOBJDIR)/StreamOp.obj $(OPTOBJDIR)/StreamProcess.obj $(OPTOBJDIR)/IOConnect.obj $(OPTOBJDIR)/FileFormatXMLStream.obj $(OPTOBJDIR)/DataConv.obj $(OPTOBJDIR)/AttributeCtrl.obj $(OPTOBJDIR)/AttributeType.obj $(OPTOBJDIR)/AttributeValueTypes.obj $(OPTOBJDIR)/AttributeCtrlXML.obj $(OPTOBJDIR)/AttributeSet.obj $(OPTOBJDIR)/ByteFileIO.obj $(OPTOBJDIR)/ByteStream.obj $(OPTOBJDIR)/SByteStream.obj $(OPTOBJDIR)/AttributeCtrlInternal.obj $(OPTOBJDIR)/AttributeCtrlUpdateSignal.obj $(OPTOBJDIR)/PrintIOInfo.obj $(OPTOBJDIR)/CoreIO.obj

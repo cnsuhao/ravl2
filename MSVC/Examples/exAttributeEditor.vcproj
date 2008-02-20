@@ -190,6 +190,10 @@
 				RelativePath="..\..\.\Core\IO\CoreIO.cc"
 				>
 			</File>
+			<File
+				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
+				>
+			</File>
 
 		</Filter>
 		<Filter

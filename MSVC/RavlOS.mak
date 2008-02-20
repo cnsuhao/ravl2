@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlOS
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlOS
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlOS
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlOS
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/Date.obj $(OPTOBJDIR)/DateIO.obj $(OPTOBJDIR)/DeadLineTimer.obj $(OPTOBJDIR)/FilePermission.obj $(OPTOBJDIR)/Filename.obj $(OPTOBJDIR)/Directory.obj $(OPTOBJDIR)/FileSearch.obj $(OPTOBJDIR)/UserInfo.obj $(OPTOBJDIR)/FileOwner.obj $(OPTOBJDIR)/FileStream.obj $(OPTOBJDIR)/SerialIO.obj $(OPTOBJDIR)/SysLog.obj $(OPTOBJDIR)/OSProcess.obj $(OPTOBJDIR)/ChildOSProcess.obj $(OPTOBJDIR)/ChildOSProcessWait.obj $(OPTOBJDIR)/ChildOSProcessStream.obj $(OPTOBJDIR)/MailUser.obj $(OPTOBJDIR)/FileUser.obj $(OPTOBJDIR)/TextFileLine.obj $(OPTOBJDIR)/TextBuffer.obj $(OPTOBJDIR)/TextFile.obj $(OPTOBJDIR)/TextCursor.obj $(OPTOBJDIR)/TemplateFile.obj $(OPTOBJDIR)/TextFragment.obj $(OPTOBJDIR)/ConfigFile.obj $(OPTOBJDIR)/TemplateComplex.obj

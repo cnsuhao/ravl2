@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlGUI
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlGUI
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlGUI
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlGUI
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/Manager.obj $(OPTOBJDIR)/Widget.obj $(OPTOBJDIR)/MouseEvent.obj $(OPTOBJDIR)/Window.obj $(OPTOBJDIR)/Cursor.obj $(OPTOBJDIR)/ToolTips.obj $(OPTOBJDIR)/CWidget.obj $(OPTOBJDIR)/Button.obj $(OPTOBJDIR)/Pixmap.obj $(OPTOBJDIR)/PackInfo.obj $(OPTOBJDIR)/OneChild.obj $(OPTOBJDIR)/LBox.obj $(OPTOBJDIR)/Menu.obj $(OPTOBJDIR)/Label.obj $(OPTOBJDIR)/FileSelector.obj $(OPTOBJDIR)/TextEntry.obj $(OPTOBJDIR)/Slider.obj $(OPTOBJDIR)/ScrolledArea.obj $(OPTOBJDIR)/Fixed.obj $(OPTOBJDIR)/EventBox.obj $(OPTOBJDIR)/Frame.obj $(OPTOBJDIR)/ToggleButton.obj $(OPTOBJDIR)/StatusBar.obj $(OPTOBJDIR)/Combo.obj $(OPTOBJDIR)/List.obj $(OPTOBJDIR)/MenuCheck.obj $(OPTOBJDIR)/RawCanvas.obj $(OPTOBJDIR)/Table.obj $(OPTOBJDIR)/Ruler.obj $(OPTOBJDIR)/SpinButton.obj $(OPTOBJDIR)/Tree.obj $(OPTOBJDIR)/Separator.obj $(OPTOBJDIR)/Bitmap.obj $(OPTOBJDIR)/Notebook.obj $(OPTOBJDIR)/CList.obj $(OPTOBJDIR)/VLabel.obj $(OPTOBJDIR)/RadioButton.obj $(OPTOBJDIR)/ProgressBar.obj $(OPTOBJDIR)/TextBox.obj $(OPTOBJDIR)/DragAndDrop.obj $(OPTOBJDIR)/Paned.obj $(OPTOBJDIR)/MessageBox.obj $(OPTOBJDIR)/WidgetStyle.obj $(OPTOBJDIR)/ReadBack.obj $(OPTOBJDIR)/WaitForExit.obj $(OPTOBJDIR)/TreeModel.obj $(OPTOBJDIR)/TreeStore.obj $(OPTOBJDIR)/TreeView.obj $(OPTOBJDIR)/ListStore.obj $(OPTOBJDIR)/Pixbuf.obj $(OPTOBJDIR)/AspectFrame.obj $(OPTOBJDIR)/ButtonBox.obj $(OPTOBJDIR)/ColourSelector.obj $(OPTOBJDIR)/DebugAssertDialog.obj $(OPTOBJDIR)/IconView.obj

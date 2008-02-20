@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlPatternRec
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlPatternRec
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlPatternRec
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlPatternRec
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/SampleVector.obj $(OPTOBJDIR)/SampleLabel.obj $(OPTOBJDIR)/DataSetBase.obj $(OPTOBJDIR)/Function.obj $(OPTOBJDIR)/Function1.obj $(OPTOBJDIR)/Designer.obj $(OPTOBJDIR)/DesignFunctionUnsupervised.obj $(OPTOBJDIR)/DesignFunctionSupervised.obj $(OPTOBJDIR)/VectorLabelIO.obj $(OPTOBJDIR)/DataSetVectorLabel.obj $(OPTOBJDIR)/SampleStreamVector.obj $(OPTOBJDIR)/DataSetVectorLabelWeight.obj $(OPTOBJDIR)/Distance.obj $(OPTOBJDIR)/DistanceEuclidean.obj $(OPTOBJDIR)/DistanceMax.obj $(OPTOBJDIR)/DistanceCityBlock.obj $(OPTOBJDIR)/DistanceMahalanobis.obj $(OPTOBJDIR)/DistanceSqrEuclidean.obj $(OPTOBJDIR)/DistanceRobust.obj $(OPTOBJDIR)/Classifier.obj $(OPTOBJDIR)/DesignClassifierUnsupervised.obj $(OPTOBJDIR)/ClassifierNearestNeighbour.obj $(OPTOBJDIR)/DesignKMeans.obj $(OPTOBJDIR)/DesignMeanShiftCluster.obj $(OPTOBJDIR)/DesignCluster.obj $(OPTOBJDIR)/DesignKohonenNet.obj $(OPTOBJDIR)/ClassifierFuzzyCMeans.obj $(OPTOBJDIR)/DesignFuzzyCMeansCluster.obj $(OPTOBJDIR)/FuncLinearCoeff.obj $(OPTOBJDIR)/FuncLinear.obj $(OPTOBJDIR)/FuncQuadratic.obj $(OPTOBJDIR)/FuncOrthPolynomial.obj $(OPTOBJDIR)/DesignFuncLSQ.obj $(OPTOBJDIR)/FuncPDF.obj $(OPTOBJDIR)/FuncPDFNormal.obj $(OPTOBJDIR)/FuncMeanProjection.obj $(OPTOBJDIR)/FuncSubset.obj $(OPTOBJDIR)/DesignFuncReduce.obj $(OPTOBJDIR)/DesignFuncPCA.obj $(OPTOBJDIR)/DesignFuncLDA.obj $(OPTOBJDIR)/GaussianMixture.obj $(OPTOBJDIR)/DesignGaussianMixture.obj $(OPTOBJDIR)/DesignClassifierSupervised.obj $(OPTOBJDIR)/DesignDiscriminantFunction.obj $(OPTOBJDIR)/DesignKNearestNeighbour.obj $(OPTOBJDIR)/ClassifierKNearestNeighbour.obj $(OPTOBJDIR)/ClassifierAverageNearestNeighbour.obj $(OPTOBJDIR)/ClassifierDiscriminantFunction.obj $(OPTOBJDIR)/ClassifierGaussianMixture.obj $(OPTOBJDIR)/DesignClassifierGaussianMixture.obj $(OPTOBJDIR)/ClassifierPreprocess.obj $(OPTOBJDIR)/ClassifierFunc1Threshold.obj $(OPTOBJDIR)/ClassifierWeakLinear.obj $(OPTOBJDIR)/ClassifierLinearCombination.obj $(OPTOBJDIR)/DesignWeakLinear.obj $(OPTOBJDIR)/ClassifierBayesNormalLinear.obj $(OPTOBJDIR)/DesignBayesNormalLinear.obj $(OPTOBJDIR)/DesignBayesNormalQuadratic.obj $(OPTOBJDIR)/ClassifierBayesNormalQuadratic.obj $(OPTOBJDIR)/ClassifierNeuralNetwork.obj $(OPTOBJDIR)/DesignClassifierNeuralNetwork.obj $(OPTOBJDIR)/FeatureSelector.obj $(OPTOBJDIR)/FeatureSelectAsymmetricAdaBoost.obj $(OPTOBJDIR)/Error.obj

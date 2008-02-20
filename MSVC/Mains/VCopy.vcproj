@@ -62,8 +62,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="C:\Build\win32\debug\bin\VCopy.exe"
-				AdditionalDependencies=" atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib jpeg.lib png.lib z.lib tiff.lib ws2_32.lib libjasper.lib"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\lib&quot;;&quot;C:\GTKWIN32\lib\&quot;;&quot;C:\GTKWIN32\lib\&quot;;&quot;C:\GTKWIN32\lib&quot;;&quot;C:\GTKWIN32\lib&quot;;&quot;C:\GTKWIN32\lib&quot;"
+				AdditionalDependencies=" atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib jpeg.lib png.lib z.lib tiff.lib ws2_32.lib"
+				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\lib&quot;;&quot;C:\GTKWIN32\lib\&quot;;&quot;C:\GTKWIN32\lib\&quot;;&quot;C:\GTKWIN32\lib&quot;;&quot;C:\GTKWIN32\lib&quot;"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				IgnoreDefaultLibraryNames="msvcrt"
@@ -140,8 +140,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="C:\Build\win32\opt\bin\VCopy.exe"
-				AdditionalDependencies=" atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib jpeg.lib png.lib z.lib tiff.lib ws2_32.lib libjasper.lib"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\lib&quot;;&quot;C:\GTKWIN32\lib\&quot;;&quot;C:\GTKWIN32\lib\&quot;;&quot;C:\GTKWIN32\lib&quot;;&quot;C:\GTKWIN32\lib&quot;;&quot;C:\GTKWIN32\lib&quot;"
+				AdditionalDependencies=" atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib jpeg.lib png.lib z.lib tiff.lib ws2_32.lib"
+				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\lib&quot;;&quot;C:\GTKWIN32\lib\&quot;;&quot;C:\GTKWIN32\lib\&quot;;&quot;C:\GTKWIN32\lib&quot;;&quot;C:\GTKWIN32\lib&quot;"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -184,6 +184,10 @@
 			>
 			<File
 				RelativePath="..\..\.\Applications\VPlay\VCopy.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

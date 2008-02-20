@@ -191,6 +191,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\..\.\Image\ImageIO\RavlImgIO.cc "
 				>
 			</File>

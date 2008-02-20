@@ -20,19 +20,19 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlDPMT
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlDPMT
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlDPMT
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlDPMT
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/MTIOConnect.obj $(OPTOBJDIR)/PlayControl.obj $(OPTOBJDIR)/Governor.obj $(OPTOBJDIR)/Blackboard.obj
+opt:: setup  $(OPTOBJDIR)/MTIOConnect.obj $(OPTOBJDIR)/PlayControl.obj $(OPTOBJDIR)/Governor.obj $(OPTOBJDIR)/Blackboard.obj $(OPTOBJDIR)/TailIStream.obj
 	@echo -- making $(OPTLIBDIR)/RavlDPMT.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlDPMT.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/MTIOConnect.obj $(DEBUGOBJDIR)/PlayControl.obj $(DEBUGOBJDIR)/Governor.obj $(DEBUGOBJDIR)/Blackboard.obj 
+debug:: setup  $(DEBUGOBJDIR)/MTIOConnect.obj $(DEBUGOBJDIR)/PlayControl.obj $(DEBUGOBJDIR)/Governor.obj $(DEBUGOBJDIR)/Blackboard.obj $(DEBUGOBJDIR)/TailIStream.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlDPMT.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlDPMT.lib $(DEBUGOBJDIR)/*.obj
 
@@ -68,5 +68,11 @@ $(OPTOBJDIR)/Blackboard.obj: .././OS/DataProc/Blackboard.cc
 
 $(DEBUGOBJDIR)/Blackboard.obj: .././OS/DataProc/Blackboard.cc 
         $(CC) $(INCLUDES) $(DEFINES) $(OPTFLAGS) /Fo$(DEBUGOBJDIR)/Blackboard.obj .././OS/DataProc/Blackboard.cc
+
+$(OPTOBJDIR)/TailIStream.obj: .././OS/DataProc/TailIStream.cc 
+        $(CC) $(INCLUDES) $(DEFINES) $(OPTFLAGS) /Fo$(OPTOBJDIR)/TailIStream.obj .././OS/DataProc/TailIStream.cc
+
+$(DEBUGOBJDIR)/TailIStream.obj: .././OS/DataProc/TailIStream.cc 
+        $(CC) $(INCLUDES) $(DEFINES) $(OPTFLAGS) /Fo$(DEBUGOBJDIR)/TailIStream.obj .././OS/DataProc/TailIStream.cc
 
 

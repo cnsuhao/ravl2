@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlAAM
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlAAM
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlAAM
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlAAM
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/AAMAppearance.obj $(OPTOBJDIR)/AAMShapeModel.obj $(OPTOBJDIR)/AAMAffineShapeModel.obj $(OPTOBJDIR)/AAMScaleRotationShapeModel.obj $(OPTOBJDIR)/AAMAppearanceModel.obj $(OPTOBJDIR)/AAMAppearanceUtil.obj $(OPTOBJDIR)/AAMActiveAppearanceModel.obj $(OPTOBJDIR)/AAMSampleStream.obj $(OPTOBJDIR)/AAMMultiResActiveAppearanceModel.obj $(OPTOBJDIR)/AAMFaceLocalisation.obj $(OPTOBJDIR)/AAMPoseEstimateCostFunction.obj $(OPTOBJDIR)/AAMPoseEstimate.obj $(OPTOBJDIR)/AAMFaceCorrection.obj $(OPTOBJDIR)/AAMActiveAppearanceModelsIO.obj $(OPTOBJDIR)/AAMActiveAppearanceModelMustLink.obj

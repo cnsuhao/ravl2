@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlExtImgIO
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlExtImgIO
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlExtImgIO
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlExtImgIO
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/ImgIOJPeg.obj $(OPTOBJDIR)/JPEGFormat.obj $(OPTOBJDIR)/ImgIOPNG.obj $(OPTOBJDIR)/PNGFormat.obj $(OPTOBJDIR)/ImgIOTiff.obj $(OPTOBJDIR)/TiffFormat.obj $(OPTOBJDIR)/CompressedImageJPEG.obj $(OPTOBJDIR)/ExtImgIO.obj

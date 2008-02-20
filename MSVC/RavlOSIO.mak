@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlOSIO
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlOSIO
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlOSIO
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlOSIO
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/FileSequence.obj $(OPTOBJDIR)/SequenceIO.obj $(OPTOBJDIR)/FileListIO.obj $(OPTOBJDIR)/CompositeStream.obj $(OPTOBJDIR)/FileFormatComposite.obj $(OPTOBJDIR)/PlayList.obj $(OPTOBJDIR)/SubSequenceSpec.obj $(OPTOBJDIR)/EditSpec.obj $(OPTOBJDIR)/FileFormatDynamic.obj $(OPTOBJDIR)/DynamicLink.obj $(OPTOBJDIR)/RavlOSIOMustLink.obj

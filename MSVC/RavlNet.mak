@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlNet
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlNet
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlNet
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlNet
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/Socket.obj $(OPTOBJDIR)/NetStream.obj $(OPTOBJDIR)/SocketStrm.obj $(OPTOBJDIR)/Packet.obj $(OPTOBJDIR)/NetMessage.obj $(OPTOBJDIR)/NetEndPoint.obj $(OPTOBJDIR)/NetMsgCall.obj $(OPTOBJDIR)/NetIPort.obj $(OPTOBJDIR)/NetIPortServer.obj $(OPTOBJDIR)/NetPortManager.obj $(OPTOBJDIR)/NetPortClient.obj $(OPTOBJDIR)/NetPortFormat.obj $(OPTOBJDIR)/NetOPort.obj $(OPTOBJDIR)/NetOPortServer.obj $(OPTOBJDIR)/NetPort.obj $(OPTOBJDIR)/NetAttributeCtrl.obj $(OPTOBJDIR)/NetRequestManager.obj $(OPTOBJDIR)/NetAttributeCtrlServer.obj $(OPTOBJDIR)/NetByteStream.obj $(OPTOBJDIR)/NetMsgOPortData.obj $(OPTOBJDIR)/WinSocket.obj $(OPTOBJDIR)/RavlSysNetworkML.obj

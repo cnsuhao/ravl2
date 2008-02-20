@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlImageIO
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlImageIO
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlImageIO
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlImageIO
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/ImgIOPNM.obj $(OPTOBJDIR)/PNMFormat.obj $(OPTOBJDIR)/ImgIOInt.obj $(OPTOBJDIR)/ImgIOByte.obj $(OPTOBJDIR)/ImgIOUInt16.obj $(OPTOBJDIR)/ImgIOByteRGB.obj $(OPTOBJDIR)/ImgIOByteYUV.obj $(OPTOBJDIR)/ImgIOReal.obj $(OPTOBJDIR)/ImgIORealRGB.obj $(OPTOBJDIR)/ImgIOByteRGBA.obj $(OPTOBJDIR)/ImgIORealYUV.obj $(OPTOBJDIR)/ImgIOUInt16RGB.obj $(OPTOBJDIR)/ImgIOByteYUVA.obj $(OPTOBJDIR)/ImgCnvRGB.obj $(OPTOBJDIR)/ImgCnvYUV.obj $(OPTOBJDIR)/ImgIOFloat.obj $(OPTOBJDIR)/ImgTypeCnv.obj $(OPTOBJDIR)/ImgTypeCnv2.obj $(OPTOBJDIR)/ImgTypeCnv3.obj $(OPTOBJDIR)/ImgTypeCnv4.obj $(OPTOBJDIR)/ImgIOByteYUV422.obj $(OPTOBJDIR)/ImgIOByteVYU.obj $(OPTOBJDIR)/ImgTypeCnv5.obj $(OPTOBJDIR)/RavlImgIO.obj

@@ -445,6 +445,14 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Math\Geometry\Eu
 				>
 			</File>
 			<File
+				RelativePath="..\.\Math\Geometry\Euclidean\3D\FitPlaneABCD3d.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Geometry\Euclidean\3D\FitPlanePVV3d.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\Math\Geometry\Euclidean\Boundary\CrackCode.cc"
 				>
 			</File>

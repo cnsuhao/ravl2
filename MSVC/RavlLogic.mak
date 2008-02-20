@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlLogic
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlLogic
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlLogic
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlLogic
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/Literal.obj $(OPTOBJDIR)/Var.obj $(OPTOBJDIR)/Unify.obj $(OPTOBJDIR)/BindSet.obj $(OPTOBJDIR)/Tuple.obj $(OPTOBJDIR)/LList.obj $(OPTOBJDIR)/Condition.obj $(OPTOBJDIR)/MinTerm.obj $(OPTOBJDIR)/Or.obj $(OPTOBJDIR)/And.obj $(OPTOBJDIR)/Not.obj $(OPTOBJDIR)/LiteralIter.obj $(OPTOBJDIR)/State.obj $(OPTOBJDIR)/LiteralIter1.obj $(OPTOBJDIR)/StateOrIter.obj $(OPTOBJDIR)/StateSet.obj $(OPTOBJDIR)/LiteralFilterIter.obj $(OPTOBJDIR)/StateAndIter.obj $(OPTOBJDIR)/NamedLiteral.obj $(OPTOBJDIR)/NamedVar.obj $(OPTOBJDIR)/LiteralIO.obj $(OPTOBJDIR)/MinTermIter.obj $(OPTOBJDIR)/Value.obj $(OPTOBJDIR)/Context.obj $(OPTOBJDIR)/LiteralIndexBase.obj $(OPTOBJDIR)/LiteralIndexElement.obj $(OPTOBJDIR)/LiteralIndexLeaf.obj $(OPTOBJDIR)/LiteralIndexNode.obj $(OPTOBJDIR)/LiteralIndexIter.obj $(OPTOBJDIR)/LiteralIndexFilterBase.obj $(OPTOBJDIR)/LiteralIndexLeafIter.obj $(OPTOBJDIR)/LiteralIndexLeafVarIter.obj $(OPTOBJDIR)/StateIndexed.obj $(OPTOBJDIR)/LiteralIndexFilterRaw.obj $(OPTOBJDIR)/DecisionTreeElement.obj $(OPTOBJDIR)/DecisionTreeLeaf.obj $(OPTOBJDIR)/DecisionTreeBase.obj $(OPTOBJDIR)/DecisionTreeBranch.obj $(OPTOBJDIR)/DecisionTreeBranchBinary.obj $(OPTOBJDIR)/DecisionExamples.obj $(OPTOBJDIR)/Discriminator.obj $(OPTOBJDIR)/SampleLiteral.obj $(OPTOBJDIR)/SampleState.obj

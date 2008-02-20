@@ -20,19 +20,19 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlImage
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlImage
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlImage
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlImage
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/ImageRectangle.obj $(OPTOBJDIR)/Image.obj $(OPTOBJDIR)/ByteRGBValue.obj $(OPTOBJDIR)/ByteYUVValue.obj $(OPTOBJDIR)/RealRGBValue.obj $(OPTOBJDIR)/RealYUVValue.obj $(OPTOBJDIR)/RGBcYUV.obj $(OPTOBJDIR)/Font.obj $(OPTOBJDIR)/ImageConv.obj $(OPTOBJDIR)/ImageConv2.obj $(OPTOBJDIR)/ImageConv3.obj $(OPTOBJDIR)/ImageConv4.obj $(OPTOBJDIR)/ByteRGBAValue.obj $(OPTOBJDIR)/ByteVYUValue.obj $(OPTOBJDIR)/ByteYUV422Value.obj $(OPTOBJDIR)/ByteYUVAValue.obj $(OPTOBJDIR)/RealDVSRGBValue.obj $(OPTOBJDIR)/RealDVSYUVValue.obj $(OPTOBJDIR)/dvsRGBcdvsYUV422.obj
+opt:: setup  $(OPTOBJDIR)/ImageRectangle.obj $(OPTOBJDIR)/Image.obj $(OPTOBJDIR)/ByteRGBValue.obj $(OPTOBJDIR)/ByteYUVValue.obj $(OPTOBJDIR)/RealRGBValue.obj $(OPTOBJDIR)/RealYUVValue.obj $(OPTOBJDIR)/RGBcYUV.obj $(OPTOBJDIR)/Font.obj $(OPTOBJDIR)/ImageConv.obj $(OPTOBJDIR)/ImageConv2.obj $(OPTOBJDIR)/ImageConv3.obj $(OPTOBJDIR)/ImageConv4.obj $(OPTOBJDIR)/ByteRGBAValue.obj $(OPTOBJDIR)/ByteVYUValue.obj $(OPTOBJDIR)/ByteYUV422Value.obj $(OPTOBJDIR)/ByteYUVAValue.obj $(OPTOBJDIR)/RealDVSRGBValue.obj $(OPTOBJDIR)/RealDVSYUVValue.obj $(OPTOBJDIR)/dvsRGBcdvsYUV422.obj $(OPTOBJDIR)/ImageConvSSE.obj $(OPTOBJDIR)/InitImageConvSSE.obj
 	@echo -- making $(OPTLIBDIR)/RavlImage.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlImage.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/ImageRectangle.obj $(DEBUGOBJDIR)/Image.obj $(DEBUGOBJDIR)/ByteRGBValue.obj $(DEBUGOBJDIR)/ByteYUVValue.obj $(DEBUGOBJDIR)/RealRGBValue.obj $(DEBUGOBJDIR)/RealYUVValue.obj $(DEBUGOBJDIR)/RGBcYUV.obj $(DEBUGOBJDIR)/Font.obj $(DEBUGOBJDIR)/ImageConv.obj $(DEBUGOBJDIR)/ImageConv2.obj $(DEBUGOBJDIR)/ImageConv3.obj $(DEBUGOBJDIR)/ImageConv4.obj $(DEBUGOBJDIR)/ByteRGBAValue.obj $(DEBUGOBJDIR)/ByteVYUValue.obj $(DEBUGOBJDIR)/ByteYUV422Value.obj $(DEBUGOBJDIR)/ByteYUVAValue.obj $(DEBUGOBJDIR)/RealDVSRGBValue.obj $(DEBUGOBJDIR)/RealDVSYUVValue.obj $(DEBUGOBJDIR)/dvsRGBcdvsYUV422.obj 
+debug:: setup  $(DEBUGOBJDIR)/ImageRectangle.obj $(DEBUGOBJDIR)/Image.obj $(DEBUGOBJDIR)/ByteRGBValue.obj $(DEBUGOBJDIR)/ByteYUVValue.obj $(DEBUGOBJDIR)/RealRGBValue.obj $(DEBUGOBJDIR)/RealYUVValue.obj $(DEBUGOBJDIR)/RGBcYUV.obj $(DEBUGOBJDIR)/Font.obj $(DEBUGOBJDIR)/ImageConv.obj $(DEBUGOBJDIR)/ImageConv2.obj $(DEBUGOBJDIR)/ImageConv3.obj $(DEBUGOBJDIR)/ImageConv4.obj $(DEBUGOBJDIR)/ByteRGBAValue.obj $(DEBUGOBJDIR)/ByteVYUValue.obj $(DEBUGOBJDIR)/ByteYUV422Value.obj $(DEBUGOBJDIR)/ByteYUVAValue.obj $(DEBUGOBJDIR)/RealDVSRGBValue.obj $(DEBUGOBJDIR)/RealDVSYUVValue.obj $(DEBUGOBJDIR)/dvsRGBcdvsYUV422.obj $(DEBUGOBJDIR)/ImageConvSSE.obj $(DEBUGOBJDIR)/InitImageConvSSE.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlImage.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlImage.lib $(DEBUGOBJDIR)/*.obj
 
@@ -158,5 +158,17 @@ $(OPTOBJDIR)/dvsRGBcdvsYUV422.obj: .././Image/Base/dvsRGBcdvsYUV422.cc
 
 $(DEBUGOBJDIR)/dvsRGBcdvsYUV422.obj: .././Image/Base/dvsRGBcdvsYUV422.cc 
         $(CC) $(INCLUDES) $(DEFINES) $(OPTFLAGS) /Fo$(DEBUGOBJDIR)/dvsRGBcdvsYUV422.obj .././Image/Base/dvsRGBcdvsYUV422.cc
+
+$(OPTOBJDIR)/ImageConvSSE.obj: .././Image/BaseSSE/ImageConvSSE.cc 
+        $(CC) $(INCLUDES) $(DEFINES) $(OPTFLAGS) /Fo$(OPTOBJDIR)/ImageConvSSE.obj .././Image/BaseSSE/ImageConvSSE.cc
+
+$(DEBUGOBJDIR)/ImageConvSSE.obj: .././Image/BaseSSE/ImageConvSSE.cc 
+        $(CC) $(INCLUDES) $(DEFINES) $(OPTFLAGS) /Fo$(DEBUGOBJDIR)/ImageConvSSE.obj .././Image/BaseSSE/ImageConvSSE.cc
+
+$(OPTOBJDIR)/InitImageConvSSE.obj: .././Image/BaseSSE/InitImageConvSSE.cc 
+        $(CC) $(INCLUDES) $(DEFINES) $(OPTFLAGS) /Fo$(OPTOBJDIR)/InitImageConvSSE.obj .././Image/BaseSSE/InitImageConvSSE.cc
+
+$(DEBUGOBJDIR)/InitImageConvSSE.obj: .././Image/BaseSSE/InitImageConvSSE.cc 
+        $(CC) $(INCLUDES) $(DEFINES) $(OPTFLAGS) /Fo$(DEBUGOBJDIR)/InitImageConvSSE.obj .././Image/BaseSSE/InitImageConvSSE.cc
 
 

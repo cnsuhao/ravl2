@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlVideoIO
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlVideoIO
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlVideoIO
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlVideoIO
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/ImgIOCif.obj $(OPTOBJDIR)/CifFormat.obj $(OPTOBJDIR)/ImgIOyuv.obj $(OPTOBJDIR)/yuvFormat.obj $(OPTOBJDIR)/syuvFormat.obj $(OPTOBJDIR)/ImgIOrgb.obj $(OPTOBJDIR)/rgbFormat.obj $(OPTOBJDIR)/rawFormat.obj $(OPTOBJDIR)/ImgIOjs.obj $(OPTOBJDIR)/jsFormat.obj $(OPTOBJDIR)/MultiVidIO.obj $(OPTOBJDIR)/DVFrame.obj $(OPTOBJDIR)/AviIStream.obj $(OPTOBJDIR)/AviOStream.obj $(OPTOBJDIR)/BGRFrmIOAvi.obj $(OPTOBJDIR)/DVFrmIOAvi.obj $(OPTOBJDIR)/AviFormat.obj $(OPTOBJDIR)/RavlVidIO.obj

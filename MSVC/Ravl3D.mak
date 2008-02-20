@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/Ravl3D
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/Ravl3D
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/Ravl3D
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/Ravl3D
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/Vertex.obj $(OPTOBJDIR)/Tri.obj $(OPTOBJDIR)/TriMesh.obj $(OPTOBJDIR)/TriMeshBinIO.obj $(OPTOBJDIR)/TexTriMesh.obj $(OPTOBJDIR)/TexTriMeshBinIO.obj $(OPTOBJDIR)/HEMeshVertex.obj $(OPTOBJDIR)/HEMeshEdge.obj $(OPTOBJDIR)/HEMeshFace.obj $(OPTOBJDIR)/HEMesh.obj $(OPTOBJDIR)/TriMesh2HEMesh.obj $(OPTOBJDIR)/HEMeshFaceIter.obj $(OPTOBJDIR)/VertexColourByteRGB.obj $(OPTOBJDIR)/MeshShapes.obj $(OPTOBJDIR)/VoxelSet.obj $(OPTOBJDIR)/PointSet.obj $(OPTOBJDIR)/SurfacePoint3dArray.obj

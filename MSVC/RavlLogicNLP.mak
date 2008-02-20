@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlLogicNLP
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlLogicNLP
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlLogicNLP
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlLogicNLP
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/NLPCausalLink.obj $(OPTOBJDIR)/NLPStep.obj $(OPTOBJDIR)/NLPAgendaItem.obj $(OPTOBJDIR)/NLPAction.obj $(OPTOBJDIR)/NLPAgenda.obj $(OPTOBJDIR)/NonLinearPlan.obj $(OPTOBJDIR)/NLPlanner.obj

@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlThreads
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlThreads
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlThreads
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlThreads
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/Thread.obj $(OPTOBJDIR)/Mutex.obj $(OPTOBJDIR)/ConditionalMutex.obj $(OPTOBJDIR)/Semaphore.obj $(OPTOBJDIR)/RWLock.obj $(OPTOBJDIR)/SemaphoreRC.obj $(OPTOBJDIR)/MTLockImpl.obj $(OPTOBJDIR)/ThreadEvent.obj $(OPTOBJDIR)/AMutexImpl.obj $(OPTOBJDIR)/RCRWLock.obj $(OPTOBJDIR)/MessageQueue.obj $(OPTOBJDIR)/LaunchThread.obj $(OPTOBJDIR)/TickerTrigger.obj $(OPTOBJDIR)/TimedTriggerQueue.obj $(OPTOBJDIR)/Signal.obj $(OPTOBJDIR)/SignalConnectionSet.obj

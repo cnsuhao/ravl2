@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlMathIO
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlMathIO
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlMathIO
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlMathIO
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/FixedVectorIO.obj $(OPTOBJDIR)/FixedPointIO.obj $(OPTOBJDIR)/FixedMatrixIO.obj $(OPTOBJDIR)/BoundryIO.obj $(OPTOBJDIR)/MatrixIO.obj $(OPTOBJDIR)/TMatrixIO.obj $(OPTOBJDIR)/Geom2dIO.obj $(OPTOBJDIR)/MathIO.obj

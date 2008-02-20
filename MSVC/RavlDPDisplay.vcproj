@@ -201,6 +201,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\.\GUI\DPDisplay\DPDisplayPoints.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\DPDisplay\DPDisplayPolygon.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\GUI\DPDisplay\RavlGUIDisplay.cc"
 				>
 			</File>
@@ -232,6 +240,14 @@
 			</File>
 			<File
 				RelativePath="..\.\GUI\DPDisplay\DPDisplayView.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\DPDisplay\DPDisplayPoints.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\DPDisplay\DPDisplayPolygon.hh"
 				>
 			</File>
 		</Filter>

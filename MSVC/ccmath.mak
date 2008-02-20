@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/ccmath
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/ccmath
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/ccmath
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/ccmath
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/atou1.obj $(OPTOBJDIR)/atovm.obj $(OPTOBJDIR)/chouse.obj $(OPTOBJDIR)/chousv.obj $(OPTOBJDIR)/cmattr.obj $(OPTOBJDIR)/cmcpy.obj $(OPTOBJDIR)/cminv.obj $(OPTOBJDIR)/cmmul.obj $(OPTOBJDIR)/cmmult.obj $(OPTOBJDIR)/cmprt.obj $(OPTOBJDIR)/csolv.obj $(OPTOBJDIR)/cvmul.obj $(OPTOBJDIR)/eigen.obj $(OPTOBJDIR)/eigval.obj $(OPTOBJDIR)/evmax.obj $(OPTOBJDIR)/hconj.obj $(OPTOBJDIR)/heigval.obj $(OPTOBJDIR)/heigvec.obj $(OPTOBJDIR)/hevmax.obj $(OPTOBJDIR)/hmgen.obj $(OPTOBJDIR)/house.obj $(OPTOBJDIR)/housev.obj $(OPTOBJDIR)/ldumat.obj $(OPTOBJDIR)/ldvmat.obj $(OPTOBJDIR)/matprt.obj $(OPTOBJDIR)/mattr.obj $(OPTOBJDIR)/mcopy.obj $(OPTOBJDIR)/minv.obj $(OPTOBJDIR)/mmul.obj $(OPTOBJDIR)/ortho.obj $(OPTOBJDIR)/otrma.obj $(OPTOBJDIR)/otrsm.obj $(OPTOBJDIR)/psinv.obj $(OPTOBJDIR)/qrbdi.obj $(OPTOBJDIR)/qrbdu1.obj $(OPTOBJDIR)/qrbdv.obj $(OPTOBJDIR)/qrecvc.obj $(OPTOBJDIR)/qreval.obj $(OPTOBJDIR)/qrevec.obj $(OPTOBJDIR)/rmmult.obj $(OPTOBJDIR)/ruinv.obj $(OPTOBJDIR)/smgen.obj $(OPTOBJDIR)/solvps.obj $(OPTOBJDIR)/solvru.obj $(OPTOBJDIR)/solvtd.obj $(OPTOBJDIR)/sv2u1v.obj $(OPTOBJDIR)/sv2uv.obj $(OPTOBJDIR)/sv2val.obj $(OPTOBJDIR)/svdu1v.obj $(OPTOBJDIR)/svduv.obj $(OPTOBJDIR)/svdval.obj $(OPTOBJDIR)/trncm.obj $(OPTOBJDIR)/trnm.obj $(OPTOBJDIR)/unitary.obj $(OPTOBJDIR)/utrncm.obj $(OPTOBJDIR)/utrnhm.obj $(OPTOBJDIR)/vmul.obj $(OPTOBJDIR)/unfl.obj $(OPTOBJDIR)/lrand.obj $(OPTOBJDIR)/lrana.obj $(OPTOBJDIR)/solv.obj $(OPTOBJDIR)/fft2.obj $(OPTOBJDIR)/fft2_d.obj $(OPTOBJDIR)/fftgc.obj $(OPTOBJDIR)/fftgr.obj $(OPTOBJDIR)/ftuns.obj $(OPTOBJDIR)/pfac.obj $(OPTOBJDIR)/pshuf.obj $(OPTOBJDIR)/pwspec.obj $(OPTOBJDIR)/smoo.obj $(OPTOBJDIR)/chcof.obj $(OPTOBJDIR)/csfit.obj $(OPTOBJDIR)/csplp.obj $(OPTOBJDIR)/evpsq.obj $(OPTOBJDIR)/fitval.obj $(OPTOBJDIR)/gnlsq.obj $(OPTOBJDIR)/plsq.obj $(OPTOBJDIR)/psqcf.obj $(OPTOBJDIR)/qrbdbv.obj $(OPTOBJDIR)/qrvar.obj $(OPTOBJDIR)/sv2lsq.obj $(OPTOBJDIR)/tnsfit.obj $(OPTOBJDIR)/chpade.obj $(OPTOBJDIR)/cspl.obj $(OPTOBJDIR)/dcspl.obj $(OPTOBJDIR)/evpsqv.obj $(OPTOBJDIR)/ftch.obj $(OPTOBJDIR)/lsqsv.obj $(OPTOBJDIR)/pplsq.obj $(OPTOBJDIR)/psqvar.obj $(OPTOBJDIR)/qrlsq.obj $(OPTOBJDIR)/seqlsq.obj $(OPTOBJDIR)/svdlsq.obj $(OPTOBJDIR)/gaml.obj $(OPTOBJDIR)/pctb.obj $(OPTOBJDIR)/pctbn.obj $(OPTOBJDIR)/pctg.obj $(OPTOBJDIR)/pctgn.obj $(OPTOBJDIR)/pctn.obj $(OPTOBJDIR)/qbeta.obj $(OPTOBJDIR)/qbnc.obj $(OPTOBJDIR)/qgama.obj $(OPTOBJDIR)/qgnc.obj $(OPTOBJDIR)/qnorm.obj

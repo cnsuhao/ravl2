@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/RavlImageProc
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/RavlImageProc
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/RavlImageProc
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/RavlImageProc
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/Rectangle2dIter.obj $(OPTOBJDIR)/SobolImage.obj $(OPTOBJDIR)/PyramidScan.obj $(OPTOBJDIR)/ImagePointFeatureSet.obj $(OPTOBJDIR)/ImagePointFeature.obj $(OPTOBJDIR)/HomomorphicFilter.obj $(OPTOBJDIR)/DCT2d.obj $(OPTOBJDIR)/DeinterlaceStream.obj $(OPTOBJDIR)/GaborComplex.obj $(OPTOBJDIR)/GaborFilter2d.obj $(OPTOBJDIR)/Correlate2d.obj $(OPTOBJDIR)/Matching.obj $(OPTOBJDIR)/WarpThinPlateSpline.obj $(OPTOBJDIR)/WarpMesh2d.obj $(OPTOBJDIR)/EdgeSobel.obj $(OPTOBJDIR)/EdgeDeriche.obj $(OPTOBJDIR)/SqrComposition.obj $(OPTOBJDIR)/EdgeNonMaxSuppression.obj $(OPTOBJDIR)/Edgel.obj $(OPTOBJDIR)/EdgeLink.obj $(OPTOBJDIR)/EdgeDetector.obj $(OPTOBJDIR)/EdgeIO.obj $(OPTOBJDIR)/ChromaThreshold.obj $(OPTOBJDIR)/Segmentation.obj $(OPTOBJDIR)/ConnectedComponents.obj $(OPTOBJDIR)/BlueScreen.obj $(OPTOBJDIR)/SegmentExtrema.obj $(OPTOBJDIR)/PixelSelectStack.obj $(OPTOBJDIR)/PixelMap.obj $(OPTOBJDIR)/PixelMapSearch.obj $(OPTOBJDIR)/PCPixel.obj $(OPTOBJDIR)/PCPixelList.obj $(OPTOBJDIR)/PCMapping.obj $(OPTOBJDIR)/PPHT.obj $(OPTOBJDIR)/ArcDetector.obj $(OPTOBJDIR)/Corner.obj $(OPTOBJDIR)/CornerDetector.obj $(OPTOBJDIR)/CornerDetectorHarris.obj $(OPTOBJDIR)/CornerDetectorSusan.obj $(OPTOBJDIR)/LMSOpticFlow.obj $(OPTOBJDIR)/LMSMultiScaleMotion.obj $(OPTOBJDIR)/LMSRegionMotion.obj $(OPTOBJDIR)/PointTrack.obj $(OPTOBJDIR)/PointTrackModel.obj $(OPTOBJDIR)/PointTracker.obj $(OPTOBJDIR)/MosaicBuilder.obj $(OPTOBJDIR)/ImageTracker.obj $(OPTOBJDIR)/ImageMatcher.obj $(OPTOBJDIR)/MatchNormalisedCorrelation.obj $(OPTOBJDIR)/ForegroundSep.obj $(OPTOBJDIR)/TrackingHomog.obj

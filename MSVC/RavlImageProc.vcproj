@@ -459,6 +459,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\.\Image\Processing\Filters\Misc\MedianFilter.hh"
+				>
+			</File>
+			<File
 				RelativePath="..\.\Image\Processing\Filters\Convolve\Convolve2d.hh"
 				>
 			</File>

@@ -20,11 +20,11 @@ DEBUGFLAGS = /nologo /c /Ob1 /EHsc /MD /TP
 #-----------------------------------------------------------------------------
 # OK lets define some of our output directories and define script to make them
 #-----------------------------------------------------------------------------
-DEBUGOBJDIR = c:\Build/win32/debug/obj/Ravl3DIO
-DEBUGLIBDIR = c:\Build/win32/debug/lib
+DEBUGOBJDIR = C:\Build/win32/debug/obj/Ravl3DIO
+DEBUGLIBDIR = C:\Build/win32/debug/lib
 
-OPTOBJDIR = c:\Build/win32/opt/obj/Ravl3DIO
-OPTLIBDIR = c:\Build/win32/opt/lib
+OPTOBJDIR = C:\Build/win32/opt/obj/Ravl3DIO
+OPTLIBDIR = C:\Build/win32/opt/lib
 
 
 opt:: setup  $(OPTOBJDIR)/VRMLFileIO.obj $(OPTOBJDIR)/FormatVRMLFile.obj $(OPTOBJDIR)/CTriFileIO.obj $(OPTOBJDIR)/FormatCTriFile.obj $(OPTOBJDIR)/TriFileIO.obj $(OPTOBJDIR)/FormatTriFile.obj $(OPTOBJDIR)/MeshIOObj.obj $(OPTOBJDIR)/FormatMeshObj.obj $(OPTOBJDIR)/TriMeshIO.obj $(OPTOBJDIR)/TexTriMeshIO.obj $(OPTOBJDIR)/POVRayFileIO.obj $(OPTOBJDIR)/FormatPOVRayFile.obj $(OPTOBJDIR)/MeshConv.obj $(OPTOBJDIR)/RavlMeshIO.obj
