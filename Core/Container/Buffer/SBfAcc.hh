@@ -18,6 +18,7 @@
 #include "Ravl/IndexRange1d.hh"
 #include "Ravl/BufferAccess.hh"
 #include "Ravl/Types.hh"
+#include "Ravl/TFVector.hh"
 
 namespace RavlN {
   template <class DataT> class SizeBufferAccessC;
@@ -173,7 +174,7 @@ namespace RavlN {
     // Implementation can be found in Slice1d.hh 
     
     template<unsigned int N>
-    void CopyFrom(const TFVectorC<DataT,N> &vec) {
+    void CopyFrom(const TFVectorC<DataT, N> &vec) {
       RavlAssert(Size() == N);
       register DataT *to = ReferenceElm();
       register const DataT *from = &(vec[0]);
