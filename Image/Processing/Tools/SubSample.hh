@@ -23,15 +23,17 @@
 namespace RavlImageN {
   
   template<typename PixelT>
-  ImageC<PixelT> FilteredSubSample2(const  ImageC<PixelT> & img, ImageC<PixelT> &out) {
+  ImageC<PixelT> FilteredSubSample2(const  ImageC<PixelT> & img, ImageC<PixelT> out=ImageC<PixelT>()) {
     typedef typename RavlN::NumericalTraitsC<PixelT>::AccumT AccumT;
     Index2dC origin(img.Frame().Origin().Row() / 2,img.Frame().Origin().Col() / 2);
     Index2dC size(((img.Frame().Rows()-1) / 2)-1,
 		  ((img.Frame().Cols()-1) / 2)-1);
     //cerr << "Origin=" << origin << " Size=" << size << "\n";
-    Index2dC end = origin + size;
-    IndexRange2dC newRange(origin,end);
-    out = ImageC<PixelT>(newRange);
+    if (size != out.Frame().End() - out.Frame().Origin()) {
+      Index2dC end = origin + size;
+      IndexRange2dC newRange(origin,end);
+      out = ImageC<PixelT>(newRange);
+    }
     Array2dIterC<PixelT> oit(out);
     for(Array2dSqr3IterC<PixelT> it(img);it;it += 2,oit++) {
       AccumT val = static_cast<AccumT>(it.DataTM()) + it.DataBM() + it.DataMR() + it.DataML();
@@ -44,8 +46,9 @@ namespace RavlImageN {
     return out;
   }
   //: Subsamples the image with filtering by a factor of 2
-  // Uses an approximation of a Guassian mask, sample points correspond to the middle of each sample.
+  // Uses a separable 3&times;3 filter with coeffs of &frac14;, &frac12;, &frac34;; sample points correspond to the middle of each sample.
   
+
   template<class PixelT>
   ImageC<PixelT> SubSample(const  ImageC<PixelT> & img,  const UIntT factor =2) {    
     ImageRectangleC oldRect  (img.Rectangle() ) ; 
@@ -61,7 +64,7 @@ namespace RavlImageN {
     return subSampled ; 
   }
   //: Subsamples the image by the given factor 
-  // Pixel at top left-hand corner is always sampled first. 
+  // Pixel at top left-hand corner is always sampled first. <b>No</b> filtering is performed.
   
   template <class PixelT> 
   ImageC <PixelT> UpSample ( const ImageC<PixelT> & img, const UIntT factor=2 ) {

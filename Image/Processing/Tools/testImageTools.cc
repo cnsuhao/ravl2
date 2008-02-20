@@ -262,13 +262,14 @@ int testSubSample() {
   for(int i = 3;i < 10;i++) {
     ImageC<ByteT> img(i,i);
     cerr << "i = " << i << "\n";
-    ImageC<ByteT> out;
+    ImageC<ByteT> out(2,2);
     //ByteT n = 0;
     for(Array2dIterC<ByteT> it(img);it;it++) {
       Index2dC ind = it.Index();
       *it = ind.Row() + ind.Col();
     }
     FilteredSubSample2(img,out);
+    FilteredSubSample2(img);
     //cerr << "Out=" << out << "\n";
   }
   return 0;
