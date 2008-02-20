@@ -31,12 +31,7 @@ HEADERS= Object.hh Document.hh Parser.hh CxxElements.hh \
 SOURCES = Object.cc Document.cc Parser.cc \
  CxxElements.cc CxxScope.cc DocExe.cc DocNode.cc DocTree.cc \
  Strings.cc Executables.cc \
- cxx.tab.cc tokenizer.yy.cc # (1) Comment out this line is you do not wish to use the pre-generated lexer/parser
-# cxx.y tokenizer.l # (2) Uncomment this line to generate a new lexer/parser
-# If you wish to generate a new lexer/parser with flex/bison then 
-# comment out the line marked (1) and uncomment the line marked (2).
-# Please note that FlexLexer.h is provided by the flex package and is
-# not usable with lexers generated from different versions.
+ cxx.tab.cc tokenizer.yy.cc
 
 PLIB = RavlCxxDoc
 
