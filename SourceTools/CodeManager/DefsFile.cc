@@ -21,16 +21,16 @@
 namespace RavlN {
 
   const char *validtags[] = {"DESCRIPTION","MAINS","HEADERS","SOURCES","PLIB",
-                             "USESLIBS","PROGLIBS","NESTED","SUPPORT_ONLY",
-                             "DONOT_SUPPORT","PACKAGE","OPTLIB","OPTINCPATH",
-                             "OPTLIBPATH","LIBDEPS","EXAMPLES","TESTEXES",
-                             "LOCAL_FILES","HTML","MAN1","MAN3","MAN5","LOCALHEADERS","PRIVATE",
-                             "AUXDIR","AUXFILES","AUXINSTALL","EHT","STATE",
-                             "DOCNODE","SCRIPTS","MUSTLINK","ANSIFLAG","LICENSE","PACKAGENAME",
-                             "REQUIRES","ORGANISATION","OBJEXT",
-                             "CXXEXT","CXXAUXEXT","CHXXEXT","CEXT","CHEXT","EXEEXT","USERCPPFLAGS","EXTERNALLIBS",
-                             "LICENCE",  0 };
-  
+                       "USESLIBS","PROGLIBS","NESTED","SUPPORT_ONLY",
+                       "DONOT_SUPPORT","PACKAGE","OPTLIB","OPTINCPATH",
+                       "OPTLIBPATH","LIBDEPS","EXAMPLES","TESTEXES",
+                       "LOCAL_FILES","HTML","MAN1","MAN3","MAN5","LOCALHEADERS","PRIVATE",
+                       "AUXDIR","AUXFILES","AUXINSTALL","EHT","STATE",
+                       "DOCNODE","SCRIPTS","MUSTLINK","ANSIFLAG","LICENSE","PACKAGENAME",
+                       "REQUIRES","ORGANISATION","OBJEXT",
+                       "CXXEXT","CXXAUXEXT","CHXXEXT","CEXT","CHEXT","EXEEXT","USERCPPFLAGS","EXTERNALLIBS",
+                       "LICENCE", "SWIGOPTS", "CCFLAGS", "LDFLAGS", "CPPFLAGS", "CCPPFLAGS",  0 };
+
   /////////////////
   // Construct from a filename.
 
