@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlPatternRecIO
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/SampleIO.obj $(OPTOBJDIR)/DataSetIO.obj $(OPTOBJDIR)/ClassifierIO.obj $(OPTOBJDIR)/Classifier2IO.obj $(OPTOBJDIR)/FunctionIO.obj $(OPTOBJDIR)/GaussianMixtureIO.obj $(OPTOBJDIR)/DistanceIO.obj $(OPTOBJDIR)/RavlPatternRecIO.obj
+opt:: setupRavlPatternRecIO  $(OPTOBJDIR)/SampleIO.obj $(OPTOBJDIR)/DataSetIO.obj $(OPTOBJDIR)/ClassifierIO.obj $(OPTOBJDIR)/Classifier2IO.obj $(OPTOBJDIR)/FunctionIO.obj $(OPTOBJDIR)/GaussianMixtureIO.obj $(OPTOBJDIR)/DistanceIO.obj $(OPTOBJDIR)/RavlPatternRecIO.obj
 	@echo -- making $(OPTLIBDIR)/RavlPatternRecIO.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlPatternRecIO.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/SampleIO.obj $(DEBUGOBJDIR)/DataSetIO.obj $(DEBUGOBJDIR)/ClassifierIO.obj $(DEBUGOBJDIR)/Classifier2IO.obj $(DEBUGOBJDIR)/FunctionIO.obj $(DEBUGOBJDIR)/GaussianMixtureIO.obj $(DEBUGOBJDIR)/DistanceIO.obj $(DEBUGOBJDIR)/RavlPatternRecIO.obj 
+debug:: setupRavlPatternRecIO  $(DEBUGOBJDIR)/SampleIO.obj $(DEBUGOBJDIR)/DataSetIO.obj $(DEBUGOBJDIR)/ClassifierIO.obj $(DEBUGOBJDIR)/Classifier2IO.obj $(DEBUGOBJDIR)/FunctionIO.obj $(DEBUGOBJDIR)/GaussianMixtureIO.obj $(DEBUGOBJDIR)/DistanceIO.obj $(DEBUGOBJDIR)/RavlPatternRecIO.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlPatternRecIO.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlPatternRecIO.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlPatternRecIO::
         echo --- creating dir for RavlPatternRecIO
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlVPlay
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/GUIPlayControl.obj
+opt:: setupRavlVPlay  $(OPTOBJDIR)/GUIPlayControl.obj
 	@echo -- making $(OPTLIBDIR)/RavlVPlay.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlVPlay.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/GUIPlayControl.obj 
+debug:: setupRavlVPlay  $(DEBUGOBJDIR)/GUIPlayControl.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlVPlay.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlVPlay.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlVPlay::
         echo --- creating dir for RavlVPlay
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

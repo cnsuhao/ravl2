@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlLogicAgent
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/ActiveBlackboard.obj $(OPTOBJDIR)/Agent.obj $(OPTOBJDIR)/AgentPlan.obj
+opt:: setupRavlLogicAgent  $(OPTOBJDIR)/ActiveBlackboard.obj $(OPTOBJDIR)/Agent.obj $(OPTOBJDIR)/AgentPlan.obj
 	@echo -- making $(OPTLIBDIR)/RavlLogicAgent.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlLogicAgent.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/ActiveBlackboard.obj $(DEBUGOBJDIR)/Agent.obj $(DEBUGOBJDIR)/AgentPlan.obj 
+debug:: setupRavlLogicAgent  $(DEBUGOBJDIR)/ActiveBlackboard.obj $(DEBUGOBJDIR)/Agent.obj $(DEBUGOBJDIR)/AgentPlan.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlLogicAgent.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlLogicAgent.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlLogicAgent::
         echo --- creating dir for RavlLogicAgent
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

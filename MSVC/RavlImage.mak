@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlImage
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/ImageRectangle.obj $(OPTOBJDIR)/Image.obj $(OPTOBJDIR)/ByteRGBValue.obj $(OPTOBJDIR)/ByteYUVValue.obj $(OPTOBJDIR)/RealRGBValue.obj $(OPTOBJDIR)/RealYUVValue.obj $(OPTOBJDIR)/RGBcYUV.obj $(OPTOBJDIR)/Font.obj $(OPTOBJDIR)/ImageConv.obj $(OPTOBJDIR)/ImageConv2.obj $(OPTOBJDIR)/ImageConv3.obj $(OPTOBJDIR)/ImageConv4.obj $(OPTOBJDIR)/ByteRGBAValue.obj $(OPTOBJDIR)/ByteVYUValue.obj $(OPTOBJDIR)/ByteYUV422Value.obj $(OPTOBJDIR)/ByteYUVAValue.obj $(OPTOBJDIR)/RealDVSRGBValue.obj $(OPTOBJDIR)/RealDVSYUVValue.obj $(OPTOBJDIR)/dvsRGBcdvsYUV422.obj $(OPTOBJDIR)/ImageConvSSE.obj $(OPTOBJDIR)/InitImageConvSSE.obj
+opt:: setupRavlImage  $(OPTOBJDIR)/ImageRectangle.obj $(OPTOBJDIR)/Image.obj $(OPTOBJDIR)/ByteRGBValue.obj $(OPTOBJDIR)/ByteYUVValue.obj $(OPTOBJDIR)/RealRGBValue.obj $(OPTOBJDIR)/RealYUVValue.obj $(OPTOBJDIR)/RGBcYUV.obj $(OPTOBJDIR)/Font.obj $(OPTOBJDIR)/ImageConv.obj $(OPTOBJDIR)/ImageConv2.obj $(OPTOBJDIR)/ImageConv3.obj $(OPTOBJDIR)/ImageConv4.obj $(OPTOBJDIR)/ByteRGBAValue.obj $(OPTOBJDIR)/ByteVYUValue.obj $(OPTOBJDIR)/ByteYUV422Value.obj $(OPTOBJDIR)/ByteYUVAValue.obj $(OPTOBJDIR)/RealDVSRGBValue.obj $(OPTOBJDIR)/RealDVSYUVValue.obj $(OPTOBJDIR)/dvsRGBcdvsYUV422.obj $(OPTOBJDIR)/ImageConvSSE.obj $(OPTOBJDIR)/InitImageConvSSE.obj
 	@echo -- making $(OPTLIBDIR)/RavlImage.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlImage.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/ImageRectangle.obj $(DEBUGOBJDIR)/Image.obj $(DEBUGOBJDIR)/ByteRGBValue.obj $(DEBUGOBJDIR)/ByteYUVValue.obj $(DEBUGOBJDIR)/RealRGBValue.obj $(DEBUGOBJDIR)/RealYUVValue.obj $(DEBUGOBJDIR)/RGBcYUV.obj $(DEBUGOBJDIR)/Font.obj $(DEBUGOBJDIR)/ImageConv.obj $(DEBUGOBJDIR)/ImageConv2.obj $(DEBUGOBJDIR)/ImageConv3.obj $(DEBUGOBJDIR)/ImageConv4.obj $(DEBUGOBJDIR)/ByteRGBAValue.obj $(DEBUGOBJDIR)/ByteVYUValue.obj $(DEBUGOBJDIR)/ByteYUV422Value.obj $(DEBUGOBJDIR)/ByteYUVAValue.obj $(DEBUGOBJDIR)/RealDVSRGBValue.obj $(DEBUGOBJDIR)/RealDVSYUVValue.obj $(DEBUGOBJDIR)/dvsRGBcdvsYUV422.obj $(DEBUGOBJDIR)/ImageConvSSE.obj $(DEBUGOBJDIR)/InitImageConvSSE.obj 
+debug:: setupRavlImage  $(DEBUGOBJDIR)/ImageRectangle.obj $(DEBUGOBJDIR)/Image.obj $(DEBUGOBJDIR)/ByteRGBValue.obj $(DEBUGOBJDIR)/ByteYUVValue.obj $(DEBUGOBJDIR)/RealRGBValue.obj $(DEBUGOBJDIR)/RealYUVValue.obj $(DEBUGOBJDIR)/RGBcYUV.obj $(DEBUGOBJDIR)/Font.obj $(DEBUGOBJDIR)/ImageConv.obj $(DEBUGOBJDIR)/ImageConv2.obj $(DEBUGOBJDIR)/ImageConv3.obj $(DEBUGOBJDIR)/ImageConv4.obj $(DEBUGOBJDIR)/ByteRGBAValue.obj $(DEBUGOBJDIR)/ByteVYUValue.obj $(DEBUGOBJDIR)/ByteYUV422Value.obj $(DEBUGOBJDIR)/ByteYUVAValue.obj $(DEBUGOBJDIR)/RealDVSRGBValue.obj $(DEBUGOBJDIR)/RealDVSYUVValue.obj $(DEBUGOBJDIR)/dvsRGBcdvsYUV422.obj $(DEBUGOBJDIR)/ImageConvSSE.obj $(DEBUGOBJDIR)/InitImageConvSSE.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlImage.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlImage.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlImage::
         echo --- creating dir for RavlImage
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

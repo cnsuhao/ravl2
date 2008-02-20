@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlAudioUtil
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/AudioIO.obj $(OPTOBJDIR)/WindowSignal.obj $(OPTOBJDIR)/Segment.obj $(OPTOBJDIR)/Transcription.obj $(OPTOBJDIR)/AudioFrame.obj
+opt:: setupRavlAudioUtil  $(OPTOBJDIR)/AudioIO.obj $(OPTOBJDIR)/WindowSignal.obj $(OPTOBJDIR)/Segment.obj $(OPTOBJDIR)/Transcription.obj $(OPTOBJDIR)/AudioFrame.obj
 	@echo -- making $(OPTLIBDIR)/RavlAudioUtil.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlAudioUtil.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/AudioIO.obj $(DEBUGOBJDIR)/WindowSignal.obj $(DEBUGOBJDIR)/Segment.obj $(DEBUGOBJDIR)/Transcription.obj $(DEBUGOBJDIR)/AudioFrame.obj 
+debug:: setupRavlAudioUtil  $(DEBUGOBJDIR)/AudioIO.obj $(DEBUGOBJDIR)/WindowSignal.obj $(DEBUGOBJDIR)/Segment.obj $(DEBUGOBJDIR)/Transcription.obj $(DEBUGOBJDIR)/AudioFrame.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlAudioUtil.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlAudioUtil.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlAudioUtil::
         echo --- creating dir for RavlAudioUtil
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

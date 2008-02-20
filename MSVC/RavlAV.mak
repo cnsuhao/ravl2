@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlAV
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/AVFrame.obj $(OPTOBJDIR)/AVMixer.obj
+opt:: setupRavlAV  $(OPTOBJDIR)/AVFrame.obj $(OPTOBJDIR)/AVMixer.obj
 	@echo -- making $(OPTLIBDIR)/RavlAV.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlAV.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/AVFrame.obj $(DEBUGOBJDIR)/AVMixer.obj 
+debug:: setupRavlAV  $(DEBUGOBJDIR)/AVFrame.obj $(DEBUGOBJDIR)/AVMixer.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlAV.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlAV.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlAV::
         echo --- creating dir for RavlAV
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

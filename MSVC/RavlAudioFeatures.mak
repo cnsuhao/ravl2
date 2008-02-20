@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlAudioFeatures
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/MelSpectrum.obj $(OPTOBJDIR)/MelCepstrum.obj $(OPTOBJDIR)/FeatureMFCC.obj $(OPTOBJDIR)/VectorDelta012.obj
+opt:: setupRavlAudioFeatures  $(OPTOBJDIR)/MelSpectrum.obj $(OPTOBJDIR)/MelCepstrum.obj $(OPTOBJDIR)/FeatureMFCC.obj $(OPTOBJDIR)/VectorDelta012.obj
 	@echo -- making $(OPTLIBDIR)/RavlAudioFeatures.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlAudioFeatures.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/MelSpectrum.obj $(DEBUGOBJDIR)/MelCepstrum.obj $(DEBUGOBJDIR)/FeatureMFCC.obj $(DEBUGOBJDIR)/VectorDelta012.obj 
+debug:: setupRavlAudioFeatures  $(DEBUGOBJDIR)/MelSpectrum.obj $(DEBUGOBJDIR)/MelCepstrum.obj $(DEBUGOBJDIR)/FeatureMFCC.obj $(DEBUGOBJDIR)/VectorDelta012.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlAudioFeatures.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlAudioFeatures.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlAudioFeatures::
         echo --- creating dir for RavlAudioFeatures
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

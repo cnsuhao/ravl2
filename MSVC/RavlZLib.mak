@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlZLib
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/Compress.obj
+opt:: setupRavlZLib  $(OPTOBJDIR)/Compress.obj
 	@echo -- making $(OPTLIBDIR)/RavlZLib.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlZLib.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/Compress.obj 
+debug:: setupRavlZLib  $(DEBUGOBJDIR)/Compress.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlZLib.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlZLib.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlZLib::
         echo --- creating dir for RavlZLib
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

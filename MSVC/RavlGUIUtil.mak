@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlGUIUtil
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/AttributeEditor.obj $(OPTOBJDIR)/AttributeEditorWindow.obj $(OPTOBJDIR)/ThumbNailTimeLine.obj $(OPTOBJDIR)/EventTimeLine.obj
+opt:: setupRavlGUIUtil  $(OPTOBJDIR)/AttributeEditor.obj $(OPTOBJDIR)/AttributeEditorWindow.obj $(OPTOBJDIR)/ThumbNailTimeLine.obj $(OPTOBJDIR)/EventTimeLine.obj
 	@echo -- making $(OPTLIBDIR)/RavlGUIUtil.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlGUIUtil.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/AttributeEditor.obj $(DEBUGOBJDIR)/AttributeEditorWindow.obj $(DEBUGOBJDIR)/ThumbNailTimeLine.obj $(DEBUGOBJDIR)/EventTimeLine.obj 
+debug:: setupRavlGUIUtil  $(DEBUGOBJDIR)/AttributeEditor.obj $(DEBUGOBJDIR)/AttributeEditorWindow.obj $(DEBUGOBJDIR)/ThumbNailTimeLine.obj $(DEBUGOBJDIR)/EventTimeLine.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlGUIUtil.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlGUIUtil.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlGUIUtil::
         echo --- creating dir for RavlGUIUtil
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

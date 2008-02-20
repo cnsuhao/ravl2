@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlHMM
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/HiddenMarkovModel.obj
+opt:: setupRavlHMM  $(OPTOBJDIR)/HiddenMarkovModel.obj
 	@echo -- making $(OPTLIBDIR)/RavlHMM.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlHMM.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/HiddenMarkovModel.obj 
+debug:: setupRavlHMM  $(DEBUGOBJDIR)/HiddenMarkovModel.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlHMM.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlHMM.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlHMM::
         echo --- creating dir for RavlHMM
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

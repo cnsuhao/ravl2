@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlOSIO
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/FileSequence.obj $(OPTOBJDIR)/SequenceIO.obj $(OPTOBJDIR)/FileListIO.obj $(OPTOBJDIR)/CompositeStream.obj $(OPTOBJDIR)/FileFormatComposite.obj $(OPTOBJDIR)/PlayList.obj $(OPTOBJDIR)/SubSequenceSpec.obj $(OPTOBJDIR)/EditSpec.obj $(OPTOBJDIR)/FileFormatDynamic.obj $(OPTOBJDIR)/DynamicLink.obj $(OPTOBJDIR)/RavlOSIOMustLink.obj
+opt:: setupRavlOSIO  $(OPTOBJDIR)/FileSequence.obj $(OPTOBJDIR)/SequenceIO.obj $(OPTOBJDIR)/FileListIO.obj $(OPTOBJDIR)/CompositeStream.obj $(OPTOBJDIR)/FileFormatComposite.obj $(OPTOBJDIR)/PlayList.obj $(OPTOBJDIR)/SubSequenceSpec.obj $(OPTOBJDIR)/EditSpec.obj $(OPTOBJDIR)/FileFormatDynamic.obj $(OPTOBJDIR)/DynamicLink.obj $(OPTOBJDIR)/RavlOSIOMustLink.obj
 	@echo -- making $(OPTLIBDIR)/RavlOSIO.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlOSIO.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/FileSequence.obj $(DEBUGOBJDIR)/SequenceIO.obj $(DEBUGOBJDIR)/FileListIO.obj $(DEBUGOBJDIR)/CompositeStream.obj $(DEBUGOBJDIR)/FileFormatComposite.obj $(DEBUGOBJDIR)/PlayList.obj $(DEBUGOBJDIR)/SubSequenceSpec.obj $(DEBUGOBJDIR)/EditSpec.obj $(DEBUGOBJDIR)/FileFormatDynamic.obj $(DEBUGOBJDIR)/DynamicLink.obj $(DEBUGOBJDIR)/RavlOSIOMustLink.obj 
+debug:: setupRavlOSIO  $(DEBUGOBJDIR)/FileSequence.obj $(DEBUGOBJDIR)/SequenceIO.obj $(DEBUGOBJDIR)/FileListIO.obj $(DEBUGOBJDIR)/CompositeStream.obj $(DEBUGOBJDIR)/FileFormatComposite.obj $(DEBUGOBJDIR)/PlayList.obj $(DEBUGOBJDIR)/SubSequenceSpec.obj $(DEBUGOBJDIR)/EditSpec.obj $(DEBUGOBJDIR)/FileFormatDynamic.obj $(DEBUGOBJDIR)/DynamicLink.obj $(DEBUGOBJDIR)/RavlOSIOMustLink.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlOSIO.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlOSIO.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlOSIO::
         echo --- creating dir for RavlOSIO
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

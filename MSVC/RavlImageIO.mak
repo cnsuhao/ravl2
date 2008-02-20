@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlImageIO
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/ImgIOPNM.obj $(OPTOBJDIR)/PNMFormat.obj $(OPTOBJDIR)/ImgIOInt.obj $(OPTOBJDIR)/ImgIOByte.obj $(OPTOBJDIR)/ImgIOUInt16.obj $(OPTOBJDIR)/ImgIOByteRGB.obj $(OPTOBJDIR)/ImgIOByteYUV.obj $(OPTOBJDIR)/ImgIOReal.obj $(OPTOBJDIR)/ImgIORealRGB.obj $(OPTOBJDIR)/ImgIOByteRGBA.obj $(OPTOBJDIR)/ImgIORealYUV.obj $(OPTOBJDIR)/ImgIOUInt16RGB.obj $(OPTOBJDIR)/ImgIOByteYUVA.obj $(OPTOBJDIR)/ImgCnvRGB.obj $(OPTOBJDIR)/ImgCnvYUV.obj $(OPTOBJDIR)/ImgIOFloat.obj $(OPTOBJDIR)/ImgTypeCnv.obj $(OPTOBJDIR)/ImgTypeCnv2.obj $(OPTOBJDIR)/ImgTypeCnv3.obj $(OPTOBJDIR)/ImgTypeCnv4.obj $(OPTOBJDIR)/ImgIOByteYUV422.obj $(OPTOBJDIR)/ImgIOByteVYU.obj $(OPTOBJDIR)/ImgTypeCnv5.obj $(OPTOBJDIR)/RavlImgIO.obj
+opt:: setupRavlImageIO  $(OPTOBJDIR)/ImgIOPNM.obj $(OPTOBJDIR)/PNMFormat.obj $(OPTOBJDIR)/ImgIOInt.obj $(OPTOBJDIR)/ImgIOByte.obj $(OPTOBJDIR)/ImgIOUInt16.obj $(OPTOBJDIR)/ImgIOByteRGB.obj $(OPTOBJDIR)/ImgIOByteYUV.obj $(OPTOBJDIR)/ImgIOReal.obj $(OPTOBJDIR)/ImgIORealRGB.obj $(OPTOBJDIR)/ImgIOByteRGBA.obj $(OPTOBJDIR)/ImgIORealYUV.obj $(OPTOBJDIR)/ImgIOUInt16RGB.obj $(OPTOBJDIR)/ImgIOByteYUVA.obj $(OPTOBJDIR)/ImgCnvRGB.obj $(OPTOBJDIR)/ImgCnvYUV.obj $(OPTOBJDIR)/ImgIOFloat.obj $(OPTOBJDIR)/ImgTypeCnv.obj $(OPTOBJDIR)/ImgTypeCnv2.obj $(OPTOBJDIR)/ImgTypeCnv3.obj $(OPTOBJDIR)/ImgTypeCnv4.obj $(OPTOBJDIR)/ImgIOByteYUV422.obj $(OPTOBJDIR)/ImgIOByteVYU.obj $(OPTOBJDIR)/ImgTypeCnv5.obj $(OPTOBJDIR)/RavlImgIO.obj
 	@echo -- making $(OPTLIBDIR)/RavlImageIO.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlImageIO.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/ImgIOPNM.obj $(DEBUGOBJDIR)/PNMFormat.obj $(DEBUGOBJDIR)/ImgIOInt.obj $(DEBUGOBJDIR)/ImgIOByte.obj $(DEBUGOBJDIR)/ImgIOUInt16.obj $(DEBUGOBJDIR)/ImgIOByteRGB.obj $(DEBUGOBJDIR)/ImgIOByteYUV.obj $(DEBUGOBJDIR)/ImgIOReal.obj $(DEBUGOBJDIR)/ImgIORealRGB.obj $(DEBUGOBJDIR)/ImgIOByteRGBA.obj $(DEBUGOBJDIR)/ImgIORealYUV.obj $(DEBUGOBJDIR)/ImgIOUInt16RGB.obj $(DEBUGOBJDIR)/ImgIOByteYUVA.obj $(DEBUGOBJDIR)/ImgCnvRGB.obj $(DEBUGOBJDIR)/ImgCnvYUV.obj $(DEBUGOBJDIR)/ImgIOFloat.obj $(DEBUGOBJDIR)/ImgTypeCnv.obj $(DEBUGOBJDIR)/ImgTypeCnv2.obj $(DEBUGOBJDIR)/ImgTypeCnv3.obj $(DEBUGOBJDIR)/ImgTypeCnv4.obj $(DEBUGOBJDIR)/ImgIOByteYUV422.obj $(DEBUGOBJDIR)/ImgIOByteVYU.obj $(DEBUGOBJDIR)/ImgTypeCnv5.obj $(DEBUGOBJDIR)/RavlImgIO.obj 
+debug:: setupRavlImageIO  $(DEBUGOBJDIR)/ImgIOPNM.obj $(DEBUGOBJDIR)/PNMFormat.obj $(DEBUGOBJDIR)/ImgIOInt.obj $(DEBUGOBJDIR)/ImgIOByte.obj $(DEBUGOBJDIR)/ImgIOUInt16.obj $(DEBUGOBJDIR)/ImgIOByteRGB.obj $(DEBUGOBJDIR)/ImgIOByteYUV.obj $(DEBUGOBJDIR)/ImgIOReal.obj $(DEBUGOBJDIR)/ImgIORealRGB.obj $(DEBUGOBJDIR)/ImgIOByteRGBA.obj $(DEBUGOBJDIR)/ImgIORealYUV.obj $(DEBUGOBJDIR)/ImgIOUInt16RGB.obj $(DEBUGOBJDIR)/ImgIOByteYUVA.obj $(DEBUGOBJDIR)/ImgCnvRGB.obj $(DEBUGOBJDIR)/ImgCnvYUV.obj $(DEBUGOBJDIR)/ImgIOFloat.obj $(DEBUGOBJDIR)/ImgTypeCnv.obj $(DEBUGOBJDIR)/ImgTypeCnv2.obj $(DEBUGOBJDIR)/ImgTypeCnv3.obj $(DEBUGOBJDIR)/ImgTypeCnv4.obj $(DEBUGOBJDIR)/ImgIOByteYUV422.obj $(DEBUGOBJDIR)/ImgIOByteVYU.obj $(DEBUGOBJDIR)/ImgTypeCnv5.obj $(DEBUGOBJDIR)/RavlImgIO.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlImageIO.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlImageIO.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlImageIO::
         echo --- creating dir for RavlImageIO
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

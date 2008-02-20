@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlGUIGnome
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/Gnome.obj
+opt:: setupRavlGUIGnome  $(OPTOBJDIR)/Gnome.obj
 	@echo -- making $(OPTLIBDIR)/RavlGUIGnome.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlGUIGnome.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/Gnome.obj 
+debug:: setupRavlGUIGnome  $(DEBUGOBJDIR)/Gnome.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlGUIGnome.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlGUIGnome.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlGUIGnome::
         echo --- creating dir for RavlGUIGnome
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

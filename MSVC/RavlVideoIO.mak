@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlVideoIO
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/ImgIOCif.obj $(OPTOBJDIR)/CifFormat.obj $(OPTOBJDIR)/ImgIOyuv.obj $(OPTOBJDIR)/yuvFormat.obj $(OPTOBJDIR)/syuvFormat.obj $(OPTOBJDIR)/ImgIOrgb.obj $(OPTOBJDIR)/rgbFormat.obj $(OPTOBJDIR)/rawFormat.obj $(OPTOBJDIR)/ImgIOjs.obj $(OPTOBJDIR)/jsFormat.obj $(OPTOBJDIR)/MultiVidIO.obj $(OPTOBJDIR)/DVFrame.obj $(OPTOBJDIR)/AviIStream.obj $(OPTOBJDIR)/AviOStream.obj $(OPTOBJDIR)/BGRFrmIOAvi.obj $(OPTOBJDIR)/DVFrmIOAvi.obj $(OPTOBJDIR)/AviFormat.obj $(OPTOBJDIR)/RavlVidIO.obj
+opt:: setupRavlVideoIO  $(OPTOBJDIR)/ImgIOCif.obj $(OPTOBJDIR)/CifFormat.obj $(OPTOBJDIR)/ImgIOyuv.obj $(OPTOBJDIR)/yuvFormat.obj $(OPTOBJDIR)/syuvFormat.obj $(OPTOBJDIR)/ImgIOrgb.obj $(OPTOBJDIR)/rgbFormat.obj $(OPTOBJDIR)/rawFormat.obj $(OPTOBJDIR)/ImgIOjs.obj $(OPTOBJDIR)/jsFormat.obj $(OPTOBJDIR)/MultiVidIO.obj $(OPTOBJDIR)/DVFrame.obj $(OPTOBJDIR)/AviIStream.obj $(OPTOBJDIR)/AviOStream.obj $(OPTOBJDIR)/BGRFrmIOAvi.obj $(OPTOBJDIR)/DVFrmIOAvi.obj $(OPTOBJDIR)/AviFormat.obj $(OPTOBJDIR)/RavlVidIO.obj
 	@echo -- making $(OPTLIBDIR)/RavlVideoIO.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlVideoIO.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/ImgIOCif.obj $(DEBUGOBJDIR)/CifFormat.obj $(DEBUGOBJDIR)/ImgIOyuv.obj $(DEBUGOBJDIR)/yuvFormat.obj $(DEBUGOBJDIR)/syuvFormat.obj $(DEBUGOBJDIR)/ImgIOrgb.obj $(DEBUGOBJDIR)/rgbFormat.obj $(DEBUGOBJDIR)/rawFormat.obj $(DEBUGOBJDIR)/ImgIOjs.obj $(DEBUGOBJDIR)/jsFormat.obj $(DEBUGOBJDIR)/MultiVidIO.obj $(DEBUGOBJDIR)/DVFrame.obj $(DEBUGOBJDIR)/AviIStream.obj $(DEBUGOBJDIR)/AviOStream.obj $(DEBUGOBJDIR)/BGRFrmIOAvi.obj $(DEBUGOBJDIR)/DVFrmIOAvi.obj $(DEBUGOBJDIR)/AviFormat.obj $(DEBUGOBJDIR)/RavlVidIO.obj 
+debug:: setupRavlVideoIO  $(DEBUGOBJDIR)/ImgIOCif.obj $(DEBUGOBJDIR)/CifFormat.obj $(DEBUGOBJDIR)/ImgIOyuv.obj $(DEBUGOBJDIR)/yuvFormat.obj $(DEBUGOBJDIR)/syuvFormat.obj $(DEBUGOBJDIR)/ImgIOrgb.obj $(DEBUGOBJDIR)/rgbFormat.obj $(DEBUGOBJDIR)/rawFormat.obj $(DEBUGOBJDIR)/ImgIOjs.obj $(DEBUGOBJDIR)/jsFormat.obj $(DEBUGOBJDIR)/MultiVidIO.obj $(DEBUGOBJDIR)/DVFrame.obj $(DEBUGOBJDIR)/AviIStream.obj $(DEBUGOBJDIR)/AviOStream.obj $(DEBUGOBJDIR)/BGRFrmIOAvi.obj $(DEBUGOBJDIR)/DVFrmIOAvi.obj $(DEBUGOBJDIR)/AviFormat.obj $(DEBUGOBJDIR)/RavlVidIO.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlVideoIO.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlVideoIO.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlVideoIO::
         echo --- creating dir for RavlVideoIO
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

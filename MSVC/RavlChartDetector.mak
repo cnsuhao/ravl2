@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlChartDetector
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/ChartDetector.obj $(OPTOBJDIR)/ChartDetectorRegion.obj $(OPTOBJDIR)/ChartLocalise.obj $(OPTOBJDIR)/CostAffineImageCorrelation.obj
+opt:: setupRavlChartDetector  $(OPTOBJDIR)/ChartDetector.obj $(OPTOBJDIR)/ChartDetectorRegion.obj $(OPTOBJDIR)/ChartLocalise.obj $(OPTOBJDIR)/CostAffineImageCorrelation.obj
 	@echo -- making $(OPTLIBDIR)/RavlChartDetector.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlChartDetector.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/ChartDetector.obj $(DEBUGOBJDIR)/ChartDetectorRegion.obj $(DEBUGOBJDIR)/ChartLocalise.obj $(DEBUGOBJDIR)/CostAffineImageCorrelation.obj 
+debug:: setupRavlChartDetector  $(DEBUGOBJDIR)/ChartDetector.obj $(DEBUGOBJDIR)/ChartDetectorRegion.obj $(DEBUGOBJDIR)/ChartLocalise.obj $(DEBUGOBJDIR)/CostAffineImageCorrelation.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlChartDetector.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlChartDetector.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlChartDetector::
         echo --- creating dir for RavlChartDetector
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

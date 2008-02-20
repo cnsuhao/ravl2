@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlAAM
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/AAMAppearance.obj $(OPTOBJDIR)/AAMShapeModel.obj $(OPTOBJDIR)/AAMAffineShapeModel.obj $(OPTOBJDIR)/AAMScaleRotationShapeModel.obj $(OPTOBJDIR)/AAMAppearanceModel.obj $(OPTOBJDIR)/AAMAppearanceUtil.obj $(OPTOBJDIR)/AAMActiveAppearanceModel.obj $(OPTOBJDIR)/AAMSampleStream.obj $(OPTOBJDIR)/AAMMultiResActiveAppearanceModel.obj $(OPTOBJDIR)/AAMFaceLocalisation.obj $(OPTOBJDIR)/AAMPoseEstimateCostFunction.obj $(OPTOBJDIR)/AAMPoseEstimate.obj $(OPTOBJDIR)/AAMFaceCorrection.obj $(OPTOBJDIR)/AAMActiveAppearanceModelsIO.obj $(OPTOBJDIR)/AAMActiveAppearanceModelMustLink.obj
+opt:: setupRavlAAM  $(OPTOBJDIR)/AAMAppearance.obj $(OPTOBJDIR)/AAMShapeModel.obj $(OPTOBJDIR)/AAMAffineShapeModel.obj $(OPTOBJDIR)/AAMScaleRotationShapeModel.obj $(OPTOBJDIR)/AAMAppearanceModel.obj $(OPTOBJDIR)/AAMAppearanceUtil.obj $(OPTOBJDIR)/AAMActiveAppearanceModel.obj $(OPTOBJDIR)/AAMSampleStream.obj $(OPTOBJDIR)/AAMMultiResActiveAppearanceModel.obj $(OPTOBJDIR)/AAMFaceLocalisation.obj $(OPTOBJDIR)/AAMPoseEstimateCostFunction.obj $(OPTOBJDIR)/AAMPoseEstimate.obj $(OPTOBJDIR)/AAMFaceCorrection.obj $(OPTOBJDIR)/AAMActiveAppearanceModelsIO.obj $(OPTOBJDIR)/AAMActiveAppearanceModelMustLink.obj
 	@echo -- making $(OPTLIBDIR)/RavlAAM.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlAAM.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/AAMAppearance.obj $(DEBUGOBJDIR)/AAMShapeModel.obj $(DEBUGOBJDIR)/AAMAffineShapeModel.obj $(DEBUGOBJDIR)/AAMScaleRotationShapeModel.obj $(DEBUGOBJDIR)/AAMAppearanceModel.obj $(DEBUGOBJDIR)/AAMAppearanceUtil.obj $(DEBUGOBJDIR)/AAMActiveAppearanceModel.obj $(DEBUGOBJDIR)/AAMSampleStream.obj $(DEBUGOBJDIR)/AAMMultiResActiveAppearanceModel.obj $(DEBUGOBJDIR)/AAMFaceLocalisation.obj $(DEBUGOBJDIR)/AAMPoseEstimateCostFunction.obj $(DEBUGOBJDIR)/AAMPoseEstimate.obj $(DEBUGOBJDIR)/AAMFaceCorrection.obj $(DEBUGOBJDIR)/AAMActiveAppearanceModelsIO.obj $(DEBUGOBJDIR)/AAMActiveAppearanceModelMustLink.obj 
+debug:: setupRavlAAM  $(DEBUGOBJDIR)/AAMAppearance.obj $(DEBUGOBJDIR)/AAMShapeModel.obj $(DEBUGOBJDIR)/AAMAffineShapeModel.obj $(DEBUGOBJDIR)/AAMScaleRotationShapeModel.obj $(DEBUGOBJDIR)/AAMAppearanceModel.obj $(DEBUGOBJDIR)/AAMAppearanceUtil.obj $(DEBUGOBJDIR)/AAMActiveAppearanceModel.obj $(DEBUGOBJDIR)/AAMSampleStream.obj $(DEBUGOBJDIR)/AAMMultiResActiveAppearanceModel.obj $(DEBUGOBJDIR)/AAMFaceLocalisation.obj $(DEBUGOBJDIR)/AAMPoseEstimateCostFunction.obj $(DEBUGOBJDIR)/AAMPoseEstimate.obj $(DEBUGOBJDIR)/AAMFaceCorrection.obj $(DEBUGOBJDIR)/AAMActiveAppearanceModelsIO.obj $(DEBUGOBJDIR)/AAMActiveAppearanceModelMustLink.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlAAM.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlAAM.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlAAM::
         echo --- creating dir for RavlAAM
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

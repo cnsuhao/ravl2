@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlExtImgIO
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/ImgIOJPeg.obj $(OPTOBJDIR)/JPEGFormat.obj $(OPTOBJDIR)/ImgIOPNG.obj $(OPTOBJDIR)/PNGFormat.obj $(OPTOBJDIR)/ImgIOTiff.obj $(OPTOBJDIR)/TiffFormat.obj $(OPTOBJDIR)/CompressedImageJPEG.obj $(OPTOBJDIR)/ExtImgIO.obj
+opt:: setupRavlExtImgIO  $(OPTOBJDIR)/ImgIOJPeg.obj $(OPTOBJDIR)/JPEGFormat.obj $(OPTOBJDIR)/ImgIOPNG.obj $(OPTOBJDIR)/PNGFormat.obj $(OPTOBJDIR)/ImgIOTiff.obj $(OPTOBJDIR)/TiffFormat.obj $(OPTOBJDIR)/CompressedImageJPEG.obj $(OPTOBJDIR)/ExtImgIO.obj
 	@echo -- making $(OPTLIBDIR)/RavlExtImgIO.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlExtImgIO.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/ImgIOJPeg.obj $(DEBUGOBJDIR)/JPEGFormat.obj $(DEBUGOBJDIR)/ImgIOPNG.obj $(DEBUGOBJDIR)/PNGFormat.obj $(DEBUGOBJDIR)/ImgIOTiff.obj $(DEBUGOBJDIR)/TiffFormat.obj $(DEBUGOBJDIR)/CompressedImageJPEG.obj $(DEBUGOBJDIR)/ExtImgIO.obj 
+debug:: setupRavlExtImgIO  $(DEBUGOBJDIR)/ImgIOJPeg.obj $(DEBUGOBJDIR)/JPEGFormat.obj $(DEBUGOBJDIR)/ImgIOPNG.obj $(DEBUGOBJDIR)/PNGFormat.obj $(DEBUGOBJDIR)/ImgIOTiff.obj $(DEBUGOBJDIR)/TiffFormat.obj $(DEBUGOBJDIR)/CompressedImageJPEG.obj $(DEBUGOBJDIR)/ExtImgIO.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlExtImgIO.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlExtImgIO.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlExtImgIO::
         echo --- creating dir for RavlExtImgIO
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlUUId
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/UUId.obj
+opt:: setupRavlUUId  $(OPTOBJDIR)/UUId.obj
 	@echo -- making $(OPTLIBDIR)/RavlUUId.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlUUId.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/UUId.obj 
+debug:: setupRavlUUId  $(DEBUGOBJDIR)/UUId.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlUUId.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlUUId.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlUUId::
         echo --- creating dir for RavlUUId
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

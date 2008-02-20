@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/Optimisation
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/Parameters.obj $(OPTOBJDIR)/Cost.obj $(OPTOBJDIR)/CostInvert.obj $(OPTOBJDIR)/CostFunction.obj $(OPTOBJDIR)/CostFunction1d.obj $(OPTOBJDIR)/BracketMinimum.obj $(OPTOBJDIR)/Optimise.obj $(OPTOBJDIR)/OptimiseDescent.obj $(OPTOBJDIR)/OptimiseConjugateGradient.obj $(OPTOBJDIR)/OptimiseRandomUniform.obj $(OPTOBJDIR)/OptimiseSobol.obj $(OPTOBJDIR)/OptimiseBrent.obj $(OPTOBJDIR)/OptimisePowell.obj $(OPTOBJDIR)/OptimiseGrid.obj $(OPTOBJDIR)/OptimiseLevenbergMarquardt.obj
+opt:: setupOptimisation  $(OPTOBJDIR)/Parameters.obj $(OPTOBJDIR)/Cost.obj $(OPTOBJDIR)/CostInvert.obj $(OPTOBJDIR)/CostFunction.obj $(OPTOBJDIR)/CostFunction1d.obj $(OPTOBJDIR)/BracketMinimum.obj $(OPTOBJDIR)/Optimise.obj $(OPTOBJDIR)/OptimiseDescent.obj $(OPTOBJDIR)/OptimiseConjugateGradient.obj $(OPTOBJDIR)/OptimiseRandomUniform.obj $(OPTOBJDIR)/OptimiseSobol.obj $(OPTOBJDIR)/OptimiseBrent.obj $(OPTOBJDIR)/OptimisePowell.obj $(OPTOBJDIR)/OptimiseGrid.obj $(OPTOBJDIR)/OptimiseLevenbergMarquardt.obj
 	@echo -- making $(OPTLIBDIR)/Optimisation.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/Optimisation.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/Parameters.obj $(DEBUGOBJDIR)/Cost.obj $(DEBUGOBJDIR)/CostInvert.obj $(DEBUGOBJDIR)/CostFunction.obj $(DEBUGOBJDIR)/CostFunction1d.obj $(DEBUGOBJDIR)/BracketMinimum.obj $(DEBUGOBJDIR)/Optimise.obj $(DEBUGOBJDIR)/OptimiseDescent.obj $(DEBUGOBJDIR)/OptimiseConjugateGradient.obj $(DEBUGOBJDIR)/OptimiseRandomUniform.obj $(DEBUGOBJDIR)/OptimiseSobol.obj $(DEBUGOBJDIR)/OptimiseBrent.obj $(DEBUGOBJDIR)/OptimisePowell.obj $(DEBUGOBJDIR)/OptimiseGrid.obj $(DEBUGOBJDIR)/OptimiseLevenbergMarquardt.obj 
+debug:: setupOptimisation  $(DEBUGOBJDIR)/Parameters.obj $(DEBUGOBJDIR)/Cost.obj $(DEBUGOBJDIR)/CostInvert.obj $(DEBUGOBJDIR)/CostFunction.obj $(DEBUGOBJDIR)/CostFunction1d.obj $(DEBUGOBJDIR)/BracketMinimum.obj $(DEBUGOBJDIR)/Optimise.obj $(DEBUGOBJDIR)/OptimiseDescent.obj $(DEBUGOBJDIR)/OptimiseConjugateGradient.obj $(DEBUGOBJDIR)/OptimiseRandomUniform.obj $(DEBUGOBJDIR)/OptimiseSobol.obj $(DEBUGOBJDIR)/OptimiseBrent.obj $(DEBUGOBJDIR)/OptimisePowell.obj $(DEBUGOBJDIR)/OptimiseGrid.obj $(DEBUGOBJDIR)/OptimiseLevenbergMarquardt.obj 
 	@echo -- making $(DEBUGLIBDIR)/Optimisation.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/Optimisation.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupOptimisation::
         echo --- creating dir for Optimisation
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

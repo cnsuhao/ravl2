@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlOS
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/Date.obj $(OPTOBJDIR)/DateIO.obj $(OPTOBJDIR)/DeadLineTimer.obj $(OPTOBJDIR)/FilePermission.obj $(OPTOBJDIR)/Filename.obj $(OPTOBJDIR)/Directory.obj $(OPTOBJDIR)/FileSearch.obj $(OPTOBJDIR)/UserInfo.obj $(OPTOBJDIR)/FileOwner.obj $(OPTOBJDIR)/FileStream.obj $(OPTOBJDIR)/SerialIO.obj $(OPTOBJDIR)/SysLog.obj $(OPTOBJDIR)/OSProcess.obj $(OPTOBJDIR)/ChildOSProcess.obj $(OPTOBJDIR)/ChildOSProcessWait.obj $(OPTOBJDIR)/ChildOSProcessStream.obj $(OPTOBJDIR)/MailUser.obj $(OPTOBJDIR)/FileUser.obj $(OPTOBJDIR)/TextFileLine.obj $(OPTOBJDIR)/TextBuffer.obj $(OPTOBJDIR)/TextFile.obj $(OPTOBJDIR)/TextCursor.obj $(OPTOBJDIR)/TemplateFile.obj $(OPTOBJDIR)/TextFragment.obj $(OPTOBJDIR)/ConfigFile.obj $(OPTOBJDIR)/TemplateComplex.obj
+opt:: setupRavlOS  $(OPTOBJDIR)/Date.obj $(OPTOBJDIR)/DateIO.obj $(OPTOBJDIR)/DeadLineTimer.obj $(OPTOBJDIR)/FilePermission.obj $(OPTOBJDIR)/Filename.obj $(OPTOBJDIR)/Directory.obj $(OPTOBJDIR)/FileSearch.obj $(OPTOBJDIR)/UserInfo.obj $(OPTOBJDIR)/FileOwner.obj $(OPTOBJDIR)/FileStream.obj $(OPTOBJDIR)/SerialIO.obj $(OPTOBJDIR)/SysLog.obj $(OPTOBJDIR)/OSProcess.obj $(OPTOBJDIR)/ChildOSProcess.obj $(OPTOBJDIR)/ChildOSProcessWait.obj $(OPTOBJDIR)/ChildOSProcessStream.obj $(OPTOBJDIR)/MailUser.obj $(OPTOBJDIR)/FileUser.obj $(OPTOBJDIR)/TextFileLine.obj $(OPTOBJDIR)/TextBuffer.obj $(OPTOBJDIR)/TextFile.obj $(OPTOBJDIR)/TextCursor.obj $(OPTOBJDIR)/TemplateFile.obj $(OPTOBJDIR)/TextFragment.obj $(OPTOBJDIR)/ConfigFile.obj $(OPTOBJDIR)/TemplateComplex.obj
 	@echo -- making $(OPTLIBDIR)/RavlOS.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlOS.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/Date.obj $(DEBUGOBJDIR)/DateIO.obj $(DEBUGOBJDIR)/DeadLineTimer.obj $(DEBUGOBJDIR)/FilePermission.obj $(DEBUGOBJDIR)/Filename.obj $(DEBUGOBJDIR)/Directory.obj $(DEBUGOBJDIR)/FileSearch.obj $(DEBUGOBJDIR)/UserInfo.obj $(DEBUGOBJDIR)/FileOwner.obj $(DEBUGOBJDIR)/FileStream.obj $(DEBUGOBJDIR)/SerialIO.obj $(DEBUGOBJDIR)/SysLog.obj $(DEBUGOBJDIR)/OSProcess.obj $(DEBUGOBJDIR)/ChildOSProcess.obj $(DEBUGOBJDIR)/ChildOSProcessWait.obj $(DEBUGOBJDIR)/ChildOSProcessStream.obj $(DEBUGOBJDIR)/MailUser.obj $(DEBUGOBJDIR)/FileUser.obj $(DEBUGOBJDIR)/TextFileLine.obj $(DEBUGOBJDIR)/TextBuffer.obj $(DEBUGOBJDIR)/TextFile.obj $(DEBUGOBJDIR)/TextCursor.obj $(DEBUGOBJDIR)/TemplateFile.obj $(DEBUGOBJDIR)/TextFragment.obj $(DEBUGOBJDIR)/ConfigFile.obj $(DEBUGOBJDIR)/TemplateComplex.obj 
+debug:: setupRavlOS  $(DEBUGOBJDIR)/Date.obj $(DEBUGOBJDIR)/DateIO.obj $(DEBUGOBJDIR)/DeadLineTimer.obj $(DEBUGOBJDIR)/FilePermission.obj $(DEBUGOBJDIR)/Filename.obj $(DEBUGOBJDIR)/Directory.obj $(DEBUGOBJDIR)/FileSearch.obj $(DEBUGOBJDIR)/UserInfo.obj $(DEBUGOBJDIR)/FileOwner.obj $(DEBUGOBJDIR)/FileStream.obj $(DEBUGOBJDIR)/SerialIO.obj $(DEBUGOBJDIR)/SysLog.obj $(DEBUGOBJDIR)/OSProcess.obj $(DEBUGOBJDIR)/ChildOSProcess.obj $(DEBUGOBJDIR)/ChildOSProcessWait.obj $(DEBUGOBJDIR)/ChildOSProcessStream.obj $(DEBUGOBJDIR)/MailUser.obj $(DEBUGOBJDIR)/FileUser.obj $(DEBUGOBJDIR)/TextFileLine.obj $(DEBUGOBJDIR)/TextBuffer.obj $(DEBUGOBJDIR)/TextFile.obj $(DEBUGOBJDIR)/TextCursor.obj $(DEBUGOBJDIR)/TemplateFile.obj $(DEBUGOBJDIR)/TextFragment.obj $(DEBUGOBJDIR)/ConfigFile.obj $(DEBUGOBJDIR)/TemplateComplex.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlOS.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlOS.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlOS::
         echo --- creating dir for RavlOS
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlThreads
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/Thread.obj $(OPTOBJDIR)/Mutex.obj $(OPTOBJDIR)/ConditionalMutex.obj $(OPTOBJDIR)/Semaphore.obj $(OPTOBJDIR)/RWLock.obj $(OPTOBJDIR)/SemaphoreRC.obj $(OPTOBJDIR)/MTLockImpl.obj $(OPTOBJDIR)/ThreadEvent.obj $(OPTOBJDIR)/AMutexImpl.obj $(OPTOBJDIR)/RCRWLock.obj $(OPTOBJDIR)/MessageQueue.obj $(OPTOBJDIR)/LaunchThread.obj $(OPTOBJDIR)/TickerTrigger.obj $(OPTOBJDIR)/TimedTriggerQueue.obj $(OPTOBJDIR)/Signal.obj $(OPTOBJDIR)/SignalConnectionSet.obj
+opt:: setupRavlThreads  $(OPTOBJDIR)/Thread.obj $(OPTOBJDIR)/Mutex.obj $(OPTOBJDIR)/ConditionalMutex.obj $(OPTOBJDIR)/Semaphore.obj $(OPTOBJDIR)/RWLock.obj $(OPTOBJDIR)/SemaphoreRC.obj $(OPTOBJDIR)/MTLockImpl.obj $(OPTOBJDIR)/ThreadEvent.obj $(OPTOBJDIR)/AMutexImpl.obj $(OPTOBJDIR)/RCRWLock.obj $(OPTOBJDIR)/MessageQueue.obj $(OPTOBJDIR)/LaunchThread.obj $(OPTOBJDIR)/TickerTrigger.obj $(OPTOBJDIR)/TimedTriggerQueue.obj $(OPTOBJDIR)/Signal.obj $(OPTOBJDIR)/SignalConnectionSet.obj
 	@echo -- making $(OPTLIBDIR)/RavlThreads.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlThreads.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/Thread.obj $(DEBUGOBJDIR)/Mutex.obj $(DEBUGOBJDIR)/ConditionalMutex.obj $(DEBUGOBJDIR)/Semaphore.obj $(DEBUGOBJDIR)/RWLock.obj $(DEBUGOBJDIR)/SemaphoreRC.obj $(DEBUGOBJDIR)/MTLockImpl.obj $(DEBUGOBJDIR)/ThreadEvent.obj $(DEBUGOBJDIR)/AMutexImpl.obj $(DEBUGOBJDIR)/RCRWLock.obj $(DEBUGOBJDIR)/MessageQueue.obj $(DEBUGOBJDIR)/LaunchThread.obj $(DEBUGOBJDIR)/TickerTrigger.obj $(DEBUGOBJDIR)/TimedTriggerQueue.obj $(DEBUGOBJDIR)/Signal.obj $(DEBUGOBJDIR)/SignalConnectionSet.obj 
+debug:: setupRavlThreads  $(DEBUGOBJDIR)/Thread.obj $(DEBUGOBJDIR)/Mutex.obj $(DEBUGOBJDIR)/ConditionalMutex.obj $(DEBUGOBJDIR)/Semaphore.obj $(DEBUGOBJDIR)/RWLock.obj $(DEBUGOBJDIR)/SemaphoreRC.obj $(DEBUGOBJDIR)/MTLockImpl.obj $(DEBUGOBJDIR)/ThreadEvent.obj $(DEBUGOBJDIR)/AMutexImpl.obj $(DEBUGOBJDIR)/RCRWLock.obj $(DEBUGOBJDIR)/MessageQueue.obj $(DEBUGOBJDIR)/LaunchThread.obj $(DEBUGOBJDIR)/TickerTrigger.obj $(DEBUGOBJDIR)/TimedTriggerQueue.obj $(DEBUGOBJDIR)/Signal.obj $(DEBUGOBJDIR)/SignalConnectionSet.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlThreads.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlThreads.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlThreads::
         echo --- creating dir for RavlThreads
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

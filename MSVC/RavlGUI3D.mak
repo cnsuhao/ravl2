@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlGUI3D
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/gdkgl.obj $(OPTOBJDIR)/gtkglarea.obj $(OPTOBJDIR)/DObject3D.obj $(OPTOBJDIR)/DLight3D.obj $(OPTOBJDIR)/Util.obj $(OPTOBJDIR)/Canvas3D.obj $(OPTOBJDIR)/DViewPoint3D.obj $(OPTOBJDIR)/DCube3D.obj $(OPTOBJDIR)/DTriMesh3D.obj $(OPTOBJDIR)/DPointSet3d.obj $(OPTOBJDIR)/DPinholeCamera03D.obj $(OPTOBJDIR)/DTexTriMesh3D.obj $(OPTOBJDIR)/View3D.obj $(OPTOBJDIR)/DSurfacePointVertexArray.obj $(OPTOBJDIR)/DSurfacePointVertexByteRGBArray.obj
+opt:: setupRavlGUI3D  $(OPTOBJDIR)/gdkgl.obj $(OPTOBJDIR)/gtkglarea.obj $(OPTOBJDIR)/DObject3D.obj $(OPTOBJDIR)/DLight3D.obj $(OPTOBJDIR)/Util.obj $(OPTOBJDIR)/Canvas3D.obj $(OPTOBJDIR)/DViewPoint3D.obj $(OPTOBJDIR)/DCube3D.obj $(OPTOBJDIR)/DTriMesh3D.obj $(OPTOBJDIR)/DPointSet3d.obj $(OPTOBJDIR)/DPinholeCamera03D.obj $(OPTOBJDIR)/DTexTriMesh3D.obj $(OPTOBJDIR)/View3D.obj $(OPTOBJDIR)/DSurfacePointVertexArray.obj $(OPTOBJDIR)/DSurfacePointVertexByteRGBArray.obj
 	@echo -- making $(OPTLIBDIR)/RavlGUI3D.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlGUI3D.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/gdkgl.obj $(DEBUGOBJDIR)/gtkglarea.obj $(DEBUGOBJDIR)/DObject3D.obj $(DEBUGOBJDIR)/DLight3D.obj $(DEBUGOBJDIR)/Util.obj $(DEBUGOBJDIR)/Canvas3D.obj $(DEBUGOBJDIR)/DViewPoint3D.obj $(DEBUGOBJDIR)/DCube3D.obj $(DEBUGOBJDIR)/DTriMesh3D.obj $(DEBUGOBJDIR)/DPointSet3d.obj $(DEBUGOBJDIR)/DPinholeCamera03D.obj $(DEBUGOBJDIR)/DTexTriMesh3D.obj $(DEBUGOBJDIR)/View3D.obj $(DEBUGOBJDIR)/DSurfacePointVertexArray.obj $(DEBUGOBJDIR)/DSurfacePointVertexByteRGBArray.obj 
+debug:: setupRavlGUI3D  $(DEBUGOBJDIR)/gdkgl.obj $(DEBUGOBJDIR)/gtkglarea.obj $(DEBUGOBJDIR)/DObject3D.obj $(DEBUGOBJDIR)/DLight3D.obj $(DEBUGOBJDIR)/Util.obj $(DEBUGOBJDIR)/Canvas3D.obj $(DEBUGOBJDIR)/DViewPoint3D.obj $(DEBUGOBJDIR)/DCube3D.obj $(DEBUGOBJDIR)/DTriMesh3D.obj $(DEBUGOBJDIR)/DPointSet3d.obj $(DEBUGOBJDIR)/DPinholeCamera03D.obj $(DEBUGOBJDIR)/DTexTriMesh3D.obj $(DEBUGOBJDIR)/View3D.obj $(DEBUGOBJDIR)/DSurfacePointVertexArray.obj $(DEBUGOBJDIR)/DSurfacePointVertexByteRGBArray.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlGUI3D.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlGUI3D.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlGUI3D::
         echo --- creating dir for RavlGUI3D
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

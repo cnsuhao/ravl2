@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlLibGlade
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/GladeWidget.obj $(OPTOBJDIR)/GladeXML.obj $(OPTOBJDIR)/GladeWindow.obj
+opt:: setupRavlLibGlade  $(OPTOBJDIR)/GladeWidget.obj $(OPTOBJDIR)/GladeXML.obj $(OPTOBJDIR)/GladeWindow.obj
 	@echo -- making $(OPTLIBDIR)/RavlLibGlade.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlLibGlade.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/GladeWidget.obj $(DEBUGOBJDIR)/GladeXML.obj $(DEBUGOBJDIR)/GladeWindow.obj 
+debug:: setupRavlLibGlade  $(DEBUGOBJDIR)/GladeWidget.obj $(DEBUGOBJDIR)/GladeXML.obj $(DEBUGOBJDIR)/GladeWindow.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlLibGlade.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlLibGlade.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlLibGlade::
         echo --- creating dir for RavlLibGlade
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlMathIO
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/FixedVectorIO.obj $(OPTOBJDIR)/FixedPointIO.obj $(OPTOBJDIR)/FixedMatrixIO.obj $(OPTOBJDIR)/BoundryIO.obj $(OPTOBJDIR)/MatrixIO.obj $(OPTOBJDIR)/TMatrixIO.obj $(OPTOBJDIR)/Geom2dIO.obj $(OPTOBJDIR)/MathIO.obj
+opt:: setupRavlMathIO  $(OPTOBJDIR)/FixedVectorIO.obj $(OPTOBJDIR)/FixedPointIO.obj $(OPTOBJDIR)/FixedMatrixIO.obj $(OPTOBJDIR)/BoundryIO.obj $(OPTOBJDIR)/MatrixIO.obj $(OPTOBJDIR)/TMatrixIO.obj $(OPTOBJDIR)/Geom2dIO.obj $(OPTOBJDIR)/MathIO.obj
 	@echo -- making $(OPTLIBDIR)/RavlMathIO.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlMathIO.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/FixedVectorIO.obj $(DEBUGOBJDIR)/FixedPointIO.obj $(DEBUGOBJDIR)/FixedMatrixIO.obj $(DEBUGOBJDIR)/BoundryIO.obj $(DEBUGOBJDIR)/MatrixIO.obj $(DEBUGOBJDIR)/TMatrixIO.obj $(DEBUGOBJDIR)/Geom2dIO.obj $(DEBUGOBJDIR)/MathIO.obj 
+debug:: setupRavlMathIO  $(DEBUGOBJDIR)/FixedVectorIO.obj $(DEBUGOBJDIR)/FixedPointIO.obj $(DEBUGOBJDIR)/FixedMatrixIO.obj $(DEBUGOBJDIR)/BoundryIO.obj $(DEBUGOBJDIR)/MatrixIO.obj $(DEBUGOBJDIR)/TMatrixIO.obj $(DEBUGOBJDIR)/Geom2dIO.obj $(DEBUGOBJDIR)/MathIO.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlMathIO.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlMathIO.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlMathIO::
         echo --- creating dir for RavlMathIO
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

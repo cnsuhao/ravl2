@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/fann
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/floatfann.obj
+opt:: setupfann  $(OPTOBJDIR)/floatfann.obj
 	@echo -- making $(OPTLIBDIR)/fann.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/fann.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/floatfann.obj 
+debug:: setupfann  $(DEBUGOBJDIR)/floatfann.obj 
 	@echo -- making $(DEBUGLIBDIR)/fann.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/fann.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupfann::
         echo --- creating dir for fann
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

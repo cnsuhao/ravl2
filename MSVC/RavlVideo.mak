@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlVideo
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/ShotBoundHistInt.obj
+opt:: setupRavlVideo  $(OPTOBJDIR)/ShotBoundHistInt.obj
 	@echo -- making $(OPTLIBDIR)/RavlVideo.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlVideo.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/ShotBoundHistInt.obj 
+debug:: setupRavlVideo  $(DEBUGOBJDIR)/ShotBoundHistInt.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlVideo.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlVideo.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlVideo::
         echo --- creating dir for RavlVideo
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

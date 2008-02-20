@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlMPEG2
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/ImgIOmpeg2dec.obj $(OPTOBJDIR)/MPEG2Format.obj $(OPTOBJDIR)/MustLinkMPEG2.obj
+opt:: setupRavlMPEG2  $(OPTOBJDIR)/ImgIOmpeg2dec.obj $(OPTOBJDIR)/MPEG2Format.obj $(OPTOBJDIR)/MustLinkMPEG2.obj
 	@echo -- making $(OPTLIBDIR)/RavlMPEG2.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlMPEG2.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/ImgIOmpeg2dec.obj $(DEBUGOBJDIR)/MPEG2Format.obj $(DEBUGOBJDIR)/MustLinkMPEG2.obj 
+debug:: setupRavlMPEG2  $(DEBUGOBJDIR)/ImgIOmpeg2dec.obj $(DEBUGOBJDIR)/MPEG2Format.obj $(DEBUGOBJDIR)/MustLinkMPEG2.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlMPEG2.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlMPEG2.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlMPEG2::
         echo --- creating dir for RavlMPEG2
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

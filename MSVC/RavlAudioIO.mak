@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlAudioIO
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/AudioSample.obj $(OPTOBJDIR)/SphereIO.obj $(OPTOBJDIR)/SphereFormat.obj $(OPTOBJDIR)/TranscriptionFiles.obj $(OPTOBJDIR)/TranscriptionStream.obj $(OPTOBJDIR)/RavlAudioSample.obj
+opt:: setupRavlAudioIO  $(OPTOBJDIR)/AudioSample.obj $(OPTOBJDIR)/SphereIO.obj $(OPTOBJDIR)/SphereFormat.obj $(OPTOBJDIR)/TranscriptionFiles.obj $(OPTOBJDIR)/TranscriptionStream.obj $(OPTOBJDIR)/RavlAudioSample.obj
 	@echo -- making $(OPTLIBDIR)/RavlAudioIO.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlAudioIO.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/AudioSample.obj $(DEBUGOBJDIR)/SphereIO.obj $(DEBUGOBJDIR)/SphereFormat.obj $(DEBUGOBJDIR)/TranscriptionFiles.obj $(DEBUGOBJDIR)/TranscriptionStream.obj $(DEBUGOBJDIR)/RavlAudioSample.obj 
+debug:: setupRavlAudioIO  $(DEBUGOBJDIR)/AudioSample.obj $(DEBUGOBJDIR)/SphereIO.obj $(DEBUGOBJDIR)/SphereFormat.obj $(DEBUGOBJDIR)/TranscriptionFiles.obj $(DEBUGOBJDIR)/TranscriptionStream.obj $(DEBUGOBJDIR)/RavlAudioSample.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlAudioIO.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlAudioIO.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlAudioIO::
         echo --- creating dir for RavlAudioIO
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

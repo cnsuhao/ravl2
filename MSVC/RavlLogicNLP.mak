@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlLogicNLP
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/NLPCausalLink.obj $(OPTOBJDIR)/NLPStep.obj $(OPTOBJDIR)/NLPAgendaItem.obj $(OPTOBJDIR)/NLPAction.obj $(OPTOBJDIR)/NLPAgenda.obj $(OPTOBJDIR)/NonLinearPlan.obj $(OPTOBJDIR)/NLPlanner.obj
+opt:: setupRavlLogicNLP  $(OPTOBJDIR)/NLPCausalLink.obj $(OPTOBJDIR)/NLPStep.obj $(OPTOBJDIR)/NLPAgendaItem.obj $(OPTOBJDIR)/NLPAction.obj $(OPTOBJDIR)/NLPAgenda.obj $(OPTOBJDIR)/NonLinearPlan.obj $(OPTOBJDIR)/NLPlanner.obj
 	@echo -- making $(OPTLIBDIR)/RavlLogicNLP.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlLogicNLP.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/NLPCausalLink.obj $(DEBUGOBJDIR)/NLPStep.obj $(DEBUGOBJDIR)/NLPAgendaItem.obj $(DEBUGOBJDIR)/NLPAction.obj $(DEBUGOBJDIR)/NLPAgenda.obj $(DEBUGOBJDIR)/NonLinearPlan.obj $(DEBUGOBJDIR)/NLPlanner.obj 
+debug:: setupRavlLogicNLP  $(DEBUGOBJDIR)/NLPCausalLink.obj $(DEBUGOBJDIR)/NLPStep.obj $(DEBUGOBJDIR)/NLPAgendaItem.obj $(DEBUGOBJDIR)/NLPAction.obj $(DEBUGOBJDIR)/NLPAgenda.obj $(DEBUGOBJDIR)/NonLinearPlan.obj $(DEBUGOBJDIR)/NLPlanner.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlLogicNLP.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlLogicNLP.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlLogicNLP::
         echo --- creating dir for RavlLogicNLP
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

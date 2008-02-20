@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlNet
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/Socket.obj $(OPTOBJDIR)/NetStream.obj $(OPTOBJDIR)/SocketStrm.obj $(OPTOBJDIR)/Packet.obj $(OPTOBJDIR)/NetMessage.obj $(OPTOBJDIR)/NetEndPoint.obj $(OPTOBJDIR)/NetMsgCall.obj $(OPTOBJDIR)/NetIPort.obj $(OPTOBJDIR)/NetIPortServer.obj $(OPTOBJDIR)/NetPortManager.obj $(OPTOBJDIR)/NetPortClient.obj $(OPTOBJDIR)/NetPortFormat.obj $(OPTOBJDIR)/NetOPort.obj $(OPTOBJDIR)/NetOPortServer.obj $(OPTOBJDIR)/NetPort.obj $(OPTOBJDIR)/NetAttributeCtrl.obj $(OPTOBJDIR)/NetRequestManager.obj $(OPTOBJDIR)/NetAttributeCtrlServer.obj $(OPTOBJDIR)/NetByteStream.obj $(OPTOBJDIR)/NetMsgOPortData.obj $(OPTOBJDIR)/WinSocket.obj $(OPTOBJDIR)/RavlSysNetworkML.obj
+opt:: setupRavlNet  $(OPTOBJDIR)/Socket.obj $(OPTOBJDIR)/NetStream.obj $(OPTOBJDIR)/SocketStrm.obj $(OPTOBJDIR)/Packet.obj $(OPTOBJDIR)/NetMessage.obj $(OPTOBJDIR)/NetEndPoint.obj $(OPTOBJDIR)/NetMsgCall.obj $(OPTOBJDIR)/NetIPort.obj $(OPTOBJDIR)/NetIPortServer.obj $(OPTOBJDIR)/NetPortManager.obj $(OPTOBJDIR)/NetPortClient.obj $(OPTOBJDIR)/NetPortFormat.obj $(OPTOBJDIR)/NetOPort.obj $(OPTOBJDIR)/NetOPortServer.obj $(OPTOBJDIR)/NetPort.obj $(OPTOBJDIR)/NetAttributeCtrl.obj $(OPTOBJDIR)/NetRequestManager.obj $(OPTOBJDIR)/NetAttributeCtrlServer.obj $(OPTOBJDIR)/NetByteStream.obj $(OPTOBJDIR)/NetMsgOPortData.obj $(OPTOBJDIR)/WinSocket.obj $(OPTOBJDIR)/RavlSysNetworkML.obj
 	@echo -- making $(OPTLIBDIR)/RavlNet.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlNet.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/Socket.obj $(DEBUGOBJDIR)/NetStream.obj $(DEBUGOBJDIR)/SocketStrm.obj $(DEBUGOBJDIR)/Packet.obj $(DEBUGOBJDIR)/NetMessage.obj $(DEBUGOBJDIR)/NetEndPoint.obj $(DEBUGOBJDIR)/NetMsgCall.obj $(DEBUGOBJDIR)/NetIPort.obj $(DEBUGOBJDIR)/NetIPortServer.obj $(DEBUGOBJDIR)/NetPortManager.obj $(DEBUGOBJDIR)/NetPortClient.obj $(DEBUGOBJDIR)/NetPortFormat.obj $(DEBUGOBJDIR)/NetOPort.obj $(DEBUGOBJDIR)/NetOPortServer.obj $(DEBUGOBJDIR)/NetPort.obj $(DEBUGOBJDIR)/NetAttributeCtrl.obj $(DEBUGOBJDIR)/NetRequestManager.obj $(DEBUGOBJDIR)/NetAttributeCtrlServer.obj $(DEBUGOBJDIR)/NetByteStream.obj $(DEBUGOBJDIR)/NetMsgOPortData.obj $(DEBUGOBJDIR)/WinSocket.obj $(DEBUGOBJDIR)/RavlSysNetworkML.obj 
+debug:: setupRavlNet  $(DEBUGOBJDIR)/Socket.obj $(DEBUGOBJDIR)/NetStream.obj $(DEBUGOBJDIR)/SocketStrm.obj $(DEBUGOBJDIR)/Packet.obj $(DEBUGOBJDIR)/NetMessage.obj $(DEBUGOBJDIR)/NetEndPoint.obj $(DEBUGOBJDIR)/NetMsgCall.obj $(DEBUGOBJDIR)/NetIPort.obj $(DEBUGOBJDIR)/NetIPortServer.obj $(DEBUGOBJDIR)/NetPortManager.obj $(DEBUGOBJDIR)/NetPortClient.obj $(DEBUGOBJDIR)/NetPortFormat.obj $(DEBUGOBJDIR)/NetOPort.obj $(DEBUGOBJDIR)/NetOPortServer.obj $(DEBUGOBJDIR)/NetPort.obj $(DEBUGOBJDIR)/NetAttributeCtrl.obj $(DEBUGOBJDIR)/NetRequestManager.obj $(DEBUGOBJDIR)/NetAttributeCtrlServer.obj $(DEBUGOBJDIR)/NetByteStream.obj $(DEBUGOBJDIR)/NetMsgOPortData.obj $(DEBUGOBJDIR)/WinSocket.obj $(DEBUGOBJDIR)/RavlSysNetworkML.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlNet.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlNet.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlNet::
         echo --- creating dir for RavlNet
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

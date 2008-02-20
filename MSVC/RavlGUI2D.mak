@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlGUI2D
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/Canvas.obj $(OPTOBJDIR)/RawCanvas2d.obj $(OPTOBJDIR)/RawZoomCanvas.obj $(OPTOBJDIR)/FrameMarkup.obj $(OPTOBJDIR)/GUIMarkupLayerEditor.obj $(OPTOBJDIR)/MarkupImageRGB.obj $(OPTOBJDIR)/MarkupLine2d.obj $(OPTOBJDIR)/MarkupPolygon2d.obj $(OPTOBJDIR)/MarkupImageByte.obj $(OPTOBJDIR)/MarkupInfo.obj $(OPTOBJDIR)/MarkupNote.obj $(OPTOBJDIR)/GUIMarkupCanvas.obj $(OPTOBJDIR)/MarkupImageRGBA.obj $(OPTOBJDIR)/MarkupLayerInfo.obj $(OPTOBJDIR)/MarkupPoint2d.obj
+opt:: setupRavlGUI2D  $(OPTOBJDIR)/Canvas.obj $(OPTOBJDIR)/RawCanvas2d.obj $(OPTOBJDIR)/RawZoomCanvas.obj $(OPTOBJDIR)/FrameMarkup.obj $(OPTOBJDIR)/GUIMarkupLayerEditor.obj $(OPTOBJDIR)/MarkupImageRGB.obj $(OPTOBJDIR)/MarkupLine2d.obj $(OPTOBJDIR)/MarkupPolygon2d.obj $(OPTOBJDIR)/MarkupImageByte.obj $(OPTOBJDIR)/MarkupInfo.obj $(OPTOBJDIR)/MarkupNote.obj $(OPTOBJDIR)/GUIMarkupCanvas.obj $(OPTOBJDIR)/MarkupImageRGBA.obj $(OPTOBJDIR)/MarkupLayerInfo.obj $(OPTOBJDIR)/MarkupPoint2d.obj
 	@echo -- making $(OPTLIBDIR)/RavlGUI2D.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlGUI2D.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/Canvas.obj $(DEBUGOBJDIR)/RawCanvas2d.obj $(DEBUGOBJDIR)/RawZoomCanvas.obj $(DEBUGOBJDIR)/FrameMarkup.obj $(DEBUGOBJDIR)/GUIMarkupLayerEditor.obj $(DEBUGOBJDIR)/MarkupImageRGB.obj $(DEBUGOBJDIR)/MarkupLine2d.obj $(DEBUGOBJDIR)/MarkupPolygon2d.obj $(DEBUGOBJDIR)/MarkupImageByte.obj $(DEBUGOBJDIR)/MarkupInfo.obj $(DEBUGOBJDIR)/MarkupNote.obj $(DEBUGOBJDIR)/GUIMarkupCanvas.obj $(DEBUGOBJDIR)/MarkupImageRGBA.obj $(DEBUGOBJDIR)/MarkupLayerInfo.obj $(DEBUGOBJDIR)/MarkupPoint2d.obj 
+debug:: setupRavlGUI2D  $(DEBUGOBJDIR)/Canvas.obj $(DEBUGOBJDIR)/RawCanvas2d.obj $(DEBUGOBJDIR)/RawZoomCanvas.obj $(DEBUGOBJDIR)/FrameMarkup.obj $(DEBUGOBJDIR)/GUIMarkupLayerEditor.obj $(DEBUGOBJDIR)/MarkupImageRGB.obj $(DEBUGOBJDIR)/MarkupLine2d.obj $(DEBUGOBJDIR)/MarkupPolygon2d.obj $(DEBUGOBJDIR)/MarkupImageByte.obj $(DEBUGOBJDIR)/MarkupInfo.obj $(DEBUGOBJDIR)/MarkupNote.obj $(DEBUGOBJDIR)/GUIMarkupCanvas.obj $(DEBUGOBJDIR)/MarkupImageRGBA.obj $(DEBUGOBJDIR)/MarkupLayerInfo.obj $(DEBUGOBJDIR)/MarkupPoint2d.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlGUI2D.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlGUI2D.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlGUI2D::
         echo --- creating dir for RavlGUI2D
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

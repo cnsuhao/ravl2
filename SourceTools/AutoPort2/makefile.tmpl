@@ -27,16 +27,16 @@ OPTOBJDIR = $(ProjectOut)/win32/opt/obj/$(libname)
 OPTLIBDIR = $(ProjectOut)/win32/opt/lib
 
 
-opt:: setup $(forall:sources: $$(OPTOBJDIR)/$(objectfile:$(filename)))
+opt:: setup$(libname) $(forall:sources: $$(OPTOBJDIR)/$(objectfile:$(filename)))
 	@echo -- making $$(OPTLIBDIR)/$(libname).lib
 	$$(LD) /NOLOGO /out:$$(OPTLIBDIR)/$(libname).lib $$(OPTOBJDIR)/*.obj
 
 
-debug:: setup $(forall:sources: $$(DEBUGOBJDIR)/$(objectfile:$(filename))) 
+debug:: setup$(libname) $(forall:sources: $$(DEBUGOBJDIR)/$(objectfile:$(filename))) 
 	@echo -- making $$(DEBUGLIBDIR)/$(libname).lib
 	$$(LD) /NOLOGO /out:$$(DEBUGLIBDIR)/$(libname).lib $$(DEBUGOBJDIR)/*.obj
 
-setup::
+setup$(libname)::
         echo --- creating dir for $(libname)
         @if not exist "$$(DEBUGOBJDIR)" mkdir "$$(DEBUGOBJDIR)"
         @if not exist "$$(DEBUGLIBDIR)" mkdir "$$(DEBUGLIBDIR)"

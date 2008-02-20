@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/Ravl3D
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/Vertex.obj $(OPTOBJDIR)/Tri.obj $(OPTOBJDIR)/TriMesh.obj $(OPTOBJDIR)/TriMeshBinIO.obj $(OPTOBJDIR)/TexTriMesh.obj $(OPTOBJDIR)/TexTriMeshBinIO.obj $(OPTOBJDIR)/HEMeshVertex.obj $(OPTOBJDIR)/HEMeshEdge.obj $(OPTOBJDIR)/HEMeshFace.obj $(OPTOBJDIR)/HEMesh.obj $(OPTOBJDIR)/TriMesh2HEMesh.obj $(OPTOBJDIR)/HEMeshFaceIter.obj $(OPTOBJDIR)/VertexColourByteRGB.obj $(OPTOBJDIR)/MeshShapes.obj $(OPTOBJDIR)/VoxelSet.obj $(OPTOBJDIR)/PointSet.obj $(OPTOBJDIR)/SurfacePoint3dArray.obj
+opt:: setupRavl3D  $(OPTOBJDIR)/Vertex.obj $(OPTOBJDIR)/Tri.obj $(OPTOBJDIR)/TriMesh.obj $(OPTOBJDIR)/TriMeshBinIO.obj $(OPTOBJDIR)/TexTriMesh.obj $(OPTOBJDIR)/TexTriMeshBinIO.obj $(OPTOBJDIR)/HEMeshVertex.obj $(OPTOBJDIR)/HEMeshEdge.obj $(OPTOBJDIR)/HEMeshFace.obj $(OPTOBJDIR)/HEMesh.obj $(OPTOBJDIR)/TriMesh2HEMesh.obj $(OPTOBJDIR)/HEMeshFaceIter.obj $(OPTOBJDIR)/VertexColourByteRGB.obj $(OPTOBJDIR)/MeshShapes.obj $(OPTOBJDIR)/VoxelSet.obj $(OPTOBJDIR)/PointSet.obj $(OPTOBJDIR)/SurfacePoint3dArray.obj
 	@echo -- making $(OPTLIBDIR)/Ravl3D.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/Ravl3D.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/Vertex.obj $(DEBUGOBJDIR)/Tri.obj $(DEBUGOBJDIR)/TriMesh.obj $(DEBUGOBJDIR)/TriMeshBinIO.obj $(DEBUGOBJDIR)/TexTriMesh.obj $(DEBUGOBJDIR)/TexTriMeshBinIO.obj $(DEBUGOBJDIR)/HEMeshVertex.obj $(DEBUGOBJDIR)/HEMeshEdge.obj $(DEBUGOBJDIR)/HEMeshFace.obj $(DEBUGOBJDIR)/HEMesh.obj $(DEBUGOBJDIR)/TriMesh2HEMesh.obj $(DEBUGOBJDIR)/HEMeshFaceIter.obj $(DEBUGOBJDIR)/VertexColourByteRGB.obj $(DEBUGOBJDIR)/MeshShapes.obj $(DEBUGOBJDIR)/VoxelSet.obj $(DEBUGOBJDIR)/PointSet.obj $(DEBUGOBJDIR)/SurfacePoint3dArray.obj 
+debug:: setupRavl3D  $(DEBUGOBJDIR)/Vertex.obj $(DEBUGOBJDIR)/Tri.obj $(DEBUGOBJDIR)/TriMesh.obj $(DEBUGOBJDIR)/TriMeshBinIO.obj $(DEBUGOBJDIR)/TexTriMesh.obj $(DEBUGOBJDIR)/TexTriMeshBinIO.obj $(DEBUGOBJDIR)/HEMeshVertex.obj $(DEBUGOBJDIR)/HEMeshEdge.obj $(DEBUGOBJDIR)/HEMeshFace.obj $(DEBUGOBJDIR)/HEMesh.obj $(DEBUGOBJDIR)/TriMesh2HEMesh.obj $(DEBUGOBJDIR)/HEMeshFaceIter.obj $(DEBUGOBJDIR)/VertexColourByteRGB.obj $(DEBUGOBJDIR)/MeshShapes.obj $(DEBUGOBJDIR)/VoxelSet.obj $(DEBUGOBJDIR)/PointSet.obj $(DEBUGOBJDIR)/SurfacePoint3dArray.obj 
 	@echo -- making $(DEBUGLIBDIR)/Ravl3D.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/Ravl3D.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavl3D::
         echo --- creating dir for Ravl3D
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

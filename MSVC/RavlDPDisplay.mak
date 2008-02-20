@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlDPDisplay
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/DPWindow.obj $(OPTOBJDIR)/DPDisplayObj.obj $(OPTOBJDIR)/DPDisplayImage.obj $(OPTOBJDIR)/DPWindowOPort.obj $(OPTOBJDIR)/DPWindowFormat.obj $(OPTOBJDIR)/DPDisplayView.obj $(OPTOBJDIR)/DPDisplayPoints.obj $(OPTOBJDIR)/DPDisplayPolygon.obj $(OPTOBJDIR)/RavlGUIDisplay.obj
+opt:: setupRavlDPDisplay  $(OPTOBJDIR)/DPWindow.obj $(OPTOBJDIR)/DPDisplayObj.obj $(OPTOBJDIR)/DPDisplayImage.obj $(OPTOBJDIR)/DPWindowOPort.obj $(OPTOBJDIR)/DPWindowFormat.obj $(OPTOBJDIR)/DPDisplayView.obj $(OPTOBJDIR)/DPDisplayPoints.obj $(OPTOBJDIR)/DPDisplayPolygon.obj $(OPTOBJDIR)/RavlGUIDisplay.obj
 	@echo -- making $(OPTLIBDIR)/RavlDPDisplay.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlDPDisplay.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/DPWindow.obj $(DEBUGOBJDIR)/DPDisplayObj.obj $(DEBUGOBJDIR)/DPDisplayImage.obj $(DEBUGOBJDIR)/DPWindowOPort.obj $(DEBUGOBJDIR)/DPWindowFormat.obj $(DEBUGOBJDIR)/DPDisplayView.obj $(DEBUGOBJDIR)/DPDisplayPoints.obj $(DEBUGOBJDIR)/DPDisplayPolygon.obj $(DEBUGOBJDIR)/RavlGUIDisplay.obj 
+debug:: setupRavlDPDisplay  $(DEBUGOBJDIR)/DPWindow.obj $(DEBUGOBJDIR)/DPDisplayObj.obj $(DEBUGOBJDIR)/DPDisplayImage.obj $(DEBUGOBJDIR)/DPWindowOPort.obj $(DEBUGOBJDIR)/DPWindowFormat.obj $(DEBUGOBJDIR)/DPDisplayView.obj $(DEBUGOBJDIR)/DPDisplayPoints.obj $(DEBUGOBJDIR)/DPDisplayPolygon.obj $(DEBUGOBJDIR)/RavlGUIDisplay.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlDPDisplay.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlDPDisplay.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlDPDisplay::
         echo --- creating dir for RavlDPDisplay
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

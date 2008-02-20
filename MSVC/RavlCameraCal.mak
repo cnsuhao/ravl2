@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlCameraCal
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/PinholeCamera0.obj
+opt:: setupRavlCameraCal  $(OPTOBJDIR)/PinholeCamera0.obj
 	@echo -- making $(OPTLIBDIR)/RavlCameraCal.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlCameraCal.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/PinholeCamera0.obj 
+debug:: setupRavlCameraCal  $(DEBUGOBJDIR)/PinholeCamera0.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlCameraCal.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlCameraCal.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlCameraCal::
         echo --- creating dir for RavlCameraCal
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlDPMT
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/MTIOConnect.obj $(OPTOBJDIR)/PlayControl.obj $(OPTOBJDIR)/Governor.obj $(OPTOBJDIR)/Blackboard.obj $(OPTOBJDIR)/TailIStream.obj
+opt:: setupRavlDPMT  $(OPTOBJDIR)/MTIOConnect.obj $(OPTOBJDIR)/PlayControl.obj $(OPTOBJDIR)/Governor.obj $(OPTOBJDIR)/Blackboard.obj $(OPTOBJDIR)/TailIStream.obj
 	@echo -- making $(OPTLIBDIR)/RavlDPMT.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlDPMT.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/MTIOConnect.obj $(DEBUGOBJDIR)/PlayControl.obj $(DEBUGOBJDIR)/Governor.obj $(DEBUGOBJDIR)/Blackboard.obj $(DEBUGOBJDIR)/TailIStream.obj 
+debug:: setupRavlDPMT  $(DEBUGOBJDIR)/MTIOConnect.obj $(DEBUGOBJDIR)/PlayControl.obj $(DEBUGOBJDIR)/Governor.obj $(DEBUGOBJDIR)/Blackboard.obj $(DEBUGOBJDIR)/TailIStream.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlDPMT.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlDPMT.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlDPMT::
         echo --- creating dir for RavlDPMT
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

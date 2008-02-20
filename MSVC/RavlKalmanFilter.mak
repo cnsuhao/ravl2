@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/RavlKalmanFilter
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/KalmanFilter.obj $(OPTOBJDIR)/LinearKalmanFilter.obj $(OPTOBJDIR)/ExtendedKalmanFilter.obj $(OPTOBJDIR)/KalmanTwoWheelDifferentialMotionModel.obj $(OPTOBJDIR)/KalmanNullMeasurementModel.obj
+opt:: setupRavlKalmanFilter  $(OPTOBJDIR)/KalmanFilter.obj $(OPTOBJDIR)/LinearKalmanFilter.obj $(OPTOBJDIR)/ExtendedKalmanFilter.obj $(OPTOBJDIR)/KalmanTwoWheelDifferentialMotionModel.obj $(OPTOBJDIR)/KalmanNullMeasurementModel.obj
 	@echo -- making $(OPTLIBDIR)/RavlKalmanFilter.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/RavlKalmanFilter.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/KalmanFilter.obj $(DEBUGOBJDIR)/LinearKalmanFilter.obj $(DEBUGOBJDIR)/ExtendedKalmanFilter.obj $(DEBUGOBJDIR)/KalmanTwoWheelDifferentialMotionModel.obj $(DEBUGOBJDIR)/KalmanNullMeasurementModel.obj 
+debug:: setupRavlKalmanFilter  $(DEBUGOBJDIR)/KalmanFilter.obj $(DEBUGOBJDIR)/LinearKalmanFilter.obj $(DEBUGOBJDIR)/ExtendedKalmanFilter.obj $(DEBUGOBJDIR)/KalmanTwoWheelDifferentialMotionModel.obj $(DEBUGOBJDIR)/KalmanNullMeasurementModel.obj 
 	@echo -- making $(DEBUGLIBDIR)/RavlKalmanFilter.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/RavlKalmanFilter.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavlKalmanFilter::
         echo --- creating dir for RavlKalmanFilter
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"

@@ -27,16 +27,16 @@ OPTOBJDIR = C:\Build/win32/opt/obj/Ravl3DIO
 OPTLIBDIR = C:\Build/win32/opt/lib
 
 
-opt:: setup  $(OPTOBJDIR)/VRMLFileIO.obj $(OPTOBJDIR)/FormatVRMLFile.obj $(OPTOBJDIR)/CTriFileIO.obj $(OPTOBJDIR)/FormatCTriFile.obj $(OPTOBJDIR)/TriFileIO.obj $(OPTOBJDIR)/FormatTriFile.obj $(OPTOBJDIR)/MeshIOObj.obj $(OPTOBJDIR)/FormatMeshObj.obj $(OPTOBJDIR)/TriMeshIO.obj $(OPTOBJDIR)/TexTriMeshIO.obj $(OPTOBJDIR)/POVRayFileIO.obj $(OPTOBJDIR)/FormatPOVRayFile.obj $(OPTOBJDIR)/MeshConv.obj $(OPTOBJDIR)/RavlMeshIO.obj
+opt:: setupRavl3DIO  $(OPTOBJDIR)/VRMLFileIO.obj $(OPTOBJDIR)/FormatVRMLFile.obj $(OPTOBJDIR)/CTriFileIO.obj $(OPTOBJDIR)/FormatCTriFile.obj $(OPTOBJDIR)/TriFileIO.obj $(OPTOBJDIR)/FormatTriFile.obj $(OPTOBJDIR)/MeshIOObj.obj $(OPTOBJDIR)/FormatMeshObj.obj $(OPTOBJDIR)/TriMeshIO.obj $(OPTOBJDIR)/TexTriMeshIO.obj $(OPTOBJDIR)/POVRayFileIO.obj $(OPTOBJDIR)/FormatPOVRayFile.obj $(OPTOBJDIR)/MeshConv.obj $(OPTOBJDIR)/RavlMeshIO.obj
 	@echo -- making $(OPTLIBDIR)/Ravl3DIO.lib
 	$(LD) /NOLOGO /out:$(OPTLIBDIR)/Ravl3DIO.lib $(OPTOBJDIR)/*.obj
 
 
-debug:: setup  $(DEBUGOBJDIR)/VRMLFileIO.obj $(DEBUGOBJDIR)/FormatVRMLFile.obj $(DEBUGOBJDIR)/CTriFileIO.obj $(DEBUGOBJDIR)/FormatCTriFile.obj $(DEBUGOBJDIR)/TriFileIO.obj $(DEBUGOBJDIR)/FormatTriFile.obj $(DEBUGOBJDIR)/MeshIOObj.obj $(DEBUGOBJDIR)/FormatMeshObj.obj $(DEBUGOBJDIR)/TriMeshIO.obj $(DEBUGOBJDIR)/TexTriMeshIO.obj $(DEBUGOBJDIR)/POVRayFileIO.obj $(DEBUGOBJDIR)/FormatPOVRayFile.obj $(DEBUGOBJDIR)/MeshConv.obj $(DEBUGOBJDIR)/RavlMeshIO.obj 
+debug:: setupRavl3DIO  $(DEBUGOBJDIR)/VRMLFileIO.obj $(DEBUGOBJDIR)/FormatVRMLFile.obj $(DEBUGOBJDIR)/CTriFileIO.obj $(DEBUGOBJDIR)/FormatCTriFile.obj $(DEBUGOBJDIR)/TriFileIO.obj $(DEBUGOBJDIR)/FormatTriFile.obj $(DEBUGOBJDIR)/MeshIOObj.obj $(DEBUGOBJDIR)/FormatMeshObj.obj $(DEBUGOBJDIR)/TriMeshIO.obj $(DEBUGOBJDIR)/TexTriMeshIO.obj $(DEBUGOBJDIR)/POVRayFileIO.obj $(DEBUGOBJDIR)/FormatPOVRayFile.obj $(DEBUGOBJDIR)/MeshConv.obj $(DEBUGOBJDIR)/RavlMeshIO.obj 
 	@echo -- making $(DEBUGLIBDIR)/Ravl3DIO.lib
 	$(LD) /NOLOGO /out:$(DEBUGLIBDIR)/Ravl3DIO.lib $(DEBUGOBJDIR)/*.obj
 
-setup::
+setupRavl3DIO::
         echo --- creating dir for Ravl3DIO
         @if not exist "$(DEBUGOBJDIR)" mkdir "$(DEBUGOBJDIR)"
         @if not exist "$(DEBUGLIBDIR)" mkdir "$(DEBUGLIBDIR)"
