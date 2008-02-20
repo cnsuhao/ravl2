@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2006, OmniPerception Ltd.
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -7,8 +7,10 @@
 %include "Ravl/Swig/Types.i"
 
 %{
+#undef Copy
 #include "Ravl/DList.hh"
 #include "Ravl/DLIter.hh"
+#define Copy(s,d,n,t)   (MEM_WRAP_CHECK_(n,t) (void)memcpy((char*)(d),(const char*)(s), (n) * sizeof(t)))
 %}
 
 namespace RavlN {
@@ -31,7 +33,7 @@ namespace RavlN {
     DataT Nth(int n);
   };
 
-  template<class DataT> 
+  template<class DataT>
   class DLIterC {
   public:
     DLIterC();
@@ -46,7 +48,7 @@ namespace RavlN {
     void Prev();
     void NextCrc();
     void PrevCrc();
-    void Nth(IntT n);    
+    void Nth(IntT n);
     DataT NextData();
     DataT PrevData();
     DataT NextCrcData();
@@ -54,7 +56,7 @@ namespace RavlN {
     DListC<DataT> Tail();
     DListC<DataT> Head();
     DListC<DataT> InclusiveTail();
-    DListC<DataT> InclusiveHead();    
+    DListC<DataT> InclusiveHead();
     DataT Data();
     DataT *operator->();
   };
@@ -63,7 +65,7 @@ namespace RavlN {
 
 %define DLIST_TOLIST_TYPE(name, type, converter)
 
-%template(DList ## name ## C) RavlN::DListC<type>; 
+%template(DList ## name ## C) RavlN::DListC<type>;
 %template(DList ## name ## IterC) RavlN::DLIterC<type>;
 
 %inline %{
@@ -96,7 +98,7 @@ DLIST_TOLIST_TYPE(Byte,  RavlN::ByteT,  PyInt_FromLong)
 
 %define DLIST_TOLIST_OBJECT(name, type)
 
-%template(DList ## name ## C) RavlN::DListC<type>; 
+%template(DList ## name ## C) RavlN::DListC<type>;
 %template(DList ## name ## IterC) RavlN::DLIterC<type>;
 
 %inline %{

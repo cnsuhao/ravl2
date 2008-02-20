@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2006, OmniPerception Ltd.
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -9,27 +9,29 @@
 %include "Ravl/Swig/Types.i"
 
 %{
+#undef Copy
 #include "Ravl/String.hh"
+#define Copy(s,d,n,t)   (MEM_WRAP_CHECK_(n,t) (void)memcpy((char*)(d),(const char*)(s), (n) * sizeof(t)))
 %}
 
 namespace RavlN
 {
-  
+
   class StringC
   {
   public:
     StringC();
     StringC(const char *);
-    
+
     bool IsEmpty() const;
-    
+
     const char *chars() const;
-    
+
     SizeT Size() const;
 
     %extend
     {
-      const char *__str__() 
+      const char *__str__()
       {
         return self->chars();
       }

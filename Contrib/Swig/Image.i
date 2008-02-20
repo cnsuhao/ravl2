@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2006, OmniPerception Ltd.
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -11,58 +11,60 @@
 %include "Ravl/Swig/Polygon2d.i"
 
 %{
+#undef Copy
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Image/RealRGBValue.hh"
 #include "Ravl/Image/DrawPolygon.hh"
+#define Copy(s,d,n,t)   (MEM_WRAP_CHECK_(n,t) (void)memcpy((char*)(d),(const char*)(s), (n) * sizeof(t)))
 %}
 
 namespace RavlN {
-  %template(ByteRGBArray2dC) Array2dC<RavlImageN::ByteRGBValueC>; 
+  %template(ByteRGBArray2dC) Array2dC<RavlImageN::ByteRGBValueC>;
   %template(RealRGBArray2dC) Array2dC<RavlImageN::RealRGBValueC>;
 }
 
 namespace RavlImageN {
   using namespace RavlN;
-  
+
   class RealRGBValueC {
   public:
     RealRGBValueC(RealT r,RealT g,RealT b);
-    
+
     RealT Red() const;
     RealT Green() const;
     RealT Blue() const;
   };
-  
+
   class ByteRGBValueC {
   public:
     ByteRGBValueC(IntT r,IntT g,IntT b);
-    
+
     IntT Red() const;
     IntT Green() const;
     IntT Blue() const;
   };
-  
+
 
   template<typename PixelT>
-  class ImageC 
+  class ImageC
     : public RavlN::Array2dC<PixelT>
-  {	
+  {
   public:
     ImageC();
     ImageC(SizeT rows,SizeT cols);
     ImageC(const IndexRange2dC &range);
     ImageC(const ImageC<PixelT> &img,const IndexRange2dC &range);
     // Take a sub image.
-    
+
     SizeT Rows() const;
     SizeT Cols() const;
   };
-  
-  %template(ImageByteRGBValueC) ImageC<ByteRGBValueC>; 
-  %template(ByteRGBImageC) ImageC<ByteRGBValueC>; 
-  %template(ImageByteC) ImageC<ByteT>; 
-  
+
+  %template(ImageByteRGBValueC) ImageC<ByteRGBValueC>;
+  %template(ByteRGBImageC) ImageC<ByteRGBValueC>;
+  %template(ImageByteC) ImageC<ByteT>;
+
   bool Save(StringC,const ImageC<ByteT> &);
   bool Load(StringC,ImageC<ByteT> &);
   bool Save(StringC,const ImageC<RealT> &);
@@ -71,7 +73,7 @@ namespace RavlImageN {
   bool Load(StringC,ImageC<ByteRGBValueC> &);
   bool Save(const char *,const ImageC<ByteRGBValueC> &);
   bool Load(const char *,ImageC<ByteRGBValueC> &);
-  
+
   void DrawPolygon(Array2dC<ByteRGBValueC> &,const ByteRGBValueC &,const Polygon2dC &poly,bool fill=false);
   void DrawPolygon(Array2dC<ByteT> &,const ByteT &,const Polygon2dC &poly,bool fill=false);
 }

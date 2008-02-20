@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2006, OmniPerception Ltd.
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -9,7 +9,9 @@
 %include "Ravl/Swig/RealRange2d.i"
 
 %{
+#undef Copy
 #include "Ravl/PointSet2d.hh"
+#define Copy(s,d,n,t)   (MEM_WRAP_CHECK_(n,t) (void)memcpy((char*)(d),(const char*)(s), (n) * sizeof(t)))
 %}
 
 namespace RavlN
@@ -17,12 +19,12 @@ namespace RavlN
   class PointSet2dC :
     public DListC<Point2dC>
   {
-  public:	
+  public:
     PointSet2dC();
 
     Point2dC Centroid() const;
-    // Returns the centroid (mean) of the points 
-    
+    // Returns the centroid (mean) of the points
+
     RealRange2dC BoundingRectangle() const;
     //: Compute the bounding rectangle for the point set.
   };

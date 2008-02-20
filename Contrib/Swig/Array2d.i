@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2006, OmniPerception Ltd.
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -9,11 +9,13 @@
 %include "Ravl/Swig/IndexRange2d.i"
 
 %{
+#undef Copy
 #include "Ravl/Array2d.hh"
+#define Copy(s,d,n,t)   (MEM_WRAP_CHECK_(n,t) (void)memcpy((char*)(d),(const char*)(s), (n) * sizeof(t)))
 %}
 
 namespace RavlN {
-  
+
   template<typename DataT>
   class Array2dC {
   public:
@@ -36,7 +38,7 @@ namespace RavlN {
 	{ return self->operator[](r)[c]; }
     }
   };
-  %template(Array2dByteC) Array2dC<ByteT>; 
-  %template(Array2dRealC) Array2dC<RealT>; 
+  %template(Array2dByteC) Array2dC<ByteT>;
+  %template(Array2dRealC) Array2dC<RealT>;
 }
 

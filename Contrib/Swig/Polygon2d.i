@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2006, OmniPerception Ltd.
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -9,7 +9,9 @@
 %include "Ravl/Swig/PointSet2d.i"
 
 %{
+#undef Copy
 #include "Ravl/Polygon2d.hh"
+#define Copy(s,d,n,t)   (MEM_WRAP_CHECK_(n,t) (void)memcpy((char*)(d),(const char*)(s), (n) * sizeof(t)))
 %}
 
 namespace RavlN {
@@ -21,7 +23,7 @@ namespace RavlN {
     Polygon2dC();
     void InsLast(Point2dC &point);
     // Add point to polygon
-    
+
     SizeT Size() const;
     // Number of points in the polygon
   };
