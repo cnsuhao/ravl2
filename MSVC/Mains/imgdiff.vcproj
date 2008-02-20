@@ -62,7 +62,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="C:\Build\win32\debug\bin\imgdiff.exe"
-				AdditionalDependencies=" atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib"
+				AdditionalDependencies=" atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib gtkglext-win32-1.0.lib gdkglext-win32-1.0.lib OpenGL32.lib Glu32.lib"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\lib&quot;;&quot;C:\GTKWIN32\lib\&quot;"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
@@ -140,7 +140,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="C:\Build\win32\opt\bin\imgdiff.exe"
-				AdditionalDependencies=" atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib"
+				AdditionalDependencies=" atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib gtkglext-win32-1.0.lib gdkglext-win32-1.0.lib OpenGL32.lib Glu32.lib"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\lib&quot;;&quot;C:\GTKWIN32\lib\&quot;"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
