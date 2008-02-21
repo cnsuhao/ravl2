@@ -65,6 +65,15 @@
 <lib>glade-2.0.lib</lib>
 </extlib>
 
+<extlib name="x11">
+</extlib>
+
+<extlib name="OpenGL">
+</extlib>
+
+<extlib name="RavlGeom">
+</extlib>
+
 <extlib name="system">
 <includepath>C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include</includepath>
 <libpath>C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\lib</libpath>
@@ -81,7 +90,6 @@
 
 <extlib name="Auto">
 </extlib>
-
 
 <extlib name="RavlNet">
 <lib>ws2_32.lib</lib>

@@ -205,6 +205,7 @@ namespace RavlN {
     StringC libName = plibName;
     if(libName.contains(".opt"))
       libName = libName.before(".opt");
+
     
     // Done already ?
     if(done.IsMember(libName))
@@ -212,15 +213,19 @@ namespace RavlN {
         
     done += libName;
     
-    // Anything extra needed ?
+    // this bits is crazy - but seems to work!
     if(extLibs.IsElm(libName)) {
+
+      // external library path
       if(doLibPaths) {
         for(DLIterC<StringC> it(extLibs[libName].LibPaths());it;it++) {
-          if(result.Size() > 0)
+          if(result.Size() > 0) 
             result += ';';
-          result += StringC("&quot;") + *it + StringC("&quot;");
+          result += *it;
         }
-      } else {
+      }
+      // external library
+      else {
         for(DLIterC<StringC> it(extLibs[libName].Libs());it;it++) {
           result += ' ';
           result += *it;
@@ -228,13 +233,17 @@ namespace RavlN {
       }
     }
     
-    for(DLIterC<StringC> it(src.Deps()[libName]);it;it++)
-      BuildExtraLibs(*it,done,result,doLibPaths);    
-    
-#if 0
-    result += ' ';
-    result += libName;
-#endif
+    else {
+      
+      for(DLIterC<StringC> it(src.Deps()[libName]);it;it++)
+        BuildExtraLibs(*it,done,result,doLibPaths);    
+      
+      if(!extLibs.IsElm(libName) && !doLibPaths) {
+        result += ' ';
+        result += libName + ".lib";
+      }
+    }
+    // end of craziness.....
     
     return true;
   }
@@ -272,6 +281,7 @@ namespace RavlN {
   //: Execute a shell command and include stdout.
   
   bool AutoPortGeneratorBodyC::DoShell(StringC &data) {
+#ifndef VISUAL_CPP
     StringC idata = Interpret(data);
     ChildOSProcessC cproc(idata,true);
     if(!cproc.Wait(5.0) && !cproc.ExitedOk()) {
@@ -280,7 +290,7 @@ namespace RavlN {
       return false;
     }
     cproc.StdOut().CopyTo(output.Top());
-    
+#endif
     return true;
   }
 
