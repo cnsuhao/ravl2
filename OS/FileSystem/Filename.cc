@@ -45,14 +45,18 @@
 #define ONDEBUG(x)
 #endif
 
+
+
+
 namespace RavlN {
   StringC FilenameC::AMDPrefix("/a/");
-  
+
   // Make a directory with this name.
   
   bool FilenameC::MakeDir(const FilePermissionC &Acc) const  {
     if(IsEmpty()) // Empty string ?
       return false; 
+
     // Need to make nested directories ?
     FilenameC comp = PathComponent();
     if(!comp.IsEmpty()) {
@@ -139,9 +143,18 @@ namespace RavlN {
   // Return the path component of a Filename, ie. upto last /
   
   FilenameC FilenameC::PathComponent() const  {
+    
     if(IsEmpty())
       return FilenameC();
+#ifdef VISUAL_CPP
+    // paths can contain / and \ which confuse this routine, so lets sort that out first!
+    FilenameC str = Copy();
+    str.gsub("/", "\\");
+    str.gsub("\\\\", "\\");
+    return str.before(filenameSeperator,-1);
+#else
     return const_cast<FilenameC &>(*this).before(filenameSeperator,-1);
+#endif
   }
   
   // Return the name component of a Filename, ie. upto last / 
@@ -149,10 +162,21 @@ namespace RavlN {
   FilenameC FilenameC::NameComponent() const  {
     if(IsEmpty())
       return FilenameC();
+#ifdef VISUAL_CPP
+    // paths can contain / and \ which confuse this routine, so lets sort that out first!
+    FilenameC str = Copy();
+    str.gsub("/", "\\");
+    str.gsub("\\\\", "\\");
+    int ind = str.index(filenameSeperator,-1);
+    if(ind < 0)
+      return str;
+    return str.after(ind);
+#else
     int ind = index(filenameSeperator,-1);
     if(ind < 0)
       return *this;
     return const_cast<FilenameC &>(*this).after(ind);
+#endif
   }
 
   //: Return the base name component of a Filename, 
