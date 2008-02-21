@@ -12,7 +12,9 @@
 #include "Ravl/AutoPort2/AutoPortGenerator.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/OS/ChildOSProcess.hh"
-
+#ifdef VISUAL_CPP
+#include "Rpc.h"
+#endif
 
 #define DODEBUG 0
 #if DODEBUG 
@@ -290,6 +292,18 @@ namespace RavlN {
       return false;
     }
     cproc.StdOut().CopyTo(output.Top());
+#else
+    if(data == "uuidgen") {
+      UUID uuid;
+      UuidCreate(&uuid);
+      unsigned char * buf;
+      UuidToStringA(&uuid, &buf);
+      StringC s((char *)buf);
+      output.Top() << s;
+      cerr << "uuid: " << s << endl;
+    } else {
+      RavlIssueError("DoShell:Not supoorted on Windows\n");
+    }
 #endif
     return true;
   }
