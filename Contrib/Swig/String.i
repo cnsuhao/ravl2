@@ -29,7 +29,8 @@ namespace RavlN
 
     SizeT Size() const;
 
-    %extend
+#ifdef SWIGPYTHON
+    %extend // Not sure if this work for perl
     {
       const char *__str__()
       {
@@ -37,10 +38,23 @@ namespace RavlN
       }
     }
 
-    %typemap(python, out) StringC
+    %typemap(out) StringC
     {
       $result = PyString_FromStringAndSize($1.chars(), $1.Size());
     }
+#endif
+
+#ifdef SWIGPERL
+    %typemap(out) StringC
+    {
+      $result = newSVpv($1.chars(), $1.Size()));
+    }
+
+    %typemap(in) StringC
+    {
+      $1 = RavlN::StringC(SvPV($input, SvLEN($input)));
+    }
+#endif
   };
 
 }

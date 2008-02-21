@@ -68,6 +68,7 @@ namespace RavlN {
 %template(DList ## name ## C) RavlN::DListC<type>;
 %template(DList ## name ## IterC) RavlN::DLIterC<type>;
 
+#ifdef SWIGPYTHON
 %inline %{
   PyObject *ToList(RavlN::DListC<type> list)
   {
@@ -86,7 +87,7 @@ namespace RavlN {
     return NULL;
   }
 %}
-
+#endif
 %enddef
 
 DLIST_TOLIST_TYPE(Real,  RavlN::RealT,  PyFloat_FromDouble)
@@ -101,6 +102,7 @@ DLIST_TOLIST_TYPE(Byte,  RavlN::ByteT,  PyInt_FromLong)
 %template(DList ## name ## C) RavlN::DListC<type>;
 %template(DList ## name ## IterC) RavlN::DLIterC<type>;
 
+#ifdef SWIGPYTHON
 %inline %{
   PyObject *ToList(RavlN::DListC<type> list)
   {
@@ -122,4 +124,5 @@ DLIST_TOLIST_TYPE(Byte,  RavlN::ByteT,  PyInt_FromLong)
     return NULL;
   }
 %}
+#endif
 %enddef
