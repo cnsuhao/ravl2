@@ -300,7 +300,6 @@ namespace RavlN {
       UuidToStringA(&uuid, &buf);
       StringC s((char *)buf);
       output.Top() << s;
-      cerr << "uuid: " << s << endl;
     } else {
       RavlIssueError("DoShell:Not supoorted on Windows\n");
     }
