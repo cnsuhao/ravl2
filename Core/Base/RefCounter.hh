@@ -77,7 +77,7 @@ namespace RavlN {
     //: Default constructor.
     // Creates a handle with 0 reference counts.
     
-    RCBodyC(const RCBodyC &body) 
+    RCBodyC(const RCBodyC &) 
     { ravl_atomic_set(&counter,0); }
     //: Make sure we don't copy the reference counter.
   private:
