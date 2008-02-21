@@ -53,10 +53,11 @@
 
     <ul>
       <li> <a href="Ravl.QMake.Defs.html#MAINS">MAINS</a> A list of programs to compile.
-      <li> <a href="Ravl.QMake.Defs.html#SOURCES">SOURCES</a> Source files to compile.
+      <li> <a href="Ravl.QMake.Defs.html#SOURCES">SOURCES</a> Other source files to compile.
       <li> <a href="Ravl.QMake.Defs.html#HEADERS">HEADERS</a> Header files for this source code that need to be shared.
-      <li> <a href="Ravl.QMake.Defs.html#PLIB">PLIB</a> Name of library to create.
-      <li> <a href="Ravl.QMake.Defs.html#USESLIBS">USESLIBS</a> Libraries needed to compile source code.
+      <li> <a href="Ravl.QMake.Defs.html#PLIB">PLIB</a> Name of library to be created from the entries in SOURCES.
+      <li> <a href="Ravl.QMake.Defs.html#PROGLIBS">PROGLIBS</a> Additional libraries only needed for executables defined in MAINS.
+      <li> <a href="Ravl.QMake.Defs.html#USESLIBS">USESLIBS</a> Libraries needed by the library defined by PLIB.
       <li> <a href="Ravl.QMake.Defs.html#NESTED">NESTED</a> Subdirectories to compile.
     </ul>
     <p>E.g. if all you wanted to compile was one file called "fred.cc"
