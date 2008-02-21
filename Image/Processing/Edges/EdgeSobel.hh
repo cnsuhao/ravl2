@@ -45,7 +45,7 @@ namespace RavlImageN {
       ImageRectangleC ir = img.Rectangle();
       out = ImageC<TFVectorC<DataOutT,2> >(ir.Shrink(1));
     }
-    for(Array2dSqr31Iter2C<DataInT,DataOutT> it(img,out);it;it++) {
+    for(Array2dSqr31Iter2C<DataInT,TFVectorC<DataOutT,2> > it(img,out);it;it++) {
       it.Data2()[0] = it.DataBL1() + it.DataBM1()*2 + it.DataBR1() - it.DataTL1() - it.DataTM1()*2 - it.DataTR1();
       it.Data2()[1] = it.DataBR1() + it.DataMR1()*2 + it.DataTR1() - it.DataBL1() - it.DataML1()*2 - it.DataTL1();
     }
