@@ -65,7 +65,7 @@ namespace RavlGUIN {
     //: Resize canvas.
     // The canvas will be resized on the next render event.
     
-    bool GUIResize(int &width,int &width);
+    bool GUIResize(int &width,int &height);
     //: Resize canvas.
     // GUI Thread only
     
