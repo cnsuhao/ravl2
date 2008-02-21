@@ -3,16 +3,19 @@
 
 : Graphical User Interface.
 
-Tools for building graphical user interfaces.  These tools act as
+<p>Tools for building graphical user interfaces.  These tools act as
 wrappers for the 'C' <a href="http://www.gtk.org">GTK</a> library.
 The current version is not complete, additional functions will be
-added on request. <p>
+added on request. </p>
 
-Newcomers to the RAVL GUI library should start with <a
+<p><b>N.B.</b> The usual RAVL convention for coordinate ordering is: rows,
+colums.  However many of the GUI class methods do not adhere to this.</p>
+
+<p>Newcomers to the RAVL GUI library should start with <a
 href="../../../html/tutorial.html">this tutorial</a>.  For advanced
-users, the <a href="http://www.gtk.org/tutorial">GTK tutorial</a>
- is also very helpful.<p>
+users, the GTK tutorial<a href="http://www.gtk.org/documentation.html">GTK tutorial</a>
+ is also very helpful.</p>
 
-Finally, users of the class <a href="../Class/RavlGUIN.CanvasC.html">CanvasC</a>
+<p>Finally, users of the class <a href="../Class/RavlGUIN.CanvasC.html">CanvasC</a>
 who want to use the colours might find
-<a href="../../../html/canvas_colours.html">this colour grid</a> useful.
+<a href="../../../html/canvas_colours.html">this colour grid</a> useful.</p>

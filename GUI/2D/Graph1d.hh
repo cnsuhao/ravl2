@@ -161,8 +161,8 @@ protected:
     //: Default constructor.
     // Creates an invalid handle.
     
-    Graph1dC(int sx,int sy)
-      : RawCanvasC(*new Graph1dBodyC(sx,sy))
+    Graph1dC(int width,int height)
+      : RawCanvasC(*new Graph1dBodyC(width,height))
     {}
     //: Default constructor.
     

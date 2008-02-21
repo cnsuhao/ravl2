@@ -35,7 +35,7 @@ namespace RavlGUIN {
     : public WidgetBodyC 
   {
   public:
-    CanvasBodyC(int sx,int sy,bool direct = false);
+    CanvasBodyC(int width,int height,bool direct = false);
     //: Constructor.
     // If direct rendering is enabled (true) it is the user's responsibity to provide an 
     // expose method which updates the window on the display.
@@ -61,11 +61,11 @@ namespace RavlGUIN {
     //: Access colour.
     // GUI thread only. (n=65 is black)
     
-    bool Resize(int nsx,int nsy);
+    bool Resize(int width,int height);
     //: Resize canvas.
     // The canvas will be resized on the next render event.
     
-    bool GUIResize(int &nsx,int &nsy);
+    bool GUIResize(int &width,int &width);
     //: Resize canvas.
     // GUI Thread only
     
@@ -86,23 +86,23 @@ namespace RavlGUIN {
     virtual void DrawImage(const ImageC<ByteRGBValueC> &img,Index2dC offset=Index2dC(0,0));
     //: Draw an rgb image on the canvas.
     
-    void DrawLine(IntT x1,IntT y1,IntT x2,IntT y2,IntT colId = 0); 
+    void DrawLine(IntT col1,IntT row1,IntT col2,IntT row2,IntT colourId = 0); 
     //: Draw a line.
     
-    void DrawArc(ImageRectangleC rect, IntT start, IntT angle, IntT colId = 0, bool fill = false); 
+    void DrawArc(ImageRectangleC rect, IntT start, IntT angle, IntT colourId = 0, bool fill = false); 
     //: Draw an arc.
     // The rectangle defines an ellipse in the image
     // start is the angle to start at, relative to 3 o'clock, in 1/64ths of a degree.
     // angle is the length of the arc, in 1/64ths of a degree
     // If fill is true, the arc is a pie, otherwise it's a line arc
     
-    void DrawRectangle(IntT x1,IntT y1,IntT x2,IntT y2,IntT colId = 0); 
+    void DrawRectangle(IntT col1,IntT row1,IntT col2,IntT row2,IntT colourId = 0); 
     //: Draw a filled rectangle.
     
-    void DrawFrame(IntT x1,IntT y1,IntT x2,IntT y2,IntT colId = 0); 
+    void DrawFrame(IntT col1,IntT row1,IntT col2,IntT row2,IntT colourId = 0); 
     //: Draw an empty rectangle.
     
-    void DrawText(IntT x1,IntT y1,StringC text,IntT colId = 0);
+    void DrawText(IntT col,IntT row,StringC text,IntT colourId = 0);
     //: Draw some text
     
     bool GUIDrawImage(ImageC<ByteT> &img,Index2dC &offset);
@@ -113,23 +113,23 @@ namespace RavlGUIN {
     //: Draw an rgb image on the canvas.
     // Call with GUI thread only!
     
-    bool GUIDrawLine(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId); 
+    bool GUIDrawLine(IntT &col1,IntT &row1,IntT &col2,IntT &row2,IntT &colourId); 
     //: Draw a line.
     // Call with GUI thread only!
 
-    bool GUIDrawLine(Index2dC start, Index2dC end, IntT colId); 
+    bool GUIDrawLine(Index2dC start, Index2dC end, IntT colourId); 
     //: Draw a line.
     // Call with GUI thread only!
 
     
-    bool GUIDrawArc(ImageRectangleC& rect, IntT& start, IntT& angle, IntT& colId, bool& fill); 
+    bool GUIDrawArc(ImageRectangleC& rect, IntT& start, IntT& angle, IntT& colourId, bool& fill); 
     //: Draw an arc.
     // The rectangle defines an ellipse in the image
     // start is the angle to start at, relative to 3 o'clock, in 1/64ths of a degree.
     // angle is the length of the arc, in 1/64ths of a degree
     // If fill is true, the arc is a pie, otherwise it's a line arc
     
-    bool GUIDrawText(IntT &x1,IntT &y1,StringC &text,IntT &colId);
+    bool GUIDrawText(IntT &col,IntT &row,StringC &text,IntT &colourId);
     //: Draw some text
     // Call with GUI thread only!
 
@@ -145,13 +145,13 @@ namespace RavlGUIN {
     // Values for capstyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKCAPSTYLE">here</a>
     // Values for joinstyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKJOINSTYLE">here</a>
     
-    bool GUIDrawRectangle(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId); 
+    bool GUIDrawRectangle(IntT &col1,IntT &row1,IntT &col2,IntT &row2,IntT &colourId); 
     //: Draw a filled rectangle.
     
-    bool GUIDrawFrame(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId); 
+    bool GUIDrawFrame(IntT &col1,IntT &row1,IntT &col2,IntT &row2,IntT &colourId); 
     //: Draw an empty rectangle
 
-    bool GUIDrawFrame(Index2dC topLeft, Index2dC bottomRight, IntT colId); 
+    bool GUIDrawFrame(Index2dC topLeft, Index2dC bottomRight, IntT colourId); 
     //: Draw an empty rectangle
 
     bool GUIClear();
@@ -217,7 +217,7 @@ namespace RavlGUIN {
     void AddToQueue(TriggerC &trigger);
     //: Add a trigger to the to-do list
     
-    int sx,sy;
+    int sx,sy;  // NB these violate RAVL coord convention: sx is col, sy is row
     bool direct;
     bool initialExposureDone;
     
@@ -249,7 +249,7 @@ namespace RavlGUIN {
     //: Default constructor.
     // NB. This creates an invalid handle.
     
-    CanvasC(int xs,int ys,bool direct = false);
+    CanvasC(int width,int height,bool direct = false);
     //: Constructor.
     // If direct rendering is enabled (true) it is the user's responsibity to provide an 
     // expose method which updates the window on the display.
@@ -277,13 +277,13 @@ namespace RavlGUIN {
     { return Body().DrawArea(); }
     //: Get drawing area.
     
-    bool GUIResize(int &nsx,int &nsy)
-    { return Body().GUIResize(nsx,nsy); }
+    bool GUIResize(int &width,int &height)
+    { return Body().GUIResize(width,height); }
     //: Resize canvas.
     // Call with the GUI Thread only
     
-    bool Resize(int nsx,int nsy)
-    { return Body().Resize(nsx,nsy); }
+    bool Resize(int width,int height)
+    { return Body().Resize(width,height); }
     //: Resize canvas.
     
     GdkColor &GetColour(int n)
@@ -308,47 +308,47 @@ namespace RavlGUIN {
     { Body().DrawImage(img,Index2dC(0,0)); return true; }
     //: Draw an rgb image on the canvas.
     
-    void DrawLine(IntT x1,IntT y1,IntT x2,IntT y2,IntT colId = 0)
-    { Body().DrawLine(x1,y1,x2,y2,colId); }
+    void DrawLine(IntT col1,IntT row1,IntT col2,IntT row2,IntT colourId = 0)
+    { Body().DrawLine(col1,row1,col2,row2,colourId); }
     //: Draw a line.
     
-    void DrawArc(ImageRectangleC rect, IntT start, IntT angle, IntT colId = 0, bool fill = false)
-    { Body().DrawArc(rect,start,angle,colId,fill); }
+    void DrawArc(ImageRectangleC rect, IntT start, IntT angle, IntT colourId = 0, bool fill = false)
+    { Body().DrawArc(rect,start,angle,colourId,fill); }
     //: Draw an arc.
     // The rectangle defines an ellipse in the image
     // start is the angle to start at, relative to 3 o'clock, in 1/64ths of a degree.
     // angle is the length of the arc, in 1/64ths of a degree
     // If fill is true, the arc is a pie, otherwise it's a line arc
 
-    void DrawText(IntT x1,IntT y1,StringC text,IntT colId = 0)
-    { Body().DrawText(x1,y1,text,colId); }
+    void DrawText(IntT col,IntT row,StringC text,IntT colourId = 0)
+    { Body().DrawText(col,row,text,colourId); }
     //: Draw a line.
     
-    void DrawRectangle(IntT x1,IntT y1,IntT x2,IntT y2,IntT colId = 0)
-    { Body().DrawRectangle(x1,y1,x2,y2,colId); }
+    void DrawRectangle(IntT col1,IntT row1,IntT col2,IntT row2,IntT colourId = 0)
+    { Body().DrawRectangle(col1,row1,col2,row2,colourId); }
     //: Draw a filled rectangle
     
-    void DrawFrame(IntT x1,IntT y1,IntT x2,IntT y2,IntT colId = 0)
-    { Body().DrawFrame(x1,y1,x2,y2,colId); }
+    void DrawFrame(IntT col1,IntT row1,IntT col2,IntT row2,IntT colourId = 0)
+    { Body().DrawFrame(col1,row1,col2,row2,colourId); }
     //: Draw an empty rectangle
     
-    bool GUIDrawLine(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId)
-    { return Body().GUIDrawLine(x1,y1,x2,y2,colId); }
+    bool GUIDrawLine(IntT &col1,IntT &row1,IntT &col2,IntT &row2,IntT &colourId)
+    { return Body().GUIDrawLine(col1,row1,col2,row2,colourId); }
     //: Draw a line.
 
-    bool GUIDrawLine(Index2dC &p1,Index2dC &p2,IntT &colId)
+    bool GUIDrawLine(Index2dC &p1,Index2dC &p2,IntT &colourId)
     { 
 # if RAVL_OS_LINUX64
-return Body().GUIDrawLine( (IntT &) p1.Row().V(), (IntT &) p1.Col().V(), (IntT &)p2.Row().V(),(IntT &)p2.Col().V(),colId); 
+return Body().GUIDrawLine( (IntT &) p1.Row().V(), (IntT &) p1.Col().V(), (IntT &)p2.Row().V(),(IntT &)p2.Col().V(),colourId); 
 #else 
-return Body().GUIDrawLine(  p1.Row().V(),  p1.Col().V(), p2.Row().V(),p2.Col().V(),colId); 
+return Body().GUIDrawLine(  p1.Row().V(),  p1.Col().V(), p2.Row().V(),p2.Col().V(),colourId); 
 #endif 
 }
     //: Draw a line.
     // Call with GUI thread only!
     
-    bool GUIDrawArc(ImageRectangleC& rect, IntT& start, IntT& angle, IntT& colId, bool& fill)
-    { return Body().GUIDrawArc(rect,start,angle,colId,fill); }
+    bool GUIDrawArc(ImageRectangleC& rect, IntT& start, IntT& angle, IntT& colourId, bool& fill)
+    { return Body().GUIDrawArc(rect,start,angle,colourId,fill); }
     //: Draw an arc.
     // The rectangle defines an ellipse in the image
     // start is the angle to start at, relative to 3 o'clock, in 1/64ths of a degree.
@@ -369,12 +369,12 @@ return Body().GUIDrawLine(  p1.Row().V(),  p1.Col().V(), p2.Row().V(),p2.Col().V
     // Values for capstyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKCAPSTYLE">here</a>
     // Values for joinstyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKJOINSTYLE">here</a>
 
-    bool GUIDrawRectangle(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId)
-    { return Body().GUIDrawRectangle(x1,y1,x2,y2,colId); }
+    bool GUIDrawRectangle(IntT &col1,IntT &row1,IntT &col2,IntT &row2,IntT &colourId)
+    { return Body().GUIDrawRectangle(col1,row1,col2,row2,colourId); }
     //: Draw a filled rectangle.
     
-    bool GUIDrawFrame(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId)
-    { return Body().GUIDrawFrame(x1,y1,x2,y2,colId); }
+    bool GUIDrawFrame(IntT &col1,IntT &row1,IntT &col2,IntT &row2,IntT &colourId)
+    { return Body().GUIDrawFrame(col1,row1,col2,row2,colourId); }
     //: Draw an empty rectangle.
     
     bool GUIDrawImage(ImageC<ByteT> &img,Index2dC &offset)
@@ -387,8 +387,8 @@ return Body().GUIDrawLine(  p1.Row().V(),  p1.Col().V(), p2.Row().V(),p2.Col().V
     //: Draw an rgb image on the canvas.
     // Call with GUI thread only!
     
-    bool GUIDrawText(IntT &x1,IntT &y1,StringC &text,IntT &colId)
-    { return Body().GUIDrawText(x1,y1,text,colId); }
+    bool GUIDrawText(IntT &col,IntT &row,StringC &text,IntT &colourId)
+    { return Body().GUIDrawText(col,row,text,colourId); }
     //: Draw some text.
     // Call with GUI thread only!
     
