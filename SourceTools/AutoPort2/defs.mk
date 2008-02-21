@@ -29,7 +29,7 @@ PLIB=RavlAutoPort2
 
 PROGLIBS= 
 
-USESLIBS = RavlOS RavlSourceTools RavlCore RavlIO RavlMath GTK
+USESLIBS = RavlOS RavlSourceTools RavlCore RavlIO RavlMath
 
 AUXFILES= header.tmpl guid.tmpl externalLib.xml  sln.tmpl vcproj.tmpl solution.guid.tmpl \
  testProgram.guid.tmpl testProgram.tmpl exampleProgram.tmpl mainProgram.tmpl program.stmpl \
