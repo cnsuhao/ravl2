@@ -14,11 +14,11 @@
 namespace RavlN
 {
   typedef double RealT;
-  typedef float FloatT
+  typedef float FloatT;
   typedef int IntT;
   typedef unsigned int UIntT;
   typedef long long Int64T;
-  typedef unsigned long long Int64T;
+  typedef unsigned long long UInt64T;
   typedef short int Int16T;
   typedef unsigned int SizeT;
   typedef unsigned char ByteT;
