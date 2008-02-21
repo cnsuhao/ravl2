@@ -75,8 +75,7 @@
 </extlib>
 
 <extlib name="system">
-<includepath>C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include</includepath>
-<libpath>C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\lib</libpath>
+<lib>Rpcrt4.lib</lib>
 </extlib>
 
 <extlib name="Math">
@@ -128,6 +127,5 @@
 <lib>libguide.lib</lib>
 <lib>mkl_c.lib</lib>
 </extlib>
-
 
 </extlibs>
