@@ -12,9 +12,9 @@
 //! file="Ravl/SourceTools/VisualCPP/AutoPortGenerator.hh"
 //! lib=RavlAutoPort2
 
-#include "Ravl/SourceTools/AutoPortSource.hh"
+#include "Ravl/AutoPort2/AutoPortSource.hh"
 #include "Ravl/Text/TemplateComplex.hh"
-#include "Ravl/SourceTools/ExtLibTable.hh"
+#include "Ravl/AutoPort2/ExtLibTable.hh"
 
 namespace RavlN {
   
@@ -60,12 +60,6 @@ namespace RavlN {
     bool DoLibDepends(StringC &data); 
     //: Go through all dependant libraries.
 
-    bool DoObjectFile(StringC &data); 
-    //: Turn filename into object file, simply by changing extension
-
-    bool DoFileBaseName(StringC &data); 
-    //: Turn filename into basename only (i.e. after last / and before .)
-
     bool HelpLibDepends(StringC &data,const StringC &library,HSetC<StringC> &done); 
     //: Helper functionf or DoLibDepends.
     
@@ -104,9 +98,6 @@ namespace RavlN {
     //: Access info about current lib.
     
     StringC VarExtraInclude();
-    //: Compute value of extra inclue variable.
-
-    StringC VarNMakeExtraInclude();
     //: Compute value of extra inclue variable.
     
     StringC VarExtraLibPath();

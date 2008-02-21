@@ -55,8 +55,6 @@ namespace RavlN {
     SetupCommand("topandtail",*this,&AutoPortGeneratorBodyC::DoTopAndTail);
     SetupCommand("IfFileExists",*this,&AutoPortGeneratorBodyC::DoIfFileExists);
     SetupCommand("LibDepends",*this,&AutoPortGeneratorBodyC::DoLibDepends);
-    SetupCommand("objectfile",*this,&AutoPortGeneratorBodyC::DoObjectFile);
-    SetupCommand("filebasename",*this,&AutoPortGeneratorBodyC::DoFileBaseName);
   }
   
   //: Lookup variable.
@@ -121,10 +119,6 @@ namespace RavlN {
       buff = VarExtraInclude();
       return true;
     }
-    if(varname == "NMakeExtraInclude") { // Extra include paths needed.
-      buff = VarNMakeExtraInclude();
-      return true;
-    }
     if(varname == "ProgExtraLibPath") { // Extra library paths needed.
       buff =VarExtraLibPath();
       return true;
@@ -181,40 +175,6 @@ namespace RavlN {
     }
     return buff;
   }
-
-
-  StringC AutoPortGeneratorBodyC::VarNMakeExtraInclude() {
-    StringC buff;
-    
-    //: First lets make an exclusive list of all libraries
-    DListC<StringC>exclusive;
-    HashC<StringC, DListC<StringC> >deps = src.Deps();
-    for(DLIterC<StringC>it(context.Top().UsesLibs());it;it++) {
-      if(deps.IsElm(*it)) {
-        for(DLIterC<StringC> inIt(deps[*it]);inIt;inIt++) 
-          if(!exclusive.Contains(*inIt)) exclusive.InsLast(*inIt);
-      }
-      if(!exclusive.Contains(*it)) exclusive.InsLast(*it);
-    }
-      
-    //: Now we want to check if there are any external libraries
-    //: and add the include paths
-    DListC<StringC>includePaths;
-    for(DLIterC<StringC> it(exclusive);it;it++) {
-      if(extLibs.IsElm(*it)) {
-        for(DLIterC<StringC> inIt(extLibs[*it].IncludePaths());inIt;inIt++) 
-          if(!includePaths.Contains(*inIt)) includePaths.InsLast(*inIt);
-      }
-    }
-      
-    //: Now make a single string of all includes
-    buff="";
-    for(DLIterC<StringC> it(includePaths);it;it++) {
-      buff += StringC("/I \"") + *it + StringC("\" ");
-    }
-    return buff;
-  }
-
   
   StringC AutoPortGeneratorBodyC::VarExtraLibPath() {
     StringC buff;
@@ -570,27 +530,6 @@ namespace RavlN {
     return true;
   }
 
-  //: Generate ab object file name
-  bool AutoPortGeneratorBodyC::DoObjectFile(StringC &data) {
-    StringC newstuff = Interpret(data);
-    FilenameC filename(newstuff);
-    StringC basename = filename.BaseNameComponent();
-    StringC objectFile = basename + ".obj";
-    output.Top() << objectFile;
-    return true;
-  }
-
-  //: Generate the file basename
-  bool AutoPortGeneratorBodyC::DoFileBaseName(StringC &data) {
-    StringC newstuff = Interpret(data);
-    FilenameC filename(newstuff);
-    StringC basename = filename.BaseNameComponent();
-    output.Top() << basename;
-    return true;
-  }
-
-  
-  
   //: Helper functionf or DoLibDepends.
   
   bool AutoPortGeneratorBodyC::HelpLibDepends(StringC &data,const StringC &library,HSetC<StringC> &done) {
@@ -674,7 +613,7 @@ namespace RavlN {
        fileObject == "newmains" || fileObject == "newexamples" || fileObject == "newtests"
        ) {
       DListC<ProgInfoC> pi;
-      if(fileObject == "mains" || fileObject == "mains")
+      if(fileObject == "mains" || fileObject == "newmains")
 	pi = src.Mains();
       else if(fileObject == "examples" || fileObject == "newexamples")
 	pi = src.Examples();

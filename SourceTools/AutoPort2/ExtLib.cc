@@ -8,7 +8,7 @@
 //! lib=RavlAutoPort2
 //! file="Ravl/SourceTools/VisualCPP/ExtLib.cc"
 
-#include "Ravl/SourceTools/ExtLib.hh"
+#include "Ravl/AutoPort2/ExtLib.hh"
 #include "Ravl/DLIter.hh"
 #include "Ravl/HashIter.hh"
 #include "Ravl/TypeName.hh"

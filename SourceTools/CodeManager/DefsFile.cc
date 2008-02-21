@@ -29,7 +29,8 @@ namespace RavlN {
                        "DOCNODE","SCRIPTS","MUSTLINK","ANSIFLAG","LICENSE","PACKAGENAME",
                        "REQUIRES","ORGANISATION","OBJEXT",
                        "CXXEXT","CXXAUXEXT","CHXXEXT","CEXT","CHEXT","EXEEXT","USERCPPFLAGS","EXTERNALLIBS",
-                       "LICENCE", "SWIGOPTS", "CCFLAGS", "LDFLAGS", "CPPFLAGS", "CCPPFLAGS",  0 };
+                       "LICENCE", "SWIGOPTS", "CCFLAGS", "LDFLAGS", "CPPFLAGS", "CCPPFLAGS",
+                       "FLEX_DO_NOT_GENERATE", "BISON_DO_NOT_GENERATE",   0 };
 
   /////////////////
   // Construct from a filename.

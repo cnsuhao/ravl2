@@ -7,7 +7,7 @@
 #! rcsid="$Id$"
 #! file="Ravl/SourceTools/CodeManager/defs.mk"
 
-DONOT_SUPPORT=VCPP
+DONOT_SUPPORT=
 
 PACKAGENAME = CxxDoc
 

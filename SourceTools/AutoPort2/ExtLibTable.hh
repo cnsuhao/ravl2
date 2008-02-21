@@ -17,7 +17,7 @@
 #include "Ravl/XMLStream.hh"
 #include "Ravl/RCHash.hh"
 #include "Ravl/String.hh"
-#include "Ravl/SourceTools/ExtLib.hh"
+#include "Ravl/AutoPort2/ExtLib.hh"
 
 namespace RavlN {
 

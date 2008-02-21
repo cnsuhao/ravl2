@@ -7,8 +7,8 @@
 #! rcsid="$Id$"
 #! file="Ravl/SourceTools/defs.mk"
 
-DONOT_SUPPORT=VCPP
+DONOT_SUPPORT=
 
-NESTED=  CodeManager.r VisualCPP.r CxxDoc.r ToMake.r AutoPort2.r
+NESTED=  CodeManager.r VisualCPP CxxDoc.r ToMake.r AutoPort2.r
 
 EHT= Ravl.API.Source_Tools.eht

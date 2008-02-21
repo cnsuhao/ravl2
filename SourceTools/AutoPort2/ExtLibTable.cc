@@ -8,7 +8,7 @@
 //! file="Ravl/SourceTools/VisualCPP/ExtLibTable.cc"
 
 
-#include "Ravl/SourceTools/ExtLibTable.hh"
+#include "Ravl/AutoPort2/ExtLibTable.hh"
 #include "Ravl/HashIter.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/DP/FileFormatXMLStream.hh"
