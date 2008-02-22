@@ -128,4 +128,11 @@
 <lib>mkl_c.lib</lib>
 </extlib>
 
+<extlib name="SQLite3">
+<includepath>C:\sqlite-3_5_1</includepath>
+<libpath>C:\sqlite-3_5_1\Release</libpath>
+<lib>sqlite3.lib</lib>
+</extlib>
+
+
 </extlibs>
