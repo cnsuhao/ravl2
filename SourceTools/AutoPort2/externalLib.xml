@@ -114,8 +114,8 @@
 </extlib>
 
 <extlib name="SentinelSuperPro">
-<includepath>C:\Program Files\SafeNet Sentinel\Visual C++</includepath>
-<libpath>C:\Program Files\SafeNet Sentinel\Visual C++\MD\</libpath>
+<includepath>C:\Program Files\Rainbow Technologies\SuperPro\6.3\MSVCDev\include</includepath>
+<libpath>C:\Program Files\Rainbow Technologies\SuperPro\6.3\MSVCDev\lib</libpath>
 <lib>spromeps.lib</lib>
 <lib>wsock32.lib</lib>
 </extlib>
@@ -132,6 +132,12 @@
 <includepath>C:\sqlite-3_5_1</includepath>
 <libpath>C:\sqlite-3_5_1\Release</libpath>
 <lib>sqlite3.lib</lib>
+</extlib>
+
+<extlib name="RLog">
+<includepath>C:\rlog-1.3.7</includepath>
+<libpath>C:\rlog-1.3.7\win32\Release</libpath>
+<lib>rlog.lib</lib>
 </extlib>
 
 
