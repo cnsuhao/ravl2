@@ -34,8 +34,8 @@ namespace RavlGUIN {
     : public WidgetBodyC 
   {
   public:
-    RawCanvasBodyC(int nsx,int nsy)
-      : sx(nsx),sy(nsy)
+    RawCanvasBodyC(int width,int height)
+      : sx(width),sy(height)
       {}
     //: Default constructor.
     
@@ -106,12 +106,12 @@ namespace RavlGUIN {
     IntT SizeX() {
       return sx;
     }
-    //: Get the x-dimension size.
+    //: Get the width.
 
     IntT SizeY() {
       return sy;
     }
-    //: Get the y-dimension size.
+    //: Get the height.
 
   protected:  
     virtual bool Create();
@@ -141,8 +141,8 @@ namespace RavlGUIN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    RawCanvasC(int sx,int sy)
-      : WidgetC(*new RawCanvasBodyC(sx,sy))
+    RawCanvasC(int width,int height)
+      : WidgetC(*new RawCanvasBodyC(width,height))
       {}
     //: Constructor.  
 
@@ -242,12 +242,12 @@ namespace RavlGUIN {
     IntT SizeX() {
       return Body().SizeX();
     }
-    //: Get the x-dimension size.
+    //: Get the width.
 
     IntT SizeY() {
       return Body().SizeY();
     }
-    //: Get the y-dimension size.
+    //: Get the height.
 
   };
   

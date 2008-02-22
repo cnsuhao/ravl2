@@ -63,19 +63,19 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "DPDisplayViewBodyC::Create(), Called \n");
     
     
-    int rows = winSize.Cols();
-    int cols = winSize.Rows();
+    int rows = winSize.Rows();
+    int cols = winSize.Cols();
     // Limit maximum inital size.
-    if(rows > 700)
-      rows = 700;
+    if(rows > 800)
+      rows = 800;
     if(rows < 30)
       rows = 30;
-    if(cols > 800)
-      cols = 800;
+    if(cols > 700)
+      cols = 700;
     if(cols < 30)
        cols = 30;
     
-    canvas = GUIMarkupCanvasC(cols,rows);
+    canvas = GUIMarkupCanvasC(rows,cols);
     
     canvas.GUISetOffset(-Point2dC(displaySize.Origin()));
     
