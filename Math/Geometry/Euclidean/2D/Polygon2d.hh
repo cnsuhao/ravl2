@@ -30,7 +30,7 @@ namespace RavlN {
   // of line segments forming a simple closed curve. <p>
   // Ref.: -  O'Rourke,J.: Computatinal geometry in C;
   //          Cambridge University Press, 1994, p. 1 <p>
-   
+  
   class Polygon2dC
     : public PointSet2dC
   {
@@ -104,14 +104,7 @@ namespace RavlN {
     
     bool Contains(const Point2dC & p) const;
     // Returns true iff the point 'p' is an internal point of this polygon.
-  
-    DListC<LinePP2dC> Triangulate();
-    // Returns the set of diagonals of this polygon. The polygon vertexes are
-    // supposed to be in the counter-clockwise order and they can
-    // be collinear.
-    // Ref.: -  O'Rourke,J.: Computatinal geometry in C;
-    //          Cambridge University Press, 1994, pp. 35-42
-
+    
     RealT Perimeter() const;
     //: Returns the perimeter length of this polygon.
     

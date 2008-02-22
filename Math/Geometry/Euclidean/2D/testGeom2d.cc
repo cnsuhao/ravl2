@@ -28,8 +28,11 @@
 #include "Ravl/LineABC2d.hh"
 #include "Ravl/Conic2d.hh"
 #include "Ravl/Ellipse2d.hh"
+#include "Ravl/Triangulate2d.hh"
 #include "Ravl/Angle.hh"
 #include "Ravl/ScanPolygon2d.hh"
+#include "Ravl/Collection.hh"
+#include "Ravl/DListExtra.hh"
 
 using namespace RavlN;
 
@@ -52,6 +55,7 @@ int testEllipse2dD();
 int testScanPolygon();
 int testOverlap();
 int testPolygonClip();
+int testTriangulate2d();
 
 #define TEST(f) \
   if((ln = f()) != 0) {\
@@ -81,8 +85,9 @@ int main() {
   TEST(testScanPolygon);
   TEST(testOverlap);
   TEST(testPolygonClip);
-#endif
   TEST(testAffine);
+#endif
+  TEST(testTriangulate2d);
   cout << "Test passed. \n";
   return 0;
 }
@@ -568,6 +573,7 @@ int testEllipse2dD() {
 #if DODISPLAY
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/DrawLine.hh"
+#include "Ravl/Image/DrawPolygon.hh"
 #include "Ravl/IO.hh"
 using namespace RavlImageN;
 #endif
@@ -1005,5 +1011,49 @@ int testPolygonClip() {
   score = clippedConvex.Overlap(clippedRange);
   if (Abs(score - 1) > 1e-6) return __LINE__;
 
+  return 0;
+}
+
+int testTriangulate2d() {
+  CollectionC<Point2dC> poly(20);
+  poly.Append( Vector2dC(0,6));  
+  poly.Append( Vector2dC(0,0));
+  poly.Append( Vector2dC(3,0));
+  poly.Append( Vector2dC(4,1));
+  poly.Append( Vector2dC(6,1));
+  poly.Append( Vector2dC(8,0));
+  poly.Append( Vector2dC(12,0));
+  poly.Append( Vector2dC(13,2));
+  poly.Append( Vector2dC(8,2));
+  poly.Append( Vector2dC(8,4));
+  poly.Append( Vector2dC(11,4));
+  poly.Append( Vector2dC(11,6));
+  poly.Append( Vector2dC(6,6));
+  poly.Append( Vector2dC(4,3));
+  poly.Append( Vector2dC(2,6));
+  
+  SArray1dC<Index3dC> triangles;
+  if(!PolygonTriangulation(poly.Array(),triangles))
+    return __LINE__;
+  if(triangles.Size() != poly.Size()-2) return __LINE__;
+  
+#if DODISPLAY
+  ByteT drawVal = 128;
+  ImageC<ByteT> img(128,128);
+  img.Fill(0);
+  for(unsigned i = 0;i < triangles.Size();i++) {
+    Index3dC tri = triangles[i];
+    DrawLine(img,drawVal,Index2dC(poly[tri[0]]*10),Index2dC(poly[tri[1]]*10));
+    DrawLine(img,drawVal,Index2dC(poly[tri[1]]*10),Index2dC(poly[tri[2]]*10));
+    DrawLine(img,drawVal,Index2dC(poly[tri[2]]*10),Index2dC(poly[tri[0]]*10));
+  }
+  Polygon2dC dpoly = DListOf(poly.Array());
+  dpoly *= 10;
+  drawVal = 255;
+  DrawPolygon(img,drawVal,dpoly);
+  RavlN::Save("@X:Triangulate",img);
+#endif
+  std::cerr << "Points=" << poly.Size() << " Triangles=" << triangles.Size() << "\n";
+  
   return 0;
 }
