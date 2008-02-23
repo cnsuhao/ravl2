@@ -51,7 +51,7 @@ namespace RavlGUIN {
     //: Add object to scene
     // If ID!=0, the object is assigned this id number, and
     // can be accessed using it.
-
+    
     void GUISceneComplete();
     //: Make the scene complete.
     // If more objects are Add()ed after this, a new scene will be started
@@ -196,9 +196,9 @@ namespace RavlGUIN {
       {}
     //: Default constructor.
     // creates an invalid handle.
-
-    View3DC(int sx,int sy,bool enableLighting = true,bool enableTexture = true)
-      : Canvas3DC(*new View3DBodyC(sx,sy,enableLighting,enableTexture))
+    
+    View3DC(int width,int height,bool enableLighting = true,bool enableTexture = true)
+      : Canvas3DC(*new View3DBodyC(width,height,enableLighting,enableTexture))
       {}
     //: Constructor.
 

@@ -52,20 +52,34 @@ namespace RavlGUIN {
   //////////////////////////////////////////////////
 
   ostream &operator<<(ostream &strm,const DObject3DC &) {
-    RavlAssert(0);
+    RavlAssertMsg(0,"not implemented");
     return strm;
   }
 
   istream &operator>>(istream &strm,DObject3DC &) {
-    RavlAssert(0);
+    RavlAssertMsg(0,"not implemented");
     return strm;
   }
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const DObject3DC &) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Write an object set to a binary stream.
+  // Not implemented
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,DObject3DC &) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Read an object set to a binary stream.
+  // Not implemented
+  
 
   /// DObjectSet3DBodyC ///////////////////////////////////////////////
   //: Default constructor.
   DObjectSet3DBodyC::DObjectSet3DBodyC()
-    : done(false),
-      gotCenter(false),
+    : gotCenter(false),
       center(0,0,0),
       gotExtent(false),
       extent(1)
@@ -90,7 +104,7 @@ namespace RavlGUIN {
       if(parts.Size() != 0)
       {
         RealT count = 0;
-        for(DLIterC<DObject3DC> it(parts); it.IsElm(); it.Next(), count++)
+        for(DLIterC<DObject3DC> it(parts); it; it++, count++)
           center += it.Data().GUICenter();
         center /= count;
       }
@@ -110,7 +124,7 @@ namespace RavlGUIN {
       {
         Vector3dC at = GUICenter();
         RealT maxDist = 0;
-        for(DLIterC<DObject3DC> it(parts); it.IsElm(); it.Next())
+        for(DLIterC<DObject3DC> it(parts); it; it++)
         {
           RealT dist = at.EuclidDistance(it.Data().GUICenter()) +
                                          it.Data().GUIExtent();

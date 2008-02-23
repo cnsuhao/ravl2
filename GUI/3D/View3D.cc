@@ -224,10 +224,10 @@ namespace RavlGUIN {
 
     if(!scene.IsValid())
       return false;
-
-    Vector3dC lookAt(0., 0., 0.);
+    
+    Vector3dC lookAt = m_sceneCenter; // Vector3dC(0,0,0)
     RealT dist = lookAt.EuclidDistance(m_viewPoint);
-    //cerr << "viewObj:" << lookAt << "  dist:" << dist << endl;
+    cerr << "View3DBodyC::GUIAdjustView :" << lookAt << "  dist:" << dist << endl;
     if(dist <= 0)
       dist = 0.01;
     //if(dist <= m_sceneExtent)
@@ -238,9 +238,9 @@ namespace RavlGUIN {
     GLint viewport[4];
     glGetIntegerv(GL_VIEWPORT, viewport);
     //cerr << "View port:" << viewport[0] << "  " << viewport[1] << "  " << viewport[2] << "  " << viewport[3] << "  " << endl;
-
-    GLdouble fNear = dist - m_sceneExtent;
-    GLdouble fFar = dist + m_sceneExtent;
+    
+    GLdouble fNear = dist - m_sceneExtent*2;
+    GLdouble fFar = dist + m_sceneExtent*2;
     if(fNear < 0.1)
       fNear = 0.1;
     GLdouble extent = m_sceneExtent * fNear / dist;
@@ -267,7 +267,7 @@ namespace RavlGUIN {
     //cerr << "ext:" << extHor << "   " << extVer << endl;
     //cerr << "depth:" << fNear << "   " << fFar << endl;
     glFrustum(-extHor, extHor, -extVer, extVer, fNear, fFar);
-
+    
     //setup view point
     gluLookAt(m_viewPoint.X(),   m_viewPoint.Y(),   m_viewPoint.Z(),
               lookAt.X(),        lookAt.Y(),        lookAt.Z(),
@@ -480,10 +480,11 @@ namespace RavlGUIN {
         //shift origin to scene centre
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
+        glTranslated(m_sceneCenter.X(), m_sceneCenter.Y(), m_sceneCenter.Z());
         glRotated(m_vRotation[0],1,0,0);
         glRotated(m_vRotation[1],0,1,0);
         glTranslated(-m_sceneCenter.X(), -m_sceneCenter.Y(), -m_sceneCenter.Z());
-
+	
         Canvas3DC my(*this);
         scene.GUIRender(my);
         glPopMatrix();

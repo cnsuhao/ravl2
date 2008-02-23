@@ -163,10 +163,17 @@ namespace RavlGUIN {
 
   };
 
-
   ostream &operator<<(ostream &strm,const DObject3DC &);
   istream &operator>>(istream &strm,DObject3DC &);
-
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const DObject3DC &);
+  //: Write an object set to a binary stream.
+  // Not implemented
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,DObject3DC &);
+  //: Read an object set to a binary stream.
+  // Not implemented
+  
   ////////////////////////////////////
   //! userlevel=Develop
   //: Body for OpenGL code invocation class.
@@ -225,6 +232,7 @@ namespace RavlGUIN {
   istream &operator>>(istream &strm,DOpenGLC &);
   //: Read an DOpenGLC from a stream.
 
+
   ////////////////////////////////////
 
   //! userlevel=Develop
@@ -252,7 +260,6 @@ namespace RavlGUIN {
 
   protected:
     DListC<DObject3DC> parts;
-    bool done;
     mutable bool gotCenter;
     mutable Vector3dC center;
     mutable bool gotExtent;
@@ -261,7 +268,8 @@ namespace RavlGUIN {
 
   //! userlevel=Normal
   //: Set of basic objects in a 3D world.
-  class DObjectSet3DC : public DObject3DC
+  class DObjectSet3DC 
+    : public DObject3DC
   {
   public:
     DObjectSet3DC()
@@ -285,10 +293,10 @@ namespace RavlGUIN {
 
   protected:
     DObjectSet3DBodyC &Body()
-      { return dynamic_cast<DObjectSet3DBodyC &>(DObject3DC::Body()); }
+    { return dynamic_cast<DObjectSet3DBodyC &>(DObject3DC::Body()); }
 
     const DObjectSet3DBodyC &Body() const
-      { return dynamic_cast<const DObjectSet3DBodyC &>(DObject3DC::Body()); }
+    { return dynamic_cast<const DObjectSet3DBodyC &>(DObject3DC::Body()); }
   };
 
   //! userlevel=Normal
@@ -298,7 +306,8 @@ namespace RavlGUIN {
 
   istream &operator>>(istream &strm,DObjectSet3DC &);
   //: Read an object set to a stream.
-
+  
+  
 }
 #endif
 
