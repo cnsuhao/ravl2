@@ -167,8 +167,15 @@ RESOURCES += Swig
 
 ## uuid ############################################
 
-RESOURCES += UUIdTheo
+RESOURCES +=UUIdTheo
 #UUIDTHEO_HOME=/usr
 
 POSTGRESQL_HOME=/sw
+
+RESOURCES += USE_SSE2
+
+RLOG_HOME=/sw
+
+PYTHON_VERSION=2.5
+RESOURCES += LibPython
 
