@@ -8,6 +8,9 @@
 #define RAVL_TRIANGULATE2D_HEADER 1
 //! userlevel=Normal
 //! author="Charles Galambos, based on code by John W. Ratcliff"
+//! date="22/2/2008"
+//! userlevel=Normal
+//! docentry="Ravl.API.Math.Geometry.2D"
 
 #include "Ravl/Polygon2d.hh"
 #include "Ravl/Index3d.hh"
