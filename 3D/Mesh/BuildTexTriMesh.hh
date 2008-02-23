@@ -17,6 +17,10 @@ namespace RavlN {
   class Affine3dC;
 }
 
+namespace RavlImageN {
+  class ByteRGBAValueC;
+}
+
 namespace Ravl3DN {
   
   //! userlevel=Normal
@@ -31,7 +35,11 @@ namespace Ravl3DN {
     BuildTexTriMeshC(UIntT noVerticesEstimate = 100);
     
     //! Append a new texture, its id is returned.
-    UIntT AppendTexture(const ImageC<ByteRGBValueC> &texture,const StringC &name = "");
+    UIntT AddTexture(const ImageC<ByteRGBValueC> &texture,const StringC &name = "");
+    
+    //! Append a new texture, its id is returned.
+    //! Note: transparency is not currently supported, but that may change in the future.
+    UIntT AddTexture(const ImageC<ByteRGBAValueC> &texture,const StringC &name = "");
     
     //! Add face to texture.
     // The texture coorinates are assumed to those of the actual positions in the texture. (NOT scaled 0.0-1.0)

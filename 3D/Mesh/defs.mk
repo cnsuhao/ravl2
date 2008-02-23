@@ -23,11 +23,13 @@ SOURCES= Vertex.cc Tri.cc TriMesh.cc TriMeshBinIO.cc \
 
 TESTEXES=testHEMesh.cc testTriMesh.cc
 
+EXAMPLES = exBuildMesh.cc
+
 PLIB=Ravl3D
 
 USESLIBS=RavlMath RavlImage
 
-PROGLIBS=RavlDPDisplay
+PROGLIBS=RavlDPDisplay RavlDPDisplay3d
 
 EHT=Ravl.API.3D.Mesh.html
 

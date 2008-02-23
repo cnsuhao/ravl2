@@ -8,6 +8,7 @@
 //! lib=Ravl3D
 //! file="Ravl/3D/Mesh/VertexColourByteRGB.cc"
 
+#include "Ravl/BinStream.hh"
 #include "Ravl/3D/VertexColourByteRGB.hh"
 
 namespace Ravl3DN 
@@ -21,4 +22,15 @@ namespace Ravl3DN
     s >> v.Position() >> v.Normal() >> v.Colour();
     return s;
   }
+  
+  BinOStreamC &operator<<(BinOStreamC &s,const VertexColourByteRGBC &v) {
+    s << static_cast<const VertexC &>(v) << v.Colour();
+    return s;
+  }
+  
+  BinIStreamC &operator>>(BinIStreamC &s,VertexColourByteRGBC &v) {
+    s >> static_cast<VertexC &>(v) >> v.Colour();
+    return s;
+  }
+
 }

@@ -10,6 +10,8 @@
 #include "Ravl/SArray1dIter3.hh"
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/Triangulate2d.hh"
+#include "Ravl/Matrix2d.hh"
+#include "Ravl/Image/ImageConv.hh"
 
 namespace Ravl3DN {
   
@@ -24,7 +26,7 @@ namespace Ravl3DN {
   
   //! Append a new texture, its id is returned.
   
-  UIntT BuildTexTriMeshC::AppendTexture(const ImageC<ByteRGBValueC> &texture,const StringC &name) {
+  UIntT BuildTexTriMeshC::AddTexture(const ImageC<ByteRGBValueC> &texture,const StringC &name) {
     UIntT ret = m_textures.Append(texture);
     // Make up a name if one isn't supplied.
     StringC theName = name;
@@ -35,6 +37,12 @@ namespace Ravl3DN {
     return texNameId;
   }
 
+  //! Append a new texture, its id is returned.
+  //! Note: transparency is not currently supported, but that may change in the future.
+  UIntT BuildTexTriMeshC::AddTexture(const ImageC<ByteRGBAValueC> &texture,const StringC &name) {
+    return AddTexture(RavlImageN::ByteRGBAImageCT2ByteRGBImageCT(texture),name);
+  }
+
   //! Add face to texture.
   // The texture coorinates are assumed to those of the actual positions in the texture. (NOT scaled 0.0-1.0)
 
@@ -43,12 +51,20 @@ namespace Ravl3DN {
       return false;
     RavlAssert(texturePoints.Size() == position3d.Size());
     SArray1dC<VertexC *> vertex(position3d.Size());
-    Vector3dC normal = Vector3dC(position3d[0] - position3d[1]).Cross(position3d[1] - position3d[2]);
+    Vector3dC normal = Vector3dC(position3d[1] - position3d[2]).Cross(position3d[1] - position3d[0]);
     normal.MakeUnit();
-
+    
     // Add vertices
     for(SArray1dIter3C<Point3dC,Point2dC,VertexC *> it(position3d,texturePoints,vertex);it;it++) {
       it.Data3() = &m_vertices[m_vertices.Append(VertexC(it.Data1(),normal))];
+    }
+    Matrix2dC textureCoordScale(0,1,1,0);
+    Vector2dC textureCoordOffset(0,0);
+    if(textureId < m_textures.Size()) {
+      IndexRange2dC frame = m_textures[textureId].Frame();
+      textureCoordScale = Matrix2dC(0,1.0/frame.Cols(),
+				    1.0/frame.Rows(),0);
+      textureCoordOffset = Point2dC(-frame.Origin().Row(),-frame.Origin().Col());
     }
     
     SArray1dC<Index3dC> triangulation;
@@ -56,13 +72,16 @@ namespace Ravl3DN {
       return false;
     }
     for(SArray1dIterC<Index3dC> it(triangulation);it;it++) {
-      const int p0 = (*it)[0].V();
-      const int p1 = (*it)[1].V();
+      const int p0 = (*it)[1].V();
+      const int p1 = (*it)[0].V();
       const int p2 = (*it)[2].V();
       m_faces.Append(TriC(*vertex[p0],*vertex[p1],*vertex[p2],
-			  texturePoints[p0],texturePoints[p1],texturePoints[p2],
+			  textureCoordScale * (texturePoints[p0] + textureCoordOffset),
+			  textureCoordScale * (texturePoints[p1] + textureCoordOffset),
+			  textureCoordScale * (texturePoints[p2] + textureCoordOffset),
 			  (UByteT) textureId
 			  ));
+      m_faces.Last().UpdateFaceNormal();
     }
     
     return true;
@@ -77,7 +96,7 @@ namespace Ravl3DN {
     
     // Map textures.
     for(RavlN::SArray1dIter3C<unsigned,ImageC<ByteRGBValueC>,StringC > it(old2newTex,mesh.Textures(),mesh.TexFilenames());it;it++) 
-      it.Data1() = AppendTexture(it.Data2(),it.Data3());
+      it.Data1() = AddTexture(it.Data2(),it.Data3());
     
     // Map vertices.
     for(RavlN::SArray1dIter2C<unsigned,VertexC> it(old2newVertex,mesh.Vertices());it;it++) 
@@ -101,7 +120,7 @@ namespace Ravl3DN {
     
     // Map textures.
     for(RavlN::SArray1dIter3C<unsigned,ImageC<ByteRGBValueC>,StringC > it(old2newTex,mesh.Textures(),mesh.TexFilenames());it;it++) 
-      it.Data1() = AppendTexture(it.Data2(),it.Data3());
+      it.Data1() = AddTexture(it.Data2(),it.Data3());
     
     // Map vertices.
     for(RavlN::SArray1dIter2C<unsigned,VertexC> it(old2newVertex,mesh.Vertices());it;it++) {
