@@ -83,7 +83,7 @@ namespace RavlGUIN {
     void SetFont(StringC& strFontDesc);
     //: Set a font for the widget to use
     // strFontDesc is an XLFD string, such as "-*-helvetica-bold-r-normal--*-120-*-*-*-*-iso8859-1".
-    // XLFD strings are described <a href="http://developer.gnome.org/doc/API/gdk/gdk-fonts.html">here</a>
+    // XLFD strings are described <a href="http://library.gnome.org/devel/gdk/stable/gdk-Fonts.html">here</a>
     
   protected:
 
