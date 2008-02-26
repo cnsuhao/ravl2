@@ -31,7 +31,7 @@ HEADERS=ImageRectangle.hh Image.hh \
 SOURCES=ImageRectangle.cc Image.cc ByteRGBValue.cc ByteYUVValue.cc RealRGBValue.cc \
  RealYUVValue.cc RGBcYUV.cc Font.cc ImageConv.cc ImageConv2.cc ImageConv3.cc ImageConv4.cc \
  ByteRGBAValue.cc ByteVYUValue.cc ByteYUV422Value.cc ByteYUVAValue.cc \
- RealDVSRGBValue.cc RealDVSYUVValue.cc dvsRGBcdvsYUV422.cc
+ RealDVSRGBValue.cc RealDVSYUVValue.cc dvsRGBcdvsYUV422.cc ImgCnvRGB.cc ImgCnvYUV.cc 
 
 PLIB=RavlImage
 
