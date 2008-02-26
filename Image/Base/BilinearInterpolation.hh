@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_BILINEAR_HEADER
 #define RAVLIMAGE_BILINEAR_HEADER
-//! docentry="Ravl.API.Images"
+//! docentry="Ravl.API.Images.Scaling and Warping"
 //! author="Charles Galambos"
 //! date="24/01/2001"
 //! rcsid="$Id$"
@@ -22,6 +22,8 @@
 #endif
 
 namespace RavlImageN {
+
+  //! userlevel=Normal
   
   template <class PixelT,class OutT>
   inline
