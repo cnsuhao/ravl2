@@ -6,7 +6,9 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_COMPRESSEDIMAGEJPEG_HEADER
 #define RAVLIMAGE_COMPRESSEDIMAGEJPEG_HEADER 1
+//! lib=RavlExtImgIO
 //! author="Charles Galambos"
+//! docentry="Ravl.API.Images.IO.Formats"
 
 #include "Ravl/Array1d.hh"
 #include "Ravl/BinStream.hh"
