@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -69,10 +69,10 @@
 #endif
 
 namespace RavlN {
-  
+
   //: Open socket.
-  
-  SocketBodyC::SocketBodyC(StringC name,bool nserver) 
+
+  SocketBodyC::SocketBodyC(StringC name,bool nserver)
     : fd(-1),
       server(nserver),
       addr(0),
@@ -91,12 +91,12 @@ namespace RavlN {
     if(server)
       OpenServer(host,portno);
     else
-      OpenClient(host,portno);  
+      OpenClient(host,portno);
   }
-  
+
   //: Open socket.
-  
-  SocketBodyC::SocketBodyC(StringC name,UIntT portno,bool nserver) 
+
+  SocketBodyC::SocketBodyC(StringC name,UIntT portno,bool nserver)
     : fd(-1),
       server(nserver),
       addr(0),
@@ -109,28 +109,28 @@ namespace RavlN {
     else
       OpenClient(name,portno);
   }
-  
-  
+
+
   //: Open socket.
-  
+
   SocketBodyC::SocketBodyC(struct sockaddr *naddr,int nfd,bool nserver)
     : fd(nfd),
       server(nserver),
       addr(naddr),
       dontClose(false),
       writeTimeout(180)
-  { 
-    //SetNonBlocking(true); 
+  {
+    //SetNonBlocking(true);
   }
-  
+
   //: Open socket.
-  
+
   SocketBodyC::~SocketBodyC()  {
     Close(); // Tidy up.
   }
-  
+
   //: Close the socket.
-  
+
   void SocketBodyC::Close() {
     ONDEBUG(cerr << "SocketBodyC::Close() dontclose=" << dontClose << " fd=" << fd << "\n");
     if(!dontClose) {
@@ -142,7 +142,7 @@ namespace RavlN {
       delete [] (char *) addr;
     addr = 0;
   }
-  
+
   int GetTCPProtocolNumber() {
 #if RAVL_OS_LINUX || RAVL_OS_LINUX64
     return SOL_TCP;
@@ -159,14 +159,14 @@ namespace RavlN {
 #endif
   }
 
-  //: Cork stream.  
+  //: Cork stream.
   // This is used to indicate that there is going to
   // be several write operations immediatly following each
   // other and stops the transmition of fragmented packets.
   // If your not expecting to do any more writes immediatly
   // you must call 'Uncork()'.
   // Returns true if Corking is supported by stream.
-  
+
   bool SocketBodyC::Cork(bool enable) {
     // Enable delays.
     int n;
@@ -187,9 +187,9 @@ namespace RavlN {
 #endif
     return true;
   }
-  
-  //: Send data as soon as possible. 
-  
+
+  //: Send data as soon as possible.
+
   void SocketBodyC::SetNoDelay() {
     // Disable delays.
     int n = 1;
@@ -198,14 +198,14 @@ namespace RavlN {
       cerr << "SocketBodyC::SetNoDelay(), Failed. errno=" << errno <<"\n";
     }
   }
-  
+
   //: Attempt to get info about named host.
   // returns true on success.
-  
+
   bool SocketBodyC::GetHostByName(const char *name,struct sockaddr_in &sin) {
     int opErrno = 0;
     int buffSize = 1024;
-    char *hostentData = new char [buffSize];  
+    char *hostentData = new char [buffSize];
     struct hostent ent;
     struct hostent *result = 0;
     if(*name == 0)
@@ -225,7 +225,7 @@ namespace RavlN {
       opErrno = h_errno;
 #elif RAVL_OS_MACOSX
 	  if((result = gethostbyname(name)) != 0)
-	break;  
+	break;
 #else
       if((result = gethostbyname_r(name,&ent,hostentData,buffSize,&opErrno)) != 0)
 	break;
@@ -266,20 +266,20 @@ namespace RavlN {
       delete [] hostentData;
       throw ExceptionNetC("Can't find host name for some reason.");
     }
-    
+
     RavlAssert(result != 0);
     //  char *addr = inet_ntoa(*((struct in_addr *)(result->h_addr_list[0])));
     //sin.sin_addr.s_addr = inet_addr(addr);
-    
+
 #if DODEBUG
     cerr << "Offical hostname: '" << result->h_name << "' h_length: '" << result->h_length << "' \n";
     //cerr << "h_addr_list: '" << result->h_addr_list[0] << "' \n";
 #endif
     sin.sin_addr.s_addr = ((struct in_addr *)result->h_addr_list[0])->s_addr;
     sin.sin_family = ent.h_addrtype;
-  
+
     ONDEBUG(cerr << "Got host data..  Addr:'" << inet_ntoa(sin.sin_addr) << "'\n");
-    
+
     delete [] hostentData;
     return true;
   }
@@ -287,7 +287,7 @@ namespace RavlN {
 
   //: Attempt to find hostname by the address.
   // returns true on success and assignes the hostname to name.
-  
+
   bool SocketBodyC::GetHostByAddr(struct sockaddr &sin,int sinLen,StringC &name) {
 #if  0
     char hostname[1024];
@@ -301,7 +301,7 @@ namespace RavlN {
     char *hostentData = new char [buffSize];
     struct hostent ent;
     ent.h_name = 0;
-    
+
     int error = 0;
     while(1) {
 #if RAVL_OS_LINUX || RAVL_OS_LINUX64
@@ -321,9 +321,9 @@ namespace RavlN {
       if(gethostbyaddr_r((const char *) &((sockaddr_in &)sin).sin_addr,sinLen,AF_INET,&ent,(struct hostent_data *)hostentData) == 0)
 	break;
       error = h_errno;
-#elif RAVL_OS_IRIX 
-      ulong tmp_addr = ((sockaddr_in &)sin).sin_addr.s_addr ; 
-      gethostbyaddr_r ((const char *) & tmp_addr, sizeof(tmp_addr), AF_INET, &ent, hostentData, buffSize, &error) ; 
+#elif RAVL_OS_IRIX
+      ulong tmp_addr = ((sockaddr_in &)sin).sin_addr.s_addr ;
+      gethostbyaddr_r ((const char *) & tmp_addr, sizeof(tmp_addr), AF_INET, &ent, hostentData, buffSize, &error) ;
 #elif RAVL_OS_MACOSX
       {
       	struct hostent *pHostent = gethostbyaddr((const char *) &((sockaddr_in &)sin).sin_addr,sinLen,AF_INET);
@@ -354,25 +354,25 @@ namespace RavlN {
       return true;
     }
     delete [] hostentData;
-    MTWriteLockC hold; // this call isn't MT safe. 
+    MTWriteLockC hold; // this call isn't MT safe.
     name = inet_ntoa(((sockaddr_in &)sin).sin_addr); // Convert to a dot notation string.
 #endif
     return true;
   }
-  
-  
+
+
   //: Open a socket to the given address / port no.
-  
+
   int SocketBodyC::OpenSocket(struct sockaddr_in &sin,IntT portNo)  {
     int sock = socket(PF_INET, SOCK_STREAM, 0);
     if(sock < 0) {
       cerr << "Failed to create socket. " << errno << "\n";
       return -1;
-    }  
+    }
     return sock;
   }
-  
-  
+
+
   int SocketBodyC::OpenClient(const char *name,IntT portNo) {
     struct sockaddr_in sin = {PF_INET};
     if(!GetHostByName(name,sin)) {
@@ -380,7 +380,7 @@ namespace RavlN {
       return -1;
     }
     if((fd = OpenSocket(sin,portNo)) < 0)
-      return -1; 
+      return -1;
     sin.sin_port = htons(portNo);
     int retryLimit = 10;
     while(connect(fd, (sockaddr*)&sin, sizeof(sin)) < 0) {
@@ -404,7 +404,7 @@ namespace RavlN {
 #endif
       return -1;
     }
-    
+
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "SocketBodyC::OpenClient(), Connected to '" << name  << "'");
     if(addr != 0)
       delete [] (char *) addr;
@@ -413,11 +413,11 @@ namespace RavlN {
     //SetNonBlocking(true);
     return fd;
   }
-  
-  
+
+
   //: Open a server socket.
   // Its then ready for listening.
-  
+
   int SocketBodyC::OpenServer(const char *name,IntT portNo) {
     struct sockaddr_in sin = {PF_INET};
     if(*name != 0) {
@@ -432,15 +432,16 @@ namespace RavlN {
     ONDEBUG(cerr  << "Binding name. \n");
     if(bind(fd,(struct sockaddr*)&sin, sizeof(sockaddr)) < 0) {
       cerr << "Bind failed. errno=" << errno << "\n";
+      cerr << "Error:" << strerror(errno) << endl;
       Close();
       return -1;
     }
     return fd;
   }
-  
+
   //: Listen for a connection from a client.
   // Can only be used on server sockets.
-  
+
   SocketC SocketBodyC::Listen(bool block,int backLog) {
     RavlAssert(server); // Must be a server socket.
     if(fd < 0)
@@ -462,20 +463,20 @@ namespace RavlN {
 	// Recoverable error ?
       } while(errno == EAGAIN || errno == EINTR) ;
       cerr << "ERROR: Failed to accept connection. errno=" << errno << "\n"; ;
-      delete [] (char *) cn_addr;  
+      delete [] (char *) cn_addr;
     } while(block);
     return SocketC();
   }
-  
-  //: Get host name 
-  
-  StringC SocketBodyC::ConnectedHost() { 
+
+  //: Get host name
+
+  StringC SocketBodyC::ConnectedHost() {
     StringC ret("-failed-");
     if(fd == 0)
       return ret;
     socklen_t namelen = sizeof(sockaddr) + 256;
     struct sockaddr *name = (struct sockaddr *) new char[namelen];
-    if(getpeername(fd,name,&namelen) != 0) 
+    if(getpeername(fd,name,&namelen) != 0)
     {
       delete [] name;
       cerr << "SocketBodyC::ConnectedHost(), gerpeername failed. Error=" << errno << "\n";
@@ -486,14 +487,14 @@ namespace RavlN {
     delete [] (char*) name;
     return ret;
   }
-  
+
   //: Get other port number.
-  
-  IntT SocketBodyC::ConnectedPort() { 
+
+  IntT SocketBodyC::ConnectedPort() {
     if(addr == 0)
       return 0;
     struct sockaddr_in name;
-    socklen_t namelen = sizeof(name); 
+    socklen_t namelen = sizeof(name);
     getpeername( fd, (sockaddr*) &name, &namelen );
     IntT ret = ntohs( name.sin_port );
     return ret;
@@ -501,7 +502,7 @@ namespace RavlN {
 
   //: Enable non-blocking use of read and write.
   // true= read and write's won't do blocking waits.
-  
+
   bool SocketBodyC::SetNonBlocking(bool block) {
     ONDEBUG(cerr << "SocketBodyC::SetNonBlocking(), Block=" << block << "\n");
     long flags = fcntl(fd,F_GETFL);
@@ -510,7 +511,7 @@ namespace RavlN {
       return false;
     }
     long newFlags;
-    if(block) 
+    if(block)
       newFlags = flags | O_NONBLOCK;
     else
       newFlags = flags & ~O_NONBLOCK;
@@ -521,17 +522,17 @@ namespace RavlN {
     }
     return false;
   }
-  
-  
+
+
   //: Wait for read to be ready.
   // Returns false on error.
-  
+
   bool SocketBodyC::WaitForRead() {
 #if !RAVL_OS_MACOSX
     fd_set rfds;
     struct timeval tv;
     FD_ZERO(&rfds);
-    
+
     while(fd >= 0) {
       int checkFd = fd;
       if(checkFd < 0)
@@ -580,13 +581,13 @@ namespace RavlN {
       }
       SysLog(SYSLOG_DEBUG) << "SocketBodyC::WaitForRead(), Unexpected condition " << ufds[0].revents;
     }
-#endif    
+#endif
     return false;
   }
-  
+
   //: Wait for write to be ready.
   // Returns false on error.
-  
+
   bool SocketBodyC::WaitForWrite() {
 #if !RAVL_OS_MACOSX
     struct timeval timeout;
@@ -615,9 +616,9 @@ namespace RavlN {
 #endif
     return false;
   }
-  
+
   //: Check for recoverable errors.
-  
+
   bool SocketBodyC::CheckErrors(const char *opName) {
     if(errno == EINTR || errno == EAGAIN)
       return true; // Temporary error, try again.
@@ -629,9 +630,9 @@ namespace RavlN {
 #endif
     return false;
   }
-  
+
   //: Read some bytes from a stream.
-  
+
   IntT SocketBodyC::Read(char *buff,UIntT size) {
     //ONDEBUG(cerr << "SocketBodyC::Read(), Buff=" << ((void *) buff) << " Size=" << size << "\n");
     UIntT at = 0;
@@ -643,9 +644,9 @@ namespace RavlN {
 	ONDEBUG(SysLog(SYSLOG_INFO) << "SocketBodyC::Read(). Socket closed ? fd=" << fd);
 	break;
       }
-      if(n < 0) { 
+      if(n < 0) {
 	if(!CheckErrors("SocketBodyC::Read()"))
-	  break; 
+	  break;
 	SysLog(SYSLOG_DEBUG) << "SocketBodyC::Read(), Temp error, retry! " << errno;
 	// Temporary error, retry
 	n = 0;
@@ -654,9 +655,9 @@ namespace RavlN {
     }
     return at;
   }
-  
+
   //: Read some bytes from a stream.
-  
+
   IntT SocketBodyC::ReadV(char **buffer,IntT *len,int n) {
     if(n == 0) return 0;
     struct iovec vecBuf[101];
@@ -672,14 +673,14 @@ namespace RavlN {
       vecp[i].iov_len = len[i];
       total += len[i];
     }
-    
+
     while(fd >= 0) {
       if(!WaitForRead())
 	return 0;
       at = readv(fd,vecp,n);
       if(at == 0) {
 	SysLog(SYSLOG_INFO) << "SocketBodyC::ReadV(). Socket closed. fd=" << fd;
-	break;	
+	break;
       }
       if(at > 0)
 	break;
@@ -689,9 +690,9 @@ namespace RavlN {
     }
     if(at == total)
       return at; // All done ?
-    
+
     ONDEBUG(SysLog(SYSLOG_WARNING) << "SocketBodyC::ReadV(), Socket read interupted, at=" << at << " Blocks=" << n << " attempting to recover. \n");
-    
+
     // Read in 1 lump failed, break it up.
     int b = 0,xat = 0;
     do {
@@ -718,18 +719,18 @@ namespace RavlN {
       int blocksToGo = n - b;
       if(blocksToGo == 0)
 	break; // We're done!
-      
+
       if(!WaitForRead())
 	return at;
-      
+
       int x = readv(fd,&(vecp[b]),blocksToGo);
       if(x == 0) {
 	SysLog(SYSLOG_INFO) << "SocketBodyC::ReadV(). Socket closed. fd=" << fd;
-	break;	
+	break;
       }
       if(x < 0) {
 	if(!CheckErrors("SocketBodyC::ReadV()"))
-	  return at;	   
+	  return at;
 	// Temporary error. Retry.
 	x = 0;
       }
@@ -737,9 +738,9 @@ namespace RavlN {
     } while(at < total) ;
     return at;
   }
-  
+
   //: Write multiple buffers
-  
+
   IntT SocketBodyC::WriteV(const char **buffer,IntT *len,int n) {
     if(n == 0) return 0;
     struct iovec vecBuf[101];
@@ -755,11 +756,11 @@ namespace RavlN {
       vecp[i].iov_len = len[i];
       total += len[i];
     }
-    
+
     while(fd >= 0) {
       if(!WaitForWrite())
 	return at;
-      
+
       //cerr << "writev(" << fd << "," << (void *) vecp << "," << n << ");\n";
       if((at = writev(fd,vecp,n)) > 0)
 	break;
@@ -767,12 +768,12 @@ namespace RavlN {
 	return 0;
       // Temporary failure, try again.
     }
-    
-    if(at == total || fd < 0) 
+
+    if(at == total || fd < 0)
       return at; // All done ?
-    
+
     ONDEBUG(SysLog(SYSLOG_WARNING) << "SocketBodyC::WriteV(), Socket write interupted, attempting to recover. (Relatively untested code.) ");
-    
+
     // Write in 1 lump failed, break it up.
     int b = 0,xat = 0;
     do {
@@ -795,7 +796,7 @@ namespace RavlN {
       int blocksToGo = n - b;
       if(blocksToGo == 0)
 	break; // We're done!
-      
+
       if(!WaitForWrite())
 	return at;
       int x = writev(fd,&(vecp[b]),blocksToGo);
@@ -808,9 +809,9 @@ namespace RavlN {
     } while(at < total) ;
     return at;
   }
-    
+
   //: Write some bytes to a stream.
-  
+
   IntT SocketBodyC::Write(const char *buff,UIntT size) {
     UIntT at = 0;
     while(at < size && fd >= 0) {
@@ -823,7 +824,7 @@ namespace RavlN {
 	n = 0;
       }
       at += n;
-    }    
+    }
     return at;
   }
 
