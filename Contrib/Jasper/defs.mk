@@ -8,7 +8,7 @@
 
 ORGANISATION=OmniPerception Ltd.
 
-DONOT_SUPPORT=VCPP
+DONOT_SUPPORT=
 
 REQUIRES=LibJasper
 
