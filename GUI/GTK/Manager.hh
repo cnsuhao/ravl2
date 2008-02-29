@@ -34,9 +34,9 @@ namespace RavlGUIN {
   class LockGtkThreadC;
   //! userlevel=Normal
   //: GUI Manager class
-  // As a user you should never need to creat an instance of this
-  // class, instead you should use the global variable Manager
-  // to access the relavent functions.
+  // As a user you should never need to create an instance of this
+  // class; instead you should use the pre-defined global variable
+  // <code>Manager</code> to access the relevant functions.
   
   class ManagerC  {
   public:
@@ -44,7 +44,7 @@ namespace RavlGUIN {
     //: Default constructor.
     
     ~ManagerC();
-    //: Desructor.
+    //: Destructor.
     
     void Init(int &nargs,char *args[]);
     //: Initalise system.
@@ -67,7 +67,7 @@ namespace RavlGUIN {
     bool Shutdown();
     //: Finishup and exit.
     // This will not returns until the shutdown is complete.
-    // It should NOT be used from withing the GUI interface.
+    // It should NOT be used from within the GUI interface.
     
     bool Wait();
     //: Wait for the GUI to be shutdown by the user.
@@ -89,7 +89,7 @@ namespace RavlGUIN {
     // Thread safe.
     
     void QueueOnGUI(const TriggerC &se);
-    //: Queue an event for running in the GUI thread if its not on the GUI thread already.
+    //: Queue an event for running in the GUI thread if it's not on the GUI thread already.
     // Thread safe.
     
     void Queue(RealT t,const TriggerC &se);
