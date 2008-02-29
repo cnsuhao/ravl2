@@ -142,7 +142,13 @@ namespace RavlN {
     bool AttributeBool(const StringC &name,bool defaultValue = false) const {
       const StringC *value = Data().Lookup(name);
       if(value == 0) return defaultValue;
-      return (*value) == "1" || *value == "t" || *value == "T" || *value == "true" || *value == "True";
+      StringC tmp = RavlN::downcase(*value);
+      if(tmp == "1" || tmp == "t" || tmp == "true" || tmp == "yes")
+	return true;
+      if(tmp == "0" || tmp == "f" || tmp == "false" || tmp == "no")
+	return false;
+      RavlIssueWarning(StringC("Expected boolean value, got '") + tmp + "' for attribute " + name + " in node '" + Name() + "' ");
+      return defaultValue;
     }
     //: Access attribute.
     
