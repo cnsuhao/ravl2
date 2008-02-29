@@ -10,6 +10,7 @@
 //! lib=RavlGUI2D
 //! file="Magellan/GUI/GUIMarkupCanvas.hh"
 //! docentry="Ravl.API.GUI.Markup Canvas"
+//! example="exGUIMarkupCanvas.cc"
 
 #include "Ravl/GUI/RawZoomCanvas.hh"
 #include "Ravl/GUI/MouseEvent.hh"
@@ -294,7 +295,7 @@ namespace RavlGUIN {
   };
   
   
-  //! userlevel=Develop
+  //! userlevel=Normal
   //: Image with polygon markups.
   
   class GUIMarkupCanvasC 
