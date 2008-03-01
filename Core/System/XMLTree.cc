@@ -11,6 +11,7 @@
 #include "Ravl/XMLTree.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/HSet.hh"
+#include "Ravl/StringList.hh"
 
 #define DODEBUG 0
 
@@ -88,10 +89,8 @@ namespace RavlN {
       if(name == "xi:include") {
 	if(!ProcessInclude(subtree,includedFiles))
 	  return false;
-	// Got a subtree to add ?
-	if(!subtree.IsValid())
-	  continue;
-      } 
+	continue;
+      }
       
       Add(subtree.Name(),subtree);
     }
@@ -111,13 +110,6 @@ namespace RavlN {
       // Include nothing, this is used where the fallback is to include nothing.
       subtree.Invalidate();
       return true;
-    }
-    
-    // Let the user know xpointer is not supported.
-    StringC xi_xpointer;
-    if(subtree.Data().Lookup("xpointer",xi_xpointer)) {
-      RavlIssueWarning(StringC("xpointer not current supported in xinclude, loading file '" + xi_href +"'."));
-      return false;
     }
     
     // Check for recursive includes.
@@ -172,13 +164,22 @@ namespace RavlN {
       return false;
     }
     
+    // Let the user know xpointer is not supported.
+    StringC xi_xpointer;
+    if(subtree.Data().Lookup("xpointer",xi_xpointer)) {
+      DListC<XMLTreeC> children;
+      if(!newTree.FollowPath(xi_xpointer,children))
+	return false;
+      for(DLIterC<XMLTreeC> it(children);it;it++) 
+	Add(it->Name(),*it);
+      return true;
+    }
+    
     // Look for first non processing directive.
     subtree.Invalidate();
     for(DLIterC<XMLTreeC> it(newTree.Children());it;it++) {
-      if(!it->IsPI()) {
-	subtree = *it;
-	break;
-      }
+      if(!it->IsPI())
+	Add(it->Name(),*it);
     }
     return true;
   }
@@ -227,6 +228,66 @@ namespace RavlN {
     }
     return true;
   }
+
+  //: Give list of nodes matching the given path.
+  
+  bool XMLTreeBodyC::FollowPath(const StringC &path,DListC<XMLTreeC> &nodes) {
+    StringListC steps(path,"/");
+    return FollowPath(steps,nodes);
+  }
+  
+  //: Give list of nodes matching the given path.
+  
+  bool XMLTreeBodyC::FollowPath(const DListC<StringC> &path,DListC<XMLTreeC> &nodes) {
+    HSetC<XMLTreeC> current;
+    HSetC<XMLTreeC> newNodes;
+    newNodes += XMLTreeC(*this);
+    
+    for(DLIterC<StringC> sit(path);sit;sit++) {
+      current = newNodes;
+      newNodes = HSetC<XMLTreeC>();
+      
+      int axisAt = sit->index("::");
+      StringC axis = "child";
+      StringC spec = "*";
+      if(axisAt >= 0) {
+	axis = sit->before(axisAt);
+	spec = sit->after(axisAt+1);
+	if(spec.IsEmpty())
+	  spec = "*";
+      }
+      
+      if(axis == "child") {
+	if(spec == "*") {
+	  // Just include all children.
+	  for(HSetIterC<XMLTreeC> cit(current);cit;cit++) {
+	    for(DLIterC<XMLTreeC> it(cit->Children());it;it++) {
+	      newNodes += *it;
+	    }
+	  }
+	  continue;
+	}
+	
+	// Include children with matching names.
+	for(HSetIterC<XMLTreeC> cit(current);cit;cit++) {
+	  for(DLIterC<XMLTreeC> it(cit->Children());it;it++) {
+	    if(it->Name() == spec)
+	      newNodes += *it;
+	  }
+	}
+	continue;
+      }
+      
+      RavlIssueWarning(StringC("Unsuppored axis specifier='" + axis +"'"));
+      
+      return false;
+    }
+    
+    for(HSetIterC<XMLTreeC> cit(newNodes);cit;cit++)
+      nodes.InsLast(*cit);
+    return true;
+  }
+  
 
   //: Add subtree to node.
   

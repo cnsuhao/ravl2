@@ -2,7 +2,7 @@
 <!-- a comment -->
 <?xml fred="1" ?>
 <test Fred="1">test data
-<xi:include href="test2.xml"/>
+<xi:include href="test2.xml" xpointer="/test_file_2/*" >
 <bean>
 in been
 </bean>

@@ -156,7 +156,12 @@ namespace RavlN {
     }
     //: Access attribute.
     
+    bool FollowPath(const StringC &path,DListC<XMLTreeC> &nodes);
+    //: Give list of nodes matching the given path.
     
+    bool FollowPath(const DListC<StringC> &path,DListC<XMLTreeC> &nodes);
+    //: Give list of nodes matching the given path.
+
   protected:
     bool ProcessInclude(XMLTreeC &subtree,HSetC<StringC> &doneFiles);
     //: Process xi:include directive
@@ -180,8 +185,7 @@ namespace RavlN {
   // </ul>
   // <p> To summarise: an XML tree node typically has a <code>Name()</code>, <code>Data()</code> (i.e. attributes) and <code>Children()</code> (i.e. contents).</p>
   
-  // <p> Note: You can include files into the tree with the sytax from xinclude standard, see http://www.w3.org/TR/xinclude/ for more details. <p>
-  // <p> Currently only parse='text', xi:fallback are supported. (xpointer is NOT)
+  // <p> Note: You can include files into the tree with the sytax from xinclude standard, see http://www.w3.org/TR/xinclude/ for more details though this is only a partial implementation. In particular the xpointer decoding only follows a path to a child. <p>
   // Include example: <code> &gt xi:include href="other.xml" / &lt </code>
   
   class XMLTreeC
@@ -316,6 +320,10 @@ namespace RavlN {
 
     bool AttributeBool(const StringC &name,bool defaultValue = false) const 
     { return Body().AttributeBool(name,defaultValue); }
+    
+    bool FollowPath(const StringC &path,DListC<XMLTreeC> &nodes)
+    { return Body().FollowPath(path,nodes); }
+    //: Give list of nodes matching the given path.
 
     friend class XMLTreeBodyC;
   };
