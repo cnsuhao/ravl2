@@ -179,7 +179,11 @@ namespace RavlN {
   // <li> Attributes of an element can be accessed as a hash table, using the attribute name as the key.  Attributes are called <code>Data()</code> in this class (for reasons of inheritance).
   // </ul>
   // <p> To summarise: an XML tree node typically has a <code>Name()</code>, <code>Data()</code> (i.e. attributes) and <code>Children()</code> (i.e. contents).</p>
-
+  
+  // <p> Note: You can include files into the tree with the sytax from xinclude standard, see http://www.w3.org/TR/xinclude/ for more details. <p>
+  // <p> Currently only parse='text', xi:fallback are supported. (xpointer is NOT)
+  // Include example: <code> &gt xi:include href="other.xml" / &lt </code>
+  
   class XMLTreeC
     : public HashTreeC<StringC,RCHashC<StringC,StringC> >
   {

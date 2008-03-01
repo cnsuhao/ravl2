@@ -103,7 +103,6 @@ namespace RavlN {
   
   // TODO:
   //  Support xpointer.
-  //  Support fallback
   
   bool XMLTreeBodyC::ProcessInclude(XMLTreeC &subtree,HSetC<StringC> &doneFiles) {
     StringC xi_href;
