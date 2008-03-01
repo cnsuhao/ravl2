@@ -29,9 +29,11 @@ int exXMLTree(int nargs,char **argv) {
     return 1;
   }
 
-  XMLTreeC tree(ifn);
-  
-  tree.Read(ins);
+  XMLTreeC tree(StringC("File"));
+  if(!tree.Read(ins)) {
+    std::cerr << "Failed to load file '" << ifn << "'\n";
+    return 1;
+  }
   
   OStreamC out(ofn);
   tree.Dump(out);

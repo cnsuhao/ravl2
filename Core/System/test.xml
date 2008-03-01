@@ -2,6 +2,7 @@
 <!-- a comment -->
 <?xml fred="1" ?>
 <test Fred="1">test data
+<xi:include href="test2.xml"/>
 <bean>
 in been
 </bean>

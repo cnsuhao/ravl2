@@ -22,6 +22,7 @@
 
 namespace RavlN {
   class XMLTreeC;
+  template<typename DataT> class HSetC;
   
   //! userlevel=Develop
   //: XML parse tree.
@@ -59,7 +60,10 @@ namespace RavlN {
 
     bool Read(XMLIStreamC &in);
     //: Read from an XML stream using this node as the root.
-
+    
+    bool Read(XMLIStreamC &in,HSetC<StringC> &includedFiles);
+    //: Read from an XML stream using this node as the root.
+    
     bool Write(OStreamC &out, int level=0) const;
     //: Write to a stream using this node as the root.
     // !param level - level of the XML tree for indenting / formatting purposes 
@@ -154,7 +158,12 @@ namespace RavlN {
     
     
   protected:
-
+    bool ProcessInclude(XMLTreeC &subtree,HSetC<StringC> &doneFiles);
+    //: Process xi:include directive
+    
+    bool ProcessIncludeFallback(XMLTreeC &subtree,HSetC<StringC> &doneFiles);
+    //: Look for fallback
+    
     static ostream &Indent(ostream &out,int level);
     bool isPI; // Is this a processing instruction ?
     StringC name;
@@ -234,7 +243,11 @@ namespace RavlN {
     bool Read(XMLIStreamC &in)
     { return Body().Read(in); }
     //: Read from an XML stream using this node as the root.
-
+    
+    bool Read(XMLIStreamC &in,HSetC<StringC> &includedFiles)
+    { return Body().Read(in,includedFiles); }
+    //: Read from an XML stream using this node as the root.
+    
     bool Write(OStreamC &out, int level=0) const
     { return Body().Write(out, level); }
     //: Write to a stream using this node as the root.

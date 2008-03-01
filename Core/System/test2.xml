@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<?RAVL class='RavlN::XMLTreeC' ?>
+<test_file_2 Fred="1">
+ In Included file.
+ <igloo/> 
+</test_file_2>

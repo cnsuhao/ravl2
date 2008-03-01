@@ -10,6 +10,7 @@
 
 #include "Ravl/XMLTree.hh"
 #include "Ravl/TypeName.hh"
+#include "Ravl/HSet.hh"
 
 #define DODEBUG 0
 
@@ -31,9 +32,18 @@ namespace RavlN {
     Read(in);
   }
 
+  
   //: Read from an XML stream using this node as the root.
   
   bool XMLTreeBodyC::Read(XMLIStreamC &in) {
+    HSetC<StringC> includedFiles;
+    includedFiles += in.Name();
+    return Read(in,includedFiles);
+  }
+  
+  //: Read from an XML stream using this node as the root.
+  
+  bool XMLTreeBodyC::Read(XMLIStreamC &in,HSetC<StringC> &includedFiles) {
     if(!in)
       return false;
 #if 0
@@ -67,18 +77,130 @@ namespace RavlN {
 	break;
       }
       
+      // Process includes using XInclude syntax.
       XMLTreeC subtree(name,attr,tt == XML_PI);
-      
       if(tt == XMLBeginTag) {
 	ONDEBUG(cerr << "Found begin tag '" << name << "' \n");
-	subtree.Read(in);
+	if(!subtree.Read(in,includedFiles))
+	  return false;
       }
-      Add(name,subtree);
+      
+      if(name == "xi:include") {
+	if(!ProcessInclude(subtree,includedFiles))
+	  return false;
+	// Got a subtree to add ?
+	if(!subtree.IsValid())
+	  continue;
+      } 
+      
+      Add(subtree.Name(),subtree);
     }
     
     return true;
   }
 
+  //: Process xi:xinclude directive.
+  
+  // TODO:
+  //  Support xpointer.
+  //  Support fallback
+  
+  bool XMLTreeBodyC::ProcessInclude(XMLTreeC &subtree,HSetC<StringC> &doneFiles) {
+    StringC xi_href;
+    
+    if(!subtree.Data().Lookup("href",xi_href) || xi_href.IsEmpty()) {
+      // Include nothing, this is used where the fallback is to include nothing.
+      subtree.Invalidate();
+      return true;
+    }
+    
+    // Let the user know xpointer is not supported.
+    StringC xi_xpointer;
+    if(subtree.Data().Lookup("xpointer",xi_xpointer)) {
+      RavlIssueWarning(StringC("xpointer not current supported in xinclude, loading file '" + xi_href +"'."));
+      return false;
+    }
+    
+    // Check for recursive includes.
+    if(doneFiles[xi_href]) {	
+      RavlIssueWarning(StringC("Recursive include of file='" + xi_href +"'"));
+      return false;
+    }
+    doneFiles += xi_href;
+    
+    // Check if we're being asked to parse the file as text.
+    StringC xi_parse;
+    if(subtree.Data().Lookup("parse",xi_parse)) {
+      xi_parse = downcase(xi_parse);
+      if(xi_parse == "text") {
+	// Load file as simple text.
+	StrOStreamC strOut;
+	
+	IStreamC inFile(xi_href);
+	if(!inFile.IsOpen()) {
+	  if(!ProcessIncludeFallback(subtree,doneFiles)) {
+	    RavlIssueWarning(StringC("Failed to open file='" + xi_href +"'"));
+	    return false;
+	  }
+	  return true;
+	}
+	inFile.CopyTo(strOut);
+	AddContent(strOut.String());
+	subtree.Invalidate();
+	return true;
+      }
+      
+      if(xi_parse!="xml") {
+	RavlIssueWarning(StringC("Unexpected value for parse='" + xi_parse +"'"));
+	return false;
+      }
+    }
+    
+    // Load the file as XML.
+    
+    XMLIStreamC newStream(xi_href);
+    if(!newStream.IsOpen()) {
+      if(!ProcessIncludeFallback(subtree,doneFiles)) {
+	RavlIssueWarning(StringC("Failed to open file='" + xi_href +"'"));
+	return false;
+      }
+      return true;
+    }
+    
+    XMLTreeC newTree(true);
+    if(!newTree.Read(newStream,doneFiles)) {
+      // Assume error has already been reported.
+      return false;
+    }
+    
+    // Look for first non processing directive.
+    subtree.Invalidate();
+    for(DLIterC<XMLTreeC> it(newTree.Children());it;it++) {
+      if(!it->IsPI()) {
+	subtree = *it;
+	break;
+      }
+    }
+    return true;
+  }
+
+  //: Look for fallback
+  
+  bool XMLTreeBodyC::ProcessIncludeFallback(XMLTreeC &subtree,HSetC<StringC> &doneFiles) {
+    if(subtree.Children().IsEmpty())
+      return false;
+    XMLTreeC childTree = subtree.Children().First();
+    if(childTree.Name() != "xi:fallback") {
+      RavlIssueWarning(StringC("Unexpected xi:include child, '" + childTree.Name() +"'"));
+      return false;
+    }    
+    if(!ProcessInclude(childTree,doneFiles)) {
+      return false;
+    }
+    subtree = childTree;
+    return true;
+  }
+  
   // : Write (sub)tree as valid XML file
   bool XMLTreeBodyC::Write(OStreamC &out,int level) const {
     XMLTreeC me(const_cast<XMLTreeBodyC &>(*this));
