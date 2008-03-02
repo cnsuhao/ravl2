@@ -64,7 +64,14 @@ namespace RavlLogicN {
     RavlAssertMsg(0,"StateBodyC::Tell(), Abstract method called. ");
     return false;
   }
-
+  
+  //: Retract a literal.
+  
+  bool StateBodyC::Retract(const LiteralC &lit) {
+    RavlAssertMsg(0,"StateBodyC::Retract(), Abstract method called. ");
+    return false;
+  }
+  
   //: List contents of state.
   
   LiteralIterC StateBodyC::List() const {

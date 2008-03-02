@@ -49,6 +49,9 @@ namespace RavlLogicN {
     virtual bool Tell(const LiteralC &lit);
     //: Set a literal.
     
+    virtual bool Retract(const LiteralC &lit);
+    //: Retract a literal.
+    
     virtual LiteralIterC List() const;
     //: List contents of state.
     

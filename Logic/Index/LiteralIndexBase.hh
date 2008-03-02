@@ -55,7 +55,7 @@ namespace RavlLogicN {
     virtual LiteralIndexLeafC NewLeaf(const LiteralC &key);
     //: Generate a new leaf.
     
-    bool Del(const LiteralC &key);
+    bool Del(const LiteralC &key,bool exactMatchOnly = false);
     //: Delete key from index.
     // returns true if key existed, false otherwise.
 	     
@@ -170,8 +170,8 @@ namespace RavlLogicN {
     { return Body().Size(); }
     //: Get the number of elements in the index.
     
-    bool Del(const LiteralC &key)
-    { return Body().Del(key); }
+    bool Del(const LiteralC &key,bool exactMatchOnly = false)
+    { return Body().Del(key,exactMatchOnly); }
     //: Delete key from index.
     // returns true if key existed, false otherwise.
     

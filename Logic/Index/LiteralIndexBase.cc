@@ -17,6 +17,7 @@
 #include "Ravl/PointerManager.hh"
 #include "Ravl/BinStream.hh"
 #include "Ravl/Stack.hh"
+#include "Ravl/DArray1dIter.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -206,9 +207,20 @@ namespace RavlLogicN {
   //: Delete key from index.
   // returns true if key existed, false otherwise.
   
-  bool LiteralIndexBaseBodyC::Del(const LiteralC &key) {
+  bool LiteralIndexBaseBodyC::Del(const LiteralC &key,bool exactMatchOnly) {
     LiteralIndexLeafC elem;
-    ONDEBUG(cerr << "LiteralIndexBaseBodyC::Del(), Key '" << key.Name() << "' \n");
+    ONDEBUG(cerr << "LiteralIndexBaseBodyC::Del(), Key '" << key.Name() << "' Exact=" << exactMatchOnly << " \n");
+    if(!exactMatchOnly) {
+      // Look for all possible matches.
+      DArray1dC<LiteralC> delSet; 
+      for(LiteralIndexFilterBaseBodyC it(*this,key);it.IsElm();it.Next())
+	delSet.Append(it.Data().Key());
+      bool ret = false;
+      for(DArray1dIterC<LiteralC> itds(delSet);itds;itds++)
+	ret = ret || Del(*itds,true);
+      return ret;
+    }
+    
     if(!map.Lookup(key,elem)) {
       ONDEBUG(cerr << "LiteralIndexBaseBodyC::Del(), Key '" << key.Name() << "' is not in index \n");
       return false;

@@ -92,6 +92,15 @@ namespace RavlLogicN {
     return true;
   }
   
+  //: Retract a literal.
+  
+  bool StateSetBodyC::Retract(const LiteralC &lit) {
+    if(!data[lit])
+      return false;
+    data -= lit;
+    return true;
+  }
+  
   //: List contents of state.
   
   LiteralIterC StateSetBodyC::List() const {

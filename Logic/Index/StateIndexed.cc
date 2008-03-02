@@ -69,6 +69,11 @@ namespace RavlLogicN {
   bool StateIndexedBodyC::Tell(const LiteralC &lit) 
   { return index.Insert(lit).IsValid(); }
   
+  //: Retract a literal.
+  
+  bool StateIndexedBodyC::Retract(const LiteralC &lit) 
+  { return index.Del(lit); }
+  
   //: List contents of state.
   
   LiteralIterC StateIndexedBodyC::List() const  
