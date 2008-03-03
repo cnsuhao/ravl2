@@ -27,6 +27,12 @@ namespace RavlN {
   public:
     inline BufferAccessIter7C()
       : at1(0), 
+        at2(0), // Avoid warning
+        at3(0), // Avoid warning
+        at4(0), // Avoid warning
+        at5(0), // Avoid warning
+        at6(0), // Avoid warning
+        at7(0), // Avoid warning
         endOfRow(0)
     {}
     //: Default constructor.

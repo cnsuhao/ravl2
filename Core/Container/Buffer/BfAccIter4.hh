@@ -27,6 +27,9 @@ namespace RavlN {
   public:
     inline BufferAccessIter4C()
       : at1(0), 
+        at2(0), // Avoid warning
+        at3(0), // Avoid warning
+        at4(0), // Avoid warning
         endOfRow(0)
     {}
     //: Default constructor.
