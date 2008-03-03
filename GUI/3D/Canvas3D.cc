@@ -17,9 +17,11 @@
 #endif
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/FMatrix.hh"
+#include "Ravl/GUI/GLContext.hh"
 
 #include <gtk/gtk.h>
 #include <GL/gl.h>
+
 #ifdef VISUAL_CPP
 #include <GL/glu.h>
 #include <gtk/gtkgl.h>
@@ -103,7 +105,7 @@ namespace RavlGUIN
     gint major, minor;
     gdk_gl_query_version(&major, &minor);
     ONDEBUG(cerr << "OpenGL extension version - %d.%d\n" << major << " " << minor << endl);
-	if(major > 0) ret = true;
+    if(major > 0) ret = true;
 #else
     ret = gdk_gl_query();    
     if(!ret) {
@@ -113,8 +115,8 @@ namespace RavlGUIN
       cerr << "Then restarting your program. \n";
       RavlAssertMsg(0,"OpenGL not supported. ");
 #endif
-	  ONDEBUG(cerr << "OpenGL not found" << endl);
-	}
+      ONDEBUG(cerr << "OpenGL not found" << endl);
+    }
 #endif
     return ret;
   }
@@ -124,41 +126,42 @@ namespace RavlGUIN
   {
     
     // Initalise opengl
-    if(!GUIInitGL())
+    if(!GUIInitGL()) {
 #if 0
       throw ExceptionC("OpenGL not supported on display. \n");
 #else
-    cerr << "WARNING: OpenGL not supported on this X server. \n";
+      cerr << "WARNING: OpenGL not supported on this X server. \n";
 #endif
-
+    }
+    
     ONDEBUG(cerr << "Canvas3DBodyC::Create(GtkWidget *), Setting up canvas. \n");
 
 #ifdef VISUAL_CPP
-
-	widget = gtk_drawing_area_new();
-	if(widget == 0) {
-		cerr << "Canvas3DBodyC::Create(GtkWidget *) ERROR: Widget create failed. \n";
-		return false;
-	}
-	GdkGLConfig *glconfig;
-	// Try double-buffered visual
-	glconfig = gdk_gl_config_new_by_mode ((GdkGLConfigMode)(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH | GDK_GL_MODE_DOUBLE));
-	if (glconfig == NULL) {
-		g_print ("*** Cannot find the double-buffered visual.\n");
-		g_print ("*** Trying single-buffered visual.\n");
-
-		/* Try single-buffered visual */
-		glconfig = gdk_gl_config_new_by_mode ((GdkGLConfigMode)(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH));
-		if (glconfig == NULL) {
-			g_print ("*** No appropriate OpenGL-capable visual found.\n");
-			exit (1);
-		}
-	}
-	gtk_widget_set_gl_capability (widget, glconfig, NULL, TRUE, GDK_GL_RGBA_TYPE);	    
+    
+    widget = gtk_drawing_area_new();
+    if(widget == 0) {
+      cerr << "Canvas3DBodyC::Create(GtkWidget *) ERROR: Widget create failed. \n";
+      return false;
+    }
+    GdkGLConfig *glconfig;
+    // Try double-buffered visual
+    glconfig = gdk_gl_config_new_by_mode ((GdkGLConfigMode)(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH | GDK_GL_MODE_DOUBLE));
+    if (glconfig == NULL) {
+      g_print ("*** Cannot find the double-buffered visual.\n");
+      g_print ("*** Trying single-buffered visual.\n");
+      
+      /* Try single-buffered visual */
+      glconfig = gdk_gl_config_new_by_mode ((GdkGLConfigMode)(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH));
+      if (glconfig == NULL) {
+        g_print ("*** No appropriate OpenGL-capable visual found.\n");
+        exit (1);
+      }
+    }
+    gtk_widget_set_gl_capability (widget, glconfig, NULL, TRUE, GDK_GL_RGBA_TYPE);	    
 #else
     if(glattrlist == 0)
       glattrlist = defaultAttrlist; // Use default.
-
+    
     widget = gtk_gl_area_new(glattrlist);
     if(widget == 0) {
       cerr << "Canvas3DBodyC::Create(GtkWidget *) ERROR: Widget create failed. \n";
@@ -166,8 +169,7 @@ namespace RavlGUIN
     }
 #endif
     
-    if(Parent != NULL)
-    {
+    if(Parent != NULL) {
       // The widget supplied is unlikely to be the correct type,
       // so we assume its a container into which we'll create
       // the graphics context.
@@ -176,13 +178,11 @@ namespace RavlGUIN
       gtk_container_add (GTK_CONTAINER (Parent), widget);
       //gtk_widget_show (widget);
     }
-    else
-    {
+    else {
       // Setup drawing area.
       ONDEBUG(cerr << "Canvas3DBodyC::Create(GtkWidget *), Setting draw area size to " << sx << " " << sy <<". \n");
       gtk_drawing_area_size (GTK_DRAWING_AREA (widget), sx, sy);
     }
-    
     
     // When window is resized viewport needs to be resized also.
     ConnectRef(Signal("configure_event"), *this,&Canvas3DBodyC::CBConfigureEvent);

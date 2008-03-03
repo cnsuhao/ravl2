@@ -20,6 +20,7 @@
 #include "Ravl/GUI/Util.hh"
 #include "Ravl/GUI/DViewPoint3D.hh"
 #include "Ravl/GUI/DLight3D.hh"
+#include "Ravl/GUI/GLContext.hh"
 #include "Ravl/CallMethods.hh"
 #include "Ravl/CallMethodRefs.hh"
 
@@ -42,7 +43,8 @@ namespace RavlGUIN {
 
   //! userlevel=Develop
   //: 3D Canvas body.
-  class Canvas3DBodyC : public WidgetBodyC
+  class Canvas3DBodyC 
+    : public WidgetBodyC
   {
   public:
     Canvas3DBodyC(int x, int y, int *nglattrlist = 0, bool autoConfigure = true);
@@ -53,7 +55,7 @@ namespace RavlGUIN {
     // Returns false if GL is not available.
 
     virtual bool Create()
-      { return Create(NULL); }
+    { return Create(NULL); }
     //: Create widget (GUI only)
 
     virtual bool Create(GtkWidget *Parent);
@@ -82,26 +84,26 @@ namespace RavlGUIN {
     //: Put render instructon into pipe.
 
     bool SetTextureMode(bool& bTexture)
-      { m_bTexture = bTexture; return true; }
+    { m_bTexture = bTexture; return true; }
     //: Enable or disable texturing
 
     bool SetLightingMode(bool& bLighting);
     //: Enable or disable lighting
 
     bool SetRenderMode(Canvas3DRenderMode& eRenderMode)
-      { m_eRenderMode = eRenderMode; return true; }
+    { m_eRenderMode = eRenderMode; return true; }
     //: Set rendering mode
 
     bool GetTextureMode(void) const
-      { return m_bTexture; }
+    { return m_bTexture; }
     //: Is texturing enabled?
 
     bool GetLightingMode(void) const
-      { return m_bLighting; }
+    { return m_bLighting; }
     //: Is lighting enabled?
 
     Canvas3DRenderMode GetRenderMode(void) const
-      { return m_eRenderMode; }
+    { return m_eRenderMode; }
     //: Get rendering mode
 
     bool GUIDoLighting() {
@@ -109,10 +111,19 @@ namespace RavlGUIN {
       else glDisable(GL_LIGHTING);
       return true;
     }
+    //: Setup lighting 
     
-    //: Do we have non power of two textures?
     bool HaveExtNonPowerOfTwoTexture() const
     { return m_glExtNonPowerOfTwoTexture; }
+    //: Do we have non power of two textures?
+    
+    const GLContextC &GUIGLContext() { 
+      if(!m_glContext.IsValid())
+        m_glContext = GLContextC(widget);
+      return m_glContext; 
+    }
+    //: Get opengl context.
+    
     
   protected:
     virtual bool CBConfigureEvent(GdkEvent *event);
@@ -142,6 +153,8 @@ namespace RavlGUIN {
     
     bool m_glExtNonPowerOfTwoTexture; // Do we have non power of two textures ?
     bool m_initDone;
+    
+    GLContextC m_glContext;
   private:
     Canvas3DBodyC(const Canvas3DBodyC &)
     {}
@@ -167,154 +180,154 @@ namespace RavlGUIN {
     // GDK_GL_NONE.
 
     Canvas3DC(Canvas3DBodyC &bod) : WidgetC(bod)
-      {}
+    {}
     //: Body constructor
 
     bool GUIProcessReq(DObject3DC &obj)
-      { return Body().GUIProcessReq(obj); }
+    { return Body().GUIProcessReq(obj); }
     //: Process OpenGL requests.
 
     bool GUIDoLighting()
-      { return Body().GUIDoLighting(); }
+    { return Body().GUIDoLighting(); }
     //: Enable or disable lighting
 
     bool GUISwapBuffers()
-      { return Body().GUISwapBuffers(); }
+    { return Body().GUISwapBuffers(); }
     //: swap buffers.
     // NB. Only call from the GUI thread.
 
     bool GUIBeginGL()
-      { return Body().GUIBeginGL(); }
+    { return Body().GUIBeginGL(); }
     //: Call before using any GL commands.
     // Should only be called by GUI thread.
 
     bool GUIEndGL()
-      { return Body().GUIEndGL(); }
+    { return Body().GUIEndGL(); }
     //: Call aftern finished with GL
     // Should only be called by GUI thread.
 
     bool GUIClearBuffers()
-      { return Body().GUIClearBuffers() ; }
+    { return Body().GUIClearBuffers() ; }
     //: clear buffers
     // This will clear depth and color buffers
     // NB. Only call from the GUI thread
 
     bool Put(const DObject3DC &r)
-      { return Body().Put(r); }
+    { return Body().Put(r); }
     //: Put render object on canvas.
 
     void ViewPoint(RealT fov = 90,
 		   Point3dC nEye = Point3dC(0, 0, 5),
 		   Point3dC nCentre  = Point3dC(0, 0, 0),
 		   Vector3dC nUp = Vector3dC(0, 1, 0))
-      { Put(DViewPoint3DC(fov, nEye, nCentre, nUp)); }
+    { Put(DViewPoint3DC(fov, nEye, nCentre, nUp)); }
     //: Set the view point.
     // Thread safe.
 
     void Light(const RealRGBValueC &colour, const Point3dC &position, int nn = 0)
-      { Put(DLight3DC(colour, position, nn)); }
+    { Put(DLight3DC(colour, position, nn)); }
     //: Setup a light nn.
     // Thread safe
 
     void Transform(RealT nAngle, const Vector3dC &nAxis)
-      { Put(DTransform3DC(nAngle, nAxis)); }
+    { Put(DTransform3DC(nAngle, nAxis)); }
     //: Rotation Constructor.
 
     void Transform(RealT nAngle, const Vector3dC &nAxis, const Vector3dC &nTrans)
-      { Put(DTransform3DC(nAngle, nAxis, nTrans)); }
+    { Put(DTransform3DC(nAngle, nAxis, nTrans)); }
     //: Rotation/Translation Constructor.
 
     void Transform(RealT nAngle, const Vector3dC &nAxis, const Vector3dC &nTrans,const DObject3DC &obj)
-      { Put(DTransform3DC(nAngle, nAxis, nTrans, obj)); }
+    { Put(DTransform3DC(nAngle, nAxis, nTrans, obj)); }
     //: Rotation/Translation Constructor.
 
     void Transform(const Vector3dC &nTrans)
-      { Put(DTransform3DC(nTrans)); }
+    { Put(DTransform3DC(nTrans)); }
     //: Translation Constructor.
 
     void Transform(RealT nAngle, const Vector3dC &nAxis, const DObject3DC &obj)
-      { Put(DTransform3DC(nAngle, nAxis, obj)); }
+    { Put(DTransform3DC(nAngle, nAxis, obj)); }
     //: Constructor.
 
     void Render(bool (*nfunc)())
-      { Put(DOpenGLC(CallFunc0C<bool>(nfunc))); }
+    { Put(DOpenGLC(CallFunc0C<bool>(nfunc))); }
     //: Call OpenGL rendering function.
 
     template<class DataT>
     void Render(bool (*nfunc)(DataT &dat),const DataT &dat)
-      { Put(DOpenGLC(CallFunc1C<DataT &>(nfunc, dat))); }
+    { Put(DOpenGLC(CallFunc1C<DataT &>(nfunc, dat))); }
     //: Call OpenGL rendering function.
 
     template<class Data1T,class Data2T>
     void Render(bool (*nfunc)(Data1T &dat1, Data2T &dat2), const Data1T &dat1, const Data2T &dat2)
-      { Put(DOpenGLC(CallFunc2C<Data1T &,Data2T &>(nfunc, dat1, dat2))); }
+    { Put(DOpenGLC(CallFunc2C<Data1T &,Data2T &>(nfunc, dat1, dat2))); }
     //: Call OpenGL rendering function.
 
     template<class ObjT>
     void Render(const ObjT &nobj,bool (ObjT::*nfunc)())
-      { Put(DOpenGLC(CallMethod0C<ObjT>(nobj, nfunc))); }
+    { Put(DOpenGLC(CallMethod0C<ObjT>(nobj, nfunc))); }
     //: Call OpenGL rendering function.
 
     template<class ObjT,class DataT>
     void Render(const ObjT &nobj,bool (ObjT::*nfunc)(DataT &),const DataT &dat)
-      { Put(DOpenGLC(CallMethod1C<ObjT,DataT &>(nobj,nfunc,dat))); }
+    { Put(DOpenGLC(CallMethod1C<ObjT,DataT &>(nobj,nfunc,dat))); }
     //: Call OpenGL rendering function.
 
     template<class ObjT,class Data1T,class Data2T>
     void Render(const ObjT &nobj,bool (ObjT::*nfunc)(Data1T &,Data2T &),const Data1T &dat1,const Data2T &dat2)
-      { Put(DOpenGLC(CallMethod2C<ObjT,Data1T &,Data2T &>(nobj,nfunc,dat1,dat2))); }
+    { Put(DOpenGLC(CallMethod2C<ObjT,Data1T &,Data2T &>(nobj,nfunc,dat1,dat2))); }
     //: Call OpenGL rendering function.
 
     template<class ObjT>
     void RenderRef(ObjT &nobj,bool (ObjT::*nfunc)())
-      { Put(DOpenGLC(CallMethod0C<ObjT &>(nobj,nfunc))); }
+    { Put(DOpenGLC(CallMethod0C<ObjT &>(nobj,nfunc))); }
     //: Call OpenGL rendering function.
     // Use only a reference to 'nobj', not a copy.
     // NB. This means the reference counter will NOT be incremented.
 
     template<class ObjT,class DataT>
     void RenderRef(ObjT &nobj,bool (ObjT::*nfunc)(DataT &),const DataT &dat)
-      { Put(DOpenGLC(CallMethod1C<ObjT &,DataT &>(nobj,nfunc,dat))); }
+    { Put(DOpenGLC(CallMethod1C<ObjT &,DataT &>(nobj,nfunc,dat))); }
     //: Call OpenGL rendering function.
     // Use only a reference to 'nobj', not a copy.
     // NB. This means the reference counter will NOT be incremented.
 
     template<class ObjT,class Data1T,class Data2T>
     void RenderRef(ObjT &nobj,bool (ObjT::*nfunc)(Data1T &,Data2T &),const Data1T &dat1,const Data2T &dat2)
-      { Put(DOpenGLC(CallMethod2C<ObjT &,Data1T &,Data2T &>(nobj,nfunc,dat1,dat2))); }
+    { Put(DOpenGLC(CallMethod2C<ObjT &,Data1T &,Data2T &>(nobj,nfunc,dat1,dat2))); }
     //: Call OpenGL rendering function.
     // Use only a reference to 'nobj', not a copy.
     // NB. This means the reference counter will NOT be incremented.
 
     void SwapBuffers()
-      { RenderRef(*this,&Canvas3DC::GUISwapBuffers); }
+    { RenderRef(*this,&Canvas3DC::GUISwapBuffers); }
     //: Swap display buffers.
     // Thread safe.
 
     void ClearBuffers(void)
-      { RenderRef(*this, &Canvas3DC::GUIClearBuffers) ; }
+    { RenderRef(*this, &Canvas3DC::GUIClearBuffers) ; }
     //: Clear buffers
     // Clears color buffer and depth buffer
     // Thread safe
 
     bool SetTextureMode(bool &bTexture)
-      { return Body().SetTextureMode(bTexture); }
+    { return Body().SetTextureMode(bTexture); }
     //: Enable or disable texturing
 
     bool SetLightingMode(bool &bLighting)
-      { return Body().SetLightingMode(bLighting); }
+    { return Body().SetLightingMode(bLighting); }
     //: Enable or disable lighting
 
     bool SetRenderMode(Canvas3DRenderMode eRenderMode)
-      { return Body().SetRenderMode(eRenderMode); }
+    { return Body().SetRenderMode(eRenderMode); }
     //: Set rendering mode
 
     bool GetTextureMode(void) const
-      { return Body().GetTextureMode(); }
+    { return Body().GetTextureMode(); }
     //: Is texturing enabled?
 
     bool GetLightingMode(void) const
-      { return Body().GetLightingMode(); }
+    { return Body().GetLightingMode(); }
     //: Is lighting enabled?
 
     Canvas3DRenderMode GetRenderMode(void) const
@@ -323,6 +336,11 @@ namespace RavlGUIN {
 
     bool HaveExtNonPowerOfTwoTexture() const
     { return Body().HaveExtNonPowerOfTwoTexture(); }
+    //: Test if we have non power of two textures
+    
+    const GLContextC &GUIGLContext() 
+    { return Body().GUIGLContext(); }
+    //: Access opengl context for canvas.
     
   protected:
     Canvas3DBodyC &Body()

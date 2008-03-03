@@ -227,7 +227,7 @@ namespace RavlGUIN {
     
     Vector3dC lookAt = m_sceneCenter; // Vector3dC(0,0,0)
     RealT dist = lookAt.EuclidDistance(m_viewPoint);
-    cerr << "View3DBodyC::GUIAdjustView :" << lookAt << "  dist:" << dist << endl;
+    //cerr << "View3DBodyC::GUIAdjustView :" << lookAt << "  dist:" << dist << endl;
     if(dist <= 0)
       dist = 0.01;
     //if(dist <= m_sceneExtent)

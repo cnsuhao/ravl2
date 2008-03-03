@@ -16,6 +16,7 @@
 //! example=exDTexTriMesh3d.cc
 
 #include "Ravl/GUI/DTriMesh3D.hh"
+#include "Ravl/GUI/GLContext.hh"
 #include "Ravl/3D/TexTriMesh.hh"
 
 namespace RavlGUIN {
@@ -38,9 +39,10 @@ namespace RavlGUIN {
 
   protected:
     TexTriMeshC tmodel;
-    mutable GLuint* texNames;
+    mutable SArray1dC<GLuint> texNames;
+    mutable GLContextC m_glContext; // Used for freeing textures.
   };
-
+  
   //! userlevel=Normal
   //: Draw a TexTriMesh
   class DTexTriMesh3DC : public DTriMesh3DC

@@ -35,12 +35,11 @@ namespace RavlGUIN {
   //: Constructor.
 
   DTexTriMesh3DBodyC::~DTexTriMesh3DBodyC() {
-    //glDeleteTextures( 1, &texNames );
-    
-    if(texNames != NULL)
-      delete[] texNames;
+    // Make sure textures are free'd in an appropriate context.
+    if(m_glContext.IsValid() && texNames.Size() > 0)
+      m_glContext.FreeTextures(texNames);
   }
-
+  
   //: Render object.
   static int PowerOfTwo(int Val)
   {
@@ -58,7 +57,7 @@ namespace RavlGUIN {
       return true; // Don't do anything.
 
     // Setup GL texturing if it's not already done
-    if (texNames == NULL) {
+    if (texNames.Size() == 0 && tmodel.NumTextures() != 0) {
       ONDEBUG(cerr << "creating tex names\n");
 
       //roate texture coordinates
@@ -69,10 +68,13 @@ namespace RavlGUIN {
       // Not sure what this line does...
       glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
       // Allocate textures
-      texNames = new GLuint[tmodel.NumTextures()];
-      if (texNames==NULL) return false;
+      texNames = SArray1dC<GLuint>(tmodel.NumTextures());
+      
+      // Remeber the context we about to allocate the textures in
+      m_glContext = canvas.GUIGLContext();
+      
       // Create texture name
-      glGenTextures(tmodel.NumTextures(), texNames);
+      glGenTextures(tmodel.NumTextures(), &(texNames[0]));
       for(int i = 0; i < tmodel.NumTextures(); i++)
       {
         //cerr << "texture:" << i << endl;
