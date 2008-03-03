@@ -123,15 +123,23 @@ namespace RavlGUIN {
   void RawZoomCanvasBodyC::GUIDrawImage(const ImageC<ByteRGBValueC> &image,const Point2dC &doffset,bool ignoreImageOrigin) {
     ONDEBUG(cerr << "RawZoomCanvasBodyC::GUIDrawImage(), Called. Offset=" << offset << "\n");
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
-    IndexRange2dC imgRect = World2GUIi(IndexRange2dC(image.Frame().RowRange().Min(), image.Frame().RowRange().Max() + 1, image.Frame().ColRange().Min(), image.Frame().ColRange().Max() + 1) + doffset);
-    IndexRange2dC drawRect = IndexRange2dC(imgRect.RowRange().Min(), imgRect.RowRange().Max() - 1, imgRect.ColRange().Min(), imgRect.ColRange().Max() - 1);
+    IndexRange2dC imgRect = World2GUIi(IndexRange2dC(image.Frame().RowRange().Min(), 
+                                                     image.Frame().RowRange().Max() + 1, 
+                                                     image.Frame().ColRange().Min(), 
+                                                     image.Frame().ColRange().Max() + 1) + doffset);
+    
+    IndexRange2dC drawRect = IndexRange2dC(imgRect.RowRange().Min(), 
+                                           imgRect.RowRange().Max() - 1, 
+                                           imgRect.ColRange().Min(), 
+                                           imgRect.ColRange().Max() - 1);
+    
     ONDEBUG(cerr << "DrawRect=" << drawRect << " widgetSize=" << widgetSize << "\n");
     drawRect.ClipBy(widgetSize);
     if(drawRect.Area() <= 0)
       return ;
     ONDEBUG(cerr << "FinalDrawRect=" << drawRect << "\n");
     
-    if(Abs(scale[0] - 1) < 0.0001 && Abs(scale[0] - 1) < 0.0001) {
+    if(Abs(scale[0] - 1) < 0.0001 && Abs(scale[1] - 1) < 0.0001) {
       RawCanvasBodyC::GUIDrawImage(image,Index2dC(doffset + offset),false);
     } else {
       ImageC<ByteRGBValueC> drawImg(drawRect);
@@ -162,15 +170,23 @@ namespace RavlGUIN {
   
   void RawZoomCanvasBodyC::GUIDrawImage(const ImageC<ByteT> &image,const Point2dC &doffset,bool ignoreImageOrigin) {
     ONDEBUG(cerr << "RawZoomCanvasBodyC::GUIDrawImage(), Called. Offset=" << offset << "\n");
-    IndexRange2dC imgRect = World2GUIi(IndexRange2dC(image.Frame().RowRange().Min(), image.Frame().RowRange().Max() + 1, image.Frame().ColRange().Min(), image.Frame().ColRange().Max() + 1) + doffset);
-    IndexRange2dC drawRect = IndexRange2dC(imgRect.RowRange().Min(), imgRect.RowRange().Max() - 1, imgRect.ColRange().Min(), imgRect.ColRange().Max() - 1);
+    IndexRange2dC imgRect = World2GUIi(IndexRange2dC(image.Frame().RowRange().Min(), 
+                                                     image.Frame().RowRange().Max() + 1, 
+                                                     image.Frame().ColRange().Min(), 
+                                                     image.Frame().ColRange().Max() + 1) + doffset
+                                       );
+    IndexRange2dC drawRect = IndexRange2dC(imgRect.RowRange().Min(), 
+                                           imgRect.RowRange().Max() - 1, 
+                                           imgRect.ColRange().Min(), 
+                                           imgRect.ColRange().Max() - 1
+                                           );
     ONDEBUG(cerr << "DrawRect=" << drawRect << " widgetSize=" << widgetSize << "\n");
     drawRect.ClipBy(widgetSize);
     if(drawRect.Area() <= 0)
       return ;
     ONDEBUG(cerr << "FinalDrawRect=" << drawRect << "\n");
     
-    if(Abs(scale[0] - 1) < 0.0001 && Abs(scale[0] - 1) < 0.0001) {
+    if(Abs(scale[0] - 1) < 0.0001 && Abs(scale[1] - 1) < 0.0001) {
       
       RawCanvasBodyC::GUIDrawImage(image,Index2dC(doffset + offset),false);
     } else {
@@ -202,15 +218,24 @@ namespace RavlGUIN {
   void RawZoomCanvasBodyC::GUIDrawImage(const ImageC<ByteRGBAValueC> &image,const Point2dC &doffset,bool ignoreImageOrigin) {
     ONDEBUG(cerr << "RawZoomCanvasBodyC::GUIDrawImage(), Called. Offset=" << offset << "\n");
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
-    IndexRange2dC imgRect = World2GUIi(IndexRange2dC(image.Frame().RowRange().Min(), image.Frame().RowRange().Max() + 1, image.Frame().ColRange().Min(), image.Frame().ColRange().Max() + 1) + doffset);
-    IndexRange2dC drawRect = IndexRange2dC(imgRect.RowRange().Min(), imgRect.RowRange().Max() - 1, imgRect.ColRange().Min(), imgRect.ColRange().Max() - 1);
+    IndexRange2dC imgRect = World2GUIi(IndexRange2dC(image.Frame().RowRange().Min(), 
+                                                     image.Frame().RowRange().Max() + 1, 
+                                                     image.Frame().ColRange().Min(), 
+                                                     image.Frame().ColRange().Max() + 1) + doffset
+                                       );
+    
+    IndexRange2dC drawRect = IndexRange2dC(imgRect.RowRange().Min(), 
+                                           imgRect.RowRange().Max() - 1, 
+                                           imgRect.ColRange().Min(), 
+                                           imgRect.ColRange().Max() - 1);
+    
     ONDEBUG(cerr << "DrawRect=" << drawRect << " widgetSize=" << widgetSize << "\n");
     drawRect.ClipBy(widgetSize);
     if(drawRect.Area() <= 0)
       return ;
     ONDEBUG(cerr << "FinalDrawRect=" << drawRect << "\n");
     
-    if(Abs(scale[0] - 1) < 0.0001 && Abs(scale[0] - 1) < 0.0001 && 0) {
+    if(Abs(scale[0] - 1) < 0.0001 && Abs(scale[1] - 1) < 0.0001 && 0) {
       PixbufC pixBuf(image);
       RawCanvasBodyC::GUIDrawImage(pixBuf,Index2dC(doffset + offset));
     } else {
@@ -245,8 +270,16 @@ namespace RavlGUIN {
   void RawZoomCanvasBodyC::GUIDrawImage(const ImageC<ByteIAValueC> &image,const Point2dC &doffset,bool ignoreImageOrigin) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     ONDEBUG(cerr << "RawZoomCanvasBodyC::GUIDrawImage(), Called. Offset=" << offset << "\n");
-    IndexRange2dC imgRect = World2GUIi(IndexRange2dC(image.Frame().RowRange().Min(), image.Frame().RowRange().Max() + 1, image.Frame().ColRange().Min(), image.Frame().ColRange().Max() + 1) + doffset);
-    IndexRange2dC drawRect = IndexRange2dC(imgRect.RowRange().Min(), imgRect.RowRange().Max() - 1, imgRect.ColRange().Min(), imgRect.ColRange().Max() - 1);
+    IndexRange2dC imgRect = World2GUIi(IndexRange2dC(image.Frame().RowRange().Min(), 
+                                                     image.Frame().RowRange().Max() + 1, 
+                                                     image.Frame().ColRange().Min(), 
+                                                     image.Frame().ColRange().Max() + 1) + doffset
+                                       );
+    IndexRange2dC drawRect = IndexRange2dC(imgRect.RowRange().Min(), 
+                                           imgRect.RowRange().Max() - 1, 
+                                           imgRect.ColRange().Min(), 
+                                           imgRect.ColRange().Max() - 1
+                                           );
     ONDEBUG(cerr << "DrawRect=" << drawRect << " widgetSize=" << widgetSize << "\n");
     drawRect.ClipBy(widgetSize);
     if(drawRect.Area() <= 0)
