@@ -25,7 +25,10 @@ namespace RavlN {
   template<class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class Data6T>
   class BufferAccessIter6C {
   public:
-    inline BufferAccessIter6C();
+    inline BufferAccessIter6C()
+      : at1(0), 
+        endOfRow(0)
+    {}
     //: Default constructor.
     
     inline BufferAccessIter6C(const BufferAccessC<Data1T> &buff,
@@ -258,13 +261,6 @@ namespace RavlN {
   
   template<class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class Data6T>
   inline 
-  BufferAccessIter6C<Data1T,Data2T,Data3T,Data4T,Data5T,Data6T>::BufferAccessIter6C()
-    : at1(0), 
-      endOfRow(0)
-  {}
-
-  template<class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class Data6T>
-  inline 
   bool BufferAccessIter6C<Data1T,Data2T,Data3T,Data4T,Data5T,Data6T>::First(const BufferAccessC<Data1T> &buff,
 									    const BufferAccessC<Data2T> &buff2,
 									    const BufferAccessC<Data3T> &buff3,
@@ -275,6 +271,11 @@ namespace RavlN {
   {
     if(size <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid warnings.
+      at3 = 0; // Avoid warnings.
+      at4 = 0; // Avoid warnings.
+      at5 = 0; // Avoid warnings.
+      at6 = 0; // Avoid warnings.
       endOfRow = 0;
       return false;
     }
@@ -300,6 +301,11 @@ namespace RavlN {
   {
     if(rng1.Size() <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid warnings.
+      at3 = 0; // Avoid warnings.
+      at4 = 0; // Avoid warnings.
+      at5 = 0; // Avoid warnings.
+      at6 = 0; // Avoid warnings.
       endOfRow = 0;
       return false;
     }
@@ -335,6 +341,11 @@ namespace RavlN {
     RavlAssert(buff.Size() <= buff6.Size()); 
     if(buff.Size() <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid warnings.
+      at3 = 0; // Avoid warnings.
+      at4 = 0; // Avoid warnings.
+      at5 = 0; // Avoid warnings.
+      at6 = 0; // Avoid warnings.
       endOfRow = 0;
       return false ;
     }
@@ -365,6 +376,11 @@ namespace RavlN {
     RavlAssert(buff.Size() <= buff6.Size()); 
     if(buff.Size() <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid warnings.
+      at3 = 0; // Avoid warnings.
+      at4 = 0; // Avoid warnings.
+      at5 = 0; // Avoid warnings.
+      at6 = 0; // Avoid warnings.
       endOfRow = 0;
       return false;
     }

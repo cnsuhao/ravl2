@@ -26,7 +26,10 @@ namespace RavlN {
   template <class Data1T,class Data2T>
   class BufferAccessIter2C {
   public:
-    inline BufferAccessIter2C();
+    inline BufferAccessIter2C()
+      : at1(0), 
+        endOfRow(0)
+    {}
     //: Default constructor.
     
     inline BufferAccessIter2C(const RangeBufferAccessC<Data1T> &buff,const RangeBufferAccessC<Data2T> &buff2)
@@ -177,14 +180,6 @@ namespace RavlN {
   
   //////////////////////////////////////////////////////
   
-  template<class Data1T,class Data2T>
-  inline 
-  BufferAccessIter2C<Data1T,Data2T>::BufferAccessIter2C()
-    : at1(0), 
-      at2(0), // Avoid a warning
-      endOfRow(0)
-  {}
-
   template<class Data1T,class Data2T>
   inline 
   bool BufferAccessIter2C<Data1T,Data2T>::First(const BufferAccessC<Data1T> &buff1,const BufferAccessC<Data2T> &buff2,SizeT size) {

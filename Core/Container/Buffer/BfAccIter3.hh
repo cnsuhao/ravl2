@@ -221,6 +221,8 @@ namespace RavlN {
   {
     if(size <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid warnings.
+      at3 = 0; // Avoid warnings.
       endOfRow = 0;
       return false;
     }
@@ -239,6 +241,8 @@ namespace RavlN {
   {
     if(rng1.Size() <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid warnings.
+      at3 = 0; // Avoid warnings.
       endOfRow = 0;
       return false;
     }
@@ -260,6 +264,8 @@ namespace RavlN {
     RavlAssert(buff.Size() <= buff3.Size()); 
     if(buff.Size() <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid warnings.
+      at3 = 0; // Avoid warnings.
       endOfRow = 0;
       return false ;
     }
@@ -279,6 +285,8 @@ namespace RavlN {
     RavlAssert(buff.Size() <= buff3.Size()); 
     if(buff.Size() <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid warnings.
+      at3 = 0; // Avoid warnings.
       endOfRow = 0;
       return false;
     }

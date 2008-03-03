@@ -25,7 +25,10 @@ namespace RavlN {
   template<class Data1T,class Data2T,class Data3T,class Data4T>
   class BufferAccessIter4C {
   public:
-    inline BufferAccessIter4C();
+    inline BufferAccessIter4C()
+      : at1(0), 
+        endOfRow(0)
+    {}
     //: Default constructor.
     
     inline BufferAccessIter4C(const BufferAccessC<Data1T> &buff,
@@ -220,13 +223,6 @@ namespace RavlN {
   
   template<class Data1T,class Data2T,class Data3T,class Data4T>
   inline 
-  BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T>::BufferAccessIter4C()
-    : at1(0), 
-      endOfRow(0)
-  {}
-
-  template<class Data1T,class Data2T,class Data3T,class Data4T>
-  inline 
   bool BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T>::First(const BufferAccessC<Data1T> &buff,
 							      const BufferAccessC<Data2T> &buff2,
 							      const BufferAccessC<Data3T> &buff3,
@@ -235,6 +231,9 @@ namespace RavlN {
   {
     if(size <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid warnings.
+      at3 = 0; // Avoid warnings.
+      at4 = 0; // Avoid warnings.
       endOfRow = 0;
       return false;
     }
@@ -256,6 +255,9 @@ namespace RavlN {
   {
     if(rng1.Size() <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid warnings.
+      at3 = 0; // Avoid warnings.
+      at4 = 0; // Avoid warnings.
       endOfRow = 0;
       return false;
     }
@@ -283,6 +285,9 @@ namespace RavlN {
     RavlAssert(buff.Size() <= buff4.Size()); 
     if(buff.Size() <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid warnings.
+      at3 = 0; // Avoid warnings.
+      at4 = 0; // Avoid warnings.
       endOfRow = 0;
       return false ;
     }
@@ -307,6 +312,9 @@ namespace RavlN {
     RavlAssert(buff.Size() <= buff4.Size()); 
     if(buff.Size() <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid warnings.
+      at3 = 0; // Avoid warnings.
+      at4 = 0; // Avoid warnings.
       endOfRow = 0;
       return false;
     }

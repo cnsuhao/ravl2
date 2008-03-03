@@ -25,7 +25,10 @@ namespace RavlN {
   template<class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class Data6T,class Data7T>
   class BufferAccessIter7C {
   public:
-    inline BufferAccessIter7C();
+    inline BufferAccessIter7C()
+      : at1(0), 
+        endOfRow(0)
+    {}
     //: Default constructor.
     
     inline BufferAccessIter7C(const BufferAccessC<Data1T> &buff,
@@ -280,13 +283,6 @@ namespace RavlN {
   
   template<class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class Data6T,class Data7T>
   inline 
-  BufferAccessIter7C<Data1T,Data2T,Data3T,Data4T,Data5T,Data6T,Data7T>::BufferAccessIter7C()
-    : at1(0), 
-      endOfRow(0)
-  {}
-
-  template<class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class Data6T,class Data7T>
-  inline 
   bool BufferAccessIter7C<Data1T,Data2T,Data3T,Data4T,Data5T,Data6T,Data7T>::First(const BufferAccessC<Data1T> &buff,
 										   const BufferAccessC<Data2T> &buff2,
 										   const BufferAccessC<Data3T> &buff3,
@@ -298,6 +294,12 @@ namespace RavlN {
   {
     if(size <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid warnings.
+      at3 = 0; // Avoid warnings.
+      at4 = 0; // Avoid warnings.
+      at5 = 0; // Avoid warnings.
+      at6 = 0; // Avoid warnings.
+      at7 = 0; // Avoid warnings.
       endOfRow = 0;
       return false;
     }
@@ -325,6 +327,12 @@ namespace RavlN {
   {
     if(rng1.Size() <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid warnings.
+      at3 = 0; // Avoid warnings.
+      at4 = 0; // Avoid warnings.
+      at5 = 0; // Avoid warnings.
+      at6 = 0; // Avoid warnings.
+      at7 = 0; // Avoid warnings.
       endOfRow = 0;
       return false;
     }
@@ -363,6 +371,12 @@ namespace RavlN {
     RavlAssert(buff.Size() <= buff7.Size()); 
     if(buff.Size() <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid warnings.
+      at3 = 0; // Avoid warnings.
+      at4 = 0; // Avoid warnings.
+      at5 = 0; // Avoid warnings.
+      at6 = 0; // Avoid warnings.
+      at7 = 0; // Avoid warnings.
       endOfRow = 0;
       return false ;
     }
@@ -396,6 +410,12 @@ namespace RavlN {
     RavlAssert(buff.Size() <= buff7.Size()); 
     if(buff.Size() <= 0) {
       at1 = 0;
+      at2 = 0; // Avoid warnings.
+      at3 = 0; // Avoid warnings.
+      at4 = 0; // Avoid warnings.
+      at5 = 0; // Avoid warnings.
+      at6 = 0; // Avoid warnings.
+      at7 = 0; // Avoid warnings.
       endOfRow = 0;
       return false;
     }
