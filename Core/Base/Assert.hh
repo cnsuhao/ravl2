@@ -21,7 +21,7 @@ namespace RavlN {
   class StringC; // Forward declare StringC.
   
   bool AssertThrowException();
-  //: Test if an exception on an assertion failure.
+  //: Test if an exception will be thrown on an assertion failure.
   
   bool SetAssertThrowException(bool val);
   //: Throw an exception on an assertion failure.
