@@ -29,6 +29,13 @@ namespace RavlImageN {
   
   SegmentExtremaBaseC::~SegmentExtremaBaseC() {
     ReallocRegionMap(0);
+    
+    // Free histogram stack.
+    while(histStack != 0) {
+      HistStackC *ret = histStack;
+      histStack = ret->next;
+      delete [] reinterpret_cast<IntT *>(ret);
+    }
   }
 
   //: Delete the current region set, free any memory used.
