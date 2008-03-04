@@ -620,13 +620,26 @@ $(INST_HEADERCERT)/%$(CHEXT) : %$(CHEXT) $(TARG_HDRS) $(INST_HEADERCERT)/.dir $(
 endif
 
 $(TARG_HDRS) : $(INST_HEADER)/% : % $(INST_HEADER)/.dir
+ifndef USE_INCLUDE_SYMLINK 
 	$(SHOWIT)echo "--- Install header $(@F)" ; \
 	if [ -f $(INST_HEADER)/$(@F) ] ; then \
-	  $(CHMOD) +w $(INST_HEADER)/$(@F) ; \
+		$(CHMOD) +w $(INST_HEADER)/$(@F) ; \
 	fi ; \
 	echo "#line 1 \"$(QCWD)/$(@F)\"" > $(INST_HEADER)/$(@F) ; \
 	cat  $< >> $(INST_HEADER)/$(@F) ; \
-	$(CHMOD) a-w,a+r,a-x $(INST_HEADER)/$(@F)
+	$(CHMOD) a-w,a+r,a-x $(INST_HEADER)/$(@F) 
+else 
+	$(SHOWIT)echo "--- Install header link $(@F)" ; \
+	if [ -e $(INST_HEADER)/$(@F) -o -h $(INST_HEADER)/$(@F) ] ; then \
+		if [ "`readlink -e $(INST_HEADER)/$(@F)`"  != "$(QCWD)/$(@F)" ] ; then \
+			echo "--- Update header link $(@F)" ; \
+			ln -sf $(QCWD)/$(@F) $(INST_HEADER)/$(@F) ; \
+		fi ; \
+	else \
+		echo "--- Install header link $(@F)" ; \
+		ln -s $(QCWD)/$(@F) $(INST_HEADER)/$(@F) ; \
+	fi 
+endif
 
 #	touch -r $< $(INST_HEADER)/$(@F) ; \
 
