@@ -75,7 +75,7 @@ namespace RavlGUIN {
   
   void GLContextBodyC::End() {
 #ifdef VISUAL_CPP
-    GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (widget);
+    GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (m_widget);
     gdk_gl_drawable_gl_end (gldrawable);
 #endif
     return ;
