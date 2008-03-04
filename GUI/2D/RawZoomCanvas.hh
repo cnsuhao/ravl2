@@ -43,16 +43,16 @@ namespace RavlGUIN {
     //: Access current scale.
     
     void GUISetOffset(const Vector2dC &off);
-    //: Access current offset.
+    //: Set current offset in GUI thread.
     
     void GUISetScale(const Vector2dC &scale);
-    //: Access current scale.
+    //: Set current scale in GUI thread.
     
     void SetOffset(const Vector2dC &off);
-    //: Access current offset.
+    //: Set current offset.
     
     void SetScale(const Vector2dC &scale);
-    //: Access current scale.
+    //: Set current scale.
     
     Point2dC World2GUI(const Point2dC &at) const
     { return  at * scale + offset; }
