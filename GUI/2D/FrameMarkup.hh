@@ -10,7 +10,7 @@
 //! rcsid="$Id: FrameMarkup.hh 4259 2004-09-28 08:53:43Z charles $"
 //! lib=RavlGUI2D
 //! file="Magellan/Core/FrameMarkup.hh"
-//! docentry="Ravl.API.GUI.2D"
+//! docentry="Ravl.API.GUI.Markup Canvas"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
