@@ -66,16 +66,14 @@ namespace RavlGUIN {
               else end -= hor;
             }	  
             // Draw
-            Index2dC from(start);
-            Index2dC to(end);
-            mv.GUIDrawLine(dc, from, to);
+            mv.GUIDrawLine(dc, start, end);
           }
         }
       }
-      Index2dC horline(Round(centre.Row()), Round(centre.Col()-5.));
-      Index2dC horline2(Round(centre.Row()), Round(centre.Col()+5));
-      Index2dC verline(Round(centre.Row()-5.), Round(centre.Col()));
-      Index2dC verline2(Round(centre.Row()+5.), Round(centre.Col()));
+      Point2dC horline(centre.Row(), centre.Col()-5.);
+      Point2dC horline2(centre.Row(), centre.Col()+5);
+      Point2dC verline(centre.Row()-5., centre.Col());
+      Point2dC verline2(centre.Row()+5., centre.Col());
       
       mv.GUIDrawLine(dc, horline, horline2);
       mv.GUIDrawLine(dc, verline, verline2);
