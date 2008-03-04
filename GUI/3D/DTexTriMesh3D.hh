@@ -39,7 +39,7 @@ namespace RavlGUIN {
 
   protected:
     TexTriMeshC tmodel;
-    mutable SArray1dC<GLuint> texNames;
+    mutable SArray1dC<unsigned int> texNames;
     mutable GLContextC m_glContext; // Used for freeing textures.
   };
   

@@ -68,7 +68,7 @@ namespace RavlGUIN {
       // Not sure what this line does...
       glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
       // Allocate textures
-      texNames = SArray1dC<GLuint>(tmodel.NumTextures());
+      texNames = SArray1dC<unsigned int>(tmodel.NumTextures());
       
       // Remeber the context we about to allocate the textures in
       m_glContext = canvas.GUIGLContext();

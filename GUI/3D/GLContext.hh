@@ -3,7 +3,6 @@
 
 #include "Ravl/RCHandleV.hh"
 #include "Ravl/SArray1d.hh"
-#include <GL/gl.h>
 
 extern "C" {
   typedef struct _GtkWidget GtkWidget;
@@ -35,11 +34,11 @@ namespace RavlGUIN {
     virtual void End();
     //: Flag that we're finished with the context.
     
-    virtual bool FreeTextures(const RavlN::SArray1dC<GLuint> &textureIds);
+    virtual bool FreeTextures(const RavlN::SArray1dC<unsigned int> &textureIds);
     //: Thread safe freeing of textures.
     
   protected:
-    virtual bool GUIFreeTextures(RavlN::SArray1dC<GLuint> textureIds);
+    virtual bool GUIFreeTextures(RavlN::SArray1dC<unsigned int> textureIds);
     //: Thread 
     
     GtkWidget *m_widget;
@@ -76,7 +75,7 @@ namespace RavlGUIN {
     { Body().End(); }
     //: Flag that we're finished with the context.
     
-    bool FreeTextures(const RavlN::SArray1dC<GLuint> &textureIds)
+    bool FreeTextures(const RavlN::SArray1dC<unsigned int> &textureIds)
     { return Body().FreeTextures(textureIds); }
     //: Thread safe freeing of textures.
     
@@ -86,7 +85,7 @@ namespace RavlGUIN {
     {}
     //: Body constructor
     
-    bool GUIFreeTextures(RavlN::SArray1dC<GLuint> textures)
+    bool GUIFreeTextures(RavlN::SArray1dC<unsigned int> textures)
     { return Body().GUIFreeTextures(textures); }
     //: Thread 
     
