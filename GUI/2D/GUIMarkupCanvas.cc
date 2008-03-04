@@ -308,6 +308,12 @@ namespace RavlGUIN
       if(m_mouseObj.MouseEventMove(*this,at,me,mouseState,refresh)) 
       {
         updateArea.Involve(m_mouseObj.Extent(*this));
+        //Enlarge area by 1 *screen* pixel to eliminate quantising artefacts
+        Vector2dC increment(1.0/scale[0],1.0/scale[1]);
+        updateArea.TRow() -= increment[0]; 
+        updateArea.BRow() += increment[0]; 
+        updateArea.LCol() -= increment[1]; 
+        updateArea.RCol() += increment[1]; 
       } 
       else 
       {
