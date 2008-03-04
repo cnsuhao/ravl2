@@ -98,7 +98,7 @@ namespace RavlGUIN {
   }
 
   RealRange2dC MarkupPoint2dBodyC::Extent(GUIMarkupCanvasBodyC &mv) const {
-    RealRange2dC rextent(centre.Row()-10, centre.Row()+10, centre.Col()-10, centre.Col()+10);
+    RealRange2dC rextent(centre.Row()-11, centre.Row()+11, centre.Col()-11, centre.Col()+11);
     // Involve extent of children
 
     return rextent;
