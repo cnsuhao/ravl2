@@ -737,7 +737,7 @@ namespace RavlN {
       do {
 	DChunkC<DataT> &last = chunks.Last();
 	if(last.Size() == 0) { // Is last chunk empty ?
-	  chunks.PopLast();
+	  delete &chunks.PopLast();
 	  if(chunks.IsEmpty()) {
 	    chunks.InsLast(*new DChunkC<DataT>(0,newData));
 	    break;
@@ -771,7 +771,7 @@ namespace RavlN {
       do {
 	DChunkC<DataT> &last = chunks.Last();
 	if(last.Size() == 0) { // Is last chunk empty ?
-	  chunks.PopLast();
+	  delete &chunks.PopLast();
 	  if(chunks.IsEmpty()) {
 	    chunks.InsLast(*new DChunkC<DataT>(0,it->Data()));
 	    break;
