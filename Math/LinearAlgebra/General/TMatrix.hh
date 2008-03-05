@@ -47,23 +47,31 @@ namespace RavlN {
     // Note: This does not copy the vector, changes
     // made to the matrix will appear in the vector.
     
-    inline TMatrixC(SizeT rows,SizeT cols);
+    inline TMatrixC(SizeT rows,SizeT cols)
+      : SArray2dC<DataT>(rows,cols)
+    {}
     //: Constructor.
     
     inline TMatrixC(SizeT rows,SizeT cols,const DataT *data);
     //: Constructor.
     // With row wise array of initalisations data.
     
-    inline TMatrixC(SizeT rows,SizeT cols,DataT *data,bool useCopy,bool manageMemory = false);
+    inline TMatrixC(SizeT rows,SizeT cols,DataT *data,bool useCopy,bool manageMemory = false)
+      : SArray2dC<DataT>(BufferC<DataT>(rows * cols,data,useCopy,manageMemory),rows,cols)
+    {}
     //: Constructor.
     // This allows 'data' to be used in the array.  
     // If 'useCopy' is true the 'manageMemory' flag has no effect.
     
-    inline TMatrixC(SizeT rows,SizeT cols,const DataT &data);
+    inline TMatrixC(SizeT rows,SizeT cols,const DataT &data)
+      : SArray2dC<DataT>(rows,cols)
+    { Fill(data); }
     //: Constructor.
     // Fill the matrix with 'data'..
     
-    inline TMatrixC(SizeT rows,SizeT cols,SArray1dC<DataT> &data,SizeT stride = 0);
+    inline TMatrixC(SizeT rows,SizeT cols,SArray1dC<DataT> &data,SizeT stride = 0)
+      : SArray2dC<DataT>(data.Buffer(),rows,cols,&(data[0]) - data.Buffer().ReferenceElm(),stride)
+    {}
     //: Convert an array into a rows by cols matrix.
     
     TMatrixC(DataT v1,DataT v2,
@@ -179,11 +187,6 @@ namespace RavlN {
   //////////////////////////////////////////////////////
   
   template<class DataT>
-  inline TMatrixC<DataT>::TMatrixC(SizeT rows,SizeT cols)
-    : SArray2dC<DataT>(rows,cols)
-  {}
-  
-  template<class DataT>
   inline TMatrixC<DataT>::TMatrixC(SizeT rows,SizeT cols,const DataT *data) 
     : SArray2dC<DataT>(rows,cols)
   {
@@ -192,24 +195,10 @@ namespace RavlN {
       *it = *(at++);
   }
   
-  template<class DataT>
-  inline TMatrixC<DataT>::TMatrixC(SizeT rows,SizeT cols,DataT *data,bool useCopy,bool manageMemory) 
-    : SArray2dC<DataT>(BufferC<DataT>(rows * cols,data,useCopy,manageMemory),rows,cols)
-  {}
-  
-  template<class DataT>
-  inline TMatrixC<DataT>::TMatrixC(SizeT rows,SizeT cols,SArray1dC<DataT> &data,SizeT stride)
-    : SArray2dC<DataT>(data.Buffer(),rows,cols,&(data[0]) - data.Buffer().ReferenceElm(),stride)
-  {}
-  
-  template<class DataT>
-  inline TMatrixC<DataT>::TMatrixC(SizeT rows,SizeT cols,const DataT &data) 
-    : SArray2dC<DataT>(rows,cols)
-  { Fill(data); }
   
   template<class DataT>
   TMatrixC<DataT>::TMatrixC(DataT v1,DataT v2,
-	   DataT v3,DataT v4)
+                            DataT v3,DataT v4)
     : SArray2dC<DataT>(2,2)
   {
     (*this)[0][0] = v1;
@@ -234,7 +223,7 @@ namespace RavlN {
     (*this)[2][1] = v8;
     (*this)[2][2] = v9;
   }
-
+  
   
   template<class DataT>
   TVectorC<DataT> TMatrixC<DataT>::operator*(const TVectorC<DataT> & vector) const {
@@ -274,20 +263,6 @@ namespace RavlN {
   template<class DataT>
   TMatrixC<DataT> TMatrixC<DataT>::operator*(const TMatrixC<DataT> & mat) const  {
     RavlAssert(Cols() == mat.Rows());
-#if 0
-    const SizeT rdim = Rows();
-    const SizeT cdim = mat.Cols();
-    const SizeT dim  = Cols();
-    TMatrixC<DataT> out(rdim, cdim);
-    for (UIntT r = 0; r < rdim; r++)
-      for (UIntT c = 0; c < cdim; c++) {
-	DataT sum;
-	SetZero(sum);
-	for (UIntT k = 0; k < dim; k++)
-	  sum += (*this)[r][k] * mat[k][c];
-	out[r][c] = sum;
-      }
-#else  
     // Do work.
     TMatrixC<DataT> out(Rows(), mat.Cols());
     if(Rows() == 0 || Cols() == 0)
@@ -307,7 +282,6 @@ namespace RavlN {
       ot.NextRow();
       it2.First(mat,mat.Size2());
     } while(it1) ;
-#endif    
     return out;
   }
 
@@ -594,8 +568,8 @@ namespace RavlN {
   // For compatibility with the fixed length vectors.
   
   template<class DataT>
-  void Mul(const TVectorC<DataT> &vec,const TMatrixC<DataT> &mat,TVectorC<DataT> &result) 
-  { result = vec * mat; }
+  void Mul(const TVectorC<DataT> &vec,const TMatrixC<DataT> &mat,TVectorC<DataT> &out) 
+  { out = vec * mat; }
   //: Compute result = vec * mat;
   // For compatibility with the fixed length vectors
 
