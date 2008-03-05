@@ -23,7 +23,8 @@ namespace RavlN {
       _maxP(maxP),
       _constP(steps.Size()),
       _steps(steps),
-      _mask(steps.Size())
+      _mask(steps.Size()),
+      m_cacheDirty(true)
   {
     RavlAssertMsg (minP.Size() == maxP.Size() && minP.Size() == steps.Size(), "Error: all arguments for parameters must have same dimension");
     _mask.Fill(1);
@@ -38,7 +39,8 @@ namespace RavlN {
       _maxP(maxP),
       _constP(steps.Size()),
       _steps(steps),
-      _mask(mask)
+      _mask(mask),
+      m_cacheDirty(true)
   {
     RavlAssertMsg (minP.Size() == maxP.Size() && minP.Size() == steps.Size() && minP.Size() == mask.Size(), "Error: all arguments for parameters must have same dimension");
     _constP.Fill(0);
@@ -54,7 +56,8 @@ namespace RavlN {
      _maxP(nparams),
      _constP(nparams),
      _steps(nparams),
-     _mask(nparams)
+     _mask(nparams),
+      m_cacheDirty(true)
   {
     _minP.Fill(0);
     _maxP.Fill(1);
@@ -64,6 +67,7 @@ namespace RavlN {
   }
   
   ParametersBodyC::ParametersBodyC (istream &in)
+    : m_cacheDirty(true)
   { in >> _minP >> _maxP >> _constP >> _steps >> _mask; }
   
   ParametersBodyC::ParametersBodyC (const ParametersBodyC &oth)
@@ -71,7 +75,8 @@ namespace RavlN {
      _maxP(oth._maxP.Copy()),
      _constP(oth._constP.Copy()),
      _steps(oth._steps.Copy()),
-     _mask(oth._mask.Copy())
+     _mask(oth._mask.Copy()),
+     m_cacheDirty(true)
   {}
   
   ParametersBodyC & ParametersBodyC::Copy () const
@@ -84,61 +89,51 @@ namespace RavlN {
       exit(1);
     }
     _mask = mask;
+    m_cacheDirty = true;
   }
   
   void ParametersBodyC::SetConstP (const VectorC &constP)
-  { _constP = constP.Copy(); }
+  { 
+    _constP = constP.Copy(); 
+    m_cacheDirty = true;
+  }
   
-  const VectorC ParametersBodyC::MinX () const
-  { return TransP2X() * _minP; }
-  
-  const VectorC ParametersBodyC::MaxX () const
-  { return TransP2X() * _maxP; }
-  
-  const SArray1dC<IntT> ParametersBodyC::Steps () const
-  {
-    SArray1dC<IntT> steps (_mask.Sum());
+  void ParametersBodyC::UpdateCache() const {
+    UIntT maskSum = _mask.Sum();
+    if(m_stepsP.Size() != maskSum)
+      m_stepsP = SArray1dC<IntT>(maskSum);
+    
+    if(m_transP2X.Rows() != maskSum || m_transX2P.Cols() != _mask.Size())
+      m_transP2X = MatrixC(maskSum,_mask.Size());
+    m_transP2X.Fill (0);
+    
+    if(m_transX2P.Rows() != _mask.Size() || m_transX2P.Cols() != maskSum)
+        m_transX2P = MatrixC(_mask.Size(),maskSum);
+    m_transX2P.Fill (0);
+    
+    if(m_constP.Size() != _mask.Size())
+      m_constP = VectorC(_mask.Size());
+    m_constP.Fill (0);
+    
     IndexC counter = 0;
-    for (SArray1dIterC<IntT> it (_mask); it; it++)
-      if (*it == 1)
-	steps[counter++] = _steps[it.Index()];
-    return steps;
+    for (SArray1dIterC<IntT> it (_mask); it; it++) {
+      if (*it == 1) {
+        m_transX2P[it.Index()][counter] = 1;      
+        m_transP2X[counter][it.Index()] = 1;
+        m_stepsP[counter] = _steps[it.Index()];
+        counter++;
+      } else {
+        m_constP[it.Index()] = _constP[it.Index()];
+      }
+    }
+    RavlAssert(counter == maskSum);
+    
+    m_minX = m_transP2X * _minP;
+    m_maxX = m_transP2X * _maxP;
+    m_startX = m_transP2X * _constP;
+    
+    m_cacheDirty = false;
   }
-  
-  const MatrixC ParametersBodyC::TransP2X () const
-  {
-    MatrixC P2X (_mask.Sum(),_mask.Size());
-    P2X.Fill (0);
-    IndexC counter = 0;
-    for (SArray1dIterC<IntT> it (_mask); it; it++)
-      if (*it == 1)
-	P2X[counter++][it.Index()] = 1;
-    return P2X;
-  }
-  
-  const MatrixC ParametersBodyC::TransX2P () const
-  {
-    MatrixC X2P (_mask.Size(),_mask.Sum());
-    X2P.Fill (0);
-    IndexC counter = 0;
-    for (SArray1dIterC<IntT> it (_mask); it; it++)
-      if (*it == 1)
-	X2P[it.Index()][counter++] = 1;
-    return X2P;
-  }
-  
-  const VectorC ParametersBodyC::ConstP () const
-  {
-    VectorC constP (_mask.Size());
-    constP.Fill (0);
-    for (SArray1dIterC<IntT> it (_mask); it; it++)
-      if (*it != 1)
-	constP[it.Index()] = _constP[it.Index()];
-    return constP;
-  }
-  
-  const VectorC ParametersBodyC::StartX () const
-  { return TransP2X() * _constP; }
   
   
   //////////////////////////////////
@@ -150,6 +145,7 @@ namespace RavlN {
     _maxP[p] = max;
     _steps[p] = steps;
     _mask[p] = mask;
+    m_cacheDirty = true;
   }
   
   //////////////////////////////////
@@ -162,6 +158,7 @@ namespace RavlN {
     _steps[p] = steps;
     _mask[p] = mask;
     _constP[p] = constV;
+    m_cacheDirty = true;
   }
   
   

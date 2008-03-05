@@ -30,7 +30,8 @@ namespace RavlN {
   // This is the implemtation class for optimisation parameter bounds. The
   // ParametersC handle class should be used.
   
-  class ParametersBodyC: public RCBodyC
+  class ParametersBodyC
+    : public RCBodyC
   {
   public:
     ParametersBodyC (const VectorC &minP, 
@@ -71,7 +72,8 @@ namespace RavlN {
     //: Generate a random positon in the parameter space.
     
   protected:
-    inline SizeT Size() const;
+    inline SizeT Size() const
+    { return _minP.Size(); }
     //: Get number of parameters in set.
     
     void SetMask (const SArray1dC<IntT> &mask);
@@ -80,25 +82,46 @@ namespace RavlN {
     void SetConstP (const VectorC &constP);
     //: Specifies the values to use for constant parameters
     
-    const VectorC MinX () const;
+    const VectorC &MinX () const {
+      if(m_cacheDirty) UpdateCache();
+      return m_minX;
+    }
     //: Lower parameter bound for optimisation
     
-    const VectorC MaxX () const;
+    const VectorC &MaxX () const {
+      if(m_cacheDirty) UpdateCache();
+      return m_maxX; 
+    }
     //: Upper parameter bound for optimisation
-
-    const SArray1dC<IntT> Steps () const;
+    
+    const SArray1dC<IntT> &Steps () const {
+      if(m_cacheDirty) UpdateCache();      
+      return m_stepsP;
+    }
     //: Number of steps in each parameter for optimisation
     
-    const MatrixC TransP2X () const;
+    const MatrixC &TransP2X () const {
+      if(m_cacheDirty) UpdateCache();
+      return m_transP2X;      
+    }
     //: Transformation between P and X
     
-    const MatrixC TransX2P () const;
+    const MatrixC &TransX2P () const {
+      if(m_cacheDirty) UpdateCache();
+      return m_transX2P;
+    }
     //: Transformation between X and P
     
-    const VectorC ConstP () const;
+    const VectorC &ConstP () const {
+      if(m_cacheDirty) UpdateCache();
+      return m_constP;
+    }
     //: Vector with constant P elements set, else 0
     
-    const VectorC StartX () const;
+    const VectorC &StartX () const {
+      if(m_cacheDirty) UpdateCache();
+      return m_startX;
+    }
     //: Returns initial parameter value which is TransP2X * constP
     
     void Setup(IndexC p,RealT min,RealT max,IntT steps,IntT mask = 1);
@@ -119,13 +142,20 @@ namespace RavlN {
     VectorC _constP;
     SArray1dC<IntT> _steps;
     SArray1dC<IntT> _mask;
+
+    void UpdateCache() const;
+    
+    mutable bool m_cacheDirty;
+    mutable VectorC m_minX;
+    mutable VectorC m_maxX;
+    mutable MatrixC m_transP2X;
+    mutable MatrixC m_transX2P;
+    mutable VectorC m_constP;
+    mutable VectorC m_startX;
+    mutable SArray1dC<IntT> m_stepsP;
   };
   
   //////////////////////////////////////////
-  
-  inline 
-  SizeT ParametersBodyC::Size() const
-  { return _minP.Size(); }
   
   // --------------------------------------------------------------------------
   // **********  ParametersC  *************************************************
@@ -198,33 +228,33 @@ namespace RavlN {
     { Body().SetConstP (constP); }
     //: Sets const parameter values and starting point for enabled ones
     
-    inline const VectorC MinX () const
+    inline const VectorC &MinX () const
     { return Body().MinX (); }
     //: Lower bound on optimisation parameters
     
-    inline const VectorC MaxX () const
+    inline const VectorC &MaxX () const
     { return Body().MaxX (); }
     //: Upper bound on optimisation parameters
     
-    inline const SArray1dC<IntT> Steps () const
+    inline const SArray1dC<IntT> &Steps () const
     { return Body().Steps (); }
     //: Number of steps to use for each dimension
     
-    inline const MatrixC TransP2X () const
+    inline const MatrixC &TransP2X () const
     { return Body().TransP2X (); }
     //: Matrix for converting P to X
     
-    inline const MatrixC TransX2P () const
+    inline const MatrixC &TransX2P () const
     { return Body().TransX2P (); }
     //: Matrix for converting X to P.
     // Note that const P elements will be 0 and must add the vector ConstP
     // below for proper estimate of P.
     
-    inline const VectorC ConstP () const
+    inline const VectorC &ConstP () const
     { return Body().ConstP(); }
     //: Vector containing constant P elements and 0s
     
-    inline const VectorC StartX () const
+    inline const VectorC &StartX () const
     { return Body().StartX (); }
     //: Starting vector for X which is subset of value specified in SetConstP.
     

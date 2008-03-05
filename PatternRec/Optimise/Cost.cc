@@ -4,10 +4,11 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#include "Ravl/PatternRec/Cost.hh"
 //! rcsid="$Id$"
 //! lib=Optimisation
 //! file="Ravl/PatternRec/Optimise/Cost.cc"
+
+#include "Ravl/PatternRec/Cost.hh"
 
 //////////////////////////////////////////
 //: Constructor
@@ -48,25 +49,10 @@ namespace RavlN {
     InputSize (_parameters.MinX().Size());
   }
   
-  void CostBodyC::SetConstP (const VectorC &constP)
-  { _parameters.SetConstP (constP); }
-  
-  const VectorC CostBodyC::MinX () const
-  { return _parameters.MinX (); }
-  
-  const VectorC CostBodyC::MaxX () const
-  { return _parameters.MaxX (); }
-  
-  const VectorC CostBodyC::StartX () const
-  { return _parameters.StartX (); }
-  
-  VectorC CostBodyC::ConvertX2P (const VectorC &X) const
-  { return _parameters.TransX2P()*X + _parameters.ConstP(); }
-
   VectorC CostBodyC::ClipX (const VectorC &X) const
   {
-    VectorC minX = MinX();
-    VectorC maxX = MaxX();
+    const VectorC &minX = MinX();
+    const VectorC &maxX = MaxX();
     VectorC outX = X.Copy();
     for (IndexC i = 0; i < X.Size(); i++) {
       if (X[i] < minX[i]) outX[i] = minX[i];
@@ -75,26 +61,11 @@ namespace RavlN {
     return outX;
   }
   
-  const SArray1dC<IntT> CostBodyC::Steps () const
-  { return _parameters.Steps (); }
-  
-  const ParametersC & CostBodyC::GetParameters () const
-  { return _parameters; }
-
   void CostBodyC::SetParameters (const ParametersC &parameters)
   {
     InputSize (parameters.MinX().Size());
     _parameters = parameters;
   }
-  
-  const MatrixC CostBodyC::TransP2X () const
-  { return _parameters.TransP2X (); }
-  
-  const MatrixC CostBodyC::TransX2P () const
-  { return _parameters.TransX2P (); }
-  
-  const VectorC CostBodyC::ConstP () const
-  { return _parameters.ConstP (); }
   
   bool CostBodyC::Save (ostream &out) const
   {

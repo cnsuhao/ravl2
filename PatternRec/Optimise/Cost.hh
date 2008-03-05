@@ -52,13 +52,16 @@ namespace RavlN {
     CostBodyC (istream &in);
     //: Contructs from stream with derived class name
     
-    const MatrixC TransP2X () const;
+    const MatrixC &TransP2X () const
+    { return _parameters.TransP2X (); }
     //: Convert variable parameters to X vector
     
-    const MatrixC TransX2P () const;
+    const MatrixC &TransX2P () const
+    { return _parameters.TransX2P (); }
     //: Convert X vector to variable parameters
     
-    const VectorC ConstP () const;
+    const VectorC &ConstP () const
+    { return _parameters.ConstP (); }
     //: Constant componant of X vector
     
     virtual VectorC Evaluate (const VectorC &X) const;
@@ -70,29 +73,40 @@ namespace RavlN {
     void SetMask (const SArray1dC<IntT> &mask);
     //: Used to specify which elements are fixed
     
-    void SetConstP (const VectorC &constP);
+    void SetConstP (const VectorC &constP)
+    { _parameters.SetConstP (constP); }
     //: Used to specify the vector of fixed constant parameters
     
-    const VectorC MinX () const;
+    const VectorC &MinX () const
+    { return _parameters.MinX (); }
     //: Lower bound on variable parameters
     
-    const VectorC MaxX () const;
+    const VectorC &MaxX () const
+    { return _parameters.MaxX (); }
     //: Upper bound on variable parameters
     
-    const VectorC StartX () const;
+    const VectorC &StartX () const
+    { return _parameters.StartX (); }
     //: Returns the initial point for X as non-const part of constP
     
-    VectorC ConvertX2P (const VectorC &X) const;
+    VectorC ConvertX2P (const VectorC &X) const
+    { return _parameters.TransX2P()*X + _parameters.ConstP(); }
+    //: Expands X to P using TransX2P * X + Const P
+
+    void ConvertX2P (const VectorC &X,VectorC &out) const
+    { out = _parameters.TransX2P()*X + _parameters.ConstP(); }
     //: Expands X to P using TransX2P * X + Const P
     
-    const SArray1dC<IntT> Steps () const;
+    const SArray1dC<IntT> &Steps () const
+    { return _parameters.Steps (); }
     //: Number of steps for each parameter
     
     VectorC ClipX (const VectorC &X) const;
     //: Returns the input vector clipped by the parameter range
 
     
-    const ParametersC & GetParameters () const;
+    const ParametersC & GetParameters () const
+    { return _parameters; }
     //: Access to the parameter storage structure
 
     void SetParameters(const ParametersC &parameters);
@@ -160,75 +174,52 @@ namespace RavlN {
     //: Constructs from stream
     
     
-    inline RealT Cost (const VectorC &X) const;
+    inline RealT Cost (const VectorC &X) const
+    { return Body().Cost (X); }
     //: Calculates the cost of the current vector X
     
-    inline void SetMask (const SArray1dC<IntT> &mask);
+    inline void SetMask (const SArray1dC<IntT> &mask)
+    { Body().SetMask (mask); }
     //: Sets the mask of enables parameters
     
-    inline void SetConstP (const VectorC &constP);
+    inline void SetConstP (const VectorC &constP)
+    { Body().SetConstP (constP); }
     //: Sets the values for constant parameters.
     // The value of non-constant parameters will be used as a starting point
     
-    inline const VectorC MinX () const;
+    inline const VectorC &MinX () const
+    { return Body().MinX (); }
     //: Lower bound on optimisation vector X
     
-    inline const VectorC MaxX () const;
+    inline const VectorC &MaxX () const
+    { return Body().MaxX (); }
     //: Upper bound on optimisation vector X
     
-    inline const VectorC StartX () const;
+    inline const VectorC &StartX () const
+    { return Body().StartX (); }
     //: Initial X value obtained from SetConstP
     
-    inline VectorC ConvertX2P (const VectorC &X) const;
+    inline VectorC ConvertX2P (const VectorC &X) const
+    { return Body().ConvertX2P (X); }
     //: Converts an X vector to a full P vector
     
-    inline VectorC ClipX (const VectorC &X) const;
+    inline VectorC ClipX (const VectorC &X) const
+    { return Body().ClipX (X); }
     //: Returns the input vector clipped by the parameter range
     
-    inline const SArray1dC<IntT> Steps () const;
+    inline const SArray1dC<IntT> &Steps () const
+    { return Body().Steps (); }
     //: Gets number of steps to use for each dimension
     
-    inline const ParametersC & GetParameters () const;
+    inline const ParametersC & GetParameters () const
+    { return Body().GetParameters (); }
     //: Access to the parameter storage class
-
-    inline void SetParameters(const ParametersC &parameters);
+    
+    inline void SetParameters(const ParametersC &parameters)
+    { Body().SetParameters (parameters); }
     //: Change the parameter storage structure
   };
   
-  /////////////////////////////////////////////////////////
-  
-  const ParametersC & CostC::GetParameters () const
-  { return Body().GetParameters (); }
-
-  void CostC::SetParameters (const ParametersC &parameters)
-  { Body().SetParameters (parameters); }
-  
-  RealT CostC::Cost (const VectorC &X) const
-  { return Body().Cost (X); }
-  
-  void CostC::SetMask (const SArray1dC<IntT> &mask)
-  { Body().SetMask (mask); }
-  
-  void CostC::SetConstP (const VectorC &constP)
-  { Body().SetConstP (constP); }
-  
-  const VectorC CostC::MinX () const
-  { return Body().MinX (); }
-  
-  const VectorC CostC::MaxX () const
-  { return Body().MaxX (); }
-  
-  const VectorC CostC::StartX () const
-  { return Body().StartX (); }
-  
-  VectorC CostC::ConvertX2P (const VectorC &X) const
-  { return Body().ConvertX2P (X); }
-
-  VectorC CostC::ClipX (const VectorC &X) const
-  { return Body().ClipX (X); }
-  
-  const SArray1dC<IntT> CostC::Steps () const
-  { return Body().Steps (); }
   
 }
 
