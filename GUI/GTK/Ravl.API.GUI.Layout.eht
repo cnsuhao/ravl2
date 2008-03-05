@@ -3,6 +3,5 @@
 
 : Application layout widgets.
 
-Widgets used to contruct the frame work for
-GUI interfaces.
+<p>These widgets arrange the layout of other widgets within the GUI window.</p>
 

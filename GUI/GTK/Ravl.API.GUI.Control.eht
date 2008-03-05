@@ -3,3 +3,6 @@
 : Control widgets
 
 
+    <p> Most of these classes and functions create widgets that respond to user actions.  Hence they can also connect the widgets to appropriate callback routines.</p>  
+
+    <p>The function versions are relevant callback in a single call.  When using these function versions in combination with callback routines that are members of a <i>non</i>-reference-counted class, be sure to use the "R" or "Ref" version - e.g. <code>ButtonR()</code> in preference to <code>Button()</code>.</p>
