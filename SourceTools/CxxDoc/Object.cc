@@ -313,7 +313,7 @@ namespace RavlCxxDocN
     for(DLIterC<ObjectC> it(list);it;it++) {
       // Scopes can be merged from all over the place so set
       // the variable in the members of the scope too.
-      if(ScopeC::IsA(it.Data()) && it.Data().TypeName() != "class") {
+      if(ScopeC::IsA(it.Data()) &&  StringC("class") != it.Data().TypeName()) {
 	ObjectListC sl(it.Data());
 	sl.SetAll(var,dat);
       }
