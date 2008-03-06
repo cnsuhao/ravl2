@@ -27,7 +27,8 @@ SOURCES   =  PPointPlane3d.cc  \
              PProjection3d.cc  \
              PPerspective3d.cc \
 	     PLinePV3d.cc \
-             FitPPlane3d.cc 
+             FitPPlane3d.cc \
+	     PPoint3dAffine.cc
 
 
 # HEADERS = all include files of this project to be exported

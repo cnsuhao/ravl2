@@ -21,6 +21,7 @@
 
 namespace RavlN {
   class Point3dC;
+  class Affine3dC;
   class Vector3dC;
   class Point4dC;
   class Matrix4dC;
@@ -189,6 +190,9 @@ namespace RavlN {
   PPoint3dC operator*(RealT lambda, const PPoint3dC & p)
   { return p * lambda; }
   // Returns the point which is the 'lambda' multiplication of 'p'.
+  
+  PPoint3dC operator*(const Affine3dC &transform,const PPoint3dC & p);
+  // Affine transform of the space.
   
   ostream & operator<<(ostream & outS, const PPoint3dC & point);
   // Writes the 'point' into the output stream.
