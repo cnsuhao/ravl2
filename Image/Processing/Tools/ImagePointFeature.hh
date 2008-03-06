@@ -117,6 +117,9 @@ namespace RavlImageN {
     friend class ImagePointFeatureC;
   };
 
+  //! userlevel="Basic"
+  //: Feature set.
+  
   class ImagePointFeatureC  
     : public RCHandleC<ImagePointFeatureBodyC>
   {
