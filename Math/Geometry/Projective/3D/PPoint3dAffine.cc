@@ -12,7 +12,7 @@ namespace RavlN {
 
   // Affine transform of the space.
   
-  PPoint3dC operator*(const Affine3dC &transform,const PPoint3dC & p) {
+  PPoint3dC Transform(const FAffineC<3> &transform,const PPoint3dC & p) {
     const FMatrixC<3,3> &sr = transform.SRMatrix();
     const FVectorC<3> &t =  transform.Translation();
     return PPoint3dC(sr[0][0] * p[0] + sr[0][1] * p[1] + sr[0][2] * p[2] + t[0] * p[4],
