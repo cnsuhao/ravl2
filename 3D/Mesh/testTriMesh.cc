@@ -14,7 +14,7 @@ int testMeshSphere();
 
 int main() {
   int ln;
-#if 0
+#if 1
   if((ln = testMeshPlane()) != 0) {
     cerr << "Error line " << ln << "\n";
     return 1;

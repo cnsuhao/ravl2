@@ -9,9 +9,13 @@
 //! docentry="Ravl.API.3D.Mesh"
 //! author="Charles Galambos"
 //! date="22/2/2008"
+
 #include "Ravl/Math.hh"
 #include "Ravl/Collection.hh"
+#include "Ravl/Collection.hh"
 #include "Ravl/3D/TexTriMesh.hh"
+#include "Ravl/Stack.hh"
+#include "Ravl/PProjection3d.hh"
 
 namespace RavlN {
   class Affine3dC;
@@ -64,11 +68,22 @@ namespace Ravl3DN {
 			 m_texFilenames.Array());
     }
     
+    //! Push a transform onto the stack.
+    void TransformPush(const Affine3dC &transform);
+    
+    //! Push a transform onto the stack.
+    void TransformPush(const PProjection3dC &transform);
+    
+    //! Pop a transfrom from the stack.
+    void TransformPop()
+    { m_geomStack.Pop(); }
+    
   protected:
     CollectionC<VertexC> m_vertices;
     CollectionC<TriC> m_faces;
     CollectionC<ImageC<ByteRGBValueC> > m_textures;
     CollectionC<StringC> m_texFilenames;
+    StackC<PProjection3dC> m_geomStack;
   };
 }
 

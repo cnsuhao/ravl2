@@ -55,9 +55,16 @@ namespace Ravl3DN {
     normal.MakeUnit();
     
     // Add vertices
-    for(SArray1dIter3C<Point3dC,Point2dC,VertexC *> it(position3d,texturePoints,vertex);it;it++) {
-      it.Data3() = &m_vertices[m_vertices.Append(VertexC(it.Data1(),normal))];
+    if(m_geomStack.IsEmpty()) {
+      for(SArray1dIter3C<Point3dC,Point2dC,VertexC *> it(position3d,texturePoints,vertex);it;it++) {
+        it.Data3() = &m_vertices[m_vertices.Append(VertexC(it.Data1(),normal))];
+      }
+    } else {
+      for(SArray1dIter3C<Point3dC,Point2dC,VertexC *> it(position3d,texturePoints,vertex);it;it++) {
+        it.Data3() = &m_vertices[m_vertices.Append(VertexC((m_geomStack.Top() * PPoint3dC(it.Data1())).Point3d(),normal))];
+      }      
     }
+    
     Matrix2dC textureCoordScale(0,1,1,0);
     Vector2dC textureCoordOffset(0,0);
     if(textureId < m_textures.Size()) {
@@ -99,8 +106,21 @@ namespace Ravl3DN {
       it.Data1() = AddTexture(it.Data2(),it.Data3());
     
     // Map vertices.
-    for(RavlN::SArray1dIter2C<unsigned,VertexC> it(old2newVertex,mesh.Vertices());it;it++) 
-      it.Data1() = m_vertices.Append(it.Data2());
+    
+    if(m_geomStack.IsEmpty()) {
+      // No geometry transform needed.
+      for(RavlN::SArray1dIter2C<unsigned,VertexC> it(old2newVertex,mesh.Vertices());it;it++) {
+        it.Data1() = m_vertices.Append(it.Data2());
+      }
+    } else {
+      for(RavlN::SArray1dIter2C<unsigned,VertexC> it(old2newVertex,mesh.Vertices());it;it++) {
+        it.Data1() = m_vertices.Append(it.Data2());
+        VertexC &vertex = m_vertices.Last();
+        Point3dC oldPos = vertex.Position();
+        vertex.Position() = (m_geomStack.Top() * PPoint3dC(oldPos)).Point3d();
+        vertex.Normal() = (m_geomStack.Top() * PPoint3dC(Point3dC(oldPos + vertex.Normal()))).Point3d() - oldPos;
+      }
+    }
     
     // Translate triangles
     for(RavlN::SArray1dIterC<TriC> it(mesh.Faces());it;it++) {
@@ -115,28 +135,24 @@ namespace Ravl3DN {
   //! Add a transformed mesh to this one.
   
   void BuildTexTriMeshC::AddMesh(const TexTriMeshC &mesh,const Affine3dC &transform) {
-    SArray1dC<unsigned> old2newVertex(mesh.Vertices().Size());
-    SArray1dC<unsigned> old2newTex(mesh.NumTextures());
-    
-    // Map textures.
-    for(RavlN::SArray1dIter3C<unsigned,ImageC<ByteRGBValueC>,StringC > it(old2newTex,mesh.Textures(),mesh.TexFilenames());it;it++) 
-      it.Data1() = AddTexture(it.Data2(),it.Data3());
-    
-    // Map vertices.
-    for(RavlN::SArray1dIter2C<unsigned,VertexC> it(old2newVertex,mesh.Vertices());it;it++) {
-      Point3dC pos = transform * it.Data2().Position();
-      Point3dC norm = transform * (it.Data2().Position() + it.Data2().Normal()) - pos;
-      it.Data1() = m_vertices.Append(VertexC(pos,norm));
-    }
-    
-    // Translate triangles
-    for(RavlN::SArray1dIterC<TriC> it(mesh.Faces());it;it++) {
-      IntT nt = m_faces.Append(*it);
-      TriC &tri = m_faces[nt];
-      for(int i = 0;i < 3;i++)
-	tri.SetVertexPtr(i,&(m_vertices[old2newVertex[mesh.Index(*it,i)]]));
-      tri.SetTextureID(old2newTex[tri.TextureID()]);
-    }    
+    TransformPush(transform);
+    AddMesh(mesh);
+    TransformPop();
   }
 
+  //! Push a transform onto the stack.
+  
+  void BuildTexTriMeshC::TransformPush(const Affine3dC &transform) {
+    TransformPush(PProjection3dC(transform));
+  }
+  
+  //! Push a transform onto the stack.
+  void BuildTexTriMeshC::TransformPush(const PProjection3dC &transform) {
+    if(m_geomStack.IsEmpty())
+      m_geomStack.Push(transform);
+    else
+      m_geomStack.Push(m_geomStack.Top() * transform);
+  }
+  
+  
 }
