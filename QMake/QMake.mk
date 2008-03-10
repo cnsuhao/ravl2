@@ -156,6 +156,12 @@ allns: all
 ############################
 # Some compile shortcuts.
 
+ne: checkne
+
+shared: checkshared
+
+sharedne: checksharedne
+
 os: optshared 
 
 osne: optsharedne
@@ -168,64 +174,73 @@ dsne: debugsharedne
 # Compilation targets.
 
 src:
-	$(SMAKEMO) src_all NOINCDEFS=1 TARGET=src_all 
+	$(SMAKEMO) src_all TARGET=src_all NOINCDEFS=1 
 
 novar:
 	$(SMAKEMD) fullbuild TARGET=fullbuild  
 
 check:
-	$(SMAKEMD) fullbuild VAR=check TARGET=fullbuild  
+	$(SMAKEMD) fullbuild TARGET=fullbuild VAR=check  
 
 opt:
-	$(SMAKEMD) fullbuild VAR=opt TARGET=fullbuild  
+	$(SMAKEMD) fullbuild TARGET=fullbuild VAR=opt
 
 debug:
-	$(SMAKEMD) fullbuild VAR=debug TARGET=fullbuild  
-
-shared:
-	$(SMAKEMD) fullbuild VAR=check TARGET=fullbuild SHAREDBUILD=1  
-
-optshared:
-	$(SMAKEMD) fullbuild VAR=opt TARGET=fullbuild SHAREDBUILD=1 
-
-debugshared:
-	$(SMAKEMD) fullbuild VAR=debug BASE_VAR=debug TARGET=fullbuild SHAREDBUILD=1
-
-ne:	
-	$(SMAKEMD) fullbuild VAR=check TARGET=fullbuild NOEXEBUILD=1 
-
-optne:
-	$(SMAKEMD) fullbuild VAR=opt TARGET=fullbuild NOEXEBUILD=1 
-
-debugne:
-	$(SMAKEMD) fullbuild VAR=debug TARGET=fullbuild NOEXEBUILD=1 
-
-sharedne:
-	$(SMAKEMD) fullbuild VAR=check TARGET=fullbuild SHAREDBUILD=1 NOEXEBUILD=1
-
-optsharedne:
-	$(SMAKEMD) fullbuild VAR=opt TARGET=fullbuild SHAREDBUILD=1 NOEXEBUILD=1
-
-debugsharedne:
-	$(SMAKEMD) fullbuild VAR=debug BASE_VAR=debug TARGET=fullbuild SHAREDBUILD=1 NOEXEBUILD=1
+	$(SMAKEMD) fullbuild TARGET=fullbuild VAR=debug
 
 debugall:
-	$(SMAKEMD) fullbuild VAR=debug BASE_VAR=debug TARGET=fullbuild  
+	$(SMAKEMD) fullbuild TARGET=fullbuild VAR=debug                            BASE_VAR=debug
+
+checkshared:
+	$(SMAKEMD) fullbuild TARGET=fullbuild VAR=check SHAREDBUILD=1  
+
+optshared:
+	$(SMAKEMD) fullbuild TARGET=fullbuild VAR=opt   SHAREDBUILD=1 
+
+debugshared:
+	$(SMAKEMD) fullbuild TARGET=fullbuild VAR=debug SHAREDBUILD=1
+
+debugsharedall:
+	$(SMAKEMD) fullbuild TARGET=fullbuild VAR=debug SHAREDBUILD=1              BASE_VAR=debug
+
+checkne:	
+	$(SMAKEMD) fullbuild TARGET=fullbuild VAR=check               NOEXEBUILD=1 
+
+optne:
+	$(SMAKEMD) fullbuild TARGET=fullbuild VAR=opt                 NOEXEBUILD=1 
+
+debugne:
+	$(SMAKEMD) fullbuild TARGET=fullbuild VAR=debug               NOEXEBUILD=1 
+
+debugneall:
+	$(SMAKEMD) fullbuild TARGET=fullbuild VAR=debug               NOEXEBUILD=1 BASE_VAR=debug
+
+checksharedne:
+	$(SMAKEMD) fullbuild TARGET=fullbuild VAR=check SHAREDBUILD=1 NOEXEBUILD=1
+
+optsharedne:
+	$(SMAKEMD) fullbuild TARGET=fullbuild VAR=opt   SHAREDBUILD=1 NOEXEBUILD=1
+
+debugsharedne:
+	$(SMAKEMD) fullbuild TARGET=fullbuild VAR=debug SHAREDBUILD=1 NOEXEBUILD=1
+
+debugsharedneall:
+	$(SMAKEMD) fullbuild TARGET=fullbuild VAR=debug SHAREDBUILD=1 NOEXEBUILD=1 BASE_VAR=debug
 
 purify:
-	$(SMAKEMD) purifybuild VAR=debug PROCS=1 TARGET=purifybuild  
+	$(SMAKEMD) purifybuild TARGET=purifybuild VAR=debug PROCS=1  
 
 prof:
-	$(SMAKEMD) fullbuild VAR=prof TARGET=fullbuild  
+	$(SMAKEMD) fullbuild TARGET=fullbuild VAR=prof  
 
 gprof:
-	$(SMAKEMD) fullbuild VAR=gprof TARGET=fullbuild  
-
-chead:
-	$(SMAKEMD) cheadbuild FULLCHECKING=1 TARGET=cheadbuild  
+	$(SMAKEMD) fullbuild TARGET=fullbuild VAR=gprof  
 
 gprofne:
-	$(SMAKEMD) fullbuild VAR=gprof TARGET=fullbuild NOEXEBUILD=1 
+	$(SMAKEMD) fullbuild TARGET=fullbuild VAR=gprof NOEXEBUILD=1 
+
+chead:
+	$(SMAKEMD) cheadbuild TARGET=cheadbuild FULLCHECKING=1  
 
 test: src
 	@if [ ! -d $(INST_TESTBIN) ] ; then \
@@ -235,12 +250,12 @@ test: src
 	  $(MKDIR) $(INST_TESTLOG); \
 	fi 
 	+ $(SHOWIT)touch $(INST_TESTDB); \
-	if $(MAKEMD) VAR=check SHAREDBUILD=1 testbuild FULLCHECKING=1 NOEXEBUILD=1 TARGET=testbuild ; then true ; \
+	if $(MAKEMD) testbuild TARGET=testbuild VAR=check SHAREDBUILD=1 FULLCHECKING=1 NOEXEBUILD=1 ; then true ; \
 	else \
 	  echo "test: Failed to do initial build for test. "; \
 	  exit 1 ; \
 	fi ; \
-	if $(MAKEMD) VAR=check SHAREDBUILD=1 testbuild FULLCHECKING=1 TARGET=testbuild ; then true ; \
+	if $(MAKEMD) testbuild TARGET=testbuild VAR=check SHAREDBUILD=1 FULLCHECKING=1 ; then true ; \
 	else \
 	  echo "test: Failed to do executable build. " ; \
 	  exit 1 ; \
