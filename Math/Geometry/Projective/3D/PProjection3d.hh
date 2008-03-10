@@ -20,6 +20,7 @@
 #include "Ravl/PPlane3d.hh"
 
 namespace RavlN {
+  class Affine3dC;
   
   //! userlevel=Normal
   //: Projective transformation in 3D space
@@ -44,7 +45,10 @@ namespace RavlN {
     {}
     // Creates the zero projection. All points are projected into
     // not-valid projective object.
-
+    
+    PProjection3dC(const Affine3dC &affine);
+    // Construct from an affine transform.
+    
     inline PProjection3dC(RealT b00, RealT b01, RealT b02, RealT b03,
 			  RealT b10, RealT b11, RealT b12, RealT b13,
 			  RealT b20, RealT b21, RealT b22, RealT b23,

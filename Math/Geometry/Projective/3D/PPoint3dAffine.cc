@@ -7,8 +7,19 @@
 
 #include "Ravl/PPoint3d.hh"
 #include "Ravl/Affine3d.hh"
+#include "Ravl/PProjection3d.hh"
 
 namespace RavlN {
+
+  // Construct from an affine transform.
+  
+  PProjection3dC::PProjection3dC(const Affine3dC &aff)
+    : Matrix4dC(aff.SRMatrix()[0][0],aff.SRMatrix()[0][1],aff.SRMatrix()[0][2], aff.Translation()[0],
+                aff.SRMatrix()[1][0],aff.SRMatrix()[1][1],aff.SRMatrix()[1][2], aff.Translation()[1],
+                aff.SRMatrix()[2][0],aff.SRMatrix()[2][1],aff.SRMatrix()[2][2], aff.Translation()[2],
+                0.0, 0.0, 0.0, 1.0)
+  {}
+  
 
   // Affine transform of the space.
   
