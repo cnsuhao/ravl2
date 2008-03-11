@@ -172,6 +172,42 @@ ds: debugshared
 dsne: debugsharedne
 
 ############################
+# Test targets
+
+TEST_TARGET := $(firstword $(TEST_TARGET))
+
+# Default (check build)
+TEST_TARGET_PARAMS := VAR=check
+TEST_TARGET := $(patsubst check%,%,$(TEST_TARGET))
+
+# set and remove 'debug' or 'opt' target component
+ifneq ($(strip $(filter debug%,$(TEST_TARGET))),)
+  TEST_TARGET := $(patsubst debug%,%,$(TEST_TARGET))
+  TEST_TARGET_PARAMS := VAR=debug
+else
+  ifneq ($(strip $(filter opt%,$(TEST_TARGET))),)
+    TEST_TARGET := $(patsubst opt%,%,$(TEST_TARGET))
+    TEST_TARGET_PARAMS := VAR=opt
+  endif
+endif
+
+# set and remove 'shared' target component
+ifneq ($(strip $(filter shared%,$(TEST_TARGET))),)
+  TEST_TARGET := $(patsubst shared%,%,$(TEST_TARGET))
+  TEST_TARGET_PARAMS += SHAREDBUILD=1
+endif
+
+# remove 'ne' target component
+TEST_TARGET := $(patsubst ne%,%,$(TEST_TARGET))
+
+# set the 'all' debug target component
+ifneq ($(strip $(findstring VAR=debug,$(TEST_TARGET_PARAMS))),)
+  ifeq ($(strip $(TEST_TARGET)),all)
+    TEST_TARGET_PARAMS += BASE_VAR=debug
+  endif
+endif
+
+############################
 # Compilation targets.
 
 src:
@@ -251,12 +287,12 @@ test: src
 	  $(MKDIR) $(INST_TESTLOG); \
 	fi 
 	+ $(SHOWIT)touch $(INST_TESTDB); \
-	if $(MAKEMD) testbuild TARGET=testbuild VAR=check SHAREDBUILD=1 FULLCHECKING=1 NOEXEBUILD=1 ; then true ; \
+	if $(MAKEMD) testbuild TARGET=testbuild $(TEST_TARGET_PARAMS) FULLCHECKING=1 NOEXEBUILD=1 ; then true ; \
 	else \
 	  echo "test: Failed to do initial build for test. "; \
 	  exit 1 ; \
 	fi ; \
-	if $(MAKEMD) testbuild TARGET=testbuild VAR=check SHAREDBUILD=1 FULLCHECKING=1 ; then true ; \
+	if $(MAKEMD) testbuild TARGET=testbuild $(TEST_TARGET_PARAMS) FULLCHECKING=1 ; then true ; \
 	else \
 	  echo "test: Failed to do executable build. " ; \
 	  exit 1 ; \
@@ -348,23 +384,22 @@ libbuild:
 
 #add some defaults if FULLBUILD_TARGETS has not been defined
 ifndef FULLBUILD_TARGETS
-FULLBUILD_TARGETS = check opt checkshared optbin doc
+FULLBUILD_TARGETS := check opt checkshared optbin doc
 endif 
 
-# replace checkshared alias
-ifeq ($(strip $(filter-out $(FULLBUILD_TARGETS),shared)),)
-FULLBUILD_TARGETS:=$(filter-out $(FULLBUILD_TARGETS),shared)) 
-FULLBUILD_TARGETS+=checkshared 
+# replace shared alias for checkshared
+ifneq ($(strip $(findstring shared,$(FULLBUILD_TARGETS))),)
+FULLBUILD_TARGETS := $(subst shared,checkshared,$(FULLBUILD_TARGETS))
 endif 
 
 # make sure check libs get built before trying to build check binaries 
-ifeq ($(strip $(filter-out $(FULLBUILD_TARGETS),checkbin)),)
-FULLBUILD_TARGETS+=check 
+ifneq ($(strip $(findstring checkbin,$(FULLBUILD_TARGETS))),)
+FULLBUILD_TARGETS += check 
 endif 
 
 # make sure opt libs get built before trying to build opt binaries 
-ifeq ($(strip $(filter-out $(FULLBUILD_TARGETS),optbin)),)
-FULLBUILD_TARGETS+=opt 
+ifneq ($(strip $(findstring optbin,$(FULLBUILD_TARGETS))),)
+FULLBUILD_TARGETS += opt 
 endif 
 
 fullbuild:
