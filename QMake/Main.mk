@@ -629,8 +629,7 @@ ifndef USE_INCLUDE_SYMLINK
 	cat  $< >> $(INST_HEADER)/$(@F) ; \
 	$(CHMOD) a-w,a+r,a-x $(INST_HEADER)/$(@F) 
 else 
-	$(SHOWIT)echo "--- Install header link $(@F)" ; \
-	if [ -e $(INST_HEADER)/$(@F) -o -h $(INST_HEADER)/$(@F) ] ; then \
+	$(SHOWIT)if [ -e $(INST_HEADER)/$(@F) -o -h $(INST_HEADER)/$(@F) ] ; then \
 		if [ "`readlink -e $(INST_HEADER)/$(@F)`"  != "$(QCWD)/$(@F)" ] ; then \
 			echo "--- Update header link $(@F)" ; \
 			ln -sf $(QCWD)/$(@F) $(INST_HEADER)/$(@F) ; \
