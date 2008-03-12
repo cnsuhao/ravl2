@@ -383,22 +383,20 @@ libbuild:
 #  4-Build documentation
 
 #add some defaults if FULLBUILD_TARGETS has not been defined
-ifndef FULLBUILD_TARGETS
-FULLBUILD_TARGETS := check opt checkshared optbin doc
-endif 
+FULLBUILD_TARGETS ?= check opt checkshared optbin doc
 
 # replace shared alias for checkshared
-ifneq ($(strip $(findstring shared,$(FULLBUILD_TARGETS))),)
-FULLBUILD_TARGETS := $(subst shared,checkshared,$(FULLBUILD_TARGETS))
+ifneq ($(strip $(filter shared,$(FULLBUILD_TARGETS))),)
+FULLBUILD_TARGETS := $(patsubst shared,checkshared,$(FULLBUILD_TARGETS))
 endif 
 
 # make sure check libs get built before trying to build check binaries 
-ifneq ($(strip $(findstring checkbin,$(FULLBUILD_TARGETS))),)
+ifneq ($(strip $(filter checkbin,$(FULLBUILD_TARGETS))),)
 FULLBUILD_TARGETS += check 
 endif 
 
 # make sure opt libs get built before trying to build opt binaries 
-ifneq ($(strip $(findstring optbin,$(FULLBUILD_TARGETS))),)
+ifneq ($(strip $(filter optbin,$(FULLBUILD_TARGETS))),)
 FULLBUILD_TARGETS += opt 
 endif 
 
