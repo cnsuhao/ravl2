@@ -1,85 +1,73 @@
-##################################################
+################################################################
 #### Site Specific Configuration file
-##################################################
+################################################################
 ##
 ## Any undefined variables will be assigned  
 ## architecture specific defaults. 
 ##
-##################################################
+################################################################
 
-################ Install options #############################
+################################ Install options ################################
 # This variable determines which kinds of library are built by the default installation (fullbuild)
-#These flags include check, debug and opt builds, along with their shared library counterparts (shared, optshared, debugshared). 
-#The ravl binaries are built if  'optbin' is set, this also builds 'opt' libraries. The 'doc' flag controls building of documentation. 
+# These flags include check, debug and opt builds, along with their shared library counterparts (checkshared, optshared, debugshared). 
+# The ravl binaries are built if 'checkbin' or 'optbin' are set. This also builds the respective libraries.
+# The 'doc' flag controls building of documentation. 
  
 FULLBUILD_TARGETS += check
 FULLBUILD_TARGETS += debug 
 FULLBUILD_TARGETS += opt
-FULLBUILD_TARGETS += shared
+#FULLBUILD_TARGETS += checkshared
 #FULLBUILD_TARGETS += debugshared
 #FULLBUILD_TARGETS += optshared
+#FULLBUILD_TARGET += checkbin
 FULLBUILD_TARGETS += optbin
 FULLBUILD_TARGETS += doc
 
+# Install symbolic links to headers (requires 'ln' and 'readlink')
+#USE_INCLUDE_SYMLINK = 1
 
+# Specify which build to 'test'
+#TEST_TARGET = check
 
+################################ Compiler ################################
 
-# Compiler
-##################################################
+# specify the path of an alternative compiler
+#GCCPATH =
 
 # paths for cc and c++ compiler
-RAVL_CC  = /opt/GNUdevelop/gcc-3.2/bin/gcc3
-RAVL_CXX = /opt/GNUdevelop/gcc-3.2/bin/g++3
-
-#RAVL_CC  = /vol/vssp/localsoft/gcc-3.2.1_sol7/bin/gcc
-#RAVL_CXX = /vol/vssp/localsoft/gcc-3.2.1_sol7/bin/g++
+RAVL_CC  = gcc
+RAVL_CXX = g++
 
 # extra CFLAGS (c)
-# EXTRA_CFLAGS =
+#EXTRA_CFLAGS =
 
 # extra CCFLAGS (c++)
-# EXTRA_CCFLAGS =  -Wa,-xarch=v8plus -mcpu=v9
+#EXTRA_CCFLAGS =
 
+################################ LIBRARIES ################################
 
+#### GTK 2.x ################
 
+RESOURCES += libGTK libGTK2
+RESOURCES += libglade2
 
+#### FFTW ################
 
-# GTK
-##################################################
+#FFTW_HOME =
 
-# gtk path 
-GTKPATH = /opt/PDlibs/gtk++-1.2.10
+#### JAVASCRIPT ################
 
-# glib path 
-GLIBPATH = /opt/PDlibs/glib-1.2.10
+#JAVASCRIPT_HOME =
 
-# override gtk compile flags 
-GTKCFLAGS = -I/opt/PDlibs/gtk++-1.2.10/include/gtk-1.2 
+#### LIBJPEG ################
 
-# override glib compile flags
-GLIBCFLAGS = -I/opt/PDlibs/glib-1.2.10/include/glib-1.2 -I/opt/PDlibs/glib-1.2.10/lib/glib/include
+#LIBJPEG_HOME =
 
-# override gtk link flags 
-GTKLIBS = -L/opt/PDlibs/gtk++-1.2.10/lib -R/opt/PDlibs/gtk++-1.2.10/lib -lgtk -lgdk
+#### LIBPNG ################
 
-# ovveride glib link flags
-GLIBLIBS = -L/opt/PDlibs/glib-1.2.10/lib -R/opt/PDlibs/glib-1.2.10/lib -lglib
+#LIBPNG_HOME =
 
+#### LIBTIFF ################
 
-MESAHOME = /usr/openwin
-
-## FFTW ####################################################
-#FFTW_HOME=
-
-## JAVASCRIPT ##############################################
-#JAVASCRIPT_HOME=
-
-## LIBJPEG #################################################
-#LIBJPEG_HOME=
-
-## LIBPNG_HOME #############################################
-#LIBPNG_HOME=
-
-## LIBTIFF_HOME ############################################
-#LIBTIFF_HOME=
-
+RESOURCES += LibTIFF
+#LIBTIFF_HOME =

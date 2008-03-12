@@ -1,29 +1,38 @@
-##################################################
+################################################################
 #### Site Specific Configuration file
-##################################################
+################################################################
 ##
 ## Any undefined variables will be assigned  
 ## architecture specific defaults. 
 ##
-##################################################
+################################################################
 
-################ Install options #############################
+################################ Install options ################################
 # This variable determines which kinds of library are built by the default installation (fullbuild)
-#These flags include check, debug and opt builds, along with their shared library counterparts (shared, optshared, debugshared). 
-#The ravl binaries are built if  'optbin' is set, this also builds 'opt' libraries. The 'doc' flag controls building of documentation. 
+# These flags include check, debug and opt builds, along with their shared library counterparts (checkshared, optshared, debugshared). 
+# The ravl binaries are built if 'checkbin' or 'optbin' are set. This also builds the respective libraries.
+# The 'doc' flag controls building of documentation. 
  
 FULLBUILD_TARGETS += check
 FULLBUILD_TARGETS += debug 
 FULLBUILD_TARGETS += opt
-FULLBUILD_TARGETS += shared
+#FULLBUILD_TARGETS += checkshared
 #FULLBUILD_TARGETS += debugshared
 #FULLBUILD_TARGETS += optshared
+#FULLBUILD_TARGET += checkbin
 FULLBUILD_TARGETS += optbin
 FULLBUILD_TARGETS += doc
 
+# Install symbolic links to headers (requires 'ln' and 'readlink')
+#USE_INCLUDE_SYMLINK = 1
 
-# Compiler
-##################################################
+# Specify which build to 'test'
+#TEST_TARGET = check
+
+################################ Compiler ################################
+
+# specify the path of an alternative compiler
+#GCCPATH =
 
 # paths for cc and c++ compiler
 RAVL_CC  = /opt/Embedix/tools/bin/arm-linux-gcc
@@ -31,43 +40,35 @@ RAVL_CXX = /opt/Embedix/tools/bin/arm-linux-g++
 RAVL_AR  = /opt/Embedix/tools/bin/arm-linux-ar
 
 # extra CFLAGS (c)
-# EXTRA_CFLAGS =
+#EXTRA_CFLAGS =
 
 # extra CCFLAGS (c++)
-# EXTRA_CCFLAGS =
+#EXTRA_CCFLAGS =
 
-# GTK
-##################################################
+################################ LIBRARIES ################################
 
-# gtk path 
-#GTKPATH =  /opt/PDlibs/gtk++-1.2.10
+#### GTK 2.x ################
 
-# glib path 
-#GLIBPATH = /opt/PDlibs/glib-1.2.10
+#RESOURCES += libGTK libGTK2
+#RESOURCES += libglade2
 
-# override gtk compile flags 
-# GTKCFLAGS = 
+#### FFTW ################
 
-# override glib compile flags
-# GLIBCFLAGS = 
+#FFTW_HOME =
 
-# override gtk link flags 
-# GTKLIBS =
+#### JAVASCRIPT ################
 
-# ovveride glib link flags 
-# GLIBLIBS = 
+#JAVASCRIPT_HOME =
 
-## FFTW ####################################################
-#FFTW_HOME=
+#### LIBJPEG ################
 
-## JAVASCRIPT ##############################################
-#JAVASCRIPT_HOME=
+#LIBJPEG_HOME =
 
-## LIBJPEG #################################################
-#LIBJPEG_HOME=
+#### LIBPNG ################
 
-## LIBPNG_HOME #############################################
-#LIBPNG_HOME=
+#LIBPNG_HOME =
 
-## LIBTIFF_HOME ############################################
-#LIBTIFF_HOME=
+#### LIBTIFF ################
+
+#RESOURCES += LibTIFF
+#LIBTIFF_HOME =
