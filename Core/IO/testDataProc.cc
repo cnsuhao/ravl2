@@ -1,11 +1,10 @@
 // This file is part of RAVL, Recognition And Vision Library 
-// Copyright (C) 2001, University of Surrey
+// Copyright (C) 2008, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/testDataProc.cc"
 //! author="Charles Galambos"
@@ -25,6 +24,7 @@
 #include "Ravl/DP/FuncP2Proc.hh"
 #include "Ravl/DP/SPortAttach.hh"
 #include "Ravl/DP/MethodIO.hh"
+#include "Ravl/DP/MethodPtrIO.hh"
 #include "Ravl/DP/Method2Proc21.hh"
 #include "Ravl/DP/Func2Proc21.hh"
 #include "Ravl/DP/Method2Proc31.hh"
@@ -54,6 +54,8 @@ int testSimple();
 int testMultiplex();
 int testContainerIO();
 int testCompose(); 
+int testMethodIO(); 
+int testMethodPtrIO(); 
 int testFunc2Proc();
 int testSPort();
 int testSampleStream();
@@ -91,7 +93,11 @@ int main(int nargs,char **argv) {
     return 1;
   }
   if((ln = testMemIO()) != 0) {
-    cerr << "Error in testIStreamCache(), Line:" << ln << "\n";
+    cerr << "Error in testMemIO(), Line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testMethodPtrIO()) != 0) {
+    cerr << "Error in testMethodPtrIO(), Line:" << ln << "\n";
     return 1;
   }
   cerr << "Test passed. \n";
@@ -174,6 +180,9 @@ public:
 
   int Method31(const double &,const bool &,const char &)
   { return i++; }
+  
+  bool PutInt(const int &v)
+  { i = v; return true; }
   
   int i;
 };
@@ -258,6 +267,21 @@ int testMemIO() {
     if(i != x)
       return __LINE__;
   }
+  return 0;
+}
+
+int testMethodPtrIO() {
+  TestC seq;
+  DPIPortC<int> ip = IMethodPtr(&seq,&TestC::Seq);
+  if(ip.Get() != 0) return __LINE__;
+  if(ip.Get() != 1) return __LINE__;
+  
+  DPOPortC<int> op = OMethodPtr(&seq,&TestC::PutInt);
+  op.Put(0);
+  if(seq.i != 0) return __LINE__;
+  op.Put(1);
+  if(seq.i != 1) return __LINE__;
+  
   return 0;
 }
 
