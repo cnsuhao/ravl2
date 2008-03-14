@@ -1,10 +1,10 @@
-# This file was created automatically by SWIG.
+# This file was created automatically by SWIG 1.3.27.
 # Don't modify this file, modify the SWIG interface instead.
-# This file is compatible with both classic and new-style classes.
 
 import _Ravl
 
-def _swig_setattr(self,class_type,name,value):
+# This file is compatible with both classic and new-style classes.
+def _swig_setattr_nondynamic(self,class_type,name,value,static=1):
     if (name == "this"):
         if isinstance(value, class_type):
             self.__dict__[name] = value.this
@@ -13,7 +13,13 @@ def _swig_setattr(self,class_type,name,value):
             return
     method = class_type.__swig_setmethods__.get(name,None)
     if method: return method(self,value)
-    self.__dict__[name] = value
+    if (not static) or hasattr(self,name) or (name == "thisown"):
+        self.__dict__[name] = value
+    else:
+        raise AttributeError("You cannot add attributes to %s" % self)
+
+def _swig_setattr(self,class_type,name,value):
+    return _swig_setattr_nondynamic(self,class_type,name,value,0)
 
 def _swig_getattr(self,class_type,name):
     method = class_type.__swig_getmethods__.get(name,None)
@@ -36,7 +42,7 @@ class DListRealC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, DListRealC, name)
     def __repr__(self):
-        return "<C RavlN::DListC<(RavlN::RealT)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::DListC<RavlN::RealT > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, DListRealC, 'this', _Ravl.new_DListRealC(*args))
         _swig_setattr(self, DListRealC, 'thisown', 1)
@@ -57,11 +63,12 @@ class DListRealC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class DListRealCPtr(DListRealC):
     def __init__(self, this):
         _swig_setattr(self, DListRealC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, DListRealC, 'thisown', 0)
-        _swig_setattr(self, DListRealC,self.__class__,DListRealC)
+        self.__class__ = DListRealC
 _Ravl.DListRealC_swigregister(DListRealCPtr)
 
 class DListRealIterC(_object):
@@ -70,7 +77,7 @@ class DListRealIterC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, DListRealIterC, name)
     def __repr__(self):
-        return "<C RavlN::DLIterC<(RavlN::RealT)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::DLIterC<RavlN::RealT > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, DListRealIterC, 'this', _Ravl.new_DListRealIterC(*args))
         _swig_setattr(self, DListRealIterC, 'thisown', 1)
@@ -100,11 +107,12 @@ class DListRealIterC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class DListRealIterCPtr(DListRealIterC):
     def __init__(self, this):
         _swig_setattr(self, DListRealIterC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, DListRealIterC, 'thisown', 0)
-        _swig_setattr(self, DListRealIterC,self.__class__,DListRealIterC)
+        self.__class__ = DListRealIterC
 _Ravl.DListRealIterC_swigregister(DListRealIterCPtr)
 
 class DListIntC(_object):
@@ -113,7 +121,7 @@ class DListIntC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, DListIntC, name)
     def __repr__(self):
-        return "<C RavlN::DListC<(RavlN::IntT)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::DListC<RavlN::IntT > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, DListIntC, 'this', _Ravl.new_DListIntC(*args))
         _swig_setattr(self, DListIntC, 'thisown', 1)
@@ -134,11 +142,12 @@ class DListIntC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class DListIntCPtr(DListIntC):
     def __init__(self, this):
         _swig_setattr(self, DListIntC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, DListIntC, 'thisown', 0)
-        _swig_setattr(self, DListIntC,self.__class__,DListIntC)
+        self.__class__ = DListIntC
 _Ravl.DListIntC_swigregister(DListIntCPtr)
 
 class DListIntIterC(_object):
@@ -147,7 +156,7 @@ class DListIntIterC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, DListIntIterC, name)
     def __repr__(self):
-        return "<C RavlN::DLIterC<(RavlN::IntT)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::DLIterC<RavlN::IntT > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, DListIntIterC, 'this', _Ravl.new_DListIntIterC(*args))
         _swig_setattr(self, DListIntIterC, 'thisown', 1)
@@ -177,11 +186,12 @@ class DListIntIterC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class DListIntIterCPtr(DListIntIterC):
     def __init__(self, this):
         _swig_setattr(self, DListIntIterC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, DListIntIterC, 'thisown', 0)
-        _swig_setattr(self, DListIntIterC,self.__class__,DListIntIterC)
+        self.__class__ = DListIntIterC
 _Ravl.DListIntIterC_swigregister(DListIntIterCPtr)
 
 class DListUIntC(_object):
@@ -190,7 +200,7 @@ class DListUIntC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, DListUIntC, name)
     def __repr__(self):
-        return "<C RavlN::DListC<(RavlN::UIntT)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::DListC<RavlN::UIntT > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, DListUIntC, 'this', _Ravl.new_DListUIntC(*args))
         _swig_setattr(self, DListUIntC, 'thisown', 1)
@@ -211,11 +221,12 @@ class DListUIntC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class DListUIntCPtr(DListUIntC):
     def __init__(self, this):
         _swig_setattr(self, DListUIntC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, DListUIntC, 'thisown', 0)
-        _swig_setattr(self, DListUIntC,self.__class__,DListUIntC)
+        self.__class__ = DListUIntC
 _Ravl.DListUIntC_swigregister(DListUIntCPtr)
 
 class DListUIntIterC(_object):
@@ -224,7 +235,7 @@ class DListUIntIterC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, DListUIntIterC, name)
     def __repr__(self):
-        return "<C RavlN::DLIterC<(RavlN::UIntT)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::DLIterC<RavlN::UIntT > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, DListUIntIterC, 'this', _Ravl.new_DListUIntIterC(*args))
         _swig_setattr(self, DListUIntIterC, 'thisown', 1)
@@ -254,11 +265,12 @@ class DListUIntIterC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class DListUIntIterCPtr(DListUIntIterC):
     def __init__(self, this):
         _swig_setattr(self, DListUIntIterC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, DListUIntIterC, 'thisown', 0)
-        _swig_setattr(self, DListUIntIterC,self.__class__,DListUIntIterC)
+        self.__class__ = DListUIntIterC
 _Ravl.DListUIntIterC_swigregister(DListUIntIterCPtr)
 
 class DListInt64C(_object):
@@ -267,7 +279,7 @@ class DListInt64C(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, DListInt64C, name)
     def __repr__(self):
-        return "<C RavlN::DListC<(RavlN::Int64T)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::DListC<RavlN::Int64T > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, DListInt64C, 'this', _Ravl.new_DListInt64C(*args))
         _swig_setattr(self, DListInt64C, 'thisown', 1)
@@ -288,11 +300,12 @@ class DListInt64C(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class DListInt64CPtr(DListInt64C):
     def __init__(self, this):
         _swig_setattr(self, DListInt64C, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, DListInt64C, 'thisown', 0)
-        _swig_setattr(self, DListInt64C,self.__class__,DListInt64C)
+        self.__class__ = DListInt64C
 _Ravl.DListInt64C_swigregister(DListInt64CPtr)
 
 class DListInt64IterC(_object):
@@ -301,7 +314,7 @@ class DListInt64IterC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, DListInt64IterC, name)
     def __repr__(self):
-        return "<C RavlN::DLIterC<(RavlN::Int64T)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::DLIterC<RavlN::Int64T > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, DListInt64IterC, 'this', _Ravl.new_DListInt64IterC(*args))
         _swig_setattr(self, DListInt64IterC, 'thisown', 1)
@@ -331,11 +344,12 @@ class DListInt64IterC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class DListInt64IterCPtr(DListInt64IterC):
     def __init__(self, this):
         _swig_setattr(self, DListInt64IterC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, DListInt64IterC, 'thisown', 0)
-        _swig_setattr(self, DListInt64IterC,self.__class__,DListInt64IterC)
+        self.__class__ = DListInt64IterC
 _Ravl.DListInt64IterC_swigregister(DListInt64IterCPtr)
 
 class DListInt16C(_object):
@@ -344,7 +358,7 @@ class DListInt16C(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, DListInt16C, name)
     def __repr__(self):
-        return "<C RavlN::DListC<(RavlN::Int16T)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::DListC<RavlN::Int16T > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, DListInt16C, 'this', _Ravl.new_DListInt16C(*args))
         _swig_setattr(self, DListInt16C, 'thisown', 1)
@@ -365,11 +379,12 @@ class DListInt16C(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class DListInt16CPtr(DListInt16C):
     def __init__(self, this):
         _swig_setattr(self, DListInt16C, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, DListInt16C, 'thisown', 0)
-        _swig_setattr(self, DListInt16C,self.__class__,DListInt16C)
+        self.__class__ = DListInt16C
 _Ravl.DListInt16C_swigregister(DListInt16CPtr)
 
 class DListInt16IterC(_object):
@@ -378,7 +393,7 @@ class DListInt16IterC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, DListInt16IterC, name)
     def __repr__(self):
-        return "<C RavlN::DLIterC<(RavlN::Int16T)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::DLIterC<RavlN::Int16T > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, DListInt16IterC, 'this', _Ravl.new_DListInt16IterC(*args))
         _swig_setattr(self, DListInt16IterC, 'thisown', 1)
@@ -408,11 +423,12 @@ class DListInt16IterC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class DListInt16IterCPtr(DListInt16IterC):
     def __init__(self, this):
         _swig_setattr(self, DListInt16IterC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, DListInt16IterC, 'thisown', 0)
-        _swig_setattr(self, DListInt16IterC,self.__class__,DListInt16IterC)
+        self.__class__ = DListInt16IterC
 _Ravl.DListInt16IterC_swigregister(DListInt16IterCPtr)
 
 class DListByteC(_object):
@@ -421,7 +437,7 @@ class DListByteC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, DListByteC, name)
     def __repr__(self):
-        return "<C RavlN::DListC<(RavlN::ByteT)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::DListC<RavlN::ByteT > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, DListByteC, 'this', _Ravl.new_DListByteC(*args))
         _swig_setattr(self, DListByteC, 'thisown', 1)
@@ -442,11 +458,12 @@ class DListByteC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class DListByteCPtr(DListByteC):
     def __init__(self, this):
         _swig_setattr(self, DListByteC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, DListByteC, 'thisown', 0)
-        _swig_setattr(self, DListByteC,self.__class__,DListByteC)
+        self.__class__ = DListByteC
 _Ravl.DListByteC_swigregister(DListByteCPtr)
 
 class DListByteIterC(_object):
@@ -455,7 +472,7 @@ class DListByteIterC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, DListByteIterC, name)
     def __repr__(self):
-        return "<C RavlN::DLIterC<(RavlN::ByteT)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::DLIterC<RavlN::ByteT > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, DListByteIterC, 'this', _Ravl.new_DListByteIterC(*args))
         _swig_setattr(self, DListByteIterC, 'thisown', 1)
@@ -485,11 +502,12 @@ class DListByteIterC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class DListByteIterCPtr(DListByteIterC):
     def __init__(self, this):
         _swig_setattr(self, DListByteIterC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, DListByteIterC, 'thisown', 0)
-        _swig_setattr(self, DListByteIterC,self.__class__,DListByteIterC)
+        self.__class__ = DListByteIterC
 _Ravl.DListByteIterC_swigregister(DListByteIterCPtr)
 
 class Point2dC(_object):
@@ -498,7 +516,7 @@ class Point2dC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, Point2dC, name)
     def __repr__(self):
-        return "<C RavlN::Point2dC instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::Point2dC instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, Point2dC, 'this', _Ravl.new_Point2dC(*args))
         _swig_setattr(self, Point2dC, 'thisown', 1)
@@ -509,11 +527,12 @@ class Point2dC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class Point2dCPtr(Point2dC):
     def __init__(self, this):
         _swig_setattr(self, Point2dC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, Point2dC, 'thisown', 0)
-        _swig_setattr(self, Point2dC,self.__class__,Point2dC)
+        self.__class__ = Point2dC
 _Ravl.Point2dC_swigregister(Point2dCPtr)
 
 class DListPoint2dC(_object):
@@ -522,7 +541,7 @@ class DListPoint2dC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, DListPoint2dC, name)
     def __repr__(self):
-        return "<C RavlN::DListC<(RavlN::Point2dC)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::DListC<RavlN::Point2dC > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, DListPoint2dC, 'this', _Ravl.new_DListPoint2dC(*args))
         _swig_setattr(self, DListPoint2dC, 'thisown', 1)
@@ -543,11 +562,12 @@ class DListPoint2dC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class DListPoint2dCPtr(DListPoint2dC):
     def __init__(self, this):
         _swig_setattr(self, DListPoint2dC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, DListPoint2dC, 'thisown', 0)
-        _swig_setattr(self, DListPoint2dC,self.__class__,DListPoint2dC)
+        self.__class__ = DListPoint2dC
 _Ravl.DListPoint2dC_swigregister(DListPoint2dCPtr)
 
 class DListPoint2dIterC(_object):
@@ -556,7 +576,7 @@ class DListPoint2dIterC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, DListPoint2dIterC, name)
     def __repr__(self):
-        return "<C RavlN::DLIterC<(RavlN::Point2dC)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::DLIterC<RavlN::Point2dC > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, DListPoint2dIterC, 'this', _Ravl.new_DListPoint2dIterC(*args))
         _swig_setattr(self, DListPoint2dIterC, 'thisown', 1)
@@ -588,11 +608,12 @@ class DListPoint2dIterC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class DListPoint2dIterCPtr(DListPoint2dIterC):
     def __init__(self, this):
         _swig_setattr(self, DListPoint2dIterC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, DListPoint2dIterC, 'thisown', 0)
-        _swig_setattr(self, DListPoint2dIterC,self.__class__,DListPoint2dIterC)
+        self.__class__ = DListPoint2dIterC
 _Ravl.DListPoint2dIterC_swigregister(DListPoint2dIterCPtr)
 
 class IndexC(_object):
@@ -601,7 +622,7 @@ class IndexC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, IndexC, name)
     def __repr__(self):
-        return "<C RavlN::IndexC instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::IndexC instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, IndexC, 'this', _Ravl.new_IndexC(*args))
         _swig_setattr(self, IndexC, 'thisown', 1)
@@ -611,14 +632,13 @@ class IndexC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class IndexCPtr(IndexC):
     def __init__(self, this):
         _swig_setattr(self, IndexC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, IndexC, 'thisown', 0)
-        _swig_setattr(self, IndexC,self.__class__,IndexC)
+        self.__class__ = IndexC
 _Ravl.IndexC_swigregister(IndexCPtr)
-
-ToList = _Ravl.ToList
 
 class Index2dC(_object):
     __swig_setmethods__ = {}
@@ -626,7 +646,7 @@ class Index2dC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, Index2dC, name)
     def __repr__(self):
-        return "<C RavlN::Index2dC instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::Index2dC instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, Index2dC, 'this', _Ravl.new_Index2dC(*args))
         _swig_setattr(self, Index2dC, 'thisown', 1)
@@ -637,11 +657,12 @@ class Index2dC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class Index2dCPtr(Index2dC):
     def __init__(self, this):
         _swig_setattr(self, Index2dC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, Index2dC, 'thisown', 0)
-        _swig_setattr(self, Index2dC,self.__class__,Index2dC)
+        self.__class__ = Index2dC
 _Ravl.Index2dC_swigregister(Index2dCPtr)
 
 class IndexRange2dC(_object):
@@ -650,7 +671,7 @@ class IndexRange2dC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, IndexRange2dC, name)
     def __repr__(self):
-        return "<C RavlN::IndexRange2dC instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::IndexRange2dC instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, IndexRange2dC, 'this', _Ravl.new_IndexRange2dC(*args))
         _swig_setattr(self, IndexRange2dC, 'thisown', 1)
@@ -665,11 +686,12 @@ class IndexRange2dC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class IndexRange2dCPtr(IndexRange2dC):
     def __init__(self, this):
         _swig_setattr(self, IndexRange2dC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, IndexRange2dC, 'thisown', 0)
-        _swig_setattr(self, IndexRange2dC,self.__class__,IndexRange2dC)
+        self.__class__ = IndexRange2dC
 _Ravl.IndexRange2dC_swigregister(IndexRange2dCPtr)
 
 class Array2dByteC(_object):
@@ -678,7 +700,7 @@ class Array2dByteC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, Array2dByteC, name)
     def __repr__(self):
-        return "<C RavlN::Array2dC<(RavlN::ByteT)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::Array2dC<RavlN::ByteT > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, Array2dByteC, 'this', _Ravl.new_Array2dByteC(*args))
         _swig_setattr(self, Array2dByteC, 'thisown', 1)
@@ -691,11 +713,12 @@ class Array2dByteC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class Array2dByteCPtr(Array2dByteC):
     def __init__(self, this):
         _swig_setattr(self, Array2dByteC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, Array2dByteC, 'thisown', 0)
-        _swig_setattr(self, Array2dByteC,self.__class__,Array2dByteC)
+        self.__class__ = Array2dByteC
 _Ravl.Array2dByteC_swigregister(Array2dByteCPtr)
 
 class Array2dRealC(_object):
@@ -704,7 +727,7 @@ class Array2dRealC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, Array2dRealC, name)
     def __repr__(self):
-        return "<C RavlN::Array2dC<(RavlN::RealT)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::Array2dC<RavlN::RealT > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, Array2dRealC, 'this', _Ravl.new_Array2dRealC(*args))
         _swig_setattr(self, Array2dRealC, 'thisown', 1)
@@ -717,11 +740,12 @@ class Array2dRealC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class Array2dRealCPtr(Array2dRealC):
     def __init__(self, this):
         _swig_setattr(self, Array2dRealC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, Array2dRealC, 'thisown', 0)
-        _swig_setattr(self, Array2dRealC,self.__class__,Array2dRealC)
+        self.__class__ = Array2dRealC
 _Ravl.Array2dRealC_swigregister(Array2dRealCPtr)
 
 class StringC(_object):
@@ -730,7 +754,7 @@ class StringC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, StringC, name)
     def __repr__(self):
-        return "<C RavlN::StringC instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::StringC instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, StringC, 'this', _Ravl.new_StringC(*args))
         _swig_setattr(self, StringC, 'thisown', 1)
@@ -743,26 +767,21 @@ class StringC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class StringCPtr(StringC):
     def __init__(self, this):
         _swig_setattr(self, StringC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, StringC, 'thisown', 0)
-        _swig_setattr(self, StringC,self.__class__,StringC)
+        self.__class__ = StringC
 _Ravl.StringC_swigregister(StringCPtr)
 
-
-PrintIOFormats = _Ravl.PrintIOFormats
-
-PrintIOConversions = _Ravl.PrintIOConversions
-
-PrintIOClassTypes = _Ravl.PrintIOClassTypes
 class RealRangeC(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, RealRangeC, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, RealRangeC, name)
     def __repr__(self):
-        return "<C RavlN::RealRangeC instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::RealRangeC instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, RealRangeC, 'this', _Ravl.new_RealRangeC(*args))
         _swig_setattr(self, RealRangeC, 'thisown', 1)
@@ -800,12 +819,19 @@ class RealRangeC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class RealRangeCPtr(RealRangeC):
     def __init__(self, this):
         _swig_setattr(self, RealRangeC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, RealRangeC, 'thisown', 0)
-        _swig_setattr(self, RealRangeC,self.__class__,RealRangeC)
+        self.__class__ = RealRangeC
 _Ravl.RealRangeC_swigregister(RealRangeCPtr)
+
+PrintIOFormats = _Ravl.PrintIOFormats
+
+PrintIOConversions = _Ravl.PrintIOConversions
+
+PrintIOClassTypes = _Ravl.PrintIOClassTypes
 
 class RealRange2dC(_object):
     __swig_setmethods__ = {}
@@ -813,7 +839,7 @@ class RealRange2dC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, RealRange2dC, name)
     def __repr__(self):
-        return "<C RavlN::RealRange2dC instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::RealRange2dC instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, RealRange2dC, 'this', _Ravl.new_RealRange2dC(*args))
         _swig_setattr(self, RealRange2dC, 'thisown', 1)
@@ -844,11 +870,12 @@ class RealRange2dC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class RealRange2dCPtr(RealRange2dC):
     def __init__(self, this):
         _swig_setattr(self, RealRange2dC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, RealRange2dC, 'thisown', 0)
-        _swig_setattr(self, RealRange2dC,self.__class__,RealRange2dC)
+        self.__class__ = RealRange2dC
 _Ravl.RealRange2dC_swigregister(RealRange2dCPtr)
 
 class PointSet2dC(DListPoint2dC):
@@ -859,7 +886,7 @@ class PointSet2dC(DListPoint2dC):
     for _s in [DListPoint2dC]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, PointSet2dC, name)
     def __repr__(self):
-        return "<C RavlN::PointSet2dC instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::PointSet2dC instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, PointSet2dC, 'this', _Ravl.new_PointSet2dC(*args))
         _swig_setattr(self, PointSet2dC, 'thisown', 1)
@@ -870,11 +897,12 @@ class PointSet2dC(DListPoint2dC):
             if self.thisown: destroy(self)
         except: pass
 
+
 class PointSet2dCPtr(PointSet2dC):
     def __init__(self, this):
         _swig_setattr(self, PointSet2dC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, PointSet2dC, 'thisown', 0)
-        _swig_setattr(self, PointSet2dC,self.__class__,PointSet2dC)
+        self.__class__ = PointSet2dC
 _Ravl.PointSet2dC_swigregister(PointSet2dCPtr)
 
 class Polygon2dC(PointSet2dC):
@@ -885,7 +913,7 @@ class Polygon2dC(PointSet2dC):
     for _s in [PointSet2dC]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, Polygon2dC, name)
     def __repr__(self):
-        return "<C RavlN::Polygon2dC instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::Polygon2dC instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, Polygon2dC, 'this', _Ravl.new_Polygon2dC(*args))
         _swig_setattr(self, Polygon2dC, 'thisown', 1)
@@ -896,11 +924,12 @@ class Polygon2dC(PointSet2dC):
             if self.thisown: destroy(self)
         except: pass
 
+
 class Polygon2dCPtr(Polygon2dC):
     def __init__(self, this):
         _swig_setattr(self, Polygon2dC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, Polygon2dC, 'thisown', 0)
-        _swig_setattr(self, Polygon2dC,self.__class__,Polygon2dC)
+        self.__class__ = Polygon2dC
 _Ravl.Polygon2dC_swigregister(Polygon2dCPtr)
 
 class ByteRGBArray2dC(_object):
@@ -909,7 +938,7 @@ class ByteRGBArray2dC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, ByteRGBArray2dC, name)
     def __repr__(self):
-        return "<C RavlN::Array2dC<(RavlImageN::ByteRGBValueC)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::Array2dC<RavlImageN::ByteRGBValueC > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, ByteRGBArray2dC, 'this', _Ravl.new_ByteRGBArray2dC(*args))
         _swig_setattr(self, ByteRGBArray2dC, 'thisown', 1)
@@ -922,11 +951,12 @@ class ByteRGBArray2dC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class ByteRGBArray2dCPtr(ByteRGBArray2dC):
     def __init__(self, this):
         _swig_setattr(self, ByteRGBArray2dC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, ByteRGBArray2dC, 'thisown', 0)
-        _swig_setattr(self, ByteRGBArray2dC,self.__class__,ByteRGBArray2dC)
+        self.__class__ = ByteRGBArray2dC
 _Ravl.ByteRGBArray2dC_swigregister(ByteRGBArray2dCPtr)
 
 class RealRGBArray2dC(_object):
@@ -935,7 +965,7 @@ class RealRGBArray2dC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, RealRGBArray2dC, name)
     def __repr__(self):
-        return "<C RavlN::Array2dC<(RavlImageN::RealRGBValueC)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::Array2dC<RavlImageN::RealRGBValueC > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, RealRGBArray2dC, 'this', _Ravl.new_RealRGBArray2dC(*args))
         _swig_setattr(self, RealRGBArray2dC, 'thisown', 1)
@@ -948,11 +978,12 @@ class RealRGBArray2dC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class RealRGBArray2dCPtr(RealRGBArray2dC):
     def __init__(self, this):
         _swig_setattr(self, RealRGBArray2dC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, RealRGBArray2dC, 'thisown', 0)
-        _swig_setattr(self, RealRGBArray2dC,self.__class__,RealRGBArray2dC)
+        self.__class__ = RealRGBArray2dC
 _Ravl.RealRGBArray2dC_swigregister(RealRGBArray2dCPtr)
 
 class RealRGBValueC(_object):
@@ -961,7 +992,7 @@ class RealRGBValueC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, RealRGBValueC, name)
     def __repr__(self):
-        return "<C RavlImageN::RealRGBValueC instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlImageN::RealRGBValueC instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, RealRGBValueC, 'this', _Ravl.new_RealRGBValueC(*args))
         _swig_setattr(self, RealRGBValueC, 'thisown', 1)
@@ -973,11 +1004,12 @@ class RealRGBValueC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class RealRGBValueCPtr(RealRGBValueC):
     def __init__(self, this):
         _swig_setattr(self, RealRGBValueC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, RealRGBValueC, 'thisown', 0)
-        _swig_setattr(self, RealRGBValueC,self.__class__,RealRGBValueC)
+        self.__class__ = RealRGBValueC
 _Ravl.RealRGBValueC_swigregister(RealRGBValueCPtr)
 
 class ByteRGBValueC(_object):
@@ -986,7 +1018,7 @@ class ByteRGBValueC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, ByteRGBValueC, name)
     def __repr__(self):
-        return "<C RavlImageN::ByteRGBValueC instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlImageN::ByteRGBValueC instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, ByteRGBValueC, 'this', _Ravl.new_ByteRGBValueC(*args))
         _swig_setattr(self, ByteRGBValueC, 'thisown', 1)
@@ -998,11 +1030,12 @@ class ByteRGBValueC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class ByteRGBValueCPtr(ByteRGBValueC):
     def __init__(self, this):
         _swig_setattr(self, ByteRGBValueC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, ByteRGBValueC, 'thisown', 0)
-        _swig_setattr(self, ByteRGBValueC,self.__class__,ByteRGBValueC)
+        self.__class__ = ByteRGBValueC
 _Ravl.ByteRGBValueC_swigregister(ByteRGBValueCPtr)
 
 class ImageByteRGBValueC(ByteRGBArray2dC):
@@ -1013,7 +1046,7 @@ class ImageByteRGBValueC(ByteRGBArray2dC):
     for _s in [ByteRGBArray2dC]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, ImageByteRGBValueC, name)
     def __repr__(self):
-        return "<C RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlImageN::ImageC<RavlImageN::ByteRGBValueC > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, ImageByteRGBValueC, 'this', _Ravl.new_ImageByteRGBValueC(*args))
         _swig_setattr(self, ImageByteRGBValueC, 'thisown', 1)
@@ -1024,11 +1057,12 @@ class ImageByteRGBValueC(ByteRGBArray2dC):
             if self.thisown: destroy(self)
         except: pass
 
+
 class ImageByteRGBValueCPtr(ImageByteRGBValueC):
     def __init__(self, this):
         _swig_setattr(self, ImageByteRGBValueC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, ImageByteRGBValueC, 'thisown', 0)
-        _swig_setattr(self, ImageByteRGBValueC,self.__class__,ImageByteRGBValueC)
+        self.__class__ = ImageByteRGBValueC
 _Ravl.ImageByteRGBValueC_swigregister(ImageByteRGBValueCPtr)
 
 class ByteRGBImageC(ByteRGBArray2dC):
@@ -1039,7 +1073,7 @@ class ByteRGBImageC(ByteRGBArray2dC):
     for _s in [ByteRGBArray2dC]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, ByteRGBImageC, name)
     def __repr__(self):
-        return "<C RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlImageN::ImageC<RavlImageN::ByteRGBValueC > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, ByteRGBImageC, 'this', _Ravl.new_ByteRGBImageC(*args))
         _swig_setattr(self, ByteRGBImageC, 'thisown', 1)
@@ -1050,11 +1084,12 @@ class ByteRGBImageC(ByteRGBArray2dC):
             if self.thisown: destroy(self)
         except: pass
 
+
 class ByteRGBImageCPtr(ByteRGBImageC):
     def __init__(self, this):
         _swig_setattr(self, ByteRGBImageC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, ByteRGBImageC, 'thisown', 0)
-        _swig_setattr(self, ByteRGBImageC,self.__class__,ByteRGBImageC)
+        self.__class__ = ByteRGBImageC
 _Ravl.ByteRGBImageC_swigregister(ByteRGBImageCPtr)
 
 class ImageByteC(Array2dByteC):
@@ -1065,7 +1100,7 @@ class ImageByteC(Array2dByteC):
     for _s in [Array2dByteC]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, ImageByteC, name)
     def __repr__(self):
-        return "<C RavlImageN::ImageC<(RavlN::ByteT)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlImageN::ImageC<RavlN::ByteT > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, ImageByteC, 'this', _Ravl.new_ImageByteC(*args))
         _swig_setattr(self, ImageByteC, 'thisown', 1)
@@ -1076,11 +1111,12 @@ class ImageByteC(Array2dByteC):
             if self.thisown: destroy(self)
         except: pass
 
+
 class ImageByteCPtr(ImageByteC):
     def __init__(self, this):
         _swig_setattr(self, ImageByteC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, ImageByteC, 'thisown', 0)
-        _swig_setattr(self, ImageByteC,self.__class__,ImageByteC)
+        self.__class__ = ImageByteC
 _Ravl.ImageByteC_swigregister(ImageByteCPtr)
 
 class FontC(_object):
@@ -1089,7 +1125,7 @@ class FontC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, FontC, name)
     def __repr__(self):
-        return "<C RavlImageN::FontC instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlImageN::FontC instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, FontC, 'this', _Ravl.new_FontC(*args))
         _swig_setattr(self, FontC, 'thisown', 1)
@@ -1102,11 +1138,12 @@ class FontC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class FontCPtr(FontC):
     def __init__(self, this):
         _swig_setattr(self, FontC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, FontC, 'thisown', 0)
-        _swig_setattr(self, FontC,self.__class__,FontC)
+        self.__class__ = FontC
 _Ravl.FontC_swigregister(FontCPtr)
 
 Save = _Ravl.Save
@@ -1123,7 +1160,7 @@ class Affine2dC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, Affine2dC, name)
     def __repr__(self):
-        return "<C RavlN::Affine2dC instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::Affine2dC instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, Affine2dC, 'this', _Ravl.new_Affine2dC(*args))
         _swig_setattr(self, Affine2dC, 'thisown', 1)
@@ -1132,11 +1169,12 @@ class Affine2dC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class Affine2dCPtr(Affine2dC):
     def __init__(self, this):
         _swig_setattr(self, Affine2dC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, Affine2dC, 'thisown', 0)
-        _swig_setattr(self, Affine2dC,self.__class__,Affine2dC)
+        self.__class__ = Affine2dC
 _Ravl.Affine2dC_swigregister(Affine2dCPtr)
 
 DrawText = _Ravl.DrawText
@@ -1149,7 +1187,7 @@ class DateC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, DateC, name)
     def __repr__(self):
-        return "<C RavlN::DateC instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::DateC instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     __swig_getmethods__["NowUTC"] = lambda x: _Ravl.DateC_NowUTC
     if _newclass:NowUTC = staticmethod(_Ravl.DateC_NowUTC)
     __swig_getmethods__["NowLocal"] = lambda x: _Ravl.DateC_NowLocal
@@ -1207,11 +1245,12 @@ class DateC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class DateCPtr(DateC):
     def __init__(self, this):
         _swig_setattr(self, DateC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, DateC, 'thisown', 0)
-        _swig_setattr(self, DateC,self.__class__,DateC)
+        self.__class__ = DateC
 _Ravl.DateC_swigregister(DateCPtr)
 
 DateC_NowUTC = _Ravl.DateC_NowUTC
@@ -1232,7 +1271,7 @@ class HashInt64Int64C(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, HashInt64Int64C, name)
     def __repr__(self):
-        return "<C RavlN::HashC<(RavlN::Int64T,RavlN::Int64T)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::HashC<RavlN::Int64T,RavlN::Int64T > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, HashInt64Int64C, 'this', _Ravl.new_HashInt64Int64C(*args))
         _swig_setattr(self, HashInt64Int64C, 'thisown', 1)
@@ -1252,11 +1291,12 @@ class HashInt64Int64C(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class HashInt64Int64CPtr(HashInt64Int64C):
     def __init__(self, this):
         _swig_setattr(self, HashInt64Int64C, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, HashInt64Int64C, 'thisown', 0)
-        _swig_setattr(self, HashInt64Int64C,self.__class__,HashInt64Int64C)
+        self.__class__ = HashInt64Int64C
 _Ravl.HashInt64Int64C_swigregister(HashInt64Int64CPtr)
 
 class HashInt64Int64IterC(_object):
@@ -1265,7 +1305,7 @@ class HashInt64Int64IterC(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, HashInt64Int64IterC, name)
     def __repr__(self):
-        return "<C RavlN::HashIterC<(RavlN::Int64T,RavlN::Int64T)> instance at %s>" % (self.this,)
+        return "<%s.%s; proxy of C++ RavlN::HashIterC<RavlN::Int64T,RavlN::Int64T > instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def __init__(self, *args):
         _swig_setattr(self, HashInt64Int64IterC, 'this', _Ravl.new_HashInt64Int64IterC(*args))
         _swig_setattr(self, HashInt64Int64IterC, 'thisown', 1)
@@ -1280,11 +1320,13 @@ class HashInt64Int64IterC(_object):
             if self.thisown: destroy(self)
         except: pass
 
+
 class HashInt64Int64IterCPtr(HashInt64Int64IterC):
     def __init__(self, this):
         _swig_setattr(self, HashInt64Int64IterC, 'this', this)
         if not hasattr(self,"thisown"): _swig_setattr(self, HashInt64Int64IterC, 'thisown', 0)
-        _swig_setattr(self, HashInt64Int64IterC,self.__class__,HashInt64Int64IterC)
+        self.__class__ = HashInt64Int64IterC
 _Ravl.HashInt64Int64IterC_swigregister(HashInt64Int64IterCPtr)
+
 
 
