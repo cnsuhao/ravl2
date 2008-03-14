@@ -36,9 +36,15 @@ namespace RavlImageN {
     }
     Array2dIterC<PixelT> oit(out);
     for(Array2dSqr3IterC<PixelT> it(img);it;it += 2,oit++) {
-      AccumT val = static_cast<AccumT>(it.DataTM()) + it.DataBM() + it.DataMR() + it.DataML();
+      AccumT val = static_cast<AccumT>(it.DataTM())
+                 + static_cast<AccumT>(it.DataBM())
+                 + static_cast<AccumT>(it.DataMR())
+                 + static_cast<AccumT>(it.DataML());
       val *= 2;
-      val += it.DataBL() + it.DataBR() + it.DataTR() + it.DataTL();
+      val += static_cast<AccumT>(it.DataBL())
+           + static_cast<AccumT>(it.DataBR())
+           + static_cast<AccumT>(it.DataTR())
+           + static_cast<AccumT>(it.DataTL());
       val += static_cast<AccumT>(it.DataMM()) * 4;
       *oit = static_cast<PixelT>(val / 16);
     }
