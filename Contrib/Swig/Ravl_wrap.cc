@@ -1228,7 +1228,7 @@ type_error:
     obj = pyobj;
     if (PyCFunction_Check(obj)) {
       /* here we get the method pointer for callbacks */
-      char *doc = (((PyCFunctionObject *)obj) -> m_ml -> ml_doc);
+      const char *doc = (((PyCFunctionObject *)obj) -> m_ml -> ml_doc);
       c = doc ? strstr(doc, "swig_ptr: ") : 0;
       if (c) {
 	c = ty ? SWIG_UnpackVoidPtr(c + 10, &vptr, ty->name) : 0;
@@ -18478,7 +18478,7 @@ static PyObject *_wrap_HashInt64Int64C_Lookup(PyObject *, PyObject *args) {
     RavlN::Int64T *arg3 = 0 ;
     bool result;
     RavlN::Int64T temp2 ;
-    RavlN::Int64T temp3 ;
+    RavlN::Int64T temp3 = 0;
     int res3 = 0 ;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
@@ -20689,11 +20689,11 @@ extern "C" {
     swig_type_info **types_initial) {
         size_t i;
         for (i = 0; methods[i].ml_name; ++i) {
-            char *c = methods[i].ml_doc;
+            const char *c = methods[i].ml_doc;
             if (c && (c = strstr(c, "swig_ptr: "))) {
                 int j;
                 swig_const_info *ci = 0;
-                char *name = c + 10;
+                const char *name = c + 10;
                 for (j = 0; const_table[j].type; ++j) {
                     if (strncmp(const_table[j].name, name, 
                     strlen(const_table[j].name)) == 0) {
