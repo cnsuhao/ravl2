@@ -625,11 +625,14 @@ ifndef USE_INCLUDE_SYMLINK
 	if [ -f $(INST_HEADER)/$(@F) ] ; then \
 		$(CHMOD) +w $(INST_HEADER)/$(@F) ; \
 	fi ; \
+	if [ -L $(INST_HEADER)/$(@F) ] ; then \
+	  $(RM) $(INST_HEADER)/$(@F) ; \
+	fi ; \
 	echo "#line 1 \"$(QCWD)/$(@F)\"" > $(INST_HEADER)/$(@F) ; \
 	cat  $< >> $(INST_HEADER)/$(@F) ; \
 	$(CHMOD) a-w,a+r,a-x $(INST_HEADER)/$(@F) 
 else 
-	$(SHOWIT)if [ -e $(INST_HEADER)/$(@F) -o -h $(INST_HEADER)/$(@F) ] ; then \
+	$(SHOWIT)if [ -e $(INST_HEADER)/$(@F) -o -L $(INST_HEADER)/$(@F) ] ; then \
 		if [ "`readlink -e $(INST_HEADER)/$(@F)`"  != "$(QCWD)/$(@F)" ] ; then \
 			echo "--- Update header link $(@F)" ; \
 			ln -sf $(QCWD)/$(@F) $(INST_HEADER)/$(@F) ; \
