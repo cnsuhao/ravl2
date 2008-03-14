@@ -11,12 +11,18 @@
 %include "Ravl/Swig/Polygon2d.i"
 
 %{
+#ifdef SWIGPERL
 #undef Copy
+#endif
+
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Image/RealRGBValue.hh"
 #include "Ravl/Image/DrawPolygon.hh"
+
+#ifdef SWIGPERL
 #define Copy(s,d,n,t)   (MEM_WRAP_CHECK_(n,t) (void)memcpy((char*)(d),(const char*)(s), (n) * sizeof(t)))
+#endif
 %}
 
 namespace RavlN {

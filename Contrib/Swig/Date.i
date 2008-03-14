@@ -8,9 +8,15 @@
 %include "Ravl/Swig/String.i"
 
 %{
+#ifdef SWIGPERL
 #undef Copy
+#endif
+
 #include "Ravl/OS/Date.hh"
+
+#ifdef SWIGPERL
 #define Copy(s,d,n,t)   (MEM_WRAP_CHECK_(n,t) (void)memcpy((char*)(d),(const char*)(s), (n) * sizeof(t)))
+#endif
 %}
 
 namespace RavlN

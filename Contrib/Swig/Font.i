@@ -7,9 +7,15 @@
 %include "Ravl/Swig/Image.i"
 
 %{
+#ifdef SWIGPERL
 #undef Copy
+#endif
+
 #include "Ravl/Image/Font.hh"
+
+#ifdef SWIGPERL
 #define Copy(s,d,n,t)   (MEM_WRAP_CHECK_(n,t) (void)memcpy((char*)(d),(const char*)(s), (n) * sizeof(t)))
+#endif
 
 // The following is a fix for windows.
 #ifdef DrawText

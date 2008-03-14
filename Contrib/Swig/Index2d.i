@@ -8,9 +8,15 @@
 %include "Ravl/Swig/Index.i"
 
 %{
+#ifdef SWIGPERL
 #undef Copy
+#endif
+
 #include "Ravl/Index2d.hh"
+
+#ifdef SWIGPERL
 #define Copy(s,d,n,t)   (MEM_WRAP_CHECK_(n,t) (void)memcpy((char*)(d),(const char*)(s), (n) * sizeof(t)))
+#endif
 %}
 
 namespace RavlN {

@@ -9,9 +9,15 @@
 %include "Ravl/Swig/RealRange2d.i"
 
 %{
+#ifdef SWIGPERL
 #undef Copy
+#endif
+
 #include "Ravl/PointSet2d.hh"
+
+#ifdef SWIGPERL
 #define Copy(s,d,n,t)   (MEM_WRAP_CHECK_(n,t) (void)memcpy((char*)(d),(const char*)(s), (n) * sizeof(t)))
+#endif
 %}
 
 namespace RavlN

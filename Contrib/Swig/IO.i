@@ -8,11 +8,17 @@
 %include "Ravl/Swig/String.i"
 
 %{
+#ifdef SWIGPERL
 #undef Copy
+#endif
+
 #include "Ravl/IO.hh"
 #include "Ravl/DP/PrintIOInfo.hh"
 #include "Ravl/Stream.hh"
+
+#ifdef SWIGPERL
 #define Copy(s,d,n,t)   (MEM_WRAP_CHECK_(n,t) (void)memcpy((char*)(d),(const char*)(s), (n) * sizeof(t)))
+#endif
 %}
 
 namespace std {

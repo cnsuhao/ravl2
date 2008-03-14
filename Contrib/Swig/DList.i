@@ -7,10 +7,16 @@
 %include "Ravl/Swig/Types.i"
 
 %{
+#ifdef SWIGPERL
 #undef Copy
+#endif
+
 #include "Ravl/DList.hh"
 #include "Ravl/DLIter.hh"
+
+#ifdef SWIGPERL
 #define Copy(s,d,n,t)   (MEM_WRAP_CHECK_(n,t) (void)memcpy((char*)(d),(const char*)(s), (n) * sizeof(t)))
+#endif
 %}
 
 namespace RavlN {
@@ -69,6 +75,7 @@ namespace RavlN {
 %template(DList ## name ## IterC) RavlN::DLIterC<type>;
 
 #ifdef SWIGPYTHON
+
 %inline %{
   PyObject *ToList(RavlN::DListC<type> list)
   {
@@ -88,6 +95,7 @@ namespace RavlN {
   }
 %}
 #endif
+
 %enddef
 
 DLIST_TOLIST_TYPE(Real,  RavlN::RealT,  PyFloat_FromDouble)
@@ -103,6 +111,7 @@ DLIST_TOLIST_TYPE(Byte,  RavlN::ByteT,  PyInt_FromLong)
 %template(DList ## name ## IterC) RavlN::DLIterC<type>;
 
 #ifdef SWIGPYTHON
+
 %inline %{
   PyObject *ToList(RavlN::DListC<type> list)
   {
@@ -125,4 +134,5 @@ DLIST_TOLIST_TYPE(Byte,  RavlN::ByteT,  PyInt_FromLong)
   }
 %}
 #endif
+
 %enddef

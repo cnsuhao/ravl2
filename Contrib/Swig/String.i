@@ -9,9 +9,15 @@
 %include "Ravl/Swig/Types.i"
 
 %{
+#ifdef SWIGPERL
 #undef Copy
+#endif
+
 #include "Ravl/String.hh"
+
+#ifdef SWIGPERL
 #define Copy(s,d,n,t)   (MEM_WRAP_CHECK_(n,t) (void)memcpy((char*)(d),(const char*)(s), (n) * sizeof(t)))
+#endif
 %}
 
 namespace RavlN
@@ -30,7 +36,8 @@ namespace RavlN
     SizeT Size() const;
 
 #ifdef SWIGPYTHON
-    %extend // Not sure if this work for perl
+
+    %extend
     {
       const char *__str__()
       {
@@ -42,9 +49,11 @@ namespace RavlN
     {
       $result = PyString_FromStringAndSize($1.chars(), $1.Size());
     }
+    
 #endif
 
 #ifdef SWIGPERL
+
     %typemap(out) StringC
     {
       $result = newSVpv($1.chars(), $1.Size());
@@ -54,6 +63,7 @@ namespace RavlN
     {
       $1 = RavlN::StringC(SvPV($input, SvLEN($input)));
     }
+    
 #endif
   };
 
