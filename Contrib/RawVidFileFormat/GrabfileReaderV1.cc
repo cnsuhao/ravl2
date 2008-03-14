@@ -124,6 +124,7 @@ bool GrabfileReaderV1C::GetNextFrame(BufferC<char> &bu, UIntT &vsize, UIntT &asi
       char * start = obuf;
       m_infile.read(obuf,csize);
       bu = BufferC<char> (csize,start,true,true);
+      delete obuf;
    }
    ++m_frames_loaded;
    ++m_frame_number;
