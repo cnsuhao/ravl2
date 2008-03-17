@@ -1228,7 +1228,7 @@ type_error:
     obj = pyobj;
     if (PyCFunction_Check(obj)) {
       /* here we get the method pointer for callbacks */
-      const char *doc = (((PyCFunctionObject *)obj) -> m_ml -> ml_doc);
+      char *doc = (((PyCFunctionObject *)obj) -> m_ml -> ml_doc);
       c = doc ? strstr(doc, "swig_ptr: ") : 0;
       if (c) {
 	c = ty ? SWIG_UnpackVoidPtr(c + 10, &vptr, ty->name) : 0;
@@ -1697,9 +1697,49 @@ SWIG_Check_int(PyObject* obj)
 }
 
 
+#if 1
+  PyObject *ToList(RavlN::DListC<RavlN::RealT> list)
+  {
+    PyObject *obj = PyList_New(0);
+    if (PyErr_Occurred())
+      SWIG_fail;
+    for (RavlN::DLIterC<RavlN::RealT> it(list); it; it++)
+    {
+      PyObject *temp = PyFloat_FromDouble(*it);
+      if (PyErr_Occurred())
+        SWIG_fail;
+      PyList_Append(obj, temp);
+    }
+    return obj;
+    fail:
+    return NULL;
+  }
+#endif
+
+
   /*@/usr/share/swig/1.3.27/python/pymacros.swg,72,SWIG_define@*/
 #define SWIG_From_int PyInt_FromLong
 /*@@*/
+
+
+#if 1
+  PyObject *ToList(RavlN::DListC<RavlN::IntT> list)
+  {
+    PyObject *obj = PyList_New(0);
+    if (PyErr_Occurred())
+      SWIG_fail;
+    for (RavlN::DLIterC<RavlN::IntT> it(list); it; it++)
+    {
+      PyObject *temp = PyInt_FromLong(*it);
+      if (PyErr_Occurred())
+        SWIG_fail;
+      PyList_Append(obj, temp);
+    }
+    return obj;
+    fail:
+    return NULL;
+  }
+#endif
 
 
 SWIGINTERNINLINE int
@@ -1820,6 +1860,26 @@ SWIGINTERNINLINE PyObject*
 #endif
 
 
+#if 1
+  PyObject *ToList(RavlN::DListC<RavlN::UIntT> list)
+  {
+    PyObject *obj = PyList_New(0);
+    if (PyErr_Occurred())
+      SWIG_fail;
+    for (RavlN::DLIterC<RavlN::UIntT> it(list); it; it++)
+    {
+      PyObject *temp = PyInt_FromLong(*it);
+      if (PyErr_Occurred())
+        SWIG_fail;
+      PyList_Append(obj, temp);
+    }
+    return obj;
+    fail:
+    return NULL;
+  }
+#endif
+
+
 SWIGINTERN int
   SWIG_AsVal_long_SS_long(PyObject *obj, long long *val)
 {
@@ -1874,6 +1934,26 @@ SWIGINTERNINLINE PyObject*
 }
 
 
+#if 1
+  PyObject *ToList(RavlN::DListC<RavlN::Int64T> list)
+  {
+    PyObject *obj = PyList_New(0);
+    if (PyErr_Occurred())
+      SWIG_fail;
+    for (RavlN::DLIterC<RavlN::Int64T> it(list); it; it++)
+    {
+      PyObject *temp = PyLong_FromLongLong(*it);
+      if (PyErr_Occurred())
+        SWIG_fail;
+      PyList_Append(obj, temp);
+    }
+    return obj;
+    fail:
+    return NULL;
+  }
+#endif
+
+
 SWIGINTERN int
   SWIG_AsVal_short(PyObject *obj, short *val)
 { 
@@ -1920,6 +2000,26 @@ SWIG_Check_short(PyObject* obj)
   /*@/usr/share/swig/1.3.27/python/pymacros.swg,72,SWIG_define@*/
 #define SWIG_From_short PyInt_FromLong
 /*@@*/
+
+
+#if 1
+  PyObject *ToList(RavlN::DListC<RavlN::Int16T> list)
+  {
+    PyObject *obj = PyList_New(0);
+    if (PyErr_Occurred())
+      SWIG_fail;
+    for (RavlN::DLIterC<RavlN::Int16T> it(list); it; it++)
+    {
+      PyObject *temp = PyInt_FromLong(*it);
+      if (PyErr_Occurred())
+        SWIG_fail;
+      PyList_Append(obj, temp);
+    }
+    return obj;
+    fail:
+    return NULL;
+  }
+#endif
 
 
 SWIGINTERN int
@@ -1970,6 +2070,26 @@ SWIG_Check_unsigned_SS_char(PyObject* obj)
 /*@@*/
 
 
+#if 1
+  PyObject *ToList(RavlN::DListC<RavlN::ByteT> list)
+  {
+    PyObject *obj = PyList_New(0);
+    if (PyErr_Occurred())
+      SWIG_fail;
+    for (RavlN::DLIterC<RavlN::ByteT> it(list); it; it++)
+    {
+      PyObject *temp = PyInt_FromLong(*it);
+      if (PyErr_Occurred())
+        SWIG_fail;
+      PyList_Append(obj, temp);
+    }
+    return obj;
+    fail:
+    return NULL;
+  }
+#endif
+
+
 #ifdef SWIGPERL
 #undef Copy
 #endif
@@ -1978,6 +2098,29 @@ SWIG_Check_unsigned_SS_char(PyObject* obj)
 
 #ifdef SWIGPERL
 #define Copy(s,d,n,t)   (MEM_WRAP_CHECK_(n,t) (void)memcpy((char*)(d),(const char*)(s), (n) * sizeof(t)))
+#endif
+
+
+#if 1
+  PyObject *ToList(RavlN::DListC<RavlN::Point2dC> list)
+  {
+    PyObject *obj = PyList_New(0);
+    if (PyErr_Occurred())
+      SWIG_fail;
+    {
+      swig_type_info *typeInfo = SWIG_TypeQuery("RavlN::Point2dC" " *");
+      for (RavlN::DLIterC<RavlN::Point2dC> it(list); it; it++)
+      {
+        PyObject *temp = SWIG_NewPointerObj((void*)&it.Data(), typeInfo, 0);
+        if (PyErr_Occurred())
+          SWIG_fail;
+        PyList_Append(obj, temp);
+      }
+      return obj;
+    }
+    fail:
+    return NULL;
+  }
 #endif
 
 
@@ -3165,6 +3308,32 @@ static PyObject * DListRealIterC_swigregister(PyObject *, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
+static PyObject *_wrap_ToList__SWIG_0(PyObject *, PyObject *args) {
+    PyObject *resultobj = NULL;
+    RavlN::DListC<RavlN::RealT > arg1 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:ToList",&obj0)) goto fail;
+    {
+        RavlN::DListC<RavlN::RealT > * argp;
+        SWIG_Python_ConvertPtr(obj0, (void **)&argp, SWIGTYPE_p_RavlN__DListCTdouble_t, SWIG_POINTER_EXCEPTION);
+        if (SWIG_arg_fail(1)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("RavlN::DListC<RavlN::RealT >");
+        }
+        if (SWIG_arg_fail(1)) SWIG_fail;
+        arg1 = *argp;
+    }
+    result = (PyObject *)ToList(arg1);
+    
+    resultobj = result;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_new_DListIntC(PyObject *, PyObject *args) {
     PyObject *resultobj = NULL;
     RavlN::DListC<RavlN::IntT > *result;
@@ -3992,6 +4161,32 @@ static PyObject * DListIntIterC_swigregister(PyObject *, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
+static PyObject *_wrap_ToList__SWIG_1(PyObject *, PyObject *args) {
+    PyObject *resultobj = NULL;
+    RavlN::DListC<RavlN::IntT > arg1 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:ToList",&obj0)) goto fail;
+    {
+        RavlN::DListC<RavlN::IntT > * argp;
+        SWIG_Python_ConvertPtr(obj0, (void **)&argp, SWIGTYPE_p_RavlN__DListCTint_t, SWIG_POINTER_EXCEPTION);
+        if (SWIG_arg_fail(1)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("RavlN::DListC<RavlN::IntT >");
+        }
+        if (SWIG_arg_fail(1)) SWIG_fail;
+        arg1 = *argp;
+    }
+    result = (PyObject *)ToList(arg1);
+    
+    resultobj = result;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_new_DListUIntC(PyObject *, PyObject *args) {
     PyObject *resultobj = NULL;
     RavlN::DListC<RavlN::UIntT > *result;
@@ -4819,6 +5014,32 @@ static PyObject * DListUIntIterC_swigregister(PyObject *, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
+static PyObject *_wrap_ToList__SWIG_2(PyObject *, PyObject *args) {
+    PyObject *resultobj = NULL;
+    RavlN::DListC<RavlN::UIntT > arg1 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:ToList",&obj0)) goto fail;
+    {
+        RavlN::DListC<RavlN::UIntT > * argp;
+        SWIG_Python_ConvertPtr(obj0, (void **)&argp, SWIGTYPE_p_RavlN__DListCTunsigned_int_t, SWIG_POINTER_EXCEPTION);
+        if (SWIG_arg_fail(1)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("RavlN::DListC<RavlN::UIntT >");
+        }
+        if (SWIG_arg_fail(1)) SWIG_fail;
+        arg1 = *argp;
+    }
+    result = (PyObject *)ToList(arg1);
+    
+    resultobj = result;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_new_DListInt64C(PyObject *, PyObject *args) {
     PyObject *resultobj = NULL;
     RavlN::DListC<RavlN::Int64T > *result;
@@ -5646,6 +5867,32 @@ static PyObject * DListInt64IterC_swigregister(PyObject *, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
+static PyObject *_wrap_ToList__SWIG_3(PyObject *, PyObject *args) {
+    PyObject *resultobj = NULL;
+    RavlN::DListC<RavlN::Int64T > arg1 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:ToList",&obj0)) goto fail;
+    {
+        RavlN::DListC<RavlN::Int64T > * argp;
+        SWIG_Python_ConvertPtr(obj0, (void **)&argp, SWIGTYPE_p_RavlN__DListCTlong_long_t, SWIG_POINTER_EXCEPTION);
+        if (SWIG_arg_fail(1)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("RavlN::DListC<RavlN::Int64T >");
+        }
+        if (SWIG_arg_fail(1)) SWIG_fail;
+        arg1 = *argp;
+    }
+    result = (PyObject *)ToList(arg1);
+    
+    resultobj = result;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_new_DListInt16C(PyObject *, PyObject *args) {
     PyObject *resultobj = NULL;
     RavlN::DListC<RavlN::Int16T > *result;
@@ -6473,6 +6720,32 @@ static PyObject * DListInt16IterC_swigregister(PyObject *, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
+static PyObject *_wrap_ToList__SWIG_4(PyObject *, PyObject *args) {
+    PyObject *resultobj = NULL;
+    RavlN::DListC<RavlN::Int16T > arg1 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:ToList",&obj0)) goto fail;
+    {
+        RavlN::DListC<RavlN::Int16T > * argp;
+        SWIG_Python_ConvertPtr(obj0, (void **)&argp, SWIGTYPE_p_RavlN__DListCTshort_t, SWIG_POINTER_EXCEPTION);
+        if (SWIG_arg_fail(1)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("RavlN::DListC<RavlN::Int16T >");
+        }
+        if (SWIG_arg_fail(1)) SWIG_fail;
+        arg1 = *argp;
+    }
+    result = (PyObject *)ToList(arg1);
+    
+    resultobj = result;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_new_DListByteC(PyObject *, PyObject *args) {
     PyObject *resultobj = NULL;
     RavlN::DListC<RavlN::ByteT > *result;
@@ -7300,6 +7573,32 @@ static PyObject * DListByteIterC_swigregister(PyObject *, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
+static PyObject *_wrap_ToList__SWIG_5(PyObject *, PyObject *args) {
+    PyObject *resultobj = NULL;
+    RavlN::DListC<RavlN::ByteT > arg1 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:ToList",&obj0)) goto fail;
+    {
+        RavlN::DListC<RavlN::ByteT > * argp;
+        SWIG_Python_ConvertPtr(obj0, (void **)&argp, SWIGTYPE_p_RavlN__DListCTunsigned_char_t, SWIG_POINTER_EXCEPTION);
+        if (SWIG_arg_fail(1)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("RavlN::DListC<RavlN::ByteT >");
+        }
+        if (SWIG_arg_fail(1)) SWIG_fail;
+        arg1 = *argp;
+    }
+    result = (PyObject *)ToList(arg1);
+    
+    resultobj = result;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_new_Point2dC__SWIG_0(PyObject *, PyObject *args) {
     PyObject *resultobj = NULL;
     RavlN::Point2dC *result;
@@ -8327,6 +8626,152 @@ static PyObject * DListPoint2dIterC_swigregister(PyObject *, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
+static PyObject *_wrap_ToList__SWIG_6(PyObject *, PyObject *args) {
+    PyObject *resultobj = NULL;
+    RavlN::DListC<RavlN::Point2dC > arg1 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:ToList",&obj0)) goto fail;
+    {
+        RavlN::DListC<RavlN::Point2dC > * argp;
+        SWIG_Python_ConvertPtr(obj0, (void **)&argp, SWIGTYPE_p_RavlN__DListCTRavlN__Point2dC_t, SWIG_POINTER_EXCEPTION);
+        if (SWIG_arg_fail(1)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("RavlN::DListC<RavlN::Point2dC >");
+        }
+        if (SWIG_arg_fail(1)) SWIG_fail;
+        arg1 = *argp;
+    }
+    result = (PyObject *)ToList(arg1);
+    
+    resultobj = result;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_ToList(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[2];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 1); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 1) {
+        int _v;
+        {
+            void *ptr = 0;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_RavlN__DListCTdouble_t, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = (ptr != 0);
+            }
+        }
+        if (_v) {
+            return _wrap_ToList__SWIG_0(self,args);
+        }
+    }
+    if (argc == 1) {
+        int _v;
+        {
+            void *ptr = 0;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_RavlN__DListCTint_t, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = (ptr != 0);
+            }
+        }
+        if (_v) {
+            return _wrap_ToList__SWIG_1(self,args);
+        }
+    }
+    if (argc == 1) {
+        int _v;
+        {
+            void *ptr = 0;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_RavlN__DListCTunsigned_int_t, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = (ptr != 0);
+            }
+        }
+        if (_v) {
+            return _wrap_ToList__SWIG_2(self,args);
+        }
+    }
+    if (argc == 1) {
+        int _v;
+        {
+            void *ptr = 0;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_RavlN__DListCTlong_long_t, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = (ptr != 0);
+            }
+        }
+        if (_v) {
+            return _wrap_ToList__SWIG_3(self,args);
+        }
+    }
+    if (argc == 1) {
+        int _v;
+        {
+            void *ptr = 0;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_RavlN__DListCTshort_t, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = (ptr != 0);
+            }
+        }
+        if (_v) {
+            return _wrap_ToList__SWIG_4(self,args);
+        }
+    }
+    if (argc == 1) {
+        int _v;
+        {
+            void *ptr = 0;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_RavlN__DListCTunsigned_char_t, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = (ptr != 0);
+            }
+        }
+        if (_v) {
+            return _wrap_ToList__SWIG_5(self,args);
+        }
+    }
+    if (argc == 1) {
+        int _v;
+        {
+            void *ptr = 0;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_RavlN__DListCTRavlN__Point2dC_t, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = (ptr != 0);
+            }
+        }
+        if (_v) {
+            return _wrap_ToList__SWIG_6(self,args);
+        }
+    }
+    
+    PyErr_SetString(PyExc_NotImplementedError,"No matching function for overloaded 'ToList'");
+    return NULL;
+}
+
+
 static PyObject *_wrap_new_IndexC__SWIG_0(PyObject *, PyObject *args) {
     PyObject *resultobj = NULL;
     RavlN::IndexC *result;
@@ -18478,7 +18923,7 @@ static PyObject *_wrap_HashInt64Int64C_Lookup(PyObject *, PyObject *args) {
     RavlN::Int64T *arg3 = 0 ;
     bool result;
     RavlN::Int64T temp2 ;
-    RavlN::Int64T temp3 = 0;
+    RavlN::Int64T temp3 ;
     int res3 = 0 ;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
@@ -19851,6 +20296,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"DListPoint2dIterC_Col", _wrap_DListPoint2dIterC_Col, METH_VARARGS, NULL},
 	 { (char *)"delete_DListPoint2dIterC", _wrap_delete_DListPoint2dIterC, METH_VARARGS, NULL},
 	 { (char *)"DListPoint2dIterC_swigregister", DListPoint2dIterC_swigregister, METH_VARARGS, NULL},
+	 { (char *)"ToList", _wrap_ToList, METH_VARARGS, NULL},
 	 { (char *)"new_IndexC", _wrap_new_IndexC, METH_VARARGS, NULL},
 	 { (char *)"IndexC_V", _wrap_IndexC_V, METH_VARARGS, NULL},
 	 { (char *)"delete_IndexC", _wrap_delete_IndexC, METH_VARARGS, NULL},
@@ -20689,11 +21135,11 @@ extern "C" {
     swig_type_info **types_initial) {
         size_t i;
         for (i = 0; methods[i].ml_name; ++i) {
-            const char *c = methods[i].ml_doc;
+            char *c = methods[i].ml_doc;
             if (c && (c = strstr(c, "swig_ptr: "))) {
                 int j;
                 swig_const_info *ci = 0;
-                const char *name = c + 10;
+                char *name = c + 10;
                 for (j = 0; const_table[j].type; ++j) {
                     if (strncmp(const_table[j].name, name, 
                     strlen(const_table[j].name)) == 0) {

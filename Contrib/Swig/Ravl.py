@@ -640,6 +640,8 @@ class IndexCPtr(IndexC):
         self.__class__ = IndexC
 _Ravl.IndexC_swigregister(IndexCPtr)
 
+ToList = _Ravl.ToList
+
 class Index2dC(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Index2dC, name, value)

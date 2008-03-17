@@ -71,12 +71,11 @@ namespace RavlN {
 
 %define DLIST_TOLIST_TYPE(name, type, converter)
 
-%template(DList ## name ## C) RavlN::DListC<type>;
-%template(DList ## name ## IterC) RavlN::DLIterC<type>;
-
-#ifdef SWIGPYTHON
+%template(DList ## name ## C) RavlN::DListC<type >;
+%template(DList ## name ## IterC) RavlN::DLIterC<type >;
 
 %inline %{
+#if SWIGPYTHON
   PyObject *ToList(RavlN::DListC<type> list)
   {
     PyObject *obj = PyList_New(0);
@@ -93,8 +92,8 @@ namespace RavlN {
     fail:
     return NULL;
   }
-%}
 #endif
+%}
 
 %enddef
 
@@ -107,12 +106,11 @@ DLIST_TOLIST_TYPE(Byte,  RavlN::ByteT,  PyInt_FromLong)
 
 %define DLIST_TOLIST_OBJECT(name, type)
 
-%template(DList ## name ## C) RavlN::DListC<type>;
-%template(DList ## name ## IterC) RavlN::DLIterC<type>;
-
-#ifdef SWIGPYTHON
+%template(DList ## name ## C) RavlN::DListC<type >;
+%template(DList ## name ## IterC) RavlN::DLIterC<type >;
 
 %inline %{
+#if SWIGPYTHON
   PyObject *ToList(RavlN::DListC<type> list)
   {
     PyObject *obj = PyList_New(0);
@@ -132,7 +130,7 @@ DLIST_TOLIST_TYPE(Byte,  RavlN::ByteT,  PyInt_FromLong)
     fail:
     return NULL;
   }
-%}
 #endif
+%}
 
 %enddef
