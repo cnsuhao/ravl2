@@ -89,7 +89,6 @@ namespace RavlN {
     bool Get(UIntT frameNo,DataT &buf) {
       MutexLockC lock(access);
       return input.GetAt(frameNo,buf);
-      return false;
     }
     //: Get frameNo from stream.
     

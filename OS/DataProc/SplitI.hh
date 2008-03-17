@@ -43,6 +43,10 @@ namespace RavlN {
       : source(src)
     {}
     //: Constructor.
+
+    DPSplitIBodyC()
+    {}
+    //: Constructor.
     
     ~DPSplitIBodyC();
     //: Destructor.
@@ -52,10 +56,20 @@ namespace RavlN {
   
     bool GetNext();
     //: Get next piece of data from source.
-  
-    bool IsGetNextReady() const;
+    
+    bool IsGetNextReady() const { 
+      MutexLockC lock(access);
+      return source.IsValid() && source.IsGetReady(); 
+    }
     //: Get next ready ?
-  
+    
+    bool ConnectPort(const DPIPortC<DataT> &inputPort) {
+      MutexLockC lock(access);
+      source = inputPort;
+      return true;
+    }
+    //: Set input port.
+    
   protected:
     bool Remove(DPSplitIPortC<DataT> &oth);
     //: Remove output port.
@@ -78,9 +92,10 @@ namespace RavlN {
     DPSplitIPortBodyC();
     //: Default constructor.
   
-    ~DPSplitIPortBodyC();
+    ~DPSplitIPortBodyC()
+    { Disconnect(); }
     //: Destructor.
-  
+    
     bool Disconnect();
     //: Disconnect from Split body.
   
@@ -108,9 +123,13 @@ namespace RavlN {
     {}
     //: Constructor.
     
-    bool Put(const DataT &dat);
+    bool Put(const DataT &dat) {
+      MutexLockC q_lock(q_access);
+      q.InsLast(dat);
+      return true;
+    }
     //: Put next piece of data.
-  
+    
   private:  
     DPSplitIC<DataT> source;
     BlkQueueC <DataT> q;
@@ -141,7 +160,16 @@ namespace RavlN {
       : DPEntityC(true)
     {}
     //: Default constructor.
-  
+    
+    DPSplitIC(bool)
+      : DPEntityC(*new DPSplitIBodyC<DataT>())
+    {}
+    //: Create a splitter with no input defined.
+    
+    bool ConnectPort(const DPIPortC<DataT> &inputPort) 
+    { return Body().ConnectPort(inputPort); }
+    //: Set input port.
+    
     DPSplitIPortC<DataT> NewPort()
     { return Body().NewPort(); }
     //: Make a new port.
@@ -265,7 +293,7 @@ namespace RavlN {
     for(DLIterC<DPSplitIPortC<DataT> > it(ports);it.IsElm();it.Next())
       it.Data().Disconnect();
   }
-
+  
   template<class DataT> 
   DPSplitIPortC<DataT> DPSplitIBodyC<DataT>::NewPort() {
     MutexLockC lock(access);
@@ -286,13 +314,6 @@ namespace RavlN {
     }
     return false;
   }
-
-  template<class DataT>
-  bool 
-  DPSplitIBodyC<DataT>::IsGetNextReady() const { 
-    MutexLockC lock(access);
-    return source.IsGetReady(); 
-  }
   
   template<class DataT> 
   bool DPSplitIBodyC<DataT>::GetNext() {
@@ -308,12 +329,7 @@ namespace RavlN {
   //////////////////////////////
   
   template<class DataT>
-  DPSplitIPortBodyC<DataT>::~DPSplitIPortBodyC()
-  { Disconnect(); }
-
-  template<class DataT>
-  bool 
-  DPSplitIPortBodyC<DataT>::Disconnect() {
+  bool DPSplitIPortBodyC<DataT>::Disconnect() {
     if(source.IsValid()) {
       DPSplitIPortC<DataT> tmp(*this);
       source.Remove(tmp);
@@ -373,13 +389,6 @@ namespace RavlN {
     }
     q_lock.Unlock(); 
     return data.Size();
-  }
-
-  template<class DataT>
-  bool DPSplitIPortBodyC<DataT>::Put(const DataT &dat) {
-    MutexLockC q_lock(q_access);
-    q.InsLast(dat);
-    return true;
   }
   
 
