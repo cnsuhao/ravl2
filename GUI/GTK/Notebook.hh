@@ -133,19 +133,19 @@ namespace RavlGUIN
       : ContainerWidgetC(*new NotebookBodyC(ntabpos,nshowtabs,nshowborder))
     {}
     //: Constructor
-    // Values for position types are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
+    // Values for position types are listed <A HREF="http://library.gnome.org/devel/gtk/2.10/gtk-Standard-Enumerations.html#GtkPositionType">here</A>.
   
     NotebookC(const DListC<WidgetC> &widges,GtkPositionType ntabpos = GTK_POS_TOP,bool nshowtabs = true,bool nshowborder = true)
       : ContainerWidgetC(*new NotebookBodyC(widges,ntabpos,nshowtabs,nshowborder))
     {}
     //: Constructor
-    // Values for position types are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
+    // Values for position types are listed <A HREF="http://library.gnome.org/devel/gtk/2.10/gtk-Standard-Enumerations.html#GtkPositionType">here</A>.
     
     NotebookC(const WidgetC &widges,GtkPositionType ntabpos = GTK_POS_TOP,bool nshowtabs = true,bool nshowborder = true)
       : ContainerWidgetC(*new NotebookBodyC(widges,ntabpos,nshowtabs,nshowborder))
     {}
     //: Constructor
-    // Values for position types are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
+    // Values for position types are listed <A HREF="http://library.gnome.org/devel/gtk/2.10/gtk-Standard-Enumerations.html#GtkPositionType">here</A>.
   
   protected:
     NotebookC(NotebookBodyC &bod)
