@@ -163,6 +163,12 @@ namespace RavlLogicN {
     for(LiteralIterC it(List());it;it++)
       out << *it << "\n";
   }
+
+  //: Clear state completely.
+  
+  void StateBodyC::Clear() {
+    RavlAssert(0);
+  }
   
   ostream &operator<<(ostream &s,const StateC &state) {
     RavlAssert(state.IsValid());

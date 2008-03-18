@@ -85,6 +85,9 @@ namespace RavlLogicN {
     
     virtual void Dump(ostream &out) const;
     //: Dump in human readable format to out.
+    
+    virtual void Clear();
+    //: Clear state completely.
   };
   
   //! userlevel=Normal
@@ -197,6 +200,10 @@ namespace RavlLogicN {
     void Dump(ostream &out) const
     { Body().Dump(out); }
     //: Dump in human readable format to out.
+    
+    void Clear()
+    { Body().Clear(); }
+    //: Clear state completely.
     
   };
 

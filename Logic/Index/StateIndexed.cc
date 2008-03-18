@@ -89,6 +89,13 @@ namespace RavlLogicN {
   UIntT StateIndexedBodyC::Size() const 
   { return index.Size(); }
   
+  //: Clear state completely.
+  
+  void StateIndexedBodyC::Clear() {
+    // Clear state by replacing with an empty index.
+    index = LiteralIndexBaseC(true);
+  }
+  
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(StateIndexedBodyC,StateIndexedC,StateC);
   
 }

@@ -128,6 +128,12 @@ namespace RavlLogicN {
     return data.Size();
   }
   
+  //: Clear state completely.
+  
+  void StateSetBodyC::Clear() {
+    data.Empty();
+  }
+  
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(StateSetBodyC,StateSetC,StateC);
   
 }

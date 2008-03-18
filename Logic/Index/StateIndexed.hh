@@ -61,6 +61,9 @@ namespace RavlLogicN {
     virtual UIntT Size() const;
     //: Return the number of literals in the state.
     
+    virtual void Clear();
+    //: Clear state completely.
+    
   protected:
     LiteralIndexBaseC index;    
   };

@@ -83,7 +83,9 @@ namespace RavlLogicN {
     HSetC<LiteralC> &Data()
     { return data; }
     //: Accesss set directly.
-
+    
+    virtual void Clear();
+    //: Clear state completely.
   protected:
     HSetC<LiteralC> data;
   };
