@@ -63,7 +63,7 @@ namespace RavlN
     pthread_mutexattr_init(&mutAttr);
     
     // Check if we want to enable debugging.
-#if !defined(NDEBUG)
+#if RAVL_CHECK
     ONDEBUG(cerr << "MutexC::Init(), Constructing debuging mutex. (@:" << ((void*) this) << ") \n");
     
     // Enable error checking, if available.
