@@ -130,6 +130,11 @@ namespace RavlN {
     }
     //: Put next piece of data.
     
+    void ClearSource() { 
+      MutexLockC q_lock(q_access);
+      source.Invalidate(); 
+    }
+    //: Clear the source pointer.
   private:  
     DPSplitIC<DataT> source;
     BlkQueueC <DataT> q;
@@ -249,6 +254,10 @@ namespace RavlN {
     { return Body().Put(dat); }
     //: Put next piece of data.
   
+    void ClearSource()
+    { Body().ClearSource(); }
+    //: Clear the source reference.
+
     friend class DPSplitIPortBodyC<DataT>;
     friend class DPSplitIBodyC<DataT>;
   };
@@ -321,8 +330,15 @@ namespace RavlN {
     DataT tmp;
     if(!source.Get(tmp))
       return false;
-    for(DLIterC<DPSplitIPortC<DataT> > it(ports);it.IsElm();it.Next())
+    for(DLIterC<DPSplitIPortC<DataT> > it(ports);it.IsElm();it.Next()) {
+      // Is this the only handle left ?
+      if(it->References() == 1) {
+        it->ClearSource();
+        it.Del();
+        continue;
+      }
       it.Data().Put(tmp);
+    }
     return true;
   }
 
