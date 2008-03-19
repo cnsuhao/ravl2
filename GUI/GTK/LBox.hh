@@ -145,7 +145,7 @@ namespace RavlGUIN {
   LBoxC VBox(const DListC<WidgetC> &widges,int border = 0,bool nhomogeneous = false,IntT nspacing = 0)
   { return LBoxC(widges,true,border,nhomogeneous,nspacing); }
   //: Lays out widgets in a vertical box.
-  // Helper function calls: LBoxC(widges,true,border,nhomogeneous,nspacing)
+  // Helper function calls: <a href="RavlGUIN.LBoxC.html">LBoxC</a>(widges,true,border,nhomogeneous,nspacing)
 
   inline 
   LBoxC VBox(const WidgetC &widge,int border = 0,bool nhomogeneous = false,IntT nspacing = 0)
@@ -154,13 +154,13 @@ namespace RavlGUIN {
     widges.InsLast(widge);
     return LBoxC(widges,true,border,nhomogeneous,nspacing); }
   //: Puts a widget in a vertical box.
-  // Helper function calls: LBoxC(widges,true,border,nhomogeneous,nspacing)
+  // Helper function calls: <a href="RavlGUIN.LBoxC.html">LBoxC</a>(widge,true,border,nhomogeneous,nspacing)
   
   inline 
   LBoxC HBox(const DListC<WidgetC> &widges,int border = 0,bool nhomogeneous = false,IntT nspacing = 0)
   { return LBoxC(widges,false,border,nhomogeneous,nspacing); }
   //: Lays out widgets in a horizontal box.
-  // Helper function calls: LBoxC(widges,false,border,nhomogeneous,nspacing)
+  // Helper function calls: <a href="RavlGUIN.LBoxC.html">LBoxC</a>(widges,false,border,nhomogeneous,nspacing)
 
   inline
   LBoxC HBox(const WidgetC &widge,int border = 0,bool nhomogeneous = false,IntT nspacing = 0)
@@ -170,13 +170,13 @@ namespace RavlGUIN {
     return LBoxC(widges,false,border,nhomogeneous,nspacing); 
   }
   //: Puts a widget in a horizontal box.
-  // Helper function calls: LBoxC(widges,false,border,nhomogeneous,nspacing)
+  // Helper function calls: <a href="RavlGUIN.LBoxC.html">LBoxC</a>(widge,false,border,nhomogeneous,nspacing)
 
   inline 
   LBoxC Box(const WidgetC &widge,int border = 0,bool nhomogeneous = false,IntT nspacing = 0)
   { return LBoxC(widge,false,border,nhomogeneous,nspacing); }
   //: Put a border around a widget.
-  // Helper function calls: LBoxC(widge,false,border,nhomogeneous,nspacing)
+  // Helper function calls: <a href="RavlGUIN.LBoxC.html">LBoxC</a>(widge,false,0,nhomogeneous,nspacing)
   
 }
 
