@@ -39,7 +39,7 @@ namespace RavlN
     { return m_threadState != NULL; }
     //: Is the interpreter ready?
     
-    void AppendSystemPath(const StringC &path);
+    bool AppendSystemPath(const StringC &path);
     //: Append a string to 'sys.path'
     
     bool Import(const StringC &module);
@@ -68,6 +68,10 @@ namespace RavlN
     { return m_threadState; }
     //: Return the Python interpreter thread state
     
+    void GetError(StringC &type, StringC &value, StringC &trace);
+    //: Get a copy of the exception strings
+    // Note: These strings are not cleared
+    
   private:
     void InitialiseEnvironment();
     //: Initialise the Python thread state environment
@@ -76,7 +80,13 @@ namespace RavlN
     //: Get a dictionary from the named module, NULL if none
     
     bool CheckError();
-    //: Handle a Python error
+    //: Check and clear a Python error.
+    
+    StringC GetObjectAsString(PyObject *object);
+    //: Returns a string representation of an object
+    
+    StringC GetTraceAsString(PyObject *object);
+    //: Returns a string representation of an object
     
   private:
     static MutexC m_initLock;
@@ -85,6 +95,7 @@ namespace RavlN
     PyThreadState *m_mainThreadState;
     PyThreadState *m_threadState;
     HashC<StringC, PyObject*> m_modules;
+    StringC m_exceptionType, m_exceptionValue, m_exceptionTrace;
     MutexC m_lock;
   };
   
@@ -110,8 +121,8 @@ namespace RavlN
     { return Body().Initialised(); }
     //: Is the interpreter ready?
 
-    void AppendSystemPath(const StringC &path)
-    { Body().AppendSystemPath(path); }
+    bool AppendSystemPath(const StringC &path)
+    { return Body().AppendSystemPath(path); }
     //: Append a string to 'sys.path'
     
     bool Import(const StringC &module)
@@ -140,6 +151,11 @@ namespace RavlN
     PyThreadState *GetThreadState() const
     { return Body().GetThreadState(); }
     //: Return the Python interpreter thread state
+    
+    void GetError(StringC &type, StringC &value, StringC &trace)
+    { return Body().GetError(type, value, trace); }
+    //: Get a copy of the exception strings
+    // Note: These strings are not cleared
     
   private:
     PythonC(PythonBodyC &body) : 

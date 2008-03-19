@@ -16,6 +16,16 @@
 
 using namespace RavlN;
 
+void displayError(PythonC &interpreter)
+{
+	cerr << "#### Error" << endl;
+	StringC exType, exValue, exTrace;
+	interpreter.GetError(exType, exValue, exTrace);
+	cerr << "##  Type:  " << exType << endl;
+	cerr << "##  Value: " << exValue << endl;
+	cerr << "##  Trace: " << endl << exTrace << endl;
+}
+
 int main(int argc, char **argv)
 {
   // Initialise the python module
@@ -24,13 +34,23 @@ int main(int argc, char **argv)
   if (!python.Initialised())
   {
     cerr << "Failed to initialise interpreter" << endl;
+    displayError(python);
     return -1;
   }
     
-  // Import a module
-  python.AppendSystemPath(".");
-  bool ret = python.Import("ravlexample");
-  cerr << "Importing 'ravlexample': " << (ret ? "OK" : "FAIL") << endl;
+  cerr << "Appending '.' to system path" << endl;
+  if (!python.AppendSystemPath("."))
+  {
+    displayError(python);
+    return -1;
+  }
+  
+  cerr << "Importing 'ravlexample'" <<endl;
+  if (!python.Import("ravlexample"))
+  {
+    displayError(python);
+    return -1;
+  }
   
   //  Build the arguments list
   PythonObjectC name = python.NewObject();
@@ -43,7 +63,6 @@ int main(int argc, char **argv)
   // Call the example function and display the results
   cerr << "Calling 'ravlexample.myprint(" << name.String() << ")'" << endl;
   PythonObjectC res = python.Call("ravlexample", "myprint", args);
-  cerr << "Result valid: " << (res.IsValid() ? "YES" : "NO") << endl;
   if (res.IsValid())
   {
     if (res.IsString())
@@ -51,7 +70,7 @@ int main(int argc, char **argv)
   }
   else
   {
-    cerr << "Failed to import and call script" << endl;
+    displayError(python);
     return -1;
   }
   
@@ -70,7 +89,7 @@ int main(int argc, char **argv)
   }
   else
   {
-    cerr << "Failed to run script" << endl;
+    displayError(python);
     return -1;
   }
 

@@ -167,10 +167,12 @@ namespace RavlN
   
   
   
-  void PythonBodyC::AppendSystemPath(const StringC &path)
+  bool PythonBodyC::AppendSystemPath(const StringC &path)
   {
     ONDEBUG(cerr << "PythonBodyC::AppendSystemPath(" << this << ") path=" << path << endl);
     RavlAssert(m_threadState);
+    
+    bool ret = false;
     
     if (Py_IsInitialized())
     {
@@ -190,6 +192,8 @@ namespace RavlN
           {
             PyList_Append(sysPath, newPath);
             Py_DECREF(newPath);
+            
+            ret = true;
           }
           Py_DECREF(sysPath);
         }
@@ -200,6 +204,8 @@ namespace RavlN
       PyThreadState_Swap(NULL);
       PyEval_ReleaseLock();
     }
+    
+    return ret;
   }
   
   
@@ -405,11 +411,36 @@ namespace RavlN
   
   
   
+  void PythonBodyC::GetError(StringC &type, StringC &value, StringC &trace)
+  {
+  	type = m_exceptionType.Copy();
+  	value = m_exceptionValue.Copy();
+  	trace = m_exceptionTrace.Copy();
+  }
+  
+  
+  
   bool PythonBodyC::CheckError()
   {
     if (PyErr_Occurred())
     {
-      PyErr_Print();
+    	// Pointers for fetched exception details
+    	PyObject *exType = NULL;
+    	PyObject *exValue = NULL;
+    	PyObject *exTrace = NULL;
+    	PyErr_Fetch(&exType, &exValue, &exTrace);
+    	
+    	// If the object exists, create and store a string representation of it
+  		m_exceptionType = (exType ? GetObjectAsString(exType) : StringC());
+  		m_exceptionValue = (exValue ? GetObjectAsString(exValue) : StringC());
+  		m_exceptionTrace = (exTrace ? GetTraceAsString(exTrace) : StringC());
+    	
+  		// Clear the exception objects (XDECREF as they may be NULL)
+  		Py_XDECREF(exType);
+  		Py_XDECREF(exValue);
+  		Py_XDECREF(exTrace);
+    	
+  		// Clear the exception flags
       PyErr_Clear();
       
       return true;
@@ -419,6 +450,63 @@ namespace RavlN
   }
   
   
+  
+  StringC PythonBodyC::GetObjectAsString(PyObject *object)
+  {
+  	RavlAssert(object != NULL);
+  	
+  	PyObject *objectStr = NULL;
+  	if ((objectStr = PyObject_Str(object)) != NULL)
+  	{
+  		const char * const chars = PyString_AsString(objectStr);
+  		StringC str(chars);
+  		
+  		Py_DECREF(objectStr);
+  		
+  		return str;
+    }
+  	
+  	return StringC();
+  }
+  
+  
+  
+  StringC PythonBodyC::GetTraceAsString(PyObject *object)
+  {
+  	RavlAssert(object != NULL);
+  	
+  	StringC ret;
+  	
+  	// Import the traceback module to do the formatting
+    PyObject *traceModule = PyImport_AddModule("traceback");
+    if (traceModule)
+    {
+    	// 'formatRet = traceback.format_tb(sys.exc_traceback)'
+    	PyObject *formatRet = PyObject_CallMethod(traceModule, "format_tb", "O", object);
+    	if (formatRet)
+    	{
+    		// 'joinRet = "".join(formatRet)'
+      	PyObject *emptyStr = PyString_FromString("");
+      	PyObject *joinRet = PyObject_CallMethod(emptyStr, "join", "O", formatRet);
+      	if (joinRet)
+      	{
+      		const char * const chars = PyString_AsString(joinRet);
+      		ret = StringC(chars);
+      		
+      		Py_DECREF(joinRet);
+      	}
+      	
+      	Py_DECREF(emptyStr);
+      	Py_DECREF(formatRet);
+    	}
+
+      Py_DECREF(traceModule);
+    }
+    
+    return ret;
+  }
+
+
   
   PythonObjectC PythonC::NewObject()
   {
