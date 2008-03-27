@@ -1,0 +1,9 @@
+ifndef UEYE_DEF
+UEYE_DEF = 1
+
+# INCLUDES += -I$(HOME_UEYE)/include
+
+EXELIB :=  -lueye_api $(EXELIB)
+
+
+endif
