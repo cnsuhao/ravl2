@@ -34,6 +34,41 @@ namespace RavlImageN {
     bool CaptureImage(char *buffer);
     //: Capture a single image into the given buffer.
     
+    bool HandleGetAttr(const StringC &attrName, StringC &attrValue);
+    //: Handle get attribute (string)
+    // Returns false if the attribute name is unknown.
+    
+    bool HandleSetAttr(const StringC &attrName, const StringC &attrValue);
+    //: Handle set attribute (string)
+    // Returns false if the attribute name is unknown.
+    
+    bool HandleGetAttr(const StringC &attrName, IntT &attrValue);
+    //: Handle get attribute (int)
+    // Returns false if the attribute name is unknown.
+    
+    bool HandleSetAttr(const StringC &attrName, const IntT &attrValue);
+    //: Handle set attribute (int)
+    // Returns false if the attribute name is unknown.
+    
+    bool HandleGetAttr(const StringC &attrName, bool &attrValue);
+    //: Handle get attribute (bool)
+    // Returns false if the attribute name is unknown.
+    
+    bool HandleSetAttr(const StringC &attrName, const bool &attrValue);
+    //: Handle set attribute (bool)
+    // Returns false if the attribute name is unknown.
+    
+    bool HandleGetAttr(const StringC &attrName, RealT &attrValue);
+    //: Handle get attribute (RealT)
+    // Returns false if the attribute name is unknown.
+    
+    bool HandleSetAttr(const StringC &attrName, const RealT &attrValue);
+    //: Handle set attribute (RealT)
+    // Returns false if the attribute name is unknown.
+    
+    bool BuildAttributes(AttributeCtrlBodyC &attrCtrl);
+    //: Build list of attributes.
+
   protected:
     bool AllocateImages();
     //: Allocate image buffers.
@@ -42,14 +77,20 @@ namespace RavlImageN {
     { return m_sensorInfo.nMaxWidth * m_sensorInfo.nMaxHeight * (m_bitsPerPixel / 8); }
     //: Get size of image in bytes.
     
-    enum { UE_NotReady, UE_Ready, UE_Running } m_state;
+    enum uEyeTrigT { TRIG_OFF,TRIG_HILO,TRIG_LOHI,TRIG_SOFT } m_triggerMode;
     
-    HIDS m_phf; // Handle to camera.
-    SENSORINFO m_sensorInfo;
+    enum uEyeStateT { UE_NotReady, UE_Ready, UE_Running } m_state;
+    
+    bool m_snapshot; // Are we in snapshot mode.
+
+    HIDS m_phf;              // Handle to camera.
+    SENSORINFO m_sensorInfo; // Information about current camera sensor.
     
     IndexRange2dC m_captureSize;
     UIntT m_bitsPerPixel;
     
+    
+    // Buffer's for live video feed.
     static const int m_NumBuffers = 4;
     char *m_buffers[m_NumBuffers];
     int m_imgId[m_NumBuffers];
@@ -67,7 +108,9 @@ namespace RavlImageN {
   public:
     ImgIOuEyeBodyC(UIntT cameraId = 0)
       : ImgIOuEyeBaseC(typeid(PixelT),cameraId)
-    {}
+    {
+      BuildAttributes(*this);
+    }
     //: Constructor
     
     virtual ImageC<PixelT> Get() {
@@ -96,6 +139,72 @@ namespace RavlImageN {
     { return (m_state == UE_NotReady); }
     //: Has the end of stream been reached ?
     
+    virtual bool GetAttr(const StringC &attrName, StringC &attrValue) {
+      if (HandleGetAttr(attrName, attrValue))
+        return true;
+      return DPPortBodyC::GetAttr(attrName, attrValue);
+    }
+    //: Handle get attribute (string)
+    // Returns false if the attribute name is unknown.
+    
+    virtual bool SetAttr(const StringC &attrName, const StringC &attrValue) {
+      if (HandleSetAttr(attrName, attrValue))
+        return true;
+      return DPPortBodyC::SetAttr(attrName, attrValue);
+    }
+    //: Handle set attribute (string)
+    // Returns false if the attribute name is unknown.
+    
+    virtual bool GetAttr(const StringC &attrName, IntT &attrValue) {
+      if (HandleGetAttr(attrName, attrValue))
+        return true;
+      return DPPortBodyC::GetAttr(attrName, attrValue);
+    }
+    //: Handle get attribute (int)
+    // Returns false if the attribute name is unknown.
+    
+    virtual bool SetAttr(const StringC &attrName, const IntT &attrValue) {
+      if (HandleSetAttr(attrName, attrValue))
+        return true;
+      return DPPortBodyC::SetAttr(attrName, attrValue);
+    }
+    //: Handle set attribute (int)
+    // Returns false if the attribute name is unknown.
+
+    virtual bool GetAttr(const StringC &attrName, bool &attrValue) {
+      if (HandleGetAttr(attrName, attrValue))
+        return true;
+      return DPPortBodyC::GetAttr(attrName, attrValue);
+    }
+    //: Handle get attribute (bool)
+    // Returns false if the attribute name is unknown.
+    
+    virtual bool SetAttr(const StringC &attrName, const bool &attrValue) {
+      if (HandleSetAttr(attrName, attrValue))
+        return true;
+      return DPPortBodyC::SetAttr(attrName, attrValue);
+    }
+    //: Handle set attribute (bool)
+    // Returns false if the attribute name is unknown.
+
+    virtual bool GetAttr(const StringC &attrName,RealT &attrValue) {
+      if (HandleGetAttr(attrName, attrValue))
+        return true;
+      return DPPortBodyC::GetAttr(attrName, attrValue);
+    }
+    //: Get a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    
+    virtual bool SetAttr(const StringC &attrName,const RealT &attrValue) {
+      if (HandleSetAttr(attrName, attrValue))
+        return true;
+      return DPPortBodyC::SetAttr(attrName, attrValue);            
+    }
+    //: Set a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+
   protected:
     
   };

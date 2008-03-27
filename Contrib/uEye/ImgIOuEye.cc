@@ -8,8 +8,9 @@
 #include "Ravl/Image/ImgIOuEye.hh"
 #include "Ravl/Exception.hh"
 #include "Ravl/OS/SysLog.hh"
+#include "Ravl/DP/AttributeValueTypes.hh"
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -18,10 +19,15 @@
 
 namespace RavlImageN {
   
+  static const char *g_triggerModeNames[] = { "OFF","HI_LO","LO_HI","SOFTWARE",0 };
+  
+  
   //: Constructor.
   
   ImgIOuEyeBaseC::ImgIOuEyeBaseC(const std::type_info &pixelType,UIntT cameraId)
-    : m_state(UE_NotReady)
+    : m_triggerMode(TRIG_OFF),
+      m_state(UE_NotReady),
+      m_snapshot(false)
   {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "Open uEye. ");
     for(int i = 0;i < m_NumBuffers;i++)
@@ -158,12 +164,20 @@ namespace RavlImageN {
       }
       m_state = UE_Running;
     }
-    
-    // Wait for frame to arrive.
-    if(is_WaitEvent(m_phf,IS_SET_EVENT_FRAME,200) != IS_SUCCESS) {
-      SysLog(SYSLOG_ERR) << "Failed to wait for event. ";
-      return false;
+    if(m_snapshot) {
+      // Note: Maximum wait is 1 second at the moment.
+      if((ret = is_FreezeVideo(m_phf,1000)) != IS_SUCCESS) {
+        SysLog(SYSLOG_ERR) << "Failed to freeze video. ErrorCode:" << ret << " ";
+        return false;
+      }
+    } else {
+      // Wait for frame to arrive.
+      if(is_WaitEvent(m_phf,IS_SET_EVENT_FRAME,200) != IS_SUCCESS) {
+        SysLog(SYSLOG_ERR) << "Failed to wait for event. ";
+        return false;
+      }
     }
+      
     // Find the last full frame to arrive.
     int dummy = 0;
     char *pMem,*pLast;
@@ -195,4 +209,220 @@ namespace RavlImageN {
   }
   
 
+  bool ImgIOuEyeBaseC::HandleGetAttr(const StringC &attrName, StringC &attrValue)
+  {
+    // Process the int attributes
+    if (attrName == "width" || attrName == "height")
+    {
+      IntT val;
+      bool ret = HandleGetAttr(attrName, val);
+      attrValue = StringC(val);
+      return ret;
+    }
+    if(attrName == "trigger") {
+      attrValue = g_triggerModeNames[m_triggerMode];
+      return true;
+    }
+    
+    
+    return false;
+  }
+  
+  
+  
+  bool ImgIOuEyeBaseC::HandleSetAttr(const StringC &attrName, const StringC &attrValue)
+  {
+    // Process the int attributes
+    if(attrName == "width" || attrName == "height")
+      return HandleSetAttr(attrName, attrValue.IntValue());
+    if(attrValue == "trigger") {
+      for(IntT i = 0;g_triggerModeNames[i] != 0;i++) {
+        if(attrValue == g_triggerModeNames[i])
+          return HandleSetAttr(attrName,i);
+      }
+      SysLog(SYSLOG_ERR) << "Failed to set unrecognised trigger mode '" << attrValue << "'. ";
+      return false;
+    }
+    return false;
+  }
+  
+  
+  
+  bool ImgIOuEyeBaseC::HandleGetAttr(const StringC &attrName, IntT &attrValue)
+  {
+    // Width
+    if (attrName == "width") {
+      attrValue = m_captureSize.Cols();
+      return true;
+    }
+    
+    // Height
+    if (attrName == "height") {
+      attrValue = m_captureSize.Rows();
+      return true;
+    }
+    if(attrName == "trigger") {
+      attrValue = static_cast<IntT>(m_triggerMode);
+      return true;
+    }
+    
+    
+    return false;
+  }
+  
+  
+  
+  bool ImgIOuEyeBaseC::HandleSetAttr(const StringC &attrName, const IntT &attrValue)
+  {
+    // Width
+    if (attrName == "width")
+    {
+      SysLog(SYSLOG_DEBUG) << "Setting width not implemented. ";
+      return false;
+    }
+    
+    // Height
+    if (attrName == "height")
+    {
+      SysLog(SYSLOG_DEBUG) << "Setting height not implemented. ";
+      return false;
+    }
+    
+    if(attrName == "trigger") {
+      uEyeTrigT newTrig = static_cast<uEyeTrigT>(attrValue);
+      // Anything to change ?
+      if(newTrig == m_triggerMode)
+        return true;
+      int mode = 0;
+      switch(newTrig) {
+      case TRIG_OFF:  mode = IS_SET_TRIG_OFF;   break;
+      case TRIG_HILO: mode = IS_SET_TRIG_HI_LO; break;
+      case TRIG_LOHI: mode = IS_SET_TRIG_LO_HI; break;
+      case TRIG_SOFT: mode = IS_SET_TRIG_SOFTWARE;   break;
+      }
+      int ret;
+      if((ret = is_SetExternalTrigger(m_phf,mode)) != IS_SUCCESS) {
+        SysLog(SYSLOG_ERR) << "Failed to set trigger mode '" << g_triggerModeNames[attrValue] << "' . ErrorCode:" << ret << " ";
+        return false;
+      }
+      m_triggerMode = newTrig;
+      return true;
+    }
+    
+    return false;
+  }
+  
+  bool ImgIOuEyeBaseC::HandleGetAttr(const StringC &attrName, bool &attrValue)
+  { 
+    if(attrName == "snapshot") {
+      attrValue = m_snapshot;
+      return true;
+    }
+    return false;
+  }
+  
+  bool ImgIOuEyeBaseC::HandleSetAttr(const StringC &attrName, const bool &attrValue)
+  { 
+    if(attrName == "snapshot") {
+      if(m_snapshot == attrValue)
+        return true;
+      // Make sure capture is restarted when we leave snapshot mode.
+      if(m_snapshot)
+        m_state = UE_Ready;
+      else {
+        int ret;
+        if(m_state == UE_Running) {
+          if((ret = is_StopLiveVideo (m_phf,IS_DONT_WAIT)) != IS_SUCCESS) {
+            SysLog(SYSLOG_ERR) << "Failed to stop live video. ErrorCode:" << ret << " ";
+          }
+        }
+      }
+      m_snapshot = attrValue;
+      return true;
+    }
+    if(attrName == "shutter_speed") {
+      RealT oldValue = 0;
+      int ret;
+      if((ret = is_SetExposureTime (m_phf, attrValue*1000.0,&oldValue)) != IS_SUCCESS) {
+        SysLog(SYSLOG_ERR) << "Failed to set shutter speed. ErrorCode:" << ret << "\n";
+      }
+      return true;
+    }
+
+    return false; 
+  }
+  
+  //: Handle get attribute (RealT)
+  // Returns false if the attribute name is unknown.
+  
+  bool ImgIOuEyeBaseC::HandleGetAttr(const StringC &attrName, RealT &attrValue) {
+    if(attrName == "trigger_delay") {
+      attrValue = (RealT) is_SetTriggerDelay(m_phf,IS_GET_TRIGGER_DELAY) * 1e-6;
+      return true;
+    }
+    if(attrName == "shutter_speed") {
+      attrValue = 0; // Incase things go wrong, set to a known value.
+      int ret;
+      
+      if((ret = is_SetExposureTime (m_phf, IS_GET_EXPOSURE_TIME,&attrValue)) != IS_SUCCESS) {
+        SysLog(SYSLOG_ERR) << "Failed to get shutter speed. ErrorCode:" << ret << "\n";
+      }
+      attrValue /= 1000; // Put time into seconds.
+      return true;
+    }
+    
+    return false; 
+  }
+  
+  //: Handle set attribute (RealT)
+  // Returns false if the attribute name is unknown.
+  
+  bool ImgIOuEyeBaseC::HandleSetAttr(const StringC &attrName, const RealT &attrValue) {
+    if(attrName == "trigger_delay") {
+      // Check value is sensible.
+      if(attrValue < 0.0 || attrValue > 30.0)
+        return true;
+      // Try and set it.
+      int value = Round(attrValue * 1e6);
+      int ret;
+      if((ret = is_SetTriggerDelay(m_phf,value)) != IS_SUCCESS) {
+        SysLog(SYSLOG_ERR) << "Failed to set trigger delay to " << value << " ErrorCode:" << ret << "\n";
+      }
+      return true;
+    }
+    
+    return false; 
+  }
+  
+  bool ImgIOuEyeBaseC::BuildAttributes(AttributeCtrlBodyC &attrCtrl)
+  {
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "Setting up attribute. ");
+    // Image size.
+    attrCtrl.RegisterAttribute(AttributeTypeNumC<IntT>("width",         "Width",  true, true,  1,m_sensorInfo.nMaxWidth,  1,  m_sensorInfo.nMaxWidth));
+    attrCtrl.RegisterAttribute(AttributeTypeNumC<IntT>("height",        "Height", true, true,  1,m_sensorInfo.nMaxHeight, 1, m_sensorInfo.nMaxHeight));
+    
+    // Setup trigger modes.
+    DListC<StringC> triggerList;
+    for(int i = 0;g_triggerModeNames[i] != 0;i++)
+      triggerList.InsLast(g_triggerModeNames[i]);
+    attrCtrl.RegisterAttribute(AttributeTypeEnumC("trigger", "External triggering mode.", true, true, triggerList, triggerList.First()));
+    
+    // Setup trigger delay.
+    RealT minDelay = (RealT) is_SetTriggerDelay(m_phf,IS_GET_MIN_TRIGGER_DELAY) * 1e-6;
+    RealT maxDelay = (RealT) is_SetTriggerDelay(m_phf,IS_GET_MAX_TRIGGER_DELAY) * 1e-6;
+    RealT curDelay = (RealT) is_SetTriggerDelay(m_phf,IS_GET_TRIGGER_DELAY) * 1e-6;
+    attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("trigger_delay", "delay after trigger to capture the frame.", true, true, minDelay,maxDelay,0.000001,curDelay));
+    
+    // Sort out exposure time.
+    double curExposure;
+    is_SetExposureTime (m_phf, IS_GET_EXPOSURE_TIME,&curExposure);
+    attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("shutter_speed", "Shutter speed in seconds", true, true, 0,100,0.001,curExposure));
+    
+    // Snapshot mode.
+    attrCtrl.RegisterAttribute(AttributeTypeBoolC("snapshot", "Snapshot image capture, (for use with triggering)", true, true, m_snapshot));
+    
+    return true;
+  }
+  
+  
 }

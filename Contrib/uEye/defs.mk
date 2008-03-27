@@ -6,7 +6,7 @@
 
 SUPPORT_ONLY = linux
 
-REQUIRES = uEyeSDK
+#REQUIRES = uEyeSDK
 
 PACKAGE = Ravl/Image
 
