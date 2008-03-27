@@ -41,21 +41,21 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifdef USE_WINDOWS_H
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#else	/*  */
+#else	/*  */
 #ifndef _INC_WINDOWS
 #define VOID void
 #define WINAPI __stdcall
 #define OUT
 #define WINBASEAPI
-typedef long LONG;
-typedef unsigned long DWORD;
-typedef __int64 LONGLONG;
-typedef struct _FILETIME
+typedef long LONG;
+typedef unsigned long DWORD;
+typedef __int64 LONGLONG;
+typedef struct _FILETIME
 {
-	DWORD dwLowDateTime;
-	DWORD dwHighDateTime;
-} FILETIME, *LPFILETIME;
-typedef union _LARGE_INTEGER
+	DWORD dwLowDateTime;
+	DWORD dwHighDateTime;
+} FILETIME, *LPFILETIME;
+typedef union _LARGE_INTEGER
 {
 	
 		/* Removed unnamed struct,
@@ -66,13 +66,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 		 * }; */ 
 		struct
 	{
-		DWORD LowPart;
-		LONG HighPart;
-	} u;
-	 LONGLONG QuadPart;
- } LARGE_INTEGER;
+		DWORD LowPart;
+		LONG HighPart;
+	} u;
+	 LONGLONG QuadPart;
+ } LARGE_INTEGER;
 
-WINBASEAPI VOID WINAPI  GetSystemTimeAsFileTime(OUT LPFILETIME lpSystemTimeAsFileTime);
+WINBASEAPI VOID WINAPI  GetSystemTimeAsFileTime(OUT LPFILETIME lpSystemTimeAsFileTime);
 
 #endif	/* _INC_WINDOWS */
 #endif	/* USE_WINDOWS_H */
@@ -81,57 +81,57 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	
 #ifndef __GNUC__
 #define EPOCHFILETIME (116444736000000000i64)
-#else	/*  */
+#else	/*  */
 #define EPOCHFILETIME (116444736000000000LL)
-#endif	/*  */
-	struct timeval
+#endif	/*  */
+	struct timeval
 {
-	long tv_sec;				/* seconds */
-	  long tv_usec;			/* microseconds */
- };
-struct timezone
+	long tv_sec;				/* seconds */
+	  long tv_usec;			/* microseconds */
+ };
+struct timezone
 {
-	int tz_minuteswest;		/* minutes W of Greenwich */
-	  int tz_dsttime;			/* type of dst correction */
- };
-__inline int gettimeofday(struct timeval *tv, struct timezone *tz) 
+	int tz_minuteswest;		/* minutes W of Greenwich */
+	  int tz_dsttime;			/* type of dst correction */
+ };
+__inline int gettimeofday(struct timeval *tv, struct timezone *tz) 
 {
-	FILETIME ft;
-	LARGE_INTEGER li;
-	__int64 t;
-	static int tzflag;
+	FILETIME ft;
+	LARGE_INTEGER li;
+	__int64 t;
+	static int tzflag;
 
-	if(tv)
+	if(tv)
 		
 	{
-		GetSystemTimeAsFileTime(&ft);
-		
+		GetSystemTimeAsFileTime(&ft);
+		
 			/* The following two lines have been modified to use the named
 			 * union member. Unnamed members are not ANSI C compatible. */ 
 			li.u.LowPart = ft.dwLowDateTime;
-		li.u.HighPart = ft.dwHighDateTime;
-		t = li.QuadPart;		/* In 100-nanosecond intervals */
-		t -= EPOCHFILETIME;	/* Offset to the Epoch time */
-		t /= 10;				/* In microseconds */
-		tv->tv_sec = (long) (t / 1000000);
-		tv->tv_usec = (long) (t % 1000000);
-	}
-	if(tz)
+		li.u.HighPart = ft.dwHighDateTime;
+		t = li.QuadPart;		/* In 100-nanosecond intervals */
+		t -= EPOCHFILETIME;	/* Offset to the Epoch time */
+		t /= 10;				/* In microseconds */
+		tv->tv_sec = (long) (t / 1000000);
+		tv->tv_usec = (long) (t % 1000000);
+	}
+	if(tz)
 		
 	{
-		if(!tzflag)
+		if(!tzflag)
 			
 		{
-			_tzset();
-			tzflag++;
-		}
-		tz->tz_minuteswest = _timezone / 60;
-		tz->tz_dsttime = _daylight;
-	}
-	return 0;
-}
+			_tzset();
+			tzflag++;
+		}
+		tz->tz_minuteswest = _timezone / 60;
+		tz->tz_dsttime = _daylight;
+	}
+	return 0;
+}
 
-
+
 #else	/* _WIN32 */
 	
 #include <sys/time.h>
