@@ -265,7 +265,26 @@ namespace RavlImageN {
       attrValue = static_cast<IntT>(m_triggerMode);
       return true;
     }
-    
+    if(attrName == "binning_vertical") {
+      int mode = is_SetBinning(m_phf,IS_GET_BINNING);
+      if(mode & IS_BINNING_2X_VERTICAL) {
+        attrValue = 2;
+      } if(mode & IS_BINNING_4X_VERTICAL) {
+        attrValue = 4;
+      } else
+        attrValue = 1;
+      return true;
+    }
+    if(attrName == "binning_horizontal") {
+      int mode = is_SetBinning(m_phf,IS_GET_BINNING);
+      if(mode & IS_BINNING_2X_HORITZONTAL) {
+        attrValue = 2;
+      } if(mode & IS_BINNING_4X_HORITZONTAL) {
+        attrValue = 4;
+      } else
+        attrValue = 1;
+      return true;
+    }
     
     return false;
   }
@@ -274,6 +293,8 @@ namespace RavlImageN {
   
   bool ImgIOuEyeBaseC::HandleSetAttr(const StringC &attrName, const IntT &attrValue)
   {
+    int ret;
+    
     // Width
     if (attrName == "width")
     {
@@ -308,8 +329,68 @@ namespace RavlImageN {
       m_triggerMode = newTrig;
       return true;
     }
-    
+    if(attrName == "binning_vertical") {
+      std::cerr << "Binning modes=" << is_SetBinning(m_phf,IS_GET_SUPPORTED_BINNING) << "\n";
+      int mode = is_SetBinning(m_phf,IS_GET_BINNING) & ~IS_BINNING_MASK_VERTICAL;
+      switch(attrValue) {
+      case 1: break;
+      case 2: mode = mode | IS_BINNING_2X_VERTICAL ; break;
+      case 3:
+      case 4: mode = mode | IS_BINNING_4X_VERTICAL ; break;
+        break;
+      default:
+        SysLog(SYSLOG_ERR) << "Unsupported binning request. ";
+        return true;
+      }
+      if((ret = is_SetBinning(m_phf,mode)) != IS_SUCCESS) {
+        SysLog(SYSLOG_ERR) << "Failed to set binning mode '" << attrValue  << "' . ErrorCode:" << ret << " ";
+        return true;
+      }
+      
+      ResetImageSize();
+      
+      // Make sure images are reallocated.
+      return true;
+    }
+    if(attrName == "binning_horizontal") {
+      std::cerr << "Binning modes=" << is_SetBinning(m_phf,IS_GET_SUPPORTED_BINNING) << "\n";
+      int mode = is_SetBinning(m_phf,IS_GET_BINNING) & ~IS_BINNING_MASK_HORIZONTAL;
+      switch(attrValue) {
+      case 1: break;
+      case 2: mode = mode | IS_BINNING_2X_HORIZONTAL ; break;
+      case 3:
+      case 4: mode = mode | IS_BINNING_4X_HORIZONTAL ; break;
+        break;
+      default:
+        SysLog(SYSLOG_ERR) << "Unsupported binning request. ";
+        return true;
+      }
+      if((ret = is_SetBinning(m_phf,mode)) != IS_SUCCESS) {
+        SysLog(SYSLOG_ERR) << "Failed to set binning mode '" << attrValue  << "' . ErrorCode:" << ret << " ";
+        return true;
+      }
+      
+      ResetImageSize();
+      
+      // Make sure images are reallocated.
+      return true;
+    }
+
+
     return false;
+  }
+  
+  //: Reset image size
+  
+  void ImgIOuEyeBaseC::ResetImageSize() {
+    int ret = 0;
+    if(m_state == UE_Running) {
+      // Need to stop anything ?
+      if((ret = is_StopLiveVideo( m_phf, IS_DONT_WAIT )) != IS_SUCCESS) {
+        SysLog(SYSLOG_ERR) << "Failed to stop video. ErrorCode:" << ret;        
+      }
+      m_state = UE_Ready;
+    }    
   }
   
   bool ImgIOuEyeBaseC::HandleGetAttr(const StringC &attrName, bool &attrValue)
@@ -398,8 +479,18 @@ namespace RavlImageN {
   {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "Setting up attribute. ");
     // Image size.
-    attrCtrl.RegisterAttribute(AttributeTypeNumC<IntT>("width",         "Width",  true, true,  1,m_sensorInfo.nMaxWidth,  1,  m_sensorInfo.nMaxWidth));
-    attrCtrl.RegisterAttribute(AttributeTypeNumC<IntT>("height",        "Height", true, true,  1,m_sensorInfo.nMaxHeight, 1, m_sensorInfo.nMaxHeight));
+    attrCtrl.RegisterAttribute(AttributeTypeNumC<IntT>("width",  "Width",  true, true,  1,m_sensorInfo.nMaxWidth,  1,  m_sensorInfo.nMaxWidth));
+    attrCtrl.RegisterAttribute(AttributeTypeNumC<IntT>("height", "Height", true, true,  1,m_sensorInfo.nMaxHeight, 1, m_sensorInfo.nMaxHeight));
+    
+    // TODO: Check available modes.
+    attrCtrl.RegisterAttribute(AttributeTypeNumC<IntT>("binning_vertical", "Binning level 1,2,4 pixels.", true, true,  1,4, 1, 1));
+    attrCtrl.RegisterAttribute(AttributeTypeNumC<IntT>("binning_horizontal", "Binning level 1,2,4 pixels.", true, true,  1,4, 1, 1));
+    
+#if 0
+    // TODO: Check available modes.
+    attrCtrl.RegisterAttribute(AttributeTypeNumC<IntT>("subsample_vertical", "Binning level 1,2,4 pixels.", true, true,  1,4, 1, 1));
+    attrCtrl.RegisterAttribute(AttributeTypeNumC<IntT>("subsample_horizontal", "Binning level 1,2,4 pixels.", true, true,  1,4, 1, 1));
+#endif
     
     // Setup trigger modes.
     DListC<StringC> triggerList;

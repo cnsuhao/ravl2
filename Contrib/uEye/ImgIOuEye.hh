@@ -77,6 +77,9 @@ namespace RavlImageN {
     { return m_sensorInfo.nMaxWidth * m_sensorInfo.nMaxHeight * (m_bitsPerPixel / 8); }
     //: Get size of image in bytes.
     
+    void ResetImageSize();
+    //: Reset image size
+    
     enum uEyeTrigT { TRIG_OFF,TRIG_HILO,TRIG_LOHI,TRIG_SOFT } m_triggerMode;
     
     enum uEyeStateT { UE_NotReady, UE_Ready, UE_Running } m_state;
@@ -88,7 +91,6 @@ namespace RavlImageN {
     
     IndexRange2dC m_captureSize;
     UIntT m_bitsPerPixel;
-    
     
     // Buffer's for live video feed.
     static const int m_NumBuffers = 4;
