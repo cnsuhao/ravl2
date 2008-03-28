@@ -114,12 +114,21 @@ by a hyphen (-), and then the description of that parameter. To
 continue the description on another line you just have another !param:
 followed by a hyphen and then the rest of the description, as shown in
 the <A HREF="#examplehh">example header file</A> below.</td></tr>
-<tr><td><b>//!bug: </b> </td><td>Use this to report less fundamental
-bugs associated to particular member functions. Insert it after the
-detailed description of the member function.</td></tr>
+<tr><td><b>//!throw: </b> </td><td>This
+comment type is used to document the exceptions thrown by your member
+functions. The name of the exception comes straight after it followed
+by a hyphen (-), and then the description of that exception. To
+continue the description on another line you use the same method as continuing !param:
+descriptions. Just have another !exception: followed by a hyphen and then the rest of 
+the description. See the !param: example shown in
+the <A HREF="#examplehh">example header file</A> below.</td></tr>
+<tr><td><b>//!return: </b> </td><td>Use this to document the return value of your member functions.</td></tr>
 <tr><td><b>//!deprecated: </b> </td><td>Use this to mark a method as obsolete, 
 and not for use in new code. Method's marked as deprectated may be removed
 in future releases of the library.  </td></tr>
+<tr><td><b>//!bug: </b> </td><td>Use this to report less fundamental
+bugs associated to particular member functions. Insert it after the
+detailed description of the member function.</td></tr>
 <tr><td><b>//:- </b> </td><td>Use this to create sections
 in the documentation. A description of the section can follow in the 
 normal way, as shown in the <A HREF="#examplehh">example header file</A>
@@ -152,7 +161,7 @@ This is the only <b>optional </b> global variable defined:</p>
 <TABLE BORDER=1 width=90% align="middle" CELLPADDING=10> 
 <TR> <TD ALIGN=CENTER ><B>Symbol</B></TD> <TD
 ALIGN=CENTER><B>Description</B></TD> </TR>
-<tr><td><b>//!&nbsp;example =</b> </td><td>The example variable is used to specify a source file that uses the class for example purposes. Also don't forget to update the <TT>defs.mk</TT> file:
+<tr><td><b>//!&nbsp;example =</b> </td><td>The example variable is used to specify a source file that uses the class for example purposes. . Multple examples can be specified as "example1.cc;example2.cc". Also don't forget to update the <TT>defs.mk</TT> file:
 </P><P>
 &nbsp;&nbsp;&nbsp;&nbsp; <TT>EXAMPLES = myexample.cc</TT>
 </P></td></tr>
