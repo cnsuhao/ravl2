@@ -1,17 +1,21 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2006, University of Surrey
-// This code may be redistributed under the terms of the MIT
-// License. See http://www.opensource.org/licenses/mit-license.html
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// Python is used under the terms of the Python License
+// Copyright (C) 2001, 2002, 2003, 2004 Python Software Foundation; All Rights Reserved
 // file-header-ends-here
-////////////////////////////////////////////////
-//! rcsid="$Id: Window.cc 5325 2006-01-23 11:40:28Z apanman $"
-//! lib=RavlGUI
-//! file="Ravl/Contrib/Python/Python.cc"
+////////////////////////////////////////////////////////////////
+//! file = "Ravl/Contrib/Python/Python.cc"
+//! lib = RavlPython
 
 #include "Ravl/Python.hh"
 #include "Ravl/PythonObject.hh"
+#include "Ravl/PythonLock.hh"
 #include "Ravl/HashIter.hh"
 #include <iostream>
+#include "Ravl/PythonException.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -23,12 +27,8 @@
 namespace RavlN
 {
   
-
-  
   MutexC PythonBodyC::m_initLock;
   PythonC PythonBodyC::m_mainInterpreter;
-  
-  
   
   PythonBodyC::PythonBodyC() :
     m_subInterpreter(false),
@@ -55,19 +55,37 @@ namespace RavlN
         // Get the main thread state
         m_mainThreadState = PyThreadState_Get();
         
-        // Create a new thread state
-        m_threadState = PyThreadState_New(m_mainThreadState->interp);
-
-        if (m_threadState)
+        if (m_mainThreadState)
         {
-          InitialiseEnvironment();
+          // Create a new thread state
+          m_threadState = PyThreadState_New(m_mainThreadState->interp);
+
+          if (m_threadState)
+          {
+            InitialiseEnvironment();
+          }
+          else
+          {
+            cerr << "PythonBodyC::PythonBodyC(" << this << ") failed to initialise Python thread state" << endl;
+          }
         }
         else
         {
-          cerr << "PythonBodyC::PythonBodyC(" << this << ") failed to initialise Python thread state" << endl;
+          cerr << "PythonBodyC::PythonBodyC(" << this << ") failed to initialise Python interpreter state" << endl;
         }
-        
-        CheckError();
+
+        // TODO The thread state/lock release is a prime candidate for RAII
+        // but PythonLockC is not suitable here
+        try
+        {
+          CheckPythonException();
+        }
+        catch (PythonExceptionC &e)
+        {
+          PyThreadState_Swap(NULL);
+          PyEval_ReleaseLock();
+          throw;
+        }
         
         PyThreadState_Swap(NULL);
         PyEval_ReleaseLock();
@@ -81,6 +99,7 @@ namespace RavlN
     {
       PyEval_AcquireLock();
       PyThreadState_Swap(NULL);
+      
       m_mainThreadState = Py_NewInterpreter();
       
       if (m_mainThreadState)
@@ -104,17 +123,26 @@ namespace RavlN
       }
       else
       {
-        cerr << "PythonBodyC::PythonBodyC(" << this << ") failed to create Python sub-interpreter" << endl;
+        cerr << "PythonBodyC::PythonBodyC(" << this << ") failed to initialise Python sub-interpreter" << endl;
       }
       
-      CheckError();
-      
+      // TODO The thread state/lock release is a prime candidate for RAII
+      // but PythonLockC is not suitable here
+      try
+      {
+        CheckPythonException();
+      }
+      catch (PythonExceptionC &e)
+      {
+        PyThreadState_Swap(NULL);
+        PyEval_ReleaseLock();
+        throw;
+      }
+
       PyThreadState_Swap(NULL);
       PyEval_ReleaseLock();
     }
   }
-  
-  
   
   PythonBodyC::~PythonBodyC()
   {
@@ -165,31 +193,31 @@ namespace RavlN
     }
   }
   
-  
-  
   bool PythonBodyC::AppendSystemPath(const StringC &path)
   {
     ONDEBUG(cerr << "PythonBodyC::AppendSystemPath(" << this << ") path=" << path << endl);
     RavlAssert(m_threadState);
     
-    bool ret = false;
-    
     if (Py_IsInitialized())
     {
       MutexLockC lock(m_lock);
+      PythonLockC pythonLock(m_threadState);
       
-      PyEval_AcquireLock();
-      PyThreadState_Swap(m_threadState);
+      bool ret = false;
       
+      // Returns NULL on failure and sets Python exception
       PyObject *sysModule = PyImport_AddModule("sys");
       if (sysModule)
       {
+        // Returns NULL on failure
         PyObject *sysPath = PyObject_GetAttrString(sysModule, "path");
         if (sysPath)
         {
+          // Returns NULL on failure
           PyObject *newPath = PyString_FromString(const_cast<char*>(path.chars()));
           if (newPath)
           {
+            // Returns NULL on failure and sets Python exception
             PyList_Append(sysPath, newPath);
             Py_DECREF(newPath);
             
@@ -199,16 +227,13 @@ namespace RavlN
         }
       }
       
-      CheckError();
+      CheckPythonException();
       
-      PyThreadState_Swap(NULL);
-      PyEval_ReleaseLock();
+      return ret;
     }
     
-    return ret;
+    return false;
   }
-  
-  
   
   bool PythonBodyC::Import(const StringC &module)
   {
@@ -218,99 +243,114 @@ namespace RavlN
     if (Py_IsInitialized())
     {
       MutexLockC lock(m_lock);
+      PythonLockC pythonLock(m_threadState);
       
-      PyEval_AcquireLock();
-      PyThreadState_Swap(m_threadState);
+      bool ret = false;
       
-      PyObject *modulePtr = PyImport_ImportModule(const_cast<char*>(module.chars()));
-      if (modulePtr)
+      // Get the '__main__' module pointer
+      PyObject *mainModule = NULL;
+      if (m_modules.Lookup("__main__", mainModule))
       {
-        ONDEBUG(cerr << "  PythonBodyC::Import(" << this << ") imported=" << module << endl);
-        m_modules.Update(module, modulePtr);
+        // Import the module
+        // Returns NULL on failure and sets Python exception
+        PyObject *modulePtr = PyImport_ImportModule(const_cast<char*>(module.chars()));
+        if (modulePtr)
+        {
+          // Returns 0 on success, -1 on error
+          if (PyModule_AddObject(mainModule, const_cast<char*>(module.chars()), modulePtr) == 0)
+          {
+            ONDEBUG(cerr << "  PythonBodyC::Import(" << this << ") imported=" << module << endl);
+
+            // PyModule_AddObject steals a reference, so increment ours so we can safely store it
+            Py_INCREF(modulePtr);
+            
+            m_modules.Update(module, modulePtr);
+            
+            ret = true;
+          }
+          else
+          {
+            // We're not storing the module pointer, so release it
+            Py_DECREF(modulePtr);
+          }
+        }
       }
 
-      bool result = !CheckError() && modulePtr;
+      CheckPythonException();
       
-      PyThreadState_Swap(NULL);
-      PyEval_ReleaseLock();
-      
-      return result;
+      return ret;
     }
     
     return false;
   }
-  
-  
   
   PythonObjectC PythonBodyC::NewObject()
   {
     return PythonObjectC(PythonC(*this));
   }
   
-  
-  
-  PythonObjectC PythonBodyC::Call(const StringC &module, const StringC &name)
+  PythonObjectC PythonBodyC::Call(const StringC &module, const StringC &function)
   {
-    return Call(module, name, PythonObjectC(PythonC(*this)));
+    return Call(module, function, PythonObjectC(PythonC(*this)));
   }
   
-  
-  
-  PythonObjectC PythonBodyC::Call(const StringC &module, const StringC &name, const PythonObjectC &args)
+  PythonObjectC PythonBodyC::Call(const StringC &module, const StringC &function, const PythonObjectC &args)
   {
-    ONDEBUG(cerr << "PythonBodyC::Call(" << this << ") module=" << module << " name=" << name << endl);
+    ONDEBUG(cerr << "PythonBodyC::Call(" << this << ") module=" << module << " function=" << function << endl);
     RavlAssert(m_threadState);
     
     if (Py_IsInitialized())
     {
       MutexLockC lock(m_lock);
-      
-      PyEval_AcquireLock();
-      PyThreadState_Swap(m_threadState);
+      PythonLockC pythonLock(m_threadState);
       
       PyObject *ret = NULL;
       PyObject *modulePtr = NULL;
       if (m_modules.Lookup(module, modulePtr))
       {
-        PyObject *func = PyObject_GetAttrString(modulePtr, const_cast<char*>(name.chars()));
+        // Returns NULL on failure
+        PyObject *func = PyObject_GetAttrString(modulePtr, const_cast<char*>(function.chars()));
+        
+        // Returns 1 if callable, 0 otherwise
         if (func && PyCallable_Check(func))
         {
           if (args.GetObject())
           {
             if (PyTuple_Check(args.GetObject()))
             {
+              // Returns NULL on failure, script may set an exception
               ret = PyObject_CallObject(func, args.GetObject());
               
-              ONDEBUG(cerr << "  PythonBodyC::Call(" << this << ") name='" << name << "' args=" << PyTuple_Size(args.GetObject()) << " " << (ret ? "OK" : "FAILED") << endl);
+              ONDEBUG(cerr << "  PythonBodyC::Call(" << this << ") function='" << function << "' args=" << PyTuple_Size(args.GetObject()) << " " << (ret ? "OK" : "FAILED") << endl);
             }
             else
+            {
               cerr << "PythonBodyC::Call tuple not supplied as arguments" << endl;
+            }
           }
           else
           {
+            // Returns NULL on failure, script may set an exception
             ret = PyObject_CallObject(func, NULL);
             
-            ONDEBUG(cerr << "  PythonBodyC::Call(" << this << ") name='" << name << "' " << (ret ? "OK" : "FAILED") << endl);
+            ONDEBUG(cerr << "  PythonBodyC::Call(" << this << ") function='" << function << "' " << (ret ? "OK" : "FAILED") << endl);
           }
           
           Py_DECREF(func);
         }
         else
-          cerr << "PythonBodyC::Call(" << this << ") failed to find function '"  << name << "'" << endl;
+        {
+          cerr << "PythonBodyC::Call(" << this << ") failed to find function '"  << function << "'" << endl;
+        }
       }
       
-      CheckError();
-      
-      PyThreadState_Swap(NULL);
-      PyEval_ReleaseLock();
+      CheckPythonException();
       
       return PythonObjectC(PythonC(*this), ret);
     }
     
     return PythonObjectC(PythonC(*this));
   }
-  
-  
   
   bool PythonBodyC::Run(const StringC &script)
   {
@@ -320,24 +360,19 @@ namespace RavlN
     if (Py_IsInitialized())
     {
       MutexLockC lock(m_lock);
+      PythonLockC pythonLock(m_threadState);
       
-      PyEval_AcquireLock();
-      PyThreadState_Swap(m_threadState);
+      // Returns 0 on success, -1 on error
+      // Python exceptions are not accessible
+      bool ret = (PyRun_SimpleString(script) == 0);
+      
+      CheckPythonException();
 
-      int ret = PyRun_SimpleString(script);
-      
-      bool result = !CheckError() && (ret == 0);
-      
-      PyThreadState_Swap(NULL);
-      PyEval_ReleaseLock();
-      
-      return result;
+      return ret;
     }
     
     return false;
   }
-  
-  
   
   PythonObjectC PythonBodyC::GetGlobal(const StringC &name)
   {
@@ -347,30 +382,24 @@ namespace RavlN
     if (Py_IsInitialized())
     {
       MutexLockC lock(m_lock);
-      
-      PyEval_AcquireLock();
-      PyThreadState_Swap(m_threadState);
+      PythonLockC pythonLock(m_threadState);
       
       PyObject *object = NULL;
       PyObject *mainDict = GetModuleDictionary("__main__");
       if (mainDict)
       {
+        // Return NULL on failure
         object = PyDict_GetItemString(mainDict, name);
         ONDEBUG(if (object == NULL) cerr << "  PythonBodyC::GetGlobal(" << this << ") failed to find '" << name << "' in globals" << endl);
       }
       
-      CheckError();
-      
-      PyThreadState_Swap(NULL);
-      PyEval_ReleaseLock();
+      CheckPythonException();
       
       return PythonObjectC(PythonC(*this), object);
     }
     
     return PythonObjectC(PythonC(*this));
   }
-  
-  
   
   void PythonBodyC::InitialiseEnvironment()
   {
@@ -379,6 +408,7 @@ namespace RavlN
     RavlAssert(m_threadState);
    
     // Get access to the main module
+    // Returns NULL on failure and sets Python exception
     PyObject *mainModule = PyImport_AddModule("__main__");
     if (mainModule)
     {
@@ -391,8 +421,6 @@ namespace RavlN
     }
   }
   
-  
-  
   PyObject *PythonBodyC::GetModuleDictionary(const StringC &name)
   {
     ONDEBUG(cerr << "PythonBodyC::GetModuleDictionary(" << this << ") name=" << name << endl);
@@ -403,137 +431,31 @@ namespace RavlN
     PyObject *mainDict = NULL;
     if (m_modules.Lookup(name, mainModule))
     {
+      // Returns NULL on failure
       mainDict = PyObject_GetAttrString(mainModule, "__dict__");
     }
 
     return mainDict;
   }
   
-  
-  
-  void PythonBodyC::GetError(StringC &type, StringC &value, StringC &trace)
-  {
-  	type = m_exceptionType.Copy();
-  	value = m_exceptionValue.Copy();
-  	trace = m_exceptionTrace.Copy();
-  }
-  
-  
-  
-  bool PythonBodyC::CheckError()
-  {
-    if (PyErr_Occurred())
-    {
-    	// Pointers for fetched exception details
-    	PyObject *exType = NULL;
-    	PyObject *exValue = NULL;
-    	PyObject *exTrace = NULL;
-    	PyErr_Fetch(&exType, &exValue, &exTrace);
-    	
-    	// If the object exists, create and store a string representation of it
-  		m_exceptionType = (exType ? GetObjectAsString(exType) : StringC());
-  		m_exceptionValue = (exValue ? GetObjectAsString(exValue) : StringC());
-  		m_exceptionTrace = (exTrace ? GetTraceAsString(exTrace) : StringC());
-    	
-  		// Clear the exception objects (XDECREF as they may be NULL)
-  		Py_XDECREF(exType);
-  		Py_XDECREF(exValue);
-  		Py_XDECREF(exTrace);
-    	
-  		// Clear the exception flags
-      PyErr_Clear();
-      
-      return true;
-    }
-    
-    return false;
-  }
-  
-  
-  
-  StringC PythonBodyC::GetObjectAsString(PyObject *object)
-  {
-  	RavlAssert(object != NULL);
-  	
-  	PyObject *objectStr = NULL;
-  	if ((objectStr = PyObject_Str(object)) != NULL)
-  	{
-  		const char * const chars = PyString_AsString(objectStr);
-  		StringC str(chars);
-  		
-  		Py_DECREF(objectStr);
-  		
-  		return str;
-    }
-  	
-  	return StringC();
-  }
-  
-  
-  
-  StringC PythonBodyC::GetTraceAsString(PyObject *object)
-  {
-  	RavlAssert(object != NULL);
-  	
-  	StringC ret;
-  	
-  	// Import the traceback module to do the formatting
-    PyObject *traceModule = PyImport_AddModule("traceback");
-    if (traceModule)
-    {
-    	// 'formatRet = traceback.format_tb(sys.exc_traceback)'
-    	PyObject *formatRet = PyObject_CallMethod(traceModule, "format_tb", "O", object);
-    	if (formatRet)
-    	{
-    		// 'joinRet = "".join(formatRet)'
-      	PyObject *emptyStr = PyString_FromString("");
-      	PyObject *joinRet = PyObject_CallMethod(emptyStr, "join", "O", formatRet);
-      	if (joinRet)
-      	{
-      		const char * const chars = PyString_AsString(joinRet);
-      		ret = StringC(chars);
-      		
-      		Py_DECREF(joinRet);
-      	}
-      	
-      	Py_DECREF(emptyStr);
-      	Py_DECREF(formatRet);
-    	}
-
-      Py_DECREF(traceModule);
-    }
-    
-    return ret;
-  }
-
-
-  
   PythonObjectC PythonC::NewObject()
   {
     return Body().NewObject();
   }
 
-
-  
   PythonObjectC PythonC::Call(const StringC &module, const StringC &name)
   {
     return Body().Call(module, name);
   }
-
-
 
   PythonObjectC PythonC::Call(const StringC &module, const StringC &name, const PythonObjectC &args)
   {
     return Body().Call(module, name, args);
   }
 
-
-
   PythonObjectC PythonC::GetGlobal(const StringC &name)
   {
     return Body().GetGlobal(name);
   }
-
-
 
 }

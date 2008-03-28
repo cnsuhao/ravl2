@@ -1,17 +1,22 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2006, University of Surrey
-// This code may be redistributed under the terms of the MIT
-// License. See http://www.opensource.org/licenses/mit-license.html
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// Python is used under the terms of the Python License
+// Copyright (C) 2001, 2002, 2003, 2004 Python Software Foundation; All Rights Reserved
 // file-header-ends-here
+////////////////////////////////////////////////////////////////
+//! file = "Ravl/Contrib/Python/Python.hh"
+//! lib = RavlPython
+//! author = "Warren Moore"
+//! docentry = "Ravl.API.Python"
+//! example = "exPython.cc;exPythonThreaded.cc"
+
 #ifndef RAVL_PYTHON_HEADER
 #define RAVL_PYTHON_HEADER 1
-//////////////////////////////////////////////////
-//! rcsid="$Id: Combo.hh 5423 2006-03-20 17:34:52Z robowaz $"
-//! file="Ravl/Contrib/Python/Python.hh"
-//! lib=RavlPython
-//! author="Warren Moore"
 
-#include "Python.h"
+#include <Python.h>
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Hash.hh"
 #include "Ravl/Threads/Mutex.hh"
@@ -22,71 +27,79 @@ namespace RavlN
   class PythonC;
   class PythonObjectC;
   
-  //! userlevel=develop
+  //! userlevel=Develop
   //: Class managing a Python interpreter
   
-  class PythonBodyC :
+  class PythonBodyC : 
     public RCBodyVC
   {
   public:
     PythonBodyC();
-    //: Constructor
+    //: Constructor.
+    //!throw: PythonExceptionC - If a Python exception is set
     
     virtual ~PythonBodyC();
-    //: Destructor
+    //: Destructor.
     
     const bool Initialised() const
     { return m_threadState != NULL; }
     //: Is the interpreter ready?
+    //!return: False on failure
     
     bool AppendSystemPath(const StringC &path);
-    //: Append a string to 'sys.path'
+    //: Append a string to 'sys.path'.
+    //!param: path - A file system path to search for Python modules
+    //!return: false on failure
+    //!throw: PythonExceptionC - If a Python exception is set
     
     bool Import(const StringC &module);
-    //: Load a module using Python 'import' notation
+    //: Load a module using Python 'import' notation.
+    //!param: module - The name of a Python module
+    //!return: false on failure
+    //!throw: PythonExceptionC - If a Python exception is set
     
     PythonObjectC NewObject();
-    //: Create a new Python object
+    //: Create a new Python object.
+    //!return: A new Python object
     
-    PythonObjectC Call(const StringC &module, const StringC &name);
-    //: Call a function with arguments
-    // Returns an invalid object on failure
+    PythonObjectC Call(const StringC &module, const StringC &function);
+    //: Call a function.
+    //!param: module - The name of the module containing the function to call
+    //!param: function - The name of the function to call
+    //!return: Invalid object on failure
+    //!throw: PythonExceptionC - If a Python exception is set
     
-    PythonObjectC Call(const StringC &module, const StringC &name, const PythonObjectC &args);
-    //: Call a function with arguments
+    PythonObjectC Call(const StringC &module,
+            const StringC &function,
+            const PythonObjectC &args);
+    //: Call a function with arguments.
+    //!param: module - The name of the module containing the function to call
+    //!param: function - The name of the function to call
     //!param: args - Must represent a tuple containing all the required arguments
-    // Returns an invalid object on failure
+    //!return: Invalid object on failure
+    //!throw: PythonExceptionC - If a Python exception is set
     
     bool Run(const StringC &script);
-    //: Load a Python script into the main environment and execute immediately
-    // Has no access to modules loaded through PythonC::Import
+    //: Load a Python script into the main environment and execute immediately.
+    //!return: False on failure
     
     PythonObjectC GetGlobal(const StringC &name);
-    //: Get a result object called 'name' from the globals
+    //: Get a result object called 'name' from the globals.
+    //!return: Invalid object on failure
     
     PyThreadState *GetThreadState() const
     { return m_threadState; }
-    //: Return the Python interpreter thread state
-    
-    void GetError(StringC &type, StringC &value, StringC &trace);
-    //: Get a copy of the exception strings
-    // Note: These strings are not cleared
+    //: Return the Python interpreter thread state.
+    //!return: NULL on failure
     
   private:
     void InitialiseEnvironment();
-    //: Initialise the Python thread state environment
+    //: Initialise the Python thread state environment.
+    //!throw: PythonExceptionC - If a Python exception is set
     
     PyObject *GetModuleDictionary(const StringC &name);
-    //: Get a dictionary from the named module, NULL if none
-    
-    bool CheckError();
-    //: Check and clear a Python error.
-    
-    StringC GetObjectAsString(PyObject *object);
-    //: Returns a string representation of an object
-    
-    StringC GetTraceAsString(PyObject *object);
-    //: Returns a string representation of an object
+    //: Get a dictionary from the named module.
+    //!return: NULL on failure
     
   private:
     static MutexC m_initLock;
@@ -95,11 +108,10 @@ namespace RavlN
     PyThreadState *m_mainThreadState;
     PyThreadState *m_threadState;
     HashC<StringC, PyObject*> m_modules;
-    StringC m_exceptionType, m_exceptionValue, m_exceptionTrace;
     MutexC m_lock;
   };
   
-  //! userlevel=normal
+  //! userlevel = Normal
   //: Class managing a Python interpreter
   // BIG OBJECT
   
@@ -109,53 +121,66 @@ namespace RavlN
   public:
     PythonC()
     {}
-    //: Default constructor
+    //: Default constructor.
     // Creates an invalid handle
     
     PythonC(bool) :
       RCHandleC<PythonBodyC>(*new PythonBodyC())
     {}
-    //: Constructor
+    //: Constructor.
+    //!throw: PythonExceptionC - If a Python exception is set
     
     const bool Initialised() const
     { return Body().Initialised(); }
     //: Is the interpreter ready?
+    //!return: False on failure
 
     bool AppendSystemPath(const StringC &path)
     { return Body().AppendSystemPath(path); }
-    //: Append a string to 'sys.path'
+    //: Append a string to 'sys.path'.
+    //!param: path - A file system path to search for Python modules
+    //!return: false on failure
+    //!throw: PythonExceptionC - If a Python exception is set
     
     bool Import(const StringC &module)
     { return Body().Import(module); }
-    //: Load a module using Python 'import' notation
+    //: Load a module using Python 'import' notation.
+    //!param: module - The name of a Python module
+    //!return: false on failure
+    //!throw: PythonExceptionC - If a Python exception is set
     
     PythonObjectC NewObject();
-    //: Create a new Python object
+    //: Create a new Python object.
+    //!return: A new Python object
     
     PythonObjectC Call(const StringC &module, const StringC &name);
-    //: Call a function with arguments
-    // Returns an invalid object on failure
+    //: Call a function.
+    //!param: module - The name of the module containing the function to call
+    //!param: function - The name of the function to call
+    //!return: Invalid object on failure
+    //!throw: PythonExceptionC - If a Python exception is set
     
     PythonObjectC Call(const StringC &module, const StringC &name, const PythonObjectC &args);
-    //: Call a function with arguments
-    // Returns an invalid object on failure
+    //: Call a function with arguments.
+    //!param: module - The name of the module containing the function to call
+    //!param: function - The name of the function to call
+    //!param: args - Must represent a tuple containing all the required arguments
+    //!return: Invalid object on failure
+    //!throw: PythonExceptionC - If a Python exception is set
     
     bool Run(const StringC &script)
     { return Body().Run(script); }
-    //: Load a Python script into the main environment and execute immediately
-    // Note: has no access to modules loaded through PythonC::Import
+    //: Load a Python script into the main environment and execute immediately.
+    //!return: False on failure
     
     PythonObjectC GetGlobal(const StringC &name);
-    //: Get a result object called 'name' from the globals
+    //: Get a result object called 'name' from the globals.
+    //!return: Invalid object on failure
     
     PyThreadState *GetThreadState() const
     { return Body().GetThreadState(); }
-    //: Return the Python interpreter thread state
-    
-    void GetError(StringC &type, StringC &value, StringC &trace)
-    { return Body().GetError(type, value, trace); }
-    //: Get a copy of the exception strings
-    // Note: These strings are not cleared
+    //: Return the Python interpreter thread state.
+    //!return: NULL on failure
     
   private:
     PythonC(PythonBodyC &body) : 
@@ -174,8 +199,6 @@ namespace RavlN
     friend class PythonBodyC;
   };
 
-  
-  
 }
 
 #endif
