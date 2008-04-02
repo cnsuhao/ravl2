@@ -12,9 +12,9 @@ added on request. </p>
 colums.  However many of the GUI class methods do not adhere to this.</p>
 
 <p>Newcomers to the RAVL GUI library should start with <a
-href="../../../html/tutorial.html">this tutorial</a>.  For advanced
-users, the GTK tutorial<a href="http://www.gtk.org/documentation.html">GTK tutorial</a>
- is also very helpful.</p>
+href="../../../html/tutorial.html">this tutorial</a>.  For advanced users, the
+<a href="http://www.gtk.org/documentation.html">GTK tutorial</a> is also very
+helpful.</p>
 
 <p>Finally, users of the class <a href="../Class/RavlGUIN.CanvasC.html">CanvasC</a>
 who want to use the colours might find
