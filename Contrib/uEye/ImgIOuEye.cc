@@ -277,9 +277,9 @@ namespace RavlImageN {
     }
     if(attrName == "binning_horizontal") {
       int mode = is_SetBinning(m_phf,IS_GET_BINNING);
-      if(mode & IS_BINNING_2X_HORITZONTAL) {
+      if(mode & IS_BINNING_2X_HORIZONTAL) {
         attrValue = 2;
-      } if(mode & IS_BINNING_4X_HORITZONTAL) {
+      } if(mode & IS_BINNING_4X_HORIZONTAL) {
         attrValue = 4;
       } else
         attrValue = 1;
