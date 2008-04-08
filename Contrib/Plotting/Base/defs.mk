@@ -7,6 +7,8 @@
 #! rcsid="$Id$"
 #! file="Ravl/Contrib/Plotting/Base/defs.mk"
 
+REQUIRES=libGuppi
+
 PACKAGE=Ravl/Plot
 
 HEADERS= GraphData2d.hh

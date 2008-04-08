@@ -7,6 +7,8 @@
 #! rcsid="$Id$"
 #! file="Ravl/Contrib/Plotting/DPGraph/defs.mk"
 
+REQUIRES=libGuppi
+
 PACKAGE=Ravl/Plot
 
 HEADERS= DPGraphWindow.hh DPGraphWindowOPort.hh DPGraphWindowFormat.hh

@@ -7,6 +7,8 @@
 #! rcsid="$Id$"
 #! file="Ravl/Contrib/Plotting/Guppi/defs.mk"
 
+REQUIRES=libGuppi
+
 ORGANISATION=OmniPerception Ltd.
 
 PACKAGE=Ravl/Plot

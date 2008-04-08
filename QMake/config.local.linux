@@ -109,6 +109,10 @@ RESOURCES += libCurl
 
 #RESOURCES += libGuppi
 
+#### GnuPlot ################
+
+RESOURCES += GnuPlot
+
 #### devVideo4Linux ################
 
 RESOURCES += devVideo4Linux

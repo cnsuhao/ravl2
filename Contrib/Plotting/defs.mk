@@ -7,6 +7,5 @@
 #! rcsid="$Id$"
 #! file="Ravl/Contrib/Plotting/defs.mk"
 
-REQUIRES=libGuppi
 
-NESTED=Base.r Guppi.r DPGraph.r
+NESTED=Base.r Guppi.r DPGraph.r GnuPlot.r
