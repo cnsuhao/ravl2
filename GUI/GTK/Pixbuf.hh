@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! docentry="Ravl.API.GUI.Layout"
+//! docentry="Ravl.API.Graphics.GTK.Layout"
 //! date="24/9/2003"
 //! file="Ravl/GUI/GTK/Pixbuf.hh"
 

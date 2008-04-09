@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLGUI_LISTSTORE_HEADER
 #define RAVLGUI_LISTSTORE_HEADER 1
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 //! author="Charles Galambos"
 //! example=exTreeStore.cc
 //! lib=RavlGUI

@@ -13,7 +13,7 @@
 //! date="23/03/99"
 //! rcsid="$Id$"
 //! example=exSlider.cc
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/Threads/Signal.hh"

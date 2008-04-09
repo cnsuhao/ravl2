@@ -19,7 +19,7 @@
 /*! lib=RavlGUI3D */
 /*! license=own */
 /*! userlevel=Develop */
-/*! docentry="Ravl.API.GUI.3D.Internal" */
+/*! docentry="Ravl.API.Graphics.3D.Internal" */
 
 #ifndef __GDK_GL_H__
 #define __GDK_GL_H__

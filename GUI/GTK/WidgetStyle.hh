@@ -13,7 +13,7 @@
 //! author="James Smith"
 //! date="28/10/2002"
 //! userlevel=Normal
-//! docentry="Ravl.API.GUI.Styles"
+//! docentry="Ravl.API.Graphics.GTK.Styles"
 //! example="exStyle.cc"
 
 #include "Ravl/GUI/GTKTypes.hh"

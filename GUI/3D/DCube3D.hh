@@ -7,7 +7,7 @@
 #ifndef RAVLDCUBE3D_HEADER
 #define RAVLDCUBE3D_HEADER 1
 /////////////////////////////////////////////////
-//! docentry="Ravl.API.GUI.3D"
+//! docentry="Ravl.API.Graphics.3D"
 //! rcsid="$Id$"
 //! file="Ravl/GUI/3D/DCube3D.hh"
 //! lib=RavlGUI3D

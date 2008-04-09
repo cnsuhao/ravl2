@@ -7,7 +7,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
-//! docentry="Ravl.API.GUI.Layout"
+//! docentry="Ravl.API.Graphics.GTK.Layout"
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! file="Ravl/GUI/GTK/exScrolledArea.cc"

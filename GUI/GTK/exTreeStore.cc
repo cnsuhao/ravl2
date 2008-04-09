@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/exTreeStore.cc"
 

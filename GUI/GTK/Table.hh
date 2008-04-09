@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! docentry="Ravl.API.GUI.Layout"
+//! docentry="Ravl.API.Graphics.GTK.Layout"
 //! file="Ravl/GUI/GTK/Table.hh"
 //! date="23/09/1999"
 //! example=exRuler.cc

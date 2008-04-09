@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! date="23/09/99"
 //! example=exRuler.cc
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 
 #include "Ravl/GUI/Widget.hh"
 

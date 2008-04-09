@@ -11,7 +11,7 @@
 //! file="Ravl/GUI/GTK/MenuCheck.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 //! date="26/07/1999"
 
 #include "Ravl/GUI/Menu.hh"

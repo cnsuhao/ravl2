@@ -11,7 +11,7 @@
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! date="23/03/1999"
-//! docentry="Ravl.API.GUI.Layout"
+//! docentry="Ravl.API.Graphics.GTK.Layout"
 //! rcsid="$Id$"
 //! example=exLBox.cc
 

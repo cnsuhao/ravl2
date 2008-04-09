@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id: exTreeStore.cc 5839 2006-08-23 09:40:49Z robowaz $"
 //! author="Charles Galambos"
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/exTreeStore.cc"
 

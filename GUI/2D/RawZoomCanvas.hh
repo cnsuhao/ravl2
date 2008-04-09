@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlGUI2D
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 //! example=exRawZoomCanvas.cc
 //! file="Ravl/GUI/2D/RawZoomCanvas.hh"
 

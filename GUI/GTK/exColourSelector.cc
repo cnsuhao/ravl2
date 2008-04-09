@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! docentry="Ravl.GUI.Control"
+//! docentry="Ravl.Graphics.GTK.Control"
 
 #include "Ravl/GUI/Menu.hh"
 #include "Ravl/GUI/ColourSelector.hh"

@@ -20,7 +20,7 @@
 /*! lib=RavlGUI3D */
 /*! license=own */
 /*! userlevel=Develop */
-/*! docentry="Ravl.API.GUI.3D.Internal" */
+/*! docentry="Ravl.API.Graphics.3D.Internal" */
 
 #ifndef __GTK_GL_AREA_H__
 #define __GTK_GL_AREA_H__

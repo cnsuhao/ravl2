@@ -12,7 +12,7 @@
 //! lib=RavlGUI
 //! userlevel=Develop
 //! author="Charles Galambos"
-//! docentry="Ravl.API.GUI.Internal"
+//! docentry="Ravl.API.Graphics.GTK.Internal"
 //! date="23/03/1999"
 
 #include "Ravl/config.h"

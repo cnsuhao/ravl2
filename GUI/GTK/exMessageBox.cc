@@ -9,7 +9,7 @@
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/exMessageBox.cc"
 //! author="James Smith"
-//! docentry="Ravl.API.GUI.Dialogs"
+//! docentry="Ravl.API.Graphics.GTK.Dialogs"
 //! userlevel=Normal
 
 #include "Ravl/GUI/Window.hh"

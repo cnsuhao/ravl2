@@ -11,7 +11,7 @@
 //! file="Ravl/GUI/GTK/MouseEvent.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! docentry="Ravl.API.GUI.Internal"
+//! docentry="Ravl.API.Graphics.GTK.Internal"
 //! date="08/04/1999"
 
 #include "Ravl/Types.hh"

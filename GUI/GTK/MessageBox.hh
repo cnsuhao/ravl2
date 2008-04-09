@@ -12,7 +12,7 @@
 //! author="James Smith"
 //! date="22/10/2002"
 //! rcsid="$Id$"
-//! docentry="Ravl.API.GUI.Dialogs"
+//! docentry="Ravl.API.Graphics.GTK.Dialogs"
 //! example="exMessageBox.cc"
 
 #include "Ravl/GUI/Window.hh"

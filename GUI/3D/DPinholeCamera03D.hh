@@ -7,7 +7,7 @@
 #ifndef _D_PINHOLE_CAMERA_0_
 #define _D_PINHOLE_CAMERA_0_
 ///////////////////////////////////////////////////
-//! docentry="Ravl.API.GUI.3D"
+//! docentry="Ravl.API.Graphics.3D"
 //! rcsid="$Id$"
 //! file="Ravl/GUI/3D/DPointSet3D.hh"
 //! lib=RavlGUI3D

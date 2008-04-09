@@ -8,7 +8,7 @@
 #define RAVL_GUIEVENTTIMELINE_HEADER 1
 //! author="Charles Galambos"
 //! rcsid="$Id$"
-//! docentry="Ravl.API.GUI.Util"
+//! docentry="Ravl.API.Graphics.GTK.Util"
 
 #include "Ravl/GUI/RawCanvas.hh"
 #include "Ravl/RealRange1d.hh"

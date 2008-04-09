@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLGUI_GLADEWIDGET_HEADER
 #define RAVLGUI_GLADEWIDGET_HEADER 1
-//! docentry="Ravl.API.GUI.LibGlade"
+//! docentry="Ravl.API.Graphics.GTK.LibGlade"
 //! lib=RavlLibGlade
 //! file="Ravl/GUI/LibGlade/GladeWidget.hh"
 

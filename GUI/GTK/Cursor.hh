@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/Cursor.hh"
 //! lib=RavlGUI
-//! docentry="Ravl.API.GUI.Layout"
+//! docentry="Ravl.API.Graphics.GTK.Layout"
 //! author="Charles Galambos"
 //! date="17/06/1999"
 //! example=exCursor.cc

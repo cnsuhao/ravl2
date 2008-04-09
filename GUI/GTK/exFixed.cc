@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! date="17/06/1999"
 //! example=exFixed.cc
-//! docentry="Ravl.API.GUI.Layout"
+//! docentry="Ravl.API.Graphics.GTK.Layout"
 //! userlevel=Normal
 
 #include "Ravl/GUI/Window.hh"

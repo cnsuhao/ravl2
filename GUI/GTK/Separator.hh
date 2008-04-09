@@ -11,7 +11,7 @@
 //! file="Ravl/GUI/GTK/Separator.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! docentry="Ravl.API.GUI.Layout"
+//! docentry="Ravl.API.Graphics.GTK.Layout"
 
 #include "Ravl/GUI/Widget.hh"
 

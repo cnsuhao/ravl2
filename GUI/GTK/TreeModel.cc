@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.GUI.Control"
+//! docentry="Ravl.Graphics.GTK.Control"
 //! lib=RavlGUI
 //! date="23/9/2003"
 //! file="Ravl/GUI/GTK/TreeModel.cc"

@@ -8,7 +8,7 @@
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/exCombo.cc"
 //! userlevel=Normal
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 //! author="Lee Gregory"
 //! rcsid="$Id$"
 

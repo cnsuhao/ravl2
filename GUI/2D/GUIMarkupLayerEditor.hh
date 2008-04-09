@@ -9,7 +9,7 @@
 //! file = "Magellan/Workspace/GUI/GUIWsTag.hh"
 //! author = "Warren Moore"
 //! lib=RavlGUI2D
-//! docentry="Ravl.API.GUI.Markup Canvas"
+//! docentry="Ravl.API.Graphics.GTK.Markup Canvas"
 
 #ifndef RAVLGUI_GUIMARKUPLAYEREDITOR_HEADER
 #define RAVLGUI_GUIMARKUPLAYEREDITOR_HEADER 1

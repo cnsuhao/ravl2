@@ -12,7 +12,7 @@
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! date="23/09/1999"
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 
 #include "Ravl/GUI/Widget.hh"
 

@@ -8,7 +8,7 @@
 //! lib=RavlDPDisplay3d
 //! file="Ravl/GUI/DPDisplay3d/exDPWindow3d.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.API.GUI.Data Display 3d"
+//! docentry="Ravl.API.Graphics.3D Data Display"
 //! userlevel=Normal
 
 #include "Ravl/IO.hh"

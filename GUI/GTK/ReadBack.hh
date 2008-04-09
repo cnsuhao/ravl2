@@ -12,7 +12,7 @@
 //! rcsid="$Id$"
 //! lib=RavlGUI
 //! userlevel=Advanced
-//! docentry="Ravl.API.GUI.Internal"
+//! docentry="Ravl.API.Graphics.GTK.Internal"
 //! file="Ravl/GUI/GTK/ReadBack.hh"
 
 #include "Ravl/Threads/Semaphore.hh"

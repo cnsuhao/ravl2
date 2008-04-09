@@ -11,7 +11,7 @@
 //! lib=RavlDPDisplay
 //! file="Ravl/GUI/DPDisplay/DPDisplayView.hh"
 //! author="Charles Galambos"
-//! docentry="Ravl.API.GUI.Data Display"
+//! docentry="Ravl.API.Graphics.Data Display"
 
 #include "Ravl/GUI/Table.hh"
 #include "Ravl/GUI/GUIMarkupCanvas.hh"

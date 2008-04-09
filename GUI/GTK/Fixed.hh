@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! date="17/06/99"
 //! example=exFixed.cc
-//! docentry="Ravl.API.GUI.Layout"
+//! docentry="Ravl.API.Graphics.GTK.Layout"
 
 #include "Ravl/GUI/CWidget.hh"
 #include "Ravl/Index2d.hh"

@@ -8,7 +8,7 @@
 #define RAVLGUI_TREESTORE_HEADER 1
 //! author="Charles Galambos"
 //! rcsid="$Id$"
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 //! lib=RavlGUI
 //! example=exTreeStore.cc
 //! date="23/9/2003"

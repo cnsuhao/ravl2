@@ -10,7 +10,7 @@
 //! rcsid="$Id: GUIMarkupViewer.hh 8474 2006-04-27 16:56:41 +0100 (Thu, 27 Apr 2006) warren $"
 //! lib=RavlGUI2D
 //! file="RavlSoft/GUI/GUIMarkupLayerInfo.hh"
-//! docentry="Ravl.API.GUI.Markup Canvas"
+//! docentry="Ravl.API.Graphics.GTK.Markup Canvas"
 
 #include "Ravl/String.hh"
 #include "Ravl/Image/ByteRGBValue.hh"

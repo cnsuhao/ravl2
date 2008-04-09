@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! date="23/09/1999"
 //! example=exTree.cc
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/GUI/OneChild.hh"

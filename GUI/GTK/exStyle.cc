@@ -9,7 +9,7 @@
 //! author="James Smith"
 //! date="28/10/2002"
 //! userlevel=Normal
-//! docentry="Ravl.API.GUI.Styles"
+//! docentry="Ravl.API.Graphics.GTK.Styles"
 //! file="Ravl/GUI/GTK/exStyle.cc"
 
 #include "Ravl/GUI/Manager.hh"

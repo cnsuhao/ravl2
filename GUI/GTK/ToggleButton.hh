@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_TOGGLEBUTTON_HEADER
 #define RAVLGUI_TOGGLEBUTTON_HEADER 1
 ////////////////////////////////////////////////////////
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! rcsid="$Id$"

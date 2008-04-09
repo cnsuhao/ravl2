@@ -8,7 +8,7 @@
 #define RAVL_THUMBNAILTIMELINE_HEADER 1
 //! author="Charles Galambos"
 //! rcsid="$Id$"
-//! docentry="Ravl.API.GUI.Util"
+//! docentry="Ravl.API.Graphics.GTK.Util"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/DP/SPort.hh"

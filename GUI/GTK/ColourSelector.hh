@@ -12,7 +12,7 @@
 //! date="12/07/2004"
 //! example=exColourSelector.cc
 //! rcsid="$Id$"
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 //! file="Ravl/GUI/GTK/ColourSelector.hh"
 
 #include "Ravl/config.h"

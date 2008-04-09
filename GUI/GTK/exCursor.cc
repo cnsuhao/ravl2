@@ -9,7 +9,7 @@
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/exCursor.cc"
 //! userlevel=Normal
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Manager.hh"

@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlLibGlade
 //! file="Ravl/GUI/LibGlade/exLibGlade.cc"
+//! docentry="Ravl.API.Graphics.GTK.LibGlade"
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Button.hh"

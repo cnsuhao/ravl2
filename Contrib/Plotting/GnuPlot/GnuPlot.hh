@@ -4,7 +4,7 @@
 //! author="Kieron Messer, Bill Christmas"
 //! date=""
 //! userlevel=Normal
-//! docentry="Ravl.API.GUI.Plotting"
+//! docentry="Ravl.API.Graphics.Graph Plotting"
 //! file=""
 //! rcsid="$id$"
 

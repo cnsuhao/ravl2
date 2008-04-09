@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI3D
-//! docentry="Ravl.API.GUI.3D"
+//! docentry="Ravl.API.Graphics.3D"
 //! author="James Smith"
 //! userlevel=Normal
 

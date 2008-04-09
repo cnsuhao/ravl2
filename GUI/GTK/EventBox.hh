@@ -11,7 +11,7 @@
 //! file="Ravl/GUI/GTK/EventBox.hh"
 //! lib=RavlGUI
 //! userlevel=Normal
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 //! author="Charles Galambos"
 //! date="17/06/1999"
 

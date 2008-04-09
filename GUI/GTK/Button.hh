@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! example=exButton.cc
 //! date="23/03/1999"
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/GUI/GTKTypes.hh"

@@ -13,7 +13,7 @@
 //! rcsid="$Id$"
 //! date="02/07/1999"
 //! example=exList.cc
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 
 #include "Ravl/GUI/GTKTypes.hh"
 #include "Ravl/GUI/CWidget.hh"

@@ -8,7 +8,7 @@
 //! rcsid="$Id: exLabel.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/exLabel.cc"
-//! docentry="Ravl.API.GUI.Layout"
+//! docentry="Ravl.API.Graphics.GTK.Layout"
 //! userlevel=Normal
 
 #include "Ravl/GUI/Window.hh"

@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlGUI3D
-//! docentry="Ravl.API.GUI.3D"
+//! docentry="Ravl.API.Graphics.3D"
 
 #ifndef _RAVL_DSURFACE_POINT_VERTEX_BYTE_RGB_ARRAY_HH_
 #define _RAVL_DSURFACE_POINT_VERTEX_BYTE_RGB_ARRAY_HH_ 1

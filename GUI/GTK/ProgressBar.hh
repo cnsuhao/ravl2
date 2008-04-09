@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 //! file="Ravl/GUI/GTK/ProgressBar.hh"
 
 #include "Ravl/GUI/Widget.hh"

@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_DUTIL3D_HEADER
 #define RAVLGUI_DUTIL3D_HEADER 1
 /////////////////////////////////////////////////
-//! docentry="Ravl.API.GUI.3D"
+//! docentry="Ravl.API.Graphics.3D"
 //! rcsid="$Id$"
 //! file="Ravl/GUI/3D/Util.hh"
 //! lib=RavlGUI3D

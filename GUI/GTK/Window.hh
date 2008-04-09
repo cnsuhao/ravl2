@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! date="23/03/1999"
 //! rcsid="$Id$"
-//! docentry="Ravl.API.GUI.Layout"
+//! docentry="Ravl.API.Graphics.GTK.Layout"
 
 #include "Ravl/GUI/OneChild.hh"
 #include "Ravl/GUI/Cursor.hh"

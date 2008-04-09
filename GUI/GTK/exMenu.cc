@@ -8,7 +8,7 @@
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/exMenu.cc"
 //! userlevel=Normal
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 //! author="Charles Galambos"
 
 #include "Ravl/GUI/Window.hh"

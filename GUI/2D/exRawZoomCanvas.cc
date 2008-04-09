@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlGUI2D
 //! author="Charles Galambos"
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 //! file="Ravl/GUI/2D/exRawZoomCanvas.cc"
 
 #include "Ravl/GUI/RawZoomCanvas.hh"

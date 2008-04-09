@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_TREEVIEW_HEADER
 #define RAVLGUI_TREEVIEW_HEADER 1
 //! rcsid="$Id$"
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 //! author="Charles Galambos"
 //! example=exTreeStore.cc
 //! lib=RavlGUI

@@ -8,7 +8,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/rdialog.cc"
 //! author="James Smith"
-//! docentry="Ravl.API.GUI.Dialogs"
+//! docentry="Ravl.API.Graphics.GTK.Dialogs"
 //! userlevel=Normal
 //! lib=RavlGUI
 

@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id: fixSource.cfg 5642 2006-06-23 10:51:11Z craftit $"
 //! lib=RavlGUI2D
-//! docentry="Ravl.API.GUI.Markup Canvas"
+//! docentry="Ravl.API.Graphics.GTK.Markup Canvas"
 
 #include "Ravl/GUI/GUIMarkupCanvas.hh"
 #include "Ravl/GUI/MarkupImageRGB.hh"

@@ -10,7 +10,7 @@
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! date="23/03/1999"
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/TextBox.hh"
 

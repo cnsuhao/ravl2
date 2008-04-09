@@ -11,7 +11,7 @@
 //! lib=RavlDPDisplay
 //! file="Ravl/GUI/DPDisplay3d/DPWindow3dOPort.hh"
 //! author="Charles Galambos"
-//! docentry="Ravl.API.GUI.Data Display 3d"
+//! docentry="Ravl.API.Graphics.3D Data Display"
 
 #include "Ravl/GUI/DPWindow3d.hh"
 

@@ -8,7 +8,7 @@
 #define RAVLGUI_MARKUPINFO_HEADER 1
 //! rcsid="$Id: fixSource.cfg 5642 2006-06-23 10:51:11Z craftit $"
 //! lib=RavlGUI2D
-//! docentry="Ravl.API.GUI.Markup Canvas"
+//! docentry="Ravl.API.Graphics.GTK.Markup Canvas"
 
 #include "Ravl/RCHandleV.hh"
 #include "Ravl/Point2d.hh"

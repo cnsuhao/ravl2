@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! date="15/06/2002"
 //! userlevel=Normal
-//! docentry="Ravl.API.GUI.Control"
+//! docentry="Ravl.API.Graphics.GTK.Control"
 //! rcsid="$Id$"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/DragAndDrop.hh"

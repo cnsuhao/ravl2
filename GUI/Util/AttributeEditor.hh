@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlGUIUtil
 //! file="Ravl/GUI/Util/AttributeEditor.hh"
-//! docentry="Ravl.API.GUI.Util"
+//! docentry="Ravl.API.Graphics.GTK.Util"
 //! author="Charles Galambos"
 //! example=exAttributeEditor.cc
 

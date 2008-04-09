@@ -9,7 +9,7 @@
 //! rcsid="$Id: GUIMarkupCanvas.hh 3530 2004-07-01 13:40:39Z charles $"
 //! lib=RavlGUI2D
 //! file="Magellan/GUI/GUIMarkupCanvas.hh"
-//! docentry="Ravl.API.GUI.Markup Canvas"
+//! docentry="Ravl.API.Graphics.GTK.Markup Canvas"
 //! example="exGUIMarkupCanvas.cc"
 
 #include "Ravl/GUI/RawZoomCanvas.hh"

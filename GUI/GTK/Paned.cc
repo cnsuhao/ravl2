@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////
-//! docentry="GUI.Widget"
+//! docentry="Graphics.GTK.Widget"
 //! rcsid="$Id$"
 //! lib=RavlGUI
 //! author="Charles Galambos"

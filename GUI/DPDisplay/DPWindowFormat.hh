@@ -11,7 +11,7 @@
 //! lib=RavlDPDisplay
 //! file="Ravl/GUI/DPDisplay/DPWindowFormat.hh"
 //! author="Charles Galambos"
-//! docentry="Ravl.API.GUI.Data Display"
+//! docentry="Ravl.API.Graphics.Data Display"
 
 #include "Ravl/DP/FileFormat.hh"
 #include "Ravl/GUI/DPDisplayObj.hh"
