@@ -16,6 +16,7 @@
 //! file="Ravl/OS/Misc/SerialIO.hh"
 
 #include "Ravl/Stream.hh"
+#include "Ravl/OS/UnixStreamIO.hh"
 
 struct termios ;
 
@@ -25,18 +26,22 @@ namespace RavlN {
   //: Class to control unix serial ports.
 
   class SerialCtrlC
+    : public UnixStreamIOC
   {
   public:
     enum ParityT { PARITY_ODD,PARITY_EVEN,PARITY_SET,PARITY_NONE };
 
     SerialCtrlC();
     //: defualt constructor;
-
-    SerialCtrlC(const char *dev, const char * perm);
+    
+    SerialCtrlC(const char *dev, const char * perm = "RDRW",bool nonBlocking = true);
     //: open a device for initialize;
-
+    
+    bool Open(const char *dev, const char * perm = "RDRW",bool nonBlocking = true);
+    //: Open device.
+    
     bool Setup(IntT i_speed = 9600,
-                IntT o_speed = 9600,
+               IntT o_speed = 9600,
                IntT stop_bit = 1,
                ParityT par = PARITY_NONE,
                IntT char_size = 8);
@@ -58,10 +63,11 @@ namespace RavlN {
 
     bool SetParity(ParityT par);
     //: parity type: Odd or Even or None or 1
-
-    IntT Getfd();
+    
+    IntT Getfd() const
+    { return m_fd; }
     //: Get the file discriptor of the port;
-
+    
   protected:
     bool SerialInit(IntT fd,
                     IntT i_speed = 9600,
@@ -92,7 +98,6 @@ namespace RavlN {
     bool SetParity(termios &pb,ParityT par);
     //: parity type: Odd or Even or None or 1
 
-    IntT fid;
   };
 
   //////////////////////////////////////////////////////////////////////////////////////////
@@ -158,7 +163,7 @@ namespace RavlN {
     //: Test if stream is bad.
 
     bool IsOpen() const
-    { return fid >= 0 && IStreamC::IsOpen(); }
+    { return m_fd >= 0 && IStreamC::IsOpen(); }
     //: Is stream open ?
 
     bool Close();

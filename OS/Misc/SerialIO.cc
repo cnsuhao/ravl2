@@ -83,37 +83,13 @@ namespace RavlN {
   }
 
   SerialCtrlC::SerialCtrlC()
-    : fid(-1)
   {}
 
 
-  SerialCtrlC::SerialCtrlC(const char *dev, const char * perm) {
-#if RAVL_HAVE_TERMIOS
-#ifndef O_NDELAY
-    int openFlags = O_NONBLOCK | O_NOCTTY;
-#else
-    int openFlags = O_NONBLOCK | O_NDELAY | O_NOCTTY;
-#endif
-    if(strcmp(perm, "RDONLY")==0)
-      openFlags |= O_RDONLY;
-    else if ( strcmp(perm, "WRONLY")==0)
-      openFlags |=  O_WRONLY;
-    else if(strcmp(perm,"RDWR")==0)
-      openFlags |=  O_RDWR;
-    else {
-      cerr<<"SerialCtrlC::SerialCtrlC(), ERROR: Unknown permission '" << perm << "' should be one of 'RDONLY', 'WRONLY' or 'RDWR'. "<<endl;
-      openFlags |=  O_RDWR;
-    }
-    fid = open(dev,openFlags);
-
-    if (fid<0) {
-      cout << "ERROR: Failed to open serial port '" << dev << "' "<<endl;
-    }
-#else
-    cerr << "WARNING: Control of serial ports is not currently supported on this platform. ";
-#endif
+  SerialCtrlC::SerialCtrlC(const char *dev, const char * perm,bool nonBlocking) {
+    Open(dev,perm,nonBlocking);
   }
-
+  
   //: Set input bit rate.
 
   inline
@@ -125,6 +101,40 @@ namespace RavlN {
 #endif
 }
 
+  //: Open device.
+
+  bool SerialCtrlC::Open(const char *dev, const char * perm,bool nonBlocking) {
+#if RAVL_HAVE_TERMIOS
+    int openFlags = O_NOCTTY;
+    if(nonBlocking) {
+      openFlags = openFlags | O_NONBLOCK;
+#ifndef O_NDELAY
+      openFlags = openFlags | O_NDELAY;
+#endif
+    }
+    if(strcmp(perm, "RDONLY")==0)
+      openFlags |= O_RDONLY;
+    else if ( strcmp(perm, "WRONLY")==0)
+      openFlags |=  O_WRONLY;
+    else if(strcmp(perm,"RDWR")==0)
+      openFlags |=  O_RDWR;
+    else {
+      cerr<<"SerialCtrlC::SerialCtrlC(), ERROR: Unknown permission '" << perm << "' should be one of 'RDONLY', 'WRONLY' or 'RDWR'. "<<endl;
+      openFlags |=  O_RDWR;
+    }
+    m_fd = open(dev,openFlags);
+    
+    if (m_fd<0) {
+      cout << "ERROR: Failed to open serial port '" << dev << "' "<<endl;
+      return false;
+    }
+#else
+    cerr << "WARNING: Control of serial ports is not currently supported on this platform. ";
+#endif
+    return true;
+  }
+  
+  
   //: Set ouput bit rate.
 
   inline
@@ -217,12 +227,12 @@ namespace RavlN {
     IntT char_size)
   {
 #if RAVL_HAVE_TERMIOS
-    if (fid < 0) {
+    if (m_fd < 0) {
       cerr << "SerialCtrlC::Setup(), No file descriptor for port, can't configure. \n";
       return false;
     }
     termios termios_p;
-    if (tcgetattr(fid,&termios_p) < 0) {
+    if (tcgetattr(m_fd,&termios_p) < 0) {
       cerr << "SerialCtrlC::Setup(), Failed to read port parameters. \n";
       return false;
     }
@@ -243,13 +253,13 @@ namespace RavlN {
     ok &= SetParity(termios_p,par);
     // Bit of a cheat, should give better diagnositics.
     if(!ok) {
-      cerr << "SerialCtrlC::Init(), Invalid paramiter. \n";
+      cerr << "SerialCtrlC::Init(), Invalid parameter. \n";
       return false;
     }
+    
+    //tcflush(m_fd, TCSAFLUSH);
 
-    //tcflush(fid, TCSAFLUSH);
-
-    if (tcsetattr(fid, TCSANOW, &termios_p ) < 0)  {
+    if (tcsetattr(m_fd, TCSANOW, &termios_p ) < 0)  {
       cerr << "SerialCtrlC::Init(), Failed to configure serial port \n";
       return false;
     }
@@ -258,22 +268,22 @@ namespace RavlN {
     return false;
 #endif
   }
-
+  
   bool SerialCtrlC::SerialInit(IntT fd,IntT i_speed,IntT o_speed,IntT stop_bits,ParityT par,IntT char_size) {
-    fid = fd;
+    m_fd = fd;
     return Setup(i_speed,o_speed,stop_bits,par,char_size);
   }
 
   bool SerialCtrlC::SetISpeed(const IntT i_speed) {
 #if RAVL_HAVE_TERMIOS
     termios pb;
-    if (tcgetattr(fid,&pb) < 0) {
+    if (tcgetattr(m_fd,&pb) < 0) {
       cerr << "SerialCtrlC::SetISpeed(), Failed to read port parameters. \n";
       return false;
     }
     if(!SetISpeed(pb,i_speed))
       return false;
-    return tcsetattr( fid, TCSANOW, &pb ) >= 0;
+    return tcsetattr( m_fd, TCSANOW, &pb ) >= 0;
 #else
     return false;
 #endif
@@ -282,13 +292,13 @@ namespace RavlN {
   bool SerialCtrlC::SetOSpeed(const IntT o_speed) {
 #if RAVL_HAVE_TERMIOS
     termios pb;
-    if (tcgetattr(fid,&pb) < 0) {
+    if (tcgetattr(m_fd,&pb) < 0) {
       cerr << "SerialCtrlC::SetOSpeed(), Failed to read port parameters. \n";
       return false;
     }
     if(!SetOSpeed(pb,o_speed))
       return false;
-    return tcsetattr( fid, TCSANOW, &pb ) >= 0;
+    return tcsetattr( m_fd, TCSANOW, &pb ) >= 0;
 #else
     return false;
 #endif
@@ -298,13 +308,13 @@ namespace RavlN {
   bool SerialCtrlC::SetStopBits(const IntT stop_bit) {
 #if RAVL_HAVE_TERMIOS
     termios pb;
-    if (tcgetattr(fid,&pb) < 0) {
+    if (tcgetattr(m_fd,&pb) < 0) {
       cerr << "SerialCtrlC::SetStopBits(), Failed to read port paramiters. \n";
       return false;
     }
     if(!SetStopBits(pb,stop_bit))
       return false;
-    return tcsetattr( fid, TCSANOW, &pb ) >= 0;
+    return tcsetattr( m_fd, TCSANOW, &pb ) >= 0;
 #else
     return false;
 #endif
@@ -314,13 +324,13 @@ namespace RavlN {
   bool SerialCtrlC::SetCharSize(const IntT char_size) {
 #if RAVL_HAVE_TERMIOS
     termios pb;
-    if (tcgetattr(fid,&pb) < 0) {
+    if (tcgetattr(m_fd,&pb) < 0) {
       cerr << "SerialCtrlC::SetCharSize(), Failed to read port paramiters. \n";
       return false;
     }
     if(!SetCharSize(pb,char_size))
       return false;
-    return tcsetattr( fid, TCSANOW, &pb ) >= 0;
+    return tcsetattr( m_fd, TCSANOW, &pb ) >= 0;
 #else
     return false;
 #endif
@@ -330,21 +340,18 @@ namespace RavlN {
   bool SerialCtrlC::SetParity(ParityT parity_type){
 #if RAVL_HAVE_TERMIOS
     termios pb;
-    if (tcgetattr(fid,&pb) < 0) {
+    if (tcgetattr(m_fd,&pb) < 0) {
       cerr << "SerialCtrlC::SetParity(), Failed to read port paramiters. \n";
       return false;
     }
     if(!SetParity(pb,parity_type))
       return false;
-    return tcsetattr( fid, TCSANOW, &pb ) >= 0;
+    return tcsetattr( m_fd, TCSANOW, &pb ) >= 0;
 #else
     return false;
 #endif
   }
-
-  IntT SerialCtrlC::Getfd()
-  { return fid; }
-
+  
   //////// OSerialC ///////////////////////////////////////////////////////////////
 
   //: Open a output serial stream.
@@ -354,11 +361,11 @@ namespace RavlN {
     IntT fd = open(dev,O_WRONLY);
     if (fd >= 0 && SerialInit(fd))
     {
-      ((OStreamC &)(*this)) = OStreamC(fid,true,buffered);
+      ((OStreamC &)(*this)) = OStreamC(m_fd,true,buffered);
     }
 #endif
   }
-
+  
   //////// ISerialC ///////////////////////////////////////////////////////////////
 
 
@@ -369,7 +376,7 @@ namespace RavlN {
     IntT fd = open(dev,O_RDONLY);
     if (fd >= 0 && SerialInit(fd))
     {
-      ((IStreamC &)(*this)) = IStreamC(fid,true,buffered);
+      ((IStreamC &)(*this)) = IStreamC(m_fd,true,buffered);
     }
 #endif
   }
@@ -383,8 +390,8 @@ namespace RavlN {
     IntT fd = open(dev,O_RDWR);
     if (fd >= 0 && SerialInit(fd))
     {
-      ((IStreamC &)(*this)) = IStreamC(fid,true,buffered);
-      ((OStreamC &)(*this)) = OStreamC(fid,true,buffered);
+      ((IStreamC &)(*this)) = IStreamC(m_fd,true,buffered);
+      ((OStreamC &)(*this)) = OStreamC(m_fd,true,buffered);
     }
 #endif
   }
@@ -392,12 +399,12 @@ namespace RavlN {
   bool IOSerialC::Close()
   {
 #if RAVL_HAVE_TERMIOS
-    if (fid >= 0)
+    if (m_fd >= 0)
     {
       ((IStreamC &)(*this)) = IStreamC();
       ((OStreamC &)(*this)) = OStreamC();
-      close(fid);
-      fid = -1;
+      close(m_fd);
+      m_fd = -1;
     }
 #endif
     return true;

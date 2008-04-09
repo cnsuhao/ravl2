@@ -7,7 +7,6 @@
 #ifndef RAVL_SOCKET_HEADER
 #define RAVL_SOCKET_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
 //! file="Ravl/OS/Network/Socket.hh"
 //! lib=RavlNet
 //! author="Charles Galambos"
@@ -23,6 +22,7 @@
 #include "Ravl/RefCounter.hh"
 #include "Ravl/RCHandleV.hh"
 #include "Ravl/OS/SktError.hh"
+#include "Ravl/OS/UnixStreamIO.hh"
 
 // Some forward declarations to avoid including extra header
 // files.
@@ -39,81 +39,47 @@ namespace RavlN {
   // For dealing with low level stream sockets.
   
   class SocketBodyC 
-    : public RCBodyVC
+    : public RCBodyVC,
+      public UnixStreamIOC
   {
   public:
-	  
+    
     SocketBodyC(StringC name,bool server = false);
     //: Open socket.
     // The 'name' has the format  'host:port' where port may be a
     // host name or its ip (dotted numbers) address and port is the 
     // number of the port to use.
     
-	
     SocketBodyC(StringC name,UIntT portno,bool server = false);
     //: Open socket.
     
-	
     SocketBodyC(struct sockaddr *addr,int nfd,bool server = false);
     //: Open socket.
     
-	
     ~SocketBodyC();
     //: Open socket.
     
-	
-    void SetWriteTimeout(IntT value)
-    { writeTimeout = value; }
-    //: Set the amount of time you should attempt to write to socket.
-    // This limits the time spent attempting to write to a socket
-    // without sending a single byte. The default is 120 seconds.
-    
-    int Fd() const
-    { return fd; }
-    //: Access file descriptor.
-    
-	
-    bool IsOpen() const
-    { return fd >= 0; }
-    //: Test if socket is open.
-    
-	
     SocketC Listen(bool block = true,int backLog = 1);
     //: Listen for a connection from a client.
     // Can only be used on server sockets.
     // If block is true, the call will not return until there
     // is a valid client.
     
-	
     void Close();
     //: Close the socket.
     
-	
-    void SetDontClose(bool ndontClose)
-    { dontClose = ndontClose; }
-    //: Setup don't close flag.
-    
-	
     StringC ConnectedHost();
     //: Get the name of the host at the other end of the connection.
-    
 	
     IntT ConnectedPort();
     //: Get the port number at the other end of the connection.
     
-	
     void SetNoDelay();
     //: Send data as soon as possible. 
     // Don't gather data into larger packets. 
     // This should make transactions faster at the expense of sending more 
     // packets over the network.
     
-	
-    bool SetNonBlocking(bool block);
-    //: Enable non-blocking use of read and write.
-    // true= read and write's won't do blocking waits.
-    
-	
     bool Cork(bool enable);
     //: Cork stream.  
     // True indicates that there are going to
@@ -124,20 +90,6 @@ namespace RavlN {
     // False indicates that all the pending data have been written
     // This sends any partial packets still pending. <br>
     // Returns true if Corking is supported by stream.
-    
-	
-    IntT Read(char *buff,UIntT size);
-    //: Read some bytes from a stream.
-    
-    IntT ReadV(char **buffer,IntT *len,int n);
-    //: Read some bytes from a stream.
-    
-    IntT Write(const char *buff,UIntT size);
-    //: Write some bytes to a stream.
-    
-    IntT WriteV(const char **buffer,IntT *len,int n);
-    //: Write multiple buffers
-    
     
   protected:
     bool GetHostByName(const char *name,struct sockaddr_in &sin);
@@ -158,22 +110,8 @@ namespace RavlN {
     //: Open a server socket.
     // Its then ready for listening.
     
-    bool WaitForRead();
-    //: Wait for read to be ready.
-    // Returns false on error.
-    
-    bool WaitForWrite();
-    //: Wait for write to be ready.
-    // Returns false on error.
-    
-    bool CheckErrors(const char *opName);
-    //: Check for recoverable errors.
-    
-    int fd;
     bool server;
     struct sockaddr *addr; // Allocated as a char array.
-    bool dontClose;
-    IntT writeTimeout;     // Write timeout in seconds. -1 = None.
   };
   
   

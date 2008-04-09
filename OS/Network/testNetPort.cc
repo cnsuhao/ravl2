@@ -24,7 +24,7 @@
 
 using namespace RavlN;
 
-int testNetIPort(char *name);
+int testNetIPort(const char *name);
 int testNetOPort();
 
 StringC g_server;
@@ -73,7 +73,7 @@ int main(int nargs,char **argv)
   return 0;
 }
 
-int testNetIPort(char *name) 
+int testNetIPort(const char *name) 
 {
   cerr << "testNetPort(), Test started. \n";
 
