@@ -15,7 +15,8 @@
 compile.
 
 
-1) I'd recommend <a href="http://tortoisesvn.tigris.org">tortoisesvn</a> for dealing with subversion repositories on Windows
+<ol>
+<li> I'd recommend <a href="http://tortoisesvn.tigris.org">tortoisesvn</a> for dealing with subversion repositories on Windows
 -- it's very nice!
 
 Then you'll need to check out the following repository to a directory on your
@@ -24,7 +25,7 @@ hard drive.  I use C:\src\Ravl
   https://ravl.svn.sourceforge.net/svnroot/ravl/main/Ravl
 
 
-2) To compile RAVL you need a few libraries: luckily they've been put
+<li> To compile RAVL you need a few libraries: luckily they've been put
 together into one package 'Glade for Windows'
 
 Can be found at: http://gladewin32.sourceforge.net/
@@ -35,13 +36,16 @@ Install it to: C:\GTKWIN32 (this isn't the default install location, but it's
 where the project files are configured to look)
 
 
-3) You should be able to open Visual Studio, then open the solution file in
+<li> You should be able to open Visual Studio, then open the solution file in
 C:\src\Ravl\MSVC\Ravl.sln
 
 Then select 'Build Solution' in the usual way.  
 
-
 The libraries are built to: C:\Build
+
+<li> If you are using CygWin, the installation should follow the
+ <a href="Ravl.Installation.html">Unix-based instructions</a>. 
+</ol>
 
 You can build executables by including the appropriate project files from
 C:\src\Ravl\MSVC\Mains, C:\src\Ravl\MSVC\Examples, or C:\src\Ravl\MSVC\Tests.
@@ -60,7 +64,7 @@ in that order.
     <address><a href="mailto:galambos@omniperception.com">Charles Galambos</a></address>
 <!-- Created: Tue Nov 21 16:40:37 GMT 2006 -->
 <!-- hhmts start -->
-Last modified: Thu Jul 12 12:24:20 BST 2007
+Last modified: Wed Apr  9 17:44:05 BST 2008
 <!-- hhmts end -->
   </body>
 </html>
