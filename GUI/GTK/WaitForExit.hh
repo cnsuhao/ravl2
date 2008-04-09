@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLGUI_WAITFOREXIT_HEADER
 #define RAVLGUI_WAITFOREXIT_HEADER 1
-//! docentry="Ravl.API.Graphics.GTK.Data Display"
+//! docentry="Ravl.API.Graphics.GTK.Util"
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlGUI
@@ -16,11 +16,13 @@
 
 namespace RavlGUIN {
   void DisableWaitForGUIExit();
+  //! userlevel=Normal
   //: Disable waiting for GUI to finish on program exit.
   // Call this method to allow program to exit immediatly even if
   // there are DPWindowC's open.
   
   void WaitForGUIExit();
+  //! userlevel=Develop
   //: Force program wait GUI to have quit before allowing program to exit.
   // This function will also start the GUI manager if it hasn't be started
   // already.
