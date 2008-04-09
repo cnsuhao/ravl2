@@ -19,7 +19,7 @@ FULLBUILD_TARGETS += opt
 #FULLBUILD_TARGETS += checkshared
 #FULLBUILD_TARGETS += debugshared
 #FULLBUILD_TARGETS += optshared
-#FULLBUILD_TARGET += checkbin
+#FULLBUILD_TARGETS += checkbin
 FULLBUILD_TARGETS += optbin
 FULLBUILD_TARGETS += doc
 

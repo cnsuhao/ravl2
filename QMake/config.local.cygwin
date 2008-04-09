@@ -13,15 +13,15 @@
 # The ravl binaries are built if 'checkbin' or 'optbin' are set. This also builds the respective libraries.
 # The 'doc' flag controls building of documentation. 
  
-FULLBUILD_TARGETS += check
-FULLBUILD_TARGETS += debug 
-FULLBUILD_TARGETS += opt
+#FULLBUILD_TARGETS += check
+#FULLBUILD_TARGETS += debug 
+#FULLBUILD_TARGETS += opt
 #FULLBUILD_TARGETS += checkshared
-#FULLBUILD_TARGETS += debugshared
-#FULLBUILD_TARGETS += optshared
+FULLBUILD_TARGETS += debugshared
+FULLBUILD_TARGETS += optshared
 #FULLBUILD_TARGETS += checkbin
 FULLBUILD_TARGETS += optbin
-FULLBUILD_TARGETS += doc
+#FULLBUILD_TARGETS += doc
 
 # Install symbolic links to headers (requires 'ln' and 'readlink')
 #USE_INCLUDE_SYMLINK = 1
@@ -51,7 +51,7 @@ RAVL_CXX = g++
 
 #### GTK 2.x ################
 
-RESOURCES += libGTK libGTK2
+RESOURCES += libGTK2
 RESOURCES += libglade2
 
 #### FFTW ################
@@ -72,12 +72,12 @@ RESOURCES += libglade2
 
 #### LIBTIFF ################
 
-RESOURCES += LibTIFF
+#RESOURCES += LibTIFF
 #LIBTIFF_HOME =
 
 #### libAudioFile ################
 
-RESOURCES += libAudioFile
+#RESOURCES += libAudioFile
 
 #### libDV ################
 
@@ -95,7 +95,7 @@ RESOURCES += libAudioFile
 
 #### libcurl ################
 
-RESOURCES += libCurl
+#RESOURCES += libCurl
 
 #### libClipStationPro ################
 
@@ -111,15 +111,15 @@ RESOURCES += libCurl
 
 #### GnuPlot ################
 
-RESOURCES += GnuPlot
+#RESOURCES += GnuPlot
 
 #### devVideo4Linux ################
 
-RESOURCES += devVideo4Linux
+#RESOURCES += devVideo4Linux
 
 #### devVideo4Linux2 ################
 
-RESOURCES += devVideo4Linux2
+#RESOURCES += devVideo4Linux2
 
 #### libmpeg2 ################
 
@@ -156,7 +156,7 @@ RESOURCES += devVideo4Linux2
 
 #### LibGnome2 ################
 
-RESOURCES += LibGnome
+#RESOURCES += LibGnome
 
 #### CPPUnit ################
 
