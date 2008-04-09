@@ -11,6 +11,7 @@
 #include "Ravl/DP/Port.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Threads/Mutex.hh"
 
 namespace RavlImageN {
   
@@ -72,6 +73,7 @@ namespace RavlImageN {
   protected:
     bool AllocateImages();
     //: Allocate image buffers.
+    // Should be called with camera lock aquired
     
     SizeT ImageBufferSize() const
     { return m_sensorInfo.nMaxWidth * m_sensorInfo.nMaxHeight * (m_bitsPerPixel / 8); }
@@ -79,10 +81,15 @@ namespace RavlImageN {
     
     void ResetImageSize();
     //: Reset image size
+    // Should be called with camera lock aquired
+    
+    void UpdateBuffers();
+    //: Update buffer state.
+    // Should be called with camera lock aquired
     
     enum uEyeTrigT { TRIG_OFF,TRIG_HILO,TRIG_LOHI,TRIG_SOFT } m_triggerMode;
     
-    enum uEyeStateT { UE_NotReady, UE_Ready, UE_Running } m_state;
+    enum uEyeStateT { UE_NotReady, UE_Ready, UE_Running, UE_TriggerWait } m_state;
     
     bool m_snapshot; // Are we in snapshot mode.
 
@@ -96,6 +103,8 @@ namespace RavlImageN {
     static const int m_NumBuffers = 4;
     char *m_buffers[m_NumBuffers];
     int m_imgId[m_NumBuffers];
+    
+    RavlN::MutexC m_accessMutex;
   };
   
 
