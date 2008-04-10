@@ -39,21 +39,21 @@ int main(int argc, char **argv)
     // Initialise the python module
     PythonC python(true);
 
-    cerr << "Initialising interpreter" << endl;
+    cerr << "#### Initialising interpreter" << endl;
     if (!python.Initialised())
     {
       displayError("Failed to initialise interpreter");
       return -1;
     }
 
-    cerr << "Appending '.' to system path" << endl;
+    cerr << "#### Appending '.' to system path" << endl;
     if (!python.AppendSystemPath("."))
     {
       displayError("Failed to append system path");
       return -1;
     }
   
-  	cerr << "Importing 'ravlexample'" <<endl;
+  	cerr << "#### Importing 'ravlexample'" <<endl;
   	if (!python.Import("ravlexample"))
     {
       displayError("Failed to import 'ravlexample'");
@@ -70,13 +70,13 @@ int main(int argc, char **argv)
 	  args.BuildTuple(argList);
   
 	  // Call the example function and display the results
-	  cerr << "Calling 'ravlexample.myprint(" << name.String() << ")'" << endl;
+	  cerr << "#### Calling 'ravlexample.myprint(" << name.String() << ")'" << endl;
 	  PythonObjectC res = python.Call("ravlexample", "myprint", args);
 	  if (res.IsValid())
 	  {
 	    if (res.IsString())
       {
-	      cerr << "Result(string): " << res.String() << endl;
+	      cerr << "## Result(string): " << res.String() << endl;
       }
       else
       {
@@ -92,21 +92,21 @@ int main(int argc, char **argv)
      
 	  // Run a script from a string
 	  const char* script = "print 'hello again'\nx = 5";
-	  cerr << "Calling script from string" << endl;
+	  cerr << "#### Calling script from string" << endl;
     if (python.Run(script))
     {
       // Read the globals from the script
       PythonObjectC x = python.GetGlobal("x");
-      cerr << "Found 'x': " << (x.IsValid() ? "YES" : "NO") << endl;
+      cerr << "## Looking for global 'x': " << (x.IsValid() ? "Found" : "Not found") << endl;
       if (x.IsValid())
       {  
         if (x.IsInt())
         {
-          cerr << "'x'= " << x.Int() << endl;
+          cerr << "## 'x'= " << x.Int() << endl;
         }
         else
         {
-          cerr << "'x' is not an int" << endl;
+          cerr << "## 'x' is not an int" << endl;
         }
       }
     }

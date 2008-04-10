@@ -352,7 +352,7 @@ namespace RavlN
     return PythonObjectC(PythonC(*this));
   }
   
-  bool PythonBodyC::Run(const StringC &script)
+  bool PythonBodyC::Run(const StringC &script, const StringC &traceName)
   {
     ONDEBUG(cerr << "PythonBodyC::Run(" << this << ")" << endl);
     RavlAssert(m_threadState);
@@ -362,13 +362,33 @@ namespace RavlN
       MutexLockC lock(m_lock);
       PythonLockC pythonLock(m_threadState);
       
-      // Returns 0 on success, -1 on error
-      // Python exceptions are not accessible
-      bool ret = (PyRun_SimpleString(script) == 0);
+      PyObject *resultObj = NULL;
+      
+      // Can we compile the code?
+      PyObject *compiledCodeObj = Py_CompileString(script, traceName.chars(), Py_file_input);
+      if (compiledCodeObj)
+      {
+        // Get the scope
+        PyObject *mainDict = GetModuleDictionary("__main__");
+        
+        if (mainDict)
+        {
+          // Have we got valid code?
+          if (PyCode_Check(compiledCodeObj))
+          {
+            resultObj = PyEval_EvalCode(reinterpret_cast<PyCodeObject*>(compiledCodeObj), mainDict, mainDict);
+            Py_XDECREF(resultObj);
+          }
+          
+          Py_DECREF(mainDict);
+        }
+        
+        Py_DECREF(compiledCodeObj);
+      }
       
       CheckPythonException();
 
-      return ret;
+      return resultObj != NULL;
     }
     
     return false;
@@ -384,18 +404,21 @@ namespace RavlN
       MutexLockC lock(m_lock);
       PythonLockC pythonLock(m_threadState);
       
-      PyObject *object = NULL;
+      PyObject *resultObj = NULL;
+      
       PyObject *mainDict = GetModuleDictionary("__main__");
       if (mainDict)
       {
         // Return NULL on failure
-        object = PyDict_GetItemString(mainDict, name);
+        resultObj = PyDict_GetItemString(mainDict, name);
         ONDEBUG(if (object == NULL) cerr << "  PythonBodyC::GetGlobal(" << this << ") failed to find '" << name << "' in globals" << endl);
+
+        Py_DECREF(mainDict);
       }
       
       CheckPythonException();
       
-      return PythonObjectC(PythonC(*this), object);
+      return PythonObjectC(PythonC(*this), resultObj);
     }
     
     return PythonObjectC(PythonC(*this));

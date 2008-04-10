@@ -79,9 +79,12 @@ namespace RavlN
     //!return: Invalid object on failure
     //!throw: PythonExceptionC - If a Python exception is set
     
-    bool Run(const StringC &script);
+    bool Run(const StringC &script, const StringC &traceName);
     //: Load a Python script into the main environment and execute immediately.
+    //!param: script - Script to execute
+    //!param: traceName - Name to be used in the Python exception traceback if the script fails
     //!return: False on failure
+    //!throw: PythonExceptionC - If a Python exception is set
     
     PythonObjectC GetGlobal(const StringC &name);
     //: Get a result object called 'name' from the globals.
@@ -99,7 +102,7 @@ namespace RavlN
     
     PyObject *GetModuleDictionary(const StringC &name);
     //: Get a dictionary from the named module.
-    //!return: NULL on failure
+    //!return: A new reference to the dictionary or NULL on failure
     
   private:
     static MutexC m_initLock;
@@ -168,10 +171,13 @@ namespace RavlN
     //!return: Invalid object on failure
     //!throw: PythonExceptionC - If a Python exception is set
     
-    bool Run(const StringC &script)
-    { return Body().Run(script); }
+    bool Run(const StringC &script, const StringC &traceName = "<string>")
+    { return Body().Run(script,traceName); }
     //: Load a Python script into the main environment and execute immediately.
+    //!param: script - Script to execute
+    //!param: traceName - Name to be used in the Python exception traceback if the script fails
     //!return: False on failure
+    //!throw: PythonExceptionC - If a Python exception is set
     
     PythonObjectC GetGlobal(const StringC &name);
     //: Get a result object called 'name' from the globals.
