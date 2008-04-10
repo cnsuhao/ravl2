@@ -98,6 +98,7 @@ namespace RavlImageN {
     
     IndexRange2dC m_captureSize;
     UIntT m_bitsPerPixel;
+    float m_timeOutDelay;
     
     // Buffer's for live video feed.
     static const int m_NumBuffers = 4;

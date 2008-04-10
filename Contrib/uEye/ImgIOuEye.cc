@@ -27,7 +27,8 @@ namespace RavlImageN {
   ImgIOuEyeBaseC::ImgIOuEyeBaseC(const std::type_info &pixelType,UIntT cameraId)
     : m_triggerMode(TRIG_OFF),
       m_state(UE_NotReady),
-      m_snapshot(false)
+      m_snapshot(false),
+      m_timeOutDelay(0.75)
   {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "Open uEye. ");
     for(int i = 0;i < m_NumBuffers;i++)
@@ -160,35 +161,36 @@ namespace RavlImageN {
     
     // Start video capture if needed.
     UpdateBuffers();
+
+    IntT maxDelay = m_timeOutDelay*100.0;
+    if(maxDelay < 10) maxDelay = 10;
+    if(maxDelay > 10000) maxDelay = 10000;
     
     if(m_snapshot && m_state != UE_TriggerWait) {
       // Note: Maximum wait is 1 second at the moment.
       ONDEBUG(SysLog(SYSLOG_DEBUG) << "Freezing video for capture. ");
-      if((ret = is_FreezeVideo(m_phf,10000)) != IS_SUCCESS) {
+      if((ret = is_FreezeVideo(m_phf,maxDelay)) != IS_SUCCESS) {
         SysLog(SYSLOG_ERR) << "Failed to freeze video for capture. ErrorCode:" << ret << " ";
         return false;
       }
     } else {
       //ONDEBUG(SysLog(SYSLOG_DEBUG) << "Waiting for frame to arrive. ");
       // Wait for frame to arrive.
-      if(is_WaitEvent(m_phf,IS_SET_EVENT_FRAME,10000) != IS_SUCCESS) {
-        SysLog(SYSLOG_ERR) << "Failed to wait for event. ";
+      
+      if((ret = is_WaitEvent(m_phf,IS_SET_EVENT_FRAME,maxDelay)) != IS_SUCCESS) {
+        SysLog(SYSLOG_ERR) << "Failed to wait for event. Delay=" << maxDelay << "  Error:" << ret;
         return false;
       }
     }
-      
+    
+    
+    
     // Find the last full frame to arrive.
     int dummy = 0;
     char *pMem,*pLast;
     if(is_GetActSeqBuf(m_phf, &dummy, &pMem, &pLast ) != IS_SUCCESS) {
       SysLog(SYSLOG_ERR) << "Failed to get active buffer. ";
       return false;
-    }
-    
-    // Leave trigger
-    if(m_state == UE_TriggerWait) {
-      
-      m_state = UE_Running;
     }
     
     // Copy that buffer.
@@ -209,6 +211,19 @@ namespace RavlImageN {
     if(is_UnlockSeqBuf(m_phf,imgId,pLast) != IS_SUCCESS) {
       SysLog(SYSLOG_ERR) << "Failed to unlock sequence buffer. ";
     }
+
+#if 1
+    // Setup trigger for next frame.
+    if(m_snapshot && m_triggerMode != TRIG_OFF) {
+      // Note: Maximum wait is 1 second at the moment.
+      ONDEBUG(SysLog(SYSLOG_DEBUG) << "Started waiting for next trigger event. "); 
+      if((ret = is_FreezeVideo(m_phf,IS_DONT_WAIT)) != IS_SUCCESS) {
+        SysLog(SYSLOG_ERR) << "Failed to freeze video. ErrorCode:" << ret << " ";
+        return false;
+      }
+      m_state = UE_TriggerWait;
+    }
+#endif
     
     return true;
   }
@@ -358,7 +373,7 @@ namespace RavlImageN {
       if(newTrig == TRIG_OFF) 
         return true;
       
-      if(m_snapshot) {
+      if(m_snapshot && m_state != UE_TriggerWait) {
         // Note: Maximum wait is 1 second at the moment.
         ONDEBUG(SysLog(SYSLOG_DEBUG) << "Started waiting for trigger event. "); 
         if((ret = is_FreezeVideo(m_phf,IS_DONT_WAIT)) != IS_SUCCESS) {
@@ -572,6 +587,10 @@ namespace RavlImageN {
       attrValue = framerate;
       return true;
     }
+    if(attrName == "timeout") {
+      attrValue = m_timeOutDelay;
+      return true;
+    }
     
     return false; 
   }
@@ -597,7 +616,7 @@ namespace RavlImageN {
     if(attrName == "pixel_clock") {
       RavlN::MutexLockC accessLock(m_accessMutex);
       if((ret = is_SetPixelClock(m_phf,attrValue/1.0e6)) != IS_SUCCESS)
-        SysLog(SYSLOG_ERR) << "Failed to set pixel clock to " << attrValue << "\n";
+        SysLog(SYSLOG_ERR) << "Failed to set pixel clock to " << attrValue << " Error:" << ret;
       return true;
     }
     if(attrName == "gain") {
@@ -648,7 +667,10 @@ namespace RavlImageN {
         SysLog(SYSLOG_WARNING) << "Failed to set the framerate to " << framerate << " ";
       return true;
     }
-    
+    if(attrName == "timeout") {
+      m_timeOutDelay = attrValue;
+      return true;
+    }
     return false; 
   }
   
@@ -730,6 +752,9 @@ namespace RavlImageN {
     double v1 = 0,v2 = 0;
     bool autoShutter = is_SetAutoParameter(m_phf,IS_GET_ENABLE_AUTO_SHUTTER,&v1,&v2);
     attrCtrl.RegisterAttribute(AttributeTypeBoolC("auto_shutter", "Automaticly set the shutter speed", true, true,autoShutter));
+    
+    // Timeout delay
+    attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("timeout", "Timeout period for image capture", true, true, 0.01,100,0.01,m_timeOutDelay));
     
     return true;
   }
