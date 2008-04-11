@@ -70,7 +70,7 @@ namespace RavlN {
     Array2dC(const IndexRange2dC & rect);
     //: Create 2D array with the range covering indices in 'rect'
     
-    Array2dC(const IndexRange2dC & rect,const BufferC<DataT> &data);
+    Array2dC(const IndexRange2dC & rect,const BufferC<DataT> &data,SizeT offsetInBuffer = 0);
     //: Create 2D array with the range covering indices in 'rect' from data.
     // Note: It is the users responsibility to ensure that 'data' is
     // large enough to contain 'rect'.
@@ -320,7 +320,7 @@ namespace RavlN {
     //: Get number of elements between rows in the array.
     
   protected:
-    void ConstructAccess(const IndexRangeC &rng1);
+    void ConstructAccess(const IndexRangeC &rng1,SizeT bufferOffset = 0);
     //: Construct access for buffer.
     // This assumes a suitable amount of space has been allocated
     // in 'data'
@@ -354,10 +354,10 @@ namespace RavlN {
   }
   
   template <class DataT>
-  void Array2dC<DataT>::ConstructAccess(const IndexRangeC &rng1) {
+  void Array2dC<DataT>::ConstructAccess(const IndexRangeC &rng1,SizeT bufferOffset) {
     Attach(data,rng1);
     const SizeT d2Size = Range2().Size();
-    DataT *at = data.Data().ReferenceElm() - Range2().Min().V();
+    DataT *at = data.Data().ReferenceElm() - Range2().Min().V() + bufferOffset;
     for(BufferAccessIterC<BufferAccessC<DataT> > it(*this);it;it++,at += d2Size)
       *it = at;
   }
@@ -409,10 +409,10 @@ namespace RavlN {
   { ConstructAccess(rect.Range1()); }
   
   template <class DataT>
-  Array2dC<DataT>::Array2dC(const IndexRange2dC & rect,const BufferC<DataT> &ndata)
+  Array2dC<DataT>::Array2dC(const IndexRange2dC & rect,const BufferC<DataT> &ndata,SizeT bufferOffset)
     : RangeBufferAccess2dC<DataT>(rect.Range2()),
       data(ndata,rect.Range1().Size())
-  { ConstructAccess(rect.Range1()); }
+  { ConstructAccess(rect.Range1(),bufferOffset); }
 
   template <class DataT>
   Array2dC<DataT>::Array2dC(const Array2dC<DataT> &arr,const IndexRange2dC & rect) 
