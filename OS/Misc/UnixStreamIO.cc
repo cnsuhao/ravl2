@@ -7,6 +7,8 @@
 
 #include "Ravl/OS/UnixStreamIO.hh"
 
+#if RAVL_HAVE_INTFILEDESCRIPTORS
+
 #if RAVL_OS_SOLARIS
 #define __EXTENSIONS__ 1
 #include <string.h>
@@ -445,5 +447,64 @@ namespace RavlN {
   }
   
 #endif
-}
+#else
 
+  //: Destructor.
+  // Closes the file descriptor.
+  
+  UnixStreamIOC::~UnixStreamIOC()
+  {}
+  
+  //: Read some bytes from a stream.
+  
+  IntT UnixStreamIOC::Read(char *buff,UIntT size) {
+    return 0;
+  }
+  
+  //: Read some bytes from a stream.
+  IntT UnixStreamIOC::ReadV(char **buffer,IntT *len,int n) {
+    return 0;
+  }
+  
+  //: Write some bytes to a stream.
+  IntT UnixStreamIOC::Write(const char *buff,UIntT size) {
+    return 0;    
+  }
+  
+  //: Write multiple buffers
+  IntT UnixStreamIOC::WriteV(const char **buffer,IntT *len,int n) {
+    return 0;
+  }
+  
+  //: Enable non-blocking use of read and write.
+  // true= read and write's won't do blocking waits.
+  bool UnixStreamIOC::SetNonBlocking(bool block) {
+    return 0;
+  }
+  
+  //: Close the socket.
+  // Note this will only actually close the socket if
+  // m_dontClose is false.  
+  void UnixStreamIOC::Close() {
+  }
+  
+  //: Wait for read to be ready.
+  // Returns false on error.
+  bool UnixStreamIOC::WaitForRead() {
+    return false;
+  }
+  
+  //: Wait for write to be ready.
+  // Returns false on error.
+  bool UnixStreamIOC::WaitForWrite() {
+    return false;
+  }
+  
+  //: Check for recoverable errors.
+  bool UnixStreamIOC::CheckErrors(const char *opName) {
+    return false;
+  }
+  
+  
+#endif
+}

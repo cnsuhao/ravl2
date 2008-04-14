@@ -13,7 +13,6 @@
 
 namespace RavlN {
  
-#if RAVL_HAVE_INTFILEDESCRIPTORS
   
   //: Helper class for dealing with IO on file descriptors.
   
@@ -103,7 +102,6 @@ namespace RavlN {
     bool m_failOnReadTimeout; //
   };
 
-#endif
 }
 
 #endif
