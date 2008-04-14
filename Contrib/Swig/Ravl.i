@@ -4,8 +4,19 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 
-%module Ravl
+// Set the Python module 'docstring'
+%define RAVL_DOCSTRING
+"Recognition and Vision Library
+RAVL provides a base C++ class library together with a range of
+computer vision, pattern recognition and supporting tools."
+%enddef
 
+%module(docstring=RAVL_DOCSTRING) Ravl
+
+// Enable basic Python automatic 'docstring' entries for  
+// function arguments and return values
+%feature("autodoc", "0");
+        
 %{
 namespace RavlGUIN
 {
