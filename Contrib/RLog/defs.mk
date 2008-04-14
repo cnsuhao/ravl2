@@ -1,0 +1,14 @@
+
+PACKAGE=Ravl
+
+HEADERS=RLog.hh
+
+SOURCES=RLog.cc
+
+PLIB=RavlRLog
+
+USESLIBS=RavlCore RavlOS RLog
+
+CCPPFLAGS += -DRLOG_COMPONENT=Ravl
+
+EXAMPLE= exRLog.cc
