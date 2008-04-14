@@ -27,7 +27,7 @@ HEADERS = Manager.hh Widget.hh GTKTypes.hh SignalInfo.hh \
  StatusBar.hh Combo.hh List.hh MenuCheck.hh RawCanvas.hh Table.hh \
  Ruler.hh SpinButton.hh Tree.hh Separator.hh Bitmap.hh \
  Notebook.hh CList.hh VLabel.hh RadioButton.hh ProgressBar.hh \
- TextBox.hh DragAndDrop.hh Paned.hh MessageBox.hh WidgetStyle.hh \
+ TextBox.hh TextView.hh DragAndDrop.hh Paned.hh MessageBox.hh WidgetStyle.hh \
  ReadBack.hh  WaitForExit.hh TreeModel.hh TreeStore.hh  TreeView.hh \
  ListStore.hh Pixbuf.hh AspectFrame.hh ButtonBox.hh  ColourSelector.hh \
  DebugAssertDialog.hh IconView.hh
@@ -40,7 +40,7 @@ SOURCES = Manager.cc Widget.cc MouseEvent.cc Window.cc \
  Combo.cc List.cc MenuCheck.cc RawCanvas.cc Table.cc \
  Ruler.cc SpinButton.cc Tree.cc Separator.cc Bitmap.cc \
  Notebook.cc CList.cc VLabel.cc RadioButton.cc ProgressBar.cc \
- TextBox.cc DragAndDrop.cc Paned.cc MessageBox.cc WidgetStyle.cc \
+ TextBox.cc TextView.cc DragAndDrop.cc Paned.cc MessageBox.cc WidgetStyle.cc \
  ReadBack.cc WaitForExit.cc TreeModel.cc TreeStore.cc TreeView.cc \
  ListStore.cc Pixbuf.cc AspectFrame.cc ButtonBox.cc ColourSelector.cc \
  DebugAssertDialog.cc IconView.cc
@@ -51,7 +51,7 @@ LOCAL_FILES = info.xpm
 
 EXAMPLES = exButton.cc exMenu.cc exCList.cc exList.cc \
  exSlider.cc exRadioButton.cc exRuler.cc exWheel.cc \
- exNotebook.cc exCursor.cc exFixed.cc exTree.cc exTextBox.cc \
+ exNotebook.cc exCursor.cc exFixed.cc exTree.cc exTextBox.cc exTextView.cc \
  exMessageBox.cc exStyle.cc exLBox.cc exFrame.cc exScrolledArea.cc \
  exLabel.cc exTreeStore.cc exFileSelector.cc exCombo.cc exGUIThread.cc \
  exKeyboard.cc exPixmap.cc
