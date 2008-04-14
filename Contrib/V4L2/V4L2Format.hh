@@ -4,10 +4,9 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_MPEG2DEMUX_HEADER
-#define RAVL_MPEG2DEMUX_HEADER 1
+#ifndef RAVLIMAGE_V4L2FORMAT_HEADER
+#define RAVLIMAGE_V4L2FORMAT_HEADER 1
 //////////////////////////////////////////////////////////////////
-//! rcsid = "$Id$"
 //! lib=RavlImgIOV4L2
 //! author = "Warren Moore"
 //! file="Ravl/Contrib/V4L2/V4L2Format.hh"
