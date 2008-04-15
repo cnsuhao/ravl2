@@ -1,4 +1,3 @@
-#line 1 "/vol/vssp/localsoft/Auto/linux/trees/Ravl.1/src/Ravl/Image/Processing/Filters/RemoveDistortion.hh"
 // This file is part of RAVL, Recognition And Vision Library 
 // Copyright (C) 2002, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
@@ -257,9 +256,9 @@ namespace RavlImageN {
     else
       // initialise assuming zero distortion
       R = dR;
-
+    RealT R2;
     for ( IntT it = 1; ; it++ ) {
-      RealT R2 = R*R;
+      R2 = R*R;
       RealT deriv = 1.0 + R2*(3.0*nK1 + 5.0*R2*nK2);
       if ( deriv == 0.0 )
         throw ExceptionNumericalC("Division by zero in template <class InT, class OutT,class MixerT> RealT RemoveDistortionC<InT,OutT,MixerT>::ComputeDistortion(const Point2dC &) const");
@@ -283,9 +282,9 @@ namespace RavlImageN {
     }
 
     // compute distortion and remove it from camera coordinates
-    return (1.0 + this->R2*(nK1 + this->R2*nK2));
+    return (1.0 + R2*(nK1 + R2*nK2));
   }
-
+  
   template <class InT, class OutT,class MixerT>
   Point2dC RemoveDistortionC<InT,OutT,MixerT>::RemoveDist(const Point2dC &pnti) const
   {
