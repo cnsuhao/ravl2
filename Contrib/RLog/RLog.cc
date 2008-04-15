@@ -8,6 +8,7 @@
 #include "Ravl/Stream.hh"
 
 #include "Ravl/RLog.hh"
+#include "Ravl/Hash.hh"
 
 #include <rlog/RLogChannel.h>
 #include <rlog/StdioNode.h>
@@ -32,9 +33,9 @@ namespace RavlN {
     
     
     //rlogStdio->subscribeTo(RLOG_CHANNEL(""));
-    //rlogStdio->subscribeTo(RLOG_CHANNEL_IMPL(Ravl,"",rlog::Log_Undef));
-    
-    g_rlogNode->subscribeTo(rlog::GetComponentChannel("Ravl","",rlog::Log_Undef));
+    //rlogStdio->subscribeTo(RLOG_CHANNEL_IMPL(Ravl,"",rlog::Log_Undef));    
+    //g_rlogNode->subscribeTo(rlog::GetComponentChannel("Ravl","",rlog::Log_Undef));
+    g_rlogNode->subscribeTo(rlog::GetGlobalChannel(""));
     if(verbose)
       rInfo("RLog initalised. ");
     return true;
@@ -45,7 +46,7 @@ namespace RavlN {
   bool RLogSubscribe(const char *moduleName,const char *path,rlog::LogLevel level) {
     if(g_rlogNode == 0)
       RLogInit();
-    RavlAssert(rlogStdio != 0);
+    RavlAssert(g_rlogNode != 0);
     g_rlogNode->subscribeTo(rlog::GetComponentChannel(moduleName,path,rlog::Log_Undef));
     return true;
   }
