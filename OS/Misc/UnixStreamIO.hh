@@ -15,6 +15,8 @@ namespace RavlN {
  
   
   //: Helper class for dealing with IO on file descriptors.
+  // Note: The default behavour is to wait for reads until the file descriptor is closed,
+  // but to return an error if the write fails after the given timeout.
   
   class UnixStreamIOC {
   public:
@@ -23,7 +25,8 @@ namespace RavlN {
         m_writeTimeOut(writeTimeOut),
         m_readTimeOut(readTimeOut),
         m_dontClose(dontClose),
-        m_failOnReadTimeout(false)
+        m_failOnReadTimeout(false),
+        m_failOnWriteTimeout(true)
     {}
     //: Constructor.
     
@@ -76,6 +79,12 @@ namespace RavlN {
     //: Should read's fail on timeout ?
     // If false, the socket will be checked its
     // open and valid, if it is the read will be retryed.
+
+    void SetFailOnWriteTimeout(bool val)
+    { m_failOnWriteTimeout = val; }
+    //: Should write's fail on timeout ?
+    // If false, the socket will be checked its
+    // open and valid, if it is the write will be retryed.
     
     
     void Close();
@@ -99,7 +108,8 @@ namespace RavlN {
     float m_writeTimeOut;
     float m_readTimeOut;
     bool m_dontClose;
-    bool m_failOnReadTimeout; //
+    bool m_failOnReadTimeout;
+    bool m_failOnWriteTimeout;
   };
 
 }

@@ -78,6 +78,7 @@ namespace RavlN {
   // Returns false on error.
 
   bool UnixStreamIOC::WaitForRead() {
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "Waiting for read. Timeout=" << m_readTimeOut);
 #if !RAVL_OS_MACOSX
     fd_set rfds;
     struct timeval tv;
@@ -150,11 +151,12 @@ namespace RavlN {
   // Returns false on error.
 
   bool UnixStreamIOC::WaitForWrite() {
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "Waiting for write. Timeout=" << m_writeTimeOut);
 #if !RAVL_OS_MACOSX
     struct timeval timeout;
     fd_set wfds;
     FD_ZERO(&wfds);
-    DateC startTime(true);
+    DateC startTime = DateC::NowUTC();
     while(m_fd >= 0) {
       int checkFd = m_fd; // Read it from the class, it might be set to -1 at any time.
       if(checkFd < 0)
@@ -163,10 +165,14 @@ namespace RavlN {
       int rn;
       
       if(m_writeTimeOut >= 0) { // Do we have a finite timeout ?
-        RealT timeToGo = (RealT) m_writeTimeOut - (DateC(true) - startTime).Double(); // Compute time remaining.
+        RealT timeToGo = (RealT) m_writeTimeOut - (DateC::NowUTC() - startTime).Double(); // Compute time remaining.
+        
         if(timeToGo <= 0) {
           SysLog(SYSLOG_WARNING) << "UnixStreamIOC::WaitForWrite(), Timeout writting to file descriptor : " << errno;
-          break;
+          if(m_failOnWriteTimeout)
+            break;
+          // Reset timer.
+          startTime = DateC::NowUTC();
         }
         timeout.tv_sec = Floor(timeToGo);
         timeout.tv_usec = Round((timeToGo - floor(timeToGo)) * 1000000);
@@ -229,7 +235,7 @@ namespace RavlN {
   //: Read some bytes from a stream.
 
   IntT UnixStreamIOC::Read(char *buff,UIntT size) {
-    //ONDEBUG(SysLog(SYSLOG_DEBUG) << "UnixStreamIOC::Read(), Buff=" << ((void *) buff) << " Size=" << size << "\n");
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "UnixStreamIOC::Read(), Buff=" << ((void *) buff) << " Size=" << size << "\n");
     UIntT at = 0;
     while(at < size && m_fd >= 0) {
       if(!WaitForRead())

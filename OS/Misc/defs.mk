@@ -24,3 +24,5 @@ USESLIBS=RavlCore
 LIBDEPS=RavlOSMisc.def
 
 EXAMPLES=exSysLog.cc
+
+TESTEXES=testOSMisc.cc
