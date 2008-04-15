@@ -7,6 +7,8 @@
 #! rcsid="$Id$"
 #! file="Ravl/Contrib/Plotting/DPGraph/defs.mk"
 
+DONOT_SUPPORT=VCPP
+
 REQUIRES=libGuppi
 
 PACKAGE=Ravl/Plot

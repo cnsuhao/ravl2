@@ -11,6 +11,8 @@ REQUIRES=libGuppi
 
 ORGANISATION=OmniPerception Ltd.
 
+DONOT_SUPPORT=VCPP
+
 PACKAGE=Ravl/Plot
 
 HEADERS=GuppiTypes.hh GuppiHeaders.hh GuppiElement.hh GuppiGroup.hh GuppiCanvas.hh \

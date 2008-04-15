@@ -1,3 +1,5 @@
+DONOT_SUPPORT=VCPP
+
 PACKAGE=Ravl/Plot
 
 HEADERS = GnuPlot.hh
