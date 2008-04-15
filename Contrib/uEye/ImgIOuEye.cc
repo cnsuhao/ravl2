@@ -10,7 +10,7 @@
 #include "Ravl/OS/SysLog.hh"
 #include "Ravl/DP/AttributeValueTypes.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -161,8 +161,8 @@ namespace RavlImageN {
     
     // Start video capture if needed.
     UpdateBuffers();
-
-    IntT maxDelay = m_timeOutDelay*100.0;
+    
+    IntT maxDelay = m_timeOutDelay*1000.0;
     if(maxDelay < 10) maxDelay = 10;
     if(maxDelay > 10000) maxDelay = 10000;
     
@@ -295,6 +295,7 @@ namespace RavlImageN {
     }
     if(attrName == "trigger") {
       attrValue = static_cast<IntT>(m_triggerMode);
+      SignalAttrChange("trigger");
       return true;
     }
     if(attrName == "binning_vertical") {
@@ -382,6 +383,9 @@ namespace RavlImageN {
         }
         m_state = UE_TriggerWait;
       }
+      accessLock.Unlock();
+      SignalAttrChange("trigger");
+
       return true;
     }
     if(attrName == "binning_vertical") {
@@ -404,6 +408,8 @@ namespace RavlImageN {
       }
       
       ResetImageSize();
+      accessLock.Unlock();
+      SignalAttrChange("binning_vertical");
       
       // Make sure images are reallocated.
       return true;
@@ -428,6 +434,8 @@ namespace RavlImageN {
       }
       
       ResetImageSize();
+      accessLock.Unlock();
+      SignalAttrChange("binning_horizontal");
       
       // Make sure images are reallocated.
       return true;
@@ -475,6 +483,7 @@ namespace RavlImageN {
   
   bool ImgIOuEyeBaseC::HandleGetAttr(const StringC &attrName, bool &attrValue)
   { 
+    int ret;
     if(attrName == "snapshot") {
       attrValue = m_snapshot;
       return true;
@@ -487,7 +496,28 @@ namespace RavlImageN {
     if(attrName == "auto_shutter") {
       RavlN::MutexLockC accessLock(m_accessMutex);
       double v1 = 0,v2 =0;
-      attrValue = is_SetAutoParameter(m_phf,IS_GET_ENABLE_AUTO_SHUTTER,&v1,&v2);
+      if((ret = is_SetAutoParameter(m_phf,IS_GET_ENABLE_AUTO_SHUTTER,&v1,&v2)) != IS_SUCCESS) {
+        SysLog(SYSLOG_ERR) << "Failed to read auto shutter state. Error:" << ret;
+      }
+      attrValue = v1 > 0;
+      return true;
+    }
+    if(attrName == "auto_gain") {
+      RavlN::MutexLockC accessLock(m_accessMutex);
+      double v1 = 0,v2 =0;
+      if((ret = is_SetAutoParameter(m_phf,IS_GET_ENABLE_AUTO_GAIN,&v1,&v2)) != IS_SUCCESS) {
+        SysLog(SYSLOG_ERR) << "Failed to read auto gain state. Error:" << ret;        
+      }
+      attrValue = v1 > 0;
+      return true;
+    }
+    if(attrName == "auto_framerate") {
+      RavlN::MutexLockC accessLock(m_accessMutex);
+      double v1 = 0,v2 =0;
+      if((ret = is_SetAutoParameter(m_phf,IS_GET_ENABLE_AUTO_FRAMERATE,&v1,&v2)) != IS_SUCCESS) {
+        SysLog(SYSLOG_ERR) << "Failed to read auto framerate state. Error:" << ret;        
+      }
+      attrValue = v1 > 0;
       return true;
     }
     return false;
@@ -521,6 +551,8 @@ namespace RavlImageN {
       if((ret = is_SetHardwareGamma(m_phf,mode)) != IS_SUCCESS) {
         SysLog(SYSLOG_ERR) << "Failed to set hardware gain to " << attrValue << " Error:" << ret;
       }
+      accessLock.Unlock();
+      SignalAttrChange("hardware_gamma");
       return true;
     }
     if(attrName == "auto_shutter") {
@@ -530,6 +562,19 @@ namespace RavlImageN {
       if((ret = is_SetAutoParameter(m_phf,IS_SET_ENABLE_AUTO_SHUTTER,&v1,&v2)) != IS_SUCCESS) {
         SysLog(SYSLOG_ERR) << "Failed to set auto shutter to " << attrValue << " Error:" << ret;
       }
+      accessLock.Unlock();
+      SignalAttrChange("auto_shutter");
+      return true;
+    }
+    if(attrName == "auto_gain") {
+      double v1 = attrValue ? 1.0 : 0.0;
+      double v2 = 0;
+      RavlN::MutexLockC accessLock(m_accessMutex);
+      if((ret = is_SetAutoParameter(m_phf,IS_GET_ENABLE_AUTO_GAIN,&v1,&v2)) != IS_SUCCESS) {
+        SysLog(SYSLOG_ERR) << "Failed to set auto shutter to " << attrValue << " Error:" << ret;
+      }
+      accessLock.Unlock();
+      SignalAttrChange("auto_gain");
       return true;
     }
     return false; 
@@ -611,12 +656,16 @@ namespace RavlImageN {
       if((ret = is_SetTriggerDelay(m_phf,value)) != IS_SUCCESS) {
         SysLog(SYSLOG_ERR) << "Failed to set trigger delay to " << value << " ErrorCode:" << ret << "\n";
       }
+      accessLock.Unlock();
+      SignalAttrChange("trigger_delay");
       return true;
     }
     if(attrName == "pixel_clock") {
       RavlN::MutexLockC accessLock(m_accessMutex);
       if((ret = is_SetPixelClock(m_phf,attrValue/1.0e6)) != IS_SUCCESS)
         SysLog(SYSLOG_ERR) << "Failed to set pixel clock to " << attrValue << " Error:" << ret;
+      accessLock.Unlock();
+      SignalAttrChange("pixel_clock");
       return true;
     }
     if(attrName == "gain") {
@@ -628,6 +677,8 @@ namespace RavlImageN {
       if((ret = is_SetHardwareGain(m_phf,newGain,IS_IGNORE_PARAMETER,IS_IGNORE_PARAMETER,IS_IGNORE_PARAMETER)) != 0) {
         SysLog(SYSLOG_ERR) << "Failed to gain to " << attrValue << " (" << newGain << ")\n";
       }
+      accessLock.Unlock();
+      SignalAttrChange("gain");
       return true;
     }
     if(attrName == "gamma") {
@@ -638,6 +689,8 @@ namespace RavlImageN {
       if((ret = is_SetGamma(m_phf,IS_GET_GAMMA)) != IS_SUCCESS) {
         SysLog(SYSLOG_ERR) << "Failed to set gamma to " << attrValue << " Error:" << ret;
       }
+      accessLock.Unlock();
+      SignalAttrChange("gamma");
       return true;
     }
     if(attrName == "brightness") {
@@ -648,6 +701,8 @@ namespace RavlImageN {
       if((ret = is_SetBrightness(m_phf,newBrightness)) != IS_SUCCESS) {
         SysLog(SYSLOG_ERR) << "Failed to set brightness to " << attrValue << " Error:" << ret;
       }
+      accessLock.Unlock();
+      SignalAttrChange("brightness");
       return true;
     }
     if(attrName == "contrast") {
@@ -658,6 +713,8 @@ namespace RavlImageN {
       if((ret = is_SetContrast(m_phf,newContrast)) != IS_SUCCESS) {
         SysLog(SYSLOG_ERR) << "Failed to set contrast to " << attrValue << " Error:" << ret;
       }
+      accessLock.Unlock();
+      SignalAttrChange("contrast");
       return true;
     }
     if(attrName == "framerate") {
@@ -665,10 +722,13 @@ namespace RavlImageN {
       RavlN::MutexLockC accessLock(m_accessMutex);
       if((ret = is_SetFrameRate(m_phf,framerate,&framerate)) != IS_SUCCESS)
         SysLog(SYSLOG_WARNING) << "Failed to set the framerate to " << framerate << " ";
+      accessLock.Unlock();
+      SignalAttrChange("framerate");
       return true;
     }
     if(attrName == "timeout") {
       m_timeOutDelay = attrValue;
+      SignalAttrChange("timeout");
       return true;
     }
     return false; 
@@ -708,7 +768,7 @@ namespace RavlImageN {
     RealT minDelay = (RealT) is_SetTriggerDelay(m_phf,IS_GET_MIN_TRIGGER_DELAY) * 1e-6;
     RealT maxDelay = (RealT) is_SetTriggerDelay(m_phf,IS_GET_MAX_TRIGGER_DELAY) * 1e-6;
     RealT curDelay = (RealT) is_SetTriggerDelay(m_phf,IS_GET_TRIGGER_DELAY) * 1e-6;
-    attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("trigger_delay", "delay after trigger to capture the frame.", true, true, minDelay,maxDelay,0.000001,curDelay));
+    attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("trigger_delay", "delay after trigger to capture the frame.", true, true, minDelay,maxDelay,0.00001,curDelay));
     
     // Sort out exposure time.
     double curExposure;
@@ -750,11 +810,33 @@ namespace RavlImageN {
     
     // Auto shutter
     double v1 = 0,v2 = 0;
-    bool autoShutter = is_SetAutoParameter(m_phf,IS_GET_ENABLE_AUTO_SHUTTER,&v1,&v2);
+    if((ret = is_SetAutoParameter(m_phf,IS_GET_ENABLE_AUTO_SHUTTER,&v1,&v2)) != IS_SUCCESS) {
+      SysLog(SYSLOG_WARNING) << "Failed to get auto shutter state. ";      
+    }
+    bool autoShutter = v1 > 0;;
     attrCtrl.RegisterAttribute(AttributeTypeBoolC("auto_shutter", "Automaticly set the shutter speed", true, true,autoShutter));
+    
+    // Auto gain
+    
+    v1 = 0;
+    if((ret = is_SetAutoParameter(m_phf,IS_GET_ENABLE_AUTO_GAIN,&v1,&v2)) != IS_SUCCESS) {
+      SysLog(SYSLOG_WARNING) << "Failed to get auto gain state. ";            
+    }
+    bool autoGain = v1 > 0;
+    attrCtrl.RegisterAttribute(AttributeTypeBoolC("auto_gain", "Automaticly set gain", true, true,autoGain));
+
+    // Auto framerate
+    v1 = 0;
+    if((ret = is_SetAutoParameter(m_phf,IS_GET_ENABLE_AUTO_FRAMERATE,&v1,&v2)) != IS_SUCCESS) {
+      SysLog(SYSLOG_WARNING) << "Failed to get auto framerate state. ";            
+    }
+    bool autoFramerate = v1 > 0;
+    attrCtrl.RegisterAttribute(AttributeTypeBoolC("auto_framerate", "Automaticly set framerate", true, true,autoFramerate));
     
     // Timeout delay
     attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("timeout", "Timeout period for image capture", true, true, 0.01,100,0.01,m_timeOutDelay));
+    
+    
     
     return true;
   }

@@ -23,7 +23,7 @@ namespace RavlImageN {
     ImgIOuEyeBaseC(const std::type_info &pixelType,UIntT cameraId = 0);    
     //: Constructor.
     
-    ~ImgIOuEyeBaseC();
+    virtual ~ImgIOuEyeBaseC();
     //: Destructor.
     
     bool Open(UIntT cameraId);
@@ -86,6 +86,9 @@ namespace RavlImageN {
     void UpdateBuffers();
     //: Update buffer state.
     // Should be called with camera lock aquired
+    
+    virtual bool SignalAttrChange(const char *name) = 0;
+    //: Signal an attribute has been changed.
     
     enum uEyeTrigT { TRIG_OFF,TRIG_HILO,TRIG_LOHI,TRIG_SOFT } m_triggerMode;
     
@@ -218,6 +221,9 @@ namespace RavlImageN {
     // This is for handling attributes such as frame rate, and compression ratios.
 
   protected:
+    virtual bool SignalAttrChange(const char *name)
+    { return this->SignalChange(StringC(name)); }
+    //: Signal an attribute has been changed.
     
   };
 
