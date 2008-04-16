@@ -502,6 +502,8 @@ namespace RavlN {
   operator>>(BinIStreamC & s, SArray1dC<DataT> & arr) {
     SizeT size;
     s >> size;
+    if((size * sizeof(DataT)) > s.ArraySizeLimit() || size > s.ArraySizeLimit())
+      throw ExceptionOutOfRangeC("Incoming array size exceeds limit for stream.");
     arr = SArray1dC<DataT>(size);
     for(BufferAccessIterC<DataT> it(arr);it;it++)
       s >> it.Data();

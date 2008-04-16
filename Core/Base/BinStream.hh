@@ -140,7 +140,8 @@ namespace RavlN  {
   public:
     BinIStreamC(const IStreamC &nIn)
       : in(nIn),
-	useNativeEndian(RAVL_BINSTREAM_DEFAULT)
+	useNativeEndian(RAVL_BINSTREAM_DEFAULT),
+        m_arraySizeLimit((SizeT) -1)
     {}
     //: Constructor.
     // From a IStreamC.
@@ -251,9 +252,26 @@ namespace RavlN  {
     { return RAVL_ENDIAN_IF; }
     //: Using native endian ?
     
+    SizeT ArraySizeLimit() const
+    { return m_arraySizeLimit; }
+    //: Maximum size of array's in bytes that is expected in the stream.
+    // This allows the loaded to detect stream corruption and abort a load before
+    // memory is exhausted.  This size should be given in bytes.
+    // Typically this will be set to the size of the file being loaded, or packet 
+    // being processed.
+    
+    void SetArraySizeLimit(SizeT maxSize)
+    { m_arraySizeLimit = maxSize; }
+    //: Set the array size limit in bytes for this handle.
+    // This allows the loaded to detect stream corruption and abort a load before
+    // memory is exhausted.  This size should be given in bytes.
+    // Typically this will be set to the size of the file being loaded, or packet 
+    // being processed.
+    
   protected:
     IStreamC in;
     bool useNativeEndian;
+    SizeT m_arraySizeLimit;
   };
   
   //! userlevel=Normal

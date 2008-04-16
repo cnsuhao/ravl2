@@ -150,6 +150,8 @@ namespace RavlN {
   BinIStreamC &operator>>(BinIStreamC &in,SDArray1dC<T> &arr) {
     UIntT asize;
     in >> asize;
+    if((asize * sizeof(T)) > in.ArraySizeLimit() || asize > in.ArraySizeLimit())
+      throw ExceptionOutOfRangeC("Incoming array size exceeds limit for stream.");
     arr = SDArray1dC<T>(asize);
     for(UIntT i = 0;i < asize;i++)
       in >> arr[i];

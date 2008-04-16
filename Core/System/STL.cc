@@ -18,7 +18,7 @@ namespace RavlN {
   /// Write stl string to binary stream.
   
   BinOStreamC &operator<<(BinOStreamC &strm,const std::string &str) {
-    IntT strSize = str.size();
+    UIntT strSize = str.size();
     strm << strSize;
     strm.OBuff(str.data(),strSize);
     return strm; 
@@ -27,8 +27,10 @@ namespace RavlN {
   /// Read stl string from binary stream.
   
   BinIStreamC &operator>>(BinIStreamC &strm,std::string &str) {
-    IntT strSize;
+    UIntT strSize;
     strm >> strSize;
+    if(strSize > strm.ArraySizeLimit())
+      throw ExceptionOutOfRangeC("Incoming string size exceeds limit for stream.");
     str.clear();
     if(strSize > 0) {
       str.resize(strSize);

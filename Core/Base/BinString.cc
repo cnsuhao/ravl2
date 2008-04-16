@@ -57,6 +57,9 @@ namespace RavlN {
 #endif
     UIntT len;
     in >> len;
+    if(len > in.ArraySizeLimit())
+      throw ExceptionOutOfRangeC("Incoming string size exceeds array limit for stream.");
+    
     ONDEBUG(cerr << "operator>>(BinIStreamC &,StringC &), Reading string of " << len << " bytes. (Hex:" << hex << len << dec <<")\n");
     if(!in.Stream()) {
       str = StringC();
