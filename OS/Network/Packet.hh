@@ -83,6 +83,8 @@ namespace RavlN
     strm >> size;
     if(!strm.Stream() || size <= 0)
       return ;
+    if(size > strm.ArraySizeLimit())
+      throw ExceptionOutOfRangeC("Incoming packet size exceeds limit for stream.");      
     SArray1dC<char> buf(size);
     strm.IBuff(&buf[0],size);
     data = buf;

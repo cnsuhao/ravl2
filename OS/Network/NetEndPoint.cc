@@ -30,6 +30,8 @@
 namespace RavlN {
   enum NEPMsgTypeT { NEPMsgInit = 1, NEPMsgPing };
   
+  const SizeT g_netEndPointDefaultPacketSizeLimit = 100e6;
+  
   //: Global count of open net end points.
   
   static ravl_atomic_t openNetEndPointCount = RAVL_ATOMIC_INIT(0);
@@ -46,7 +48,8 @@ namespace RavlN {
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
       pingSeqNo(1),
       optimiseThroughput(_optimiseThroughput),
-      threadsStarted(false)
+      threadsStarted(false),
+      m_maxPacketSize(g_netEndPointDefaultPacketSizeLimit)
   {
     // Increment count of open connections.
     ravl_atomic_inc(&openNetEndPointCount);
@@ -68,7 +71,8 @@ namespace RavlN {
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
       pingSeqNo(1),
       optimiseThroughput(_optimiseThroughput),
-      threadsStarted(false)
+      threadsStarted(false),
+      m_maxPacketSize(g_netEndPointDefaultPacketSizeLimit)
   {
     // Increment count of open connections.
     ravl_atomic_inc(&openNetEndPointCount);
@@ -90,7 +94,8 @@ namespace RavlN {
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
       pingSeqNo(1),
       optimiseThroughput(_optimiseThroughput ),
-      threadsStarted(false)
+      threadsStarted(false),
+      m_maxPacketSize(g_netEndPointDefaultPacketSizeLimit)
   { 
     // Increment count of open connections.
     ravl_atomic_inc(&openNetEndPointCount);
@@ -112,7 +117,8 @@ namespace RavlN {
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
       pingSeqNo(1),
       optimiseThroughput(_optimiseThroughput),
-      threadsStarted(false)
+      threadsStarted(false),
+      m_maxPacketSize(g_netEndPointDefaultPacketSizeLimit)
   { 
     // Increment count of open connections.
     ravl_atomic_inc(&openNetEndPointCount);
@@ -133,7 +139,8 @@ namespace RavlN {
       useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG),
       pingSeqNo(1),
       optimiseThroughput(_optimiseThroughput),
-      threadsStarted(false)
+      threadsStarted(false),
+      m_maxPacketSize(g_netEndPointDefaultPacketSizeLimit)
   {
     localInfo.appName = SysLogApplicationName();
     // Increment count of open connections.
@@ -363,6 +370,10 @@ namespace RavlN {
   
   bool NetEndPointBodyC::Transmit(const NetPacketC &pkt) { 
     if(shutdown) return false; // Don't Q new stuff if we're shutting down.
+    if(pkt.Size() > m_maxPacketSize) {
+      SysLog(SYSLOG_ERR) << "Attempt to transmit packet that exceed size limit. Packet size=" << pkt.Size() << "  Limit=" << m_maxPacketSize;
+      return false;
+    }
     while(!transmitQ.TryPut(pkt,10)) {
       // Has the transmitted been shutdown ?
       if(shutdown)
@@ -570,6 +581,7 @@ namespace RavlN {
     NetEndPointC me(*this);
     // Direct dispatch
     BinIStreamC is(pkt.DecodeStream());
+    is.SetArraySizeLimit(pkt.Size()); // Limit loaded array size to number of bytes in packet.
     is.UseBigEndian(useBigEndianBinStream);
     UIntT msgTypeID = 0;
     is >> msgTypeID;
@@ -650,6 +662,10 @@ namespace RavlN {
 	  size = bswap_32(size);
 #endif
 	ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Read " << size << " bytes. UseBigEndian:" << useBigEndianBinStream << " BigEdian:" << RAVL_ENDIAN_BIG << " "); 
+        if(size > m_maxPacketSize) {
+          SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunRecieve(), Very large packet recieved, assuming stream is corrupt, closing contection. Packet size=" << size << "  Limit=" << m_maxPacketSize;
+          break;
+        }
 	SArray1dC<char> data(size);
 	if(istrm.Read((char *) &(data[0]),size) != (IntT) size) {
 	  ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Read data failed. Assuming connection broken. "); 

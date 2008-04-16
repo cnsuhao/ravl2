@@ -418,6 +418,14 @@ namespace RavlN {
     { return useBigEndianBinStream; }
     //: True if using big endian stream in packet composition 
     
+    void SetPacketSizeLimit(SizeT sizeLimit)
+    { m_maxPacketSize = sizeLimit; }
+    //: Set the maximum size of any packet that can be handled. 
+    
+    SizeT PacketSizeLimit() const
+    { return m_maxPacketSize; }
+    //: Access current packet size limit.
+    
   protected:
     void Dispatch(const NetPacketC &pkt);
     //: Decode packet and do call back.
@@ -466,6 +474,7 @@ namespace RavlN {
     IntT pingSeqNo;          // Sequence number used for pings.
     bool optimiseThroughput; // Optimise through put at the expense of latency.
     bool threadsStarted;
+    SizeT m_maxPacketSize;   // Maximum size of any packet that can be handled.
   };
   
   //! userlevel=Normal
@@ -808,6 +817,14 @@ namespace RavlN {
     bool UseBigEndianBinStream() const
     { return Body().UseBigEndianBinStream(); }
     //: True if using big endian stream in packet composition 
+
+    void SetPacketSizeLimit(SizeT sizeLimit)
+    { Body().SetPacketSizeLimit(sizeLimit); }
+    //: Set the maximum size of any packet that can be handled. 
+    
+    SizeT PacketSizeLimit() const
+    { return Body().PacketSizeLimit(); }
+    //: Access current packet size limit.
     
     friend class NetEndPointBodyC;
   };
