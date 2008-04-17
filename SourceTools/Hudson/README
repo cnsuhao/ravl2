@@ -1,0 +1,3 @@
+These are the project files that get used for the Hudson build of software.  The main difference is that the project files work on relative project output paths.  Also, the full header files are copied to the build directory as a pre-build step.  The libraries are still compiled with the relative ones. 
+
+Also, I have included a statically built autoport2 which will run on Windows XP. 
