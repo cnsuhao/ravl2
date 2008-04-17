@@ -250,7 +250,22 @@ int testDArray1dMore() {
       }
     }
   }
-  
+
+  {
+    DArray1dC<int> dset2(20,true);
+    int i;
+    for(i = 0;i < 9000;i++)
+      dset2.Append() = i;
+    i = 0;
+    if(dset2.Size() != 9000) {
+      std::cerr << "SIze=" << dset2.Size() << "\n";
+      return __LINE__;
+    }
+    for(DArray1dIterC<int> it(dset2);it;it++,i++) {
+      if(*it != i) return __LINE__;
+      
+    }
+  }
   return 0;
 }
 

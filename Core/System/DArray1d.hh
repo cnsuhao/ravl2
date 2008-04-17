@@ -241,6 +241,10 @@ namespace RavlN {
     //: Append data to this array.
     // Returns index of new item.
     
+    DataT &Append();
+    //: Append an empty data element to the array.
+    // This returns a pointer to the new element.
+    
     bool Remove(IndexC i);
     //: Remove single entry from the array.
     
@@ -469,6 +473,11 @@ namespace RavlN {
     { return Body().Append(newData); }
     //: Append data to this array.
     // Returns index of new item.
+    
+    DataT &Append()
+    { return Body().Append(); }
+    //: Append an empty data element to the array.
+    // This returns a pointer to the new element.
     
     bool Remove(IndexC i)
     { return Body().Remove(i); }
@@ -810,6 +819,30 @@ namespace RavlN {
     chunks.Last().Data().SetIMax(nextFree); // Must be a faster way to extend the array bounds.
     return nextFree++;
   }
+  
+  //: Append an empty data element to the array.
+  // This returns a pointer to the new element.
+  
+  template<class DataT>
+  DataT &DArray1dBodyC<DataT>::Append() {
+    DataT *ret;
+    if(lastBlk.Size() == 0) {
+      IndexC imax = IMax() + 1;
+      Array1dC<DataT> newBlk(imax,imax + (allocBlocksize-1));
+      nextFree = imax+1;
+      ret = &(newBlk[imax]);
+      Append(Array1dC<DataT>(newBlk,IndexRangeC(imax,imax)));
+      lastBlk = newBlk;
+      return *ret;
+    }
+    RavlAssert(chunks.Last().Data().Buffer() == lastBlk.Buffer());
+    ret = &(lastBlk[nextFree]);
+    if(lastBlk.IMax() == nextFree)
+      lastBlk = Array1dC<DataT>(); // Empty last block holder.
+    chunks.Last().Data().SetIMax(nextFree++); // Must be a faster way to extend the array bounds.
+    return *ret;
+  }
+
   
   template<class DataT>
   bool DArray1dBodyC<DataT>::Remove(IndexC i) {
