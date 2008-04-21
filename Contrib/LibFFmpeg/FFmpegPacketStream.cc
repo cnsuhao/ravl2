@@ -102,7 +102,7 @@ namespace RavlN {
 #if 1
       // !!!!!!!!! Format Specific Hacks !!!!!!!!!!!!!!!
       if(inputFormatName == "asf" || inputFormatName == "mpeg" || codecName == "mpeg4") {
-        std::cerr << "None seekable stream. \n";
+        ONDEBUG(std::cerr << "Non-seekable stream. \n";)
         haveSeek = false;
       }
       // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

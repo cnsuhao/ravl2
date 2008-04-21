@@ -9,6 +9,7 @@
 //! lib=RavlLibFFmpeg
 //! author = "Warren Moore"
 //! file="Ravl/Contrib/FFmpeg/exFFmpegSeek.cc"
+//! docentry = "Ravl.API.Images.Video.Video IO.LibFFmpeg"
 
 #include "Ravl/Option.hh"
 #include "Ravl/Image/LibFFmpegFormat.hh"
