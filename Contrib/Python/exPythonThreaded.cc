@@ -10,6 +10,7 @@
 //! file = "Ravl/Contrib/Python/exPythonThreaded.cc"
 //! lib = RavlPython
 //! author = "Warren Moore"
+//! docentry = "Ravl.API.Python"
 
 #include "Ravl/Option.hh"
 #include "Ravl/Python.hh"
