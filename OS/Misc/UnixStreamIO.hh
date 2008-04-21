@@ -41,7 +41,7 @@ namespace RavlN {
     // without reading a single byte. The default is 120 seconds.
     
     void SetWriteTimeout(float timeOut)
-    { m_readTimeOut = timeOut; }
+    { m_writeTimeOut = timeOut; }
     //: Set the amount of time you should attempt to write to a file descriptor.
     // This limits the time spent attempting to write to a socket
     // without sending a single byte. The default is 120 seconds.

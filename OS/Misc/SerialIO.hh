@@ -16,17 +16,25 @@
 //! file="Ravl/OS/Misc/SerialIO.hh"
 
 #include "Ravl/Stream.hh"
+#if RAVL_OS_WIN32
+#include "Ravl/OS/WinStreamIO.hh"
+#else
 #include "Ravl/OS/UnixStreamIO.hh"
+#endif
 
 struct termios ;
 
 namespace RavlN {
-
+  
   //! userlevel=Normal
   //: Class to control unix serial ports.
 
-  class SerialCtrlC
-    : public UnixStreamIOC
+  class SerialCtrlC :
+#if RAVL_OS_WIN32
+    public WinStreamIOC
+#else
+    public UnixStreamIOC
+#endif
   {
   public:
     enum ParityT { PARITY_ODD,PARITY_EVEN,PARITY_SET,PARITY_NONE };
