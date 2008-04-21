@@ -6,8 +6,10 @@
 // file-header-ends-here
 //////////////////////////////////////////////////
 //! file = "Ravl/Contrib/LibGd/testGd.cc"
+//! lib = RavlImgGd
 //! author = "Warren Moore"
- 
+//! docentry = "Ravl.API.LibGD"
+
 #include "Ravl/Option.hh"
 #include "Ravl/Image/Gd.hh"
 #include "Ravl/DP/FileFormatIO.hh"
