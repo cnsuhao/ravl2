@@ -60,8 +60,8 @@ namespace RavlN {
     //: Test of port is open.
 
   private:
-    
-    float m_rwTimeout;
+    float m_readTimeOut;
+    float m_writeTimeOut;
     HANDLE m_portHandle;
   };
   

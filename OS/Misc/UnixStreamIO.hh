@@ -66,6 +66,10 @@ namespace RavlN {
     { return m_fd; }
     //: Access file descriptor.
 
+    IntT Getfd() const
+    { return m_fd; }
+    //: Get the file discriptor of the port;
+
     bool SetNonBlocking(bool block);
     //: Enable non-blocking use of read and write.
     // true= read and write's won't do blocking waits.

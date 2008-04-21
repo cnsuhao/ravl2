@@ -268,11 +268,13 @@ namespace RavlN {
     return false;
 #endif
   }
-  
+
+#if RAVL_HAVE_INTFILEDESCRIPTORS  
   bool SerialCtrlC::SerialInit(IntT fd,IntT i_speed,IntT o_speed,IntT stop_bits,ParityT par,IntT char_size) {
     m_fd = fd;
     return Setup(i_speed,o_speed,stop_bits,par,char_size);
   }
+#endif
 
   bool SerialCtrlC::SetISpeed(const IntT i_speed) {
 #if RAVL_HAVE_TERMIOS

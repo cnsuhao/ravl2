@@ -37,7 +37,7 @@ namespace RavlN {
 #endif
   {
   public:
-    enum ParityT { PARITY_ODD,PARITY_EVEN,PARITY_SET,PARITY_NONE };
+
 
     SerialCtrlC();
     //: defualt constructor;
@@ -47,11 +47,13 @@ namespace RavlN {
     
     bool Open(const char *dev, const char * perm = "RDRW",bool nonBlocking = true);
     //: Open device.
-    
+	
+	enum ParityT { SERIAL_PARITY_ODD,SERIAL_PARITY_EVEN,SERIAL_PARITY_SET,SERIAL_PARITY_NONE };
+
     bool Setup(IntT i_speed = 9600,
                IntT o_speed = 9600,
                IntT stop_bit = 1,
-               ParityT par = PARITY_NONE,
+               ParityT par = SERIAL_PARITY_NONE,
                IntT char_size = 8);
     //: Setup the port.
     // with the given parameters: Input speed, Output speed,
@@ -72,20 +74,18 @@ namespace RavlN {
     bool SetParity(ParityT par);
     //: parity type: Odd or Even or None or 1
     
-    IntT Getfd() const
-    { return m_fd; }
-    //: Get the file discriptor of the port;
-    
   protected:
+#if RAVL_HAVE_INTFILEDESCRIPTORS 
     bool SerialInit(IntT fd,
                     IntT i_speed = 9600,
                     IntT o_speed = 9600,
                     IntT stop_bit = 1,
-                    ParityT par = PARITY_NONE,
+                    ParityT par = SERIAL_PARITY_NONE,
                     IntT char_size = 8);
     //: Initialize the port.
     // with the given parameters: Input speed, Output speed,
     // stop bit(1,2), parity(exist or not exist), parity type(odd or even) and charactoe size(5,6,7,8)
+#endif
 
     static int SpeedSetting(int bitrate);
     //: Get setting to use for a bit rate.
@@ -169,10 +169,6 @@ namespace RavlN {
     bool operator!()
     { return IStreamC::operator!() || OStreamC::operator!(); }
     //: Test if stream is bad.
-
-    bool IsOpen() const
-    { return m_fd >= 0 && IStreamC::IsOpen(); }
-    //: Is stream open ?
 
     bool Close();
     //! Close the stream.

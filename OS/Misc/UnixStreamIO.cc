@@ -454,7 +454,7 @@ namespace RavlN {
   
 #endif
 #else
-
+namespace RavlN {
   //: Destructor.
   // Closes the file descriptor.
   
