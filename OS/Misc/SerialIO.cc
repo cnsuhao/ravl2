@@ -192,20 +192,20 @@ namespace RavlN {
 #if RAVL_HAVE_TERMIOS
     switch(parity_type)
     {
-      case PARITY_ODD:
+      case SERIAL_PARITY_ODD:
         pb.c_cflag |=(PARODD|PARENB);
         pb.c_iflag |= INPCK;
         break;
-      case PARITY_EVEN:
+      case SERIAL_PARITY_EVEN:
         pb.c_cflag |=(PARENB);
         pb.c_cflag &= ~(PARODD);
         pb.c_iflag |= INPCK;
         break;
-      case PARITY_SET:
+      case SERIAL_PARITY_SET:
         pb.c_cflag &=~(PARENB);
         pb.c_iflag &= ~(INPCK);
         break;
-      case PARITY_NONE:
+      case SERIAL_PARITY_NONE:
         pb.c_cflag &=~(PARENB);
         pb.c_iflag &= ~(INPCK);
         break;
