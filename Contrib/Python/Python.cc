@@ -1,5 +1,5 @@
 // This file is part of RAVL, Recognition And Vision Library
-// Copyright (C) 2006, University of Surrey
+// Copyright (C) 2008, OmniPerception Ltd.
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
@@ -9,6 +9,7 @@
 ////////////////////////////////////////////////////////////////
 //! file = "Ravl/Contrib/Python/Python.cc"
 //! lib = RavlPython
+//! author = "Warren Moore"
 
 #include "Ravl/Python.hh"
 #include "Ravl/PythonObject.hh"
@@ -47,7 +48,7 @@ namespace RavlN
     
       if (Py_IsInitialized())
       {
-        ONDEBUG(cerr << "  PythonBodyC::PythonBodyC(" << this << ") initialised" << endl);
+        ONDEBUG(cerr << "PythonBodyC::PythonBodyC(" << this << ") initialised" << endl);
         
         // Store the pointer to the main Python interpreter
         m_mainInterpreter = PythonC(*this);

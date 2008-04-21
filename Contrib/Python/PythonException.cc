@@ -1,5 +1,5 @@
 // This file is part of RAVL, Recognition And Vision Library
-// Copyright (C) 2006, University of Surrey
+// Copyright (C) 2008, OmniPerception Ltd.
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
@@ -9,6 +9,7 @@
 ////////////////////////////////////////////////
 //! file = "Ravl/Contrib/Python/PythonException.cc"
 //! lib = RavlPython
+//! author = "Warren Moore"
 
 #include "Ravl/PythonException.hh"
 
@@ -39,6 +40,13 @@ namespace RavlN
     	PyObject *exValue = NULL;
     	PyObject *exTrace = NULL;
     	PyErr_Fetch(&exType, &exValue, &exTrace);
+      
+      // Not all exceptions are apparently created equal...
+      // SyntaxErrors are reported differently with the following code, and
+      // PyErr_NormalizeException seems to produce strange results for all
+      // exceptions. The 'correct' behaviour can be found in the source for
+      // the Python function PyErr_PrintEx, but this implementation works
+      // well for most at the moment...
     	
     	// If the object exists, create and store a string representation of it
   		StringC exceptionType = (exType ? GetPythonObjectAsString(exType) : StringC());

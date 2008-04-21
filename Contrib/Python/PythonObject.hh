@@ -1,5 +1,5 @@
 // This file is part of RAVL, Recognition And Vision Library
-// Copyright (C) 2006, University of Surrey
+// Copyright (C) 2008, OmniPerception Ltd.
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
@@ -15,14 +15,14 @@
 #ifndef RAVL_PYTHONOBJECT_HEADER
 #define RAVL_PYTHONOBJECT_HEADER 1
 
-#include "Python.h"
+#include <Python.h>
 #include "Ravl/Python.hh"
 #include "Ravl/String.hh"
 #include "Ravl/DList.hh"
 
 namespace RavlN
 {
-  
+
   class PythonC;
 
   //! userlevel = Normal
