@@ -257,6 +257,14 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Image\Base\defau
 				>
 			</File>
 			<File
+				RelativePath="..\.\Image\Base\ImgCnvRGB.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\ImgCnvYUV.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\Image\BaseSSE\ImageConvSSE.cc"
 				>
 			</File>
