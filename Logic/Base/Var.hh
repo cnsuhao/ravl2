@@ -103,7 +103,7 @@ namespace RavlLogicN {
     {}
     //: Body constructor.
 
-    VarC(VarBodyC *bod)
+    VarC(const VarBodyC *bod)
       : LiteralC(bod)
     {}
     //: Body ptr constructor.
