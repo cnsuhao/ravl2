@@ -36,6 +36,7 @@
 <extlib name="GTK">
 <includepath>C:\GTKWIN32\lib\gtk-2.0\include</includepath>
 <includepath>C:\GTKWIN32\lib\glib-2.0\include</includepath>
+<includepath>C:\GTKWIN32\lib\gtkglext-1.0\include</includepath>
 <includepath>C:\GTKWIN32\include\cairo</includepath>
 <includepath>C:\GTKWIN32\include\gtk-2.0</includepath>
 <includepath>C:\GTKWIN32\include\glib-2.0</includepath>
