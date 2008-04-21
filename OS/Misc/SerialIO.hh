@@ -48,7 +48,21 @@ namespace RavlN {
     bool Open(const char *dev, const char * perm = "RDRW",bool nonBlocking = true);
     //: Open device.
 	
-	enum ParityT { SERIAL_PARITY_ODD,SERIAL_PARITY_EVEN,SERIAL_PARITY_SET,SERIAL_PARITY_NONE };
+    enum ParityT { 
+      SERIAL_PARITY_ODD = 0,
+      SERIAL_PARITY_EVEN = 1,
+      SERIAL_PARITY_SET = 2,
+      SERIAL_PARITY_NONE = 3, 
+#if !RAVL_OS_WIN32
+      // These are here for compatilibity with older code, they
+      // unfortunatly they conflict with define's under windows.
+      PARITY_ODD = 0,
+      PARITY_EVEN = 1,
+      PARITY_SET = 2,
+      PARITY_NONE = 3, 
+#endif
+    };
+
 
     bool Setup(IntT i_speed = 9600,
                IntT o_speed = 9600,
@@ -73,6 +87,15 @@ namespace RavlN {
 
     bool SetParity(ParityT par);
     //: parity type: Odd or Even or None or 1
+    
+    bool IsOpen() const {
+#if RAVL_OS_WIN32
+      return WinStreamIOC::IsOpen();
+#else
+      return UnixStreamIOC::IsOpen();
+#endif
+    }
+    //: Is stream open ?
     
   protected:
 #if RAVL_HAVE_INTFILEDESCRIPTORS 
@@ -125,6 +148,10 @@ namespace RavlN {
 
     OSerialC(const char *dev, bool buffered = false);
     //: Open a output serial stream.
+    
+    bool IsOpen() const
+    { return SerialCtrlC::IsOpen(); }
+    //: Test if the stream is open.
   };
 
 
@@ -143,6 +170,10 @@ namespace RavlN {
 
     ISerialC (const char *dev, bool buffered = false);
     //: Open an input serial stream.
+
+    bool IsOpen() const
+    { return SerialCtrlC::IsOpen(); }
+    //: Test if the stream is open.
   };
 
   //! userlevel=Normal
@@ -171,8 +202,11 @@ namespace RavlN {
     //: Test if stream is bad.
 
     bool Close();
-    //! Close the stream.
-
+    //: Close the stream.
+    
+    bool IsOpen() const
+    { return SerialCtrlC::IsOpen(); }
+    //: Test if the stream is open.
   };
 }
 
