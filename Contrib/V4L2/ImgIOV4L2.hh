@@ -1,16 +1,18 @@
 // This file is part of RAVL, Recognition And Vision Library 
-// Copyright (C) 2001, University of Surrey
+// Copyright (C) 2001, OmniPerception Ltd.
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
+////////////////////////////////////////////////////////////////
+//! file = "Ravl/Contrib/V4L2/ImgIOV4L2.hh"
+//! lib = RavlImgIOV4L2
+//! author = "Warren Moore"
+//! docentry = "Ravl.API.Images.Video.Video IO.Video4Linux2"
+//! example = "exV4L2.cc"
+
 #ifndef RAVL_IMGIOV4L2_HEADER
 #define RAVL_IMGIOV4L2_HEADER 1
-//////////////////////////////////////////////////////////////////
-//! rcsid = "$Id$"
-//! lib=RavlImgIOV4L2
-//! author = "Warren Moore"
-//! file="Ravl/Contrib/V4L2/ImgIOV4L2.hh"
 
 #include "Ravl/DP/Port.hh"
 #include "Ravl/DP/SPort.hh"
