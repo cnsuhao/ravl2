@@ -9,6 +9,7 @@
 //! lib=RavlLibMPEG2
 //! author = "Warren Moore"
 //! file="Ravl/Contrib/MPEG/LibMPEG2/exMPEG2Seek.cc"
+//! docentry="Ravl.API.Images.Video.Video IO.LibMPEG2"
 
 #include "Ravl/Option.hh"
 #include "Ravl/Image/LibMPEG2Format.hh"
