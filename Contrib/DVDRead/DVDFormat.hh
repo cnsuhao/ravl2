@@ -1,15 +1,17 @@
 // This file is part of RAVL, Recognition And Vision Library 
-// Copyright (C) 2003, University of Surrey
+// Copyright (C) 2003, OmniPerception Ltd.
 // This code may be redistributed under the terms of the GNU
 // General Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
+////////////////////////////////////////////////////////////////
+//! file = "Ravl/Contrib/DVDRead/DVDFormat.hh"
+//! lib = RavlDVDRead
+//! author = "Warren Moore"
+//! docentry = "Ravl.API.LibDVDRead"
+
 #ifndef RAVL_DVDREADFORMAT_HEADER
 #define RAVL_DVDREADFORMAT_HEADER 1
-//! rcsid = "$Id$"
-//! lib=RavlDVDRead
-//! author = "Warren Moore"
-//! file="Ravl/Contrib/DVDRead/DVDFormat.hh"
 
 #include "Ravl/DP/FileFormat.hh"
 #include "Ravl/Image/Image.hh"

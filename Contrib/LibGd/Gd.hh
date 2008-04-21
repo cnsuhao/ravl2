@@ -4,13 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
+//////////////////////////////////////////////////
+//! file = "Ravl/Contrib/LibGd/Gd.hh"
+//! lib = RavlImgGd
+//! author = "Warren Moore"
+//! docentry = "Ravl.API.LibGD"
+//! example = "testGd.cc"
+
 #ifndef RAVL_LIBGD_HEADER
 #define RAVL_LIBGD_HEADER 1
-////////////////////////////////////////////////////////////
-//! rcsid="$Id: JasperFormat.hh 5240 2005-12-06 17:16:50Z plugger $"
-//! file="Ravl/Image/ExternalImageIO/JasperFormat.hh"
-//! lib=RavlImgGd
-//! author="Warren Moore"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"

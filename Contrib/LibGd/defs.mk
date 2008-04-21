@@ -4,7 +4,6 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id: defs.mk 5178 2005-10-24 10:14:58Z plugger $"
 
 ORGANISATION=OmniPerception Ltd.
 

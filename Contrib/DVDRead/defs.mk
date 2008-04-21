@@ -1,5 +1,5 @@
 # This file is part of RAVL, Recognition And Vision Library 
-# Copyright (C) 2003, University of Surrey
+# Copyright (C) 2003, OmniPerception Ltd.
 # This code may be redistributed under the terms of the GNU
 # General Public License (GPL). See the gpl.licence file for details
 # file-header-ends-here

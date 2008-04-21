@@ -5,8 +5,9 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id: JasperFormat.cc 5079 2005-08-12 11:32:16Z hickson $"
-//! lib=RavlImgGd
+//! file = "Ravl/Contrib/LibGd/Gd.cc"
+//! lib = RavlImgGd
+//! author = "Warren Moore"
 
 #include "Ravl/Image/Gd.hh"
 
