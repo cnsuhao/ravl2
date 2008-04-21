@@ -102,6 +102,11 @@ namespace RavlLogicN {
       : LiteralC(bod)
     {}
     //: Body constructor.
+
+    VarC(VarBodyC *bod)
+      : LiteralC(bod)
+    {}
+    //: Body ptr constructor.
     
     friend class VarBodyC;
   };
