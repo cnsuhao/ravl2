@@ -233,14 +233,6 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\ImageIO\ImgCnvRGB.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\ImageIO\ImgCnvYUV.cc"
-				>
-			</File>
-			<File
 				RelativePath="..\.\Image\ImageIO\ImgIOFloat.cc"
 				>
 			</File>
