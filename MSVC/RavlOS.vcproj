@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="include\Win32;include;&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include&quot;"
+				AdditionalIncludeDirectories="include\Win32;include"
 				PreprocessorDefinitions="_DEBUG;VISUAL_CPP;_LIB;WIN32;RAVL_USE_GTK2=1;RAVL_CHECK=1;PROJECT_OUT=\&quot;C:\\Build\&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -118,7 +118,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="include\Win32;include;&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include&quot;"
+				AdditionalIncludeDirectories="include\Win32;include"
 				PreprocessorDefinitions="NDEBUG;_LIB;VISUAL_CPP;WIN32;RAVL_USE_GTK2=1;PROJECT_OUT=\&quot;C:\\Build\&quot;"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -217,6 +217,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\.\OS\Misc\UnixStreamIO.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Misc\WinStreamIO.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\OS\Misc\SerialIO.cc"
 				>
 			</File>
@@ -312,6 +320,14 @@
 			</File>
 			<File
 				RelativePath="..\.\OS\FileSystem\FileStream.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Misc\UnixStreamIO.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\OS\Misc\WinStreamIO.hh"
 				>
 			</File>
 			<File
