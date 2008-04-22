@@ -30,7 +30,7 @@ HEADERS = Manager.hh Widget.hh GTKTypes.hh SignalInfo.hh \
  TextBox.hh TextView.hh DragAndDrop.hh Paned.hh MessageBox.hh WidgetStyle.hh \
  ReadBack.hh  WaitForExit.hh TreeModel.hh TreeStore.hh  TreeView.hh \
  ListStore.hh Pixbuf.hh AspectFrame.hh ButtonBox.hh  ColourSelector.hh \
- DebugAssertDialog.hh IconView.hh
+ DebugAssertDialog.hh IconView.hh ComboBox.hh ComboBoxText.hh
 
 SOURCES = Manager.cc Widget.cc MouseEvent.cc Window.cc \
  Cursor.cc ToolTips.cc CWidget.cc Button.cc Pixmap.cc \
@@ -43,7 +43,7 @@ SOURCES = Manager.cc Widget.cc MouseEvent.cc Window.cc \
  TextBox.cc TextView.cc DragAndDrop.cc Paned.cc MessageBox.cc WidgetStyle.cc \
  ReadBack.cc WaitForExit.cc TreeModel.cc TreeStore.cc TreeView.cc \
  ListStore.cc Pixbuf.cc AspectFrame.cc ButtonBox.cc ColourSelector.cc \
- DebugAssertDialog.cc IconView.cc
+ DebugAssertDialog.cc IconView.cc ComboBox.cc ComboBoxText.cc
 
 MAINS = rdialog.cc
 

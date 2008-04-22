@@ -268,11 +268,17 @@ namespace RavlGUIN {
       colTypes(ncolTypes)
   {}
 
+  //: Constructor.
 
+  TreeModelBodyC::TreeModelBodyC(GtkTreeModel *aModel)
+    : model(aModel)
+  {}
+  
   //: Destructor.
 
   TreeModelBodyC::~TreeModelBodyC()
-  {}
+  {
+  }
 
 
   //: Look up column number of named column.

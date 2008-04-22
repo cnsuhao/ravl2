@@ -246,7 +246,10 @@ namespace RavlGUIN {
   public:
     TreeModelBodyC();
     //: Constructor.
-
+    
+    TreeModelBodyC(GtkTreeModel *aModel);
+    //: Constructor.
+    
     TreeModelBodyC(const SArray1dC<AttributeTypeC> &ncolTypes);
     //: Constructor.
 
@@ -369,6 +372,11 @@ namespace RavlGUIN {
     //: Default constructor
     // Creates an invalid handle.
 
+    TreeModelC(GtkTreeModel *aModel)
+      : RCHandleC<TreeModelBodyC>(new TreeModelBodyC(aModel))
+    {}
+    //: Constructor from an existing model.
+    
     TreeModelC(TreeModelBodyC &bod)
       : RCHandleC<TreeModelBodyC>(bod)
     {}
