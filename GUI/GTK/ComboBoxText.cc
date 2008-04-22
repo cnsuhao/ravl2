@@ -23,9 +23,9 @@ namespace RavlGUIN {
   //: Constructor
   
   ComboBoxTextBodyC::ComboBoxTextBodyC()
-    : m_sigSelected(StringC("")),
-      m_editable(false),
+    : m_editable(false),
       m_useGladeOptions(true),
+      m_sigSelected(StringC(""))
   {}
   
   //: Constructor
@@ -160,10 +160,15 @@ namespace RavlGUIN {
     return true;
   }
   
-  //: Insert an entry.
+  //: Remove an entry.
   bool ComboBoxTextBodyC::GUIRemoveEntry(IntT pos) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");    
     gtk_combo_box_remove_text(GTK_COMBO_BOX(widget),pos);
+    return true;
+  }
+  
+  //: Remove an entry.
+  bool ComboBoxTextBodyC::GUIRemoveEntry(const StringC &str) {
     return true;
   }
 

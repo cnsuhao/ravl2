@@ -46,7 +46,7 @@ namespace RavlGUIN {
     //: Find the row number of the str.
     // If -ve value is return the entry hasn't been found.
     
-    bool GUIHaveEntry(const StringC &str)
+    bool GUIEntryExists(const StringC &str)
     { return GUIFindEntryPosition(str) >= 0; }
     //: Test if we have a particular entry.
     
@@ -60,7 +60,10 @@ namespace RavlGUIN {
     //: Insert an entry.
 
     bool GUIRemoveEntry(IntT pos);
-    //: Insert an entry.
+    //: Remove an entry by index
+    
+    bool GUIRemoveEntry(const StringC &str);
+    //: Remove an entry by name
     
     bool GUIClear();
     //: Clear all entries.
@@ -75,7 +78,7 @@ namespace RavlGUIN {
     
     DListC<StringC> m_options; //: List of preset options.
     bool m_editable;
-    bool m_usedGladeOptions;
+    bool m_useGladeOptions;
     Signal1C<StringC> m_sigSelected; //: Sig selected for compatibility with old ComboC code.
     
     StringC m_selected;    
@@ -135,8 +138,8 @@ namespace RavlGUIN {
     //: Find the row number of the str.
     // If -ve value is return the entry hasn't been found.
     
-    bool GUIHaveEntry(const StringC &str)
-    { return Body().GUIHaveEntry(str); }
+    bool GUIEntryExists(const StringC &str)
+    { return Body().GUIEntryExists(str); }
     //: Test if we have a particular entry.
     
     bool GUIAppendEntry(const StringC &str)
@@ -153,7 +156,11 @@ namespace RavlGUIN {
     
     bool GUIRemoveEntry(IntT pos)
     { return Body().GUIRemoveEntry(pos); }
-    //: Insert an entry.
+    //: Remove an entry by id
+    
+    bool GUIRemoveEntry(const StringC &text)
+    { return Body().GUIRemoveEntry(text); }
+    //: Remove an entry by name
     
     bool GUIClear()
     { return Body().GUIClear(); }
