@@ -64,9 +64,6 @@ namespace RavlGUIN {
     //: Constructor
     // Constructs empty box
     
-    virtual ~LBoxBodyC() { }
-    //: Virtual destructor
-
     virtual bool Create()
     { return CommonCreate(); }
     //: Create widget.

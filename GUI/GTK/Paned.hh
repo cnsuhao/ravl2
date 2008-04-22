@@ -33,22 +33,23 @@ namespace RavlGUIN {
     {}
     //: Default constructor.
     
-    virtual ~PanedBodyC() { }
-    //: Have virtual methods - need virtual destructor
-
     virtual bool Create();
     //: Create the widget.
     
-    const WidgetC &Child1() const { return child1; }
+    const WidgetC &Child1() const 
+    { return child1; }
     //: Access window contents;
     
-    WidgetC &Child1() { return child1; }
+    WidgetC &Child1() 
+    { return child1; }
     //: Access window contents;
 
-    const WidgetC &Child2() const { return child2; }
+    const WidgetC &Child2() const 
+    { return child2; }
     //: Access window contents;
     
-    WidgetC &Child2() { return child2; }
+    WidgetC &Child2() 
+    { return child2; }
     //: Access window contents;
     
   protected:

@@ -33,9 +33,6 @@ namespace RavlGUIN {
     {}
     //: Constructor
     
-    virtual ~TableBodyC() { }
-    //: Have virtual methods - need virtual destructor
-
     bool AddObject(const WidgetC &widge,
 		   UIntT left_attach,UIntT right_attach,
 		   UIntT top_attach,UIntT bottom_attach,

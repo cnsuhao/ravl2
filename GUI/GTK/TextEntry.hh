@@ -35,9 +35,6 @@ namespace RavlGUIN {
     //: Constructor.
     // The inital content of the entry is set to ntext.
     // If MaxLen is set to a negative number, the length is unlimited.
-   
-    virtual ~TextEntryBodyC() { }
-    //: Have virtual methods - need virtual destructor
     
     virtual bool Create();
     //: Create the widget.
@@ -116,7 +113,7 @@ namespace RavlGUIN {
   {
   public:
     TextEntryC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
@@ -146,17 +143,17 @@ namespace RavlGUIN {
     //: Body constructor.
     
     TextEntryBodyC &Body() 
-      { return static_cast<TextEntryBodyC &>(WidgetC::Body()); }
+    { return static_cast<TextEntryBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     const  TextEntryBodyC &Body() const
-      { return static_cast<const TextEntryBodyC &>(WidgetC::Body()); }
+    { return static_cast<const TextEntryBodyC &>(WidgetC::Body()); }
     //: Access body.  
     
   public: 
     
     bool GUISetText(const StringC &txt)
-      { return Body().GUISetText(txt); }
+    { return Body().GUISetText(txt); }
     //: Set text to edit.
     // This should only be called within the GUI thread.
     

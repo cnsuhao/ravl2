@@ -35,9 +35,6 @@ namespace RavlGUIN {
     ColourSelectorBodyC(const StringC &nname,const UInt16RGBValueC &colour);
     //: Constructor.
     
-    virtual ~ColourSelectorBodyC() { }
-    //: Have virtual methods - need virtual destructor
-
     virtual bool Create();
     //: Create the widget.
     

@@ -30,9 +30,6 @@ namespace RavlGUIN {
     SpinButtonBodyC(IntT digits,RealT nclimbRate,RealT nvalue,RealT nlower,RealT nupper,RealT nstep_increment);
     //: Default constructor.
     
-    virtual ~SpinButtonBodyC() { }
-    //: Have virtual methods - need virtual destructor
-
     Signal1C<RealT> &SigChanged() { return sigChanged; }
     //: Access changed signal.
     

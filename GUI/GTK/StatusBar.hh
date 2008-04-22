@@ -31,9 +31,6 @@ namespace RavlGUIN {
     StatusBarBodyC(const StringC &initMsg);
     //: Constructor.
     
-    virtual ~StatusBarBodyC() { }
-    //: Have virtual methods - need virtual destructor
-
     virtual bool Create();
     //: Create the widget.
     

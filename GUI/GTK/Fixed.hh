@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUIFIXED_HEADER
-#define RAVLGUIFIXED_HEADER 1
+#ifndef RAVLGUI_FIXED_HEADER
+#define RAVLGUI_FIXED_HEADER 1
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/Fixed.hh"
@@ -33,9 +33,6 @@ namespace RavlGUIN {
       FixedWidgetBodyC();
       //: Default constructor.
       
-      virtual ~FixedWidgetBodyC() { }
-      //: Have virtual methods - need virtual destructor
-
       virtual bool Create();
       //: Create the widget.
       

@@ -52,7 +52,7 @@ namespace RavlGUIN {
     
     Signal1C<StringC> m_sigSelected; //: Sig selected for compatibility with old ComboC code.
     
-    StringC m_selected;
+    StringC m_selected;    
   };
   
 
@@ -101,6 +101,38 @@ namespace RavlGUIN {
     //: Short cut clicked signal.
 
   };
+
+  
+  template<class DataT>
+  ComboBoxTextC ComboBoxText(const DListC<StringC> &lst,const char *tooltip,const DataT &dat,bool (DataT::*func)(StringC &ref),bool editable = true)
+  {
+    ComboBoxTextC ret(lst,editable);
+    Connect(ret.SigTextSelected(),dat,func);
+    ret.SetToolTip(tooltip);
+    return ret;    
+  }  
+  //: Contruct a combo box, call back to method in class.
+  // With tooltip.
+
+  template<class DataT>
+  ComboBoxTextC ComboBoxTextR(const DListC<StringC> &lst,DataT &dat,bool (DataT::*func)(StringC &ref),bool editable = true)
+  { 
+    ComboBoxTextC ret(lst,editable);
+    ConnectRef(ret.SigTextSelected(),dat,func);
+    return ret;    
+  }  
+  //: Contruct a combo box, call back to method in referenced class.
+
+  template<class DataT>
+  ComboBoxTextC ComboBoxTextR(const DListC<StringC> &lst,char *tooltip,const DataT &dat,bool (DataT::*func)(StringC &ref),bool editable = true)
+  {
+    ComboBoxTextC ret(lst,editable);
+    ConnectRef(ret.SigTextSelected(),dat,func);
+    ret.SetToolTip(tooltip);
+    return ret;    
+  }  
+  //: Contruct a combo box, call back to method in referenced class.
+  // With tooltip.
 
 }
 

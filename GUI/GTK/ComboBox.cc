@@ -6,7 +6,7 @@
 // file-header-ends-here
 
 #include "Ravl/GUI/ComboBox.hh"
-
+#include "Ravl/GUI/Manager.hh"
 #include <gtk/gtk.h>
 
 namespace RavlGUIN {
@@ -27,6 +27,7 @@ namespace RavlGUIN {
   //: Access model iterator for the current selection.
   
   TreeModelIterC ComboBoxBodyC::GUISelection() {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");    
     TreeModelIterC iter(m_treeModel);
     if(!gtk_combo_box_get_active_iter (GTK_COMBO_BOX(widget),iter.TreeIter())) {
       // If nothing is selected invalidate the iterator.
@@ -38,6 +39,7 @@ namespace RavlGUIN {
   //: Set the current selection
   
   bool ComboBoxBodyC::GUISetSelection(TreeModelIterC &selection) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");    
     RavlAssert(selection.IsValid());
     gtk_combo_box_set_active_iter (GTK_COMBO_BOX(widget),selection.TreeIter());
     return true;
@@ -45,12 +47,15 @@ namespace RavlGUIN {
   
   //: Get index of active selection.
   
-  IntT ComboBoxBodyC::GUIGetSelectionIndex()
-  { return gtk_combo_box_get_active (GTK_COMBO_BOX(widget)); }
+  IntT ComboBoxBodyC::GUIGetSelectionIndex() { 
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");    
+    return gtk_combo_box_get_active (GTK_COMBO_BOX(widget)); 
+  }
   
   //: Get index of active selection.
   
   bool ComboBoxBodyC::GUISetSelectionIndex(IntT selectionIndex) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");    
     gtk_combo_box_set_active (GTK_COMBO_BOX(widget),selectionIndex);
     return true;
   }

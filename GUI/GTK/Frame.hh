@@ -35,9 +35,6 @@ namespace RavlGUIN {
     FrameBodyC(const WidgetC &widge,int nborder,const StringC &ntitle = "");
     //: Constructor.
     
-    virtual ~FrameBodyC() { }
-    //: Have virtual methods - need virtual destructor
-
     virtual bool Create();
     //: Create the widget.
     

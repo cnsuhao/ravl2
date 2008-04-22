@@ -35,9 +35,6 @@ namespace RavlGUIN {
     AspectFrameBodyC(const WidgetC &widge,RealT aspect,int nborder = 0,const StringC &ntitle = "");
     //: Constructor.
     
-    virtual ~AspectFrameBodyC() { }
-    //: Have virtual methods - need virtual destructor
-
     virtual bool Create();
     //: Create the widget.
     

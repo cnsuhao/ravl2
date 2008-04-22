@@ -33,9 +33,6 @@ namespace RavlGUIN {
     MenuItemBodyC(const StringC &lab);
     //: Constructor.
     
-    virtual ~MenuItemBodyC() { }
-    //: Have virtual methods - need virtual destructor
-
     virtual bool Create();
     //: Create the widget.
     

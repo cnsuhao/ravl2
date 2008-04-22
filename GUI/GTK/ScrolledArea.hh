@@ -36,9 +36,6 @@ namespace RavlGUIN {
     // isx,isy set the inital size of the area.
     // Values for policy types are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOLICYTYPE">here</A>.
     
-    virtual ~ScrolledAreaBodyC() { }
-    //: Have virtual methods - need virtual destructor
-
     virtual bool Create();
     //: Create the widget.
     

@@ -42,10 +42,7 @@ namespace RavlGUIN
     NotebookBodyC(const WidgetC &widges,GtkPositionType ntabpos =GTK_POS_TOP,bool nshowtabs = true,bool nshowborder = true);
     //: Constructor
     // Values for position types are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
-  
-    virtual ~NotebookBodyC() { }
-    //: Have virtual methods - need virtual destructor
-
+    
     virtual bool Create();
     //: Create the widget.
     

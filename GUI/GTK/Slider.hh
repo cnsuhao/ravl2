@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUISLIDER_HEADER
-#define RAVLGUISLIDER_HEADER 1
+#ifndef RAVLGUI_SLIDER_HEADER
+#define RAVLGUI_SLIDER_HEADER 1
 /////////////////////////////////////////////////
 //! file="Ravl/GUI/GTK/Slider.hh"
 //! lib=RavlGUI
@@ -43,9 +43,6 @@ namespace RavlGUIN {
 		RealT npage_size = 1);
     //: Constructor.
     
-    virtual ~SliderBodyC() { }
-    //: Have virtual methods - need virtual destructor
-
     virtual bool Create()
     { return CommonCreate(); }
     //: Create the widget.

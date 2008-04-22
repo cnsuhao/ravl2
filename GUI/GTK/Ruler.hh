@@ -32,13 +32,10 @@ namespace RavlGUIN {
       upper(nupper),
       position(npos),
       max_size(nmaxSize)
-      {}
+    {}
     //: Ruler body
     
-    virtual ~RulerBodyC() 
-    {}
-    //: Have virtual methods - need virtual destructor
-
+    
     bool GUIAttachTo(WidgetC &widge);
     //: Get motion events from widge.
     // GUI Thread only.
@@ -71,7 +68,7 @@ namespace RavlGUIN {
   {
   public:
     RulerC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     

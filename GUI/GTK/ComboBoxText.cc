@@ -29,8 +29,12 @@ namespace RavlGUIN {
   //: Create with a widget possibly supplied from elsewhere.
   
   bool ComboBoxTextBodyC::CommonCreate(GtkWidget *nwidget) {
-    if(nwidget != 0)
-      nwidget = gtk_combo_box_new_text();
+    if(nwidget != 0) {
+      if(m_editable)
+        nwidget = gtk_combo_box_entry_new_text();
+      else
+        nwidget = gtk_combo_box_new_text();
+    }
     
     if(!ComboBoxBodyC::CommonCreate(nwidget))
       return false;

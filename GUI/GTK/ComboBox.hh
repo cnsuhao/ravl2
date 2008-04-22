@@ -57,7 +57,7 @@ namespace RavlGUIN {
   
 
   //! userlevel=Normal
-  //: Combo box body.
+  //: Combo box.
   
   class ComboBoxC
     : public WidgetC
