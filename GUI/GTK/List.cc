@@ -26,16 +26,7 @@
 
 namespace RavlGUIN {
 
-  static char *ListItemKey = "ListDataKey";
-  
-#if 0
-  static int list_activate(GtkWidget *widget,Signal0C *data) {
-    cerr << "Got list_activate. \n";
-    Signal1C<StringC> sig(*data);
-    sig(StringC(gtk_entry_get_text(GTK_ENTRY(widget))));
-    return 1;
-  }
-#endif
+  static const char *ListItemKey = "ListDataKey";
   
   //: Constructor.
   
@@ -43,13 +34,8 @@ namespace RavlGUIN {
     : selMode(nSelMode)
   {
     //signals["list_activate"] = Signal1C<StringC>("-none-");
-#if 1
     for(ConstDLIterC<Tuple2C<IntT,StringC> > it(nChoices);it.IsElm();it.Next())
       children.InsLast(Tuple2C<IntT,WidgetC>(it->Data1(),LabelC(it->Data2())));
-#else
-    for(ConstDLIterC<Tuple2C<IntT,StringC> > it(nChoices);it.IsElm();it.Next())
-      AppendLine(it->Data1(),it->Data2());
-#endif
   }
   
   //: Constructor from a list of strings.

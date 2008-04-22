@@ -14,8 +14,6 @@
 //! file="Ravl/GUI/GTK/ListStore.hh"
 
 #include "Ravl/config.h"
-
-
 #include "Ravl/GUI/TreeModel.hh"
 
 namespace RavlGUIN {
@@ -33,7 +31,12 @@ namespace RavlGUIN {
 
     ListStoreBodyC(const SArray1dC<AttributeTypeC> &nColTypes);
     //: List store.
-
+    
+    ListStoreBodyC(GtkTreeModel *aModel);
+    //: Constructor. 
+    // It the user's resonsiblity to check the model is of the
+    // correct type.
+    
     virtual bool Create();
     //: Create the widget.
 
@@ -90,7 +93,14 @@ namespace RavlGUIN {
       : TreeModelC(bod)
     {}
     //: Body constructor.
-
+    
+    ListStoreC(GtkTreeModel *aModel)
+      : TreeModelC(*new ListStoreBodyC(aModel))
+    {}
+    //: Constructor. 
+    // It the user's resonsiblity to check the model is of the
+    // correct type.
+    
   protected:
     ListStoreBodyC &Body()
     { return static_cast<ListStoreBodyC &>(TreeModelC::Body()); }

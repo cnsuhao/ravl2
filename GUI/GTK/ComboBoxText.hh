@@ -39,6 +39,32 @@ namespace RavlGUIN {
     StringC TextSelected();
     //: Access current selection.
     
+    bool GUISetTextSelected(const StringC &str);
+    //: Set selected entry.
+    
+    IntT GUIFindEntryPosition(const StringC &str);
+    //: Find the row number of the str.
+    // If -ve value is return the entry hasn't been found.
+    
+    bool GUIHaveEntry(const StringC &str)
+    { return GUIFindEntryPosition(str) >= 0; }
+    //: Test if we have a particular entry.
+    
+    bool GUIAppendEntry(const StringC &str);
+    //: Append new entry
+    
+    bool GUIPrependEntry(const StringC &str);
+    //: Prepend a new entry
+    
+    bool GUIInsertEntry(IntT pos,const StringC &str);
+    //: Insert an entry.
+
+    bool GUIRemoveEntry(IntT pos);
+    //: Insert an entry.
+    
+    bool GUIClear();
+    //: Clear all entries.
+    
   protected:
     
     bool CommonCreate(GtkWidget *widget);
@@ -49,7 +75,7 @@ namespace RavlGUIN {
     
     DListC<StringC> m_options; //: List of preset options.
     bool m_editable;
-    
+    bool m_usedGladeOptions;
     Signal1C<StringC> m_sigSelected; //: Sig selected for compatibility with old ComboC code.
     
     StringC m_selected;    
@@ -99,6 +125,39 @@ namespace RavlGUIN {
     Signal1C<StringC> &SigTextSelected()
     { return Body().SigTextSelected(); }
     //: Short cut clicked signal.
+    
+    bool GUISetTextSelected(const StringC &str)
+    { return Body().GUISetTextSelected(str); }
+    //: Set selected entry.
+    
+    IntT GUIFindEntryPosition(const StringC &str)
+    { return Body().GUIFindEntryPosition(str); }
+    //: Find the row number of the str.
+    // If -ve value is return the entry hasn't been found.
+    
+    bool GUIHaveEntry(const StringC &str)
+    { return Body().GUIHaveEntry(str); }
+    //: Test if we have a particular entry.
+    
+    bool GUIAppendEntry(const StringC &str)
+    { return Body().GUIAppendEntry(str); }
+    //: Append new entry
+    
+    bool GUIPrependEntry(const StringC &str)
+    { return Body().GUIPrependEntry(str); }
+    //: Prepend a new entry
+    
+    bool GUIInsertEntry(IntT pos,const StringC &str)
+    { return Body().GUIInsertEntry(pos,str); }
+    //: Insert an entry.
+    
+    bool GUIRemoveEntry(IntT pos)
+    { return Body().GUIRemoveEntry(pos); }
+    //: Insert an entry.
+    
+    bool GUIClear()
+    { return Body().GUIClear(); }
+    //: Clear all entries.
 
   };
 

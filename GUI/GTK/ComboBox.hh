@@ -63,7 +63,8 @@ namespace RavlGUIN {
     : public WidgetC
   {
   public:
-    ComboBoxC();
+    ComboBoxC()
+    {}
     //: Default constructor
     
     ComboBoxC(TreeStoreC &treeStore)

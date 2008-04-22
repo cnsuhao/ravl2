@@ -14,9 +14,7 @@ namespace RavlGUIN {
   //: Constructor
   
   ComboBoxBodyC::ComboBoxBodyC()
-  {
-    
-  }
+  {}
   
   //: Constructor
   
@@ -79,7 +77,10 @@ namespace RavlGUIN {
       if(m_treeModel.IsValid()) {
         widget = gtk_combo_box_new_with_model (m_treeModel.TreeModel());
       } else {
-        widget = gtk_combo_box_new_text();
+        widget = gtk_combo_box_new();
+        if(m_treeModel.IsValid()) {
+          gtk_combo_box_set_model (GTK_COMBO_BOX(widget),m_treeModel.TreeModel());
+        }
       }
     } else {
       widget = nwidget;

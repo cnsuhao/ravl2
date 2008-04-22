@@ -24,6 +24,15 @@ namespace RavlGUIN {
   ListStoreBodyC::ListStoreBodyC()
   {}
 
+  //: Constructor. 
+  // It the user's resonsiblity to check the model is of the
+  // correct type.
+  
+  ListStoreBodyC::ListStoreBodyC(GtkTreeModel *aModel)
+  {
+    model = aModel;
+  }
+  
   //: List store.
 
   ListStoreBodyC::ListStoreBodyC(const SArray1dC<AttributeTypeC> &nColTypes)
