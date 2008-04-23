@@ -1,6 +1,8 @@
 #ifndef RAVLGUI_COMBOBOXENTRY_HEADER
 #define RAVLGUI_COMBOBOXENTRY_HEADER 1
 
+//! docentry="Ravl.API.Graphics.GTK.Control"
+
 #include "Ravl/GUI/ComboBox.hh"
 #include "Ravl/GUI/TextEntry.hh"
 

@@ -8,7 +8,7 @@
 //! file = "Ravl/GUI/GTK/exTextView.cc"
 //! lib = RavlGUI
 //! author = "Warren Moore"
-//! docentry = "Ravl.API.GUI.Control"
+//! docentry = "Ravl.API.Graphics.GTK.Control"
 
 #include "Ravl/Option.hh"
 #include "Ravl/GUI/Window.hh"

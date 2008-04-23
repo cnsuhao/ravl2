@@ -8,7 +8,7 @@
 //! file = "Ravl/GUI/GTK/TextView.hh"
 //! lib = RavlGUI
 //! author = "Warren Moore"
-//! docentry = "Ravl.API.GUI.Control"
+//! docentry = "Ravl.API.Graphics.GTK.Control"
 //! example = "exTextView.cc"
 
 #ifndef RAVLGUI_TEXTVIEW_HEADER

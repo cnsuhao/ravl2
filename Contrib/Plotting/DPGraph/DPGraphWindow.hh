@@ -11,7 +11,7 @@
 //! lib=RavlDPGraph
 //! file="Ravl/Contrib/Plotting/DPGraph/DPGraphWindow.hh"
 //! author="Charles Galambos"
-//! docentry="Ravl.Contrib.Plotting.DPGraph"
+//! docentry="Ravl.API.Graphics.Graph Plotting.DPGraph"
 
 #include "Ravl/DP/Port.hh"
 #include "Ravl/GUI/Window.hh"
