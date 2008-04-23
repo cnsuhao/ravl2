@@ -8,4 +8,4 @@
 #! file="Ravl/Contrib/Plotting/defs.mk"
 
 
-NESTED=Base.r Guppi.r DPGraph.r GnuPlot.r
+NESTED=Base.r Guppi DPGraph.r GnuPlot.r
