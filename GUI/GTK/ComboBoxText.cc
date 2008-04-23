@@ -70,21 +70,26 @@ namespace RavlGUIN {
     
     for(DLIterC<StringC> it(m_options);it;it++)
       gtk_combo_box_append_text(GTK_COMBO_BOX(widget),it->chars());
-    
+
     ConnectRef(Signal("changed"),*this,&ComboBoxTextBodyC::CBChanged);
+    
+    if(!m_selected.IsEmpty()) {
+      GUISetTextSelected(m_selected);
+    }
+    
     return true;
   }
 
   //: Access current selected text.
   
-  StringC ComboBoxTextBodyC::GUITextSelected() {
+  StringC ComboBoxTextBodyC::GUITextSelected() const {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");    
     return StringC(gtk_combo_box_get_active_text(GTK_COMBO_BOX(widget)));
   }
   
   //: Access current selection.
   
-  StringC ComboBoxTextBodyC::TextSelected() {
+  StringC ComboBoxTextBodyC::TextSelected() const {
     ReadBackLockC lock;    
     return m_selected;
   }
@@ -102,6 +107,10 @@ namespace RavlGUIN {
   //: Set selected entry.
   
   bool ComboBoxTextBodyC::GUISetTextSelected(const StringC &str) {
+    if(widget == 0) {
+      m_selected = str;
+      return true;
+    }    
     int pos = GUIFindEntryPosition(str);
     if(pos < 0)
       return false;
@@ -113,6 +122,8 @@ namespace RavlGUIN {
   
   IntT ComboBoxTextBodyC::GUIFindEntryPosition(const StringC &str) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");    
+    RavlAssert(m_treeModel.IsValid());
+    
     TreeModelIterC it(m_treeModel);
     IntT ret = -1;
     int i = 0;

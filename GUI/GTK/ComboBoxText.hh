@@ -33,10 +33,10 @@ namespace RavlGUIN {
     { return m_sigSelected; }
     //: Short cut clicked signal.
     
-    StringC GUITextSelected();
+    StringC GUITextSelected() const;
     //: Access current selected text.
     
-    StringC TextSelected();
+    StringC TextSelected() const;
     //: Access current selection.
     
     bool GUISetTextSelected(const StringC &str);
@@ -117,11 +117,11 @@ namespace RavlGUIN {
     //: Body access.
     
   public:
-    StringC GUITextSelected()
+    StringC GUITextSelected() const
     { return Body().GUITextSelected(); }
     //: Access current selected text.
     
-    StringC TextSelected()
+    StringC TextSelected() const
     { return Body().TextSelected(); }
     //: Access current selection.
     

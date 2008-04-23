@@ -21,6 +21,8 @@
 #include "Ravl/DP/AttributeValueTypes.hh"
 #include "Ravl/Threads/Signal2.hh"
 
+#include <gtk/gtktreemodel.h> // Needed for GtkTreeIter
+
 namespace RavlGUIN {
 
   class TreeModelIterC;
@@ -36,10 +38,10 @@ namespace RavlGUIN {
   public:
     TreeModelIterBodyC();
     //: Constructor.
-
+ 
     TreeModelIterBodyC(GtkTreeIter *treeIter);
     //: Constructor.
-
+    
     TreeModelIterBodyC(TreeModelC &treeModel);
     //: Construct from tree model.
 
@@ -53,7 +55,7 @@ namespace RavlGUIN {
     //: Destructor.
 
     GtkTreeIter *TreeIter()
-    { return treeIter; }
+    { return &treeIter; }
     //: Access tree store.
 
     GtkTreeModel *Model()
@@ -88,7 +90,7 @@ namespace RavlGUIN {
 
   protected:
     GtkTreeModel *model;
-    GtkTreeIter *treeIter;
+    GtkTreeIter treeIter;
     bool isElm;
   };
 
@@ -115,7 +117,7 @@ namespace RavlGUIN {
       : RCHandleC<TreeModelIterBodyC>(*new TreeModelIterBodyC(treeIter))
     {}
     //: Constructor.
-
+    
     TreeModelIterC(GtkTreeModel *model,GtkTreeIter *treeIter)
       : RCHandleC<TreeModelIterBodyC>(*new TreeModelIterBodyC(model,treeIter))
     {}
