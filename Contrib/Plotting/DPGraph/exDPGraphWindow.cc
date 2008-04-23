@@ -8,7 +8,7 @@
 //! lib=RavlDPGraph
 //! file="Ravl/Contrib/Plotting/DPGraph/exDPGraphWindow.cc"
 //! author="Charles Galambos"
-//! docentry="Ravl.GUI.Data Display"
+//! docentry="Ravl.API.GUI.Data Display"
 //! userlevel=Normal
 
 #include "Ravl/Array1dIter.hh"
