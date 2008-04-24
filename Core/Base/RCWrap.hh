@@ -41,7 +41,23 @@ namespace RavlN {
     RCWrapBaseBodyC()
     {}
     //: Default constructor.
+    
+    RCWrapBaseBodyC(BinIStreamC &strm)
+      : RCBodyVC(strm)
+    {}
+    //: Stream constructor.
 
+    RCWrapBaseBodyC(std::istream &strm)
+      : RCBodyVC(strm)
+    {}
+    //: Stream constructor.
+    
+    virtual bool Save(std::ostream &strm) const;
+    //: Save to text stream.
+    
+    virtual bool Save(BinOStreamC &strm) const;
+    //: Save to binary stream.
+    
 #if RAVL_HAVE_RTTI    
     virtual const type_info &DataType() const;
     //: Get type of wrapped object.
@@ -111,12 +127,30 @@ namespace RavlN {
     //: Constructor.
     
     RCWrapBodyC(istream &in) 
+      : RCWrapBaseBodyC(in)      
     { in >> data; }
     //: Construct from a stream.
     
     RCWrapBodyC(BinIStreamC &in) 
+      : RCWrapBaseBodyC(in)
     { in >> data; }
     //: Construct from a stream.
+    
+    virtual bool Save(std::ostream &strm) const {
+      if(!RCWrapBaseBodyC::Save(strm))
+        return false;
+      strm << data;
+      return true;
+    }
+    //: Save to text stream.
+    
+    virtual bool Save(BinOStreamC &strm) const {
+      if(!RCWrapBaseBodyC::Save(strm))
+        return false;
+      strm << data;
+      return true;
+    }
+    //: Save to binary stream.
     
 #if 0
     virtual RCBodyVC &Copy() const
@@ -263,39 +297,6 @@ namespace RavlN {
   { return RCWrapC<DataT>(val); }
   //: Helper function to Wrap a value.
   
-  template<class DataT>
-  ostream &operator<<(ostream &strm,const RCWrapC<DataT> &data) {
-    RavlAssert(data.IsValid());
-    strm << data.Data();
-    return strm;
-  }
-  //: ostream operator.
-
-  template<class DataT>
-  istream &operator>>(istream &strm,RCWrapC<DataT> &data) {
-    DataT tmp;
-    strm >> tmp;
-    data = RCWrapC<DataT>(tmp);
-    return strm;
-  }
-  //: istream operator.
-  
-  template<class DataT>
-  BinOStreamC &operator<<(BinOStreamC &strm,const RCWrapC<DataT> &data) {
-    RavlAssert(data.IsValid());
-    strm << data.Data();
-    return strm;
-  }
-  //: ostream operator.
-  
-  template<class DataT>
-  BinIStreamC &operator>>(BinIStreamC &strm,RCWrapC<DataT> &data) {
-    DataT tmp;
-    strm >> tmp;
-    data = RCWrapC<DataT>(tmp);
-    return strm;
-  }
-  //: istream operator.
   
 }
 

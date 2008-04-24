@@ -15,6 +15,16 @@
 //: Ravl library namespace.
 
 namespace RavlN {  
+
+  //: Save to text stream.
+  
+  bool RCWrapBaseBodyC::Save(std::ostream &strm) const 
+  { return RCBodyVC::Save(strm); }
+    
+  //: Save to binary stream.
+  
+  bool RCWrapBaseBodyC::Save(BinOStreamC &strm) const 
+  { return RCBodyVC::Save(strm); }
   
   const type_info &RCWrapBaseBodyC::DataType() const { 
     AssertFailed(__FILE__,__LINE__,"Abstract method called: WrapBaseBodyC::DataType() ");
