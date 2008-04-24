@@ -199,6 +199,7 @@ namespace RavlCxxDocN
     return ret;
   }
   
+  //: Output to stream.
   ostream &operator<<(ostream &s,const ObjectC &out) { 
     if(!out.IsValid())
       s << "(NULL)";
@@ -206,7 +207,22 @@ namespace RavlCxxDocN
       s << out.Name();
     return s; 
   }
+
   //: Output to stream.
+  // Not implemented.
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const ObjectC &out) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  
+  //: Input from stream.
+  // Not implemented.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,ObjectC &out) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
   
   //: Copy line no from object.
   void ObjectBodyC::CopyLineNo(const ObjectC &ob) 

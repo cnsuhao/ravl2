@@ -573,6 +573,19 @@ namespace RavlCxxDocN {
   ostream &operator<<(ostream &,const ObjectC &out);
   //: Output to stream.
   
+  istream &operator>>(istream &,ObjectC &out);
+  //: Input from stream.
+  // Not implemented.
+  
+  BinOStreamC &operator<<(BinOStreamC &,const ObjectC &out);
+  //: Output to stream.
+  // Not implemented.
+  
+  BinIStreamC &operator>>(BinIStreamC &,ObjectC &out);
+  //: Input from stream.
+  // Not implemented.
+  
+  
   /////////////////////////////////////////////////
   //! userlevel=Develop
   //: Object list

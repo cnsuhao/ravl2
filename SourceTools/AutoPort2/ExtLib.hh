@@ -149,8 +149,24 @@ namespace RavlN {
     friend XMLOStreamC &operator<<(XMLOStreamC &xml, const ExtLibC &data);
     
   };
+
+  BinOStreamC &operator<<(BinOStreamC &strm,const ExtLibC &data);
+  //: Output to binary stream.
+  // Not implemented.
   
-  XMLIStreamC &operator>>(XMLIStreamC &xml, ExtLibC &data);
+  BinIStreamC &operator>>(BinIStreamC &xml,ExtLibC &data);
+  //: Read from binary stream.
+  // Not implemented.
+
+  std::ostream &operator<<(std::ostream &strm,const ExtLibC &data);
+  //: Output to binary stream.
+  // Not implemented.
+  
+  std::istream &operator>>(std::istream &xml,ExtLibC &data);
+  //: Read from binary stream.
+  // Not implemented.
+  
+  XMLIStreamC &operator>>(XMLIStreamC &xml,const ExtLibC &data);
   //: XML Input
   // DO NOT USE DIRECTLY unless you're using this inside another XML loader and you know what you're doing.
   // Use Load() instead.

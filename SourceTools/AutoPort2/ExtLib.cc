@@ -107,11 +107,40 @@ namespace RavlN {
     return data.SaveXML(xml); 
   }
 
+  BinOStreamC &operator<<(BinOStreamC &strm, const ExtLibC &data) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Output to binary stream.
+  // Not implemented.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm, ExtLibC &data) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Read from binary stream.
+  // Not implemented.
+
+  std::ostream &operator<<(std::ostream &strm, const ExtLibC &data) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Output to binary stream.
+  // Not implemented.
+  
+  std::istream &operator>>(std::istream &strm, ExtLibC &data) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Read from binary stream.
+  // Not implemented.
+
+
   void InitExtLibFormat() {}
   
   static TypeNameC typeNameExtLibC(typeid(ExtLibC),"RavlN::ExtLibC");
   
   FileFormatXMLStreamC<ExtLibC> FileFormatXMLStream_ExtLibC;
-
+  
 }
 
