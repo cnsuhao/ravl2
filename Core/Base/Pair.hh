@@ -20,6 +20,9 @@
 #include "Ravl/Assert.hh"
 
 namespace RavlN {
+  class BinOStreamC;
+  class BinIStreamC;
+  
   //! userlevel=Normal
   //: Pair of homogenious objects
   // The class PairC represents a pair of objects of the same type.
@@ -119,14 +122,6 @@ namespace RavlN {
   };
   
   template <class DataC>
-  ostream & operator<<(ostream & s, const PairC<DataC> & p);
-  // Prints the pair 'p' into the stream 's'.
-  
-  template <class DataC>
-  istream & operator>>(istream & s, PairC<DataC> & p);
-  // Assigns the values into the pair 'p'.
-  
-  template <class DataC>
   inline 
   PairC<DataC>::PairC(const PairC<DataC> & p) {
     item[0] = p.item[0];
@@ -177,15 +172,25 @@ namespace RavlN {
   
   
   template <class DataC>
-  ostream & 
-  operator<<(ostream & s, const PairC<DataC> & p) {
+  ostream &operator<<(ostream & s, const PairC<DataC> & p) {
     s << p.A() << ' ' << p.B();
     return s;
   }
   
   template <class DataC>
-  istream & 
-  operator>>(istream & s, PairC<DataC> & p) {
+  istream &operator>>(istream & s, PairC<DataC> & p) {
+    s >> p.A() >> p.B();
+    return s;
+  }
+
+  template <class DataC>
+  BinOStreamC &operator<<(BinOStreamC & s, const PairC<DataC> & p) {
+    s << p.A() << p.B();
+    return s;
+  }
+  
+  template <class DataC>
+  BinIStreamC &operator>>(BinIStreamC & s, PairC<DataC> & p) {
     s >> p.A() >> p.B();
     return s;
   }
