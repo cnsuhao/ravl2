@@ -19,6 +19,7 @@
 #include "Ravl/HashTree.hh"
 #include "Ravl/RCHash.hh"
 #include "Ravl/DList.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
   class XMLTreeC;
@@ -51,6 +52,33 @@ namespace RavlN {
     {}
     //: Construct from a name and an attribute table.
     
+    XMLTreeBodyC(BinIStreamC &strm)
+      : HashTreeBodyC<StringC,RCHashC<StringC,StringC> >(strm)
+    { strm >> isPI >> name >> children; }
+    //: Binary stream constructor.
+    
+    XMLTreeBodyC(std::istream &strm)
+      : HashTreeBodyC<StringC,RCHashC<StringC,StringC> >(strm)
+    { strm >> isPI >> name >> children;  }
+    //: Text stream constructor.
+    
+    virtual bool Save(BinOStreamC &strm) const {
+      if(!HashTreeBodyC<StringC,RCHashC<StringC,StringC> >::Save(strm))
+        return false;
+      strm << isPI << name << children;
+      return true;
+    }
+    //: Save to binary stream.
+    
+    virtual bool Save(std::ostream &strm) const {
+      if(!HashTreeBodyC<StringC,RCHashC<StringC,StringC> >::Save(strm))
+        return false;
+      strm << ' ' << isPI << ' ' << name << ' ' << children;
+      return true;
+    }
+    //: Save to text stream.
+    
+
     explicit XMLTreeBodyC(XMLIStreamC &in);
     //: Construct from an XMLStream.
     
@@ -328,6 +356,22 @@ namespace RavlN {
     friend class XMLTreeBodyC;
   };
   
+  ostream &operator<<(ostream &strm,const XMLTreeC &vertex);
+  //: Text stream output.
+  // Not implemented
+  
+  istream &operator>>(istream &strm,XMLTreeC &vertex);
+  //: Text stream input.
+  // Not implemented
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const XMLTreeC &vertex);
+  //: Binary stream output.
+  // Not implemented
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,XMLTreeC &vertex);
+  //: Binary stream input.
+  // Not implemented
+
   
   
 }
