@@ -51,7 +51,6 @@ namespace RavlGUIN {
     : model(0),
       isElm(true)
   {
-    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     memset(&treeIter,0,sizeof(treeIter));
   }
   
@@ -61,10 +60,7 @@ namespace RavlGUIN {
     : model(0),
       treeIter(*ntreeIter),
       isElm(true) // FIXME:- How to check ?
-  {
-    RavlAssert(0);
-    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
-  }
+  {}
   
   //: Construct from tree model.
 
@@ -77,15 +73,13 @@ namespace RavlGUIN {
     if(gtk_tree_model_get_iter_first (model,&treeIter))
       isElm = true;
   }
-
+  
   TreeModelIterBodyC::TreeModelIterBodyC(GtkTreeModel *nmodel,GtkTreeIter *ntreeIter)
     : model(nmodel),
       treeIter(*ntreeIter),
       isElm(true) // FIXME:- How to check
-  {
-    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
-  }
-
+  {}
+  
   //: Construct from tree model and path.
 
   TreeModelIterBodyC::TreeModelIterBodyC(GtkTreeModel *nmodel,GtkTreePath *treePath)
@@ -94,6 +88,7 @@ namespace RavlGUIN {
   {
     RavlAssert(model != 0);
     RavlAssert(treePath != 0);
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(gtk_tree_model_get_iter(model,&treeIter,treePath))
       isElm = true;
   }
@@ -101,10 +96,8 @@ namespace RavlGUIN {
   //: Destructor.
 
   TreeModelIterBodyC::~TreeModelIterBodyC()
-  {
-    //RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
-  }
-
+  {}
+  
   //: Goto next element at current level.
   // Returns true if succeeded.
 

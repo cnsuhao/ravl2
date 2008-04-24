@@ -41,7 +41,7 @@ namespace RavlGUIN {
   
   bool ComboBoxTextBodyC::CommonCreate(GtkWidget *nwidget) {
     if(nwidget == 0) {
-      std::cerr << "ComboBoxTextBodyC::CommonCreate, Creating widget. \n";
+      ONDEBUG(std::cerr << "ComboBoxTextBodyC::CommonCreate, Creating widget. \n");
       if(m_editable)
         nwidget = gtk_combo_box_entry_new_text();
       else
