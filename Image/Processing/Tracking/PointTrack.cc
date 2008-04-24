@@ -13,8 +13,28 @@
 
 #include "Ravl/Image/PointTrack.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/BinStream.hh"
+#include "Ravl/Exception.hh"
 
 namespace RavlImageN {
+  
+  //: Read from binary stream.
+  
+  PointTrackC::PointTrackC(BinIStreamC &strm) {
+    ByteT version = 0;
+    strm >> version;
+    if(version != 1)
+      throw ExceptionOperationFailedC("Unexpected version number in stream.");
+    strm >> id >> at >> conf;
+  }
+  
+  //: Write to binary stream.
+  
+  bool PointTrackC::Save(BinOStreamC &strm) const {
+    ByteT version = 1;
+    strm << version << id << at << conf;
+    return true;
+  }
   
   //: Save to ostream.
   
@@ -27,6 +47,20 @@ namespace RavlImageN {
   
   istream &operator>>(istream &strm,PointTrackC &pt) {
     strm >> pt.id >> pt.at >> pt.conf;
+    return strm;
+  }
+
+  //: Save to binary stream
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const PointTrackC &pt) {
+    pt.Save(strm);
+    return strm;
+  }
+  
+  //: Load from binary stream
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,PointTrackC &pt) {
+    pt = PointTrackC(strm);
     return strm;
   }
   

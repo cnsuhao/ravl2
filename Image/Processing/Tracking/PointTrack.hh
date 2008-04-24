@@ -48,6 +48,12 @@ namespace RavlImageN {
     {}
     //: Constructor.
     
+    PointTrackC(BinIStreamC &strm);
+    //: Read from binary stream.
+    
+    bool Save(BinOStreamC &strm) const;
+    //: Write to binary stream.
+    
     UIntT ID() const
     { return id; }
     //: ID for track.
@@ -69,6 +75,12 @@ namespace RavlImageN {
     
     friend istream &operator>>(istream &strm,PointTrackC &pt);
   };
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const PointTrackC &pt);
+  //: Save to binary stream
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,PointTrackC &pt);
+  //: Load from binary stream
   
   
 }
