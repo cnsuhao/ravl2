@@ -79,5 +79,33 @@ namespace RavlN
     cerr << msg << " (errno=" << errno << ") Return=" << ret << " \n";
     RavlAssert(0); // Abort so we can get a stack trace.
   }
+
+  ostream &operator<<(ostream &strm,const RWLockC &vertex) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Text stream output.
+  // Not implemented
+  
+  istream &operator>>(istream &strm,RWLockC &vertex) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Text stream input.
+  // Not implemented
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const RWLockC &vertex) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Binary stream output.
+  // Not implemented
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,RWLockC &vertex) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Binary stream input.
+  // Not implemented
   
 }

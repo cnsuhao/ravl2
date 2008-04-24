@@ -241,10 +241,29 @@ namespace RavlN {
     sigbod->Disconnect(*this,waitThreadsExit,sigAccess); 
   }
   
-  ostream &operator<<(ostream &os,const SignalConnectorC &sc) {
-    RavlAssert(0);
+  std::ostream &operator<<(std::ostream &os,const SignalConnectorC &sc) {
+    RavlAssertMsg(0,"not implemented");
     return os;
   }
+
+  std::istream &operator>>(std::istream &os,SignalConnectorC &sc) {
+    RavlAssertMsg(0,"not implemented");
+    return os;
+  }
+
+  BinOStreamC &operator<<(BinOStreamC &strm,const SignalConnectorC  &vertex) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Binary stream output.
+  // Not implemented
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,SignalConnectorC  &vertex) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Binary stream input.
+  // Not implemented
   
   ///////// SignalInterConnect0BodyC //////////////////////////////////////////////////
   

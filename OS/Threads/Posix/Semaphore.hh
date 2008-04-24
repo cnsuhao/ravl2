@@ -98,6 +98,14 @@ namespace RavlN
   //: Read in from stream.
   // Does nothing.
   
+  BinOStreamC &operator<<(BinOStreamC &strm,const SemaphoreC &vertex);
+  //: Binary stream output.
+  // Not implemented
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,SemaphoreC &vertex);
+  //: Binary stream input.
+  // Not implemented
+  
 }
 
 #endif

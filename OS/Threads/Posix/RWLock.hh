@@ -276,6 +276,22 @@ namespace RavlN {
 
 #endif
 
+  ostream &operator<<(ostream &strm,const RWLockC &vertex);
+  //: Text stream output.
+  // Not implemented
+  
+  istream &operator>>(istream &strm,RWLockC &vertex);
+  //: Text stream input.
+  // Not implemented
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const RWLockC &vertex);
+  //: Binary stream output.
+  // Not implemented
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,RWLockC &vertex);
+  //: Binary stream input.
+  // Not implemented
+
   //! userlevel=Normal
   //: Exception safe RWLockC locking class.
   // SMALL OBJECT <p>

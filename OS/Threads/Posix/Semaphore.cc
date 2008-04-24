@@ -70,4 +70,18 @@ namespace RavlN
   }
   //: Read in from stream.
 
+  BinOStreamC &operator<<(BinOStreamC &strm,const SemaphoreC &vertex) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Binary stream output.
+  // Not implemented
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,SemaphoreC &vertex) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Binary stream input.
+  // Not implemented
+
 }

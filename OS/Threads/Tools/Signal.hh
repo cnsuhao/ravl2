@@ -130,6 +130,19 @@ namespace RavlN {
   //: Output to a stream.
   //Only usefull for debugging.
   
+  istream &operator>>(istream &os,SignalConnectorC &sc);
+  //! userlevel=Normal
+  //: Output to a stream.
+  // Not implemented.
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const SignalConnectorC  &vertex);
+  //: Binary stream output.
+  // Not implemented
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,SignalConnectorC  &vertex);
+  //: Binary stream input.
+  // Not implemented
+  
   ////////////////////////////////////////////////////////////////
   //! userlevel=Develop
   //: class for signal interconnector with 0 args.
