@@ -251,6 +251,38 @@ namespace RavlN {
     GraphNodeDatC<NodeT,EdgeT> *Node;
   };
   
+  template<class NodeT,class EdgeT>
+  ostream &operator<<(ostream &strm,const GraphNodeHC<NodeT,EdgeT> &node) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Text stream output.
+  // Not implemented
+  
+  template<class NodeT,class EdgeT>
+  istream &operator>>(istream &strm,GraphNodeHC<NodeT,EdgeT> &node) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Text stream input.
+  // Not implemented
+  
+  template<class NodeT,class EdgeT>
+  BinOStreamC &operator<<(BinOStreamC &strm,const GraphNodeHC<NodeT,EdgeT> &node) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Binary stream output.
+  // Not implemented
+  
+  template<class NodeT,class EdgeT>
+  BinIStreamC &operator>>(BinIStreamC &strm,GraphNodeHC<NodeT,EdgeT> &node) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Binary stream input.
+  // Not implemented
+  
 }
 
 #include "Ravl/GraphEdge.hh"
