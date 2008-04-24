@@ -226,6 +226,22 @@ namespace RavlN {
     friend class HEMeshBaseFaceIterC;
     friend class HEMeshBaseC;
   };
+
+  ostream &operator<<(ostream &strm,const HEMeshBaseFaceC &vertex);
+  //: Text stream output.
+  // Not implemented
+  
+  istream &operator>>(istream &strm,HEMeshBaseFaceC &vertex);
+  //: Text stream input.
+  // Not implemented
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const HEMeshBaseFaceC &vertex);
+  //: Binary stream output.
+  // Not implemented
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,HEMeshBaseFaceC &vertex);
+  //: Binary stream input.
+  // Not implemented
   
   //! userlevel=Normal
   //: Iterate through edges around a face.

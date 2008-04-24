@@ -37,6 +37,32 @@ namespace RavlN {
       : data(ndata)
     {}
     //: Constructor.
+
+    HashTreeNodeBodyC(BinIStreamC &strm)
+      : RCBodyVC(strm)
+    { strm >> data; }
+    //: Binary stream constructor.
+    
+    HashTreeNodeBodyC(std::istream &strm)
+      : RCBodyVC(strm)
+    { strm >> data; }
+    //: Text stream constructor.
+    
+    virtual bool Save(BinOStreamC &strm) const {
+      if(!HashTreeNodeBodyC<KeyT,DataT>::Save(strm))
+        return false;
+      strm << data;
+      return true;
+    }
+    //: Save to binary stream.
+    
+    virtual bool Save(std::ostream &strm) const {
+      if(!HashTreeNodeBodyC<KeyT,DataT>::Save(strm))
+        return false;
+      strm << data;
+      return true;
+    }
+    //: Save to text stream.
     
     DataT &Data()
     { return data; }
@@ -65,7 +91,7 @@ namespace RavlN {
   
   template<class KeyT,class DataT>
   class HashTreeNodeC 
-    : public RCHandleC<HashTreeNodeBodyC<KeyT,DataT> >
+    : public RCHandleVC<HashTreeNodeBodyC<KeyT,DataT> >
   {
   public:
     HashTreeNodeC()
@@ -75,21 +101,21 @@ namespace RavlN {
     
   protected:
     HashTreeNodeC(HashTreeNodeBodyC<KeyT,DataT> &bod)
-      : RCHandleC<HashTreeNodeBodyC<KeyT,DataT> >(bod)
+      : RCHandleVC<HashTreeNodeBodyC<KeyT,DataT> >(bod)
     {}
     //: Default constructor.
     
     HashTreeNodeC(const HashTreeNodeBodyC<KeyT,DataT> *bod)
-      : RCHandleC<HashTreeNodeBodyC<KeyT,DataT> >(bod)
+      : RCHandleVC<HashTreeNodeBodyC<KeyT,DataT> >(bod)
     {}
     //: Default constructor.
     
     HashTreeNodeBodyC<KeyT,DataT> &Body()
-    { return RCHandleC<HashTreeNodeBodyC<KeyT,DataT> >::Body(); }
+    { return RCHandleVC<HashTreeNodeBodyC<KeyT,DataT> >::Body(); }
     //: Access body.
     
     const HashTreeNodeBodyC<KeyT,DataT> &Body() const
-    { return RCHandleC<HashTreeNodeBodyC<KeyT,DataT> >::Body(); }
+    { return RCHandleVC<HashTreeNodeBodyC<KeyT,DataT> >::Body(); }
     //: Access body.
 
   public:
@@ -129,6 +155,32 @@ namespace RavlN {
     HashTreeBodyC()
     {}
     //: Default constructor.
+    
+    HashTreeBodyC(BinIStreamC &strm)
+      : HashTreeNodeBodyC<KeyT,DataT>(strm)
+    { strm >> children; }
+    //: Binary stream constructor.
+    
+    HashTreeBodyC(std::istream &strm)
+      : HashTreeNodeBodyC<KeyT,DataT>(strm)
+    { strm >> children; }
+    //: Text stream constructor.
+    
+    virtual bool Save(BinOStreamC &strm) const {
+      if(!HashTreeNodeBodyC<KeyT,DataT>::Save(strm))
+        return false;
+      strm << children;
+      return true;
+    }
+    //: Save to binary stream.
+
+    virtual bool Save(std::ostream &strm) const {
+      if(!HashTreeNodeBodyC<KeyT,DataT>::Save(strm))
+        return false;
+      strm << children;
+      return true;
+    }
+    //: Save to text stream.
     
     HashTreeNodeC<KeyT,DataT> &Node(const KeyT &key)
     { return children[key]; }
@@ -336,7 +388,7 @@ namespace RavlN {
     tree = ht;
     return s;
   }
-
+  
   //: Add a child with given key and data.
   // returns false if child exists.
   

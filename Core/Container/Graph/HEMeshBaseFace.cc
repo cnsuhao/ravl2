@@ -91,6 +91,34 @@ namespace RavlN {
 	return it.Data();
     return HEMeshBaseEdgeC();
   }
+
+  ostream &operator<<(ostream &strm,const HEMeshBaseFaceC &vertex) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Text stream output.
+  // Not implemented
+  
+  istream &operator>>(istream &strm,HEMeshBaseFaceC &vertex) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Text stream input.
+  // Not implemented
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const HEMeshBaseFaceC &vertex) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Binary stream output.
+  // Not implemented
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,HEMeshBaseFaceC &vertex) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Binary stream input.
+  // Not implemented
   
   
 }

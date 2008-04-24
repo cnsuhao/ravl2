@@ -38,6 +38,36 @@ namespace RavlN {
     {}
     //: Constructor.
     
+    void Save(BinOStreamC &strm) const
+    { strm << hmap1; }
+    //: Save to binary stream.
+
+    void Save(std::ostream &strm) const
+    { strm << hmap1; }
+    //: Save to text stream.
+
+    void Load(BinOStreamC &strm) { 
+      hmap1.Empty();
+      strm >> hmap1; 
+      hmap2.Empty();
+      // Build other hash table.
+      for(HashIterC<D1T,D2T> it(hmap1);it;it++)
+        hmap2[it.Data()] = it.Key();
+    }
+    //: Load from binary stream.
+    // The existing table is replaced.
+    
+    void Load(std::ostream &strm) { 
+      hmap1.Empty();
+      strm >> hmap1; 
+      hmap2.Empty();
+      // Build other hash table.
+      for(HashIterC<D1T,D2T> it(hmap1);it;it++)
+        hmap2[it.Data()] = it.Key();
+    }
+    //: Load from text stream.
+    // The existing table is replaced.
+    
     D2T &Map1(const D1T &key)
     { return hmap1[key]; }
     //: Do a lookup on data type 1
@@ -140,6 +170,31 @@ namespace RavlN {
     { return this->Data(); }
     //: Access data1.
   };
+
+  template<class D1T,class D2T>
+  BinOStreamC &operator<<(BinOStreamC &strm,const BiHashC<D1T,D2T> &table) {
+    table.Save(strm);
+    return strm;
+  }
+  
+  template<class D1T,class D2T>
+  BinIStreamC &operator>>(BinIStreamC &strm,BiHashC<D1T,D2T> &table) {
+    table.Load(strm);    
+    return strm;
+  }
+
+  template<class D1T,class D2T>
+  std::ostream &operator<<(std::ostream &strm,const BiHashC<D1T,D2T> &table) {
+    table.Save(strm);
+    return strm;
+  }
+
+  template<class D1T,class D2T>
+  std::istream &operator>>(std::istream &strm,BiHashC<D1T,D2T> &table) {
+    table.Load(strm);    
+    return strm;
+  }
+
 }
   
 #endif

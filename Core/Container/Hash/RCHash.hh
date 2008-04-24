@@ -184,6 +184,34 @@ namespace RavlN {
 
   };
 
+  template<class KeyT,class DataT >
+  std::ostream &operator<<(std::ostream &strm,const RCHashC<KeyT,DataT> &table) {
+    RavlAssert(table.IsValid());
+    strm << table.Data();
+    return strm;
+  }
+
+  template<class KeyT,class DataT >
+  std::istream &operator>>(std::istream &strm,RCHashC<KeyT,DataT> &table) {
+    table = RCHashC<KeyT,DataT>();
+    strm >> table.Data();
+    return strm;
+  }
+
+  template<class KeyT,class DataT >
+  BinOStreamC &operator<<(BinOStreamC &strm,const RCHashC<KeyT,DataT> &table) {
+    RavlAssert(table.IsValid());
+    strm << table.Data();
+    return strm;
+  }
+  
+  template<class KeyT,class DataT >
+  BinIStreamC &operator>>(BinIStreamC &strm,RCHashC<KeyT,DataT> &table) {
+    table = RCHashC<KeyT,DataT>();
+    strm >> table.Data();
+    return strm;
+  }
+  
 }
 
 #endif
