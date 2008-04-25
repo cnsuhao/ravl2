@@ -704,7 +704,7 @@ namespace RavlImageN {
       RavlN::MutexLockC accessLock(m_accessMutex);
       double tmp = 0;
       if((ret = is_SetExposureTime (m_phf, attrValue*1000.0,&tmp)) != IS_SUCCESS) {
-        SysLog(SYSLOG_ERR) << "Failed to get shutter speed. ErrorCode:" << ret << "\n";
+        SysLog(SYSLOG_ERR) << "Failed to set shutter speed. ErrorCode:" << ret << "\n";
       }
       return true;
     }
