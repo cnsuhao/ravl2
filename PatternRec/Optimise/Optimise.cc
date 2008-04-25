@@ -4,12 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#include "Ravl/PatternRec/Optimise.hh"
-#include "Ravl/PatternRec/CostInvert.hh"
-#include "Ravl/VirtualConstructor.hh"
 //! rcsid="$Id$"
 //! lib=Optimisation
 //! file="Ravl/PatternRec/Optimise/Optimise.cc"
+
+#include "Ravl/PatternRec/Optimise.hh"
+#include "Ravl/PatternRec/CostInvert.hh"
+#include "Ravl/VirtualConstructor.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
 

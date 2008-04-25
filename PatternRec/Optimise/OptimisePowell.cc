@@ -117,7 +117,7 @@ namespace RavlN {
           indexOfBiggest = it.Index();
         }
         
-        if((_verbose && it.Index().V() % 20) == 19)
+        if(_verbose && (it.Index().V() % 20) == 19)
           std::cerr << "Iter " << iter << " D=" << it.Index().V() << " Cost=" << minimumCost << "\n";
       }
       // Compute the reduction in the cost function.
