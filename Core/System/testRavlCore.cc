@@ -40,6 +40,7 @@
 #include "Ravl/PointerManager.hh"
 #include "Ravl/SmartPtr.hh"
 #include "Ravl/VirtualConstructor.hh"
+#include "Ravl/RCWrapIO.hh"
 
 #include <string.h>
 
