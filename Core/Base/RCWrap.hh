@@ -127,30 +127,38 @@ namespace RavlN {
     //: Constructor.
     
     RCWrapBodyC(istream &in) 
-      : RCWrapBaseBodyC(in)      
-    { in >> data; }
+      : RCWrapBaseBodyC(in)
+    {}
     //: Construct from a stream.
+    // See RCWrapIO for implementation with full IO.
     
     RCWrapBodyC(BinIStreamC &in) 
       : RCWrapBaseBodyC(in)
-    { in >> data; }
+    {}
     //: Construct from a stream.
+    // See RCWrapIO for implementation with full IO.
     
     virtual bool Save(std::ostream &strm) const {
       if(!RCWrapBaseBodyC::Save(strm))
         return false;
-      strm << data;
+      RavlAssertMsg(0,"Not implemented, use RCWrapIOC for IO support. ");
       return true;
     }
     //: Save to text stream.
+    // To avoid wrapped classes having to support a
+    // IO implementaton this method does nothing.
+    // See RCWrapIO for implementation with full IO.
     
     virtual bool Save(BinOStreamC &strm) const {
       if(!RCWrapBaseBodyC::Save(strm))
         return false;
-      strm << data;
+      RavlAssertMsg(0,"Not implemented, use RCWrapIOC for IO support. ");
       return true;
     }
     //: Save to binary stream.
+    // To avoid wrapped classes having to support a
+    // IO implementaton this method does nothing.
+    // See RCWrapIO for implementation with full IO.
     
 #if 0
     virtual RCBodyVC &Copy() const
