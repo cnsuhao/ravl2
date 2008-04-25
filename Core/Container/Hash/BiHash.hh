@@ -18,6 +18,7 @@
 
 #include "Ravl/Hash.hh"
 #include "Ravl/HashIter.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
 
@@ -41,12 +42,12 @@ namespace RavlN {
     void Save(BinOStreamC &strm) const
     { strm << hmap1; }
     //: Save to binary stream.
-
+    
     void Save(std::ostream &strm) const
     { strm << hmap1; }
     //: Save to text stream.
 
-    void Load(BinOStreamC &strm) { 
+    void Load(BinIStreamC &strm) { 
       hmap1.Empty();
       strm >> hmap1; 
       hmap2.Empty();
@@ -57,7 +58,7 @@ namespace RavlN {
     //: Load from binary stream.
     // The existing table is replaced.
     
-    void Load(std::ostream &strm) { 
+    void Load(std::istream &strm) { 
       hmap1.Empty();
       strm >> hmap1; 
       hmap2.Empty();
