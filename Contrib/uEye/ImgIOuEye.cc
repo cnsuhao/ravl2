@@ -577,6 +577,19 @@ namespace RavlImageN {
       SignalAttrChange("auto_gain");
       return true;
     }
+    if(attrName == "trigger_soft") {
+      if(attrValue) {
+        IntT maxDelay = m_timeOutDelay*1000.0;
+        if(maxDelay < 10) maxDelay = 10;
+        if(maxDelay > 10000) maxDelay = 10000;
+        
+        if((ret = is_FreezeVideo(m_phf,maxDelay)) != IS_SUCCESS) {
+          SysLog(SYSLOG_ERR) << "Failed to freeze video for capture. ErrorCode:" << ret << " ";
+          return true;
+        }
+      }
+      return true; 
+    }
     return false; 
   }
   
@@ -611,7 +624,7 @@ namespace RavlImageN {
     }
     if(attrName == "gamma") {
       RavlN::MutexLockC accessLock(m_accessMutex);
-      attrValue = (RealT) is_SetGamma(m_phf,IS_GET_GAMMA) / 1000.0;
+      attrValue = ((RealT) is_SetGamma(m_phf,IS_GET_GAMMA)) / 100.0;
       return true;
     }
     if(attrName == "brightness") {
@@ -634,6 +647,33 @@ namespace RavlImageN {
     }
     if(attrName == "timeout") {
       attrValue = m_timeOutDelay;
+      return true;
+    }
+    if(attrName == "shutter_min") {
+      double minExp = 0,maxExp=100,intExp =0.0001;
+      if((ret = is_GetExposureRange (m_phf, &minExp,&maxExp,&intExp)) != IS_SUCCESS) {
+        SysLog(SYSLOG_WARNING) << "Failed to get the exposure range. ";
+      }
+      // Change things to seconds.
+      attrValue = minExp / 1000.0;      
+      return true;
+    }
+    if(attrName == "shutter_max") {
+      double minExp = 0,maxExp=100,intExp =0.0001;
+      if((ret = is_GetExposureRange (m_phf, &minExp,&maxExp,&intExp)) != IS_SUCCESS) {
+        SysLog(SYSLOG_WARNING) << "Failed to get the exposure range. ";
+      }
+      // Change things to seconds.
+      attrValue = maxExp / 1000.0;      
+      return true;
+    }
+    if(attrName == "shutter_step") {
+      double minExp = 0,maxExp=100,intExp =0.0001;
+      if((ret = is_GetExposureRange (m_phf, &minExp,&maxExp,&intExp)) != IS_SUCCESS) {
+        SysLog(SYSLOG_WARNING) << "Failed to get the exposure range. ";
+      }
+      // Change things to seconds.
+      attrValue = intExp / 1000.0;      
       return true;
     }
     
@@ -660,12 +700,26 @@ namespace RavlImageN {
       SignalAttrChange("trigger_delay");
       return true;
     }
+    if(attrName == "shutter_speed") {
+      RavlN::MutexLockC accessLock(m_accessMutex);
+      double tmp = 0;
+      if((ret = is_SetExposureTime (m_phf, attrValue*1000.0,&tmp)) != IS_SUCCESS) {
+        SysLog(SYSLOG_ERR) << "Failed to get shutter speed. ErrorCode:" << ret << "\n";
+      }
+      return true;
+    }
+    
     if(attrName == "pixel_clock") {
       RavlN::MutexLockC accessLock(m_accessMutex);
       if((ret = is_SetPixelClock(m_phf,attrValue/1.0e6)) != IS_SUCCESS)
         SysLog(SYSLOG_ERR) << "Failed to set pixel clock to " << attrValue << " Error:" << ret;
       accessLock.Unlock();
       SignalAttrChange("pixel_clock");
+      SignalAttrChange("shutter_min");
+      SignalAttrChange("shutter_max");
+      SignalAttrChange("shutter_step");
+      SignalAttrChange("shutter_speed");
+      SignalAttrChange("framerate");
       return true;
     }
     if(attrName == "gain") {
@@ -682,11 +736,11 @@ namespace RavlImageN {
       return true;
     }
     if(attrName == "gamma") {
-      int newGamma = (RealT) attrValue / 1000.0;
+      int newGamma = (RealT) attrValue * 100.0;
       if(newGamma < 1) newGamma = 1;
       if(newGamma > 1000) newGamma = 1000;
       RavlN::MutexLockC accessLock(m_accessMutex);
-      if((ret = is_SetGamma(m_phf,IS_GET_GAMMA)) != IS_SUCCESS) {
+      if((ret = is_SetGamma(m_phf,newGamma)) != IS_SUCCESS) {
         SysLog(SYSLOG_ERR) << "Failed to set gamma to " << attrValue << " Error:" << ret;
       }
       accessLock.Unlock();
@@ -724,6 +778,7 @@ namespace RavlImageN {
         SysLog(SYSLOG_WARNING) << "Failed to set the framerate to " << framerate << " ";
       accessLock.Unlock();
       SignalAttrChange("framerate");
+      SignalAttrChange("shutter_max");
       return true;
     }
     if(attrName == "timeout") {
@@ -764,6 +819,8 @@ namespace RavlImageN {
       triggerList.InsLast(g_triggerModeNames[i]);
     attrCtrl.RegisterAttribute(AttributeTypeEnumC("trigger", "External triggering mode.", true, true, triggerList, triggerList.First()));
     
+    attrCtrl.RegisterAttribute(AttributeTypeBoolC("trigger_soft", "Set off a software trigger", false, true,false));
+    
     // Setup trigger delay.
     RealT minDelay = (RealT) is_SetTriggerDelay(m_phf,IS_GET_MIN_TRIGGER_DELAY) * 1e-6;
     RealT maxDelay = (RealT) is_SetTriggerDelay(m_phf,IS_GET_MAX_TRIGGER_DELAY) * 1e-6;
@@ -771,9 +828,26 @@ namespace RavlImageN {
     attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("trigger_delay", "delay after trigger to capture the frame.", true, true, minDelay,maxDelay,0.00001,curDelay));
     
     // Sort out exposure time.
-    double curExposure;
-    is_SetExposureTime (m_phf, IS_GET_EXPOSURE_TIME,&curExposure);
-    attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("shutter_speed", "Shutter speed in seconds", true, true, 0,100,0.001,curExposure));
+    double curExposure = 0;
+    if((ret = is_SetExposureTime (m_phf, IS_GET_EXPOSURE_TIME,&curExposure)) == IS_SUCCESS) {
+      SysLog(SYSLOG_WARNING) << "Failed to get current exposure setting. ";
+    }
+    
+    double minExp = 0,maxExp=100,intExp =0.0001;
+    if((ret = is_GetExposureRange (m_phf, &minExp,&maxExp,&intExp)) != IS_SUCCESS) {
+      SysLog(SYSLOG_WARNING) << "Failed to get the exposure range. ";
+    }
+    // Change things to seconds.
+    curExposure /= 1000.0;
+    minExp /= 1000.0;
+    maxExp /= 1000.0;
+    intExp /= 1000.0;
+    
+    attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("shutter_speed", "Shutter speed in seconds", true, true, minExp,maxExp,intExp,curExposure));
+    
+    attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("shutter_min", "Minumum shutter time in seconds", true, false,0.000001,10.0,0.000001,minExp));
+    attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("shutter_step", "Shutter speed in seconds", true, false,0.0000001,10.0,0.000001,intExp));
+    attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("shutter_max", "Maximum shutter time in seconds", true, false,0.000001,10.0,0.000001,maxExp));
     
     // Hardware Gain
     double curGain;
@@ -787,7 +861,7 @@ namespace RavlImageN {
     bool gammaMode = is_SetHardwareGamma(m_phf,IS_GET_HW_GAMMA);
     attrCtrl.RegisterAttribute(AttributeTypeBoolC("hardware_gamma", "Use hardware gamma correction", true, true,gammaMode));
     
-    RealT gammaValue = (RealT) is_SetGamma(m_phf,IS_GET_GAMMA) / 1000;
+    RealT gammaValue = (RealT) is_SetGamma(m_phf,IS_GET_GAMMA) / 100.0;
     attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("gamma", "Gamma correction", true, true, 0.01,10,0.01,gammaValue));
     
     // Brightness
