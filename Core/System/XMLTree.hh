@@ -356,23 +356,6 @@ namespace RavlN {
     friend class XMLTreeBodyC;
   };
   
-  ostream &operator<<(ostream &strm,const XMLTreeC &vertex);
-  //: Text stream output.
-  // Not implemented
-  
-  istream &operator>>(istream &strm,XMLTreeC &vertex);
-  //: Text stream input.
-  // Not implemented
-  
-  BinOStreamC &operator<<(BinOStreamC &strm,const XMLTreeC &vertex);
-  //: Binary stream output.
-  // Not implemented
-  
-  BinIStreamC &operator>>(BinIStreamC &strm,XMLTreeC &vertex);
-  //: Binary stream input.
-  // Not implemented
-
-  
   
 }
 

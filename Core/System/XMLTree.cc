@@ -351,4 +351,6 @@ namespace RavlN {
   }
   
   static TypeNameC type0(typeid(XMLTreeC),"RavlN::XMLTreeC");
+  
+  
 }
