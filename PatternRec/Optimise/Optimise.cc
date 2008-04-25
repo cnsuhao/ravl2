@@ -19,8 +19,23 @@ namespace RavlN {
   }
   
   OptimiseBodyC::OptimiseBodyC (const StringC &name, istream &)
-    :_name(name)
+    : _name(name)
   {
+    
+  }
+
+  //: Load from stream.
+  OptimiseBodyC::OptimiseBodyC (std::istream &strm)
+    : RCBodyVC(strm)
+  {
+    strm >> _name;
+  }
+    
+  //: Load from stream.
+  OptimiseBodyC::OptimiseBodyC (BinIStreamC &strm) 
+    :  RCBodyVC(strm)
+  {
+    strm >> _name;
   }
   
   VectorC OptimiseBodyC::MinimalX (const CostC &domain, RealT &minimumCost) const
@@ -59,13 +74,25 @@ namespace RavlN {
   }
   
   const StringC OptimiseBodyC::GetName () const
-  {
-    return _name;
-  }
+  { return _name; }
+  
   
   bool OptimiseBodyC::Save (ostream &out) const
-  {
-    return RCBodyVC::Save (out);
+  { 
+    if(!RCBodyVC::Save (out))
+      return false;
+    out << _name;
+    return true;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool OptimiseBodyC::Save(BinOStreamC &out) const 
+  { 
+    if(!RCBodyVC::Save (out)) 
+      return false;
+    out << _name;
+    return true;
   }
   
   OptimiseC::OptimiseC ()

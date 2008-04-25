@@ -34,7 +34,6 @@ namespace RavlN {
   
   class OptimiseBodyC: public RCBodyVC
   {
-    StringC _name;
   public:
     OptimiseBodyC (const StringC &name);
     //: Constructor with derived class name
@@ -45,7 +44,13 @@ namespace RavlN {
     //: Contructs from stream with derived class name
     // The name or type must be known so that the correct virtual constructor
     // can be called.
-
+    
+    OptimiseBodyC (std::istream &strm);
+    //: Load from stream.
+    
+    OptimiseBodyC (BinIStreamC &strm);
+    //: Load from stream.
+    
     virtual VectorC MinimalX (const CostC &domain, RealT &minimumCost) const;
     //: Determines Xmin=arg min_{X} domain(X)
     //!param: domain      - the cost function that will be minimised
@@ -86,6 +91,12 @@ namespace RavlN {
     
     virtual bool Save (ostream &out) const;
     //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+  protected:
+    StringC _name;
   };
   
   //! userlevel=Normal
@@ -101,7 +112,8 @@ namespace RavlN {
   // maximises the cost function given a guess at the solution. See any of the
   // derived optimisers for specific algorithm implementations.
   
-  class OptimiseC: public RCHandleVC<OptimiseBodyC>
+  class OptimiseC
+    : public RCHandleVC<OptimiseBodyC>
   {
   public:
     OptimiseC ();
