@@ -49,7 +49,7 @@ namespace RavlN {
     //: Text stream constructor.
     
     virtual bool Save(BinOStreamC &strm) const {
-      if(!HashTreeNodeBodyC<KeyT,DataT>::Save(strm))
+      if(!RCBodyVC::Save(strm))
         return false;
       strm << data;
       return true;
@@ -57,7 +57,7 @@ namespace RavlN {
     //: Save to binary stream.
     
     virtual bool Save(std::ostream &strm) const {
-      if(!HashTreeNodeBodyC<KeyT,DataT>::Save(strm))
+      if(!RCBodyVC::Save(strm))
         return false;
       strm << data;
       return true;
