@@ -5,7 +5,6 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////////
-//! rcsid = "$Id$"
 //! lib=RavlLibMPEG2
 //! author = "Charles Galambos"
 //! file="Ravl/Contrib/MPEG/LibMPEG2/LibMPEG2Format.cc"

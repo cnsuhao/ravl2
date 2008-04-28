@@ -7,7 +7,6 @@
 #ifndef RAVL_IMGIOMPEG2_HEADER
 #define RAVL_IMGIOMPEG2_HEADER 1
 //////////////////////////////////////////////////////////////////
-//! rcsid = "$Id$"
 //! lib=RavlLibMPEG2
 //! author = "Warren Moore"
 //! file="Ravl/Contrib/MPEG/LibMPEG2/ImgIOMPEG2.hh"
@@ -23,13 +22,10 @@
 #include "Ravl/Cache.hh"
 #include "Ravl/Tuple2.hh"
 #include "Ravl/DP/SPort.hh"
+#include <inttypes.h>
 
 extern "C"
 {
-  typedef struct mpeg2dec_s mpeg2dec_t;  
-  typedef unsigned int uint32_t;
-  typedef unsigned char uint8_t;
-  
   #include <mpeg2dec/mpeg2.h>
 }
 

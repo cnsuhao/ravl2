@@ -5,7 +5,6 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////////
-//! rcsid = "$Id$"
 //! lib=RavlLibMPEG2
 //! author = "Warren Moore"
 //! file="Ravl/Contrib/MPEG/LibMPEG2/ImgIOMPEG2.cc"
@@ -24,7 +23,7 @@
 extern "C"
 {
   #include <mpeg2dec/convert.h>
-  #include <libmpeg2/mpeg2_internal.h>
+  #include <mpeg2dec/mpeg2_internal.h>
 }
 
 #define DODEBUG 0

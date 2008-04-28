@@ -7,7 +7,6 @@
 // http://libmpeg2.sourceforge.net/
 // file-header-ends-here
 //////////////////////////////////////////////////////////////////
-//! rcsid = "$Id$"
 //! lib=RavlLibMPEG2
 //! author = "Warren Moore"
 //! file="Ravl/Contrib/MPEG/LibMPEG2/MPEG2Demux.cc"
