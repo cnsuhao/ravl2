@@ -42,10 +42,10 @@ namespace RavlN {
     SerialCtrlC();
     //: defualt constructor;
     
-    SerialCtrlC(const char *dev, const char * perm = "RDRW",bool nonBlocking = true);
+    SerialCtrlC(const char *dev, const char * perm = "RDWR",bool nonBlocking = true);
     //: open a device for initialize;
     
-    bool Open(const char *dev, const char * perm = "RDRW",bool nonBlocking = true);
+    bool Open(const char *dev, const char * perm = "RDWR",bool nonBlocking = true);
     //: Open device.
 	
     enum ParityT { 
@@ -96,6 +96,12 @@ namespace RavlN {
 #endif
     }
     //: Is stream open ?
+    
+    void Reset();
+    //: Reset interface.
+    
+    void Flush();
+    //: Flush buffer.
     
   protected:
 #if RAVL_HAVE_INTFILEDESCRIPTORS 

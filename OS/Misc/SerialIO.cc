@@ -34,7 +34,7 @@ namespace RavlN {
 #if RAVL_VISUALCPP_NAMESPACE_BUG
   using namespace RavlN;
 #endif
-
+  
   //: Get setting to use for a bit rate.
   // returns -1 for illegal values.
 
@@ -353,6 +353,26 @@ namespace RavlN {
     return false;
 #endif
   }
+
+  //: Reset interface.
+  
+  void SerialCtrlC::Reset() {
+#if RAVL_HAVE_TERMIOS
+    tcsendbreak(m_fd, 0);
+#else
+    RavlAssert(0);
+#endif
+  }
+  
+  //: Flush buffer.
+  
+  void SerialCtrlC::Flush() {
+#if RAVL_HAVE_TERMIOS
+    tcflush(m_fd,TCIOFLUSH);
+#else
+    RavlAssert(0);
+#endif
+  }
   
   //////// OSerialC ///////////////////////////////////////////////////////////////
 
@@ -411,6 +431,7 @@ namespace RavlN {
 #endif
     return true;
   }
+
 
 }
 
