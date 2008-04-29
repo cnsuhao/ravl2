@@ -8,7 +8,7 @@
 //! file = "Ravl/Contrib/LibGd/Gd.hh"
 //! lib = RavlImgGd
 //! author = "Warren Moore"
-//! docentry = "Ravl.API.LibGD"
+//! docentry = "Ravl.API.Images.Converters.LibGD"
 //! example = "testGd.cc"
 
 #ifndef RAVL_LIBGD_HEADER
@@ -22,7 +22,7 @@ namespace RavlImageN
 {
   
   //: GdImageC
-  // Thin wrapper and utility functions for Gd images
+  // Thin wrapper and utility functions for <a href="http://www.boutell.com/gd/">GD images</a>
   
   class GdImageC
   {

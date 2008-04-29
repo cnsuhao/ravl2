@@ -8,7 +8,7 @@
 //! file = "Ravl/Contrib/LibGd/testGd.cc"
 //! lib = RavlImgGd
 //! author = "Warren Moore"
-//! docentry = "Ravl.API.LibGD"
+//! docentry = "Ravl.API.Images.Converters.LibGD"
 
 #include "Ravl/Option.hh"
 #include "Ravl/Image/Gd.hh"
