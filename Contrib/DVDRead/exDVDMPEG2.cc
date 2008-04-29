@@ -8,7 +8,7 @@
 //! file = "Ravl/Contrib/DVDRead/exDVDMPEG2.cc"
 //! lib = RavlDVDRead
 //! author = "Warren Moore"
-//! docentry = "Ravl.API.LibDVDRead"
+//! docentry = "Ravl.API.Images.Video.Video IO.LibDVDRead"
 
 #include "Ravl/Option.hh"
 #include "Ravl/DVDFormat.hh"

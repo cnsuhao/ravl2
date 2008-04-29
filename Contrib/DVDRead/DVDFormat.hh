@@ -8,7 +8,7 @@
 //! file = "Ravl/Contrib/DVDRead/DVDFormat.hh"
 //! lib = RavlDVDRead
 //! author = "Warren Moore"
-//! docentry = "Ravl.API.LibDVDRead"
+//! docentry = "Ravl.API.Images.Video.Video IO.LibDVDRead"
 
 #ifndef RAVL_DVDREADFORMAT_HEADER
 #define RAVL_DVDREADFORMAT_HEADER 1
