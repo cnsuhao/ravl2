@@ -54,10 +54,10 @@ namespace RavlN
 
 #ifdef SWIGPERL
 
-    %typemap(out) StringC
-    {
-      $result = newSVpv($1.chars(), $1.Size());
-    }
+    //%typemap(out) StringC
+    //{
+    //  $result = newSVpv($1.chars(), $1.Size());
+    //}
 
     %typemap(in) StringC
     {
