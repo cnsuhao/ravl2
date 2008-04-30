@@ -108,7 +108,7 @@ namespace RavlN {
     int openFlags = O_NOCTTY;
     if(nonBlocking) {
       openFlags = openFlags | O_NONBLOCK;
-#ifndef O_NDELAY
+#ifdef O_NDELAY
       openFlags = openFlags | O_NDELAY;
 #endif
     }

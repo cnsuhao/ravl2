@@ -116,7 +116,7 @@ namespace RavlN {
     while(m_fd >= 0) {
       ufds[0].revents = 0;
       int rn = poll(ufds,1,Round(m_readTimeOut * 1000.0));
-      SysLog(SYSLOG_DEBUG) << "UnixStreamIOC::WaitForRead(), Poll=" << rn << " Errno= " << errno << " Events=" << ufds[0].revents;
+      ONDEBUG(SysLog(SYSLOG_DEBUG) << "UnixStreamIOC::WaitForRead(), Poll=" << rn << " Errno= " << errno << " Events=" << ufds[0].revents);
       if(rn == 0) {
         if(m_failOnReadTimeout)
           return false;        
@@ -193,7 +193,7 @@ namespace RavlN {
     while(m_fd >= 0) {
       ufds[0].revents = 0;
       int rn = poll(ufds,1,Round(m_writeTimeOut * 1000.0));
-      SysLog(SYSLOG_DEBUG) << "UnixStreamIOC::WaitForWrite(), Poll=" << rn << " Errno= " << errno << " Events=" << ufds[0].revents;
+      ONDEBUG(SysLog(SYSLOG_DEBUG) << "UnixStreamIOC::WaitForWrite(), Poll=" << rn << " Errno= " << errno << " Events=" << ufds[0].revents);
       if(rn == 0) continue; // Timeout.
       if(rn < 0) { // Error.
 	if(!CheckErrors("UnixStreamIOC::WaitForWrite()"))
