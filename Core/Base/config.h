@@ -158,7 +158,7 @@
 #define RAVL_HAVE_NETDB_H      RAVL_OS_UNIX
 #define RAVL_HAVE_UNISTD_H     RAVL_OS_UNIX       /* have unistd.h */
 #define RAVL_HAVE_SYS_SOCKET_H RAVL_OS_UNIX       /* have sys/socket.h  */
-#define RAVL_HAVE_TERMIOS      (RAVL_OS_UNIX && !RAVL_OS_MACOSX)       /* have termios for controlling serial ports. */
+#define RAVL_HAVE_TERMIOS      RAVL_OS_UNIX       /* have termios for controlling serial ports. */
 #define RAVL_USE_TIMEB_H       RAVL_OS_WIN32
 #define RAVL_HAVE_PROCESS_H    RAVL_OS_WIN32      /* have process.h */
 #define RAVL_USE_WINSOCK       RAVL_OS_WIN32
