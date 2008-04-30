@@ -77,6 +77,10 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: Deriche edge filter.
+
+  // R. Deriche, "Using Canny's Criteria to Derive a Recursively
+  // Implemented Optimal Edge Detector"; in:
+  // International Journal of Comp. Vision, vol.1, no. 2, pp. 167-187, 1987.
   
   class EdgeDericheC 
     : public RCHandleC<EdgeDericheBodyC>
@@ -86,7 +90,7 @@ namespace RavlImageN {
       : RCHandleC<EdgeDericheBodyC>(*new EdgeDericheBodyC(omega,alpha))
     {}
     //: Constructor.
-    
+    // Decreasing alpha <i>increases</i> the amount of filtering.
   protected:
     EdgeDericheC(EdgeDericheBodyC &bod)
       : RCHandleC<EdgeDericheBodyC>(bod)

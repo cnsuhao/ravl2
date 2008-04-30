@@ -79,8 +79,10 @@ int main(int argc,char **argv) {
   bool verb = option.Boolean("v",false,"Verbose. ");
   //bool eightCon = option.Boolean("u",false,"Use eight contectivity. ");
   bool rawEdgeImg = option.Boolean("rei",false,"Show raw edge image.");
-  RealT hystLower = option.Real("hl",4,"Lower hysterisis threshold. ");
-  RealT hystUpper = option.Real("hu",8,"Upper hysterisis threshold. ");
+  RealT hystLower = option.Real("hl",4.0,"Lower hysterisis threshold. ");
+  RealT hystUpper = option.Real("hu",8.0,"Upper hysterisis threshold. ");
+  RealT alpha     = option.Real("a", 2.0,"\"alpha\" for Deriche. ");
+  RealT omega     = option.Real("w", 0.001,"\"omega\" for Deriche. ");
   IntT threads = option.Int("th",2,"Number of threads to use in processing. ");
   StringC overlay = option.String("ol","","Overlay edges on input image. ");
   bool overlayBlank = option.Boolean("bol",false,"Use a blank overlay image");
@@ -94,7 +96,7 @@ int main(int argc,char **argv) {
   // Setup edge detector.
   EdgeDetectorC edgeDet(useDeriche,hystLower,hystUpper);
   
-  EdgeDericheC edgeDeriche;
+  EdgeDericheC edgeDeriche(omega, alpha);
   if(!seq) { // 
     ImageC<RealT> input;
     if(!Load(inFile,input,inType,verb)) {
