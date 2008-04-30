@@ -9,6 +9,7 @@
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/MeanCovariance/testMeanCovar.cc"
 
+#include "Ravl/Mean.hh"
 #include "Ravl/MeanVariance.hh"
 #include "Ravl/FMean.hh"
 #include "Ravl/FMeanCovariance.hh"
@@ -23,6 +24,7 @@
 
 using namespace RavlN;
 
+int testMean();
 int testMeanVar();
 int testFMean();
 int testFMeanCovar();
@@ -40,6 +42,10 @@ template FMeanCovarianceC<2>;
 
 int main() {
   int ln;
+  if((ln = testMean()) != 0) {
+    cerr << "testMean, failed. Line:" << ln << "\n";
+    return 1;
+  }
   if((ln = testMeanVar()) != 0) {
     cerr << "testMeanVar, failed. Line:" << ln << "\n";
     return 1;
@@ -68,6 +74,22 @@ int main() {
   return 0;
 }
 
+
+int testMean() {
+  MeanC m;
+  m += 3;
+  m += 5;
+  if (m.Mean() != 4) return __LINE__;
+  if (m.Number() != 2) return __LINE__;
+  MeanC m1;
+  m1 += 2;
+  m1 += 6;
+  m += m1;
+  if (m.Mean() != 4) return __LINE__;
+  if (m.Number() != 4) return __LINE__;
+  return 0;
+}
+  
 int testMeanVar() {
   // Do some simple tests...
   MeanVarianceC mvo;

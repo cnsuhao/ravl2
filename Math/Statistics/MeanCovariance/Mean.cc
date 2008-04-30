@@ -28,19 +28,19 @@ namespace RavlN {
   //: Add another Mean to this one.
   
   MeanC &MeanC::operator+=(const RealT &mv) {
-    mean = (mean * n - mv) / (n-1);
-    n--;
-    return *this;
-  }
-  
-  //: Remove another Mean from this one.
-  
-  MeanC &MeanC::operator-=(const RealT &mv) {
     mean = (mean * n + mv) / (n+1);
     n++;
     return *this;
   }
 
+  //: Remove another Mean from this one.
+  
+  MeanC &MeanC::operator-=(const RealT &mv) {
+    mean = (mean * n - mv) / (n-1);
+    n--;
+    return *this;
+  }
+  
   //: Add another Mean to this one.
   
   MeanC &MeanC::operator+=(const MeanC &mv) {
