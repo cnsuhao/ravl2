@@ -205,6 +205,16 @@ namespace RavlGUIN {
   //: Create button that calls a function.
   // This does NOT make a reference to obj.
   
+  template<class PtrT,class ObjT,class DataT>
+  ButtonC ButtonPtr(const char *label,PtrT &obj,bool (ObjT::*func)(DataT dat),const typename TraitsC<DataT>::BaseTypeT &dat )
+  { 
+    ButtonC ret = ButtonC(label);
+    ConnectPtr(ret.Signal("clicked"),obj,func,dat);
+    return ret;    
+  }
+  //: Create button that calls a function.
+  // Uses pointer 'obj'
+  
   template<class ObjT,class DataT>
   ButtonC Button(const char *label,const char *tooltip,const ObjT &obj,bool (ObjT::*func)(DataT dat),const typename TraitsC<DataT>::BaseTypeT &dat)
   { 
@@ -228,6 +238,14 @@ namespace RavlGUIN {
     ConnectRef(ret.Signal("clicked"),obj,func,dat1,dat2);
     return ret;    
   }
+
+  template<class PtrT,class ObjT,class Data1T,class Data2T>
+  ButtonC ButtonPtr(const char *label,PtrT &obj,bool (ObjT::*func)(Data1T dat1,Data2T dat2),const typename TraitsC<Data1T>::BaseTypeT &dat1,const typename TraitsC<Data2T>::BaseTypeT &dat2)
+  { 
+    ButtonC ret = ButtonC(label);
+    ConnectPtr(ret.Signal("clicked"),obj,func,dat1,dat2);
+    return ret;    
+  }
   
   template<class ObjT>
   ButtonC Button(const char *label,const ObjT &obj,bool (ObjT::*func)())
@@ -247,6 +265,15 @@ namespace RavlGUIN {
   }
   //: Create button that calls a function.
   // This does NOT make a reference to obj.
+
+  template<class PtrT,class ObjT>
+  ButtonC ButtonPtr(const char *label,PtrT &obj,bool (ObjT::*func)())
+  { 
+    ButtonC ret = ButtonC(label);
+    ConnectPtr(ret.Signal("clicked"),obj,func);
+    return ret;    
+  }
+  //: Create button that calls a function.
   
   template<class ObjT>
   ButtonC Button(const char *label,const char *tooltip,const ObjT &obj,bool (ObjT::*func)())
