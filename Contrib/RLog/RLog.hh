@@ -7,6 +7,10 @@
 #ifndef RAVL_RLOG_HEADER
 #define RAVL_RLOG_HEADER
 
+#ifndef RLOG_COMPONENT
+#define RLOG_COMPONENT Ravl
+#endif
+
 #include <rlog/rlog.h>
 
 namespace RavlN {
