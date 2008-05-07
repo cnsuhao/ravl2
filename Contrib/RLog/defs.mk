@@ -1,4 +1,6 @@
 
+REQUIRES=RLog
+
 PACKAGE=Ravl
 
 HEADERS=RLog.hh
