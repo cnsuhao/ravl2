@@ -6,7 +6,7 @@
 # file-header-ends-here
 #! rcsid="$Id$"
 #! file="Ravl/Math/Geometry/Euclidean/Boundary/defs.mk"
-
+ 
 PACKAGE=Ravl
 
 HEADERS=CrackCode.hh BVertex.hh Crack.hh Boundary.hh Edge.hh
@@ -23,6 +23,5 @@ USESLIBS=RavlMath
 
 EHT = Boundary.html
 
-AUXFILES = Boundary.png
+HTML = Boundary.png
 
-AUXDIR = share/doc/RAVL/Auto/Basic/Tree
