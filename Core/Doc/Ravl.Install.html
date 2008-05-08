@@ -8,9 +8,9 @@
   <body>
 
     <p> These instructions were developed for a Linux environment.  They
-    should work for most Unix-type environments.  There are also
-    instructions for compiling RAVL under <a
-    href="Ravl.Installation.Windows.html">M$ Windows</a>.</p>
+    should work for most Unix-type environments.  There are also instructions
+    for compiling RAVL under <a href="Ravl.Installation.Windows.html">M$
+    Windows</a>.</p>
 
     <p> The installation process by default will build several versions of the
     library, including varying degrees of optimisation and debug information,
@@ -23,9 +23,10 @@
 
     <h2>RAVL Prerequisites</h2>
 
-    <p> The RAVL library requires the use of the gcc compiler, version 4.0.2
-    or later. If it is not on the system, <a
-    href="Ravl.Installation.Compiler.html">install it first</a>.</p>
+    <p> The RAVL library requires the use of the gcc compiler.  Use either
+    version 3.4.6, or a stable release of version 4. If it is not on the
+    system, <a href="Ravl.Installation.Compiler.html">install it
+    first</a>.</p>
 
     <p>The <a href="Ravl.Installation.Contrib.html">gtk 2.0 library</a> is
     strongly recommended.  Much of RAVL will not build if gtk is not
@@ -35,25 +36,26 @@
     <h2>Installing the RAVL library and applications</h2> 
 
     <p> Installation of the RAVL library and executables is rather
-    non-standard, but seems to work for most people.  Root priviledge is not needed.</p>
+    non-standard, but seems to work for most people.  Root priviledge is not
+    needed.</p>
 
     <ol>
       <li> Make sure you use the appropriate commands depending on your shell
       (C or bash).  Decide on a place for the installation and define the
-      environment variable <code>RAVL_INSTALLATION</code> accordingly,
-      e.g. for C shell:
+      environment variable <code>RAVL_INSTALLATION</code> accordingly.  This
+      can optionally point to an existing directory.  For C shell:
 
         <pre>
-setenv RAVL_INSTALLATION ~/RavlSrc
-mkdir -p $RAVL_INSTALLATION
-cd $RAVL_INSTALLATION</pre>
+setenv RAVL_INSTALLATION ~/RavlProject
+mkdir -p $RAVL_INSTALLATION/src
+cd $RAVL_INSTALLATION/src</pre>
 
         <p>or for bash shell:</p>
 
         <pre>
-export RAVL_INSTALLATION=~/RavlSrc
-mkdir -p $RAVL_INSTALLATION
-cd $RAVL_INSTALLATION</pre>
+export RAVL_INSTALLATION=~/RavlProject
+mkdir -p $RAVL_INSTALLATION/src
+cd $RAVL_INSTALLATION/src</pre>
       </li>
 
       <li>Download the source code:
@@ -62,17 +64,18 @@ svn co https://ravl.svn.sourceforge.net/svnroot/ravl/main/Ravl</pre>
       </li>
 
       <li> Select the relevant <code>config.local</code> file from
-      <code>$RAVL_INSTALLATION/Ravl/QMake</code> as follows.  Determine the
-      correct suffix for the file by running:
+      <code>$RAVL_INSTALLATION/src/Ravl/QMake</code> as follows.  Determine
+      the correct suffix for the file by running:
 <pre>
-$RAVL_INSTALLATION/Ravl/QMake/config.arc</pre> 
+$RAVL_INSTALLATION/src/Ravl/QMake/config.arc</pre> 
 
         For a standard Linux installation on a 32-bit machine the returned
         string should be <code>linux</code>, and so the required config file
         is <code>config.local.linux</code> (<code>config.local.linux64</code>
         for a 64-bit machine).  (If the script generates an error message you
         will need to hack it to match your installation.  Sorry.)  In what
-        follows it is referred to as <code>config.local.xxx</code>.  Then:
+        follows the config file is referred to as
+        <code>config.local.xxx</code>.  Then:
     <pre>
 cp Ravl/QMake/config.local.xxx .</pre></li>
 
@@ -126,8 +129,8 @@ cp Ravl/QMake/config.local.xxx .</pre></li>
       <li>Finally, the installation is:
 
         <pre>
-cd $RAVL_INSTALLATION/Ravl
-./install $RAVL_INSTALLATION/RavlProject auto $RAVL_INSTALLATION/config.local.xxx
+cd $RAVL_INSTALLATION/src/Ravl
+./install $RAVL_INSTALLATION auto $RAVL_INSTALLATION/src/config.local.xxx
 rehash</pre> 
     (<code>rehash</code> is only necessary if using a C-shell.)
       </li>
@@ -135,25 +138,30 @@ rehash</pre>
     
     <h3>Troubleshooting</h3>
 
-    <p>If the install fails (usually because libraries that are required in  <code>config.local.xxx</code> are not actually installed), then after fixing the problem it is usually sufficient to simply re-run the <code>./install ...</code> command.  However, if this leads to further compilation errors, you should remove these two directory trees before reinstalling:</p>
-    <pre>
-$RAVL_INSTALLATION/RavlProject
-/tmp/$USER/qm
-</pre>
+    <p>If the install fails (usually because libraries that are required in
+    <code>config.local.xxx</code> are not actually installed), then after
+    fixing the problem it is usually sufficient to simply re-run the
+    <code>./install ...</code> command.  However, if this leads to further
+    compilation errors, you should remove the following directory trees before
+    re-running the install script:</p>
+    <ul>
+      <li>Everything in <code>$RAVL_INSTALLATION</code> except <code>src</code></li>
+      <li><code>/tmp/$USER/qm</code></li>
+    </ul>
 
     <h2> Usage </h2><a name="USAGE"></a>
 
     <ul>
       <li>
         <p><b>C shell users</b>: Put the following alias and variable settings
-        for compilation (modified if appropriate) in your <code>.cshrc</code>
+        for compilation (modified as appropriate) in your <code>.cshrc</code>
         file:</p>
 
         <pre>
-setenv RAVL_INSTALLATION ~/RavlSrc
+setenv RAVL_INSTALLATION ~/RavlProject
 setenv PROJECT_OUT ~/ProjOut
-alias qm 'make -f $RAVL_INSTALLATION/RavlProject/share/RAVL/QMake/QMake.mk USERBUILD=1'
-setenv PATH  ${PATH}:${PROJECT_OUT}/lib/RAVL/linux/bin:${RAVL_INSTALLATION}/RavlProject/bin
+alias qm 'make -f $RAVL_INSTALLATION/share/RAVL/QMake/QMake.mk USERBUILD=1'
+setenv PATH  ${PATH}:${PROJECT_OUT}/lib/RAVL/linux/bin:${RAVL_INSTALLATION}/bin
 </pre></li>
       <li>
         <p><b>bash users</b>: Put the following alias and variable settings
@@ -161,31 +169,33 @@ setenv PATH  ${PATH}:${PROJECT_OUT}/lib/RAVL/linux/bin:${RAVL_INSTALLATION}/Ravl
         file:</p>
 
         <pre>
-export RAVL_INSTALLATION=~/RavlSrc
+export RAVL_INSTALLATION=~/RavlProject
 export PROJECT_OUT=~/ProjOut
-alias qm='make -f $RAVL_INSTALLATION/RavlProject/share/RAVL/QMake/QMake.mk USERBUILD=1'
-export PATH=${PATH}:${PROJECT_OUT}/lib/RAVL/linux/bin:${RAVL_INSTALLATION}/RavlProject/bin
+alias qm='make -f $RAVL_INSTALLATION/share/RAVL/QMake/QMake.mk USERBUILD=1'
+export PATH=${PATH}:${PROJECT_OUT}/lib/RAVL/linux/bin:${RAVL_INSTALLATION}/bin
 </pre>
       </li>
     </ul> 
     <p>Notes:</p>
     <ul>
-      <li>RAVL_INSTALLATION <i>must</i> be set to the same as for the
-      installation above.</li>
+      <li><code>$RAVL_INSTALLATION</code> <i>must</i> be set here to the same
+      as for the installation above.</li>
 
-      <li>$PROJECT_OUT controls the directory into which your own code will be
-      compiled.</li>
+      <li><code>$PROJECT_OUT</code> controls the directory into which your own
+      code will be compiled.</li>
 
       <li>qm is the alias for building your own code.  Type <code>qm
       help</code> for options for qm.</li>
 
-      <li>The additions to $PATH will include your own executables built using qm, as well as some RAVL utilities.</li>
+      <li>The additions to <code>$PATH</code> will include your own
+      executables built using qm, as well as some RAVL utilities.</li>
     </ul>
 
     <p>Locally-built documentation for the RAVL classes can then be found at:
-      <nobr><code>$RAVL_INSTALLATION/RavlProject/share/doc/RAVL/Auto/Basic/Tree/Ravl.html</code></nobr></p>
+    <nobr><code>$RAVL_INSTALLATION/share/doc/RAVL/Auto/Basic/Tree/Ravl.html</code></nobr></p>
 
-    <p>Now you are <a href="Ravl.Introduction.Getting_Started.html">ready to program</a> using the RAVL library and QMake make system.</p>
+    <p>Now you are <a href="Ravl.Introduction.Getting_Started.html">ready to
+    program</a> using the RAVL library and QMake make system.</p>
 
     <h2> See also </h2>
 
@@ -196,7 +206,7 @@ export PATH=${PATH}:${PROJECT_OUT}/lib/RAVL/linux/bin:${RAVL_INSTALLATION}/RavlP
     <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
 <!-- Created: Fri Dec 23 09:31:09 GMT 2005 -->
 <!-- hhmts start -->
-Last modified: Wed Apr  9 17:45:48 BST 2008
+Last modified: Thu May  8 11:50:41 BST 2008
 <!-- hhmts end -->
   </body>
 </html>
