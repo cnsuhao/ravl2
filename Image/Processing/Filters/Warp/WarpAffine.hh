@@ -126,7 +126,7 @@ namespace RavlImageN {
   template <class InT, class OutT,class WorkT,class MixerT,class SampleT >
   void WarpAffineC<InT,OutT,WorkT,MixerT,SampleT>::Apply(const ImageC<InT> &src,ImageC<OutT> &outImg) {
     RealRange2dC irng(src.Frame());
-    irng = irng.Expand(-1.1); // There's an off by a bit error somewhere in here...
+    irng = irng.Expand(-1.001); // There's an off by a bit error somewhere in here...
     RealRange2dC orng(rec);
     if(!outImg.IsValid())
       outImg = ImageC<OutT>(rec);
