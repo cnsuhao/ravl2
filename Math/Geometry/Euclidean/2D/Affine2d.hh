@@ -109,6 +109,12 @@ namespace RavlN {
     // This is obsolete, use Inverse().
   };
   
+  bool FitAffine(const Point2dC &p1a,const Point2dC &p1b,
+		 const Point2dC &p2a,const Point2dC &p2b,
+		 const Point2dC &p3a,const Point2dC &p3b,
+		 Affine2dC &affine);
+  //: Fit affine transform from mapping of 3 points.
+  
   Affine2dC FitAffine(const SArray1dC<Point2dC> &orig,const SArray1dC<Point2dC> &newPos,RealT &residual);
   //: Fit an affine transform to 2 arrays of corresponding points
   // A "least sum of squares" fitter is used.  The result transforms the points in "orig" to those in "newPos". The residual from the fit is returned as "residual".

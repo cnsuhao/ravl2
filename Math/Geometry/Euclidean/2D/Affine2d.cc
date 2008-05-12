@@ -10,6 +10,8 @@
 
 #include "Ravl/Affine2d.hh"
 #include "Ravl/Point2d.hh"
+#include "Ravl/Matrix3d.hh"
+#include "Ravl/Vector3d.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/LeastSquares.hh"
@@ -94,6 +96,33 @@ namespace RavlN {
     RealT residual;
     return FitAffine(org,newPos,residual);
   }
+  
+  //: Fit affine transform from mapping of 3 points.
+  bool FitAffine(const Point2dC &p1a,const Point2dC &p1b,
+		 const Point2dC &p2a,const Point2dC &p2b,
+		 const Point2dC &p3a,const Point2dC &p3b,
+		 Affine2dC &affine) {
+
+    Matrix3dC A(p1a[0],p1a[1],1.0,
+		p2a[0],p2a[1],1.0,
+		p3a[0],p3a[1],1.0);
+    Vector3dC b(p1b[0],p2b[0],p3b[0]);
+    Vector3dC c(p1b[1],p2b[1],p3b[1]);
+    
+    Matrix3dC tA = A; // Copy matrix, else it will be destryed by the first solve
+    
+    if(!SolveIP(tA,b))
+      return false;
+    if(!SolveIP(A,c))
+      return false;
+    
+    affine.Translation()[0] = b[2];
+    affine.Translation()[1] = c[2];
+    affine.SRMatrix() = Matrix2dC(b[0],b[1],c[0],c[1]);
+    
+    return true;
+  }
+  
   
   //: Fit an affine transform given to the mapping between original and newPos.
   

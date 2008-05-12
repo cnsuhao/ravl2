@@ -279,7 +279,22 @@ int testFitAffine() {
   for(i=0;i < 3;i++)
     if(((aff * ipnt[i]) - opnt[i]).SumOfSqr() > 0.001)
       return __LINE__;
-
+  
+  
+  // Check 3 point fit.
+  
+  Affine2dC aff3;
+  if(!FitAffine(ipnt[0],opnt[0],
+		ipnt[1],opnt[1],
+		ipnt[2],opnt[2],
+		aff3)) {
+    return __LINE__;
+  }
+  
+  for(i=0;i < 3;i++)
+    if(((aff * ipnt[i]) - opnt[i]).SumOfSqr() > 0.001)
+      return __LINE__;
+  
   // Check polygon transform.
   
   Polygon2dC poly;
