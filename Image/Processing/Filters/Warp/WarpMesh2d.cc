@@ -79,17 +79,26 @@ namespace RavlImageN
   bool WarpMesh2dBaseC::ComputeTransforms(const SArray1dC<Point2dC> &homeVerts,const SArray1dC<Point2dC> &newMeshPositions) {
     //ONDEBUG(cerr << "HomeVerts=" << homeVerts << "\n");
     //ONDEBUG(cerr << "NewsVerts=" << newMeshPositions << "\n");
+#if 0
     SArray1dC<Point2dC> opnts(3);
     SArray1dC<Point2dC> npnts(3);
+#endif
     RavlAssert(newMeshPositions.Size() == homeVerts.Size());
     for(SArray1dIter2C<Index3dC,Affine2dC> it(homeMesh.Faces(),transforms);it;it++) {
-      Index3dC &vs = it.Data1();
+      const Index3dC &vs = it.Data1();
+#if 0
       for(int i = 0;i < 3;i++) {
 	IntT vert = vs[i].V();
 	opnts[i] = homeVerts[vert];
 	npnts[i] = newMeshPositions[vert];
       }
       it.Data2() = FitAffine(opnts,npnts);
+#else
+      FitAffine(homeVerts[vs[0]],newMeshPositions[vs[0]],
+		homeVerts[vs[1]],newMeshPositions[vs[1]],
+		homeVerts[vs[2]],newMeshPositions[vs[2]],
+		it.Data2());
+#endif
       //cout << "Mapping=" << it.Data2() << "\n";
     }
     return true;
