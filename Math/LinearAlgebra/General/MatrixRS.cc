@@ -23,7 +23,7 @@ namespace RavlN {
     MatrixRSC ret = Copy();
     if(!ret.InverseIP()) {
       // Could throw an exception ?
-      return MatrixC(); 
+      return MatrixRSC(); 
     }
     return ret;
   }
