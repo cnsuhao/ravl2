@@ -20,7 +20,7 @@ namespace RavlN {
   // singular. This can be tested for by IsValid().
   
   MatrixRSC MatrixRSC::Inverse() const {
-    MatrixC ret = Copy();
+    MatrixRSC ret = Copy();
     if(!ret.InverseIP()) {
       // Could throw an exception ?
       return MatrixC(); 
