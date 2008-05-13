@@ -162,6 +162,7 @@ namespace RavlN {
     
     CloseHandle(osReader.hEvent);
     CloseHandle(osCommEvent.hEvent);
+    return at;
   }
   
   //: Read some bytes from a stream.
