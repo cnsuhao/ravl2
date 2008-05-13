@@ -320,6 +320,20 @@ namespace RavlImageN {
         attrValue = 1;
       return true;
     }
+    if(attrName == "framerate") {
+      RealT val;
+      if(HandleGetAttr(attrName,val)) {
+        attrValue = RavlN::Round(val);
+        return true;
+      }
+    }
+    if(attrName == "pixel_clock") {
+      RealT val;
+      if(HandleGetAttr(attrName,val)) {
+        attrValue = RavlN::Round(val);
+        return true;
+      }
+    }
     
     return false;
   }
@@ -440,8 +454,16 @@ namespace RavlImageN {
       // Make sure images are reallocated.
       return true;
     }
-
-
+    if(attrName == "framerate") {
+      RealT val = attrValue;
+      HandleSetAttr(attrName,val);
+      return true;
+    }
+    if(attrName == "pixel_clock") {
+      RealT val = attrValue;
+      HandleSetAttr(attrName,val);
+      return true;
+    }
     return false;
   }
   
