@@ -33,26 +33,30 @@ namespace RavlN {
   class MeanCovarianceC {
   public:
     MeanCovarianceC()
+      : m_haveInvCov(false)
     {}
     // Empty constructor, creates invalid object
 
     MeanCovarianceC(const MeanCovarianceC & meanCov)
       : m(meanCov.m), 
-	cov(meanCov.cov)
+	cov(meanCov.cov),
+        m_haveInvCov(false)
     {}
     // The class MeanCovarianceC is implemented as a big object using
     // a reference counter.
     
     MeanCovarianceC(const SizeT n)
       : m(n), 
-	cov(n)
+	cov(n),
+        m_haveInvCov(false)
     { cov.Fill(0); }
     // Creates zero mean and zero covariance matrix representing
     // the 'n'-dimensional set containing no data points.
 
     MeanCovarianceC(const VectorC & point)
       : m(point), 
-	cov(point.Size())
+	cov(point.Size()),
+        m_haveInvCov(false)
     { cov.Fill(0); }
     // Creates the mean vector and zero covariance matrix representing
     // the data set containing just one data point. The vector 'point'
@@ -60,7 +64,8 @@ namespace RavlN {
     
     MeanCovarianceC(const MeanNdC & mean)
       : m(mean), 
-	cov(mean.Mean().Size())
+	cov(mean.Mean().Size()),
+        m_haveInvCov(false)
     { cov.Fill(0); }
     // Creates the mean vector and zero covariance matrix representing
     // the data set represented by the 'mean'. The structure 'mean'
@@ -70,7 +75,8 @@ namespace RavlN {
 		    const VectorC & mean, 
 		    const MatrixRSC & ncov)
       : m(n,mean), 
-	cov(ncov)
+	cov(ncov),
+        m_haveInvCov(false)
     {}
     // Creates the mean vector and zero covariance matrix representing
     // the data set containing 'n' points and represented by the 'mean'
@@ -194,9 +200,19 @@ namespace RavlN {
     RealT MahalanobisDistance(const VectorC &vec) const;
     //: Compute the Mahalanobis to the point.
     
+    void ClearCache()
+    { m_haveInvCov = false; }
+    //: Clear inverse cache.
+    // This must be used if you modify the mean or covariance directly.
   protected:
+    void CacheInverse() const;
+    
     MeanNdC m;   // The mean vector of this data set.
     MatrixRSC cov; // the covariance matrix of this data set.
+    
+    mutable bool m_haveInvCov;
+    mutable MatrixRSC m_cacheInvCov; 
+    mutable RealT m_cacheDet;
     
     friend istream & operator>>(istream & inS, MeanCovarianceC & meanCov);
     friend BinIStreamC & operator>>(BinIStreamC & inS, MeanCovarianceC & meanCov);
