@@ -30,6 +30,7 @@ namespace RavlGUIN
 }
 %}
 
+
 %include "Ravl/Swig/Types.i"
 %include "Ravl/Swig/Point2d.i"
 %include "Ravl/Swig/Image.i"

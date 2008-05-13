@@ -1998,6 +1998,8 @@ class ImageByteRGBValueC(ByteRGBArray2dC):
         __init__(self) -> ImageByteRGBValueC
         __init__(self, rows, cols) -> ImageByteRGBValueC
         __init__(self, range) -> ImageByteRGBValueC
+        __init__(self, rows, cols, data, deletable=True) -> ImageByteRGBValueC
+        __init__(self, rows, cols, data) -> ImageByteRGBValueC
         __init__(self, img, range) -> ImageByteRGBValueC
         """
         this = _Ravl.new_ImageByteRGBValueC(*args)
@@ -2010,6 +2012,10 @@ class ImageByteRGBValueC(ByteRGBArray2dC):
     def Cols(*args):
         """Cols(self) -> SizeT"""
         return _Ravl.ImageByteRGBValueC_Cols(*args)
+
+    def Row(*args):
+        """Row(self, row) -> ByteRGBValueC"""
+        return _Ravl.ImageByteRGBValueC_Row(*args)
 
     __swig_destroy__ = _Ravl.delete_ImageByteRGBValueC
     __del__ = lambda self : None;
@@ -2030,6 +2036,8 @@ class ByteRGBImageC(ByteRGBArray2dC):
         __init__(self) -> ByteRGBImageC
         __init__(self, rows, cols) -> ByteRGBImageC
         __init__(self, range) -> ByteRGBImageC
+        __init__(self, rows, cols, data, deletable=True) -> ByteRGBImageC
+        __init__(self, rows, cols, data) -> ByteRGBImageC
         __init__(self, img, range) -> ByteRGBImageC
         """
         this = _Ravl.new_ByteRGBImageC(*args)
@@ -2042,6 +2050,10 @@ class ByteRGBImageC(ByteRGBArray2dC):
     def Cols(*args):
         """Cols(self) -> SizeT"""
         return _Ravl.ByteRGBImageC_Cols(*args)
+
+    def Row(*args):
+        """Row(self, row) -> ByteRGBValueC"""
+        return _Ravl.ByteRGBImageC_Row(*args)
 
     __swig_destroy__ = _Ravl.delete_ByteRGBImageC
     __del__ = lambda self : None;
@@ -2062,6 +2074,8 @@ class ImageByteC(Array2dByteC):
         __init__(self) -> ImageByteC
         __init__(self, rows, cols) -> ImageByteC
         __init__(self, range) -> ImageByteC
+        __init__(self, rows, cols, data, deletable=True) -> ImageByteC
+        __init__(self, rows, cols, data) -> ImageByteC
         __init__(self, img, range) -> ImageByteC
         """
         this = _Ravl.new_ImageByteC(*args)
@@ -2074,6 +2088,10 @@ class ImageByteC(Array2dByteC):
     def Cols(*args):
         """Cols(self) -> SizeT"""
         return _Ravl.ImageByteC_Cols(*args)
+
+    def Row(*args):
+        """Row(self, row) -> unsigned char"""
+        return _Ravl.ImageByteC_Row(*args)
 
     __swig_destroy__ = _Ravl.delete_ImageByteC
     __del__ = lambda self : None;

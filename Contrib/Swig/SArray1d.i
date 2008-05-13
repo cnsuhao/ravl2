@@ -35,6 +35,10 @@ namespace RavlN {
       DataT &Access(const UIntT &index)
 	{ return self->operator[](index); }
     }
+    %extend {
+      void Set(const UIntT &index, const DataT & object)
+	{ self->operator[](index) = object; }
+    }
 
     SizeT Size() const;
     // Get the size of the array

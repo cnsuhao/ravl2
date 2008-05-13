@@ -60,11 +60,13 @@ namespace RavlImageN {
     ImageC();
     ImageC(SizeT rows,SizeT cols);
     ImageC(const IndexRange2dC &range);
+    ImageC(SizeT rows, SizeT cols, PixelT * data, bool deletable = true);    
     ImageC(const ImageC<PixelT> &img,const IndexRange2dC &range);
     // Take a sub image.
 
     SizeT Rows() const;
     SizeT Cols() const;
+    PixelT * Row(IndexC row);
   };
 
   %template(ImageByteRGBValueC) ImageC<ByteRGBValueC>;

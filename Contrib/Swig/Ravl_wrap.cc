@@ -15984,6 +15984,95 @@ fail:
 
 SWIGINTERN PyObject *_wrap_new_ImageByteRGBValueC__SWIG_3(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
+  RavlN::SizeT arg1 ;
+  RavlN::SizeT arg2 ;
+  RavlImageN::ByteRGBValueC *arg3 = (RavlImageN::ByteRGBValueC *) 0 ;
+  bool arg4 ;
+  RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *result = 0 ;
+  unsigned int val1 ;
+  int ecode1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  bool val4 ;
+  int ecode4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:new_ImageByteRGBValueC",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  ecode1 = SWIG_AsVal_unsigned_SS_int(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_ImageByteRGBValueC" "', argument " "1"" of type '" "RavlN::SizeT""'");
+  } 
+  arg1 = static_cast< RavlN::SizeT >(val1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_ImageByteRGBValueC" "', argument " "2"" of type '" "RavlN::SizeT""'");
+  } 
+  arg2 = static_cast< RavlN::SizeT >(val2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_RavlImageN__ByteRGBValueC, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "new_ImageByteRGBValueC" "', argument " "3"" of type '" "RavlImageN::ByteRGBValueC *""'"); 
+  }
+  arg3 = reinterpret_cast< RavlImageN::ByteRGBValueC * >(argp3);
+  ecode4 = SWIG_AsVal_bool(obj3, &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "new_ImageByteRGBValueC" "', argument " "4"" of type '" "bool""'");
+  } 
+  arg4 = static_cast< bool >(val4);
+  result = (RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *)new RavlImageN::ImageC<RavlImageN::ByteRGBValueC >(arg1,arg2,arg3,arg4);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_RavlImageN__ImageCTRavlImageN__ByteRGBValueC_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_ImageByteRGBValueC__SWIG_4(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RavlN::SizeT arg1 ;
+  RavlN::SizeT arg2 ;
+  RavlImageN::ByteRGBValueC *arg3 = (RavlImageN::ByteRGBValueC *) 0 ;
+  RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *result = 0 ;
+  unsigned int val1 ;
+  int ecode1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:new_ImageByteRGBValueC",&obj0,&obj1,&obj2)) SWIG_fail;
+  ecode1 = SWIG_AsVal_unsigned_SS_int(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_ImageByteRGBValueC" "', argument " "1"" of type '" "RavlN::SizeT""'");
+  } 
+  arg1 = static_cast< RavlN::SizeT >(val1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_ImageByteRGBValueC" "', argument " "2"" of type '" "RavlN::SizeT""'");
+  } 
+  arg2 = static_cast< RavlN::SizeT >(val2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_RavlImageN__ByteRGBValueC, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "new_ImageByteRGBValueC" "', argument " "3"" of type '" "RavlImageN::ByteRGBValueC *""'"); 
+  }
+  arg3 = reinterpret_cast< RavlImageN::ByteRGBValueC * >(argp3);
+  result = (RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *)new RavlImageN::ImageC<RavlImageN::ByteRGBValueC >(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_RavlImageN__ImageCTRavlImageN__ByteRGBValueC_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_ImageByteRGBValueC__SWIG_5(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
   RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *arg1 = 0 ;
   RavlN::IndexRange2dC *arg2 = 0 ;
   RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *result = 0 ;
@@ -16021,12 +16110,12 @@ fail:
 
 SWIGINTERN PyObject *_wrap_new_ImageByteRGBValueC(PyObject *self, PyObject *args) {
   int argc;
-  PyObject *argv[3];
+  PyObject *argv[5];
   int ii;
   
   if (!PyTuple_Check(args)) SWIG_fail;
   argc = PyObject_Length(args);
-  for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+  for (ii = 0; (ii < argc) && (ii < 4); ii++) {
     argv[ii] = PyTuple_GET_ITEM(args,ii);
   }
   if (argc == 0) {
@@ -16048,7 +16137,7 @@ SWIGINTERN PyObject *_wrap_new_ImageByteRGBValueC(PyObject *self, PyObject *args
       int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_RavlN__IndexRange2dC, 0);
       _v = SWIG_CheckState(res);
       if (_v) {
-        return _wrap_new_ImageByteRGBValueC__SWIG_3(self, args);
+        return _wrap_new_ImageByteRGBValueC__SWIG_5(self, args);
       }
     }
   }
@@ -16068,9 +16157,57 @@ SWIGINTERN PyObject *_wrap_new_ImageByteRGBValueC(PyObject *self, PyObject *args
       }
     }
   }
+  if (argc == 3) {
+    int _v;
+    {
+      int res = SWIG_AsVal_unsigned_SS_int(argv[0], NULL);
+      _v = SWIG_CheckState(res);
+    }
+    if (_v) {
+      {
+        int res = SWIG_AsVal_unsigned_SS_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(argv[2], &vptr, SWIGTYPE_p_RavlImageN__ByteRGBValueC, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          return _wrap_new_ImageByteRGBValueC__SWIG_4(self, args);
+        }
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v;
+    {
+      int res = SWIG_AsVal_unsigned_SS_int(argv[0], NULL);
+      _v = SWIG_CheckState(res);
+    }
+    if (_v) {
+      {
+        int res = SWIG_AsVal_unsigned_SS_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(argv[2], &vptr, SWIGTYPE_p_RavlImageN__ByteRGBValueC, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          {
+            int res = SWIG_AsVal_bool(argv[3], NULL);
+            _v = SWIG_CheckState(res);
+          }
+          if (_v) {
+            return _wrap_new_ImageByteRGBValueC__SWIG_3(self, args);
+          }
+        }
+      }
+    }
+  }
   
 fail:
-  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'new_ImageByteRGBValueC'.\n  Possible C/C++ prototypes are:\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>()\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>(RavlN::SizeT,RavlN::SizeT)\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>(RavlN::IndexRange2dC const &)\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>(RavlImageN::ImageC<RavlImageN::ByteRGBValueC > const &,RavlN::IndexRange2dC const &)\n");
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'new_ImageByteRGBValueC'.\n  Possible C/C++ prototypes are:\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>()\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>(RavlN::SizeT,RavlN::SizeT)\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>(RavlN::IndexRange2dC const &)\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>(RavlN::SizeT,RavlN::SizeT,RavlImageN::ByteRGBValueC *,bool)\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>(RavlN::SizeT,RavlN::SizeT,RavlImageN::ByteRGBValueC *)\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>(RavlImageN::ImageC<RavlImageN::ByteRGBValueC > const &,RavlN::IndexRange2dC const &)\n");
   return NULL;
 }
 
@@ -16113,6 +16250,45 @@ SWIGINTERN PyObject *_wrap_ImageByteRGBValueC_Cols(PyObject *SWIGUNUSEDPARM(self
   arg1 = reinterpret_cast< RavlImageN::ImageC<RavlImageN::ByteRGBValueC > * >(argp1);
   result = (RavlN::SizeT)((RavlImageN::ImageC<RavlImageN::ByteRGBValueC > const *)arg1)->Cols();
   resultobj = SWIG_From_unsigned_SS_int(static_cast< unsigned int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ImageByteRGBValueC_Row(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *arg1 = (RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *) 0 ;
+  RavlN::IndexC arg2 ;
+  RavlImageN::ByteRGBValueC *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:ImageByteRGBValueC_Row",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RavlImageN__ImageCTRavlImageN__ByteRGBValueC_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ImageByteRGBValueC_Row" "', argument " "1"" of type '" "RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *""'"); 
+  }
+  arg1 = reinterpret_cast< RavlImageN::ImageC<RavlImageN::ByteRGBValueC > * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_RavlN__IndexC,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ImageByteRGBValueC_Row" "', argument " "2"" of type '" "RavlN::IndexC""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "ImageByteRGBValueC_Row" "', argument " "2"" of type '" "RavlN::IndexC""'");
+    } else {
+      RavlN::IndexC * temp = reinterpret_cast< RavlN::IndexC * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  result = (RavlImageN::ByteRGBValueC *)(arg1)->Row(arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_RavlImageN__ByteRGBValueC, 0 |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -16219,6 +16395,95 @@ fail:
 
 SWIGINTERN PyObject *_wrap_new_ByteRGBImageC__SWIG_3(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
+  RavlN::SizeT arg1 ;
+  RavlN::SizeT arg2 ;
+  RavlImageN::ByteRGBValueC *arg3 = (RavlImageN::ByteRGBValueC *) 0 ;
+  bool arg4 ;
+  RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *result = 0 ;
+  unsigned int val1 ;
+  int ecode1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  bool val4 ;
+  int ecode4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:new_ByteRGBImageC",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  ecode1 = SWIG_AsVal_unsigned_SS_int(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_ByteRGBImageC" "', argument " "1"" of type '" "RavlN::SizeT""'");
+  } 
+  arg1 = static_cast< RavlN::SizeT >(val1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_ByteRGBImageC" "', argument " "2"" of type '" "RavlN::SizeT""'");
+  } 
+  arg2 = static_cast< RavlN::SizeT >(val2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_RavlImageN__ByteRGBValueC, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "new_ByteRGBImageC" "', argument " "3"" of type '" "RavlImageN::ByteRGBValueC *""'"); 
+  }
+  arg3 = reinterpret_cast< RavlImageN::ByteRGBValueC * >(argp3);
+  ecode4 = SWIG_AsVal_bool(obj3, &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "new_ByteRGBImageC" "', argument " "4"" of type '" "bool""'");
+  } 
+  arg4 = static_cast< bool >(val4);
+  result = (RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *)new RavlImageN::ImageC<RavlImageN::ByteRGBValueC >(arg1,arg2,arg3,arg4);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_RavlImageN__ImageCTRavlImageN__ByteRGBValueC_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_ByteRGBImageC__SWIG_4(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RavlN::SizeT arg1 ;
+  RavlN::SizeT arg2 ;
+  RavlImageN::ByteRGBValueC *arg3 = (RavlImageN::ByteRGBValueC *) 0 ;
+  RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *result = 0 ;
+  unsigned int val1 ;
+  int ecode1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:new_ByteRGBImageC",&obj0,&obj1,&obj2)) SWIG_fail;
+  ecode1 = SWIG_AsVal_unsigned_SS_int(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_ByteRGBImageC" "', argument " "1"" of type '" "RavlN::SizeT""'");
+  } 
+  arg1 = static_cast< RavlN::SizeT >(val1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_ByteRGBImageC" "', argument " "2"" of type '" "RavlN::SizeT""'");
+  } 
+  arg2 = static_cast< RavlN::SizeT >(val2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_RavlImageN__ByteRGBValueC, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "new_ByteRGBImageC" "', argument " "3"" of type '" "RavlImageN::ByteRGBValueC *""'"); 
+  }
+  arg3 = reinterpret_cast< RavlImageN::ByteRGBValueC * >(argp3);
+  result = (RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *)new RavlImageN::ImageC<RavlImageN::ByteRGBValueC >(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_RavlImageN__ImageCTRavlImageN__ByteRGBValueC_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_ByteRGBImageC__SWIG_5(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
   RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *arg1 = 0 ;
   RavlN::IndexRange2dC *arg2 = 0 ;
   RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *result = 0 ;
@@ -16256,12 +16521,12 @@ fail:
 
 SWIGINTERN PyObject *_wrap_new_ByteRGBImageC(PyObject *self, PyObject *args) {
   int argc;
-  PyObject *argv[3];
+  PyObject *argv[5];
   int ii;
   
   if (!PyTuple_Check(args)) SWIG_fail;
   argc = PyObject_Length(args);
-  for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+  for (ii = 0; (ii < argc) && (ii < 4); ii++) {
     argv[ii] = PyTuple_GET_ITEM(args,ii);
   }
   if (argc == 0) {
@@ -16283,7 +16548,7 @@ SWIGINTERN PyObject *_wrap_new_ByteRGBImageC(PyObject *self, PyObject *args) {
       int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_RavlN__IndexRange2dC, 0);
       _v = SWIG_CheckState(res);
       if (_v) {
-        return _wrap_new_ByteRGBImageC__SWIG_3(self, args);
+        return _wrap_new_ByteRGBImageC__SWIG_5(self, args);
       }
     }
   }
@@ -16303,9 +16568,57 @@ SWIGINTERN PyObject *_wrap_new_ByteRGBImageC(PyObject *self, PyObject *args) {
       }
     }
   }
+  if (argc == 3) {
+    int _v;
+    {
+      int res = SWIG_AsVal_unsigned_SS_int(argv[0], NULL);
+      _v = SWIG_CheckState(res);
+    }
+    if (_v) {
+      {
+        int res = SWIG_AsVal_unsigned_SS_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(argv[2], &vptr, SWIGTYPE_p_RavlImageN__ByteRGBValueC, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          return _wrap_new_ByteRGBImageC__SWIG_4(self, args);
+        }
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v;
+    {
+      int res = SWIG_AsVal_unsigned_SS_int(argv[0], NULL);
+      _v = SWIG_CheckState(res);
+    }
+    if (_v) {
+      {
+        int res = SWIG_AsVal_unsigned_SS_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(argv[2], &vptr, SWIGTYPE_p_RavlImageN__ByteRGBValueC, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          {
+            int res = SWIG_AsVal_bool(argv[3], NULL);
+            _v = SWIG_CheckState(res);
+          }
+          if (_v) {
+            return _wrap_new_ByteRGBImageC__SWIG_3(self, args);
+          }
+        }
+      }
+    }
+  }
   
 fail:
-  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'new_ByteRGBImageC'.\n  Possible C/C++ prototypes are:\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>()\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>(RavlN::SizeT,RavlN::SizeT)\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>(RavlN::IndexRange2dC const &)\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>(RavlImageN::ImageC<RavlImageN::ByteRGBValueC > const &,RavlN::IndexRange2dC const &)\n");
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'new_ByteRGBImageC'.\n  Possible C/C++ prototypes are:\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>()\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>(RavlN::SizeT,RavlN::SizeT)\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>(RavlN::IndexRange2dC const &)\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>(RavlN::SizeT,RavlN::SizeT,RavlImageN::ByteRGBValueC *,bool)\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>(RavlN::SizeT,RavlN::SizeT,RavlImageN::ByteRGBValueC *)\n    RavlImageN::ImageC<(RavlImageN::ByteRGBValueC)>(RavlImageN::ImageC<RavlImageN::ByteRGBValueC > const &,RavlN::IndexRange2dC const &)\n");
   return NULL;
 }
 
@@ -16348,6 +16661,45 @@ SWIGINTERN PyObject *_wrap_ByteRGBImageC_Cols(PyObject *SWIGUNUSEDPARM(self), Py
   arg1 = reinterpret_cast< RavlImageN::ImageC<RavlImageN::ByteRGBValueC > * >(argp1);
   result = (RavlN::SizeT)((RavlImageN::ImageC<RavlImageN::ByteRGBValueC > const *)arg1)->Cols();
   resultobj = SWIG_From_unsigned_SS_int(static_cast< unsigned int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ByteRGBImageC_Row(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *arg1 = (RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *) 0 ;
+  RavlN::IndexC arg2 ;
+  RavlImageN::ByteRGBValueC *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:ByteRGBImageC_Row",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RavlImageN__ImageCTRavlImageN__ByteRGBValueC_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ByteRGBImageC_Row" "', argument " "1"" of type '" "RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *""'"); 
+  }
+  arg1 = reinterpret_cast< RavlImageN::ImageC<RavlImageN::ByteRGBValueC > * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_RavlN__IndexC,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ByteRGBImageC_Row" "', argument " "2"" of type '" "RavlN::IndexC""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "ByteRGBImageC_Row" "', argument " "2"" of type '" "RavlN::IndexC""'");
+    } else {
+      RavlN::IndexC * temp = reinterpret_cast< RavlN::IndexC * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  result = (RavlImageN::ByteRGBValueC *)(arg1)->Row(arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_RavlImageN__ByteRGBValueC, 0 |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -16454,6 +16806,95 @@ fail:
 
 SWIGINTERN PyObject *_wrap_new_ImageByteC__SWIG_3(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
+  RavlN::SizeT arg1 ;
+  RavlN::SizeT arg2 ;
+  unsigned char *arg3 = (unsigned char *) 0 ;
+  bool arg4 ;
+  RavlImageN::ImageC<RavlN::ByteT > *result = 0 ;
+  unsigned int val1 ;
+  int ecode1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  bool val4 ;
+  int ecode4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:new_ImageByteC",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  ecode1 = SWIG_AsVal_unsigned_SS_int(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_ImageByteC" "', argument " "1"" of type '" "RavlN::SizeT""'");
+  } 
+  arg1 = static_cast< RavlN::SizeT >(val1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_ImageByteC" "', argument " "2"" of type '" "RavlN::SizeT""'");
+  } 
+  arg2 = static_cast< RavlN::SizeT >(val2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_unsigned_char, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "new_ImageByteC" "', argument " "3"" of type '" "unsigned char *""'"); 
+  }
+  arg3 = reinterpret_cast< unsigned char * >(argp3);
+  ecode4 = SWIG_AsVal_bool(obj3, &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "new_ImageByteC" "', argument " "4"" of type '" "bool""'");
+  } 
+  arg4 = static_cast< bool >(val4);
+  result = (RavlImageN::ImageC<RavlN::ByteT > *)new RavlImageN::ImageC<RavlN::ByteT >(arg1,arg2,arg3,arg4);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_RavlImageN__ImageCTunsigned_char_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_ImageByteC__SWIG_4(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RavlN::SizeT arg1 ;
+  RavlN::SizeT arg2 ;
+  unsigned char *arg3 = (unsigned char *) 0 ;
+  RavlImageN::ImageC<RavlN::ByteT > *result = 0 ;
+  unsigned int val1 ;
+  int ecode1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:new_ImageByteC",&obj0,&obj1,&obj2)) SWIG_fail;
+  ecode1 = SWIG_AsVal_unsigned_SS_int(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_ImageByteC" "', argument " "1"" of type '" "RavlN::SizeT""'");
+  } 
+  arg1 = static_cast< RavlN::SizeT >(val1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "new_ImageByteC" "', argument " "2"" of type '" "RavlN::SizeT""'");
+  } 
+  arg2 = static_cast< RavlN::SizeT >(val2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_unsigned_char, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "new_ImageByteC" "', argument " "3"" of type '" "unsigned char *""'"); 
+  }
+  arg3 = reinterpret_cast< unsigned char * >(argp3);
+  result = (RavlImageN::ImageC<RavlN::ByteT > *)new RavlImageN::ImageC<RavlN::ByteT >(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_RavlImageN__ImageCTunsigned_char_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_ImageByteC__SWIG_5(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
   RavlImageN::ImageC<unsigned char > *arg1 = 0 ;
   RavlN::IndexRange2dC *arg2 = 0 ;
   RavlImageN::ImageC<RavlN::ByteT > *result = 0 ;
@@ -16491,12 +16932,12 @@ fail:
 
 SWIGINTERN PyObject *_wrap_new_ImageByteC(PyObject *self, PyObject *args) {
   int argc;
-  PyObject *argv[3];
+  PyObject *argv[5];
   int ii;
   
   if (!PyTuple_Check(args)) SWIG_fail;
   argc = PyObject_Length(args);
-  for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+  for (ii = 0; (ii < argc) && (ii < 4); ii++) {
     argv[ii] = PyTuple_GET_ITEM(args,ii);
   }
   if (argc == 0) {
@@ -16518,7 +16959,7 @@ SWIGINTERN PyObject *_wrap_new_ImageByteC(PyObject *self, PyObject *args) {
       int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_RavlN__IndexRange2dC, 0);
       _v = SWIG_CheckState(res);
       if (_v) {
-        return _wrap_new_ImageByteC__SWIG_3(self, args);
+        return _wrap_new_ImageByteC__SWIG_5(self, args);
       }
     }
   }
@@ -16538,9 +16979,57 @@ SWIGINTERN PyObject *_wrap_new_ImageByteC(PyObject *self, PyObject *args) {
       }
     }
   }
+  if (argc == 3) {
+    int _v;
+    {
+      int res = SWIG_AsVal_unsigned_SS_int(argv[0], NULL);
+      _v = SWIG_CheckState(res);
+    }
+    if (_v) {
+      {
+        int res = SWIG_AsVal_unsigned_SS_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(argv[2], &vptr, SWIGTYPE_p_unsigned_char, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          return _wrap_new_ImageByteC__SWIG_4(self, args);
+        }
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v;
+    {
+      int res = SWIG_AsVal_unsigned_SS_int(argv[0], NULL);
+      _v = SWIG_CheckState(res);
+    }
+    if (_v) {
+      {
+        int res = SWIG_AsVal_unsigned_SS_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(argv[2], &vptr, SWIGTYPE_p_unsigned_char, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          {
+            int res = SWIG_AsVal_bool(argv[3], NULL);
+            _v = SWIG_CheckState(res);
+          }
+          if (_v) {
+            return _wrap_new_ImageByteC__SWIG_3(self, args);
+          }
+        }
+      }
+    }
+  }
   
 fail:
-  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'new_ImageByteC'.\n  Possible C/C++ prototypes are:\n    RavlImageN::ImageC<(RavlN::ByteT)>()\n    RavlImageN::ImageC<(RavlN::ByteT)>(RavlN::SizeT,RavlN::SizeT)\n    RavlImageN::ImageC<(RavlN::ByteT)>(RavlN::IndexRange2dC const &)\n    RavlImageN::ImageC<(RavlN::ByteT)>(RavlImageN::ImageC<unsigned char > const &,RavlN::IndexRange2dC const &)\n");
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number of arguments for overloaded function 'new_ImageByteC'.\n  Possible C/C++ prototypes are:\n    RavlImageN::ImageC<(RavlN::ByteT)>()\n    RavlImageN::ImageC<(RavlN::ByteT)>(RavlN::SizeT,RavlN::SizeT)\n    RavlImageN::ImageC<(RavlN::ByteT)>(RavlN::IndexRange2dC const &)\n    RavlImageN::ImageC<(RavlN::ByteT)>(RavlN::SizeT,RavlN::SizeT,unsigned char *,bool)\n    RavlImageN::ImageC<(RavlN::ByteT)>(RavlN::SizeT,RavlN::SizeT,unsigned char *)\n    RavlImageN::ImageC<(RavlN::ByteT)>(RavlImageN::ImageC<unsigned char > const &,RavlN::IndexRange2dC const &)\n");
   return NULL;
 }
 
@@ -16583,6 +17072,45 @@ SWIGINTERN PyObject *_wrap_ImageByteC_Cols(PyObject *SWIGUNUSEDPARM(self), PyObj
   arg1 = reinterpret_cast< RavlImageN::ImageC<RavlN::ByteT > * >(argp1);
   result = (RavlN::SizeT)((RavlImageN::ImageC<RavlN::ByteT > const *)arg1)->Cols();
   resultobj = SWIG_From_unsigned_SS_int(static_cast< unsigned int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ImageByteC_Row(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RavlImageN::ImageC<RavlN::ByteT > *arg1 = (RavlImageN::ImageC<RavlN::ByteT > *) 0 ;
+  RavlN::IndexC arg2 ;
+  unsigned char *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:ImageByteC_Row",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RavlImageN__ImageCTunsigned_char_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ImageByteC_Row" "', argument " "1"" of type '" "RavlImageN::ImageC<RavlN::ByteT > *""'"); 
+  }
+  arg1 = reinterpret_cast< RavlImageN::ImageC<RavlN::ByteT > * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_RavlN__IndexC,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ImageByteC_Row" "', argument " "2"" of type '" "RavlN::IndexC""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "ImageByteC_Row" "', argument " "2"" of type '" "RavlN::IndexC""'");
+    } else {
+      RavlN::IndexC * temp = reinterpret_cast< RavlN::IndexC * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  result = (unsigned char *)(arg1)->Row(arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_unsigned_char, 0 |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -22762,16 +23290,19 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"new_ImageByteRGBValueC", _wrap_new_ImageByteRGBValueC, METH_VARARGS, NULL},
 	 { (char *)"ImageByteRGBValueC_Rows", _wrap_ImageByteRGBValueC_Rows, METH_VARARGS, NULL},
 	 { (char *)"ImageByteRGBValueC_Cols", _wrap_ImageByteRGBValueC_Cols, METH_VARARGS, NULL},
+	 { (char *)"ImageByteRGBValueC_Row", _wrap_ImageByteRGBValueC_Row, METH_VARARGS, NULL},
 	 { (char *)"delete_ImageByteRGBValueC", _wrap_delete_ImageByteRGBValueC, METH_VARARGS, NULL},
 	 { (char *)"ImageByteRGBValueC_swigregister", ImageByteRGBValueC_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_ByteRGBImageC", _wrap_new_ByteRGBImageC, METH_VARARGS, NULL},
 	 { (char *)"ByteRGBImageC_Rows", _wrap_ByteRGBImageC_Rows, METH_VARARGS, NULL},
 	 { (char *)"ByteRGBImageC_Cols", _wrap_ByteRGBImageC_Cols, METH_VARARGS, NULL},
+	 { (char *)"ByteRGBImageC_Row", _wrap_ByteRGBImageC_Row, METH_VARARGS, NULL},
 	 { (char *)"delete_ByteRGBImageC", _wrap_delete_ByteRGBImageC, METH_VARARGS, NULL},
 	 { (char *)"ByteRGBImageC_swigregister", ByteRGBImageC_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_ImageByteC", _wrap_new_ImageByteC, METH_VARARGS, NULL},
 	 { (char *)"ImageByteC_Rows", _wrap_ImageByteC_Rows, METH_VARARGS, NULL},
 	 { (char *)"ImageByteC_Cols", _wrap_ImageByteC_Cols, METH_VARARGS, NULL},
+	 { (char *)"ImageByteC_Row", _wrap_ImageByteC_Row, METH_VARARGS, NULL},
 	 { (char *)"delete_ImageByteC", _wrap_delete_ImageByteC, METH_VARARGS, NULL},
 	 { (char *)"ImageByteC_swigregister", ImageByteC_swigregister, METH_VARARGS, NULL},
 	 { (char *)"Save", _wrap_Save, METH_VARARGS, NULL},
