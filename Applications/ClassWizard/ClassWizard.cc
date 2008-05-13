@@ -289,7 +289,7 @@ namespace RavlN {
     for(DLIterC<ObjectC> it(bodyClass.Uses());it;it++) {
       StringC iname = it->Var("classname");
       //cerr << "Inherit=" << iname << "\n";
-      if(iname == "RCBodyC" || iname == "RCBodyVC") {
+      if(iname == "RCBodyC" || iname == "RCBodyVC" || iname == "RavlN::RCBodyC" || iname == "RavlN::RCBodyVC") {
 	baseClasses.InsLast(StringC("RCHandleC<") + bodyObj.Name() + StringC(">"));
 	continue;
       }
