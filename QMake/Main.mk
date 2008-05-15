@@ -565,7 +565,7 @@ build_subdirs: srcfiles
 ifneq ($(strip $(TARG_NESTED)),)
 	+ $(SHOWIT)for SUBDIR in $(TARG_NESTED) ; do \
 	  if [ -d $$SUBDIR ] ; then \
-	   echo "------ Making $(DPATH)/"$$SUBDIR ; \
+	   echo "------ Making $(VAR_DISPLAY_NAME) $(DPATH)/"$$SUBDIR ; \
 	   if ( $(MAKEMD) $(TARGET) TARGET=$(TARGET) -C $$SUBDIR DPATH=$(DPATH)/$$SUBDIR ) ; then \
 	     true; \
 	   else \
