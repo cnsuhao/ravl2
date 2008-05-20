@@ -7,16 +7,18 @@ href="../Class/RavlImageN.ImageC.html">ImageC</a>, often templated on one of
 the <a href="Ravl.API.Images.Pixel_Types.html">pixel</a> classes.</p>
 
 <p> In terms of its structure and functionality, ImageC and its derivatives
-can be considered as 2-D arrays.  If there is a difference in philosophy
-between <a href="../Class/RavlImageN.ImageC.html">ImageC</a> and <a
-href="../Class/RavlN.Array2dC.html">Array2dC</a>, it is that in ImageC there
-is a sense of neighbourhood, and spatial extent.  In particular an ImageC
-object can contain one or more "image rectangles" (<a
+can be considered as 2-D arrays: ImageC is in fact derived from <a
+href="../Class/RavlN.Array2dC.html">Array2dC</a>Array2dC.  If there is a
+difference in philosophy between ImageC and Array2dC, it is that in ImageC
+there is a sense of neighbourhood, and spatial extent.  In particular an
+ImageC object can contain one or more "image rectangles" (<a
 href="../Class/RavlImageN.ImageRectangleC.html">ImageRectangleC</a>).  When an
 image is constructed, it has one associated rectangle corresponding to the
 border of the image.  However other rectangles can also be attached,
-corresponding to subimages; they can also be <a href="../Class/RavlImageN.Rectangle2dIterC.html">moved around the image</a>.  These
-can be useful for spatial filtering and other neighbourhood operations.</p>
+corresponding to subimages; they can also be <a
+href="../Class/RavlImageN.Rectangle2dIterC.html">moved around the image</a>.
+These can be useful for spatial filtering and other neighbourhood
+operations.</p>
 
 <h4> Image type conversion:</h4>
 
