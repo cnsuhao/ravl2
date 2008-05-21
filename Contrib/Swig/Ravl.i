@@ -46,4 +46,5 @@ namespace RavlGUIN
 %include "Ravl/Swig/RealRange.i"
 %include "Ravl/Swig/RealRange2d.i"
 %include "Ravl/Swig/Hash.i"
+%include "Ravl/Swig/DPIPort.i"
 

@@ -70,7 +70,6 @@ namespace RavlImageN {
   };
 
   %template(ImageByteRGBValueC) ImageC<ByteRGBValueC>;
-  %template(ByteRGBImageC) ImageC<ByteRGBValueC>;
   %template(ImageByteC) ImageC<ByteT>;
 
   bool Save(StringC,const ImageC<ByteT> &);

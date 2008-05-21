@@ -2022,44 +2022,6 @@ class ImageByteRGBValueC(ByteRGBArray2dC):
 ImageByteRGBValueC_swigregister = _Ravl.ImageByteRGBValueC_swigregister
 ImageByteRGBValueC_swigregister(ImageByteRGBValueC)
 
-class ByteRGBImageC(ByteRGBArray2dC):
-    """Proxy of C++ ByteRGBImageC class"""
-    __swig_setmethods__ = {}
-    for _s in [ByteRGBArray2dC]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
-    __setattr__ = lambda self, name, value: _swig_setattr(self, ByteRGBImageC, name, value)
-    __swig_getmethods__ = {}
-    for _s in [ByteRGBArray2dC]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
-    __getattr__ = lambda self, name: _swig_getattr(self, ByteRGBImageC, name)
-    __repr__ = _swig_repr
-    def __init__(self, *args): 
-        """
-        __init__(self) -> ByteRGBImageC
-        __init__(self, rows, cols) -> ByteRGBImageC
-        __init__(self, range) -> ByteRGBImageC
-        __init__(self, rows, cols, data, deletable=True) -> ByteRGBImageC
-        __init__(self, rows, cols, data) -> ByteRGBImageC
-        __init__(self, img, range) -> ByteRGBImageC
-        """
-        this = _Ravl.new_ByteRGBImageC(*args)
-        try: self.this.append(this)
-        except: self.this = this
-    def Rows(*args):
-        """Rows(self) -> SizeT"""
-        return _Ravl.ByteRGBImageC_Rows(*args)
-
-    def Cols(*args):
-        """Cols(self) -> SizeT"""
-        return _Ravl.ByteRGBImageC_Cols(*args)
-
-    def Row(*args):
-        """Row(self, row) -> ByteRGBValueC"""
-        return _Ravl.ByteRGBImageC_Row(*args)
-
-    __swig_destroy__ = _Ravl.delete_ByteRGBImageC
-    __del__ = lambda self : None;
-ByteRGBImageC_swigregister = _Ravl.ByteRGBImageC_swigregister
-ByteRGBImageC_swigregister(ByteRGBImageC)
-
 class ImageByteC(Array2dByteC):
     """Proxy of C++ ImageByteC class"""
     __swig_setmethods__ = {}
@@ -2604,5 +2566,38 @@ class HashInt64Int64IterC(_object):
 HashInt64Int64IterC_swigregister = _Ravl.HashInt64Int64IterC_swigregister
 HashInt64Int64IterC_swigregister(HashInt64Int64IterC)
 
+class DPIPortImageByteC(_object):
+    """Proxy of C++ DPIPortImageByteC class"""
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, DPIPortImageByteC, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, DPIPortImageByteC, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        """__init__(self) -> DPIPortImageByteC"""
+        this = _Ravl.new_DPIPortImageByteC(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def Get(*args):
+        """Get(self, buff) -> bool"""
+        return _Ravl.DPIPortImageByteC_Get(*args)
+
+    def SetAttr(*args):
+        """SetAttr(self, attrName, attrValue) -> bool"""
+        return _Ravl.DPIPortImageByteC_SetAttr(*args)
+
+    def GetAttr(*args):
+        """GetAttr(self, attrName, attrValue) -> bool"""
+        return _Ravl.DPIPortImageByteC_GetAttr(*args)
+
+    __swig_destroy__ = _Ravl.delete_DPIPortImageByteC
+    __del__ = lambda self : None;
+DPIPortImageByteC_swigregister = _Ravl.DPIPortImageByteC_swigregister
+DPIPortImageByteC_swigregister(DPIPortImageByteC)
+
+
+def OpenISequence(*args):
+  """OpenISequence(?, ?) -> bool"""
+  return _Ravl.OpenISequence(*args)
 
 
