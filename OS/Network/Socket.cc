@@ -115,18 +115,18 @@ namespace RavlN {
     : UnixStreamIOC(nfd,g_defaultTimeout,g_defaultTimeout),
       server(nserver),
       addr(naddr)
-  { 
+  {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "SocketBodyC::SocketBodyC(), fd = " << m_fd );
   }
-  
+
   //: Open socket.
 
   SocketBodyC::~SocketBodyC()  {
     Close(); // Tidy up.
   }
-  
+
   //: Close the socket.
-  
+
   void SocketBodyC::Close() {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "SocketBodyC::Close() dontclose=" << m_dontClose << " fd=" << m_fd << " ");
     UnixStreamIOC::Close();
@@ -396,7 +396,7 @@ namespace RavlN {
 #endif
       return -1;
     }
-    
+
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "SocketBodyC::OpenClient(), Connected to '" << name  << "' ");
     if(addr != 0)
       delete [] (char *) addr;
@@ -445,7 +445,7 @@ namespace RavlN {
 	return SocketC(); // Failed.
       }
       ONDEBUG(SysLog(SYSLOG_DEBUG) << "Accepting. ");
-      socklen_t addrBuffSize = sizeof(sockaddr) + 256;
+      socklen_t addrBuffSize = sizeof(sockaddr) + 256;//FIXME why 256? need to use sockaddr_in instead
       struct sockaddr *cn_addr = (struct sockaddr *) new char [addrBuffSize];
       do {
 	int nfd = accept(m_fd,cn_addr, &addrBuffSize);
@@ -491,7 +491,7 @@ namespace RavlN {
     IntT ret = ntohs( name.sin_port );
     return ret;
   }
-  
+
 
 }
 #endif
