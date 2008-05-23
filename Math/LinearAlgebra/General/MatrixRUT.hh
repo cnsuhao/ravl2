@@ -112,7 +112,7 @@ namespace RavlN {
   //! docentry="Ravl.API.Math.Linear Algebra.Equation Solvers"
 
   bool SolveIP(MatrixRUTC &A,VectorC &b);
-  //: Solve a general linear system  A*x = b
+  //: Solve a general linear system  A*x = b in place.
   // The input vector is b, which is replaced by the ouput x. <p>
   // This matrix is altered to L-U factored form by the computation. <p>
   // If the input matrix is singular, false is returned and
