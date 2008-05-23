@@ -178,7 +178,7 @@ namespace RavlN {
     // This prints the time in decimal form: <code>sec.usec</code>.
     // There are always 6 digits after the decimal point.
     
-    StringC ODBC(bool convertUTCToLocal = false) const;
+    StringC ODBC(bool convertUTCToLocal = false,bool factionalSeconds = false) const;
     //: Return the date and time in ODBC format
     
     bool SetODBC(const StringC &odbcStr);

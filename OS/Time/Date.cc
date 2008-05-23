@@ -318,16 +318,27 @@ namespace RavlN {
 
   //: Return the date and time in ODBC format
   
-  StringC DateC::ODBC(bool convertUTCToLocal) const {
+  StringC DateC::ODBC(bool convertUTCToLocal,bool factionalSeconds) const {
     StringC str;
-    str.form("%04d-%02d-%02d %02d:%02d:%02d",
-             Year(convertUTCToLocal),
-             Month(convertUTCToLocal),
-             DayInMonth(convertUTCToLocal),
-             Hour(convertUTCToLocal),
-             Minute(convertUTCToLocal),
-             Seconds(convertUTCToLocal)
-             );
+    if(factionalSeconds) {
+      str.form("%04d-%02d-%02d %02d:%02d:%02d",
+               Year(convertUTCToLocal),
+               Month(convertUTCToLocal),
+               DayInMonth(convertUTCToLocal),
+               Hour(convertUTCToLocal),
+               Minute(convertUTCToLocal),
+               Seconds(convertUTCToLocal)
+               );
+    } else {
+      str.form("%04d-%02d-%02d %02d:%02d:%02.8f",
+               Year(convertUTCToLocal),
+               Month(convertUTCToLocal),
+               DayInMonth(convertUTCToLocal),
+               Hour(convertUTCToLocal),
+               Minute(convertUTCToLocal),
+               (double) Seconds(convertUTCToLocal) + (usec / 1000000.0)
+               );
+    }
     return str;
   }
   
@@ -353,7 +364,11 @@ namespace RavlN {
     
     // Get seconds
     ptr = str + 17;
-    seconds = atoi(ptr);
+    double intPart;
+    double secondsFloat = atof(ptr);
+    long usecPart = Round(modf(secondsFloat,&intPart) * 1000000.0);
+    seconds = Round(intPart);
+    
     // Get minute
     str[16] = 0;
     ptr = str + 14;
@@ -376,7 +391,7 @@ namespace RavlN {
     year = atoi(ptr);
     
     // Create date structure
-    *this = DateC(year, month, day, hour, minute, seconds,0,false);
+    *this = DateC(year, month, day, hour, minute, seconds,usecPart,false);
     
     return true;
   }
@@ -438,13 +453,13 @@ namespace RavlN {
 	  localtime_r(&s,&b);
 	} else {
 #if !RAVL_COMPILER_VISUALCPP
-	  gmtime_r(&s,&b);
+      gmtime_r(&s,&b);
 #else
-	  // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
-	  // in lieu os anythings else
-	  b = *gmtime(&s);
+      // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
+      // in lieu os anythings else
+      b = *gmtime(&s);
 #endif
-	}
+    }
     return b.tm_sec;
   }
   
