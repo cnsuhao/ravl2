@@ -445,7 +445,7 @@ namespace RavlN {
 	return SocketC(); // Failed.
       }
       ONDEBUG(SysLog(SYSLOG_DEBUG) << "Accepting. ");
-      socklen_t addrBuffSize = sizeof(sockaddr) + 256;//FIXME why 256? need to use sockaddr_in instead
+      socklen_t addrBuffSize = sizeof(sockaddr);
       struct sockaddr *cn_addr = (struct sockaddr *) new char [addrBuffSize];
       do {
 	int nfd = accept(m_fd,cn_addr, &addrBuffSize);
