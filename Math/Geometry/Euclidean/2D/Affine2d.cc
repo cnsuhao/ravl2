@@ -232,6 +232,77 @@ namespace RavlN {
   }
   
   
+  bool FitSimilarity(const SArray1dC<Point2dC> &points1,
+                     const SArray1dC<Point2dC> &points2,
+                     Matrix2dC &rotation,
+                     Vector2dC &translation,
+                     RealT &scale,
+                     bool forceUnitScale
+                     ) 
+  {
+    
+    // Compute the means.
+    
+    RealT n = points1.Size();
+    Point2dC mean1(0,0),mean2(0,0);
+    for(SArray1dIter2C<Point2dC,Point2dC> it(points1,points2);it;it++) {
+      mean1 += it.Data1();
+      mean2 += it.Data2();
+    }
+    
+    mean1 /= n;
+    mean2 /= n;
+    
+    // Compute the covariance matrix.
+    
+    Matrix2dC covar(0,0,
+                    0,0);
+    
+    RealT ps1 = 0,ps2 = 0;
+    
+    for(SArray1dIter2C<Point2dC,Point2dC> it(points1,points2);it;it++) {
+      Point2dC p1 = (it.Data1() - mean1);
+      ps1 += Sqr(p1[0]) + Sqr(p1[1]);
+      Point2dC p2 = (it.Data2() - mean2);      
+      ps2 += Sqr(p2[0]) + Sqr(p2[1]);
+      for(int i = 0;i < 2;i++) {
+        covar[i][0] += p1[0] * p2[i];
+        covar[i][1] += p1[1] * p2[i];
+      }
+    }
+    
+    // Compute the scaling.
+    scale = Sqrt(ps2/ps1);
+    
+    // Compute the rotation from the covariance matrix.
+    covar /= n;
+    Matrix2dC u,v;
+    Vector2dC d = RavlN::SVD_IP(covar,u,v);
+    
+    // FIXME :- Make this faster by avoiding use of so many temporaries.
+    
+    Matrix2dC s(1,0,
+                0,1);
+    
+    // Correct mirroring.
+    
+    if((u.Det() * v.Det()) < 0) {
+      s[1][1] = -1;
+      d[1] *= -1;
+    }
+    
+    rotation = u * s * v.T();
+    
+    // Compute the translation.
+    if(forceUnitScale) {
+      translation = mean2 - rotation * mean1;
+    } else {
+      translation = mean2 - rotation * mean1 * scale;
+    }
+    
+    return true;
+  }
+
   //: Decompose affine transform.
   
   void Affine2dC::Decompose(Point2dC &translation,Vector2dC &scaling,RealT &skew,RealT &rotation) const {

@@ -144,6 +144,22 @@ namespace RavlN {
   //: Fit an affine transform to 2 lists of corresponding points
   // A "least sum of squares" fitter is used.  The result transforms the points in "orig" to those in "newPos".
   
+  bool FitSimilarity(const SArray1dC<Point2dC> &points1,
+                     const SArray1dC<Point2dC> &points2,
+                     Matrix2dC &rotation,
+                     Vector2dC &translation,
+                     RealT &scaling,
+                     bool forceUnitScale = false
+                     );
+  //: <p>Least squares fit of a similarity transform between the two point sets.
+  // If 'forceUnitScale' is true then unit scaling will be assumed, though
+  // the measured scale will still be assigned to 'scaling'.  This may
+  // effect the computed translation in particular. The transform will
+  // map points1 to points2.</p>
+  // <p> To obtain scalar angle:  <code>ATan2(R[0][1],R[0][0])</code></p>
+
+
+  
   PointSet2dC operator*(const FAffineC<2> &trans,const PointSet2dC &points);
   //: Apply a affine transform to a point set
   

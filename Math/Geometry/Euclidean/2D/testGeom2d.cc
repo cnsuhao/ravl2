@@ -33,7 +33,7 @@
 #include "Ravl/ScanPolygon2d.hh"
 #include "Ravl/Collection.hh"
 #include "Ravl/DListExtra.hh"
-
+#include "Ravl/SArray1dIter2.hh"
 using namespace RavlN;
 
 int testMoments();
@@ -43,6 +43,7 @@ int testConvexHull2d();
 int testDelaunayTriangulation2d();
 int testCompoundAffine();
 int testFitAffine();
+int testFitSimilarity();
 int testAffine();
 int testHEMesh2d();
 int testProjective2d();
@@ -74,6 +75,7 @@ int main() {
   TEST(testDelaunayTriangulation2d);
   TEST(testCompoundAffine);
   TEST(testFitAffine);
+  TEST(testFitSimilarity);
   TEST(testHEMesh2d);
   TEST(testProjective2d);
   TEST(testLineProjective2d);
@@ -344,6 +346,75 @@ int testAffine() {
   cerr << "Recomposed=" << recom << "\n";
   return 0;
 }
+
+int testFitSimilarity() {
+  cerr << "testFitSimilarity Called. \n";
+  
+  CollectionC<Point2dC> points(16);
+  points.Append(Point2dC(1,4));
+  points.Append(Point2dC(3,2));
+  points.Append(Point2dC(7,3));
+  points.Append(Point2dC(9,7));
+  points.Append(Point2dC(5,3));
+  
+  // Generate a random rotation.
+  
+  RealT rotAngle(Random1() * RavlConstN::pi * 2.0 - RavlConstN::pi);
+  
+  Matrix2dC rot(Cos(rotAngle), Sin(rotAngle),
+                -Sin(rotAngle), Cos(rotAngle));
+  
+  Vector2dC offset(Random1() * 10 - 5,
+                   Random1() * 10 - 5);
+  
+  RealT scale = 0.75;
+  
+  SArray1dC<Point2dC> transformedPoints(points.Size());  
+  for(SArray1dIter2C<Point2dC,Point2dC> it(transformedPoints,points.Array());it;it++) {
+    it.Data1() = rot * it.Data2() * scale + offset;
+  }
+  
+  
+  //! Fit a rigid transform between the two point sets.
+
+  Vector2dC fittedTranslation;
+  Matrix2dC fittedRotation;
+  RealT fittedScaling;
+  
+  if(!FitSimilarity(points.Array(),
+                    transformedPoints,
+                    fittedRotation,
+                    fittedTranslation,
+                    fittedScaling
+                    )) return __LINE__;
+    
+  // Check known transform
+  SArray1dC<Point2dC> a(2), b(2);
+  a[0] = Point2dC(0,0);
+  a[1] = Point2dC(1,-1);
+  b[0] = Point2dC(4,6);
+  b[1] = Point2dC(2,4);
+  if(!FitSimilarity(a,
+                    b,
+                    fittedRotation,
+                    fittedTranslation,
+                    fittedScaling
+                    )) return __LINE__;
+  /*
+  cerr << "  R= " << fittedRotation 
+       << "   = " << ATan2(fittedRotation[0][1],fittedRotation[0][0])/RavlConstN::pi*180 << " deg"
+       << ", t= " << fittedTranslation
+       << ", s= " << fittedScaling
+       << endl;
+  */
+  if (   (Abs(Matrix2dC(fittedRotation-Matrix2dC(0,1,-1,0)).Det()) > 1.0e-10)
+      || (Abs(Vector2dC(fittedTranslation-Vector2dC(4,6)).Modulus()) > 1.0e-10)
+      || (Abs(fittedScaling-2) > 1.0e-10)
+         ) return __LINE__;
+
+  return 0;
+}
+
 
 int testHEMesh2d() {
   HEMesh2dC mesh(true);
