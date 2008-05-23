@@ -11,11 +11,19 @@ ifndef PYTHON_DEF
 PYTHON_DEF = 1
 
   ifndef PYTHON_VERSION
-    PYTHON_VERSION = 2.3
-  endif
 
-  ifndef PYTHON_INCLUDE
-    PYTHON_INCLUDE = /usr/include/python$(PYTHON_VERSION)
+    PYTHON_VERSION = $(shell python -c "import distutils.sysconfig; print distutils.sysconfig.get_config_var('VERSION')")
+
+    ifndef PYTHON_INCLUDE
+      PYTHON_INCLUDE = $(shell python -c "import distutils.sysconfig; print distutils.sysconfig.get_python_inc()")
+    endif
+    
+  else
+
+    ifndef PYTHON_INCLUDE
+      PYTHON_INCLUDE = /usr/include/python$(PYTHON_VERSION)
+    endif
+
   endif
 
   ifndef PYTHON_LIB
