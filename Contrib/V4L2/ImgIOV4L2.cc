@@ -414,7 +414,10 @@ namespace RavlImageN
     }
     
     // Check the size limits
-    CheckSize();
+    if (supported)
+    {
+      CheckSize();
+    }
     
     return supported;
   }
@@ -473,7 +476,7 @@ namespace RavlImageN
           m_widthMax = pfmt->width;
       }
     }
-    ONDEBUG(cerr << "ImgIOV4L2BaseC::CheckFormat width max(" << m_widthMax << ")" << endl);
+    ONDEBUG(cerr << "ImgIOV4L2BaseC::CheckSize width max(" << m_widthMax << ")" << endl);
     
     // Get the minimum width
     m_widthMin = m_width;
@@ -489,7 +492,7 @@ namespace RavlImageN
           m_widthMin = pfmt->width;
       }
     } 
-    ONDEBUG(cerr << "ImgIOV4L2BaseC::CheckFormat width min(" << m_widthMin << ")" << endl);
+    ONDEBUG(cerr << "ImgIOV4L2BaseC::CheckSize width min(" << m_widthMin << ")" << endl);
     
     // Get the maximum height
     m_heightMax = m_height;
@@ -505,7 +508,7 @@ namespace RavlImageN
           m_heightMax = pfmt->height;
       }
     }
-    ONDEBUG(cerr << "ImgIOV4L2BaseC::CheckFormat height max(" << m_heightMax << ")" << endl;)
+    ONDEBUG(cerr << "ImgIOV4L2BaseC::CheckSize height max(" << m_heightMax << ")" << endl;)
     
     // Get the minimum height
     m_heightMin = m_height;
@@ -521,7 +524,7 @@ namespace RavlImageN
           m_heightMin = pfmt->height;
       }
     } 
-    ONDEBUG(cerr << "ImgIOV4L2BaseC::CheckFormat height min(" << m_heightMin << ")" << endl;)
+    ONDEBUG(cerr << "ImgIOV4L2BaseC::CheckSize height min(" << m_heightMin << ")" << endl;)
     
     // Reset the initial size
     pfmt->width = m_width;
