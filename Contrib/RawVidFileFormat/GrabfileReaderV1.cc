@@ -179,8 +179,8 @@ BufferC<char> GrabfileReaderV1C::GetNextFrame()
 	}
 	++m_frames_loaded;
 	++m_frame_number;
-        return BufferC<char> (osize, start, false, false) ;
-       
+        return BufferC<char> (osize, start, true, true) ;
+        delete obuf;
       }
   }
   

@@ -113,7 +113,8 @@ bool LegacyGrabfileReaderC::GetNextFrame(BufferC<char> &bu, UIntT &vsize, UIntT 
       char * obuf = new char[csize];
       char * start = obuf;
       m_infile.read(obuf,csize);
-      bu = BufferC<char> (csize,start,false,false);
+      bu = BufferC<char> (csize,start,true,true);
+      delete obuf;
    }
    ++m_frames_loaded;
   }
