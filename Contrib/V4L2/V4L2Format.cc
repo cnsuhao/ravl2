@@ -74,6 +74,9 @@ namespace RavlImageN
     if (obj_type == typeid(ImageC<ByteT>) || obj_type == typeid(ImageC<FloatT>) || obj_type == typeid(ImageC<RealT>))
       return typeid(ImageC<ByteT>);
     
+    if (obj_type == typeid(ImageC<ByteYUV422ValueC>))
+      return typeid(ImageC<ByteYUV422ValueC>);
+    
     return typeid(ImageC<ByteRGBValueC>);
   }
   
@@ -118,8 +121,12 @@ namespace RavlImageN
     
     if (obj_type == typeid(ImageC<ByteT>))
       return ImgIOV4L2C<ByteT>(device, channel);
+    
     if (obj_type == typeid(ImageC<ByteRGBValueC>))
       return ImgIOV4L2C<ByteRGBValueC>(device, channel);
+    
+    if (obj_type == typeid(ImageC<ByteYUV422ValueC>))
+      return ImgIOV4L2C<ByteYUV422ValueC>(device, channel);
     
     return DPIPortBaseC();
   }

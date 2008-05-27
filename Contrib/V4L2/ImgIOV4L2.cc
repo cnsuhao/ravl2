@@ -55,8 +55,9 @@ namespace RavlImageN
 
   const static SupportedFormatT g_supportedFormat[] =
   {
-    SupportedFormatT(typeid(ImageC<ByteRGBValueC>), v4l2_fourcc('B', 'G', 'R', '4'), false),
-    SupportedFormatT(typeid(ImageC<ByteT        >), v4l2_fourcc('G', 'R', 'E', 'Y'),  true),
+    SupportedFormatT(typeid(ImageC<ByteT           >), v4l2_fourcc('G', 'R', 'E', 'Y'),  true),
+    SupportedFormatT(typeid(ImageC<ByteRGBValueC   >), v4l2_fourcc('B', 'G', 'R', '4'), false),
+    SupportedFormatT(typeid(ImageC<ByteYUV422ValueC>), v4l2_fourcc('Y', 'U', 'Y', 'V'), false),
   };
   const static UIntT g_supportedFormats = sizeof(g_supportedFormat) / sizeof(SupportedFormatT);
   //: Mapping from image type id required V4L2 capture mode.
@@ -112,12 +113,14 @@ namespace RavlImageN
 
 
 
-  const static UIntT g_defaultWidth = 720; // 320
-  //: Default capture width (usually overridden by getting with initial format)
-  
-  const static UIntT g_defaultHeight = 576; // 240
-  //: Default capture height (usually overridden by getting with initial format)
+  const static UIntT g_defaultWidth = 720; //: Default capture width (usually overridden by getting with initial format)
+  const static UIntT g_defaultHeight = 576; //: Default capture height (usually overridden by getting with initial format)
 
+  const static UIntT g_defaultWidthMaximum = 1024; //: Test capability to this maximum width
+  const static UIntT g_defaultHeightMaximum = 768; //: Test capability to this maximum height
+  const static UIntT g_defaultWidthMinimum = 8; //: Test capability to this minimum width
+  const static UIntT g_defaultHeightMinimum = 8; //: Test capability to this minimum height
+  
   const static UIntT g_defaultBuffers = 3;
   //: Default number of capture buffers
   
@@ -131,6 +134,10 @@ namespace RavlImageN
     m_fd(-1),
     m_width(g_defaultWidth),
     m_height(g_defaultHeight),
+    m_widthMax(g_defaultWidthMaximum),
+    m_heightMax(g_defaultHeightMaximum),
+    m_widthMin(g_defaultWidthMinimum),
+    m_heightMin(g_defaultHeightMinimum),
     m_fieldFormat(0),
     m_standard(0),
     m_fastBufferUsed(false),
@@ -224,7 +231,7 @@ namespace RavlImageN
     // Create the fast buffer image
     RavlAssertMsg(buffer.memory == V4L2_MEMORY_MMAP, "ImgIOV4L2BaseC::GetFrame<ByteT> buffer not mmap-ed");
     img = ImageC<ByteT>(m_height, m_width, V4L2BufferC<ByteT>(parent, m_buffers[buffer.index].m_id, buffer.index, (ByteT*)m_buffers[buffer.index].m_start, (UIntT)m_buffers[buffer.index].m_length));
-
+    
     // Unlock
     lockCapture.Unlock();
 
@@ -233,6 +240,37 @@ namespace RavlImageN
     {
       img = ImageC<ByteT>(img.Copy());
     }
+    
+    return true;
+  }
+
+
+
+  bool ImgIOV4L2BaseC::GetFrame(ImageC<ByteYUV422ValueC> &img, ImgIOV4L2C<ByteYUV422ValueC> parent)
+  {
+    // Lock the capture device
+    MutexLockC lockCapture(m_lockCapture);
+
+    // Get a capture buffer
+    v4l2_buffer buffer;
+    if (!CaptureBuffer(buffer))
+      return false;
+    
+    // Create the image
+    img = ImageC<ByteYUV422ValueC>(m_height, m_width);
+    ByteT *iData = (ByteT*)m_buffers[buffer.index].m_start;
+    for(Array2dIterC<ByteYUV422ValueC> it(img); it; it++)
+    {
+      it.Data() = ByteYUV422ValueC(iData[1], iData[0]); // Fast buffers can't currently be used as
+                                                        // ByteYUV422ValueC is actually UYVY, not YUYV
+      iData += 2;
+    }
+    
+    // Unlock
+    lockCapture.Unlock();
+
+    // Manually release the buffer
+    parent.ReleaseBuffer(m_buffers[buffer.index].m_id, buffer.index);
     
     return true;
   }
@@ -464,13 +502,13 @@ namespace RavlImageN
 
     // Get the maximum width
     m_widthMax = m_width;
-    for(UIntT i = m_width;i < 1024;i++)
+    for(UIntT i = m_width;i < g_defaultWidthMaximum;i++)
     {
       pfmt->width = i;
       pfmt->height = m_height;
       pfmt->pixelformat = m_pixelFormat;
       pfmt->field = g_supportedField[m_fieldFormat].m_field;
-      if (ioctl(m_fd, VIDIOC_S_FMT, &fmt) != -1)
+      if (ioctl(m_fd, VIDIOC_TRY_FMT, &fmt) != -1)
       {
         if (pfmt->width == i)
           m_widthMax = pfmt->width;
@@ -480,13 +518,13 @@ namespace RavlImageN
     
     // Get the minimum width
     m_widthMin = m_width;
-    for(UIntT i = m_width;i > 8;i--)
+    for(UIntT i = m_width;i > g_defaultWidthMinimum;i--)
     {
       pfmt->width = i;
       pfmt->height = m_height;
       pfmt->pixelformat = m_pixelFormat;
       pfmt->field = g_supportedField[m_fieldFormat].m_field;
-      if (ioctl(m_fd, VIDIOC_S_FMT, &fmt) != -1)
+      if (ioctl(m_fd, VIDIOC_TRY_FMT, &fmt) != -1)
       {
         if (pfmt->width == i)
           m_widthMin = pfmt->width;
@@ -496,13 +534,13 @@ namespace RavlImageN
     
     // Get the maximum height
     m_heightMax = m_height;
-    for(UIntT i = m_height;i < 1024;i++)
+    for(UIntT i = m_height;i < g_defaultHeightMaximum;i++)
     {
       pfmt->width = m_width;
       pfmt->height = i;
       pfmt->pixelformat = m_pixelFormat;
       pfmt->field = g_supportedField[m_fieldFormat].m_field;
-      if (ioctl(m_fd, VIDIOC_S_FMT, &fmt) != -1)
+      if (ioctl(m_fd, VIDIOC_TRY_FMT, &fmt) != -1)
       {
         if (pfmt->height == i)
           m_heightMax = pfmt->height;
@@ -512,13 +550,13 @@ namespace RavlImageN
     
     // Get the minimum height
     m_heightMin = m_height;
-    for(UIntT i = m_height;i > 8;i--)
+    for(UIntT i = m_height;i > g_defaultHeightMinimum;i--)
     {
       pfmt->width = m_width;
       pfmt->height = i;
       pfmt->pixelformat = m_pixelFormat;
       pfmt->field = g_supportedField[m_fieldFormat].m_field;
-      if (ioctl(m_fd, VIDIOC_S_FMT, &fmt) != -1)
+      if (ioctl(m_fd, VIDIOC_TRY_FMT, &fmt) != -1)
       {
         if (pfmt->height == i)
           m_heightMin = pfmt->height;

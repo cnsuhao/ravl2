@@ -18,6 +18,7 @@
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Image/ByteYUV422Value.hh"
 #include "Ravl/Threads/Mutex.hh"
 #include "Ravl/HSet.hh"
 
@@ -48,6 +49,9 @@ namespace RavlImageN
     //: Get next image.
 
     bool GetFrame(ImageC<ByteT> &img, ImgIOV4L2C<ByteT> parent);
+    //: Get next image.
+
+    bool GetFrame(ImageC<ByteYUV422ValueC> &img, ImgIOV4L2C<ByteYUV422ValueC> parent);
     //: Get next image.
 
     void ReleaseBuffer(const UIntT id, const UIntT index);
