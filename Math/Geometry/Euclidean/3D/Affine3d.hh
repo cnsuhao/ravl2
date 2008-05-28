@@ -17,8 +17,6 @@
 
 #include "Ravl/Matrix3d.hh"
 #include "Ravl/Vector3d.hh"
-#include "Ravl/Point3d.hh"
-#include "Ravl/Point2d.hh"
 #include "Ravl/FAffine.hh"
 
 namespace RavlN {
@@ -27,7 +25,8 @@ namespace RavlN {
   class Point3dC;
   class Point2dC;
   class PointSet3dC;
-  
+  class Matrix3dC;
+
   //! userlevel=Normal
   //: 3-D Affine transformation
   
