@@ -12,6 +12,7 @@
 #include "Ravl/Matrix.hh"
 #include "Ravl/Vector.hh"
 #include "Ravl/Point2d.hh"
+#include "Ravl/Point3d.hh"
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/LeastSquares.hh"
 #include "Ravl/Sums1d2.hh"
