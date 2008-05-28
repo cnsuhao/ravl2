@@ -61,6 +61,8 @@ namespace RavlN {
   //        where the observations need to be provided with robust
   //        error distribution models.
   // </ul>
+  //  <a href="../../../html/Optimisation.pdf"> More information about RANSAC </a>
+
   class RansacC
     : public StoredStateC
   {

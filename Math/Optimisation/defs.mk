@@ -55,3 +55,5 @@ EXAMPLES= OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc
 USESLIBS=RavlCore RavlMath
 
 PROGLIBS=
+
+HTML = Optimisation.pdf
