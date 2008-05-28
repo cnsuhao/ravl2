@@ -156,9 +156,25 @@ namespace RavlN {
   // the measured scale will still be assigned to 'scaling'.  This may
   // effect the computed translation in particular. The transform will
   // map points1 to points2.</p>
-  // <p> To obtain scalar angle:  <code>ATan2(R[0][1],R[0][0])</code></p>
+  // <p> To obtain angle as a scalar:  <code>ATan2(R[0][1],R[0][0])</code></p>
 
 
+  bool FitSimilarity(const SArray1dC<Point2dC> &points1,
+                     const SArray1dC<Point2dC> &points2,
+                     Affine2dC &transform,
+                     bool forceUnitScale = false
+                     );
+  //: Least squares fit of a similarity transform between the two point sets.
+  // If 'forceUnitScale' is true then unit scaling will be assumed.
+  // The transform will map points1 to points2
+  
+  
+  inline bool FitIsometry(const SArray1dC<Point2dC> &points1,
+                          const SArray1dC<Point2dC> &points2,
+                          Affine2dC &transform)
+  { return FitSimilarity(points1,points2,transform,true); }
+  //: Least squares fit of a isometry transform between the two point sets.
+  
   
   PointSet2dC operator*(const FAffineC<2> &trans,const PointSet2dC &points);
   //: Apply a affine transform to a point set

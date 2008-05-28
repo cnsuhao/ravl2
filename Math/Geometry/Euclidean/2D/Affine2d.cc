@@ -303,6 +303,27 @@ namespace RavlN {
     return true;
   }
 
+  //! Fit a rigid transform between the two point sets.
+  //! If 'forceUnitScale' is true then unit scaling will be assumed.
+  
+  bool FitSimilarity(const SArray1dC<Point2dC> &points1,
+                     const SArray1dC<Point2dC> &points2,
+                     Affine2dC &transform,
+                     bool forceUnitScale
+                     ) {
+    Matrix2dC rotation;
+    Vector2dC translation;
+    RealT scale;
+    if(!FitSimilarity(points1,points2,rotation,translation,scale,forceUnitScale))
+      return false;
+    if(forceUnitScale)
+      transform = Affine2dC(rotation,translation);
+    else
+      transform = Affine2dC(rotation * scale,translation);
+    return true;
+  }
+
+
   //: Decompose affine transform.
   
   void Affine2dC::Decompose(Point2dC &translation,Vector2dC &scaling,RealT &skew,RealT &rotation) const {
