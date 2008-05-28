@@ -27,7 +27,8 @@ namespace RavlImageN {
   using namespace RavlN;
   
   //! userlevel=Normal
-  //: Scale an image using bi-Linear Interpolation.
+  //: Performs an affine warp of an image using bi-Linear Interpolation.
+  //
   
   template <class InT, class OutT = InT,class WorkT = OutT,class MixerT = PixelMixerAssignC<WorkT,OutT>,class SampleT = SampleBilinearC<InT,WorkT> >
   class WarpAffineC
@@ -53,9 +54,12 @@ namespace RavlImageN {
     //: Constructor.
     // 'outRec' is the output rectangle.
     
-    void Apply(const ImageC<InT> &img,ImageC<OutT> &outImg);
-    //: Interpolate input image working rectangle into
-    //: output image.
+    void Apply(const ImageC<InT> &inImg,ImageC<OutT> &outImg);
+    //: Interpolate input image working rectangle into output image.
+    // If the supplied transformation transforms points in image A to
+    // corresponding positions in image B
+    // (i.e. transforms coordinate system of B to that of A),
+    // Then this method warps image B to coordinate system of A.
     
     ImageC<OutT> Apply(const ImageC<InT> &img) {
       ImageC<OutT> out(rec);
@@ -65,6 +69,10 @@ namespace RavlImageN {
     //: Interpolate input image working rectangle into
     //: output image rectangle.
     // The output rectangle is specified in the constructor.
+    // If the supplied transformation transforms points in image A to
+    // corresponding positions in image B
+    // (i.e. transforms coordinate system of B to that of A),
+    // Then this method warps image B to coordinate system of A.
     
     void SetTransform(const Affine2dC &transform) {
       trans = transform;
