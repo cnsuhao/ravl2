@@ -30,7 +30,7 @@
 namespace RavlN {
   enum NEPMsgTypeT { NEPMsgInit = 1, NEPMsgPing };
   
-  const SizeT g_netEndPointDefaultPacketSizeLimit = 100e6;
+  const SizeT g_netEndPointDefaultPacketSizeLimit = 100000000;
   
   //: Global count of open net end points.
   
