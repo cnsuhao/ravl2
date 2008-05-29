@@ -69,6 +69,7 @@ int FileConv(int argc,char **argv)
   option.If(seq,"st","a sequence is being processed. (-s) ");
   option.If(seq,"nth","a sequence is being processed. (-s) ");
   option.DependXor("len nf");
+  option.Comment("NOTE: The automatic conversion path in this program isn't as clever as it could be, you may need to specifiy an intermidate type with the -ct for the program to work. ");
   option.Check();
   if (option.IsOnCommandLine("nf")) noFrames = NoFrames;
   
