@@ -26,6 +26,9 @@
 
 #include "Ravl/fdstreambuf.hh"
 #include "Ravl/fdstream.hh"
+#include "Ravl/FuncStream.hh"
+#include "Ravl/Calls.hh"
+#include "Ravl/Math.hh"
 
 #if RAVL_HAVE_UNISTD_H
 #include <unistd.h>
@@ -43,6 +46,7 @@ int StrStreamTest();
 int testRawFD(); /* NB. This is only usefull on some platforms. */
 int testFDStream();
 int testBitStream();
+int testFuncStream();
 
 #if RAVL_OS_WIN32
 StringC testFile = "C:/WINDOWS/Temp/testStream" + StringC((IntT) getpid());
@@ -81,6 +85,10 @@ int main() {
   }
 #endif
   if((errLine = testBitStream()) != 0) {
+    cerr << "test failed line: " << errLine << "\n";
+    return 1;
+  }
+  if((errLine = testFuncStream()) != 0) {
     cerr << "test failed line: " << errLine << "\n";
     return 1;
   }
@@ -391,5 +399,41 @@ int testBitStream() {
     if(in.ReadUInt(12) != 555) return __LINE__;
   }
   
+  return 0;
+}
+
+UIntT writeCount = 0;
+bool WriteMethod(const char *data,SizeT len) {
+  std::cerr << "Write:" << len << "\n";
+  writeCount += len;
+  return true;
+}
+
+SizeT ReadMethod(char *data,SizeT bufferSize) {
+  RavlAssert(data != 0);
+  const char *tmp = "Hello\n";
+  UIntT nr = RavlN::Min(bufferSize,(SizeT) 6);
+  memcpy(data,tmp,nr);
+  return nr;
+}
+
+int testFuncStream() {
+  std::cerr << "testFuncStream(). \n";
+  {
+    FuncOStreamC oStrmBuf(RavlN::Trigger(&::WriteMethod,(const char *)0,0));
+    std::ostream ostrm(&oStrmBuf);
+    ostrm << "Hello.\n" << std::flush;
+  }
+  std::cerr << "Data:" << writeCount << "\n";
+  if(writeCount != 7) return __LINE__;
+  
+  {
+    FuncIStreamC iStrmBuf(RavlN::Trigger(&::ReadMethod,(char *)0,0));
+    std::istream istrmOfInifinitGreetings(&iStrmBuf);
+    StringC str;
+    istrmOfInifinitGreetings >> str;
+    
+    std::cerr<< " Read:'" << str << "' \n";
+  }
   return 0;
 }
