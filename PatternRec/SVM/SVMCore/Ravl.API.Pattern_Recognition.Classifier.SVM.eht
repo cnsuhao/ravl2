@@ -1,0 +1,78 @@
+! author="Alexey Kostin"
+: Support vector machines package
+
+
+<p>The package includes classes for dealing with the <i>Support vector 
+machines</i> (SVM) classifier. The original two classes clasiffier proposed 
+by Vapnik [<a HREF=#ref_Vapnik>1</a>] is implemented. <i>Sequential Minimal 
+Optimisation</i> (SMO) method proposed by Platt {<a HREF=#ref_Platt>2</a>] 
+is utilised for solving the quadratic optimisation problem.
+
+The package consists of three parts, namely,
+<ul>
+<li> Class which designs SVM classifier 
+<a HREF="../Class/RavlN.DesignSvmSmoC.html">DesignSvmSmoC</a>;
+<li> SVM classifier itself
+<a HREF="../Class/RavlN.SvmClassifierC.html">SvmClassifierC</a>;
+<li> Set of classes for kernel functions
+<a HREF="../Class/RavlN.KernelFunctionC.html">KernelFunctionC</a>,
+<a HREF="../Class/RavlN.LinearKernelC.html">LinearKernelC</a>,
+<a HREF="../Class/RavlN.PolynomialKernelC.html">PolynomialKernelC</a>,
+<a HREF="../Class/RavlN.RBFKernelC.html">RBFKernelC</a>.
+</ul>
+
+The <a HREF="../Class/RavlN.DesignSvmSmoC.html">DesignSvmSmoC</a> class
+basically contains implementation of SMO algorithm for calculation of Lagrangian
+multipliers in dual quadratic optimisation problem. Constructor of the 
+class accepts 
+<ul>
+<li>KernelFunction parameter, which defines kernel function
+<li>penalty parameters Penalty1 and Penalty2 for shifting objects of
+training set in case of non-separable classes
+<li>parameters of SMO algorithm Tolerance and Eps
+<li>LambdaThreshold parameter defining smallest value of lagrangian multiplier,
+which is not rounddown to zero.
+</ul>
+The Apply function of the class runs SMO algorithm on training set. For convenience
+Apply function can accept different set of parameters. Basically there are two
+main deffeneces, namely, in object labeling: '-1' for first class (as it is 
+commonly adopted for SVM classifier) or '0' (Ravl style) and some functions 
+accept ObjectsToUse parameter that is array of object indices from whole 
+training set, which should be used for training.
+<p>The <a HREF="../Class/RavlN.SvmClassifierC.html">SvmClassifierC</a> class
+is very simple class which is just calculates the value of discriminant 
+function. The class has two functions Classify and ClassifySvm, the only difference 
+between them is in return value. Classify function supposed to be virtual
+and comply with the Ravl style of labeling classes, i.e. it returns '0' for the 
+objects of the first class. The ClassifySvm function just returns the value of 
+discriminant function.
+<p>Both <a HREF="../Class/RavlN.DesignSvmSmoC.html">DesignSvmSmoC</a> and
+<a HREF="../Class/RavlN.SvmClassifierC.html">SvmClassifierC</a> classes use
+the abstraction of Kernel Function. Three most commonly used kernel functions,
+namely Linear <a HREF="../Class/RavlN.LinearKernelC.html">LinearKernelC</a>,
+Polynomial <a HREF="../Class/RavlN.PolynomialKernelC.html">PolynomialKernelC</a>,
+and Radial Basis Function <a HREF="../Class/RavlN.RBFKernelC.html">RBFKernelC</a>
+are already included in the package. But there is possibility to use any of
+your own kernels by creating new classes, which are based on 
+<a HREF="../Class/RavlN.KernelFunctionC.html">KernelFunctionC</a>. In case
+when there is no explicit features (featureless case) there is a trick, which 
+still allows to use the package. Each object should have unique number or 
+set of numbers assocoated with it. The number should be treated as feature 
+or features then it is passes to the classes from the package. But the 
+featuresless kernel function should use the number as identificator of 
+the data associated with the object.
+
+<p> References.
+<p><a NAME=ref_Vapnik></a>
+1. <a HREF=http://citeseer.nj.nec.com/boser92training.html>
+Bernhard E. Boser and Isabelle Guyon and Vladimir Vapnik. 
+A Training Algorithm for Optimal Margin Classifiers. 
+<i>Computational Learing Theory</i>. pp. 144-152. 1992. </a>
+<p><a NAME=ref_Platt></a>
+2. <a HREF=http://citeseer.nj.nec.com/platt98sequential.html>
+J. Platt. Sequential minimal optimization: A fast algorithm for training
+support vector machines. <i>Technical Report 98-14</i>, Microsoft Research, Redmond,
+Washington, April 1998. http://www.research.microsoft.com/~jplatt/smo.html.
+</a>  
+
+    
