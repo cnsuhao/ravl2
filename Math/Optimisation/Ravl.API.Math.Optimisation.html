@@ -1,9 +1,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--! docentry="Ravl.API.Pattern Recognition.Optimisation2" -->
 <!--! autoLinkContext=RavlN -->
 <!--! autoLink=on -->
 <html>
   <head>
-    <title>Optimisation</title>
+    <title>Optimiser classes II</title>
   </head>
   <body>
   This set of classes covers non-linear optimisation of a vector of parameters
@@ -19,13 +20,15 @@
 	 The LevenbergMarquardtC class implements a standard
 	 Levenberg-Marquardt damped least-squares iteration, given a
 	 state vector and a list of observations.
+	 There is an alternative Levenberg-Marquardt implementation in the
+	 <a href="Ravl.API.Pattern_Recognition.Optimisation.Implementation.html">Optimisation I</a> category.
     <li> RANSAC robust model fitting using randomised sampling.
          The RansacC class constitutes a generic implementation
 	 of RANSAC, with user-defined classes for sampling, fitting the
 	 model to a sample and evaluating model parameters.
   </ul>
   <p>
-  The major principle embodied in the design of these classes is the need
+  The main principle embodied in the design of these classes is the need
   for separating the role of the four major classes of objects involved in
   optimisation:
   <ol>

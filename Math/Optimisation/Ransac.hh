@@ -10,7 +10,7 @@
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
 //! rcsid="$Id$"
-//! docentry="Ravl.API.Math.Optimisation"
+//! docentry="Ravl.API.Pattern Recognition.Optimisation2"
 //! example="OrthogonalRegressionTest.cc Homography2dFitTest.cc"
 //! lib=RavlOptimise
 //! file="Ravl/Math/Optimisation/Ransac.hh"

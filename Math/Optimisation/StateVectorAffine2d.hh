@@ -10,7 +10,7 @@
 //! author="Charles Galambos"
 //! date="1/10/2002"
 //! rcsid="$Id$"
-//! docentry="Ravl.API.Math.Optimisation.Examples"
+//! docentry="Ravl.API.Pattern Recognition.Optimisation2.Examples"
 //! lib=RavlOptimise
 //! file="Ravl/Math/Optimisation/StateVectorAffine2d.hh"
 
