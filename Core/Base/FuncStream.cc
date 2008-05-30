@@ -9,7 +9,7 @@
 
 namespace RavlN {
   
-  void FuncOStreamC::Flush() {
+  void FuncOStreamBufC::Flush() {
     //std::cerr << "Overflow called. \n";
     RavlAssert(pptr() >= pbase());
     SizeT len = pptr() - pbase();
@@ -22,7 +22,7 @@ namespace RavlN {
   }
   
 
-  FuncOStreamC::int_type FuncOStreamC::overflow(FuncOStreamC::int_type c) {
+  FuncOStreamBufC::int_type FuncOStreamBufC::overflow(FuncOStreamBufC::int_type c) {
     if(c != EOF) {
       *pptr() = c;
       pbump(1);
@@ -33,21 +33,23 @@ namespace RavlN {
   
   //: Sync stream.
   
-  int FuncOStreamC::sync() {
+  int FuncOStreamBufC::sync() {
     Flush();
     return 0;
   }
-
-
+  
+  
   // ---------------------------------------------
   
   //: Constructor.
-  FuncIStreamC::FuncIStreamC(const CallFunc2C<char *,SizeT,SizeT> &readCall) 
+  
+  FuncIStreamBufC::FuncIStreamBufC(const CallFunc2C<char *,SizeT,SizeT> &readCall) 
     : m_read(readCall)
-    { setg(m_buffer+4,m_buffer+4,m_buffer+4); }
+  { setg(m_buffer+4,m_buffer+4,m_buffer+4); }
     
   //: Underflow.
-  FuncIStreamC::int_type FuncIStreamC::underflow() {
+  
+  FuncIStreamBufC::int_type FuncIStreamBufC::underflow() {
     if(gptr() < egptr())
       return traits_type::to_int_type(*gptr());
     int nPutback;

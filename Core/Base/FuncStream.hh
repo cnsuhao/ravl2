@@ -20,7 +20,7 @@ namespace RavlN {
   
   //: Write stream to a method.
   
-  class FuncOStreamC 
+  class FuncOStreamBufC 
     : public std::streambuf
   {
   public:
@@ -28,12 +28,12 @@ namespace RavlN {
     const static SizeT m_bufferSize = 8192; 
     
     //: Destructor.
-    ~FuncOStreamC()  { 
+    ~FuncOStreamBufC()  { 
       // Flush buffer.
       sync(); 
     }
 
-    FuncOStreamC(const CallFunc2C<const char *,SizeT> &writeCall) 
+    FuncOStreamBufC(const CallFunc2C<const char *,SizeT> &writeCall) 
       : m_write(writeCall)
     { setp(m_buffer,&m_buffer[m_bufferSize-1]); }
     
@@ -52,7 +52,7 @@ namespace RavlN {
   
   //: Read stream from a method.
   
-  class FuncIStreamC 
+  class FuncIStreamBufC 
     : public std::streambuf
   {
   public:
@@ -60,7 +60,7 @@ namespace RavlN {
     const static SizeT m_bufferSize = 8192;
     
     //: Constructor.
-    FuncIStreamC(const CallFunc2C<char *,SizeT,SizeT> &readCall);
+    FuncIStreamBufC(const CallFunc2C<char *,SizeT,SizeT> &readCall);
     
     //: Underflow.
     virtual int_type underflow();
@@ -70,7 +70,35 @@ namespace RavlN {
     CallFunc2C<char *,SizeT,SizeT> m_read;
   };
   
+  //: function based ostream
   
+  class funcostream
+    : public std::ostream 
+  {
+  public:
+    funcostream(const CallFunc2C<const char *,SizeT> &writeCall)
+      : std::ostream(0),
+        m_streamBuf(writeCall)
+    { rdbuf(&m_streamBuf); }
+    
+  protected:
+    FuncOStreamBufC m_streamBuf;
+  };
+  
+  //: function based ostream
+  
+  class funcistream
+    : public std::istream 
+  {
+  public:
+    funcistream(const CallFunc2C<char *,SizeT,SizeT> &readCall)
+      : std::istream(0),
+        m_streamBuf(readCall)
+    { rdbuf(&m_streamBuf); }
+    
+  protected:
+    FuncIStreamBufC m_streamBuf;
+  };
 }
 
 #endif

@@ -420,7 +420,7 @@ SizeT ReadMethod(char *data,SizeT bufferSize) {
 int testFuncStream() {
   std::cerr << "testFuncStream(). \n";
   {
-    FuncOStreamC oStrmBuf(RavlN::Trigger(&::WriteMethod,(const char *)0,0));
+    FuncOStreamBufC oStrmBuf(RavlN::Trigger(&::WriteMethod,(const char *)0,0));
     std::ostream ostrm(&oStrmBuf);
     ostrm << "Hello.\n" << std::flush;
   }
@@ -428,7 +428,7 @@ int testFuncStream() {
   if(writeCount != 7) return __LINE__;
   
   {
-    FuncIStreamC iStrmBuf(RavlN::Trigger(&::ReadMethod,(char *)0,0));
+    FuncIStreamBufC iStrmBuf(RavlN::Trigger(&::ReadMethod,(char *)0,0));
     std::istream istrmOfInifinitGreetings(&iStrmBuf);
     StringC str;
     istrmOfInifinitGreetings >> str;
