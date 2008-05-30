@@ -54,7 +54,7 @@ namespace RavlN {
     
     const MatrixC &Projection() const
     { return proj; }
-    //: Access projections vector.
+    //: Access projection matrix.
     
   protected:
     VectorC mean;
@@ -63,8 +63,8 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Subtract a mean and project a vector
-  // This is very similar FuncLinear, except the mean is subtracted first then 
-  // the vector is projected.
+  // This is very similar to <a href="RavlN.FuncLinearC.html">FuncLinearC</a>,
+  // except the mean is subtracted first, then the vector is projected.
   
   class FuncMeanProjectionC
     : public FunctionC 
@@ -117,7 +117,7 @@ namespace RavlN {
     
     const MatrixC &Projection() const
     { return Body().Projection(); }
-    //: Access projections vector.
+    //: Access projection matrix.
     
   };
   
