@@ -5,14 +5,10 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
-#include "DesignClassifierSvmSmo.hh"
-#include "DesignSvmSmoLarge.hh"
-
-//#include "Ravl/String.hh"
-#include "CommonKernels.hh"
-//#include "SvmClassifier.hh"
+#include "Ravl/PatternRec/DesignClassifierSvmSmo.hh"
+#include "Ravl/PatternRec/DesignSvmSmoLarge.hh"
+#include "Ravl/PatternRec/CommonKernels.hh"
 #include "Ravl/OS/Date.hh"
-//#include "Ravl/BinStream.hh"
 
 using namespace RavlN;
 using namespace RavlN;

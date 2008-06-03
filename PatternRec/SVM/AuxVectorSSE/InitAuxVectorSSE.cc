@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
-#include "AuxVectorSSE.hh"
+#include "Ravl/PatternRec/AuxVectorSSE.hh"
 
 #include "Ravl/CPUID.hh"
 

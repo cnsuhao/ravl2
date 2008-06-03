@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <emmintrin.h>
 
-#include "AuxVectorSSE.hh"
+#include "Ravl/PatternRec/AuxVectorSSE.hh"
 
 namespace RavlN
 {

@@ -5,8 +5,8 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
-#include "OneClassLinear.hh"
-#include "CommonKernels.hh"
+#include "Ravl/PatternRec/OneClassLinear.hh"
+#include "Ravl/PatternRec/CommonKernels.hh"
 
 #if RAVL_OS_MACOSX
 #include <alloca.h>

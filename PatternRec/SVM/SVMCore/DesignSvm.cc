@@ -6,7 +6,7 @@
 // file-header-ends-here
 // $Id: DesignSvm.cc 9564 2006-09-28 13:19:30Z alex $
 
-#include "DesignSvm.hh"
+#include "Ravl/PatternRec/DesignSvm.hh"
 
 namespace RavlN
 {

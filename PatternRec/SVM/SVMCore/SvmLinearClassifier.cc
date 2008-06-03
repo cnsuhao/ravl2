@@ -5,10 +5,9 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
-#include "SvmLinearClassifier.hh"
-#include "SvmClassifier.hh"
-#include "CommonKernels.hh"
-
+#include "Ravl/PatternRec/SvmLinearClassifier.hh"
+#include "Ravl/PatternRec/SvmClassifier.hh"
+#include "Ravl/PatternRec/CommonKernels.hh"
 #include "Ravl/PatternRec/AuxVector.hh"
 
 namespace RavlN

@@ -4,9 +4,9 @@
 #include "Ravl/Stream.hh"
 #include "Ravl/Option.hh"
 
-#include "CommonKernels.hh"
-#include "DesignClassifierSvmSmo.hh"
-#include "SvmClassifier.hh"
+#include "Ravl/PatternRec/CommonKernels.hh"
+#include "Ravl/PatternRec/DesignClassifierSvmSmo.hh"
+#include "Ravl/PatternRec/SvmClassifier.hh"
 
 
 using namespace RavlN;

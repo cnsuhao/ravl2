@@ -6,7 +6,7 @@
 // file-header-ends-here
 // $Id: DesignOneClassLarge.cc 10146 2007-02-01 11:17:56Z alex $
 
-#include "DesignOneClassLarge.hh"
+#include "Ravl/PatternRec/DesignOneClassLarge.hh"
 
 namespace RavlN
 {

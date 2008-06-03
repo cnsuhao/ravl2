@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
-#include "DesignClassifierSvmSmo.hh"
+#include "Ravl/PatternRec/DesignClassifierSvmSmo.hh"
 
 #include "Ravl/PatternRec/SampleIter.hh"
 

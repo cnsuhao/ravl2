@@ -10,12 +10,9 @@
 //#include <stdlib.h>
 //#include <emmintrin.h>
 
-#include "SvmQuadraticClassifier.hh"
-#include "SvmClassifier.hh"
-#include "CommonKernels.hh"
-//#include <malloc.h>
-//#include <stdio.h>
-
+#include "Ravl/PatternRec/SvmQuadraticClassifier.hh"
+#include "Ravl/PatternRec/SvmClassifier.hh"
+#include "Ravl/PatternRec/CommonKernels.hh"
 #include "Ravl/PatternRec/AuxVector.hh"
 
 namespace RavlN

@@ -7,9 +7,9 @@
 
 //#define RAVL_HAVE_EXCEPTIONS
 #include "Ravl/String.hh"
-#include "CommonKernels.hh"
-#include "DesignClassifierSvmSmo.hh"
-#include "SvmClassifier.hh"
+#include "Ravl/PatternRec/CommonKernels.hh"
+#include "Ravl/PatternRec/DesignClassifierSvmSmo.hh"
+#include "Ravl/PatternRec/SvmClassifier.hh"
 #include "Ravl/OS/Date.hh"
 #include "Ravl/BinStream.hh"
 #include "Ravl/PatternRec/SvmLinearClassifier.hh"

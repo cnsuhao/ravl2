@@ -7,8 +7,8 @@
 // $Id: oneClassLargeTest.cc 9564 2006-09-28 13:19:30Z alex $
 
 #include "Ravl/String.hh"
-#include "CommonKernels.hh"
-#include "DesignOneClassLarge.hh"
+#include "Ravl/PatternRec/CommonKernels.hh"
+#include "Ravl/PatternRec/DesignOneClassLarge.hh"
 #include "Ravl/OS/Date.hh"
 #include "Ravl/BinStream.hh"
 

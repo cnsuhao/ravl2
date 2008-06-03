@@ -5,8 +5,7 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
-#include "SvmClassifier.hh"
-
+#include "Ravl/PatternRec/SvmClassifier.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
 
 typedef double *DoublePtrT;

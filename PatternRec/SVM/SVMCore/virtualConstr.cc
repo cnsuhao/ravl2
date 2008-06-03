@@ -6,14 +6,14 @@
 // file-header-ends-here
 // $Id: FaceGraph.cc 8674 2006-05-24 12:19:29Z alex $
 
-#include "SvmClassifier.hh"
-#include "CommonKernels.hh"
-#include "DesignSvm.hh"
-#include "DesignClassifierSvmSmo.hh"
-#include "SvmLinearClassifier.hh"
-#include "SvmQuadraticClassifier.hh"
-#include "DesignOneClass.hh"
-#include "OneClassLinear.hh"
+#include "Ravl/PatternRec/SvmClassifier.hh"
+#include "Ravl/PatternRec/CommonKernels.hh"
+#include "Ravl/PatternRec/DesignSvm.hh"
+#include "Ravl/PatternRec/DesignClassifierSvmSmo.hh"
+#include "Ravl/PatternRec/SvmLinearClassifier.hh"
+#include "Ravl/PatternRec/SvmQuadraticClassifier.hh"
+#include "Ravl/PatternRec/DesignOneClass.hh"
+#include "Ravl/PatternRec/OneClassLinear.hh"
 
 //#include "Ravl/BinStream.hh"
 #include "Ravl/VirtualConstructor.hh"

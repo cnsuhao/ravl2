@@ -6,7 +6,6 @@
 // file-header-ends-here
 
 #include "Ravl/PatternRec/KernelFunc.hh"
-
 #include "Ravl/VirtualConstructor.hh"
 
 namespace RavlN

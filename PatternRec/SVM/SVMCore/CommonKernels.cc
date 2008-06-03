@@ -7,7 +7,7 @@
 
 #include <math.h>
 
-#include "CommonKernels.hh"
+#include "Ravl/PatternRec/CommonKernels.hh"
 
 namespace RavlN
 {
