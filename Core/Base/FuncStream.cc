@@ -17,7 +17,7 @@ namespace RavlN {
       const char *buff = pbase();
       m_write.Call(buff,len);
       // Reset buffer.
-      setp(m_buffer,&m_buffer[m_bufferSize]);
+      setp(m_buffer,&m_buffer[m_bufferSize-1]);
     }
   }
   
