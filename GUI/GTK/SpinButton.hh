@@ -89,7 +89,7 @@ namespace RavlGUIN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    SpinButtonC(IntT digits,RealT nclimbRate,RealT nvalue,RealT nlower,RealT nupper,RealT nstep_increment)
+    SpinButtonC(IntT digits,RealT nclimbRate = 1,RealT nvalue = 0,RealT nlower = 0,RealT nupper = 100,RealT nstep_increment = 1)
       : WidgetC(*new SpinButtonBodyC(digits,nclimbRate,nvalue,nlower,nupper,nstep_increment))
     {}
     //: Constructor.
