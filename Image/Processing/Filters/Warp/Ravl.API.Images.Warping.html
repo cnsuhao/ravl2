@@ -6,5 +6,30 @@
   </head>
 
   <body>
+
+    <p>A couple of points to note:</p>
+    <ul>
+      <li><p>The transform used by the warper actually computes points in the
+      reference image by transforming pixel coordinates from the warped image.
+      Hence if the warper is constructed on a transform with for example a
+      scale of 2 and positive rotation, the warped image will be &frac12; of
+      the size of the reference image and rotated negatively with respect to
+      it.</p></li> 
+      
+      <li><p>There are two possible coordinate systems to use when warping an
+      image:</p>
+        <ol>
+          <li>The coordinate system is at the top left-hand corner of pixel
+          (0,0).</li>
+          <li>The coordinate system is at the centre of pixel (0,0).</li>
+        </ol>
+        <p>The default behaviour is the former.  Use the
+        <code>SetMidPixelCorrection()</code> method with <code>correction =
+        false</code> for the latter.</p> </li>
+    </ul>
+
+
+
+
   </body>
 </html>

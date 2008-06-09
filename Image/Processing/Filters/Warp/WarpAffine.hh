@@ -122,6 +122,8 @@ namespace RavlImageN {
     void SetMidPixelCorrection(bool correction)
     { useMidPixelCorrection = correction; }
     //: Set mid pixel correction flag.
+    //!param: correction = true - coordinate system is at top l.h corner of pixel (0,0)
+    //!param: correction = false - coordinate system is at centre of pixel (0,0)
     
   protected:
     ImageRectangleC rec;   // Output rectangle.
@@ -146,17 +148,18 @@ namespace RavlImageN {
     const Matrix2dC &srm = trans.SRMatrix();
     Vector2dC ldir(srm[0][1],srm[1][1]);
     Vector2dC sdir(srm[0][0],srm[1][0]);
-    Point2dC lstart = trans * Point2dC(orng.Origin());
-    if(useMidPixelCorrection)
-      lstart -= Vector2dC(0.5,0.5); //Co-ordinate system correction.
+    Affine2dC localTrans = trans;
+    if (useMidPixelCorrection)
+      localTrans.Translate(srm*Vector2dC(0.5,0.5)+Vector2dC(-0.5,-0.5));
+    Point2dC lstart = localTrans * Point2dC(orng.Origin());
     Array2dIterC<OutT> it(outImg);
     
     WorkT tmp;
     SampleT sampler;
-    if(irng.Contains(trans * orng.TopRight()) &&
-       irng.Contains(trans * orng.TopLeft()) &&
-       irng.Contains(trans * orng.BottomRight()) &&
-       irng.Contains(trans * orng.BottomLeft())) {
+    if(irng.Contains(localTrans * orng.TopRight()) &&
+       irng.Contains(localTrans * orng.TopLeft()) &&
+       irng.Contains(localTrans * orng.BottomRight()) &&
+       irng.Contains(localTrans * orng.BottomLeft())) {
       // Output maps entirely within input, so we don't have to do any checking!
       for(;it;) {
 	Point2dC pat = lstart;
@@ -183,8 +186,8 @@ namespace RavlImageN {
 	continue;
       }
       // Map clipped line back into output image.
-      Point2dC sp = itrans * rline.P1();
-      Point2dC ep = itrans * rline.P2();
+      Point2dC sp = ilocalTrans * rline.P1();
+      Point2dC ep = ilocalTrans * rline.P2();
       
       int c = (((int) sp[1]) - outImg.LCol()).V();
       if(fillBackground) {
