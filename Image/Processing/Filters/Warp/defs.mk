@@ -26,3 +26,5 @@ PROGLIBS=RavlIO RavlImageIO RavlExtImgIO RavlOSIO RavlOptimise  RavlDPDisplay.op
 
 EHT=  Ravl.API.Images.Warping.html
 
+TESTEXES = testWarp.cc
+
