@@ -150,6 +150,7 @@ namespace RavlImageN {
     Vector2dC sdir(srm[0][0],srm[1][0]);
     Affine2dC localTrans = trans;
     if (useMidPixelCorrection)
+      // Equivalent to: shift 1/2 pixel; transform; shift back again.
       localTrans.Translate(srm*Vector2dC(0.5,0.5)+Vector2dC(-0.5,-0.5));
     Point2dC lstart = localTrans * Point2dC(orng.Origin());
     Array2dIterC<OutT> it(outImg);
