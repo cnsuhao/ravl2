@@ -97,6 +97,18 @@ public:
   virtual frame_number_t FrameNumber() const {return m_frame_number;}
   //: The frame number of the most recently loaded frame.
 
+  virtual VideoOffsetsT getVideoOffsets() {return videoOffsets;}
+  //: Return video offsets.
+
+  virtual AudioOffsetsT getAudioOffsets() {return audioOffsets;}
+  //: Return audio offsets.
+
+  virtual IntT getVideoBufSize() {return 0;}
+  //: Return video offsets.
+
+  virtual IntT getAudioBufSize() {return 0;}
+  //: Return audio offsets.
+
   // Static functions
 
   static const bool IsGrabfile(const char* const filename);
@@ -121,6 +133,10 @@ protected:
 
   frame_number_t m_frames_loaded;
   //: The number of frames loaded.
+
+  VideoOffsetsT videoOffsets;
+  AudioOffsetsT audioOffsets;
+  //: Offsets.
 };
 
 }

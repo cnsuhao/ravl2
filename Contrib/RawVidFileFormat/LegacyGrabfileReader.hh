@@ -64,6 +64,17 @@ public:
   virtual IntT getNumberOfFrames() {return m_number_of_frames;}
   //: Return the number of frames.
 
+  virtual VideoOffsetsT getVideoOffsets() {return videoOffsets;}
+  //: Return video offsets.
+
+  virtual AudioOffsetsT getAudioOffsets() {return audioOffsets;}
+  //: Return audio offsets.
+
+  virtual IntT getVideoBufSize() {return m_video_buffer_size;}
+  //: Return video offsets.
+
+  virtual IntT getAudioBufSize() {return m_audio_buffer_size;}
+  //: Return audio offsets.
   //--------------------------------------------------------------------------//
 
 protected:
@@ -91,6 +102,10 @@ protected:
 
   ColourModeT colourmode;
   //: Colour mode.
+
+  VideoOffsetsT videoOffsets;
+  AudioOffsetsT audioOffsets;
+  //: Offsets.
 };
 
 }

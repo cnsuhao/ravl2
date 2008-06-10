@@ -83,6 +83,18 @@ public:
   virtual RealT FrameRate() {return m_frame_rate;}
   //: Return the frame rate.
 
+  virtual VideoOffsetsT getVideoOffsets() {return videoOffsets;}
+  //: Return video offsets.
+
+  virtual AudioOffsetsT getAudioOffsets() {return audioOffsets;}
+  //: Return audio offsets.
+
+  virtual IntT getVideoBufSize() {return m_video_buffer_size;}
+  //: Return video offsets.
+
+  virtual IntT getAudioBufSize() {return m_audio_buffer_size;}
+  //: Return audio offsets.
+
   //virtual IntT getFrameNumber() {return m_frames_loaded;}
 
   virtual frame_number_t FramesLoaded() const { return m_frames_loaded; }
@@ -103,6 +115,9 @@ protected:
   IntT m_audio_buffer_size;
   //: The audio buffer size in bytes.
 
+  IntT chansize;
+  //: Audio offset size.
+
   RealT m_frame_rate;
   //: The frame rate.
 
@@ -115,7 +130,9 @@ protected:
   frame_number_t m_frames_loaded;
   //: The number of frames loaded.
 
-
+  VideoOffsetsT videoOffsets;
+  AudioOffsetsT audioOffsets;
+  //: Offsets.
 private:
   static const int m_version_number = 1;
   //: The version number.
