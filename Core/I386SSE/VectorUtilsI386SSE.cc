@@ -51,11 +51,10 @@ namespace RavlBaseVectorN {
       }
     }
 
-    if(Size & 1) // Odd length ?
-      {
-        const __m128d val = _mm_load_sd(dPtr++);
-        sum = _mm_add_pd(sum, _mm_mul_sd(val, _mm_load_sd(wPtr++)));
-      }
+    if(Size & 1) { // Odd length ?
+      const __m128d val = _mm_load_sd(dPtr++);
+      sum = _mm_add_pd(sum, _mm_mul_sd(val, _mm_load_sd(wPtr++)));
+    }
     double tmp[2];
     _mm_storeu_pd(tmp, sum);
     return tmp[0] + tmp[1];
@@ -63,7 +62,12 @@ namespace RavlBaseVectorN {
 
   
   int VectorSSEInit() {
-    if (SSE2())  pDot = &SSEDotProduct;cout<<"yes\n";
+    if (SSE2() && 0) {
+      g_DotProductD = &SSEDotProduct;
+      //cerr<<"SSE:yes\n";
+    } else {
+      //cerr<<"SSE:no\n";
+    }
     return 0;
   }
   
