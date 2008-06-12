@@ -58,8 +58,9 @@ namespace RavlN {
       nPutback = 4;
     std::memmove(m_buffer+(4-nPutback),gptr() - nPutback,nPutback);
     char *buf = m_buffer+4;
-    SizeT num = m_bufferSize-4;
-    num = m_read.Call(buf,num);
+    SizeT rnum = m_bufferSize-4;
+    SizeT num = m_read.Call(buf,rnum);
+    RavlAssert(num <= rnum);
     if(num == 0)
       return EOF;
     setg(m_buffer+(4-nPutback),m_buffer+4,m_buffer+4+num);
