@@ -62,7 +62,7 @@ namespace RavlBaseVectorN {
 
   
   int VectorSSEInit() {
-    if (SSE2() && 0) {
+    if (SSE2()) {
       g_DotProductD = &SSEDotProduct;
       //cerr<<"SSE:yes\n";
     } else {
