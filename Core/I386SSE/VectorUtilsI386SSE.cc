@@ -61,10 +61,12 @@ namespace RavlBaseVectorN {
     return tmp[0] + tmp[1];
   }
 
-
+  
   int VectorSSEInit() {
     if (SSE2())  pDot = &SSEDotProduct;cout<<"yes\n";
     return 0;
   }
-
+  
+  static int a = VectorSSEInit();
+  
 }

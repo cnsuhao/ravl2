@@ -8,7 +8,7 @@ HEADERS = VectorUtilsI386SSE.hh
 
 MUSTLINK = VectorUtilsI386SSE.cc
 
-SOURCES = VectorUtilsI386SSEInit.cc
+SOURCES = linkVectorUtilsI386SSE.cc
 
 USERCPPFLAGS=-msse2
 
