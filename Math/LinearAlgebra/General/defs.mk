@@ -36,6 +36,6 @@ EHT= Ravl.API.Math.Linear_Algebra.Smart_Matrix.html Decomposition.html
 
 PLIB=RavlMath
 
-USESLIBS=Math RavlCore ccmath 
+USESLIBS=Math RavlCore ccmath RavlI386SSE.opt
 
 PROGLIBS=RavlOS
