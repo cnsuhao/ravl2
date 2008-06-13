@@ -84,7 +84,7 @@ namespace RavlBaseVectorN {
   
   
   
-  static float SSEDotProductF(const float *v1,const float *v2,unsigned n) {
+  static float SSEDotProductF(const float *v1,const float *v2,size_t n) {
     // Not worth using this code for small vectors.
     if(n < 12) return BaseDotProductF(v1,v2,n);
     const float* wPtr = v1;
