@@ -6,9 +6,15 @@
 int main () {
 
   using namespace RavlN;
-
-  VectorC a(1024); a.Fill(1);
+#if 0
+  VectorC a(1024); a.Fill(0.96);
   RealT s = 0;
   for (IntT i=0; i<100000; ++i) s += a.Dot(a);
+#else
+  TVectorC<float> a(1024);
+  a.Fill(0.96);
+  double s = 0;
+  for (IntT i=0; i<100000; ++i) s += a.Dot(a);
+#endif
   cout << s << endl;
 }

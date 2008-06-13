@@ -13,5 +13,9 @@ SOURCES = linkVectorUtilsI386SSE.cc
 USERCPPFLAGS=-msse2
 
 PLIB=RavlCore
+
 USESLIBS = RavlCore
+
 LIBDEPS = RavlI386SSE.def
+
+TESTEXES= testI386SSE.cc
