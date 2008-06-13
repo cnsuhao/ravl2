@@ -13,7 +13,6 @@
 
 #include "Ravl/Vector.hh"
 #include "Ravl/CCMath.hh"
-#include "Ravl/VectorUtils.hh"
 
 namespace RavlN {
   
@@ -37,12 +36,6 @@ namespace RavlN {
   }
   
 
-  //: Template specialisation for dot product
-
-  template<>
-  RealT TVectorC<RealT>::Dot(const TVectorC<RealT> & v) const {
-    return RavlBaseVectorN::DotProduct(this->DataStart(), v.DataStart(), this->Size());  
-  }
 
 
 #ifdef __sgi__

@@ -18,6 +18,7 @@
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Slice1d.hh"
 #include "Ravl/TFVector.hh"
+#include "Ravl/VectorUtils.hh"
 
 namespace RavlN {
   template<class DataT> class TMatrixC;
@@ -438,7 +439,7 @@ namespace RavlN {
       sum += Sqr(it.Data1() - it.Data2());
     return sum;  
   }
-  
+
   template<class DataT>
   inline 
   DataT TVectorC<DataT>::EuclidDistance(const TVectorC<DataT> & i) const 
@@ -449,6 +450,18 @@ namespace RavlN {
     for(BufferAccessIter2C<DataT,DataT> it(*this,i);it;it++)
       it.Data1() += it.Data2() * a;
     return *this;
+  }
+  
+  //: Template specialisation for dot product
+  
+  template<>
+  inline RealT TVectorC<RealT>::Dot(const TVectorC<RealT> & v) const {
+    return RavlBaseVectorN::DotProduct(this->DataStart(), v.DataStart(), this->Size());  
+  }
+  
+  template<>
+  inline FloatT TVectorC<FloatT>::Dot(const TVectorC<FloatT> & v) const {
+    return RavlBaseVectorN::DotProduct(this->DataStart(), v.DataStart(), this->Size());  
   }
   
 }
