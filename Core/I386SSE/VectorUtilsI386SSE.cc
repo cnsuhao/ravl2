@@ -6,12 +6,32 @@
 
 namespace RavlBaseVectorN {
 
+  static double BaseDotProductD(const double* v1, const double* v2, size_t Size) {
+    double sum = 0.0;
+    const double* ptr1 = v1;
+    const double* ptr2 = v2;
+    for(unsigned int i=Size; i>0; --i)
+      sum += *ptr1++ * *ptr2++;
+    return sum;  
+  }
+
+  static float BaseDotProductF(const float* v1, const float* v2, size_t Size) {
+    float sum = 0.0;
+    const float* ptr1 = v1;
+    const float* ptr2 = v2;
+    for(unsigned int i=Size; i>0; --i)
+      sum += *ptr1++ * *ptr2++;
+    return sum;  
+  }
+  
   using namespace RavlN;
 
   // FIXME:- In both these routines if vectors have the same alignment we could process 
   // the first few entries then process as aligned .
   
   static double SSEDotProductD(const double* v1, const double* v2, size_t Size) {
+    // For small vectors all the messing about is not worth it.
+    if(Size < 12) return BaseDotProductD(v1,v2,Size);
     const double* wPtr = v1;
     const double* const ewPtr = wPtr + (Size & ~0x1);
     const double* dPtr = v2;
@@ -65,6 +85,8 @@ namespace RavlBaseVectorN {
   
   
   static float SSEDotProductF(const float *v1,const float *v2,unsigned n) {
+    // Not worth using this code for small vectors.
+    if(n < 12) return BaseDotProductF(v1,v2,n);
     const float* wPtr = v1;
     UIntT quadLen = (n & ~0x3);
     const float* const ewPtr = wPtr + quadLen;
@@ -118,7 +140,7 @@ namespace RavlBaseVectorN {
   
   
   int VectorSSEInit() {
-    if (SSE2()) {
+    if (SSE2() && 1) {
       g_DotProductD = &SSEDotProductD;
       g_DotProductF = &SSEDotProductF;
       cerr<<"SSE:yes\n";

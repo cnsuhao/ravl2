@@ -15,7 +15,9 @@ USERCPPFLAGS=-msse2
 
 PLIB=RavlCore
 
-USESLIBS = RavlCore
+USESLIBS = RavlCore 
+
+PROGLIBS= RavlMath RavlOS
 
 LIBDEPS = RavlI386SSE.def
 
