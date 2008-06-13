@@ -6,9 +6,10 @@ DESCRIPTION= SSE2 versions of core operations
 
 HEADERS = VectorUtilsI386SSE.hh
 
-MUSTLINK = VectorUtilsI386SSE.cc
+SOURCES = VectorUtilsI386SSE.cc
 
-SOURCES = linkVectorUtilsI386SSE.cc
+MUSTLINK = linkVectorUtilsI386SSE.cc
+
 
 USERCPPFLAGS=-msse2
 

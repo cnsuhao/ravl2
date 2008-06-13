@@ -121,9 +121,9 @@ namespace RavlBaseVectorN {
     if (SSE2()) {
       g_DotProductD = &SSEDotProductD;
       g_DotProductF = &SSEDotProductF;
-      //cerr<<"SSE:yes\n";
+      cerr<<"SSE:yes\n";
     } else {
-      //cerr<<"SSE:no\n";
+      cerr<<"SSE:no\n";
     }
     return 0;
   }
