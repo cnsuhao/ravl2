@@ -5,8 +5,8 @@
 #define RAVLN_CPUID_HEADER 1
 //! rcsid="$Id$"
 //! lib=
-//! docentry="Ravl"
-//! file="Ravl/Core"
+//! docentry="Ravl.API.Core.Misc"
+//! file="Ravl/Core/Misc"
 //! author="Kieron J Messer"
 
 #include "Ravl/config.h"
@@ -14,6 +14,8 @@
 #define CHECK_FOR_3DNOW 0
 
 namespace RavlN {
+
+  //! userlevel=Develop
 
   class CPUIDC {
 
@@ -72,6 +74,8 @@ namespace RavlN {
     //: do we have 3d now extensions
 #endif
   };
+
+  //! userlevel=Advanced
 
   bool MMX();
   //: do we have mmx
