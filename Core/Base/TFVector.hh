@@ -705,8 +705,8 @@ namespace RavlN {
     return ret;
   }
   //: Loop unrolled subtract.
-  
 
+  
   
 #if !RAVL_COMPILER_VISUALCPP || RAVL_COMPILER_VISUALCPPNET_2005
   template<unsigned int N>
