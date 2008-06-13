@@ -6,7 +6,7 @@
 //! rcsid="$Id$"
 //! lib=
 //! docentry="Ravl.API.Core.Misc"
-//! file="Ravl/Core/Misc"
+//! file="Ravl/Core/Base"
 //! author="Kieron J Messer"
 
 #include "Ravl/config.h"
