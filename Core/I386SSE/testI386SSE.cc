@@ -2,7 +2,6 @@
 #include "Ravl/VectorUtils.hh"
 #include "Ravl/Stream.hh"
 #include "Ravl/SArray1d.hh"
-#include "Ravl/Math.hh"
 
 template<class DataT> int TestDot();
 

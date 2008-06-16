@@ -1,5 +1,4 @@
 #include "Ravl/VectorUtils.hh"
-#include "Ravl/VectorUtilsI386SSE.hh"
 #include <emmintrin.h>
 #include "Ravl/Stream.hh"
 #include "Ravl/CPUID.hh"
@@ -36,37 +35,33 @@ namespace RavlBaseVectorN {
     const double* const ewPtr = wPtr + (Size & ~0x1);
     const double* dPtr = v2;
     __m128d sum = _mm_setzero_pd();
-    if((((unsigned long int) wPtr) & 0xf) == 0) { // this 16-byte aligned ?
-      if((((unsigned long int) dPtr) & 0xf) == 0) {// v    16-byte aligned ?
+    if((((unsigned long int) wPtr) & 0xf) == 0) {  // v1 16-byte aligned ?
+      if((((unsigned long int) dPtr) & 0xf) == 0) {// v2 16-byte aligned ?
         while(wPtr != ewPtr) {
-          const __m128d val = _mm_load_pd(dPtr);
-          sum = _mm_add_pd(sum, _mm_mul_pd(val, _mm_load_pd(wPtr)));
+          sum = _mm_add_pd(sum, _mm_mul_pd(_mm_load_pd(dPtr), _mm_load_pd(wPtr)));
           dPtr += 2;
           wPtr += 2;
         }
       }
       else {
         while(wPtr != ewPtr) {
-          const __m128d val = _mm_loadu_pd(dPtr);
-          sum = _mm_add_pd(sum, _mm_mul_pd(val, _mm_load_pd(wPtr)));
+          sum = _mm_add_pd(sum, _mm_mul_pd(_mm_loadu_pd(dPtr), _mm_load_pd(wPtr)));
           dPtr += 2;
           wPtr += 2;
         }
       }
     }
     else {
-      if((((unsigned long int) dPtr) & 0xf) == 0) {// v    16-byte aligned ?
+      if((((unsigned long int) dPtr) & 0xf) == 0) {// v2 16-byte aligned ?
         while(wPtr != ewPtr) {
-          const __m128d val = _mm_load_pd(dPtr);
-          sum = _mm_add_pd(sum, _mm_mul_pd(val, _mm_loadu_pd(wPtr)));
+          sum = _mm_add_pd(sum, _mm_mul_pd(_mm_load_pd(dPtr), _mm_loadu_pd(wPtr)));
           dPtr += 2;
           wPtr += 2;
         }
       }
       else {
         while(wPtr != ewPtr) {
-          const __m128d val = _mm_loadu_pd(dPtr);
-          sum = _mm_add_pd(sum, _mm_mul_pd(val, _mm_loadu_pd(wPtr)));
+          sum = _mm_add_pd(sum, _mm_mul_pd(_mm_loadu_pd(dPtr), _mm_loadu_pd(wPtr)));
           dPtr += 2;
           wPtr += 2;
         }
@@ -74,8 +69,7 @@ namespace RavlBaseVectorN {
     }
 
     if(Size & 1) { // Odd length ?
-      const __m128d val = _mm_load_sd(dPtr++);
-      sum = _mm_add_pd(sum, _mm_mul_sd(val, _mm_load_sd(wPtr++)));
+      sum = _mm_add_pd(sum, _mm_mul_sd(_mm_load_sd(dPtr++), _mm_load_sd(wPtr++)));
     }
     double tmp[2];
     _mm_storeu_pd(tmp, sum);
@@ -94,8 +88,8 @@ namespace RavlBaseVectorN {
     __m128 sum = _mm_setzero_ps ();
     
     
-    if((((unsigned long int) wPtr) & 0xf) == 0) { // this 16-byte aligned ?
-      if((((unsigned long int) dPtr) & 0xf) == 0) {// v    16-byte aligned ?
+    if((((unsigned long int) wPtr) & 0xf) == 0) {  // v1 16-byte aligned ?
+      if((((unsigned long int) dPtr) & 0xf) == 0) {// v2 16-byte aligned ?
         while(wPtr != ewPtr) {
           sum = _mm_add_ps(sum,_mm_mul_ps(_mm_load_ps(wPtr),_mm_load_ps(dPtr)));
           wPtr += 4;
@@ -109,7 +103,7 @@ namespace RavlBaseVectorN {
         }
       }
     } else {
-      if((((unsigned long int) dPtr) & 0xf) == 0) {// v    16-byte aligned ?
+      if((((unsigned long int) dPtr) & 0xf) == 0) {// v2 16-byte aligned ?
         while(wPtr != ewPtr) {
           sum = _mm_add_ps(sum,_mm_mul_ps(_mm_loadu_ps(wPtr),_mm_load_ps(dPtr)));
           wPtr += 4;
@@ -143,9 +137,9 @@ namespace RavlBaseVectorN {
     if (SSE2() && 1) {
       g_DotProductD = &SSEDotProductD;
       g_DotProductF = &SSEDotProductF;
-      cerr<<"SSE:yes\n";
+      //cerr<<"SSE:yes\n";
     } else {
-      cerr<<"SSE:no\n";
+      //cerr<<"SSE:no\n";
     }
     return 0;
   }

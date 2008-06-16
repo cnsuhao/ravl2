@@ -2,9 +2,7 @@ PACKAGE = Ravl
 
 DESCRIPTION= SSE2 versions of core operations
 
-#REQUIRES = USE_SSE2
-
-HEADERS = VectorUtilsI386SSE.hh
+REQUIRES = USE_SSE2
 
 SOURCES = VectorUtilsI386SSE.cc
 
@@ -17,7 +15,7 @@ PLIB=RavlCore
 
 USESLIBS = RavlCore 
 
-PROGLIBS= RavlMath RavlOS
+#PROGLIBS= RavlMath RavlOS
 
 LIBDEPS = RavlI386SSE.def
 
