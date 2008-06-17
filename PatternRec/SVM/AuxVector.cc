@@ -6,6 +6,7 @@
 // file-header-ends-here
 
 #include "Ravl/PatternRec/AuxVector.hh"
+#include "Ravl/VectorUtils.hh"
 
 #include <stdio.h>
 
@@ -49,33 +50,14 @@ void AuxVectorC::FreeVector(double *Ptr) const
 double AuxVectorC::DotProduct(const double *Data, const double *Weights,
                               int Size) const
 {
-  double retVal = 0.;
-  const double* wPtr = Weights;
-  const double* const ewPtr = wPtr + Size;
-  const double* dPtr = Data;
-  while(wPtr != ewPtr)
-  {
-    const double val = *dPtr++;
-    retVal += val * *wPtr++;
-  }
-  return retVal;
+  return RavlBaseVectorN::DotProduct(Data, Weights, Size);
 }
 
 //---------------------------------------------------------------------------
 double AuxVectorC::DotProduct2(const double *Data, const double *Weights1,
                                const double *Weights2, int Size) const
 {
-  double retVal = 0.;
-  const double* wPtr = Weights1;
-  const double* w2Ptr = Weights2;
-  const double* const ewPtr = wPtr + Size;
-  const double* dPtr = Data;
-  while(wPtr != ewPtr)
-  {
-    const double val = *dPtr++;
-    retVal += val * (*wPtr++ + *w2Ptr++ * val);
-  }
-  return retVal;
+  return RavlBaseVectorN::QuadProduct(Data, Weights1, Weights2, Size);
 }
 
 //---------------------------------------------------------------------------
