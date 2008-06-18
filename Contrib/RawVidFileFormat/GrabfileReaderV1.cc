@@ -165,23 +165,23 @@ BufferC<char> GrabfileReaderV1C::GetNextFrame()
 	 ++m_frame_number;
          BufferC<char> audio(m_audio_buffer_size);
          m_infile.read(audio.BufferAccess().DataStart(),m_audio_buffer_size);
-         return BufferC<char> (video.Size(),video.BufferAccess().DataStart(),true,true);
+         return BufferC<char> (video.Size(),video.BufferAccess().DataStart(),true,false);
 	 
          
       }
       if(IdToByteFormat(byteformat) == BITS_10_DVS) {
          //Convert to 8 Bits
          unsigned int osize = m_video_buffer_size * 3 / 4 ;
-         char * obuf= new char[osize];
-         char * start = obuf;
+         BufferC<char> nextframe(osize);
+         char * obuf = nextframe.BufferAccess().DataStart();
 	 
-         BufferC<char> temp(m_video_buffer_size);
-         m_infile.read(temp.BufferAccess().DataStart(),m_video_buffer_size);
+         BufferC<char> video(m_video_buffer_size);
+         m_infile.read(video.BufferAccess().DataStart(),m_video_buffer_size);
 	 
          BufferC<char> audio(m_video_buffer_size);
          m_infile.read(audio.BufferAccess().DataStart(),m_audio_buffer_size);     
 
-	 const char * vbuf = temp.BufferAccess().DataStart();
+	 const char * vbuf = video.BufferAccess().DataStart();
          for ( IntT vcount = 0 ; vcount < (m_video_buffer_size/4)  ; ++ vcount ) {
             *obuf++ = *vbuf++ ;
             *obuf++ = *vbuf++ ;
@@ -190,8 +190,7 @@ BufferC<char> GrabfileReaderV1C::GetNextFrame()
 	}
 	++m_frames_loaded;
 	++m_frame_number;
-        return BufferC<char> (osize, start, true, true) ;
-        delete obuf;
+        return BufferC<char> (osize, nextframe.BufferAccess().DataStart(), true, false);  
       }
   }
   
