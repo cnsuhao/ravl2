@@ -140,7 +140,7 @@ namespace RavlImageN {
       Init();
     }
     //: Set mid pixel correction flag.
-    //!param: correction = true - coordinate system is at top l.h corner of pixel (0,0)
+    //!param: correction = true - coordinate system is at top l.h corner of pixel (0,0) (the default)
     //!param: correction = false - coordinate system is at centre of pixel (0,0)
     
   protected:
@@ -186,7 +186,7 @@ namespace RavlImageN {
     // adjust source window for area where bilinear interpolation can be
     // computed safely. Using 0.51 instead of 0.5 ensures that points on the
     // boundary are not used, for safety. (Bill: Not convinced by the amount though.)
-    irng = irng.Shrink(0.51 + (0.5-pixelShift));
+    irng = irng.Shrink(1.01);
     
     // If the output maps entirely within input, we don't have to do any checking.
     
