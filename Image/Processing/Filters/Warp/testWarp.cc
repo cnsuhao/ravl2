@@ -69,14 +69,14 @@ int testWarpProjective() {
 
   //unit transformation; origin @ t.l. of pixel (default)
   M  = Projection2dC(Affine2dC(Vector2dC(1,1),0,Vector2dC(0,0))); 
-  WarpProjectiveC<RealT> warp(im.Frame().Expand(-1), M);
+  WarpProjectiveC<RealT> warp(im.Frame().Expand(10), M);
   out = warp.Apply(im);
-  for (Array2dIter2C<RealT,RealT>i(out,im,out.Frame()); i; ++i) if (Abs(i.Data1()-i.Data2()) > 1.0e-12)  return __LINE__;
+  for (Array2dIter2C<RealT,RealT>i(out,im,im.Frame()); i; ++i) if (Abs(i.Data1()-i.Data2()) > 1.0e-12)  return __LINE__;
 
   //unit transformation; origin @ centre of pixel
   warp.SetMidPixelCorrection(false);
   out = warp.Apply(im);
-  for (Array2dIter2C<RealT,RealT>i(out,im,out.Frame()); i; ++i) if (Abs(i.Data1()-i.Data2()) > 1.0e-12)  return __LINE__;
+  for (Array2dIter2C<RealT,RealT>i(out,im,im.Frame()); i; ++i) if (Abs(i.Data1()-i.Data2()) > 1.0e-12)  return __LINE__;
 
   // ***Ideally this test should be the same as for affine warp.***  
   // ***But currently there is an interface inconsistency.***
