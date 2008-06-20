@@ -351,6 +351,21 @@ ifndef NVCC
 endif
 NVCCFLAGS = 
 
+ifeq ($(VAR),debug)
+  NVCCFLAGS += -g 
+endif
+
+ifeq ($(VAR),opt)
+  NVCCFLAGS += -O2 
+endif
+
+ifeq ($(VAR),gprof)
+  NVCCFLAGS += -O2 -g -pg 
+endif
+
+ifdef SHAREDBUILD
+  NVCCFLAGS += -shared
+endif
 
 # If QMAKE_INFO is set don't prepend commands with @ so we can see what they are.
 ifdef QMAKE_INFO
