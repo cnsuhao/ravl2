@@ -321,15 +321,6 @@ namespace RavlN {
   StringC DateC::ODBC(bool convertUTCToLocal,bool factionalSeconds) const {
     StringC str;
     if(factionalSeconds) {
-      str.form("%04d-%02d-%02d %02d:%02d:%02d",
-               Year(convertUTCToLocal),
-               Month(convertUTCToLocal),
-               DayInMonth(convertUTCToLocal),
-               Hour(convertUTCToLocal),
-               Minute(convertUTCToLocal),
-               Seconds(convertUTCToLocal)
-               );
-    } else {
       str.form("%04d-%02d-%02d %02d:%02d:%02.8f",
                Year(convertUTCToLocal),
                Month(convertUTCToLocal),
@@ -337,6 +328,15 @@ namespace RavlN {
                Hour(convertUTCToLocal),
                Minute(convertUTCToLocal),
                (double) Seconds(convertUTCToLocal) + (usec / 1000000.0)
+               );
+    } else {
+      str.form("%04d-%02d-%02d %02d:%02d:%02d",
+               Year(convertUTCToLocal),
+               Month(convertUTCToLocal),
+               DayInMonth(convertUTCToLocal),
+               Hour(convertUTCToLocal),
+               Minute(convertUTCToLocal),
+               Seconds(convertUTCToLocal)
                );
     }
     return str;
