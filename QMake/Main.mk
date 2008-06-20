@@ -755,7 +755,7 @@ $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CEXT) $(INST_OBJS)/.dir $(INST_D
 	  false ; \
 	fi
 
-$(INST_OBJS)/%.cu $(INST_DEPEND)/%.d : %.cu $(INST_OBJS)/.dir $(INST_DEPEND)/.dir
+$(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %.cu $(INST_OBJS)/.dir $(INST_DEPEND)/.dir
 	$(SHOWIT)echo "--- Compile $(VAR_DISPLAY_NAME) $< "; \
 	if [ -f $(WORKTMP)/$*.d ] ; then \
 	  rm $(WORKTMP)/$*.d ; \
