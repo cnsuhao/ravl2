@@ -45,7 +45,7 @@ RAVL_CXX = g++
 #EXTRA_CCFLAGS =
 
 # Use SSE2 instructions where possible
-#RESOURCES += USE_SSE2
+RESOURCES += USE_SSE2
 
 ################################ LIBRARIES ################################
 
@@ -187,4 +187,4 @@ PYTHON_VERSION = 2.5
 
 #### RLog ################
 
-#RLOG_HOME =
+#RLOG_HOME=/opt/local#
