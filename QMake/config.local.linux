@@ -45,7 +45,9 @@ RAVL_CXX = g++
 #EXTRA_CCFLAGS =
 
 # Use SSE2 instructions where possible
-#RESOURCES += USE_SSE2
+ifeq ($(shell uname -i),"i386")
+  RESOURCES += USE_SSE2
+endif
 
 ################################ LIBRARIES ################################
 

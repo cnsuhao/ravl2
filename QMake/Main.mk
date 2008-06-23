@@ -1182,6 +1182,7 @@ info:
 	@echo "Test libs       :" $(LINKTESTLIBS)
 	@echo "Temp            :" $(LOCALTMP)
 	@echo "Auto            :" $(AUTOUSELIBS)
+	@echo "Resources       :" $(RESOURCES)
 
 #	@echo "Supported       :" $(SUPPORT_OK)
 #   " - " $(findstring $(ARC),$(DONOT_SUPPORT)) " - " $(findstring $(ARC),$(SUPPORT_ONLY))
