@@ -20,7 +20,7 @@ GrabfileReaderC* NewGrabfileReader(const char* const filename, bool legacy)
       p = new GrabfileReaderV1C();
       break;
     default:
-       cout <<"Error unrecognised version number" << endl;
+       cerr <<"Error unrecognised version number" << endl;
        exit(1);
     }
   }
