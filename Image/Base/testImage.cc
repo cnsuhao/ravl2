@@ -27,6 +27,7 @@
 #include "Ravl/Image/RGBcYUV.hh"
 #include "Ravl/Image/ByteYUVValue.hh"
 #include "Ravl/Image/BilinearInterpolation.hh"
+#include "Ravl/Image/ImageConv.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/IO.hh"
 
@@ -41,6 +42,7 @@ int TestDraw();
 int TestBilinear();
 int TestRotate();
 int TestRGB2YUV();
+int TestRound();
 
 template class ImageC<int>; // Make sure all functions are compiled.
 
@@ -83,6 +85,10 @@ int main()
   }
 #endif
   if((lineno = TestRGB2YUV()) != 0) {
+    cerr << "Image test failed : " << lineno << "\n";
+     return 1;
+  }
+  if((lineno = TestRound()) != 0) {
     cerr << "Image test failed : " << lineno << "\n";
      return 1;
   }
@@ -326,7 +332,7 @@ int TestBilinear() {
   for(int i = 0;i < 3;i++) {
     for(int j = 0;j < 3;j++) {
       BilinearInterpolation(img,Point2dC((RealT) i,(RealT) j),value);
-      cerr << "Value=" << value << "\n";
+      //cerr << "Value=" << value << "\n";
       if(Abs(img[i][j] - value) > 0.001) return __LINE__;
     }
   }
@@ -423,5 +429,38 @@ int TestRGB2YUV() {
   // std::cout << "DIff=" << diff << "\n";
   if(diff > 3400)
     return __LINE__;
+  return 0;
+}
+
+
+int TestRound() {
+  ImageC<ByteT> b(ImageRectangleC(1,5,1,5));
+  for (Array2dIterC<ByteT>i(b); i; ++i) *i = i.Index()[0]*5+i.Index()[1];
+  b[2][2] = 255;
+  b[3][3] = 0;
+  ImageC<RealT> r = ByteImageCT2DoubleImageCT(b);
+  r += 0.3;
+  r[2][2] = 1000.0;
+  r[3][3] = -6.8;
+  r[4][4] -= 0.6;
+  ImageC<ByteT> b1 = DoubleImageCT2ByteImageCT(r);
+  for (Array2dIter2C<ByteT,ByteT> i(b,b1); i; ++i)
+    if (i.Data1() != i.Data2()) {
+      cerr << "pixel pos: " << i.Index()
+           << "; in: "  << (int)i.Data1() 
+           << ", real: "<< r[i.Index()]
+           << ", out: " << (int)i.Data2() << endl;
+      return __LINE__;
+    }
+  r = ImageC<RealT>(r, r.Frame().Shrink(1));
+  b1 = DoubleImageCT2ByteImageCT(r);
+  for (Array2dIter2C<ByteT,ByteT> i(b,b1,b1.Frame()); i; ++i)
+    if (i.Data1() != i.Data2()) { 
+      cerr << "pixel pos: " << i.Index() 
+           << "; in: "  << (int)i.Data1()
+           << ", real: "<< r[i.Index()]
+           << ", out: " << (int)i.Data2() << endl;
+      return __LINE__;
+    } 
   return 0;
 }

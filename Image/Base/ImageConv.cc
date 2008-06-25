@@ -15,27 +15,11 @@
 #include "Ravl/Image/RealRGBValue.hh"
 #include "Ravl/Image/RealYUVValue.hh"
 #include "Ravl/Image/RGBcYUV.hh"
+#include "Ravl/VectorUtils.hh"
 
 // Some type conversions for standard images.
 
 namespace RavlImageN {
-
-static ImageC<ByteT> DoubleImageCT2ByteImageCT_L(const ImageC< RealT> &dat)
-{
-  ImageC< ByteT> ret(dat.Rectangle());
-  for(Array2dIter2C< ByteT,RealT> it(ret,dat);it.IsElm();it.Next())
-  {
-    it.Data1() = (it.Data2() > 255.0) ? 255 :
-                                        (it.Data2()<0.0) ? 0 :
-                                                           ((ByteT) (it.Data2() + 0.5));
-  }
-  return ret;
-}
-
-//preparations for different version of image convertors (for SSE optimization)
-typedef ImageC<ByteT> DoubleImageCT2ByteImageCT_T(const ImageC< RealT> &Dat);
-DoubleImageCT2ByteImageCT_T *DoubleImageCT2ByteImageCT_F = &DoubleImageCT2ByteImageCT_L;
-
 
   // Byte to double image.
 
@@ -85,8 +69,16 @@ DoubleImageCT2ByteImageCT_T *DoubleImageCT2ByteImageCT_F = &DoubleImageCT2ByteIm
 
   // Double -> Byte (clipped to fit)
   // This will clip, then round the double value (NOT floor!) to fit in a byte value 0 to 255.
-  ImageC<ByteT> DoubleImageCT2ByteImageCT(const ImageC< RealT> &dat) {
-    return DoubleImageCT2ByteImageCT_F(dat);
+  ImageC<ByteT> DoubleImageCT2ByteImageCT(const ImageC< RealT> &dat)
+  {
+    ImageC< ByteT> ret(dat.Rectangle());
+    if (dat.IsContinuous()) RavlBaseVectorN::Real2ByteD(ret.Row(ret.TRow()), dat.Row(dat.TRow()), dat.Size());
+    else {
+      for (IndexC r=dat.TRow(); r<=dat.BRow(); ++r)
+        RavlBaseVectorN::Real2ByteD(ret.Row(r), dat.Row(r), dat.Cols());
+    }
+    return ret;
   }
+
 
 }
