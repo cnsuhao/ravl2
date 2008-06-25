@@ -11,52 +11,50 @@ namespace RavlBaseVectorN {
   // the first few entries then process as aligned .
   
   static double SSEDotProductD(const double* v1, const double* v2, size_t size) {
-    const double* wPtr = v1;
-    const double* dPtr = v2;
     if(size < 12) {
       // For small vectors all the messing about is not worth it.
       double sum = 0.0;
       for(unsigned int i=size; i>0; --i)
-        sum += *wPtr++ * *dPtr++;
+        sum += *v1++ * *v2++;
       return sum;
     }
-    const double* const ewPtr = wPtr + (size & ~0x1);
+    const double* const ewPtr = v1 + (size & ~0x1);
     __m128d sum = _mm_setzero_pd();
-    if((((unsigned long int) wPtr) & 0xf) == 0) {  // v1 16-byte aligned ?
-      if((((unsigned long int) dPtr) & 0xf) == 0) {// v2 16-byte aligned ?
-        while(wPtr != ewPtr) {
-          sum = _mm_add_pd(sum, _mm_mul_pd(_mm_load_pd(dPtr), _mm_load_pd(wPtr)));
-          dPtr += 2;
-          wPtr += 2;
+    if((((unsigned long int) v1) & 0xf) == 0) {  // v1 16-byte aligned ?
+      if((((unsigned long int) v2) & 0xf) == 0) {// v2 16-byte aligned ?
+        while(v1 != ewPtr) {
+          sum = _mm_add_pd(sum, _mm_mul_pd(_mm_load_pd(v2), _mm_load_pd(v1)));
+          v2 += 2;
+          v1 += 2;
         }
       }
       else {
-        while(wPtr != ewPtr) {
-          sum = _mm_add_pd(sum, _mm_mul_pd(_mm_loadu_pd(dPtr), _mm_load_pd(wPtr)));
-          dPtr += 2;
-          wPtr += 2;
+        while(v1 != ewPtr) {
+          sum = _mm_add_pd(sum, _mm_mul_pd(_mm_loadu_pd(v2), _mm_load_pd(v1)));
+          v2 += 2;
+          v1 += 2;
         }
       }
     }
     else {
-      if((((unsigned long int) dPtr) & 0xf) == 0) {// v2 16-byte aligned ?
-        while(wPtr != ewPtr) {
-          sum = _mm_add_pd(sum, _mm_mul_pd(_mm_load_pd(dPtr), _mm_loadu_pd(wPtr)));
-          dPtr += 2;
-          wPtr += 2;
+      if((((unsigned long int) v2) & 0xf) == 0) {// v2 16-byte aligned ?
+        while(v1 != ewPtr) {
+          sum = _mm_add_pd(sum, _mm_mul_pd(_mm_load_pd(v2), _mm_loadu_pd(v1)));
+          v2 += 2;
+          v1 += 2;
         }
       }
       else {
-        while(wPtr != ewPtr) {
-          sum = _mm_add_pd(sum, _mm_mul_pd(_mm_loadu_pd(dPtr), _mm_loadu_pd(wPtr)));
-          dPtr += 2;
-          wPtr += 2;
+        while(v1 != ewPtr) {
+          sum = _mm_add_pd(sum, _mm_mul_pd(_mm_loadu_pd(v2), _mm_loadu_pd(v1)));
+          v2 += 2;
+          v1 += 2;
         }
       }
     }
 
     if(size & 1) { // Odd length ?
-      sum = _mm_add_pd(sum, _mm_mul_sd(_mm_load_sd(dPtr++), _mm_load_sd(wPtr++)));
+      sum = _mm_add_pd(sum, _mm_mul_sd(_mm_load_sd(v2++), _mm_load_sd(v1++)));
     }
     double tmp[2];
     _mm_storeu_pd(tmp, sum);
@@ -64,46 +62,44 @@ namespace RavlBaseVectorN {
   }
   
   static float SSEDotProductF(const float *v1,const float *v2,size_t n) {
-    const float* wPtr = v1;
-    const float* dPtr = v2;
     if(n < 12) {
       // Not worth using this code for small vectors.
       float sum = 0;
       for(unsigned int i=n; i>0; --i)
-        sum += *wPtr++ * *dPtr++;
+        sum += *v1++ * *v2++;
       return sum;
     }
     UIntT quadLen = (n & ~0x3);
-    const float* const ewPtr = wPtr + quadLen;
+    const float* const ewPtr = v1 + quadLen;
     __m128 sum = _mm_setzero_ps ();
     
     
-    if((((unsigned long int) wPtr) & 0xf) == 0) {  // v1 16-byte aligned ?
-      if((((unsigned long int) dPtr) & 0xf) == 0) {// v2 16-byte aligned ?
-        while(wPtr != ewPtr) {
-          sum = _mm_add_ps(sum,_mm_mul_ps(_mm_load_ps(wPtr),_mm_load_ps(dPtr)));
-          wPtr += 4;
-          dPtr += 4;
+    if((((unsigned long int) v1) & 0xf) == 0) {  // v1 16-byte aligned ?
+      if((((unsigned long int) v2) & 0xf) == 0) {// v2 16-byte aligned ?
+        while(v1 != ewPtr) {
+          sum = _mm_add_ps(sum,_mm_mul_ps(_mm_load_ps(v1),_mm_load_ps(v2)));
+          v1 += 4;
+          v2 += 4;
         }
       } else {
-        while(wPtr != ewPtr) {
-          sum = _mm_add_ps(sum,_mm_mul_ps(_mm_load_ps(wPtr),_mm_loadu_ps(dPtr)));
-          wPtr += 4;
-          dPtr += 4;
+        while(v1 != ewPtr) {
+          sum = _mm_add_ps(sum,_mm_mul_ps(_mm_load_ps(v1),_mm_loadu_ps(v2)));
+          v1 += 4;
+          v2 += 4;
         }
       }
     } else {
-      if((((unsigned long int) dPtr) & 0xf) == 0) {// v2 16-byte aligned ?
-        while(wPtr != ewPtr) {
-          sum = _mm_add_ps(sum,_mm_mul_ps(_mm_loadu_ps(wPtr),_mm_load_ps(dPtr)));
-          wPtr += 4;
-          dPtr += 4;
+      if((((unsigned long int) v2) & 0xf) == 0) {// v2 16-byte aligned ?
+        while(v1 != ewPtr) {
+          sum = _mm_add_ps(sum,_mm_mul_ps(_mm_loadu_ps(v1),_mm_load_ps(v2)));
+          v1 += 4;
+          v2 += 4;
         }
       } else {
-        while(wPtr != ewPtr) {
-          sum = _mm_add_ps(sum,_mm_mul_ps(_mm_loadu_ps(wPtr),_mm_loadu_ps(dPtr)));
-          wPtr += 4;
-          dPtr += 4;
+        while(v1 != ewPtr) {
+          sum = _mm_add_ps(sum,_mm_mul_ps(_mm_loadu_ps(v1),_mm_loadu_ps(v2)));
+          v1 += 4;
+          v2 += 4;
         }
       }
     }
@@ -117,7 +113,7 @@ namespace RavlBaseVectorN {
     UIntT remainder = n - quadLen;
     // Add in leftovers
     for(;remainder > 0;remainder--) {
-      ret += *(wPtr++) * *(dPtr++);
+      ret += *(v1++) * *(v2++);
     }
     return ret;
   }
@@ -173,12 +169,30 @@ namespace RavlBaseVectorN {
   }
   
   
+  static void SSEReal2ByteD(unsigned char * byteData, const double *realData, size_t size) {
+    __m128d min = _mm_set1_pd (0);
+    __m128d max = _mm_set1_pd (255);
+    __m128d voff = _mm_set1_pd (0.5);
+    unsigned char *ber = &(byteData[size&~1]);
+    for(;byteData < ber;) {
+      __m128i ivs = _mm_cvttpd_epi32(_mm_max_pd (_mm_min_pd (_mm_add_pd (_mm_loadu_pd (realData),voff),max),min));
+      *(byteData++) = (ByteT) _mm_cvtsi128_si32 (ivs);
+      *(byteData++) = (ByteT) _mm_cvtsi128_si32 ( _mm_shuffle_epi32(ivs,_MM_SHUFFLE (1,1,1,1)));
+      realData += 2;
+    }
+    if(size & 1) {
+      __m128i ivs = _mm_cvttpd_epi32(_mm_max_pd (_mm_min_pd (_mm_load_sd (realData),max),min));
+      *byteData = (ByteT) _mm_cvtsi128_si32 (ivs);
+    }
+  }
+
   
   int VectorSSEInit() {
     if (SSE2() && 1) {
       g_DotProductD = &SSEDotProductD;
       g_DotProductF = &SSEDotProductF;
-      g_QuadProductD = & SSEQuadProductD;
+      g_QuadProductD = &SSEQuadProductD;
+      g_Real2ByteD = &SSEReal2ByteD;
       //cerr<<"SSE:yes\n";
     } else {
       //cerr<<"SSE:no\n";

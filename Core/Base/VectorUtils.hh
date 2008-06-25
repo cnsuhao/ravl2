@@ -12,6 +12,7 @@ namespace RavlBaseVectorN {
   extern double (*g_DotProductD)(const double*, const double*, size_t) ;
   extern float (*g_DotProductF)(const float*, const float*, size_t) ;
   extern double (*g_QuadProductD)(const double*, const double*, const double*, size_t) ;
+  extern void (*g_Real2ByteD)(unsigned char*, const double*, size_t) ;
   
   inline double DotProduct(const double* v1, const double* v2, size_t size) 
   { return (*g_DotProductD)(v1,v2,size); }
@@ -26,6 +27,9 @@ namespace RavlBaseVectorN {
   //: Fast double quadratic product, with optional hardware speedup
   // Performs: Sum over arrays of v1 * (v1 * v3 + v2)
 
+  inline void Real2ByteD(unsigned char* byteData, const double* realData, size_t size)
+  { return (*g_Real2ByteD)(byteData, realData, size); }
+  //: Fast real to byte round and clip, with optional hardware speedup
 }
 
 #endif

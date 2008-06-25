@@ -37,9 +37,19 @@ namespace RavlBaseVectorN {
       }
     return retVal;
   }
-
+  
+  static void BaseReal2ByteD(unsigned char * byteData, const double *realData, size_t size) {
+    for (int i=size; i>0; --i) {
+      *(byteData++) = (*realData >= 255.0) ? 255
+                                         : (*realData<=0.0) ? 0
+                                                            : ((unsigned char) (*realData + 0.5));
+      realData++;
+    }
+  }
+   
   double (*g_DotProductD)(const double*, const double*, size_t) = &BaseDotProductD;
   float (*g_DotProductF)(const float*, const float*, size_t) = &BaseDotProductF;
   double (*g_QuadProductD)(const double*, const double*, const double*, size_t) = &BaseQuadProductD;
+  void (*g_Real2ByteD)(unsigned char*, const double*, size_t) = &BaseReal2ByteD;
 
 }
