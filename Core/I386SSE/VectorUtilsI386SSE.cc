@@ -181,7 +181,7 @@ namespace RavlBaseVectorN {
       realData += 2;
     }
     if(size & 1) {
-      __m128i ivs = _mm_cvttpd_epi32(_mm_max_pd (_mm_min_pd (_mm_load_sd (realData),max),min));
+      __m128i ivs = _mm_cvttpd_epi32(_mm_max_pd (_mm_min_pd (_mm_add_pd (_mm_load_sd (realData),voff),max),min));
       *byteData = (ByteT) _mm_cvtsi128_si32 (ivs);
     }
   }
