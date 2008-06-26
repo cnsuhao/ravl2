@@ -6,8 +6,8 @@
 // file-header-ends-here
 // $Id: AuxVector.hh 10404 2007-03-29 14:07:26Z alex $
 
-#ifndef OMNI_AUX_VECTOR_HEADER
-#define OMNI_AUX_VECTOR_HEADER
+#ifndef RAVL_AUX_VECTOR_HEADER
+#define RAVL_AUX_VECTOR_HEADER
 
 
 namespace RavlN
