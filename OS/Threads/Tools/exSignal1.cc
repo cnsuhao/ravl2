@@ -22,7 +22,7 @@ bool PrintNumberA(int &i) {
   return true;
 }
 
-bool PrintNumberB(int &i) {
+bool PrintNumberB(const int &i) {
   cout << "PrintNumberB called with value " << i << "\n";
   return true;
 }
