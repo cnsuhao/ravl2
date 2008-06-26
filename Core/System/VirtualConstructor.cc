@@ -27,6 +27,20 @@ namespace RavlN {
     static HashC<const char *,VirtualConstructorC> tab;
     return tab;
   }
+  
+  bool CreateVirtualConstructorAlias(const char *newName,const char *oldName) {
+    VirtualConstructorC *oldVC = Table().Lookup(oldName);
+    if(oldVC == 0) {
+      std::cerr << "Failed to construct virtual construtor alias '" << newName << "' for unknown type '" << oldName << "'\n";
+      return false;
+    }
+    if(Table().Lookup(newName) != 0) {
+      std::cerr << "Failed to construct virtual construtor alias '" << newName << "' for '" << oldName << "', name in use. \n";
+      return false;
+    }
+    Table()[newName] = *oldVC;
+    return true;
+  }
 
   //: Default constructor.
   

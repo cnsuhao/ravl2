@@ -123,6 +123,10 @@ namespace RavlN {
   RCBodyVC *VCLoad(BinIStreamC &s);
   //: Load object from a binary stream via a virtual constructor
   
+  bool CreateVirtualConstructorAlias(const char *newName,const char *oldName);
+  //: Create alias for type.
+  //: This can be used to allow classes that have been renamed to be loaded for backward compatibilty.
+  
 #define RAVL_INITVIRTUALCONSTRUCTOR(bodyname) \
   static RavlN::VirtualConstructorInstC<bodyname> vc_function_ ## bodyname(# bodyname );
 
