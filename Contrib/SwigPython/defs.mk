@@ -4,18 +4,26 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 
-REQUIRES=Swig
+#NOSHAREDLIBDEPENDS=1
+
+DONOT_SUPPORT=VCPP
+
+REQUIRES=Swig SwigPython
 
 PACKAGE=Ravl/Swig
 
-HEADERS=Types.i Point2d.i Polygon2d.i Image.i IndexRange2d.i Index2d.i Array2d.i Index.i String.i \
- IO.i Font.i SArray1d.i Affine2d.i DList.i Date.i PointSet2d.i RealRange.i RealRange2d.i Hash.i DPIPort.i
+HEADERS=
 
-SOURCES=
+SOURCES=Ravl.i
 
-PLIB=
+PLIB=RavlPythonSwig
 
-USESLIBS=
+USESLIBS=RavlDPDisplay RavlCore RavlMath RavlImage RavlImageIO Python RavlNet RavlOSIO
 
 PROGLIBS=
 
+SWIGOPTS=-python
+
+AUXDIR=/share/Python
+
+AUXFILES=Ravl.py
