@@ -5,6 +5,7 @@ ifndef CUDA_HOME
   CUDA_HOME=/usr/local/cuda
 endif
 
+INCLUDES+= -I$(CUDA_HOME)/include
 EXELIB :=  -L$(CUDA_HOME)/lib -lcuda -lcudart $(LIBPATHSWITCH)$(CUDA_HOME)/lib $(EXELIB)
 
 endif
