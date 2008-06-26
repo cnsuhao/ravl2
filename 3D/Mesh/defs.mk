@@ -29,7 +29,7 @@ PLIB=Ravl3D
 
 USESLIBS=RavlMath RavlImage
 
-PROGLIBS=RavlDPDisplay RavlDPDisplay3d
+PROGLIBS=RavlDPDisplay.opt RavlDPDisplay3d.opt
 
 EHT=Ravl.API.3D.Mesh.html
 

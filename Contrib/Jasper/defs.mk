@@ -24,7 +24,7 @@ PLIB=RavlImgIOJasper
 
 USESLIBS=RavlImage LibJasper RavlIO
 
-PROGLIBS=RavlDPDisplay
+PROGLIBS=RavlDPDisplay.opt
 
 AUXDIR=lib/RAVL/libdep
 
