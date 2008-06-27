@@ -9,7 +9,7 @@
 #ifndef RAVL_ONE_CLASS_LINEAR_HEADER
 #define RAVL_ONE_CLASS_LINEAR_HEADER
 
-#include "Ravl/PatternRec/Classifier2.hh"
+#include "Ravl/PatternRec/SvmClassifier2.hh"
 #include "Ravl/PatternRec/OneClass.hh"
 #include "Ravl/PatternRec/CommonKernels.hh"
 

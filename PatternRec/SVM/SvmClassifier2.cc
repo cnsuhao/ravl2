@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
-#include "Ravl/PatternRec/Classifier2.hh"
+#include "Ravl/PatternRec/SvmClassifier2.hh"
 
 namespace RavlN
 {

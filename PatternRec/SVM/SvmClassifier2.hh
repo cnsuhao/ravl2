@@ -5,15 +5,15 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
-#ifndef RAVL_CLASSIFIER2_HEADER
-#define RAVL_CLASSIFIER2_HEADER 1
+#ifndef RAVL_SVMCLASSIFIER2_HEADER
+#define RAVL_SVMCLASSIFIER2_HEADER 1
 
 //////////////////////////////////////////////////////////////////////////////
-//! file =      "Ravl/PatternRec/Svm/Classifier2.hh"
+//! file =      "Ravl/PatternRec/Svm/SvmClassifier2.hh"
 //! author =    "Alexey Kostin"
 //! lib =       RavlSVM
 //! date =      "04/10/05"
-//! rcsid =     "$Id: Classifier2.hh,v 1.2 2005/05/12 14:19:26 alex Exp $"
+//! rcsid =     "$Id: SvmClassifier2.hh,v 1.2 2005/05/12 14:19:26 alex Exp $"
 //! docentry =  "Ravl.API.Pattern_Recognition.Classifier.SVM"
 //////////////////////////////////////////////////////////////////////////////
 

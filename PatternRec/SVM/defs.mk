@@ -16,9 +16,8 @@ MAINS    = oneClassTest.cc \
 	   classifyList.cc \
 	   #buildSVM.cc
 
-SOURCES  = virtualConstr.cc \
-           DesignSvm.cc \
-           Classifier2.cc \
+SOURCES  = DesignSvm.cc \
+           SvmClassifier2.cc \
            SvmClassifier.cc \
            SvmLinearClassifier.cc \
            SvmQuadraticClassifier.cc \
@@ -31,12 +30,11 @@ SOURCES  = virtualConstr.cc \
 	   DesignOneClass.cc \
 	   OneClassLinear.cc \
 	   DesignOneClassLarge.cc \
-           AuxVector.cc
-
-#MUSTLINK = virtualConstr.cc
+           AuxVector.cc \
+           SvmVirtualConstr.cc
 
 HEADERS  = DesignSvm.hh \
-           Classifier2.hh \
+           SvmClassifier2.hh \
            SvmClassifier.hh \
            SvmLinearClassifier.hh \
            SvmQuadraticClassifier.hh \

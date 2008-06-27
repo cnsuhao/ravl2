@@ -9,7 +9,7 @@
 #ifndef RAVL_SVM_LINEAR_CLASSIFIER_HEADER
 #define RAVL_SVM_LINEAR_CLASSIFIER_HEADER 1
 
-#include "Ravl/PatternRec/Classifier2.hh"
+#include "Ravl/PatternRec/SvmClassifier2.hh"
 
 namespace RavlN
 {

@@ -17,7 +17,7 @@
 //! docentry =  "Ravl.API.Pattern_Recognition.Classifier.SVM"
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Ravl/PatternRec/Classifier2.hh"
+#include "Ravl/PatternRec/SvmClassifier2.hh"
 #include "Ravl/PatternRec/Sample.hh"
 #include "Ravl/PatternRec/KernelFunc.hh"
 
