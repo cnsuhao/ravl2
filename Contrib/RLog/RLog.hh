@@ -15,12 +15,20 @@
 
 namespace RavlN {
   
-  //: Initalise rlog to standard out
+  //! Initialise rlog to filename (filename can be stderr)
+  bool RLogInit(int argc, char **argv, const char *filename, bool verbose);
+  
+  //! Initalise rlog to standard out
   bool RLogInit(bool verbose = false);
   
   //! Subscribe to a model.
   bool RLogSubscribe(const char *moduleName,const char *path = "",rlog::LogLevel level = rlog::Log_Undef);
   
+  //! Subscribe to a channel (_RLDebugChannel, _RLInfoChannel, _RLWarningChannel, _RLErrorChannel)
+  bool RLogSubscribe(rlog::RLogChannel *Channel);
+  
+  //! Subscribe according to log level
+  bool RLogSubscribeL(const char *LogLevel);
 }
 
 #endif
