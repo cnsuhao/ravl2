@@ -45,9 +45,14 @@ RAVL_CXX = g++
 #EXTRA_CCFLAGS =
 
 # Use SSE2 instructions where possible
-ifeq ("$(shell uname -i)","i386")
+PROCESSOR_TYPE:=$(shell uname -i)
+ifeq ("$(PROCESSOR_TYPE)","i386")
   RESOURCES += USE_SSE2
 endif
+ifeq ("$(PROCESSOR_TYPE)","x86_64")
+  RESOURCES += USE_SSE2
+endif
+
 
 ################################ LIBRARIES ################################
 

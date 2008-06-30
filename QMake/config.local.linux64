@@ -29,6 +29,10 @@ FULLBUILD_TARGETS += doc
 # Specify which build to 'test'
 #TEST_TARGET = check
 
+ifeq ("$(PROCESSOR_TYPE)","x86_64")
+  RESOURCES += USE_SSE2
+endif
+
 ################################ Compiler ################################
 
 # specify the path of an alternative compiler
