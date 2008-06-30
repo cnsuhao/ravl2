@@ -11,7 +11,7 @@ PACKAGE=Ravl/Image
 
 HEADERS=ImageRectangle.hh Image.hh \
  RGBValue.hh ByteRGBValue.hh UInt16RGBValue.hh RealRGBValue.hh \
- RGBAValue.hh ByteRGBAValue.hh \
+ RGBAValue.hh ByteRGBAValue.hh RealRGBAValue.hh \
  BGRValue.hh ByteBGRValue.hh RealBGRValue.hh BGRAValue.hh ByteBGRAValue.hh \
  YUVValue.hh ByteYUVValue.hh RealYUVValue.hh \
  YUVAValue.hh ByteYUVAValue.hh \
@@ -30,7 +30,7 @@ HEADERS=ImageRectangle.hh Image.hh \
 
 SOURCES=ImageRectangle.cc Image.cc ByteRGBValue.cc ByteYUVValue.cc RealRGBValue.cc \
  RealYUVValue.cc RGBcYUV.cc Font.cc ImageConv.cc ImageConv2.cc ImageConv3.cc ImageConv4.cc \
- ByteRGBAValue.cc ByteVYUValue.cc ByteYUV422Value.cc ByteYUVAValue.cc \
+ ByteRGBAValue.cc RealRGBAValue.cc ByteVYUValue.cc ByteYUV422Value.cc ByteYUVAValue.cc \
  RealDVSRGBValue.cc RealDVSYUVValue.cc dvsRGBcdvsYUV422.cc ImgCnvRGB.cc ImgCnvYUV.cc 
 
 PLIB=RavlImage

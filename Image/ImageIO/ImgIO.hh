@@ -33,6 +33,7 @@ namespace RavlImageN {
   extern void InitImgIOByteRGB();
   extern void InitImgIORealRGB();
   extern void InitImgIOByteRGBA();
+  extern void InitImgIORealRGBA();
   extern void InitImgIOByteYUV();
   extern void InitImgIORealYUV();
   extern void InitRGBImageCnv();

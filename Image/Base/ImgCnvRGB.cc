@@ -16,6 +16,7 @@
 #include "Ravl/Image/UInt16RGBValue.hh"
 #include "Ravl/Image/RealRGBValue.hh"
 #include "Ravl/Image/ByteRGBAValue.hh"
+#include "Ravl/Image/RealRGBAValue.hh"
 
 
 namespace RavlImageN
@@ -23,6 +24,8 @@ namespace RavlImageN
 
   void InitRGBImageCnv()
   {}
+
+  // Conversions between RGBA and RGB
   
   // Byte RGBA to Byte RGB 
   
@@ -43,11 +46,36 @@ namespace RavlImageN
     return ret;
   }
 
+  // Real RGBA to Real RGB 
+  
+  ImageC<RealRGBValueC> RealRGBAImageCT2RealRGBImageCT(const ImageC<RealRGBAValueC> &dat) {
+    ImageC<RealRGBValueC> ret(dat.Rectangle());
+    for(Array2dIter2C<RealRGBValueC,RealRGBAValueC> it(ret,dat);it.IsElm();it.Next()) 
+      it.Data1() = RealRGBValueC(it.Data2().Red(),it.Data2().Green(),it.Data2().Blue());
+    return ret;
+  }
+  
+  // Real RGB to Real RGBA 
+  
+  ImageC<RealRGBAValueC> RealRGBImageCT2RealRGBAImageCT(const ImageC<RealRGBValueC> &dat) {
+    ImageC<RealRGBAValueC> ret(dat.Rectangle());
+    for(Array2dIter2C<RealRGBAValueC,RealRGBValueC> it(ret,dat);it.IsElm();it.Next()) {
+      it.Data1() = RealRGBAValueC(it.Data2().Red(),it.Data2().Green(),it.Data2().Blue(),(char) 0xff);
+    }
+    return ret;
+  }
+
   // Register conversions...
   DP_REGISTER_CONVERSION_FT_NAMED(ImageC<ByteRGBAValueC>,ImageC<ByteRGBValueC>,ByteRGBAImageCT2ByteRGBImageCT,1.25,
 				  "ImageC<ByteRGBValueC> RavlImageN::Convert(const ImageC<ByteRGBAValueC> &)");  
   DP_REGISTER_CONVERSION_FT_NAMED(ImageC<ByteRGBValueC>,ImageC<ByteRGBAValueC>,ByteRGBImageCT2ByteRGBAImageCT,1,
 				  "ImageC<ByteRGBAValueC> RavlImageN::Convert(const ImageC<ByteRGBValueC> &)");
+  
+  // Register conversions...
+  DP_REGISTER_CONVERSION_FT_NAMED(ImageC<RealRGBAValueC>,ImageC<RealRGBValueC>,RealRGBAImageCT2RealRGBImageCT,1.25,
+				  "ImageC<RealRGBValueC> RavlImageN::Convert(const ImageC<RealRGBAValueC> &)");  
+  DP_REGISTER_CONVERSION_FT_NAMED(ImageC<RealRGBValueC>,ImageC<RealRGBAValueC>,RealRGBImageCT2RealRGBAImageCT,1,
+				  "ImageC<RealRGBAValueC> RavlImageN::Convert(const ImageC<RealRGBValueC> &)");
   
   //////////////////////////////////////////////////////////////////////////////////////////
   
