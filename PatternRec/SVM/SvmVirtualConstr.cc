@@ -26,109 +26,9 @@
 
 namespace RavlN
 {
-  using namespace RavlN;
 
   void InitRavlSVMIO() {
   }
-
-  // -- DesignSvmC -------------------------------------------------------
-  DesignClassifierSupervisedC DesignSvm2DesignClassifierSupervised(const DesignSvmC &func)
-    { return func; }
-
-  DP_REGISTER_CONVERSION_NAMED(DesignSvm2DesignClassifierSupervised, 1,
-                               "RavlN::DesignClassifierSupervisedC RavlN::"
-                               "Convert(const RavlN::DesignSvm2DesignCla"
-                               "ssifierSupervised &)");
-
-  static TypeNameC TypeDesignSvm(typeid(DesignSvmC), "RavlN::DesignSvmC");
-
-  FileFormatStreamC<DesignSvmC> FileFormatStream_DesignSvm;
-  FileFormatBinStreamC<DesignSvmC> FileFormatBinStream_DesignSvm;
-
-  // -- DesignSvmSmoC -------------------------------------------------------
-  DesignSvmC DesignSvmSmo2DesignSvm(const DesignSvmSmoC &func)
-    { return func; }
-
-  DP_REGISTER_CONVERSION_NAMED(DesignSvmSmo2DesignSvm, 1,
-                               "RavlN::DesignSvmC RavlN::"
-                               "Convert(const RavlN::DesignSvmSmo2DesignSvm &)");
-
-  static TypeNameC TypeDesignSvmSmo(typeid(DesignSvmSmoC),
-                                    "RavlN::DesignSvmSmoC");
-
-  FileFormatStreamC<DesignSvmSmoC> FileFormatStream_DesignSvmSmo;
-  FileFormatBinStreamC<DesignSvmSmoC> FileFormatBinStream_DesignSvmSmo;
-
-  // -- DesignOneClassC -------------------------------------------------------
-  DesignSvmC DesignOneClass2DesignSvm(const DesignOneClassC &func)
-    { return func; }
-
-  DP_REGISTER_CONVERSION_NAMED(DesignOneClass2DesignSvm, 1,
-                               "RavlN::DesignSvmC RavlN::"
-                               "Convert(const RavlN::DesignOneClass2DesignSvm &)");
-
-  static TypeNameC TypeDesignOneClass(typeid(DesignOneClassC),
-                                      "RavlN::DesignOneClassC");
-
-  FileFormatStreamC<DesignOneClassC> FileFormatStream_DesignOneClass;
-  FileFormatBinStreamC<DesignOneClassC> FileFormatBinStream_DesignOneClass;
-
-  // -- Classifier2C ---------------------------------------------------------
-  ClassifierC Classifier2ToClassifier(const Classifier2C &func)
-  { return func; }
-
-  DP_REGISTER_CONVERSION_NAMED(Classifier2ToClassifier ,1,
-                               "RavlN::ClassifierC RavlN::Convert(const "
-                               "RavlN::Classifier2ToClassifier &)");
-
-  static TypeNameC TypeClassifier2(typeid(Classifier2C),
-                                   "RavlN::Classifier2C");
-
-  FileFormatStreamC<Classifier2C> FileFormatStream_Classifier2;
-  FileFormatBinStreamC<Classifier2C> FileFormatBinStream_Classifier2;
-
-  // -- SvmClassifierC -------------------------------------------------------
-  Classifier2C SvmClassifier2Classifier2(const SvmClassifierC &func)
-  { return func; }
-
-  DP_REGISTER_CONVERSION_NAMED(SvmClassifier2Classifier2 ,1,
-                               "RavlN::Classifier2C RavlN::Convert(const "
-                               "RavlN::SvmClassifier2Classifier2 &)");
-
-  static TypeNameC TypeSvmClassifier(typeid(SvmClassifierC),
-                                     "RavlN::SvmClassifierC");
-
-  FileFormatStreamC<SvmClassifierC> FileFormatStream_SvmClassifier;
-  FileFormatBinStreamC<SvmClassifierC> FileFormatBinStream_SvmClassifier;
-
-  // -- SvmLinearClassifierC -------------------------------------------------
-  Classifier2C SvmLinearClassifier2Classifier2(const SvmLinearClassifierC &func)
-  { return func; }
-
-  DP_REGISTER_CONVERSION_NAMED(SvmLinearClassifier2Classifier2 ,1,
-                               "RavlN::Classifier2C RavlN::Convert(const "
-                               "RavlN::SvmLinearClassifier2Classifier2 &)");
-
-  static TypeNameC TypeSvmLinearClassifier(typeid(SvmLinearClassifierC),
-                                           "RavlN::SvmLinearClassifierC");
-
-  FileFormatStreamC<SvmLinearClassifierC> FileFormatStream_SvmLinearClassifier;
-  FileFormatBinStreamC<SvmLinearClassifierC> FileFormatBinStream_SvmLinearClassifier;
-
-  // -- SvmQuadraticClassifierC -------------------------------------------------
-  Classifier2C SvmQuadraticClassifier2Classifier2(const SvmQuadraticClassifierC &func)
-    { return func; }
-
-  DP_REGISTER_CONVERSION_NAMED(SvmQuadraticClassifier2Classifier2 ,1,
-                               "RavlN::Classifier2C RavlN::Convert(const "
-                               "RavlN::SvmQuadraticClassifier2Classifier2 &)");
-
-  static TypeNameC TypeSvmQuadraticClassifier(typeid(SvmQuadraticClassifierC),
-                                              "RavlN::SvmQuadraticClassifierC");
-
-  FileFormatStreamC<SvmQuadraticClassifierC> FileFormatStream_SvmQuadraticClassifier;
-  FileFormatBinStreamC<SvmQuadraticClassifierC> FileFormatBinStream_SvmQuadraticClassifier;
-
   // -- OneClassC -------------------------------------------------------
   Classifier2C OneClass2Classifier2(const OneClassC &func)
     { return func; }
@@ -153,8 +53,8 @@ namespace RavlN
   static TypeNameC TypeOneClassLinear(typeid(OneClassLinearC), "RavlN::OneClassLinearC");
 
   FileFormatStreamC<OneClassLinearC> FileFormatStream_OneClassLinear;
-  FileFormatBinStreamC<OneClassLinearC> FileFormatBinStream_OneClassLinear;
-
+  FileFormatBinStreamC<OneClassLinearC> FileFormatBinStream_OneClassLinear;  
+  
   // -- Linear kernel -------------------------------------------------------
   KernelFunctionC LinearKernel2KernelFunction(const LinearKernelC &func)
   { return func; }
@@ -209,24 +109,21 @@ namespace RavlN
 
   FileFormatStreamC<RBFKernelC> FileFormatStream_RBFKernel;
   FileFormatBinStreamC<RBFKernelC> FileFormatBinStream_RBFKernel;
+
+  //---------------------------------------------------------------------------
+  // Stream load operators defined in RAVL_INITVIRTUALCONSTRUCTOR_FULL macro
+  // Implementation of 'load from stream' constructors defined there as well
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(LinearKernelBodyC,        LinearKernelC,        KernelFunctionC);
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(QuadraticKernelBodyC,     QuadraticKernelC,     KernelFunctionC);
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(PolynomialKernelBodyC,    PolynomialKernelC,    KernelFunctionC);
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(RBFKernelBodyC,           RBFKernelC,           KernelFunctionC);
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(DesignSvmBodyC,           DesignSvmC,           DesignClassifierSupervisedC);
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(DesignSvmSmoBodyC,        DesignSvmSmoC,        DesignSvmC);
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(Classifier2BodyC,         Classifier2C,         ClassifierC);
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(SvmClassifierBodyC,       SvmClassifierC,       Classifier2C);
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(SvmLinearClassifierBodyC, SvmLinearClassifierC, Classifier2C);
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(SvmQuadraticClassifierBodyC, SvmQuadraticClassifierC, Classifier2C);
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(DesignOneClassBodyC,      DesignOneClassC,      DesignSvmC);
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(OneClassBodyC,            OneClassC,            Classifier2C);
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(OneClassLinearBodyC,      OneClassLinearC,      Classifier2C);
 }
-
-using namespace RavlN;
-using namespace RavlN;
-//---------------------------------------------------------------------------
-// Stream load operators defined in RAVL_INITVIRTUALCONSTRUCTOR_FULL macro
-// Implementation of 'load from stream' constructors defined there as well
-RAVL_INITVIRTUALCONSTRUCTOR_FULL(LinearKernelBodyC,        LinearKernelC,        KernelFunctionC);
-RAVL_INITVIRTUALCONSTRUCTOR_FULL(QuadraticKernelBodyC,     QuadraticKernelC,     KernelFunctionC);
-RAVL_INITVIRTUALCONSTRUCTOR_FULL(PolynomialKernelBodyC,    PolynomialKernelC,    KernelFunctionC);
-RAVL_INITVIRTUALCONSTRUCTOR_FULL(RBFKernelBodyC,           RBFKernelC,           KernelFunctionC);
-RAVL_INITVIRTUALCONSTRUCTOR_FULL(DesignSvmBodyC,           DesignSvmC,           DesignClassifierSupervisedC);
-RAVL_INITVIRTUALCONSTRUCTOR_FULL(DesignSvmSmoBodyC,        DesignSvmSmoC,        DesignSvmC);
-RAVL_INITVIRTUALCONSTRUCTOR_FULL(Classifier2BodyC,         Classifier2C,         ClassifierC);
-RAVL_INITVIRTUALCONSTRUCTOR_FULL(SvmClassifierBodyC,       SvmClassifierC,       Classifier2C);
-RAVL_INITVIRTUALCONSTRUCTOR_FULL(SvmLinearClassifierBodyC, SvmLinearClassifierC, Classifier2C);
-RAVL_INITVIRTUALCONSTRUCTOR_FULL(SvmQuadraticClassifierBodyC, SvmQuadraticClassifierC, Classifier2C);
-RAVL_INITVIRTUALCONSTRUCTOR_FULL(DesignOneClassBodyC,      DesignOneClassC,      DesignSvmC);
-RAVL_INITVIRTUALCONSTRUCTOR_FULL(OneClassBodyC,            OneClassC,            Classifier2C);
-RAVL_INITVIRTUALCONSTRUCTOR_FULL(OneClassLinearBodyC,      OneClassLinearC,      Classifier2C);
-

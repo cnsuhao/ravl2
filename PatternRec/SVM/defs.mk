@@ -31,7 +31,8 @@ SOURCES  = DesignSvm.cc \
 	   OneClassLinear.cc \
 	   DesignOneClassLarge.cc \
            AuxVector.cc \
-           SvmVirtualConstr.cc
+           SvmVirtualConstr.cc \
+           SvmVirtualConstr2.cc
 
 HEADERS  = DesignSvm.hh \
            SvmClassifier2.hh \
@@ -59,6 +60,8 @@ USESLIBS = RavlCore \
 AUXFILES = testClsSL32.abs testClsSL64.abs
 
 AUXDIR   = share/RAVL/testData/svm
+
+MUSTLINK= linkRavlSVM.cc
 
 #TESTEXES = testVirtualConstr.cc
 
