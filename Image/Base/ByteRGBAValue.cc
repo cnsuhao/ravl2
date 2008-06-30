@@ -17,6 +17,7 @@ namespace RavlImageN {
   
   ////////////////////////////////////////////////////////////
   // Accelerated IO routines...
+  // Don't use these for anything other than byte types
   
   BinOStreamC &operator << (BinOStreamC &out,const ImageC<ByteRGBAValueC> &img) { 
     out << img.Rectangle();

@@ -67,14 +67,6 @@ namespace RavlImageN {
 
   };
   
-  template<class DataT> class ImageC;
-  
-  BinOStreamC &operator<<(BinOStreamC &out,const ImageC<RealRGBAValueC> &img);
-  //: Save real RGBA image to binary stream 
-  
-  BinIStreamC &operator>>(BinIStreamC &in,ImageC<RealRGBAValueC> &img);  
-  //: Load real RGBA image from binary stream 
-  
 }
 
 
@@ -85,7 +77,7 @@ namespace RavlN {
   
   template<>
   struct NumericalTraitsC<RavlImageN::RealRGBAValueC> {
-    typedef RavlImageN::RGBAValueC<UInt16T> AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
+    typedef RavlImageN::RGBAValueC<RealT> AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
     typedef RavlImageN::RGBAValueC<RealT>   RealAccumT; //: Type to use for a floating point accumulator.
     typedef RavlImageN::RGBAValueC<UInt64T> LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
   };
