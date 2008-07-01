@@ -15,6 +15,11 @@
 #include <rlog/rlog.h>
 #include <fcntl.h>
 
+#ifdef WIN32
+#include <io.h>
+#include <sys\stat.h>
+#endif
+
 namespace RavlN {
   
   bool g_RLogInitDone = false;
@@ -35,8 +40,12 @@ namespace RavlN {
     else 
     {
       //FIXME need mecanism of closing the log file
+#ifdef WIN32	
+	  fd = _open(filename, _O_WRONLY | _O_CREAT | _O_APPEND, _S_IREAD | _S_IWRITE);
+#else
       mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
       fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, mode);
+#endif
       if(fd == -1) 
       {
         fprintf(stderr, "[Error] Failed to open log-file %s\n", filename);
@@ -74,7 +83,7 @@ namespace RavlN {
     //g_rlogNode->subscribeTo(rlog::GetComponentChannel("Ravl","",rlog::Log_Undef));
     g_rlogNode->subscribeTo(rlog::GetGlobalChannel(""));
     if(verbose)
-      rInfo("RLog initalised. ");
+		rInfo("RLog initalised. ");
     return true;
   }
   
