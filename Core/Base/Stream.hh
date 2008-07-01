@@ -485,7 +485,7 @@ namespace RavlN {
     StringC ClipTo(const StringC &endStr);
     //: Return all characters before 'endStr'.
     // this leaves the stream positioned at the
-    // first character after the string. <p>
+    // first character after the 'endStr'. <p>
     // If the end of stream is found, all data found
     // upto that point is returned.
     
