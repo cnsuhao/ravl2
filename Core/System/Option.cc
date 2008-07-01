@@ -36,7 +36,7 @@ namespace RavlN {
   // 'copy' == false ... options and pars. are removed from agrv, argc<br>
   // 'copy' == true  ... leave argv, argc untouched, work on a copy
   
-  OptionC::OptionC(int argc, char ** argv,bool,OStreamC msgout)
+  OptionC::OptionC(int argc, const char ** argv,bool,OStreamC msgout)
     : leftOk(false),
       help(false),
       progName("-Unknown-"),
@@ -56,7 +56,7 @@ namespace RavlN {
   // 'copy' == false ... options and pars. are removed from agrv, argc<br>
   // 'copy' == true  ... leave argv, argc untouched, work on a copy
   
-  OptionC::OptionC(int argc, char ** argv, bool)
+  OptionC::OptionC(int argc,  const char ** argv, bool)
     : leftOk(false),
       help(false),
       progName("-Unknown-"),

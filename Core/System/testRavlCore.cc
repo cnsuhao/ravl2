@@ -41,6 +41,7 @@
 #include "Ravl/SmartPtr.hh"
 #include "Ravl/VirtualConstructor.hh"
 #include "Ravl/RCWrapIO.hh"
+#include "Ravl/StrStream.hh"
 
 #include <string.h>
 
@@ -73,6 +74,7 @@ int testBase64();
 int testObjIO();
 int testVectorIO();
 int testSmartPtr();
+int testStreamParse();
 
 int testRavlCore(int argc,char **argv) {
   int line = 0;
@@ -137,9 +139,13 @@ int testRavlCore(int argc,char **argv) {
     cerr << "Base64 io test failed line :" << line << "\n";
     return 1;
   }
-#endif
   if((line = testSmartPtr()) != 0) {
     cerr << "SmartPtr io test failed line :" << line << "\n";
+    return 1;
+  }
+#endif
+  if((line = testStreamParse()) != 0) {
+    cerr << "Stream test failed line :" << line << "\n";
     return 1;
   }
   cout << "Test passed. \n";
@@ -303,7 +309,7 @@ int testOption() {
   cout << "Testing OptionC.\n";
   // Do a quick check that OptionC is doing something sensible.
   int nargs = 15;
-  char *argv[] = { "arg0","-d","0.3","-i","4","-k","1","2","-o1","t1 t2","-o2","t3 t4","-o3","t5 t6","-b",0 };
+  char const *argv[] = { "arg0","-d","0.3","-i","4","-k","1","2","-o1","t1 t2","-o2","t3 t4","-o3","t5 t6","-b",0 };
   OptionC opt(nargs,argv);
   RealT vd= opt.Real("d",0,"Read in a real. ");
   RealT vd2= opt.Real("d2",0.4,"Read in a real. ");
@@ -679,6 +685,53 @@ int testSmartPtr() {
     bis >> lptr;
     if(lptr.IsValid()) return __LINE__;
   }
+  return 0;
+}
+
+int testStreamParse() {
+  
+  {
+    StringC testString = " \t\n  *1234$$5678$$9012";
+    StrIStreamC istrm(testString);
+    if(istrm.SkipWhiteSpace() != '*')
+      return __LINE__;
+    if(istrm.ClipTo("$$") != "1234")
+      return __LINE__;
+    if(istrm.ClipTo("$$") != "5678")
+      return __LINE__;
+    if(istrm.ClipTo("$$") != "9012")
+      return __LINE__;
+  }
+  {
+    StringC testString = "1234$5678$9012";
+    StrIStreamC istrm(testString);
+    if(istrm.ClipTo('$') != "1234")
+      return __LINE__;
+    if(istrm.ClipTo('$') != "5678")
+      return __LINE__;
+    if(istrm.ClipTo('$') != "9012")
+      return __LINE__;
+  }
+  {
+    StringC testString = "1234$$5678$9012$3456$!$1";
+    StrIStreamC istrm(testString);
+    if(!istrm.SkipTo("$$"))
+      return __LINE__;
+    if(istrm.ClipWord("$") != "5678")
+      return __LINE__;
+    if(istrm.GetChar() != '$')
+      return __LINE__;
+    if(!istrm.SkipTo('$'))
+      return __LINE__;
+    if(istrm.ClipTo('$') != "3456")
+      return __LINE__;
+    if(!istrm.Skip("$!"))
+      return __LINE__;
+    if(istrm.ClipTo('$') != "1")
+      return __LINE__;
+  }
+
+
   return 0;
 }
 

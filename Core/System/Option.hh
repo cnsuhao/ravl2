@@ -40,13 +40,13 @@ namespace RavlN {
   
   class OptionC {
   public:
-    OptionC(int argc, char ** argv, bool copy, OStreamC msgout);
+    OptionC(int argc, char const ** argv, bool copy, OStreamC msgout);
     //: Creates the option processing system
     //!param: 'copy' == false - options and pars. are removed from argv, argc
     //!param: 'copy' == true  - leave argv, argc untouched, work on a copy
     //!param: msgout - Where to send messages about option processing.
 
-    OptionC(int argc, char ** argv, bool copy = false);
+    OptionC(int argc, char  const ** argv, bool copy = false);
     //: Creates the option processing system
     //!param: 'copy' == false - options and pars. are removed from argv, argc
     //!param: 'copy' == true  - leave argv, argc untouched, work on a copy
