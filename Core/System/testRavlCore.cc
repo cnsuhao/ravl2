@@ -309,7 +309,7 @@ int testOption() {
   cout << "Testing OptionC.\n";
   // Do a quick check that OptionC is doing something sensible.
   int nargs = 15;
-  char const *argv[] = { "arg0","-d","0.3","-i","4","-k","1","2","-o1","t1 t2","-o2","t3 t4","-o3","t5 t6","-b",0 };
+  char *argv[] = { "arg0","-d","0.3","-i","4","-k","1","2","-o1","t1 t2","-o2","t3 t4","-o3","t5 t6","-b",0 };
   OptionC opt(nargs,argv);
   RealT vd= opt.Real("d",0,"Read in a real. ");
   RealT vd2= opt.Real("d2",0.4,"Read in a real. ");
