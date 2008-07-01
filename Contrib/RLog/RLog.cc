@@ -25,6 +25,13 @@ namespace RavlN {
   bool g_RLogInitDone = false;
   static rlog::StdioNode *g_rlogNode = 0;
   
+  //! Initialise rlog to filename (filename can be stderr)
+  bool RLogInit(const StringC &filename, const StringC &verbose, const StringC &logLevel)
+  {
+    return RLogInit(0, NULL, filename.chars(), verbose == "true") &&
+           RLogSubscribeL(logLevel.chars());    
+  }      
+  
   bool RLogInit(int argc, char **argv, const char *filename, bool verbose) 
   {
     //std::cerr << "InitRLog(), Called. \n";

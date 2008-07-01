@@ -11,6 +11,7 @@
 #define RLOG_COMPONENT Ravl
 #endif
 
+#include "Ravl/String.hh"
 #include <rlog/rlog.h>
 
 namespace RavlN {
@@ -18,6 +19,9 @@ namespace RavlN {
   //! Initialise rlog to filename (filename can be stderr)
   bool RLogInit(int argc, char **argv, const char *filename, bool verbose);
   
+  //! Initialise rlog to filename (filename can be stderr)
+  bool RLogInit(const StringC &filename, const StringC &verbose, const StringC &logLevel);
+
   //! Initalise rlog to standard out
   bool RLogInit(bool verbose = false);
   
