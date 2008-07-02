@@ -44,6 +44,7 @@ namespace RavlGUIN {
   bool TextEntryBodyC::SigChanged() {
     MutexLockC lock(access);
     text = StringC(gtk_entry_get_text(GTK_ENTRY(Widget())));
+    lock.Unlock();
     if(sigAllChanges)
       activate(text);
     return true;
@@ -55,6 +56,7 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "TextEntryBodyC::SigActivate() \n"); 
     MutexLockC lock(access);
     text = StringC(gtk_entry_get_text(GTK_ENTRY(Widget())));
+    lock.Unlock();
     activate(text);
     return true;
   }
