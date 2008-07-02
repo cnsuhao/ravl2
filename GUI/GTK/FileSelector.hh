@@ -25,7 +25,7 @@ namespace RavlGUIN {
   class FileSelectorC;
   
   //! userlevel=Develop
-  //: FileSelector body
+  //: File Selector body
   
   class FileSelectorBodyC
     : public WidgetBodyC
@@ -42,7 +42,7 @@ namespace RavlGUIN {
     
     Signal1C<StringC> &Selected()
     { return selected; }
-    //: Access selected signal.
+    //: Access signal containing selected file name.
     
     bool GUISetTitle(const StringC &name);
     //: Set the title of the window.
@@ -80,7 +80,8 @@ namespace RavlGUIN {
   };
   
   //! userlevel=Normal
-  //: FileSelector
+  //: File Selector
+  // Pops up a browser in separate window that browses file systems to select a file.
   
   class FileSelectorC 
     : public WidgetC
@@ -116,21 +117,21 @@ namespace RavlGUIN {
     
     Signal1C<StringC> &Selected()
     { return Body().Selected(); }
-    //: Access selected signal.
+    //: Access signal containing selected file name.
     
     void SetHideOnSelect(bool val)
     { Body().hideOnSelect = val; }
     //: Set hide on select flag.
-    // Thread safe, goes into effect immediatly.
+    // Thread safe, goes into effect immediately.
     
     bool GUISetTitle(const StringC &name)
     { return Body().GUISetTitle(name); }
-    //: Set the titel of the window.
+    //: Set the title of the window.
     // GUI thread only.
     
     bool SetTitle(const StringC &name)
     { return Body().SetTitle(name); }
-    //: Set the titel of the window.
+    //: Set the title of the window.
     
     bool GUISetFilename(const StringC &name)
     { return Body().GUISetFilename(name); }
