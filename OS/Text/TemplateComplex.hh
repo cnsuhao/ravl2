@@ -51,6 +51,7 @@ namespace RavlN {
     
     bool Build(StringC &fn);
     //: Start build of document.
+    // Build to file 'fn'.
     
     bool BuildToStream(OStreamC &out);
     //: Start build of document, write results to given stream.
