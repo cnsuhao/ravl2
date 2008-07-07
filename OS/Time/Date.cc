@@ -226,7 +226,7 @@ namespace RavlN {
     _ftime(&ltime);
 	return DateC((long)ltime.time, (long)ltime.millitm * 1000);
 #else
-    throw ExceptionC("DateC::NowUTC(), Not implemented. ");
+    throw ExceptionC("DateC::NowLocal(), Not implemented. ");
 #endif
 #endif
   }
@@ -408,12 +408,12 @@ namespace RavlN {
     } else {
       time_t s = (time_t) sec;
 #if !RAVL_COMPILER_VISUALCPP
-	  struct tm b;
+      struct tm b;
       ret = StringC(asctime_r(gmtime_r(&s,&b),buff));
 #else
-	  // VC++ does not support asctime_r or gmtime_r so use the other versions
-	  // in lieu of anything else
-	  ret = StringC(asctime(gmtime(&s)));
+      // VC++ does not support asctime_r or gmtime_r so use the other versions
+      // in lieu of anything else
+      ret = StringC(asctime(gmtime(&s)));
 #endif
     }
     ret.del("\n"); // Get rid of return.
@@ -450,8 +450,8 @@ namespace RavlN {
     struct tm b;
     time_t s = (time_t) sec;
     if (useUTCToLocal) {
-	  localtime_r(&s,&b);
-	} else {
+      localtime_r(&s,&b);
+    } else {
 #if !RAVL_COMPILER_VISUALCPP
       gmtime_r(&s,&b);
 #else
@@ -468,17 +468,17 @@ namespace RavlN {
   IntT DateC::Minute(bool useUTCToLocal) const  {
     struct tm b;
     time_t s = (time_t) sec;
-	if (useUTCToLocal) {
-	  localtime_r(&s,&b);
-	} else {
+    if (useUTCToLocal) {
+      localtime_r(&s,&b);
+    } else {
 #if !RAVL_COMPILER_VISUALCPP
-	  gmtime_r(&s,&b);
+      gmtime_r(&s,&b);
 #else
-	  // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
-	  // in lieu os anythings else
-	  b = *gmtime(&s);
+      // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
+      // in lieu os anythings else
+      b = *gmtime(&s);
 #endif
-	}
+    }
     return b.tm_min;
   }
   
@@ -488,17 +488,17 @@ namespace RavlN {
   IntT DateC::Hour(bool useUTCToLocal) const  {
     struct tm b;
     time_t s = (time_t) sec;
-	if (useUTCToLocal) {
-	  localtime_r(&s,&b);
-	} else {
+    if (useUTCToLocal) {
+      localtime_r(&s,&b);
+    } else {
 #if !RAVL_COMPILER_VISUALCPP
-	  gmtime_r(&s,&b);
+      gmtime_r(&s,&b);
 #else
-	  // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
-	  // in lieu os anythings else
-	  b = *gmtime(&s);
+      // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
+      // in lieu os anythings else
+      b = *gmtime(&s);
 #endif
-	}
+    }
     return b.tm_hour;  
   }
   
@@ -508,16 +508,16 @@ namespace RavlN {
     struct tm b;
     time_t s = (time_t) sec;
     if (useUTCToLocal) {
-	  localtime_r(&s,&b);
-	} else {
+      localtime_r(&s,&b);
+    } else {
 #if !RAVL_COMPILER_VISUALCPP
-	  gmtime_r(&s,&b);
+      gmtime_r(&s,&b);
 #else
-	  // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
-	  // in lieu os anythings else
-	  b = *gmtime(&s);
+      // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
+      // in lieu os anythings else
+      b = *gmtime(&s);
 #endif
-	}
+    }
     return b.tm_mon + 1;
   }
   
@@ -528,16 +528,16 @@ namespace RavlN {
     struct tm b;
     time_t s = (time_t) sec;
     if (useUTCToLocal) {
-	  localtime_r(&s,&b);
-	} else {
+      localtime_r(&s,&b);
+    } else {
 #if !RAVL_COMPILER_VISUALCPP
-	  gmtime_r(&s,&b);
+      gmtime_r(&s,&b);
 #else
-	  // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
-	  // in lieu os anythings else
-	  b = *gmtime(&s);
+      // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
+      // in lieu os anythings else
+      b = *gmtime(&s);
 #endif
-	}
+    }
     return b.tm_year + 1900;  
   }
   
@@ -547,16 +547,16 @@ namespace RavlN {
     struct tm b;
     time_t s = (time_t) sec;
     if (useUTCToLocal) {
-	  localtime_r(&s,&b);
-	} else {
+      localtime_r(&s,&b);
+    } else {
 #if !RAVL_COMPILER_VISUALCPP
-	  gmtime_r(&s,&b);
+      gmtime_r(&s,&b);
 #else
-	  // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
-	  // in lieu os anythings else
-	  b = *gmtime(&s);
+      // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
+      // in lieu os anythings else
+      b = *gmtime(&s);
 #endif
-	}
+    }
     return b.tm_mday;    
   }
   
@@ -566,16 +566,16 @@ namespace RavlN {
     struct tm b;
     time_t s = (time_t) sec;
     if (useUTCToLocal) {
-	  localtime_r(&s,&b);
-	} else {
+      localtime_r(&s,&b);
+    } else {
 #if !RAVL_COMPILER_VISUALCPP
-	  gmtime_r(&s,&b);
+      gmtime_r(&s,&b);
 #else
-	  // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
-	  // in lieu os anythings else
-	  b = *gmtime(&s);
+      // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
+      // in lieu os anythings else
+      b = *gmtime(&s);
 #endif
-	}
+    }
     return b.tm_yday;
   }
   
@@ -586,16 +586,16 @@ namespace RavlN {
     struct tm b;
     time_t s = (time_t) sec;
     if (useUTCToLocal) {
-	  localtime_r(&s,&b);
-	} else {
+      localtime_r(&s,&b);
+    } else {
 #if !RAVL_COMPILER_VISUALCPP
-	  gmtime_r(&s,&b);
+      gmtime_r(&s,&b);
 #else
-	  // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
-	  // in lieu os anythings else
+      // VC++ does not support asctime_r or gmtime_r so use the non-thread-safe versions
+      // in lieu os anythings else
 	  b = *gmtime(&s);
 #endif
-	}
+    }
     return b.tm_wday;  
   }
 
@@ -642,23 +642,23 @@ namespace RavlN {
 #if !RAVL_COMPILER_VISUALCPP
     struct timeval timeout;
     int reterr;
-#if RAVL_OS_LINUX
+#if RAVL_OS_LINUX || RAVL_OS_LINUX64
     // Linux select modifies 'timeout' to time not slept, so we only have to setup once.
-    DateC now(true);
+    DateC now = DateC::NowUTC();
     if(now >= *this)
       return true;
     DateC toGo = *this - now;
     //cerr << "Delay=" << toGo << "\n";
     timeout.tv_sec = toGo.TotalSeconds();
     timeout.tv_usec = toGo.USeconds();
-    do {
+    while(timeout.tv_sec > 0 || timeout.tv_usec > 0) {
       reterr = select(0,0,0,0,&timeout);
       // A signal may throw us out of select early so check we're finished.
-    } while(timeout.tv_sec > 0 && timeout.tv_usec > 0);
-
+    };
+    
 #else
     do {
-      DateC now(true);
+      DateC now = DateC::NowUTC();
       if(now >= *this)
 	return true;
       DateC toGo = *this - now;
@@ -671,7 +671,7 @@ namespace RavlN {
 #else
 #if RAVL_HAVE_WIN32_THREADS
     do {
-      DateC now(true);
+      DateC now = DateC::NowUTC();
       if(now >= *this)
 	return true;
       DateC toGo = *this - now;
@@ -692,9 +692,25 @@ namespace RavlN {
     ::Sleep(Round(delay * 1000));
     return true;
 #else
+#if RAVL_OS_LINUX || RAVL_OS_LINUX64
+    //cerr << "Delay=" << toGo << "\n";
+    if(delay <= 0)
+      return true;
+    struct timeval timeout;
+    double dummy;
+    timeout.tv_sec = Floor(delay);
+    timeout.tv_usec = Round(modf(delay,&dummy) * 1000000.0);
+    while(timeout.tv_sec > 0 || timeout.tv_usec > 0) {
+      //std::cerr << " Sec=" << timeout.tv_sec << " usec=" << timeout.tv_usec << "\n";
+      select(0,0,0,0,&timeout);
+      // A signal may throw us out of select early so check we're finished.
+    };
+    return true;
+#else
     DateC now(true);
     now += delay;
     return now.Wait();
+#endif
 #endif
   }
 #endif
