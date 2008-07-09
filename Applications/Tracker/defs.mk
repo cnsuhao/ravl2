@@ -9,8 +9,8 @@
 
 DONOT_SUPPORT=arm
 
-EXAMPLES=mosaic.cc tracker.cc
-MAINS=tracker.cc mosaic.cc xmosaic.cc
+EXAMPLES=mosaic.cc 
+MAINS=mosaic.cc xmosaic.cc
 
 PROGLIBS=RavlImageProc RavlVideoIO RavlGUI2D RavlImgIOV4L.opt \
   RavlDPDisplay.opt RavlDV.opt RavlExtImgIO.opt RavlImageIO \
