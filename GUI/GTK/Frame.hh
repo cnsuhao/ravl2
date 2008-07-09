@@ -40,7 +40,7 @@ namespace RavlGUIN {
     
     void SetShadowType(GtkShadowType shadow);
     //: Set frame type.
-    // Values for shadow are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSHADOWTYPE">here</A>.
+    // Values for shadow are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSHADOWTYPE">here</A>.
     
     void SetLabel(const StringC &name);
     //: Set label
@@ -52,7 +52,7 @@ namespace RavlGUIN {
   protected:
     bool GUISetShadow(GtkShadowType &nshadow);
     //: Setup shadow.
-    // Values for shadow are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSHADOWTYPE">here</A>.
+    // Values for shadow are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSHADOWTYPE">here</A>.
     
     StringC title;
     int border;
@@ -111,7 +111,7 @@ namespace RavlGUIN {
     bool GUISetShadow(GtkShadowType &shadow)
     { return Body().GUISetShadow(shadow); }
     //: Setup shadow.
-    // Values for shadow are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSHADOWTYPE">here</A>.
+    // Values for shadow are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSHADOWTYPE">here</A>.
     
     
   public:
@@ -130,7 +130,7 @@ namespace RavlGUIN {
     void SetShadowType(GtkShadowType shadow)
     { Body().SetShadowType(shadow); }
     //: Set frame type.
-    // Values for shadow are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSHADOWTYPE">here</A>.
+    // Values for shadow are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSHADOWTYPE">here</A>.
     
     void SetLabel(const StringC &name)
     { Body().SetLabel(name); }

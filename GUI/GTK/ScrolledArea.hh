@@ -34,7 +34,7 @@ namespace RavlGUIN {
 		      GtkPolicyType vpolicy = GTK_POLICY_AUTOMATIC,GtkPolicyType hpolicy = GTK_POLICY_AUTOMATIC);
     //: Constructor.
     // isx,isy set the inital size of the area.
-    // Values for policy types are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOLICYTYPE">here</A>.
+    // Values for policy types are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKPOLICYTYPE">here</A>.
     
     virtual bool Create();
     //: Create the widget.
@@ -57,7 +57,7 @@ namespace RavlGUIN {
     {}
     //: Create a scrolled area.
     // isx,isy set the inital size of the area.
-    // Values for policy types are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOLICYTYPE">here</A>.
+    // Values for policy types are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKPOLICYTYPE">here</A>.
 
     ScrolledAreaC(const WidgetC &achild ,
 		  IntT isx,IntT isy,

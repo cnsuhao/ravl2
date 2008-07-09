@@ -41,15 +41,15 @@ namespace RavlGUIN {
   public:
     ListBodyC(const DListC<Tuple2C<IntT,StringC> > &choices,GtkSelectionMode selMode = GTK_SELECTION_SINGLE);
     //: Constructor from a list of strings.
-    // Values for selMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
+    // Values for selMode are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSELECTIONMODE">here</A>.
     
     ListBodyC(const DListC<Tuple2C<IntT,WidgetC> > &lst,GtkSelectionMode selMode = GTK_SELECTION_SINGLE);
     //: Constructor from a list of strings.
-    // Values for selMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
+    // Values for selMode are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSELECTIONMODE">here</A>.
     
     ListBodyC(GtkSelectionMode selMode = GTK_SELECTION_SINGLE);
     //: Constructor from a list of strings.
-    // Values for selMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
+    // Values for selMode are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSELECTIONMODE">here</A>.
     
     virtual ~ListBodyC() { }
     //: Have virtual methods - need virtual destructor
@@ -105,19 +105,19 @@ namespace RavlGUIN {
       : WidgetC(*new ListBodyC(lst,selMode))
     {}
     //: Create a List box.
-    // Values for selMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
+    // Values for selMode are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSELECTIONMODE">here</A>.
     
     ListC(const DListC<Tuple2C<IntT,WidgetC> > &lst,GtkSelectionMode selMode = GTK_SELECTION_SINGLE)
       : WidgetC(*new ListBodyC(lst,selMode))
     {}
     //: Constructor from a list of strings.
-    // Values for selMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
+    // Values for selMode are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSELECTIONMODE">here</A>.
   
     ListC(GtkSelectionMode selMode)
       : WidgetC(*new ListBodyC(selMode))
     {}
     //: Create an empty List box.
-    // Values for selMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
+    // Values for selMode are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSELECTIONMODE">here</A>.
   
   protected:
     ListC(ListBodyC &bod)

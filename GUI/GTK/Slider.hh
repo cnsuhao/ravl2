@@ -35,13 +35,13 @@ namespace RavlGUIN {
 		RealT nstep_increment = 1,
 		RealT npage_increment = 1,
 		RealT npage_size = 1);
-    //: Constructor.
+    //: Constructor for horizontal slider.
     
     SliderBodyC(bool nvert,RealT nvalue, RealT nlower, RealT nupper, 
 		RealT nstep_increment = 1,
 		RealT npage_increment = 1,
 		RealT npage_size = 1);
-    //: Constructor.
+    //: Constructor for horizontal | vertical slider.
     
     virtual bool Create()
     { return CommonCreate(); }
@@ -83,7 +83,7 @@ namespace RavlGUIN {
     { numPos = pos; }
     //: Set number position.
     // Only has effect BEFORE Create() is called.
-    // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
+    // Values for pos are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKPOSITIONTYPE">here</A>.
     
     void SetDrawValue(bool ndrawValue)
     { drawValue = ndrawValue; }  
@@ -188,7 +188,7 @@ namespace RavlGUIN {
     { Body().SetValuePosition(pos); }
     //: Set number position.
     // Only has effect BEFORE Create() is called.
-    // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
+    // Values for pos are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKPOSITIONTYPE">here</A>.
     
     void SetDrawValue(bool ndrawValue)
     { Body().SetDrawValue(ndrawValue); }

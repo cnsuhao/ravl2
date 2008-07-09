@@ -33,15 +33,15 @@ namespace RavlGUIN
   public:
     NotebookBodyC(GtkPositionType ntabpos = GTK_POS_TOP,bool nshowtabs = true,bool nshowborder = true);
     //: Default constructor.
-    // Values for position types are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
+    // Values for position types are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKPOSITIONTYPE">here</A>.
     
     NotebookBodyC(const DListC<WidgetC> &widges,GtkPositionType ntabpos =GTK_POS_TOP,bool nshowtabs = true,bool nshowborder = true);
     //: Constructor
-    // Values for position types are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
+    // Values for position types are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKPOSITIONTYPE">here</A>.
   
     NotebookBodyC(const WidgetC &widges,GtkPositionType ntabpos =GTK_POS_TOP,bool nshowtabs = true,bool nshowborder = true);
     //: Constructor
-    // Values for position types are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
+    // Values for position types are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKPOSITIONTYPE">here</A>.
     
     virtual bool Create();
     //: Create the widget.

@@ -31,7 +31,7 @@ namespace RavlGUIN {
  }
 
   //: Add object to table.
-  // Values for attach options are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKATTACHOPTIONS">here</A>.
+  // Values for attach options are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKATTACHOPTIONS">here</A>.
   // Call on the GUI thread only.
   
   bool TableBodyC::GUIAddObject(WidgeInfoC &wi) {

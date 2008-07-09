@@ -36,7 +36,7 @@ namespace RavlGUIN {
   public:
     WindowBodyC(int sx = 1,int sy = 1,const char *title = 0,GtkWindowType winType = GTK_WINDOW_TOPLEVEL,int nborder = 0,bool rootWin = true,bool connectDeleteEvent = true);
     //: Constructor.
-    // Values for winType are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWTYPE">here</A>.
+    // Values for winType are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKWINDOWTYPE">here</A>.
     
     virtual ~WindowBodyC();
     //: Destructor.
@@ -57,7 +57,7 @@ namespace RavlGUIN {
   
     void SetPositioning(GtkWindowPosition& pos);
     //: Influences positioning of the window.
-    // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWPOSITION">here</A>.
+    // Values for pos are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKWINDOWPOSITION">here</A>.
     
     void UserResizable(bool& resizable);
     //: Allow the user to resize the window?
@@ -116,7 +116,7 @@ namespace RavlGUIN {
     
     bool GUISetPositioning(GtkWindowPosition& pos);
     //: Influences positioning of the window.
-    // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWPOSITION">here</A>.
+    // Values for pos are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKWINDOWPOSITION">here</A>.
 
     
     bool GUICloseDown();
@@ -198,7 +198,7 @@ namespace RavlGUIN {
     
     WindowC(int sx,int sy = 1,const char *ntitle = 0,GtkWindowType winType = GTK_WINDOW_TOPLEVEL,int nborder = 0,bool rootWin = true,bool connectDeleteEvent = true);
     //: Constructor.
-    // Values for winType are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWTYPE">here</A>.
+    // Values for winType are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKWINDOWTYPE">here</A>.
     
   protected:
     WindowC(WindowBodyC &bod)
@@ -225,7 +225,7 @@ namespace RavlGUIN {
     bool GUISetPositioning(GtkWindowPosition& pos)
     { return Body().GUISetPositioning(pos); }
     //: Influences positioning of the window.
-    // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWPOSITION">here</A>.
+    // Values for pos are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKWINDOWPOSITION">here</A>.
 
     bool GUIUserResizable(bool& resizable) 
     { return Body().GUIUserResizable(resizable); }
@@ -324,7 +324,7 @@ namespace RavlGUIN {
     void SetPositioning(GtkWindowPosition& pos)
     { Body().SetPositioning(pos); }
     //: Influences positioning of the window.
-    // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWPOSITION">here</A>.
+    // Values for pos are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKWINDOWPOSITION">here</A>.
 
     bool Close()
     { return Body().Close(); }

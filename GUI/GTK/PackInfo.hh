@@ -63,7 +63,7 @@ namespace RavlGUIN {
 
   // This is a dummy widget which holds packing infomation for its child.  It
   // controls the layout, and gives extra information that tells the GUI how
-  // the widge should be treated when you strech the window or resize.
+  // the widge should be treated when you stretch the window or resize.
   
   class PackInfoC
     : public OneChildC

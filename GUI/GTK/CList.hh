@@ -72,15 +72,15 @@ namespace RavlGUIN {
   public:
     CListBodyC(const SArray1dC<StringC> &titles,GtkSelectionMode nselMode = GTK_SELECTION_SINGLE);
     //: Constructor from SArray1dC
-    // Values for nselMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
+    // Values for nselMode are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSELECTIONMODE">here</A>.
     
     CListBodyC(const DListC<StringC> &titles,GtkSelectionMode nselMode = GTK_SELECTION_SINGLE);
     //: Constructor from DList
-    // Values for nselMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
+    // Values for nselMode are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSELECTIONMODE">here</A>.
     
     CListBodyC(const char *titles[],int *colWidths = 0,GtkSelectionMode nselMode = GTK_SELECTION_SINGLE);
     //: Constructor from char*[]
-    // Values for nselMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
+    // Values for nselMode are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSELECTIONMODE">here</A>.
     
     virtual ~CListBodyC() { }
     //: Have virtual methods - need virtual destructor
@@ -317,20 +317,20 @@ namespace RavlGUIN {
       : WidgetC(* new CListBodyC(titles,nselMode))
     {}
     //: Constructor from column titles as array of strings
-    // Values for nselMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
+    // Values for nselMode are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSELECTIONMODE">here</A>.
     
     CListC(const DListC<StringC> &titles,GtkSelectionMode nselMode = GTK_SELECTION_SINGLE)
       : WidgetC(* new CListBodyC(titles,nselMode))
     {}
     //: Constructor from column titles as list of strings
-    // Values for nselMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
+    // Values for nselMode are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSELECTIONMODE">here</A>.
     
     CListC(const char *titles[],int *colWidths = 0,GtkSelectionMode nselMode = GTK_SELECTION_SINGLE)
       : WidgetC(* new CListBodyC(titles,colWidths,nselMode))
     {}
     //: Constructor from column titles as char* array
     // This constructor allows initialisation from simple C-style array of string constants.</br>
-    // Values for nselMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
+    // Values for nselMode are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSELECTIONMODE">here</A>.
     
     
   protected:

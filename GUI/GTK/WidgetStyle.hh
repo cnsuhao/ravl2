@@ -71,14 +71,14 @@ namespace RavlGUIN {
 
     void SetBackground(const PixmapC& pixmap, GtkStateType& state);
     //: Set the background of the widget
-    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
+    // Values for state are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSTATETYPE">here</A>.
     
     void SetColour(WidgetColourTypeT& type, ByteRGBValueC& col);
     //: Set a colour for the widget
     
     void SetColour(WidgetColourTypeT& type, ByteRGBValueC& col, GtkStateType& state);
     //: Set a colour for the widget
-    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
+    // Values for state are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSTATETYPE">here</A>.
 
     void SetFont(StringC& strFontDesc);
     //: Set a font for the widget to use
@@ -92,7 +92,7 @@ namespace RavlGUIN {
 
     bool GUISetBackground(PixmapC& pixmap, GtkStateType state);
     // Sets the background to a pixmap
-    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
+    // Values for state are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSTATETYPE">here</A>.
 
     bool GUISetBackground(PixmapC& pixmap);
     //: Sets the background of the widget
@@ -102,19 +102,19 @@ namespace RavlGUIN {
 
     bool GUISetColour(WidgetColourTypeT type, GdkColor color, GtkStateType state);
     // Sets a colour 
-    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
+    // Values for state are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSTATETYPE">here</A>.
 
     bool GUISetColour(WidgetColourTypeT& type, ByteRGBValueC& col);
     //: Set a colour for the widget
     
     bool GUISetColour(WidgetColourTypeT& type, ByteRGBValueC& col, GtkStateType& state);
     //: Set a colour for the widget
-    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
+    // Values for state are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSTATETYPE">here</A>.
 
     bool GUISetFont(StringC& strFontDesc);
     //: Set a font for the widget to use
     // strFontDesc is an XLFD string, such as "-*-helvetica-bold-r-normal--*-120-*-*-*-*-iso8859-1".
-    // XLFD strings are described <a href="http://developer.gnome.org/doc/API/gdk/gdk-fonts.html">here</a>
+    // XLFD strings are described <a href="http://library.gnome.org/devel/gdk/stable/gdk-Fonts.html">here</a>
 
     GtkStyle *style;
     //: The GTK style itself
@@ -169,7 +169,7 @@ namespace RavlGUIN {
     void SetBackground(const PixmapC& pixmap, GtkStateType& state)
     { Body().SetBackground(pixmap,state); }
     //: Set the background of the widget
-    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
+    // Values for state are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSTATETYPE">here</A>.
     
     void SetColour(WidgetColourTypeT& type, ByteRGBValueC& col)
     { Body().SetColour(type,col); }
@@ -178,13 +178,13 @@ namespace RavlGUIN {
     void SetColour(WidgetColourTypeT& type, ByteRGBValueC& col, GtkStateType& state)
     { Body().SetColour(type,col,state); }
     //: Set a colour for the widget
-    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
+    // Values for state are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSTATETYPE">here</A>.
 
     void SetFont(StringC& strFontDesc)
     { Body().SetFont(strFontDesc); }
     //: Set a font for the widget to use
     // strFontDesc is an XLFD string, such as "-*-helvetica-bold-r-normal--*-120-*-*-*-*-iso8859-1".
-    // XLFD strings are described <a href="http://developer.gnome.org/doc/API/gdk/gdk-fonts.html">here</a>
+    // XLFD strings are described <a href="http://library.gnome.org/devel/gdk/stable/gdk-Fonts.html">here</a>
 
   protected:
 
@@ -199,7 +199,7 @@ namespace RavlGUIN {
     bool GUISetBackground(PixmapC& pixmap, GtkStateType& state) 
     { return Body().GUISetBackground(pixmap,state); }
     //: Sets the background of the widget
-    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
+    // Values for state are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSTATETYPE">here</A>.
 
     bool GUISetColour(WidgetColourTypeT& type, ByteRGBValueC& col)
     { return Body().GUISetColour(type,col); }
@@ -208,15 +208,15 @@ namespace RavlGUIN {
     bool GUISetColour(WidgetColourTypeT& type, ByteRGBValueC& col, GtkStateType& state)
     { return Body().GUISetColour(type,col,state); }
     //: Set a colour for the widget
-    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
+    // Values for state are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSTATETYPE">here</A>.
 
     bool GUISetFont(StringC& strFontDesc)
     { return Body().GUISetFont(strFontDesc); }
     //: Set a font for the widget to use
     // GTK 2.x: strFontDesc is a Pango font description string, such as "Arial 12".
-    // Pango strings are described <a href="http://developer.gnome.org/doc/API/2.0/pango/pango-Fonts.html#pango-font-description-from-string">here</a><br>
+    // Pango strings are described <a href="http://library.gnome.org/devel/pango/stable/pango-Fonts.html#pango-font-description-from-string">here</a><br>
     // GTK 1.x: strFontDesc is an XLFD string, such as "-*-helvetica-bold-r-normal--*-120-*-*-*-*-iso8859-1".
-    // XLFD strings are described <a href="http://developer.gnome.org/doc/API/gdk/gdk-fonts.html">here</a>
+    // XLFD strings are described <a href="http://library.gnome.org/devel/gdk/stable/gdk-Fonts.html">here</a>
 
    friend class WidgetStyleBodyC;
 

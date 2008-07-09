@@ -112,7 +112,7 @@ namespace RavlGUIN {
 
     void SetState(GtkStateType state);
     //: Set state
-    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
+    // Values for state are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSTATETYPE">here</A>.
 
     virtual void WidgetDestroy();
     //: Called when the underlying widget it destroyed.
@@ -198,7 +198,7 @@ namespace RavlGUIN {
 
     bool GUISetState(GtkStateType state);
     //: Set state of widget.
-    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
+    // Values for state are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSTATETYPE">here</A>.
 
     bool GUISetUPosition(int &width, int &height);
     //: Set the widget position
@@ -345,7 +345,7 @@ namespace RavlGUIN {
     bool GUISetState(GtkStateType state)
     { return Body().GUISetState(state); }
     //: Set state of widget.
-    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
+    // Values for state are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSTATETYPE">here</A>.
 
     bool GUISetStyle(WidgetStyleC &style)
     { return Body().GUISetStyle(style); }
@@ -464,7 +464,7 @@ namespace RavlGUIN {
     void SetState(GtkStateType state)
     { Body().SetState(state); }
     //: Set state
-    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
+    // Values for state are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSTATETYPE">here</A>.
 
     void SetStyle(WidgetStyleC& style)
     { Body().SetStyle(style); }

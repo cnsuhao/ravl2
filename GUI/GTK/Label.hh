@@ -53,7 +53,7 @@ namespace RavlGUIN {
     
     bool Justify(GtkJustification& justify);
     //: Set justification mode
-    // Values for justify are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKJUSTIFICATION">here</A>.
+    // Values for justify are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKJUSTIFICATION">here</A>.
 
     bool Wrap(const bool& wrap);
     //: Set line wrap mode
@@ -68,7 +68,7 @@ namespace RavlGUIN {
 
     bool GUIJustify(GtkJustification& justify);
     //: Set justification mode
-    // Values for justify are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKJUSTIFICATION">here</A>.
+    // Values for justify are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKJUSTIFICATION">here</A>.
 
     bool GUIWrap(const bool& wrap);
     //: Set line wrap mode
@@ -133,7 +133,7 @@ namespace RavlGUIN {
     bool GUIJustify(GtkJustification& justify)
     { return Body().GUIJustify(justify); }
     //: Set justification mode
-    // Values for justify are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKJUSTIFICATION">here</A>.
+    // Values for justify are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKJUSTIFICATION">here</A>.
 
     bool GUIWrap(const bool& wrap)
     { return Body().GUIWrap(wrap); }
@@ -159,7 +159,7 @@ namespace RavlGUIN {
     bool Justify(GtkJustification& justify)
     { return Body().Justify(justify); }    
     //: Set justification mode
-    // Values for justify are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKJUSTIFICATION">here</A>.
+    // Values for justify are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKJUSTIFICATION">here</A>.
 
     bool Wrap(const bool& wrap)
     { return Body().Wrap(wrap); }    

@@ -24,7 +24,7 @@ using namespace RavlGUIN;
 
 // This example shows how to intercept keypress events from a widget.
 // Details about the contents of the structure 'GdkEventKey' can be found
-// in the GTK documentation or at http://developer.gnome.org/doc/API/2.0/gdk/gdk-Event-Structures.html#GdkEventKey
+// in the GTK documentation or at http://library.gnome.org/devel/gdk/stable/gdk-Event-Structures.html#GdkEventKey
 
 
 // This routine displays the intercepted key presses
