@@ -23,8 +23,12 @@ LIBDEPS=RavlImageProcTracker.def
 
 EHT= Ravl.API.Images.Tracking.html Ravl.API.Images.Mosaic.html 
 
+MAINS=tracker.cc
+
 TESTEXES=testTracking.cc
 #testImageTracker.cc
+
+EXAMPLES=tracker.cc
 
 USESLIBS=RavlImageProc 
 
