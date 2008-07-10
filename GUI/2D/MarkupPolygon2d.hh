@@ -86,6 +86,10 @@ namespace RavlGUIN {
     bool HasChild(Int64T id) const;
     //: Does polygon have child with given id ?
     
+    Polygon2dC &Polygon()
+    { return poly; }
+    //: Access polygon.
+    
   protected:
     bool FindClosestPoint(const Point2dC &pnt,RealT &score,IntT &pntNo);
     //: Find a point on the polygon
@@ -192,6 +196,10 @@ namespace RavlGUIN {
     bool HasChild(Int64T id) const
     { return Body().HasChild(id); }
     //: Does polygon have child with given id ?
+    
+    Polygon2dC &Polygon()
+    { return Body().Polygon(); }
+    //: Access polygon.
     
   protected:
     MarkupPolygon2dC(MarkupPolygon2dBodyC &bod)

@@ -38,6 +38,9 @@ namespace RavlGUIN {
     //: Handle mouse event.
     // Returns true if even has been handled.
     
+    void SetText(const StringC &newText)
+    { text = newText; }
+    //: Update text
   protected:
     bool ComputeRectangle(GUIMarkupCanvasBodyC &mv,IndexRange2dC &rect,Point2dC &txtPosition) const;
     //: Compute text rectangle and position
@@ -55,6 +58,11 @@ namespace RavlGUIN {
     : public MarkupInfoC
   {
   public:
+    MarkupNoteC()
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.
+    
     MarkupNoteC(Int64T id,IntT zOrder,const StringC & text,const MarkupInfoC & obj,const Vector2dC &offset = Vector2dC(0,0)) 
       : MarkupInfoC(*new MarkupNoteBodyC(id,zOrder,text,obj,offset))
     {}
@@ -81,6 +89,10 @@ namespace RavlGUIN {
     //: Handle mouse event. 
     // Returns true if even has been handled.
     //!cwiz:author
+    
+    void SetText(const StringC &newText)
+    { Body().SetText(newText); }
+    //: Update text
     
   protected:
     MarkupNoteC(MarkupNoteBodyC &bod)
