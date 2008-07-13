@@ -149,7 +149,8 @@ namespace RavlN  {
 #if RAVL_HAVE_INTFILEDESCRIPTORS
     BinIStreamC(int fd)
       : in(fd),
-	useNativeEndian(RAVL_BINSTREAM_DEFAULT)
+	useNativeEndian(RAVL_BINSTREAM_DEFAULT),
+        m_arraySizeLimit((SizeT) -1)
     {}
     //: Constructor.
     // From a file descriptor.
@@ -157,12 +158,14 @@ namespace RavlN  {
     
     BinIStreamC(const StringC &nIn,bool buffered = true)
       : in(nIn,true,buffered),
-	useNativeEndian(RAVL_BINSTREAM_DEFAULT)
+	useNativeEndian(RAVL_BINSTREAM_DEFAULT),
+        m_arraySizeLimit((SizeT) -1)
     {}
     //: Constructor.
     
     BinIStreamC()
-      : useNativeEndian(RAVL_BINSTREAM_DEFAULT)
+      : useNativeEndian(RAVL_BINSTREAM_DEFAULT),
+        m_arraySizeLimit((SizeT) -1)
     {}
     //: Default construtor.
     
