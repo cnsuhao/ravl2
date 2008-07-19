@@ -64,6 +64,9 @@ namespace RavlN {
     virtual bool SetTransform(const MatrixC &a);
     //: Attempt to set transform matrix.
     
+    virtual void Describe(ostream &out);
+    //: Write a human readable text description of the function.
+    
     MatrixC &Transform()
     { return a; }
     //: Access transform matrix.
@@ -74,6 +77,7 @@ namespace RavlN {
     
     virtual bool ComputeSums(SampleStream2C<VectorC,VectorC> &in,MatrixRUTC &aaTu,MatrixC &aTb);
     //: Compute matrix's directly from vectors.
+    
     
   protected:
     MatrixC a;

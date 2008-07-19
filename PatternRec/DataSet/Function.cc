@@ -107,6 +107,10 @@ namespace RavlN {
     return true;
   }
   
+  //: Write a human readable text description of the function.
+  void FunctionBodyC::Describe(ostream &out) {
+    out << "Describe not implemented\n";
+  }
   
   //////////////////////////////////////////////////////////
   

@@ -50,6 +50,9 @@ namespace RavlN {
     virtual UIntT NumberCoeffs(UIntT inputSize) const;
     //: Calculate the number of coefficents for a given input size.
     
+    virtual void Describe(ostream &out);
+    //: Write a human readable text description of the function.
+    
   protected:
     
     UIntT noCoeffs; // Number of coefficents.

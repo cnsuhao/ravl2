@@ -89,6 +89,13 @@ namespace RavlN {
     return ret;
   }
 
+  //: Write a human readable text description of the function.
+  
+  void FuncQuadraticBodyC::Describe(ostream &out) {
+    out << "Inputs:" << InputSize() << " Outputs:" << OutputSize() << "\n";
+    out << "Quadratic model: " << a << "\n";
+  }
+
   ////////////////////////////////////////////////////////////////////////
   
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(FuncQuadraticBodyC,FuncQuadraticC,FuncLinearCoeffC);

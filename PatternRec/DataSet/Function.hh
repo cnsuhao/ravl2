@@ -101,6 +101,9 @@ namespace RavlN {
     //: Set the output size.
     // This is for use of designer classes, changing the output size of
     // an existing function has undefined effects.
+    
+    virtual void Describe(ostream &out);
+    //: Write a human readable text description of the function.
   protected:
     
     UIntT inputSize;  // (X in amma speak.)
@@ -204,6 +207,10 @@ namespace RavlN {
     // This is for use of designer classes, changing the output size of
     // an existing function has undefined effects.
     
+    void Describe(ostream &out) 
+    { return Body().Describe(out); }
+    //: Write a human readable text description of the function.
+    // May not be implemented for all functions.
   };
 
   

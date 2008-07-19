@@ -101,6 +101,14 @@ namespace RavlN {
     return 0;
   }
 
+  //: Write a human readable text description of the function.
+  
+  void FuncLinearCoeffBodyC::Describe(ostream &out) {
+    out << "Inputs:" << InputSize() << " Outputs:" << OutputSize() << "\n";
+    out << "Linear model: " << a << "\n";
+  }
+
+
   //: Compute matrix's directly from vectors.
   
   bool FuncLinearCoeffBodyC::ComputeSums(const SampleC<VectorC> &in,const SampleC<VectorC> &out,MatrixRUTC &aaTu,MatrixC &aTb) {
