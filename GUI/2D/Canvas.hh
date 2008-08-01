@@ -257,7 +257,8 @@ namespace RavlGUIN {
     CanvasC(const ImageRectangleC& rect, bool direct = false);
     //: Constructor.
     // If direct rendering is enabled (true) it is the user's responsibity to provide an 
-    // expose method which updates the window on the display.
+    // expose method which updates the window on the display.<br>
+    // <b>N.B.:</b> Only the image size is used from <code>rect</code>.  The offset from the origin is ignored.
 
     CanvasC(CanvasBodyC &body)
       : WidgetC(body)
