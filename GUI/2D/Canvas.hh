@@ -233,7 +233,7 @@ namespace RavlGUIN {
     DListC<TriggerC> toDo; // List of things to do as soon as we're initalised.
 
     bool autoRefresh;
-    
+    GdkColor m_gdkBlack;    
     friend class CanvasC;
   };
   

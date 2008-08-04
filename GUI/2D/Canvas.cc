@@ -617,13 +617,11 @@ namespace RavlGUIN {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     //: special treatment for black - not in the default colormap
     if(n==65) {
-      GdkColor ret;
       GdkColormap *colorMap = gdk_window_get_colormap(widget->window);
-      if(!gdk_color_black(colorMap,&ret)) {
+      if(!gdk_color_black(colorMap,&m_gdkBlack)) {
         cerr << "Failed to set color to black" << endl;
       }
-      GdkColor &r = ret;
-      return r;
+      return m_gdkBlack;
     }
 
     //: for all other colors in the table
