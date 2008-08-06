@@ -234,14 +234,15 @@ namespace RavlN {
     //: This index range is clipped to contain at most the index range 'r'.
     // NB. This is inplace.
     
-    inline void Involve(const Index2dC & index);
+    inline IndexRange2dC Involve(const Index2dC & index);
     //: Ensures this rectangle contains given index.
     // This method checks and changes, if necessary, the 2 dimensional range
     // to contain the 'index'.
     
-    inline void Involve(const IndexRange2dC &subrectangle) { 
+    inline IndexRange2dC Involve(const IndexRange2dC &subrectangle) { 
       Range1().Involve(subrectangle.Range1()); 
       Range2().Involve(subrectangle.Range2()); 
+      return *this;
     }
     //: Ensures this rectangle contains given sub rectangle.
     // This method checks and changes, if necessary, the 2 dimensional range
@@ -432,12 +433,13 @@ namespace RavlN {
   }
   
   inline 
-  void 
+  IndexRange2dC 
   IndexRange2dC::Involve(const Index2dC & index) {
     if (rows.Min() > index.Row()) rows.Min() = index.Row();
     if (rows.Max() < index.Row()) rows.Max() = index.Row();
     if (cols.Min() > index.Col()) cols.Min() = index.Col();
     if (cols.Max() < index.Col()) cols.Max() = index.Col();
+    return *this;
   }
   
 }
