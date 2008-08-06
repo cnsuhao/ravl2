@@ -80,7 +80,7 @@ namespace RavlGUIN {
     void DoSomeSetup();
     //: Don't call directly!!!!!!!!!!
     
-    virtual void DrawImage(const ImageC<ByteT> &img,Index2dC offset=Index2dC(0,0));
+    virtual void DrawImage(ImageC<ByteT> &img,Index2dC offset=Index2dC(0,0));
     //: Draw an image on the canvas.
     
     virtual void DrawImage(const ImageC<ByteRGBValueC> &img,Index2dC offset=Index2dC(0,0));
@@ -105,15 +105,15 @@ namespace RavlGUIN {
     void DrawText(IntT col,IntT row,StringC text,IntT colourId = 0);
     //: Draw some text
     
-    bool GUIDrawImage(ImageC<ByteT> &img,Index2dC &offset);
+    bool GUIDrawImage(ImageC<ByteT> &img,const Index2dC &offset);
     //: Draw an image on the canvas.
     // Call with GUI thread only!
     
-    bool GUIDrawRGBImage(ImageC<ByteRGBValueC> &img,Index2dC &offset);
+    bool GUIDrawRGBImage(ImageC<ByteRGBValueC> &img,const Index2dC &offset);
     //: Draw an rgb image on the canvas.
     // Call with GUI thread only!
     
-    bool GUIDrawLine(IntT &col1,IntT &row1,IntT &col2,IntT &row2,IntT &colourId); 
+    bool GUIDrawLine(const IntT &col1,const IntT &row1,const IntT &col2,const IntT &row2,const IntT &colourId); 
     //: Draw a line.
     // Call with GUI thread only!
 
@@ -122,14 +122,14 @@ namespace RavlGUIN {
     // Call with GUI thread only!
 
     
-    bool GUIDrawArc(ImageRectangleC& rect, IntT& start, IntT& angle, IntT& colourId, bool& fill); 
+    bool GUIDrawArc(const ImageRectangleC& rect, const IntT& start, const IntT& angle, const IntT& colourId, const bool& fill); 
     //: Draw an arc.
     // The rectangle defines an ellipse in the image
     // start is the angle to start at, relative to 3 o'clock, in 1/64ths of a degree.
     // angle is the length of the arc, in 1/64ths of a degree
     // If fill is true, the arc is a pie, otherwise it's a line arc
     
-    bool GUIDrawText(IntT &col,IntT &row,StringC &text,IntT &colourId);
+    bool GUIDrawText(const IntT &col,const IntT &row,const StringC &text,const IntT &colourId);
     //: Draw some text
     // Call with GUI thread only!
 
@@ -145,10 +145,10 @@ namespace RavlGUIN {
     // Values for capstyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKCAPSTYLE">here</a>
     // Values for joinstyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKJOINSTYLE">here</a>
     
-    bool GUIDrawRectangle(IntT &col1,IntT &row1,IntT &col2,IntT &row2,IntT &colourId); 
+    bool GUIDrawRectangle(const IntT &col1,const IntT &row1,const IntT &col2,const IntT &row2,const IntT &colourId); 
     //: Draw a filled rectangle.
     
-    bool GUIDrawFrame(IntT &col1,IntT &row1,IntT &col2,IntT &row2,IntT &colourId); 
+    bool GUIDrawFrame(const IntT &col1,const IntT &row1,const IntT &col2,const IntT &row2,const IntT &colourId); 
     //: Draw an empty rectangle
 
     bool GUIDrawFrame(Index2dC topLeft, Index2dC bottomRight, IntT colourId); 
@@ -297,7 +297,7 @@ namespace RavlGUIN {
     //: Drawing context.
     // GUI thread only.
     
-    void DrawImage(const ImageC<ByteT> &img,Index2dC offset=Index2dC(0,0))
+    void DrawImage(ImageC<ByteT> &img,Index2dC offset=Index2dC(0,0))
     { Body().DrawImage(img,offset); }
     //: Draw an image on the canvas.
     
@@ -333,11 +333,11 @@ namespace RavlGUIN {
     { Body().DrawFrame(col1,row1,col2,row2,colourId); }
     //: Draw an empty rectangle
     
-    bool GUIDrawLine(IntT &col1,IntT &row1,IntT &col2,IntT &row2,IntT &colourId)
+    bool GUIDrawLine(const IntT &col1,const IntT &row1,const IntT &col2,const IntT &row2,const IntT &colourId)
     { return Body().GUIDrawLine(col1,row1,col2,row2,colourId); }
     //: Draw a line.
 
-    bool GUIDrawLine(Index2dC &p1,Index2dC &p2,IntT &colourId)
+    bool GUIDrawLine(const Index2dC &p1,const Index2dC &p2,const IntT &colourId)
     { 
 # if RAVL_OS_LINUX64
 return Body().GUIDrawLine( (IntT &) p1.Row().V(), (IntT &) p1.Col().V(), (IntT &)p2.Row().V(),(IntT &)p2.Col().V(),colourId); 
@@ -348,7 +348,7 @@ return Body().GUIDrawLine(  p1.Row().V(),  p1.Col().V(), p2.Row().V(),p2.Col().V
     //: Draw a line.
     // Call with GUI thread only!
     
-    bool GUIDrawArc(ImageRectangleC& rect, IntT& start, IntT& angle, IntT& colourId, bool& fill)
+    bool GUIDrawArc(const ImageRectangleC& rect, const IntT& start, const IntT& angle, const IntT& colourId, const bool& fill)
     { return Body().GUIDrawArc(rect,start,angle,colourId,fill); }
     //: Draw an arc.
     // The rectangle defines an ellipse in the image
@@ -370,25 +370,25 @@ return Body().GUIDrawLine(  p1.Row().V(),  p1.Col().V(), p2.Row().V(),p2.Col().V
     // Values for capstyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKCAPSTYLE">here</a>
     // Values for joinstyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKJOINSTYLE">here</a>
 
-    bool GUIDrawRectangle(IntT &col1,IntT &row1,IntT &col2,IntT &row2,IntT &colourId)
+    bool GUIDrawRectangle(const IntT &col1,const IntT &row1,const IntT &col2,const IntT &row2,const IntT &colourId)
     { return Body().GUIDrawRectangle(col1,row1,col2,row2,colourId); }
     //: Draw a filled rectangle.
     
-    bool GUIDrawFrame(IntT &col1,IntT &row1,IntT &col2,IntT &row2,IntT &colourId)
+    bool GUIDrawFrame(const IntT &col1,const IntT &row1,const IntT &col2,const IntT &row2,const IntT &colourId)
     { return Body().GUIDrawFrame(col1,row1,col2,row2,colourId); }
     //: Draw an empty rectangle.
     
-    bool GUIDrawImage(ImageC<ByteT> &img,Index2dC &offset)
+    bool GUIDrawImage(ImageC<ByteT> &img,const Index2dC &offset)
     { return Body().GUIDrawImage(img,offset); }
     //: Draw an image on the canvas.
     // Call with GUI thread only!
     
-    bool GUIDrawRGBImage(ImageC<ByteRGBValueC> &img,Index2dC &offset)
+    bool GUIDrawRGBImage(ImageC<ByteRGBValueC> &img,const Index2dC &offset)
     { return Body().GUIDrawRGBImage(img,offset); }
     //: Draw an rgb image on the canvas.
     // Call with GUI thread only!
     
-    bool GUIDrawText(IntT &col,IntT &row,StringC &text,IntT &colourId)
+    bool GUIDrawText(const IntT &col,const IntT &row,const StringC &text,const IntT &colourId)
     { return Body().GUIDrawText(col,row,text,colourId); }
     //: Draw some text.
     // Call with GUI thread only!

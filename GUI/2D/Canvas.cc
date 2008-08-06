@@ -209,7 +209,7 @@ namespace RavlGUIN {
 
   //: Draw an image on the canvas.
   
-  void CanvasBodyC::DrawImage(const ImageC<ByteT> &img,Index2dC offset) {
+  void CanvasBodyC::DrawImage(ImageC<ByteT> &img,Index2dC offset) {
     Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIDrawImage,const_cast<ImageC<ByteT> &>(img),offset));
   }
   
@@ -280,7 +280,7 @@ namespace RavlGUIN {
   //: Draw an image on the canvas.
   // Call with GUI thread only!
   
-  bool CanvasBodyC::GUIDrawImage(ImageC<ByteT> &img,Index2dC &ioffset) {
+  bool CanvasBodyC::GUIDrawImage(ImageC<ByteT> &img,const Index2dC &ioffset) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawImage(), WARNING: Asked to render data before canvas is initialise. \n");
@@ -335,7 +335,7 @@ namespace RavlGUIN {
   //: Draw an rgb image on the canvas.
   // Call with GUI thread only!
   
-  bool CanvasBodyC::GUIDrawRGBImage(ImageC<ByteRGBValueC> &img,Index2dC &ioffset) {
+  bool CanvasBodyC::GUIDrawRGBImage(ImageC<ByteRGBValueC> &img,const Index2dC &ioffset) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawRGBImage(), WARNING: Asked to render data before canvas is initialise. \n");
@@ -382,7 +382,7 @@ namespace RavlGUIN {
   
   //: Draw a line.
   
-  bool CanvasBodyC::GUIDrawLine(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &c) {
+  bool CanvasBodyC::GUIDrawLine(const IntT &x1,const IntT &y1,const IntT &x2,const IntT &y2,const IntT &c) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawLine(), WARNING: Asked to render data before canvas is initialise. \n");
@@ -420,7 +420,7 @@ namespace RavlGUIN {
 
   //: Draw an arc
   
-  bool CanvasBodyC::GUIDrawArc(ImageRectangleC& rect, IntT& start, IntT& angle, IntT& colId, bool& fill) {
+  bool CanvasBodyC::GUIDrawArc(const ImageRectangleC& rect, const IntT& start, const IntT& angle, const IntT& colId, const bool& fill) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawArc(), WARNING: Asked to render data before canvas is initialised. \n");
@@ -453,7 +453,7 @@ namespace RavlGUIN {
 
   //: Draw some text.
   
-  bool CanvasBodyC::GUIDrawText(IntT &x1,IntT &y1,StringC &text,IntT &c) {
+  bool CanvasBodyC::GUIDrawText(const IntT &x1,const IntT &y1,const StringC &text,const IntT &c) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawText(), WARNING: Asked to render data before canvas is initialise. \n");
@@ -484,7 +484,7 @@ namespace RavlGUIN {
 
   //: Draw a rectangle.
   
-  bool CanvasBodyC::GUIDrawRectangle(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &c) {
+  bool CanvasBodyC::GUIDrawRectangle(const IntT &x1,const IntT &y1,const IntT &x2,const IntT &y2,const IntT &c) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawRectangle(), WARNING: Asked to render data before canvas is initialise. \n");
@@ -511,7 +511,7 @@ namespace RavlGUIN {
     
   }
 
-  bool CanvasBodyC::GUIDrawFrame(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &c) {
+  bool CanvasBodyC::GUIDrawFrame(const IntT &x1,const IntT &y1,const IntT &x2,const IntT &y2,const IntT &c) {
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(!IsReady()) {
       ONDEBUG(cerr <<"CanvasBodyC::GUIDrawFrame(), WARNING: Asked to render data before canvas is initialise. \n");
