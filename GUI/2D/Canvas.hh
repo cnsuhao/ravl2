@@ -338,13 +338,7 @@ namespace RavlGUIN {
     //: Draw a line.
 
     bool GUIDrawLine(const Index2dC &p1,const Index2dC &p2,const IntT &colourId)
-    { 
-# if RAVL_OS_LINUX64
-return Body().GUIDrawLine( (IntT &) p1.Row().V(), (IntT &) p1.Col().V(), (IntT &)p2.Row().V(),(IntT &)p2.Col().V(),colourId); 
-#else 
-return Body().GUIDrawLine(  p1.Row().V(),  p1.Col().V(), p2.Row().V(),p2.Col().V(),colourId); 
-#endif 
-}
+    { return Body().GUIDrawLine(  p1.Row().V(),  p1.Col().V(), p2.Row().V(),p2.Col().V(),colourId); }
     //: Draw a line.
     // Call with GUI thread only!
     
