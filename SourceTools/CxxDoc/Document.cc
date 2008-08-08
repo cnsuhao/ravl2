@@ -760,7 +760,19 @@ namespace RavlCxxDocN {
 	
       return true;
     }
-
+    
+    if(ip == "variable_type") {
+      if(!VariableC::IsA(obj.Top())) {
+	buff = "*** Invaid variable_type ****"; 
+	cerr << "WARNING: variable_type used in an incorrect context. In:'" << obj.Top().Name() << "'\n";
+	return true;
+      }
+      VariableC atd(obj.Top());
+      buff = GetHtmlTypeName(atd.DataType());
+      obj.Top().SetVar("typedef_type",buff);
+      return true;
+    }
+    
     if(ip == "typedef_type") {
       if(!TypedefC::IsA(obj.Top())) {
 	buff = "*** Invaid typedef_type ****"; 

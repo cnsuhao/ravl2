@@ -983,6 +983,10 @@ namespace RavlCxxDocN {
     { return "variable"; }
     //: Get name of object type.
     
+    DataTypeC &DataType()
+    { return dt; }
+    //: Access data type.
+    
   protected:
     DataTypeC dt;
   };
@@ -1038,6 +1042,9 @@ namespace RavlCxxDocN {
     //: Access body.
     
   public:
+    DataTypeC &DataType()
+    { return Body().DataType(); }
+    //: Access data type.
     
   };
 

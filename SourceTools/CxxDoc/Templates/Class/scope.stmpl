@@ -43,7 +43,7 @@ $(include:comment.stmpl)
 
 $(//: **************** Variable list ************************ 
 )$(ifany:variable:$(titleStart)Variables:$(titleEnd)<DL>
-$(forall:variable:$(chkacc:$(chk_header:)<DT>$(datatype) <B>$(ObjectName)</B>;<DD>
+$(forall:variable:$(chkacc:$(chk_header:)<DT>$(variable_type) <B>$(ObjectName)</B>;<DD>
 $(include:comment.stmpl)
 <br>))
 </DL>)
