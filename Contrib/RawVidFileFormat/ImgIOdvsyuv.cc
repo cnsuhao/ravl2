@@ -127,7 +127,7 @@ namespace RavlImageN {
 	RavlIssueWarning("\nDont know which image size to use for this format ! will try 1080x1920"); 
     }
     // create an image from the buffer.
-    ImageC<ByteYUV422ValueC> image1( xDim, yDim, (ByteYUV422ValueC*) & res.BufferAccess()[0], false) ; // image is only valid while buffer exists !
+    ImageC<ByteYUV422ValueC> image1( xDim, yDim, (ByteYUV422ValueC*) & res.BufferAccess()[0], true) ; // image is only valid while buffer exists !
     
     head = ImageC<ByteYUV422ValueC>(Interlace( image1 ));
     

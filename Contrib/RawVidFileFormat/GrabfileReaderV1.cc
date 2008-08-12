@@ -133,10 +133,19 @@ bool GrabfileReaderV1C::GetNextFrame(BufferC<char> &bu, UIntT &vsize, UIntT &asi
   
     if(m_infile.good()) {
       int csize = m_video_buffer_size + m_audio_buffer_size; 
-      char * obuf = new char[csize];
-      char * start = obuf;
+      //char * obuf = new char[csize];
+      //char * start = obuf;
+      //BufferC<char> buffy(csize);
       m_infile.read(bu.BufferAccess().DataStart(),csize);
-      delete obuf;
+      //bu = buffy;  //BufferC<char> (buffy.Size(),buffy.BufferAccess().DataStart(),true,false);
+      /*char * buffypointer = buffy.BufferAccess().DataStart();
+      char * bupointer = bu.BufferAccess().DataStart();
+      for(int y=0;y<csize;y++) {
+         *bupointer = *buffypointer;
+         bupointer++;
+         buffypointer++;
+      }*/
+      //delete obuf;
    }
    ++m_frames_loaded;
    ++m_frame_number;
@@ -158,7 +167,6 @@ BufferC<char> GrabfileReaderV1C::GetNextFrame()
   bool ok = m_infile.good();
   if(ok) {
       if(IdToByteFormat(byteformat) == BITS_8) {
-         
          BufferC<char> video(m_video_buffer_size);
          m_infile.read(video.BufferAccess().DataStart(),m_video_buffer_size);     
          ++m_frames_loaded;
@@ -181,7 +189,8 @@ BufferC<char> GrabfileReaderV1C::GetNextFrame()
          BufferC<char> audio(m_video_buffer_size);
          m_infile.read(audio.BufferAccess().DataStart(),m_audio_buffer_size);     
 
-	 const char * vbuf = video.BufferAccess().DataStart();
+	 //const 
+         char * vbuf = video.BufferAccess().DataStart();
          for ( IntT vcount = 0 ; vcount < (m_video_buffer_size/4)  ; ++ vcount ) {
             *obuf++ = *vbuf++ ;
             *obuf++ = *vbuf++ ;
@@ -190,6 +199,12 @@ BufferC<char> GrabfileReaderV1C::GetNextFrame()
 	}
 	++m_frames_loaded;
 	++m_frame_number;
+        vbuf = 0;
+        obuf = 0;
+        delete vbuf;
+        delete obuf;
+        audio = 0;
+        video = 0;
         return BufferC<char> (osize, nextframe.BufferAccess().DataStart(), true, false);  
       }
   }
