@@ -20,7 +20,7 @@ GrabfileReaderV1C::~GrabfileReaderV1C()
 
 // Open file and read file header.
 bool GrabfileReaderV1C::Open(const char* const filename)
-{
+{ 
   // Is the file alread open? It shouldn't be!
   if(m_infile.is_open()) {
     RavlIssueError("GrabfileReaderV1: Class already contains an open file.");
@@ -45,7 +45,7 @@ bool GrabfileReaderV1C::Open(const char* const filename)
     // Video buffer size
     m_infile.read(reinterpret_cast<char*>(&dummy_int), 4);
     m_video_buffer_size = ntohl(dummy_int);
-  
+
     // Audio buffer size
     m_infile.read(reinterpret_cast<char*>(&dummy_int), 4);
     m_audio_buffer_size = ntohl(dummy_int);
@@ -66,8 +66,9 @@ bool GrabfileReaderV1C::Open(const char* const filename)
    //code to possible deal with time codes in the future.
     m_infile.read(reinterpret_cast<char*>(&dummy_int),4);
     m_frames_loaded = ntohl(dummy_int);
-    m_infile.read(reinterpret_cast<char*>(&dummy_int),8);
-    m_frame_rate = ntohl(dummy_int);
+    RealT framerate = 0.0;
+    m_infile.read(reinterpret_cast<char*>(&framerate),8);
+    m_frame_rate = ntohl(framerate);
     UIntT id = m_infile.get();
     videomode = id;
 
