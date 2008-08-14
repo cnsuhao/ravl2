@@ -341,6 +341,14 @@ namespace RavlN {
     }
     return str;
   }
+
+  //: Generate date from odbc string.
+  
+  DateC DateC::FromODBCString(const StringC &dateStr) {
+    DateC ret;
+    ret.SetODBC(dateStr);
+    return ret;
+  }
   
   //: Set date to odbc specified time string.
   // Returns true if conversion succesfull, false

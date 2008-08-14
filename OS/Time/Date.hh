@@ -50,6 +50,9 @@ namespace RavlN {
     static DateC TimeZoneOffset();
     //: Get the local timezone offset.  (Note around daylight saving this may change.)
     
+    static DateC FromODBCString(const StringC &dataString);
+    //: Generate date from odbc string.
+    
     inline DateC(bool setval,bool useVirt = false);
     //: Constructor.
     // This constructor is obsolete. Use one of NowUTC,NowLocal or NowVirtual.
