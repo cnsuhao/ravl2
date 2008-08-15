@@ -20,6 +20,8 @@
 
 namespace RavlN {
 
+  const static StringC imageExtensions("jpg JPG jpeg JPEG png PNG ppm pgm");
+
   //: Directory handling.
   // Used for querying and changing the contents of directories. <p>
   // The class is designed to be thread safe where different
@@ -62,6 +64,11 @@ namespace RavlN {
     // The wild cards are the usual UNIX ones: '*','?' and '\' to escape.  <br>
     // '*' Matches any string. '?' matches any single charactor. <br>
     // '..' and '.' are not returned in the list. 
+
+    DListC<StringC> SuffixList(const StringC &suffices=imageExtensions) const;
+    //: List contents of directory, returning only files with suffices in string
+    // Returns a list of absolute paths to matching files. <br>
+    // Default suffices are for image files.  See header file for list.
     
     DListC<StringC> SearchTree(const StringC &filter) const;
     //: Search a directory tree for files matching 'filter'

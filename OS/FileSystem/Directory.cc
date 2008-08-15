@@ -27,6 +27,7 @@
 #include "Ravl/Exception.hh"
 #include "Ravl/DLIter.hh"
 #include "Ravl/HSet.hh"
+#include "Ravl/StringList.hh"
 
 #include <stdlib.h>
 
@@ -257,6 +258,19 @@ namespace RavlN {
     return *filt == 0; // Must have found end of input, is filter there as well ?
   }
   
+  //: List contents of directory, returning only files with suffices in string
+  DListC<StringC> DirectoryC::SuffixList(const StringC &suffices) const {
+    StringListC lst(suffices);
+    DListC<StringC>names;
+    for(DLIterC<StringC>it(lst);it;it++) {
+      names += this->FiltList("*" + *it);
+    }
+    DListC<StringC> result;
+    for(DLIterC<StringC>it(names);it;it++)
+      result += (FilenameC)(*this) + "/" + *it;
+    return result;
+  }
+
   //: Search a directory tree for files matching 'filter'
   // Returns a list of absolute paths to matching files. The filter
   // is the same as 'FiltList'
