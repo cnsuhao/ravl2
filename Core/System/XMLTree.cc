@@ -164,7 +164,10 @@ namespace RavlN {
       return false;
     }
     
-    // Let the user know xpointer is not supported.
+    // There can't be a recursive include anymore.
+    doneFiles -= xi_href;
+    
+    // Basic xpointer support.
     StringC xi_xpointer;
     if(subtree.Data().Lookup("xpointer",xi_xpointer)) {
       DListC<XMLTreeC> children;
@@ -181,6 +184,7 @@ namespace RavlN {
       if(!it->IsPI())
 	Add(it->Name(),*it);
     }
+    
     return true;
   }
 

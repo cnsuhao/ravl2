@@ -1,3 +1,4 @@
+<Contents>
 <hello/>
 <!-- a comment -->
 <?xml fred="1" ?>
@@ -8,4 +9,5 @@ in been
 </bean>
 before endtest
 </test>
-
+<xi:include href="test2.xml" xpointer="/test_file_2/*" >
+</Contents>
