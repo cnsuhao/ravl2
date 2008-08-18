@@ -60,12 +60,14 @@ namespace RavlImageN {
     ImageRectangleC oldRect  (img.Rectangle() ) ; 
     ImageRectangleC newRect = oldRect / factor ; 
     ImageC<PixelT>  subSampled (newRect) ;
-    Array2dIterC<PixelT> newImage  ( subSampled ) ; 
-    IndexC oldRow ;
-    for ( oldRow = oldRect.TRow() , newImage.First() ; (oldRow <= oldRect.BRow()) && (newImage.IsElm()) ; oldRow+= factor  ) 
+    IndexC oldRow, newRow ;
+    for ( oldRow = oldRect.TRow(), newRow = newRect.TRow();
+          (oldRow <= oldRect.BRow()) && (newRow <= newRect.BRow()) ;
+          oldRow+= factor, ++newRow  ) 
       {
-	for ( BufferAccessIterC<PixelT> oldCol = img [oldRow] ; (oldCol.IsElm()) && (newImage.IsElm()) ; oldCol += factor, ++newImage  ) 
-	  newImage.Data() = oldCol.Data() ;
+        BufferAccessIterC<PixelT> newCol = subSampled [newRow];
+	for ( BufferAccessIterC<PixelT> oldCol = img [oldRow] ; (oldCol.IsElm()) && (newCol.IsElm()) ; oldCol += factor, ++newCol  ) 
+	  newCol.Data() = oldCol.Data() ;
       }
     return subSampled ; 
   }

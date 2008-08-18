@@ -272,5 +272,12 @@ int testSubSample() {
     FilteredSubSample2(img);
     //cerr << "Out=" << out << "\n";
   }
+
+  ImageC<ByteT> in(6,8);
+  in.Fill(0);
+  ImageC<ByteT> out2 = SubSample(in);
+  in = in.Expand(1);
+  out2 = SubSample(in);
+
   return 0;
 }
