@@ -42,7 +42,10 @@ namespace RavlN {
       loaded(false)
   { 
     ONDEBUG(cerr << "TextFileBodyC::TextFileBodyC(), Asked to load '" << nFilename << "' \n");
-    Load(nFilename); 
+    if(!Load(nFilename)) {
+      std::cerr << "ERROR: Failed to load file '" << nFilename << "' \n";
+      throw ExceptionOperationFailedC("Failed to load template file. ");
+    }
   }
   
   //: Construct from a string. 
@@ -65,7 +68,12 @@ namespace RavlN {
     : filename("-"),
       renumber(false),
       loaded(false)
-  { Load(fin); }
+  {
+    if(!Load(fin)) {
+      std::cerr << "ERROR: Failed to load template from stream. \n";
+      throw ExceptionOperationFailedC("Failed to load template from stream. ");
+    }
+  }
   
   /////////////////////////////
   // Construct from a buffer.
@@ -133,7 +141,7 @@ namespace RavlN {
   bool TextFileBodyC::Save() {
     if(filename.IsEmpty()) {
       ONDEBUG(cerr << "TextFileBodyC::Save(), ");
-      cerr << "ERROR: Save of text file attempted with empty filename. \n";
+      std::cerr << "ERROR: Save of text file attempted with empty filename. \n";
       return false;
     }
     return SaveAs(filename);
