@@ -1,7 +1,7 @@
 ! author="Charles Galambos"
 ! docentry="Ravl.API.Graphics.GTK"
 
-: GTK-based Graphical User Interface
+: 2D GTK-based Graphical User Interface
 
 <p>Tools for building graphical user interfaces.  These tools act as
 wrappers for the 'C' <a href="http://www.gtk.org">GTK</a> library.
