@@ -1,6 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <?RAVL class='RavlN::XMLTreeC' ?>
 <test_file_2 Fred="1">
+ <nested1 >
  In Included file.
  <igloo/> 
+ </nested1 >
+ <nested2 >
+   <bob/> 
+ </nested2 >
 </test_file_2>

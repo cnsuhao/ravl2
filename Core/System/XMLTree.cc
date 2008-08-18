@@ -253,7 +253,7 @@ namespace RavlN {
       
       int axisAt = sit->index("::");
       StringC axis = "child";
-      StringC spec = "*";
+      StringC spec = *sit;
       if(axisAt >= 0) {
 	axis = sit->before(axisAt);
 	spec = sit->after(axisAt+1);

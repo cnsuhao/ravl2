@@ -3,11 +3,11 @@
 <!-- a comment -->
 <?xml fred="1" ?>
 <test Fred="1">test data
-<xi:include href="test2.xml" xpointer="/test_file_2/*" >
+<xi:include href="test2.xml" xpointer="/test_file_2/nested1/*" >
 <bean>
 in been
 </bean>
 before endtest
 </test>
-<xi:include href="test2.xml" xpointer="/test_file_2/*" >
+<xi:include href="test2.xml" xpointer="/test_file_2/nested1" >
 </Contents>
