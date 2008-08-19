@@ -68,6 +68,7 @@ int main(int nargs,char **argv) {
   UIntT noOutputs = opts.Int("no",1,"Number of output's ");
   bool residual = opts.Boolean("r",false,"Compute the residual of the fit. ");
   bool verbose = opts.Boolean("v",false,"Verbose. ");
+  bool swap = opts.Boolean("s",false,"Swap inputs and output.");
   StringC infile = opts.String("","","in.dat");
   StringC outfile = opts.String("","","out.abs");
   opts.Check();
@@ -81,6 +82,9 @@ int main(int nargs,char **argv) {
     // Assume error has already been reported.
     return 1;
   }
+  if(swap)
+    RavlN::Swap(inSamples,outSamples);
+  
   std::cout << "Got " << inSamples.Size() << " samples. \n";
   if(inSamples.Size() < 2) {
     std::cerr << "Not enought data!\n";
@@ -110,7 +114,7 @@ int main(int nargs,char **argv) {
       
       sumOfSqr += diff * diff;
     }
-    std::cout << "Residuals:" << sumOfSqr << " (Sum of the squares of the difference.) \n";
+    std::cout << "Residuals:" << (sumOfSqr/inSamples.Size()) << " (Sum of the squares of the difference.) \n";
   }
   return 0;
 }
