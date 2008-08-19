@@ -201,7 +201,7 @@ namespace RavlGUIN {
     //!param: col, row - nominal window size
     //!param: winType - Values for winType are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GtkWindowType">here</A>.
     //!param: borderWidth - border width
-    //!param: rootWin - set false for popups etc.
+    //!param: rootWin - if true, closing this window will terminate window manager
     //!param: connectDeleteEvent - if true, window is closed on receipt of signal "delete_event"
 
   protected:
