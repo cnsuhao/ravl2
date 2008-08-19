@@ -36,7 +36,7 @@ namespace RavlGUIN {
   public:
     WindowBodyC(int sx = 1,int sy = 1,const char *title = 0,GtkWindowType winType = GTK_WINDOW_TOPLEVEL,int nborder = 0,bool rootWin = true,bool connectDeleteEvent = true);
     //: Constructor.
-    // Values for winType are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKWINDOWTYPE">here</A>.
+    // Values for winType are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GtkWindowType">here</A>.
     
     virtual ~WindowBodyC();
     //: Destructor.
@@ -57,7 +57,7 @@ namespace RavlGUIN {
   
     void SetPositioning(GtkWindowPosition& pos);
     //: Influences positioning of the window.
-    // Values for pos are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKWINDOWPOSITION">here</A>.
+    // Values for pos are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GtkWindowPosition">here</A>.
     
     void UserResizable(bool& resizable);
     //: Allow the user to resize the window?
@@ -116,7 +116,7 @@ namespace RavlGUIN {
     
     bool GUISetPositioning(GtkWindowPosition& pos);
     //: Influences positioning of the window.
-    // Values for pos are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKWINDOWPOSITION">here</A>.
+    // Values for pos are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GtkWindowPosition">here</A>.
 
     
     bool GUICloseDown();
@@ -196,10 +196,14 @@ namespace RavlGUIN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    WindowC(int sx,int sy = 1,const char *ntitle = 0,GtkWindowType winType = GTK_WINDOW_TOPLEVEL,int nborder = 0,bool rootWin = true,bool connectDeleteEvent = true);
+    WindowC(int col,int row = 1,const char *ntitle = 0,GtkWindowType winType = GTK_WINDOW_TOPLEVEL,int borderWidth = 0,bool rootWin = true,bool connectDeleteEvent = true);
     //: Constructor.
-    // Values for winType are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKWINDOWTYPE">here</A>.
-    
+    //!param: col, row - nominal window size
+    //!param: winType - Values for winType are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GtkWindowType">here</A>.
+    //!param: borderWidth - border width
+    //!param: rootWin - set false for popups etc.
+    //!param: connectDeleteEvent - if true, window is closed on receipt of signal "delete_event"
+
   protected:
     WindowC(WindowBodyC &bod)
       : OneChildC(bod)
@@ -225,7 +229,7 @@ namespace RavlGUIN {
     bool GUISetPositioning(GtkWindowPosition& pos)
     { return Body().GUISetPositioning(pos); }
     //: Influences positioning of the window.
-    // Values for pos are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKWINDOWPOSITION">here</A>.
+    // Values for pos are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GtkWindowPosition">here</A>.
 
     bool GUIUserResizable(bool& resizable) 
     { return Body().GUIUserResizable(resizable); }
@@ -254,11 +258,6 @@ namespace RavlGUIN {
     //: Set the window as fullscreen (assuming the window manager supports it)
 
  public:
-    void Destroy() { 
-      WidgetC::Destroy(); 
-      Invalidate();
-    }
-    //: Destroy this window.
     
     void UserResizable(bool& resizable) 
     { Body().UserResizable(resizable); }
@@ -324,11 +323,12 @@ namespace RavlGUIN {
     void SetPositioning(GtkWindowPosition& pos)
     { Body().SetPositioning(pos); }
     //: Influences positioning of the window.
-    // Values for pos are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKWINDOWPOSITION">here</A>.
+    // Values for pos are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GtkWindowPosition">here</A>.
 
     bool Close()
     { return Body().Close(); }
     //: Close window.
+    // If window is root window, window manager is terminated.<br>
     // Thread safe.
     
     void SetCursor(CursorC &cur)
