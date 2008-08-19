@@ -17,7 +17,7 @@
 
 #include "Ravl/Matrix3d.hh"
 #include "Ravl/Vector3d.hh"
-#include "Ravl/Point2d.hh"
+#include "Ravl/Point3d.hh"
 #include "Ravl/Point3d.hh"
 #include "Ravl/FAffine.hh"
 
