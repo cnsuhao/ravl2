@@ -138,7 +138,7 @@ namespace RavlN {
 	return false;
       }
       if(ufds[0].revents & POLLNVAL) { // Invalid fd ?
-	SysLog(SYSLOG_DEBUG) << "UnixStreamIOC::WaitForRead(), Invalid fd for stream " << errno;
+	SysLog(SYSLOG_DEBUG) << "UnixStreamIOC::WaitForRead(), Invalid fd (" << m_fd << ") for stream." << errno;
 	return false;
       }
       SysLog(SYSLOG_DEBUG) << "UnixStreamIOC::WaitForRead(), Unexpected condition " << ufds[0].revents;
