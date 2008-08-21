@@ -114,8 +114,12 @@ namespace RavlN {
       if(verbose)
 	cerr << "Saving edits. \n";
       for(HashIterC<StringC,TextFileC> it(textFiles);it;it++) {
-	if(!modifiedPrefix.IsEmpty())
-	  it.Data().SetFilename(modifiedPrefix + it.Key());
+	if(!modifiedPrefix.IsEmpty()) {
+          if (modifiedPrefix == "-")
+            it.Data().SetFilename(modifiedPrefix);
+          else
+            it.Data().SetFilename(modifiedPrefix + it.Key());
+        }
 	if(!it.Data().Save()) {
 	  cerr << "ERROR: Failed to save '" << it.Data().Filename() << "'\n";
 	}

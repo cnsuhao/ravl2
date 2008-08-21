@@ -22,3 +22,5 @@ PLIB=RavlClassWizard
 USESLIBS=RavlCxxDoc
 
 EHT=Ravl.API.Source_Tools.Class_Wizard.html
+
+HTML= CwizExample.hh
