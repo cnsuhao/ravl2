@@ -1182,6 +1182,8 @@ info:
 	@echo "Test libs       :" $(LINKTESTLIBS)
 	@echo "Temp            :" $(LOCALTMP)
 	@echo "Auto            :" $(AUTOUSELIBS)
+	@echo "Library paths   :" $(LIBS)
+	@echo "Executable libs :" $(BINLIBS)
 	@echo "Resources       :" $(RESOURCES)
 
 #	@echo "Supported       :" $(SUPPORT_OK)
