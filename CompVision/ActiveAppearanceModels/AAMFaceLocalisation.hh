@@ -45,14 +45,26 @@ namespace RavlImageN {
     //!param: eyeCentres - Estimate of the position of the centre of the eyes.
     //!param: resAppear - Output appearance fitted to the image.
     //!param: useAM - Synthesize texture using appearance model? Yes = true. If set to false the texture of the appearance image is obtained from the input image, i.e. the search algorithm is used only to find the location of the feature points defining the shape.
-
+    
     bool FitModel(const ImageC<RealT> &inImage, const PairC<Point2dC> &eyeCentres, AAMAppearanceC &resAppear, bool useAM = false) const;
     //: Multi-resolution AAM search algorithm.
     //!param: inImage - Input image.
     //!param: eyeCentres - Estimate of the position of the centre of the eyes.
     //!param: resAppear - Output appearance fitted to the image.
     //!param: useAM - Synthesize texture using appearance model? Yes = true. If set to false the texture of the appearance image is obtained from the input image, i.e. the search algorithm is used only to find the location of the feature points defining the shape.
-
+    
+    bool FitModel(const ImageC<RealT> &inImage, const PairC<Point2dC> &eyeCentres, VectorC &aamParameters) const;
+    //: Multi-resolution AAM search algorithm.
+    //!param: inImage - Input image.
+    //!param: eyeCentres - Estimate of the position of the centre of the eyes.
+    //!param: aamParameters - Recovered output parameters fitting the model to the image.
+    
+    bool FitModel(const ImageC<ByteT> &inImage, const PairC<Point2dC> &eyeCentres, VectorC &aamParameters) const;
+    //: Multi-resolution AAM search algorithm.
+    //!param: inImage - Input image.
+    //!param: eyeCentres - Estimate of the position of the centre of the eyes.
+    //!param: aamParameters - Recovered output parameters fitting the model to the image.
+    
     const AAMMultiResActiveAppearanceModelC &MultiResActiveAppearanceModel() const
     { return maam; }
     //: Get multi-resolution active appearance model.
