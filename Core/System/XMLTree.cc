@@ -87,7 +87,7 @@ namespace RavlN {
       }
       
       if(name == "xi:include") {
-	if(!ProcessInclude(subtree,includedFiles))
+	if(!ProcessInclude(subtree,includedFiles,in.Name()))
 	  return false;
 	continue;
       }
@@ -98,12 +98,26 @@ namespace RavlN {
     return true;
   }
 
+  static StringC FilePathComponent(const StringC &filename) {
+    if(filename.IsEmpty())
+      return filename;
+#ifdef VISUAL_CPP
+    // paths can contain / and \ which confuse this routine, so lets sort that out first!
+    StringC str = filename.Copy();
+    str.gsub("/", "\\");
+    str.gsub("\\\\", "\\");
+    return str.before(filenameSeperator,-1);
+#else
+    return const_cast<StringC &>(filename).before("/",-1);
+#endif
+  }
+  
   //: Process xi:xinclude directive.
   
   // TODO:
   //  Support xpointer.
   
-  bool XMLTreeBodyC::ProcessInclude(XMLTreeC &subtree,HSetC<StringC> &doneFiles) {
+  bool XMLTreeBodyC::ProcessInclude(XMLTreeC &subtree,HSetC<StringC> &doneFiles,const StringC &parentFilename) {
     StringC xi_href;
     
     if(!subtree.Data().Lookup("href",xi_href) || xi_href.IsEmpty()) {
@@ -126,10 +140,24 @@ namespace RavlN {
       if(xi_parse == "text") {
 	// Load file as simple text.
 	StrOStreamC strOut;
-	
-	IStreamC inFile(xi_href);
+	IStreamC inFile;
+        
+        // Try an include from original directory first.
+        if(xi_href.firstchar() != '/') {
+          StringC parentDir = FilePathComponent(parentFilename);
+          StringC newFn = parentDir + '/' + xi_href;
+          ONDEBUG(std::cerr << "Trying text file '" << newFn << "' from '" << parentDir << "'\n");
+          inFile = IStreamC(newFn);
+        }
+        
+        // Try current directory.
+        if(!inFile.IsOpen()) {
+          ONDEBUG(std::cerr << "Trying text file '" << xi_href << "'\n");
+          inFile = IStreamC(xi_href);
+        }
+        
 	if(!inFile.IsOpen()) {
-	  if(!ProcessIncludeFallback(subtree,doneFiles)) {
+	  if(!ProcessIncludeFallback(subtree,doneFiles,parentFilename)) {
 	    RavlIssueWarning(StringC("Failed to open file='" + xi_href +"'"));
 	    return false;
 	  }
@@ -148,11 +176,28 @@ namespace RavlN {
     }
     
     // Load the file as XML.
+
+    // Look in the directory of the current file first, Unless we've been given an absolute path.
+    IStreamC newIStream;
+    if(xi_href.firstchar() != '/') {
+      StringC parentDir = FilePathComponent(parentFilename);
+      if(!parentDir.IsEmpty()) {
+        StringC newFn = parentDir + '/' + xi_href;
+        ONDEBUG(std::cerr << "Trying '" << newFn << "' from '" << parentDir << "'\n");
+        newIStream = IStreamC(newFn);
+      }
+    }
     
-    XMLIStreamC newStream(xi_href);
-    if(!newStream.IsOpen()) {
-      if(!ProcessIncludeFallback(subtree,doneFiles)) {
-	RavlIssueWarning(StringC("Failed to open file='" + xi_href +"'"));
+    // Try opening from the current directory.
+    if(!newIStream.IsOpen()) {
+      ONDEBUG(std::cerr << "Trying '" << xi_href << "'\n");      
+      newIStream = IStreamC(xi_href);
+    }
+    
+    XMLIStreamC newStream(newIStream);
+    if(!newIStream.IsOpen()) {
+      if(!ProcessIncludeFallback(subtree,doneFiles,parentFilename)) {
+	RavlIssueWarning(StringC("Failed to open file='" + xi_href +"' from '" + parentFilename + "' "));
 	return false;
       }
       return true;
@@ -190,15 +235,15 @@ namespace RavlN {
 
   //: Look for fallback
   
-  bool XMLTreeBodyC::ProcessIncludeFallback(XMLTreeC &subtree,HSetC<StringC> &doneFiles) {
+  bool XMLTreeBodyC::ProcessIncludeFallback(XMLTreeC &subtree,HSetC<StringC> &doneFiles,const StringC &parentFilename) {
     if(subtree.Children().IsEmpty())
       return false;
     XMLTreeC childTree = subtree.Children().First();
     if(childTree.Name() != "xi:fallback") {
       RavlIssueWarning(StringC("Unexpected xi:include child, '" + childTree.Name() +"'"));
       return false;
-    }    
-    if(!ProcessInclude(childTree,doneFiles)) {
+    }
+    if(!ProcessInclude(childTree,doneFiles,parentFilename)) {
       return false;
     }
     subtree = childTree;

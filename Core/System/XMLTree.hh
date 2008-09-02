@@ -191,10 +191,10 @@ namespace RavlN {
     //: Give list of nodes matching the given path.
 
   protected:
-    bool ProcessInclude(XMLTreeC &subtree,HSetC<StringC> &doneFiles);
+    bool ProcessInclude(XMLTreeC &subtree,HSetC<StringC> &doneFiles,const StringC &parentFilename);
     //: Process xi:include directive
     
-    bool ProcessIncludeFallback(XMLTreeC &subtree,HSetC<StringC> &doneFiles);
+    bool ProcessIncludeFallback(XMLTreeC &subtree,HSetC<StringC> &doneFiles,const StringC &parentFilename);
     //: Look for fallback
     
     static ostream &Indent(ostream &out,int level);
