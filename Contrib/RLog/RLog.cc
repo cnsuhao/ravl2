@@ -9,6 +9,7 @@
 
 #include "Ravl/RLog.hh"
 #include "Ravl/Hash.hh"
+#include "Ravl/OS/SysLog.hh"
 
 #include <rlog/RLogChannel.h>
 #include <rlog/StdioNode.h>
@@ -22,12 +23,34 @@
 
 namespace RavlN {
   
+  // Routine for redirecting SysLog messages to rlog.
+  
+  void SysLog2RLog(SysLogPriorityT level,const char *message) {
+    switch(level) {
+    case SYSLOG_EMERG:
+    case SYSLOG_ALERT:
+    case SYSLOG_CRIT:
+    case SYSLOG_ERR:     rError(message); break;
+    case SYSLOG_WARNING: rWarning(message); break;
+    case SYSLOG_NOTICE:
+    case SYSLOG_INFO:    rInfo(message); break;
+    default:
+    case SYSLOG_DEBUG:   rDebug(message); break;
+    }
+  }
+  
+  
   bool g_RLogInitDone = false;
   static rlog::StdioNode *g_rlogNode = 0;
   
   //! Initialise rlog to filename (filename can be stderr)
   bool RLogInit(const StringC &filename, const StringC &verbose, const StringC &logLevel)
   {
+    if(g_RLogInitDone)
+      return true;
+    g_RLogInitDone = true;
+    
+    SysLogRedirect(&SysLog2RLog);
     return RLogInit(0, NULL, filename.chars(), verbose == "true") &&
            RLogSubscribeL(logLevel.chars());    
   }      
@@ -38,6 +61,8 @@ namespace RavlN {
     if(g_RLogInitDone)
       return true;
     g_RLogInitDone = true;
+    
+    SysLogRedirect(&SysLog2RLog);
     
     int fd = 0;
     if(strcmp(filename, "stderr") == 0) 
@@ -78,6 +103,7 @@ namespace RavlN {
       return true;
     g_RLogInitDone = true;
     
+    SysLogRedirect(&SysLog2RLog);
     g_rlogNode = new rlog::StdioNode(2,
                                      rlog::StdioNode::OutputColor | 
                                      (verbose ? rlog::StdioNode::OutputContext : 0) | 
@@ -90,7 +116,7 @@ namespace RavlN {
     //g_rlogNode->subscribeTo(rlog::GetComponentChannel("Ravl","",rlog::Log_Undef));
     g_rlogNode->subscribeTo(rlog::GetGlobalChannel(""));
     if(verbose)
-		rInfo("RLog initalised. ");
+      rInfo("RLog initalised. ");
     return true;
   }
   
