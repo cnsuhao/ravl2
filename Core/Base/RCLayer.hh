@@ -34,9 +34,27 @@ namespace RavlN {
     { ravl_atomic_set(&owners,0); }
     //: Default constructor.
     
+    RCLayerBodyC(std::istream &strm)
+      : RCBodyVC(strm)
+    {}
+    //: Text stream constructor
+    
+    RCLayerBodyC(BinIStreamC &strm)
+      : RCBodyVC(strm)
+    {}
+    //: Binary stream constructor
+    
     ~RCLayerBodyC()
     { RavlAssert(ravl_atomic_read(&owners) == 0); }
     //: Destructor
+    
+    bool Save(std::ostream &strm) const
+    { return RCBodyVC::Save(strm); }
+    //: Save text stream
+    
+    bool Save(BinOStreamC &strm) const
+    { return RCBodyVC::Save(strm); }
+    //: Save binary stream
     
     virtual void ZeroOwners();
     //: Called when owner handles drop to zero.
@@ -123,6 +141,24 @@ namespace RavlN {
     }
     //: Constructor from a pointer
     
+    RCLayerC(istream &strm,RCLayerHandleT handleType = RCLH_OWNER)
+      : RCHandleVC<BodyT>(strm),
+        ownerHandle(handleType == RCLH_OWNER)
+    {
+      if(IsHandleOwner() && IsValid())
+        Body().IncOwners();
+    }
+    //: Stream constructor.
+    
+    RCLayerC(BinIStreamC &strm,RCLayerHandleT handleType = RCLH_OWNER)
+      : RCHandleVC<BodyT>(strm),
+        ownerHandle(handleType == RCLH_OWNER)
+    {
+      if(IsHandleOwner() && IsValid())
+        Body().IncOwners();
+    }
+    //: Binary stream constructor.
+    
     ~RCLayerC() {
       if(this->BodyPtr() != 0 && IsHandleOwner()) {
         // The following could modify this handle before we're done
@@ -175,6 +211,18 @@ namespace RavlN {
     { return this->Body().OwnerHandles(); }
     //: Count the number of owner handles that currently exist.
     
+    bool Save(ostream &out) const
+    { return Body().Save(out); }
+    //: Save to stream 'out'.
+    
+    bool Save(BinOStreamC &out) const
+    { return Body().Save(out); }
+    //: Save to binary stream 'out'.
+    
+    RCAbstractC Abstract()
+    { return RCAbstractC(Body()); }
+    //: Create an abstract handle.    
+    
     IntT References() const
     { return RCHandleVC<BodyT>::References(); }
     //: Get the number of referee
@@ -223,6 +271,37 @@ namespace RavlN {
     
     bool ownerHandle; // If true this is a owner
   };
+  
+  template<class BodyT>
+  ostream &operator<<(ostream &strm,const RCLayerC<BodyT> &obj) {
+    RavlAssertMsg(obj.IsValid(),"Attempt to write an invalid object handle.");
+    obj.Save(strm);
+    return strm;
+  }
+  //: Write a handle to a stream.
+  
+  template<class BodyT>
+  BinOStreamC &operator<<(BinOStreamC &strm,const RCLayerC<BodyT> &obj) {
+    RavlAssertMsg(obj.IsValid(),"Attempt to write an invalid object handle.");
+    obj.Save(strm);
+    return strm;
+  }
+  //: Write binary handle to a stream.
+  
+  template<class BodyT>
+  istream &operator>>(istream &strm,RCLayerC<BodyT> &obj) {
+    obj = RCLayerC<BodyT>(strm);
+    return strm;
+  }
+  //: Read a handle from a stream.
+  
+  template<class BodyT>
+  BinIStreamC &operator>>(BinIStreamC &strm,RCLayerC<BodyT> &obj) {
+    obj = RCLayerC<BodyT>(strm);
+    return strm;
+  }
+  //: Read a handle from a binary stream.
+
 }
 
 #endif
