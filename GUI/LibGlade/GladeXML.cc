@@ -9,6 +9,7 @@
 //! file="Ravl/GUI/LibGlade/GladeXML.cc"
 
 #include "Ravl/GUI/GladeXML.hh"
+#include "Ravl/TypeName.hh"
 
 #include <gtk/gtk.h>
 #include <glade/glade.h>
@@ -85,4 +86,5 @@ namespace RavlGUIN {
     return glade_xml_get_widget(xml, widgetName.chars());
   }
   
+  static TypeNameC type0(typeid(GladeXMLC),"RavlGUIN::GladeXMLC");
 }
