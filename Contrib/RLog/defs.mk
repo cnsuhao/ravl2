@@ -1,5 +1,5 @@
 
-#REQUIRES=RLog
+REQUIRES=RLog
 
 PACKAGE=Ravl
 
