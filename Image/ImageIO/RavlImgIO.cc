@@ -38,6 +38,10 @@ namespace RavlImageN {
     
     InitRGBImageCnv();
     
+    InitImgIOYCbCrBT601Value8();
+    InitImgIOYCbCrBT601Value16();
+    InitImgIOYCbCrBT601ValueFloat();
+    
 #if 0    
     InitImgIOByteVYU();
     InitPixelIO();
