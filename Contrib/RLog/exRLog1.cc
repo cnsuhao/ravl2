@@ -13,7 +13,8 @@ int main(int nargs,char **argv) {
   RavlN::OptionC opt(nargs,argv);
   opt.Check();
   
-  RavlN::RLogInit(nargs, argv, "stderr", true);  
+  RavlN::RLogInit("test.log","true","debug");
+  //RavlN::RLogInit(nargs, argv, "stderr", true);  
   RavlN::RLogSubscribe(rlog::_RLDebugChannel);
   RavlN::RLogSubscribe(rlog::_RLInfoChannel);
   RavlN::RLogSubscribe(rlog::_RLWarningChannel);

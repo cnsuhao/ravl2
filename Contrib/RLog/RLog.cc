@@ -45,12 +45,7 @@ namespace RavlN {
   
   //! Initialise rlog to filename (filename can be stderr)
   bool RLogInit(const StringC &filename, const StringC &verbose, const StringC &logLevel)
-  {
-    if(g_RLogInitDone)
-      return true;
-    g_RLogInitDone = true;
-    
-    SysLogRedirect(&SysLog2RLog);
+  {    
     return RLogInit(0, NULL, filename.chars(), verbose == "true") &&
            RLogSubscribeL(logLevel.chars());    
   }      
