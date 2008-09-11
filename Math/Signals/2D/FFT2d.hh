@@ -89,7 +89,7 @@ namespace RavlN {
     // If iinv is true do an inverse transform
 
     FFT2dC(SizeT height,SizeT width,bool iinv = false)
-      : RCHandleC<FFT2dBodyC>(*new FFT2dBodyC(Index2dC(s1,s2),iinv))
+      : RCHandleC<FFT2dBodyC>(*new FFT2dBodyC(Index2dC(height,width),iinv))
       {}
     //: Create a fft class.
     // If iinv is true do an inverse transform
