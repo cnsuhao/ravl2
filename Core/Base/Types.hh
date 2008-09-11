@@ -54,6 +54,12 @@ namespace RavlN {
   typedef unsigned int UIntT;
   //: Unsigned integer of at least 32 bits
   
+  typedef IntT Int32T;
+  //: Signed integer of 32 bits
+  
+  typedef UIntT UInt32T;
+  //: Unsigned integer of 32 bits
+  
   typedef double RealT;
   //: Real value of at least 64 bits.
   
@@ -64,6 +70,12 @@ namespace RavlN {
   //: Unsigned byte of 8 bits
   
   typedef unsigned char UByteT;
+  //: Unsigned byte of 8 bits
+  
+  typedef ByteT Int8T;
+  //: Unsigned byte of 8 bits
+  
+  typedef UByteT UInt8T;
   //: Unsigned byte of 8 bits
   
   typedef signed char SByteT;
