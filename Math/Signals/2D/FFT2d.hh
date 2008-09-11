@@ -140,7 +140,7 @@ namespace RavlN {
     // Coordinate system is also moved appropriately (regardless of coords of  "<code>dat</code>"):<br>
     // <ul><li>for forward FFT, origin is moved to centre;</li>
     // <li>for inverse FFT, origin is moved to top l.h.</li></ul>
-    // Forward rotate followed by inverse works correctly even with odd-sied arrays.
+    // Forward rotate followed by inverse works correctly even with odd-sized arrays.
 
     static SArray2dC<ComplexC> FFTShift(const SArray2dC<ComplexC> &dat);
     //: FFTShift image.
