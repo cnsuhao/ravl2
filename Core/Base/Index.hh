@@ -88,31 +88,29 @@ namespace RavlN {
 
   class IndexC {
   public:
-
-
     //:-
     // <h2>Constructors, copies, assigment, and destructor</h2>
     
 #if RAVL_CPUTYPE_64
-inline IndexC (Int64T i) 
-: v(i) {}
-//: Creates the index with value 'i'
-
-
-inline IndexC (long int i) 
-: v(i) {}
-
-
-//inline IndexC(void) 
-//:v(0) {}
-
+    inline IndexC (Int64T i) 
+      : v(i) {}
+    //: Creates the index with value 'i'
+    
+    
+    inline IndexC (long int i) 
+      : v(i) {}
+    
+    
+    //inline IndexC(void) 
+    //:v(0) {}
+    
 #endif
-
-   inline IndexC(IntT i = 0)    
-   : v(i)
+    
+    inline IndexC(IntT i = 0)    
+      : v(i)
     {}
     //: Creates the index with the value 'i'.
-
+    
     inline IndexC(UInt64T s)
      : v((ISizeT) s)
     {}
