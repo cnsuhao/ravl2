@@ -301,7 +301,14 @@ namespace RavlN {
   ComplexC Sqrt(const ComplexC & a);
   //: Returns one of the complex square roots of a complex number
   // The 2nd root is the -ve of the given one
+
+  inline
+  void SetZero(ComplexC &z)
+  { z = 0; }
+  //: Set complex value to zero.
+
 }
+
 
 #endif
 
