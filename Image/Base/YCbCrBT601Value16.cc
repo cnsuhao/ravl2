@@ -5,20 +5,20 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! lib=RavlImage
-//! file="Ravl/Image/Base/YCbCrValue8.cc"
+//! file="Ravl/Image/Base/YCbCrBT601Value8.cc"
 
 #include "Ravl/BinStream.hh"
 #include "Ravl/Image/Image.hh"
-#include "Ravl/Image/YCbCrValue8.hh"
+#include "Ravl/Image/YCbCrBT601Value16.hh"
 #include "Ravl/TypeName.hh"
 
 namespace RavlImageN {
-  static TypeNameC type2(typeid(YCbCrValue8C),"YCbCrValue8C");
+  static TypeNameC type2(typeid(YCbCrBT601Value16C),"YCbCrBT601Value16C");
   
   ////////////////////////////////////////////////////////////
   // Accelerated IO routines...
   
-  BinOStreamC &operator << (BinOStreamC &out,const ImageC<YCbCrValue8C> &img) { 
+  BinOStreamC &operator << (BinOStreamC &out,const ImageC<YCbCrBT601Value16C> &img) { 
     out << img.Rectangle();
     
     IntT width = img.Cols() * 3;
@@ -31,10 +31,10 @@ namespace RavlImageN {
     return out;
   }
   
-  BinIStreamC &operator >> (BinIStreamC &in,ImageC<YCbCrValue8C> &img) { 
+  BinIStreamC &operator >> (BinIStreamC &in,ImageC<YCbCrBT601Value16C> &img) { 
     ImageRectangleC rect;
     in >> rect;
-    img = ImageC<YCbCrValue8C>(rect);
+    img = ImageC<YCbCrBT601Value16C>(rect);
     
     IntT width = img.Cols() * 3;
     IndexC atrow = img.TRow();
@@ -46,13 +46,13 @@ namespace RavlImageN {
     return in;
   }
   
-  BinOStreamC &operator<<(BinOStreamC &out,const YCbCrValue8C &img) {
+  BinOStreamC &operator<<(BinOStreamC &out,const YCbCrBT601Value16C &img) {
     out << img.Y() << img.Cb() << img.Cr();
     return out;
   }
   //: Save pixel to binary stream
   
-  BinIStreamC &operator>>(BinIStreamC &in,YCbCrValue8C &img) {
+  BinIStreamC &operator>>(BinIStreamC &in,YCbCrBT601Value16C &img) {
     in >> img.Y() >> img.Cb() >> img.Cr();
     return in;
   }

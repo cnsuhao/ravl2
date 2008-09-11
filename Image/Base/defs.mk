@@ -27,13 +27,13 @@ HEADERS=ImageRectangle.hh Image.hh \
  DrawLine.hh DrawCircle.hh DrawPolygon.hh  DrawEllipse.hh\
  Deinterlace.hh BilinearInterpolation.hh \
  RealDVSRGBValue.hh RealDVSYUVValue.hh dvsRGBcdvsYUV422.hh \
- YCbCrValue.hh YCbCrValue8.hh YCbCrValue16.hh
+ YCbCrBT601Value.hh YCbCrBT601Value8.hh YCbCrBT601Value16.hh
 
 SOURCES=ImageRectangle.cc Image.cc ByteRGBValue.cc ByteYUVValue.cc RealRGBValue.cc \
  RealYUVValue.cc RGBcYUV.cc Font.cc ImageConv.cc ImageConv2.cc ImageConv3.cc ImageConv4.cc \
- ByteRGBAValue.cc ByteVYUValue.cc ByteYUV422Value.cc ByteYUVAValue.cc \
+ ImageConv5.cc ByteRGBAValue.cc ByteVYUValue.cc ByteYUV422Value.cc ByteYUVAValue.cc \
  RealDVSRGBValue.cc RealDVSYUVValue.cc dvsRGBcdvsYUV422.cc ImgCnvRGB.cc ImgCnvYUV.cc  \
- YCbCrValue8.cc YCbCrValue16.cc
+ YCbCrBT601Value8.cc YCbCrBT601Value16.cc
 
 PLIB=RavlImage
 

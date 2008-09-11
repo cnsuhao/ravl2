@@ -32,7 +32,9 @@ namespace RavlImageN {
   class RealRGBAverageC;
   class UInt16RGBValueC;
   class RealHSVValueC ; 
-
+  class YCbCrBT601Value8C ; 
+  class YCbCrBT601Value16C ; 
+  
   ImageC<ByteRGBValueC> ByteRGBAImageCT2ByteRGBImageCT(const ImageC<ByteRGBAValueC> &dat);
   //: Byte RGBA to Byte RGB image
   
@@ -171,6 +173,16 @@ namespace RavlImageN {
   
   ImageC<bool> ByteImage2BoolImage(const ImageC<ByteT> &dat);
   //: Convert an image of byte's to a bool image.
+  
+  ImageC<ByteT> YCbCrBT601Value8Image2ByteImage(const ImageC<YCbCrBT601Value8C> &dat);
+  //: Convert an YCbCrBT601Value8C to a byte value.
+  
+  ImageC<UInt16T> YCbCrBT601Value16Image2UInt16Image(const ImageC<YCbCrBT601Value16C> &dat);
+  //: Convert an YCbCrBT601Value16C to a UInt16T value.
+  
+  ImageC<YCbCrBT601Value16C> YCbCrBT601Value8Image2YCbCrBT601Value16Image(const ImageC<YCbCrBT601Value16C> &dat);
+  //: Convert an YCbCrBT601Value8C to a YCbCrBT601Value16 value.
+  
   
 };
 

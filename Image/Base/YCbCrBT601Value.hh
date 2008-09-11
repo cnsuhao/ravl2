@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_YCBCRVALUE_HEADER
-#define RAVL_YCBCRVALUE_HEADER
+#ifndef RAVL_YCBCRBT601VALUE_HEADER
+#define RAVL_YCBCRBT601VALUE_HEADER
 ////////////////////////////////////////////////////////////////////
 //! file="Ravl/Image/Base/YCbCrValue.hh"
 //! lib=RavlImage
@@ -25,34 +25,44 @@ namespace RavlImageN {
   using RavlN::TFVectorC;
 #endif
   
+  template<class PixelT> class RGBValueC;
+  template<typename CompT> class YCbCrBT601ValueC;
+  
+  // Convert a pixel type from RGB to YCbCrBT601
+  void YCbCrBT601Float2RGBFloat(const RGBValueC<float> &value,YCbCrBT601ValueC<float> &outValue);
+  
+  // Convert a pixel type from YCbCrBT601 to RGB
+  void RGBFloat2YCbCrBT601Float(const YCbCrBT601ValueC<float> &value,RGBValueC<float> &outValue);
+  
   //! userlevel=Normal
   //: YCbCr Pixel base class.
   // Note CompT must be a signed value, its assumed that in practice it will be either float or double.
+  // http://en.wikipedia.org/wiki/YCbCr
   
   template<typename CompT>
-  class YCbCrValueC 
+  class YCbCrBT601ValueC 
     : public TFVectorC<CompT,3>
   {
   public:
-    YCbCrValueC()
+    YCbCrBT601ValueC()
     {}
     //: Default constructor.
     // Creates an undefined value.
     
-    YCbCrValueC(const CompT &y,const CompT &Cb,const CompT &Cr) {
+    YCbCrBT601ValueC(const CompT &y,const CompT &Cb,const CompT &Cr) {
       this->data[0] = y;
       this->data[1] = Cb;
       this->data[2] = Cr;
     }
     //: Construct from component values.
     
-    YCbCrValueC(const TFVectorC<CompT,3> &v)
+    YCbCrBT601ValueC(const TFVectorC<CompT,3> &v)
       : TFVectorC<CompT,3>(v)
     {}
     //: Constructor from base class.
     
     template<class OCompT>
-    YCbCrValueC(const YCbCrValueC<OCompT> &oth) {
+    YCbCrBT601ValueC(const YCbCrBT601ValueC<OCompT> &oth) {
       this->data[0] = oth.Y();
       this->data[1] = oth.Cb();
       this->data[2] = oth.Cr();
@@ -112,35 +122,35 @@ namespace RavlImageN {
 
   template<class CompT>
   inline
-  istream &operator>>(istream &strm,YCbCrValueC<CompT> &val) 
+  istream &operator>>(istream &strm,YCbCrBT601ValueC<CompT> &val) 
   { return strm >> ((TFVectorC<CompT,3> &)(val)); }
   //: Stream input.
   
   template<class CompT>
   inline
-  ostream &operator<<(ostream &strm,const YCbCrValueC<CompT> &val) 
+  ostream &operator<<(ostream &strm,const YCbCrBT601ValueC<CompT> &val) 
   { return strm << ((const TFVectorC<CompT,3> &)(val)); }
   //: Stream output.
   
   template<class CompT>
   inline
-  BinIStreamC &operator>>(BinIStreamC &strm,YCbCrValueC<CompT> &val) 
+  BinIStreamC &operator>>(BinIStreamC &strm,YCbCrBT601ValueC<CompT> &val) 
   { return strm >> ((TFVectorC<CompT,3> &)(val)); }
   //: Binary stream input.
   
   template<class CompT>
   inline
-  BinOStreamC &operator<<(BinOStreamC &strm,const YCbCrValueC<CompT> &val) 
+  BinOStreamC &operator<<(BinOStreamC &strm,const YCbCrBT601ValueC<CompT> &val) 
   { return strm << ((const TFVectorC<CompT,3> &)(val)); }
   //: Binary stream output
 
   
   template<class CompT>
   inline
-  YCbCrValueC<CompT> Average(const YCbCrValueC<CompT> &d1,const YCbCrValueC<CompT> &d2,
-                             const YCbCrValueC<CompT> &d3,const YCbCrValueC<CompT> &d4) { 
+  YCbCrBT601ValueC<CompT> Average(const YCbCrBT601ValueC<CompT> &d1,const YCbCrBT601ValueC<CompT> &d2,
+                             const YCbCrBT601ValueC<CompT> &d3,const YCbCrBT601ValueC<CompT> &d4) { 
     typedef typename NumericalTraitsC<CompT>::AccumT AccumT;
-    return YCbCrValueC<CompT>(((AccumT) d1.Y() + (AccumT) d2.Y() + (AccumT) d3.Y() + (AccumT) d4.Y())/4,
+    return YCbCrBT601ValueC<CompT>(((AccumT) d1.Y() + (AccumT) d2.Y() + (AccumT) d3.Y() + (AccumT) d4.Y())/4,
                               ((AccumT) d1.Cb() + (AccumT) d2.Cb() + (AccumT) d3.Cb() + (AccumT) d4.Cb())/4,
                               ((AccumT) d1.Cr() + (AccumT) d2.Cr() + (AccumT) d3.Cr() + (AccumT) d4.Cr())/4
                               );
@@ -149,9 +159,9 @@ namespace RavlImageN {
   
   template<class CompT>
   inline
-  YCbCrValueC<CompT> Average(const YCbCrValueC<CompT> &d1,const YCbCrValueC<CompT> &d2) { 
+  YCbCrBT601ValueC<CompT> Average(const YCbCrBT601ValueC<CompT> &d1,const YCbCrBT601ValueC<CompT> &d2) { 
     typedef typename NumericalTraitsC<CompT>::AccumT AccumT;
-    return YCbCrValueC<CompT>(((AccumT) d1.Y() + (AccumT) d2.Y())/2,
+    return YCbCrBT601ValueC<CompT>(((AccumT) d1.Y() + (AccumT) d2.Y())/2,
                               ((AccumT) d1.Cb() + (AccumT) d2.Cb())/2,
                               ((AccumT) d1.Cr() + (AccumT) d2.Cr())/2
                               );
@@ -168,10 +178,10 @@ namespace RavlN {
   //: Traits for type
   
   template<typename PixelT>
-  struct NumericalTraitsC<RavlImageN::YCbCrValueC<PixelT> > {
-    typedef RavlImageN::YCbCrValueC<typename NumericalTraitsC<PixelT>::AccumT > AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
-    typedef RavlImageN::YCbCrValueC<typename NumericalTraitsC<PixelT>::RealAccumT > RealAccumT; //: Type to use for a floating point accumulator.
-    typedef RavlImageN::YCbCrValueC<typename NumericalTraitsC<PixelT>::LongAccumT > LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
+  struct NumericalTraitsC<RavlImageN::YCbCrBT601ValueC<PixelT> > {
+    typedef RavlImageN::YCbCrBT601ValueC<typename NumericalTraitsC<PixelT>::AccumT > AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
+    typedef RavlImageN::YCbCrBT601ValueC<typename NumericalTraitsC<PixelT>::RealAccumT > RealAccumT; //: Type to use for a floating point accumulator.
+    typedef RavlImageN::YCbCrBT601ValueC<typename NumericalTraitsC<PixelT>::LongAccumT > LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
   };
 }
 
