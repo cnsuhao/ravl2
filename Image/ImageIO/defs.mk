@@ -19,7 +19,7 @@ SOURCES = ImgIOPNM.cc PNMFormat.cc ImgIOInt.cc ImgIOByte.cc \
  ImgIOByteYUVA.cc ImgIOFloat.cc \
  ImgIOYCbCrBT601Value8.cc ImgIOYCbCrBT601Value16.cc ImgIOYCbCrBT601ValueFloat.cc \
  ImgTypeCnv.cc ImgTypeCnv2.cc ImgTypeCnv3.cc ImgTypeCnv4.cc \
- ImgIOByteYUV422.cc ImgIOByteVYU.cc ImgTypeCnv5.cc 
+ ImgIOByteYUV422.cc ImgIOByteVYU.cc ImgTypeCnv5.cc ImgTypeCnv6.cc 
 
 # ImgIOPixel.cc  PixelIO.cc 
 

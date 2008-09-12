@@ -43,10 +43,10 @@ namespace RavlImageN {
     {}
     //: Construct from components.
     
-    RealRGBValueC(const RGBValueC<RealT> &oth)
+    RealRGBValueC(const RGBValueC<float> &oth)
       : RGBValueC<RealT>(oth)
     {}
-    //: Base class constructor.
+    //: Construct from float values.
     
     RealRGBValueC(const RGBValueC<ByteT> &oth)
       : RGBValueC<RealT>(oth.Red(),oth.Green(),oth.Blue())

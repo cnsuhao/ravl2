@@ -32,6 +32,8 @@ namespace RavlImageN {
   class RealRGBAverageC;
   class UInt16RGBValueC;
   class RealHSVValueC ; 
+  template<typename CompT> class RGBValueC; 
+  template<typename CompT> class YCbCrBT601ValueC; 
   class YCbCrBT601Value8C ; 
   class YCbCrBT601Value16C ; 
   
@@ -182,6 +184,18 @@ namespace RavlImageN {
   
   ImageC<YCbCrBT601Value16C> YCbCrBT601Value8Image2YCbCrBT601Value16Image(const ImageC<YCbCrBT601Value16C> &dat);
   //: Convert an YCbCrBT601Value8C to a YCbCrBT601Value16 value.
+  
+  ImageC<RGBValueC<float> > YCbCrBT601ValueFloatImage2ImageRGBValueFloat(const ImageC<YCbCrBT601ValueC<float> > &dat);
+  //: Convert YCbCrBT601 to RGB in floating point format.
+  
+  ImageC<YCbCrBT601ValueC<float> > ImageRGBValueFloat2YCbCrBT601ValueFloatImage(const ImageC<RGBValueC<float> > &dat);
+  //: Convert RGB to YCbCrBT601 in floating point format.
+  
+  ImageC<RGBValueC<float> > RealRGBImageCT2RGBImageCFloat(const ImageC<RealRGBValueC> & dat );
+  //: Convert between real and float RGB values.
+  
+  ImageC<RealRGBValueC> RGBImageCFloat2RealRGBImageCT(const ImageC<RGBValueC<float> > & dat );
+  //: Convert between float and real RGB values.
   
   
 };

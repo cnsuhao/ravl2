@@ -9,6 +9,8 @@
 
 #include "Ravl/Image/YCbCrBT601Value8.hh"
 #include "Ravl/Image/YCbCrBT601Value16.hh"
+#include "Ravl/Image/RGBValue.hh"
+#include "Ravl/Image/RealRGBValue.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Image/Image.hh"
 
@@ -40,6 +42,38 @@ namespace RavlImageN {
       it.Data1() = it.Data2();
     return ret;
   }
-
+  
+  
+  //: Convert YCbCrBT601 to RGB in floating point format.
+  
+  ImageC<RGBValueC<float> > YCbCrBT601ValueFloatImage2ImageRGBValueFloat(const ImageC<YCbCrBT601ValueC<float> > &dat) {
+    ImageC<RGBValueC<float> > ret(dat.Rectangle());
+    for(Array2dIter2C<RGBValueC<float>,YCbCrBT601ValueC<float> > it(ret,dat);it;it++) 
+      YCbCrBT601Float2RGBFloat(it.Data1(),it.Data2());
+    return ret;
+  }
+  
+  //: Convert RGB to YCbCrBT601 in floating point format.
+  
+  ImageC<YCbCrBT601ValueC<float> > ImageRGBValueFloat2YCbCrBT601ValueFloatImage(const ImageC<RGBValueC<float> > &dat) {
+    ImageC<YCbCrBT601ValueC<float> > ret(dat.Rectangle());
+    for(Array2dIter2C<YCbCrBT601ValueC<float>,RGBValueC<float> > it(ret,dat);it;it++)
+      RGBFloat2YCbCrBT601Float(it.Data1(),it.Data2());
+    return ret;
+  }
+  
+  ImageC<RGBValueC<float> > RealRGBImageCT2RGBImageCFloat(const ImageC<RealRGBValueC> & dat ) {
+    ImageC<RGBValueC<float> > ret(dat.Rectangle());
+    for(Array2dIter2C<RGBValueC<float>,RealRGBValueC > it(ret,dat);it;it++) 
+      it.Data1() = it.Data2();
+    return ret ;
+  }
+  
+  ImageC<RealRGBValueC> RGBImageCFloat2RealRGBImageCT(const ImageC<RGBValueC<float> > & dat ) {
+    ImageC<RealRGBValueC> ret(dat.Rectangle());
+    for(Array2dIter2C<RealRGBValueC,RGBValueC<float> > it(ret,dat);it;it++) 
+      it.Data1() = it.Data2();
+    return ret ;
+  }
   
 }

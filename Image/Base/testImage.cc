@@ -28,6 +28,7 @@
 #include "Ravl/Image/ByteYUVValue.hh"
 #include "Ravl/Image/BilinearInterpolation.hh"
 #include "Ravl/Image/ImageConv.hh"
+#include "Ravl/Image/YCbCrBT601Value.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/IO.hh"
 
@@ -43,6 +44,7 @@ int TestBilinear();
 int TestRotate();
 int TestRGB2YUV();
 int TestRound();
+int TestYCbCrBT601();
 
 template class ImageC<int>; // Make sure all functions are compiled.
 
@@ -90,7 +92,11 @@ int main()
   }
   if((lineno = TestRound()) != 0) {
     cerr << "Image test failed : " << lineno << "\n";
-     return 1;
+    return 1;
+  }
+  if((lineno = TestYCbCrBT601()) != 0) {
+    cerr << "Image test failed : " << lineno << "\n";
+    return 1;    
   }
   cerr << "Test passed. \n";
   return 0;
@@ -462,5 +468,29 @@ int TestRound() {
            << ", out: " << (int)i.Data2() << endl;
       return __LINE__;
     } 
+  return 0;
+}
+
+int TestYCbCrBT601() {
+  
+  RGBValueC<float> rgbValues[] = { RGBValueC<float>(1,0,0),
+                                   RGBValueC<float>(0,1,0),
+                                   RGBValueC<float>(0,0,1),
+                                   RGBValueC<float>(1,1,1),
+                                   RGBValueC<float>(0,1,1),
+                                   RGBValueC<float>(1,0,1),
+                                   RGBValueC<float>(1,1,0)
+  };
+  
+  for(int i = 0;i < 7;i++) {
+    const RGBValueC<float> &rgbValue1 = rgbValues[i];
+    RGBValueC<float> rgbValue2;
+    YCbCrBT601ValueC<float> yCbCr;
+    
+    YCbCrBT601Float2RGBFloat(rgbValue1,yCbCr);
+    RGBFloat2YCbCrBT601Float(yCbCr,rgbValue2);
+    //    cerr << "RGB2=" << rgbValue2 << " yCbCr=" << yCbCr << "\n";
+    if((rgbValue1-rgbValue2).SumOfAbs() > 0.000001) return __LINE__;
+  }
   return 0;
 }

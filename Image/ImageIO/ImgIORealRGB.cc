@@ -13,10 +13,10 @@
 #include "Ravl/DP/FileFormatStream.hh"
 #include "Ravl/DP/FileFormatBinStream.hh"
 #include "Ravl/Image/Image.hh"
+#include "Ravl/Image/ImageConv.hh"
 #include "Ravl/Image/RealRGBValue.hh"
 #include "Ravl/TypeName.hh"
-//#include "Ravl/DP/Converter.hh"
-//#include "Ravl/Array2dIter2.hh"
+#include "Ravl/DP/Converter.hh"
 
 namespace RavlImageN {
   
@@ -24,7 +24,20 @@ namespace RavlImageN {
   {}
   
   static TypeNameC type1(typeid(ImageC<RealRGBValueC>),"ImageC<RealRGBValueC>");  
+  static TypeNameC type2(typeid(ImageC<RGBValueC<float> >),"RavlImageN::ImageC<RGBValueC<float> >");  
   
   FileFormatStreamC<ImageC<RealRGBValueC> > FileFormatStream_ImageC_RealRGBValueC;
   FileFormatBinStreamC<ImageC<RealRGBValueC> > FileFormatBinStream_ImageC_RealRGBValueC;
+  
+  FileFormatStreamC<ImageC<RGBValueC<float> > > FileFormatStream_ImageC_RGBValueC_float;
+  FileFormatBinStreamC<ImageC<RGBValueC<float> > > FileFormatBinStream_ImageC_RGBValueC_float;
+  
+  // Some conversions.
+  
+  DP_REGISTER_CONVERSION_NAMED(RealRGBImageCT2RGBImageCFloat,0.5,
+			       "RavlImageN::ImageC<RavlImageN::RGBValueC<float> > RealRGBImageCT2RGBImageCFloat(const RavlImageN::ImageC<RavlImageN::RealRGBValueC> &)");
+
+  DP_REGISTER_CONVERSION_NAMED(RGBImageCFloat2RealRGBImageCT,1.0,
+			       "RavlImageN::ImageC<RavlImageN::RealRGBValueC> RGBImageCFloat2RealRGBImageCT(const RavlImageN::ImageC<RavlImageN::RGBValueC<float> > & dat )");
+  
 }

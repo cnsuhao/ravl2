@@ -33,7 +33,7 @@ SOURCES=ImageRectangle.cc Image.cc ByteRGBValue.cc ByteYUVValue.cc RealRGBValue.
  RealYUVValue.cc RGBcYUV.cc Font.cc ImageConv.cc ImageConv2.cc ImageConv3.cc ImageConv4.cc \
  ImageConv5.cc ByteRGBAValue.cc ByteVYUValue.cc ByteYUV422Value.cc ByteYUVAValue.cc \
  RealDVSRGBValue.cc RealDVSYUVValue.cc dvsRGBcdvsYUV422.cc ImgCnvRGB.cc ImgCnvYUV.cc  \
- YCbCrBT601Value8.cc YCbCrBT601Value16.cc
+ YCbCrBT601Value8.cc YCbCrBT601Value16.cc YCbCrBT601Value.cc
 
 PLIB=RavlImage
 
