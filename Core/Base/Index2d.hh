@@ -290,6 +290,13 @@ namespace RavlN {
     default:            return 0;
     }
   }
+
+  inline
+  void SetZero(Index2dC &p)
+  { p[0] = 0; p[1] = 0; }
+  //: Set 2D index to (0,0).
+
+ 
   
 }
 #endif

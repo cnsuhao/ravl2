@@ -228,6 +228,8 @@ int testIndex2d()
     Index2dC pxx = start;
     pxx = pxx.Step(NEIGH_UP_LEFT);
     if(pxx != (start + Index2dC(-1, -1))) return __LINE__;
+    SetZero(pxx);
+    if(pxx != Index2dC(0,0)) return __LINE__;
   }
   return 0;
 }
