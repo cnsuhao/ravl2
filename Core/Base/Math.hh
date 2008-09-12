@@ -249,7 +249,16 @@ namespace RavlN {
   { return MaxComponent(a) > MaxComponent(b) ? a : b; }
   //: Returns the argument which has the largest component from 'a' and 'b'.
   // In a manner suitable for scaling operations.  
-
+  
+  template<class DataT>
+  inline DataT ClipRange(const DataT &val,const DataT &min,const DataT &max) { 
+    RavlAssert(max >= min);
+    if(val < min) return min;
+    if(val > max) return max;
+    return val;
+  }
+  //: Limit range of values to between min and max.
+  
 }
 
 
