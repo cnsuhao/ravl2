@@ -91,6 +91,14 @@ namespace RavlGUIN {
       mv.GUIDrawLine(dc, Point2dC(centre + ver1),Point2dC(centre + ver2));
       mv.GUIDrawLine(dc, Point2dC(centre - ver1),Point2dC(centre - ver2));
     } break;
+    case MP2DS_DiagonalCross: {
+      RealT size = 7;
+      Vector2dC p1(size,size);
+      Vector2dC p2(size,-size);
+      
+      mv.GUIDrawLine(dc, Point2dC(centre + p1),Point2dC(centre - p1));
+      mv.GUIDrawLine(dc, Point2dC(centre + p2),Point2dC(centre - p2));
+    }
     }
       
 

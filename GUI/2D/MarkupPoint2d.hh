@@ -18,7 +18,8 @@ namespace RavlGUIN {
 
   enum MarkupPoint2dStyleT
     { MP2DS_Eye,
-      MP2DS_CrossHair };
+      MP2DS_CrossHair,
+      MP2DS_DiagonalCross };
 
   class MarkupPoint2dC;
   

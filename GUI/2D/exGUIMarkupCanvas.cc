@@ -139,7 +139,7 @@ int main(int nargs,char **argv) {
 
   // Create markup eye point
   Point2dC point(50,100);
-  MarkupPoint2dC pointMarkup(3,ZO_Polygon,point);
+  MarkupPoint2dC pointMarkup(3,ZO_Polygon,point,MP2DS_DiagonalCross);
   pointMarkup.PushLayer(LI_DottedPolygons);
   fm.Markup().InsLast(pointMarkup);
   
