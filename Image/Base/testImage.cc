@@ -29,6 +29,8 @@
 #include "Ravl/Image/BilinearInterpolation.hh"
 #include "Ravl/Image/ImageConv.hh"
 #include "Ravl/Image/YCbCrBT601Value.hh"
+#include "Ravl/Image/YCbCrBT601Value8.hh"
+#include "Ravl/Image/YCbCrBT601Value16.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/IO.hh"
 
@@ -473,24 +475,69 @@ int TestRound() {
 
 int TestYCbCrBT601() {
   
-  RGBValueC<float> rgbValues[] = { RGBValueC<float>(1,0,0),
-                                   RGBValueC<float>(0,1,0),
-                                   RGBValueC<float>(0,0,1),
-                                   RGBValueC<float>(1,1,1),
-                                   RGBValueC<float>(0,1,1),
-                                   RGBValueC<float>(1,0,1),
-                                   RGBValueC<float>(1,1,0)
+  static RGBValueC<float> rgbValues[] = { RGBValueC<float>(0.9,0,0),
+                                          RGBValueC<float>(0,0.9,0),
+                                          RGBValueC<float>(0,0,0.9),
+                                          RGBValueC<float>(0.9,0.9,0.9),
+                                          RGBValueC<float>(0,0.9,0.9),
+                                          RGBValueC<float>(0.9,0,0.9),
+                                          RGBValueC<float>(0.9,0.9,0),
+                                          RGBValueC<float>(0.5,0.5,0.5),
+                                          RGBValueC<float>(0.2,0.5,0.8),
+                                          RGBValueC<float>(0.8,0.5,0.2),
+                                          RGBValueC<float>(0.5,0.8,0.2),
+                                          RGBValueC<float>(0.2,0.8,0.5)
   };
   
-  for(int i = 0;i < 7;i++) {
+  for(int i = 0;i < 9;i++) {
     const RGBValueC<float> &rgbValue1 = rgbValues[i];
     RGBValueC<float> rgbValue2;
     YCbCrBT601ValueC<float> yCbCr;
     
+    // Convert Floating RGB -> yCbCr
     YCbCrBT601Float2RGBFloat(rgbValue1,yCbCr);
+
+    // Convert Floating yCbCr -> RGB
     RGBFloat2YCbCrBT601Float(yCbCr,rgbValue2);
-    //    cerr << "RGB2=" << rgbValue2 << " yCbCr=" << yCbCr << "\n";
+    cerr << "FF RGB=" << rgbValue1 << " yCbCr=" << yCbCr << "\n";
     if((rgbValue1-rgbValue2).SumOfAbs() > 0.000001) return __LINE__;
+    
+    // Convert yCbCr float to byte.
+    YCbCrBT601Value8C ycbcr8(yCbCr);
+    
+    // Convert byte to float.
+    YCbCrBT601ValueC<float> yCbCr2 = ycbcr8.FloatYCbCr();
+    
+    // Check we can go between 8 bit and float ok ?
+    cerr << "BF yCbCr8=" << ycbcr8 << " yCbCr2=" << yCbCr2 << " Diff=" <<(yCbCr2 - yCbCr).SumOfAbs() << "\n";
+    if((yCbCr2 - yCbCr).SumOfAbs() > 0.01) return __LINE__;
+    
+    //YCbCrBT601Value16C ycbcr16(ycbcr8);
+    //RGBValueC<float> rgbValue3(ycbcr16);
+    
+    // Check we can convert to float rgb from byte YCbCr
+    RGBValueC<float> rgbValue3(ycbcr8.FloatRGB());
+    cerr << "FB RGB1=" << rgbValue1 << " ycbcr8=" << ycbcr8 << " RGB=" << rgbValue3<< " Diff=" << (rgbValue1-rgbValue3).SumOfAbs() << "\n";
+    //" ycbcr16=" << ycbcr16 << 
+    if((rgbValue1-rgbValue3).SumOfAbs() > 0.016) return __LINE__;
+    
+    // Test conversion to byte rgb.
+    
+    ByteRGBValueC byteRGB(ClipRange(rgbValue1[0]*256.0,0.0,255.0),
+                          ClipRange(rgbValue1[1]*256.0,0.0,255.0),
+                          ClipRange(rgbValue1[2]*256.0,0.0,255.0));
+    
+    YCbCrBT601Value8C byteYCbCr(byteRGB);
+    
+    ByteRGBValueC rgb8fromYCbCr8 = byteYCbCr.ByteRGB();
+    
+    int diff =
+      Abs((int) byteRGB[0] - (int) rgb8fromYCbCr8[0]) +
+      Abs((int) byteRGB[1] - (int) rgb8fromYCbCr8[1]) +
+      Abs((int) byteRGB[2] - (int) rgb8fromYCbCr8[2]);
+    cerr << "BB byteRGB=" << byteRGB << " YCbCr=" << byteYCbCr << " rgb8fromYCbCr8=" << rgb8fromYCbCr8 << " diff=" << diff <<"\n";
+    if(diff > 8) return __LINE__;
+    
   }
   return 0;
 }

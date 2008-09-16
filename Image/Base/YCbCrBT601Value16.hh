@@ -21,9 +21,16 @@ namespace RavlImageN {
 #if RAVL_VISUALCPP_NAMESPACE_BUG
   using namespace RavlN;
 #endif
+  class ByteRGBValueC;
   
   //! userlevel=Normal
   //: Byte YCbCr value class.
+  // See http://en.wikipedia.org/wiki/YCbCr for details.
+  
+  // Note: this class's relationship with 8 bit values is special, when 
+  // converting to 16 bit values the most significant bits are used. 
+  // (Or equvialently the values are divided by 256).
+  
   
   class YCbCrBT601Value16C
     : public YCbCrBT601ValueC<UInt16T>
@@ -37,13 +44,35 @@ namespace RavlImageN {
     YCbCrBT601Value16C(UInt16T y,UInt16T b,UInt16T r)
       : YCbCrBT601ValueC<UInt16T>(y,b,r)
     {}
-    //: Construct from components.
+    //: Construct from 16 bit components.
     
-    template<class OCompT>
-    YCbCrBT601Value16C(const YCbCrBT601ValueC<OCompT> &oth) 
-      : YCbCrBT601ValueC<UInt16T>(oth)
+    YCbCrBT601Value16C(UInt8T y,UInt8T b,UInt8T r)
+      : YCbCrBT601ValueC<UInt16T>(y<<8,b<<8,r<<8)
     {}
-    //: Construct from another component type.
+    //: Construct from 8 bit components.
+    
+    YCbCrBT601Value16C(const YCbCrBT601ValueC<UInt8T> &oth)
+      : YCbCrBT601ValueC<UInt16T>(oth[0]<<8,oth[1]<<8,oth[2]<<8)
+    {}
+    //: Convert from 8 bit values.
+    
+    YCbCrBT601Value16C(const YCbCrBT601ValueC<float> &oth)
+      : YCbCrBT601ValueC<UInt16T>(ClipRange( 16*256.0 + oth[0]*65535.0,0.0,65535.0),
+                                  ClipRange(128*256.0 + oth[1]*65535.0,0.0,65535.0),
+                                  ClipRange(128*256.0 + oth[2]*65535.0,0.0,65535.0))
+    {}
+    //: Convert from floating point values.
+    
+    operator YCbCrBT601ValueC<float>() const
+    { return YCbCrBT601ValueC<float>((data[0] - 256.0* 16.0)/65535.0,
+                                     (data[1] - 256.0*128.0)/65535.0,
+                                     (data[2] - 256.0*128.0)/65535.0 
+                                     ); }
+    //: Convert to floating point values.
+    
+    operator YCbCrBT601ValueC<UInt8T>() const
+    { return YCbCrBT601ValueC<UInt8T>((UInt16T) data[0]>>8,(UInt16T) data[1]>>8,(UInt16T) data[2]>>8); }
+    //: Convert to 16 bit.
     
   };
   

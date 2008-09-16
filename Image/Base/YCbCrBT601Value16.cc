@@ -13,7 +13,9 @@
 #include "Ravl/TypeName.hh"
 
 namespace RavlImageN {
-  static TypeNameC type2(typeid(YCbCrBT601Value16C),"YCbCrBT601Value16C");
+  static TypeNameC type2(typeid(YCbCrBT601Value16C),"RavlImageN::YCbCrBT601Value16C");
+
+  
   
   ////////////////////////////////////////////////////////////
   // Accelerated IO routines...
