@@ -12,6 +12,7 @@
 #include "Ravl/Image/ByteYCbCr422BT601Value.hh"
 #include "Ravl/Image/UInt16YCbCr422BT601Value.hh"
 #include "Ravl/Image/RGBValue.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Image/RealRGBValue.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Image/Image.hh"
@@ -77,5 +78,24 @@ namespace RavlImageN {
       it.Data1() = it.Data2();
     return ret ;
   }
+
+  //: Convert YCbCrBT601 to RGB in byte point format.
+  
+  ImageC<ByteRGBValueC> ByteYCbCrBT601ValueImage2ByteRGBImage(const ImageC<ByteYCbCrBT601ValueC> &dat) {
+    ImageC<ByteRGBValueC> ret(dat.Rectangle());
+    for(Array2dIter2C<ByteRGBValueC,ByteYCbCrBT601ValueC > it(ret,dat);it;it++) 
+      it.Data1() = it.Data2().ByteRGB();
+    return ret ;
+  }
+  
+  //: Convert byte RGB to YCbCrBT601.
+
+  ImageC<ByteYCbCrBT601ValueC > ByteRGBImage2ByteYCbCrBT601ValueImage(const ImageC<ByteRGBValueC> &dat) {
+    ImageC<ByteYCbCrBT601ValueC> ret(dat.Rectangle());
+    for(Array2dIter2C<ByteYCbCrBT601ValueC,ByteRGBValueC> it(ret,dat);it;it++) 
+      it.Data1() = ByteYCbCrBT601ValueC(it.Data2());
+    return ret ;
+  }
+
   
 }

@@ -177,17 +177,23 @@ namespace RavlImageN {
   ImageC<bool> ByteImage2BoolImage(const ImageC<ByteT> &dat);
   //: Convert an image of byte's to a bool image.
   
-  ImageC<ByteT> YCbCrBT601Value8Image2ByteImage(const ImageC<ByteYCbCrBT601ValueC> &dat);
+  ImageC<ByteT> ByteYCbCrBT601ValueImage2ByteImage(const ImageC<ByteYCbCrBT601ValueC> &dat);
   //: Convert an ByteYCbCrBT601ValueC to a byte value.
   
   ImageC<UInt16T> UInt16YCbCrBT601ValueImage2UInt16Image(const ImageC<UInt16YCbCrBT601ValueC> &dat);
   //: Convert an UInt16YCbCrBT601ValueC to a UInt16T value.
   
-  ImageC<UInt16YCbCrBT601ValueC> YCbCrBT601Value8Image2UInt16YCbCrBT601ValueImage(const ImageC<UInt16YCbCrBT601ValueC> &dat);
+  ImageC<UInt16YCbCrBT601ValueC> ByteYCbCrBT601ValueImage2UInt16YCbCrBT601ValueImage(const ImageC<UInt16YCbCrBT601ValueC> &dat);
   //: Convert an ByteYCbCrBT601ValueC to a UInt16YCbCrBT601Value value.
   
   ImageC<RGBValueC<float> > YCbCrBT601ValueFloatImage2ImageRGBValueFloat(const ImageC<YCbCrBT601ValueC<float> > &dat);
   //: Convert YCbCrBT601 to RGB in floating point format.
+  
+  ImageC<ByteRGBValueC> ByteYCbCrBT601ValueImage2ByteRGBImage(const ImageC<ByteYCbCrBT601ValueC > &dat);
+  //: Convert YCbCrBT601 to byte RGB.
+  
+  ImageC<ByteYCbCrBT601ValueC > ByteRGBImage2ByteYCbCrBT601ValueImage(const ImageC<ByteRGBValueC>  &dat);
+  //: Convert byte RGB to YCbCrBT601.
   
   ImageC<YCbCrBT601ValueC<float> > ImageRGBValueFloat2YCbCrBT601ValueFloatImage(const ImageC<RGBValueC<float> > &dat);
   //: Convert RGB to YCbCrBT601 in floating point format.

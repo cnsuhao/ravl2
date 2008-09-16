@@ -15,7 +15,10 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Types.hh"
 #include "Ravl/Image/RGBValue.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Image/YCbCrBT601Value.hh"
+#include "Ravl/Image/ByteYCbCrBT601Value.hh"
+#include "Ravl/Image/UInt16YCbCrBT601Value.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/Array2dIter2.hh"
 
@@ -24,11 +27,23 @@ namespace RavlImageN
   void InitStdImageCnv6()
   {}
   
+  DP_REGISTER_CONVERSION_NAMED(ByteYCbCrBT601ValueImage2UInt16YCbCrBT601ValueImage,1,
+                               "ImageC<UInt16YCbCrBT601ValueC> RavlImageN::Convert(const ImageC<ByteYCbCrBT601ValueC> &)");
+  
+  //DP_REGISTER_CONVERSION_NAMED(UInt16YCbCrBT601ValueImage2ByteYCbCrBT601ValueImage,2,
+  //"ImageC<ByteYCbCrBT601ValueC> RavlImageN::Convert(const ImageC<UInt16YCbCrBT601ValueC> &dat)");
+  
   DP_REGISTER_CONVERSION_NAMED(YCbCrBT601ValueFloatImage2ImageRGBValueFloat,1,
-			       "RavlImageN::ImageC<RavlImageN::RGBValueC<float> > RavlImageN::YCbCrBT601ValueFloatImage2ImageRGBValueFloat(const RavlImageN::ImageC<RavlImageN::YCbCrBT601ValueC<float> > &)");
+                               "RavlImageN::ImageC<RavlImageN::RGBValueC<float> > RavlImageN::Convert(const RavlImageN::ImageC<RavlImageN::YCbCrBT601ValueC<float>> &)");
 
   DP_REGISTER_CONVERSION_NAMED(ImageRGBValueFloat2YCbCrBT601ValueFloatImage,1,
-			       "RavlImageN::ImageC<YCbCrBT601ValueC<float> > RavlImageN::ImageRGBValueFloat2YCbCrBT601ValueFloatImage(const RavlImageN::ImageC<RavlImageN::RGBValueC<float> > &dat)");
+                               "RavlImageN::ImageC<YCbCrBT601ValueC<float> > RavlImageN::Convert(const RavlImageN::ImageC<RavlImageN::RGBValueC<float>> &dat)");
   
+  
+  DP_REGISTER_CONVERSION_NAMED(ByteYCbCrBT601ValueImage2ByteRGBImage,1.1,
+                               "RavlImageN::ImageC<RavlImageN::ByteRGBValueC> RavlImageN::Convert(const RavlImageN::ImageC<RavlImageN::ByteYCbCrBT601ValueC> &)");
+  
+  DP_REGISTER_CONVERSION_NAMED(ByteRGBImage2ByteYCbCrBT601ValueImage,1.1,
+                               "RavlImageN::ImageC<RavlImageN::ByteYCbCrBT601ValueC> RavlImageN::Convert(const RavlImageN::ImageC<RavlImageN::ByteRGBValueC> &)");
   
 }

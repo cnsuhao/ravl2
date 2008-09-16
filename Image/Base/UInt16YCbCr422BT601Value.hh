@@ -39,12 +39,12 @@ namespace RavlImageN {
     {}
     //: Construct from components.
     
-    template<class OCompT>
-    UInt16YCbCr422BT601ValueC(YCbCr422BT601ValueC<OCompT> &oth) {
-      this->data[0] = oth.Cbr();
-      this->data[1] = oth.Y();
+    UInt16YCbCr422BT601ValueC(const YCbCr422BT601ValueC<UInt8T> &oth) {
+      this->data[0] = oth.Cbr() << 8;
+      this->data[1] = oth.Y() << 8;
     }
-    //: Construct from another component type.
+    //: Construct from byte component type.
+    
   };
   
   inline

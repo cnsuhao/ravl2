@@ -26,7 +26,7 @@ namespace RavlImageN {
   static TypeNameC type3(typeid(ImageC<YCbCrBT601ValueC<float> >),"RavlImageN::ImageC<YCbCrBT601ValueC<float>>");
   
   FileFormatStreamC<ImageC<YCbCrBT601ValueC<float> > > FileFormatStream_ImageC_YCbCrBT601ValueC_float;
-  FileFormatBinStreamC<ImageC<YCbCrBT601ValueC<float> > > FileFormatBinStream_ImageC_YCbCrBT601Value8C_float;
+  FileFormatBinStreamC<ImageC<YCbCrBT601ValueC<float> > > FileFormatBinStream_ImageC_YCbCrBT601ValueC_float;
   
 }
 

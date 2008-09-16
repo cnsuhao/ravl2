@@ -20,7 +20,7 @@
 
 namespace RavlImageN {
   
-  void InitImgIOYCbCrBT601Value8() {
+  void InitImgIOByteYCbCrBT601Value() {
   }
   
   static TypeNameC type3(typeid(ImageC<ByteYCbCrBT601ValueC>),"RavlImageN::ImageC<ByteYCbCrBT601ValueC>");
