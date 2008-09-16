@@ -10,12 +10,12 @@
 
 #include "Ravl/BinStream.hh"
 #include "Ravl/Image/Image.hh"
-#include "Ravl/Image/ByteYCbCr422BT601Value.hh"
+#include "Ravl/Image/UInt16YCbCr422BT601Value.hh"
 #include "Ravl/TypeName.hh"
 
 namespace RavlImageN {
   
-  BinOStreamC &operator << (BinOStreamC &out,const ImageC<ByteYCbCr422BT601ValueC> &img)
+  BinOStreamC &operator << (BinOStreamC &out,const ImageC<UInt16YCbCr422BT601ValueC> &img)
   { 
     out << img.Rectangle();
     
@@ -28,11 +28,11 @@ namespace RavlImageN {
     return out;
   }
   
-  BinIStreamC &operator >> (BinIStreamC &in,ImageC<ByteYCbCr422BT601ValueC> &img)
+  BinIStreamC &operator >> (BinIStreamC &in,ImageC<UInt16YCbCr422BT601ValueC> &img)
   { 
     ImageRectangleC rect;
     in >> rect;
-    img = ImageC<ByteYCbCr422BT601ValueC>(rect);
+    img = ImageC<UInt16YCbCr422BT601ValueC>(rect);
     
     IntT width = img.Cols() * 2;
     IndexC atrow = img.TRow();
