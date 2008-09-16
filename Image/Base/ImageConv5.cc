@@ -21,7 +21,7 @@ namespace RavlImageN {
   
   //: Convert an ByteYCbCrBT601ValueC to a byte value.
   
-  ImageC<ByteT> YCbCrBT601Value8Image2ByteImage(const ImageC<ByteYCbCrBT601ValueC> &dat) {
+  ImageC<ByteT> ByteYCbCrBT601ValueImage2ByteImage(const ImageC<ByteYCbCrBT601ValueC> &dat) {
     ImageC<ByteT> ret(dat.Rectangle()); 
     for(Array2dIter2C<ByteT,ByteYCbCrBT601ValueC> it(ret,dat);it;it++) 
       it.Data1() = it.Data2().Y();
@@ -39,7 +39,7 @@ namespace RavlImageN {
   
   //: Convert an ByteYCbCrBT601ValueC to a UInt16YCbCrBT601ValueC value.
   
-  ImageC<UInt16YCbCrBT601ValueC> YCbCrBT601Value8Image2UInt16YCbCrBT601ValueImage(const ImageC<ByteYCbCrBT601ValueC> &dat) {
+  ImageC<UInt16YCbCrBT601ValueC> ByteYCbCrBT601ValueImage2UInt16YCbCrBT601ValueImage(const ImageC<ByteYCbCrBT601ValueC> &dat) {
     ImageC<UInt16YCbCrBT601ValueC> ret(dat.Rectangle()); 
     for(Array2dIter2C<UInt16YCbCrBT601ValueC,ByteYCbCrBT601ValueC> it(ret,dat);it;it++) 
       it.Data1() = it.Data2();

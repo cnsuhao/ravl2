@@ -182,8 +182,8 @@ namespace RavlImageN {
   
   ImageC<UInt16T> UInt16YCbCrBT601ValueImage2UInt16Image(const ImageC<UInt16YCbCrBT601ValueC> &dat);
   //: Convert an UInt16YCbCrBT601ValueC to a UInt16T value.
-  
-  ImageC<UInt16YCbCrBT601ValueC> ByteYCbCrBT601ValueImage2UInt16YCbCrBT601ValueImage(const ImageC<UInt16YCbCrBT601ValueC> &dat);
+    
+  ImageC<UInt16YCbCrBT601ValueC> ByteYCbCrBT601ValueImage2UInt16YCbCrBT601ValueImage(const ImageC<ByteYCbCrBT601ValueC> &dat);
   //: Convert an ByteYCbCrBT601ValueC to a UInt16YCbCrBT601Value value.
   
   ImageC<RGBValueC<float> > YCbCrBT601ValueFloatImage2ImageRGBValueFloat(const ImageC<YCbCrBT601ValueC<float> > &dat);
