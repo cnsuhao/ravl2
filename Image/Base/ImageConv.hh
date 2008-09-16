@@ -34,8 +34,9 @@ namespace RavlImageN {
   class RealHSVValueC ; 
   template<typename CompT> class RGBValueC; 
   template<typename CompT> class YCbCrBT601ValueC; 
-  class YCbCrBT601Value8C ; 
-  class YCbCrBT601Value16C ; 
+  template<typename CompT> class YCbCr422BT601ValueC; 
+  class ByteYCbCrBT601ValueC ; 
+  class UInt16YCbCrBT601ValueC ; 
   
   ImageC<ByteRGBValueC> ByteRGBAImageCT2ByteRGBImageCT(const ImageC<ByteRGBAValueC> &dat);
   //: Byte RGBA to Byte RGB image
@@ -176,14 +177,14 @@ namespace RavlImageN {
   ImageC<bool> ByteImage2BoolImage(const ImageC<ByteT> &dat);
   //: Convert an image of byte's to a bool image.
   
-  ImageC<ByteT> YCbCrBT601Value8Image2ByteImage(const ImageC<YCbCrBT601Value8C> &dat);
-  //: Convert an YCbCrBT601Value8C to a byte value.
+  ImageC<ByteT> YCbCrBT601Value8Image2ByteImage(const ImageC<ByteYCbCrBT601ValueC> &dat);
+  //: Convert an ByteYCbCrBT601ValueC to a byte value.
   
-  ImageC<UInt16T> YCbCrBT601Value16Image2UInt16Image(const ImageC<YCbCrBT601Value16C> &dat);
-  //: Convert an YCbCrBT601Value16C to a UInt16T value.
+  ImageC<UInt16T> UInt16YCbCrBT601ValueImage2UInt16Image(const ImageC<UInt16YCbCrBT601ValueC> &dat);
+  //: Convert an UInt16YCbCrBT601ValueC to a UInt16T value.
   
-  ImageC<YCbCrBT601Value16C> YCbCrBT601Value8Image2YCbCrBT601Value16Image(const ImageC<YCbCrBT601Value16C> &dat);
-  //: Convert an YCbCrBT601Value8C to a YCbCrBT601Value16 value.
+  ImageC<UInt16YCbCrBT601ValueC> YCbCrBT601Value8Image2UInt16YCbCrBT601ValueImage(const ImageC<UInt16YCbCrBT601ValueC> &dat);
+  //: Convert an ByteYCbCrBT601ValueC to a UInt16YCbCrBT601Value value.
   
   ImageC<RGBValueC<float> > YCbCrBT601ValueFloatImage2ImageRGBValueFloat(const ImageC<YCbCrBT601ValueC<float> > &dat);
   //: Convert YCbCrBT601 to RGB in floating point format.

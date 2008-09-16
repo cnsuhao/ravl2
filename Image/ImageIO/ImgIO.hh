@@ -50,9 +50,9 @@ namespace RavlImageN {
   extern void InitCompatIOYUV();
   extern void InitCompatIOY();
   
-  extern void InitImgIOYCbCrBT601Value8();
-  extern void InitImgIOYCbCrBT601Value16();
+  extern void InitImgIOByteYCbCrBT601Value();
+  extern void InitImgIOUInt16YCbCrBT601Value();
   extern void InitImgIOYCbCrBT601ValueFloat();
-
+  extern void InitImgIOByteYCbCr422BT601();
 }
 #endif

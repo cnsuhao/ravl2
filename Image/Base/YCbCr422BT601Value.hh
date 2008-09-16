@@ -4,16 +4,16 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLIMAGE_YUV422VALUE_HEADER
-#define RAVLIMAGE_YUV422VALUE_HEADER 1
+#ifndef RAVLIMAGE_YCBCR422BT601VALUE_HEADER
+#define RAVLIMAGE_YCBCR422BT601VALUE_HEADER 1
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: YCbCr422BT601Value.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlImage
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="24/01/2001"
 //! docentry="Ravl.API.Images.Pixel Types"
-//! file="Ravl/Image/Base/YUV422Value.hh"
+//! file="Ravl/Image/Base/YCbCr422BT601Value.hh"
 
 #include "Ravl/TFVector.hh"
 #include "Ravl/Traits.hh"
@@ -27,30 +27,30 @@ namespace RavlImageN {
 #endif
   
   //! userlevel=Normal
-  //: YUV422 Pixel base class.
-  // Pixels even image columns contain U and odd columns V
+  //: YCbCr422 Pixel base class.
+  // Even columns in an image contain the Cb component, odd columns contain Cr.
   
   template<class CompT>
-  class YUV422ValueC 
+  class YCbCr422BT601ValueC 
     : public TFVectorC<CompT,2>
   {
   public:
-    YUV422ValueC()
+    YCbCr422BT601ValueC()
     {}
     //: Default constructor.
     // Contents of pixels are left undefined.
     
-    YUV422ValueC(const CompT &uv,const CompT &y)
-    { this->data[0] =uv; this->data[1] = y; }
+    YCbCr422BT601ValueC(const CompT &Cbr,const CompT &y)
+    { this->data[0] =Cbr; this->data[1] = y; }
     //: Construct from components.
     
-    inline const CompT &UV() const
+    inline const CompT &Cbr() const
     { return (*this)[0]; }
-    //: Access u or v component.
+    //: Access b or r component.
     
-    inline CompT &UV()
+    inline CompT &Cbr()
     { return (*this)[0]; }
-    //: Access u or v component.
+    //: Access b or r component.
     
     inline const CompT &Y() const
     { return (*this)[1]; }
@@ -65,25 +65,25 @@ namespace RavlImageN {
   
   template<class CompT>
   inline
-  istream &operator>>(istream &strm,YUV422ValueC<CompT> &val) 
+  istream &operator>>(istream &strm,YCbCr422BT601ValueC<CompT> &val) 
   { return strm >> ((TFVectorC<CompT,2> &)(val)); }
   //: Stream input.
   
   template<class CompT>
   inline
-  ostream &operator<<(ostream &strm,const YUV422ValueC<CompT> &val) 
+  ostream &operator<<(ostream &strm,const YCbCr422BT601ValueC<CompT> &val) 
   { return strm << ((const TFVectorC<CompT,2> &)(val)); }
   //: Stream output.
   
   template<class CompT>
   inline
-  BinIStreamC &operator>>(BinIStreamC &strm,YUV422ValueC<CompT> &val) 
+  BinIStreamC &operator>>(BinIStreamC &strm,YCbCr422BT601ValueC<CompT> &val) 
   { return strm >> ((TFVectorC<CompT,2> &)(val)); }
   //: Binary stream input.
   
   template<class CompT>
   inline
-  BinOStreamC &operator<<(BinOStreamC &strm,const YUV422ValueC<CompT> &val) 
+  BinOStreamC &operator<<(BinOStreamC &strm,const YCbCr422BT601ValueC<CompT> &val) 
   { return strm << ((const TFVectorC<CompT,2> &)(val)); }
   //: Binary stream output
 
@@ -95,10 +95,10 @@ namespace RavlN {
   //: Traits for type
   
   template<typename PixelT>
-  struct NumericalTraitsC<RavlImageN::YUV422ValueC<PixelT> > {
-    typedef RavlImageN::YUV422ValueC<typename NumericalTraitsC<PixelT>::AccumT> AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
-    typedef RavlImageN::YUV422ValueC<typename NumericalTraitsC<PixelT>::RealAccumT> RealAccumT; //: Type to use for a floating point accumulator.
-    typedef RavlImageN::YUV422ValueC<typename NumericalTraitsC<PixelT>::LongAccumT> LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
+  struct NumericalTraitsC<RavlImageN::YCbCr422BT601ValueC<PixelT> > {
+    typedef RavlImageN::YCbCr422BT601ValueC<typename NumericalTraitsC<PixelT>::AccumT> AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
+    typedef RavlImageN::YCbCr422BT601ValueC<typename NumericalTraitsC<PixelT>::RealAccumT> RealAccumT; //: Type to use for a floating point accumulator.
+    typedef RavlImageN::YCbCr422BT601ValueC<typename NumericalTraitsC<PixelT>::LongAccumT> LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
   };
 }
 

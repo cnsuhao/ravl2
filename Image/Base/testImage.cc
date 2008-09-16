@@ -29,8 +29,8 @@
 #include "Ravl/Image/BilinearInterpolation.hh"
 #include "Ravl/Image/ImageConv.hh"
 #include "Ravl/Image/YCbCrBT601Value.hh"
-#include "Ravl/Image/YCbCrBT601Value8.hh"
-#include "Ravl/Image/YCbCrBT601Value16.hh"
+#include "Ravl/Image/ByteYCbCrBT601Value.hh"
+#include "Ravl/Image/UInt16YCbCrBT601Value.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/IO.hh"
 
@@ -503,7 +503,7 @@ int TestYCbCrBT601() {
     if((rgbValue1-rgbValue2).SumOfAbs() > 0.000001) return __LINE__;
     
     // Convert yCbCr float to byte.
-    YCbCrBT601Value8C ycbcr8(yCbCr);
+    ByteYCbCrBT601ValueC ycbcr8(yCbCr);
     
     // Convert byte to float.
     YCbCrBT601ValueC<float> yCbCr2 = ycbcr8.FloatYCbCr();
@@ -512,7 +512,7 @@ int TestYCbCrBT601() {
     cerr << "BF yCbCr8=" << ycbcr8 << " yCbCr2=" << yCbCr2 << " Diff=" <<(yCbCr2 - yCbCr).SumOfAbs() << "\n";
     if((yCbCr2 - yCbCr).SumOfAbs() > 0.01) return __LINE__;
     
-    //YCbCrBT601Value16C ycbcr16(ycbcr8);
+    //UInt16YCbCrBT601ValueC ycbcr16(ycbcr8);
     //RGBValueC<float> rgbValue3(ycbcr16);
     
     // Check we can convert to float rgb from byte YCbCr
@@ -527,7 +527,7 @@ int TestYCbCrBT601() {
                           ClipRange(rgbValue1[1]*256.0,0.0,255.0),
                           ClipRange(rgbValue1[2]*256.0,0.0,255.0));
     
-    YCbCrBT601Value8C byteYCbCr(byteRGB);
+    ByteYCbCrBT601ValueC byteYCbCr(byteRGB);
     
     ByteRGBValueC rgb8fromYCbCr8 = byteYCbCr.ByteRGB();
     

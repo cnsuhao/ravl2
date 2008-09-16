@@ -14,19 +14,19 @@
 #include "Ravl/DP/FileFormatBinStream.hh"
 #include "Ravl/DP/Converter.hh"
 #include "Ravl/Image/Image.hh"
-#include "Ravl/Image/YCbCrBT601Value8.hh"
+#include "Ravl/Image/UInt16YCbCrBT601Value.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/TypeName.hh"
 
 namespace RavlImageN {
   
-  void InitImgIOYCbCrBT601Value8() {
+  void InitImgIOUInt16YCbCrBT601Value() {
   }
   
-  static TypeNameC type3(typeid(ImageC<YCbCrBT601Value8C>),"RavlImageN::ImageC<YCbCrBT601Value8C>");
+  static TypeNameC type3(typeid(ImageC<UInt16YCbCrBT601ValueC>),"RavlImageN::ImageC<UInt16YCbCrBT601ValueC>");
   
-  FileFormatStreamC<ImageC<YCbCrBT601Value8C> > FileFormatStream_ImageC_YCbCrBT601Value8C;
-  FileFormatBinStreamC<ImageC<YCbCrBT601Value8C> > FileFormatBinStream_ImageC_YCbCrBT601Value8C;
+  FileFormatStreamC<ImageC<UInt16YCbCrBT601ValueC> > FileFormatStream_ImageC_UInt16YCbCrBT601ValueC;
+  FileFormatBinStreamC<ImageC<UInt16YCbCrBT601ValueC> > FileFormatBinStream_ImageC_UInt16YCbCrBT601ValueC;
   
 }
 

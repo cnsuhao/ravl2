@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_YCBCRBT601VALUE16_HEADER
-#define RAVL_YCBCRBT601VALUE16_HEADER 1
+#ifndef RAVL_UINT16YCBCRBT601VALUE_HEADER
+#define RAVL_UINT16YCBCRBT601VALUE_HEADER 1
 /////////////////////////////////////////////////////
 //! file="Ravl/Image/Base/ByteYCbCrValue.hh"
 //! lib=RavlImage
@@ -32,31 +32,31 @@ namespace RavlImageN {
   // (Or equvialently the values are divided by 256).
   
   
-  class YCbCrBT601Value16C
+  class UInt16YCbCrBT601ValueC
     : public YCbCrBT601ValueC<UInt16T>
   {
   public:
-    YCbCrBT601Value16C()
+    UInt16YCbCrBT601ValueC()
     {}
     //: Default constructor.
     // creates an undefined YCbCr pixel.
     
-    YCbCrBT601Value16C(UInt16T y,UInt16T b,UInt16T r)
+    UInt16YCbCrBT601ValueC(UInt16T y,UInt16T b,UInt16T r)
       : YCbCrBT601ValueC<UInt16T>(y,b,r)
     {}
     //: Construct from 16 bit components.
     
-    YCbCrBT601Value16C(UInt8T y,UInt8T b,UInt8T r)
+    UInt16YCbCrBT601ValueC(UInt8T y,UInt8T b,UInt8T r)
       : YCbCrBT601ValueC<UInt16T>(y<<8,b<<8,r<<8)
     {}
     //: Construct from 8 bit components.
     
-    YCbCrBT601Value16C(const YCbCrBT601ValueC<UInt8T> &oth)
+    UInt16YCbCrBT601ValueC(const YCbCrBT601ValueC<UInt8T> &oth)
       : YCbCrBT601ValueC<UInt16T>(oth[0]<<8,oth[1]<<8,oth[2]<<8)
     {}
     //: Convert from 8 bit values.
     
-    YCbCrBT601Value16C(const YCbCrBT601ValueC<float> &oth)
+    UInt16YCbCrBT601ValueC(const YCbCrBT601ValueC<float> &oth)
       : YCbCrBT601ValueC<UInt16T>(ClipRange( 16*256.0 + oth[0]*65535.0,0.0,65535.0),
                                   ClipRange(128*256.0 + oth[1]*65535.0,0.0,65535.0),
                                   ClipRange(128*256.0 + oth[2]*65535.0,0.0,65535.0))
@@ -78,16 +78,16 @@ namespace RavlImageN {
   
   template<class DataT> class ImageC;
   
-  BinOStreamC &operator<<(BinOStreamC &out,const ImageC<YCbCrBT601Value16C> &img);
+  BinOStreamC &operator<<(BinOStreamC &out,const ImageC<UInt16YCbCrBT601ValueC> &img);
   //: Save byte image to binary stream 
   
-  BinIStreamC &operator>>(BinIStreamC &in,ImageC<YCbCrBT601Value16C> &img);  
+  BinIStreamC &operator>>(BinIStreamC &in,ImageC<UInt16YCbCrBT601ValueC> &img);  
   //: Load byte image from binary stream 
   
-  BinOStreamC &operator<<(BinOStreamC &out,const YCbCrBT601Value16C &img);
+  BinOStreamC &operator<<(BinOStreamC &out,const UInt16YCbCrBT601ValueC &img);
   //: Save pixel to binary stream
   
-  BinIStreamC &operator>>(BinIStreamC &in,YCbCrBT601Value16C &img);
+  BinIStreamC &operator>>(BinIStreamC &in,UInt16YCbCrBT601ValueC &img);
   //: Load pixel from binary stream
   
 }
@@ -99,7 +99,7 @@ namespace RavlN {
   //: Traits for type
   
   template<>
-  struct NumericalTraitsC<RavlImageN::YCbCrBT601Value16C > {
+  struct NumericalTraitsC<RavlImageN::UInt16YCbCrBT601ValueC > {
     typedef RavlImageN::YCbCrBT601ValueC<UInt32T> AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
     typedef RavlImageN::YCbCrBT601ValueC<RealT> RealAccumT; //: Type to use for a floating point accumulator.
     typedef RavlImageN::YCbCrBT601ValueC<UInt64T> LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)

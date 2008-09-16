@@ -7,8 +7,10 @@
 //! lib=RavlImage
 //! file="Ravl/Image/Base/ImageConv5.cc"
 
-#include "Ravl/Image/YCbCrBT601Value8.hh"
-#include "Ravl/Image/YCbCrBT601Value16.hh"
+#include "Ravl/Image/ByteYCbCrBT601Value.hh"
+#include "Ravl/Image/UInt16YCbCrBT601Value.hh"
+#include "Ravl/Image/ByteYCbCr422BT601Value.hh"
+#include "Ravl/Image/UInt16YCbCr422BT601Value.hh"
 #include "Ravl/Image/RGBValue.hh"
 #include "Ravl/Image/RealRGBValue.hh"
 #include "Ravl/Array2dIter2.hh"
@@ -16,29 +18,29 @@
 
 namespace RavlImageN {
   
-  //: Convert an YCbCrBT601Value8C to a byte value.
+  //: Convert an ByteYCbCrBT601ValueC to a byte value.
   
-  ImageC<ByteT> YCbCrBT601Value8Image2ByteImage(const ImageC<YCbCrBT601Value8C> &dat) {
+  ImageC<ByteT> YCbCrBT601Value8Image2ByteImage(const ImageC<ByteYCbCrBT601ValueC> &dat) {
     ImageC<ByteT> ret(dat.Rectangle()); 
-    for(Array2dIter2C<ByteT,YCbCrBT601Value8C> it(ret,dat);it;it++) 
+    for(Array2dIter2C<ByteT,ByteYCbCrBT601ValueC> it(ret,dat);it;it++) 
       it.Data1() = it.Data2().Y();
     return ret;
   }
   
-  //: Convert an YCbCrBT601Value16C to a UInt16T value.
+  //: Convert an UInt16YCbCrBT601ValueC to a UInt16T value.
   
-  ImageC<UInt16T> YCbCrBT601Value16Image2UInt16Image(const ImageC<YCbCrBT601Value16C> &dat) {
+  ImageC<UInt16T> UInt16YCbCrBT601ValueImage2UInt16Image(const ImageC<UInt16YCbCrBT601ValueC> &dat) {
     ImageC<UInt16T> ret(dat.Rectangle()); 
-    for(Array2dIter2C<UInt16T,YCbCrBT601Value16C> it(ret,dat);it;it++) 
+    for(Array2dIter2C<UInt16T,UInt16YCbCrBT601ValueC> it(ret,dat);it;it++) 
       it.Data1() = it.Data2().Y();
     return ret;
   }
   
-  //: Convert an YCbCrBT601Value8C to a YCbCrBT601Value16C value.
+  //: Convert an ByteYCbCrBT601ValueC to a UInt16YCbCrBT601ValueC value.
   
-  ImageC<YCbCrBT601Value16C> YCbCrBT601Value8Image2YCbCrBT601Value16Image(const ImageC<YCbCrBT601Value8C> &dat) {
-    ImageC<YCbCrBT601Value16C> ret(dat.Rectangle()); 
-    for(Array2dIter2C<YCbCrBT601Value16C,YCbCrBT601Value8C> it(ret,dat);it;it++) 
+  ImageC<UInt16YCbCrBT601ValueC> YCbCrBT601Value8Image2UInt16YCbCrBT601ValueImage(const ImageC<ByteYCbCrBT601ValueC> &dat) {
+    ImageC<UInt16YCbCrBT601ValueC> ret(dat.Rectangle()); 
+    for(Array2dIter2C<UInt16YCbCrBT601ValueC,ByteYCbCrBT601ValueC> it(ret,dat);it;it++) 
       it.Data1() = it.Data2();
     return ret;
   }

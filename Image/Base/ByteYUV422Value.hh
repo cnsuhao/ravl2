@@ -25,6 +25,7 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: Byte YUV 422 value class.
+  // Pixels even image columns contain U and odd columns V
   
   class ByteYUV422ValueC
     : public YUV422ValueC<ByteT>
