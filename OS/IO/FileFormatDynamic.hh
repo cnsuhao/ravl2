@@ -99,8 +99,9 @@ namespace RavlN {
   };
 
   //! userlevel=Advanced
-  //: Labeled Lines sets.
-
+  //: Dynamic loading of shared libraries for IO
+  // In order to probe a file format dynamically, the shared libraries must be available.
+  
   class FileFormatDynamicC 
     : public FileFormatBaseC
   {
