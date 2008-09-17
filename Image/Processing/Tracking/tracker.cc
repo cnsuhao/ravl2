@@ -5,10 +5,10 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
-//! file="Ravl/Applications/Tracker/tracker.cc"
+//! file="Ravl/Image/Processing/Tracking/Tracker/tracker.cc"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
-//! docentry="Ravl.Applications.Video,Ravl.API.Images.Tracking"
+//! docentry="Ravl.Applications.Video;Ravl.API.Images.Tracking"
 //! userlevel=Normal
 
 //: Track some Points 
