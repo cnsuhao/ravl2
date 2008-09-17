@@ -45,9 +45,10 @@ $(ifset:lib:      $(tabTitle)Library:$(tabData)<b>$(lib)</b></tr>
 <TR><TD>$(subst: - :</TD><TD>:$(subst:
 :</TD></TR><TR><TD>:$(param)))</TD></TR>
 </TABLE>
-)$(ifset:detail:$(if:$detail!=:$(AutoLink:$(detail))<br>)
+)$(ifset:detail:$(titleStart)Comments:<br>$(titleEnd)<font size="+1">$(if:$detail!=:$(AutoLink:$(detail))<br>)</font>
 )$(ifset:bug:<FONT COLOR="red">BUG:$(bug)</FONT><br>
 )</FONT>
+<br>
 
 $(include:footer.stmpl)
 
