@@ -106,7 +106,7 @@ namespace RavlN {
     StringC str = filename.Copy();
     str.gsub("/", "\\");
     str.gsub("\\\\", "\\");
-    return str.before(filenameSeperator,-1);
+    return str.before("\\",-1);
 #else
     return const_cast<StringC &>(filename).before("/",-1);
 #endif
