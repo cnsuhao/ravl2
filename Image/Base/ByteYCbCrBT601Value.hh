@@ -11,7 +11,7 @@
 //! lib=RavlImage
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.API.Images.Pixel Types"
+//! docentry="Ravl.API.Images.Pixel Types.YCbCr"
 
 #include "Ravl/Image/YCbCrBT601Value.hh"
 #include "Ravl/Stream.hh"

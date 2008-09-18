@@ -1,17 +1,21 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--! children="Basic;YUV;HSV;YCbCr" -->
 <html>
   <head>
     <title>Pixel representations</title>
   </head>
 
   <body>
-    <p>Useful discussions about the subtleties of the differences between YUV and YCbCr together with chroma subsampling (YUV422 etc) can be found on Wikipedia at these sites:</p>
+    <p>There is much confusion about the difference between YUV and YCbCr.  Within RAVL, the only notable difference is in the matrix values used to convert between YUV (or YCrCb) and RGB.  The term YUV is frequently used when YCrCb is meant.  We have introduced separate pixel classes to help people produce the correct colour rendering of their images.</p>
     <ul>
-      <li><a href="http://en.wikipedia.org/wiki/YUV">YUV</li>
-      <li><a href="http://en.wikipedia.org/wiki/CCIR_601">Rec 601</a></li>
-      <li><a href="http://en.wikipedia.org/wiki/YCbCr">YCrCb</a></li>
-      <li><a href="http://en.wikipedia.org/wiki/Chroma_subsampling">Chroma subsampling</a> and <a href="http://en.wikipedia.org/wiki/Talk:Chroma_subsampling">associated discussion</a></li>
+      <li>The YUV/RGB conversion matrices traditionally used by the image processing community are based on those used in analogue colour television.</li>
+
+      <li>The YCrCb/RGB conversion matrices are based on those used in digital television sources.</li>
     </ul>
+ 
+    <p>See the relevant subtopic for more information.</p>
+
+
 
   </body>
 </html>

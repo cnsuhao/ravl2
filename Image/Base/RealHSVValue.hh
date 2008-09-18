@@ -12,7 +12,7 @@
 //! userlevel=Normal
 //! author="Lee Gregory"
 //! date="12/10/2002"
-//! docentry="Ravl.API.Images.Pixel Types"
+//! docentry="Ravl.API.Images.Pixel Types.HSV"
 //! rcsid="$Id$"
 
 #include "Ravl/TFVector.hh"

@@ -11,7 +11,7 @@
 //! lib=RavlImage
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.API.Images.Pixel Types"
+//! docentry="Ravl.API.Images.Pixel Types.YCbCr"
 
 #include "Ravl/Image/YCbCrBT601Value.hh"
 #include "Ravl/Types.hh"
@@ -24,7 +24,7 @@ namespace RavlImageN {
   class ByteRGBValueC;
   
   //! userlevel=Normal
-  //: Byte YCbCr value class.
+  //: 16-bit YCbCr value class.
   // See http://en.wikipedia.org/wiki/YCbCr for details.
   
   // Note: this class's relationship with 8 bit values is special, when 

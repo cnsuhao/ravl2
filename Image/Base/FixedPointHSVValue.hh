@@ -8,7 +8,7 @@
 #define RAVL_FIXED_POINT_HSV_VALUE_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlImage
-//! docentry="Ravl.API.Images.Pixel Types"
+//! docentry="Ravl.API.Images.Pixel Types.HSV"
 //! author="Joel Mitchelson"
 //! file="Ravl/Image/Base/FixedPointHSVValue.hh"
 

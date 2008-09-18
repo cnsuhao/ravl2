@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id: DVSRGBcDVSYUV422.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! userlevel=Normal
-//! docentry="Ravl.API.Images.Pixel Types"
+//! docentry="Ravl.API.Images.Pixel Types.YCbCr"
 //! lib=RavlImage
 //! file="Ravl/Image/Base/DVSRGBcDVSYUV422.hh"
 

@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////
 //! lib=RavlImage
 //! userlevel=Normal
-//! docentry="Ravl.API.Images.Pixel Types"
+//! docentry="Ravl.API.Images.Pixel Types.Basic"
 
 #include "Ravl/Image/BGRValue.hh"
 

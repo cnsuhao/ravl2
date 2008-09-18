@@ -49,7 +49,7 @@ TESTEXES=testImage.cc testHSVValue.cc test_imgdiff.cc
 
 EXAMPLES= exImage.cc imgdiff.cc exDraw.cc exFont.cc
 
-EHT=Ravl.API.Images.Pixel_Types.html Drawing.html
+EHT=Ravl.API.Images.Pixel_Types.html Basic_Pixel_Types.html YUV_Pixel_Types.html YCbCr_Pixel_Types.html Drawing.html
 
 AUXDIR=share/RAVL/Fonts
 

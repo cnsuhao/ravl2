@@ -12,7 +12,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="11/09/2008"
-//! docentry="Ravl.API.Images.Pixel Types"
+//! docentry="Ravl.API.Images.Pixel Types.YCbCr"
 
 #include "Ravl/TFVector.hh"
 #include "Ravl/Traits.hh"

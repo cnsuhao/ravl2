@@ -13,7 +13,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="24/01/2001"
-//! docentry="Ravl.API.Images.Pixel Types"
+//! docentry="Ravl.API.Images.Pixel Types.Basic"
 
 #include "Ravl/TFVector.hh"
 #include "Ravl/Image/RGBValue.hh"
