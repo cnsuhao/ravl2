@@ -62,8 +62,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="C:\Build\win32\debug\bin\testGeom3d.exe"
-				AdditionalDependencies=""
-				AdditionalLibraryDirectories=""
+				AdditionalDependencies=" RavlCore.lib ccmath.lib RavlMath.lib"
+				AdditionalLibraryDirectories=";C:\Build\win32\debug\lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				IgnoreDefaultLibraryNames="msvcrt"
@@ -140,8 +140,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="C:\Build\win32\opt\bin\testGeom3d.exe"
-				AdditionalDependencies=""
-				AdditionalLibraryDirectories=""
+				AdditionalDependencies=" RavlCore.lib ccmath.lib RavlMath.lib"
+				AdditionalLibraryDirectories=";C:\Build\win32\opt\lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="1"

@@ -325,6 +325,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\.\Core\Base\FuncStream.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Core\Base\VectorUtils.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Core\I386SSE\VectorUtilsI386SSE.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\Core\Container\Buffer\RBfAcc2d.cc"
 				>
 			</File>
@@ -764,6 +776,14 @@
 			</File>
 			<File
 				RelativePath="..\.\Core\Base\CPUID.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Core\Base\FuncStream.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Core\Base\VectorUtils.hh"
 				>
 			</File>
 			<File
@@ -1508,6 +1528,10 @@
 			</File>
 			<File
 				RelativePath="..\.\Core\System\STL.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Core\System\RCWrapIO.hh"
 				>
 			</File>
 		</Filter>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="chartdet"
-	ProjectGUID=""
+	ProjectGUID="{733a8540-8d9a-4cbe-9dc6-6b3ffd5af744}"
 	RootNamespace="chartdet"
 	Keyword="Win32Proj"
 	>
@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\include\Win32;..\include;&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include&quot;;&quot;C:\GTKWIN32\include&quot;"
+				AdditionalIncludeDirectories="..\include\Win32;..\include;&quot;C:\GTKWIN32\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;RAVL_USE_GTK2=1;RAVL_CHECK=1;PROJECT_OUT=\&quot;C:\\Build\&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -62,8 +62,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="C:\Build\win32\debug\bin\chartdet.exe"
-				AdditionalDependencies=" atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib gtkglext-win32-1.0.lib gdkglext-win32-1.0.lib OpenGL32.lib Glu32.lib jpeg.lib png.lib z.lib tiff.lib"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\lib&quot;;&quot;C:\GTKWIN32\lib\&quot;;&quot;C:\GTKWIN32\lib\&quot;;&quot;C:\GTKWIN32\lib&quot;;&quot;C:\GTKWIN32\lib&quot;"
+				AdditionalDependencies=" RavlCore.lib ccmath.lib RavlMath.lib RavlImage.lib Rpcrt4.lib RavlOS.lib RavlThreads.lib RavlIO.lib RavlOSIO.lib RavlOptimise.lib RavlImageProc.lib RavlImageIO.lib fann.lib RavlPatternRec.lib Optimisation.lib RavlChartDetector.lib atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib gtkglext-win32-1.0.lib gdkglext-win32-1.0.lib OpenGL32.lib Glu32.lib RavlGUI.lib RavlGUI2D.lib RavlDPDisplay.lib jpeg.lib png.lib z.lib tiff.lib RavlExtImgIO.lib"
+				AdditionalLibraryDirectories="C:\GTKWIN32\lib\;C:\GTKWIN32\lib\;C:\GTKWIN32\lib;C:\GTKWIN32\lib;C:\Build\win32\debug\lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				IgnoreDefaultLibraryNames="msvcrt"
@@ -121,7 +121,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;RAVL_USE_GTK2=1;PROJECT_OUT=\&quot;C:\\Build\&quot;"
-				AdditionalIncludeDirectories="..\include\Win32;..\include;&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include&quot;;&quot;C:\GTKWIN32\include&quot;"
+				AdditionalIncludeDirectories="..\include\Win32;..\include;&quot;C:\GTKWIN32\include&quot;"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -140,8 +140,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="C:\Build\win32\opt\bin\chartdet.exe"
-				AdditionalDependencies=" atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib gtkglext-win32-1.0.lib gdkglext-win32-1.0.lib OpenGL32.lib Glu32.lib jpeg.lib png.lib z.lib tiff.lib"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\lib&quot;;&quot;C:\GTKWIN32\lib\&quot;;&quot;C:\GTKWIN32\lib\&quot;;&quot;C:\GTKWIN32\lib&quot;;&quot;C:\GTKWIN32\lib&quot;"
+				AdditionalDependencies=" RavlCore.lib ccmath.lib RavlMath.lib RavlImage.lib Rpcrt4.lib RavlOS.lib RavlThreads.lib RavlIO.lib RavlOSIO.lib RavlOptimise.lib RavlImageProc.lib RavlImageIO.lib fann.lib RavlPatternRec.lib Optimisation.lib RavlChartDetector.lib atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib gtkglext-win32-1.0.lib gdkglext-win32-1.0.lib OpenGL32.lib Glu32.lib RavlGUI.lib RavlGUI2D.lib RavlDPDisplay.lib jpeg.lib png.lib z.lib tiff.lib RavlExtImgIO.lib"
+				AdditionalLibraryDirectories="C:\GTKWIN32\lib\;C:\GTKWIN32\lib\;C:\GTKWIN32\lib;C:\GTKWIN32\lib;C:\Build\win32\opt\lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Image\Processing\ChartDetector\chartdet.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

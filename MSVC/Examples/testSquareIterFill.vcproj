@@ -62,8 +62,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="C:\Build\win32\debug\bin\testSquareIterFill.exe"
-				AdditionalDependencies=" atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib gtkglext-win32-1.0.lib gdkglext-win32-1.0.lib OpenGL32.lib Glu32.lib"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\lib&quot;;&quot;C:\GTKWIN32\lib\&quot;"
+				AdditionalDependencies=" RavlCore.lib ccmath.lib RavlMath.lib RavlImage.lib RavlIO.lib RavlImageIO.lib Rpcrt4.lib RavlOS.lib atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib gtkglext-win32-1.0.lib gdkglext-win32-1.0.lib OpenGL32.lib Glu32.lib RavlThreads.lib RavlGUI.lib RavlGUI2D.lib RavlDPDisplay.lib"
+				AdditionalLibraryDirectories="C:\GTKWIN32\lib\;C:\Build\win32\debug\lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				IgnoreDefaultLibraryNames="msvcrt"
@@ -140,8 +140,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="C:\Build\win32\opt\bin\testSquareIterFill.exe"
-				AdditionalDependencies=" atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib gtkglext-win32-1.0.lib gdkglext-win32-1.0.lib OpenGL32.lib Glu32.lib"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\lib&quot;;&quot;C:\GTKWIN32\lib\&quot;"
+				AdditionalDependencies=" RavlCore.lib ccmath.lib RavlMath.lib RavlImage.lib RavlIO.lib RavlImageIO.lib Rpcrt4.lib RavlOS.lib atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib gtkglext-win32-1.0.lib gdkglext-win32-1.0.lib OpenGL32.lib Glu32.lib RavlThreads.lib RavlGUI.lib RavlGUI2D.lib RavlDPDisplay.lib"
+				AdditionalLibraryDirectories="C:\GTKWIN32\lib\;C:\Build\win32\opt\lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Math\Sequence\testSquareIterFill.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

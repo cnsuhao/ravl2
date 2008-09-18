@@ -233,6 +233,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\.\3D\Mesh\BuildTexTriMesh.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\3D\Carve3D\VoxelSet.cc"
 				>
 			</File>
@@ -296,6 +300,10 @@
 			</File>
 			<File
 				RelativePath="..\.\3D\Mesh\MeshShapes.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\3D\Mesh\BuildTexTriMesh.hh"
 				>
 			</File>
 			<File

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="RavlAutoPort2"
+	ProjectGUID="{06f6b2db-25a5-4b95-a25f-d3f505541b85}"
+        RootNamespace="RavlAutoPort2"
+	Keyword="win32Proj"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="C:\Build\win32\debug\lib"
+			IntermediateDirectory="C:\Build\win32\debug\obj\RavlAutoPort2"
+			ConfigurationType="4"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+				CommandLine="
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\header.tmpl C:\Build\share\RAVL\AutoPort2\header.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\guid.tmpl C:\Build\share\RAVL\AutoPort2\guid.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\externalLib.xml C:\Build\share\RAVL\AutoPort2\externalLib.xml&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\sln.tmpl C:\Build\share\RAVL\AutoPort2\sln.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\vcproj.tmpl C:\Build\share\RAVL\AutoPort2\vcproj.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\solution.guid.tmpl C:\Build\share\RAVL\AutoPort2\solution.guid.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\testProgram.guid.tmpl C:\Build\share\RAVL\AutoPort2\testProgram.guid.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\testProgram.tmpl C:\Build\share\RAVL\AutoPort2\testProgram.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\exampleProgram.tmpl C:\Build\share\RAVL\AutoPort2\exampleProgram.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\mainProgram.tmpl C:\Build\share\RAVL\AutoPort2\mainProgram.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\program.stmpl C:\Build\share\RAVL\AutoPort2\program.stmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\mainProgram.guid.tmpl C:\Build\share\RAVL\AutoPort2\mainProgram.guid.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\exampleProgram.guid.tmpl C:\Build\share\RAVL\AutoPort2\exampleProgram.guid.tmpl&#x0D;&#x0A;"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+				CommandLine=""
+				AdditionalDependencies=""
+				Outputs=""
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="include\Win32;include"
+				PreprocessorDefinitions="_DEBUG;VISUAL_CPP;_LIB;WIN32;RAVL_USE_GTK2=1;RAVL_CHECK=1;PROJECT_OUT=\&quot;C:\\Build\&quot;"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				RuntimeTypeInfo="true"
+				PrecompiledHeaderFile="C:\Build\win32\debug\obj\RavlAutoPort2\RavlAutoPort2.pch"
+				AssemblerListingLocation="C:\Build\win32\debug\obj\RavlAutoPort2\"
+				ObjectFile="C:\Build\win32\debug\obj\RavlAutoPort2\"
+				ProgramDataBaseFileName="C:\Build\win32\debug\obj\RavlAutoPort2\"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="2057"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="C:\Build\win32\debug\lib\RavlAutoPort2.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile="C:\Build\win32\debug\lib\RavlAutoPort2.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="C:\Build\win32\opt\lib"
+			IntermediateDirectory="C:\Build\win32\opt\obj\RavlAutoPort2"
+			ConfigurationType="4"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+				CommandLine="
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\header.tmpl C:\Build\share\RAVL\AutoPort2\header.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\guid.tmpl C:\Build\share\RAVL\AutoPort2\guid.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\externalLib.xml C:\Build\share\RAVL\AutoPort2\externalLib.xml&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\sln.tmpl C:\Build\share\RAVL\AutoPort2\sln.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\vcproj.tmpl C:\Build\share\RAVL\AutoPort2\vcproj.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\solution.guid.tmpl C:\Build\share\RAVL\AutoPort2\solution.guid.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\testProgram.guid.tmpl C:\Build\share\RAVL\AutoPort2\testProgram.guid.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\testProgram.tmpl C:\Build\share\RAVL\AutoPort2\testProgram.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\exampleProgram.tmpl C:\Build\share\RAVL\AutoPort2\exampleProgram.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\mainProgram.tmpl C:\Build\share\RAVL\AutoPort2\mainProgram.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\program.stmpl C:\Build\share\RAVL\AutoPort2\program.stmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\mainProgram.guid.tmpl C:\Build\share\RAVL\AutoPort2\mainProgram.guid.tmpl&#x0D;&#x0A;
+if not exist C:\Build\share\RAVL\AutoPort2\NUL mkdir C:\Build\share\RAVL\AutoPort2&#x0D;&#x0A;copy ..\.\SourceTools\AutoPort2\exampleProgram.guid.tmpl C:\Build\share\RAVL\AutoPort2\exampleProgram.guid.tmpl&#x0D;&#x0A;"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="include\Win32;include"
+				PreprocessorDefinitions="NDEBUG;_LIB;VISUAL_CPP;WIN32;RAVL_USE_GTK2=1;PROJECT_OUT=\&quot;C:\\Build\&quot;"
+				StringPooling="true"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				RuntimeTypeInfo="true"
+				PrecompiledHeaderFile="C:\Build\win32\opt\obj\RavlAutoPort2/RavlAutoPort2.pch"
+				AssemblerListingLocation="C:\Build\win32\opt\obj\RavlAutoPort2\"
+				ObjectFile="C:\Build\win32\opt\obj\RavlAutoPort2\"
+				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlAutoPort2\"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="false"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="2057"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="C:\Build\win32\opt\lib\RavlAutoPort2.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile="C:\Build\win32\opt\lib\RavlAutoPort2.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+	
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+			>
+			
+			<File
+				RelativePath="..\.\SourceTools\AutoPort2\AutoPortSource.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\SourceTools\AutoPort2\AutoPortGenerator.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\SourceTools\AutoPort2\ExtLib.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\SourceTools\AutoPort2\ExtLibTable.cc"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl"
+			>
+                        
+			<File
+				RelativePath="..\.\SourceTools\AutoPort2\AutoPortSource.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\SourceTools\AutoPort2\AutoPortGenerator.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\SourceTools\AutoPort2\ExtLib.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\SourceTools\AutoPort2\ExtLibTable.hh"
+				>
+			</File>
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

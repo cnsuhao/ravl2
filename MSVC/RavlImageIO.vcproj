@@ -221,6 +221,10 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 				>
 			</File>
 			<File
+				RelativePath="..\.\Image\ImageIO\ImgIORealRGBA.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\Image\ImageIO\ImgIORealYUV.cc"
 				>
 			</File>
@@ -234,6 +238,26 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 			</File>
 			<File
 				RelativePath="..\.\Image\ImageIO\ImgIOFloat.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOByteYCbCrBT601Value.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOUInt16YCbCrBT601Value.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOYCbCrBT601ValueFloat.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOByteYCbCr422BT601Value.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOUInt16YCbCr422BT601Value.cc"
 				>
 			</File>
 			<File
@@ -262,6 +286,10 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 			</File>
 			<File
 				RelativePath="..\.\Image\ImageIO\ImgTypeCnv5.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgTypeCnv6.cc"
 				>
 			</File>
 			<File

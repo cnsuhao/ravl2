@@ -24,8 +24,6 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="
-if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Math\Geometry\Euclidean\Boundary\Boundary.png C:\Build\\Boundary.png&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -103,8 +101,6 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Math\Geometry\Eu
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="
-if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Math\Geometry\Euclidean\Boundary\Boundary.png C:\Build\\Boundary.png&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -401,6 +397,10 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Math\Geometry\Eu
 				>
 			</File>
 			<File
+				RelativePath="..\.\Math\Geometry\Euclidean\2D\Triangulate2d.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\Math\Geometry\Euclidean\3D\LinePP3d.cc"
 				>
 			</File>
@@ -542,6 +542,10 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Math\Geometry\Eu
 			</File>
 			<File
 				RelativePath="..\.\Math\Geometry\Projective\3D\FitPPlane3d.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Geometry\Projective\3D\PPoint3dAffine.cc"
 				>
 			</File>
 			<File
@@ -948,6 +952,10 @@ if not exist C:\Build\\NUL mkdir C:\Build\&#x0D;&#x0A;copy ..\.\Math\Geometry\Eu
 			</File>
 			<File
 				RelativePath="..\.\Math\Geometry\Euclidean\2D\PolyLine2d.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Math\Geometry\Euclidean\2D\Triangulate2d.hh"
 				>
 			</File>
 			<File

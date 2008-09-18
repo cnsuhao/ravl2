@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="include\Win32;include;&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include&quot;;&quot;C:\GTKWIN32\lib\gtk-2.0\include&quot;;&quot;C:\GTKWIN32\lib\glib-2.0\include&quot;;&quot;C:\GTKWIN32\include\cairo&quot;;&quot;C:\GTKWIN32\include\gtk-2.0&quot;;&quot;C:\GTKWIN32\include\glib-2.0&quot;;&quot;C:\GTKWIN32\include\pango-1.0&quot;;&quot;C:\GTKWIN32\include\atk-1.0&quot;;&quot;C:\GTKWIN32\include\gtkglext-1.0&quot;"
+				AdditionalIncludeDirectories="include\Win32;include;&quot;C:\GTKWIN32\lib\gtk-2.0\include&quot;;&quot;C:\GTKWIN32\lib\glib-2.0\include&quot;;&quot;C:\GTKWIN32\lib\gtkglext-1.0\include&quot;;&quot;C:\GTKWIN32\include\cairo&quot;;&quot;C:\GTKWIN32\include\gtk-2.0&quot;;&quot;C:\GTKWIN32\include\glib-2.0&quot;;&quot;C:\GTKWIN32\include\pango-1.0&quot;;&quot;C:\GTKWIN32\include\atk-1.0&quot;;&quot;C:\GTKWIN32\include\gtkglext-1.0&quot;"
 				PreprocessorDefinitions="_DEBUG;VISUAL_CPP;_LIB;WIN32;RAVL_USE_GTK2=1;RAVL_CHECK=1;PROJECT_OUT=\&quot;C:\\Build\&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -118,7 +118,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="include\Win32;include;&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include&quot;;&quot;C:\GTKWIN32\lib\gtk-2.0\include&quot;;&quot;C:\GTKWIN32\lib\glib-2.0\include&quot;;&quot;C:\GTKWIN32\include\cairo&quot;;&quot;C:\GTKWIN32\include\gtk-2.0&quot;;&quot;C:\GTKWIN32\include\glib-2.0&quot;;&quot;C:\GTKWIN32\include\pango-1.0&quot;;&quot;C:\GTKWIN32\include\atk-1.0&quot;;&quot;C:\GTKWIN32\include\gtkglext-1.0&quot;"
+				AdditionalIncludeDirectories="include\Win32;include;&quot;C:\GTKWIN32\lib\gtk-2.0\include&quot;;&quot;C:\GTKWIN32\lib\glib-2.0\include&quot;;&quot;C:\GTKWIN32\lib\gtkglext-1.0\include&quot;;&quot;C:\GTKWIN32\include\cairo&quot;;&quot;C:\GTKWIN32\include\gtk-2.0&quot;;&quot;C:\GTKWIN32\include\glib-2.0&quot;;&quot;C:\GTKWIN32\include\pango-1.0&quot;;&quot;C:\GTKWIN32\include\atk-1.0&quot;;&quot;C:\GTKWIN32\include\gtkglext-1.0&quot;"
 				PreprocessorDefinitions="NDEBUG;_LIB;VISUAL_CPP;WIN32;RAVL_USE_GTK2=1;PROJECT_OUT=\&quot;C:\\Build\&quot;"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -333,6 +333,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\.\GUI\GTK\TextView.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\GUI\GTK\DragAndDrop.cc"
 				>
 			</File>
@@ -394,6 +398,22 @@
 			</File>
 			<File
 				RelativePath="..\.\GUI\GTK\IconView.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\ComboBox.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\ComboBoxText.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\ComboBoxEntry.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\ComboBoxEntryText.cc"
 				>
 			</File>
 		</Filter>
@@ -567,6 +587,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\.\GUI\GTK\TextView.hh"
+				>
+			</File>
+			<File
 				RelativePath="..\.\GUI\GTK\DragAndDrop.hh"
 				>
 			</File>
@@ -628,6 +652,22 @@
 			</File>
 			<File
 				RelativePath="..\.\GUI\GTK\IconView.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\ComboBox.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\ComboBoxText.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\ComboBoxEntry.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\GUI\GTK\ComboBoxEntryText.hh"
 				>
 			</File>
 		</Filter>

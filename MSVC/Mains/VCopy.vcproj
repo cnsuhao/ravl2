@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="VCopy"
-	ProjectGUID=""
+	ProjectGUID="{190deeaf-5e3f-4c9b-9eb8-12d1d55349c0}"
 	RootNamespace="VCopy"
 	Keyword="Win32Proj"
 	>
@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\include\Win32;..\include;&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include&quot;;&quot;C:\GTKWIN32\lib\gtk-2.0\include&quot;;&quot;C:\GTKWIN32\lib\glib-2.0\include&quot;;&quot;C:\GTKWIN32\include\cairo&quot;;&quot;C:\GTKWIN32\include\gtk-2.0&quot;;&quot;C:\GTKWIN32\include\glib-2.0&quot;;&quot;C:\GTKWIN32\include\pango-1.0&quot;;&quot;C:\GTKWIN32\include\atk-1.0&quot;;&quot;C:\GTKWIN32\include\gtkglext-1.0&quot;"
+				AdditionalIncludeDirectories="..\include\Win32;..\include;&quot;C:\GTKWIN32\lib\gtk-2.0\include&quot;;&quot;C:\GTKWIN32\lib\glib-2.0\include&quot;;&quot;C:\GTKWIN32\lib\gtkglext-1.0\include&quot;;&quot;C:\GTKWIN32\include\cairo&quot;;&quot;C:\GTKWIN32\include\gtk-2.0&quot;;&quot;C:\GTKWIN32\include\glib-2.0&quot;;&quot;C:\GTKWIN32\include\pango-1.0&quot;;&quot;C:\GTKWIN32\include\atk-1.0&quot;;&quot;C:\GTKWIN32\include\gtkglext-1.0&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;RAVL_USE_GTK2=1;RAVL_CHECK=1;PROJECT_OUT=\&quot;C:\\Build\&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -62,8 +62,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="C:\Build\win32\debug\bin\VCopy.exe"
-				AdditionalDependencies=" atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib gtkglext-win32-1.0.lib gdkglext-win32-1.0.lib OpenGL32.lib Glu32.lib jpeg.lib png.lib z.lib tiff.lib ws2_32.lib"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\lib&quot;;&quot;C:\GTKWIN32\lib\&quot;;&quot;C:\GTKWIN32\lib\&quot;;&quot;C:\GTKWIN32\lib&quot;;&quot;C:\GTKWIN32\lib&quot;"
+				AdditionalDependencies=" RavlCore.lib Rpcrt4.lib RavlOS.lib ccmath.lib RavlMath.lib RavlImage.lib RavlIO.lib RavlOSIO.lib atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib gtkglext-win32-1.0.lib gdkglext-win32-1.0.lib OpenGL32.lib Glu32.lib RavlThreads.lib RavlGUI.lib RavlDPMT.lib RavlGUI2D.lib RavlGUIUtil.lib RavlVPlay.lib RavlImgIOV4L.lib jpeg.lib png.lib z.lib tiff.lib RavlImageIO.lib RavlExtImgIO.lib RavlDPDisplay.lib RavlVideoIO.lib CSPDriver.lib RavlURLIO.lib RavlLibMPEG2.lib RavlOptimise.lib RavlImageProc.lib ws2_32.lib RavlDVDRead.lib RavlAVIFile.lib libjasper.lib RavlImgIOJasper.lib RavlDV.lib RavlImgIOV4L2.lib RavlRawVidIO.lib RavlLibFFmpeg.lib RavlImgIO1394dc.lib"
+				AdditionalLibraryDirectories="C:\GTKWIN32\lib\;C:\GTKWIN32\lib\;C:\GTKWIN32\lib;C:\GTKWIN32\lib;C:\GTKWIN32\lib;C:\Build\win32\debug\lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				IgnoreDefaultLibraryNames="msvcrt"
@@ -121,7 +121,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;RAVL_USE_GTK2=1;PROJECT_OUT=\&quot;C:\\Build\&quot;"
-				AdditionalIncludeDirectories="..\include\Win32;..\include;&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\Include&quot;;&quot;C:\GTKWIN32\lib\gtk-2.0\include&quot;;&quot;C:\GTKWIN32\lib\glib-2.0\include&quot;;&quot;C:\GTKWIN32\include\cairo&quot;;&quot;C:\GTKWIN32\include\gtk-2.0&quot;;&quot;C:\GTKWIN32\include\glib-2.0&quot;;&quot;C:\GTKWIN32\include\pango-1.0&quot;;&quot;C:\GTKWIN32\include\atk-1.0&quot;;&quot;C:\GTKWIN32\include\gtkglext-1.0&quot;"
+				AdditionalIncludeDirectories="..\include\Win32;..\include;&quot;C:\GTKWIN32\lib\gtk-2.0\include&quot;;&quot;C:\GTKWIN32\lib\glib-2.0\include&quot;;&quot;C:\GTKWIN32\lib\gtkglext-1.0\include&quot;;&quot;C:\GTKWIN32\include\cairo&quot;;&quot;C:\GTKWIN32\include\gtk-2.0&quot;;&quot;C:\GTKWIN32\include\glib-2.0&quot;;&quot;C:\GTKWIN32\include\pango-1.0&quot;;&quot;C:\GTKWIN32\include\atk-1.0&quot;;&quot;C:\GTKWIN32\include\gtkglext-1.0&quot;"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -140,8 +140,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="C:\Build\win32\opt\bin\VCopy.exe"
-				AdditionalDependencies=" atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib gtkglext-win32-1.0.lib gdkglext-win32-1.0.lib OpenGL32.lib Glu32.lib jpeg.lib png.lib z.lib tiff.lib ws2_32.lib"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Platform SDK for Windows Server 2003 R2\lib&quot;;&quot;C:\GTKWIN32\lib\&quot;;&quot;C:\GTKWIN32\lib\&quot;;&quot;C:\GTKWIN32\lib&quot;;&quot;C:\GTKWIN32\lib&quot;"
+				AdditionalDependencies=" RavlCore.lib Rpcrt4.lib RavlOS.lib ccmath.lib RavlMath.lib RavlImage.lib RavlIO.lib RavlOSIO.lib atk-1.0.lib glib-2.0.lib gthread-2.0.lib gobject-2.0.lib gmodule-2.0.lib gtk-win32-2.0.lib gdk-win32-2.0.lib gdk_pixbuf-2.0.lib pango-1.0.lib gtkglext-win32-1.0.lib gdkglext-win32-1.0.lib OpenGL32.lib Glu32.lib RavlThreads.lib RavlGUI.lib RavlDPMT.lib RavlGUI2D.lib RavlGUIUtil.lib RavlVPlay.lib RavlImgIOV4L.lib jpeg.lib png.lib z.lib tiff.lib RavlImageIO.lib RavlExtImgIO.lib RavlDPDisplay.lib RavlVideoIO.lib CSPDriver.lib RavlURLIO.lib RavlLibMPEG2.lib RavlOptimise.lib RavlImageProc.lib ws2_32.lib RavlDVDRead.lib RavlAVIFile.lib libjasper.lib RavlImgIOJasper.lib RavlDV.lib RavlImgIOV4L2.lib RavlRawVidIO.lib RavlLibFFmpeg.lib RavlImgIO1394dc.lib"
+				AdditionalLibraryDirectories="C:\GTKWIN32\lib\;C:\GTKWIN32\lib\;C:\GTKWIN32\lib;C:\GTKWIN32\lib;C:\GTKWIN32\lib;C:\Build\win32\opt\lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -184,10 +184,6 @@
 			>
 			<File
 				RelativePath="..\..\.\Applications\VPlay\VCopy.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\..\.\Image\BaseSSE\InitImageConvSSE.cc"
 				>
 			</File>
 			<File

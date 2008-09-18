@@ -618,6 +618,10 @@
 				RelativePath="..\.\Core\IO\PrintIOInfo.hh"
 				>
 			</File>
+			<File
+				RelativePath="..\.\Core\IO\MethodPtrIO.hh"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
