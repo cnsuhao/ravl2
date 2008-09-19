@@ -474,27 +474,74 @@ int testRCWrap() {
 int testFloat16() {
   
   float t = 1;
-  for(int i = 0;i < 23;i++) {
-    t /= 2;
+  for(int i = 0;i < 24;i++) {
     Float16C val16(t);
     //std::cout << " " << t << " -> " << val16.Float() << "\n";
     if(t != val16.Float()) return __LINE__;
+    t /= 2;
   }
   t = -1;
-  for(int i = 0;i < 23;i++) {
-    t /= 2;
+  for(int i = 0;i < 24;i++) {
     Float16C val16(t);
     //std::cout << " " << t << " -> " << val16.Float() << "\n";
     if(t != val16.Float()) return __LINE__;
+    t /= 2;
   }
   
   int it = 1;
   for(int i = 0;i < 16;i++) {
-    it *= 2;
     Float16C val16(it);
     //std::cout << " " << it << " -> " << val16.Float() << "\n";
     if(val16.Float() != ((float) it)) return __LINE__;
+    it *= 2;
+  }
+  // Check positive infinity.
+  {
+    Float16C val16(it);
+    //cerr << "Val=" << val16.Float() << " IsInf=" << val16.IsInf() << "\n";
+    if(!val16.IsInf()) return __LINE__;
   }
   
+  it = -1;
+  for(int i = 0;i < 16;i++) {
+    Float16C val16(it);
+    //std::cout << " " << it << " -> " << val16.Float() << "\n";
+    if(val16.Float() != ((float) it)) return __LINE__;
+    it *= 2;
+  }
+  // Check negative infinity.
+  {
+    Float16C val16(it);
+    //cerr << "Val=" << val16.Float() << " IsInf=" << val16.IsInf() << "\n";
+    if(!val16.IsInf()) return __LINE__;
+  }
+  
+  UInt8T ui8 = 1;
+  for(int i = 0;i < 8;i++) {
+    Float16C val16(ui8);
+    //cerr << "ui8=" << ((unsigned int) ui8) << " Val=" << val16.Float() << "\n";
+    if(val16.Float() != ((float) ui8)) return __LINE__;
+    ui8 *= 2;
+  }
+  
+  Int8T i8 = 1;
+  for(int i = 0;i < 7;i++) {
+    Float16C val16(i8);
+    //cerr << "i8=" << (int) i8 << " Val=" << val16.Float() << "\n";
+    if(val16.Float() != ((float) i8)) return __LINE__;
+    i8 *= 2;
+  }
+  i8 = -1;
+  for(int i = 0;i < 8;i++) {
+    Float16C val16(i8);
+    //cerr << "i8=" << (int) i8 << " Val=" << val16.Float() << "\n";
+    if(val16.Float() != ((float) i8)) return __LINE__;
+    i8 *= 2;
+  }
+  {
+    Float16C val16(RavlConstN::nanFloat);
+    std::cerr << "Value=" << val16.Float() << "\n";
+    if(!val16.IsNan()) return __LINE__;
+  }
   return 0;
 }

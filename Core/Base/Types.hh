@@ -72,7 +72,7 @@ namespace RavlN {
   typedef unsigned char UByteT;
   //: Unsigned byte of 8 bits
   
-  typedef ByteT Int8T;
+  typedef signed char Int8T;
   //: Unsigned byte of 8 bits
   
   typedef UByteT UInt8T;
