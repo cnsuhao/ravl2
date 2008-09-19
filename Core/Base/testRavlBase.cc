@@ -25,6 +25,7 @@
 #include "Ravl/Exception.hh"
 #include "Ravl/QInt.hh"
 #include "Ravl/Index2d.hh"
+#include "Ravl/Float16.hh"
 
 using namespace RavlN;
 
@@ -52,6 +53,7 @@ int testException();
 int testQInt();
 int testIndexRange2d();
 int testRCWrap();
+int testFloat16();
 
 template class RCHandleC<TestBodyC>;
 template class RCWrapC<IntT>;
@@ -119,6 +121,10 @@ int main()
     return 1;
   }
   if((ln = testRCWrap()) != 0) {
+    cerr << "Test failed at line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testFloat16()) != 0) {
     cerr << "Test failed at line:" << ln << "\n";
     return 1;
   }
@@ -461,5 +467,34 @@ int testRCWrap() {
   if(wrongwrap.IsValid()) return __LINE__;
   if(!newwrap.IsValid()) return __LINE__;
   if(newwrap.Data() != 10) return __LINE__;
+  return 0;
+}
+
+
+int testFloat16() {
+  
+  float t = 1;
+  for(int i = 0;i < 23;i++) {
+    t /= 2;
+    Float16C val16(t);
+    //std::cout << " " << t << " -> " << val16.Float() << "\n";
+    if(t != val16.Float()) return __LINE__;
+  }
+  t = -1;
+  for(int i = 0;i < 23;i++) {
+    t /= 2;
+    Float16C val16(t);
+    //std::cout << " " << t << " -> " << val16.Float() << "\n";
+    if(t != val16.Float()) return __LINE__;
+  }
+  
+  int it = 1;
+  for(int i = 0;i < 16;i++) {
+    it *= 2;
+    Float16C val16(it);
+    //std::cout << " " << it << " -> " << val16.Float() << "\n";
+    if(val16.Float() != ((float) it)) return __LINE__;
+  }
+  
   return 0;
 }
