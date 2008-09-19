@@ -107,7 +107,20 @@ namespace RavlN {
 #elif RAVL_HAVE__FINITE
     return !_finite(i);
 #else
-#error "No IsInf() implementation for found. "
+#error "No IsInf() implementation found. "
+#endif
+  }
+  //: Is infinit ?
+  
+  inline bool IsInf(float i) {
+#if RAVL_HAVE_ISINF
+    return isinf(i);
+#elif RAVL_HAVE_FINITE
+    return !finite(i);
+#elif RAVL_HAVE__FINITE
+    return !_finite(i);
+#else
+#error "No IsInf() implementation found. "
 #endif
   }
   //: Is infinit ?
@@ -128,7 +141,20 @@ namespace RavlN {
 #elif RAVL_HAVE_ISNAND
     return isnand(i);
 #else
-#error "No IsNan() implementation for found. "
+#error "No IsNan() implementation found. "
+#endif
+  }
+  //: Is Not A Number ?
+  
+  inline bool IsNan(float i) {
+#if RAVL_HAVE_ISNAN
+    return isnan(i);
+#elif RAVL_HAVE__ISNAN
+    return (_isnan(i)!=0);
+#elif RAVL_HAVE_ISNAND
+    return isnand(i);
+#else
+#error "No IsNan() implementation found. "
 #endif
   }
   //: Is Not A Number ?
@@ -138,6 +164,14 @@ namespace RavlN {
   //: Convert angle from degrees to radians.
   
   inline RealT Degrees(RealT angle)
+  { return angle/RavlConstN::pi * 180.0; }
+  //: Convert angle from radians to degrees.
+  
+  inline float  Radians(float angle)
+  { return angle/180.0 * RavlConstN::pi; }
+  //: Convert angle from degrees to radians.
+  
+  inline float Degrees(float angle)
   { return angle/RavlConstN::pi * 180.0; }
   //: Convert angle from radians to degrees.
   
