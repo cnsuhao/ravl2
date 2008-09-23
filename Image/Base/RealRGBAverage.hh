@@ -13,7 +13,7 @@
 //! userlevel=Normal
 //! author="Phil McLauchlan"
 //! date="24/01/2001"
-//! docentry="Ravl.API.Images.Pixel Types.Basic"
+//! docentry="Ravl.API.Images.Pixel Types.RGB"
 
 #include "Ravl/Image/RealRGBValue.hh"
 #include "Ravl/Image/ByteRGBValue.hh"

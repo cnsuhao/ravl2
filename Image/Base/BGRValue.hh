@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! docentry="Ravl.API.Images.Pixel Types.Basic"
+//! docentry="Ravl.API.Images.Pixel Types.RGB"
 //! userlevel=Normal
 //! lib=RavlImage
 //! file="Ravl/Image/Base/BGRValue.hh"

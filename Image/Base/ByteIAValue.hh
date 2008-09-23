@@ -13,7 +13,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="24/01/2001"
-//! docentry="Ravl.API.Images.Pixel Types.Basic"
+//! docentry="Ravl.API.Images.Pixel Types.Grey Level"
 
 #include "Ravl/Image/IAValue.hh"
 
