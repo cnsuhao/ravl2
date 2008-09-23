@@ -33,9 +33,9 @@ namespace RavlImageN {
 #endif
 
   //! userlevel=Normal
-  //: HSV Pixel base class
-  // H => 0-360 <br>
-  // S => 0-1 <br>
+  //: Real HSV pixel class
+  // H: [0-360) where red = 0, green = 120, blue = 240<br>
+  // S = 1 - min(R,G,B) / max(R,G,B) &rarr; S: [0-1] <br>
   // V takes on the range of the pixel type it was constructed from.<br>
   
   class RealHSVValueC : public TFVectorC<RealT,3>
@@ -66,15 +66,15 @@ namespace RavlImageN {
 
     inline const RealT & H() const 
     { return data[0] ; }
-    //: Access to the Hue value const
+    //: Const access to the Hue value
 
     inline const RealT & S() const 
     { return data[1] ; }
-    //: Access to the Saturation value const 
+    //: Const access to the Saturation value
     
     inline const RealT & V() const 
     { return data[2] ; }
-    //: Access to the 'value' value const
+    //: Const access to the 'value' (i.e. brightness)
     
    
     inline RealT & H() 
@@ -87,7 +87,7 @@ namespace RavlImageN {
     
     inline RealT & V()
     { return data[2] ; }
-    //: Access to the 'value' value
+    //: Access to the 'value' (i.e. brightness)
 
   };
 
@@ -213,7 +213,7 @@ namespace RavlN {
   
   template<>
   struct NumericalTraitsC<RavlImageN::RealHSVValueC> {
-    typedef RavlImageN::RealHSVValueC AccumT;    //: Type to use for accumulator, guarantee's at least 2x no bits for interger types.
+    typedef RavlImageN::RealHSVValueC AccumT;    //: Type to use for accumulator, guarantees at least 2x no bits for integer types.
     typedef RavlImageN::RealHSVValueC RealAccumT; //: Type to use for a floating point accumulator.
     typedef RavlImageN::RealHSVValueC LongAccumT; //: Type to use for accumulators that can take large sums.(10000's of elements at least.)
   };
