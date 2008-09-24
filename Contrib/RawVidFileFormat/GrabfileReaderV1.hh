@@ -63,6 +63,9 @@ public:
   virtual BufferC<char> GetNextFrame();
   //: Read the next frame to a buffer.
 
+  virtual BufferC<UInt16T> GetNextFrame16T();
+  //: Read the next frame to a buffer.
+
   virtual int Version() const {return m_version_number;}
   //: The version of the reader.
 

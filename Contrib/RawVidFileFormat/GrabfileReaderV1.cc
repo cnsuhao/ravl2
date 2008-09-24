@@ -214,6 +214,106 @@ BufferC<char> GrabfileReaderV1C::GetNextFrame()
   
 }
 
+BufferC<UInt16T> GrabfileReaderV1C::GetNextFrame16T()
+{
+  uint32_t dummy_int = 0;
+  // Video buffer size
+  m_infile.read(reinterpret_cast<char*>(&dummy_int), 4);
 
+  // Audio buffer size
+  m_infile.read(reinterpret_cast<char*>(&dummy_int), 4);
+ 
+ 
+  bool ok = m_infile.good();
+  if(ok) {
+      if(IdToByteFormat(byteformat) == BITS_8) {
+         BufferC<char> video(m_video_buffer_size);
+         BufferC<UInt16T> uint16tvideo(m_video_buffer_size);
+         m_infile.read(video.BufferAccess().DataStart(),m_video_buffer_size);     
+         ++m_frames_loaded;
+	 ++m_frame_number;
+         BufferC<char> audio(m_audio_buffer_size);
+         m_infile.read(audio.BufferAccess().DataStart(),m_audio_buffer_size);
+         UInt16T * poin = uint16tvideo.BufferAccess().DataStart();
+         char * charpoin = video.BufferAccess().DataStart();
+         for(int index=0;index<m_video_buffer_size;index++) {
+            (*poin++) = (UInt16T)(*charpoin++);
+         }
+         poin = 0;
+         charpoin = 0;
+         audio = 0;
+         video = 0;
+         delete poin;
+         delete charpoin; 
+         return BufferC<UInt16T> (video.Size(),uint16tvideo.BufferAccess().DataStart(),true,false);
+	 
+         
+      }
+      if(IdToByteFormat(byteformat) == BITS_10_DVS) {
+         //Convert to 8 Bits
+         unsigned int osize = m_video_buffer_size * 3 / 4 ;
+         //Writing data as UInt16T so twice the size of chars
+	 
+         BufferC<char> video(m_video_buffer_size);
+         m_infile.read(video.BufferAccess().DataStart(),m_video_buffer_size);
+	 
+         BufferC<char> audio(m_video_buffer_size);
+         m_infile.read(audio.BufferAccess().DataStart(),m_audio_buffer_size);
+     
+        char c1,c2,c3,c4;
+        BufferC<UInt16T> buffertoconvert((m_video_buffer_size/4)*3);
+        char * videoptr = video.BufferAccess().DataStart();
+
+        UInt16T * nextTenPtr = buffertoconvert.BufferAccess().DataStart();
+
+        //Mask values to extract the necessary bits for the 10 bit data.
+        ByteT mask1 = 48;
+        ByteT mask2 = 12;
+        ByteT mask3 = 3;
+        ByteT bitsone,bitstwo,bitsthree;
+        UInt16T first_ten_bits,second_ten_bits,third_ten_bits;
+        UIntT buf = 1023;
+
+        for ( IntT vcount = 0 ; vcount < (m_video_buffer_size/4)  ; ++ vcount ) {
+            //Get the next 4 chars.
+            c1 = *videoptr++;
+            c2 = *videoptr++;
+            c3 = *videoptr++;
+            c4 = *videoptr++;
+            //Get the extra 2 bits with masking.    
+            bitsone = c4 & mask1;
+            bitstwo = c4 & mask2;
+            bitsthree = c4 & mask3;
+            //Shift first 8 bits along and add ;ast 8 bits to UInt16T.
+            first_ten_bits = (c1 << 8) + (bitsone << 2);
+            second_ten_bits = (c2 << 8) + (bitstwo << 4);
+            third_ten_bits = (c3 << 8) + (bitsthree << 6);
+            //Shift the first 6 bits off as first 2 nits of the above last 8 should be the lsfb.
+            first_ten_bits = (first_ten_bits >> 6);
+            second_ten_bits = (second_ten_bits >> 6);
+            third_ten_bits = (third_ten_bits >> 6);
+            //And out the first 6 bits.
+            first_ten_bits = first_ten_bits & buf;
+            second_ten_bits = second_ten_bits & buf;
+            third_ten_bits = third_ten_bits & buf;
+            //Assign 10 bit values to UInt16T buffer.
+            (*nextTenPtr++) = first_ten_bits;
+            (*nextTenPtr++) = second_ten_bits;
+            (*nextTenPtr++) = third_ten_bits;
+         }
+	++m_frames_loaded;
+	++m_frame_number;
+        nextTenPtr = 0;
+        videoptr = 0;
+        delete nextTenPtr;
+        delete videoptr;
+        audio = 0;
+        video = 0;
+        return BufferC<UInt16T> (buffertoconvert.Size(), buffertoconvert.BufferAccess().DataStart(), true, false);
+      }
+  }
+     return BufferC<UInt16T>();
+  
+}
 
 } // End DVSN namespace

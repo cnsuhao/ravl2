@@ -63,6 +63,9 @@ public:
 
   virtual BufferC<char> GetNextFrame() {return false;}
   //: Read the next frame to a buffer.
+
+  virtual BufferC<UInt16T> GetNextFrame16T() {return false;}
+  //: Read the next frame to a buffer.
  
   virtual bool CanGetByFrameNumber() {return false;}
   //: Is the reader able to read a specific frame?
