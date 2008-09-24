@@ -90,10 +90,16 @@ namespace RavlGUIN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    SpinButtonC(IntT digits,RealT nclimbRate = 1,RealT nvalue = 0,RealT nlower = 0,RealT nupper = 100,RealT nstep_increment = 1)
-      : WidgetC(*new SpinButtonBodyC(digits,nclimbRate,nvalue,nlower,nupper,nstep_increment))
+    SpinButtonC(IntT digits,RealT climbRate = 1,RealT value = 0,RealT lower = 0,RealT upper = 100,RealT step_increment = 1)
+      : WidgetC(*new SpinButtonBodyC(digits,climbRate,value,lower,upper,step_increment))
     {}
     //: Constructor.
+    //!param: digits - no. of digits displayed
+    //!param: climbRate - the acceleration rate when you hold down a button
+    //!param: value - initial value
+    //!param: lower - lower bound
+    //!param: upper - upper bound
+    //!param: step_increment - step increment
     
     SpinButtonC(const WidgetC &base)
       : WidgetC(dynamic_cast<const SpinButtonBodyC *>(BodyPtr(base)))
