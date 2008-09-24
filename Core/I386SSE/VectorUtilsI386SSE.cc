@@ -120,8 +120,11 @@ namespace RavlBaseVectorN {
 
   
   
-  static double SSEQuadProductD(const double *data, const double *weights1,
-                            const double *weights2, size_t size) {
+  static double SSEQuadProductD(const double *data, 
+				const double *weights1,
+				const double *weights2, 
+				size_t size) 
+  {
     const double* wPtr = weights1;
     const double* w2Ptr = weights2;
     const double* const ewPtr = weights1 + (size & ~0x1);
@@ -167,6 +170,61 @@ namespace RavlBaseVectorN {
     _mm_storeu_pd(tmp, sum);
     return tmp[0] + tmp[1];
   }
+
+  static float SSEQuadProductF(const float *data, 
+			       const float *weights1,
+			       const float *weights2, 
+			       size_t size
+			       ) 
+  {
+    const float* wPtr = weights1;
+    const float* w2Ptr = weights2;
+    const float* const ewPtr = weights1 + (size & ~0x3);
+    const float* dPtr = data;
+    __m128 sum = _mm_setzero_ps();
+    
+    if(((((unsigned long int) dPtr) & 0xf) == 0) && ((((unsigned long int) wPtr) & 0xf) == 0)  && ((((unsigned long int) w2Ptr) & 0xf) == 0))  { // Data 16-byte aligned ?
+      while(wPtr != ewPtr) {
+        const __m128 val = _mm_load_ps(dPtr);
+        sum = _mm_add_ps(sum,
+                         _mm_mul_ps(val,
+                                    _mm_add_ps(_mm_mul_ps(val,
+                                                          _mm_load_ps(w2Ptr)),
+                                               _mm_load_ps(wPtr))));
+        dPtr += 4;
+        wPtr += 4;
+        w2Ptr += 4;
+      }
+    }
+    else {
+      while(wPtr != ewPtr) {
+        const __m128 val = _mm_loadu_ps(dPtr);
+        sum = _mm_add_ps(sum,
+                         _mm_mul_ps(val,
+                                    _mm_add_ps(_mm_mul_ps(val,
+                                                          _mm_loadu_ps(w2Ptr)),
+                                               _mm_loadu_ps(wPtr))));
+        dPtr += 4;
+        wPtr += 4;
+        w2Ptr += 4;
+      }
+    }
+    
+    if(size & 3) {// Odd length ?
+      int c = size & 3;
+      for(int i = 0; i< c;i++) {
+	const __m128 val = _mm_load_ss(dPtr++);
+	sum = _mm_add_ps(sum,
+			 _mm_mul_ss(val,
+				    _mm_add_ss(_mm_mul_ss(val,
+							  _mm_load_ss(w2Ptr++)),
+					       _mm_load_ss(wPtr++))));
+      }
+    }
+    float tmp[4];
+    _mm_storeu_ps(tmp, sum);
+    return tmp[0] + tmp[1] + tmp[2]+ tmp[3];
+  }
   
   
   static void SSEReal2ByteD(unsigned char * byteData, const double *realData, size_t size) {
@@ -192,6 +250,7 @@ namespace RavlBaseVectorN {
       g_DotProductD = &SSEDotProductD;
       g_DotProductF = &SSEDotProductF;
       g_QuadProductD = &SSEQuadProductD;
+      g_QuadProductF = &SSEQuadProductF;
       g_Real2ByteD = &SSEReal2ByteD;
       //cerr<<"SSE:yes\n";
     } else {

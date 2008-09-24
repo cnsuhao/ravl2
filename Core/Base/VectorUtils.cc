@@ -37,6 +37,21 @@ namespace RavlBaseVectorN {
       }
     return retVal;
   }
+
+  static float BaseQuadProductF(const float *Data, const float *Weights1,
+				const float *Weights2, size_t Size) {
+    float retVal = 0.;
+    const float* wPtr = Weights1;
+    const float* w2Ptr = Weights2;
+    const float* const ewPtr = wPtr + Size;
+    const float* dPtr = Data;
+    while(wPtr != ewPtr)
+      {
+        const float val = *dPtr++;
+        retVal += val * (*wPtr++ + *w2Ptr++ * val);
+      }
+    return retVal;
+  }
   
   static void BaseReal2ByteD(unsigned char * byteData, const double *realData, size_t size) {
     for (int i=size; i>0; --i) {
@@ -50,6 +65,7 @@ namespace RavlBaseVectorN {
   double (*g_DotProductD)(const double*, const double*, size_t) = &BaseDotProductD;
   float (*g_DotProductF)(const float*, const float*, size_t) = &BaseDotProductF;
   double (*g_QuadProductD)(const double*, const double*, const double*, size_t) = &BaseQuadProductD;
+  float (*g_QuadProductF)(const float*, const float*, const float*, size_t) = &BaseQuadProductF;
   void (*g_Real2ByteD)(unsigned char*, const double*, size_t) = &BaseReal2ByteD;
 
 }

@@ -20,6 +20,10 @@ int main() {
     std::cerr << "Test failed on line " << ln << "\n";
     return ln;
   }
+  if((ln = TestQuad<float>()) != 0) {
+    std::cerr << "Test failed on line " << ln << "\n";
+    return ln;
+  }
   std::cout << "Test passed ok. \n";
   return 0;
 }
