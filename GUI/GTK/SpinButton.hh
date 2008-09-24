@@ -78,7 +78,8 @@ namespace RavlGUIN {
   };
   
   //! userlevel=Normal
-  //: Spin button body.
+  //: Spin button<br>
+  //: <img src="../../../html/spinbutton.png">
   
   class SpinButtonC
     : public WidgetC
