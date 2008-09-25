@@ -79,7 +79,7 @@ namespace RavlGUIN {
   
   //! userlevel=Normal
   //: Spin button<br>
-  //: <img src="../../../html/spinbutton.png">
+  // <img src="../../../html/spinbutton.png">
   
   class SpinButtonC
     : public WidgetC
