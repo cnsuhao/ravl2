@@ -6,22 +6,26 @@
 namespace RavlBaseVectorN {
   
   using namespace RavlN;
-
+  
+  template<typename DataT>
+  static inline bool Is16ByteAligned(const DataT *data) 
+  { return (((unsigned long int) data) & 0xf) == 0; }
+  
   // FIXME:- In both these routines if vectors have the same alignment we could process 
   // the first few entries then process as aligned .
   
   static double SSEDotProductD(const double* v1, const double* v2, size_t size) {
-    if(size < 12) {
+    register double dsum = 0.0;
+    if(size < 8) {
       // For small vectors all the messing about is not worth it.
-      double sum = 0.0;
       for(unsigned int i=size; i>0; --i)
-        sum += *v1++ * *v2++;
-      return sum;
+        dsum += *v1++ * *v2++;
+      return dsum;
     }
     const double* const ewPtr = v1 + (size & ~0x1);
     __m128d sum = _mm_setzero_pd();
-    if((((unsigned long int) v1) & 0xf) == 0) {  // v1 16-byte aligned ?
-      if((((unsigned long int) v2) & 0xf) == 0) {// v2 16-byte aligned ?
+    if(Is16ByteAligned(v1)) {  // v1 16-byte aligned ?
+      if(Is16ByteAligned(v2)) {// v2 16-byte aligned ?
         while(v1 != ewPtr) {
           sum = _mm_add_pd(sum, _mm_mul_pd(_mm_load_pd(v2), _mm_load_pd(v1)));
           v2 += 2;
@@ -37,7 +41,7 @@ namespace RavlBaseVectorN {
       }
     }
     else {
-      if((((unsigned long int) v2) & 0xf) == 0) {// v2 16-byte aligned ?
+      if(Is16ByteAligned(v2)) {// v2 16-byte aligned ?
         while(v1 != ewPtr) {
           sum = _mm_add_pd(sum, _mm_mul_pd(_mm_load_pd(v2), _mm_loadu_pd(v1)));
           v2 += 2;
@@ -56,9 +60,10 @@ namespace RavlBaseVectorN {
     if(size & 1) { // Odd length ?
       sum = _mm_add_pd(sum, _mm_mul_sd(_mm_load_sd(v2++), _mm_load_sd(v1++)));
     }
-    double tmp[2];
-    _mm_storeu_pd(tmp, sum);
-    return tmp[0] + tmp[1];
+    // Sum the two accumulators together.
+    sum = _mm_add_sd(sum,_mm_shuffle_pd(sum,sum,_MM_SHUFFLE2(0,1)));
+    _mm_store_sd(&dsum, sum);
+    return dsum;
   }
   
   static float SSEDotProductF(const float *v1,const float *v2,size_t n) {
@@ -74,8 +79,8 @@ namespace RavlBaseVectorN {
     __m128 sum = _mm_setzero_ps ();
     
     
-    if((((unsigned long int) v1) & 0xf) == 0) {  // v1 16-byte aligned ?
-      if((((unsigned long int) v2) & 0xf) == 0) {// v2 16-byte aligned ?
+    if(Is16ByteAligned(v1)) {  // v1 16-byte aligned ?
+      if(Is16ByteAligned(v2)) {// v2 16-byte aligned ?
         while(v1 != ewPtr) {
           sum = _mm_add_ps(sum,_mm_mul_ps(_mm_load_ps(v1),_mm_load_ps(v2)));
           v1 += 4;
@@ -89,7 +94,7 @@ namespace RavlBaseVectorN {
         }
       }
     } else {
-      if((((unsigned long int) v2) & 0xf) == 0) {// v2 16-byte aligned ?
+      if(Is16ByteAligned(v2)) {// v2 16-byte aligned ?
         while(v1 != ewPtr) {
           sum = _mm_add_ps(sum,_mm_mul_ps(_mm_loadu_ps(v1),_mm_load_ps(v2)));
           v1 += 4;
@@ -130,7 +135,7 @@ namespace RavlBaseVectorN {
     const double* const ewPtr = weights1 + (size & ~0x1);
     const double* dPtr = data;
     __m128d sum = _mm_setzero_pd();
-    if(((((unsigned long int) dPtr) & 0xf) == 0) && ((((unsigned long int) wPtr) & 0xf) == 0)  && ((((unsigned long int) w2Ptr) & 0xf) == 0))  { // Data 16-byte aligned ?
+    if(Is16ByteAligned(dPtr) && Is16ByteAligned(wPtr) && Is16ByteAligned(w2Ptr))  { // Data 16-byte aligned ?
       while(wPtr != ewPtr) {
         const __m128d val = _mm_load_pd(dPtr);
         sum = _mm_add_pd(sum,
@@ -157,20 +162,21 @@ namespace RavlBaseVectorN {
       }
     }
     
-    if(size & 1) // Odd length ?
-      {
-        const __m128d val = _mm_load_sd(dPtr++);
-        sum = _mm_add_pd(sum,
-                         _mm_mul_sd(val,
-                                    _mm_add_sd(_mm_mul_sd(val,
-                                                          _mm_load_sd(w2Ptr++)),
-                                               _mm_load_sd(wPtr++))));
-      }
-    double tmp[2];
-    _mm_storeu_pd(tmp, sum);
-    return tmp[0] + tmp[1];
+    if(size & 1) { // Odd length ?
+      const __m128d val = _mm_load_sd(dPtr++);
+      sum = _mm_add_pd(sum,
+                       _mm_mul_sd(val,
+                                  _mm_add_sd(_mm_mul_sd(val,
+                                                        _mm_load_sd(w2Ptr++)),
+                                             _mm_load_sd(wPtr++))));
+    }
+    
+    double dsum;
+    sum = _mm_add_sd(sum,_mm_shuffle_pd(sum,sum,_MM_SHUFFLE2(0,1)));
+    _mm_store_sd(&dsum, sum);
+    return dsum;
   }
-
+  
   static float SSEQuadProductF(const float *data, 
 			       const float *weights1,
 			       const float *weights2, 
@@ -183,7 +189,7 @@ namespace RavlBaseVectorN {
     const float* dPtr = data;
     __m128 sum = _mm_setzero_ps();
     
-    if(((((unsigned long int) dPtr) & 0xf) == 0) && ((((unsigned long int) wPtr) & 0xf) == 0)  && ((((unsigned long int) w2Ptr) & 0xf) == 0))  { // Data 16-byte aligned ?
+    if(Is16ByteAligned(dPtr) && Is16ByteAligned(wPtr)  && Is16ByteAligned(w2Ptr))  { // Data 16-byte aligned ?
       while(wPtr != ewPtr) {
         const __m128 val = _mm_load_ps(dPtr);
         sum = _mm_add_ps(sum,
@@ -221,9 +227,13 @@ namespace RavlBaseVectorN {
 					       _mm_load_ss(wPtr++))));
       }
     }
-    float tmp[4];
-    _mm_storeu_ps(tmp, sum);
-    return tmp[0] + tmp[1] + tmp[2]+ tmp[3];
+
+    sum = _mm_add_ps(sum,_mm_shuffle_ps(sum,sum, _MM_SHUFFLE(2,3,0,1)));
+    sum = _mm_add_ps(sum,_mm_shuffle_ps(sum,sum, _MM_SHUFFLE(1,0,3,2)));
+    
+    float ret = 0;
+    _mm_store_ss(&ret,sum);
+    return ret;
   }
   
   
@@ -243,7 +253,160 @@ namespace RavlBaseVectorN {
       *byteData = (ByteT) _mm_cvtsi128_si32 (ivs);
     }
   }
-
+  
+  static void SSEMatrixMulVectorD(const double *matrix, 
+                                  const double *vec, // Must be 'col' entries
+                                  UIntT rows,
+                                  UIntT cols,         
+                                  IntT stride,        // Stride of matrix, number of elements in a row
+                                  double *result       // Must have 'rows' entries
+                                  ) 
+  {
+    if(rows == 1) {
+      *result = SSEDotProductD(matrix,vec,cols);
+      return ;
+    }
+    const double *rowStart = matrix;
+    double *resultAt = result;
+    if(cols < 12 || !(Is16ByteAligned(matrix) && Is16ByteAligned(vec) && ((stride % 4) == 0) && ((cols % 4) == 0))) {
+      for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+        register double accum = rowStart[0]*vec[0];
+        for(unsigned int j = 1;j < cols;j++)
+          accum += rowStart[j]*vec[j];
+        *(resultAt++) = accum;
+      }
+      return ;
+    }
+    for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+      register const double *rowAt = rowStart;
+      register const double *vecAt = vec;
+      register __m128d accum =  _mm_mul_pd(_mm_load_pd(rowAt),_mm_load_pd(vecAt));
+      for(unsigned int j = 2;j < cols;j += 2) {
+        rowAt += 2;
+        vecAt += 2;
+        accum = _mm_add_pd(accum,_mm_mul_pd(_mm_load_pd(rowAt),_mm_load_pd(vecAt)));
+      }
+      // Add two accumulators together
+      accum = _mm_add_sd(accum,_mm_shuffle_pd(accum,accum,_MM_SHUFFLE2(0,1)));
+      _mm_store_sd(resultAt++,accum);
+    }
+    
+  }
+  
+  static void SSEMatrixMulVectorF(const float *matrix, 
+                                  const float *vec, // Must be 'col' entries
+                                  UIntT rows,
+                                  UIntT cols,         
+                                  IntT stride,        // Stride of matrix, number of elements in a row
+                                  float *result       // Must have 'rows' entries
+                                  ) 
+  {
+    if(rows == 1) {
+      *result = SSEDotProductF(matrix,vec,cols);
+      return ;
+    }
+    //std::cerr << "cols=" << cols << " Rows=" << rows << " Stride=" << stride <<"\n";
+    if(cols < 8) { // || !(Is16ByteAligned(matrix) && Is16ByteAligned(vec) && ((stride % 4) == 0))
+      const float *rowStart = matrix;
+      for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+        register float accum = rowStart[0]*vec[0];
+        for(unsigned int j = 1;j < cols;j++)
+          accum += rowStart[j]*vec[j];
+        result[i] = accum;
+      }
+      return ;      
+    }
+    float *resultAt = result;
+    const float *rowStart = matrix;
+    
+    if(Is16ByteAligned(matrix) && Is16ByteAligned(vec) && ((stride % 4) == 0)) {
+      // Everything is aligned
+      UIntT fastCols = (cols & ~0x3);
+      //std::cerr << " A fastCols=" << fastCols << " Rem=" << (cols % 4)  <<"\n";
+      if((cols % 4) == 0) {
+        for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+          register const float *rowAt = rowStart;
+          register const float *vecAt = vec;
+          register __m128 accum =  _mm_mul_ps(_mm_load_ps(rowAt),_mm_load_ps(vecAt));
+          for(unsigned int j = 4;j < cols;j += 4) {
+            rowAt += 4;
+            vecAt += 4;
+            accum = _mm_add_ps(accum,_mm_mul_ps(_mm_load_ps(rowAt),_mm_load_ps(vecAt)));
+          }
+          accum = _mm_add_ps(accum,_mm_shuffle_ps(accum,accum, _MM_SHUFFLE(2,3,0,1)));
+          accum = _mm_add_ps(accum,_mm_shuffle_ps(accum,accum, _MM_SHUFFLE(1,0,3,2)));
+          _mm_store_ss(resultAt++,accum);
+        }
+      } else {
+        for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+          register const float *rowAt = rowStart;
+          register const float *vecAt = vec;
+          register __m128 accum =  _mm_mul_ps(_mm_load_ps(rowAt),_mm_load_ps(vecAt));
+          unsigned int j;
+          for(j = 4;j < fastCols;j += 4) {
+            rowAt += 4;
+            vecAt += 4;
+            accum = _mm_add_ps(accum,_mm_mul_ps(_mm_load_ps(rowAt),_mm_load_ps(vecAt)));
+          }
+          // Finish off row
+          rowAt += 4;
+          vecAt += 4;
+          for(;j < cols;j++) {
+            accum = _mm_add_ps(accum,_mm_mul_ss(_mm_load_ss(rowAt++),_mm_load_ss(vecAt++)));            
+          }
+          accum = _mm_add_ps(accum,_mm_shuffle_ps(accum,accum, _MM_SHUFFLE(2,3,0,1)));
+          accum = _mm_add_ps(accum,_mm_shuffle_ps(accum,accum, _MM_SHUFFLE(1,0,3,2)));
+          _mm_store_ss(resultAt++,accum);
+        }     
+      }
+        
+    } else {
+      // 
+      if((cols % 4) == 0) {
+        //std::cerr << " B fastCols=" << fastCols << " cols=" << cols << " Rem=" << (cols % 4)  <<"\n";
+        // Unaligned with no extra columns
+        for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+          register const float *rowAt = rowStart;
+          register const float *vecAt = vec;
+          register __m128 accum =  _mm_mul_ps(_mm_loadu_ps(rowAt),_mm_loadu_ps(vecAt));
+          unsigned int j;
+          for(j = 4;j < cols;j += 4) {
+            rowAt += 4;
+            vecAt += 4;
+            accum = _mm_add_ps(accum,_mm_mul_ps(_mm_loadu_ps(rowAt),_mm_loadu_ps(vecAt)));
+          }
+          accum = _mm_add_ps(accum,_mm_shuffle_ps(accum,accum, _MM_SHUFFLE(2,3,0,1)));
+          accum = _mm_add_ps(accum,_mm_shuffle_ps(accum,accum, _MM_SHUFFLE(1,0,3,2)));
+          _mm_store_ss(resultAt++, accum);
+        }
+      } else {
+        //std::cerr << " C fall back.\n";
+        // Unaligned with extra columns
+        UIntT fastCols = (cols & ~0x3);
+        for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+          register const float *rowAt = rowStart;
+          register const float *vecAt = vec;
+          register __m128 accum =  _mm_mul_ps(_mm_loadu_ps(rowAt),_mm_loadu_ps(vecAt));
+          unsigned int j;
+          for(j = 4;j < fastCols;j += 4) {
+            rowAt += 4;
+            vecAt += 4;
+            accum = _mm_add_ps(accum,_mm_mul_ps(_mm_loadu_ps(rowAt),_mm_loadu_ps(vecAt)));
+          }
+          // Finish off row
+          rowAt += 4;
+          vecAt += 4;
+          for(;j < cols;j++) {
+            accum = _mm_add_ps(accum,_mm_mul_ss(_mm_load_ss(rowAt++),_mm_load_ss(vecAt++)));            
+          }
+          accum = _mm_add_ps(accum,_mm_shuffle_ps(accum,accum, _MM_SHUFFLE(2,3,0,1)));
+          accum = _mm_add_ps(accum,_mm_shuffle_ps(accum,accum, _MM_SHUFFLE(1,0,3,2)));
+          _mm_store_ss(resultAt++, accum);
+        }
+      }
+    }
+  }
+  
   
   int VectorSSEInit() {
     if (SSE2() && 1) {
@@ -251,6 +414,8 @@ namespace RavlBaseVectorN {
       g_DotProductF = &SSEDotProductF;
       g_QuadProductD = &SSEQuadProductD;
       g_QuadProductF = &SSEQuadProductF;
+      g_MatrixMulVectorF = &SSEMatrixMulVectorF;
+      g_MatrixMulVectorD = &SSEMatrixMulVectorD;
       g_Real2ByteD = &SSEReal2ByteD;
       //cerr<<"SSE:yes\n";
     } else {

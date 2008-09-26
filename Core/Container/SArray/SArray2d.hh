@@ -79,6 +79,22 @@ namespace RavlN {
     //: Create size1 x size2 array from memory given in 'data'
     // If freeMemory is true it 'data' will be freed with a 'delete []' call when no longer required.
     
+    static SArray2dC<DataT> ConstructAligned(const SizeT dim1,const SizeT dim2,UIntT align) { 
+      RavlAssert((align % sizeof(DataT)) == 0); // We should do something about the requirement.
+      IntT stride = dim2;
+      const UIntT elemAlign = align / sizeof(DataT);
+      const UIntT remainder = (dim2 % elemAlign);
+      if(remainder > 0) {
+        RavlAssert(remainder < elemAlign);
+        stride += elemAlign - remainder;
+      }
+      return SArray2dC(SingleBufferC<DataT>(stride*dim1,align), dim1,dim2,0,stride); 
+    }
+    //: Creates an uninitialized array with the range <0, 'dim1'-1>,<0, 'dim2'-1> and 
+    //: the given byte alignment of the start of each row.
+    // align must be a power of 2.
+    // Currently the align must be an integer muliple of the element size.
+    
     SArray2dC<DataT> Copy() const;
     //: Copy array.
     

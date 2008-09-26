@@ -69,7 +69,7 @@ int main (int nargs,char **argv) {
     }
     RavlN::DateC finishr = RavlN::DateC::NowUTC();
     
-    std::cout << " " << vl << " " << (finish - start).Double() << " " << (finishr - startr).Double() << "\n";
+    std::cout << " " << vl << " SSE:" << (finish - start).Double() << " Original:" << (finishr - startr).Double() << "\n";
   }
   cout << r << endl;
   

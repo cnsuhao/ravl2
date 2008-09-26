@@ -45,27 +45,123 @@ namespace RavlBaseVectorN {
     const float* w2Ptr = Weights2;
     const float* const ewPtr = wPtr + Size;
     const float* dPtr = Data;
-    while(wPtr != ewPtr)
-      {
-        const float val = *dPtr++;
-        retVal += val * (*wPtr++ + *w2Ptr++ * val);
-      }
+    while(wPtr != ewPtr) {
+      const float val = *dPtr++;
+      retVal += val * (*wPtr++ + *w2Ptr++ * val);
+    }
     return retVal;
   }
   
   static void BaseReal2ByteD(unsigned char * byteData, const double *realData, size_t size) {
     for (int i=size; i>0; --i) {
-      *(byteData++) = (*realData >= 255.0) ? 255
-                                         : (*realData<=0.0) ? 0
-                                                            : ((unsigned char) (*realData + 0.5));
+      *(byteData++) = (*realData >= 255.0) ? 255 : (*realData<=0.0) ? 0 : ((unsigned char) (*realData + 0.5));
       realData++;
     }
   }
-   
+  
+  static void BaseFloat2ByteD(unsigned char * byteData, const float *realData, size_t size) {
+    for (int i=size; i>0; --i) {
+      *(byteData++) = (*realData >= 255.0) ? 255 : (*realData<=0.0) ? 0 : ((unsigned char) (*realData + 0.5));
+      realData++;
+    }
+  }
+  
+  
+  static void MatrixMulVectorF(const float *matrix, 
+                               const float *vec, // Must be 'col' entries
+                               UIntT rows,
+                               UIntT cols,         
+                               IntT stride,        // Stride of matrix.
+                               float *result       // Must have 'rows' entries
+                               ) 
+  {
+    RavlAssert(rows > 0);
+    RavlAssert(cols > 0);
+    const float *rowStart = matrix;
+    for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+      register float accum = rowStart[0]*vec[0];
+      for(unsigned int j = 1;j < cols;j++)
+        accum += rowStart[j]*vec[j];
+      result[i] = accum;
+    }
+  }
+
+  static void MatrixMulVectorD(const double *matrix, 
+                               const double *vec, // Must be 'col' entries
+                               UIntT rows,
+                               UIntT cols,         
+                               IntT stride,         // Stride of matrix.
+                               double *result       // Must have 'rows' entries
+                               ) 
+  {
+    RavlAssert(rows > 0);
+    RavlAssert(cols > 0);
+    const double *rowStart = matrix;
+    for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+      register double accum = rowStart[0]*vec[0];
+      for(unsigned int j = 1;j < cols;j++)
+        accum += rowStart[j]*vec[j];
+      result[i] = accum;
+    }
+  }
+  
+
+
+
+  static void MatrixTMulVectorF(const float *matrix, 
+                                const float *vec, // Must be 'col' entries
+                                UIntT rows,
+                                UIntT cols,         
+                                IntT stride,        // Stride of matrix.
+                                float *result       // Must have 'rows' entries
+                                ) 
+  {
+    unsigned int i = 0;
+    for(;i < cols;i++)
+      result[i] = 0;
+    const float *rowStart = matrix;
+    for(i = 0;i < rows; i++) {
+      const float dat = vec[i];
+      for(unsigned int j = 0;j < cols;j++)
+        result[j] += rowStart[j] * dat;
+      rowStart += stride;
+    }
+  }
+
+  static void MatrixTMulVectorD(const double *matrix, 
+                                const double *vec, // Must be 'col' entries
+                                UIntT rows,
+                                UIntT cols,         
+                                IntT stride,         // Stride of matrix.
+                                double *result       // Must have 'rows' entries
+                                ) 
+  {
+    unsigned int i = 0;
+    for(;i < cols;i++)
+      result[i] = 0;
+    const double *rowStart = matrix;
+    for(i = 0;i < rows; i++) {
+      const double dat = vec[i];
+      for(unsigned int j = 0;j < cols;j++)
+        result[j] += rowStart[j] * dat;
+      rowStart += stride;
+    }
+  }
+
+
+
+
+  
   double (*g_DotProductD)(const double*, const double*, size_t) = &BaseDotProductD;
   float (*g_DotProductF)(const float*, const float*, size_t) = &BaseDotProductF;
   double (*g_QuadProductD)(const double*, const double*, const double*, size_t) = &BaseQuadProductD;
   float (*g_QuadProductF)(const float*, const float*, const float*, size_t) = &BaseQuadProductF;
   void (*g_Real2ByteD)(unsigned char*, const double*, size_t) = &BaseReal2ByteD;
-
+  void (*g_Real2ByteF)(unsigned char*, const float*, size_t) = &BaseFloat2ByteD;
+  void (*g_MatrixMulVectorD)(const double *,const double *,UIntT ,UIntT ,IntT ,double *) = &MatrixMulVectorD;
+  void (*g_MatrixMulVectorF)(const float *,const float *,UIntT ,UIntT ,IntT ,float *) = &MatrixMulVectorF;
+  
+  void (*g_MatrixTMulVectorD)(const double *,const double *,unsigned int ,unsigned int ,int ,double *) = &MatrixTMulVectorD;
+  void (*g_MatrixTMulVectorF)(const float *,const float *,unsigned int ,unsigned int ,int ,float *) = &MatrixTMulVectorF;
+  
 }

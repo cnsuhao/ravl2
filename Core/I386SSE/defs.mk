@@ -15,7 +15,7 @@ PLIB=RavlCore
 
 USESLIBS = RavlCore 
 
-#PROGLIBS= RavlMath RavlOS
+PROGLIBS= RavlMath RavlOS
 
 LIBDEPS = RavlI386SSE.def
 
