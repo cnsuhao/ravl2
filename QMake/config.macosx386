@@ -106,9 +106,9 @@ endif
 # 'opt' variant.
 
 ifeq ($(VAR),opt)
- CFLAGS += $(OPTCFLAGS) 
- CCFLAGS += $(OPTCFLAGS)
- LDFLAGS += -O 
+ CFLAGS += -g $(OPTCFLAGS) 
+ CCFLAGS += -g $(OPTCFLAGS)
+ LDFLAGS += -O -g
 endif
 
 ############################
@@ -136,9 +136,9 @@ endif
 # 'gprof' variant.
 
 ifeq ($(VAR),gprof)
- CFLAGS += -pg -g   $(OPTCFLAGS)
- CCFLAGS += -pg -g $(OPTCFLAGS)
- LDFLAGS += -pg -g -O2
+ CFLAGS += -finstrument-functions -g $(OPTCFLAGS)
+ CCFLAGS += -finstrument-functions -g $(OPTCFLAGS)
+ LDFLAGS += -lSaturn -g -O2
 endif
 
 
