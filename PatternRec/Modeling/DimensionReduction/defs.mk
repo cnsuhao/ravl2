@@ -20,3 +20,5 @@ PLIB=RavlPatternRec
 LIBDEPS = RavlPatternRecDimReduce.def 
 
 USESLIBS=RavlPatternRec
+
+EHT = Dimension_Reduction.html

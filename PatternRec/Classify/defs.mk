@@ -39,6 +39,6 @@ LIBDEPS = RavlPatternRecClassifier.def
 
 USESLIBS=RavlCore RavlOS RavlIO RavlMath RavlPatternRec fann
 
-EHT = Ravl.API.Pattern_Recognition.Classifier.html
+EHT = Ravl.API.Pattern_Recognition.Classifier.html DesignClassifier.html
 
 EXAMPLES=  exKNearestNeighbour.cc
