@@ -227,10 +227,9 @@ namespace RavlN {
   
   template<class DataT>
   TVectorC<DataT> TMatrixC<DataT>::operator*(const TVectorC<DataT> & vector) const {
-    const SizeT rdim = Rows();
     RavlAssertMsg(vector.Size() == Cols(),"TMatrixC<DataT>::operator*(VectorC &), Vector size must equal the number of columns in the matrix.");
-    TVectorC<DataT> out(rdim);
-    if(rdim == 0)
+    TVectorC<DataT> out(Rows());
+    if(Rows() == 0)
       return out;
     BufferAccessIterC<DataT> rit(out);
     for (UIntT i = 0;rit; ++i,rit++) {
@@ -239,9 +238,33 @@ namespace RavlN {
       for(it++;it;it++)
 	sum += it.Data1() * it.Data2();
       *rit = sum;
-    }
+    }    
     return out;
   }
+  
+  template<>
+  inline
+  TVectorC<RealT> TMatrixC<RealT>::operator*(const TVectorC<RealT> & vector) const {
+    RavlAssertMsg(vector.Size() == Cols(),"TMatrixC<DataT>::operator*(VectorC &), Vector size must equal the number of columns in the matrix.");
+    TVectorC<RealT> out(Rows());
+    if(Rows() == 0)
+      return out;
+    RavlBaseVectorN::MatrixMulVector(&(*this)[0][0],&vector[0],Rows(),Cols(),Stride(),&out[0]);
+    return out;
+  }
+
+  template<>
+  inline
+  TVectorC<float> TMatrixC<float>::operator*(const TVectorC<float> & vector) const {
+    RavlAssertMsg(vector.Size() == Cols(),"TMatrixC<DataT>::operator*(VectorC &), Vector size must equal the number of columns in the matrix.");
+    TVectorC<float> out(Rows());
+    if(Rows() == 0)
+      return out;
+    RavlBaseVectorN::MatrixMulVector(&(*this)[0][0],&vector[0],Rows(),Cols(),Stride(),&out[0]);
+    return out;
+  }
+  
+  
   
   template<class DataT>
   TVectorC<DataT> TMatrixC<DataT>::TMul(const TVectorC<DataT>& vector) const {
@@ -259,6 +282,29 @@ namespace RavlN {
     }
     return out;
   }
+  
+  template<>
+  inline
+  TVectorC<float> TMatrixC<float>::TMul(const TVectorC<float>& vector) const {
+    const SizeT rdim = Cols();
+    RavlAssertMsg(vector.Size() == Rows(),"TMatrixC<DataT>::TMul(), Vector size must equal number of rows in the matrix.");
+    TVectorC<float> out(rdim);
+    if(rdim == 0) return out;
+    RavlBaseVectorN::MatrixTMulVector(&(*this)[0][0],&vector[0],Rows(),Cols(),Stride(),&out[0]);
+    return out;
+  }
+  
+  template<>
+  inline
+  TVectorC<double> TMatrixC<double>::TMul(const TVectorC<double>& vector) const {
+    const SizeT rdim = Cols();
+    RavlAssertMsg(vector.Size() == Rows(),"TMatrixC<DataT>::TMul(), Vector size must equal number of rows in the matrix.");
+    TVectorC<double> out(rdim);
+    if(rdim == 0) return out;
+    RavlBaseVectorN::MatrixTMulVector(&(*this)[0][0],&vector[0],Rows(),Cols(),Stride(),&out[0]);
+    return out;
+  }
+  
   
   template<class DataT>
   TMatrixC<DataT> TMatrixC<DataT>::operator*(const TMatrixC<DataT> & mat) const  {
