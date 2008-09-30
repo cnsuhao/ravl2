@@ -59,7 +59,7 @@ namespace RavlBaseVectorN {
     }
   }
   
-  static void BaseFloat2ByteD(unsigned char * byteData, const float *realData, size_t size) {
+  static void BaseReal2ByteF(unsigned char * byteData, const float *realData, size_t size) {
     for (int i=size; i>0; --i) {
       *(byteData++) = (*realData >= 255.0) ? 255 : (*realData<=0.0) ? 0 : ((unsigned char) (*realData + 0.5));
       realData++;
@@ -157,7 +157,7 @@ namespace RavlBaseVectorN {
   double (*g_QuadProductD)(const double*, const double*, const double*, size_t) = &BaseQuadProductD;
   float (*g_QuadProductF)(const float*, const float*, const float*, size_t) = &BaseQuadProductF;
   void (*g_Real2ByteD)(unsigned char*, const double*, size_t) = &BaseReal2ByteD;
-  void (*g_Real2ByteF)(unsigned char*, const float*, size_t) = &BaseFloat2ByteD;
+  void (*g_Real2ByteF)(unsigned char*, const float*, size_t) = &BaseReal2ByteF;
   void (*g_MatrixMulVectorD)(const double *,const double *,UIntT ,UIntT ,IntT ,double *) = &MatrixMulVectorD;
   void (*g_MatrixMulVectorF)(const float *,const float *,UIntT ,UIntT ,IntT ,float *) = &MatrixMulVectorF;
   
