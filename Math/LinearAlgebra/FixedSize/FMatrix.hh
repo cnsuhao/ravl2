@@ -93,7 +93,61 @@ namespace RavlN {
   template<unsigned int N,unsigned int M>
   bool SolveIP(FMatrixC<N,M> &mat,FVectorC<N> &b) {
     RavlAssertMsg(N == M,"FMatrixC::SolveIP(), Matrix must be square. ");
-    return solv(&mat[0][0],&b[0],N) == 0;
+    // This code is based on solv from CCMath.
+    double *a = &mat[0][0];
+    int i,j,k,lc; 
+    double *ps,*p,*q,*pa,*pd;
+    double *q0,s,t,tq=0.,zr=1.e-15;
+    double tmp[N];
+    q0 = tmp;
+    for(i = 0;i < (int)N;i++)
+      tmp[i] = 0;
+    for(j=0,pa=a,pd=a; j<(int)N ;++j,++pa,pd+=N+1){
+      if(j){
+        for(i=0,q=q0,p=pa; i<(int)N ;++i,p+=N) 
+          *q++ = *p;
+        for(i=1; i< (int) N ;++i) { 
+          lc=i<j?i:j;
+          for(k=0,p=pa+i*N-j,q=q0,t=0.; k<lc ;++k) 
+            t+= *p++ * *q++;
+          q0[i]-=t;
+        }
+        for(i=0,q=q0,p=pa; i<(int)N ;++i,p+=N)
+          *p= *q++;
+      }
+      s=fabs(*pd); lc=j;
+      for(k=j+1,ps=pd; k<(int)N ;++k){
+        if((t=fabs(*(ps+=N)))>s)
+          { s=t; lc=k; }
+      }
+      tq=tq>s?tq:s; 
+      if(s<zr*tq)
+        return false;
+      if(lc!=j){ 
+        t=b[j]; 
+        b[j]=b[lc]; 
+        b[lc]=t;
+        for(k=0,p=a+N*j,q=a+N*lc; k< (int)N ;++k){
+          t= *p; 
+          *p++ = *q; 
+          *q++ =t;
+        }
+      }
+      for(k=j+1,ps=pd,t=1./ *pd; k<(int)N ;++k) 
+        *(ps+=N)*=t;
+    }
+    for(j=1,ps=&b[1]; j<(int) N ;++j){
+      for(k=0,p=a+N*j,q=&b[0],t=0.; k<j ;++k) 
+        t+= *p++ * *q++;
+      *ps++ -=t;
+    }
+    for(j=N-1,--ps,pd=a+N*N-1; j>=0 ;--j,pd-=N+1){
+      for(k=j+1,p=pd,q=(&b[0])+j,t=0.; k<(int)N ;++k) 
+        t+= *++p * *++q;
+      *ps-=t; 
+      *ps-- /= *pd;
+    }
+    return true;
   }
   //: Solve a general linear system  A*x = b
   // The input matix A is this one.  The input
