@@ -268,7 +268,7 @@ namespace RavlBaseVectorN {
     }
     const double *rowStart = matrix;
     double *resultAt = result;
-    if(cols < 12 || !(Is16ByteAligned(matrix) && Is16ByteAligned(vec) && ((stride % 4) == 0) && ((cols % 4) == 0))) {
+    if(cols < 12) {
       for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
         register double accum = rowStart[0]*vec[0];
         for(unsigned int j = 1;j < cols;j++)
@@ -277,18 +277,75 @@ namespace RavlBaseVectorN {
       }
       return ;
     }
-    for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
-      register const double *rowAt = rowStart;
-      register const double *vecAt = vec;
-      register __m128d accum =  _mm_mul_pd(_mm_load_pd(rowAt),_mm_load_pd(vecAt));
-      for(unsigned int j = 2;j < cols;j += 2) {
-        rowAt += 2;
-        vecAt += 2;
-        accum = _mm_add_pd(accum,_mm_mul_pd(_mm_load_pd(rowAt),_mm_load_pd(vecAt)));
+    if((Is16ByteAligned(matrix) && Is16ByteAligned(vec) && ((stride % 2) == 0))) {
+      if((cols & 1) == 0) {
+        for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+          register const double *rowAt = rowStart;
+          register const double *vecAt = vec;
+          register __m128d accum =  _mm_mul_pd(_mm_load_pd(rowAt),_mm_load_pd(vecAt));
+          for(unsigned int j = 2;j < cols;j += 2) {
+            rowAt += 2;
+            vecAt += 2;
+            accum = _mm_add_pd(accum,_mm_mul_pd(_mm_load_pd(rowAt),_mm_load_pd(vecAt)));
+          }
+          // Add two accumulators together
+          accum = _mm_add_sd(accum,_mm_shuffle_pd(accum,accum,_MM_SHUFFLE2(0,1)));
+          _mm_store_sd(resultAt++,accum);
+        }
+      } else {
+        UIntT fastCols = (cols & ~0x1);
+        for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+          register const double *rowAt = rowStart;
+          register const double *vecAt = vec;
+          register __m128d accum =  _mm_mul_pd(_mm_load_pd(rowAt),_mm_load_pd(vecAt));
+          for(unsigned int j = 2;j < fastCols;j += 2) {
+            rowAt += 2;
+            vecAt += 2;
+            accum = _mm_add_pd(accum,_mm_mul_pd(_mm_load_pd(rowAt),_mm_load_pd(vecAt)));
+          }
+          rowAt += 2;
+          vecAt += 2;
+          accum = _mm_add_pd(accum,_mm_mul_sd(_mm_load_sd(rowAt),_mm_load_sd(vecAt)));
+          // Add two accumulators together
+          accum = _mm_add_sd(accum,_mm_shuffle_pd(accum,accum,_MM_SHUFFLE2(0,1)));
+          _mm_store_sd(resultAt++,accum);
+        }        
       }
-      // Add two accumulators together
-      accum = _mm_add_sd(accum,_mm_shuffle_pd(accum,accum,_MM_SHUFFLE2(0,1)));
-      _mm_store_sd(resultAt++,accum);
+    } else {
+      if((cols & 1) == 0) {
+        for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+          register const double *rowAt = rowStart;
+          register const double *vecAt = vec;
+          register __m128d accum = _mm_mul_pd(_mm_loadu_pd(rowAt),_mm_loadu_pd(vecAt));
+          for(unsigned int j = 2;j < cols;j += 2) {
+            rowAt += 2;
+            vecAt += 2;
+            accum = _mm_add_pd(accum,_mm_mul_pd(_mm_loadu_pd(rowAt),_mm_loadu_pd(vecAt)));
+          }
+          // Add two accumulators together
+          accum = _mm_add_sd(accum,_mm_shuffle_pd(accum,accum,_MM_SHUFFLE2(0,1)));
+          _mm_store_sd(resultAt++,accum);
+        }
+      } else {
+        UIntT fastCols = (cols & ~0x1);
+        for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+          register const double *rowAt = rowStart;
+          register const double *vecAt = vec;
+          register __m128d accum = _mm_mul_pd(_mm_loadu_pd(rowAt),_mm_loadu_pd(vecAt));
+          for(unsigned int j = 2;j < fastCols;j += 2) {
+            rowAt += 2;
+            vecAt += 2;
+            accum = _mm_add_pd(accum,_mm_mul_pd(_mm_loadu_pd(rowAt),_mm_loadu_pd(vecAt)));
+          }
+          rowAt += 2;
+          vecAt += 2;
+          accum = _mm_add_pd(accum,_mm_mul_sd(_mm_load_sd(rowAt),_mm_load_sd(vecAt)));
+          // Add two accumulators together
+          accum = _mm_add_sd(accum,_mm_shuffle_pd(accum,accum,_MM_SHUFFLE2(0,1)));
+          _mm_store_sd(resultAt++,accum);
+          
+        }        
+      }
     }
     
   }
