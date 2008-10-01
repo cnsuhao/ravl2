@@ -189,17 +189,31 @@ namespace RavlBaseVectorN {
     const float* dPtr = data;
     __m128 sum = _mm_setzero_ps();
     
-    if(Is16ByteAligned(dPtr) && Is16ByteAligned(wPtr)  && Is16ByteAligned(w2Ptr))  { // Data 16-byte aligned ?
-      while(wPtr != ewPtr) {
-        const __m128 val = _mm_load_ps(dPtr);
-        sum = _mm_add_ps(sum,
-                         _mm_mul_ps(val,
-                                    _mm_add_ps(_mm_mul_ps(val,
-                                                          _mm_load_ps(w2Ptr)),
-                                               _mm_load_ps(wPtr))));
-        dPtr += 4;
-        wPtr += 4;
-        w2Ptr += 4;
+    if(Is16ByteAligned(wPtr)  && Is16ByteAligned(w2Ptr)) {
+      if(Is16ByteAligned(dPtr))  { // Data 16-byte aligned ?
+        while(wPtr != ewPtr) {
+          const __m128 val = _mm_load_ps(dPtr);
+          sum = _mm_add_ps(sum,
+                           _mm_mul_ps(val,
+                                      _mm_add_ps(_mm_mul_ps(val,
+                                                            _mm_load_ps(w2Ptr)),
+                                                 _mm_load_ps(wPtr))));
+          dPtr += 4;
+          wPtr += 4;
+          w2Ptr += 4;
+        }
+      } else {
+        while(wPtr != ewPtr) {
+          const __m128 val = _mm_loadu_ps(dPtr);
+          sum = _mm_add_ps(sum,
+                           _mm_mul_ps(val,
+                                      _mm_add_ps(_mm_mul_ps(val,
+                                                            _mm_load_ps(w2Ptr)),
+                                                 _mm_load_ps(wPtr))));
+          dPtr += 4;
+          wPtr += 4;
+          w2Ptr += 4;
+        }        
       }
     }
     else {
