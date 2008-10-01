@@ -76,6 +76,19 @@ public:
    */
   void Create(const SampleC<VectorC>& Sv, const RealT* Lambdas,
               const RealT* Weights, RealT Scale, RealT Threshold);
+  
+  RealT Threshold() const
+  { return m_threshold; }
+  //: Threshold for classifier.
+  
+  const RealT *Weights1() const
+  { return m_weights1; }
+  //: Linear terms.
+  
+  const RealT *Weights2() const
+  { return m_weights2; }
+  //: Square terms.
+  
 private:
   void DestroyBuffers();               //!< free allocated memory
   void CreateBuffers(int HalfWeights); //!< allocate memory for weights
@@ -89,7 +102,8 @@ private:
 };
 //---------------------------------------------------------------------------
 //! Support vector machines quadratic classifier
-class SvmQuadraticClassifierC : public Classifier2C
+class SvmQuadraticClassifierC 
+  : public Classifier2C
 {
 public:
   //! Default constructor creates wrong object
@@ -103,6 +117,11 @@ public:
   //! Load from binary stream.
   SvmQuadraticClassifierC(BinIStreamC &Strm);
 
+  //! Base class constructor.
+  SvmQuadraticClassifierC(Classifier2C &base)
+    : Classifier2C(dynamic_cast<SvmQuadraticClassifierBodyC *>(BodyPtr(base)))
+  {}
+  
   //! Classify vector 'data' and return value of descriminant function
   //! Size of data should be equal to size of support vector.
   RealT Classify2(const RealT* Data) const
@@ -130,6 +149,19 @@ public:
   void Create(const SampleC<VectorC>& Sv, const RealT* Lambdas,
               const RealT* Weights, RealT Scale, RealT Threshold)
     { Body().Create(Sv, Lambdas, Weights, Scale, Threshold); }
+
+  RealT Threshold() const
+  { return Body().Threshold(); }
+  //: Threshold for classifier.
+  
+  const RealT *Weights1() const
+  { return Body().Weights1(); }
+  //: Linear terms.
+  
+  const RealT *Weights2() const
+  { return Body().Weights2(); }
+  //: Square terms.
+
 protected:
   //! Body constructor.
   SvmQuadraticClassifierC(SvmQuadraticClassifierBodyC &Bod) : Classifier2C(Bod)

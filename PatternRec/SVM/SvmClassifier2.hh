@@ -87,47 +87,50 @@ public:
   //: Load from binary stream.
 
   Classifier2C(const ClassifierC &Cls)
-  :ClassifierC(Cls)
+    : ClassifierC(Cls)
   {}
   //: Constructor
-
+  
   UIntT Classify(const VectorC &Data) const
   { return Body().Classify(Data); }
   //: Classify vector 'data' and return clas ID (0 or 1)
 
   UIntT Classify(const RealT* Data) const
-    { return Body().Classify(Data); }
+  { return Body().Classify(Data); }
   //: Classify vector 'data' and return class (0 or 1)
-
+  
   RealT Classify2(const VectorC &Data) const
-    { return Body().Classify2(Data); }
+  { return Body().Classify2(Data); }
   //: Classify vector 'data' and return value of descriminant function
 
   RealT Classify2(const RealT* Data) const
-    { return Body().Classify2(Data); }
+  { return Body().Classify2(Data); }
   //: Classify vector 'data' and return value of descriminant function
   // classifier supposed to know length of 'Data' array
 
   IntT GetDataSize() const
-    { return Body().GetDataSize(); }
+  { return Body().GetDataSize(); }
   //: Get vector length of classifier
-
+  
 protected:
-  Classifier2C(Classifier2BodyC &Bod) : ClassifierC(Bod)
-    {}
+  Classifier2C(Classifier2BodyC &Bod) 
+    : ClassifierC(Bod)
+  {}
   //: Body constructor.
 
-  Classifier2C(Classifier2BodyC *Bod) : ClassifierC(Bod)
-    {}
+  Classifier2C(Classifier2BodyC *Bod) 
+    : ClassifierC(Bod)
+  {}
   //: Body constructor.
 
   Classifier2BodyC &Body()
-    { return static_cast<Classifier2BodyC &>(ClassifierC::Body()); }
+  { return static_cast<Classifier2BodyC &>(ClassifierC::Body()); }
   //: Access body.
 
   const Classifier2BodyC &Body() const
-    { return static_cast<const Classifier2BodyC &>(ClassifierC::Body()); }
+  { return static_cast<const Classifier2BodyC &>(ClassifierC::Body()); }
   //: Access body.
+  
 };
 
 //---------------------------------------------------------------------------
