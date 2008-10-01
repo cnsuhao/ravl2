@@ -91,7 +91,7 @@ static ObservationListManagerBodyC dummyvar11 (dummyvar9);
 
 int main() {
   int ln;
-#if 0
+#if 1
 #if !TESTMMX
   if((ln = testConvolve2d()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
