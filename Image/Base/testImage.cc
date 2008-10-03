@@ -523,9 +523,9 @@ int TestYCbCrBT601() {
     
     // Test conversion to byte rgb.
     
-    ByteRGBValueC byteRGB(ClipRange(rgbValue1[0]*256.0,0.0,255.0),
-                          ClipRange(rgbValue1[1]*256.0,0.0,255.0),
-                          ClipRange(rgbValue1[2]*256.0,0.0,255.0));
+    ByteRGBValueC byteRGB((ByteT)ClipRange(rgbValue1[0]*256.0,0.0,255.0),
+                          (ByteT)ClipRange(rgbValue1[1]*256.0,0.0,255.0),
+                          (ByteT)ClipRange(rgbValue1[2]*256.0,0.0,255.0));
     
     ByteYCbCrBT601ValueC byteYCbCr(byteRGB);
     

@@ -22,9 +22,9 @@ namespace RavlImageN {
     const float R = brgb.Red();
     const float G = brgb.Green();
     const float B = brgb.Blue();
-    this->data[0] = 16  + 1.0/256.0 * (   65.738  * R +  129.057  * G +  25.064  * B);
-    this->data[1] = 128 + 1.0/256.0 * ( - 37.945  * R -   74.494  * G + 112.439  * B);
-    this->data[2] = 128 + 1.0/256.0 * (  112.439  * R -   94.154  * G -  18.285  * B);
+    this->data[0] = (UInt8T)(16  + 1.0/256.0 * (   65.738  * R +  129.057  * G +  25.064  * B));
+    this->data[1] = (UInt8T)(128 + 1.0/256.0 * ( - 37.945  * R -   74.494  * G + 112.439  * B));
+    this->data[2] = (UInt8T)(128 + 1.0/256.0 * (  112.439  * R -   94.154  * G -  18.285  * B));
   }
   
   //: Conversion from floating point RGB.
@@ -35,9 +35,9 @@ namespace RavlImageN {
     const float &G = brgb.Green();
     const float &B = brgb.Blue();
     
-    this->data[0] = 16  + ( 65.481  * R + 128.553  * G +  24.966  * B);
-    this->data[1] = 128 + (-37.797  * R -  74.203  * G + 112.0    * B);
-    this->data[2] = 128 + (112.0    * R -  93.786  * G -  18.214  * B);
+    this->data[0] = (UInt8T)(16  + ( 65.481  * R + 128.553  * G +  24.966  * B));
+    this->data[1] = (UInt8T)(128 + (-37.797  * R -  74.203  * G + 112.0    * B));
+    this->data[2] = (UInt8T)(128 + (112.0    * R -  93.786  * G -  18.214  * B));
   }
   
   

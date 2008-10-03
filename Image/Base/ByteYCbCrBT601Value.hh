@@ -44,9 +44,9 @@ namespace RavlImageN {
     //: Construct from component values.
     
     ByteYCbCrBT601ValueC(const YCbCrBT601ValueC<float> &oth)
-      : YCbCrBT601ValueC<UInt8T>(ClipRange(16.0  + oth[0]*256.0,0.0,255.0),
-                                 ClipRange(128.0 + oth[1]*256.0,0.0,255.0),
-                                 ClipRange(128.0 + oth[2]*256.0,0.0,255.0))
+      : YCbCrBT601ValueC<UInt8T>((UInt8T)ClipRange(16.0  + oth[0]*256.0,0.0,255.0),
+                                 (UInt8T)ClipRange(128.0 + oth[1]*256.0,0.0,255.0),
+                                 (UInt8T)ClipRange(128.0 + oth[2]*256.0,0.0,255.0))
     {}
     //: Convert from floating point values.
     
