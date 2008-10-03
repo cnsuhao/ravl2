@@ -87,7 +87,8 @@ namespace RavlGUIN {
   };
   
   //! userlevel=Normal
-  //: Toggle Button handle.
+  //: Toggle Button.
+  // <img src="../../../html/toggle-button.png"><br>
   
   class ToggleButtonC
     : public ButtonC
@@ -198,7 +199,8 @@ namespace RavlGUIN {
   };
   
   //! userlevel=Normal
-  //: Check Button handle.
+  //: Check Button.
+  // <img src="../../../html/check-button.png"><br>
   
   class CheckButtonC
     : public ToggleButtonC

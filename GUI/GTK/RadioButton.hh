@@ -28,6 +28,8 @@ namespace RavlGUIN {
   
   //! userlevel=Normal
   //: Radio button
+  // <img src="../../../html/radio-group.png"><br>
+  // Use <a href="RavlGUIN.html#RadioButtonGroupT">RadioButtonGroupT</a> to create a mutually exclusive group of buttons, i.e. such that, when one of them is pressed, the others all get turned off.
   
   class RadioButtonC
     : public ToggleButtonC
@@ -35,10 +37,14 @@ namespace RavlGUIN {
   public:
     RadioButtonC(const char *label = 0,const char *tooltip = 0,const RadioButtonGroupT &group = RadioButtonGroupT());
     //: Create a button.
+    // If <code>label</code> is set to 0, none will be used.<br>
+    // If <code>group</code> is not used, buttons will behave independently.
+
     
     RadioButtonC(const PixmapC &pixm,const char *label = 0,const RadioButtonGroupT &group = RadioButtonGroupT());
     //: Create a button.
-    // If label is set to 0 none will be used.
+    // If <code>label</code> is set to 0, none will be used.<br>
+    // If <code>group</code> is not used, buttons will behave independently.
     
   protected:
     inline RadioButtonBodyC &Body();

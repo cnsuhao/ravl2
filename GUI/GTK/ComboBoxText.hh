@@ -86,7 +86,9 @@ namespace RavlGUIN {
   
 
   //! userlevel=Normal
-  //: Combo box body.
+  //: Combo box.
+  // <img src="../../../html/combo-box.png"><br>
+  // Like <a href="RavlGUIN.ComboBoxC.html">ComboBoxC</a> but uses simple text list for entries
   
   class ComboBoxTextC
     : public ComboBoxC

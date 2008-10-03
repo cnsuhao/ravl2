@@ -42,7 +42,9 @@ namespace RavlGUIN {
   
 
   //! userlevel=Normal
-  //: Combo box body.
+  //: Combo box.
+  // <img src="../../../html/combo-box.png"><br>
+  // Like <a href="RavlGUIN.ComboBoxTextC.html">ComboBoxTextC</a> but with editable entries
   
   class ComboBoxEntryTextC
     : public ComboBoxTextC

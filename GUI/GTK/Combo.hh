@@ -26,7 +26,7 @@ namespace RavlGUIN {
   using namespace RavlN;
   class ComboC;
   
-  //! userlevel=Develop
+  //! userlevel=Obsolete
   //: Combo body.
   
   class ComboBodyC 
@@ -161,8 +161,8 @@ namespace RavlGUIN {
     friend class ComboC;
   };
   
-  //! userlevel=Normal
-  //: Combo handle.
+  //! userlevel=Obsolete
+  //: Combo box for GTK 1.
   
   class ComboC
     : public WidgetC

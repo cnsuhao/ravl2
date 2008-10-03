@@ -58,6 +58,8 @@ namespace RavlGUIN {
 
   //! userlevel=Normal
   //: Combo box.
+  // <img src="../../../html/combo-box.png"><br>
+  // Uses the <a href="RavlGUIN.TreeStoreC.html">TreeStoreC</a> tree model for entries
   
   class ComboBoxC
     : public WidgetC

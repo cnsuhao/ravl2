@@ -97,7 +97,7 @@ namespace RavlGUIN {
       ONDEBUG(cerr << "Slider create: Low:" << lower << " High:" << upper << " Inc:" << step_increment << "\n");
       adj = gtk_adjustment_new(value, 
                                lower, 
-                               upper + step_increment, 
+                               upper, 
                                step_increment,
                                page_increment,
                                page_size);

@@ -34,7 +34,9 @@ namespace RavlGUIN {
   };
   
   //! userlevel=Normal
-  //: Combo box with text entry.
+  //: Combo box
+  // <img src="../../../html/combo-box.png"><br>
+  // Like <a href="RavlGUIN.ComboBoxC.html">ComboBoxC</a> but with editable entries
   
   class ComboBoxEntryC
     : public ComboBoxC

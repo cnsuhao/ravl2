@@ -69,5 +69,5 @@ PROGLIBS = RavlImageIO RavlExtImgIO
 EHT = Ravl.API.GUI.Control.eht  Ravl.API.GUI.Layout.eht  Ravl.API.GUI.eht  Ravl.API.GUI.Internal.eht
 #libRavlGUI.eht
 
-HTML = tutorial.html spinbutton.png
+HTML = tutorial.html spinbutton.png check-button.png radio-group.png toggle-button.png combo-box.png
 
