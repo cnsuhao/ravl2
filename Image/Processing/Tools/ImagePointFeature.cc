@@ -19,14 +19,16 @@ namespace RavlImageN {
   ImagePointFeatureBodyC::ImagePointFeatureBodyC() 
     : location(0,0),
       m_iID(0),
-      m_iTypeID(-1)
+      m_iTypeID(-1),
+      isVisible(true)
   {}
   
   ImagePointFeatureBodyC::ImagePointFeatureBodyC(int id,StringC description, RealT row, RealT col) 
     : location(row,col),
       m_iID(id),
       m_iTypeID(-1),
-      m_strDescription(description)
+      m_strDescription(description),
+      isVisible(true)
   {}
 
   //: Constructor
@@ -35,7 +37,8 @@ namespace RavlImageN {
     : location(pnt),
       m_iID(id),
       m_iTypeID(-1),
-      m_strDescription(description)
+      m_strDescription(description),
+      isVisible(true)
   {}    
 
   
