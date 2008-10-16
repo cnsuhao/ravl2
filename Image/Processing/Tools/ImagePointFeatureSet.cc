@@ -176,8 +176,8 @@ namespace RavlImageN {
       ImagePointFeatureC* feat2 = m_hFeaturesByStr.Lookup(feat->Description());
       if (feat2 != NULL && feat2 != feat) {
         feat2->Location() = position;
-        return true;
       }
+      return true;
     }
     cerr << "ImagePointFeatureSetBodyC::Set(), Warning failed to set feature position for id " << id << "\n";
     return false;
