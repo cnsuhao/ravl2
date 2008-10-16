@@ -80,6 +80,7 @@ int main(int nargs,char **argv) {
   StringC pathtempl= option.String("pt", PROJECT_OUT "/share/RAVL/AutoPort2","Where to look for template files.");
   StringC projectOut= option.String("p", "C:/Build","Project out to use in windows. (With UNIX style seperators)");
   StringC doLibsFile =option.String("dl", "", "Text file containing names of Ravl libraries to port.  If no file provided all libraries will be done");
+  DListC<StringC> resourceList = option.List("r","libGTK LibDirectShow","List of resources to use. ");
   projectOut.gsub("/","\\"); // "../ProjectOut"
   
   //bool rec    = option.Boolean("r",true,    "recurse into subdirectories. ");
@@ -87,7 +88,12 @@ int main(int nargs,char **argv) {
   bool verb   = option.Boolean("v",false,   "Verbose mode.");
   
   option.Check();
-
+  
+  // Put list of resources into a set
+  HSetC<StringC> resources;
+  for(DLIterC<StringC> it(resourceList);it;it++)
+    resources += *it;
+  
   // Load info about external libraries
   InitExtLibFormat();
   InitExtLibTableFormat();
@@ -113,7 +119,7 @@ int main(int nargs,char **argv) {
   }
   
   
-  AutoPortSourceC portInfo(fn, doLibs);
+  AutoPortSourceC portInfo(fn, doLibs,resources);
   if(verb) {
     portInfo.Dump();
     portInfo.SetVerbose(verb);

@@ -16,6 +16,7 @@
 #include "Ravl/SourceTools/DefsFile.hh"
 #include "Ravl/SourceTools/LibInfo.hh"
 #include "Ravl/SourceTools/ProgInfo.hh"
+#include "Ravl/HSet.hh"
 
 namespace RavlN {
   
@@ -28,7 +29,7 @@ namespace RavlN {
     : public RCBodyVC
   {
   public:
-    AutoPortSourceBodyC(StringC &where, DListC<StringC> & doLibs);
+    AutoPortSourceBodyC(StringC &where, DListC<StringC> & doLibs,const HSetC<StringC> &resources);
     //: Constructor.
     
     bool ScanTree(StringC &where);
@@ -81,7 +82,8 @@ namespace RavlN {
     DListC<ProgInfoC> tests;
     DListC<ProgInfoC> examples;
     HashC<StringC, DListC<StringC> > deps;
-    DListC<StringC>doLibs;
+    DListC<StringC> doLibs;
+    HSetC<StringC> m_resources;
     friend class AutoPortSourceC;
   };
   
@@ -97,8 +99,8 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    AutoPortSourceC(StringC &where, DListC<StringC> & doLibs)
-      : RCHandleC<AutoPortSourceBodyC>(*new AutoPortSourceBodyC(where, doLibs))
+    AutoPortSourceC(StringC &where, DListC<StringC> & doLibs,const HSetC<StringC> &resources)
+      : RCHandleC<AutoPortSourceBodyC>(*new AutoPortSourceBodyC(where, doLibs,resources))
     { Body().ScanTree(where); }
     //: Constructor.
     // scan's the source tree 'where' for info.

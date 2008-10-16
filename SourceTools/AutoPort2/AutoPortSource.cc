@@ -33,10 +33,11 @@ namespace RavlN {
   
   //: Constructor.
   
-  AutoPortSourceBodyC::AutoPortSourceBodyC(StringC &where, DListC<StringC> & dl)
-    : verbose(false), doLibs(dl)
-  {
-  }
+  AutoPortSourceBodyC::AutoPortSourceBodyC(StringC &where, DListC<StringC> & dl,const HSetC<StringC> &resources)
+    : verbose(false), 
+      doLibs(dl),
+      m_resources(resources)
+  {}
   
   //: Scan a tree for info.
   
@@ -70,7 +71,7 @@ namespace RavlN {
     //: If we have been supplied with an external list of libraries to do
     if(!doLibs.IsEmpty()) {
       bool found=false;
-      for(DLIterC<StringC>it(doLibs);it;it++) {
+      for(DLIterC<StringC> it(doLibs);it;it++) {
 	if(*it == libName)
 	  found=true;
       }
@@ -80,7 +81,15 @@ namespace RavlN {
 	return true;
       } 
     }
-
+    
+    StringListC libRequires(defs.Value("REQUIRES"));
+    for(DLIterC<StringC> it(libRequires);it;it++) {
+      if(!m_resources.IsMember(*it)) {
+        cerr << "Missing required resource '" << *it << "' for '" << libName <<"' \n";
+        return true;
+      }
+    }
+    
     // Check this directory supports VCPP.
     if(defs.Value("DONOT_SUPPORT").contains("VCPP")) 
     {
