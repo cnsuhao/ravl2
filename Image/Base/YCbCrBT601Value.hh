@@ -28,12 +28,14 @@ namespace RavlImageN {
   template<class PixelT> class RGBValueC;
   template<typename CompT> class YCbCrBT601ValueC;
   
-  // Convert a pixel type from RGB to YCbCrBT601
   void YCbCrBT601Float2RGBFloat(const RGBValueC<float> &value,YCbCrBT601ValueC<float> &outValue);
-  
-  // Convert a pixel type from YCbCrBT601 to RGB
+  //: Convert a pixel type from RGB float to YCbCrBT601 float
+ 
   void RGBFloat2YCbCrBT601Float(const YCbCrBT601ValueC<float> &value,RGBValueC<float> &outValue);
+  //: Convert a pixel type from YCbCrBT601 float to RGB float
   
+  //:-
+
   //! userlevel=Normal
   //: YCbCr Pixel base class.
   // Note CompT must be a signed value, its assumed that in practice it will be either float or double.
