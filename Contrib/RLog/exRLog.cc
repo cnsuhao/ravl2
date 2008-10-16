@@ -13,8 +13,10 @@ int main(int nargs,char **argv) {
   RavlN::OptionC opt(nargs,argv);
   opt.Check();
   
-  RavlN::RLogInit(false);  
-  RavlN::RLogSubscribe("TestModule");
+  //RavlN::RLogInit(false);  
+  //RavlN::RLogSubscribe("TestModule");
+  
+  RavlN::RLogInit("file", "true", "debug");
   
   rInfo("Exiting... ");
   
