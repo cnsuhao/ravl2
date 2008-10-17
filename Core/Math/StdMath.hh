@@ -168,11 +168,11 @@ namespace RavlN {
   //: Convert angle from radians to degrees.
   
   inline float  Radians(float angle)
-  { return angle/180.0 * RavlConstN::pi; }
+  { return angle/180.0 * (float)RavlConstN::pi; }
   //: Convert angle from degrees to radians.
   
   inline float Degrees(float angle)
-  { return angle/RavlConstN::pi * 180.0; }
+  { return angle/(float)RavlConstN::pi * 180.0; }
   //: Convert angle from radians to degrees.
   
   
