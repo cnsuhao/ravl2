@@ -57,6 +57,9 @@ case $ID in
     i386:Darwin:*)
         echo "macosx386"
         exit 0 ;;
+    i*86:FreeBSD:*)
+        echo "freebsd_x86"
+        exit 0 ;;
     *:*:*)
 	echo "unknown"
 	echo "Unknown machine $ID " >&2

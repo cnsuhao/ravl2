@@ -17,7 +17,7 @@
 //! example=exThread.cc
 
 #include "Ravl/config.h"
-#if !defined(__sgi__)
+#if (!defined(__sgi__) && !RAVL_OS_FREEBSD)
 #define _GNU_SOURCE 1
 #define _POSIX_SOURCE 1
 #endif
@@ -33,6 +33,10 @@
 
 #if RAVL_HAVE_WIN32_THREADS
 #include <windows.h>
+#endif
+
+#if RAVL_HAVE_SYS_TYPES_H
+#include <sys/types.h>
 #endif
 
 #include "Ravl/RCHandleV.hh"

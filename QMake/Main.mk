@@ -20,7 +20,12 @@ export TARGET
 MAKEFLAGS += --no-print-directory -r
 
 ifndef QCWD
+ifeq ($(ARC),freebsd_x86)
+ # TODO: pawd hangs for a minute on a FreeBSD system where amd isn't running
+ QCWD :=$(shell sh -c "pwd")
+else
  QCWD :=$(shell sh -c "if [ -x /usr/bin/pawd ] ; then /usr/bin/pawd ; else pwd ; fi")
+endif
 endif
 
 # Setup default pager.

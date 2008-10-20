@@ -7,6 +7,10 @@
 ifndef AUDIOFILEDEF
 AUDIOFILEDEF = 1
 
+ifdef AUDIOFILE_HOME
+INCLUDES += -I$(AUDIOFILE_HOME)/include
+endif
+
 EXELIB := -laudiofile $(EXELIB)
 
 endif

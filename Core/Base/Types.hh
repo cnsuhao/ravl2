@@ -17,6 +17,11 @@
 #include "Ravl/config.h"
 // Common forward declarations
 
+#if RAVL_HAVE_SYS_TYPES_H
+// This must be included before <iostream>
+#include <sys/types.h>
+#endif
+
 #if RAVL_HAVE_STREAMASCLASS
 #if RAVL_HAVE_STDNAMESPACE
 namespace std {

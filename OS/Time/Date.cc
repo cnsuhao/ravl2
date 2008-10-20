@@ -15,6 +15,7 @@
 #undef _POSIX_C_SOURCE
 
 #include "Ravl/config.h"
+
 #if RAVL_OS_SOLARIS
 #define _POSIX_PTHREAD_SEMANTICS 1
 #define _REENTRANT 1
@@ -25,12 +26,14 @@
 #if defined(__linux__) && !defined(_GNU_SOURCE)
 #define _GNU_SOURCE 1
 #endif
+
 #if RAVL_OS_WIN32
 // Turn off deprecated warnings for now, they're not deprecated on other platforms
 // may introduce more platform specific fixes later.
 #define _CRT_SECURE_NO_DEPRECATE 1
 #include <sys/timeb.h>
 #endif
+
 #include <time.h>
 
 #ifdef RAVL_OS_MACOSX
@@ -41,7 +44,6 @@ extern "C" {
   struct tm *localtime_r(const time_t *, struct tm *);
 }
 #endif
-
 
 #include "Ravl/Exception.hh"
 #include "Ravl/OS/Date.hh"
@@ -79,6 +81,10 @@ extern int sleep(int x); // A hack, I hope it doesn't cause problems later...
 
 #if defined(__linux__)
 #include <sched.h>
+#endif
+
+#if RAVL_HAVE_SYS_SELECT_H
+#include <sys/select.h>
 #endif
 
 namespace RavlN {
@@ -218,7 +224,7 @@ namespace RavlN {
     localtime_r(&s,&b);
     
     //cerr << "DateC::NowUTC " << tz.tz_minuteswest << " Raw=" << ret.ODBC() << " \n";
-    ret += DateC((time_t) b.tm_gmtoff,0);
+    ret += DateC((time_t)b.tm_gmtoff, 0l);
     return ret;
 #else
 #if RAVL_OS_WIN32
@@ -301,7 +307,7 @@ namespace RavlN {
     time_t s = (time_t) tv.tv_sec;
     localtime_r(&s,&b);
     
-    return DateC((time_t) -b.tm_gmtoff,0);
+    return DateC((time_t)-b.tm_gmtoff, 0l);
 #else
     throw ExceptionC("DateC::TimeZoneOffset(), Not implemented. ");
 #endif    

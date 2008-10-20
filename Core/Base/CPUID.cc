@@ -1,7 +1,12 @@
+#include "Ravl/config.h"
 #include "Ravl/CPUID.hh"
+
+#if RAVL_HAVE_SYS_TYPES_H
+// This needs to be included before <iostream>
+#include <sys/types.h>
+#endif
+
 #include <iostream>
-
-
 
 namespace RavlN {
 

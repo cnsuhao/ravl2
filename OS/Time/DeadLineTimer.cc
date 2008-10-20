@@ -49,6 +49,10 @@
 #include <sched.h>
 #endif
 
+#if RAVL_HAVE_SYS_SELECT_H
+#include <sys/select.h>
+#endif
+
 #define USE_SIGACTION 1
 
 #define DODEBUG 0

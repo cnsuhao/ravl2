@@ -138,13 +138,13 @@ namespace RavlN {
   int GetTCPProtocolNumber() {
 #if RAVL_OS_LINUX || RAVL_OS_LINUX64
     return SOL_TCP;
-#elif RAVL_OS_MACOSX
+#elif RAVL_OS_MACOSX || RAVL_OS_FREEBSD
     return getprotobyname("tcp")->p_proto;
 #else
     struct protoent entry;
     char buffer[1024];
     if(getprotobyname_r("tcp",&entry,buffer,1024) != 0) {
-      SysLog(SYSLOG_WARN) << "WARNING: Failed to get tcp protocol number. Guessing a value of 6. \n";
+      SysLog(SYSLOG_WARNING) << "WARNING: Failed to get tcp protocol number. Guessing a value of 6. \n";
       return 6;
     }
     return entry.p_proto;
@@ -215,7 +215,7 @@ namespace RavlN {
         break;
       }
       opErrno = h_errno;
-#elif RAVL_OS_MACOSX
+#elif RAVL_OS_MACOSX || RAVL_OS_FREEBSD
 	  if((result = gethostbyname(name)) != 0)
 	break;
 #else
@@ -316,7 +316,7 @@ namespace RavlN {
 #elif RAVL_OS_IRIX
       ulong tmp_addr = ((sockaddr_in &)sin).sin_addr.s_addr ;
       gethostbyaddr_r ((const char *) & tmp_addr, sizeof(tmp_addr), AF_INET, &ent, hostentData, buffSize, &error) ;
-#elif RAVL_OS_MACOSX
+#elif RAVL_OS_MACOSX || RAVL_OS_FREEBSD
       {
       	struct hostent *pHostent = gethostbyaddr((const char *) &((sockaddr_in &)sin).sin_addr,sinLen,AF_INET);
       	if (pHostent == 0)

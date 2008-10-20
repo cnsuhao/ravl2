@@ -20,17 +20,18 @@
 #include <standards.h>
 #endif
 
-
 extern "C" {
-//#include <unistd.h>
+
 #include <sys/types.h>
+
 #ifdef __sgi__
 #include <bstring.h>
 #endif
-//#include <sys/time.h>
-#if RAVL_OS_MACOSX
+
+#if RAVL_HAVE_SYS_SELECT_H
 #include <sys/select.h>
 #endif
+
 #include <string.h>
 };
 

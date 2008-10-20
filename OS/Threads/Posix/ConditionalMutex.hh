@@ -17,7 +17,7 @@
 
 #include "Ravl/config.h"
 
-#if !defined(_POSIX_SOURCE) && !defined(__sgi__)
+#if !defined(_POSIX_SOURCE) && !defined(__sgi__) && !RAVL_OS_FREEBSD
 #define _POSIX_SOURCE 1
 #endif
 

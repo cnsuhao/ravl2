@@ -5,7 +5,11 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
+#include <Ravl/config.h>
+
+#if !RAVL_OS_FREEBSD
 #define _XOPEN_SOURCE 600
+#endif
 
 //#include <stdlib.h>
 //#include <emmintrin.h>

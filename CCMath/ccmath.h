@@ -722,13 +722,14 @@ struct xpr srt2={{0x3FFF,0xB504,0xF333,0xF9DE,0x6484,0x597D,0x89B3,0x754B}};
 
      struct ccomplex cdef(double r,double i) ;
 
-#if !defined(__sgi__) && !RAVL_COMPILER_VISUALCPP && !defined(__osf__)
+#if !defined(__sgi__) && !RAVL_COMPILER_VISUALCPP && !defined(__osf__) && !defined(RAVL_OS_FREEBSD)
      /* This conflicts with an existing function on sgi */
      double cabs(struct ccomplex c) ;
 #endif
 
      double cnrm(struct ccomplex z) ;
 
+#ifndef RAVL_OS_FREEBSD
      struct ccomplex cexp(struct ccomplex z) ;
 
 #ifndef __cplusplus
@@ -760,7 +761,7 @@ struct xpr srt2={{0x3FFF,0xB504,0xF333,0xF9DE,0x6484,0x597D,0x89B3,0x754B}};
      struct ccomplex ccos(struct ccomplex z) ;
 
      struct ccomplex ctan(struct ccomplex z) ;
-
+#endif // RAVL_OS_FREEBSD
 
 
 /*    Time Series          */

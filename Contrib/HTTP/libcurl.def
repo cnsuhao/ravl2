@@ -7,7 +7,10 @@
 ifndef CURL_DEF
 CURL_DEF = 1
 
-INCLUDES += 
+ifdef CURL_HOME
+INCLUDES += -I$(CURL_HOME)/include
+endif
+
 EXELIB := -lcurl $(EXELIB)
 
 endif

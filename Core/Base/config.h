@@ -67,6 +67,7 @@
 #define RAVL_OS_SOLARIS7 defined(__sol2_7__)/* Solaris. 2.5.7 */  
 #define RAVL_OS_SOLARIS9 defined(__sol2_9__)/* Solaris. 2.5.9 */   
 #define RAVL_OS_MACOSX  defined(__APPLE__)  /* Mac OS-X */
+#define RAVL_OS_FREEBSD defined(__FreeBSD__) /* FreeBSD */
 
 #define RAVL_OS_OSF     defined(__osf__)   /* OSF.       */
 #define RAVL_OS_CYGWIN  defined(__CYGWIN__) /* Cygwin is a windows/unix hybrid */
@@ -114,6 +115,7 @@
 #define RAVL_OS_SOLARIS 0
 #define RAVL_OS_OSF     0
 #define RAVL_OS_CYGWIN  0
+#define RAVL_OS_FREEBSD 0
 #endif
 
 #define RAVL_OS_UNIX !RAVL_OS_WIN32       /* a unix style system */
@@ -150,7 +152,7 @@
 #define RAVL_LIMITED_FILENAMES 0                   /* have 8.3 filenames. */
 #define RAVL_HAVE_UNIXDIRFUNCS RAVL_OS_POSIX       /* Unix style directory access ? */
 #define RAVL_HAVE_REENTRANT_UNIXDIRFUNCS !RAVL_OS_CYGWIN /* Re-entrant directory functions. */
-#define RAVL_HAVE_POSIX_THREADS_RWLOCK (RAVL_OS_LINUX || RAVL_OS_LINUX64)
+#define RAVL_HAVE_POSIX_THREADS_RWLOCK (RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_FREEBSD)
 #define RAVL_HAVE_POSIX_THREADS  RAVL_OS_POSIX    /* Have posix threading functions. */
 #define RAVL_HAVE_WIN32_THREADS  RAVL_OS_WIN32    /* Have windows threading. */
 #define RAVL_HAVE_PTHREAD_COND RAVL_OS_POSIX
@@ -165,6 +167,8 @@
 #define RAVL_HAVE_IO_H         RAVL_OS_WIN32
 #define RAVL_HAVE_SYS_TIME_H   (!RAVL_OS_SOLARIS && !RAVL_OS_WIN32) /* Have <sys/time.h> */
 #define RAVL_HAVE_SIGNAL_H     (RAVL_OS_SOLARIS)                    /* have <sys/signal.h> */
+#define RAVL_HAVE_SYS_TYPES_H  RAVL_OS_FREEBSD /* sys/types.h */
+#define RAVL_HAVE_SYS_SELECT_H RAVL_OS_MACOSX || RAVL_OS_FREEBSD /* sys/select.h */
 
 #define RAVL_HAVE_YIELD        (RAVL_OS_SOLARIS)   /* have yield() */
 #define RAVL_HAVE_SCHED_YIELD  (!RAVL_OS_WIN32 && !RAVL_OS_SOLARIS) /* have sched_yield() */
@@ -175,15 +179,16 @@
 #define RAVL_TIMET_IS_INT      !RAVL_OS_IRIX      /* time_t is an int or long. IRIX uses a struct, effects stat() results. */
 #define RAVL_HAVE_PWD_H        (RAVL_OS_UNIX || RAVL_OS_CYGWIN)       /* have <pwd.h> */
 #define RAVL_ERRNO_IS_FUNC     0                  /* errno should be used as function. i.e. errno() for use with threaded code. */
-#define RAVL_HAVE_GETPWNAM_R   (!RAVL_OS_LINUX64 && !RAVL_OS_LINUX && !RAVL_OS_CYGWIN && !RAVL_OS_MACOSX)  /* have reentrant getpwnam_r */
-#define RAVL_HAVE_GETPWUID_R   (!RAVL_OS_LINUX && !RAVL_OS_LINUX64 && !RAVL_OS_CYGWIN && !RAVL_OS_MACOSX)  /* have reentrant getpwnam_r */
+#define RAVL_HAVE_GETPWNAM_R   (!RAVL_OS_LINUX64 && !RAVL_OS_LINUX && !RAVL_OS_CYGWIN && !RAVL_OS_MACOSX &&!RAVL_OS_FREEBSD)  /* have reentrant getpwnam_r */
+#define RAVL_HAVE_GETPWUID_R   (!RAVL_OS_LINUX && !RAVL_OS_LINUX64 && !RAVL_OS_CYGWIN && !RAVL_OS_MACOSX &&!RAVL_OS_FREEBSD)  /* have reentrant getpwnam_r */
 #define RAVL_HAVE_GETPW_RET_PW !RAVL_OS_OSF     /* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
-#define RAVL_HAVE_GETPW_WITH_RESULT  RAVL_OS_IRIX  || RAVL_OS_SOLARIS /* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
-#define RAVL_HAVE_HSTRERROR    (RAVL_OS_IRIX || RAVL_OS_LINUX || RAVL_OS_LINUX64)  /* have hstrerror, otherwise use strerror. */
-#define RAVL_HAVE_SOCKLEN_T    (RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_SOLARIS || RAVL_OS_MACOSX)  /* Have socklen_t */
+#define RAVL_HAVE_GETPW_WITH_RESULT  RAVL_OS_IRIX  || RAVL_OS_SOLARIS || RAVL_OS_FREEBSD /* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
+#define RAVL_HAVE_HSTRERROR    (RAVL_OS_IRIX || RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_FREEBSD)  /* have hstrerror, otherwise use strerror. */
+#define RAVL_HAVE_SOCKLEN_T    (RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_SOLARIS || RAVL_OS_MACOSX || RAVL_OS_FREEBSD)  /* Have socklen_t */
 #define RAVL_HAVE_INTFILEDESCRIPTORS (!RAVL_COMPILER_VISUALCPP)  /* Support integer file descriptors */
 #define RAVL_HAVE_FDATASYNC    (RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_SOLARIS) /* have fdatasync */
 #define RAVL_HAVE_LSEEK64      (RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_SOLARIS) /* have lseek64 */
+#define RAVL_HAVE_CSQRT         !RAVL_OS_FREEBSD
 
 /********************************************************************************/
 /****** Processor properties ****************************************************/
@@ -203,25 +208,25 @@
 /********************************************************************************/
 /****** Numerical functions and headers *****************************************/
 
-#define RAVL_HAVE_VALUES_H (!RAVL_OS_WIN32 && !RAVL_OS_CYGWIN && !RAVL_OS_MACOSX)   /* have values.h        */
+#define RAVL_HAVE_VALUES_H (!RAVL_OS_WIN32 && !RAVL_OS_CYGWIN && !RAVL_OS_MACOSX && !RAVL_OS_FREEBSD)   /* have values.h        */
 #define RAVL_HAVE_FLOAT_H  (RAVL_OS_WIN32  || RAVL_OS_CYGWIN || RAVL_OS_MACOSX) /* have float.h         */
 #define RAVL_HAVE_NAN_H    (RAVL_OS_SOLARIS || RAVL_OS_IRIX) /* have nan.h           */
 #define RAVL_HAVE_IEEEFP_H (RAVL_OS_SOLARIS || RAVL_OS_IRIX) /* have ieeefp.h        */
 #define RAVL_HAVE_HYPOT    !RAVL_OS_WIN32   /* have hypot() in libm */
-#define RAVL_HAVE_CBRT     0 && RAVL_OS_LINUX                /* have cbrt() in libm  */
+#define RAVL_HAVE_CBRT     (0 && RAVL_OS_LINUX) || RAVL_OS_FREEBSD /* have cbrt() in libm  */
 #define RAVL_HAVE_ERF      (!RAVL_OS_WIN32 && !RAVL_OS_CYGWIN)   /* have erf() and erfc() in libm  */
 
-#define RAVL_HAVE_ISINF    (RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_CYGWIN || RAVL_OS_MACOSX)    /* have isinf() in libm  */
+#define RAVL_HAVE_ISINF    (RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_CYGWIN || RAVL_OS_MACOSX || RAVL_OS_FREEBSD)    /* have isinf() in libm  */
 #define RAVL_HAVE__FINITE  RAVL_OS_WIN32    /* have _finite() in libm  */
 #define RAVL_HAVE_FINITE   (RAVL_OS_SOLARIS || RAVL_OS_IRIX || RAVL_OS_OSF)  /* have finite() in libm  */
 
-#define RAVL_HAVE_ISNAN    (RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_OSF || RAVL_OS_CYGWIN || RAVL_OS_MACOSX)   /* have isnan() in libm  */
+#define RAVL_HAVE_ISNAN    (RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_OSF || RAVL_OS_CYGWIN || RAVL_OS_MACOSX || RAVL_OS_FREEBSD)   /* have isnan() in libm  */
 #define RAVL_HAVE__ISNAN   RAVL_OS_WIN32    /* have _isnan() in libm  */
 #define RAVL_HAVE_ISNAND   (RAVL_OS_SOLARIS || RAVL_OS_IRIX) /* have isnand() in libm  */
 
 #define RAVL_QINT_WORKAROUND RAVL_COMPILER_GCC3   /* Do we need a bug work around for the QInt functions (See Ravl/QInt.hh) */
 
-#define RAVL_HAVE_LRINT     (RAVL_OS_LINUX  || RAVL_OS_LINUX64)/* Do we have lrint and friends ? This is a C99 extention*/
+#define RAVL_HAVE_LRINT     (RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_FREEBSD)/* Do we have lrint and friends ? This is a C99 extention*/
 
 /********************************************************************************/
 /****** Compiler/ C++ Library ***************************************************/
@@ -265,7 +270,7 @@
  * headers. 
  */
 
-#if !RAVL_OS_IRIX
+#if (!RAVL_OS_IRIX && !RAVL_OS_FREEBSD)
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE 1
 #endif
@@ -333,6 +338,5 @@
 #else
   #define RAVL_EXCEPTIONAPI(api)
 #endif
-
 
 #endif

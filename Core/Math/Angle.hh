@@ -15,8 +15,8 @@
 //! rcsid="$Id$"
 //! date="09/02/1998"
 
-#include "Ravl/StdConst.hh"
 #include "Ravl/StdMath.hh"
+#include "Ravl/StdConst.hh"
 #include "Ravl/Types.hh"
 
 namespace RavlN {
