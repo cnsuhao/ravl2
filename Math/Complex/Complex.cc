@@ -13,10 +13,14 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Math/Complex.cc"
 
-#include "Ravl/config.h"
+//#include "Ravl/config.h"
 #include "Ravl/Complex.hh"
 #include "Ravl/Stream.hh"
 #include "ccmath/ccmath.h"
+
+#if RAVL_HAVE_CSQRT
+#include <complex>
+#endif
 
 namespace RavlN {
   ostream & 
@@ -37,7 +41,7 @@ namespace RavlN {
     struct ccomplex arg;
     arg.re = a.Re();
     arg.im = a.Im();
-    struct ccomplex root = csqrt(arg);
+    struct ccomplex root = ::csqrt(arg);
     return ComplexC (root.re, root.im);
     //: Returns one of the complex square roots of a complex number
     // The 2nd root is the -ve of the given one
