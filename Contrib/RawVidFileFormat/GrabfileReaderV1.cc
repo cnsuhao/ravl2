@@ -284,18 +284,18 @@ BufferC<UInt16T> GrabfileReaderV1C::GetNextFrame16T()
             bitsone = c4 & mask1;
             bitstwo = c4 & mask2;
             bitsthree = c4 & mask3;
-            //Shift first 8 bits along and add ;ast 8 bits to UInt16T.
+            //Shift first 8 bits along and add last 8 bits to UInt16T.
             first_ten_bits = (c1 << 8) + (bitsone << 2);
             second_ten_bits = (c2 << 8) + (bitstwo << 4);
             third_ten_bits = (c3 << 8) + (bitsthree << 6);
-            //Shift the first 6 bits off as first 2 nits of the above last 8 should be the lsfb.
-            first_ten_bits = (first_ten_bits >> 6);
+            //Shift the first 6 bits off as first 2 bits of the above last 8 should be the lsfb.
+           /* first_ten_bits = (first_ten_bits >> 6);
             second_ten_bits = (second_ten_bits >> 6);
             third_ten_bits = (third_ten_bits >> 6);
             //And out the first 6 bits.
             first_ten_bits = first_ten_bits & buf;
             second_ten_bits = second_ten_bits & buf;
-            third_ten_bits = third_ten_bits & buf;
+            third_ten_bits = third_ten_bits & buf;*/
             //Assign 10 bit values to UInt16T buffer.
             (*nextTenPtr++) = first_ten_bits;
             (*nextTenPtr++) = second_ten_bits;
