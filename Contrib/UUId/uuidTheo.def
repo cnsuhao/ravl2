@@ -19,12 +19,12 @@ ifndef UUIDTHEO_DEF
 
       # Directory to look for include files.
       ifndef UUIDTHEO_INCLUDE
-        UUIDTHEO_INCLUDE=$(UUID_HOME)/include
+        UUIDTHEO_INCLUDE=$(UUIDTHEO_HOME)/include
       endif
 
       # Directory to look for libraries.
       ifndef UUIDTHEO_LIBDIR
-        UUIDTHEO_LIBDIR=$(UUID_HOME)/lib
+        UUIDTHEO_LIBDIR=$(UUIDTHEO_HOME)/lib
       endif
 
       # Set things up.

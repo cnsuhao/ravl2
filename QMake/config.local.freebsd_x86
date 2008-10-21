@@ -14,7 +14,7 @@
 # The 'doc' flag controls building of documentation. 
  
 FULLBUILD_TARGETS += check
-FULLBUILD_TARGETS += debug 
+FULLBUILD_TARGETS += debug
 FULLBUILD_TARGETS += opt
 #FULLBUILD_TARGETS += checkshared
 #FULLBUILD_TARGETS += debugshared
@@ -44,6 +44,12 @@ RAVL_CXX = g++
 # extra CCFLAGS (c++)
 #EXTRA_CCFLAGS =
 
+# extra LDFLAGS (ld)
+#EXTRA_LDFLAGS +=
+
+# number of jobs to run in parallel (-j)
+#PROCS =
+
 # Use SSE2 instructions where possible
 PROCESSOR_TYPE:=$(shell uname -p)
 ifeq ("$(PROCESSOR_TYPE)","i386")
@@ -52,7 +58,6 @@ endif
 ifeq ("$(PROCESSOR_TYPE)","x86_64")
   RESOURCES += USE_SSE2
 endif
-
 
 ################################ LIBRARIES ################################
 

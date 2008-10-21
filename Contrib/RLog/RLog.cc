@@ -21,6 +21,10 @@
 #include <sys\stat.h>
 #endif
 
+#if RAVL_HAVE_SYS_STAT_H
+#include <sys/stat.h>
+#endif
+
 namespace RavlN {
   
   // Routine for redirecting SysLog messages to rlog.
