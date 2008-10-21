@@ -60,7 +60,7 @@ namespace RavlImageN {
   ImageC<RGBValueC<float> > YCbCrBT601ValueFloatImage2ImageRGBValueFloat(const ImageC<YCbCrBT601ValueC<float> > &dat) {
     ImageC<RGBValueC<float> > ret(dat.Rectangle());
     for(Array2dIter2C<RGBValueC<float>,YCbCrBT601ValueC<float> > it(ret,dat);it;it++) 
-      YCbCrBT601Float2RGBFloat(it.Data1(),it.Data2());
+      YCbCrBT601Float2RGBFloat(it.Data2(),it.Data1());
     return ret;
   }
   
@@ -69,7 +69,7 @@ namespace RavlImageN {
   ImageC<YCbCrBT601ValueC<float> > ImageRGBValueFloat2YCbCrBT601ValueFloatImage(const ImageC<RGBValueC<float> > &dat) {
     ImageC<YCbCrBT601ValueC<float> > ret(dat.Rectangle());
     for(Array2dIter2C<YCbCrBT601ValueC<float>,RGBValueC<float> > it(ret,dat);it;it++)
-      RGBFloat2YCbCrBT601Float(it.Data1(),it.Data2());
+      RGBFloat2YCbCrBT601Float(it.Data2(),it.Data1());
     return ret;
   }
   

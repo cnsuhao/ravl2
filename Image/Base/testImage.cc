@@ -495,10 +495,10 @@ int TestYCbCrBT601() {
     YCbCrBT601ValueC<float> yCbCr;
     
     // Convert Floating RGB -> yCbCr
-    YCbCrBT601Float2RGBFloat(rgbValue1,yCbCr);
+    RGBFloat2YCbCrBT601Float(rgbValue1,yCbCr);
 
     // Convert Floating yCbCr -> RGB
-    RGBFloat2YCbCrBT601Float(yCbCr,rgbValue2);
+    YCbCrBT601Float2RGBFloat(yCbCr,rgbValue2);
     cerr << "FF RGB=" << rgbValue1 << " yCbCr=" << yCbCr << "\n";
     if((rgbValue1-rgbValue2).SumOfAbs() > 0.000001) return __LINE__;
     

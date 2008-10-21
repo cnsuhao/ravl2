@@ -58,7 +58,7 @@ namespace RavlImageN {
   
   RGBValueC<float> ByteYCbCrBT601ValueC::FloatRGB() const {
     RGBValueC<float> ret;
-    RGBFloat2YCbCrBT601Float(FloatYCbCr(),ret);
+    YCbCrBT601Float2RGBFloat(FloatYCbCr(),ret);
     return ret;
   }
   

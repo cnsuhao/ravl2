@@ -28,10 +28,10 @@ namespace RavlImageN {
   template<class PixelT> class RGBValueC;
   template<typename CompT> class YCbCrBT601ValueC;
   
-  void YCbCrBT601Float2RGBFloat(const RGBValueC<float> &value,YCbCrBT601ValueC<float> &outValue);
+  void RGBFloat2YCbCrBT601Float(const RGBValueC<float> &value,YCbCrBT601ValueC<float> &outValue);
   //: Convert a pixel type from RGB float to YCbCrBT601 float
  
-  void RGBFloat2YCbCrBT601Float(const YCbCrBT601ValueC<float> &value,RGBValueC<float> &outValue);
+  void YCbCrBT601Float2RGBFloat(const YCbCrBT601ValueC<float> &value,RGBValueC<float> &outValue);
   //: Convert a pixel type from YCbCrBT601 float to RGB float
   
   //:-
