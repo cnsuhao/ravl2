@@ -81,7 +81,10 @@ namespace RavlGUIN {
   
   //! userlevel=Normal
   //: File Selector
-  // Pops up a browser in separate window that browses file systems to select a file.
+  // <p> Pops up a browser in separate window that browses file systems to select a file.</p>
+  // <p> Typical usage:</p><ul>
+  // <li> Create a file selector object and connect it to the callback that deals with the selected filename.</li>
+  // <li> Create a button for it and connect the button to the FileSelectorC::GUIShow method of the file selector object.</li></ul>
   
   class FileSelectorC 
     : public WidgetC

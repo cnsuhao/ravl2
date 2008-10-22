@@ -61,9 +61,9 @@ namespace RavlGUIN {
   //! userlevel=Normal
   //: Packing info widget.
 
-  // This is a dummy widget which holds packing infomation for its child.  It
+  // <p>This is a dummy widget which holds packing infomation for its child.  It
   // controls the layout, and gives extra information that tells the GUI how
-  // the widge should be treated when you stretch the window or resize.
+  // the widge should be treated when you stretch the window or resize.</p>
   
   class PackInfoC
     : public OneChildC
@@ -78,6 +78,8 @@ namespace RavlGUIN {
       : OneChildC(*new PackInfoBodyC(widge,expand,fill,padding))
       {}
     //: Constructor.
+    // If <code>expand</code> and <code>fill</code> are both true, the behaviour is the default behaviour, i.e. as if <code>PackInfoC</code> was not used.
+
     
     PackInfoC(WidgetC &other);
     //: Construct packing info from other widget.
