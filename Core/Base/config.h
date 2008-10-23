@@ -169,7 +169,8 @@
 #define RAVL_HAVE_SIGNAL_H     (RAVL_OS_SOLARIS)                    /* have <sys/signal.h> */
 #define RAVL_HAVE_SYS_TYPES_H  RAVL_OS_FREEBSD /* sys/types.h */
 #define RAVL_HAVE_SYS_SELECT_H RAVL_OS_MACOSX || RAVL_OS_FREEBSD /* sys/select.h */
-#define RAVL_HAVE_SYS_STAT_H   RAVL_OS_FREEBSD || RAVL_OS_WIN32
+#define RAVL_HAVE_SYS_STAT_H   RAVL_OS_FREEBSD
+#define RAVL_HAVE_ALLOCA_H     (!RAVL_OS_FREEBSD && !RAVL_COMPILER_VISUALCPP)
 
 #define RAVL_HAVE_YIELD        (RAVL_OS_SOLARIS)   /* have yield() */
 #define RAVL_HAVE_SCHED_YIELD  (!RAVL_OS_WIN32 && !RAVL_OS_SOLARIS) /* have sched_yield() */
