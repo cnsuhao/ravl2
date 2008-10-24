@@ -63,7 +63,11 @@ namespace RavlImageN {
     //: Warp appearance to the mean shape
     //  The input appearance 'inst' is warped such that its control points are located at the mean positions in the returned image.
 
-    virtual bool Design(const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile,const Index2dC &maskSize,const RealT varS = 0.95, RealT varT = 0.95, RealT varC = 0.95, UIntT maxS=25, UIntT maxT=120, UIntT maxC=80);
+    virtual bool Design(const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile,
+                        const Index2dC &maskSize,
+                        const RealT varS = 0.95, RealT varT = 0.95, RealT varC = 0.95, 
+                        UIntT maxS=25, UIntT maxT=120, UIntT maxC=80,
+                        bool ignoreSuspect = true);
     //: Design an appearance model given some data.
     //!param: filelist    - list of appearance file names.
     //!param: dir         - name of directory containing appearance files.
@@ -75,6 +79,7 @@ namespace RavlImageN {
     //!param: maxS        - limit on number of parameters returned by PCA applied to shape
     //!param: maxT        - limit on number of parameters returned by PCA applied to grey-level values
     //!param: maxC        - limit on number of parameters returned by PCA applied to combined shape and texture vectors
+    //!param: ignoreSuspect - If true ignore examples flagged as suspect
 
     virtual void SetMask(const ImageC<IntT> &mask);
     //: Set shape free image.
@@ -259,8 +264,12 @@ namespace RavlImageN {
     //: Warp appearance to the mean shape
     //  The input appearance 'inst' is warped such that its control points are located at the mean positions in the returned image.
 
-    bool Design(const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile,const Index2dC &newMaskSize = Index2dC(50,50), RealT varS = 0.95, RealT varT = 0.95, RealT varC = 0.95, UIntT maxS=25, UIntT maxT=120, UIntT maxC=80)
-    { return Body().Design(fileList,dir,mirrorFile,newMaskSize,varS,varT,varC,maxS,maxT,maxC); }
+    bool Design(const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile,
+                const Index2dC &newMaskSize = Index2dC(50,50), 
+                RealT varS = 0.95, RealT varT = 0.95, RealT varC = 0.95, 
+                UIntT maxS=25, UIntT maxT=120, UIntT maxC=80,
+                bool ignoreSuspect = true)
+    { return Body().Design(fileList,dir,mirrorFile,newMaskSize,varS,varT,varC,maxS,maxT,maxC,ignoreSuspect); }
     //: Design an appearance model given some data.
     //!param: filelist    - list of appearance file names.
     //!param: dir         - name of directory containing appearance files.
@@ -272,7 +281,8 @@ namespace RavlImageN {
     //!param: maxS        - limit on number of parameters returned by PCA applied to shape
     //!param: maxT        - limit on number of parameters returned by PCA applied to grey-level values
     //!param: maxC        - limit on number of parameters returned by PCA applied to combined shape and texture vectors
-
+    //!param: ignoreSuspect - If true ignore examples flagged as suspect
+    
     void SetMask(const ImageC<IntT> &mask)
     { return Body().SetMask(mask); }
     //: Set shape free image.

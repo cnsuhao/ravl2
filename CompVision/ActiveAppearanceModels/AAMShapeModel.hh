@@ -27,9 +27,11 @@ namespace RavlImageN {
   {
   public:
     AAMShapeModelBodyC()
+      : m_verbose(false), // Write error messages to standard out.
+        nPoints(0) // Number of control points in the model.
     {}
     //: Default constructor.
-
+    
     AAMShapeModelBodyC(BinIStreamC &is);
     //: Constructor.
     //  Load from bin stream.
@@ -37,7 +39,11 @@ namespace RavlImageN {
     AAMShapeModelBodyC(istream &is);
     //: Constructor.
     //  Load from stream.
-
+    
+    void SetVerbose(bool verboseMode)
+    { m_verbose = verboseMode; }
+    //: If set to true designer will print error messages to std::cerr
+    
     virtual bool Save(BinOStreamC &out) const;
     //: Save to binary stream 'out'.
 
@@ -100,6 +106,8 @@ namespace RavlImageN {
     //: Return vector of point to point errors between shape represented by vector 'parm' and target shape defined by 'points'.
 
   protected:
+    bool m_verbose; // Write error messages to standard out.
+    
     UIntT nPoints; // Number of control points in the model.
 
     FunctionC shapeModel;   // Shape model, map control point location to parameters.
@@ -154,7 +162,11 @@ namespace RavlImageN {
     //: Access body.
 
   public:
-
+    
+    void SetVerbose(bool verboseMode)
+    { Body().SetVerbose(verboseMode); }
+    //: If set to true designer will print error messages to std::cerr
+    
     bool RawParameters(const AAMAppearanceC &inst,VectorC &fixedParams,VectorC &freeParams) const
     { return Body().RawParameters(inst,fixedParams,freeParams); }
     //: Generate raw parameters.

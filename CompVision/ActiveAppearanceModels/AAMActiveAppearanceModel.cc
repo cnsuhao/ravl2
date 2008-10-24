@@ -159,7 +159,8 @@ namespace RavlImageN {
       }
       RealT mul = 1.5;
       UIntT scanLimit = 6;
-      // Go through successively smaller steps until we fine one thats better.
+      // Go through successively smaller steps until we find one thats better.
+      VectorC newParam = lastParm;
       for(UIntT i = 0;i < scanLimit;i++,mul /= 2.0) {
         VectorC newEst = lastParm - newDelta * mul;
         RealT nErr;
@@ -167,15 +168,49 @@ namespace RavlImageN {
         if (appearanceModel.ErrorVector(newEst,rimg,errVec)==false) {
           // parameter choice leads to shape exceeding image size -> maximum error
           nErr = RavlConstN::maxReal;
+          continue;
         } else {
           nErr = errVec.SumOfSqr()/errVec.Size();
         }
         if(nErr < diff) {
-          lastParm = newEst;
+          newParam = newEst;
           diff = nErr;
           continue; 
         }
       }
+      lastParm = newParam;
+#if 0
+      for(int i = 0;i < lastParm.Size();i++) {
+        RealT change = 0.0001;
+        for(int j = 0;j < 2;j++) {
+          VectorC testParam = newParam.Copy();
+          if(j == 0)
+            change = 0.000001;
+          else
+            change = -0.000001;
+          do {
+            testParam[i] += change ;
+            
+            // Compute residual error.
+            if (appearanceModel.ErrorVector(testParam,rimg,errVec)==false) {
+              // parameter choice leads to shape exceeding image size -> maximum error
+              nErr = RavlConstN::maxReal;
+              break;
+            } else {
+              nErr = errVec.SumOfSqr()/errVec.Size();
+            }
+            // Did we manage to do better?
+            if(nErr < diff) {
+              change *= 2;
+              newParam = newEst;
+              diff = nErr;
+              continue; 
+            }
+          } while(0);
+        }
+      }
+      lastParm = newParam;
+#endif
     }
     while(diff < oldDiff);
 
@@ -191,10 +226,17 @@ namespace RavlImageN {
   //!param: mirrorFile - name of mirror file to use for mirror appearances (if an empty string is provided, mirror images will not be considered).
   //!param: incrSize   - half number of displacements for each parameter when perturbing the model.
   // This functions considers each training appearance successively and perturbs the different parameters in order to analyse the effect of errors in the parameters on the residual error. The range of displacement is +/-0.5 standard deviation for each parameter. A value of n for 'incrSize' means that there will be 2n displacements uniformly spread on the interval [-0.5std,+0.5std] for each parameter.
-  bool AAMActiveAppearanceModelBodyC::Design(const AAMAppearanceModelC &apm, const DListC<StringC> &fileList, const StringC &dir, const StringC &mirrorFile, UIntT incrSize) {
+  bool AAMActiveAppearanceModelBodyC::Design(const AAMAppearanceModelC &apm, 
+                                             const DListC<StringC> &fileList, 
+                                             const StringC &dir, 
+                                             const StringC &mirrorFile, 
+                                             UIntT incrSize,
+                                             bool ignoreSuspect
+                                             ) 
+  {
     ONDEBUG(cerr << "AAMActiveAppearanceModelBodyC::Design(), Called. \n");
     appearanceModel = apm;
-    AAMSampleStreamC ss(appearanceModel,smooth,fileList,dir,mirrorFile,incrSize);
+    AAMSampleStreamC ss(appearanceModel,smooth,fileList,dir,mirrorFile,incrSize,ignoreSuspect);
     DesignFuncLSQC design(1,false);
     refiner = design.Apply(ss);
     ONDEBUG(cerr << "\nAAMActiveAppearanceModelBodyC::Design(), Done. \n");
@@ -212,10 +254,17 @@ namespace RavlImageN {
   //!param: op         - name of output file containing results of training for this list of file.
   // This functions considers each training appearance successively and perturbs the different parameters in order to analyse the effect of errors in the parameters on the residual error. The range of displacement is +/-0.5 standard deviation for each parameter. A value of n for 'incrSize' means that there will be 2n displacements uniformly spread on the interval [-0.5std,+0.5std] for each parameter.
   // Note: contrary to the Design method, PreDesign does not produce a complete appearance model. PreDesign needs to be followed by PostDesign in order to obtain the AAM. PreDesign allows to split the training of the AAM (which is usually computer intensive because of the number of files to process) into a large number of smaller jobs which can be run in parallel.
-  bool AAMActiveAppearanceModelBodyC::PreDesign(const AAMAppearanceModelC &apm,const DListC<StringC> &fileList,const StringC &dir, const StringC &mirrorFile, UIntT incrSize, const StringC &op) {
+  bool AAMActiveAppearanceModelBodyC::PreDesign(const AAMAppearanceModelC &apm,
+                                                const DListC<StringC> &fileList,
+                                                const StringC &dir, 
+                                                const StringC &mirrorFile, 
+                                                UIntT incrSize, 
+                                                const StringC &op,
+                                                bool ignoreSuspect) 
+  {
     ONDEBUG(cerr << "AAMActiveAppearanceModelBodyC::PreDesign(), Called. \n");
     appearanceModel = apm;
-    AAMSampleStreamC ss(appearanceModel,smooth,fileList,dir,mirrorFile,incrSize);
+    AAMSampleStreamC ss(appearanceModel,smooth,fileList,dir,mirrorFile,incrSize,ignoreSuspect);
 
     Tuple2C<VectorC,VectorC> tup;
     if(!ss.Get(tup)) {
@@ -257,7 +306,10 @@ namespace RavlImageN {
   //!param: apm        - input appearance model.
   //!param: fileList   - list of names of files containing the results of the pre-design.
   //!param: dir        - name of directory containg results of the pre-design.
-  bool AAMActiveAppearanceModelBodyC::PostDesign(const AAMAppearanceModelC &apm,const DListC<StringC> &fileList,const StringC &dir) {
+  bool AAMActiveAppearanceModelBodyC::PostDesign(const AAMAppearanceModelC &apm,
+                                                 const DListC<StringC> &fileList,
+                                                 const StringC &dir) 
+  {
     ONDEBUG(cerr << "AAMActiveAppearanceModelBodyC::PostDesign(), Called. \n");
     appearanceModel = apm;
 

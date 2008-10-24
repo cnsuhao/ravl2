@@ -1,11 +1,14 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2006, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 //////////////////////////////////////////////////////////////////////////////
 //! file =      "Ravl/CompVision/ActiveAppearanceModels/AAMFaceLocalisation.cc"
 //! author =    "Jean-Yves Guillemaut"
 //! lib =       RavlAAM
 //! date =      "01/03/2006"
-//! rcsid="$Id$"
-
-
 
 #include "Ravl/Image/ImgIO.hh"
 #include "Ravl/Option.hh"

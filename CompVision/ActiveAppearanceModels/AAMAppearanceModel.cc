@@ -231,9 +231,16 @@ namespace RavlImageN {
   //!param: maxS        - limit on number of parameters returned by PCA applied to shape
   //!param: maxT        - limit on number of parameters returned by PCA applied to grey-level values
   //!param: maxC        - limit on number of parameters returned by PCA applied to combined shape and texture vectors
-  bool AAMAppearanceModelBodyC::Design(const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile,const Index2dC &newMaskSize, RealT varS, RealT varT, RealT varC, UIntT maxS, UIntT maxT, UIntT maxC) {
-  // This implementation of the function Design avoids loading all the
-  // data into memory, which keeps the memory requirement at a minimum
+  bool AAMAppearanceModelBodyC::Design(const DListC<StringC> &fileList,
+                                       const StringC &dir,
+                                       const StringC &mirrorFile,
+                                       const Index2dC &newMaskSize, 
+                                       RealT varS, RealT varT, RealT varC, 
+                                       UIntT maxS, UIntT maxT, UIntT maxC,
+                                       bool ignoreSuspect) 
+  {
+    // This implementation of the function Design avoids loading all the
+    // data into memory, which keeps the memory requirement at a minimum
 
     shape = AAMScaleRotationShapeModelC(true);
 
@@ -241,8 +248,8 @@ namespace RavlImageN {
 
     // Design the shape model.
     SampleC<AAMAppearanceC> appearanceSet;
-    appearanceSet = LoadFeatureSet(fileList,dir,true,false);
-
+    appearanceSet = LoadFeatureSet(fileList,dir,ignoreSuspect,false);
+    
     if(!mirrorFile.IsEmpty()) {
       cout << "Reflecting data. \n";
       AAMAppearanceMirrorC mirror(mirrorFile);
@@ -327,8 +334,8 @@ namespace RavlImageN {
     SampleVectorC textureValues(NbSamples);
     for(DLIterC<StringC> it(fileList);it;it++) {
       for (IntT k=1;k<=NoPerFile;k++) {
-
-        AAMAppearanceC appear = LoadFeatureFile(*it,dir);
+        
+        AAMAppearanceC appear = LoadFeatureFile(*it,dir,ignoreSuspect);
         // filter image
         appear.Image() = smooth.Apply(appear.Image());
        if (k == 2) {
@@ -382,7 +389,7 @@ namespace RavlImageN {
     SampleVectorC combinedValues(NbSamples);
     for(DLIterC<StringC> it(fileList);it;it++) {
       for (IntT k=1;k<=NoPerFile;k++) {
-        AAMAppearanceC appear = LoadFeatureFile(*it,dir);
+        AAMAppearanceC appear = LoadFeatureFile(*it,dir,ignoreSuspect,true);
         // filter image
         appear.Image() = smooth.Apply(appear.Image());
         if (k == 2) {

@@ -32,10 +32,10 @@ using namespace RavlImageN;
 //  This program reads a set of appearance files and uses them to build a statistical model of appearance. The appearance files to be read are located in the directory defined by the option "-d" and are specified either by providing a list of file names (option "-l") or by providing the extension of the appearance files (option "-e"). In addition, it is possible to double the effective number of appearances used for building the statistical model of appearance by considering mirror appearances of the appearance defined in the files. This is done by providing a mirror file (option "-m"). The mirror file consists of a list of pairs of indices which represent feature points in correspondence when carrying out the vertical symmetry (mirror effect). The resolution of the appearance model is controlled by the option "-ms" which controls the size of the shape-free image. Among the options it is possible to control the proportion of variation preserved by the statistical model of appearance for shape, texture and combined values (options "-vs", "-vt" and "-vc") and to set limits to the maximum number of shape, texture and combined parameters contained in the statistical model of appearance (option "-maxs", "-maxt" and "-maxc"). For more information type "aamBuildAppearanceModel -help".
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
-  StringC dir = opt.String("d","/vol/vssp/vampire/people/jean-yves/appmodel/markup/","Directory containing markup files defining the appearances.");
-  StringC list = opt.String("l","/vol/vssp/vampire/people/jean-yves/appmodel/lists/all_half1.list","Input file containing list of markup file names.");
+  StringC dir = opt.String("d","./markup/","Directory containing markup files defining the appearances.");
+  StringC list = opt.String("l","./all_half1.list","Input file containing list of markup file names.");
   StringC ext = opt.String("e","xml","Extention to search for markup files (needed only if no list is provided, i.e. option -l is set to empty string \"\").");
-  StringC mirrorFile = opt.String("m","/vol/vssp/vampire/people/jean-yves/appmodel/mirror.txt","Input mirror file for generation of mirror appearances. To disable mirror appearances, the option -m should be set to the empty string \"\".");
+  StringC mirrorFile = opt.String("m","./mirror.txt","Input mirror file for generation of mirror appearances. To disable mirror appearances, the option -m should be set to the empty string \"\".");
   RealT varS = opt.Real("vs",0.98,"Proportion of shape variation preserved by the PCA during dimension reduction (must be between 0 and 1).");
   RealT varT = opt.Real("vt",0.98,"Proportion of texture variation preserved by the PCA during dimension reduction (must be between 0 and 1).");
   RealT varC = opt.Real("vc",0.95,"Proportion of combined variation preserved by the PCA during dimension reduction (must be between 0 and 1).");
@@ -45,7 +45,7 @@ int main(int nargs,char **argv) {
   RealT sigma = opt.Real("s",2,"Warping sigma. ");
   Index2dC maskSize = opt.Index2d("ms",25,22,"Size of the shape free image.");
   bool ignoreSuspect = opt.Boolean("is",true,"Ignore suspect markups (i.e. files tagged with 'suspect=\"1\"').");
-  StringC op = opt.String("o","/vol/vssp/vampire/people/jean-yves/appmodel/models/am_all_half1_25x22m98_98_95.abs","Output file for statistical model of appearance.");
+  StringC op = opt.String("o","./am.abs","Output file for statistical model of appearance.");
   opt.Check();
 
   cout << "Creating list of marked-up files in '" << dir << "'\n"; 
@@ -75,17 +75,20 @@ int main(int nargs,char **argv) {
       cerr << "Can't find directory '" << dir << "'\n";
       return 1;
     }
-    DListC<StringC> fileList = md.List("",StringC(".") + ext);
+    fileList = md.List("",StringC(".") + ext);
   }
-
+  
   if(!fileList.IsValid() || fileList.Size() == 0) {
     cerr << "Failed to create list of marked-up files from '" << dir << "' \n";
     return 1;
   }
-
+  
   // build appearance model
   AAMAppearanceModelC am(sigma);
-  am.Design(fileList,dir,mirrorFile,maskSize,varS,varT,varC,maxS,maxT,maxC);
+  if(!am.Design(fileList,dir,mirrorFile,maskSize,varS,varT,varC,maxS,maxT,maxC,ignoreSuspect)) {
+    std::cerr << "Failed to design model. \n";
+    return 1;
+  }
   cout << "Dimensions in appearance model = " << am.Dimensions() << "\n";
 
   // save appearance model to file

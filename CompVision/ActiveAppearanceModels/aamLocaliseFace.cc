@@ -54,7 +54,16 @@ using namespace RavlImageN;
 
 
 //: Localise face features in an image.
-//  This program uses an multi-resolution Active Appearance Model to localise a face in an arbitrary pose in an input image. The input image to be processed are located in the directory defined by the option -d and are specified either by providing a list of file names (option "-l") or by providing the extension of the image files (option "-e"). The location of the face is semi-automatic in the sense that the AAM search must be initialised with the coordinates of the eyes centre (option -gtd). The convergence of the AAM may be difficult in the case of large pose variations; for this reason it is possible to specify several possible shapes for initialisation (option -tf), typically these initialisation correspond to different poses such as subject looking left, right, up or down. The multi-resolution AAM consists of an arbitrary number of AAMs sorted in order of increasing resolution. For more information type "aamLocaliseFace -help".
+// This program uses an multi-resolution Active Appearance Model to localise a face in an arbitrary pose in an input image. 
+// The input image to be processed are located in the directory defined by the option -d and are specified either by providing a list of file names (option "-l") or by providing the extension of the image files (option "-e").
+//
+// The location of the face is semi-automatic in the sense that the AAM search must be initialised with the coordinates of the eyes centre (option -gtd). 
+//
+// The convergence of the AAM may be difficult in the case of large pose variations; for this reason it is possible to 
+// specify several possible shapes for initialisation (option -tf), typically these initialisation correspond to 
+// different poses such as subject looking left, right, up or down. 
+//
+// The multi-resolution AAM consists of an arbitrary number of AAMs sorted in order of increasing resolution. For more information type "aamLocaliseFace -help".
 int main (int argc, char** argv)
 {
   OptionC cmd(argc,argv);
@@ -79,7 +88,7 @@ int main (int argc, char** argv)
 
   SampleC<AAMActiveAppearanceModelC> saam;
 
-  for(DLIterC<StringC>it(aamList);it;it++) {
+  for(DLIterC<StringC> it(aamList);it;it++) {
     // load list of appearance models
     AAMActiveAppearanceModelC aam;
     if(!Load(it.Data(),aam)) {

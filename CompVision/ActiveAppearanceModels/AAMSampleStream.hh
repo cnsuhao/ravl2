@@ -38,7 +38,14 @@ namespace RavlImageN {
     : public DPISPortBodyC<Tuple2C<VectorC,VectorC> >
   {
   public:
-    AAMSampleStreamBodyC(const AAMAppearanceModelC &nam,const GaussConvolve2dC<RealT> &smooth,const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile, const UIntT incrSize);
+    AAMSampleStreamBodyC(const AAMAppearanceModelC &nam,
+                         const GaussConvolve2dC<RealT> &smooth,
+                         const DListC<StringC> &fileList,
+                         const StringC &dir,
+                         const StringC &mirrorFile, 
+                         const UIntT incrSize,
+                         bool ignoreSuspect = true
+                         );
     //: Constructor.
 
     virtual bool Seek(UIntT off);
@@ -71,6 +78,7 @@ namespace RavlImageN {
     UIntT sampleNo;  // Index of displacement for the current appearance.
     UIntT incrSize;  // Half number of displacements for each parameter when perturbing the model.
     bool done;  // Have all files been processed?
+    bool m_ignoreSuspect;
   };
 
   //! userlevel=Advanced
@@ -80,8 +88,15 @@ namespace RavlImageN {
     : public SampleStream2C<VectorC,VectorC >
   {
   public:
-    AAMSampleStreamC(const AAMAppearanceModelC &am,const GaussConvolve2dC<RealT> &smooth,const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile, const UIntT incrSize)
-      : DPEntityC(*new AAMSampleStreamBodyC(am,smooth,fileList,dir,mirrorFile,incrSize))
+    AAMSampleStreamC(const AAMAppearanceModelC &am,
+                     const GaussConvolve2dC<RealT> &smooth,
+                     const DListC<StringC> &fileList,
+                     const StringC &dir,
+                     const StringC &mirrorFile,
+                     const UIntT incrSize,
+                     bool ignoreSuspect = true
+                     )
+      : DPEntityC(*new AAMSampleStreamBodyC(am,smooth,fileList,dir,mirrorFile,incrSize,ignoreSuspect))
     {}
     //: Default constructor.
     // Creates an invalid handle.

@@ -24,7 +24,14 @@
 namespace RavlImageN {
 
   //: Constructor.
-  AAMSampleStreamBodyC::AAMSampleStreamBodyC(const AAMAppearanceModelC &nam,const GaussConvolve2dC<RealT> &psmooth,const DListC<StringC> &pfileList,const StringC &pdir,const StringC &pmirrorFile, const UIntT pincrSize)
+  AAMSampleStreamBodyC::AAMSampleStreamBodyC(const AAMAppearanceModelC &nam,
+                                             const GaussConvolve2dC<RealT> &psmooth,
+                                             const DListC<StringC> &pfileList,
+                                             const StringC &pdir,
+                                             const StringC &pmirrorFile, 
+                                             const UIntT pincrSize,
+                                             bool ignoreSuspect
+                                             )
     : am(nam),
       smooth(psmooth),
       flit(pfileList),
@@ -32,7 +39,8 @@ namespace RavlImageN {
       samplesPerFrame(0),
       sampleNo(0),
       incrSize(pincrSize),
-      done(false)
+      done(false),
+      m_ignoreSuspect(ignoreSuspect)
   {
     if (pmirrorFile.IsEmpty()) {
       frames = pfileList.Size();
@@ -74,7 +82,8 @@ namespace RavlImageN {
       return false;
     UIntT subNo = sampleNo % samplesPerFrame;
     if(subNo == 0) { // First from frame ?
-    UIntT frameNo = sampleNo/samplesPerFrame;
+      UIntT frameNo = sampleNo/samplesPerFrame;
+      
       if(sampleNo != 0) {
         if (!mirror.IsValid() || (mirror.IsValid() && frameNo%2==0)) {
           flit++;
@@ -84,43 +93,43 @@ namespace RavlImageN {
           return false;
         }
       }
-
-      AAMAppearanceC appear = LoadFeatureFile(*flit,dir);
+      
+      AAMAppearanceC appear = LoadFeatureFile(*flit,dir,m_ignoreSuspect);
       if(mirror.IsValid() && frameNo%2==1) {
         appear = mirror.Reflect(appear);
       }
-
+      
       ONDEBUG(cerr << "AAMSampleStreamBodyC::Get(), Frame=" << (sampleNo / samplesPerFrame) << " " << appear.SourceFile()  << "\n");
-
+      
       // Sort out a real image.
       if(image.Frame() != appear.Image().Frame())
         image = ImageC<RealT>(appear.Image().Frame());
       for(Array2dIter2C<RealT,ByteT> it(image,appear.Image());it;it++)
         it.Data1() = it.Data2();
-
+      
       // smooth the image
       image = smooth.Apply(image);
-
+      
       // Compute true parameters.
-
+      
       trueVec = am.Parameters(appear);
       deltaVec = trueVec.Copy();
-
+      
       // Generate entry with no errors.
-
+      
       buff.Data2() = VectorC(trueVec.Size());
       buff.Data2().Fill(0);
       // Compute residual error
       if(am.ErrorVector(trueVec,image,buff.Data1())==false)
         cerr << "Marked up points out of image range" << endl;
-
+      
       sampleNo++;
       return true;
     }
     subNo--;
     UIntT paramNo = subNo / (2*incrSize);
     UIntT incrNo = subNo % (2*incrSize);
-
+    
     RealT trueVal = trueVec[paramNo];
 
     RealT maxVar;

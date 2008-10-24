@@ -112,7 +112,8 @@ bool ChangeValue(RealT &parm) {
 }
 
 //: Visualise shape or appearance model.
-//  This programs allows to visualise interactively the effects of varying the parameters controling the main modes of variation of the shape or appearance model. For more information type "aamViewShapeModel -help".
+//  This programs allows to visualise interactively the effects of varying the parameters 
+// controling the main modes of variation of the shape or appearance model. For more information type "aamViewShapeModel -help".
 int viewShapeModel(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   bool appear = opt.Boolean("a",false,"Load appearance? true=yes. Load only shape if set to false.");

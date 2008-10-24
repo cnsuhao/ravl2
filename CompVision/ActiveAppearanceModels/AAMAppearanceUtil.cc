@@ -24,7 +24,7 @@
 
 namespace RavlImageN {
 
-  bool GenerateTypeMap(HashIterC<IntT, ImagePointFeatureC> fit,bool &useTypeId,HashC<IntT,IntT> &typeMap,HashC<StringC,IntT> &namedTypeMap) {
+  static bool GenerateTypeMap(HashIterC<IntT, ImagePointFeatureC> fit,bool &useTypeId,HashC<IntT,IntT> &typeMap,HashC<StringC,IntT> &namedTypeMap) {
     // Check if we have feature type id's.
     if(fit.Data().TypeID() >= 0)
       useTypeId = true;
@@ -140,8 +140,10 @@ namespace RavlImageN {
       cerr << "WARNING: Failed to load file '" << featureSetFile << "' \n";
       return appear;
     }
-    if(ignoreSuspect && fs.IsSuspect())
+    if(ignoreSuspect && fs.IsSuspect()) {
+      cerr << "Skipping suspect markup '" << featureSetFile << "' \n";
       return appear;
+    }
     SArray1dC<Point2dC> pnts(fs.Size());
     if(typeMap.IsEmpty()) { // Do we need to build a type map ?
       GenerateTypeMap(fs.FeatureIterator(),useTypeId,typeMap,namedTypeMap);
@@ -180,9 +182,14 @@ namespace RavlImageN {
   //!param: ignoreSuspect - Ignore XML files marked as "Suspect"? True = yes.
   //!param: loadImages - Load image in memory? True = yes.
   // Note that if 'loadImages' is set to false, only the shape of the model instance will be loaded.
-  SampleC<AAMAppearanceC> LoadFeatureSet(const DListC<StringC> &files,const StringC & dir,bool ignoreSuspect,bool loadImages) {
+  SampleC<AAMAppearanceC> LoadFeatureSet(const DListC<StringC> &files,
+                                         const StringC & dir,
+                                         bool ignoreSuspect,
+                                         bool loadImages
+                                         ) 
+  {
     SampleC<AAMAppearanceC> appearanceSet;
-
+    
     DirectoryC md(dir);
     if(!md.IsValid()) {
       cerr << "Can't find directory '" << dir << "'\n";
@@ -197,6 +204,9 @@ namespace RavlImageN {
       appear = LoadFeatureFile(*it,dir,ignoreSuspect,loadImages);
       if (appear.IsValid()) {
         appearanceSet.Append(appear);
+        //cout << "." << std::flush;
+      } else {
+        //cout << "x" << std::flush;
       }
     }
     cout  << "\n";
@@ -211,7 +221,12 @@ namespace RavlImageN {
   //!param: ignoreSuspect - Ignore XML files marked as "Suspect"? True = yes.
   //!param: loadImages - Load image in memory? True = yes.
   // Note that if 'loadImages' is set to false, only the shape of the model instance will be loaded.
-  SampleC<AAMAppearanceC> LoadFeatureSet(const StringC &dir,const StringC &ext,bool ignoreSuspect,bool loadImages) {
+  SampleC<AAMAppearanceC> LoadFeatureSet(const StringC &dir,
+                                         const StringC &ext,
+                                         bool ignoreSuspect,
+                                         bool loadImages
+                                         ) 
+  {
     SampleC<AAMAppearanceC> appearanceSet;
     DirectoryC md(dir);
     if(!md.IsValid()) {

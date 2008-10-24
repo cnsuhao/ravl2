@@ -40,7 +40,8 @@ namespace RavlImageN {
   //: Constructor.
   //  Load from bin stream.
   AAMShapeModelBodyC::AAMShapeModelBodyC(BinIStreamC &s)
-    : RCBodyVC(s)
+    : RCBodyVC(s),
+      m_verbose(false)
   {
     int version;
     s >> version;
@@ -57,7 +58,8 @@ namespace RavlImageN {
   //: Constructor.
   //  Load from stream.
   AAMShapeModelBodyC::AAMShapeModelBodyC(istream &s)
-    : RCBodyVC(s)
+    : RCBodyVC(s),
+      m_verbose(false)
   {
     int version;
     s >> version;
@@ -159,20 +161,26 @@ namespace RavlImageN {
 
     //: Do some initial processing, needed for some models.
 
-    if(!ComputeMean(sample))
+    if(!ComputeMean(sample)) {
+      if(m_verbose)
+        std::cerr << "ERROR: Failed to compute sample mean. \n";
       return false;
+    }
 
     //: Generate sample of raw vectors.
 
     SampleIterC<AAMAppearanceC> it(sample);
-    if(!it)
+    if(!it) {
+      if(m_verbose)
+        std::cerr << "ERROR: Sample set empty. \n";
       return false; // No data points!
+    }
     nPoints = it->Points().Size();
 
     SArray1dC<Sums1d2C> stats(NoFixedParameters());
     for(SArray1dIterC<Sums1d2C> yit(stats);yit;yit++)
       yit->Reset();
-
+    
     for(;it;it++) {
       VectorC vec,nfixed;
       RawParameters(*it,nfixed,vec);
@@ -190,26 +198,26 @@ namespace RavlImageN {
 
     ONDEBUG(cerr << "FixedMean=" << fixedMean << "\n");
     ONDEBUG(cerr << "FixedVar=" << fixedVar << "\n");
-
+    
     // Do pca.
-
+    
     DesignFuncPCAC designPCA(variation);
     designPCA.Apply(vectors); // Design parameter to shape function.
-
+    
     // Apply limit on number of parameters
     if(designPCA.Pca().Vector().Size()>maxP) {
       designPCA.Pca().Vector() = designPCA.Pca().Vector().From(0,maxP);
       designPCA.Pca().Matrix() = designPCA.Pca().Matrix().SubMatrix(maxP,designPCA.Pca().Matrix().Cols());
     }
-
+    
     // Create model
     shapeModel = FuncMeanProjectionC(designPCA.Mean(),designPCA.Pca().Matrix());
-
+    
     eigenValues = fixedVar.Join(designPCA.Pca().Vector());
-
+    
     // compute inverse model
     invShapeModel = FuncLinearC(designPCA.Pca().Matrix().T(),designPCA.Mean());
-
+    
     RawProject(fixedMean,designPCA.Mean(),meanPoints);
     return true;
   }
