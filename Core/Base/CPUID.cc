@@ -122,7 +122,7 @@ bool MMX()
     cpu_id_initialized = true;
   }
 
-  return cpuid_mmx & cpu_id;
+  return (cpuid_mmx & cpu_id) != 0;
 }
 
 //: do we have sse
@@ -134,7 +134,7 @@ bool SSE()
     cpu_id_initialized = true;
   }
 
-  return cpuid_sse & cpu_id;
+  return (cpuid_sse & cpu_id) != 0;
 }
 
 //: do we have sse2
@@ -146,7 +146,7 @@ bool SSE2()
     cpu_id_initialized = true;
   }
 
-  return cpuid_sse2 & cpu_id;
+  return (cpuid_sse2 & cpu_id) != 0;
 }
 
 //: do we have hyperthreading processor
@@ -158,7 +158,7 @@ bool HTT()
     cpu_id_initialized = true;
   }
 
-  return cpuid_htt & cpu_id;
+  return (cpuid_htt & cpu_id) != 0;
 }
 
 }
