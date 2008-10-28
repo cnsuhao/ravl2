@@ -16,6 +16,7 @@
 #include "Ravl/Image/YCbCrBT601Value.hh"
 #include "Ravl/Types.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
 
 namespace RavlImageN {
 #if RAVL_VISUALCPP_NAMESPACE_BUG
@@ -74,6 +75,26 @@ namespace RavlImageN {
     { return YCbCrBT601ValueC<UInt8T>((UInt16T) data[0]>>8,(UInt16T) data[1]>>8,(UInt16T) data[2]>>8); }
     //: Convert to 16 bit.
     
+  //: Convert to 8 bit RGB.  
+  ByteRGBValueC UInt16YCbCrBT601ValueC::ByteRGB() const {
+    FloatT r = ( 1.00000 * Y() + 1.53967 * (Cr()-32768.0)                  ) / 256.0;
+    FloatT g = ( 1.00000 * Y() - 0.18317 * (Cb()-32768.0) - 0.45764 * (Cr()-32768.0) ) / 256.0;
+    FloatT b = ( 1.00000 * Y() + 1.81421 * (Cb()-32768.0)                  ) / 256.0;
+    //std::cerr << "r=" << r << " g=" << g << " b=" << b <<"\n";
+    return ByteRGBValueC(ClipRange(Round(r),0,255),
+                         ClipRange(Round(g),0,255),
+                         ClipRange(Round(b),0,255)
+                         );
+  }
+
+  RGBValueC<FloatT> UInt16YCbCrBT601ValueC::FloatRGB() const {
+    FloatT r = ( 1.00000 * Y() + 1.53967 * (Cr()-32768.0)                  ) / 256.0;
+    FloatT g = ( 1.00000 * Y() - 0.18317 * (Cb()-32768.0) - 0.45764 * (Cr()-32768.0) ) / 256.0;
+    FloatT b = ( 1.00000 * Y() + 1.81421 * (Cb()-32768.0)                  ) / 256.0;
+    //std::cerr << "r=" << r << " g=" << g << " b=" << b <<"\n";
+    return RGBValueC<FloatT>(r,g,b);
+  }
+
   };
   
   template<class DataT> class ImageC;

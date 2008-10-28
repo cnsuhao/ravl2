@@ -96,6 +96,24 @@ namespace RavlImageN {
     return ret ;
   }
   
+  //: Convert UInt16YCbCrBT601 to RGB in byte point format.
+  
+  ImageC<ByteRGBValueC> UInt16YCbCrBT601ValueImage2ByteRGBImage(const ImageC<UInt16YCbCrBT601ValueC> &dat) {
+    ImageC<ByteRGBValueC> ret(dat.Rectangle());
+    for(Array2dIter2C<ByteRGBValueC,UInt16YCbCrBT601ValueC > it(ret,dat);it;it++) 
+      it.Data1() = it.Data2().ByteRGB();
+    return ret ;
+  }
+
+  //: Convert UInt16YCbCrBT601 to RGB in float point format.
+  
+  ImageC<RGBValueC<float> > UInt16YCbCrBT601ValueImage2ImageRGBValueFloat(const ImageC<UInt16YCbCrBT601ValueC> &dat) {
+    ImageC<RGBValueC<float> > ret(dat.Rectangle());
+    for(Array2dIter2C<RGBValueC<float>,UInt16YCbCrBT601ValueC > it(ret,dat);it;it++) 
+      it.Data1() = it.Data2().FloatRGB();
+    return ret ;
+  }
+
   //: Convert byte RGB to YCbCrBT601.
 
   ImageC<ByteYCbCrBT601ValueC > ByteRGBImage2ByteYCbCrBT601ValueImage(const ImageC<ByteRGBValueC> &dat) {

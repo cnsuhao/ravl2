@@ -36,7 +36,8 @@ namespace RavlImageN {
   template<typename CompT> class YCbCrBT601ValueC; 
   template<typename CompT> class YCbCr422BT601ValueC; 
   class ByteYCbCrBT601ValueC ; 
-  class UInt16YCbCrBT601ValueC ; 
+  class UInt16YCbCrBT601ValueC ;
+  class UInt16YCbCr422BT601ValueC ; 
   
   //! docentry="Ravl.API.Images.Converters;Ravl.API.Images.Pixel Types.Grey Level"
 
@@ -196,6 +197,15 @@ namespace RavlImageN {
   
   ImageC<ByteYCbCrBT601ValueC > ByteRGBImage2ByteYCbCrBT601ValueImage(const ImageC<ByteRGBValueC>  &dat);
   //: Image conversion: byte RGB &rarr; byte YCbCr 
+
+  ImageC<ByteRGBValueC> UInt16YCbCrBT601ValueImage2ByteRGBImage(const ImageC<UInt16YCbCrBT601ValueC > &dat);
+  //: Image conversion: UInt 16YCbCr &rarr;  byte RGB
+
+  ImageC<RGBValueC<float> > UInt16YCbCrBT601ValueImage2ImageRGBValueFloat(const ImageC<UInt16YCbCrBT601ValueC > &dat);
+  //: Image conversion: UInt 16YCbCr &rarr;  float RGB
+
+  ImageC<UInt16YCbCrBT601ValueC> UInt16YCbCr422BT601ImageCT2UInt16YCbCrBT601ImageCT(const ImageC<UInt16YCbCr422BT601ValueC> &dat);
+  //: Image conversion: UInt 16YCbCr422 &rarr; 16YCbCr
   
   ImageC<YCbCrBT601ValueC<float> > ImageRGBValueFloat2YCbCrBT601ValueFloatImage(const ImageC<RGBValueC<float> > &dat);
   //: Image conversion: float RGB &rarr; float YCbCr

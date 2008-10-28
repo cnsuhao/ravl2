@@ -42,6 +42,12 @@ namespace RavlImageN
   
   DP_REGISTER_CONVERSION_NAMED(ByteYCbCrBT601ValueImage2ByteRGBImage,1.1,
                                "RavlImageN::ImageC<RavlImageN::ByteRGBValueC> RavlImageN::Convert(const RavlImageN::ImageC<RavlImageN::ByteYCbCrBT601ValueC> &)");
+
+  DP_REGISTER_CONVERSION_NAMED(UInt16YCbCrBT601ValueImage2ByteRGBImage,1.1,
+                               "RavlImageN::ImageC<RavlImageN::ByteRGBValueC> RavlImageN::Convert(const RavlImageN::ImageC<RavlImageN::UInt16YCbCrBT601ValueC> &)");
+
+  DP_REGISTER_CONVERSION_NAMED(UInt16YCbCrBT601ValueImage2ImageRGBValueFloat,1,
+                               "RavlImageN::ImageC<RavlImageN::RGBValueC<float> > RavlImageN::Convert(const RavlImageN::ImageC<RavlImageN::UInt16YCbCrBT601ValueC> &)");
   
   DP_REGISTER_CONVERSION_NAMED(ByteRGBImage2ByteYCbCrBT601ValueImage,1.1,
                                "RavlImageN::ImageC<RavlImageN::ByteYCbCrBT601ValueC> RavlImageN::Convert(const RavlImageN::ImageC<RavlImageN::ByteRGBValueC> &)");
