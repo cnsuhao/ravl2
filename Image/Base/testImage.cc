@@ -497,6 +497,15 @@ int TestYCbCrBT601() {
     // Convert Floating RGB -> yCbCr
     RGBFloat2YCbCrBT601Float(rgbValue1,yCbCr);
 
+    // Check conversion too and from UInt16 
+    UInt16YCbCrBT601ValueC yCbCrI16(yCbCr);
+    RGBValueC<float> rgbValueFromI16 = yCbCrI16.FloatRGB();
+    float diffA = (rgbValueFromI16 - rgbValue1).SumOfAbs();
+    if(diffA > 0.0001) {
+      cerr << "Failed to reconstruct from 16 bit value. " << rgbValue1 << " -> " << rgbValueFromI16 << " Diff=" << diffA << "\n";
+      return __LINE__;
+    }
+    
     // Convert Floating yCbCr -> RGB
     YCbCrBT601Float2RGBFloat(yCbCr,rgbValue2);
     cerr << "FF RGB=" << rgbValue1 << " yCbCr=" << yCbCr << "\n";
@@ -528,6 +537,7 @@ int TestYCbCrBT601() {
                           (ByteT)ClipRange(rgbValue1[2]*256.0,0.0,255.0));
     
     ByteYCbCrBT601ValueC byteYCbCr(byteRGB);
+    yCbCrI16 = byteYCbCr;
     
     ByteRGBValueC rgb8fromYCbCr8 = byteYCbCr.ByteRGB();
     
@@ -535,8 +545,17 @@ int TestYCbCrBT601() {
       Abs((int) byteRGB[0] - (int) rgb8fromYCbCr8[0]) +
       Abs((int) byteRGB[1] - (int) rgb8fromYCbCr8[1]) +
       Abs((int) byteRGB[2] - (int) rgb8fromYCbCr8[2]);
-    cerr << "BB byteRGB=" << byteRGB << " YCbCr=" << byteYCbCr << " rgb8fromYCbCr8=" << rgb8fromYCbCr8 << " diff=" << diff <<"\n";
+    cerr << "BB byteRGB=" << byteRGB << " YCbCrI8=" << byteYCbCr << " rgb8fromYCbCr8=" << rgb8fromYCbCr8 << " diff=" << diff <<"\n";
     if(diff > 8) return __LINE__;
+
+    ByteRGBValueC rgb8fromYCbCrI16 = yCbCrI16.ByteRGB();
+    int diff2=
+      Abs((int) byteRGB[0] - (int) rgb8fromYCbCrI16[0]) +
+      Abs((int) byteRGB[1] - (int) rgb8fromYCbCrI16[1]) +
+      Abs((int) byteRGB[2] - (int) rgb8fromYCbCrI16[2]);
+    cerr << "BB byteRGB=" << byteRGB << " YCbCrI16=" << yCbCrI16 << "(" << (yCbCrI16/256)<< ") rgb8fromYCbCrI16=" << rgb8fromYCbCrI16 << " diff=" << diff2 <<"\n";
+    if(diff2 > 8) return __LINE__;
+
     
   }
   return 0;

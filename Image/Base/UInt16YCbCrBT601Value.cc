@@ -13,6 +13,30 @@
 #include "Ravl/TypeName.hh"
 
 namespace RavlImageN {
+  ByteRGBValueC UInt16YCbCrBT601ValueC::ByteRGB() const {
+    double y = Y()/256.0;
+    double cb = Cb()/256.0;
+    double cr = Cr()/256.0;
+    
+    double r = ( 298.082 * y + 408.583 * cr                  ) / 256.0 - 222.921;
+    double g = ( 298.082 * y - 100.291 * cb - 208.120 * cr ) / 256.0 + 135.576;
+    double b = ( 298.082 * y + 516.412 * cb                  ) / 256.0 - 276.836;
+    //std::cerr << "r=" << r << " g=" << g << " b=" << b <<"\n";
+    return ByteRGBValueC(ClipRange(Round(r),0,255),
+                         ClipRange(Round(g),0,255),
+                         ClipRange(Round(b),0,255)
+                         );
+
+  }
+  //: Convert to 8 bit RGB.  
+    
+  RGBValueC<FloatT> UInt16YCbCrBT601ValueC::FloatRGB() const {
+    RGBValueC<float> ret;
+    YCbCrBT601Float2RGBFloat(FloatYCbCr(),ret);
+    return ret;
+  }
+  
+  
   static TypeNameC type2(typeid(UInt16YCbCrBT601ValueC),"RavlImageN::UInt16YCbCrBT601ValueC");
   
   ////////////////////////////////////////////////////////////

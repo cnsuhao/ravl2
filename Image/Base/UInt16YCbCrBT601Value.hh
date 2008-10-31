@@ -64,37 +64,27 @@ namespace RavlImageN {
     {}
     //: Convert from floating point values.
     
-    operator YCbCrBT601ValueC<float>() const
+    inline YCbCrBT601ValueC<float> FloatYCbCr() const
     { return YCbCrBT601ValueC<float>((data[0] - 256.0* 16.0)/65535.0,
                                      (data[1] - 256.0*128.0)/65535.0,
                                      (data[2] - 256.0*128.0)/65535.0 
-                                     ); }
+                                     ); 
+    }
+    //: Convert to float.
+    operator YCbCrBT601ValueC<float>() const
+    { return FloatYCbCr(); }
     //: Convert to floating point values.
     
     operator YCbCrBT601ValueC<UInt8T>() const
     { return YCbCrBT601ValueC<UInt8T>((UInt16T) data[0]>>8,(UInt16T) data[1]>>8,(UInt16T) data[2]>>8); }
     //: Convert to 16 bit.
     
-  //: Convert to 8 bit RGB.  
-  ByteRGBValueC UInt16YCbCrBT601ValueC::ByteRGB() const {
-    FloatT r = ( 1.00000 * Y() + 1.53967 * (Cr()-32768.0)                  ) / 256.0;
-    FloatT g = ( 1.00000 * Y() - 0.18317 * (Cb()-32768.0) - 0.45764 * (Cr()-32768.0) ) / 256.0;
-    FloatT b = ( 1.00000 * Y() + 1.81421 * (Cb()-32768.0)                  ) / 256.0;
-    //std::cerr << "r=" << r << " g=" << g << " b=" << b <<"\n";
-    return ByteRGBValueC(ClipRange(Round(r),0,255),
-                         ClipRange(Round(g),0,255),
-                         ClipRange(Round(b),0,255)
-                         );
-  }
-
-  RGBValueC<FloatT> UInt16YCbCrBT601ValueC::FloatRGB() const {
-    FloatT r = ( 1.00000 * Y() + 1.53967 * (Cr()-32768.0)                  ) / 256.0;
-    FloatT g = ( 1.00000 * Y() - 0.18317 * (Cb()-32768.0) - 0.45764 * (Cr()-32768.0) ) / 256.0;
-    FloatT b = ( 1.00000 * Y() + 1.81421 * (Cb()-32768.0)                  ) / 256.0;
-    //std::cerr << "r=" << r << " g=" << g << " b=" << b <<"\n";
-    return RGBValueC<FloatT>(r,g,b);
-  }
-
+    ByteRGBValueC ByteRGB() const;
+    //: Convert to 8 bit RGB.  
+    
+    RGBValueC<FloatT> FloatRGB() const;
+    //: Convert to floating point RGB.
+    
   };
   
   template<class DataT> class ImageC;

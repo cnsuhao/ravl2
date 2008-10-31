@@ -66,6 +66,7 @@ namespace RavlImageN {
   
   //: Convert RGB to YCbCrBT601 in floating point format.
   
+
   ImageC<YCbCrBT601ValueC<float> > ImageRGBValueFloat2YCbCrBT601ValueFloatImage(const ImageC<RGBValueC<float> > &dat) {
     ImageC<YCbCrBT601ValueC<float> > ret(dat.Rectangle());
     for(Array2dIter2C<YCbCrBT601ValueC<float>,RGBValueC<float> > it(ret,dat);it;it++)
