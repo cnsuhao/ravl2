@@ -329,6 +329,7 @@ namespace RavlGUIN
     RavlImageN::ImageC<ByteRGBValueC> out(height,width);
     GLvoid* buf = (GLvoid*) &(out[0][0]);
     glReadPixels(x,y,width,height,format,wtype,buf);
+    out = out.Rotate180();
     RavlImageN::ReflectVertical(out,*img);
     GUIEndGL();
     done.Post();
