@@ -32,21 +32,21 @@ HEADERS = gdkgl.h gtkglarea.h \
  DObject3D.hh DLight3D.hh Util.hh Canvas3D.hh DViewPoint3D.hh \
  DCube3D.hh DTriMesh3D.hh DPointSet3d.hh DPinholeCamera03D.hh \
  DTexTriMesh3D.hh View3D.hh DSurfacePointVertexArray.hh \
- DSurfacePointVertexByteRGBArray.hh GLContext.hh
+ DSurfacePointVertexByteRGBArray.hh GLContext.hh 
 
 SOURCES = gdkgl.c gtkglarea.c DObject3D.cc  DLight3D.cc \
  Util.cc Canvas3D.cc DViewPoint3D.cc DCube3D.cc DTriMesh3D.cc \
  DPointSet3d.cc DPinholeCamera03D.cc DTexTriMesh3D.cc View3D.cc \
  DSurfacePointVertexArray.cc DSurfacePointVertexByteRGBArray.cc \
- GLContext.cc
+ GLContext.cc 
 
 PLIB = RavlGUI3D
 
 #EXAMPLES
 MAINS = exCanvas3D.cc exView3D.cc exDTexTriMesh3d.cc
 
-USESLIBS = RavlCore RavlGeom RavlGUI OpenGL Ravl3D x11 GTK
+USESLIBS = RavlCore RavlGeom RavlGUI OpenGL Ravl3D x11 GTK RavlImage
 
 EHT = Ravl.API.GUI.3D.html
 
-PROGLIBS = Ravl3DIO RavlOS RavlImageIO RavlExtImgIO
+PROGLIBS = Ravl3DIO RavlOS RavlImageIO RavlExtImgIO RavlDPDisplay

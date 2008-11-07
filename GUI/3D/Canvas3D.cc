@@ -10,6 +10,13 @@
 //! file="Ravl/GUI/3D/Canvas3D.cc"
 
 #include "Ravl/GUI/Canvas3D.hh"
+#include "Ravl/GUI/ReadBack.hh"
+#include "Ravl/Image/Image.hh"
+#include "Ravl/Image/Reflect.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Threads/SemaphoreRC.hh"
+#include "Ravl/CallMethodRefs.hh"
+
 //#include "Ravl/StdError.hh"
 #ifndef VISUAL_CPP
 #include "Ravl/GUI/gdkgl.h"
@@ -305,6 +312,39 @@ namespace RavlGUIN
     m_bLighting = bLighting;
     Put(DOpenGLC(CallMethod0C<Canvas3DC, bool>(Canvas3DC(*this), &Canvas3DC::GUIDoLighting)));
     return true;
+  }
+  
+  //: Write contents of widget to an image.
+  
+  bool Canvas3DBodyC::SaveToImageInternal(RavlImageN::ImageC<ByteRGBValueC> *img,SemaphoreRC &done) {
+    if(!GUIBeginGL()) {
+      std::cerr << "Failed to begin context.";
+      return false;
+    }
+    GLint x=0,y=0;
+    GLsizei width=Size()[1].V(),height=Size()[0].V();
+    std::cerr << "Canvas3DBodyC::SaveToImage, Width=" << width << " Height=" << height << "\n";
+    width -= width%4;
+    GLenum format=GL_RGB, wtype=GL_UNSIGNED_BYTE;
+    RavlImageN::ImageC<ByteRGBValueC> out(height,width);
+    GLvoid* buf = (GLvoid*) &(out[0][0]);
+    glReadPixels(x,y,width,height,format,wtype,buf);
+    RavlImageN::ReflectVertical(out,*img);
+    GUIEndGL();
+    done.Post();
+    return true;    
+  }
+
+  //: Write contents of screen to an image.
+  
+  bool Canvas3DBodyC::SaveToImage(RavlImageN::ImageC<ByteRGBValueC> &img) {
+    SemaphoreRC done(0);
+    if(!Manager.IsGUIThread()) {
+      Manager.Queue(TriggerR(*this,&Canvas3DBodyC::SaveToImageInternal,&img,done));
+      done.Wait();
+      return true;
+    }
+    return SaveToImageInternal(&img,done);
   }
 
 } // end of namespace

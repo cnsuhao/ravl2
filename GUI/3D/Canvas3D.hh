@@ -24,6 +24,15 @@
 #include "Ravl/CallMethods.hh"
 #include "Ravl/CallMethodRefs.hh"
 
+
+namespace RavlN {
+  class SemaphoreRC;
+}
+
+namespace RavlImageN {
+  template<typename DataT> class ImageC;
+}
+
 //#include "Ravl/Threads/EventHandlerRef.hh"
 
 typedef struct _GdkGLContext GdkGLContext;
@@ -124,8 +133,13 @@ namespace RavlGUIN {
     }
     //: Get opengl context.
     
-    
+    bool SaveToImage(RavlImageN::ImageC<ByteRGBValueC> &img);
+    //: Write contents of widget to an image.
   protected:
+    
+    bool SaveToImageInternal(RavlImageN::ImageC<ByteRGBValueC> *img,SemaphoreRC &done);
+    //: Write contents of widget to an image.
+    
     virtual bool CBConfigureEvent(GdkEvent *event);
     //: Handle configure event
 
@@ -341,6 +355,10 @@ namespace RavlGUIN {
     const GLContextC &GUIGLContext() 
     { return Body().GUIGLContext(); }
     //: Access opengl context for canvas.
+    
+    bool SaveToImage(RavlImageN::ImageC<ByteRGBValueC> &img)
+    { return Body().SaveToImage(img); }
+    //: Write contents of widget to an image.
     
   protected:
     Canvas3DBodyC &Body()
