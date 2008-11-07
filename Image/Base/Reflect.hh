@@ -33,6 +33,24 @@ namespace RavlImageN {
     }
   }
   //: Reflect image along its vertical axis
+
+
+  template<class PixelT>
+  void ReflectHorizontal(const ImageC<PixelT> &img,ImageC<PixelT> &out) {
+    if(out.Frame() != img.Frame())
+      out = ImageC<PixelT>(img.Frame());
+    IndexC i1 = img.Range1().Min();
+    IndexC i2 = out.Range1().Max();
+    IndexC maxc = img.Range2().Max();
+    for(; i1 <= img.Range1().Max(); i1++, i2--) {
+      const PixelT *p1 = img.Row(i1);
+      PixelT *p2 = out.Row(i2);
+      const PixelT *ep = &(img[i1][maxc]);
+      for(; p1 <= ep;p1++,p2++)
+	*p2 = *p1;
+    }
+  }
+  //: Reflect image along its horizontal axis
 }
 
 
