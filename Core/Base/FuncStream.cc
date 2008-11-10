@@ -6,6 +6,7 @@
 // file-header-ends-here
 
 #include "Ravl/FuncStream.hh"
+#include <cstring>
 
 namespace RavlN {
   
@@ -56,7 +57,7 @@ namespace RavlN {
     nPutback = gptr() - eback();
     if(nPutback > 4)
       nPutback = 4;
-    std::memmove(m_buffer+(4-nPutback),gptr() - nPutback,nPutback);
+    memmove(m_buffer+(4-nPutback),gptr() - nPutback,nPutback); // removed std:: for gcc 4.3
     char *buf = m_buffer+4;
     SizeT rnum = m_bufferSize-4;
     SizeT num = m_read.Call(buf,rnum);
