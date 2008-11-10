@@ -52,6 +52,10 @@ RAVL_AR  = /opt/Embedix/tools/bin/arm-linux-ar
 #RESOURCES += libGTK libGTK2
 #RESOURCES += libglade2
 
+#### OpenGL ################
+
+#RESOURCES += libGL
+
 #### FFTW ################
 
 #FFTW_HOME =

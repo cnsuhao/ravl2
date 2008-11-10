@@ -54,6 +54,10 @@ RAVL_CXX = g++
 RESOURCES += libGTK2
 RESOURCES += libglade2
 
+#### OpenGL ################
+
+RESOURCES += libGL
+
 #### FFTW ################
 
 #FFTW_HOME =

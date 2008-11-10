@@ -12,6 +12,8 @@ PACKAGE=Ravl/GUI
 
 LICENSE=LGPL
 
+REQUIRES = libGL
+
 #ifeq ($(ARC),sol2)
 ifneq ($(filter $(ARC), sol2_7 sol2_9),)
 # The solaris x11 header files a broken, so we need

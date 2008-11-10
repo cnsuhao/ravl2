@@ -9,6 +9,8 @@
 
 PACKAGE=Ravl/GUI
 
+REQUIRES=libGL
+
 HEADERS=DPDisplayView3d.hh DPWindow3d.hh DPWindow3dOPort.hh DPWindow3dFormat.hh 
 
 SOURCES=DPDisplayView3d.cc DPWindow3d.cc DPWindow3dOPort.cc DPWindow3dFormat.cc DPDisplay3dConv.cc
