@@ -9,7 +9,7 @@ OPENGL_DEF = 1
 
 include x11.def
 
-ifeq ($(strip $(filter-out $(RESOURCES),libGL)),)
+ifneq ($(strip $(filter $(RESOURCES),libGL)),)
 
 ifdef MESAHOME
   OPENGLHOME=$(MESAHOME)
