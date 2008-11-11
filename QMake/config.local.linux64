@@ -29,6 +29,7 @@ FULLBUILD_TARGETS += doc
 # Specify which build to 'test'
 #TEST_TARGET = check
 
+PROCESSOR_TYPE:=$(shell uname -i)
 ifeq ("$(PROCESSOR_TYPE)","x86_64")
   RESOURCES += USE_SSE2
 endif
