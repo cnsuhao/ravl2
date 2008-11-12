@@ -9,43 +9,11 @@ GTKDEF = 1
 ################################################
 # $Id$
 
-include x11.def
-
 # Check if we're using GTK
 
-ifneq ($(strip $(filter $(RESOURCES),libGTK)),)
+ifneq ($(strip $(filter $(RESOURCES),libGTK2)),)
 
-ifdef GTKPATH 
-GTKCONFIG = $(GTKPATH)/bin/gtk-config 
-else 
-GTKCONFIG = gtk-config
-endif 
-
-ifdef GLIBPATH
-GLIBCONFIG = $(GLIBPATH)/bin/glib-config 
-else
-GLIBCONFIG = glib-config 
-endif 
-
-ifndef GTKCFLAGS 
-GTKCFLAGS = `$(GTKCONFIG) --cflags`
-endif 
-
-ifndef GLIBCFLAGS 
-GLIBCFLAGS = `$(GLIBCONFIG) --cflags`
-endif 
-
-ifndef GTKLIBS 
-GTKLIBS = -L/opt/lib  `$(GTKCONFIG) --libs`
-#GTKLIBS := $(filter-out -rdynamic,$(GTKLIBS))
-endif 
-
-ifndef GLIBLIBS 
-GLIBLIBS = `$(GLIBCONFIG) --libs`
-endif 
-
-GTKLIBS += -lgthread 
-else
+include x11.def
 
 ifndef GTKCFLAGS
 GTKCFLAGS= `pkg-config gtk+-2.0 --cflags` -DRAVL_USE_GTK=1
