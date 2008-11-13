@@ -217,7 +217,7 @@ namespace RavlN {
         new(ret) SingleBufferBodyC<DataT>(size);
       } catch(...) {
         free(ret);
-	return 0;
+	throw ;
       }
       return ret;
     }
@@ -230,7 +230,7 @@ namespace RavlN {
         new(ret) SingleBufferBodyC<DataT>(size,align);
       } catch(...) {
         free(ret);
-	return 0;
+	throw ;
       }
       return ret;
     }
