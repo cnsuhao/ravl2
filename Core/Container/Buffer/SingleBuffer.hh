@@ -25,15 +25,15 @@ namespace RavlN {
 #if RAVL_COMPILER_VISUALCPP
     DataT *at = data;
     DataT *end = &at[size];
-	try {
+    try {
       for(;at != end;at++)
         new(at) DataT;
-	} catch(...) {
-	  DataT *die = data;
-	  for(;die != at;die++)
-	    die->~DataT();
-	  throw ;
-	}
+    } catch(...) {
+      DataT *die = data;
+      for(;die != at;die++)
+	die->~DataT();
+      throw ;
+    }
 #else
     new(data) DataT[size];
 #endif
@@ -160,19 +160,14 @@ namespace RavlN {
     //: Default constructor.
     
     SingleBufferBodyC(SizeT nsize,UIntT align)
-	: BufferBodyC<DataT>(0,nsize,false)
+      : BufferBodyC<DataT>(0,nsize,false)
     {
       // Align memory
       char *buf = reinterpret_cast<char *>(&(this[1]));
       SizeT alignm1 = align-1;
       this->buff = reinterpret_cast<DataT *>(buf + ((align - (((SizeT) buf) & alignm1)) & alignm1));
-
-//reinterpret_cast<DataT *>((IntT) buf + ((align - (((IntT) buf) & alignm1)) & alignm1));
-       
-//this->buff = reinterpret_cast<DataT *>(buf + ((align - (( reinterpret_cast<IntT>  (buf) ) & alignm1)) & alignm1));
-	//reinterpret_cast<IntT>  (buf) 
-     
- // Construct array
+      
+      // Construct array
       ConstructRawArray(this->buff,this->Size()); 
     }
     //: Construct buffer with alignment
@@ -222,6 +217,7 @@ namespace RavlN {
         new(ret) SingleBufferBodyC<DataT>(size);
       } catch(...) {
         free(ret);
+	return 0;
       }
       return ret;
     }
@@ -234,6 +230,7 @@ namespace RavlN {
         new(ret) SingleBufferBodyC<DataT>(size,align);
       } catch(...) {
         free(ret);
+	return 0;
       }
       return ret;
     }
