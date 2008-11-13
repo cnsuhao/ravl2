@@ -34,5 +34,5 @@ PROGLIBS =  RavlImgIOV4L.opt RavlExtImgIO.opt RavlDPDisplay \
 
 #EHT = exeVPlay.eht
 
-REQUIRES = libGTK
+REQUIRES = libGTK2
 

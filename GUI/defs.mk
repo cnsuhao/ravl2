@@ -11,6 +11,6 @@ DESCRIPTION = GUI Tools.
 
 NESTED=GTK.r 2D.r 3D.r LibGlade.r Util.r DPDisplay.r DPDisplay3d.r 
 
-REQUIRES= libGTK
+REQUIRES= libGTK2
 
 EHT = Graphics.html
