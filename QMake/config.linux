@@ -115,9 +115,9 @@ endif
 # 'opt' variant.
 
 ifeq ($(VAR),opt)
- CFLAGS += $(OPTCFLAGS) 
- CCFLAGS += $(OPTCFLAGS)
- LDFLAGS += -O 
+ CFLAGS += -g $(OPTCFLAGS) 
+ CCFLAGS += -g $(OPTCFLAGS)
+ LDFLAGS += -g -O 
 endif
 
 ############################

@@ -925,7 +925,7 @@ $(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB
 	if $(CXX) $(LDFLAGS) $(INST_LIB)/dummymain$(OBJEXT) $(TARG_OBJS) $(LIBS) -o $(WORKTMP)/a.out ; then \
 	  rm $(WORKTMP)/a.out ; \
 	  echo "---- Doing final build " ; \
-	  $(XARGS) $(CXX) $(LDLIBFLAGS) $(LIBSONLY) -o $(INST_LIB)/$(@F) < $(INST_OBJS)/libObjs.txt  ; \
+	  $(XARGS) $(CXX) $(LDLIBFLAGS) $(filter-out -l$(PLIB),$(LIBSONLY)) -o $(INST_LIB)/$(@F) < $(INST_OBJS)/libObjs.txt  ; \
 	  $(UNTOUCH) $(INST_LIB)/$(@F) $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) ; \
 	else \
 	  if [ -f $(WORKTMP)/a.out ] ; then \
@@ -935,15 +935,11 @@ $(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB
 	fi
 else
 $(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
-	$(SHOWIT)echo "--- Building" $(@F) ; \
-	if [ ! -f $(INST_LIB)/$(@F) ] ; then \
-	  $(CC) $(LDLIBFLAGS) -o $(INST_LIB)/$(@F) $(TARG_OBJS) ; \
-	fi ; \
-	echo "---- Building object list " ; \
+	$(SHOWIT)echo "--- Building " $(@F) ; \
 	echo "$(patsubst %$(OBJEXT),%$(OBJEXT)@,$(TARG_OBJS))" | $(TR) '@' '\n' >> $(INST_OBJS)/libObjs.txt ; \
 	sort -b -u $(INST_OBJS)/libObjs.txt -o $(INST_OBJS)/libObjs.txt ; \
-        echo "---- Building library " ; \
-	$(XARGS) $(CXX) $(LDLIBFLAGS) $(LIBSONLY) -o $(INST_LIB)/$(@F) < $(INST_OBJS)/libObjs.txt  ; \
+        echo "---- Building library $(INST_LIB)/$(@F) " ; \
+	$(XARGS) $(CXX) $(LDLIBFLAGS) $(filter-out -l$(PLIB),$(LIBSONLY)) -o $(INST_LIB)/$(@F) < $(INST_OBJS)/libObjs.txt  ; \
 	$(UNTOUCH) $(INST_LIB)/$(@F) $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) ; 
 endif
 endif
