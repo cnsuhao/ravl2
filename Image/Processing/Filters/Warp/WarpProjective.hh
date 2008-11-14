@@ -135,13 +135,9 @@ namespace RavlImageN {
     Point2dC Project(const Point2dC &pnt) const;
     // Transform a point from the destination to source.
 
-    void SetMidPixelCorrection(bool correction) {
-      pixelShift =  correction ?  0.5 : 0.0;
-      Init();
-    }
+    void SetMidPixelCorrection(bool correction)
+    { pixelShift =  correction ?  0.5 : 0.0; }
     //: Set mid pixel correction flag.
-    //!param: correction = true - coordinate system is at top l.h corner of pixel (0,0) (the default)
-    //!param: correction = false - coordinate system is at centre of pixel (0,0)
     
   protected:
     void Init();
@@ -157,10 +153,7 @@ namespace RavlImageN {
 
   template <class InT, class OutT,class MixerT,class SampleT>
   void WarpProjectiveC<InT,OutT,MixerT,SampleT>::Init() {
-    // If mid-pixel correction is needed, transform is replaced by:
-    //   shift 1/2 pixel; transform; shift back again.
-    Matrix3dC shift(1,0,pixelShift, 0,1,pixelShift, 0,0,1);
-    inv = Matrix3dC(trans*shift).Inverse()*shift;
+    inv = trans.Inverse();
   }
   
   template <class InT, class OutT,class MixerT,class SampleT>
@@ -185,8 +178,9 @@ namespace RavlImageN {
     
     // adjust source window for area where bilinear interpolation can be
     // computed safely. Using 0.51 instead of 0.5 ensures that points on the
-    // boundary are not used, for safety. (Bill: Not convinced by the amount though.)
-    irng = irng.Shrink(1.01);
+    // boundary are not used, for safety.
+    irng.TRow() += 0.51 + (0.5-pixelShift); irng.BRow() -= 0.51+ (0.5-pixelShift);
+    irng.LCol() += 0.51 + (0.5-pixelShift); irng.RCol() -= 0.51+ (0.5-pixelShift);
     
     // If the output maps entirely within input, we don't have to do any checking.
     
@@ -209,7 +203,7 @@ namespace RavlImageN {
 	at[0] *= iz;
 	at[1] *= iz;
 	do {
-	  sampler(src,Point2dC((at[0]/at[2]),(at[1]/at[2])),tmp)
+	  sampler(src,Point2dC((at[0]/at[2]) - pixelShift,(at[1]/at[2])- pixelShift),tmp)
 	  mixer(*it,tmp);
 	  at += ldir;
 	} while(it.Next()) ;
@@ -239,6 +233,8 @@ namespace RavlImageN {
     
     // set pat as top-left pixel in output image
     Point2dC pat(workingOutImg.Frame().Origin());
+    pat[0] += pixelShift;
+    pat[1] += pixelShift;
     
     Array2dIterC<OutT> it(workingOutImg);  
     
@@ -299,7 +295,7 @@ namespace RavlImageN {
 	do {
 	  Point2dC ipat(at[0]/at[2],at[1]/at[2]);
 	  if(irng.Contains(ipat)) {
-	    sampler(src,ipat,tmp);
+	    sampler(src,ipat - Point2dC(pixelShift,pixelShift),tmp);
 	    mixer(*it,tmp);
 	  } else
 	    SetZero(*it);
@@ -309,7 +305,7 @@ namespace RavlImageN {
 	do {
 	  Point2dC ipat(at[0]/at[2],at[1]/at[2]);
 	  if(irng.Contains(ipat)) {
-	    sampler(src,ipat,tmp);
+	    sampler(src,ipat - Point2dC(pixelShift,pixelShift),tmp);
 	    mixer(*it,tmp);
 	  }
 	  at += ldir;
