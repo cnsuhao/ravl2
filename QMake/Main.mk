@@ -908,40 +908,21 @@ else
   LIBSONLY=$(filter-out %$(OBJEXT),$(LIBS))
 endif
 
-ifdef USE_SHAREDPREBUILD
-# This is better as it catches unresolved symbols earlier, this however can cause
-# problems when code is changed, particulary when there is more than one directory
-# being built into a single shared object.
+DIRECTORYID=$(QCWD)#
+
+# DIRECTORYID is used to keep a track of where an object file has come from so if the file is removed or
+# renamed it can be taken out of the list. 
 
 $(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
-	$(SHOWIT)echo "--- Building" $(@F) ; \
-	if [ ! -f $(INST_LIB)/$(@F) ] ; then \
-	  $(CC) $(LDLIBFLAGS) -o $(INST_LIB)/$(@F) $(TARG_OBJS) ; \
-	fi ; \
-	echo "---- Building object list " ; \
-	echo "$(patsubst %$(OBJEXT),%$(OBJEXT)@,$(TARG_OBJS))" | $(TR) '@' '\n' >> $(INST_OBJS)/libObjs.txt ; \
-	sort -b -u $(INST_OBJS)/libObjs.txt -o $(INST_OBJS)/libObjs.txt ; \
-	echo "---- Resolve C++ symbols " ; \
-	if $(CXX) $(LDFLAGS) $(INST_LIB)/dummymain$(OBJEXT) $(TARG_OBJS) $(LIBS) -o $(WORKTMP)/a.out ; then \
-	  rm $(WORKTMP)/a.out ; \
-	  echo "---- Doing final build " ; \
-	  $(XARGS) $(CXX) $(LDLIBFLAGS) $(filter-out -l$(PLIB),$(LIBSONLY)) -o $(INST_LIB)/$(@F) < $(INST_OBJS)/libObjs.txt  ; \
-	  $(UNTOUCH) $(INST_LIB)/$(@F) $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) ; \
-	else \
-	  if [ -f $(WORKTMP)/a.out ] ; then \
-	    rm $(WORKTMP)/a.out ; \
-	  fi ; \
-	  exit 1 ; \
-	fi
-else
-$(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
 	$(SHOWIT)echo "--- Building " $(@F) ; \
-	echo "$(patsubst %$(OBJEXT),%$(OBJEXT)@,$(TARG_OBJS))" | $(TR) '@' '\n' >> $(INST_OBJS)/libObjs.txt ; \
-	sort -b -u $(INST_OBJS)/libObjs.txt -o $(INST_OBJS)/libObjs.txt ; \
+	echo "$(patsubst %$(OBJEXT),%$(OBJEXT):$(DIRECTORYID)@,$(TARG_OBJS))" | $(TR) '@' '\n' > $(INST_OBJS)/libObjs.new ; \
+	grep -v  ":$(DIRECTORYID)" $(INST_OBJS)/libObjs.txt | awk -F: '{ print $$1 ":" $$2 }' >> $(INST_OBJS)/libObjs.new ; \
+	sort -b -u $(INST_OBJS)/libObjs.new -t : -k 1,1 -o $(INST_OBJS)/libObjs.txt ; \
+	rm $(INST_OBJS)/libObjs.new ; \
         echo "---- Building library $(INST_LIB)/$(@F) " ; \
-	$(XARGS) $(CXX) $(LDLIBFLAGS) $(filter-out -l$(PLIB),$(LIBSONLY)) -o $(INST_LIB)/$(@F) < $(INST_OBJS)/libObjs.txt  ; \
+	awk -F: '{ print $$1 }' $(INST_OBJS)/libObjs.txt | $(XARGS) $(CXX) $(LDLIBFLAGS) $(filter-out -l$(PLIB),$(LIBSONLY)) -o $(INST_LIB)/$(@F) ; \
 	$(UNTOUCH) $(INST_LIB)/$(@F) $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) ; 
-endif
+
 endif
 
 $(INST_LIB)/lib$(PLIB)$(LIBEXT)(%$(OBJEXT)) : $(INST_OBJS)/%$(OBJEXT)
@@ -1184,6 +1165,7 @@ info:
 	@echo "Temp            :" $(LOCALTMP)
 	@echo "Auto            :" $(AUTOUSELIBS)
 	@echo "Resources       :" $(RESOURCES)
+	@echo "Object files    :" $(INST_OBJS)
 
 #	@echo "Supported       :" $(SUPPORT_OK)
 #   " - " $(findstring $(ARC),$(DONOT_SUPPORT)) " - " $(findstring $(ARC),$(SUPPORT_ONLY))
