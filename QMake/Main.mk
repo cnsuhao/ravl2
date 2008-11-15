@@ -916,7 +916,9 @@ DIRECTORYID=$(QCWD)#
 $(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
 	$(SHOWIT)echo "--- Building " $(@F) ; \
 	echo "$(patsubst %$(OBJEXT),%$(OBJEXT):$(DIRECTORYID)@,$(TARG_OBJS))" | $(TR) '@' '\n' > $(INST_OBJS)/libObjs.new ; \
-	grep -v  ":$(DIRECTORYID)" $(INST_OBJS)/libObjs.txt | awk -F: '{ print $$1 ":" $$2 }' >> $(INST_OBJS)/libObjs.new ; \
+	if [ -f $(INST_OBJS)/libObjs.txt ] ; then \
+	  grep -v  ":$(DIRECTORYID)" $(INST_OBJS)/libObjs.txt | awk -F: '{ print $$1 ":" $$2 }' >> $(INST_OBJS)/libObjs.new ; \
+	fi ; \
 	sort -b -u $(INST_OBJS)/libObjs.new -t : -k 1,1 -o $(INST_OBJS)/libObjs.txt ; \
 	rm $(INST_OBJS)/libObjs.new ; \
         echo "---- Building library $(INST_LIB)/$(@F) " ; \
