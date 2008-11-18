@@ -34,10 +34,15 @@ namespace RavlImageN {
   class RealHSVValueC ; 
   template<typename CompT> class RGBValueC; 
   template<typename CompT> class YCbCrBT601ValueC; 
+  template<typename CompT> class YCbCrBT709ValueC;
   template<typename CompT> class YCbCr422BT601ValueC; 
+  template<typename CompT> class YCbCr422BT709ValueC;
   class ByteYCbCrBT601ValueC ; 
   class UInt16YCbCrBT601ValueC ;
   class UInt16YCbCr422BT601ValueC ; 
+  class ByteYCbCrBT709ValueC ; 
+  class UInt16YCbCrBT709ValueC ;
+  class UInt16YCbCr422BT709ValueC ; 
   
   //! docentry="Ravl.API.Images.Converters;Ravl.API.Images.Pixel Types.Grey Level"
 
@@ -188,26 +193,56 @@ namespace RavlImageN {
   
   ImageC<ByteYCbCrBT601ValueC> UInt16YCbCrBT601ValueImage2ByteYCbCrBT601ValueImage(const ImageC<UInt16YCbCrBT601ValueC> &dat);
   //: Image conversion: UInt16 YCbCr &rarr; byte YCbCr
+////////////////////////////////////////////////////////////////
+  ImageC<UInt16T> UInt16YCbCrBT709ValueImage2UInt16Image(const ImageC<UInt16YCbCrBT709ValueC> &dat);
+  //: Image conversion: UInt16 YCbCr &rarr; UInt16T grey-level
+    
+  ImageC<UInt16YCbCrBT709ValueC> ByteYCbCrBT709ValueImage2UInt16YCbCrBT709ValueImage(const ImageC<ByteYCbCrBT709ValueC> &dat);
+  //: Image conversion: byte YCbCrB &rarr;  UInt16 YCbCr
   
+  ImageC<ByteYCbCrBT709ValueC> UInt16YCbCrBT709ValueImage2ByteYCbCrBT709ValueImage(const ImageC<UInt16YCbCrBT709ValueC> &dat);
+  //: Image conversion: UInt16 YCbCr &rarr; byte YCbCr
+  //////////////////////////////////////////////////////////////
   ImageC<ByteRGBValueC> ByteYCbCrBT601ValueImage2ByteRGBImage(const ImageC<ByteYCbCrBT601ValueC > &dat);
+  //: Image conversion: byte YCbCr &rarr;  byte RGB
+
+  ImageC<ByteRGBValueC> ByteYCbCrBT709ValueImage2ByteRGBImage(const ImageC<ByteYCbCrBT709ValueC > &dat);
   //: Image conversion: byte YCbCr &rarr;  byte RGB
   
   ImageC<RGBValueC<float> > YCbCrBT601ValueFloatImage2ImageRGBValueFloat(const ImageC<YCbCrBT601ValueC<float> > &dat);
+  //: Image conversion: float YCbCr &rarr;  float RGB
+
+  ImageC<RGBValueC<float> > YCbCrBT709ValueFloatImage2ImageRGBValueFloat(const ImageC<YCbCrBT709ValueC<float> > &dat);
   //: Image conversion: float YCbCr &rarr;  float RGB
   
   ImageC<ByteYCbCrBT601ValueC > ByteRGBImage2ByteYCbCrBT601ValueImage(const ImageC<ByteRGBValueC>  &dat);
   //: Image conversion: byte RGB &rarr; byte YCbCr 
 
+  ImageC<ByteYCbCrBT709ValueC > ByteRGBImage2ByteYCbCrBT709ValueImage(const ImageC<ByteRGBValueC>  &dat);
+  //: Image conversion: byte RGB &rarr; byte YCbCr 
+
   ImageC<ByteRGBValueC> UInt16YCbCrBT601ValueImage2ByteRGBImage(const ImageC<UInt16YCbCrBT601ValueC > &dat);
+  //: Image conversion: UInt 16YCbCr &rarr;  byte RGB
+
+  ImageC<ByteRGBValueC> UInt16YCbCrBT709ValueImage2ByteRGBImage(const ImageC<UInt16YCbCrBT709ValueC > &dat);
   //: Image conversion: UInt 16YCbCr &rarr;  byte RGB
 
   ImageC<RGBValueC<float> > UInt16YCbCrBT601ValueImage2ImageRGBValueFloat(const ImageC<UInt16YCbCrBT601ValueC > &dat);
   //: Image conversion: UInt 16YCbCr &rarr;  float RGB
 
+  ImageC<RGBValueC<float> > UInt16YCbCrBT709ValueImage2ImageRGBValueFloat(const ImageC<UInt16YCbCrBT709ValueC > &dat);
+  //: Image conversion: UInt 16YCbCr &rarr;  float RGB
+
   ImageC<UInt16YCbCrBT601ValueC> UInt16YCbCr422BT601ImageCT2UInt16YCbCrBT601ImageCT(const ImageC<UInt16YCbCr422BT601ValueC> &dat);
+  //: Image conversion: UInt 16YCbCr422 &rarr; 16YCbCr
+
+  ImageC<UInt16YCbCrBT709ValueC> UInt16YCbCr422BT709ImageCT2UInt16YCbCrBT709ImageCT(const ImageC<UInt16YCbCr422BT709ValueC> &dat);
   //: Image conversion: UInt 16YCbCr422 &rarr; 16YCbCr
   
   ImageC<YCbCrBT601ValueC<float> > ImageRGBValueFloat2YCbCrBT601ValueFloatImage(const ImageC<RGBValueC<float> > &dat);
+  //: Image conversion: float RGB &rarr; float YCbCr
+
+  ImageC<YCbCrBT709ValueC<float> > ImageRGBValueFloat2YCbCrBT709ValueFloatImage(const ImageC<RGBValueC<float> > &dat);
   //: Image conversion: float RGB &rarr; float YCbCr
   
   ImageC<ByteYUVValueC> ByteYUV422ImageCT2ByteYUVImageCT(const ImageC<ByteYUV422ValueC> &dat);

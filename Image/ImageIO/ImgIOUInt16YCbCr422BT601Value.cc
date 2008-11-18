@@ -69,7 +69,6 @@ namespace RavlImageN {
     return ret;
   }
 
-  
   DP_REGISTER_CONVERSION_NAMED(UInt16YCbCr422BT601ImageCT2UInt16YCbCrBT601ImageCT,1,
 			       "RavlImageN::ImageC<RavlImageN::UInt16YCbCrBT601ValueC> RavlImageN::Convert(const RavlImageN::ImageC<RavlImageN::UInt16YCbCr422BT601ValueC> &)");
   
