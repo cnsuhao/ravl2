@@ -24,10 +24,11 @@ namespace RavlGUIN {
   
   //: Constructor
   
-  GladeWidgetBodyC::GladeWidgetBodyC(const GladeXMLC &gladeXml,const StringC &widgetName,bool aCustomWidget) 
+  GladeWidgetBodyC::GladeWidgetBodyC(const GladeXMLC &gladeXml,const StringC &widgetName,bool aCustomWidget,const StringC prefix) 
     : xml(gladeXml),
       name(widgetName),
-      customWidget(aCustomWidget)
+      customWidget(aCustomWidget),
+      m_widgetPrefix(prefix)
   {
     if(customWidget)
       xml = GladeXMLC(gladeXml.Filename(),name);
@@ -140,6 +141,9 @@ namespace RavlGUIN {
   
   bool GladeWidgetBodyC::AddObject(const StringC &name, const SmartPtrC<WidgetBodyC> &newWidget, bool optional)
   {
+    StringC useName = name;
+    if(m_widgetPrefix.IsEmpty())
+      useName = m_widgetPrefix + name;
     children[name] = Tuple2C<SmartPtrC<WidgetBodyC>, bool>(newWidget, optional);
     return true;
   }

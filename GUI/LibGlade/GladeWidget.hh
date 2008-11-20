@@ -23,8 +23,9 @@ namespace RavlGUIN {
     : public WidgetBodyC
   {
   public:
-    GladeWidgetBodyC(const GladeXMLC &gladeXml,const StringC &widgetName,bool customWidget = true);
+    GladeWidgetBodyC(const GladeXMLC &gladeXml,const StringC &widgetName,bool customWidget = true,const StringC prefix = "");
     //: Constructor
+    // prefix - String to prefix all names used for AddObject(..)
     
     GladeWidgetBodyC(const StringC &widgetName,bool customWidget = true);
     //: Constructor
@@ -73,6 +74,7 @@ namespace RavlGUIN {
     StringC name;
     HashC<StringC, Tuple2C<RavlN::SmartPtrC<WidgetBodyC>, bool> > children;
     bool customWidget;
+    StringC m_widgetPrefix;
   };
   
   //! userlevel=Normal
