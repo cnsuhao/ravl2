@@ -12,9 +12,12 @@
 //! file="Ravl/GUI/LibGlade/GladeWindow.hh"
 
 #include "Ravl/GUI/GladeWidget.hh"
+#include "Ravl/GUI/Pixbuf.hh"
+#include "Ravl/GUI/Window.hh"
 
 namespace RavlGUIN {
-
+  class GladeWindowWrapperBodyC;
+  
   //! userlevel=Develop
   //: Glade widget
   
@@ -22,7 +25,10 @@ namespace RavlGUIN {
     : public GladeWidgetBodyC
   {
   public:
-    GladeWindowBodyC(const GladeXMLC &gladeXml,const StringC &widgetName,bool customWidget = true);
+    GladeWindowBodyC(const GladeXMLC &gladeXml,
+                     const StringC &widgetName,
+                     bool customWidget = true,
+                     const StringC prefix = "");
     //: Constructor
     
     GladeWindowBodyC(const StringC &widgetName,bool customWidget = true);
@@ -40,6 +46,17 @@ namespace RavlGUIN {
     
     bool GUISetTitle(const StringC &title);
     //: Set the window title
+    
+    bool GUISetIcon(const PixbufC &pix);
+    //: Set an icon for the window
+    
+    WindowC Window();
+    //: Get a handle to a basic window.
+  protected:
+    virtual bool CommonCreate(GtkWidget *newWidget = NULL);
+    //: Common object creation
+    
+    PixbufC m_icon;
   };
   
   //! userlevel=Normal
@@ -54,8 +71,11 @@ namespace RavlGUIN {
     //: Default constructor
     // Creates an invalid handle.
     
-    GladeWindowC(const GladeXMLC &gladeXml,const StringC &widgetName,bool customWidget = true)
-      : GladeWidgetC(*new GladeWindowBodyC(gladeXml,widgetName,customWidget))
+    GladeWindowC(const GladeXMLC &gladeXml,
+                 const StringC &widgetName,
+                 bool customWidget = true,
+                 const StringC prefix = "")
+      : GladeWidgetC(*new GladeWindowBodyC(gladeXml,widgetName,customWidget,prefix))
     {}
     //: Constructor
     
@@ -95,8 +115,17 @@ namespace RavlGUIN {
     bool GUISetTitle(const StringC &title)
     { return Body().GUISetTitle(title); }
     //: Set the window title
-
+    
+    bool GUISetIcon(const PixbufC &pix)
+    { return Body().GUISetIcon(pix); }
+    //: Set an icon for the window
+    
+    WindowC Window()
+    { return Body().Window(); }
+    //: Get a handle to a basic window.
+    
     friend class GladeWindowBodyC;
+    friend class GladeWindowWrapperBodyC;
   };
 
 }

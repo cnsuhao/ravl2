@@ -10,6 +10,8 @@
 
 #include "Ravl/GUI/GladeWindow.hh"
 #include "Ravl/GUI/Manager.hh"
+#include "Ravl/GUI/Pixbuf.hh"
+#include "Ravl/GUI/Window.hh"
 
 #include <gtk/gtk.h>
 
@@ -24,8 +26,11 @@ namespace RavlGUIN {
   
   //: Constructor
   
-  GladeWindowBodyC::GladeWindowBodyC(const GladeXMLC &gladeXml,const StringC &widgetName,bool aCustomWidget) 
-    : GladeWidgetBodyC(gladeXml,widgetName,aCustomWidget)
+  GladeWindowBodyC::GladeWindowBodyC(const GladeXMLC &gladeXml,
+                                     const StringC &widgetName,
+                                     bool aCustomWidget,
+                                     const StringC prefix) 
+    : GladeWidgetBodyC(gladeXml,widgetName,aCustomWidget,prefix)
   {}
   
   //: Constructor
@@ -49,15 +54,11 @@ namespace RavlGUIN {
     return true;
   }
   
-  
-
   bool GladeWindowBodyC::SetTitle(const StringC &title)
   {
     Manager.Queue(Trigger(GladeWindowC(*this), &GladeWindowC::GUISetTitle, title));
     return true;
   }
-  
-  
   
   bool GladeWindowBodyC::GUISetTitle(const StringC &title)
   {
@@ -66,6 +67,76 @@ namespace RavlGUIN {
     return true;
   }
   
+  bool GladeWindowBodyC::GUISetIcon(const PixbufC &pix)
+  {
+    RavlAssert(Manager.IsGUIThread());
+    
+    if (!pix.IsValid())
+      return false;
+    
+    // Store the icon (in case we're not 'shown' yet)
+    m_icon = PixbufC(pix);
+    
+    if (widget == NULL)
+      return false;
+
+    gtk_window_set_icon(GTK_WINDOW(widget), m_icon.Pixbuf());
+    
+    return true;
+  }
+
+  //: Common object creation
+  bool GladeWindowBodyC::CommonCreate(GtkWidget *newWidget) {
+    if(!GladeWidgetBodyC::CommonCreate(newWidget))
+      return false;
+    if(m_icon.IsValid())
+      gtk_window_set_icon(GTK_WINDOW(widget), m_icon.Pixbuf());
+    return true;
+  }
   
+
+  // --------------------------------------
+  
+  class GladeWindowWrapperBodyC
+    : public WindowBodyC
+  {
+  public:
+    // Constructor.
+    GladeWindowWrapperBodyC(GladeWindowBodyC *gladeWin)
+      : m_gladeWin(*gladeWin)
+    {
+      widget = m_gladeWin.Widget();    
+    }
+    
+    //: Create window
+    bool Create() {
+      widget = m_gladeWin.Widget();
+      return true;
+    }
+    
+  protected:
+    GladeWindowC m_gladeWin;
+  };
+
+  class GladeWindowWrapperC
+    : public WindowC
+  {
+  public:
+    //: Constructor
+    GladeWindowWrapperC()
+    {}
+    
+    //: Constructor
+    GladeWindowWrapperC(GladeWindowBodyC *gladeWin)
+      : WindowC(*new GladeWindowWrapperBodyC(gladeWin))
+    {}
+    
+  };
+  
+  //: Get a handle to a basic window.
+  
+  WindowC GladeWindowBodyC::Window() {
+    return GladeWindowWrapperC(this);
+  }
   
 }

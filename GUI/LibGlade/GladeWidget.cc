@@ -30,6 +30,9 @@ namespace RavlGUIN {
       customWidget(aCustomWidget),
       m_widgetPrefix(prefix)
   {
+    if(!m_widgetPrefix.IsEmpty() && m_widgetPrefix.lastchar() != '.')
+      m_widgetPrefix += ".";
+    
     if(customWidget)
       xml = GladeXMLC(gladeXml.Filename(),name);
   }
@@ -39,9 +42,7 @@ namespace RavlGUIN {
   GladeWidgetBodyC::GladeWidgetBodyC(const StringC &widgetName,bool aCustomWidget) 
     : name(widgetName),
       customWidget(aCustomWidget)
-  {
-  }
-  
+  {}
   
   
   bool GladeWidgetBodyC::SetXML(const GladeXMLC &gladeXml)
@@ -133,7 +134,10 @@ namespace RavlGUIN {
   //: Add named widget.
   
   bool GladeWidgetBodyC::AddObject(const StringC &name,const WidgetC &newWidget, bool optional) {
-    children[name] = Tuple2C<SmartPtrC<WidgetBodyC>, bool>(newWidget, optional);
+    StringC useName = name;
+    if(!m_widgetPrefix.IsEmpty())
+      useName = m_widgetPrefix + name;
+    children[useName] = Tuple2C<SmartPtrC<WidgetBodyC>, bool>(newWidget, optional);
     return true;
   }
 
@@ -142,7 +146,7 @@ namespace RavlGUIN {
   bool GladeWidgetBodyC::AddObject(const StringC &name, const SmartPtrC<WidgetBodyC> &newWidget, bool optional)
   {
     StringC useName = name;
-    if(m_widgetPrefix.IsEmpty())
+    if(!m_widgetPrefix.IsEmpty())
       useName = m_widgetPrefix + name;
     children[name] = Tuple2C<SmartPtrC<WidgetBodyC>, bool>(newWidget, optional);
     return true;
