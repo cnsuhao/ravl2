@@ -68,7 +68,7 @@ RESOURCES += libGL
 
 #### LIBJPEG ################
 
-#LIBJPEG_HOME =
+LIBJPEG_HOME=/sw
 
 #### LIBPNG ################
 
@@ -77,11 +77,11 @@ RESOURCES += libGL
 #### LIBTIFF ################
 
 RESOURCES += LibTIFF
-#LIBTIFF_HOME =
+LIBTIFF_HOME=/sw
 
 #### libAudioFile ################
 
-RESOURCES += libAudioFile
+#RESOURCES += libAudioFile
 
 #### libDV ################
 
@@ -191,4 +191,4 @@ PYTHON_VERSION = 2.5
 
 #### RLog ################
 
-#RLOG_HOME=/opt/local#
+RLOG_HOME=/opt/local#

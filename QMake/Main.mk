@@ -87,10 +87,14 @@ endif
 #  LIBEXT:=.a
 #endif
 
+ifndef SHAREDEXT 
+ SHAREDEXT:=.so
+endif
+
 ifndef SHAREDBUILD
  LIBEXT:=.a
 else
- LIBEXT:=.so
+ LIBEXT:=.$(SHAREDEXT)
 endif
 
 # Default Object file extension
@@ -316,7 +320,6 @@ LINKTESTLIBS := $(EXELIB)
 
 # Restore EXELIB to be library libs
 EXELIB := $(LIBLIBS)
-
 
 VPATH = $(QCWD)
 

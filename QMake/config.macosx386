@@ -40,8 +40,14 @@ ifndef TR
  TR = tr	
 endif 
 
+ULF=-l#
+
+#EXELIB := -framework libstdc++ 
+
+SHAREDEXT=dylib#
+
 ifndef DYNAMICFLAG
- DYNAMICFLAG = -rdynamic 
+ DYNAMICFLAG = #-dynamiclib -dynamic
 endif 
 
 ARFLAGS = ruc
@@ -59,7 +65,7 @@ MKDEPUP = /bin/bash -c "echo -n '\$$(INST_OBJS)/'" > $(INST_DEPEND)/$*.d ; cat $
 
 NOLIBRARYPRELINK=1
 
-DYNAMICLIBEXT=.dylib#
+DYNAMICLIBEXT=dylib#
 
 ############################
 # Universal flags.
@@ -72,7 +78,6 @@ CCFLAGS  += $(EXTRA_CCFLAGS)
 
 CCPPFLAGS= -DGNU -Dunix -I /sw/include
 CPPFLAGS = -DGNU -Dunix -I /sw/include
-
 LDFLAGS = 
 LDFLAGS += $(EXTRA_LDFLAGS)
 
@@ -81,8 +86,9 @@ PAR_MAKE = --jobs=$(PROCS)
 UNDEFSYMB = -u #
 
 OPTCFLAGS  = -O2 -ffast-math -march=i686 -fno-strict-aliasing
-
-OPTCCFLAGS = -O2  -ffast-math -march=i686 -fno-strict-aliasing
+#OPTCFLAGS= -O3 -march=i686 -fno-strict-aliasing -fno-math-errno -fno-trapping-math -fno-signaling-nans  -D__FAST_MATH__  -Wstrict-aliasing=2
+#OPTCFLAGS= -O3  -march=i686
+OPTCCFLAGS = $(OPTCFLAGS)
 
 ############################
 # 'debug' variant.
@@ -114,13 +120,11 @@ endif
 ############################
 # 'shared' variant.
 
-#ifeq ($(VAR),shared)
- ifdef SHAREDBUILD
+ifdef SHAREDBUILD
  CFLAGS += -fPIC 
  CCFLAGS += -fPIC   
- LDLIBFLAGS = -fPIC
- LDFLAGS += -dynamiclib
-# -Wl,-export-dynamic
+ LDLIBFLAGS = -dynamiclib -F$(INST_LIB)
+ LDFLAGS +=
 endif
 
 ############################
