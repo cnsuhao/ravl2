@@ -36,7 +36,7 @@ namespace RavlImageN {
     : public RCBodyVC
   {
   public:
-    MosaicBuilderBodyC(autoResizeT resize, bool nVerbose);
+    MosaicBuilderBodyC(autoResizeT resize, bool nVerbose, OStreamC& log);
     //: Constructor
     // Initialises mosaic builder
     //!param: resize - Determines how the mosaic expands; can take values: none, onepass, twopass
@@ -243,8 +243,9 @@ namespace RavlImageN {
     ImageC<ByteRGBMedianC> mosaic;  // the median of all of the warped images (& hence contains the pixels from all of these images)
     DPISPortC<ImageC<ByteRGBValueC> > input; // i/p image stream
     IndexC frameNo;
-    bool verbose;
 
+    bool verbose;
+    OStreamC log;
   };
 
   //! userlevel=Normal
@@ -266,8 +267,8 @@ namespace RavlImageN {
     //: Default constructor.
     // Creates an invalid handle.
 
-    MosaicBuilderC(autoResizeT resize, bool verbose=false)
-     : RCHandleC<MosaicBuilderBodyC>(*new MosaicBuilderBodyC(resize, verbose))
+    MosaicBuilderC(autoResizeT resize, bool verbose=false, OStreamC log=cout)
+     : RCHandleC<MosaicBuilderBodyC>(*new MosaicBuilderBodyC(resize, verbose, log))
       {}
     //: Constructor.
     //!param: resize - Determines how the mosaic expands; can take values:

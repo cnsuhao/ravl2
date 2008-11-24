@@ -36,7 +36,7 @@ namespace RavlImageN {
   using namespace RavlN;
 
   //: Constructor for mosaic builder
-  MosaicBuilderBodyC::MosaicBuilderBodyC(autoResizeT nresize, bool nVerbose)
+  MosaicBuilderBodyC::MosaicBuilderBodyC(autoResizeT nresize, bool nVerbose, OStreamC& Log)
     : resize(nresize),
       cropT(0), cropB(0), cropL(0), cropR(0),
       pointTL(0.0, 0.0), pointTR(0.0, 1.0),
@@ -45,7 +45,8 @@ namespace RavlImageN {
       K1(0), K2(0), cx_ratio(0.5), cy_ratio(0.5), fx(1.0), fy(1.0),
       filterSubsample(1), updateSearchSize(5), 
       trackingHomogs(nVerbose), Parray(0), frameNo(0),
-      verbose(nVerbose)
+      verbose(nVerbose),
+      log(Log)
   { SetProjectiveScale(zhomog, mosaicZHomog); }
 
   //: Deprecated constructor
@@ -87,7 +88,7 @@ namespace RavlImageN {
     ImageC<ByteRGBValueC> img;
     if (resize == twopass) { // two-pass version
       for (; frameNo < noOfFrames; ++frameNo) {
-	if (verbose)  cout << "Tracking frame " << frameNo << endl;
+	if (verbose)  log << "Tracking frame " << frameNo << endl;
 	if (!GetImage(img))  break;
 	if (!PrepareFrame(img)) break; 
 	if (!FindProj(img)) break;
@@ -98,7 +99,7 @@ namespace RavlImageN {
       for (frameNo = 0; frameNo < Parray.Size(); ++frameNo) {
 	if (!GetImage(img))  break;
 	if (frameNo % filterSubsample == 0) {
-	  if (verbose)  cout << "Warping frame " << frameNo << endl;
+	  if (verbose)  log << "Warping frame " << frameNo << endl;
 	  if (!PrepareFrame(img)) break;
 	  WarpFrame(img);
 	}
@@ -106,7 +107,7 @@ namespace RavlImageN {
     }
     else { // one-pass version
       while(frameNo < noOfFrames) {
-	if (verbose)  cout << "Processing frame " << frameNo << endl;
+	if (verbose)  log << "Processing frame " << frameNo << endl;
 	if (!GetImage(img))  break;
 	if (!Apply(img)) break;
       }
@@ -124,7 +125,7 @@ namespace RavlImageN {
       // If we are resizing the mosaic as we go, and mosaic rectangle needs 
       // expanding, then we need to copy mosaic to a new, bigger image.
       if (InvolveFrame(img.Rectangle(),Parray[frameNo]) && (resize==onepass)) {
-	if (verbose)  cout << "Mosaic was expanded to " << img.Rectangle() << endl;
+	if (verbose)  log << "Mosaic was expanded to " << img.Rectangle() << endl;
 	ExpandMosaic();
       }
       WarpFrame(img);
@@ -200,7 +201,7 @@ namespace RavlImageN {
       trackingHomogs.Reset(RGBImageCT2ByteImageCT(img));
       Projection2dC mosaicHomog(Im2Mosaic(img));
       Parray.Append(mosaicHomog);
-      if (verbose) cout << "Mosaic homography:\n"<< Parray[0]<<endl;
+      if (verbose) log << "Mosaic homography:\n"<< Parray[0]<<endl;
       return mosaicHomog.IsValid();
     }
     else {
@@ -335,7 +336,7 @@ namespace RavlImageN {
     if (updateSearchSize == 0) return false;
     try  {
       // use proj as estimate to match image with current mosaic & update homog
-      if (verbose) cout << "Unrefined homography:\n" << proj << endl;
+      if (verbose) log << "Unrefined homography:\n" << proj << endl;
       ImageMatcherC matchUpdate(RGBImageCT2ByteImageCT(GetMosaic()),
 				0, 0, 0, 0, 17, updateSearchSize, 20,
 				mosaicZHomog, zhomog);
@@ -344,7 +345,7 @@ namespace RavlImageN {
 	return false;
       }
       proj = projCopy;
-      if (verbose) cout << "Refined homography:\n" << proj << endl;
+      if (verbose) log << "Refined homography:\n" << proj << endl;
     }
     catch (...) {
       cerr << "Exception caught in mosaic image matcher." << endl;
