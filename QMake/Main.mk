@@ -88,7 +88,7 @@ endif
 #endif
 
 ifndef SHAREDEXT 
- SHAREDEXT:=.so
+ SHAREDEXT:=so
 endif
 
 ifndef SHAREDBUILD
