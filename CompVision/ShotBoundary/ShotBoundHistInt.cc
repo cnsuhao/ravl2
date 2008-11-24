@@ -43,12 +43,15 @@ bool ShotBoundHistIntC::Apply(const ImageC<ByteRGBValueC>& frame) {
   // calculate histogram on new frame
   SArray1dC<int> colourHist = CalcHist(frame);
   // compute histogram intersection between this & last
-  int sumIntersection = 0;
-  for(Array1dIter2C<int,int> hists(prevColourHist,colourHist); hists; ++hists) {
-    sumIntersection += Min( hists.Data1(), hists.Data2() );
+  if (firstFrame)  value = shotDetThr;
+  else {
+    int sumIntersection = 0;
+    for(Array1dIter2C<int,int> hists(prevColourHist,colourHist); hists; ++hists) {
+      sumIntersection += Min( hists.Data1(), hists.Data2() );
+    }
+    // normalise intersection
+    value =  RealT(sumIntersection) / (frame.Size()/(subsample*subsample));
   }
-  // normalise intersection
-  value = (firstFrame) ? shotDetThr : RealT(sumIntersection) / (frame.Size()/(subsample*subsample));
   prevColourHist = colourHist;
   firstFrame = false;
   return (value < shotDetThr);
