@@ -16,7 +16,7 @@
 #include "Ravl/PatternRec/Classifier.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/String.hh"
-#include "fann.h"
+#include "Ravl/fann/fann.h"
 
 namespace RavlN {
   

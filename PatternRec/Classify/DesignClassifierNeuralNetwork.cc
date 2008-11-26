@@ -15,7 +15,7 @@
 #include "Ravl/PatternRec/DataSetVectorLabel.hh"
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/OS/Filename.hh"
-#include "fann.h"
+#include "Ravl/fann/fann.h"
 #include "Ravl/PatternRec/DataSet2Iter.hh"
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/DList.hh"

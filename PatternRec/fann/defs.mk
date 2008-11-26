@@ -1,3 +1,4 @@
+PACKAGE = Ravl/fann
 
 LICENSE=own
 
