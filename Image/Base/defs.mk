@@ -49,7 +49,7 @@ PROGLIBS=RavlImageIO RavlOS RavlMath RavlDPDisplay.opt
 
 MAINS=imgdiff.cc
 
-TESTEXES=testImage.cc testHSVValue.cc test_imgdiff.cc
+TESTEXES=testImage.cc testHSVValue.cc test_imgdiff.cc grabtest_imgdiff.cc
 
 EXAMPLES= exImage.cc imgdiff.cc exDraw.cc exFont.cc
 
