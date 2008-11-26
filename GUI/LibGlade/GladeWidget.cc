@@ -24,7 +24,10 @@ namespace RavlGUIN {
   
   //: Constructor
   
-  GladeWidgetBodyC::GladeWidgetBodyC(const GladeXMLC &gladeXml,const StringC &widgetName,bool aCustomWidget,const StringC prefix) 
+  GladeWidgetBodyC::GladeWidgetBodyC(const GladeXMLC &gladeXml,
+                                     const StringC &widgetName,
+                                     bool aCustomWidget,
+                                     const StringC prefix) 
     : xml(gladeXml),
       name(widgetName),
       customWidget(aCustomWidget),
