@@ -193,6 +193,15 @@ namespace RavlGUIN {
     gtk_signal_emit_by_name (GTK_OBJECT (adj), "changed");
     return true;
   }
+
+  //: Get the current value of the slider.
+  
+  RealT SliderBodyC::GUIValue() const {
+    if(widget == 0)
+      return value;
+    RavlAssert(adj != 0);
+    return GTK_ADJUSTMENT (adj)->value;
+  }
   
   bool SliderBodyC::UpdateRange(RealT nlower,RealT nupper) {
     Manager.Queue(Trigger(SliderC(*this),&SliderC::GUIUpdateRange,nlower,nupper));

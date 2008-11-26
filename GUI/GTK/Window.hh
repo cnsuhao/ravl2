@@ -26,6 +26,7 @@ namespace RavlGUIN {
   
   class CursorC;
   class WindowC;
+  class GladeWindowC;
   
   //! userlevel=Develop
   //: Window body.
@@ -34,7 +35,8 @@ namespace RavlGUIN {
     : public OneChildBodyC
   {
   public:
-    WindowBodyC(int sx = 1,int sy = 1,const char *title = 0,GtkWindowType winType = GTK_WINDOW_TOPLEVEL,int nborder = 0,bool rootWin = true,bool connectDeleteEvent = true);
+    WindowBodyC(int sx = 1,int sy = 1,const char *title = 0,GtkWindowType winType = GTK_WINDOW_TOPLEVEL,
+                int nborder = 0,bool rootWin = true,bool connectDeleteEvent = true);
     //: Constructor.
     // Values for winType are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GtkWindowType">here</A>.
     
@@ -192,11 +194,16 @@ namespace RavlGUIN {
   {
   public:
     WindowC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
-    WindowC(int col,int row = 1,const char *ntitle = 0,GtkWindowType winType = GTK_WINDOW_TOPLEVEL,int borderWidth = 0,bool rootWin = true,bool connectDeleteEvent = true);
+    WindowC(int col,int row = 1,const char *ntitle = 0,
+            GtkWindowType winType = GTK_WINDOW_TOPLEVEL,
+            int borderWidth = 0,
+            bool rootWin = true,
+            bool connectDeleteEvent = true
+            );
     //: Constructor.
     //!param: col, row - nominal window size
     //!param: winType - Values for winType are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GtkWindowType">here</A>.
@@ -207,23 +214,23 @@ namespace RavlGUIN {
   protected:
     WindowC(WindowBodyC &bod)
       : OneChildC(bod)
-      {}
+    {}
     //: Body constructor.
     
     WindowBodyC &Body() 
-      { return static_cast<WindowBodyC  &>(WidgetC::Body()); }
+    { return static_cast<WindowBodyC  &>(WidgetC::Body()); }
     //: Access body.
     
     const WindowBodyC  &Body() const
-      { return static_cast<const WindowBodyC  &>(WidgetC::Body()); }
+    { return static_cast<const WindowBodyC  &>(WidgetC::Body()); }
     //: Access body.
     
     bool GUICloseDown()
-      { return Body().GUICloseDown(); }
+    { return Body().GUICloseDown(); }
     //: Close down window.
     
     bool GUIUpdateCursor(CursorC &newCursor)
-      { return Body().GUIUpdateCursor(newCursor); }
+    { return Body().GUIUpdateCursor(newCursor); }
     //: Update cursor.
     
     bool GUISetPositioning(GtkWindowPosition& pos)
@@ -345,17 +352,16 @@ namespace RavlGUIN {
     //: Makes this window transient for the parent
     // This means it will stay on top of it at all times.  Also the window will be centred on the parent.
     
-    void SetFullScreen(bool &fullscreen) {
-      Body().SetFullScreen(fullscreen);
-    }
+    void SetFullScreen(bool &fullscreen) 
+    { Body().SetFullScreen(fullscreen); }
     //: Set the window as fullscreen (assuming the window manager supports it)
-
-    bool IsFullScreen() {
-      return Body().IsFullScreen();
-    }
+    
+    bool IsFullScreen() 
+    { return Body().IsFullScreen(); }
     //: Find out whether or not the window is in "full screen" mode
-
+    
     friend class WindowBodyC;
+    friend class GladeWindowC;
   };
 
 }

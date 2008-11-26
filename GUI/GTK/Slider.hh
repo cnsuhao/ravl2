@@ -96,6 +96,9 @@ namespace RavlGUIN {
     Signal0C &SigReleased() { return sigReleased; }
     //: Access released signal.
     
+    RealT GUIValue() const;
+    //: Get the current value of the slider.
+    
   protected:
     bool CommonCreate(GtkWidget *_widget = NULL);
     //: Common widget creation
@@ -213,6 +216,10 @@ namespace RavlGUIN {
     RealT Lower() const 
     { return Body().Lower(); }
     //: Read lower limit
+    
+    RealT GUIValue() const
+    { return Body().GUIValue(); }
+    //: Get the current value of the slider.
     
     Signal1C<RealT> &SigChanged() 
     { return Body().SigChanged(); }

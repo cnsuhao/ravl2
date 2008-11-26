@@ -43,6 +43,10 @@ namespace RavlGUIN {
     // A value of -1 indicates no active selection.
     
   protected:
+    void SetTreeModel(TreeModelC &treeModel);
+    //: Set the tree model to use.
+    // This can only be changed before the box is 'Created'.
+    
     virtual bool Create();
     //: Create the widget.
     

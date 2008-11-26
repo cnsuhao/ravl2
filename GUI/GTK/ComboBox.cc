@@ -22,6 +22,15 @@ namespace RavlGUIN {
     : m_treeModel(treeModel)
   {}
   
+  //: Set the tree model to use.
+  // This can only be changed before the box is 'Created'.
+  
+  void ComboBoxBodyC::SetTreeModel(TreeModelC &treeModel)
+  {
+    RavlAssert(widget == 0);
+    m_treeModel = treeModel;
+  }
+  
   //: Access model iterator for the current selection.
   
   TreeModelIterC ComboBoxBodyC::GUISelection() {

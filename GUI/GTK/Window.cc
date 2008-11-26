@@ -31,7 +31,10 @@ namespace RavlGUIN {
 
   //: Constructor.
   
-  WindowBodyC::WindowBodyC(int nsx,int nsy,const char *ntitle,GtkWindowType nWinType,int nborder,bool nrootWin,
+  WindowBodyC::WindowBodyC(int nsx,int nsy,const char *ntitle,
+                           GtkWindowType nWinType,
+                           int nborder,
+                           bool nrootWin,
                            bool nconnectDeleteEvent)
     : sx(nsx), sy(nsy),
       border(nborder),
