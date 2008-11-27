@@ -36,22 +36,22 @@ namespace RavlImageN {
     EdgeDericheBodyC(RealT omega,RealT alpha);
     //: Constructor.
     
-    bool Apply(const ImageC<RealT> &inImg,ImageC<RealT> &outDx,ImageC<RealT> &outDy) const;
+    bool Apply(const ImageC<RealT> &inImg,ImageC<RealT> &outVert,ImageC<RealT> &outHorz) const;
     //: Apply operator.
 
     bool Apply(const ImageC<RealT> &inImg,ImageC<TFVectorC<RealT,2> > &out) const;
-    //: Apply sobol operator to 'img', put result in 'out'
-    // This is a little slower than the Apply(inImg,outDx,outDy) for the moment,
+    //: Apply Deriche operator to 'img', put result in 'out'
+    // This is a little slower than the Apply(inImg,outVert,outHorz) for the moment,
     // this will be fixed eventually.
 
     ImageC<RealT> EdgeMagnitude(const ImageC<RealT> &inImg) const;
     //: Calculate the edge magnitude only
     
   protected:
-    RealT omega,alpha; // User paramiters.
+    RealT omega,alpha; // User parameters.
     
     bool Init();
-    //: Compute filter paramiters.
+    //: Compute filter parameters.
     
     bool YDer(ImageC<RealT> &im,ImageC<RealT> &derv) const;
   
@@ -67,7 +67,7 @@ namespace RavlImageN {
     bool XDer2p(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a3) const;
     bool XDer2n(ImageC<RealT> &im,ImageC<RealT> &a2,ImageC<RealT> &a4) const;
     
-    // Paramiters.
+    // Parameters.
     RealT cst,cst0,cst1,cst2;
     RealT ad1,ad2,an1,an2,an3,an4,an11;
     
@@ -78,9 +78,15 @@ namespace RavlImageN {
   //! userlevel=Normal
   //: Deriche edge filter.
 
-  // R. Deriche, "Using Canny's Criteria to Derive a Recursively
+  // <p>R. Deriche, "Using Canny's Criteria to Derive a Recursively
   // Implemented Optimal Edge Detector"; in:
-  // International Journal of Comp. Vision, vol.1, no. 2, pp. 167-187, 1987.
+  // International Journal of Comp. Vision, vol.1, no. 2, pp. 167-187, 1987.</p>
+  //
+  // <p>The sign convention is: a +ve gradient computed if image intensity is
+  // increasing in +ve direction in coordinate system.</p>
+  //
+  // <p>A vertical (horizontal) edge is defined as an edge in which the
+  // <i>gradient is changing</i> in a vertical (horizontal) direction.</p>
   
   class EdgeDericheC 
     : public RCHandleC<EdgeDericheBodyC>
@@ -108,14 +114,14 @@ namespace RavlImageN {
 
   public:
     
-    bool Apply(const ImageC<RealT> &inImg,ImageC<RealT> &dx,ImageC<RealT> &dy) const
-    { return Body().Apply(inImg,dx,dy); }
-    //: Apply Deriche operator to 'img' put the results into dx and dy.
+    bool Apply(const ImageC<RealT> &inImg,ImageC<RealT> &vert,ImageC<RealT> &horz) const
+    { return Body().Apply(inImg,vert,horz); }
+    //: Apply Deriche operator to "img" put the vertical and horizontal edge results into "vert" and "horz" respectively.
     
     bool Apply(const ImageC<RealT> &inImg,ImageC<TFVectorC<RealT,2> > &out) const
     { return Body().Apply(inImg,out); }
-    //: Apply sobol operator to 'img', put result in 'out'
-    // This is a little slower than the Apply(inImg,outDx,outDy) for the moment,
+    //: Apply Deriche operator to "img", put result in "out"
+    // This is a little slower than the Apply(inImg,vert,horz) for the moment,
     // this will be fixed eventually.
     
     ImageC<RealT> EdgeMagnitude(const ImageC<RealT> &inImg) const

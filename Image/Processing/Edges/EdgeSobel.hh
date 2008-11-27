@@ -22,7 +22,11 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: Sobel edge detection engine.
-  //  The sign convention is: a +ve gradient computed if image intensity is increasing in +ve direction in coordinate system.
+  // <p>The sign convention is: a +ve gradient computed if image intensity is
+  // increasing in +ve direction in coordinate system.</p>
+  //
+  // <p>A vertical (horizontal) edge is defined as an edge in which the
+  // <i>gradient is changing</i> in a vertical (horizontal) direction.</p>
   
   template<class DataInT,class DataOutT>
   class EdgeSobelC {
