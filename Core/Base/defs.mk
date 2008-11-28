@@ -24,7 +24,7 @@ HEADERS=Types.hh config.h Pair.hh Resource.hh \
  RCBodyV.hh RCHandleV.hh IndexRange2dIter.hh IndexRange3dIter.hh fdstreambuf.hh \
  fdstream.hh GenBinStream.hh Traits.hh FPNumber.hh QInt.hh CompilerHints.hh \
  stdio_fdstream.hh AMutex.hh RCLayer.hh SmartLayerPtr.hh CallMethodPtrs.hh CPUID.hh \
- FuncStream.hh VectorUtils.hh Float16.hh
+ FuncStream.hh VectorUtils.hh Float16.hh RCHandle.hh
 
 SOURCES=Assert.cc Exception.cc EntryPnt.cc Index.cc String.cc \
  RefCounter.cc HandleRefCounter.cc Trigger.cc Calls.cc \
