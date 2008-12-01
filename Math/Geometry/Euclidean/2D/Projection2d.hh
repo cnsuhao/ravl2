@@ -56,6 +56,7 @@ namespace RavlN {
     //!param: Iz, Oz - the projective scale values for the input and output vectors
     // <p>These are the scale values that the last term in the projective vectors must have for correct normalisation.  They are usually set = 1.  However for some optimisation operations better results are obtained if values more representative of typical components of the vector are used.
     // In the projection "b = P a", Iz and Oz is the scale values for a and b respectively.</p>
+    // <p> This constructor assumes that the values of the last column of "transform" have already been set to correspond to the value of "iz".</p>
 
     Projection2dC(const FAffineC<2> &affineTransform, RealT Oz = 1, RealT Iz = 1) 
       : iz(Iz),
@@ -65,9 +66,9 @@ namespace RavlN {
       trans[1][0] = affineTransform.SRMatrix()[1][0];
       trans[0][1] = affineTransform.SRMatrix()[0][1];
       trans[1][1] = affineTransform.SRMatrix()[1][1];
-      trans[0][2] = affineTransform.Translation()[0];
-      trans[1][2] = affineTransform.Translation()[1];
-      trans[2][2] = 1;
+      trans[0][2] = affineTransform.Translation()[0]/iz;
+      trans[1][2] = affineTransform.Translation()[1]/iz;
+      trans[2][2] = oz/iz;
       trans[2][0] = trans[2][1] = 0;
     }
     //: Construct a projective transform from an affine one

@@ -476,6 +476,11 @@ int testProjective2d() {
   // Check projection multiplication
   Projection2dC proj2(Projection2dC::I(14,3)); // Another arbitrary unit projection
   if (((proj*proj2)*ipnt[1] - ipnt[1]).SumOfAbs() > 0.001) return __LINE__;
+
+  // Check affine constructor, using arbitrary projective scale values
+  Projection2dC proj3(Affine2dC::Compose(Point2dC(3,1),Vector2dC(2,2),0,0),2,7);
+  Point2dC result = proj3 * Point2dC(1,0);
+  if ((Abs(result[0]-5) > 0.001) || (Abs(result[1]-1) > 0.001)) return __LINE__;
   return 0;
 }
 
