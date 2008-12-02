@@ -7,7 +7,7 @@
 
   <body>
 
-    <p>A couple of points to note:</p>
+    <p>Some points to note:</p>
     <ul>
       <li><p>The transform used by the warper actually computes points in the
       reference image by transforming pixel coordinates from the warped image.
@@ -20,12 +20,18 @@
       image:</p>
         <ol>
           <li>The coordinate system is at the top left-hand corner of pixel
-          (0,0).</li>
-          <li>The coordinate system is at the centre of pixel (0,0).</li>
+          (0,0).  Thus a rotation of +90&deg; will map pixel (0,0) to pixel
+          (-1,0).</li>
+          <li>The coordinate system is at the centre of pixel (0,0), so that a
+          rotation of +90&deg; will map pixel (0,0) to itself.  </li>
         </ol>
-        <p>The default behaviour is the former.  Use the
-        <code>SetMidPixelCorrection()</code> method with <code>correction =
-        false</code> for the latter.</p> </li>
+        <p>The default behaviour is the former, to preserve backwards
+        compatibility.  Use the <code>SetMidPixelCorrection()</code> method
+        with <code>correction = false</code> to get the latter behaviour.</p> </li>
+
+      <li>The default interpolation used is bilinear.  This can be changed
+      using suitable definitions of MixerT and SampleT in constructor and
+      template of the relevant warper.</li>
     </ul>
 
 
@@ -33,3 +39,6 @@
 
   </body>
 </html>
+  // <p>By default, the coordinate system for the input image is considered to be the top left-hand corner of pixel [0][0].  Thus a rotation of +90&deg; will map position (0,0) to (-1,0).  This behaviour is the default one for backwards compatibility.</p>  
+
+  // <p>Use <code>SetMidPixelCorrection(false)</code> to move the coordinate system to the centre of pixel [0][0], so that a rotation of +90&deg; will map position (0,0) to itself.</p> 
