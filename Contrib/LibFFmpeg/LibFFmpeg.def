@@ -10,6 +10,8 @@ ifndef LIBFFMPEG_DEF
 
   ifdef LIBFFMPEG_HOME
     PKG_CONFIG_PATH := $(LIBFFMPEG_HOME)/lib/pkgconfig:$(PKG_CONFIG_PATH)
+  else
+    LIBFFMPEG_HOME := /usr
   endif
 
   LIBFFMPEG_INCLUDES := $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config libavformat libavcodec --cflags-only-I)
@@ -19,5 +21,11 @@ ifndef LIBFFMPEG_DEF
 
   INCLUDES := $(LIBFFMPEG_INCLUDES) $(INCLUDES)
   EXELIB := $(LIBFFMPEG_LIBS) $(EXELIB)
+
+  FFHDRS := $(shell ls $(LIBFFMPEG_HOME)/include/ffmpeg)
+  ifeq ($(strip $(filter %.h, $(FFHDRS))),)
+    CCPPFLAGS += "-DLIBAVFORMAT_VERSION_MAJOR=52"
+  endif
+  TARGET += $(FILES)
 endif
 

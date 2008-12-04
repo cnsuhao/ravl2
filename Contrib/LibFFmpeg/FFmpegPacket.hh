@@ -19,8 +19,13 @@
 
 //link ffmpeg as a purely c library since all c++ wrapper functions were removed
 extern "C" {
-   #include <avformat.h>
-   #include <avcodec.h>
+#if defined(LIBAVFORMAT_VERSION_MAJOR) && LIBAVFORMAT_VERSION_MAJOR >= 52
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
+#else 
+#include <avcodec.h>
+#include <avformat.h>
+#endif
 }
 
 #ifndef INT64_C

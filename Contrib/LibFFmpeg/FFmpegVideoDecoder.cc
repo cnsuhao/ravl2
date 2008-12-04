@@ -22,7 +22,11 @@
 
 #ifdef LIBAVFORMAT_USE_SWSCALER
 extern "C" {
+  #if defined(LIBAVFORMAT_VERSION_MAJOR) && LIBAVFORMAT_VERSION_MAJOR >= 52
+  #include <libswscale/swscale.h>
+  #else
   #include <swscale.h>
+  #endif
 }
 #endif
 

@@ -19,7 +19,11 @@
 #include "Ravl/Image/FFmpegPacket.hh"
 
 extern "C" {
+#if defined(LIBAVFORMAT_VERSION_MAJOR) && LIBAVFORMAT_VERSION_MAJOR >= 52
+#include <libavformat/avformat.h>
+#else 
 #include <avformat.h>
+#endif
 }
 
 namespace RavlN {
