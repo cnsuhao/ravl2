@@ -26,7 +26,6 @@ HEADERS=ImageRectangle.hh Image.hh \
  DrawFrame.hh DrawCross.hh DrawMask.hh \
  DrawLine.hh DrawCircle.hh DrawPolygon.hh  DrawEllipse.hh\
  Deinterlace.hh BilinearInterpolation.hh \
- RealDVSRGBValue.hh RealDVSYUVValue.hh dvsRGBcdvsYUV422.hh \
  YCbCrBT601Value.hh ByteYCbCrBT601Value.hh UInt16YCbCrBT601Value.hh \
  YCbCr422BT601Value.hh ByteYCbCr422BT601Value.hh UInt16YCbCr422BT601Value.hh \
  YCbCrBT709Value.hh ByteYCbCrBT709Value.hh UInt16YCbCrBT709Value.hh \
@@ -35,7 +34,7 @@ HEADERS=ImageRectangle.hh Image.hh \
 SOURCES=ImageRectangle.cc Image.cc ByteRGBValue.cc ByteYUVValue.cc RealRGBValue.cc \
  RealYUVValue.cc RGBcYUV.cc Font.cc ImageConv.cc ImageConv2.cc ImageConv3.cc ImageConv4.cc \
  ImageConv5.cc ByteRGBAValue.cc ByteVYUValue.cc ByteYUV422Value.cc ByteYUVAValue.cc \
- RealDVSRGBValue.cc RealDVSYUVValue.cc dvsRGBcdvsYUV422.cc ImgCnvRGB.cc ImgCnvYUV.cc  \
+ RealDVSRGBValue.cc RealDVSYUVValue.cc ImgCnvRGB.cc ImgCnvYUV.cc  \
  YCbCrBT601Value.cc ByteYCbCrBT601Value.cc UInt16YCbCrBT601Value.cc \
  ByteYCbCr422BT601Value.cc UInt16YCbCr422BT601Value.cc \
  YCbCrBT709Value.cc ByteYCbCrBT709Value.cc UInt16YCbCrBT709Value.cc \

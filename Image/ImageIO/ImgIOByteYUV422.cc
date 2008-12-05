@@ -19,9 +19,6 @@
 #include "Ravl/Image/RealRGBValue.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/RGBcYUV.hh"
-#include "Ravl/Image/RealDVSRGBValue.hh"
-#include "Ravl/Image/RealDVSYUVValue.hh"
-#include "Ravl/Image/dvsRGBcdvsYUV422.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Image/ImageConv.hh"
 
@@ -102,37 +99,6 @@ namespace RavlImageN {
     }
     return ret;
   }
-  
-
-  // Convert a DVSYUV422 image into a DVSRGB image.
-  
-  ImageC<ByteRGBValueC> ByteDVSYUV422ImageCT2ByteDVSRGBImageCT(const ImageC<ByteYUV422ValueC> &dat) { 
-
-       ImageRectangleC outRect = dat.Rectangle();
-    if(outRect.Area() == 0)
-      return ImageC<ByteRGBValueC>();
-    // Make sure we're aligned correctly.
-    if(outRect.LCol().V() & 1)
-      outRect.LCol().V()++; // Start on even boundary in image.
-    
-    if(!(outRect.RCol().V() & 1))
-      outRect.RCol().V()--; // End on odd boundary in image.
-    RavlAssert(outRect.LCol() < outRect.RCol()); // Make sure there's something left!
-   
-    ImageC<ByteRGBValueC> ret(outRect);
-    for(Array2dIter2C<ByteRGBValueC,ByteYUV422ValueC> it(ret,outRect,dat,outRect);it;it++) {
-      // Read the first pixel.
-      SByteT u = it.Data2().UV() + 128;
-      ByteT i1 = it.Data2().Y();
-      ByteRGBValueC &p1 = it.Data1();
-      
-      it++;
-      // Read the second pixel.
-      SByteT v = it.Data2().UV() + 128;
-      ByteDVSYUV4222DVSRGB2(i1,it.Data2().Y(),u,v,p1,it.Data1());
-    }
-    return ret;
-  }
 
 
   ImageC<ByteYUV422ValueC> ByteRGBImageCT2ByteYUV422ImageCT(const ImageC<ByteRGBValueC> &dat) { 
@@ -169,10 +135,6 @@ namespace RavlImageN {
   // There is some data loss as the colour cubes don't entirely overlap.
   DP_REGISTER_CONVERSION_NAMED(ByteYUV422ImageCT2ByteRGBImageCT,1.1,
 			       "ImageC<ByteRGBValueC> RavlImageN::Convert(const ImageC<ByteYUV422ValueC> &)");
-
-  // Uses the DVS matrix to do conversion from ycrcb to RGB..
-  DP_REGISTER_CONVERSION_NAMED(ByteDVSYUV422ImageCT2ByteDVSRGBImageCT,1.1,
-			       "ImageC<ByteDVSRGBValueC> RavlImageN::Convert(const ImageC<ByteDVSYUV422ValueC> &)");
   
   DP_REGISTER_CONVERSION_NAMED(ByteYUV422ImageCT2ByteImageCT,2,
 			       "ImageC<ByteT> RavlImageN::Convert(const ImageC<ByteYUV422ValueC> &)");
