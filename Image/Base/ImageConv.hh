@@ -250,9 +250,6 @@ namespace RavlImageN {
   
   ImageC<ByteRGBValueC> ByteYUV422ImageCT2ByteRGBImageCT(const ImageC<ByteYUV422ValueC> &dat);
   //: Image conversion: byte YUV &rarr; byte YUV422
-  
-  //ImageC<ByteRGBValueC> ByteDVSYUV422ImageCT2ByteDVSRGBImageCT(const ImageC<ByteYUV422ValueC> &dat);
-  //: Image conversion: byte DVSYUV422 &rarr; byte DVSRGB
 
   ImageC<ByteT> ByteYUV422ImageCT2ByteImageCT(const ImageC<ByteYUV422ValueC> &dat);
   //: Image conversion: byte YUV422 &rarr; byte grey-level
