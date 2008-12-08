@@ -43,16 +43,18 @@ namespace RavlN {
   
   //: Construct timecode from string 
   TimeCodeC::TimeCodeC(const char * p,RealT nFrameRate) 
-    : frameRate(nFrameRate)
+    : m_liFrame(0),
+      frameRate(nFrameRate)
   { ConvertFrom(p); }
   
 
   //: Construct timecode from Ravl string
   TimeCodeC::TimeCodeC(const StringC & str, RealT nFrameRate )
-    : frameRate (nFrameRate) 
+    : m_liFrame(0),
+      frameRate (nFrameRate)
   { ConvertFrom(str); }
-
-
+  
+  
   //: Convert to hours, minutes, seconds, frame
   bool TimeCodeC::ConvertTo(IntT &hour, IntT &minute, IntT &second, IntT &frame) const {
     if (frameRate == 0.0) return false;
