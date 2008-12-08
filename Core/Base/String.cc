@@ -510,6 +510,19 @@ namespace RavlN {
     *this = TBuff;
   }
   
+  //: Create a string from a float value
+  StringC::StringC(float f) 
+    : rep(&_nilStrRepC)
+  {
+    char TBuff[64];
+#if RAVL_COMPILER_VISUALCPPNET_2005
+    sprintf_s(TBuff,64,"%f",f);
+#else
+	sprintf(TBuff,"%f",f);
+#endif
+    *this = TBuff;
+  }
+
   //: Create a string from Int
   
   StringC::StringC(Int64T n) {

@@ -274,27 +274,30 @@ namespace RavlN {
     // of the resulting string are undefined.
     
     explicit StringC(const IndexC n);
-    //: Create a string from IndexC
+    //: Create a string from an IndexC
     
     explicit StringC(IntT n);
-    //: Create a string from Int
+    //: Create a string from an Int
     
     explicit StringC(UIntT n);
-    //: Create a string from unsigned int
+    //: Create a string from an unsigned int
     
     explicit StringC(Int64T n);
-    //: Create a string from Int
+    //: Create a string from an Int
     
     explicit StringC(UInt64T n);
-    //: Create a string from unsigned int
+    //: Create a string from an unsigned int
     
     explicit StringC(RealT val); 
-    //: Create a string from real value
+    //: Create a string from a real value
+    
+    explicit StringC(float val); 
+    //: Create a string from a float value
     
     explicit StringC(char c)
       : rep(Salloc(0, &c, 1, 1)) 
     {}
-    //: Create a string from char "c"
+    //: Create a string from a char "c"
     
     explicit StringC(istream & in);
     //: Create a string from the stream "in"
