@@ -55,6 +55,10 @@ namespace RavlN {
     RealT &MinDelay() { return minDelay; }
     //: Access frame count.
     
+    bool SetDelay(RealT newDelay);
+    //: Set new delay.
+    // newDelay must be positive or zero
+    
   protected:
     void WaitForTimeup();
     //: Wait for timeup.
@@ -118,6 +122,11 @@ namespace RavlN {
     RealT &MinDelay()
     { return Body().MinDelay(); }
     //: Access delay
+    
+    bool SetDelay(RealT newDelay)
+    { return Body().SetDelay(newDelay); }
+    //: Set new delay.
+    // newDelay must be positive or zero
     
   };
   

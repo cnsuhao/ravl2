@@ -18,6 +18,10 @@ namespace RavlN {
   //: Wait for timeup.
   
   void DPGovernorBaseBodyC::WaitForTimeup() {
+    // Any delay set ?
+    if(delay <= 0 && minDelay <= 0)
+      return ;
+    // What time is it now ?
     DateC now(true);
     RealT diff = (next - now).Double();
     if(diff < minDelay) {
@@ -31,5 +35,16 @@ namespace RavlN {
     next += delay;
     frameCnt++;    
   }
+
+  //: Set new delay.
+  bool DPGovernorBaseBodyC::SetDelay(RealT newDelay) { 
+    if(newDelay < 0) {
+      delay = 0;
+      return false;
+    }
+    delay = newDelay; 
+    return true;
+  }
+  
   
 }
