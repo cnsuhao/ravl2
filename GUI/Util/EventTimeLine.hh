@@ -41,7 +41,7 @@ namespace RavlGUIN {
     //!param: rng - Range of times to display.
     //!param: events - List of events.
 
-    EventTimeLineBodyC(const RealRangeC &rng);
+    EventTimeLineBodyC(const RealRangeC &rng,bool useMarker = true);
     //: Constructor.
     //!param: rng - Range of times to display.
     //!param: events - List of events.
@@ -78,9 +78,11 @@ namespace RavlGUIN {
     
     bool SetEvents(DListC<Tuple2C<IntT,RealRangeC> > &events);
     //: Set event list.
+    // The event list must be sorted.
     
     bool GUISetEvents(DListC<Tuple2C<IntT,RealRangeC> > &events);
     //: Set event list.
+    // The event list must be sorted.
     
     bool SetDisplaySpan(RealT &size);
     //: Set the length of time to display.
@@ -88,8 +90,16 @@ namespace RavlGUIN {
     bool GUISetDisplaySpan(RealT &size);
     //: Set the length of time to display.
     
+    bool GUISetUseMarker(bool marker);
+    //: Set use marker.
   protected:
     virtual bool Create();
+    //: Create the widget.
+    
+    virtual bool Create(GtkWidget *_widget);
+    //: Create the widget.
+    
+    virtual bool CommonCreate(GtkWidget *_widget = 0);
     //: Create the widget.
     
     bool EventConfigure(GdkEvent* &event);
@@ -118,6 +128,8 @@ namespace RavlGUIN {
     
     GdkGC *markerGc;
     
+    bool m_useMarker;
+    
     friend class EventTimeLineC;
   };
   
@@ -140,9 +152,9 @@ namespace RavlGUIN {
     //: Constructor.
     //!param: rng - Range of times to display.
     //!param: events - List of events.
-
-    EventTimeLineC(const RealRangeC &rng) 
-      : RawCanvasC(*new EventTimeLineBodyC(rng))
+    
+    EventTimeLineC(const RealRangeC &rng,bool useMarker = true) 
+      : RawCanvasC(*new EventTimeLineBodyC(rng,useMarker))
     {}
     //: Constructor.
     //!param: rng - Range of times to display.
@@ -196,10 +208,12 @@ namespace RavlGUIN {
     bool SetEvents(DListC<Tuple2C<IntT,RealRangeC> > &events)
     { return Body().SetEvents(events); }
     //: Set event list.
+    // The event list must be sorted.
     
     bool GUISetEvents(DListC<Tuple2C<IntT,RealRangeC> > &events)
     { return Body().GUISetEvents(events); }
     //: Set event list.
+    // The event list must be sorted.
     
     bool SetDisplayRange(RealRangeC &rng)
     { return Body().SetDisplayRange(rng); }
@@ -220,6 +234,10 @@ namespace RavlGUIN {
     Signal1C<RealT> &SigTimeSelected()
     { return Body().SigTimeSelected(); }
     //: Frame selected signal
+    
+    bool GUISetUseMarker(bool marker)
+    { return Body().GUISetUseMarker(marker); }
+    //: Set use marker.
     
     friend class EventTimeLineBodyC;
   };

@@ -25,7 +25,8 @@ namespace RavlGUIN {
       timeSelected(0.0),
       atMarker(0),
       updateId(0),
-      markerGc(0)
+      markerGc(0),
+      m_useMarker(true)
   {}
   
   EventTimeLineBodyC::EventTimeLineBodyC(IntT srow,IntT scol,const RealRangeC &rng,const DListC<Tuple2C<IntT,RealRangeC> > &_events)
@@ -35,7 +36,8 @@ namespace RavlGUIN {
       timeSelected(0.0),
       atMarker(0),
       updateId(0),
-      markerGc(0)
+      markerGc(0),
+      m_useMarker(true)
   {}
   
   //: Constructor.
@@ -48,7 +50,8 @@ namespace RavlGUIN {
       events(_events),
       timeSelected(0.0),
       updateId(0),
-      markerGc(0)
+      markerGc(0),
+      m_useMarker(true)
   {}
 
   EventTimeLineBodyC::EventTimeLineBodyC(IntT srow,IntT scol,const RealRangeC &rng)
@@ -56,21 +59,23 @@ namespace RavlGUIN {
       displayRange(rng),
       timeSelected(0.0),
       updateId(0),
-      markerGc(0)
+      markerGc(0),
+      m_useMarker(true)
   {}
   
   //: Constructor.
   //!param: rng - Range of times to display.
   //!param: events - List of events.
   
-  EventTimeLineBodyC::EventTimeLineBodyC(const RealRangeC &rng) 
+  EventTimeLineBodyC::EventTimeLineBodyC(const RealRangeC &rng,bool useMarker) 
     : RawCanvasBodyC(15,15),
       displayRange(rng),
       timeSelected(0.0),
       updateId(0),
-      markerGc(0)
+      markerGc(0),
+      m_useMarker(useMarker)
   {}
-
+  
   static bool DestroyGc(GdkGC *gc) {
     g_object_unref(gc);
     return true;
@@ -87,17 +92,27 @@ namespace RavlGUIN {
   
   //: Create the widget.
   
-  bool EventTimeLineBodyC::Create() {
+  bool EventTimeLineBodyC::Create() 
+  { return CommonCreate(); }
+  
+  //: Create the widget.
+  
+  bool EventTimeLineBodyC::Create(GtkWidget *_widget) 
+  { return CommonCreate(_widget); }
+  
+  //: Create the widget.
+  
+  bool EventTimeLineBodyC::CommonCreate(GtkWidget *_widget) {
     ConnectRef(Signal("expose_event"),*this,&EventTimeLineBodyC::EventExpose);
     ConnectRef(Signal("configure_event"),*this,&EventTimeLineBodyC::EventConfigure);
     ConnectRef(Signal("button_press_event"),*this,&EventTimeLineBodyC::EventMousePress);
     
-    if(!RawCanvasBodyC::Create())
+    if(!(_widget == 0 ? RawCanvasBodyC::Create() : RawCanvasBodyC::Create(_widget)))
       return false;
-        
     return true;
   }
-
+  
+  
   //: Set range of times to display
   
   bool EventTimeLineBodyC::SetDisplayRange(RealRangeC &rng) 
@@ -233,6 +248,16 @@ namespace RavlGUIN {
     timeSelected(time);
     return true;
   }
+
+  //: Set use marker.
+  
+  bool EventTimeLineBodyC::GUISetUseMarker(bool useMarker) {
+    if(m_useMarker == useMarker)
+      return true;
+    m_useMarker = useMarker;
+    GUIDraw();
+    return true;
+  }
   
   //: Draw widget on screen.
   
@@ -246,7 +271,7 @@ namespace RavlGUIN {
     IndexRangeC vertRange = displayArea.Range1().Shrink(4);
     
 #if 1
-    if(markerGc != 0) {
+    if(markerGc != 0 && m_useMarker) {
       IndexRange2dC markRange(displayArea.Range1(),
 			      IndexRangeC((atMarker - displayRange.Min()) * scale,
 					  ((atMarker+1) - displayRange.Min()) * scale));
