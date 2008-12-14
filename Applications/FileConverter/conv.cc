@@ -50,7 +50,8 @@ int FileConv(int argc,char **argv)
   OptionC   option(argc,argv);
   StringC   inType  = option.String("it","","Input file type. ");
   StringC   outType = option.String("ot","","Output file type. ");
-  StringC   classType = option.String("ct","void","Intermidiate class type. (void = any).");
+  StringC   classType = option.String("ct","void","Intermediate class type. (Default: use most efficient route).  E.g.\n"
+    "      conv -s 000_1_3.avi @X -v -ct \"ImageC<ByteRGBValueC>\"");
   bool  seq     = option.Boolean("s",false,"Convert a sequence of objects. (The default will convert only 1) ");
   bool  verb    = option.Boolean("v",false,"Verbose. ");
   bool  test    = option.Boolean("t",false,"Test if conversion is possible. (Sequence only) ");
