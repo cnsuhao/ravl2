@@ -19,11 +19,6 @@ ifdef OPENGLHOME
   INCLUDES := -I$(OPENGLHOME)/include $(INCLUDES)
 endif
 
-ifeq ($(ARC),macosx386)
-# This resolves a linking issue in 10.x, See http://developer.apple.com/qa/qa2007/qa1567.html
-LDFLAGS += -dylib_file \
- /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib:/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib
-endif
 
 
 ifndef OPENGLHOME
@@ -38,6 +33,13 @@ else
   EXELIB := -L$(OPENGLHOME)/lib -lGL -lGLU $(EXELIB)
 endif
 endif
+endif
+
+ifeq ($(ARC),macosx386)
+# This resolves a linking issue in 10.x, See http://developer.apple.com/qa/qa2007/qa1567.html
+#LDFLAGS += -dylib_file /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib:/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib
+
+EXELIB := -Wl,-dylib_file,/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib:/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib $(EXELIB)
 endif
 
 
