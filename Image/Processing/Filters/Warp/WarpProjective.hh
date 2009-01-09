@@ -28,6 +28,15 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: Warp image with a projective transformation.
+  // <p> By default, the coordinate system origin is taken to be the top left
+  // corner of pixel[0][0].</p>
+  //
+  // <p> The output image frame is determined as follows:<ul>
+  // <li> if the output image is gven, with a valid frame, use that frame
+  // <li> else if the constructor specifies a valid frame, use that
+  // <li> else find the bounding box of the input image in the output coords,
+  // shrink it to the nearest pixel position, and use that.</ul>
+  // </p>
   
   template <class InT, class OutT = InT,class MixerT = PixelMixerAssignC<InT,OutT>,class SampleT = SampleBilinearC<InT,OutT>  >
   class WarpProjectiveC
@@ -52,9 +61,9 @@ namespace RavlImageN {
     //: Constructor from Projection2dC.
     //!param: orec - Rectangle for output image.
     //!param: transform - Projective transform to use
-    //!param: nFillBackground - If true background is filled with black.
+    //!param: nFillBackground - If true, background is filled with black.
     //!param: mix - Pixel mixer instance to use.
-    // N.B. <code>transform</code>transforms points in the <i>input</i> image to the <i>output</i> image
+    // N.B. <code>transform</code> transforms points in the <i>input</i> image to the <i>output</i> image
     
     WarpProjectiveC(const Projection2dC &transform,
 		    bool nFillBackground = true,
@@ -103,6 +112,7 @@ namespace RavlImageN {
     
     void Apply(const ImageC<InT> &img,ImageC<OutT> &out);
     //: Warp image 'img' with the given transform and write it into 'out'
+    // If the output image"<code>out</code>" has a valid frame, it will take precedence over the one specified in the constructor.
     
     ImageC<OutT> Apply(const ImageC<InT> &img) {
       ImageC<OutT> out(rec);
@@ -110,7 +120,9 @@ namespace RavlImageN {
       return out;
     }
     //: Interpolate input image working rectangle into output image rectangle.
-    // The output rectangle is specified in the constructor.
+    // If the output rectangle is specified in the constructor, it is used.
+    // Otherwise it is created from the bounding box of the projected input
+    // image.
     
     void SetTransform(const Matrix3dC &transform) {
       trans = transform;
@@ -179,147 +191,65 @@ namespace RavlImageN {
   template <class InT, class OutT,class MixerT,class SampleT>
   void WarpProjectiveC<InT,OutT,MixerT,SampleT>::Apply(const ImageC<InT> &src,ImageC<OutT> &outImg) {
     
-    RealRange2dC irng(src.Frame());
-    if(rec.TRow()<=rec.BRow() && !outImg.Frame().Contains(rec))
-      outImg = ImageC<OutT>(rec);
-    //cerr << "Trans0=" << trans * orng.TopRight() << " from " << orng.TopRight() << "\n";
-    
-    // adjust source window for area where bilinear interpolation can be
-    // computed safely. Using 0.51 instead of 0.5 ensures that points on the
-    // boundary are not used, for safety. (Bill: Not convinced by the amount though.)
-    irng = irng.Shrink(1.01);
-    
-    // If the output maps entirely within input, we don't have to do any checking.
-    
+    // First we have to decide what our output image frame is
+    if (outImg.Frame().IsEmpty()) {
+      if (!rec.IsEmpty())  outImg = ImageC<OutT>(rec);
+      else { // use i/p frame projected into o/p coords
+        RealRange2dC irng(src.Frame());
+        Point2dC pnt = BackProject(irng.TopRight());
+        RealRange2dC trng(pnt,pnt);
+        trng.Involve(BackProject(irng.TopLeft()));
+        trng.Involve(BackProject(irng.BottomRight()));
+        trng.Involve(BackProject(irng.BottomLeft()));
+        IndexRange2dC oclip(Ceil(trng.TRow()),Floor(trng.BRow()),
+                            Ceil(trng.LCol()),Floor(trng.RCol()));
+        outImg = ImageC<OutT>(oclip);
+      }
+    }
+
+    // Then we do the interpolation
+
+    // pat:  o/p pt in o/p image cartesian coords
+    // at:   o/p pt in i/p image homogeneous coords
+    // ipat: o/p pt in i/p image cartesian coords
+    // ldir: "horizontal" o/p increment in i/p image homogeneous coords
+    // checkRange: valid region in i/p coords for truncated o/p pixel positions
+
+    // set pat as top-left pixel in output image
+    Point2dC pat(outImg.Frame().Origin());
     Vector3dC ldir(inv[0][1] * iz,inv[1][1] * iz,inv[2][1]);
+    ImageRectangleC checkRange(src.Frame());
+    checkRange.BRow() -= 1;
+    checkRange.RCol() -= 1;
     OutT tmp;
     SampleT sampler;
-#if 0    
-    RealRange2dC orng(outImg.Frame());
-    if(irng.Contains(Project(orng.TopRight())) &&
-       irng.Contains(Project(orng.TopLeft())) &&
-       irng.Contains(Project(orng.BottomRight())) &&
-       irng.Contains(Project(orng.BottomLeft()))) {
-      Point2dC pat(outImg.Frame().Origin());
-      pat[0] += 0.5;
-      pat[1] += 0.5;
+    
+    // Do simple check for each pixel that its contained in the input image.
+    // This could be sped up by projecting the line corresponding to the
+    // current row into the source image space, clipping it
+    // and then projecting back into the output image and only iterate
+    // along that bit of the line.
+    // If the output maps entirely within input, we dont't have to do any
+    // checking.  But we do.
 
-      Array2dIterC<OutT> it(outImg);  
-      for(;it;pat[0]++) {
-	Vector3dC at = inv * Vector3dC(pat[0],pat[1],oz);
-	at[0] *= iz;
-	at[1] *= iz;
-	do {
-	  sampler(src,Point2dC((at[0]/at[2]),(at[1]/at[2])),tmp)
-	  mixer(*it,tmp);
-	  at += ldir;
-	} while(it.Next()) ;
-      }
-      return;
-    }
-#endif
-    
-    ImageC<OutT> workingOutImg;
-    if(!fillBackground) {
-      // Find the projection of the input image in the output
-      // to minimise the number of pixels we have to check.
-      Point2dC pnt = BackProject(irng.TopRight());
-      RealRange2dC trng(pnt,pnt);
-      trng.Involve(BackProject(irng.TopLeft()));
-      trng.Involve(BackProject(irng.BottomRight()));
-      trng.Involve(BackProject(irng.BottomLeft()));
-      IndexRange2dC oclip(Floor(trng.TRow()),Floor(trng.BRow())+1,
-			  Floor(trng.LCol()),Floor(trng.RCol())+1);
-      
-      //cerr << "Clip=" << oclip << " Frame=" << outImg.Frame() << "\n";
-      // Clip the output image appropriatly.
-      oclip.ClipBy(outImg.Frame());
-      workingOutImg = ImageC<OutT>(outImg,oclip);
-    } else
-      workingOutImg = outImg;
-    
-    // set pat as top-left pixel in output image
-    Point2dC pat(workingOutImg.Frame().Origin());
-    
-    Array2dIterC<OutT> it(workingOutImg);  
-    
-    
-#if 0
-    // Do simple check for each pixel that its contained in the input image.
-    // This could be sped up by projecting the line into the source image space,
-    // clipping it and then projecting back into the output image and only iterate
-    // along that bit of the line.
-    Vector2dC endv(0,orng.Cols());
-    cerr << "irng=" << irng << "\n";
-    const int brow = workingOutImg.Frame().BRow().V();
-    for(int r = workingOutImg.Frame().TRow().V();r < brow;r++,pat[0]++) {
-      //cerr << "\nr=" << r << "\n";
-      LinePP2dC rline(Project(pat),Project(pat + endv));
-      //cerr << " P1=" << rline.P1() << " P2=" << rline.P2() << "\n";
-      if(!rline.ClipBy(irng))
-	continue;
-      //cerr << " CP1=" << rline.P1() << " CP2=" << rline.P2() << "\n";
-      // Map clipped line back into output image.
-      Point2dC sp = BackProject(rline.P1());
-      Point2dC ep = BackProject(rline.P2());
-      //cerr << " sp=" << sp << " ep=" << ep << "\n";
-      RavlAssert(Abs(sp[0] - ep[0]) < 0.01); // Sanity check.
-      
-      RealT rsp = ceil(sp[1]);
-      IntT isp = (IntT) rsp;
-      IntT iep = Floor(ep[1]);
-      if(isp > iep)
-	continue;
-      
-      Vector3dC at = inv * Vector3dC(pat[0],rsp,oz);
-      at[0] *= iz;
-      at[1] *= iz;
-      //cerr << "Line from " << isp << " to " << iep << "\n";
-      
-      IndexRangeC colRange(isp,iep);
-      RavlAssert(workingOutImg.Frame().Range2().Contains(colRange));
-      for(BufferAccessIterC<OutT> rit(outImg[r],colRange);rit;rit++) {
-	Point2dC ipat(at[0]/at[2],at[1]/at[2]);
-	sampler(src,ipat - Point2dC(0.5,0.5),tmp);
-	mixer(*rit,tmp);
-	at += ldir;
-      }
-    }
-  }
-#else
-    // Do simple check for each pixel that its contained in the input image.
-    // This could be sped up by projecting the line into the source image space,
-    // clipping it and then projecting back into the output image and only iterate
-    // along that bit of the line.
-    for(;it;) {
+    Array2dIterC<OutT> it(outImg);  
+    for(;it;) { // iterate over rows
       Vector3dC at = inv * Vector3dC(pat[0],pat[1],oz);
       at[0] *= iz;
       at[1] *= iz;
       
-      if(fillBackground) {
-	do {
-	  Point2dC ipat(at[0]/at[2],at[1]/at[2]);
-	  if(irng.Contains(ipat)) {
-	    sampler(src,ipat,tmp);
-	    mixer(*it,tmp);
-	  } else
-	    SetZero(*it);
-	  at += ldir;
-	} while(it.Next()) ;
-      } else {
-	do {
-	  Point2dC ipat(at[0]/at[2],at[1]/at[2]);
-	  if(irng.Contains(ipat)) {
-	    sampler(src,ipat,tmp);
-	    mixer(*it,tmp);
-	  }
-	  at += ldir;
-	} while(it.Next()) ;
-      }
+      do { // iterate over cols
+        Point2dC ipat(at[0]/at[2],at[1]/at[2]);
+        if(checkRange.Contains(Index2dC(Floor(ipat[0]),Floor(ipat[1])))) {
+          sampler(src,ipat,tmp);
+          mixer(*it,tmp);
+        } else
+          if(fillBackground) SetZero(*it);
+        at += ldir;
+      } while(it.Next()) ;
       pat[0]++;
     }
   }
-#endif
 }
 
 
