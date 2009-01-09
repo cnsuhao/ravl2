@@ -49,12 +49,12 @@ namespace RavlImageN {
 		  (pixel2[1] * (t*u)));
   }
   //: Do bilinear interpolation with different output pixel type.
-  // Note: For efficency reasons this method assumes the CENTER
+  // Note: For efficency reasons this method assumes the CENTRE
   // of the pixel is at 0,0.  This means that a 0.5 offset may
-  // me needed if your co-oridnate systems is at the top left
+  // be needed if your co-ordinate system is at the top left
   // of the pixel.
-  //!param: img - The image 
-  //!param: ipnt - The point for wish the interpolated value is required (can be a Point2dC). 
+  //!param: img - The i/p image 
+  //!param: ipnt - The point in the i/p image coord system for which the interpolated value is required (can be a Point2dC). 
   //!param: pixVal - The result of the interpolation (pass by reference) 
 
   inline
@@ -80,12 +80,12 @@ namespace RavlImageN {
 		    ((RealT)pixel2[1] * (t*u)));
   }
   //: Do bilinear interpolation with different output pixel type.
-  // Note: For efficency reasons this method assumes the CENTER
+  // Note: For efficency reasons this method assumes the CENTRE
   // of the pixel is at 0,0.  This means that a 0.5 offset may
-  // me needed if your co-oridnate systems is at the top left
+  // be needed if your co-ordinate system is at the top left
   // of the pixel.
-  //!param: img - The image 
-  //!param: ipnt - The point for wish the interpolated value is required (can be a Point2dC). 
+  //!param: img - The i/p image 
+  //!param: ipnt - The point in the i/p image coord system for which the interpolated value is required (can be a Point2dC). 
   //!param: pixVal - The result of the interpolation (pass by reference) 
 
   //:-
