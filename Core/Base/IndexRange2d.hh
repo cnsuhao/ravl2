@@ -189,7 +189,7 @@ namespace RavlN {
     
     inline bool IsValid() const 
     { return rows.IsValid() && cols.IsValid(); }
-    //: Returns true if this rectangle contains at least one index.
+    //: Returns true if both of the index ranges are valid.
     
     inline bool IsEmpty() const
     { return rows.IsEmpty() || cols.IsEmpty(); }
