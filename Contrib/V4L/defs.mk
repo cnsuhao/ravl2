@@ -10,7 +10,7 @@
 
 PACKAGE=Ravl/Image
 
-SUPPORT_ONLY=linux
+SUPPORT_ONLY=linux linux64
 
 REQUIRES=devVideo4Linux
 

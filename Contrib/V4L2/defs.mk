@@ -9,7 +9,7 @@
 
 REQUIRES = devVideo4Linux2
 
-SUPPORT_ONLY = linux
+SUPPORT_ONLY = linux linux64
 
 PACKAGE = Ravl/Image
 
