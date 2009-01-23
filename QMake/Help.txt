@@ -39,6 +39,7 @@ Common targets (some compile targets may not have been installed on your system)
   chead     Check headers with original RAVL make system.
   lib_info  Tells you which library paths are needed/used to create an executable.
   help      Print this help on the QMake system. 
+  info      Prints lots of useful info about where the compilation wil look for things
   defs      List of public ".def" files.
   test	    Compile and run test executables.
   retest    Rerun the final stage of RAVL testing.
