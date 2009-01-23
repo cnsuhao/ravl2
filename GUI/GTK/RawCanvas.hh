@@ -36,12 +36,9 @@ namespace RavlGUIN {
   public:
     RawCanvasBodyC(int width,int height)
       : sx(width),sy(height)
-      {}
+    {}
     //: Default constructor.
     
-    virtual ~RawCanvasBodyC() { }
-    //: Have virtual methods - need virtual destructor
-
     GdkDrawable *DrawArea();
     //: Access draw area.
     
@@ -62,6 +59,13 @@ namespace RavlGUIN {
     
     GdkWindow *GUIDrawWindow();
     //: Get get draw area.
+    
+    void GUIDrawArc(GdkGC *gc,const IndexRange2dC &rect, IntT start, IntT angle, bool fill = false); 
+    //: Draw an arc.
+    // The rectangle defines an ellipse in the image
+    // start is the angle to start at, relative to 3 o'clock, in 1/64ths of a degree.
+    // angle is the length of the arc, in 1/64ths of a degree
+    // If fill is true, the arc is a pie, otherwise it's a line arc
     
     void GUIDrawLine(GdkGC *gc,Index2dC p1,Index2dC p2);
     //: Draw a line.
@@ -103,14 +107,12 @@ namespace RavlGUIN {
     //: Translate a configure event.
     // 'rect' is the new size for the widget.
     
-    IntT SizeX() {
-      return sx;
-    }
+    IntT SizeX() 
+    { return sx; }
     //: Get the width.
-
-    IntT SizeY() {
-      return sy;
-    }
+    
+    IntT SizeY() 
+    { return sy; }
     //: Get the height.
 
   protected:  
@@ -163,7 +165,8 @@ namespace RavlGUIN {
     GdkDrawable *DrawArea()
     { return Body().DrawArea(); }
     //: Access draw area.
-
+    
+    
     GdkGC *GUIDrawGC()
     { return Body().GUIDrawGC(); }
     //: Get drawing context.
@@ -213,6 +216,14 @@ namespace RavlGUIN {
     { Body().GUIDrawCircle(gc,cent,size,fill); }
     //: Draw a circle.
     
+    void GUIDrawArc(GdkGC *gc,const IndexRange2dC &rect, IntT start, IntT angle, bool fill = false)
+    { return Body().GUIDrawArc(gc,rect,start,angle,fill); }
+    //: Draw an arc.
+    // The rectangle defines an ellipse in the image
+    // start is the angle to start at, relative to 3 o'clock, in 1/64ths of a degree.
+    // angle is the length of the arc, in 1/64ths of a degree
+    // If fill is true, the arc is a pie, otherwise it's a line arc
+    
     void GUIDrawImage(const ImageC<ByteRGBValueC> &image,const Index2dC &offset = Index2dC(0,0),bool ignoreImageOrigin = false)
     { Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
     //: Draw an image into the canvas with its origin offset by 'offset'.
@@ -239,14 +250,12 @@ namespace RavlGUIN {
     //: Translate a configure event.
     // 'rect' is the new size for the widget.
     
-    IntT SizeX() {
-      return Body().SizeX();
-    }
+    IntT SizeX() 
+    { return Body().SizeX(); }
     //: Get the width.
-
-    IntT SizeY() {
-      return Body().SizeY();
-    }
+    
+    IntT SizeY() 
+    { return Body().SizeY(); }
     //: Get the height.
 
   };

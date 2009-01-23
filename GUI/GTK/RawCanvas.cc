@@ -40,7 +40,6 @@ namespace RavlGUIN {
   GdkDrawable *RawCanvasBodyC::DrawArea()
   { return widget->window; }
   
-  
   //: Access drawing context.
   
   GdkGC *RawCanvasBodyC::GUIDrawGC() {
@@ -86,7 +85,26 @@ namespace RavlGUIN {
     return Widget()->window;    
   }
 
-
+  //: Draw an arc.
+  // The rectangle defines an ellipse in the image
+  // start is the angle to start at, relative to 3 o'clock, in 1/64ths of a degree.
+  // angle is the length of the arc, in 1/64ths of a degree
+  // If fill is true, the arc is a pie, otherwise it's a line arc
+  
+  void RawCanvasBodyC::GUIDrawArc(GdkGC *gc,const IndexRange2dC &rect, IntT start, IntT angle, bool fill) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    gdk_draw_arc (GUIDrawWindow(),
+                  gc,
+                  fill,
+                  rect.Origin().Col().V(),
+                  rect.Origin().Row().V(),
+                  rect.Size().Col().V(),
+                  rect.Size().Row().V(),
+                  start,
+                  angle);
+    
+  }
+  
   //: Draw a line.
   
   void RawCanvasBodyC::GUIDrawLine(GdkGC *gc,Index2dC p1,Index2dC p2) {
