@@ -141,6 +141,23 @@ namespace RavlN {
     IndexRange2dC Frame() const
     { return IndexRange2dC(0,(IntT) Size1()-1,0,(IntT) size2-1); }
     //: Return ranges of indexes
+
+    BufferAccessC<DataT> &RowPtr(IndexC i)
+    { return SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i); }
+    //: Access element 0 of row i.
+    // Note: The element may not actually exist. <p>
+    // Advanced users only!
+    
+    void SetRowPtr(IndexC i,const BufferAccessC<DataT> &rowPtr)
+    { SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i) = rowPtr; }
+    //: Set element 0 of row i to 'rowPtr'.
+    // Advanced users only! <p>
+    // This directly manipulates the row pointer table. It can be used to
+    // change the way the array is stored. NOTE: Many of the numerical operations
+    // in RAVL assume the data is stored in linearly in a contiguous chunk of
+    // memory. Manipulating the layout with this method will break this method
+    // will break this assumption.  This method is provided to allow operations
+    // like deinterlacing image to be done without copying large amounts of memory.
     
   protected:
     SizeT size2;

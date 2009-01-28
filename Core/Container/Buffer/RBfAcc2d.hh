@@ -164,12 +164,12 @@ namespace RavlN {
     { return RangeBufferAccessC<BufferAccessC<DataT> >::operator[](i); }
     //: Access element 0 of row i.
     // Note: The element may not actually exist. <p>
-    // Advanced uses only!
+    // Advanced users only!
     
     void SetRowPtr(IndexC i,const BufferAccessC<DataT> &rowPtr)
     { RangeBufferAccessC<BufferAccessC<DataT> >::operator[](i) = rowPtr; }
     //: Set element 0 of row i to 'rowPtr'.
-    // Advanced uses only! <p>
+    // Advanced users only! <p>
     // This directly manipulates the row pointer table. It can be used to
     // change the way the array is stored. NOTE: Many of the numerical operations
     // in RAVL assume the data is stored in linearly in a contiguous chunk of
