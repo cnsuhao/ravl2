@@ -166,7 +166,7 @@ namespace RavlN {
     // Note: The element may not actually exist. <p>
     // Advanced uses only!
     
-    void SetRowPtr(IndexC i,BufferAccessC<DataT> &rowPtr)
+    void SetRowPtr(IndexC i,const BufferAccessC<DataT> &rowPtr)
     { RangeBufferAccessC<BufferAccessC<DataT> >::operator[](i) = rowPtr; }
     //: Set element 0 of row i to 'rowPtr'.
     // Advanced uses only! <p>
