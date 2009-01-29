@@ -86,6 +86,9 @@ namespace RavlImageN {
   ImageC<ByteRGBValueC> ByteImageCT2ByteRGBImageCT(const ImageC<ByteT> &dat);
   //: Image conversion: byte grey-level &rarr; byte RGB
     
+  ImageC<RealRGBValueC> RealImageCT2RealRGBImageCT(const ImageC<RealT> &dat);
+  //: Image conversion: double grey-level &rarr; double RGB
+    
   ImageC<ByteT> RGBImageCT2ByteImageCT(const ImageC<ByteRGBValueC> &dat);
   //: Image conversion: byte RGB &rarr; byte grey-level
   

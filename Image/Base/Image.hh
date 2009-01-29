@@ -171,11 +171,13 @@ namespace RavlImageN {
     PixelT *Row(IndexC row) 
     { return &(RangeBufferAccessC<BufferAccessC<PixelT> >::operator[](row)[this->rng2.Min()]); }
     //: Get a pointer to begining of row.
+    // Note: this does not give access to the ImageC row pointer; to access the pointer itself use <a href="#RowPtrObIndexCCb">RowPtr</a> or <a href="#SetRowPtrObIndexC_const_BufferAccessCStDataTBt_RefCb">SetRowPtr</a>
     //!param: row - Row for which the pointer is returned.
     
     const PixelT *Row(IndexC row) const
     { return &(RangeBufferAccessC<BufferAccessC<PixelT> >::operator[](row)[this->rng2.Min()]); }
     //: Get a pointer to begining of row for const image.
+    // Note: this does not give access to the ImageC row pointer; to access the pointer itself use <a href="#RowPtrObIndexCCb">RowPtr</a> or <a href="#SetRowPtrObIndexC_const_BufferAccessCStDataTBt_RefCb">SetRowPtr</a>
     //!param: row - Row for which the pointer is returned.
     
     ImageC<PixelT> Rotate90(Index2dC centre = Index2dC(0,0)) const;

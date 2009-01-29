@@ -16,6 +16,7 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Types.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Image/RealRGBValue.hh"
 #include "Ravl/Image/ByteYUVValue.hh"
 #include "Ravl/Image/ImageConv.hh"
 #include "Ravl/TypeName.hh"
@@ -44,6 +45,8 @@ namespace RavlImageN
   
   DP_REGISTER_CONVERSION_NAMED(ByteImageCT2ByteRGBImageCT   ,1,
 			       "ImageC<ByteRGBValueC> RavlImageN::Convert(const ImageC<ByteT> &)");
+  DP_REGISTER_CONVERSION_NAMED(RealImageCT2RealRGBImageCT   ,1,
+			       "ImageC<RealRGBValueC> RavlImageN::Convert(const ImageC<RealT> &)");
   DP_REGISTER_CONVERSION_NAMED(ByteImageCT2ByteYUVImageCT   ,1,
 			       "ImageC<ByteYUVValueC> RavlImageN::Convert(const ImageC<ByteT> &)");
   DP_REGISTER_CONVERSION_NAMED(ByteImageCT2IntImageCT       ,1,

@@ -58,6 +58,16 @@ namespace RavlImageN {
     return ret;
   }
 
+  // Real grey level to colour image.
+
+  ImageC<RealRGBValueC> RealImageCT2RealRGBImageCT(const ImageC<RealT> &dat) {
+    ImageC<RealRGBValueC> ret(dat.Rectangle());
+    for(Array2dIter2C<RealRGBValueC,RealT> it(ret,dat);it.IsElm();it.Next())
+      it.Data1() = RealRGBValueC(it.Data2(),it.Data2(),it.Data2());
+    return ret;
+  }
+
+
   // Byte grey level to byte YUV colour image.
 
   ImageC<ByteYUVValueC> ByteImageCT2ByteYUVImageCT(const ImageC<ByteT> &dat) {
