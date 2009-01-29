@@ -27,7 +27,7 @@ AUXDIR=lib/RAVL/libdep
 
 AUXFILES= LibDV.def
 
-USESLIBS=system RavlCore RavlImage RavlIO RavlOS RavlOSIO RavlDPDisplay glib GTK LibDV  RavlVideoIO RavlAV
+USESLIBS=system RavlCore RavlImage RavlIO RavlOS RavlOSIO glib GTK LibDV  RavlVideoIO RavlAV
 
 PROGLIBS= RavlDPDisplay.opt RavlDPDisplay RavlDevAudio
 
