@@ -64,11 +64,16 @@ namespace RavlImageN {
     case IPL_DEPTH_8U: case IPL_DEPTH_8S:
       switch (src->nChannels) {
       case 1: 
-        status = DPTypeConvert(ImageC<ByteT>(src->height, src->widthStep/src->nChannels, (ByteT*)src->imageData, false), dest);
+        status = DPTypeConvert(ImageC<ByteT>(src->height, src->widthStep, (ByteT*)src->imageData, false), dest);
         break;
-      case 3:
-        status = DPTypeConvert(ImageC<ByteBGRValueC>(src->height, src->widthStep/src->nChannels, (ByteBGRValueC*)src->imageData, false), dest);
-        break;
+      case 3: {  // handled differently because in this case the pixels are not word aligned.
+        ImageC<ByteBGRValueC> out(src->height, src->width);
+        for (int r=0; r<src->height; ++r) {
+          out.SetRowPtr(r, (ByteBGRValueC*)((src->imageData)+r*(src->widthStep)));
+        }
+        status = DPTypeConvert(out, dest);
+      }
+      break;
       default:
         return false;
       }
@@ -86,6 +91,7 @@ namespace RavlImageN {
       }
       break;
     default: 
+      RavlAssertMsg(false, "IplImage2RavlImage: can only convert IPL_DEPTH_8U|S and IPL_DEPTH_64F image depths");
       return false;
     }
     dest = ImageC<PixelT>(dest, IndexRange2dC(src->height,src->width));

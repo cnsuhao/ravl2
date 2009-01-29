@@ -34,7 +34,7 @@ namespace RavlImageN{
         *dc++      = *sc++;
         *(dc++ -2) = *sc++;
       }
-      dr += dest->widthStep/3;
+      dr += dest->widthStep;
     }
     return true;
   }
@@ -69,7 +69,7 @@ namespace RavlImageN{
         *dc++      = *sc++;
         *(dc++ -2) = *sc++;
       }
-    dr += dest->widthStep/24;
+    dr += dest->widthStep/8;
     }
     return true;
   }
