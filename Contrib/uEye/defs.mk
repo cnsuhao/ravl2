@@ -6,7 +6,7 @@
 
 SUPPORT_ONLY = linux
 
-REQUIRES = uEyeSDK
+#REQUIRES = uEyeSDK
 
 PACKAGE = Ravl/Image
 
@@ -16,10 +16,10 @@ SOURCES=ImgIOuEye.cc uEyeFileFormat.cc
 
 PLIB= RavlImgIOuEye
 
-USESLIBS=RavlImageIO uEye RavlOS 
+USESLIBS=RavlImageIO RavlThreads uEye RavlOS 
 
 MUSTLINK=linkRavlImgIOuEye.cc
 
-PROGLIBS= RavlDPDisplay
+PROGLIBS=RavlDPDisplay
 
 EXTERNALLIBS = uEye.def
