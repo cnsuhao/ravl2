@@ -29,6 +29,7 @@
 #include "Ravl/FuncStream.hh"
 #include "Ravl/Calls.hh"
 #include "Ravl/Math.hh"
+#include <string.h>
 
 #if RAVL_HAVE_UNISTD_H
 #include <unistd.h>

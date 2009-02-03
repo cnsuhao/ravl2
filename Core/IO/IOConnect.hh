@@ -52,7 +52,7 @@ namespace RavlN {
     //: Check if we're already running.
     
     bool Running(bool state)
-    { return running = state; }
+    { return (running = state); }
     //: Set running state.
 
     bool TryRun() {

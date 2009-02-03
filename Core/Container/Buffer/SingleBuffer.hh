@@ -155,7 +155,13 @@ namespace RavlN {
       this->buff = reinterpret_cast<DataT *>(&(this[1]));
 #endif
 	 // cerr << "Memory at " << (void*) this->buff << "\n";
+#if RAVL_COMPILER_GCC43
+      // This is a bug workaround for a problem with gcc-4.3.x compilers
+      new(this->buff) DataT[this->Size()];
+#else
       ConstructRawArray(this->buff,this->Size()); 
+#endif
+
     }
     //: Default constructor.
     
@@ -168,7 +174,12 @@ namespace RavlN {
       this->buff = reinterpret_cast<DataT *>(buf + ((align - (((SizeT) buf) & alignm1)) & alignm1));
       
       // Construct array
+#if RAVL_COMPILER_GCC43
+      // This is a bug workaround for a problem with gcc-4.3.x compilers
+      new(this->buff) DataT[this->Size()];
+#else
       ConstructRawArray(this->buff,this->Size()); 
+#endif
     }
     //: Construct buffer with alignment
     // Note: Aligment must be a power of 2
