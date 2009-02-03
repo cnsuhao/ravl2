@@ -20,6 +20,7 @@
 #include "Ravl/Array1dIter.hh"
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/IndexRange2dSet.hh"
+#include <string.h>
 
 namespace RavlImageN {
   using namespace RavlN;
