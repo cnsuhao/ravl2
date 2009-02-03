@@ -15,6 +15,7 @@
 #include <rlog/StdioNode.h>
 #include <rlog/rlog.h>
 #include <fcntl.h>
+#include <string.h>
 
 #ifdef WIN32
 #include <io.h>
