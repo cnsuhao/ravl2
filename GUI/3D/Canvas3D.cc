@@ -16,6 +16,7 @@
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Threads/SemaphoreRC.hh"
 #include "Ravl/CallMethodRefs.hh"
+#include <string.h>
 
 //#include "Ravl/StdError.hh"
 #ifndef VISUAL_CPP

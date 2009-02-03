@@ -459,7 +459,7 @@ namespace RavlGUIN {
     //cerr << "bool WidgetBodyC::Create(GtkWidget *), Called.. \n";
     widget = newWidget;
     ConnectSignals();
-    return false;
+    return true;
   }
 
   //: Set state

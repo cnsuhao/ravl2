@@ -151,23 +151,8 @@ namespace RavlGUIN {
   
   //: Create the widget.
   bool CanvasBodyC::Create() {
-    if(widget != 0)
-      return true; // Done already.
-    ONDEBUG(cerr <<"CanvasBodyC::Create() start. \n");
-    widget =  gtk_drawing_area_new ();  
-    gtk_drawing_area_size (GTK_DRAWING_AREA (widget), sx, sy);  
-    if(!direct) {
-      gtk_signal_connect (GTK_OBJECT (widget), "expose_event",
-                          (GtkSignalFunc) win_expose_event,(gpointer) this);
-      
-      gtk_signal_connect (GTK_OBJECT(widget),"configure_event",
-                          (GtkSignalFunc) win_configure_event,(gpointer) this);
-    }
-    SetupColours();
-    ConnectSignals();
-    gtk_widget_add_events(widget,GDK_EXPOSURE_MASK);
-    ONDEBUG(cerr <<"CanvasBodyC::Create() done. \n");
-    return true;
+    if(widget != 0) return true; // Done already.
+    return Create(gtk_drawing_area_new ());
   }
   
   //: Create with a widget supplied from elsewhere.

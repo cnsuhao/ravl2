@@ -17,6 +17,7 @@
 
 #include "Ravl/HashIter.hh"
 #include <gtk/gtk.h>
+#include <string.h>
 
 #define DODEBUG 0
 #if DODEBUG
