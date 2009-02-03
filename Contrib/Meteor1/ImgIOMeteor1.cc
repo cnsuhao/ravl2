@@ -19,6 +19,7 @@
 #include <sys/ioctl.h>
 #include <errno.h>
 #include <unistd.h>
+#include <string.h>
 #include "ioctl_meteor.h"
 #include "ioctl_himemfb.h"
 
@@ -107,7 +108,7 @@ namespace RavlImageN {
   //: Get the name of each paramiter.
   
   const char *DPIImageBaseMeteor1BodyC::ParamName(VideoParamT pr) const {
-    char *prname = "Unknown";
+    const char *prname = "Unknown";
     switch(pr)
       {
       case VP_HUE:        prname = "Hue       "; break;

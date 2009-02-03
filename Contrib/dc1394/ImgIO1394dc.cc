@@ -11,6 +11,7 @@
 
 #include "Ravl/Image/ImgIO1394dc.hh"
 #include "Ravl/Image/ByteYUVValue.hh"
+#include <string.h>
 
 #define DODEBUG 1
 #if DODEBUG

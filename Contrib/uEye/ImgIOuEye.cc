@@ -9,6 +9,7 @@
 #include "Ravl/Exception.hh"
 #include "Ravl/OS/SysLog.hh"
 #include "Ravl/DP/AttributeValueTypes.hh"
+#include <string.h>
 
 #define DODEBUG 0
 #if DODEBUG

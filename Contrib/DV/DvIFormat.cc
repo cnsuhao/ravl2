@@ -123,8 +123,8 @@ namespace RavlImageN {
   
   const type_info &FileFormatDvBodyC::DefaultType() const  { 
     //return typeid(ImageC<ByteRGBValueC>); 
-      return typeid (AVFrameC) ;  
-      }
+    return typeid (AVFrameC) ;  
+  }
 
 #if USE_DvWRITE
   FileFormatDvC RegisterFileFormatDv("dv","Dv file input. ");

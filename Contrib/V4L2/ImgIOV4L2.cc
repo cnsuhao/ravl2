@@ -779,7 +779,7 @@ namespace RavlImageN
         attrName == "height" || 
         attrName == "input")
     {
-      IntT val;
+      IntT val = 0;
       bool ret = HandleGetAttr(attrName, val);
       attrValue = StringC(val);
       return ret;
