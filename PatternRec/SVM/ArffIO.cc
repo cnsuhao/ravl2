@@ -1,5 +1,6 @@
 #include "Ravl/PatternRec/ArffIO.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
+#include <string.h>
 
 namespace RavlN
 {
@@ -7,7 +8,7 @@ namespace RavlN
 void SaveArff(const StringC& FileName, const SampleC<VectorC> &TrVec,
               const SampleC<SByteT> &TrLab)
 {
-  char* classLab[2] = {"c1", "c2"};
+  const char* classLab[2] = {"c1", "c2"};
   FILE* f = fopen(FileName.chars(), "w+");
   int numFeatures = (int)(TrVec[0].Size());
   fprintf(f, "%% Number of objects:  %i\n", (int)(TrVec.Size()));

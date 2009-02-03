@@ -7,6 +7,7 @@
 // $Id: DesignOneClassLarge.cc 10146 2007-02-01 11:17:56Z alex $
 
 #include "Ravl/PatternRec/DesignOneClassLarge.hh"
+#include <string.h>
 
 namespace RavlN
 {

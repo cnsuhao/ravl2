@@ -7,8 +7,8 @@
 // $Id: DesignOneClass.cc 10146 2007-02-01 11:17:56Z alex $
 
 #include "Ravl/PatternRec/DesignOneClass.hh"
-
 #include "Ravl/PatternRec/SampleIter.hh"
+#include <string.h>
 
 namespace RavlN
 {

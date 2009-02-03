@@ -6,8 +6,8 @@
 // file-header-ends-here
 
 #include "Ravl/PatternRec/DesignSvmSmoLarge.hh"
-
 #include "Ravl/PatternRec/SampleIter.hh"
+#include <string.h>
 
 namespace RavlN
 {
