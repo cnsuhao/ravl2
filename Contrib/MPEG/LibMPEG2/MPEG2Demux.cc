@@ -13,6 +13,7 @@
 
 #include "Ravl/Image/MPEG2Demux.hh"
 #include "Ravl/DP/AttributeValueTypes.hh"
+#include <string.h>
 
 #define DODEBUG 0
 

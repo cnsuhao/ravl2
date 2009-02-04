@@ -16,6 +16,7 @@
 #include "dvdread/nav_read.h"
 #include "Ravl/DList.hh"
 #include "Ravl/DP/AttributeValueTypes.hh"
+#include <string.h>
 
 #define DODEBUG 0
 
