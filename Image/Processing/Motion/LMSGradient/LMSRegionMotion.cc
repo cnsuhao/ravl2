@@ -78,8 +78,8 @@ namespace RavlImageN {
     
     // find the sums of products witin region
     // ======================================
-    Matrix2dC sum_grad_grad;
-    Vector2dC sum_grad_t;
+    Matrix2dC sum_grad_grad(0,0,0,0);
+    Vector2dC sum_grad_t(0,0);
     RealT sum_dt_sq(0);
     region = 0;
     ImageRectangleC rect(grad_grad.Rectangle().Intersection(mask.Rectangle()));
