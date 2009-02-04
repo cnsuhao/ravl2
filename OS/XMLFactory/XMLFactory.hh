@@ -19,7 +19,8 @@
 #include "Ravl/Threads/RWLock.hh"
 
 namespace RavlN {
-  
+  using namespace RavlN;
+
   class XMLFactoryC;
   class XMLFactoryHC;
   
@@ -27,7 +28,7 @@ namespace RavlN {
   //: Node in the build tree.
   
   class XMLFactoryNodeC 
-    : public RavlN::RCLayerBodyC
+    : public RCLayerBodyC
   {
   public:
     XMLFactoryNodeC()
@@ -46,7 +47,7 @@ namespace RavlN {
     {}
     //: Constructor.
     
-    XMLFactoryNodeC(const XMLTreeC &xmlNode,const XMLFactoryNodeC &parent,const RavlN::RCWrapAbstractC &component)
+    XMLFactoryNodeC(const XMLTreeC &xmlNode,const XMLFactoryNodeC &parent,const RCWrapAbstractC &component)
       : m_xmlNode(xmlNode),
         m_component(component),
         m_parent(&parent)
@@ -56,27 +57,27 @@ namespace RavlN {
     ~XMLFactoryNodeC();
     //: Destructor.
     
-    typedef RavlN::SmartOwnerPtrC<XMLFactoryNodeC> RefT;
+    typedef SmartOwnerPtrC<XMLFactoryNodeC> RefT;
     //: Owner reference
     
-    typedef RavlN::SmartCallbackPtrC<XMLFactoryNodeC> CBRefT;
+    typedef SmartCallbackPtrC<XMLFactoryNodeC> CBRefT;
     //: Callback reference.
     
     const StringC &Name() const
     { return m_xmlNode.Name(); }
     //: Access node name.
     
-    RavlN::RCWrapAbstractC Component() const
+    RCWrapAbstractC Component() const
     { 
-      RavlN::RWLockHoldC hold(m_access,RavlN::RWLOCK_READONLY);
-      RavlN::RCWrapAbstractC ret = m_component; 
+      RWLockHoldC hold(m_access,RWLOCK_READONLY);
+      RCWrapAbstractC ret = m_component; 
       hold.Unlock();
       return ret;
     }
     //: Component
     
-    void SetComponent(const RavlN::RCWrapAbstractC &comp) { 
-      RavlN::RWLockHoldC hold(m_access,RavlN::RWLOCK_WRITE);
+    void SetComponent(const RCWrapAbstractC &comp) { 
+      RWLockHoldC hold(m_access,RWLOCK_WRITE);
       m_component = comp; 
     }
     //: Set component at node.
@@ -84,13 +85,13 @@ namespace RavlN {
     bool FollowPath(const StringC &path,RefT &node,bool verbose = false) const;
     //: Follow path to child node.
     
-    bool FollowPath(const RavlN::DListC<StringC> &path,RefT &node,bool verbose = false) const;
+    bool FollowPath(const DListC<StringC> &path,RefT &node,bool verbose = false) const;
     //: Follow path to child node.
     
     bool UsePath(const StringC &path,RefT &node,bool restrictToXMLTree = true,bool verbose = false);
     //: Follow path to child node, create nodes where needed
     
-    bool UsePath(const RavlN::DListC<StringC> &path,RefT &node,bool restrictToXMLTree = true,bool verbose = false);
+    bool UsePath(const DListC<StringC> &path,RefT &node,bool restrictToXMLTree = true,bool verbose = false);
     //: Follow path to child node, create nodes where needed
     
     bool FindChild(const StringC &name,RefT &child) const;
@@ -107,8 +108,8 @@ namespace RavlN {
     //: Remove a child.
     
     template<class DataT>
-    bool SetComponent(const RavlN::StringC &name,const DataT &data) {
-      RavlN::RCWrapC<DataT> handle(data);
+    bool SetComponent(const StringC &name,const DataT &data) {
+      RCWrapC<DataT> handle(data);
       return SetComponentInternal(name,handle);
     }
     //: Get named component.
@@ -135,27 +136,27 @@ namespace RavlN {
     //: Dump node tree in human readable form.
   protected:
     
-    bool GetComponentInternal(const RavlN::StringC &name,const std::type_info &to,RavlN::RCWrapAbstractC &handle,bool silentError=false) const;
+    bool GetComponentInternal(const StringC &name,const std::type_info &to,RCWrapAbstractC &handle,bool silentError=false) const;
     //: Get named component.
 
     bool UseComponentInternal(XMLFactoryC &factory,
-                              const RavlN::StringC &name,
+                              const StringC &name,
                               const std::type_info &to,
-                              RavlN::RCWrapAbstractC &handle,
+                              RCWrapAbstractC &handle,
                               bool silentError = false
                               );
     //: Get named component.
     
-    bool SetComponentInternal(const RavlN::StringC &name,const RavlN::RCWrapAbstractC &handle);
+    bool SetComponentInternal(const StringC &name,const RCWrapAbstractC &handle);
     //: Set named component.
     
     virtual void ZeroOwners();
     //: Called when owner handles drop to zero.
     
-    RavlN::RWLockC m_access;
+    RWLockC m_access;
     XMLTreeC m_xmlNode;
-    RavlN::RCWrapAbstractC m_component;
-    RavlN::HashC<StringC,RefT> m_children;
+    RCWrapAbstractC m_component;
+    HashC<StringC,RefT> m_children;
     
     CBRefT m_parent; // Parent node.
     
@@ -206,11 +207,11 @@ namespace RavlN {
     { return m_iNode->XMLNode(); }
     //: Access xml node.
     
-    RavlN::DListC<XMLTreeC> &Children() 
+    DListC<XMLTreeC> &Children() 
     { return Node().Children(); }
     //: Access a list of child nodes.
     
-    const RavlN::DListC<XMLTreeC> &Children() const
+    const DListC<XMLTreeC> &Children() const
     { return Node().Children(); }
     //: Access a list of child nodes.
     
@@ -262,22 +263,22 @@ namespace RavlN {
     //: Invalidate context.
     
     template<class DataT>
-    bool UseComponent(const RavlN::StringC &name,DataT &data,bool suppressErrorMessages = false) const;
+    bool UseComponent(const StringC &name,DataT &data,bool suppressErrorMessages = false) const;
     //: Get named component, or create it if not found.
     
     template<class DataT>
-    bool CreateComponent(const RavlN::StringC &name,DataT &data,bool suppressErrorMessages = false) const;
+    bool CreateComponent(const StringC &name,DataT &data,bool suppressErrorMessages = false) const;
     //: Create a new instance of the named component.
 
     template<class DataT>
-    bool GetComponent(const RavlN::StringC &name,DataT &data,bool suppressErrorMessages = false) const;
+    bool GetComponent(const StringC &name,DataT &data,bool suppressErrorMessages = false) const;
     //: Get instance of the named component.
     
     void SetFactory(const XMLFactoryC &factory);
     //: Set factory to use.
     
     template<class DataT>
-    bool SetComponent(const RavlN::StringC &name,const DataT &data);
+    bool SetComponent(const StringC &name,const DataT &data);
     //: Set component for name.
     
     bool ChildContext(const StringC &key,XMLFactoryContextC &child) const { 
@@ -311,7 +312,7 @@ namespace RavlN {
     
   protected:
     XMLFactoryNodeC::RefT m_iNode;
-    RavlN::RCAbstractC m_factory;
+    RCAbstractC m_factory;
   };
   
   //! userlevel=Advanced
@@ -320,7 +321,7 @@ namespace RavlN {
   // That have already been constructed.
   
   class XMLFactoryC 
-    : public RavlN::RCBodyVC
+    : public RCBodyVC
   {
   public:
     XMLFactoryC();
@@ -335,7 +336,7 @@ namespace RavlN {
     XMLFactoryC(const StringC &configFileName,const XMLTreeC &configTree);
     //: Use an existing tree.
     
-    typedef RavlN::RCWrapAbstractC (*TypeFactoryT)(const XMLFactoryContextC &node);
+    typedef RCWrapAbstractC (*TypeFactoryT)(const XMLFactoryContextC &node);
     //: Factory function type
     
     const XMLTreeC &ConfigTree() const
@@ -347,13 +348,13 @@ namespace RavlN {
     //: Access name of config file.
     
     template<class DataT>
-    bool SetComponent(const RavlN::StringC &name,const DataT &data) 
+    bool SetComponent(const StringC &name,const DataT &data) 
     { return m_iRoot->SetComponent(name,data); }
     //: Set named component.
     
     template<class DataT>
-    bool GetComponent(const RavlN::StringC &name,DataT &data) {
-      RavlN::RCWrapC<DataT> handle;
+    bool GetComponent(const StringC &name,DataT &data) {
+      RCWrapC<DataT> handle;
       if(!m_iRoot->GetComponentInternal(name,typeid(DataT),handle))
         return false;
       data = handle.Data();
@@ -363,12 +364,12 @@ namespace RavlN {
     
     template<class DataT>
     bool UseComponent(const XMLFactoryContextC& currentContext,
-                      const RavlN::StringC &name,
+                      const StringC &name,
                       DataT &data,
                       bool suppressErrorMessages = false
                       ) const
     {
-      RavlN::RCWrapC<DataT> handle;
+      RCWrapC<DataT> handle;
       if(!const_cast<XMLFactoryNodeC &>(currentContext.INode()).UseComponentInternal(const_cast<XMLFactoryC &>(*this),
                                                                                      name,
                                                                                      typeid(DataT),
@@ -384,7 +385,7 @@ namespace RavlN {
     
     template<class DataT>
     bool CreateComponent(const XMLFactoryContextC &node,DataT &data) {
-      RavlN::RCWrapC<DataT> handle;
+      RCWrapC<DataT> handle;
       if(!CreateComponentInternal(node,typeid(DataT),handle))
         return false;
       data = handle.Data();
@@ -394,11 +395,11 @@ namespace RavlN {
     
     template<class DataT>
     bool CreateComponent(const XMLFactoryContextC& currentContext,
-                         const RavlN::StringC &name,
+                         const StringC &name,
                          DataT &data,
                          bool suppressErrorMessages = false
                          ) {
-      RavlN::RCWrapC<DataT> handle;
+      RCWrapC<DataT> handle;
       XMLFactoryContextC newNode;
       
       StringC redirect = currentContext.AttributeString(name);
@@ -425,8 +426,8 @@ namespace RavlN {
     //: Register a factory function.
     
     template<class DataT> 
-    static RavlN::RCWrapAbstractC DefaultFactoryFunc(const XMLFactoryContextC &node)
-    { return RavlN::RCWrapC<typename DataT::RefT>(typename DataT::RefT(*new DataT(node))); }
+    static RCWrapAbstractC DefaultFactoryFunc(const XMLFactoryContextC &node)
+    { return RCWrapC<typename DataT::RefT>(typename DataT::RefT(*new DataT(node))); }
     //: Default factory function.
     
     bool SetupClean()
@@ -459,7 +460,7 @@ namespace RavlN {
     { return m_verbose; }
     //: Are we in verbose mode ?
     
-    typedef RavlN::SmartPtrC<XMLFactoryC> RefT;
+    typedef SmartPtrC<XMLFactoryC> RefT;
     //: Reference
     
   protected:
@@ -478,25 +479,25 @@ namespace RavlN {
     //: Read config file.
     
     
-    virtual bool CreateComponentInternal(const XMLFactoryContextC &node,const std::type_info &to,RavlN::RCWrapAbstractC &handle);
+    virtual bool CreateComponentInternal(const XMLFactoryContextC &node,const std::type_info &to,RCWrapAbstractC &handle);
     //: Create a component
 
-    virtual bool CreateComponentInternal(const XMLFactoryNodeC &node,RavlN::RCWrapAbstractC &rawHandle);
+    virtual bool CreateComponentInternal(const XMLFactoryNodeC &node,RCWrapAbstractC &rawHandle);
     //: Create a component
     
-    void ReportUseComponentFailed(const XMLFactoryContextC &currentNode,const RavlN::StringC &name,const std::type_info &type) const;
+    void ReportUseComponentFailed(const XMLFactoryContextC &currentNode,const StringC &name,const std::type_info &type) const;
     //: Report failure in UseComponent
     
     StringC m_masterConfigFilename;
     XMLTreeC m_configRoot;
     XMLTreeC m_configTree;
     XMLFactoryNodeC::RefT m_iRoot;
-    //RavlN::HashC<StringC,RavlN::RCWrapAbstractC> m_components;
+    //HashC<StringC,RCWrapAbstractC> m_components;
     bool m_setupClean;
     bool m_donePostSetup;
     bool m_verbose;
     
-    static RavlN::HashC<StringC,TypeFactoryT> &Type2Factory();
+    static HashC<StringC,TypeFactoryT> &Type2Factory();
     friend class XMLFactoryNodeC;
     
   private:
@@ -508,7 +509,7 @@ namespace RavlN {
   //: Handle class for XMLFactoryC
   
   class XMLFactoryHC 
-    : public RavlN::RCHandleC<XMLFactoryC>
+    : public RCHandleC<XMLFactoryC>
   {
   public:
     XMLFactoryHC()
@@ -519,12 +520,12 @@ namespace RavlN {
 
     
     XMLFactoryHC(const StringC &configFile)
-      : RavlN::RCHandleC<XMLFactoryC>(new XMLFactoryC(configFile))
+      : RCHandleC<XMLFactoryC>(new XMLFactoryC(configFile))
     { Body().PostReadConfig(); }
     //: Open a config file.
     
     XMLFactoryHC(const StringC &configFileName,const XMLTreeC &configTree)
-      : RavlN::RCHandleC<XMLFactoryC>(new XMLFactoryC(configFileName,configTree))
+      : RCHandleC<XMLFactoryC>(new XMLFactoryC(configFileName,configTree))
     { Body().PostReadConfig(); }
     //: Use an existing tree.
     
@@ -549,17 +550,17 @@ namespace RavlN {
     //: Root
     
     template<class DataT>
-    bool SetComponent(const RavlN::StringC &name,const DataT &data) 
+    bool SetComponent(const StringC &name,const DataT &data) 
     { return Body().SetComponent(name,data); }
     //: Set named component.
     
     template<class DataT>
-    bool GetComponent(const RavlN::StringC &name,DataT &data) 
+    bool GetComponent(const StringC &name,DataT &data) 
     { return Body().GetComponent(name,data); }
     //: Get named component.
     
     template<class DataT>
-    bool UseComponent(const RavlN::StringC &name,
+    bool UseComponent(const StringC &name,
                       DataT &data,
                       bool suppressErrorMessages = false
                       ) const
@@ -575,7 +576,7 @@ namespace RavlN {
     //: Create a component
     
     template<class DataT>
-    bool CreateComponent(const RavlN::StringC &name,
+    bool CreateComponent(const StringC &name,
                          DataT &data,
                          bool suppressErrorMessages = false
                          ) 
@@ -585,27 +586,27 @@ namespace RavlN {
     }
     //: Create named component. Event if it exists already.
     
-    using RavlN::RCHandleC<XMLFactoryC>::BodyPtr;
+    using RCHandleC<XMLFactoryC>::BodyPtr;
   };
   
   
   template<class DataT>
-  bool XMLFactoryContextC::UseComponent(const RavlN::StringC &name,DataT &data,bool suppressErrorMessages) const
+  bool XMLFactoryContextC::UseComponent(const StringC &name,DataT &data,bool suppressErrorMessages) const
   { return Factory().UseComponent(*this,name,data,suppressErrorMessages); }
   //: Get named component, or create it if not found.
   
   template<class DataT>
-  bool XMLFactoryContextC::CreateComponent(const RavlN::StringC &name,DataT &data,bool suppressErrorMessages) const
+  bool XMLFactoryContextC::CreateComponent(const StringC &name,DataT &data,bool suppressErrorMessages) const
   { return Factory().CreateComponent(*this,name,data,suppressErrorMessages); }
   //: Create named component, or create it if not found.
 
   template<class DataT>
-  bool XMLFactoryContextC::SetComponent(const RavlN::StringC &name,const DataT &data) 
+  bool XMLFactoryContextC::SetComponent(const StringC &name,const DataT &data) 
   { return Factory().SetComponent(Path() + ':' + name,data); }
   //: Get named component.
 
   template<class DataT>
-  bool XMLFactoryContextC::GetComponent(const RavlN::StringC &name,DataT &data,bool suppressErrorMessages) const
+  bool XMLFactoryContextC::GetComponent(const StringC &name,DataT &data,bool suppressErrorMessages) const
   { return Factory().GetComponent(Path() + ':' + name,data); }
   //: Get instance of the named component.
   
