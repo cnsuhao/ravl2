@@ -9,10 +9,22 @@
 //! docentry=Ravl.API.Images.XMLFactory
 
 #include "Ravl/Image/XMLFactoryVideoIO.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
 
 namespace RavlN {
   
-  XMLFactoryVideoIORegisterC<RavlN::ByteT> g_registerXMLFactoryVideoIO("RavlN::DPIPortC<RavlImageN::ImageC<RavlN::ByteT>>");
+  XMLFactoryVideoIORegisterC<RavlN::ByteT> g_registerXMLFactoryVideoIOByteT("RavlN::DPIPortC<RavlImageN::ImageC<RavlN::ByteT>>",
+                                                                            "RavlN::DPOPortC<RavlImageN::ImageC<RavlN::ByteT>>");
+  XMLFactoryVideoIORegisterC<RavlImageN::ByteRGBValueC> g_registerXMLFactoryVideoIOByteRGBValueC("RavlN::DPIPortC<RavlImageN::ImageC<RavlImageN::ByteRGBValueC>>",
+                                                                                                 "RavlN::DPOPortC<RavlImageN::ImageC<RavlImageN::ByteRGBValueC>>"
+                                                                                                 );
+  XMLFactoryVideoIORegisterC<float> g_registerXMLFactoryVideoIOfloat("RavlN::DPIPortC<RavlImageN::ImageC<float>>",
+                                                                     "RavlN::DPOPortC<RavlImageN::ImageC<float>>"
+                                                                     );
+  
+  XMLFactoryVideoIORegisterC<RealT> g_registerXMLFactoryVideoIORealT("RavlN::DPIPortC<RavlImageN::ImageC<RealT>>",
+                                                                     "RavlN::DPOPortC<RavlImageN::ImageC<RealT>>"
+                                                                     );
   
   void linkXMLFactoryVideoIOByte()
   {}
