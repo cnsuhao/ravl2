@@ -30,14 +30,14 @@ namespace RavlN {
   }
     
   bool Polygon2dIterC::Next() {
-    if (m_valid = m_ael.Next(m_indexRange, m_row))
+    if ((m_valid = m_ael.Next(m_indexRange, m_row)))
       return true;
     for (m_row++; m_row <= m_iel.MaxRow(); m_row++) {
       EdgeC e;
       while (m_iel.Next(m_row, e))
         m_ael.Add(e,m_row);
       m_ael.DeleteEdges(m_row);
-      if (m_valid = m_ael.First(m_indexRange, m_row)) {
+      if ((m_valid = m_ael.First(m_indexRange, m_row))) {
         return true;
       }
     }
