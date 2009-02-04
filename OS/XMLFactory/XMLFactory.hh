@@ -245,6 +245,12 @@ namespace RavlN {
     bool AttributeBool(const StringC &name,bool defaultValue = false) const 
     { return Node().AttributeBool(name,defaultValue); }
     //: Access attribute.
+
+    template<typename DataT>
+    bool Attribute(const StringC &name,DataT &value,const DataT &defaultValue = DataT()) const
+    { return Node().Attribute(name,value,defaultValue); }
+    //: Access generic attribute.
+    // Return true if non default value has been specified.
     
     XMLFactoryC &Factory() const;
     //: Access handle to associated factory.
