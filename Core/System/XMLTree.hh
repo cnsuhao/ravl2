@@ -184,6 +184,20 @@ namespace RavlN {
     }
     //: Access attribute.
     
+    template<typename DataT>
+    bool Attribute(const StringC &name,DataT &data,const DataT &defaultValue = DataT()) const {
+      const StringC *value = Data().Lookup(name);
+      if(value == 0) { 
+        data = defaultValue;
+        return false;
+      }
+      StrIStreamC istrm(*value);
+      istrm >> data;
+      return true;
+    }
+    //: Access generic attribute.
+    // Return true if non default value has been specified.
+    
     bool FollowPath(const StringC &path,DListC<XMLTreeC> &nodes);
     //: Give list of nodes matching the given path.
     
@@ -345,9 +359,15 @@ namespace RavlN {
     Int64T AttributeInt64(const StringC &name,Int64T defaultValue = 0) const 
     { return Body().AttributeInt64(name,defaultValue); }
     //: Access attribute.
-
+    
     bool AttributeBool(const StringC &name,bool defaultValue = false) const 
     { return Body().AttributeBool(name,defaultValue); }
+    
+    template<typename DataT>
+    bool Attribute(const StringC &name,DataT &value,const DataT &defaultValue = DataT()) const
+    { return Body().Attribute(name,value,defaultValue); }
+    //: Access generic attribute.
+    // Return true if non default value has been specified.
     
     bool FollowPath(const StringC &path,DListC<XMLTreeC> &nodes)
     { return Body().FollowPath(path,nodes); }
