@@ -67,6 +67,8 @@ namespace RavlN {
 }
 
 int main() {
+  RavlN::SysLogOpen("exXMLFactory",false);
+  
   RavlN::StrIStreamC ss(
                         "<?xml version='1.0' encoding='UTF-8' ?>\n"
                         "<?RAVL class='RavlN::XMLTreeC' ?>\n"
@@ -78,6 +80,7 @@ int main() {
                         );
   
   
+
   RavlN::XMLTreeC xmlTree(true);
   if(!xmlTree.Read(ss)) return __LINE__;
   
