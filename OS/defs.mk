@@ -9,7 +9,7 @@
 
 DESCRIPTION = Core Ravl code that interacts with the Operating System
 
-NESTED=Compress.r Time.r FileSystem.r Misc.r Exec.r Validate.r Threads.r \
+NESTED=Compress.r Time.r FileSystem.r Misc.r Exec.r Validate.r Threads.r XMLFactory.r \
  Network.r Text.r IO.r DataProc.r
 
 PACKAGE=Ravl

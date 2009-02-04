@@ -42,6 +42,11 @@ namespace RavlN {
   // Usage: <br>
   // SysLog(SYSLOG_DEBUG) << "Send message to log";
   
+  void SysLog(SysLogPriorityT priority,const char *format ...);
+  //: Send a message to the log file
+  // Usage: <br>
+  // SysLog(SYSLOG_DEBUG,"msg",args...);
+  
   bool SysLogLevel(SysLogPriorityT level);
   //: Set the level of messages to send to the system.
   // Only messages with a priority higher or equal to 'level' 

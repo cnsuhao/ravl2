@@ -14,6 +14,12 @@
 #include "Ravl/Calls.hh"
 #include "Ravl/MTLocks.hh"
 
+#if RAVL_COMPILER_VISUALCPP
+#pragma warning ( disable : 4244 )
+#pragma warning ( disable : 4267 )
+#include <stdarg.h>
+#endif
+
 #if RAVL_OS_POSIX
 #include <syslog.h>
 #if RAVL_HAVE_UNISTD_H
@@ -154,6 +160,31 @@ namespace RavlN {
     int pri = (int) priority;
 #endif
     return StrOStreamC(Trigger(LogMessage,"",pri)); 
+  }
+
+  //: Send a message to the log file
+  // Usage: <br>
+  // SysLog(SYSLOG_DEBUG,"msg",args...);
+  
+  void SysLog(SysLogPriorityT priority,const char *format,...) {
+    const int formSize = 4096;
+    va_list args;
+    va_start(args,format);
+    char buff[formSize];
+    int x;
+#if RAVL_COMPILER_VISUALCPPNET_2005
+    if((x = vsprintf_s(buff,formSize,format,args)) < 0)
+      cerr << "WARNING: SysLog(...), String truncated!! \n";
+#elif RAVL_COMPILER_VISUALCPP
+    if((x = _vsnprintf(buff,formSize,format,args)) < 0)
+      cerr << "WARNING: SysLog(...), String truncated!! \n";
+#else
+    if((x = vsnprintf(buff,formSize,format,args)) < 0)
+      cerr << "WARNING: SysLog(...), String truncated!! \n";
+#endif
+    va_end(args);
+    
+    LogMessage(buff,priority);
   }
 
   //: Set the level of messages to send to the system.
