@@ -6,6 +6,10 @@ ifeq ($(ARC),linux)
     INCLUDES += -D__LINUX__
 endif
 
+ifeq ($(ARC),linux)
+    INCLUDES += -D__LINUX__
+endif
+
 EXELIB :=  -lueye_api $(EXELIB)
 
 
