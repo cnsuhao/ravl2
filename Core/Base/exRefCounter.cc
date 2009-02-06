@@ -14,13 +14,11 @@
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Stream.hh"
 
-using namespace RavlN;
-
 //! userlevel=Develop
 //: Example body class.
 
 class AnObjectBodyC
-  : public RCBodyC
+  : public RavlN::RCBodyC
 {
 public:
   AnObjectBodyC(int a)
@@ -44,11 +42,11 @@ protected:
 //: Example handle class.
 
 class AnObjectC
-  : public RCHandleC<AnObjectBodyC>
+  : public RavlN::RCHandleC<AnObjectBodyC>
 {
 public:
   AnObjectC(int a)
-    : RCHandleC<AnObjectBodyC>(*new AnObjectBodyC(a))
+    : RavlN::RCHandleC<AnObjectBodyC>(*new AnObjectBodyC(a))
   {}
   //: Construct an object with value a.
   
@@ -74,7 +72,7 @@ int main() {
   anObj.SetData(2);
   
   // This will print out the value 2, as both 'anObj' and 'secondHandle' point to the same object.
-  cout << "Data=" << secondHandle.Data() << "\n";
+  std::cout << "Data=" << secondHandle.Data() << "\n";
   
   return 0;
 }
