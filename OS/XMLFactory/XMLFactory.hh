@@ -19,8 +19,7 @@
 #include "Ravl/Threads/RWLock.hh"
 
 namespace RavlN {
-  using namespace RavlN;
-
+  
   class XMLFactoryC;
   class XMLFactoryHC;
   
@@ -246,7 +245,7 @@ namespace RavlN {
     bool AttributeBool(const StringC &name,bool defaultValue = false) const 
     { return Node().AttributeBool(name,defaultValue); }
     //: Access attribute.
-
+    
     template<typename DataT>
     bool Attribute(const StringC &name,DataT &value,const DataT &defaultValue = DataT()) const
     { return Node().Attribute(name,value,defaultValue); }
