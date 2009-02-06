@@ -14,13 +14,13 @@
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Stream.hh"
 
-using namespace RavlN;
+
 
 //! userlevel=Develop
 //: Example abstract body base class.
 
 class BaseObjectBodyC
-  : public RCBodyVC
+  : public RavlN::RCBodyVC
 {
 public:
   BaseObjectBodyC(int a)
@@ -38,8 +38,6 @@ public:
   { someData = x; }
   //: Set member data.
   
-  virtual ~BaseObjectBodyC() {}
-
 protected:
   int someData;
 
@@ -50,7 +48,7 @@ protected:
 // Note that handle base class is *not* abstract.
 
 class BaseObjectC
-  : public RCHandleC<BaseObjectBodyC>
+  : public RavlN::RCHandleC<BaseObjectBodyC>
 {
 public:
   BaseObjectC(int a)
@@ -59,31 +57,28 @@ public:
   
 protected:
   BaseObjectC(BaseObjectBodyC &bod)
-    : RCHandleC<BaseObjectBodyC>(bod)
+    : RavlN::RCHandleC<BaseObjectBodyC>(bod)
   {}
   //: body constructor.
   
   BaseObjectBodyC &Body()
-  { return RCHandleC<BaseObjectBodyC>::Body(); }
+  { return RavlN::RCHandleC<BaseObjectBodyC>::Body(); }
   //: Access body.
   // Not strictly needed, but make writting child objects easier.
   
   const BaseObjectBodyC &Body() const
-  { return RCHandleC<BaseObjectBodyC>::Body(); }
+  { return RavlN::RCHandleC<BaseObjectBodyC>::Body(); }
   //: Access body.
   // Not strictly needed, but make writting child objects easier.
-
-  virtual ~BaseObjectC() {}
   
 public:
   int Data()
   { return Body().Data(); }
   //: Access value from body.
-
-  virtual int OtherData()
+  
+  int OtherData()
   { return Body().OtherData(); }
-
-
+  
   void SetData(int x)
   { Body().SetData(x); }
   //: Set member data.
@@ -160,7 +155,7 @@ int main() {
   anObj.SetData(2);
   
   // This will print out the value 2, as both 'anObj' and 'secondHandle' point to the same object.
-  cout << "Data=" << secondHandle.Data() << "\n";
+  std::cout << "Data=" << secondHandle.Data() << "\n";
   
   return 0;
 }
