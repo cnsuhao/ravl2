@@ -45,7 +45,7 @@ USESLIBS=Math
 
 TESTEXES= testRavlBase.cc testCalls.cc testString.cc testStream.cc testTFVector.cc testRCLayer.cc
 
-EXAMPLES = exIndex.cc exRefCounter.cc exRefCounterInherit.cc exQInt.cc exTrigger.cc testRCLayer.cc exCPUID.cc
+EXAMPLES = exIndex.cc exRefCounter.cc exRefCounterInherit.cc exRefCounterAbstractInherit.cc exQInt.cc exTrigger.cc testRCLayer.cc exCPUID.cc
 
 EHT=Ravl.API.Core.Indexing.eht Ravl.API.Core.Error_Handling.eht Ravl.API.Core.Misc.eht Ravl.API.Core.Reference_Counting.eht \
  Ravl.API.Core.Strings.html Ravl.API.Core.IO.Streams.html Ravl.API.Core.Calls.html Ravl.API.Math.QInt.html \
