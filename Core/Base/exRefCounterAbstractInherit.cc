@@ -54,7 +54,6 @@ class BaseObjectC
 {
 public:
   BaseObjectC(int a)
-//    : RCHandleC<BaseObjectBodyC>(*new BaseObjectBodyC(a))
   {}
   //: Construct an object with value a.
   
