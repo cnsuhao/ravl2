@@ -51,9 +51,9 @@ class BaseObjectC
   : public RavlN::RCHandleC<BaseObjectBodyC>
 {
 public:
-  BaseObjectC(int a)
+  BaseObjectC()
   {}
-  //: Construct an object with value a.
+  //: Construct an invalid handle.
   
 protected:
   BaseObjectC(BaseObjectBodyC &bod)
