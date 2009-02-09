@@ -9,7 +9,7 @@
 
     <p>Requires library <code>RavlRawVidIO</code></p>
     <hr>
-    <p>These classes are for reading the grab files produced with the DVS capture cards. Currently the software supports the reading of RGB and YCbCr. Currently the data is stored as 8 bits on the SD system and 10 bits on the HD system.In RGB the bits are packed as R G B but in YCbCr ther are packed as Cb0 Y0 Cr0 Y1 Cb1 Y2 Cr1 Y3 ....
+    <p>These classes are for reading the grab files produced with the DVS capture cards. Currently the software supports the reading of RGB and YCbCr. Currently the data is stored as 8 bits on the SD system and 10 bits on the HD system.In RGB the bits are packed as R G B but in YCbCr they are packed as Cb0 Y0 Cr0 Y1 Cb1 Y2 Cr1 Y3 ....
 Because the HD system is 10 bits it is stored as 4 bytes per pixel, the first 3 bytes contain 8 bits for each of the first 3 pixel values and the 4th byte contains the remaining 2 bits for each of the first 3 bytes. The first 2 bits of the 4th byte are for the first byte and the second two bits are for the second byte and the third two bits of the 4th byte are for the 3 byte and the last two bits of the 4th byte are padding zeros.The following letters attempts to outline the format of the bytes in the grab file.
 AAAAAAAA BBBBBBBB CCCCCCCC 00AABBCC
 </p>
