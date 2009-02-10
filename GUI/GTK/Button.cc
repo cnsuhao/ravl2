@@ -5,7 +5,6 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////
-//! rcsid="$Id$"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Button.cc"
 
@@ -102,6 +101,7 @@ namespace RavlGUIN
         gtk_widget_set_style(GTK_WIDGET(child),style.Style());
       }
     }
+    m_style = style;
     return true;
   }
 
@@ -293,6 +293,10 @@ namespace RavlGUIN
       ONDEBUG(cerr << "ButtonBodyC::Create() Label:'" << strLabel << "'\n");
       widget = BuildWidget(strLabel);
     }
+    
+    // Update style if set.
+    if(m_style.IsValid())
+      GUISetStyle(m_style);
     
     ConnectSignals();
     

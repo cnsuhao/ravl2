@@ -22,6 +22,7 @@
 #include "Ravl/IndexRange2d.hh"
 #include "Ravl/Hash.hh"
 #include "Ravl/String.hh"
+#include "Ravl/GUI/WidgetStyle.hh"
 #include <gtk/gtkenums.h>
 
 // Namespace fix for Visual C++
@@ -259,7 +260,9 @@ namespace RavlGUIN {
     WidgetDndInfoC *dndInfo; // Drag and drop info.
 
     IntT destroySigId;
-
+    
+    WidgetStyleC m_style;
+    
   private:
     WidgetBodyC(const WidgetBodyC &)
     { RavlAssertMsg(0,"WidgetBodyC's can't be copied. "); }

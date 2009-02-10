@@ -17,8 +17,8 @@
 //! example="exStyle.cc"
 
 #include "Ravl/GUI/GTKTypes.hh"
-#include "Ravl/GUI/Pixmap.hh"
-#include "Ravl/GUI/Widget.hh"
+#include "Ravl/String.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
 
 #include <gtk/gtkenums.h>
 
@@ -30,9 +30,11 @@
 #endif
 
 namespace RavlGUIN {
-
-  using namespace RavlImageN;
-
+  class PixmapC;
+  class WidgetC;
+  using namespace RavlN;
+  using RavlImageN::ByteRGBValueC;
+  
   //! userlevel=Normal
   enum WidgetColourTypeT {
     WIDGET_COLOUR_FG,

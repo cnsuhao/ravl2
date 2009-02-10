@@ -12,6 +12,7 @@
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/GUI/WidgetStyle.hh"
 #include "Ravl/GUI/Manager.hh"
+#include "Ravl/GUI/Pixmap.hh"
 #include <gtk/gtk.h>
 #include <gdk/gdktypes.h>
 #include <gdk/gdk.h>

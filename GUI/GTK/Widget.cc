@@ -458,6 +458,8 @@ namespace RavlGUIN {
   bool WidgetBodyC::Create(GtkWidget *newWidget) {
     //cerr << "bool WidgetBodyC::Create(GtkWidget *), Called.. \n";
     widget = newWidget;
+    if(m_style.IsValid())
+      GUISetStyle(m_style);
     ConnectSignals();
     return true;
   }
@@ -601,7 +603,10 @@ namespace RavlGUIN {
 
     if(widget == 0)
       return ;
-
+    
+    if(m_style.IsValid())
+      GUISetStyle(m_style);
+    
     gtk_object_ref(GTK_OBJECT(widget));  // Make reference to object.
     gotRef = true;
 #if 1
@@ -933,6 +938,8 @@ namespace RavlGUIN {
 
   //: Set the widget style
   bool WidgetBodyC::GUISetStyle(WidgetStyleC& style) {
+    if(style != m_style)
+      m_style = style;
     if(widget == 0) return false;
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_widget_set_style(GTK_WIDGET (widget),style.Style());
