@@ -138,6 +138,13 @@ namespace RavlGUIN {
     {}
     //: Constructor.
     // Creates default style
+    // FIXME:- This is the opposite behavour to normal.
+    
+    WidgetStyleC(bool)
+    {}
+    //: Constructor.
+    // Creates an invalid handle.
+    // FIXME:- This is the opposite behavour to normal.
     
   protected:
     

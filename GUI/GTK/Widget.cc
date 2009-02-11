@@ -375,7 +375,8 @@ namespace RavlGUIN {
       tooltip(0),
       gotRef(false),
       dndInfo(0),
-      destroySigId(-1)
+      destroySigId(-1),
+      m_style(false)
   {}
 
   WidgetBodyC::WidgetBodyC(const char *ntooltip)
@@ -384,7 +385,8 @@ namespace RavlGUIN {
       eventMask(GDK_EXPOSURE_MASK),
       tooltip(ntooltip),
       gotRef(false),
-      dndInfo(0)
+      dndInfo(0),
+      m_style(false)
   {}
 
 
