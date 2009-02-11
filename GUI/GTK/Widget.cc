@@ -460,8 +460,6 @@ namespace RavlGUIN {
   bool WidgetBodyC::Create(GtkWidget *newWidget) {
     //cerr << "bool WidgetBodyC::Create(GtkWidget *), Called.. \n";
     widget = newWidget;
-    if(m_style.IsValid())
-      GUISetStyle(m_style);
     ConnectSignals();
     return true;
   }
