@@ -97,18 +97,26 @@ namespace RavlGUIN
     // Set style of child label
     if (widget != 0) {
       GtkWidget *child = GTK_BIN(widget)->child;
-      if(child != 0 && GTK_IS_LABEL(child)) {
-        gtk_widget_set_style(GTK_WIDGET(child),style.Style());
+      if(child != 0) {
+        if(GTK_IS_LABEL(child)) {
+          std::cerr << "Found label. \n";
+          gtk_widget_set_style(GTK_WIDGET(child),style.Style());
+        } else {
+          std::cerr << "Looking for widget. \n";
+          GtkWidget *label = NULL;
+          gtk_container_foreach(GTK_CONTAINER(child), &find_label_iter, &label);
+          if(label != 0)
+            gtk_widget_set_style(label,style.Style());
+        }
       }
     }
-    m_style = style;
     return true;
   }
 
   //: Set toggle label.
   // GUI thread only.
   
-  bool ButtonBodyC::GUISetLabel(const StringC &text) {
+    bool ButtonBodyC::GUISetLabel(const StringC &text) {
     label = text;
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     
@@ -236,7 +244,8 @@ namespace RavlGUIN
         }
       }
     }
-    
+    if(m_style.IsValid())
+      GUISetStyle(m_style);
     return false;
   }
 

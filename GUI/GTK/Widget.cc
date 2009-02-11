@@ -938,10 +938,10 @@ namespace RavlGUIN {
 
   //: Set the widget style
   bool WidgetBodyC::GUISetStyle(WidgetStyleC& style) {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if(style != m_style)
       m_style = style;
-    if(widget == 0) return false;
-    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    if(widget == 0) return true;
     gtk_widget_set_style(GTK_WIDGET (widget),style.Style());
     return true;
   }
