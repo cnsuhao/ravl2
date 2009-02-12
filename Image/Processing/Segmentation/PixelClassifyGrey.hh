@@ -17,6 +17,7 @@
 //! date="12/06/1998"
 
 #include "Ravl/Index2d.hh"
+#include "Ravl/Math.hh"
 
 namespace RavlImageN {
   using namespace RavlN;
@@ -40,7 +41,7 @@ namespace RavlImageN {
     //: Resets the statistics for the region
 
     inline bool Contains(const Index2dC & pxl, const ValT & val) const
-    { return (abs((int)val-mean) < threshold); }
+    { return (Abs((int)val-mean) < threshold); }
     //: Return true if pxl belongs to the region
   
     inline void Include(const Index2dC & pxl, const ValT & val)
