@@ -99,10 +99,8 @@ namespace RavlGUIN
       GtkWidget *child = GTK_BIN(widget)->child;
       if(child != 0) {
         if(GTK_IS_LABEL(child)) {
-          std::cerr << "Found label. \n";
           gtk_widget_set_style(GTK_WIDGET(child),style.Style());
         } else {
-          std::cerr << "Looking for widget. \n";
           GtkWidget *label = NULL;
           gtk_container_foreach(GTK_CONTAINER(child), &find_label_iter, &label);
           if(label != 0)
