@@ -63,6 +63,23 @@ myTrigger = Trigger(&amp;PrintNumber,2);
 myTrigger();
 </pre>
 
+    <p>If the function is a member function of a reference-counted class
+    (i.e. of the handle to a class), use TriggerR instead.</p>
+
+    <p>The difference in functionality of <code>Trigger</code> and
+    <code>TriggerR</code> is this:</p>
+
+    <ul>
+      <li><code>Trigger</code> will make a copy of the object or, if the
+      object is a reference-counted object, increment the reference
+      counter.</li>
+      <li><code>TriggerR</code> will pass a reference to the object.</li>
+    </ul>
+
+    <p><code>TriggerPtr</code> is used when passing a pointer (smart or otherwise) to an object.</p>
+
+
+
     <h3>Using calls </h3>
 
     <p> Calls are wrappers for C++ function pointers which allow you to hide
