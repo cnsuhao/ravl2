@@ -1,3 +1,7 @@
+$MAKE = system("gmake -v > /dev/null 2&>1")
+  ? "make"
+  : "gmake";
+
 $NEWHOME = $ARGV[0];
 $PROJOUT = $ARGV[1];
 open(infile,$ARGV[2]);
@@ -21,6 +25,9 @@ while(<infile>) {
     } elsif(/\A[ ]*RAVL_INSTALL[ ]*\=[ ]*[^ ]*/) {
       print outfile "RAVL_INSTALL=$PROJOUT\n" ;
     }else {
+      if(/^gmake/) {
+        $_ =~ s/gmake/$MAKE/;
+      }
       print outfile "$_" ;
     }
   }
