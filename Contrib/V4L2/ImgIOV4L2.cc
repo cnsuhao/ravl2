@@ -40,7 +40,7 @@
 namespace RavlImageN
 {
   
-  typedef struct SupportedFormatT
+  struct SupportedFormatT
   {
     const type_info &m_objectType;          //: Ref to type id
     const UIntT m_pixelFormat;              //: 4CC of required capture mode
@@ -65,7 +65,7 @@ namespace RavlImageN
 
 
 
-  typedef struct SupportedStandardT
+  struct SupportedStandardT
   {
     const StringC m_name;                   //: Name
     const v4l2_std_id m_id;                 //: V4L2 id
@@ -88,7 +88,7 @@ namespace RavlImageN
 
 
 
-  typedef struct SupportedFieldT
+  struct SupportedFieldT
   {
     const StringC m_name;                   //: Name
     const v4l2_field m_field;               //: V4L2 field id
