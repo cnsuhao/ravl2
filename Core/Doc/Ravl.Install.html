@@ -160,8 +160,8 @@ rehash</pre>
         <pre>
 setenv RAVL_INSTALLATION ~/RavlProject
 setenv PROJECT_OUT ~/ProjOut
-alias qm 'make -f $RAVL_INSTALLATION/share/RAVL/QMake/QMake.mk USERBUILD=1'
 setenv PATH  ${PATH}:${PROJECT_OUT}/lib/RAVL/linux/bin:${RAVL_INSTALLATION}/bin
+rehash
 </pre></li>
       <li>
         <p><b>bash users</b>: Put the following alias and variable settings
@@ -171,7 +171,6 @@ setenv PATH  ${PATH}:${PROJECT_OUT}/lib/RAVL/linux/bin:${RAVL_INSTALLATION}/bin
         <pre>
 export RAVL_INSTALLATION=~/RavlProject
 export PROJECT_OUT=~/ProjOut
-alias qm='make -f $RAVL_INSTALLATION/share/RAVL/QMake/QMake.mk USERBUILD=1'
 export PATH=${PATH}:${PROJECT_OUT}/lib/RAVL/linux/bin:${RAVL_INSTALLATION}/bin
 </pre>
       </li>
@@ -183,9 +182,6 @@ export PATH=${PATH}:${PROJECT_OUT}/lib/RAVL/linux/bin:${RAVL_INSTALLATION}/bin
 
       <li><code>$PROJECT_OUT</code> controls the directory into which your own
       code will be compiled.</li>
-
-      <li>qm is the alias for building your own code.  Type <code>qm
-      help</code> for options for qm.</li>
 
       <li>The additions to <code>$PATH</code> will include your own
       executables built using qm, as well as some RAVL utilities.</li>
@@ -206,7 +202,7 @@ export PATH=${PATH}:${PROJECT_OUT}/lib/RAVL/linux/bin:${RAVL_INSTALLATION}/bin
     <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
 <!-- Created: Fri Dec 23 09:31:09 GMT 2005 -->
 <!-- hhmts start -->
-Last modified: Thu May  8 11:50:41 BST 2008
+Last modified: Thu Feb 19 10:23:36 GMT 2009
 <!-- hhmts end -->
   </body>
 </html>
