@@ -166,19 +166,13 @@ namespace RavlN {
 
   template<class DataT>
   bool DPISListBodyC<DataT>::Seek(UIntT off) {
-    if ((IntT)off < 0) {
-      next = 0;
-      iter.First();
-    }
-    else if (off >= Size()) {
-      next = Size()-1;
-      iter.Last();
-    }
-    else {
-      next = off;
-      iter.Nth(off);
-    }
     ONDEBUG(cerr << "DPISListC::Seek -  target = " << off << ", next frame = " << next << endl);
+    if ((IntT)off < 0) 
+      return false;
+    if (off >= Size()) 
+      return false;
+    next = off;
+    iter.Nth(off);
     return true;
   }
   
