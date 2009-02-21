@@ -155,6 +155,10 @@ namespace RavlN {
     //: Get homography
     // This returns the projection normalised to make the projective scales both = 1
     
+    bool IsNearAffine(const RealT tolerance = 1e-6) const 
+    { return (Abs(trans[2][2]) + Abs(trans[2][0])) * (iz / oz) < tolerance; }
+    //: Test if projection is near affine.
+    
     FAffineC<2> AffineApproximation() const;
     //: Get an affine approximation of this projective transform
     //!return: the affine approximation
