@@ -40,12 +40,12 @@ namespace RavlImageN {
   class WarpScaleC
   {
   public:
-    WarpScaleC(const ImageRectangleC &ir, ScaleMethodT meth = WARPSCALE_BILINEAR)
-      : rec(ir),
+    WarpScaleC(const ImageRectangleC &outputRectangle, ScaleMethodT meth = WARPSCALE_BILINEAR)
+      : rec(outputRectangle),
 	method(meth)
     {}
     //: Constructor.
-    // 'or' is the output rectangle.
+    // 'outputRectangle' is the output rectangle.
     // 'meth' is the method to use
     
     ImageC<OutT> Apply(const ImageC<InT> &img);
