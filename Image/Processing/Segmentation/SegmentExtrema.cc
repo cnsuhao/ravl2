@@ -14,7 +14,6 @@
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Array1dIter.hh"
 #include "Ravl/IO.hh"
-#include <string.h>
 
 #define DODEBUG 0
 #if DODEBUG

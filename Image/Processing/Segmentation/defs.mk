@@ -29,7 +29,8 @@ TESTEXES=testConnectedComponents.cc
 
 USESLIBS=RavlImageProc  
 
-PROGLIBS=RavlImageIO RavlVideoIO RavlMathIO RavlDPDisplay.opt RavlImgIOV4L.opt RavlExtImgIO.opt RavlLibFFmpeg.opt
+PROGLIBS=RavlImageIO RavlVideoIO RavlMathIO RavlDPDisplay.opt RavlImgIOV4L.opt RavlExtImgIO.opt
+# RavlLibFFmpeg.opt
 
 EXAMPLES=extrema.cc exSegmentation.cc exConnectedComponents.cc 
 
