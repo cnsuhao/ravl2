@@ -1,0 +1,24 @@
+# This file is part of RAVL, Recognition And Vision Library
+# Copyright (C) 2001, University of Surrey.
+# This code may be redistributed under the terms of the GNU lesser
+# public license (LGPL). See the lgpl.licence file for details or
+# see http://www.gnu.org/copyleft/lesser.html
+# file-header-ends-here
+ifndef PHPDEF
+PHPDEF = 1
+################################################
+# $Id: php.def 7023 2008-11-12 11:44:16Z kieron $
+
+
+ifndef PHPFLAGS
+PHPFLAGS= `/buf/colossus/php/bin/php-config --includes -I/buf/colossus/php/include/regex -fpic`
+endif
+ifndef PHPLIBS
+PHPLIBS= `/buf/colossus/php/bin/php-config --libs`
+endif
+
+
+INCLUDES := $(PHPFLAGS) $(INCLUDES)
+EXELIB :=   $(PHPLIBS) $(EXELIB)
+
+endif
