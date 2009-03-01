@@ -14,6 +14,6 @@ EXTERNALLIBS= DMedia.def GTK.def LibPNG.def Xaw.def posixThreads.def zlib.def \
  GNUReadline.def LibJPEG.def Math.def Socket.def glib.def x11.def FFTW.def \
  libHints AudioFile.def libDepends formatInfo libptp2.def libglade.def \
  CPPUnit.def QtTestRunner.def Xerces.def Perl5.def RLog.def SQLite3.def \
- CUDA.def ReadLine.def GLUT.def
+ CUDA.def ReadLine.def GLUT.def php.def
 
 
