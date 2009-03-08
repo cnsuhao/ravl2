@@ -20,3 +20,5 @@ USESLIBS=RavlImageProc
 EHT=Ravl.API.Images.Morphology.html
 
 TESTEXES=testMorphology.cc
+
+EXAMPLES= exMorphology.cc
