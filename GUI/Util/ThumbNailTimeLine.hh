@@ -96,11 +96,14 @@ namespace RavlGUIN {
     virtual bool Create(GtkWidget *_widget);
     //: Create the widget.
     
+    virtual bool ModifyThumbImage(ImageC<ByteRGBValueC> & image, UIntT frameNo);
+    //: Modify the image for thumbnail, scale it, label it....
+    
   protected:
     bool CommonCreate(GtkWidget *_widget);
     //: Create widget.
     
-    bool GUIUpdateDisplayRange();
+    virtual bool GUIUpdateDisplayRange();
     //: Compute display range.
     
     bool UpdateDisplayRange();
@@ -123,6 +126,9 @@ namespace RavlGUIN {
     
     ImageC<ByteRGBValueC> GetDisplayImage(UIntT frameNo);
     //: Retrieve the image to display for 'frameNo'
+    
+    bool GUIClearImageCache(void);
+    //: Empty the cache of thumbnail images
     
     bool CBStreamSizeChanged();
     //: Handle stream size changed.
@@ -180,9 +186,7 @@ namespace RavlGUIN {
     //!cwiz:author
     
   protected:
-    ThumbNailTimeLineC(ThumbNailTimeLineBodyC &bod)
-      : RawCanvasC(bod)
-    {}
+    ThumbNailTimeLineC(ThumbNailTimeLineBodyC &bod);
     //: Body constructor
     
     ThumbNailTimeLineBodyC &Body()

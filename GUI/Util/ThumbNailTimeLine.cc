@@ -170,6 +170,16 @@ namespace RavlGUIN {
       return img;
     
     img = warpScale.Apply(img); // Warp to appropriate size.
+    ModifyThumbImage(img, frameNo);
+    imageCache.Insert(frameNo,img); // Put image into cache.
+    return img;
+  
+  }
+  
+  
+  //: Modify the image for the timeline. 
+  bool ThumbNailTimeLineBodyC::ModifyThumbImage(ImageC<ByteRGBValueC> & img, UIntT frameNo)
+  {
     FontC &font = DefaultFont();
     Index2dC off(3,3);
     Index2dC boarder(2,2);
@@ -184,8 +194,7 @@ namespace RavlGUIN {
       textBack /= ByteRGBValueC(2,2,2); // Darken.
       DrawText(font,col,off + boarder,str,img);
     }
-    imageCache.Insert(frameNo,img); // Put image into cache.
-    return img;
+    return true;
   }
   
   //: Configure.
@@ -269,11 +278,8 @@ namespace RavlGUIN {
     RealT frameSpan = (realFrames * (RealT) frameSkip)/2;
     RealT offset = (RealT) midFrame + (RealT) frameSkip/2 - ((RealT)vertSpace/(RealT)displayArea.Cols()) * (RealT)frameSpan;
     RealRangeC rng(offset - frameSpan,offset + frameSpan);
-    
     hold.Unlock();
-    
     sigFrameRange(rng);
-    
     return true;
   }
   
@@ -485,5 +491,11 @@ namespace RavlGUIN {
   ThumbNailTimeLineC::ThumbNailTimeLineC(UIntT frameSkip)
     : RawCanvasC(*new ThumbNailTimeLineBodyC(frameSkip))
   { LaunchThread(*this,&ThumbNailTimeLineC::DisplayUpdateThread); }
+  
+  
+  ThumbNailTimeLineC::ThumbNailTimeLineC(ThumbNailTimeLineBodyC &bod)
+  : RawCanvasC(bod) 
+  {}
+  //: Body constructor
   
 }
