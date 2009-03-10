@@ -492,10 +492,6 @@ namespace RavlGUIN {
     : RawCanvasC(*new ThumbNailTimeLineBodyC(frameSkip))
   { LaunchThread(*this,&ThumbNailTimeLineC::DisplayUpdateThread); }
   
-  
-  ThumbNailTimeLineC::ThumbNailTimeLineC(ThumbNailTimeLineBodyC &bod)
-  : RawCanvasC(bod) 
-  {}
-  //: Body constructor
+
   
 }

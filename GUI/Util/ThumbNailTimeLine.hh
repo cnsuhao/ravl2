@@ -186,7 +186,8 @@ namespace RavlGUIN {
     //!cwiz:author
     
   protected:
-    ThumbNailTimeLineC(ThumbNailTimeLineBodyC &bod);
+    ThumbNailTimeLineC(ThumbNailTimeLineBodyC &bod)
+      : RawCanvasC(bod){}
     //: Body constructor
     
     ThumbNailTimeLineBodyC &Body()
