@@ -369,6 +369,14 @@ namespace RavlN {
     {}
     //: Body constructor.
     
+    DPOStreamOpBodyC<InT,OutT> &Body()
+    { return dynamic_cast<DPOStreamOpBodyC<InT,OutT> & >(DPEntityC::Body()); }
+    //: Access body.
+    
+    const DPOStreamOpBodyC<InT,OutT> &Body() const
+    { return dynamic_cast<const DPOStreamOpBodyC<InT,OutT> & >(DPEntityC::Body()); }
+    //: Access body.
+
     inline DPOPortC<OutT> &Output() 
     { return dynamic_cast<DPOStreamOpBodyC<InT,OutT> & >(DPEntityC::Body()).Output(); }
     // Access input port.
