@@ -93,7 +93,12 @@ namespace RavlGUIN {
     return true;
   }
   
-
+  //: Called when gtk widget is destroyed.
+  
+  void GladeWindowBodyC::WidgetDestroy() {
+    GladeWidgetBodyC::WidgetDestroy();
+  }
+  
   // --------------------------------------
   
   class GladeWindowWrapperBodyC

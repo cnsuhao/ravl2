@@ -56,6 +56,9 @@ namespace RavlGUIN {
     virtual bool CommonCreate(GtkWidget *newWidget = NULL);
     //: Common object creation
     
+    virtual void WidgetDestroy();
+    //: Called when gtk widget is destroyed.
+    
     PixbufC m_icon;
   };
   
