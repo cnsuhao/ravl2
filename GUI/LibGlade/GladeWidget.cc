@@ -109,7 +109,7 @@ namespace RavlGUIN {
     if (widget == NULL)
     {
       cerr << "ERROR: Failed to find widget '" << name << "' in '" << xml.Filename() << "'\n";
-      RavlAssert(false);
+      RavlAssertMsg(false,"Failed to find widget.");
       return false;
     }
     
