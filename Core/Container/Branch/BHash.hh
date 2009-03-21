@@ -76,12 +76,16 @@ namespace RavlN {
     bool Insert(const KeyT &key,const DataT &data);
     //: Associated value 'data' with key 'key'. 
     
+    DataT &InsertRef(const KeyT &key,const DataT &data);
+    //: Associated value 'data' with key 'key'. 
+    // Return a reference to inserted element.
+    
     BHashC<KeyT,DataT> Copy() const
     { return *this; }
     //: Copy table.
     // Since this is a small object, its a trivial operation.
     
-    const DataT &operator[](const KeyT &key);
+    const DataT &operator[](const KeyT &key) const;
     //: Array style access.
     
     bool IsEmpty() const;
@@ -163,13 +167,22 @@ namespace RavlN {
   }
   
   template<class KeyT,class DataT>
-  const DataT &BHashC<KeyT,DataT>::operator[](const KeyT &key) {
-    if(table.Size() == 0)
-      table = SArray1dC<BListC<BHashEntryC<KeyT,DataT> > >(7);
-    BListC<BHashEntryC<KeyT,DataT> > &list =  table[StdHash(key) % table.Size()];
-    for(BListIterC<BHashEntryC<KeyT,DataT> > it(list);it;it++)
-      if(it.Data().Key() == key)
-	return it.Data().Data();
+  DataT &BHashC<KeyT,DataT>::InsertRef(const KeyT &key,const DataT &data) {
+    if(table.Size() == 0) // Need to initalise the table ?
+      table = SArray1dC<BListC<BHashEntryC<KeyT,DataT> > > (7); // How to best choose the inital size ?
+    BListC<BHashEntryC<KeyT,DataT> > &list = table[StdHash(key) % table.Size()];
+    list.InsFirst(BHashEntryC<KeyT,DataT>(key,data) );    
+    return list.First().Data();
+  }
+  
+  template<class KeyT,class DataT>
+  const DataT &BHashC<KeyT,DataT>::operator[](const KeyT &key) const{
+    if(table.Size() != 0) {
+      const BListC<BHashEntryC<KeyT,DataT> > &list = table[StdHash(key) % table.Size()];
+      for(BListIterC<BHashEntryC<KeyT,DataT> > it(list);it;it++)
+	if(it.Data().Key() == key)
+	  return it.Data().Data();
+    }
     RavlAssertMsg(0,"Attempt to access item with operator[] thats not in the table. ");
     static DataT dummy;
     return dummy;
