@@ -102,6 +102,13 @@ namespace RavlN {
     }
     //: Move the list element indicated by 'it' to before
     //: the element in this list.
+
+    void MoveListBefore(DListC<DataT> &alist) { 
+      RavlAssert(lst != alist);
+      place->Prev().CutPaste(alist.Head().Next(),alist.Head());
+    }
+    //: Move the list before the current element.
+    // Note alist should not be the list we're iterating.
     
     void MoveAft(DLIterC<DataT> &it) { 
       if(it.place != place)
@@ -109,6 +116,13 @@ namespace RavlN {
     }
     //: Move the list element indicated by 'it' to before
     //: the element in this list.
+    
+    void MoveListAfter(DListC<DataT> &alist) { 
+      RavlAssert(lst != alist);
+      place->CutPaste(alist.Head().Next(),alist.Head());
+    }
+    //: Move the list after the current element.
+    // Note alist should not be the list we're iterating.
     
     void Del() {
       RavlAssert(IsValid() && *this);

@@ -184,12 +184,37 @@ int testDLIter() {
   itz.Tail();
   itz.Head();
 #endif
+  
+  {
+    DListC<IntT> a;
+    a.InsLast(1);
+    a.InsLast(2);
+    a.InsLast(3);
+    DListC<IntT> b;
+    b.InsLast(10);
+    b.InsLast(11);
+    DListC<IntT> c;
+    c.InsLast(20);
+    c.InsLast(21);
+
+    DLIterC<IntT> ita1(a);
+    ita1++;
+    if(!ita1.IsElm()) return __LINE__;
+    ita1.MoveListAfter(b);
+    //cerr << "b=" << b << "\n";
+    //cerr << "a=" << a << "\n";
+    if(!b.IsEmpty()) return __LINE__;
+    if(a.Size() != 5) return __LINE__;
+    
+    ita1.MoveListBefore(c);
+    //cerr << "c=" << b << "\n";
+    //cerr << "a=" << a << "\n";
+    if(!c.IsEmpty()) return __LINE__;
+    if(a.Size() != 7) return __LINE__;
+    
+  }
   return 0;
 }
-
-
-
-
 
 
 struct DoubleLinkedC 
