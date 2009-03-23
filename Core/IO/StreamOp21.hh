@@ -156,7 +156,12 @@ namespace RavlN {
     
   };
   
-
+  template<class In1T,class In2T,class Out1T>
+  DPIStreamOp21C<In1T,In2T,Out1T> DPIStreamOp(const DPIPortC<In1T> &input1,
+						   const DPIPortC<In2T> &input2,
+						   const DPProcess21C<In1T,In2T,Out1T> &nproc)
+  { return DPIStreamOp21C<In1T,In2T,Out1T>(nproc,input1,input2); }
+  
   
 }
 

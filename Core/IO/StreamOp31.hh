@@ -34,10 +34,10 @@ namespace RavlN {
 		       const DPIPortC<In2T> &input2,
 		       const DPIPortC<In3T> &input3)
       : DPIPortBodyC<Out1T>("Out1"),
-	proc(nproc),
 	in1(input1),
 	in2(input2),
-	in3(input3)
+	in3(input3),
+	proc(nproc)
     {}
     //: Constructor.
     
@@ -175,7 +175,12 @@ namespace RavlN {
     
   };
   
-
+  template<class In1T,class In2T,class In3T,class Out1T>
+  DPIStreamOp31C<In1T,In2T,In3T,Out1T> DPIStreamOp(const DPIPortC<In1T> &input1,
+						   const DPIPortC<In2T> &input2,
+						   const DPIPortC<In3T> &input3,
+						   const DPProcess31C<In1T,In2T,In3T,Out1T> &nproc)
+  { return DPIStreamOp31C<In1T,In2T,In3T,Out1T>(nproc,input1,input2,input3); }
   
 }
 
