@@ -38,6 +38,22 @@ namespace RavlN {
     // This is a quick operation, as the old list is only
     // refrence not copied.
     
+    BListC<DataT> DeepCopy(UIntT levels = ((UIntT) -1)) const
+    {
+      if(levels <= 1) return this->Copy();
+      BLinkC<DataT> ret;
+      BLinkC<DataT> lastElem;
+      for(const BLinkBodyC<DataT> *place = list.BodyPtr();place != 0;place = place->Next().BodyPtr()) {
+	BLinkC<DataT> newElem(StdDeepCopy(place->Data(),levels-1));
+	if(lastElem.IsValid())
+	  lastElem.Next() = newElem;
+	else 
+	  ret = newElem;
+	lastElem = newElem;
+      }
+      return ret;
+    }
+    
     void InsFirst(const DataT &dat) 
     { list = BLinkC<DataT>(dat,list); }
     //: Insert data into list.

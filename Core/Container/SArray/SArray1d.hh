@@ -23,7 +23,7 @@
 #include "Ravl/StdHash.hh"
 #include "Ravl/Stream.hh"
 #include "Ravl/SingleBuffer.hh"
-
+#include "Ravl/DeepCopy.hh"
 
 namespace RavlN {
 
@@ -139,12 +139,15 @@ namespace RavlN {
     // Note: Alignment must be a power of two.
     
     SArray1dC<DataT> Copy() const;
-    //: Creates a new physical copy of the array.
-    
+    //: Creates a copy of the whole array.
+        
     SArray1dC<DataT> Copy(UIntT extend) const;
     //: Creates a new physical copy of the array.
     // 'extend' extra elements initalised by the default constuctor
     // are appended to the end of the array.
+    
+    SArray1dC<DataT> DeepCopy(UIntT levels = ((UIntT) -1)) const;
+    //: Creates a new physical copy of the array.
     
     inline const SArray1dC<DataT> & operator=(const SArray1dC<DataT> & vv);
     //: Assign this handle to the data in VV.
@@ -426,6 +429,17 @@ namespace RavlN {
     return ret;
   }
   
+  //: Creates a new physical copy of the array.
+  
+  template <class DataT>
+  SArray1dC<DataT> SArray1dC<DataT>::DeepCopy(UIntT levels) const {
+    if(levels <= 1)
+      return Copy();
+    SArray1dC<DataT> ret(Size());
+    for(BufferAccessIter2C<DataT,DataT> it(*this,ret);it;it++)
+      it.Data2() = StdDeepCopy(it.Data1(),levels-1);
+    return ret;
+  }
 
   template <class DataT>
   SArray1dC<DataT> 

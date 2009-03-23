@@ -13,7 +13,6 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Branch"
 //! date="19/02/1997"
-//! rcsid="$Id$"
 
 #include "Ravl/SDArray1d.hh"
 #include "Ravl/SmartPtr.hh"
@@ -59,7 +58,7 @@ namespace RavlN {
     //: Dump to stream.
     
     inline UIntT Hash() const
-	{ return StdHash(reinterpret_cast<const void *>(this)); }
+    { return StdHash(reinterpret_cast<const void *>(this)); }
     //: Get hash value.
     
   private:

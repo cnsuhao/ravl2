@@ -110,7 +110,7 @@ namespace RavlN {
     //: Comparison.
   
     void Invalidate() 
-    { edge.SetPtr(0); }
+    { edge.Invalidate(); }
     //: Invalidate handle.
     
     inline BGraphTypesC::NodeHandleT Source() const;

@@ -5,7 +5,6 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
 //! file="Ravl/Core/System/exXMLTree.cc"
 //! lib=RavlCore
 //! author="Charles Galambos"

@@ -85,6 +85,18 @@ namespace RavlN {
     //: Copy table.
     // Since this is a small object, its a trivial operation.
     
+    BHashC<KeyT,DataT> DeepCopy(UIntT levels = ((UIntT) -1)) const
+    {
+      if(levels <= 1) return this->Copy();
+      SArray1dC<BListC<BHashEntryC<KeyT,DataT> > > newTable(table.Size());
+      for(BufferAccessIter2C<DataT,DataT> it(newTable,table);it;it++) {	
+	for(BListIterC<BHashEntryC<KeyT,DataT> > blit(it.Data2());blit;blit++)
+	  it.Data1().InsFirst(BHashEntryC<KeyT,DataT>(blit.Data().Key(),StdDeepCopy(blit.Data().Data(),levels-1)));
+      }
+      return BHashC<KeyT,DataT>(newTable,entries); 
+    }
+    //: Deep copy table.
+    
     const DataT &operator[](const KeyT &key) const;
     //: Array style access.
     
@@ -109,6 +121,12 @@ namespace RavlN {
     // otherwise return 0.
     
   protected:
+    BHashC(const SArray1dC<BListC<BHashEntryC<KeyT,DataT> > > &newTable,UIntT newEntries)
+      : table(newTable),
+	entries(newEntries)
+    {}
+    //: Constructor.
+    
     SArray1dC<BListC<BHashEntryC<KeyT,DataT> > > table;
     UIntT entries;
     friend class BHashIterC<KeyT,DataT>;

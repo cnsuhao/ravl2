@@ -36,6 +36,12 @@ namespace RavlN {
     }
     //: Pop element off the top of the stack.
     
+    void PopDel() {
+      RavlAssert(this->list.IsValid()); 
+      this->list = this->list.Next();
+    }
+    //: Pop element off the top of the stack but don't return it
+    
     void Push(const DataT &dat) 
     { this->InsFirst(dat); }
     //: Push item onto the top of stack.

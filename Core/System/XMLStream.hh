@@ -241,7 +241,7 @@ namespace RavlN {
     const XMLElementC &Context() const
     { return context.Top(); }
     //: Access current context.
-
+    
     bool EndOfContext(const StringC &nm) {
       // Check name here ?
       if(context.IsEmpty())

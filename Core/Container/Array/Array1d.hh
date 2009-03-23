@@ -155,6 +155,9 @@ namespace RavlN {
     Array1dC<DataT> &Copy(const Slice1dC<DataT> &data);
     //: Copy data from slice into this array.
     
+    Array1dC<DataT> DeepCopy(UIntT levels = ((UIntT) -1)) const;
+    //: Creates a new physical copy of the array.
+    
     const Array1dC<DataT> & operator=(const Array1dC<DataT> & vv);
     //: Assignment, as for a BIG_OBJECT.
     
@@ -554,6 +557,16 @@ namespace RavlN {
     for(Slice1dIterC<DataT> it(data);it;it++,at++)
       *at = *it;
     return *this;
+  }
+
+  template <class DataT>
+  Array1dC<DataT> Array1dC<DataT>::DeepCopy(UIntT levels) const {
+    if(levels <= 1) return Copy();
+    Array1dC<DataT> ret(Range());
+    for(BufferAccessIter2C<DataT,DataT> it(*this,ret,Range());it;it++)
+      it.Data1() = StdDeepCopy(it.Data2(),levels-1);
+    return ret;
+    
   }
 
   template <class DataT>
