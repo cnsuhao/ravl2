@@ -32,7 +32,8 @@ namespace RavlN {
   public:
     DPIOTapBodyC(const DPIOPortC<InT,OutT> &ntarget,const DPOPortC<Tuple2C<OutT,InT> > &ntap)
       : tap(ntap),
-	target(ntarget)
+	target(ntarget),
+        donePut(false)
     { RavlAssert(target.IsValid()); }
     //: Constructor.
     
