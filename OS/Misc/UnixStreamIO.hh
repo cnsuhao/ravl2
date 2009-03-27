@@ -26,7 +26,8 @@ namespace RavlN {
         m_readTimeOut(readTimeOut),
         m_dontClose(dontClose),
         m_failOnReadTimeout(false),
-        m_failOnWriteTimeout(true)
+        m_failOnWriteTimeout(true),
+        m_fillBufferOnRead(true)
     {}
     //: Constructor.
     
@@ -90,7 +91,11 @@ namespace RavlN {
     // If false, the socket will be checked its
     // open and valid, if it is the write will be retryed.
     
-    
+    void SetFillBufferOnRead(bool value)
+    { m_fillBufferOnRead = value; }
+    //: Should read functions keep reading until the buffer is full?
+    // If not the read will return immediately once any has been read.
+
     void Close();
     //: Close the socket.
     // Note this will only actually close the socket if
@@ -114,6 +119,7 @@ namespace RavlN {
     bool m_dontClose;
     bool m_failOnReadTimeout;
     bool m_failOnWriteTimeout;
+    bool m_fillBufferOnRead;
   };
 
 }

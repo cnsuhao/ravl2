@@ -253,6 +253,8 @@ namespace RavlN {
 	n = 0;
       }
       at += n;
+      if (!m_fillBufferOnRead)
+        break;
     }
     return at;
   }
@@ -291,6 +293,8 @@ namespace RavlN {
     }
     if(at == total)
       return at; // All done ?
+    if (!m_fillBufferOnRead)
+      return at;
 
     ONDEBUG(SysLog(SYSLOG_WARNING) << "UnixStreamIOC::ReadV(), Socket read interupted, at=" << at << " Blocks=" << n << " attempting to recover. \n");
 
