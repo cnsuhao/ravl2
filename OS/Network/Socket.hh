@@ -23,15 +23,11 @@
 #include "Ravl/RCHandleV.hh"
 #include "Ravl/OS/SktError.hh"
 #include "Ravl/OS/UnixStreamIO.hh"
-
-// Some forward declarations to avoid including extra header
-// files.
-
-struct sockaddr_in;
-struct sockaddr;
+#include "Ravl/OS/SocketAddr.hh"
 
 namespace RavlN {
 
+  
   class SocketC;
 
   //! userlevel=Develop
@@ -92,13 +88,6 @@ namespace RavlN {
     // Returns true if Corking is supported by stream.
 
   protected:
-    bool GetHostByName(const char *name,struct sockaddr_in &sin);
-    //: Attempt to get info about named host.
-    // returns true on success.
-
-    bool GetHostByAddr(struct sockaddr &sin,int sinLen,StringC &name);
-    //: Attempt to find hostname by the address.
-    // returns true on success and assignes the hostname to name.
 
     int OpenSocket(struct sockaddr_in &sin,IntT sockNo);
     //: Open a socket to the given address / port no.
