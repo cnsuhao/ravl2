@@ -13,6 +13,8 @@
 #include "Ravl/GUI/Button.hh"
 #include "Ravl/GUI/Frame.hh"
 #include "Ravl/GUI/Menu.hh"
+#include "Ravl/GUI/PackInfo.hh"
+#include "Ravl/GUI/ScrolledArea.hh"
 #include "Ravl/Threads/Signal1.hh"
 
 #define DODEBUG 0
@@ -43,16 +45,18 @@ namespace RavlGUIN {
       Connect(fileSelector.Selected(),me,&AttributeEditorWindowC::LoadSave);
       MenuBarC menuBar(MenuItemR("Save",*this,&AttributeEditorWindowBodyC::openLoadSave,false) + 
                        MenuItemR("Load",*this,&AttributeEditorWindowBodyC::openLoadSave,true));
-      Add(VBox(menuBar + FrameC(editor,"",5) + RavlGUIN::ButtonR("Close",(WidgetBodyC &)*this,&WindowBodyC::GUIHide)));
+      Add(VBox(PackInfoC(menuBar,false,true) + 
+               PackInfoC(FrameC(ScrolledAreaC(editor,500,200),"",5),true,true) + 
+               PackInfoC(RavlGUIN::ButtonR("Close",(WidgetBodyC &)*this,&WindowBodyC::GUIHide), false,true)));
     } else {
       Connect(fileSelector.Selected(),me,&AttributeEditorWindowC::LoadSave);
       MenuBarC menuBar;
-      Add(VBox(menuBar + FrameC(editor,"",5) + RavlGUIN::ButtonR("Close",(WidgetBodyC &)*this,&WindowBodyC::GUIHide)));
-      Add(VBox(FrameC(editor,"",5) + RavlGUIN::ButtonR("Close",(WidgetBodyC &)*this,&WindowBodyC::GUIHide)));
+      Add(VBox(PackInfoC(FrameC(ScrolledAreaC(editor,500,200),"",5),true,true) + 
+               PackInfoC(RavlGUIN::ButtonR("Close",(WidgetBodyC &)*this,&WindowBodyC::GUIHide),false,true)));
     }
     if(dontDelete)
       ConnectRef(Signal("delete_event"),static_cast<WidgetBodyC &>(*this), &WindowBodyC::GUIHide);
-  }
+    }
   
   //: Load attributes from file.
   
