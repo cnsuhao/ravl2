@@ -261,6 +261,26 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 				>
 			</File>
 			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOByteYCbCrBT709Value.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOUInt16YCbCrBT709Value.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOYCbCrBT709ValueFloat.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOByteYCbCr422BT709Value.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOUInt16YCbCr422BT709Value.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\Image\ImageIO\ImgTypeCnv.cc"
 				>
 			</File>
