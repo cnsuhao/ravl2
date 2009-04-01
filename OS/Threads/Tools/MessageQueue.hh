@@ -109,6 +109,7 @@ namespace RavlN {
     
     inline void Put(const T &Data);
     //: Put data into queue.
+    // Will block until there is space in the queue.
     
     inline bool TryPut(const T &Data,RealT maxWait);
     //: Put data into queue, with maximum wait time in seconds.
