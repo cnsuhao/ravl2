@@ -146,7 +146,7 @@ namespace RavlN {
       { return ((m_liFrame>=0) && !IsNan(frameRate) && (frameRate>0.0)); }
     //: Checks whether the timecode holds valid data
         
-    inline int getFrameCount() const
+    inline IntT FrameCount() const
       {return m_liFrame;}
     //: Access frame count.
 
@@ -167,6 +167,11 @@ namespace RavlN {
     inline RealT FrameRate() const
       { return frameRate; }
     //: Access the frame rate
+
+    inline int getFrameCount() const
+      {return m_liFrame;}
+    //: Access frame count.
+    //!deprecated: Use <code>FrameCount()</code>
 
   protected:
     
