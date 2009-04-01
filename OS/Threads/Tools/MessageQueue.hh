@@ -16,6 +16,7 @@
 
 #include "Ravl/Threads/Mutex.hh"
 #include "Ravl/Threads/Semaphore.hh"
+#include "Ravl/Exception.hh"
 
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <new>
@@ -122,15 +123,24 @@ namespace RavlN {
     
     inline T Get();
     //: Get data from queue.
+    // Will block until there is data in the queue.
     
     inline bool Get(T &data,RealT maxWait);
     //: Get data from queue, with maximum wait time in seconds.
-    // If success full the data is assigned to 'data' and true is returned.
+    // If successful the data is assigned to 'data' and true is returned.
     
     inline bool TryGet(T &Data);
     //: Try and get data from queue.
     // Ret:false = No data available.
-    
+
+    inline T First(RealT maxWait);
+    //: Access the first element in the queue, with maximum wait time in seconds.
+    //!throw: ExceptionOperationFailedC if the time out is exceeded.
+
+    inline bool TryFirst(T& value);
+    //: Access the first element in the queue.
+    // If successful the data is assigned to 'value' and true is returned.
+
     inline bool Discard(RealT maxWait = -1);
     //: Discard element from queue.
     // If maxWait is negative it will block until data arrives otherwise the 
@@ -265,6 +275,39 @@ namespace RavlN {
     putSema.Post();
     return true;
   }
+
+  //: Access first the first element in the queue.
+  //!throw: ExceptionOperationFailedC if the time out is exceeded.
+
+  template<class T>
+  inline
+  T MessageQueueC<T>::First(RealT maxWait)
+  {
+    ready.Wait(maxWait);
+    MutexLockC lock(access);
+    ready.Post();
+    if (IsEmptyBase())
+      throw ExceptionOperationFailedC("Timed out waiting for first queue element.");
+    T Ret(data[tail]); // Possible exception.
+    lock.Unlock();
+    return Ret;
+  }
+
+  //: Access the first element in the queue.
+  // If successful the data is assigned to 'value' and true is returned.
+
+  template<class T>
+  inline
+  bool MessageQueueC<T>::TryFirst(T& value)
+  {
+    if (IsEmptyBase())
+      return false;
+    MutexLockC lock(access);
+    // If copy failed we're in trouble anyway.
+    value = data[tail]; // Possible exception.
+    lock.Unlock();
+    return true;
+  };
 
   //: Discard element from queue.
   
