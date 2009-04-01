@@ -337,7 +337,7 @@ namespace RavlN {
   {
 #if RAVL_CHECK
     if ((!r.In(ba.Range()) && (r.Size() > 0)) || !ba.Range().Contains(r.Min()))
-      IssueError(__FILE__,__LINE__,"Index range %d to %d out of  range %d - %d  ",
+      IssueError(__FILE__,__LINE__,"Subrange %d to %d is not subset of buffer range %d - %d  ",
 		 r.Min().V(),r.Max().V(),ba.Range().Min().V(),ba.Range().Max().V());
 #endif
   }

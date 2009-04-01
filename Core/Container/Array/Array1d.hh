@@ -121,7 +121,7 @@ namespace RavlN {
     //: Creates the array in 'bf' using access rbf..
     
     Array1dC(const Array1dC<DataT> & vv, const IndexRangeC & range);
-    //: The sub-array of the 'vv' with the 'range'.
+    //: Creates a sub-array of 'vv' with range 'range'.
     
     Array1dC(const Array1dC<DataT> & vv, IndexC origin);
     //: Create a new access to array vv with the origin at the given offset.
