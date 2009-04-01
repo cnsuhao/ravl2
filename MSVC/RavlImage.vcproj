@@ -277,6 +277,10 @@ if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;
 				>
 			</File>
 			<File
+				RelativePath="..\.\Image\Base\ByteYCbCrBT709Value.cc"
+				>
+			</File>
+			<File
 				RelativePath="..\.\Image\Base\UInt16YCbCrBT601Value.cc"
 				>
 			</File>
@@ -488,6 +492,10 @@ if not exist C:\Build\share\RAVL\Fonts\NUL mkdir C:\Build\share\RAVL\Fonts&#x0D;
 			</File>
 			<File
 				RelativePath="..\.\Image\Base\ByteYCbCrBT601Value.hh"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\Base\ByteYCbCrBT709Value.hh"
 				>
 			</File>
 			<File
