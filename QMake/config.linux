@@ -65,10 +65,13 @@ NOLIBRARYPRELINK=1
 ############################
 # Universal flags.
 
-CFLAGS   = -Wall -pipe -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fno-merge-constants
+
+CFLAGS   = -Wall -pipe -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
+# -fno-merge-constants
 CFLAGS   += $(EXTRA_CFLAGS) 
 
-CCFLAGS  = -pipe -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fno-merge-constants
+CCFLAGS  = -pipe -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE 
+# -fno-merge-constants
 CCFLAGS  += $(EXTRA_CCFLAGS)
 
 CCPPFLAGS= -DGNU -Dunix
@@ -82,14 +85,28 @@ PAR_MAKE = --jobs=$(PROCS)
 UNDEFSYMB = -u #
 
 ifndef OPTCFLAGS
-# Use the following for gcc-3.x
-#OPTCFLAGS= -O2 -march=i686 -ffast-math
 
-# Use the following for gcc-4.x
-OPTCFLAGS= -O3 -march=i686 -fno-strict-aliasing -fno-math-errno -fno-trapping-math -fno-signaling-nans  -D__FAST_MATH__  -Wstrict-aliasing=2
+COMPILER_VERSION:=$(strip $(shell $(CC) -dumpversion))#
+COMPILER_MAJOR_VERSION=$(basename $(COMPILER_VERSION))
+
+ifeq ($(COMPILER_MAJOR_VERSION),3)
+# Use the following for gcc-3.x
+ OPTCFLAGS= -O2 -march=i686 -ffast-math
+else
+ifeq ($(COMPILER_VERSION),4.3) 
+# Use the following for gcc-4.3.x and later
+ OPTCFLAGS= -O2 -mtune=core2 -ffast-math
+else
+# Use the following for gcc-4.0.x, 4.1.x, 4.2.x
 # NOTE: -funsafe-math-optimizations and -ffast-math that sets it produce incorrect code with gcc-4.0 and 4.1
 # NOTE: gcc 4.x sometimes produces incorrect code (even where the aliasing rules are followed) with stict-aliasing.
+ OPTCFLAGS= -O3 -march=i686 -fno-strict-aliasing -fno-math-errno -fno-trapping-math -fno-signaling-nans  -D__FAST_MATH__  -Wstrict-aliasing=2
 endif
+endif
+
+
+endif
+
 
 OPTCCFLAGS = $(OPTCFLAGS)
 
