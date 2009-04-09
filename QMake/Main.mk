@@ -74,8 +74,12 @@ include $(MAKEHOME)/config.$(ARC)
 
 # include external project information
 
--include $(MAKEHOME)/*.qpr 
-# $(INSTALLHOME)/lib/RAVL/libdep/*.qpr
+-include $(MAKEHOME)/*.qpr $(INSTALLHOME)/lib/RAVL/libdep/*.qpr
+
+# Dummy rule to stop make complaining when no project files are
+# installed the project file
+$(INSTALLHOME)/lib/RAVL/libdep/*.qpr : $(MAKEHOME)/config.$(ARC)
+	@true;
 
 #########################
 # Setup defaults.
@@ -1164,10 +1168,6 @@ $(INST_LIBDEF)/$(LOCAL_DEFBASE).def: defs.mk $(INST_LIBDEF)/.dir $(HEADERS) $(SO
 	$(CHMOD) 444 $(INST_LIBDEF)/$(@F)
 endif
 endif
-###############################
-# RCS.
-
-#include $(MAKEHOME)/rcs.mk
 
 ###########################
 
