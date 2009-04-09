@@ -92,7 +92,6 @@ or for bash users the following should be added to .bashrc
 export QMAKECONFIGHOME=/vol/src/QMakeConfig
 </code>
 
-
 <h2>Build Tags</h2>
 
 <p>
@@ -116,6 +115,24 @@ BUILD_TAG value. Only if these two tests pass will QMake execute the compile com
 </p>
 
 <!-- <li>Xemacs users: there is an <a href="../html/Ravl-mode.html">Xemacs</a> enhancement to allow easy QMake compilation from within Xemac. -->
+
+<h2> Advanced: Including the results of other project outs in your build </h2>
+
+<p>
+It is possible to use the includes and libraries of another project in your own. To do this create a file with a name of your choice with the extension 'qpr'. In this file add a line 'EXTERNAL_PROJECTS += (project out to be used)'. There may be more than project directory if required, the names should be seperated by spaces.  Then install this is either the make system's install directory or the libdeps directory of your current project out.  You can do this by adding this to a defs.mk in your project. 
+</p>
+<p> For example, testBuild.gpr would contain: </p>
+<code>
+EXTERNAL_PROJECTS += /tmp/Build
+</code>
+<p> And the following would be added to a defs.mk in your main source tree: </p>
+
+<code>
+AUXDIR = lib/RAVL/libdep
+AUXFILES = anotherProject.qpr
+</code>
+<p> Note: You will have to run make twice to build code,  once to install the project file.
+</p>
 
 </body>
 </html>
