@@ -106,8 +106,7 @@ endif
 
 # Include system config and Directories 
 
--include $(MAKEHOME)/*.qpr 
-# $(INSTALLHOME)/lib/RAVL/libdep/*.qpr
+-include $(MAKEHOME)/*.qpr $(MAKEHOME)/lib/RAVL/libdep/*.qpr
 
 include $(MAKEHOME)/config.$(ARC)
 NOVAR=1
@@ -643,6 +642,9 @@ $(MAKEHOME)/GlobalMake :
 $(MAKEHOME)/MainDep.mk :
 	@true
 
+$(MAKEHOME)/lib/RAVL/libdep/*.qpr : $(MAKEHOME)/Dirs.mk
+	@true;
+
 ###############################################
 # Help
 
@@ -652,6 +654,7 @@ defs:
 defs.mk:
 	@echo "Can't find defs.mk in current directory, aborting. ";
 	@echo "Use 'qm defs' for more information. ";
+
 
 .DEFAULT help:
 	@$(PAGER) $(MAKEHOME)/Help.txt
