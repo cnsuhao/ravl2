@@ -105,6 +105,10 @@ include $(QMAKECONFIGHOME)/config.local.$(ARC)
 endif
 
 # Include system config and Directories 
+
+-include $(MAKEHOME)/*.qpr 
+# $(INSTALLHOME)/lib/RAVL/libdep/*.qpr
+
 include $(MAKEHOME)/config.$(ARC)
 NOVAR=1
 include $(MAKEHOME)/Dirs.mk

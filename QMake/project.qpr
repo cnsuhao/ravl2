@@ -1,0 +1,3 @@
+# Example external project file
+#EXTERNAL_PROJECTS += /buf/test
+

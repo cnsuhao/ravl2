@@ -28,6 +28,8 @@ else
 endif
 endif
 
+VPATH = $(QCWD)
+
 # Setup default pager.
 ifndef PAGER
  PAGER = more
@@ -70,6 +72,11 @@ include $(MAKEHOME)/config.$(ARC)
 
 -include $(QCWD)/defs.mk
 
+# include external project information
+
+-include $(MAKEHOME)/*.qpr 
+# $(INSTALLHOME)/lib/RAVL/libdep/*.qpr
+
 #########################
 # Setup defaults.
 
@@ -79,13 +86,6 @@ QLIBS := perl $(MAKEHOME)/QLibs.pl
 ifndef TOUCH
   TOUCH=touch
 endif
-
-
-#ifneq ($(filter $(VAR), shared debugshared ),)
-#  LIBEXT:=.so
-#else
-#  LIBEXT:=.a
-#endif
 
 ifndef SHAREDEXT 
  SHAREDEXT:=so
@@ -184,6 +184,7 @@ endif
 ifeq ($(TARGET),testbuild)
   MAINS := $(sort $(MAINS) $(EXAMPLES))
 endif
+
 
 include $(MAKEHOME)/Dirs.mk
 
@@ -320,8 +321,6 @@ LINKTESTLIBS := $(EXELIB)
 
 # Restore EXELIB to be library libs
 EXELIB := $(LIBLIBS)
-
-VPATH = $(QCWD)
 
 .PRECIOUS : %$(CXXEXT) %$(CHXXEXT) %$(CEXT) %$(CHEXT) %.tcc %.icc %.def %.tab.cc %.yy.cc %_wrap.cc
 
@@ -487,17 +486,32 @@ ifdef EXTPACKAGE
  INCLUDES += -I$(ROOTDIR)\inc\$(PACKAGE)
 endif
 
+ifdef EXTERNAL_PROJECTS
+ INCLUDES += $(patsubst %,-I%/include/$(ARC),$(EXTERNAL_PROJECTS)) $(patsubst %,-I%/include,$(EXTERNAL_PROJECTS))
+endif
+
 CINCLUDES =  -I$(INST_HEADER) $(INCLUDES) -I$(BASE_INSTALL)/include/$(ARC) -I$(BASE_INSTALL)/include
 
+
 ifndef SHAREDBUILD
- TESTBINLIBS += -L$(INST_LIB) $(LINKTESTLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)
- BINLIBS += -L$(INST_LIB) $(LINKLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)
- LIBS += -L$(INST_LIB) $(EXELIB) -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)
+ SHARED_LIB_POSTFIX=/shared#
 else
- TESTBINLIBS += -L$(INST_LIB) $(LINKTESTLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)/shared
- BINLIBS += -L$(INST_LIB) $(LINKLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)/shared
- LIBS += -L$(INST_LIB) $(EXELIB) -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)/shared
+ SHARED_LIB_POSTFIX=#
 endif
+
+TESTBINLIBS += -L$(INST_LIB) $(LINKTESTLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)$(SHARED_LIB_POSTFIX)
+BINLIBS += -L$(INST_LIB) $(LINKLIBS)  -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)$(SHARED_LIB_POSTFIX)
+LIBS += -L$(INST_LIB) $(EXELIB) -L$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)$(SHARED_LIB_POSTFIX)
+
+EXTERNAL_PROJECT_LIBS = $(patsubst %,-L%/lib/RAVL/$(ARC)/$(BASE_VAR)$(SHARED_LIB_POSTFIX),$(EXTERNAL_PROJECTS))
+
+ifdef EXTERNAL_PROJECTS
+ TESTBINLIBS += $(EXTERNAL_PROJECT_LIBS)
+ BINLIBS += $(EXTERNAL_PROJECT_LIBS)
+ LIBS += $(EXTERNAL_PROJECT_LIBS)
+endif
+
+
 
 
 # setup some library paths, so that binaries will always be able to find correct libraries.
@@ -507,6 +521,9 @@ ifdef SHAREDBUILD
   LDFLAGS += $(LIBPATHSWITCH)$(BASE_INSTALL)/lib/RAVL/$(ARC)/$(BASE_VAR)/shared
  else
   LDFLAGS += $(LIBPATHSWITCH)$(ROOTDIR)/lib/RAVL/$(ARC)/$(BASE_VAR)/$(VAR)/shared
+ endif
+ ifdef EXTERNAL_PROJECTS
+  LDFLAGS += $(patsubst %,-$(LIBPATHSWITCH)%/lib/RAVL/$(ARC)/$(BASE_VAR)$(SHARED_LIB_POSTFIX),$(EXTERNAL_PROJECTS))
  endif
 endif
 
@@ -925,7 +942,7 @@ $(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB
 	sort -b -u $(INST_OBJS)/libObjs.new -t : -k 1,1 -o $(INST_OBJS)/libObjs.txt ; \
 	rm $(INST_OBJS)/libObjs.new ; \
         echo "---- Building library $(INST_LIB)/$(@F) " ; \
-	awk -F: '{ print $$1 }' $(INST_OBJS)/libObjs.txt | $(XARGS) $(CXX) $(LDLIBFLAGS) $(filter-out -l$(PLIB),$(LIBSONLY)) -o $(INST_LIB)/$(@F) ; \
+	awk -F: '{ print $$1 }' $(INST_OBJS)/libObjs.txt | $(XARGS) $(CXX) $(LDLIBFLAGS) $(filter-out -l$(PLIB),$(LIBSONLY)) -o $(INST_LIB)/$(@F) && \
 	$(UNTOUCH) $(INST_LIB)/$(@F) $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) ; 
 
 endif
@@ -1171,6 +1188,7 @@ info:
 	@echo "Auto            :" $(AUTOUSELIBS)
 	@echo "Resources       :" $(RESOURCES)
 	@echo "Object files    :" $(INST_OBJS)
+	@echo "External project:" $(EXTERNAL_PROJECTS)
 
 #	@echo "Supported       :" $(SUPPORT_OK)
 #   " - " $(findstring $(ARC),$(DONOT_SUPPORT)) " - " $(findstring $(ARC),$(SUPPORT_ONLY))
