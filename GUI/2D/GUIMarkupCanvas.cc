@@ -38,6 +38,11 @@ namespace RavlGUIN
   {
     return (m0.ZOrder() < m1.ZOrder());
   }
+
+  static bool MyDeleteGC(GdkGC *gc) {
+    gdk_gc_unref(gc);
+    return true;
+  }
   
   //: Constructor.
   
@@ -61,8 +66,12 @@ namespace RavlGUIN
   GUIMarkupCanvasBodyC::~GUIMarkupCanvasBodyC() {
     connections.DisconnectAll();
     // FIXME :- The following is not thread safe.
-    if(gcDrawContext != 0)
-      gdk_gc_unref(gcDrawContext);
+    if(gcDrawContext != 0) {
+      if(Manager.IsGUIThread())
+        gdk_gc_unref(gcDrawContext);
+      else
+        Manager.Queue(Trigger(MyDeleteGC,gcDrawContext));
+    }
   }
   
   //: Handle widget destruction
