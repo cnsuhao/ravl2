@@ -143,6 +143,11 @@ namespace RavlGUIN {
     { return mousePressAt; }
     //: Access location of mouse press.
     
+    const Point2dC & EventMouseLast() const
+    { return mouseLastEvent; } 
+    //: Access the location of the last event....
+    
+    
     bool GUIAddSelect(Int64T id,bool signal = true);
     //: Add id to selection.
     // Note: This does not cause a refresh
@@ -366,7 +371,11 @@ namespace RavlGUIN {
     { return Body().EventMouseRelease(me); }
     //: Mouse release. 
     //!cwiz:author
-    
+
+    const Point2dC & EventMouseLast() const
+    { return Body().EventMouseLast(); } 
+    //: Access the location of the last event....
+        
     bool EventScroll(GdkEvent * event) 
     { return Body().EventScroll(event); }
     //: Scroll event 

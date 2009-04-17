@@ -208,7 +208,7 @@ namespace RavlGUIN
   //: Mouse press.
   
   bool GUIMarkupCanvasBodyC::EventMousePress(MouseEventC &me) 
-  {
+  { 
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "GUIMarkupCanvasBodyC::EventMousePress(), Called. \n");
     GUIGrabFocus();    
     
@@ -298,7 +298,6 @@ namespace RavlGUIN
   bool GUIMarkupCanvasBodyC::EventMouseMove(MouseEventC &me) 
   {
     //ONDEBUG(SysLog(SYSLOG_DEBUG) << "GUIMarkupCanvasBodyC::EventMouseMove(), Called. \n");
-
     Point2dC at = GUI2World(me.At());
     mouseLastEvent = at;
     
