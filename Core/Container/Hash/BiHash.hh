@@ -77,7 +77,7 @@ namespace RavlN {
     { return hmap1[key]; }
     //: Do a lookup on data type 1
     
-    bool LookupFwd(const D1T &key,D2T &data)
+    bool LookupFwd(const D1T &key,D2T &data) const
     { return hmap1.Lookup(key,data); }
     //: Lookup forward.
     // Return true if entry is found and copy 
@@ -96,7 +96,7 @@ namespace RavlN {
     { return hmap2[key]; }
     //: Do a lookup on data type 2
 
-    bool LookupBkw(const D2T &key,D1T &data)
+    bool LookupBkw(const D2T &key,D1T &data) const
     { return hmap2.Lookup(key,data); }
     //: Lookup backward.
     // Return true if entry is found and copy 
