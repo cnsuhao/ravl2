@@ -207,11 +207,11 @@ namespace RavlImageN {
     ImagePointFeatureC* feat = m_hFeaturesByStr.Lookup(desc);
     if (feat != NULL && feat->IsValid()) {
       feat->Location() = position;
-    }
-    ImagePointFeatureC* feat2 = m_hFeatures.Lookup(feat->ID());
-    if (feat2 != NULL && feat2->IsValid()) {
-      feat2->Location() = position;
-      return true;
+      ImagePointFeatureC* feat2 = m_hFeatures.Lookup(feat->ID());
+      if (feat2 != NULL && feat2->IsValid()) {
+        feat2->Location() = position;
+        return true;
+      }
     }
     cerr << "ImagePointFeatureSetBodyC::Set(), Warning failed to set feature position for '" << desc << "'\n";
     return false;
