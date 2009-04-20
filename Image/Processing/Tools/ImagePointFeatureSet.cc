@@ -198,18 +198,18 @@ namespace RavlImageN {
   
   Point2dC ImagePointFeatureSetBodyC::Position(UIntT id) const {
     const ImagePointFeatureC* feat = m_hFeatures.Lookup(id);
-    if(feat == 0)
+    if(feat == 0 || !feat->IsValid())
       throw ExceptionOperationFailedC("Unknown feature.");
     return feat->Location();    
   }
 
   bool ImagePointFeatureSetBodyC::Set(const StringC& desc, Point2dC position) {
     ImagePointFeatureC* feat = m_hFeaturesByStr.Lookup(desc);
-    if (feat != NULL) {
+    if (feat != NULL && feat->IsValid()) {
       feat->Location() = position;
     }
     ImagePointFeatureC* feat2 = m_hFeatures.Lookup(feat->ID());
-    if (feat2 != NULL) {
+    if (feat2 != NULL && feat2->IsValid()) {
       feat2->Location() = position;
       return true;
     }
@@ -237,34 +237,32 @@ namespace RavlImageN {
 
   bool ImagePointFeatureSetBodyC::Rename(const StringC& strold, const StringC& strnew) {
     const ImagePointFeatureC* pfeat = m_hFeaturesByStr.Lookup(strold);
-    if (pfeat != NULL) {
-      // Remove old feature
-      ImagePointFeatureC feat = m_hFeaturesByStr.Get(strold);
-      // Change description
-      feat.Description() = strnew;
-      // Update stored features
-      m_hFeaturesByStr.Update(strnew,feat);
-      m_hFeatures.Update(feat.ID(),feat);
-      // Done
-      return true;
-    }
-    return false;
+    if (pfeat == NULL || pfeat->IsValid()) 
+      return false;
+    // Remove old feature
+    ImagePointFeatureC feat = m_hFeaturesByStr.Get(strold);
+    // Change description
+    feat.Description() = strnew;
+    // Update stored features
+    m_hFeaturesByStr.Update(strnew,feat);
+    m_hFeatures.Update(feat.ID(),feat);
+    // Done
+    return true;
   }
 
   bool ImagePointFeatureSetBodyC::Rename(IntT id, const StringC& strnew) {
     const ImagePointFeatureC* pfeat = m_hFeatures.Lookup(id);
-    if (pfeat != NULL) {
-      // Remove old feature
-      ImagePointFeatureC feat = m_hFeaturesByStr.Get(pfeat->Description());
-      // Change description
-      feat.Description() = strnew;
-      // Update stored features
-      m_hFeaturesByStr.Update(strnew,feat);
-      m_hFeatures.Update(id,feat);
-      // Done
+    if (pfeat != NULL || pfeat->IsValid()) 
       return true;
-    }
-    return false;
+    // Remove old feature
+    ImagePointFeatureC feat = m_hFeaturesByStr.Get(pfeat->Description());
+    // Change description
+    feat.Description() = strnew;
+    // Update stored features
+    m_hFeaturesByStr.Update(strnew,feat);
+    m_hFeatures.Update(id,feat);
+    // Done
+    return true;
   }
 
   bool ImagePointFeatureSetBodyC::Subset(StringC name, DListC<IntT>& subset) {
