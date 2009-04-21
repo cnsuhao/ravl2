@@ -49,7 +49,6 @@ namespace RavlN {
     for(IntT i = 1;i < argc;i++)
       args.InsLast(argv[i]);
     Init();
-    //  help = Boolean("help",false,"Print usage information. ");  
   }
   
   //: Creates the option processing system
@@ -69,7 +68,6 @@ namespace RavlN {
     for(IntT i = 1;i < argc;i++)
       args.InsLast(argv[i]);
     Init();
-    //  help = Boolean("help",false,"Print usage information. ");  
   }
   
   //: Creates the option processing system.
@@ -94,6 +92,7 @@ namespace RavlN {
   
   void OptionC::Init() {
     allargs = args.Copy();
+    help = Boolean("help","Print this usage information and exit. ");  
   }
   
   //: Add optload and optsave to the command line.
@@ -154,7 +153,6 @@ namespace RavlN {
   // together with usage/help is printed out. 
   
   bool OptionC::Check(bool exitOnFail) {
-    help = Boolean("help",false,"Print usage information. ");
     if(!leftOk) {
       for(DLIterC<StringC> it(args);it.IsElm();it.Next()) {
 	if(!IsProcessed(it.Data()))
