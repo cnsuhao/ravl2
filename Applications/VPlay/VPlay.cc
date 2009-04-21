@@ -339,11 +339,10 @@ int doVPlay(int nargs,char *args[])
   bool noSeek = option.Boolean("ns",false,"Suppress seeking. ");
   bool listFormats    = option.Boolean("lf",    false,                    "Print list of available data formats. ");
   bool listConversions= option.Boolean("lc",    false,                    "Print list of available data converters. ");
-  option.Comment("Keyboard short cuts p play s stop b back q quit -> jump forward <- jump back up arrow = play downarrow = back shift + up arrow = playx2 shift + downarrow = backx2 Home = start End = end 0 = stop");
   StringC infile = option.String("","","Input filename");  
   if(infile.IsEmpty())
     infile = option.String("","in.pgm","Input filename");
-  
+  option.Comment("\nKeyboard short cuts:\n p\tplay\n s\tstop\n 0\tstop\n b\tback\n q\tquit\n ->\tjump forward\n <-\tjump back\n uparrow  \tplay\n downarrow\tback\n shift + uparrow  \tplayx2\n shift + downarrow\tbackx2\n Home\tstart\n End\tend");  
   option.Check();
   
   // Does the user just want some information about support formats ?
