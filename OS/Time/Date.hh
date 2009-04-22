@@ -245,6 +245,10 @@ namespace RavlN {
     void Save(ostream &out) const;
     //: Write to a stream.
     
+    UIntT Hash() const
+    { return (sec + usec); }
+    //: Generate a hash value.
+    
   private:
     long sec;  // Seconds since 12:00 January 1, 1970.
     long usec; // microseconds.
