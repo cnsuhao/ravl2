@@ -897,16 +897,16 @@ namespace RavlGUIN {
 
   static SArray1dC<GtkTargetEntry> InitCommonTargetEntries() {
     SArray1dC<GtkTargetEntry> te(4);
-    te[0].target = "text/plain";
+    te[0].target = (char*) "text/plain";
     te[0].flags = 0;
     te[0].info = 0;
-    te[1].target = "text/uri-list";
+    te[1].target = (char*) "text/uri-list";
     te[1].flags = 0;
     te[1].info = 1;
-    te[2].target = "application/x-rootwin-drop";
+    te[2].target = (char*) "application/x-rootwin-drop";
     te[2].flags = 0;
     te[2].info = 1;
-    te[3].target = "STRING";
+    te[3].target = (char*) "STRING";
     te[3].flags = 0;
     te[3].info = 2;
     return te;

@@ -75,7 +75,7 @@ namespace RavlGUIN {
 			      upper,
 			      step_increment,
 			      1,
-			      1);
+			      0);
     
     widget = gtk_spin_button_new(GTK_ADJUSTMENT (adj),
 				 climbRate,

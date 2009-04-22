@@ -282,7 +282,7 @@ namespace RavlGUIN {
     
     if(!initCalled) {
       static int nargs = 2;
-      static char *args[3] = {"aprog","arg",0 };
+      static char *args[3] = {(char *) "aprog",(char *) "arg",0 };
       Init(nargs, args);
     }
     
