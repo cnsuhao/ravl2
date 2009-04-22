@@ -66,11 +66,11 @@ namespace RavlN
       RavlAssert(nss >= (int) ns.Size());
       s = TVectorC<NumT>(SArray1dC<NumT>(ns,nss));
       
-      RavlAssert((int) nU.Size1() == m && (int) nU.Size2() == Min(m,n) || (!wantu));
+      RavlAssert(((int) nU.Size1() == m && (int) nU.Size2() == Min(m,n)) || (!wantu));
       U = nU;
       U.Fill(0);
       
-      RavlAssert((int) nV.Size1() == n && (int) nV.Size2() == n || (!wantv));
+      RavlAssert(((int) nV.Size1() == n && (int) nV.Size2() == n) || (!wantv));
       V = nV;
       
       DoSVD(arg);
