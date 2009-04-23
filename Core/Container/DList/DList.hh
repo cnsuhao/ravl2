@@ -165,7 +165,7 @@ namespace RavlN {
     //: Test if lists are different.
     // assumes '==' is defined for 'DataT'
     
-    bool Contains(const DataT &x);
+    bool Contains(const DataT &x) const;
     //: Test if this list contains an element == to 'x'.
     
     UIntT Hash() const;
@@ -452,7 +452,7 @@ namespace RavlN {
     // returns true if the item is found and removed, 
     // false otherwise.
     
-    bool Contains(const DataT &x)
+    bool Contains(const DataT &x) const
     { return Body().Contains(x); }
     //: Test if this list contains an element == to 'x'.
     
@@ -603,7 +603,7 @@ namespace RavlN {
   }
   
   template<class DataT> 
-  bool DListBodyC<DataT>::Contains(const DataT &x) {
+  bool DListBodyC<DataT>::Contains(const DataT &x) const {
     for(DLIterC<DataT> it(*this);it;it++)
       if(*it == x)
 	return true;
