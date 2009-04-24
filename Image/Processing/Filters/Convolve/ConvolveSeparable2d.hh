@@ -58,17 +58,18 @@ namespace RavlImageN {
     //: Set the convolution kernel.
     
     void Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const;
-    //: Do convolution on image 'in', put the output in 'result' 
+    //: Do convolution on image 'in'; put the output in 'result' 
     
     ImageC<OutPixelT> Apply(const ImageC<InPixelT> &in) const{
       ImageC<OutPixelT> ret;
       Apply(in,ret);
       return ret;
     }
-    //: Do convolution on image 'in' return result in new image.
+    //: Do convolution on image 'in'; return result in new image.
     
     void operator()(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const
     { Apply(in,result); }
+    //: Do convolution on image 'in', put the output in 'result' 
     
   protected:
     ConvolveVert2dC<InPixelT,SumTypeT,KernelPixelT,SumTypeT>  vert;

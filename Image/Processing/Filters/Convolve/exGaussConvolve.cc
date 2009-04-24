@@ -31,20 +31,26 @@ int main(int argc, char **argv)
   opt.Check();
 
   // Working image...
-  ImageC<RealT> im;
+  ImageC<RealT> in, out;
   
   // Setup filter.
   GaussConvolve2dC<RealT> gc(order);
   
   // load in an image
   
-  Load(inIm, im, "", Verbose);
+  Load(inIm, in, "", Verbose);
   
-  // Filter image.
-  im = gc.Apply(im);
+  // Filter image (method 1)
+  out = gc.Apply(in);
+  
+  // Filter image (method 2)
+  gc.Apply(in, out);
+  
+  // Filter image (method 3)
+  gc(in, out);
   
   // Save result.
-  Save(outIm,im, "", Verbose);
+  Save(outIm,in, "", Verbose);
   
   return 0;
 }
