@@ -33,12 +33,13 @@ namespace RavlImageN {
   // The exact requirements of these types depends on the gain and type of the filter being used.
   // In multi-channel filters SumPixelT should be a multi-channel value as well.
   // E.g. to filter an ImageC&lt;ByteRGBValueC&gt; you might use:
-  // InPixelT=ByteRGBValueC, OutPixelT=ByteRGBValueC,KernelPixelT=RealT,SumType=RealRGBValueC</p>
+  // InPixelT=ByteRGBValueC, OutPixelT=ByteRGBValueC, KernelPixelT=RealT, SumType=RealRGBValueC</p>
   //
-  // <p> <b>N.B.</b> This class rotates the kernel by 180&deg; and then uses Correlate2dC::Apply().
-  // For rotationally symmetric non-separable kernels, it is therefore slightly
-  // faster to use <a // href="RavlImageN.Correlate2dC.html">Correlate2dC</a>
-  // directly.</p>
+  // <p> N.B. This class rotates the kernel by 180&deg; and then uses
+  // Correlate2dC::Apply().
+  // (For rotationally symmetric non-separable kernels, it is therefore
+  // marginally faster to use <a // href="RavlImageN.Correlate2dC.html">
+  // Correlate2dC</a> directly.)</p>
 
   template<class InPixelT,class OutPixelT = InPixelT,class KernelPixelT = InPixelT,class SumTypeT = KernelPixelT>
   class Convolve2dC 

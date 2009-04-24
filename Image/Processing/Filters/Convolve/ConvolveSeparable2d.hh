@@ -22,18 +22,20 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: Separable 2D Convolution
-  // <b>Template args:</b> <br>
+  //
+  // <h3>Template args:</h3>
   // InPixelT = Type of pixel in input image. <br>
   // OutPixelT = Type of pixel in output image. (Default = InPixelT) <br>
   // KernelPixelT = Type of pixel in convolution kernel. (Default = InPixelT)  <br>
   // SumTypeT = A type appropriate for summing the product of KernelPixelT and InPixelT. (Default = KernelPixelT <br>
+  // <p>
   // There are two main issues when choosing these types.<br>
   // 1. Underflow and overflow of the sums and product operations. <br>
   // 2. Handing multi-channel images. (Such as RGB.) <br>
   // The exact requirements of these types depends on the gain and type of the filter being used.
   // In multi-channel filters SumPixelT should be a multi-channel value as well. e.g.
   // to filter an ImageC&lt;ByteRGBValueC&gt; you might use:
-  // InPixelT=ByteRGBValueC, OutPixelT=ByteRGBValueC, KernelPixelT=RealT, SumType=RealRGBValueC
+  // InPixelT=ByteRGBValueC, OutPixelT=ByteRGBValueC, KernelPixelT=RealT, SumType=RealRGBValueC</p>
   
   
   template<class InPixelT,class OutPixelT = InPixelT,class KernelPixelT = InPixelT,class SumTypeT = KernelPixelT>
