@@ -1,5 +1,5 @@
 ! author="Charles Galambos"
-! children="Linear Algebra;Geometry;Projective Geometry;Optimisation;Statistics;Random Numbers;Sequences;Signals;Internal"
+! children="Geometry;Linear Algebra;Projective Geometry;Optimisation;Statistics;Random Numbers;Sequences;Signals;Internal"
 : Scalar math, Linear algebra and Geometry
 
 <p>Many of the functions in this library use the <a
