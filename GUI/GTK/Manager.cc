@@ -237,11 +237,6 @@ namespace RavlGUIN {
     manager.HandleNotify();
     return false;
   }
-
-  static gboolean manager_idle_timeout(gpointer data) {
-
-    return true;
-  }
 #endif
 
   bool StartFunc() {
@@ -310,10 +305,6 @@ namespace RavlGUIN {
     GIOChannel *channel = g_io_channel_unix_new(ifp);
     g_io_add_watch_full(channel,G_PRIORITY_DEFAULT_IDLE+10,G_IO_IN,manager_input_callback, this,0);
     g_io_channel_unref (channel);
-#else
-#if RAVL_OS_WIN32
-    //g_timeout_add(500,&manager_idle_timeout,0);
-#endif
 #endif
     
     startupDone.Post();
