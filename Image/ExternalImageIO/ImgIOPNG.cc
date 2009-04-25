@@ -455,8 +455,8 @@ namespace RavlImageN {
     text_ptr[2].compression = PNG_TEXT_COMPRESSION_zTXt;
 #endif
     png_text_struct text_ptr[1];
-    text_ptr[0].key = "Description";
-    text_ptr[0].text = "Generated with RAVL.";
+    text_ptr[0].key = (char *)"Description";
+    text_ptr[0].text = (char *)"Generated with RAVL.";
     text_ptr[0].compression = PNG_TEXT_COMPRESSION_NONE;
 #ifdef PNG_iTXt_SUPPORTED
     text_ptr[0].lang = NULL;
