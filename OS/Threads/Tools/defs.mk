@@ -31,7 +31,7 @@ LIBDEPS=RavlThreadTools.def
 
 USESLIBS = RavlThreads RavlOS
 
-EXAMPLES= exSignal.cc exSignal1.cc exSignal2.cc exLaunchThread.cc 
+EXAMPLES= exSignal.cc exSignal1.cc exSignal2.cc exLaunchThread.cc testAtomicSpeed.cc
 
 TESTEXES = testLaunchThread.cc testTickerTrigger.cc testTimedTriggerQueue.cc testSignal.cc testAtomic.cc
 
