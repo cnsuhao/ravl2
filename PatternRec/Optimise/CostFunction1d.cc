@@ -22,7 +22,8 @@ namespace RavlN {
       _point(point),
       _direction(direction)
   {
-    RavlAssert (_point.Size() == _direction.Size() == _cost.OutputSize());
+    RavlAssert (_point.Size() == _direction.Size());
+    RavlAssert (_point.Size() == _cost.OutputSize());
   }
   
   CostFunction1dBodyC::CostFunction1dBodyC (istream &in)
