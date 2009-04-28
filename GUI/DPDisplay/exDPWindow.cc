@@ -20,6 +20,15 @@
 
 using namespace RavlGUIN;
 
+
+PolyLine2dC Arrow(const Point2dC& tail, const Point2dC& head) { 
+  PolyLine2dC arrow;
+  arrow.InsLast(head);
+  arrow.InsLast(tail);
+  return arrow;
+}
+
+
 int main() {
   Index2dC origin(5,10);
   IndexRange2dC rng(origin,origin + Index2dC(256,256));
@@ -40,18 +49,30 @@ int main() {
     return 1;
   }
   
+  // Add a closed polygon to the image
   Polygon2dC aPoly(RealRange2dC(Point2dC(30,25),10));
   if(!Save("@XA:hello",aPoly)) {
-    cerr << "Failed to save point. \n";
+    cerr << "Failed to save polygon. \n";
     return 1;
   }
   
+  // Add a polyline to the image
   PolyLine2dC aPolyLine(Polygon2dC(RealRange2dC(Point2dC(60,25),10)));
   if(!Save("@XA:hello",aPolyLine)) {
-    cerr << "Failed to save point. \n";
+    cerr << "Failed to save polygon. \n";
     return 1;
   }
   
+  // Add some "arrows" to the image
+  for (IndexC r=150; r<=250; r+= 10) for (IndexC c=20; c<=120; c+= 10) {
+    PolyLine2dC arrow = Arrow(Point2dC(r,c), Point2dC(r+8,c+6));
+    if(!Save("@XA:hello",arrow)) {
+      cerr << "Failed to save arrow. \n";
+      return 1;
+    }
+  }
+
+
   
   IndexRangeC rr(-100,100);
   IndexRangeC cr(-100,200);
