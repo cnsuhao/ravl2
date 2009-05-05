@@ -24,6 +24,7 @@
 %}
 
 namespace RavlImageN {
+  using namespace RavlN;
 
   class FontC {
   public:
