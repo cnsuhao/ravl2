@@ -2,35 +2,38 @@
 <HTML>
 
   <head>
-    <title>Extra Documentation</title>
-    <!--! author="Robert Crida" -->
-    <!--! docentry="Ravl.Documentation.Sections" -->
+    <title>Adding extra documentation</title>
+    <!--! author="Bill Christmas" -->
+    <!--! docentry="Ravl.Documentation.Branches" -->
   </head>
 
-<body>
+  <body>
+    <BLOCKQUOTE>
 
-<table width=100% align="middle">
-<tr><td align=left valign=top bgcolor="#D7EFFF">
-
-
-<BLOCKQUOTE>
-<BR><BR>
-
-
-<!-- ******************* Page Summary (On LHS of Page)  ******************* -->
-<P>Extra documentation can be added to section pages (outside the class documentation pages) by using <TT>.eht</TT> and <TT>.html</TT> files. Some documentation needs to be written about these.
-</P>
-
-</BLOCKQUOTE>
-
-</td>
-</tr></table> 
-
-</TD>
-</TABLE>
+      <p>This page describes the two basic ways extra documentation can be added outside the class pages: </p>  <ul>
+        <li>Extra documentation to the documentation branch nodes - see <a href="Ravl.API.Images.html">example</a> (also the page you are reading). </li>
+        <li>Stand-alone pages - see example. (The page you are reading probably should have been here.)</li>
+      </ul>
+      
+      <h3>Adding extra documentation to the branch nodes</h3>
+      
+      <p>The "branch nodes" are those whose URL (like this page) end as: <code>.../Tree/xxx.html</code>.  You create them like this:  </p><ul>
+        <li><p>Create a normal HTML file (suffix <code>.html</code>).  Add author and docentry lines: </p> <pre>
+    &lt;!--! author="Robert Crida" --&gt;
+    &lt;!--! docentry="Ravl.Documentation.Sections" --&gt;</pre> 
+          <p>The docentry entry determines where the page goes in the documentation tree.</p>
+          <p>The CxxDoc system will add: some standard links; links to the parents of the node, and a heading that is duplicated from the title in the HTML head. If an automatically-generated branch node page already exists at the same URL, it will be merged - see <a href="Ravl.API.Images.html">example</a>.</p></li>
+        <li>Add an <a href="Ravl.QMake.Defs.html#EHT">EHT entry</a> to the <code>defs.mk</code> file.</li>
+      </ul>
 
 
-</body>
+      <h3>Stand-alone pages</h3>
+
+      <p>If you have information that does not obviously fit in the class documentation tree, or is not HTML, it can be included as a stand-alone page - it can be .html, .pdf, .png, .txt etc.  No formatting is done.  It should be included as an <a href="Ravl.QMake.Defs.html#HTML">HTML item</a> in the <code>defs.mk</code> file (even if ti is not specifically an HTML file. It is linked from tree or class nodes as e.g. <code>../../../html/xxx.html</code> (see e.g. link to "complex Gabor filter theory" on <a href="../Class/RavlImageN.GaborComplexC.html">this page</a>)</p>
+
+
+    </BLOCKQUOTE>
+  </body>
 </html>
 
 
