@@ -4,7 +4,6 @@
 # Public License (GPL). See the gpl.licence file for details or
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
-#! rcsid="$Id$"
 #! file="Ravl/QMake/Main.mk"
 
 ifndef MAKEHOME
@@ -403,6 +402,12 @@ ifeq ($(SUPPORT_OK),yes)
     $(patsubst %$(CXXEXT),$(INST_OBJS)/%$(OBJEXT),$(SOURCES))))))))
  TARG_OBJS=$(patsubst %$(CXXAUXEXT),$(INST_OBJS)/%$(OBJEXT),$(TARG_BASEOBJS))
  TARG_HDRS:=$(patsubst %,$(INST_HEADER)/%,$(HEADERS))
+ifdef USE_INCLUDE_SYMINC
+ TARG_HDRSYMS:=$(patsubst %,$(INST_HEADERSYM)/%,$(HEADERS))
+else
+ TARG_HDRSYMS=
+endif
+
  ifdef FULLCHECKING
   TARG_HDRCERTS:=$(patsubst %$(CHXXEXT),$(INST_HEADERCERT)/%$(CHXXEXT),$(HEADERS)) $(patsubst %$(CHEXT),$(INST_HEADERCERT)/%$(CHEXT),$(HEADERS))
  else
@@ -467,6 +472,8 @@ endif
 else
  TARG_OBJS=
  TARG_HDRS=
+ TARG_HDRSYMS=
+
  TARG_HDRCERTS=
  TARG_DEFS=
  TARG_LIBS=
@@ -550,7 +557,7 @@ libbuild: prebuildstep build_subdirs build_libs build_aux postbuildstep
 purifybuild: prebuildstep  build_subdirs build_libs build_pureexe postbuildstep
 
 srcfiles: $(TARG_DEFS) $(TARG_HDRS) $(LOCAL_FILES) $(LOCALHEADERS) $(SOURCES) $(MAINS) $(AUXFILES) $(HEADERS) \
- $(EXAMPLES) $(TESTEXES) $(DOCNODE) $(HTML) $(MAN1) $(MAN2) $(MAN3) $(EHT) $(MUSTLINK) $(EXTERNALLIBS)
+ $(EXAMPLES) $(TESTEXES) $(DOCNODE) $(HTML) $(MAN1) $(MAN2) $(MAN3) $(EHT) $(MUSTLINK) $(EXTERNALLIBS) $(TARG_HDRSYMS)
 
 prebuildstep:
 ifdef PREBUILDSTEP
@@ -672,7 +679,7 @@ $(INST_HEADERCERT)/%$(CHEXT) : %$(CHEXT) $(TARG_HDRS) $(INST_HEADERCERT)/.dir $(
 	$(RM) $(WORKTMP)/$<$(OBJEXT) $(WORKTMP)/$<$(CEXT)
 endif
 
-$(TARG_HDRS) : $(INST_HEADER)/% : % $(INST_HEADER)/.dir
+$(TARG_HDRS) : $(INST_HEADER)/% : % $(INST_HEADER)/.dir 
 ifndef USE_INCLUDE_SYMLINK 
 	$(SHOWIT)echo "--- Install header $(@F)" ; \
 	if [ -f $(INST_HEADER)/$(@F) ] ; then \
@@ -683,7 +690,7 @@ ifndef USE_INCLUDE_SYMLINK
 	fi ; \
 	echo "#line 1 \"$(QCWD)/$(@F)\"" > $(INST_HEADER)/$(@F) ; \
 	cat  $< >> $(INST_HEADER)/$(@F) ; \
-	$(CHMOD) a-w,a+r,a-x $(INST_HEADER)/$(@F) 
+	$(CHMOD) a-w,a+r,a-x $(INST_HEADER)/$(@F)
 else 
 	$(SHOWIT)if [ -e $(INST_HEADER)/$(@F) -o -L $(INST_HEADER)/$(@F) ] ; then \
 		if [ "`readlink -e $(INST_HEADER)/$(@F)`"  != "$(QCWD)/$(@F)" ] ; then \
@@ -695,6 +702,17 @@ else
 		ln -s $(QCWD)/$(@F) $(INST_HEADER)/$(@F) ; \
 	fi 
 endif
+
+$(TARG_HDRSYMS) : $(INST_HEADERSYM)/% : % $(INST_HEADERSYM)/.dir
+	$(SHOWIT)echo "--- Syminc header $(@F)" ; \
+	if [ -e $(INST_HEADERSYM)/$(@F) -o -L $(INST_HEADERSYM)/$(@F) ] ; then \
+		if [ "`readlink -e $(INST_HEADERSYM)/$(@F)`"  != "$(QCWD)/$(@F)" ] ; then \
+			ln -sf $(QCWD)/$(@F) $(INST_HEADERSYM)/$(@F) ; \
+		fi ; \
+	else \
+		ln -s $(QCWD)/$(@F) $(INST_HEADERSYM)/$(@F) ; \
+	fi 
+
 
 #	touch -r $< $(INST_HEADER)/$(@F) ; \
 

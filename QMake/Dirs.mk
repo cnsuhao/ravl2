@@ -4,7 +4,6 @@
 # Public License (GPL). See the gpl.licence file for details or
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
-#! rcsid="$Id$"
 #! file="Ravl/QMake/Dirs.mk"
 
 # Directories used in making.
@@ -159,8 +158,10 @@ INST_DEPEND=$(INST_ADMIN)/$(ARC)/depend/$(PACKAGE)/$(BASENAME)
 
 ifeq ($(PACKAGE),local)
 INST_HEADER:=$(INST_INCLUDE)
+INST_HEADERSYM:=$(INST_ADMIN)/syminc
 else
 INST_HEADER:=$(INST_INCLUDE)/$(PACKAGE)
+INST_HEADERSYM:=$(INST_ADMIN)/syminc/$(PACKAGE)
 endif
 
 INST_HEADERCERT:=$(INST_ADMIN)/Cert/$(PACKAGE)
