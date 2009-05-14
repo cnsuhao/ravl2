@@ -704,12 +704,13 @@ else
 endif
 
 $(TARG_HDRSYMS) : $(INST_HEADERSYM)/% : % $(INST_HEADERSYM)/.dir
-	$(SHOWIT)echo "--- Syminc header $(@F)" ; \
-	if [ -e $(INST_HEADERSYM)/$(@F) -o -L $(INST_HEADERSYM)/$(@F) ] ; then \
+	$(SHOWIT)if [ -e $(INST_HEADERSYM)/$(@F) -o -L $(INST_HEADERSYM)/$(@F) ] ; then \
 		if [ "`readlink -e $(INST_HEADERSYM)/$(@F)`"  != "$(QCWD)/$(@F)" ] ; then \
+			echo "--- Update syminc link $(@F)" ; \
 			ln -sf $(QCWD)/$(@F) $(INST_HEADERSYM)/$(@F) ; \
 		fi ; \
 	else \
+	        echo "--- Creating syminc header $(@F)" ; \
 		ln -s $(QCWD)/$(@F) $(INST_HEADERSYM)/$(@F) ; \
 	fi 
 
