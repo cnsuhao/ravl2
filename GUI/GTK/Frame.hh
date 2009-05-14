@@ -38,6 +38,9 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
+    virtual bool Create(GtkWidget *widget);
+    //: Create with a widget supplied from elsewhere.
+    
     void SetShadowType(GtkShadowType shadow);
     //: Set frame type.
     // Values for shadow are listed <A HREF="http://library.gnome.org/devel/gtk/stable/gtk-Standard-Enumerations.html#GTKSHADOWTYPE">here</A>.

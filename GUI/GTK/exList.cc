@@ -40,6 +40,6 @@ int main(int nargs,char *args[])
   
   Manager.Execute();
   aList.AppendLine(5,StringC("Hi2"));
-  
+
   Manager.Wait();  
 }

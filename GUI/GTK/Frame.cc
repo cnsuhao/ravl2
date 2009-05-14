@@ -54,6 +54,16 @@ namespace RavlGUIN {
     ConnectSignals();
     return true;
   }
+
+  //: Create with a widget supplied from elsewhere.
+  
+  bool FrameBodyC::Create(GtkWidget *_widget) {
+    RavlAssert(GTK_FRAME(widget) != 0);
+    if(!OneChildBodyC::Create(_widget))
+      return false;
+    // Anything to do..?
+    return true;
+  }
   
   //: Setup shadow.
   

@@ -27,6 +27,12 @@ namespace RavlGUIN {
     RavlAssert(0);
     return false;
   }
+
+  //: Create with a widget supplied from elsewhere.
+  
+  bool OneChildBodyC::Create(GtkWidget *widget) {
+    return WidgetBodyC::Create(widget);
+  }
   
   //: Add widget.
   

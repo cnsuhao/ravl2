@@ -36,6 +36,9 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
+    virtual bool Create(GtkWidget *widget);
+    //: Create with a widget supplied from elsewhere.
+    
     const WidgetC &Child() const { return child; }
     //: Access window contents;
     

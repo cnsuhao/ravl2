@@ -677,20 +677,24 @@ namespace RavlGUIN {
     void Select(TreeModelPathC path)
     { Body().Select(path); }
     //: Select the specified path
+    // Care should be taken, the first selection made with this function will be ignored if ignoreInitialSelectionSignals in the constructor is true.
 
     void Select(TreeModelIterC iter)
     { Body().Select(iter); }
     //: Select the specified row iterator
+    // Care should be taken, the first selection made with this function will be ignored if ignoreInitialSelectionSignals in the constructor is true.
 
     bool GUISelectPath(TreeModelPathC path)
     { return Body().GUISelectPath(path); }
     //: Select the specified path
     // GUI thread only
+    // Care should be taken, the first selection made with this function will be ignored if ignoreInitialSelectionSignals in the constructor is true.
 
     bool GUISelectIter(TreeModelIterC iter)
     { return Body().GUISelectIter(iter); }
     //: Select the specified row iterator
     // GUI thread only
+    // Care should be taken, the first selection made with this function will be ignored if ignoreInitialSelectionSignals in the constructor is true.
 
     bool GUISelectedPath(TreeModelPathC path)
     { return Body().GUISelectedPath(path); }

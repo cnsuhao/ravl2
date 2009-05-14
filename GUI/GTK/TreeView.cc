@@ -71,13 +71,14 @@ namespace RavlGUIN {
   static void tree_selection_changed_cb(GtkTreeSelection *selection, gpointer obj) {
     TreeViewBodyC *bod = (TreeViewBodyC *) obj;
     // Filter first selection event
-    if (bod->FilterFirstSelections()) {
+    if (bod->Sections()) {
       bod->GUIDeselectAll();
-      return;
+      return ;
     }
     TreeModelIterC rowIter;
     DListC<TreeModelIterC> ret = bod->GUISelected();
     bod->SelectionChanged()(ret);
+    return ;
   }
 
   static const StringC attrText("text");
@@ -721,10 +722,13 @@ namespace RavlGUIN {
   // GUI thread only
 
   bool TreeViewBodyC::GUISelectPath(TreeModelPathC path) {
-    if (selection == 0)
+    if (selection == 0) {
+      ONDEBUG(std::cerr << "Warning No selection setup!\n");
       return false;
+    }
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
-    gtk_tree_selection_unselect_path(selection,path.TreePath());
+    ONDEBUG(std::cerr << "Selecting path... \n");
+    gtk_tree_selection_select_path(selection,path.TreePath());
     return true;
   }
   
@@ -732,9 +736,10 @@ namespace RavlGUIN {
   // GUI thread only
   
   bool TreeViewBodyC::GUISelectIter(TreeModelIterC iter) {
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "TreeViewBodyC::GUISelectIter()";)
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "TreeViewBodyC::GUISelectIter()");
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     if (selection == 0) {
+      ONDEBUG(std::cerr << "TreeViewBodyC::GUISelectedIter, No selection setup.");
       m_preselection = iter.TreeIter();
       return false;
     }
@@ -742,6 +747,7 @@ namespace RavlGUIN {
       cerr << "TreeViewBodyC::GUISelectIter(), Warning: Asked to select invalid iterator. \n";
       return false;
     }
+    ONDEBUG(cerr << "Setting selection.\n");
     gtk_tree_selection_select_iter(selection,iter.TreeIter());
     return true;
   }
@@ -750,8 +756,10 @@ namespace RavlGUIN {
   // GUI thread only
   
   bool TreeViewBodyC::GUISelectedPath(TreeModelPathC path) {
-    if (selection == 0)
+    if (selection == 0) {
+      ONDEBUG(std::cerr << "TreeViewBodyC::GUISelectedIter, No selection setup.");
       return false;
+    }
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     return gtk_tree_selection_path_is_selected(selection,path.TreePath()) != 0;
   }
@@ -760,8 +768,11 @@ namespace RavlGUIN {
   // GUI thread only
   
   bool TreeViewBodyC::GUISelectedIter(TreeModelIterC iter) {
-    if (selection == 0)
+    ONDEBUG(std::cerr << "TreeViewBodyC::GUISelectedIter, Called.");
+    if (selection == 0) {
+      ONDEBUG(std::cerr << "TreeViewBodyC::GUISelectedIter, No selection setup.");
       return false;
+    }
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     return gtk_tree_selection_iter_is_selected(selection,iter.TreeIter()) != 0;
   }
