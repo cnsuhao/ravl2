@@ -71,7 +71,7 @@ namespace RavlGUIN {
   static void tree_selection_changed_cb(GtkTreeSelection *selection, gpointer obj) {
     TreeViewBodyC *bod = (TreeViewBodyC *) obj;
     // Filter first selection event
-    if (bod->Sections()) {
+    if (bod->FilterFirstSelections()) {
       bod->GUIDeselectAll();
       return ;
     }
