@@ -114,6 +114,10 @@ namespace RavlLogicN {
     {}
     //: Constructor.
 
+    ValueBodyC()
+    {}
+    //: Default constructor.
+    
     ValueBodyC(istream &strm)
       : ValueBaseBodyC(strm)
     { strm >> data; }
