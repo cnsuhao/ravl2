@@ -34,13 +34,14 @@ namespace RavlLogicN {
       ntriggers(true)
   {}
   
-  static EmptyC anEmpty;
-  static RCWrapC<EmptyC> emptyWrap(anEmpty);
   
   //: Tell blackboard something.
   
   bool ActiveBlackboardBodyC::Tell(const LiteralC &key) 
   {
+    static EmptyC anEmpty;
+    static RCWrapC<EmptyC> emptyWrap(anEmpty);
+    
     if(key.IsCondition()) {
       NotC aNot(key);
       if(aNot.IsValid())
