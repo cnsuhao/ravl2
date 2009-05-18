@@ -44,6 +44,7 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+                        AdditionalOptions="/MP"
 				Optimization="0"
 				AdditionalIncludeDirectories="include\Win32;include"
 				PreprocessorDefinitions="_DEBUG;VISUAL_CPP;_LIB;WIN32;RAVL_USE_GTK2=1;RAVL_CHECK=1;PROJECT_OUT=\&quot;C:\\Build\&quot;"
@@ -54,11 +55,12 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 				PrecompiledHeaderFile="C:\Build\win32\debug\obj\RavlImageIO\RavlImageIO.pch"
 				AssemblerListingLocation="C:\Build\win32\debug\obj\RavlImageIO\"
 				ObjectFile="C:\Build\win32\debug\obj\RavlImageIO\"
-				ProgramDataBaseFileName="C:\Build\win32\debug\obj\RavlImageIO\"
+				ProgramDataBaseFileName="C:\Build\win32\debug\lib\RavlImageIO.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
+                        DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -120,6 +122,7 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+                        AdditionalOptions="/MP"
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="include\Win32;include"
@@ -131,10 +134,11 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 				PrecompiledHeaderFile="C:\Build\win32\opt\obj\RavlImageIO/RavlImageIO.pch"
 				AssemblerListingLocation="C:\Build\win32\opt\obj\RavlImageIO\"
 				ObjectFile="C:\Build\win32\opt\obj\RavlImageIO\"
-				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlImageIO\"
+				ProgramDataBaseFileName="C:\Build\win32\opt\lib\RavlImageIO.pdb"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+                        DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -261,26 +265,6 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 				>
 			</File>
 			<File
-				RelativePath="..\.\Image\ImageIO\ImgIOByteYCbCrBT709Value.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\ImageIO\ImgIOUInt16YCbCrBT709Value.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\ImageIO\ImgIOYCbCrBT709ValueFloat.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\ImageIO\ImgIOByteYCbCr422BT709Value.cc"
-				>
-			</File>
-			<File
-				RelativePath="..\.\Image\ImageIO\ImgIOUInt16YCbCr422BT709Value.cc"
-				>
-			</File>
-			<File
 				RelativePath="..\.\Image\ImageIO\ImgTypeCnv.cc"
 				>
 			</File>
@@ -310,6 +294,26 @@ if not exist C:\Build\share\RAVL\pixmaps\NUL mkdir C:\Build\share\RAVL\pixmaps&#
 			</File>
 			<File
 				RelativePath="..\.\Image\ImageIO\ImgTypeCnv6.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOByteYCbCrBT709Value.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOUInt16YCbCrBT709Value.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOYCbCrBT709ValueFloat.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOByteYCbCr422BT709Value.cc"
+				>
+			</File>
+			<File
+				RelativePath="..\.\Image\ImageIO\ImgIOUInt16YCbCr422BT709Value.cc"
 				>
 			</File>
 			<File

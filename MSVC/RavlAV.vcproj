@@ -42,6 +42,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+                        AdditionalOptions="/MP"
 				Optimization="0"
 				AdditionalIncludeDirectories="include\Win32;include"
 				PreprocessorDefinitions="_DEBUG;VISUAL_CPP;_LIB;WIN32;RAVL_USE_GTK2=1;RAVL_CHECK=1;PROJECT_OUT=\&quot;C:\\Build\&quot;"
@@ -52,11 +53,12 @@
 				PrecompiledHeaderFile="C:\Build\win32\debug\obj\RavlAV\RavlAV.pch"
 				AssemblerListingLocation="C:\Build\win32\debug\obj\RavlAV\"
 				ObjectFile="C:\Build\win32\debug\obj\RavlAV\"
-				ProgramDataBaseFileName="C:\Build\win32\debug\obj\RavlAV\"
+				ProgramDataBaseFileName="C:\Build\win32\debug\lib\RavlAV.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
+                        DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -116,6 +118,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+                        AdditionalOptions="/MP"
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="include\Win32;include"
@@ -127,10 +130,11 @@
 				PrecompiledHeaderFile="C:\Build\win32\opt\obj\RavlAV/RavlAV.pch"
 				AssemblerListingLocation="C:\Build\win32\opt\obj\RavlAV\"
 				ObjectFile="C:\Build\win32\opt\obj\RavlAV\"
-				ProgramDataBaseFileName="C:\Build\win32\opt\obj\RavlAV\"
+				ProgramDataBaseFileName="C:\Build\win32\opt\lib\RavlAV.pdb"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
+                        DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
