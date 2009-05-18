@@ -143,10 +143,11 @@ namespace RavlLogicN {
     //: Save to binary stream 'out'.
     
     virtual bool IsEqual(const LiteralC &oth) const;
+    //: Is this equal to another value.
     
-    //: Hash this value.
     virtual UIntT Hash() const 
     { return StdHash(data); }
+    //: Hash this value.
     
     virtual StringC Name() const {
       StringC nm = StringOf(data);
