@@ -25,9 +25,11 @@
 #endif
 #include <sys/types.h>
 
+#if !RAVL_USE_WINSOCK
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
+#endif
 #if RAVL_HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
@@ -40,10 +42,13 @@
 #include <unistd.h>
 #endif
 
+#if !RAVL_USE_WINSOCK
 #include <sys/uio.h>
+#include <poll.h>
+#endif
 #include <fcntl.h>
 
-#include <poll.h>
+
 
 #define DODEBUG 0
 #if DODEBUG
@@ -61,6 +66,10 @@ namespace RavlN {
   // returns true on success.
 
   bool GetHostByName(const char *name,struct sockaddr_in &sin) {
+#if RAVL_USE_WINSOCK
+    RavlAssertMsg(0,"Not implemented. ");
+	return false;
+#else
     int opErrno = 0;
     int buffSize = 1024;
     char *hostentData = new char [buffSize];
@@ -123,6 +132,7 @@ namespace RavlN {
 #endif
       delete [] hostentData;
       throw ExceptionNetC("Can't find host name for some reason.");
+
     }
 
     RavlAssert(result != 0);
@@ -140,17 +150,23 @@ namespace RavlN {
 
     delete [] hostentData;
     return true;
-  }
-  
+ #endif
+  } 
   //: Attempt to find hostname by the address.
   // returns true on success and assignes the hostname to name.
   
   bool GetHostByAddr(struct sockaddr &sin,int sinLen,StringC &name) {
 #if  RAVL_USE_WINSOCK
+#if 0
     char strHostName[1024];
-    if(getnameinfo(&addr,namelen, strHostName, 1024, 0,0,NI_NUMERICSERV) == SOCKET_ERROR)
+    if(getnameinfo(&sin,1024, strHostName, 1024, 0,0,NI_NUMERICSERV) == SOCKET_ERROR)
       return false;
     strRet = StringC(strHostName);
+	return true;
+#else
+    RavlAssertMsg(0,"Not implemetned. ");
+    return false;
+#endif
 #else
     int buffSize = 1024;
     char *hostentData = new char [buffSize];
