@@ -52,7 +52,7 @@ namespace RavlImageN {
   ImageC<RealRGBValueC> RealHSVImageCT2RealRGBImageCT(const ImageC<RealHSVValueC> & dat ) {
     ImageC<RealRGBValueC> ret ( dat.Rectangle() ) ;
     for(Array2dIter2C<RealRGBValueC,RealHSVValueC> it(ret,dat);it.IsElm();it.Next()) {
-      it.Data1() = (it.Data2().RGB() ) ;}
+      it.Data1() = (it.Data2().RealRGBValue() ) ;}
       return ret ;
   }
 

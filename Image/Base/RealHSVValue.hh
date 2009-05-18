@@ -60,9 +60,16 @@ namespace RavlImageN {
     inline void Set (const RealT & h, const RealT & s, const RealT & v) 
     { data[0] = h ; data[1] = s ; data[2] = v ; } 
     //: Set the value of the pixel. 
-    
-    inline RealRGBValueC  RGB (void) ; 
+
+    inline RealRGBValueC  RealRGBValue (void) const;
     //: Convert this value to an RGB value
+
+#if !RAVL_OS_WINDOWS
+    inline RealRGBValueC  RGB (void) const
+    { return RealRGBValue(); }
+    //: Convert this value to an RGB value
+    // This method is depreicated as it conflicts with a windows macro definition.
+#endif
 
     inline const RealT & H() const 
     { return data[0] ; }
@@ -144,7 +151,7 @@ namespace RavlImageN {
 
 
 
-   inline RealRGBValueC  RealHSVValueC::RGB (void) 
+   inline RealRGBValueC  RealHSVValueC::RealRGBValue (void) const
    {
     RealRGBValueC rgb ;
     
