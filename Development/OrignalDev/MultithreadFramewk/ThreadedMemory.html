@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>A framework for developing coarse-grained multi-threaded applications</title>
+    <!--! docentry="Ravl.API.OS.Multithreading Framework" -->
+    <!--! children="Wrapper;Module Set;Main program" -->
+  </head>
+
+  <body>
+    <h2>Introduction</h2>
+
+    <p>These classes provide a framework for creating a coarse-grained multi-threaded modular system, designed with video / multimedia processing applications in mind. </p>
+
+    <p>  The set of modules create a data-flow system, in which each module can read a stream of time-coded data from previous modules and also creates time-coded data for any number of other modules.  It is currently designed for applications in which the data flow is unidirectional, i.e. there is no feedback.   Each module in the system provides: </p>
+    <ul>
+      <li>a wrapper for a processing stage</li>
+      <li>storage for the processing results, in XML form</li>
+      <li>access to the storage of other modules</li>
+    </ul>
+    <p>To implement this system, the application must include two categories of code: </p><ol>
+      <li>a <a href="#SETUP">code fragment</a> that assembles and runs the system</li>
+      <li>a <a href="#MODULE">set of functions</a> that do the required processing, one per module, with a specific interface</li>
+    </ol>
+    <p>Some other features of the system:  </p>
+    <ul>
+      <li>The system automatically assembles itself, making the required connections between the relevant modules. The user specifies a target module; the system then recursively finds which modules are required to provide input, assembles the modules, and then starts the whole set of modules going.</li>
+      <li>Each module runs as a separate thread.</li>
+      <li>Each module can write diagnostic information to its own window.</li>
+      <li>Each module can also display its current contents in a dynamic dvi display.</li>
+      <li>The module data is mainly stored as a series of XML elements, tagged with timecode information.  For efficiency reasons, any image data is stored as a separate binary file, referenced by the XML. </li>
+      <li>Each module keeps track of what other modules are reading from it, and can "forget" information that is no longer needed.</li>
+      <li>The memory created by a session can be saved, and can then be used by a subsequent session.  This avoids the need to recompute modules early in the data processing network when diagnosing problems in later modules. </li>
+</ul>
+
+    <h2><a name="SETUP">Setting up the application framework</a></h2>
+
+    <p>Here is some <a href="Ravl.API.OS.Multithreading_Framework.Main_program.html">example code</a> which would set the whole system going.</p>
+
+
+    <h2><a name="MODULE">Setting up a new module</a></h2>
+
+    <p>To create a new module, and add it to the system, these steps are required:</p>
+    <ol>
+      <li>Create a <a href="Ravl.API.OS.Multithreading_Framework.Wrapper.html">"wrapper" function</a> that contains the processing required for the module.</li>
+
+      <li>Add the module to list in <a href="Ravl.API.OS.Multithreading_Framework.Module_Set.html">modules header</a>.</li>
+
+      <li>Register the module in the <a href="Ravl.API.OS.Multithreading_Framework.Main_program.html#REG">code that sets the system going</a>.</li>
+    </ol>
+
+    <p> We recognise that the process of adding a new module to the code is not elegant; we hope to improve the interface in the future, to reduce the number of steps required to add a new module.</p>
+
+    <hr>
+    <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
+<!-- Created: Wed Jan 25 09:46:14 GMT 2006 -->
+<!-- hhmts start -->
+Last modified: Wed Feb  8 17:46:14 GMT 2006
+<!-- hhmts end -->
+  </body>
+</html>

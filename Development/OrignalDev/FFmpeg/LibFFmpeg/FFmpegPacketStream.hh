@@ -1,0 +1,331 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2005, Omniperception Ltd.
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+#ifndef RAVL_FFMPEG_AVFORMAT_HEADER 
+#define RAVL_FFMPEG_AVFORMAT_HEADER 
+//! rcsid="$Id: FFmpegPacketStream.hh 5239 2005-12-06 16:29:07Z ees1wc $"
+//! lib=RavlLibFFmpeg
+//! docentry = "Ravl.API.Images.Video.Video IO.LibFFmpeg"
+
+#include "Ravl/DP/SPort.hh"
+#include "Ravl/Image/FFmpegPacket.hh"
+
+#include <ffmpeg/avformat.h>
+
+namespace RavlN {
+  
+  
+  //: FFmpeg packet stream.
+  
+  class FFmpegPacketStreamBodyC 
+    : public DPISPortBodyC<FFmpegPacketC>
+  {
+  public:
+    FFmpegPacketStreamBodyC(const StringC &filename);
+    //: Constructor
+    
+    FFmpegPacketStreamBodyC();
+    //: Default constructor.
+    
+    ~FFmpegPacketStreamBodyC();
+    //: Destructor.
+    
+    bool Open(const StringC &filename);
+    //: Open file.
+    
+    bool CheckForVideo();
+    //: Check for a readable video stream.
+    
+    AVFormatContext *FormatCtx()
+    { return pFormatCtx; }
+    //: Access format context.
+    
+    bool FirstVideoStream(IntT &videoStreamId,IntT &codecId);
+    //: Find info about first video stream.
+    
+    virtual FFmpegPacketC Get();
+    //: Get a packet from the stream.
+    
+    virtual bool Get(FFmpegPacketC &packet);
+    //: Get a packet from the stream.
+    
+    virtual bool IsGetReady() const;
+    //: Is get ready ?
+    
+    virtual bool IsGetEOS() const;
+    //: End of stream ?
+    
+    virtual bool GetAttr(const StringC &attrName,StringC &attrValue);
+    //: Get a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    
+    virtual bool GetAttr(const StringC &attrName,IntT &attrValue);
+    //: Get a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    
+    virtual bool GetAttr(const StringC &attrName,RealT &attrValue);
+    //: Get a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    
+    virtual bool GetAttr(const StringC &attrName,bool &attrValue);
+    //: Get a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    
+    virtual bool Seek(UIntT off);
+    //: Seek to location in stream.
+    // Returns FALSE, if seek failed. (Maybe because its
+    // not implemented.)
+    // if an error occurered (Seek returned False) then stream
+    // position will not be changed.
+    
+    virtual bool DSeek(IntT off);
+    //: Seek to location in stream.
+    // Returns FALSE, if seek failed. (Maybe because its
+    // not implemented.)
+    // if an error occurered (Seek returned False) then stream
+    // position will not be changed.
+    
+    virtual UIntT Tell() const; 
+    //: Find current location in stream.
+    
+    virtual UIntT Size() const; 
+    //: Find the total size of the stream.
+    
+    virtual UIntT Start() const; 
+    //: Find the total size of the stream.
+    
+    virtual Int64T Tell64() const; 
+    //: Find current location in stream.
+
+    virtual bool DSeek64(Int64T off);
+    //: Seek to location in stream.
+    // Returns FALSE, if seek failed. (Maybe because its
+    // not implemented.)
+    // if an error occurered (Seek returned False) then stream
+    // position will not be changed.
+    
+    virtual bool Seek64(Int64T off);
+    //: Seek to location in stream.
+    // Returns FALSE, if seek failed. (Maybe because its
+    // not implemented.)
+    // if an error occurered (Seek returned False) then stream
+    // position will not be changed.
+    
+    virtual Int64T Size64() const; 
+    //: Find the total size of the stream.
+
+    virtual Int64T Start64() const; 
+    //: Find the total size of the stream.
+    
+  protected:
+    void Init();
+    //: Initalise attributes.
+    
+    StringC filename;
+    AVFormatContext *pFormatCtx;
+    
+    IntT positionRefStream; // Stream to use as a position reference.
+    Int64T currentTimeStamp;
+    Int64T frameRate;
+    Int64T frameRateBase;
+    
+    Int64T startFrame; // Frame number of start of sequence.
+    bool haveSeek; // Do we have seeking ?
+    
+    Int64T Frame2Time(Int64T frame) const;
+    //: Convert a frame no into a time
+    
+    Int64T Time2Frame(Int64T time) const;
+    //: Convert a  time into a frame no
+    
+  };
+
+  
+  //! userlevel=Normal
+  //: FFmpeg packet stream. 
+  //!cwiz:author
+  
+  class FFmpegPacketStreamC
+    : public DPISPortC<FFmpegPacketC>
+  {
+  public:
+    FFmpegPacketStreamC(const StringC & filename) 
+      : DPEntityC(*new FFmpegPacketStreamBodyC(filename))
+    {}
+    //: Constructor 
+    //!cwiz:author
+    
+    FFmpegPacketStreamC(bool)
+      : DPEntityC(*new FFmpegPacketStreamBodyC())
+    {}
+    //: Constructor.
+    
+    FFmpegPacketStreamC()
+      : DPEntityC(true)
+    {}
+    //: Default constructor.
+    
+    FFmpegPacketStreamC(const DPISPortC<FFmpegPacketC> &other)
+      : DPEntityC(dynamic_cast<const FFmpegPacketStreamBodyC *>(other.BodyPtr(other)))
+    {}
+    //: Upcast constructor.
+    
+    bool Open(const StringC & filename) 
+    { return Body().Open(filename); }
+    //: Open file. 
+    //!cwiz:author
+    
+    bool CheckForVideo() 
+    { return Body().CheckForVideo(); }
+    //: Check for a readable video stream. 
+    //!cwiz:author
+
+    AVFormatContext *FormatCtx()
+    { return Body().FormatCtx(); }
+    //: Access format context.
+    
+    bool FirstVideoStream(IntT &videoStreamId,IntT &codecId)
+    { return Body().FirstVideoStream(videoStreamId,codecId); }
+    //: Find info about first video stream.
+    
+    FFmpegPacketC Get() 
+    { return Body().Get(); }
+    //: Get a packet from the stream. 
+    //!cwiz:author
+    
+    bool Get(FFmpegPacketC & packet) 
+    { return Body().Get(packet); }
+    //: Get a packet from the stream. 
+    //!cwiz:author
+    
+    bool IsGetReady() const
+    { return Body().IsGetReady(); }
+    //: Is get ready ? 
+    //!cwiz:author
+    
+    bool IsGetEOS() const
+    { return Body().IsGetEOS(); }
+    //: End of stream ? 
+    //!cwiz:author
+    
+    bool GetAttr(const StringC & attrName,StringC & attrValue) 
+    { return Body().GetAttr(attrName,attrValue); }
+    //: Get a attribute. 
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    //!cwiz:author
+    
+    bool GetAttr(const StringC & attrName,IntT & attrValue) 
+    { return Body().GetAttr(attrName,attrValue); }
+    //: Get a attribute. 
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    //!cwiz:author
+    
+    bool GetAttr(const StringC & attrName,RealT & attrValue) 
+    { return Body().GetAttr(attrName,attrValue); }
+    //: Get a attribute. 
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    //!cwiz:author
+    
+    bool GetAttr(const StringC & attrName,bool & attrValue) 
+    { return Body().GetAttr(attrName,attrValue); }
+    //: Get a attribute. 
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    //!cwiz:author
+    
+    bool Seek(UIntT off) 
+    { return Body().Seek(off); }
+    //: Seek to location in stream. 
+    // Returns FALSE, if seek failed. (Maybe because its
+    // not implemented.)
+    // if an error occurered (Seek returned False) then stream
+    // position will not be changed.
+    //!cwiz:author
+    
+    bool DSeek(IntT off) 
+    { return Body().DSeek(off); }
+    //: Seek to location in stream. 
+    // Returns FALSE, if seek failed. (Maybe because its
+    // not implemented.)
+    // if an error occurered (Seek returned False) then stream
+    // position will not be changed.
+    //!cwiz:author
+    
+    UIntT Tell() const
+    { return Body().Tell(); }
+    //: Find current location in stream. 
+    //!cwiz:author
+    
+    UIntT Size() const
+    { return Body().Size(); }
+    //: Find the total size of the stream. 
+    //!cwiz:author
+    
+    UIntT Start() const
+    { return Body().Start(); }
+    //: Find the total size of the stream. 
+    //!cwiz:author
+    
+    Int64T Tell64() const
+    { return Body().Tell64(); }
+    //: Find current location in stream. 
+    //!cwiz:author
+    
+    bool DSeek64(Int64T off) 
+    { return Body().DSeek64(off); }
+    //: Seek to location in stream. 
+    // Returns FALSE, if seek failed. (Maybe because its
+    // not implemented.)
+    // if an error occurered (Seek returned False) then stream
+    // position will not be changed.
+    //!cwiz:author
+    
+    bool Seek64(Int64T off) 
+    { return Body().Seek64(off); }
+    //: Seek to location in stream. 
+    // Returns FALSE, if seek failed. (Maybe because its
+    // not implemented.)
+    // if an error occurered (Seek returned False) then stream
+    // position will not be changed.
+    //!cwiz:author
+    
+    Int64T Size64() const
+    { return Body().Size64(); }
+    //: Find the total size of the stream. 
+    //!cwiz:author
+    
+    Int64T Start64() const
+    { return Body().Start64(); }
+    //: Find the total size of the stream. 
+    //!cwiz:author
+    
+  protected:
+    FFmpegPacketStreamC(FFmpegPacketStreamBodyC &bod)
+      : DPEntityC(bod)
+    {}
+    //: Body constructor. 
+    
+    FFmpegPacketStreamBodyC& Body()
+    { return dynamic_cast<FFmpegPacketStreamBodyC &>(DPEntityC::Body()); }
+    //: Body Access. 
+    
+    const FFmpegPacketStreamBodyC& Body() const
+    { return dynamic_cast<const FFmpegPacketStreamBodyC &>(DPEntityC::Body()); }
+    //: Body Access. 
+    
+  };
+}
+
+
+#endif
+

@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--! docentry="Ravl.API.Math.Statistics.Probability Framework" -->
+
+<html>
+  <head>
+    <title>Probability framework</title>
+  </head>
+
+  <body>
+
+    <h2>Background</h2>
+    <p>These classes provide a framework for the implementation of Bayesian
+    reasoning systems.  The background for this package can be found in <a
+    href= "http://aima.cs.berkeley.edu/">Artificial Intelligence: A modern
+    Approach</a>, Chapter 14.</p>
+
+    <h2>Basic concepts</h2>
+
+    <p>
+      The most basic is <a
+      href="../Class/RavlProbN.VariableC.html">VariableC</a> which represents
+      random variables of 3 flavours: continuous, boolean and discrete.  Next
+      there is <a href="../Class/RavlProbN.VariablePropositionC.html">
+      VariablePropositionC</a> which represents a proposition that a variable
+      takes a particular value, again in three flavours. E.g. we could have
+      <code>BooleanVariable=&lt;true,false&gt;</code>.  Then we can have a
+      proposition <code>BooleanVariable=true</code>. </p>
+
+    <p>
+      Next there is a <a
+      href="../Class/RavlProbN.VariableSetC.html">VariableSetC</a> which is
+      pretty much just what it sounds like: it might be used for instance to
+      describe the set of evidence variables. There is a corresponding <a
+      href="../Class/RavlProbN.PropositionSetC.html">
+      PropositionSetC</a> class.  Although this is related to a
+      VariableSetC, it is not necessary for there to be a proposition for each
+      variable in the set.  However, you can't have a proposition for a
+      variable not in the set. This is used to describe things like observed
+      events.  So for instance you could have a
+      <code>VariableSetC=(MaryCalls,JohnCalls,Alarm)</code>, and you could
+      have a corresponding PropositionSetC=(MaryCalls=true,JohnCalls=false).
+      Note that the proposition set says nothing about Alarm.  </p>
+
+    <p>
+      So typically we want to evaluate something like
+      <code>P(Burglary|MaryCalls,JohnCalls,Alarm)</code>.  That query would
+      have to return a full joint distribution.  But to evaluate it you would
+      need some numbers somewhere.  You could alternatively request
+      <code>P(Burglary|MaryCalls=true,JohnCalls=false)</code> which might
+      return e.g. &lt;0.284,0.716&gt;, i.e. the values for
+      <code>Burglary=true</code> and <code>Burglary=false</code>.  These would
+      be marginalised over <code>Alarm</code>.  Note the combination of
+      variable sets and proposition sets.  Evaluating the P stuff involves
+      quite a bit more infrastructure.</p>
+ 
+    <h2>PDFs and CPDs</h2>    
+
+    <p>
+      Next we need to consider PDFs and CPDs (conditional probability density
+      functions).  PDFs represent priors like <code>P(Burglary)</code>
+      and<code> P(Alarm)</code>.....  OK, so a PDF is a function of a single
+      variable and can be evaluated for any particular proposition of that
+      variable, so using the PDF you could get the prior probability
+      P(Burglary=true).  Of course you need a few concrete PDF implementations
+      to handle the different types of variable, so there are boolean,
+      discrete and continuous PDF classes.  The boolean and discrete just use
+      tables; the continuous would need functions.  Currently there are
+      uniform and normal continuous distributions, but more can be added.</p>
+
+    <p>
+      Then we also need conditional probability densities (CPDs).
+      Essentially they are used to encode the table of values for e.g.  <code>
+      P(Burglary|MaryCalls,JohnCalls,Alarm)</code>. A CPD has an output
+      variable <code>Burglary</code> and a VariableSetC of parent variables
+      Things get a bit hairy when you have continuous variables anywhere, but
+      it is doable.  There a few variants of CPDs implemented currently, so
+      they can work with a few combinations for now.  More combinations can be
+      added later.</p>
+
+    <h2>Bayesian Networks</h2>
+
+    <p>
+      Given this framework of PDFs and CPDs and variables and propositions
+      we are in a position to define Bayesian Networks. A BN is defined by
+      specifying an acyclic graph of nodes. Each node of the network is a
+      VariableC and needs a CPD. The parent variable set defines the links of
+      the graph. Note that special CPDs can define prior PDFs where the CPD
+      parent variable set is empty.</p>
+      
+    <p>
+      Once you have defined a BN then you can ask it to evaluate different
+      probabilities etc and it will internally do all the marginalisation etc.
+      I have created a <a
+      href="../Class/RavlProbN.BayesianNetworkC.html">BayesianNetworkC</a>
+      interface that will serve as the base class for all future
+      implementations. Currently there is also a "simple" discrete
+      implementation
+      <a href="../Class/RavlProbN.BayesianNetworkSimpleC.html">
+      BayesianNetworkSimpleC</a> that exhaustively computes the probabilities
+      rather than finding a statistical estimation. See <a
+      href="../../Examples/testBayesianNetwork.cc.html">testBayesianNetwork.cc</a>
+      for a complete example. Note that it currently only works for discrete
+      PDF queries. This needs to be fixed for continuous distributions.</p>
+      
+    <p>
+      This simple solution doesn't scale well with increasing network 
+      complexity and size so we would need to add a new concrete
+      implementation based on a Markov Chain Monte Carlo (MCMC) method.
+      However, the framework is pretty much all in place.</p>
+
+    <hr>
+    <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a> or
+    <a href="mailto:robert.crida@ska.ac.za">Robert Crida</a></address>
+<!-- Created: Wed Jun 28 15:08:55 BST 2006 -->
+<!-- hhmts start -->
+Last modified: Thu Jun 29 16:00:31 BST 2006
+<!-- hhmts end -->
+  </body>
+</html>

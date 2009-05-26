@@ -1,0 +1,24 @@
+# author="Rachel Gartshore"
+
+# This file is part of RAVL, Recognition And Vision Library
+# Copyright (C) 2001, University of Surrey.
+# This code may be redistributed under the terms of the GNU lesser
+# public license (LGPL). See the lgpl.licence file for details or
+# see http://www.gnu.org/copyleft/lesser.html
+# file-header-ends-here
+ifndef SAPHIRA_DEF
+SAPHIRA_DEF = 1
+
+include Math.def posixThreads.def x11.def Xt.def
+
+#ARIA_HOME=/usr/local/Aria
+#ARIA_HOME=/user/cvssppg/eep2lg/proj_dir/CVSSP/Aria
+#for magneto ARIA_HOME=/opt/PDaria/2.1.1/
+ARIA_HOME=/opt/PDaria/1.1.10/ # for laptop
+#ARIA_HOME=/opt/Aria
+
+INCLUDES += -Dlinux -I$(ARIA_HOME)/include
+EXELIB := -L/usr/X11R6/lib -lXp -ldl -Wl -L$(ARIA_HOME)/lib -lAria -Wl $(EXELIB)
+#EXELIB := -L/usr/X11R6/lib -lXm -lXp -ldl -Wl -L$(ARIA_HOME)/lib -lAria -Wl $(EXELIB)
+
+endif

@@ -1,0 +1,3 @@
+This code could privide the basis for a RAVL wrapper for the software for a Pioneer mobile robot (not sure which model).
+The code does not compile on its own - it is part of Rachel Gartshore's mobile robot navigation PhD project s/w.  
+The complete code for the original project resides in CVSSP, University of Surrey, originally at /vol/v/mobile/Rachel_Gartshore/Phd/Navigate_Holly/Code

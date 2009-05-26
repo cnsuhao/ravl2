@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Start the system running</title>
+    <!--! docentry="Ravl.API.OS.Multithreading Framework.Main program" -->
+  </head>
+
+  <body>
+    <p>The functionality you need is provided by the <a href="../Class/MemModulesC.html">MemModulesC</a> class, which contains more detailed information.  However the code required to set the modules going should consist of something like the following steps:</p>
+
+    <pre>
+#include "Ravl/Threads/MemModules.hh"
+#include "MyPackage/ModulesList.hh"
+
+  ....
+
+  // Create the memory system
+  StringC commandLine;
+  for (int i(0); i&lt;argc; ++i) {
+    commandLine += StringC(argv[i]) + StringC(" ");
+  }
+  MemModulesC modules(memOutDir, commandLine, verbosity);
+
+  // Set up any required memory options
+  modules.ShowLogWindows();
+  ....
+
+  <a name="REG">// Register all modules required for this application </a>
+  modules.RegisterModuleFunction(&amp;frame,   "frame");           
+  modules.RegisterModuleFunction(&amp;shotdet, "shotBoundary");    
+  ....
+  // Note that (as you can see) the string associated with the module does
+  // not *have* to be the same as the function name, although it probably helps.
+
+  // If you want any precomputed memory content, load it in
+  modules.Load(memInDir, startField, numberOfFields);
+
+  // This is an example of how you pass options to the modules in addition to
+  // what's in the options file.  Useful when you want to send the same option
+  // to several modules.
+  if(!param.IsEmpty()) {
+      modules.OptionsTab()["frame"] += StringC(" -i ") + param;
+  }
+
+  // Launch the required target module(s)
+  modules.Launch(outputs);
+
+  // &amp; wait for them to finish
+  modules.Wait();
+
+  ....
+</pre>
+
+    <hr>
+    <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
+<!-- Created: Fri Feb  3 17:19:09 GMT 2006 -->
+<!-- hhmts start -->
+Last modified: Thu Feb  9 11:52:19 GMT 2006
+<!-- hhmts end -->
+  </body>
+</html>

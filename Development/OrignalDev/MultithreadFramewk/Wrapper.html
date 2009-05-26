@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Processing wrapper</title>
+    <!--! docentry="Ravl.API.OS.Multithreading Framework.Wrapper" -->
+  </head>
+
+  <body>
+
+    <p>Each module's processing unit must have a "wrapper" function.  It behaves somewhat as if it is a method of the <a href="../Class/MemModuleBodyC.html">MemModuleBodyC</a> class.  However since it is currently a normal C++ function, the MemModuleBodyC is passed as an argument to the function to provide access to the rest of the object.  The following code fragment gives an idea of the form of the function; in this example the inner loop gets synchronised data from two other modules, and the outer loop gets data from a third module at a coarser time scale. </p>
+        <pre>
+#include "Ravl/Threads/MemModule.hh"  // module declarations are here
+
+// All module wrappers must have exactly this declaration,
+// to provide communications with other modules
+bool mosaic(MemModuleBodyC& Memory) {
+
+  // Process options in the usual way:
+  // The options are extracted from an <a href="../Class/MemModulesC.html#SetOptionsFileObconst_FilenameC_RefCb">options file</a>
+  OptionC opt(Memory.Options());
+  .....
+
+  // set up access to modules that provide data to this one:
+  //get access to module "shotClass"
+  VAMAccessC shotsIter = Memory.GetAccess("shotClass");
+  //get joint access to modules "frame" and "homography"
+  VAMJointAccessC frameIter = Memory.GetJointAccess("frame homography");
+
+  // outer loop getting data from module "shotClass"
+  for(shotsIter.MoveToFirst(false); !shotsIter.Eof(); shotsIter.Next(false)) {
+
+    // inner loop getting synchronised data from modules "frame" and "homography"
+    for(frameIter.SetBounds(shotsIter-&gt;Duration());
+      !frameIter.Eof(); 
+      frameIter.Next(false), mosaic++, frameNo++){
+      ....
+      ImageC&lt;ByteRGBValueC&gt; frameImg(frameIter["frame"].GetImage("frame"));
+      ....
+      // do some processing
+      ....
+    }
+
+    // Output some data to memory:
+    // set up memory item with start and end times
+    MemoryItemC newItem(shotItem.Duration());
+    // add some attributes to the item
+    newItem.SetAttr("accHomogs", accHomogs);
+    newItem.SetAttr("mosaicOK", !isBadImage);
+    // add an image to the item
+    newItem.SetImage("mosaic", mosaic.GetMosaic());
+    // store the item in the memory
+    Memory.Add(newItem);
+  }
+  return true;
+}
+</pre>
+</p>
+    <hr>
+    <address><a href="mailto:w.christmas@surrey.ac.uk">Bill Christmas</a></address>
+<!-- Created: Fri Feb  3 16:27:53 GMT 2006 -->
+<!-- hhmts start -->
+Last modified: Wed Feb  8 18:15:01 GMT 2006
+<!-- hhmts end -->
+  </body>
+</html>
