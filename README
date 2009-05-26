@@ -1,0 +1,12 @@
+There are two directories in the repository.
+
+ RAVL2       - All code in this repository should compile. 
+ Development - This is intended for code that may form the basis of contributions.
+
+Ideally code in the development directory should be LGPL, or a compatible license. Code under other licenses
+may be placed there, but should be clearly labeled both with a file called LICENSE in its root directory and
+headers on all the files.
+
+If you wish to add new code to 'Development' in a directory named after your source forge login. We may add
+further directories to structure contributions as required.
+      
