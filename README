@@ -1,3 +1,23 @@
+
+VERSION
+-------
+
+This repository (git on source forge) contains code for the unstable development version of RAVL.
+
+If your looking for the stable version you should use the subversion repository found on source forge. 
+
+INSTALLATION 
+------------
+
+Start with the code found in the RAVL2 directory, instructions can be found there.
+
+If you need  use from the Development directory it is recommended you build it
+with the normal RAVL qm command.
+
+
+DIRECTORY STRUCTURE
+-------------------
+
 There are two directories in the repository.
 
  RAVL2       - All code in this repository should compile. 
@@ -9,4 +29,6 @@ headers on all the files.
 
 If you wish to add new code to 'Development' in a directory named after your source forge login. We may add
 further directories to structure contributions as required.
+
+
       
