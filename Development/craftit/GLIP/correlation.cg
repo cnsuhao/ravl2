@@ -1,0 +1,51 @@
+
+uniform sampler2D patchTexture;
+uniform sampler2D sceneTexture;
+uniform float2 patchInc;
+
+void main(out float4 col : COLOR,
+          float3 tex0 : TEXCOORD0,        
+          float3 tex1 : TEXCOORD1,
+          float3 tex2 : TEXCOORD2 
+         )       
+{  
+  float3 sumxy = float3(0.0,0.0,0.0);
+  float3 psum2 = float3(0.0,0.0,0.0);
+  float4 psum = float4(0.0,0.0,0.0,0.0);
+  float3 ssum2 = float3(0.0,0.0,0.0);
+  float4 ssum = float4(0.0,0.0,0.0,0.0);
+  float3 patchAt = float3(0.0,0.0,1.0);
+  
+  float3x3 patch2scene = float3x3(tex0,tex1,tex2); //basePatch2scene;
+  
+  for(patchAt.x = 0;patchAt.x <= 1.0;patchAt.x += patchInc.x) {
+    for(patchAt.y = 0;patchAt.y <= 1.0;patchAt.y += patchInc.y) {
+      float4 patchCol = tex2D(patchTexture,patchAt.xy);
+      float4 sceneCol = tex2Dproj(sceneTexture,mul(patch2scene,patchAt));
+      
+      //col.a *= sceneCol.a;
+      col.a = 1.0;
+      
+      float3 scaledCol = patchCol.xyz * patchCol.a;
+      psum += float4(scaledCol,patchCol.a);
+      psum2 += patchCol.rgb * scaledCol;
+      sumxy += sceneCol.rgb * scaledCol;
+      float4 scaleScene = sceneCol * patchCol.a;
+      ssum += scaleScene;
+      ssum2 += sceneCol.xyz * scaleScene.xyz;
+    }
+  }
+  
+  float3 smean = ssum.xyz / psum.a;
+  float3 svar = (ssum2 - (ssum.xyz * ssum.xyz)/psum.a) / psum.a;
+  
+  float3 pmean = psum.xyz / psum.a;
+  float3 pvar = (psum2 - (psum.xyz * psum.xyz)/psum.a) / psum.a;
+  
+  float3 colx = (sumxy - pmean * ssum.xyz - smean * psum.xyz + pmean * smean * psum.a) / (sqrt(svar * pvar) * psum.a);
+  
+  //col = float4(tex0 + float3(0.5,0.5,0.5),1.0);
+  col = float4(colx,psum.a);
+  //col = float4(pmean,1.0);
+  //col = float4(smean,1.0);
+}

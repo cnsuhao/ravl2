@@ -1,0 +1,7 @@
+
+uniform sampler2D monkeyMagic;
+
+void main(out float4 col : COLOR,float2 tex0 : TEXCOORD0 ) 
+{  
+  col = tex2D(monkeyMagic,tex0);
+}

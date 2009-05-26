@@ -1,0 +1,19 @@
+
+
+
+void main( in float4 iPosition  : POSITION,
+           in float3 iTex0      : TEXCOORD0,
+           in float3 iTex1      : TEXCOORD1,
+           in float3 iTex2      : TEXCOORD2,
+           out float4 oPosition : POSITION,
+           varying out float3 oTex0     : TEXCOORD0,
+           varying out float3 oTex1     : TEXCOORD1,
+           varying out float3 oTex2     : TEXCOORD2
+          )
+{
+  oPosition = iPosition;
+  oTex0 = iTex0;
+  oTex1 = iTex1;
+  oTex2 = iTex2;
+} 
+

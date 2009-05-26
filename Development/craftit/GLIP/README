@@ -1,0 +1,2 @@
+Some code to use OpenGL to speed up image processing.
+Uses the cg library from nvidea.

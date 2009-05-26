@@ -1,0 +1,15 @@
+ifndef RAVL_GLUT_DEF
+RAVL_GLUT_DEF=1
+
+include OpenGL.def
+include posixThreads.def
+
+GLUTHOME=/sw#
+
+INCLUDES += -I$(GLUTHOME)/include
+
+#EXELIB :=  -Wl,-rpath=$(GLUTHOME)/lib -L$(GLUTHOME)/lib -lglut -lCg -lCgGL $(EXELIB)
+
+EXELIB :=  -L$(GLUTHOME)/lib -lglut -lCg -lCgGL $(EXELIB)
+
+endif
