@@ -1,14 +1,14 @@
 
 TODO:
 
-- Make binary work seemlessly between 64 bit and 32 bit machines.
-- Remove any code marked Obsolete.
-- Give WarpAffine and WarpProjective a consistant interface
-- Improve STL compatibility. Make STL the default container where sensible.
-- Remove pointer array for multi dimensional arrays
 - Improve scripting support.
 - Change documentation to Doxygen.
+- Improve STL compatibility. Make STL the default container where sensible.
 - Improve make system. add standard makefiles and use ./configure
+- Make binary work seemlessly between 64 bit and 32 bit machines.
+- Remove any code marked Obsolete.
+- Give WarpAffine and WarpProjective a consistent interface
+- Remove pointer array for multi dimensional arrays
 - Fix files names so they match the class they contain.
 
 General goals:
@@ -20,5 +20,12 @@ General goals:
  feel more at ease with RAVL this should also make interoperating with
  other C++ class libraries easier.
 
+ Ideally moving code from V1 to V2 should be kept as easy as possible,
+ clear signs of things breaking where incompatible changes have been made.
 
+ And some compatibility methods where allowing for changes would otherwise
+ cause excessive work.
 
+ I'd also like to suggest we do some unit test's against code in the
+ 'Development' area where contributors wish it and try and keep that code
+ working with any changes made.
