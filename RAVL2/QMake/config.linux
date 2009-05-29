@@ -40,6 +40,10 @@ ifndef TR
  TR = tr	
 endif 
 
+ifndef READLINK
+ READLINK=readlink -e
+endif
+
 ifndef DYNAMICFLAG
  DYNAMICFLAG = -rdynamic 
 endif 

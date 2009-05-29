@@ -100,6 +100,11 @@ else
  LIBEXT:=.$(SHAREDEXT)
 endif
 
+ifndef READLINK
+ READLINK=readlink
+endif
+
+
 # Default Object file extension
 ifndef OBJEXT
   OBJEXT:=.o#
@@ -693,7 +698,7 @@ ifndef USE_INCLUDE_SYMLINK
 	$(CHMOD) a-w,a+r,a-x $(INST_HEADER)/$(@F)
 else 
 	$(SHOWIT)if [ -e $(INST_HEADER)/$(@F) -o -L $(INST_HEADER)/$(@F) ] ; then \
-		if [ "`readlink -e $(INST_HEADER)/$(@F)`"  != "$(QCWD)/$(@F)" ] ; then \
+		if [ "`$(READLINK) $(INST_HEADER)/$(@F)`"  != "$(QCWD)/$(@F)" ] ; then \
 			echo "--- Update header link $(@F)" ; \
 			ln -sf $(QCWD)/$(@F) $(INST_HEADER)/$(@F) ; \
 		fi ; \
@@ -705,7 +710,7 @@ endif
 
 $(TARG_HDRSYMS) : $(INST_HEADERSYM)/% : % $(INST_HEADERSYM)/.dir
 	$(SHOWIT)if [ -e $(INST_HEADERSYM)/$(@F) -o -L $(INST_HEADERSYM)/$(@F) ] ; then \
-		if [ "`readlink -e $(INST_HEADERSYM)/$(@F)`"  != "$(QCWD)/$(@F)" ] ; then \
+		if [ "`$(READLINK) $(INST_HEADERSYM)/$(@F)`"  != "$(QCWD)/$(@F)" ] ; then \
 			echo "--- Update syminc link $(@F)" ; \
 			ln -sf $(QCWD)/$(@F) $(INST_HEADERSYM)/$(@F) ; \
 		fi ; \
