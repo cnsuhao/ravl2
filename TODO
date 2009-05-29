@@ -1,0 +1,24 @@
+
+TODO:
+
+- Make binary work seemlessly between 64 bit and 32 bit machines.
+- Remove any code marked Obsolete.
+- Give WarpAffine and WarpProjective a consistant interface
+- Improve STL compatibility. Make STL the default container where sensible.
+- Remove pointer array for multi dimensional arrays
+- Improve scripting support.
+- Change documentation to Doxygen.
+- Improve make system. add standard makefiles and use ./configure
+- Fix files names so they match the class they contain.
+
+General goals:
+
+ Keep it as easy as possible for people to start programming in.
+ Simple things should be simple, complicated should be possible.
+
+ Make more use of STL idioms so that people who come from the background
+ feel more at ease with RAVL this should also make interoperating with
+ other C++ class libraries easier.
+
+
+
