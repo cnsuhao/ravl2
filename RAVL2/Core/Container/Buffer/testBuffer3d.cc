@@ -111,7 +111,6 @@ int TestSizeBuffer() {
   if(bf.Size3() != s3) return __LINE__;
 
   SizeBufferAccess3dC<int> rba(bf,s1,s2,s3);
-
   if(s1 != rba.Size1()) {
     cerr<< "Size 1 incorrect. " << rba.Size1() <<" should be " << s1 << "\n";
     return __LINE__;
@@ -149,7 +148,6 @@ int TestSizeBuffer() {
   if(count != (s1 * s2 * s3)) {
     return __LINE__;
   }
-
 
   return 0;
 }

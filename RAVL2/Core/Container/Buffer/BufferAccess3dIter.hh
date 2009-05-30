@@ -41,18 +41,17 @@ namespace RavlN {
                         IntT byteStride1,IntT byteStride2,
                         SizeT size1,SizeT size2,SizeT size3
                         )
-    { First(pbuf,size1,size2,size3,byteStride1,byteStride2); }
+    { First(pbuf,byteStride1,byteStride2,size1,size2,size3); }
     //: Constructor.
     
     BufferAccess3dIterC(const BufferAccessC<DataT> &pbuf,
                         IntT byteStride1,IntT byteStride2,
                         const IndexRangeC &range1,const IndexRangeC &range2,const IndexRangeC &range3
                         )
-    { First(pbuf,range1,range2,range3,byteStride1,byteStride2); }
+    { First(pbuf,byteStride1,byteStride2,range1,range2,range3); }
     //: Constructor.
     
-    bool First(const BufferAccessC<DataT> &pbuf,
-               IntT byteStride1,IntT byteStride2,
+    bool First(const BufferAccessC<DataT> &pbuf,IntT byteStride1,IntT byteStride2,
                const IndexRangeC &range1,const IndexRangeC &range2,const IndexRangeC &range3
                )
     {
@@ -64,14 +63,14 @@ namespace RavlN {
         return false;
       }
       DataT *sliceStart=reinterpret_cast<DataT*>(m_slice);
-      m_sit.First(sliceStart,m_size2,range3.Size(),byteStride2);
+      m_sit.First(sliceStart,byteStride2,
+                  m_size2,range3.Size());
       m_stride1 = byteStride1;
       return true;
     }
     //: Goto first element in the array
         
-    bool First(const BufferAccessC<DataT> &pbuf,
-               IntT byteStride1,IntT byteStride2,
+    bool First(const BufferAccessC<DataT> &pbuf,IntT byteStride1,IntT byteStride2,
                SizeT size1,SizeT size2,SizeT size3
                )
     {
@@ -82,7 +81,8 @@ namespace RavlN {
         return false;
       }
       m_size2 = size2;
-      m_sit.First(reinterpret_cast<DataT*>(m_slice),size2,size3,byteStride2);
+      m_sit.First(reinterpret_cast<DataT*>(m_slice),byteStride2,
+                  size2,size3);
       m_stride1 = byteStride1;
       return true;
     }

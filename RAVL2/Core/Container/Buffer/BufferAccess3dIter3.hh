@@ -4,10 +4,9 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_BFACC3ITER3_HEADER
-#define RAVL_BFACC3ITER3_HEADER 1
+#ifndef RAVL_BUFFFERACCESS3ITER3_HEADER
+#define RAVL_BUFFFERACCESS3ITER3_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
 //! file="Ravl/Core/Container/Buffer/BufferAccess3dIter3.hh"
 //! docentry="Ravl.API.Core.Arrays.Buffer"
 //! lib=RavlCore
@@ -29,122 +28,105 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    BufferAccess3dIter3C(const BufferAccessC<BufferAccessC<BufferAccessC<Data1T> > > &pbufa,SizeT size1a,SizeT size2a,SizeT size3a,
-			 const BufferAccessC<BufferAccessC<BufferAccessC<Data2T> > > &pbufb,SizeT size1b,SizeT size2b,SizeT size3b,
-			 const BufferAccessC<BufferAccessC<BufferAccessC<Data3T> > > &pbufc,SizeT size1c,SizeT size2c,SizeT size3c)
-    { First(pbufa,size1a,size2a,size3a,
-	    pbufb,size1b,size2b,size3b,
-	    pbufc,size1c,size2c,size3c); 
-    }
+    BufferAccess3dIter3C(const BufferAccessC<Data1T> &pbufA,IntT byteStride1a,IntT byteStride2a,
+                         const BufferAccessC<Data2T> &pbufB,IntT byteStride1b,IntT byteStride2b,
+                         const BufferAccessC<Data3T> &pbufC,IntT byteStride1c,IntT byteStride2c,
+                         SizeT size1,SizeT size2,SizeT size3
+                        )
+    { First(pbufA,byteStride1a,byteStride2a,
+            pbufB,byteStride1b,byteStride2b,
+            pbufC,byteStride1c,byteStride2c,
+            size1,size2,size3); }
     //: Constructor.
-    
-    BufferAccess3dIter3C(const SizeBufferAccessC<BufferAccessC<BufferAccessC<Data1T> > > &pbufa,SizeT size2a,SizeT size3a,
-			 const SizeBufferAccessC<BufferAccessC<BufferAccessC<Data2T> > > &pbufb,SizeT size2b,SizeT size3b,
-			 const SizeBufferAccessC<BufferAccessC<BufferAccessC<Data3T> > > &pbufc,SizeT size2c,SizeT size3c)
-    { First(pbufa,size2a,size3a,
-	    pbufb,size2b,size3b,
-	    pbufc,size2c,size3c);
-    }
+
+    BufferAccess3dIter3C(const BufferAccessC<Data1T> &pbufA,IntT byteStride1a,IntT byteStride2a,
+                         const BufferAccessC<Data2T> &pbufB,IntT byteStride1b,IntT byteStride2b,
+                         const BufferAccessC<Data3T> &pbufC,IntT byteStride1c,IntT byteStride2c,
+                         const IndexRangeC &range1,const IndexRangeC &range2,const IndexRangeC &range3
+                        )
+    { First(pbufA,byteStride1a,byteStride2a,
+            pbufB,byteStride1b,byteStride2b,
+            pbufC,byteStride1c,byteStride2c,
+            range1,range2,range3); }
     //: Constructor.
-    
-    BufferAccess3dIter3C(const RangeBufferAccessC<BufferAccessC<BufferAccessC<Data1T> > > &pbufa,IndexRangeC nrng2a,IndexRangeC nrng3a,
-			 const RangeBufferAccessC<BufferAccessC<BufferAccessC<Data2T> > > &pbufb,IndexRangeC nrng2b,IndexRangeC nrng3b,
-			 const RangeBufferAccessC<BufferAccessC<BufferAccessC<Data3T> > > &pbufc,IndexRangeC nrng2c,IndexRangeC nrng3c)
-    { First(pbufa,nrng2a,nrng3a,
-	    pbufb,nrng2b,nrng3b,
-	    pbufc,nrng2c,nrng3c); 
-    }
-    //: Constructor.
-    
-    bool First(const RangeBufferAccessC<BufferAccessC<BufferAccessC<Data1T> > > &pbufa,IndexRangeC nrng2a,IndexRangeC nrng3a,
-	       const RangeBufferAccessC<BufferAccessC<BufferAccessC<Data2T> > > &pbufb,IndexRangeC nrng2b,IndexRangeC nrng3b,
-	       const RangeBufferAccessC<BufferAccessC<BufferAccessC<Data3T> > > &pbufc,IndexRangeC nrng2c,IndexRangeC nrng3c
-	       ) {
-      rng2a = nrng2a;
-      rng3a = nrng3a;
-      rng2b = nrng2b;
-      rng3b = nrng3b;
-      rng2c = nrng2c;
-      rng3c = nrng3c;
-      rit.First(pbufa,pbufa.Range(),
-		pbufb,pbufb.Range(),
-		pbufc,pbufc.Range());
-      if(rit.IsElm())
-	return sit.First(rit.Data1(),rng2a,rng3a,
-			 rit.Data2(),rng2b,rng3b,
-			 rit.Data3(),rng2c,rng3c);
-      sit.Invalidate();
-      return false;
+
+    bool First(const BufferAccessC<Data1T> &pbufA,IntT byteStride1a,IntT byteStride2a,
+               const BufferAccessC<Data2T> &pbufB,IntT byteStride1b,IntT byteStride2b,
+               const BufferAccessC<Data3T> &pbufC,IntT byteStride1c,IntT byteStride2c,
+               const IndexRangeC &range1,const IndexRangeC &range2,const IndexRangeC &range3
+               )
+    {
+      m_slice1 = reinterpret_cast<char *>(pbufA.ReferenceElm() + range3.Min().V()) + range1.Min().V() * byteStride1a + range2.Min().V() * byteStride2a;
+      m_slice2 = reinterpret_cast<char *>(pbufB.ReferenceElm() + range3.Min().V()) + range1.Min().V() * byteStride1b + range2.Min().V() * byteStride2b;
+      m_slice2 = reinterpret_cast<char *>(pbufC.ReferenceElm() + range3.Min().V()) + range1.Min().V() * byteStride1c + range2.Min().V() * byteStride2c;
+      m_sliceEnd = m_slice1 + byteStride1a * range1.Max().V();
+      m_size2 = range2.Size();
+      if(m_slice1 == m_sliceEnd || m_size2 == 0) {
+        m_sit.Invalidate();
+        return false;
+      }
+      m_sit.First(reinterpret_cast<Data1T*>(m_slice1),byteStride2a,
+                  reinterpret_cast<Data2T*>(m_slice2),byteStride2b,
+                  reinterpret_cast<Data3T*>(m_slice3),byteStride2c,
+                  m_size2,range3.Size());
+      m_stride1 = byteStride1a;
+      m_stride2 = byteStride1b;
+      m_stride3 = byteStride1c;
+      return true;
     }
     //: Goto first element in the array
-    
-    bool First(const BufferAccessC<BufferAccessC<BufferAccessC<Data1T> > > &pbufa,SizeT size1a,SizeT size2a,SizeT size3a,
-	       const BufferAccessC<BufferAccessC<BufferAccessC<Data2T> > > &pbufb,SizeT size1b,SizeT size2b,SizeT size3b,
-	       const BufferAccessC<BufferAccessC<BufferAccessC<Data3T> > > &pbufc,SizeT size1c,SizeT size2c,SizeT size3c
-	       ) {
-      rng2a = IndexRangeC(0,size2a-1);
-      rng3a = IndexRangeC(0,size3a-1);
-      rng2b = IndexRangeC(0,size2b-1);
-      rng3b = IndexRangeC(0,size3b-1);
-      rng2c = IndexRangeC(0,size2c-1);
-      rng3c = IndexRangeC(0,size3c-1);
-      rit.First(pbufa,size1a,
-		pbufb,size1b,
-		pbufc,size1c);
-      if(rit.IsElm())
-	return sit.First(rit.Data1(),size2a,size3a,
-			 rit.Data2(),size2b,size3b,
-			 rit.Data3(),size2c,size3c);
-      sit.Invalidate();
-      return false;
+
+    bool First(const BufferAccessC<Data1T> &pbufA,IntT byteStride1a,IntT byteStride2a,
+               const BufferAccessC<Data2T> &pbufB,IntT byteStride1b,IntT byteStride2b,
+               const BufferAccessC<Data3T> &pbufC,IntT byteStride1c,IntT byteStride2c,
+               SizeT size1,SizeT size2,SizeT size3
+               )
+    {
+      m_slice1 = reinterpret_cast<char *>(pbufA.ReferenceElm());
+      m_slice2 = reinterpret_cast<char *>(pbufB.ReferenceElm());
+      m_slice3 = reinterpret_cast<char *>(pbufC.ReferenceElm());
+      m_sliceEnd = m_slice1 + byteStride1a * size1;
+      if(m_slice1 == m_sliceEnd || size2 == 0 || size3 == 0) {
+        m_sit.Invalidate();
+        return false;
+      }
+      m_size2 = size2;
+      m_sit.First(reinterpret_cast<Data1T*>(m_slice1),byteStride2a,
+                  reinterpret_cast<Data2T*>(m_slice2),byteStride2b,
+                  reinterpret_cast<Data3T*>(m_slice3),byteStride2c,
+                  size2,size3);
+      m_stride1 = byteStride1a;
+      m_stride2 = byteStride1b;
+      m_stride3 = byteStride1c;
+      return true;
     }
     //: Goto first element in the array
-    
-    bool First(const SizeBufferAccessC<BufferAccessC<BufferAccessC<Data1T> > > &pbufa,SizeT size2a,SizeT size3a,
-	       const SizeBufferAccessC<BufferAccessC<BufferAccessC<Data2T> > > &pbufb,SizeT size2b,SizeT size3b,
-	       const SizeBufferAccessC<BufferAccessC<BufferAccessC<Data3T> > > &pbufc,SizeT size2c,SizeT size3c) {
-      rng2a = IndexRangeC(0,size2a-1);
-      rng3a = IndexRangeC(0,size3a-1);
-      rng2b = IndexRangeC(0,size2b-1);
-      rng3b = IndexRangeC(0,size3b-1);
-      rng2c = IndexRangeC(0,size2c-1);
-      rng3c = IndexRangeC(0,size3c-1);
-      rit.First(pbufa,pbufa.Size(),
-		pbufb,pbufb.Size(),
-		pbufc,pbufc.Size());
-      if(rit.IsElm())
-	return sit.First(rit.Data1(),size2a,size3a,
-			 rit.Data2(),size2b,size3b,
-			 rit.Data3(),size2c,size3c);
-      sit.Invalidate();
-      return false;
-    }
-    //: Goto first element in the array
-    
-    void SliceStart() 
-    { sit.First(rit.Data1(),rng2a,rng3a,
-		rit.Data2(),rng2b,rng3b,
-		rit.Data3(),rng2c,rng3c); 
+
+    bool SliceStart()
+    { return m_sit.First(reinterpret_cast<Data1T*>(m_slice1),
+                         reinterpret_cast<Data2T*>(m_slice2),
+                         reinterpret_cast<Data3T*>(m_slice3),
+                         m_size2
+		        );
     }
     //: Go back to the begining of this row.
-    
+
     bool NextSlice() {
-      rit.Next();
-      if(!rit.IsElm())
-	return false;
-      sit.First(rit.Data1(),rng2a,rng3a,
-		rit.Data2(),rng2b,rng3b,
-		rit.Data3(),rng2c,rng3c);
-      return true;      
+      m_slice1 += m_stride1;
+      m_slice2 += m_stride2;
+      m_slice3 += m_stride3;
+      if(m_slice1 == m_sliceEnd) return false;
+      SliceStart();
+      return true;
     }
     //: Go to the begining of the next row.
     // returns true if iterator is left at the begining of a valid row or
     // false if the end of the array has been reached.
     
     bool Next() { 
-      sit.Next();
-      if(!sit.IsElm()) {
-	NextRow();
+      m_sit.Next();
+      if(!m_sit.IsElm()) {
+	NextSlice();
 	return false;
       }
       return true;
@@ -155,82 +137,73 @@ namespace RavlN {
     // the next row or at the end of the array.
     
     bool IsElm() const
-    { return sit.IsElm(); }
+    { return m_sit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     operator bool() const
-    { return sit.IsElm(); }
+    { return m_sit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     void operator++() {  
-      sit.Next();
-      if(!sit.IsElm())
-	NextRow();
+      m_sit.Next();
+      if(!m_sit.IsElm())
+	NextSlice();
     }
     //: Goto next element.
     
     void operator++(int) {  
-      sit.Next();
-      if(!sit.IsElm())
-	NextRow();
+      m_sit.Next();
+      if(!m_sit.IsElm())
+	NextSlice();
     }
     //: Goto next element.
     
     Data1T &Data() 
-    { return sit.Data1(); }
+    { return m_sit.Data1(); }
     //: Access data of current element
 
     const Data1T &Data() const
-    { return sit.Data1(); }
+    { return m_sit.Data1(); }
     //: Access data of current element
     
     Data1T &Data1() 
-    { return sit.Data1(); }
+    { return m_sit.Data1(); }
     //: Access data of current element
     
     const Data1T &Data1() const
-    { return sit.Data1(); }
+    { return m_sit.Data1(); }
     //: Access data of current element
     
     Data2T &Data2() 
-    { return sit.Data2(); }
+    { return m_sit.Data2(); }
     //: Access data of current element
     
     const Data2T &Data2() const
-    { return sit.Data2(); }
+    { return m_sit.Data2(); }
     //: Access data of current element
 
     Data3T &Data3() 
-    { return sit.Data3(); }
+    { return m_sit.Data3(); }
     //: Access data of current element
     
     const Data3T &Data3() const
-    { return sit.Data3(); }
+    { return m_sit.Data3(); }
     //: Access data of current element
     
   protected:
-    bool NextRow();
-    
-    BufferAccessIter3C<BufferAccessC<BufferAccessC<Data1T> >, BufferAccessC<BufferAccessC<Data2T> >, BufferAccessC<BufferAccessC<Data3T> > > rit;
-    BufferAccess2dIter3C<Data1T,Data2T,Data3T> sit;
-    IndexRangeC rng2a;
-    IndexRangeC rng3a;
-    IndexRangeC rng2b;
-    IndexRangeC rng3b;
-    IndexRangeC rng2c;
-    IndexRangeC rng3c;
-  };
 
-  template <class Data1T,class Data2T,class Data3T>
-  bool BufferAccess3dIter3C<Data1T,Data2T,Data3T>::NextRow() {
-    rit.Next();
-    if(!rit.IsElm())
-      return false;
-    sit.First(rit.Data1(),rng2a,rng3a,
-	      rit.Data2(),rng2b,rng3b,
-	      rit.Data3(),rng2c,rng3c);
-    return true; 
-  }
+    const char *m_sliceEnd;
+    char *m_slice1;
+    char *m_slice2;
+    char *m_slice3;
+    BufferAccess2dIter3C<Data1T,Data2T,Data3T> m_sit;
+    SizeT m_size1;
+    SizeT m_size2;
+    SizeT m_size3;
+    IntT m_stride1;
+    IntT m_stride2;
+    IntT m_stride3;
+  };
 
 }
 

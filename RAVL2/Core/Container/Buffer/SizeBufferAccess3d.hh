@@ -212,7 +212,7 @@ namespace RavlN {
 
   template<class DataT>
   BufferAccess3dIterC<DataT>::BufferAccess3dIterC(const SizeBufferAccess3dC<DataT> &data)
-  { First(data.Buffer(),data.Size1(),data.Size2(),data.Size3(),data.ByteStride1(),data.ByteStride2()); }
+  { First(data.Buffer(),data.ByteStride1(),data.ByteStride2(),data.Size1(),data.Size2(),data.Size3()); }
   //: Constructor for an iterator.
   
   template<class DataT>
