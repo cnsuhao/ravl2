@@ -16,9 +16,9 @@
 #include "Ravl/Buffer3d.hh"
 #include "Ravl/SizeBufferAccess3d.hh"
 #include "Ravl/RangeBufferAccess3d.hh"
-#include "Ravl/BfAcc3Iter.hh"
-#include "Ravl/BfAcc3Iter2.hh"
-#include "Ravl/BfAcc3Iter3.hh"
+#include "Ravl/BufferAccess3dIter.hh"
+#include "Ravl/BufferAccess3dIter2.hh"
+#include "Ravl/BufferAccess3dIter3.hh"
 
 using namespace RavlN;
 

@@ -15,7 +15,7 @@
 //! docentry="Ravl.API.Core.Arrays.Buffer"
 
 #include "Ravl/RangeBufferAccess.hh"
-#include "Ravl/BfAcc2Iter.hh"
+#include "Ravl/BufferAccess2dIter.hh"
 #include "Ravl/Index2d.hh"
 #include "Ravl/IndexRange2d.hh"
 #include "Ravl/Assert.hh"

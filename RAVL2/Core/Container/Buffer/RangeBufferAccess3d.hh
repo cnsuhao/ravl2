@@ -19,7 +19,7 @@
 #include "Ravl/RangeBufferAccess2d.hh"
 #include "Ravl/Index3d.hh"
 #include "Ravl/IndexRange3d.hh"
-#include "Ravl/BfAcc3Iter.hh"
+#include "Ravl/BufferAccess3dIter.hh"
 #include "Ravl/Types.hh"
 #include "Ravl/Buffer3d.hh"
 

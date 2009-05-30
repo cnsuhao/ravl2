@@ -4,11 +4,11 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_BUFFERACCESSITER3_HEADER
-#define RAVL_BUFFERACCESSITER3_HEADER 1
+#ifndef RAVL_SBFACCITER4_HEADER
+#define RAVL_SBFACCITER4_HEADER 1
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Core/Container/Buffer/BfAccIter3.hh"
+//! file="Ravl/Core/Container/Buffer/BufferAccessIter4.hh"
 //! author="Charles Galambos"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Arrays.Buffer"
@@ -22,76 +22,83 @@ namespace RavlN {
   //! userlevel=Advanced
   //: Iterator for 3 buffers.
   
-  template<class Data1T,class Data2T,class Data3T>
-  class BufferAccessIter3C {
+  template<class Data1T,class Data2T,class Data3T,class Data4T>
+  class BufferAccessIter4C {
   public:
-    inline BufferAccessIter3C()
+    inline BufferAccessIter4C()
       : at1(0), 
         at2(0), // Avoid warning
         at3(0), // Avoid warning
-	endOfRow(0)
+        at4(0), // Avoid warning
+        endOfRow(0)
     {}
     //: Default constructor.
     
-    inline BufferAccessIter3C(const BufferAccessC<Data1T> &buff,
+    inline BufferAccessIter4C(const BufferAccessC<Data1T> &buff,
 			      const BufferAccessC<Data2T> &buff2,
 			      const BufferAccessC<Data3T> &buff3,
-			      SizeT size)
-    { First(buff,buff2,buff3,size); }
+			      const BufferAccessC<Data4T> &buff4,
+ 			      SizeT size)
+    { First(buff,buff2,buff3,buff4,size); }
     //: Constructor.
 
-    inline BufferAccessIter3C(const BufferAccessC<Data1T> &buff1,const IndexRangeC &rng1,
+    inline BufferAccessIter4C(const BufferAccessC<Data1T> &buff1,const IndexRangeC &rng1,
 			      const BufferAccessC<Data2T> &buff2,const IndexRangeC &rng2,
-			      const BufferAccessC<Data3T> &buff3,const IndexRangeC &rng3)
+			      const BufferAccessC<Data3T> &buff3,const IndexRangeC &rng3,
+			      const BufferAccessC<Data4T> &buff4,const IndexRangeC &rng4
+			      )
     { First(buff1,rng1,
 	    buff2,rng2,
-	    buff3,rng3); 
-    }
-    //: Constructor.
-
-    inline BufferAccessIter3C(const BufferAccessC<Data1T> &buff1,
-			      const BufferAccessC<Data2T> &buff2,
-			      const BufferAccessC<Data3T> &buff3,const IndexRangeC &rng)
-    { First(buff1,rng,
-	    buff2,rng,
-	    buff3,rng); 
+	    buff3,rng3, 
+	    buff4,rng4); 
     }
     //: Constructor.
     
-    inline BufferAccessIter3C(const RangeBufferAccessC<Data1T> &buff,
+    inline BufferAccessIter4C(const RangeBufferAccessC<Data1T> &buff,
 			      const RangeBufferAccessC<Data2T> &buff2,
-			      const RangeBufferAccessC<Data3T> &buff3)
-    { First(buff,buff2,buff3); }
+			      const RangeBufferAccessC<Data3T> &buff3,
+			      const RangeBufferAccessC<Data4T> &buff4
+			      )
+    { First(buff,buff2,buff3,buff4); }
     //: Constructor.
 
-    inline BufferAccessIter3C(const SizeBufferAccessC<Data1T> &buff,
+    inline BufferAccessIter4C(const SizeBufferAccessC<Data1T> &buff,
 			      const SizeBufferAccessC<Data2T> &buff2,
-			      const SizeBufferAccessC<Data3T> &buff3)
-    { First(buff,buff2,buff3); }
+			      const SizeBufferAccessC<Data3T> &buff3,
+			      const SizeBufferAccessC<Data4T> &buff4
+			      )
+    { First(buff,buff2,buff3,buff4); }
     //: Constructor.
     
-    bool First(const BufferAccessC<Data1T> &buff1,const IndexRangeC &rng1,
-	       const BufferAccessC<Data2T> &buff2,const IndexRangeC &rng2,
-	       const BufferAccessC<Data3T> &buff3,const IndexRangeC &rng3);
+    inline bool First(const BufferAccessC<Data1T> &buff1,const IndexRangeC &rng1,
+		      const BufferAccessC<Data2T> &buff2,const IndexRangeC &rng2,
+		      const BufferAccessC<Data3T> &buff3,const IndexRangeC &rng3,
+		      const BufferAccessC<Data4T> &buff4,const IndexRangeC &rng4
+		      );
     //: Goto first element.
     // returns true if there is a first element.
     
-    bool First(const BufferAccessC<Data1T> &buff,
-	       const BufferAccessC<Data2T> &buff2,
-	       const BufferAccessC<Data3T> &buff3,
-	       SizeT size);
+    inline bool First(const BufferAccessC<Data1T> &buff,
+		      const BufferAccessC<Data2T> &buff2,
+		      const BufferAccessC<Data3T> &buff3,
+		      const BufferAccessC<Data4T> &buff4,
+		      SizeT size);
     //: Goto first element.
     // returns true if there is a first element.
     
-    bool First(const RangeBufferAccessC<Data1T> &buff,
-	       const RangeBufferAccessC<Data2T> &buff2,
-	       const RangeBufferAccessC<Data3T> &buff3);
+    inline bool First(const RangeBufferAccessC<Data1T> &buff,
+		      const RangeBufferAccessC<Data2T> &buff2,
+		      const RangeBufferAccessC<Data3T> &buff3,
+		      const RangeBufferAccessC<Data4T> &buff4
+		      );
     //: Goto first element.
     // returns true if there is a first element.
 
-    bool First(const SizeBufferAccessC<Data1T> &buff,
-	       const SizeBufferAccessC<Data2T> &buff2,
-	       const SizeBufferAccessC<Data3T> &buff3);
+    inline bool First(const SizeBufferAccessC<Data1T> &buff,
+		      const SizeBufferAccessC<Data2T> &buff2,
+		      const SizeBufferAccessC<Data3T> &buff3,
+		      const SizeBufferAccessC<Data4T> &buff4
+		      );
     //: Goto first element.
     // returns true if there is a first element.
     
@@ -108,40 +115,36 @@ namespace RavlN {
     { return at1 < endOfRow; }
     //: At valid element ?
     
-    inline void Next() {
-      RavlAssert(at1 < endOfRow);
-      at1++;
-      at2++;
-      at3++;
-    }
+    inline void Next();
     //: Goto next element.
     // Call ONLY if IsElm() is valid.
-    
+
     inline void Next(int skip) {
       at1 += skip;
       at2 += skip;
       at3 += skip;
+      at4 += skip;
     }
     //: Advance 'skip' elements.
     // Call ONLY if you know this will not go past the end of the array.
     
-    BufferAccessIter3C<Data1T,Data2T,Data3T> &operator++()
+    BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T> &operator++()
     { Next(); return *this; }
     //: Goto next element.
     // Call ONLY if IsElm() is valid.
     
-    inline BufferAccessIter3C<Data1T,Data2T,Data3T> & operator+=(int skip)
+    inline BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T> & operator+=(int skip)
     { Next(skip); return *this; }
     //: Advance 'skip' elements.
     // WARNING: When using negative values, positions before the begining of the array will
     // not be detected correctly by IsElm().
     
-    inline BufferAccessIter3C<Data1T,Data2T,Data3T> & operator-=(int skip)
+    inline BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T> & operator-=(int skip)
     { Next(-skip); return *this; }
     //: Go back 'skip' elements.
     // WARNING: When using positive values, positions before the begining of the array will
     // not be detected correctly by IsElm().
-
+    
     inline void operator++(int)
     { Next(); }
     //: Goto next elment.
@@ -169,134 +172,181 @@ namespace RavlN {
     inline const Data3T &Data3() const
     { return *at3; }
     //: Access data.
+
+    inline Data4T &Data4()
+    { return *at4; }
+    //: Access data.
     
-    inline void Invalidate() { 
-      at1 = 0;
-      endOfRow = 0; 
-    }
+    inline const Data4T &Data4() const
+    { return *at4; }
+    //: Access data.
+    
+    inline void Invalidate();
     //: Make IsElm() return false.
     
-    inline bool operator>(const BufferAccessIter3C<Data1T,Data2T,Data3T> &oth) const
+    inline bool operator>(const BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T> &oth) const
     { return at1 > oth.at1; }
     //: Is this at a position passed 'oth' ?
     // Using position in first buffer as a reference.
     
-    inline bool operator<(const BufferAccessIter3C<Data1T,Data2T,Data3T> &oth) const
+    inline bool operator<(const BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T> &oth) const
     { return at1 < oth.at1; }
     //: Is this at a position before 'oth' ?
     // Using position in first buffer as a reference.
 
-    inline bool operator>=(const BufferAccessIter3C<Data1T,Data2T,Data3T> &oth) const
+    inline bool operator>=(const BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T> &oth) const
     { return at1 >= oth.at1; }
     //: Is this at a position passed or equal to 'oth' ?
     // Using position in first buffer as a reference.
     
-    inline bool operator<=(const BufferAccessIter3C<Data1T,Data2T,Data3T> &oth) const
+    inline bool operator<=(const BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T> &oth) const
     { return at1 <= oth.at1; }
     //: Is this at a position before or equal to 'oth' ?
     // Using position in first buffer as a reference.
 
-    inline bool operator==(const BufferAccessIter3C<Data1T,Data2T,Data3T> &oth) const
+    inline bool operator==(const BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T> &oth) const
     { return at1 == oth.at1; }
     //: Is this at the same position as 'oth' ?
     // Using position in first buffer as a reference.
     
-    IntT operator-(const BufferAccessIter3C<Data1T,Data2T,Data3T> &oth)
+    IntT operator-(const BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T> &oth)
     { return at1 - oth.at1; }
     //: Return the difference in position of the iterators.
     // Using position in first buffer as a reference.
-    
-  protected:
+
+  protected:    
     Data1T *at1;
     Data2T *at2;
     Data3T *at3;
+    Data4T *at4;
     const Data1T *endOfRow;
   };
   
   //////////////////////////////////////////////////////
   
-  template<class Data1T,class Data2T,class Data3T>
-  bool BufferAccessIter3C<Data1T,Data2T,Data3T>::First(const BufferAccessC<Data1T> &buff,
-						       const BufferAccessC<Data2T> &buff2,
-						       const BufferAccessC<Data3T> &buff3,
-						       SizeT size)
+  template<class Data1T,class Data2T,class Data3T,class Data4T>
+  inline 
+  bool BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T>::First(const BufferAccessC<Data1T> &buff,
+							      const BufferAccessC<Data2T> &buff2,
+							      const BufferAccessC<Data3T> &buff3,
+							      const BufferAccessC<Data4T> &buff4,
+							      SizeT size)
   {
     if(size <= 0) {
       at1 = 0;
       at2 = 0; // Avoid warnings.
       at3 = 0; // Avoid warnings.
+      at4 = 0; // Avoid warnings.
       endOfRow = 0;
       return false;
     }
     at1 = const_cast<Data1T *>(buff.ReferenceElm());
     at2 = const_cast<Data2T *>(buff2.ReferenceElm());
     at3 = const_cast<Data3T *>(buff3.ReferenceElm());
+    at4 = const_cast<Data4T *>(buff4.ReferenceElm());
     endOfRow = &(at1[size]);
     return true;
   }
 
-  template<class Data1T,class Data2T,class Data3T>
-  bool BufferAccessIter3C<Data1T,Data2T,Data3T>::First(const BufferAccessC<Data1T> &buff1,const IndexRangeC &rng1,
-						       const BufferAccessC<Data2T> &buff2,const IndexRangeC &rng2,
-						       const BufferAccessC<Data3T> &buff3,const IndexRangeC &rng3
-						       )
+  template<class Data1T,class Data2T,class Data3T,class Data4T>
+  inline 
+  bool BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T>::First(const BufferAccessC<Data1T> &buff1,const IndexRangeC &rng1,
+							      const BufferAccessC<Data2T> &buff2,const IndexRangeC &rng2,
+							      const BufferAccessC<Data3T> &buff3,const IndexRangeC &rng3,
+							      const BufferAccessC<Data4T> &buff4,const IndexRangeC &rng4
+							      )
   {
     if(rng1.Size() <= 0) {
       at1 = 0;
       at2 = 0; // Avoid warnings.
       at3 = 0; // Avoid warnings.
+      at4 = 0; // Avoid warnings.
       endOfRow = 0;
       return false;
     }
     RavlAssert(rng1.Size() <= rng2.Size()); 
     RavlAssert(rng1.Size() <= rng3.Size()); 
+    RavlAssert(rng1.Size() <= rng4.Size()); 
     at1 = const_cast<Data1T *>(&buff1[rng1.Min()]);
     at2 = const_cast<Data2T *>(&buff2[rng2.Min()]);
     at3 = const_cast<Data3T *>(&buff3[rng3.Min()]);
+    at4 = const_cast<Data4T *>(&buff4[rng4.Min()]);
     endOfRow = &(at1[rng1.Size()]);
     return true;
   }
   
-  template<class Data1T,class Data2T,class Data3T>
-  bool BufferAccessIter3C<Data1T,Data2T,Data3T>::First(const RangeBufferAccessC<Data1T> &buff,
-						       const RangeBufferAccessC<Data2T> &buff2,
-						       const RangeBufferAccessC<Data3T> &buff3)
+  template<class Data1T,class Data2T,class Data3T,class Data4T>
+  inline 
+  bool BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T>::First(const RangeBufferAccessC<Data1T> &buff,
+							      const RangeBufferAccessC<Data2T> &buff2,
+							      const RangeBufferAccessC<Data3T> &buff3,
+							      const RangeBufferAccessC<Data4T> &buff4
+							      )
   {
     RavlAssert(buff.Size() <= buff2.Size()); 
     RavlAssert(buff.Size() <= buff3.Size()); 
+    RavlAssert(buff.Size() <= buff4.Size()); 
     if(buff.Size() <= 0) {
       at1 = 0;
       at2 = 0; // Avoid warnings.
       at3 = 0; // Avoid warnings.
+      at4 = 0; // Avoid warnings.
       endOfRow = 0;
       return false ;
     }
     at1 = const_cast<Data1T *>(&buff[buff.IMin()]);
     at2 = const_cast<Data2T *>(&buff2[buff2.IMin()]);
     at3 = const_cast<Data3T *>(&buff3[buff3.IMin()]);
+    at4 = const_cast<Data4T *>(&buff4[buff4.IMin()]);
     endOfRow = &(at1[buff.Size()]);
     return true;
   }
 
-  template<class Data1T,class Data2T,class Data3T>
-  bool BufferAccessIter3C<Data1T,Data2T,Data3T>::First(const SizeBufferAccessC<Data1T> &buff,
-						       const SizeBufferAccessC<Data2T> &buff2,
-						       const SizeBufferAccessC<Data3T> &buff3)
+  template<class Data1T,class Data2T,class Data3T,class Data4T>
+  inline 
+  bool BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T>::First(const SizeBufferAccessC<Data1T> &buff,
+							      const SizeBufferAccessC<Data2T> &buff2,
+							      const SizeBufferAccessC<Data3T> &buff3,
+							      const SizeBufferAccessC<Data4T> &buff4
+							      )
   {
     RavlAssert(buff.Size() <= buff2.Size()); 
     RavlAssert(buff.Size() <= buff3.Size()); 
+    RavlAssert(buff.Size() <= buff4.Size()); 
     if(buff.Size() <= 0) {
       at1 = 0;
       at2 = 0; // Avoid warnings.
       at3 = 0; // Avoid warnings.
+      at4 = 0; // Avoid warnings.
       endOfRow = 0;
       return false;
     }
     at1 = const_cast<Data1T *>(buff.ReferenceElm());
     at2 = const_cast<Data2T *>(buff2.ReferenceElm());
     at3 = const_cast<Data3T *>(buff3.ReferenceElm());
+    at4 = const_cast<Data4T *>(buff4.ReferenceElm());
     endOfRow = &(at1[buff.Size()]);
     return true;
   }
+  
+  template<class Data1T,class Data2T,class Data3T,class Data4T>
+  inline 
+  void 
+  BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T>::Next() {
+    RavlAssert(at1 < endOfRow);
+    at1++;
+    at2++;
+    at3++;
+    at4++;
+  }
+  
+  template<class Data1T,class Data2T,class Data3T,class Data4T>
+  inline 
+  void 
+  BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T>::Invalidate() { 
+    at1 = 0;
+    endOfRow = 0; 
+  }
+  
 }
 #endif

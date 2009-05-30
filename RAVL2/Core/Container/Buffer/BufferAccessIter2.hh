@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////
 //! userlevel=Normal
 //! rcsid="$Id$"
-//! file="Ravl/Core/Container/Buffer/BfAccIter2.hh"
+//! file="Ravl/Core/Container/Buffer/BufferAccessIter2.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Arrays.Buffer"

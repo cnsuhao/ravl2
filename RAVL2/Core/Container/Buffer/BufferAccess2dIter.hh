@@ -8,7 +8,7 @@
 #define RAVL_RBFACC2ITER_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Core/Container/Buffer/BfAcc2Iter.hh"
+//! file="Ravl/Core/Container/Buffer/BufferAccess2dIter.hh"
 //! docentry="Ravl.API.Core.Arrays.Buffer"
 //! lib=RavlCore
 //! userlevel=Advanced

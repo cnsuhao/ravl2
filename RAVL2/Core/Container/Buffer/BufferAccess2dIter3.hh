@@ -8,14 +8,14 @@
 #define RAVL_RBFACC2ITER3_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Core/Container/Buffer/BfAcc2Iter3.hh"
+//! file="Ravl/Core/Container/Buffer/BufferAccess2dIter3.hh"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Arrays.Buffer"
 //! userlevel=Default
 //! author="Charles Galambos"
 //! date="24/01/2001"
 
-#include "Ravl/BfAccIter3.hh"
+#include "Ravl/BufferAccessIter3.hh"
 #include "Ravl/Index2d.hh"
 
 namespace RavlN {

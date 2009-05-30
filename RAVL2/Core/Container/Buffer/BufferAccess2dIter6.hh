@@ -1,21 +1,21 @@
 // This file is part of RAVL, Recognition And Vision Library 
-// Copyright (C) 2001, University of Surrey
+// Copyright (C) 2002, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_RBFACC2ITER4_HEADER
-#define RAVL_RBFACC2ITER4_HEADER 1
+#ifndef RAVL_RBFACC2ITER6_HEADER
+#define RAVL_RBFACC2ITER6_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Core/Container/Buffer/BfAcc2Iter4.hh"
+//! file="Ravl/Core/Container/Buffer/BufferAccess2dIter6.hh"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Arrays.Buffer"
 //! userlevel=Default
 //! author="Charles Galambos"
-//! date="24/01/2001"
+//! date="7/1/2003"
 
-#include "Ravl/BfAccIter4.hh"
+#include "Ravl/BufferAccessIter6.hh"
 #include "Ravl/Index2d.hh"
 
 namespace RavlN {
@@ -23,42 +23,54 @@ namespace RavlN {
   //! userlevel=Advanced
   //: Iterate through a 2d buffer.
   
-  template <class Data1T,class Data2T,class Data3T,class Data4T>
-  class BufferAccess2dIter4C {
+  template <class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class Data6T>
+  class BufferAccess2dIter6C {
   public:
-    BufferAccess2dIter4C()
+    BufferAccess2dIter6C()
     {}
     //: Default constructor.
     
-    BufferAccess2dIter4C(const SizeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,SizeT size1,
+    BufferAccess2dIter6C(const SizeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,SizeT size1,
 			 const SizeBufferAccessC<BufferAccessC<Data2T> > &pbuf2,SizeT size2,
 			 const SizeBufferAccessC<BufferAccessC<Data3T> > &pbuf3,SizeT size3,
-			 const SizeBufferAccessC<BufferAccessC<Data4T> > &pbuf4,SizeT size4
+			 const SizeBufferAccessC<BufferAccessC<Data4T> > &pbuf4,SizeT size4,
+			 const SizeBufferAccessC<BufferAccessC<Data5T> > &pbuf5,SizeT size5,
+			 const SizeBufferAccessC<BufferAccessC<Data6T> > &pbuf6,SizeT size6
 			 )
-    { First(pbuf1,size1,pbuf2,size2,pbuf3,size3,pbuf4,size4); }
+    { First(pbuf1,size1,pbuf2,size2,pbuf3,size3,pbuf4,size4,pbuf5,size5,pbuf6,size6); }
     //: Constructor.
     
-    BufferAccess2dIter4C(const RangeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,const IndexRangeC &nrng1,
+    BufferAccess2dIter6C(const RangeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,const IndexRangeC &nrng1,
 			 const RangeBufferAccessC<BufferAccessC<Data2T> > &pbuf2,const IndexRangeC &nrng2,
 			 const RangeBufferAccessC<BufferAccessC<Data3T> > &pbuf3,const IndexRangeC &nrng3,
-			 const RangeBufferAccessC<BufferAccessC<Data4T> > &pbuf4,const IndexRangeC &nrng4
+			 const RangeBufferAccessC<BufferAccessC<Data4T> > &pbuf4,const IndexRangeC &nrng4,
+			 const RangeBufferAccessC<BufferAccessC<Data5T> > &pbuf5,const IndexRangeC &nrng5,
+			 const RangeBufferAccessC<BufferAccessC<Data6T> > &pbuf6,const IndexRangeC &nrng6
 			 )
-    { First(pbuf1,nrng1,pbuf2,nrng2,pbuf3,nrng3,pbuf4,nrng4); }
+    { First(pbuf1,nrng1,pbuf2,nrng2,pbuf3,nrng3,pbuf4,nrng4,pbuf5,nrng5,pbuf6,nrng6); }
     //: Constructor.
-
-
+    
     bool First(const RangeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,const IndexRangeC &nrng1,
 	       const RangeBufferAccessC<BufferAccessC<Data2T> > &pbuf2,const IndexRangeC &nrng2,
 	       const RangeBufferAccessC<BufferAccessC<Data3T> > &pbuf3,const IndexRangeC &nrng3,
-	       const RangeBufferAccessC<BufferAccessC<Data4T> > &pbuf4,const IndexRangeC &nrng4
+	       const RangeBufferAccessC<BufferAccessC<Data4T> > &pbuf4,const IndexRangeC &nrng4,
+	       const RangeBufferAccessC<BufferAccessC<Data5T> > &pbuf5,const IndexRangeC &nrng5,
+	       const RangeBufferAccessC<BufferAccessC<Data6T> > &pbuf6,const IndexRangeC &nrng6
 	       ) {
-      rit.First(pbuf1,pbuf2,pbuf3,pbuf4);
+      rit.First(pbuf1,pbuf2,pbuf3,pbuf4,pbuf5,pbuf6);
       rng1 = nrng1;
       rng2 = nrng2;
       rng3 = nrng3;
       rng4 = nrng4;
+      rng5 = nrng5;
+      rng6 = nrng6;
       if(rng1.Size() > 0 && rit.IsElm())
-	return cit.First(rit.Data1(),rng1,rit.Data2(),rng2,rit.Data3(),rng3,rit.Data4(),rng4); 
+	return cit.First(rit.Data1(),rng1,
+			 rit.Data2(),rng2,
+			 rit.Data3(),rng3,
+			 rit.Data4(),rng4,
+			 rit.Data5(),rng5,
+			 rit.Data6(),rng6); 
       cit.Invalidate();
       return false;
     }
@@ -68,18 +80,24 @@ namespace RavlN {
     bool First(const SizeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,SizeT size1,
 	       const SizeBufferAccessC<BufferAccessC<Data2T> > &pbuf2,SizeT size2,
 	       const SizeBufferAccessC<BufferAccessC<Data3T> > &pbuf3,SizeT size3,
-	       const SizeBufferAccessC<BufferAccessC<Data4T> > &pbuf4,SizeT size4
+	       const SizeBufferAccessC<BufferAccessC<Data4T> > &pbuf4,SizeT size4,
+	       const SizeBufferAccessC<BufferAccessC<Data5T> > &pbuf5,SizeT size5,
+	       const SizeBufferAccessC<BufferAccessC<Data6T> > &pbuf6,SizeT size6
 	       ) {
-      rit.First(pbuf1,pbuf2,pbuf3,pbuf4);
+      rit.First(pbuf1,pbuf2,pbuf3,pbuf4,pbuf5,pbuf6);
       rng1 = IndexRangeC(0,size1-1);
       rng2 = IndexRangeC(0,size2-1);
       rng3 = IndexRangeC(0,size3-1);
       rng4 = IndexRangeC(0,size4-1);
+      rng5 = IndexRangeC(0,size5-1);
+      rng6 = IndexRangeC(0,size6-1);
       if(rng1.Size() > 0 && rit.IsElm())
 	return cit.First(rit.Data1(),rng1,
 			 rit.Data2(),rng2,
 			 rit.Data3(),rng3,
-			 rit.Data4(),rng4); 
+			 rit.Data4(),rng4,
+			 rit.Data5(),rng5,
+			 rit.Data6(),rng6); 
       cit.Invalidate();
       return false;
     }
@@ -96,7 +114,9 @@ namespace RavlN {
       cit.First(rit.Data1(),rng1,
 		rit.Data2(),rng2,
 		rit.Data3(),rng3,
-		rit.Data4(),rng4);
+		rit.Data4(),rng4,
+		rit.Data5(),rng5,
+		rit.Data6(),rng6);
       return false;
     }
     //: Goto next element.
@@ -114,7 +134,9 @@ namespace RavlN {
       cit.First(rit.Data1(),rng1,
 		rit.Data2(),rng2,
 		rit.Data3(),rng3,
-		rit.Data4(),rng4);
+		rit.Data4(),rng4,
+		rit.Data5(),rng5,
+		rit.Data6(),rng6);
       return true;
     }
     //: Skip 'offset' rows. 
@@ -128,7 +150,9 @@ namespace RavlN {
       cit.First(rit.Data1(),rng1,
 		rit.Data2(),rng2,
 		rit.Data3(),rng3,
-		rit.Data4(),rng4);
+		rit.Data4(),rng4,
+		rit.Data5(),rng5,
+		rit.Data6(),rng6);
       return true;      
     }
     //: Go to the begining of the next row.
@@ -183,6 +207,22 @@ namespace RavlN {
     { return cit.Data4(); }
     //: Access data from array 4.
     
+    Data5T &Data5()
+    { return cit.Data5(); }
+    //: Access data from array 5.
+    
+    const Data5T &Data5() const
+    { return cit.Data5(); }
+    //: Access data from array 5.
+    
+    Data6T &Data6()
+    { return cit.Data6(); }
+    //: Access data from array 6.
+    
+    const Data6T &Data6() const
+    { return cit.Data6(); }
+    //: Access data from array 6.
+    
     IntT RowIndex(const BufferAccessC<Data1T> *row1Begin) const
     { return (IntT) (&(rit.Data1()) - row1Begin); }
     //: Work out the current row number
@@ -197,16 +237,16 @@ namespace RavlN {
     }
     //: Get index of current location.
     // Has to be calculate, and so is slightly slow.
-#if 0
-#endif
     
   protected:
-    BufferAccessIter4C<BufferAccessC<Data1T>,BufferAccessC<Data2T>,BufferAccessC<Data3T>,BufferAccessC<Data4T> > rit;
-    BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T> cit;
+    BufferAccessIter6C<BufferAccessC<Data1T>,BufferAccessC<Data2T>,BufferAccessC<Data3T>,BufferAccessC<Data4T>,BufferAccessC<Data5T>,BufferAccessC<Data6T> > rit;
+    BufferAccessIter6C<Data1T,Data2T,Data3T,Data4T,Data5T,Data6T> cit;
     IndexRangeC rng1;
     IndexRangeC rng2;
     IndexRangeC rng3;
     IndexRangeC rng4;
+    IndexRangeC rng5;
+    IndexRangeC rng6;
   };
 }
 
