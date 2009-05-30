@@ -18,8 +18,8 @@
 #include "Ravl/Buffer.hh"
 #include "Ravl/Assert.hh"
 #include "Ravl/IndexRange1d.hh"
-#include "Ravl/RBfAcc.hh"
-#include "Ravl/SBfAcc.hh"
+#include "Ravl/RangeBufferAccess.hh"
+#include "Ravl/SizeBufferAccess.hh"
 
 //: Ravl namespace.
 

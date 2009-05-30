@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 
-#include "Ravl/SBfAcc2d.hh"
+#include "Ravl/SizeBufferAccess2d.hh"
 #include "Ravl/BinStream.hh"
 
 namespace RavlN {

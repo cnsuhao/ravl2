@@ -17,7 +17,7 @@
 
 #include "Ravl/Types.hh"
 #include "Ravl/RCHandleV.hh"
-#include "Ravl/SBfAcc.hh"
+#include "Ravl/SizeBufferAccess.hh"
 #include <stdlib.h>
 
 //: Ravl global namespace.
@@ -34,39 +34,38 @@ namespace RavlN {
       public SizeBufferAccessC<DataT>
   {
   public:
-    BufferBodyC(UIntT nsize,const DataT &defaultVal)
+    BufferBodyC(SizeT nsize,const DataT &defaultVal)
       : SizeBufferAccessC<DataT>(new DataT[nsize],nsize),
-        deletable(true)
+        m_deletable(true)
     { Fill(defaultVal); }
     //: Constructor a buffer of 'nsize' items, with default value.
     
-    BufferBodyC(UIntT nsize)
+    BufferBodyC(SizeT nsize)
       : SizeBufferAccessC<DataT>(new DataT[nsize],nsize),
-        deletable(true)
+        m_deletable(true)
     {}
     //: Constructor a buffer of 'nsize' items.
     
     BufferBodyC()
-      : deletable(false)
+      : m_deletable(false)
     {}
     //: Default constructor.
     
-    BufferBodyC(UIntT nsize,DataT *dat,bool copy = false,bool deletable = false);
+    BufferBodyC(SizeT nsize,DataT *dat,bool copy = false,bool deletable = false);
     //: Construct from data.
     
     BufferBodyC(DataT *dat,UIntT nsize,bool _deletable)
       : SizeBufferAccessC<DataT>(dat,nsize),
-        deletable(_deletable)
+        m_deletable(_deletable)
     {}
     //: Construct from point and size. The data is not copied, and not deletable.
     
     ~BufferBodyC() { 
-      if(this->buff != 0 && deletable)
-	delete [] this->buff;
+      if(this->m_buff != 0 && m_deletable)
+	delete [] this->m_buff;
     }
     //: Destructor.
     
-#if 1
     void *operator new(size_t s) 
     { return malloc(s); }
     //: Override default allocator to just use malloc.
@@ -86,10 +85,9 @@ namespace RavlN {
     { free(data); }
     //: Override default allocator to just use free.
     // This allows classes like SingleBuffer to do more efficient memory allocation.
-#endif
     
   protected:    
-    bool deletable;
+    bool m_deletable;
   };
   
   //! userlevel=Develop
@@ -165,14 +163,14 @@ namespace RavlN {
   template<class DataT>
   BufferBodyC<DataT>::BufferBodyC(UIntT nsize,DataT *ndat,bool copy,bool ndeletable) 
     : SizeBufferAccessC<DataT>(ndat,nsize),
-      deletable(ndeletable)
+      m_deletable(ndeletable)
   {
     if(!copy)
       return ;
-    this->buff = new DataT[nsize];
-    DataT *place,*end = &this->buff[nsize];
+    this->m_buff = new DataT[nsize];
+    DataT *place,*end = &this->m_buff[nsize];
     const DataT *source = ndat;
-    for(place = this->buff;place != end;place++,source++)
+    for(place = this->m_buff;place != end;place++,source++)
       *place = *source;
   }
   

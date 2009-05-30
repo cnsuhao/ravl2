@@ -14,8 +14,8 @@
 //! docentry="Ravl.API.Core.Arrays.Buffer"
 //! date="8/1/2003"
 
-#include "Ravl/RBfAcc.hh"
-#include "Ravl/SBfAcc.hh"
+#include "Ravl/RangeBufferAccess.hh"
+#include "Ravl/SizeBufferAccess.hh"
 
 namespace RavlN {
 

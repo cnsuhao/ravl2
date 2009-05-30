@@ -4,58 +4,50 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
+/////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
-//! file="Ravl/Core/Container/Buffer/exRBfAcc.cc"
+//! file="Ravl/Core/Container/Buffer/exSBfAcc.cc"
 //! userlevel=Normal
 //! author="Radek Marik"
 //! docentry="Ravl.API.Core.Arrays.Buffer"
 //! date="26/2/1997"
 
-//: Range Buffer Access
+//: Sized Buffer Access
 
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Types.hh"
-#include "Ravl/RBfAcc.hh"
+#include "Ravl/SizeBufferAccess.hh"
 #include "Ravl/Stream.hh"
 
 using namespace RavlN;
 
-// This class enables to access member function
-// RangeBufferAccessC<char>::Copy().
-
-class RBAccC
-  : public RangeBufferAccessC<char>
+class SBAccC: public SizeBufferAccessC<char>
 {
   public:
-    RangeBufferAccessC<char> Copy() const
-    { return RangeBufferAccessC<char>::Copy();}
+    SizeBufferAccessC<char> Copy() const
+    { return SizeBufferAccessC<char>::Copy();}
 };
 
-
-int  ExRBfAcc(int, char * [] )
+int  ExSBfAcc(int, char * [] )
 {
   cout << "Buffer access with known size example\n"
            << "=====================================\n";
 
   char buffer[] = "absdefghijklmnopqrstuvwxyz\n";
-  RangeBufferAccessC<char> acc1(buffer, 25); // map a memory
-  RangeBufferAccessC<char> acc2 = acc1 + 3;  // map other access with a 
-                                              // different reference point
-  RangeBufferAccessC<char> acc3;             // a default access
-  RangeBufferAccessC<char> acc4;             // another default access
-  acc4 = buffer + 5;                          // remap the access, but Size()==0
-  RangeBufferAccessC<char> acc5 = acc4;      // map an access
-  acc5.Attach(acc2);                          // remap as acc2
-  RBAccC acc6;                                // a default access
-  acc6.Attach(acc4, 10);                      // remap as acc4, but with a size
-  RangeBufferAccessC<char> acc7(acc6.Copy()); // a new buffer with an access
-  acc6.Fill('*');                             // modify the contents
-  acc2 += 10;                                 // shift indeces
+  SizeBufferAccessC<char> acc1(buffer, 25); // map a memory
+  SizeBufferAccessC<char> acc2 = acc1 + 3;  // map other access with a 
+                                             // different reference point
+  SizeBufferAccessC<char> acc3;             // a default access
+  SizeBufferAccessC<char> acc4;             // another default access
+  acc4 = buffer + 5;                         // remap the access, but Size()==0
+  SizeBufferAccessC<char> acc5 = acc4;      // map an access
+  acc5.Attach(acc2);                         // remap as acc2
+  SBAccC acc6;                               // a default access
+  acc6.Attach(acc4, 10);                   // remap as acc4, but with a size
+  SizeBufferAccessC<char> acc7(acc6.Copy()); // a new buffer with an access
+  acc6.Fill('*');                            // modify the contents
   
-  RangeBufferAccessC<char> acc8(acc6); // a new buffer with an access
-  acc8.ShiftIndexes(1);
-  cout << acc8[0] <<  acc6[0] << "\n";
   cout << "Buffer1 ?  " << acc1.IsValid() << ' ' << acc1.IsEmpty() << ' '
                             << acc1.Size() << ' ' << acc1.ReferenceVoid() << '\n'
            << "Buffer2 ?  " << acc2.IsValid() << ' ' << acc2.IsEmpty() << ' '
@@ -71,22 +63,18 @@ int  ExRBfAcc(int, char * [] )
            << "Buffer7 ?  " << acc7.IsValid() << ' ' << acc7.IsEmpty() << ' '
                             << acc7.Size() << ' ' << acc7.ReferenceVoid() << '\n'
            << "Buffer1:   " << acc1.ReferenceElm() 
-           << "Buffer2:   " << acc2.DataStart()
-           << "Buffer4:   " << acc4.DataStart()
-           << "Buffer5:   " << acc5.DataStart()
-           << "Buffer6:   " << acc6.DataStart()
-           << "Buffer7:   " << acc7.DataStart()  << '\n'
-           << "Buffer8:   " << acc7.DataStart()  << '\n'
+           << "Buffer2:   " << acc2.ReferenceElm()
+           << "Buffer4:   " << acc4.ReferenceElm()
+           << "Buffer5:   " << acc5.ReferenceElm()
+           << "Buffer6:   " << acc6.ReferenceElm()
+           << "Buffer7:   " << acc7.ReferenceElm()  << '\n'
            << "Buffer2.Size()   " << acc2.Size()    << '\n'
+           << "Buffer2.Limits() " << acc2.Limits()  << '\n'
            << "Buffer2.Range()  " << acc2.Range()   << '\n'
-           << "Buffer2[16]:     " << acc2[16]       << '\n'
+           << "Buffer2[3]:" << acc2[1]              << '\n'
            << "\n"; 
   cout << "End of the example\n";
   return 0;
 }
 
-RAVL_ENTRY_POINT(ExRBfAcc)
-
-
-
-
+RAVL_ENTRY_POINT(ExSBfAcc)

@@ -13,8 +13,8 @@
 //! userlevel=Develop
 
 #include "Ravl/Buffer2d.hh"
-#include "Ravl/SBfAcc2d.hh"
-#include "Ravl/RBfAcc2d.hh"
+#include "Ravl/SizeBufferAccess2d.hh"
+#include "Ravl/RangeBufferAccess2d.hh"
 #include "Ravl/SingleBuffer.hh"
 
 #include "Ravl/Stream.hh"
@@ -46,7 +46,7 @@ int TestBuffer2d() {
   BufferC<int> bf1d (6);
   if(bf1d.Size() != 6) {
     cerr << "Size test failed. \n";
-    return 1;
+    return __LINE__;
   }
   
   IndexRangeC r1(1,3);
@@ -55,51 +55,51 @@ int TestBuffer2d() {
   Buffer2dC<int> bf (r1.Size(),r2.Size());
   if(bf.Size1() != (UIntT) r1.Size()) {
     cerr << "Size1 test failed. \n";
-    return 1;
+    return __LINE__;
   }
   if(bf.Size2() != (UIntT) r2.Size()) {
     cerr << "Size2 test failed. \n";
-    return 1;
+    return __LINE__;
   }
   
   //cerr << "Buffer at :" << ((void *) bf.Data().ReferenceElm()) << "\n";
-  RangeBufferAccess2dC<int> rba(r2);
-  rba.Attach(bf,r1);
+  RangeBufferAccess2dC<int> rba;
+  rba.Attach(bf,r1,r2,bf.ByteStride());
   
   if(r1 != rba.Range1()) {
     cerr<< "Range 1 incorrect. " << rba.Range1() <<" should be " << r1 << "\n";
-    return 1;
+    return __LINE__;
   }
 
   if(r2 != rba.Range2()) {
     cerr<< "Range 2 incorrect. " << rba.Range2() <<" should be " << r2 << "\n";
-    return 1;
+    return __LINE__;
   }
-  
-  {
-    // Build the access structure.
-    const SizeT d2Size = rba.Range2().Size();
-    int *at = bf.Data().ReferenceElm() - rba.Range2().Min().V();
-    for(BufferAccessIterC<BufferAccessC<int> > it(rba);it;it++,at += d2Size)
-      *it = at;
-  }
-  
-  if(&(rba[rba.Range1().Min()][rba.Range2().Min()]) != bf.Data().ReferenceElm()) {
+    
+  if(&(rba[rba.Range1().Min()][rba.Range2().Min()]) != bf.ReferenceElm()) {
     cerr << "Buffer setup incorrect. Min@" << ((void *)&(rba[rba.Range1().Min()][rba.Range2().Min()])) << "\n";
-    return 1;
+    return __LINE__;
   }
   
-  BufferAccess2dIterC<int> it(rba,r2);
+  BufferAccess2dIterC<int> it(rba);
   if(!it.IsElm()) {
     cerr << "Failed to create valid iterator. \n";
-    return 1;
+    return __LINE__;
   }
   if(&(*it) != &(rba[rba.Range1().Min()][rba.Range2().Min()])) {
     cerr << "Inital iterator position incorrect. " << ((void *) &(*it) ) << " should be " << ((void *) &(rba[rba.Range1().Min()][rba.Range2().Min()])) <<  "\n";
-    return 1;
+    return __LINE__;
   }
-  for(;it;it++)
+  SizeT count = 0;
+  for(;it;it++) {
     *it = 0;
+    count++;
+  }
+  SizeT totalSize = r1.Size() * r2.Size();
+  if(count != totalSize) {
+    std::cerr << "Iterator count mismatch. Counted=" << count << " Size=" << totalSize << "\n";
+    return __LINE__;
+  }
   return 0;
 }
 

@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////
 //! userlevel=Normal
 //! rcsid="$Id$"
-//! file="Ravl/Core/Container/Buffer/BfAccIter.hh"
+//! file="Ravl/Core/Container/Buffer/BufferAccessIter.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! date="24/01/2001"
@@ -32,7 +32,10 @@ namespace RavlN {
   template <class DataT>
   class BufferAccessIterC {
   public:
-    inline BufferAccessIterC();
+    inline BufferAccessIterC()
+      : at(0),
+        endOfRow(0)
+    {}
     //: Default constructor.
     
     inline BufferAccessIterC(const BufferAccessC<DataT> &buff,const IndexRangeC &rng)
@@ -61,6 +64,12 @@ namespace RavlN {
     { First(element,buff); }
     //: Constructor.
     
+    inline BufferAccessIterC(DataT *start,const DataT *end)
+      : at(start),
+        endOfRow(end)
+    {}
+    //: From the start position and end of the row.
+
     inline BufferAccessIterC<DataT> &operator=(const RangeBufferAccessC<DataT> &buff);
     //: Assignment to a buffer.
 
@@ -84,6 +93,13 @@ namespace RavlN {
     
     inline bool First(DataT &element,const SizeBufferAccessC<DataT> &buff);
     //: Set iterator at 'element' of buffer 'buff'.
+
+    inline bool First(DataT *start,const DataT *end) {
+       at = start;
+       endOfRow = end;
+       return at < endOfRow;
+    }
+    //: From the start position and end of the row.
     
     inline bool IsElm() const
     { return at < endOfRow; }
@@ -178,7 +194,10 @@ namespace RavlN {
     //: Const access data.
     // Equivelent to .Data(), for compatability with other iterators.
     
-    inline void Invalidate();
+    inline void Invalidate() {
+      at = 0;
+      endOfRow = 0;
+    }
     //: Make IsElm() return false.
     
     inline bool operator>(const BufferAccessIterC<DataT> &oth) const
@@ -220,14 +239,7 @@ namespace RavlN {
     const DataT *endOfRow;
   };
   
-  //////////////////////////////////////////////////////
-  
-  template <class DataT>
-  inline 
-  BufferAccessIterC<DataT>::BufferAccessIterC()
-    : at(0), 
-      endOfRow(0)
-  {}
+  /////////////////////////////////////////////////////
   
   template <class DataT>
   inline 
@@ -314,14 +326,7 @@ namespace RavlN {
     First(buff); 
     return *this; 
   }
-  
-  template <class DataT>
-  inline 
-  void 
-  BufferAccessIterC<DataT>::Invalidate() { 
-    at = 0;
-    endOfRow = 0; 
-  }
+
   
 }
 

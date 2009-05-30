@@ -7,18 +7,20 @@
 #ifndef RAVL_BFACC3ITER_HEADER
 #define RAVL_BFACC3ITER_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
 //! file="Ravl/Core/Container/Buffer/BfAcc3Iter.hh"
 //! docentry="Ravl.API.Core.Arrays.Buffer"
 //! lib=RavlCore
 //! userlevel=Advanced
 //! author="Charles Galambos"
 
-#include "Ravl/BfAccIter.hh"
+#include "Ravl/BufferAccessIter.hh"
 #include "Ravl/BfAcc2Iter.hh"
 #include "Ravl/IndexRange1d.hh"
 
 namespace RavlN {
+  template <class DataT> class RangeBufferAccess3dC;
+  template <class DataT> class SizeBufferAccess3dC;
+  
   //! userlevel=Advanced
   //: 3D buffer iterator.
   
@@ -29,75 +31,68 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    BufferAccess3dIterC(const BufferAccessC<BufferAccessC<BufferAccessC<DataT> > > &pbuf,SizeT size1,SizeT size2,SizeT size3)
-    { First(pbuf,size1,size2,size3); }
-    //: Constructor.
+    BufferAccess3dIterC(const RangeBufferAccess3dC<DataT> &data);
+    //: Construct from a 3d buffer.
 
-    BufferAccess3dIterC(const BufferAccessC<BufferAccessC<BufferAccessC<DataT> > > &pbuf,const IndexRangeC &nrng1,const IndexRangeC &nrng2,const IndexRangeC &nrng3)
-    { First(pbuf,nrng1,nrng2,nrng3); }
-    //: Constructor.
-    
-    BufferAccess3dIterC(const SizeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > > &pbuf,SizeT size2,SizeT size3)
-    { First(pbuf,size2,size3); }
-    //: Constructor.
+    BufferAccess3dIterC(const SizeBufferAccess3dC<DataT> &data);
+    //: Construct from a 3d buffer.
 
-    BufferAccess3dIterC(const RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > > &pbuf,const IndexRangeC &nrng2,const IndexRangeC &nrng3)
-    { First(pbuf,nrng2,nrng3); }
+    BufferAccess3dIterC(const BufferAccessC<DataT> &pbuf,
+                        SizeT size1,SizeT size2,SizeT size3,
+                        IntT byteStride1,IntT byteStride2)
+    { First(pbuf,size1,size2,size3,byteStride1,byteStride2); }
     //: Constructor.
     
-    bool First(const BufferAccessC<BufferAccessC<BufferAccessC<DataT> > > &pbuf,const IndexRangeC &nrng1,const IndexRangeC &nrng2,const IndexRangeC &nrng3) {
-      rng2 = nrng2;
-      rng3 = nrng3;
-      rit.First(pbuf,nrng1);
-      if(rit.IsElm())
-	return sit.First(*rit,rng2,rng3);
-      sit.Invalidate();
-      return false;
-    }
-    //: Goto first element in the array
-
-    bool First(const RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > > &pbuf,const IndexRangeC &nrng2,const IndexRangeC &nrng3) {
-      rng2 = nrng2;
-      rng3 = nrng3;
-      rit.First(pbuf,pbuf.Range());
-      if(rit.IsElm())
-	return sit.First(*rit,rng2,rng3);
-      sit.Invalidate();
-      return false;
-    }
-    //: Goto first element in the array
+    BufferAccess3dIterC(const BufferAccessC<DataT> &pbuf,
+                        const IndexRangeC &range1,const IndexRangeC &range2,const IndexRangeC &range3,
+                        IntT byteStride1,IntT byteStride2)
+    { First(pbuf,range1,range2,range3,byteStride1,byteStride2); }
+    //: Constructor.
     
-    bool First(const BufferAccessC<BufferAccessC<BufferAccessC<DataT> > > &pbuf,SizeT size1,SizeT size2,SizeT size3) {
-      rng2 = IndexRangeC(0,size2-1);
-      rng3 = IndexRangeC(0,size3-1);
-      rit.First(pbuf,size1);
-      if(rit.IsElm())
-	return sit.First(*rit,size2,size3);
-      sit.Invalidate();
-      return false;
+    bool First(const BufferAccessC<DataT> &pbuf,
+               const IndexRangeC &range1,const IndexRangeC &range2,const IndexRangeC &range3,
+               IntT byteStride1,IntT byteStride2)
+    {
+      m_slice = reinterpret_cast<char *>(pbuf.ReferenceElm() + range3.Min().V()) + range1.Min().V() * byteStride1 + range2.Min().V() * byteStride2;
+      m_sliceEnd = m_slice + byteStride1 * range1.Max().V();
+      m_size2 = range2.Size();
+      if(m_slice == m_sliceEnd || m_size2 == 0) {
+        m_sit.Invalidate();
+        return false;
+      }
+      DataT *sliceStart=reinterpret_cast<DataT*>(m_slice);
+      m_sit.First(sliceStart,m_size2,range3.Size(),byteStride2);
+      m_stride1 = byteStride1;
+      return true;
     }
     //: Goto first element in the array
-
-    bool First(const SizeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > > &pbuf,SizeT size2,SizeT size3) {
-      rng2 = IndexRangeC(0,size2-1);
-      rng3 = IndexRangeC(0,size3-1);
-      rit.First(pbuf,pbuf.Size());
-      if(rit.IsElm())
-	return sit.First(*rit,size2,size3);
-      sit.Invalidate();
-      return false;
+        
+    bool First(const BufferAccessC<DataT> &pbuf,
+               SizeT size1,SizeT size2,SizeT size3,
+               IntT byteStride1,IntT byteStride2)
+    {
+      m_slice = reinterpret_cast<char *>(pbuf.ReferenceElm());
+      m_sliceEnd = m_slice + byteStride1 * size1;
+      if(m_slice == m_sliceEnd || size2 == 0 || size3 == 0) {
+        m_sit.Invalidate();
+        return false;
+      }
+      m_size2 = size2;
+      m_sit.First(reinterpret_cast<DataT*>(m_slice),size2,size3,byteStride2);
+      m_stride1 = byteStride1;
+      return true;
     }
     //: Goto first element in the array
     
     void SliceStart() 
-    { sit.First(*rit,rng2,rng3); }
+    { m_sit.First(reinterpret_cast<DataT *>(m_slice),m_size2); }
     //: Go back to the begining of this row.
     
     bool NextSlice() {
-      rit.Next();
-      if(!rit.IsElm())
+      m_slice += m_stride1;
+      if(m_slice == m_sliceEnd)
 	return false;
-      sit.First(*rit,rng2,rng3);;
+      m_sit.First(reinterpret_cast<DataT *>(m_slice),m_size2);
       return true;      
     }
     //: Go to the begining of the next row.
@@ -105,10 +100,10 @@ namespace RavlN {
     // false if the end of the array has been reached.
     
     bool Next() { 
-      sit++;
-      if(sit.IsElm())
+      m_sit++;
+      if(m_sit.IsElm())
 	return true;
-      NextRow();
+      this->DoNextSlice();
       return false;
     }
     //: Goto next element.
@@ -117,77 +112,79 @@ namespace RavlN {
     // the next row or at the end of the array.
     
     bool IsElm() const
-    { return sit.IsElm(); }
+    { return m_sit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     operator bool() const
-    { return sit.IsElm(); }
+    { return m_sit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     void operator++() {  
-      sit++;
-      if(!sit.IsElm())
-	NextRow();
+      m_sit++;
+      if(!m_sit.IsElm())
+	this->NextSlice();
     }
     //: Goto next element.
-
+    
     void operator++(int) {  
-      sit++;
-      if(!sit.IsElm())
-	NextRow();      
+      m_sit++;
+      if(!m_sit.IsElm())
+	this->NextSlice();
     }
     //: Goto next element.
     
     DataT &operator*() 
-    { return *sit; }
+    { return *m_sit; }
     //: Access data of current element
     
     const DataT &operator*() const
-    { return *sit; }
+    { return *m_sit; }
     //: Access data of current element
 
     DataT *operator->() 
-    { return &(*sit); }
+    { return &(*m_sit); }
     //: Access data of current element
     
     const DataT *operator->() const
-    { return &(*sit); }
+    { return &(*m_sit); }
     //: Access data of current element
     
     DataT &Data() 
-    { return *sit; }
+    { return *m_sit; }
     //: Access data of current element
 
     const DataT &Data() const
-    { return *sit; }
+    { return *m_sit; }
     //: Access data of current element
 
     DataT &Data1() 
-    { return *sit; }
+    { return *m_sit; }
     //: Access data of current element
     
     const DataT &Data1() const
-    { return *sit; }
+    { return *m_sit; }
     //: Access data of current element
     
   protected:
-    bool NextRow();
+    bool DoNextSlice();
     //: Goto next row.
     
-    BufferAccessIterC<BufferAccessC<BufferAccessC<DataT> > > rit;
-    BufferAccess2dIterC<DataT> sit;
-    IndexRangeC rng2;
-    IndexRangeC rng3;
+    char *m_slice;
+    const char *m_sliceEnd;
+    BufferAccess2dIterC<DataT> m_sit;
+    SizeT m_size1;
+    SizeT m_size2;
+    IntT m_stride1;
   };
 
 
   //: Goto next row.
   template <class DataT>
-  bool BufferAccess3dIterC<DataT>::NextRow() {
-    rit.Next();
-    if(!rit.IsElm())
+  bool BufferAccess3dIterC<DataT>::DoNextSlice() {
+    m_slice += m_stride1;
+    if(m_slice == m_sliceEnd)
       return false;
-    sit.First(*rit,rng2,rng3);;
+    m_sit.First(reinterpret_cast<DataT *>(m_slice),m_size2);
     return true;
   }
 

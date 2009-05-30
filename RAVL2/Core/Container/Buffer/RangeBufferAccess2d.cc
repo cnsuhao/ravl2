@@ -5,14 +5,14 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 
-#include "Ravl/SBfAcc2d.hh"
+#include "Ravl/RangeBufferAccess2d.hh"
 #include "Ravl/BinStream.hh"
 
 namespace RavlN {
 
   //: Save byte image to binary stream 
   
-  BinOStreamC &operator<<(BinOStreamC &strm,const SizeBufferAccess2dC<RealT> &rb) {
+  BinOStreamC &operator<<(BinOStreamC &strm,const RangeBufferAccess2dC<RealT> &rb) {
     if(strm.NativeEndianTest()) {
       IntT width = rb.Frame().Cols();
       IndexC atrow = rb.Frame().TRow();
@@ -22,7 +22,7 @@ namespace RavlN {
         strm.OBuff(reinterpret_cast<const char *>(&(rb[atrow][offset])),width * sizeof(RealT));  
     } else {
       // Write element by element.
-      for(BufferAccess2dIterC<RealT> it(rb,rb.Size2());it;it++)
+      for(BufferAccess2dIterC<RealT> it(rb);it;it++)
         strm << *it;
     }
     
@@ -31,7 +31,7 @@ namespace RavlN {
   
   //: Load byte image from binary stream 
   
-  BinIStreamC &operator>>(BinIStreamC &strm,SizeBufferAccess2dC<RealT> &rb) {
+  BinIStreamC &operator>>(BinIStreamC &strm,RangeBufferAccess2dC<RealT> &rb) {
     if(strm.NativeEndianTest()) {
       IntT width = rb.Frame().Cols();
       IndexC atrow = rb.Frame().TRow();
@@ -41,7 +41,7 @@ namespace RavlN {
         strm.IBuff(reinterpret_cast<char *>(&(rb[atrow][offset])),width * sizeof(RealT));  
     } else {
       // Read element by element.      
-      for(BufferAccess2dIterC<RealT> it(rb,rb.Size2());it;it++)
+      for(BufferAccess2dIterC<RealT> it(rb);it;it++)
         strm >> *it;
     }
     return strm;
@@ -49,7 +49,7 @@ namespace RavlN {
   
   //: Save byte image to binary stream 
   
-  BinOStreamC &operator<<(BinOStreamC &strm,const SizeBufferAccess2dC<FloatT> &rb) {
+  BinOStreamC &operator<<(BinOStreamC &strm,const RangeBufferAccess2dC<FloatT> &rb) {
     if(strm.NativeEndianTest()) {
       IntT width = rb.Frame().Cols();
       IndexC atrow = rb.Frame().TRow();
@@ -59,7 +59,7 @@ namespace RavlN {
         strm.OBuff(reinterpret_cast<const char *>(&(rb[atrow][offset])),width * sizeof(FloatT));  
     } else {
       // Write element by element.
-      for(BufferAccess2dIterC<FloatT> it(rb,rb.Size2());it;it++)
+      for(BufferAccess2dIterC<FloatT> it(rb);it;it++)
         strm << *it;
     }
 
@@ -68,7 +68,7 @@ namespace RavlN {
   
   //: Load byte image from binary stream 
   
-  BinIStreamC &operator>>(BinIStreamC &strm,SizeBufferAccess2dC<FloatT> &rb) {
+  BinIStreamC &operator>>(BinIStreamC &strm,RangeBufferAccess2dC<FloatT> &rb) {
     if(strm.NativeEndianTest()) {
       IntT width = rb.Frame().Cols();
       IndexC atrow = rb.Frame().TRow();
@@ -78,7 +78,7 @@ namespace RavlN {
         strm.IBuff(reinterpret_cast<char *>(&(rb[atrow][offset])),width * sizeof(FloatT));  
     } else {
       // Read element by element.      
-      for(BufferAccess2dIterC<FloatT> it(rb,rb.Size2());it;it++)
+      for(BufferAccess2dIterC<FloatT> it(rb);it;it++)
         strm >> *it;
     }
     return strm;
@@ -86,38 +86,26 @@ namespace RavlN {
 
   //: Save byte image to binary stream 
   
-  BinOStreamC &operator<<(BinOStreamC &strm,const SizeBufferAccess2dC<ByteT> &rb) {
-    if(strm.NativeEndianTest()) {
-      IntT width = rb.Frame().Cols();
-      IndexC atrow = rb.Frame().TRow();
-      IndexC offset = rb.Frame().LCol();
-      IndexC brow = rb.Frame().BRow();
-      for(;atrow <= brow;atrow++)
-        strm.OBuff(reinterpret_cast<const char *>(&(rb[atrow][offset])),width * sizeof(ByteT));  
-    } else {
-      // Write element by element.
-      for(BufferAccess2dIterC<ByteT> it(rb,rb.Size2());it;it++)
-        strm << *it;
-    }
-
+  BinOStreamC &operator<<(BinOStreamC &strm,const RangeBufferAccess2dC<ByteT> &rb) {
+    IntT width = rb.Frame().Cols();
+    IndexC atrow = rb.Frame().TRow();
+    IndexC offset = rb.Frame().LCol();
+    IndexC brow = rb.Frame().BRow();
+    for(;atrow <= brow;atrow++)
+      strm.OBuff(reinterpret_cast<const char *>(&(rb[atrow][offset])),width * sizeof(ByteT));  
     return strm;
   }
   
   //: Load byte image from binary stream 
   
-  BinIStreamC &operator>>(BinIStreamC &strm,SizeBufferAccess2dC<ByteT> &rb) {
-    if(strm.NativeEndianTest()) {
-      IntT width = rb.Frame().Cols();
-      IndexC atrow = rb.Frame().TRow();
-      IndexC offset = rb.Frame().LCol();
-      IndexC brow = rb.Frame().BRow();
-      for(;atrow <= brow;atrow++)
-        strm.IBuff(reinterpret_cast<char *>(&(rb[atrow][offset])),width * sizeof(ByteT));  
-    } else {
-      // Read element by element.      
-      for(BufferAccess2dIterC<ByteT> it(rb,rb.Size2());it;it++)
-        strm >> *it;
-    }
+  BinIStreamC &operator>>(BinIStreamC &strm,RangeBufferAccess2dC<ByteT> &rb) {
+    IntT width = rb.Frame().Cols();
+    IndexC atrow = rb.Frame().TRow();
+    IndexC offset = rb.Frame().LCol();
+    IndexC brow = rb.Frame().BRow();
+    for(;atrow <= brow;atrow++)
+      strm.IBuff(reinterpret_cast<char *>(&(rb[atrow][offset])),width * sizeof(ByteT));  
     return strm;
   }
+
 }

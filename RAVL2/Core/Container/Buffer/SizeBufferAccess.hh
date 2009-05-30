@@ -7,7 +7,7 @@
 #ifndef RAVL_SIZEBUFFERACCESS_HEADER 
 #define RAVL_SIZEBUFFERACCESS_HEADER 1
 /////////////////////////////////////////////////////////////////////////
-//! file="Ravl/Core/Container/Buffer/SBfAcc.hh"
+//! file="Ravl/Core/Container/Buffer/SizeBufferAccess.hh"
 //! lib=RavlCore
 //! author="Radek Marik"
 //! docentry="Ravl.API.Core.Arrays.Buffer"
@@ -48,7 +48,10 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    inline SizeBufferAccessC(DataT * bp, SizeT size = 0);
+    inline SizeBufferAccessC(DataT * data, SizeT size = 0)
+      : BufferAccessC<DataT>(data), 
+        sz(size)
+    {}
     // Creates an access to a buffer pointed by the pointer 'bp'. If
     // 'bp' is 0, the access is not valid.
     
@@ -68,18 +71,18 @@ namespace RavlN {
     // --------------------
 
     inline DataT * ReferenceElm() const
-    { return this->buff; }
+    { return this->m_buff; }
     // Returns the pointer to the reference element of the attached buffer.
     // The reference element need not to be the valid element of the buffer.
     
     inline void * ReferenceVoid() const
-    { return (void *) this->buff; }
+    { return (void *) this->m_buff; }
     // Returns the pointer to the reference element of the attached buffer.
     // The reference element need not to be the valid element of the buffer.
     // The function is intended to be used in printing.
     
     inline DataT * DataStart() const
-    { return this->buff; }
+    { return this->m_buff; }
     // Returns the address of the first element of the buffer.
     
     inline SizeT Size() const
@@ -196,7 +199,7 @@ namespace RavlN {
     // An error will be generated if the requested buffer isn't contains within this one.
 
     bool operator==(const SizeBufferAccessC<DataT> &ba) const
-    { return (this->buff == ba.buff) && (this->sz == ba.sz); }
+    { return (this->m_buff == ba.m_buff) && (this->sz == ba.sz); }
     //: Are two accesses the same ?
   protected:
     
@@ -225,13 +228,6 @@ namespace RavlN {
     for(;to != endOfRow;to++,from++)
       *to = *from;
   }
-  
-  template <class DataT>
-  inline 
-  SizeBufferAccessC<DataT>::SizeBufferAccessC(DataT * bp,SizeT size)
-    : BufferAccessC<DataT>(bp), 
-      sz(size)
-  {}
   
   template <class DataT>
   inline 
@@ -320,7 +316,7 @@ namespace RavlN {
   SizeBufferAccessC<DataT> 
   SizeBufferAccessC<DataT>::operator+(SizeT i) const { 
     RavlAssert(i <= sz);
-    return SizeBufferAccessC<DataT>(this->buff + i, sz - i); 
+    return SizeBufferAccessC<DataT>(this->m_buff + i, sz - i);
   }
   
   template <class DataT>

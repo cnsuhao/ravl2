@@ -8,14 +8,14 @@
 #define RAVL_SBFACC2D_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Core/Container/Buffer/SBfAcc2d.hh"
+//! file="Ravl/Core/Container/Buffer/SizeBufferAccess2d.hh"
 //! lib=RavlCore
 //! userlevel=Develop
 //! author="Charles Galambos"
 //! date="24/01/2001"
 //! docentry="Ravl.API.Core.Arrays.Buffer"
 
-#include "Ravl/SBfAcc.hh"
+#include "Ravl/SizeBufferAccess.hh"
 #include "Ravl/BfAcc2Iter.hh"
 #include "Ravl/Index2d.hh"
 #include "Ravl/Types.hh"
@@ -34,87 +34,120 @@ namespace RavlN {
   
   template <class DataT>
   class SizeBufferAccess2dC 
-    : public SizeBufferAccessC<BufferAccessC<DataT> >
+    : protected BufferAccessC<DataT>
   {
   public:
-    SizeBufferAccess2dC(SizeT nsize2)
-      : size2(nsize2)
+    SizeBufferAccess2dC(SizeT size1,SizeT size2,IntT byteStride)
+      : m_size1(size1),
+        m_size2(size2),
+        m_stride(byteStride)
     {}
     //: Constructor.
     
-    SizeBufferAccess2dC(const SizeBufferAccessC<BufferAccessC<DataT> > &ab,SizeT nsize2)
-      : SizeBufferAccessC<BufferAccessC<DataT> >(ab),
-	size2(nsize2)
+    SizeBufferAccess2dC(const BufferAccessC<DataT> &ab,SizeT size1,SizeT size2,IntT byteStride)
+      : BufferAccessC<DataT>(ab),
+        m_size1(size1),
+	m_size2(size2),
+        m_stride(byteStride)
     {}
     //: Constructor.
     
-    SizeBufferAccess2dC(const BufferAccessC<BufferAccessC<DataT> > &ab,SizeT nsize1,SizeT nsize2)
-      : SizeBufferAccessC<BufferAccessC<DataT> >(ab,nsize1),
-	size2(nsize2)
-    {}
-    //: Constructor.
-
-    SizeBufferAccess2dC(const SizeBufferAccess2dC<DataT > &ab,SizeT nsize1,SizeT nsize2)
-      : SizeBufferAccessC<BufferAccessC<DataT> >(ab,nsize1),
-	size2(nsize2)
+    SizeBufferAccess2dC(const SizeBufferAccess2dC<DataT > &ab,SizeT size1,SizeT size2)
+      : BufferAccessC<DataT >(ab),
+        m_size1(size1),
+	m_size2(size2),
+        m_stride(ab.ByteStride())
     {
-      RavlAssert(nsize1 <= ab.Size1());
-      RavlAssert(nsize2 <= ab.Size2());
+      RavlAssert(size1 <= ab.Size1());
+      RavlAssert(size2 <= ab.Size2());
     }
     //: Constructor.
     
     SizeBufferAccess2dC()
-      : size2(0)
+      : m_size1(0),
+        m_size2(0),
+        m_stride(0)
     {}
     //: Default constructor.
-    
+
+    BufferAccessC<DataT> &Buffer()
+    { return *this; }
+    //: Access buffer;
+
+    const BufferAccessC<DataT> &Buffer() const
+    { return *this; }
+    //: Access buffer;
+
     inline bool Contains(const Index2dC &i) const { 
-      return (((UIntT) i.Col().V()) < size2) && 
-	(((UIntT) i.Row().V()) < Size1()); 
+      return (((UIntT) i.Col().V()) < m_size2) &&
+	(((UIntT) i.Row().V()) < m_size1);
     }
     //: Does this buffer contain the index i ?
     // Returns true if yes.
     
+    DataT *RowPtr(IndexC i) {
+#if RAVL_CHECK
+      if (((UIntT) i.V()) >= m_size1)
+	IssueError(__FILE__,__LINE__,"Row index %u out of index range 0-%u  ",i.V(),m_size1-1);
+#endif
+      return reinterpret_cast<DataT *>(reinterpret_cast<char *>(this->m_buff) + m_stride * i.V());
+    }
+    //: Access element 0 of row i.
+    // Note: The element may not actually exist. <p>
+    // Advanced users only!
+
+    const DataT *RowPtr(IndexC i) const {
+#if RAVL_CHECK
+      if (((UIntT) i.V()) >= m_size1)
+	IssueError(__FILE__,__LINE__,"Row index  %u out of index range 0-%u  ",i.V(),m_size1-1);
+#endif
+      return reinterpret_cast<const DataT *>(reinterpret_cast<const char *>(this->m_buff) + m_stride * i.V());
+    }
+    //: Access element 0 of row i.
+    // Note: The element may not actually exist. <p>
+    // Advanced users only!
+
+
     inline DataT & operator[](const Index2dC & i) { 
 #if RAVL_CHECK
-      if (((UIntT) i.Col().V()) >= size2)
-	IssueError(__FILE__,__LINE__,"Index %u out of index range 0-%u  ",i.Col().V(),size2-1);
+      if (((UIntT) i.Col().V()) >= m_size2)
+	IssueError(__FILE__,__LINE__,"Column index %u out of index range 0-%u  ",i.Col().V(),m_size2-1);
 #endif
-      return SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i.Row())[i.Col()]; 
+      return RowPtr(i.Row())[i.Col().V()];
     }
     //: access to the item array[(i)]
     
     inline const DataT & operator[](const Index2dC & i) const { 
 #if RAVL_CHECK
-      if (((UIntT) i.Col().V()) >= size2)
-	IssueError(__FILE__,__LINE__,"Index %u out of index range 0-%u  ",i.Col().V(),size2-1);
+      if (((UIntT) i.Col().V()) >= m_size2)
+	IssueError(__FILE__,__LINE__,"Column index %u out of index range 0-%u  ",i.Col().V(),m_size2-1);
 #endif
-      return SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i.Row())[i.Col()]; 
+      return RowPtr(i.Row())[i.Col().V()];
     }
     //: return the item array[(i)]
     
     inline SizeBufferAccessC<DataT> operator[](IndexC i)
-    { return SizeBufferAccessC<DataT>(SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i),size2); }
+    { return SizeBufferAccessC<DataT>(RowPtr(i.V()),m_size2); }
     //: access to the item array[(i)]
     
-    inline const SizeBufferAccessC<DataT> operator[](IndexC i) const
-    { return SizeBufferAccessC<DataT>(SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i),size2); }
+    inline const SizeBufferAccessC<const DataT> operator[](IndexC i) const
+    { return SizeBufferAccessC<const DataT>(RowPtr(i.V()),m_size2); }
     //: return the item array[(i)]
     
     inline SizeBufferAccessC<DataT> operator[](int i)
-    { return SizeBufferAccessC<DataT>(SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i),size2); }
+    { return SizeBufferAccessC<DataT>(RowPtr(i),m_size2); }
     //: access to the item array[(i)]
     
-    inline const SizeBufferAccessC<DataT> operator[](int i) const
-    { return SizeBufferAccessC<DataT>(SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i),size2); }
+    inline const SizeBufferAccessC<const DataT> operator[](int i) const
+    { return SizeBufferAccessC<const DataT>(RowPtr(i),m_size2); }
     //: return the item array[(i)]
     
     inline SizeT Size1() const
-    { return SizeBufferAccessC<BufferAccessC<DataT> >::Size(); }
+    { return m_size1; }
     //: Size.
     
     inline SizeT Size2() const
-    { return size2; }
+    { return m_size2; }
     //: Size.
     
     SizeT Size() const 
@@ -124,55 +157,40 @@ namespace RavlN {
     void Fill(const DataT &d);
     //: Fill array with value.
     
-    IntT Stride() const {
-      if(Size1() <= 1)
-	return size2;
-      return (IntT) (SizeBufferAccessC<BufferAccessC<DataT> >::operator[](1).ReferenceElm() -  
-		     SizeBufferAccessC<BufferAccessC<DataT> >::operator[](0).ReferenceElm());
-    }
+    IntT ByteStride() const
+    { return m_stride; }
     //: Get the stride of the 2d array. 
-    
-    bool IsContinuous() const 
-    { return Stride() == (IntT) size2; }
+
+    bool IsContinuous() const
+    { return m_stride == (IntT) (m_size2 * sizeof(DataT)); }
     //: Test if the array is allocated in a continous area of memory.
-    // Note: this only checks the first two rows follow each other in
-    // memory, this may miss other discontunities.
     
     IndexRange2dC Frame() const
-    { return IndexRange2dC(0,(IntT) Size1()-1,0,(IntT) size2-1); }
+    { return IndexRange2dC(0,(IntT) m_size1-1,0,(IntT) m_size2-1); }
     //: Return ranges of indexes
 
-    BufferAccessC<DataT> &RowPtr(IndexC i)
-    { return SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i); }
-    //: Access element 0 of row i.
-    // Note: The element may not actually exist. <p>
-    // Advanced users only!
-    
-    void SetRowPtr(IndexC i,const BufferAccessC<DataT> &rowPtr)
-    { SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i) = rowPtr; }
-    //: Set element 0 of row i to 'rowPtr'.
-    // Advanced users only! <p>
-    // This directly manipulates the row pointer table. It can be used to
-    // change the way the array is stored. NOTE: Many of the numerical operations
-    // in RAVL assume the data is stored in linearly in a contiguous chunk of
-    // memory. Manipulating the layout with this method will break this method
-    // will break this assumption.  This method is provided to allow operations
-    // like deinterlacing image to be done without copying large amounts of memory.
-    
+        
   protected:
-    SizeT size2;
+    SizeT m_size1;
+    SizeT m_size2;
+    IntT m_stride;
   };
 
-  
-  template<class DataT>
+  // Constructor for the iterator.
+  template<typename DataT>
+  inline BufferAccess2dIterC<DataT>::BufferAccess2dIterC(const SizeBufferAccess2dC<DataT> &array)
+  { First(array.Buffer(),array.Size1(),array.Size2(),array.ByteStride()); }
+
+
+  template<typename DataT>
   void SizeBufferAccess2dC<DataT>::Fill(const DataT &d) {
-    for(BufferAccess2dIterC<DataT> it(*this,size2);it;it++)
+    for(BufferAccess2dIterC<DataT> it(*this);it;it++)
       *it = d;
   }
   
   template <class DataT>
   ostream & operator<<(ostream & s, const SizeBufferAccess2dC<DataT> & arr) {
-    for(BufferAccess2dIterC<DataT> it(arr,arr.Size2());it;) {
+    for(BufferAccess2dIterC<DataT> it(arr);it;) {
       s << *it;
       for(;it.Next();) 
 	s << ' ' << *it;
@@ -183,21 +201,21 @@ namespace RavlN {
   
   template <class DataT>
   istream & operator>>(istream & s, SizeBufferAccess2dC<DataT> & arr) {
-    for(BufferAccess2dIterC<DataT> it(arr,arr.Size2());it;it++) 
+    for(BufferAccess2dIterC<DataT> it(arr);it;it++) 
       s >> *it;
     return s;
   }
   
   template<class DataT>
   BinOStreamC &operator<<(BinOStreamC & s, const SizeBufferAccess2dC<DataT> & arr) {
-    for(BufferAccess2dIterC<DataT> it(arr,arr.Size2());it;it++)
+    for(BufferAccess2dIterC<DataT> it(arr);it;it++)
       s << *it;
     return s;
   }
   
   template<class DataT>
   BinIStreamC &operator>>(BinIStreamC & s, SizeBufferAccess2dC<DataT> & arr) {
-    for(BufferAccess2dIterC<DataT> it(arr,arr.Size2());it;it++)
+    for(BufferAccess2dIterC<DataT> it(arr);it;it++)
       s >> *it;
     return s;
   }

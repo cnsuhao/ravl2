@@ -7,7 +7,7 @@
 #ifndef RAVL_RBFACC_HEADER
 #define RAVL_RBFACC_HEADER
 //////////////////////////////////////////////////////////////////////////
-//! file="Ravl/Core/Container/Buffer/RBfAcc.hh"
+//! file="Ravl/Core/Container/Buffer/RangeBufferAccess.hh"
 //! lib=RavlCore
 //! userlevel=Develop
 //! author="Radek Marik"
@@ -27,7 +27,8 @@ namespace RavlN {
   
   class BinOStreamC;
   class BinIStreamC;
-  
+
+
   //: Basic access to buffer with limited range
   // The class RangeBufferAccessC enables to random indexed access to
   // a sequentially organised continous part of memory called buffer.
@@ -44,38 +45,61 @@ namespace RavlN {
   
     // Constructors, copies, assigment, and destructor
     // -----------------------------------------------
-    
-    inline RangeBufferAccessC(DataT * bp = 0, const IndexRangeC & r = 0);
+
+
+    inline RangeBufferAccessC(DataT * bp = 0, const IndexRangeC & r = 0) 
+     : BufferAccessC<DataT>(bp - r.Min().V()),
+       m_range(r)
+    {}
     //: Creates an access to a buffer pointed by the pointer 'bp'. 
     // If 'bp' is 0, the access is not valid.
     // 'bp' Is assumed to point to the r.Min() element of the array. 
     
-    inline RangeBufferAccessC(const IndexRangeC & r,DataT * bp);
+    inline RangeBufferAccessC(const IndexRangeC & r,DataT * bp) 
+      : BufferAccessC<DataT>(bp),
+        m_range(r)
+    {}
     //: Creates an access to a buffer pointed by the pointer 'bp'. 
     // Where bp has already had r.LCol() subtracted from it.
-    // This is has been introduced to allow a bug fix in the class 
-    // ImageC<T>. 
     
     inline RangeBufferAccessC(const BufferAccessC<DataT> & bp,
-			      const IndexRangeC          & r);
+			      const IndexRangeC          & r)
+      : BufferAccessC<DataT>(const_cast<BufferAccessC<DataT> &>(bp) - r.Min().V()),
+        m_range(r)
+    {}
     //: Creates an access to a buffer referenced by 'bp' with range 'r'.
     // the first element in 'bp' will be moved to offset 'r.Min()'.
     
-    inline RangeBufferAccessC(const IndexRangeC & r,const BufferAccessC<DataT> & bp);
+    inline RangeBufferAccessC(const IndexRangeC & r,const BufferAccessC<DataT> & bp)
+      : BufferAccessC<DataT>(const_cast<BufferAccessC<DataT> &>(bp)),
+        m_range(r)
+    {}
     //: Creates an access to a buffer referenced by 'bp' with range 'r'.
     // This assumes 'bp' has already been shifted so range 'r' will index
     // valid elements.
     
-    inline RangeBufferAccessC(const RangeBufferAccessC<DataT> & ba);
+    inline RangeBufferAccessC(const RangeBufferAccessC<DataT> & ba)
+      : BufferAccessC<DataT>(ba),
+        m_range(ba.Range())
+    {}
     //: Creates a new access to 'ba'.
     
     inline RangeBufferAccessC(const RangeBufferAccessC<DataT> & ba,
-			      const IndexRangeC               & r);
+			      const IndexRangeC               & r)
+      : BufferAccessC<DataT>(ba),
+        m_range(r)
+    {
+#if RAVL_CHECK
+      if ((!r.In(ba.Range()) && (r.Size() > 0)) || !ba.Range().Contains(r.Min()))
+        IssueError(__FILE__,__LINE__,"Subrange %d to %d is not subset of buffer range %d - %d  ",
+                  r.Min().V(),r.Max().V(),ba.Range().Min().V(),ba.Range().Max().V());
+#endif
+    }
     //: Creates a new access to 'ba' limited by range 'r'.
     
     inline RangeBufferAccessC(const SizeBufferAccessC<DataT> &sbf)
       : BufferAccessC<DataT>(sbf.ReferenceElm()), 
-	range(0,sbf.Size()-1)
+	m_range(0,sbf.Size()-1)
     {}
     //: Convert from a size buffer access.
 
@@ -92,38 +116,38 @@ namespace RavlN {
     // Returns this object.
 
     inline DataT * ReferenceElm() const
-    { return this->buff; }
+    { return this->m_buff; }
     // Returns the pointer to the reference element of the attached buffer.
     // The reference element need not to be the valid element of the buffer.
     
     inline void * ReferenceVoid() const
-    { return (void *) this->buff; }
+    { return (void *) this->m_buff; }
     // Returns the pointer to the reference element of the attached buffer.
     // The reference element need not to be the valid element of the buffer.
     // The function is intended to be used in printing.
     
     inline DataT * DataStart()
-    { return ReferenceElm() + range.Min().V(); }
+    { return ReferenceElm() + m_range.Min().V(); }
     //: Returns the address of the first element of the buffer.
     
     inline const DataT * DataStart() const
-    { return ReferenceElm() + range.Min().V(); }
+    { return ReferenceElm() + m_range.Min().V(); }
     //: Returns the address of the first element of the buffer.
     
     inline SizeT Size() const
-    { return range.Size(); }
+    { return m_range.Size(); }
     // Returns the number of elements of the array.
     
     inline const IndexRangeC & Range() const
-    { return range; }
+    { return m_range; }
     // Returns the usable range of indeces expressed by this object.
     
     inline IndexC IMin() const
-    { return range.Min(); }
+    { return m_range.Min(); }
     // Returns the minimum index of the range of this access.
     
     inline IndexC IMax() const
-    { return range.Max(); }
+    { return m_range.Max(); }
     // Returns the maximum index of the range of this access.
     
     inline const DataT  & operator[](IntT i) const;
@@ -140,23 +164,24 @@ namespace RavlN {
     { return (*this)[i.V()]; }
     // Read-write access  to the 'i'-th element of the buffer. 
     
-    inline const RangeBufferAccessC<DataT> & RAccess(void) const;
+    inline const RangeBufferAccessC<DataT> & RAccess(void) const
+    { return *this; }
     // Returns this object.
     
     // Logical functions
     // -----------------
         
     inline bool IsEmpty() const
-    { return range.IsEmpty(); }
+    { return m_range.IsEmpty(); }
     // Returns TRUE if the size of the array is zero.
     
     inline bool Contains(IndexC i) const
-    { return range.Contains(i); }
+    { return m_range.Contains(i); }
     // Returns TRUE if the array contains an item with the index 'i'.
     
     inline 
     bool IsOverlapping(const RangeBufferAccessC<DataT> & acc) const
-    { return range.IsOverlapping(acc.range); }
+    { return m_range.IsOverlapping(acc.m_range); }
     // Returns TRUE if this access has an item with the same index as
     // an item of the access 'acc'.
     
@@ -173,7 +198,7 @@ namespace RavlN {
     // than those used in this access object.
   
     inline const IndexRangeC & ShrinkHigh(SizeT k)
-    { return range.ShrinkHigh(k); }
+    { return m_range.ShrinkHigh(k); }
     //: Changes the number of elements by subtracting the last 'k' elements.
     
     inline void ShiftIndexes(IndexC offset);
@@ -181,7 +206,7 @@ namespace RavlN {
     // The range will be shifted by -offset.
     
     inline void SetSubRange(IndexC newMin, IndexC newMax)
-    { range.ClipBy(IndexRangeC(newMin, newMax)); }
+    { m_range.ClipBy(IndexRangeC(newMin, newMax)); }
     //: Constrain the indexs that can be accessed from the array.
     // The range of indexes of this array will be constrained to cover
     // the index range <newMin, newMax> at most.
@@ -218,7 +243,7 @@ namespace RavlN {
     //: Reverse the order of elements in this array in place.
     
     bool operator==(const RangeBufferAccessC<DataT> &ba) const
-    { return (this->buff == ba.buff) && (range == ba.range); }
+    { return (this->m_buff == ba.m_buff) && (m_range == ba.m_range); }
     //: Are two accesses the same ?
     
     void CopyFrom(const Slice1dC<DataT> &slice);
@@ -236,7 +261,7 @@ namespace RavlN {
     // The new copy is necessary to attach to reference counted buffer
     // or to delete at the end of the life of this object.
     
-    IndexRangeC range; // Information on the limits of the buffer 
+    IndexRangeC m_range; // Information on the limits of the buffer
   };
   
   /////////////////////////////////////////////////////////////////////////////
@@ -296,62 +321,17 @@ namespace RavlN {
     return strm;
   }
   
-  template <class DataT>
-  inline RangeBufferAccessC<DataT>::RangeBufferAccessC(DataT * bp, 
-						       const IndexRangeC & r)
-    : BufferAccessC<DataT>(bp - r.Min().V()), 
-      range(r)
-  {}
-  
-  template <class DataT>
-  inline RangeBufferAccessC<DataT>::RangeBufferAccessC( const IndexRangeC & r,
-							DataT * bp)
-    : BufferAccessC<DataT>(bp), 
-      range(r)
-  {}
-
-  template <class DataT>
-  inline RangeBufferAccessC<DataT>::RangeBufferAccessC(const BufferAccessC<DataT> & bp,
-						       const IndexRangeC          & r)
-    : BufferAccessC<DataT>(const_cast<BufferAccessC<DataT> &>(bp) - r.Min().V()), 
-      range(r)
-  {}
-
-  template <class DataT>
-  inline 
-  RangeBufferAccessC<DataT>::RangeBufferAccessC(const IndexRangeC & r,const BufferAccessC<DataT> & bp)
-    : BufferAccessC<DataT>(const_cast<BufferAccessC<DataT> &>(bp)), 
-      range(r)
-  {}
-  
-  template <class DataT>
-  inline RangeBufferAccessC<DataT>::RangeBufferAccessC(const RangeBufferAccessC<DataT> & ba)
-    : BufferAccessC<DataT>(ba), 
-      range(ba.range)
-  {}
-  
-  template <class DataT>
-  inline RangeBufferAccessC<DataT>::RangeBufferAccessC(const RangeBufferAccessC<DataT> & ba,
-						       const IndexRangeC & r)
-    : BufferAccessC<DataT>(ba), range(r)
-  {
-#if RAVL_CHECK
-    if ((!r.In(ba.Range()) && (r.Size() > 0)) || !ba.Range().Contains(r.Min()))
-      IssueError(__FILE__,__LINE__,"Subrange %d to %d is not subset of buffer range %d - %d  ",
-		 r.Min().V(),r.Max().V(),ba.Range().Min().V(),ba.Range().Max().V());
-#endif
-  }
   
   
   template<class DataT> 
   inline RangeBufferAccessC<DataT> RangeBufferAccessC<DataT>::DeepCopy(UIntT levels) const {
     if ( levels == 0) return *this ;
     DataT * newBuf = new DataT[Size()];
-    RangeBufferAccessC<DataT> ret (newBuf, range);
+    RangeBufferAccessC<DataT> ret (newBuf, m_range);
     
     const DataT *at = DataStart();
     DataT *at2 = ret.DataStart();
-    const DataT *endOfRow = &at[range.Size()];
+    const DataT *endOfRow = &at[m_range.Size()];
     for(;at != endOfRow;at++,at2++)
       *at2 = StdDeepCopy(*at,levels-1) ;
     return ret;
@@ -385,17 +365,14 @@ namespace RavlN {
 #endif
     return BufferAccessC<DataT>::operator[](i);
   }
-  
-  template <class DataT>
-  inline const RangeBufferAccessC<DataT> & RangeBufferAccessC<DataT>::RAccess(void) const
-  { return *this; }
+
 
   template <class DataT>
   inline const RangeBufferAccessC<DataT> &RangeBufferAccessC<DataT>::Swap(RangeBufferAccessC<DataT> & a) {
-    DataT *tmp(this->buff);
-    this->buff = a.buff; 
+    DataT *tmp(this->m_buff);
+    this->m_buff = a.m_buff;
     a.buff = tmp;
-    range.Swap(a.range);
+    m_range.Swap(a.m_range);
     return *this;
   }
   
@@ -414,24 +391,24 @@ namespace RavlN {
   inline void  RangeBufferAccessC<DataT>::Attach(const BufferAccessC<DataT> & b,
 						 const IndexRangeC &          r) {
     ((BufferAccessC<DataT> &)(*this)) = b - r.Min();
-    range=r;
+    m_range=r;
   }
 
   template <class DataT>
   inline const RangeBufferAccessC<DataT> &RangeBufferAccessC<DataT>::operator+=(SizeT i) {
-    this->buff -= i;
-    range += i;
+    this->m_buff -= i;
+    m_range += i;
     return *this;
   }
   
   template <class DataT>
   inline RangeBufferAccessC<DataT> RangeBufferAccessC<DataT>::operator+(SizeT i) const
-  { return RangeBufferAccessC<DataT>(this->buff - i, range + i); }
+  { return RangeBufferAccessC<DataT>(this->m_buff - i, m_range + i); }
   
   template <class DataT>
   inline void RangeBufferAccessC<DataT>::ShiftIndexes(IndexC offset) { 
     ((BufferAccessC<DataT> &) *this) += offset.V(); 
-    range -= offset.V();
+    m_range -= offset.V();
   }
 
   template <class DataT>
@@ -439,10 +416,10 @@ namespace RavlN {
     if (IsEmpty()) 
       return RangeBufferAccessC<DataT>();
     DataT * bp = new DataT[Size()];
-    RangeBufferAccessC<DataT> b(bp, range);
+    RangeBufferAccessC<DataT> b(bp, m_range);
     const DataT *at = DataStart();
     DataT *at2 = b.DataStart();
-    const DataT *endOfRow = &at[range.Size()];
+    const DataT *endOfRow = &at[m_range.Size()];
     for(;at != endOfRow;at++,at2++)
       *at2 = *at;
     return b;
@@ -451,7 +428,7 @@ namespace RavlN {
   template <class DataT>
   void RangeBufferAccessC<DataT>::Fill(const DataT & d) {
     DataT *at = DataStart();
-    DataT *endOfRow = &at[range.Size()];
+    DataT *endOfRow = &at[m_range.Size()];
     for(;at != endOfRow;at++)
       *at = d;
   }
