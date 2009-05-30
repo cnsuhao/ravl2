@@ -35,12 +35,14 @@ namespace RavlN {
     {}
     //: Default constructor.
 
-    BufferAccess2dIterC(const BufferAccessC<DataT> &pbuf,SizeT size1,SizeT size2,IntT byteStride)
-    { First(pbuf,size1,size2,byteStride); }
+    BufferAccess2dIterC(const BufferAccessC<DataT> &pbuf,IntT byteStride,
+                        SizeT size1,SizeT size2)
+    { First(pbuf,byteStride,size1,size2); }
     //: Constructor.    
     
-    BufferAccess2dIterC(const BufferAccessC<DataT> &pbuf,const IndexRangeC &nrng1,const IndexRangeC &nrng2,IntT byteStride)
-    { First(pbuf,nrng1,nrng2,byteStride); }
+    BufferAccess2dIterC(const BufferAccessC<DataT> &pbuf,IntT byteStride,
+                        const IndexRangeC &nrng1,const IndexRangeC &nrng2)
+    { First(pbuf,byteStride,nrng1,nrng2); }
     //: Constructor.
     
     BufferAccess2dIterC(const RangeBufferAccess2dC<DataT> &array);
@@ -49,7 +51,8 @@ namespace RavlN {
     BufferAccess2dIterC(const SizeBufferAccess2dC<DataT> &array);
     //: Construct on size array.
     
-    bool First(const BufferAccessC<DataT> &pbuf,SizeT size1,SizeT size2,IntT byteStride) {
+    bool First(const BufferAccessC<DataT> &pbuf,IntT byteStride,
+               SizeT size1,SizeT size2) {
       if(size1 == 0 || size2 == 0) {
         m_cit.Invalidate();
         return false;
@@ -58,7 +61,7 @@ namespace RavlN {
       m_rit   = reinterpret_cast<char *>(pbuf.ReferenceElm());
       m_endRow = m_rit + byteStride * (IntT) size1;
       DataT *colStart=reinterpret_cast<DataT*>(m_rit);
-      m_cit.First(colStart,colStart + m_size2);
+      m_cit.First(colStart,m_size2);
       m_stride = byteStride;
       return true;
     }
@@ -70,12 +73,13 @@ namespace RavlN {
       m_rit   = reinterpret_cast<char *>(const_cast<DataT*>(pbuf));
       m_endRow = m_rit + m_stride * (IntT) size1;
       DataT *colStart=reinterpret_cast<DataT*>(m_rit);
-      m_cit.First(colStart,colStart + m_size2);
+      m_cit.First(colStart,m_size2);
       return true;
     }
     //: Goto first assuming stride and m_size2 are already setup correctly and size1 is not zero.
 
-    bool First(const BufferAccessC<DataT> &pbuf,const IndexRangeC &range1,const IndexRangeC &range2,IntT byteStride) {
+    bool First(const BufferAccessC<DataT> &pbuf,IntT byteStride,
+               const IndexRangeC &range1,const IndexRangeC &range2) {
       m_size2 = range2.Size();
       if(range1.IsEmpty() || m_size2 == 0) {
         m_cit.Invalidate();
@@ -84,7 +88,7 @@ namespace RavlN {
       m_rit   = reinterpret_cast<char *>(pbuf.ReferenceElm() + range2.Min().V()) + byteStride * range1.Min().V();
       m_endRow = m_rit + byteStride * range1.Size();
       DataT *colStart=reinterpret_cast<DataT*>(m_rit);
-      m_cit.First(colStart,colStart + m_size2);
+      m_cit.First(colStart,m_size2);
       m_stride = byteStride;
       return true;
     }
@@ -92,7 +96,7 @@ namespace RavlN {
     
     inline void RowStart() {
       DataT *colStart=reinterpret_cast<DataT*>(m_rit);
-      m_cit.First(colStart,colStart + m_size2);
+      m_cit.First(colStart,m_size2);
     }
     //: Go back to the begining of this row.
     
@@ -106,7 +110,7 @@ namespace RavlN {
       if(m_rit == m_endRow)
 	return false;
       DataT *colStart=reinterpret_cast<DataT*>(m_rit);
-      m_cit.First(colStart,colStart + m_size2);
+      m_cit.First(colStart,m_size2);
       return true;      
     }
     //: Go to the begining of the next row.
@@ -120,8 +124,8 @@ namespace RavlN {
       if(off > m_size2)
 	return false;
       RavlAssert(off >= 0);
-      m_cit.First(reinterpret_cast<DataT *>(m_rit) + off,
-                  reinterpret_cast<DataT *>(m_rit) + m_size2);
+      m_cit.First(reinterpret_cast<DataT *>(m_rit) + off.V(),
+                  m_size2 - off.V());
       return true;
     }
     //: Goto 'offset' column's in on the next row.
@@ -136,7 +140,7 @@ namespace RavlN {
         if(m_rit <= m_endRow) return false;
       }
       DataT *colStart=reinterpret_cast<DataT*>(m_rit);
-      m_cit.First(colStart,colStart + m_size2);
+      m_cit.First(colStart,m_size2);
       return true;
     }
     //: Skip 'offset' rows. 
@@ -240,20 +244,20 @@ namespace RavlN {
 //    //: Access row we're currently iterating.
 
     IntT RowIndex(const DataT *origin) const
-    { return (IntT) (m_rit - reinterpret_cast<char *>(origin))/m_stride; }
+    { return (IntT) (m_rit - reinterpret_cast<const char *>(origin))/m_stride; }
     //: Work out the current row.
     
     IntT ColIndex(const DataT *origin) const {
-      IntT diff = (reinterpret_cast<char *>(&*m_cit) - reinterpret_cast<char *>(origin));
+      IntT diff = (reinterpret_cast<const char *>(&*m_cit) - reinterpret_cast<const char *>(origin));
       return (diff % m_stride)/sizeof(DataT);
     }
     //: Work out the current column offset from the origin of the
     //: rectangle being iterated.
     
     Index2dC Index(const DataT *origin) const {
-      IntT diff = (reinterpret_cast<char *>(&*m_cit) - reinterpret_cast<char *>(origin));
-      return Index2dC((diff / m_stride),
-                      (diff % m_stride)/sizeof(DataT));
+      IntT diff = (reinterpret_cast<const char *>(&*m_cit) - reinterpret_cast<const char *>(origin));
+      return Index2dC((IntT) (diff / m_stride),
+                      (IntT) ((diff % m_stride)/sizeof(DataT)));
     }
     
     //: Get index of current location.

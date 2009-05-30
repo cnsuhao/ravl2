@@ -38,20 +38,23 @@ namespace RavlN {
     //: Construct from a 3d buffer.
 
     BufferAccess3dIterC(const BufferAccessC<DataT> &pbuf,
-                        SizeT size1,SizeT size2,SizeT size3,
-                        IntT byteStride1,IntT byteStride2)
+                        IntT byteStride1,IntT byteStride2,
+                        SizeT size1,SizeT size2,SizeT size3
+                        )
     { First(pbuf,size1,size2,size3,byteStride1,byteStride2); }
     //: Constructor.
     
     BufferAccess3dIterC(const BufferAccessC<DataT> &pbuf,
-                        const IndexRangeC &range1,const IndexRangeC &range2,const IndexRangeC &range3,
-                        IntT byteStride1,IntT byteStride2)
+                        IntT byteStride1,IntT byteStride2,
+                        const IndexRangeC &range1,const IndexRangeC &range2,const IndexRangeC &range3
+                        )
     { First(pbuf,range1,range2,range3,byteStride1,byteStride2); }
     //: Constructor.
     
     bool First(const BufferAccessC<DataT> &pbuf,
-               const IndexRangeC &range1,const IndexRangeC &range2,const IndexRangeC &range3,
-               IntT byteStride1,IntT byteStride2)
+               IntT byteStride1,IntT byteStride2,
+               const IndexRangeC &range1,const IndexRangeC &range2,const IndexRangeC &range3
+               )
     {
       m_slice = reinterpret_cast<char *>(pbuf.ReferenceElm() + range3.Min().V()) + range1.Min().V() * byteStride1 + range2.Min().V() * byteStride2;
       m_sliceEnd = m_slice + byteStride1 * range1.Max().V();
@@ -68,8 +71,9 @@ namespace RavlN {
     //: Goto first element in the array
         
     bool First(const BufferAccessC<DataT> &pbuf,
-               SizeT size1,SizeT size2,SizeT size3,
-               IntT byteStride1,IntT byteStride2)
+               IntT byteStride1,IntT byteStride2,
+               SizeT size1,SizeT size2,SizeT size3
+               )
     {
       m_slice = reinterpret_cast<char *>(pbuf.ReferenceElm());
       m_sliceEnd = m_slice + byteStride1 * size1;

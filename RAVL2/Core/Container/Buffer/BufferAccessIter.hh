@@ -94,9 +94,9 @@ namespace RavlN {
     inline bool First(DataT &element,const SizeBufferAccessC<DataT> &buff);
     //: Set iterator at 'element' of buffer 'buff'.
 
-    inline bool First(DataT *start,const DataT *end) {
+    inline bool First(DataT *start,SizeT size) {
        at = start;
-       endOfRow = end;
+       endOfRow = at + size;
        return at < endOfRow;
     }
     //: From the start position and end of the row.

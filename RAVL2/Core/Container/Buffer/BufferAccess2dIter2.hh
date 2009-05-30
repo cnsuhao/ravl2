@@ -4,10 +4,9 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_RBFACC2ITER2_HEADER
-#define RAVL_RBFACC2ITER2_HEADER 1
+#ifndef RAVL_BUFFFERACCESS2ITER2_HEADER
+#define RAVL_BUFFFERACCESS2ITER2_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
 //! file="Ravl/Core/Container/Buffer/BufferAccess2dIter2.hh"
 //! lib=RavlCore
 //! userlevel=Default
@@ -18,100 +17,134 @@
 #include "Ravl/BufferAccessIter2.hh"
 #include "Ravl/Index2d.hh"
 #include "Ravl/IndexRange2d.hh"
+#include "Ravl/BufferAccess2dIterBase.hh"
 
 namespace RavlN {
-  
+
+
   //! userlevel=Advanced
   //: Iterate through a 2d buffer.
   
   template <class Data1T,class Data2T>
-  class BufferAccess2dIter2C {
+  class BufferAccess2dIter2C 
+    : public BufferAccess2dIterBaseC
+  {
   public:
     BufferAccess2dIter2C()
     {}
     //: Default constructor.
     
-    BufferAccess2dIter2C(const SizeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,SizeT size1,
-			 const SizeBufferAccessC<BufferAccessC<Data2T> > &pbuf2,SizeT size2)
-    { First(pbuf1,size1,pbuf2,size2); }
+    BufferAccess2dIter2C(const BufferAccessC<Data1T> &pbuf1,IntT stride1,
+			 const BufferAccessC<Data2T> &pbuf2,IntT stride2,
+                         IntT size1,IntT size2)
+    { First(pbuf1,stride1,pbuf2,stride2,size1,size2); }
     //: Constructor.
     
-    BufferAccess2dIter2C(const RangeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,const IndexRangeC &nrng1,
-			 const RangeBufferAccessC<BufferAccessC<Data2T> > &pbuf2,const IndexRangeC &nrng2)
-    { First(pbuf1,nrng1,pbuf2,nrng2); }
+    BufferAccess2dIter2C(const BufferAccessC<Data1T> &pbuf1,IntT byteStride1,
+                         const BufferAccessC<Data2T> &pbuf2,IntT byteStride2,
+                         SizeT size1,SizeT size2) {
+      First(pbuf1,byteStride1,
+            pbuf2,byteStride2,
+            size1,size2);
+    }
+    //: Constructor
+    
+    BufferAccess2dIter2C(const BufferAccessC<Data1T> &pbuf1,IntT byteStride1,const IndexRange2dC &range1,
+			 const BufferAccessC<Data2T> &pbuf2,IntT byteStride2,const IndexRange2dC &range2)
+    { First(pbuf1,byteStride1,range1.Range1(),range1.Range2(),
+            pbuf2,byteStride2,range2.Range1(),range2.Range2()); }
     //: Constructor.
-
-    BufferAccess2dIter2C(const BufferAccessC<BufferAccessC<Data1T> > &pbuf1,const IndexRange2dC &nrng1,
-			 const BufferAccessC<BufferAccessC<Data2T> > &pbuf2,const IndexRange2dC &nrng2)
-    { First(pbuf1,nrng1,pbuf2,nrng2); }
-    //: Constructor.
-
-    BufferAccess2dIter2C(const BufferAccessC<BufferAccessC<Data1T> > &pbufa,const IndexRangeC &nrng1a,const IndexRangeC &nrng2a,
-			 const BufferAccessC<BufferAccessC<Data2T> > &pbufb,const IndexRangeC &nrng1b,const IndexRangeC &nrng2b)
-    { First(pbufa,nrng1a,nrng2a,
-	    pbufb,nrng1b,nrng2b); 
+    
+    BufferAccess2dIter2C(const BufferAccessC<Data1T> &pbufA,IntT byteStrideA,const IndexRangeC &nrng1a,const IndexRangeC &nrng2a,
+			 const BufferAccessC<Data2T> &pbufB,IntT byteStrideB,const IndexRangeC &nrng1b,const IndexRangeC &nrng2b)
+    { First(pbufA,byteStrideA,nrng1a,nrng2a,
+	    pbufB,byteStrideB,nrng1b,nrng2b);
     }
     //: Constructor.
 
-    bool First(const BufferAccessC<BufferAccessC<Data1T> > &pbufa,const IndexRangeC &nrng1a,const IndexRangeC &nrng2a,
-	       const BufferAccessC<BufferAccessC<Data2T> > &pbufb,const IndexRangeC &nrng1b,const IndexRangeC &nrng2b) {
-      rng1 = nrng2a;
-      rng2 = nrng2b;
-      rit.First(pbufa,nrng1a,
-		pbufb,nrng1b);
-      if(rng1.Size() > 0 && rit.IsElm())
-	return cit.First(rit.Data1(),rng1,
-			 rit.Data2(),rng2);
-      cit.Invalidate();
-      return false;
-    }
-    //: Goto first element.
-    // returns true if there is one.
-
-    bool First(const BufferAccessC<BufferAccessC<Data1T> > &pbufa,const IndexRange2dC &nrnga,
-	       const BufferAccessC<BufferAccessC<Data2T> > &pbufb,const IndexRange2dC &nrngb) {
-      rng1 = nrnga.Range2();
-      rng2 = nrngb.Range2();
-      rit.First(pbufa,nrnga.Range1(),
-		pbufb,nrngb.Range1());
-      if(rng1.Size() > 0 && rit.IsElm())
-	return cit.First(rit.Data1(),rng1,
-			 rit.Data2(),rng2);
-      cit.Invalidate();
-      return false;
+    bool First(const BufferAccessC<Data1T> &pbuf1,IntT byteStride1,
+               const BufferAccessC<Data2T> &pbuf2,IntT byteStride2,
+               SizeT size1,SizeT size2) {
+      if(size1 == 0 || size2 == 0) {
+        m_cit.Invalidate();
+        return false;
+      }
+      RavlAssert(byteStride1 != 0 && byteStride2 != 0);
+      m_size2 = size2;
+      m_stride1 = byteStride1;
+      m_stride2 = byteStride2;
+      m_rit1 = reinterpret_cast<char *>(pbuf1.ReferenceElm());
+      m_rit2 = reinterpret_cast<char *>(pbuf2.ReferenceElm());
+      m_endRow = m_rit1+m_stride1 * static_cast<IntT>(size1);
+      return m_cit.First(reinterpret_cast<Data1T*>(m_rit1),
+                         reinterpret_cast<Data2T*>(m_rit2),
+                         m_size2);
     }
     //: Goto first element.
     // returns true if there is one.
     
-    bool First(const RangeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,const IndexRangeC &nrng1,
-	       const RangeBufferAccessC<BufferAccessC<Data2T> > &pbuf2,const IndexRangeC &nrng2) {
-      rit.First(pbuf1,pbuf2);
-      rng1 = nrng1;
-      rng2 = nrng2;
-      if(rng1.Size() > 0 && rit.IsElm())
-	return cit.First(rit.Data1(),rng1,rit.Data2(),rng2);      
-      cit.Invalidate();
-      return false;
+    bool First(const Data1T *pbuf1,const Data2T *pbuf2,SizeT size1) {
+      RavlAssert(m_stride1 != 0 && m_stride2 != 0);
+      m_rit1   = reinterpret_cast<char *>(const_cast<Data1T*>(pbuf1));
+      m_rit2   = reinterpret_cast<char *>(const_cast<Data2T*>(pbuf2));
+      m_endRow = m_rit1 + m_stride1 * static_cast<IntT>(size1);
+      return m_cit.First(reinterpret_cast<Data1T*>(m_rit1),
+                         reinterpret_cast<Data2T*>(m_rit2),
+                         m_size2);
+    }
+    //: Goto first assuming stride and m_size2 are already setup correctly and size1 is not zero.
+    
+    bool First(const BufferAccessC<Data1T> &pbuf1,IntT byteStride1,
+               const BufferAccessC<Data2T> &pbuf2,IntT byteStride2,
+               const IndexRangeC &range1,const IndexRangeC &range2) {
+      m_size2 = range2.Size();
+      if(range1.IsEmpty() || m_size2 == 0) {
+        m_cit.Invalidate();
+        return false;
+      }
+      m_stride1 = byteStride1;
+      m_stride2 = byteStride2;
+      m_rit1 = reinterpret_cast<char *>(pbuf1.ReferenceElm() + range2.Min().V()) + byteStride1 * range1.Min().V();
+      m_rit2 = reinterpret_cast<char *>(pbuf2.ReferenceElm() + range2.Min().V()) + byteStride2 * range1.Min().V();
+      m_endRow = m_rit1 + byteStride1 * (IntT) range1.Size();
+      return m_cit.First(reinterpret_cast<Data1T*>(m_rit1),
+                         reinterpret_cast<Data2T*>(m_rit2),
+                         m_size2);
+    }
+    //: Goto first element in the array
+
+    bool First(const BufferAccessC<Data1T> &pbufa,IntT byteStrideA,const IndexRangeC &range1a,const IndexRangeC &range2a,
+	       const BufferAccessC<Data2T> &pbufb,IntT byteStrideB,const IndexRangeC &range1b,const IndexRangeC &range2b) {
+      m_size2 = range2a.Size();
+      RavlAssert((IntT) m_size2 <= range2b.Size());
+      if(range1a.IsEmpty() || m_size2 == 0) {
+        m_cit.Invalidate();
+        return false;
+      }
+      RavlAssert(range1a.Size() >= range1b.Size());
+      m_stride1 = byteStrideA;
+      m_stride2 = byteStrideB;
+      m_rit1 = reinterpret_cast<char *>(pbufa.ReferenceElm() + range2a.Min().V()) + byteStrideA * range1a.Min().V();
+      m_rit2 = reinterpret_cast<char *>(pbufb.ReferenceElm() + range2b.Min().V()) + byteStrideB * range1b.Min().V();
+      m_endRow = m_rit1 + byteStrideA * range1a.Size();
+      return m_cit.First(reinterpret_cast<Data1T*>(m_rit1),
+                         reinterpret_cast<Data2T*>(m_rit2),
+                         m_size2);
     }
     //: Goto first element.
     // returns true if there is one.
-    
-    bool First(const SizeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,SizeT size1,
-	       const SizeBufferAccessC<BufferAccessC<Data2T> > &pbuf2,SizeT size2) {
-      rit.First(pbuf1,pbuf2);
-      rng1 = IndexRangeC(0,size1-1);
-      rng2 = IndexRangeC(0,size2-1);
-      if(rng1.Size() > 0 && rit.IsElm())
-	return cit.First(rit.Data1(),rng1,rit.Data2(),rng2);
-      cit.Invalidate();
-      return false;
+
+    bool First(const BufferAccessC<Data1T> &pbufa,IntT byteStrideA,const IndexRange2dC &rangea,
+	       const BufferAccessC<Data2T> &pbufb,IntT byteStrideB,const IndexRange2dC &rangeb) {
+      return First(pbufa,byteStrideA,rangea.Range1(),rangea.Range2(),
+                   pbufb,byteStrideB,rangeb.Range1(),rangeb.Range2());
     }
     //: Goto first element.
     // returns true if there is one.
-    
+        
     bool Next() { 
-      cit.Next();
-      if(!cit.IsElm()) {
+      m_cit.Next();
+      if(!m_cit.IsElm()) {
 	CNextRow();
 	return false;
       }
@@ -121,27 +154,25 @@ namespace RavlN {
     // returns true if on the same row.
     
     bool NextRow() {
-      rit.Next();
-      if(!rit.IsElm())
-	return false;
-      cit.First(rit.Data1(),rng1,rit.Data2(),rng2);
-      return true;      
+      m_rit1 += m_stride1;
+      m_rit2 += m_stride2;
+      if(m_rit1 == m_endRow) return false;
+      m_cit.First(reinterpret_cast<Data1T*>(m_rit1),
+                  reinterpret_cast<Data2T*>(m_rit2),
+                  m_size2);
+      return true;
     }
     //: Go to the begining of the next row.
     // Returns true if the iterator is begining of a valid row, and false
     // if it is at the end of the array.
-
-    bool NextRow(IndexC off) {
-      rit.Next();
-      if(!rit.IsElm())
-	return false;
-      IndexC s1 = rng1.Min() + off;
-      if(s1 > rng1.Max())
-	return false;
-      RavlAssert(off >= 0);
-      cit.First(rit.Data1(),IndexRangeC(s1,rng1.Max()),
-		rit.Data2(),IndexRangeC(rng2.Min() + off,rng2.Max())
-		);
+    
+    bool NextRow(IntT offset) {
+      m_rit1 += m_stride1;
+      m_rit2 += m_stride2;
+      if(m_rit1 == m_endRow || offset >= (IntT) m_size2) return false;
+      m_cit.First(reinterpret_cast<Data1T*>(m_rit1) + offset,
+                  reinterpret_cast<Data2T*>(m_rit2) + offset,
+                  m_size2 - offset);
       return true;
     }
     //: Go to the 'offset' from the first element in the next row.
@@ -149,10 +180,16 @@ namespace RavlN {
     // if it is at the end of the array. 
     
     bool SkipRow(IntT offset) {
-      rit.Next(offset);
-      if(!rit.IsElm())
-	return false;
-      cit.First(rit.Data1(),rng1,rit.Data2(),rng2);
+      m_rit1 += m_stride1 * offset;
+      m_rit2 += m_stride2 * offset;
+      if(m_stride1 > 0) {
+        if(m_rit1 >= m_endRow) return false;
+      } else {
+        if(m_rit2 <= m_endRow) return false;
+      }
+      m_cit.First(reinterpret_cast<Data1T*>(m_rit1),
+                  reinterpret_cast<Data2T*>(m_rit2),
+                  m_size2);
       return true;
     }
     //: Skip 'offset' rows. 
@@ -160,82 +197,83 @@ namespace RavlN {
     // Returns true if the iterator is left on a valid element.
     
     void NextCol(int skip)
-    { cit.Next(skip); }
+    { m_cit.Next(skip); }
     //: Go forward 'skip' columns, without checking for row change.
     // Use with care.
-    
+
     bool IsElm() const
-    { return cit.IsElm(); }
+    { return m_cit.IsElm(); }
     //: At a valid element ?
-    
+
     operator bool() const
-    { return cit.IsElm(); }
+    { return m_cit.IsElm(); }
     //: At a valid element ?
     
     void operator++() {  
-      cit++;
-      if(!cit.IsElm())
+      m_cit++;
+      if(!m_cit.IsElm())
 	CNextRow();
     }
     //: Goto next element.
     
     void operator++(int) { 
-      cit++;
-      if(!cit.IsElm())
+      m_cit++;
+      if(!m_cit.IsElm())
 	CNextRow();
     }
     //: Goto next element.
     
     Data1T &Data1() 
-    { return cit.Data1(); }
+    { return m_cit.Data1(); }
     //: Access data.
 
     const Data1T &Data1() const
-    { return cit.Data1(); }
+    { return m_cit.Data1(); }
     //: Access data.
 
     Data2T &Data2() 
-    { return cit.Data2(); }
+    { return m_cit.Data2(); }
     //: Access data.
     
     const Data2T &Data2() const
-    { return cit.Data2(); }
+    { return m_cit.Data2(); }
     //: Access data.
-    
-    IntT RowIndex(const BufferAccessC<Data1T> *row1Begin) const
-    { return (IntT) (&(rit.Data1()) - row1Begin); }
-    //: Work out the current row number
-    
-    IntT ColIndex() const
-    { return (IntT) (&(cit.Data1()) - rit.Data1().ReferenceElm()); }
-    //: Work out the current column number
-    
-    Index2dC Index(const BufferAccessC<Data1T> *row1Begin) const { 
-      return Index2dC((IntT) (&(rit.Data1()) - row1Begin),
-		      (IntT) (&(cit.Data1()) - rit.Data1().ReferenceElm()));
-    }
-    //: Get index of current location.
-    // Has to be calculate, and so is slightly slow.
-    
+        
     void Invalidate()
-    { cit.Invalidate(); }
+    { m_cit.Invalidate(); }
     //: Invalidate this iterator.
     
+    IntT ColIndex(void *origin) const {
+      IntT diff = (reinterpret_cast<const char *>(&m_cit.Data1()) - reinterpret_cast<const char *>(origin));
+      return (diff % m_stride1)/sizeof(Data1T);
+    }
+    //: Work out the current column offset from the origin of the
+    //: rectangle being iterated.
+
+    Index2dC Index(void *origin) const {
+      IntT diff = (reinterpret_cast<const char *>(&m_cit.Data1()) - reinterpret_cast<const char *>(origin));
+      return Index2dC((IntT) (diff / m_stride1),
+                      (IntT) ((diff % m_stride1)/sizeof(Data1T)));
+    }
+
   protected:
     void CNextRow();
     //: Alternate version of NextRow() to help compiler get inlining right.
     
-    BufferAccessIter2C<BufferAccessC<Data1T>,BufferAccessC<Data2T> > rit;
-    BufferAccessIter2C<Data1T,Data2T> cit;
-    IndexRangeC rng1;
-    IndexRangeC rng2;
+    BufferAccessIter2C<Data1T,Data2T> m_cit;
+    SizeT m_size2;
+    char  *m_rit2; // Start of current row for array 2
+    IntT m_stride2;
   };
   
   template <class Data1T,class Data2T>
   void BufferAccess2dIter2C<Data1T,Data2T>::CNextRow() {
-    rit.Next();
-    if(rit.IsElm())
-      cit.First(rit.Data1(),rng1,rit.Data2(),rng2);
+    m_rit1 += m_stride1;
+    m_rit2 += m_stride2;
+    if(m_rit1 != m_endRow)
+      m_cit.First(reinterpret_cast<Data1T*>(m_rit1),
+                  reinterpret_cast<Data2T*>(m_rit2),
+                  m_size2);
   }
 }
 

@@ -210,7 +210,7 @@ namespace RavlN {
   // Constructor for the iterator.
   template<class DataT>
   inline BufferAccess2dIterC<DataT>::BufferAccess2dIterC(const RangeBufferAccess2dC<DataT> &array)
-  { First(array.Buffer(),array.Range1(),array.Range2(),array.ByteStride()); }
+  { First(array.Buffer(),array.ByteStride(),array.Range1(),array.Range2()); }
   
   template<class DataT>
   void RangeBufferAccess2dC<DataT>::Fill(const DataT &d) {

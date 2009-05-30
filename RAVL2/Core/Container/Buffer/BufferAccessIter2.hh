@@ -56,7 +56,10 @@ namespace RavlN {
     { First(buff,buff2,off1,off2); }
     //: Constructor.
     // Iterate through buffers starting at the given offsets off1 and off2 from the begining of the ranges.
-    
+
+    inline bool First(const Data1T *buff1,const Data2T *buff2,SizeT size);
+    //: Goto first elements.
+
     inline bool First(const RangeBufferAccessC<Data1T> &buff,const RangeBufferAccessC<Data2T> &buff2);
     //: Goto first elements.
 
@@ -180,7 +183,23 @@ namespace RavlN {
   };
   
   //////////////////////////////////////////////////////
-  
+
+  template<class Data1T,class Data2T>
+  inline
+  bool BufferAccessIter2C<Data1T,Data2T>::First(const Data1T *buff1,const Data2T *buff2,SizeT size) {
+    if(size <= 0) {
+      at1 = 0;
+      at2 = 0; // Avoid a warning.
+      endOfRow = 0;
+      return false;
+    }
+    at1 = const_cast<Data1T *>(buff1);
+    at2 = const_cast<Data2T *>(buff2);
+    endOfRow = &(at1[size]);
+    return true;
+  }
+
+
   template<class Data1T,class Data2T>
   inline 
   bool BufferAccessIter2C<Data1T,Data2T>::First(const BufferAccessC<Data1T> &buff1,const BufferAccessC<Data2T> &buff2,SizeT size) {

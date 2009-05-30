@@ -206,9 +206,9 @@ namespace RavlN {
 
   template<class DataT>
   BufferAccess3dIterC<DataT>::BufferAccess3dIterC(const RangeBufferAccess3dC<DataT> &data)
-  { First(data.Buffer(),data.Range1(),data.Range2(),data.Range3(),data.ByteStride1(),data.ByteStride2());}
+  { First(data.Buffer(),data.Range1(),data.ByteStride1(),data.ByteStride2(),data.Range2(),data.Range3());}
   //: Construct from a 3d buffer.
-
+  
   template<class DataT>
   void RangeBufferAccess3dC<DataT>::Fill(const DataT &d) {
     for(BufferAccess3dIterC<DataT> it(*this);it;it++)

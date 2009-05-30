@@ -20,6 +20,20 @@
 #include "Ravl/Stream.hh"
 #include "Ravl/IntC.hh"
 
+#include "Ravl/BufferAccessIter2.hh"
+#include "Ravl/BufferAccessIter3.hh"
+#include "Ravl/BufferAccessIter4.hh"
+#include "Ravl/BufferAccessIter5.hh"
+#include "Ravl/BufferAccessIter6.hh"
+#include "Ravl/BufferAccessIter7.hh"
+
+#include "Ravl/BufferAccess2dIter2.hh"
+#include "Ravl/BufferAccess2dIter3.hh"
+#include "Ravl/BufferAccess2dIter4.hh"
+#include "Ravl/BufferAccess2dIter5.hh"
+#include "Ravl/BufferAccess2dIter6.hh"
+#include "Ravl/BufferAccess2dIter7.hh"
+
 using namespace RavlN;
 
 int TestSingleBuffer();
@@ -148,3 +162,11 @@ template class SizeBufferAccess2dC<IntT>;
 template class RangeBufferAccess2dC<IntT>;
 template class Buffer2dBodyC<IntT>;
 template class Buffer2dC<IntT>;
+
+template class BufferAccess2dIterC<char>;
+template class BufferAccess2dIter2C<int,char>;
+template class BufferAccess2dIter3C<float,int,char>;
+template class BufferAccess2dIter4C<bool,float,int,char>;
+template class BufferAccess2dIter5C<unsigned,bool,float,int,char>;
+template class BufferAccess2dIter6C<double,unsigned,bool,float,int,char>;
+template class BufferAccess2dIter7C<long int,double,unsigned,bool,float,int,char>;

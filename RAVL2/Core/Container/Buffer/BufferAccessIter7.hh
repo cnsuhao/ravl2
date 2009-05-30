@@ -4,10 +4,9 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_SBFACCITER7_HEADER
-#define RAVL_SBFACCITER7_HEADER 1
+#ifndef RAVL_BUFFERACCESSITER7_HEADER
+#define RAVL_BUFFERACCESSITER7_HEADER 1
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
 //! file="Ravl/Core/Container/Buffer/BufferAccessIter7.hh"
 //! author="Charles Galambos"
 //! lib=RavlCore

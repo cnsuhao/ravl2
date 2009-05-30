@@ -28,6 +28,7 @@ namespace RavlN {
   template<class DataT> class Slice1dIterC;
   template<class Data1T,class Data2T> class Slice1dIter2C;
   template<class Data1T,class Data2T,class Data3T> class Slice1dIter3C;
+  
   //:  Slice through array
   // Slices are NOT simple arrays, they have an additional paramiter
   // 'stride' which allows them to access both rows and columns of
@@ -38,32 +39,68 @@ namespace RavlN {
   template<class DataT>
   class Slice1dC {
   public:
-    Slice1dC();
+    Slice1dC()
+     : m_range(0,-1),
+       m_stride(1),
+       m_ref(0)
+    {}
     //: Creates a zero length vector.
     
-    Slice1dC(SizeT nsize);
+    Slice1dC(SizeT size)
+      : m_range(0,size-1),
+        m_stride(sizeof(DataT)),
+        m_buffer(size)
+    { m_ref = reinterpret_cast<char *>(m_buffer.ReferenceElm()); }
     //: Allocate a vector of size 'nsize'
     
-    Slice1dC(const IndexRangeC &nrng);
+    Slice1dC(const IndexRangeC &range)
+      : m_range(range),
+        m_stride(sizeof(DataT)),
+        m_buffer(range.Size())
+    { m_ref = reinterpret_cast<char *>(m_buffer.ReferenceElm() - range.Min().V()); }
     //: Allocate a Slice with a range of 'nrng'
     
-    Slice1dC(BufferC<DataT> &buff,SizeT size,UIntT off,IntT stride = 1);
+    Slice1dC(BufferC<DataT> &buff,SizeT size,IntT off,IntT byteStride = sizeof(DataT))
+      : m_range(size),
+        m_stride(byteStride),
+        m_ref(reinterpret_cast<char *>(buff.ReferenceElm()) + off),
+        m_buffer(buff)
+    {
+      RavlAssert(((size-1) * m_stride + off) < (sizeof(DataT) * buff.Size())); // Check it fits.
+    }
     //: Attach a vector to a buffer.
     // buff   - Buffer in which data is held.
     // size   - Number of elements in the slice.
-    // off    - Offset into buffer of first element.
-    // stride - distance between successive elements in slice.
+    // off    - Offset in bytes into buffer of first element.
+    // byteStride - distance in bytes between successive elements.
     // Element 0 is at 'off' in buffer, and use the given stride.
 
-    Slice1dC(BufferC<DataT> &buff,DataT *refElm,SizeT size,IntT stride = 1);
+    Slice1dC(BufferC<DataT> &buff,DataT *refElm,SizeT size,IntT byteStride = sizeof(DataT))
+      : m_range(size),
+        m_stride(byteStride),
+        m_ref(reinterpret_cast<char *>(refElm)),
+        m_buffer(buff)
+    {
+      RavlAssert(((size-1) * m_stride + sizeof(DataT) * (refElm - m_buffer.ReferenceElm())) < (sizeof(DataT) * buff.Size())); // Check it fits.
+    }
     //: Attach a vector to a buffer.
     // buff   - Buffer in which data is held.
     // size   - Number of elements in the slice.
     // refElm - Pointer to first element in the slice.
     // stride - distance between successive elements in slice.
     // Element 0 is at 'refElm' in buffer, and use the given stride.
-    
-    Slice1dC(BufferC<DataT> &buff,DataT *refElm,IndexRangeC range,IntT stride = 1);
+
+
+    Slice1dC(BufferC<DataT> &buff,DataT *refElm,IndexRangeC range,IntT byteStride = sizeof(DataT))
+      : m_range(range),
+        m_stride(byteStride),
+        m_ref(reinterpret_cast<char *>(refElm)),
+        m_buffer(buff)
+    {
+      RavlAssert(m_range.Min() <= m_range.Max());
+      RavlAssert(((m_range.Min().V()) * m_stride + sizeof(DataT) * (refElm - m_buffer.ReferenceElm())) >= 0); // Check it fits.
+      RavlAssert(((m_range.Max().V()) * m_stride + sizeof(DataT) * (refElm - m_buffer.ReferenceElm())) < (sizeof(DataT) * m_buffer.Size())); // Check it fits.
+    }
     //: Attach a vector to a buffer.
     // buff   - Buffer in which data is held.
     // refElm - Pointer to element 0 in the slice. (even if its not in 'range')
@@ -72,11 +109,11 @@ namespace RavlN {
     // Element '*refElm' is at index 0 in buffer, and use the given stride.
     
     SizeT Size() const
-    { return rng.Size(); }
+    { return m_range.Size(); }
     //: Size of vector.
     
     bool IsEmpty() const
-    { return rng.Size() <= 0; }
+    { return m_range.Size() <= 0; }
     //: Is slice empty ?
     
     Slice1dC Copy() const;
@@ -85,39 +122,51 @@ namespace RavlN {
     void Fill(const DataT &val);
     //: Fill vector with value 'val'
     
-    DataT &operator[](IndexC i);
+    DataT &operator[](IndexC i) {
+      RavlAssertMsg(m_range.Contains(i),"Slice1dC, Index out of range.");
+      return *reinterpret_cast<DataT *>(m_ref + (i.V() * m_stride));
+    }
     //: Access element i in vector.
     
-    const DataT &operator[](IndexC i) const;
+    const DataT &operator[](IndexC i) const {
+      RavlAssertMsg(m_range.Contains(i),"Slice1dC, Index out of range.");
+      return *reinterpret_cast<const DataT *>(m_ref + (i.V() * m_stride));
+    }
     //: Constant access to element i in vector.
 
-    DataT &operator[](int i);
+    DataT &operator[](int i){
+      RavlAssertMsg(m_range.Contains(i),"Slice1dC, Index out of range.");
+      return *reinterpret_cast<DataT *>(m_ref + (i * m_stride));
+    }
     //: Access element i in vector.
     
-    const DataT &operator[](int i) const;
+    const DataT &operator[](int i) const {
+      RavlAssertMsg(m_range.Contains(i),"Slice1dC, Index out of range.");
+      return *reinterpret_cast<const DataT *>(m_ref + (i * m_stride));
+    }
     //: Constant access to element i in vector.
     
     DataT &First()
-    { return ref[stride * rng.Min().V()]; }
+    { return *reinterpret_cast<DataT *>(m_ref + (m_range.Min().V() * m_stride)); }
     //: Access first element in the vector.
     // Not the results of this function is undefined if Size() is zero.
     
     const DataT &First() const
-    { return ref[stride * rng.Min().V()]; }
+    { return *reinterpret_cast<const DataT *>(m_ref + (m_range.Min().V() * m_stride)); }
     //: Access first element in the vector.
     // Not the results of this function is undefined if Size() is zero.
     
     DataT &Last()
-    { return ref[stride * rng.Max().V()]; }
+    { return *reinterpret_cast<DataT *>(m_ref + (m_range.Max().V() * m_stride)); }
     //: Access last element in vector.
     
     const DataT &Last() const
-    { return ref[stride * rng.Max().V()]; }
+    { return *reinterpret_cast<const DataT *>(m_ref + (m_range.Max().V() * m_stride)); }
     //: Access last element in vector.
 
-    IntT Stride() const
-    { return stride; }
-    //: Access stride of vector.
+    IntT ByteStride() const
+    { return m_stride; }
+    //: Access stride of vector in bytes.
     
     Slice1dC<DataT> operator+(const Slice1dC<DataT>& b) const;
     //: Returns the sum of two vectors.
@@ -179,36 +228,36 @@ namespace RavlN {
     //: An alias for dot product.
     
     BufferC<DataT> &Buffer()
-    { return buffer; }
+    { return m_buffer; }
     //: Access the raw buffer 
     
     const BufferC<DataT> &Buffer() const
-    { return buffer; }
+    { return m_buffer; }
     //: Access the raw buffer.
     
     const IndexRangeC &Range() const
-    { return rng; }
+    { return m_range; }
     //: Access range of valid indexs.
     
-    IndexC IMin() const
-    { return rng.Min(); }
+    const IndexC &IMin() const
+    { return m_range.Min(); }
     //: Get minimum index.
     
-    IndexC IMax() const
-    { return rng.Max(); }
+    const IndexC &IMax() const
+    { return m_range.Max(); }
     //: Get maximum index.
     
-    bool Contains(IndexC i) const
-    { return rng.Contains(i); }
+    bool Contains(const IndexC &i) const
+    { return m_range.Contains(i); }
     //: Test if slice contains index i.
-
+    
     DataT &ReferenceElm()
-    { return *ref; }
+    { return *reinterpret_cast<DataT *>(m_ref); }
     //: Access refrence element.
     // Advanced users only.
     
     const DataT &ReferenceElm() const
-    { return *ref; }
+    { return *reinterpret_cast<DataT *>(m_ref); }
     //: Access refrence element.
     // Advanced users only.
     
@@ -221,10 +270,10 @@ namespace RavlN {
     // Both must be the same length.
     
   protected:
-    IndexRangeC rng;// Range of valid index's
-    IntT stride;    // Stride of data.
-    DataT *ref;     // Ptr to element 0
-    BufferC<DataT> buffer;
+    IndexRangeC m_range;// Range of valid index's
+    IntT m_stride;    // Stride of data.
+    char *m_ref;     // Ptr to element 0
+    BufferC<DataT> m_buffer;
   };
 
   template<class DataT>
@@ -245,86 +294,8 @@ namespace RavlN {
 //: Ravl namespace.
 
 namespace RavlN {
-
-
-  template<class DataT>
-  Slice1dC<DataT>::Slice1dC()
-    : rng(0,-1),
-      stride(1),
-      ref(0)
-  {}
-  
-  template<class DataT>
-  Slice1dC<DataT>::Slice1dC(BufferC<DataT> &buff,SizeT nsize,UIntT noff,IntT nstride) 
-    : rng(nsize),
-      stride(nstride),
-      ref(&(buff.ReferenceElm()[noff])),
-      buffer(buff)
-  { 
-    RavlAssert(((nsize-1) * stride + noff) < buff.Size()); // Check it fits.
-  }
-
-  template<class DataT>
-  Slice1dC<DataT>::Slice1dC(BufferC<DataT> &buff,DataT *refElm,SizeT nsize,IntT nstride ) 
-    : rng(nsize),
-      stride(nstride),
-      ref(refElm),
-      buffer(buff)
-  {
-    RavlAssert(((nsize-1) * stride + (IntT)(refElm - buffer.ReferenceElm())) < buff.Size()); // Check it fits.    
-  }
-  
-  template<class DataT>
-  Slice1dC<DataT>::Slice1dC(BufferC<DataT> &buff,DataT *refElm,IndexRangeC range,IntT nstride) 
-    : rng(range),
-      stride(nstride),
-      ref(refElm),
-      buffer(buff)
-  {
-    RavlAssert(rng.Min() <= rng.Max());
-    RavlAssert(((rng.Min()) * stride + (IntT)(refElm - buffer.ReferenceElm())) >= 0); // Check it fits.    
-    RavlAssert(((rng.Max()) * stride + (IntT)(refElm - buffer.ReferenceElm())) < buff.Size()); // Check it fits.    
-  }								       
-  
-  template<class DataT>
-  Slice1dC<DataT>::Slice1dC(SizeT nsize) 
-    : rng(nsize),
-      stride(1),
-      buffer(nsize)
-  { ref = buffer.ReferenceElm(); }
   
   
-  template<class DataT>
-  Slice1dC<DataT>::Slice1dC(const IndexRangeC &nrng)
-    : rng(nrng),
-      stride(1),
-      buffer(nrng.Size())
-  { ref = buffer.ReferenceElm() - nrng.Min().V(); }
-  
-  template<class DataT>
-  DataT &Slice1dC<DataT>::operator[](IndexC i) { 
-    RavlAssertMsg(rng.Contains(i),"Slice1dC, Index out of range.");
-    return ref[i.V() * stride]; 
-  }
-  
-  template<class DataT>
-  const DataT &Slice1dC<DataT>::operator[](IndexC i) const { 
-    RavlAssertMsg(rng.Contains(i),"Slice1dC, Index out of range.");
-    return ref[i.V() * stride]; 
-  }
-  
-  template<class DataT>
-  DataT &Slice1dC<DataT>::operator[](int i) {
-    RavlAssertMsg(rng.Contains(i),"Slice1dC, Index out of range.");
-    return ref[i * stride]; 
-  }
-  
-  template<class DataT>
-  const DataT &Slice1dC<DataT>::operator[](int i) const {
-    RavlAssertMsg(rng.Contains(i),"Slice1dC, Index out of range.");
-    return ref[i * stride]; 
-  }
-
   template<class DataT>
   Slice1dC<DataT> Slice1dC<DataT>::Copy() const {
     Slice1dC<DataT> ret(Size());
