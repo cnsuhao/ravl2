@@ -129,6 +129,7 @@ namespace RavlN {
   void Slice1dIterC<DataT>::First(const Slice1dC<DataT> &vec,const IndexRangeC &rng) {
     RavlAssert(vec.Range().Contains(rng));
     if(rng.Size() <= 0) {
+      m_start = 0;
       m_place = 0;
       m_end = 0;
       return ;

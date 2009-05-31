@@ -27,11 +27,7 @@ namespace RavlN {
         m_stride1(0)
     {}
     //: Constructor.
-
-    IntT RowIndex(void *origin) const
-    { return (IntT) (m_rit1 - reinterpret_cast<char *>(origin))/m_stride1; }
-    //: Work out the current row.
-
+    
   protected:
     char  *m_rit1; // Start of current row for array 1
     const char *m_endRow;

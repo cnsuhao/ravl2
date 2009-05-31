@@ -44,14 +44,53 @@ int main() {
 
 int testBasic() {
   cerr << "Starting test of SArray2d.\n";
-  SArray2dC<int> testArr(10,10);
-  testArr[Index2dC(1,1)] = 2;
   
+  SArray2dC<int> testArr(10,10);
+  
+  // Sizes look right ?
+  if(testArr.Size1() != 10)
+    return __LINE__;
+  if(testArr.Size2() != 10)
+    return __LINE__;
+  if(testArr.Range1().Size() != 10)
+    return __LINE__;
+  if(testArr.Range2().Size() != 10)
+    return __LINE__;
+
+  // Can we index elements ok?
+  testArr[Index2dC(1,1)] = 1;
+  testArr[Index2dC(1,2)] = 2;
+  testArr[Index2dC(2,1)] = 3;
+  testArr[Index2dC(2,2)] = 4;
+  if(testArr[1][1] != 1) return __LINE__;
+  if(testArr[1][2] != 2) return __LINE__;
+  if(testArr[2][1] != 3) return __LINE__;
+  if(testArr[2][2] != 4) return __LINE__;
+  
+  testArr.Fill(0);
+  if(testArr[0][0] != 0) return __LINE__;
+  if(testArr[1][1] != 0) return __LINE__;
+  if(testArr[1][2] != 0) return __LINE__;
+  if(testArr[2][1] != 0) return __LINE__;
+  if(testArr[2][2] != 0) return __LINE__;
+  if(testArr[9][9] != 0) return __LINE__;
+  
+  // Fill with a simple pattern.
   int place = 0;
   for(IndexC i = 0;i < 10;i++)
     for(IndexC j = 0;j < 10;j++)
       testArr[i][j] = place++;
+
+  // Check simple iteration.
+  place = 0;
+  for(SArray2dIterC<int> it(testArr);it;it++,place++) {
+    if(*it != place) {
+      std::cerr << "Failed at Index=" << it.Index() << " Value=" << *it << " Expected=" << place << "\n";
+      return __LINE__;
+    }
+  }
   
+  // Sub array.
   SArray2dC<int> subArr(testArr,5,5);
   for(SArray2dIter2C<int,int> it(subArr,testArr);it;it++)
     if(it.Data1() != it.Data2()) return __LINE__;
@@ -64,9 +103,16 @@ int testBasic() {
   
   Slice1dC<int> slice = testArr.Diagonal();
   int v = 0;
+  for(int i = 0;i < (IntT) slice.Size();i++,v+=11) {
+    if(slice[i] != v) {
+      cerr << "Diagonal slice test failed. Index=" << i << " Slice=" << slice[i] << " Expected=" << v << "\n";
+      return __LINE__;
+    }
+  }
+  v = 0;
   for(Slice1dIterC<int> its(slice);its;its++,v+=11) {
     if(*its != v) {
-      cerr << "Diagonal slice test failed. " << *its << " " << v << "\n";
+      cerr << "Diagonal slice iter test failed. " << *its << " " << v << "\n";
       return __LINE__;
     }
   }

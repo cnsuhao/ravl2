@@ -200,7 +200,42 @@ namespace RavlN {
     bool IsEmpty() const
     { return (Range1().Size() <= 0) || (Range2().Size() <= 0); }
     //: Is rectangle empty ?
-        
+
+    IndexC RowIndexOf(const DataT &element) const {
+      RavlAssert(IsValid());
+      IndexC ret = (IndexC(reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm())) - (Range2().Min()*IndexC((IntT)sizeof(DataT))))/m_stride;
+      RavlAssertMsg(Range1().Contains(ret),"Requested element not from this array.");
+      return ret;
+    }
+    //: Compute the row from address of an element in the array.
+    // 'element' must be a direct reference to an element in the array.
+    
+    IndexC ColIndexOf(const DataT &element) const {
+      RavlAssert(IsValid());
+      IntT diff = (reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()));
+      diff -= Range2().Min() * IndexC((int) sizeof(DataT));
+      IndexC ret = ((diff % m_stride)/IndexC((IntT) sizeof(DataT))) + Range2().Min();
+      RavlAssertMsg(Range2().Contains(ret),"Requested element not from this array.");
+      return ret;
+    }
+    //: Compute the column from address of an element in the array.
+    // 'element' must be a direct reference to an element in the array.
+    
+    Index2dC IndexOf(const DataT &element) const {
+      RavlAssert(IsValid());
+      IndexC diff = (reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()));
+      diff -= Range2().Min() * IndexC((IntT) sizeof(DataT));
+      Index2dC ret((diff / m_stride),
+                   ((diff % m_stride)/IndexC((IntT) sizeof(DataT))) + Range2().Min());
+      RavlAssertMsg(Frame().Contains(ret),"Requested element not from this array.");
+      return ret;
+    }
+    //: Gompute the index of 'element' in the array.
+    // 'element' must be a direct reference to an element in the array.
+    
+    using BufferAccessC<DataT>::IsValid;
+    using BufferAccessC<DataT>::ReferenceElm;
+    
   protected:
     IntT m_stride; // Stride of array in bytes.
     IndexRangeC m_range1;

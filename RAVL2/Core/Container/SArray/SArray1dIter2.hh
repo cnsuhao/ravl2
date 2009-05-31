@@ -16,7 +16,7 @@
 //! userlevel=Advanced
 
 #include "Ravl/SArray1d.hh"
-#include "Ravl/BfAccIter2.hh"
+#include "Ravl/BufferAccessIter2.hh"
 
 namespace RavlN {
   

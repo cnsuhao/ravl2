@@ -21,6 +21,9 @@
 
 namespace RavlN {
 
+  template <class DataT> class RangeBufferAccess2dC;
+  template <class DataT> class SizeBufferAccess2dC;
+  
 
   //! userlevel=Advanced
   //: Iterate through a 2d buffer.
@@ -39,7 +42,12 @@ namespace RavlN {
                          IntT size1,IntT size2)
     { First(pbuf1,stride1,pbuf2,stride2,size1,size2); }
     //: Constructor.
-    
+
+    BufferAccess2dIter2C(const SizeBufferAccess2dC<Data1T> &pbuf1,
+			 const SizeBufferAccess2dC<Data2T> &pbuf2,
+                         IntT size1,IntT size2);
+    //: Constructor.
+
     BufferAccess2dIter2C(const BufferAccessC<Data1T> &pbuf1,IntT byteStride1,
                          const BufferAccessC<Data2T> &pbuf2,IntT byteStride2,
                          SizeT size1,SizeT size2) {
@@ -243,19 +251,6 @@ namespace RavlN {
     { m_cit.Invalidate(); }
     //: Invalidate this iterator.
     
-    IntT ColIndex(void *origin) const {
-      IntT diff = (reinterpret_cast<const char *>(&m_cit.Data1()) - reinterpret_cast<const char *>(origin));
-      return (diff % m_stride1)/sizeof(Data1T);
-    }
-    //: Work out the current column offset from the origin of the
-    //: rectangle being iterated.
-
-    Index2dC Index(void *origin) const {
-      IntT diff = (reinterpret_cast<const char *>(&m_cit.Data1()) - reinterpret_cast<const char *>(origin));
-      return Index2dC((IntT) (diff / m_stride1),
-                      (IntT) ((diff % m_stride1)/sizeof(Data1T)));
-    }
-
   protected:
     void CNextRow();
     //: Alternate version of NextRow() to help compiler get inlining right.

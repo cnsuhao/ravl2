@@ -116,7 +116,11 @@ namespace RavlN {
     //: Buffer constructor.
 
   protected:
-    
+    Buffer3dC(const Buffer3dBodyC<DataT> *body)
+      : BufferC<DataT>(body)
+    {}
+    //: Size constructor.
+
     Buffer3dBodyC<DataT> &Body()
     { return static_cast<Buffer3dBodyC<DataT> &>(BufferC<DataT>::Body()); }
     //: Access body.

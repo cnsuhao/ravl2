@@ -17,7 +17,7 @@
 
 #include "Ravl/SArray2d.hh"
 #include "Ravl/SArray1dIter.hh"
-#include "Ravl/BfAcc2Iter.hh"
+#include "Ravl/BufferAccess2dIter.hh"
 #include "Ravl/Index2d.hh"
 
 namespace RavlN {
@@ -48,17 +48,20 @@ namespace RavlN {
     //: Assignment to an array.
     
     inline void First()
-    { BufferAccess2dIterC<DataT>::First(arr,arr.Size2()); }
+    { BufferAccess2dIterC<DataT>::First(arr.BufferAccess(),arr.ByteStride(),arr.Size1(),arr.Size2()); }
     //: Goto first element in array.
     
-    IntT RowIndex() const
-    { return BufferAccess2dIterC<DataT>::RowIndex(arr.ReferenceElm()); }
+    IndexC RowIndex() const 
+    { return arr.RowIndexOf(this->Data()); }
     //: Get index of current row.
     
+    IndexC ColIndex() const 
+    { return arr.ColIndexOf(this->Data()); }
+    //: Compute curent column
+    
     Index2dC Index() const 
-    { return BufferAccess2dIterC<DataT>::Index(arr.ReferenceElm()); }
-    //: Get current index.
-    // This is a little slow.
+    { return arr.IndexOf(this->Data()); }
+    //: Compute index of current location.
     
   protected:
     SArray2dC<DataT> arr;

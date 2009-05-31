@@ -49,7 +49,14 @@ namespace RavlN {
             pbufC,byteStride1c,byteStride2c,
             range1,range2,range3); }
     //: Constructor.
-
+    
+    BufferAccess3dIter3C(const SizeBufferAccess3dC<Data1T> &pbufA,
+                         const SizeBufferAccess3dC<Data2T> &pbufB,
+                         const SizeBufferAccess3dC<Data3T> &pbufC,
+                         SizeT size1,SizeT size2,SizeT size3
+                         );
+    //: Constructor.
+    
     bool First(const BufferAccessC<Data1T> &pbufA,IntT byteStride1a,IntT byteStride2a,
                const BufferAccessC<Data2T> &pbufB,IntT byteStride1b,IntT byteStride2b,
                const BufferAccessC<Data3T> &pbufC,IntT byteStride1c,IntT byteStride2c,

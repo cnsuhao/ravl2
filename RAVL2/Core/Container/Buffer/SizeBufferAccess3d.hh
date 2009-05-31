@@ -19,6 +19,8 @@
 #include "Ravl/SizeBufferAccess2d.hh"
 #include "Ravl/Index3d.hh"
 #include "Ravl/BufferAccess3dIter.hh"
+#include "Ravl/BufferAccess3dIter2.hh"
+#include "Ravl/BufferAccess3dIter3.hh"
 #include "Ravl/Types.hh"
 #include "Ravl/Buffer3d.hh"
 
@@ -54,8 +56,9 @@ namespace RavlN {
     //: Constructor.
 
     SizeBufferAccess3dC(const BufferAccessC<DataT> &ab,
-                        SizeT size1,SizeT size2,SizeT size3,
-                        IntT byteStride1,IntT byteStride2)
+                        IntT byteStride1,IntT byteStride2,
+                        SizeT size1,SizeT size2,SizeT size3
+                        )
       : BufferAccessC<DataT>(ab),
         m_size1(size1),
 	m_size2(size2),
@@ -80,14 +83,29 @@ namespace RavlN {
     }
     //: Constructor.
     
-    BufferAccessC<DataT> &Buffer()
+    using BufferAccessC<DataT>::IsValid;
+    using BufferAccessC<DataT>::ReferenceElm;
+    
+    void Attach(const BufferAccessC<DataT> &ab,
+                IntT byteStride1,IntT byteStride2,
+                SizeT size1,SizeT size2,SizeT size3
+                ) {
+      BufferAccess() = ab;
+      m_size1 = size1;
+      m_size2 = size2;
+      m_size3 = size3;
+      m_stride1 = byteStride1;
+      m_stride2 = byteStride2;
+    }
+    //: Attach to a buffer.
+    
+    BufferAccessC<DataT> &BufferAccess()
     { return *this; }
     //: Access buffer;
 
-    const BufferAccessC<DataT> &Buffer() const
+    const BufferAccessC<DataT> &BufferAccess() const
     { return *this; }
     //: Access buffer;
-
 
     inline bool Contains(const Index3dC & i) const { 
       return (((UIntT) i.K().V()) < m_size3) &&
@@ -185,10 +203,22 @@ namespace RavlN {
     SizeT Size3() const
     { return m_size3; }
     //: Get size of dimension 3
-    
+
     SizeT Size() const 
     { return Size1() * Size2() * Size3(); }
     //: Get the total number of elements in the array.
+
+    IndexRangeC Range1() const
+    { return IndexRangeC(0,(IntT) m_size1-1); }
+    //: Range of first index.
+
+    IndexRangeC Range2() const
+    { return IndexRangeC(0,(IntT) m_size2-1); }
+    //: Range of second index.
+
+    IndexRangeC Range3() const
+    { return IndexRangeC(0,(IntT) m_size3-1); }
+    //: Range of third index.
     
     IntT ByteStride1() const
     { return m_stride1; }
@@ -200,7 +230,50 @@ namespace RavlN {
     
     void Fill(const DataT &d);
     //: Fill array with value.
-    
+
+    IndexC Index1Of(const DataT &element) const {
+      RavlAssert(IsValid());
+      IndexC ret = (IndexC(reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm())))/m_stride1;
+      RavlAssertMsg(Range1().Contains(ret),"Requested element not from this array.");
+      return ret;
+    }
+    //: Compute the row from address of an element in the array.
+    // 'element' must be a direct reference to an element in the array.
+
+    IndexC Index2Of(const DataT &element) const {
+      RavlAssert(IsValid());
+      IndexC diff = (reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()));
+      IndexC ret = (diff % m_stride1)/m_stride2;
+      RavlAssertMsg(Range2().Contains(ret),"Requested element not from this array.");
+      return ret;
+    }
+    //: Compute the column from address of an element in the array.
+    // 'element' must be a direct reference to an element in the array.
+
+    IndexC Index3Of(const DataT &element) const {
+      RavlAssert(IsValid());
+      IndexC diff = (reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()));
+      IndexC ret = ((diff % m_stride1)%m_stride2)/IndexC(sizeof(DataT));
+      RavlAssertMsg(Range3().Contains(ret),"Requested element not from this array.");
+      return ret;
+    }
+    //: Compute the column from address of an element in the array.
+    // 'element' must be a direct reference to an element in the array.
+
+    Index3dC IndexOf(const DataT &element) const {
+      RavlAssert(IsValid());
+      IndexC diff = (reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()));
+      IndexC offset2 = (diff % m_stride1);
+      Index3dC ret(diff / m_stride1,
+                   offset2 % m_stride2,
+                   offset2 / IndexC((IntT) sizeof(DataT))) ;
+      RavlAssertMsg(Range1().Contains(ret.I()) && Range2().Contains(ret.J()) && Range3().Contains(ret.K()),
+                    "Requested element not from this array.");
+      return ret;
+    }
+    //: Gompute the index of 'element' in the array.
+    // 'element' must be a direct reference to an element in the array.
+
   protected:
     SizeT m_size1;
     SizeT m_size2;
@@ -212,9 +285,34 @@ namespace RavlN {
 
   template<class DataT>
   BufferAccess3dIterC<DataT>::BufferAccess3dIterC(const SizeBufferAccess3dC<DataT> &data)
-  { First(data.Buffer(),data.ByteStride1(),data.ByteStride2(),data.Size1(),data.Size2(),data.Size3()); }
+  { First(data.BufferAccess(),data.ByteStride1(),data.ByteStride2(),data.Size1(),data.Size2(),data.Size3()); }
   //: Constructor for an iterator.
+
+  template<typename Data1T,typename Data2T>
+  BufferAccess3dIter2C<Data1T,Data2T>::BufferAccess3dIter2C(const SizeBufferAccess3dC<Data1T> &pbufA,
+                                                            const SizeBufferAccess3dC<Data2T> &pbufB,
+                                                            SizeT size1,SizeT size2,SizeT size3
+                                                            ) {
+    First(pbufA.BufferAccess(),pbufA.ByteStride1(),pbufA.ByteStride2(),
+          pbufB.BufferAccess(),pbufB.ByteStride1(),pbufB.ByteStride2(),
+          size1,size2,size3);
+  }
+  //: Constructor.
   
+  template<typename Data1T,typename Data2T,typename Data3T>
+  BufferAccess3dIter3C<Data1T,Data2T,Data3T>::BufferAccess3dIter3C(const SizeBufferAccess3dC<Data1T> &pbufA,
+                                                                   const SizeBufferAccess3dC<Data2T> &pbufB,
+                                                                   const SizeBufferAccess3dC<Data3T> &pbufC,
+                                                                   SizeT size1,SizeT size2,SizeT size3
+                                                                   ) {
+    First(pbufA.BufferAccess(),pbufA.ByteStride1(),pbufA.ByteStride2(),
+          pbufB.BufferAccess(),pbufB.ByteStride1(),pbufB.ByteStride2(),
+          pbufC.BufferAccess(),pbufC.ByteStride1(),pbufC.ByteStride2(),
+          size1,size2,size3);
+  }
+  //: Constructor.
+  
+
   template<class DataT>
   void SizeBufferAccess3dC<DataT>::Fill(const DataT &d) {
     for(BufferAccess3dIterC<DataT> it(*this);it;it++)
@@ -223,7 +321,7 @@ namespace RavlN {
   
   template <class DataT>
   ostream & operator<<(ostream & s, const SizeBufferAccess3dC<DataT> & arr) {
-    for(BufferAccess3dIterC<DataT> it(arr,arr.Size2(),arr.Size3());it;) {
+    for(BufferAccess3dIterC<DataT> it(arr);it;) {
       s << *it;
       for(;it.Next();) 
 	s << ' ' << *it;
@@ -234,21 +332,21 @@ namespace RavlN {
   
   template <class DataT>
   istream & operator>>(istream & s, SizeBufferAccess3dC<DataT> & arr) {
-    for(BufferAccess3dIterC<DataT> it(arr,arr.Size2(),arr.Size3());it;it++) 
+    for(BufferAccess3dIterC<DataT> it(arr);it;it++) 
       s >> *it;
     return s;
   }
   
   template<class DataT>
   BinOStreamC &operator<<(BinOStreamC & s, const SizeBufferAccess3dC<DataT> & arr) {
-    for(BufferAccess3dIterC<DataT> it(arr,arr.Size2(),arr.Size3());it;it++)
+    for(BufferAccess3dIterC<DataT> it(arr);it;it++)
       s << *it;
     return s;
   }
   
   template<class DataT>
   BinIStreamC &operator>>(BinIStreamC & s, SizeBufferAccess3dC<DataT> & arr) {
-    for(BufferAccess3dIterC<DataT> it(arr,arr.Size2(),arr.Size3());it;it++)
+    for(BufferAccess3dIterC<DataT> it(arr);it;it++)
       s >> *it;
     return s;
   }

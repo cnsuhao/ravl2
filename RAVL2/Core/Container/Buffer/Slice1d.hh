@@ -60,13 +60,13 @@ namespace RavlN {
     { m_ref = reinterpret_cast<char *>(m_buffer.ReferenceElm() - range.Min().V()); }
     //: Allocate a Slice with a range of 'nrng'
     
-    Slice1dC(BufferC<DataT> &buff,SizeT size,IntT off,IntT byteStride = sizeof(DataT))
+    Slice1dC(BufferC<DataT> &buff,SizeT size,IntT byteOffset,IntT byteStride)
       : m_range(size),
         m_stride(byteStride),
-        m_ref(reinterpret_cast<char *>(buff.ReferenceElm()) + off),
+        m_ref(reinterpret_cast<char *>(buff.ReferenceElm()) + byteOffset),
         m_buffer(buff)
     {
-      RavlAssert(((size-1) * m_stride + off) < (sizeof(DataT) * buff.Size())); // Check it fits.
+      RavlAssert(((size-1) * m_stride + byteOffset) < (sizeof(DataT) * buff.Size())); // Check it fits.
     }
     //: Attach a vector to a buffer.
     // buff   - Buffer in which data is held.
@@ -75,7 +75,7 @@ namespace RavlN {
     // byteStride - distance in bytes between successive elements.
     // Element 0 is at 'off' in buffer, and use the given stride.
 
-    Slice1dC(BufferC<DataT> &buff,DataT *refElm,SizeT size,IntT byteStride = sizeof(DataT))
+    Slice1dC(BufferC<DataT> &buff,DataT *refElm,SizeT size,IntT byteStride)
       : m_range(size),
         m_stride(byteStride),
         m_ref(reinterpret_cast<char *>(refElm)),
@@ -91,7 +91,7 @@ namespace RavlN {
     // Element 0 is at 'refElm' in buffer, and use the given stride.
 
 
-    Slice1dC(BufferC<DataT> &buff,DataT *refElm,IndexRangeC range,IntT byteStride = sizeof(DataT))
+    Slice1dC(BufferC<DataT> &buff,DataT *refElm,IndexRangeC range,IntT byteStride)
       : m_range(range),
         m_stride(byteStride),
         m_ref(reinterpret_cast<char *>(refElm)),

@@ -201,6 +201,15 @@ namespace RavlN {
     bool operator==(const SizeBufferAccessC<DataT> &ba) const
     { return (this->m_buff == ba.m_buff) && (this->sz == ba.sz); }
     //: Are two accesses the same ?
+    
+    IndexC IndexOf(const DataT &element) const {
+      IndexC ret = &element - &ReferenceElm();
+      RavlAssertMsg(Range().Contains(ret),"Element not from this array.");
+      return ret;
+    }
+    //: Compute index of element.
+    // Note, 'element' must be a direct reference
+
   protected:
     
     // Copy

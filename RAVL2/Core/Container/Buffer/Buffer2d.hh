@@ -41,16 +41,16 @@ namespace RavlN {
     {}
     //: Sized constructor.
     
-    Buffer2dBodyC(SizeT size1,SizeT size2,DataT *data,bool makeCopy = false,bool deletable = true)
-     : BufferBodyC<DataT >(size1 * size2,data,makeCopy,deletable),
+    Buffer2dBodyC(DataT *data,SizeT size1,SizeT size2,bool makeCopy = false,bool deletable = true)
+     : BufferBodyC<DataT >(data,size1 * size2,makeCopy,deletable),
        m_size1(size1),
        m_size2(size2),
        m_stride(size2 * sizeof(DataT))
     {}
     //: Sized constructor.
 
-    Buffer2dBodyC(SizeT size1,SizeT size2,IntT byteStride,DataT *data,bool makeCopy = false,bool deletable = true)
-     : BufferBodyC<DataT >(size1 * size2,data,makeCopy,deletable),
+    Buffer2dBodyC(DataT *data,SizeT size1,SizeT size2,IntT byteStride,bool makeCopy = false,bool deletable = true)
+     : BufferBodyC<DataT >(data,size1 * size2,makeCopy,deletable),
        m_size1(size1),
        m_size2(size2),
        m_stride(byteStride)
@@ -94,20 +94,21 @@ namespace RavlN {
     {}
     //: Sized constructor.
     
-    Buffer2dC(SizeT size1,SizeT size2,DataT *data,bool copy = false,bool deletable = true) 
-      : BufferC<DataT>(new Buffer2dBodyC<DataT>(size1,size2,data,copy,deletable))
+    Buffer2dC(DataT *data,SizeT size1,SizeT size2,bool copy = false,bool deletable = true)
+      : BufferC<DataT>(new Buffer2dBodyC<DataT>(data,size1,size2,copy,deletable))
     {}
     //: Construct from an existing buffer.
     
-    Buffer2dC(SizeT size1,SizeT size2,IntT byteStride,DataT *data,bool copy = false,bool deletable = true) 
-      : BufferC<DataT>(new Buffer2dBodyC<DataT>(size1,size2,byteStride,data,copy,deletable))
+    Buffer2dC(DataT *data,SizeT size1,SizeT size2,IntT byteStride,bool copy = false,bool deletable = true)
+      : BufferC<DataT>(new Buffer2dBodyC<DataT>(data,size1,size2,byteStride,copy,deletable))
     {}
     //: Construct from an existing buffer.
 
-  protected:    
-    Buffer2dBodyC<DataT> &Body()
-    { return static_cast<Buffer2dBodyC<DataT> &>(BufferC<DataT>::Body()); }
-    //: Access body.
+  protected:
+    Buffer2dC(const Buffer2dBodyC<DataT> *body)
+      : BufferC<DataT>(body)
+    {}
+    //: body constructor.
     
     const Buffer2dBodyC<DataT> &Body() const
     { return static_cast<const Buffer2dBodyC<DataT> &>(BufferC<DataT>::Body()); }

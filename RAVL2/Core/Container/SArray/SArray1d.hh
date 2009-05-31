@@ -15,11 +15,11 @@
 //! rcsid="$Id$"
 
 #include "Ravl/Buffer.hh"
-#include "Ravl/SBfAcc.hh"
+#include "Ravl/SizeBufferAccess.hh"
 #include "Ravl/Pair.hh"
-#include "Ravl/BfAccIter.hh"
-#include "Ravl/BfAccIter2.hh"
-#include "Ravl/BfAccIter3.hh"
+#include "Ravl/BufferAccessIter.hh"
+#include "Ravl/BufferAccessIter2.hh"
+#include "Ravl/BufferAccessIter3.hh"
 #include "Ravl/StdHash.hh"
 #include "Ravl/Stream.hh"
 #include "Ravl/SingleBuffer.hh"
@@ -383,7 +383,7 @@ namespace RavlN {
 
   template <class DataT>
   SArray1dC<DataT>::SArray1dC(const Slice1dC<DataT> &slice,bool alwaysCopy) {
-    if(!alwaysCopy && slice.Stride() == 1) {
+    if(!alwaysCopy && slice.ByteStride() == sizeof(DataT)) {
       buff = slice.Buffer();
       SizeBufferAccessC<DataT>::operator=(SizeBufferAccessC<DataT>(const_cast<DataT *>(&(slice[0])),
 								   slice.Size()));
@@ -402,7 +402,7 @@ namespace RavlN {
 			      SizeT dim,
 			      bool removable)
     : SizeBufferAccessC<DataT>(data, dim),
-      buff(dim,data,false, removable)
+      buff(data,dim,false, removable)
   {}
   
   template <class DataT>

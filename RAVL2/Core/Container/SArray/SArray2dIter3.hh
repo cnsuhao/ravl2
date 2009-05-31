@@ -35,28 +35,31 @@ namespace RavlN {
 		   const SArray2dC<Data2T> &narr2,
 		   const SArray2dC<Data3T> &narr3)
       : arr1(arr),
-      arr2(narr2),
-      arr3(narr3)
+        arr2(narr2),
+        arr3(narr3)
     { First(); }
     //: Constructor.
     
     inline bool First() {
-      return BufferAccess2dIter3C<Data1T,Data2T,Data3T>::First(arr1,arr1.Size2(),
-							       arr2,arr2.Size2(),
-							       arr3,arr3.Size2());
+      return BufferAccess2dIter3C<Data1T,Data2T,Data3T>::First(arr1.BufferAccess(),arr1.ByteStride(),
+							       arr2.BufferAccess(),arr2.ByteStride(),
+							       arr3.BufferAccess(),arr3.ByteStride(),
+                                                               arr1.Size1(),arr1.Size2());
     }
     //: Goto first element in array.
     // returns true if there is a first element.
     
-    IntT RowIndex() const
-    { return BufferAccess2dIter3C<Data1T,Data2T,Data3T>::RowIndex(arr1.ReferenceElm()); }
+    IndexC RowIndex() const
+    { return arr1.RowIndexOf(this->Data1()); }
     //: Get index of current row.
-    
-    Index2dC Index() const 
-    { return BufferAccess2dIter3C<Data1T,Data2T,Data3T>::Index(arr1.ReferenceElm()); }
-    //: Get current index.
-    // This is a little slow.
 
+    IndexC ColIndex() const
+    { return arr1.ColIndexOf(this->Data1()); }
+    //: Compute curent column
+
+    Index2dC Index() const
+    { return arr1.IndexOf(this->Data1()); }
+    //: Compute index of current location.
   protected:    
     SArray2dC<Data1T> arr1;
     SArray2dC<Data2T> arr2;

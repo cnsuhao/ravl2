@@ -251,7 +251,12 @@ namespace RavlN {
       : BufferC<DataT>(body)
     {}
     //: Body constructor.
-    
+
+    SingleBufferC(SingleBufferBodyC<DataT> *body)
+      : BufferC<DataT>(body)
+    {}
+    //: Body pointer constructor.
+
     SingleBufferBodyC<DataT> &Body()
     { return static_cast<SingleBufferBodyC<DataT> &>(BufferC<DataT>::Body()); }
     //: Access body.

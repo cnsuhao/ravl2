@@ -250,6 +250,15 @@ namespace RavlN {
     //: Copy slice into this array.
     // slice must have the same length as this buffer. <br>
     // Implementation can be found in Slice1d.hh
+    
+    IndexC IndexOf(const DataT &element) const {
+      IndexC ret = &element - &ReferenceElm();
+      RavlAssertMsg(Range().Contains(ret),"Element not from this array.");
+      return ret;
+    }
+    //: Compute index of element.
+    // Note, 'element' must be a direct reference
+     
   protected:
     
     // Copy

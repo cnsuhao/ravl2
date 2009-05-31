@@ -16,7 +16,7 @@
 //! userlevel=Advanced
 
 #include "Ravl/SArray3d.hh"
-#include "Ravl/BfAcc3Iter.hh"
+#include "Ravl/BufferAccess3dIter.hh"
 #include "Ravl/Index3d.hh"
 
 namespace RavlN {
@@ -47,18 +47,11 @@ namespace RavlN {
     //: Assignment to an array.
     
     inline void First()
-    { BufferAccess3dIterC<DataT>::First(arr,arr.Size2(),arr.Size3()); }
+    { BufferAccess3dIterC<DataT>::First(arr.BufferAccess(),arr.ByteStride1(),arr.ByteStride2(),arr.Size1(),arr.Size2(),arr.Size3()); }
     //: Goto first element in array.
     
-    Index3dC Index() const { 
-      RavlAssert(arr.IsValid());
-      Index2dC i2 = this->sit.Index(this->rit->ReferenceElm());
-IndexC idx (&(*this->rit) - arr.ReferenceElm() ) ; 
- 
-      return Index3dC((IndexC) (&(*this->rit) - arr.ReferenceElm()),
-		      (IndexC) i2.Row(),
-		      (IndexC) i2.Col()); 
-    }
+    Index3dC Index() const 
+    { return arr.IndexOf(this->Data()); }
     //: Get index of current location.
     // Has to be calculate, and so is slightly slow.
     

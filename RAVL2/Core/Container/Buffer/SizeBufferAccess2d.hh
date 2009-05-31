@@ -17,6 +17,9 @@
 
 #include "Ravl/SizeBufferAccess.hh"
 #include "Ravl/BufferAccess2dIter.hh"
+#include "Ravl/BufferAccess2dIter2.hh"
+#include "Ravl/BufferAccess2dIter3.hh"
+#include "Ravl/Buffer2d.hh"
 #include "Ravl/Index2d.hh"
 #include "Ravl/Types.hh"
 #include "Ravl/IndexRange2d.hh"
@@ -70,14 +73,47 @@ namespace RavlN {
     {}
     //: Default constructor.
 
-    BufferAccessC<DataT> &Buffer()
+    BufferAccessC<DataT> &BufferAccess()
     { return *this; }
     //: Access buffer;
 
-    const BufferAccessC<DataT> &Buffer() const
+    const BufferAccessC<DataT> &BufferAccess() const
     { return *this; }
     //: Access buffer;
 
+    inline void Attach(const SizeBufferAccess2dC<DataT> & buffer) {
+      *this = buffer;
+    }
+    // Changes this buffer access to have the same access rights as 'buffer'.
+
+    inline void Attach(const BufferAccessC<DataT> & buffer,
+		       const SizeT                  size1,
+		       const SizeT                  size2,
+                             IntT                   byteStride
+                       ) {
+      this->m_buff = buffer.ReferenceElm();
+      m_size1 = size1;
+      m_size2 = size2;
+      m_stride = byteStride;
+    }
+    // Changes this buffer access to have the access rights as 'buffer' limited
+    // by size1 and size2. 
+    
+    inline void Attach(const Buffer2dC<DataT> & buffer,
+		       const SizeT              size1,
+		       const SizeT              size2
+                      )
+    {
+      m_stride = buffer.ByteStride();
+      this->m_buff = buffer.ReferenceElm();
+      m_size1 = size1;
+      m_size2 = size2;
+      RavlAssert((SizeT) size1 <= buffer.Size1());
+      RavlAssert((SizeT) size2 <= buffer.Size2());
+    }
+    // Changes this buffer access to have the access rights as 'buffer' limited
+    // by size1 and size2
+    
     inline bool Contains(const Index2dC &i) const { 
       return (((UIntT) i.Col().V()) < m_size2) &&
 	(((UIntT) i.Row().V()) < m_size1);
@@ -168,8 +204,48 @@ namespace RavlN {
     IndexRange2dC Frame() const
     { return IndexRange2dC(0,(IntT) m_size1-1,0,(IntT) m_size2-1); }
     //: Return ranges of indexes
+    
+    IndexRangeC Range1() const
+    { return IndexRangeC(0,(IntT) m_size1-1); }
+    //: Range of first index.
+    
+    IndexRangeC Range2() const
+    { return IndexRangeC(0,(IntT) m_size2-1); }
+    //: Range of second index.
+    
+    IndexC RowIndexOf(const DataT &element) const {
+      RavlAssert(IsValid());
+      IndexC ret = (IndexC(reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm())))/m_stride;
+      RavlAssertMsg(Range1().Contains(ret),"Requested element not from this array.");
+      return ret;
+    }
+    //: Compute the row from address of an element in the array.
+    // 'element' must be a direct reference to an element in the array.
 
-        
+    IndexC ColIndexOf(const DataT &element) const {
+      RavlAssert(IsValid());
+      IndexC diff = (reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()));
+      IndexC ret = ((diff % m_stride)/IndexC((IntT) sizeof(DataT)));
+      RavlAssertMsg(Range2().Contains(ret),"Requested element not from this array.");
+      return ret;
+    }
+    //: Compute the column from address of an element in the array.
+    // 'element' must be a direct reference to an element in the array.
+
+    Index2dC IndexOf(const DataT &element) const {
+      RavlAssert(IsValid());
+      IndexC diff = (reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()));
+      Index2dC ret((diff / m_stride),
+                   ((diff % m_stride)/IndexC((IntT) sizeof(DataT))));
+      RavlAssertMsg(Frame().Contains(ret),"Requested element not from this array.");
+      return ret;
+    }
+    //: Gompute the index of 'element' in the array.
+    // 'element' must be a direct reference to an element in the array.
+    
+
+    using BufferAccessC<DataT>::IsValid;
+    using BufferAccessC<DataT>::ReferenceElm;
   protected:
     SizeT m_size1;
     SizeT m_size2;
@@ -179,7 +255,29 @@ namespace RavlN {
   // Constructor for the iterator.
   template<typename DataT>
   inline BufferAccess2dIterC<DataT>::BufferAccess2dIterC(const SizeBufferAccess2dC<DataT> &array)
-  { First(array.Buffer(),array.Size1(),array.Size2(),array.ByteStride()); }
+  { First(array.BufferAccess(),array.ByteStride(),
+          array.Size1(),array.Size2());
+  }
+
+  template<typename Data1T,typename Data2T>
+  inline BufferAccess2dIter2C<Data1T,Data2T>::BufferAccess2dIter2C(const SizeBufferAccess2dC<Data1T> &pbuf1,
+                                                                   const SizeBufferAccess2dC<Data2T> &pbuf2,
+                                                                   IntT size1,IntT size2) {
+    First(pbuf1.BufferAccess(),pbuf1.ByteStride(),
+          pbuf2.BufferAccess(),pbuf2.ByteStride(),
+          size1,size2);
+  }
+
+  template<typename Data1T,typename Data2T,typename Data3T>
+  inline BufferAccess2dIter3C<Data1T,Data2T,Data3T>::BufferAccess2dIter3C(const SizeBufferAccess2dC<Data1T> &pbuf1,
+                                                                          const SizeBufferAccess2dC<Data2T> &pbuf2,
+                                                                          const SizeBufferAccess2dC<Data3T> &pbuf3,
+                                                                          IntT size1,IntT size2) {
+    First(pbuf1.BufferAccess(),pbuf1.ByteStride(),
+          pbuf2.BufferAccess(),pbuf2.ByteStride(),
+          pbuf3.BufferAccess(),pbuf3.ByteStride(),
+          size1,size2);
+  }
 
 
   template<typename DataT>

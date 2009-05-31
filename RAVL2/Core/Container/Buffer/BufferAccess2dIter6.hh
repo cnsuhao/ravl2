@@ -372,25 +372,7 @@ namespace RavlN {
     const Data6T &Data6() const
     { return m_cit.Data6(); }
     //: Access data from array 6.
-    
-    IntT RowIndex(const Data1T *origin) const
-    { return (IntT) (m_rit1 - reinterpret_cast<const char *>(origin))/m_stride1; }
-    //: Work out the current row.
-
-    IntT ColIndex(const Data1T *origin) const {
-      IntT diff = (reinterpret_cast<const char *>(&m_cit.Data1()) - reinterpret_cast<const char *>(origin));
-      return (diff % m_stride1)/sizeof(Data1T);
-    }
-    //: Work out the current column offset from the origin of the
-    //: rectangle being iterated.
-
-    Index2dC Index(const Data1T *origin) const {
-      IntT diff = (reinterpret_cast<const char *>(&m_cit.Data1()) - reinterpret_cast<const char *>(origin));
-      return Index2dC((diff / m_stride1),
-                      (IntT)((diff % m_stride1)/sizeof(Data1T)));
-    }
-    //: Get index of element pointed at by iterator.
-    
+        
   protected:
     BufferAccessIter6C<Data1T,Data2T,Data3T,Data4T,Data5T,Data6T> m_cit;
     SizeT m_size2;

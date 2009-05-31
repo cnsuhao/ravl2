@@ -13,6 +13,7 @@
 //! userlevel=Develop
 
 #include "Ravl/Buffer2d.hh"
+#include "Ravl/AttachedBuffer2d.hh"
 #include "Ravl/SizeBufferAccess2d.hh"
 #include "Ravl/RangeBufferAccess2d.hh"
 #include "Ravl/SingleBuffer.hh"
@@ -38,6 +39,7 @@ using namespace RavlN;
 
 int TestSingleBuffer();
 int TestBuffer2d();
+int TestSizeBuffer2d();
 
 int main()
 {
@@ -47,6 +49,10 @@ int main()
     return 1;
   }
   if((ln = TestBuffer2d()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  if((ln = TestSizeBuffer2d()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
@@ -104,15 +110,29 @@ int TestBuffer2d() {
     cerr << "Inital iterator position incorrect. " << ((void *) &(*it) ) << " should be " << ((void *) &(rba[rba.Range1().Min()][rba.Range2().Min()])) <<  "\n";
     return __LINE__;
   }
-  SizeT count = 0;
+  int count = 0;
   for(;it;it++) {
-    *it = 0;
-    count++;
+    *it = count++;
   }
-  SizeT totalSize = r1.Size() * r2.Size();
+  int totalSize = r1.Size() * r2.Size();
   if(count != totalSize) {
     std::cerr << "Iterator count mismatch. Counted=" << count << " Size=" << totalSize << "\n";
     return __LINE__;
+  }
+  // Check numbers are as expected.
+  count = 0;
+  it.First(rba.Buffer(),rba.ByteStride(),rba.Range1(),rba.Range2());
+  for(IndexC i = r1.Min();i <= r1.Max();i++) {
+    for(IndexC j = r2.Min();j <= r2.Max();j++,count++,it++) {
+      // Check values match.
+      if(rba[i][j] != count)
+        return __LINE__;
+      // Check reported index is correct.
+      if(rba.IndexOf(*it) != Index2dC(i,j)) {
+        std::cerr << "Index mismatch. Got=" <<  rba.IndexOf(*it) << " Expected=" << Index2dC(i,j) << "\n";
+        return __LINE__;
+      }
+    }
   }
   return 0;
 }
@@ -153,11 +173,53 @@ int TestSingleBuffer() {
   return 0;
 }
 
+int TestSizeBuffer2d() {
+  const int rows = 9;
+  const int cols = 10;
+  Buffer2dC<int> bf (rows,cols);
+  if(bf.ByteStride() < (IntT)(rows * sizeof(int)))
+    return __LINE__;
+  SizeBufferAccess2dC<int> sba;
+  sba.Attach(bf,rows,cols);
+  if(sba.Size1() != rows) return __LINE__;
+  if(sba.Size2() != cols) return __LINE__;
+  if(sba.ReferenceElm() != bf.ReferenceElm())
+    return __LINE__;
+  if(sba.ByteStride() != bf.ByteStride())
+    return __LINE__;
+  int place = 0;
+  // Write some numbers.
+  for(int i = 0;i < rows;i++) {
+    for(int j = 0;j < cols;j++) {
+      sba[i][j] = place++;
+    }
+  }
+  // Check they're still there.
+  place = 0;
+  for(int i = 0;i < rows;i++) {
+    for(int j = 0;j < cols;j++) {
+      if(sba[i][j] != place++)
+        return __LINE__;
+    }
+  }
+  // Check basic iteration.
+  place = 0;
+  for(BufferAccess2dIterC<int> it(sba);it;it++,place++) {
+    if(*it != place) {
+      std::cerr << "Test failed. Got=" << *it << " expected=" << place << "\n";
+      return __LINE__;
+    }
+  }
+  
+  return 0;
+}
+
 
 // Check all methods compile.
 
 template class BufferBodyC<IntT>;
 template class BufferC<IntT>;
+template class AttachedBuffer2dC<IntT>;
 template class SizeBufferAccess2dC<IntT>;
 template class RangeBufferAccess2dC<IntT>;
 template class Buffer2dBodyC<IntT>;

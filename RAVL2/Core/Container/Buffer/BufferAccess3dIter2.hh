@@ -38,6 +38,12 @@ namespace RavlN {
             size1,size2,size3); }
     //: Constructor.
 
+    BufferAccess3dIter2C(const SizeBufferAccess3dC<Data1T> &pbufA,
+                         const SizeBufferAccess3dC<Data2T> &pbufB,
+                         SizeT size1,SizeT size2,SizeT size3
+                        );
+    //: Constructor.
+    
     BufferAccess3dIter2C(const BufferAccessC<Data1T> &pbufA,IntT byteStride1a,IntT byteStride2a,
                          const BufferAccessC<Data2T> &pbufB,IntT byteStride1b,IntT byteStride2b,
                          const IndexRangeC &range1,const IndexRangeC &range2,const IndexRangeC &range3

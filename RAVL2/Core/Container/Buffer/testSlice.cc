@@ -14,6 +14,7 @@
 
 #include "Ravl/Slice1d.hh"
 #include "Ravl/Buffer.hh"
+#include "Ravl/Buffer2d.hh"
 #include "Ravl/Stream.hh"
 
 using namespace RavlN;
@@ -36,13 +37,14 @@ int main() {
     cerr << "Test failed at line << " << ln << "\n";
     return 1;
   }
+  std::cout << "Test passed ok.\n";
   return 0;
 }
 
 int testBasic() {
   BufferC<UIntT> dataBuff(100);
   Slice1dC<UIntT> s1(10);
-  Slice1dC<UIntT> s2(dataBuff,10,0,10);
+  Slice1dC<UIntT> s2(dataBuff,10,0,10*sizeof(UIntT));
   for(int i = 0;i < 10;i++)
     s1[i] = i;
   for(Slice1dIter2C<UIntT,UIntT> it(s2,s1);it;it++)
@@ -53,6 +55,7 @@ int testBasic() {
       return __LINE__;
     }
   }
+
   return 0;
 }
 
@@ -68,4 +71,3 @@ int testRange() {
   
   return 0;
 }
-

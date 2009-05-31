@@ -51,10 +51,10 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    BufferBodyC(SizeT nsize,DataT *dat,bool copy = false,bool deletable = false);
+    BufferBodyC(DataT *dat,SizeT nsize,bool copy,bool deletable );
     //: Construct from data.
     
-    BufferBodyC(DataT *dat,UIntT nsize,bool _deletable)
+    BufferBodyC(DataT *dat,SizeT nsize,bool _deletable)
       : SizeBufferAccessC<DataT>(dat,nsize),
         m_deletable(_deletable)
     {}
@@ -109,8 +109,8 @@ namespace RavlN {
     //: Constructor
     // Creates a buffer containing 'nsize' items.
     
-    BufferC(UIntT nsize,DataT *dat,bool copy = false,bool deletable = false)
-      : RCHandleVC<BufferBodyC<DataT> >(*new BufferBodyC<DataT>(nsize,dat,copy,deletable))
+    BufferC(DataT *dat,UIntT nsize,bool copy = false,bool deletable = false)
+      : RCHandleVC<BufferBodyC<DataT> >(*new BufferBodyC<DataT>(dat,nsize,copy,deletable))
     {}
     //: Constructor
     // Creates a buffer containing 'nsize' items.
@@ -161,7 +161,7 @@ namespace RavlN {
   ////////////////////////////////////////////////////////////
   
   template<class DataT>
-  BufferBodyC<DataT>::BufferBodyC(UIntT nsize,DataT *ndat,bool copy,bool ndeletable) 
+  BufferBodyC<DataT>::BufferBodyC(DataT *ndat,UIntT nsize,bool copy,bool ndeletable)
     : SizeBufferAccessC<DataT>(ndat,nsize),
       m_deletable(ndeletable)
   {

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_RBFACC2ITER_HEADER
-#define RAVL_RBFACC2ITER_HEADER 1
+#ifndef RAVL_BUFFERACCES2DITER_HEADER
+#define RAVL_BUFFERACCES2DITER_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/Buffer/BufferAccess2dIter.hh"
@@ -243,25 +243,6 @@ namespace RavlN {
 //    { return RangeBufferAccessC<DataT>(m_range2,reinterpret_cast<DataT *>(m_rit)); }
 //    //: Access row we're currently iterating.
 
-    IntT RowIndex(const DataT *origin) const
-    { return (IntT) (m_rit - reinterpret_cast<const char *>(origin))/m_stride; }
-    //: Work out the current row.
-    
-    IntT ColIndex(const DataT *origin) const {
-      IntT diff = (reinterpret_cast<const char *>(&*m_cit) - reinterpret_cast<const char *>(origin));
-      return (diff % m_stride)/sizeof(DataT);
-    }
-    //: Work out the current column offset from the origin of the
-    //: rectangle being iterated.
-    
-    Index2dC Index(const DataT *origin) const {
-      IntT diff = (reinterpret_cast<const char *>(&*m_cit) - reinterpret_cast<const char *>(origin));
-      return Index2dC((IntT) (diff / m_stride),
-                      (IntT) ((diff % m_stride)/sizeof(DataT)));
-    }
-    
-    //: Get index of current location.
-    // Has to be calculate, and so is slightly slow.
 		  
     void Invalidate()
     { m_cit.Invalidate(); }
