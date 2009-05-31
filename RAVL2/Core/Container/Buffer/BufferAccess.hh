@@ -102,6 +102,11 @@ namespace RavlN {
     bool operator!=(const BufferAccessC<DataT> &ba) const
     { return m_buff != ba.m_buff; }
     //: Are two accesses the same ?
+    
+    static DataT *ShiftPointer(DataT *data,IntT byteOffset)
+    { return reinterpret_cast<DataT *>(reinterpret_cast<char *>(data) + byteOffset); }
+    //: Apply byte offset
+    
   protected:
     DataT *m_buff;
   };

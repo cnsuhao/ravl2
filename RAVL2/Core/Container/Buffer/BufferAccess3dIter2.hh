@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_BFACC3ITER2_HEADER
-#define RAVL_BFACC3ITER2_HEADER 1
+#ifndef RAVL_BUFFERACCESS3ITER2_HEADER
+#define RAVL_BUFFERACCESS3ITER2_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/Buffer/BufferAccess3dIter2.hh"
@@ -16,9 +16,13 @@
 
 #include "Ravl/BufferAccessIter2.hh"
 #include "Ravl/BufferAccess2dIter2.hh"
+#include "Ravl/IndexRange3d.hh"
 #include "Ravl/IndexRange1d.hh"
 
 namespace RavlN {
+  template <class DataT> class RangeBufferAccess3dC;
+  template <class DataT> class SizeBufferAccess3dC;
+
   //! userlevel=Advanced
   //: 3D buffer iterator.
   
@@ -37,6 +41,16 @@ namespace RavlN {
             pbufB,byteStride1b,byteStride2b,
             size1,size2,size3); }
     //: Constructor.
+
+    BufferAccess3dIter2C(const RangeBufferAccess3dC<Data1T> &bufA,
+                         const RangeBufferAccess3dC<Data2T> &bufB,
+                         const IndexRangeC &range1,const IndexRangeC &range2,const IndexRangeC &range3);
+    //: Construct from a 3d buffer.
+
+    BufferAccess3dIter2C(const RangeBufferAccess3dC<Data1T> &bufA,
+                         const RangeBufferAccess3dC<Data2T> &bufB,
+                         const IndexRange3dC &rng);
+    //: Construct from a 3d buffer.
 
     BufferAccess3dIter2C(const SizeBufferAccess3dC<Data1T> &pbufA,
                          const SizeBufferAccess3dC<Data2T> &pbufB,

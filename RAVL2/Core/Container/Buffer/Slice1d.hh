@@ -168,6 +168,10 @@ namespace RavlN {
     { return m_stride; }
     //: Access stride of vector in bytes.
     
+    bool IsContinuous() const
+    { return m_stride == static_cast<IntT>(sizeof(DataT)); }
+    //: Test if the elements in the slice are continuous in memory.
+
     Slice1dC<DataT> operator+(const Slice1dC<DataT>& b) const;
     //: Returns the sum of two vectors.
     

@@ -16,7 +16,7 @@
 //! userlevel=Advanced
 
 #include "Ravl/SArray3d.hh"
-#include "SArray3d.hh"
+#include "Ravl/SArray3d.hh"
 
 namespace RavlN {
   //! userlevel=Advanced

@@ -121,7 +121,7 @@ int TestBuffer2d() {
   }
   // Check numbers are as expected.
   count = 0;
-  it.First(rba.Buffer(),rba.ByteStride(),rba.Range1(),rba.Range2());
+  it.First(rba.BufferAccess(),rba.ByteStride(),rba.Range1(),rba.Range2());
   for(IndexC i = r1.Min();i <= r1.Max();i++) {
     for(IndexC j = r2.Min();j <= r2.Max();j++,count++,it++) {
       // Check values match.

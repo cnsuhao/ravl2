@@ -17,6 +17,8 @@
 
 #include "Ravl/BufferAccessIter4.hh"
 #include "Ravl/Index2d.hh"
+#include "Ravl/IndexRange2d.hh"
+
 
 namespace RavlN {
   

@@ -12,18 +12,18 @@
 //! author="Radek Marik"
 //! date="2/5/1993"
 //! docentry="Ravl.API.Core.Arrays.3D"
-//! rcsid="$Id$"
 //! example=exArray3d.cc
 //! userlevel=Normal
 
-#include "Ravl/RBfAcc3d.hh"
+#include "Ravl/RangeBufferAccess3d.hh"
 #include "Ravl/Buffer3d.hh"
+#include "Ravl/AttachedBuffer3d.hh"
 #include "Ravl/Array2d.hh"
 #include "Ravl/Index3d.hh"
 #include "Ravl/IndexRange3d.hh"
-#include "Ravl/BfAcc3Iter.hh"
-#include "Ravl/BfAcc3Iter2.hh"
-#include "Ravl/BfAcc3Iter3.hh"
+#include "Ravl/BufferAccess3dIter.hh"
+#include "Ravl/BufferAccess3dIter2.hh"
+#include "Ravl/BufferAccess3dIter3.hh"
 #include "Ravl/Types.hh"
 
 namespace RavlN {
@@ -32,7 +32,7 @@ namespace RavlN {
   template<class DataT> class Array2dC;
   template<class DataT> class Slice1dC;
   template<class DataT> class Slice1dIterC;
-  
+
   //! userlevel=Basic
   //: 3 Dimensional array
   // The class Array3dC is a container of items which can be indexed
@@ -47,7 +47,9 @@ namespace RavlN {
     {}
     //: Creates an empty 3D array.
     
-    Array3dC(SizeT dim1, SizeT dim2, SizeT dim3);
+    Array3dC(SizeT dim1, SizeT dim2, SizeT dim3)
+      : m_data(dim1,dim2,dim3)
+    { Attach(m_data,dim1,dim2,dim3); }
     //: Creates 3D array with the range < <0,dim1-1>, <0,dim2-1>, <0,dim3-1> >
     
     Array3dC(IntT minI,IntT maxI,IntT minJ,IntT maxJ,IntT minK,IntT maxK);
@@ -59,18 +61,27 @@ namespace RavlN {
     Array3dC(const Index3dC & min, const Index3dC & max);
     //: Creates 3D array with the range < <min[0], max[0]>, <min[1], max[1]> , <min[3], max[3]> >.
     
-    Array3dC(const IndexRangeC & rng1, const IndexRangeC & rng2, const IndexRangeC & rng3);
+    Array3dC(const IndexRangeC & range1, const IndexRangeC & range2, const IndexRangeC & range3)
+      : m_data(range1.Size(),range2.Size(),range3.Size())
+    { Attach(m_data,range1,range2,range3); }
     //: Creates 3D array with the range <rng1, rng2, rng3>
     
-    Array3dC(const IndexRange3dC & rect);
-    //: Create 3D array with the range covering indexes in 'rect'
+    Array3dC(const IndexRange3dC & frame)
+      : m_data(frame)
+    { Attach(m_data,frame);  }
+    //: Create 3D array with the range covering indexes in 'frame'
     
-    Array3dC(const IndexRange3dC & rect,const BufferC<DataT> &data);
+    Array3dC(const BufferC<DataT> &data,const IndexRange3dC & frame)
+      : m_data(AttachedBuffer3dC<DataT>(data,frame))
+    { Attach(m_data,frame); }
     //: Create 3D array with the range covering indexes in 'rect' from data.
     // NB. It is the users responsibility to ensure that 'data' is
     // large enough to contain 'rect'.
     
-    Array3dC(const Array3dC<DataT> &arr,const IndexRange3dC & rect);
+    Array3dC(const Array3dC<DataT> &arr,const IndexRange3dC & frame)
+      : RangeBufferAccess3dC<DataT> (arr,frame),
+        m_data(arr.m_data)
+    {}
     //: Create a sub array of 'arr' covering indexes 'rect'.
     
     Array3dC<DataT> Copy() const;
@@ -153,7 +164,7 @@ namespace RavlN {
     // a new access array.
     
     Buffer3dC<DataT> &Buffer()
-    { return data; }
+    { return m_data; }
     //: Access the buffer holding underlying data.
     // Advanced users only.
 
@@ -169,13 +180,8 @@ namespace RavlN {
     { return RangeBufferAccess3dC<DataT>::Range3(); }
     //: Range of third index.
     
-  protected:
-    void ConstructAccess(const IndexRangeC &rng1);
-    //: Construct access for buffer.
-    // This assumes a suitable amount of space has been allocated
-    // in 'data'
-    
-    Buffer3dC<DataT> data; // Raw data stored in array.
+  protected:    
+    Buffer3dC<DataT> m_data; // Raw data stored in array.
   };
   
   
@@ -189,94 +195,43 @@ namespace RavlN {
   
   ////////////////////////////////////////////////////////////////////////////////
   
-  template <class DataT>
-  void Array3dC<DataT>::ConstructAccess(const IndexRangeC &rng1) {
-    Attach(data,rng1);
-    const SizeT d3Size = Range3().Size();
-    const SizeT d2Size = Range2().Size();
-    BufferAccessC<DataT>  *acc2 = data.DataIndex().ReferenceElm() - Range2().Min().V();
-    DataT *atData = data.Data().ReferenceElm() - Range3().Min().V();
-    for(BufferAccessIterC<BufferAccessC<BufferAccessC<DataT> > > it(*this,rng1);it;it++,acc2 += d2Size) {
-      *it = acc2;
-      for(BufferAccessIterC<BufferAccessC<DataT> > it2(*it,Range2());it2;it2++,atData += d3Size)
-	*it2 = atData;
-    }
-  }
-  
-  template <class DataT>
-  Array3dC<DataT>::Array3dC(SizeT nsize1, SizeT nsize2, SizeT nsize3)
-    : RangeBufferAccess3dC<DataT>(IndexRangeC(0,nsize2-1),IndexRangeC(0,nsize3-1)),
-      data(nsize1,nsize2,nsize3)
-  { ConstructAccess(IndexRangeC(0,nsize1-1)); }
   
   template <class DataT>
   Array3dC<DataT>::Array3dC(IndexC minI,IndexC maxI,
 			    IndexC minJ,IndexC maxJ,
 			    IndexC minK,IndexC maxK)
-    : RangeBufferAccess3dC<DataT>(IndexRangeC(minJ,maxJ),IndexRangeC(minK,maxK)),
-      data(IndexRangeC(minI,maxI).Size(),IndexRangeC(minJ,maxJ).Size(),IndexRangeC(minK,maxK).Size())
+    : m_data(IndexRangeC(minI,maxI).Size(),IndexRangeC(minJ,maxJ).Size(),IndexRangeC(minK,maxK).Size())
   {
     RavlAssert(minI <= maxI);
     RavlAssert(minJ <= maxJ);
     RavlAssert(minK <= maxK);
-    ConstructAccess(IndexRangeC(minI,maxI)); 
+    Attach(m_data,IndexRangeC(minI,maxI),IndexRangeC(minJ,maxJ),IndexRangeC(minK,maxK));
   }
   
   template <class DataT>
   Array3dC<DataT>::Array3dC(IntT minI,IntT maxI,IntT minJ,IntT maxJ,IntT minK,IntT maxK) 
-    : RangeBufferAccess3dC<DataT>(IndexRangeC(minJ,maxJ),IndexRangeC(minK,maxK)),
-      data(IndexRangeC(minI,maxI).Size(),IndexRangeC(minJ,maxJ).Size(),IndexRangeC(minK,maxK).Size())
+    : m_data(IndexRangeC(minI,maxI).Size(),IndexRangeC(minJ,maxJ).Size(),IndexRangeC(minK,maxK).Size())
   {
     RavlAssert(minI <= maxI);
     RavlAssert(minJ <= maxJ);
     RavlAssert(minK <= maxK);
-    ConstructAccess(IndexRangeC(minI,maxI)); 
+    Attach(m_data,IndexRangeC(minI,maxI),IndexRangeC(minJ,maxJ),IndexRangeC(minK,maxK));
   }
-
-  template <class DataT>
-  Array3dC<DataT>::Array3dC(const IndexRangeC & rng1,
-			    const IndexRangeC & rng2,
-			    const IndexRangeC & rng3)
-    : RangeBufferAccess3dC<DataT>(rng2,rng3),
-      data(rng1.Size(),rng2.Size(),rng3.Size())
-  { ConstructAccess(rng1); }
+  
   
   template <class DataT>
   Array3dC<DataT>::Array3dC(const Index3dC & min, const Index3dC & max)
-    : RangeBufferAccess3dC<DataT>(IndexRangeC(min[1],max[1]),IndexRangeC(min[2],max[2])),
-      data(IndexRangeC(min[0],max[0]).Size(),
+    : m_data(IndexRangeC(min[0],max[0]).Size(),
 	   IndexRangeC(min[1],max[1]).Size(),
 	   IndexRangeC(min[2],max[2]).Size())
-  { ConstructAccess(IndexRangeC(min[0],max[0])); }
+  { Attach(m_data,IndexRangeC(min[0],max[0]),IndexRangeC(min[1],max[1]),IndexRangeC(min[2],max[2])); }
   
-  template <class DataT>
-  Array3dC<DataT>::Array3dC(const IndexRange3dC & frame)
-    : RangeBufferAccess3dC<DataT>(frame.Range2(),frame.Range3()),
-      data(frame.Range1().Size(),frame.Range2().Size(),frame.Range3().Size())
-  { ConstructAccess(frame.Range1()); }
-  
-  template <class DataT>
-  Array3dC<DataT>::Array3dC(const IndexRange3dC & frame,const BufferC<DataT> &ndata)
-    : RangeBufferAccess3dC<DataT>(frame.Range2(),frame.Range3()),
-      data(ndata,
-	   frame.Range1().Size(),
-	   frame.Range2().Size(),
-	   frame.Range3().Size()
-	   )
-  { ConstructAccess(frame.Range1()); }
-
-  template <class DataT>
-  Array3dC<DataT>::Array3dC(const Array3dC<DataT> &arr,const IndexRange3dC & frame) 
-    : RangeBufferAccess3dC<DataT> (arr,frame),
-      data(arr.data)
-  {}
   
   template <class DataT>
   Array3dC<DataT> 
   Array3dC<DataT>::Copy() const {
     Array3dC<DataT> ret(this->Frame());
-    for(BufferAccess3dIter2C<DataT,DataT> it(ret,ret.Range2(),ret.Range3(),
-					     (*this),Range2(),Range3());it;it++)
+    for(BufferAccess3dIter2C<DataT,DataT> it(ret,(*this),ret.Range1(),ret.Range2(),ret.Range3());it;it++)
       it.Data1() = it.Data2();
     return ret;
   }
@@ -317,9 +272,7 @@ namespace RavlN {
   template<class DataT>
   Array3dC<DataT> Array3dC<DataT>::operator+(const Array3dC<DataT> & arr) const {
     Array3dC<DataT> ret(this->Frame());
-    for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,Range2(),Range3(),
-						   *this,Range2(),Range3(),
-						   arr,arr.Range2(),arr.Range3());
+    for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,*this,arr,ret.Range1(),ret.Range2(),ret.Range3());
 	it;it++)
       it.Data1() = it.Data2() + it.Data3();
     return ret;
@@ -328,9 +281,7 @@ namespace RavlN {
   template<class DataT>
   Array3dC<DataT> Array3dC<DataT>::operator-(const Array3dC<DataT> & arr) const {
     Array3dC<DataT> ret(this->Frame());
-    for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,Range2(),Range3(),
-						   *this,Range2(),Range3(),
-						   arr,arr.Range2(),arr.Range3());it;it++)
+    for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,*this,arr,ret.Range1(),ret.Range2(),ret.Range3());it;it++)
       it.Data1() = it.Data2() - it.Data3();
     return ret;
   }
@@ -338,9 +289,7 @@ namespace RavlN {
   template<class DataT>
   Array3dC<DataT> Array3dC<DataT>::operator*(const Array3dC<DataT> & arr) const {
     Array3dC<DataT> ret(this->Frame());
-    for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,Range2(),Range3(),
-						   *this,Range2(),Range3(),
-						   arr,arr.Range2(),arr.Range3());it;it++)
+    for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,*this,arr,ret.Range1(),ret.Range2(),ret.Range3());it;it++)
       it.Data1() = it.Data2() * it.Data3();
     return ret;
   }
@@ -348,9 +297,7 @@ namespace RavlN {
   template<class DataT>
   Array3dC<DataT> Array3dC<DataT>::operator/(const Array3dC<DataT> & arr) const {
     Array3dC<DataT> ret(this->Frame());
-    for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,Range2(),Range3(),
-						   *this,Range2(),Range3(),
-						   arr,arr.Range2(),arr.Range3());it;it++)
+    for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,*this,arr,ret.Range1(),ret.Range2(),ret.Range3());it;it++)
       it.Data1() = it.Data2() / it.Data3();
     return ret;
   }
@@ -358,8 +305,7 @@ namespace RavlN {
   template<class DataT>
   Array3dC<DataT> Array3dC<DataT>::operator+(const DataT &number) const {
     Array3dC<DataT> ret(this->Frame());
-    for(BufferAccess3dIter2C<DataT,DataT> it(ret,Range2(),Range3(),
-					     (*this),Range2(),Range3());it;it++)
+    for(BufferAccess3dIter2C<DataT,DataT> it(ret,*this,ret.Range1(),ret.Range2(),ret.Range3());it;it++)
       it.Data1() = it.Data2() + number;
     return ret;
   }
@@ -367,8 +313,7 @@ namespace RavlN {
   template<class DataT>
   Array3dC<DataT> Array3dC<DataT>::operator-(const DataT &number) const {
     Array3dC<DataT> ret(this->Frame());
-    for(BufferAccess3dIter2C<DataT,DataT> it(ret,Range2(),Range3(),
-					     (*this),Range2(),Range3());it;it++)
+    for(BufferAccess3dIter2C<DataT,DataT> it(ret,*this,ret.Range1(),ret.Range2(),ret.Range3());it;it++)
       it.Data1() = it.Data2() - number;
     return ret;
   }
@@ -376,8 +321,7 @@ namespace RavlN {
   template<class DataT>
   Array3dC<DataT> Array3dC<DataT>::operator*(const DataT &number) const {
     Array3dC<DataT> ret(this->Frame());
-    for(BufferAccess3dIter2C<DataT,DataT> it(ret,Range2(),Range3(),
-					     (*this),Range2(),Range3());it;it++)
+    for(BufferAccess3dIter2C<DataT,DataT> it(ret,*this,ret.Range1(),ret.Range2(),ret.Range3());it;it++)
       it.Data1() = it.Data2() * number;
     return ret;
   }
@@ -385,87 +329,81 @@ namespace RavlN {
   template<class DataT>
   Array3dC<DataT> Array3dC<DataT>::operator/(const DataT &number) const {
     Array3dC<DataT> ret(this->Frame());
-    for(BufferAccess3dIter2C<DataT,DataT> it(ret,Range2(),Range3(),
-					     (*this),Range2(),Range3());it;it++)
+    for(BufferAccess3dIter2C<DataT,DataT> it(ret,*this,ret.Range1(),ret.Range2(),ret.Range3());it;it++)
       it.Data1() = it.Data2() / number;
     return ret;
   }
     
   template<class DataT>
   const Array3dC<DataT> & Array3dC<DataT>::operator+=(const Array3dC<DataT> & arr) {
-    for(BufferAccess3dIter2C<DataT,DataT> it(*this,Range2(),Range3(),
-					     arr,arr.Range2(),arr.Range3());it;it++)
+    for(BufferAccess3dIter2C<DataT,DataT> it(*this,arr,this->Range1(),this->Range2(),this->Range3());it;it++)
       it.Data1() += it.Data2();
     return *this;
   }
   
   template<class DataT>
   const Array3dC<DataT> & Array3dC<DataT>::operator-=(const Array3dC<DataT> & arr) {
-    for(BufferAccess3dIter2C<DataT,DataT> it(*this,Range2(),Range3(),
-					     arr,arr.Range2(),arr.Range3());it;it++)
+    for(BufferAccess3dIter2C<DataT,DataT> it(*this,arr,
+                                             this->Range1(),this->Range2(),this->Range3());it;it++)
       it.Data1() -= it.Data2();
     return *this;
   }
     
   template<class DataT>
   const Array3dC<DataT> & Array3dC<DataT>::operator*=(const Array3dC<DataT> & arr) {
-    for(BufferAccess3dIter2C<DataT,DataT> it(*this,Range2(),Range3(),
-					     arr,arr.Range2(),arr.Range3());it;it++)
+    for(BufferAccess3dIter2C<DataT,DataT> it(*this,arr,
+                                             this->Range1(),this->Range2(),this->Range3());it;it++)
       it.Data1() *= it.Data2();
     return *this;
   }
     
   template<class DataT>
   const Array3dC<DataT> & Array3dC<DataT>::operator/=(const Array3dC<DataT> & arr) {
-    for(BufferAccess3dIter2C<DataT,DataT> it(*this,Range2(),Range3(),
-					     arr,arr.Range2(),arr.Range3());it;it++)
+    for(BufferAccess3dIter2C<DataT,DataT> it(*this,arr,
+                                             this->Range1(),this->Range2(),this->Range3());it;it++)
       it.Data1() /= it.Data2();
     return *this;
   }
   
   template<class DataT>
   const Array3dC<DataT> & Array3dC<DataT>::operator+=(const DataT &number) {
-    for(BufferAccess3dIterC<DataT> it(*this,Range2(),Range3());it;it++)
+    for(BufferAccess3dIterC<DataT> it(*this);it;it++)
       it.Data1() += number;
     return *this;
   }
     
   template<class DataT>
   const Array3dC<DataT> & Array3dC<DataT>::operator-=(const DataT &number) {
-    for(BufferAccess3dIterC<DataT> it(*this,Range2(),Range3());it;it++)
+    for(BufferAccess3dIterC<DataT> it(*this);it;it++)
       it.Data1() -= number;
     return *this;
   }
   
   template<class DataT>
   const Array3dC<DataT> & Array3dC<DataT>::operator*=(const DataT &number) {
-    for(BufferAccess3dIterC<DataT> it(*this,Range2(),Range3());it;it++)
+    for(BufferAccess3dIterC<DataT> it(*this);it;it++)
       it.Data1() *= number;
     return *this;
   }
   
   template<class DataT>
   const Array3dC<DataT> & Array3dC<DataT>::operator/=(const DataT &number) {
-    for(BufferAccess3dIterC<DataT> it(*this,Range2(),Range3());it;it++)
+    for(BufferAccess3dIterC<DataT> it(*this);it;it++)
       it.Data() /= number;
     return *this;
   }
   
   template<class DataT>
   Array2dC<DataT> Array3dC<DataT>::Slice1(IndexC i)
-  { return Array2dC<DataT>((*this)[i],Buffer().Buffer2d()); }
+  { return Array2dC<DataT>((*this)[i],m_data); }
   
   template<class DataT>
   Array2dC<DataT> Array3dC<DataT>::Slice2(IndexC j) {
     RavlAssert(Range2().Contains(j));
-    Buffer2dC<DataT> nbuff(data.Data(),Range1().Size());
-    BufferAccessC<BufferAccessC<DataT> > bufAcc = nbuff;
-    RangeBufferAccess2dC<DataT> rbf(bufAcc - Range1().Min(),Range1(),Range3()); // Setup buffer access.
     const SizeT d2Size = Range2().Size();
-    BufferAccessC<DataT> *at = &(static_cast<BufferAccessC<BufferAccessC<BufferAccessC<DataT> > > >(*this)[Range1().Min()][j]);
-    for(BufferAccessIterC<BufferAccessC<DataT> > it(rbf);it;it++,at += d2Size)
-      *it = *at;
-    return Array2dC<DataT>(rbf,nbuff);
+    DataT *start = reinterpret_cast<DataT *>(reinterpret_cast<char *>(this->ReferenceVoid()) + j.V() * this->ByteStride2());
+    RangeBufferAccess2dC<DataT> rbf(start,Range1(),Range3(),d2Size*sizeof(DataT));
+    return Array2dC<DataT>(rbf,m_data);
   }
   
 }

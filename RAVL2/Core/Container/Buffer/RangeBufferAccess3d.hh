@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_RBFACC3D_HEADER
-#define RAVL_RBFACC3D_HEADER 1
+#ifndef RAVL_RANGEBUFFERACCESS3D_HEADER
+#define RAVL_RANGEBUFFERACCESS3D_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/Buffer/RangeBufferAccess3d.hh"
@@ -20,6 +20,8 @@
 #include "Ravl/Index3d.hh"
 #include "Ravl/IndexRange3d.hh"
 #include "Ravl/BufferAccess3dIter.hh"
+#include "Ravl/BufferAccess3dIter2.hh"
+#include "Ravl/BufferAccess3dIter3.hh"
 #include "Ravl/Types.hh"
 #include "Ravl/Buffer3d.hh"
 
@@ -64,7 +66,22 @@ namespace RavlN {
         m_stride1(byteStride1),
         m_stride2(byteStride2)
     {}
-    //: Construct a access to a frame within 'ab' with indexs 'rect'.
+    //: Construct a access to a frame within 'ab' with indexs 'frame'.
+
+    RangeBufferAccess3dC(const RangeBufferAccess3dC<DataT> &ab,
+			 const IndexRange3dC &frame)
+      : BufferAccessC<DataT>(ab),
+        m_range1(frame.Range1()),
+	m_range2(frame.Range2()),
+	m_range3(frame.Range3()),
+        m_stride1(ab.ByteStride1()),
+        m_stride2(ab.ByteStride2())
+    {
+      RavlAssert(ab.Range1().Contains(frame.Range1()));
+      RavlAssert(ab.Range2().Contains(frame.Range2()));
+      RavlAssert(ab.Range3().Contains(frame.Range3()));
+    }
+    //: Construct a access to a frame within 'ab' with indexs 'frame'.
 
     inline void Attach(const Buffer3dC<DataT> & buffer,
 		       const IndexRangeC          & range1,
@@ -79,22 +96,41 @@ namespace RavlN {
       m_range3 = range3;
     }
     // Changes this buffer access to have the access rights as 'buffer' limited
-    // by range 'range1' and 'range2', so the first element in 'buffer' is accessed at
-    // 'range1.Min()','range2.Min()'.
+    // by range 'range1', 'range2' and 'range3', so the first element in 'buffer' is accessed at
+    // 'range1.Min()','range2.Min()','range3.Min()'.
 
-    BufferAccessC<DataT> &Buffer()
+    inline void Attach(const Buffer3dC<DataT> & buffer,
+		       const IndexRange3dC     & frame
+                       )
+    { Attach(buffer,frame.Range1(),frame.Range2(),frame.Range3()); }
+    // Changes this buffer access to have the access rights as 'buffer' limited
+    // by given range so the first element in 'buffer' is accessed at
+    // 'range.MinI()','range2.MinJ()','range2.MinK()'.
+
+    BufferAccessC<DataT> &BufferAccess()
     { return *this; }
     //: Access buffer;
 
-    const BufferAccessC<DataT> &Buffer() const
+    const BufferAccessC<DataT> &BufferAccess() const
     { return *this; }
     //: Access buffer;
-
-
+    
     inline bool Contains(const Index3dC & i) const
     { return Range1().Contains(i.I()) && Range2().Contains(i.J()) && Range3().Contains(i.J()); }
     //: Returns true if there is an item of the �D array
 
+    inline DataT *PointerTo(IndexC i,IndexC j,IndexC k)
+    { return reinterpret_cast<DataT *>(reinterpret_cast<char *>(this->ReferenceVoid()) + i.V() * m_stride1 + j.V() * m_stride2) + k.V(); }
+    //: Compute an elements position.
+    // NOTE: This does not range check, the returned element
+    // may not be valid.
+
+    inline const DataT *PointerTo(IndexC i,IndexC j,IndexC k) const
+    { return reinterpret_cast<const DataT *>(reinterpret_cast<const char *>(this->ReferenceVoid()) + i.V() * m_stride1 + j.V() * m_stride2) + k.V(); }
+    //: Compute an elements position.
+    // NOTE: This does not range check, the returned element
+    // may not be valid.
+    
     DataT *RowPtr(const IndexC &i,const IndexC &j) {
 #if RAVL_CHECK
       if(!m_range1.Contains(i))
@@ -104,7 +140,7 @@ namespace RavlN {
 #endif
       return reinterpret_cast<DataT *>(reinterpret_cast<char *>(this->ReferenceVoid()) + i.V() * m_stride1 + j.V() * m_stride2);
     }
-
+    
     const DataT *RowPtr(const IndexC &i,const IndexC &j) const {
 #if RAVL_CHECK
       if(!m_range1.Contains(i))
@@ -120,7 +156,7 @@ namespace RavlN {
       if(!m_range3.Contains(i.K()))
 	IssueError(__FILE__,__LINE__,"K index %d out of index range %d to %d  ",i.K().V(),m_range3.Min().V(),m_range3.Max().V());
 #endif
-      return RowPtr(i.I(),i.J())[i.K()];
+      return RowPtr(i.I(),i.J())[i.K().V()];
     }
     //: access to the item array[(i)]
 
@@ -129,7 +165,7 @@ namespace RavlN {
       if(!m_range3.Contains(i.K()))
 	IssueError(__FILE__,__LINE__,"K index %d out of index range %d to %d  ",i.K().V(),m_range3.Min().V(),m_range3.Max().V());
 #endif
-      return RowPtr(i.I(),i.J())[i.K()];
+      return RowPtr(i.I(),i.J())[i.K().V()];
     }
     //: access to the item array[(i)]
 
@@ -194,7 +230,58 @@ namespace RavlN {
              m_stride2 == static_cast<IntT>((Range3().Size() * sizeof(DataT)));
     }
     //: Test if the elements are continuous in memory.
-    
+
+    IndexC Index1Of(const DataT &element) const {
+      RavlAssert(IsValid());
+      IndexC diff = reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm());
+      IndexC ret = (diff - (Range3().Min()*((IntT)sizeof(DataT)) + Range2().Min() * m_stride2) )/m_stride1;
+      RavlAssertMsg(Range1().Contains(ret),"Requested element not from this array.");
+      return ret;
+    }
+    //: Compute the row from address of an element in the array.
+    // 'element' must be a direct reference to an element in the array.
+
+    IndexC Index2Of(const DataT &element) const {
+      RavlAssert(IsValid());
+      IndexC diff = (reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()));
+      diff -= (Range3().Min()*((IntT)sizeof(DataT)) + Range2().Min() * m_stride2);
+      IndexC ret = ((diff % m_stride1)/m_stride2) + Range2().Min();
+      RavlAssertMsg(Range2().Contains(ret),"Requested element not from this array.");
+      return ret;
+    }
+    //: Compute the column from address of an element in the array.
+    // 'element' must be a direct reference to an element in the array.
+
+    IndexC Index3Of(const DataT &element) const {
+      RavlAssert(IsValid());
+      IndexC diff = (reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()));
+      diff -= (Range3().Min()*((IntT)sizeof(DataT)) + Range2().Min() * m_stride2);
+      IndexC ret = ((diff % m_stride1)%m_stride2)/IndexC(sizeof(DataT)) + Range3().Min();
+      RavlAssertMsg(Range3().Contains(ret),"Requested element not from this array.");
+      return ret;
+    }
+    //: Compute the column from address of an element in the array.
+    // 'element' must be a direct reference to an element in the array.
+
+    Index3dC IndexOf(const DataT &element) const {
+      RavlAssert(IsValid());
+      IndexC diff = (reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()));
+      diff -= (Range3().Min()*((IntT)sizeof(DataT)) + Range2().Min() * m_stride2);
+      IndexC offset2 = (diff % m_stride1);
+      Index3dC ret(diff / m_stride1,
+                   (offset2 % m_stride2) + Range2().Min(),
+                   (offset2 / IndexC((IntT) sizeof(DataT))) + Range3().Min()) ;
+      RavlAssertMsg(Range1().Contains(ret.I()) && Range2().Contains(ret.J()) && Range3().Contains(ret.K()),
+                    "Requested element not from this array.");
+      return ret;
+    }
+    //: Gompute the index of 'element' in the array.
+    // 'element' must be a direct reference to an element in the array.
+
+
+    using BufferAccessC<DataT>::IsValid;
+    using BufferAccessC<DataT>::ReferenceElm;
+
   protected:
     IndexRangeC m_range1;
     IndexRangeC m_range2;
@@ -204,12 +291,61 @@ namespace RavlN {
   };
 
 
-  template<class DataT>
+  template<typename DataT>
   BufferAccess3dIterC<DataT>::BufferAccess3dIterC(const RangeBufferAccess3dC<DataT> &data)
-  { First(data.Buffer(),data.ByteStride1(),data.ByteStride2(),
+  { First(data.BufferAccess(),data.ByteStride1(),data.ByteStride2(),
           data.Range1(),data.Range2(),data.Range3());
   }
   //: Construct from a 3d buffer.
+
+  template<typename Data1T,typename Data2T>
+  BufferAccess3dIter2C<Data1T,Data2T>::BufferAccess3dIter2C(const RangeBufferAccess3dC<Data1T> &bufA,
+                                                            const RangeBufferAccess3dC<Data2T> &bufB,
+                                                            const IndexRangeC &range1,const IndexRangeC &range2,const IndexRangeC &range3)
+  {
+    First(bufA.BufferAccess(),bufA.ByteStride1(),bufA.ByteStride2(),
+          bufB.BufferAccess(),bufB.ByteStride1(),bufB.ByteStride2(),
+          range1,range2,range3);
+  }
+  //: Construct from a 3d buffer.
+  
+  template<typename Data1T,typename Data2T>
+  BufferAccess3dIter2C<Data1T,Data2T>::BufferAccess3dIter2C(const RangeBufferAccess3dC<Data1T> &bufA,
+                                                            const RangeBufferAccess3dC<Data2T> &bufB,
+                                                            const IndexRange3dC &range)
+  {
+    First(bufA.BufferAccess(),bufA.ByteStride1(),bufA.ByteStride2(),
+          bufB.BufferAccess(),bufB.ByteStride1(),bufB.ByteStride2(),
+          range.Range1(),range.Range2(),range.Range3());
+  }
+  //: Construct from a 3d buffer.
+
+  template<typename Data1T,typename Data2T,typename Data3T>
+  BufferAccess3dIter3C<Data1T,Data2T,Data3T>::BufferAccess3dIter3C(const RangeBufferAccess3dC<Data1T> &bufA,
+                                                                   const RangeBufferAccess3dC<Data2T> &bufB,
+                                                                   const RangeBufferAccess3dC<Data3T> &bufC,
+                                                                   const IndexRangeC &range1,const IndexRangeC &range2,const IndexRangeC &range3)
+  {
+    First(bufA.BufferAccess(),bufA.ByteStride1(),bufA.ByteStride2(),
+          bufB.BufferAccess(),bufB.ByteStride1(),bufB.ByteStride2(),
+          bufC.BufferAccess(),bufC.ByteStride1(),bufC.ByteStride2(),
+          range1,range2,range3);
+  }
+  //: Construct from a 3d buffer.
+
+  template<typename Data1T,typename Data2T,typename Data3T>
+  BufferAccess3dIter3C<Data1T,Data2T,Data3T>::BufferAccess3dIter3C(const RangeBufferAccess3dC<Data1T> &bufA,
+                                                                   const RangeBufferAccess3dC<Data2T> &bufB,
+                                                                   const RangeBufferAccess3dC<Data3T> &bufC,
+                                                                   const IndexRange3dC &range)
+  {
+    First(bufA.BufferAccess(),bufA.ByteStride1(),bufA.ByteStride2(),
+          bufB.BufferAccess(),bufB.ByteStride1(),bufB.ByteStride2(),
+          bufC.BufferAccess(),bufC.ByteStride1(),bufC.ByteStride2(),
+          range.Range1(),range.Range2(),range.Range3());
+  }
+  //: Construct from a 3d buffer.
+
   
   template<class DataT>
   void RangeBufferAccess3dC<DataT>::Fill(const DataT &d) {

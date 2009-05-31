@@ -94,6 +94,11 @@ namespace RavlN {
     }
     //: Goto first element in the array
     
+    bool First(const BufferAccessC<DataT> &pbuf,IntT byteStride,
+               const IndexRange2dC &range)
+    { return First(pbuf,byteStride,range.Range1(),range.Range2()); }
+    //: Goto first.
+
     inline void RowStart() {
       DataT *colStart=reinterpret_cast<DataT*>(m_rit);
       m_cit.First(colStart,m_size2);

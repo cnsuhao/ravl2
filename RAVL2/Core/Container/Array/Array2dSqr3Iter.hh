@@ -7,14 +7,13 @@
 #ifndef RAVL_ARRAY2DSQR3ITER_HEADER
 #define RAVL_ARRAY2DSQR3ITER_HEADER 1
 //////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Arrays.2D"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Array/Array2dSqr3Iter.hh"
 
 #include "Ravl/Array2d.hh"
-#include "Ravl/BfAcc2Iter.hh"
+#include "Ravl/BufferAccess2dIter.hh"
 
 namespace RavlN {
 
@@ -46,41 +45,30 @@ namespace RavlN {
     //: Constructor over limited range.
     
     bool First() {
-      this->rng = IndexRangeC(array.Range2().Min()+1,array.Range2().Max()-1);
-      IndexRangeC srng(array.Range1().Min()+1,array.Range1().Max()-1);
-      if(!this->rit.First(array,srng)) {
-	this->cit.Invalidate();
+      IndexRangeC range1(array.Range1().Min()+1,array.Range1().Max()-1);
+      IndexRangeC range2(array.Range2().Min()+1,array.Range2().Max()-1);
+      if(!BufferAccess2dIterC<DataT>::First(array.BufferAccess(),array.ByteStride(),range1,range2))
 	return false;
-      }
-      this->cit.First(*this->rit,this->rng);
-      if(!this->cit) {
-	this->cit.Invalidate();
-	return false;
-      }
-      up = &((&(*this->rit))[-1][this->rng.Min()]);
-      dn = &((&(*this->rit))[ 1][this->rng.Min()]);
+      up = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data()),-array.ByteStride());
+      dn = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data()),array.ByteStride());
       return true;
     }
     //: Goto first element in the array.
     
     bool NextRow() {
-      this->rit++;
-      if(!this->rit)
-	return false;
-      up = &((&(*this->rit))[-1][this->rng.Min()]);
-      dn = &((&(*this->rit))[ 1][this->rng.Min()]);
-      this->cit.First(this->rit.Data(),this->rng);
+      if(!BufferAccess2dIterC<DataT>::NextRow())
+        return false;
+      up = BufferAccess2dIterBaseC::ShiftPointer(&this->Data(),-array.ByteStride());
+      dn = BufferAccess2dIterBaseC::ShiftPointer(&this->Data(),array.ByteStride());
       return true;
     }
     //: Goto the next row.
-
-    bool NextRow(UIntT n) {
-      this->rit += n;
-      if(!this->rit)
-	return false;
-      up = &((&(*this->rit))[-1][this->rng.Min()]);
-      dn = &((&(*this->rit))[ 1][this->rng.Min()]);
-      this->cit.First(this->rit.Data(),this->rng);
+    
+    bool SkipRow(IndexC n) {
+      if(!BufferAccess2dIterC<DataT>::SkipRow(n.V()))
+        return false;
+      up = BufferAccess2dIterBaseC::ShiftPointer(&this->Data(),-array.ByteStride());
+      dn = BufferAccess2dIterBaseC::ShiftPointer(&this->Data(),array.ByteStride());
       return true;
     }
     //: Goto the n th next row.
@@ -88,24 +76,24 @@ namespace RavlN {
     bool NextCol() { 
       up++;
       dn++;
-      this->cit++;
-      return (this->cit);
+      this->m_cit++;
+      return (this->m_cit);
     }
     //: Goto next column.
     
     bool NextCol(UIntT n) { 
       up += n;
       dn += n;
-      this->cit += n;
-      return (this->cit);
+      this->m_cit += n;
+      return (this->m_cit);
     }
     //: Goto n th next column.
     
     bool Next() { 
       up++;
       dn++;
-      this->cit++;
-      if(this->cit)
+      this->m_cit++;
+      if(this->m_cit)
 	return true;
       NextRow();
       return false;
@@ -115,10 +103,10 @@ namespace RavlN {
     bool Next(int n) {
       up += n;
       dn += n;
-      this->cit += n;
-      if(this->cit)
+      this->m_cit += n;
+      if(this->m_cit)
 	return true;
-      NextRow(n);
+      SkipRow(n);
       return false;
     }
     //: Goto next nth element
@@ -127,11 +115,11 @@ namespace RavlN {
     // then skip n rows.
     
     bool IsElm() const
-    { return this->cit.IsElm(); }
+    { return this->m_cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     operator bool() const
-    { return this->cit.IsElm(); }
+    { return this->m_cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     void operator++() 
@@ -174,27 +162,27 @@ namespace RavlN {
     //: Access bottom right data element 
 
     DataT &DataML() 
-    { return (&(*this->cit))[-1]; }
+    { return (&(*this->m_cit))[-1]; }
     //: Access middle left data element 
     
     const DataT &DataML() const
-    { return (&(*this->cit))[-1]; }
+    { return (&(*this->m_cit))[-1]; }
     //: Access middle left data element 
     
     DataT &DataMM() 
-    { return *this->cit; }
+    { return *this->m_cit; }
     //: Access middle data element 
     
     const DataT &DataMM() const
-    { return *this->cit; }
+    { return *this->m_cit; }
     //: Access middle data element 
     
     DataT &DataMR() 
-    { return (&(*this->cit))[1]; }
+    { return (&(*this->m_cit))[1]; }
     //: Access middle right data element 
     
     const DataT &DataMR() const
-    { return (&(*this->cit))[1]; }
+    { return (&(*this->m_cit))[1]; }
     //: Access middle right data element 
 
     DataT &DataTL() 
@@ -222,7 +210,7 @@ namespace RavlN {
     //: Access top right data element
     
     Index2dC Index() const 
-    { return BufferAccess2dIterC<DataT>::Index(array.ReferenceElm()); }
+    { return array.IndexOf(this->DataMM()); }
     //: Get index of current location of the middle pixel.
     // Has to be calculate, and so is slightly slow.
     

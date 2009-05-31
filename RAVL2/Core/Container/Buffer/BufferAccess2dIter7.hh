@@ -7,7 +7,6 @@
 #ifndef RAVL_BFACC2ITER7_HEADER
 #define RAVL_BFACC2ITER7_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
 //! file="Ravl/Core/Container/Buffer/BufferAccess2dIter7.hh"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Arrays.Buffer"
@@ -17,6 +16,8 @@
 
 #include "Ravl/BufferAccessIter7.hh"
 #include "Ravl/Index2d.hh"
+#include "Ravl/IndexRange2d.hh"
+
 
 namespace RavlN {
   

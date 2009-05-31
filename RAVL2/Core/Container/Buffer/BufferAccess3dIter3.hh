@@ -16,8 +16,12 @@
 #include "Ravl/BufferAccessIter3.hh"
 #include "Ravl/BufferAccess2dIter3.hh"
 #include "Ravl/IndexRange1d.hh"
+#include "Ravl/IndexRange3d.hh"
 
 namespace RavlN {
+  template <class DataT> class RangeBufferAccess3dC;
+  template <class DataT> class SizeBufferAccess3dC;
+
   //! userlevel=Advanced
   //: 3D buffer iterator.
   
@@ -56,6 +60,18 @@ namespace RavlN {
                          SizeT size1,SizeT size2,SizeT size3
                          );
     //: Constructor.
+
+    BufferAccess3dIter3C(const RangeBufferAccess3dC<Data1T> &bufA,
+                         const RangeBufferAccess3dC<Data2T> &bufB,
+                         const RangeBufferAccess3dC<Data3T> &bufC,
+                         const IndexRangeC &range1,const IndexRangeC &range2,const IndexRangeC &range3);
+    //: Construct from a 3d buffer.
+
+    BufferAccess3dIter3C(const RangeBufferAccess3dC<Data1T> &bufA,
+                         const RangeBufferAccess3dC<Data2T> &bufB,
+                         const RangeBufferAccess3dC<Data3T> &bufC,
+                         const IndexRange3dC &rng);
+    //: Construct from a 3d buffer.
     
     bool First(const BufferAccessC<Data1T> &pbufA,IntT byteStride1a,IntT byteStride2a,
                const BufferAccessC<Data2T> &pbufB,IntT byteStride1b,IntT byteStride2b,

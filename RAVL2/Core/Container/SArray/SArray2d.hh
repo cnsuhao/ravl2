@@ -69,14 +69,18 @@ namespace RavlN {
     //: Constructor.
     // Create a size[0] by size[1] array.
     
-    SArray2dC(const BufferC<DataT> & bf, SizeT size1,SizeT size2,SizeT startOffset = 0,IntT byteStride = 0)
+    SArray2dC(const BufferC<DataT> & bf,SizeT size1,SizeT size2,DataT *start = 0,IntT byteStride = 0)
       : m_data(AttachedBuffer2dC<DataT>(bf,size1,size2,byteStride))
-    { Attach(m_data,size1,size2); }
+    {
+      if(start == 0) start = bf.ReferenceElm();
+      Attach(start,size1,size2,byteStride);
+    }
     //: Constructor using the buffer 'bf'. 
     // This can be used, for example to view a 1d array, as a 2d array.
-    // startOffset is the location in the buffer to use as 0,0.
-    // Both start offset and byteStride are in bytes.
-    // If stride is set to zero, size2 is used.
+    // start is the location in the buffer to use as 0,0. If set to zero
+    // the start of the buffer will be used.
+    // byteStride is in bytes.
+    // If stride is set to zero, the value size2 * sizeof(DataT) is used.
 
     SArray2dC(SArray2dC<DataT> &arr,SizeT size1,SizeT size2)
       : SizeBufferAccess2dC<DataT>(arr,size1,size2),

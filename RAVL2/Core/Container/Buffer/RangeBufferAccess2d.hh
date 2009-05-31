@@ -16,6 +16,8 @@
 
 #include "Ravl/RangeBufferAccess.hh"
 #include "Ravl/BufferAccess2dIter.hh"
+#include "Ravl/BufferAccess2dIter2.hh"
+#include "Ravl/BufferAccess2dIter3.hh"
 #include "Ravl/Index2d.hh"
 #include "Ravl/IndexRange2d.hh"
 #include "Ravl/Assert.hh"
@@ -43,16 +45,31 @@ namespace RavlN {
         m_range2(nrng2)
     {}
     //: Constructor.
-        
-    RangeBufferAccess2dC(const BufferAccessC<DataT> &buffer,const IndexRangeC &r1,const IndexRangeC &r2)
+    
+    RangeBufferAccess2dC(const RangeBufferAccess2dC<DataT> &buffer,
+                         const IndexRangeC &r1,
+                         const IndexRangeC &r2)
       : BufferAccessC<DataT>(buffer),
-        m_stride(r1.Size() * sizeof(DataT)),
+        m_stride(buffer.ByteStride()),
         m_range1(r1),
 	m_range2(r2)
     {}
     //: Construct a access to a rectangle within 'ab' with ranges r1 and r2.
     
-    RangeBufferAccess2dC(const BufferAccessC<DataT> &buffer,const IndexRangeC &r1,const IndexRangeC &r2,IntT byteStride)
+    RangeBufferAccess2dC(const RangeBufferAccess2dC<DataT> &buffer,const IndexRange2dC &frame)
+      : BufferAccessC<DataT>(buffer),
+        m_stride(buffer.ByteStride()),
+        m_range1(frame.Range1()),
+	m_range2(frame.Range2())
+    {
+      RavlAssert(buffer.Range1().Contains(frame.Range1()));
+      RavlAssert(buffer.Range2().Contains(frame.Range2()));
+    }
+    //: Construct a access to a rectangle within 'ab' with ranges r1 and r2.
+
+    RangeBufferAccess2dC(const BufferAccessC<DataT> &buffer,
+                         const IndexRangeC &r1,const IndexRangeC &r2,
+                         IntT byteStride)
       : BufferAccessC<DataT>(buffer),
         m_stride(byteStride),
         m_range1(r1),
@@ -67,19 +84,18 @@ namespace RavlN {
     {}
     //: Default constructor.
 
-    BufferAccessC<DataT> &Buffer()
+    BufferAccessC<DataT> &BufferAccess()
     { return *this; }
     //: Access buffer;
 
-    const BufferAccessC<DataT> &Buffer() const
+    const BufferAccessC<DataT> &BufferAccess() const
     { return *this; }
     //: Access buffer;
 
-    inline void Attach(const RangeBufferAccess2dC<DataT> & buffer) {
-      *this = buffer;
-    }
+    inline void Attach(const RangeBufferAccess2dC<DataT> & buffer) 
+    { *this = buffer; }
     // Changes this buffer access to have the same access rights as 'buffer'.
-
+    
     inline void Attach(const BufferAccessC<DataT> & buffer,
 		       const IndexRangeC          & range1,
 		       const IndexRangeC          & range2,
@@ -93,6 +109,15 @@ namespace RavlN {
     // Changes this buffer access to have the access rights as 'buffer' limited
     // by range 'range1' and 'range2', so the first element in 'buffer' is accessed at
     // 'range1.Min()','range2.Min()'.
+
+    inline void Attach(const BufferAccessC<DataT> & buffer,
+		       const IndexRange2dC        & frame,
+                             IntT                   byteStride
+                       )
+    { Attach(buffer,frame.Range1(),frame.Range2(),byteStride); }
+    // Changes this buffer access to have the access rights as 'buffer' limited
+    // by frame so the first element in 'buffer' is accessed at
+    // 'frame.TRow()','frame.LCol()'.
 
     inline void Attach(const Buffer2dC<DataT> & buffer,
 		       const IndexRangeC      & range1,
@@ -108,6 +133,25 @@ namespace RavlN {
     // Changes this buffer access to have the access rights as 'buffer' limited
     // by range 'range1' and 'range2', so the first element in 'buffer' is accessed at
     // 'range1.Min()','range2.Min()'.
+
+    inline void Attach(const Buffer2dC<DataT> & buffer,
+		       const IndexRange2dC    & frame)
+    { Attach(buffer,frame.Range1(),frame.Range2()); }
+    // Changes this buffer access to have the access rights as 'buffer' limited
+    // by 'frame' so the first element in 'buffer' is accessed at
+    // 'frame.TRow()','frame.LCol()'.
+    
+    inline DataT *PointerTo(IndexC row,IndexC col)
+    { return reinterpret_cast<DataT *>(reinterpret_cast<char *>(this->ReferenceVoid()) + row.V() * m_stride) + col.V(); }
+    //: Compute an elements position.
+    // NOTE: This does not range check, the returned element
+    // may not be valid.
+    
+    inline const DataT *PointerTo(IndexC row,IndexC col) const
+    { return reinterpret_cast<DataT *>(reinterpret_cast<char *>(this->ReferenceVoid()) + row.V() * m_stride) + col.V(); }
+    //: Compute an elements position.
+    // NOTE: This does not range check, the returned element
+    // may not be valid.
 
     inline DataT *RowPtr(IndexC i) {
 #if RAVL_CHECK
@@ -172,6 +216,20 @@ namespace RavlN {
     void Fill(const DataT &d);
     //: Fill array with value.
     
+    void ShiftRows(IndexC offset) {
+      this->m_buff = ShiftPointer(this->m_buff,offset.V() * m_stride);
+      m_range2 += offset;
+    }
+    //: The array is shifted "vertically" by <code>offset</code> w.r.t. the coordinate origin.
+    // In other words the row index of a given pixel will be <i>incremented</i> by <code>offset</code>.
+
+    void ShiftCols(IndexC offset) {
+      this->m_buff -= offset.V();
+      m_range1 += offset;
+    }
+    //: The array is shifted "horizontally" by <code>offset</code> w.r.t. the coordinate origin.
+    // In other words the column index of a given pixel will be <i>incremented</i> by <code>offset</code>.
+
     IndexRange2dC Rectangle() const
     { return IndexRange2dC(Range1(),Range2()); }
     //: Return ranges of indexes
@@ -190,7 +248,7 @@ namespace RavlN {
     
     bool IsContinuous() const
     { return m_stride == static_cast<IntT>((Range2().Size() * sizeof(DataT))); }
-    //: Test if the elements are continuous in memory.
+    //: Test if all the elements are continuous in memory.
     
     IntT ByteStride() const
     { return m_stride; }
@@ -232,7 +290,7 @@ namespace RavlN {
     }
     //: Gompute the index of 'element' in the array.
     // 'element' must be a direct reference to an element in the array.
-    
+
     using BufferAccessC<DataT>::IsValid;
     using BufferAccessC<DataT>::ReferenceElm;
     
@@ -243,10 +301,21 @@ namespace RavlN {
   };
 
   // Constructor for the iterator.
-  template<class DataT>
+  template<typename DataT>
   inline BufferAccess2dIterC<DataT>::BufferAccess2dIterC(const RangeBufferAccess2dC<DataT> &array)
-  { First(array.Buffer(),array.ByteStride(),array.Range1(),array.Range2()); }
-  
+  { First(array.BufferAccess(),array.ByteStride(),array.Range1(),array.Range2()); }
+
+  template<typename Data1T,typename Data2T>
+  BufferAccess2dIter2C<Data1T,Data2T>::BufferAccess2dIter2C(const RangeBufferAccess2dC<Data1T> &pbuf1,
+			                                    const RangeBufferAccess2dC<Data2T> &pbuf2,
+                                                            const IndexRangeC &range1,const IndexRangeC &range2) {
+    First(pbuf1.BufferAccess(),pbuf1.ByteStride(),
+          pbuf2.BufferAccess(),pbuf2.ByteStride(),
+          range1,range2);
+  }
+  //: Constructor.
+
+
   template<class DataT>
   void RangeBufferAccess2dC<DataT>::Fill(const DataT &d) {
     for(BufferAccess2dIterC<DataT> it(*this);it;it++)

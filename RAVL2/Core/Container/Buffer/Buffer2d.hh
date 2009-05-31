@@ -40,7 +40,15 @@ namespace RavlN {
        m_stride(size2 * sizeof(DataT))
     {}
     //: Sized constructor.
-    
+
+    Buffer2dBodyC(SizeT size1,SizeT size2,SizeT bufferSizeToAllocate,IntT byteStride)
+     : BufferBodyC<DataT >(bufferSizeToAllocate),
+       m_size1(size1),
+       m_size2(size2),
+       m_stride(byteStride)
+    {}
+    //: Sized constructor.
+
     Buffer2dBodyC(DataT *data,SizeT size1,SizeT size2,bool makeCopy = false,bool deletable = true)
      : BufferBodyC<DataT >(data,size1 * size2,makeCopy,deletable),
        m_size1(size1),
@@ -48,9 +56,9 @@ namespace RavlN {
        m_stride(size2 * sizeof(DataT))
     {}
     //: Sized constructor.
-
-    Buffer2dBodyC(DataT *data,SizeT size1,SizeT size2,IntT byteStride,bool makeCopy = false,bool deletable = true)
-     : BufferBodyC<DataT >(data,size1 * size2,makeCopy,deletable),
+    
+    Buffer2dBodyC(DataT *data,SizeT size1,SizeT size2,SizeT bufferSize,IntT byteStride,bool makeCopy = false,bool deletable = true)
+     : BufferBodyC<DataT >(data,bufferSize,makeCopy,deletable),
        m_size1(size1),
        m_size2(size2),
        m_stride(byteStride)
@@ -99,8 +107,8 @@ namespace RavlN {
     {}
     //: Construct from an existing buffer.
     
-    Buffer2dC(DataT *data,SizeT size1,SizeT size2,IntT byteStride,bool copy = false,bool deletable = true)
-      : BufferC<DataT>(new Buffer2dBodyC<DataT>(data,size1,size2,byteStride,copy,deletable))
+    Buffer2dC(DataT *data,SizeT size1,SizeT size2,SizeT bufferElements,IntT byteStride,bool copy = false,bool deletable = true)
+      : BufferC<DataT>(new Buffer2dBodyC<DataT>(data,size1,size2,bufferElements,byteStride,copy,deletable))
     {}
     //: Construct from an existing buffer.
 

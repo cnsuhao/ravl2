@@ -16,7 +16,7 @@
 //! userlevel=Default
 
 #include "Ravl/Array2d.hh"
-#include "Ravl/BfAcc2Iter2.hh"
+#include "Ravl/BufferAccess2dIter2.hh"
 
 namespace RavlN {
   
@@ -36,8 +36,7 @@ namespace RavlN {
     //: Default constructor.
     
     Array2dIter2C(const Array2dC<Data1T> &arr1,const Array2dC<Data2T> &arr2,bool matching = true)
-      : BufferAccess2dIter2C<Data1T,Data2T>(arr1,arr1.Range2(),
-					    arr2,arr2.Range2()),
+      : BufferAccess2dIter2C<Data1T,Data2T>(arr1,arr2,arr1.Range1(),arr1.Range2()),
         dat1(arr1),
         dat2(arr2)
     { 
@@ -58,9 +57,7 @@ namespace RavlN {
     Array2dIter2C(const Array2dC<Data1T> &arr1,const Array2dC<Data2T> &arr2,const IndexRange2dC &rect)
       : dat1(arr1,rect),
         dat2(arr2,rect)
-    { BufferAccess2dIter2C<Data1T,Data2T>::First(dat1,dat1.Range2(),
-						 dat2,dat2.Range2()); 
-    }
+    { First(); }
     //: Constructor that iterates through the same subrange 'rect' in both arrays. 
     // Therefore 'rect' MUST be within both arrays.
 
@@ -68,24 +65,19 @@ namespace RavlN {
 		  const Array2dC<Data2T> &arr2,const IndexRange2dC &irng2)
       : dat1(arr1,irng1),
         dat2(arr2,irng2)
-    { BufferAccess2dIter2C<Data1T,Data2T>::First(dat1,dat1.Range2(),
-						 dat2,dat2.Range2()); 
-    }
+    { First(); }
     //: Constructor. Iterates through indicated subranges in both arrays.
     // 'irng2' defines the starting point for iterating through 'arr2'.  Hence care must be taken that 'irng1' does not cause the iterator to go outside 'arr2'.
     
     inline bool First() {
-      return BufferAccess2dIter2C<Data1T,Data2T>::First(dat1,dat1.Range2(),
-							dat2,dat2.Range2()); 
+      return BufferAccess2dIter2C<Data1T,Data2T>::First(dat1.BufferAccess(),dat1.ByteStride(),dat1.Frame(),
+							dat2.BufferAccess(),dat2.ByteStride(),dat2.Frame());
     }
     //: Goto first elements in the arrays.
     // Return TRUE if there actually is one.
 
-    Index2dC Index() const { 
-      RavlAssert(dat1.IsValid());
-      return Index2dC((IntT) (&(this->rit.Data1()) - dat1.ReferenceElm()),
-		      (IntT) (&(this->cit.Data1()) - this->rit.Data1().ReferenceElm()));
-    }
+    Index2dC Index() const 
+    { return dat1.IndexOf(this->Data1()); }
     //: Get index of current location in 'arr1'.
     // Has to be calculated, and so is slightly slow.
         

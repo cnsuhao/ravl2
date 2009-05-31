@@ -120,6 +120,18 @@ namespace RavlN {
     }
     //: Does this buffer contain the index i ?
     // Returns true if yes.
+
+    inline DataT *PointerTo(IndexC row,IndexC col)
+    { return reinterpret_cast<DataT *>(reinterpret_cast<char *>(this->ReferenceVoid()) + row.V() * m_stride) + col.V(); }
+    //: Compute an elements position.
+    // NOTE: This does not range check, the returned element
+    // may not be valid.
+
+    inline const DataT *PointerTo(IndexC row,IndexC col) const
+    { return reinterpret_cast<DataT *>(reinterpret_cast<char *>(this->ReferenceVoid()) + row.V() * m_stride) + col.V(); }
+    //: Compute an elements position.
+    // NOTE: This does not range check, the returned element
+    // may not be valid.
     
     DataT *RowPtr(IndexC i) {
 #if RAVL_CHECK

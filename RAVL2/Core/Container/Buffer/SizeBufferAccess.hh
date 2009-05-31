@@ -105,6 +105,16 @@ namespace RavlN {
     { return sz-1; }
     // Returns the maximum index of the range of this access.
     
+    inline DataT *PointerTo(IndexC i)
+    { return ReferenceElm() + i.V(); }
+    //: Generate pointer to the location of an element
+    // NOTE: This does not range check, the element may not be part of the array
+
+    inline const DataT *PointerTo(IndexC i) const
+    { return ReferenceElm() + i.V(); }
+    //: Generate pointer to the location of an element
+    // NOTE: This does not range check, the element may not be part of the array
+
     inline const DataT  & operator[](IntT i) const;
     // Read-only access to the 'i'-th element of the buffer.     
     

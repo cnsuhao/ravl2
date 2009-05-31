@@ -47,8 +47,6 @@ namespace RavlN {
     AttachedBuffer2dC(AttachedBuffer2dBodyC<DataT> *body)
       : Buffer2dC<DataT>(body)
     {}
-    
-    BufferC<DataT> m_buffer;
   };
 
 }

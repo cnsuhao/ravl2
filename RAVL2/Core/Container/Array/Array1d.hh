@@ -17,10 +17,10 @@
 //! rcsid="$Id$"
 
 #include "Ravl/Buffer.hh"
-#include "Ravl/RBfAcc.hh"
+#include "Ravl/RangeBufferAccess.hh"
 #include "Ravl/SArray1d.hh"
-#include "Ravl/BfAccIter.hh"
-#include "Ravl/BfAccIter2.hh"
+#include "Ravl/BufferAccessIter.hh"
+#include "Ravl/BufferAccessIter2.hh"
 #include "Ravl/Types.hh"
 #include "Ravl/SingleBuffer.hh"
 #include "Ravl/Array1dIter.hh"
@@ -342,7 +342,7 @@ namespace RavlN {
     bool SetIMin(IndexC imin) {
       if(imin.V() < (buff.ReferenceElm() - this->ReferenceElm()))
 	return false;
-      this->range.Min() = imin;
+      this->m_range.Min() = imin;
       return true;
     }
     //: Attempt to change the start of the array.
@@ -351,7 +351,7 @@ namespace RavlN {
     bool SetIMax(IndexC imax) {
       if(imax >= ((buff.ReferenceElm() - this->ReferenceElm()) + buff.Size()))
 	return false;
-      this->range.Max() = imax;
+      this->m_range.Max() = imax;
       return true;      
     }
     //: Attempt to change the end of the array.
@@ -450,7 +450,7 @@ namespace RavlN {
   
   template <class DataT>
   Array1dC<DataT>::Array1dC(const Slice1dC<DataT> &slice,bool alwaysCopy) { 
-    if(!alwaysCopy && slice.Stride() == 1) {
+    if(!alwaysCopy && slice.IsContinuous()) {
       buff = slice.Buffer();
       RangeBufferAccessC<DataT>::operator=(RangeBufferAccessC<DataT>(slice.Range(),
 								     const_cast<DataT *>(&(slice.ReferenceElm()))));
@@ -469,7 +469,7 @@ namespace RavlN {
 			    const IndexRangeC & newRange,
 			    bool    removable)
     : RangeBufferAccessC<DataT>(data, newRange),
-      buff(newRange.Size(),data,false, removable)
+      buff(data,newRange.Size(),false, removable)
   {}
   
   template <class DataT>

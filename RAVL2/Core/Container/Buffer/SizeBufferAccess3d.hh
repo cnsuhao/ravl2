@@ -114,6 +114,19 @@ namespace RavlN {
     }
     //: Returns true if there is an item of the 3D array
 
+    inline DataT *PointerTo(IndexC i,IndexC j,IndexC k)
+    { return reinterpret_cast<DataT *>(reinterpret_cast<char *>(this->ReferenceVoid()) + i.V() * m_stride1 + j.V() * m_stride2) + k.V(); }
+    //: Compute an elements position.
+    // NOTE: This does not range check, the returned element
+    // may not be valid.
+    
+    inline const DataT *PointerTo(IndexC i,IndexC j,IndexC k) const
+    { return reinterpret_cast<const DataT *>(reinterpret_cast<const char *>(this->ReferenceVoid()) + i.V() * m_stride1 + j.V() * m_stride2) + k.V(); }
+    //: Compute an elements position.
+    // NOTE: This does not range check, the returned element
+    // may not be valid.
+
+
     DataT *RowPtr(const IndexC &i,const IndexC &j) {
 #if RAVL_CHECK
       if(((UIntT) i.V()) >= m_size1)

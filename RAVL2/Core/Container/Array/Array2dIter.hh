@@ -16,9 +16,10 @@
 //! example=exArray2.cc
 //! date="24/08/1999"
 
-#include "Ravl/BfAccIter.hh"
+#include "Ravl/BufferAccessIter.hh"
 #include "Ravl/Array2d.hh"
 #include "Ravl/Assert.hh"
+#include "Ravl/Array2d.hh"
 
 namespace RavlN {
   
@@ -47,7 +48,7 @@ namespace RavlN {
     //: Constructor.
     
     inline bool First() 
-    { return BufferAccess2dIterC<DataT>::First(dat,dat.Range2()); }
+    { return BufferAccess2dIterC<DataT>::First(dat.BufferAccess(),dat.ByteStride(),dat.Frame()); }
     
     //: Goto first element in the array.
     // Return TRUE if there actually is one.
@@ -58,14 +59,19 @@ namespace RavlN {
       return *this;
     }
     //: Assign to another array.
-
-    Index2dC Index() const { 
-      RavlAssert(dat.IsValid());
-      return BufferAccess2dIterC<DataT>::Index(dat.ReferenceElm());
-    }
-    //: Get index of current location.
-    // Has to be calculate, and so is slightly slow.
     
+    IndexC RowIndex() const
+    { return dat.RowIndexOf(this->Data()); }
+    //: Get index of current row.
+
+    IndexC ColIndex() const
+    { return dat.ColIndexOf(this->Data()); }
+    //: Compute curent column
+
+    Index2dC Index() const
+    { return dat.IndexOf(this->Data()); }
+    //: Compute index of current location.
+ 
   protected:
     Array2dC<DataT> dat;
   };

@@ -17,7 +17,7 @@ HEADERS=Buffer.hh CompositeBuffer.hh RangeBufferAccess.hh SizeBufferAccess.hh Bu
  Buffer3d.hh BufferAccess3dIter.hh BufferAccess3dIter2.hh BufferAccess3dIter3.hh \
  SizeBufferAccess3d.hh RangeBufferAccess3d.hh BufferAccessIterR.hh SingleBuffer.hh \
  BufferAccess2dIterBase.hh \
- AttachedBuffer2d.hh
+ AttachedBuffer2d.hh AttachedBuffer3d.hh
 
 SOURCES=RangeBufferAccess2d.cc SizeBufferAccess2d.cc RangeBufferAccess.cc SizeBufferAccess.cc
 

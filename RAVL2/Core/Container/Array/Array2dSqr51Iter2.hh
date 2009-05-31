@@ -14,7 +14,7 @@
 //! file="Ravl/Core/Container/Array/Array2dSqr51Iter2.hh"
 
 #include "Ravl/Array2d.hh"
-#include "Ravl/BfAcc2Iter2.hh"
+#include "Ravl/BufferAccess2dIter2.hh"
 
 namespace RavlN {
 
@@ -37,60 +37,42 @@ namespace RavlN {
     //: Constructor.
     
     bool First() {
-      // Setup second index size for the two arrays.
-      this->rng1 = IndexRangeC(array1.Range2().Min()+2,array1.Range2().Max()-2);
-      this->rng2 = array2.Range2();
-      this->rng2.ClipBy(this->rng1);
-      // Setup first index for the two arrays.
-      IndexRangeC srng1(array1.Range1().Min()+2,array1.Range1().Max()-2);
-      IndexRangeC srng2 = array2.Range1();
-      srng2.ClipBy(srng1);
-      if(!this->rit.First(array1,srng1,
-                          array2,srng2)) {
-	this->cit.Invalidate();
-	return false;
-      }
-      this->cit.First(this->rit.Data1(),this->rng1,
-                      this->rit.Data2(),this->rng2);
-      if(!this->cit) {
-	this->cit.Invalidate();
-	return false;
-      }
-      up2 = &((&(this->rit.Data1()))[-2][this->rng1.Min()]);
-      up1 = &((&(this->rit.Data1()))[-1][this->rng1.Min()]);
-      dn1 = &((&(this->rit.Data1()))[ 1][this->rng1.Min()]);
-      dn2 = &((&(this->rit.Data1()))[ 2][this->rng1.Min()]);
+      IndexRange2dC frame1 = array1.Frame().Expand(-2);
+      IndexRange2dC frame2 = array2.Frame().Expand(-2);
+      if(!BufferAccess2dIter2C<Data1T,Data2T>::First(array1.BufferAccess(),array1.ByteStride(),frame1,
+                                                     array2.BufferAccess(),array2.ByteStride(),frame2
+                                                     ))
+        return false;
+      up2 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),-2 * array1.ByteStride());
+      up1 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),-array1.ByteStride());
+      dn1 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),array1.ByteStride());
+      dn2 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),2 * array1.ByteStride());
       return true;
     }
     //: Goto first element in the array.
     
-    bool Next() { 
+    bool Next() {
+      if(!BufferAccess2dIter2C<Data1T,Data2T>::Next()) {
+        up2 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),-2 * array1.ByteStride());
+        up1 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),-array1.ByteStride());
+        dn1 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),array1.ByteStride());
+        dn2 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),2 * array1.ByteStride());
+        return false;
+      }
       up2++;
       up1++;
       dn1++;
       dn2++;
-      this->cit++;
-      if(this->cit)
-	return true;
-      this->rit++;
-      if(!this->rit)
-	return false;
-      up2 = &((&(this->rit.Data1()))[-2][this->rng1.Min()]);
-      up1 = &((&(this->rit.Data1()))[-1][this->rng1.Min()]);
-      dn1 = &((&(this->rit.Data1()))[ 1][this->rng1.Min()]);
-      dn2 = &((&(this->rit.Data1()))[ 2][this->rng1.Min()]);
-      this->cit.First(this->rit.Data1(),this->rng1,
-                      this->rit.Data2(),this->rng2);
       return false;
     }
     //: Goto next element.
     
     bool IsElm() const
-    { return this->cit.IsElm(); }
+    { return this->m_cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     operator bool() const
-    { return this->cit.IsElm(); }
+    { return this->m_cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     void operator++() 
@@ -104,36 +86,66 @@ namespace RavlN {
     Data1T *DataU2() 
     { return up2; }
     //: Access upper row
-    // Use with [] operator. Only use index's from -2 to 2. 
+    // Use with [] operator. Only use index's from -2 to 2.
+
+    const Data1T *DataU2() const
+    { return up2; }
+    //: Access upper row
+    // Use with [] operator. Only use index's from -2 to 2.
     
     Data1T *DataU1() 
     { return up1; }
     //: Access upper row
-    // Use with [] operator. Only use index's from -2 to 2. 
-    
+    // Use with [] operator. Only use index's from -2 to 2.
+
+    const Data1T *DataU1() const
+    { return up1; }
+    //: Access upper row
+    // Use with [] operator. Only use index's from -2 to 2.
+
     Data1T *DataM0() 
     { return &this->Data1(); }
     //: Access middle row
-    // Use with [] operator. Only use index's from -2 to 2. 
+    // Use with [] operator. Only use index's from -2 to 2.
+
+    const Data1T *DataM0() const
+    { return &this->Data1(); }
+    //: Access middle row
+    // Use with [] operator. Only use index's from -2 to 2.
     
     Data1T *DataD1() 
     { return dn1; }
     //: Access lower row
-    // Use with [] operator. Only use index's from -2 to 2. 
+    // Use with [] operator. Only use index's from -2 to 2.
+
+    const Data1T *DataD1() const
+    { return dn1; }
+    //: Access lower row
+    // Use with [] operator. Only use index's from -2 to 2.
     
     Data1T *DataD2() 
     { return dn2; }
     //: Access lowest row
-    // Use with [] operator. Only use index's from -2 to 2. 
+    // Use with [] operator. Only use index's from -2 to 2.
+
+    const Data1T *DataD2() const
+    { return dn2; }
+    //: Access lowest row
+    // Use with [] operator. Only use index's from -2 to 2.
     
     Data2T &Data2() 
-    { return this->cit.Data2(); }
+    { return this->m_cit.Data2(); }
     //: Access data from second array.
-    
+
     const Data2T &Data2() const
-    { return this->cit.Data2(); }
+    { return this->m_cit.Data2(); }
     //: Access data from second array.
     
+    Index2dC Index() const
+    { return array1.IndexOf(this->DataM0()[0]); }
+    //: Get index of current location of the middle pixel in the first array.
+    // Has to be calculate, and so is slightly slow.
+
   protected:
     Array2dC<Data1T> array1;
     Array2dC<Data2T> array2;

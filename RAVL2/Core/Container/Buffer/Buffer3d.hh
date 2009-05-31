@@ -13,8 +13,8 @@
 //! docentry="Ravl.API.Core.Arrays.Buffer"
 //! author="Charles Galambos"
 
-#include "Ravl/Buffer.hh"
-#include "Ravl/RangeBufferAccess2d.hh"
+#include "Ravl/Buffer2d.hh"
+#include "Ravl/IndexRange3d.hh"
 
 //: Ravl global namespace.
 
@@ -23,56 +23,70 @@ namespace RavlN {
   //! userlevel=Develop
   //: Buffer 3D
   // This holds a handle to data used in various 3d arrays.
+  // There is a slightly confusing coordinate mapping to
+  // 2d arrays, this is to allow the 2d buffers to work correctly
+  // with 2d slices through them. In other words it makes the
+  // 3d buffer look like a stack of 2d ones.
   
   template<class DataT>
   class Buffer3dBodyC 
-    : public BufferBodyC<DataT>
+    : public Buffer2dBodyC<DataT>
   {
   public:
     Buffer3dBodyC()
     {}
     //: Default constructor.
-    
+
+    Buffer3dBodyC(const IndexRange3dC &range)
+      : Buffer2dBodyC<DataT>(range.Js(),range.Ks(),
+                             range.Volume(),              // Total elements
+                             range.Ks() * sizeof(DataT)
+                             ), // Stride1.
+        m_size0(range.Is()),
+        m_stride1(range.Js() * range.Ks() * sizeof(DataT))
+    {}
+    //: Sized constructor.
+
     Buffer3dBodyC(SizeT size1,SizeT size2,SizeT size3)
-      : BufferBodyC<DataT>(size1*size2*size3),
-	m_size1(size1),
-	m_size2(size2),
-	m_size3(size3),
-        m_stride1(size2 * size3 * sizeof(DataT)),
-        m_stride2(size3 * sizeof(DataT))
+      : Buffer2dBodyC<DataT>(size2,size3,
+                             size1*size2*size3,              // Total elements
+                             size3 * sizeof(DataT)
+                             ), // Stride1.
+        m_size0(size1),
+        m_stride1(size2 * size3 * sizeof(DataT))
     {}
     //: Sized constructor.
     
     Buffer3dBodyC(DataT *data,SizeT size1,SizeT size2,SizeT size3,bool makeCopy = false,bool deleteable = true)
-      : BufferBodyC<DataT>(size1 * size2 * size3,data,makeCopy,deleteable),
-	m_size1(size1),
-	m_size2(size2),
-	m_size3(size3),
-        m_stride1(size2 * size3 * sizeof(DataT)),
-        m_stride2(size3 * sizeof(DataT))
+      : Buffer2dBodyC<DataT>(data,size2,size3,
+                             size1 * size2 * size3,  // Total elements
+                             size3 * sizeof(DataT), // 2d stride
+                             makeCopy,deleteable),
+	m_size0(size1),
+        m_stride1(size2 * size3 * sizeof(DataT))
     {}
     //: Buffer constructor.    
     
     Buffer3dBodyC(DataT *data,SizeT size1,SizeT size2,SizeT size3,IntT byteStride1,IntT byteStride2,bool makeCopy = false,bool deleteable = true)
-      : BufferBodyC<DataT>(size1 * size2 * size3,data,makeCopy,deleteable),
-	m_size1(size1),
-	m_size2(size2),
-	m_size3(size3),
-        m_stride1(byteStride1),
-        m_stride2(byteStride2)
+      : Buffer2dBodyC<DataT>(data,size2,size3,
+                             size1 * size2 * size3,  // Total elements
+                             byteStride2,
+                             makeCopy,deleteable),
+	m_size0(size1),
+        m_stride1(byteStride1)
     {}
     //: Buffer constructor.
     
     SizeT Size1() const
-    { return m_size1; }
+    { return m_size0; }
     //: Get size of dimention 1
-    
+
     SizeT Size2() const
-    { return m_size2; }
+    { return this->m_size1; }
     //: Get size of dimention 2
     
     SizeT Size3() const
-    { return m_size3; }
+    { return this->m_size2; }
     //: Get size of dimention 3
     
     IntT ByteStride1() const
@@ -80,24 +94,25 @@ namespace RavlN {
     //: Stride in bytes of 2rd index blocks.
 
     IntT ByteStride2() const
-    { return m_stride2; }
+    { return this->m_stride; }
     //: Stride in bytes of 3rd index blocks.
 
   protected:
-    SizeT m_size1;
-    SizeT m_size2;
-    SizeT m_size3;
+    SizeT m_size0;
     IntT m_stride1; // Stride of the
-    IntT m_stride2; // Stride of the
   };
-
+  
   //! userlevel=Develop
   //: Buffer 3D 
   // This holds a handle to data used in various 3d arrays.
+  // There is a slightly confusing coordinate mapping to
+  // 2d arrays, this is to allow the 2d buffers to work correctly
+  // with 2d slices through them. In other words it makes the
+  // 3d buffer look like a stack of 2d ones.
   
   template<class DataT>
   class Buffer3dC 
-    : public BufferC<DataT>
+    : public Buffer2dC<DataT>
   {
   public:
     Buffer3dC()
@@ -106,18 +121,29 @@ namespace RavlN {
     // creates an invalid handle.
     
     Buffer3dC(SizeT size1,SizeT size2,SizeT size3)
-      : BufferC<DataT>(*new Buffer3dBodyC<DataT>(size1,size2,size3))
+      : Buffer2dC<DataT>(new Buffer3dBodyC<DataT>(size1,size2,size3))
     {}
     //: Size constructor.
     
-    Buffer3dC(DataT *data,SizeT size1,SizeT size2,SizeT size3,IntT byteStride1,IntT byteStride2,bool makeCopy = false,bool deleteable = true)
-      : BufferC<DataT>(*new Buffer3dBodyC<DataT>(data,size1,size2,size3,byteStride1,byteStride2,makeCopy,deleteable))
+    Buffer3dC(DataT *data,
+              SizeT size1,SizeT size2,SizeT size3,
+              IntT byteStride1,IntT byteStride2,
+              bool makeCopy = false,bool deleteable = true)
+      : Buffer2dC<DataT>(new Buffer3dBodyC<DataT>(data,
+                                                 size1,size2,size3,
+                                                 byteStride1,byteStride2,
+                                                 makeCopy,deleteable))
     {}
     //: Buffer constructor.
 
+    Buffer3dC(const IndexRange3dC &frame)
+      : Buffer2dC<DataT>(new Buffer3dBodyC<DataT>(frame))
+    {}
+    //: Construct a buffer big enough to hold 'frame'.
+
   protected:
     Buffer3dC(const Buffer3dBodyC<DataT> *body)
-      : BufferC<DataT>(body)
+      : Buffer2dC<DataT>(body)
     {}
     //: Size constructor.
 
@@ -130,15 +156,14 @@ namespace RavlN {
     //: Constant access to body.
     
   public:
-        
     SizeT Size1() const
     { return Body().Size1(); }
     //: Get size of dimention 1
-    
+
     SizeT Size2() const
     { return Body().Size2(); }
     //: Get size of dimention 2
-    
+        
     SizeT Size3() const
     { return Body().Size3(); }
     //: Get size of dimention 3

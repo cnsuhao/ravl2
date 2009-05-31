@@ -14,11 +14,12 @@
 //! author="Charles Galambos"
 //! date="24/01/2001"
 
+#include "Ravl/Types.hh"
 
 namespace RavlN {
 
   //: Base class for 2d iterators.
-  
+
   class BufferAccess2dIterBaseC {
   public:
     BufferAccess2dIterBaseC()
@@ -27,8 +28,12 @@ namespace RavlN {
         m_stride1(0)
     {}
     //: Constructor.
+
+    template<typename DataT>
+    static DataT *ShiftPointer(DataT *data,IntT byteOffset)
+    { return reinterpret_cast<DataT *>(reinterpret_cast<char *>(data) + byteOffset); }
+    //: Apply byte offset
     
-  protected:
     char  *m_rit1; // Start of current row for array 1
     const char *m_endRow;
     IntT m_stride1;
