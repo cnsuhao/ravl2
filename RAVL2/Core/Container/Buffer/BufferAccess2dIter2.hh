@@ -47,7 +47,11 @@ namespace RavlN {
 			 const SizeBufferAccess2dC<Data2T> &pbuf2,
                          IntT size1,IntT size2);
     //: Constructor.
-
+    
+    BufferAccess2dIter2C(const SizeBufferAccess2dC<Data1T> &pbuf1,
+			 const SizeBufferAccess2dC<Data2T> &pbuf2);
+    //: Constructor.
+    
     BufferAccess2dIter2C(const RangeBufferAccess2dC<Data1T> &pbuf1,
 			 const RangeBufferAccess2dC<Data2T> &pbuf2,
                          const IndexRangeC &range1,const IndexRangeC &range2);
@@ -134,7 +138,7 @@ namespace RavlN {
         m_cit.Invalidate();
         return false;
       }
-      RavlAssert(range1a.Size() >= range1b.Size());
+      RavlAssert(range1a.Size() <= range1b.Size());
       m_stride1 = byteStrideA;
       m_stride2 = byteStrideB;
       m_rit1 = reinterpret_cast<char *>(pbufa.ReferenceElm() + range2a.Min().V()) + byteStrideA * range1a.Min().V();

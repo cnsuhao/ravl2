@@ -65,16 +65,16 @@ namespace RavlN {
       if(!BufferAccess2dIter2C<Data1T,Data2T>::First(array1.BufferAccess(),array1.ByteStride(),nrng1a,nrng2a,
 						     array2.BufferAccess(),array2.ByteStride(),nrng1b,nrng2b))
 	return false;
-      up1 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),-array1.ByteStride());
-      up2 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data2()),-array2.ByteStride());
+      up1 = ShiftPointerInBytes(&(this->Data1()),-array1.ByteStride());
+      up2 = ShiftPointerInBytes(&(this->Data2()),-array2.ByteStride());
       return true;
     }
     //: Goto first element in the array.
     
     bool Next() {
       if(!BufferAccess2dIter2C<Data1T,Data2T>::Next()) {
-        up1 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),-array1.ByteStride());
-        up2 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data2()),-array2.ByteStride());
+        up1 = ShiftPointerInBytes(&(this->Data1()),-array1.ByteStride());
+        up2 = ShiftPointerInBytes(&(this->Data2()),-array2.ByteStride());
         return false;
       }
       up1++;

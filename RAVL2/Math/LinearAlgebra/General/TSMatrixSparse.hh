@@ -16,7 +16,7 @@
 #include "Ravl/TSMatrixSymmetric.hh"
 #include "Ravl/IntrDList.hh"
 #include "Ravl/IntrDLIter.hh"
-#include "Ravl/BfAcc2Iter.hh"
+#include "Ravl/BufferAccess2dIter.hh"
 
 namespace RavlN {
   

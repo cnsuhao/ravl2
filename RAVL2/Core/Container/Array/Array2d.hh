@@ -582,7 +582,7 @@ namespace RavlN {
     RavlAssert(Range1().Contains(val.Range()));
     // Avoid including to many headers by just using a ptr, not a slice.
     DataT *d1 = &((*this)[val.Range().Min()][i]);
-    for(BufferAccessIterC<DataT> it(val);it;it++,d1 = ShiftPointer(d1,ByteStride()))
+    for(BufferAccessIterC<DataT> it(val);it;it++,d1 = ShiftPointerInBytes(d1,ByteStride()))
       *d1 = *it;   
   }
   

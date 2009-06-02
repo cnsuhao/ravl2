@@ -59,10 +59,10 @@ namespace RavlN {
                                                             array4.BufferAccess(),array4.ByteStride(),frame4
                                                             ))
         return false;
-      up1 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),-array1.ByteStride());
-      dn1 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),array1.ByteStride());
-      up2 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data2()),-array2.ByteStride());
-      dn2 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data2()),array2.ByteStride());
+      up1 = ShiftPointerInBytes(&(this->Data1()),-array1.ByteStride());
+      dn1 = ShiftPointerInBytes(&(this->Data1()),array1.ByteStride());
+      up2 = ShiftPointerInBytes(&(this->Data2()),-array2.ByteStride());
+      dn2 = ShiftPointerInBytes(&(this->Data2()),array2.ByteStride());
       return true;
     }
     //: Goto first element in the array.
@@ -70,10 +70,10 @@ namespace RavlN {
     bool NextRow() {
       if(!BufferAccess2dIter4C<Data1T,Data2T,Data3T,Data4T>::NextRow())
         return false;
-      up1 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),-array1.ByteStride());
-      dn1 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),array1.ByteStride());
-      up2 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data2()),-array2.ByteStride());
-      dn2 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data2()),array2.ByteStride());
+      up1 = ShiftPointerInBytes(&(this->Data1()),-array1.ByteStride());
+      dn1 = ShiftPointerInBytes(&(this->Data1()),array1.ByteStride());
+      up2 = ShiftPointerInBytes(&(this->Data2()),-array2.ByteStride());
+      dn2 = ShiftPointerInBytes(&(this->Data2()),array2.ByteStride());
       return true;
     }
     //: Goto next row.
@@ -81,10 +81,10 @@ namespace RavlN {
 
     bool Next() {
       if(!BufferAccess2dIter4C<Data1T,Data2T,Data3T,Data4T>::Next()) {
-        up1 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),-array1.ByteStride());
-        dn1 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),array1.ByteStride());
-        up2 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data2()),-array2.ByteStride());
-        dn2 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data2()),array2.ByteStride());
+        up1 = ShiftPointerInBytes(&(this->Data1()),-array1.ByteStride());
+        dn1 = ShiftPointerInBytes(&(this->Data1()),array1.ByteStride());
+        up2 = ShiftPointerInBytes(&(this->Data2()),-array2.ByteStride());
+        dn2 = ShiftPointerInBytes(&(this->Data2()),array2.ByteStride());
         return false;
       }
       up1++;

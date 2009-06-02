@@ -227,20 +227,20 @@ namespace RavlN {
     for(UIntT i = 0;i < this->Rows();i++) {
       Array1dC<DataT> row2 = oth.Row(i);
       if(row2.Range().Size() <= 0) {
-	for(BufferAccessIter2C<DataT,DataT> it(ret[i],matrix[i]);it;it++)
+	for(BufferAccessIter2C<DataT,const DataT> it(ret[i],matrix[i]);it;it++)
 	  it.Data1() = it.Data2();
 	continue;
       }
       if(row2.Range().Min() > 0) {
 	IndexRangeC rng(0,row2.Range().Min()-1);
-	for(BufferAccessIter2C<DataT,DataT> it(ret[i],matrix[i],rng);it;it++)
+	for(BufferAccessIter2C<DataT,const DataT> it(ret[i],matrix[i],rng);it;it++)
 	  it.Data1() = it.Data2();
       }
-      for(BufferAccessIter3C<DataT,DataT,DataT> it(ret[i],matrix[i],row2,row2.Range());it;it++)
+      for(BufferAccessIter3C<DataT,const DataT,DataT> it(ret[i],matrix[i],row2,row2.Range());it;it++)
 	it.Data1() = it.Data2() + it.Data3();
       if(row2.Range().Max() < cmax ) {
 	IndexRangeC rng(row2.Range().Max()+1,cmax);
-	for(BufferAccessIter2C<DataT,DataT> it(ret[i],matrix[i],rng);it;it++)
+	for(BufferAccessIter2C<DataT,const DataT> it(ret[i],matrix[i],rng);it;it++)
 	  it.Data1() = it.Data2();
       }
     }
@@ -259,20 +259,20 @@ namespace RavlN {
     for(UIntT i = 0;i < this->Rows();i++) {
       Array1dC<DataT> row2 = oth.Row(i);
       if(row2.Range().Size() <= 0) {
-	for(BufferAccessIter2C<DataT,DataT> it(ret[i],matrix[i]);it;it++)
+	for(BufferAccessIter2C<DataT,const DataT> it(ret[i],matrix[i]);it;it++)
 	  it.Data1() = it.Data2();
 	continue;
       }
       if(row2.Range().Min() > 0) {
 	IndexRangeC rng(0,row2.Range().Min()-1);
-	for(BufferAccessIter2C<DataT,DataT> it(ret[i],matrix[i],rng);it;it++)
+	for(BufferAccessIter2C<DataT,const DataT> it(ret[i],matrix[i],rng);it;it++)
 	  it.Data1() = it.Data2();
       }
-      for(BufferAccessIter3C<DataT,DataT,DataT> it(ret[i],matrix[i],row2,row2.Range());it;it++)
+      for(BufferAccessIter3C<DataT,const DataT,DataT> it(ret[i],matrix[i],row2,row2.Range());it;it++)
 	it.Data1() = it.Data2() - it.Data3();
       if(row2.Range().Max() < cmax ) {
 	IndexRangeC rng(row2.Range().Max()+1,cmax);
-	for(BufferAccessIter2C<DataT,DataT> it(ret[i],matrix[i],rng);it;it++)
+	for(BufferAccessIter2C<DataT,const DataT> it(ret[i],matrix[i],rng);it;it++)
 	  it.Data1() = it.Data2();
       }
     }

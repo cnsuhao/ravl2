@@ -157,13 +157,13 @@ namespace RavlN {
       IntT in = index[i];
       RealT sum = b[in];
       b[in] = b[i];
-      for(BufferAccessIter2C<RealT,RealT> it(lu[i],b,IndexRangeC(0,i-1));it;it++)
+      for(BufferAccessIter2C<const RealT,RealT> it(lu[i],b,IndexRangeC(0,i-1));it;it++)
 	sum -= it.Data1() * it.Data2();
       b[i] = sum;
     }
     for(i = n-1;i >= 0;i--) {
       RealT sum = b[i];
-      for(BufferAccessIter2C<RealT,RealT> it(lu[i],b,IndexRangeC(i+1,n-1));it;it++)
+      for(BufferAccessIter2C<const RealT,RealT> it(lu[i],b,IndexRangeC(i+1,n-1));it;it++)
 	sum -= it.Data1() * it.Data2();
       b[i] = sum/lu[i][i];
     }

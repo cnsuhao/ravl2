@@ -90,14 +90,14 @@ namespace RavlN {
     MatrixC(const SArray2dC<FloatT> &oth)
       : TMatrixC<RealT>(oth.Size1(),oth.Size2())
     {
-      for(BufferAccess2dIter2C<RealT,FloatT> it(*this,Size2(),oth,Size2());it;it++)
+      for(BufferAccess2dIter2C<RealT,FloatT> it(*this,oth,Size1(),Size2());it;it++)
 	it.Data1() = static_cast<RealT>(it.Data2());
     }
     //: Convert from a float vector.
     
     operator TMatrixC<FloatT> () const {
       TMatrixC<FloatT> ret(Size(),Size());
-      for(BufferAccess2dIter2C<RealT,FloatT> it(*this,Size2(),ret,Size2());it;it++)
+      for(BufferAccess2dIter2C<RealT,FloatT> it(*this,ret,Size1(),Size2());it;it++)
 	it.Data2() = static_cast<FloatT>(it.Data1());
       return ret;
     }

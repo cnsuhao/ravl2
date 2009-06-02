@@ -49,8 +49,8 @@ namespace RavlN {
                                                      array2.BufferAccess(),array2.ByteStride(),frame2
                                                      ))
         return false;
-      up = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),-array1.ByteStride());
-      dn = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),array1.ByteStride());
+      up = ShiftPointerInBytes(&(this->Data1()),-array1.ByteStride());
+      dn = ShiftPointerInBytes(&(this->Data1()),array1.ByteStride());
       return true;
     }
     //: Goto first element in the array.
@@ -58,8 +58,8 @@ namespace RavlN {
     bool NextRow() {
       if(!BufferAccess2dIter2C<Data1T,Data2T>::NextRow())
         return false;
-      up = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),-array1.ByteStride());
-      dn = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),array1.ByteStride());
+      up = ShiftPointerInBytes(&(this->Data1()),-array1.ByteStride());
+      dn = ShiftPointerInBytes(&(this->Data1()),array1.ByteStride());
       return true;
     }
     //: Goto next row.
@@ -67,8 +67,8 @@ namespace RavlN {
     
     inline bool Next() { 
       if(!BufferAccess2dIter2C<Data1T,Data2T>::Next()) {
-        up = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),-array1.ByteStride());
-        dn = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),array1.ByteStride());
+        up = ShiftPointerInBytes(&(this->Data1()),-array1.ByteStride());
+        dn = ShiftPointerInBytes(&(this->Data1()),array1.ByteStride());
         return false;
       }
       up++;

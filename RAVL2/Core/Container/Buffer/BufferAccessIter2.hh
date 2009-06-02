@@ -38,9 +38,9 @@ namespace RavlN {
     
     inline BufferAccessIter2C(const BufferAccessC<Data1T> &buff,const BufferAccessC<Data2T> &buff2,SizeT size)
     { First(buff,buff2,size); }
-    
-    inline BufferAccessIter2C(const SizeBufferAccessC<Data1T> &buff,const SizeBufferAccessC<Data2T> &buff2)
-    { First(buff,buff2); }
+
+    inline BufferAccessIter2C(const SizeBufferAccessC<Data1T> &buff,const SizeBufferAccessC<Data2T> &buff2,SizeT size)
+    { First(buff,buff2,size); }
     
     inline BufferAccessIter2C(const SizeBufferAccessC<Data1T> &buff,const SizeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2)
     { First(buff,buff2,off1,off2); }
@@ -48,6 +48,11 @@ namespace RavlN {
     // start from off1 in the first array and off2 in the second.
     
     inline BufferAccessIter2C(const RangeBufferAccessC<Data1T> &buff,const RangeBufferAccessC<Data2T> &buff2,const IndexRangeC & range)
+    { First(buff,buff2,range); }
+    //: Constructor.
+    // Only iterate through 'range' in both buffers.
+
+    inline BufferAccessIter2C(const SizeBufferAccessC<Data1T> &buff,const SizeBufferAccessC<Data2T> &buff2,const IndexRangeC & range)
     { First(buff,buff2,range); }
     //: Constructor.
     // Only iterate through 'range' in both buffers.
@@ -78,7 +83,8 @@ namespace RavlN {
     inline bool First(const BufferAccessC<Data1T> &buff,const BufferAccessC<Data2T> &buff2,SizeT size);
     //: Goto first elements.
 
-    inline bool First(const BufferAccessC<Data1T> &buff,const IndexRangeC &rng1,const BufferAccessC<Data2T> &buff2,const IndexRangeC &rng2);
+    inline bool First(const BufferAccessC<Data1T> &buff,const IndexRangeC &rng1,
+                      const BufferAccessC<Data2T> &buff2,const IndexRangeC &rng2);
     //: Goto first elements.
     
     inline bool IsElm() const

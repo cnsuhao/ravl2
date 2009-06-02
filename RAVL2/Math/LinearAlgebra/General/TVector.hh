@@ -46,7 +46,7 @@ namespace RavlN {
     //: Construct from a slice.
     
     inline TVectorC(SizeT size,DataT *data,bool useCopy,bool manageMemory = false)
-      : SArray1dC<DataT>(BufferC<DataT>(size,data,useCopy,manageMemory),size)
+      : SArray1dC<DataT>(BufferC<DataT>(data,size,useCopy,manageMemory),size)
     {}
     //: Constructor.
     // This allows 'data' to be used in the array.  

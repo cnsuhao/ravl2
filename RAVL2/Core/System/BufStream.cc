@@ -34,14 +34,14 @@ namespace RavlN {
     : public BufferBodyC<char>
   {
   public:
-    BufferStringBodyC(string &nstr,UIntT size)
-      : BufferBodyC<char>(size,(char *) nstr.data()),
+    BufferStringBodyC(std::string &nstr,UIntT size)
+      : BufferBodyC<char>((char *) nstr.data(),size,false),
 	str(nstr)
     {}
     //: Constructor.
     
   protected:
-    string str;
+    std::string str;
   };
 
   class BufferStringC 

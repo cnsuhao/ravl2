@@ -280,6 +280,18 @@ namespace RavlN {
           size1,size2);
   }
 
+  template<typename Data1T,typename Data2T>
+  inline BufferAccess2dIter2C<Data1T,Data2T>::BufferAccess2dIter2C(const SizeBufferAccess2dC<Data1T> &pbuf1,
+			                                           const SizeBufferAccess2dC<Data2T> &pbuf2)
+  {
+    RavlAssert(pbuf1.Size1() == pbuf2.Size1());
+    RavlAssert(pbuf1.Size2() == pbuf2.Size2());
+    First(pbuf1.BufferAccess(),pbuf1.ByteStride(),
+          pbuf2.BufferAccess(),pbuf2.ByteStride(),
+          pbuf1.Size1(),pbuf1.Size2());
+  }
+  
+
   template<typename Data1T,typename Data2T,typename Data3T>
   inline BufferAccess2dIter3C<Data1T,Data2T,Data3T>::BufferAccess2dIter3C(const SizeBufferAccess2dC<Data1T> &pbuf1,
                                                                           const SizeBufferAccess2dC<Data2T> &pbuf2,

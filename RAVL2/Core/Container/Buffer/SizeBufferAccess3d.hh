@@ -110,7 +110,7 @@ namespace RavlN {
     inline bool Contains(const Index3dC & i) const { 
       return (((UIntT) i.K().V()) < m_size3) &&
 	(((UIntT) i.J().V()) < m_size2) &&
-	(((UIntT) i.I().V()) < m_size1());
+	(((UIntT) i.I().V()) < m_size1);
     }
     //: Returns true if there is an item of the 3D array
 

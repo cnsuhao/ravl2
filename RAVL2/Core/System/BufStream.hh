@@ -65,9 +65,9 @@ namespace RavlN {
   protected:
     SArray1dC<char> data;
 #if RAVL_HAVE_STRINGSTREAM
-    ostringstream *oss; // Output string stream.
+    std::ostringstream *oss; // Output string stream.
 #else
-    ostrstream *oss; // Output string stream.
+    std::ostrstream *oss; // Output string stream.
 #endif
   };
   

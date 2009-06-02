@@ -217,7 +217,7 @@ namespace RavlN {
     //: Fill array with value.
     
     void ShiftRows(IndexC offset) {
-      this->m_buff = ShiftPointer(this->m_buff,offset.V() * m_stride);
+      this->m_buff = ShiftPointerInBytes(this->m_buff,offset.V() * m_stride);
       m_range2 += offset;
     }
     //: The array is shifted "vertically" by <code>offset</code> w.r.t. the coordinate origin.
@@ -305,12 +305,29 @@ namespace RavlN {
   inline BufferAccess2dIterC<DataT>::BufferAccess2dIterC(const RangeBufferAccess2dC<DataT> &array)
   { First(array.BufferAccess(),array.ByteStride(),array.Range1(),array.Range2()); }
 
+  template<typename DataT>
+  inline bool BufferAccess2dIterC<DataT>::First(const SizeBufferAccess2dC<DataT> &array)
+  { return First(array.BufferAccess(),array.ByteStride(),array.Range1(),array.Range2()); }
+    //: Construct on size array.
+
   template<typename Data1T,typename Data2T>
   BufferAccess2dIter2C<Data1T,Data2T>::BufferAccess2dIter2C(const RangeBufferAccess2dC<Data1T> &pbuf1,
 			                                    const RangeBufferAccess2dC<Data2T> &pbuf2,
                                                             const IndexRangeC &range1,const IndexRangeC &range2) {
     First(pbuf1.BufferAccess(),pbuf1.ByteStride(),
           pbuf2.BufferAccess(),pbuf2.ByteStride(),
+          range1,range2);
+  }
+  //: Constructor.
+
+  template<typename Data1T,typename Data2T,typename Data3T>
+  BufferAccess2dIter3C<Data1T,Data2T,Data3T>::BufferAccess2dIter3C(const RangeBufferAccess2dC<Data1T> &pbuf1,
+			                                           const RangeBufferAccess2dC<Data2T> &pbuf2,
+			                                           const RangeBufferAccess2dC<Data3T> &pbuf3,
+                                                                   const IndexRangeC &range1,const IndexRangeC &range2) {
+    First(pbuf1.BufferAccess(),pbuf1.ByteStride(),
+          pbuf2.BufferAccess(),pbuf2.ByteStride(),
+          pbuf3.BufferAccess(),pbuf3.ByteStride(),
           range1,range2);
   }
   //: Constructor.

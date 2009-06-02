@@ -43,20 +43,20 @@ namespace RavlN {
                                                      array2.BufferAccess(),array2.ByteStride(),frame2
                                                      ))
         return false;
-      up2 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),-2 * array1.ByteStride());
-      up1 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),-array1.ByteStride());
-      dn1 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),array1.ByteStride());
-      dn2 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),2 * array1.ByteStride());
+      up2 = ShiftPointerInBytes(&(this->Data1()),-2 * array1.ByteStride());
+      up1 = ShiftPointerInBytes(&(this->Data1()),-array1.ByteStride());
+      dn1 = ShiftPointerInBytes(&(this->Data1()),array1.ByteStride());
+      dn2 = ShiftPointerInBytes(&(this->Data1()),2 * array1.ByteStride());
       return true;
     }
     //: Goto first element in the array.
     
     bool Next() {
       if(!BufferAccess2dIter2C<Data1T,Data2T>::Next()) {
-        up2 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),-2 * array1.ByteStride());
-        up1 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),-array1.ByteStride());
-        dn1 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),array1.ByteStride());
-        dn2 = BufferAccess2dIterBaseC::ShiftPointer(&(this->Data1()),2 * array1.ByteStride());
+        up2 = ShiftPointerInBytes(&(this->Data1()),-2 * array1.ByteStride());
+        up1 = ShiftPointerInBytes(&(this->Data1()),-array1.ByteStride());
+        dn1 = ShiftPointerInBytes(&(this->Data1()),array1.ByteStride());
+        dn2 = ShiftPointerInBytes(&(this->Data1()),2 * array1.ByteStride());
         return false;
       }
       up2++;

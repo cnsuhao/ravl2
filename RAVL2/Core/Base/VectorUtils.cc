@@ -5,20 +5,20 @@ namespace RavlBaseVectorN {
 
   using namespace RavlN;
   
-  static double BaseDotProductD(const double* v1, const double* v2, size_t Size) {
+  static double BaseDotProductD(const double* v1, const double* v2, size_t size) {
     double sum = 0.0;
     const double* ptr1 = v1;
     const double* ptr2 = v2;
-    for(unsigned int i=Size; i>0; --i)
+    for(unsigned int i=size; i>0; --i)
       sum += *ptr1++ * *ptr2++;
     return sum;  
   }
 
-  static float BaseDotProductF(const float* v1, const float* v2, size_t Size) {
+  static float BaseDotProductF(const float* v1, const float* v2, size_t size) {
     float sum = 0.0;
     const float* ptr1 = v1;
     const float* ptr2 = v2;
-    for(unsigned int i=Size; i>0; --i)
+    for(unsigned int i=size; i>0; --i)
       sum += *ptr1++ * *ptr2++;
     return sum;  
   }
@@ -78,7 +78,7 @@ namespace RavlBaseVectorN {
     RavlAssert(rows > 0);
     RavlAssert(cols > 0);
     const float *rowStart = matrix;
-    for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+    for(unsigned int i = 0;i < rows;i++,rowStart = ShiftPointerInBytes(rowStart,stride)) {
       register float accum = rowStart[0]*vec[0];
       for(unsigned int j = 1;j < cols;j++)
         accum += rowStart[j]*vec[j];
@@ -97,7 +97,7 @@ namespace RavlBaseVectorN {
     RavlAssert(rows > 0);
     RavlAssert(cols > 0);
     const double *rowStart = matrix;
-    for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+    for(unsigned int i = 0;i < rows;i++,rowStart = ShiftPointerInBytes(rowStart,stride)) {
       register double accum = rowStart[0]*vec[0];
       for(unsigned int j = 1;j < cols;j++)
         accum += rowStart[j]*vec[j];
@@ -124,7 +124,7 @@ namespace RavlBaseVectorN {
       const float dat = vec[i];
       for(unsigned int j = 0;j < cols;j++)
         result[j] += rowStart[j] * dat;
-      rowStart += stride;
+      rowStart = ShiftPointerInBytes(rowStart,stride);
     }
   }
 
@@ -144,7 +144,7 @@ namespace RavlBaseVectorN {
       const double dat = vec[i];
       for(unsigned int j = 0;j < cols;j++)
         result[j] += rowStart[j] * dat;
-      rowStart += stride;
+      rowStart = ShiftPointerInBytes(rowStart,stride);
     }
   }
 
