@@ -106,7 +106,7 @@ void RefMatrixMulVector(const DataT *matrix,
   RavlAssert(rows > 0);
   RavlAssert(cols > 0);
   const DataT *rowStart = matrix;
-  for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+  for(unsigned int i = 0;i < rows;i++,rowStart = RavlN::ShiftPointerInBytes(rowStart,stride)) {
     register DataT accum = rowStart[0]*vec[0];
     for(unsigned int j = 1;j < cols;j++)
       accum += rowStart[j]*vec[j];
@@ -142,17 +142,18 @@ int TestMatMulVec() {
               int rows = n-i;
               int cols = m-j;
               RavlAssert(rows > 0 && cols > 0);
-              RefMatrixMulVector(&(mat[i][j]),&vec[k],rows,cols,mat.ByteStride(),&refResult[q]);
-              RavlBaseVectorN::MatrixMulVector(&(mat[i][j]),&vec[k],rows,cols,mat.ByteStride(),&testResult[q]);
-              DataT sum = 0;
-              for(int r = 0;r < rows;r++)
-                sum += RavlN::Abs(testResult[q+r] - refResult[q+r]);
-              if(sum > 0.000001) {
-                std::cerr << "Test failed. Sum=" << sum << "\n";
-                std::cerr << "n=" << n << " m=" << m << " i=" << i << " j=" << j << " k=" << k << " q=" << q <<"\n";
-                RavlAssert(0);
-                return __LINE__;
+              RefMatrixMulVector(&(mat[i][j]),&vec[k],rows,cols,mat.ByteStride(),&(refResult[q]));
+              RavlBaseVectorN::MatrixMulVector(&(mat[i][j]),&vec[k],rows,cols,mat.ByteStride(),&(testResult[q]));
+              //RefMatrixMulVector(&(mat[i][j]),&vec[k],rows,cols,mat.ByteStride(),&(testResult[q]));
+              for(int r = 0;r < rows;r++) {
+                if(RavlN::Abs(testResult[q+r] - refResult[q+r]) > 0.0001) {
+                  std::cerr << "Test failed. Index=" << r<< " Res=" << testResult[q+r] << " Expected=" << refResult[q+r] << " Rows=" << rows << " Cols=" << cols << "\n";
+                  std::cerr << "n=" << n << " m=" << m << " i=" << i << " j=" << j << " k=" << k << " q=" << q <<"\n";
+                  RavlAssert(0);
+                  return __LINE__;
+                }
               }
+              //std::cerr << ".";
             }
           }
         }

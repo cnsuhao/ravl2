@@ -30,11 +30,10 @@ namespace RavlBaseVectorN {
     const double* w2Ptr = Weights2;
     const double* const ewPtr = wPtr + Size;
     const double* dPtr = Data;
-    while(wPtr != ewPtr)
-      {
-        const double val = *dPtr++;
-        retVal += val * (*wPtr++ + *w2Ptr++ * val);
-      }
+    while(wPtr != ewPtr) {
+      const double val = *dPtr++;
+      retVal += val * (*wPtr++ + *w2Ptr++ * val);
+    }
     return retVal;
   }
 
@@ -120,14 +119,13 @@ namespace RavlBaseVectorN {
     for(;i < cols;i++)
       result[i] = 0;
     const float *rowStart = matrix;
-    for(i = 0;i < rows; i++) {
+    for(i = 0;i < rows; i++,rowStart = ShiftPointerInBytes(rowStart,stride)) {
       const float dat = vec[i];
       for(unsigned int j = 0;j < cols;j++)
         result[j] += rowStart[j] * dat;
-      rowStart = ShiftPointerInBytes(rowStart,stride);
     }
   }
-
+  
   static void MatrixTMulVectorD(const double *matrix, 
                                 const double *vec, // Must be 'col' entries
                                 UIntT rows,
@@ -140,11 +138,10 @@ namespace RavlBaseVectorN {
     for(;i < cols;i++)
       result[i] = 0;
     const double *rowStart = matrix;
-    for(i = 0;i < rows; i++) {
+    for(i = 0;i < rows; i++,rowStart = ShiftPointerInBytes(rowStart,stride)) {
       const double dat = vec[i];
       for(unsigned int j = 0;j < cols;j++)
         result[j] += rowStart[j] * dat;
-      rowStart = ShiftPointerInBytes(rowStart,stride);
     }
   }
 

@@ -400,9 +400,8 @@ namespace RavlN {
   template<class DataT>
   Array2dC<DataT> Array3dC<DataT>::Slice2(IndexC j) {
     RavlAssert(Range2().Contains(j));
-    const SizeT d2Size = Range2().Size();
-    DataT *start = reinterpret_cast<DataT *>(reinterpret_cast<char *>(this->ReferenceVoid()) + j.V() * this->ByteStride2());
-    RangeBufferAccess2dC<DataT> rbf(start,Range1(),Range3(),d2Size*sizeof(DataT));
+    DataT *start = ShiftPointerInBytes(this->ReferenceElm(),j.V() * this->ByteStride2());
+    RangeBufferAccess2dC<DataT> rbf(start,Range1(),Range3(),this->ByteStride1());
     return Array2dC<DataT>(m_data,rbf);
   }
   
