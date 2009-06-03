@@ -124,7 +124,7 @@ namespace RavlN {
 		       const IndexRangeC      & range2)
     {
       m_stride = buffer.ByteStride();
-      this->m_buff = reinterpret_cast<DataT *>(reinterpret_cast<char *>(buffer.ReferenceElm()) - m_stride * range1.Min().V()) - range2.Min().V();
+      this->m_buff = ShiftPointerInBytes(buffer.ReferenceElm(),-m_stride * range1.Min().V()) - range2.Min().V();
       m_range1 = range1;
       m_range2 = range2;
       RavlAssert((SizeT) range1.Size() <= buffer.Size1());

@@ -17,7 +17,7 @@ namespace RavlN {
     //: Default Constructor
     
     AttachedBuffer2dBodyC(const BufferC<DataT> &buffer,SizeT size1,SizeT size2,IntT byteStride = 0)
-      : Buffer2dBodyC<DataT>(buffer.ReferenceElm(),size1,size2,false),
+      : Buffer2dBodyC<DataT>(buffer.ReferenceElm(),size1,size2,byteStride,false),
         m_buffer(buffer)
     { RavlAssert((byteStride % sizeof(DataT)) == 0 && !this->IsDeletable()); }
     //: Construct from a 1d buffer.

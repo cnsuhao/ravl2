@@ -203,7 +203,7 @@ namespace RavlN {
     //: access to the object
         
     void ShiftArray(Index2dC offset)
-      { ShiftRows(offset.Row()); ShiftCols(offset.Col()); }
+    { this->ShiftRows(offset.Row()); this->ShiftCols(offset.Col()); }
     //: The array is shifted by <code>offset</code> w.r.t. the coordinate origin
     // This combines the functionality of <code>ShiftRows</code> and <code>ShiftCols</code><br>
     // Thus to shift an array so that the top left element has indices (0,0), use:

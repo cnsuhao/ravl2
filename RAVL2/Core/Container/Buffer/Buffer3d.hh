@@ -39,7 +39,7 @@ namespace RavlN {
 
     Buffer3dBodyC(const IndexRange3dC &range)
       : Buffer2dBodyC<DataT>(range.Js(),range.Ks(),
-                             range.Volume(),              // Total elements
+                             range.Is() * range.Js() * range.Ks(), // Size to allocate
                              range.Ks() * sizeof(DataT)
                              ), // Stride1.
         m_size0(range.Is()),
@@ -48,10 +48,10 @@ namespace RavlN {
     //: Sized constructor.
 
     Buffer3dBodyC(SizeT size1,SizeT size2,SizeT size3)
-      : Buffer2dBodyC<DataT>(size2,size3,
-                             size1*size2*size3,              // Total elements
-                             size3 * sizeof(DataT)
-                             ), // Stride1.
+      : Buffer2dBodyC<DataT>(size2,size3,           // Buffer 2d dimensions.
+                             size1 * size2 * size3, // Size to allocate
+                             size3 * sizeof(DataT) // Stride
+                             ), 
         m_size0(size1),
         m_stride1(size2 * size3 * sizeof(DataT))
     {}
@@ -59,7 +59,6 @@ namespace RavlN {
     
     Buffer3dBodyC(DataT *data,SizeT size1,SizeT size2,SizeT size3,bool makeCopy = false,bool deleteable = true)
       : Buffer2dBodyC<DataT>(data,size2,size3,
-                             size1 * size2 * size3,  // Total elements
                              size3 * sizeof(DataT), // 2d stride
                              makeCopy,deleteable),
 	m_size0(size1),
@@ -69,7 +68,6 @@ namespace RavlN {
     
     Buffer3dBodyC(DataT *data,SizeT size1,SizeT size2,SizeT size3,IntT byteStride1,IntT byteStride2,bool makeCopy = false,bool deleteable = true)
       : Buffer2dBodyC<DataT>(data,size2,size3,
-                             size1 * size2 * size3,  // Total elements
                              byteStride2,
                              makeCopy,deleteable),
 	m_size0(size1),

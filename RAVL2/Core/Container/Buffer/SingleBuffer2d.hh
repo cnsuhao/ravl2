@@ -36,7 +36,7 @@ namespace RavlN {
     // Internal use only.
     
     SingleBuffer2dBodyC(SizeT size1,SizeT size2)
-      : Buffer2dBodyC<DataT>(static_cast<DataT *>(0),size1,size2,false)
+      : Buffer2dBodyC<DataT>(static_cast<DataT *>(0),size1,size2,0,false)
     {
       this->m_stride = size2 * sizeof(DataT);
       // Make sure buffer is 8-byte aligned.
@@ -54,7 +54,7 @@ namespace RavlN {
     //: Default constructor.
     
     SingleBuffer2dBodyC(SizeT size1,SizeT size2,IntT byteStride,UIntT align)
-      : Buffer2dBodyC<DataT>(static_cast<DataT *>(0),size1,size2,false)
+      : Buffer2dBodyC<DataT>(static_cast<DataT *>(0),size1,size2,byteStride,false)
     {
       this->m_stride = byteStride;
       RavlAssert(this->m_stride >= static_cast<IntT>(size2 * sizeof(DataT)));
@@ -185,11 +185,13 @@ namespace RavlN {
     //: Access body.
     
   public:
+
+    friend class Buffer2dC<DataT>;
   };
   
   template<typename DataT>
   Buffer2dC<DataT>::Buffer2dC(SizeT size1,SizeT size2)
-    : BufferC<DataT>(new SingleBuffer2dBodyC<DataT>(size1,size2))
+    : BufferC<DataT>(SingleBuffer2dC<DataT>::AllocBody(size1,size2))
   {}
   //: Sized constructor.
 
