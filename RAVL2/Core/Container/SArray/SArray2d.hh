@@ -22,6 +22,7 @@
 #include "Ravl/BufferAccess2dIter.hh"
 #include "Ravl/BufferAccess2dIter2.hh"
 #include "Ravl/BufferAccess2dIter3.hh"
+#include "Ravl/SingleBuffer2d.hh"
 
 namespace RavlN {
   
@@ -105,20 +106,17 @@ namespace RavlN {
     // If freeMemory is true it 'data' will be freed with a 'delete []' call when no longer required.
     
     static SArray2dC<DataT> ConstructAligned(const SizeT dim1,const SizeT dim2,UIntT align) { 
-      RavlAssert((align % sizeof(DataT)) == 0); // We should do something about the requirement.
-      IntT stride = dim2;
-      const UIntT elemAlign = align / sizeof(DataT);
-      const UIntT remainder = (dim2 % elemAlign);
-      if(remainder > 0) {
-        RavlAssert(remainder < elemAlign);
-        stride += elemAlign - remainder;
-      }
+      IntT stride = dim2 * sizeof(DataT);
+      const UIntT remainder = (stride % align);
+      if(remainder > 0)
+        stride += align - remainder;
+      RavlAssertMsg(0,"Need a single 2d buffer. ");
+      // FIXME: Need a single buffer2d. 
       return SArray2dC(SingleBufferC<DataT>(stride*dim1,align), dim1,dim2,0,stride); 
     }
     //: Creates an uninitialized array with the range <0, 'dim1'-1>,<0, 'dim2'-1> and 
     //: the given byte alignment of the start of each row.
     // align must be a power of 2.
-    // Currently the align must be an integer muliple of the element size.
     
     SArray2dC<DataT> Copy() const;
     //: Copy array.

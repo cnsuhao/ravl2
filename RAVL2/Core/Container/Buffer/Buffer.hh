@@ -85,7 +85,14 @@ namespace RavlN {
     { free(data); }
     //: Override default allocator to just use free.
     // This allows classes like SingleBuffer to do more efficient memory allocation.
-    
+
+    bool IsDeletable() const
+    { return m_deletable; }
+    //: Is buffer deletable ?
+
+    virtual void Fill(const DataT &value)
+    { SizeBufferAccessC<DataT>::Fill(value); }
+    //: Fill buffer with value.
   protected:    
     bool m_deletable;
   };
@@ -156,6 +163,7 @@ namespace RavlN {
     { return const_cast<SizeBufferAccessC<DataT> &>(((const SizeBufferAccessC<DataT> &)Body())); }
     //: Access as a size buffer.
     // I don't like this, but it gets around an irritating warning from gcc.
+
   };
 
   ////////////////////////////////////////////////////////////

@@ -17,17 +17,16 @@ namespace RavlN {
     //: Default Constructor
     
     AttachedBuffer2dBodyC(const BufferC<DataT> &buffer,SizeT size1,SizeT size2,IntT byteStride = 0)
-      : Buffer2dBodyC<DataT>(buffer.ReferenceElm(),size1,size2,(byteStride != 0) ? byteStride : (size2 * sizeof(DataT)),
-                             false,false),
+      : Buffer2dBodyC<DataT>(buffer.ReferenceElm(),size1,size2,false),
         m_buffer(buffer)
-    { RavlAssert((byteStride % sizeof(DataT)) == 0); }
+    { RavlAssert((byteStride % sizeof(DataT)) == 0 && !this->IsDeletable()); }
     //: Construct from a 1d buffer.
     
   protected:
     BufferC<DataT> m_buffer;
   };
-
-    //: 2d Buffer from memory in a 1d buffer.
+  
+  //: 2d Buffer from memory in a 1d buffer.
 
   template<typename DataT>
   class AttachedBuffer2dC

@@ -1,0 +1,20 @@
+
+perl -pi -e 's/RBfAcc.hh/RangeBufferAccess.hh/' *.??
+perl -pi -e 's/RBfAcc2d.hh/RangeBufferAccess2d.hh/' *.??
+perl -pi -e 's/RBfAcc3d.hh/RangeBufferAccess3d.hh/' *.??
+perl -pi -e 's/SBfAcc.hh/SizeBufferAccess.hh/' *.??
+perl -pi -e 's/SBfAcc2d.hh/SizeBufferAccess2d.hh/' *.??
+perl -pi -e 's/SBfAcc3d.hh/SizeBufferAccess3d.hh/' *.??
+perl -pi -e 's/BfAccIter.hh/BufferAccessIter.hh/' *.??
+perl -pi -e 's/BfAcc2Iter.hh/BufferAccess2dIter.hh/' *.??
+perl -pi -e 's/BfAcc2Iter2/BufferAccess2dIter2/' *.??
+perl -pi -e 's/BfAcc2Iter3/BufferAccess2dIter3/' *.??
+perl -pi -e 's/BfAcc2Iter4/BufferAccess2dIter4/' *.??
+perl -pi -e 's/BfAcc2Iter5/BufferAccess2dIter5/' *.??
+perl -pi -e 's/BfAcc2Iter6/BufferAccess2dIter6/' *.??
+perl -pi -e 's/BfAcc2Iter7/BufferAccess2dIter7/' *.??
+perl -pi -e 's/BfAcc3Iter/BufferAccess3dIter/' *.??
+perl -pi -e 's/BfAccIter/BufferAccessIter/' *.??
+perl -pi -e 's/BfAcc3Iter2/BufferAccess3dIter2/' *.??
+perl -pi -e 's/BfAcc3Iter3/BufferAccess3dIter3/' *.??
+

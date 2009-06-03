@@ -17,7 +17,7 @@
 #include "Ravl/SizeBufferAccess2d.hh"
 #include "Ravl/RangeBufferAccess2d.hh"
 #include "Ravl/SingleBuffer.hh"
-
+#include "Ravl/SingleBuffer2d.hh"
 #include "Ravl/Stream.hh"
 #include "Ravl/IntC.hh"
 
@@ -37,18 +37,28 @@
 
 using namespace RavlN;
 
+int TestBuffer();
 int TestSingleBuffer();
+int TestSingleBuffer2d();
 int TestBuffer2d();
 int TestSizeBuffer2d();
 
 int main()
 {
   int ln;
+  if((ln = TestBuffer()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
   if((ln = TestSingleBuffer()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
   if((ln = TestBuffer2d()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  if((ln = TestSingleBuffer2d()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
@@ -60,15 +70,21 @@ int main()
   return 0;
 }
 
-int TestBuffer2d() {
-  cerr << "Single Buffer Size=" << sizeof(SingleBufferBodyC<RealT>) - sizeof(RealT) << "\n";
-  
-  BufferC<int> bf1d (6);
-  if(bf1d.Size() != 6) {
-    cerr << "Size test failed. \n";
-    return __LINE__;
+int TestBuffer() {
+  for(unsigned  i = 0;i < 20;i++) {
+    BufferC<int> buf(i);
+    if(buf.Size() != i)
+      return __LINE__;
+    buf.Fill(i);
+    for(unsigned j = 0;j < i;j++) {
+      if(buf.ReferenceElm()[j] != (int)i)
+        return __LINE__;
+    }
   }
-  
+  return 0;
+}
+
+int TestBuffer2d() {
   IndexRangeC r1(1,3);
   IndexRangeC r2(2,5);
   
@@ -149,6 +165,8 @@ protected:
 };
 
 int TestSingleBuffer() {
+  cerr << "Single Buffer Size=" << sizeof(SingleBufferBodyC<RealT>) - sizeof(RealT) << "\n";
+
   for(int i = 0;i < 100;i++) {
     SingleBufferC<IntT> buff(i+1);
     //cerr << "UMem=" << ((void *) buff.ReferenceElm()) << "\n";
@@ -170,8 +188,70 @@ int TestSingleBuffer() {
   TestObjC *end3 = &(at3[buff3.Size()]);
   for(;at3 != end3;at3++)
     if(at3->Value() != 123) return __LINE__;
+  cerr << "Single Buffer Done.\n";
   return 0;
 }
+
+int TestSingleBuffer2d() {
+  std::cerr << "SingleBuffer2dBodyC<DataT> size=" << sizeof(SingleBuffer2dBodyC<IntT>) << " Alignment Offset=" << SingleBuffer2dBodyC<IntT>::StartAlignmentOffset()<< "\n";
+  
+  for(unsigned i = 1;i < 20;i++) {
+    for(unsigned j = 1;j < 20;j++) {
+      //cerr << "Test " << i  << " " << j << "\n";
+      // Test unaligned allocation.
+      SingleBuffer2dC<IntT> buffc(i,j);
+      if(buffc.Size1() != i)
+        return __LINE__;
+      if(buffc.Size2() != j)
+        return __LINE__;
+      if(buffc.ByteStride() < static_cast<IntT>(j * sizeof(IntT))) {
+        std::cerr << " " << i << " " << j << " Stride = " << buffc.ByteStride() << " " << (j * sizeof(IntT)) << "\n";
+        return __LINE__;
+      }
+      
+      // Test aligned allocation.
+      SingleBuffer2dC<SizeT> buff(i,j,16);
+      if(buff.Size1() != i)
+        return __LINE__;
+      if(buff.Size2() != j)
+        return __LINE__;
+
+      if((((SizeT)((void *) buff.ReferenceElm())) & 0xf) != 0)
+        return __LINE__;
+      if((buff.ByteStride() & 0xf) != 0)
+        return __LINE__;
+      if(buff.ByteStride() < static_cast<IntT>(j * sizeof(SizeT)))
+        return __LINE__;
+    }
+  }
+
+  SingleBuffer2dC<IntC> buff2(100,17);
+  IntC *ref = buff2.ReferenceElm();
+  IntC *at;
+  for(int i = 0;i < 100;i++) {
+    at = ref;
+    for(int j = 0;j < 17;j++,at++) {
+      if(*at != 0) return __LINE__;
+    }
+    ref = ShiftPointerInBytes(ref,buff2.ByteStride());
+  }
+  
+  SingleBuffer2dC<TestObjC> buff3(100,17);
+  TestObjC *ref3 = buff3.ReferenceElm();
+  TestObjC *at3;
+  
+  for(int i = 0;i < 100;i++) {
+    at3 = ref3;
+    for(int j = 0;j < 17;j++,at++) {
+      if(at3->Value() != 123) return __LINE__;
+    }
+    ref3 = ShiftPointerInBytes(ref3,buff3.ByteStride());
+  }
+  
+  std::cerr << "SingleBuffer2dC,  Done. \n";
+  return 0;
+}
+
 
 int TestSizeBuffer2d() {
   const int rows = 9;
@@ -181,8 +261,8 @@ int TestSizeBuffer2d() {
     return __LINE__;
   SizeBufferAccess2dC<int> sba;
   sba.Attach(bf,rows,cols);
-  if(sba.Size1() != rows) return __LINE__;
-  if(sba.Size2() != cols) return __LINE__;
+  if(sba.Size1() != (SizeT) rows) return __LINE__;
+  if(sba.Size2() != (SizeT) cols) return __LINE__;
   if(sba.ReferenceElm() != bf.ReferenceElm())
     return __LINE__;
   if(sba.ByteStride() != bf.ByteStride())
@@ -204,13 +284,16 @@ int TestSizeBuffer2d() {
   }
   // Check basic iteration.
   place = 0;
+  int count = 0;
   for(BufferAccess2dIterC<int> it(sba);it;it++,place++) {
     if(*it != place) {
       std::cerr << "Test failed. Got=" << *it << " expected=" << place << "\n";
       return __LINE__;
     }
+    count++;
   }
-  
+  if(count != (rows * cols))
+    return __LINE__;
   return 0;
 }
 

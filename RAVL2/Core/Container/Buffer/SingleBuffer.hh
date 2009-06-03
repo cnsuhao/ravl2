@@ -145,16 +145,19 @@ namespace RavlN {
     : public BufferBodyC<DataT>
   {
   public:
+    static SizeT StartAlignmentOffset(SizeT align = 16) {
+      const SizeT objSize = sizeof(SingleBufferBodyC<DataT>);
+      return ((objSize % align) == 0) ? 0 : (objSize - (objSize % align));
+    }
+    //: Get the offset needed to align start.
+    // Internal use only.
+    
     SingleBufferBodyC(SizeT nsize)
       : BufferBodyC<DataT>(0,nsize,false)
     { 
-#if RAVL_CPUTYPE_32
       // Make sure buffer is 8-byte aligned.
-      this->m_buff = reinterpret_cast<DataT *>(&reinterpret_cast<char *>(&(this[1]))[4]);
-#else
-      this->m_buff = reinterpret_cast<DataT *>(&(this[1]));
-#endif
-	 // cerr << "Memory at " << (void*) this->buff << "\n";
+      this->m_buff = ShiftPointerInBytes(reinterpret_cast<DataT*>(this),StartAlignmentOffset() + sizeof(SingleBufferBodyC<DataT>));
+      // cerr << "Memory at " << (void*) this->buff << "\n";
 #if RAVL_COMPILER_GCC43
       // This is a bug workaround for a problem with gcc-4.3.x compilers
       new(this->m_buff) DataT[this->Size()];
@@ -218,12 +221,9 @@ namespace RavlN {
     
   protected:
     static SingleBufferBodyC<DataT> *AllocBody(SizeT size) {
-#if RAVL_CPUTYPE_32
+      SizeT startAlign = SingleBufferBodyC<DataT>::StartAlignmentOffset();
       // Make sure buffers are 8-byte aligned.
-      SingleBufferBodyC<DataT> *ret = reinterpret_cast<SingleBufferBodyC<DataT> *> (malloc(sizeof(SingleBufferBodyC<DataT>) + 4 + (size * sizeof(DataT))));
-#else
-      SingleBufferBodyC<DataT> *ret = reinterpret_cast<SingleBufferBodyC<DataT> *> (malloc(sizeof(SingleBufferBodyC<DataT>) + (size * sizeof(DataT))));
-#endif
+      SingleBufferBodyC<DataT> *ret = reinterpret_cast<SingleBufferBodyC<DataT> *> (malloc(sizeof(SingleBufferBodyC<DataT>) + startAlign + (size * sizeof(DataT))));
       try {
         new(ret) SingleBufferBodyC<DataT>(size);
       } catch(...) {

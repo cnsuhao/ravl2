@@ -30,6 +30,7 @@
 #include "Ravl/Types.hh" 
 #include "Ravl/DeepCopy.hh"
 #include "Ravl/AttachedBuffer2d.hh"
+#include "Ravl/SingleBuffer2d.hh"
 
 namespace RavlN {
   
@@ -133,6 +134,21 @@ namespace RavlN {
     // Expert users only! This allows the creation of arrays that have
     // unusual access structures. e.g. de-interlacing an image without 
     // copying any data.
+
+    Array2dC(const Buffer2dC<DataT> &buf,const IndexRangeC &range1,const IndexRangeC &range2)
+      : RangeBufferAccess2dC<DataT>(buf,range1,range2,buf.ByteStride()),
+        m_data(buf)
+    {}
+    //: Construct an array with buffer access 'rbf' and data area 'buf'
+    // Expert users only! This allows the creation of arrays that have
+    // unusual access structures. e.g. de-interlacing an image without
+    // copying any data.
+    
+    static Array2dC<DataT> ConstructAligned(const IndexRangeC range1,const IndexRangeC &range2,UIntT align) 
+    { return Array2dC(SingleBuffer2dC<DataT>(range1.Size(),range2.Size(),align), range1,range2); }
+    //: Creates an uninitialized array with the range <0, 'dim1'-1>,<0, 'dim2'-1> and
+    //: the given byte alignment of the start of each row.
+    // align must be a power of 2.
     
     Array2dC<DataT> Copy() const;
     //: Make a copy of the array.
@@ -329,10 +345,6 @@ namespace RavlN {
     //: Get number of elements between rows in the array.
     
   protected:
-    void ConstructAccess(const IndexRangeC &rng1,SizeT bufferOffset = 0);
-    //: Construct access for buffer.
-    // This assumes a suitable amount of space has been allocated
-    // in 'data'
     
     Buffer2dC<DataT> m_data; // Raw data stored in array.
   };
@@ -375,7 +387,7 @@ namespace RavlN {
   Array2dC<DataT> Array2dC<DataT>::CopyAccess(IndexC shift1,IndexC shift2) {
     IndexRangeC newRange1 = Range1() + shift1;
     IndexRangeC newRange2 = Range2() + shift2;
-    RangeBufferAccess2dC<DataT> rba(this->PointerTo(shift1,shift2),newRange1,newRange2,m_data.ByteStride());
+    RangeBufferAccess2dC<DataT> rba(this->PointerTo(-shift1,-shift2),newRange1,newRange2,m_data.ByteStride());
     return Array2dC<DataT>(m_data,rba);
   }
   

@@ -498,6 +498,12 @@ namespace RavlN {
   {}
   
   template <class DataT>
+  static Array1dC<DataT> ConstructAligned(const IndexRangeC &range,UIntT align)
+  { return Array1dC<DataT>(SingleBufferC<DataT>(range.Size(),align),range); }
+  //: Creates an uninitialized array with the range <0, 'dim'-1> and byte alignment of the first element 'align'
+  // align must be a power of 2.
+  
+  template <class DataT>
   Array1dC<DataT>
   Array1dC<DataT>::Copy() const {
     return Array1dC<DataT>(RangeBufferAccessC<DataT>::Copy().DataStart(), 

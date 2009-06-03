@@ -49,22 +49,22 @@ namespace RavlN {
     {}
     //: Sized constructor.
 
-    Buffer2dBodyC(DataT *data,SizeT size1,SizeT size2,bool makeCopy = false,bool deletable = true)
+    Buffer2dBodyC(DataT *data,SizeT size1,SizeT size2,bool makeCopy,bool deletable )
      : BufferBodyC<DataT >(data,size1 * size2,makeCopy,deletable),
        m_size1(size1),
        m_size2(size2),
        m_stride(size2 * sizeof(DataT))
     {}
     //: Sized constructor.
-    
-    Buffer2dBodyC(DataT *data,SizeT size1,SizeT size2,SizeT bufferSize,IntT byteStride,bool makeCopy = false,bool deletable = true)
-     : BufferBodyC<DataT >(data,bufferSize,makeCopy,deletable),
+
+    Buffer2dBodyC(DataT *data,SizeT size1,SizeT size2,bool deletable )
+     : BufferBodyC<DataT >(data,size1 * size2,deletable),
        m_size1(size1),
        m_size2(size2),
-       m_stride(byteStride)
+       m_stride(size2 * sizeof(DataT))
     {}
     //: Sized constructor.
-    
+
     SizeT Size1() const
     { return m_size1; }
     //: Get size 1
@@ -77,6 +77,7 @@ namespace RavlN {
     { return m_stride; }
     //: Access the size of each row in the buffer in bytes.
     // Note this may be negative.
+    
   protected:
     SizeT m_size1; // Number of rows.
     SizeT m_size2; // Number of valid elements in a row.
@@ -97,18 +98,12 @@ namespace RavlN {
     //: Default constructor.
     // creates an invalid handle.
     
-    Buffer2dC(SizeT size1,SizeT size2)
-     : BufferC<DataT>(new Buffer2dBodyC<DataT>(size1,size2))
-    {}
+    Buffer2dC(SizeT size1,SizeT size2);
     //: Sized constructor.
+    // This creates a SingleBuffer2dC.
     
     Buffer2dC(DataT *data,SizeT size1,SizeT size2,bool copy = false,bool deletable = true)
       : BufferC<DataT>(new Buffer2dBodyC<DataT>(data,size1,size2,copy,deletable))
-    {}
-    //: Construct from an existing buffer.
-    
-    Buffer2dC(DataT *data,SizeT size1,SizeT size2,SizeT bufferElements,IntT byteStride,bool copy = false,bool deletable = true)
-      : BufferC<DataT>(new Buffer2dBodyC<DataT>(data,size1,size2,bufferElements,byteStride,copy,deletable))
     {}
     //: Construct from an existing buffer.
 
