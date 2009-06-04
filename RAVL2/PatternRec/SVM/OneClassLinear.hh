@@ -65,7 +65,7 @@ public:
 
   //! Get centre vector
   SArray1dC<RealT> GetCentreVector() const
-    { return SArray1dC<RealT>(BufferC<RealT>(m_vecLength, m_centre, true, true),
+    { return SArray1dC<RealT>(BufferC<RealT>(m_centre, m_vecLength,  true, true),
                               m_vecLength); }
 
   //! Create classifier

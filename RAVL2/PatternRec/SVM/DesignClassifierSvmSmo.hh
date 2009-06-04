@@ -73,7 +73,7 @@ public:
 
   SArray1dC<RealT> GetLambdas() const
   //: return Lagrangian multipliers
-    { return SArray1dC<RealT>(BufferC<RealT>(trainSetSize,lambdas,true,true),
+    { return SArray1dC<RealT>(BufferC<RealT>(lambdas,trainSetSize,true,true),
                               trainSetSize); }
 
   RealT GetThreshold() const

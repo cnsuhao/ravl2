@@ -54,7 +54,7 @@ public:
 
   //! Get weights
   SArray1dC<RealT> GetWeights() const
-    { return SArray1dC<RealT>(BufferC<RealT>(m_numWeights, m_weights, true, true),
+    { return SArray1dC<RealT>(BufferC<RealT>(m_weights, m_numWeights,  true, true),
                               m_numWeights); }
 
   //! Create classifier

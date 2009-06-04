@@ -15,7 +15,7 @@
 //! file="Ravl/Image/Processing/Filters/Matching/Matching.hh"
 
 #include "Ravl/Image/Image.hh"
-#include "Ravl/BfAcc2Iter2.hh"
+#include "Ravl/BufferAccess2dIter2.hh"
 #include "Ravl/Image/Rectangle2dIter.hh"
 
 namespace RavlImageN {

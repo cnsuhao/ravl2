@@ -56,7 +56,15 @@ namespace RavlN {
 			 const RangeBufferAccess2dC<Data2T> &pbuf2,
                          const IndexRangeC &range1,const IndexRangeC &range2);
     //: Constructor.
-    
+
+    BufferAccess2dIter2C(const RangeBufferAccess2dC<Data1T> &pbuf1,const IndexRange2dC &frame1,
+			 const RangeBufferAccess2dC<Data2T> &pbuf2,const IndexRange2dC &frame2);
+    //: Constructor.
+
+    BufferAccess2dIter2C(const RangeBufferAccess2dC<Data1T> &pbufA,
+			 const RangeBufferAccess2dC<Data2T> &pbufB);
+    //: Constructor.
+
     BufferAccess2dIter2C(const BufferAccessC<Data1T> &pbuf1,IntT byteStride1,
                          const BufferAccessC<Data2T> &pbuf2,IntT byteStride2,
                          SizeT size1,SizeT size2) {
@@ -79,17 +87,21 @@ namespace RavlN {
     }
     //: Constructor.
 
+
     bool First(const BufferAccessC<Data1T> &pbuf1,IntT byteStride1,
                const BufferAccessC<Data2T> &pbuf2,IntT byteStride2,
                SizeT size1,SizeT size2) {
-      if(size1 == 0 || size2 == 0) {
-        m_cit.Invalidate();
-        return false;
-      }
-      RavlAssert(byteStride1 != 0 && byteStride2 != 0);
       m_size2 = size2;
       m_stride1 = byteStride1;
       m_stride2 = byteStride2;
+      if(size1 == 0 || size2 == 0) {
+        m_cit.Invalidate();
+        m_rit1 = 0;
+        m_rit2 = 0;
+        m_endRow = 0;
+        return false;
+      }
+      RavlAssert(byteStride1 != 0 && byteStride2 != 0);
       m_rit1 = reinterpret_cast<char *>(pbuf1.ReferenceElm());
       m_rit2 = reinterpret_cast<char *>(pbuf2.ReferenceElm());
       m_endRow = m_rit1+m_stride1 * static_cast<IntT>(size1);
@@ -115,12 +127,15 @@ namespace RavlN {
                const BufferAccessC<Data2T> &pbuf2,IntT byteStride2,
                const IndexRangeC &range1,const IndexRangeC &range2) {
       m_size2 = range2.Size();
-      if(range1.IsEmpty() || m_size2 == 0) {
-        m_cit.Invalidate();
-        return false;
-      }
       m_stride1 = byteStride1;
       m_stride2 = byteStride2;
+      if(range1.IsEmpty() || m_size2 == 0) {
+        m_cit.Invalidate();
+        m_rit1 = 0;
+        m_rit2 = 0;
+        m_endRow = 0;
+        return false;
+      }
       m_rit1 = reinterpret_cast<char *>(pbuf1.ReferenceElm() + range2.Min().V()) + byteStride1 * range1.Min().V();
       m_rit2 = reinterpret_cast<char *>(pbuf2.ReferenceElm() + range2.Min().V()) + byteStride2 * range1.Min().V();
       m_endRow = m_rit1 + byteStride1 * (IntT) range1.Size();
@@ -133,14 +148,17 @@ namespace RavlN {
     bool First(const BufferAccessC<Data1T> &pbufa,IntT byteStrideA,const IndexRangeC &range1a,const IndexRangeC &range2a,
 	       const BufferAccessC<Data2T> &pbufb,IntT byteStrideB,const IndexRangeC &range1b,const IndexRangeC &range2b) {
       m_size2 = range2a.Size();
+      m_stride1 = byteStrideA;
+      m_stride2 = byteStrideB;
       RavlAssert((IntT) m_size2 <= range2b.Size());
       if(range1a.IsEmpty() || m_size2 == 0) {
         m_cit.Invalidate();
+        m_rit1 = 0;
+        m_rit2 = 0;
+        m_endRow = 0;
         return false;
       }
       RavlAssert(range1a.Size() <= range1b.Size());
-      m_stride1 = byteStrideA;
-      m_stride2 = byteStrideB;
       m_rit1 = reinterpret_cast<char *>(pbufa.ReferenceElm() + range2a.Min().V()) + byteStrideA * range1a.Min().V();
       m_rit2 = reinterpret_cast<char *>(pbufb.ReferenceElm() + range2b.Min().V()) + byteStrideB * range1b.Min().V();
       m_endRow = m_rit1 + byteStrideA * range1a.Size();

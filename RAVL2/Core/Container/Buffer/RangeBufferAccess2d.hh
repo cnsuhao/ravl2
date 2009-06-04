@@ -310,27 +310,61 @@ namespace RavlN {
   { return First(array.BufferAccess(),array.ByteStride(),array.Range1(),array.Range2()); }
     //: Construct on size array.
 
+  template<typename DataT>
+  inline BufferAccess2dIterC<DataT>::BufferAccess2dIterC(const RangeBufferAccess2dC<DataT> &array,const IndexRange2dC &frame)
+  {
+    RavlAssert(array.Frame().Contains(frame));
+    First(array.BufferAccess(),array.ByteStride(),frame.Range1(),frame.Range2());
+  }
+  //: Construct on ranged array.
+
+
   template<typename Data1T,typename Data2T>
-  BufferAccess2dIter2C<Data1T,Data2T>::BufferAccess2dIter2C(const RangeBufferAccess2dC<Data1T> &pbuf1,
+  inline BufferAccess2dIter2C<Data1T,Data2T>::BufferAccess2dIter2C(const RangeBufferAccess2dC<Data1T> &pbuf1,
 			                                    const RangeBufferAccess2dC<Data2T> &pbuf2,
                                                             const IndexRangeC &range1,const IndexRangeC &range2) {
+    RavlAssert(pbuf1.Frame().Contains(IndexRange2dC(range1,range2)));
+    RavlAssert(pbuf2.Frame().Contains(IndexRange2dC(range1,range2)));
     First(pbuf1.BufferAccess(),pbuf1.ByteStride(),
           pbuf2.BufferAccess(),pbuf2.ByteStride(),
           range1,range2);
   }
   //: Constructor.
 
+  template<typename Data1T,typename Data2T>
+  inline BufferAccess2dIter2C<Data1T,Data2T>::BufferAccess2dIter2C(const RangeBufferAccess2dC<Data1T> &pbufA,
+			                                    const RangeBufferAccess2dC<Data2T> &pbufB)
+  { First(pbufA.BufferAccess(),pbufA.ByteStride(),pbufA.Frame(),
+	  pbufB.BufferAccess(),pbufB.ByteStride(),pbufB.Frame());
+  }
+  //: Constructor.
+
+  template<typename Data1T,typename Data2T>
+  inline BufferAccess2dIter2C<Data1T,Data2T>::BufferAccess2dIter2C(const RangeBufferAccess2dC<Data1T> &pbuf1,const IndexRange2dC &frame1,
+			                                    const RangeBufferAccess2dC<Data2T> &pbuf2,const IndexRange2dC &frame2)
+  {
+    RavlAssert(pbuf1.Frame().Contains(frame1));
+    RavlAssert(pbuf2.Frame().Contains(frame2));
+    First(pbuf1.BufferAccess(),pbuf1.ByteStride(),frame1,
+	  pbuf2.BufferAccess(),pbuf2.ByteStride(),frame2);
+  }
+  //: Constructor.
+
   template<typename Data1T,typename Data2T,typename Data3T>
-  BufferAccess2dIter3C<Data1T,Data2T,Data3T>::BufferAccess2dIter3C(const RangeBufferAccess2dC<Data1T> &pbuf1,
+  inline BufferAccess2dIter3C<Data1T,Data2T,Data3T>::BufferAccess2dIter3C(const RangeBufferAccess2dC<Data1T> &pbuf1,
 			                                           const RangeBufferAccess2dC<Data2T> &pbuf2,
 			                                           const RangeBufferAccess2dC<Data3T> &pbuf3,
                                                                    const IndexRangeC &range1,const IndexRangeC &range2) {
+    RavlAssert(pbuf1.Frame().Contains(IndexRange2dC(range1,range2)));
+    RavlAssert(pbuf2.Frame().Contains(IndexRange2dC(range1,range2)));
+    RavlAssert(pbuf3.Frame().Contains(IndexRange2dC(range1,range2)));
     First(pbuf1.BufferAccess(),pbuf1.ByteStride(),
           pbuf2.BufferAccess(),pbuf2.ByteStride(),
           pbuf3.BufferAccess(),pbuf3.ByteStride(),
           range1,range2);
   }
   //: Constructor.
+
 
 
   template<class DataT>

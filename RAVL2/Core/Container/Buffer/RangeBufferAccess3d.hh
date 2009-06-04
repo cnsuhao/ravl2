@@ -216,6 +216,10 @@ namespace RavlN {
     UIntT Size() const 
     { return Range1().Size() * Range2().Size() * Range3().Size(); }
     //: Get the total number of elements in the array.
+
+    bool IsEmpty() const
+    { return Range1().Size() == 0 || Range2().Size() == 0 || Range3().Size() == 0; }
+    //: Test if there are no accessable elements.
     
     IntT ByteStride1() const
     { return m_stride1; }

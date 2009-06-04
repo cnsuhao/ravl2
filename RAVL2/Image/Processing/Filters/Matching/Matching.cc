@@ -33,8 +33,8 @@ namespace RavlImageN {
     int cols = imgTemplate.Frame().Cols();
     switch(cols) { // Choose cols.
     case 8: {
-      BufferAccess2dIter2C<ByteT,ByteT> it(imgTemplate,imgTemplate.Range1(),imgTemplate.Range2(),
-					   img,srect.Range1(),srect.Range2());
+      BufferAccess2dIter2C<ByteT,ByteT> it(imgTemplate,imgTemplate.Frame(),
+					   img,srect);
       
       __asm__ volatile ("\n\t pxor       %%mm7, %%mm7 "
 			"\n\t pxor       %%mm6, %%mm6 "
@@ -74,8 +74,8 @@ namespace RavlImageN {
     } break;
     
     case 16: {
-      BufferAccess2dIter2C<ByteT,ByteT> it(imgTemplate,imgTemplate.Range1(),imgTemplate.Range2(),
-					   img,srect.Range1(),srect.Range2());
+      BufferAccess2dIter2C<ByteT,ByteT> it(imgTemplate.BufferAccess(),imgTemplate.ByteStride(),imgTemplate.Range1(),imgTemplate.Range2(),
+					   img.BufferAccess(),img.ByteStride(),srect.Range1(),srect.Range2());
       
       __asm__ volatile ("\n\t pxor       %%mm7, %%mm7 "
 			"\n\t pxor       %%mm6, %%mm6 "
@@ -129,11 +129,13 @@ namespace RavlImageN {
     default:
       RangeBufferAccess2dC<ByteT> subImg(img,srect); 
       if(cols < 8) { // 1 - 7
-	for(BufferAccess2dIter2C<ByteT,ByteT> it(imgTemplate,imgTemplate.Range2(),subImg,subImg.Range2());it;it++)
+	for(BufferAccess2dIter2C<ByteT,ByteT> it(imgTemplate.BufferAccess(),imgTemplate.ByteStride(),imgTemplate.Frame(),
+                                                 subImg.BufferAccess(),subImg.ByteStride(),subImg.Frame());it;it++)
 	  diff += Abs((IntT) it.Data1() - (IntT) it.Data2());
       } else if(cols < 16) { // 9 - 15
 	
-	BufferAccess2dIter2C<ByteT,ByteT> it(imgTemplate,imgTemplate.Range2(),subImg,subImg.Range2());
+	BufferAccess2dIter2C<ByteT,ByteT> it(imgTemplate.BufferAccess(),imgTemplate.ByteStride(),imgTemplate.Frame(),
+                                             subImg.BufferAccess(),subImg.ByteStride(),subImg.Frame());
 	__asm__ volatile ("\n\t pxor       %%mm7, %%mm7 "
 			  "\n\t pxor       %%mm6, %%mm6 "
 			  : : "m" (cols) ); // Dummy arg to fix bug in gcc 2.95.3
@@ -174,7 +176,8 @@ namespace RavlImageN {
 	diff += diff1;
       } else { // 17 and upwards.
 	
-	BufferAccess2dIter2C<ByteT,ByteT> it(imgTemplate,imgTemplate.Range2(),subImg,subImg.Range2());
+	BufferAccess2dIter2C<ByteT,ByteT> it(imgTemplate.BufferAccess(),imgTemplate.ByteStride(),imgTemplate.Frame(),
+                                                 subImg.BufferAccess(),subImg.ByteStride(),subImg.Frame());
 	__asm__ volatile ("\n\t pxor       %%mm7, %%mm7 "
 			  "\n\t pxor       %%mm6, %%mm6 "
 			  : : "m" (cols) ); // Dummy arg to fix bug in gcc 2.95.3

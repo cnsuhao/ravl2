@@ -225,6 +225,10 @@ namespace RavlN {
     { return IndexRangeC(0,(IntT) m_size2-1); }
     //: Range of second index.
     
+    bool IsEmpty() const
+    { return m_size1 == 0 || m_size2 == 0; }
+    //: Test if there are no elements accessable.
+    
     IndexC RowIndexOf(const DataT &element) const {
       RavlAssert(IsValid());
       IndexC ret = (IndexC(reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm())))/m_stride;

@@ -62,7 +62,7 @@ public:
 
   //! return Lagrangian multipliers
   SArray1dC<double> GetLambdas() const
-    { return SArray1dC<double>(BufferC<double>(trainSetSize, lambdas, true, true),
+    { return SArray1dC<double>(BufferC<double>(lambdas,trainSetSize,  true, true),
                               trainSetSize); }
 
   RealT GetRadius() const

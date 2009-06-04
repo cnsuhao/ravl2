@@ -233,6 +233,10 @@ namespace RavlN {
     { return IndexRangeC(0,(IntT) m_size3-1); }
     //: Range of third index.
     
+    bool IsEmpty() const
+    { return m_size1== 0 || m_size2 == 0 || m_size3 == 0;}
+    //: Test if no elements are accessable by this interface.
+    
     IntT ByteStride1() const
     { return m_stride1; }
     //: Access number of bytes between slices.

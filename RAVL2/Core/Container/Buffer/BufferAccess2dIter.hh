@@ -47,27 +47,32 @@ namespace RavlN {
     
     BufferAccess2dIterC(const RangeBufferAccess2dC<DataT> &array);
     //: Construct on ranged array.
-    
+
+    BufferAccess2dIterC(const RangeBufferAccess2dC<DataT> &array,const IndexRange2dC &frame);
+    //: Construct on sub range of array.
+
     BufferAccess2dIterC(const SizeBufferAccess2dC<DataT> &array);
     //: Construct on size array.
     
     bool First(const BufferAccessC<DataT> &pbuf,IntT byteStride,
                SizeT size1,SizeT size2) {
+      m_size2 = size2;
+      m_stride = byteStride;
       if(size1 == 0 || size2 == 0) {
         m_cit.Invalidate();
+        m_endRow = 0;
+        m_rit = 0;
         return false;
       }
-      m_size2 = size2;
       m_rit   = reinterpret_cast<char *>(pbuf.ReferenceElm());
       m_endRow = m_rit + byteStride * (IntT) size1;
       DataT *colStart=reinterpret_cast<DataT*>(m_rit);
       m_cit.First(colStart,m_size2);
-      m_stride = byteStride;
       return true;
     }
     //: Goto first element in the array.
     
-    bool First(const DataT *pbuf,SizeT size1) {
+    inline bool First(const DataT *pbuf,SizeT size1) {
       RavlAssert(m_stride != 0);
       RavlAssert(m_size2 != 0)
       m_rit   = reinterpret_cast<char *>(const_cast<DataT*>(pbuf));
@@ -83,6 +88,8 @@ namespace RavlN {
       m_size2 = range2.Size();
       if(range1.IsEmpty() || m_size2 == 0) {
         m_cit.Invalidate();
+        m_rit = 0;
+        m_endRow = 0;
         return false;
       }
       m_rit   = reinterpret_cast<char *>(pbuf.ReferenceElm() + range2.Min().V()) + byteStride * range1.Min().V();

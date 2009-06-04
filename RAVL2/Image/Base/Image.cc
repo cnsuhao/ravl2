@@ -18,7 +18,7 @@ namespace RavlImageN {
   
   ostream &operator<<(ostream &s,const ImageC<ByteT> &img) {
     s << img.Rectangle() << "\n";
-    for(BufferAccess2dIterC<ByteT> it(img,img.Range2());it;) {
+    for(BufferAccess2dIterC<ByteT> it(img);it;) {
       do {
 	s << (IntT) *it << ' ';
       } while(it.Next());
@@ -35,7 +35,7 @@ namespace RavlImageN {
     s >> rect;
     img = ImageC<ByteT>(rect);
     int x;
-    for(BufferAccess2dIterC<ByteT> it(img,img.Range2());it;it++) {
+    for(BufferAccess2dIterC<ByteT> it(img);it;it++) {
       s >> x;
       *it = (ByteT) x;
     }
