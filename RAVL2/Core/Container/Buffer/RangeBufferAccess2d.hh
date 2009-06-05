@@ -306,11 +306,6 @@ namespace RavlN {
   { First(array.BufferAccess(),array.ByteStride(),array.Range1(),array.Range2()); }
 
   template<typename DataT>
-  inline bool BufferAccess2dIterC<DataT>::First(const SizeBufferAccess2dC<DataT> &array)
-  { return First(array.BufferAccess(),array.ByteStride(),array.Range1(),array.Range2()); }
-    //: Construct on size array.
-
-  template<typename DataT>
   inline BufferAccess2dIterC<DataT>::BufferAccess2dIterC(const RangeBufferAccess2dC<DataT> &array,const IndexRange2dC &frame)
   {
     RavlAssert(array.Frame().Contains(frame));

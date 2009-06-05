@@ -66,7 +66,7 @@ namespace RavlImageN {
           oldRow+= factor, ++newRow  ) 
       {
         BufferAccessIterC<PixelT> newCol = subSampled [newRow];
-	for ( BufferAccessIterC<PixelT> oldCol = img [oldRow] ; (oldCol.IsElm()) && (newCol.IsElm()) ; oldCol += factor, ++newCol  ) 
+	for ( BufferAccessIterC<const PixelT> oldCol(img [oldRow]) ; (oldCol.IsElm()) && (newCol.IsElm()) ; oldCol += factor, ++newCol  )
 	  newCol.Data() = oldCol.Data() ;
       }
     return subSampled ; 

@@ -275,6 +275,13 @@ namespace RavlN {
           array.Size1(),array.Size2());
   }
 
+  //: Construct on size array.
+  template<typename DataT>
+  inline bool BufferAccess2dIterC<DataT>::First(const SizeBufferAccess2dC<DataT>& array)
+  { return First(array.BufferAccess(),array.ByteStride(),
+                 array.Size1(),array.Size2());
+  }
+
   template<typename Data1T,typename Data2T>
   inline BufferAccess2dIter2C<Data1T,Data2T>::BufferAccess2dIter2C(const SizeBufferAccess2dC<Data1T> &pbuf1,
                                                                    const SizeBufferAccess2dC<Data2T> &pbuf2,

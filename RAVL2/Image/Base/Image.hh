@@ -97,7 +97,7 @@ namespace RavlImageN {
     //!param: cols - Range of column's to construct image over.
     
     ImageC(UIntT rows,UIntT cols,const BufferC<PixelT> &buf)
-      : Array2dC<PixelT>(IndexRange2dC(0,rows-1,0,cols-1),buf)
+      : Array2dC<PixelT>(buf,IndexRange2dC(rows-1,cols-1))
     {}
     //: Construct an image with origin at top left corner and size rows x cols, with space in 'buf'
     //!param: rows - Number of rows in the image.
@@ -105,7 +105,7 @@ namespace RavlImageN {
     //!param: buf - Raw pixel buffer, must contain at least row * cols elements.
     
     ImageC(UIntT rows,UIntT cols,PixelT *data,bool deletable = true)
-      : Array2dC<PixelT>(IndexRange2dC(0,rows-1,0,cols-1),BufferC<PixelT>(rows * cols,data,false,deletable))
+      : Array2dC<PixelT>(BufferC<PixelT>(data,rows * cols,false,deletable),IndexRange2dC(rows-1,cols-1))
     {}
     //: Construct an image with origin at top left corner and size rows x cols, with space in 'buf'
     //!param: rows - Number of rows in the image.
@@ -197,7 +197,7 @@ namespace RavlImageN {
   template <class PixelT>
   ImageC<PixelT> ImageC<PixelT>::Rotate180(Index2dC centre) const {    
     ImageC<PixelT> flipped(Rectangle().Rotate180(centre));
-    BufferAccess2dIterC<PixelT> it((*this),this->Range2());
+    BufferAccess2dIterC<PixelT> it(*this);
     IntT frow = flipped.BRow().V();
     PixelT *place = &(flipped[frow][flipped.RCol()]);
     while(it.IsElm()) {
@@ -222,7 +222,7 @@ namespace RavlImageN {
     Index2dC org(this->Frame().Origin().Col() - centre.Col() + centre.Row(),-this->Frame().Origin().Row() + centre.Col() + centre.Row());
     ImageC<PixelT> flipped(Rectangle().Rotate90(centre));
     Index2dC at = org;
-    for(BufferAccess2dIterC<PixelT> it((*this),this->Range2());it;) {
+    for(BufferAccess2dIterC<PixelT> it(*this);it;) {
       do {
         flipped[at] = *it;
         at.Row()++;
@@ -239,7 +239,7 @@ namespace RavlImageN {
     Index2dC org(-this->Frame().Origin().Col() + centre.Col() + centre.Row(),this->Frame().Origin().Row() - centre.Col() + centre.Row());
     ImageC<PixelT> flipped(Rectangle().Rotate270(centre));
     Index2dC at = org;
-    for(BufferAccess2dIterC<PixelT> it((*this),this->Range2());it;) {
+    for(BufferAccess2dIterC<PixelT> it(*this);it;) {
       do {
         flipped[at] = *it;
         at.Row()--;

@@ -29,7 +29,7 @@
 namespace RavlGUIN {
 
   static int gtkCanvasDestroyGC (GtkWidget *widget,GdkGC * data) { 
-    ONDEBUG(cerr << "Got destroy for GC : " << ((void *) data) << "\n");
+    ONDEBUG(std::cerr << "Got destroy for GC : " << ((void *) data) << "\n");
     gdk_gc_unref(data);
     return 1;
   }
@@ -292,17 +292,14 @@ namespace RavlGUIN {
     
     // Check that that rows are sequential in memory.
     // Check that rows at least look sequential in memory.
-    
-    if(!img.IsBlock()) 
-      img = img.Copy(); // The don't seem to be, so make a copy.
-    
+        
     gdk_draw_gray_image(DrawArea(),
                         widget->style->black_gc,
                         atx,aty,
                         img.Cols(),img.Rows(),
                         GDK_RGB_DITHER_NORMAL,
                         img.Row(img.TRow()),
-                        img.Stride());
+                        img.ByteStride());
     
 #if 1    
     if(autoRefresh) {
@@ -338,18 +335,14 @@ namespace RavlGUIN {
     int aty = off.Row().V(); 
     
     GtkWidget *widget = Widget();
-    
-    // Check that rows at least look sequential in memory.
-    if(!img.IsBlock())
-      img = img.Copy(); // The don't seem to be, so make a copy.
-    
+        
     gdk_draw_rgb_image(DrawArea(),
                        widget->style->black_gc,
                        atx,aty,
                        img.Cols(),img.Rows(),
                        GDK_RGB_DITHER_NORMAL,
                        (unsigned char *) img.Row(img.TRow()),
-                       img.Stride() * sizeof(ByteRGBValueC));
+                       img.ByteStride());
 
 #if 1
     if(autoRefresh) {

@@ -28,7 +28,7 @@ namespace RavlImageN {
       result = ImageC<DataT>(rect);
     // Copy center of image
     ImageC<DataT> orgImage(result,image.Frame());
-    for(BufferAccess2dIter2C<DataT,DataT> it(orgImage,orgImage.Range2(),image,image.Range2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(orgImage,image);it;it++)
       it.Data1() = it.Data2();
     // Take care of border
     DrawFrame(result,borderValue,n,rect);
@@ -45,7 +45,7 @@ namespace RavlImageN {
       result = ImageC<DataT>(rect);
     // Copy center of image
     ImageC<DataT> orgImage(result,image.Frame());
-    for(BufferAccess2dIter2C<DataT,DataT> it(orgImage,orgImage.Range2(),image,image.Range2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(orgImage,image);it;it++)
       it.Data1() = it.Data2();
     // Take care of border
     // Extend rows first.
@@ -85,7 +85,7 @@ namespace RavlImageN {
       result = ImageC<DataT>(rect);
     // Copy center of image
     ImageC<DataT> orgImage(result,image.Frame());
-    for(BufferAccess2dIter2C<DataT,DataT> it(orgImage,orgImage.Range2(),image,image.Range2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(orgImage,image);it;it++)
       it.Data1() = it.Data2();
     // Take care of border
     // Extend rows first.

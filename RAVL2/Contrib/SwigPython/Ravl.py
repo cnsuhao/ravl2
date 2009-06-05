@@ -1403,9 +1403,9 @@ class Array2dByteC(_object):
         """Fill(self, value)"""
         return _Ravl.Array2dByteC_Fill(*args)
 
-    def Stride(*args):
-        """Stride(self) -> IntT"""
-        return _Ravl.Array2dByteC_Stride(*args)
+    def ByteStride(*args):
+        """ByteStride(self) -> IntT"""
+        return _Ravl.Array2dByteC_ByteStride(*args)
 
     def Access(*args):
         """
@@ -1444,9 +1444,9 @@ class Array2dRealC(_object):
         """Fill(self, value)"""
         return _Ravl.Array2dRealC_Fill(*args)
 
-    def Stride(*args):
-        """Stride(self) -> IntT"""
-        return _Ravl.Array2dRealC_Stride(*args)
+    def ByteStride(*args):
+        """ByteStride(self) -> IntT"""
+        return _Ravl.Array2dRealC_ByteStride(*args)
 
     def Access(*args):
         """
@@ -1868,9 +1868,9 @@ class ByteRGBArray2dC(_object):
         """Fill(self, value)"""
         return _Ravl.ByteRGBArray2dC_Fill(*args)
 
-    def Stride(*args):
-        """Stride(self) -> IntT"""
-        return _Ravl.ByteRGBArray2dC_Stride(*args)
+    def ByteStride(*args):
+        """ByteStride(self) -> IntT"""
+        return _Ravl.ByteRGBArray2dC_ByteStride(*args)
 
     def Access(*args):
         """
@@ -1909,9 +1909,9 @@ class RealRGBArray2dC(_object):
         """Fill(self, value)"""
         return _Ravl.RealRGBArray2dC_Fill(*args)
 
-    def Stride(*args):
-        """Stride(self) -> IntT"""
-        return _Ravl.RealRGBArray2dC_Stride(*args)
+    def ByteStride(*args):
+        """ByteStride(self) -> IntT"""
+        return _Ravl.RealRGBArray2dC_ByteStride(*args)
 
     def Access(*args):
         """
@@ -2017,6 +2017,14 @@ class ImageByteRGBValueC(ByteRGBArray2dC):
         """Row(self, row) -> ByteRGBValueC"""
         return _Ravl.ImageByteRGBValueC_Row(*args)
 
+    def ByteStride(*args):
+        """ByteStride(self) -> IntT"""
+        return _Ravl.ImageByteRGBValueC_ByteStride(*args)
+
+    def DataAsString(*args):
+        """DataAsString(self) -> PyObject"""
+        return _Ravl.ImageByteRGBValueC_DataAsString(*args)
+
     __swig_destroy__ = _Ravl.delete_ImageByteRGBValueC
     __del__ = lambda self : None;
 ImageByteRGBValueC_swigregister = _Ravl.ImageByteRGBValueC_swigregister
@@ -2054,6 +2062,14 @@ class ImageByteC(Array2dByteC):
     def Row(*args):
         """Row(self, row) -> unsigned char"""
         return _Ravl.ImageByteC_Row(*args)
+
+    def ByteStride(*args):
+        """ByteStride(self) -> IntT"""
+        return _Ravl.ImageByteC_ByteStride(*args)
+
+    def DataAsString(*args):
+        """DataAsString(self) -> PyObject"""
+        return _Ravl.ImageByteC_DataAsString(*args)
 
     __swig_destroy__ = _Ravl.delete_ImageByteC
     __del__ = lambda self : None;

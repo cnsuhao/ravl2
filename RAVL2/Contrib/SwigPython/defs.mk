@@ -8,7 +8,7 @@
 
 DONOT_SUPPORT=VCPP
 
-REQUIRES=Swig SwigPython
+#REQUIRES=Swig SwigPython
 
 PACKAGE=Ravl/Swig
 

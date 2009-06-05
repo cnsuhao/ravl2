@@ -106,7 +106,13 @@ namespace RavlN {
     {}
     //: Create a sub array of 'arr' covering indices 'rect'.
     // Note: This does NOT copy data elements, its just another view on the same data.
-    
+
+    Array2dC(const BufferC<DataT> &arr,const IndexRange2dC & rect)
+      : m_data(AttachedBuffer2dC<DataT>(arr,rect.Range1().Size(),rect.Range2().Size()))
+    { Attach(m_data,rect); }
+    //: Create a sub array of 'arr' covering indices 'rect'.
+    // Note: This does NOT copy data elements, its just another view on the same data.
+
     Array2dC(const Array2dC<DataT> &arr,const IndexRange2dC & rect,const Index2dC &newOrigin)
       : m_data(arr.m_data)
     {

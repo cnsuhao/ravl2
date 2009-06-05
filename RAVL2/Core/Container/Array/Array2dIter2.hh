@@ -36,8 +36,7 @@ namespace RavlN {
     //: Default constructor.
     
     Array2dIter2C(const Array2dC<Data1T> &arr1,const Array2dC<Data2T> &arr2,bool matching = true)
-      : BufferAccess2dIter2C<Data1T,Data2T>(arr1,arr2,arr1.Range1(),arr1.Range2()),
-        dat1(arr1),
+      : dat1(arr1),
         dat2(arr2)
     { 
       if(matching) {

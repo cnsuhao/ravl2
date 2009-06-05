@@ -50,13 +50,11 @@ namespace RavlN {
     
     bool First() {
       IndexRange2dC frame1 = array1.Frame().Expand(-1);
-      IndexRange2dC frame2 = array2.Frame().Expand(-1);
-      IndexRange2dC frame3 = array3.Frame().Expand(-1);
-      IndexRange2dC frame4 = array4.Frame().Expand(-1);
+      
       if(!BufferAccess2dIter4C<Data1T,Data2T,Data3T,Data4T>::First(array1.BufferAccess(),array1.ByteStride(),frame1,
-                                                            array2.BufferAccess(),array2.ByteStride(),frame2,
-                                                            array3.BufferAccess(),array3.ByteStride(),frame3,
-                                                            array4.BufferAccess(),array4.ByteStride(),frame4
+                                                            array2.BufferAccess(),array2.ByteStride(),frame1,
+                                                            array3.BufferAccess(),array3.ByteStride(),frame1,
+                                                            array4.BufferAccess(),array4.ByteStride(),frame1
                                                             ))
         return false;
       up = ShiftPointerInBytes(&(this->Data1()),-array1.ByteStride());

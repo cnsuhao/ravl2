@@ -56,8 +56,8 @@ int testNormalisedCorrelation() {
   
   IndexRange2dC targFrame(Index2dC(50,50),8);
   ImageC<ByteT> targ(ImageC<ByteT>(img,targFrame).Copy());
-  targ.ShiftIndexes1(50);
-  targ.ShiftIndexes2(50);
+  targ.ShiftRows(-50);
+  targ.ShiftCols(-50);
   //cerr << "Targ=" << targ.Frame() << "\n";
   
   MatchNormalisedCorrelationC match(img);
