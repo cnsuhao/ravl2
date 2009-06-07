@@ -84,12 +84,12 @@ int main() {
   TEST(testEllipse2dB);
   TEST(testEllipse2dC);
   TEST(testEllipse2dD);
-  TEST(testScanPolygon);
   TEST(testOverlap);
   TEST(testPolygonClip);
   TEST(testAffine);
-#endif
   TEST(testTriangulate2d);
+#endif
+  TEST(testScanPolygon);
   cout << "Test passed. \n";
   return 0;
 }
@@ -883,17 +883,23 @@ int testScanPolygon() {
   poly.InsLast(Point2dC(30,20));
   poly.InsLast(Point2dC(20,20));
   poly.InsLast(Point2dC(20,10));
+  count = 0;
   for(ScanPolygon2dC it(poly,1);it;it++) {
 #if DODISPLAY
     DrawLine(img,drawVal,Index2dC(it.Row(),it.Data().Min()),Index2dC(it.Row(),it.Data().Max()));
 #endif
-    //cerr << " " << it.Row() << " " << it.Data() << "\n";
+    cerr << " " << it.Row() << " " << it.Data() << "\n";
 #if 0
     if(it.Data().Size() > 0.001 &&
        !poly.Contains(Point2dC(it.Row(),it.Data().Center()))) 
       return __LINE__;
 #endif
     count++;
+    if(count > 100) {
+      std::cerr << "Too many lines...\n";
+      //return __LINE__;
+      break;
+    }
   }
 #if DODISPLAY
   Save("@X:8",img);

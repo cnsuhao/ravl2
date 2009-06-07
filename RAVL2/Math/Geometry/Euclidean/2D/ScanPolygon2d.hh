@@ -6,7 +6,6 @@
 // file-header-ends-here
 #ifndef RAVL_SCANPOLYGON2D_HEADER
 #define RAVL_SCANPOLYGON2D_HEADER 1
-//! rcsid="$Id$"
 //! lib=RavlMath
 //! date="16/8/2004"
 //! author="Charles Galambos"
