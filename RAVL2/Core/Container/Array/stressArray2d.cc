@@ -100,7 +100,7 @@ void loopArray2() {
 
 void ArrayAlloc() {
 #if 1
-  for(int i = 0;i < 1000000;i++) {
+  for(int i = 0;i < 10000000;i++) {
     Array2dC<UIntT> array(100,100);
   }
 #else
@@ -108,7 +108,7 @@ void ArrayAlloc() {
 #endif
 }
 
-int main(UIntT nargs,char **argv) {
+int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   UIntT loops = opt.Int("l",100,"Interations ");
   bool block = opt.Boolean("b",false,"Use simple block access.");
@@ -119,7 +119,7 @@ int main(UIntT nargs,char **argv) {
     ArrayAlloc();
     return 0;
   }
-  if(block) {
+  if(!block) {
     if(verbose)
       std::cerr << "Array2dC.. \n";
     for(int i = 0;i < loops;i++)
