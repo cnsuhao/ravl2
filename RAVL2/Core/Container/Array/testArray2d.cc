@@ -12,6 +12,7 @@
 //! userlevel=Develop
 
 #include "Ravl/Array2d.hh"
+#include "Ravl/Array1d.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Array2dIter3.hh"
@@ -182,20 +183,32 @@ int testBasic() {
 }
 
 int testSlice() {
-  Array2dC<int> test(3,3);
+  Array2dC<int> test(IndexRangeC(1,3),IndexRangeC(5,7));
   int i = 0;
   for(Array2dIterC<int> it(test);it;it++)
     *it = i++;
   cerr << "Test=" << test << "\n";
+  
+  // Column slices.
   Slice1dC<int> slice;
-  for(i = 0;i < (IntT) test.Frame().Rows();i++) {
+  for(i = test.Frame().LCol().V();i < (IntT) test.Frame().RCol().V();i++) {
     slice = test.SliceColumn(i);
-    cerr << "Slice=" << slice << "\n";
-    for(int j = 0;j < (IntT) test.Frame().Cols();j++) {
+    //cerr << "Slice=" << slice << "\n";
+    for(int j = test.Frame().TRow().V();i < (IntT) test.Frame().BRow().V();i++) {
       //cerr << "Val=" << slice[j] << " " << test[j][i] << "\n";
       if(slice[j] != test[j][i]) return __LINE__;
     }
   }
+
+  // Test row slices.
+  for(int j = test.Frame().TRow().V();i < (IntT) test.Frame().BRow().V();i++) {
+    Array1dC<int> srow = test.SliceRow(i);
+    for(i = test.Frame().LCol().V();i < (IntT) test.Frame().RCol().V();i++) {
+      if(srow[i] != test[j][i])
+        return __LINE__;
+    }
+  }
+  
   return 0;
 }
 

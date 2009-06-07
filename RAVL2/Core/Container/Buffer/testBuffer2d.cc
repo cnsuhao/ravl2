@@ -43,6 +43,8 @@ int TestSingleBuffer2d();
 int TestBuffer2d();
 int TestSizeBuffer2d();
 int TestRangeBufferAccess2d();
+int TestBufferAccess2dIter();
+int TestIndexOf();
 
 int main()
 {
@@ -68,6 +70,14 @@ int main()
     return 1;
   }
   if((ln = TestRangeBufferAccess2d()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  if((ln = TestBufferAccess2dIter()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  if((ln = TestIndexOf()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
@@ -370,6 +380,75 @@ int TestRangeBufferAccess2d() {
   return 0;
 }
 
+int TestBufferAccess2dIter() {
+  const int rows = 9;
+  const int cols = 10;
+  Buffer2dC<short> bf1 (rows,cols);
+  Buffer2dC<int> bf2 (rows,cols);
+  Buffer2dC<double> bf3 (rows,cols);
+  SizeBufferAccess2dC<short> sba1(bf1,rows,cols,cols * sizeof(short));
+
+  // Initalise buffer.
+  int i = 0;
+  for(BufferAccess2dIterC<short> it(sba1);it;it++)
+    *it = i++;
+  if(i != (rows * cols)) return __LINE__;
+  SizeBufferAccess2dC<int> sba2(bf2,rows,cols,cols * sizeof(int));
+
+  // Initalise buffer.
+  i = 0;
+  for(BufferAccess2dIterC<int> it(sba2);it;it++)
+    *it = i++;
+  if(i != (rows * cols)) return __LINE__;
+
+  SizeBufferAccess2dC<double> sba3(bf3,rows,cols,cols * sizeof(double));
+
+  // Initalise buffer.
+  i = 0;
+  for(BufferAccess2dIterC<double> it(sba3);it;it++)
+    *it = i++;
+  if(i != (rows * cols)) return __LINE__;
+
+  // Test 2 array iter.
+  i = 0;
+  for(BufferAccess2dIter2C<short,int> it(sba1,sba2);it;it++,i++) {
+    if(it.Data1() != i) return __LINE__;
+    if(it.Data2() != i) return __LINE__;
+  }
+
+  // Test 3 array iter.
+  i = 0;
+  for(BufferAccess2dIter3C<short,int,double> it(sba1,sba2,sba3,rows,cols);it;it++,i++) {
+    if(it.Data1() != i) return __LINE__;
+    if(it.Data2() != i) return __LINE__;
+    if((int)it.Data3() != i) return __LINE__;
+  }
+
+  return 0;
+}
+
+int TestIndexOf() {
+  IndexRange2dC frame(-11,5,-3,7);
+  Buffer2dC<Index2dC> bf1 (frame.Rows(),frame.Cols());
+
+  RangeBufferAccess2dC<Index2dC> rba;
+  rba.Attach(bf1,frame);
+
+  for(IndexC i = frame.TRow();i <= frame.BRow();i++) {
+    for(IndexC j = frame.LCol();j <= frame.RCol();j++) {
+      rba[i][j] = Index2dC(i,j);
+    }
+  }
+  for(BufferAccess2dIterC<Index2dC> it(rba);it;it++) {
+    if(it->Row() != rba.RowIndexOf(*it))
+      return __LINE__;
+    if(it->Col() != rba.ColIndexOf(*it))
+      return __LINE__;
+    if(*it != rba.IndexOf(*it))
+      return __LINE__;
+  }
+  return 0;
+}
 
 
 // Check all methods compile.

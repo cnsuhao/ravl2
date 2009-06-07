@@ -21,6 +21,7 @@
 using namespace RavlN;
 
 int testBasic();
+int testSArrayIter();
 int testSubArray();
 int testIO();
 
@@ -31,6 +32,10 @@ int main() {
     return 1;
   }
   if((ln = testSubArray()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testSArrayIter()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -74,7 +79,8 @@ int testBasic() {
   if(testArr[2][1] != 0) return __LINE__;
   if(testArr[2][2] != 0) return __LINE__;
   if(testArr[9][9] != 0) return __LINE__;
-  
+
+ 
   // Fill with a simple pattern.
   int place = 0;
   for(IndexC i = 0;i < 10;i++)
@@ -186,7 +192,7 @@ int testIO() {
 }
 
 int testSubArray() {
-  SArray2dC<IntT> arr(5,5);
+  SArray2dC<IntT> arr(5,7);
   IntT i = 0;
   for(SArray2dIterC<IntT> it(arr);it;it++,i++)
     *it = i;
@@ -203,6 +209,43 @@ int testSubArray() {
       if(area != j * k) return __LINE__;
     }
   }
+  return 0;
+}
+
+int testSArrayIter() {
+  SArray2dC<IntT> arr1(5,7);
+  IntT i = 0;
+  for(SArray2dIterC<IntT> it(arr1);it;it++,i++)
+    *it = i;
+  SArray2dC<short> arr2(5,7);
+  i = 0;
+  for(SArray2dIterC<short> it(arr2);it;it++,i++)
+    *it = i;
+
+  // Test 2 array iterator.
+  i = 0;
+  for(SArray2dIter2C<IntT,short> it(arr1,arr2);it;it++,i++) {
+    //std::cerr << " " << it.Data1() << " " << it.Data2() << " i=" << i<< "\n";
+    if(it.Data1() != it.Data2())
+      return __LINE__;
+  }
+  SArray2dC<double> arr3(5,7);
+  i = 0;
+  for(SArray2dIterC<double> it(arr3);it;it++,i++)
+    *it = i;
+
+  // Test 3 array iterator.
+  i = 0;
+  for(SArray2dIter3C<IntT,short,double> it(arr1,arr2,arr3);it;it++,i++) {
+    //std::cerr << " " << it.Data1() << " " << it.Data2() << " " << it.Data3() << " i=" << i <<"\n";
+    if(it.Data1() != it.Data2())
+      return __LINE__;
+    if(it.Data1() != Round(it.Data3()))
+      return __LINE__;
+    if(it.Data1() != i)
+      return __LINE__;
+  }
+
   return 0;
 }
 

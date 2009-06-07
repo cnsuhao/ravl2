@@ -186,23 +186,25 @@ int testFFT2dPwr2() {
 
 int testRealFFT2d() {
   cerr << "testRealFFT2d(), Started. \n";
-  SArray2dC<RealT> indat(30,20);
-  int i = 0;
+  //SArray2dC<RealT> indat(30,20);
+  SArray2dC<RealT> indat(10,8);
+   int i = 0;
   for(SArray2dIterC<RealT> it(indat);it;it++)
     *it = (RealT) i++;
 
   FFT2dC fftf(indat.Size1(),indat.Size2(),false); // create forward transform.
   SArray2dC<ComplexC> fres = fftf.Apply(indat);
 
-  //cerr << fres << "\n";
+  cerr << fres << "\n";
 
   FFT2dC ffti(indat.Size1(),indat.Size2(),true);// create reverse transform.
   SArray2dC<ComplexC> ires = ffti.Apply(fres);
 
-  //cerr << ires << "\n";
+  cerr << ires << "\n";
 
   SArray2dC<RealT> rres = ffti.Real(ires);
 
+  cerr << rres << "\n";
 
   for(SArray2dIter3C<RealT,ComplexC,RealT> rit(indat,ires,rres);rit;rit++) {
     if(Abs(rit.Data1() - rit.Data3()) > 0.000001)
@@ -248,10 +250,13 @@ int testFFTShift() {
   // Using RotateFreq should work even for odd sizes
   Array2dC<int> in(-5,-1,-1,1);
   for (Array2dIterC<int> i(in); i; ++i) *i = (i.Index().Row()*i.Index().Col()).V();
-  FFT2dC forw(in.Frame().Size()), inv(in.Frame().Size(),true);
-  Array2dC<int> diff(inv.RotateFreq(forw.RotateFreq(in))-in);
-  for (Array2dIterC<int> i(diff); i; ++i) {
-    if (*i != 0)  return __LINE__;
+  FFT2dC forw(in.Frame().Size());
+  FFT2dC inv(in.Frame().Size(),true);
+  Array2dC<int> thereAndBack(inv.RotateFreq(forw.RotateFreq(in)));
+  std::cerr << "in=" << in;
+  std::cerr << "ThereAndBack=" << thereAndBack;
+  for (Array2dIter2C<int,int> i(thereAndBack,in); i; ++i) {
+    if ((i.Data1() - i.Data2()) != 0)  return __LINE__;
   }
 
   // Check even size using: evenSize = fftshift(fftshift(evenSize))

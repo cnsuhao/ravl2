@@ -220,7 +220,7 @@ namespace RavlN {
       if(m_stride1 > 0) {
         if(m_rit1 >= m_endRow) return false;
       } else {
-        if(m_rit2 <= m_endRow) return false;
+        if(m_rit1 <= m_endRow) return false;
       }
       m_cit.First(reinterpret_cast<Data1T*>(m_rit1),
                   reinterpret_cast<Data2T*>(m_rit2),
@@ -292,10 +292,11 @@ namespace RavlN {
   void BufferAccess2dIter2C<Data1T,Data2T>::CNextRow() {
     m_rit1 += m_stride1;
     m_rit2 += m_stride2;
-    if(m_rit1 != m_endRow)
-      m_cit.First(reinterpret_cast<Data1T*>(m_rit1),
-                  reinterpret_cast<Data2T*>(m_rit2),
-                  m_size2);
+    if(m_rit1 == m_endRow)
+      return ;
+    m_cit.First(reinterpret_cast<Data1T*>(m_rit1),
+                reinterpret_cast<Data2T*>(m_rit2),
+                m_size2);
   }
 }
 

@@ -20,6 +20,7 @@
 #include "Ravl/SArray1dIter3.hh"
 #include "Ravl/SArray1dIter4.hh"
 #include "Ravl/SArray1dIter5.hh"
+#include "Ravl/Slice1d.hh"
 
 using namespace RavlN;
 
@@ -180,6 +181,13 @@ int testBasic() {
     cerr << "Sum check failed. \n";
     return __LINE__;
   }
+
+  // Test conversion to a slice.
+  Slice1dC<IntT> asSlice = sarrSum.Slice1d();
+  if(asSlice.Size() != sarrSum.Size()) return __LINE__;
+  for(int i = 0;i < sarrSum.Size();i++)
+    if(asSlice[i] != sarrSum[i]) return __LINE__;
+  
   cerr << "SArray test passed. \n";
   return 0;
 }

@@ -40,7 +40,7 @@ namespace RavlN {
     
     inline bool First() 
     { return BufferAccess2dIter2C<Data1T,Data2T>::First(arr1.BufferAccess(),arr1.ByteStride(),
-                                                        arr2.BufferAccess(),arr1.ByteStride(),
+                                                        arr2.BufferAccess(),arr2.ByteStride(),
                                                         arr1.Size1(),arr1.Size2());
     }
     //: Goto first element in array.

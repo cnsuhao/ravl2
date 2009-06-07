@@ -181,7 +181,7 @@ namespace RavlN {
     // when optimised is enabled an empty array will be returned. 
 
     Slice1dC<DataT> Slice1d()
-    { return Slice1dC<DataT>(buff,this->ReferenceElm(),Range(),1); }
+    { return Slice1dC<DataT>(buff,this->ReferenceElm(),Range(),sizeof(DataT)); }
     //: Access array as a slice.
     
     //:-----------------------------------

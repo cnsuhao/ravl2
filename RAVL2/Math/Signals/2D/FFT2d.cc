@@ -5,7 +5,6 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/Signals/2D/FFT2d.cc"
 
@@ -150,7 +149,7 @@ namespace RavlN {
   }
 
   //: Apply transform to array.
-  // FIXME:- Why all these const cast's ??
+
   SArray2dC<ComplexC> FFT2dBodyC::Apply(const SArray2dC<RealT> &dat) const {
     ONDEBUG(cerr << "FFT2dBodyC::Apply(SArray2dC<ComplexC>) n=" << n << " inv=" << inv << " \n");
     RavlAssert(dat.Size1() == (UIntT) size[0].V());
@@ -161,9 +160,9 @@ namespace RavlN {
 	it.Data2() = ComplexC(it.Data1(),0);
       //cerr << dat <<  "\n";
       if(inv)
-	fft2_d(const_cast<ccomplex *>(reinterpret_cast<const ccomplex *>(ret[0].DataStart())),m,n,'i');
+	fft2_d((ccomplex *) ((void *) ret[0].DataStart()),m,n,'i');
       else
-	fft2_d(const_cast<ccomplex *>(reinterpret_cast<const ccomplex *>(ret[0].DataStart())),m,n,'d');
+	fft2_d((ccomplex *) ((void *) ret[0].DataStart()),m,n,'d');
       //cerr << "result:" << ret << "\n";;
       return ret;
     }
@@ -176,8 +175,8 @@ namespace RavlN {
     if(inv) {
       // fft of rows.
       for(i = 0;i < (int) dat.Size1();i++)
-	fftgr(const_cast<RealT *>(dat[i].DataStart()),
-	      reinterpret_cast<ccomplex *>(tmp1[i].DataStart()),
+	fftgr(const_cast<double *>(dat[i].DataStart()),
+	      (ccomplex *)((void *) tmp1[i].DataStart()),
 	      size[1].V(),(int*)primeFactors2,'i');
       // fft of cols.
       for(j = 0;j < (int) dat.Size2();j++) {
@@ -186,7 +185,7 @@ namespace RavlN {
 	  it.Data1() = &it.Data2();
 
 	fftgc((ccomplex **) ((void *)&(ptrArr[0])),
-	      reinterpret_cast<ccomplex *>(idat.DataStart()),
+	      (ccomplex *) ((void *) idat.DataStart()),
 	      idat.Size(),(int*)primeFactors1,'i');
 
 	for(Slice1dIter2C<ComplexC *,ComplexC> itb(ptrArr.Slice1d(),ret.SliceColumn(j));itb;itb++)
@@ -195,17 +194,17 @@ namespace RavlN {
     } else {
       // fft of rows.
       for(i = 0;i < (int) dat.Size1();i++)
-	fftgr(const_cast<RealT *>(dat[i].DataStart()),
-	      reinterpret_cast<ccomplex *>(tmp1[i].DataStart()),
+	fftgr(const_cast<double *>(dat[i].DataStart()),
+	      (ccomplex *)((void *) tmp1[i].DataStart()),
 	      size[1].V(),(int*)primeFactors2,'d');
       // fft of cols.
       for(j = 0;j < (int) dat.Size2();j++) {
 	idat.CopyFrom(tmp1.SliceColumn(j));
 	for(BufferAccessIter2C<ComplexC *,ComplexC> it(ptrArr,idat);it;it++)
 	  it.Data1() = &it.Data2();
-        
+
 	fftgc((ccomplex **) ((void *)&(ptrArr[0])),
-	      reinterpret_cast<ccomplex *>(idat.DataStart()),
+	      (ccomplex *) ((void *) idat.DataStart()),
 	      idat.Size(),(int*)primeFactors1,'d');
 
 	for(Slice1dIter2C<ComplexC *,ComplexC> itb(ptrArr.Slice1d(),ret.SliceColumn(j));itb;itb++)
@@ -363,8 +362,7 @@ namespace RavlN {
     Array2dC<ComplexC> shifted(shiftedSArray);
 
     // Translate shifted to dat position
-    shifted.ShiftRows(dat.Range1().Min());
-    shifted.ShiftCols(dat.Range2().Min());
+    shifted.ShiftArray(dat.Frame().Origin());
 
     return shifted;
   }
@@ -376,10 +374,10 @@ namespace RavlN {
 
     Array2dC<RealT> shifted(shiftedSArray);
 
+
     // Translate shifted to dat position
-    shifted.ShiftRows(dat.Range1().Min());
-    shifted.ShiftCols(dat.Range2().Min());
-    
+    shifted.ShiftArray(dat.Frame().Origin());
+
     return shifted;
   }
 
@@ -388,8 +386,7 @@ namespace RavlN {
   SArray2dC<RealT> FFT2dC::Real(const SArray2dC<ComplexC> &dat)
   {
     SArray2dC<RealT> out(dat.Size1(),dat.Size2());
-    for (SArray2dIter2C<RealT,ComplexC> i(out,dat); i; ++i)
-      i.Data1() = i.Data2().Re();
+    for (SArray2dIter2C<RealT,ComplexC> i(out,dat); i; ++i) i.Data1() = i.Data2().Re();
     return out;
   }
 
@@ -398,8 +395,7 @@ namespace RavlN {
   SArray2dC<RealT> FFT2dC::Imag(const SArray2dC<ComplexC> &dat)
   {
     SArray2dC<RealT> out(dat.Size1(),dat.Size2());
-    for (SArray2dIter2C<RealT,ComplexC> i(out,dat); i; ++i)
-      i.Data1() = i.Data2().Im();
+    for (SArray2dIter2C<RealT,ComplexC> i(out,dat); i; ++i) i.Data1() = i.Data2().Im();
     return out;
   }
 
@@ -408,8 +404,7 @@ namespace RavlN {
   SArray2dC<RealT> FFT2dC::Mag(const SArray2dC<ComplexC> &dat)
   {
     SArray2dC<RealT> out(dat.Size1(),dat.Size2());
-    for (SArray2dIter2C<RealT,ComplexC> i(out,dat); i; ++i)
-      i.Data1() = i.Data2().Mag();
+    for (SArray2dIter2C<RealT,ComplexC> i(out,dat); i; ++i) i.Data1() = i.Data2().Mag();
     return out;
   }
 
@@ -418,8 +413,7 @@ namespace RavlN {
   Array2dC<RealT> FFT2dC::Real(const Array2dC<ComplexC> &dat)
   {
     Array2dC<RealT> out(dat.Frame());
-    for (Array2dIter2C<RealT,ComplexC> i(out,dat); i; ++i)
-      i.Data1() = i.Data2().Re();
+    for (Array2dIter2C<RealT,ComplexC> i(out,dat); i; ++i) i.Data1() = i.Data2().Re();
     return out;
   }
 
@@ -428,8 +422,7 @@ namespace RavlN {
   Array2dC<RealT> FFT2dC::Imag(const Array2dC<ComplexC> &dat)
   {
     Array2dC<RealT> out(dat.Frame());
-    for (Array2dIter2C<RealT,ComplexC> i(out,dat); i; ++i)
-      i.Data1() = i.Data2().Im();
+    for (Array2dIter2C<RealT,ComplexC> i(out,dat); i; ++i) i.Data1() = i.Data2().Im();
     return out;
   }
 
@@ -438,8 +431,7 @@ namespace RavlN {
   Array2dC<RealT> FFT2dC::Mag(const Array2dC<ComplexC> &dat)
   {
     Array2dC<RealT> out(dat.Frame());
-    for (Array2dIter2C<RealT,ComplexC> i(out,dat); i; ++i)
-      i.Data1() = i.Data2().Mag();
+    for (Array2dIter2C<RealT,ComplexC> i(out,dat); i; ++i) i.Data1() = i.Data2().Mag();
     return out;
   }
 

@@ -23,7 +23,8 @@ SOURCES=AutoPortSource.cc AutoPortGenerator.cc ExtLib.cc ExtLibTable.cc
 
 MAINS= autoport2.cc
 
-TESTEXES=autoport2.cc
+TESTEXES=
+#autoport2.cc
 
 PLIB=RavlAutoPort2
 

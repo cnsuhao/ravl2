@@ -66,6 +66,7 @@ namespace RavlN {
         m_ref(reinterpret_cast<char *>(buff.ReferenceElm()) + byteOffset),
         m_buffer(buff)
     {
+      RavlAssert((SizeT) Abs(byteStride) >= sizeof(DataT)); // Must be more than 1 element long.
       RavlAssert(((size-1) * m_stride + byteOffset) < (sizeof(DataT) * buff.Size())); // Check it fits.
     }
     //: Attach a vector to a buffer.
@@ -81,6 +82,7 @@ namespace RavlN {
         m_ref(reinterpret_cast<char *>(refElm)),
         m_buffer(buff)
     {
+      RavlAssert((SizeT) Abs(byteStride) >= sizeof(DataT)); // Must be more than 1 element long.
       RavlAssert(((size-1) * m_stride + sizeof(DataT) * (refElm - m_buffer.ReferenceElm())) < (sizeof(DataT) * buff.Size())); // Check it fits.
     }
     //: Attach a vector to a buffer.

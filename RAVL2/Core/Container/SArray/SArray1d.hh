@@ -240,7 +240,7 @@ namespace RavlN {
     //: Returns the usable range of indeces expressed by this object.
     
     Slice1dC<DataT> Slice1d()
-    { return Slice1dC<DataT>(buff,DataStart(),Size(),1); }
+    { return Slice1dC<DataT>(buff,DataStart(),Size(),sizeof(DataT)); }
     //: Access array as a slice.
     
     //:-----------------------------------

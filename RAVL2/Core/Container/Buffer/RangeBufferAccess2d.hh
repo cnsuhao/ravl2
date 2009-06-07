@@ -261,7 +261,8 @@ namespace RavlN {
 
     IndexC RowIndexOf(const DataT &element) const {
       RavlAssert(IsValid());
-      IndexC ret = (IndexC(reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm())) - (Range2().Min()*IndexC((IntT)sizeof(DataT))))/m_stride;
+      IndexC ret = (IndexC(reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()))
+          - (Range2().Min()*IndexC((IntT)sizeof(DataT))))/m_stride;
       RavlAssertMsg(Range1().Contains(ret),"Requested element not from this array.");
       return ret;
     }
@@ -270,9 +271,9 @@ namespace RavlN {
     
     IndexC ColIndexOf(const DataT &element) const {
       RavlAssert(IsValid());
-      IntT diff = (reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()));
-      diff -= Range2().Min() * IndexC((int) sizeof(DataT));
-      IndexC ret = ((diff % m_stride)/IndexC((IntT) sizeof(DataT))) + Range2().Min();
+      IndexC diff = (reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()));
+      diff -= Range2().Min() * IndexC((int) sizeof(DataT)) + Range1().Min() * m_stride;
+      IndexC ret = ((diff % m_stride)/(IntT) sizeof(DataT)) + Range2().Min();
       RavlAssertMsg(Range2().Contains(ret),"Requested element not from this array.");
       return ret;
     }
@@ -282,8 +283,8 @@ namespace RavlN {
     Index2dC IndexOf(const DataT &element) const {
       RavlAssert(IsValid());
       IndexC diff = (reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()));
-      diff -= Range2().Min() * IndexC((IntT) sizeof(DataT));
-      Index2dC ret((diff / m_stride),
+      diff -= Range2().Min() * IndexC((IntT) sizeof(DataT)) + Range1().Min() * m_stride;
+      Index2dC ret((diff / m_stride) + Range1().Min(),
                    ((diff % m_stride)/IndexC((IntT) sizeof(DataT))) + Range2().Min());
       RavlAssertMsg(Frame().Contains(ret),"Requested element not from this array.");
       return ret;
