@@ -100,8 +100,8 @@ void loopArray2() {
 
 void ArrayAlloc() {
 #if 1
-  for(int i = 0;i < 10000000;i++) {
-    Array1dC<UIntT> array(100); 
+  for(int i = 0;i < 1000000;i++) {
+    Array2dC<UIntT> array(100,100);
   }
 #else
   Array1dC<UIntT> array(1); 
@@ -113,17 +113,20 @@ int main(UIntT nargs,char **argv) {
   UIntT loops = opt.Int("l",100,"Interations ");
   bool block = opt.Boolean("b",false,"Use simple block access.");
   bool testAlloc = opt.Boolean("a",false,"Test allocation speed ");
+  bool verbose = opt.Boolean("v",false,"Verbose mode.");
   opt.Check();
   if(testAlloc) {
     ArrayAlloc();
     return 0;
   }
   if(block) {
-    cerr << "Array2dC.. \n";
+    if(verbose)
+      std::cerr << "Array2dC.. \n";
     for(int i = 0;i < loops;i++)
       loopArray2();
   } else {
-    cerr << "BlockArray2dC.. ";
+    if(verbose)
+      std::cerr << "BlockArray2dC.. \n";
     for(int i = 0;i < loops;i++)
       loopArray();
   }

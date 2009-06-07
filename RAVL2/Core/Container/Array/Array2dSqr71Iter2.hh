@@ -38,9 +38,9 @@ namespace RavlN {
     
     bool First() {
       IndexRange2dC frame1 = array1.Frame().Expand(-3);
-      IndexRange2dC frame2 = array2.Frame().Expand(-3);
+      RavlAssert(array2.Frame().Contains(frame1));
       if(!BufferAccess2dIter2C<Data1T,Data2T>::First(array1.BufferAccess(),array1.ByteStride(),frame1,
-                                                     array2.BufferAccess(),array2.ByteStride(),frame2
+                                                     array2.BufferAccess(),array2.ByteStride(),frame1
                                                      ))
         return false;
       up3 = ShiftPointerInBytes(&(this->Data1()),-3 * array1.ByteStride());

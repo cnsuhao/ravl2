@@ -46,7 +46,7 @@ namespace RavlN {
        m_size1(size1),
        m_size2(size2),
        m_stride(byteStride)
-    {}
+    { RavlAssert(m_stride != 0 || size2 == 0); }
     //: Sized constructor.
 
     Buffer2dBodyC(DataT *data,SizeT size1,SizeT size2,IntT byteStride,bool makeCopy,bool deletable )
@@ -54,7 +54,7 @@ namespace RavlN {
        m_size1(size1),
        m_size2(size2),
        m_stride(byteStride)
-    {}
+    { RavlAssert(m_stride != 0 || size2 == 0); }
     //: Sized constructor.
 
     Buffer2dBodyC(DataT *data,SizeT size1,SizeT size2,IntT byteStride,bool deletable )
@@ -62,7 +62,7 @@ namespace RavlN {
        m_size1(size1),
        m_size2(size2),
        m_stride(byteStride)
-    {}
+    { RavlAssert(m_stride != 0 || size2 == 0); }
     //: Sized constructor.
 
     SizeT Size1() const

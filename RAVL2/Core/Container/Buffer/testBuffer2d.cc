@@ -42,6 +42,7 @@ int TestSingleBuffer();
 int TestSingleBuffer2d();
 int TestBuffer2d();
 int TestSizeBuffer2d();
+int TestRangeBufferAccess2d();
 
 int main()
 {
@@ -63,6 +64,10 @@ int main()
     return 1;
   }
   if((ln = TestSizeBuffer2d()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  if((ln = TestRangeBufferAccess2d()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
@@ -296,6 +301,75 @@ int TestSizeBuffer2d() {
     return __LINE__;
   return 0;
 }
+
+int TestRangeBufferAccess2d() {
+  const int rows = 4;
+  const int cols = 4;
+  Buffer2dC<int> bf (rows,cols);
+  if(bf.Size1() != 4) return __LINE__;
+  if(bf.Size2() != 4) return __LINE__;
+  
+  RangeBufferAccess2dC<int> rba(bf,IndexRangeC(0,rows-1),IndexRangeC(0,cols-1),bf.ByteStride());
+
+  // 1 2 3 4
+  // 4 5 6 7
+  // 8 9 A B
+  // C D E F
+  
+  int place = 0;
+  // Write some numbers.
+  for(int i = 0;i < rows;i++) {
+    for(int j = 0;j < cols;j++) {
+      rba[i][j] = place++;
+    }
+  }
+
+  IndexRange2dC rect(1,3,2,2);
+  {
+    BufferAccess2dIterC<int> it(rba,rect);
+    if(!it) return __LINE__;
+    if(*it != 6) return __LINE__;
+    it++;
+    if(!it) return __LINE__;
+    if(*it != 10) return __LINE__;
+    it++;
+    if(!it) return __LINE__;
+    if(*it != 14) return __LINE__;
+    it++;
+    if(it) return __LINE__;
+  }
+  {
+    BufferAccess2dIterC<int> it;
+    it.First(rba.BufferAccess(),rba.ByteStride(),rect.Range1(),rect.Range2());
+    if(!it) return __LINE__;
+    if(*it != 6) return __LINE__;
+    it++;
+    if(!it) return __LINE__;
+    if(*it != 10) return __LINE__;
+    it++;
+    if(!it) return __LINE__;
+    if(*it != 14) return __LINE__;
+    it++;
+    if(it) return __LINE__;
+  }
+  RangeBufferAccess2dC<int> srba(bf,IndexRangeC(2,2),IndexRangeC(1,3),bf.ByteStride());
+  {
+    BufferAccess2dIterC<int> it2(srba);
+    if(!it2) return __LINE__;
+    if(*it2 != 9) return __LINE__;
+    it2++;
+    if(!it2) return __LINE__;
+    if(*it2 != 10) return __LINE__;
+    it2++;
+    if(!it2) return __LINE__;
+    if(*it2 != 11) return __LINE__;
+    it2++;
+    if(it2) return __LINE__;
+  }
+  
+  return 0;
+}
+
 
 
 // Check all methods compile.

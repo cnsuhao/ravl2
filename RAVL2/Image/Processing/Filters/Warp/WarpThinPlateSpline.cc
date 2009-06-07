@@ -24,7 +24,11 @@ namespace RavlImageN {
   
   //: Calculate Ud.
   
-  void WarpThinPlateSplineBaseC::ComputeWUd(const Array1dC<Point2dC> &orgPos,const Point2dC &pos,const MatrixC &w,Point2dC &at) const {
+  void WarpThinPlateSplineBaseC::ComputeWUd(const Array1dC<Point2dC> &orgPos,
+                                            const Point2dC &pos,
+                                            const MatrixC &w,
+                                            Point2dC &at) const
+  {
     RealT &x = at[0];
     RealT &y = at[1];
     x = 0;
@@ -36,7 +40,6 @@ namespace RavlImageN {
       y += it.Data2()[1] * uv;
     }
   #else
-    RavlAssert(orgPos.Size() == w.Rows());
     for(unsigned i = 0;i < orgPos.Size();i++) {
       RealT uv = U(pos.SqrEuclidDistance(orgPos[i]));
       x += w[i][0] * uv;

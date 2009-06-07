@@ -47,6 +47,8 @@ namespace RavlN {
     
     bool First() {
       IndexRange2dC frame1 = array1.Frame().Expand(-1);
+      RavlAssert(array2.Frame().Contains(frame1));
+      RavlAssert(array3.Frame().Contains(frame1));
       if(!BufferAccess2dIter3C<Data1T,Data2T,Data3T>::First(array1.BufferAccess(),array1.ByteStride(),frame1,
                                                             array2.BufferAccess(),array2.ByteStride(),frame1,
                                                             array3.BufferAccess(),array3.ByteStride(),frame1

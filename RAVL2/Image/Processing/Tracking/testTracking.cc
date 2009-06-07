@@ -58,17 +58,19 @@ int testNormalisedCorrelation() {
   ImageC<ByteT> targ(ImageC<ByteT>(img,targFrame).Copy());
   targ.ShiftRows(-50);
   targ.ShiftCols(-50);
-  //cerr << "Targ=" << targ.Frame() << "\n";
+  std::cerr << "Targ=" << targ.Frame() << "\n";
+  if(targ.Frame().Origin() != Index2dC(-8,-8))
+    return __LINE__;
   
   MatchNormalisedCorrelationC match(img);
   
-#if 1
+#if 0
   // Add some noise...
   for(Array2dIterC<ByteT> it(targ);it;it++)
     *it += (IntT) (RandomInt() % 5) - 2;
 #endif
   
-  RealT score;
+  RealT score = 0;
   Index2dC at;
   match.Search(targ,img.Frame(),score,at);
   cerr << "Targ1, At=" << at << " Score=" << score << "\n";

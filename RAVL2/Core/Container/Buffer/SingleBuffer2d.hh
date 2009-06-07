@@ -28,7 +28,7 @@ namespace RavlN {
     : public Buffer2dBodyC<DataT>
   {
   public:
-    static SizeT StartAlignmentOffset(SizeT align = 16) {
+    inline static SizeT StartAlignmentOffset(SizeT align = 16) {
       const SizeT objSize = sizeof(SingleBuffer2dBodyC<DataT>);
       return ((objSize % align) == 0) ? 0 : (objSize - (objSize % align));
     }
@@ -36,9 +36,8 @@ namespace RavlN {
     // Internal use only.
     
     SingleBuffer2dBodyC(SizeT size1,SizeT size2)
-      : Buffer2dBodyC<DataT>(static_cast<DataT *>(0),size1,size2,0,false)
+      : Buffer2dBodyC<DataT>(static_cast<DataT *>(0),size1,size2,size2 * sizeof(DataT),false)
     {
-      this->m_stride = size2 * sizeof(DataT);
       // Make sure buffer is 8-byte aligned.
       this->m_buff = ShiftPointerInBytes(reinterpret_cast<DataT *>(this),
                                          StartAlignmentOffset() + sizeof(SingleBuffer2dBodyC<DataT>));
@@ -56,7 +55,6 @@ namespace RavlN {
     SingleBuffer2dBodyC(SizeT size1,SizeT size2,IntT byteStride,UIntT align)
       : Buffer2dBodyC<DataT>(static_cast<DataT *>(0),size1,size2,byteStride,false)
     {
-      this->m_stride = byteStride;
       RavlAssert(this->m_stride >= static_cast<IntT>(size2 * sizeof(DataT)));
       // Align start of memory
       char *buf = reinterpret_cast<char *>(&(this[1]));
@@ -81,7 +79,7 @@ namespace RavlN {
     
     ~SingleBuffer2dBodyC()
     {
-      if((this->m_size2 * sizeof(DataT)) == static_cast<SizeT>(this->m_stride)) {
+      if(1 ||(this->m_size2 * sizeof(DataT)) == static_cast<SizeT>(this->m_stride)) {
         DestructRawArray(this->m_buff,this->m_size2 * this->m_size1);
       } else {
         DataT *ptr = this->m_buff;
@@ -190,7 +188,7 @@ namespace RavlN {
   };
   
   template<typename DataT>
-  Buffer2dC<DataT>::Buffer2dC(SizeT size1,SizeT size2)
+  inline Buffer2dC<DataT>::Buffer2dC(SizeT size1,SizeT size2)
     : BufferC<DataT>(SingleBuffer2dC<DataT>::AllocBody(size1,size2))
   {}
   //: Sized constructor.

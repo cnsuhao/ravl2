@@ -64,6 +64,7 @@ namespace RavlN {
         m_rit = 0;
         return false;
       }
+      RavlAssert(m_stride != 0);
       m_rit   = reinterpret_cast<char *>(pbuf.ReferenceElm());
       m_endRow = m_rit + byteStride * (IntT) size1;
       DataT *colStart=reinterpret_cast<DataT*>(m_rit);
@@ -86,17 +87,18 @@ namespace RavlN {
     bool First(const BufferAccessC<DataT> &pbuf,IntT byteStride,
                const IndexRangeC &range1,const IndexRangeC &range2) {
       m_size2 = range2.Size();
+      m_stride = byteStride;
       if(range1.IsEmpty() || m_size2 == 0) {
         m_cit.Invalidate();
         m_rit = 0;
         m_endRow = 0;
         return false;
       }
+      RavlAssert(m_stride != 0);
       m_rit   = reinterpret_cast<char *>(pbuf.ReferenceElm() + range2.Min().V()) + byteStride * range1.Min().V();
       m_endRow = m_rit + byteStride * range1.Size();
       DataT *colStart=reinterpret_cast<DataT*>(m_rit);
       m_cit.First(colStart,m_size2);
-      m_stride = byteStride;
       return true;
     }
     //: Goto first element in the array
@@ -104,7 +106,7 @@ namespace RavlN {
     bool First(const BufferAccessC<DataT> &pbuf,IntT byteStride,const IndexRange2dC &range)
     { return First(pbuf,byteStride,range.Range1(),range.Range2()); }
     //: Goto first.
-
+    
     bool First(const SizeBufferAccess2dC<DataT> &array);
     //: Construct on size array.
 

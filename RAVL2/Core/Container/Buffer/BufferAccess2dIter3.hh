@@ -168,8 +168,8 @@ namespace RavlN {
         m_cit.Invalidate();
         return false;
       }
-      RavlAssert(range1a.Size() >= range1b.Size());
-      RavlAssert(range1a.Size() >= range1c.Size());
+      RavlAssert(range1a.Size() <= range1b.Size());
+      RavlAssert(range1a.Size() <= range1c.Size());
       m_stride1 = byteStrideA;
       m_stride2 = byteStrideB;
       m_stride3 = byteStrideC;

@@ -71,10 +71,10 @@ namespace RavlN {
     // Create a size[0] by size[1] array.
     
     SArray2dC(const BufferC<DataT> & bf,SizeT size1,SizeT size2,DataT *start = 0,IntT byteStride = 0)
-      : m_data(AttachedBuffer2dC<DataT>(bf,size1,size2,byteStride))
+      : m_data(AttachedBuffer2dC<DataT>(bf,size1,size2,byteStride != 0 ? byteStride : (size2 * sizeof(DataT))))
     {
       if(start == 0) start = bf.ReferenceElm();
-      Attach(start,size1,size2,byteStride);
+      Attach(start,size1,size2,m_data.ByteStride());
     }
     //: Constructor using the buffer 'bf'. 
     // This can be used, for example to view a 1d array, as a 2d array.
