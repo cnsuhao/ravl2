@@ -673,6 +673,8 @@ using namespace RavlImageN;
 int testScanPolygon() {
   cerr << "testScanPolygon Called. \n";
   UIntT count = 0;
+  // FIXME:- Test for repeated points on the polygon.
+  
 #if DODISPLAY
   ByteT drawVal = 255;
   ImageC<ByteT> img(105,105);
@@ -874,7 +876,6 @@ int testScanPolygon() {
   poly.InsLast(Point2dC(10,40));
   poly.InsLast(Point2dC(20,40));
   poly.InsLast(Point2dC(20,30)); 
-  poly.InsLast(Point2dC(30,30));  
   poly.InsLast(Point2dC(30,30));
   poly.InsLast(Point2dC(30,40));
   poly.InsLast(Point2dC(40,40));
@@ -888,7 +889,7 @@ int testScanPolygon() {
 #if DODISPLAY
     DrawLine(img,drawVal,Index2dC(it.Row(),it.Data().Min()),Index2dC(it.Row(),it.Data().Max()));
 #endif
-    cerr << " " << it.Row() << " " << it.Data() << "\n";
+    //cerr << " " << it.Row() << " " << it.Data() << "\n";
 #if 0
     if(it.Data().Size() > 0.001 &&
        !poly.Contains(Point2dC(it.Row(),it.Data().Center()))) 
