@@ -90,7 +90,7 @@ namespace RavlN {
     //: Construct an access to a sub array of this one.
     
     SArray2dC(SArray2dC<DataT> &arr,const IndexRange2dC &rng)
-      : SizeBufferAccess2dC<DataT>(&(arr[rng.TRow()][rng.LCol()]),rng.Rows(),rng.Cols(),arr.Buffer().ByteStride()),
+      : SizeBufferAccess2dC<DataT>(&(arr[rng.TRow()][rng.LCol()]),rng.Rows(),rng.Cols(),arr.ByteStride()),
         m_data(arr.Buffer())
     {
       RavlAssert(rng.TRow() >= 0 && rng.LCol() >= 0);

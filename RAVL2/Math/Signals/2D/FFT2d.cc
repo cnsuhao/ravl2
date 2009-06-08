@@ -327,6 +327,7 @@ namespace RavlN {
     resQuartile2Range.SetOrigin(resQuartile2Origin);
     resQuartile3Range.SetOrigin(resQuartile3Origin);
 
+
     //: Copy each quartile of dat to shifted
     //======================================
     SArray2dC<RealT> shifted(dat.Size1(), dat.Size2());

@@ -447,6 +447,37 @@ int TestIndexOf() {
     if(*it != rba.IndexOf(*it))
       return __LINE__;
   }
+
+  IntT count = 0;
+  // Check 2 array iterator.
+  IndexRange2dC trng1(-5,-1,-2,2);
+  IndexRange2dC trng2(-1,3,-1,3);
+  Index2dC shift = trng2.Origin() - trng1.Origin();
+  for(BufferAccess2dIter2C<Index2dC,Index2dC> it(rba,trng1,rba,trng2);it;it++) {
+    if(rba.IndexOf(it.Data1()) != it.Data1()) return __LINE__;
+    if(rba.IndexOf(it.Data2()) != it.Data2()) return __LINE__;
+    if(it.Data1() != (it.Data2() - shift)) return __LINE__;
+    count++;
+  }
+  if(trng1.Area() != count) return __LINE__;
+
+  // Check 3 array iterator.
+  IndexRange2dC trng3(-4,0,1,5);
+  Index2dC shift2 = trng3.Origin() - trng1.Origin();
+
+  count = 0;
+  for(BufferAccess2dIter3C<Index2dC,Index2dC,Index2dC> it(rba.BufferAccess(),rba.ByteStride(),trng1,
+                                                          rba.BufferAccess(),rba.ByteStride(),trng2,
+                                                          rba.BufferAccess(),rba.ByteStride(),trng3);it;it++) {
+    if(rba.IndexOf(it.Data1()) != it.Data1()) return __LINE__;
+    if(rba.IndexOf(it.Data2()) != it.Data2()) return __LINE__;
+    if(rba.IndexOf(it.Data3()) != it.Data3()) return __LINE__;
+    if(it.Data1() != (it.Data2() - shift)) return __LINE__;
+    if(it.Data1() != (it.Data3() - shift2)) return __LINE__;
+    count++;
+  }
+  if(trng1.Area() != count) return __LINE__;
+
   return 0;
 }
 

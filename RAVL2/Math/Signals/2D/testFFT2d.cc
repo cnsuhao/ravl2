@@ -252,8 +252,10 @@ int testFFTShift() {
   for (Array2dIterC<int> i(in); i; ++i) *i = (i.Index().Row()*i.Index().Col()).V();
   FFT2dC forw(in.Frame().Size());
   FFT2dC inv(in.Frame().Size(),true);
-  Array2dC<int> thereAndBack(inv.RotateFreq(forw.RotateFreq(in)));
-  std::cerr << "in=" << in;
+  std::cerr << "in=" << in << "\n";
+  Array2dC<int> there = forw.RotateFreq(in);
+  std::cerr << "There=" << there << "\n";
+  Array2dC<int> thereAndBack(inv.RotateFreq(there));
   std::cerr << "ThereAndBack=" << thereAndBack;
   for (Array2dIter2C<int,int> i(thereAndBack,in); i; ++i) {
     if ((i.Data1() - i.Data2()) != 0)  return __LINE__;
