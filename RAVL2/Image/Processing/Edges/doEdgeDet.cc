@@ -30,9 +30,12 @@
 using namespace RavlN;
 using namespace RavlImageN;
 
-
 ImageC<ByteT> DoDeinterlace(const ImageC<ByteT> &img) {
+#if 0
   return DeinterlaceSubsample(img);
+#else
+  RavlAssertMsg(0,"not implemented");
+#endif
 }
 
 ImageC<RealT> SquareComp(const Tuple2C<ImageC<RealT>,ImageC<RealT> > &dat) {

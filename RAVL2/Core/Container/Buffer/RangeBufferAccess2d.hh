@@ -217,15 +217,15 @@ namespace RavlN {
     //: Fill array with value.
     
     void ShiftRows(IndexC offset) {
-      this->m_buff = ShiftPointerInBytes(this->m_buff,offset.V() * m_stride);
-      m_range2 += offset;
+      this->m_buff = ShiftPointerInBytes(this->m_buff,-offset.V() * m_stride);
+      m_range1 += offset;
     }
     //: The array is shifted "vertically" by <code>offset</code> w.r.t. the coordinate origin.
     // In other words the row index of a given pixel will be <i>incremented</i> by <code>offset</code>.
 
     void ShiftCols(IndexC offset) {
       this->m_buff -= offset.V();
-      m_range1 += offset;
+      m_range2 += offset;
     }
     //: The array is shifted "horizontally" by <code>offset</code> w.r.t. the coordinate origin.
     // In other words the column index of a given pixel will be <i>incremented</i> by <code>offset</code>.

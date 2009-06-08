@@ -105,14 +105,23 @@ namespace RavlImageN {
     //!param: buf - Raw pixel buffer, must contain at least row * cols elements.
     
     ImageC(UIntT rows,UIntT cols,PixelT *data,bool deletable = true)
-      : Array2dC<PixelT>(BufferC<PixelT>(data,rows * cols,false,deletable),IndexRange2dC(rows-1,cols-1))
+      : Array2dC<PixelT>(Buffer2dC<PixelT>(data,rows,cols,cols*sizeof(PixelT),false,deletable),IndexRange2dC(rows-1,cols-1))
     {}
     //: Construct an image with origin at top left corner and size rows x cols, with space in 'buf'
     //!param: rows - Number of rows in the image.
     //!param: cols - Number of column's in the image
     //!param: data - Pointer to continuous array of memory containing image data (rows * cols pixels).
     //!param: deletable - If set to true the memory will be deleted with the 'delelte []' operator when is finished with. Otherwise it is the users responsibility to manage the memory.
-    
+
+    ImageC(const IndexRangeC &rows,const IndexRangeC &cols,PixelT *data,bool deletable = true)
+       : Array2dC<PixelT>(Buffer2dC<PixelT>(data,rows.Size(),cols.Size(),cols.Size() * sizeof(PixelT) ,false,deletable),rows,cols)
+     {}
+     //: Construct an image with origin at top left corner and size rows x cols, with space in 'buf'
+     //!param: rows - Range of rows in the image.
+     //!param: cols - Range of column's in the image
+     //!param: data - Pointer to continuous array of memory containing image data (rows * cols pixels).
+     //!param: deletable - If set to true the memory will be deleted with the 'delelte []' operator when is finished with. Otherwise it is the users responsibility to manage the memory.
+
     ImageC<PixelT> Copy() const
     { return ImageC<PixelT>(Array2dC<PixelT>::Copy()); }
     //: Make copy of an image.

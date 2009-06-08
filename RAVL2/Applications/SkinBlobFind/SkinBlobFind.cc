@@ -101,9 +101,7 @@ int main(int argc, char** argv)
 	255,255,255,
 	0,255,0
       };
-      ImageC<ByteT> kernel(3,3, BufferC<ByteT>(3*3, byte_kernel));
-      kernel.ShiftIndexes1(1);
-      kernel.ShiftIndexes2(1);
+      ImageC<ByteT> kernel(IndexRangeC(-1,1),IndexRangeC(-1,1),byte_kernel);
 
       // erode
       ImageC<ByteT> image_erode(image.Rows(),image.Cols());

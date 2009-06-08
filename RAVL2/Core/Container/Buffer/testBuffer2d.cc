@@ -376,7 +376,15 @@ int TestRangeBufferAccess2d() {
     it2++;
     if(it2) return __LINE__;
   }
-  
+  {
+    RangeBufferAccess2dC<int> rbas(rba);
+    rbas.ShiftCols(1);
+    if(rbas.Range2() != (rba.Range2() + 1)) return __LINE__;
+    if(rba[0][0] != rbas[0][1]) return __LINE__;
+    rbas.ShiftRows(1);
+    if(rbas.Range1() != (rba.Range1() + 1)) return __LINE__;
+    if(rba[0][0] != rbas[1][1]) return __LINE__;
+  }
   return 0;
 }
 
@@ -459,7 +467,7 @@ int TestIndexOf() {
     if(it.Data1() != (it.Data2() - shift)) return __LINE__;
     count++;
   }
-  if(trng1.Area() != count) return __LINE__;
+  if(trng1.Area() != (SizeT) count) return __LINE__;
 
   // Check 3 array iterator.
   IndexRange2dC trng3(-4,0,1,5);
@@ -476,7 +484,7 @@ int TestIndexOf() {
     if(it.Data1() != (it.Data3() - shift2)) return __LINE__;
     count++;
   }
-  if(trng1.Area() != count) return __LINE__;
+  if(trng1.Area() != (SizeT) count) return __LINE__;
 
   return 0;
 }
