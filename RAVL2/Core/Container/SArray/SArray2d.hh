@@ -15,12 +15,14 @@
 //! author="Charles Galambos"
 //! date="10/09/1998"
 
-#include "Ravl/SBfAcc2d.hh"
+#include "Ravl/SizeBufferAccess2d.hh"
 #include "Ravl/Buffer2d.hh"
+#include "Ravl/AttachedBuffer2d.hh"
 #include "Ravl/Index2d.hh"
-#include "Ravl/BfAcc2Iter.hh"
-#include "Ravl/BfAcc2Iter2.hh"
-#include "Ravl/BfAcc2Iter3.hh"
+#include "Ravl/BufferAccess2dIter.hh"
+#include "Ravl/BufferAccess2dIter2.hh"
+#include "Ravl/BufferAccess2dIter3.hh"
+#include "Ravl/SingleBuffer2d.hh"
 
 namespace RavlN {
   
@@ -50,50 +52,71 @@ namespace RavlN {
     //: Default constructor.
     // Creates a zero size array.
     
-    SArray2dC(SizeT dim1,SizeT dim2);
+    SArray2dC(SizeT dim1,SizeT dim2)
+      : m_data(dim1,dim2)
+    { Attach(m_data,dim1,dim2); }
     //: Constructor.
     // Create a dim1 by dim2 array.
     
-    SArray2dC(IndexC dim1,IndexC dim2);
+    SArray2dC(IndexC dim1,IndexC dim2)
+      : m_data(dim1.V(),dim2.V())
+    { Attach(m_data,dim1.V(),dim2.V()); }
     //: Constructor.
     // Create a dim1 by dim2 array.
     
-    SArray2dC(const Index2dC &size);
+    SArray2dC(const Index2dC &size)
+      : m_data(size[0].V(),size[1].V())
+    { Attach(m_data,size[0].V(),size[1].V()); }
     //: Constructor.
     // Create a size[0] by size[1] array.
     
-    SArray2dC(const BufferC<DataT> & bf, SizeT size1,SizeT size2,SizeT startOffset = 0,IntT stride = 0);
+    SArray2dC(const BufferC<DataT> & bf,SizeT size1,SizeT size2,DataT *start = 0,IntT byteStride = 0)
+      : m_data(AttachedBuffer2dC<DataT>(bf,size1,size2,byteStride != 0 ? byteStride : (size2 * sizeof(DataT))))
+    {
+      if(start == 0) start = bf.ReferenceElm();
+      Attach(start,size1,size2,m_data.ByteStride());
+    }
     //: Constructor using the buffer 'bf'. 
     // This can be used, for example to view a 1d array, as a 2d array.
-    // startOffset is the location in the buffer to use as 0,0.
-    // If stride is set to zero, size2 is used.
-    
-    SArray2dC(SArray2dC<DataT> &arr,SizeT size1,SizeT size2);
+    // start is the location in the buffer to use as 0,0. If set to zero
+    // the start of the buffer will be used.
+    // byteStride is in bytes.
+    // If stride is set to zero, the value size2 * sizeof(DataT) is used.
+
+    SArray2dC(SArray2dC<DataT> &arr,SizeT size1,SizeT size2)
+      : SizeBufferAccess2dC<DataT>(arr,size1,size2),
+        m_data(arr.m_data)
+    {}
     //: Construct an access to a sub array of this one.
     
-    SArray2dC(SArray2dC<DataT> &arr,const IndexRange2dC &rng);
+    SArray2dC(SArray2dC<DataT> &arr,const IndexRange2dC &rng)
+      : SizeBufferAccess2dC<DataT>(&(arr[rng.TRow()][rng.LCol()]),rng.Rows(),rng.Cols(),arr.ByteStride()),
+        m_data(arr.Buffer())
+    {
+      RavlAssert(rng.TRow() >= 0 && rng.LCol() >= 0);
+      RavlAssert(rng.BRow() < arr.Size1() && rng.RCol() < arr.Size2());
+    }
     //: Create a new access to 'rng' of 'arr'.
     // 'rng' must be within 'arr'. The origin of the new array will be at 'rng.Origin()' of 'arr'.
     
-    SArray2dC(DataT *data,SizeT size1,SizeT size2,bool copyMemory = false,bool freeMemory = false,IntT stride = 0);
+    SArray2dC(DataT *data,SizeT size1,SizeT size2,bool copyMemory = false,bool freeMemory = false,IntT byteStride = 0)
+      : m_data(data,size1,size2,byteStride,copyMemory,freeMemory)
+    { Attach(m_data,size1,size2); }
     //: Create size1 x size2 array from memory given in 'data'
     // If freeMemory is true it 'data' will be freed with a 'delete []' call when no longer required.
     
     static SArray2dC<DataT> ConstructAligned(const SizeT dim1,const SizeT dim2,UIntT align) { 
-      RavlAssert((align % sizeof(DataT)) == 0); // We should do something about the requirement.
-      IntT stride = dim2;
-      const UIntT elemAlign = align / sizeof(DataT);
-      const UIntT remainder = (dim2 % elemAlign);
-      if(remainder > 0) {
-        RavlAssert(remainder < elemAlign);
-        stride += elemAlign - remainder;
-      }
+      IntT stride = dim2 * sizeof(DataT);
+      const UIntT remainder = (stride % align);
+      if(remainder > 0)
+        stride += align - remainder;
+      RavlAssertMsg(0,"Need a single 2d buffer. ");
+      // FIXME: Need a single buffer2d. 
       return SArray2dC(SingleBufferC<DataT>(stride*dim1,align), dim1,dim2,0,stride); 
     }
     //: Creates an uninitialized array with the range <0, 'dim1'-1>,<0, 'dim2'-1> and 
     //: the given byte alignment of the start of each row.
     // align must be a power of 2.
-    // Currently the align must be an integer muliple of the element size.
     
     SArray2dC<DataT> Copy() const;
     //: Copy array.
@@ -110,12 +133,12 @@ namespace RavlN {
     // Special operations
     
     Buffer2dC<DataT> &Buffer() 
-    { return data; }
+    { return m_data; }
     //: Access base data buffer.
     // Experts only!
     
     const Buffer2dC<DataT> &Buffer() const
-    { return data; }
+    { return m_data; }
     //: Constant access base data buffer.
     // Experts only!
     
@@ -193,23 +216,23 @@ namespace RavlN {
     //: Returns the sum all elements of the array.
     
     Slice1dC<DataT> Diagonal() {
-      return Slice1dC<DataT>(data.Data(),
+      return Slice1dC<DataT>(m_data,
 			     &((*this)[0][0]),
 			     Min(Size1(),Size2()),
-			     this->Stride()+1);
+			     this->ByteStride()+sizeof(DataT));
     }
     //: Take a slice along the diagonal of the array.
     
     SArray1dC<DataT> SliceRow(IndexC i)
-    { return SArray1dC<DataT>(data.Data(),(*this)[i]); }
+    { return SArray1dC<DataT>(m_data,(*this)[i]); }
     //: Access row as 1d array.
     // NB. Changes made to the slice will also affect this array!
     
     Slice1dC<DataT> SliceColumn(IndexC i) { 
-      return Slice1dC<DataT>(data.Data(),
+      return Slice1dC<DataT>(m_data,
 			     &((*this)[0][i]),
 			     Size1(),
-			     this->Stride());
+			     this->ByteStride());
     }
     //: Access column as 1d slice.
     // NB. Changes made to the slice will also affect this array!
@@ -229,16 +252,14 @@ namespace RavlN {
     
   protected:
     SArray2dC(Buffer2dC<DataT> & bf, 
-	      const BufferAccessC<BufferAccessC<DataT> > &ab,
+	      const SizeBufferAccess2dC<DataT> &ab,
 	      SizeT dim1,SizeT dim2)
-      : SizeBufferAccess2dC<DataT>(ab,dim1,dim2),
-	data(bf)
+      : SizeBufferAccess2dC<DataT>(ab,dim1,dim2,ab.ByteStride()),
+	m_data(bf)
     {}
     //: Construct from a buffer, and an existing buffer access.
-    
-    void BuildAccess(UIntT offset = 0,IntT stride = 0);
-    
-    Buffer2dC<DataT> data; // Handle to data.
+        
+    Buffer2dC<DataT> m_data; // Handle to data.
     
     friend class Array2dC<DataT>;
   };
@@ -280,73 +301,12 @@ namespace RavlN {
   }
   
   /////////////////////////////////////////////////////
-
-  template<class DataT>
-  void SArray2dC<DataT>::BuildAccess(UIntT offset,IntT stride) {
-    Attach(data);
-    if(stride == 0)
-      stride = this->size2;
-    DataT *at;
-    if(stride > 0)
-      at = data.Data().ReferenceElm() + offset;
-    else
-      at = data.Data().ReferenceElm() + offset + (data.Data().Size() + stride); // Goto the end of the buffer.
-    for(BufferAccessIterC<BufferAccessC<DataT> > it(*this);
-	it;it++,at += stride)
-      *it = BufferAccessC<DataT>(at);
-  }
-  
-  template<class DataT>
-  SArray2dC<DataT>::SArray2dC(SizeT nsize1,SizeT nsize2)
-    : SizeBufferAccess2dC<DataT>(nsize2),
-      data(nsize1,nsize2)
-  { BuildAccess(); }
-  
-  template<class DataT>
-  SArray2dC<DataT>::SArray2dC(IndexC nsize1,IndexC nsize2)
-    : SizeBufferAccess2dC<DataT>(nsize2.V()),
-      data(nsize1.V(),nsize2.V())
-  { BuildAccess(); }
-  
-  template<class DataT>
-  SArray2dC<DataT>::SArray2dC(const Index2dC &size)
-    : SizeBufferAccess2dC<DataT>(size[1].V()),
-      data(size[0].V(),size[1].V())
-  { BuildAccess(); }
-  
-  template<class DataT>
-  SArray2dC<DataT>::SArray2dC(const BufferC<DataT> & bf, SizeT size1,SizeT nsize2,SizeT startOffset,IntT stride)
-    : SizeBufferAccess2dC<DataT>(nsize2),
-      data(bf,size1)
-  { BuildAccess(startOffset,stride); }
-  
-  template<class DataT>
-  SArray2dC<DataT>::SArray2dC(DataT *data,SizeT size1,SizeT nsize2,bool copyMemory,bool freeMemory,IntT stride) 
-    : SizeBufferAccess2dC<DataT>(nsize2),
-      data(size1,Max(nsize2,static_cast<SizeT>(Abs(stride))),data,copyMemory,freeMemory)
-  { BuildAccess(0,stride); }  
-  
-  template<class DataT>
-  SArray2dC<DataT>::SArray2dC(SArray2dC<DataT> &arr,SizeT size1,SizeT size2)
-    : SizeBufferAccess2dC<DataT>(arr,size1,size2),
-      data(arr.data)
-  {}
-  
-  template<class DataT>
-  SArray2dC<DataT>::SArray2dC(SArray2dC<DataT> &arr,const IndexRange2dC &rng)
-    : SizeBufferAccess2dC<DataT>(rng.Cols()),
-      data(arr.data.Data(),rng.Rows())
-  { 
-    RavlAssert(rng.TRow() >= 0 && rng.LCol() >= 0);
-    RavlAssert(rng.BRow() < arr.Size1() && rng.RCol() < arr.Size2());
-    BuildAccess(&(arr[rng.Origin()]) - &(arr[0][0]),arr.Stride());
-  }
+    
   
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::Copy() const {
-    SArray2dC<DataT> newun(Size1(),this->size2); // Allocate new array.
-    for(BufferAccess2dIter2C<DataT,DataT > it(*this,this->size2,
-					      newun,this->size2);
+    SArray2dC<DataT> newun(this->Size1(),this->Size2()); // Allocate new array.
+    for(BufferAccess2dIter2C<DataT,DataT > it(*this,newun,this->Size1(),this->Size2());
 	it;it++)
       it.Data2() = it.Data1();
     return newun;
@@ -354,13 +314,13 @@ namespace RavlN {
 
   template<class DataT>
   SArray1dC<DataT> SArray2dC<DataT>::AsVector(bool alwaysCopy) {
-    if(!alwaysCopy && ((UIntT) this->Stride() == Size2())) {
+    if(!alwaysCopy && this->IsContinuous()) {
       DataT *start = &((*this)[0][0]);
-      return SArray1dC<DataT>(data.Data(),SizeBufferAccessC<DataT>(start,Size1() * Size2()));
+      return SArray1dC<DataT>(m_data,SizeBufferAccessC<DataT>(start,Size1() * Size2()));
     }
     SArray1dC<DataT> ret(Size1() * Size2());
     BufferAccessIterC<DataT> rit(ret);
-    for(BufferAccess2dIterC<DataT> it(*this,Size2());it;it++,rit++)
+    for(BufferAccess2dIterC<DataT> it(*this);it;it++,rit++)
       *rit = *it;
     return ret;
   }
@@ -368,9 +328,8 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator+(const SArray2dC<DataT> & arr) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,this->size2,
-						   *this,this->size2,
-						   arr,arr.Size2());
+    for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,*this,arr,
+                                                   ret.Size1(),ret.Size2());
 	it;it++)
       it.Data1() = it.Data2() + it.Data3();
     return ret;
@@ -379,7 +338,7 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator-(const SArray2dC<DataT> & arr) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,this->size2,*this,this->size2,arr,arr.Size2());it;it++)
+    for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,*this,arr,ret.Size1(),ret.Size2());it;it++)
       it.Data1() = it.Data2() - it.Data3();
     return ret;
   }
@@ -387,7 +346,7 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator*(const SArray2dC<DataT> & arr) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,this->size2,*this,this->size2,arr,arr.Size2());it;it++)
+    for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,*this,arr,ret.Size1(),ret.Size2());it;it++)
       it.Data1() = it.Data2() * it.Data3();
     return ret;
   }
@@ -395,7 +354,7 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator/(const SArray2dC<DataT> & arr) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,this->size2,*this,this->size2,arr,arr.Size2());it;it++)
+    for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,*this,arr,ret.Size1(),ret.Size2());it;it++)
       it.Data1() = it.Data2() / it.Data3();
     return ret;
   }
@@ -403,7 +362,7 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator+(const DataT &number) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter2C<DataT,DataT> it(ret,this->size2,*this,Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(ret,*this,ret.Size1(),ret.Size2());it;it++)
       it.Data1() = it.Data2() + number;
     return ret;
   }
@@ -411,7 +370,7 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator-(const DataT &number) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter2C<DataT,DataT> it(ret,this->size2,*this,Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(ret,*this,ret.Size1(),ret.Size2());it;it++)
       it.Data1() = it.Data2() - number;
     return ret;
   }
@@ -419,7 +378,7 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator*(const DataT &number) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter2C<DataT,DataT> it(ret,this->size2,*this,Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(ret,*this,ret.Size1(),ret.Size2());it;it++)
       it.Data1() = it.Data2() * number;
     return ret;
   }
@@ -427,63 +386,63 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator/(const DataT &number) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter2C<DataT,DataT> it(ret,this->size2,*this,Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(ret,*this,ret.Size1(),ret.Size2());it;it++)
       it.Data1() = it.Data2() / number;
     return ret;
   }
     
   template<class DataT>
   const SArray2dC<DataT> & SArray2dC<DataT>::operator+=(const SArray2dC<DataT> & arr) {
-    for(BufferAccess2dIter2C<DataT,DataT> it(*this,this->size2,arr,arr.Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(*this,arr,this->Size1(),this->Size2());it;it++)
       it.Data1() += it.Data2();
     return *this;
   }
   
   template<class DataT>
   const SArray2dC<DataT> & SArray2dC<DataT>::operator-=(const SArray2dC<DataT> & arr) {
-    for(BufferAccess2dIter2C<DataT,DataT> it(*this,this->size2,arr,arr.Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(*this,arr,this->Size1(),this->Size2());it;it++)
       it.Data1() -= it.Data2();
     return *this;
   }
     
   template<class DataT>
   const SArray2dC<DataT> & SArray2dC<DataT>::operator*=(const SArray2dC<DataT> & arr) {
-    for(BufferAccess2dIter2C<DataT,DataT> it(*this,this->size2,arr,arr.Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(*this,arr,this->Size1(),this->Size2());it;it++)
       it.Data1() *= it.Data2();
     return *this;
   }
     
   template<class DataT>
   const SArray2dC<DataT> & SArray2dC<DataT>::operator/=(const SArray2dC<DataT> & arr) {
-    for(BufferAccess2dIter2C<DataT,DataT> it(*this,this->size2,arr,arr.Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(*this,arr,this->Size1(),this->Size2());it;it++)
       it.Data1() /= it.Data2();
     return *this;
   }
   
   template<class DataT>
   const SArray2dC<DataT> & SArray2dC<DataT>::operator+=(const DataT &number) {
-    for(BufferAccess2dIterC<DataT> it(*this,this->size2);it;it++)
+    for(BufferAccess2dIterC<DataT> it(*this);it;it++)
       it.Data1() += number;
     return *this;
   }
     
   template<class DataT>
   const SArray2dC<DataT> & SArray2dC<DataT>::operator-=(const DataT &number) {
-    for(BufferAccess2dIterC<DataT> it(*this,this->size2);it;it++)
+    for(BufferAccess2dIterC<DataT> it(*this);it;it++)
       it.Data1() -= number;
     return *this;
   }
   
   template<class DataT>
   const SArray2dC<DataT> & SArray2dC<DataT>::operator*=(const DataT &number) {
-    for(BufferAccess2dIterC<DataT> it(*this,this->size2);it;it++)
+    for(BufferAccess2dIterC<DataT> it(*this);it;it++)
       it.Data1() *= number;
     return *this;
   }
   
   template<class DataT>
   const SArray2dC<DataT> & SArray2dC<DataT>::operator/=(const DataT &number) {
-    for(BufferAccess2dIterC<DataT> it(*this,this->size2);it;it++)
+    for(BufferAccess2dIterC<DataT> it(*this);it;it++)
       it.Data() /= number;
     return *this;
   }
@@ -491,14 +450,14 @@ namespace RavlN {
   template<class DataT>
   bool SArray2dC<DataT>::operator==(const SArray2dC<DataT> &op) const {
     if(this->Size() != op.Size()) return false;
-    for(BufferAccess2dIter2C<DataT,DataT> it(*this,this->size2,op,op.Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(*this,op,this->Size1(),this->Size2());it;it++)
       if(it.Data1() != it.Data2()) return false;
     return true;
   }
   
   template<class DataT>
   DataT SArray2dC<DataT>::Sum() const {
-    BufferAccess2dIterC<DataT> it(*this,this->size2);
+    BufferAccess2dIterC<DataT> it(*this);
     if(!it) {
       DataT ret;
       SetZero(ret);
@@ -512,7 +471,7 @@ namespace RavlN {
   
   template<class DataT>
   DataT SArray2dC<DataT>::SumOfSqr() const {
-    BufferAccess2dIterC<DataT> it(*this,this->size2);
+    BufferAccess2dIterC<DataT> it(*this);
     if(!it) {
       DataT ret;
       SetZero(ret);
@@ -528,10 +487,10 @@ namespace RavlN {
   void SArray2dC<DataT>::SetColumn(IndexC i,const SArray1dC<DataT> &val) {
     RavlAssert(val.Size() == Size1());
     // Avoid including to many headers by just using a ptr, not a slice.
-    DataT *d1 = &((*this)[0][i]); 
-    const int s = this->Stride();
+    char *d1 = reinterpret_cast<char *>(&((*this)[0][i]));
+    const int s = this->ByteStride();
     for(BufferAccessIterC<DataT> it(val);it;it++,d1 += s)
-      *d1 = *it;
+      *reinterpret_cast<DataT*>(d1) = *it;
   }
   
   template<class DataT>
@@ -547,8 +506,8 @@ namespace RavlN {
     IndexRangeC trng2(origin[1],(origin[1] + vals.Size2()) - 1);
     RavlAssert(trng1.Max() < Size1());
     RavlAssert(trng2.Max() < Size2());
-    for(BufferAccess2dIter2C<DataT,DataT> it(*this,trng1,trng2,
-					     vals,IndexRangeC(0,vals.Size1()-1),IndexRangeC(0,vals.Size2()-1));
+    for(BufferAccess2dIter2C<DataT,DataT> it(*this,this->ByteStride(),trng1,trng2,
+					     vals,vals.ByteStride(),IndexRangeC(0,vals.Size1()-1),IndexRangeC(0,vals.Size2()-1));
 	it;it++)
       it.Data1() = it.Data2();
   }

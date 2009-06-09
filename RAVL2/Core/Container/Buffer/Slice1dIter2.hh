@@ -23,46 +23,60 @@ namespace RavlN {
   
   //: Slice iterator.
   // Iterates through the elements in a slice
-  
+  // Note: this does NOT hold a reference to slices.
+
   template<class Data1T,class Data2T>
   class Slice1dIter2C {
   public:
     Slice1dIter2C()
-      : at1(0),
-        end(0)
+      : m_at1(0),
+        m_end(0)
     {}
     //: Creates an invalid iterator.
     
-    Slice1dIter2C(const Slice1dC<Data1T> &nvec1,const Slice1dC<Data2T> &nvec2);
+    Slice1dIter2C(const Slice1dC<Data1T> &vec1,const Slice1dC<Data2T> &vec2)
+    { First(vec1,vec2); }
     //: Creates an iterator of 'nvec'
     
-    Slice1dIter2C(const Slice1dC<Data1T> &nvec1,const Slice1dC<Data2T> &nvec2,const IndexRangeC &rng);
+    Slice1dIter2C(const Slice1dC<Data1T> &vec1,
+                  const Slice1dC<Data2T> &vec2,
+                  const IndexRangeC &rng)
+    { First(vec1,vec2,rng); }
     //: Creates an iterator of 'nvec1' and 'nvec2' over range 'rng'.
     
-    void First();
+    void First(const Slice1dC<Data1T> &nvec1,const Slice1dC<Data2T> &nvec2);
     //: Goto first element.
 
+    void First(const Slice1dC<Data1T> &nvec1,const Slice1dC<Data2T> &nvec2,const IndexRangeC &rng);
+    //: Goto first element.
+
+    void First() {
+      m_at1 = m_start1;
+      m_at2 = m_start2;
+    }
+    //: Goto first element.
+    
     operator bool() const
-    { return at1 != end; }
+    { return m_at1 != m_end; }
     //: Test if we're at a valid element.
 
     bool IsElm() const
-    { return at1 != end; }
+    { return m_at1 != m_end; }
     //: Test if we're at a valid element.
 
     inline bool IsLast() const
-    { return (at1+vec1.Stride()) == end; }
+    { return (m_at1+m_stride1) == m_end; }
     //: Test if we're at the last valid element in the slice.
     // This is slower than IsElm().
     
     inline bool IsFirst() const
-    { return at1 == &vec1.First(); }
+    { return m_at1 == m_start1; }
     //: Test if we're at the first element in the slice.
     // This is slower than IsElm().
     
     void Next() { 
-      at1 += vec1.Stride(); 
-      at2 += vec2.Stride();
+      m_at1 += m_stride1;
+      m_at2 += m_stride2;
     }
     //: Goto next element.
     // Call ONLY if IsElm() is valid.
@@ -73,71 +87,78 @@ namespace RavlN {
     // Call ONLY if IsElm() is valid.
     
     Data1T &Data1()
-    { return *at1; }
+    { return *reinterpret_cast<Data1T *>(m_at1); }
     //: Access data at current element.
 
     const Data1T &Data1() const
-    { return *at1; }
+    { return *reinterpret_cast<const Data1T *>(m_at1); }
     //: Access data at current element.
 
     Data2T &Data2()
-    { return *at2; }
+    { return *reinterpret_cast<Data2T *>(m_at2); }
     //: Access data at current element.
     
     const Data2T &Data2() const
-    { return *at2; }
+    { return *reinterpret_cast<const Data2T *>(m_at2); }
     //: Access data at current element.
     
     IntT Index() const
-    { return (at1 - &vec1.First())/vec1.Stride(); }
+    { return (m_at1 - m_start1)/m_stride1; }
     //: Calculate current index.
     
   protected:
-    Data1T *at1;
-    Data2T *at2;
-    Data1T *end;
-    Slice1dC<Data1T> vec1;
-    Slice1dC<Data2T> vec2;
+    char *m_start1;
+    char *m_start2;
+    char *m_at1;
+    char *m_at2;
+    char *m_end; // End index of 1.
+    IntT m_stride1;
+    IntT m_stride2;
   };
   
-  /// Slice1dIterC ///////////////////////////////////////////////////////////////////
+  /// Slice1dIterC /////////////////////////////////////////////////////////////
   
   template<class Data1T,class Data2T>
-  Slice1dIter2C<Data1T,Data2T>::Slice1dIter2C(const Slice1dC<Data1T> &nvec1,const Slice1dC<Data2T> &nvec2)
-    : vec1(nvec1),
-      vec2(nvec2)
+  void Slice1dIter2C<Data1T,Data2T>::First(const Slice1dC<Data1T> &vec1,
+                                           const Slice1dC<Data2T> &vec2)
   { 
     RavlAssert(vec2.Size() <= vec1.Size());
-    First(); 
-  }
-
-  template<class Data1T,class Data2T>
-  Slice1dIter2C<Data1T,Data2T>::Slice1dIter2C(const Slice1dC<Data1T> &nvec1,const Slice1dC<Data2T> &nvec2,const IndexRangeC &rng) 
-    : vec1(nvec1),
-      vec2(nvec2)
-  {
-    if(rng.Size() <= 0) {
-      at1 = 0;
-      end = 0;
+    if(vec1.Size() <= 0) {
+      m_start1 = 0;
+      m_at1 = 0;
+      m_end = 0;
       return;
-    }  
-    at1 = &(vec1[rng.Min()]);
-    at2 = &(vec2[rng.Min()]);
-    end = &(at1[rng.Size() * vec1.Stride()]);
+    }
+    m_start1 = const_cast<char *>(reinterpret_cast<const char *>(&vec1.First()));
+    m_start2 = const_cast<char *>(reinterpret_cast<const char *>(&vec2.First()));
+    m_at1 = m_start1;
+    m_at2 = m_start2;
+    m_stride1 = vec1.ByteStride();
+    m_stride2 = vec2.ByteStride();
+    m_end = &m_start1[vec1.Size() * vec1.ByteStride()];
   }
   
   template<class Data1T,class Data2T>
-  void Slice1dIter2C<Data1T,Data2T>::First() {
-    if(vec1.Size() <= 0) {
-      at1 = 0;
-      end = 0;
+  void Slice1dIter2C<Data1T,Data2T>::First(const Slice1dC<Data1T> &vec1,
+                                           const Slice1dC<Data2T> &vec2,
+                                           const IndexRangeC &rng)
+  {
+    RavlAssert(vec1.Range().Contains(rng.Max()));
+    RavlAssert(vec2.Range().Contains(rng.Max()));
+    if(rng.Size() <= 0) {
+      m_at1 = 0;
+      m_end = 0;
       return;
-    }
-    at1 = &vec1.First();
-    at2 = &vec2.First();
-    end = &at1[vec1.Size() * vec1.Stride()];
+    }  
+    m_start1 = const_cast<char *>(reinterpret_cast<const char *>(&(vec1[rng.Min()])));
+    m_start2 = const_cast<char *>(reinterpret_cast<const char *>(&(vec2[rng.Min()])));
+    m_at1 = m_start1;
+    m_at2 = m_start2;
+    m_stride1 = vec1.ByteStride();
+    m_stride2 = vec2.ByteStride();
+    m_end = &(m_start1[rng.Size() * vec1.ByteStride()]);
   }
-    
+  
   
 }
 

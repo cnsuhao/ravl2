@@ -16,11 +16,15 @@
 #include "Ravl/Pair.hh"
 #include "Ravl/FIndex.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/VectorUtils.hh"
 
 using namespace RavlN;
 
 int testTFVector();
 int testPair();
+
+template<typename DataT>
+int testVectorUtils();
 
 template class TFVectorC<ByteT,1>;
 template class TFVectorC<IntT,2>;
@@ -35,6 +39,14 @@ int main(int nargs,char **argv) {
     return 1;
   }
   if((ln = testPair()) != 0) {
+    cerr << "Error line :" << ln << "\n";
+    return 1;
+  }
+  if((ln = testVectorUtils<double>()) != 0) {
+    cerr << "Error line :" << ln << "\n";
+    return 1;
+  }
+  if((ln = testVectorUtils<float>()) != 0) {
     cerr << "Error line :" << ln << "\n";
     return 1;
   }
@@ -74,6 +86,43 @@ int testTFVector() {
   test3 /= 4;
   if(test3 != test1) return __LINE__;
   
+  return 0;
+}
+
+template<typename DataT>
+int testVectorUtils() {
+  DataT v1[2] = {2,3};
+  DataT v2[2] = {3,4};
+  DataT m22[4] = { 1,2,3,4 };
+  DataT res[2];
+
+  // Check of dot product.
+  DataT sum = RavlBaseVectorN::DotProduct(v1,v2,2);
+  if(Abs(sum - 18) > 0.0001) return __LINE__;
+
+  // Check matrix * vector.
+  DataT expResMMV[2] = { 8,18};
+  RavlBaseVectorN::MatrixMulVector(m22,v1,2,2,sizeof(DataT) * 2,res);
+  for(int i = 0;i < 2;i++) {
+    //std::cerr << " " << res[i];
+    if(Abs(expResMMV[i] - res[i]) > 0.00001) {
+      RavlAssert(0);
+      return __LINE__;
+    }
+  }
+
+  // Check matrix.T() * vector.
+  DataT expResMTMV[2] = { 11,16};
+  RavlBaseVectorN::MatrixTMulVector(m22,v1,2,2,sizeof(DataT) * 2,res);
+  for(int i = 0;i < 2;i++) {
+    //std::cerr << " " << res[i];
+    if(Abs(expResMTMV[i] - res[i]) > 0.00001) {
+      RavlAssert(0);
+      return __LINE__;
+    }
+  }
+
+  //std::cerr << "\n";
   return 0;
 }
 

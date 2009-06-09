@@ -26,51 +26,62 @@ namespace RavlN {
   
   template<class DataT>
   class Buffer2dBodyC :
-    public BufferBodyC<BufferAccessC<DataT> >
+    public BufferBodyC<DataT>
   {
   public:
     Buffer2dBodyC()
     {}
     //: Default constructor.
 
-    Buffer2dBodyC(SizeT size1,SizeT size2) :
-      BufferBodyC<BufferAccessC<DataT> >(size1,ptrArray,false,false),
-      data(SingleBufferC<DataT>(size2 * size1))
+    Buffer2dBodyC(SizeT size1,SizeT size2)
+     : BufferBodyC<DataT >(size1 * size2),
+       m_size1(size1),
+       m_size2(size2),
+       m_stride(size2 * sizeof(DataT))
     {}
     //: Sized constructor.
-    
-    Buffer2dBodyC(SizeT size1,SizeT size2,DataT *data,bool copy = false,bool deletable = true) :
-      BufferBodyC<BufferAccessC<DataT> >(size1,ptrArray,false,false),
-      data(size1 * size2,data,copy, deletable)
-    {}
-    //: Sized constructor.
-    
-    Buffer2dBodyC(const BufferC<DataT> &dat,SizeT size1) :
-      BufferBodyC<BufferAccessC<DataT> >(size1,ptrArray,false,false),
-      data(dat)
-    {}
-    //: Construct a buffer with data area 'dat' and an access buffer with 'size1' entries.
-    
-    BufferC<DataT> &Data()
-    { return data; }
-    //: Access data buffer.
-    
-    const BufferC<DataT> &Data() const
-    { return data; }
-    //: Access data buffer.
-    
-    SizeT Size1() const
-    { return BufferBodyC<BufferAccessC<DataT> >::Size(); }
-    //: Get size 1
 
+    Buffer2dBodyC(SizeT size1,SizeT size2,SizeT bufferSizeToAllocate,IntT byteStride)
+     : BufferBodyC<DataT >(bufferSizeToAllocate),
+       m_size1(size1),
+       m_size2(size2),
+       m_stride(byteStride)
+    { RavlAssert(m_stride != 0 || size2 == 0); }
+    //: Sized constructor.
+
+    Buffer2dBodyC(DataT *data,SizeT size1,SizeT size2,IntT byteStride,bool makeCopy,bool deletable )
+     : BufferBodyC<DataT >(data,size1 * size2,makeCopy,deletable),
+       m_size1(size1),
+       m_size2(size2),
+       m_stride(byteStride)
+    { RavlAssert(m_stride != 0 || size2 == 0); }
+    //: Sized constructor.
+
+    Buffer2dBodyC(DataT *data,SizeT size1,SizeT size2,IntT byteStride,bool deletable )
+     : BufferBodyC<DataT >(data,size1 * size2,deletable),
+       m_size1(size1),
+       m_size2(size2),
+       m_stride(byteStride)
+    { RavlAssert(m_stride != 0 || size2 == 0); }
+    //: Sized constructor.
+
+    SizeT Size1() const
+    { return m_size1; }
+    //: Get size 1
+    
     SizeT Size2() const
-    { return data.Size() / Size1(); }
+    { return m_size2; }
     //: Get size 2 (estimate.)
+
+    IntT ByteStride() const
+    { return m_stride; }
+    //: Access the size of each row in the buffer in bytes.
+    // Note this may be negative.
     
   protected:
-    BufferC<DataT> data;    
-    
-    BufferAccessC<DataT> ptrArray[1];
+    SizeT m_size1; // Number of rows.
+    SizeT m_size2; // Number of valid elements in a row.
+    IntT m_stride; // Distance in bytes between each row.
   };
   
   //! userlevel=Develop
@@ -79,7 +90,7 @@ namespace RavlN {
 
   template<class DataT>
   class Buffer2dC 
-    : public BufferC<BufferAccessC<DataT> >
+    : public BufferC<DataT>
   {
   public:
     Buffer2dC()
@@ -87,45 +98,26 @@ namespace RavlN {
     //: Default constructor.
     // creates an invalid handle.
     
-    Buffer2dC(SizeT size1,SizeT size2) :
-      BufferC<BufferAccessC<DataT> >(*new(AllocBody(size1)) Buffer2dBodyC<DataT>(size1,size2))
-    {}
+    Buffer2dC(SizeT size1,SizeT size2);
     //: Sized constructor.
+    // This creates a SingleBuffer2dC.
     
-    Buffer2dC(const BufferC<DataT> &dat,SizeT size1) :
-      BufferC<BufferAccessC<DataT> >(*new(AllocBody(size1)) Buffer2dBodyC<DataT>(dat,size1))
-    {}
-    //: Construct a buffer with data area 'dat' and an access buffer with 'size1' entries.
-    
-    Buffer2dC(SizeT size1,SizeT size2,DataT *data,bool copy = false,bool deletable = true) :
-      BufferC<BufferAccessC<DataT> >(*new(AllocBody(size1)) Buffer2dBodyC<DataT>(size1,size2,data,copy,deletable))
+    Buffer2dC(DataT *data,SizeT size1,SizeT size2,IntT byteStride,bool copy = false,bool deletable = true)
+      : BufferC<DataT>(new Buffer2dBodyC<DataT>(data,size1,size2,byteStride,copy,deletable))
     {}
     //: Construct from an existing buffer.
-    
+
   protected:
-    static Buffer2dBodyC<DataT> *AllocBody(SizeT size) {
-      if(size < 1) size = 1;
-      return reinterpret_cast<Buffer2dBodyC<DataT> *> (malloc(sizeof(Buffer2dBodyC<DataT>) + (size-1) * sizeof(BufferAccessC<DataT>)));
-    }
-    //: Allocate a body object plus some space.
-    
-    Buffer2dBodyC<DataT> &Body()
-    { return static_cast<Buffer2dBodyC<DataT> &>(BufferC<BufferAccessC<DataT> >::Body()); }
-    //: Access body.
+    Buffer2dC(const Buffer2dBodyC<DataT> *body)
+      : BufferC<DataT>(body)
+    {}
+    //: body constructor.
     
     const Buffer2dBodyC<DataT> &Body() const
-    { return static_cast<const Buffer2dBodyC<DataT> &>(BufferC<BufferAccessC<DataT> >::Body()); }
+    { return static_cast<const Buffer2dBodyC<DataT> &>(BufferC<DataT>::Body()); }
     //: Constant access to body.
     
   public:
-
-    BufferC<DataT> &Data()
-    { return Body().Data(); }
-    //: Access data buffer.
-    
-    const BufferC<DataT> &Data() const
-    { return Body().Data(); }
-    //: Access data buffer.
     
     SizeT Size1() const
     { return Body().Size1(); }
@@ -134,6 +126,11 @@ namespace RavlN {
     SizeT Size2() const
     { return Body().Size2(); }
     //: Get size of buffer along dimention 2 (estimate.)
+
+    IntT ByteStride() const
+    { return Body().ByteStride(); }
+    //: Access the size of each row in the buffer in bytes.
+    // Note this may be negative.
     
   };
   

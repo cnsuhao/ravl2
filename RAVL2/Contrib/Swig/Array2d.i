@@ -30,7 +30,7 @@ namespace RavlN {
     Array2dC(const IndexRange2dC &range);
     IndexRange2dC Frame();
     void Fill(const DataT &value);
-    IntT Stride() const;
+    IntT ByteStride() const;
     %extend {
       DataT &Access(const Index2dC &index)
 	{ return self->operator[](index); }

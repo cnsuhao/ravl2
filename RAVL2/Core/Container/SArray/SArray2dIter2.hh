@@ -16,7 +16,7 @@
 //! userlevel=Advanced
 
 #include "Ravl/SArray2d.hh"
-#include "Ravl/BfAcc2Iter2.hh"
+#include "Ravl/BufferAccess2dIter2.hh"
 
 namespace RavlN {
   //! userlevel=Advanced
@@ -39,18 +39,24 @@ namespace RavlN {
     //: Constructor.
     
     inline bool First() 
-    { return BufferAccess2dIter2C<Data1T,Data2T>::First(arr1,arr1.Size2(),arr2,arr2.Size2()); }
+    { return BufferAccess2dIter2C<Data1T,Data2T>::First(arr1.BufferAccess(),arr1.ByteStride(),
+                                                        arr2.BufferAccess(),arr2.ByteStride(),
+                                                        arr1.Size1(),arr1.Size2());
+    }
     //: Goto first element in array.
     // returns true if there is one.
     
-    IntT RowIndex() const
-    { return BufferAccess2dIter2C<Data1T,Data2T>::RowIndex(arr1.ReferenceElm()); }
-    //: Get index of current row.
-    
-    Index2dC Index() const 
-    { return BufferAccess2dIter2C<Data1T,Data2T>::Index(arr1.ReferenceElm()); }
-    //: Get current index.
-    // This is a little slow.
+    IndexC RowIndex() const
+    { return arr1.RowIndexOf(this->Data1()); }
+    //: Get index of current row in array 1
+
+    IndexC ColIndex() const
+    { return arr1.ColIndexOf(this->Data1()); }
+    //: Compute curent column in array 1
+
+    Index2dC Index() const
+    { return arr1.IndexOf(this->Data1()); }
+    //: Compute index of current location in array 1
     
   private:
     SArray2dC<Data1T> arr1;

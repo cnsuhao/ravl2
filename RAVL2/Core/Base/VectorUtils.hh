@@ -16,10 +16,10 @@ namespace RavlBaseVectorN {
   extern void (*g_Real2ByteD)(unsigned char*, const double*, size_t) ;
   extern void (*g_Real2ByteF)(unsigned char*, const float*, size_t) ;
   
-  extern void (*g_MatrixMulVectorD)(const double *matrix,const double *vector,unsigned int rows,unsigned int cols,int stride,double *result);
-  extern void (*g_MatrixMulVectorF)(const float *matrix,const float *vector,unsigned int rows,unsigned int cols,int stride,float *result);
-  extern void (*g_MatrixTMulVectorD)(const double *matrix,const double *vector,unsigned int rows,unsigned int cols,int stride,double *result);
-  extern void (*g_MatrixTMulVectorF)(const float *matrix,const float *vector,unsigned int rows,unsigned int cols,int stride,float *result);
+  extern void (*g_MatrixMulVectorD)(const double *matrix,const double *vector,unsigned int rows,unsigned int cols,int btyeStride,double *result);
+  extern void (*g_MatrixMulVectorF)(const float *matrix,const float *vector,unsigned int rows,unsigned int cols,int byteStride,float *result);
+  extern void (*g_MatrixTMulVectorD)(const double *matrix,const double *vector,unsigned int rows,unsigned int cols,int byteStride,double *result);
+  extern void (*g_MatrixTMulVectorF)(const float *matrix,const float *vector,unsigned int rows,unsigned int cols,int byteStride,float *result);
   
   inline double DotProduct(const double* v1, const double* v2, size_t size) 
   { return (*g_DotProductD)(v1,v2,size); }
@@ -51,16 +51,16 @@ namespace RavlBaseVectorN {
                               const float *vector,
                               unsigned int rows,
                               unsigned int cols,         
-                              int stride,        
+                              int byteStride,
                               float *result       
                               ) 
-  { (*g_MatrixMulVectorF)(matrix,vector,rows,cols,stride,result); }
+  { (*g_MatrixMulVectorF)(matrix,vector,rows,cols,byteStride,result); }
   //: Perform matrix vector multiplication
   //!param: matrix - 2d matrix, row major of size 'rows','cols'
   //!param: vector - column vector, must have at least 'cols' elements.
   //!param: rows - Number of rows in matrix 
   //!param: cols - Number of cols in matrix 
-  //!param: stride - Stride of matrix, the number of elements in each row.
+  //!param: stride - Stride of matrix, the number of btyes in each row.
   //!param: result - Result vector, must have at least 'rows' elements
   // Performs:  result = matrix * vector, C=A * B
   // <code>
@@ -72,16 +72,16 @@ namespace RavlBaseVectorN {
                               const double *vector, 
                               unsigned int rows,
                               unsigned int cols,         
-                              int stride,        
+                              int byteStride,
                               double *result       
                               ) 
-  { (*g_MatrixMulVectorD)(matrix,vector,rows,cols,stride,result); }
+  { (*g_MatrixMulVectorD)(matrix,vector,rows,cols,byteStride,result); }
   //: Perform matrix vector multiplication
   //!param: matrix - 2d matrix, row major of size 'rows','cols'
   //!param: vector - column vector, must have at least 'cols' elements.
   //!param: rows - Number of rows in matrix 
   //!param: cols - Number of cols in matrix 
-  //!param: stride - Stride of matrix, the number of elements in each row.
+  //!param: stride - Stride of matrix, the number of bytes in each row.
   //!param: result - Result vector, must have at least 'rows' elements
   // Performs:  result = matrix * vector, C=A * B
   // <code>
@@ -93,16 +93,16 @@ namespace RavlBaseVectorN {
                                const float *vector,
                                unsigned int rows,
                                unsigned int cols,         
-                               int stride,        
+                               int byteStride,
                                float *result       
                                )
-  { (*g_MatrixTMulVectorF)(matrix,vector,rows,cols,stride,result); }
+  { (*g_MatrixTMulVectorF)(matrix,vector,rows,cols,byteStride,result); }
   //: Perform transposed matrix vector multiplication
   //!param: matrix - 2d matrix, row major of size 'rows','cols'
   //!param: vector - column vector, must have at least 'cols' elements.
   //!param: rows - Number of rows in matrix 
   //!param: cols - Number of cols in matrix 
-  //!param: stride - Stride of matrix, the number of elements in each row.
+  //!param: stride - Stride of matrix, the number of bytes in each row.
   //!param: result - Result vector, must have at least 'rows' elements
   // Performs:  result = matrix * vector, C=A*B
   // <code>
@@ -114,16 +114,16 @@ namespace RavlBaseVectorN {
                                const double *vector, 
                                unsigned int rows,
                                unsigned int cols,         
-                               int stride,        
+                               int byteStride,
                                double *result       
                                ) 
-  { (*g_MatrixTMulVectorD)(matrix,vector,rows,cols,stride,result); }
+  { (*g_MatrixTMulVectorD)(matrix,vector,rows,cols,byteStride,result); }
   //: Perform  transposed matrix  vector multiplication
   //!param: matrix - 2d matrix, row major of size 'rows','cols'
   //!param: vector - column vector, must have at least 'cols' elements.
   //!param: rows - Number of rows in matrix 
   //!param: cols - Number of cols in matrix 
-  //!param: stride - Stride of matrix, the number of elements in each row.
+  //!param: stride - Stride of matrix, the number of bytes in each row.
   //!param: result - Result vector, must have at least 'rows' elements
   // Performs:  result = matrix * vector,  C=A*B
   // <code>

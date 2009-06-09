@@ -67,7 +67,7 @@ namespace RavlImageN {
     SizeT Rows() const;
     SizeT Cols() const;
     PixelT * Row(IndexC row);
-    IntT Stride() const;
+    IntT ByteStride() const;
 
 #ifdef SWIGPYTHON
 
@@ -86,7 +86,7 @@ namespace RavlImageN {
         if (imageData == NULL)
           return NULL;
 
-        const int imageSize = self->Rows() * self->Stride() * sizeof(PixelT);
+        const int imageSize = self->Rows() * self->ByteStride();
         return PyString_FromStringAndSize(imageData, imageSize);
       }
     }

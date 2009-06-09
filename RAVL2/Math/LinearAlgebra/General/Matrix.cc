@@ -21,7 +21,7 @@ namespace RavlN {
   // or infinite values are found.
   
   bool MatrixC::IsReal() const {
-    for(BufferAccess2dIterC<RealT> it(*this,Size2());it;it++)
+    for(BufferAccess2dIterC<RealT> it(*this);it;it++)
       if(IsInf(*it) || IsNan(*it))
 	return false;
     return true;
@@ -32,7 +32,7 @@ namespace RavlN {
   
   void MatrixC::Dump() const {
     cout << Rows() << ' ' << Cols() << "\n";
-    for(BufferAccess2dIterC<RealT> it(*this,Size2());it;) {
+    for(BufferAccess2dIterC<RealT> it(*this);it;) {
       do {
 	cout << *it << ' ';
       } while(it.Next()) ;

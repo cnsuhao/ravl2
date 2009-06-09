@@ -283,7 +283,7 @@ namespace RavlBaseVectorN {
     const double *rowStart = matrix;
     double *resultAt = result;
     if(cols < 12) {
-      for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+      for(unsigned int i = 0;i < rows;i++,rowStart = ShiftPointerInBytes(rowStart,stride)) {
         register double accum = rowStart[0]*vec[0];
         for(unsigned int j = 1;j < cols;j++)
           accum += rowStart[j]*vec[j];
@@ -291,9 +291,9 @@ namespace RavlBaseVectorN {
       }
       return ;
     }
-    if((Is16ByteAligned(matrix) && Is16ByteAligned(vec) && ((stride % 2) == 0))) {
+    if((Is16ByteAligned(matrix) && Is16ByteAligned(vec) && ((stride % 16) == 0))) {
       if((cols & 1) == 0) {
-        for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+        for(unsigned int i = 0;i < rows;i++,rowStart = ShiftPointerInBytes(rowStart,stride)) {
           register const double *rowAt = rowStart;
           register const double *vecAt = vec;
           register __m128d accum =  _mm_mul_pd(_mm_load_pd(rowAt),_mm_load_pd(vecAt));
@@ -308,7 +308,7 @@ namespace RavlBaseVectorN {
         }
       } else {
         UIntT fastCols = (cols & ~0x1);
-        for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+        for(unsigned int i = 0;i < rows;i++,rowStart = ShiftPointerInBytes(rowStart,stride)) {
           register const double *rowAt = rowStart;
           register const double *vecAt = vec;
           register __m128d accum =  _mm_mul_pd(_mm_load_pd(rowAt),_mm_load_pd(vecAt));
@@ -327,7 +327,7 @@ namespace RavlBaseVectorN {
       }
     } else {
       if((cols & 1) == 0) {
-        for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+        for(unsigned int i = 0;i < rows;i++,rowStart = ShiftPointerInBytes(rowStart,stride)) {
           register const double *rowAt = rowStart;
           register const double *vecAt = vec;
           register __m128d accum = _mm_mul_pd(_mm_loadu_pd(rowAt),_mm_loadu_pd(vecAt));
@@ -342,7 +342,7 @@ namespace RavlBaseVectorN {
         }
       } else {
         UIntT fastCols = (cols & ~0x1);
-        for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+        for(unsigned int i = 0;i < rows;i++,rowStart = ShiftPointerInBytes(rowStart,stride)) {
           register const double *rowAt = rowStart;
           register const double *vecAt = vec;
           register __m128d accum = _mm_mul_pd(_mm_loadu_pd(rowAt),_mm_loadu_pd(vecAt));
@@ -376,10 +376,10 @@ namespace RavlBaseVectorN {
       *result = SSEDotProductF(matrix,vec,cols);
       return ;
     }
-    //std::cerr << "cols=" << cols << " Rows=" << rows << " Stride=" << stride <<"\n";
-    if(cols < 8) { // || !(Is16ByteAligned(matrix) && Is16ByteAligned(vec) && ((stride % 4) == 0))
+    //std::cerr << "Rows=" << rows << " Cols=" << cols << " Stride=" << stride <<"\n";
+    if(cols < 8 || 1) { // || !(Is16ByteAligned(matrix) && Is16ByteAligned(vec) && ((stride % 16) == 0))
       const float *rowStart = matrix;
-      for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+      for(unsigned int i = 0;i < rows;i++,rowStart = ShiftPointerInBytes(rowStart,stride)) {
         register float accum = rowStart[0]*vec[0];
         for(unsigned int j = 1;j < cols;j++)
           accum += rowStart[j]*vec[j];
@@ -389,13 +389,12 @@ namespace RavlBaseVectorN {
     }
     float *resultAt = result;
     const float *rowStart = matrix;
-    
-    if(Is16ByteAligned(matrix) && Is16ByteAligned(vec) && ((stride % 4) == 0)) {
+    if(Is16ByteAligned(matrix) && Is16ByteAligned(vec) && ((stride % 16) == 0)) {
       // Everything is aligned
       UIntT fastCols = (cols & ~0x3);
       //std::cerr << " A fastCols=" << fastCols << " Rem=" << (cols % 4)  <<"\n";
       if((cols % 4) == 0) {
-        for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+        for(unsigned int i = 0;i < rows;i++,rowStart = ShiftPointerInBytes(rowStart,stride)) {
           register const float *rowAt = rowStart;
           register const float *vecAt = vec;
           register __m128 accum =  _mm_mul_ps(_mm_load_ps(rowAt),_mm_load_ps(vecAt));
@@ -409,7 +408,7 @@ namespace RavlBaseVectorN {
           _mm_store_ss(resultAt++,accum);
         }
       } else {
-        for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+        for(unsigned int i = 0;i < rows;i++,rowStart = ShiftPointerInBytes(rowStart,stride)) {
           register const float *rowAt = rowStart;
           register const float *vecAt = vec;
           register __m128 accum =  _mm_mul_ps(_mm_load_ps(rowAt),_mm_load_ps(vecAt));
@@ -436,7 +435,7 @@ namespace RavlBaseVectorN {
       if((cols % 4) == 0) {
         //std::cerr << " B fastCols=" << fastCols << " cols=" << cols << " Rem=" << (cols % 4)  <<"\n";
         // Unaligned with no extra columns
-        for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+        for(unsigned int i = 0;i < rows;i++,rowStart = ShiftPointerInBytes(rowStart,stride)) {
           register const float *rowAt = rowStart;
           register const float *vecAt = vec;
           register __m128 accum =  _mm_mul_ps(_mm_loadu_ps(rowAt),_mm_loadu_ps(vecAt));
@@ -454,7 +453,7 @@ namespace RavlBaseVectorN {
         //std::cerr << " C fall back.\n";
         // Unaligned with extra columns
         UIntT fastCols = (cols & ~0x3);
-        for(unsigned int i = 0;i < rows;i++,rowStart += stride) {
+        for(unsigned int i = 0;i < rows;i++,rowStart = ShiftPointerInBytes(rowStart,stride)) {
           register const float *rowAt = rowStart;
           register const float *vecAt = vec;
           register __m128 accum =  _mm_mul_ps(_mm_loadu_ps(rowAt),_mm_loadu_ps(vecAt));

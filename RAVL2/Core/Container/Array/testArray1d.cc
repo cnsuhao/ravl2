@@ -24,6 +24,7 @@
 #include "Ravl/Array1dIter7.hh"
 #include "Ravl/Stream.hh"
 
+#include "Ravl/Slice1d.hh"
 using namespace RavlN;
 
 int BasicTest();
@@ -179,6 +180,21 @@ int BasicTest() {
       return __LINE__;
     }
   }
+
+  // Test conversion of a 1d array to a slice.
+  {
+    IndexRangeC rng(5,11);
+    Array1dC<IntT> ta(rng);
+    IntT count = 0;
+    for(Array1dIterC<IntT> it(ta);it;it++)
+      *it = count++;
+
+    // Test conversion to a slice.
+    Slice1dC<IntT> asSlice = ta.Slice1d();
+    if(asSlice.Range() != rng) return __LINE__;
+    for(int i = ta.IMin().V();i <= ta.IMin().V();i++)
+      if(asSlice[i] != ta[i]) return __LINE__;
+  }
   return 0;
   
 }
@@ -232,7 +248,7 @@ int ReverseTest() {
   return 0;
 }
 
-#include "Ravl/Slice1d.hh"
+
 
 // Force everything to be instantiated to check it at least compiles ok.
 

@@ -377,8 +377,8 @@ namespace RavlImageN {
     
     // Sort pixels into appropriate lists.
     
-    BufferAccess2dIter2C<PixelT,ExtremaChainPixelC> it(img,img.Frame().Range1(),img.Frame().Range2(),
-                                                       pixs,img.Frame().Range1(),img.Frame().Range2());
+    BufferAccess2dIter2C<PixelT,ExtremaChainPixelC> it(img,img.Frame(),
+                                                       pixs,img.Frame());
     PixelT lmin = it.Data1();
     PixelT lmax = it.Data1();
     if(limitMaxValue >= 255) {

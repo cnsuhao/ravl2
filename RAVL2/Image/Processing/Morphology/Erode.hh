@@ -40,7 +40,8 @@ namespace RavlImageN
     Array2dIterC<DataT> res(result,resRect);
     for(Rectangle2dIterC rit(image.Frame(),kernel.Frame());rit;rit++,res++) {
       *res = inRegion;
-      for(BufferAccess2dIter2C<DataT,DataT>  it(kernel,kernel.Frame(),image,rit.Window());it;it++) {
+      for(BufferAccess2dIter2C<DataT,DataT>  it(kernel,kernel.Frame(),
+                                                image,rit.Window());it;it++) {
 	if(it.Data1() && (it.Data2() == 0)) {
 	  *res = 0;
 	  break;

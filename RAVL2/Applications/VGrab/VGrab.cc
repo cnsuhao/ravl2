@@ -33,10 +33,9 @@
 #include "Ravl/DP/FileFormatRegistry.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/DP/SequenceIO.hh"
-
-//#include "Ravl/Image/ByteRGBValue.hh"
-//#include "Ravl/Image/ByteYUVValue.hh"
-//#include "Ravl/Image/ByteYUV422Value.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Image/ByteYUVValue.hh"
+#include "Ravl/Image/ByteYUV422Value.hh"
 
 #include "Ravl/IO.hh"
 

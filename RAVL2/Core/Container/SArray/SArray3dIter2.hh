@@ -16,7 +16,7 @@
 //! userlevel=Advanced
 
 #include "Ravl/SArray3d.hh"
-#include "Ravl/BfAcc2Iter2.hh"
+#include "Ravl/BufferAccess2dIter2.hh"
 
 namespace RavlN {
   //! userlevel=Advanced
@@ -39,19 +39,15 @@ namespace RavlN {
     //: Constructor.
     
     inline bool First() 
-    { return BufferAccess3dIter2C<Data1T,Data2T>::First(arr1,arr1.Size2(),arr1.Size3(),
-							arr2,arr2.Size2(),arr2.Size3()); }
+    { return BufferAccess3dIter2C<Data1T,Data2T>::First(arr1.BufferAccess(),arr1.ByteStride1(),arr2.ByteStride2(),
+                                                        arr2.BufferAccess(),arr1.ByteStride1(),arr2.ByteStride2(),
+                                                        arr1.Size(),arr1.Size2(),arr1.Size3()); }
     //: Goto first element in array.
     // returns true if there is one.
     
-    Index3dC Index() const { 
-      RavlAssert(arr1.IsValid());
-      Index2dC i2 = this->sit.Index(this->rit.Data1().ReferenceElm());
-      return Index3dC((IndexC) (&(this->rit.Data1()) - arr1.ReferenceElm()),
-		      (IndexC) i2.Row(),
-		      (IndexC) i2.Col());
-    }
-    //: Get index of current location.
+    Index3dC Index() const
+    { return arr1.IndexOf(this->Data1()); }
+    //: Get index of current location in array 1.
     // Has to be calculate, and so is slightly slow.
     
   private:

@@ -209,7 +209,7 @@ namespace RavlImageN {
       }
     }
     // Check input image.
-    if(head.Stride() != ((IntT) rect.Cols()) || head.Rectangle().Origin() != rect.Origin())
+    if(!head.IsContinuous() || head.Rectangle().Origin() != rect.Origin())
       head = ImageC<ByteRGBValueC>(rect);
     
     // sizeof(ByteRGBValueC) == 3 we can do it line at a time.
@@ -303,7 +303,7 @@ namespace RavlImageN {
       SetupForVariant(Index2dC(rect.Rows(),rect.Cols()));
       WriteHdr(TypeName(typeid(ImageC<ByteRGBValueC>)));
     }
-    if(Img.Stride() != ((IntT) rect.Cols())) { // Can't deal with sub-rectangles at the moment
+    if(!Img.IsContinuous()) { // Can't deal with sub-rectangles at the moment
       cerr << "DPOImageRGBBodyC::Put(), Image size mismatch. \n";
       return false;
     }

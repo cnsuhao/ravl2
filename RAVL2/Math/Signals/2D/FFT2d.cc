@@ -5,7 +5,6 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/Signals/2D/FFT2d.cc"
 
@@ -112,7 +111,7 @@ namespace RavlN {
 
       // fft of cols.
       for(j = 0;j < (int) dat.Size2();j++) {
-	Slice1dC<ComplexC> slice(tmp1.Buffer().Data(),tmp1Ptr[0][j],tmp1.Size1(),tmp1.Stride());
+	Slice1dC<ComplexC> slice(tmp1.Buffer(),tmp1Ptr[0][j],tmp1.Size1(),tmp1.ByteStride());
 	idat.CopyFrom(slice);
 	for(BufferAccessIter2C<ComplexC *,ComplexC> it(ptrArr,idat);it;it++)
 	  it.Data1() = &it.Data2();
@@ -132,7 +131,7 @@ namespace RavlN {
 	      size[1].V(),(int*)primeFactors2,'d');
       // fft of cols.
       for(j = 0;j < (int) dat.Size2();j++) {
-	Slice1dC<ComplexC> slice(tmp1.Buffer().Data(),tmp1Ptr[0][j],dat.Size1(),dat.Stride());
+	Slice1dC<ComplexC> slice(tmp1.Buffer(),tmp1Ptr[0][j],dat.Size1(),dat.ByteStride());
 	idat.CopyFrom(slice);
 	//cerr << const_cast<SArray2dC<ComplexC> &>(dat).SliceColumn(j) << "\n";
 	for(BufferAccessIter2C<ComplexC *,ComplexC> it(ptrArr,idat);it;it++)
@@ -176,7 +175,7 @@ namespace RavlN {
     if(inv) {
       // fft of rows.
       for(i = 0;i < (int) dat.Size1();i++)
-	fftgr(dat[i].DataStart(),
+	fftgr(const_cast<double *>(dat[i].DataStart()),
 	      (ccomplex *)((void *) tmp1[i].DataStart()),
 	      size[1].V(),(int*)primeFactors2,'i');
       // fft of cols.
@@ -195,7 +194,7 @@ namespace RavlN {
     } else {
       // fft of rows.
       for(i = 0;i < (int) dat.Size1();i++)
-	fftgr(dat[i].DataStart(),
+	fftgr(const_cast<double *>(dat[i].DataStart()),
 	      (ccomplex *)((void *) tmp1[i].DataStart()),
 	      size[1].V(),(int*)primeFactors2,'d');
       // fft of cols.
@@ -328,6 +327,7 @@ namespace RavlN {
     resQuartile2Range.SetOrigin(resQuartile2Origin);
     resQuartile3Range.SetOrigin(resQuartile3Origin);
 
+
     //: Copy each quartile of dat to shifted
     //======================================
     SArray2dC<RealT> shifted(dat.Size1(), dat.Size2());
@@ -363,8 +363,7 @@ namespace RavlN {
     Array2dC<ComplexC> shifted(shiftedSArray);
 
     // Translate shifted to dat position
-    shifted.ShiftIndexes1(-dat.Range1().Min());
-    shifted.ShiftIndexes2(-dat.Range2().Min());
+    shifted.ShiftArray(dat.Frame().Origin());
 
     return shifted;
   }
@@ -376,9 +375,9 @@ namespace RavlN {
 
     Array2dC<RealT> shifted(shiftedSArray);
 
+
     // Translate shifted to dat position
-    shifted.ShiftIndexes1(-dat.Range1().Min());
-    shifted.ShiftIndexes2(-dat.Range2().Min());
+    shifted.ShiftArray(dat.Frame().Origin());
 
     return shifted;
   }

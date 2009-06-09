@@ -233,22 +233,33 @@ namespace RavlN {
     Matrix3dC Hi;
     SArray1dC<Point2dC> normPoints;
     Normalise(points,normPoints,Hi);
-    
-    
-    // Fill in 'D'
+       
     MatrixC D1(points.Size(),3);
+    MatrixC D2(points.Size(),3);
+#if 0
+    // Fill in 'D'
     for(BufferAccessIter2C<Point2dC,BufferAccessC<RealT> > it(normPoints,D1);it;it++) {
       const Point2dC &l = it.Data1();
       it.Data2()[0] = Sqr(l[0]);
       it.Data2()[1] = l[0] * l[1];
       it.Data2()[2] = Sqr(l[1]);
     }
-    MatrixC D2(points.Size(),3);
     for(BufferAccessIter2C<Point2dC,BufferAccessC<RealT> > it(normPoints,D2);it;it++) {
       const Point2dC &l = it.Data1();
       it.Data2()[0] = l[0];
       it.Data2()[1] = l[1];
       it.Data2()[2] = 1;
+    }
+#endif
+    for(unsigned i = 0;i < normPoints.Size();i++) {
+      const Point2dC &l = normPoints[i];
+      D1[i][0] = Sqr(l[0]);
+      D1[i][1] = l[0] * l[1];
+      D1[i][2] = Sqr(l[1]);
+      
+      D2[i][0] = l[0];
+      D2[i][1] = l[1];
+      D2[i][2] = 1.0;
     }
     
     MatrixC S1 = D1.TMul(D1);

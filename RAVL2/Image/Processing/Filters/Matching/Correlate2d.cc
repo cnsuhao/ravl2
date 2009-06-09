@@ -45,8 +45,8 @@ namespace RavlImageN {
     switch(kernel.Cols()) {
     case 2: 
       for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
-	BufferAccess2dIter2C<short,short> it(kernel,kernel.Range1(),kernel.Range2(),
-					     in,rit.Window().Range1(),rit.Window().Range2());
+	BufferAccess2dIter2C<short,short> it(kernel.BufferAccess(),kernel.ByteStride(),kernel.Frame(),
+					     in.BufferAccess(),in.ByteStride(),rit.Window());
 	int sum = 0;
 	do {
 	  MMXMULT4S(&it.Data2(), &it.Data1(), sum, MMX2 );
@@ -56,8 +56,8 @@ namespace RavlImageN {
       break;
     case 3: 
       for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
-	BufferAccess2dIter2C<short,short> it(kernel,kernel.Range1(),kernel.Range2(),
-					     in,rit.Window().Range1(),rit.Window().Range2());
+	BufferAccess2dIter2C<short,short> it(kernel.BufferAccess(),kernel.ByteStride(),kernel.Frame(),
+					     in.BufferAccess(),in.ByteStride(),rit.Window());
 	int sum = 0;
 	do {
 	  MMXMULT4S(&it.Data2(), &it.Data1(), sum, MMX3 );
@@ -67,8 +67,8 @@ namespace RavlImageN {
       break;
     case 4:  
       for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
-	BufferAccess2dIter2C<short,short> it(kernel,kernel.Range1(),kernel.Range2(),
-					     in,rit.Window().Range1(),rit.Window().Range2());
+	BufferAccess2dIter2C<short,short> it(kernel.BufferAccess(),kernel.ByteStride(),kernel.Frame(),
+					     in.BufferAccess(),in.ByteStride(),rit.Window());
 	int sum = 0;
 	do {
 	  MMXMULT4S(&it.Data2(), &it.Data1(), sum, MMX4 );
@@ -78,8 +78,8 @@ namespace RavlImageN {
       break;	
     case 5: 
       for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
-	BufferAccess2dIter2C<short,short> it(kernel,kernel.Range1(),kernel.Range2(),
-					     in,rit.Window().Range1(),rit.Window().Range2());
+	BufferAccess2dIter2C<short,short> it(kernel.BufferAccess(),kernel.ByteStride(),kernel.Frame(),
+					     in.BufferAccess(),in.ByteStride(),rit.Window());
 	int sum = 0;
 	do {
 	  MMXMULT8S(&it.Data2(),&((&it.Data2())[4]), &it.Data1(),&((&it.Data1())[4]),sum, MMX5 );
@@ -89,8 +89,8 @@ namespace RavlImageN {
       break;	
     case 6:
       for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
-	BufferAccess2dIter2C<short,short> it(kernel,kernel.Range1(),kernel.Range2(),
-					     in,rit.Window().Range1(),rit.Window().Range2());
+	BufferAccess2dIter2C<short,short> it(kernel.BufferAccess(),kernel.ByteStride(),kernel.Frame(),
+					     in.BufferAccess(),in.ByteStride(),rit.Window());
 	int sum = 0;
 	do {
 	  MMXMULT8S(&it.Data2(),&((&it.Data2())[4]), &it.Data1(),&((&it.Data1())[4]),sum, MMX6 );
@@ -100,8 +100,8 @@ namespace RavlImageN {
       break;	
     case 7:  
       for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
-	BufferAccess2dIter2C<short,short> it(kernel,kernel.Range1(),kernel.Range2(),
-					     in,rit.Window().Range1(),rit.Window().Range2());
+	BufferAccess2dIter2C<short,short> it(kernel.BufferAccess(),kernel.ByteStride(),kernel.Frame(),
+					     in.BufferAccess(),in.ByteStride(),rit.Window());
 	int sum = 0;
 	do {
 	  MMXMULT8S(&it.Data2(),&((&it.Data2())[4]), &it.Data1(),&((&it.Data1())[4]),sum, MMX7 );
@@ -111,8 +111,8 @@ namespace RavlImageN {
       break; 
     case 8:
       for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
-	BufferAccess2dIter2C<short,short> it(kernel,kernel.Range1(),kernel.Range2(),
-					     in,rit.Window().Range1(),rit.Window().Range2());
+	BufferAccess2dIter2C<short,short> it(kernel.BufferAccess(),kernel.ByteStride(),kernel.Frame(),
+					     in.BufferAccess(),in.ByteStride(),rit.Window());
 	int sum = 0;
 	do {
 	  MMXMULT8S(&it.Data2(),&((&it.Data2())[4]), &it.Data1(),&((&it.Data1())[4]),sum, MMX8 );
@@ -123,8 +123,8 @@ namespace RavlImageN {
     default:
       // Default implementation
       for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
-	BufferAccess2dIter2C<short,short> it(kernel,kernel.Range1(),kernel.Range2(),
-					     in,rit.Window().Range1(),rit.Window().Range2());
+	BufferAccess2dIter2C<short,short> it(kernel.BufferAccess(),kernel.ByteStride(),kernel.Frame(),
+					     in.BufferAccess(),in.ByteStride(),rit.Window());
 	int sum = 0;
 	for(;it;it++)
 	  sum += (it.Data1() * it.Data2());

@@ -14,7 +14,7 @@
 //! file="Ravl/Core/Container/Array/Array2dSqr31Iter2.hh"
 
 #include "Ravl/Array2d.hh"
-#include "Ravl/BfAcc2Iter2.hh"
+#include "Ravl/BufferAccess2dIter2.hh"
 
 namespace RavlN {
 
@@ -43,63 +43,47 @@ namespace RavlN {
     //: Constructor.
     
     bool First() {
-      // Setup second index size for the two arrays.
-      this->rng1 = IndexRangeC(array1.Range2().Min()+1,array1.Range2().Max()-1);
-      this->rng2 = array2.Range2();
-      this->rng2.ClipBy(this->rng1);
-      // Setup first index for the two arrays.
-      IndexRangeC srng1(array1.Range1().Min()+1,array1.Range1().Max()-1);
-      IndexRangeC srng2 = array2.Range1();
-      srng2.ClipBy(srng1);
-      if(!this->rit.First(array1,srng1,
-		    array2,srng2)) {
-	this->cit.Invalidate();
-	return false;
-      }
-      this->cit.First(this->rit.Data1(),this->rng1,
-                      this->rit.Data2(),this->rng2);
-      if(!this->cit) {
-	this->cit.Invalidate();
-	return false;
-      }
-      up = &((&(this->rit.Data1()))[-1][this->rng1.Min()]);
-      dn = &((&(this->rit.Data1()))[ 1][this->rng1.Min()]);
+      IndexRange2dC frame1 = array1.Frame().Expand(-1);
+      RavlAssert(array2.Frame().Contains(frame1));
+      if(!BufferAccess2dIter2C<Data1T,Data2T>::First(array1.BufferAccess(),array1.ByteStride(),frame1,
+                                                     array2.BufferAccess(),array2.ByteStride(),frame1
+                                                     ))
+        return false;
+      up = ShiftPointerInBytes(&(this->Data1()),-array1.ByteStride());
+      dn = ShiftPointerInBytes(&(this->Data1()),array1.ByteStride());
       return true;
     }
     //: Goto first element in the array.
     
     bool NextRow() {
-      this->rit++;
-      if(!this->rit)
-	return false;
-      up = &((&(this->rit.Data1()))[-1][this->rng1.Min()]);
-      dn = &((&(this->rit.Data1()))[ 1][this->rng1.Min()]);
-      this->cit.First(this->rit.Data1(),this->rng1,
-                      this->rit.Data2(),this->rng2);
+      if(!BufferAccess2dIter2C<Data1T,Data2T>::NextRow())
+        return false;
+      up = ShiftPointerInBytes(&(this->Data1()),-array1.ByteStride());
+      dn = ShiftPointerInBytes(&(this->Data1()),array1.ByteStride());
       return true;
     }
     //: Goto next row.
     // Returns true if left on a valid row.
     
     inline bool Next() { 
+      if(!BufferAccess2dIter2C<Data1T,Data2T>::Next()) {
+        up = ShiftPointerInBytes(&(this->Data1()),-array1.ByteStride());
+        dn = ShiftPointerInBytes(&(this->Data1()),array1.ByteStride());
+        return false;
+      }
       up++;
       dn++;
-      this->cit++;
-      if(!this->cit) { // Goto next row ?
-	NextRow();
-	return false;
-      }
       return true;
     }
     //: Goto next element.
     // Return true if pixel is on the same line.
     
     bool IsElm() const
-    { return this->cit.IsElm(); }
+    { return this->m_cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     operator bool() const
-    { return this->cit.IsElm(); }
+    { return this->m_cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     void operator++() 
@@ -135,27 +119,27 @@ namespace RavlN {
     //: Access bottom right data element 
 
     Data1T &DataML1() 
-    { return (&(this->cit.Data1()))[-1]; }
+    { return (&(this->m_cit.Data1()))[-1]; }
     //: Access middle left data element 
     
     const Data1T &DataML1() const
-    { return (&(this->cit.Data1()))[-1]; }
+    { return (&(this->m_cit.Data1()))[-1]; }
     //: Access middle left data element 
     
     Data1T &DataMM1() 
-    { return this->cit.Data1(); }
+    { return this->m_cit.Data1(); }
     //: Access middle data element 
     
     const Data1T &DataMM1() const
-    { return this->cit.Data1(); }
+    { return this->m_cit.Data1(); }
     //: Access middle data element 
     
     Data1T &DataMR1() 
-    { return (&(this->cit.Data1()))[1]; }
+    { return (&(this->m_cit.Data1()))[1]; }
     //: Access middle right data element 
     
     const Data1T &DataMR1() const
-    { return (&(this->cit.Data1()))[1]; }
+    { return (&(this->m_cit.Data1()))[1]; }
     //: Access middle right data element 
 
     Data1T &DataTL1() 
@@ -183,13 +167,18 @@ namespace RavlN {
     //: Access top right data element
     
     Data2T &Data2() 
-    { return this->cit.Data2(); }
+    { return this->m_cit.Data2(); }
     //: Access middle data element of second array.
     
     const Data2T &Data2() const
-    { return this->cit.Data2(); }
+    { return this->m_cit.Data2(); }
     //: Access middle data element of second array.
-    
+
+    Index2dC Index() const
+    { return array1.IndexOf(this->DataMM1()); }
+    //: Get index of current location of the middle pixel in the first array.
+    // Has to be calculate, and so is slightly slow.
+
   protected:
     Array2dC<Data1T> array1;
     Array2dC<Data2T> array2;

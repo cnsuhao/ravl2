@@ -16,7 +16,7 @@
 
 #include "Ravl/TFVector.hh"
 #include "Ravl/Index2d.hh"
-#include "Ravl/SBfAcc.hh"
+#include "Ravl/SizeBufferAccess.hh"
 
 namespace RavlN {
   

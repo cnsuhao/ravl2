@@ -30,7 +30,6 @@
 using namespace RavlN;
 using namespace RavlImageN;
 
-
 ImageC<ByteT> DoDeinterlace(const ImageC<ByteT> &img) {
   return DeinterlaceSubsample(img);
 }

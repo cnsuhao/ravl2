@@ -17,7 +17,7 @@
 
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Assert.hh"
-#include "Ravl/BfAccIter.hh"
+#include "Ravl/BufferAccessIter.hh"
 
 namespace RavlN {
 

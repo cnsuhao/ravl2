@@ -13,7 +13,7 @@
 #include "Ravl/SobolSequence.hh"
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/PrimitiveBinaryPolynomial.hh"
-#include "Ravl/BfAccIter3.hh"
+#include "Ravl/BufferAccessIter3.hh"
 
 namespace RavlN {
 

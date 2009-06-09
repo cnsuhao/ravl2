@@ -14,20 +14,30 @@
 
 #include "Ravl/Stream.hh"
 #include "Ravl/Buffer3d.hh"
-#include "Ravl/SBfAcc3d.hh"
-#include "Ravl/RBfAcc3d.hh"
-#include "Ravl/BfAcc3Iter.hh"
-#include "Ravl/BfAcc3Iter2.hh"
-#include "Ravl/BfAcc3Iter3.hh"
+#include "Ravl/SizeBufferAccess3d.hh"
+#include "Ravl/RangeBufferAccess3d.hh"
+#include "Ravl/BufferAccess3dIter.hh"
+#include "Ravl/BufferAccess3dIter2.hh"
+#include "Ravl/BufferAccess3dIter3.hh"
 
 using namespace RavlN;
 
 int TestRangeBuffer();
+int TestSizeBuffer();
+int TestBufferIter();
 
 int main()
 {
   int ln;
   if((ln = TestRangeBuffer()) != 0) {
+    cerr << "Buffer test failed on line :" << ln << "\n";
+    return 1;
+  }
+  if((ln = TestSizeBuffer()) != 0) {
+    cerr << "Buffer test failed on line :" << ln << "\n";
+    return 1;
+  }
+  if((ln = TestBufferIter()) != 0) {
     cerr << "Buffer test failed on line :" << ln << "\n";
     return 1;
   }
@@ -37,15 +47,10 @@ int main()
 
 int TestRangeBuffer() {
 
-#if 0
   IndexRangeC r1(1,3);
   IndexRangeC r2(2,5);
   IndexRangeC r3(3,7);
-#else
-  IndexRangeC r1(1,2);
-  IndexRangeC r2(2,3);
-  IndexRangeC r3(3,4);
-#endif
+
   Buffer3dC<int> bf (r1.Size(),r2.Size(),r3.Size());
   if(bf.Size1() != (UIntT) r1.Size()) return __LINE__;
   if(bf.Size2() != (UIntT) r2.Size()) return __LINE__;
@@ -53,8 +58,8 @@ int TestRangeBuffer() {
   
   //cerr << "Buffer at :" << ((void *) bf.Data().ReferenceElm()) << "\n";
   
-  RangeBufferAccess3dC<int> rba(r2,r3);
-  rba.Attach(bf,r1);
+  RangeBufferAccess3dC<int> rba;
+  rba.Attach(bf,r1,r2,r3);
   
   if(r1 != rba.Range1()) {
     cerr<< "Range 1 incorrect. " << rba.Range1() <<" should be " << r1 << "\n";
@@ -66,41 +71,17 @@ int TestRangeBuffer() {
   }
 
   if(r3 != rba.Range3()) {
-    cerr<< "Range 2 incorrect. " << rba.Range2() <<" should be " << r2 << "\n";
+    cerr<< "Range 3 incorrect. " << rba.Range2() <<" should be " << r2 << "\n";
     return __LINE__;
   }
-  {    
-    cerr << "AccBuffer @ " << bf.DataIndex().ReferenceElm() << "\n";
-    cerr << "DataBuffer @ " << bf.Data().ReferenceElm() << "\n";
-    const SizeT d3Size = rba.Range3().Size();
-    const SizeT d2Size = rba.Range2().Size();
-    BufferAccessC<int> *acc2 = bf.DataIndex().ReferenceElm() - rba.Range2().Min().V();
-    int *atData = bf.Data().ReferenceElm() - rba.Range3().Min().V();
     
-    for(BufferAccessIterC<BufferAccessC<BufferAccessC<int> > > it(rba,rba.Range1());it;it++,acc2 += d2Size) {
-      *it = acc2 ;
-      
-      cerr << "Acc:" << ((void *) acc2) << " (" << ((void *) &acc2[rba.Range2().Min().V()]) << ") " << ((void *) it->ReferenceElm()) << "\n";
-      for(BufferAccessIterC<BufferAccessC<int> > it2(*it,rba.Range2());it2;it2++,atData += d3Size) {
-	*it2 = atData;
-	cerr << "Data:" << ((void *) atData) << "\n";
-      }
-    }
-  }
-  
-  if(&(rba[rba.Range1().Min()].ReferenceElm()[rba.Range2().Min().V()]) != bf.DataIndex().ReferenceElm()) {
-    cerr << "Buffer index setup incorrect. Min @" << ((void *) &(rba[rba.Range1().Min()].ReferenceElm()[rba.Range2().Min().V()])) << "\n";
-    cerr << "Ref @" << ((void *) bf.DataIndex().ReferenceElm()) << "\n";
-    return __LINE__;
-  }
-  
-  if(&(rba[rba.Range1().Min()][rba.Range2().Min()][rba.Range3().Min()]) != bf.Data().ReferenceElm()) {
+  if(&(rba[rba.Range1().Min()][rba.Range2().Min()][rba.Range3().Min()]) != bf.ReferenceElm()) {
     cerr << "Buffer setup incorrect. Min @" << ((void *)&(rba[rba.Range1().Min()][rba.Range2().Min()][rba.Range3().Min()])) << "\n";
-    cerr << "Ref @" << ((void *) bf.Data().ReferenceElm()) << "\n";
+    cerr << "Ref @" << ((void *) bf.ReferenceElm()) << "\n";
     return __LINE__;
   }
   
-  BufferAccess3dIterC<int> it(rba,r2,r3);
+  BufferAccess3dIterC<int> it(rba);
   if(!it.IsElm()) {
     cerr << "Failed to create valid iterator. \n";
     return __LINE__;
@@ -109,8 +90,114 @@ int TestRangeBuffer() {
     cerr << "Inital iterator position incorrect. " << ((void *) &(*it) ) << " should be " << ((void *) &(rba[rba.Range1().Min()][rba.Range2().Min()][rba.Range3().Min()])) <<  "\n";
     return __LINE__;
   }
-  for(;it;it++)
+  SizeT count = 0;
+  for(;it;it++) {
     *it = 0;
+    count++;
+  }
+  SizeT totalSize = (r1.Size() * r2.Size() * r3.Size());
+  if(count != totalSize) {
+    std::cerr << "Count mismatch in iterator test. Counter=" << count << " Size=" << totalSize << "\n";
+    return __LINE__;
+  }
+
+return 0;
+}
+
+
+int TestSizeBuffer() {
+  SizeT s1 = 2;
+  SizeT s2 = 3;
+  SizeT s3 = 4;
+
+  Buffer3dC<int> bf (s1,s2,s3);
+  if(bf.Size1() != s1) return __LINE__;
+  if(bf.Size2() != s2) return __LINE__;
+  if(bf.Size3() != s3) return __LINE__;
+
+  SizeBufferAccess3dC<int> rba(bf,s1,s2,s3);
+  if(s1 != rba.Size1()) {
+    cerr<< "Size 1 incorrect. " << rba.Size1() <<" should be " << s1 << "\n";
+    return __LINE__;
+  }
+  if(s2 != rba.Size2()) {
+    cerr<< "Size 2 incorrect. " << rba.Size2() <<" should be " << s2 << "\n";
+    return __LINE__;
+  }
+
+  if(s3 != rba.Size3()) {
+    cerr<< "Size 3 incorrect. " << rba.Size2() <<" should be " << s2 << "\n";
+    return __LINE__;
+  }
+
+  if(&(rba[0][0][0]) != bf.ReferenceElm()) {
+    cerr << "Buffer setup incorrect. Min @" << ((void *)&(rba[0][0][0])) << "\n";
+    cerr << "Ref @" << ((void *) bf.ReferenceElm()) << "\n";
+    return __LINE__;
+  }
+  
+  BufferAccess3dIterC<int> it(rba);
+  if(!it.IsElm()) {
+    cerr << "Failed to create valid iterator. \n";
+    return __LINE__;
+  }
+  if(&(*it) != &(rba[0][0][0])) {
+    cerr << "Inital iterator position incorrect. " << ((void *) &(*it) ) << " should be " << ((void *) &(rba[0][0][0])) <<  "\n";
+    return __LINE__;
+  }
+  SizeT count = 0;
+  for(;it;it++) {
+    *it = 0;
+    count++;
+  }
+  if(count != (s1 * s2 * s3)) {
+    return __LINE__;
+  }
+
+  return 0;
+}
+
+int TestBufferIter() {
+
+
+  IndexRangeC r1(-1,3);
+  IndexRangeC r2(-2,5);
+  IndexRangeC r3(-3,7);
+
+  Buffer3dC<Index3dC> bf1 (r1.Size(),r2.Size(),r3.Size());
+  RangeBufferAccess3dC<Index3dC> rba1;
+  rba1.Attach(bf1,r1,r2,r3);
+
+  // Check indexing works.
+  for(IndexC i = r1.Min();i <= r1.Max();i++){
+    for(IndexC j = r2.Min();j <= r2.Max();j++) {
+      for(IndexC k = r3.Min();k <= r3.Max();k++) {
+        Index3dC ind(i,j,k);
+        rba1[i][j][k] = ind;
+        if(rba1[ind] != ind) return __LINE__;
+        if(rba1.Index1Of(rba1[ind]) != i) return __LINE__;
+        if(rba1.Index2Of(rba1[ind]) != j) return __LINE__;
+        if(rba1.Index3Of(rba1[ind]) != k) return __LINE__;
+        if(rba1.IndexOf(rba1[ind]) != ind) return __LINE__;
+      }
+    }
+  }
+
+
+  Buffer3dC<double> bf2 (r1.Size(),r2.Size(),r3.Size());
+  RangeBufferAccess3dC<double> rba2;
+  rba2.Attach(bf2,r1,r2,r3);
+
+  Buffer3dC<int> bf3 (r1.Size(),r2.Size(),r3.Size());
+  RangeBufferAccess3dC<int> rba3;
+  rba3.Attach(bf3,r1,r2,r3);
+#if 0
+  for(BufferAccess3dIter2C<Index3dC,double> it(rba1,rba2,r1,r2,r3);it;it++) {
+    if(rba1.IndexOf(it.Data1()) != it.Data1()) return __LINE__;
+    it.Data2() = 0;
+  }
+#endif
+
   return 0;
 }
 

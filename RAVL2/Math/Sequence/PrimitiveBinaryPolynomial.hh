@@ -28,23 +28,24 @@ namespace RavlN {
   class PrimitiveBinaryPolynomialC {
   public:
     PrimitiveBinaryPolynomialC()
-      {}
+      : m_deg(0)
+    {}
     //: Default constructor.
     
-    PrimitiveBinaryPolynomialC(int arg,int degree,const SArray1dC<UIntT> &ninit)
-      : deg(degree),
-      args(arg),
-      init(ninit)
-      {}
+    PrimitiveBinaryPolynomialC(int arg,int degree,const SArray1dC<UIntT> &init)
+      : m_deg(degree),
+        m_args(arg),
+        m_init(init)
+    {}
     //: Constructor.
     
     SArray1dC<UIntT> Evaluate(IntT len);
     //: Evalutate the sequence of 'len' values.  
     
   protected:
-    IntT deg;     // Degree of polynomial
-    IntT args;    // Args for polynomial
-    SArray1dC<UIntT> init; // Inital sequence.
+    IntT m_deg;     // Degree of polynomial
+    IntT m_args;    // Args for polynomial
+    SArray1dC<UIntT> m_init; // Inital sequence.
   };
 }
 

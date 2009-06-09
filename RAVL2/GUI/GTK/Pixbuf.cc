@@ -71,7 +71,7 @@ namespace RavlGUIN {
       void *imgHandle = new ImageC<ByteRGBValueC>(img); // Create a refrence to the image.
       pixbuf = gdk_pixbuf_new_from_data ((guchar *) &(img[img.Frame().Origin()]),
                                          GDK_COLORSPACE_RGB,false,8,img.Cols(),img.Rows(),
-					 img.Stride() * sizeof(ByteRGBValueC),
+					 img.ByteStride(),
 					 &DeleteImageRef,
 					 imgHandle
 					 );
@@ -88,7 +88,7 @@ namespace RavlGUIN {
       void *imgHandle = new ImageC<ByteRGBAValueC>(img); // Create a refrence to the image.
       pixbuf = gdk_pixbuf_new_from_data ((guchar *) &(img[img.Frame().Origin()]),
 					 GDK_COLORSPACE_RGB,true,8,img.Cols(),img.Rows(),
-					 img.Stride() * sizeof(ByteRGBAValueC),
+					 img.ByteStride(),
 					 &DeleteImageRGBARef,
 					 imgHandle
 					 );

@@ -24,120 +24,136 @@ namespace RavlN {
   
   //: Slice iterator.
   // Iterates through the elements in a slice
-  
+  // Note: this does NOT hold a reference to slices.
+
   template<class DataT>
   class Slice1dIterC {
   public:
     Slice1dIterC()
-      : place(0),
-        end(0)
+      : m_start(0),
+        m_place(0),
+        m_end(0),
+        m_stride(0)
     {}
     //: Creates an invalid iterator.
     
-    Slice1dIterC(const Slice1dC<DataT> &nvec);
+    Slice1dIterC(const Slice1dC<DataT> &slice)
+    { First(slice); }
     //: Creates an iterator of 'nvec'
     
-    Slice1dIterC(const Slice1dC<DataT> &nvec,const IndexRangeC &rng);
+    Slice1dIterC(const Slice1dC<DataT> &slice,const IndexRangeC &rng)
+    { First(slice,rng); }
     //: Creates an iterator for sub range of 'nvec'
     
-    void First();
-    //: Goto first element.
+    void First()
+    { m_place = m_start; }
+    //: Goto first element in current slice.
+    
+    void First(const Slice1dC<DataT> &vec);
+    //: Goto first element in a slice.
 
+    void First(const Slice1dC<DataT> &vec,const IndexRangeC &rng);
+    //: Goto first element in a slice.
+    
     operator bool() const
-    { return place != end; }
+    { return m_place != m_end; }
     //: Test if we're at a valid element.
     
     bool IsElm() const
-    { return place != end; }
+    { return m_place != m_end; }
     //: Test if we're at a valid element.
     
     inline bool IsLast() const
-    { return (place+vec.Stride()) == end; }
+    { return (m_place+m_stride) == m_end; }
     //: Test if we're at the last valid element in the slice.
     // This is slower than IsElm().
     
     inline bool IsFirst() const
-    { return place == &vec.First(); }
+    { return m_place == m_start; }
     //: Test if we're at the first element in the slice.
     // This is slower than IsElm().
     
     void Next() 
-    { place += vec.Stride(); }
+    { m_place += m_stride; }
     //: Goto next element.
     // Call ONLY if IsElm() is valid.
     
     void operator++(int) 
-    { place += vec.Stride(); }
+    { m_place += m_stride; }
+    //: Goto next element.
+    // Call ONLY if IsElm() is valid.
+
+    void operator++()
+    { m_place += m_stride; }
     //: Goto next element.
     // Call ONLY if IsElm() is valid.
     
     DataT &Data()
-    { return *place; }
+    { return *reinterpret_cast<DataT *>(m_place); }
     //: Access data at current element.
-
+    
     const DataT &Data() const
-    { return *place; }
+    { return *reinterpret_cast<const DataT *>(m_place); }
     //: Access data at current element.
 
     DataT &operator*() 
-    { return *place; }
+    { return *reinterpret_cast<DataT *>(m_place); }
     //: Access data.
     
     const DataT &operator*() const
-    { return *place; }
+    { return *reinterpret_cast<const DataT *>(m_place); }
     //: Access data.
     
     DataT *operator->() 
-    { return place; }
+    { return reinterpret_cast<DataT *>(m_place); }
     //: Access data.
     
     const DataT *operator->() const
-    { return place; }
+    { return reinterpret_cast<DataT *>(m_place); }
     //: Access data.
     
     IntT Index() const
-    { return (place - &vec.First())/vec.Stride(); }
-    //: Calculate current index.
+    { return (m_place - m_start)/m_stride; }
+    //: Calculate offset from first element iterated.
     
   protected:
-    DataT *place;
-    DataT *end;
-    IntT stide;
-    Slice1dC<DataT> vec;
+    char *m_start;
+    char *m_place;
+    char *m_end;
+    IntT m_stride;
   };
   
   /// Slice1dIterC ///////////////////////////////////////////////////////////////////
-
-  template<class DataT>
-  Slice1dIterC<DataT>::Slice1dIterC(const Slice1dC<DataT> &nvec)
-    : vec(nvec)
-  { First(); }
-
-  template<class DataT>
-  Slice1dIterC<DataT>::Slice1dIterC(const Slice1dC<DataT> &nvec,const IndexRangeC &rng)
-    : vec(nvec)
-  { 
-    RavlAssert(vec.Range().Contains(rng));
-    if(rng.Size() <= 0) {
-      place = 0;
-      end = 0;
-      return ;
-    }
-    place= &(vec[rng.Min()]);
-    end = &(place[rng.Size() * vec.Stride()]);
-  }
   
   template<class DataT>
-  void Slice1dIterC<DataT>::First() {
+  void Slice1dIterC<DataT>::First(const Slice1dC<DataT> &vec,const IndexRangeC &rng) {
+    RavlAssert(vec.Range().Contains(rng));
+    if(rng.Size() <= 0) {
+      m_start = 0;
+      m_place = 0;
+      m_end = 0;
+      return ;
+    }
+    m_stride = vec.ByteStride();
+    m_start= const_cast<char *>(reinterpret_cast<const char *>(&(vec[rng.Min()])));
+    m_place= m_start;
+    m_end = &(m_place[rng.Size() * vec.ByteStride()]);
+  }
+
+
+  template<class DataT>
+  void Slice1dIterC<DataT>::First(const Slice1dC<DataT> &vec) {
     if(vec.Size() <= 0) {
-      place = 0;
-      end = 0;
+      m_start = 0;
+      m_place = 0;
+      m_end = 0;
       return;
     }
-    place = &vec.First();
-    end = &(place[(IntT) vec.Size() * vec.Stride()]);
+    m_stride = vec.ByteStride();
+    m_start = const_cast<char *>(reinterpret_cast<const char *>(&vec.First()));
+    m_place = m_start;
+    m_end = &(m_place[(IntT) vec.Size() * m_stride]);
   }
-    
   
 }
 

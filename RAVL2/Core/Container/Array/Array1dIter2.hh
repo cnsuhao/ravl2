@@ -16,7 +16,7 @@
 //! userlevel=Default
 
 #include "Ravl/Array1d.hh"
-#include "Ravl/BfAccIter2.hh"
+#include "Ravl/BufferAccessIter2.hh"
 
 namespace RavlN {
   //! userlevel=Normal

@@ -17,7 +17,7 @@
 //! example=exArray1.cc
 
 #include "Ravl/Array1d.hh"
-#include "Ravl/BfAccIter.hh"
+#include "Ravl/BufferAccessIter.hh"
 
 namespace RavlN {
   //! userlevel=Normal

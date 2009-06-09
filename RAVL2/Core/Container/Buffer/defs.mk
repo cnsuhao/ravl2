@@ -9,16 +9,18 @@
 
 PACKAGE=Ravl
 
-HEADERS=Buffer.hh CompositeBuffer.hh RBfAcc.hh SBfAcc.hh BufferAccess.hh \
- BfAccIter.hh BfAccIter2.hh BfAccIter3.hh BfAccIter4.hh BfAccIter5.hh BfAccIter6.hh BfAccIter7.hh \
- BfAcc2Iter.hh BfAcc2Iter2.hh BfAcc2Iter3.hh BfAcc2Iter4.hh BfAcc2Iter5.hh BfAcc2Iter6.hh BfAcc2Iter7.hh \
- Buffer2d.hh SBfAcc2d.hh RBfAcc2d.hh Slice1d.hh Slice1dIter.hh \
+HEADERS=Buffer.hh CompositeBuffer.hh RangeBufferAccess.hh SizeBufferAccess.hh BufferAccess.hh \
+ BufferAccessIter.hh BufferAccessIter2.hh BufferAccessIter3.hh BufferAccessIter4.hh BufferAccessIter5.hh BufferAccessIter6.hh BufferAccessIter7.hh \
+ BufferAccess2dIter.hh BufferAccess2dIter2.hh BufferAccess2dIter3.hh BufferAccess2dIter4.hh BufferAccess2dIter5.hh BufferAccess2dIter6.hh BufferAccess2dIter7.hh \
+ Buffer2d.hh SizeBufferAccess2d.hh RangeBufferAccess2d.hh Slice1d.hh Slice1dIter.hh \
  Slice1dIter2.hh Slice1dIter3.hh \
- Buffer3d.hh BfAcc3Iter.hh BfAcc3Iter2.hh BfAcc3Iter3.hh \
- SBfAcc3d.hh RBfAcc3d.hh BufferAccessIterR.hh SingleBuffer.hh
+ Buffer3d.hh BufferAccess3dIter.hh BufferAccess3dIter2.hh BufferAccess3dIter3.hh \
+ SizeBufferAccess3d.hh RangeBufferAccess3d.hh BufferAccessIterR.hh \
+ SingleBuffer.hh SingleBuffer2d.hh \
+ BufferAccess2dIterBase.hh \
+ AttachedBuffer2d.hh AttachedBuffer3d.hh
 
-
-SOURCES=RBfAcc2d.cc SBfAcc2d.cc RBfAcc.cc SBfAcc.cc
+SOURCES=RangeBufferAccess2d.cc SizeBufferAccess2d.cc RangeBufferAccess.cc SizeBufferAccess.cc
 
 PLIB= RavlCore
 
@@ -30,5 +32,5 @@ EHT=Ravl.API.Core.Arrays.Buffer.html
 
 TESTEXES=testBuffer2d.cc testBuffer3d.cc testSlice.cc
 
-EXAMPLES=exSBfAcc.cc exRBfAcc.cc
+EXAMPLES=exSizeBufferAccess.cc exRangeBufferAccess.cc
 

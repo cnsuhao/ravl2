@@ -29,15 +29,13 @@ namespace RavlGUIN {
     if(!ignoreImageOrigin)
       at += img.Frame().Origin();
     ImageC<ByteRGBValueC> anImg = img;
-    if(!img.IsBlock())
-      anImg = img.Copy();
     gdk_draw_rgb_image(DrawArea(),
                        widget->style->black_gc,
                        at[1].V(),at[0].V(),
                        anImg.Cols(),anImg.Rows(),
                        GDK_RGB_DITHER_NORMAL,
                        (unsigned char *) const_cast<ImageC<ByteRGBValueC> &>(anImg).Row(anImg.TRow()),
-                       anImg.Stride() * sizeof(ByteRGBValueC));
+                       anImg.ByteStride());
   }
 
   //: Draw an image into the canvas with its origin offset by 'offset'.
@@ -50,15 +48,13 @@ namespace RavlGUIN {
     if(!ignoreImageOrigin)
       at += img.Frame().Origin();
     ImageC<ByteT> anImg = img;
-    if(!img.IsBlock())
-      anImg = img.Copy();
     gdk_draw_gray_image(DrawArea(),
                         widget->style->black_gc,
                         at[1].V(),at[0].V(),
                         anImg.Cols(),anImg.Rows(),
                         GDK_RGB_DITHER_NORMAL,
                         const_cast<ImageC<ByteT> &>(anImg).Row(anImg.TRow()),
-                        anImg.Stride());
+                        anImg.ByteStride());
   }
 
   

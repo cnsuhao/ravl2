@@ -38,11 +38,11 @@ namespace RavlImageN {
     return true;
   }
 
-  IntT SumOfProducts(const RangeBufferAccess2dC<ByteT> &templ,const RangeBufferAccess2dC<ByteT> &subImg) {
+  IntT SumOfProducts(const RangeBufferAccess2dC<ByteT> &templ,
+                     const RangeBufferAccess2dC<ByteT> &subImg) {
     IntT sumxy = 0;
     // The following loop could probably be speeded up with some MMX code.
-    for(BufferAccess2dIter2C<ByteT,ByteT> it2(templ,templ.Range2(),
-					      subImg,subImg.Range2());it2;it2++)
+    for(BufferAccess2dIter2C<ByteT,ByteT> it2(templ,subImg);it2;it2++)
       sumxy += (IntT) it2.Data1() * it2.Data2();
     return sumxy;
   }

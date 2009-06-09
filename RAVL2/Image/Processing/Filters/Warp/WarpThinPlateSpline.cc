@@ -24,16 +24,28 @@ namespace RavlImageN {
   
   //: Calculate Ud.
   
-  void WarpThinPlateSplineBaseC::ComputeWUd(const Array1dC<Point2dC> &orgPos,const Point2dC &pos,const MatrixC &w,Point2dC &at) const {
+  void WarpThinPlateSplineBaseC::ComputeWUd(const Array1dC<Point2dC> &orgPos,
+                                            const Point2dC &pos,
+                                            const MatrixC &w,
+                                            Point2dC &at) const
+  {
     RealT &x = at[0];
     RealT &y = at[1];
     x = 0;
     y = 0;
+  #if 0
     for(BufferAccessIter2C<Point2dC,BufferAccessC<RealT> > it(orgPos,w);it;it++) {
       RealT uv = U(pos.SqrEuclidDistance(it.Data1()));
       x += it.Data2()[0] * uv;
       y += it.Data2()[1] * uv;
     }
+  #else
+    for(unsigned i = 0;i < orgPos.Size();i++) {
+      RealT uv = U(pos.SqrEuclidDistance(orgPos[i]));
+      x += w[i][0] * uv;
+      y += w[i][1] * uv;
+    }
+  #endif
     IntT s = (IntT) orgPos.Size();
     x += w[s][0];
     y += w[s][1];

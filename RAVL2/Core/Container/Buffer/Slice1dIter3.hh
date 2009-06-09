@@ -23,53 +23,74 @@ namespace RavlN {
   
   //: Slice iterator.
   // Iterates through the elements in a slice
-  
+  // Note: this does NOT hold a reference to slices.
+
   template<class Data1T,class Data2T,class Data3T>
   class Slice1dIter3C {
   public:
     Slice1dIter3C()
-      : at1(0),
-        end(0)
+      : m_start1(0),
+        m_at1(0),
+        m_stride1(0),
+        m_end(0)
     {}
     //: Creates an invalid iterator.
     
-    Slice1dIter3C(const Slice1dC<Data1T> &nvec1,
-		  const Slice1dC<Data2T> &nvec2,
-		  const Slice1dC<Data3T> &nvec3);
+    Slice1dIter3C(const Slice1dC<Data1T> &vec1,
+		  const Slice1dC<Data2T> &vec2,
+		  const Slice1dC<Data3T> &vec3)
+    { First(vec1,vec2,vec3); }
     //: Creates an iterator of 'nvec'
 
-    Slice1dIter3C(const Slice1dC<Data1T> &nvec1,
-		  const Slice1dC<Data2T> &nvec2,
-		  const Slice1dC<Data3T> &nvec3,
+    Slice1dIter3C(const Slice1dC<Data1T> &vec1,
+		  const Slice1dC<Data2T> &vec2,
+		  const Slice1dC<Data3T> &vec3,
 		  const IndexRangeC &rng
-		  );
+		  )
+    { First(vec1,vec2,vec3,rng); }
     //: Creates an iterator of 'nvec'
-    
-    void First();
+
+    void First() {
+      m_at1 = m_start1;
+      m_at2 = m_start2;
+      m_at3 = m_start3;
+    }
     //: Goto first element.
 
+    void First(const Slice1dC<Data1T> &nvec1,
+	       const Slice1dC<Data2T> &nvec2,
+	       const Slice1dC<Data3T> &nvec3);
+    //: Creates an iterator of 'nvec'
+
+    void First(const Slice1dC<Data1T> &nvec1,
+               const Slice1dC<Data2T> &nvec2,
+               const Slice1dC<Data3T> &nvec3,
+               const IndexRangeC &rng
+	       );
+    //: Creates an iterator of 'nvec'
+
     operator bool() const
-    { return at1 != end; }
+    { return m_at1 != m_end; }
     //: Test if we're at a valid element.
 
     bool IsElm() const
-    { return at1 != end; }
+    { return m_at1 != m_end; }
     //: Test if we're at a valid element.
-
+    
     inline bool IsLast() const
-    { return (at1+vec1.Stride()) == end; }
+    { return (m_at1+m_stride1) == m_end; }
     //: Test if we're at the last valid element in the slice.
     // This is slower than IsElm().
     
     inline bool IsFirst() const
-    { return at1 == &vec1.First(); }
+    { return m_at1 == m_start1; }
     //: Test if we're at the first element in the slice.
     // This is slower than IsElm().
-
+    
     void Next() {
-      at1 += vec1.Stride(); 
-      at2 += vec2.Stride();
-      at3 += vec3.Stride();
+      m_at1 += m_stride1;
+      m_at2 += m_stride2;
+      m_at3 += m_stride3;
     }
     //: Goto next element.
     // Call ONLY if IsElm() is valid.
@@ -80,92 +101,102 @@ namespace RavlN {
     // Call ONLY if IsElm() is valid.
     
     Data1T &Data1()
-    { return *at1; }
+    { return *reinterpret_cast<Data1T *>(m_at1); }
     //: Access data at current element.
 
     const Data1T &Data1() const
-    { return *at1; }
+    { return *reinterpret_cast<const Data1T *>(m_at1); }
     //: Access data at current element.
 
     Data2T &Data2()
-    { return *at2; }
+    { return *reinterpret_cast<Data2T *>(m_at2); }
     //: Access data at current element.
 
     const Data2T &Data2() const
-    { return *at2; }
+    { return *reinterpret_cast<const Data2T *>(m_at2); }
     //: Access data at current element.
     
     Data3T &Data3()
-    { return *at3; }
+    { return *reinterpret_cast<Data3T *>(m_at3); }
     //: Access data at current element.
 
     const Data3T &Data3() const
-    { return *at3; }
+    { return *reinterpret_cast<const Data3T *>(m_at3); }
     //: Access data at current element.
     
     IntT Index() const
-    { return (at1 - &vec1.First())/vec1.Stride(); }
+    { return (m_at1 - m_start1)/m_stride1; }
     //: Calculate current index.
     
   protected:
-    Data1T *at1;
-    Data2T *at2;
-    Data3T *at3;
-    Data1T *end;
-    Slice1dC<Data1T> vec1;
-    Slice1dC<Data2T> vec2;
-    Slice1dC<Data3T> vec3;
+    char *m_start1;
+    char *m_start2;
+    char *m_start3;
+    char *m_at1;
+    char *m_at2;
+    char *m_at3;
+    IntT m_stride1;
+    IntT m_stride2;
+    IntT m_stride3;
+    char *m_end;
   };
   
   /// Slice1dIterC ///////////////////////////////////////////////////////////////////
 
   template<class Data1T,class Data2T,class Data3T>
-  Slice1dIter3C<Data1T,Data2T,Data3T>::Slice1dIter3C(const Slice1dC<Data1T> &nvec1,
-						     const Slice1dC<Data2T> &nvec2,
-						     const Slice1dC<Data3T> &nvec3)
-    : vec1(nvec1),
-      vec2(nvec2),
-      vec3(nvec3)
+  void Slice1dIter3C<Data1T,Data2T,Data3T>::First(const Slice1dC<Data1T> &vec1,
+						  const Slice1dC<Data2T> &vec2,
+						  const Slice1dC<Data3T> &vec3)
   { 
     RavlAssert(vec2.Size() <= vec1.Size());
     RavlAssert(vec3.Size() <= vec1.Size());
-    First(); 
+    if(vec1.Size() <= 0) {
+      m_start1 = 0;
+      m_at1 = 0;
+      m_end = 0;
+      m_stride1 = 0;
+      return;
+    }
+    m_start1 = const_cast<char *>(reinterpret_cast<const char *>(&vec1.First()));
+    m_start2 = const_cast<char *>(reinterpret_cast<const char *>(&vec2.First()));
+    m_start3 = const_cast<char *>(reinterpret_cast<const char *>(&vec3.First()));
+    m_at1 = m_start1;
+    m_at2 = m_start2;
+    m_at3 = m_start3;
+    m_stride1 = vec1.ByteStride();
+    m_stride2 = vec2.ByteStride();
+    m_stride3 = vec3.ByteStride();
+    m_end = &m_start1[vec1.Size() * vec1.ByteStride()];
   }
 
   template<class Data1T,class Data2T,class Data3T>
-  Slice1dIter3C<Data1T,Data2T,Data3T>::Slice1dIter3C(const Slice1dC<Data1T> &nvec1,
-						     const Slice1dC<Data2T> &nvec2,
-						     const Slice1dC<Data3T> &nvec3,
-						     const IndexRangeC &rng)
-    : vec1(nvec1),
-      vec2(nvec2),
-      vec3(nvec3)
+  void Slice1dIter3C<Data1T,Data2T,Data3T>::First(const Slice1dC<Data1T> &vec1,
+						  const Slice1dC<Data2T> &vec2,
+						  const Slice1dC<Data3T> &vec3,
+						  const IndexRangeC &rng)
   { 
+    RavlAssert(vec1.Range().Contains(rng.Max()));
+    RavlAssert(vec2.Range().Contains(rng.Max()));
+    RavlAssert(vec3.Range().Contains(rng.Max()));
     if(rng.Size() <= 0) {
-      at1 = 0;
-      end = 0;
-      return;
-    }  
-    at1 = &(vec1[rng.Min()]);
-    at2 = &(vec2[rng.Min()]);
-    at3 = &(vec3[rng.Min()]);
-    end = &(at1[rng.Size() * vec1.Stride()]);
-  }
-  
-  template<class Data1T,class Data2T,class Data3T>
-  void Slice1dIter3C<Data1T,Data2T,Data3T>::First() {
-    if(vec1.Size() <= 0) {
-      at1 = 0;
-      end = 0;
+      m_start1 = 0;
+      m_at1 = 0;
+      m_end = 0;
+      m_stride1 = 0;
       return;
     }
-    at1 = &vec1.First();
-    at2 = &vec2.First();
-    at3 = &vec3.First();
-    end = &at1[vec1.Size() * vec1.Stride()];
+    m_start1 = const_cast<char *>(reinterpret_cast<const char *>(&(vec1[rng.Min()])));
+    m_start2 = const_cast<char *>(reinterpret_cast<const char *>(&(vec2[rng.Min()])));
+    m_start3 = const_cast<char *>(reinterpret_cast<const char *>(&(vec3[rng.Min()])));
+    m_at1 = m_start1;
+    m_at2 = m_start2;
+    m_at3 = m_start3;
+    m_stride1 = vec1.ByteStride();
+    m_stride2 = vec2.ByteStride();
+    m_stride3 = vec3.ByteStride();
+    m_end = &(m_start1[rng.Size() * vec1.ByteStride()]);
   }
     
-  
 }
 
 #endif

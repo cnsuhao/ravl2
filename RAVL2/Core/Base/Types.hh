@@ -262,6 +262,15 @@ namespace RavlN {
   inline UInt64T StdCopy(UInt64T x) { return x; }
   //: Copy unsigned 64 bit int.
 
+  template<typename DataT>
+  inline DataT *ShiftPointerInBytes(DataT *data,IntT byteOffset)
+  { return reinterpret_cast<DataT *>(reinterpret_cast<char *>(data) + byteOffset); }
+  //: Apply byte offset to a pointer
+
+  template<typename DataT>
+  inline const DataT *ShiftPointerInBytes(const DataT *data,IntT byteOffset)
+  { return reinterpret_cast<const DataT *>(reinterpret_cast<const char *>(data) + byteOffset); }
+  //: Apply byte offset to a pointer
 };
 
 #endif

@@ -255,7 +255,7 @@ namespace RavlImageN {
     
     //////// Scale coefficients
     
-    BufferAccess2dIterC<RealT> it(dest,dest.Range2());
+    BufferAccess2dIterC<RealT> it(dest);
     *it *= scaleDC;
     if(!it.Next())
       return ; // Must be 1x1
@@ -421,7 +421,7 @@ namespace RavlImageN {
   {
     int rows,n;
     ImageC<RealT> s(fi.Frame()); //double s[512][512];
-    for(BufferAccess2dIter2C<RealT,RealT> it(s,s.Range2(),fi,fi.Range2());it;it++)
+    for(BufferAccess2dIter2C<RealT,RealT> it(s,fi,s.Range1(),s.Range2());it;it++)
       it.Data1() = it.Data2();
     for (rows=0; rows<N; rows++) {
       for(n=0; n < N/2; n++) {
@@ -435,7 +435,7 @@ namespace RavlImageN {
   {
     int cols,n;
     ImageC<RealT> s(fi.Frame()); //double s[512][512];
-    for(BufferAccess2dIter2C<RealT,RealT> it(s,s.Range2(),fi,fi.Range2());it;it++)
+    for(BufferAccess2dIter2C<RealT,RealT> it(s,fi,s.Range1(),s.Range2());it;it++)
       it.Data1() = it.Data2();    
     for (cols=0; cols<N; cols++) {
       RangeBufferAccessC<RealT > firow = fi[cols]; 

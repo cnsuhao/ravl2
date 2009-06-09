@@ -9,7 +9,7 @@
 //! file="Ravl/Math/Sequence/PrimitiveBinaryPolynomial.cc"
 
 #include "Ravl/PrimitiveBinaryPolynomial.hh"
-#include "Ravl/BfAccIter2.hh"
+#include "Ravl/BufferAccessIter2.hh"
 
 namespace RavlN {
 
@@ -18,12 +18,14 @@ namespace RavlN {
 
   SArray1dC<UIntT> PrimitiveBinaryPolynomialC::Evaluate(IntT len) {
     SArray1dC<UIntT> seq(len);
-    for(BufferAccessIter2C<UIntT,UIntT> it(seq,init,deg);it;it++)
+    for(BufferAccessIter2C<UIntT,UIntT> it(seq,
+                                           m_init,
+                                           (SizeT) m_deg);it;it++)
       it.Data1() = it.Data2();
-    for(int i = deg;i < len ;i++) {
-      IntT res = seq[i-deg] ^ (seq[i-deg] << deg);
-      int ta = args;
-      for(int q = deg-1;q > 0;q--) {
+    for(int i = m_deg;i < len ;i++) {
+      IntT res = seq[i-m_deg] ^ (seq[i-m_deg] << m_deg);
+      int ta = m_args;
+      for(int q = m_deg-1;q > 0;q--) {
 	if(ta & 1)
 	  res ^= seq[i-q] << q;
 	ta >>= 1;

@@ -24,86 +24,87 @@
 namespace RavlN {
 
   //! userlevel=Advanced
-  //: Basic unsized buffer.
+  //: Basic unsized m_buffer.
   
   template <class DataT>
   class BufferAccessC {
   public:
     BufferAccessC()
-      : buff(0)
+      : m_buff(0)
     {}
     //: Default constructor.
 
     BufferAccessC(const BufferAccessC<DataT> &b)
-      : buff(b.buff)
+      : m_buff(b.m_buff)
     {}
     //: Default constructor.
     
     BufferAccessC(DataT *dat)
-      : buff(dat)
+      : m_buff(dat)
     {}
     //: Constructor.
     
     inline DataT * ReferenceElm() const
-    { return buff; }
+    { return m_buff; }
     // Returns the pointer to the reference element of the attached buffer.
     // The reference element need not to be the valid element of the buffer.
     
     inline void * ReferenceVoid() const
-    { return (void *) buff; }
+    { return (void *) m_buff; }
     // Returns the pointer to the reference element of the attached buffer.
     // The reference element need not to be the valid element of the buffer.
     // The function is intended to be used in printing.
     
     inline bool IsValid() const
-    { return buff != 0; }
+    { return m_buff != 0; }
     // Returns TRUE if this buffer access is not a default access object.
     
     inline const DataT  & operator[](IntT i) const
-    { return buff[i]; }
+    { return m_buff[i]; }
     // Read-only access to the 'i'-th element of the buffer.     
     
     inline DataT & operator[](IntT i)
-    { return buff[i]; }
+    { return m_buff[i]; }
     // Read-write access  to the 'i'-th element of the buffer. 
 
     inline const DataT  & operator[](IndexC i) const
-    { return buff[i.V()]; }
+    { return m_buff[i.V()]; }
     // Read-only access to the 'i'-th element of the buffer.     
     
     inline DataT & operator[](IndexC i)
-    { return buff[i.V()]; }
+    { return m_buff[i.V()]; }
     // Read-write access  to the 'i'-th element of the buffer. 
     
     const BufferAccessC<DataT> &operator+=(IndexC ind) { 
-      buff += ind.V();
+      m_buff += ind.V();
       return *this;
     }
     //: Inplace Add index to start position.
 
     const BufferAccessC<DataT> &operator-=(IndexC ind) { 
-      buff -= ind.V();
+      m_buff -= ind.V();
       return *this;
     }
     //: Inplace Subtract index from start position.
     
     BufferAccessC<DataT> operator-(IndexC ind) const 
-    { return BufferAccessC<DataT>(buff - ind.V()); }
+    { return BufferAccessC<DataT>(m_buff - ind.V()); }
     //: Substract value from position, and return it as a new value.
 
     BufferAccessC<DataT> operator+(IndexC ind) const 
-    { return BufferAccessC<DataT>(buff + ind.V()); }
+    { return BufferAccessC<DataT>(m_buff + ind.V()); }
     //: Substract value from position, and return it as a new value.
 
     bool operator==(const BufferAccessC<DataT> &ba) const
-    { return buff == ba.buff; }
+    { return m_buff == ba.m_buff; }
     //: Are two accesses the same ?
     
     bool operator!=(const BufferAccessC<DataT> &ba) const
-    { return buff != ba.buff; }
+    { return m_buff != ba.m_buff; }
     //: Are two accesses the same ?
+        
   protected:
-    DataT *buff;
+    DataT *m_buff;
   };
 
 }

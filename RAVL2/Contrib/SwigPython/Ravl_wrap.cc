@@ -3377,6 +3377,36 @@ SWIG_AsVal_bool (PyObject *obj, bool *val)
   }
 }
 
+SWIGINTERN PyObject *RavlImageN_ImageC_Sl_RavlImageN_ByteRGBValueC_Sg__DataAsString(RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *self){
+        if (self->Rows() <= 0 || self->Cols() <= 0)
+          return NULL;
+
+        if (!self->IsContinuous())
+          return NULL;
+        
+        RavlN::BufferAccessC<RavlImageN::ByteRGBValueC> rowAccess = self->RowPtr(0);
+        const char* imageData = reinterpret_cast<const char*>(rowAccess.ReferenceVoid());
+        if (imageData == NULL)
+          return NULL;
+
+        const int imageSize = self->Rows() * self->ByteStride();
+        return PyString_FromStringAndSize(imageData, imageSize);
+      }
+SWIGINTERN PyObject *RavlImageN_ImageC_Sl_RavlN_ByteT_Sg__DataAsString(RavlImageN::ImageC<RavlN::ByteT > *self){
+        if (self->Rows() <= 0 || self->Cols() <= 0)
+          return NULL;
+
+        if (!self->IsContinuous())
+          return NULL;
+        
+        RavlN::BufferAccessC<unsigned char> rowAccess = self->RowPtr(0);
+        const char* imageData = reinterpret_cast<const char*>(rowAccess.ReferenceVoid());
+        if (imageData == NULL)
+          return NULL;
+
+        const int imageSize = self->Rows() * self->ByteStride();
+        return PyString_FromStringAndSize(imageData, imageSize);
+      }
 
 #ifdef SWIGPERL
 #undef Copy
@@ -11208,7 +11238,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Array2dByteC_Stride(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_Array2dByteC_ByteStride(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   RavlN::Array2dC<RavlN::ByteT > *arg1 = (RavlN::Array2dC<RavlN::ByteT > *) 0 ;
   RavlN::IntT result;
@@ -11216,13 +11246,13 @@ SWIGINTERN PyObject *_wrap_Array2dByteC_Stride(PyObject *SWIGUNUSEDPARM(self), P
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:Array2dByteC_Stride",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:Array2dByteC_ByteStride",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RavlN__Array2dCTunsigned_char_t, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Array2dByteC_Stride" "', argument " "1"" of type '" "RavlN::Array2dC<RavlN::ByteT > const *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Array2dByteC_ByteStride" "', argument " "1"" of type '" "RavlN::Array2dC<RavlN::ByteT > const *""'"); 
   }
   arg1 = reinterpret_cast< RavlN::Array2dC<RavlN::ByteT > * >(argp1);
-  result = (RavlN::IntT)((RavlN::Array2dC<RavlN::ByteT > const *)arg1)->Stride();
+  result = (RavlN::IntT)((RavlN::Array2dC<RavlN::ByteT > const *)arg1)->ByteStride();
   resultobj = SWIG_From_int(static_cast< int >(result));
   return resultobj;
 fail:
@@ -11633,7 +11663,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Array2dRealC_Stride(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_Array2dRealC_ByteStride(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   RavlN::Array2dC<RavlN::RealT > *arg1 = (RavlN::Array2dC<RavlN::RealT > *) 0 ;
   RavlN::IntT result;
@@ -11641,13 +11671,13 @@ SWIGINTERN PyObject *_wrap_Array2dRealC_Stride(PyObject *SWIGUNUSEDPARM(self), P
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:Array2dRealC_Stride",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:Array2dRealC_ByteStride",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RavlN__Array2dCTdouble_t, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Array2dRealC_Stride" "', argument " "1"" of type '" "RavlN::Array2dC<RavlN::RealT > const *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Array2dRealC_ByteStride" "', argument " "1"" of type '" "RavlN::Array2dC<RavlN::RealT > const *""'"); 
   }
   arg1 = reinterpret_cast< RavlN::Array2dC<RavlN::RealT > * >(argp1);
-  result = (RavlN::IntT)((RavlN::Array2dC<RavlN::RealT > const *)arg1)->Stride();
+  result = (RavlN::IntT)((RavlN::Array2dC<RavlN::RealT > const *)arg1)->ByteStride();
   resultobj = SWIG_From_int(static_cast< int >(result));
   return resultobj;
 fail:
@@ -14973,7 +15003,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_ByteRGBArray2dC_Stride(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_ByteRGBArray2dC_ByteStride(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   RavlN::Array2dC<RavlImageN::ByteRGBValueC > *arg1 = (RavlN::Array2dC<RavlImageN::ByteRGBValueC > *) 0 ;
   RavlN::IntT result;
@@ -14981,13 +15011,13 @@ SWIGINTERN PyObject *_wrap_ByteRGBArray2dC_Stride(PyObject *SWIGUNUSEDPARM(self)
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:ByteRGBArray2dC_Stride",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:ByteRGBArray2dC_ByteStride",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RavlN__Array2dCTRavlImageN__ByteRGBValueC_t, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ByteRGBArray2dC_Stride" "', argument " "1"" of type '" "RavlN::Array2dC<RavlImageN::ByteRGBValueC > const *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ByteRGBArray2dC_ByteStride" "', argument " "1"" of type '" "RavlN::Array2dC<RavlImageN::ByteRGBValueC > const *""'"); 
   }
   arg1 = reinterpret_cast< RavlN::Array2dC<RavlImageN::ByteRGBValueC > * >(argp1);
-  result = (RavlN::IntT)((RavlN::Array2dC<RavlImageN::ByteRGBValueC > const *)arg1)->Stride();
+  result = (RavlN::IntT)((RavlN::Array2dC<RavlImageN::ByteRGBValueC > const *)arg1)->ByteStride();
   resultobj = SWIG_From_int(static_cast< int >(result));
   return resultobj;
 fail:
@@ -15399,7 +15429,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_RealRGBArray2dC_Stride(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_RealRGBArray2dC_ByteStride(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   RavlN::Array2dC<RavlImageN::RealRGBValueC > *arg1 = (RavlN::Array2dC<RavlImageN::RealRGBValueC > *) 0 ;
   RavlN::IntT result;
@@ -15407,13 +15437,13 @@ SWIGINTERN PyObject *_wrap_RealRGBArray2dC_Stride(PyObject *SWIGUNUSEDPARM(self)
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:RealRGBArray2dC_Stride",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:RealRGBArray2dC_ByteStride",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RavlN__Array2dCTRavlImageN__RealRGBValueC_t, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "RealRGBArray2dC_Stride" "', argument " "1"" of type '" "RavlN::Array2dC<RavlImageN::RealRGBValueC > const *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "RealRGBArray2dC_ByteStride" "', argument " "1"" of type '" "RavlN::Array2dC<RavlImageN::RealRGBValueC > const *""'"); 
   }
   arg1 = reinterpret_cast< RavlN::Array2dC<RavlImageN::RealRGBValueC > * >(argp1);
-  result = (RavlN::IntT)((RavlN::Array2dC<RavlImageN::RealRGBValueC > const *)arg1)->Stride();
+  result = (RavlN::IntT)((RavlN::Array2dC<RavlImageN::RealRGBValueC > const *)arg1)->ByteStride();
   resultobj = SWIG_From_int(static_cast< int >(result));
   return resultobj;
 fail:
@@ -16309,6 +16339,50 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_ImageByteRGBValueC_ByteStride(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *arg1 = (RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *) 0 ;
+  RavlN::IntT result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ImageByteRGBValueC_ByteStride",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RavlImageN__ImageCTRavlImageN__ByteRGBValueC_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ImageByteRGBValueC_ByteStride" "', argument " "1"" of type '" "RavlImageN::ImageC<RavlImageN::ByteRGBValueC > const *""'"); 
+  }
+  arg1 = reinterpret_cast< RavlImageN::ImageC<RavlImageN::ByteRGBValueC > * >(argp1);
+  result = (RavlN::IntT)((RavlImageN::ImageC<RavlImageN::ByteRGBValueC > const *)arg1)->ByteStride();
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ImageByteRGBValueC_DataAsString(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *arg1 = (RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *) 0 ;
+  PyObject *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ImageByteRGBValueC_DataAsString",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RavlImageN__ImageCTRavlImageN__ByteRGBValueC_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ImageByteRGBValueC_DataAsString" "', argument " "1"" of type '" "RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *""'"); 
+  }
+  arg1 = reinterpret_cast< RavlImageN::ImageC<RavlImageN::ByteRGBValueC > * >(argp1);
+  result = (PyObject *)RavlImageN_ImageC_Sl_RavlImageN_ByteRGBValueC_Sg__DataAsString(arg1);
+  resultobj = result;
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_delete_ImageByteRGBValueC(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *arg1 = (RavlImageN::ImageC<RavlImageN::ByteRGBValueC > *) 0 ;
@@ -16714,6 +16788,50 @@ SWIGINTERN PyObject *_wrap_ImageByteC_Row(PyObject *SWIGUNUSEDPARM(self), PyObje
   }
   result = (unsigned char *)(arg1)->Row(arg2);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_unsigned_char, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ImageByteC_ByteStride(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RavlImageN::ImageC<RavlN::ByteT > *arg1 = (RavlImageN::ImageC<RavlN::ByteT > *) 0 ;
+  RavlN::IntT result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ImageByteC_ByteStride",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RavlImageN__ImageCTunsigned_char_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ImageByteC_ByteStride" "', argument " "1"" of type '" "RavlImageN::ImageC<RavlN::ByteT > const *""'"); 
+  }
+  arg1 = reinterpret_cast< RavlImageN::ImageC<RavlN::ByteT > * >(argp1);
+  result = (RavlN::IntT)((RavlImageN::ImageC<RavlN::ByteT > const *)arg1)->ByteStride();
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ImageByteC_DataAsString(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  RavlImageN::ImageC<RavlN::ByteT > *arg1 = (RavlImageN::ImageC<RavlN::ByteT > *) 0 ;
+  PyObject *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:ImageByteC_DataAsString",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_RavlImageN__ImageCTunsigned_char_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ImageByteC_DataAsString" "', argument " "1"" of type '" "RavlImageN::ImageC<RavlN::ByteT > *""'"); 
+  }
+  arg1 = reinterpret_cast< RavlImageN::ImageC<RavlN::ByteT > * >(argp1);
+  result = (PyObject *)RavlImageN_ImageC_Sl_RavlN_ByteT_Sg__DataAsString(arg1);
+  resultobj = result;
   return resultobj;
 fail:
   return NULL;
@@ -22981,14 +23099,14 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"new_Array2dByteC", _wrap_new_Array2dByteC, METH_VARARGS, NULL},
 	 { (char *)"Array2dByteC_Frame", _wrap_Array2dByteC_Frame, METH_VARARGS, NULL},
 	 { (char *)"Array2dByteC_Fill", _wrap_Array2dByteC_Fill, METH_VARARGS, NULL},
-	 { (char *)"Array2dByteC_Stride", _wrap_Array2dByteC_Stride, METH_VARARGS, NULL},
+	 { (char *)"Array2dByteC_ByteStride", _wrap_Array2dByteC_ByteStride, METH_VARARGS, NULL},
 	 { (char *)"Array2dByteC_Access", _wrap_Array2dByteC_Access, METH_VARARGS, NULL},
 	 { (char *)"delete_Array2dByteC", _wrap_delete_Array2dByteC, METH_VARARGS, NULL},
 	 { (char *)"Array2dByteC_swigregister", Array2dByteC_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_Array2dRealC", _wrap_new_Array2dRealC, METH_VARARGS, NULL},
 	 { (char *)"Array2dRealC_Frame", _wrap_Array2dRealC_Frame, METH_VARARGS, NULL},
 	 { (char *)"Array2dRealC_Fill", _wrap_Array2dRealC_Fill, METH_VARARGS, NULL},
-	 { (char *)"Array2dRealC_Stride", _wrap_Array2dRealC_Stride, METH_VARARGS, NULL},
+	 { (char *)"Array2dRealC_ByteStride", _wrap_Array2dRealC_ByteStride, METH_VARARGS, NULL},
 	 { (char *)"Array2dRealC_Access", _wrap_Array2dRealC_Access, METH_VARARGS, NULL},
 	 { (char *)"delete_Array2dRealC", _wrap_delete_Array2dRealC, METH_VARARGS, NULL},
 	 { (char *)"Array2dRealC_swigregister", Array2dRealC_swigregister, METH_VARARGS, NULL},
@@ -23072,14 +23190,14 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"new_ByteRGBArray2dC", _wrap_new_ByteRGBArray2dC, METH_VARARGS, NULL},
 	 { (char *)"ByteRGBArray2dC_Frame", _wrap_ByteRGBArray2dC_Frame, METH_VARARGS, NULL},
 	 { (char *)"ByteRGBArray2dC_Fill", _wrap_ByteRGBArray2dC_Fill, METH_VARARGS, NULL},
-	 { (char *)"ByteRGBArray2dC_Stride", _wrap_ByteRGBArray2dC_Stride, METH_VARARGS, NULL},
+	 { (char *)"ByteRGBArray2dC_ByteStride", _wrap_ByteRGBArray2dC_ByteStride, METH_VARARGS, NULL},
 	 { (char *)"ByteRGBArray2dC_Access", _wrap_ByteRGBArray2dC_Access, METH_VARARGS, NULL},
 	 { (char *)"delete_ByteRGBArray2dC", _wrap_delete_ByteRGBArray2dC, METH_VARARGS, NULL},
 	 { (char *)"ByteRGBArray2dC_swigregister", ByteRGBArray2dC_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_RealRGBArray2dC", _wrap_new_RealRGBArray2dC, METH_VARARGS, NULL},
 	 { (char *)"RealRGBArray2dC_Frame", _wrap_RealRGBArray2dC_Frame, METH_VARARGS, NULL},
 	 { (char *)"RealRGBArray2dC_Fill", _wrap_RealRGBArray2dC_Fill, METH_VARARGS, NULL},
-	 { (char *)"RealRGBArray2dC_Stride", _wrap_RealRGBArray2dC_Stride, METH_VARARGS, NULL},
+	 { (char *)"RealRGBArray2dC_ByteStride", _wrap_RealRGBArray2dC_ByteStride, METH_VARARGS, NULL},
 	 { (char *)"RealRGBArray2dC_Access", _wrap_RealRGBArray2dC_Access, METH_VARARGS, NULL},
 	 { (char *)"delete_RealRGBArray2dC", _wrap_delete_RealRGBArray2dC, METH_VARARGS, NULL},
 	 { (char *)"RealRGBArray2dC_swigregister", RealRGBArray2dC_swigregister, METH_VARARGS, NULL},
@@ -23099,12 +23217,16 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"ImageByteRGBValueC_Rows", _wrap_ImageByteRGBValueC_Rows, METH_VARARGS, NULL},
 	 { (char *)"ImageByteRGBValueC_Cols", _wrap_ImageByteRGBValueC_Cols, METH_VARARGS, NULL},
 	 { (char *)"ImageByteRGBValueC_Row", _wrap_ImageByteRGBValueC_Row, METH_VARARGS, NULL},
+	 { (char *)"ImageByteRGBValueC_ByteStride", _wrap_ImageByteRGBValueC_ByteStride, METH_VARARGS, NULL},
+	 { (char *)"ImageByteRGBValueC_DataAsString", _wrap_ImageByteRGBValueC_DataAsString, METH_VARARGS, NULL},
 	 { (char *)"delete_ImageByteRGBValueC", _wrap_delete_ImageByteRGBValueC, METH_VARARGS, NULL},
 	 { (char *)"ImageByteRGBValueC_swigregister", ImageByteRGBValueC_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_ImageByteC", _wrap_new_ImageByteC, METH_VARARGS, NULL},
 	 { (char *)"ImageByteC_Rows", _wrap_ImageByteC_Rows, METH_VARARGS, NULL},
 	 { (char *)"ImageByteC_Cols", _wrap_ImageByteC_Cols, METH_VARARGS, NULL},
 	 { (char *)"ImageByteC_Row", _wrap_ImageByteC_Row, METH_VARARGS, NULL},
+	 { (char *)"ImageByteC_ByteStride", _wrap_ImageByteC_ByteStride, METH_VARARGS, NULL},
+	 { (char *)"ImageByteC_DataAsString", _wrap_ImageByteC_DataAsString, METH_VARARGS, NULL},
 	 { (char *)"delete_ImageByteC", _wrap_delete_ImageByteC, METH_VARARGS, NULL},
 	 { (char *)"ImageByteC_swigregister", ImageByteC_swigregister, METH_VARARGS, NULL},
 	 { (char *)"Save", _wrap_Save, METH_VARARGS, NULL},

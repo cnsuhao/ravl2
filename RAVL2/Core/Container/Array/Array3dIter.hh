@@ -16,7 +16,7 @@
 //! example=exArray2.cc
 //! date="24/08/1999"
 
-#include "Ravl/BfAcc3Iter.hh"
+#include "Ravl/BufferAccess3dIter.hh"
 #include "Ravl/Array3d.hh"
 
 namespace RavlN {
@@ -41,12 +41,14 @@ namespace RavlN {
     //: Constructor.
     
     Array3dIterC(const Array3dC<DataT> &arr)
-      : dat(arr)
-    { First(); }
+      : BufferAccess3dIterC<DataT>(arr),
+        dat(arr)
+    {}
     //: Constructor.
     
     inline bool First() 
-    { return BufferAccess3dIterC<DataT>::First(dat,dat.Range2(),dat.Range3()); }
+    { return BufferAccess3dIterC<DataT>::First(dat.BufferAccess(),dat.ByteStride1(),dat.ByteStride2(),
+                                               dat.Range1(),dat.Range2(),dat.Range3()); }
     //: Goto first element in the array.
     // Return TRUE if there actually is one.
     
@@ -57,14 +59,9 @@ namespace RavlN {
     }
     //: Assign to another array.
     
-    Index3dC Index() const { 
-      RavlAssert(dat.IsValid());
-      Index2dC i2 = this->sit.Index(this->rit->ReferenceElm());
-      return Index3dC((IndexC) (&(*this->rit) - dat.ReferenceElm()),
-		      (IndexC) i2.Row(),
-		      (IndexC) i2.Col()); 
-    }
-    //: Get index of current location.
+    Index3dC Index() const 
+    { return dat.IndexOf(this->Data()); }
+    //: Get index of current location in array.
     // Has to be calculate, and so is slightly slow.
   protected:
     Array3dC<DataT> dat;

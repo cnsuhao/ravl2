@@ -5,7 +5,7 @@ TODO:
 - Change documentation to Doxygen.
 - Improve STL compatibility. Make STL the default container where sensible.
 - Improve make system. add standard makefiles and use ./configure
-- Make binary work seemlessly between 64 bit and 32 bit machines.
+- Make binary streams work seemlessly between 64 bit and 32 bit machines.
 - Remove any code marked Obsolete.
 - Give WarpAffine and WarpProjective a consistent interface
 - Remove pointer array for multi dimensional arrays

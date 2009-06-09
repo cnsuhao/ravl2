@@ -16,7 +16,7 @@
 //! userlevel=Default
 
 #include "Ravl/Array2d.hh"
-#include "Ravl/BfAcc2Iter5.hh"
+#include "Ravl/BufferAccess2dIter5.hh"
 
 namespace RavlN {
   //! userlevel=Normal
@@ -40,13 +40,7 @@ namespace RavlN {
 		  const Array2dC<Data4T> &arr4,
 		  const Array2dC<Data5T> &arr5,
 		  bool matching = true)
-      : BufferAccess2dIter5C<Data1T,Data2T,Data3T,Data4T,Data5T>(arr1,arr1.Range2(),
-								 arr2,arr2.Range2(),
-								 arr3,arr3.Range2(),
-								 arr4,arr4.Range2(),
-								 arr5,arr5.Range2()
-								 ),
-        dat1(arr1),
+      : dat1(arr1),
         dat2(arr2),
         dat3(arr3),
         dat4(arr4),
@@ -89,13 +83,7 @@ namespace RavlN {
         dat3(arr3,rect),
         dat4(arr4,rect),
         dat5(arr5,rect)
-    { BufferAccess2dIter5C<Data1T,Data2T,Data3T,Data4T,Data5T>::First(dat1,dat1.Range2(),
-								      dat2,dat2.Range2(),
-								      dat3,dat3.Range2(),
-								      dat4,dat4.Range2(),
-								      dat5,dat5.Range2()
-								      );
-    }
+    { First(); }
     //: Constructor that iterates through the same subrange 'rect' in each arrays. 
     // Therefore 'rect' MUST be within all of the arrays.
 
@@ -109,12 +97,7 @@ namespace RavlN {
         dat3(arr3,irng3),
         dat4(arr4,irng4),
         dat5(arr5,irng5)
-    { BufferAccess2dIter5C<Data1T,Data2T,Data3T,Data4T,Data5T>::First(dat1,dat1.Range2(),
-								      dat2,dat2.Range2(),
-								      dat3,dat3.Range2(),
-								      dat4,dat4.Range2(),
-								      dat5,dat5.Range2());
-    }
+    { First(); }
     //: Constructor. Iterates through indicated subranges in each array.
     // 'irng2' defines the starting point for iterating through 'arr2', etc.
     // Hence care must be taken that 'irng1' does not cause the iterator to go
@@ -122,23 +105,21 @@ namespace RavlN {
     
     
     inline bool First() {
-      return BufferAccess2dIter5C<Data1T,Data2T,Data3T,Data4T,Data5T>::First(dat1,dat1.Range2(),
-									     dat2,dat2.Range2(),
-									     dat3,dat3.Range2(),
-									     dat4,dat4.Range2(),
-									     dat5,dat5.Range2()
-									     );
+      return BufferAccess2dIter5C<Data1T,Data2T,Data3T,Data4T,Data5T>::First(dat1.BufferAccess(),dat1.ByteStride(),dat1.Frame(),
+								             dat2.BufferAccess(),dat2.ByteStride(),dat2.Frame(),
+								             dat3.BufferAccess(),dat3.ByteStride(),dat3.Frame(),
+								             dat4.BufferAccess(),dat4.ByteStride(),dat4.Frame(),
+								             dat5.BufferAccess(),dat5.ByteStride(),dat5.Frame()
+                                                                             );
+
     }
     //: Goto first element in the array.
     // Return TRUE if there actually is one.
     
-    Index2dC Index() const { 
-      RavlAssert(dat1.IsValid());
-      return Index2dC((IntT) (&(this->rit.Data1()) - dat1.ReferenceElm()),
-		      (IntT) (&(this->cit.Data1()) - this->rit.Data1().ReferenceElm())); 
-    }
-    //: Get index of current location.
-    // Has to be calculate, and so is slightly slow.
+    Index2dC Index() const
+    { return dat1.IndexOf(this->Data1()); }
+    //: Get index of current location in 'arr1'.
+    // Has to be calculated, and so is slightly slow.
         
   protected:
     Array2dC<Data1T> dat1;

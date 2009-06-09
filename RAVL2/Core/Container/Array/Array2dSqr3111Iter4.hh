@@ -14,7 +14,7 @@
 //! file="Ravl/Core/Container/Array/Array2dSqr3111Iter4.hh"
 
 #include "Ravl/Array2d.hh"
-#include "Ravl/BfAcc2Iter4.hh"
+#include "Ravl/BufferAccess2dIter4.hh"
 
 namespace RavlN {
 
@@ -49,75 +49,50 @@ namespace RavlN {
     //: Constructor.
     
     bool First() {
-      this->rng1 = IndexRangeC(array1.Range2().Min()+1,array1.Range2().Max()-1);
-      this->rng2 = array2.Range2();
-      this->rng3 = array3.Range2();
-      this->rng4 = array4.Range2();
-      this->rng2.ClipBy(this->rng1);
-      this->rng3.ClipBy(this->rng1);
-      this->rng4.ClipBy(this->rng1);
-      RavlAssertMsg(this->rng2.Size() == this->rng1.Size(),"Array2dC 2 Range2() too small.");
-      RavlAssertMsg(this->rng3.Size() == this->rng1.Size(),"Array2dC 3 Range2() too small.");
-      RavlAssertMsg(this->rng4.Size() == this->rng1.Size(),"Array2dC 4 Range2() too small.");
-      IndexRangeC srng1(array1.Range1().Min()+1,array1.Range1().Max()-1);
-      IndexRangeC srng2 = array2.Range1();
-      IndexRangeC srng3 = array3.Range1();
-      IndexRangeC srng4 = array4.Range1();
-      srng2.ClipBy(srng1);
-      srng3.ClipBy(srng1);
-      srng4.ClipBy(srng1);
-      RavlAssertMsg(srng2.Size() == srng1.Size(),"Array2dC 2 Range1() too small.");
-      RavlAssertMsg(srng3.Size() == srng1.Size(),"Array2dC 3 Range1() too small.");
-      RavlAssertMsg(srng4.Size() == srng1.Size(),"Array2dC 4 Range1() too small.");
-      if(!this->rit.First(array1,srng1,
-                          array2,srng2,
-                          array3,srng3,
-                          array4,srng4
-                          )) {
-	this->cit.Invalidate();
-	return false;
-      }
-      this->cit.First(this->rit.Data1(),this->rng1,
-                      this->rit.Data2(),this->rng2,
-                      this->rit.Data3(),this->rng3,
-                      this->rit.Data4(),this->rng4
-		);
-      if(!this->cit) {
-	this->cit.Invalidate();
-	return false;
-      }
-      up = &((&(this->rit.Data1()))[-1][this->rng1.Min()]);
-      dn = &((&(this->rit.Data1()))[ 1][this->rng1.Min()]);
+      IndexRange2dC frame1 = array1.Frame().Expand(-1);
+      RavlAssert(array2.Frame().Contains(frame1));
+      RavlAssert(array3.Frame().Contains(frame1));
+      RavlAssert(array4.Frame().Contains(frame1));
+      if(!BufferAccess2dIter4C<Data1T,Data2T,Data3T,Data4T>::First(array1.BufferAccess(),array1.ByteStride(),frame1,
+                                                            array2.BufferAccess(),array2.ByteStride(),frame1,
+                                                            array3.BufferAccess(),array3.ByteStride(),frame1,
+                                                            array4.BufferAccess(),array4.ByteStride(),frame1
+                                                            ))
+        return false;
+      up = ShiftPointerInBytes(&(this->Data1()),-array1.ByteStride());
+      dn = ShiftPointerInBytes(&(this->Data1()),array1.ByteStride());
       return true;
     }
     //: Goto first element in the array.
-    
+
+    bool NextRow() {
+      if(!BufferAccess2dIter4C<Data1T,Data2T,Data3T,Data4T>::NextRow())
+        return false;
+      up = ShiftPointerInBytes(&(this->Data1()),-array1.ByteStride());
+      dn = ShiftPointerInBytes(&(this->Data1()),array1.ByteStride());
+      return true;
+    }
+    //: Goto next row.
+    // Returns true if left on a valid row.
+
     bool Next() { 
+      if(!BufferAccess2dIter4C<Data1T,Data2T,Data3T,Data4T>::Next()) {
+        up = ShiftPointerInBytes(&(this->Data1()),-array1.ByteStride());
+        dn = ShiftPointerInBytes(&(this->Data1()),array1.ByteStride());
+        return false;
+      }
       up++;
       dn++;
-      this->cit++;
-      if(this->cit)
-	return true;
-      this->rit++;
-      if(!this->rit)
-	return false;
-      up = &((&(this->rit.Data1()))[-1][this->rng1.Min()]);
-      dn = &((&(this->rit.Data1()))[ 1][this->rng1.Min()]);
-      this->cit.First(this->rit.Data1(),this->rng1,
-                      this->rit.Data2(),this->rng2,
-                      this->rit.Data3(),this->rng3,
-                      this->rit.Data4(),this->rng4
-                      );
-      return false;
+      return true;
     }
     //: Goto next element.
     
     bool IsElm() const
-    { return this->cit.IsElm(); }
+    { return this->m_cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     operator bool() const
-    { return this->cit.IsElm(); }
+    { return this->m_cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     void operator++() 
@@ -153,35 +128,35 @@ namespace RavlN {
     //: Access bottom right data element 
 
     Data1T &DataML1() 
-    { return (&(this->cit.Data1()))[-1]; }
+    { return (&(this->m_cit.Data1()))[-1]; }
     //: Access middle left data element 
     
     const Data1T &DataML1() const
-    { return (&(this->cit.Data1()))[-1]; }
+    { return (&(this->m_cit.Data1()))[-1]; }
     //: Access middle left data element 
     
     Data1T &DataMM1() 
-    { return this->cit.Data1(); }
+    { return this->m_cit.Data1(); }
     //: Access middle data element 
     
     const Data1T &DataMM1() const
-    { return this->cit.Data1(); }
+    { return this->m_cit.Data1(); }
     //: Access middle data element 
     
     Data1T &Data1() 
-    { return this->cit.Data1(); }
+    { return this->m_cit.Data1(); }
     //: Access middle data element 
     
     const Data1T &Data1() const
-    { return this->cit.Data1(); }
+    { return this->m_cit.Data1(); }
     //: Access middle data element 
     
     Data1T &DataMR1() 
-    { return (&(this->cit.Data1()))[1]; }
+    { return (&(this->m_cit.Data1()))[1]; }
     //: Access middle right data element 
     
     const Data1T &DataMR1() const
-    { return (&(this->cit.Data1()))[1]; }
+    { return (&(this->m_cit.Data1()))[1]; }
     //: Access middle right data element 
 
     Data1T &DataTL1() 
@@ -209,29 +184,34 @@ namespace RavlN {
     //: Access top right data element
     
     Data2T &Data2() 
-    { return this->cit.Data2(); }
+    { return this->m_cit.Data2(); }
     //: Access middle data element of second array.
     
     const Data2T &Data2() const
-    { return this->cit.Data2(); }
+    { return this->m_cit.Data2(); }
     //: Access middle data element of second array.
 
     Data3T &Data3() 
-    { return this->cit.Data3(); }
+    { return this->m_cit.Data3(); }
     //: Access middle data element of 3rd array.
     
     const Data3T &Data3() const
-    { return this->cit.Data3(); }
+    { return this->m_cit.Data3(); }
     //: Access middle data element of 3rd array.
 
     Data4T &Data4() 
-    { return this->cit.Data4(); }
+    { return this->m_cit.Data4(); }
     //: Access middle data element of 4th array.
     
     const Data4T &Data4() const
-    { return this->cit.Data4(); }
+    { return this->m_cit.Data4(); }
     //: Access middle data element of 4th array.
     
+    Index2dC Index() const
+    { return array1.IndexOf(this->DataMM1()); }
+    //: Get index of current location of the middle pixel in the first array.
+    // Has to be calculate, and so is slightly slow.
+
   protected:
     Array2dC<Data1T> array1;
     Array2dC<Data2T> array2;

@@ -27,11 +27,11 @@ int main()
 {
   int ln;
   if((ln = testBasic()) != 0) {
-    cerr << "Basic Array2d test failed line:" << ln << "\n";
+    cerr << "Basic Array3d test failed line:" << ln << "\n";
     return 1;
   }
   if((ln = testSlice()) != 0) {
-    cerr << "Basic Array2d test failed line:" << ln << "\n";
+    cerr << "Basic Array3d test failed line:" << ln << "\n";
     return 1;
   }
   cerr << "Test passed ok. \n";
