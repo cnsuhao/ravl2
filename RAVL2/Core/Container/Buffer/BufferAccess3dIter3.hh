@@ -81,7 +81,7 @@ namespace RavlN {
     {
       m_slice1 = reinterpret_cast<char *>(pbufA.ReferenceElm() + range3.Min().V()) + range1.Min().V() * byteStride1a + range2.Min().V() * byteStride2a;
       m_slice2 = reinterpret_cast<char *>(pbufB.ReferenceElm() + range3.Min().V()) + range1.Min().V() * byteStride1b + range2.Min().V() * byteStride2b;
-      m_slice2 = reinterpret_cast<char *>(pbufC.ReferenceElm() + range3.Min().V()) + range1.Min().V() * byteStride1c + range2.Min().V() * byteStride2c;
+      m_slice3 = reinterpret_cast<char *>(pbufC.ReferenceElm() + range3.Min().V()) + range1.Min().V() * byteStride1c + range2.Min().V() * byteStride2c;
       m_sliceEnd = m_slice1 + byteStride1a * range1.Max().V();
       m_size2 = range2.Size();
       if(m_slice1 == m_sliceEnd || m_size2 == 0) {

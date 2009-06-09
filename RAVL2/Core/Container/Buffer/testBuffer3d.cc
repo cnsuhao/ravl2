@@ -24,6 +24,7 @@ using namespace RavlN;
 
 int TestRangeBuffer();
 int TestSizeBuffer();
+int TestBufferIter();
 
 int main()
 {
@@ -33,6 +34,10 @@ int main()
     return 1;
   }
   if((ln = TestSizeBuffer()) != 0) {
+    cerr << "Buffer test failed on line :" << ln << "\n";
+    return 1;
+  }
+  if((ln = TestBufferIter()) != 0) {
     cerr << "Buffer test failed on line :" << ln << "\n";
     return 1;
   }
@@ -148,6 +153,50 @@ int TestSizeBuffer() {
   if(count != (s1 * s2 * s3)) {
     return __LINE__;
   }
+
+  return 0;
+}
+
+int TestBufferIter() {
+
+
+  IndexRangeC r1(-1,3);
+  IndexRangeC r2(-2,5);
+  IndexRangeC r3(-3,7);
+
+  Buffer3dC<Index3dC> bf1 (r1.Size(),r2.Size(),r3.Size());
+  RangeBufferAccess3dC<Index3dC> rba1;
+  rba1.Attach(bf1,r1,r2,r3);
+
+  // Check indexing works.
+  for(IndexC i = r1.Min();i <= r1.Max();i++){
+    for(IndexC j = r2.Min();j <= r2.Max();j++) {
+      for(IndexC k = r3.Min();k <= r3.Max();k++) {
+        Index3dC ind(i,j,k);
+        rba1[i][j][k] = ind;
+        if(rba1[ind] != ind) return __LINE__;
+        if(rba1.Index1Of(rba1[ind]) != i) return __LINE__;
+        if(rba1.Index2Of(rba1[ind]) != j) return __LINE__;
+        if(rba1.Index3Of(rba1[ind]) != k) return __LINE__;
+        if(rba1.IndexOf(rba1[ind]) != ind) return __LINE__;
+      }
+    }
+  }
+
+
+  Buffer3dC<double> bf2 (r1.Size(),r2.Size(),r3.Size());
+  RangeBufferAccess3dC<double> rba2;
+  rba2.Attach(bf2,r1,r2,r3);
+
+  Buffer3dC<int> bf3 (r1.Size(),r2.Size(),r3.Size());
+  RangeBufferAccess3dC<int> rba3;
+  rba3.Attach(bf3,r1,r2,r3);
+#if 0
+  for(BufferAccess3dIter2C<Index3dC,double> it(rba1,rba2,r1,r2,r3);it;it++) {
+    if(rba1.IndexOf(it.Data1()) != it.Data1()) return __LINE__;
+    it.Data2() = 0;
+  }
+#endif
 
   return 0;
 }
