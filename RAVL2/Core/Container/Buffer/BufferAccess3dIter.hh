@@ -34,6 +34,12 @@ namespace RavlN {
     BufferAccess3dIterC(const RangeBufferAccess3dC<DataT> &data);
     //: Construct from a 3d buffer.
 
+    BufferAccess3dIterC(const RangeBufferAccess3dC<DataT> &data,
+                        const IndexRangeC &range1,
+                        const IndexRangeC &range2,
+                        const IndexRangeC &range3);
+    //: Construct from a 3d buffer.
+
     BufferAccess3dIterC(const SizeBufferAccess3dC<DataT> &data);
     //: Construct from a 3d buffer.
 

@@ -191,12 +191,24 @@ int TestBufferIter() {
   Buffer3dC<int> bf3 (r1.Size(),r2.Size(),r3.Size());
   RangeBufferAccess3dC<int> rba3;
   rba3.Attach(bf3,r1,r2,r3);
-#if 0
+
+  int count = 0;
+  for(BufferAccess3dIterC<int> it(rba3,r1,r2,r3);it;it++) {
+    *it = count++;
+  }
+
+  count = 0;
   for(BufferAccess3dIter2C<Index3dC,double> it(rba1,rba2,r1,r2,r3);it;it++) {
     if(rba1.IndexOf(it.Data1()) != it.Data1()) return __LINE__;
-    it.Data2() = 0;
+    it.Data2() = count++;
   }
-#endif
+
+  count = 0;
+  for(BufferAccess3dIter3C<Index3dC,double,int> it(rba1,rba2,rba3,r1,r2,r3);it;it++) {
+    if(rba1.IndexOf(it.Data1()) != it.Data1()) return __LINE__;
+    if(it.Data2() != count) return __LINE__;
+    if(it.Data3() != count++) return __LINE__;
+  }
 
   return 0;
 }

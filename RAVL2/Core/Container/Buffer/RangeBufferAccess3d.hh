@@ -238,7 +238,7 @@ namespace RavlN {
     IndexC Index1Of(const DataT &element) const {
       RavlAssert(IsValid());
       IndexC diff = reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm());
-      IndexC ret = (diff - (Range3().Min()*((IntT)sizeof(DataT)) + Range2().Min() * m_stride2) )/m_stride1;
+      IndexC ret = (diff - (Range3().Min()*((IntT)sizeof(DataT)) + Range2().Min() * m_stride2 + Range1().Min() * m_stride1) )/m_stride1 +  Range1().Min();
       RavlAssertMsg(Range1().Contains(ret),"Requested element not from this array.");
       return ret;
     }
@@ -248,7 +248,7 @@ namespace RavlN {
     IndexC Index2Of(const DataT &element) const {
       RavlAssert(IsValid());
       IndexC diff = (reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()));
-      diff -= (Range3().Min()*((IntT)sizeof(DataT)) + Range2().Min() * m_stride2);
+      diff -= (Range3().Min()*((IntT)sizeof(DataT)) + Range2().Min() * m_stride2 + Range1().Min() * m_stride1);
       IndexC ret = ((diff % m_stride1)/m_stride2) + Range2().Min();
       RavlAssertMsg(Range2().Contains(ret),"Requested element not from this array.");
       return ret;
@@ -259,8 +259,8 @@ namespace RavlN {
     IndexC Index3Of(const DataT &element) const {
       RavlAssert(IsValid());
       IndexC diff = (reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()));
-      diff -= (Range3().Min()*((IntT)sizeof(DataT)) + Range2().Min() * m_stride2);
-      IndexC ret = ((diff % m_stride1)%m_stride2)/IndexC(sizeof(DataT)) + Range3().Min();
+      diff -= (Range3().Min()*((IntT)sizeof(DataT)) + Range2().Min() * m_stride2 + Range1().Min() * m_stride1);
+      IndexC ret = ((diff % m_stride1)%m_stride2)/IndexC((IntT) sizeof(DataT)) + Range3().Min();
       RavlAssertMsg(Range3().Contains(ret),"Requested element not from this array.");
       return ret;
     }
@@ -270,11 +270,12 @@ namespace RavlN {
     Index3dC IndexOf(const DataT &element) const {
       RavlAssert(IsValid());
       IndexC diff = (reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()));
-      diff -= (Range3().Min()*((IntT)sizeof(DataT)) + Range2().Min() * m_stride2);
+      diff -= (Range3().Min()*((IntT)sizeof(DataT)) + Range2().Min() * m_stride2 + Range1().Min() * m_stride1);
+
       IndexC offset2 = (diff % m_stride1);
-      Index3dC ret(diff / m_stride1,
-                   (offset2 % m_stride2) + Range2().Min(),
-                   (offset2 / IndexC((IntT) sizeof(DataT))) + Range3().Min()) ;
+      Index3dC ret((diff / m_stride1) + Range1().Min(),
+                   (offset2/m_stride2) + Range2().Min(),
+                   (offset2%m_stride2)/IndexC((IntT) sizeof(DataT)) + Range3().Min()) ;
       RavlAssertMsg(Range1().Contains(ret.I()) && Range2().Contains(ret.J()) && Range3().Contains(ret.K()),
                     "Requested element not from this array.");
       return ret;
@@ -282,6 +283,26 @@ namespace RavlN {
     //: Gompute the index of 'element' in the array.
     // 'element' must be a direct reference to an element in the array.
 
+    void ShiftIndex1(IndexC offset) {
+      this->m_buff = ShiftPointerInBytes(this->m_buff,-offset.V() * m_stride2);
+      m_range1 += offset;
+    }
+    //: The array is shifted "vertically" by <code>offset</code> w.r.t. the coordinate origin.
+    // In other words the row index of a given pixel will be <i>incremented</i> by <code>offset</code>.
+
+    void ShiftIndex2(IndexC offset) {
+      this->m_buff = ShiftPointerInBytes(this->m_buff,-offset.V() * m_stride1);
+      m_range2 += offset;
+    }
+    //: The array is shifted "horizontally" by <code>offset</code> w.r.t. the coordinate origin.
+    // In other words the column index of a given pixel will be <i>incremented</i> by <code>offset</code>.
+
+    void ShiftIndex3(IndexC offset) {
+      this->m_buff -= offset.V();
+      m_range3 += offset;
+    }
+    //: The array is shifted "horizontally" by <code>offset</code> w.r.t. the coordinate origin.
+    // In other words the column index of a given pixel will be <i>incremented</i> by <code>offset</code>.
 
     using BufferAccessC<DataT>::IsValid;
     using BufferAccessC<DataT>::ReferenceElm;
@@ -301,6 +322,17 @@ namespace RavlN {
           data.Range1(),data.Range2(),data.Range3());
   }
   //: Construct from a 3d buffer.
+
+  template<typename DataT>
+  BufferAccess3dIterC<DataT>::BufferAccess3dIterC(const RangeBufferAccess3dC<DataT> &bufA,
+                      const IndexRangeC &range1,
+                      const IndexRangeC &range2,
+                      const IndexRangeC &range3) {
+    First(bufA.BufferAccess(),bufA.ByteStride1(),bufA.ByteStride2(),
+          range1,range2,range3);
+  }
+  //: Construct from a 3d buffer.
+
 
   template<typename Data1T,typename Data2T>
   BufferAccess3dIter2C<Data1T,Data2T>::BufferAccess3dIter2C(const RangeBufferAccess3dC<Data1T> &bufA,
