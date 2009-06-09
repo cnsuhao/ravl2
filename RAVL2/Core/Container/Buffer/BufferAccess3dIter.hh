@@ -43,6 +43,12 @@ namespace RavlN {
     BufferAccess3dIterC(const SizeBufferAccess3dC<DataT> &data);
     //: Construct from a 3d buffer.
 
+    BufferAccess3dIterC(const SizeBufferAccess3dC<DataT> &pbufA,
+                         SizeT size1,SizeT size2,SizeT size3
+                        );
+    //: Constructor.
+
+
     BufferAccess3dIterC(const BufferAccessC<DataT> &pbuf,
                         IntT byteStride1,IntT byteStride2,
                         SizeT size1,SizeT size2,SizeT size3

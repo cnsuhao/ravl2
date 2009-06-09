@@ -41,13 +41,19 @@ int main() {
 int testBasic() {
   cerr << "Starting test of SArray3d.\n";
   SArray3dC<int> testArr(10,10,10);
+  SArray3dC<Index3dC> testArrI(10,10,10);
+
   testArr[Index3dC(1,1,1)] = 2;
   
   int place = 0;
-  for(IndexC i = 0;i < 10;i++)
-    for(IndexC j = 0;j < 10;j++)
-      for(IndexC k = 0;k < 10;k++)
+  for(IndexC i = 0;i < 10;i++) {
+    for(IndexC j = 0;j < 10;j++) {
+      for(IndexC k = 0;k < 10;k++) {
+        testArrI[i][j][k] = Index3dC(i,j,k);
 	testArr[i][j][k] = place++;
+      }
+    }
+  }
   
   int v = 0;
 #if 0
@@ -59,6 +65,9 @@ int testBasic() {
     }
   }
 #endif
+  for(SArray3dIterC<Index3dC> it(testArrI);it;it++) {
+    if(it.Index() != *it) return __LINE__;
+  }
   v = 0;
   for(SArray3dIterC<int> it(testArr);it;it++,v++) {
     if(*it != v) {
@@ -71,10 +80,20 @@ int testBasic() {
   testArr += 1;
   testArr = testArr + testArr;
   
-  for(SArray3dIter2C<int,int> it(testArr,testArr);it;it++)
-    it.Data1() = 0;
-  for(SArray3dIter3C<int,int,int> it(testArr,testArr,testArr);it;it++)
-    it.Data1() = 0;
+  place = 0;
+  for(SArray3dIter2C<Index3dC,int> it(testArrI,testArr);it;it++) {
+    it.Data2() = place++;
+    if(it.Index() != it.Data1())
+      return __LINE__;
+  }
+  place = 0;
+  SArray3dC<short> testArrS(10,10,10);
+  for(SArray3dIter3C<Index3dC,int,short> it(testArrI,testArr,testArrS);it;it++) {
+    if(it.Data2() != place++)
+      return __LINE__;
+    if(it.Index() != it.Data1())
+      return __LINE__;
+  }
   return 0; 
 }
 

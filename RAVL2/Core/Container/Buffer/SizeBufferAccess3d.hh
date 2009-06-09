@@ -98,7 +98,20 @@ namespace RavlN {
       m_stride2 = byteStride2;
     }
     //: Attach to a buffer.
+
+    void Attach(const Buffer3dC<DataT> &ab,
+                SizeT size1,SizeT size2,SizeT size3
+                ) {
+      BufferAccess() = ab;
+      m_size1 = size1;
+      m_size2 = size2;
+      m_size3 = size3;
+      m_stride1 = ab.ByteStride1();
+      m_stride2 = ab.ByteStride2();
+    }
+    //: Attach to a buffer.
     
+
     BufferAccessC<DataT> &BufferAccess()
     { return *this; }
     //: Access buffer;
@@ -250,7 +263,8 @@ namespace RavlN {
 
     IndexC Index1Of(const DataT &element) const {
       RavlAssert(IsValid());
-      IndexC ret = (IndexC(reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm())))/m_stride1;
+      IndexC diff = reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm());
+      IndexC ret = diff/m_stride1;
       RavlAssertMsg(Range1().Contains(ret),"Requested element not from this array.");
       return ret;
     }
@@ -260,7 +274,7 @@ namespace RavlN {
     IndexC Index2Of(const DataT &element) const {
       RavlAssert(IsValid());
       IndexC diff = (reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()));
-      IndexC ret = (diff % m_stride1)/m_stride2;
+      IndexC ret = ((diff % m_stride1)/m_stride2);
       RavlAssertMsg(Range2().Contains(ret),"Requested element not from this array.");
       return ret;
     }
@@ -270,7 +284,7 @@ namespace RavlN {
     IndexC Index3Of(const DataT &element) const {
       RavlAssert(IsValid());
       IndexC diff = (reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()));
-      IndexC ret = ((diff % m_stride1)%m_stride2)/IndexC(sizeof(DataT));
+      IndexC ret = ((diff % m_stride1)%m_stride2)/IndexC((IntT) sizeof(DataT)) ;
       RavlAssertMsg(Range3().Contains(ret),"Requested element not from this array.");
       return ret;
     }
@@ -281,14 +295,14 @@ namespace RavlN {
       RavlAssert(IsValid());
       IndexC diff = (reinterpret_cast<const char *>(&element) - reinterpret_cast<const char *>(ReferenceElm()));
       IndexC offset2 = (diff % m_stride1);
-      Index3dC ret(diff / m_stride1,
-                   offset2 % m_stride2,
-                   offset2 / IndexC((IntT) sizeof(DataT))) ;
+      Index3dC ret((diff / m_stride1),
+                   (offset2/m_stride2),
+                   (offset2%m_stride2)/IndexC((IntT) sizeof(DataT))) ;
       RavlAssertMsg(Range1().Contains(ret.I()) && Range2().Contains(ret.J()) && Range3().Contains(ret.K()),
                     "Requested element not from this array.");
       return ret;
     }
-    //: Gompute the index of 'element' in the array.
+    //: Compute the index of 'element' in the array.
     // 'element' must be a direct reference to an element in the array.
 
   protected:
@@ -304,6 +318,17 @@ namespace RavlN {
   BufferAccess3dIterC<DataT>::BufferAccess3dIterC(const SizeBufferAccess3dC<DataT> &data)
   { First(data.BufferAccess(),data.ByteStride1(),data.ByteStride2(),data.Size1(),data.Size2(),data.Size3()); }
   //: Constructor for an iterator.
+
+  template<class DataT>
+  BufferAccess3dIterC<DataT>::BufferAccess3dIterC(const SizeBufferAccess3dC<DataT> &pbufA,
+      SizeT size1, SizeT size2, SizeT size3)
+  {
+    First(pbufA.BufferAccess(), pbufA.ByteStride1(), pbufA.ByteStride2(),
+        size1, size2, size3);
+  }
+
+  //: Constructor.
+
 
   template<typename Data1T,typename Data2T>
   BufferAccess3dIter2C<Data1T,Data2T>::BufferAccess3dIter2C(const SizeBufferAccess3dC<Data1T> &pbufA,

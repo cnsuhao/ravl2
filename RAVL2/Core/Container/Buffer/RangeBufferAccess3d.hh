@@ -280,7 +280,7 @@ namespace RavlN {
                     "Requested element not from this array.");
       return ret;
     }
-    //: Gompute the index of 'element' in the array.
+    //: Compute the index of 'element' in the array.
     // 'element' must be a direct reference to an element in the array.
 
     void ShiftIndex1(IndexC offset) {

@@ -24,7 +24,8 @@ using namespace RavlN;
 
 int TestRangeBuffer();
 int TestSizeBuffer();
-int TestBufferIter();
+int TestRangeBufferIter();
+int TestSizeBufferIter();
 
 int main()
 {
@@ -37,7 +38,11 @@ int main()
     cerr << "Buffer test failed on line :" << ln << "\n";
     return 1;
   }
-  if((ln = TestBufferIter()) != 0) {
+  if((ln = TestRangeBufferIter()) != 0) {
+    cerr << "Buffer test failed on line :" << ln << "\n";
+    return 1;
+  }
+  if((ln = TestSizeBufferIter()) != 0) {
     cerr << "Buffer test failed on line :" << ln << "\n";
     return 1;
   }
@@ -157,9 +162,7 @@ int TestSizeBuffer() {
   return 0;
 }
 
-int TestBufferIter() {
-
-
+int TestRangeBufferIter() {
   IndexRangeC r1(-1,3);
   IndexRangeC r2(-2,5);
   IndexRangeC r3(-3,7);
@@ -210,6 +213,60 @@ int TestBufferIter() {
     if(it.Data3() != count++) return __LINE__;
   }
 
+  return 0;
+}
+
+int TestSizeBufferIter() {
+  SizeT r1 = 4;
+  SizeT r2 = 5;
+  SizeT r3 = 7;
+
+  Buffer3dC<Index3dC> bf1 (r1,r2,r3);
+  SizeBufferAccess3dC<Index3dC> sba1;
+  sba1.Attach(bf1,r1,r2,r3);
+
+  // Check indexing works.
+  for(IndexC i = 0;i < r1;i++){
+    for(IndexC j = 0;j < r2;j++) {
+      for(IndexC k = 0;k < r3;k++) {
+        Index3dC ind(i,j,k);
+        sba1[i][j][k] = ind;
+        if(sba1[ind] != ind) return __LINE__;
+        if(sba1.Index1Of(sba1[ind]) != i) return __LINE__;
+        if(sba1.Index2Of(sba1[ind]) != j) return __LINE__;
+        if(sba1.Index3Of(sba1[ind]) != k) return __LINE__;
+        if(sba1.IndexOf(sba1[ind]) != ind) return __LINE__;
+      }
+    }
+  }
+
+  Buffer3dC<double> bf2 (r1,r2,r3);
+  SizeBufferAccess3dC<double> sba2;
+  sba2.Attach(bf2,r1,r2,r3);
+
+  Buffer3dC<int> bf3 (r1,r2,r3);
+  SizeBufferAccess3dC<int> sba3;
+  sba3.Attach(bf3,r1,r2,r3);
+
+  int count = 0;
+  for(BufferAccess3dIterC<int> it(sba3,r1,r2,r3);it;it++) {
+    *it = count++;
+  }
+
+  count = 0;
+  for(BufferAccess3dIter2C<Index3dC,double> it(sba1,sba2,r1,r2,r3);it;it++) {
+    if(sba1.IndexOf(it.Data1()) != it.Data1()) return __LINE__;
+    it.Data2() = count++;
+  }
+
+#if 1
+  count = 0;
+  for(BufferAccess3dIter3C<Index3dC,double,int> it(sba1,sba2,sba3,r1,r2,r3);it;it++) {
+    if(sba1.IndexOf(it.Data1()) != it.Data1()) return __LINE__;
+    if(it.Data2() != count) return __LINE__;
+    if(it.Data3() != count++) return __LINE__;
+  }
+#endif
   return 0;
 }
 

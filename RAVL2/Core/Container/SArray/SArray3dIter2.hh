@@ -39,9 +39,9 @@ namespace RavlN {
     //: Constructor.
     
     inline bool First() 
-    { return BufferAccess3dIter2C<Data1T,Data2T>::First(arr1.BufferAccess(),arr1.ByteStride1(),arr2.ByteStride2(),
-                                                        arr2.BufferAccess(),arr1.ByteStride1(),arr2.ByteStride2(),
-                                                        arr1.Size(),arr1.Size2(),arr1.Size3()); }
+    { return BufferAccess3dIter2C<Data1T,Data2T>::First(arr1.BufferAccess(),arr1.ByteStride1(),arr1.ByteStride2(),
+                                                        arr2.BufferAccess(),arr2.ByteStride1(),arr2.ByteStride2(),
+                                                        arr1.Size1(),arr1.Size2(),arr1.Size3()); }
     //: Goto first element in array.
     // returns true if there is one.
     
