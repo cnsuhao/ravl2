@@ -257,10 +257,26 @@ namespace RavlN {
     //: Are two accesses the same ?
     
     void CopyFrom(const Slice1dC<DataT> &slice);
-    //: Copy slice into this array.
+    //: Copy contents of slice into this array.
     // slice must have the same length as this buffer. <br>
     // Implementation can be found in Slice1d.hh
     
+    void CopyFrom(const RangeBufferAccessC<DataT> &other);
+    //: Copy contents of 'other' into this into this buffer.
+    // 'other' must have the same length as this buffer. <br>
+
+    template<unsigned int N>
+    void CopyFrom(const TFVectorC<DataT, N> &vec) {
+      RavlAssert(m_range.Size() == N);
+      register DataT *to = DataStart();
+      register const DataT *from = &(vec[0]);
+      register const DataT *endOfRow = &to[N];
+      for(;to != endOfRow;to++,from++)
+        *to = *from;
+    }
+    //: Copy values from vec into this array.
+    // Vector must have the same length as this buffer.
+
     IndexC IndexOf(const DataT &element) const {
       IndexC ret = &element - &ReferenceElm();
       RavlAssertMsg(Range().Contains(ret),"Element not from this array.");
@@ -273,7 +289,7 @@ namespace RavlN {
     
     // Copy
     // ----
-    
+
     RangeBufferAccessC<DataT> Copy(void) const;
     // Returns a physical copy of this access pointing to the physical 
     // copy of the accessed buffer in the range accessible by this access.
@@ -339,9 +355,7 @@ namespace RavlN {
       strm >> *at;
     return strm;
   }
-  
-  
-  
+
   template<class DataT> 
   inline RangeBufferAccessC<DataT> RangeBufferAccessC<DataT>::DeepCopy(UIntT levels) const {
     if ( levels == 0) return *this ;
@@ -444,6 +458,18 @@ namespace RavlN {
     return b;
   }
   
+  template<class DataT>
+  void RangeBufferAccessC<DataT>::CopyFrom(const RangeBufferAccessC<DataT> &other) {
+    RavlAssert(m_range.Size() == other.Size());
+    const DataT *at = other.DataStart();
+    DataT *at2 = DataStart();
+    const DataT *endOfRow = &at[m_range.Size()];
+    for(;at != endOfRow;at++,at2++)
+      *at2 = *at;
+  }
+  //: Copy contents of 'other' into this into this buffer.
+  // 'other' must have the same length as this buffer. <br>
+
   template <class DataT>
   void RangeBufferAccessC<DataT>::Fill(const DataT & d) {
     DataT *at = DataStart();
