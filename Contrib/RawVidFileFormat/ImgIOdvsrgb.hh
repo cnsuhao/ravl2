@@ -11,7 +11,7 @@
 //! lib=RavlDVSFileFormat
 //! docentry="Ravl.API.Images.Video.Video IO"
 //! example=exImgSeq.cc
-//! rcsid="$Id: ImgIOdvsrgb.hh 5240 2005-12-06 17:16:50Z plugger $"
+//! rcsid="$Id$"
 //! author="Simon Ennis"
 //! date="13/05/2007"
 
@@ -51,13 +51,13 @@ namespace RavlImageN {
     //: Setup for cif variant.
     // Where size in the size of the Y image.
     
-    inline UIntT CalcOffset(UIntT frameNo) const  {
+    inline UInt64T CalcOffset(UInt64T frameNo) const  {
       RavlAssert(frameSize > 0);
       return frameSize * frameNo; 
     }
     //: Calculate the offset of a frame.
     
-    inline IntT CalcOffset(IntT frameNo) const {
+    inline Int64T CalcOffset(Int64T frameNo) const {
       RavlAssert(frameSize > 0);
       return frameSize * frameNo; 
     }
@@ -75,7 +75,7 @@ namespace RavlImageN {
     // Is an index odd ?
     
     ImageRectangleC rect; // Size of RGB variant. Origin 0,0
-    UIntT frameSize; // Size of one frame in bytes.
+    UInt64T frameSize; // Size of one frame in bytes.
     UIntT frameNo;   // Current frameno.
     UIntT seqSize;   // Number of frames in sequence, ((UIntT) -1) if unknown
     UIntT blockSize; // Size of blocks.

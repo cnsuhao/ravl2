@@ -705,8 +705,7 @@ endif
 
 $(TARG_HDRSYMS) : $(INST_HEADERSYM)/% : % $(INST_HEADERSYM)/.dir
 	$(SHOWIT)if [ -e $(INST_HEADERSYM)/$(@F) -o -L $(INST_HEADERSYM)/$(@F) ] ; then \
-		if [ "`readlink -e $(INST_HEADERSYM)/$(@F)`"  != "$(QCWD)/$(@F)" ] ; then \
-			echo "--- Update syminc link $(@F)" ; \
+		if [ "`readlink $(INST_HEADERSYM)/$(@F)`"  != "$(QCWD)/$(@F)" ] ; then \
 			ln -sf $(QCWD)/$(@F) $(INST_HEADERSYM)/$(@F) ; \
 		fi ; \
 	else \
@@ -1069,6 +1068,9 @@ endif
 
 $(TARG_TESTEXE) : $(INST_TESTBIN)/%$(EXEEXT) : $(INST_OBJS)/%$(OBJEXT) $(TARG_LIBS) $(EXTRAOBJS) $(TARG_HDRCERTS) $(INST_TESTBIN)/.dir
 	$(SHOWIT)echo "--- Linking test program $(@F)  ( $(INST_TESTBIN)/$(@F) ) " ; \
+	if [ -f $(INST_TESTBIN)/$(@F) ] ; then \
+	  $(CHMOD) +w $(INST_TESTBIN)/$(@F)$(EXEEXT) ; \
+	fi ; \
 	if $(CXX) $(LDFLAGS) $(INST_OBJS)/$*$(OBJEXT)  $(EXTRAOBJS) $(TESTBINLIBS) -o $(INST_TESTBIN)/$(@F) ; then \
 	  $(SYNC) ; \
 	  $(CHMOD) 555 $(INST_TESTBIN)/$(@F) ; \
@@ -1146,6 +1148,9 @@ $(INST_LIBDEF)/$(LOCAL_DEFBASE).def: defs.mk $(INST_LIBDEF)/.dir $(HEADERS) $(SO
 	fi ; \
 	echo 'ifndef $(LOCAL_DEFBASE)_AUTO_DEF' > $(INST_LIBDEF)/$(@F) ; \
 	echo '$(LOCAL_DEFBASE)_AUTO_DEF=1' >> $(INST_LIBDEF)/$(@F) ;
+ ifdef REQUIRES	
+	$(SHOWIT)echo 'ifeq ($$(strip $$(filter-out $$(RESOURCES),$(REQUIRES))),)' >> $(INST_LIBDEF)/$(@F)
+ endif	
  ifdef USESLIBS
   ifneq ($(USESLIBS),)
    ifneq ($(USESLIBS),None)
@@ -1183,6 +1188,9 @@ $(INST_LIBDEF)/$(LOCAL_DEFBASE).def: defs.mk $(INST_LIBDEF)/.dir $(HEADERS) $(SO
         $(SHOWIT)echo ' INCLUDES := -I$$(BASE_INC)\$(PACKAGE) $$(INCLUDES)' ;
         $(SHOWIT)echo 'endif' ;
  endif
+ ifdef REQUIRES	
+	$(SHOWIT)echo 'endif' >> $(INST_LIBDEF)/$(@F)
+ endif	
 	$(SHOWIT)echo 'endif' >> $(INST_LIBDEF)/$(@F) ; \
 	$(CHMOD) 444 $(INST_LIBDEF)/$(@F)
 endif

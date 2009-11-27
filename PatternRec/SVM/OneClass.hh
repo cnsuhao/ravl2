@@ -9,7 +9,7 @@
 #ifndef RAVL_ONE_CLASS_HEADER
 #define RAVL_ONE_CLASS_HEADER
 
-#include "Ravl/PatternRec/SvmClassifier2.hh"
+#include "Ravl/PatternRec/Classifier2.hh"
 #include "Ravl/PatternRec/Sample.hh"
 #include "Ravl/PatternRec/KernelFunc.hh"
 
@@ -21,16 +21,16 @@ using namespace RavlN;
   @author Alexey Kostin
  */
 //! One class classifier (body)
-/*! The one class classifier has two parameters center and radius of the
+/*! The one class classifier has two parameters centre and radius of the
  *  hypersphere around objects of the class. This class implements
- *  the decision function f(x)=radius^2 - |x-center|^2 in more generic way
+ *  the decision function f(x)=radius^2 - |x-centre|^2 in more generic way
  *  f(x)= radius^2 - K(x,x) - 2*sum(lambda_i*K(x,x_i)) +
  *        sum(sum(y_i*y_j*lambda_i*lambda_j*K(x_i,x_j)))
  */
 class OneClassBodyC : public Classifier2BodyC
 {
 public:
-  //! Creates empty classifier, which returns 0 as the value of discriminant function
+  //! Creates empty classifier, which returns 0 as the value of descriminant function
   OneClassBodyC();
 
   //! Constructor
@@ -66,7 +66,7 @@ public:
   virtual RealT Classify2(const VectorC &Data) const;
 
   //! Classify vector 'data' and return value of descriminant function
-  virtual RealT Classify2(const RealT* Data) const;
+  //virtual RealT Classify2(const RealT* Data) const;
 
   //! Get vector length for classifier
   virtual IntT GetDataSize() const;
@@ -103,7 +103,7 @@ private:
 class OneClassC : public Classifier2C
 {
 public:
-  //! Creates empty classifier, which returns 0 as the value of discriminant function
+  //! Creates empty classifier, which returns 0 as the value of descriminant function
   OneClassC() : Classifier2C(*new OneClassBodyC())
     {}
 
@@ -111,7 +111,7 @@ public:
   /*!
   @param[in] KernelFunction      kernel function for classifier
   @param[in] SupportVectors      support vectors
-  @param[in] SupportVectorLabels labels of support vectors (labels == 0 correcpond to outliers, all other to inliers)
+  @param[in] SupportVectorLabels labels of support vectors (labels == 0 correspond to outliers, all other to inliers)
   @param[in] Lambdas             Lagrangian multipliers for each support vector
    */
   OneClassC(const KernelFunctionC &KernelFunction,
@@ -127,7 +127,7 @@ public:
   /*!
   @param[in] KernelFunction      kernel function for classifier
   @param[in] SupportVectors      support vectors
-  @param[in] SupportVectorLabels labels of support vectors (label = -1  correcpond to outiers, label = 1 to inliers)
+  @param[in] SupportVectorLabels labels of support vectors (label = -1  correspond to outliers, label = 1 to inliers)
   @param[in] Lambdas             Lagrangian multipliers for each support vector
    */
   OneClassC(const KernelFunctionC &KernelFunction,
@@ -150,16 +150,16 @@ public:
     { return Body().Classify(Data); }
 
   //! Classify vector 'data' and return class (0 - outliers or 1 - inliers)
-  UIntT Classify(const RealT* Data) const
-    { return Body().Classify(Data); }
+  //UIntT Classify(const RealT* Data) const
+  //  { return Body().Classify(Data); }
 
   //! Classify vector 'data' and return value of descriminant function
   RealT Classify2(const VectorC &Data) const
   { return Body().Classify2(Data); }
 
   //! Classify vector 'data' and return value of descriminant function
-  RealT Classify2(const RealT* Data) const
-    { return Body().Classify2(Data); }
+  //RealT Classify2(const RealT* Data) const
+  //  { return Body().Classify2(Data); }
 
   const KernelFunctionC& KernelFunction() const
     { return Body().KernelFunction(); }

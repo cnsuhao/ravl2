@@ -21,3 +21,8 @@ PROGLIBS= RavlDPDisplay.opt RavlDPDisplay3d.opt RavlExtImgIO.opt RavlDV.opt Ravl
 #RavlMPEG2.opt
 
 #EHT = execonv.eht
+
+TESTEXES = testFileConverter.cc
+
+AUXDIR = share/RAVL/testData
+AUXFILES = in0.ppm in1.ppm

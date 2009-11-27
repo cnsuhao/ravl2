@@ -8,7 +8,7 @@
 #define RAVL_SARR3ITER_HEADER 1
 ////////////////////////////////////////////////////////////
 //! docentry="Ravl.API.Core.Arrays.3D"
-//! rcsid="$Id$
+//! rcsid="$Id: SArray3dIter.hh 5261 2005-12-13 15:20:20Z craftit $
 //! file="Ravl/Core/Container/SArray/SArray3dIter.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"

@@ -100,5 +100,49 @@ namespace RavlImageN {
   void InitJPEGCompressConv() 
   {}
   
+  bool DPIImageJPEGCompressedBodyC::IsGetEOS() const
+  {
+    return m_byteFile.IsValid() && m_byteFile.IsGetEOS();
+  }
+
+  bool DPIImageJPEGCompressedBodyC::Get(CompressedImageJPEGC& data)
+  {
+    if (!m_byteFile.IsValid())
+      return false;
+
+    int size = m_byteFile.Size();
+    SArray1dC<ByteT> byteData(size);
+    if (m_byteFile.GetArray(byteData) != size)
+      return false;
+
+    char* byteDataPtr = reinterpret_cast<char*>(byteData.DataStart());
+    SArray1dC<char> tempData(byteDataPtr, size, false);
+    data = CompressedImageJPEGC(tempData.Copy());
+
+    return true;
+  }
+
+  bool DPOImageJPEGCompressedBodyC::Put(const CompressedImageJPEGC& data)
+  {
+    if (!m_byteFile.IsValid())
+      return false;
+
+    int size = data.Size();
+    unsigned char* byteDataPtr = reinterpret_cast<unsigned char*>(data.DataStart());
+    SArray1dC<ByteT> byteData(byteDataPtr, size, false);
+
+    return (m_byteFile.PutArray(byteData) == size);
+  }
+
+  bool DPOImageJPEGCompressedBodyC::IsPutReady() const
+  {
+    return m_byteFile.IsValid() && m_byteFile.IsPutReady();
+  }
+
+  void DPOImageJPEGCompressedBodyC::PutEOS()
+  {
+    if (m_byteFile.IsValid())
+      m_byteFile.PutEOS();
+  }
   
 }

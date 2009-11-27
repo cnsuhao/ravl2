@@ -11,7 +11,7 @@
 //! lib=RavlVideoIO
 //! docentry="Ravl.API.Images.Video.Video IO"
 //! example=exImgSeq.cc
-//! rcsid="$Id: ImgIOdvsyuv.hh 5240 2005-12-06 17:16:50Z plugger $"
+//! rcsid="$Id$"
 //! author="Simon Ennis"
 //! date="08/04/99"
 
@@ -80,7 +80,7 @@ namespace RavlImageN {
   protected:
     static inline bool is_odd (IndexC x) {return bool (x%2 != 0);}
     // Is an index odd ?
-    
+
     ImageRectangleC rect; // Size of YUV variant. Origin 0,0
     UIntT frameSize; // Size of one frame in bytes.
     UIntT frameNo; // Current frameno.

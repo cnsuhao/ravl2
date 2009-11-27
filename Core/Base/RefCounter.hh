@@ -63,11 +63,11 @@ namespace RavlN {
     // This should be provided in derived classes.
     // this funtion will issue an assertion failure if called.
     
-    void IncRefCounter()
+    void IncRefCounter() const
     { ravl_atomic_inc(&counter); }
     //: Increment reference counter.
     
-    bool DecRefCounter()
+    bool DecRefCounter() const
     { return ravl_atomic_dec_and_test(&counter) != 0; }
     //: Decrement reference counter.
     

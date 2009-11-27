@@ -131,6 +131,10 @@ namespace RavlN {
     { return m_parent.IsValid(); }
     //: Has node got a parent ?
     
+    bool HasChild(const StringC &name) const
+    { return m_xmlNode.IsElm(name); }
+    //: Test if a child exists.
+
     bool Dump(std::ostream &strm,int level = 0);
     //: Dump node tree in human readable form.
   protected:
@@ -142,7 +146,8 @@ namespace RavlN {
                               const StringC &name,
                               const std::type_info &to,
                               RCWrapAbstractC &handle,
-                              bool silentError = false
+                              bool silentError = false,
+                              const std::type_info &defaultType = typeid(void)
                               );
     //: Get named component.
     
@@ -262,7 +267,7 @@ namespace RavlN {
     //: Invalidate context.
     
     template<class DataT>
-    bool UseComponent(const StringC &name,DataT &data,bool suppressErrorMessages = false) const;
+    bool UseComponent(const StringC &name,DataT &data,bool suppressErrorMessages = false,const std::type_info &defaultType=typeid(void)) const;
     //: Get named component, or create it if not found.
     
     template<class DataT>
@@ -280,19 +285,14 @@ namespace RavlN {
     bool SetComponent(const StringC &name,const DataT &data);
     //: Set component for name.
     
-    bool ChildContext(const StringC &key,XMLFactoryContextC &child) const { 
-      if(!m_iNode.IsValid())
-        return false;
-      XMLTreeC childTree;
-      if(!m_iNode->XMLNode().Child(key,childTree))
-        return false;
-      XMLFactoryNodeC::RefT childNode = new XMLFactoryNodeC(childTree);
-      child = XMLFactoryContextC(Factory(),*childNode);
-      return true;
-    }
+    bool ChildContext(const StringC &key,XMLFactoryContextC &child) const;
     //: lookup child in tree.
     // Returns true and updates parameter 'child' if child is found.
     
+    bool HasChild(const StringC &childName) const
+    { return m_iNode->HasChild(childName); }
+    //: Test if a child context exist
+
     StringC Path() const
     { return m_iNode->Path(); }
     //: Get path to this node.
@@ -360,12 +360,14 @@ namespace RavlN {
       return true;
     }
     //: Get named component, returns false if the component doesn't exist.
+    //: This does NOT create the object if its not found.
     
     template<class DataT>
     bool UseComponent(const XMLFactoryContextC& currentContext,
                       const StringC &name,
                       DataT &data,
-                      bool suppressErrorMessages = false
+                      bool suppressErrorMessages = false,
+                      const type_info &defaultType = typeid(void)
                       ) const
     {
       RCWrapC<DataT> handle;
@@ -373,7 +375,8 @@ namespace RavlN {
                                                                                      name,
                                                                                      typeid(DataT),
                                                                                      handle,
-                                                                                     suppressErrorMessages
+                                                                                     suppressErrorMessages,
+                                                                                     defaultType
                                                                                      ))
         return false;
       RavlAssert(handle.IsValid());
@@ -423,7 +426,12 @@ namespace RavlN {
     
     static void RegisterTypeFactory(const std::type_info &typeInfo,TypeFactoryT typeFactoryFunc);
     //: Register a factory function.
-    
+    //: Note: This is NOT thread safe.
+
+    static bool RegisterTypeAlias(const char *originalName,const char *newName);
+    //: Register an alias for a type. This must be done after the type is registered.
+    //: Note: This is NOT thread safe.
+
     template<class DataT> 
     static RCWrapAbstractC DefaultFactoryFunc(const XMLFactoryContextC &node)
     { return RCWrapC<typename DataT::RefT>(typename DataT::RefT(*new DataT(node))); }
@@ -561,11 +569,12 @@ namespace RavlN {
     template<class DataT>
     bool UseComponent(const StringC &name,
                       DataT &data,
-                      bool suppressErrorMessages = false
+                      bool suppressErrorMessages = false,
+                      const std::type_info &defaultType=typeid(void)
                       ) const
     { 
       XMLFactoryContextC context(Body());
-      return Body().UseComponent(context,name,data,suppressErrorMessages);  
+      return Body().UseComponent(context,name,data,suppressErrorMessages,defaultType);
     }
     //: Get named component, or create it if not found.
     
@@ -590,14 +599,14 @@ namespace RavlN {
   
   
   template<class DataT>
-  bool XMLFactoryContextC::UseComponent(const StringC &name,DataT &data,bool suppressErrorMessages) const
-  { return Factory().UseComponent(*this,name,data,suppressErrorMessages); }
+  bool XMLFactoryContextC::UseComponent(const StringC &name,DataT &data,bool suppressErrorMessages,const std::type_info &defaultType) const
+  { return Factory().UseComponent(*this,name,data,suppressErrorMessages,defaultType); }
   //: Get named component, or create it if not found.
   
   template<class DataT>
   bool XMLFactoryContextC::CreateComponent(const StringC &name,DataT &data,bool suppressErrorMessages) const
   { return Factory().CreateComponent(*this,name,data,suppressErrorMessages); }
-  //: Create named component, or create it if not found.
+  //: Create named component.
 
   template<class DataT>
   bool XMLFactoryContextC::SetComponent(const StringC &name,const DataT &data) 
@@ -607,7 +616,7 @@ namespace RavlN {
   template<class DataT>
   bool XMLFactoryContextC::GetComponent(const StringC &name,DataT &data,bool suppressErrorMessages) const
   { return Factory().GetComponent(Path() + ':' + name,data); }
-  //: Get instance of the named component.
+  //: Get instance of the named component. Fail if its not found.
   
 }
 

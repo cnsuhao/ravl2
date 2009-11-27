@@ -14,6 +14,8 @@
 #include "Ravl/BinStream.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/DP/Port.hh"
+#include "Ravl/DP/ByteFileIO.hh"
 
 namespace RavlImageN {
   using namespace RavlN;
@@ -53,8 +55,81 @@ namespace RavlImageN {
   
   ImageC<ByteRGBValueC> CompressedImageJPEG2RGBImage(const CompressedImageJPEGC &img);
   //: Convert compressed buffer to a RGB image
-  
-}
 
+  class DPIImageJPEGCompressedBodyC
+  : public DPIPortBodyC<CompressedImageJPEGC>
+  {
+  public:
+    DPIImageJPEGCompressedBodyC(const StringC &filename)
+    : m_byteFile(filename)
+    {}
+
+    DPIImageJPEGCompressedBodyC(IStreamC &stream)
+    : m_byteFile(stream)
+    {}
+
+    virtual ~DPIImageJPEGCompressedBodyC()
+    {}
+
+    virtual bool IsGetEOS() const;
+
+    virtual bool Get(CompressedImageJPEGC& data);
+
+  private:
+    DPIByteFileC m_byteFile;
+  };
+
+  class DPOImageJPEGCompressedBodyC
+  : public DPOPortBodyC<CompressedImageJPEGC>
+  {
+  public:
+    DPOImageJPEGCompressedBodyC(const StringC &filename)
+    : m_byteFile(filename)
+    {}
+
+    DPOImageJPEGCompressedBodyC(OStreamC &stream)
+    : m_byteFile(stream)
+    {}
+
+    virtual ~DPOImageJPEGCompressedBodyC()
+    {}
+
+    virtual bool Put(const CompressedImageJPEGC& data);
+
+    virtual bool IsPutReady() const;
+
+    virtual void PutEOS();
+
+  private:
+    DPOByteFileC m_byteFile;
+  };
+
+  class DPIImageJPEGCompressedC
+  : public DPIPortC<CompressedImageJPEGC>
+  {
+  public:
+    DPIImageJPEGCompressedC(const StringC &filename)
+    : DPEntityC(*new DPIImageJPEGCompressedBodyC(filename))
+    {}
+
+    DPIImageJPEGCompressedC(IStreamC &stream)
+    : DPEntityC(*new DPIImageJPEGCompressedBodyC(stream))
+    {}
+  };
+
+  class DPOImageJPEGCompressedC
+  : public DPOPortC<CompressedImageJPEGC>
+  {
+  public:
+    DPOImageJPEGCompressedC(const StringC &filename)
+    : DPEntityC(*new DPOImageJPEGCompressedBodyC(filename))
+    {}
+
+    DPOImageJPEGCompressedC(OStreamC &stream)
+    : DPEntityC(*new DPOImageJPEGCompressedBodyC(stream))
+    {}
+  };
+
+}
 
 #endif

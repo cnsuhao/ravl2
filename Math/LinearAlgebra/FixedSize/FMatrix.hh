@@ -7,7 +7,7 @@
 #ifndef RAVL_FMATRIX_HEADER
 #define RAVL_FMATRIX_HEADER 1
 //////////////////////////////////////////////////
-//! rcsid=$Id$
+//! rcsid=$Id: FMatrix.hh 6984 2008-09-30 14:49:29Z craftit $
 //! file="Ravl/Math/LinearAlgebra/FixedSize/FMatrix.hh"
 //! lib=RavlMath
 //! userlevel=Develop

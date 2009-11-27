@@ -13,7 +13,6 @@
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! date="04/07/1998"
-//! rcsid="$Id$"
 //! userlevel=Default
 
 #include "Ravl/DP/SPort.hh"
@@ -29,7 +28,7 @@ namespace RavlN {
   // Object must have a stream output function.
   
   class DPOByteFileBodyC 
-    : public DPOByteStreamBodyC
+    : public DPOSByteStreamBodyC
   {
   public:
     DPOByteFileBodyC() {}
@@ -55,6 +54,9 @@ namespace RavlN {
     }
     //: Stream constructor.
     
+    virtual ~DPOByteFileBodyC();
+    //: Dtor.
+
     virtual bool Put(const ByteT &dat);
     //: Put data.
     
@@ -64,7 +66,50 @@ namespace RavlN {
     
     virtual bool IsPutReady() const;
     //: Is port ready for data ?
-    
+
+    virtual void PutEOS();
+    //: Indicate end of stream.
+
+    virtual bool Seek(UIntT offset);
+    //: Seek to a location in the stream.
+    //!return: True if the seek is successful.
+
+    virtual bool DSeek(IntT offset);
+    //: Delta seek: Seek an offset distance relative to the current location.
+    //!return: True if the seek is successful.
+
+    virtual UIntT Tell() const;
+    //: Find the current location in stream.
+    //!return: static_cast<UIntT>(-1) if unsuccessful.
+
+    virtual UIntT Size() const;
+    //: Find the size of the stream.
+    //!return: static_cast<UIntT>(-1) if unsuccessful.
+
+    virtual UIntT Start() const;
+    //: Find the offset where the stream begins.
+    //!return: static_cast<UIntT>(-1) if unsuccessful.
+
+    virtual bool Seek64(StreamPosT offset);
+    //: Seek to a location in the stream.
+    //!return: True if the seek is successful.
+
+    virtual bool DSeek64(StreamPosT offset);
+    //: Delta seek: Seek an offset distance relative to the current location.
+    //!return: True if the seek is successful.
+
+    virtual StreamPosT Tell64() const;
+    //: Find the current location in stream.
+    //!return: RavlN::streamPosUnknown if unsuccessful.
+
+    virtual StreamPosT Size64() const;
+    //: Find the size of the stream.
+    //!return: RavlN::streamPosUnknown if unsuccessful.
+
+    virtual StreamPosT Start64() const;
+    //: Find the offset where the stream begins.
+    //!return: RavlN::streamPosUnknown if unsuccessful.
+
     virtual bool Save(ostream &sout) const;
     //: Save to ostream.
     
@@ -84,33 +129,36 @@ namespace RavlN {
   public:
     DPIByteFileBodyC() 
       : dataStart(0),
-	off(0)
+        off(0),
+        size(0)
     {}
     //: Default constructor.
     
     DPIByteFileBodyC(const StringC &nfname)
       : in(nfname),
-	dataStart(0),
-	off(0)
+        dataStart(0),
+        off(0),
+        size(0)
     {
 #if RAVL_CHECK
       if(!in.good()) 
 	cerr << "DPOByteFileBodyC<ByteT>::DPOByteFileBodyC<ByteT>(StringC,bool), WARNING: Failed to open file '" << nfname << "'.\n";
 #endif
-      dataStart = in.Tell();
+      Init();
     }
     //: Construct from a filename.
     
     inline DPIByteFileBodyC(IStreamC &strmin)
       : in(strmin),
-	dataStart(0),
-	off(0)
+        dataStart(0),
+        off(0),
+        size(0)
     {
 #if RAVL_CHECK
       if(!in.good()) 
 	cerr << "DPIByteFileBodyC<ByteT>::DPIByteFileBodyC<ByteT>(OStreamC,bool), WARNING: Passed bad input stream. \n";
 #endif
-      dataStart = in.Tell();
+      Init();
     }
     //: Stream constructor.
     
@@ -151,9 +199,12 @@ namespace RavlN {
     //: Get size of stream. 
     
   private:
+    void Init();
+    
     IStreamC in;
     StreamPosT dataStart;
     StreamPosT off;
+    StreamPosT size;
   };
   
   ///////////////////////////////
@@ -161,8 +212,8 @@ namespace RavlN {
   //: File output stream for fixed length objects.
   // Object must have a stream output function.
   
-  class DPOByteFileC 
-    : public DPOByteStreamC
+  class DPOByteFileC
+    : public DPOSByteStreamC
   {
   public:
     inline DPOByteFileC() 
@@ -208,4 +259,5 @@ namespace RavlN {
     //: filename constructor.  
   }; 
 }
+
 #endif

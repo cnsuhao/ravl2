@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id: GUIMarkupCanvas.cc 3762 2004-07-26 17:47:55Z charles $"
+//! rcsid="$Id$"
 //! lib=RavlGUI2D
 //! file="RavlSoft/GUI/GUIMarkupCanvas.cc"
 
@@ -65,7 +65,6 @@ namespace RavlGUIN
   
   GUIMarkupCanvasBodyC::~GUIMarkupCanvasBodyC() {
     connections.DisconnectAll();
-    // FIXME :- The following is not thread safe.
     if(gcDrawContext != 0) {
       if(Manager.IsGUIThread())
         gdk_gc_unref(gcDrawContext);
@@ -524,6 +523,7 @@ namespace RavlGUIN
   //: Fit current display to screen.
   
   bool GUIMarkupCanvasBodyC::GUIFitImageToScreen(RealT aspectRatio) {
+    ONDEBUG(cerr << "GUIMarkupCanvasBodyC::GUIFitImageToScreen\n");
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     m_aspectRatio = aspectRatio;
     lastTimeOfFitToFrame = DateC::NowUTC();
@@ -577,6 +577,7 @@ namespace RavlGUIN
   //: Set the current aspect ratio of the displayed image.
   
   bool GUIMarkupCanvasBodyC::GUISetAspectRatio(RealT aspectRatio) {
+    ONDEBUG(cerr << "GUIMarkupCanvasBodyC::GUISetAspectRatio\n");
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     m_aspectRatio = aspectRatio;
     
@@ -607,6 +608,7 @@ namespace RavlGUIN
   //: Set the current aspect ratio
   
   bool GUIMarkupCanvasBodyC::GUIFixAspectRatio(RealT aspectRatio) {
+    ONDEBUG(cerr << "UIMarkupCanvasBodyC::GUIFixAspectRatio\n");
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     // Modify the displayed ratio.
     Vector2dC tmpScale = Scale();
@@ -742,6 +744,7 @@ namespace RavlGUIN
   //: Update the screen.
   
   bool GUIMarkupCanvasBodyC::GUIRefresh() {
+    ONDEBUG(cerr << "GUIMarkupCanvasBodyC::GUIRefresh()\n");
     if(widget == 0) // Are we ready to go ?
       return true; 
     RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");

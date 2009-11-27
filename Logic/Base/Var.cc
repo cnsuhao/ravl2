@@ -77,7 +77,7 @@ namespace RavlLogicN {
 
   //: Get the name of symbol.
   StringC VarBodyC::Name() const { 
-#if RAVL_OS_LINUX64
+#if RAVL_CPUTYPE_64
     return StringC("V:") + StringC((UInt64T) this); 
 #else
     return StringC("V:") + StringC((UIntT) this); 

@@ -4,7 +4,7 @@
 # public license (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-# $Id$
+# $Id: DynLink.def 3169 2003-07-15 10:15:33Z plugger $
 ifndef DynLinkDEF
 DynLinkDEF=1
 

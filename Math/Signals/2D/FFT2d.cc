@@ -363,8 +363,7 @@ namespace RavlN {
     Array2dC<ComplexC> shifted(shiftedSArray);
 
     // Translate shifted to dat position
-    shifted.ShiftIndexes1(-dat.Range1().Min());
-    shifted.ShiftIndexes2(-dat.Range2().Min());
+    shifted.ShiftArray(dat.Frame().Origin());
 
     return shifted;
   }
@@ -377,8 +376,7 @@ namespace RavlN {
     Array2dC<RealT> shifted(shiftedSArray);
 
     // Translate shifted to dat position
-    shifted.ShiftIndexes1(-dat.Range1().Min());
-    shifted.ShiftIndexes2(-dat.Range2().Min());
+    shifted.ShiftArray(dat.Frame().Origin());
 
     return shifted;
   }

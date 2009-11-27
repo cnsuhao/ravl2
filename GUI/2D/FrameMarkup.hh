@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_FRAMEMARKUP_HEADER
 #define RAVLGUI_FRAMEMARKUP_HEADER 1
 //! author="Charles Galambos"
-//! rcsid="$Id: FrameMarkup.hh 4259 2004-09-28 08:53:43Z charles $"
+//! rcsid="$Id$"
 //! lib=RavlGUI2D
 //! file="Magellan/Core/FrameMarkup.hh"
 //! docentry="Ravl.API.Graphics.GTK.Markup Canvas"

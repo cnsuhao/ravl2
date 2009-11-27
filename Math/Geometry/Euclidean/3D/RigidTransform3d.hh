@@ -11,7 +11,7 @@
 //! author="Andrew Stoddart"
 //! userlevel = Default
 //! lib=RavlMath
-//! rcsid     = "$Id$"
+//! rcsid     = "$Id: RigidTransform3d.hh 6429 2007-11-09 11:17:04Z craftit $"
 //! docentry="Ravl.API.Math.Geometry.3D"
 
 #include "Ravl/Quatern3d.hh"

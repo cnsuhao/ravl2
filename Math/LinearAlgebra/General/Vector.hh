@@ -184,7 +184,27 @@ namespace RavlN {
     
     void Dump() const;
     //: Dump to cout in a human readable format.
-    
+
+    const VectorC &operator+=(const TVectorC<float> &arr) {
+      for(BufferAccessIter2C<RealT,float> it(*this,arr);it;it++)
+        it.Data1() += it.Data2();
+      return *this;
+    }
+    //: Add a float vector to a real one.
+
+    const VectorC &operator-=(const TVectorC<float> &arr) {
+      for(BufferAccessIter2C<RealT,float> it(*this,arr);it;it++)
+        it.Data1() -= it.Data2();
+      return *this;
+    }
+    //: Subtract a float vector from a real one.
+
+    const TVectorC<RealT> &MulAdd(const TVectorC<float> &vec,float scale);
+    //: Multiply vec by scale and add it to this one.
+
+    using TVectorC<RealT>::MulAdd;
+    using SArray1dC<RealT>::operator+=;
+    using SArray1dC<RealT>::operator-=;
   };
   
   VectorC RandomVector(int n,RealT scale = 1);

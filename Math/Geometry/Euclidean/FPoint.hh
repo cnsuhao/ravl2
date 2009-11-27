@@ -7,7 +7,7 @@
 #ifndef RAVL_FPOINT_HEADER
 #define RAVL_FPOINT_HEADER 1
 //////////////////////////////////////////////////
-//! rcsid=$Id$
+//! rcsid=$Id: FPoint.hh 6493 2007-12-12 11:29:02Z craftit $
 //! file="Ravl/Math/Geometry/Euclidean/FPoint.hh"
 //! lib=RavlMath
 //! userlevel=Develop

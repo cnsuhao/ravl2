@@ -64,7 +64,7 @@ namespace RavlN {
     DListC<GraphEdgeIterC<StringC,DPConverterBaseC> > conv;  
     //  typedef RealT (*AFuncT)(const DPConverterBaseC &);
 #if !(RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET)  || RAVL_COMPILER_VISUALCPPNET_2005
-	// Visual C++ can't handle ptr's to functions with reference args.
+    // Visual C++ can't handle ptr's to functions with reference args.
     // hopefull we'll find a way aroung this but for now its out.
     RealT finalCost = 0;
     conv = GraphBestRoute(ConvGraph(),
@@ -141,7 +141,7 @@ namespace RavlN {
   //: Remove conversion from system.
     
   bool TypeConverterBodyC::Remove(DPConverterBaseC &tc)  {
-    // FIXME :- Slow !! 
+    // TODO :- This is slow !!
     ONDEBUG(cerr << "Unegistering converter : "<< tc.ArgType(0).name() << " to " << tc.Output().name() << endl);
     bool ok = false;
     IntT size = 0;

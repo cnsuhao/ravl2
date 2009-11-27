@@ -21,6 +21,15 @@
 
 namespace RavlN {
 
+  //: Construct from a sample of floats.
+
+  SampleVectorC::SampleVectorC(const SampleC<TVectorC<float> > &svec)
+    : SampleC<VectorC>(svec.Size())
+  {
+    for(DArray1dIterC<TVectorC<float> > it(svec.DArray());it;it++)
+      Append(VectorC(*it));
+  }
+
   //: Construct a new sample set with a reduced set of features
   
   SampleVectorC::SampleVectorC(const SampleC<VectorC> &svec, const SArray1dC<IndexC> &featureSet)

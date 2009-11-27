@@ -6,7 +6,7 @@
 // file-header-ends-here
 //////////////////////////////////////////////////////////////
 // Graph/GrBConnIt.hh      12/12/96        By Charles Galambos
-// $Id$
+// $Id: GraphBConIt.cc 79 2001-05-10 13:44:47Z craftit $
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Graph/GraphBConIt.cc"

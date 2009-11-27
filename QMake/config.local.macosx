@@ -35,8 +35,8 @@ FULLBUILD_TARGETS += doc
 #GCCPATH =
 
 # paths for cc and c++ compiler
-RAVL_CC  = gcc
-RAVL_CXX = g++
+RAVL_CC  = gcc-4
+RAVL_CXX = g++-4
 
 # extra CFLAGS (c)
 #EXTRA_CFLAGS =

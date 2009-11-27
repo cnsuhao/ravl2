@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_GUIMARKUPLAYERINFO_HEADER
 #define RAVLGUI_GUIMARKUPLAYERINFO_HEADER 1
 //! author="Warren Moore"
-//! rcsid="$Id: GUIMarkupViewer.hh 8474 2006-04-27 16:56:41 +0100 (Thu, 27 Apr 2006) warren $"
+//! rcsid="$Id$"
 //! lib=RavlGUI2D
 //! file="RavlSoft/GUI/GUIMarkupLayerInfo.hh"
 //! docentry="Ravl.API.Graphics.GTK.Markup Canvas"

@@ -1,4 +1,4 @@
-// $Id$
+// $Id: exVMT.cc 4 2001-04-11 12:45:55Z craftit $
 
 #include "Ravl/VectorT.hh"
 #include "Ravl/MatrixT.hh"

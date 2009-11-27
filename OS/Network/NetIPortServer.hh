@@ -32,9 +32,6 @@ namespace RavlN {
     : public NetAttributeCtrlServerBodyC
   {
   public:
-    NetISPortServerBaseBodyC(const AttributeCtrlC &attrCtrl,const DPSeekCtrlC &seekCtrl,const StringC &portName);
-    //: Constructor.
-    
     NetISPortServerBaseBodyC(const AttributeCtrlC &attrCtrl,  // Attributes
                              const DPIPortBaseC &nIPortBase,  // Port for IO.
                              const DPSeekCtrlC &seekCtrl,     // Seek control
@@ -61,8 +58,11 @@ namespace RavlN {
     // Returns false if port is already in use..
     
     virtual bool ReqData(Int64T &pos);
-    //: Request information on the stream.. 
-    
+    //: Request information on the stream..
+
+    virtual bool ReqDataArray(Int64T& pos, Int64T& size);
+    //: Request information on the stream..
+
     bool Disconnect();
     //: Disconnect end point.
     
@@ -100,7 +100,7 @@ namespace RavlN {
   {
   public:
     NetISPortServerBodyC(const DPISPortC<DataT> &niport,const StringC &portName)
-      : NetISPortServerBaseBodyC(niport,niport,portName),
+      : NetISPortServerBaseBodyC(niport,niport,niport,portName),
 	iport(niport)
     {}
     //: Constructor.
@@ -112,9 +112,6 @@ namespace RavlN {
     virtual StringC PortType()
     { return TypeName(typeid(DataT)); }
     //: Get the port type.
-    
-    bool ReqData(Int64T &pos);
-    //: Request information on the stream.. 
     
   protected:    
     DPISPortC<DataT> iport;
@@ -222,8 +219,12 @@ namespace RavlN {
     
     bool ReqData(Int64T &pos)
     { return Body().ReqData(pos); }
-    //: Request information on the stream.. 
-    
+    //: Request information on the stream..
+
+    bool ReqDataArray(Int64T& pos, Int64T& size)
+    { return Body().ReqDataArray(pos, size); }
+    //: Request information on the stream..
+
     friend class NetISPortServerBodyC<DataT>;
   };
 
@@ -249,34 +250,6 @@ namespace RavlN {
   //! userlevel=Normal 
   //: Export an SPort with a given portName.
   
-  ///////////////////////////////////////////////////
-  
-  template<class DataT>
-  bool NetISPortServerBodyC<DataT>::ReqData(Int64T &pos) {
-    if(!iport.IsValid()) {
-      ep.Send(NPMsg_ReqFailed,1); // Report end of stream.
-      return true;
-    }
-    //cerr << "NetISPortServerBodyC<DataT>::ReqData(), Pos=" << pos << " at=" << at << " Tell=" << iport.Tell() <<"\n";
-    if(at != pos && pos != (UIntT)(-1)) {
-      iport.Seek64(pos);
-      at = pos;
-    }
-    DataT dat;
-    if(iport.Get(dat)) {
-      at++;
-      ep.Send(NPMsg_Data,at,dat);
-    } else { // Failed to get data.
-      if(iport.IsGetEOS())
-	ep.Send(NPMsg_ReqFailed,1); // End of stream.
-      else
-	ep.Send(NPMsg_ReqFailed,2); // Just get failed.
-    }
-    return true;
-  }
-  
-
 }
-
 
 #endif

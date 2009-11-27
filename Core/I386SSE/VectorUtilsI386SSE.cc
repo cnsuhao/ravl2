@@ -477,7 +477,69 @@ namespace RavlBaseVectorN {
       }
     }
   }
-  
+
+  void SSEConvolveKernelSSE(const float *vk, // Kernel, expected to be aligned.
+                               const float *vi, // Scanned image, probably not aligned.
+                               size_t rows,
+                               size_t cols,
+                               size_t byteStride,
+                               float *result
+                               )
+  {
+    //std::cerr << "Rows=" << rows << " Cols=" << cols << " vk=" << std::hex << (void*) vk << " vi=" << (void*) vi << " Stride=" << byteStride << std::dec <<"\n";
+    __m128 sum = _mm_setzero_ps ();
+
+    if(Is16ByteAligned(vk)) {
+      // Kernel is byte aligned.
+      for(size_t i = 0;i < rows;i++) {
+        const float *vir = vi; // Image row.
+        if(Is16ByteAligned(vir)) {
+          for(size_t j = 0;j < cols;j+=4) {
+            sum = _mm_add_ps(sum,_mm_mul_ps(_mm_load_ps(vk),_mm_load_ps(vir)));
+            vk += 4;
+            vir += 4;
+          }
+        } else {
+          size_t j = 0;
+          for(;j < cols;j+=4) {
+            sum = _mm_add_ps(sum,_mm_mul_ps(_mm_load_ps(vk),_mm_loadu_ps(vir)));
+            vk += 4;
+            vir += 4;
+          }
+        }
+        // Add stride bytes.
+        vi = reinterpret_cast<const float *>(reinterpret_cast<const char *>(vi) + byteStride);
+      }
+    } else {
+      // Kernel is not byte aligned.
+      for(size_t i = 0;i < rows;i++) {
+        const float *vir = vi; // Image row.
+        if(Is16ByteAligned(vir)) {
+          for(size_t j = 0;j < cols;j+=4) {
+            sum = _mm_add_ps(sum,_mm_mul_ps(_mm_loadu_ps(vk),_mm_load_ps(vir)));
+            vk += 4;
+            vir += 4;
+          }
+        } else {
+          size_t j = 0;
+          for(;j < cols;j+=4) {
+            sum = _mm_add_ps(sum,_mm_mul_ps(_mm_loadu_ps(vk),_mm_loadu_ps(vir)));
+            vk += 4;
+            vir += 4;
+          }
+        }
+        // Add stride bytes.
+        vi = reinterpret_cast<const float *>(reinterpret_cast<const char *>(vi) + byteStride);
+      }
+    }
+
+    sum = _mm_add_ps(sum,_mm_shuffle_ps(sum,sum, _MM_SHUFFLE(2,3,0,1)));
+    sum = _mm_add_ps(sum,_mm_shuffle_ps(sum,sum, _MM_SHUFFLE(1,0,3,2)));
+
+    _mm_store_ss(result,sum);
+  }
+
+
   
   int VectorSSEInit() {
     if (SSE2() && 1) {

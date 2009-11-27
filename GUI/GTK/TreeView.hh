@@ -459,7 +459,15 @@ namespace RavlGUIN {
     //!param: colId - If set specifies the column to start editing. (Else the first one found in the row is used.)
     //!param: subColId - If set specifies the sub column to start editing. (Else the first one found in the row is used.)
     // Returns true if cell found, and operation succeeded.
-    
+
+
+    bool GUIGetCurrentCursor(TreeModelPathC & path, StringC & colName);
+    //: Access the current cursor selection
+    // Values are returned by reference.
+    // Returns false if no current selection
+    //!param: path - Return value - path to current row
+    //!param: colName - Return value - name of current column
+
     SArray1dC<TreeViewColumnC> &DisplayColumns()
     { return displayColumns; }
     //: Access column information.
@@ -793,7 +801,15 @@ namespace RavlGUIN {
     { return Body().GUISetCursorOnCell(path,startEditing,colId,subColId); }
     //: Send keyboard focus to specified cell and optionally start editing.
     // Returns true if cell found, and operation succeeded.
-    
+
+    bool GUIGetCurrentCursor(TreeModelPathC & path, StringC & colName)
+    { return Body().GUIGetCurrentCursor(path, colName); }
+    //: Access the current cursor selection
+    // Values are returned by reference.
+    // Returns false if no current selection
+    //!param: path - Return value - path to current row
+    //!param: colName - Return value - name of current column
+
     SArray1dC<TreeViewColumnC> &DisplayColumns()
     { return Body().DisplayColumns(); }
     //: Access column information.

@@ -73,7 +73,7 @@ namespace RavlN {
       throw ExceptionC("Sample size too small in Projection2dC. ");
     RealT zh1 = 1.0,zh2 = 1.0;
     if (org.Size() == 4) {
-      // FIXME:- Pick better values for zh1 and zh2 !!
+      // TODO:- Pick better values for zh1 and zh2 !!
       
       // initialise homography P by fitting to four point pairs, assuming that
       // bottom-right element P[2][2] is not zero.

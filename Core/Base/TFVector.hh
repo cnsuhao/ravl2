@@ -79,7 +79,7 @@ namespace RavlN {
     
     bool Contains(UIntT i) const
     { return i < N; }
-    //: Test if array contains index i¸
+    //: Test if array contains index i
     
     DataT &operator[](UIntT ind) { 
 #if RAVL_CHECK
@@ -230,6 +230,15 @@ namespace RavlN {
     //: Transpose vector.
     // The implementation for this can be found in "Ravl/TFMatrix.hh"
 
+    UIntT Hash() const {
+      UIntT val = 0;
+      for(unsigned i = 0;i < N;i++) {
+        val += StdHash(data[i]);
+        val += val << 11;
+      }
+      return val;
+    }
+    //: Compute a hash value for vector.
   protected:
     DataT data[N];
   };

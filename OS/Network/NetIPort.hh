@@ -223,6 +223,10 @@ namespace RavlN {
     virtual bool Get(DataT &buf);
     //: Get next piece of data.
     
+    virtual IntT GetArray(SArray1dC<DataT> &buffer);
+    //: Get an array of data from stream.
+    // Returns the number of elements processed.
+
     virtual AttributeCtrlC ParentCtrl() const
     { return netAttr; }
     //: Get Parent attribute control.
@@ -233,8 +237,13 @@ namespace RavlN {
     
     bool RecvData(UIntT &pos,DataT &dat);
     //: Recieve data.
-    
-    DataT data; 
+
+    bool RecvDataArray(SArray1dC<DataT>& buffer, Int64T& pos);
+    //: Recieve data.
+
+    DataT data;
+    SArray1dC<DataT> dataArray;
+    StreamPosT dataArrayReceived;
   };
 
   //! userlevel=Normal
@@ -280,12 +289,12 @@ namespace RavlN {
     
   };
 
-
   /////////////////////////////////////////////////////////////////////////////////////
 
   template<class DataT>
   bool NetISPortBodyC<DataT>::Init() {
     ep.RegisterR(NPMsg_Data,"SendData",*this,&NetISPortBodyC<DataT>::RecvData);
+    ep.RegisterR(NPMsg_DataArrayGet,"SendDataArray",*this,&NetISPortBodyC<DataT>::RecvDataArray);
     return NetISPortBaseC::Init();
   }
   
@@ -302,8 +311,37 @@ namespace RavlN {
     return true;
   }
 
-  //: Get next piece of data.
-  
+  template<class DataT>
+  bool NetISPortBodyC<DataT>::RecvDataArray(SArray1dC<DataT>& buffer, Int64T& pos) {
+    RWLockHoldC hold(rwlock,RWLOCK_WRITE);
+
+    SArray1dC<DataT> srcBuffer(buffer);
+    SArray1dC<DataT> dstBuffer(dataArray);
+    if (buffer.Size() != dataArray.Size())
+    {
+      UIntT size = buffer.Size();
+      if (size > dataArray.Size())
+        size = dataArray.Size();
+      srcBuffer = SArray1dC<DataT>(buffer, size);
+      dstBuffer = SArray1dC<DataT>(dataArray, size);
+    }
+    dstBuffer.CopyFrom(srcBuffer);
+    dataArrayReceived = srcBuffer.Size();
+    flag = 0;
+    at = pos;
+    hold.Unlock();
+    recieved.Post();
+    return true;
+  }
+
+  template<class DataT>
+  DataT NetISPortBodyC<DataT>::Get() {
+    DataT tmp;
+    if(!Get(tmp))
+      throw DataNotReadyC("Get failed. ");
+    return tmp;
+  }
+
   template<class DataT>
   bool NetISPortBodyC<DataT>::Get(DataT &buf) {
     //cerr << "NetISPortBodyC<DataT>::Get(DataT &), Called for Pos=" << at << "\n";
@@ -321,14 +359,33 @@ namespace RavlN {
     //cerr << "NetISPortBodyC<DataT>::Get(DataT &), Done for Pos=" << at << "\n";
     return true;
   }
-  
+
   template<class DataT>
-  DataT NetISPortBodyC<DataT>::Get() {
-    DataT tmp;
-    if(!Get(tmp))
-      throw DataNotReadyC("Get failed. ");
-    return tmp;
-  }
+  IntT NetISPortBodyC<DataT>::GetArray(SArray1dC<DataT> &buffer)
+  {
+    if (gotEOS || !buffer.IsValid())
+      return 0;
+
+    RWLockHoldC hold(rwlock, RWLOCK_WRITE);
+    dataArray = buffer;
+    dataArrayReceived = 0;
+    hold.Unlock();
+
+    Int64T size = buffer.Size();
+    ep.Send(NPMsg_ReqDataArray, at, size);
+    if (!recieved.Wait())
+    {
+      cerr << "NetISPortBodyC<DataT>::GetArray(), WARNING: Failed to get frame. \n";
+      return false;
+    }
+
+    // 'at' and 'dataArrayReceived' is updated by the RecvDataArray method.
+    hold.LockRd();
+    if (flag != 0)
+      return 0;
+
+    return dataArrayReceived;
+  };
   
 }
 

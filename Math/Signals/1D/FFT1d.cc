@@ -74,7 +74,7 @@ namespace RavlN {
     Array1dC<ccomplex *> ptrArr(n);    
     //ptrArr.Fill(0);
     //cerr << dat <<  "\n";
-    // FIXME :- Would it be quicker to copy the array and use fft2 if length is a power of two ?
+    // TODO :- Would it be quicker to copy the array and use fft2 if length is a power of two ?
     if(inv) { // Do inverse.
       for(BufferAccessIter2C<ccomplex *,ComplexC> it(ptrArr,tmpArr);it;it++)
 	it.Data1() = (ccomplex *) (&it.Data2());

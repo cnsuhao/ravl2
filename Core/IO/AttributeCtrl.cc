@@ -488,6 +488,7 @@ namespace RavlN {
   //: Register a new attribute type.
   
   bool AttributeCtrlBodyC::RegisterAttribute(const AttributeTypeC &attr) {
+    ONDEBUG(cerr << "Registering attribute " << attr.Name() << endl);
     MTWriteLockC lock(3);
     if(attrInfo == 0)
       attrInfo = new AttributeCtrlInternalC();

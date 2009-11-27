@@ -69,7 +69,7 @@ namespace RavlGUIN {
     //: Create widget.
     
     virtual bool Create(GtkWidget *_widget)
-    { return CommonCreate(_widget); }
+    {return CommonCreate(_widget);}
     //: Create with a widget supplied from elsewhere.
     
     virtual bool GUIAdd(const WidgetC &widge);

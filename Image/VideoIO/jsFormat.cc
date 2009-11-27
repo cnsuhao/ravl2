@@ -53,9 +53,13 @@ namespace RavlImageN {
   
   const type_info &
   FileFormatJSBodyC::ProbeLoad(const StringC &nfilename,IStreamC &in,const type_info &obj_type) const {
-    StringC suffix = Extension(nfilename);
-    ONDEBUG(cerr << "FileFormatJSBodyC::ProbeLoad() Called. Filename:'"<<nfilename <<"' Ext:'" << suffix << "'  LoadType:'" << TypeName(obj_type) << "'\n");
+    ONDEBUG(cerr << "FileFormatJSBodyC::ProbeLoad() Called. Filename:'"<<nfilename <<"' Ext:'" << Extension(nfilename) << "'  LoadType:'" << TypeName(obj_type) << "'\n");
+
+    if (!nfilename.IsEmpty() && nfilename[0] == '@')
+      return typeid(void);
+
     // FIXME :- Check magic number.
+    StringC suffix = Extension(nfilename);
     if (suffix != "js")
       return typeid(void);
     // Try and load the header to make sure everything's ok.
@@ -68,11 +72,15 @@ namespace RavlImageN {
   
   const type_info &
   FileFormatJSBodyC::ProbeSave(const StringC &nfilename,const type_info &obj_type,bool forceFormat) const {
+    ONDEBUG(cerr << "FileFormatJSBodyC::ProbeSave() Called. Filename:'"<< nfilename <<"' Ext:'" << Extension(nfilename) << "'  LoadType:'" << TypeName(obj_type) << "'\n");
+
+    if (!nfilename.IsEmpty() && nfilename[0] == '@')
+      return typeid(void);
+
     StringC suffix = Extension(nfilename);
-    ONDEBUG(cerr << "FileFormatJSBodyC::ProbeSave() Called. Filename:'"<< nfilename <<"' Ext:'" << suffix << "'  LoadType:'" << TypeName(obj_type) << "'\n");
     if(!forceFormat) {
       if (suffix != "js")
-	return typeid(void);
+        return typeid(void);
     }
     return typeid(ImageC<ByteYUV422ValueC>);
   }

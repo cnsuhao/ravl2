@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
-/*! rcsid="$Id$" */
+/*! rcsid="$Id: gdkgl.c 6575 2008-02-18 11:16:14Z kier $" */
 /*! lib=RavlGUI3D */
 /*! license=own */
 

@@ -5,9 +5,12 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
+//! author="Alexey Kostin"
+
 #include <math.h>
 
 #include "Ravl/PatternRec/CommonKernels.hh"
+#include "Ravl/VectorUtils.hh"
 
 namespace RavlN
 {
@@ -59,12 +62,7 @@ bool LinearKernelBodyC::Save(BinOStreamC &out) const
 // Apply function to 'data' vectors supposed to be of the same size
 RealT LinearKernelBodyC::Apply(int Size, const RealT *X1, const RealT *X2) const
 {
-  long double sum = 0.;
-  const RealT* endPtr = X1 + Size;
-  while(X1 < endPtr)
-    sum += *X1++ * *X2++;
-
-  return scale * sum;
+  return scale * RavlBaseVectorN::DotProduct(X1, X2, Size);
 }
 //---------------------------------------------------------------------------
 
@@ -114,7 +112,7 @@ bool QuadraticKernelBodyC::Save(BinOStreamC &out) const
 // Apply function to 'data' vectors supposed to be of the same size
 RealT QuadraticKernelBodyC::Apply(int Size, const RealT *X1, const RealT *X2) const
 {
-  const RealT *p1 = X1;
+	const RealT *p1 = X1;
   const RealT *p2 = X2;
   const RealT *p1end = p1 + Size;
   long double retVal = 0;

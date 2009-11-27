@@ -43,6 +43,9 @@ namespace RavlN {
     {}
     //: Base constructor.
 
+    SampleStreamVectorC(const SampleStreamC<TVectorC<float> > &port);
+    //: Convert from a stream of float vectors.
+
     MeanCovarianceC MeanCovariance();
     //: Find the mean and covariance of the sample
     

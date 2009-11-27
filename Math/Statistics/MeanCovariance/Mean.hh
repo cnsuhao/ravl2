@@ -62,6 +62,10 @@ namespace RavlN {
     { n = 0; mean = 0; }
     //: Reset mean and number to zero.
     
+    UIntT Hash() const
+    { return StdHash(n) + StdHash(mean); }
+    //: Provided for compatibility with templates.
+
   protected:
     SizeT n;
     RealT mean;

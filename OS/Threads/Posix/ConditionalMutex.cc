@@ -48,8 +48,10 @@ namespace RavlN
   }
   
   bool ConditionalMutexC::Wait(RealT maxTime) { 
-    if(maxTime <= 0)
+    if(maxTime <= 0) {
+      std::cerr << "ConditionalMutexC::Wait, WARNING: Negative timeout given. Returning failed. \n";
       return false;
+    }
     
     struct timespec ts;
     struct timeval tv;

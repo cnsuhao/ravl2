@@ -4,7 +4,7 @@
 # Public License (GPL). See the gpl.licence file for details or
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: MainDep.mk 5747 2006-07-19 07:57:14Z craftit $"
 #! file="Ravl/QMake/MainDep.mk"
 
 # Make with dependancies.

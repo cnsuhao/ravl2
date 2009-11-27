@@ -7,7 +7,7 @@
 #ifndef RAVL_BYTEYCBCR422BT601VALUE_HEADER
 #define RAVL_BYTEYCBCR422BT601VALUE_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id: ByteYUV422Value.hh 5240 2005-12-06 17:16:50Z plugger $"
+//! rcsid="$Id$"
 //! lib=RavlImage
 //! userlevel=Normal
 //! author="Charles Galambos"

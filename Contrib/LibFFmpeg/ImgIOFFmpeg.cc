@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////////
-//! rcsid = "$Id$"
+//! rcsid = "$Id: ImgIOFFmpeg.cc 6685 2008-03-27 14:44:47Z craftit $"
 //! lib=RavlLibFFmpeg
 //! author = "Warren Moore"
 //! file = "Ravl/LibFFmpeg/ImgIOFFmpeg.cc"

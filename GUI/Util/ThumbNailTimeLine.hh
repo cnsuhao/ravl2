@@ -20,6 +20,7 @@
 #include "Ravl/RealRange1d.hh"
 #include "Ravl/Threads/RWLock.hh"
 #include "Ravl/Threads/Semaphore.hh"
+#include "Ravl/Threads/ThreadEvent.hh"
 #include "Ravl/DP/AttributeCtrlUpdateSignal.hh"
 
 namespace RavlGUIN {
@@ -100,7 +101,7 @@ namespace RavlGUIN {
     //: Modify the image for thumbnail, scale it, label it....
     
   protected:
-    bool CommonCreate(GtkWidget *_widget);
+    virtual bool CommonCreate(GtkWidget *_widget);
     //: Create widget.
     
     virtual bool GUIUpdateDisplayRange();
@@ -132,6 +133,12 @@ namespace RavlGUIN {
     
     bool CBStreamSizeChanged();
     //: Handle stream size changed.
+
+    bool Freeze();
+    //: Freeze updates
+
+    bool Thaw();
+    //: Un-Freeze updates 
     
     RWLockC access;
     SemaphoreC semaUpdate; // Signal we need an update.
@@ -156,7 +163,8 @@ namespace RavlGUIN {
     
     Signal1C<UIntT> frameSelected; // Frame selected signal
     Signal1C<RealRangeC> sigFrameRange; // Signal issued when the range of frames displayed changes.
-    
+
+    volatile bool m_freeze;
     friend class ThumbNailTimeLineC;
   };
   
@@ -284,7 +292,13 @@ namespace RavlGUIN {
     IntT FrameSkip() const
     { return Body().FrameSkip(); }
     //: Access current frame skip.
-    
+
+    bool Freeze()
+    { return Body().Freeze(); }
+
+    bool Thaw()
+    { return Body().Thaw(); }
+
     friend class ThumbNailTimeLineBodyC;
   };
   

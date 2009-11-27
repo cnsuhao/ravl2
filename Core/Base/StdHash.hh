@@ -109,7 +109,7 @@ namespace RavlN {
 
   inline
   UIntT StdHash(const void *ptr) { 
-#if RAVL_OS_LINUX64
+#if RAVL_CPUTYPE_64
 	return (reinterpret_cast<UInt64T>(ptr) >> 2 ) ^ (reinterpret_cast<UInt64T>(ptr)>>15) ;
 #else 
 	return (reinterpret_cast<UIntT>(ptr) >> 2) ^ (reinterpret_cast<UIntT>(ptr) >> 15);

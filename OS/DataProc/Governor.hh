@@ -16,6 +16,7 @@
 
 #include "Ravl/DP/StreamOp.hh"
 #include "Ravl/OS/Date.hh"
+#include "Ravl/Threads/ThreadEvent.hh"
 
 namespace RavlN {
 
@@ -67,8 +68,9 @@ namespace RavlN {
     RealT delay;
     UIntT frameCnt; // Frame count,can be used to measure frame rate.
     RealT minDelay; // Minimum delay to insert.
+    ThreadEventC m_bypass; //Bypass the current waiting period
   };
-  
+   
   ////////////////////////////////////
   //! userlevel=Normal
   //: Governor base Handle.

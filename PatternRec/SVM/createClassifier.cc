@@ -7,6 +7,8 @@
  * see http://www.gnu.org/copyleft/lesser.html
  *****************************************************************************/
 
+//! author="Alexey Kostin"
+
 #include "Ravl/String.hh"
 #include "Ravl/OS/Date.hh"
 #include "Ravl/Option.hh"

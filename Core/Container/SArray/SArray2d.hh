@@ -227,6 +227,15 @@ namespace RavlN {
     // The origin of 'vals' will be places at 'origin' of this array.
     // NOTE: all of vals must fit within this array.
     
+    SizeT Hash() const {
+      SizeT ret = this->Size1() + (this->Size2() << 5);
+      for(BufferAccess2dIterC<DataT> it(*this,this->size2);it;it++) {
+        ret += StdHash(*it);
+        ret += ret << 11;
+      }
+      return ret;
+    }
+    //: Generate hash for contents of array.
   protected:
     SArray2dC(Buffer2dC<DataT> & bf, 
 	      const BufferAccessC<BufferAccessC<DataT> > &ab,

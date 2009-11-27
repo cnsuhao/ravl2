@@ -35,6 +35,14 @@ namespace RavlN {
 	place = const_cast<BLinkBodyC<DataT> *>(list.list.BodyPtr());
     }
     //: Construct from list.
+
+    BListIterC(const BLinkC<DataT> &link)
+      : place(0)
+    {
+      if(link.IsValid())
+	place = const_cast<BLinkBodyC<DataT> *>(link.BodyPtr());
+    }
+    //: Construct from a link.
     
     const BListIterC<DataT> &operator=(const BListC<DataT> &l) {
       if(l.list.IsValid())
@@ -44,7 +52,16 @@ namespace RavlN {
       return *this;
     }
     //: Assign to a list.
-    
+
+    const BListIterC<DataT> &operator=(const BLinkC<DataT> &link) {
+      if(link.IsValid())
+	place = const_cast<BLinkBodyC<DataT> *>(link.BodyPtr());
+      else
+	place = 0;
+      return *this;
+    }
+    //: Assign to a link.
+
     bool IsElm() const
     { return place != 0; }
     //: Are we at a valid element in the list ?

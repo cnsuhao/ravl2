@@ -5,7 +5,9 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
-#include "Ravl/PatternRec/SvmClassifier2.hh"
+//! author="Alexey Kostin"
+
+#include "Ravl/PatternRec/Classifier2.hh"
 
 #include "Ravl/Option.hh"
 #include "Ravl/OS/Date.hh"
@@ -102,7 +104,7 @@ int main(int Argc, char **Argv)
       if(!inCls)
       {
         cerr << "Failed to open file:" << clsName << endl;
-        throw ExceptionC("Can't open clissifier file.");
+        throw ExceptionC("Can't open classifier file.");
       }
       inCls >> classifier;
     }

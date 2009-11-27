@@ -88,9 +88,8 @@ namespace RavlN
     
 	//: Setup don't close flag.
     void SetDontClose(bool bDontClose)
-    {  
-		m_bCanClose = !bDontClose;	//Avoid double negative issues
-	}
+    { m_bCanClose = !bDontClose;	//Avoid double negative issues
+    }
     
     StringC ConnectedHost(); //: Get the name of the host at the other end of the connection.
     
@@ -191,9 +190,7 @@ namespace RavlN
     //: Close the socket.
     
     void SetDontClose(bool ndontClose)
-    { 
-		Body().SetDontClose(ndontClose); 
-	}
+    { Body().SetDontClose(ndontClose); }
     //: Setup don't close flag.
     
     StringC ConnectedHost()

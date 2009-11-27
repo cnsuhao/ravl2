@@ -303,6 +303,16 @@ namespace RavlN {
                            Range3().AlignWithin(alignment)); }
     //: Return a range within this range that has start and end points which are integer multples of 'alignment' 
     
+    UIntT Hash() const {
+      UIntT ret = is.Hash();
+      ret += ret << 11;
+      ret += js.Hash();
+      ret += ret << 11;
+      ret += ks.Hash();
+      return ret;
+    }
+    //: Generate a hash value for the range.
+
   protected:
     inline const IndexRange3dC & Range() const
     { return(*this); }

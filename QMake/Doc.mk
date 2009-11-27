@@ -7,8 +7,8 @@
 ################################
 # Quick RAVL make system.
 # Documentation make file.
-# $Id$
-#! rcsid="$Id$"
+# $Id: Doc.mk 6058 2007-02-13 11:36:50Z ees1wc $
+#! rcsid="$Id: Doc.mk 6058 2007-02-13 11:36:50Z ees1wc $"
 #! file="Ravl/QMake/Doc.mk"
 
 ifndef MAKEHOME

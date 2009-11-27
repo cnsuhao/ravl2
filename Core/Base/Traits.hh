@@ -16,7 +16,6 @@
 #include "Ravl/Types.hh"
 
 namespace RavlN {
-    
   //! userlevel=Advanced
   //: Traits for type
   // Used for decomposing types into there components.
@@ -27,6 +26,19 @@ namespace RavlN {
   public:
     typedef DataT &RefT;     //: Non-const reference to type.
     typedef DataT TypeT;     //: Unmodified type.
+    typedef DataT BaseTypeT; //: Base type ignoring const and reference.
+  };
+
+  //! userlevel=Advanced
+  //: Traits for type
+  // Used for decomposing types into there components.
+  // i.e. const, reference and base types.
+
+  template<typename DataT>
+  struct TraitsC<const DataT> {
+  public:
+    typedef DataT &RefT;     //: Non-const reference to type.
+    typedef const DataT TypeT;     //: Unmodified type.
     typedef DataT BaseTypeT; //: Base type ignoring const and reference.
   };
   

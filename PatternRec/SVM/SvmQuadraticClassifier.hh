@@ -17,13 +17,11 @@
 //! docentry =  "Ravl.API.Pattern_Recognition.Classifier.SVM"
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Ravl/PatternRec/SvmClassifier2.hh"
+#include "Ravl/PatternRec/Classifier2.hh"
 
 namespace RavlN
 {
 using namespace RavlN;
-
-class AuxVectorC;
 
 //! Support vector machines quadratic classifier
 class SvmQuadraticClassifierBodyC : public Classifier2BodyC
@@ -51,7 +49,7 @@ public:
   virtual bool Save(BinOStreamC &Out) const;
 
   //! Classify vector 'data' and return value of descriminant function
-  RealT Classify2(const RealT* Data) const;
+  RealT Classify2(const VectorC & Data) const;
 
   //! Get vector length of classifier
   IntT GetDataSize() const;
@@ -59,7 +57,7 @@ public:
   //! Create classifier
   /**
   @param Sv support vectors
-  @param Lambdas lagrangian multipliers
+  @param Lambdas Lagrangian multipliers
   @param Scale global scale from kernel function
   @param Threshold threshold
    */
@@ -69,7 +67,7 @@ public:
   //! Create classifier
   /**
   @param Sv support vectors
-  @param Lambdas lagrangian multipliers
+  @param Lambdas Lagrangian multipliers
   @param Weights weights for features
   @param Scale global scale from kernel function
   @param Threshold threshold
@@ -81,29 +79,26 @@ public:
   { return m_threshold; }
   //: Threshold for classifier.
   
-  const RealT *Weights1() const
+  const VectorC & Weights1() const
   { return m_weights1; }
   //: Linear terms.
   
-  const RealT *Weights2() const
+  const VectorC & Weights2() const
   { return m_weights2; }
   //: Square terms.
   
 private:
   void DestroyBuffers();               //!< free allocated memory
-  void CreateBuffers(int HalfWeights); //!< allocate memory for weights
+  void CreateBuffers(int halfWeights); //!< allocate memory for weights
   void InitMembers();                  //!< initialise member variables
   RealT m_threshold;                   //!< threshold
-  RealT* m_weights1;                   //!< weights linear
-  RealT* m_weights2;                   //!< weights quadratic
+  VectorC m_weights1;                  //!< weights linear
+  VectorC m_weights2;                   //!< weights quadratic
   int m_halfWeights;                   //!< dimensionality of original space
-
-  AuxVectorC *auxVec;
 };
 //---------------------------------------------------------------------------
 //! Support vector machines quadratic classifier
-class SvmQuadraticClassifierC 
-  : public Classifier2C
+class SvmQuadraticClassifierC  : public Classifier2C
 {
 public:
   //! Default constructor creates wrong object
@@ -124,13 +119,13 @@ public:
   
   //! Classify vector 'data' and return value of descriminant function
   //! Size of data should be equal to size of support vector.
-  RealT Classify2(const RealT* Data) const
+  RealT Classify2(const VectorC & Data) const
     { return Body().Classify2(Data); }
 
   //! Create classifier
   /**
   @param Sv support vectors
-  @param Lambdas lagrangian multipliers
+  @param Lambdas Lagrangian multipliers
   @param Scale global scale from kernel function
   @param Threshold threshold
    */
@@ -141,7 +136,7 @@ public:
   //! Create classifier
   /**
   @param Sv support vectors
-  @param Lambdas lagrangian multipliers
+  @param Lambdas Lagrangian multipliers
   @param Weights weights for features
   @param Scale global scale from kernel function
   @param Threshold threshold
@@ -154,11 +149,11 @@ public:
   { return Body().Threshold(); }
   //: Threshold for classifier.
   
-  const RealT *Weights1() const
+  const VectorC & Weights1() const
   { return Body().Weights1(); }
   //: Linear terms.
   
-  const RealT *Weights2() const
+  const VectorC & Weights2() const
   { return Body().Weights2(); }
   //: Square terms.
 

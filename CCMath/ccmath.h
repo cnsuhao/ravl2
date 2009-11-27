@@ -1,6 +1,6 @@
 #ifndef CCMATHMAIN_HEADER
 #define CCMATHMAIN_HEADER 1
-/*! rcsid="$Id$" */
+/*! rcsid="$Id: ccmath.h 7001 2008-10-20 12:49:12Z robowaz $" */
 /*! lib=ccmath */
 /*! file="Ravl/CCMath/ccmath.h" */
 

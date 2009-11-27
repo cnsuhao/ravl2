@@ -445,7 +445,7 @@ namespace RavlGUIN {
   
   //: Enter GUI thread region.
   
-  bool ManagerC::ThreadEnterGUI(IntT &oldId) {
+  bool ManagerC::ThreadEnterGUI(SizeT &oldId) {
     gdk_threads_enter();
 #if RAVL_USE_GTKTHREADS
     // Mark this thread as being GUI.
@@ -457,7 +457,7 @@ namespace RavlGUIN {
   
   //: Leave GUI thread region.
   
-  bool ManagerC::ThreadLeaveGUI(IntT &var) {
+  bool ManagerC::ThreadLeaveGUI(SizeT &var) {
     // Unmark the current thread.
 #if RAVL_USE_GTKTHREADS
     guiThreadID = var;
@@ -566,7 +566,7 @@ namespace RavlGUIN {
   //: Test if we're in the GUI thread.
   
   bool ManagerC::IsGUIThread() const { 
-    UIntT cid = ThisThreadID();
+    SizeT cid = ThisThreadID();
     // Only one of either the native gtk thread or event handling
     // thread will be in GUI code at a time. So if we're on either 
     // we've got an exclusive lock on gtk functions.

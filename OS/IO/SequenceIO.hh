@@ -56,7 +56,8 @@ namespace RavlN
   //: Open a seekable output stream.
   // - Not all streams are seekable, the seek/tell functions are not garanteed to work
   // for all formats. <p>
-  // - If a fileformat is a zero length string, all formats are considered.
+  // If the fileformat argument is used, it must be one of the known types
+  // returned by "conv -lf".  If the fileformat is a zero length string (the default), the filename extension is used.
   // Returns true on succcess.
   
   template<class DataT>
@@ -85,7 +86,8 @@ namespace RavlN
   //: Open a seekable input stream.
   // Note: Not all streams are seekable, the seek/tell functions are not garanteed to work
   // for all formats. <p>
-  // - If a fileformat is a zero length string, all formats are considered.
+  // If the fileformat argument is used, it must be one of the known types
+  // returned by "conv -lf".  If the fileformat is a zero length string (the default), all formats are considered.
   // Returns true on succcess.
 
   
@@ -102,7 +104,9 @@ namespace RavlN
   }
   //! userlevel=Normal
   //: Open a normal output stream
-  // - If a fileformat is a zero length string, all formats are considered.
+  // If the fileformat argument is used, it must be one of the known types
+  // returned by "conv -lf".  If the fileformat is a zero length string (the
+  // default), the filename extension is used.
   // Returns true on succcess.
   
   template<class DataT>
@@ -118,7 +122,8 @@ namespace RavlN
   }
   //! userlevel=Normal
   //: Open a normal input stream
-  // - If a fileformat is a zero length string, all formats are considered.
+  // If the fileformat argument is used, it must be one of the known types
+  // returned by "conv -lf".  If the fileformat is a zero length string (the default), all formats are considered.
   // Returns true on succcess.
 }
 

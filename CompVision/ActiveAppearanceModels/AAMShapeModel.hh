@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2005, OmniPerception Ltd.
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -16,13 +16,14 @@
 
 #include "Ravl/Image/AAMAppearance.hh"
 #include "Ravl/PatternRec/Function.hh"
+#include "Ravl/PatternRec/SampleStream.hh"
 
 namespace RavlImageN {
 
   //! userlevel=Develop
   //: Statistical shape model.
 
-  class AAMShapeModelBodyC 
+  class AAMShapeModelBodyC
     : public RCBodyVC
   {
   public:
@@ -31,7 +32,7 @@ namespace RavlImageN {
         nPoints(0) // Number of control points in the model.
     {}
     //: Default constructor.
-    
+
     AAMShapeModelBodyC(BinIStreamC &is);
     //: Constructor.
     //  Load from bin stream.
@@ -39,11 +40,11 @@ namespace RavlImageN {
     AAMShapeModelBodyC(istream &is);
     //: Constructor.
     //  Load from stream.
-    
+
     void SetVerbose(bool verboseMode)
     { m_verbose = verboseMode; }
     //: If set to true designer will print error messages to std::cerr
-    
+
     virtual bool Save(BinOStreamC &out) const;
     //: Save to binary stream 'out'.
 
@@ -52,6 +53,9 @@ namespace RavlImageN {
 
     virtual bool ComputeMean(const SampleC<AAMAppearanceC> &sample);
     //: Compute mean control points for the list of appearance provided.
+
+    virtual bool ComputeMean(SampleStreamC<AAMAppearanceC> &sample);
+    //: Compute mean control points for the list of provided appearances
 
     virtual bool RawParameters(const AAMAppearanceC &inst,VectorC &fixedParams,VectorC &freeParams) const;
     //: Generate raw parameters.
@@ -74,6 +78,12 @@ namespace RavlImageN {
     //: Return a parameter vector representing the appearance 'inst'.
 
     bool Design(const SampleC<AAMAppearanceC> &sample,RealT variation = 0.95,UIntT maxP=50);
+    //: Design a shape model given some data.
+    //!param: sample    - list of appearances for training the model.
+    //!param: variation - percentage of variation preserved during PCA.
+    //!param: maxP      - limit on number of parameters contained in the shape model.
+
+    bool Design(SampleStreamC<AAMAppearanceC> &sample,RealT variation = 0.95,UIntT maxP=50);
     //: Design a shape model given some data.
     //!param: sample    - list of appearances for training the model.
     //!param: variation - percentage of variation preserved during PCA.
@@ -107,7 +117,7 @@ namespace RavlImageN {
 
   protected:
     bool m_verbose; // Write error messages to standard out.
-    
+
     UIntT nPoints; // Number of control points in the model.
 
     FunctionC shapeModel;   // Shape model, map control point location to parameters.
@@ -122,7 +132,7 @@ namespace RavlImageN {
   //! userlevel=Normal
   //: Statistical shape model.
 
-  class AAMShapeModelC 
+  class AAMShapeModelC
     : public RCHandleVC<AAMShapeModelBodyC>
   {
   public:
@@ -162,11 +172,11 @@ namespace RavlImageN {
     //: Access body.
 
   public:
-    
+
     void SetVerbose(bool verboseMode)
     { Body().SetVerbose(verboseMode); }
     //: If set to true designer will print error messages to std::cerr
-    
+
     bool RawParameters(const AAMAppearanceC &inst,VectorC &fixedParams,VectorC &freeParams) const
     { return Body().RawParameters(inst,fixedParams,freeParams); }
     //: Generate raw parameters.
@@ -180,6 +190,13 @@ namespace RavlImageN {
     //: Return a parameter vector representing the appearance 'inst'.
 
     bool Design(const SampleC<AAMAppearanceC> &sample,RealT variation = 0.95,UIntT maxP=25)
+    { return Body().Design(sample,variation,maxP); }
+    //: Design a shape model given some data.
+    //!param: sample    - list of appearances for training the model.
+    //!param: variation - percentage of variation preserved during PCA.
+    //!param: maxP      - limit on number of parameters contained in the shape model.
+
+    bool Design(SampleStreamC<AAMAppearanceC> &sample,RealT variation = 0.95,UIntT maxP=25)
     { return Body().Design(sample,variation,maxP); }
     //: Design a shape model given some data.
     //!param: sample    - list of appearances for training the model.

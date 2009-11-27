@@ -204,6 +204,11 @@ namespace RavlN {
     { m_haveInvCov = false; }
     //: Clear inverse cache.
     // This must be used if you modify the mean or covariance directly.
+
+    UIntT Hash() const
+    { return m.Hash() + cov.Hash(); }
+    //: Provided for compatibility with templates.
+
   protected:
     void CacheInverse() const;
     

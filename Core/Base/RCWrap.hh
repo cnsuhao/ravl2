@@ -235,7 +235,7 @@ namespace RavlN {
     // if the object types do not match, an invalid handle
     // is created.
     
-    RCWrapC(const RCAbstractC &val)
+    RCWrapC(const RCAbstractC &val,bool v)
       : RCWrapAbstractC(dynamic_cast<const RCWrapBodyC<DataT> *>(val.BodyPtr()))
     {}
     //: Construct from an abstract handle.
@@ -305,7 +305,22 @@ namespace RavlN {
   { return RCWrapC<DataT>(val); }
   //: Helper function to Wrap a value.
   
-  
+
+  //! Convert to a RCAbstract handle
+  template<typename DataT>
+  inline RCAbstractC ToRCAbstract(const DataT &value) {
+    RavlN::RCWrapC<DataT> wrap(value);
+    return wrap.Abstract();
+  }
+
+  //! Convert from a RCAbstract handle
+  template<typename DataT>
+  inline void FromRCAbstract(const RavlN::RCAbstractC &val,DataT &value) {
+    RavlN::RCWrapC<DataT> wrap(val,true);
+    RavlAssert(wrap.IsValid());
+    value = wrap.Data();
+  }
+
 }
 
 

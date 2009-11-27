@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLGUI_MARKUPCANVAS_HEADER
 #define RAVLGUI_MARKUPCANVAS_HEADER 1
-//! rcsid="$Id: GUIMarkupCanvas.hh 3530 2004-07-01 13:40:39Z charles $"
+//! rcsid="$Id$"
 //! lib=RavlGUI2D
 //! file="Magellan/GUI/GUIMarkupCanvas.hh"
 //! docentry="Ravl.API.Graphics.GTK.Markup Canvas"

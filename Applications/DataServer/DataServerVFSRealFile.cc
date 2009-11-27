@@ -4,7 +4,6 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
 
 #include "Ravl/DataServer/DataServerVFSRealFile.hh"
 #include "Ravl/OS/NetPortManager.hh"
@@ -14,7 +13,7 @@
 #include "Ravl/DP/TypeConverter.hh"
 #include "Ravl/DP/FileFormatDesc.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -23,24 +22,29 @@
 
 namespace RavlN {
   
-  
   //: Constructor.
   
-  DataServerVFSRealFileBodyC::DataServerVFSRealFileBodyC(const StringC &vname,const StringC &nRealFilename,bool canWrite)
-    : DataServerVFSNodeBodyC(vname,canWrite,false),
+  DataServerVFSRealFileBodyC::DataServerVFSRealFileBodyC(const StringC &vname,const StringC& npath,const StringC &nRealFilename,bool canWrite)
+    : DataServerVFSNodeBodyC(vname,npath,canWrite,false),
       cacheSize(0),
       realFilename(nRealFilename),
       canSeek(true),
-      multiWrite(false)
+      multiWrite(false),
+      deleteOnClose(false)
   {
-    ONDEBUG(cerr << "DataServerVFSRealFileBodyC::DataServerVFSRealFileBodyC, Called VName=" << vname << " \n");
+    ONDEBUG(cerr << "DataServerVFSRealFileBodyC::DataServerVFSRealFileBodyC, Called name=" << name << " path=" << path << "\n");
   }
   
   //: Destructor.
   
-  DataServerVFSRealFileBodyC::~DataServerVFSRealFileBodyC() {
-    CloseIFile();
-    CloseOFile();
+  DataServerVFSRealFileBodyC::~DataServerVFSRealFileBodyC()
+  {
+    CloseIFileAbstract();
+    CloseIFileByte();
+    CloseOFileAbstract();
+    CloseOFileByte();
+    
+    DeleteOnClose();
   }
   
   //: Configure node with given setup.
@@ -56,6 +60,9 @@ namespace RavlN {
     
     // Setup filename 
     realFilename = config["Filename"];
+
+    // File format
+    defaultFileFormat = config["FileFormat"];
     
     // Setup cache.
     StringC cacheSizeStr = config["CacheSize"];
@@ -76,236 +83,575 @@ namespace RavlN {
   
   //: Open input port.
   
-  bool DataServerVFSRealFileBodyC::OpenIPort(DListC<StringC> &remainingPath,const StringC &dataType,NetISPortServerBaseC &port) {
-    
-    // Check the path is empty.
-    
-    if(!remainingPath.IsEmpty()) {
-      cerr << "DataServerVFSRealFileBodyC::OpenIPort, ERROR: Path remaining after a valid filename. \n";
+  bool DataServerVFSRealFileBodyC::OpenIPort(DListC<StringC> &remainingPath, const StringC &dataType, NetISPortServerBaseC &port)
+  {
+    if (!remainingPath.IsEmpty())
+    {
+      cerr << "DataServerVFSRealFileBodyC::OpenIPort failed to open as path remaining after a valid filename." << endl;
       return false;
     }
-    
-    // Make sure file is open for reading.
-    // Lock access to port share while we creat a client
-    MutexLockC lock(access);
-    while(!ispShare.IsValid()) {
-      // Unlock while we open.
-      lock.Unlock();
-      if(!OpenFileRead(dataType))
-        return false;
-      // Relock access.
-      lock.Lock();
-    }
-    
-    // Obtain client
-    DPISPortC<RCWrapAbstractC> rawIp = ispShare.Port(); 
-    
-    // Unlock access.
-    lock.Unlock();
-    
-    if(!iTypeInfo.IsValid()) {
-      RavlAssert(0); // This should never happen, catch it in test mode.
-      return false;
-    }
-    
-    // Creat a converter to an apropriate type.
-    DPIPortBaseC realPort = iTypeInfo.CreateConvFromAbstract(rawIp);
-    RavlAssert(realPort.IsValid());
 
-    // Need to do any type conversion ?
-    
-    if(dataType != TypeName(iTypeInfo.TypeInfo())) {
-      ONDEBUG(cerr << "DataServerVFSRealFileBodyC::OpenIPort, Building type converter. \n");
-      DListC<DPConverterBaseC> convSeq = SystemTypeConverter().FindConversion(realPort.InputType(),RTypeInfo(dataType));
-      if(convSeq.IsEmpty()) {
-        cerr << "DataServerVFSRealFileBodyC::OpenOPort, Failed to find type conversion. \n";
+    MutexLockC lock(access);
+
+    if (oPortAbstract.IsValid() || oPortByte.IsValid())
+    {
+      cerr << "DataServerVFSRealFileBodyC::OpenIPort failed to open for reading, as already open for writing." << endl;
+      return false;
+    }
+
+    // Sort out default type.
+    if (!iTypeInfo.IsValid())
+    {
+      StringC useType;
+      if (!defaultDataType.IsEmpty())
+        useType = defaultDataType;
+      else
+        useType = dataType;
+
+      iTypeInfo = TypeInfo(RTypeInfo(useType));
+      if (!iTypeInfo.IsValid())
+      {
+        cerr << "DataServerVFSRealFileBodyC::OpenIPort failed to open as type '" << useType << "' unknown" << endl;
         return false;
       }
-      realPort = FileFormatDescC(convSeq,true).BuildInputConv(realPort);
     }
-    
-    // Create a net port server.
-    port = NetISPortServerBaseC(AttributeCtrlC(realPort),
-                                realPort,
-                                rawIp,
-                                name);
-    
-    return true;  
+    RavlAssert(iTypeInfo.IsValid());
+
+    // Choose the correct input port
+    ONDEBUG(cerr << "DataServerVFSRealFileBodyC::OpenIPort dataType='" << dataType << "' iTypeInfo='" << iTypeInfo.Name() << "' defaultFileFormat='" << defaultFileFormat << "'" << endl);
+    if (iTypeInfo.TypeInfo() == typeid(ByteT) && defaultFileFormat == "bytefile")
+    {
+      ONDEBUG(cerr << "DataServerVFSRealFileBodyC::OpenIPort opening byte file for '" << name << "'" << endl);
+      return OpenFileReadByte(dataType, port);
+    }
+
+    ONDEBUG(cerr << "DataServerVFSRealFileBodyC::OpenIPort opening abstract file for '" << name << "'" << endl);
+    return OpenFileReadAbstract(dataType, port);
   }
   
   //: Open output port.
   
-  bool DataServerVFSRealFileBodyC::OpenOPort(DListC<StringC> &remainingPath,const StringC &dataType,NetOSPortServerBaseC &port) {
-    
-    // Check the path is empty.
-    if(!remainingPath.IsEmpty()) {
-      cerr << "DataServerVFSRealFileBodyC::OpenOPort, ERROR: Path remaining after a valid filename. \n";
+  bool DataServerVFSRealFileBodyC::OpenOPort(DListC<StringC> &remainingPath, const StringC &dataType, NetOSPortServerBaseC &port)
+  {
+    if (!remainingPath.IsEmpty())
+    {
+      cerr << "DataServerVFSRealFileBodyC::OpenOPort failed to open as path remaining after a valid filename." << endl;
       return false;
     }
-    
-    // Make sure file is open for writing.
-    
-    if(!OpenFileWrite(dataType))
-      return false;
     
     MutexLockC lock(access);
-    if(oport.References() > 1 && !multiWrite) {
-      cerr << "DataServerVFSRealFileBodyC::OpenOPort, Port already open for writing. \n";
+
+    if (iSPortShareAbstract.IsValid() || iSPortShareByte.IsValid())
+    {
+      cerr << "DataServerVFSRealFileBodyC::OpenOPort failed to open for writing, as already open for reading." << endl;
       return false;
     }
-    
-    // Still don't know what to do...
-    DPOPortBaseC realPort = oTypeInfo.CreateConvFromAbstract(oport);
 
-    // Need to do any type conversion ?
-    
-    if(dataType != TypeName(oTypeInfo.TypeInfo())) {
-      ONDEBUG(cerr << "DataServerVFSRealFileBodyC::OpenOPort, Building type converter. \n");
-      DListC<DPConverterBaseC> convSeq = SystemTypeConverter().FindConversion(RTypeInfo(dataType),realPort.OutputType());
-      if(convSeq.IsEmpty()) {
-        cerr << "DataServerVFSRealFileBodyC::OpenOPort, Failed to find type conversion. \n";
+    // Sort out default type.
+    if (!oTypeInfo.IsValid())
+    {
+      StringC useType;
+      if (!defaultDataType.IsEmpty())
+        useType = defaultDataType;
+      else
+        useType = dataType;
+
+      oTypeInfo = TypeInfo(RTypeInfo(useType));
+      if (!oTypeInfo.IsValid())
+      {
+        cerr << "DataServerVFSRealFileBodyC::OpenOPort failed to open as type '" << useType << "' unknown" << endl;
         return false;
       }
-      realPort = FileFormatDescC(convSeq,false).BuildOutputConv(realPort);
     }
-    
-    // Setup client specific part of server to handle connection
-    
-    port = NetOSPortServerBaseC(AttributeCtrlC(realPort),
-                                realPort,
-                                DPSeekCtrlC(realPort),
-                                name);
-    
-    DataServerVFSRealFileC me(*this);
-    Connect(port.SigConnectionClosed(),me,&DataServerVFSRealFileC::DisconnectOPortClient);
+    RavlAssert(oTypeInfo.IsValid());
+
+    // Choose the correct output port
+    ONDEBUG(cerr << "DataServerVFSRealFileBodyC::OpenOPort dataType='" << dataType << "' oTypeInfo='" << oTypeInfo.Name() << "' defaultFileFormat='" << defaultFileFormat << "'" << endl);
+    if (oTypeInfo.TypeInfo() == typeid(ByteT) && defaultFileFormat == "bytefile")
+    {
+      ONDEBUG(cerr << "DataServerVFSRealFileBodyC::OpenOPort opening byte file for '" << name << "'" << endl);
+      return OpenFileWriteByte(dataType, port);
+    }
+
+    ONDEBUG(cerr << "DataServerVFSRealFileBodyC::OpenOPort opening abstract file for '" << name << "'" << endl);
+    return OpenFileWriteAbstract(dataType, port);
+  }
+
+
+
+  bool DataServerVFSRealFileBodyC::Delete()
+  {
+    if (!CanWrite())
+    {
+      cerr << "DataServerVFSRealFileBodyC::Delete trying to delete read-only file '" << name << "'" << endl;
+      return false;
+    }
+
+    ONDEBUG(cerr << "DataServerVFSRealFileBodyC::Delete marking for delete" << endl);
+    deleteOnClose = true;
+    return true;
+  }
+
+
+
+  bool DataServerVFSRealFileBodyC::QueryNodeSpace(const StringC& remainingPath, Int64T& total, Int64T& used, Int64T& available)
+  {
+    if (!remainingPath.IsEmpty())
+    {
+      cerr << "DataServerVFSRealFileBodyC::QueryNodeSpace failed to open as path remaining after a valid filename." << endl;
+      return false;
+    }
+
+    MutexLockC lock(access);
+
+    if (!realFilename.Exists() || realFilename.IsDirectory() || !realFilename.IsRegular() || !realFilename.IsReadable())
+    {
+      cerr << "DataServerVFSRealFileBodyC::QueryNodeSpace cannot query file size for '" << realFilename << "'." << endl;
+      return false;
+    }
+
+    total = -1;
+    available = -1;
+    used = realFilename.FileSize();
     
     return true;
   }
   
   //: Open file and setup cache.
   
-  bool DataServerVFSRealFileBodyC::OpenFileRead(const StringC &typePref) {
-    MutexLockC lock(access);
-    
-    if(ispShare.IsValid()) {
-      cerr << "DataServerVFSRealFileBodyC::OpenFileRead, File already open. \n";
-      return true;
-    }
-    
-    // Sort out default type.
-    if(!iTypeInfo.IsValid()) {
-      StringC useType;
-      if(!defaultDataType.IsEmpty())
-        useType = defaultDataType;
-      else
-        useType = typePref;
-      iTypeInfo = TypeInfo(RTypeInfo(useType));
-      if(!iTypeInfo.IsValid()) {
-        cerr << "DataServerVFSRealFileBodyC::OpenFileRead, type '" << useType << "' unknown. \n";
-        return false; 
+  bool DataServerVFSRealFileBodyC::OpenFileReadAbstract(const StringC& dataType, NetISPortServerBaseC& netPort)
+  {
+    if (!iSPortShareAbstract.IsValid())
+    {
+      DPIPortBaseC iPortBase;
+      DPSeekCtrlC seekControl;
+      if (!OpenISequenceBase(iPortBase, seekControl, realFilename, defaultFileFormat, iTypeInfo.TypeInfo(), verbose))
+      {
+        cerr << "DataServerBodyC::OpenFileReadAbstract failed to open stream '" << name << "' of type '" << iTypeInfo.Name() << "'" << endl;
+        return false;
       }
+
+      // Convert into an abstract stream.
+      DPIPortC<RCWrapAbstractC> iPortAbstract = iTypeInfo.CreateConvToAbstract(iPortBase);
+
+      // Setup raw input sport.
+      DPISPortAttachC<RCWrapAbstractC> iSPortAttachAbstract(iPortAbstract, seekControl);
+
+      // Setup inline cache?
+      if (cacheSize > 0)
+      {
+        ONDEBUG(cerr << "DataServerBodyC::OpenFileReadAbstract added cache size=" << cacheSize << endl);
+        iSPortAttachAbstract = CacheIStreamC<RCWrapAbstractC>(iSPortAttachAbstract, cacheSize);
+      }
+
+      // Setup port share.
+      iSPortShareAbstract = DPISPortShareC<RCWrapAbstractC>(iSPortAttachAbstract);
+
+      // Set trigger to let us know when people stop using this file.
+      iSPortShareAbstract.TriggerCountZero() = TriggerR(*this, &DataServerVFSRealFileBodyC::ZeroIPortClientsAbstract);
     }
-    
-    // Open native sequence.
-    DPIPortBaseC ip;
-    DPSeekCtrlC sc;
-    if(!OpenISequenceBase(ip,sc,realFilename,"",iTypeInfo.TypeInfo(),verbose)) {
-      cerr << "DataServerBodyC::HandleRequestIPort, Failed to open stream '" << name << "' of type '" << iTypeInfo.Name() << "' \n";
+    RavlAssert(iSPortShareAbstract.IsValid());
+
+    DPISPortC<RCWrapAbstractC> iSPortAbstract = iSPortShareAbstract;
+    DPIPortBaseC iPortBase = iTypeInfo.CreateConvFromAbstract(iSPortAbstract);
+
+    if (!AddIPortTypeConversion(dataType, iPortBase))
       return false;
+
+    netPort = NetISPortServerBaseC(iPortBase,
+                                   iPortBase,
+                                   iSPortAbstract,
+                                   name);
+
+    return true;
+  }
+
+
+
+  bool DataServerVFSRealFileBodyC::OpenFileReadByte(const StringC& dataType, NetISPortServerBaseC& netPort)
+  {
+    if (!iSPortShareByte.IsValid())
+    {
+      DPIPortBaseC iPortBase;
+      DPISPortC<ByteT> iSPortByte;
+      DPSeekCtrlC seekControl;
+      if (!OpenISequenceBase(iPortBase, seekControl, realFilename, defaultFileFormat, typeid(ByteT), verbose))
+      {
+        cerr << "DataServerBodyC::OpenFileReadByte failed to open stream '" << name << "'" << endl;
+        return false;
+      }
+
+      // Setup raw input sport.
+      iSPortByte = DPISPortAttachC<ByteT>(iPortBase, seekControl);
+
+      // Setup inline cache?
+      if (cacheSize > 0)
+      {
+        ONDEBUG(cerr << "DataServerBodyC::OpenFileReadByte added cache size=" << cacheSize << endl);
+        iSPortByte = CacheIStreamC<ByteT>(iSPortByte, cacheSize);
+      }
+
+      // Setup port share.
+      iSPortShareByte = DPISPortShareC<ByteT>(iSPortByte);
+
+      // Set trigger to let us know when people stop using this file.
+      iSPortShareByte.TriggerCountZero() = TriggerR(*this, &DataServerVFSRealFileBodyC::ZeroIPortClientsByte);
     }
-    
-    // Convert into an abstact stream.
-    DPIPortC<RCWrapAbstractC> aip = iTypeInfo.CreateConvToAbstract(ip);
-    
-    // Setup raw input sport.
-    DPISPortAttachC<RCWrapAbstractC> isport(aip,sc);
-    
-    // Setup inline cache ?
-    if(cacheSize > 0) 
-      isport = CacheIStreamC<RCWrapAbstractC>(isport,cacheSize);
-    
-    // Setup port share.
-    ispShare = DPISPortShareC<RCWrapAbstractC>(isport);
-    
-    // Set trigger to let us know when people stop using this file.
-    ispShare.TriggerCountZero() = TriggerR(*this,&DataServerVFSRealFileBodyC::ZeroIPortClients);
-    
+    RavlAssert(iSPortShareByte.IsValid());
+
+    DPISPortC<ByteT> iSPortByte = iSPortShareByte;
+
+    if (!AddIPortTypeConversion(dataType, iSPortByte))
+      return false;
+
+    netPort = NetISPortServerBaseC(iSPortByte,
+                                   iSPortByte,
+                                   iSPortByte,
+                                   name);
+
     return true;
   }
 
   //: Open file and setup cache.
   
-  bool DataServerVFSRealFileBodyC::OpenFileWrite(const StringC &typePref) {
-    ONDEBUG(cerr << "DataServerVFSRealFileBodyC::OpenFileWrite, Called. \n");
-    MutexLockC lock(access);
-    // If file already open ?
-    if(oport.IsValid())
-      return true;
-
-    // Sort out default type.
-    if(!oTypeInfo.IsValid()) {
-      StringC useType;
-      if(!defaultDataType.IsEmpty())
-        useType = defaultDataType;
-      else
-        useType = typePref;
-      oTypeInfo = TypeInfo(RTypeInfo(useType));
-      if(!oTypeInfo.IsValid()) {
-        cerr << "DataServerVFSRealFileBodyC::OpenFileWrite, type '" << useType << "' unknown. \n";
-        return false; 
-      }
-    }
-    
-    DPOPortBaseC op;
-    DPSeekCtrlC sc;
-    if(!OpenOSequenceBase(op,sc,realFilename,"",oTypeInfo.TypeInfo(),verbose)) {
-      cerr << "DataServerVFSRealFileBodyC::OpenFileWrite, Failed to open stream '" << realFilename << "' of type '" << typePref << "' \n";
+  bool DataServerVFSRealFileBodyC::OpenFileWriteAbstract(const StringC &dataType, NetOSPortServerBaseC& netPort)
+  {
+    if (oPortByte.IsValid())
+    {
+      cerr << "DataServerBodyC::OpenFileWriteAbstract failed to open abstract stream '" << name << "' as byte stream already open" << endl;
       return false;
     }
-    RavlAssert(op.IsValid());
-    DPOPortC<RCWrapAbstractC> aop = DPOSPortAttachC<RCWrapAbstractC>(oTypeInfo.CreateConvToAbstract(op),sc);
+
+    if (!oPortAbstract.IsValid())
+    {
+      DPOPortBaseC oPortBase;
+      DPSeekCtrlC seekControl;
+      if (!OpenOSequenceBase(oPortBase, seekControl, realFilename, defaultFileFormat, oTypeInfo.TypeInfo(), verbose))
+      {
+        cerr << "DataServerBodyC::OpenFileWriteAbstract failed to open stream '" << name << "' of type '" << oTypeInfo.Name() << "'" << endl;
+        return false;
+      }
+
+      // Convert into an abstract stream.
+      oPortAbstract = oTypeInfo.CreateConvToAbstract(oPortBase);
+
+      // Setup raw input sport.
+      oPortAbstract = DPOSPortAttachC<RCWrapAbstractC>(oPortAbstract, seekControl);
+
+      if (multiWrite)
+      {
+        ONDEBUG(cerr << "DataServerBodyC::OpenFileWriteAbstract adding port serialisation" << endl);
+        oPortAbstract = DPOSerialisePortC<RCWrapAbstractC>(oPortAbstract);
+      }
+    }
+    RavlAssert(oPortAbstract.IsValid());
     
-    if(multiWrite) // Do we need to seralise writes ?
-      aop = DPOSerialisePortC<RCWrapAbstractC>(aop);
+    if (oPortAbstract.References() > 1 && !multiWrite)
+    {
+      cerr << "DataServerVFSRealFileBodyC::OpenFileWriteAbstract failed as port already open and multi-write not enabled" << endl;
+      return false;
+    }
+
+    DPOPortBaseC oPortBase = oTypeInfo.CreateConvFromAbstract(oPortAbstract);
+
+    if (!AddOPortTypeConversion(dataType, oPortBase))
+      return false;
+
+    netPort = NetOSPortServerBaseC(oPortBase,
+                                   oPortBase,
+                                   oPortBase,
+                                   name);
+
+    DataServerVFSRealFileC ref(*this);
+    Connect(netPort.SigConnectionClosed(), ref, &DataServerVFSRealFileC::DisconnectOPortClientAbstract);
     
-    oport = aop;
     return true;
   }
-  
+
+
+
+  bool DataServerVFSRealFileBodyC::OpenFileWriteByte(const StringC &dataType, NetOSPortServerBaseC& netPort)
+  {
+    if (oPortAbstract.IsValid())
+    {
+      cerr << "DataServerBodyC::OpenFileWriteAbstract failed to open byte stream '" << name << "' as abstract stream already open" << endl;
+      return false;
+    }
+
+    if (!oPortByte.IsValid())
+    {
+      DPOPortBaseC oPortBase;
+      DPSeekCtrlC seekControl;
+      if (!OpenOSequenceBase(oPortBase, seekControl, realFilename, defaultFileFormat, typeid(ByteT), verbose))
+      {
+        cerr << "DataServerBodyC::OpenFileWriteByte failed to open stream '" << name << "'" << endl;
+        return false;
+      }
+
+      // Setup raw input sport.
+      oPortByte = DPOSPortAttachC<ByteT>(oPortBase, seekControl);
+
+      if (multiWrite)
+      {
+        ONDEBUG(cerr << "DataServerBodyC::OpenFileWriteByte adding port serialisation" << endl);
+        oPortByte = DPOSerialisePortC<ByteT>(oPortByte);
+      }
+    }
+    RavlAssert(oPortByte.IsValid());
+
+    if (oPortByte.References() > 1 && !multiWrite)
+    {
+      cerr << "DataServerVFSRealFileBodyC::OpenFileWriteByte failed as port already open and multi-write not enabled" << endl;
+      return false;
+    }
+
+    DPOPortBaseC oPortBase = oPortByte;
+
+    if (!AddOPortTypeConversion(dataType, oPortBase))
+      return false;
+
+    netPort = NetOSPortServerBaseC(oPortBase,
+                                   oPortBase,
+                                   oPortBase,
+                                   name);
+
+    DataServerVFSRealFileC ref(*this);
+    Connect(netPort.SigConnectionClosed(), ref, &DataServerVFSRealFileC::DisconnectOPortClientByte);
+
+    return true;
+  }
+
+
+
+  bool DataServerVFSRealFileBodyC::AddIPortTypeConversion(const StringC &dataType, DPIPortBaseC& iPort)
+  {
+    RavlAssert(iTypeInfo.IsValid());
+    RavlAssert(iPort.IsValid());
+
+    if (dataType != TypeName(iTypeInfo.TypeInfo()))
+    {
+      ONDEBUG(cerr << "DataServerVFSRealFileBodyC::AddTypeConversion building type converter." << endl);
+      DListC<DPConverterBaseC> converterList = SystemTypeConverter().FindConversion(iPort.InputType(), RTypeInfo(dataType));
+      if (converterList.IsEmpty())
+      {
+        cerr << "DataServerVFSRealFileBodyC::AddTypeConversion failed to find type conversion." << endl;
+        return false;
+      }
+
+      iPort = FileFormatDescC(converterList, true).BuildInputConv(iPort);
+    }
+
+    return true;
+  }
+
+
+
+  bool DataServerVFSRealFileBodyC::AddOPortTypeConversion(const StringC &dataType, DPOPortBaseC& oPort)
+  {
+    RavlAssert(oTypeInfo.IsValid());
+    RavlAssert(oPort.IsValid());
+
+    if (dataType != TypeName(oTypeInfo.TypeInfo()))
+    {
+      ONDEBUG(cerr << "DataServerVFSRealFileBodyC::AddOPortTypeConversion building type converter." << endl);
+      DListC<DPConverterBaseC> converterList = SystemTypeConverter().FindConversion(RTypeInfo(dataType), oPort.OutputType());
+      if (converterList.IsEmpty())
+      {
+        cerr << "DataServerVFSRealFileBodyC::AddOPortTypeConversion failed to find type conversion." << endl;
+        return false;
+      }
+
+      oPort = FileFormatDescC(converterList, false).BuildOutputConv(oPort);
+    }
+
+    return true;
+  }
+
   //: Close file and discard cache.
   
-  bool DataServerVFSRealFileBodyC::CloseIFile() {
+  bool DataServerVFSRealFileBodyC::CloseIFileAbstract()
+  {
     MutexLockC lock(access);
-    ispShare.Invalidate();
+
+    if (iSPortShareAbstract.IsValid())
+    {
+      bool closed = iSPortShareAbstract.IsValid() && !iSPortShareByte.IsValid();
+
+      iSPortShareAbstract.Invalidate();
+
+      if (closed && sigOnClose.IsValid())
+      {
+        lock.Unlock();
+
+        sigOnClose(AbsoluteName());
+      }
+    }
+
+    return true;
+  }
+
+
+
+  bool DataServerVFSRealFileBodyC::CloseIFileByte()
+  {
+    MutexLockC lock(access);
+
+    if (iSPortShareByte.IsValid())
+    {
+      bool closed = iSPortShareByte.IsValid() && !iSPortShareAbstract.IsValid();
+
+      iSPortShareByte.Invalidate();
+
+      if (closed && sigOnClose.IsValid())
+      {
+        lock.Unlock();
+
+        sigOnClose(AbsoluteName());
+      }
+    }
+
     return true;
   }
 
   //: Close output file 
   
-  bool DataServerVFSRealFileBodyC::CloseOFile() {
+  bool DataServerVFSRealFileBodyC::CloseOFileAbstract()
+  {
     MutexLockC lock(access);
-    oport.Invalidate();
+
+    if (oPortAbstract.IsValid())
+    {
+      oPortAbstract.PutEOS();
+      oPortAbstract.Invalidate();
+
+      if (sigOnClose.IsValid())
+      {
+        lock.Unlock();
+
+        sigOnClose(AbsoluteName());
+      }
+    }
+
     return true;
   }
-  
+
+
+
+  bool DataServerVFSRealFileBodyC::CloseOFileByte()
+  {
+    MutexLockC lock(access);
+
+    if (oPortByte.IsValid())
+    {
+      oPortByte.PutEOS();
+      oPortByte.Invalidate();
+
+      if (sigOnClose.IsValid())
+      {
+        lock.Unlock();
+
+        sigOnClose(AbsoluteName());
+      }
+    }
+
+    return true;
+  }
+
   //: Called if when output file client disconnect it.
   
-  bool DataServerVFSRealFileBodyC::DisconnectOPortClient() {
-    cerr << "DataServerVFSRealFileBodyC::DisconnectOPortClient(), Called. Ref=" << oport.References() << "\n";
+  bool DataServerVFSRealFileBodyC::DisconnectOPortClientAbstract()
+  {
+    ONDEBUG(cerr << "DataServerVFSRealFileBodyC::DisconnectOPortClientAbstract(), Called. Ref=" << (oPortAbstract.IsValid() ? oPortAbstract.References() : -1) << "\n");
+
     MutexLockC lock(access);
-    if(oport.References() == 1) { // Are all clients gone ?
-      cerr << "DataServerVFSRealFileBodyC::DisconnectOPortClient(), Dropping output port. \n";
-      oport.Invalidate();
+
+    // Are all client references gone? Last two are member variable and disconnect signal.
+    if (oPortAbstract.IsValid() && oPortAbstract.References() <= 2)
+    {
+      lock.Unlock();
+
+      ONDEBUG(cerr << "DataServerVFSRealFileBodyC::DisconnectOPortClientAbstract(), Dropping output port. \n");
+      CloseOFileAbstract();
     }
+
+    return true;
+  }
+
+
+
+  bool DataServerVFSRealFileBodyC::DisconnectOPortClientByte()
+  {
+    ONDEBUG(cerr << "DataServerVFSRealFileBodyC::DisconnectOPortClientByte(), Called. Ref=" << (oPortByte.IsValid() ? oPortByte.References() : -1) << "\n");
+
+    MutexLockC lock(access);
+
+    // Are all client references gone? Last two are member variable and disconnect signal.
+    if (oPortByte.IsValid() && oPortByte.References() <= 2)
+    {
+      lock.Unlock();
+
+      ONDEBUG(cerr << "DataServerVFSRealFileBodyC::DisconnectOPortClientByte(), Dropping output port. \n");
+      CloseOFileByte();
+    }
+    
     return true;
   }
 
   //: Called if when file stop's being used.
   
-  bool DataServerVFSRealFileBodyC::ZeroIPortClients() {
+  bool DataServerVFSRealFileBodyC::ZeroIPortClientsAbstract()
+  {
     ONDEBUG(cerr << "DataServerVFSRealFileBodyC::ZeroIPortClients, Called \n");
-    CloseIFile();
+
+    CloseIFileAbstract();
+
     return true;
   }
 
+
+
+  bool DataServerVFSRealFileBodyC::ZeroIPortClientsByte()
+  {
+    ONDEBUG(cerr << "DataServerVFSRealFileBodyC::ZeroIPortClients, Called \n");
+    
+    CloseIFileByte();
+
+    return true;
+  }
+
+
+
+  bool DataServerVFSRealFileBodyC::DeleteOnClose()
+  {
+    if (deleteOnClose)
+    {
+      MutexLockC lock(access);
+
+      ONDEBUG(cerr << "DataServerVFSRealFileBodyC::DeleteOnClose" << \
+              " oPortAbstract=" << (oPortAbstract.IsValid() ? oPortAbstract.References() : 0) << \
+              " oPortByte=" << (oPortByte.IsValid() ? oPortByte.References() : 0) << \
+              " iSPortShareAbstract=" << (iSPortShareAbstract.IsValid() ? iSPortShareAbstract.References() : 0) << \
+              " iSPortShareByte=" << (iSPortShareByte.IsValid() ? iSPortShareByte.References() : 0) << endl);
+      
+      const int references = (oPortAbstract.IsValid() ? oPortAbstract.References() : 0) + \
+                             (oPortByte.IsValid() ? oPortByte.References() : 0) + \
+                             (iSPortShareAbstract.IsValid() ? iSPortShareAbstract.References() : 0) + \
+                             (iSPortShareByte.IsValid() ? iSPortShareByte.References() : 0);
+      if (references == 0)
+      {
+        lock.Unlock();
+
+        ONDEBUG(cerr << "DataServerVFSRealFileBodyC::DeleteOnClose deleting '" << realFilename << "'" << endl);
+        bool deleted = realFilename.Exists() && realFilename.Remove();
+
+        if (deleted && sigOnDelete.IsValid())
+          sigOnDelete(AbsoluteName());
+        
+        return deleted;
+      }
+    }
+
+    return false;
+  }
+  
 }

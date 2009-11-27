@@ -21,6 +21,8 @@ namespace RavlBaseVectorN {
   extern void (*g_MatrixTMulVectorD)(const double *matrix,const double *vector,unsigned int rows,unsigned int cols,int stride,double *result);
   extern void (*g_MatrixTMulVectorF)(const float *matrix,const float *vector,unsigned int rows,unsigned int cols,int stride,float *result);
   
+  extern void (*g_ConvolveKernelF)(const float *matrix,const float *kernel,unsigned int rows,unsigned int cols,unsigned int matrixByteStride,float *result);
+
   inline double DotProduct(const double* v1, const double* v2, size_t size) 
   { return (*g_DotProductD)(v1,v2,size); }
   //: Fast double dot product, with optional hardware speedup
@@ -130,7 +132,13 @@ namespace RavlBaseVectorN {
   // |A00 A01| B0  = | A00 * B0 + A10 * B1 |
   // |A10 A11| B1    | A01 * B0 + A11 * B1 |
   // </code>
-  
+
+  inline void ConvolveKernel(const float *matrix,const float *kernel,unsigned int rows,unsigned int cols,unsigned int matrixByteStride,float *result)
+  { (*g_ConvolveKernelF)(matrix,kernel,rows,cols,matrixByteStride,result); }
+  //! Convolve kernel with a matrix.
+  //!param: rows - Number of rows in the matrix and kernel
+  //!param: cols - Number of cols
+
 }
 
 #endif

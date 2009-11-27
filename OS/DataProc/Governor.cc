@@ -24,25 +24,36 @@ namespace RavlN {
     // What time is it now ?
     DateC now(true);
     RealT diff = (next - now).Double();
+    // enforce a minimum delay
+    // this ensures that the maximum rate is limited ie for GUI applications
+    // it also allows other threads to execute...
     if(diff < minDelay) {
       if(minDelay > 0) {
-	next = now;
-	next += minDelay;
+        next = now + minDelay;
+        diff =(next-now).Double();        
       }
     }
-    next.Wait();
+    // now wait and setup for next.
+    if (diff > 0)
+     {
+      m_bypass.Wait(diff);
+      m_bypass.Reset();
+     }
+     
     next.SetToNow();
     next += delay;
-    frameCnt++;    
+    frameCnt++;
   }
 
   //: Set new delay.
   bool DPGovernorBaseBodyC::SetDelay(RealT newDelay) { 
     if(newDelay < 0) {
       delay = 0;
+      m_bypass.Post();
       return false;
     }
-    delay = newDelay; 
+    delay = newDelay;
+    m_bypass.Post();
     return true;
   }
   

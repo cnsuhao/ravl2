@@ -9,10 +9,10 @@
 
 PACKAGE=Ravl/OS
 
-HEADERS= OSProcess.hh ChildOSProcess.hh
+HEADERS= OSProcess.hh ChildOSProcess.hh CPUInfo.hh
 
 SOURCES= OSProcess.cc ChildOSProcess.cc ChildOSProcessWait.cc \
- ChildOSProcessStream.cc MailUser.cc FileUser.cc
+ ChildOSProcessStream.cc MailUser.cc FileUser.cc CPUInfo.cc
 
 PLIB=RavlOS
 

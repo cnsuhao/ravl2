@@ -51,9 +51,13 @@ namespace RavlN
   // Particularly useful if you are forced to poll for an event.
    
   //! userlevel=Normal
-  UIntT CurrentThreadID();
+  SizeT CurrentThreadID();
   //: Get ID of current running thread.
   
+  SizeT ThisThreadID();
+  //: Get ID for this thread.
+  // OBSOLETE, use CurrentThreadID().
+
   bool SetCurrentThreadPriority(UIntT priority);
   //: Set the priority of the process
   // THREAD SAFE.
@@ -116,7 +120,7 @@ namespace RavlN
     //!return: 0 to 32767, Higher means more runtime will be given to the thread.
     // THREAD SAFE.
     
-    UIntT ID() const;
+    SizeT ID() const;
     //: Get a unique ID for this thread.
     // NB. An id may no be assigned to the thread until
     // after Execute() has been called.
@@ -234,7 +238,7 @@ namespace RavlN
     //!return: 0 to 32767, Higher means more runtime will be given to the thread.
     // THEAD SAFE.
     
-    inline UIntT ID() const
+    inline SizeT ID() const
     { return Body().ID(); }
     //: Get a unique ID for this thread.
     // NB. An id may no be assigned to the thread until
@@ -248,9 +252,6 @@ namespace RavlN
     
   };
 
-  UIntT ThisThreadID();
-  //: Get ID for this thread.
-  
 }
 
 

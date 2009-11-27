@@ -612,7 +612,7 @@ namespace RavlN {
     
     StringC ReadAttrib(XMLElementC &elem);
     //: Read attribute and add it to the current context.
-    // returns the name of the attrbute read.
+    // returns the name of the attribute read.
     
     XMLTagOpsT GetTag(XMLElementC &elem,StringC &name);
     //: Get the next tag from the stream without modifying the Context.
@@ -650,24 +650,24 @@ namespace RavlN {
     void StartTag(const StringC &name,
 		  const RCHashC<StringC,StringC> &attribs,
 		  bool emptyTag = false);
-    //: Begin writting a tag with the given attributes.
+    //: Begin writing a tag with the given attributes.
     
     void StartTag(const StringC &name,
 		  bool emptyTag = false);
-    //: Begin writting a tag with the given attributes.
+    //: Begin writing a tag with the given attributes.
     
     void StartContents();
-    //: Call before writting contents of entity to stream.
+    //: Call before writing contents of entity to stream.
     
     void EndTag(const StringC &name);
-    //: End writting a tag.
+    //: End writing a tag.
     // if strict checking is enabled, name will be check against that of the open tag.
     
     void EndTag();
-    //: End writting current entity.
+    //: End writing current entity.
     
     void Indent(int off = 0);
-    //: Indent the following line appropriatly.
+    //: Indent the following line appropriately.
 
     template<class DataT>
     void SetAttrib(const StringC &name,const DataT &val) {
@@ -675,7 +675,7 @@ namespace RavlN {
       ostr << val;
       XMLBaseC::SetAttrib(name,ostr.String());
     }
-    //: Set an abitary valued attribute for entity.
+    //: Set an arbitrary valued attribute for entity.
     // This can only be called between StartTag and StartContents.
     // The attribute value is stored using its default streaming 
     // operators. (ostream and istream)

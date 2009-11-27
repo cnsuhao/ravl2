@@ -41,9 +41,13 @@ namespace RavlAudioN {
   
   const type_info &
   FileFormatAudioFileBodyC::ProbeLoad(const StringC &filename,IStreamC &in,const type_info &obj_type) const { 
-    if(filename.length() == 0)
-      return typeid(void);
     ONDEBUG(cerr << "FileFormatAudioFileBodyC::ProbeLoad(), Checking file type." << obj_type.name() << " for '" << filename << "'\n");
+
+    if (filename.IsEmpty())
+      return typeid(void);
+
+    if (!CheckFilenameExtension(filename))
+      return typeid(void);
     
     AFfilehandle setup = afOpenFile(filename.chars(),"r", AF_NULL_FILESETUP);
     if(setup == 0) {
@@ -86,10 +90,12 @@ namespace RavlAudioN {
 
   const type_info &
   FileFormatAudioFileBodyC::ProbeSave(const StringC &nfilename,const type_info &obj_type,bool forceFormat) const { 
-    StringC ext = Extension(nfilename);
-    ONDEBUG(cerr <<"FileFormatAudioFileBodyC::ProbeSave(), Extension='" << ext << "'\n");
-    if(!(ext == "wav" || ext == "aiff" || ext == "aiffc" ||
-       ext == "bicsf" || ext == "nextsnd" || ext == "au")) 
+    ONDEBUG(cerr <<"FileFormatAudioFileBodyC::ProbeSave()\n");
+    
+    if (nfilename.IsEmpty())
+      return typeid(void);
+
+    if (!CheckFilenameExtension(nfilename))
       return typeid(void);
 
       // mono formats
@@ -165,7 +171,19 @@ namespace RavlAudioN {
   const type_info &FileFormatAudioFileBodyC::DefaultType() const 
   { return typeid ( SampleElemC<2,Int16T>) ; }
   
-  // Some common cif formats.
-  
+  bool FileFormatAudioFileBodyC::CheckFilenameExtension(const StringC& filename) const
+  {
+    RavlAssert(!filename.IsEmpty());
+
+    StringC extension = Extension(filename);
+    ONDEBUG(cerr <<"FileFormatAudioFileBodyC::CheckFilenameExtension extension='" << extension << "'" << endl);
+    return (extension == "wav" || \
+            extension == "aiff" || \
+            extension == "aiffc" || \
+            extension == "bicsf" || \
+            extension == "nextsnd" || \
+            extension == "au");
+  }
+
   FileFormatAudioFileC RegisterFileFormatAudioFile("audiofile");
 }

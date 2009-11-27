@@ -7,7 +7,7 @@
 #ifndef RAVL_EHS_HEADER
 #define RAVL_EHS_HEADER 1
 //////////////////////////////////////////////////////////////////
-//! rcsid = "$Id$"
+//! rcsid = "$Id: EHS.hh 6223 2007-06-27 10:27:52Z craftit $"
 //! lib=RavlEHS
 //! author = "Warren Moore"
 //! file = "Ravl/Contrib/EHS/EHS.hh"

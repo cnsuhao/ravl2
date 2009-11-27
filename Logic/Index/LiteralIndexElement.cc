@@ -26,7 +26,7 @@ namespace RavlLogicN {
   // usefull for debuging.
   
   StringC LiteralIndexElementBodyC::Name() {
-#if RAVL_OS_LINUX64
+#if RAVL_CPUTYPE_64
     return StringC("LIElem:") + StringC((UInt64T) this);
 #else
     return StringC("LIElem:") + StringC((UIntT) this);

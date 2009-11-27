@@ -6,7 +6,7 @@
 // file-header-ends-here
 //////////////////////////////////////////////////////////////
 // Contain/Branch/GraphLinearIter.cc   9/12/96    By Charles Galambos
-// $Id$
+// $Id: BGraphLinearIter.cc 927 2002-04-05 12:59:07Z craftit $
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Branch/BGraphLinearIter.cc"

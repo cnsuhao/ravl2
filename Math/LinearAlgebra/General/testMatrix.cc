@@ -119,15 +119,28 @@ int testSVD() {
   }
   
   // Joel's test.
-  
-  MatrixC E(0, -8.15447e-14, -1.22998e-12,
-	    -3.47383, 1.35606, 11.4019,
-	    -1.35606, -11.8774, 0.999454);
-  MatrixC Eu, Ev;
-  VectorC Ed;
-  Ed = SVD(E, Eu, Ev);
-  if((E - (Eu*MatrixC(Ed[0],0,0,0,Ed[1],0,0,0,Ed[2])*Ev.T())).SumOfSqr() > 0.00001) 
-    return __LINE__;
+  {
+    MatrixC E(0, -8.15447e-14, -1.22998e-12,
+	      -3.47383, 1.35606, 11.4019,
+	      -1.35606, -11.8774, 0.999454);
+    MatrixC Eu, Ev;
+    VectorC Ed;
+    Ed = SVD(E, Eu, Ev);
+    if((E - (Eu*MatrixC(Ed[0],0,0,0,Ed[1],0,0,0,Ed[2])*Ev.T())).SumOfSqr() > 0.00001)
+      return __LINE__;
+  }
+
+  // Another test.
+  {
+    MatrixC E(4, -3, -4,
+             -3, 2, 3,
+             -4, 3, 4);
+    MatrixC Eu, Ev;
+    VectorC Ed;
+    Ed = SVD(E, Eu, Ev);
+    if((E - (Eu*MatrixC(Ed[0],0,0,0,Ed[1],0,0,0,Ed[2])*Ev.T())).SumOfSqr() > 0.00001)
+      return __LINE__;
+  }
   
   return 0;
 }

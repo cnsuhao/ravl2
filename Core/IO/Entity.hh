@@ -99,15 +99,15 @@ namespace RavlN {
     //: Load from stream using virtual constructor.
     
     inline const DPEntityC &operator= (const DPEntityC &dat) 
-    { RCHandleC<DPEntityBodyC>::operator= (dat); return *this; }
+    { RCHandleVC<DPEntityBodyC>::operator= (dat); return *this; }
     //: Assignment.
     
     inline DPEntityBodyC& Body() 
-    { return RCHandleC<DPEntityBodyC>::Body(); }
+    { return RCHandleVC<DPEntityBodyC>::Body(); }
     //: Access body.
     
     inline const DPEntityBodyC& Body() const
-    { return RCHandleC<DPEntityBodyC>::Body(); }
+    { return RCHandleVC<DPEntityBodyC>::Body(); }
     //: Access body.
     
   protected:

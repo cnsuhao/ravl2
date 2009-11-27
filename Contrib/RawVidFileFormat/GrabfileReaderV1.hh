@@ -57,6 +57,10 @@ public:
 
   virtual bool HaveMoreFrames();
 
+  virtual bool Seek(UInt64T off);
+
+  virtual bool DSeek(UInt64T off);
+
   virtual bool GetNextFrame(BufferC<char> &bu,UIntT &vsize,UIntT &asize);
   //: Read the next frame to a buffer.
 
@@ -139,6 +143,9 @@ protected:
 private:
   static const int m_version_number = 1;
   //: The version number.
+
+  static const IntT header_size = 31;
+  //: Size of the header in bytes.
 };
 
 }

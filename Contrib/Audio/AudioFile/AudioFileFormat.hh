@@ -68,6 +68,10 @@ namespace RavlAudioN {
     // i.e. check if you can read/write more than object object.
     
   protected:
+    bool CheckFilenameExtension(const StringC& filename) const;
+    //: Check the filename has a supported extension.
+    //!return: True if the extension is supported.
+
     StringC vName;
   };
   

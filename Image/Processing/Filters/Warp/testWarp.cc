@@ -1,5 +1,6 @@
 #include "Ravl/Image/WarpAffine.hh"
 #include "Ravl/Image/WarpProjective.hh"
+#include "Ravl/Image/WarpScale2d.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Index2d.hh"
 #include "Ravl/IO.hh"
@@ -9,6 +10,7 @@ using namespace RavlImageN;
 
 int testWarpAffine();
 int testWarpProjective();
+int testWarpScale();
 
 
 int main () {

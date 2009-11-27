@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////
-//! rcsid="$Id$
+//! rcsid="$Id: MouseEvent.cc 6028 2007-01-24 12:11:25Z craftit $
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/MouseEvent.cc"
 

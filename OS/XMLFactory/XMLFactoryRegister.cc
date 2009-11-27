@@ -12,11 +12,25 @@
 
 namespace RavlN {
   
-  //
-  
   XMLFactoryRegisterC<XMLFactoryC> g_xmlFactoryRegisterXMLFactory("RavlN::XMLFactoryC");
   
+  static RavlN::RCWrapAbstractC StdStringFactoryFunc(const XMLFactoryContextC &node)
+  { return RavlN::RCWrapC<std::string>(node.AttributeString("value","").data()); }
+
+  static RavlN::RCWrapAbstractC StringFactoryFunc(const XMLFactoryContextC &node)
+  { return RavlN::RCWrapC<StringC>(node.AttributeString("value","")); }
+
+  static int InitStringFactory() {
+    RavlN::AddTypeName(typeid(std::string),"std::string");
+    //RavlN::AddTypeName(typeid(StringC),"RavlN::StringC");
+    XMLFactoryC::RegisterTypeFactory(typeid(std::string),&StdStringFactoryFunc);
+    XMLFactoryC::RegisterTypeFactory(typeid(StringC),&StringFactoryFunc);
+    return 0;
+  }
+
+  int g_initStringFactory = InitStringFactory();
+
   void linkXMLFactoryRegister()
   {}
-  
+
 }

@@ -149,7 +149,18 @@ namespace RavlBaseVectorN {
   }
 
 
-
+  static void ConvolveKernelF(const float *matrix,const float *kernel,unsigned int rows,unsigned int cols,unsigned int matrixByteStride,float *result) {
+    register float ret = 0;
+    const float *vi = matrix;
+    const float *vir = matrix;
+    const float *vk = kernel;
+    for(size_t i = 0;i < rows;i++) {
+      for(size_t j = 0;j < cols;j++)
+        ret += *(vk++) * vir[j];
+      vi = reinterpret_cast<const float *>(reinterpret_cast<const char *>(vi) + matrixByteStride);
+    }
+    *result = ret;
+  }
 
   
   double (*g_DotProductD)(const double*, const double*, size_t) = &BaseDotProductD;
@@ -164,4 +175,6 @@ namespace RavlBaseVectorN {
   void (*g_MatrixTMulVectorD)(const double *,const double *,unsigned int ,unsigned int ,int ,double *) = &MatrixTMulVectorD;
   void (*g_MatrixTMulVectorF)(const float *,const float *,unsigned int ,unsigned int ,int ,float *) = &MatrixTMulVectorF;
   
+  void (*g_ConvolveKernelF)(const float *matrix,const float *kernel,unsigned int rows,unsigned int cols,unsigned int matrixByteStride,float *result) = &ConvolveKernelF;
+
 }

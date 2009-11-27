@@ -55,7 +55,7 @@ namespace RavlN {
   //: Find the tangent at point 'pnt', where pnt is on the conic.
   
   LineABC2dC Conic2dC::Tangent(const Point2dC &pnt) {
-    // FIXME:- This can be simplified alot.
+    // TODO:- This can be simplified alot.
     Vector3dC x(pnt[0],pnt[1],1);
     Vector3dC res= C() * x;
     return LineABC2dC(res[0],res[1],res[2]);
@@ -106,7 +106,7 @@ namespace RavlN {
     
     //cerr << "Result1=" << result << "\n Cr=" << Cr<< "\n";
     // --------- Undo normalisation ----------------
-    // FIXME:- Make this more efficient by expanding out manually.
+    // TODO:- Make this more efficient by expanding out manually.
 #if RAVL_COMPILER_VISUALCPP
     Conic2dC Cr(static_cast<const FVectorC<6> &>(result));
 #else
@@ -187,7 +187,7 @@ namespace RavlN {
     // ordering.  I.e. so that [1,0] on unit circle gets mapped to
     // end of major axis rather than minor axis.
 
-    // FIXME:- Multiply out by hand to make it faster.
+    // TODO:- Multiply out by hand to make it faster.
     ellipse = Ellipse2dC(E * scale, centre);
     ONDEBUG(cerr<<"Ellipse2dC:\n"<<ellipse<<endl);
     ONDEBUG(cerr<<"[1,0] on unit circle goes to "<<ellipse.Projection()*(Vector2dC(1,0))<<" on ellipse"<<endl;);

@@ -47,7 +47,7 @@ namespace RavlN {
     explicit DPISPortShareBodyC(const DPISPortC<DataT> &ip)
       : inputUpdateCount(1),
         input(ip),
-	clients(0)
+        clients(0)
     {
       this->MapBackChangedSignal("start");
       this->MapBackChangedSignal("size");
@@ -96,8 +96,8 @@ namespace RavlN {
       MutexLockC lock(access);
       int n;
       if(!input.Seek(frameNo)) {
-	cerr << "DPISPortShareBodyC(), Failed to seek to frame " << frameNo << ".\n";
-	return 0;
+//        cerr << "DPISPortShareBodyC(), Failed to seek to frame " << frameNo << ".\n";
+        return 0;
       }
       n = input.GetArray(buf);
       return n;
@@ -106,28 +106,44 @@ namespace RavlN {
 
     bool IsGetReady(UIntT frameNo) const {
       MutexLockC lock(access);
-      return input.IsGetReady(); 
+      return (frameNo == input.Tell()) && input.IsGetReady();
     }
     //: Is some data ready ?
     // true = yes.
     
     bool IsGetEOS(UIntT frameNo) const {
-      MutexLockC lock(access);      
-      return input.IsGetEOS();
+      MutexLockC lock(access);
+      return (frameNo == input.Tell()) && input.IsGetEOS();
     }
     //: Has the End Of Stream been reached ?
     // true = yes.
 
-    UIntT Size() const { 
-      MutexLockC lock(access);      
-      return input.Size(); 
+    UIntT Size() const {
+      MutexLockC lock(access);
+      return input.Size();
     }
     //: Find the total size of the stream. (assuming it starts from 0)
     // May return ((UIntT) (-1)) if not implemented.
-    
+
     UIntT Start() const {
-      MutexLockC lock(access);      
-      return input.Start(); 
+      MutexLockC lock(access);
+      return input.Start();
+    }
+    //: Find the offset where the stream begins, normally zero.
+    // Defaults to 0
+
+    StreamPosT Size64() const
+    {
+      MutexLockC lock(access);
+      return input.Size64();
+    }
+    //: Find the total size of the stream. (assuming it starts from 0)
+    // May return ((UIntT) (-1)) if not implemented.
+
+    StreamPosT Start64() const
+    {
+      MutexLockC lock(access);
+      return input.Start64();
     }
     //: Find the offset where the stream begins, normally zero.
     // Defaults to 0
@@ -261,8 +277,8 @@ namespace RavlN {
       MutexLockC lock(access);
       clients--;
       if(clients == 0 && triggerCountZero.IsValid()) {
-	lock.Unlock();
-	triggerCountZero.Invoke();
+        lock.Unlock();
+        triggerCountZero.Invoke();
       }
     }
     //: Unregiser a client
@@ -358,16 +374,26 @@ namespace RavlN {
     //: Has the End Of Stream been reached ?
     // true = yes.        
     
-    UIntT Size() const 
+    UIntT Size() const
     { return Body().Size(); }
     //: Find the total size of the stream. (assuming it starts from 0)
     // May return ((UIntT) (-1)) if not implemented.
-    
-    UIntT Start() const 
+
+    UIntT Start() const
     { return Body().Start(); }
     //: Find the offset where the stream begins, normally zero.
     // Defaults to 0
-    
+
+    StreamPosT Size64() const
+    { return Body().Size64(); }
+    //: Find the total size of the stream. (assuming it starts from 0)
+    // May return ((UIntT) (-1)) if not implemented.
+
+    StreamPosT Start64() const
+    { return Body().Start64(); }
+    //: Find the offset where the stream begins, normally zero.
+    // Defaults to 0
+
     operator DPIPortC<DataT> () const;
     //: Convert into a DPIPortC
     
@@ -415,8 +441,8 @@ namespace RavlN {
   public:
     DPISPortShareClientBodyC()
       : offset(0),
-	start(0),
-	size((UIntT) -1),
+        start(0),
+        size((UIntT) -1),
         lastUpdateCount(0)
     {
       this->MapBackChangedSignal("start");
@@ -426,7 +452,7 @@ namespace RavlN {
     
     DPISPortShareClientBodyC(const DPISPortShareC<DataT> &sharedPort)
       : offset(0),
-	input(sharedPort),
+        input(sharedPort),
         lastUpdateCount(0)
     {
       input.RegisterClient();
@@ -448,7 +474,7 @@ namespace RavlN {
     
     ~DPISPortShareClientBodyC() {
       if(input.IsValid())
-	input.DeregisterClient();
+      input.DeregisterClient();
     }
     //: Destructor
 
@@ -458,12 +484,8 @@ namespace RavlN {
     //:----------------------------------------------------------
     // Get controls
     
-    bool Seek(UIntT off) {
-      //cerr << "DPISPortShareClientBodyC()::Seek() Off=" << off << " Start=" << start << " Size=" << size << "\n";
-      if(off < start || off >= size)
-	return false;
-      offset = off;
-      return true;
+    virtual bool Seek(UIntT off) {
+      return Seek64(off);
     }
     //: Seek to location in stream.
     // Returns false, if seek failed. (Maybe because its
@@ -472,17 +494,7 @@ namespace RavlN {
     // position will not be changed.
     
     virtual bool DSeek(IntT off) {
-      //cerr << "DPISPortShareClientBodyC()::DSeek() At=" << offset << " Off=" << off << " Start=" << start << " Size=" << size << "\n";
-      Int64T newOff = (Int64T) offset + off;
-      if(off < 0) {
-	if(newOff < start)
-	  return false;
-      } else {
-	if(newOff >= size)
-	  return false;
-      }
-      offset += off;
-      return true;
+      return DSeek64(off);
     }
     //: Delta Seek, goto location relative to the current one.
     // The default behavour of this functions is :
@@ -492,29 +504,23 @@ namespace RavlN {
     // position will not be changed.
     
     virtual UIntT Tell() const 
-    { return offset; }
+    {
+      return static_cast<UIntT>(Tell64());
+    }
     //: Find current location in stream.
     // Defined as the index of the next object to be written or read.
     // May return ((UIntT) (-1)) if not implemented.
     
     virtual UIntT Size() const
-    { 
-      // Check the cache is upto date before using it
-      // InputUpdateCount() doesn't do any locking so its quick.
-      if(lastUpdateCount == input.InputUpdateCount())
-        return size;
-      return input.Size(); 
+    {
+      return static_cast<UIntT>(Size64());
     }
     //: Find the total size of the stream. (assuming it starts from 0)
     // May return ((UIntT) (-1)) if not implemented.
     
     virtual UIntT Start() const
     { 
-      // Check the cache is upto date before using it
-      // InputUpdateCount() doesn't do any locking so its quick.
-      if(lastUpdateCount == input.InputUpdateCount())
-        return start;
-      return input.Start(); 
+      return static_cast<UIntT>(Start64());
     }
     //: Find the offset where the stream begins, normally zero.
     // Defaults to 0
@@ -536,7 +542,7 @@ namespace RavlN {
       DataT ret;
       //cerr << "DPISPortShareClientBodyC()::Get() Offset=" << offset << "\n";
       if(!input.Get(offset,ret))
-	throw DataNotReadyC("Get failed");
+        throw DataNotReadyC("Get failed");
       offset++;
       return ret;
     }
@@ -545,8 +551,8 @@ namespace RavlN {
     virtual bool Get(DataT &buff) { 
       //cerr << "DPISPortShareClientBodyC()::Get(DataT&) Offset=" << offset << "\n";
       if(input.Get(offset,buff)) {
-	offset++;
-	return true;
+        offset++;
+        return true;
       }
       return false;
     }
@@ -554,8 +560,8 @@ namespace RavlN {
     
     virtual bool GetAt(StreamPosT off,DataT &buffer) {
       if(input.Get(off,buffer)) {
-	offset = off + 1;
-	return true;
+        offset = off + 1;
+        return true;
       }
       return false;
     }
@@ -572,7 +578,74 @@ namespace RavlN {
     }
     //: Get an array of data from stream.
     
-    virtual bool Discard() { 
+    virtual bool Seek64(StreamPosT off)
+    {
+//      cerr << "DPISPortShareClientBodyC()::Seek64() Off=" << off << " Start=" << start << " Size=" << size << "\n";
+      if (off < start || off >= size || off == streamPosUnknown)
+        return false;
+      offset = off;
+      return true;
+    }
+    //: Seek to location in stream.
+    // Returns false, if seek failed. (Maybe because its
+    // not implemented.)
+    // if an error occurered (Seek returned False) then stream
+    // position will not be changed.
+
+    virtual bool DSeek64(StreamPosT off)
+    {
+//      cerr << "DPISPortShareClientBodyC()::DSeek() At=" << offset << " Off=" << off << " Start=" << start << " Size=" << size << "\n";
+      if (off == streamPosUnknown)
+        return false;
+      StreamPosT newOff = offset + off;
+      if(off < 0) {
+        if(newOff < start)
+          return false;
+      } else {
+        if(newOff >= size)
+          return false;
+      }
+      offset = newOff;
+      return true;
+    }
+    //: Delta Seek, goto location relative to the current one.
+    // The default behavour of this functions is :
+    // Do some error checking then:
+    //   Seek((UIntT)((IntT) Tell() + off));
+    // if an error occurered (DSeek returned False) then stream
+    // position will not be changed.
+
+    virtual StreamPosT Tell64() const
+    {
+      return offset;
+    }
+    //: Find current location in stream.
+    // Defined as the index of the next object to be written or read.
+    // May return ((UIntT) (-1)) if not implemented.
+
+    virtual StreamPosT Size64() const
+    {
+      // Check the cache is upto date before using it
+      // InputUpdateCount() doesn't do any locking so its quick.
+      if(lastUpdateCount == input.InputUpdateCount())
+        return size;
+      return input.Size64();
+    }
+    //: Find the total size of the stream.  (assuming it starts from 0)
+    // May return ((UIntT) (-1)) if not implemented.
+
+    virtual StreamPosT Start64() const
+    {
+      // Check the cache is upto date before using it
+      // InputUpdateCount() doesn't do any locking so its quick.
+      if(lastUpdateCount == input.InputUpdateCount())
+        return start;
+      return input.Start64();
+    }
+    //: Find the offset where the stream begins, normally zero.
+    // Defaults to 0
+
+    virtual bool Discard() {
       offset++;
       return true;
     }
@@ -609,9 +682,9 @@ namespace RavlN {
     }
     //: Callback on input size changing.
     
-    UIntT start;
-    UIntT size;
-    UIntT offset;
+    StreamPosT start;
+    StreamPosT size;
+    StreamPosT offset;
     DPISPortShareC<DataT> input;
     UIntT lastUpdateCount;
     

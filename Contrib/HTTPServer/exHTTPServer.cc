@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////////
-//! rcsid = "$Id$"
+//! rcsid = "$Id: exHTTPServer.cc 5602 2006-06-19 09:14:19Z craftit $"
 //! lib = RavlEHS
 //! author = "Warren Moore"
 

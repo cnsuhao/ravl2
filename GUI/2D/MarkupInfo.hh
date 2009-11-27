@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLGUI_MARKUPINFO_HEADER
 #define RAVLGUI_MARKUPINFO_HEADER 1
-//! rcsid="$Id: fixSource.cfg 5642 2006-06-23 10:51:11Z craftit $"
+//! rcsid="$Id$"
 //! lib=RavlGUI2D
 //! docentry="Ravl.API.Graphics.GTK.Markup Canvas"
 

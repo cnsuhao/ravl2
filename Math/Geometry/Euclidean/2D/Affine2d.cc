@@ -279,7 +279,7 @@ namespace RavlN {
     Matrix2dC u,v;
     Vector2dC d = RavlN::SVD_IP(covar,u,v);
     
-    // FIXME :- Make this faster by avoiding use of so many temporaries.
+    // TODO :- Make this faster by avoiding use of so many temporaries.
     
     Matrix2dC s(1,0,
                 0,1);

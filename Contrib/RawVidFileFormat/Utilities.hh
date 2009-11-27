@@ -8,7 +8,7 @@
 #include "Ravl/Types.hh"
 #include "Ravl/TFVector.hh"
 #include <stdint.h>
-//! rcsid="$Id: fixSource.cfg,v 1.6 2005/03/02 09:28:41 craftit Exp $"
+//! rcsid="$Id$"
 //! lib=RavlRawVidIO
 //! userlevel=Develop
 //! author="Lee Gregory"

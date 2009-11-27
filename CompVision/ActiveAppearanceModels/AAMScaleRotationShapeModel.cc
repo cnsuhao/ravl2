@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2005, OmniPerception Ltd.
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -20,6 +20,7 @@
 #include "Ravl/SArray1dIter3.hh"
 #include "Ravl/Affine2d.hh"
 #include "Ravl/Matrix2d.hh"
+#include "Ravl/PatternRec/SampleStreamFromSample.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -58,26 +59,30 @@ namespace RavlImageN {
   }
 
   //: Compute mean control points for the list of appearance provided.
-  bool AAMScaleRotationShapeModelBodyC::ComputeMean(const SampleC<AAMAppearanceC> &sample) {
-    SampleIterC<AAMAppearanceC> it(sample);
-    if(!it)
-      return false; // No data points!
+  bool AAMScaleRotationShapeModelBodyC::ComputeMean(SampleStreamC<AAMAppearanceC> &sample) {
+    if (sample.Size() == 0)
+      return false; // No data points!;
 
     // Generate initial estimate
 
-    nPoints = it->Points().Size();
+    sample.Seek(0);
+    AAMAppearanceC appearance;
+    sample.Get(appearance);
+
+    nPoints = appearance.Points().Size();
     meanPoints = SArray1dC<Point2dC>(nPoints);
 
     SArray1dIterC<Point2dC> pit(meanPoints);
     for(pit.First();pit;pit++)
       (*pit) = Point2dC(0,0);
 
-    for(;it;it++) {
-      for(SArray1dIter2C<Point2dC,Point2dC> xit(meanPoints,it->Points());xit;xit++)
+    sample.Seek(0);
+    while (sample.Get(appearance)) {
+      for(SArray1dIter2C<Point2dC,Point2dC> xit(meanPoints,appearance.Points());xit;xit++)
         xit.Data1() += xit.Data2();
     }
     RealT nSamples = (RealT) sample.Size();
-    Moments2d2C moments;    
+    Moments2d2C moments;
     for(pit.First();pit;pit++) {
       *pit /= nSamples;
       moments += *pit;
@@ -97,8 +102,10 @@ namespace RavlImageN {
 
       // Got through samples taking mean after rotation correction.
 
-      for(it.First();it;it++) {
-        Affine2dC fit = FitAffine(it->Points(),meanPoints);
+      sample.Seek(0);
+      while (sample.Get(appearance)) {
+//      for(it.First();it;it++) {
+        Affine2dC fit = FitAffine(appearance.Points(),meanPoints);
 
         Matrix2dC sr = fit.SRMatrix();
         Matrix2dC u,v;
@@ -106,7 +113,7 @@ namespace RavlImageN {
         Matrix2dC rot = u * v.T(); // Take out scaling.
         Affine2dC norm(rot,fit.Translation());
 
-        for(SArray1dIter2C<Point2dC,Point2dC> xit(newMeans,it->Points());xit;xit++)
+        for(SArray1dIter2C<Point2dC,Point2dC> xit(newMeans,appearance.Points());xit;xit++)
           xit.Data1() += norm * xit.Data2();
       }
 
@@ -137,7 +144,7 @@ namespace RavlImageN {
     fixedParams = VectorC(NoFixedParameters());
     SArray1dIterC<Point2dC> pi(inst.Points());
 
-    Moments2d2C moments;    
+    Moments2d2C moments;
     for(;pi;pi++)
       moments += *pi;
 
@@ -148,7 +155,7 @@ namespace RavlImageN {
 
     Affine2dC fit = FitAffine(inst.Points(),meanPoints);
 
-    // translation tx, ty    
+    // translation tx, ty
     fixedParams[0] = mean[0];
     fixedParams[1] = mean[1];
 
@@ -191,7 +198,7 @@ namespace RavlImageN {
     if(nPoints != out.Size())
       out = SArray1dC<Point2dC>(nPoints);
     SArray1dIterC<RealT> vi(freeParams);
-    Point2dC mean(fixedParams[0],fixedParams[1]);    
+    Point2dC mean(fixedParams[0],fixedParams[1]);
     Matrix2dC sr(1+fixedParams[2],-fixedParams[3],fixedParams[3],1+fixedParams[2]);
 
     for(SArray1dIterC<Point2dC> pi(out);pi;pi++) {

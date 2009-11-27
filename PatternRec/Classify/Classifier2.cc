@@ -5,7 +5,11 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
-#include "Ravl/PatternRec/SvmClassifier2.hh"
+#include "Ravl/PatternRec/Classifier2.hh"
+#include "Ravl/DP/FileFormatStream.hh"
+#include "Ravl/DP/FileFormatBinStream.hh"
+#include "Ravl/DP/Converter.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlN
 {
@@ -54,23 +58,24 @@ UIntT Classifier2BodyC::Classify(const VectorC &Data) const
 }
 //---------------------------------------------------------------------------
 // Classifier vector 'data' return the most likely label.
-UIntT Classifier2BodyC::Classify(const RealT* Data) const
+/*UIntT Classifier2BodyC::Classify(const RealT* Data) const
 {
   return Classify2(Data) > 0;
-}
+}*/
 //---------------------------------------------------------------------------
 // Classifier vector 'Data' return value of descriminant function
 RealT Classifier2BodyC::Classify2(const VectorC &Data) const
 {
-  return Classify2(Data.DataStart());
-}
-//---------------------------------------------------------------------------
-// Classifier vector 'Data' return value of descriminant function
-RealT Classifier2BodyC::Classify2(const RealT* Data) const
-{
   throw ExceptionOperationFailedC("Classifier2BodyC::Classify2:"
                                   "This is an abstract method");
 }
+//---------------------------------------------------------------------------
+// Classifier vector 'Data' return value of descriminant function
+/*RealT Classifier2BodyC::Classify2(const RealT* Data) const
+{
+  throw ExceptionOperationFailedC("Classifier2BodyC::Classify2:"
+                                  "This is an abstract method");
+}*/
 //---------------------------------------------------------------------------
 // Get vector length of classifier
 IntT Classifier2BodyC::GetDataSize() const
@@ -78,7 +83,23 @@ IntT Classifier2BodyC::GetDataSize() const
   throw ExceptionOperationFailedC("Classifier2BodyC::GetDataSize:"
                                   "This is an abstract method");
 }
-//---------------------------------------------------------------------------
+
+//- Virtual construction and data conversion --------------------------------
+// --------------------------------------------------------------------------
+ClassifierC Classifier2ToClassifier(const Classifier2C &func)
+{ return func; }
+
+DP_REGISTER_CONVERSION_NAMED(Classifier2ToClassifier ,1,
+                             "RavlN::ClassifierC RavlN::Convert(const "
+                             "RavlN::Classifier2ToClassifier &)");
+
+static TypeNameC TypeClassifier2(typeid(Classifier2C), "RavlN::Classifier2C");
+
+FileFormatStreamC<Classifier2C> FileFormatStream_Classifier2;
+FileFormatBinStreamC<Classifier2C> FileFormatBinStream_Classifier2;
+
+RAVL_INITVIRTUALCONSTRUCTOR_FULL(Classifier2BodyC, Classifier2C, ClassifierC);
+
 //---------------------------------------------------------------------------
 
 }

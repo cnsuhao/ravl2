@@ -13,6 +13,7 @@
 //! file="Ravl/Core/Base/SmartPtr.hh"
 
 #include "Ravl/RCHandleV.hh"
+#include "Ravl/RCAbstract.hh"
 #include "Ravl/Exception.hh"
 
 namespace RavlN {
@@ -149,6 +150,22 @@ namespace RavlN {
     }
   }
   
+  //! Convert a smart pointer to a RCAbstract handle
+  template<typename ValueT>
+  inline RCAbstractC ToRCAbstract(const RavlN::SmartPtrC<ValueT> &value) {
+    return RCAbstractC(const_cast<RavlN::RCBodyVC &>(value.BodyPtr()));
+  }
+
+  //! Convert a smart pointer to from a RCAbstract handle
+  template<typename ValueT>
+  inline void FromRCAbstract(const RavlN::RCAbstractC &val,RavlN::SmartPtrC<ValueT> &value) {
+    if(!val.IsValid()) {
+      value.Invalidate();
+      return ;
+    }
+    value = &dynamic_cast<const ValueT &>(val.Body());
+  }
+
   //!userlevel=Normal
   
   //: Write entity from binary stream

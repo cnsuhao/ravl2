@@ -16,7 +16,7 @@ namespace RavlN {
   // Dump to stream.
   
   void AngleC::Dump(ostream &out) {
-    out << "Ang:" << angle << " Max:" << max << "\n";
+    out << "Ang:" << angle << " Max:" << m_max << "\n";
   }
 }
 

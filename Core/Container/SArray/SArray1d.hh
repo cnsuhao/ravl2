@@ -59,7 +59,7 @@ namespace RavlN {
     //: Type of iterator.
     
     //:---------------------------------------
-    // Constructors, assigment, and destructor
+    // Constructors, assignment, and destructor
     
     SArray1dC()
       : SizeBufferAccessC<DataT>(),
@@ -71,11 +71,11 @@ namespace RavlN {
       : SizeBufferAccessC<DataT>(),
         buff(SingleBufferC<DataT>(dim))
     { Attach(buff,dim); }
-    //: Creates an uninitialized array with the range <0, 'dim'-1>.
+    //: Creates an uninitialised array with the range <0, 'dim'-1>.
     
     static SArray1dC<DataT> ConstructAligned(const SizeT dim,UIntT align)
     { return SArray1dC<DataT>(SingleBufferC<DataT>(dim,align),dim); }
-    //: Creates an uninitialized array with the range <0, 'dim'-1> and byte alignment of the first element 'align'
+    //: Creates an uninitialised array with the range <0, 'dim'-1> and byte alignment of the first element 'align'
     // align must be a power of 2.
     
     SArray1dC(const Slice1dC<DataT> &slice,bool alwaysCopy = true);
@@ -134,8 +134,8 @@ namespace RavlN {
         it.Data2() = it.Data1();
       return ret;
     }
-    //: Create a version of the array with first element on the given byte boundry.
-    // If the aligment is not a correct a copy of the array with the correct aligment is returned.
+    //: Create a version of the array with first element on the given byte boundary.
+    // If the alignment is not a correct a copy of the array with the correct alignment is returned.
     // Note: Alignment must be a power of two.
     
     SArray1dC<DataT> Copy() const;
@@ -143,7 +143,7 @@ namespace RavlN {
         
     SArray1dC<DataT> Copy(UIntT extend) const;
     //: Creates a new physical copy of the array.
-    // 'extend' extra elements initalised by the default constuctor
+    // 'extend' extra elements initialised by the default constructor
     // are appended to the end of the array.
     
     SArray1dC<DataT> DeepCopy(UIntT levels = ((UIntT) -1)) const;
@@ -760,7 +760,7 @@ namespace RavlN {
   UIntT SArray1dC<DataT>::Hash() const {
     UIntT ret = Size();
     for(BufferAccessIterC<DataT> it(*this);it;it++)
-      ret += StdHash(it.Data()) ^ (ret >> 1) ;
+      ret += StdHash(it.Data()) ^ (ret << 5) ;
     return ret;
   }
 

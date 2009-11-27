@@ -11,10 +11,10 @@ PHPDEF = 1
 
 
 ifndef PHPFLAGS
-PHPFLAGS= `/buf/colossus/php/bin/php-config --includes -I/buf/colossus/php/include/regex -fpic`
+PHPFLAGS= `php-config --includes -fpic`
 endif
 ifndef PHPLIBS
-PHPLIBS= `/buf/colossus/php/bin/php-config --libs`
+PHPLIBS= `php-config --libs`
 endif
 
 

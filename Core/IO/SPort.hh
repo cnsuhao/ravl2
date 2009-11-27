@@ -44,15 +44,15 @@ namespace RavlN {
     //: Seek to location in stream.
     // Returns false, if seek failed. (Maybe because its
     // not implemented.)
-    // if an error occurered (Seek returned False) then stream
+    // if an error occurred (Seek returned False) then stream
     // position will not be changed.
     
     virtual bool DSeek(IntT off);
     //: Delta Seek, goto location relative to the current one.
-    // The default behavour of this functions is :
+    // The default behaviour of this functions is :
     // Do some error checking then:
     //   Seek((UIntT)((IntT) Tell() + off));
-    // if an error occurered (DSeek returned False) then stream
+    // if an error occurred (DSeek returned False) then stream
     // position will not be changed.
     
     virtual UIntT Tell() const; 
@@ -73,15 +73,15 @@ namespace RavlN {
     //: Seek to location in stream.
     // Returns false, if seek failed. (Maybe because its
     // not implemented.)
-    // if an error occurered (Seek returned False) then stream
+    // if an error occurred (Seek returned False) then stream
     // position will not be changed.
     
     virtual bool DSeek64(StreamPosT off);
     //: Delta Seek, goto location relative to the current one.
-    // The default behavour of this functions is :
+    // The default behaviour of this functions is :
     // Do some error checking then:
     //   Seek((UIntT)((IntT) Tell() + off));
-    // if an error occurered (DSeek returned False) then stream
+    // if an error occurred (DSeek returned False) then stream
     // position will not be changed.
     
     virtual StreamPosT Tell64() const; 
@@ -128,15 +128,15 @@ namespace RavlN {
     //: Seek to location in stream.
     // Returns false, if seek failed. (Maybe because its
     // not implemented.)
-    // if an error occurered (Seek returned False) then stream
+    // if an error occurred (Seek returned False) then stream
     // position will not be changed.
    
     virtual bool DSeek(IntT off);
     //: Delta Seek, goto location relative to the current one.
-    // The default behavour of this functions is :
+    // The default behaviour of this functions is :
     // Do some error checking then:
     //   Seek((UIntT)((IntT) Tell() + off));
-    // if an error occurered (DSeek returned False) then stream
+    // if an error occurred (DSeek returned False) then stream
     // position will not be changed.
    
     virtual UIntT Tell() const; 
@@ -200,16 +200,16 @@ namespace RavlN {
     //: Seek to location in stream.
     // Returns false, if seek failed. (Maybe because its
     // not implemented.)
-    // if an error occurered (Seek returned False) then stream
+    // if an error occurred (Seek returned False) then stream
     // position will not be changed.
     
     inline bool DSeek(IntT off)
     { return Body().DSeek(off); }
     //: Delta Seek, goto location relative to the current one.
-    // The default behavour of this functions is :
+    // The default behaviour of this functions is :
     // Do some error checking then:
     //   Seek((UIntT)((IntT) Tell() + off));
-    // if an error occurered (DSeek returned False) then stream
+    // if an error occurred (DSeek returned False) then stream
     // position will not be changed.
     
     inline UIntT Tell() const
@@ -233,16 +233,16 @@ namespace RavlN {
     //: Seek to location in stream.
     // Returns false, if seek failed. (Maybe because its
     // not implemented.)
-    // if an error occurered (Seek returned False) then stream
+    // if an error occurred (Seek returned False) then stream
     // position will not be changed.
     
     inline bool DSeek64(StreamPosT off)
     { return Body().DSeek64(off); }
     //: Delta Seek, goto location relative to the current one.
-    // The default behavour of this functions is :
+    // The default behaviour of this functions is :
     // Do some error checking then:
     //   Seek((UIntT)((IntT) Tell() + off));
-    // if an error occurered (DSeek returned False) then stream
+    // if an error occurred (DSeek returned False) then stream
     // position will not be changed.
     
     inline StreamPosT Tell64() const
@@ -372,7 +372,7 @@ namespace RavlN {
       if(!Seek64(off)) return false;
       return Put(buffer);
     }
-    //: Put data to givem given offset.
+    //: Put data to given given offset.
     //!param: off - Offset to retrieve data from.
     //!param: buffer - buffer to store retrieved data from
     //!return: true if data retrieved successfully.
@@ -519,7 +519,7 @@ namespace RavlN {
     
     bool PutAt(StreamPosT off,const DataT &buffer) 
     { return Body().PutAt(off,buffer); }
-    //: Put data to givem given offset.
+    //: Put data to given given offset.
     //!param: off - Offset to retrieve data from.
     //!param: buffer - buffer to store retrieved data from
     //!return: true if data retrieved successfully.

@@ -1,4 +1,4 @@
-//! rcsid="$Id: aamBuildPoseEstimator.cc,v 1.3 2005/07/25 16:31:07 ees1wc Exp $"
+//! rcsid="$Id$"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/aamBuildPoseEstimator.cc"
 //! docentry="Ravl.API.Images.AAM"
@@ -47,8 +47,11 @@ int main(int nargs,char **argv) {
   StringC op = opt.String("o","/vol/vssp/vampire/people/jean-yves/appmodel/models/pose_sm_all_half1_25x22m98_98_95.abs","Output file for statistical model of pose variation.");
   opt.Check();
 
-  cout << "Creating list of marked-up files in '" << trainDir << "'\n"; 
+  cout << "Creating list of marked-up files in '" << trainDir << "'\n";
   DListC<StringC> fileList;
+  HashC<IntT,IntT> typeMap;
+  HashC<StringC,IntT> namedTypeMap;
+  bool useTypeId;
   if(!trainList.IsEmpty())
   {
     // load list from file
@@ -58,7 +61,7 @@ int main(int nargs,char **argv) {
       StringC fileName = fl[i].TopAndTail();
 
       // check it is a valid appearance and eliminate suspect files if required
-      AAMAppearanceC appear = LoadFeatureFile(fileName,trainDir,ignoreSuspect,true);
+      AAMAppearanceC appear = LoadFeatureFile(fileName,trainDir,typeMap,namedTypeMap,useTypeId,ignoreSuspect,true);
       if (!appear.IsValid()) {
         continue;
       }
@@ -116,7 +119,7 @@ int main(int nargs,char **argv) {
   for(DLIterC<StringC> it(fileList);it;it++) {
     for (IntT k=1;k<=NoPerFile;k++) {
 
-      AAMAppearanceC appear = LoadFeatureFile(*it,trainDir);
+      AAMAppearanceC appear = LoadFeatureFile(*it,trainDir,typeMap,namedTypeMap,useTypeId);
       if (k == 2) {
         appear = mirror.Reflect(appear);
       }

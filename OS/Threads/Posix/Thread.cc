@@ -70,18 +70,14 @@ namespace RavlN {
   extern DWORD WINAPI StartThread(LPVOID data);
 #endif
   
-  //: Yield control of processor
-  // call if you wish a brief delay in execution.  
-  // Particularly useful if you are forced to poll for an event.
-    
   //: Get ID of current thread.
-  
-  UIntT CurrentThreadID() { 
+
+  SizeT CurrentThreadID() {
 #if RAVL_HAVE_POSIX_THREADS
-    return (UIntT) pthread_self(); 
+    return (SizeT) pthread_self();
 #endif
 #if RAVL_HAVE_WIN32_THREADS
-    return (UIntT) GetCurrentThread();
+    return (SizeT) GetCurrentThread();
 #endif
   }
   
@@ -395,23 +391,23 @@ namespace RavlN {
   // after Execute() has been called.
   // THREAD SAFE.
 
-  UIntT ThreadBodyC::ID() const { 
+  SizeT ThreadBodyC::ID() const {
 #if RAVL_HAVE_WIN32_THREADS
-    return (UIntT) threadID; 
+    return (SizeT) threadID;
 #else
-    return (UIntT) threadID;
+    return (SizeT) threadID;
 #endif
   }
    
 
   //: Get ID for this thread.
   
-  UIntT ThisThreadID() { 
+  SizeT ThisThreadID() {
 #if RAVL_HAVE_POSIX_THREADS
-    return (UIntT) pthread_self(); 
+    return (SizeT) pthread_self();
 #endif
 #if RAVL_HAVE_WIN32_THREADS
-    return (UIntT) GetCurrentThreadId();
+    return (SizeT) GetCurrentThreadId();
 #endif
   }
   

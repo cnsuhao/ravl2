@@ -26,6 +26,7 @@
 #include "Ravl/DP/MethodIO.hh"
 #include "Ravl/DP/MethodPtrIO.hh"
 #include "Ravl/DP/Method2Proc21.hh"
+#include "Ravl/DP/MethodPtr2Proc.hh"
 #include "Ravl/DP/Func2Proc21.hh"
 #include "Ravl/DP/Method2Proc31.hh"
 #include "Ravl/DP/Func2Proc31.hh"
@@ -61,6 +62,7 @@ int testSPort();
 int testSampleStream();
 int testIStreamCache();
 int testMemIO(); 
+int testMethodPtr2Proc();
 
 int main(int nargs,char **argv) {
   int ln;
@@ -97,6 +99,10 @@ int main(int nargs,char **argv) {
     return 1;
   }
   if((ln = testMethodPtrIO()) != 0) {
+    cerr << "Error in testMethodPtrIO(), Line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testMethodPtr2Proc()) != 0) {
     cerr << "Error in testMethodPtrIO(), Line:" << ln << "\n";
     return 1;
   }
@@ -174,7 +180,10 @@ public:
   
   int Seq()
   { return i++; }
-  
+
+  int Method(const int &var)
+  { return var + 1; }
+
   int Method21(const double &,const bool &)
   { return i++; }
 
@@ -285,6 +294,16 @@ int testMethodPtrIO() {
   return 0;
 }
 
+int testMethodPtr2Proc() {
+  TestC seq1;
+  TestC seq2;
+  DPIPortC<int> sourcep = IMethodPtr(&seq1,&TestC::Seq);;
+  DPIPortC<int> ip = sourcep >> ProcessPtr(&seq2,&TestC::Method);
+  int val = 0;
+  if(!ip.Get(val)) return __LINE__;
+  if(val != 1) return __LINE__;
+  return 0;
+}
 
 #if RAVL_COMPILER_MIPSPRO
 DPIPortBodyC<bool> dummy_variable ;

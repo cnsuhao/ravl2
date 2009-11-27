@@ -31,7 +31,7 @@ namespace RavlN {
   
   DPPortBodyC::DPPortBodyC()
   {
-#if RAVL_OS_LINUX64
+#if RAVL_CPUTYPE_64
     portId = (StringC("Port-") + StringC((UInt64T) this >> 2)); 
 #else
     portId = (StringC("Port-") + StringC((UIntT) this >> 2)); 

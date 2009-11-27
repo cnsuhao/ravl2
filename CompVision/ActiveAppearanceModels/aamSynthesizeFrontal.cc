@@ -1,4 +1,4 @@
-//! rcsid="$Id: aamSynthesizeFrontal.cc,v 1.3 2005/07/25 16:31:07 ees1wc Exp $"
+//! rcsid="$Id$"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/aamSynthesizeFrontal.cc"
 //! docentry="Ravl.API.Images.AAM"
@@ -126,7 +126,10 @@ using namespace RavlImageN;
 
     if(useMarkUp) {      // do not fit AAM but use manual markup
       StringListC xmlStrlist(xmlFileName,"/");
-      AAMAppearanceC bestAM = AAMAppearanceC(LoadFeatureFile(xmlStrlist.Last(),markupDir,false,true));
+      HashC<IntT,IntT> typeMap;
+      HashC<StringC,IntT> namedTypeMap;
+      bool useTypeId;
+      AAMAppearanceC bestAM = AAMAppearanceC(LoadFeatureFile(xmlStrlist.Last(),markupDir,typeMap,namedTypeMap,useTypeId,false,true));
       AAMAppearanceC bestAMs = AAMAppearanceC(bestAM);
       if(useAM) {
         resAppear = bestAM;

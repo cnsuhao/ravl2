@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-// $Id$
+// $Id: ConfigFile.cc 6405 2007-10-29 10:45:54Z simondennis $
 //! rcsid="$Id$"
 //! lib=RavlOS
 //! file="Ravl/OS/Text/ConfigFile.cc"

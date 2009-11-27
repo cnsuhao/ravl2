@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #################################################
-# $Id$
+# $Id: DMedia.def 4 2001-04-11 12:45:55Z craftit $
 # Conditionaly include DMedia libraries if we're on an sgi platform
 
 ifndef DMEDIA_SWITCH_DEFS

@@ -7,7 +7,7 @@
 #ifndef RAVL_IMGIOFFMPEG_HEADER
 #define RAVL_IMGIOFFMPEG_HEADER 1
 //////////////////////////////////////////////////////////////////
-//! rcsid = "$Id$"
+//! rcsid = "$Id: ImgIOFFmpeg.hh 6685 2008-03-27 14:44:47Z craftit $"
 //! lib=RavlLibFFmpeg
 //! author = "Warren Moore"
 //! file = "Ravl/Contrib/LibFFmpeg/ImgIOFFmpeg.hh"

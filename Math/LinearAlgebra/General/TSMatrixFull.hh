@@ -337,7 +337,6 @@ namespace RavlN {
   template<class DataT>  
   TSMatrixC<DataT> TSMatrixFullBodyC<DataT>::TMul(const TSMatrixC<DataT> & B) const {
     TSMatrixFullC<DataT> ts(B);
-    cerr << "TSMatrixFullBodyC<DataT>::TMul(const TSMatrixC<DataT> &). Called. " << ((int) ts.IsValid()) << " \n";
     if(!ts.IsValid())
       return TSMatrixBodyC<DataT>::TMul(B); // Use default
     return TSMatrixC<DataT>(matrix.TMul(ts.FullTMatrix()));

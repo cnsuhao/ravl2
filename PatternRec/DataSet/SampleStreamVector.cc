@@ -13,6 +13,8 @@
 #include "Ravl/MeanCovariance.hh"
 #include "Ravl/MatrixRUT.hh"
 #include "Ravl/PatternRec/SampleVector.hh"
+#include "Ravl/DP/Compose.hh"
+#include "Ravl/DP/SPortAttach.hh"
 
 #if RAVL_COMPILER_MIPSPRO 
 #pragma instantiate RavlN::DPIPortBodyC<RavlN::VectorC>
@@ -27,6 +29,16 @@
 #endif
 
 namespace RavlN {
+  static VectorC float2realVec(const TVectorC<float> &vec) {
+    return VectorC(vec);
+  }
+
+  //: Convert from a stream of float vectors.
+  SampleStreamVectorC::SampleStreamVectorC(const SampleStreamC<TVectorC<float> > &port)
+   : DPEntityC(true)
+  {
+    *this = SPort(port >> Process(float2realVec));
+  }
 
   //: Compute the sum of the outerproducts.
   // This routine increases accuracy by only summing 500 numbers at time.   Not really worth it.

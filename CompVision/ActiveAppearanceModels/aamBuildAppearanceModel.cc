@@ -48,18 +48,21 @@ int main(int nargs,char **argv) {
   StringC op = opt.String("o","./am.abs","Output file for statistical model of appearance.");
   opt.Check();
 
-  cout << "Creating list of marked-up files in '" << dir << "'\n"; 
+  cout << "Creating list of marked-up files in '" << dir << "'\n";
   DListC<StringC> fileList;
   if(!list.IsEmpty())
   {
     // Read file list.
     TextFileC fl(list);
+    HashC<IntT,IntT> typeMap;
+    HashC<StringC,IntT> namedTypeMap;
+    bool useTypeId;
     for(UIntT i=1;i<=fl.NoLines();i++) {
 
       StringC fileName = fl[i].TopAndTail();
 
       // check it is a valid appearance and eliminate suspect files if required
-      AAMAppearanceC appear = LoadFeatureFile(fileName,dir,ignoreSuspect,true);
+      AAMAppearanceC appear = LoadFeatureFile(fileName,dir,typeMap,namedTypeMap,useTypeId,ignoreSuspect,true);
       if (!appear.IsValid()) {
         continue;
       }
@@ -77,12 +80,12 @@ int main(int nargs,char **argv) {
     }
     fileList = md.List("",StringC(".") + ext);
   }
-  
+
   if(!fileList.IsValid() || fileList.Size() == 0) {
     cerr << "Failed to create list of marked-up files from '" << dir << "' \n";
     return 1;
   }
-  
+
   // build appearance model
   AAMAppearanceModelC am(sigma);
   if(!am.Design(fileList,dir,mirrorFile,maskSize,varS,varT,varC,maxS,maxT,maxC,ignoreSuspect)) {

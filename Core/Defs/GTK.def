@@ -7,7 +7,7 @@
 ifndef GTKDEF
 GTKDEF = 1
 ################################################
-# $Id$
+# $Id: GTK.def 7023 2008-11-12 11:44:16Z craftit $
 
 # Check if we're using GTK
 

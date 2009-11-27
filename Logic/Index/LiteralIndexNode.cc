@@ -28,7 +28,7 @@ namespace RavlLogicN {
   // usefull for debuging.
   
   StringC LiteralIndexNodeBodyC::Name() {
-#if RAVL_OS_LINUX64
+#if RAVL_CPUTYPE_64
     return StringC("LINode:") + StringC((UInt64T) this);
  #else
     return StringC("LINode:") + StringC((UIntT) this);

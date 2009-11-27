@@ -5,8 +5,6 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////////
-// $Id$
-//! rcsid="$Id$"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/CoreIO.cc"
 
@@ -16,13 +14,14 @@ namespace RavlN {
   
   extern void IncludeFileFormatStream();
   extern void InitFileFormatBinStream();
+  extern void InitFileFormatByteFile();
   
   //: Initalise all the core IO.
   
   void InitCoreIO() {
     InitFixedIndexIO();
     IncludeFileFormatStream();
-    InitFileFormatBinStream();
+    InitFileFormatByteFile();
   }
   
 }

@@ -42,7 +42,7 @@ namespace RavlN {
   bool NetPortClientBodyC::Init() {
     ONDEBUG(cerr << "NetPortClientBodyC::Init(), Called. \n");
     LocalInfo().ProtocolName("PortServer");
-    LocalInfo().ProtocolVersion("1.0");        
+    LocalInfo().ProtocolVersion("1.1");
     RegisterR(NPMsg_ReqConnection,"ConnectTo",*this,&NetPortClientBodyC::MsgConnectTo);
     RegisterR(NPMsg_Close,"Close",*this,&NetPortClientBodyC::MsgClose);
     Ready();
@@ -59,7 +59,7 @@ namespace RavlN {
       return false;
     }
     
-    if(PeerInfo().ProtocolVersion() != "1.0") {
+    if(PeerInfo().ProtocolVersion() != "1.1") {
       SysLog(SYSLOG_ERR) << "Unexpected protocol version '" << PeerInfo().ProtocolVersion() << "'  (Local version "  << LocalInfo().ProtocolVersion() << ") ";
       Close();
       return false;
@@ -134,7 +134,7 @@ namespace RavlN {
   // Close down an established connection.
   
   bool NetPortClientBodyC::MsgClose() {
-    ONDEBUG(cerr << "NetPortClientBodyC::MsgClose(), Called. \n");
+    ONDEBUG(cerr << "NetPortClientBodyC::MsgClose(), Called. connectionName='" << connectionName << "'\n");
     Close();
     if(connectionName.IsEmpty())
       return true;
@@ -142,15 +142,17 @@ namespace RavlN {
     if(isIPort) {
       NetISPortServerBaseC isport;
       if(!manager.Lookup(connectionName,empty,isport,false))
-	return true;
+        return true;
+      ONDEBUG(cerr << "NetPortClientBodyC::MsgClose(), disconnecting ISPort\n");
       if(isport.IsValid())
-	isport.Disconnect();
+        isport.Disconnect();
     } else {
       NetOSPortServerBaseC osport;
       if(!manager.Lookup(connectionName,empty,osport,false))
-	return true;
+        return true;
+      ONDEBUG(cerr << "NetPortClientBodyC::MsgClose(), disconnecting OSPort\n");
       if(osport.IsValid())
-	osport.Disconnect();
+        osport.Disconnect();
     }
     return true;
   }

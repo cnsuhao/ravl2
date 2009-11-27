@@ -33,6 +33,7 @@ namespace RavlGUIN {
       customWidget(aCustomWidget),
       m_widgetPrefix(prefix)
   {
+    ONDEBUG(cerr << "GladeWidgetBodyC::GladeWidgetBodyC(name=" << widgetName << ", customWidget=" << aCustomWidget << ", prefix = " << prefix << ")" << endl);
     if(!m_widgetPrefix.IsEmpty() && m_widgetPrefix.lastchar() != '.')
       m_widgetPrefix += ".";
     
@@ -45,7 +46,9 @@ namespace RavlGUIN {
   GladeWidgetBodyC::GladeWidgetBodyC(const StringC &widgetName,bool aCustomWidget) 
     : name(widgetName),
       customWidget(aCustomWidget)
-  {}
+  {
+    ONDEBUG(cerr << "GladeWidgetBodyC::GladeWidgetBodyC(name=" << widgetName << ", customWidget=" << aCustomWidget << ")" << endl);
+  }
   
   
   bool GladeWidgetBodyC::SetXML(const GladeXMLC &gladeXml)

@@ -39,7 +39,19 @@ namespace RavlGUIN {
       rowHandle.Invalidate();
     return true;
   }
-  
+
+  //: Set real value
+
+  bool TreeStoreBodyC::GUISetValue(TreeModelIterC & rowIter, IntT col, RealT value)
+  {
+       RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    if(!rowIter.IsElm())
+      return false;
+    gtk_tree_store_set(GTK_TREE_STORE(model),rowIter.TreeIter(),col,value,-1);
+    return true;
+  }
+
+
   //: Set int value.
   
   bool TreeStoreBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, IntT value) {

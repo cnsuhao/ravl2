@@ -134,6 +134,9 @@ namespace RavlN {
     DataT Dot(const TVectorC<DataT> & v) const;         
     //: scalar product of vectors    
     
+    DataT Dot2(const TVectorC<DataT> & v1, const TVectorC<DataT> &v2) const;
+    //: returns this * v1 + this^2 * v2
+
     const TVectorC<DataT> &SetSmallToBeZero(const DataT &min);
     //: Set values smaller than 'min' to zero in vector.
     
@@ -463,6 +466,18 @@ namespace RavlN {
   inline FloatT TVectorC<FloatT>::Dot(const TVectorC<FloatT> & v) const {
     return RavlBaseVectorN::DotProduct(this->DataStart(), v.DataStart(), this->Size());  
   }
-  
+
+  template<>
+  inline RealT TVectorC<RealT>::Dot2(const TVectorC<RealT> & v1,
+		                             const TVectorC<RealT> & v2) const {
+	return RavlBaseVectorN::QuadProduct(this->DataStart(), v1.DataStart(), v2.DataStart(), this->Size());
+  }
+
+  template<>
+  inline FloatT TVectorC<FloatT>::Dot2(const TVectorC<FloatT> & v1,
+		                               const TVectorC<FloatT> & v2) const {
+	return RavlBaseVectorN::QuadProduct(this->DataStart(), v1.DataStart(), v2.DataStart(), this->Size());
+  }
+
 }
 #endif

@@ -6,16 +6,16 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
+//! author="Alexey Kostin"
+
 #ifndef RAVL_SVM_LINEAR_CLASSIFIER_HEADER
 #define RAVL_SVM_LINEAR_CLASSIFIER_HEADER 1
 
-#include "Ravl/PatternRec/SvmClassifier2.hh"
+#include "Ravl/PatternRec/Classifier2.hh"
 
 namespace RavlN
 {
 using namespace RavlN;
-
-class AuxVectorC;
 
 //! Support vector machines linear classifier (body part)
 class SvmLinearClassifierBodyC : public Classifier2BodyC
@@ -43,7 +43,10 @@ public:
   virtual bool Save(BinOStreamC &Out) const;
 
   //! Classify vector 'data' and return value of descriminant function
-  RealT Classify2(const RealT* Data) const;
+  RealT Classify2(const VectorC &data) const;
+
+  //! Classify vector 'data' and return value of descriminant function
+  RealT Classify2(const RealT &data) const;
 
   //! Get vector length of classifier
   IntT GetDataSize() const;
@@ -54,13 +57,12 @@ public:
 
   //! Get weights
   SArray1dC<RealT> GetWeights() const
-    { return SArray1dC<RealT>(BufferC<RealT>(m_numWeights, m_weights, true, true),
-                              m_numWeights); }
+    { return m_weights; }
 
   //! Create classifier
   /**
   @param Sv support vectors
-  @param Lambdas lagrangian multipliers
+  @param Lambdas Lagrangian multipliers
   @param Scale global scale from kernel function
   @param Threshold threshold
    */
@@ -70,7 +72,7 @@ public:
   //! Create classifier
   /**
   @param Sv support vectors
-  @param Lambdas lagrangian multipliers
+  @param Lambdas Lagrangian multipliers
   @param Weights weights for features
   @param Scale global scale from kernel function
   @param Threshold threshold
@@ -79,13 +81,10 @@ public:
               const RealT* Weights, RealT Scale, RealT Threshold);
 private:
   void DestroyBuffers();              //!< free allocated memory
-  void CreateBuffers(int NumWeights); //!< allocate memory for weights
+  void CreateBuffers(SizeT NumWeights); //!< allocate memory for weights
   void InitMembers();                 //!< initialise member variables
   RealT m_threshold;                  //!< threshold
-  RealT* m_weights;                   //!< weights
-  int m_numWeights;                   //!< length of weights array
-
-  AuxVectorC *auxVec;
+  VectorC m_weights;                  //!< weights
 };
 //---------------------------------------------------------------------------
 //! Support vector machines linear classifier
@@ -105,8 +104,8 @@ public:
 
   //! Classify vector 'data' and return value of descriminant function
   //! Size of data should be equal to size of support vector.
-  RealT Classify2(const RealT* Data) const
-    { return Body().Classify2(Data); }
+  RealT Classify2(const VectorC &data) const
+    { return Body().Classify2(data); }
 
   //! Get vector length of classifier
   IntT GetDataSize() const
@@ -123,7 +122,7 @@ public:
   //! Create classifier
   /**
   @param Sv support vectors
-  @param Lambdas lagrangian multipliers
+  @param Lambdas Lagrangian multipliers
   @param Scale global scale from kernel function
   @param Threshold threshold
    */
@@ -134,7 +133,7 @@ public:
   //! Create classifier
   /**
   @param Sv support vectors
-  @param Lambdas lagrangian multipliers
+  @param Lambdas Lagrangian multipliers
   @param Weights weights for features
   @param Scale global scale from kernel function
   @param Threshold threshold

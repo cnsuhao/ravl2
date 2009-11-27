@@ -48,7 +48,7 @@ namespace RavlN {
     //: Assert that an object must be const.
     
     void AssertNotConst() const
-    { RavlAssertMsg(isConst,"Non constant violation. "); }
+    { RavlAssertMsg(!isConst,"Non constant violation. "); }
     //: Assert that an object must not be const.
     
   protected:

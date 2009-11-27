@@ -51,12 +51,16 @@ namespace RavlN {
     RealT Variance() const
     { return (var<0.0) ? 0.0 : var; }
     //: Access the variance.
-    
-    SizeT Number() const
+
+    const RealT &RawVariance() const
+    { return var; }
+    //: Access the variance, this isn't limited to values zero or above.
+
+    const SizeT &Number() const
     { return n; }
     //: Access the number of samples.
     
-    RealT Mean() const
+    const RealT &Mean() const
     { return mean; }
     //: Access the mean.
     
@@ -82,6 +86,9 @@ namespace RavlN {
     // This assumes the estimates of the distributions are accurate. (The number
     // of samples is ignored) 
     
+    UIntT Hash() const
+    { return n + StdHash(mean) + StdHash(var); }
+    //: Provided for compatibility with templates.
   protected:
     SizeT n;
     RealT mean;

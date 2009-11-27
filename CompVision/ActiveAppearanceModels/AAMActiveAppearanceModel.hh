@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2005, OmniPerception Ltd.
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -23,7 +23,7 @@ namespace RavlImageN {
   //! userlevel=Develop
   //: Active Appearance Model (AAM).
 
-  class AAMActiveAppearanceModelBodyC 
+  class AAMActiveAppearanceModelBodyC
     :public RCBodyVC
   {
   public:
@@ -59,7 +59,7 @@ namespace RavlImageN {
     bool Design(const AAMAppearanceModelC &apm,
                 const DListC<StringC> &fileList,
                 const StringC &dir,
-                const StringC &mirrorFile, 
+                const StringC &mirrorFile,
                 UIntT incrSize,
                 bool ignoreSuspect = true
                 );
@@ -70,6 +70,16 @@ namespace RavlImageN {
     //!param: mirrorFile - name of mirror file to use for mirror appearances (if an empty string is provided, mirror images will not be considered).
     //!param: incrSize   - half number of displacements for each parameter when perturbing the model.
     //!param: ignoreSuspect - Ignore suspect markups ?
+    // This functions considers each training appearance successively and perturbs the different parameters in order to analyse the effect of errors in the parameters on the residual error. The range of displacement is +/-0.5 standard deviation for each parameter. A value of n for 'incrSize' means that there will be 2n displacements uniformly spread on the interval [-0.5std,+0.5std] for each parameter.
+
+    bool Design(const AAMAppearanceModelC &apm,
+                SampleStreamC<AAMAppearanceC> &sample,
+                UIntT incrSize
+                );
+    //: Train the AAM given some data and an existing appearance model.
+    //!param: apm        - input appearance model.
+    //!param: sample     - list of sample appearances
+    //!param: incrSize   - half number of displacements for each parameter when perturbing the model.
     // This functions considers each training appearance successively and perturbs the different parameters in order to analyse the effect of errors in the parameters on the residual error. The range of displacement is +/-0.5 standard deviation for each parameter. A value of n for 'incrSize' means that there will be 2n displacements uniformly spread on the interval [-0.5std,+0.5std] for each parameter.
 
     bool PreDesign(const AAMAppearanceModelC &apm,
@@ -88,6 +98,20 @@ namespace RavlImageN {
     //!param: incrSize   - half number of displacements for each parameter when perturbing the model.
     //!param: op         - name of output file containing results of training for this list of file.
     //!param: ignoreSuspect - Ignore suspect markups ?
+
+    // This functions considers each training appearance successively and perturbs the different parameters in order to analyse the effect of errors in the parameters on the residual error. The range of displacement is +/-0.5 standard deviation for each parameter. A value of n for 'incrSize' means that there will be 2n displacements uniformly spread on the interval [-0.5std,+0.5std] for each parameter.
+    // Note: contrary to the Design method, PreDesign does not produce a complete appearance model. PreDesign needs to be followed by PostDesign in order to obtain the AAM. PreDesign allows to split the training of the AAM (which is usually computer intensive because of the number of files to process) into a large number of smaller jobs which can be run in parallel.
+
+    bool PreDesign(const AAMAppearanceModelC &apm,
+                   SampleStreamC<AAMAppearanceC> &sample,
+                   UIntT incrSize,
+                   const StringC &op
+                   );
+    //: Pre-process some data before final design of the AAM.
+    //!param: apm        - input appearance model.
+    //!param: sample     - list of sample appearances.
+    //!param: incrSize   - half number of displacements for each parameter when perturbing the model.
+    //!param: op         - name of output file containing results of training for this list of file.
 
     // This functions considers each training appearance successively and perturbs the different parameters in order to analyse the effect of errors in the parameters on the residual error. The range of displacement is +/-0.5 standard deviation for each parameter. A value of n for 'incrSize' means that there will be 2n displacements uniformly spread on the interval [-0.5std,+0.5std] for each parameter.
     // Note: contrary to the Design method, PreDesign does not produce a complete appearance model. PreDesign needs to be followed by PostDesign in order to obtain the AAM. PreDesign allows to split the training of the AAM (which is usually computer intensive because of the number of files to process) into a large number of smaller jobs which can be run in parallel.
@@ -137,7 +161,7 @@ namespace RavlImageN {
   //! userlevel=Normal
   //: Active Appearance Model (AAM).
 
-  class AAMActiveAppearanceModelC 
+  class AAMActiveAppearanceModelC
     : public RCHandleVC<AAMActiveAppearanceModelBodyC>
   {
   public:
@@ -191,7 +215,7 @@ namespace RavlImageN {
     //: Returns the optimum appearance parameters for the image 'img' given an initial estimate 'paramEstimate'.
     //  The optimum parameters are the ones which minimise the residual error between model and image measured in normalised texture frame (i.e. shape free images).
     // This function also returns the value of the corresponding residual error in 'diff'.
-    
+
     bool Design(const AAMAppearanceModelC &apm, const DListC<StringC> &fileList, const StringC &dir, const StringC &mirrorFile, UIntT incrSize,bool ignoreSuspect = true)
     { return Body().Design(apm,fileList,dir,mirrorFile,incrSize,ignoreSuspect); }
     //: Train the AAM given some data and an existing appearance model.
@@ -200,12 +224,21 @@ namespace RavlImageN {
     //!param: dir        - name of directory containing training images.
     //!param: mirrorFile - name of mirror file to use for mirror appearances (if an empty string is provided, mirror images will not be considered).
     //!param: incrSize   - half number of displacements for each parameter when perturbing the model.
-    
+
     // This functions considers each training appearance successively and perturbs the different parameters in order to analyse the effect of errors in the parameters on the residual error. The range of displacement is +/-0.5 standard deviation for each parameter. A value of n for 'incrSize' means that there will be 2n displacements uniformly spread on the interval [-0.5std,+0.5std] for each parameter.
-    
+
+    bool Design(const AAMAppearanceModelC &apm, SampleStreamC<AAMAppearanceC> &sample, UIntT incrSize)
+    { return Body().Design(apm, sample, incrSize); }
+    //: Train the AAM given some data and an existing appearance model.
+    //!param: apm        - input appearance model.
+    //!param: sample     - list of sample appearances.
+    //!param: incrSize   - half number of displacements for each parameter when perturbing the model.
+
+    // This functions considers each training appearance successively and perturbs the different parameters in order to analyse the effect of errors in the parameters on the residual error. The range of displacement is +/-0.5 standard deviation for each parameter. A value of n for 'incrSize' means that there will be 2n displacements uniformly spread on the interval [-0.5std,+0.5std] for each parameter.
+
     bool PreDesign(const AAMAppearanceModelC &apm,
                    const DListC<StringC> &fileList,
-                   const StringC &dir, 
+                   const StringC &dir,
                    const StringC &mirrorFile,
                    UIntT incrSize,
                    const StringC &op,
@@ -220,7 +253,21 @@ namespace RavlImageN {
     //!param: incrSize   - half number of displacements for each parameter when perturbing the model.
     //!param: op         - name of output file containing results of training for this list of file.
     //!param: ignoreSuspect - Ignore suspect markups ?
-    
+
+    // This functions considers each training appearance successively and perturbs the different parameters in order to analyse the effect of errors in the parameters on the residual error. The range of displacement is +/-0.5 standard deviation for each parameter. A value of n for 'incrSize' means that there will be 2n displacements uniformly spread on the interval [-0.5std,+0.5std] for each parameter.
+    // Note: contrary to the Design method, PreDesign does not produce a complete appearance model. PreDesign needs to be followed by PostDesign in order to obtain the AAM. PreDesign allows to split the training of the AAM (which is usually computer intensive because of the number of files to process) into a large number of smaller jobs which can be run in parallel.
+
+    bool PreDesign(const AAMAppearanceModelC &apm,
+                   SampleStreamC<AAMAppearanceC> &sample,
+                   UIntT incrSize,
+                   const StringC &op
+                   );
+    //: Pre-process some data before final design of the AAM.
+    //!param: apm        - input appearance model.
+    //!param: sample     - list of sample appearances.
+    //!param: incrSize   - half number of displacements for each parameter when perturbing the model.
+    //!param: op         - name of output file containing results of training for this list of file.
+
     // This functions considers each training appearance successively and perturbs the different parameters in order to analyse the effect of errors in the parameters on the residual error. The range of displacement is +/-0.5 standard deviation for each parameter. A value of n for 'incrSize' means that there will be 2n displacements uniformly spread on the interval [-0.5std,+0.5std] for each parameter.
     // Note: contrary to the Design method, PreDesign does not produce a complete appearance model. PreDesign needs to be followed by PostDesign in order to obtain the AAM. PreDesign allows to split the training of the AAM (which is usually computer intensive because of the number of files to process) into a large number of smaller jobs which can be run in parallel.
 

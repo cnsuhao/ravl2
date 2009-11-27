@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2008, OmniPerception Ltd.
 // This code may be redistributed under the terms of the MIT
 // License. See http://www.opensource.org/licenses/mit-license.html
@@ -19,14 +19,15 @@
 #endif
 
 namespace RavlImageN {
-  
+
   static const char *g_triggerModeNames[] = { "OFF","HI_LO","LO_HI","SOFTWARE",0 };
-  
-  
+
+
   //: Constructor.
-  
+
   ImgIOuEyeBaseC::ImgIOuEyeBaseC(const std::type_info &pixelType,UIntT cameraId)
     : m_triggerMode(TRIG_OFF),
+      m_rotation(ROT_0),
       m_state(UE_NotReady),
       m_snapshot(false),
       m_timeOutDelay(0.75)
@@ -34,7 +35,7 @@ namespace RavlImageN {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "Open uEye. ");
     for(int i = 0;i < m_NumBuffers;i++)
       m_buffers[i] = 0;
-    
+
     if(!Open(cameraId)) {
       throw ExceptionOperationFailedC("Failed to open camera ");
     }
@@ -43,35 +44,35 @@ namespace RavlImageN {
       m_state = UE_NotReady;
     }
   }
-  
+
 
   //: Destructor.
-  
+
   ImgIOuEyeBaseC::~ImgIOuEyeBaseC()
   {
     if(m_state == UE_Running) {
       // Need to stop anything ?
       if(is_StopLiveVideo( m_phf, IS_WAIT ) != IS_SUCCESS) {
-        SysLog(SYSLOG_ERR) << "Failed to stop video. ";        
+        SysLog(SYSLOG_ERR) << "Failed to stop video. ";
       }
       m_state = UE_Ready;
     }
-    
+
     // Free buffers.
-    for(int i = 0;i < m_NumBuffers;i++) {      
+    for(int i = 0;i < m_NumBuffers;i++) {
       if(m_buffers[i] == 0)
         continue;
-      
+
       if(is_FreeImageMem(m_phf,m_buffers[i],m_imgId[i]) != IS_SUCCESS) {
         SysLog(SYSLOG_WARNING) << "Failed to free memory. ";
       }
     }
-    
+
     is_ExitCamera(m_phf);
   }
-  
+
   //: Open camera.
-  
+
   bool ImgIOuEyeBaseC::Open(UIntT cameraId) {
     if(m_state != UE_NotReady) {
       SysLog(SYSLOG_WARNING) << "Camera already open. ";
@@ -80,7 +81,7 @@ namespace RavlImageN {
     m_phf = (HIDS) cameraId;
     int ret;
     RavlN::MutexLockC accessLock(m_accessMutex);
-    
+
     if((ret = is_InitCamera(&m_phf,0)) != IS_SUCCESS) {
       SysLog(SYSLOG_ERR) << "Failed to open camera id " << cameraId << ". Return code=" << ret << " ";
       return false;
@@ -95,51 +96,50 @@ namespace RavlImageN {
     }
     m_captureSize = IndexRange2dC(0,m_sensorInfo.nMaxHeight-1,
                                   0,m_sensorInfo.nMaxWidth-1);
-    
+
     m_state = UE_Ready;
     if(is_EnableEvent( m_phf, IS_SET_EVENT_FRAME) != IS_SUCCESS) {
       SysLog(SYSLOG_ERR) << "Failed to enable event. ";
     }
-    
+
     return true;
   }
 
   //: Allocate image buffers.
   // Should be called with camera lock aquired
-  
+
   bool ImgIOuEyeBaseC::AllocateImages() {
-    
     // Allocate images.
     for(int i = 0;i < m_NumBuffers;i++) {
       // Free buffer is it exists.
-      if(m_buffers[i] != 0) 
+      if(m_buffers[i] != 0)
         is_FreeImageMem(m_phf,m_buffers[i],m_imgId[i]);
-      
+
       // Allocate new entry of the correct size.
       if(is_AllocImageMem (m_phf, m_sensorInfo.nMaxWidth,m_sensorInfo.nMaxHeight,m_bitsPerPixel, &m_buffers[i],&m_imgId[i]) != IS_SUCCESS) {
         SysLog(SYSLOG_ERR) << "Failed to allocate image memory. ";
         return false;
       }
-      
+
       // Add to ring buffer.
       if (is_AddToSequence( m_phf,m_buffers[i],m_imgId[i]) != IS_SUCCESS)
         return false;
     }
     return true;
   }
-  
+
   //: Set pixel type
   // Should be called with camera lock aquired
-  
+
   bool ImgIOuEyeBaseC::SetPixelType(const std::type_info &pixelType) {
     if(m_state == UE_Running) {
       // Need to stop anything ?
       if(is_StopLiveVideo( m_phf, IS_WAIT ) != IS_SUCCESS) {
-        SysLog(SYSLOG_ERR) << "Failed to stop video. ";        
+        SysLog(SYSLOG_ERR) << "Failed to stop video. ";
       }
       m_state = UE_Ready;
     }
-    
+
     if(pixelType == typeid(ByteT)) {
       m_bitsPerPixel = 8;
       return (is_SetColorMode(m_phf,IS_SET_CM_Y8) == IS_SUCCESS);
@@ -149,24 +149,24 @@ namespace RavlImageN {
     }
     return false;
   }
-  
+
   //: Capture a single image into the given buffer.
-  
+
   bool ImgIOuEyeBaseC::CaptureImage(char *buffer) {
     RavlAssert(buffer != 0);
-    if(m_state == UE_NotReady) 
+    if(m_state == UE_NotReady)
       return false;
     int ret = 0;
-    
+
     RavlN::MutexLockC accessLock(m_accessMutex);
-    
+
     // Start video capture if needed.
     UpdateBuffers();
-    
+
     IntT maxDelay = m_timeOutDelay*1000.0;
     if(maxDelay < 10) maxDelay = 10;
     if(maxDelay > 10000) maxDelay = 10000;
-    
+
     if(m_snapshot && m_state != UE_TriggerWait) {
       // Note: Maximum wait is 1 second at the moment.
       ONDEBUG(SysLog(SYSLOG_DEBUG) << "Freezing video for capture. ");
@@ -177,15 +177,13 @@ namespace RavlImageN {
     } else {
       //ONDEBUG(SysLog(SYSLOG_DEBUG) << "Waiting for frame to arrive. ");
       // Wait for frame to arrive.
-      
+
       if((ret = is_WaitEvent(m_phf,IS_SET_EVENT_FRAME,maxDelay)) != IS_SUCCESS) {
         SysLog(SYSLOG_ERR) << "Failed to wait for event. Delay=" << maxDelay << "  Error:" << ret;
         return false;
       }
     }
-    
-    
-    
+
     // Find the last full frame to arrive.
     int dummy = 0;
     char *pMem,*pLast;
@@ -193,7 +191,7 @@ namespace RavlImageN {
       SysLog(SYSLOG_ERR) << "Failed to get active buffer. ";
       return false;
     }
-    
+
     // Copy that buffer.
     UIntT imgId = 0;
     for(int i = 0;i < m_NumBuffers;i++) {
@@ -202,12 +200,114 @@ namespace RavlImageN {
         break;
       }
     }
-    
+
     if(is_LockSeqBuf(m_phf,imgId,pLast) != IS_SUCCESS) {
       SysLog(SYSLOG_ERR) << "Failed to lock sequence buffer. ";
       return false;
     }
-    memcpy(buffer,pLast,ImageBufferSize());
+    // copy & rotate the image
+    switch(m_rotation) {
+      case ROT_0: {
+        int pixelLen = m_bitsPerPixel / 8;
+        if(pixelLen == 1) {
+          memcpy(buffer, pLast, ImageBufferSize());
+        } else {
+          int width = m_captureSize.Cols();
+          int height = m_captureSize.Rows();
+          const char *srcPtr = pLast;
+          char *resPtr = reinterpret_cast<char *>(buffer);
+          for(int y = height; y > 0; y--) {
+            for(int x = width; x > 0; x--) {
+              *resPtr++ = srcPtr[2];
+              *resPtr++ = srcPtr[1];
+              *resPtr++ = srcPtr[0];
+              srcPtr += 3;
+            }
+          }
+        }
+        break;
+      }
+      case ROT_90: {
+        int width = m_captureSize.Cols();
+        int height = m_captureSize.Rows();
+        int imageLength = ImageBufferSize();
+        int pixelLen = m_bitsPerPixel / 8;
+
+        if(pixelLen == 1) {
+          const char *srcPtr = pLast + width - 1;
+          char *resPtr = reinterpret_cast<char *>(buffer);
+          for(int x = width; x > 0; x--) {
+            for(int y = height; y > 0; y--) {
+              *resPtr++ = *srcPtr;
+              srcPtr += width;
+            }
+            srcPtr -= imageLength + 1;
+          }
+        } else {
+          const char *srcPtr = pLast + (width - 1) * 3;
+          char *resPtr = reinterpret_cast<char *>(buffer);
+          for(int x = width; x > 0; x--) {
+            for(int y = height; y > 0; y--) {
+              *resPtr++ = srcPtr[2];
+              *resPtr++ = srcPtr[1];
+              *resPtr++ = srcPtr[0];
+              srcPtr += width * 3;
+            }
+            srcPtr -= imageLength + 1 * 3;
+          }
+        }
+        break;
+      }
+      case ROT_180: {
+        int imageLength = ImageBufferSize();
+        int pixelLen = m_bitsPerPixel / 8;
+        if(pixelLen == 1) {
+          const char *srcPtr = pLast + imageLength - 1;
+          char *resPtr = reinterpret_cast<char *>(buffer);
+          while(srcPtr >= pLast) {
+            *resPtr++ = *srcPtr--;
+          }
+        } else {
+          const char *srcPtr = pLast + imageLength - 1;
+          char *resPtr = reinterpret_cast<char *>(buffer);
+          while(srcPtr >= pLast) {
+            *resPtr++ = *srcPtr--;
+          }
+        }
+        break;
+      }
+      case ROT_270: {
+        int width = m_captureSize.Cols();
+        int height = m_captureSize.Rows();
+        int imageLength = ImageBufferSize();
+        int pixelLen = m_bitsPerPixel / 8;
+        if(pixelLen == 1) {
+          const char *srcPtr = pLast + width * (height - 1);
+          char *resPtr = reinterpret_cast<char *>(buffer);
+          for(int x = width; x > 0; x--) {
+            for(int y = height; y > 0; y--) {
+              *resPtr++ = *srcPtr;
+              srcPtr -= width;
+            }
+            srcPtr += 1 + imageLength;
+          }
+        } else {
+          const char *srcPtr = pLast + width * (height - 1) * 3;
+          char *resPtr = reinterpret_cast<char *>(buffer);
+          for(int x = width; x > 0; x--) {
+            for(int y = height; y > 0; y--) {
+              *resPtr++ = srcPtr[2];
+              *resPtr++ = srcPtr[1];
+              *resPtr++ = srcPtr[0];
+              srcPtr -= width * 3;
+            }
+            srcPtr += 1 * 3 + imageLength;
+          }
+        }
+        break;
+      }
+    }
+
     RavlAssert(buffer != 0);
     if(is_UnlockSeqBuf(m_phf,imgId,pLast) != IS_SUCCESS) {
       SysLog(SYSLOG_ERR) << "Failed to unlock sequence buffer. ";
@@ -217,7 +317,7 @@ namespace RavlImageN {
     // Setup trigger for next frame.
     if(m_snapshot && m_triggerMode != TRIG_OFF) {
       // Note: Maximum wait is 1 second at the moment.
-      ONDEBUG(SysLog(SYSLOG_DEBUG) << "Started waiting for next trigger event. "); 
+      ONDEBUG(SysLog(SYSLOG_DEBUG) << "Started waiting for next trigger event. ");
       if((ret = is_FreezeVideo(m_phf,IS_DONT_WAIT)) != IS_SUCCESS) {
         SysLog(SYSLOG_ERR) << "Failed to freeze video. ErrorCode:" << ret << " ";
         return false;
@@ -225,10 +325,10 @@ namespace RavlImageN {
       m_state = UE_TriggerWait;
     }
 #endif
-    
+
     return true;
   }
-  
+
 
   bool ImgIOuEyeBaseC::HandleGetAttr(const StringC &attrName, StringC &attrValue)
   {
@@ -244,6 +344,10 @@ namespace RavlImageN {
       attrValue = g_triggerModeNames[m_triggerMode];
       return true;
     }
+    if(attrName == "rotation") {
+      attrValue = StringC((int)(m_rotation) * 90);
+      return true;
+    }
     if(attrName == "driver") {
       attrValue = "ueye";
       return true;
@@ -252,20 +356,19 @@ namespace RavlImageN {
       attrValue = m_sensorInfo.strSensorName;
       return true;
     }
-    
+
     return false;
   }
-  
-  
-  
+
+
   bool ImgIOuEyeBaseC::HandleSetAttr(const StringC &attrName, const StringC &attrValue)
   {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "ImgIOuEyeBaseC::SetAttr (StringC) " << attrName << " Value='" << attrValue << "'\n");
-    
+
     // Process the int attributes
     if(attrName == "width" || attrName == "height")
       return HandleSetAttr(attrName, attrValue.IntValue());
-    
+
     if(attrName == "trigger") {
       for(IntT i = 0;g_triggerModeNames[i] != 0;i++) {
         if(attrValue == g_triggerModeNames[i]) {
@@ -276,27 +379,45 @@ namespace RavlImageN {
       SysLog(SYSLOG_ERR) << "Failed to set unrecognised trigger mode '" << attrValue << "'. ";
       return true;
     }
+    if(attrName == "rotation") {
+      for(IntT i = 0; i < 360; i += 90) {
+        if(attrValue == StringC(i)) {
+          HandleSetAttr(attrName, i);
+          return true;
+        }
+      }
+      SysLog(SYSLOG_ERR) << "Failed to set unrecognised rotation '" << attrValue << "'. ";
+      return true;
+    }
     return false;
   }
-  
-  
-  
+
+
+
   bool ImgIOuEyeBaseC::HandleGetAttr(const StringC &attrName, IntT &attrValue)
   {
     // Width
     if (attrName == "width") {
-      attrValue = m_captureSize.Cols();
+      attrValue = (m_rotation == ROT_0 || ROT_180) ? m_captureSize.Cols() : m_captureSize.Rows();
       return true;
     }
-    
+
     // Height
     if (attrName == "height") {
-      attrValue = m_captureSize.Rows();
+      attrValue = (m_rotation == ROT_0 || ROT_180) ? m_captureSize.Rows() : m_captureSize.Cols();
       return true;
     }
     if(attrName == "trigger") {
       attrValue = static_cast<IntT>(m_triggerMode);
-      SignalAttrChange("trigger");
+      return true;
+    }
+    if(attrName == "rotation") {
+      switch(m_rotation) {
+        case ROT_0:   attrValue = 0;   break;
+        case ROT_90:  attrValue = 90;  break;
+        case ROT_180: attrValue = 180; break;
+        case ROT_270: attrValue = 270; break;
+      }
       return true;
     }
     if(attrName == "binning_vertical") {
@@ -335,31 +456,29 @@ namespace RavlImageN {
         return true;
       }
     }
-    
+
     return false;
   }
-  
-  
-  
+
+
+
   bool ImgIOuEyeBaseC::HandleSetAttr(const StringC &attrName, const IntT &attrValue)
   {
     int ret;
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "ImgIOuEyeBaseC::SetAttr (int) " << attrName << " Value=" << attrValue << "\n");
-    
+
     // Width
-    if (attrName == "width")
-    {
+    if (attrName == "width") {
       SysLog(SYSLOG_DEBUG) << "Setting width not implemented. ";
       return false;
     }
-    
+
     // Height
-    if (attrName == "height")
-    {
+    if (attrName == "height") {
       SysLog(SYSLOG_DEBUG) << "Setting height not implemented. ";
       return false;
     }
-    
+
     if(attrName == "trigger") {
       uEyeTrigT newTrig = static_cast<uEyeTrigT>(attrValue);
       // Anything to change ?
@@ -372,26 +491,25 @@ namespace RavlImageN {
       }
       int ret;
       if(newTrig == TRIG_OFF && m_state == UE_TriggerWait && m_snapshot) {
-        
         // Switch out of trigger mode.
         m_state = UE_Running;
       }
-      
+
       RavlN::MutexLockC accessLock(m_accessMutex);
       UpdateBuffers();
-      
+
       if((ret = is_SetExternalTrigger(m_phf,mode)) != IS_SUCCESS) {
         SysLog(SYSLOG_ERR) << "Failed to set trigger mode '" << g_triggerModeNames[attrValue] << "' . ErrorCode:" << ret << " ";
         return true;
       }
-      
+
       m_triggerMode = newTrig;
-      if(newTrig == TRIG_OFF) 
+      if(newTrig == TRIG_OFF)
         return true;
-      
+
       if(m_snapshot && m_state != UE_TriggerWait) {
         // Note: Maximum wait is 1 second at the moment.
-        ONDEBUG(SysLog(SYSLOG_DEBUG) << "Started waiting for trigger event. "); 
+        ONDEBUG(SysLog(SYSLOG_DEBUG) << "Started waiting for trigger event. ");
         if((ret = is_FreezeVideo(m_phf,IS_DONT_WAIT)) != IS_SUCCESS) {
           SysLog(SYSLOG_ERR) << "Failed to freeze video. ErrorCode:" << ret << " ";
           return false;
@@ -403,6 +521,21 @@ namespace RavlImageN {
 
       return true;
     }
+
+    if(attrName == "rotation") {
+      RavlN::MutexLockC accessLock(m_accessMutex);
+      switch(attrValue) {
+      case 90:  m_rotation = ROT_90;  break;
+      case 180: m_rotation = ROT_180; break;
+      case 270: m_rotation = ROT_270; break;
+      default:  m_rotation = ROT_0;   break;
+      }
+      accessLock.Unlock();
+      SignalAttrChange("rotation");
+
+      return true;
+    }
+
     if(attrName == "binning_vertical") {
       std::cerr << "Binning modes=" << is_SetBinning(m_phf,IS_GET_SUPPORTED_BINNING) << "\n";
       RavlN::MutexLockC accessLock(m_accessMutex);
@@ -421,11 +554,11 @@ namespace RavlImageN {
         SysLog(SYSLOG_ERR) << "Failed to set binning mode '" << attrValue  << "' . ErrorCode:" << ret << " ";
         return true;
       }
-      
+
       ResetImageSize();
       accessLock.Unlock();
       SignalAttrChange("binning_vertical");
-      
+
       // Make sure images are reallocated.
       return true;
     }
@@ -447,11 +580,11 @@ namespace RavlImageN {
         SysLog(SYSLOG_ERR) << "Failed to set binning mode '" << attrValue  << "' . ErrorCode:" << ret << " ";
         return true;
       }
-      
+
       ResetImageSize();
       accessLock.Unlock();
       SignalAttrChange("binning_horizontal");
-      
+
       // Make sure images are reallocated.
       return true;
     }
@@ -467,32 +600,32 @@ namespace RavlImageN {
     }
     return false;
   }
-  
+
   //: Reset image size
   // Should be called with lock aquired
-  
+
   void ImgIOuEyeBaseC::ResetImageSize() {
     int ret = 0;
     if(m_state == UE_Running) {
       // Need to stop anything ?
       if((ret = is_StopLiveVideo( m_phf, IS_DONT_WAIT )) != IS_SUCCESS) {
-        SysLog(SYSLOG_ERR) << "Failed to stop video. ErrorCode:" << ret;        
+        SysLog(SYSLOG_ERR) << "Failed to stop video. ErrorCode:" << ret;
       }
       m_state = UE_Ready;
-    }    
+    }
   }
-  
+
   //: Update buffer state.
   // Should be called with lock aquired
-  
+
   void ImgIOuEyeBaseC::UpdateBuffers() {
     int ret;
     if(m_state == UE_Ready) {
       // Make sure ring buffer is allocated so we're ready to
       // trigger.
-      
+
       AllocateImages();
-      
+
       if(!m_snapshot) {
         ONDEBUG(SysLog(SYSLOG_DEBUG) << "Starting streaming video capture. ");
         if((ret = is_CaptureVideo(m_phf,IS_DONT_WAIT)) != IS_SUCCESS) {
@@ -503,9 +636,9 @@ namespace RavlImageN {
     }
   }
 
-  
+
   bool ImgIOuEyeBaseC::HandleGetAttr(const StringC &attrName, bool &attrValue)
-  { 
+  {
     int ret;
     if(attrName == "snapshot") {
       attrValue = m_snapshot;
@@ -529,28 +662,34 @@ namespace RavlImageN {
       RavlN::MutexLockC accessLock(m_accessMutex);
       double v1 = 0,v2 =0;
       if((ret = is_SetAutoParameter(m_phf,IS_GET_ENABLE_AUTO_GAIN,&v1,&v2)) != IS_SUCCESS) {
-        SysLog(SYSLOG_ERR) << "Failed to read auto gain state. Error:" << ret;        
+        SysLog(SYSLOG_ERR) << "Failed to read auto gain state. Error:" << ret;
       }
       attrValue = v1 > 0;
+      return true;
+    }
+    if(attrName == "gain_boost") {
+      RavlN::MutexLockC accessLock(m_accessMutex);
+      ret = is_SetGainBoost(m_phf, IS_GET_GAINBOOST);
+      attrValue = ret == IS_SET_GAINBOOST_ON;
       return true;
     }
     if(attrName == "auto_framerate") {
       RavlN::MutexLockC accessLock(m_accessMutex);
       double v1 = 0,v2 =0;
       if((ret = is_SetAutoParameter(m_phf,IS_GET_ENABLE_AUTO_FRAMERATE,&v1,&v2)) != IS_SUCCESS) {
-        SysLog(SYSLOG_ERR) << "Failed to read auto framerate state. Error:" << ret;        
+        SysLog(SYSLOG_ERR) << "Failed to read auto framerate state. Error:" << ret;
       }
       attrValue = v1 > 0;
       return true;
     }
     return false;
   }
-  
+
   bool ImgIOuEyeBaseC::HandleSetAttr(const StringC &attrName, const bool &attrValue)
-  { 
+  {
     int ret;
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "ImgIOuEyeBaseC::SetAttr (bool) " << attrName << " Value=" << attrValue << " ");
-    
+
     if(attrName == "snapshot") {
       if(m_snapshot == attrValue)
         return true;
@@ -593,11 +732,32 @@ namespace RavlImageN {
       double v1 = attrValue ? 1.0 : 0.0;
       double v2 = 0;
       RavlN::MutexLockC accessLock(m_accessMutex);
-      if((ret = is_SetAutoParameter(m_phf,IS_GET_ENABLE_AUTO_GAIN,&v1,&v2)) != IS_SUCCESS) {
-        SysLog(SYSLOG_ERR) << "Failed to set auto shutter to " << attrValue << " Error:" << ret;
+      if((ret = is_SetAutoParameter(m_phf,IS_SET_ENABLE_AUTO_GAIN,&v1,&v2)) != IS_SUCCESS) {
+        SysLog(SYSLOG_ERR) << "Failed to set auto gain to " << attrValue << " Error:" << ret;
       }
       accessLock.Unlock();
       SignalAttrChange("auto_gain");
+      return true;
+    }
+    if(attrName == "gain_boost") {
+      int mode = attrValue ? IS_SET_GAINBOOST_ON : IS_SET_GAINBOOST_OFF;
+      RavlN::MutexLockC accessLock(m_accessMutex);
+      if((ret = is_SetGainBoost(m_phf, mode)) != IS_SUCCESS) {
+        SysLog(SYSLOG_ERR) << "Failed to set gain boost to " << attrValue << " Error:" << ret;
+      }
+      accessLock.Unlock();
+      SignalAttrChange("gain_boost");
+      return true;
+    }
+    if(attrName == "auto_framerate") {
+      double v1 = attrValue ? 1.0 : 0.0;
+      double v2 = 0;
+      RavlN::MutexLockC accessLock(m_accessMutex);
+      if((ret = is_SetAutoParameter(m_phf,IS_SET_ENABLE_AUTO_FRAMERATE,&v1,&v2)) != IS_SUCCESS) {
+        SysLog(SYSLOG_ERR) << "Failed to set auto framerate to " << attrValue << " Error:" << ret;
+      }
+      accessLock.Unlock();
+      SignalAttrChange("auto_framerate");
       return true;
     }
     if(attrName == "trigger_soft") {
@@ -605,20 +765,20 @@ namespace RavlImageN {
         IntT maxDelay = m_timeOutDelay*1000.0;
         if(maxDelay < 10) maxDelay = 10;
         if(maxDelay > 10000) maxDelay = 10000;
-        
+
         if((ret = is_FreezeVideo(m_phf,maxDelay)) != IS_SUCCESS) {
           SysLog(SYSLOG_ERR) << "Failed to freeze video for capture. ErrorCode:" << ret << " ";
           return true;
         }
       }
-      return true; 
+      return true;
     }
-    return false; 
+    return false;
   }
-  
+
   //: Handle get attribute (RealT)
   // Returns false if the attribute name is unknown.
-  
+
   bool ImgIOuEyeBaseC::HandleGetAttr(const StringC &attrName, RealT &attrValue) {
     int ret;
     if(attrName == "trigger_delay") {
@@ -678,7 +838,7 @@ namespace RavlImageN {
         SysLog(SYSLOG_WARNING) << "Failed to get the exposure range. ";
       }
       // Change things to seconds.
-      attrValue = minExp / 1000.0;      
+      attrValue = minExp / 1000.0;
       return true;
     }
     if(attrName == "shutter_max") {
@@ -687,7 +847,7 @@ namespace RavlImageN {
         SysLog(SYSLOG_WARNING) << "Failed to get the exposure range. ";
       }
       // Change things to seconds.
-      attrValue = maxExp / 1000.0;      
+      attrValue = maxExp / 1000.0;
       return true;
     }
     if(attrName == "shutter_step") {
@@ -696,16 +856,16 @@ namespace RavlImageN {
         SysLog(SYSLOG_WARNING) << "Failed to get the exposure range. ";
       }
       // Change things to seconds.
-      attrValue = intExp / 1000.0;      
+      attrValue = intExp / 1000.0;
       return true;
     }
-    
-    return false; 
+
+    return false;
   }
-  
+
   //: Handle set attribute (RealT)
   // Returns false if the attribute name is unknown.
-  
+
   bool ImgIOuEyeBaseC::HandleSetAttr(const StringC &attrName, const RealT &attrValue) {
     int ret;
     if(attrName == "trigger_delay") {
@@ -731,7 +891,7 @@ namespace RavlImageN {
       }
       return true;
     }
-    
+
     if(attrName == "pixel_clock") {
       RavlN::MutexLockC accessLock(m_accessMutex);
       if((ret = is_SetPixelClock(m_phf,attrValue/1.0e6)) != IS_SUCCESS)
@@ -809,53 +969,53 @@ namespace RavlImageN {
       SignalAttrChange("timeout");
       return true;
     }
-    return false; 
+    return false;
   }
-  
+
   bool ImgIOuEyeBaseC::BuildAttributes(AttributeCtrlBodyC &attrCtrl)
   {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "Setting up attribute. ");
     int ret;
     RavlN::MutexLockC accessLock(m_accessMutex);
-    
+
     // Information about the driver.
     attrCtrl.RegisterAttribute(AttributeTypeStringC("driver", "Name of driver", true, false,"ueye"));
     attrCtrl.RegisterAttribute(AttributeTypeStringC("card", "Capture card", true, false,"-?-"));
-    
+
     // Image size.
     attrCtrl.RegisterAttribute(AttributeTypeNumC<IntT>("width",  "Width",  true, true,  1,m_sensorInfo.nMaxWidth,  1,  m_sensorInfo.nMaxWidth));
     attrCtrl.RegisterAttribute(AttributeTypeNumC<IntT>("height", "Height", true, true,  1,m_sensorInfo.nMaxHeight, 1, m_sensorInfo.nMaxHeight));
-    
+
     // TODO: Check available modes.
     attrCtrl.RegisterAttribute(AttributeTypeNumC<IntT>("binning_vertical", "Binning level 1,2,4 pixels.", true, true,  1,4, 1, 1));
     attrCtrl.RegisterAttribute(AttributeTypeNumC<IntT>("binning_horizontal", "Binning level 1,2,4 pixels.", true, true,  1,4, 1, 1));
-    
+
 #if 0
     // TODO: Check available modes.
     attrCtrl.RegisterAttribute(AttributeTypeNumC<IntT>("subsample_vertical", "Binning level 1,2,4 pixels.", true, true,  1,4, 1, 1));
     attrCtrl.RegisterAttribute(AttributeTypeNumC<IntT>("subsample_horizontal", "Binning level 1,2,4 pixels.", true, true,  1,4, 1, 1));
 #endif
-    
+
     // Setup trigger modes.
     DListC<StringC> triggerList;
     for(int i = 0;g_triggerModeNames[i] != 0;i++)
       triggerList.InsLast(g_triggerModeNames[i]);
     attrCtrl.RegisterAttribute(AttributeTypeEnumC("trigger", "External triggering mode.", true, true, triggerList, triggerList.First()));
-    
+
     attrCtrl.RegisterAttribute(AttributeTypeBoolC("trigger_soft", "Set off a software trigger", false, true,false));
-    
+
     // Setup trigger delay.
     RealT minDelay = (RealT) is_SetTriggerDelay(m_phf,IS_GET_MIN_TRIGGER_DELAY) * 1e-6;
     RealT maxDelay = (RealT) is_SetTriggerDelay(m_phf,IS_GET_MAX_TRIGGER_DELAY) * 1e-6;
     RealT curDelay = (RealT) is_SetTriggerDelay(m_phf,IS_GET_TRIGGER_DELAY) * 1e-6;
     attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("trigger_delay", "delay after trigger to capture the frame.", true, true, minDelay,maxDelay,0.00001,curDelay));
-    
+
     // Sort out exposure time.
     double curExposure = 0;
     if((ret = is_SetExposureTime (m_phf, IS_GET_EXPOSURE_TIME,&curExposure)) == IS_SUCCESS) {
       SysLog(SYSLOG_WARNING) << "Failed to get current exposure setting. ";
     }
-    
+
     double minExp = 0,maxExp=100,intExp =0.0001;
     if((ret = is_GetExposureRange (m_phf, &minExp,&maxExp,&intExp)) != IS_SUCCESS) {
       SysLog(SYSLOG_WARNING) << "Failed to get the exposure range. ";
@@ -865,28 +1025,28 @@ namespace RavlImageN {
     minExp /= 1000.0;
     maxExp /= 1000.0;
     intExp /= 1000.0;
-    
+
     attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("shutter_speed", "Shutter speed in seconds", true, true, minExp,maxExp,intExp,curExposure));
-    
+
     attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("shutter_min", "Minumum shutter time in seconds", true, false,0.000001,10.0,0.000001,minExp));
     attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("shutter_step", "Shutter speed in seconds", true, false,0.0000001,10.0,0.000001,intExp));
     attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("shutter_max", "Maximum shutter time in seconds", true, false,0.000001,10.0,0.000001,maxExp));
-    
+
     // Hardware Gain
     double curGain;
     curGain = (RealT) is_SetHardwareGain(m_phf, IS_GET_MASTER_GAIN,IS_IGNORE_PARAMETER,IS_IGNORE_PARAMETER,IS_IGNORE_PARAMETER) / 100.0;
     attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("gain", "Gain 0.0 to 1.0", true, true, 0,1,0.01,curGain));
-    
+
     // Snapshot mode.
     attrCtrl.RegisterAttribute(AttributeTypeBoolC("snapshot", "Snapshot image capture, (for use with triggering)", true, true, m_snapshot));
 
     // Apply gamma correction ?
     bool gammaMode = is_SetHardwareGamma(m_phf,IS_GET_HW_GAMMA);
     attrCtrl.RegisterAttribute(AttributeTypeBoolC("hardware_gamma", "Use hardware gamma correction", true, true,gammaMode));
-    
+
     RealT gammaValue = (RealT) is_SetGamma(m_phf,IS_GET_GAMMA) / 100.0;
     attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("gamma", "Gamma correction", true, true, 0.01,10,0.01,gammaValue));
-    
+
     // Brightness
     RealT defaultBrightness = (RealT) is_SetBrightness(m_phf,IS_GET_BRIGHTNESS) / 255.0;
     attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("brightness", "Brightness as a fraction of available values", true, true, 0,1,0.01,defaultBrightness));
@@ -894,49 +1054,59 @@ namespace RavlImageN {
     // Contrast
     RealT defaultContrast = (RealT) is_SetContrast(m_phf,IS_GET_CONTRAST) / 255.0;
     attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("contrast", "Contrast as a fraction of available values 0.0 to 2.0", true, true, 0,2,0.005,defaultContrast));
-    
+
     // Frame rate
     double frameRate = 25;
     if((ret = is_SetFrameRate(m_phf,IS_GET_FRAMERATE,&frameRate)) != IS_SUCCESS)
       SysLog(SYSLOG_WARNING) << "Failed to get the current framerate. ";
     attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("framerate", "Frames per second", true, true, 0,160,0.1,frameRate));
-    
+
     // Pixel clock
     RealT curPixelClock = is_SetPixelClock(m_phf,IS_GET_PIXEL_CLOCK);
     attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("pixel_clock", "Pixel clock", true, true, 0,100e6,1e6,curPixelClock));
-    
+
     // Auto shutter
     double v1 = 0,v2 = 0;
     if((ret = is_SetAutoParameter(m_phf,IS_GET_ENABLE_AUTO_SHUTTER,&v1,&v2)) != IS_SUCCESS) {
-      SysLog(SYSLOG_WARNING) << "Failed to get auto shutter state. ";      
+      SysLog(SYSLOG_WARNING) << "Failed to get auto shutter state. ";
     }
     bool autoShutter = v1 > 0;;
     attrCtrl.RegisterAttribute(AttributeTypeBoolC("auto_shutter", "Automaticly set the shutter speed", true, true,autoShutter));
-    
+
     // Auto gain
-    
     v1 = 0;
     if((ret = is_SetAutoParameter(m_phf,IS_GET_ENABLE_AUTO_GAIN,&v1,&v2)) != IS_SUCCESS) {
-      SysLog(SYSLOG_WARNING) << "Failed to get auto gain state. ";            
+      SysLog(SYSLOG_WARNING) << "Failed to get auto gain state. ";
     }
     bool autoGain = v1 > 0;
     attrCtrl.RegisterAttribute(AttributeTypeBoolC("auto_gain", "Automaticly set gain", true, true,autoGain));
 
+    // gain boost
+    ret = is_SetGainBoost(m_phf, IS_GET_GAINBOOST);
+    attrCtrl.RegisterAttribute(AttributeTypeBoolC("gain_boost", "Gain boost", true, true, ret == IS_SET_GAINBOOST_ON));
+
     // Auto framerate
     v1 = 0;
     if((ret = is_SetAutoParameter(m_phf,IS_GET_ENABLE_AUTO_FRAMERATE,&v1,&v2)) != IS_SUCCESS) {
-      SysLog(SYSLOG_WARNING) << "Failed to get auto framerate state. ";            
+      SysLog(SYSLOG_WARNING) << "Failed to get auto framerate state. ";
     }
     bool autoFramerate = v1 > 0;
     attrCtrl.RegisterAttribute(AttributeTypeBoolC("auto_framerate", "Automaticly set framerate", true, true,autoFramerate));
-    
+
     // Timeout delay
     attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("timeout", "Timeout period for image capture", true, true, 0.01,100,0.01,m_timeOutDelay));
-    
-    
-    
+
+    // Setup rotation modes.
+    DListC<StringC> rotationList;
+    for(int i = 0; i < 360; i += 90)
+      rotationList.InsLast(StringC(i));
+    attrCtrl.RegisterAttribute(AttributeTypeEnumC("rotation", "Image rotation.", true, true, rotationList, rotationList.First()));
+
+    attrCtrl.RegisterAttribute(AttributeTypeBoolC("trigger_soft", "Set off a software trigger", false, true,false));
+
+
     return true;
   }
-  
-  
+
+
 }

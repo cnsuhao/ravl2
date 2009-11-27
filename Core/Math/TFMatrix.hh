@@ -57,7 +57,7 @@ namespace RavlN {
     
     bool Contains(const Index2dC &i) const
     { return ((UIntT) i.Row().V()) < Size1() && ((UIntT) i.Col().V()) < Size2(); }
-    //: Test if array contains index i·
+    //: Test if array contains index iï¿½
     
     DataT &operator[](const Index2dC &ind) { 
 #if RAVL_CHECK
@@ -227,6 +227,17 @@ namespace RavlN {
     const TFMatrixC<DataT,N,M> &AddDiagonal(const TFVectorC<DataT,N> &d);
     //: Add a vector to the diagonal of this matrix.
     
+    SizeT Hash() const {
+      SizeT val = 0;
+      for(unsigned i = 0;i < N;i++) {
+        for(unsigned j = 0;j < M;j++) {
+          val += StdHash(data[i][j]);
+          val += val << 11;
+        }
+      }
+      return false;
+    }
+    //: Generate hash value.
   protected:
 
     DataT data[N][M];

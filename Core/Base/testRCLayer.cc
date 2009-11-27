@@ -11,6 +11,7 @@
 #include "Ravl/RCLayer.hh"
 #include "Ravl/Stream.hh"
 #include "Ravl/SmartLayerPtr.hh"
+#include "Ravl/SmartPtr.hh"
 
 using namespace RavlN;
 
@@ -40,15 +41,48 @@ protected:
 };
 
 
+int testSmartPtr();
 int testRCLayer();
 
 int main() {
   int lineno;
+  if((lineno = testSmartPtr()) != 0) {
+    cerr << "Test failed " << lineno << "\n";
+    return 1;
+  }
   if((lineno = testRCLayer()) != 0) {
     cerr << "Test failed " << lineno << "\n";
     return 1;
   }
   
+  return 0;
+}
+
+static int g_classInstances = 0;
+class AClassC
+ : public RCBodyVC
+{
+public:
+  AClassC()
+  { g_classInstances++; }
+
+  ~AClassC()
+  { g_classInstances--; }
+};
+
+int testSmartPtr() {
+  if(g_classInstances != 0) return __LINE__;
+  SmartPtrC<AClassC> ptr1 = *new AClassC();
+  if(ptr1->References() != 1) return __LINE__;
+  if(g_classInstances != 1) return __LINE__;
+  SmartPtrC<const AClassC> ptr2 = ptr1.BodyPtr();
+  if(ptr1->References() != 2) return __LINE__;
+  if(g_classInstances != 1) return __LINE__;
+  ptr1.Invalidate();
+  if(ptr2->References() != 1) return __LINE__;
+  ptr2.Invalidate();
+  if(g_classInstances != 0) return __LINE__;
+  std::cout <<"SmartPtr test passed ok. \n";
   return 0;
 }
 

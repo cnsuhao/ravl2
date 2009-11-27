@@ -6,7 +6,7 @@
 // file-header-ends-here
 //////////////////////////////////////////////////////////////
 // rcsinfo.cc
-// $Id$
+// $Id: rcsinfo.cc 77 2001-05-10 13:29:16Z craftit $
 //! rcsid="$Id$"
 //! lib=RavlSourceTools
 //! file="Ravl/SourceTools/CodeManager/rcsinfo.cc"

@@ -6,7 +6,7 @@
 // file-header-ends-here
 ////////////////////////////////////////////////////
 //! userlevel=Normal
-//! rcsid="$Id: ImgIOdvsyuv.cc 3813 2003-12-11 12:08:36Z simone $"
+//! rcsid="$Id$"
 //! lib=RavlVideoIO
 //! file="Ravl/Image/VideoIO/ImgIOdvsyuv.cc"
 
@@ -52,6 +52,8 @@ namespace RavlImageN {
     if(!file_read.Ok()) {
        cerr << "DPIImageYCrCbBodyC::DPIImageYCrCbBodyC(GrabfileReader), Passed bad GrabfileReader. \n";
     }
+    frameSize = (file_read.getVideoBufSize() + file_read.getAudioBufSize() + 8);
+    seqSize = file_read.FramesLoaded();
   }
   
   ///////////////////////////
@@ -64,7 +66,7 @@ namespace RavlImageN {
   bool DPIImageDVSYUV422BodyC::Seek(UIntT off) {
     if(off == ((UIntT) -1))
       return false; // File to big.
-    strm.Seek(CalcOffset(off));
+    file_read.Seek(CalcOffset(off));
     frameNo = off;// Wait to after seek in case of exception.
     return true;
   }
@@ -77,7 +79,7 @@ namespace RavlImageN {
 	return false; // Seek off begining of data.
     }
     UIntT nfrmno = frameNo + off;
-    strm.Seek(CalcOffset(nfrmno));
+    file_read.Seek(CalcOffset(nfrmno));
     frameNo = nfrmno; // Wait till after seek in case of exception.
     return true;
   }

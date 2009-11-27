@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2005, OmniPerception Ltd.
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -65,7 +65,7 @@ namespace RavlImageN {
 
     virtual bool Design(const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile,
                         const Index2dC &maskSize,
-                        const RealT varS = 0.95, RealT varT = 0.95, RealT varC = 0.95, 
+                        const RealT varS = 0.95, RealT varT = 0.95, RealT varC = 0.95,
                         UIntT maxS=25, UIntT maxT=120, UIntT maxC=80,
                         bool ignoreSuspect = true);
     //: Design an appearance model given some data.
@@ -80,6 +80,20 @@ namespace RavlImageN {
     //!param: maxT        - limit on number of parameters returned by PCA applied to grey-level values
     //!param: maxC        - limit on number of parameters returned by PCA applied to combined shape and texture vectors
     //!param: ignoreSuspect - If true ignore examples flagged as suspect
+
+    virtual bool Design(const AAMShapeModelC &shapeModel,
+                        SampleStreamC<AAMAppearanceC> &sample,
+                        const Index2dC &maskSize,
+                        RealT varT = 0.95, RealT varC = 0.95,
+                        UIntT maxT=120, UIntT maxC=80);
+    //: Design an appearance model given some data.
+    //!param: shapeModel  - a designed shape model.
+    //!param: sample      - stream of sample appearances.
+    //!param: maskSize    - dimensions of the shape free image, i.e. with control points warped to mean positions.
+    //!param: varT        - percentage of texture variation preserved during PCA applied to grey-level values
+    //!param: varC        - percentage of variation preserved during PCA applied to combined shape and texture vectors
+    //!param: maxT        - limit on number of parameters returned by PCA applied to grey-level values
+    //!param: maxC        - limit on number of parameters returned by PCA applied to combined shape and texture vectors
 
     virtual void SetMask(const ImageC<IntT> &mask);
     //: Set shape free image.
@@ -202,13 +216,13 @@ namespace RavlImageN {
   //! userlevel=Normal
   //: Statistical model of appearance.
 
-  class AAMAppearanceModelC 
+  class AAMAppearanceModelC
     : public RCHandleVC<AAMAppearanceModelBodyC>
   {
   public:
     AAMAppearanceModelC()
     {}
-    //: Default constructor 
+    //: Default constructor
     // Creates an invalid handle.
 
     AAMAppearanceModelC(RealT nWarpSigma)
@@ -265,8 +279,8 @@ namespace RavlImageN {
     //  The input appearance 'inst' is warped such that its control points are located at the mean positions in the returned image.
 
     bool Design(const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile,
-                const Index2dC &newMaskSize = Index2dC(50,50), 
-                RealT varS = 0.95, RealT varT = 0.95, RealT varC = 0.95, 
+                const Index2dC &newMaskSize = Index2dC(50,50),
+                RealT varS = 0.95, RealT varT = 0.95, RealT varC = 0.95,
                 UIntT maxS=25, UIntT maxT=120, UIntT maxC=80,
                 bool ignoreSuspect = true)
     { return Body().Design(fileList,dir,mirrorFile,newMaskSize,varS,varT,varC,maxS,maxT,maxC,ignoreSuspect); }
@@ -282,7 +296,24 @@ namespace RavlImageN {
     //!param: maxT        - limit on number of parameters returned by PCA applied to grey-level values
     //!param: maxC        - limit on number of parameters returned by PCA applied to combined shape and texture vectors
     //!param: ignoreSuspect - If true ignore examples flagged as suspect
-    
+
+    bool Design(const AAMShapeModelC &shapeModel,
+                SampleStreamC<AAMAppearanceC> &sample,
+                const Index2dC &maskSize,
+                RealT varT = 0.95,
+                RealT varC = 0.95,
+                UIntT maxT = 120,
+                UIntT maxC = 80)
+    { return Body().Design(shapeModel, sample, maskSize, varT, varC, maxT, maxC); }
+    //: Design an appearance model given some data.
+    //!param: shapeModel  - a designed shape model.
+    //!param: sample      - stream of sample appearances.
+    //!param: maskSize    - dimensions of the shape free image, i.e. with control points warped to mean positions.
+    //!param: varT        - percentage of texture variation preserved during PCA applied to grey-level values
+    //!param: varC        - percentage of variation preserved during PCA applied to combined shape and texture vectors
+    //!param: maxT        - limit on number of parameters returned by PCA applied to grey-level values
+    //!param: maxC        - limit on number of parameters returned by PCA applied to combined shape and texture vectors
+
     void SetMask(const ImageC<IntT> &mask)
     { return Body().SetMask(mask); }
     //: Set shape free image.

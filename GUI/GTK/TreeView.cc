@@ -24,7 +24,7 @@
 #include  <gtk/gtk.h>
 
 #include "WidgetDNDInfo.hh"
-
+ 
 #define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
@@ -88,7 +88,9 @@ namespace RavlGUIN {
   
   //: Constructor.
   
-  TreeViewBodyC::TreeViewBodyC(const TreeModelC &tm,const DListC<StringC> &ndisplayColumns, GtkSelectionMode nselMode,
+  TreeViewBodyC::TreeViewBodyC(const TreeModelC &tm,
+                               const DListC<StringC> &ndisplayColumns,
+                               GtkSelectionMode nselMode,
                                bool ignoreInitialSelectionSignals) 
     : treeModel(tm),
       selection(0),
@@ -330,7 +332,6 @@ namespace RavlGUIN {
         return SetAttribute(i, colNum,key,value,proxy);
       }
 
-    cerr << "TreeViewBodyC::SetAttribute(), Unknown column '" << colName << "' \n";
     return false;
   }
   
@@ -387,15 +388,20 @@ namespace RavlGUIN {
     // Enable column resizing
     else if (attrName == "resizable") {
       gtk_tree_view_column_set_resizable(GTK_TREE_VIEW_COLUMN(column), true);
-    } else { // Don't know!!
+    }
+    else if (attrName == "renderer") 
+    {}
+    else  { // Don't know!!
       cerr << "TreeViewBodyC::SetAttribute, WARNING: Unknown attribute '" << attrName << "' \n";
     }
+
     return true;
   }
   
   //: Create with a widget supplied from elsewhere.
   
   bool TreeViewBodyC::Create(GtkWidget *nwidget) {
+    
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "TreeViewBodyC::Create()";)
     widget = nwidget;
     
@@ -407,19 +413,36 @@ namespace RavlGUIN {
     
     // Build view 
     for(SArray1dIterC<TreeViewColumnC> it(displayColumns);it;it++) {
+      //const StringC &colRenderType = it->Renderer();
       GtkCellRenderer *renderer = 0;
       IntT col_offset = 0;
-      
+
       GtkTreeViewColumn *column = gtk_tree_view_column_new();
       gtk_tree_view_column_set_title(column, it->Name());
       col_offset = (gtk_tree_view_append_column(GTK_TREE_VIEW(widget),column) - 1);
       RavlAssert(col_offset >= 0);
       it->SetColumnId(col_offset);
       it->ColumnView(column);
-      
+
+      //: See if the default renderer has been overidden....
+      Tuple2C<StringC,bool> rendererAttribute;
+      it->Attributes().Lookup("renderer", rendererAttribute);
+
       for(SArray1dIterC<TreeViewColumnRendererC> rit(it->Renderers());rit;rit++) {
+
+        //: See if the default col renderer has been overriden
+        Tuple2C<StringC,bool> rendererColAttribute;
+        rit->Attributes().Lookup("renderer", rendererColAttribute); 
+        
+        // use the overriden renderer always
+        if (!rendererColAttribute.Data1().IsEmpty())
+          rit->SetRenderType(rendererColAttribute.Data1());
+        else if (!rendererAttribute.Data1().IsEmpty())
+          rit->SetRenderType(rendererAttribute.Data1());
+       
         const StringC &renderType = rit->RenderType();
-	renderer = 0;
+
+        renderer = 0;
         if (renderType == "bool") { // Bool render
           renderer = gtk_cell_renderer_toggle_new(); 
           if(rit->SignalChanged().IsValid()) {
@@ -1025,6 +1048,24 @@ namespace RavlGUIN {
     
     return true;
   }
+
+
+  
+  //: Access the current cursor selection
+  bool TreeViewBodyC::GUIGetCurrentCursor(TreeModelPathC & path, StringC & colName)
+  {
+    GtkTreePath * tPath = 0; 
+    GtkTreeViewColumn * tCol = 0;
+    gtk_tree_view_get_cursor((GtkTreeView*) widget, &tPath, &tCol);
+    // path must be freed when used, so wrap it....
+    TreeModelPathC retPath(tPath, true);
+    if ((tPath == NULL) || (tCol==NULL))
+      return false; 
+    path = retPath; 
+    colName = tCol->title;
+    return true;
+  }
+
 
   
   //: Setup widget as drag and drop source.

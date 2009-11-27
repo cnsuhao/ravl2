@@ -289,6 +289,9 @@ namespace RavlGUIN {
     bool DeleteRow(TreeModelIterC &rowHandle);
     //: Delete a row.
 
+    bool GetValue(TreeModelIterC &rowIter,IntT col, RealT & value);
+    //: Get real value 
+
     bool GetValue(TreeModelIterC &rowIter,IntT col, IntT &value);
     //: Get int value.
 
@@ -300,6 +303,9 @@ namespace RavlGUIN {
 
     bool GetValue(TreeModelIterC &rowIter,IntT col, PixbufC &value);
     //: Get pixbuf value.
+
+    bool SetValue(TreeModelIterC &rowIter, IntT col, RealT value);
+    //: Set real value
 
     bool SetValue(TreeModelIterC &rowIter,IntT col, IntT value);
     //: Set int value.
@@ -318,6 +324,9 @@ namespace RavlGUIN {
 
     virtual bool GUIDeleteRow(TreeModelIterC &rowHandle);
     //: Delete a row.
+
+    virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, RealT value);
+    //: Set real value
 
     virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, IntT value);
     //: Set int value.
@@ -426,6 +435,10 @@ namespace RavlGUIN {
     { return Body().ColNumber(name); }
     //: Look up column number of named column.
 
+    bool GetValue(TreeModelIterC &rowIter,IntT col, RealT &value)
+    { return Body().GetValue(rowIter,col,value); }
+    //: Get real value
+
     bool GetValue(TreeModelIterC &rowIter,IntT col, IntT &value)
     { return Body().GetValue(rowIter,col,value); }
     //: Set int value.
@@ -446,6 +459,9 @@ namespace RavlGUIN {
     { return Body().GUIDeleteRow(rowHandle); }
     //: Delete a row.
 
+    bool GUISetValueReal(TreeModelIterC &rowIter,IntT col, RealT value)
+    { return Body().GUISetValue(rowIter,col,value); }
+
     bool GUISetValueInt(TreeModelIterC &rowIter,IntT col, IntT value)
     { return Body().GUISetValue(rowIter,col,value); }
     //: Set int value.
@@ -461,6 +477,9 @@ namespace RavlGUIN {
     bool GUISetValuePixbuf(TreeModelIterC &rowIter,IntT col, const PixbufC &value)
     { return Body().GUISetValue(rowIter,col,value); }
     //: Set pixbuf value.
+
+    bool GUISetValue(TreeModelIterC &rowIter,IntT col, RealT value)
+    { return Body().GUISetValue(rowIter,col,value); }
 
     bool GUISetValue(TreeModelIterC &rowIter,IntT col, IntT value)
     { return Body().GUISetValue(rowIter,col,value); }
@@ -489,6 +508,9 @@ namespace RavlGUIN {
     void Empty()
     { Body().Empty(); }
     //: Clear store of all values.
+
+    bool SetValue(TreeModelIterC &rowIter, IntT col, RealT value)
+    { return Body().SetValue(rowIter, col, value); }
 
     bool SetValue(TreeModelIterC &rowIter,IntT col, IntT value)
     { return Body().SetValue(rowIter,col,value); }

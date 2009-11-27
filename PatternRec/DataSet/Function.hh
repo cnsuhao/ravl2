@@ -54,7 +54,10 @@ namespace RavlN {
     
     virtual VectorC Apply(const VectorC &data) const;
     //: Apply function to 'data'
-    
+
+    TVectorC<float> Apply(const TVectorC<float> &data) const;
+    //: Apply function with float vecors to 'data'
+
     virtual VectorC Apply(const VectorC & data1, const VectorC & data2) const ; 
     //: Apply function to two data vectors 
     // The default behaviour is to concatenate the two vectors  

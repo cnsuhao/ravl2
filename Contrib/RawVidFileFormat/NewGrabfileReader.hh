@@ -1,6 +1,6 @@
 #if !defined(RAVL_NEWGRABFILEREADER_HEADER)
 #define RAVL_NEWGRABFILEREADER_HEADER
-//! rcsid="$Id: $"
+//! rcsid="$Id$"
 //! lib=RawVid
 //! author="Simon Tredwell"
 //! docentry="Ravl.API.Images.Video.Video IO.RawVid"

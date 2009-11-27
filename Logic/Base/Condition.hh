@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_CONDITION_HEADER
 #define RAVLLOGIC_CONDITION_HEADER 1
 ////////////////////////////////////////////////////////////////
-//! rcsid=$Id$"
+//! rcsid=$Id: Condition.hh 6463 2007-11-24 16:55:37Z craftit $"
 //! docentry="Ravl.API.Logic.Condition"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/Condition.hh"

@@ -55,7 +55,21 @@ namespace RavlN {
     virtual FunctionC Apply(SampleStream3C<VectorC,VectorC,RealT> &in);
     //: Create function from the given data, and sample weights.
     // Note: Construction from a sample stream may not be implemented by all designers.
+
+    virtual FunctionC Apply(const SampleC<TVectorC<float> > &in,const SampleC<TVectorC<float> > &out);
+    //: Create function from the given data.
+
+    virtual FunctionC Apply(const SampleC<TVectorC<float> > &in,const SampleC<TVectorC<float> > &out,const SampleC<float> &weight);
+    //: Create function from the given data, and sample weights.
+
+    virtual FunctionC Apply(SampleStream2C<TVectorC<float>,TVectorC<float> > &in);
+    //: Create function from the given data.
+    // Note: Construction from a sample stream may not be implemented by all designers.
     
+    virtual FunctionC Apply(SampleStream3C<TVectorC<float>,TVectorC<float>,float> &in);
+    //: Create function from the given data, and sample weights.
+    // Note: Construction from a sample stream may not be implemented by all designers.
+
   };
   
   //! userlevel=Normal
@@ -113,7 +127,25 @@ namespace RavlN {
     { return Body().Apply(in); }
     //: Create function from the given data, and sample weights. (in,out,weight)
     // Note: Construction from a sample stream may not be implemented by all designers.
+
+    FunctionC Apply(const SampleC<TVectorC<float> > &in,const SampleC<TVectorC<float> > &out)
+    { return Body().Apply(in,out); }
+    //: Create function from the given data.
+
+    FunctionC Apply(const SampleC<TVectorC<float> > &in,const SampleC<TVectorC<float> > &out,const SampleC<float> &weight)
+    { return Body().Apply(in,out,weight); }
+    //: Create function from the given data, and sample weights.
+
+    FunctionC Apply(SampleStream2C<TVectorC<float>,TVectorC<float> > &in)
+    { return Body().Apply(in); }
+    //: Create function from the given data.
+    // Note: Construction from a sample stream may not be implemented by all designers.
     
+    FunctionC Apply(SampleStream3C<TVectorC<float>,TVectorC<float>,float> &in)
+    { return Body().Apply(in); }
+    //: Create function from the given data, and sample weights.
+    // Note: Construction from a sample stream may not be implemented by all designers.
+
   };
   
   // DesignFunctionSupervisedC

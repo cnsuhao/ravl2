@@ -172,7 +172,7 @@ namespace Ravl3DN {
     //: Access normal at vertex.
 
     UIntT Hash() const { 
-#if RAVL_OS_LINUX64
+#if RAVL_CPUTYPE_64
       return ((UInt64T) body) >> 3;
 #else
       return ((UIntT) body) >> 3;

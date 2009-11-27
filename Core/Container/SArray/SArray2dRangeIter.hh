@@ -2,7 +2,7 @@
 #define SARR2RANGEITER_HEADER 1
 ////////////////////////////////////////////////////////////
 //! docentry="Ravl.Core.Arrays.2D"
-//! rcsid="$Id$
+//! rcsid="$Id: SArray2dRangeIter.hh 1954 2002-10-30 14:38:15Z vap-james $
 //! file="amma/Contain/Array/SArray/SArray2dRangeIter.hh"
 //! lib=MSArr1
 //! author="Manuel Segovia"

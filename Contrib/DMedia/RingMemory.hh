@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_DMEDIARINGMEMORY_HEADER 
 #define RAVLIMAGE_DMEDIARINGMEMORY_HEADER  1
 ///////////////////////////////////////////
-//! rcsid=$Id$
+//! rcsid=$Id: RingMemory.hh 5240 2005-12-06 17:16:50Z plugger $
 //! file="Ravl/Contrib/DMedia/RingMemory.hh"
 //! lib=RavlDMedia
 //! userlevel=Default

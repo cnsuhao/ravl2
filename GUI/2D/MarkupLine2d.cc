@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id: fixSource.cfg 5642 2006-06-23 10:51:11Z craftit $"
+//! rcsid="$Id$"
 //! lib=RavlGUI2D
 
 #include "Ravl/GUI/MarkupLine2d.hh"

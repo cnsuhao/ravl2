@@ -16,6 +16,17 @@
 #include "Ravl/Stream.hh"
 
 namespace RavlN {
+
+  //: Constructor.
+  RCAbstractC::RCAbstractC(std::istream &in)
+   : RCHandleVC<RCBodyVC>(in)
+  {}
+
+  //: Constructor.
+  RCAbstractC::RCAbstractC(BinIStreamC &in)
+   : RCHandleVC<RCBodyVC>(in)
+  {}
+
   //: Dump info about handle
   
   void RCAbstractC::Dump(ostream &out) const {

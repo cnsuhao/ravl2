@@ -30,7 +30,8 @@ namespace RavlN {
     //: Default constructor.
     
     DesignFuncReduceBodyC(RealT variationPreserved);
-    //: Construct from a mean and rotation.
+    // "variationPreserved" is amount of variation to attempt to preserve in reduced set:<br>
+    // 0 -> None; 1 -> All; >1 (truncated to int) -> Size of set preserved.
     
     DesignFuncReduceBodyC(istream &strm);
     //: Load from stream.
@@ -46,8 +47,8 @@ namespace RavlN {
     
     RealT VariationPreserved() const 
     { return varPreserved; }
-    //: Amount of variation to attempt to preserve in reduced set.
-    // 0-None 1-All.
+    //: Returns amount of variation to attempt to preserve in reduced set.
+    // 0 -> None; 1 -> All; >1 (truncated to int) -> Size of set preserved.
     
   protected:
     RealT varPreserved; // Amount of variation to preserve.
@@ -82,8 +83,8 @@ namespace RavlN {
   public:    
     RealT VariationPreserved() const 
     { return Body().VariationPreserved(); }
-    //: Amount of variation to attempt to preserve in reduced set.
-    // 0-None 1-All.
+    //: Returns amount of variation to attempt to preserve in reduced set.
+    // 0 -> None; 1 -> All; >1 (truncated to int) -> Size of set preserved.
   };
 
 }

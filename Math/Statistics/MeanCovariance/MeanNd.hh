@@ -99,7 +99,10 @@ namespace RavlN {
     
     inline MeanNdC & operator+=(const VectorC & point);
     //: Adds a point to the set.
-    
+
+    inline MeanNdC & operator+=(const TVectorC<float> & point);
+    //: Adds a point to the set.
+
     inline MeanNdC & operator-=(const VectorC & point);
     //: Removes a point from the set. 
     // Be carefull to remove a point which was already added to 
@@ -117,6 +120,10 @@ namespace RavlN {
     { return (VectorC &) *this; }
     //: Access the mean vector.
     
+    UIntT Hash() const
+    { return StdHash(number) + StdHash(static_cast<const VectorC &>(*this)); }
+    //: Provided for compatibility with templates.
+
   protected:
     
     // Object representation
@@ -155,6 +162,14 @@ namespace RavlN {
     }
     return *this;
   }
+
+  inline MeanNdC &MeanNdC::operator+=(const TVectorC<float> & point) {
+    Mean() *= (RealT) number++;
+    Mean() += point;
+    Mean() /= number;
+    return *this;
+  }
+
   
   inline MeanNdC &  MeanNdC::operator-=(const VectorC & point) {
     if (&Mean() == &point) {

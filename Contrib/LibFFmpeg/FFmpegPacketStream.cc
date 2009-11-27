@@ -19,9 +19,9 @@
 #define ONDEBUG(x)
 #endif
 
-namespace RavlN {
-  
+#define DISABLE_IMAGE2_FORMAT 1
 
+namespace RavlN {
 
   //: Constructor
   
@@ -85,6 +85,7 @@ namespace RavlN {
       AVCodecContext *pCodecCtx = pFormatCtx->streams[i]->codec;
       
       // Find the decoder for the video stream
+      RavlAssert(pCodecCtx);
       AVCodec *pCodec = avcodec_find_decoder(pCodecCtx->codec_id);
       if (pCodec == NULL) 
         continue;
@@ -98,6 +99,14 @@ namespace RavlN {
         codecName = pCodec->name;
       
       ONDEBUG(cerr << "iformat=" << inputFormatName << " Codec=" << codecName << "\n");
+
+#if DISABLE_IMAGE2_FORMAT
+      if (inputFormatName == "image2")
+      {
+        ONDEBUG(std::cerr << "FFmpegPacketStreamBodyC::FirstVideoStream discarding image2 format.\n");
+        return false;
+      }
+#endif
 
 #if 1
       // !!!!!!!!! Format Specific Hacks !!!!!!!!!!!!!!!
@@ -146,11 +155,21 @@ namespace RavlN {
       AVCodecContext *pCodecCtx = pFormatCtx->streams[i]->codec;
       
       // Find the decoder for the video stream
+      RavlAssert(pCodecCtx);
       AVCodec *pCodec = avcodec_find_decoder(pCodecCtx->codec_id);
       if (pCodec == NULL) 
         continue;
       
-      ONDEBUG(cerr << "FFmpegPacketStreamBodyC::CheckForVideo codec found(" << (pCodec->name != NULL ? pCodec->name : "NULL") << ")" << endl);
+      ONDEBUG(cerr << "FFmpegPacketStreamBodyC::CheckForVideo format(" << (pFormatCtx->iformat->name ?  pFormatCtx->iformat->name : "NULL") << ") codec(" << (pCodec->name != NULL ? pCodec->name : "NULL") << ")" << endl);
+
+#if DISABLE_IMAGE2_FORMAT
+      StringC inputFormatName = pFormatCtx->iformat->name;
+      if (inputFormatName == "image2")
+      {
+        ONDEBUG(std::cerr << "FFmpegPacketStreamBodyC::CheckForVideo discarding image2 format.\n");
+        return false;
+      }
+#endif
 
       // Inform the codec that we can handle truncated bitstreams
       // i.e. bitstreams where frame boundaries can fall in the middle of packets

@@ -5,19 +5,17 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
+//! author="Alexey Kostin"
+
 #include <Ravl/config.h>
 
 #if !RAVL_OS_FREEBSD
 #define _XOPEN_SOURCE 600
 #endif
 
-//#include <stdlib.h>
-//#include <emmintrin.h>
 
 #include "Ravl/PatternRec/SvmQuadraticClassifier.hh"
 #include "Ravl/PatternRec/SvmClassifier.hh"
-#include "Ravl/PatternRec/CommonKernels.hh"
-#include "Ravl/PatternRec/AuxVector.hh"
 
 namespace RavlN
 {
@@ -97,47 +95,38 @@ SvmQuadraticClassifierBodyC::SvmQuadraticClassifierBodyC(BinIStreamC &Strm)
 SvmQuadraticClassifierBodyC::~SvmQuadraticClassifierBodyC()
 {
   DestroyBuffers();
-  AuxVectorC::DestroyAuxVector(auxVec);
-  auxVec = NULL;
 }
 //---------------------------------------------------------------------------
 //! free allocated memory
 void SvmQuadraticClassifierBodyC::DestroyBuffers()
 {
-  if(m_weights1 != NULL)
-    auxVec->FreeVector(m_weights1);
-
-  if(m_weights1 != NULL)
-    auxVec->FreeVector(m_weights2);
-
-  m_weights1 = NULL;
-  m_weights2 = NULL;
+  m_weights1 = VectorC();
+  m_weights2 = VectorC();
   m_halfWeights = 0;
 }
 //---------------------------------------------------------------------------
 //! allocate memory for weights
-void SvmQuadraticClassifierBodyC::CreateBuffers(int HalfWeights)
+void SvmQuadraticClassifierBodyC::CreateBuffers(int halfWeights)
 {
-  m_weights1 = auxVec->AllocateVector(HalfWeights);
-  m_weights2 = auxVec->AllocateVector(HalfWeights);
+  m_weights1 = VectorC::ConstructAligned(halfWeights, 16);
+  m_weights2 = VectorC::ConstructAligned(halfWeights, 16);
 
-  if(m_weights1 == NULL || m_weights2 == NULL)
+  if(!m_weights1.IsValid() || !m_weights2.IsValid())
   {
     DestroyBuffers();
     throw ExceptionOperationFailedC("SvmQuadraticClassifierBodyC::CreateBuffers:"
                                     "Can't allocate memory for weights");
   }
-  m_halfWeights = HalfWeights;
+  m_halfWeights = halfWeights;
 }
 //---------------------------------------------------------------------------
 //! initialise member variables
 void SvmQuadraticClassifierBodyC::InitMembers()
 {
-  m_weights1 = NULL;
-  m_weights2 = NULL;
+  m_weights1 = VectorC();
+  m_weights2 = VectorC();
   m_halfWeights = 0;
   m_threshold = 0.;
-  auxVec = GetAuxVector();
 }
 //---------------------------------------------------------------------------
 //! Writes object to stream
@@ -181,10 +170,9 @@ bool SvmQuadraticClassifierBodyC::Save(BinOStreamC &Out) const
 }
 //---------------------------------------------------------------------------
 //! Classifier vector 'Data' return value of descriminant function
-RealT SvmQuadraticClassifierBodyC::Classify2(const RealT* Data) const
+RealT SvmQuadraticClassifierBodyC::Classify2(const VectorC & Data) const
 {
-  RealT retVal = m_threshold + auxVec->DotProduct2(Data, m_weights1, m_weights2,
-                                                   m_halfWeights);
+  RealT retVal = m_threshold + Data.Dot2(m_weights1, m_weights2);
   return retVal;
 }
 //---------------------------------------------------------------------------
@@ -198,7 +186,7 @@ IntT SvmQuadraticClassifierBodyC::GetDataSize() const
 //! Create classifier
 /**
 @param Sv support vectors
-@param Lambdas lagrangian multipliers
+@param Lambdas Lagrangian multipliers
 @param Scale global scale from kernel function
 @param Threshold threshold
  */
@@ -206,25 +194,22 @@ void SvmQuadraticClassifierBodyC::Create(const SampleC<VectorC>& Sv,
                                          const RealT* Lambdas,
                                          RealT Scale, RealT Threshold)
 {
-  const int numSv = Sv.Size();
+  const SizeT numSv = Sv.Size();
   if(numSv <= 0)
     throw ExceptionOperationFailedC("SvmQuadraticClassifierBodyC::Create:"
                                     "No support vectors!");
   CreateBuffers(Sv[0].Size());
 
-  for(int i = 0; i < m_halfWeights;i++ )
-  {
-    m_weights1[i] = 0.;
-    m_weights2[i] = 0.;
-  }
+  m_weights1.Fill(0.);
+  m_weights2.Fill(0.);
 
-  for(int i = 0; i < numSv; i++)
+  for(SizeT i = 0; i < numSv; i++)
   {
     RealT lambda = Lambdas[i];
     const RealT* imPtr = Sv[i].DataStart();
-    RealT* wPtr = m_weights1;
-    RealT* w2Ptr = m_weights2;
-    const RealT* const wePtr = m_weights1 + m_halfWeights;
+    RealT* wPtr = m_weights1.DataStart();
+    RealT* w2Ptr = m_weights2.DataStart();
+    const RealT* const wePtr = wPtr + m_halfWeights;
     while(wPtr < wePtr)
     {
       RealT val = *imPtr++;
@@ -233,11 +218,8 @@ void SvmQuadraticClassifierBodyC::Create(const SampleC<VectorC>& Sv,
     }
   }
 
-  for(int i = 0; i < m_halfWeights;i++)
-  {
-    m_weights1[i] *= Scale;
-    m_weights2[i] *= Scale;
-  }
+  m_weights1 *= Scale;
+  m_weights2 *= Scale;
 
   m_threshold = Threshold;
 }
@@ -246,7 +228,7 @@ void SvmQuadraticClassifierBodyC::Create(const SampleC<VectorC>& Sv,
 //! Create classifier
 /**
 @param Sv support vectors
-@param Lambdas lagrangian multipliers
+@param Lambdas Lagrangian multipliers
 @param Weights weights for features
 @param Scale global scale from kernel function
 @param Threshold threshold

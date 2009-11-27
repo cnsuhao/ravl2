@@ -5,8 +5,6 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
-#include "Ravl/PatternRec/SvmClassifier2.hh"
-
 #include "Ravl/Option.hh"
 #include "Ravl/OS/Date.hh"
 #include "Ravl/OS/Filename.hh"

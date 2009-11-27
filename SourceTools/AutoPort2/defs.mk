@@ -4,7 +4,7 @@
 # Public License (GPL). See the gpl.licence file for details or
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
-#! rcsid="$Id: fixSource.cfg 5642 2006-06-23 10:51:11Z craftit $"
+#! rcsid="$Id$"
 
 
 PACKAGENAME= VCPP
@@ -23,7 +23,8 @@ SOURCES=AutoPortSource.cc AutoPortGenerator.cc ExtLib.cc ExtLibTable.cc
 
 MAINS= autoport2.cc
 
-TESTEXES=autoport2.cc
+TESTEXES=
+#autoport2.cc
 
 PLIB=RavlAutoPort2
 

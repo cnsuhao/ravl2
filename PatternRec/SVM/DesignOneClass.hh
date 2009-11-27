@@ -6,6 +6,8 @@
 // file-header-ends-here
 // $Id: DesignOneClass.hh 12208 2008-02-07 12:54:07Z alex $
 
+//! author="Alexey Kostin"
+
 #ifndef RAVL_DESIGN_ONE_CLASS_HEADER
 #define RAVL_DESIGN_ONE_CLASS_HEADER
 

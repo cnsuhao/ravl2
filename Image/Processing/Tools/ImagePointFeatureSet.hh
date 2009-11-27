@@ -78,14 +78,17 @@ namespace RavlImageN {
 
     bool Move(IntT id, Point2dC change);
     //: Move a particular feature by <code>change</code>
+    // Note: The feature must already exist in the set.
     // Returns false if id could not be found
 
     bool Set(IntT id, Point2dC position);
     //: Set a particular feature to the passed position
+    // Note: The feature must already exist in the set.
     // Returns false if id could not be found
 
     bool Set(const StringC& desc, Point2dC position);
     //: Set a particular feature to the passed position
+    // Note: The feature must already exist in the set.
     // Returns false if id could not be found
     
     Point2dC Position(const StringC &name) const;

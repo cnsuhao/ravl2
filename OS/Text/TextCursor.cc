@@ -6,7 +6,7 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////////
 // TxCursore.cc
-// $Id$
+// $Id: TextCursor.cc 2868 2003-05-12 16:11:12Z craftit $
 //! rcsid="$Id$"
 //! lib=RavlOS
 //! file="Ravl/OS/Text/TextCursor.cc"

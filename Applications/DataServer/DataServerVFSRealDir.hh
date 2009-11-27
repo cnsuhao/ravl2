@@ -6,7 +6,6 @@
 // file-header-ends-here
 #ifndef RAVL_DATASERVERVFSREALDIR_HEADER
 #define RAVL_DATASERVERVFSREALDIR_HEADER 1
-//! rcsid="$Id$"
 
 #include "Ravl/DataServer/DataServerVFSNode.hh"
 #include "Ravl/DataServer/DataServerVFSRealFile.hh"
@@ -14,6 +13,7 @@
 #include "Ravl/DP/TypeInfo.hh"
 #include "Ravl/DP/SPortShare.hh"
 #include "Ravl/RCWrap.hh"
+#include "Ravl/HSet.hh"
 
 namespace RavlN {
   
@@ -24,7 +24,7 @@ namespace RavlN {
     : public DataServerVFSNodeBodyC
   {
   public:
-    DataServerVFSRealDirBodyC(const StringC &vname,const StringC &nRealDirname,bool canWrite);
+    DataServerVFSRealDirBodyC(const StringC &vname,const StringC& npath,const StringC &nRealDirname,bool canWrite,bool canCreate_);
     //: Constructor.
     
     ~DataServerVFSRealDirBodyC();
@@ -36,21 +36,46 @@ namespace RavlN {
     const FilenameC &RealDirname() const
     { return realDirname; }
     //: Real filename.
-    
+
+    void SetFileFormat(const StringC& fileFormat)
+    { defaultFileFormat = fileFormat; }
+    //: Set the file format for all directory files.
+
     virtual bool OpenIPort(DListC<StringC> &remainingPath,const StringC &dataType,NetISPortServerBaseC &port);
     //: Open input port.
     
     virtual bool OpenOPort(DListC<StringC> &remainingPath,const StringC &dataType,NetOSPortServerBaseC &port);
     //: Open output port.
     
+    virtual bool Delete(const DListC<StringC>& remainingPath);
+    //: Delete the physical media of the target path within the node.
+    //!param: remainingPath - List of strings containing the path elements to the target within the node.
+    //!return: True if successfully deleted.
+
+    virtual bool QueryNodeSpace(const StringC& remainingPath, Int64T& total, Int64T& used, Int64T& available);
+    //: Query physical media details for the target path within the node.
+    //!param: remainingPath - List of strings containing the path elements to the target within the node.
+    //!param: total - If the target path is a directory, return the space allocated for the partition containing the target path in bytes (both free and used). -1 if the target path is a file.
+    //!param: used - If the target path is a directory, the space used on the partition containing the target path is returned. If the target path is a file, the size of the file is returned. Value in bytes.
+    //!param: available - If the target path is a directory, return the space available on the partition containing the target node in bytes. -1 if the target path is a file.
+    //!return: True if the query executed successfully.
+
+    virtual bool OnDelete(DListC<StringC>& remainingPath);
+    //: Called when a child node is deleted.
+    //!param: remainingPath - The deleted target path within the node.
+
   protected:
     bool OpenVFSFile(DListC<StringC> &remainingPath,DataServerVFSRealFileC &rfile,bool forWrite = false);
     //: Open VFS file.
     
     MutexC access; // Access control for object.
     HashC<StringC,DataServerVFSRealFileC> name2file;
+    HSetC<StringC> nameDeletePending;
     
     FilenameC realDirname;
+    StringC defaultFileFormat;
+
+    bool canCreate;
   };
   
   //! userlevel=Normal
@@ -61,8 +86,8 @@ namespace RavlN {
     : public DataServerVFSNodeC
   {
   public:
-    DataServerVFSRealDirC(const StringC & vname,const StringC & nRealDirname,bool canWrite = false) 
-      : DataServerVFSNodeC(*new DataServerVFSRealDirBodyC(vname,nRealDirname,canWrite))
+    DataServerVFSRealDirC(const StringC & vname,const StringC& npath,const StringC & nRealDirname,bool canWrite = false, bool canCreate = false)
+      : DataServerVFSNodeC(*new DataServerVFSRealDirBodyC(vname,npath,nRealDirname,canWrite,canCreate))
     {}
     //: Constructor. 
     //!cwiz:author
@@ -72,6 +97,10 @@ namespace RavlN {
     //: Real filename. 
     //!cwiz:author
     
+    void SetFileFormat(const StringC& fileFormat)
+    { Body().SetFileFormat(fileFormat); }
+    //: Set the file format for all directory files.
+
   protected:
     DataServerVFSRealDirC(DataServerVFSRealDirBodyC &bod)
      : DataServerVFSNodeC(bod)

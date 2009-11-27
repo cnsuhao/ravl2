@@ -60,7 +60,7 @@ template class RCWrapC<IntT>;
 
 int main()
 {
-#if RAVL_OS_LINUX64
+#if RAVL_CPUTYPE_64
   cerr << "Linux 64 enabled. \n";
 #endif
   int ln;

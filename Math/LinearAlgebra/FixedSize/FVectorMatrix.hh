@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_FVECTORMATRIX_HEADER
 #define RAVL_FVECTORMATRIX_HEADER 1
-//! rcsid=$Id$
+//! rcsid=$Id: FVectorMatrix.hh 5240 2005-12-06 17:16:50Z plugger $
 //! author="Charles Galambos"
 //! date="13/04/2002"
 //! docentry="Ravl.API.Math.Geometry"

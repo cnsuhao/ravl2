@@ -12,6 +12,9 @@
 #include "Ravl/PatternRec/DesignFuncLDA.hh"
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/Math.hh"
+#include "Ravl/PatternRec/SampleStreamVector.hh"
+#include "Ravl/DP/Compose.hh"
+#include "Ravl/DP/SPortAttach.hh"
 
 #if RAVL_COMPILER_MIPSPRO 
 #pragma instantiate RavlN::DPIPortBodyC<RavlN::Tuple2C<RavlN::VectorC,RavlN::StringC> > 
@@ -181,6 +184,22 @@ namespace RavlN {
     lda = matLDA.SubMatrix(matLDA.Rows(),Min(matLDA.Cols(), SizeT(numClasses) )).T() * pca.Pca().Matrix();
 
     return FuncMeanProjectionC(mean, lda);
+  }
+
+  //: Create function from the 2 streams.
+  // This method uses streams so that you don't have to store all the data in memory.<br>
+  //!param: inPca - uses this stream to do some initial PCA dimension reduction (could be same stream as inLda)
+  //!param: inLda - uses this labelled stream of vectors to do dimension reduction using LDA
+
+  static Tuple2C<VectorC,StringC> vecStrFloat2vecStr(const Tuple2C<TVectorC<float>,StringC> &in)
+  { return Tuple2C<VectorC,StringC>(in.Data1(),in.Data2()); }
+
+  FunctionC DesignFuncLDABodyC::Apply(SampleStreamC<TVectorC<float> > &inPca,
+                                         SampleStream2C<TVectorC<float>, StringC> &inLda)
+  {
+    SampleStreamVectorC ssv(inPca);
+    SampleStream2C<VectorC, StringC> inRealLda = SPort(inLda >> Process(vecStrFloat2vecStr));
+    return Apply(ssv,inRealLda);
   }
 
   //: Design the transform using the matrix transformation method

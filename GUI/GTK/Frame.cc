@@ -5,7 +5,6 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////
-//! rcsid="$Id$"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Frame.cc"
 
@@ -58,7 +57,7 @@ namespace RavlGUIN {
   //: Create with a widget supplied from elsewhere.
   
   bool FrameBodyC::Create(GtkWidget *_widget) {
-    RavlAssert(GTK_FRAME(widget) != 0);
+    RavlAssert(GTK_FRAME(_widget) != 0);
     if(!OneChildBodyC::Create(_widget))
       return false;
     // Anything to do..?

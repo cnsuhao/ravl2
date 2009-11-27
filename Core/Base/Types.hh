@@ -113,7 +113,7 @@ namespace RavlN {
   //: 64 bit unsigned integer.
 #endif
   
-#if RAVL_OS_LINUX64
+#if RAVL_CPUTYPE_64
   typedef UInt64T SizeT;
   //: Unsigned type which can index any item in memory. 
   // I.e. it has number of bits to match virtual address space (typically 32 or 64 bits) 

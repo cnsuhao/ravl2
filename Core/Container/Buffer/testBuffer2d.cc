@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-// $Id$
+// $Id: testBuffer2d.cc 5521 2006-06-06 16:59:52Z craftit $
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Buffer/testBuffer2d.cc"

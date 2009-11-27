@@ -99,6 +99,11 @@ namespace RavlN {
     }
     //: return twice the area contained by the three points
     
+     RealT Angle() const
+    { return atan2(data[1],data[0]); }
+    //: Returns the oriented angle (rad) from the origin in
+    //: the  range -PI to PI.
+
   };
   
   bool Normalise(const SArray1dC<Point2dC> &raw,SArray1dC<Point2dC> &norm,Matrix3dC &normMat);

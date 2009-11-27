@@ -10,12 +10,18 @@ ORGANISATION=OmniPerception Ltd
 
 PACKAGE=Ravl/DataServer
 
-HEADERS=DataServer.hh DataServerVFSNode.hh DataServerVFSRealFile.hh DataServerVFSRealDir.hh
+HEADERS=DataServer.hh DataServerControlInterface.hh DataServerControlMessages.hh \
+ DataServerVFSNode.hh DataServerVFSRealFile.hh DataServerVFSRealDir.hh \
+ DataServerControlServer.hh DataServerControlConnection.hh DataServerControlClient.hh DataServerControlNetClient.hh
 
-SOURCES=DataServer.cc DataServerVFSNode.cc DataServerVFSRealFile.cc DataServerVFSRealDir.cc
+SOURCES=DataServer.cc DataServerControlInterface.cc \
+ DataServerVFSNode.cc DataServerVFSRealFile.cc DataServerVFSRealDir.cc \
+ DataServerControlServer.cc DataServerControlConnection.cc DataServerControlClient.cc DataServerControlNetClient.cc
+
+PLIB=RavlDataServer
 
 MAINS= dsd.cc
 
 USESLIBS= RavlNet RavlOSIO 
 
-PROGLIBS= RavlImageIO RavlVideoIO RavlExtImgIO RavlImage
+PROGLIBS= RavlIO RavlImageIO RavlVideoIO RavlExtImgIO RavlImage RavlImgIOV4L2.opt

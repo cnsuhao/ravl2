@@ -193,6 +193,10 @@ namespace RavlN {
   { return cosh(x); }
   //: Returns the hyperbolic cosine of 'x'.
   
+    inline RealT Tanh(RealT x)
+  { return tanh(x); }
+  //: Returns the hyperbolic tan of 'x'.
+
   inline RealT Pythag(RealT a, RealT b) {
 #if RAVL_HAVE_HYPOT
     return hypot(a,b);

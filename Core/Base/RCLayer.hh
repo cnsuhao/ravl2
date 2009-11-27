@@ -63,12 +63,14 @@ namespace RavlN {
     { ravl_atomic_inc(&owners); }
     //: Increment owner reference counter.
     
-    void DecOwners() {
+    void DecOwners() const {
       // Note care should be taken as ZeroOwners() may invalidate this handle again.
       // and so cause a double free.
       if(ravl_atomic_dec_and_test(&owners) != 0) {
         try {
-          ZeroOwners();
+          // Destructing an object can't keep it constant. This means owner handles
+          // can't be 100% constant, not happy with this but I don't see an alternative.
+          const_cast<RCLayerBodyC *>(this)->ZeroOwners();
         } catch(...) {
           // Warn the user that something is wrong.  Exceptions shouldn't be allowed
           // to get this far as this may be called in a destructor.
@@ -218,10 +220,6 @@ namespace RavlN {
     bool Save(BinOStreamC &out) const
     { return Body().Save(out); }
     //: Save to binary stream 'out'.
-    
-    RCAbstractC Abstract()
-    { return RCAbstractC(Body()); }
-    //: Create an abstract handle.    
     
     IntT References() const
     { return RCHandleVC<BodyT>::References(); }

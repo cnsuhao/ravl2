@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id: fixSource.cfg 5642 2006-06-23 10:51:11Z craftit $"
+//! rcsid="$Id$"
 //! lib=RavlGUI2D
 
 #include "Ravl/GUI/MarkupPoint2d.hh"
@@ -24,7 +24,7 @@ namespace RavlGUIN {
   
   //: Constructor.
   
-  MarkupPoint2dBodyC::MarkupPoint2dBodyC(Int64T id, IntT zOrder, Point2dC & cn,MarkupPoint2dStyleT _style,bool isFixed)
+  MarkupPoint2dBodyC::MarkupPoint2dBodyC(Int64T id, IntT zOrder,const Point2dC & cn,MarkupPoint2dStyleT _style,bool isFixed)
     : MarkupInfoBodyC(id,zOrder),
       centre(cn),
       sigPosition(Point2dC()),

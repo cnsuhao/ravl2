@@ -7,6 +7,8 @@
 // $Id: DesignSvm.hh 12208 2008-02-07 12:54:07Z alex $
 //! docentry =  "Ravl.API.Pattern_Recognition.Classifier.SVM"
 
+//! author="Alexey Kostin"
+
 #ifndef RAVL_DESIGN_SVM_HEADER
 #define RAVL_DESIGN_SVM_HEADER 1
 

@@ -41,7 +41,6 @@ namespace RavlN {
   // Note: this is an in-place operation.
 
   void MatrixRSC::MakeSymmetric() {
-    // FIXME:- Make a faster pointer version.
     for(unsigned int i = 0;i < Rows();i++) {
       for(unsigned int j = i + 1;j < Cols();j++)
 	(*this)[j][i] = (*this)[i][j];

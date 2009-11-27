@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 ###############################################
-# $Id$
+# $Id: defs.mk 1533 2002-08-08 16:03:23Z craftit $
 #! rcsid="$Id$"
 #! file="Ravl/Applications/VPlay/Bitmaps/defs.mk"
 

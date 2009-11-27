@@ -6,7 +6,7 @@
 // file-header-ends-here*/
 #ifndef RAVL_CONFIG_HEADER
 #define RAVL_CONFIG_HEADER 1
-/*! rcsid="$Id$" */
+/*! rcsid="$Id: config.h 7310 2009-10-14 20:31:27Z craftit $" */
 /*! file="Ravl/Core/Base/config.h" */
 /*! lib=RavlCore */
 
@@ -46,7 +46,7 @@
 #define RAVL_COMPILER_VISUALCPP6 (!defined(__GNUC__) && defined(WIN32) && !RAVL_COMPILER_VISUALCPPNET) /* Visual C++ 6 */
 
 #define RAVL_CPU_IX86    defined(__i386__)      /* 386 base varient. */
-#define RAVL_CPU_X86_64 defined (__x86_64__)
+#define RAVL_CPU_X86_64 (defined (__x86_64__) || defined(__LP64__))
 #define RAVL_CPU_SPARC   defined(__sparc)       /* sun sparc based system. */
 #define RAVL_CPU_SPARC_V9 defined(__sparc_v9__)  /* sparc v9 instruction set */
 /* for __sparc_v9__ to be set the appropriate compile time options may have to be applied */
@@ -57,8 +57,8 @@
 #define RAVL_CPU_ARM defined(__arm)   /* arm based system */
 #define RAVL_CPU_PPC defined(__ppc__)   /* powerpc based system */
 
-#define RAVL_CPUTYPE_64 defined (__x86_64__)  /* 64 bit cpu */
-#define RAVL_CPUTYPE_32 !defined (__x86_64__) /* 32 bit cpu */
+#define RAVL_CPUTYPE_64 (defined (__x86_64__) || defined(__LP64__))   /* 64 bit cpu */
+#define RAVL_CPUTYPE_32 !(RAVL_CPUTYPE_64) /* 32 bit cpu */
 
 #define RAVL_OS_LINUX64   (defined(__linux__) && defined (__x86_64__))
 #define RAVL_OS_LINUX   (defined(__linux__) && !defined(__x86_64__)) /* Linux based OS. */

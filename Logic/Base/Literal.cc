@@ -100,7 +100,7 @@ namespace RavlLogicN {
   
   StringC LiteralBodyC::Name() const
   {
-#if RAVL_OS_LINUX64
+#if RAVL_CPUTYPE_64
     return StringC("L:") + StringC((UInt64T) this); 
 #else
     return StringC("L:") + StringC((UIntT) this); 

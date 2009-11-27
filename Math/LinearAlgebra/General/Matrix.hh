@@ -155,6 +155,13 @@ namespace RavlN {
     //: Normalise columns so they have a magnitude of 1.
     // Zero rows are ignored.
     
+    const TMatrixC<RealT> &AddOuterProduct(const TVectorC<float> &vec1,const TVectorC<float> &vec2);
+    //: Add outer product of vec1 and vec2 to this matrix.
+
+    const TMatrixC<RealT> &AddOuterProduct(const TVectorC<float> &vec1,const TVectorC<float> &vec2,const float &a);
+    //: Add outer product of vec1 and vec2 multiplied by a to this matrix .
+
+    using TMatrixC<RealT>::AddOuterProduct;
   };
   
   

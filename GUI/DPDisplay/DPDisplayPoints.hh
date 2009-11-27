@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLGUI_DPDISPLAYPOINTS_HEADER
 #define RAVLGUI_DPDISPLAYPOINTS_HEADER 1
-//! rcsid="$Id: DPDisplayImage.hh 5741 2006-07-13 10:27:51Z craftit $"
+//! rcsid="$Id$"
 //! lib=RavlDPDisplay
 //! file="Ravl/GUI/DPDisplay/DPDisplayImage.hh"
 //! author="Charles Galambos"

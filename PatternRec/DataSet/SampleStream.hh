@@ -33,7 +33,8 @@ namespace RavlN {
     //: Default constructor.
 
     SampleStreamC(const DPISPortC<DataT> &port)
-      : DPISPortC<DataT>(port)
+      : DPEntityC(port),
+        DPISPortC<DataT>(port)
     {}
     //: Base constructor.
     
@@ -63,7 +64,8 @@ namespace RavlN {
     //: Default constructor.
     
     SampleStream2C(const DPISPortC<Tuple2C<Data1T,Data2T> > &port)
-      : SampleStreamC<Tuple2C<Data1T,Data2T> >(port)
+      : DPEntityC(port),
+        SampleStreamC<Tuple2C<Data1T,Data2T> >(port)
     {}
     //: Base constructor.
   protected:
@@ -88,7 +90,8 @@ namespace RavlN {
     //: Default constructor.
     
     SampleStream3C(const DPISPortC<Tuple3C<Data1T,Data2T,Data3T> > &port)
-      : SampleStreamC<Tuple3C<Data1T,Data2T,Data3T> >(port)
+      : DPEntityC(port),
+        SampleStreamC<Tuple3C<Data1T,Data2T,Data3T> >(port)
     {}
     //: Base constructor.
 

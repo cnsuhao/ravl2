@@ -152,6 +152,10 @@ namespace RavlN {
     bool Save(BinOStreamC &outS) const;
     //: Save the object to a binary stream.
 
+    UIntT Hash() const
+    { return StdHash(m) + StdHash(cov); }
+    //: Provided for compatibility with templates.
+
   protected:
     FMeanC<N> m;   // The mean vector of this data set.
     FMatrixC<N,N> cov; // the covariance matrix of this data set.
