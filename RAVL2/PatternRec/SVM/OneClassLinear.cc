@@ -5,6 +5,8 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
+//! author="Alexey Kostin"
+
 #include "Ravl/PatternRec/OneClassLinear.hh"
 #include "Ravl/PatternRec/CommonKernels.hh"
 

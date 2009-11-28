@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 //! docentry = "Statistics.Histograms"
 //! userlevel = Normal
-//! rcsid=     "$Id$"
+//! rcsid=     "$Id: VectorIndex.hh 4130 2004-03-20 15:08:03Z craftit $"
 //! author="Luis Molina Tanco"
 //! file="Ravl/Math/Indexing/VectorIndex.hh"
 //! lib=RavlMath

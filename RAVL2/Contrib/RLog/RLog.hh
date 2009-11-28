@@ -13,6 +13,8 @@
 
 #include "Ravl/String.hh"
 #include <rlog/rlog.h>
+#undef RLOG_SECTION
+#define RLOG_SECTION
 
 namespace RavlN {
   

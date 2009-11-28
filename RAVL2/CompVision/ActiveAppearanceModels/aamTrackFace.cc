@@ -1,4 +1,4 @@
-//! rcsid="$Id: aamLocaliseFace.cc 5572 2006-06-09 16:09:48Z sevynaej $"
+//! rcsid="$Id$"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/aamLocaliseFace.hh"
 //! docentry="Ravl.API.Images.AAM"

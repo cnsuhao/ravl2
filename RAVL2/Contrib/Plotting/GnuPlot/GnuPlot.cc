@@ -1,3 +1,9 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2006, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #include "Ravl/Plot/GnuPlot.hh"
 #include "Ravl/HashIter.hh"
 #include "Ravl/OS/Date.hh"
@@ -5,6 +11,7 @@
 #include "Ravl/StdConst.hh"
 #include "Ravl/StdMath.hh"
 #include "Ravl/Point2d.hh"
+//! lib=RavlPlot
 
 namespace RavlGUIN {
 using namespace RavlConstN;

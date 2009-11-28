@@ -60,6 +60,8 @@ namespace RavlN {
     virtual RealT Apply1(const VectorC &data) const;
     //: Apply function to 'data'
     
+    virtual float Apply1(const TVectorC<float> &data) const;
+    //! Apply to a vector of floats.
   };
 
   //! userlevel=Normal

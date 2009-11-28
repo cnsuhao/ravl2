@@ -90,7 +90,51 @@ namespace RavlImageN {
         return PyString_FromStringAndSize(imageData, imageSize);
       }
     }
-
+  
+  
+  %extend
+    {
+    PyObject* DataAsStringTriple()
+      {
+      if (self->Rows() <= 0 || self->Cols() <= 0)
+        return NULL;
+      
+      if (!self->IsContinuous())
+        return NULL;
+      
+      RavlN::BufferAccessC<PixelT> rowAccess = self->RowPtr(0);
+      const char* imageData = reinterpret_cast<const char*>(rowAccess.ReferenceVoid());
+      if (imageData == NULL)
+        return NULL;
+      
+      const int imageSize = self->Rows() * self->Stride() * sizeof(PixelT);
+      const int outImageSize = imageSize * 3;
+      char* outImageData = new char[outImageSize];
+      if (outImageData)
+        {
+        const char* srcImagePtr = imageData;
+        char* dstImagePtr = outImageData;
+        for (int index = 0; index < imageSize; index++)
+          {
+          *dstImagePtr = *srcImagePtr;
+          ++dstImagePtr;
+          
+          *dstImagePtr = *srcImagePtr;
+          ++dstImagePtr;
+          
+          *dstImagePtr = *srcImagePtr;
+          ++dstImagePtr;
+          
+          ++srcImagePtr;
+          }
+        PyObject* pyObject = PyString_FromStringAndSize(outImageData, outImageSize);
+        delete [] outImageData;
+        return pyObject;
+        }
+      return NULL;
+      }
+    }
+  
 #endif
   };
 

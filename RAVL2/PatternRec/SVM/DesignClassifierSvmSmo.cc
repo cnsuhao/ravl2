@@ -5,6 +5,8 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
+//! author="Alexey Kostin"
+
 #include "Ravl/PatternRec/DesignClassifierSvmSmo.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
 #include <string.h>
@@ -149,7 +151,7 @@ Classifier2C DesignSvmSmoBodyC::Apply(const SampleC<VectorC> &TrainingSetVectors
 
   SetObjectsToUse(ObjectsToUse);
 
-  //find lagrangian multipliers
+  //find Lagrangian multipliers
   CalcLambdas();
 
   return GetClassifier();
@@ -163,7 +165,7 @@ ClassifierC DesignSvmSmoBodyC::Apply(const SampleC<VectorC> &TrainingSetVectors,
 
   SetObjectsToUse(ObjectsToUse);
 
-  //find lagrangian multipliers
+  //find Lagrangian multipliers
   CalcLambdas();
 
   return GetClassifier();
@@ -189,7 +191,7 @@ Classifier2C DesignSvmSmoBodyC::Apply(const SampleC<VectorC> &TrainingSetVectors
     objectsToUse[i] = i;
   }
 
-  //find lagrangian multipliers
+  //find Lagrangian multipliers
   CalcLambdas();
 
   return GetClassifier();
@@ -215,7 +217,7 @@ ClassifierC DesignSvmSmoBodyC::Apply(const SampleC<VectorC> &TrainingSetVectors,
     objectsToUse[i] = i;
   }
 
-  //find lagrangian multipliers
+  //find Lagrangian multipliers
   CalcLambdas();
 
   return GetClassifier();
@@ -766,7 +768,7 @@ IntT DesignSvmSmoBodyC::LeaveOneOutTest()
       numErrors++;
     }
 
-    //restore lambas from store
+    //restore lambdas from store
     memcpy(lambdas, lambdaStore, trainSetSize * sizeof(double));
   }
 

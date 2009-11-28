@@ -6,7 +6,7 @@
 // file-header-ends-here
 /////////////////////////////////////////////////
 // L2World/NLPCausalLink.cc   12/12/96   By Charles Galambos
-// $Id$
+// $Id: NLPCausalLink.cc 1533 2002-08-08 16:03:23Z craftit $
 //! rcsid="$Id$"
 //! lib=RavlLogicNLP
 //! file="Ravl/Logic/NonLinearPlanner/NLPCausalLink.cc"

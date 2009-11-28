@@ -6,7 +6,7 @@
 // file-header-ends-here
 ////////////////////////////////////////////////////
 //! userlevel=Normal
-//! rcsid="$Id: ImgIOdvsrgb.cc 3594 2003-10-24 16:56:01Z simone $"
+//! rcsid="$Id$"
 //! lib=RavlVideoIO
 //! file="Ravl/Image/VideoIO/ImgIOdvsrgb.cc"
 
@@ -78,13 +78,19 @@ namespace RavlImageN {
     if(!file_reader.Ok()) {
       cerr << "DPIImageDVSRGBBodyC::DPIImageDVSRGBBodyC(GrabfileReader), Passed bad file writer. \n";
     }
+      frameSize = (file_read.getVideoBufSize() + file_read.getAudioBufSize() + 8);
+      seqSize = file_read.FramesLoaded();
   }
   
   //: Constructor from stream 
   
-  DPIImageDVSRGBBodyC::DPIImageDVSRGBBodyC(GrabfileReaderC& file_reader,const StringC &fn,bool useHdr) : file_read(file_reader)  {
+  DPIImageDVSRGBBodyC::DPIImageDVSRGBBodyC(GrabfileReaderC& file_reader,const StringC &fn,bool useHdr) 
+     : file_read(file_reader)
+  {
     rawMode = true;
     fd = open(fn.chars(),O_RDONLY);
+    frameSize = (file_read.getVideoBufSize() + file_read.getAudioBufSize() + 8);
+    seqSize = file_read.FramesLoaded();
   }
   
   ///////////////////////////
@@ -95,10 +101,17 @@ namespace RavlImageN {
   // position will not be changed.
   
   bool DPIImageDVSRGBBodyC::Seek(UIntT off) {
-    if(off == ((UIntT) -1))
+    /*if(off == ((UIntT) -1)) {
       return false; // File to big.
-    strm.is().clear(); // Clear any errors.
-    strm.Seek(CalcOffset(off));
+    }*/
+    //if((-off) > (IntT) frameNo) {
+    //  return false; // File to big.
+    //}
+    if( off == 0 & frameNo == 0 ) {
+       return false;
+    }
+    //strm.is().clear(); // Clear any errors.
+    file_read.Seek(CalcOffset((UInt64T)off));
     frameNo = off;// Wait to after seek in case of exception.
     return true;
   }
@@ -107,12 +120,16 @@ namespace RavlImageN {
   
   bool DPIImageDVSRGBBodyC::DSeek(IntT off) {
     if(off < 0) {
-      if((-off) > (IntT) frameNo)
+      if((off == -1) & (frameNo == 1) ) {
+         return true;
+      }
+      if((-off) > (IntT) frameNo) {
 	return false; // Seek off begining of data.
+      }
     }
     UIntT nfrmno = frameNo + off;
-    strm.is().clear(); // Clear any errors.
-    strm.Seek(CalcOffset(nfrmno));
+    //strm.is().clear(); // Clear any errors.
+    file_read.Seek(CalcOffset((Int64T)nfrmno));
     frameNo = nfrmno; // Wait till after seek in case of exception.
     return true;
   }
@@ -204,7 +221,7 @@ namespace RavlImageN {
   bool DPOImageDVSRGBBodyC::Seek(UIntT off) {
     if(off == ((UIntT)-1))
       return false; 
-    strm.Seek(CalcOffset(off));
+    strm.Seek(CalcOffset((UInt64T)off));
     frameNo = off;// Wait to after seek in case of exception.
     if(frameNo > seqSize)
       seqSize = frameNo;
@@ -219,7 +236,7 @@ namespace RavlImageN {
 	return false; // Seek off begining of data.
     }
     UIntT nfrmno = frameNo + off;
-    strm.Seek(CalcOffset(nfrmno));
+    strm.Seek(CalcOffset((Int64T)nfrmno));
     frameNo = nfrmno; // Wait to after seek in case of exception.
     if(frameNo > seqSize)
       seqSize = frameNo;

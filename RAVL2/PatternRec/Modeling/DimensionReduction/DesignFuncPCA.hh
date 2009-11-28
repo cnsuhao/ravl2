@@ -27,7 +27,7 @@ namespace RavlN {
     DesignFuncPCABodyC(RealT variationPreserved = 0.98);
     //: Default constructor.
     // "variationPreserved" is amount of variation to attempt to preserve in reduced set.
-    // 0-None 1-All.
+    // 0 -> None; 1 -> All; >1 (truncated to int) -> Size of set preserved.
     
     DesignFuncPCABodyC(istream &strm);
     //: Load from stream.
@@ -44,7 +44,7 @@ namespace RavlN {
     virtual FunctionC Apply(const SampleC<VectorC> &in);
     //: Create function from the given data.
     // The actual class returned is <a href="RavlN.FuncMeanProjectionC.html">FuncMeanProjectionC</a>
-    
+
     virtual FunctionC Apply(SampleStreamC<VectorC> &in);
     //: Create function from the given data.
     // The actual class returned is <a href="RavlN.FuncMeanProjectionC.html">FuncMeanProjectionC</a>
@@ -104,8 +104,8 @@ namespace RavlN {
       : DesignFuncReduceC(*new DesignFuncPCABodyC(variationPreserved))
     {}
     //: Constructor 
-    // "variationPreserved" is amount of variation to attempt to preserve in reduced set.
-    // 0-None 1-All.
+    // "variationPreserved" is amount of variation to attempt to preserve in reduced set:<br>
+    // 0 -> None; 1 -> All; >1 (truncated to int) -> Size of set preserved.
     
   protected:
     DesignFuncPCAC(DesignFuncPCABodyC &bod)

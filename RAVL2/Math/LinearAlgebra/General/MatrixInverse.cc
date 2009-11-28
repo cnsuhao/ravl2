@@ -105,7 +105,7 @@ namespace RavlN {
     if(IsContinuous())
       return minv(&(*this)[0][0],Rows()) == 0; // ccmath routine.
     
-    // FIXME:- Should either copy matrix to continous memory,
+    // TODO:- Should either copy matrix to continous memory,
     // or make a version of the ccmath routine that will work
     // with seperate rows?
     // ----------------------------------------------------------

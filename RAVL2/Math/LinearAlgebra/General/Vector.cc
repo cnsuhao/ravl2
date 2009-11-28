@@ -35,6 +35,13 @@ namespace RavlN {
       cout << ' ' << *it ;
   }
   
+  //: Multiply vec by scale and add it to this one.
+
+  const TVectorC<RealT> &VectorC::MulAdd(const TVectorC<float> &vec,float a) {
+    for(BufferAccessIter2C<RealT,float> it(*this,vec);it;it++)
+      it.Data1() += it.Data2() * a;
+    return *this;
+  }
 
 
 

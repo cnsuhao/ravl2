@@ -26,6 +26,10 @@ ifeq ($(ARC),alpha)
 ANSIFLAG=-fpermissive
 endif
 
+# Some of the mac opengl header files are broken, at least non-ansi c,
+# so we have to swtich off the ansi flag.
+ANSIFLAG=
+
 DESCRIPTION = Interface to open GL.
 
 #MAINS = #v3d.cc

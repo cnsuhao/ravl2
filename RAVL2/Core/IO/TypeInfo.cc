@@ -87,10 +87,24 @@ namespace RavlN {
     RavlAssertMsg(0,"abstract method"); // Abstract function called.
     return false;    
   }
-    
+
+
+
+  Int64T DPTypeInfoBodyC::GetAndWriteArray(DPIPortBaseC &port,Int64T size,BinOStreamC &strm) const {
+    RavlAssertMsg(0,"abstract method"); // Abstract function called.
+    return 0;
+  }
+
   //: Read an item from the binary stream and write it to a port.
-  
+
   bool DPTypeInfoBodyC::ReadAndPut(BinIStreamC &strm,DPOPortBaseC &port) const {
+    RavlAssertMsg(0,"abstract method"); // Abstract function called.
+    return false;
+  }
+
+
+
+  bool DPTypeInfoBodyC::ReadAndPutArray(Int64T size,BinIStreamC &strm,DPOPortBaseC &port) const {
     RavlAssertMsg(0,"abstract method"); // Abstract function called.
     return false;
   }

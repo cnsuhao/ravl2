@@ -59,7 +59,13 @@ namespace RavlN {
     return 0;
   }
 
-  
+  //! Apply to a vector of floats.
+
+  float Function1BodyC::Apply1(const TVectorC<float> &data) const {
+    VectorC tmp(data);
+    return Apply1(tmp);
+  }
+
   VectorC Function1BodyC::Jacobian1(const VectorC &X) const {
     return Jacobian(X).SliceRow(0);
   }

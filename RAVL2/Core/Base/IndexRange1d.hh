@@ -228,7 +228,7 @@ namespace RavlN {
     { return IndexRangeC(Min() - i,Max() - i); }
     //: Create a new IndexRangeC with minimum and maximum limits shifted by subtracting the offset 'i'.
     
-#if RAVL_OS_LINUX64
+#if RAVL_CPUTYPE_64
 inline IndexRangeC  operator+(UInt64T i) const 
 { return IndexRangeC(Min() + i,Max() + i); }
     //: Create a new IndexRangeC with minimum and maximum limits shifted by adding the offset 'i'.
@@ -352,6 +352,13 @@ inline const IndexRangeC & operator+=(Int64T i)
     }
     //: Return a range within this range that has start and end points which are integer multples of 'alignment' 
     
+    SizeT Hash() const {
+      SizeT ret = minI.Hash();
+      ret += ret << 11;
+      ret += maxI.Hash();
+      return ret;
+    }
+    //: Generate a hash value for the range.
   private:    
     IndexC minI; // Minimum index.
     IndexC maxI; // Maximum index.

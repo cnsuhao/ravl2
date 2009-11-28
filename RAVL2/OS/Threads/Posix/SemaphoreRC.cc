@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////
-// $Id$
+// $Id: SemaphoreRC.cc 79 2001-05-10 13:44:47Z craftit $
 //! rcsid="$Id$"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Posix/SemaphoreRC.cc"

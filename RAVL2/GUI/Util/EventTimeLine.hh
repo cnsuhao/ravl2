@@ -4,11 +4,11 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_GUIEVENTTIMELINE_HEADER
-#define RAVL_GUIEVENTTIMELINE_HEADER 1
+#ifndef RAVL_EVENTTIMELINE_HEADER
+#define RAVL_EVENTTIMELINE_HEADER 1
 //! author="Charles Galambos"
 //! rcsid="$Id$"
-//! docentry="Ravl.API.Graphics.GTK.Util"
+//! lib=RavlGUIUtil
 
 #include "Ravl/GUI/RawCanvas.hh"
 #include "Ravl/RealRange1d.hh"
@@ -16,13 +16,12 @@
 #include "Ravl/Tuple2.hh"
 
 namespace RavlGUIN {
-  using namespace RavlGUIN;
+  
   using namespace RavlImageN;
   class EventTimeLineC;
   
   //! userlevel=Develop
   //: Event time line.
-  // Display a set of events as black marks on a white backgrouond. A red marker indicates current position.
   
   class EventTimeLineBodyC 
     : public RawCanvasBodyC 
@@ -40,8 +39,8 @@ namespace RavlGUIN {
     //: Constructor.
     //!param: rng - Range of times to display.
     //!param: events - List of events.
-
-    EventTimeLineBodyC(const RealRangeC &rng,bool useMarker = true);
+    
+    EventTimeLineBodyC(const RealRangeC &rng);
     //: Constructor.
     //!param: rng - Range of times to display.
     //!param: events - List of events.
@@ -54,13 +53,25 @@ namespace RavlGUIN {
     ~EventTimeLineBodyC();
     //: Destructor.
     
+    virtual bool Create()
+    { return CommonCreate(); }
+    //: Create the widget.
+    
+    virtual bool Create(GtkWidget *_widget)
+    { return CommonCreate(_widget); }
+    //: Create the widget.
+    
     bool SetDisplayRange(RealRangeC &rng);
     //: Set range of times to display
     
     bool GUISetDisplayRange(RealRangeC &rng);
     //: Set range of times to display
     
-    Signal1C<RealT> &SigTimeSelected()
+    bool GUISetLocalSegment(const RealRangeC &segRange);
+    //: Set the local segment.
+    // Segments with a negative size will not be displayed
+    
+    inline Signal1C<RealT> &SigTimeSelected()
     { return timeSelected; }
     //: Frame selected signal
     
@@ -78,30 +89,42 @@ namespace RavlGUIN {
     
     bool SetEvents(DListC<Tuple2C<IntT,RealRangeC> > &events);
     //: Set event list.
-    // The event list must be sorted.
     
     bool GUISetEvents(DListC<Tuple2C<IntT,RealRangeC> > &events);
     //: Set event list.
-    // The event list must be sorted.
+
+    bool SetActiveSegments(DListC<RealRangeC> & segments);
+    //: Set list of inactive segments
+
+    bool GUISetActiveSegments(DListC<RealRangeC> & segments);
+    //: Set a list of inactive segments. 
     
     bool SetDisplaySpan(RealT &size);
     //: Set the length of time to display.
     
     bool GUISetDisplaySpan(RealT &size);
     //: Set the length of time to display.
+
+    inline const RealRangeC & LocalSegment() const
+    { return m_localSegment; }
+    //: Access local segment.
+
+    inline const RealRangeC & DisplayRange() const
+    { return displayRange; }
+    //: Access display range
+
+    inline const RealT & At() const
+    { return atMarker; }
+    //: Access at position.
+
+    inline const DListC<Tuple2C<IntT,RealRangeC> > & Events() const
+    { return events; }
+    //: Access to the events
     
-    bool GUISetUseMarker(bool marker);
-    //: Set use marker.
   protected:
-    virtual bool Create();
-    //: Create the widget.
-    
-    virtual bool Create(GtkWidget *_widget);
-    //: Create the widget.
-    
-    virtual bool CommonCreate(GtkWidget *_widget = 0);
-    //: Create the widget.
-    
+    bool CommonCreate(GtkWidget *_widget = NULL);
+    //: Common GUI creation
+
     bool EventConfigure(GdkEvent* &event);
     //: Configure.
     
@@ -113,29 +136,30 @@ namespace RavlGUIN {
     
     bool GUIDraw();
     //: Draw widget on screen.
-    
+
+  protected:
+
     IndexRange2dC displayArea; // Area to use for displaying images.
-    
     RealRangeC displayRange; // Range of times to display.
     DListC<Tuple2C<IntT,RealRangeC> > events;
-    
+    DListC<RealRangeC > m_activeSegments;
+    RealRangeC m_localSegment; // Local segment.
     Signal1C<RealT> timeSelected; // Frame selected signal
-    
     RealT atMarker; // Marker for where you are in the sequence.
-    
-    
     UIntT updateId;
-    
     GdkGC *markerGc;
+    GdkGC *segmentGc;
     
-    bool m_useMarker;
+    const static RealT m_arrowWidth;
+    const static RealT m_arrowBorder;
     
     friend class EventTimeLineC;
   };
-  
+
+
+
   //! userlevel=Normal
   //: Event time line.
-  // Display a set of events as black marks on a white backgrouond. A red marker indicates current position.
   
   class EventTimeLineC 
     : public RawCanvasC 
@@ -152,9 +176,9 @@ namespace RavlGUIN {
     //: Constructor.
     //!param: rng - Range of times to display.
     //!param: events - List of events.
-    
-    EventTimeLineC(const RealRangeC &rng,bool useMarker = true) 
-      : RawCanvasC(*new EventTimeLineBodyC(rng,useMarker))
+
+    EventTimeLineC(const RealRangeC &rng) 
+      : RawCanvasC(*new EventTimeLineBodyC(rng))
     {}
     //: Constructor.
     //!param: rng - Range of times to display.
@@ -189,6 +213,7 @@ namespace RavlGUIN {
     //: Access body.
     
   public:
+
     bool Goto(RealT &time)
     { return Body().Goto(time); }
     //: Centre on a specific time.
@@ -208,12 +233,19 @@ namespace RavlGUIN {
     bool SetEvents(DListC<Tuple2C<IntT,RealRangeC> > &events)
     { return Body().SetEvents(events); }
     //: Set event list.
-    // The event list must be sorted.
     
     bool GUISetEvents(DListC<Tuple2C<IntT,RealRangeC> > &events)
     { return Body().GUISetEvents(events); }
     //: Set event list.
-    // The event list must be sorted.
+
+    bool SetActiveSegments(DListC<RealRangeC> & segments)
+    { return Body().SetActiveSegments(segments); }
+    //: Set list of inactive segments
+
+    bool GUISetActiveSegments(DListC<RealRangeC> & segments)
+    { return Body().GUISetActiveSegments(segments); }
+    //: Set a list of inactive segments.
+
     
     bool SetDisplayRange(RealRangeC &rng)
     { return Body().SetDisplayRange(rng); }
@@ -222,6 +254,11 @@ namespace RavlGUIN {
     bool GUISetDisplayRange(RealRangeC &rng)
     { return Body().GUISetDisplayRange(rng); }
     //: Set range of times to display
+    
+    bool GUISetLocalSegment(const RealRangeC &segRange)
+    { return Body().GUISetLocalSegment(segRange); }
+    //: Set the local segment.
+    // Segments with a negative size will not be displayed
     
     bool SetDisplaySpan(RealT &size)
     { return Body().SetDisplaySpan(size); }
@@ -235,16 +272,23 @@ namespace RavlGUIN {
     { return Body().SigTimeSelected(); }
     //: Frame selected signal
     
-    bool GUISetUseMarker(bool marker)
-    { return Body().GUISetUseMarker(marker); }
-    //: Set use marker.
-    
+    const RealRangeC & LocalSegment() const
+    { return Body().LocalSegment(); }
+    //: Access local segment.
+
+    const RealRangeC & DisplayRange() const
+    { return Body().DisplayRange(); }
+    //: Access display range
+
+    const RealT & At() const
+    { return Body().At(); }
+    //: Access at position.
+
+    const DListC<Tuple2C<IntT,RealRangeC> > & Events() const
+    { return Body().Events() ; }
+    //: Access to events.
+
     friend class EventTimeLineBodyC;
-  };
-  
-  
+  }; 
 }
-
-
-
 #endif

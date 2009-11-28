@@ -59,9 +59,11 @@ namespace RavlN {
       SArray1dC<InT> src(dest.Size());
       int rem = this->input.GetArray(src);
       if(rem > 0)
-	src = SArray1dC<InT>(src,rem);
-      for(SArray1dIter2C<InT,OutT> it(src,dest);it;it++)
-	it.Data2() = func(it.Data1());
+      {
+        src = SArray1dC<InT>(src,rem);
+        for(SArray1dIter2C<InT,OutT> it(src,dest);it;it++)
+          it.Data2() = func(it.Data1());
+      }
       return rem;
     }
     //: Get an array of data from stream.
@@ -96,7 +98,7 @@ namespace RavlN {
       InT buff;
       RavlAssert(this->input.IsValid());
       if(!this->input.Get(buff))
-	return false;
+        return false;
       outbuff = func(buff);
       return true;
     }
@@ -107,9 +109,11 @@ namespace RavlN {
       SArray1dC<InT> src(dest.Size());
       int rem = this->input.GetArray(src);
       if(rem > 0)
-	src = SArray1dC<InT>(src,dest.Size() - rem);
-      for(SArray1dIter2C<InT,OutT> it(src,dest);it;it++)
-	it.Data2() = func(it.Data1());
+      {
+        src = SArray1dC<InT>(src, rem);
+        for(SArray1dIter2C<InT,OutT> it(src,dest);it;it++)
+          it.Data2() = func(it.Data1());
+      }
       return rem;
     }
     //: Get an array of data from stream.

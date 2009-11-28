@@ -277,6 +277,7 @@ namespace RavlGUIN {
 
   bool ComboBodyC::GUISetStyle(WidgetStyleC& style) {    
     // Set widget style
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     WidgetBodyC::GUISetStyle(style);
     // Set style of child label
     if (widget != 0) {
@@ -319,6 +320,7 @@ namespace RavlGUIN {
   
   bool ComboBodyC::GUISetCursorPosition(const IntT pos)
   {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     StringC str(gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(widget)->entry)));
     gtk_editable_set_position(GTK_EDITABLE(GTK_COMBO(widget)->entry), pos);
     return true;
@@ -338,6 +340,7 @@ namespace RavlGUIN {
   
   bool ComboBodyC::GUISetCursorSelection(const IntT start, const IntT end)
   {
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     gtk_editable_select_region(GTK_EDITABLE(GTK_COMBO(widget)->entry), start, end);
     return true;
   }
@@ -351,6 +354,7 @@ namespace RavlGUIN {
   bool ComboBodyC::GUISetTextColour(const ByteRGBValueC &colour,GtkStateType &state) {
     if(widget == 0)
       return false;
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
     GdkColor color;
     color.red = (IntT) colour.Red() * 255;
     color.green = (IntT) colour.Green() * 255;

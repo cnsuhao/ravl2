@@ -3,7 +3,7 @@
 
 
 <p>The package includes classes for dealing with the <i>Support vector 
-machines</i> (SVM) classifier. The original two classes clasiffier proposed 
+machines</i> (SVM) classifier. The original two classes classifier proposed 
 by Vapnik [<a HREF=#ref_Vapnik>1</a>] is implemented. <i>Sequential Minimal 
 Optimisation</i> (SMO) method proposed by Platt {<a HREF=#ref_Platt>2</a>] 
 is utilised for solving the quadratic optimisation problem.
@@ -40,12 +40,12 @@ commonly adopted for SVM classifier) or '0' (Ravl style) and some functions
 accept ObjectsToUse parameter that is array of object indices from whole 
 training set, which should be used for training.
 <p>The <a HREF="../Class/RavlN.SvmClassifierC.html">SvmClassifierC</a> class
-is very simple class which is just calculates the value of discriminant 
+is very simple class which is just calculates the value of descriminant 
 function. The class has two functions Classify and ClassifySvm, the only difference 
 between them is in return value. Classify function supposed to be virtual
 and comply with the Ravl style of labeling classes, i.e. it returns '0' for the 
 objects of the first class. The ClassifySvm function just returns the value of 
-discriminant function.
+descriminant function.
 <p>Both <a HREF="../Class/RavlN.DesignSvmSmoC.html">DesignSvmSmoC</a> and
 <a HREF="../Class/RavlN.SvmClassifierC.html">SvmClassifierC</a> classes use
 the abstraction of Kernel Function. Three most commonly used kernel functions,

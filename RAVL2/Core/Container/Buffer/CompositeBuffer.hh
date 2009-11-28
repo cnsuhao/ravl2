@@ -15,6 +15,7 @@
 //! date="10/04/2002"
 
 #include "Ravl/Buffer.hh"
+#include "Ravl/RCAbstract.hh"
 
 namespace RavlN {
   

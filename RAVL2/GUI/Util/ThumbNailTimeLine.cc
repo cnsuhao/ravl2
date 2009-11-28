@@ -39,7 +39,8 @@ namespace RavlGUIN {
       terminate(false),
       visible(true),
       frameSelected((UIntT) 0),
-      sigFrameRange(RealRangeC(0,1))
+      sigFrameRange(RealRangeC(0,1)),
+      m_freeze(false)
   {
     inputStreamSizeChangedSignal.Connect("size",TriggerR(*this,&ThumbNailTimeLineBodyC::CBStreamSizeChanged));
   }
@@ -61,11 +62,31 @@ namespace RavlGUIN {
       terminate(false),
       visible(true),
       frameSelected((UIntT) 0),
-      sigFrameRange(RealRangeC(0,1))
+      sigFrameRange(RealRangeC(0,1)),
+      m_freeze(false)
   {
     inputStreamSizeChangedSignal.Connect("size",TriggerR(*this,&ThumbNailTimeLineBodyC::CBStreamSizeChanged));
   }
 
+  
+  //: Freeze updates
+  bool ThumbNailTimeLineBodyC::Freeze()
+  {
+    m_freeze = true ;
+    return true;
+  }
+  
+  //: Thaw updates 
+   
+  bool ThumbNailTimeLineBodyC::Thaw()
+  {
+    m_freeze = false ;
+    semaUpdate.Post() ;
+    return true;
+  }
+  
+  
+  
   //: Show timeline.
   
   bool ThumbNailTimeLineBodyC::GUIShow() {
@@ -121,6 +142,7 @@ namespace RavlGUIN {
   //: Set the current video stream to use.
   
   bool ThumbNailTimeLineBodyC::GUISetVideo(const DPISPortC<ImageC<ByteRGBValueC> > &nvideo) {
+    ONDEBUG(cerr << "bool ThumbNailTimeLineBodyC::GUISetVideo(const DPISPortC<ImageC<ByteRGBValueC> > &nvideo)\n");
     RWLockHoldC hold(access,RWLOCK_WRITE);
     imageCache.Empty();
     video = nvideo;
@@ -136,6 +158,7 @@ namespace RavlGUIN {
   //: Retrieve the image to display for 'frameNo'
   
   ImageC<ByteRGBValueC> ThumbNailTimeLineBodyC::GetDisplayImage(UIntT frameNo) {
+
     ImageC<ByteRGBValueC> img;
     
     // Try getting image from cache with just a read lock.
@@ -330,11 +353,18 @@ namespace RavlGUIN {
   
   bool ThumbNailTimeLineBodyC::DisplayUpdateThread() {
     ONDEBUG(cerr << "ThumbNailTimeLineBodyC::DisplayUpdateThread(), Started. \n");
+
     bool restart = false;
     // If refrences reaches 1, we're the only thing with a handle so quit.
     while(!terminate && References() > 1) { 
       if(!restart && !semaUpdate.Wait(5))
-	continue;
+        continue;
+
+      // Ignore update while frozen.
+      if (m_freeze)
+        continue;
+
+
       ONDEBUG(cerr << "ThumbNailTimeLineBodyC::DisplayUpdateThread(), Processing.... \n");
       
       if(!visible)
@@ -369,7 +399,7 @@ namespace RavlGUIN {
       int noFrames = Floor(realFrames) + 1;
       if((noFrames % 2) == 0)
 	noFrames++;
-      ONDEBUG(cerr << "Noframes=" << noFrames << "\n");
+      //ONDEBUG(cerr << "Noframes=" << noFrames << "\n");
       int startFrame = -noFrames/2;
       int endFrame = noFrames + startFrame;
       int atx,aty;
@@ -382,18 +412,20 @@ namespace RavlGUIN {
 	}
 	
 	int frameNo = (i * workingFrameSkip) + workingMidFrame;
-	ONDEBUG(cerr << "FrameNo=" << frameNo << " i=" << i << "\n");
+	//ONDEBUG(cerr << "FrameNo=" << frameNo << " i=" << i << "\n");
 	Index2dC at(0,workingDisplayArea.Cols()/2 + i * width  + vertSpace/2 - thumbSize.Cols()/2);
 	ImageC<ByteRGBValueC> img;
-	if(frameNo >= 0) 
+	if(frameNo >= 0) {
 	  img = GetDisplayImage(frameNo);
-	ONDEBUG(cerr << "Frame=" << img.Frame() << "\n");
+    ONDEBUG(cerr << "ThumbNailTimeLineBodyC::DisplayUpdateThread(), got image for frame " << frameNo << endl);
+  }
+    //ONDEBUG(cerr << "Frame=" << img.Frame() << "\n");
 	if(img.IsEmpty()) { // Do we have an image to display?
-	  ONDEBUG(cerr << "Empty frame. \n");
+	  //ONDEBUG(cerr << "Empty frame. \n");
 	  // Draw a white rectangle.
 	  IndexRange2dC rect = thumbSize + at;
 	  rect.ClipBy(workingDisplayArea);
-	  ONDEBUG(cerr << "  Rect=" << rect << " DisplayArea=" << workingDisplayArea << "\n");
+	  //ONDEBUG(cerr << "  Rect=" << rect << " DisplayArea=" << workingDisplayArea << "\n");
 	  if(rect.Area() > 0)
 	    LocalDrawRectangle(updateId,rect);
 	  continue; 
@@ -405,6 +437,7 @@ namespace RavlGUIN {
 	}
 	
 	//cerr << "atx=" << atx << "\n";
+  ONDEBUG(cerr << "ThumbNailTimeLineBodyC::DisplayUpdateThread(), Draw image....\n");
 	LocalDrawImage(updateId,img,at);
 	newRect2frameno.InsLast(Tuple2C<IndexRange2dC,UIntT>(img.Frame()+at,frameNo));
       }

@@ -19,16 +19,23 @@ HEADERS= DesignClassifierSupervised.hh  \
  ClassifierPreprocess.hh ClassifierFunc1Threshold.hh \
  ClassifierWeakLinear.hh ClassifierLinearCombination.hh \
  DesignWeakLinear.hh \
-ClassifierBayesNormalLinear.hh DesignBayesNormalLinear.hh DesignBayesNormalQuadratic.hh ClassifierBayesNormalQuadratic.hh ClassifierNeuralNetwork.hh DesignClassifierNeuralNetwork.hh
+ ClassifierBayesNormalLinear.hh DesignBayesNormalLinear.hh \
+ DesignBayesNormalQuadratic.hh ClassifierBayesNormalQuadratic.hh \
+ ClassifierNeuralNetwork.hh DesignClassifierNeuralNetwork.hh \
+ Classifier2.hh
 
 SOURCES= DesignClassifierSupervised.cc \
  DesignDiscriminantFunction.cc DesignKNearestNeighbour.cc \
  ClassifierKNearestNeighbour.cc ClassifierAverageNearestNeighbour.cc \
- ClassifierDiscriminantFunction.cc ClassifierGaussianMixture.cc DesignClassifierGaussianMixture.cc \
+ ClassifierDiscriminantFunction.cc ClassifierGaussianMixture.cc \
+ DesignClassifierGaussianMixture.cc \
  ClassifierPreprocess.cc ClassifierFunc1Threshold.cc \
  ClassifierWeakLinear.cc ClassifierLinearCombination.cc \
  DesignWeakLinear.cc \
-ClassifierBayesNormalLinear.cc DesignBayesNormalLinear.cc DesignBayesNormalQuadratic.cc ClassifierBayesNormalQuadratic.cc ClassifierNeuralNetwork.cc DesignClassifierNeuralNetwork.cc 
+ ClassifierBayesNormalLinear.cc DesignBayesNormalLinear.cc \
+ DesignBayesNormalQuadratic.cc ClassifierBayesNormalQuadratic.cc \
+ ClassifierNeuralNetwork.cc DesignClassifierNeuralNetwork.cc \
+ Classifier2.cc 
 
 PLIB = RavlPatternRec
 

@@ -8,14 +8,15 @@
 ifndef LIBFFMPEG_DEF
   LIBFFMPEG_DEF=1
 
-  ifdef LIBFFMPEG_HOME
-    PKG_CONFIG_PATH := $(LIBFFMPEG_HOME)/lib/pkgconfig:$(PKG_CONFIG_PATH)
-  else
+  ifndef LIBFFMPEG_HOME
     LIBFFMPEG_HOME := /usr
   endif
 
+  PKG_CONFIG_PATH := $(LIBFFMPEG_HOME)/lib/pkgconfig:$(PKG_CONFIG_PATH)
+
   LIBFFMPEG_INCLUDES := $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config libavformat libavcodec --cflags-only-I)
   LIBFFMPEG_INCLUDES += $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config libswscale --silence-errors --cflags-only-I)
+  LIBFFMPEG_INCLUDES += -I$(LIBFFMPEG_HOME)/include/libavformat -I$(LIBFFMPEG_HOME)/include/libavcodec
   LIBFFMPEG_LIBS := $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config libavformat libavcodec --libs)
   LIBFFMPEG_LIBS += $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config libswscale --silence-errors --libs)
 

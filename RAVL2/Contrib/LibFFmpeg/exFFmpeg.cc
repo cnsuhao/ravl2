@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////////
-//! rcsid = "$Id$"
+//! rcsid = "$Id: exFFmpeg.cc 6742 2008-04-21 16:37:43Z robowaz $"
 //! lib=RavlLibFFmpeg
 //! author = "Warren Moore"
 //! file="Ravl/Contrib/LibFFmpeg/exFFmpeg.cc"

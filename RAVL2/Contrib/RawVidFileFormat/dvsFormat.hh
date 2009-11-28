@@ -10,7 +10,7 @@
 //! author="Simon Ennis"
 //! docentry="Ravl.API.Images.Video.Video IO"
 //! date="29/10/98"
-//! rcsid="$Id: dvsFormat.hh 5240 2005-12-06 17:16:50Z plugger $"
+//! rcsid="$Id$"
 //! file="Ravl/DVSFileFormat/dvsFormat.hh"
 //! example=exImgSeq.cc
 //! lib=RavlDVSFileFormat

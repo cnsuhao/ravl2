@@ -6,6 +6,8 @@
 // file-header-ends-here
 // $Id: FaceGraph.cc 8674 2006-05-24 12:19:29Z alex $
 
+//! author="Alexey Kostin"
+
 #include "Ravl/PatternRec/SvmClassifier.hh"
 #include "Ravl/PatternRec/CommonKernels.hh"
 #include "Ravl/PatternRec/DesignSvm.hh"
@@ -71,20 +73,6 @@ namespace RavlN
 
   FileFormatStreamC<DesignOneClassC> FileFormatStream_DesignOneClass;
   FileFormatBinStreamC<DesignOneClassC> FileFormatBinStream_DesignOneClass;
-
-  // -- Classifier2C ---------------------------------------------------------
-  ClassifierC Classifier2ToClassifier(const Classifier2C &func)
-  { return func; }
-
-  DP_REGISTER_CONVERSION_NAMED(Classifier2ToClassifier ,1,
-                               "RavlN::ClassifierC RavlN::Convert(const "
-                               "RavlN::Classifier2ToClassifier &)");
-
-  static TypeNameC TypeClassifier2(typeid(Classifier2C),
-                                   "RavlN::Classifier2C");
-
-  FileFormatStreamC<Classifier2C> FileFormatStream_Classifier2;
-  FileFormatBinStreamC<Classifier2C> FileFormatBinStream_Classifier2;
 
   // -- SvmClassifierC -------------------------------------------------------
   Classifier2C SvmClassifier2Classifier2(const SvmClassifierC &func)

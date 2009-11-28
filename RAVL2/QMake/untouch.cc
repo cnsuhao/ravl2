@@ -9,7 +9,7 @@
 //! file="Ravl/QMake/untouch.cc"
  * untouch, check that a file is at least a second old. (if it exists).
  */
-/*! rcsid="$Id$" */
+/*! rcsid="$Id: untouch.cc 5747 2006-07-19 07:57:14Z craftit $" */
 /*! author="Charles Galambos" */
 /*! docentry="Ravl.QMake.html" */
 

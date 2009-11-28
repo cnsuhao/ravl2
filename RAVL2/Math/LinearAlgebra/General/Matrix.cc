@@ -72,6 +72,44 @@ namespace RavlN {
     }
   }
 
+
+  //: Add outer product of vec1 and vec2 to this matrix.
+
+  const TMatrixC<RealT> &MatrixC::AddOuterProduct(const TVectorC<float> &vec1,const TVectorC<float> &vec2) {
+    RavlAssert(this->Size1() == vec1.Size());
+    RavlAssert(this->Size2() == vec2.Size());
+    BufferAccessIterC<float> v1(vec1);
+    BufferAccess2dIterC<RealT> it(*this);
+    while(it) {
+      BufferAccessIterC<float> v2(vec2);
+      float r1 = (*v1);
+      do {
+        *it += r1 * (*v2);
+        v2++;
+      } while(it.Next()) ;
+      v1++;
+    }
+    return *this;
+  }
+
+  //: Add outer product of vec1 and vec2 multiplied by a to this matrix .
+
+  const TMatrixC<RealT> &MatrixC::AddOuterProduct(const TVectorC<float> &vec1,const TVectorC<float> &vec2,const float &a) {
+    RavlAssert(this->Size1() == vec1.Size());
+    RavlAssert(this->Size2() == vec2.Size());
+    BufferAccessIterC<float> v1(vec1);
+    BufferAccess2dIterC<RealT> it(*this);
+    while(it) {
+      BufferAccessIterC<float> v2(vec2);
+      float r1 = (*v1) * a;
+      do {
+        *it += r1 * (*v2);
+        v2++;
+      } while(it.Next()) ;
+      v1++;
+    }
+    return *this;
+  }
   
 #ifdef __sgi__
   // Help the compiler a bit...

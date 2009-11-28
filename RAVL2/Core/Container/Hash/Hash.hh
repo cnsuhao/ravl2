@@ -52,7 +52,7 @@ namespace RavlN {
   // Use HashART<K,T> in HashAR.hh in preference to this, in nearly
   // every case its faster. 
   // <p>
-  // The following amma classes can be used as a key for this
+  // The following RAVL classes can be used as a key for this
   // template:
   // <p>
   //   StringC, Index2dC, Index3dC, IndexNdC,  PixelC, RGBValueC,
@@ -92,18 +92,18 @@ namespace RavlN {
   //! userlevel=Normal
   //: General hash table. (auto-resizing) 
   // Note this is a SMALL OBJECT, assignment of these hash tables creates a new copy of the object. 
-  // RCHashC is a fully refrence counted version of this class. <br>
+  // <a href="RavlN.RCHashC.html">RCHashC</a> is a fully reference counted version of this class. <br>
   // Type K is the hash key: it must define a function <code>
   //   unsigned int K::Hash(); </code>  which returns a number fairly unique to the key,
   //    or a global function of the form <code> UIntT StdHash(const K &x); </code> which returns the key. <p>
   //   Also <code> bool K::operator== (const K &Oth); </code>  to test equality. <p>
   
-  // !!!!! Update() Requires a default constructor & a working assigment operator !!!!! <p>
+  // !!!!! Update() Requires a default constructor & a working assignment operator !!!!! <p>
   
   // A few things to bear in mind when writing StdHash() functions. <p>
   // 1) Try and use all the bits in the values being hashed. <p>
   // 2) Use quick operations that tend to preserve the number of bits in the value.
-  //     ie '+' '^' '-' <p>
+  //     i.e. '+' '^' '-' <p>
   // 3) Try and generate a hash value which uses as many bits as possible,
   //    but no more than the thing your hashing.  i.e. ByteRGBValueC only
   //    uses 21 bits, and so does the default hash value. <p>
@@ -144,7 +144,7 @@ namespace RavlN {
     //!param: levels - Depth of copy 
     
     HashC(Tuple2C<K,T> *data); 
-    //: Initalise from simple array.
+    //: Initialise from simple array.
     //!param: data - pointer to array of tuples to initalise the table with, terminated with an entry with a duplicate key of the first entry.
     // Note: Array must be terminated by a duplicate of the first key. (i.e. == must return true between them)
     
@@ -191,14 +191,14 @@ namespace RavlN {
     inline bool Lookup(const K &key,T &data) const;
     //: Lookup data for key.
     //!param: key - Key value to be used in lookup.
-    //!param: data - Place to hold data if lookup is successfull.
+    //!param: data - Place to hold data if lookup is successful.
     //!return: true if entry is found, and is assigned to 'data'.
     // otherwise 'data' is not modified.
     
     inline bool Update(const K &key,const T &data);
     //: Update member of hash table, will create new one if it doesn't
     //: exist. 
-    // Require's a default constructor & a working assigment operator !!
+    // Requires a default constructor & a working assignment operator !!
     //!param: key - Key for element to update.
     //!param: data - Data to update entry with.
     //!returns: true=Member existed already. false=New one was added.
@@ -232,8 +232,7 @@ namespace RavlN {
     //!param: key - Key to remove from table.
     //!param: allowResize - if true allow table resize.
     // Note, if your deleting a large fraction of the entries it is more efficient to set
-    // allowResize to false, then to call the Resize() method to rebin entries after. (If
-    // your going to add an equive
+    // allowResize to false, then to call the Resize() method to re-bin entries after.
     
     inline T Get(const K &key,bool allowResize = true);
     //: Get data element from table, and remove it.
@@ -297,16 +296,16 @@ namespace RavlN {
     //!param: replace - If true replace elements with conflicting keys with entries from the 'oth' table, if false keep ones in this table.
     
     bool NormaliseKey(K &value) const;
-    //: Normalise an equivelent key to one used the the table.
+    //: Normalise an equivalent key to one used the the table.
     // This function is useful when you want to normalise the use
-    // of equivlent keys (think strings.) to save memory.
+    // of equivalent keys (think strings.) to save memory.
     // Returns true if key exists in the table, false otherwise.
     
     typedef HashElemC<K,T> HashElem;
     typedef IntrDListC<HashElemC<K,T> > HashElemLst;
     typedef IntrDLIterC<HashElemC<K,T> > HashElemIter; // Used in Del.
     // These typedef's control the types of lists used in this class
-    // and it's iterator.  
+    // and its iterator.  
     
     inline const T *Lookup(const K &Key) const;
     //: Find data matching key.
@@ -488,7 +487,7 @@ namespace RavlN {
   HashC<K,T>::HashC(const HashC<K,T> &oth,UIntT levels) 
     : HashBaseC(oth.elements)
   {
-    RavlAssertMsg(levels != 0,"HashC is not refrence counted, level 0 copy is impossible. ");
+    RavlAssertMsg(levels != 0,"HashC is not reference counted, level 0 copy is impossible. ");
     switch(levels) {
     case 1: table = oth.table.Copy(); break;
     case 2: {

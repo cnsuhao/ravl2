@@ -1,3 +1,6 @@
+
+//! author="Alexey Kostin"
+
 #include "Ravl/String.hh"
 #include "Ravl/OS/Date.hh"
 #include "Ravl/BinStream.hh"
@@ -27,7 +30,7 @@ int main(int argc, char **argv)
 
   OptionC option(argc, argv);
 
-  const RealT C_penalty = option.Real("c1", 1000, "Penalty for misclassifieation of training objects");
+  const RealT C_penalty = option.Real("c1", 1000, "Penalty for missclassification of training objects");
   const IntT kernelType = option.Int("kt", 0, "Kernel type (0 - linear; "
                                               "1 - polynimial; 2 - RBF)");
   const RealT par1 = option.Real("par1", 1, "Kernel parameter 1 (Scale for "

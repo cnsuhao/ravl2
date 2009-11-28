@@ -4,7 +4,7 @@
  * 03/23/99
  *
  */
-/*! rcsid="$Id$" */
+/*! rcsid="$Id: ioctl_himemfb.h 3074 2003-06-13 07:23:52Z craftit $" */
 /*! lib=RavlImgIOMeteor1 */
 /*! file="Ravl/Contrib/Meteor1/ioctl_himemfb.h" */
 /*! license=own */

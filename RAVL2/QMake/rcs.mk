@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
 # Common RCS stuff
-#! rcsid="$Id$"
+#! rcsid="$Id: rcs.mk 5747 2006-07-19 07:57:14Z craftit $"
 #! file="Ravl/QMake/rcs.mk"
 
 ##########################################################

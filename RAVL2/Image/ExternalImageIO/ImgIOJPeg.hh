@@ -46,9 +46,11 @@ namespace RavlImageN {
   public:
     DPOImageJPegByteRGBC(const StringC &fn,int compression = 75);
     //: Constructor from filename.  
-    
+    // Quality ranges from 1 to 100, where 100 is almost lossless.
+
     DPOImageJPegByteRGBC(const OStreamC &strm,int compression = 75);
-    //: Constructor from stream.  
+    //: Constructor from stream.
+    // Quality ranges from 1 to 100, where 100 is almost lossless.
   };
   
   //: Load a YUV image in JPEG format.
@@ -72,11 +74,13 @@ namespace RavlImageN {
   {
   public:
     DPOImageJPegByteYUVC(const StringC &fn,int compression = 75);
-    //: Constructor from filename.  
+    //: Constructor from filename.
+    // Quality ranges from 1 to 100, where 100 is almost lossless.
     
     DPOImageJPegByteYUVC(const OStreamC &strm,int compression = 75);
     //: Constructor from stream.  
-  };
+    // Quality ranges from 1 to 100, where 100 is almost lossless.
+ };
   
   //: Load a byte image in JPEG format.
   // Use via function found in amma/StdType/DataProc/FileFormatIO.hh
@@ -100,9 +104,11 @@ namespace RavlImageN {
   public:
     DPOImageJPegByteGreyC(const StringC &fn,int compression = 75);
     //: Constructor from filename.  
-    
+    // Quality ranges from 1 to 100, where 100 is almost lossless.
+
     DPOImageJPegByteGreyC(const OStreamC &strm,int compression = 75);
-    //: Constructor from stream.  
+    //: Constructor from stream.
+    // Quality ranges from 1 to 100, where 100 is almost lossless.
   };
   
 }

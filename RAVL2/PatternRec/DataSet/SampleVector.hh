@@ -46,6 +46,9 @@ namespace RavlN {
     {}
     //: Construct from base class.
 
+    SampleVectorC(const SampleC<TVectorC<float> > &svec);
+    //: Construct from a sample of floats.
+
     SampleVectorC(const SampleC<VectorC> &svec, const SArray1dC<IndexC> &featureSet);
     //: Construct a sample set with a reduced set of features
     //!param: svec       - a sample of vectors

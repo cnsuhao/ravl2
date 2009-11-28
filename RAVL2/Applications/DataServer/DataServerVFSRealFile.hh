@@ -6,7 +6,6 @@
 // file-header-ends-here
 #ifndef RAVL_DATASERVERVFSREALFILE_HEADER
 #define RAVL_DATASERVERVFSREALFILE_HEADER 1
-//! rcsid="$Id$"
 
 #include "Ravl/DataServer/DataServerVFSNode.hh"
 #include "Ravl/OS/Filename.hh"
@@ -25,7 +24,7 @@ namespace RavlN {
     : public DataServerVFSNodeBodyC
   {
   public:
-    DataServerVFSRealFileBodyC(const StringC &vname,const StringC &nRealFilename,bool canWrite);
+    DataServerVFSRealFileBodyC(const StringC &vname,const StringC& npath,const StringC &nRealFilename,bool canWrite);
     //: Constructor.
     
     ~DataServerVFSRealFileBodyC();
@@ -41,7 +40,11 @@ namespace RavlN {
     void SetDefaultType(const StringC &typeName)
     { defaultDataType = typeName; }
     //: Set default type name.
-    
+
+    void SetFileFormat(const StringC &fileFormat)
+    { defaultFileFormat = fileFormat; }
+    //: Set default file format.
+
     void SetCacheSize(UIntT size)
     { cacheSize = size; }
     //: Set cache size in number of items to cache.
@@ -56,41 +59,86 @@ namespace RavlN {
     virtual bool OpenOPort(DListC<StringC> &remainingPath,const StringC &dataType,NetOSPortServerBaseC &port);
     //: Open output port.
     
+    virtual bool Delete();
+    //: Delete the physical media associated with the node.
+    //!return: True if successfully deleted.
+
+    virtual bool QueryNodeSpace(const StringC& remainingPath, Int64T& total, Int64T& used, Int64T& available);
+    //: Query physical media details for the target path within the node.
+    //!param: remainingPath - List of strings containing the path elements to the target within the node. Should be empty for a file node.
+    //!param: total - Set to -1 as the node is a file and total is not applicable.
+    //!param: used - The size of the physical media associated is returned, in bytes.
+    //!param: available - Set to -1 as the node is a file and available is not applicable.
+    //!return: True if the query executed successfully.
+
   protected:
-    bool OpenFileRead(const StringC &typePref);
+    bool OpenFileReadAbstract(const StringC &dataType, NetISPortServerBaseC& netPort);
     //: Open file and setup cache for reading.
-    
-    bool OpenFileWrite(const StringC &typePref);
+
+    bool OpenFileReadByte(const StringC &dataType, NetISPortServerBaseC& netPort);
+    //: Open file and setup cache for reading.
+
+    bool OpenFileWriteAbstract(const StringC &dataType, NetOSPortServerBaseC& netPort);
     //: Open file and setup cache for writing.
-    
-    bool CloseIFile();
+
+    bool OpenFileWriteByte(const StringC &dataType, NetOSPortServerBaseC& netPort);
+    //: Open file and setup cache for writing.
+
+    bool CloseIFileAbstract();
     //: Close input file and discard cache.
-    
-    bool CloseOFile();
-    //: Close output file 
-    
-    bool ZeroIPortClients();
+
+    bool CloseIFileByte();
+    //: Close input file and discard cache.
+
+    bool CloseOFileAbstract();
+    //: Close output file
+
+    bool CloseOFileByte();
+    //: Close output file
+
+    bool AddIPortTypeConversion(const StringC &dataType, DPIPortBaseC& iPort);
+    //: Add any required type conversion.
+
+    bool AddOPortTypeConversion(const StringC &dataType, DPOPortBaseC& oPort);
+    //: Add any required type conversion.
+
+    bool ZeroIPortClientsAbstract();
     //: Called if when input file stop's being used.
-    
-    bool DisconnectOPortClient();
+
+    bool ZeroIPortClientsByte();
+    //: Called if when input file stop's being used.
+
+    bool DisconnectOPortClientAbstract();
     //: Called if when output file client disconnect it.
+
+    bool DisconnectOPortClientByte();
+    //: Called if when output file client disconnect it.
+
+    bool DeleteOnClose();
+    //: Call to check there are no open ports, then delete the file.
+    //!return: True if successfully deleted.
     
     MutexC access; // Access control for object.
     
     StringC defaultDataType;
+    StringC defaultFileFormat;
+
     DPTypeInfoC iTypeInfo; // Type info for input stream.
     
-    DPISPortShareC<RCWrapAbstractC> ispShare; // Share for input port.
+    DPISPortShareC<RCWrapAbstractC> iSPortShareAbstract; // Share for abstract input port.
+    DPISPortShareC<ByteT> iSPortShareByte; // Share for byte input port.
     UIntT cacheSize; // Size of cache to use.
-    
+
     DPTypeInfoC oTypeInfo; // Type info for input stream.
-    DPOPortC<RCWrapAbstractC> oport; // Output port.
+    DPOPortC<RCWrapAbstractC> oPortAbstract; // Abstract output port.
+    DPOPortC<ByteT> oPortByte; // Byte output port.
     
     FilenameC realFilename;
     
     bool canSeek;
     bool multiWrite; // Can multiple clients write to the same file ?
-    
+    bool deleteOnClose;
+
     friend class DataServerVFSRealFileC;
   };
   
@@ -102,8 +150,8 @@ namespace RavlN {
     : public DataServerVFSNodeC
   {
   public:
-    DataServerVFSRealFileC(const StringC & vname,const StringC & nRealFilename,bool canWrite = false) 
-      : DataServerVFSNodeC(*new DataServerVFSRealFileBodyC(vname,nRealFilename,canWrite))
+    DataServerVFSRealFileC(const StringC & vname,const StringC& npath,const StringC & nRealFilename,bool canWrite = false)
+      : DataServerVFSNodeC(*new DataServerVFSRealFileBodyC(vname,npath,nRealFilename,canWrite))
     {}
     //: Constructor. 
     //!cwiz:author
@@ -122,6 +170,10 @@ namespace RavlN {
     { return Body().SetDefaultType(typeName); }
     //: Set default type to be used on node.
     
+    void SetFileFormat(const StringC &fileFormat)
+    { Body().SetFileFormat(fileFormat); }
+    //: Set file format.
+
   protected:
     DataServerVFSRealFileC(DataServerVFSRealFileBodyC &bod)
      : DataServerVFSNodeC(bod)
@@ -136,13 +188,16 @@ namespace RavlN {
     { return static_cast<const DataServerVFSRealFileBodyC &>(DataServerVFSNodeC::Body()); }
     //: Body Access. 
     
-    bool DisconnectOPortClient()
-    { return Body().DisconnectOPortClient(); }
+    bool DisconnectOPortClientAbstract()
+    { return Body().DisconnectOPortClientAbstract(); }
     //: Called if when output file client disconnect it.
-    
+
+    bool DisconnectOPortClientByte()
+    { return Body().DisconnectOPortClientByte(); }
+    //: Called if when output file client disconnect it.
+
     friend class DataServerVFSRealFileBodyC;
   };
 }
-
 
 #endif

@@ -252,9 +252,12 @@ namespace RavlN {
       cerr << "Can't open file '" << filename << "'\n";
       return false;
     }
-    FileFormatBaseC form;
-    DListC<DPConverterBaseC> conv,new_conv;
-    const type_info *intype = 0;
+    FileFormatBaseC bestFormat;
+    FileFormatBaseC aUsableFormat; // Remember a usable format even if conversion fails for error reporting.
+    const std::type_info *usableType = 0;
+    DListC<DPConverterBaseC> bestConverterList;
+    RealT bestConversionCost = 100000;
+    const type_info *bestFormatType = 0;
     HSetC<StringC> ignoreFmts,acceptFmts;
     bool acceptAll = ParseFmts(format,ignoreFmts,acceptFmts);
     
@@ -262,63 +265,83 @@ namespace RavlN {
     
     // Should look for best ??
     for(DLIterC<FileFormatBaseC> it(Formats());
-	it.IsElm();
-	it.Next()) {
+        it.IsElm();
+        it.Next()) {
       // Format specified ?
       if(ignoreFmts.IsMember(it.Data().Name()))
-	continue;
+        continue;
       if(!acceptAll) {
-	if(!acceptFmts.IsMember(it.Data().Name()))
-	  continue;
+        if(!acceptFmts.IsMember(it.Data().Name()))
+          continue;
       }
       // Look for all loaders that can load from stream.
       const type_info *ti;
       if(filename != "-")
-	ti = &it.Data().ProbeLoad(filename,in,obj_type); // Use file probe.
-      else ti = &it.Data().ProbeLoad(in,obj_type); // Use stream probe...
-      ONDEBUG(cerr << "IProbe '" << it.Data().Name() << "' '" << TypeName(it.Data().DefaultType()) << "'  = " << TypeName(*ti) << "\n");
+        ti = &it.Data().ProbeLoad(filename,in,obj_type); // Use file probe.
+      else
+        ti = &it.Data().ProbeLoad(in,obj_type); // Use stream probe...
+      ONDEBUG(cerr << "IProbe '" << it.Data().Name() << "' '" << TypeName(it.Data().DefaultType()) << "' = '" << TypeName(*ti) << "' priority(" << it.Data().Priority() << ")\n");
 #if RAVL_CHECK
       if(!in.good() && filename[0] != '@') {
-	cerr << "FindInputFormat(), IProbe left bad stream '" << it.Data().Name() << "' '" << TypeName(it.Data().DefaultType()) << "'  = " << TypeName(*ti) << "\n";
+        cerr << "FindInputFormat(), IProbe left bad stream '" << it.Data().Name() << "' '" << TypeName(it.Data().DefaultType()) << "'  = " << TypeName(*ti) << "\n";
       }
 #endif
       RavlAssert(in.good() || filename[0] == '@');
       //ONDEBUG(cerr << "Tell:" << in.Tell() << ") \n");
       if(*ti == typeid(void))
-	continue; // Nope.
+        continue; // Nope.
+      aUsableFormat = *it; // Remember a workable format in case we need it for error reporting later.
+      usableType = ti;
       if(*ti == obj_type || obj_type == typeid(void)) {
-	// Found direct load, use it !
-	conv = DListC<DPConverterBaseC>();
-	form = it.Data();
-	intype = ti;
-	break;
+        // Found direct load, store it if it's the highest priority!
+        if (bestConversionCost > 0 || (it.Data().Priority() > bestFormat.Priority()))
+        {
+          ONDEBUG(cerr << "IProbe storing '" << it.Data().Name() << "' '" << TypeName(it.Data().DefaultType()) << "'  = " << TypeName(*ti) << " priority(" << it.Data().Priority() << ")\n");
+          bestFormat = it.Data();
+          bestConverterList = DListC<DPConverterBaseC>();
+          bestConversionCost = 0;
+          bestFormatType = ti;
+        }
+        continue;
       }
-      // Can we convert to requested type ?
-      if(!conv.IsEmpty())
-	continue; // Don't bother if we've found a way already.    
+
 #if RAVL_USE_IO_AUTO_TYPECONVERTER
-      new_conv = typeConverter.FindConversion(*ti,obj_type);
-      if(!new_conv.IsEmpty()) {
-	form = it.Data();
-	conv = new_conv;
-	intype = ti;
+      if (bestConversionCost == 0)
+        continue;
+
+      RealT conversionCost = -1;
+      DListC<DPConverterBaseC> converterList(typeConverter.FindConversion(*ti,obj_type,  conversionCost));
+      if (converterList.Size() == 0)
+        continue;
+
+      if (conversionCost < bestConversionCost || (conversionCost == bestConversionCost && bestFormat.IsValid() && it.Data().Priority() > bestFormat.Priority()))
+      {
+        bestFormat = it.Data();
+        bestConverterList = converterList;
+        bestConversionCost = conversionCost;
+        bestFormatType = ti;
       }
 #endif
     }
-    if(!form.IsValid()) {
+
+    if(!bestFormat.IsValid()) {
       ONDEBUG(cerr << "FindInputFormat(StringC), Can't identify stream. \n");
-      if(verbose)
-	cerr << "Can't find format for '" << filename <<"'\n";
+      if(verbose) {
+        if(aUsableFormat.IsValid()) {
+          std::cerr << "Identified file format as " << aUsableFormat.Name() << " but could not convert result from " << RavlN::TypeName(*usableType) << " to requested type " << RavlN::TypeName(obj_type) << "\n";
+        } else
+          cerr << "Can't find format for '" << filename <<"'\n";
+      }
       return false;
     }
     if(verbose ONDEBUG(|| 1))
-      cerr << "Loading object '" << TypeName(obj_type) << "' in format '" << form.Name() << "' from file '" << filename << "' Steps:" << conv.Size()<< "\n";
+      cerr << "Loading object '" << TypeName(obj_type) << "' in format '" << bestFormat.Name() << "' from file '" << filename << "' Steps:" << bestConverterList.Size()<< "\n";
     
-#if DPDEBUG
-    for(DLIterC<DPConverterBaseC> it(conv);it.IsElm();it.Next()) 
+#if DODEBUG
+    for(DLIterC<DPConverterBaseC> it(bestConverterList);it.IsElm();it.Next())
       cerr << "Conv:" <<TypeName(it.Data().ArgType(0)) << " -> " << TypeName(it.Data().Output()) << endl;
 #endif
-    fmtInfo = FileFormatDescC(form,conv,*intype,true);
+    fmtInfo = FileFormatDescC(bestFormat,bestConverterList,*bestFormatType,true);
     return true;
   }
   

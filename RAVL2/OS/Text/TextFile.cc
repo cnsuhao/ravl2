@@ -6,7 +6,7 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////////
 // TextFile.cc
-// $Id$
+// $Id: TextFile.cc 6915 2008-08-18 16:58:40Z craftit $
 //! rcsid="$Id$"
 //! lib=RavlOS
 //! file="Ravl/OS/Text/TextFile.cc"

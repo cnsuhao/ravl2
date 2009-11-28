@@ -10,6 +10,13 @@
 #include "Ravl/OS/NetMsgOPortData.hh"
 #include "Ravl/OS/NetPort.hh"
 
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlN {
   
   //: Constructor.
@@ -17,13 +24,15 @@ namespace RavlN {
   NetMsgOPortDataBodyC::NetMsgOPortDataBodyC(UIntT nid,
                                              const StringC &nname,
                                              const DPOPortBaseC &portBase,
-                                             const DPSeekCtrlC &nSeekCtrl
+                                             const DPSeekCtrlC &nSeekCtrl,
+                                             bool ndecodeArray
                                              )
     : NetMsgRegisterBodyC(nid,nname),
-      at(-1),
+      at(streamPosUnknown),
       oportBase(portBase),
       seekCtrl(nSeekCtrl),
-      dataType(TypeInfo(portBase.OutputType()))
+      dataType(TypeInfo(portBase.OutputType())),
+      decodeArray(ndecodeArray)
   {
     RavlAssert(dataType.IsValid());
   }
@@ -33,7 +42,7 @@ namespace RavlN {
   
   bool NetMsgOPortDataBodyC::Decode(NetEndPointC &ep,BinIStreamC &pkt) {
     if(!oportBase.IsValid()) {
-      //cerr << "NetOSPortServerBodyC<DataT>::ReqData(), Invalid output port.\n";      
+      ONDEBUG(cerr << "NetOSPortServerBodyC<DataT>::ReqData(), Invalid output port.\n");
       ep.Send(NPMsg_ReqFailed,1); // Report end of stream.
       return true;
     }
@@ -42,20 +51,43 @@ namespace RavlN {
     Int64T pos;
     pkt >> pos;
     
-    //cerr << "NetOSPortServerBodyC<DataT>::ReqData(), Pos=" << pos << " at=" << at << " Tell=" << oport.Tell() <<"\n";
-    if(at != pos && pos != (UIntT)(-1) && seekCtrl.IsValid()) {
+    ONDEBUG(cerr << "NetMsgOPortDataBodyC::Decode Seeking: Pos=" << pos << " At=" << at << " SeekCtrl=" << (seekCtrl.IsValid() ? "Y" : "N") << endl);
+    if (at != pos && \
+        pos != static_cast<UIntT>(-1) && \
+        pos != streamPosUnknown && \
+        seekCtrl.IsValid())
+    {
       seekCtrl.Seek64(pos);
       at = pos;
     }
-    
-    if(dataType.ReadAndPut(pkt,oportBase)) {
-      at++;
-    } else { // Failed to get data.
+
+    bool decodeOk = true;
+    if (decodeArray)
+    {
+      Int64T size = 0;
+      pkt >> size;
+      ONDEBUG(cerr << "NetMsgOPortDataBodyC::Decode Writing: Size=" << size << endl);
+
+      if (dataType.ReadAndPutArray(size, pkt, oportBase))
+        at += size;
+      else
+        decodeOk = false;
+    }
+    else
+    {
+      if (dataType.ReadAndPut(pkt,oportBase))
+        at++;
+      else
+        decodeOk = false;
+    }
+
+    if (!decodeOk)
+    { // Failed to get data.
       //cerr << "NetOSPortServerBodyC<DataT>::ReqData(), Put failed. \n";
       if(!oportBase.IsPutReady())
-	ep.Send(NPMsg_ReqFailed,1); // Ug
+        ep.Send(NPMsg_ReqFailed,1); // Ug
       else
-	ep.Send(NPMsg_ReqFailed,2); // Just get failed.
+        ep.Send(NPMsg_ReqFailed,2); // Just get failed.
     }
     return true;
   }

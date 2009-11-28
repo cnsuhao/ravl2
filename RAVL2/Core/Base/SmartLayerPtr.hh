@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_SMARTLAYERPTR_HEADER 
 #define RAVL_SMARTLAYERPTR_HEADER 1
-//! rcsid="$Id: SmartPtr.hh 5240 2005-12-06 17:16:50Z plugger $"
+//! rcsid="$Id$"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Reference Counting"
@@ -36,11 +36,6 @@ namespace RavlN {
     //: Construct from a normal handle.
     
     SmartCallbackPtrC(DataT &data)
-      : SmartPtrC<DataT>(data)
-    {}
-    //: Construct from data.
-
-    SmartCallbackPtrC(DataT *data)
       : SmartPtrC<DataT>(data)
     {}
     //: Construct from data.
@@ -83,12 +78,6 @@ namespace RavlN {
     //: Construct from data.
     // Constructs an owner handle by default.
     
-    SmartOwnerPtrC(DataT *data,RCLayerHandleT handleType = RCLH_OWNER)
-      : RCLayerC<DataT>(data,handleType)
-    {}
-    //: Construct from data.
-    // Constructs an owner handle by default.
-
     SmartOwnerPtrC(const DataT *data,RCLayerHandleT handleType = RCLH_OWNER)
       : RCLayerC<DataT>(data,handleType)
     {}

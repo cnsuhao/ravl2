@@ -47,6 +47,15 @@ namespace RavlN {
     return true;
   }
   
+
+  //: Apply function with float vecors to 'data'
+
+  TVectorC<float> FunctionBodyC::Apply(const TVectorC<float> &data) const {
+    VectorC tmp(data);
+    TVectorC<float> ret = Apply(tmp);
+    return ret;
+  }
+
   //: Apply function to 'data'
   
   VectorC FunctionBodyC::Apply(const VectorC &data) const {

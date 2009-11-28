@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id: fixSource.cfg 5642 2006-06-23 10:51:11Z craftit $"
+//! rcsid="$Id$"
 //! lib=RavlGUI2D
 
 #include "Ravl/GUI/MarkupPolygon2d.hh"
@@ -353,7 +353,7 @@ namespace RavlGUIN {
     if(state == -2)
       return false;
     if(state == -1) { // Move whole polygon ?
-      RCWrapC<Polygon2dC> oldPoly(mv.MouseInfo());
+      RCWrapC<Polygon2dC> oldPoly(mv.MouseInfo(),true);
       RavlAssert(oldPoly.IsValid());
       poly = oldPoly.Data().Copy();
       Point2dC offset = (at - mv.MousePressAt());

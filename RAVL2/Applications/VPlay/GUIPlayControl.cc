@@ -22,6 +22,7 @@
 #include "Ravl/GUI/List.hh"
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/StringList.hh"
+#include "Ravl/Math.hh"
 #include "Bitmaps/back.xpm"
 #include "Bitmaps/fback.xpm"
 #include "Bitmaps/ff.xpm"
@@ -54,7 +55,7 @@
 
 namespace RavlGUIN {
 
-  
+
   void PlayControlBodyC::Speed(IntT i) {
     MutexLockC hold(access);
     if(!pc.IsValid())
@@ -66,6 +67,7 @@ namespace RavlGUIN {
   }
   
   void PlayControlBodyC::Seek(UIntT pos) {
+    ONDEBUG(cerr << "void PlayControlBodyC::Seek(UIntT pos)\n");
     MutexLockC hold(access);
     if(!pc.IsValid())
       return ;
@@ -145,7 +147,10 @@ namespace RavlGUIN {
   }
   
   bool PlayControlBodyC::JBkw() { 
-    Jog(-skip); 
+    m_sigInteractive(true);
+    Jog(-skip);
+    m_sigInteractive(false);
+
     return true;
   }
   
@@ -155,8 +160,10 @@ namespace RavlGUIN {
     return true;
   }
   
-  bool PlayControlBodyC::JFwd() { 
-    Jog(skip);  
+  bool PlayControlBodyC::JFwd() {
+    m_sigInteractive(true);
+    Jog(skip);
+    m_sigInteractive(false);
     return true;
   }
   
@@ -263,7 +270,15 @@ namespace RavlGUIN {
     sliderUpdate.Invalidate();
     LBoxBodyC::Destroy();
   }
-  
+
+
+  bool PlayControlBodyC::CBInteractiveMode(bool & state)
+  {
+    m_sigInteractive(state); 
+    return true;
+  }
+
+
   bool PlayControlBodyC::SliderCallback(RealT &val) {
     //ONDEBUG(cerr <<  "From:" << pc.Tell());
     //    Pause();
@@ -295,10 +310,11 @@ namespace RavlGUIN {
   }
   
   bool PlayControlBodyC::SliderUpdate() {
+    //ONDEBUG(cerr << "bool PlayControlBodyC::SliderUpdate() \n");
     // Do we have a valid controls?
     if (!created)
       return false;
-
+    
     //cerr <<"PlayControlBodyC::SliderUpdate(). \n";
     MutexLockC hold(access,true);
     if(!hold.IsLocked()) // Did lock succeed ?
@@ -318,21 +334,22 @@ namespace RavlGUIN {
     }
     bool updateRange = false;
     RealT min = 0,max = 0;
-    
+
+
     if(pc.FixedStart() != frameSlider.Lower() || loc > frameSlider.Upper()) {
-      ONDEBUG(cerr << "Setting slider range " << pc.FixedStart() << " " << loc << "\n");
+      ONDEBUG(cerr << "Setting slider range1 " << pc.FixedStart() << " " << loc << "\n");
       min = pc.FixedStart();
-      max = loc;
+      max = RavlN::Max(loc, pc.FixedEnd());
       updateRange = true;
     } else {
       if(updateSlider) {
         if(pc.FixedEnd() > loc) {
-          ONDEBUG(cerr << "Setting slider range " << pc.FixedStart() << " " << pc.FixedEnd()+1 << "\n");
+          ONDEBUG(cerr << "Setting slider range2 " << pc.FixedStart() << " " << pc.FixedEnd()+1 << "\n");
           min = pc.FixedStart();
           max = pc.FixedEnd();
           updateRange = true;
         } else {
-          ONDEBUG(cerr << "Setting slider range " << pc.FixedStart() << " " << loc+1 << " (loc) \n");
+          ONDEBUG(cerr << "Setting slider range3 " << pc.FixedStart() << " " << loc+1 << " (loc) \n");
           min = pc.FixedStart();
           max = loc;
           updateRange = true;
@@ -372,6 +389,7 @@ namespace RavlGUIN {
       baseSpeed(1),
       skip(1),
       sigUpdateFrameNo((IntT) 1),
+      m_sigInteractive(false),
       simpleControls(nsimpleControls),
       extendedControls(nExtendedControls),
       lastUpdateFrameNo((UIntT) -1)
@@ -385,6 +403,7 @@ namespace RavlGUIN {
       baseSpeed(1),
       skip(1),
       sigUpdateFrameNo((IntT) 1),
+      m_sigInteractive(false),
       simpleControls(nsimpleControls),
       extendedControls(nExtendedControls),
       lastUpdateFrameNo((UIntT) -1)
@@ -502,7 +521,8 @@ namespace RavlGUIN {
     }
     ONDEBUG(cerr <<  "Sequence, Start:" << theStart << " Max:" << maxSize << " End:" << theEnd << "\n");
     
-    frameSlider = SliderH(theStart,theStart,maxSize,1,PlayControlC(*this),&PlayControlC::SliderCallback); 
+    frameSlider = SliderH(theStart,theStart,maxSize,1,PlayControlC(*this),&PlayControlC::SliderCallback);
+
 
     DListC<WidgetC> buttons;
     if(simpleControls) {
@@ -543,22 +563,30 @@ namespace RavlGUIN {
 				     ),false,true);
     }
     sliderUpdate = TickerTrigger(0.2,PlayControlC(*this),&PlayControlC::SliderUpdate);
+
+  }
+
+
+  bool PlayControlBodyC::CommonCreate(GtkWidget *_widget)
+  {
+    created = LBoxBodyC::CommonCreate(_widget);
+    ConnectRef(frameSlider.Signal("button_release_event"), *this, &PlayControlBodyC::CBInteractiveMode, false);
+    ConnectRef(frameSlider.Signal("button_press_event"), *this, &PlayControlBodyC::CBInteractiveMode, true);
+    return created;
   }
 
 
   
-  bool PlayControlBodyC::Create()
-  {
-    created = LBoxBodyC::Create();
-    return created;
+ bool PlayControlBodyC::Create()
+ {
+      return CommonCreate();
   }
 
     
     
   bool PlayControlBodyC::Create(GtkWidget *_widget)
   {
-    created = LBoxBodyC::Create(_widget);
-    return created;
+    return CommonCreate(_widget);
   }
 
   ////////////////////////////////////////

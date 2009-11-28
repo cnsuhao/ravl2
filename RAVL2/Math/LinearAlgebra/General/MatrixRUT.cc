@@ -142,7 +142,6 @@ namespace RavlN {
   //: Fill the lower left part of the matrix with zero's.
   
   void MatrixRUTC::ZeroLowerLeft() {
-    // FIXME:- Make a faster pointer version.
     for(unsigned int i = 0;i < Rows();i++)
       for(unsigned int j = 0;j < i;j++)
 	(*this)[i][j] = 0;
@@ -152,7 +151,6 @@ namespace RavlN {
   // Copy the upper right triangle to the lower left.
   
   void MatrixRUTC::MakeSymmetric() {
-    // FIXME:- Make a faster pointer version.
     for(unsigned int i = 0;i < Rows();i++) {
       for(unsigned int j = i + 1;j < Cols();j++)
 	(*this)[j][i] = (*this)[i][j];

@@ -337,6 +337,17 @@ namespace RavlGUIN {
     RavlAssertMsg(0,"Unknown signal type. ");
   }
 
+  //: Get real value
+
+  bool TreeModelBodyC::GetValue(TreeModelIterC &rowIter,IntT col, RealT &value) {
+    if(!rowIter.IsElm())
+      return false;
+    ReadBackLockC lock;
+    gtk_tree_model_get(model,rowIter.TreeIter(),col,&value,-1);
+    return true;
+  }
+
+
 
   //: Set int value.
 
@@ -378,6 +389,14 @@ namespace RavlGUIN {
   bool TreeModelBodyC::GetValue(TreeModelIterC &rowIter,IntT col, PixbufC &value) {
     RavlAssertMsg(0,"TreeModelBodyC::GetValue(,,PixbufC&), Not implemented.");
     return true;
+  }
+
+  //: Set int value.
+
+  bool TreeModelBodyC::SetValue(TreeModelIterC &rowIter,IntT col, RealT value) {
+    ONDEBUG(RavlAssert(0)); // This method is a bad idea. Row's can be deleted unexpectedly when method is queued
+    Manager.Queue(Trigger(TreeModelC(*this),&TreeModelC::GUISetValueInt,rowIter,col,value));
+    return false;
   }
 
   //: Set int value.
@@ -450,6 +469,14 @@ namespace RavlGUIN {
     RavlAssert(0);
     return false;
   }
+
+  //: Set int value.
+
+  bool TreeModelBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, RealT value) {
+    RavlAssertMsg(0,"TreeModelBodyC::SetValue(TreeModelIterC &,IntT,IntT) Not implemented. ");
+    return false;
+  }
+
 
   //: Set int value.
 

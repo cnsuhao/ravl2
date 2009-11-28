@@ -54,6 +54,31 @@ namespace RavlImageN {
     return true;
   }
   
+  //: Apply filter to image.
+
+  ImageC<float> HomomorphicFilterBodyC::Apply(const ImageC<float> &img) {
+    Index2dC size(img.Frame().Range1().Size(),img.Frame().Range2().Size());
+    if(!fwd.IsValid())
+      Init(size);
+    else {
+      if(fwd.Size() != size)
+        Init(size);
+    }
+    // FIXME:- Do more of this in the float domain.
+    ImageC<RealT> work(img.Frame());
+    for(Array2dIter2C<RealT,float> it(work,img);it;it++)
+      it.Data1() = Log(it.Data2() + 1);
+    SArray2dC<RealT> sret(work.SArray2d(true));
+    SArray2dC<ComplexC> fdom = fwd.Apply(sret);
+    for(Array2dIter2C<ComplexC,RealT> fit(fdom,filter);fit;fit++)
+      fit.Data1() *= fit.Data2();
+    SArray2dC<ComplexC> result = bkw.Apply(fdom);
+    ImageC<float> retf(img.Frame());
+    for(Array2dIter2C<ComplexC,float> rit(result,retf);rit;rit++)
+      rit.Data2() = Exp(rit.Data1().Mag()) - 1;
+    return retf;
+  }
+
   
   ImageC<RealT> HomomorphicFilterBodyC::Apply(const ImageC<RealT> &img) {
     ImageC<RealT> ret(img.Frame());

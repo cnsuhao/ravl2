@@ -16,7 +16,7 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-/*! rcsid="$Id$" */
+/*! rcsid="$Id: gtkglarea.h 6701 2008-04-09 16:07:40Z ees1wc $" */
 /*! lib=RavlGUI3D */
 /*! license=own */
 /*! userlevel=Develop */

@@ -401,6 +401,14 @@ namespace RavlN {
     { return Index2dC(rows.Max(),cols.Max()); }
     //: This method is obsolete: use BottomRight() instead.
     
+    UIntT Hash() const {
+      UIntT ret = rows.Hash();
+      ret += ret << 11;
+      ret += cols.Hash();
+      return ret;
+    }
+    //: Generate a hash value for the range.
+
   protected:
     inline const IndexRange2dC & Range() const
     { return(*this); }

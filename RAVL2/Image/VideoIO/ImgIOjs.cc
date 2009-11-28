@@ -16,6 +16,8 @@
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/BinStream.hh"
+#include "Ravl/DP/ByteFileIO.hh"
+#include "Ravl/DP/SPortAttach.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -24,15 +26,17 @@
 #define ONDEBUG(x)
 #endif
 
-namespace RavlImageN {
+namespace RavlImageN
+{
 
   //: Constructor.
   // This constructs with the basic yuv format.
   
   DPImageJSBaseBodyC::DPImageJSBaseBodyC()
     : frameSize(0),
+      framePadding(0),
       frameNo(0),
-      seqSize((UIntT) -1),
+      seqSize(streamPosUnknown),
       blockSize(16384),
       offset(0)
   { }
@@ -41,24 +45,59 @@ namespace RavlImageN {
   
   DPImageJSBaseBodyC::DPImageJSBaseBodyC(const StringC &filename,bool read)
     : frameSize(0),
+      framePadding(0),
       frameNo(0),
-      seqSize((UIntT) -1),
+      seqSize(streamPosUnknown),
       blockSize(16384),
-      offset(0),
-      strm(filename,read,!read)
-  {}
-  
+      offset(0)
+  {
+    if (read)
+    {
+      DPIByteFileC byteFile(filename);
+      m_inputStream = DPISPortAttachC<ByteT>(byteFile, byteFile);
+    }
+    else
+    {
+      m_outputStream = DPOByteFileC(filename);
+    }
+  }
+
+
+
+  DPImageJSBaseBodyC::DPImageJSBaseBodyC(DPISPortC<ByteT> inputPort)
+    : frameSize(0),
+      framePadding(0),
+      frameNo(0),
+      seqSize(streamPosUnknown),
+      blockSize(16384),
+      offset(0)
+  {
+    m_inputStream = inputPort;
+  }
+
+
+
+  DPImageJSBaseBodyC::DPImageJSBaseBodyC(DPOPortC<ByteT> outputPort)
+    : frameSize(0),
+      framePadding(0),
+      frameNo(0),
+      seqSize(streamPosUnknown),
+      blockSize(16384),
+      offset(0)
+  {
+    m_outputStream = outputPort;
+  }
 
   //: Read header from stream.
   
   bool DPImageJSBaseBodyC::ReadHeader() {
-    if(!strm.Good()) {
+    if(!m_inputStream.IsValid() || !m_inputStream.IsGetReady()) {
       cerr << "DPImageJSBaseBodyC::ReadHeader(), Bad stream. \n";
       return false;
     }
     ByteT magic[4];
-    strm.Seek(0);
-    if(strm.ReadAll(magic,4) < 0) {
+    SArray1dC<ByteT> magicArray(magic, 4, false);
+    if(m_inputStream.GetArray(magicArray) < 0) {
       cerr << "DPImageJSBaseBodyC::ReadHeader(), Failed to read magic bytes. \n";
       return false;
     }
@@ -78,7 +117,8 @@ namespace RavlImageN {
     int i;
     for(i = 0;i < 9;i++) {
       UIntT x = 0;
-      if(!strm.Read(&x,4))
+      SArray1dC<ByteT> xArray(reinterpret_cast<ByteT*>(&x), 4, false);
+      if(!m_inputStream.GetArray(xArray))
 	return false;
 #if RAVL_ENDIAN_LITTLE
       x = bswap_32(x);
@@ -117,15 +157,15 @@ namespace RavlImageN {
     SetupIO();
     ONDEBUG(cerr << " BlockSize=" << blockSize << " Width=" << width << " Height=" << height << " \n");
     
-    StreamSizeT imageData = strm.Size() - offset;
-    seqSize = (StreamSizeT) (imageData / (StreamSizeT) frameSize);
+    StreamPosT imageData = m_inputStream.Size64() - offset;
+    seqSize = (imageData / frameSize);
     
     // There maybe unwritten padding for the last block.
-    UIntT imgSize = (rect.Area() * 2);
+    StreamPosT imgSize = (rect.Area() * 2);
     if((imageData % frameSize) >= imgSize)
       seqSize++; 
     
-    ONDEBUG(cerr << "DPIImageJSBodyC::ReadHeader(), Sequence size=" << seqSize << " Filesize=" << strm.Size() << "\n");      
+    ONDEBUG(cerr << "DPIImageJSBodyC::ReadHeader(), Sequence size=" << seqSize << " Filesize=" << m_inputStream.Size64() << "\n");
     
     return true;
   }
@@ -133,18 +173,15 @@ namespace RavlImageN {
   //: Setup paramiters needed for io.
   
   void DPImageJSBaseBodyC::SetupIO() {
-    UIntT imgSize = (rect.Area() * 2);
+    StreamPosT imgSize = (rect.Area() * 2);
     
     // Fixme: The image size may be slightly larger, as it might contain out of frame info.
     
-    UIntT rem = (imgSize % blockSize);
-    if(rem != 0)
-      frameSize = imgSize + (blockSize - rem);
-    else 
-      frameSize = imgSize;
+    framePadding = blockSize - (imgSize % blockSize);
+    frameSize = imgSize + framePadding;
     
     offset = frameSize;
-    ONDEBUG(cerr << "FrameSize=" << frameSize << "  ImageSize=" << imgSize << " rem=" << (blockSize - rem) << "\n");
+    ONDEBUG(cerr << "blockSize=" << blockSize << " imageSize=" << imgSize << " frameSize=" << frameSize << " framePadding=" << framePadding << " offset=" << offset << endl);
   }
   
   
@@ -163,42 +200,85 @@ namespace RavlImageN {
   //: Constructor from a file.
   
   DPIImageJSBodyC::DPIImageJSBodyC(const StringC &fileName) 
-    : DPImageJSBaseBodyC(fileName,true)
+  : DPImageJSBaseBodyC(fileName,true)
   { ReadHeader(); }
+
+
+
+  DPIImageJSBodyC::DPIImageJSBodyC(DPISPortC<ByteT> inputPort)
+  : DPImageJSBaseBodyC(inputPort)
+  { ReadHeader(); }
+
+
+
+  bool DPIImageJSBodyC::Seek(UIntT off)
+  {
+    if (off == static_cast<UIntT>(-1))
+      return false;
+    return Seek64(off);
+  }
+
+
+
+  bool DPIImageJSBodyC::DSeek(IntT off)
+  {
+    return DSeek64(off);
+  }
+
+
   
-  ///////////////////////////
-  //: Seek to location in stream.
-  // Returns false, if seek failed. (Maybe because its
-  // not implemented.)
-  // if an error occurered (Seek returned False) then stream
-  // position will not be changed.
+  UIntT DPIImageJSBodyC::Tell() const
+  {
+    if (frameNo > static_cast<UIntT>(-1) || frameNo == streamPosUnknown)
+      return static_cast<UIntT>(-1);
+    return static_cast<UIntT>(frameNo);
+  }
+
+
+
+  UIntT DPIImageJSBodyC::Size() const
+  {
+    StreamPosT size = SeqSize();
+    if (size == streamPosUnknown || size > static_cast<UIntT>(-1))
+      return static_cast<UIntT>(-1);
+    return static_cast<UIntT>(size);
+  }
+
+
   
-  bool DPIImageJSBodyC::Seek(UIntT off) {
-    if(off == ((UIntT) -1))
-      return false; // File to big.
-    frameNo = off;// Wait to after seek in case of exception.
+  bool DPIImageJSBodyC::Seek64(StreamPosT off)
+  {
+    if (off < 0 || off == streamPosUnknown)
+      return false;
+    frameNo = off;
     return true;
   }
-  
-  //: Delta Seek, goto location relative to the current one.
-  
-  bool DPIImageJSBodyC::DSeek(IntT off) {
-    if(off < 0) {
-      if((-off) > (IntT) frameNo)
-	return false; // Seek off begining of data.
+
+
+
+  bool DPIImageJSBodyC::DSeek64(StreamPosT off)
+  {
+    if (off < 0)
+    {
+      if (-off > frameNo)
+      	return false;
     }
-    frameNo = frameNo + off; // Wait till after seek in case of exception.
+    frameNo += off;
     return true;
   }
-  
-  //: Find current location in stream.
-  UIntT DPIImageJSBodyC::Tell() const { 
-    return frameNo; 
+
+
+
+  StreamPosT DPIImageJSBodyC::Tell64() const
+  {
+    return frameNo;
   }
-  
-  //: Find the total size of the stream.
-  UIntT DPIImageJSBodyC::Size() const { 
-    return SeqSize(); 
+
+
+
+  StreamPosT DPIImageJSBodyC::Size64() const
+  {
+    return SeqSize();
   }
 
   /////////////////////////
@@ -214,23 +294,30 @@ namespace RavlImageN {
   //////////////////////////
   //: Get next image.
   
-  bool DPIImageJSBodyC::Get(ImageC<ByteYUV422ValueC> &head) { 
-    strm.Seek(CalcOffset(frameNo));
+  bool DPIImageJSBodyC::Get(ImageC<ByteYUV422ValueC> &head) {
+    if (!m_inputStream.IsValid())
+      return false;
+
+    m_inputStream.Seek64(CalcOffset(frameNo));
     
     // Check input image.
     
     if(head.Rectangle() != rect) {
       head = ImageC<ByteYUV422ValueC>(rect);
-      if(strm.ReadAll((char *) &(head[rect.Origin()]),rect.Area() * sizeof(ByteYUV422ValueC)) <= 0) // Zero indicates end of file.
-	return false;
+
+      StreamPosT frameSize = rect.Area() * sizeof(ByteYUV422ValueC);
+      SArray1dC<ByteT> imageArray(reinterpret_cast<ByteT*>(&(head[rect.Origin()])), frameSize, false);
+      if(m_inputStream.GetArray(imageArray) != frameSize) // Zero indicates end of file.
+        return false;
     } else {
-      IntT width = head.Cols() * sizeof(ByteYUV422ValueC);
+      StreamPosT width = head.Cols() * sizeof(ByteYUV422ValueC);
       IndexC atrow = head.TRow();
       IndexC offset = head.LCol();
       IndexC brow = head.BRow();
       for(;atrow <= brow;atrow++) {
-	if(strm.ReadAll((char *) &(head[atrow][offset]),width) <= 0) // Zero indicates end of file.
-	  return false;
+        SArray1dC<ByteT> rowArray(reinterpret_cast<ByteT*>(&(head[atrow][offset])), width, false);
+	      if(m_inputStream.GetArray(rowArray) <= 0) // Zero indicates end of file.
+	        return false;
       }
     }
     //ONDEBUG(cerr << "Reading image... \n");
@@ -243,7 +330,8 @@ namespace RavlImageN {
   //: Constructor from stream.  
   
   DPOImageJSBodyC::DPOImageJSBodyC(const OStreamC &nStrm)
-    :  doneHeader(false)
+  : m_doneHeader(false),
+    m_doFramePadding(false)
   {
     RavlAssertMsg(0,"Not supported. ");
     //if(!strm.Good())
@@ -253,24 +341,34 @@ namespace RavlImageN {
   //: Constructor from stream 
   
   DPOImageJSBodyC::DPOImageJSBodyC(const StringC &fileName) 
-    : DPImageJSBaseBodyC(fileName,false),
-      doneHeader(false)
+  : DPImageJSBaseBodyC(fileName,false),
+    m_doneHeader(false),
+    m_doFramePadding(false)
   {}
-  
+
+
+
+  DPOImageJSBodyC::DPOImageJSBodyC(DPOPortC<ByteT> outputPort)
+  : DPImageJSBaseBodyC(outputPort),
+    m_doneHeader(false),
+    m_doFramePadding(false)
+  {}
+
   //: Write js header.
   
   bool DPOImageJSBodyC::WriteHeader(const ImageRectangleC &wrect) {
-    if(doneHeader)
+    RavlAssert(m_outputStream.IsValid());
+    if(m_doneHeader)
       return true;
     rect = wrect;
-    strm.Seek(0);
     
     ByteT magic[4];
     magic[0] = 0;
     magic[1] = 0x6;
     magic[2] = 0x9;
     magic[3] = 0xce;
-    if(strm.WriteAll((char *) magic,4) < 0)
+    SArray1dC<ByteT> magicArray(magic, 4, false);
+    if(m_outputStream.PutArray(magicArray) != static_cast<IntT>(magicArray.Size()))
       return false;
     
     int datatype = 3,width = wrect.Cols(),height = wrect.Rows();
@@ -291,50 +389,90 @@ namespace RavlImageN {
     for(int i = 0;i < 9;i++)
       header[i] = bswap_32(header[i]);
 #endif
-    if(strm.WriteAll(header,4 * 9) < 0)
+    SArray1dC<ByteT> headerArray(reinterpret_cast<ByteT*>(header), 9 * sizeof(UIntT), false);
+    if(m_outputStream.PutArray(headerArray) != static_cast<IntT>(headerArray.Size()))
       return false;
-    doneHeader = true;
+
     SetupIO();
+
+    SArray1dC<ByteT> paddingArray(offset - 40);
+    if(m_outputStream.PutArray(paddingArray) <= 0)
+      return false;
+    
+    m_doneHeader = true;
     return true;
   }
   
-  //: Seek to location in stream.
-  // Returns false, if seek failed. (Maybe because its
-  // not implemented.)
-  // if an error occurered (Seek returned False) then stream
-  // position will not be changed.
+
   
-  bool DPOImageJSBodyC::Seek(UIntT off) {
-    if(off == ((UIntT)-1))
-      return false; 
-    frameNo = off;// Wait to after seek in case of exception.
-    return true;
-  }
-  
-  //: Delta Seek, goto location relative to the current one.
-  
-  bool DPOImageJSBodyC::DSeek(IntT off) {
-    if(off < 0) {
-      if((-off) > ((IntT) frameNo))
-	return false; // Seek off begining of data.
-    }
-    UIntT nfrmno = frameNo + off;
-    frameNo = nfrmno; // Wait to after seek in case of exception.
-    if(frameNo > seqSize)
-      seqSize = frameNo;
-    return true;
-  }
-  
-  //: Find current location in stream.
-  
-  UIntT DPOImageJSBodyC::Tell() const { 
-    return frameNo; 
+  bool DPOImageJSBodyC::Seek(UIntT off)
+  {
+    if (off == static_cast<UIntT>(-1))
+      return false;
+    return Seek64(off);
   }
 
-  //: Find the total size of the stream.
+
+
+  bool DPOImageJSBodyC::DSeek(IntT off)
+  {
+    return DSeek64(off);
+  }
+
+
+
+  UIntT DPOImageJSBodyC::Tell() const
+  {
+    if (frameNo > static_cast<UIntT>(-1) || frameNo == streamPosUnknown)
+      return static_cast<UIntT>(-1);
+    return static_cast<UIntT>(frameNo);
+  }
+
+
+
+  UIntT DPOImageJSBodyC::Size() const
+  {
+    StreamPosT size = SeqSize();
+    if (size > static_cast<UIntT>(-1) || size == streamPosUnknown)
+      return static_cast<UIntT>(-1);
+    return static_cast<UIntT>(size);
+  }
+
+
   
-  UIntT DPOImageJSBodyC::Size() const { 
-    return SeqSize(); 
+  bool DPOImageJSBodyC::Seek64(StreamPosT off)
+  {
+    if (off < 0 || off == static_cast<UIntT>(-1))
+      return false;
+    frameNo = off;
+    return true;
+  }
+
+
+
+  bool DPOImageJSBodyC::DSeek64(StreamPosT off)
+  {
+    if (off < 0)
+    {
+      if (-off > frameNo)
+      	return false;
+    }
+    frameNo += off;
+    return true;
+  }
+
+
+
+  StreamPosT DPOImageJSBodyC::Tell64() const
+  {
+    return frameNo;
+  }
+
+
+
+  StreamPosT DPOImageJSBodyC::Size64() const
+  {
+    return SeqSize();
   }
 
   /////////////////////////////////
@@ -342,29 +480,52 @@ namespace RavlImageN {
   // Returns false if can't.
   
   bool DPOImageJSBodyC::Put(const ImageC<ByteYUV422ValueC> &img) {
-    if(!doneHeader) {
+    if (!m_outputStream.IsValid())
+      return false;
+    
+    if(!m_doneHeader) {
       if(!WriteHeader(img.Rectangle())) {
         cerr << "DPOImageJSBodyC::Put(), ERROR: Failed to write file header. \n";
-	return false;
+        return false;
       }
     }
+
+    //TODO(WM) Do seeky stuff here
+
+    if (m_doFramePadding && framePadding != 0)
+    {
+      SArray1dC<ByteT> paddingArray(framePadding);
+      if(m_outputStream.PutArray(paddingArray) <= 0)
+        return false;
+    }
+
     RavlAssert(img.Rectangle() == rect); // Expected image size ?
-    strm.Seek(CalcOffset(frameNo));
     if(&(img[rect.TRow()][rect.RCol()]) == (&(img[rect.TRow()+1][rect.LCol()]))+1) {
-      if(strm.WriteAll((char *) &(img[rect.Origin()]),rect.Area() * sizeof(ByteYUV422ValueC)) < 0)
-	return false;
+      const ByteT* imagePtr = reinterpret_cast<const ByteT*>(&(img[rect.Origin()]));
+      StreamPosT frameSize = rect.Area() * sizeof(ByteYUV422ValueC);
+      SArray1dC<ByteT> imageArray(const_cast<ByteT*>(imagePtr), frameSize, false);
+      if(m_outputStream.PutArray(imageArray) != frameSize)
+        return false;
     } else {
-      IntT width = img.Cols() * sizeof(ByteYUV422ValueC);
+      StreamPosT width = img.Cols() * sizeof(ByteYUV422ValueC);
       IndexC atrow = img.TRow();
       IndexC offset = img.LCol();
       IndexC brow = img.BRow();
-      for(;atrow <= brow;atrow++) 
-	if(strm.WriteAll((char *) &(img[atrow][offset]),width) < 0)
-	  return false;
+      for(;atrow <= brow;atrow++)
+      {
+        const ByteT* rowPtr = reinterpret_cast<const ByteT*>(&(img[atrow][offset]));
+        SArray1dC<ByteT> rowArray(const_cast<ByteT*>(rowPtr), width, false);
+      	if(m_outputStream.PutArray(rowArray) <= 0)
+          return false;
+      }
     }
+    
     frameNo++;
     if(frameNo > seqSize)
       seqSize = frameNo;
+
+    m_doFramePadding = true;
+    
     return true;
   }
   

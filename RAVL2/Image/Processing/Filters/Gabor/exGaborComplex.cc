@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! docentry="Ravl.API.Images.Filtering"
 //! userlevel=Normal
-//! rcsid="$Id: exGaborFilter.cc 5240 2005-12-06 17:16:50Z plugger $"
+//! rcsid="$Id$"
 //! lib=RavlImageProc
 //! author="Bill Christmas"
 //! file="Ravl/Image/Processing/Filters/exGaborComplex.cc"

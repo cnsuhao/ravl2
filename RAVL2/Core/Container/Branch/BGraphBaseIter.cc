@@ -6,7 +6,7 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////////////////
 // Contain/Branch/BGBaseIter.hh   26/2/97   By Charles Galambos
-// $Id$
+// $Id: BGraphBaseIter.cc 927 2002-04-05 12:59:07Z craftit $
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Branch/BGraphBaseIter.cc"

@@ -33,7 +33,7 @@
  *
  *	ioctl constants for Matrox Meteor Capture card.
  */
-/*! rcsid="$Id$" */
+/*! rcsid="$Id: ioctl_meteor.h 3074 2003-06-13 07:23:52Z craftit $" */
 /*! lib=RavlImgIOMeteor1 */
 /*! file="Ravl/Contrib/Meteor1/ioctl_meteor.h" */
 /*! license=own */

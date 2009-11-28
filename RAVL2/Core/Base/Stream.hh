@@ -100,7 +100,7 @@ namespace RavlN {
     
     StreamBaseC(const StringC &nname)
       : name(nname),
-	s(0)
+      	s(0)
     {}
     //: Constructor.
     
@@ -120,44 +120,55 @@ namespace RavlN {
     { return name; }
     //: Returns the name of the stream.
     
-    inline bool IsOpen() const { 
-      if(s == 0)
-	return false;
-      return (s->good() != 0);
+    inline bool IsOpen() const {
+      return !bad();
     }
     //: Test if this stream is open.
     
     bool good() const { 
       if(s == 0)
-	return false;
+        return false;
       return (s->good() != 0);
     }
     //: Is stream good ?
     
     bool bad() const {
       if(s == 0)
-	return true;
+        return true;
       return (s->bad() != 0);
     }
     //: Is stream corrupted ?
     
-    inline bool eof() const { return (s->eof() != 0); }
+    inline bool eof() const {
+      if (s == 0)
+        return true;
+      return (s->eof() != 0);
+    }
     //: End of file ?
     
-    inline bool fail() const { return (s->fail() != 0); }
+    inline bool fail() const {
+      if (s == 0)
+        return true;
+#if 0
+      ios_base::iostate sState = s->rdstate();
+      cerr << "fail()=" << (s->fail() ? "Y" : "N") << \
+           " eofbit=" << ((sState & ios_base::eofbit) != 0 ? "Y" : "N") << \
+           " failbit=" << ((sState & ios_base::failbit) != 0 ? "Y" : "N") << \
+           " badbit=" << ((sState & ios_base::badbit) != 0 ? "Y" : "N") << \
+           " goodbit=" << ((sState & ios_base::goodbit) != 0 ? "Y" : "N") << \
+           endl;
+#endif
+      return (s->fail() != 0);
+    }
     //: Operation failed ?
     
-    bool operator!() const { 
-      if(s == 0)
-	return true;
-      return (s->fail()!=0); 
+    bool operator!() const {
+      return fail();
     }
     //: Not failed ?
     
     operator void*() const  { 
-      if(s == 0)
-	return 0;
-      return s->fail() ? (void*)0 : (void*)(-1); 
+      return fail() ? (void*)0 : (void*)(-1); 
     }
     //: Ok ?
     
@@ -415,7 +426,7 @@ namespace RavlN {
     streampos Tell() const { return in->tellg(); }
     //: Where are we in the stream.
     
-    void Seek(streampos to) { is().seekg(to); }
+    void Seek(streampos to) { is().clear(); is().seekg(to); }
     //: Goto a position in the stream.
     
     streampos tellg() const { return in->tellg(); }
@@ -426,18 +437,18 @@ namespace RavlN {
     //: Goto a position in the stream.
     // istream compatable function.
     
-    istream &seekg(streampos to,SeekDirT dir) { return is().seekg(to,dir); }
+    istream &seekg(streampos to,SeekDirT dir) { is().clear(); return is().seekg(to,dir); }
     //: Goto a position in the stream.
     // istream compatable.
     
     inline bool IsEndOfStream() {
       // Check there's more to read...
       if(!in->good())
-	return true;
+      	return true;
       char cbuff;
       read(&cbuff,1);
       if(!in->good())
-	return true;
+        return true;
       Unget(&cbuff,1);
       return false;
     }

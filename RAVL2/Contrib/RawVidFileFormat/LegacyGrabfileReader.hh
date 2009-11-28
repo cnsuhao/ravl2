@@ -1,6 +1,6 @@
 #if !defined(LEGACYGRABFILEREADER_HH)
 #define LEGACYGRABFILEREADER_HH
-//! rcsid="$Id: $"
+//! rcsid="$Id$"
 //! author="Simon Tredwell"
 //! lib=RawVid
 
@@ -43,6 +43,8 @@ public:
 
   virtual bool HaveMoreFrames();
   //: Check for more frames.
+
+  virtual bool Seek(UIntT off) {return false;}
 
   virtual bool GetNextFrame(BufferC<char> &bu, UIntT &vsize, UIntT &asize);
   //: Read the next frame to a buffer.

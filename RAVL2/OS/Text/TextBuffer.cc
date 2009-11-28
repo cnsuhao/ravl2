@@ -6,7 +6,7 @@
 // file-header-ends-here
 ///////////////////////////////////////////
 // TxtPBuff.cc
-// $Id$
+// $Id: TextBuffer.cc 3944 2004-02-15 12:34:03Z craftit $
 //! rcsid="$Id$"
 //! lib=RavlOS
 //! file="Ravl/OS/Text/TextBuffer.cc"

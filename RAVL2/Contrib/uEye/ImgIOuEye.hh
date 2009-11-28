@@ -92,6 +92,8 @@ namespace RavlImageN {
     
     enum uEyeTrigT { TRIG_OFF,TRIG_HILO,TRIG_LOHI,TRIG_SOFT } m_triggerMode;
     
+    enum uEyeRotationT { ROT_0, ROT_90, ROT_180, ROT_270 } m_rotation;
+
     enum uEyeStateT { UE_NotReady, UE_Ready, UE_Running, UE_TriggerWait } m_state;
     
     bool m_snapshot; // Are we in snapshot mode.
@@ -115,7 +117,7 @@ namespace RavlImageN {
   //! userlevel=Develop
   //: Body for uEye
   
-  template <class PixelT>
+  template <typename PixelT>
   class ImgIOuEyeBodyC 
     : public RavlN::DPIPortBodyC< ImageC<PixelT> >,
       public ImgIOuEyeBaseC
@@ -140,8 +142,15 @@ namespace RavlImageN {
       // Check the device is open
       if (m_state == UE_NotReady)
         return false;
-      if(img.Frame() != m_captureSize)
-        img = ImageC<PixelT>(m_captureSize);
+      if(m_rotation == ROT_0 || m_rotation == ROT_180) {
+        if(img.Frame() != m_captureSize)
+          img = ImageC<PixelT>(m_captureSize);
+      } else {
+        IndexRange2dC captureSize(0, m_sensorInfo.nMaxWidth - 1,
+                                  0, m_sensorInfo.nMaxHeight - 1);
+        if(img.Frame() != captureSize)
+          img = ImageC<PixelT>(captureSize);
+      }
       return CaptureImage(reinterpret_cast<char *>(&(img[img.Frame().Origin()])));
     }
     //: Get next image.

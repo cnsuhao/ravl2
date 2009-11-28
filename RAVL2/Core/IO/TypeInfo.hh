@@ -73,10 +73,16 @@ namespace RavlN {
     
     virtual bool GetAndWrite(DPIPortBaseC &port,BinOStreamC &strm) const;
     //: Get an item from the port and write it to the BinOStreamC.
-    
+
+    virtual Int64T GetAndWriteArray(DPIPortBaseC &port,const Int64T size,BinOStreamC &strm) const;
+    //: Get an array of items from the port and write it to the BinOStreamC.
+
     virtual bool ReadAndPut(BinIStreamC &strm,DPOPortBaseC &port) const;
     //: Read an item from the binary stream and write it to a port.
-    
+
+    virtual bool ReadAndPutArray(const Int64T size,BinIStreamC &strm,DPOPortBaseC &port) const;
+    //: Read an array of items from the binary stream and write it to a port.
+
     virtual DPIPortC<RCWrapAbstractC> CreateConvToAbstract(DPIPortBaseC &port);
     //: Convert from an IPort to an stream of abstract handles.
     
@@ -170,9 +176,17 @@ namespace RavlN {
     inline bool GetAndWrite(DPIPortBaseC &port,BinOStreamC &strm) const
     { return Body().GetAndWrite(port,strm); }
     //: Get an item from the port and write it to the BinOStreamC.
-    
+
+    inline Int64T GetAndWriteArray(DPIPortBaseC &port,const Int64T size,BinOStreamC &strm) const
+    { return Body().GetAndWriteArray(port,size,strm); }
+    //: Get an array of items from the port and write it to the BinOStreamC.
+
     inline bool ReadAndPut(BinIStreamC &strm,DPOPortBaseC &port) const
     { return Body().ReadAndPut(strm,port); }
+    //: Read an item from the binary stream and write it to a port.
+
+    inline bool ReadAndPutArray(const Int64T size,BinIStreamC &strm,DPOPortBaseC &port) const
+    { return Body().ReadAndPutArray(size,strm,port); }
     //: Read an item from the binary stream and write it to a port.
 
     inline DPIPortC<RCWrapAbstractC> CreateConvToAbstract(DPIPortBaseC &port)
@@ -300,7 +314,39 @@ namespace RavlN {
       return true;
     }
     //: Get an item from the port and write it to the BinOStreamC.
-    
+
+    virtual Int64T GetAndWriteArray(DPIPortBaseC &port, const Int64T size, BinOStreamC &strm) const
+    {
+      DPIPortC<DataT> iport(port);
+      if (!iport.IsValid())
+      {
+        RavlAssert(0);
+        throw ExceptionErrorCastC("DPTypeInfoInstBodyC::GetAndWriteArray(), ",
+                                  typeid(port.InputType()),
+                                  typeid(DataT));
+      }
+
+      if (iport.IsGetEOS())
+        return 0;
+
+      if (!strm.Stream())
+      {
+        cerr << "DPTypeInfoInstBodyC<DataT>::GetAndWriteArray stream fail" << endl;
+        return 0;
+      }
+
+      SArray1dC<DataT> data(size);
+      Int64T dataRead = iport.GetArray(data);
+      if (dataRead > 0)
+      {
+        SArray1dC<DataT> subData(data, dataRead);
+        strm << subData;
+      }
+
+      return dataRead;
+    }
+    //: Get an array of items from the port and write it to the BinOStreamC.
+
     virtual bool ReadAndPut(BinIStreamC &strm,DPOPortBaseC &port) const {
       DPOPortC<DataT> oport(port);
       if(!oport.IsValid()) {
@@ -317,6 +363,28 @@ namespace RavlN {
       return oport.Put(tmp);
     }
     //: Read an item from the binary stream and write it to a port.
+
+    virtual bool ReadAndPutArray(const Int64T size,BinIStreamC &strm,DPOPortBaseC &port) const
+    {
+      DPOPortC<DataT> oport(port);
+      if (!oport.IsValid())
+      {
+        RavlAssert(0);
+        throw ExceptionErrorCastC("DPTypeInfoInstBodyC::ReadAndPutArray(), ",
+                                  typeid(port.OutputType()),
+                                  typeid(DataT));
+      }
+
+      // Check stream is valid before doing anything.
+      if (!strm.Stream())
+        return false;
+
+      // Copy data.
+      SArray1dC<DataT> data;
+      strm >> data;
+      return oport.PutArray(data);
+    }
+    //: Read an array of items from the binary stream and write it to a port.
 
   protected:
     static RCWrapAbstractC Data2Abstract(const DataT &data)

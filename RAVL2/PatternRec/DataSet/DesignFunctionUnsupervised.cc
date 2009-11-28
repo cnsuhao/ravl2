@@ -9,6 +9,11 @@
 //! file="Ravl/PatternRec/DataSet/DesignFunctionUnsupervised.cc"
 
 #include "Ravl/PatternRec/DesignFunctionUnsupervised.hh"
+#include "Ravl/PatternRec/SampleVector.hh"
+#include "Ravl/PatternRec/SampleReal.hh"
+#include "Ravl/PatternRec/SampleStreamVector.hh"
+#include "Ravl/DP/Compose.hh"
+#include "Ravl/DP/SPortAttach.hh"
 
 namespace RavlN {
 
@@ -59,6 +64,38 @@ namespace RavlN {
   FunctionC DesignFunctionUnsupervisedBodyC::Apply(SampleStream2C<VectorC,RealT> &in) {
     RavlAssertMsg(0,"DesignFunctionUnsupervisedBodyC::Apply(const SampleStreamC<VectorC,RealT> &), Abstract method called. \n");
     return FunctionC();
+  }
+
+  //: Create function from the given data.
+  FunctionC DesignFunctionUnsupervisedBodyC::Apply(const SampleC<TVectorC<float> > &in) {
+    SampleVectorC newIn(in);
+    return Apply(newIn);
+  }
+
+  //: Create function from the given data, and sample weights.
+  FunctionC DesignFunctionUnsupervisedBodyC::Apply(const SampleC<TVectorC<float> > &in,const SampleC<float> &weight) {
+    SampleVectorC newIn(in);
+    SampleRealC realWeights(weight);
+    return Apply(newIn,realWeights);
+  }
+
+  //: Create function from the given data.
+  // Note: Construction from a sample stream may not be implemented by all designers.
+
+  FunctionC DesignFunctionUnsupervisedBodyC::Apply(SampleStreamC<TVectorC<float> > &in) {
+    SampleStreamVectorC ssv(in);
+    return Apply(ssv);
+  }
+
+  static Tuple2C<VectorC,RealT> float2realTup(const Tuple2C<TVectorC<float>,float> &in) {
+    return Tuple2C<VectorC,RealT> (in.Data1(),in.Data2());
+  }
+
+  //: Create function from the given data, and sample weights.
+  // Note: Construction from a sample stream may not be implemented by all designers.
+  FunctionC DesignFunctionUnsupervisedBodyC::Apply(SampleStream2C<TVectorC<float>,float> &in) {
+    SampleStream2C<VectorC,RealT> ssvw = SPort(in >> Process(float2realTup));
+    return Apply(ssvw);
   }
 
 

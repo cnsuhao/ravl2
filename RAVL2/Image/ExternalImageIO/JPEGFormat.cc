@@ -12,6 +12,7 @@
 #include "Ravl/TypeName.hh"
 #include "Ravl/Image/JPEGFormat.hh"
 #include "Ravl/Image/ImgIOJPeg.hh"
+#include "Ravl/Image/CompressedImageJPEG.hh"
 #include "Ravl/TypeName.hh"
 #include <ctype.h>
 
@@ -55,6 +56,9 @@ namespace RavlImageN {
   //: Try and choose best format for IO.
   
   const type_info &FileFormatJPEGBodyC::ChooseFormat(const type_info &obj_type) const {
+    if(obj_type == typeid(CompressedImageJPEGC))
+      return obj_type;
+
     if(obj_type == typeid(ImageC<ByteRGBValueC>))
       return obj_type; // We know how do this as well.
     if(obj_type == typeid(ImageC<ByteYUVValueC>))
@@ -128,7 +132,11 @@ namespace RavlImageN {
       return DPIImageJPegByteYUVC(filename);
     if(obj_type == typeid(ImageC<ByteT>))
       return DPIImageJPegByteGreyC(filename);
-    return DPIPortBaseC();  
+
+    if (obj_type == typeid(CompressedImageJPEGC))
+      return DPIImageJPEGCompressedC(filename);
+
+    return DPIPortBaseC();
   }
   
   //: Create a output port for saving to file 'filename'..
@@ -140,6 +148,10 @@ namespace RavlImageN {
       return  DPOImageJPegByteYUVC(filename,compression);
     if(obj_type == typeid(ImageC<ByteT>))
       return  DPOImageJPegByteGreyC(filename,compression);
+
+    if (obj_type == typeid(CompressedImageJPEGC))
+      return DPOImageJPEGCompressedC(filename);
+
     return DPOPortBaseC();
   }
   
@@ -153,6 +165,10 @@ namespace RavlImageN {
       return DPIImageJPegByteYUVC(in);
     if(obj_type == typeid(ImageC<ByteT>))
       return DPIImageJPegByteGreyC(in);
+
+    if (obj_type == typeid(CompressedImageJPEGC))
+      return DPIImageJPEGCompressedC(in);
+
     return DPIPortBaseC();
   }
   
@@ -166,6 +182,10 @@ namespace RavlImageN {
       return  DPOImageJPegByteYUVC(out,compression);
     if(obj_type == typeid(ImageC<ByteT>))
       return  DPOImageJPegByteGreyC(out,compression);
+
+    if (obj_type == typeid(CompressedImageJPEGC))
+      return DPOImageJPEGCompressedC(out);
+
     return DPOPortBaseC();
   }
   

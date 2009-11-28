@@ -5,10 +5,10 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
+//! author="Alexey Kostin"
+
 #include "Ravl/PatternRec/SvmLinearClassifier.hh"
 #include "Ravl/PatternRec/SvmClassifier.hh"
-#include "Ravl/PatternRec/CommonKernels.hh"
-#include "Ravl/PatternRec/AuxVector.hh"
 
 namespace RavlN
 {
@@ -40,7 +40,7 @@ SvmLinearClassifierBodyC::SvmLinearClassifierBodyC(istream &Strm)
   CreateBuffers(numWeights);
 
   // read weights
-  for(int i = 0; i < m_numWeights; i++)
+  for(SizeT i = 0; i < m_weights.Size(); i++)
   {
     Strm >> m_weights[i];
   }
@@ -66,7 +66,7 @@ SvmLinearClassifierBodyC::SvmLinearClassifierBodyC(BinIStreamC &Strm)
   CreateBuffers(numWeights);
 
   // read weights
-  for(int i = 0; i < m_numWeights; i++)
+  for(SizeT i = 0; i < m_weights.Size(); i++)
   {
     Strm >> m_weights[i];
   }
@@ -78,29 +78,23 @@ SvmLinearClassifierBodyC::SvmLinearClassifierBodyC(BinIStreamC &Strm)
 SvmLinearClassifierBodyC::~SvmLinearClassifierBodyC()
 {
   DestroyBuffers();
-  AuxVectorC::DestroyAuxVector(auxVec);
-  auxVec = NULL;
 }
 //---------------------------------------------------------------------------
 void SvmLinearClassifierBodyC::DestroyBuffers()
 {
-  if(m_weights != NULL)
-    auxVec->FreeVector(m_weights);
-  m_weights = NULL;
-  m_numWeights = 0;
+  m_weights = VectorC();
 }
 //---------------------------------------------------------------------------
 //! allocate memory for weights
-void SvmLinearClassifierBodyC::CreateBuffers(int NumWeights)
+void SvmLinearClassifierBodyC::CreateBuffers(SizeT NumWeights)
 {
-  if(m_numWeights != NumWeights)
+  if(m_weights.Size() != NumWeights)
   {
     DestroyBuffers();
-    m_weights = auxVec->AllocateVector(NumWeights);
-    if(m_weights == NULL)
+    m_weights = VectorC::ConstructAligned(NumWeights, 16);
+    if(!m_weights.IsValid())
       throw ExceptionOperationFailedC("SvmLinearClassifierBodyC::CreateBuffers:"
                                       "Can't allocate memory for weights");
-    m_numWeights = NumWeights;
   }
 }
 //---------------------------------------------------------------------------
@@ -108,9 +102,7 @@ void SvmLinearClassifierBodyC::CreateBuffers(int NumWeights)
 void SvmLinearClassifierBodyC::InitMembers()
 {
   m_threshold = 0.;
-  m_weights = NULL;
-  m_numWeights = 0;
-  auxVec = GetAuxVector();
+  m_weights = VectorC();
 }
 //---------------------------------------------------------------------------
 // Writes object to stream
@@ -120,8 +112,8 @@ bool SvmLinearClassifierBodyC::Save(ostream &Out) const
     throw ExceptionOperationFailedC("SvmLinearClassifierBodyC::Save:"
                                     "error in ClassifierBodyC::Save call.");
   const IntT version = 0;
-  Out << ' ' << version << ' ' << m_numWeights;
-  for(int i = 0; i < m_numWeights; i++)
+  Out << ' ' << version << ' ' << m_weights.Size();
+  for(SizeT i = 0; i < m_weights.Size(); i++)
   {
     Out << '\n' << m_weights[i];
   }
@@ -136,8 +128,8 @@ bool SvmLinearClassifierBodyC::Save(BinOStreamC &Out) const
     throw ExceptionOperationFailedC("SvmLinearClassifierBodyC::Save:"
                                     "error in ClassifierBodyC::Save call.");
   const IntT version = 0;
-  Out << version << m_numWeights;
-  for(int i = 0; i < m_numWeights; i++)
+  Out << version << m_weights.Size();
+  for(SizeT i = 0; i < m_weights.Size(); i++)
   {
     Out << m_weights[i];
   }
@@ -146,22 +138,22 @@ bool SvmLinearClassifierBodyC::Save(BinOStreamC &Out) const
 }
 //---------------------------------------------------------------------------
 // Classifier vector 'Data' return value of descriminant function
-RealT SvmLinearClassifierBodyC::Classify2(const RealT* Data) const
+RealT SvmLinearClassifierBodyC::Classify2(const VectorC &data) const
 {
-  RealT retVal = m_threshold + auxVec->DotProduct(Data, m_weights, m_numWeights);
+  RealT retVal = m_threshold + m_weights.Dot(data);
   return retVal;
 }
 //---------------------------------------------------------------------------
 // Get vector length of classifier
 IntT SvmLinearClassifierBodyC::GetDataSize() const
 {
-  return m_numWeights;
+  return m_weights.Size();
 }
 //---------------------------------------------------------------------------
 //! Create classifier
 /**
 @param Sv support vectors
-@param Lambdas lagrangian multipliers
+@param Lambdas Lagrangian multipliers
 @param Scale global scale from kernel function
 @param Threshold threshold
   */
@@ -177,21 +169,21 @@ void SvmLinearClassifierBodyC::Create(const SampleC<VectorC>& Sv,
 
   CreateBuffers(Sv[0].Size());
 
-  for(int i = 0; i < m_numWeights; m_weights[i++] = 0.);
+  m_weights.Fill(0.);
 
   for(int i = 0; i < numSv; i++)
   {
     RealT lambda = Lambdas[i];
     const RealT* imPtr = Sv[i].DataStart();
-    RealT* wPtr = m_weights;
-    const RealT* const ewPtr = m_weights + m_numWeights;
+    RealT* wPtr = m_weights.DataStart();
+    const RealT* const ewPtr = wPtr + m_weights.Size();
     while(wPtr < ewPtr)
     {
       *wPtr++ += lambda * *imPtr++;
     }
   }
 
-  for(int i = 0; i < m_numWeights; m_weights[i++] *= Scale);
+  m_weights *= Scale;
 
   m_threshold = Threshold;
 }
@@ -200,7 +192,7 @@ void SvmLinearClassifierBodyC::Create(const SampleC<VectorC>& Sv,
 //! Create classifier
 /**
 @param Sv support vectors
-@param Lambdas lagrangian multipliers
+@param Lambdas Lagrangian multipliers
 @param Weights weights for features
 @param Scale global scale from kernel function
 @param Threshold threshold
@@ -211,7 +203,7 @@ void SvmLinearClassifierBodyC::Create(const SampleC<VectorC>& Sv,
                                       RealT Scale, RealT Threshold)
 {
   Create(Sv, Lambdas, Scale, Threshold);
-  for(int j = 0; j < m_numWeights; j++)
+  for(SizeT j = 0; j < m_weights.Size(); j++)
   {
     m_weights[j] *= Weights[j];
   }

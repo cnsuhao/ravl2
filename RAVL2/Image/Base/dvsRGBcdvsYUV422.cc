@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id: dvsRGBcdvsYUV422.cc 5094 2005-08-30 17:45:15Z ees1se $"
+//! rcsid="$Id$"
 //! author="se"
 //! lib=RavlImage
 //! file="Ravl/Image/Base/dvsRGBcdvsYUV422.cc"

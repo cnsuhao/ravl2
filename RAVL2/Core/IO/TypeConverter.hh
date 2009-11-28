@@ -144,7 +144,7 @@ namespace RavlN {
     bool TypeConvert(const InT &inraw,OutT &outraw) {
       RCAbstractC result = DoConversion(RCWrapC<InT>(inraw).Abstract(),typeid(InT),
 					typeid(OutT));
-      RCWrapC<OutT> out(result);
+      RCWrapC<OutT> out(result,true);
       if(!out.IsValid())
 	return false; // Did conversion succeed ?
       outraw = out.Data();
@@ -158,7 +158,7 @@ namespace RavlN {
     bool TypeConvert(const RCWrapAbstractC &in,OutT &outraw) {
       RCAbstractC result = DoConversion(const_cast<RCWrapAbstractC &>(in).Abstract(),in.DataType(),
 					typeid(OutT));
-      RCWrapC<OutT> out(result);
+      RCWrapC<OutT> out(result,true);
       if(!out.IsValid())
 	return false; // Did conversion succeed ?
       outraw = out.Data();

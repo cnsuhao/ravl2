@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////
-//! rcsid="$Id: AutoPortGenerator.cc 5509 2006-06-01 15:30:48Z craftit $"
+//! rcsid="$Id$"
 //! file="Ravl/SourceTools/VisualCPP/AutoPortGenerator.cc"
 //! lib=RavlAutoPort2
 

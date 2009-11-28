@@ -68,6 +68,12 @@ namespace RavlN {
     {}
     //: Copy constructor.
     
+    //! Swap contents of this container with another.
+    void Swap(BHashC<KeyT,DataT> &other) {
+      RavlN::Swap(table,other.table);
+      RavlN::Swap(entries,other.entries);
+    }
+
     bool Lookup(const KeyT &key,DataT &data) const;
     //: Lookup 'key' in hash table.
     // If an entry is found its assigned to data and
@@ -214,6 +220,9 @@ namespace RavlN {
     return true;
   }
   
+  template<class KeyT,class DataT>
+  void Swap(BHashC<KeyT,DataT> &dat1,BHashC<KeyT,DataT> &dat2)
+  { dat1.Swap(dat2); }
 }
 
 #endif

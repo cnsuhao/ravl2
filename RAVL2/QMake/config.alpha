@@ -1,6 +1,6 @@
 ###########################
 # Make info for alpha systems
-# $Id$
+# $Id: config.alpha 5747 2006-07-19 07:57:14Z craftit $
 
 #PROCS=1
 #CC =/usr/bin/Gnu/gcc

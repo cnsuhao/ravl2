@@ -9,6 +9,11 @@
 //! file="Ravl/PatternRec/DataSet/DesignFunctionSupervised.cc"
 
 #include "Ravl/PatternRec/DesignFunctionSupervised.hh"
+#include "Ravl/PatternRec/SampleVector.hh"
+#include "Ravl/PatternRec/SampleReal.hh"
+#include "Ravl/PatternRec/SampleStreamVector.hh"
+#include "Ravl/DP/Compose.hh"
+#include "Ravl/DP/SPortAttach.hh"
 
 namespace RavlN {
 
@@ -65,6 +70,44 @@ namespace RavlN {
     return FunctionC();
   }
   
+  FunctionC DesignFunctionSupervisedBodyC::Apply(const SampleC<TVectorC<float> > &in,const SampleC<TVectorC<float> > &out) {
+    SampleVectorC newIn(in);
+    SampleVectorC newOut(out);
+    return Apply(newIn,newOut);
+  }
+  //: Create function from the given data.
+
+  FunctionC DesignFunctionSupervisedBodyC::Apply(const SampleC<TVectorC<float> > &in,const SampleC<TVectorC<float> > &out,const SampleC<float> &weight) {
+    SampleVectorC newIn(in);
+    SampleVectorC newOut(out);
+    SampleRealC realWeights(weight);
+    return Apply(newIn,newOut,realWeights);
+  }
+  //: Create function from the given data, and sample weights.
+
+  static Tuple2C<VectorC,VectorC> float22realTup(const Tuple2C<TVectorC<float>,TVectorC<float> > &in) {
+    return Tuple2C<VectorC,VectorC> (in.Data1(),in.Data2());
+  }
+
+  FunctionC DesignFunctionSupervisedBodyC::Apply(SampleStream2C<TVectorC<float>,TVectorC<float> > &in) {
+    SampleStream2C<VectorC,VectorC> ssv = SPort(in >> Process(float22realTup));
+    return Apply(ssv);
+  }
+
+  static Tuple3C<VectorC,VectorC,RealT> float2weight2realTup(const Tuple3C<TVectorC<float>,TVectorC<float>,float> &in) {
+    return Tuple3C<VectorC,VectorC,RealT> (in.Data1(),in.Data2(),in.Data3());
+  }
+
+  //: Create function from the given data.
+  // Note: Construction from a sample stream may not be implemented by all designers.
+
+  FunctionC DesignFunctionSupervisedBodyC::Apply(SampleStream3C<TVectorC<float>,TVectorC<float>,float> &in) {
+    SampleStream3C<VectorC,VectorC,RealT> ssvw = SPort(in >> Process(float2weight2realTup));
+    return Apply(ssvw);
+  }
+  //: Create function from the given data, and sample weights.
+  // Note: Construction from a sample stream may not be implemented by all designers.
+
   ////////////////////////////////////////////////////////////////////
   
   //: Load from stream.

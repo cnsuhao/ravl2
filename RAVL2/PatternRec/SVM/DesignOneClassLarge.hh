@@ -6,6 +6,8 @@
 // file-header-ends-here
 // $Id: DesignOneClassLarge.hh 12208 2008-02-07 12:54:07Z alex $
 
+//! author="Alexey Kostin"
+
 #ifndef RAVL_DESIGN_ONE_CLASS_LARGE_HEADER
 #define RAVL_DESIGN_ONE_CLASS_LARGE_HEADER
 

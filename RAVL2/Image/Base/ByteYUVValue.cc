@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-// $Id$
+// $Id: ByteYUVValue.cc 6152 2007-05-21 09:47:12Z craftit $
 //! rcsid="$Id$"
 //! lib=RavlImage
 //! file="Ravl/Image/Base/ByteYUVValue.cc"

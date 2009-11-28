@@ -144,7 +144,7 @@ namespace RavlN {
     RealT runningTotal = 0.0;
     UIntT numComponents = 0;
     //ONDEBUG(cerr << "Values=" << temp << "\n");
-    if (variation < 1.0) {
+    if (variation <= 1.0) {
       RealT limit = variation * total;
       while ((runningTotal += temp[numComponents++]) < limit);
     } else {

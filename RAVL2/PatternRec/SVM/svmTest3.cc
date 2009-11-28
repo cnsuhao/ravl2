@@ -5,6 +5,8 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
+//! author="Alexey Kostin"
+
 //#define RAVL_HAVE_EXCEPTIONS
 #include "Ravl/String.hh"
 #include "Ravl/PatternRec/CommonKernels.hh"

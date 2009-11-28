@@ -110,7 +110,7 @@ namespace RavlN {
     ONDEBUG(cerr<<"l: "<<dv<<"\nE\n"<<E<<endl);
     Matrix2dC d(stdDev*Sqrt(dv[0]),0,
 		0,stdDev*Sqrt(dv[1]));
-    // FIXME:- Multiply out by hand to make it faster.
+    // TODO:- Multiply out by hand to make it faster.
     Matrix2dC sr = E * d;
     return Ellipse2dC(sr,mean);
   }

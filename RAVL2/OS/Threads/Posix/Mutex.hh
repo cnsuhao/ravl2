@@ -44,6 +44,10 @@ namespace RavlN
   //! userlevel=Normal
   //: Mutual Exclusion lock.
   // SMALL OBJECT
+  // Note in general it is bad practice to Lock and Unlock the mutex directly 
+  // as if the code locking the mutex throws an exception the mutex maybe left
+  // in an in appropriate state.
+  // The MutexLockC class allows exception safe locking of the mutex.
   
   class MutexC {
   public:

@@ -184,7 +184,9 @@ namespace RavlN {
   // (the last '.' in the NameComponent()).
   
   FilenameC FilenameC::BaseNameComponent() const {
-    return NameComponent().before('.',-1);
+    if (contains('.'))
+      return NameComponent().before('.',-1);
+    return NameComponent();
   }
   
   //////////////////////////////////////

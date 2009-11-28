@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id$
+# $Id: install 6592 2008-02-21 10:55:26Z robowaz $
 
 echo "Ravl Installation script."
 

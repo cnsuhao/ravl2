@@ -214,10 +214,15 @@ namespace RavlN {
     { return port.Get(); }
     //: Get next piece of data.
     
-    virtual bool Get(DataT &buff) 
+    virtual bool Get(DataT &buff)
     {  return port.Get(buff); }
     //: Try and get next piece of data.
-    
+
+    virtual IntT GetArray(SArray1dC<DataT>& data)
+    {  return port.GetArray(data); }
+    //: Get multiple pieces of input data.
+    // returns the number of elements processed.
+
     virtual DPPortC ConnectedTo() const
     { return port; }
     //: What does this connect to ?
@@ -355,10 +360,15 @@ namespace RavlN {
     { return port.OutputType(); }
     //: Input type.
     
-    virtual bool Put(const DataT &buff) 
+    virtual bool Put(const DataT &buff)
     {  return port.Put(buff); }
     //: Try and get next piece of data.
-    
+
+    virtual IntT PutArray(const SArray1dC<DataT>& data)
+    {  return port.PutArray(data); }
+    //: Put an array of data elements into a stream.
+    // returns the number of elements processed from the array.
+
     virtual DPPortC ConnectedTo() const
     { return port; }
     //: What does this connect to ?

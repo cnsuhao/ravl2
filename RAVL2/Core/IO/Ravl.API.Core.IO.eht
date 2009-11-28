@@ -37,6 +37,8 @@ ambiguity by using the format with the highest priority.</p>
 and store it in a pgm file:</p>
 
 <pre>
+  #include "Ravl/IO.hh"
+  ....
   ImageC&lt;RealT&gt; x;
   Load("fred", x);
   Save("jim.pgm", x);

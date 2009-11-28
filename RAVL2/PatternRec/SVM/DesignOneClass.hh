@@ -6,6 +6,8 @@
 // file-header-ends-here
 // $Id: DesignOneClass.hh 12208 2008-02-07 12:54:07Z alex $
 
+//! author="Alexey Kostin"
+
 #ifndef RAVL_DESIGN_ONE_CLASS_HEADER
 #define RAVL_DESIGN_ONE_CLASS_HEADER
 
@@ -62,11 +64,10 @@ public:
 
   //! return Lagrangian multipliers
   SArray1dC<double> GetLambdas() const
-    { return SArray1dC<double>(BufferC<double>(lambdas,trainSetSize,  true, true),
-                              trainSetSize); }
+  { return SArray1dC<double>(const_cast<double *>(lambdas),static_cast<SizeT>(trainSetSize), true); }
 
   RealT GetRadius() const
-    { return (double)radius; }
+  { return (double) radius; }
 
   //! returns number of support vectors
   virtual IntT NumSupportVectors() const;

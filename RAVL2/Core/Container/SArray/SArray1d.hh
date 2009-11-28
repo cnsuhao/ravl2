@@ -41,7 +41,7 @@ namespace RavlN {
   // which can be accessed randomly using indexing. 
   // The lower index of the array is 0.
   // The item is expected
-  // to have a default constructor, a copy constructor, and an assigment.
+  // to have a default constructor, a copy constructor, and an assignment.
   // The class SArray1dC is a big object, eg. it has a reference counter.
   
   template <class DataT>
@@ -59,7 +59,7 @@ namespace RavlN {
     //: Type of iterator.
     
     //:---------------------------------------
-    // Constructors, assigment, and destructor
+    // Constructors, assignment, and destructor
     
     SArray1dC()
       : SizeBufferAccessC<DataT>(),
@@ -95,13 +95,13 @@ namespace RavlN {
     // Another access to the array 'vv'.
     
     inline SArray1dC(const SArray1dC<DataT> & vv,SizeT dim,SizeT offsetInBuff = 0);
-    //: The subarray of the 'vv' with size 'dim'.
+    //: The sub-array of the 'vv' with size 'dim'.
     
     inline SArray1dC(DataT *data,const SizeT  dim,bool     removable = true);
     //: The array is created from the memory location 'data' with the range
     //: of access in <0, 'dim'-1>. 
     // If flag 'removable' is false, 'data' is not deallocated during 
-    // destructing of the array.
+    // destruction of the array.
     
     inline SArray1dC(const BufferC<DataT> & bf,SizeT dim,SizeT offsetInBuff = 0)
       : SizeBufferAccessC<DataT>(const_cast<BufferC<DataT> &>(bf).BufferAccess() + offsetInBuff, dim),
@@ -134,8 +134,8 @@ namespace RavlN {
         it.Data2() = it.Data1();
       return ret;
     }
-    //: Create a version of the array with first element on the given byte boundry.
-    // If the aligment is not a correct a copy of the array with the correct aligment is returned.
+    //: Create a version of the array with first element on the given byte boundary.
+    // If the alignment is not a correct a copy of the array with the correct alignment is returned.
     // Note: Alignment must be a power of two.
     
     SArray1dC<DataT> Copy() const;
@@ -143,7 +143,7 @@ namespace RavlN {
         
     SArray1dC<DataT> Copy(UIntT extend) const;
     //: Creates a new physical copy of the array.
-    // 'extend' extra elements initalised by the default constuctor
+    // 'extend' extra elements initialised by the default constructor
     // are appended to the end of the array.
     
     SArray1dC<DataT> DeepCopy(UIntT levels = ((UIntT) -1)) const;
@@ -444,7 +444,7 @@ namespace RavlN {
   template <class DataT>
   SArray1dC<DataT> 
   SArray1dC<DataT>::Join(const SArray1dC<DataT> &Oth) const  {
-    // FIXME :- Do this more efficently, with ptrs.
+    // FIXME :- Do this more efficiently, with ptrs.
     const SizeT len1 = Size();
     const SizeT len2 = Oth.Size();
     SArray1dC<DataT> newarr(len1 + len2);

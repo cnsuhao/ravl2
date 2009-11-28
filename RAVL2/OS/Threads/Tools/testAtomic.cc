@@ -15,25 +15,32 @@
 #include "Ravl/Threads/LaunchThread.hh"
 #include "Ravl/Atomic.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/Random.hh"
 
 using namespace RavlN;
 
 SemaphoreC testDone(0);
+SemaphoreC testRunning(0);
 
 ravl_atomic_t testCount = RAVL_ATOMIC_INIT(0);
 ravl_atomic_t counter = RAVL_ATOMIC_INIT(0);
 
-bool TestAtomic(void) {
-  cerr << "TestAtomic(), Called. \n";
+bool TestAtomic(int loopVal) {
+  //cerr << "TestAtomic(), Called. \n";
   OSYield();
-  for(int i = 0;i < 5000000;i++) {
+
+  for(int i = 0;i < 500000;i++)
+    ravl_atomic_inc(&counter);
+  testRunning.Wait();
+  for(int i = 0;i < 5000000 + loopVal;i++) {
     ravl_atomic_inc(&counter);
     ravl_atomic_dec(&counter);
   }
+  for(int i = 0;i < 500000;i++)
+    ravl_atomic_dec(&counter);
   
-  cerr << "TestAtomic(), Done. \n";
-  ravl_atomic_dec(&testCount);
-  if(ravl_atomic_read(&testCount) < 1)
+  //cerr << "TestAtomic(), Done. \n";
+  if(ravl_atomic_dec_and_test(&testCount))
     testDone.Post();
   return true;
 }
@@ -70,20 +77,23 @@ int main() {
   }
   
   cerr << "Starting atomic test. \n";
-  
-  for(int i = 0;i < 6;i++) {
-    ravl_atomic_inc(&testCount);
-    LaunchThread(&TestAtomic);  
-  }
-  
-  cerr << "Running test. \n";
-  
-  testDone.Wait();
-  
-  cerr << "Test done. " << ravl_atomic_read(&counter) << "\n";
-  if(ravl_atomic_read(&counter) != 0) {
-    cerr << "FAILED!\n" ;
-    return 1;
+  for(int tn = 0;tn < 10;tn++) {
+    for(int i = 0;i < 6;i++) {
+      ravl_atomic_inc(&testCount);
+      LaunchThread(&TestAtomic,i*11);
+    }
+    for(int i = 0;i < 6;i++) {
+      testRunning.Post();
+    }
+    cerr << "Running test " << tn <<". \n";
+
+    testDone.Wait();
+
+    if(ravl_atomic_read(&counter) != 0) {
+      cerr << "Counter=" << ravl_atomic_read(&counter) << "\n";
+      cerr << "FAILED!\n" ;
+      return 1;
+    }
   }
   cerr << "PASSED!\n" ;
   return 0;

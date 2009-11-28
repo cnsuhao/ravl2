@@ -65,6 +65,8 @@ namespace RavlN {
   // position will not be changed.
   
   bool DPSeekCtrlBodyC::Seek64(StreamPosT off) {
+    if (off == streamPosUnknown)
+      return false;
     if(off < 0 || off > (Int64T) ((UIntT) -1)) {
       cerr << "WARNING: 64 bit seeks not supported.  Offset=" << off << " \n";
       return false;
@@ -80,6 +82,8 @@ namespace RavlN {
   // position will not be changed.
   
   bool DPSeekCtrlBodyC::DSeek64(StreamPosT off) {
+    if (off == streamPosUnknown)
+      return false;
     if(off < -((Int64T) ((UIntT) -1)) || off > (Int64T) ((UIntT) -1)) {
       cerr << "WARNING: 64 bit seeks not supported.  Offset=" << off << " \n";
       return false;

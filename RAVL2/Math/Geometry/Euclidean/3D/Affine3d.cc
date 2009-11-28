@@ -340,7 +340,7 @@ namespace RavlN {
     Matrix3dC u,v;
     Vector3dC d = RavlN::SVD_IP(covar,u,v);
     
-    // FIXME :- Make this faster by avoiding use of so many temporaries.
+    // TODO :- Make this faster by avoiding use of so many temporaries.
     
     Matrix3dC s(1,0,0,
                 0,1,0,

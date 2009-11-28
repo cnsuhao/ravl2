@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLGUI_MARKUPPOLYGON2D_HEADER
 #define RAVLGUI_MARKUPPOLYGON2D_HEADER 1
-//! rcsid="$Id: fixSource.cfg 5642 2006-06-23 10:51:11Z craftit $"
+//! rcsid="$Id$"
 //! lib=RavlGUI2D
 //! docentry="Ravl.API.Graphics.GTK.Markup Canvas"
 
@@ -89,7 +89,11 @@ namespace RavlGUIN {
     Polygon2dC &Polygon()
     { return poly; }
     //: Access polygon.
-    
+
+    const Polygon2dC &Polygon() const
+    { return poly; }
+    //: Access polygon.
+
   protected:
     bool FindClosestPoint(const Point2dC &pnt,RealT &score,IntT &pntNo);
     //: Find a point on the polygon
@@ -200,7 +204,11 @@ namespace RavlGUIN {
     Polygon2dC &Polygon()
     { return Body().Polygon(); }
     //: Access polygon.
-    
+
+    const Polygon2dC &Polygon() const
+    { return Body().Polygon(); }
+    //: Access polygon.
+
   protected:
     MarkupPolygon2dC(MarkupPolygon2dBodyC &bod)
      : MarkupInfoC(bod)

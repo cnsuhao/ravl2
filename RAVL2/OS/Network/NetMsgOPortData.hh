@@ -22,7 +22,7 @@ namespace RavlN {
     : public NetMsgRegisterBodyC 
   {
   public:
-    NetMsgOPortDataBodyC(UIntT nid,const StringC &nname,const DPOPortBaseC &portBase,const DPSeekCtrlC &seekCtrl);
+    NetMsgOPortDataBodyC(UIntT nid,const StringC &nname,const DPOPortBaseC &portBase,const DPSeekCtrlC &seekCtrl, bool ndecodeArray);
     //: Constructor.
     
     virtual bool Decode(NetEndPointC &ep,BinIStreamC &pkt);
@@ -33,6 +33,7 @@ namespace RavlN {
     DPOPortBaseC oportBase;
     DPSeekCtrlC seekCtrl;
     DPTypeInfoC dataType;
+    bool decodeArray;
   };
   
 
@@ -43,8 +44,8 @@ namespace RavlN {
     : public NetMsgRegisterC 
   {
   public:
-    NetMsgOPortDataC(UIntT nid,const StringC &nname,const DPOPortBaseC &portBase,const DPSeekCtrlC &seekCtrl)
-      : NetMsgRegisterC(*new NetMsgOPortDataBodyC(nid,nname,portBase,seekCtrl))
+    NetMsgOPortDataC(UIntT nid,const StringC &nname,const DPOPortBaseC &portBase,const DPSeekCtrlC &seekCtrl, bool ndecodeArray = false)
+      : NetMsgRegisterC(*new NetMsgOPortDataBodyC(nid,nname,portBase,seekCtrl,ndecodeArray))
     {}
     //: Constructor.
     

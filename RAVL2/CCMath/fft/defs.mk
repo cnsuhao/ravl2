@@ -1,5 +1,5 @@
 # Automatically generated make file
-# $Id$
+# $Id: defs.mk 3852 2003-12-24 12:39:59Z craftit $
 
 LICENSE=own
 

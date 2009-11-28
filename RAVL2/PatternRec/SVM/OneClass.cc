@@ -193,21 +193,15 @@ bool OneClassBodyC::Save(BinOStreamC &Out) const
 // Classifier vector 'Data' return value of descriminant function
 RealT OneClassBodyC::Classify2(const VectorC &Data) const
 {
-  return Classify2(Data.ReferenceElm());
-}
-//---------------------------------------------------------------------------
-// Classifier vector 'Data' return value of descriminant function
-RealT OneClassBodyC::Classify2(const RealT* Data) const
-{
   SizeT vecLen = supportVectors[0].Size();
-  long double accum = radius - sum - kernelFunction.Apply(vecLen, Data, Data);
+  long double accum = radius - sum - kernelFunction.Apply(vecLen, Data.DataStart(), Data.DataStart());
   for(SizeT i = 0; i < numSv; i++)
   {
     const RealT lambda = lambdas[i];
     if(lambda != 0.)
     {
       const RealT *sv = supportVectors[i].ReferenceElm();
-      accum += 2. * lambda * kernelFunction.Apply(vecLen, Data, sv);
+      accum += 2. * lambda * kernelFunction.Apply(vecLen, Data.DataStart(), sv);
     }
   }
   return (RealT)accum;

@@ -3,3 +3,5 @@
 .#*
 core
 core.*
+.project
+.cproject

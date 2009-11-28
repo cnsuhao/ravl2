@@ -8,7 +8,7 @@ ifndef SocketDEF
 SocketDEF=1
 ###################################
 # Lib's needed for socket io.
-# $Id$
+# $Id: Socket.def 2314 2003-01-27 18:00:41Z plugger $
 
 
 ifneq ($(filter $(ARC), sol2_7 sol2_9),)

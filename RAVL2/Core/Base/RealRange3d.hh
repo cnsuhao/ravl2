@@ -290,6 +290,17 @@ namespace RavlN {
     { return IndexRange3dC(is.IndexRange(),js.IndexRange(),ks.IndexRange());  }
     //: Get the smallest integer range containing the real range.
     
+    UIntT Hash() const {
+      UIntT ret = StdHash(is);
+      ret += ret << 11;
+      ret += StdHash(js);
+      ret += ret << 11;
+      ret += StdHash(ks);
+      return ret;
+    }
+    //: Generate a hash value for the range.
+    //: For template compatibility
+
   protected:
     inline const RealRange3dC & Range() const
     { return(*this); }

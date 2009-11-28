@@ -6,10 +6,11 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
+//! author="Alexey Kostin"
+
 #ifndef RAVL_ONE_CLASS_LINEAR_HEADER
 #define RAVL_ONE_CLASS_LINEAR_HEADER
 
-#include "Ravl/PatternRec/SvmClassifier2.hh"
 #include "Ravl/PatternRec/OneClass.hh"
 #include "Ravl/PatternRec/CommonKernels.hh"
 
@@ -17,7 +18,7 @@ namespace RavlN
 {
 using namespace RavlN;
 
-//! One class linera classifier (body part)
+//! One class linear classifier (body part)
 class OneClassLinearBodyC : public Classifier2BodyC
 {
 public:
@@ -57,22 +58,22 @@ public:
 
   //! Get radius
   RealT& Radius()
-    { return m_radius; }
+  { return m_radius; }
 
   //! Get radius
   RealT Radius() const
-    { return m_radius; }
+  { return m_radius; }
 
   //! Get centre vector
   SArray1dC<RealT> GetCentreVector() const
-    { return SArray1dC<RealT>(BufferC<RealT>(m_centre, m_vecLength,  true, true),
-                              m_vecLength); }
+  { return SArray1dC<double>(const_cast<double *>(m_centre),static_cast<SizeT>(m_vecLength), true); }
+
 
   //! Create classifier
   /**
   @param SupportVectors        support vectors
   @param SupportVectorLabels   support vectors labels
-  @param Lambdas               lagrangian multipliers
+  @param Lambdas               Lagrangian multipliers
   @param Scale                 global scale from kernel function
   @param Radius                radius
    */
@@ -94,7 +95,7 @@ private:
   int m_vecLength;                    //!< length of the center vector
 };
 //---------------------------------------------------------------------------
-//! One class linera classifier
+//! One class linear classifier
 class OneClassLinearC : public Classifier2C
 {
 public:
@@ -109,12 +110,12 @@ public:
   //! Load from binary stream.
   OneClassLinearC(BinIStreamC &Strm);
 
-  //! Classify vector 'data' and return the most likely label (0 - negatives or 1 - positiives)
+  //! Classify vector 'data' and return the most likely label (0 - negatives or 1 - positives)
   //! Size of data must be equal to size of support vector.
   UIntT Classify(const VectorC &Data) const
     { return Body().Classify(Data); }
 
-  //! Classify vector 'data' and return the most likely label (0 - negatives or 1 - positiives)
+  //! Classify vector 'data' and return the most likely label (0 - negatives or 1 - positives)
   //! Size of data must be equal to size of support vector.
   UIntT Classify(const RealT* Data) const
     { return Body().Classify(Data); }

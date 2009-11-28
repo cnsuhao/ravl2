@@ -165,7 +165,7 @@ namespace RavlN {
 	throw ExceptionC("Apply(), Bad process handle. ");
       if(dat.Size() != 1)
 	throw ExceptionC("Apply(), Wrong number of args. ");
-      return RCWrapC<OutT>(p.Apply(RCWrapC<InT>(dat[0]).Data())).Abstract();
+      return RCWrapC<OutT>(p.Apply(RCWrapC<InT>(dat[0],true).Data())).Abstract();
     }
     //: Apply process using abstract data handle.
     // These should be RCWrap's of the actual data.
@@ -174,7 +174,7 @@ namespace RavlN {
       DPProcessC<InT,OutT> p(proc);
       if(!p.IsValid())
 	throw ExceptionC("Apply(), Bad process handle. ");
-      return RCWrapC<OutT>(p.Apply(RCWrapC<InT>(arg).Data())).Abstract();
+      return RCWrapC<OutT>(p.Apply(RCWrapC<InT>(arg,true).Data())).Abstract();
     }
     //: Apply process using abstract data handle.
     // Use only is you know the process uses 1 arg ! 

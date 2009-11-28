@@ -37,6 +37,7 @@ int main(int nargs,char **argv) {
   StringC list = opt.String("l","./all_half1.list","Input file containing list of markup file names.");
   StringC ext = opt.String("e","xml","Extention to search for markup files (needed only if no list is provided, i.e. option -l is set to empty string \"\").");
   StringC mirrorFile = opt.String("m","./mirror.txt","Input mirror file for generation of mirror appearances. To disable mirror appearances, the option -m should be set to the empty string \"\".");
+  StringC mapFile = opt.String("p", "", "Input map file. Disabled if not specified");
   RealT var = opt.Real("vs",0.98,"Proportion of variation preserved by the PCA during dimension reduction (must be between 0 and 1).");
   UIntT maxP = opt.Int("maxs",1000,"Upper limit on number of parameters in the statistical shape model. If number of parameters required to explain the proportion of variation specified by option -vs exceeds this value, the number of parameters will be troncated to this value.");
   bool ignoreSuspect = opt.Boolean("is",true,"Ignore suspect markups (i.e. files tagged with 'suspect=\"1\"').");
@@ -44,7 +45,7 @@ int main(int nargs,char **argv) {
   StringC meanPnts = opt.String("om","","Output file for list of mean feature points representing the mean shape.");
   bool verbose = opt.Boolean("v",false,"Verbose mode, print messages to stderr. ");
   opt.Check();
-  
+
 #if 0
   AAMShapeModelC sm(true); // Basic shape model.
 #else
@@ -53,22 +54,35 @@ int main(int nargs,char **argv) {
 
   SampleC<AAMAppearanceC> appearanceSet;
 
+  HashC<IntT,IntT> typeMap;
+  HashC<StringC,IntT> namedTypeMap;
+  bool useTypeId;
+  if(!mapFile.IsEmpty()) {
+    // Load map file.
+    if (!LoadTypeMap(mapFile, typeMap, namedTypeMap)) {
+      cerr << "ERROR: Failed to read map file." << endl;
+      return 1;
+    }
+    useTypeId = false;
+  }
+
   if(!list.IsEmpty())
   {
     // Read file list.
     DListC<StringC> fileList;
     TextFileC fl(list);
-    for(UIntT i=1;i<=fl.NoLines();i++)  
+    for(UIntT i=1;i<=fl.NoLines();i++)
       fileList.InsLast(fl[i].TopAndTail());
-    appearanceSet = LoadFeatureSet(fileList,dir,ignoreSuspect,false);
+    appearanceSet = LoadFeatureSet(fileList,dir,typeMap,namedTypeMap,useTypeId,ignoreSuspect,false);
   }
   else
   {
     // Make file list from all files with extension 'ext' located in directory 'dir'.
-    appearanceSet = LoadFeatureSet(dir,ext,ignoreSuspect,false);
+    appearanceSet = LoadFeatureSet(dir,ext,typeMap,namedTypeMap,useTypeId,ignoreSuspect,false);
   }
+  //cout << appearanceSet << endl;
 
-  if(!mirrorFile.IsEmpty()) {
+/*  if(!mirrorFile.IsEmpty()) {
     // Load mirror file.
     AAMAppearanceMirrorC mirror(mirrorFile);
     if(!mirror.IsValid()) {
@@ -77,11 +91,11 @@ int main(int nargs,char **argv) {
     }
     // Create mirror appearances
     mirror.Reflect(appearanceSet);
-  }
-  
+  }*/
+
   // Set verbose mode.
   sm.SetVerbose(verbose);
-  
+
   cerr << "Got " << appearanceSet.Size() << " samples. \n";
 
   // Design shape model from list of appearances.
@@ -89,9 +103,9 @@ int main(int nargs,char **argv) {
     cerr << "Failed to design shape model. \n";
     return 1;
   }
-  
+
   cerr << "Dimension of shape model = " << sm.Dimensions() << "\n";
-  
+
   if(!meanPnts.IsEmpty()) {
     // Save mean position of feature points (representing mean shape)
     if(!Save(meanPnts,sm.MeanPoints())) {

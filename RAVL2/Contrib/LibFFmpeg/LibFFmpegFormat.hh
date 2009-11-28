@@ -10,7 +10,7 @@
 //! author = "Warren Moore"
 //! docentry = "Ravl.API.Images.Video.Video IO.LibFFmpeg"
 //! date = "31/03/2005"
-//! rcsid = "$Id$"
+//! rcsid = "$Id: LibFFmpegFormat.hh 7393 2009-11-26 11:38:25Z simondennis $"
 //! lib=RavlLibFFmpeg
 //! file = "Ravl/Contrib/LibFFmpeg/LibFFmpegFormat.hh"
 
@@ -32,6 +32,9 @@ namespace RavlImageN
   {
   public:
     FileFormatLibFFmpegBodyC();
+    //: Constructor
+
+    FileFormatLibFFmpegBodyC(const StringC &vName,const StringC &vDesc);
     //: Constructor
     
     virtual const type_info &ProbeLoad(IStreamC &in, const type_info &obj_type) const;
@@ -71,6 +74,9 @@ namespace RavlImageN
   private:
     bool IsSupported(const char *filename) const;
     //: Is this file supported by FFmpeg?
+
+    bool IsOutPutSupported(const char *filename) const;
+    //: Is this output format supported by FFmpeg?
   };
   
   
@@ -88,6 +94,10 @@ namespace RavlImageN
       FileFormatC< ImageC<ByteRGBValueC> >(*new FileFormatLibFFmpegBodyC())
     {}
     
+    FileFormatLibFFmpegC(const StringC &vName,const StringC &vDesc)
+      : FileFormatC<ImageC<ByteRGBValueC> >(*new FileFormatLibFFmpegBodyC(vName,vDesc))
+      {}
+
     const type_info & ProbeLoad(IStreamC & in,const type_info & obj_type) const
     { return Body().ProbeLoad(in,obj_type); }
     //: Probe for load 

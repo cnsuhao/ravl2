@@ -17,6 +17,7 @@
 #include "Ravl/Types.hh"
 #include "Ravl/IndexRange1d.hh"
 #include "Ravl/Math.hh"
+#include "Ravl/StdHash.hh"
 
 namespace RavlN {
 #if RAVL_VISUALCPP_NAMESPACE_BUG && RAVL_HAVE_STDNAMESPACE
@@ -90,6 +91,7 @@ namespace RavlN {
     inline RealT CenterD() const
     { return (Min() + Max())/2; }
     //: Returns the index previous the middle of the range, eg. (Max()+Min())/2.
+
     inline RealT Percentage(RealT p) const
     { return (Max() - Min()) * p/100.0 + Min(); }
     //: Returns the index which is in the 'p' % of the whole range.
@@ -197,13 +199,18 @@ namespace RavlN {
     //: Returns the range extended by adding 'n' items on both limits of
     //: this range. 
     
-    inline RealRangeC & ShrinkHigh(RealT n);
+    inline RealRangeC & ShrinkHigh(RealT n)
+    { Max() -= n; return *this; }
     //: Returns the range shrinked by removing of the 
     //: last 'n' items on both limits of this range. 
     
     inline RealRangeC & Swap(RealRangeC & r);
     //: Exchanges the contents of this range and range 'r'. The function
     //: returns this range. 
+
+    RealRangeC operator*(RealT scale) const
+    { return RealRangeC(Min()*scale,Max()*scale); }
+    //: Scale range
 
     const RealRangeC &Involve(RealT i) { 
       if(minV > i) minV = i;
@@ -223,6 +230,15 @@ namespace RavlN {
     { return IndexRangeC(Floor(minV),Ceil(maxV));  }
     //: Get the smallest integer range containing the real range.
     
+    UIntT Hash() const {
+      UIntT ret = StdHash(minV);
+      ret += ret << 11;
+      ret += StdHash(maxV);
+      return ret;
+    }
+    //: Generate a hash value for the range.
+    //: For template compatibility.
+
   private:
     RealT minV; // Minimum index.
     RealT maxV; // Maximum index.
@@ -283,12 +299,7 @@ namespace RavlN {
     }
     return *this;
   }
-  
-  inline RealRangeC &RealRangeC::ShrinkHigh(RealT n) {
-    Max() -= n;
-    return *this;
-  }
-  
+
   inline RealRangeC &RealRangeC::Swap(RealRangeC & r) {
     const RealRangeC tmp = *this;
     *this = r;

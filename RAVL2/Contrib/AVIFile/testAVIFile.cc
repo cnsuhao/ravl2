@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////////
-//! rcsid = "$Id$"
+//! rcsid = "$Id: testAVIFile.cc 5289 2006-01-05 12:38:41Z ees1wc $"
 //! lib=RavlAVIFile
 //! author = "James Smith"
 //! file="Ravl/Contrib/AVIFile/testAVIFile.cc"

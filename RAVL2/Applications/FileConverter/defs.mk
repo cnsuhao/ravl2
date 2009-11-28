@@ -17,7 +17,13 @@ USESLIBS= RavlCore RavlOSIO RavlImage RavlOS RavlImageIO RavlVideoIO  \
 PROGLIBS= RavlDPDisplay.opt RavlDPDisplay3d.opt RavlExtImgIO.opt RavlDV.opt RavlImgIOV4L.opt  \
  RavlPatternRecIO CSPDriver.opt RavlURLIO.opt RavlDevAudio.opt RavlAudioFile.opt \
  RavlDMeda.opt RavlImgIOMeteor1.opt RavlDPGraph.opt RavlAudioIO.opt \
- RavlImgIO1394dc.opt RavlLibMPEG2.opt  RavlImgIOJasper.opt RavlLibFFmpeg.opt RavlRawVidIO.opt
+ RavlImgIO1394dc.opt RavlLibMPEG2.opt  RavlImgIOJasper.opt RavlLibFFmpeg.opt 
+#RavlRawVidIO.opt
 #RavlMPEG2.opt
 
 #EHT = execonv.eht
+
+TESTEXES = testFileConverter.cc
+
+AUXDIR = share/RAVL/testData
+AUXFILES = in0.ppm in1.ppm

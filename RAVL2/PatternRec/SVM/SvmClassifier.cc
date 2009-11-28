@@ -5,6 +5,8 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 
+//! author="Alexey Kostin"
+
 #include "Ravl/PatternRec/SvmClassifier.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
 
@@ -15,7 +17,7 @@ namespace RavlN
 using namespace RavlN;
 
 //---------------------------------------------------------------------------
-// Creates empty classifier, which returns 0 as the value ofdiscriminant function
+// Creates empty classifier, which returns 0 as the value of discriminant function
 SvmClassifierBodyC::SvmClassifierBodyC()
 {
   lambdas = NULL;
@@ -224,17 +226,11 @@ bool SvmClassifierBodyC::Save(BinOStreamC &Out) const
 // Classifier vector 'Data' return value of descriminant function
 RealT SvmClassifierBodyC::Classify2(const VectorC &Data) const
 {
-  return Classify2(Data.ReferenceElm());
-}
-//---------------------------------------------------------------------------
-// Classifier vector 'Data' return value of descriminant function
-RealT SvmClassifierBodyC::Classify2(const RealT* Data) const
-{
   RealT retVal = threshold;
   for(UIntT j = 0; j < numSv; j++)
   {
     retVal += lambdas[j] *
-              kernelFunction.Apply(numFeatures, trSetVectorPtrs[j], Data);
+              kernelFunction.Apply(numFeatures, trSetVectorPtrs[j], Data.DataStart());
   }
   return retVal;
 }

@@ -30,7 +30,10 @@ namespace RavlImageN {
     
     ImageC<RealT> Apply(const ImageC<RealT> &img);
     //: Apply filter to image.
-    
+
+    ImageC<float> Apply(const ImageC<float> &img);
+    //: Apply filter to image.
+
     RealT Sigma() const
     { return sigma; }
     //: Access current sigma.
@@ -72,7 +75,11 @@ namespace RavlImageN {
     ImageC<RealT> Apply(const ImageC<RealT> &img)
     { return Body().Apply(img); }
     //: Apply filter to image.
-    
+
+    ImageC<float> Apply(const ImageC<float> &img)
+    { return Body().Apply(img); }
+    //: Apply filter to image.
+
     RealT Sigma() const
     { return Body().Sigma(); }
     //: Access current sigma.

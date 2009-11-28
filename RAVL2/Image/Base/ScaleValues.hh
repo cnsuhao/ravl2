@@ -22,7 +22,7 @@ namespace RavlImageN {
   template<class PixelT>
   ImageC<PixelT> ScaleOffsetValues(const ImageC<PixelT> &original,const PixelT &min,const PixelT &max,ImageC<PixelT> &result) {
     if(result.Frame() != original.Frame())
-      result = ImageC<RealT>(original.Frame());
+      result = ImageC<PixelT>(original.Frame());
     if(result.Frame().Area() < 1)
       return result;
     Array2dIterC<PixelT> it(original);
@@ -47,7 +47,7 @@ namespace RavlImageN {
   template<class PixelT>
   ImageC<PixelT> ScaleValues(const ImageC<PixelT> &original,const PixelT &max,ImageC<PixelT> &result) {
     if(result.Frame() != original.Frame())
-      result = ImageC<RealT>(original.Fame());
+      result = ImageC<PixelT>(original.Frame());
     if(result.Frame().Area() < 1)
       return result;
     Array2dIterC<PixelT> it(original);

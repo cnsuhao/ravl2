@@ -5,8 +5,8 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here*/
 /* Dummy main to force generation of templates. */
-/* $Id$ */
-/*! rcsid="$Id$" */
+/* $Id: dummymain.c 5747 2006-07-19 07:57:14Z craftit $ */
+/*! rcsid="$Id: dummymain.c 5747 2006-07-19 07:57:14Z craftit $" */
 /*! file="Ravl/QMake/dummymain.c" */
 #include <stdio.h>
 int main() {

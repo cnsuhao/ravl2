@@ -6,6 +6,8 @@
 // file-header-ends-here
 // $Id: FaceGraph.cc 8674 2006-05-24 12:19:29Z alex $
 
+//! author="Alexey Kostin"
+
 #include "Ravl/PatternRec/SvmClassifier.hh"
 #include "Ravl/PatternRec/CommonKernels.hh"
 #include "Ravl/PatternRec/DesignSvm.hh"
@@ -119,7 +121,6 @@ namespace RavlN
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(RBFKernelBodyC,           RBFKernelC,           KernelFunctionC);
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(DesignSvmBodyC,           DesignSvmC,           DesignClassifierSupervisedC);
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(DesignSvmSmoBodyC,        DesignSvmSmoC,        DesignSvmC);
-  RAVL_INITVIRTUALCONSTRUCTOR_FULL(Classifier2BodyC,         Classifier2C,         ClassifierC);
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(SvmClassifierBodyC,       SvmClassifierC,       Classifier2C);
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(SvmLinearClassifierBodyC, SvmLinearClassifierC, Classifier2C);
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(SvmQuadraticClassifierBodyC, SvmQuadraticClassifierC, Classifier2C);

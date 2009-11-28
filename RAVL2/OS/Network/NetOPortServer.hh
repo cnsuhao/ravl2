@@ -31,9 +31,6 @@ namespace RavlN {
     : public NetAttributeCtrlServerBodyC
   {
   public:
-    NetOSPortServerBaseBodyC(const AttributeCtrlC &attrCtrl,const DPSeekCtrlC &seekCtrl,const StringC &portName);
-    //: Constructor.
-    
     NetOSPortServerBaseBodyC(const AttributeCtrlC &attrCtrl,const DPOPortBaseC &oportBase,const DPSeekCtrlC &seekCtrl,const StringC &portName);
     //: Constructor.
     
@@ -76,8 +73,7 @@ namespace RavlN {
     StringC portName;
     DPOPortBaseC oportBase;
     DPSeekCtrlC seekCtrl;
-    //Int64T at;
-    UIntT at;
+    Int64T at;
     Signal0C sigConnectionClosed;
   };
   
@@ -90,7 +86,7 @@ namespace RavlN {
   {
   public:
     NetOSPortServerBodyC(const DPOSPortC<DataT> &noport,const StringC &portName)
-      : NetOSPortServerBaseBodyC(noport,noport,portName),
+      : NetOSPortServerBaseBodyC(noport,noport,noport,portName),
 	oport(noport)
     {}
     //: Constructor.
@@ -103,13 +99,7 @@ namespace RavlN {
     { return TypeName(typeid(DataT)); }
     //: Get the port type.
     
-    bool PutData(Int64T &pos,DataT &data);
-    //: Request information on the stream.. 
-    
   protected:
-    bool Init();
-    //: Initalise link.
-    
     DPOSPortC<DataT> oport;
   };
   
@@ -209,10 +199,6 @@ namespace RavlN {
     { return static_cast<const NetOSPortServerBodyC<DataT> &>(NetOSPortServerBaseC::Body()); }
     //: Access body.
     
-    bool PutData(UIntT &pos,DataT &data)
-    { return Body().PutData(pos,data); }
-    //: Request information on the stream.. 
-    
     friend class NetOSPortServerBodyC<DataT>;
   };
 
@@ -238,44 +224,6 @@ namespace RavlN {
   //! userlevel=Normal 
   //: Export an SPort with a given portName.
   
-  ///////////////////////////////////////////////////
-  
-  template<class DataT>  
-  bool NetOSPortServerBodyC<DataT>::Init() {
-    RavlAssert(ep.IsValid());
-    ep.RegisterR(NPMsg_Data,"Data",*this,&NetOSPortServerBodyC<DataT>::PutData);
-    bool ret =NetOSPortServerBaseBodyC::Init();
-    return ret;
-  }
-  
-  //: Request information on the stream.. 
-  
-  template<class DataT>
-  bool NetOSPortServerBodyC<DataT>::PutData(Int64T &pos,DataT &data) {
-    if(!oport.IsValid()) {
-      //cerr << "NetOSPortServerBodyC<DataT>::ReqData(), Invalid output port.\n";      
-      ep.Send(NPMsg_ReqFailed,1); // Report end of stream.
-      return true;
-    }
-    //cerr << "NetOSPortServerBodyC<DataT>::ReqData(), Pos=" << pos << " at=" << at << " Tell=" << oport.Tell() <<"\n";
-    if(at != pos && pos != (UIntT)(-1)) {
-      oport.Seek64(pos);
-      at = pos;
-    }
-    if(oport.Put(data)) {
-      at++;
-    } else { // Failed to get data.
-      //cerr << "NetOSPortServerBodyC<DataT>::ReqData(), Put failed. \n";
-      if(!oport.IsPutReady())
-	ep.Send(NPMsg_ReqFailed,1); // Ug
-      else
-	ep.Send(NPMsg_ReqFailed,2); // Just get failed.
-    }
-    return true;
-  }
-  
-
 }
-
 
 #endif

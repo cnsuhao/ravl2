@@ -51,8 +51,8 @@ RAVL_CXX = g++
 #PROCS =
 
 # Use SSE2 instructions where possible
-PROCESSOR_TYPE:=$(shell uname -p)
-ifeq ("$(PROCESSOR_TYPE)","i386")
+PROCESSOR_TYPE:=$(shell uname -m)
+ifeq ("$(PROCESSOR_TYPE)","i686")
   RESOURCES += USE_SSE2
 endif
 ifeq ("$(PROCESSOR_TYPE)","x86_64")

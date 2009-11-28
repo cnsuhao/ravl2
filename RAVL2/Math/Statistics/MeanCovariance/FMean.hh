@@ -110,6 +110,10 @@ namespace RavlN {
     // Be carefull to remove points which was already added to the set,
     // otherwise the representation will not describe a real set.
     
+    UIntT Hash() const
+    { return StdHash(number) + StdHash(static_cast<const FVectorC<N> &>(*this)); }
+    //: Provided for compatibility with templates.
+
   protected:
     
     // Object representation

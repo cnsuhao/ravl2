@@ -1,0 +1,4 @@
+Here's an example how you could connect to the server from VPlay.
+
+   VPlay @NET:localhost:4554#dev/tennis
+

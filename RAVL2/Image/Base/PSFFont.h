@@ -1,6 +1,6 @@
 #ifndef RAVLIMAGE_PSFFONT_HEADER
 #define RAVLIMAGE_PSFFONT_HEADER 1
-/*! rcsid="$Id$" */
+/*! rcsid="$Id: PSFFont.h 1533 2002-08-08 16:03:23Z craftit $" */
 /*! lib=RavlImage */
 /*! license=own */
 /*! file="Ravl/Image/Base/PSFFont.h" */

@@ -1,6 +1,3 @@
-###########################
-# Make info for solaris systems
-# $Id$
 
 #######################
 # Programs to use.
@@ -39,10 +36,6 @@ endif
 ifndef TR 
  TR = tr	
 endif 
-
-ifndef READLINK
- READLINK=readlink -e
-endif
 
 ifndef DYNAMICFLAG
  DYNAMICFLAG = -rdynamic 

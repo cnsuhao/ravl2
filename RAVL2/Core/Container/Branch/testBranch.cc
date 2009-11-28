@@ -103,6 +103,9 @@ int testBHash() {
   if(table[0] != 0) return __LINE__;
   table2.Insert(0,1);
   if(table[0] != 0) return __LINE__;
+  Swap(table,table2);
+  if(table[0] != 1) return __LINE__;
+
   return 0;
 }
 

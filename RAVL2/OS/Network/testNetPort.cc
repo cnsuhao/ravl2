@@ -113,8 +113,9 @@ int testNetIPort(const char *name)
   
   // ********************** CHECK IT WORKED ************************
   
-  cerr << "testNetPort(), Check data. Elements=" << list2.Size() << "\n";
-  cerr << "List2=" << list2 << "  Lst=" << lst << "\n";
+  cerr << "testNetPort(), Check data.\n";
+  cerr << "List1=" << lst << endl;
+  cerr << "List2=" << list2 << endl;
   // Check the results.
   if(list2.Size() != lst.Size()) return __LINE__;
   if(list2.First() != lst.First()) return __LINE__;
@@ -167,7 +168,9 @@ int testNetOPort()
   
   // ********************** CHECK IT WORKED ************************
   
-  cerr << "testNetPort(), Check data. Elements=" << lst.Size() << "\n";
+  cerr << "testNetPort(), Check data.\n";
+  cerr << "List1=" << lst << endl;
+  cerr << "List2=" << list2 << endl;
   // Check the results.
   if(list2.Size() != lst.Size())  return __LINE__;
   if(list2.First() != lst.First())  return __LINE__;

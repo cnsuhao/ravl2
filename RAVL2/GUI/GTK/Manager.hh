@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_MANAGER_HEADER
 #define RAVLGUI_MANAGER_HEADER 1
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id$
+//! rcsid="$Id: Manager.hh 7310 2009-10-14 20:31:27Z craftit $
 //! file="Ravl/GUI/GTK/Manager.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
@@ -123,10 +123,10 @@ namespace RavlGUIN {
     
   protected:
     
-    bool ThreadEnterGUI(IntT &var);
+    bool ThreadEnterGUI(SizeT &var);
     //: Enter GUI thread region.
     
-    bool ThreadLeaveGUI(IntT &var);
+    bool ThreadLeaveGUI(SizeT &var);
     //: Leave GUI thread region.
     
     IntT Register(WidgetBodyC &win);
@@ -164,7 +164,7 @@ namespace RavlGUIN {
     StringC m_strDebugWarning;
     ThreadEventC shutdownDone;
     ThreadEventC startupDone;
-    UIntT guiThreadID;
+    SizeT guiThreadID;
     Index2dC screensize;
     Point2dC physicalScreensize;
     friend class WidgetBodyC;

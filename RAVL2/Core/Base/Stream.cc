@@ -326,6 +326,7 @@ namespace RavlN {
   IStreamC::IStreamC(const StringC &sfilename,bool binary,bool buffered) 
     : StreamBaseC(sfilename)
   {
+    ONDEBUG(cerr << "IStreamC::IStreamC filename='" << sfilename << "' binary=" << (binary ? "Y" : "N") << " buffered=" << (buffered ? "Y" : "N") << endl);
     if(sfilename == "-") {
       Init(in = &cin,sfilename,false);
       if(!buffered) 
@@ -452,7 +453,7 @@ namespace RavlN {
     // unget doesn't seem to work for all characters under
     // Visual C++. this works around the problem though its
     // not clear it will work for all types of streams.
-    // FIXME:- Be a little more clever and try and use unget when it will work.
+    // TODO:- Be a little more clever and try and use unget when it will work.
     is().seekg(is().tellg() - static_cast<streampos>(len));
 #endif
   }

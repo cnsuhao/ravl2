@@ -12,7 +12,7 @@
 #include "Ravl/TypeName.hh"
 #include "Ravl/HSet.hh"
 #include "Ravl/StringList.hh"
-
+#include <stdlib.h>
 #define DODEBUG 0
 
 #if DODEBUG
@@ -122,6 +122,11 @@ namespace RavlN {
     
     if(!subtree.Data().Lookup("href",xi_href) || xi_href.IsEmpty()) {
       // Include nothing, this is used where the fallback is to include nothing.
+      ONDEBUG(std::cerr << "Including fallback contents. \n");
+      for(DLIterC<XMLTreeC> it(subtree.Children());it;it++) {
+        if(!it->IsPI())
+          Add(it->Name(),*it);
+      }
       subtree.Invalidate();
       return true;
     }
@@ -179,7 +184,15 @@ namespace RavlN {
 
     // Look in the directory of the current file first, Unless we've been given an absolute path.
     IStreamC newIStream;
-    if(xi_href.firstchar() != '/') {
+    if(xi_href.firstchar() == '~') {
+      StringC homeDir(getenv("HOME"));
+      if(!homeDir.IsEmpty()) {
+        StringC newFn = homeDir + xi_href.after('~');
+        ONDEBUG(std::cerr << "Trying '" << newFn << "' from '" << homeDir << "'\n");
+        newIStream = IStreamC(newFn);
+      }
+    }
+    if(!newIStream.good() && xi_href.firstchar() != '/') {
       StringC parentDir = FilePathComponent(parentFilename);
       if(!parentDir.IsEmpty()) {
         StringC newFn = parentDir + '/' + xi_href;
@@ -189,13 +202,14 @@ namespace RavlN {
     }
     
     // Try opening from the current directory.
-    if(!newIStream.IsOpen()) {
+    if(!newIStream.good()) {
       ONDEBUG(std::cerr << "Trying '" << xi_href << "'\n");      
       newIStream = IStreamC(xi_href);
     }
+    ONDEBUG(std::cerr << "Stream state '" << newIStream.good() << " " << newIStream.bad() << " " << newIStream.fail() << "'\n");
     
     XMLIStreamC newStream(newIStream);
-    if(!newIStream.IsOpen()) {
+    if(!newIStream.good()) {
       if(!ProcessIncludeFallback(subtree,doneFiles,parentFilename)) {
 	RavlIssueWarning(StringC("Failed to open file='" + xi_href +"' from '" + parentFilename + "' "));
 	return false;
@@ -205,6 +219,7 @@ namespace RavlN {
     
     XMLTreeC newTree(true);
     if(!newTree.Read(newStream,doneFiles)) {
+      RavlIssueWarning(StringC("Failed to open file='" + newStream.Name() +"'. "));
       // Assume error has already been reported.
       return false;
     }
@@ -216,8 +231,10 @@ namespace RavlN {
     StringC xi_xpointer;
     if(subtree.Data().Lookup("xpointer",xi_xpointer)) {
       DListC<XMLTreeC> children;
-      if(!newTree.FollowPath(xi_xpointer,children))
+      if(!newTree.FollowPath(xi_xpointer,children)) {
+        RavlIssueWarning(StringC("Failed to follow xpointer in file '" + xi_href +"' with path '" + xi_xpointer + "' "));
 	return false;
+      }
       for(DLIterC<XMLTreeC> it(children);it;it++) 
 	Add(it->Name(),*it);
       return true;

@@ -15,7 +15,7 @@
 //! rcsid="$Id$"
 //! date="28/05/1998"
 
-#include "Ravl/RCBodyV.hh"
+#include "Ravl/RCHandleV.hh"
 
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <typeinfo>
@@ -29,35 +29,32 @@ namespace RavlN {
   // See RCWrapC<> for example.
   
   class RCAbstractC 
-    : public RCHandleC<RCBodyVC> 
+    : public RCHandleVC<RCBodyVC>
   {
   public:  
     RCAbstractC() {}
     //: Default constructor.
     
     RCAbstractC(const RCAbstractC &oth)
-      : RCHandleC<RCBodyVC>(oth)
+      : RCHandleVC<RCBodyVC>(oth)
     {}
     //: Copy constructor.
     
-    RCAbstractC(RCBodyVC &oth)
-      : RCHandleC<RCBodyVC>(oth)
+    RCAbstractC(const RCBodyVC &oth)
+      : RCHandleVC<RCBodyVC>(&oth)
     {}
     //: Constructor.
     
-    RCAbstractC(istream &in)
-      : RCHandleC<RCBodyVC>(*new RCBodyVC())
-    {}
+    RCAbstractC(std::istream &in);
     //: Constructor.
-    
+
+    RCAbstractC(BinIStreamC &in);
+    //: Constructor.
+
     inline RCAbstractC Copy() const;
     //: Copy object contents.
     // FIXME :- Use RTTI to check copy is full.
-    
-    inline bool Save(ostream &out) const
-    { return Body().Save(out); }
-    //: Save to stream.
-    
+
     const type_info &BodyType() const 
     { return typeid(Body()); }
     //: Type of object held.
@@ -92,5 +89,45 @@ namespace RavlN {
       return RCAbstractC();
     return RCAbstractC(Body().Copy()); 
   }
+
+  //! Convert a smart pointer to a RCAbstract handle
+  inline RCAbstractC ToRCAbstract(const RavlN::RCAbstractC &value)
+  { return value; }
+
+  //! Convert a smart pointer to from a RCAbstract handle
+  inline void FromRCAbstract(const RavlN::RCAbstractC &val,RavlN::RCAbstractC &value)
+  { value = val; }
+
+  //////////////////////////////////////
+
+  template<class BodyT>
+  RCHandleVC<BodyT>::RCHandleVC(const RCAbstractC &oth)
+    : RCHandleC<BodyT>(oth.IsValid() ? dynamic_cast<BodyT *>(const_cast<RCBodyVC *> (&oth.Body())) : (BodyT *) 0)
+  {}
+  //: Copy Constructor.
+  // Creates a new reference to 'oth'
+
+  template<class BodyT>
+  RCAbstractC RCHandleVC<BodyT>::Abstract()
+  { return RCAbstractC(Body()); }
+  //: Create an abstract handle.
+
+  //! Convert a smart pointer to a RCAbstract handle
+  template<typename ValueT>
+  inline RCAbstractC ToRCAbstract(const RavlN::RCHandleVC<ValueT> &value) {
+    return RCAbstractC(value.Body());
+  }
+
+  //! Convert a smart pointer to from a RCAbstract handle
+  template<typename ValueT>
+  inline void FromRCAbstract(const RavlN::RCAbstractC &val,RavlN::RCHandleVC<ValueT> &value) {
+    if(!val.IsValid()) {
+      value.Invalidate();
+      return ;
+    }
+    value = RavlN::RCHandleVC<ValueT>(dynamic_cast<const ValueT &>(val.Body()));
+  }
+
+
 }
 #endif

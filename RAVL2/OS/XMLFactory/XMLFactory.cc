@@ -27,6 +27,11 @@
 namespace RavlN {
   using RavlN::StringC;
 
+  RavlN::HashC<StringC,XMLFactoryC::TypeFactoryT> &XMLFactoryC::Type2Factory() {
+    static RavlN::HashC<StringC,TypeFactoryT> type2factory;
+    return type2factory;
+  }
+
   //! Destructor.
   XMLFactoryNodeC::~XMLFactoryNodeC()
   {
@@ -36,7 +41,7 @@ namespace RavlN {
   //! Follow path to child node.
   
   bool XMLFactoryNodeC::FollowPath(const StringC &path,XMLFactoryNodeC::RefT &node,bool verbose) const {
-    RavlN::StringListC pathElements(path,":/");
+    RavlN::StringListC pathElements(path,":/.");
     return FollowPath(pathElements,node,verbose);
   }
   
@@ -65,7 +70,7 @@ namespace RavlN {
   //! Follow path to child node, create nodes where needed
   
   bool XMLFactoryNodeC::UsePath(const StringC &path,RefT &node,bool restrictToXMLTree,bool verbose) {
-    RavlN::StringListC pathElements(path,":/");
+    RavlN::StringListC pathElements(path,":/.");
     return UsePath(pathElements,node,restrictToXMLTree,verbose);
   }
   
@@ -145,12 +150,16 @@ namespace RavlN {
   {
     XMLFactoryNodeC::RefT child;
     if(!FollowPath(name,child) || !child.IsValid()) {
-      SysLog(SYSLOG_DEBUG,"Failed to follow path '%s' ",name.chars());
+      SysLog(SYSLOG_DEBUG,"Failed to follow path '%s' from '%s' children:",name.chars(),Path().chars());
+      for(HashIterC<StringC,RefT> it(m_children);it;it++) {
+        SysLog(SYSLOG_DEBUG," Child '%s'",it.Key().chars());
+      }
+      
       return false;
     }
     
     if(!child->Component().IsValid()) {
-      SysLog(SYSLOG_DEBUG,"No component at the leaf of path '%s' ",name.chars());
+      SysLog(SYSLOG_DEBUG,"No component at the leaf of path '%s' from '%s'",name.chars(),Path().chars());
       return false;
     }
     
@@ -175,7 +184,8 @@ namespace RavlN {
                                              const RavlN::StringC &rawname,
                                              const std::type_info &to,
                                              RavlN::RCWrapAbstractC &handle,
-                                             bool silentError
+                                             bool silentError,
+                                             const std::type_info &defaultType
                                              ) 
   {
     XMLFactoryNodeC::RefT child;
@@ -194,6 +204,16 @@ namespace RavlN {
       return false;
     }
     
+    // FIXME:- Do we want to use the default type ?
+    if(child->XMLNode().IsValid()) {
+      if(!child->XMLNode().Data().IsElm("typename")) {
+        // Do we know how to build the type?
+        StringC reqType = RavlN::TypeName(defaultType);
+        //std::cerr << "Setting default type for node=" <<reqType << "\n";
+        if(XMLFactoryC::Type2Factory().IsElm(reqType))
+          child->XMLNode().Data()["typename"] = reqType;
+      }
+    }
     if(!child->Component().IsValid()) {
       if(!child->CreateComponent(factory)) {
         if(!silentError)
@@ -240,6 +260,7 @@ namespace RavlN {
     return true;
   }
   
+
   
   static StringC Ident(int n) {
     StringC ret;
@@ -352,6 +373,19 @@ namespace RavlN {
     m_iNode = &factory.IRoot();
   }
   
+  //: lookup child in tree.
+  // Returns true and updates parameter 'child' if child is found.
+  bool XMLFactoryContextC::ChildContext(const StringC &key,XMLFactoryContextC &child) const {
+    if(!m_iNode.IsValid())
+      return false;
+    XMLTreeC childTree;
+    if(!m_iNode->XMLNode().Child(key,childTree))
+      return false;
+    XMLFactoryNodeC::RefT childNode = new XMLFactoryNodeC(childTree,*m_iNode);
+    child = XMLFactoryContextC(Factory(),*childNode);
+    return true;
+  }
+
   //! Set factory to use.
   
   void XMLFactoryContextC::SetFactory(const XMLFactoryC &factory) { 
@@ -629,6 +663,23 @@ namespace RavlN {
     Type2Factory()[RavlN::TypeName(typeInfo)] = typeFactoryFunc;
   }
   
+  //: Register an alias for a type. This must be done after the type is registered.
+  //: Note: This is NOT thread safe.
+
+  bool XMLFactoryC::RegisterTypeAlias(const char *originalName,const char *newName) {
+    XMLFactoryC::TypeFactoryT factoryFunc;
+    if(!Type2Factory().Lookup(originalName,factoryFunc)) {
+      SysLog(SYSLOG_ERR,"Can't alias unknown type '%s' ",originalName);
+      return false;
+    }
+    if(Type2Factory().Lookup(newName) != 0) {
+      SysLog(SYSLOG_WARNING,"Can't set alias '%s' as its already defined ",newName);
+      return false;
+    }
+    Type2Factory()[originalName] = factoryFunc;
+    return true;
+  }
+
   //! Follow path to node.
   
   bool XMLFactoryC::FollowPath(const StringC &path,XMLFactoryNodeC::RefT &node) {
@@ -637,12 +688,7 @@ namespace RavlN {
     return m_iRoot->FollowPath(path,node);
   }
   
-  
-  RavlN::HashC<StringC,XMLFactoryC::TypeFactoryT> &XMLFactoryC::Type2Factory() {
-    static RavlN::HashC<StringC,TypeFactoryT> type2factory;
-    return type2factory;
-  }
-  
+
   //static RavlN::TypeNameC type1(typeid(XMLFactoryC),"RavlN::XMLFactoryC");  
   static RavlN::TypeNameC type2(typeid(RavlN::SmartPtrC<XMLFactoryC>),"RavlN::SmartPtrC<RavlN::XMLFactoryC>");  
   

@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! date="13//2008"
 //! example=exMethodIO.cc
-//! rcsid="$Id: MethodIO.hh 5240 2005-12-06 17:16:50Z plugger $"
+//! rcsid="$Id$"
 //! file="Ravl/Core/IO/MethodIO.hh"
 
 #include "Ravl/DP/Port.hh"

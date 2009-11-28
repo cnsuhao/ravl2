@@ -18,9 +18,10 @@
 #include "Ravl/DP/PlayControl.hh"
 #include "Ravl/Threads/Mutex.hh"
 #include "Ravl/Threads/Thread.hh"
+#include "Ravl/Threads/Signal1.hh"
+#include "Ravl/Threads/ThreadEvent.hh"
 #include "Ravl/GUI/Slider.hh"
 #include "Ravl/GUI/TextEntry.hh"
-#include "Ravl/Threads/Signal1.hh"
 #include "Ravl/GUI/ToggleButton.hh"
 
 namespace RavlGUIN {
@@ -43,13 +44,15 @@ namespace RavlGUIN {
     
     ~PlayControlBodyC();
     //: Destructor.
-    
+
+    bool CommonCreate(GtkWidget *_widget=NULL);
+
     virtual bool Create();
     //: Create widget.
     
     virtual bool Create(GtkWidget *_widget);
     //: Create with a widget supplied from elsewhere.
-    
+
     bool Rewind();
     //: Rewind to beginning.
     
@@ -117,6 +120,12 @@ namespace RavlGUIN {
     // Note this is NOT called every frame, only about 5 to 10 times
     // a second.
 
+    Signal1C<bool> & SigInteractive()
+    { return m_sigInteractive; }
+    //: Access to the interactive signal
+    // this signal is set true whenever the user interactively uses the play control
+    // eg. for removing governer constraints when user drags slider...
+
     bool Shutdown();
     //: Shutdown play control.
 
@@ -139,7 +148,11 @@ namespace RavlGUIN {
     
     bool SliderCallback(RealT &num);
     //: Position updates from slider.
-    
+   
+    bool CBInteractiveMode(bool & state);
+    //: Callback for when we are in 'interactive mode', ie user touching controls.
+
+
     void Speed(IntT i);
     void Seek(UIntT pos);
     void Pause();
@@ -161,10 +174,12 @@ namespace RavlGUIN {
     IntT textBoxSelected;
     
     Signal1C<IntT> sigUpdateFrameNo; // Signal frame number update.
+    Signal1C<bool> m_sigInteractive; // Signal that the GUI is being used interactively
     bool simpleControls;
     bool extendedControls;
     friend class PlayControlC;
     UIntT lastUpdateFrameNo; //: Frame number of last update.
+    //ThreadEventC m_freeze; // flag to freeze the slider from updating.
   };
   
   ////////////////////////////
@@ -277,7 +292,13 @@ namespace RavlGUIN {
     //: Access update frame number signal.
     // Note this is NOT called every frame, only about 5 to 10 times
     // a second.
-     
+
+    Signal1C<bool> & SigInteractive()
+    { return Body().SigInteractive(); }
+    //: Access to the interactive signal
+    // this signal is set true whenever the user interactively uses the play control
+    // eg. for removing governer constraints when user drags slider...
+
     bool Shutdown()
     { return Body().Shutdown(); }
     //: Shutdown play control.

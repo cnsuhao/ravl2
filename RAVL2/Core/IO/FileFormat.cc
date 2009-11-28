@@ -38,6 +38,7 @@ namespace RavlN {
     if(pubList) { // Put in public list ?
       FileFormatBaseC me(*this);
       SystemFileFormatRegistry().Insert(me);
+      ONDEBUG(cerr << "Fileformat: " << nformatName << " registered\n");
     }
   }
   

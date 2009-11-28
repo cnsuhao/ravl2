@@ -78,7 +78,7 @@ namespace RavlLogicN {
     //: Get the name of symbol.
     
     virtual UIntT Hash() const { 
-#if RAVL_OS_LINUX64
+#if RAVL_CPUTYPE_64
       return ((UInt64T) this) >> 2; 
 #else
       return ((UIntT) this) >> 2; 

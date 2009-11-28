@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLGUI_ICONVIEW_HEADER
 #define RAVLGUI_ICONVIEW_HEADER 1
-//! rcsid="$Id: TreeView.hh 6040 2007-02-01 18:42:02Z craftit $"
+//! rcsid="$Id$"
 //! docentry="Ravl.API.Graphics.GTK.Control"
 //! author="Charles Galambos"
 //! lib=RavlGUI

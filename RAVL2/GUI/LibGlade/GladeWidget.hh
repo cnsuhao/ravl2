@@ -57,7 +57,15 @@ namespace RavlGUIN {
     //!param: name - Name of the widget to search for in the Glade file
     //!param: newWidget - Widget object to connect to the named object
     //!param: optional - If false, warn if the widget is not found
-    
+
+    template<class DataT>
+    bool AddObject(const StringC &name, const RavlN::SmartPtrC<DataT> &newWidget, bool optional = false)
+    { return AddObject(name,SmartPtrC<WidgetBodyC>(static_cast<const WidgetBodyC *>(newWidget.BodyPtr())),optional); }
+    //: Add named widget.
+    //!param: name - Name of the widget to search for in the Glade file
+    //!param: newWidget - Widget object to connect to the named object
+    //!param: optional - If false, warn if the widget is not found
+
   protected:
     bool InterceptDeleteEvent();
     //: Intercept the "delete-event", and just hide the widget.
@@ -122,6 +130,13 @@ namespace RavlGUIN {
     //!param: widget - Widget object to connect to the named object
     //!param: optional - If false, warn if the widget is not found
     
+    template<class DataT>
+    bool AddObject(const StringC &name, const RavlN::SmartPtrC<DataT> &newWidget, bool optional = false)
+    { return Body().AddObject(name,SmartPtrC<WidgetBodyC>(static_cast<const WidgetBodyC *>(newWidget.BodyPtr())),optional); }
+    //: Add named widget.
+    //!param: name - Name of the widget to search for in the Glade file
+    //!param: newWidget - Widget object to connect to the named object
+    //!param: optional - If false, warn if the widget is not found
   };
 
 }

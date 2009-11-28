@@ -7,7 +7,7 @@
 ifndef JAVASCRIPT_DEF
 JAVASCRIPT_DEF=1
 ################################################
-# $Id$
+# $Id: JavaScript.def 3847 2003-12-23 16:02:54Z plugger $
 
   ifndef JAVASCRIPT_HOME
     EXELIB := -lvrml97js  $(EXELIB)

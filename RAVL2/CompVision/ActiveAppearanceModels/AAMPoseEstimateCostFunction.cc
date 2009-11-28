@@ -3,7 +3,7 @@
 //! lib =       RavlAAM
 //! date =      "01/03/2006"
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMPoseEstimateCostFunction.cc"
-//! rcsid="$Id: AAMPoseEstimateCostFunction.cc,v 1.3 2005/07/25 16:31:07 ees1wc Exp $"
+//! rcsid="$Id$"
 
 #define DODEBUG 0
 #if DODEBUG

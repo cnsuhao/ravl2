@@ -3,7 +3,7 @@
 // This code may be redistributed under the terms of the GNU General 
 // Public License (GPL). See the gpl.licence file for details or
 // file-header-ends-here
-//! rcsid="$Id: ExtLibTable.cc 4777 2005-01-18 14:28:18Z ees1wc $"
+//! rcsid="$Id$"
 //! lib=RavlAutoPort2
 //! file="Ravl/SourceTools/VisualCPP/ExtLibTable.cc"
 

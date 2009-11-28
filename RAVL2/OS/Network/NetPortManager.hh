@@ -16,7 +16,7 @@
 
 #include "Ravl/String.hh"
 #include "Ravl/OS/Socket.hh"
-#include "Ravl/RefCounter.hh"
+#include "Ravl/RCLayer.hh"
 #include "Ravl/Hash.hh"
 #include "Ravl/OS/NetIPortServer.hh"
 #include "Ravl/OS/NetOPortServer.hh"
@@ -32,12 +32,20 @@ namespace RavlN {
   //: Port server.
   
   class NetPortManagerBodyC 
-    : public RCBodyVC
+    : public RCLayerBodyC
   {
   public:
     NetPortManagerBodyC(const StringC &name,bool nUnregisterOnDisconnect = false);
     //: Constructor.
-    
+
+    StringC Name() const
+    { return name; }
+    //: Get the name.
+
+    StringC Address() const
+    { return address; }
+    //: Get the address.
+
     bool Lookup(const StringC &name,const StringC &dataType,NetISPortServerBaseC &isp,bool attemptCreate = true);
     //: Search for port in table.
     //!param: name - Name of connection
@@ -66,6 +74,10 @@ namespace RavlN {
     
     bool Close();
     //: Close down manager.
+
+    bool IsOpen() const
+    { return managerOpen; }
+    //: Is the manager open?
     
     bool WaitForTerminate();
     //: Wait until the server has exited.
@@ -95,7 +107,11 @@ namespace RavlN {
     bool ConnectionDroppedO(NetOSPortServerBaseC &sp);
     //: Called when connection to port is dropped.
     
+    virtual void ZeroOwners() {}
+    //: Owning handles has dropped to zero.
+
     StringC name;
+    StringC address;
     
     CallFunc3C<StringC,StringC,NetISPortServerBaseC &,bool> requestIPort; // Args: PortName,DataType,Place to open port to
     CallFunc3C<StringC,StringC,NetOSPortServerBaseC &,bool> requestOPort; // Args: PortName,DataType,Place to open port to
@@ -122,11 +138,12 @@ namespace RavlN {
   // two clients to use a connection simultaneously.
   
   class NetPortManagerC 
-    : public RCHandleC<NetPortManagerBodyC>
+    : public RCLayerC<NetPortManagerBodyC>
   {
   public:
-    NetPortManagerC(const StringC &name,bool nUnregisterOnDisconnect = false)
-      : RCHandleC<NetPortManagerBodyC>(*new NetPortManagerBodyC(name,nUnregisterOnDisconnect))
+
+    NetPortManagerC(const StringC &name, bool nUnregisterOnDisconnect = false)
+    : RCLayerC<NetPortManagerBodyC>(*new NetPortManagerBodyC(name, nUnregisterOnDisconnect))
     {}
     //: Constructor.
     
@@ -135,18 +152,26 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
 
+    StringC Name() const
+    { return Body().Name(); }
+    //: Get the name.
+
+    StringC Address() const
+    { return Body().Address(); }
+    //: Get the address.
+
   protected:
-    NetPortManagerC(NetPortManagerBodyC &bod)
-      : RCHandleC<NetPortManagerBodyC>(bod)
+    NetPortManagerC(NetPortManagerBodyC& body, RCLayerHandleT handleType = RCLH_OWNER)
+    : RCLayerC<NetPortManagerBodyC>(body, handleType)
     {}
     //: Body constructor.
     
     NetPortManagerBodyC &Body()
-    { return RCHandleC<NetPortManagerBodyC>::Body(); }
+    { return RCLayerC<NetPortManagerBodyC>::Body(); }
     //: Access body.
 
     const NetPortManagerBodyC &Body() const
-    { return RCHandleC<NetPortManagerBodyC>::Body(); }
+    { return RCLayerC<NetPortManagerBodyC>::Body(); }
     //: Access body.
 
     bool Run()

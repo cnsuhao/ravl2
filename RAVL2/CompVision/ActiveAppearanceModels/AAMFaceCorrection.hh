@@ -1,6 +1,6 @@
 #ifndef RAVLIMAGE_FACECORRECTION_HEADER
 #define RAVLIMAGE_FACECORRECTION_HEADER 1
-//! rcsid="$Id: AAMFaceCorrection.hh,v 1.3 2005/07/25 16:31:07 ees1wc Exp $"
+//! rcsid="$Id$"
 //! lib=RavlAAM
 //! docentry="Ravl.API.Images.AAM"
 //! userlevel="Develop"

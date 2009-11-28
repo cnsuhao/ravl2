@@ -53,7 +53,7 @@ namespace RavlN {
   //: Find face containing point 'pnt'.
   // Returns an invalid handle if none found.
   
-  // FIXME :- Implement a faster method for finding a face.
+  // TODO :- Implement a faster method for finding a face.
   
   THEMeshFaceC<Point2dC> HEMesh2dC::FindFace(const Point2dC &pnt) {
     ONDEBUG(cerr << "HEMesh2dC::FindFace(), Point= " << pnt << "\n");

@@ -17,7 +17,7 @@
 //! docentry =  "Ravl.API.Pattern_Recognition.Classifier.SVM"
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Ravl/PatternRec/SvmClassifier2.hh"
+#include "Ravl/PatternRec/Classifier2.hh"
 #include "Ravl/PatternRec/Sample.hh"
 #include "Ravl/PatternRec/KernelFunc.hh"
 
@@ -32,7 +32,7 @@ class SvmClassifierBodyC : public Classifier2BodyC
 {
 public:
   SvmClassifierBodyC();
-  //: Creates empty classifier, which returns 0 as the value ofdiscriminant function
+  //: Creates empty classifier, which returns 0 as the value of descriminant function
 
   SvmClassifierBodyC(const KernelFunctionC &KernelFunction,
                      const SampleC<VectorC> &SupportVectors,
@@ -66,7 +66,7 @@ public:
   virtual RealT Classify2(const VectorC &Data) const;
   //: Classify vector 'data' and return value of descriminant function
 
-  virtual RealT Classify2(const RealT* Data) const;
+  //virtual RealT Classify2(const RealT* Data) const;
   //: Classify vector 'data' and return value of descriminant function
 
   virtual IntT GetDataSize() const;
@@ -94,15 +94,15 @@ private:
 //! userlevel = Normal
 //: Support vector machines classifier
 // The class stores inside support vectors and corresponding class labels and
-// lagrangian multipliers. Classifier function only calculates value of
-// discriminant function. For designing classifier use DesignSvmSmoC class.<p>
+// Lagrangian multipliers. Classifier function only calculates value of
+// Descriminant function. For designing classifier use DesignSvmSmoC class.<p>
 class SvmClassifierC : public Classifier2C
 {
 public:
   SvmClassifierC()
     : Classifier2C(*new SvmClassifierBodyC())
     {}
-  //: Creates empty classifier, which returns 0 as the value ofdiscriminant function
+  //: Creates empty classifier, which returns 0 as the value of descriminant function
 
   SvmClassifierC(const KernelFunctionC &KernelFunction,
                  const SampleC<VectorC> &SupportVectors,
@@ -114,7 +114,7 @@ public:
   //: Constructor.
   //!param: KernelFunction      - kernel function for classifier
   //!param: SupportVectors      - support vectors
-  //!param: SupportVectorLabels - labels of support vectors (labels == 0 correcpond to negatives class, all other to positives)
+  //!param: SupportVectorLabels - labels of support vectors (labels == 0 correspond to negatives class, all other to positives)
   //!param: Lambdas             - Lagrangian multipliers for each support vector
   //!param: Threshold           - threshold
 
@@ -128,7 +128,7 @@ public:
   //: Constructor.
   //!param: KernelFunction      - kernel function for classifier
   //!param: SupportVectors      - support vectors
-  //!param: SupportVectorLabels - labels of support vectors (-1 correcpond to negatives class, +1 to positives)
+  //!param: SupportVectorLabels - labels of support vectors (-1 correspond to negatives class, +1 to positives)
   //!param: Lambdas             - Lagrangian multipliers for each support vector
   //!param: Threshold           - threshold
   // Number of elements in SupportVectorLabels and Lambdas should be equal to
@@ -142,12 +142,12 @@ public:
 
   UIntT Classify(const VectorC &Data) const
     { return Body().Classify(Data); }
-  //: Classify vector 'data' and return class (0 - negatives or 1 - positiives)
+  //: Classify vector 'data' and return class (0 - negatives or 1 - positives)
   // Size of data should be equal to size of support vector.
 
-  UIntT Classify(const RealT* Data) const
-    { return Body().Classify(Data); }
-  //: Classify vector 'data' and return class (0 - negatives or 1 - positiives)
+  //UIntT Classify(const RealT* Data) const
+  //  { return Body().Classify(Data); }
+  //: Classify vector 'data' and return class (0 - negatives or 1 - positives)
   // Size of data should be equal to size of support vector.
 
   RealT Classify2(const VectorC &Data) const
@@ -155,8 +155,8 @@ public:
   //: Classify vector 'data' and return value of descriminant function
   // Size of data should be equal to size of support vector.
 
-  RealT Classify2(const RealT* Data) const
-    { return Body().Classify2(Data); }
+  //RealT Classify2(const RealT* Data) const
+  //  { return Body().Classify2(Data); }
   //: Classify vector 'data' and return value of descriminant function
   // Size of data should be equal to size of support vector.
 

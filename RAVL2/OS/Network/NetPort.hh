@@ -23,13 +23,16 @@ namespace RavlN {
   
   enum NPMsgT {
     NPMsg_ReqConnection = 10, // Port,Datatype,input flag : 
-    NPMsg_ReqInfo       = 11, //               : Request stream info
-    NPMsg_ReqFailed     = 12, // Error         :    1=End of stream. 2=Get failed.
-    NPMsg_ReqData       = 13, // Position      :
-    NPMsg_StreamInfo    = 20, // At,Start,Size :
-    NPMsg_Data          = 21, // Position,Data :
-    NPMsg_Close         = 22, //               : Close stream.
-    NPMsg_StreamReady   = 23  //               : Stream ready to process requests.
+    NPMsg_ReqInfo       = 11, //                          : Request stream info
+    NPMsg_ReqFailed     = 12, // Error                    :    1=End of stream. 2=Get failed.
+    NPMsg_ReqData       = 13, // Position                 :
+    NPMsg_ReqDataArray  = 14, // Position,Size            :
+    NPMsg_StreamInfo    = 20, // At,Start,Size            :
+    NPMsg_Data          = 21, // Position,Data            :
+    NPMsg_Close         = 22, //                          : Close stream.
+    NPMsg_StreamReady   = 23, //                          : Stream ready to process requests.
+    NPMsg_DataArrayPut  = 24, // Position,Size,Data       :
+    NPMsg_DataArrayGet  = 25, // Data,Position            :
   };
   //: Messages used in NetPorts.
   

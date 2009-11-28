@@ -33,4 +33,4 @@ EXAMPLES=exOption.cc exXMLTree.cc exVariableLengthCode.cc exXMLStream.cc exObjIO
 
 EHT=Ravl.API.Core.XML.html Ravl.API.Core.IO.Type_Name.html Ravl.API.Core.IO.Function_Register.html
 
-TESTEXES=testRavlCore.cc testXMLStream.cc testCollection.cc
+TESTEXES=testRavlCore.cc testXMLStream.cc testCollection.cc testSTL.cc

@@ -4,7 +4,7 @@
 //! author =    "Jean-Yves Guillemaut"
 //! lib =       RavlAAM
 //! date =      "01/03/2006"
-//! rcsid="$Id: AAMPoseEstimate.hh,v 1.3 2005/07/25 16:31:07 ees1wc Exp $"
+//! rcsid="$Id$"
 //! userlevel = Normal
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMPoseEstimate.hh"
 //! docentry =  "Ravl.API.Images.AAM"

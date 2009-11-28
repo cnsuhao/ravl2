@@ -16,10 +16,10 @@ DONOT_SUPPORT=VCPP
 PACKAGE = Ravl/Image
 
 HEADERS = ImgIOFFmpeg.hh LibFFmpegFormat.hh FFmpegPacket.hh FFmpegPacketStream.hh \
- FFmpegVideoDecoder.hh
+ FFmpegVideoDecoder.hh FFmpegVideoEncoder.hh FFmpegEncodePacketStream.hh ImgDPOFFmpeg.hh
 
 SOURCES = ImgIOFFmpeg.cc LibFFmpegFormat.cc FFmpegPacket.cc FFmpegPacketStream.cc \
-  FFmpegVideoDecoder.cc
+  FFmpegVideoDecoder.cc FFmpegVideoEncoder.cc FFmpegEncodePacketStream.cc ImgDPOFFmpeg.cc
 
 PLIB = RavlLibFFmpeg
 

@@ -9,7 +9,7 @@
 //! file="Ravl/Image/Processing/Segmentation/exConnectedComponents.cc"
 //! author="Lee Gregory"
 //! docentry="Ravl.API.Images.Segmentation"
-//! rcsid="$Id$
+//! rcsid="$Id: exConnectedComponents.cc 5288 2006-01-05 11:24:53Z ees1wc $
 
 #include "Ravl/Image/ConnectedComponents.hh"
 #include "Ravl/Option.hh" 

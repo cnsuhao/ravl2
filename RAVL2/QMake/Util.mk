@@ -6,8 +6,8 @@
 # file-header-ends-here
 ################################
 # Quick RAVL make system
-# $Id$
-#! rcsid="$Id$"
+# $Id: Util.mk 5747 2006-07-19 07:57:14Z craftit $
+#! rcsid="$Id: Util.mk 5747 2006-07-19 07:57:14Z craftit $"
 #! file="Ravl/QMake/Util.mk"
 
 ifndef MAKEHOME

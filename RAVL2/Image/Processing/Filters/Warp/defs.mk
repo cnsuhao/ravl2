@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id: defs.mk 6383 2007-10-08 14:42:03Z ees1wc $"
+#! rcsid="$Id$"
 #! file="Ravl/Image/Processing/Filters/defs.mk"
 
 PACKAGE=Ravl/Image
@@ -12,7 +12,7 @@ PACKAGE=Ravl/Image
 MAINS= doThinPlateWarp.cc 
 
 HEADERS=  WarpScale.hh WarpAffine.hh WarpProjective.hh \
-  WarpThinPlateSpline.hh WarpMesh2d.hh
+  WarpThinPlateSpline.hh WarpMesh2d.hh WarpScale2d.hh
 
 SOURCES=  WarpThinPlateSpline.cc WarpMesh2d.cc
 

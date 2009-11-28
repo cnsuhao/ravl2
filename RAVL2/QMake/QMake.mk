@@ -4,7 +4,7 @@
 # Public License (GPL). See the gpl.licence file for details or
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: QMake.mk 7345 2009-11-02 16:34:36Z craftit $"
 #! file="Ravl/QMake/QMake.mk"
 
 # Setup make flags.
@@ -106,7 +106,8 @@ endif
 
 # Include system config and Directories 
 
--include $(MAKEHOME)/*.qpr $(MAKEHOME)/lib/RAVL/libdep/*.qpr
+-include $(MAKEHOME)/*.qpr $(MAKEHOME)/lib/RAVL/libdep/*.qpr 
+-include $(PROJECT_OUT)/lib/RAVL/libdep/*.qpr
 
 include $(MAKEHOME)/config.$(ARC)
 NOVAR=1
@@ -643,6 +644,9 @@ $(MAKEHOME)/MainDep.mk :
 	@true
 
 $(MAKEHOME)/lib/RAVL/libdep/*.qpr : $(MAKEHOME)/Dirs.mk
+	@true;
+
+$(PROJECT_OUT)/lib/RAVL/libdep/*.qpr: $(MAKEHOME)/Dirs.mk
 	@true;
 
 ###############################################

@@ -30,7 +30,7 @@ namespace RavlN
 using namespace RavlN;
 
 //! userlevel = Develop
-//: Base class for kernel fuctions
+//: Base class for kernel functions
 
 class KernelFunctionBodyC : public RCBodyVC
 {
@@ -68,7 +68,7 @@ public:
 };
 
 //! userlevel = Normal
-//: Base class for kernel fuctions
+//: Base class for kernel functions
 class KernelFunctionC : public RCHandleVC<KernelFunctionBodyC>
 {
 public:
