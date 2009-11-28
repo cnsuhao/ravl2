@@ -30,7 +30,7 @@ namespace RavlImageN
   {
   public:
     V4L2BufferBodyC(ImgIOV4L2C<PixelT> v4l2, const UIntT id, const IntT index, PixelT *start, UIntT length) :
-      BufferBodyC<PixelT>(length, start),
+      BufferBodyC<PixelT>(start,length,false,false),
       m_v4l2(v4l2),
       m_id(id),
       m_index(index)
