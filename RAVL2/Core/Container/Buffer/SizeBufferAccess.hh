@@ -231,7 +231,6 @@ namespace RavlN {
     // The new copy is necessary to attach to reference counted buffer
     // or to delete at the end of the life of this object.
     
-  private:
     UIntT sz; // size of the buffer in elements.
   };
   

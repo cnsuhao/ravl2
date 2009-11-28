@@ -160,7 +160,10 @@ int testCorrectCorrespondence() {
                          -3, 2, 3,
                          -4, 3, 4);
   F2.CorrectCorrespondence(ipnt1, ipnt2, opnt1, opnt2);
-  if (opnt1.EuclidDistance(PPoint2dC(1.77184, -1.33111, 2.77184)) > 1e-5 || opnt2.EuclidDistance(PPoint2dC(4.4658e-5, -0.00225733, 0.114146)) > 1e-5)
-    return __LINE__;
+  RealT dist1 = opnt2.EuclidDistance(PPoint2dC(1.77184, -1.33111, 2.77184));
+  RealT dist2 = opnt1.EuclidDistance(PPoint2dC(4.4658e-5, -0.00225733, 0.114146));
+  //std::cerr << "Distances=" << dist1 << " " << dist2 << "\n";
+  if(dist1 > 1e-5) return __LINE__;
+  if(dist2 > 1e-5) return __LINE__;
   return 0;
 }

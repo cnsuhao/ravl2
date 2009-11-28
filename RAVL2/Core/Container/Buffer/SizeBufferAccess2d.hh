@@ -211,7 +211,7 @@ namespace RavlN {
 
     bool IsContinuous() const
     { return m_stride == (IntT) (m_size2 * sizeof(DataT)); }
-    //: Test if the array is allocated in a continous area of memory.
+    //: Test if the array is allocated in a continuous area of memory.
     
     IndexRange2dC Frame() const
     { return IndexRange2dC(0,(IntT) m_size1-1,0,(IntT) m_size2-1); }
