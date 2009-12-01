@@ -9,6 +9,7 @@
 
 #include "Ravl/DataServer/DataServerControlInterface.hh"
 #include "Ravl/OS/NetEndPoint.hh"
+#include "Ravl/Threads/SignalConnectionSet.hh"
 
 namespace RavlN
 {
@@ -26,6 +27,9 @@ namespace RavlN
     bool Initialise();
     //: Must be called directly after the object is instantiated to initialise the connection.
 
+    bool OnConnectionBroken();
+    //: Called when the connection is broken.
+    
     bool OnAddNode(UIntT requestId, const StringC& path, const StringC& nodeType, const HashC<StringC, StringC>& options);
     //: Called when an AddNode request is received.
 
@@ -44,6 +48,7 @@ namespace RavlN
   private:
     DataServerControlInterfaceC m_controller;
     bool m_initialised;
+    SignalConnectionSetC m_connectionSet;
   };
 
   //! userlevel = Normal
@@ -61,6 +66,11 @@ namespace RavlN
     {}
     //! Ctor.
 
+    DataServerControlConnectionC(DataServerControlConnectionBodyC& body)
+    : NetEndPointC(body)
+    {}
+    //! Body ctor.
+
     DataServerControlConnectionBodyC& Body()
     { return static_cast<DataServerControlConnectionBodyC&>(NetEndPointC::Body()); }
     //: Body access.
@@ -72,6 +82,15 @@ namespace RavlN
     bool Initialise()
     { return Body().Initialise(); }
     //: Must be called directly after the object is instantiated to initialise the connection.
+
+    bool OnSignalNodeClosed(StringC& nodePath)
+    { return Body().OnSignalNodeClosed(nodePath); }
+    //: Called when SignalNodeClosed is signalled.
+
+    bool OnSignalNodeRemoved(StringC& nodePath)
+    { return Body().OnSignalNodeRemoved(nodePath); }
+    //: Called when SignalNodeRemoved is signalled.
+
   };
 
 }

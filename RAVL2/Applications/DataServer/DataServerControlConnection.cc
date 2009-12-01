@@ -28,15 +28,16 @@ namespace RavlN
     RavlAssert(socket.IsValid());
     RavlAssert(socket.IsOpen());
 
-    ConnectR(m_controller.SignalNodeClosed(), *this, &DataServerControlConnectionBodyC::OnSignalNodeClosed);
-    ConnectR(m_controller.SignalNodeRemoved(), *this, &DataServerControlConnectionBodyC::OnSignalNodeRemoved);
+    ConnectR(SigConnectionBroken(), *this, &DataServerControlConnectionBodyC::OnConnectionBroken);
+    m_connectionSet += Connect(m_controller.SignalNodeClosed(), DataServerControlConnectionC(*this), &DataServerControlConnectionC::OnSignalNodeClosed);
+    m_connectionSet += Connect(m_controller.SignalNodeRemoved(), DataServerControlConnectionC(*this), &DataServerControlConnectionC::OnSignalNodeRemoved);
   }
 
   bool DataServerControlConnectionBodyC::Initialise()
   {
     if (m_initialised)
       return true;
-    
+
     RegisterR(static_cast<UIntT>(DATASERVERCONTROL_ADDNODE), StringC("AddNode"), *this, &DataServerControlConnectionBodyC::OnAddNode);
     RegisterR(static_cast<UIntT>(DATASERVERCONTROL_REMOVENODE), StringC("RemoveNode"), *this, &DataServerControlConnectionBodyC::OnRemoveNode);
     RegisterR(static_cast<UIntT>(DATASERVERCONTROL_QUERYNODESPACE), StringC("QueryNodeSpace"), *this, &DataServerControlConnectionBodyC::OnQueryNodeSpace);
@@ -50,6 +51,14 @@ namespace RavlN
 
     m_initialised = true;
 
+    return true;
+  }
+
+  bool DataServerControlConnectionBodyC::OnConnectionBroken()
+  {
+    ONDEBUG(cerr << "DataServerControlConnectionBodyC::OnConnectionBroken" << endl);
+    m_connectionSet.DisconnectAll();
+    
     return true;
   }
 
