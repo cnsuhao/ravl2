@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: AAMShapeModel.cc 7452 2009-12-30 11:12:30Z omn-crida $"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMShapeModel.cc"
 
@@ -234,6 +234,11 @@ namespace RavlImageN {
 
     RawProject(fixedMean,designPCA.Mean(),meanPoints);
     return true;
+  }
+
+  void AAMShapeModelBodyC::TransformMeanPoints(const Point2dC &offset, const Vector2dC &scale) {
+    for(SArray1dIterC<Point2dC> it(meanPoints); it ;it++)
+      *it = (*it - offset) * scale;
   }
 
   //: Synthesis a control point set from a parameter vector.

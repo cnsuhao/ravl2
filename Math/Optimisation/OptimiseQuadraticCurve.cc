@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: OptimiseQuadraticCurve.cc 7441 2009-12-23 17:29:00Z ees1wc $"
 //! lib=RavlOptimise
 //! file="Ravl/Math/Optimisation/OptimiseQuadraticCurve.cc"
 
@@ -41,7 +41,7 @@ namespace RavlN {
     FitQuadraticPointsC fitter;
     EvaluateNumInliersC evaluator(ransacChi2Thres, compatChi2Thres);
   
-    // use RANSAC to fit affine homography
+    // use RANSAC to fit affine projection
     RansacC ransac(obsManager, fitter, evaluator);
 
     // select and evaluate the given number of samples

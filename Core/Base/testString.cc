@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testString.cc 6456 2007-11-22 11:42:42Z robowaz $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/testString.cc"
 //! docentry="Ravl.API.Core.Strings"

@@ -7,7 +7,7 @@
 #ifndef RAVL_POVRAYFILEIO_HEADER
 #define RAVL_POVRAYFILEIO_HEADER 1
 ///////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: POVRayFileIO.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=Ravl3DIO
 //! author="James Smith"
 //! docentry="Ravl.API.3D.IO"

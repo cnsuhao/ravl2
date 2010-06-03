@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: VGrab.cc 5915 2006-09-22 09:34:32Z ees1wc $"
 //! file="Ravl/Applications/VGrab/VGrab.cc"
 //! docentry="Ravl.Applications.Video"
 //! author="Lee Gregory"

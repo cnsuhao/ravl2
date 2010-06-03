@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_FUNDAMENTALMATRIX2D_HEADER
 #define RAVL_FUNDAMENTALMATRIX2D_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: FundamentalMatrix2d.hh 7262 2009-09-10 05:45:08Z omn-crida $"
 //! lib=RavlMath
 //! docentry="Ravl.API.Math.Projective Geometry.2D"
 //! author="Charles Galambos"

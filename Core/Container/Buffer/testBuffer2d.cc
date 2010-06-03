@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-// $Id: testBuffer2d.cc 5521 2006-06-06 16:59:52Z craftit $
-//! rcsid="$Id$"
+// $Id: testBuffer2d.cc 7563 2010-02-18 16:41:12Z craftit $
+//! rcsid="$Id: testBuffer2d.cc 7563 2010-02-18 16:41:12Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Buffer/testBuffer2d.cc"
 //! docentry="Ravl.API.Core.Arrays.Buffer"
@@ -121,7 +121,7 @@ int TestSingleBuffer() {
   }
   for(int i = 0;i < 100;i++) {
     SingleBufferC<SizeT> buff(i+1,16);
-    if((((SizeT)((void *) buff.ReferenceElm())) & 0xf) != 0)
+    if((((size_t)((void *) buff.ReferenceElm())) & 0xf) != 0)
       return __LINE__;
     //cerr << "AMem=" << ((void *) buff.ReferenceElm()) << "\n";
   }

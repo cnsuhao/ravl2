@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! date="23/03/1999"
 //! docentry="Ravl.API.Graphics.GTK.Layout"
-//! rcsid="$Id$"
+//! rcsid="$Id: Pixmap.hh 6701 2008-04-09 16:07:40Z ees1wc $"
 
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/String.hh"

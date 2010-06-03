@@ -7,7 +7,7 @@
 #ifndef RAVL_RCLAYER_HEADER
 #define RAVL_RCLAYER_HEADER 1
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: RCLayer.hh 7318 2009-10-19 17:02:33Z craftit $"
 //! docentry="Ravl.API.Core.Reference Counting"
 //! lib=RavlCore
 //! example=testRCLayer.cc

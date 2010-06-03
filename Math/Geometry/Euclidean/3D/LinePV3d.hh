@@ -10,7 +10,7 @@
 //! userlevel=Normal
 //! author="Radek Marik"
 //! docentry="Ravl.API.Math.Geometry.3D"
-//! rcsid="$Id$"
+//! rcsid="$Id: LinePV3d.hh 6496 2007-12-12 17:59:39Z craftit $"
 //! date="06/08/1995"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/3D/LinePV3d.hh"

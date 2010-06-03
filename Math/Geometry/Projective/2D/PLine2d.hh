@@ -13,7 +13,7 @@
 //! author="Radek Marik"
 //! date="26.05.1995"
 //! docentry="Ravl.API.Math.Projective Geometry.2D"
-//! rcsid="$Id$"
+//! rcsid="$Id: PLine2d.hh 7653 2010-03-09 15:09:51Z ees1wc $"
 
 #include "Ravl/PPointLine2d.hh"
 #include "Ravl/PPoint2d.hh"
@@ -24,6 +24,8 @@ namespace RavlN {
   class Point2dC;
   class Vector2dC;
   class LinePP2dC;
+  class RealRange2dC;
+  class IndexRange2dC;
 
   //! userlevel=Normal
   //: Line in 2D projective space
@@ -42,60 +44,63 @@ namespace RavlN {
     inline PLine2dC()
       : PPointLine2dC(0,0,0)
     {}
-    // Constructs the line whose coordinates are zeros, eg. non-existing
-    // projective line.
-
-    inline PLine2dC(const Vector2dC & n, RealT d)
-      : PPointLine2dC(n.Row(), n.Col(), d)
-    {}
-    // Constructs the projective line equivalent to the Euiclidian
-    // line determined by the equation n.Row()*x + n.Col()*y + d = 0.
+    //: Constructs the line whose coordinates are zeros, eg. non-existing
+    //: projective line.
 
     inline PLine2dC(const Point2dC & p1, const Point2dC & p2)
       : PPointLine2dC(p1, p2)
     {}
-    // Constructs the projective line passing through two Euclidian
-    // points p1, p2.
+    //: Constructs the projective line passing through two Euclidian
+    //: points p1, p2.
 
     inline PLine2dC(const Point2dC  & p,const Vector2dC & v)
       : PPointLine2dC(p, v)
     {}
-    // Constructs the projective line passing through the Euclidian
-    // point 'p' and the Euclidian line direction vector 'v'.
+    //: Constructs the projective line passing through the Euclidian
+    //: point 'p' and the Euclidian line direction vector 'v'.
 
     PLine2dC(const LinePP2dC & l);
-    // Constructs the projective line from the Euclidian line 'l'.
+    //: Constructs the projective line from the Euclidian line 'l'.
 
     inline PLine2dC(RealT p1, RealT p2, RealT p3)
       : PPointLine2dC(p1, p2, p3)
     {}
-    // Constructs the line (p1, p2, p3).
+    //: Constructs the line (p1, p2, p3).
+    // Example: if the normal to the line from the origin has length <code>r</code> and
+    // orientation <code>&theta;</code>, the line can be constructed as:
+    // <code>PLine2dC(cos(&theta;), sin(&theta;), -r)</code>
+
+    inline PLine2dC(const Vector2dC & n, RealT d)
+      : PPointLine2dC(n.Row(), n.Col(), d)
+    {}
+    //: Constructs the projective line from Euclidean parameters
+    // Constructs the projective line equivalent to the Euiclidian
+    // line determined by the equation n.Row()*x + n.Col()*y + d = 0.
 
     inline PLine2dC(const PPointLine2dC & p0, const PPointLine2dC & p1)
       : PPointLine2dC(p0, p1)
     {}
-    // Constructs the line passing through two projective points 'p0' and
-    // 'p1'.
+    //: Constructs the line passing through two projective points 'p0' and 'p1'.
 
     inline PLine2dC(const PPointLine2dC & p)
       : PPointLine2dC(p)
     {}
-    // Constructs the line from the point/line object 'p'.
+    //: Constructs the line from the point/line object 'p'.
 
     //:---------------------
     // Access to the object.
 
     Vector2dC Normal() const;
-    // Returns the normal of a corresponding Euclidian line. If this
-    // projective line is ideal the function returns the zero vector.
+    //: Returns the normal of a corresponding Euclidian line.
+    // If this projective line is ideal the function returns the zero vector.
 
     inline const PLine2dC & PLine2d() const
     { return *this; }
-    // Access to this constant object.
+    //: Access to this constant object.
 
     inline PLine2dC & PLine2d()
     { return *this; }
-    // Access to the point.
+    //: Access to the point.
 
     //:-------------------
     // Logical conditions.
@@ -136,7 +141,7 @@ namespace RavlN {
     // Geometrical constructions.
 
     PPoint2dC Intersection(const PLine2dC & l) const;
-    // Returns the projective point that is the intersection of both lines.
+    //: Returns the projective point that is the intersection of both lines.
 
     inline PPoint2dC ClosestPointToOrigin() const {
       return PPoint2dC(-P1()*P3(), -P2()*P3(), Sqr(P1()) + Sqr(P2()));
@@ -146,8 +151,17 @@ namespace RavlN {
     RealT Distance(const PPoint2dC &p) const;
     //: Compute the distance of p from this line.
 
+    bool ClipBy(LinePP2dC& PPLine, const RealRange2dC& Rectangle);
+    //: Creates a line segment from this line, clipped by the rectangle
+    // Returns false if line does not intersect rectangle, true otherwise
+
+    bool ClipBy(LinePP2dC& PPLine, const IndexRange2dC& Rectangle);
+    //: Creates a line segment from this line, clipped by the rectangle
+    // Returns false if line does not intersect rectangle, true otherwise
+
+    //-
 #if 0
-    friend inline PLine2dC operator*(RealT lambda, const PLine2dC & p);
+    //friend inline PLine2dC operator*(RealT lambda, const PLine2dC & p);
     //friend inline PLine2dC operator/(RealT lambda, const PLine2dC & p);
 #endif
     friend istream & operator>>(istream & inS, PLine2dC & point);

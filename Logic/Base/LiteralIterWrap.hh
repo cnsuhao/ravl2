@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_LITERALITERWRAP_HEADER
 #define RAVLLOGIC_LITERALITERWRAP_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: LiteralIterWrap.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Logic"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/LiteralIterWrap.hh"

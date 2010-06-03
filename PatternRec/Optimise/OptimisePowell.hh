@@ -14,7 +14,7 @@
 //! example=testOptimise.cc
 //! file="Ravl/PatternRec/Optimise/OptimisePowell.hh"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation.Implementation"
-//! rcsid="$Id$"
+//! rcsid="$Id: OptimisePowell.hh 7709 2010-04-27 16:57:00Z budgoswami $"
 
 #include "Ravl/PatternRec/Optimise.hh"
 #include "Ravl/PatternRec/OptimiseBrent.hh"
@@ -38,7 +38,12 @@ namespace RavlN {
     
     OptimisePowellBodyC (istream &in);
     //: Constructs from stream
-    
+    //ACCESSOR METHODS:
+    UIntT GetNumIterations(void) const {return this->_iterations;}
+    //: Get iterations
+
+    RealT GetTolerance(void) const {return this->_tolerance;}
+    //: Get tolerance
   protected:
     VectorC MinimalX (const CostC &domain, RealT startCost, RealT &minimumCost) const;
     //: Determines Xmin=arg min_{X} |f(X)-Yd|
@@ -48,7 +53,7 @@ namespace RavlN {
     
     virtual bool Save (ostream &out) const;
     //: Writes object to stream, can be loaded using constructor
-
+   
   private:
     UIntT _iterations;
     RealT _tolerance;
@@ -71,6 +76,21 @@ namespace RavlN {
     {}
     //: Constructor
     //!param: iterations - maximum number of iterations to use
+      UIntT GetNumIterations(void) 
+      {return Body().GetNumIterations();}
+
+      RealT GetTolerance(void) 
+      {return Body().GetTolerance();}
+
+  protected:
+      OptimisePowellBodyC &Body()
+      { return static_cast<OptimisePowellBodyC &>(OptimiseC::Body()); }
+      //: Access body.
+
+      const OptimisePowellBodyC &Body() const
+      { return static_cast<const OptimisePowellBodyC &>(OptimiseC::Body()); }
+      //: Access body.
+
   };
 }
 

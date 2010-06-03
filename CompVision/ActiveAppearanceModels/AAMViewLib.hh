@@ -14,7 +14,7 @@ namespace RavlImageN {
   class AAMShapeModelC;
   class AAMAppearanceModelC;
 
-  void AAMDisplay(AAMShapeModelC &shapeModel, AAMAppearanceModelC &appearanceModel, RavlN::IntT varRange, RavlN::RealT scale);
+  void AAMDisplay(const AAMShapeModelC &shapeModel, const AAMAppearanceModelC &appearanceModel, RavlN::IntT varRange, RavlN::RealT scale);
 
 }
 

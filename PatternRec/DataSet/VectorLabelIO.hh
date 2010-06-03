@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_VECTORLABELIO_HEADER
 #define RAVL_VECTORLABELIO_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: VectorLabelIO.hh 1533 2002-08-08 16:03:23Z craftit $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/VectorLabelIO.hh"
 

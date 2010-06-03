@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! docentry="Ravl.OS.File System"
-//! rcsid="$Id$"
+//! rcsid="$Id: FileStream.cc 6577 2008-02-19 12:22:25Z craftit $"
 //! author="Charles Galambos"
 //! lib=RavlOS
 //! file="Ravl/OS/FileSystem/FileStream.cc"

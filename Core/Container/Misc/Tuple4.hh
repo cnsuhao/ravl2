@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////
 //! docentry="Ravl.API.Core.Tuples"
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: Tuple4.hh 7544 2010-02-18 13:20:15Z craftit $"
 //! file="Ravl/Core/Container/Misc/Tuple4.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
@@ -94,10 +94,10 @@ namespace RavlN {
     const T4 &Data4() const { return d4; }
     //: Data access.
 
-    UIntT Hash() const { 
-      UIntT h2 = StdHash(d2);
-      UIntT h3 = StdHash(d3);
-      UIntT h4 = StdHash(d4);
+    SizeT Hash() const {
+      SizeT h2 = StdHash(d2);
+      SizeT h3 = StdHash(d3);
+      SizeT h4 = StdHash(d4);
       return (StdHash(d1) + h2 + h3 + h4) ^ (h2 << 7)  ^ (h3 << 11) ^ (h3 << 13);
     }
     //: Get hash value for tuple.

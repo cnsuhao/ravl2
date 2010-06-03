@@ -6,46 +6,62 @@
 // file-header-ends-here
 /////////////////////////////////////////////////////////
 //! lib=RavlGUI
-//! file="Ravl/GUI/GTK/exCombo.cc"
+//! file="Ravl/GUI/GTK/exComboBoxText.cc"
 //! userlevel=Normal
 //! docentry="Ravl.API.Graphics.GTK.Control"
 //! author="Lee Gregory"
-//! rcsid="$Id$"
 
 #include "Ravl/GUI/Window.hh"
+#include "Ravl/GUI/LBox.hh"
 #include "Ravl/GUI/ComboBoxText.hh"
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/Option.hh"
 
 using namespace RavlGUIN;
 
-//: A callback to handle seleced items
-bool HandleCombo (ComboBoxTextC &  combo, StringC & id)
+bool HandleEntry(TreeModelIterC &row, ComboBoxTextC& combo)
 {
-  cerr << "\n id: " << id << "\t" << combo.TextSelected() << "\n"; 
+  cerr << "Entry changed: '" <<  combo.GUITextSelected() << "'\n";
+  return true;
+}
+
+bool HandleCombo(StringC& text, StringC& name)
+{
+  cerr << name << " ComboBoxTextC selected: '" << text << "'\n";
   return true ; 
 }
 
 int main(int nargs,char *args[]) 
 {
-  // Start the GUI manager - pass through any command line options
+  // Start the GUI manager: pass through any command line options.
   Manager.Init(nargs,args);
   
   // Setup a list of things to put inside the combo box. 
   DListC<StringC> comboData ; 
   comboData.InsLast("item A") ; 
   comboData.InsLast("item B") ; 
-  comboData.InsLast("item C") ; 
+  comboData.InsLast("item C") ;
   comboData.InsLast("item D") ; 
-  
-  // Window creation
-  WindowC win(100,100,"Combo Test");
-  ComboBoxTextC combo(comboData, true);
-  Connect(combo.SigTextSelected(), HandleCombo, combo, StringC(""));
-  win.Add(combo);
+
+  // Create the combo boxes.
+  ComboBoxTextC comboEditable(comboData, true);
+  Connect(comboEditable.SigTextSelected(), HandleCombo, StringC(""), StringC("Editable"));
+  Connect(comboEditable.SigRowSelected(), HandleEntry, TreeModelIterC(), comboEditable);
+
+  ComboBoxTextC comboNotEditable(comboData, false);
+  Connect(comboNotEditable.SigTextSelected(), HandleCombo, StringC(""), StringC("Not editable"));
+
+  // Create the window.
+  DListC<WidgetC> widgetList;
+  widgetList.Append(comboEditable);
+  widgetList.Append(comboNotEditable);
+  LBoxC vbox(widgetList, true, 2, true, 2);
+
+  WindowC win(100, 100, "Combo Box Text");
+  win.Add(vbox);
   win.GUIShow();
   
-  // Start the UI
+  // Start the UI.
   Manager.Start();
   cerr << "Finished... \n";
 }

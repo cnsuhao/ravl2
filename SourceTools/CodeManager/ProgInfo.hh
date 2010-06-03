@@ -7,7 +7,7 @@
 #ifndef RAVL_PROGINFO_HEADER
 #define RAVL_PROGINFO_HEADER 1
 ////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ProgInfo.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Source Tools"
 //! lib=RavlSourceTools
 //! userlevel=Normal

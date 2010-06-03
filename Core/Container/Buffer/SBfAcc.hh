@@ -13,7 +13,7 @@
 //! docentry="Ravl.API.Core.Arrays.Buffer"
 //! date="14/02/1997"
 //! userlevel=Develop
-//! rcsid="$Id$"
+//! rcsid="$Id: SBfAcc.hh 7563 2010-02-18 16:41:12Z craftit $"
 
 #include "Ravl/IndexRange1d.hh"
 #include "Ravl/BufferAccess.hh"
@@ -102,18 +102,58 @@ namespace RavlN {
     { return sz-1; }
     // Returns the maximum index of the range of this access.
     
-    inline const DataT  & operator[](IntT i) const;
+    inline const DataT  & operator[](IntT i) const {
+#if RAVL_CHECK
+      if (!Contains(i))
+        IssueError(__FILE__,__LINE__,"Index %d out of  range 0 - %zu  ",i,static_cast<size_t>(Size()-1));
+#endif
+      return BufferAccessC<DataT>::operator[](i);
+    }
     // Read-only access to the 'i'-th element of the buffer.     
     
-    inline DataT & operator[](IntT i);
+    inline DataT & operator[](IntT i) {
+#if RAVL_CHECK
+      if (!Contains(i))
+        IssueError(__FILE__,__LINE__,"Index %d out of range 0 - %zu  ",i,static_cast<size_t>(Size()-1));
+#endif
+      return BufferAccessC<DataT>::operator[](i);
+    }
     // Read-write access  to the 'i'-th element of the buffer. 
+
+    inline const DataT  & operator[](const SizeC &i) const {
+#if RAVL_CHECK
+      if (!Contains(i))
+        IssueError(__FILE__,__LINE__,"Index %u out of range 0 - %zu  ",i.V(),static_cast<size_t>(Size()-1));
+#endif
+      return BufferAccessC<DataT>::operator[](i);
+    }
+    // Read-only access to the 'i'-th element of the buffer.
     
-    inline const DataT  & operator[](IndexC i) const
-    { return (*this)[i.V()]; }
+    inline DataT & operator[](const SizeC &i) {
+#if RAVL_CHECK
+      if (!Contains(i))
+        IssueError(__FILE__,__LINE__,"Index %u out of range 0 - %zu  ",i.V(),static_cast<size_t>(Size()-1));
+#endif
+      return BufferAccessC<DataT>::operator[](i);
+    }
+    // Read-write access  to the 'i'-th element of the buffer.
+
+    inline const DataT  & operator[](const IndexC &i) const {
+#if RAVL_CHECK
+      if (!Contains(i))
+        IssueError(__FILE__,__LINE__,"Index %d out of range 0 - %zu  ",i.V(),static_cast<size_t>(Size()-1));
+#endif
+      return BufferAccessC<DataT>::operator[](i);
+    }
     // Read-only access to the 'i'-th element of the buffer.     
     
-    inline DataT & operator[](IndexC i)
-    { return (*this)[i.V()]; }
+    inline DataT & operator[](const IndexC &i) {
+#if RAVL_CHECK
+      if (!Contains(i))
+        IssueError(__FILE__,__LINE__,"Index %d out of range 0 - %zu  ",i.V(),static_cast<size_t>(Size()-1));
+#endif
+      return BufferAccessC<DataT>::operator[](i);
+    }
     // Read-write access  to the 'i'-th element of the buffer. 
     
     inline const SizeBufferAccessC<DataT> & SAccess(void) const
@@ -128,7 +168,7 @@ namespace RavlN {
     // Returns TRUE if the size of the array is zero.
     
     inline bool Contains(IndexC i) const
-    { return ((UIntT) i.V()) < sz; }
+    { return ((SizeT) i.V()) < sz; }
     // Returns TRUE if the array contains an item with the index 'i'.
     
     // Modifications of the access
@@ -188,10 +228,10 @@ namespace RavlN {
     void Reverse();
     //: Reverse the order of elements in this array in place.
     
-    SizeBufferAccessC<DataT> BufferFrom(UIntT first);
+    SizeBufferAccessC<DataT> BufferFrom(SizeT first);
     //: Get an access for this buffer starting from the 'first' element to the end of the buffer.
     
-    SizeBufferAccessC<DataT> BufferFrom(UIntT first,UIntT len);
+    SizeBufferAccessC<DataT> BufferFrom(SizeT first,SizeT len);
     //: Get an access for this buffer starting from the 'first' element for 'len' elements.
     // An error will be generated if the requested buffer isn't contains within this one.
 
@@ -209,7 +249,7 @@ namespace RavlN {
     // The new copy is necessary to attach to reference counted buffer
     // or to delete at the end of the life of this object.
     
-    UIntT sz; // size of the buffer in elements.
+    SizeT sz; // size of the buffer in elements.
   };
   
   /////////////////////////////////////////////////////////////////////////////
@@ -256,7 +296,7 @@ namespace RavlN {
   {
 #if RAVL_CHECK
     if (s > ba.Size())
-      IssueError(__FILE__,__LINE__,"Size %u out of index range 0-%u  ",s ,ba.Size()-1);
+      IssueError(__FILE__,__LINE__,"Size %zu out of index range 0-%zu  ",static_cast<size_t>(s) ,static_cast<size_t>(ba.Size()-1));
 #endif
   }
   
@@ -266,28 +306,6 @@ namespace RavlN {
   SizeBufferAccessC<DataT>::operator=(DataT * bp) {
     ((BufferAccessC<DataT> &) *this) = bp;
     return *this;
-  }
-  
-  template <class DataT>
-  inline 
-  const DataT  & 
-  SizeBufferAccessC<DataT>::operator[](IntT i) const {
-#if RAVL_CHECK
-    if (!Contains(i))
-      IssueError(__FILE__,__LINE__,"Index %d out of  range 0 - %u  ",i,Size()-1);
-#endif
-    return BufferAccessC<DataT>::operator[](i);
-  }
-  
-  template <class DataT>
-  inline 
-  DataT & 
-  SizeBufferAccessC<DataT>::operator[](IntT i) {
-#if RAVL_CHECK
-    if (!Contains(i)) 
-      IssueError(__FILE__,__LINE__,"Index %d out of range 0 - %u  ",i,Size()-1);
-#endif
-    return BufferAccessC<DataT>::operator[](i);
   }
   
   template <class DataT>
@@ -358,13 +376,13 @@ namespace RavlN {
   }
 
   template<class DataT>
-  SizeBufferAccessC<DataT> SizeBufferAccessC<DataT>::BufferFrom(UIntT first) {
+  SizeBufferAccessC<DataT> SizeBufferAccessC<DataT>::BufferFrom(SizeT first) {
     RavlAssert(first < sz);
     return SizeBufferAccessC<DataT>(&(ReferenceElm()[first]),sz - first);
   }
   
   template<class DataT>
-  SizeBufferAccessC<DataT> SizeBufferAccessC<DataT>::BufferFrom(UIntT first,UIntT len) {
+  SizeBufferAccessC<DataT> SizeBufferAccessC<DataT>::BufferFrom(SizeT first,SizeT len) {
     RavlAssert((first + len) <= sz);
     return SizeBufferAccessC<DataT>(&(ReferenceElm()[first]),len);
   }

@@ -8,7 +8,7 @@
 #define RAVLGRAPH_GUPPIELEMENT_HEADER 1
 //! author="Charles Galambos"
 //! docentry="Ravl.GUI.Data_Plotting.Guppi"
-//! rcsid="$Id$"
+//! rcsid="$Id: GuppiElement.hh 3317 2003-08-20 14:50:13Z ees1wc $"
 //! lib=RavlGuppi
 //! file="Ravl/Contrib/Plotting/Guppi/GuppiElement.hh"
 

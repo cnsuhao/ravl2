@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: LeastSquares.cc 4246 2004-04-25 20:03:49Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/LeastSquares.cc"
 

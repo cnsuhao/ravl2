@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_DIVOFORMAT_HEADER
 #define RAVLIMAGE_DIVOFORMAT_HEADER 1
 ////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DIVOFormat.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/DMedia/DIVOFormat.hh"
 //! lib=RavlDMedia
 //! userlevel=Develop

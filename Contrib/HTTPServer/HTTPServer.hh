@@ -7,10 +7,11 @@
 #ifndef RAVL_HTTPSERVER_HEADER
 #define RAVL_HTTPSERVER_HEADER 1
 //////////////////////////////////////////////////////////////////
-//! rcsid = "$Id: HTTPServer.hh 6223 2007-06-27 10:27:52Z craftit $"
+//! rcsid = "$Id: HTTPServer.hh 7587 2010-02-23 10:43:01Z ees1wc $"
 //! lib=RavlEHS
 //! author = "Warren Moore"
 //! file = "Ravl/Contrib/EHS/HTTPServer.hh"
+//! docentry = "Ravl.API.OS.HTTP.Server"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/String.hh"

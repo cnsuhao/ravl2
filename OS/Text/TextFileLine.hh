@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.API.OS.Text Processing"
 //! date="05/12/97"
-//! rcsid="$Id$"
+//! rcsid="$Id: TextFileLine.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/String.hh"
 

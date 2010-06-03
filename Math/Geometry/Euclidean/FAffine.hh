@@ -10,7 +10,7 @@
 //! author="Charles Galambos"
 //! date="17/3/1997"
 //! docentry="Ravl.API.Math.Geometry"
-//! rcsid="$Id$"
+//! rcsid="$Id: FAffine.hh 5432 2006-03-29 11:25:12Z omn-crida $"
 //! example=exFAffine.cc
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/FAffine.hh"

@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! example=exSysLog.cc
 //! docentry="Ravl.API.OS.SysLog"
-//! rcsid="$Id$"
+//! rcsid="$Id: SysLog.hh 7087 2009-02-04 15:43:59Z craftit $"
 //! lib=RavlOS
 //! file="Ravl/OS/Misc/SysLog.hh"
 

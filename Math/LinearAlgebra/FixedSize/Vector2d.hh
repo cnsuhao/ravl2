@@ -7,7 +7,7 @@
 #ifndef RAVL_VECTOR2D_HEADER
 #define RAVL_VECTOR2D_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Vector2d.hh 7636 2010-03-02 16:54:59Z alexkostin $"
 //! file="Ravl/Math/LinearAlgebra/FixedSize/Vector2d.hh"
 //! lib=RavlMath
 //! userlevel=Normal
@@ -32,7 +32,7 @@ namespace RavlN {
     Vector2dC(const TFVectorC<RealT,2> &base)
       : FVectorC<2>(base)
     {}
-    //: Base onstructor.
+    //: Base constructor.
     
     Vector2dC(RealT v1,RealT v2) { 
       data[0] = v1;

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RealRange1d.cc 4291 2004-05-07 14:52:50Z kier $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/RealRange1d.cc"
 

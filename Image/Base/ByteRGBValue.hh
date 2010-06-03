@@ -7,7 +7,7 @@
 #ifndef RAVL_BYTERGBVALUE_HEADER
 #define RAVL_BYTERGBVALUE_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ByteRGBValue.hh 6970 2008-09-23 17:04:52Z ees1wc $"
 //! file="Ravl/Image/Base/ByteRGBValue.hh"
 //! lib=RavlImage
 //! userlevel=Normal

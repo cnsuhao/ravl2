@@ -8,7 +8,7 @@
 #define RAVLDPIMAGEIOPPM_HEADER
 ///////////////////////////////////////////////////
 //! userlevel=Develop
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIMPEGB.hh 3317 2003-08-20 14:50:13Z ees1wc $"
 //! file="Ravl/Image/ExternalImageIO/ImgIOMpegB.hh"
 //! lib=ExtImgIO
 //! docentry="Ravl.Images.Video.Video IO.MPEG2"

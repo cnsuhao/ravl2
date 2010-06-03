@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLAUDIO_AUDIOIO_HEADER
 #define RAVLAUDIO_AUDIOIO_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: AudioIO.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlAudioUtil
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Audio.IO"

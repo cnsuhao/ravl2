@@ -7,7 +7,7 @@
 #ifndef RAVL_DPSTREAMOP_HEADER
 #define RAVL_DPSTREAMOP_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: StreamOp.hh 7126 2009-03-16 16:03:52Z simondennis $"
 //! docentry="Ravl.API.Core.Data Processing.Internal" 
 //! file="Ravl/Core/IO/StreamOp.hh"
 //! lib=RavlIO

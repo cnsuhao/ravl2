@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: CrackCode.cc 3121 2003-06-30 19:06:43Z craftit $"
 //! date="26/10/1992"
 //! author="Radek Marik"
 //! lib=RavlMath

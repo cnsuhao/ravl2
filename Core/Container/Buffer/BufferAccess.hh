@@ -7,7 +7,7 @@
 #ifndef RAVL_BUFFERACCESS_HEADER
 #define RAVL_BUFFERACCESS_HEADER
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BufferAccess.hh 7642 2010-03-02 17:01:33Z alexkostin $"
 //! file="Ravl/Core/Container/Buffer/BufferAccess.hh"
 //! lib=RavlCore
 //! userlevel=Default
@@ -67,14 +67,22 @@ namespace RavlN {
     { return buff[i]; }
     // Read-write access  to the 'i'-th element of the buffer. 
 
-    inline const DataT  & operator[](IndexC i) const
+    inline const DataT  & operator[](const IndexC &i) const
     { return buff[i.V()]; }
     // Read-only access to the 'i'-th element of the buffer.     
     
-    inline DataT & operator[](IndexC i)
+    inline DataT & operator[](const IndexC &i)
     { return buff[i.V()]; }
     // Read-write access  to the 'i'-th element of the buffer. 
+
+    inline const DataT  & operator[](const SizeC &i) const
+    { return buff[i.V()]; }
+    // Read-only access to the 'i'-th element of the buffer.
     
+    inline DataT & operator[](const SizeC &i)
+    { return buff[i.V()]; }
+    // Read-write access  to the 'i'-th element of the buffer.
+
     const BufferAccessC<DataT> &operator+=(IndexC ind) { 
       buff += ind.V();
       return *this;
@@ -89,11 +97,11 @@ namespace RavlN {
     
     BufferAccessC<DataT> operator-(IndexC ind) const 
     { return BufferAccessC<DataT>(buff - ind.V()); }
-    //: Substract value from position, and return it as a new value.
+    //: Subtract value from position, and return it as a new value.
 
     BufferAccessC<DataT> operator+(IndexC ind) const 
     { return BufferAccessC<DataT>(buff + ind.V()); }
-    //: Substract value from position, and return it as a new value.
+    //: Subtract value from position, and return it as a new value.
 
     bool operator==(const BufferAccessC<DataT> &ba) const
     { return buff == ba.buff; }

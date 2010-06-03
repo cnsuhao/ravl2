@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MathIO.cc 3316 2003-08-20 13:04:26Z craftit $"
 //! lib=RavlMathIO
 //! file="Ravl/Math/IO/MathIO.cc"
 

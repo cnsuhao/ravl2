@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! date="25/5/1998"
 //! docentry="Ravl.API.OS.Threads"
-//! rcsid="$Id$"
+//! rcsid="$Id: Semaphore.hh 6756 2008-04-24 13:42:11Z craftit $"
 //! file="Ravl/OS/Threads/Posix/Semaphore.hh"
 //! lib=RavlThreads
 

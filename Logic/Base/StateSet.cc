@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: StateSet.cc 7578 2010-02-21 09:47:41Z craftit $"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/StateSet.cc"
 
@@ -32,10 +32,10 @@ namespace RavlLogicN {
   StateSetBodyC::StateSetBodyC(BinIStreamC &strm) 
     : StateBodyC(strm)
   {
-    UIntT size;
+    SizeT size;
     strm >> size;
     //cerr << "StateSetBodyC::StateSetBodyC(), Loading " << size << "\n";
-    for(UIntT i = 0;i <size;i++) {
+    for(SizeT i = 0;i <size;i++) {
       LiteralC lit;
       strm >> ObjIO(lit);
       data += lit;

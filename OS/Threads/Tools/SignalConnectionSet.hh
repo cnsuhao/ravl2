@@ -11,7 +11,7 @@
 //! lib=RavlThreads
 //! author="Charles Galambos"
 //! date="13/12/2000"
-//! rcsid="$Id$"
+//! rcsid="$Id: SignalConnectionSet.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/OS/Threads/Tools/SignalConnectionSet.hh"
 
 #include "Ravl/Threads/Signal.hh"

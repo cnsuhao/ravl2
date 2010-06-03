@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: PLine2d.cc 5356 2006-02-20 18:13:09Z ees1wc $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Projective/2D/PLine2d.cc"
 

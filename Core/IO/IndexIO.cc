@@ -6,7 +6,7 @@
 // file-header-ends-here
 ////////////////////////////////////////////////////
 // $Id: IndexIO.cc 737 2002-01-31 14:55:49Z craftit $
-//! rcsid="$Id$"
+//! rcsid="$Id: IndexIO.cc 737 2002-01-31 14:55:49Z craftit $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/IndexIO.cc"
 

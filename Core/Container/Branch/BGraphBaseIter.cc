@@ -7,7 +7,7 @@
 ///////////////////////////////////////////////////////////////
 // Contain/Branch/BGBaseIter.hh   26/2/97   By Charles Galambos
 // $Id: BGraphBaseIter.cc 927 2002-04-05 12:59:07Z craftit $
-//! rcsid="$Id$"
+//! rcsid="$Id: BGraphBaseIter.cc 927 2002-04-05 12:59:07Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Branch/BGraphBaseIter.cc"
 

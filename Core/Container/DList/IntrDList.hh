@@ -7,7 +7,7 @@
 #ifndef RAVL_INTRDLIST_HEADER
 #define RAVL_INTRDLIST_HEADER 1
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: IntrDList.hh 6092 2007-03-09 19:27:31Z craftit $"
 //! docentry="Ravl.API.Core.Lists"
 //! userlevel=Advanced
 //! file="Ravl/Core/Container/DList/IntrDList.hh"

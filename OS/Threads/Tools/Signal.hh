@@ -7,7 +7,7 @@
 #ifndef RAVL_SIGNAL_HEADER
 #define RAVL_SIGNAL_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Signal.hh 6756 2008-04-24 13:42:11Z craftit $"
 //! lib=RavlThreads
 //! author="Charles Galambos"
 //! date="23/09/1999"

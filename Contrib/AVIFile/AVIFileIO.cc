@@ -6,7 +6,7 @@
 // file-header-ends-here
 ////////////////////////////////////////////////////
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: AVIFileIO.cc 3904 2004-01-27 17:36:45Z vap-james $"
 //! lib=RavlAVIFile
 //! file="Ravl/Contrib/AVIFile/AVIFileIO.cc"
 

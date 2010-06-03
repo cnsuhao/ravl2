@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_CONNECTEDCOMPONENTS_HEADER
 #define RAVLIMAGE_CONNECTEDCOMPONENTS_HEADER 1
 ////////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ConnectedComponents.hh 6110 2007-03-26 14:39:37Z ees1wc $"
 //! author="Radek Marik, modified by Charles Galambos"
 //! docentry="Ravl.API.Images.Segmentation"
 //! lib=RavlImageProc

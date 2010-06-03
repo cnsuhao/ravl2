@@ -11,14 +11,18 @@ ifndef LIBFFMPEG_DEF
   ifndef LIBFFMPEG_HOME
     LIBFFMPEG_HOME := /usr
   endif
-
-  PKG_CONFIG_PATH := $(LIBFFMPEG_HOME)/lib/pkgconfig:$(PKG_CONFIG_PATH)
-
+  
+  ifeq ($(LOCALARC),linux64)
+    PKG_CONFIG_PATH := $(LIBFFMPEG_HOME)/lib64/pkgconfig:$(PKG_CONFIG_PATH)
+  else
+    PKG_CONFIG_PATH := $(LIBFFMPEG_HOME)/lib/pkgconfig:$(PKG_CONFIG_PATH)
+  endif
   LIBFFMPEG_INCLUDES := $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config libavformat libavcodec --cflags-only-I)
   LIBFFMPEG_INCLUDES += $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config libswscale --silence-errors --cflags-only-I)
   LIBFFMPEG_INCLUDES += -I$(LIBFFMPEG_HOME)/include/libavformat -I$(LIBFFMPEG_HOME)/include/libavcodec
-  LIBFFMPEG_LIBS := $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config libavformat libavcodec --libs)
-  LIBFFMPEG_LIBS += $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config libswscale --silence-errors --libs)
+  LIBFFMPEG_LIBS := $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config libswscale libavdevice --silence-errors --libs)
+  LIBFFMPEG_LIBS += $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config libavformat libavcodec --libs)
+  LIBFFMPEG_LIBS += $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config libavutil libswscale --silence-errors --libs)
 
   INCLUDES := $(LIBFFMPEG_INCLUDES) $(INCLUDES)
   EXELIB := $(LIBFFMPEG_LIBS) $(EXELIB)

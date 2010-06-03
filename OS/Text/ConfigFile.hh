@@ -11,7 +11,7 @@
 //! userlevel=Advanced
 //! author="Charles Galambos"
 //! lib=RavlOS
-//! rcsid="$Id$"
+//! rcsid="$Id: ConfigFile.hh 5850 2006-08-24 12:27:43Z craftit $"
 //! date="14/05/1998"
 //! example=exConfigFile.cc
 //! docentry="Ravl.API.OS.Configuration Files"

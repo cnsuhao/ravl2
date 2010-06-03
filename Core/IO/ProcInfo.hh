@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////
 //! docentry="Ravl.API.Core.Data Processing.Processes" 
 //! lib=RavlIO
-//! rcsid="$Id$"
+//! rcsid="$Id: ProcInfo.hh 5808 2006-08-13 15:59:10Z craftit $"
 //! file="Ravl/Core/IO/ProcInfo.hh"
 //! author="Charles Galambos"
 //! date="17/08/98"

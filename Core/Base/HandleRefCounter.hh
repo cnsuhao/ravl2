@@ -7,7 +7,7 @@
 #ifndef RAVL_HANDLEREFCOUNTER_HEADER
 #define RAVL_HANDLEREFCOUNTER_HEADER 1
 ////////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: HandleRefCounter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Core.Reference Counting"
 //! file="Ravl/Core/Base/HandleRefCounter.hh"
 //! lib=RavlCore

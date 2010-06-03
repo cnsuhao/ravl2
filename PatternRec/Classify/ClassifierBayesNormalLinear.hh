@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_CLASSIFIERBAYESNORMALLINEAR_HEADER
 #define RAVL_CLASSIFIERBAYESNORMALLINEAR_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: ClassifierBayesNormalLinear.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlPatternRec
 //! author="Kieron Messer"
 //! docentry="Ravl.API.Pattern Recognition.Classifier"

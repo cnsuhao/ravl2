@@ -8,7 +8,7 @@
 #define RAVL_DPFILESEQUENCE_HEADER 1
 /////////////////////////////////////////////////////////
 //! docentry="Ravl.API.OS.Sequence.Numbered Files"
-//! rcsid="$Id$"
+//! rcsid="$Id: FileSequence.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/OS/IO/FileSequence.hh"
 //! lib=RavlOSIO
 //! author="Charles Galambos"

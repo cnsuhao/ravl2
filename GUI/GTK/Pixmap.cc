@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Pixmap.cc 6564 2008-02-14 10:37:08Z craftit $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Pixmap.cc"
 

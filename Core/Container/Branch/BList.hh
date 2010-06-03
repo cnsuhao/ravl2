@@ -7,7 +7,7 @@
 #ifndef RAVL_BLIST_HEADER
 #define RAVL_BLIST_HEADER 1
 /////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BList.hh 7548 2010-02-18 13:33:07Z craftit $"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Branch"
 //! author="Charles Galambos"
@@ -74,7 +74,7 @@ namespace RavlN {
     { return !list.IsValid(); }
     //: Is list empty ?
     
-    UIntT Size() const;
+    SizeT Size() const;
     //: Count the number of elements in the list.
     
     void Empty()
@@ -95,8 +95,8 @@ namespace RavlN {
   //: Count the number of elements in the list.
   
   template<class DataT>
-  UIntT BListC<DataT>::Size() const {
-    UIntT ret = 0;
+  SizeT BListC<DataT>::Size() const {
+    SizeT ret = 0;
     for(const BLinkBodyC<DataT> *place = list.BodyPtr();place != 0;place = place->Next().BodyPtr())
       ret++;
     return ret;

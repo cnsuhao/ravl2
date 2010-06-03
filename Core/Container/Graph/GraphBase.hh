@@ -13,7 +13,7 @@
 //! author="Radek Marik"
 //! date="22/8/1994"
 //! docentry="Ravl.API.Core.Graphs"
-//! rcsid="$Id$"
+//! rcsid="$Id: GraphBase.hh 7563 2010-02-18 16:41:12Z craftit $"
 
 // Based on the graph structure designed by George Matas
 // (g.matas@ee.surrey.ac.uk) and his code in C language.
@@ -99,7 +99,7 @@ namespace RavlN {
 #endif	  
 
 	inline 
-    GraphEdgeBaseBodyC(GraphNodeBaseBodyC & sourceNode, GraphNodeBaseBodyC & targetNode,UIntT nId)
+    GraphEdgeBaseBodyC(GraphNodeBaseBodyC & sourceNode, GraphNodeBaseBodyC & targetNode,size_t nId)
       : source(GraphAdjRepC(targetNode, *this)),
         target(GraphAdjRepC(sourceNode, *this)),
         id(nId)
@@ -147,17 +147,17 @@ namespace RavlN {
     { return Target(); }
     // Returns the second node of this edge.
     
-    inline UIntT Hash(void) const
+    inline SizeT Hash(void) const
     { return id; }
     //: Returns a hash value for the current node.
     // (Lower few bits are almost always zero.)
     
-    UIntT ID() const
+    size_t ID() const
       { return id; }
     //: Access edge id.
     
   protected:
-    void SetID(UIntT nid)
+    void SetID(size_t nid)
       { id = nid; }
     //: Set edge id.
     
@@ -172,7 +172,7 @@ namespace RavlN {
 
     GraphAdjRepC source; // adjacency with source node
     GraphAdjRepC target; // adjacency with target node
-    UIntT id;
+    size_t id;
     
     friend class GraphBaseBodyC; //InsEdge()
     friend class GraphAdjIterBaseC;  //OtherAdj()
@@ -189,7 +189,7 @@ namespace RavlN {
   
   //: The class GraphNodeBaseBodyC is a representation of graph node. 
   // It can
-  // be linked into a list of graph node. An instance of thist class
+  // be linked into a list of graph node. An instance of this class
   // contains information about the edges which go into the node and
   // which go out.
   
@@ -197,7 +197,7 @@ namespace RavlN {
     : public DLinkC
   {
   public:
-    inline GraphNodeBaseBodyC(GraphBaseBodyC &gr ,UIntT nId)
+    inline GraphNodeBaseBodyC(GraphBaseBodyC &gr ,size_t nId)
 	: graph(&gr),
 	  id(nId)
 	{}
@@ -232,17 +232,17 @@ namespace RavlN {
     inline void DelOutEdges();
     // Delete all output edges.
     
-    inline UIntT Hash(void) const
+    inline SizeT Hash(void) const
       { return id; }
     //: Returns a hash value for the current node.
     // (Lower few bits of a ptr are almost always zero.)
 
-    UIntT ID() const
+    size_t ID() const
       { return id; }
     //: Access node id.
 
   protected:
-    void SetID(UIntT nid)
+    void SetID(size_t nid)
       { id = nid; }
     //: Set node id.
     
@@ -261,7 +261,7 @@ namespace RavlN {
     IntrDListC<GraphAdjRepC> in;        // the list of input edges
     IntrDListC<GraphAdjRepC> out;       // the list of output edges for directed graph.
     GraphBaseBodyC * graph; // Pointer to the graph.
-    UIntT id;
+    size_t id;
   };
 
   // ----------------------------------------------------------------------
@@ -296,7 +296,7 @@ namespace RavlN {
     // True when both iterators are pointing at the same
     // edge.
     
-    inline UIntT Hash(void) const
+    inline SizeT Hash(void) const
     { return Data().Hash(); }
     // Returns a hash value for the current edge.
     
@@ -414,7 +414,7 @@ namespace RavlN {
     // True when both iterators are pointing at the same
     // node.
     
-    inline UIntT Hash(void) const
+    inline SizeT Hash(void) const
     { return NodeRep().Hash(); }
     // Returns a hash value for the current node.
     

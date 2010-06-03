@@ -6,12 +6,13 @@
 // file-header-ends-here
 #ifndef RAVL_DESIGNCLASSIFIERGAUSIANMIXTURE_HEADER
 #define RAVL_DESIGNCLASSIFIERGAUSIANMIXTURE_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignClassifierGaussianMixture.hh 7585 2010-02-23 09:36:10Z kier $"
 //! lib=RavlPatternRec
 //! docentry="Ravl.API.Pattern Recognition.Classifier.DesignClassifier"
 //! file="Ravl/PatternRec/Classify/DesignClassifierGaussianMixture.hh"
 
 #include "Ravl/PatternRec/DesignClassifierSupervised.hh"
+#include "Ravl/XMLFactory.hh"
 
 namespace RavlN {
   
@@ -24,7 +25,10 @@ namespace RavlN {
   public:
     DesignClassifierGaussianMixtureBodyC(UIntT mixtures);
     //: Constructor.
-    
+
+    DesignClassifierGaussianMixtureBodyC(const XMLFactoryContextC & factory);
+    //: Constructor.
+
     DesignClassifierGaussianMixtureBodyC(istream &strm);
     //: Load from stream.
     
@@ -61,6 +65,11 @@ namespace RavlN {
     
     DesignClassifierGaussianMixtureC(UIntT mixtures)
       : DesignClassifierSupervisedC(*new DesignClassifierGaussianMixtureBodyC(mixtures))
+    {}
+    //: Create a new designer.
+
+    DesignClassifierGaussianMixtureC(const XMLFactoryContextC & factory)
+      : DesignClassifierSupervisedC(*new DesignClassifierGaussianMixtureBodyC(factory))
     {}
     //: Create a new designer.
     

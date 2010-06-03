@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_EVENTBOX_HEADER
 #define RAVLGUI_EVENTBOX_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: EventBox.hh 6701 2008-04-09 16:07:40Z ees1wc $"
 //! file="Ravl/GUI/GTK/EventBox.hh"
 //! lib=RavlGUI
 //! userlevel=Normal

@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_HEMESHBASEFACE_HEADER
 #define RAVL_HEMESHBASEFACE_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: HEMeshBaseFace.hh 7563 2010-02-18 16:41:12Z craftit $"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Graphs.Half Edge Mesh"
 //! date="24/4/2002"
@@ -35,7 +35,7 @@ namespace RavlN {
     : public DLinkC // Link in list of all faces.
   {
   public:
-    HEMeshBaseFaceBodyC(UIntT nid = 0)
+    HEMeshBaseFaceBodyC(size_t nid = 0)
       : edge(0),
 	id(nid)
     {}
@@ -175,7 +175,7 @@ namespace RavlN {
     { Body().SetEdge(nedge); }
     //: Set first edge.
     
-    UIntT Hash() const
+    SizeT Hash() const
     { return StdHash(static_cast<const void *>(body)); }
     //: Hash value for handle.
     

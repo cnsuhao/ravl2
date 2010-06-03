@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_VIDIOV4L_HEADER
 #define RAVLIMAGE_VIDIOV4L_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOV4L.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Images.Video.Video IO.Video4Linux"
 //! author="Charles Galambos"
 //! lib=RavlImgIOV4L

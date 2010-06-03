@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: AAMSampleStream.cc 7502 2010-02-10 17:55:16Z craftit $"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMSampleStream.cc"
 
@@ -143,12 +143,16 @@ namespace RavlImageN {
           break;
         case 2: // sx
         case 3: // sy
+          maxVar = 0.3 * trueVal;
+          break;
         case 4: // u1
         case 5: // u2
-          maxVar = 0.1 * trueVal;
-          break;
+          if(!m_am.FixTextureMeanStdDev()) {
+            maxVar = 0.3 * trueVal;
+            break;
+          }
         default:
-          maxVar = 0.5 * Sqrt(m_am.EigenValues()[paramNo]);
+          maxVar = 3.0 * Sqrt(m_am.EigenValues()[paramNo]);
       }
 
       bool isInRange;

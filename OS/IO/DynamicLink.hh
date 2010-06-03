@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_DYNAMICLINK_HEADER
 #define RAVL_DYNAMICLINK_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: DynamicLink.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlOSIO
 //! userlevel=Normal
 //! docentry="Ravl.API.OS.Dynamic Linking"

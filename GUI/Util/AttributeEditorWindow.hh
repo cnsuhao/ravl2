@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLGUI_ATTRIBUTEEDITORWINDOW_HEADER
 #define RAVLGUI_ATTRIBUTEEDITORWINDOW_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: AttributeEditorWindow.hh 6701 2008-04-09 16:07:40Z ees1wc $"
 //! lib=RavlGUIUtil
 //! file="Ravl/GUI/Util/AttributeEditorWindow.hh"
 //! example=exAttributeEditor.cc

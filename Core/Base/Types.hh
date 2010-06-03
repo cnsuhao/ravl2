@@ -7,7 +7,7 @@
 #ifndef RAVL_TYPES_HEADER
 #define RAVL_TYPES_HEADER 1
 /////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Types.hh 7711 2010-05-03 11:05:58Z craftit $"
 //! docentry="Ravl.API.Core.Misc"
 //! file="Ravl/Core/Base/Types.hh"
 //! lib=RavlCore
@@ -48,7 +48,7 @@ namespace RavlN {
 #if RAVL_HAVE_STDNAMESPACE
   using namespace std;
 #endif  
-  
+  class SizeC;
   class BinOStreamC;
   class BinIStreamC;
 
@@ -92,7 +92,13 @@ namespace RavlN {
   typedef short Int16T;
   //: Signed int of 16 bits.
   
-#ifdef __GNUC__
+#if RAVL_CPUTYPE_64
+  typedef signed long int Int64T;
+  //: 64 bit signed integer.
+
+  typedef unsigned long int UInt64T;
+  //: 64 bit unsigned integer.
+#elif defined(__GNUC__)
   __extension__ typedef signed long long int Int64T;
   //: 64 bit signed integer.
   
@@ -112,18 +118,16 @@ namespace RavlN {
   typedef unsigned long long int UInt64T;
   //: 64 bit unsigned integer.
 #endif
-  
-#if RAVL_CPUTYPE_64
-  typedef UInt64T SizeT;
+
+  typedef SizeC SizeT;
   //: Unsigned type which can index any item in memory. 
   // I.e. it has number of bits to match virtual address space (typically 32 or 64 bits) 
+
+#if RAVL_CPUTYPE_64
   typedef Int64T ISizeT ; 
   //: Signed type which can index any item in memory. 
   // I.e. it has number of bits to match virtual address space (typically 32 or 64 bits) 
 #else
-  typedef UIntT SizeT;
-  //: Unsigned type which can index any item in memory. 
-  // I.e. it has number of bits to match virtual address space (typically 32 or 64 bits) 
   typedef IntT ISizeT ;
   //: Signed type which can index any item in memory. 
   // I.e. it has number of bits to match virtual address space (typically 32 or 64 bits) 
@@ -140,7 +144,7 @@ namespace RavlN {
 #endif
   
   typedef StreamOffsetT StreamSizeT;
-  //: Size of stream.  This is seperate to allow large file support.
+  //: Size of stream.  This is separate to allow large file support.
   
   template<class DataT>
   inline void Swap(DataT &v1,DataT &v2) {
@@ -255,13 +259,14 @@ namespace RavlN {
   
   inline char StdCopy(unsigned char x) { return x; }
   //: Copy unsigned char.
-  
+
+#if RAVL_CPUTYPE_32
   inline Int64T StdCopy(Int64T x) { return x; }
   //: Copy 64 bit int.
   
   inline UInt64T StdCopy(UInt64T x) { return x; }
   //: Copy unsigned 64 bit int.
-
+#endif
 };
-
+#include "Ravl/Size.hh"
 #endif

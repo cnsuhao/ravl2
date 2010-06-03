@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_SEGMENTATION_HEADER
 #define RAVLIMAGE_SEGMENTATION_HEADER 1
 /////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Segmentation.hh 5914 2006-09-21 16:24:44Z ees1wc $"
 //! docentry="Ravl.API.Images.Segmentation"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Segmentation/Segmentation.hh"

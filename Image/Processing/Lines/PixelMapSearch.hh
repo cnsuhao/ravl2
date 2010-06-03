@@ -12,7 +12,7 @@
 //! docentry="Ravl.API.Images.Lines"
 //! file="Ravl/Image/Processing/Lines/PixelMapSearch.hh"
 //! lib=RavlImageProc
-//! rcsid="$Id$"
+//! rcsid="$Id: PixelMapSearch.hh 6094 2007-03-12 15:36:34Z ees1wc $"
 
 #include "Ravl/HSet.hh"
 #include "Ravl/StdConst.hh"

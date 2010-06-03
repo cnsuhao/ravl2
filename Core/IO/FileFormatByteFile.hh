@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2009, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -81,7 +81,7 @@ namespace RavlN
       // Need a real filename
       if (filename[0] == '@')
         return typeid(void);
-      
+
       return typeid(ByteT);
     }
 
@@ -90,7 +90,7 @@ namespace RavlN
       // Byte only
       if (objType != typeid(ByteT))
         return DPIPortBaseC();
-      
+
       return DPIByteFileC(inputStream);
     }
     //: Create an input port for loading.
@@ -101,7 +101,7 @@ namespace RavlN
       // Byte only
       if (objType != typeid(ByteT))
         return DPOPortBaseC();
-      
+
       return DPOByteFileC(outputStream);
     }
     //: Create an output port for saving.
@@ -123,7 +123,7 @@ namespace RavlN
       // Byte only
       if (objType != typeid(ByteT))
         return DPOPortBaseC();
-      
+
       return DPOByteFileC(filename);
     }
     //: Create an output port for saving.

@@ -13,7 +13,7 @@
 //! author="Radek Marik"
 //! docentry="Ravl.API.Math.Projective Geometry.2D"
 //! date="26.06.1995"
-//! rcsid="$Id$"
+//! rcsid="$Id: PPointLine2d.hh 7523 2010-02-15 18:13:55Z ees1wc $"
 
 #include "Ravl/Point2d.hh"
 #include "Ravl/Vector2d.hh"
@@ -30,11 +30,11 @@ namespace RavlN {
   // starts from 0.
   
   class PPointLine2dC
-    : public TFVectorC<double, 3u>
+    : public TFVectorC<double,3>
   {  
   public:
     //:----------------------------------------------
-    // Constructors, assigment, copy, and destructor.
+    // Constructors, assignment, copy, and destructor.
     
     inline PPointLine2dC()
     { Fill(0); }

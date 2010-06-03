@@ -7,7 +7,7 @@
 #ifndef RAVL_SAMPLEITER_HEADER
 #define RAVL_SAMPLEITER_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SampleIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/SampleIter.hh"

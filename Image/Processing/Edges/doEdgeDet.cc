@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: doEdgeDet.cc 6775 2008-04-30 14:17:14Z ees1wc $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Edges/doEdgeDet.cc"
 #include "Ravl/config.h"

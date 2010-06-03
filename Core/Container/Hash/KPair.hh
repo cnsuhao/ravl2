@@ -7,7 +7,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Hash Tables"
 //! date="27/10/1996"
-//! rcsid="$Id$"
+//! rcsid="$Id: KPair.hh 4 2001-04-11 12:45:55Z craftit $"
 
 //: Keyed pair.
 // Don't use this class, use Tuple2C instead.

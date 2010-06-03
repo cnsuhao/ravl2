@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Data Processing.Ports" 
 //! date="12/10/1998"
-//! rcsid="$Id$"
+//! rcsid="$Id: IOJoin.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! userlevel=Normal
 
 #include "Ravl/DP/Port.hh"

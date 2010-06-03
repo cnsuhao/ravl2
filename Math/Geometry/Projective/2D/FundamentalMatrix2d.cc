@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: FundamentalMatrix2d.cc 7662 2010-03-19 09:22:39Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Projective/2D/FundamentalMatrix2d.cc"
 
@@ -286,7 +286,11 @@ namespace RavlN {
   // Subject to epipolar constraint x^TFx = 0. Implemented from Multiple View Geometry, 2nd ed,
   // Richard Hartley and Andrew Zisserman, Cambridge University Press, 2003, p318
 
-  void FundamentalMatrix2dC::CorrectCorrespondence(const PPoint2dC &ipnt1, const PPoint2dC &ipnt2, PPoint2dC &opnt1, PPoint2dC &opnt2) {
+  void FundamentalMatrix2dC::CorrectCorrespondence(const PPoint2dC &ipnt1,
+                                                         const PPoint2dC &ipnt2,
+                                                         PPoint2dC &opnt1,
+                                                         PPoint2dC &opnt2)
+  {
     // Step (i)
     Matrix3dC T = CreateTransformToOrigin(ipnt1);
     Matrix3dC Tp = CreateTransformToOrigin(ipnt2);

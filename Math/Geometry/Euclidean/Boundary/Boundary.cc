@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! author="Radek Marik"
 //! date="26.04.1994"
-//! rcsid="$Id$"
+//! rcsid="$Id: Boundary.cc 6068 2007-02-22 19:21:11Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/Boundary/Boundary.cc"
 

@@ -3,7 +3,7 @@
 # This code may be redistributed under the terms of the GNU
 # General Public License (GPL). See the gpl.licence file for details
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 6738 2008-04-21 15:31:34Z robowaz $"
 #! file="Ravl/Contrib/DVDRead/defs.mk"
 
 REQUIRES = dvdread libmpeg2

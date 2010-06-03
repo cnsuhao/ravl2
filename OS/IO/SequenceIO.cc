@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SequenceIO.cc 4076 2004-03-12 17:56:31Z craftit $"
 //! lib=RavlOSIO
 //! file="Ravl/OS/IO/SequenceIO.cc"
 //! author="Charles Galambos"

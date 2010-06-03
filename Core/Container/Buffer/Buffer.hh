@@ -7,7 +7,7 @@
 #ifndef RAVL_BUFFER_HEADER
 #define RAVL_BUFFER_HEADER 1
 ///////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Buffer.hh 7563 2010-02-18 16:41:12Z craftit $"
 //! docentry="Ravl.API.Core.Arrays.Buffer"
 //! file="Ravl/Core/Container/Buffer/Buffer.hh"
 //! lib=RavlCore
@@ -34,13 +34,13 @@ namespace RavlN {
       public SizeBufferAccessC<DataT>
   {
   public:
-    BufferBodyC(UIntT nsize,const DataT &defaultVal)
+    BufferBodyC(SizeT nsize,const DataT &defaultVal)
       : SizeBufferAccessC<DataT>(new DataT[nsize],nsize),
         deletable(true)
     { Fill(defaultVal); }
     //: Constructor a buffer of 'nsize' items, with default value.
     
-    BufferBodyC(UIntT nsize)
+    BufferBodyC(SizeT nsize)
       : SizeBufferAccessC<DataT>(new DataT[nsize],nsize),
         deletable(true)
     {}
@@ -51,10 +51,10 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    BufferBodyC(UIntT nsize,DataT *dat,bool copy = false,bool deletable = false);
+    BufferBodyC(SizeT nsize,DataT *dat,bool copy = false,bool deletable = false);
     //: Construct from data.
     
-    BufferBodyC(DataT *dat,UIntT nsize,bool _deletable)
+    BufferBodyC(DataT *dat,SizeT nsize,bool _deletable)
       : SizeBufferAccessC<DataT>(dat,nsize),
         deletable(_deletable)
     {}
@@ -105,13 +105,13 @@ namespace RavlN {
     //: Default constructor
     // creates an invalid handle.
     
-    BufferC(UIntT nsize)
+    BufferC(SizeT nsize)
       : RCHandleVC<BufferBodyC<DataT> >(*new BufferBodyC<DataT>(nsize))
     {}
     //: Constructor
     // Creates a buffer containing 'nsize' items.
     
-    BufferC(UIntT nsize,DataT *dat,bool copy = false,bool deletable = false)
+    BufferC(SizeT nsize,DataT *dat,bool copy = false,bool deletable = false)
       : RCHandleVC<BufferBodyC<DataT> >(*new BufferBodyC<DataT>(nsize,dat,copy,deletable))
     {}
     //: Constructor
@@ -163,7 +163,7 @@ namespace RavlN {
   ////////////////////////////////////////////////////////////
   
   template<class DataT>
-  BufferBodyC<DataT>::BufferBodyC(UIntT nsize,DataT *ndat,bool copy,bool ndeletable) 
+  BufferBodyC<DataT>::BufferBodyC(SizeT nsize,DataT *ndat,bool copy,bool ndeletable)
     : SizeBufferAccessC<DataT>(ndat,nsize),
       deletable(ndeletable)
   {

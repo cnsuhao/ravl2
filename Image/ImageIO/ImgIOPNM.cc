@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOPNM.cc 4032 2004-02-27 17:05:52Z plugger $"
 //! lib=RavlImageIO
 //! file="Ravl/Image/ImageIO/ImgIOPNM.cc"
 

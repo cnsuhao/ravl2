@@ -1,6 +1,6 @@
 #ifndef RAVLIMAGE_MULTIRESACTIVEAPPEARANCEMODEL_HEADER
 #define RAVLIMAGE_MULTIRESACTIVEAPPEARANCEMODEL_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: AAMMultiResActiveAppearanceModel.hh 5572 2006-06-09 16:09:48Z sevynaej $"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMMultiResActiveAppearanceModel.hh"
 //! docentry="Ravl.API.Images.AAM"

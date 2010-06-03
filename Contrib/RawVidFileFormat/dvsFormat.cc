@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: dvsFormat.cc 342 2001-08-28 13:33:14Z simone $"
 //! lib=RavlDVSFileFormat
 //! file="Ravl/DVSFileFormat/dvsFormat.cc"
 

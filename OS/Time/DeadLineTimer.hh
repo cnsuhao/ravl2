@@ -7,7 +7,7 @@
 #ifndef RAVL_DEADLINETIMER_HEADER
 #define RAVL_DEADLINETIMER_HEADER 1
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DeadLineTimer.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.OS.Time"
 //! example="exDeadLine.cc"
 //! file="Ravl/OS/Time/DeadLineTimer.hh"

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Exception.cc 4525 2004-08-13 12:04:07Z hickson $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/Exception.cc"
 

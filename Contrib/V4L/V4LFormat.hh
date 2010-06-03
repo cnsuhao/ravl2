@@ -10,7 +10,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Video.Video IO.Video4Linux"
 //! date="29/10/1998"
-//! rcsid="$Id$"
+//! rcsid="$Id: V4LFormat.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/V4L/V4LFormat.hh"
 //! example=exImgSeq.cc
 //! lib=RavlImgIOV4L

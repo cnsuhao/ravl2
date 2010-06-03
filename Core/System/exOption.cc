@@ -6,7 +6,7 @@
 // file-header-ends-here
 // 24-Feb-93, J. Matas, created.
 // 22-Oct-93 Radek Marik adopted for C++
-//! rcsid="$Id$"
+//! rcsid="$Id: exOption.cc 6008 2007-01-03 16:12:09Z ees1wc $"
 //! lib=RavlCore
 //! file="Ravl/Core/System/exOption.cc"
 //! date="12/11/1993"

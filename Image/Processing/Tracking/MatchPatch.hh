@@ -8,7 +8,7 @@
 #define RAVLIMAGE_MATCHPATCH_HEADER 1
 ///////////////////////////////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: MatchPatch.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlImageProc
 //! docentry="Ravl.API.Images.Tracking"
 //! file="Ravl/Image/Processing/Tracking/MatchPatch.hh"

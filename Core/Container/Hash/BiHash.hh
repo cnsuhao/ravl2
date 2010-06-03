@@ -13,7 +13,7 @@
 //! date="1/9/1996"
 //! example=exBiHash.cc
 //! docentry="Ravl.API.Core.Hash Tables"
-//! rcsid="$Id$"
+//! rcsid="$Id: BiHash.hh 7563 2010-02-18 16:41:12Z craftit $"
 //! userlevel=Default
 
 #include "Ravl/Hash.hh"
@@ -135,7 +135,7 @@ namespace RavlN {
     }
     //: Delete a mapping from the table, using d2 as the key.
     
-    UIntT Size() const
+    SizeT Size() const
     { return hmap1.Size(); }
     //: Get number of mappings.
 

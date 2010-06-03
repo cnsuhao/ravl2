@@ -6,7 +6,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: MultiVidIO.hh 5565 2006-06-09 10:26:23Z craftit $"
 //! lib=RavlVideoIO
 //! author="Joel Mitchelson"
 //! docentry="Ravl.API.Images.Video.Video IO"

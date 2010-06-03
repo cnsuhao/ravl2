@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! lib=RavlCore
 //! file="Ravl/Core/Container/SArray/testSArray1d.cc"
-//! rcsid="$Id$"
+//! rcsid="$Id: testSArray1d.cc 6278 2007-07-16 10:55:44Z craftit $"
 //! docentry="Ravl.API.Core.Arrays.1D"
 //! userlevel=Develop
 

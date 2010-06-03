@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: TreeView.cc 7646 2010-03-08 14:43:10Z robowaz $"
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! date="23/9/2003"
@@ -167,7 +167,8 @@ namespace RavlGUIN {
             break;
 #endif
           case AVT_String:  
-          case AVT_Int: 
+          case AVT_Int:
+          case AVT_Int64:
           case AVT_Real:
             renderType ="text";
             // Get value from 'text' from column '*it'
@@ -362,10 +363,10 @@ namespace RavlGUIN {
       gtk_tree_view_column_add_attribute(column,renderer,attrName,sourceCol);
       return true;
     }
-    
+    gboolean val = (attrValue == "1") ? 1 : 0;
+
     //cerr << "Setting attribute '" << ait.Key() << "' to '" << at.Data1() << "'\n";
     if(attrName == "editable" || attrName == "activatable") {
-      gboolean val = (attrValue == "1") ? 1 : 0;
       RavlAssert(renderer != 0);
       g_object_set(G_OBJECT(renderer), attrName,val,NULL);
     }
@@ -389,8 +390,11 @@ namespace RavlGUIN {
     else if (attrName == "resizable") {
       gtk_tree_view_column_set_resizable(GTK_TREE_VIEW_COLUMN(column), true);
     }
+    else if (attrName == "visible") {
+      gtk_tree_view_column_set_visible(GTK_TREE_VIEW_COLUMN(column), val);
+    }
     else if (attrName == "renderer") 
-    {}
+    {} 
     else  { // Don't know!!
       cerr << "TreeViewBodyC::SetAttribute, WARNING: Unknown attribute '" << attrName << "' \n";
     }

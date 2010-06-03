@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_SIGNALINFO_HEADER
 #define RAVLGUI_SIGNALINFO_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SignalInfo.hh 7742 2010-05-27 15:25:43Z robowaz $"
 //! userlevel=Develop
 //! file="Ravl/GUI/GTK/SignalInfo.hh"
 //! lib=RavlGUI
@@ -32,6 +32,7 @@ namespace RavlGUIN {
     SigTypeEventDelete,
     SigTypeEventMouseButton,
     SigTypeEventMouseMotion,
+    SigTypeEventScroll,
     SigTypeEventKeyboard,
     SigTypeEventFocus,
     SigTypeString,

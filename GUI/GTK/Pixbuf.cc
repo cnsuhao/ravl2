@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Pixbuf.cc 5769 2006-07-21 15:41:30Z ees1wc $"
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! date="24/9/2003"

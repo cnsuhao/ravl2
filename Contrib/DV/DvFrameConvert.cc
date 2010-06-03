@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: DvFrameConvert.cc 4919 2005-05-10 16:35:12Z ees1wc $"
 //! lib=RavlDV
 //! file="Ravl/Contrib/DV/DvFrameConvert.cc"
 

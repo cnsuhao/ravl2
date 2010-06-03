@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_BASE64_HEADER
 #define RAVL_BASE64_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: Base64.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Misc"
 //! file="Ravl/Core/System/Base64.hh"

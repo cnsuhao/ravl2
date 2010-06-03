@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RCWrap.cc 6759 2008-04-24 14:10:22Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/RCWrap.cc"
 

@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 7000 2008-10-20 11:13:34Z robowaz $"
 #! file="Ravl/Core/Machine/defs.mk"
 
 DESCRIPTION= Machine/Compiler specific header files

@@ -7,7 +7,7 @@
 #ifndef RAVL_FPNUMBER_HEADER
 #define RAVL_FPNUMBER_HEADER 1
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: FPNumber.hh 6021 2007-01-22 10:01:58Z ees1wc $"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Fixed Point Arithmetic"
 //! file="Ravl/Core/Base/FPNumber.hh"

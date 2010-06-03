@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_SCALEROTATIONSHAPEMODEL_HEADER
 #define RAVLIMAGE_SCALEROTATIONSHAPEMODEL_HEADER 1
 //! docentry="Ravl.API.Images.AAM"
-//! rcsid="$Id$"
+//! rcsid="$Id: AAMScaleRotationShapeModel.hh 7358 2009-11-04 11:46:22Z omn-crida $"
 //! lib=RavlAAM
 //! author="Charles Galambos"
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMScaleRotationShapeModel.hh"

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: TreeModel.cc 7729 2010-05-12 13:18:21Z craftit $"
 //! author="Charles Galambos"
 //! docentry="Ravl.Graphics.GTK.Control"
 //! lib=RavlGUI
@@ -32,6 +32,7 @@ namespace RavlGUIN {
     switch(vtype) {
     case AVT_Bool:     return G_TYPE_BOOLEAN;
     case AVT_Int:      return G_TYPE_INT;
+    case AVT_Int64:    return G_TYPE_INT64;
     case AVT_Real:     return G_TYPE_FLOAT;
     case AVT_String:   return G_TYPE_STRING;
     case AVT_Enum:     return G_TYPE_ENUM;
@@ -154,6 +155,9 @@ namespace RavlGUIN {
     return TreeModelIterC(model,&treeIter);
   }
 
+  bool TreeModelIterBodyC::IsElm() const
+  { return isElm; }
+  //: Test if we think we're on a valid element.
 
   //:----------------------------------------------------------------------------
 
@@ -359,6 +363,16 @@ namespace RavlGUIN {
     return true;
   }
 
+
+
+  bool TreeModelBodyC::GetValue(TreeModelIterC &rowIter,IntT col, Int64T &value) {
+    if(!rowIter.IsElm())
+      return false;
+    ReadBackLockC lock;
+    gtk_tree_model_get(model,rowIter.TreeIter(),col,&value,-1);
+    return true;
+  }
+
   //: Set bool value.
 
   bool TreeModelBodyC::GetValue(TreeModelIterC &rowIter,IntT col, bool &value) {
@@ -482,6 +496,13 @@ namespace RavlGUIN {
 
   bool TreeModelBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, IntT value) {
     RavlAssertMsg(0,"TreeModelBodyC::SetValue(TreeModelIterC &,IntT,IntT) Not implemented. ");
+    return false;
+  }
+
+
+
+  bool TreeModelBodyC::GUISetValue(TreeModelIterC &rowIter,IntT col, Int64T value) {
+    RavlAssertMsg(0,"TreeModelBodyC::SetValue(TreeModelIterC &,IntT,Int64T) Not implemented. ");
     return false;
   }
 

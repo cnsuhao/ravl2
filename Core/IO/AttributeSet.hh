@@ -7,7 +7,7 @@
 #ifndef RAVL_ATTRIBUTESET_HEADER
 #define RAVL_ATTRIBUTESET_HEADER 1
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: AttributeSet.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlIO
 //! docentry="Ravl.API.Core.Data_Processing.Attributes"
 //! file="Ravl/Core/IO/AttributeSet.hh"

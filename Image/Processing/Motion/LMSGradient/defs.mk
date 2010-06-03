@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 4932 2005-05-26 15:19:20Z plugger $"
 #! file="Ravl/Image/Processing/Motion/LMSGradient/defs.mk"
 
 PACKAGE = Ravl/Image

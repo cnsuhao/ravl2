@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: SampleVector.cc 7592 2010-02-24 00:00:22Z kier $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/SampleVector.cc"
 
@@ -18,6 +18,10 @@
 #include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/SumsNd2.hh"
+#include "Ravl/VectorMatrix.hh"
+#include "Ravl/XMLFactoryRegister.hh"
+#include "Ravl/RandomGauss.hh"
+#include "Ravl/TMatrix.hh"
 
 namespace RavlN {
 
@@ -43,6 +47,68 @@ namespace RavlN {
       it.Data2() = out;
     }
   }
+
+  SampleVectorC::SampleVectorC(const MeanCovarianceC & meanCovariance)
+    : SampleC<VectorC>(Floor(meanCovariance.Number()))
+  {
+    // Random number generator
+    RandomGaussC random;
+    
+    // Need to work out roa
+    MatrixC evectors;
+    VectorC evalues = EigenVectors(meanCovariance.Covariance(), evectors); 
+    MatrixC di(meanCovariance.Mean().Size(), meanCovariance.Mean().Size());
+    di.Fill(0.0);
+    for(SArray1dIterC<RealT>it(evalues);it;it++)*it = Sqrt(*it);
+    di.AddDiagonal(evalues);
+    MatrixC rot = evectors * di;
+    
+    // lets make the sample, can I remember how?
+    for(IntT i=0;i<Floor(meanCovariance.Number());i++) {
+
+      // first create unrotated data of mean=0 and variance=1.0
+      VectorC vec(meanCovariance.Mean().Size());
+      for(SArray1dIterC<RealT>vecIt(vec);vecIt;vecIt++)
+        *vecIt = random.Generate();
+      vec = (rot * vec) + meanCovariance.Mean();
+      Append(vec);
+    }    
+  }
+
+  SampleVectorC::SampleVectorC(const XMLFactoryContextC & factory)
+    : SampleC<VectorC>(10000)
+  {
+
+    MeanCovarianceC meanCovariance;
+    if(!factory.UseComponent("stats", meanCovariance))
+      RavlIssueError("Unable to load stats from XML factory");
+    
+    // Random number generator
+    RandomGaussC random;
+    
+    // Need to work out roa
+    MatrixC evectors;
+    VectorC evalues = EigenVectors(meanCovariance.Covariance(), evectors); 
+    MatrixC di(meanCovariance.Mean().Size(), meanCovariance.Mean().Size());
+    di.Fill(0.0);
+    for(SArray1dIterC<RealT>it(evalues);it;it++)*it = Sqrt(*it);
+    di.AddDiagonal(evalues);
+    MatrixC rot = evectors * di;
+    
+    // lets make the sample, can I remember how?
+    for(IntT i=0;i<Floor(meanCovariance.Number());i++) {
+
+      // first create unrotated data of mean=0 and variance=1.0
+      VectorC vec(meanCovariance.Mean().Size());
+      for(SArray1dIterC<RealT>vecIt(vec);vecIt;vecIt++)
+        *vecIt = random.Generate();
+      vec = (rot * vec) + meanCovariance.Mean();
+      Append(vec);
+    }    
+    
+    
+  }
+  
   
   //: Get the size of vectors in this sample.
   
@@ -193,6 +259,11 @@ namespace RavlN {
       *it =  (*it  * stdDev) + stats.Mean();
   }
 
-  
+
+  RavlN::XMLFactoryRegisterHandleC<SampleVectorC> g_registerXMLFactorySampleVector("RavlN::SampleVectorC");
+
+  void linkSampleVector()
+  {}
+
 }
 

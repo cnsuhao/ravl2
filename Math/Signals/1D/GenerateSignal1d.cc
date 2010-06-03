@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: GenerateSignal1d.cc 4107 2004-03-18 17:12:51Z ees1wc $"
 //! lib=RavlMath
 //! file="Ravl/Math/Signals/1D/GenerateSignal1d.cc"
 

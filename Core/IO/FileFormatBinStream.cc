@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FileFormatBinStream.cc 3094 2003-06-19 16:48:45Z craftit $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/FileFormatBinStream.cc"
 

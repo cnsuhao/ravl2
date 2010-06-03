@@ -8,7 +8,7 @@
 #define RAVLIMAGE_IOJPEGB_HEADER 1
 ///////////////////////////////////////////////////
 //! userlevel=Develop
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOJPegB.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Image/ExternalImageIO/ImgIOJPegB.hh"
 //! lib=RavlExtImgIO
 //! docentry="Ravl.API.Images.IO.Formats"

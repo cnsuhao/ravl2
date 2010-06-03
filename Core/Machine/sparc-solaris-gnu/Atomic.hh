@@ -8,7 +8,7 @@
 //! userlevel=Default
 //! author="Charles Galambos"
 //! date="25/02/1999"
-//! rcsid="$Id$"
+//! rcsid="$Id: Atomic.hh 1539 2002-08-09 13:11:01Z craftit $"
 //! docentry="Ravl.Core.Misc"
 //! lib=RavlCore
 #ifndef RAVL_ATOMIC_SPARC_HEADER

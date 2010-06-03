@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 6750 2008-04-23 16:12:51Z ees1wc $"
 #! file="Ravl/Contrib/Plotting/defs.mk"
 
 

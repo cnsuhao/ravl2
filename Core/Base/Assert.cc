@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Assert.cc 7000 2008-10-20 11:13:34Z robowaz $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/Assert.cc"
 

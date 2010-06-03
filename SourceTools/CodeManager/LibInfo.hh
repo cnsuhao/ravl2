@@ -7,7 +7,7 @@
 #ifndef RAVL_LIBINFO_HEADER
 #define RAVL_LIBINFO_HEADER 1
 ////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: LibInfo.hh 5548 2006-06-08 14:32:35Z craftit $"
 //! userlevel=Normal
 //! docentry="Ravl.API.Source Tools"
 //! lib=RavlSourceTools

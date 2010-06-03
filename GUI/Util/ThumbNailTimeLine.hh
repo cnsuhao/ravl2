@@ -7,7 +7,7 @@
 #ifndef RAVL_THUMBNAILTIMELINE_HEADER
 #define RAVL_THUMBNAILTIMELINE_HEADER 1
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: ThumbNailTimeLine.hh 7600 2010-02-25 15:17:51Z cyberplug $"
 //! docentry="Ravl.API.Graphics.GTK.Util"
 
 #include "Ravl/Image/Image.hh"
@@ -61,7 +61,7 @@ namespace RavlGUIN {
     bool Goto(UIntT frameNo);
     //: Goto a particular frame.
     
-    bool GUIGoto(UIntT &frameNo);
+    bool GUIGoto(UIntT frameNo);
     //: Goto a particular frame.
     
     bool SetSkip(UIntT skip);
@@ -69,8 +69,11 @@ namespace RavlGUIN {
     
     bool GUISetSkip(UIntT &skip);
     //: Set frame skip factor.
+
+    IntT GetSkip(void) const;
+    //: Get the current skip; 
     
-    Signal1C<UIntT> &FrameSelected()
+    Signal1C<UIntT> &SigFrameSelected()
     { return frameSelected; }
     //: Access frame selected signal.
     
@@ -101,6 +104,10 @@ namespace RavlGUIN {
     //: Modify the image for thumbnail, scale it, label it....
     
   protected:
+
+
+    
+
     virtual bool CommonCreate(GtkWidget *_widget);
     //: Create widget.
     
@@ -236,7 +243,7 @@ namespace RavlGUIN {
     
   public:
     
-    bool GUIGoto(UIntT &frameNo)
+    bool GUIGoto(UIntT frameNo)
     { return Body().GUIGoto(frameNo); }
     //: Goto a particular frame.
     
@@ -251,7 +258,11 @@ namespace RavlGUIN {
     bool GUISetSkip(UIntT &skip)
     { return Body().GUISetSkip(skip); }
     //: Set frame skip factor.
-    
+
+    IntT GetSkip(void) const
+    { return Body().GetSkip(); }
+    //: Access teh currrent skip
+
     bool GUISetVideo(const DPISPortC<ImageC<ByteRGBValueC> > &nvideo)
     { return Body().GUISetVideo(nvideo); }
     //: Set the current video stream to use.
@@ -277,8 +288,8 @@ namespace RavlGUIN {
     //: Event mouse press. 
     //!cwiz:author
     
-    Signal1C<UIntT> &FrameSelected()
-    { return Body().FrameSelected(); }
+    Signal1C<UIntT> &SigFrameSelected()
+    { return Body().SigFrameSelected(); }
     //: Access frame selected signal.
     
     Signal1C<RealRangeC> &SigFrameRange()

@@ -8,7 +8,7 @@
 #define RAVL_BUFFERACCESSITERR_HEADER 1
 ///////////////////////////////////////////////////
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: BufferAccessIterR.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/Container/Buffer/BufferAccessIterR.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"

@@ -8,7 +8,7 @@
 #define RAVLGRAPH_GUPPICANVAS_HEADER
 //! author="Charles Galambos"
 //! docentry="Ravl.GUI.Data_Plotting.Guppi"
-//! rcsid="$Id$"
+//! rcsid="$Id: GuppiCanvas.hh 3317 2003-08-20 14:50:13Z ees1wc $"
 //! lib=RavlGuppi
 //! file="Ravl/Contrib/Plotting/Guppi/GuppiCanvas.hh"
 

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testConvolve.cc 6986 2008-10-01 09:10:38Z craftit $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Filters/testConvolve.cc"
 //! userlevel=Develop

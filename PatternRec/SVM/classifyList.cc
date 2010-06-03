@@ -13,6 +13,8 @@
 #include "Ravl/OS/Date.hh"
 #include "Ravl/OS/Filename.hh"
 
+#include <cstdio>
+
 using namespace RavlN;
 using namespace RavlN;
 

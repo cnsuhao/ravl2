@@ -11,9 +11,11 @@
 //! docentry="Ravl.API.Pattern Recognition.Performance Evaluation"
 //! author="Kieron Messer"
 //! file="Ravl/PatternRec/Performance/Error.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: Error.hh 7592 2010-02-24 00:00:22Z kier $"
 
 #include "Ravl/PatternRec/Classifier.hh"
+#include "Ravl/PatternRec/Classifier2.hh"
+#include "Ravl/PatternRec/OneClass.hh"
 #include "Ravl/PatternRec/SampleVector.hh"
 #include "Ravl/PatternRec/SampleLabel.hh"
 #include "Ravl/PatternRec/DataSetVectorLabel.hh"
@@ -48,7 +50,9 @@ namespace RavlN {
     virtual RealT Error(const ClassifierC & classifier, const DataSetVectorLabelC & dset);
     //: Compute the error on the labelled dataset
 
-
+    virtual RealT Error(const Classifier2C & classifier, const DataSetVectorLabelC & dset, UIntT label, RealT threshold);
+    //: Compute the error on the labelled dataset and a 2 class classifier at a specified threshold level
+        
   };
 
   //! userlevel=Normal
@@ -104,6 +108,11 @@ namespace RavlN {
     //!param: dset - the labelled dataset
     //!return: the probability of mis-classification
 
+    RealT Error(const Classifier2C & classifier, const DataSetVectorLabelC & dset, UIntT label, RealT threshold=0)
+    { return Body().Error(classifier, dset, label, threshold); }
+    //: Compute the error on the labelled dataset and a 2 class classifier if label at or below specified threshold
+    
+    
   };
   
   inline istream &operator>>(istream &strm,ErrorC &obj) {

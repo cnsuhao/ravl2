@@ -7,7 +7,7 @@
 #include "Ravl/Image/ShotBoundHistInt.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Array1dIter2.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: ShotBoundHistInt.cc 7041 2008-11-24 17:25:07Z ees1wc $"
 //! lib=RavlVideo
 
 using namespace RavlN;

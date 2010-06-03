@@ -5,7 +5,7 @@
 //! lib=PThreadTools
 //! userlevel=Normal
 //! docentry="default.Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: EventHandlerRef.hh 1466 2002-07-29 11:58:25Z craftit $"
 //! author="Charles Galambos"
 //! date="25/05/2000"
 

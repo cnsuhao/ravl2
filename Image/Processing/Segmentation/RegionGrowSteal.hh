@@ -12,7 +12,7 @@
 //! example=exSegmentation.cc
 //! file="Ravl/Image/Processing/Segmentation/RegionGrowSteal.hh"
 //! author = "Fangxiang Cheng"
-//! rcsid="$Id$"
+//! rcsid="$Id: RegionGrowSteal.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlImageProc
 //! date="09/05/2000"
 

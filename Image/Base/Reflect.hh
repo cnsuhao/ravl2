@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! userlevel=Normal
 //! docentry="Ravl.API.Images"
-//! rcsid="$Id$"
+//! rcsid="$Id: Reflect.hh 7016 2008-11-07 14:26:26Z ees1wc $"
 //! lib=RavlImage
 //! date="13/2/2003"
 //! file="Ravl/Image/Base/Reflect.hh"

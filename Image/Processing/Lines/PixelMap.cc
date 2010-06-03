@@ -7,7 +7,7 @@
 /////////////////////////////////////////////////////////
 //! date="18/2/1997"
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: PixelMap.cc 2629 2003-03-31 16:34:40Z craftit $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Lines/PixelMap.cc"
 

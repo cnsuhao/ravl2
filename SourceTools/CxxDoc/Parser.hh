@@ -7,7 +7,7 @@
 #ifndef RAVLCXXDOC_PARSER_HEADER
 #define RAVLCXXDOC_PARSER_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Parser.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/SourceTools/CxxDoc/Parser.hh"
 //! userlevel=Normal
 //! docentry="Ravl.API.Source Tools.CxxDoc.Internal"

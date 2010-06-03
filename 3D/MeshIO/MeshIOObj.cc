@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: MeshIOObj.cc 3202 2003-07-20 16:38:35Z vap-james $"
 //! lib=Ravl3DIO
 //! file="Ravl/3D/MeshIO/MeshIOObj.cc"
 

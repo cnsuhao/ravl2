@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_FONT_HEADER
 #define RAVLIMAGE_FONT_HEADER 1
 ////////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Font.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlImage
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Drawing"

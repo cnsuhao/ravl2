@@ -13,7 +13,7 @@
 //! date="23/03/1999"
 //! example=exMenu.cc
 //! docentry="Ravl.API.Graphics.GTK.Control"
-//! rcsid="$Id$"
+//! rcsid="$Id: Menu.hh 7729 2010-05-12 13:18:21Z craftit $"
 
 #include "Ravl/Threads/Signal.hh"
 #include "Ravl/Threads/Signal2.hh"
@@ -33,6 +33,9 @@ namespace RavlGUIN {
     MenuItemBodyC(const StringC &lab);
     //: Constructor.
     
+    MenuItemBodyC(const XMLFactoryContextC &factory);
+    //: Constructor.
+
     virtual bool Create();
     //: Create the widget.
     
@@ -72,7 +75,12 @@ namespace RavlGUIN {
       : WidgetC(bod)
     {}
     //: Body constructor
-    
+
+    MenuItemC(const XMLFactoryContextC &factory)
+      : WidgetC(*new MenuItemBodyC(factory))
+    {}
+    //: Body constructor
+
   protected:
     MenuItemBodyC &Body() 
     { return static_cast<MenuItemBodyC &>(WidgetC::Body()); }

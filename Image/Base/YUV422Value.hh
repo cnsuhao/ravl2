@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_YUV422VALUE_HEADER
 #define RAVLIMAGE_YUV422VALUE_HEADER 1
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: YUV422Value.hh 6965 2008-09-18 16:48:28Z ees1wc $"
 //! lib=RavlImage
 //! userlevel=Normal
 //! author="Charles Galambos"

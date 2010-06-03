@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: StateVectorRot3d.hh 6819 2008-05-30 12:01:36Z ees1wc $"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation2.Examples"
 //! lib=RavlOptimise
 //! file="Ravl/Math/Optimisation/StateVectorRot3d.hh"

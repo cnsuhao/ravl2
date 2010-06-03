@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////
 //! userlevel=Normal
 //! docentry="Ravl.API.Math.Linear Algebra"
-//! rcsid="$Id$"
+//! rcsid="$Id: TMatrix.hh 7638 2010-03-02 16:57:45Z alexkostin $"
 //! file="Ravl/Math/LinearAlgebra/General/TMatrix.hh"
 //! author="Charles Galambos"
 //! date="10/09/1998"
@@ -54,7 +54,7 @@ namespace RavlN {
     
     inline TMatrixC(SizeT rows,SizeT cols,const DataT *data);
     //: Constructor.
-    // With row wise array of initalisations data.
+    // With row wise array of initialisations data.
     
     inline TMatrixC(SizeT rows,SizeT cols,DataT *data,bool useCopy,bool manageMemory = false)
       : SArray2dC<DataT>(BufferC<DataT>(rows * cols,data,useCopy,manageMemory),rows,cols)
@@ -128,7 +128,7 @@ namespace RavlN {
     TMatrixC<DataT> TMul(const TMatrixC<DataT> & B) const;
     //: Multiplication A.T() * B
     // Note: Because of effects of memory layout it this is 
-    // approximatly half the speed of MulT().
+    // approximately half the speed of MulT().
     
     TVectorC<DataT> TMul(const TVectorC<DataT>& vec) const;
     //: Multiplication A.T() * vec
@@ -146,7 +146,7 @@ namespace RavlN {
     //: Get transpose of matrix.
     
     static TMatrixC<DataT> Identity(UIntT n);
-    //: Returns an identity matrx of n by n.
+    //: Returns an identity matrix of n by n.
     // NB. This is a static function and should be called  MatrixC::Identity(n).
     // where n is the size of the matrix.
     
@@ -178,7 +178,7 @@ namespace RavlN {
     
     const TMatrixC<DataT> &MulAdd(const TMatrixC<DataT> & i,DataT a);
     //: Multiply i by a and add it to this matrix.
-    // Returns a refrence to this matrix.
+    // Returns a reference to this matrix.
     
     void SwapRows(int i,int j);
     //: Swap two rows in the matrix.

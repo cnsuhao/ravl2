@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: StateIndexed.cc 6678 2008-03-18 22:50:19Z craftit $"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Index/StateIndexed.cc"
 

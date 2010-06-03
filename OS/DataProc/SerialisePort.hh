@@ -7,7 +7,7 @@
 #ifndef RAVL_SERIALISEPORT_HEADER
 #define RAVL_SERIALISEPORT_HEADER
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: SerialisePort.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlDPMT
 //! date="2/5/2003"
 //! docentry="Ravl.API.Core.Data Processing.Threads" 

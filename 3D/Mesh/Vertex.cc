@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Vertex.cc 1025 2002-04-24 15:53:44Z craftit $"
 //! author="Charles Galambos"
 //! lib=Ravl3D
 //! file="Ravl/3D/Mesh/Vertex.cc"

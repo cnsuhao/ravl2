@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: exNetPort.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlNet
 //! file="Ravl/OS/Network/exNetPort.cc"
 //! docentry="Ravl.API.OS.Network.NetPort"

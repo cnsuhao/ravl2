@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Optimise.cc 6767 2008-04-25 12:50:57Z craftit $"
 //! lib=Optimisation
 //! file="Ravl/PatternRec/Optimise/Optimise.cc"
 

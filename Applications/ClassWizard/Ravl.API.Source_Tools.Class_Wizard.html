@@ -17,8 +17,10 @@ Usage: cwiz [options]
 </pre>
     <p>Class wizard is program designed to help with writing and maintaining Ravl style 'big objects'.  You write the body class, exactly as it should eventually be:
 </p>    <ul>
+      <li><pre>#include "Ravl/RefCounter.hh"</pre></li>
       <li>with class name ending <code>...BodyC</code></li>
       <li>with an entry under <code>HEADERS</code> in the <code>defs.mk</code> file</li>
+      <li>with public inheritance of RCBodyC </li>
     </ul>
     <p>If you run <code>cwiz</code> (with no options) it will add the handle class to all appropriately-formatted body classes that it finds, in that directory and any nested directories.  </p>
 

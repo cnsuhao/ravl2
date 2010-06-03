@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: RealHist2dBinaryIO.cc 4354 2004-06-08 16:07:51Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/Histogram/RealHist2dBinaryIO.cc"
 

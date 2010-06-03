@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testStream.cc 7560 2010-02-18 13:52:19Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/testStream.cc"
 //! date="23/04/1998"
@@ -403,7 +403,7 @@ int testBitStream() {
   return 0;
 }
 
-UIntT writeCount = 0;
+SizeT writeCount = 0;
 bool WriteMethod(const char *data,SizeT len) {
   std::cerr << "Write:" << len << "\n";
   writeCount += len;

@@ -10,7 +10,7 @@
 //! docentry="Ravl.API.Math.Averages"
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: Average.hh 5442 2006-04-07 14:31:55Z ees1wc $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/Average.hh"
 

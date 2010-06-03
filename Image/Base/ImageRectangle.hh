@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_IMAGERECTANGLE_HEADER
 #define RAVLIMAGE_IMAGERECTANGLE_HEADER 1
 ////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ImageRectangle.hh 6941 2008-09-12 09:30:47Z ees1wc $"
 //! file="Ravl/Image/Base/ImageRectangle.hh"
 //! lib=RavlImage
 //! userlevel=Normal

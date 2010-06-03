@@ -7,7 +7,7 @@
 ///////////////////////////////////////////
 // TxtPBuff.cc
 // $Id: TextBuffer.cc 3944 2004-02-15 12:34:03Z craftit $
-//! rcsid="$Id$"
+//! rcsid="$Id: TextBuffer.cc 3944 2004-02-15 12:34:03Z craftit $"
 //! lib=RavlOS
 //! file="Ravl/OS/Text/TextBuffer.cc"
 

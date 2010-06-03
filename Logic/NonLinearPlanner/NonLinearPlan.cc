@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////
 //! date="12/12/1996"
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: NonLinearPlan.cc 3746 2003-11-27 21:50:03Z craftit $"
 //! lib=RavlLogicNLP
 //! file="Ravl/Logic/NonLinearPlanner/NonLinearPlan.cc"
 

@@ -7,7 +7,7 @@
 #ifndef RAVL_NETPORTCLIENT_HEADER
 #define RAVL_NETPORTCLIENT_HEADER 1
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: NetPortClient.hh 5868 2006-09-04 10:41:02Z craftit $"
 //! author="Charles Galambos"
 //! lib=RavlNet
 //! docentry="Ravl.API.OS.Network.NetPort"

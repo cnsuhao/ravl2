@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DPDisplayView.cc 6613 2008-02-22 17:16:50Z ees1wc $"
 //! lib=RavlDPDisplay
 //! file="Ravl/GUI/DPDisplay/DPDisplayView.cc"
 

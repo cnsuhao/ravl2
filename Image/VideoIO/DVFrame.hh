@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_DVFRAME_HEADER
 #define RAVLIMAGE_DVFRAME_HEADER 1
 ////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DVFrame.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Image/VideoIO/DVFrame.hh"
 //! lib=RavlVideoIO
 //! example=exImgSeq.cc

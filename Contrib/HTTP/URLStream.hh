@@ -7,7 +7,7 @@
 #ifndef RAVL_URLISTREAM_HEADER
 #define RAVL_URLISTREAM_HEADER 1
 /////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: URLStream.hh 6226 2007-06-27 10:29:57Z craftit $"
 //! lib=RavlURLIO
 //! author="James Smith"
 //! docentry="Ravl.API.Core.IO.URL Handling"

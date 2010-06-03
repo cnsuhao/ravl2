@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_LEASTSQUARES_HEADER
 #define RAVL_LEASTSQUARES_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: LeastSquares.hh 6088 2007-03-08 16:20:52Z ees1wc $"
 //! lib=RavlMath
 //! docentry="Ravl.API.Math.Linear Algebra.Equation Solvers"
 //! userlevel=Normal

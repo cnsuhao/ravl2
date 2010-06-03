@@ -1,7 +1,7 @@
 // This file is part of Magellan, Broadcast Video Library 
 // Copyright (C) 2003, OmniPerception Ltd.
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ThumbNailTimeLine.cc 7604 2010-02-26 11:23:39Z cyberplug $"
 //! lib=OmniMagGUI
 //! file="Magellan/GUI/VideoSampleTimeLine.cc"
 
@@ -413,7 +413,7 @@ namespace RavlGUIN {
 	
 	int frameNo = (i * workingFrameSkip) + workingMidFrame;
 	//ONDEBUG(cerr << "FrameNo=" << frameNo << " i=" << i << "\n");
-	Index2dC at(0,workingDisplayArea.Cols()/2 + i * width  + vertSpace/2 - thumbSize.Cols()/2);
+	Index2dC at(0,IndexC(workingDisplayArea.Cols())/2 + i * width  + vertSpace/2 - IndexC(thumbSize.Cols())/2);
 	ImageC<ByteRGBValueC> img;
 	if(frameNo >= 0) {
 	  img = GetDisplayImage(frameNo);
@@ -471,7 +471,7 @@ namespace RavlGUIN {
   
   //: Goto a particular frame.
   
-  bool ThumbNailTimeLineBodyC::GUIGoto(UIntT &newFrameNo) 
+  bool ThumbNailTimeLineBodyC::GUIGoto(UIntT newFrameNo) 
   {
     if(!Goto(newFrameNo))
       return false;
@@ -489,11 +489,22 @@ namespace RavlGUIN {
     midFrame = Floor((RealT) requestedMidFrame / frameSkip) * frameSkip;
     
     hold.Unlock();
-    semaUpdate.Post(); // Flag update.
     UpdateDisplayRange();
+    semaUpdate.Post(); // Flag update.
     return true;
   }
-  
+
+
+
+  //: Get frame skip factor
+  IntT ThumbNailTimeLineBodyC::GetSkip() const
+  {
+    RWLockHoldC hold(access, RWLOCK_READONLY);
+    return frameSkip;
+  }
+
+
+
   //: Set frame skip factor.
   
   bool ThumbNailTimeLineBodyC::GUISetSkip(UIntT &skip) 

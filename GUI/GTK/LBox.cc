@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: LBox.cc 5462 2006-04-24 11:01:46Z robowaz $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/LBox.cc"
 

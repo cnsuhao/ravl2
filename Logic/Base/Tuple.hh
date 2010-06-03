@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_TUPLE_HEADER
 #define RAVLLOGIC_TUPLE_HEADER 1
 //////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Tuple.hh 6483 2007-12-02 15:54:09Z craftit $"
 //! docentry="Ravl.API.Logic"
 //! author="Charles Galambos"
 //! lib=RavlLogic

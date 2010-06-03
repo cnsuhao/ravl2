@@ -24,6 +24,8 @@
 #include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/OS/Filename.hh"
 
+#include <cstdio>
+
 using namespace RavlN;
 using namespace RavlN;
 

@@ -7,7 +7,7 @@
 #ifndef RAVL_ARRAY2DSQR2ITER2_HEADER
 #define RAVL_ARRAY2DSQR2ITER2_HEADER 1
 //////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Array2dSqr2Iter2.hh 6075 2007-02-24 17:01:10Z craftit $"
 //! docentry="Ravl.API.Core.Arrays.2D"
 //! author="Charles Galambos"
 //! lib=RavlCore

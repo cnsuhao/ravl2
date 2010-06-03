@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: AttributeEditor.cc 7648 2010-03-08 15:11:42Z robowaz $"
 //! lib=RavlGUIUtil
 //! file="Ravl/GUI/Util/AttributeEditor.cc"
 
@@ -141,12 +141,25 @@ namespace RavlGUIN {
 	  if(attr.CanWrite()) {
 	    SliderC sl((RealT) val,(RealT) attr.Min(),(RealT) attr.Max(),(RealT) attr.Step());
 	    ConnectRef(sl.SigChanged(),*this,&AttributeEditorBodyC::SetAttribInt,val,it->Name());
-	    widge = sl;	
+	    widge = sl;
 	    updateTrigger = TriggerR(*this,&AttributeEditorBodyC::UpdateAttribInt,it->Name(),widge);
 	    ConnectRef(sl.SigReleased(),*this,&AttributeEditorBodyC::UpdateAttribInt,it->Name(),widge);
 	  } else {
 	    StringC str(val);
 	    LabelC label(str);
+	    widge = label;
+	    updateTrigger = TriggerR(*this,&AttributeEditorBodyC::UpdateAttribLabel,it->Name(),widge);
+	  }
+	} break;
+	case AVT_Int64: {
+	  Int64T val;
+	  attribCtrl.GetAttr(it->Name(),val);
+	  if(it->CanWrite()) {
+	    TextEntryC te = TextEntryR(StringC(val),*this,&AttributeEditorBodyC::SetAttribString,it->Name());
+	    widge = te;
+	    updateTrigger = TriggerR(*this,&AttributeEditorBodyC::UpdateAttribString,it->Name(),widge);
+	  } else {
+	    LabelC label(val);
 	    widge = label;
 	    updateTrigger = TriggerR(*this,&AttributeEditorBodyC::UpdateAttribLabel,it->Name(),widge);
 	  }

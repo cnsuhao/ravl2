@@ -7,7 +7,7 @@
 #ifndef RAVL_RBFACC2ITER5_HEADER
 #define RAVL_RBFACC2ITER5_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BfAcc2Iter5.hh 7651 2010-03-09 11:40:09Z craftit $"
 //! file="Ravl/Core/Container/Buffer/BfAcc2Iter5.hh"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Arrays.Buffer"
@@ -79,11 +79,11 @@ namespace RavlN {
 	       const SizeBufferAccessC<BufferAccessC<Data5T> > &pbuf5,SizeT size5
 	       ) {
       rit.First(pbuf1,pbuf2,pbuf3,pbuf4,pbuf5);
-      rng1 = IndexRangeC(0,size1-1);
-      rng2 = IndexRangeC(0,size2-1);
-      rng3 = IndexRangeC(0,size3-1);
-      rng4 = IndexRangeC(0,size4-1);
-      rng5 = IndexRangeC(0,size5-1);
+      rng1 = IndexRangeC(size1);
+      rng2 = IndexRangeC(size2);
+      rng3 = IndexRangeC(size3);
+      rng4 = IndexRangeC(size4);
+      rng5 = IndexRangeC(size5);
       if(rng1.Size() > 0 && rit.IsElm())
 	return cit.First(rit.Data1(),rng1,
 			 rit.Data2(),rng2,

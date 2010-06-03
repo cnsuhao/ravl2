@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: TranscriptionStream.cc 3073 2003-06-13 07:18:32Z craftit $"
 //! lib=RavlAudioIO
 //! file="Ravl/Audio/IO/TranscriptionStream.cc"
 

@@ -6,7 +6,7 @@
 // file-header-ends-here
 ////////////////////////////////////////////////////
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: DVFrmIOAvi.cc 3264 2003-07-31 12:46:06Z muntoni $"
 //! lib=RavlVideoIO
 //! file="Ravl/Image/VideoIO/DVFrmIOAvi.cc"
 

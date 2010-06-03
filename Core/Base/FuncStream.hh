@@ -24,19 +24,14 @@ namespace RavlN {
     : public std::streambuf
   {
   public:
-    typedef traits_type::int_type 		int_type;
-    const static SizeT m_bufferSize = 8192; 
+    typedef traits_type::int_type int_type;
     
-    //: Destructor.
-    ~FuncOStreamBufC()  { 
-      // Flush buffer.
-      sync(); 
-    }
+    //: Constructor
+    FuncOStreamBufC(const CallFunc2C<const char *,SizeT> &writeCall, SizeT bufferSize = 8192);
 
-    FuncOStreamBufC(const CallFunc2C<const char *,SizeT> &writeCall) 
-      : m_write(writeCall)
-    { setp(m_buffer,&m_buffer[m_bufferSize-1]); }
-    
+    //: Destructor.
+    virtual ~FuncOStreamBufC();
+
     //: Buffer overflow
     virtual int_type overflow(int_type c);
     
@@ -45,7 +40,8 @@ namespace RavlN {
   protected:    
     void Flush();
     
-    char m_buffer[m_bufferSize];    
+    char *m_buffer;
+    SizeT m_bufferSize;
     CallFunc2C<const char *,SizeT> m_write; // Method to call to write data.
   };
   
@@ -57,16 +53,19 @@ namespace RavlN {
   {
   public:
     typedef traits_type::int_type int_type;
-    const static SizeT m_bufferSize = 8192;
     
     //: Constructor.
-    FuncIStreamBufC(const CallFunc2C<char *,SizeT,SizeT> &readCall);
+    FuncIStreamBufC(const CallFunc2C<char *,SizeT,SizeT> &readCall, SizeT bufferSize = 8192);
     
+    //: Destructor.
+    virtual ~FuncIStreamBufC();
+
     //: Underflow.
     virtual int_type underflow();
     
   protected:
-    char m_buffer[m_bufferSize];
+    char *m_buffer;
+    SizeT m_bufferSize;
     CallFunc2C<char *,SizeT,SizeT> m_read;
   };
   
@@ -76,9 +75,9 @@ namespace RavlN {
     : public std::ostream 
   {
   public:
-    funcostream(const CallFunc2C<const char *,SizeT> &writeCall)
+    funcostream(const CallFunc2C<const char *,SizeT> &writeCall, SizeT bufferSize = 8192)
       : std::ostream(0),
-        m_streamBuf(writeCall)
+        m_streamBuf(writeCall, bufferSize)
     { rdbuf(&m_streamBuf); }
     
   protected:
@@ -91,9 +90,9 @@ namespace RavlN {
     : public std::istream 
   {
   public:
-    funcistream(const CallFunc2C<char *,SizeT,SizeT> &readCall)
+    funcistream(const CallFunc2C<char *,SizeT,SizeT> &readCall, SizeT bufferSize = 8192)
       : std::istream(0),
-        m_streamBuf(readCall)
+        m_streamBuf(readCall, bufferSize)
     { rdbuf(&m_streamBuf); }
     
   protected:

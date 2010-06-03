@@ -8,7 +8,7 @@
 #define RAVL_SAMPLESTREAMFROMSAMPLE_HEADER 1
 //! author="Robert Crida"
 //! docentry="Ravl.API.Pattern Recognition.Data Set"
-//! rcsid="$Id$"
+//! rcsid="$Id: SampleStreamVector.hh 7324 2009-10-21 16:23:20Z craftit $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/SampleStreamFromSample.hh"
 

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 // $Id: Vector2d.cc 817 2002-02-18 17:49:21Z kier $
-//! rcsid="$Id$"
+//! rcsid="$Id: Vector2d.cc 817 2002-02-18 17:49:21Z kier $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/FixedSize/Vector2d.cc"
 

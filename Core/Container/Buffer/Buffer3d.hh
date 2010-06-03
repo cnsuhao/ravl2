@@ -7,7 +7,7 @@
 #ifndef RAVL_BUFFER3D_HEADER
 #define RAVL_BUFFER3D_HEADER 1
 ///////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Buffer3d.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/Container/Buffer/Buffer3d.hh"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Arrays.Buffer"

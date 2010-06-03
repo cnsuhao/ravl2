@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_3D_AXIS_ANGLE_HH
 #define RAVL_3D_AXIS_ANGLE_HH
-//! rcsid="$Id$"
+//! rcsid="$Id: AxisAngle.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlMath
 //! date="7/12/2002"
 //! author="Joel Mitchelson"

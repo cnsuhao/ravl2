@@ -14,7 +14,7 @@
 //! date="28/10/1996"
 //! file="Ravl/Core/Container/Queue/PriQueueL.hh"
 //! docentry="Ravl.API.Core.Queues"
-//! rcsid="$Id$"
+//! rcsid="$Id: PriQueueL.hh 7547 2010-02-18 13:31:37Z craftit $"
 
 #include "Ravl/HeapNode.hh"
 #include "Ravl/RefCounter.hh"
@@ -93,7 +93,7 @@ namespace RavlN {
     //!bug: NOT IMPLEMENTED
     // Returns True if found.
     
-    int Size() const ;
+    SizeT Size() const ;
     //: Get number of items in queue. Slow !!!
     
 #if RAVL_PRIQUEUEL_DEBUG  
@@ -365,7 +365,7 @@ namespace RavlN {
   // Get number of items in queue, slow !
   
   template <class KeyT,class DataT>
-  int PriQueueLBodyC<KeyT,DataT>::Size() const {
+  SizeT PriQueueLBodyC<KeyT,DataT>::Size() const {
     if(root == 0)
       return 0;
     return root->Size();

@@ -11,7 +11,7 @@
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! date="23/03/99"
-//! rcsid="$Id$"
+//! rcsid="$Id: Slider.hh 7044 2008-11-26 17:09:16Z craftit $"
 //! example=exSlider.cc
 //! docentry="Ravl.API.Graphics.GTK.Control"
 

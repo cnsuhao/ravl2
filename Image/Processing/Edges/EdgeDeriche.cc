@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: EdgeDeriche.cc 5519 2006-06-06 07:53:18Z craftit $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Edges/EdgeDeriche.cc"
 

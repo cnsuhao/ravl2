@@ -13,7 +13,7 @@
 //! userlevel=Normal
 //! author="George (Jiri) Matas"
 //! example=exStack.cc
-//! rcsid="$Id$"
+//! rcsid="$Id: StackIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/Stack.hh"
 

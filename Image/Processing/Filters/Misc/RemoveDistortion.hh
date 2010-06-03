@@ -1,3 +1,4 @@
+#line 1 "/vol/vssp/assavid/people/bill/svn/Ravl/Image/Processing/Filters/Misc/RemoveDistortion.hh"
 // This file is part of RAVL, Recognition And Vision Library 
 // Copyright (C) 2002, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
@@ -6,7 +7,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_REMOVEDISTORTION_HEADER
 #define RAVLIMAGE_REMOVEDISTORTION_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: RemoveDistortion.hh 7686 2010-04-08 17:51:32Z ees1wc $"
 //! lib=RavlImageProc
 //! docentry="Ravl.API.Images.Scaling and Warping"
 //! file="Ravl/Image/Processing/Filters/Misc/RemoveDistortion.hh"
@@ -26,11 +27,6 @@
 
 
 namespace RavlImageN {
-  
-  // value less than but close to 1 indicating how close you want to get to the
-  // model limit before switching to the outer linear model.
-  //
-#define MODEL_FRACTION 0.95
 
   // thresholds on change in radial distance R value
 #define R_CHANGE_THRES 1.0e-7
@@ -75,7 +71,7 @@ namespace RavlImageN {
     //!param: oRec - the output image rectangle
     //!param: cRow, cCol - image centre coordinates
     //!param: fRow, fCol - focal distance in vertical / horizontal pixels respectively
-    //!param: K1 - cubic radial distortion coefficient. Typical value is around 10^-7
+    //!param: K1 - cubic radial distortion coefficient. Typical value is around 10^-7.  &plusmn; values for concave / convex distortion respectively.
     //!param: K2 - quintic radial distortion coefficient. If used, typical value is 10^-14 (but set K1 first).
     //!param: FillBackground - fill background with black
     //!param: mix - pixel type for calculations internal to class
@@ -95,7 +91,7 @@ namespace RavlImageN {
 	mixer(mix)
     { Init(); }
     //: Constructor that assumes output image dimensions are specified in the <code>void Apply(const ImageC<InT> &img,ImageC<OutT> &out)</code> method.
-    // Arguments as in previous constructor
+    // Otherwise, arguments as in previous constructor
 
     void Apply(const ImageC<InT> &img,ImageC<OutT> &out);
     //: Remove distortion from image `img' and write it into `out' 
@@ -191,10 +187,7 @@ namespace RavlImageN {
     // Compute threshold on radial camera coordinate to see if position
     // is within valid region
     if ( nK2 == 0.0 ) {
-      if ( nK1 < 0.0 )
-	thres_R2 = -MODEL_FRACTION*MODEL_FRACTION*0.333333333/nK1;
-      else
-	thres_R2 = thres_dR = outer_a = outer_b = RavlConstN::maxReal;
+      thres_R2 = thres_dR = outer_a = outer_b = RavlConstN::maxReal;
     }
     else {
       RealT disc = 0.09*nK1*nK1 - 0.2*nK2;

@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: ImageMatcher.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Images.Tracking"
 //! file="Ravl/Image/Processing/Tracking/ImageMatcher.hh"
 //! lib=RavlImageProc

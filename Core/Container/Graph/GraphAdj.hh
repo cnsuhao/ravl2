@@ -14,7 +14,7 @@
 //! date="10/12/1996"
 //! docentry="Ravl.API.Core.Graphs"
 //! example=exGraph.cc
-//! rcsid="$Id$"
+//! rcsid="$Id: GraphAdj.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/GraphBase.hh"
 #include "Ravl/Assert.hh"

@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_POINTTRACKMODEL_HEADER
 #define RAVLIMAGE_POINTTRACKMODEL_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: PointTrackModel.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Charles Galambos"
 //! date="24/7/2002"
 //! docentry="Ravl.API.Images.Tracking"

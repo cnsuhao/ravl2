@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: GUIEditor.cc 3508 2003-10-05 19:34:35Z craftit $"
 //! lib=RavlVDF
 //! author="Charles Galambos"
 //! file="Ravl/Applications/VisualDataFlow/GUIEditor.cc"

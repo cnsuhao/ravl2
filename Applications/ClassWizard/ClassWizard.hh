@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_CLASSWIZARD_HEADER
 #define RAVL_CLASSWIZARD_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: ClassWizard.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlClassWizard
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Source Tools.Class Wizard"

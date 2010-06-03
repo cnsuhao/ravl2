@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Packet.cc 132 2001-05-25 10:57:36Z craftit $"
 //! lib=RavlNet
 //! file="Ravl/OS/Network/Packet.cc"
 

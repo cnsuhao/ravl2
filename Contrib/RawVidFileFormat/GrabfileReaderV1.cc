@@ -235,8 +235,8 @@ BufferC<char> GrabfileReaderV1C::GetNextFrame()
         obuf = 0;
         delete vbuf;
         delete obuf;
-        audio = 0;
-        video = 0;
+        audio = BufferC<char>();
+        video = BufferC<char>();
 #if (RAVL_COMPILER_GCC3)   /* gcc 3.x work around for gcc as mem dosent seem to get deleted.*/
         return BufferC<char> (osize, nextframe.BufferAccess().DataStart(), true, false);
 #else
@@ -276,8 +276,8 @@ BufferC<UInt16T> GrabfileReaderV1C::GetNextFrame16T()
          }
          poin = 0;
          charpoin = 0;
-         audio = 0;
-         video = 0;
+         audio = BufferC<char>();
+         video = BufferC<char>();
          delete poin;
          delete charpoin; 
          return BufferC<UInt16T> (video.Size(),uint16tvideo.BufferAccess().DataStart(),true,false);
@@ -342,8 +342,8 @@ BufferC<UInt16T> GrabfileReaderV1C::GetNextFrame16T()
         videoptr = 0;
         delete nextTenPtr;
         delete videoptr;
-        audio = 0;
-        video = 0;
+        audio = BufferC<char>();
+        video = BufferC<char>();
         return BufferC<UInt16T> (buffertoconvert.Size(), buffertoconvert.BufferAccess().DataStart(), true, false);
       }
   }

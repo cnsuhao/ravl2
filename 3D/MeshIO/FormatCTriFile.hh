@@ -7,7 +7,7 @@
 #ifndef RAVL_CTRIFORMAT_HEADER
 #define RAVL_CTRIFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FormatCTriFile.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=Ravl3DIO
 //! author="Jonathan Starck"
 //! docentry="Ravl.API.3D.IO.Formats"

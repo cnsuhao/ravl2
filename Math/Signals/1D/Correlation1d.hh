@@ -7,7 +7,7 @@
 #ifndef RAVLCORRELATION1D_HEADER
 #define RAVLCORRELATION1D_HEADER 1
 //////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Correlation1d.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! userlevel=Normal
 //! docentry="Ravl.API.Math.Signals.1D"
 //! lib=RavlMath

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: GenBinStream.cc 2624 2003-03-31 12:31:00Z muntoni $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/GenBinStream.cc"
 

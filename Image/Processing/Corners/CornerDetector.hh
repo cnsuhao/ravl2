@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_CORNERDETECTOR_HEADER
 #define RAVLIMAGE_CORNERDETECTOR_HEADER 1
 ////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: CornerDetector.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Corner Detection"
 //! date="20/7/2002"

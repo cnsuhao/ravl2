@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! date="10.6.97"
 //! docentry="Ravl.API.OS.File System"
-//! rcsid="$Id$"
+//! rcsid="$Id: Filename.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! example=exFilename.cc
 
 #include "Ravl/String.hh"

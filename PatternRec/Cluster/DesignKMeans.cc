@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignKMeans.cc 3913 2004-01-30 10:57:00Z craftit $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Cluster/DesignKMeans.cc"
 

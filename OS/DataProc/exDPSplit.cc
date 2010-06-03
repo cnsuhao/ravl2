@@ -6,7 +6,7 @@
 // file-header-ends-here
 ////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: exDPSplit.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlDPMT
 //! docentry="Ravl.API.Core.Data Processing.Split"
 //! date="21/07/1998"

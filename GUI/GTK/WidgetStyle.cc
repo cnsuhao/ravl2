@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: WidgetStyle.cc 7107 2009-02-10 14:01:17Z craftit $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/WidgetStyle.cc"
 

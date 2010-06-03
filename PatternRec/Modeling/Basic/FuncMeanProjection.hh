@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_FUNCMEANPROJECTION_HEADER
 #define RAVL_FUNCMEANPROJECTION_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: FuncMeanProjection.hh 6820 2008-05-30 14:30:11Z ees1wc $"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Pattern Recognition.Numerical Modeling"

@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_PIXELMIXER_HEADER 
 #define RAVLIMAGE_PIXELMIXER_HEADER 1
 ////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: PixelMixer.hh 6440 2007-11-13 18:11:20Z ees1wc $"
 //! docentry="Ravl.API.Images.Scaling and Warping"
 //! author="Charles Galambos"
 //! lib=RavlImageProc

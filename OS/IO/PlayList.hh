@@ -7,7 +7,7 @@
 #ifndef RAVL_DPPLAYLIST_HEADER
 #define RAVL_DPPLAYLIST_HEADER 1
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: PlayList.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/OS/IO/PlayList.hh"
 //! lib=RavlOSIO
 //! userlevel=Normal

@@ -7,7 +7,7 @@
 #ifndef RAVL_TRIGGER_HEADER
 #define RAVL_TRIGGER_HEADER 1
 //////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Trigger.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/Base/Trigger.hh"
 //! lib=RavlCore
 //! userlevel=Default

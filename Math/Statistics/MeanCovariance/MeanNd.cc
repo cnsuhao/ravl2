@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: MeanNd.cc 3018 2003-06-04 10:51:26Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/MeanCovariance/MeanNd.cc"
 

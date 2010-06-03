@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_CURSOR_HEADER
 #define RAVLGUI_CURSOR_HEADER
 ////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Cursor.hh 6893 2008-07-09 15:23:17Z ees1wc $"
 //! file="Ravl/GUI/GTK/Cursor.hh"
 //! lib=RavlGUI
 //! docentry="Ravl.API.Graphics.GTK.Layout"

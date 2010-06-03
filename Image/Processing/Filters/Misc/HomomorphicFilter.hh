@@ -9,12 +9,15 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Filtering"
-//! rcsid="$Id$"
+//! rcsid="$Id: HomomorphicFilter.hh 7517 2010-02-15 10:35:14Z craftit $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Filters/Misc/HomomorphicFilter.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/FFT2d.hh"
+#include "Ravl/Cache.hh"
+#include "Ravl/Tuple3.hh"
+#include "Ravl/Threads/RWLock.hh"
 
 namespace RavlImageN {
   
@@ -43,14 +46,18 @@ namespace RavlImageN {
     //: Access current depth.
     
   protected:
-    bool Init(const  Index2dC &size);
-    //: Setup the filter.
+    bool InitFilter(const Index2dC &size,Tuple3C<FFT2dC,FFT2dC, ImageC<RealT> > &filter);
+    //: Setup the filter. This does no locking.
     
+    bool UseFilter(const Index2dC &size,Tuple3C<FFT2dC,FFT2dC, ImageC<RealT> > &filter);
+    //: Initialise a filter.
+
     RealT sigma;
     RealT depth;
-    FFT2dC fwd; // Forward FFT.
-    ImageC<RealT> filter;
-    FFT2dC bkw; // Backward FFT.
+    
+    CacheC<Index2dC, Tuple3C<FFT2dC,FFT2dC, ImageC<RealT> > > m_cache;
+    RWLockC m_lock; //!< A lock
+    
   };
   
   //! userlevel=Normal

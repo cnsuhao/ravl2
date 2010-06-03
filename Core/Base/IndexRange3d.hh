@@ -11,7 +11,7 @@
 //! lib=RavlCore
 //! author="Radek Marik"
 //! docentry="Ravl.API.Core.Indexing"
-//! rcsid="$Id$"
+//! rcsid="$Id: IndexRange3d.hh 7559 2010-02-18 13:51:01Z craftit $"
 //! date="06/08/1995"
 //! userlevel=Normal
 
@@ -163,7 +163,7 @@ namespace RavlN {
     //: Get size of range as an Index3dC.
     
     inline SizeT Volume() const
-    { return (SizeT) Is() * Js() * Ks(); }
+    { return static_cast<SizeT>(Is() * Js() * Ks()); }
     //: Returns the volume of the prism expressed in number of indexs.
     
     inline IndexRange3dC Dilate() const 
@@ -303,8 +303,8 @@ namespace RavlN {
                            Range3().AlignWithin(alignment)); }
     //: Return a range within this range that has start and end points which are integer multples of 'alignment' 
     
-    UIntT Hash() const {
-      UIntT ret = is.Hash();
+    SizeT Hash() const {
+      SizeT ret = is.Hash();
       ret += ret << 11;
       ret += js.Hash();
       ret += ret << 11;

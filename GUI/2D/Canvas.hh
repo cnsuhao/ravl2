@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! example=exCanvas.cc
 //! date="17/03/1999"
-//! rcsid="$Id$"
+//! rcsid="$Id: Canvas.hh 6905 2008-08-07 09:03:31Z ees1wc $"
 
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/Image/Image.hh"

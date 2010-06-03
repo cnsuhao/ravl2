@@ -7,7 +7,7 @@
 #ifndef RAVL_MATRIXC_HEADER
 #define RAVL_MATRIXC_HEADER 1
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Matrix.hh 7637 2010-03-02 16:56:49Z alexkostin $"
 //! file="Ravl/Math/LinearAlgebra/General/Matrix.hh"
 //! lib=RavlMath
 //! userlevel=Normal
@@ -23,6 +23,7 @@ namespace RavlN {
   class VectorC;
   class VectorMatrixC;
   
+
   //! userlevel=Normal
   //: Matrix of real values.
   
@@ -91,14 +92,14 @@ namespace RavlN {
       : TMatrixC<RealT>(oth.Size1(),oth.Size2())
     {
       for(BufferAccess2dIter2C<RealT,FloatT> it(*this,Size2(),oth,Size2());it;it++)
-	it.Data1() = static_cast<RealT>(it.Data2());
+        it.Data1() = static_cast<RealT>(it.Data2());
     }
     //: Convert from a float vector.
     
     operator TMatrixC<FloatT> () const {
       TMatrixC<FloatT> ret(Size(),Size());
       for(BufferAccess2dIter2C<RealT,FloatT> it(*this,Size2(),ret,Size2());it;it++)
-	it.Data2() = static_cast<FloatT>(it.Data1());
+        it.Data2() = static_cast<FloatT>(it.Data1());
       return ret;
     }
     //: Convert to a float vector.

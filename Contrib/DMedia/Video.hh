@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_DMEDIAVIDEO_HEADER
 #define RAVLIMAGE_DMEDIAVIDEO_HEADER 1
 ///////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Video.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/DMedia/Video.hh"
 //! lib=RavlDMedia
 //! userlevel=Default

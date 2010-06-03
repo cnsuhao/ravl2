@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DevAudioIO.cc 7402 2009-12-03 18:03:40Z robowaz $"
 //! lib=RavlDevAudio
 //! author="Charles Galambos"
 //! file="Ravl/Contrib/Audio/DevAudio/DevAudioIO.cc"
@@ -17,6 +17,7 @@
 #include <sys/soundcard.h>
 #include <unistd.h>
 #include <errno.h>
+#include <stdio.h>
 #endif
 
 #include "Ravl/Audio/DevAudioIO.hh"

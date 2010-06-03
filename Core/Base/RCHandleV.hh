@@ -9,7 +9,7 @@
 //! docentry="Ravl.API.Core.Reference Counting"
 //! lib=RavlCore
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: RCHandleV.hh 7302 2009-10-09 14:00:07Z craftit $"
 //! author="Charles Galambos"
 //! example=exRefCounterInherit.cc
 //! file="Ravl/Core/Base/RCHandleV.hh"

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DataSetBase.cc 1099 2002-05-07 16:48:50Z craftit $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/DataSetBase.cc"
 

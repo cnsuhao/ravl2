@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_COMPILERHINTS_HEADER
 #define RAVL_COMPILERHINTS_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: CompilerHints.hh 3668 2003-11-14 11:49:27Z craftit $"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! file="Ravl/Core/Base/CompilerHints.hh"

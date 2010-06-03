@@ -7,7 +7,7 @@
 #ifndef RAVL_BUFFER2D_HEADER
 #define RAVL_BUFFER2D_HEADER 1
 ///////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Buffer2d.hh 5261 2005-12-13 15:20:20Z craftit $"
 //! file="Ravl/Core/Container/Buffer/Buffer2d.hh"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Arrays.Buffer"

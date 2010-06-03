@@ -4,8 +4,6 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 
-#NOSHAREDLIBDEPENDS=1
-
 DONOT_SUPPORT=VCPP
 
 REQUIRES=Swig SwigPython
@@ -17,6 +15,8 @@ HEADERS=
 SOURCES=Ravl.i
 
 PLIB=RavlPythonSwig
+
+SINGLESO=_RavlPython
 
 USESLIBS=RavlDPDisplay.opt RavlCore RavlMath RavlImage RavlImageIO Python RavlNet RavlOSIO
 

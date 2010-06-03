@@ -12,7 +12,7 @@
 //! userlevel=Advanced
 //! date="2/4/1998"
 //! docentry="Ravl.API.Source Tools.Code Manager"
-//! rcsid="$Id$"
+//! rcsid="$Id: SourceCodeManager.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlSourceTools
 
 #include "Ravl/RefCounter.hh"

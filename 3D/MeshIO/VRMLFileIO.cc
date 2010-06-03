@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: VRMLFileIO.cc 6372 2007-10-02 15:06:42Z alexkostin $"
 //! lib=Ravl3DIO
 //! file="Ravl/3D/MeshIO/VRMLFileIO.cc"
 

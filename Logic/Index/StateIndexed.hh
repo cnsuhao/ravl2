@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! userlevel=Normal
 //! docentry="Ravl.API.Logic.Index"
-//! rcsid="$Id$"
+//! rcsid="$Id: StateIndexed.hh 6678 2008-03-18 22:50:19Z craftit $"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Index/StateIndexed.hh"
 

@@ -1,6 +1,6 @@
 #if !defined(RAVL_GRABFILEWRITER_HEADER)
 #define RAVL_GRABFILEWRITER_HEADER
-//! rcsid="$Id$"
+//! rcsid="$Id: $"
 //! author="Simon Tredwell"
 //! docentry="Ravl.API.Images.Video.Video IO.RawVid"
 //! lib=RawVid

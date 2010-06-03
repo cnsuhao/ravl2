@@ -7,7 +7,7 @@
 #ifndef RAVL_SBFACCITER5_HEADER
 #define RAVL_SBFACCITER5_HEADER 1
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BfAccIter5.hh 6637 2008-03-03 11:31:27Z craftit $"
 //! file="Ravl/Core/Container/Buffer/BfAccIter5.hh"
 //! author="Charles Galambos"
 //! lib=RavlCore

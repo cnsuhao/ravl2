@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_MPEGFORMAT_HEADER
 #define RAVLIMAGE_MPEGFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MPEGIFormat.hh 3317 2003-08-20 14:50:13Z ees1wc $"
 //! file="Ravl/Image/ExternalImageIO/TiffFormat.hh"
 //! lib=RavlMPEG
 //! author="Charles Galambos"

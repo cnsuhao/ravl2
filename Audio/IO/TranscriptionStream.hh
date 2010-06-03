@@ -9,7 +9,7 @@
 //! docentry="Ravl.API.Audio.Feature Extraction"
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: TranscriptionStream.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlAudioIO
 //! examples=exTranscriptionStream.cc
 //! file="Ravl/Audio/IO/TranscriptionStream.hh"

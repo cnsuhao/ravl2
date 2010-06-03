@@ -13,7 +13,7 @@
 //! author="Radek Marik"
 //! date="26/06/1994"
 //! docentry="Ravl.API.Images.Boundaries;Ravl.API.Math.Geometry.2D.Boundary"
-//! rcsid="$Id$"
+//! rcsid="$Id: BVertex.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/Index2d.hh"
 #include "Ravl/Point2d.hh"

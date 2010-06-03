@@ -7,7 +7,7 @@
 #ifndef RAVL_DPSPORTATTACH_HEADER
 #define RAVL_DPSPORTATTACH_HEADER 1
 ////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SPortAttach.hh 7381 2009-11-17 16:54:46Z robowaz $"
 //! docentry="Ravl.API.Core.Data Processing.Seekable Ports" 
 //! file="Ravl/Core/IO/SPortAttach.hh"
 //! lib=RavlIO

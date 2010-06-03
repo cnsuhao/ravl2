@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 /**********************************************************************************
-//! rcsid="$Id$"
+//! rcsid="$Id: untouch.cc 5747 2006-07-19 07:57:14Z craftit $"
 //! file="Ravl/QMake/untouch.cc"
  * untouch, check that a file is at least a second old. (if it exists).
  */

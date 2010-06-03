@@ -8,7 +8,7 @@
 #define _D_PINHOLE_CAMERA_0_
 ///////////////////////////////////////////////////
 //! docentry="Ravl.API.Graphics.3D"
-//! rcsid="$Id$"
+//! rcsid="$Id: DPinholeCamera03D.hh 6701 2008-04-09 16:07:40Z ees1wc $"
 //! file="Ravl/GUI/3D/DPointSet3D.hh"
 //! lib=RavlGUI3D
 //! author="Joel Mitchelson"

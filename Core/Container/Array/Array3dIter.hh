@@ -12,7 +12,7 @@
 //! userlevel=Basic
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Arrays.3D"
-//! rcsid="$Id$"
+//! rcsid="$Id: Array3dIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! example=exArray2.cc
 //! date="24/08/1999"
 

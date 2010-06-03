@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MTLockImpl.cc 5847 2006-08-24 08:49:50Z craftit $"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Posix/MTLockImpl.cc"
 

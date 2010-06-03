@@ -1,4 +1,4 @@
-//! rcsid="$Id$"
+//! rcsid="$Id: aamCombineActiveAppearanceModel.cc 5468 2006-04-26 14:39:15Z sevynaej $"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/aamCombineActiveAppearanceModel.hh"
 //! docentry="Ravl.API.Images.AAM"

@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////
 //! docentry="Ravl.API.Core.Arrays.Buffer"
 //! file="Ravl/Core/Container/Buffer/SingleBuffer.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: SingleBuffer.hh 7563 2010-02-18 16:41:12Z craftit $"
 //! lib=RavlCore
 //! userlevel=Advanced
 //! author="Charles Galambos"
@@ -171,7 +171,7 @@ namespace RavlN {
       // Align memory
       char *buf = reinterpret_cast<char *>(&(this[1]));
       SizeT alignm1 = align-1;
-      this->buff = reinterpret_cast<DataT *>(buf + ((align - (((SizeT) buf) & alignm1)) & alignm1));
+      this->buff = reinterpret_cast<DataT *>(buf + ((align - (((size_t) buf) & alignm1)) & alignm1));
       
       // Construct array
 #if RAVL_COMPILER_GCC43

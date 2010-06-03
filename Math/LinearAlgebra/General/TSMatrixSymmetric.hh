@@ -7,7 +7,7 @@
 #ifndef RAVL_TSMATRIXSYMMETRIC_HEADER
 #define RAVL_TSMATRIXSYMMETRIC_HEADER 1
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TSMatrixSymmetric.hh 5382 2006-03-04 10:47:38Z craftit $"
 //! date="15/8/2002"
 //! lib=RavlMath
 //! docentry="Ravl.API.Math.Linear Algebra.Smart Matrix"

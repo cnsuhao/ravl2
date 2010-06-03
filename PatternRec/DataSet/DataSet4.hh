@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_DATASET4_HEADER
 #define RAVL_DATASET4_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: DataSet4.hh 7569 2010-02-19 10:31:32Z craftit $"
 //! author="Kieron Messer"
 //! docentry="Ravl.API.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
@@ -45,7 +45,7 @@ namespace RavlN {
 		  const Sample4T & samp4);
     //: Create a dataset from a sample
     
-    UIntT Append(const Element1T &data1,
+    IndexC Append(const Element1T &data1,
 		 const Element2T &data2,
 		 const Element3T &data3,
 		 const Element4T &data4);
@@ -129,7 +129,7 @@ namespace RavlN {
     { return Body().Sample4(); }
     //: Access complete sample.
     
-    UIntT Append(const Element1T &data1,const Element2T &data2,const Element3T &data3,const Element4T &data4)
+    IndexC Append(const Element1T &data1,const Element2T &data2,const Element3T &data3,const Element4T &data4)
     { return Body().Append(data1,data2,data3,data4); }
     //: Append a data entry.
     // returns its index.
@@ -194,22 +194,22 @@ namespace RavlN {
   {}
   
   template<class Sample1T,class Sample2T,class Sample3T,class Sample4T>
-  UIntT DataSet4BodyC<Sample1T,Sample2T,Sample3T,Sample4T>::Append(const Element1T &data1,const Element2T &data2,
+  IndexC DataSet4BodyC<Sample1T,Sample2T,Sample3T,Sample4T>::Append(const Element1T &data1,const Element2T &data2,
 								   const Element3T &data3,const Element4T &data4) {
-    UIntT no1 = this->samp1.Append(data1);
+    IndexC no1 = this->samp1.Append(data1);
 #if RAVL_CHECK
     // This avoids an unused variable warning where RavlAssert() is not used.
-    UIntT no2 = 
+    IndexC no2 =
 #endif
       this->samp2.Append(data2);
 #if RAVL_CHECK
     // This avoids an unused variable warning where RavlAssert() is not used.
-    UIntT no3 = 
+    IndexC no3 =
 #endif
       this->samp3.Append(data3);
 #if RAVL_CHECK
     // This avoids an unused variable warning where RavlAssert() is not used.
-    UIntT no4 = 
+    IndexC no4 =
 #endif
       samp4.Append(data4);
     RavlAssert(no1==no2 && no1==no3 && no1==no4);
@@ -227,11 +227,11 @@ namespace RavlN {
   template<class Sample1T,class Sample2T,class Sample3T,class Sample4T>
   DataSet4C<Sample1T,Sample2T,Sample3T,Sample4T> DataSet4BodyC<Sample1T,Sample2T,Sample3T,Sample4T>::ExtractSample(RealT proportion) {
     RavlAssert(proportion >= 0 && proportion <= 1);
-    UIntT size = this->Size();
-    UIntT entries = (UIntT) (proportion * (RealT) size);
+    SizeT size = this->Size();
+    SizeT entries = (UIntT) (proportion * (RealT) size);
     DataSet4C<Sample1T,Sample2T,Sample3T,Sample4T> ret(size);
     for(;entries > 0;entries--) {
-      UIntT entry = RandomInt() % size;
+      SizeT entry = RandomInt() % size;
       ret.Append(this->samp1.PickElement(entry),
                  this->samp2.PickElement(entry),
                  this->samp3.PickElement(entry),
@@ -243,7 +243,7 @@ namespace RavlN {
   
   template<class Sample1T,class Sample2T,class Sample3T,class Sample4T>
   void DataSet4BodyC<Sample1T,Sample2T,Sample3T,Sample4T>::Shuffle() {
-    UIntT size = this->Size();
+    SizeT size = this->Size();
     for(DArray1dIter4C<Element1T,Element2T,Element3T,Element4T> it(this->Sample1().DArray(),
                                                                    this->Sample2().DArray(),
                                                                    this->Sample3().DArray(),

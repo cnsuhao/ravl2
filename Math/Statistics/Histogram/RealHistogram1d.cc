@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: RealHistogram1d.cc 6183 2007-06-07 15:13:26Z ees1wc $"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/Histogram/RealHistogram1d.cc"
 

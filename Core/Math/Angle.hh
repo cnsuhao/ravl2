@@ -12,7 +12,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Math"
-//! rcsid="$Id$"
+//! rcsid="$Id: Angle.hh 7334 2009-10-26 17:21:58Z cyberplug $"
 //! date="09/02/1998"
 
 #include "Ravl/StdMath.hh"

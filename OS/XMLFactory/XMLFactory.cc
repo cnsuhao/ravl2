@@ -137,7 +137,14 @@ namespace RavlN {
   //! Create component in node.
   
   bool XMLFactoryNodeC::CreateComponent(XMLFactoryC &factory) {
-    return factory.CreateComponentInternal(*this,m_component);
+    if(m_createComponentCalled) {
+      SysLog(SYSLOG_ERR,"XMLFactory detected a recursive create loop in %s ",Path().chars());
+      return false;
+    }
+    m_createComponentCalled = true;
+    bool ret = factory.CreateComponentInternal(*this,m_component);
+    m_createComponentCalled = false;
+    return ret;
   }
   
   
@@ -150,7 +157,8 @@ namespace RavlN {
   {
     XMLFactoryNodeC::RefT child;
     if(!FollowPath(name,child) || !child.IsValid()) {
-      SysLog(SYSLOG_DEBUG,"Failed to follow path '%s' from '%s' children:",name.chars(),Path().chars());
+      SysLog(SYSLOG_DEBUG," follow path '%s' from '%s' children:",name.chars(),Path().chars());
+      SysLog(SYSLOG_DEBUG," NOTE: This method will not create components, only reuse existing ones. (Try UseComponent)");
       for(HashIterC<StringC,RefT> it(m_children);it;it++) {
         SysLog(SYSLOG_DEBUG," Child '%s'",it.Key().chars());
       }
@@ -172,7 +180,7 @@ namespace RavlN {
     handle = RavlN::SystemTypeConverter().DoConversion(child->Component().Abstract(),from,to);
     if(!handle.IsValid()) {
       if(!silentError)
-        SysLog(SYSLOG_WARNING,"Failed to convert data to requested type, from '%s' to '%s' ",RavlN::TypeName(from),RavlN::TypeName(to));
+        SysLog(SYSLOG_WARNING," convert data to requested type, from '%s' to '%s' ",RavlN::TypeName(from),RavlN::TypeName(to));
       return false;
     }
     return true;
@@ -197,7 +205,7 @@ namespace RavlN {
     
     if(!UsePath(name,child,true,factory.VerboseMode()) || !child.IsValid()) {
       if(!silentError) {
-        SysLog(SYSLOG_ERR,"Failed to find path to requested type, '%s' from path '%s' ",name.chars(),Path().chars());
+        SysLog(SYSLOG_ERR," find path to requested type, '%s' from path '%s' ",name.chars(),Path().chars());
         //Dump(std::cerr);
         //XMLNode().Dump(std::cerr);
       }
@@ -217,7 +225,7 @@ namespace RavlN {
     if(!child->Component().IsValid()) {
       if(!child->CreateComponent(factory)) {
         if(!silentError)
-          SysLog(SYSLOG_ERR,"Failed to create component '%s' ",name.chars());
+          SysLog(SYSLOG_ERR," create component '%s' ",name.chars());
         return false;
       }
       RavlAssert(child->Component().IsValid());
@@ -234,7 +242,7 @@ namespace RavlN {
     handle = RavlN::SystemTypeConverter().DoConversion(child->Component().Abstract(),from,to);
     if(!handle.IsValid()) {
       if(!silentError)
-        SysLog(SYSLOG_ERR,"Failed to convert data to requested type, from '%s' to '%s' ",RavlN::TypeName(from),RavlN::TypeName(to));
+        SysLog(SYSLOG_ERR," convert data to requested type, from '%s' to '%s' ",RavlN::TypeName(from),RavlN::TypeName(to));
       return false;
     }
     ONDEBUG(SysLog(SYSLOG_DEBUG,"UseComponentInternal, successfull @ '%s' ",name.chars()));
@@ -250,7 +258,7 @@ namespace RavlN {
     for(RavlN::DLIterC<StringC> it(pathElements);it;it++) {
       XMLFactoryNodeC::RefT atNext;
       if(!at->UseChild(*it,atNext,false) || !atNext.IsValid()) {
-        SysLog(SYSLOG_DEBUG,"Failed to create path. '%s' at '%s'",name.chars(),it->chars());
+        SysLog(SYSLOG_DEBUG," create path. '%s' at '%s'",name.chars(),it->chars());
         return false;
       }
       at = atNext;         
@@ -378,10 +386,10 @@ namespace RavlN {
   bool XMLFactoryContextC::ChildContext(const StringC &key,XMLFactoryContextC &child) const {
     if(!m_iNode.IsValid())
       return false;
-    XMLTreeC childTree;
-    if(!m_iNode->XMLNode().Child(key,childTree))
+    XMLFactoryNodeC::RefT childNode;
+    if(!m_iNode->UseChild(key,childNode)) {
       return false;
-    XMLFactoryNodeC::RefT childNode = new XMLFactoryNodeC(childTree,*m_iNode);
+    }
     child = XMLFactoryContextC(Factory(),*childNode);
     return true;
   }
@@ -470,14 +478,14 @@ namespace RavlN {
     SysLog(SYSLOG_DEBUG,"Loading config '%s' ",configFile.chars());
     RavlN::XMLIStreamC istrm(m_masterConfigFilename);
     if(!istrm) {
-      SysLog(SYSLOG_ERR,"Failed to open config file '%s' ",configFile.chars());
+      SysLog(SYSLOG_ERR," open config file '%s' ",configFile.chars());
       m_setupClean = false;
       return false;
     }
     
     m_configRoot = XMLTreeC(true);
     if(!m_configRoot.Read(istrm)) {
-      SysLog(SYSLOG_ERR,"Failed to parse config file. '%s' ",configFile.chars());
+      SysLog(SYSLOG_ERR," parse config file. '%s' ",configFile.chars());
       m_setupClean = false;
       return false;
     }
@@ -535,7 +543,7 @@ namespace RavlN {
       //SysLog(SYSLOG_DEBUG,"Found preload section. ");
       XMLFactoryNodeC::RefT preLoadNode;
       if(!m_iRoot->UseChild("Preload",preLoadNode)) {
-        RavlAssertMsg(0,"Failed to create preload section.");
+        RavlAssertMsg(0," create preload section.");
         SysLog(SYSLOG_ERR,"Unexpected error creating preload section. ");
         return false;
       }
@@ -553,7 +561,7 @@ namespace RavlN {
         // Create the component here in the tree.
         childNode = new XMLFactoryNodeC(*it,*preLoadNode);
         if(!CreateComponentInternal(*childNode,childNode->m_component)) 
-          continue; // We failed to create the node, the reason should have already been reported.
+          continue; // We  create the node, the reason should have already been reported.
         
         // Is this component intended for elsewhere in the tree ?
         StringC componentName = it->AttributeString("component","");
@@ -575,7 +583,7 @@ namespace RavlN {
                                              const RavlN::StringC &name,
                                              const std::type_info &type) const 
   {
-    SysLog(SYSLOG_ERR,"Failed to find component '%s', to create type '%s'. Path=%s ",name.chars(),RavlN::TypeName(type),currentNode.Path().chars());
+    SysLog(SYSLOG_ERR," find component '%s', to create type '%s'. Path=%s ",name.chars(),RavlN::TypeName(type),currentNode.Path().chars());
   }
 
   //! Create a component
@@ -587,7 +595,7 @@ namespace RavlN {
       
       SysLog(SYSLOG_DEBUG,"Loading component, Name='%s' ",node.Name().chars());
       if(!RavlN::LoadAbstract(loadFilename,rawHandle,"",false)) {
-	SysLog(SYSLOG_ERR,"Failed to load node '%s' from '%s'",node.Name().chars(),loadFilename.chars());
+	SysLog(SYSLOG_ERR," load node '%s' from '%s'",node.Name().chars(),loadFilename.chars());
 	return false;
       }
       
@@ -609,7 +617,7 @@ namespace RavlN {
       rawHandle = (*tf)(createNode);
       
       if(!rawHandle.IsValid())
-        SysLog(SYSLOG_WARNING,"Factory failed to create node of type '%s' \n",typeToMake.chars()); 
+        SysLog(SYSLOG_WARNING,"Factory  create node of type '%s' \n",typeToMake.chars());
     }
     
     // Can we auto start this ?

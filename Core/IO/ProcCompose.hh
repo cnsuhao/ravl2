@@ -11,7 +11,7 @@
 //! docentry="Ravl.API.Core.Data Processing.Internal" 
 //! author="Charles Galambos"
 //! example=exDPMultiplex.cc
-//! rcsid="$Id$"
+//! rcsid="$Id: ProcCompose.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/IO/ProcCompose.hh"
 //! date="04/07/1998"
 //! userlevel=Default

@@ -7,7 +7,7 @@
 #ifndef RAVL_DPPIPE_HEADER
 #define RAVL_DPPIPE_HEADER 1
 ////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Pipes.hh 7483 2010-01-22 14:08:44Z craftit $"
 //! file="Ravl/Core/IO/Pipes.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
@@ -36,7 +36,8 @@ namespace RavlN {
     DPIPipeBaseBodyC(const DPEntityC &nhold = DPEntityC(true),FuncT nAuxOp = 0)
       : forceReady(false),
 	forceNotEOS(false),
-	hold(nhold)
+	hold(nhold),
+	auxOp(nAuxOp)
     {}
     //: Default constructor.
     
@@ -73,7 +74,9 @@ namespace RavlN {
     //: Function ptr.
   
     DPOPipeBaseBodyC(const DPEntityC &nhold = DPEntityC(true),FuncT nAuxOp = 0)
-      : hold(nhold),
+      : forceReady(false),
+        forceNotEOS(false),
+        hold(nhold),
 	auxOp(nAuxOp)
     {}
     //: Default constructor.

@@ -7,7 +7,7 @@
 #ifndef RAVL_MEAN_HEADER
 #define RAVL_MEAN_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Mean.hh 7294 2009-10-08 14:19:38Z craftit $"
 //! userlevel=Normal
 //! docentry="Ravl.API.Math.Statistics"
 //! lib=RavlMath

@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! date="24/7/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: PointTrack.cc 6757 2008-04-24 13:43:20Z craftit $"
 //! file="Ravl/Image/Processing/Tracking/PointTrack.cc"
 //! lib=RavlImageProc
 

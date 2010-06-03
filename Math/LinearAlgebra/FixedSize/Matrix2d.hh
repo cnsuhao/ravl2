@@ -7,7 +7,7 @@
 #ifndef RAVL_MATRIX2D_HEADER
 #define RAVL_MATRIX2D_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Matrix2d.hh 6144 2007-05-16 20:22:03Z craftit $"
 //! file="Ravl/Math/LinearAlgebra/FixedSize/Matrix2d.hh"
 //! lib=RavlMath
 //! userlevel=Normal

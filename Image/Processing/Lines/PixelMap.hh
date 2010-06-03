@@ -12,7 +12,7 @@
 //! docentry="Ravl.API.Images.Lines"
 //! author="Charles Galambos"
 //! lib=RavlImageProc
-//! rcsid="$Id$"
+//! rcsid="$Id: PixelMap.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/BinList.hh"
 #include "Ravl/Index2d.hh"

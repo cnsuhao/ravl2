@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_CORRELATION_HEADER
 #define RAVLIMAGE_CORRELATION_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: Correlate2d.hh 6980 2008-09-29 16:33:57Z ees1wc $"
 //! lib=RavlImageProc
 //! docentry="Ravl.API.Images.Correlation"
 //! author="Charles Galambos"

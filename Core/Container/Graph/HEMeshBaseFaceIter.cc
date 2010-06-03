@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: HEMeshBaseFaceIter.cc 3073 2003-06-13 07:18:32Z craftit $"
 //! file="Ravl/Core/Container/Graph/HEMeshBaseFaceIter.cc"
 
 #include "Ravl/HEMeshBaseFaceIter.hh"

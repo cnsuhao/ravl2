@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_SUMRECTANGLES_HEADER
 #define RAVLIMAGE_SUMRECTANGLES_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: SumRectangles.hh 6440 2007-11-13 18:11:20Z ees1wc $"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! date="7/1/2003"

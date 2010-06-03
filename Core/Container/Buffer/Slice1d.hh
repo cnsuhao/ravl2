@@ -7,7 +7,7 @@
 #ifndef RAVL_SLICE1D_HEADER
 #define RAVL_SLICE1D_HEADER 1
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Slice1d.hh 7562 2010-02-18 13:56:19Z craftit $"
 //! userlevel=Advanced
 //! file="Ravl/Core/Container/Buffer/Slice1d.hh"
 //! lib=RavlCore
@@ -47,7 +47,7 @@ namespace RavlN {
     Slice1dC(const IndexRangeC &nrng);
     //: Allocate a Slice with a range of 'nrng'
     
-    Slice1dC(BufferC<DataT> &buff,SizeT size,UIntT off,IntT stride = 1);
+    Slice1dC(BufferC<DataT> &buff,SizeT size,SizeT off,IntT stride = 1);
     //: Attach a vector to a buffer.
     // buff   - Buffer in which data is held.
     // size   - Number of elements in the slice.
@@ -255,7 +255,7 @@ namespace RavlN {
   {}
   
   template<class DataT>
-  Slice1dC<DataT>::Slice1dC(BufferC<DataT> &buff,SizeT nsize,UIntT noff,IntT nstride) 
+  Slice1dC<DataT>::Slice1dC(BufferC<DataT> &buff,SizeT nsize,SizeT noff,IntT nstride)
     : rng(nsize),
       stride(nstride),
       ref(&(buff.ReferenceElm()[noff])),

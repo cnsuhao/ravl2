@@ -9,6 +9,8 @@
 //! docentry=Ravl.API.Core.IO.XMLFactory
 
 #include "Ravl/XMLFactoryRegister.hh"
+#include "Ravl/Threads/Signal.hh"
+#include "Ravl/Threads/Signal1.hh"
 
 namespace RavlN {
   
@@ -20,11 +22,25 @@ namespace RavlN {
   static RavlN::RCWrapAbstractC StringFactoryFunc(const XMLFactoryContextC &node)
   { return RavlN::RCWrapC<StringC>(node.AttributeString("value","")); }
 
+  static RavlN::RCWrapAbstractC Signal0FactoryFunc(const XMLFactoryContextC &node)
+  { return RavlN::RCWrapC<Signal0C>(Signal0C(true)); }
+
+  static RavlN::RCWrapAbstractC Signal1BoolFactoryFunc(const XMLFactoryContextC &node)
+  { return RavlN::RCWrapC<Signal1C<bool> >(Signal1C<bool>(node.AttributeBool("value",false))); }
+
+  static RavlN::RCWrapAbstractC Signal1StringFactoryFunc(const XMLFactoryContextC &node)
+  { return RavlN::RCWrapC<Signal1C<StringC> >(Signal1C<StringC>(node.AttributeString("value",""))); }
+
   static int InitStringFactory() {
     RavlN::AddTypeName(typeid(std::string),"std::string");
-    //RavlN::AddTypeName(typeid(StringC),"RavlN::StringC");
+    RavlN::AddTypeName(typeid(Signal0C),"RavlN::Signal0C");
+    RavlN::AddTypeName(typeid(Signal1C<bool>),"RavlN::Signal1C<bool>");
+    RavlN::AddTypeName(typeid(Signal1C<StringC>),"RavlN::Signal1C<RavlN::StringC>");
     XMLFactoryC::RegisterTypeFactory(typeid(std::string),&StdStringFactoryFunc);
     XMLFactoryC::RegisterTypeFactory(typeid(StringC),&StringFactoryFunc);
+    XMLFactoryC::RegisterTypeFactory(typeid(Signal0C),&Signal0FactoryFunc);
+    XMLFactoryC::RegisterTypeFactory(typeid(Signal1C<bool>),&Signal1BoolFactoryFunc);
+    XMLFactoryC::RegisterTypeFactory(typeid(Signal1C<StringC>),&Signal1StringFactoryFunc);
     return 0;
   }
 

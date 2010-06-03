@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_IMGIODV_HEADER
 #define RAVLIMAGE_IMGIODV_HEADER 1
 //////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIODv.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/DV/ImgIODv.hh"
 //! lib=RavlDV
 //! author="Kieron Messer"

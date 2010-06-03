@@ -7,7 +7,7 @@
 #ifndef RAVL_FEATURESELECTASYMMETRICADABOOST_HEADER
 #define RAVL_FEATURESELECTASYMMETRICADABOOST_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FeatureSelectAsymmetricAdaBoost.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlPatternRec
 //! docentry="Ravl.API.Pattern Recognition.Feature Selection"
 //! author="Robert Crida"

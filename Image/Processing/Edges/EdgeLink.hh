@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_EDGELINK_HEADER
 #define RAVLIMAGE_EDGELINK_HEADER 1
 ///////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: EdgeLink.hh 7469 2010-01-20 15:55:48Z ees1wc $"
 //! authors="George Matas, Radek Marik, Charles Galambos"
 //! date="04/07/2000"
 //! docentry="Ravl.API.Images.Edges"
@@ -28,6 +28,10 @@ namespace RavlImageN {
 
   //! userlevel=Normal
   //: Engine for linking edges into chains.
+
+  // The edge information is stored internally in an ImageC<ByteT> object.
+  // Although this has been made public, its use is deprecated and the interpretation of the
+  // pixel values is obscure.
   
   class EdgeLinkC
     : public ImageC<ByteT>
@@ -56,7 +60,7 @@ namespace RavlImageN {
     DListC<DListC<Index2dC> > LinkEdges(bool clearDir = true);
     //: Generate a set of edge lists.
     // If clearDir is true information about pixel neighbours is cleared from
-    // the image after processing is complete. set to false if your not using
+    // the image after processing is complete. Set to false if you are not using
     // the edge image and want to save some time.
     
     DListC<SArray1dC<EdgelC> > LinkEdgels(const ImageC<RealT> & inDrIm, 
@@ -66,7 +70,7 @@ namespace RavlImageN {
                                           );
     //: Generate a set of linked edgels
     // If clearDir is true information about pixel neighbours is cleared from
-    // the image after processing is complete. set to false if your not using
+    // the image after processing is complete. Set to false if you are not using
     // the edge image and want to save some time.
     
     SArray1dC<Index2dC> ListEdges();

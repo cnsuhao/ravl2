@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Canvas.cc 7083 2009-02-03 14:43:41Z craftit $"
 //! lib=RavlGUI2D
 //! file="Ravl/GUI/2D/Canvas.cc"
 

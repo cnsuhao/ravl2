@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: MosaicBuilder.cc 7040 2008-11-24 15:26:58Z ees1wc $"
 //! file="Ravl/Image/Processing/Tracking/MosaicBuilder.cc"
 //! lib=RavlImageProc
 

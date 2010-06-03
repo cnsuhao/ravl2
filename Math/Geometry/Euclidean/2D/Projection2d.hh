@@ -7,7 +7,7 @@
 #ifndef RAVL_PROJECTION2D_HEADER
 #define RAVL_PROJECTION2D_HEADER 1
 /////////////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Projection2d.hh 7431 2009-12-15 17:08:06Z ees1wc $"
 //! author="Charles Galambos"
 //! lib=RavlMath
 //! date="17/10/2002"
@@ -20,6 +20,7 @@
 #include "Ravl/Matrix2d.hh"
 #include "Ravl/Point2d.hh"
 #include "Ravl/LineABC2d.hh"
+#include "Ravl/LinePP2d.hh"
 #include "Ravl/FAffine.hh"
 
 namespace RavlN {
@@ -76,7 +77,6 @@ namespace RavlN {
     //!param: Iz, Oz - the projective scale values for the input and output vectors
     // The ambiguous parameters that are not specified by the affine transform are set to 0.
     
-    inline
     Point2dC Project(const Point2dC &pnt) const {
       Vector3dC vo = trans * Vector3dC(pnt[0],pnt[1],iz);
       return Point2dC(oz*vo[0]/vo[2],oz*vo[1]/vo[2]);          
@@ -87,7 +87,6 @@ namespace RavlN {
     { return Project(pnt); }
     //: Project a point through the transform.
     
-    inline
     LineABC2dC Project(const LineABC2dC &line) const {
       Vector3dC vo = trans.Inverse() * Vector3dC(line.A(),line.B(),line.C()/iz);
       return LineABC2dC(vo[0],vo[1],vo[2]*oz);          
@@ -97,6 +96,16 @@ namespace RavlN {
     
     LineABC2dC operator*(const LineABC2dC &line) const
     { return Project(line); }
+    //: Project a line through the transform.
+    // Current implementation is slow, as it inverts the projection each time the method is called.
+
+    LinePP2dC Project(const LinePP2dC &line) const
+    { return LinePP2dC(this->Project(line[0]),this->Project(line[1])); }
+    //: Project a line through the transform.
+    // Current implementation is slow, as it inverts the projection each time the method is called.
+    
+    LinePP2dC operator*(const LinePP2dC &line) const
+    { return LinePP2dC(this->Project(line[0]),this->Project(line[1])); }
     //: Project a line through the transform.
     // Current implementation is slow, as it inverts the projection each time the method is called.
 

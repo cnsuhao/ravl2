@@ -7,7 +7,7 @@
 #ifndef RAVL_DELAUNAYTRIANGULATION2D_HEADER
 #define RAVL_DELAUNAYTRIANGULATION2D_HEADER 1
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: DelaunayTriangulation2d.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlMath
 //! userlevel=Normal
 //! docentry="Ravl.API.Math.Geometry.2D"

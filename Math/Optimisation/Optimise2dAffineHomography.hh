@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: Optimise2dAffineHomography.hh 7441 2009-12-23 17:29:00Z ees1wc $"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation2.Examples"
 //! example="Affine2dFitTest.cc"
 //! lib=RavlOptimise
@@ -21,7 +21,7 @@
 
 namespace RavlN {
 
-  //: Shrink-wrap affine homography fitting function
+  //: Shrink-wrap affine projection fitting function
   // <ul>
   //  <li> matchList: A list of 2D point pair matches on two planes.
   //  <li> varScale: The ratio of outlier and inlier error standard deviations.

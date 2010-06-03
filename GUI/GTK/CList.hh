@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_CLIST_HEADER
 #define RAVLGUI_CLIST_HEADER 1
 ////////////////////////////////////////////////////////////////
-//! rcsid="$Id$" 
+//! rcsid="$Id: CList.hh 6893 2008-07-09 15:23:17Z ees1wc $" 
 //! file="Ravl/GUI/GTK/CList.hh"
 //! lib=RavlGUI
 //! userlevel=Normal

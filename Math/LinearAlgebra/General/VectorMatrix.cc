@@ -6,7 +6,7 @@
 // file-header-ends-here
 //////////////////////////////////////////////////////////////////
 //! author="Kieron Messer"
-//! rcsid="$Id$"
+//! rcsid="$Id: VectorMatrix.cc 2473 2003-02-27 18:14:27Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/VectorMatrix.cc"
 

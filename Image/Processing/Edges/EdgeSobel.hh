@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_EDGESOBEL_HEADER
 #define RAVLIMAGE_EDGESOBEL_HEADER 1
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: EdgeSobel.hh 7047 2008-11-27 15:25:36Z ees1wc $"
 //! docentry="Ravl.API.Images.Edges"
 //! lib=RavlImageProc
 //! author="Charles Galambos"

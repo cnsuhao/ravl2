@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Filtering"
 //! lib=RavlImageProc
-//! rcsid="$Id$"
+//! rcsid="$Id: ImageExtend.hh 6440 2007-11-13 18:11:20Z ees1wc $"
 //! userlevel=Normal 
 //! file="Ravl/Image/Processing/Filters/Misc/ImageExtend.hh"
 

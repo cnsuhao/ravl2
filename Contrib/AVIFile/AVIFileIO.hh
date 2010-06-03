@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_AVIFILEIO_HEADER
 #define RAVLIMAGE_AVIFILEIO_HEADER 1
 ////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: AVIFileIO.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/AVIFile/AVIFileIO.hh"
 //! lib=RavlAVIFile
 //! example=testAVIFile.cc

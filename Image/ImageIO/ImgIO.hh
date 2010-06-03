@@ -7,7 +7,7 @@
 #ifndef RAVL_IMGIOINIT_HEADER
 #define RAVL_IMGIOINIT_HEADER 1
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIO.hh 6948 2008-09-16 16:17:31Z craftit $"
 //! file="Ravl/Image/ImageIO/ImgIO.hh"
 //! lib=RavlImageIO
 //! userlevel=Develop

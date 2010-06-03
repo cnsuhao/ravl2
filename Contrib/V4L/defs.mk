@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 7068 2009-01-15 10:41:26Z alexkostin $"
 #! file="Ravl/Contrib/V4L/defs.mk"
 #! author="Charles Galambos"
 

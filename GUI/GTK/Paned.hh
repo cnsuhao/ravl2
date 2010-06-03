@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_PANED_HEADER 
 #define RAVLGUI_PANED_HEADER 1
 /////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Paned.hh 6746 2008-04-22 13:30:41Z craftit $"
 //! lib=RavlGUI
 //! docentry="Ravl.API.Graphics.GTK.Layout"
 //! author="Charles Galambos"

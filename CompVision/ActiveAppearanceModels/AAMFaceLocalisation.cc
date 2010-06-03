@@ -331,8 +331,10 @@ namespace RavlImageN {
   }
 
   //: Compute transformation composed of a rotation, translation, and scaling which maps the two eyes from position 'src' to 'dest'.
-  Affine2dC AAMFaceLocalisationBodyC::ComputeSimilarityTransf(const PairC<Point2dC> & src, const PairC<Point2dC> & dest) const {
-
+  Affine2dC AAMFaceLocalisationBodyC::ComputeSimilarityTransf(const PairC<Point2dC> & src,
+                                                                    const PairC<Point2dC> & dest
+                                                                    ) const
+  {
     Point2dC src1(src.A()), src2(src.B()), dest1(dest.A()), dest2(dest.B());
     Vector2dC d1 = src1 - src2;
     Vector2dC d2 = dest1 - dest2;

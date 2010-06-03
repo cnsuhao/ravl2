@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignClassifierGaussianMixture.cc 7590 2010-02-23 12:03:11Z kier $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Classify/DesignClassifierGaussianMixture.cc"
 
@@ -15,6 +15,7 @@
 #include "Ravl/BinStream.hh"
 #include "Ravl/PatternRec/DataSetVectorLabel.hh"
 #include "Ravl/SArray1dIter2.hh"
+#include "Ravl/XMLFactoryRegister.hh"
 
 namespace RavlN {
   
@@ -24,6 +25,12 @@ namespace RavlN {
     : mixtures(nmixtures)
   {}
   
+  DesignClassifierGaussianMixtureBodyC::DesignClassifierGaussianMixtureBodyC(const XMLFactoryContextC & factory)
+    : DesignClassifierSupervisedBodyC(factory),
+      mixtures(factory.AttributeUInt("number_of_mixtures", 1))
+  {
+  }
+
   //: Load from stream.
   
   DesignClassifierGaussianMixtureBodyC::DesignClassifierGaussianMixtureBodyC(istream &strm)
@@ -94,7 +101,12 @@ namespace RavlN {
   }
  
   //////////////////////////////////////////////////////////
+  RavlN::XMLFactoryRegisterHandleConvertC<DesignClassifierGaussianMixtureC, DesignClassifierSupervisedC> g_registerXMLFactoryDesignClassifierGaussianMixture("RavlN::DesignClassifierGaussianMixtureC");
+
   
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(DesignClassifierGaussianMixtureBodyC,DesignClassifierGaussianMixtureC,DesignClassifierSupervisedC);
+
+  void linkDesignClassifierGaussianMixture()
+  {}
   
 }

@@ -30,7 +30,6 @@ namespace RavlGUIN
 }
 %}
 
-
 %include "Ravl/Swig/Types.i"
 %include "Ravl/Swig/Point2d.i"
 %include "Ravl/Swig/Image.i"
@@ -47,4 +46,4 @@ namespace RavlGUIN
 %include "Ravl/Swig/RealRange2d.i"
 %include "Ravl/Swig/Hash.i"
 %include "Ravl/Swig/DPIPort.i"
-
+%include "Ravl/Swig/SmartPtr.i"

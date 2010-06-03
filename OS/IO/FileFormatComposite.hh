@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////
 //! docentry="Ravl.API.Core.Data Processing.Composite" 
 //! lib=RavlOSIO
-//! rcsid="$Id$"
+//! rcsid="$Id: FileFormatComposite.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/OS/IO/FileFormatComposite.hh"
 //! author="Charles Galambos"
 //! date="12/08/1998"

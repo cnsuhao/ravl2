@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ButtonBox.cc 5774 2006-07-27 10:47:28Z robowaz $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/ButtonBox.cc"
 

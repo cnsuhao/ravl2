@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! date="4/1/1997"
 //! docentry="Ravl.API.Logic.Planning"
-//! rcsid="$Id$"
+//! rcsid="$Id: NLPlanner.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/PriQueueL.hh"
 #include "Ravl/Logic/NonLinearPlan.hh"

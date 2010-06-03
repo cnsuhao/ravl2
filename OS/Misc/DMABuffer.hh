@@ -7,7 +7,7 @@
 #ifndef RAVL_DMABUFFER_HEADER
 #define RAVL_DMABUFFER_HEADER 1
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DMABuffer.hh 7588 2010-02-23 10:44:06Z ees1wc $"
 //! docentry="Ravl.API.OS.Hardware"
 //! author="Charles Galambos"
 //! lib=RavlOS
@@ -29,7 +29,7 @@ namespace RavlN {
       : BufferBodyC<DataT>(size,0,false,false)
     {
       raw = new char [((size * sizeof(DataT)) + (align-1))];
-      void *aligned = (void *) ((((SizeT) raw) + (align-1)) & (~(align-1)));
+      void *aligned = (void *) ((((size_t) raw) + (align-1)) & (~(align-1)));
       //cerr << "Raw:" << raw << " Aligned:" << aligned << "\n";
       this->buff = ((DataT *)aligned);
     }

@@ -7,7 +7,7 @@
 #ifndef RAVL_ARRAY3ITER2_HEADER
 #define RAVL_ARRAY3ITER2_HEADER 1
 //////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Array3dIter2.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Core.Arrays.3D"
 //! file="Ravl/Core/Container/Array/Array3dIter2.hh"
 //! lib=RavlCore

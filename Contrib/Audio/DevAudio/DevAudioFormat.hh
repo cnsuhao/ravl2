@@ -11,7 +11,7 @@
 //! docentry="Ravl.API.Audio.IO.Unix"
 //! example=exAudioIO.cc
 //! lib=RavlDevAudio
-//! rcsid="$Id$"
+//! rcsid="$Id: DevAudioFormat.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/Audio/DevAudio/DevAudioFormat.hh"
 
 #include "Ravl/DP/FileFormat.hh"

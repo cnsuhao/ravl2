@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: exComplx.cc 5559 2006-06-08 16:41:34Z ees1wc $"
 //! lib=RavlCore
 //! file="Ravl/Core/Math/exComplx.cc"
 //! userlevel=Normal

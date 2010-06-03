@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: LiteralIO.cc 6062 2007-02-21 09:34:53Z craftit $"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/LiteralIO.cc"
 

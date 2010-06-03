@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_FUNCTION1_HEADER
 #define RAVL_FUNCTION1_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: Function1.hh 7582 2010-02-22 11:47:04Z kier $"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Pattern Recognition.Functions"
@@ -26,6 +26,9 @@ namespace RavlN {
     Function1BodyC()
     { outputSize = 1; }
     //: Default constructor.
+
+    Function1BodyC(const XMLFactoryContextC &factory);
+    //: Construct from XML factory
 
     Function1BodyC(istream &strm);
     //: Load from stream.

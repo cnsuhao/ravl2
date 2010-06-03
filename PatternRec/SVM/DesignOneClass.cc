@@ -11,6 +11,7 @@
 #include "Ravl/PatternRec/DesignOneClass.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
 #include <string.h>
+#include "Ravl/XMLFactoryRegister.hh"
 
 namespace RavlN
 {
@@ -39,7 +40,45 @@ DesignOneClassBodyC::DesignOneClassBodyC(const KernelFunctionC &KernelFunction,
   eps = Eps;
   lambdaThreshold = LambdaThreshold;
 }
+
+
 //---------------------------------------------------------------------------
+DesignOneClassBodyC::DesignOneClassBodyC(const XMLFactoryContextC & factory)
+  : DesignSvmBodyC(factory),
+    c1(factory.AttributeReal("penalty1", 1e3)),
+    c2(factory.AttributeReal("penalty2", 1e3)),
+    toleranceR(factory.AttributeReal("tolerance", 1e-7)),
+    toleranceA(0),
+    eps(factory.AttributeReal("eps", 1e-9)),
+    lambdaThreshold(factory.AttributeReal("lambdaThreshold", 1e-12))
+        
+{
+
+  // from InitMembers....
+  lambdas           = NULL;
+  errorCache        = NULL;
+  sCache            = NULL;
+  trainingSetLabels = NULL;
+  trSetVectorPtrs   = NULL;
+  objectsToUse      = NULL;
+  kernelCache       = NULL;
+
+  trainSubsetSize = 0;
+  trainSetSize = 0;
+  numFeatures = 0;
+
+  callbackFunc = NULL;
+  callbackData = NULL;
+
+  debug = 0;
+
+  if(!factory.UseComponent("KernelFunction", kernelFunction))
+    RavlIssueError("No kernel function specified in XML factory");
+  
+}
+
+
+  //---------------------------------------------------------------------------
 //! Load from stream.
 DesignOneClassBodyC::DesignOneClassBodyC(istream &strm)
                     :DesignSvmBodyC(strm)
@@ -945,5 +984,12 @@ void DesignOneClassBodyC::ReleaseMemory()
   //cout << "DesignOneClassBodyC::ReleaseMemory:ok\n";
 }
 //---------------------------------------------------------------------------
+
+  RavlN::XMLFactoryRegisterHandleConvertC<DesignOneClassC, DesignSvmC> g_registerXMLFactoryDesignOneClass("RavlN::DesignOneClassC");
+  
+  void linkDesignOneClass()
+  {}
+
+
 }
 

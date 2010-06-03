@@ -6,7 +6,7 @@
 // file-header-ends-here
 /////////////////////////////////////////////////
 //! docentry="Graphics.GTK.Widget"
-//! rcsid="$Id$"
+//! rcsid="$Id: OneChild.cc 7180 2009-05-14 16:43:43Z craftit $"
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! file="Ravl/GUI/GTK/OneChild.cc"

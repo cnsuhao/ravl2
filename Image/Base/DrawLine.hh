@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_DRAWLINE_HEADER
 #define RAVLIMAGE_DRAWLINE_HEADER 1
 ///////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DrawLine.hh 7475 2010-01-21 12:41:28Z ees1wc $"
 //! author="Charles Galambos"
 //! date="22/04/2002"
 //! docentry="Ravl.API.Images.Drawing"
@@ -17,48 +17,50 @@
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Line2dIter.hh"
+#include "Ravl/LinePP2d.hh"
 
 namespace RavlImageN {
   
   template<class DataT>
-  void DrawLine(Array2dC<DataT> &dat,const DataT &value,const Index2dC &from,const Index2dC &to) {
-    // FIXME: It would be much better to clip the line here, but for now just check pixels before writing them.
-    if(dat.Frame().Contains(from) && dat.Frame().Contains(to)) {
-      // If both start and end are inside the image, all pixels in between are.
-      for(Line2dIterC it(from,to);it;it++)
-	dat[*it] = value;
-      return ;
-    }
-    for(Line2dIterC it(from,to);it;it++) {
-      if(!dat.Contains(*it)) 
-	continue;
-      dat[*it] = value;
-    }
+  void DrawLine(Array2dC<DataT> &Dat,const DataT &Value,const LinePP2dC &Line) {
+    LinePP2dC line = Line;
+    RealRange2dC frame(Dat.Frame().TRow(),Dat.Frame().BRow(),Dat.Frame().LCol(),Dat.Frame().RCol());
+    if (line.ClipBy(frame))
+      for(Line2dIterC it(line.P1(),line.P2());it;it++)
+        Dat[*it] = Value;
+    return ;
   }
   //: Draw a line in an image.
 
   template<class DataT>
-  void DrawLine(Array2dC<DataT> &dat,const DataT &valuefrom,const DataT &valueto,const Index2dC &from,const Index2dC &to) {
-    RealT length = sqrt(static_cast<double>((to - from).SumOfSqr().V()));
-    // FIXME: It would be much better to clip the line here, but for now just check pixels before writing them.
-    if(dat.Frame().Contains(from) && dat.Frame().Contains(to)) {
-      // If both start and end are inside the image, all pixels in between are.
-      for(Line2dIterC it(from,to);it;it++) {
-	RealT alpha = sqrt(static_cast<double>((it.Data() - from).SumOfSqr().V())) / length;
-	dat[*it] = DataT((valuefrom*(1-alpha)) + (valueto*alpha));
-      }
-      return ;
-    }
-    for(Line2dIterC it(from,to);it;it++) {
-      if(!dat.Contains(*it)) 
-	continue;
-      RealT alpha = sqrt(static_cast<double>((it.Data() - from).SumOfSqr().V())) / length;
-      dat[*it] = DataT((valuefrom*(1-alpha)) + (valueto*alpha));
-    }
+  void DrawLine(Array2dC<DataT> &Dat,const DataT &Value,const Index2dC &From,const Index2dC &To) {
+    DrawLine(Dat, Value, LinePP2dC(From,To));
   }
-  //: Draw a line in an image, shaded between two colours
+  //: Draw a line in an image.
+
+  template<class DataT>
+  void DrawLine(Array2dC<DataT> &Dat,const DataT &ValueFrom,const DataT &ValueTo,const LinePP2dC Line) {
+    LinePP2dC line = Line;
+    RealRange2dC frame(Dat.Frame().TRow(),Dat.Frame().BRow(),Dat.Frame().LCol(),Dat.Frame().RCol());
+    if (line.ClipBy(frame)) {
+      RealT length = line.Length();
+      // If both start and end are inside the image, all pixels in between are.
+      for(Line2dIterC it(line.P1(),line.P2());it;it++) {
+        RealT alpha = sqrt(static_cast<double>((it.Data() - Index2dC(line.P1())).SumOfSqr().V())) / length;
+        Dat[*it] = DataT((ValueFrom*(1-alpha)) + (ValueTo*alpha));
+      }
+    }
+    return ;
+  }
+  //: Draw a line in an image, shaded between two colours <code>valuefrom</code> and <code>valueto</code>
   // This function requires that DataT has a working operator*(double) function
 
+  template<class DataT>
+  void DrawLine(Array2dC<DataT> &dat,const DataT &valuefrom,const DataT &valueto,const Index2dC &from,const Index2dC &to) {
+    DrawLine(dat, valuefrom, valueto, LinePP2dC(from,to));
+  }
+  //: Draw a line in an image, shaded between two colours <code>valuefrom</code> and <code>valueto</code>
+  // This function requires that DataT has a working operator*(double) function
 }
 
 #endif

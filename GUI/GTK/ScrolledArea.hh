@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_SCROLLEDAREA_HEADER
 #define RAVLGUI_SCROLLEDAREA_HEADER 1
 /////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ScrolledArea.hh 6893 2008-07-09 15:23:17Z ees1wc $"
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! file="Ravl/GUI/GTK/ScrolledArea.hh"

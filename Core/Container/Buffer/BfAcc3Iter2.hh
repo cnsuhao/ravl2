@@ -7,7 +7,7 @@
 #ifndef RAVL_BFACC3ITER2_HEADER
 #define RAVL_BFACC3ITER2_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BfAcc3Iter2.hh 7651 2010-03-09 11:40:09Z craftit $"
 //! file="Ravl/Core/Container/Buffer/BfAcc3Iter2.hh"
 //! docentry="Ravl.API.Core.Arrays.Buffer"
 //! lib=RavlCore
@@ -70,15 +70,15 @@ namespace RavlN {
     bool First(const BufferAccessC<BufferAccessC<BufferAccessC<Data1T> > > &pbufa,SizeT size1a,SizeT size2a,SizeT size3a,
 	       const BufferAccessC<BufferAccessC<BufferAccessC<Data2T> > > &pbufb,SizeT size1b,SizeT size2b,SizeT size3b
 	       ) {
-      rng2a = IndexRangeC(0,size2a-1);
-      rng3a = IndexRangeC(0,size3a-1);
-      rng2b = IndexRangeC(0,size2b-1);
-      rng3b = IndexRangeC(0,size3b-1);
+      rng2a = IndexRangeC(size2a);
+      rng3a = IndexRangeC(size3a);
+      rng2b = IndexRangeC(size2b);
+      rng3b = IndexRangeC(size3b);
       rit.First(pbufa,size1a,
-		pbufb,size1b);
+                pbufb,size1b);
       if(rit.IsElm())
 	return sit.First(rit.Data1(),size2a,size3a,
-			 rit.Data2(),size2b,size3b);
+	                  rit.Data2(),size2b,size3b);
       sit.Invalidate();
       return false;
     }
@@ -86,10 +86,10 @@ namespace RavlN {
 
     bool First(const SizeBufferAccessC<BufferAccessC<BufferAccessC<Data1T> > > &pbufa,SizeT size2a,SizeT size3a,
 	       const SizeBufferAccessC<BufferAccessC<BufferAccessC<Data2T> > > &pbufb,SizeT size2b,SizeT size3b) {
-      rng2a = IndexRangeC(0,size2a-1);
-      rng3a = IndexRangeC(0,size3a-1);
-      rng2b = IndexRangeC(0,size2b-1);
-      rng3b = IndexRangeC(0,size3b-1);
+      rng2a = IndexRangeC(size2a);
+      rng3a = IndexRangeC(size3a);
+      rng2b = IndexRangeC(size2b);
+      rng3b = IndexRangeC(size3b);
       rit.First(pbufa,pbufa.Size(),
 		pbufb,pbufb.Size());
       if(rit.IsElm())
@@ -104,7 +104,7 @@ namespace RavlN {
     { sit.First(rit.Data1(),rng2a,rng3a,
 		rit.Data2(),rng2b,rng3b); 
     }
-    //: Go back to the begining of this row.
+    //: Go back to the beginning of this row.
     
     bool NextSlice() {
       rit.Next();
@@ -114,8 +114,8 @@ namespace RavlN {
 		rit.Data2(),rng2b,rng3b);
       return true;      
     }
-    //: Go to the begining of the next row.
-    // returns true if iterator is left at the begining of a valid row or
+    //: Go to the beginning of the next row.
+    // returns true if iterator is left at the beginning of a valid row or
     // false if the end of the array has been reached.
     
     bool Next() { 

@@ -13,7 +13,7 @@
 //! author="Radek Marik"
 //! docentry="Ravl.API.Core.Indexing"
 //! date="2/8/1994"
-//! rcsid="$Id$"
+//! rcsid="$Id: Index3d.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/FIndex.hh" 
 #include "Ravl/Assert.hh"

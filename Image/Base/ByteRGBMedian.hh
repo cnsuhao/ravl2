@@ -7,7 +7,7 @@
 #ifndef RAVL_BYTERGBMEDIAN_HEADER
 #define RAVL_BYTERGBMEDIAN_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ByteRGBMedian.hh 6970 2008-09-23 17:04:52Z ees1wc $"
 //! file="Ravl/Image/Base/ByteRGBMedian.hh"
 //! lib=RavlImage
 //! userlevel=Normal

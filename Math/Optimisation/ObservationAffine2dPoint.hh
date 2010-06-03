@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="1/10/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: ObservationAffine2dPoint.hh 7442 2009-12-23 17:36:56Z ees1wc $"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation2.Examples"
 //! lib=RavlOptimise
 //! file="Ravl/Math/Optimisation/ObservationAffine2dPoint.hh"
@@ -19,7 +19,7 @@
 
 namespace RavlN {
     //! userlevel=Develop
-  //: 2D homography fitting 2D point observation body.
+  //: Body observation class for fitting 2D affine projection to 2D points
   
   class ObservationAffine2dPointBodyC
     : public ObservationExplicitBodyC
@@ -55,7 +55,7 @@ namespace RavlN {
 
   //! userlevel=Normal
   //! autoLink=on
-  //: 2D affine homography fitting 2D point observation class
+  //: Observation class for fitting 2D affine projection to 2D points 
   
   class ObservationAffine2dPointC
     : public ObservationExplicitC

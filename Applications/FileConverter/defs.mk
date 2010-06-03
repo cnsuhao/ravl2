@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 7248 2009-09-03 16:09:48Z ees1wc $"
 #! file="Ravl/Applications/FileConverter/defs.mk"
 
 DESCRIPTION= General purpose file converter.

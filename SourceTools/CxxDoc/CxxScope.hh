@@ -7,7 +7,7 @@
 #ifndef RAVLCXXDOC_SCOPE_HEADER
 #define RAVLCXXDOC_SCOPE_HEADER 1
 //////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: CxxScope.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! userlevel=Normal
 //! docentry="Ravl.API.Source Tools.CxxDoc.Internal"
 //! lib=RavlCxxDoc

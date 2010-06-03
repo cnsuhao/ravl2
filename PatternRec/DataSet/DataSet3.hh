@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_DATASET3_HEADER
 #define RAVL_DATASET3_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: DataSet3.hh 7569 2010-02-19 10:31:32Z craftit $"
 //! author="Kieron Messer"
 //! docentry="Ravl.API.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
@@ -43,7 +43,7 @@ namespace RavlN {
 		  const Sample3T & samp3);
     //: Create a dataset from a sample
     
-    UIntT Append(const Element1T &data1,
+    IndexC Append(const Element1T &data1,
 		 const Element2T &data2,
 		 const Element3T &data3);
     //: Append a data entry.
@@ -125,7 +125,7 @@ namespace RavlN {
     { return Body().Sample3(); }
     //: Access complete sample.
     
-    UIntT Append(const Element1T &data1,const Element2T &data2,const Element3T &data3)
+    IndexC Append(const Element1T &data1,const Element2T &data2,const Element3T &data3)
     { return Body().Append(data1,data2,data3); }
     //: Append a data entry.
     // returns its index.
@@ -188,16 +188,16 @@ namespace RavlN {
   {}
   
   template<class Sample1T,class Sample2T,class Sample3T>
-  UIntT DataSet3BodyC<Sample1T,Sample2T,Sample3T>::Append(const Element1T &data1,const Element2T &data2,const Element3T &data3) {
-    UIntT no1 = this->samp1.Append(data1);
+  IndexC DataSet3BodyC<Sample1T,Sample2T,Sample3T>::Append(const Element1T &data1,const Element2T &data2,const Element3T &data3) {
+    IndexC no1 = this->samp1.Append(data1);
 #if RAVL_CHECK
     // This avoids an unused variable warning where RavlAssert() is not used.
-    UIntT no2 = 
+    IndexC no2 =
 #endif
       this->samp2.Append(data2);
 #if RAVL_CHECK
     // This avoids an unused variable warning where RavlAssert() is not used.
-    UIntT no3 = 
+    IndexC no3 =
 #endif
       samp3.Append(data3);
     RavlAssert(no1==no2 && no1==no3);
@@ -214,8 +214,8 @@ namespace RavlN {
   template<class Sample1T,class Sample2T,class Sample3T>
   DataSet3C<Sample1T,Sample2T,Sample3T> DataSet3BodyC<Sample1T,Sample2T,Sample3T>::ExtractSample(RealT proportion) {
     RavlAssert(proportion >= 0 && proportion <= 1);
-    UIntT size = this->Size();
-    UIntT entries = (UIntT) (proportion * (RealT) size);
+    SizeT size = this->Size();
+    SizeT entries = (UIntT) (proportion * (RealT) size);
     DataSet3C<Sample1T,Sample2T,Sample3T> ret(size);
     for(;entries > 0;entries--) {
       UIntT entry = RandomInt() % size;
@@ -227,7 +227,7 @@ namespace RavlN {
   
   template<class Sample1T,class Sample2T,class Sample3T>
   void DataSet3BodyC<Sample1T,Sample2T,Sample3T>::Shuffle() {
-    UIntT size = this->Size();
+    SizeT size = this->Size();
     for(DArray1dIter3C<Element1T,Element2T,Element3T> it(this->Sample1().DArray(),this->Sample2().DArray(),Sample3().DArray());
 	it;it++) {
       UIntT entry = RandomInt() % size;

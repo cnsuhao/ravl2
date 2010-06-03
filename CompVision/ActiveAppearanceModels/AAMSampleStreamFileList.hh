@@ -8,7 +8,7 @@
 #define RAVL_AAMSAMPLESTREAMFILELIST_HEADER 1
 //! author="Robert Crida"
 //! docentry="Ravl.API.Images.AAM"
-//! rcsid="$Id$"
+//! rcsid="$Id: SampleStreamVector.hh 7324 2009-10-21 16:23:20Z craftit $"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMSampleStreamFileList.hh"
 

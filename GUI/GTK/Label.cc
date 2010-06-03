@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Label.cc 5834 2006-08-21 15:26:26Z craftit $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Label.cc"
 

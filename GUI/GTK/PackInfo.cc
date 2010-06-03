@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: PackInfo.cc 1468 2002-07-29 14:27:59Z craftit $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/PackInfo.cc"
 

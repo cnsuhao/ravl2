@@ -6,7 +6,7 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOByteYCbCrBT601422.cc 6170 2007-05-28 16:05:12Z craftit $"
 //! lib=RavlImageIO
 //! file="Ravl/Image/ImageIO/ImgIOByteYCbCrBT601422.cc"
 

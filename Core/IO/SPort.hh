@@ -8,7 +8,7 @@
 #define RAVL_DPSPORT_HEADER 1
 /////////////////////////////////////////////////////
 //! docentry="Ravl.API.Core.Data Processing.Seekable Ports" 
-//! rcsid="$Id$"
+//! rcsid="$Id: SPort.hh 7359 2009-11-04 11:47:59Z craftit $"
 //! file="Ravl/Core/IO/SPort.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"

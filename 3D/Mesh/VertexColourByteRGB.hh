@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL3D_VERTEX_COLOUR_BYTE_RGB_HEADER
 #define RAVL3D_VERTEX_COLOUR_BYTE_RGB_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: VertexColourByteRGB.hh 5239 2005-12-06 16:29:07Z ees1wc $"
 //! lib=Ravl3D
 //! file="Ravl/3D/Mesh/VertexColourByteRGB.hh"
 //! docentry="Ravl.API.3D.Mesh"

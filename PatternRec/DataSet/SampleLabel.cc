@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/SampleLabel.cc"
-//! rcsid="$Id$"
+//! rcsid="$Id: SampleLabel.cc 3365 2003-08-28 20:41:26Z kier $"
 
 #include "Ravl/PatternRec/SampleLabel.hh"
 #include "Ravl/PatternRec/SampleIter.hh"

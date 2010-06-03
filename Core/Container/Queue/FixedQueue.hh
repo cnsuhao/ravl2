@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! date="6/6/1997"
 //! docentry="Ravl.API.Core.Queues"
-//! rcsid="$Id$"
+//! rcsid="$Id: FixedQueue.hh 5465 2006-04-25 09:47:30Z craftit $"
 
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Assert.hh"

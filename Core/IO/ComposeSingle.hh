@@ -7,7 +7,7 @@
 #ifndef RAVL_COMPOSESINGLE_HEADER
 #define RAVL_COMPOSESINGLE_HEADER 1
 ////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ComposeSingle.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! example=exComposeSinge.cc
 //! userlevel=Normal
 //! lib=RavlIO

@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! date="23/03/1999"
 //! example=exFileSelector.cc
-//! rcsid="$Id$"
+//! rcsid="$Id: FileSelector.hh 7006 2008-10-22 13:11:28Z ees1wc $"
 //! docentry="Ravl.API.Graphics.GTK.Control"
 
 #include "Ravl/GUI/Widget.hh"

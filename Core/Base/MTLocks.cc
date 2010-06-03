@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MTLocks.cc 5511 2006-06-04 12:23:53Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/MTLocks.cc"
 

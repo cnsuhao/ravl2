@@ -7,7 +7,7 @@
 #ifndef RAVL_RBFACC2ITER2_HEADER
 #define RAVL_RBFACC2ITER2_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BfAcc2Iter2.hh 7651 2010-03-09 11:40:09Z craftit $"
 //! file="Ravl/Core/Container/Buffer/BfAcc2Iter2.hh"
 //! lib=RavlCore
 //! userlevel=Default
@@ -68,6 +68,13 @@ namespace RavlN {
     //: Goto first element.
     // returns true if there is one.
 
+    bool First(const BufferAccessC<BufferAccessC<Data1T> > &pbufa,const SizeT &nrng1a,const SizeT &nrng2a,
+               const BufferAccessC<BufferAccessC<Data2T> > &pbufb,const SizeT &nrng1b,const SizeT &nrng2b)
+    { return First(pbufa,IndexRangeC(nrng1a),IndexRangeC(nrng2a),
+                    pbufb,IndexRangeC(nrng1b),IndexRangeC(nrng2b));
+    }
+    //: Goto first element
+
     bool First(const BufferAccessC<BufferAccessC<Data1T> > &pbufa,const IndexRange2dC &nrnga,
 	       const BufferAccessC<BufferAccessC<Data2T> > &pbufb,const IndexRange2dC &nrngb) {
       rng1 = nrnga.Range2();
@@ -99,8 +106,8 @@ namespace RavlN {
     bool First(const SizeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,SizeT size1,
 	       const SizeBufferAccessC<BufferAccessC<Data2T> > &pbuf2,SizeT size2) {
       rit.First(pbuf1,pbuf2);
-      rng1 = IndexRangeC(0,size1-1);
-      rng2 = IndexRangeC(0,size2-1);
+      rng1 = IndexRangeC(size1);
+      rng2 = IndexRangeC(size2);
       if(rng1.Size() > 0 && rit.IsElm())
 	return cit.First(rit.Data1(),rng1,rit.Data2(),rng2);
       cit.Invalidate();

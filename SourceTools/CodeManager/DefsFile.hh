@@ -10,7 +10,7 @@
 //! file="Ravl/SourceTools/CodeManager/DefsFile.hh"
 //! author="Charles Galambos"
 //! lib=RavlSourceTools
-//! rcsid="$Id$"
+//! rcsid="$Id: DefsFile.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! date="14/05/98"
 //! docentry="Ravl.API.Source Tools"
 

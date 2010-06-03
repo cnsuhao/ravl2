@@ -21,11 +21,12 @@ using namespace RavlImageN;
 
 int testImageConvert(const Tuple3C<StringC,StringC,UIntT>& imFiles) {
   cout << "Converting from " << imFiles.Data1() << " to " << imFiles.Data2() << endl;
-  DirectoryC dir = StringC(getenv("PROJECT_OUT"))+"/share/RAVL/testData/";
+  DirectoryC dir = StringC(PROJECT_OUT)+"/share/RAVL/testData/";
   FilenameC in =  dir + imFiles.Data1();
   FilenameC out = dir + imFiles.Data2();
+  cout << "Converting from " << in << " to " << out << endl;
   if (!in.Exists())  return __LINE__;
-  FilenameC prog = StringC(getenv("PROJECT_OUT"))+"/bin/conv";
+  FilenameC prog = StringC(PROJECT_OUT)+"/bin/conv";
   if (!prog.Exists()) {
     cout << "conv not compiled in this build\n";
     return 0;

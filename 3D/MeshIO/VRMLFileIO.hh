@@ -7,7 +7,7 @@
 #ifndef RAVL_VRMLFILEIO_HEADER
 #define RAVL_VRMLFILEIO_HEADER 1
 ///////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: VRMLFileIO.hh 6372 2007-10-02 15:06:42Z alexkostin $"
 //! lib=Ravl3DIO
 //! author="Jonathan Starck"
 //! docentry="Ravl.API.3D.IO"

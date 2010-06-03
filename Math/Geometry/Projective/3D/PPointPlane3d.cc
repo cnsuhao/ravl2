@@ -13,7 +13,7 @@
 
 //! author="Radek Marik"
 //! date="26.06.1995"
-//! rcsid="$Id$"
+//! rcsid="$Id: PPointPlane3d.cc 6227 2007-06-27 12:31:55Z craftit $"
 //! lib=RavlMath
 
 #include "Ravl/Matrix3d.hh"

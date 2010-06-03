@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_MARKUPLINE2D_HEADER
 #define RAVLGUI_MARKUPLINE2D_HEADER 1
 //! docentry="Ravl.API.Graphics.GTK.Markup Canvas"
-//! rcsid="$Id$"
+//! rcsid="$Id: fixSource.cfg 5642 2006-06-23 10:51:11Z craftit $"
 //! lib=RavlGUI2D
 
 #include "Ravl/GUI/MarkupInfo.hh"

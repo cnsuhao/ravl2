@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_IMGIOMPEG2DEC_HEADER
 #define RAVLIMAGE_IMGIOMPEG2DEC_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOmpeg2dec.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlMPEG2
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Video.Video IO.MPEG2"

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: PixelIO.cc 1744 2002-09-30 09:23:23Z craftit $"
 
 #include "amma/DP/FileFormatStream.hh"
 #include "amma/DP/Converter.hh"

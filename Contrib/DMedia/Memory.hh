@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_DMEDIADMMEMORY_HEADER
 #define RAVLIMAGE_DMEDIADMMEMORY_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Memory.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/DMedia/Memory.hh"
 //! lib=RavlDMedia
 //! userlevel=Default

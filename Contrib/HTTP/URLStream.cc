@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: URLStream.cc 6226 2007-06-27 10:29:57Z craftit $"
 //! lib=RavlURLIO
 //! file="Ravl/Contrib/HTTP/URLStream.cc"
 

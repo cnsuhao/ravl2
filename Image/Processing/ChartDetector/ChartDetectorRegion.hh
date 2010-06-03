@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_CHARTDETECTORREGION_HEADER
 #define RAVLIMAGE_CHARTDETECTORREGION_HEADER 1
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: ChartDetectorRegion.hh 5865 2006-08-31 16:51:35Z ees1wc $"
 //! lib=RavlChartDetector
 //! docentry="Ravl.API.Images.Chart Detector"
 //! file="Ravl/Image/Processing/ChartDetector/ChartDetectorRegion.hh"

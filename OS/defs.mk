@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 7087 2009-02-04 15:43:59Z craftit $"
 #! file="Ravl/OS/defs.mk"
 
 DESCRIPTION = Core Ravl code that interacts with the Operating System

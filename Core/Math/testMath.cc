@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testMath.cc 6253 2007-07-05 15:13:13Z ees1wc $"
 //! lib=RavlCore
 //! file="Ravl/Core/Math/testMath.cc"
 //! author="Charles Galambos"

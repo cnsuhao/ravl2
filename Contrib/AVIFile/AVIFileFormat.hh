@@ -10,7 +10,7 @@
 //! author="James Smith"
 //! docentry="Ravl.API.Images.Video.Video IO"
 //! date="19/01/2004"
-//! rcsid="$Id$"
+//! rcsid="$Id: AVIFileFormat.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/AVIFile/AVIFileFormat.hh"
 //! example=testAVIFile.cc
 //! lib=RavlAVIFile

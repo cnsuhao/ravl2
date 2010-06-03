@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! date="10/6/2004"
 //! docentry="Ravl.API.OS.Threads"
-//! rcsid="$Id$"
+//! rcsid="$Id: MTPriQueueL.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Tools/MTPriQueueL.hh"
 

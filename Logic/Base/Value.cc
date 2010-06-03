@@ -8,7 +8,7 @@
 // Logic2/LValue.cc     
 //! date="10/5/1996"
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: Value.cc 6468 2007-11-26 12:20:35Z craftit $"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/Value.cc"
 

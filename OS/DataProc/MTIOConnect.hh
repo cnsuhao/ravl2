@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! date="02/10/1998"
 //! docentry="Ravl.API.Core.Data Processing"
-//! rcsid="$Id$"
+//! rcsid="$Id: MTIOConnect.hh 7482 2010-01-22 14:07:43Z craftit $"
 
 #include "Ravl/Threads/Semaphore.hh"
 #include "Ravl/Threads/ThreadEvent.hh"
@@ -36,13 +36,7 @@ namespace RavlN {
     : public DPIOConnectBaseBodyC
   {
   public:
-    inline DPMTIOConnectBaseBodyC(bool nuseIsGetReady = true,UIntT nblockSize = 1)
-      : useIsGetReady(nuseIsGetReady),
-	terminate(false),
-	pause(false),
-	resume(0),
-	blockSize(nblockSize)
-    {}
+    DPMTIOConnectBaseBodyC(bool nuseIsGetReady = true,UIntT nblockSize = 1);
     //: Default Constructor.
     
     bool Disconnect();

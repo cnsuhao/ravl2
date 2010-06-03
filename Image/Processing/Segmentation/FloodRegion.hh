@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_FLOODREGION_HEADER
 #define RAVLIMAGE_FLOODREGION_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: FloodRegion.hh 6074 2007-02-24 16:56:31Z craftit $"
 //! lib=RavlImageProc
 //! author="Charles Galambos, based on code by Jiri Matas."
 //! docentry="Ravl.API.Images.Segmentation"

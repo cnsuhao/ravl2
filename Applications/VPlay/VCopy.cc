@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: VCopy.cc 4777 2005-01-18 14:28:18Z ees1wc $"
 //! lib=RavlVPlay
 //! author="Charles Galambos"
 //! userlevel=Normal

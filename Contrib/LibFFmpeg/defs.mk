@@ -4,7 +4,7 @@
 # General Public License (GPL). See the gpl.licence file for details or
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 7424 2009-12-11 11:06:58Z simondennis $"
 #! file="Ravl/Contrib/LibFFmpeg/defs.mk"
 
 REQUIRES = libffmpeg
@@ -27,10 +27,10 @@ MUSTLINK = MustLinkLibFFmpeg.cc
 
 EXTERNALLIBS=LibFFmpeg.def
 
-USESLIBS = RavlImage RavlIO LibFFmpeg
+USESLIBS = RavlImage RavlIO LibFFmpeg RavlRawVidIO RavlVideoIO
 
 PROGLIBS = RavlGUI RavlDPDisplay
 
-EXAMPLES = exFFmpeg.cc exFFmpegSeek.cc
+EXAMPLES = exFFmpeg.cc exFFmpegSeek.cc exFFmpegOutPut.cc
 
 EHT = LibFFmpeg.html

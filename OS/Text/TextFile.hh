@@ -12,7 +12,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! docentry="Ravl.API.OS.Text Processing"
-//! rcsid="$Id$"
+//! rcsid="$Id: TextFile.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! date="05/12/1997"
 
 #include "Ravl/Text/TextBuffer.hh"

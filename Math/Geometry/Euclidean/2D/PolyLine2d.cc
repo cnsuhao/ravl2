@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: PolyLine2d.cc 5420 2006-03-20 16:00:37Z craftit $"
 //! lib=RavlMath
 
 #include "Ravl/PolyLine2d.hh"

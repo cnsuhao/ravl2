@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FileFormatDynamic.cc 5224 2005-11-25 14:35:31Z plugger $"
 //! lib=RavlOSIO
 //! file="Ravl/OS/IO/FileFormatDynamic.cc"
 

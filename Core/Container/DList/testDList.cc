@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testDList.cc 7419 2009-12-09 17:29:43Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/DList/testDList.cc"
 //! userlevel=Develop
@@ -48,27 +48,32 @@ int testDListBinIO();
 int testIntrDList();
 int testDLIter();
 int testDoubleLinked();
+int testSort();
 
 int main(int nargs,char *argv[])
 {
   int lineno;
   if((lineno = testIntrDList()) != 0) {
-    cerr << "testIntrDListC test failed on line "<< lineno << "\n";
+    std::cerr << "testIntrDListC test failed on line "<< lineno << "\n";
     return 1;
   }
   if((lineno = testDLIter()) != 0) {
-    cerr << "testIntrDListC test failed on line "<< lineno << "\n";
+    std::cerr << "testIntrDListC test failed on line "<< lineno << "\n";
     return 1;
   }
   if((lineno = testDListBinIO()) != 0) {
-    cerr << "testDListIO test failed on line "<< lineno << "\n";
+    std::cerr << "testDListIO test failed on line "<< lineno << "\n";
     return 1;
   }
   if((lineno = testDoubleLinked()) != 0) {
-    cerr << "testDoubleLinked test failed on line "<< lineno << "\n";
+    std::cerr << "testDoubleLinked test failed on line "<< lineno << "\n";
     return 1;
   }
-  cerr << "Test passed ok. \n";	      
+  if((lineno = testSort()) != 0) {
+    std::cerr << "testSort test failed on line "<< lineno << "\n";
+    return 1;
+  }
+  std::cerr << "Test passed ok. \n";
   return 0;
 }
 
@@ -274,5 +279,18 @@ int testDoubleLinked() {
     count++;
   cerr << "Count=" << count <<"\n";
   if(count != 3) return __LINE__;
+  return 0;
+}
+
+int testSort() {
+  DListC<int> list;
+  list.InsLast(3);
+  list.InsLast(1);
+  list.InsLast(2);
+  list.MergeSort();
+  //std::cerr << list;
+  if(list.Nth(0) != 1) return __LINE__;
+  if(list.Nth(1) != 2) return __LINE__;
+  if(list.Nth(2) != 3) return __LINE__;
   return 0;
 }

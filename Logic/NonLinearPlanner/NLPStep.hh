@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLLOGIC_NLPSTEP_HEADER
 #define RAVLLOGIC_NLPSTEP_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: NLPStep.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Logic.Planning"
 //! author="Charles Galambos"
 //! lib=RavlLogicNLP

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ProgressBar.cc 5817 2006-08-15 15:22:35Z robowaz $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/ProgressBar.cc"
 

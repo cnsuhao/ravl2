@@ -7,7 +7,7 @@
 #ifndef RAVL_SMATRIXSPARSE_HEADER
 #define RAVL_SMATRIXSPARSE_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SMatrixSparse.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlMath
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Math.Linear Algebra.Smart Matrix"

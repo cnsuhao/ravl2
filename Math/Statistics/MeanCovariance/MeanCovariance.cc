@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MeanCovariance.cc 6791 2008-05-13 14:22:22Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/MeanCovariance/MeanCovariance.cc"
 

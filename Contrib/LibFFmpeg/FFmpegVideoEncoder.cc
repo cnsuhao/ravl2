@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: FFmpegVideoEncoder.cc 7052 2008-12-04 14:43:12Z ees1wc $"
 //! lib=RavlLibFFmpeg
 
 #ifndef __STDC_CONSTANT_MACROS
@@ -46,7 +46,7 @@ extern "C" {
 #define ONDEBUG(x)
 #endif
 
-namespace RavlN {
+namespace RavlImageN {
   
   //: Constructor.
   
@@ -102,40 +102,22 @@ namespace RavlN {
   
   bool FFmpegVideoEncoderBaseC::Open(DPOPortC<FFmpegPacketC> &packetStream,IntT _videoStreamId,IntT codecId) {
     output = packetStream;
-    //videoStreamId = _videoStreamId;
     ONDEBUG(cerr << "FFmpegVideoEncoderBaseC::Open(DPOPortC<FFmpegPacketC> &packetStream,IntT _videoStreamId,IntT codecId), Called " << _videoStreamId << "\n");
 
-    //FFmpegEncodePacketStreamC ps(packetStream);
    psc = FFmpegEncodePacketStreamC(packetStream);
     ONDEBUG(cerr << "FFmpegVideoEncoderBaseC::Open(DPOPortC<FFmpegPacketC> &packetStream,IntT _videoStreamId,IntT codecId), psc allocated \n");    
    //Alloctae the output media context.
- /*  pFormatCtx = psc.FormatCtx();   //av_alloc_format_context();  //avformat_alloc_context();
-   if(!pFormatCtx) {
-      ONDEBUG(cerr << "FFmpegPacketStreamBodyC::Open(" << filename << "), Failed allocate output media context. \n");
-      return false;
-    }  */
+
     out_filename = filename;
-    //streamInfo = pFormatCtx->streams[videoStreamId];   //video_st;   //pFormatCtx->streams[videoStreamId];
     ONDEBUG(cerr << "FFmpegVideoEncoderBaseC::Open(DPOPortC<FFmpegPacketC> &packetStream,IntT _videoStreamId,IntT codecId), streamInfo allocated \n");
-    //pCodecCtx = streamInfo->codec;
-    //ONDEBUG(cerr << "FFmpegVideoEncoderBaseC::Open(DPOPortC<FFmpegPacketC> &packetStream,IntT _videoStreamId,IntT codecId), pCodecCtx allocated \n");
+
     videoStreamId = _videoStreamId;
-    //alloc tmp_picture.
+
     tmp_picture=avcodec_alloc_frame();
     if (!tmp_picture) {
         return NULL;
     }
-    /*
-    size = avpicture_get_size(PIX_FMT_RGB24, 1280, 544);
-    picture_buf = (uint8_t *)av_malloc(size);
-    if (!picture_buf) {
-        av_free(picture);
-        return NULL;
-    }
-    avpicture_fill((AVPicture *)tmp_picture, picture_buf,
-                   PIX_FMT_RGB24, 1280, 544);
 
-    */
         ONDEBUG(cerr << "FFmpegVideoEncoderDPOBaseC::Open codecID is " << codecId << " \n");
     codec_id = (CodecID)codecId;
     return true;
@@ -152,7 +134,7 @@ namespace RavlN {
     }
     videoStreamId = psc.getVideoStreamId();
     streamInfo = pFormatCtx->streams[videoStreamId];
-    //pCodecCtx = streamInfo->codec;
+
     vCodecCtx = psc.VideoCodecCtx();
     if(!vCodecCtx) {
       ONDEBUG(cerr << "FFmpegPacketStreamBodyC::Open(" << filename << "), Failed allocate output media context. \n");
@@ -182,7 +164,6 @@ namespace RavlN {
 
         // Was there an error?
         if(bytesEncoded < 0) {
-          cerr << "FFmpegVideoDecoderDPOBaseC::DecodeFrame, Error while decoding frame. ";
           return false;
         }
         packet = FFmpegPacketC(true);
@@ -217,9 +198,9 @@ namespace RavlN {
     IntT out_size, ret;
     AVCodecContext *c;
     static struct SwsContext *img_convert_ctx;
-    //c = st->codec;
+
     c = vCodecCtx;   //streamInfo->codec;
-    //c = avcodec_find_encoder(codec_id);
+
     if (0) {
         /* no more frame to compress. The codec has a latency of a few
            frames if using B frames, so we get the last frames by
@@ -303,10 +284,7 @@ namespace RavlN {
         /* encode the image */
         video_outbuf = (uint8_t *)av_malloc(out_size);   //new uint8_t[out_size];
         int encode_size = avcodec_encode_video(c, video_outbuf, out_size, out_picture);
-        //if(frame_count > 3237) {
-        //   if(frame_count == 3238) {
-        //   }
-       // }
+
         /* if zero size, it means the image was buffered */
         if (encode_size > 0) {
             AVPacket pkt;
@@ -354,7 +332,7 @@ namespace RavlN {
   // Returns false if the attribute name is unknown.
   // This is for handling attributes such as frame rate, and compression ratios.
   
-  bool FFmpegVideoEncoderBaseC::GetAttr(const StringC &attrName,StringC &attrValue) {
+  bool FFmpegVideoEncoderBaseC::GetHandleAttr(const StringC &attrName,StringC &attrValue) {
     if(attrName == "filename" || attrName == "title" || attrName == "author" || 
        attrName == "copyright"|| attrName == "comment"|| attrName == "album") {
       if(!output.IsValid() || !output.GetAttr(attrName,attrValue))
@@ -375,7 +353,7 @@ namespace RavlN {
   // Returns false if the attribute name is unknown.
   // This is for handling attributes such as frame rate, and compression ratios.
   
-  bool FFmpegVideoEncoderBaseC::GetAttr(const StringC &attrName,IntT &attrValue) {
+  bool FFmpegVideoEncoderBaseC::GetHandleAttr(const StringC &attrName,IntT &attrValue) {
     return false;
   }
   
@@ -383,10 +361,30 @@ namespace RavlN {
   // Returns false if the attribute name is unknown.
   // This is for handling attributes such as frame rate, and compression ratios.
   
-  bool FFmpegVideoEncoderBaseC::GetAttr(const StringC &attrName,RealT &attrValue) {
+  bool FFmpegVideoEncoderBaseC::GetHandleAttr(const StringC &attrName,RealT &attrValue) {
     if(attrName == "framerate") {
       if(!output.IsValid() || !output.GetAttr(attrName,attrValue))
         attrValue = 0.0;
+      return true;
+    }
+    if(attrName == "compression") {
+      if(!output.IsValid() || !output.GetAttr(attrName,attrValue)) {
+        attrValue = 0.0;
+      }
+      return true;
+    }
+    return false;
+  }
+ 
+ //: Set a attribute.
+  // Returns false if the attribute name is unknown.
+  // This is for handling attributes such as frame rate, and compression ratios.
+  
+  bool FFmpegVideoEncoderBaseC::SetHandleAttr(const StringC &attrName,const RealT &attrValue) {
+    if(attrName == "compression") {
+      if(!output.IsValid() || !output.SetAttr(attrName,attrValue)) {
+        //attrValue = 0.0;
+      }
       return true;
     }
     return false;
@@ -396,29 +394,43 @@ namespace RavlN {
   // Returns false if the attribute name is unknown.
   // This is for handling attributes such as frame rate, and compression ratios.
   
-  bool FFmpegVideoEncoderBaseC::SetAttr(const StringC &attrName,RealT &attrValue) {
+  bool FFmpegVideoEncoderBaseC::SetHandleAttr(const StringC &attrName,const IntT &attrValue) {
     if(attrName == "compression") {
       if(!output.IsValid() || !output.SetAttr(attrName,attrValue)) {
-        attrValue = 0.0;
+        //attrValue = 0.0;
       }
       return true;
     }
     return false;
   }
- 
+
+ //: Get a attribute.
+  // Returns false if the attribute name is unknown.
+  // This is for handling attributes such as frame rate, and compression ratios.
+  
+  bool FFmpegVideoEncoderBaseC::SetHandleAttr(const StringC &attrName,const StringC &attrValue) {
+    if(attrName == "compression") {
+      if(!output.IsValid() || !output.SetAttr(attrName,attrValue)) {
+        //attrValue = 0.0;
+      }
+      return true;
+    }
+    return false;
+  }
+
   //: Get a attribute.
   // Returns false if the attribute name is unknown.
   // This is for handling attributes such as frame rate, and compression ratios.
   
-  bool FFmpegVideoEncoderBaseC::GetAttr(const StringC &attrName,bool &attrValue) {
+  bool FFmpegVideoEncoderBaseC::GetHandleAttr(const StringC &attrName,bool &attrValue) {
     return false;
   }
   
   //: Initalise attributes.
   
   void FFmpegVideoEncoderBaseC::InitAttr(AttributeCtrlBodyC &attrCtrl) {
-    ONDEBUG(cerr << "FFmpegVideoDecoderDPOBaseC::InitAttr " << " \n");
-    attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("framerate","Frame rate of video",true,false,0.0,1000.0,0.01,25));
+    ONDEBUG(cerr << "FFmpegVideoEncoderBaseC::InitAttr " << " \n");
+    attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("framerate","Frame rate of video",true,true,0.0,1000.0,0.01,25));
     attrCtrl.RegisterAttribute(AttributeTypeStringC("aspectratio","Aspect ratio",true,false,"4:3"));
     
     attrCtrl.RegisterAttribute(AttributeTypeStringC("filename","Original filename of stream",true,false,""));
@@ -427,7 +439,7 @@ namespace RavlN {
     attrCtrl.RegisterAttribute(AttributeTypeStringC("copyright","Copyright for material",true,false,""));
     attrCtrl.RegisterAttribute(AttributeTypeStringC("comment","Comment",true,false,""));
     attrCtrl.RegisterAttribute(AttributeTypeStringC("album","album",true,false,""));
-    attrCtrl.RegisterAttribute(AttributeTypeNumC<IntT>("compression","compression ratio",true,false,1,31,1,31));    
+    attrCtrl.RegisterAttribute(AttributeTypeNumC<RealT>("compression","compression ratio",true,true,1,31,1,31));
   }
 
   

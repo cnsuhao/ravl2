@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: ObservationImpHomog2dPoint.hh 7494 2010-01-29 10:38:08Z ees1wc $"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation2.Examples"
 //! example="Homography2dFitTest.cc"
 //! lib=RavlOptimise
@@ -31,11 +31,17 @@ namespace RavlN {
     ObservationImpHomog2dPointBodyC(const Vector2dC &nz1, const MatrixRSC &nNi1,
 				    const Vector2dC &nz2, const MatrixRSC &nNi2);
     //: Constructor.
+    //!param: nz1, nz2 - pair of corresponding points
+    //!param: nNi1, nNi2 - covariance matrices for nz1 and nz2
     
     ObservationImpHomog2dPointBodyC(const Vector2dC &nz1, const MatrixRSC &nNi1,
 				    const Vector2dC &nz2, const MatrixRSC &nNi2,
 				    RealT varScale, RealT chi2Thres);
     //: Constructor for robust bi-Gaussian observation.
+    //!param: nz1, nz2 - pair of corresponding points
+    //!param: nNi1, nNi2 - covariance matrices for nz1 and nz2
+    //!param: varScale - ratio of <i>variances</i> of outliers to inliers
+    //!param: chi2Thres - chi-squared threshold
 
     virtual VectorC EvaluateFunctionF(const StateVectorC &stateVec);
     //: Evaluate the observation function F(x,z) given x and z
@@ -124,13 +130,19 @@ namespace RavlN {
       : ObservationImplicitC(*new ObservationImpHomog2dPointBodyC(nz1,nNi1,nz2,nNi2))
     {}
     //: Constructor.
+    //!param: nz1, nz2 - pair of corresponding points
+    //!param: nNi1, nNi2 - covariance matrices for nz1 and nz2
     
     ObservationImpHomog2dPointC(const Vector2dC &nz1, const MatrixRSC &nNi1,
 				const Vector2dC &nz2, const MatrixRSC &nNi2,
-				RealT varScale, RealT chi2Thres)
+				RealT varScale, RealT chi2Thres=5.0)
       : ObservationImplicitC(*new ObservationImpHomog2dPointBodyC(nz1,nNi1,nz2,nNi2,varScale,chi2Thres))
     {}
     //: Constructor for robust bi-Gaussian observation.
+    //!param: nz1, nz2 - pair of corresponding points
+    //!param: nNi1, nNi2 - covariance matrices for nz1 and nz2
+    //!param: varScale - ratio of variances of outliers to inliers
+    //!param: chi2Thres - chi-squared threshold
 
     ObservationImpHomog2dPointC(const ObservationC &obs)
       : ObservationImplicitC(dynamic_cast<const ObservationImpHomog2dPointBodyC *>(BodyPtr(obs)))

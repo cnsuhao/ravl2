@@ -10,7 +10,7 @@
 //! docentry="Ravl.API.Images.Segmentation"
 //! userlevel=Develop
 //! file="Ravl/Image/Processing/Segmentation/SegmentRegion.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: SegmentRegion.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlImageProc
 //! example=exSegmentation.cc
 //! author="Ratna Rambaruth"

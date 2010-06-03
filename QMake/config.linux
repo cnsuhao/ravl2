@@ -1,6 +1,6 @@
 ###########################
 # Make info for solaris systems
-# $Id: config.linux 7149 2009-04-02 14:23:42Z craftit $
+# $Id: config.linux 7660 2010-03-17 13:36:26Z craftit $
 
 #######################
 # Programs to use.
@@ -95,7 +95,7 @@ ifeq ($(COMPILER_MAJOR_VERSION),3)
 else
 ifeq ($(COMPILER_VERSION),4.3) 
 # Use the following for gcc-4.3.x and later
- OPTCFLAGS= -O2 -mtune=core2 -ffast-math
+ OPTCFLAGS= -O2 -mtune=native -ffast-math
 else
 # Use the following for gcc-4.0.x, 4.1.x, 4.2.x
 # NOTE: -funsafe-math-optimizations and -ffast-math that sets it produce incorrect code with gcc-4.0 and 4.1

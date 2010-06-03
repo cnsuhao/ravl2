@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DevAudioFormat.cc 4043 2004-03-03 16:56:50Z plugger $"
 //! docentry="Ravl.Audio.Audio IO.Unix"
 //! lib=RavlDevAudio
 //! file="Ravl/Contrib/Audio/DevAudio/DevAudioFormat.cc"

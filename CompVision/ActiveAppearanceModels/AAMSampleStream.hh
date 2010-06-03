@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_AAMSAMPLESTREAM_HEADER
 #define RAVLIMAGE_AAMSAMPLESTREAM_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: AAMSampleStream.hh 7362 2009-11-04 13:16:01Z omn-crida $"
 //! lib=RavlAAM
 //! docentry="Ravl.API.Images.AAM"
 //! author="Charles Galambos"

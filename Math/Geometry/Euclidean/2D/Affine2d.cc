@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Affine2d.cc 7513 2010-02-12 16:58:17Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/2D/Affine2d.cc"
 
@@ -353,6 +353,16 @@ namespace RavlN {
     Matrix2dC rotationMat(Cos(rotation),Sin(rotation),
                        -Sin(rotation),Cos(rotation));
     return Affine2dC(rotationMat * scalingMat,translation);
+  }
+
+
+  //: Apply a affine transform to a point set
+
+  SArray1dC<Point2dC> operator*(const FAffineC<2> &trans,const SArray1dC<Point2dC> &points) {
+    SArray1dC<Point2dC> ret(points.Size());
+    for(SArray1dIter2C<Point2dC,Point2dC> it(ret,points);it;it++)
+      it.Data1() = trans * it.Data2();
+    return ret;
   }
 
 }

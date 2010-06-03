@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_EDGENONMAXSUP_HEADER
 #define RAVLIMAGE_EDGENONMAXSUP_HEADER 1
 //////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: EdgeNonMaxSuppression.hh 5352 2006-02-16 17:39:58Z craftit $"
 //! file="Ravl/Image/Processing/Edges/EdgeNonMaxSuppression.hh"
 //! lib=RavlImageProc
 //! authors="George Matas, Radek Marik and Charles Galambos"

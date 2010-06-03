@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RealRange2dSet.cc 4457 2004-07-29 14:31:20Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/System/RealRange2dSet.cc"
 

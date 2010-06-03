@@ -11,7 +11,7 @@
 //! lib=RavlCore
 //! author="Radek Marik"
 //! docentry="Ravl.API.Core.Indexing"
-//! rcsid="$Id$"
+//! rcsid="$Id: RealRange3d.hh 7603 2010-02-25 18:28:02Z ees1wc $"
 //! date="06/08/1995"
 //! userlevel=Default
 
@@ -47,12 +47,14 @@ namespace RavlN {
 		 const RealRangeC & kRange);
     //: Constructor.
 
-    RealRange3dC(const IndexRange3dC &rng)
+    explicit RealRange3dC(const IndexRange3dC &rng)
       : is(rng.Range1()), 
 	js(rng.Range2()), 
 	ks(rng.Range3())
     {}
     //: Construct from an IndexRange3dC.
+    // Note that the upper limit of the RealRangeC object is incremented by 1
+    // to make the range consistent.
     
     RealRange3dC(const TFVectorC<RealT,3> &org,const TFVectorC<RealT,3> &end)
       : is(org[0], end[0]), 
@@ -153,7 +155,7 @@ namespace RavlN {
     //: The number of k's in the rectangle.
     
     inline RealT Volume() const
-    { return (SizeT) Is() * Js() * Ks(); }
+    { return (size_t) Is() * Js() * Ks(); }
     //: Returns the volume of the prism expressed in number of indexs.
     
     inline RealRange3dC Dilate() const 

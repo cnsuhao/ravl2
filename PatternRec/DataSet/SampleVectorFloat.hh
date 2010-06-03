@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_SAMPLEVECTORFLOAT_HEADER
 #define RAVL_SAMPLEVECTORFLOAT_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: SampleVector.hh 5410 2006-03-12 21:37:43Z craftit $"
 //! author="Kieron Messer"
 //! docentry="Ravl.API.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec

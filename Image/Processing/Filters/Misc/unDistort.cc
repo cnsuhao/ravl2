@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: unDistort.cc 6431 2007-11-12 12:26:56Z ees1wc $"
 //! file="Ravl/Image/Processing/Filters/unDistort.cc"
 //! lib=RavlImageProc
 //! docentry="Ravl.Applications.Image;Ravl.API.Images.Scaling and Warping"

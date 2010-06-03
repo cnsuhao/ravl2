@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: MustLinkLibFFmpeg.cc 6685 2008-03-27 14:44:47Z craftit $"
 //! lib=RavlLibFFmpeg
 //! file="Ravl/Contrib/LibFFmpeg/MustLinkLibFFmpeg.cc"
 

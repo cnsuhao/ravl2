@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_DESIGNCLASSIFIERNEURALNETWORK_HEADER
 #define RAVL_DESIGNCLASSIFIERNEURALNETWORK_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignClassifierGaussianMixture.hh,v 1.4 2005/12/06 17:16:50 plugger Exp $"
 //! lib=RavlPatternRec
 //! docentry="Ravl.API.Pattern Recognition.Classifier.DesignClassifier"
 //! file="Ravl/PatternRec/Classify/DesignClassifierGaussianMixture.hh"

@@ -20,7 +20,9 @@
 #include "Ravl/StdHash.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Traits.hh"
+#include "Ravl/BufferSTLVector.hh"
 #include <vector>
+#include <set>
 #include <string>
 #include <typeinfo>
 #include <map>
@@ -86,6 +88,16 @@ namespace RavlN {
   { return ReadSTLContainer(strm,vec); }
   //: Read an STL vector from binary stream.
 
+  template<typename DataT>
+  BinOStreamC &operator<<(BinOStreamC &strm,const std::set<DataT> &vec)
+  { return WriteSTLContainer(strm,vec); }
+  //: Write an STL vector to binary stream.
+
+  template<typename DataT>
+  BinIStreamC &operator>>(BinIStreamC &strm,std::set<DataT> &vec)
+  { return ReadSTLContainer(strm,vec); }
+  //: Read an STL vector from binary stream.
+
   template<typename Data1T,typename Data2T,typename Data3T, typename Data4T>
   BinOStreamC &operator<<(BinOStreamC &strm,const std::map<Data1T,Data2T,Data3T,Data4T> &themap)
   { return WriteSTLContainer(strm,themap); }
@@ -119,7 +131,7 @@ namespace RavlN {
   template<typename DataT>
   SArray1dC<DataT> SArrayOf(const std::vector<DataT> &data) {
     if(data.size() < 1) return SArray1dC<DataT>();
-    return SArray1dC<DataT>(&(data[0]),data.size());
+    return SArray1dC<DataT>(BufferSTLVectorC<DataT>(data),data.size());
   }
   //: Turn an STL vector into an SArray1dC.
 }

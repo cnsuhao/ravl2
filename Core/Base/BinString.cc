@@ -1,11 +1,11 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BinString.cc 7557 2010-02-18 13:48:43Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/BinString.cc"
 
@@ -27,13 +27,13 @@ namespace RavlN {
       return out;
     }
 #endif
-    out << ((UIntT) str.length());
+    out << ((UInt32T) str.length());
     ONDEBUG(cerr << "operator<<(BinOStreamC &,StringC &), Writting string of " << str.length() << " bytes. \n");
     if(str.length() > 0)
       out.OBuff(str.chars(),str.length());
     return out;
   }
-  
+
   BinOStreamC &operator << (BinOStreamC &out,const SubStringC &str) {
 #if RAVL_CHECK
     if(!out.Stream()) {
@@ -41,13 +41,13 @@ namespace RavlN {
       return out;
     }
 #endif
-    out << ((UIntT) str.length());
+    out << ((UInt32T) str.length());
     ONDEBUG(cerr << "operator<<(BinOStreamC &,StringC &), Writting string of " << str.length() << " bytes. \n");
     if(str.length() > 0)
       out.OBuff(str.chars(),str.length());
     return out;
   }
-  
+
   BinIStreamC &operator >> (BinIStreamC &in,StringC &str) {
 #if RAVL_CHECK
     if(!in.Stream()) {
@@ -55,11 +55,11 @@ namespace RavlN {
       return in;
     }
 #endif
-    UIntT len;
+    UInt32T len;
     in >> len;
     if(len > in.ArraySizeLimit())
       throw ExceptionOutOfRangeC("Incoming string size exceeds array limit for stream.");
-    
+
     ONDEBUG(cerr << "operator>>(BinIStreamC &,StringC &), Reading string of " << len << " bytes. (Hex:" << hex << len << dec <<")\n");
     if(!in.Stream()) {
       str = StringC();

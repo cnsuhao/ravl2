@@ -7,7 +7,7 @@
 #ifndef RAVL_TIMEDTRIGGERQUEUE_HEADER
 #define RAVL_TIMEDTRIGGERQUEUE_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TimedTriggerQueue.hh 5624 2006-06-20 14:51:59Z craftit $"
 //! file="Ravl/OS/Threads/Tools/TimedTriggerQueue.hh"
 //! lib=RavlThreads
 //! docentry="Ravl.API.OS.Time"

@@ -7,7 +7,7 @@
 #ifndef RAVL_NETIPORT_HEADER
 #define RAVL_NETIPORT_HEADER 1
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: NetIPort.hh 7266 2009-09-15 09:07:59Z robowaz $"
 //! author="Charles Galambos"
 //! lib=RavlNet
 //! docentry="Ravl.API.OS.Network.NetPort"

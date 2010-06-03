@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: AVPlay.cc 6128 2007-04-20 14:57:53Z ees1wc $"
 //! file="Ravl/Applications/AVPlay/AVPlay.cc"
 //! docentry="Ravl.Applications.Video;Ravl.Applications.Audio;"
 //! author="Charles Galambos"

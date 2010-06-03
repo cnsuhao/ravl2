@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_INDEXRANGE2DITER_HEADER
 #define RAVL_INDEXRANGE2DITER_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: IndexRange2dIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Indexing"
 //! lib=RavlCore

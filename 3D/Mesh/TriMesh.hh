@@ -7,7 +7,7 @@
 #ifndef RAVL3D_TRIMESH_HEADER
 #define RAVL3D_TRIMESH_HEADER 1
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TriMesh.hh 6261 2007-07-09 15:42:21Z craftit $"
 //! lib=Ravl3D
 //! docentry="Ravl.API.3D.Mesh"
 //! author="Charles Galambos"

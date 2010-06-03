@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_WIDGETSTYLE_HEADER
 #define RAVLGUI_WIDGETSTYLE_HEADER 1
 /////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: WidgetStyle.hh 7109 2009-02-11 15:12:46Z craftit $"
 //! file="Ravl/GUI/GTK/WidgetStyle.hh"
 //! lib=RavlGUI
 //! author="James Smith"

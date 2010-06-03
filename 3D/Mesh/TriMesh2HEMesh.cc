@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: TriMesh2HEMesh.cc 1959 2002-10-30 14:43:09Z vap-james $"
 //! lib=Ravl3D
 //! file="Ravl/3D/Mesh/TriMesh2HEMesh.cc"
 

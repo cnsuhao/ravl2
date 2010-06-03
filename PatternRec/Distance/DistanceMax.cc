@@ -4,16 +4,24 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DistanceMax.cc 7590 2010-02-23 12:03:11Z kier $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Distance/DistanceMax.cc"
 
 #include "Ravl/PatternRec/DistanceMax.hh"
 #include "Ravl/VirtualConstructor.hh"
+#include "Ravl/XMLFactoryRegister.hh"
 
 namespace RavlN {
 
-  //: Load from stream.
+
+  //: XMLFactoryC constructor.
+
+  DistanceMaxBodyC::DistanceMaxBodyC(const XMLFactoryContextC &factory)
+    : DistanceBodyC(factory)
+  {
+    
+  }
   
   DistanceMaxBodyC::DistanceMaxBodyC(istream &strm)
     : DistanceBodyC(strm)
@@ -59,5 +67,10 @@ namespace RavlN {
   ////////////////////////////////////////////////////////////////////////
   
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(DistanceMaxBodyC,DistanceMaxC,DistanceC);
+
+  RavlN::XMLFactoryRegisterHandleConvertC<DistanceMaxC, DistanceC> g_registerXMLFactoryDistanceMax("RavlN::DistanceMaxC");
+
+  extern void linkDistanceMax()
+  {}
   
 }

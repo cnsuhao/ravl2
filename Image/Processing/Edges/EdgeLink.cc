@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! lib=RavlImageProc
-//! rcsid="$Id$"
+//! rcsid="$Id: EdgeLink.cc 5036 2005-07-24 20:18:17Z craftit $"
 //! authors="George Matas, Radek Marik and Charles Galambos"
 //! file="Ravl/Image/Processing/Edges/EdgeLink.cc"
 

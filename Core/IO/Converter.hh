@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////
 //! docentry="Ravl.API.Core.IO.Type Converter"
 //! lib=RavlIO
-//! rcsid="$Id$"
+//! rcsid="$Id: Converter.hh 7296 2009-10-09 09:36:35Z craftit $"
 //! file="Ravl/Core/IO/Converter.hh"
 //! author="Charles Galambos"
 //! date="17/08/1998"

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Thread.cc 7715 2010-05-03 11:28:15Z craftit $"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Posix/Thread.cc"
 
@@ -74,10 +74,10 @@ namespace RavlN {
 
   SizeT CurrentThreadID() {
 #if RAVL_HAVE_POSIX_THREADS
-    return (SizeT) pthread_self();
+    return (size_t) pthread_self();
 #endif
 #if RAVL_HAVE_WIN32_THREADS
-    return (SizeT) GetCurrentThread();
+    return (UInt64T) GetCurrentThread();
 #endif
   }
   
@@ -393,9 +393,9 @@ namespace RavlN {
 
   SizeT ThreadBodyC::ID() const {
 #if RAVL_HAVE_WIN32_THREADS
-    return (SizeT) threadID;
+    return (UInt64T) threadID;
 #else
-    return (SizeT) threadID;
+    return (size_t) threadID;
 #endif
   }
    
@@ -404,7 +404,7 @@ namespace RavlN {
   
   SizeT ThisThreadID() {
 #if RAVL_HAVE_POSIX_THREADS
-    return (SizeT) pthread_self();
+    return (size_t) pthread_self();
 #endif
 #if RAVL_HAVE_WIN32_THREADS
     return (SizeT) GetCurrentThreadId();

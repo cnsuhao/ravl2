@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: exSocket.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlNet
 //! file="Ravl/OS/Network/exSocket.cc"
 //! author="Charles Galambos"

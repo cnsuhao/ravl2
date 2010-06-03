@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: CifFormat.cc 566 2001-11-12 10:31:44Z craftit $"
 //! lib=RavlVideoIO
 //! file="Ravl/Image/VideoIO/CifFormat.cc"
 

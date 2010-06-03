@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Misc"
-//! rcsid="$Id$"
+//! rcsid="$Id: Empty.hh 7552 2010-02-18 13:43:32Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/Empty.hh"
 //! date="10/05/99"
@@ -50,16 +50,16 @@ namespace RavlN {
     // not far to go.
     
     bool operator==(const EmptyC &) const
-      { return true; }
+    { return true; }
     //: Comparison, all empty classes are the same.
     
     bool operator!=(const EmptyC &) const
-      { return false; }
+    { return false; }
     //: Comparison
     // all empty classes are the same.
     
-    UIntT Hash() const
-      { return 42; }
+    SizeT Hash() const
+    { return 42; }
     //: One hash values as good as another.
     
   };

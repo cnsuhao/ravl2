@@ -7,7 +7,7 @@
 #ifndef RAVLTEMPLATEFILE_HEADER
 #define RAVLTEMPLATEFILE_HEADER 1
 ///////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TemplateFile.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! example=exTemplateFile.cc
 //! file="Ravl/OS/Text/TemplateFile.hh"
 //! lib=RavlOS

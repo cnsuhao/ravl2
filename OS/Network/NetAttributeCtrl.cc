@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: NetAttributeCtrl.cc 5084 2005-08-19 10:40:18Z craftit $"
 //! lib=RavlNet
 //! author="Charles Galambos"
 //! file="Ravl/OS/Network/NetAttributeCtrl.cc"

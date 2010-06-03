@@ -6,11 +6,12 @@
 // file-header-ends-here
 
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: EventTimeLine.cc 7668 2010-03-26 11:53:03Z robowaz $"
 //! lib=RavlGUIUtil
 
 #include "Ravl/GUI/EventTimeLine.hh"
 #include "Ravl/GUI/Manager.hh"
+#include "EventTimeLine.hh"
 #include  <gdk/gdk.h>
 
 #define DODEBUG 0
@@ -32,6 +33,7 @@ namespace RavlGUIN {
       m_localSegment(3,-8),
       timeSelected(0.0),
       atMarker(0),
+      m_atSpan(0),
       updateId(0),
       markerGc(0),
       segmentGc(0)
@@ -44,6 +46,7 @@ namespace RavlGUIN {
       m_localSegment(3,-8),
       timeSelected(0.0),
       atMarker(0),
+      m_atSpan(0),
       updateId(0),
       markerGc(0),
       segmentGc(0)
@@ -59,6 +62,8 @@ namespace RavlGUIN {
       events(_events),
       m_localSegment(3,-8),
       timeSelected(0.0),
+      atMarker(0),
+      m_atSpan(0),
       updateId(0),
       markerGc(0),
       segmentGc(0)
@@ -69,6 +74,8 @@ namespace RavlGUIN {
       displayRange(rng),
       m_localSegment(3,-8),
       timeSelected(0.0),
+      atMarker(0),
+      m_atSpan(0),
       updateId(0),
       markerGc(0),
       segmentGc(0)
@@ -83,6 +90,8 @@ namespace RavlGUIN {
       displayRange(rng),
       m_localSegment(3,-8),
       timeSelected(0.0),
+      atMarker(0),
+      m_atSpan(0),
       updateId(0),
       markerGc(0),
       segmentGc(0)
@@ -124,113 +133,138 @@ namespace RavlGUIN {
 
   //: Set range of times to display
   
-  bool EventTimeLineBodyC::SetDisplayRange(RealRangeC &rng) 
+  bool EventTimeLineBodyC::SetDisplayRange(RealRangeC &rng, bool redraw)
   {
-    Manager.QueueOnGUI(Trigger(EventTimeLineC(*this),&EventTimeLineC::GUISetDisplayRange,rng));
+    Manager.QueueOnGUI(Trigger(EventTimeLineC(*this),&EventTimeLineC::GUISetDisplayRange,rng, redraw));
     return true; 
   }
 
   //: Set range of times to display
   
-  bool EventTimeLineBodyC::GUISetDisplayRange(RealRangeC &rng) {
+  bool EventTimeLineBodyC::GUISetDisplayRange(RealRangeC &rng, bool redraw) {
     displayRange = rng; 
     ONDEBUG(cerr << "EventTimeLineBodyC::GUISetDisplayRange(). Range=" << displayRange << " \n");
-    GUIDraw();
+    if (redraw)
+      GUIDraw();
     return true;
   }
+
+
   
   //: Set the local segment.
   
-  bool EventTimeLineBodyC::GUISetLocalSegment(const RealRangeC &segRange) {
+  bool EventTimeLineBodyC::GUISetLocalSegment(const RealRangeC &segRange, bool redraw) {
     ONDEBUG(cerr << "EventTimeLineBodyC::GUISetLocalSegment(const RealRangeC &segRange="<<segRange<<")\n");
     if(m_localSegment != segRange) {
       m_localSegment = segRange;
-      GUIDraw();
+      if (redraw)
+        GUIDraw();
     }
     return true;
   }
   
   //: Set marker position.
   
-  bool EventTimeLineBodyC::SetMarker(RealT time) {
-    Manager.Queue(Trigger(EventTimeLineC(*this),&EventTimeLineC::GUISetMarker,time));    
+  bool EventTimeLineBodyC::SetMarker(RealT time, bool redraw) {
+    Manager.Queue(Trigger(EventTimeLineC(*this),&EventTimeLineC::GUISetMarker,time, redraw));
     return true;
   }
   
   //: Set marker position.
   
-  bool EventTimeLineBodyC::GUISetMarker(RealT time) {
+  bool EventTimeLineBodyC::GUISetMarker(RealT time, bool redraw) {
     ONDEBUG(cerr << "EventTimeLineBodyC::GUISetMarker(RealT time=" << time << ")\n");
+    RavlAssertMsg(Manager.IsGUIThread(), "GUI Thread only");
     atMarker = time;
-    GUIDraw();
+    if (redraw)
+      GUIDraw();
+    return true;
+  }
+  
+  //: Centre on a specific time.
+
+
+  bool EventTimeLineBodyC::SetMarkerSpan(RealT span, bool redraw){
+    Manager.Queue(Trigger(EventTimeLineC(*this), &EventTimeLineC::GUISetMarkerSpan, span, redraw));
+    return true;
+  }
+
+
+  bool EventTimeLineBodyC::GUISetMarkerSpan(RealT span, bool redraw){
+    RavlAssertMsg(Manager.IsGUIThread(), "GUI Thread only");
+    m_atSpan = span;
+    if (redraw)
+      GUIDraw();
+    return true;
+  }
+
+  bool EventTimeLineBodyC::Goto(RealT &time, bool redraw) {
+    Manager.Queue(Trigger(EventTimeLineC(*this),&EventTimeLineC::GUIGoto,time, redraw));
     return true;
   }
   
   //: Centre on a specific time.
   
-  bool EventTimeLineBodyC::Goto(RealT &time) {
-    Manager.Queue(Trigger(EventTimeLineC(*this),&EventTimeLineC::GUIGoto,time));
-    return true;
-  }
-  
-  //: Centre on a specific time.
-  
-  bool EventTimeLineBodyC::GUIGoto(RealT &time) {
+  bool EventTimeLineBodyC::GUIGoto(RealT &time, bool redraw) {
     ONDEBUG(cerr << "EventTimeLineBodyC::GUIGoto(). Time=" << time << " \n");
     RealT size = displayRange.Size()/2;
     displayRange = RealRangeC(time - size ,time + size);
     //atMarker = time;
-    GUIDraw();
+    if (redraw)
+      GUIDraw();
     return true;
   }
   
   //: Set the length of time to display.
   
-  bool EventTimeLineBodyC::SetDisplaySpan(RealT &size) {
-    Manager.Queue(Trigger(EventTimeLineC(*this),&EventTimeLineC::GUISetDisplaySpan,size)); 
+  bool EventTimeLineBodyC::SetDisplaySpan(RealT &size, bool redraw) {
+    Manager.Queue(Trigger(EventTimeLineC(*this),&EventTimeLineC::GUISetDisplaySpan,size, redraw));
     return true;
   }
   
   //: Set the length of time to display.
   
-  bool EventTimeLineBodyC::GUISetDisplaySpan(RealT &size) {
+  bool EventTimeLineBodyC::GUISetDisplaySpan(RealT &size, bool redraw) {
     ONDEBUG(cerr << "bool EventTimeLineBodyC::GUISetDisplaySpan(RealT &size=" << size << ")\n");
     RealT time = displayRange.Center();
     RealT val = size / 2;
     displayRange = RealRangeC(time - val,time + val);
-    GUIDraw();
+    if (redraw)
+      GUIDraw();
     return true;
   }
 
 
   //: Set event list.
   
-  bool EventTimeLineBodyC::SetEvents(DListC<Tuple2C<IntT,RealRangeC> > &_events) {
-    Manager.Queue(Trigger(EventTimeLineC(*this),&EventTimeLineC::GUISetEvents,_events));
+  bool EventTimeLineBodyC::SetEvents(DListC<Tuple2C<IntT,RealRangeC> > &_events, bool redraw) {
+    Manager.Queue(Trigger(EventTimeLineC(*this),&EventTimeLineC::GUISetEvents,_events, redraw));
     return true;
   }
   
   //: Set event list.
   
-  bool EventTimeLineBodyC::GUISetEvents(DListC<Tuple2C<IntT,RealRangeC> > &_events) {
+  bool EventTimeLineBodyC::GUISetEvents(DListC<Tuple2C<IntT,RealRangeC> > &_events, bool redraw) {
     events = _events;
-    GUIDraw();
+    if (redraw)
+      GUIDraw();
     return true;
   }
 
   //: Set the inactive segment list
-  bool EventTimeLineBodyC::SetActiveSegments(DListC<RealRangeC> & _segments)
+  bool EventTimeLineBodyC::SetActiveSegments(DListC<RealRangeC> & _segments, bool redraw)
   {
-    Manager.Queue(Trigger(EventTimeLineC(*this), &EventTimeLineC::GUISetActiveSegments, _segments));
+    Manager.Queue(Trigger(EventTimeLineC(*this), &EventTimeLineC::GUISetActiveSegments, _segments, redraw));
     return true;
   }
 
 
   //: Set the inactive segment list
-  bool EventTimeLineBodyC::GUISetActiveSegments(DListC<RealRangeC> & _segments)
+  bool EventTimeLineBodyC::GUISetActiveSegments(DListC<RealRangeC> & _segments, bool redraw)
   {
     m_activeSegments = _segments;
-    GUIDraw();
+    if (redraw)
+      GUIDraw();
     return true;
   }
 
@@ -313,8 +347,9 @@ namespace RavlGUIN {
       // Right arrow clicked
       DLIterC< Tuple2C<IntT, RealRangeC> > it(events);
       for(; it; it++) {
-        if (it->Data2().Max() - 1 > atMarker)
+        if (it->Data2().Min() > atMarker)
           break;
+        
       }
       
       if (it) {
@@ -351,12 +386,6 @@ namespace RavlGUIN {
   bool EventTimeLineBodyC::GUIDraw() {
     ONDEBUG(cerr << "EventTimeLineBodyC::GUIDraw(). Range=" << displayRange << " Events=" << events.Size() << "\n");
 
-    cerr << "display area " << displayArea
-         << "\ndisplay range" << displayRange
-         << "\nlocal segment" << m_localSegment
-      << "\n at marker" << atMarker << endl;
-
-
     if(displayArea.Cols() < 1 || displayArea.Rows() < 1)
       return true; // No display area.
     
@@ -364,7 +393,6 @@ namespace RavlGUIN {
     GUIDrawRectangle(GUIDrawGCGrey(), displayArea, true);
     
     RealT scale = static_cast<RealT>(displayArea.Range2().Size()) / displayRange.Size();
-    ONDEBUG(cerr << "scale=" << scale << "\n");
     
     // Render visible part.
     IndexC midV = displayArea.Range1().Center();
@@ -377,13 +405,21 @@ namespace RavlGUIN {
     // How much time do the arrow obscure?
     RealT arrowTime = m_arrowWidth * displayRange.Size();
     IndexRange2dC arrowBox(vertRange, displayArea.Range2().Shrink(arrowWidth));
+    const RealT minLimit = displayRange.Min() + arrowTime;
+    const RealT maxLimit = displayRange.Max() - arrowTime;
 
 
     // draw active segments
     for (DLIterC<RealRangeC> iter(m_activeSegments) ; iter.IsElm() ; iter.Next())
     {
-      IndexRangeC rng2((iter->Min() - displayRange.Min()) * scale,
-                       (iter->Max() - displayRange.Min()) * scale);
+      // skip any out of range.
+      if ((iter->Max()<minLimit) || (iter->Min()>maxLimit))
+        continue;
+
+      RealRangeC clipped(iter.Data());
+      clipped.ClipBy(displayRange);
+      IndexRangeC rng2((clipped.Min() - displayRange.Min()) * scale,
+                       (clipped.Max() - displayRange.Min()) * scale);
       IndexRangeC rng1 = displayArea.Range1();
       IndexRange2dC box(rng1, rng2);
       box.Range2().ClipBy(arrowBox.Range2());
@@ -391,28 +427,27 @@ namespace RavlGUIN {
     }
 
 
-
     if(markerGc != 0) {
+      IndexRangeC horizRange ((atMarker - displayRange.Min())  * scale,
+                                          (atMarker+ (m_atSpan) - displayRange.Min()) * scale);
       IndexRange2dC markRange(displayArea.Range1(),
-                              IndexRangeC((atMarker - displayRange.Min()) * scale,
-                                          ((atMarker+1) - displayRange.Min()) * scale));
-      
+                              horizRange);
       if(markRange.Range2().Size() < 3) {// Make tiny bars are big enough to see.
         markRange.Range2().Expand((3 - markRange.Range2().Size())/2);
       }
-      
-      markRange.Range2().ClipBy(arrowBox.Range2());
-      cerr << "\n markerGc range = " << markRange << "******&&&&&&&&&&********** \n" ;
-
+      //markRange.Range2().ClipBy(arrowBox.Range2());
       GUIDrawRectangle(markerGc,markRange,true);
     }
 
 
 
     // Draw segment.
-    if(segmentGc != 0 && m_localSegment.Size() > 0 && m_localSegment.IsOverlapping(displayRange)) {
-      RealRangeC dispSegment((m_localSegment.Min() - displayRange.Min()) * scale,
-                             (m_localSegment.Max() - displayRange.Min()) * scale);
+//    if(segmentGc != 0 && m_localSegment.Size() > 0 && m_localSegment.IsOverlapping(displayRange)) {
+    RealRangeC clippedLocalSegment(m_localSegment);
+    clippedLocalSegment.ClipBy(displayRange);
+    if(segmentGc != 0 && clippedLocalSegment.Size() > 0 && clippedLocalSegment.IsOverlapping(displayRange)) {
+      RealRangeC dispSegment((clippedLocalSegment.Min() - displayRange.Min()) * scale,
+                             (clippedLocalSegment.Max() - displayRange.Min()) * scale);
       
       if(dispSegment.Size() == 0) // Make tiny bars at least 1 pixel wide.
         dispSegment.Max()++;
@@ -436,18 +471,21 @@ namespace RavlGUIN {
     GUIDrawLine(GUIDrawGCBlack(), Index2dC(midV, displayArea.Range2().Max() - arrowBorder), Index2dC(vertRange.Max(), maxCol + arrowBorder));
     GUIDrawLine(GUIDrawGCBlack(), Index2dC(vertRange.Min(), maxCol + arrowBorder),          Index2dC(vertRange.Max(), maxCol + arrowBorder));
     
-    
-    // Skip though stuff before.
-    // FIXME: Could cache?
-    DLIterC< Tuple2C<IntT, RealRangeC> > it(events);
-    const RealT maxLimit = displayRange.Min() + arrowTime;
-    for(;it && it->Data2().Max() < maxLimit;it++) ;
-    
-    // Draw until end of displayed time
-    const RealT minLimit = displayRange.Max() - arrowTime;
-    for( ; it && it->Data2().Min() <= minLimit; it++) {
-      IndexRangeC rng2((it->Data2().Min() - displayRange.Min()) * scale,
-                       (it->Data2().Max() - displayRange.Min()) * scale);
+ 
+    // Draw segment withing the displayed time
+    for( DLIterC< Tuple2C<IntT, RealRangeC> > it(events); it ; it++)
+    {
+      // skip segments that start after our max, or end before our min.
+      if ((it->Data2().Max() < minLimit) || (it->Data2().Min() > maxLimit))
+        continue;
+
+      // Truncate the clip to the display range.
+      RealRangeC clipped(it->Data2());
+      clipped.ClipBy(displayRange);
+
+
+      IndexRangeC rng2((clipped.Min() - displayRange.Min()) * scale,
+                       (clipped.Max() - displayRange.Min()) * scale);
       //      ONDEBUG(cerr << "Elm=" << rng2 << "\n");
       IndexRange2dC box(vertRange, rng2);
       if(box.Range2().Size() == 0) // Make tiny bars at least 1 pixel wide.

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! lib=RavlOSIO
-//! rcsid="$Id$"
+//! rcsid="$Id: DynamicLink.cc 3550 2003-10-14 15:42:55Z jonstarck $"
 //! file="Ravl/OS/IO/DynamicLink.cc"
 
 #include "Ravl/DP/DynamicLink.hh"

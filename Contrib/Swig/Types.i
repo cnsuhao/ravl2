@@ -4,6 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 
+#include "Ravl/Swig/Size.i"
+
 %{
 #ifdef SWIGPERL
 #undef Copy
@@ -23,9 +25,15 @@ namespace RavlN
   typedef float FloatT;
   typedef int IntT;
   typedef unsigned int UIntT;
-  typedef long long Int64T;
-  typedef unsigned long long UInt64T;
   typedef short int Int16T;
-  typedef unsigned int SizeT;
   typedef unsigned char ByteT;
+#ifdef linux64
+  typedef signed long int Int64T;
+  typedef unsigned long int UInt64T;
+#else
+  typedef signed long long int Int64T;
+  typedef unsigned long long int UInt64T;
+#endif
+  typedef SizeC SizeT;
+
 }

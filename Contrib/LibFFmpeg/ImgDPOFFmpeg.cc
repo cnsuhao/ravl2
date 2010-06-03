@@ -43,16 +43,12 @@ namespace RavlImageN
   ImgOLibFFmpegBodyC::ImgOLibFFmpegBodyC() :
     m_imageCache(g_cacheSize)
   {
-    BuildAttributes();
+    //BuildAttributes();
   }
-  
-
   
   ImgOLibFFmpegBodyC::~ImgOLibFFmpegBodyC()
   {
   }
-  
-
   
   bool ImgOLibFFmpegBodyC::Put(const ImageC<ByteRGBValueC> &img)
   {
@@ -64,73 +60,10 @@ namespace RavlImageN
     return false;
   }
 
-  //: Seek to location in stream.
-  
-  bool ImgOLibFFmpegBodyC::DSeek64(StreamPosT off) {
-    RavlAssert(0);
-    return false;    
-  }
-    
-  //: Seek to location in stream.
-  
-  bool ImgOLibFFmpegBodyC::DSeek(IntT off) {
-    RavlAssert(0);
-    return false;
-  }
-  
-  
-  bool ImgOLibFFmpegBodyC::Seek(UIntT off)
-  {
-    ONDEBUG(cerr << "ImgOLibFFmpegBodyC::Seek (" << off << ")" << endl;)
-    return false;
-  }
-
-
-  
-  UIntT ImgOLibFFmpegBodyC::Size() const
-  {
-    return ((UIntT)(-1));
-  }
-  
-
-  
-  bool ImgOLibFFmpegBodyC::Seek64(StreamPosT off)
-  {
-    ONDEBUG(cerr << "ImgOLibFFmpegBodyC::Seek (" << off << ")" << endl;)
-    return false;
-  }
-  
-
-  
-  StreamPosT ImgOLibFFmpegBodyC::Size64() const
-  {
-    return -1;
-  }
-  
-  
-  
-  bool ImgOLibFFmpegBodyC::PutEOS() const
-  {
-    ONDEBUG(cerr << "ImgOLibFFmpegBodyC::PutEOS end found" << endl;)
-    return true;
-  }
-
   bool ImgOLibFFmpegBodyC::IsPutReady() const
   {
     ONDEBUG(cerr << "ImgOLibFFmpegBodyC::IsPutReady() end found" << endl;)
     return true;
-  }
-
-  /*bool ImgOLibFFmpegBodyC::GetAttr(const StringC &attrName,StringC &attrValue)
-  {
-    return DPPortBodyC::GetAttr(attrName,attrValue);
-  }*/
-
-
-
-  void ImgOLibFFmpegBodyC::BuildAttributes() 
-  {
-//    RegisterAttribute(AttributeTypeStringC("frametype", "MPEG frame type", true, false));
   }
   
   

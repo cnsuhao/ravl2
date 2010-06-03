@@ -57,7 +57,7 @@ namespace RavlN {
     void Dump(ostream &out);
     //: Dump to stream.
     
-    inline UIntT Hash() const
+    inline SizeT Hash() const
     { return StdHash(reinterpret_cast<const void *>(this)); }
     //: Get hash value.
     
@@ -104,7 +104,7 @@ namespace RavlN {
     void Dump(ostream &out);
     //: Dump to stream.
     
-    inline UIntT Hash() const
+    inline SizeT Hash() const
     { return NodeID.V(); }
     //: Get hash value.
     

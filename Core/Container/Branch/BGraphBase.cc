@@ -7,7 +7,7 @@
 ///////////////////////////////////////////////////////////////
 //! date="19/2/1997"
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: BGraphBase.cc 927 2002-04-05 12:59:07Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Branch/BGraphBase.cc"
 

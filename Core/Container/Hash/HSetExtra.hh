@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Hash Tables"
 //! date="31/07/1998"
-//! rcsid="$Id$"
+//! rcsid="$Id: HSetExtra.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/HSet.hh"
 #include "Ravl/DList.hh"

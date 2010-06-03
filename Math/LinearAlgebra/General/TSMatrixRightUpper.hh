@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_TSMATRIXRIGHTUPPER_HEADER
 #define RAVL_TSMATRIXRIGHTUPPER_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: TSMatrixRightUpper.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlMath
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Math.Linear Algebra.Smart Matrix"

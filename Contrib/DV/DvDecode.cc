@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DvDecode.cc 4330 2004-05-21 09:40:33Z plugger $"
 //! lib=RavlDV
 //! file="Ravl/Contrib/DV/DvDecode.cc"
 

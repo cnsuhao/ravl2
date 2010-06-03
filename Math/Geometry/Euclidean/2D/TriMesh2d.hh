@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Math.Geometry.2D"
 //! lib=RavlMath
-//! rcsid="$Id$"
+//! rcsid="$Id: TriMesh2d.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Math/Geometry/Euclidean/2D/TriMesh2d.hh"
 
 #include "Ravl/Point2d.hh"

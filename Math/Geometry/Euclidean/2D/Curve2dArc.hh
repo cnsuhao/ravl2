@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_CURVE2DARC_HEADER
 #define RAVL_CURVE2DARC_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: Curve2dArc.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlMath
 //! author="Charles Galambos"
 //! userlevel=Normal

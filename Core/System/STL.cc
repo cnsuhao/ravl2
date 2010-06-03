@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Option.cc 5431 2006-03-28 17:28:31Z ees1wc $"
 //! lib=RavlCore
 //! file="Ravl/Core/System/STL.cc"
 

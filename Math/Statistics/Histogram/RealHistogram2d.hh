@@ -7,7 +7,7 @@
 #ifndef RAVL_REALHISTOGRAM2D_HEADER
 #define RAVL_REALHISTOGRAM2D_HEADER 1
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RealHistogram2d.hh 6053 2007-02-12 12:27:33Z ees1wc $"
 //! author="Charles Galambos, Bill Christmas"
 //! docentry="Ravl.API.Math.Statistics.Histogram"
 //! lib=RavlMath

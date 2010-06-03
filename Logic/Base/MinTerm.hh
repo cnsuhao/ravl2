@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_MINTERM_HEADER
 #define RAVLLOGIC_MINTERM_HEADER 1
 ////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MinTerm.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Logic.Condition"
 //! lib=RavlLogic
 //! author="Charles Galambos"

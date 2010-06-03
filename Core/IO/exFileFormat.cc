@@ -6,7 +6,7 @@
 // file-header-ends-here
 ////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: exFileFormat.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/exFileFormat.cc"
 //! docentry="Ravl.API.Core.IO.Formats" 

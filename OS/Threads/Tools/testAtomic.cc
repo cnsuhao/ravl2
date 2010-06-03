@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testAtomic.cc 7284 2009-09-23 16:21:58Z craftit $"
 //! lib=RavlThreads
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Misc"

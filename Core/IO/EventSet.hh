@@ -7,7 +7,7 @@
 #ifndef RAVL_DPEVENTSET_HEADER
 #define RAVL_DPEVENTSET_HEADER 1
 ///////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: EventSet.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/IO/EventSet.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"

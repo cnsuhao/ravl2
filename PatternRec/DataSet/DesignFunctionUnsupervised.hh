@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_DESIGNFUNCTIONUNSUPERVISED_HEADER
 #define RAVL_DESIGNFUNCTIONUNSUPERVISED_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignFunctionUnsupervised.hh 7326 2009-10-21 16:34:12Z craftit $"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Pattern Recognition.Functions"

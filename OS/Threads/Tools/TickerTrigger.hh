@@ -7,7 +7,7 @@
 #ifndef RAVL_TICKERTRIGGER_HEADER
 #define RAVL_TICKERTRIGGER_HEADER 1
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TickerTrigger.hh 5595 2006-06-16 10:32:41Z craftit $"
 //! file="Ravl/OS/Threads/Tools/TickerTrigger.hh"
 //! lib=RavlThreads
 //! userlevel=Default

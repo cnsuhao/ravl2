@@ -8,7 +8,7 @@
 #define RAVL_SBFACCITER2_HEADER 1
 ///////////////////////////////////////////////////
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: BfAccIter2.hh 7651 2010-03-09 11:40:09Z craftit $"
 //! file="Ravl/Core/Container/Buffer/BfAccIter2.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
@@ -42,7 +42,7 @@ namespace RavlN {
     inline BufferAccessIter2C(const SizeBufferAccessC<Data1T> &buff,const SizeBufferAccessC<Data2T> &buff2)
     { First(buff,buff2); }
     
-    inline BufferAccessIter2C(const SizeBufferAccessC<Data1T> &buff,const SizeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2)
+    inline BufferAccessIter2C(const SizeBufferAccessC<Data1T> &buff,const SizeBufferAccessC<Data2T> &buff2,SizeT off1,SizeT off2)
     { First(buff,buff2,off1,off2); }
     //: Constructor.
     // start from off1 in the first array and off2 in the second.
@@ -52,32 +52,43 @@ namespace RavlN {
     //: Constructor.
     // Only iterate through 'range' in both buffers.
 
-    inline BufferAccessIter2C(const RangeBufferAccessC<Data1T> &buff,const RangeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2 = 0)
+    inline BufferAccessIter2C(const RangeBufferAccessC<Data1T> &buff,const RangeBufferAccessC<Data2T> &buff2,SizeT off1,SizeT off2)
     { First(buff,buff2,off1,off2); }
     //: Constructor.
-    // Iterate through buffers starting at the given offsets off1 and off2 from the begining of the ranges.
+    // Iterate through buffers starting at the given offsets off1 and off2 from the beginning of the ranges.
     
     inline bool First(const RangeBufferAccessC<Data1T> &buff,const RangeBufferAccessC<Data2T> &buff2);
     //: Goto first elements.
 
-    inline bool First(const RangeBufferAccessC<Data1T> &buff,const RangeBufferAccessC<Data2T> &buff2,const IndexRangeC &rng);
+    inline bool First(const RangeBufferAccessC<Data1T> &buff,const RangeBufferAccessC<Data2T> &buff2,
+                        const IndexRangeC &rng);
     //: Goto first elements.
     
     inline bool First(const SizeBufferAccessC<Data1T> &buff,const SizeBufferAccessC<Data2T> &buff2);
     //: Goto first elements.
     
-    inline bool First(const SizeBufferAccessC<Data1T> &buff,const SizeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2);
+    inline bool First(const SizeBufferAccessC<Data1T> &buff,const SizeBufferAccessC<Data2T> &buff2,
+                        SizeT off1,SizeT off2);
     //: Goto first elements.
     
-    inline bool First(const RangeBufferAccessC<Data1T> &buff,const RangeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2 = 0);
+    inline bool First(const RangeBufferAccessC<Data1T> &buff,
+                      const RangeBufferAccessC<Data2T> &buff2,SizeT off1,SizeT off2 = 0);
     //: Goto first elements.
     
-    inline bool First(const BufferAccessC<Data1T> &buff,const BufferAccessC<Data2T> &buff2,SizeT size);
+    inline bool First(const BufferAccessC<Data1T> &buff,
+                        const BufferAccessC<Data2T> &buff2,SizeT size);
     //: Goto first elements.
 
-    inline bool First(const BufferAccessC<Data1T> &buff,const IndexRangeC &rng1,const BufferAccessC<Data2T> &buff2,const IndexRangeC &rng2);
+
+    inline bool First(const BufferAccessC<Data1T> &buff,const IndexRangeC &rng1,
+                        const BufferAccessC<Data2T> &buff2,const IndexRangeC &rng2);
     //: Goto first elements.
-    
+
+    inline bool First(const BufferAccessC<Data1T> &buff,SizeT size1,
+                        const BufferAccessC<Data2T> &buff2,SizeT size2)
+    { return First(buff,IndexRangeC(size1),buff2,IndexRangeC(size2)); }
+    //: Goto first elements.
+
     inline bool IsElm() const
     { return at1 < endOfRow; }
     //: At valid element ?
@@ -115,13 +126,13 @@ namespace RavlN {
     inline BufferAccessIter2C<Data1T,Data2T> & operator+=(int skip)
     { Next(skip); return *this; }
     //: Advance 'skip' elements.
-    // WARNING: When using negative values, positions before the begining of the array will
+    // WARNING: When using negative values, positions before the beginning of the array will
     // not be detected correctly by IsElm().
     
     inline BufferAccessIter2C<Data1T,Data2T> & operator-=(int skip)
     { Next(-skip); return *this; }
     //: Go back 'skip' elements.
-    // WARNING: When using positive values, positions before the begining of the array will
+    // WARNING: When using positive values, positions before the beginning of the array will
     // not be detected correctly by IsElm().
     
     inline Data1T &Data1()
@@ -183,7 +194,10 @@ namespace RavlN {
   
   template<class Data1T,class Data2T>
   inline 
-  bool BufferAccessIter2C<Data1T,Data2T>::First(const BufferAccessC<Data1T> &buff1,const BufferAccessC<Data2T> &buff2,SizeT size) {
+  bool BufferAccessIter2C<Data1T,Data2T>::First(const BufferAccessC<Data1T> &buff1,
+                                                     const BufferAccessC<Data2T> &buff2,
+                                                     SizeT size)
+  {
     if(size <= 0) {
       at1 = 0;
       at2 = 0; // Avoid a warning.
@@ -198,7 +212,9 @@ namespace RavlN {
 
   template<class Data1T,class Data2T>
   inline 
-  bool BufferAccessIter2C<Data1T,Data2T>::First(const BufferAccessC<Data1T> &buff1,const IndexRangeC &rng1,const BufferAccessC<Data2T> &buff2,const IndexRangeC &rng2) {
+  bool BufferAccessIter2C<Data1T,Data2T>::First(const BufferAccessC<Data1T> &buff1,const IndexRangeC &rng1,
+                                                     const BufferAccessC<Data2T> &buff2,const IndexRangeC &rng2)
+  {
     if(rng1.Size() <= 0) {
       at1 = 0;
       at2 = 0; // Avoid a warning.
@@ -246,7 +262,7 @@ namespace RavlN {
   
   template<class Data1T,class Data2T>
   inline 
-  bool BufferAccessIter2C<Data1T,Data2T>::First(const SizeBufferAccessC<Data1T> &buff1,const SizeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2) {
+  bool BufferAccessIter2C<Data1T,Data2T>::First(const SizeBufferAccessC<Data1T> &buff1,const SizeBufferAccessC<Data2T> &buff2,SizeT off1,SizeT off2) {
     if(buff1.Size() <= off1) {
       at1 = 0;
       at2 = 0; // Avoid a warning.
@@ -263,7 +279,7 @@ namespace RavlN {
 
   template<class Data1T,class Data2T>
   inline 
-  bool BufferAccessIter2C<Data1T,Data2T>::First(const RangeBufferAccessC<Data1T> &buff1,const RangeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2) {
+  bool BufferAccessIter2C<Data1T,Data2T>::First(const RangeBufferAccessC<Data1T> &buff1,const RangeBufferAccessC<Data2T> &buff2,SizeT off1,SizeT off2) {
     if(buff1.Size() <= off1) {
       at1 = 0;
       at2 = 0; // Avoid a warning.

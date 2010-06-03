@@ -11,7 +11,7 @@
 #ifndef RAVL_NETSTREAM_HEADER
 #define RAVL_NETSTREAM_HEADER 1
 /////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: NetStream.hh 5504 2006-05-30 15:28:02Z apanman $"
 //! lib=RavlNet
 //! author="Charles Galambos"
 //! example=exSocket.cc

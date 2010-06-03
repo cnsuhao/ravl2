@@ -7,7 +7,7 @@
 #ifndef RAVL_BFACC3ITER3_HEADER
 #define RAVL_BFACC3ITER3_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BfAcc3Iter3.hh 7651 2010-03-09 11:40:09Z craftit $"
 //! file="Ravl/Core/Container/Buffer/BfAcc3Iter3.hh"
 //! docentry="Ravl.API.Core.Arrays.Buffer"
 //! lib=RavlCore
@@ -82,12 +82,12 @@ namespace RavlN {
 	       const BufferAccessC<BufferAccessC<BufferAccessC<Data2T> > > &pbufb,SizeT size1b,SizeT size2b,SizeT size3b,
 	       const BufferAccessC<BufferAccessC<BufferAccessC<Data3T> > > &pbufc,SizeT size1c,SizeT size2c,SizeT size3c
 	       ) {
-      rng2a = IndexRangeC(0,size2a-1);
-      rng3a = IndexRangeC(0,size3a-1);
-      rng2b = IndexRangeC(0,size2b-1);
-      rng3b = IndexRangeC(0,size3b-1);
-      rng2c = IndexRangeC(0,size2c-1);
-      rng3c = IndexRangeC(0,size3c-1);
+      rng2a = IndexRangeC(size2a);
+      rng3a = IndexRangeC(size3a);
+      rng2b = IndexRangeC(size2b);
+      rng3b = IndexRangeC(size3b);
+      rng2c = IndexRangeC(size2c);
+      rng3c = IndexRangeC(size3c);
       rit.First(pbufa,size1a,
 		pbufb,size1b,
 		pbufc,size1c);
@@ -137,8 +137,8 @@ namespace RavlN {
 		rit.Data3(),rng2c,rng3c);
       return true;      
     }
-    //: Go to the begining of the next row.
-    // returns true if iterator is left at the begining of a valid row or
+    //: Go to the beginning of the next row.
+    // returns true if iterator is left at the beginning of a valid row or
     // false if the end of the array has been reached.
     
     bool Next() { 

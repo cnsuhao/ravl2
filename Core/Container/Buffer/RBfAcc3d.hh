@@ -7,7 +7,7 @@
 #ifndef RAVL_RBFACC3D_HEADER
 #define RAVL_RBFACC3D_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RBfAcc3d.hh 7563 2010-02-18 16:41:12Z craftit $"
 //! file="Ravl/Core/Container/Buffer/RBfAcc3d.hh"
 //! lib=RavlCore
 //! userlevel=Normal
@@ -54,7 +54,7 @@ namespace RavlN {
     
     inline bool Contains(const Index3dC & i) const
     { return Range1().Contains(i.I()) && Range2().Contains(i.J()) && Range3().Contains(i.J()); }
-    //: Returns true if there is an item of the £D array
+    //: Returns true if there is an item of the ï¿½D array
     
     inline DataT & operator[](const Index3dC & i) { 
       RavlAssertMsg(rng2.Contains(i.J()),"j index out of range");
@@ -70,11 +70,27 @@ namespace RavlN {
     }
     //: return the item array[(i)]
 
-    inline RangeBufferAccess2dC<DataT> operator[](IndexC i)
+    inline RangeBufferAccess2dC<DataT> operator[](const IntT &i)
+    { return RangeBufferAccess2dC<DataT>(RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > >::operator[](i),rng2,rng3); }
+    //: access to the item array[(i)]
+
+    inline const RangeBufferAccess2dC<DataT> operator[](const IntT &i) const
+    { return RangeBufferAccess2dC<DataT>(RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > >::operator[](i),rng2,rng3); }
+    //: return the item array[(i)]
+
+    inline RangeBufferAccess2dC<DataT> operator[](const IndexC &i)
     { return RangeBufferAccess2dC<DataT>(RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > >::operator[](i),rng2,rng3); }
     //: access to the item array[(i)]
     
-    inline const RangeBufferAccess2dC<DataT> operator[](IndexC i) const
+    inline const RangeBufferAccess2dC<DataT> operator[](const IndexC &i) const
+    { return RangeBufferAccess2dC<DataT>(RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > >::operator[](i),rng2,rng3); }
+    //: return the item array[(i)]
+
+    inline RangeBufferAccess2dC<DataT> operator[](const SizeC &i)
+    { return RangeBufferAccess2dC<DataT>(RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > >::operator[](i),rng2,rng3); }
+    //: access to the item array[(i)]
+
+    inline const RangeBufferAccess2dC<DataT> operator[](const SizeC &i) const
     { return RangeBufferAccess2dC<DataT>(RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > >::operator[](i),rng2,rng3); }
     //: return the item array[(i)]
 
@@ -101,7 +117,7 @@ namespace RavlN {
     void Fill(const DataT &d);
     //: Fill array with value.
     
-    UIntT Size() const 
+    SizeT Size() const
     { return Range1().Size() * Range2().Size() * Range3().Size(); }
     //: Get the total number of elements in the array.
     

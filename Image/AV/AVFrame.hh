@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_AVFRAME_HEADER
 #define RAVLIMAGE_AVFRAME_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: AVFrame.hh 5593 2006-06-14 14:35:25Z ees1wc $"
 //! lib=RavlAV
 //! author="Charles Galambos"
 //! userlevel=Normal

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: LiteralIndexLeafIter.cc 3720 2003-11-22 15:18:25Z craftit $"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Index/LiteralIndexLeafIter.cc"
 

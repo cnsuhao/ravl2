@@ -7,7 +7,7 @@
 #ifndef RAVL_BFACC3ITER_HEADER
 #define RAVL_BFACC3ITER_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BfAcc3Iter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/Container/Buffer/BfAcc3Iter.hh"
 //! docentry="Ravl.API.Core.Arrays.Buffer"
 //! lib=RavlCore

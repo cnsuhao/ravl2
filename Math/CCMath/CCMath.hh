@@ -7,7 +7,7 @@
 #ifndef RAVLCCMATH_HEADER
 #define RAVLCCMATH_HEADER 1
 //////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: CCMath.hh 6089 2007-03-09 12:06:28Z ees1wc $"
 //! file="Ravl/Math/CCMath/CCMath.hh"
 //! lib=RavlMath
 //! userlevel=Develop

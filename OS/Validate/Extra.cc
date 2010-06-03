@@ -6,7 +6,7 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////////////////////////
 // Self check code.
-//! rcsid="$Id$"
+//! rcsid="$Id: Extra.cc 5167 2005-10-19 08:54:09Z plugger $"
 //! file="Ravl/OS/Validate/Extra.cc"
 
 #include "Ravl/RefCounter.hh"

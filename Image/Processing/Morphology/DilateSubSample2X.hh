@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_DILATESUBSAMPLE2X_HEADER
 #define RAVLIMAGE_DILATESUBSAMPLE2X_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: DilateSubSample2X.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlImageProc
 //! author="Joel Mitchelson"
 //! userlevel=Normal

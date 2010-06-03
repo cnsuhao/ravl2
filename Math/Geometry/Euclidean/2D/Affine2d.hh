@@ -13,12 +13,12 @@
 //! author="Charles Galambos"
 //! date="17/3/1997"
 //! docentry="Ravl.API.Math.Geometry.2D"
-//! rcsid="$Id$"
+//! rcsid="$Id: Affine2d.hh 7516 2010-02-14 13:48:17Z xuanzou $"
 
 #include "Ravl/Matrix2d.hh"
 #include "Ravl/Vector2d.hh"
 #include "Ravl/FAffine.hh"
-
+#include "Ravl/Point2d.hh"
 namespace RavlN {
   template<class DataT> class SArray1dC;
   template<class DataT> class DListC;
@@ -181,7 +181,10 @@ namespace RavlN {
   
   Polygon2dC operator*(const FAffineC<2> &trans,const Polygon2dC &points);
   //: Apply a affine transform to a polygon
-  
+
+  SArray1dC<Point2dC> operator*(const FAffineC<2> &trans,const SArray1dC<Point2dC> &points);
+  //: Apply a affine transform to an array of points.
+
   /////////////////////////////////
   
   inline 

@@ -7,7 +7,7 @@
 #ifndef RAVL_DLITER_HEADER
 #define RAVL_DLITER_HEADER 1
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DLIter.hh 7130 2009-03-22 10:54:07Z craftit $"
 //! docentry="Ravl.API.Core.Lists"
 //! file="Ravl/Core/Container/DList/DLIter.hh"
 //! lib=RavlCore

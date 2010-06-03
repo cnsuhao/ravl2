@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_DPDISPLAYOBJ_HEADER
 #define RAVLGUI_DPDISPLAYOBJ_HEADER 1
 /////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DPDisplayObj.hh 6701 2008-04-09 16:07:40Z ees1wc $"
 //! lib=RavlDPDisplay
 //! file="Ravl/GUI/DPDisplay/DPDisplayObj.hh"
 //! author="Charles Galambos"

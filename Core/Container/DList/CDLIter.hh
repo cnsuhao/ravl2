@@ -7,7 +7,7 @@
 #ifndef RAVLCDLITER_HEADER
 #define RAVLCDLITER_HEADER
 ///////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: CDLIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Core.Lists"
 //! file="Ravl/Core/Container/DList/CDLIter.hh"
 //! lib=RavlCore

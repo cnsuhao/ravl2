@@ -14,7 +14,7 @@
 //! example=testCost.cc
 //! file="Ravl/PatternRec/Optimise/CostInvert.hh"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation.Cost Functions"
-//! rcsid="$Id$"
+//! rcsid="$Id: CostInvert.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/PatternRec/Cost.hh"
 

@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_LINEPP2D_HEADER
 #define RAVL_LINEPP2D_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: LinePP2d.hh 7472 2010-01-20 16:37:57Z ees1wc $"
 //! lib=RavlMath
 //! date="13/9/2002"
 //! author="Charles Galambos"
@@ -49,7 +49,9 @@ namespace RavlN {
     
     bool ClipBy(const RealRange2dC &rng);
     //: Clip line by given rectangle.
-    // Returns false if no part of the line is in the rectangle.
+    // If no part of the line is in the rectangle:<ul>
+    // <li>line is <i>not</i> clipped</li>
+    // <li>method returns <code>false</code></li></ul>
     
     bool IsPointToRight(const Point2dC& pnt) const
     { return pnt.Area2(P1(),P2()) < 0; }
@@ -97,7 +99,30 @@ namespace RavlN {
       return ATan2(dir[1],dir[0]);
     }
     //: Return the direction of the line.
+
+    Vector2dC Normal() const
+    { return Vector2dC(point[1][1]-point[0][1],point[1][0]-point[0][0]); }
+    //: Returns the normal of the line.
     
+    Vector2dC UnitNormal() const
+    { 
+      Vector2dC normal = Normal();
+      return normal / normal.Magnitude();
+    }
+    //: Returns the normal of the line normalized to have unit size.
+    
+    RealT SignedDistance(const Point2dC pt) const
+    { return Vector2dC(Vector()).Cross(Vector2dC(pt-P1()))/Length(); }
+    //: Return signed distance of pt from this line
+    
+    RealT Distance(const Point2dC pt) const
+    { return Abs(SignedDistance(pt)); }
+    //: Return signed distance of pt from this line
+    
+    Point2dC Projection(const Point2dC & Pt) const
+    { 
+      return Point(ParClosest(Pt));
+    }
   };
   
 }

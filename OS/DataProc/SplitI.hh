@@ -10,7 +10,7 @@
 //! docentry="Ravl.API.Core.Data Processing.Split"
 //! lib=RavlDPMT
 //! example=exDPSplit.cc
-//! rcsid="$Id$"
+//! rcsid="$Id: SplitI.hh 6681 2008-03-19 13:05:23Z craftit $"
 //! file="Ravl/OS/DataProc/SplitI.hh"
 //! author="Charles Galambos"
 //! date="21/07/1998"

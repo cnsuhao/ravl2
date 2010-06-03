@@ -7,7 +7,7 @@
 #ifndef RAVLFILEFORMATGEN_HEADER
 #define RAVLFILEFORMATGEN_HEADER 1
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FileFormatGen.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/IO/FileFormatGen.hh"
 //! lib=RavlIO
 //! docentry="Ravl.API.Core.IO.Formats" 

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: AttributeCtrl.cc 7646 2010-03-08 14:43:10Z robowaz $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/AttributeCtrl.cc"
 
@@ -112,11 +112,18 @@ namespace RavlN {
 	return true;
       }
       case AVT_Int: {
-	IntT val;
-	if(!GetAttr(attrName,val))
-	  break;
-	attrValue = StringC(val);
-	return true;
+        IntT val;
+        if(!GetAttr(attrName,val))
+          break;
+        attrValue = StringC(val);
+        return true;
+      }
+      case AVT_Int64: {
+        Int64T val;
+        if(!GetAttr(attrName,val))
+          break;
+        attrValue = StringC(val);
+        return true;
       }
       case AVT_Real: {
 	RealT val;
@@ -173,9 +180,13 @@ namespace RavlN {
 	  return true;
       } break;
       case AVT_Int:
-	if(SetAttr(attrName,attrValue.IntValue()))
-	  return true;
-	break;
+        if(SetAttr(attrName,attrValue.IntValue()))
+          return true;
+        break;
+      case AVT_Int64:
+        if(SetAttr(attrName,attrValue.Int64Value()))
+          return true;
+        break;
       case AVT_Real: 
 	if(SetAttr(attrName,attrValue.RealValue()))
 	  return true;
@@ -208,9 +219,9 @@ namespace RavlN {
     if(parent.IsValid())
       if(parent.GetAttr(attrName,attrValue))
 	return true;
-    
+
     // Is attribute of another type ?
-    
+
     AttributeTypeC attrType = GetAttrType(attrName);
     if(attrType.IsValid()) { // Do we know of this attribute ?
       switch(attrType.ValueType()) {
@@ -230,11 +241,11 @@ namespace RavlN {
 #endif
     return false;
   }
-  
+
   //: Set a stream attribute.
   // Returns false if the attribute name is unknown.
   // This is for handling stream attributes such as frame rate, and compression ratios.
-  
+
   bool AttributeCtrlBodyC::SetAttr(const StringC &attrName,const IntT &attrValue) {
     ONDEBUG(cerr << "AttributeCtrlBodyC::SetAttr(const StringC &,const IntT &) '" << attrName << "' = " <<attrValue << " \n");
     AttributeCtrlC parent = ParentCtrl();
@@ -242,9 +253,9 @@ namespace RavlN {
     if(parent.IsValid())
       if(parent.SetAttr(attrName,attrValue))
 	return true;
-    
+
     // Is attribute of another type ?
-    
+
     AttributeTypeC attrType = GetAttrType(attrName);
     if(attrType.IsValid()) { // Do we know of this attribute ?
       switch(attrType.ValueType()) {
@@ -261,7 +272,67 @@ namespace RavlN {
 #endif
     return false;
   }
-  
+
+  bool AttributeCtrlBodyC::GetAttr(const StringC &attrName,Int64T &attrValue) {
+    AttributeCtrlC parent = ParentCtrl();
+    // Try pasing it back along the processing chain.
+    if(parent.IsValid())
+      if(parent.GetAttr(attrName,attrValue))
+      	return true;
+
+    // Is attribute of another type ?
+
+    AttributeTypeC attrType = GetAttrType(attrName);
+    if(attrType.IsValid()) { // Do we know of this attribute ?
+      switch(attrType.ValueType()) {
+        case AVT_Bool: {
+          bool val;
+          if(GetAttr(attrName,val))
+            return true;
+          attrValue = val ? 1 : 0;
+        } break;
+        default:
+          break;
+      }
+    }
+
+#if RAVL_CHECK
+    cerr << "AttributeCtrlBodyC::GetAttr(const StringC &,IntT &), Unknown attribute '" << attrName << "'\n";
+#endif
+    return false;
+  }
+
+  //: Set a stream attribute.
+  // Returns false if the attribute name is unknown.
+  // This is for handling stream attributes such as frame rate, and compression ratios.
+
+  bool AttributeCtrlBodyC::SetAttr(const StringC &attrName,const Int64T &attrValue) {
+    ONDEBUG(cerr << "AttributeCtrlBodyC::SetAttr(const StringC &,const IntT &) '" << attrName << "' = " <<attrValue << " \n");
+    AttributeCtrlC parent = ParentCtrl();
+    // Try pasing it back along the processing chain.
+    if(parent.IsValid())
+      if(parent.SetAttr(attrName,attrValue))
+        return true;
+
+    // Is attribute of another type ?
+
+    AttributeTypeC attrType = GetAttrType(attrName);
+    if(attrType.IsValid()) { // Do we know of this attribute ?
+      switch(attrType.ValueType()) {
+        case AVT_Bool:
+          if(SetAttr(attrName,(attrValue != 0)))
+            return true;
+          break;
+        default:
+          break;
+      }
+    }
+#if RAVL_CHECK
+    cerr << "AttributeCtrlBodyC::SetAttr(const StringC &,const IntT &), Unknown attribute '" << attrName << "' Value:'" << attrValue << "'\n";
+#endif
+    return false;
+  }
+
   //: Get a stream attribute.
   // Returns false if the attribute name is unknown.
   // This is for handling stream attributes such as frame rate, and compression ratios.
@@ -315,14 +386,21 @@ namespace RavlN {
     if(attrType.IsValid()) { // Do we know of this attribute ?
       switch(attrType.ValueType()) {
       case AVT_Int: {
-	int val;
-	if(!GetAttr(attrName,val))
-	  return false;
-	attrValue = (val != 0);
-	return true;
+        int val;
+        if(!GetAttr(attrName,val))
+          return false;
+        attrValue = (val != 0);
+        return true;
+      }
+      case AVT_Int64: {
+        Int64T val;
+        if(!GetAttr(attrName,val))
+          return false;
+        attrValue = (val != 0);
+        return true;
       }
       default:
-	break;
+        break;
       }
     }
 
@@ -350,11 +428,15 @@ namespace RavlN {
     if(attrType.IsValid()) { // Do we know of this attribute ?
       switch(attrType.ValueType()) {
       case AVT_Int:
-	if(SetAttr(attrName,(IntT) attrValue))
-	  return true;
-	break;
+        if(SetAttr(attrName,static_cast<IntT>(attrValue)))
+          return true;
+        break;
+      case AVT_Int64:
+        if(SetAttr(attrName, static_cast<Int64T>(attrValue)))
+          return true;
+        break;
       default:
-	break;
+        break;
       }
     }
 

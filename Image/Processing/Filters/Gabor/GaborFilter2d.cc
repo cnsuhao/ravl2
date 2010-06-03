@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! author="Kieron Messer"
 //! date="17/10/2000"
-//! rcsid="$Id$"
+//! rcsid="$Id: GaborFilter2d.cc 6431 2007-11-12 12:26:56Z ees1wc $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Filters/GaborFilter2d.cc"
 

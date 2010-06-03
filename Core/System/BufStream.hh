@@ -7,7 +7,7 @@
 #ifndef RAVL_BUFSTREAM_HEADER
 #define RAVL_BUFSTREAM_HEADER 1
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BufStream.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/System/BufStream.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"

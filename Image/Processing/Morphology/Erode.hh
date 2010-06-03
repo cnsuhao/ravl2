@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_ERODE_HEADER
 #define RAVLIMAGE_ERODE_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: Erode.hh 5520 2006-06-06 09:52:38Z craftit $"
 //! lib=RavlImageProc
 //! author="Joel Mitchelson"
 //! userlevel=Normal

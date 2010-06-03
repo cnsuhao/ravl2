@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: CornerDetector.cc 1533 2002-08-08 16:03:23Z craftit $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Corners/CornerDetector.cc"
 

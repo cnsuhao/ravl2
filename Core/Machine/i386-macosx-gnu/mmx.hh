@@ -7,7 +7,7 @@
 #ifndef RAVL_MMX_HEADER
 #define RAVL_MMX_HEADER 1
 ///////////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: mmx.hh 4900 2005-04-25 09:34:36Z craftit $"
 //! author="Ramesh Krishna"
 //! lib=RavlCore
 //! file="Ravl/Core/Machine/i386-linux-gnu/mmx.hh"

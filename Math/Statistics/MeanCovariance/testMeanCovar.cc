@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: testMeanCovar.cc 6776 2008-04-30 14:20:25Z ees1wc $"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/MeanCovariance/testMeanCovar.cc"
 

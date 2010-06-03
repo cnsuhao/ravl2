@@ -1,7 +1,7 @@
 #ifndef RAVLEVENTHANDLER_HEADER
 #define RAVLEVENTHANDLER_HEADER 1
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: EventHandler.hh 4 2001-04-11 12:45:55Z craftit $"
 //! file="amma/StdType/System/PThreads/Tools/EventHandler.hh"
 //! lib=PThreadTools
 //! userlevel=Normal

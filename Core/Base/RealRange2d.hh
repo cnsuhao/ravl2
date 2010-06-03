@@ -11,7 +11,7 @@
 //! lib=RavlCore
 //! author="Radek Marik"
 //! docentry="Ravl.API.Core.Indexing"
-//! rcsid="$Id$"
+//! rcsid="$Id: RealRange2d.hh 7474 2010-01-21 12:35:59Z ees1wc $"
 //! date="06/08/1995"
 //! userlevel=Normal
 
@@ -41,11 +41,13 @@ namespace RavlN {
     {}
     //: Constructor.
     
-    RealRange2dC(const IndexRange2dC &rng)
+    explicit RealRange2dC(const IndexRange2dC &rng)
       : rows(rng.Range1()),
 	cols(rng.Range2())
     {}
     //: Construct from an IndexRange2dC.
+    // Note that the upper limits of the RealRange2dC object are incremented by 1
+    // to make the range consistent.
     
     RealRange2dC(const RealRangeC & rowRange,
 		 const RealRangeC & colRange);

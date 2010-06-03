@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Correlate2d.cc 7536 2010-02-18 11:52:27Z craftit $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Filters/Correlate2d.cc"
 
@@ -42,7 +42,7 @@ namespace RavlImageN {
     
     Array2dIterC<short> res(result,resRect);
     INITMMX
-    switch(kernel.Cols()) {
+    switch(static_cast<size_t>(kernel.Cols())) {
     case 2: 
       for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
 	BufferAccess2dIter2C<short,short> it(kernel,kernel.Range1(),kernel.Range2(),

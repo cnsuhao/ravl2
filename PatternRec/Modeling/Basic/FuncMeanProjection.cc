@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: FuncMeanProjection.cc 4106 2004-03-18 16:30:45Z kier $"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
 //! file="Ravl/PatternRec/Modeling/Basic/FuncMeanProjection.cc"

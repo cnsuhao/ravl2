@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 ###############################################
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 7257 2009-09-08 12:52:17Z alexkostin $"
 #! file="Ravl/Applications/VPlay/defs.mk"
 
 DESCRIPTION = VPlay - Video Player.

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: exTreeStore.cc 7432 2009-12-15 18:48:26Z craftit $"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Graphics.GTK.Control"
 //! lib=RavlGUI
@@ -72,8 +72,8 @@ int main(int nargs,char **argv) {
   types[1] = AttributeTypeStringC("AString","...");
   types[2] = AttributeTypeMiscC("AImage","...",AVT_ByteRGBImage);
   types[3] = AttributeTypeBoolC("ABool","...");   
-  types[4] = AttributeTypeStringC("Colour","..."); // This is used for controling the colour of column 1 
-  types[5] = AttributeTypeBoolC("BoolState","..."); // This is used for controling the inconsistent state of column 3 
+  types[4] = AttributeTypeStringC("Colour","..."); // This is used for controlling the colour of column 1
+  types[5] = AttributeTypeBoolC("BoolState","..."); // This is used for controlling the inconsistent state of column 3
   treeStore = TreeStoreC(types);
   
   //: Put some data into the tree store.

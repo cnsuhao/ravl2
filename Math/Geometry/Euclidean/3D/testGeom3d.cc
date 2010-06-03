@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testGeom3d.cc 7741 2010-05-26 17:38:23Z ees1wc $"
 //! lib=RavlMath
 //! author="Joel Mitchelson"
 //! docentry="Ravl.API.Math.Geometry.3D"
@@ -294,7 +294,7 @@ int testAngles() {
 	e2.Matrix(R2);
       
 	// check they coincide
-	if ((R2-R1).SumOfAbs() > 1E-6)
+	if ((R2-R1).SumOfAbs() > 1E-10)
 	{
 	  cerr << "ERROR: axis angle conversion problem." << endl;
 	  cerr << "Angles: " << Vector3dC(e1) << endl;

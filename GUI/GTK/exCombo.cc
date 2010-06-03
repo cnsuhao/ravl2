@@ -10,7 +10,7 @@
 //! userlevel=Normal
 //! docentry="Ravl.API.Graphics.GTK.Control"
 //! author="Lee Gregory"
-//! rcsid="$Id$"
+//! rcsid="$Id: exCombo.cc 6701 2008-04-09 16:07:40Z ees1wc $"
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Combo.hh"

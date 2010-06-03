@@ -11,7 +11,7 @@
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! date="23/03/1999"
-//! rcsid="$Id$"
+//! rcsid="$Id: CWidget.hh 6746 2008-04-22 13:30:41Z craftit $"
 //! docentry="Ravl.API.Graphics.GTK.Internal"
 
 #include "Ravl/GUI/Widget.hh"

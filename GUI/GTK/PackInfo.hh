@@ -7,7 +7,7 @@
 #ifndef RAVLGUIPACKINFO_HEADER
 #define RAVLGUIPACKINFO_HEADER 1
 ////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: PackInfo.hh 7006 2008-10-22 13:11:28Z ees1wc $"
 //! file="Ravl/GUI/GTK/PackInfo.hh"
 //! lib=RavlGUI
 //! docentry="Ravl.API.Graphics.GTK.Layout"

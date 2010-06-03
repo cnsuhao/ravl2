@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_TREESTORE_HEADER
 #define RAVLGUI_TREESTORE_HEADER 1
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: TreeStore.hh 7268 2009-09-15 10:30:15Z cyberplug $"
 //! docentry="Ravl.API.Graphics.GTK.Control"
 //! lib=RavlGUI
 //! example=exTreeStore.cc

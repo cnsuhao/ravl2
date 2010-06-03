@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 7289 2009-10-01 10:07:21Z cyberplug $"
 #! file="Ravl/OS/Exec/defs.mk"
 
 PACKAGE=Ravl/OS

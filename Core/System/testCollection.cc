@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: testCollection.cc 6723 2008-04-17 14:18:15Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/System/testCollection.cc"
 //! docentry="Ravl.API.Core.Misc"

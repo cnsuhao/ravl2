@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FileFormat.cc 7402 2009-12-03 18:03:40Z robowaz $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/FileFormat.cc"
 
@@ -17,6 +17,7 @@
 #include "Ravl/DP/DataConv.hh"
 #include "Ravl/DP/Converter.hh"
 #include <ctype.h>
+#include <stdio.h>
 
 #define DODEBUG 0
 #if DODEBUG

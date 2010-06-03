@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Cursor.cc 5769 2006-07-21 15:41:30Z ees1wc $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Cursor.cc"
 

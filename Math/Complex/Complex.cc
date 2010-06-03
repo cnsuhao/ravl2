@@ -9,7 +9,7 @@
 // public license (LGPL). ( See the lgpl.license file for details.)
 // file-header-ends-here
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Complex.cc 7002 2008-10-20 15:26:24Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Math/Complex.cc"
 

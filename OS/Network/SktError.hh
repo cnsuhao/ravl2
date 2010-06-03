@@ -7,7 +7,7 @@
 #ifndef RAVLSKTERROR_HEADER
 #define RAVLSKTERROR_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SktError.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/OS/Network/SktError.hh"
 //! lib=RavlNet
 //! userlevel=Advanced

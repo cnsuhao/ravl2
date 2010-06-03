@@ -14,7 +14,7 @@
 //! lib=RavlLogicNLP
 //! docentry="Ravl.API.Logic.Planning"
 //! example=exNonlinearPlanner.cc
-//! rcsid="$Id$"
+//! rcsid="$Id: NonLinearPlan.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/Logic/BMinTermListIndex.hh"
 #include "Ravl/BList.hh"

@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_FLINEPP_HEADER
 #define RAVL_FLINEPP_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: FLinePP.hh 6156 2007-05-23 16:06:54Z craftit $"
 //! lib=RavlMath
 //! docentry="Ravl.API.Math.Geometry"
 //! date="13/9/2002"

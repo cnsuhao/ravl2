@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_PYRAMIDSCAN_HEADER
 #define RAVLIMAGE_PYRAMIDSCAN_HEADER 1
 ///////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: PyramidScan.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Charles Galambos"
 //! lib=RavlImageProc
 //! docentry="Ravl.API.Images.Misc"

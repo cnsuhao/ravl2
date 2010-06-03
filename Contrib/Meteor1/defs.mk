@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 5885 2006-09-07 16:00:31Z ees1wc $"
 #! file="Ravl/Contrib/Meteor1/defs.mk"
 #! author="Charles Galambos"
 

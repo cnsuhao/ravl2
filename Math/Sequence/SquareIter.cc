@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SquareIter.cc 1428 2002-07-19 16:53:24Z craftit $"
 //! author="Charles Galambos"
 //! lib=RavlMath
 //! file="Ravl/Math/Sequence/SquareIter.cc"

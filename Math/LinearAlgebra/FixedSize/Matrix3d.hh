@@ -7,7 +7,7 @@
 #ifndef RAVL_MATRIX3D_HEADER
 #define RAVL_MATRIX3D_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Matrix3d.hh 7690 2010-04-13 16:25:21Z budgoswami $"
 //! file="Ravl/Math/LinearAlgebra/FixedSize/Matrix3d.hh"
 //! lib=RavlMath
 //! userlevel=Normal
@@ -88,7 +88,7 @@ namespace RavlN {
     static Matrix3dC ComposeRotation(RealT rx,RealT ry,RealT rz);
     //: Compose a rotation matrix for rotations around the x,y and z axis and assign it to 'matrix'
     //: Angles are in radians.
-    
+
     bool RQDecomposition(TFMatrixC<RealT,3,3> &R,TFMatrixC<RealT,3,3> &Q) const;
     //: Decompose this matrix such that *this = R * Q
     //: Where R is upper right triangular and Q is orthogonal.

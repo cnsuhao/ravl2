@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 ######################################################
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 7703 2010-04-21 16:20:30Z ees1wc $"
 #! file="Ravl/GUI/3D/defs.mk"
 
 PACKAGE=Ravl/GUI
@@ -51,7 +51,7 @@ PLIB = RavlGUI3D
 #EXAMPLES
 MAINS = exCanvas3D.cc exView3D.cc exDTexTriMesh3d.cc
 
-USESLIBS = RavlCore RavlGeom RavlGUI OpenGL Ravl3D x11 GTK RavlImage
+USESLIBS = RavlCore RavlGeom RavlGUI OpenGL Ravl3D x11 GTK RavlImage GLUT
 
 EHT = Ravl.API.GUI.3D.html
 

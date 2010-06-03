@@ -7,7 +7,7 @@
 #ifndef RAVLJPEGFORMAT_HEADER
 #define RAVLJPEGFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: JPEGFormat.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Image/ExternalImageIO/JPEGFormat.hh"
 //! lib=RavlExtImgIO
 //! author="Charles Galambos"

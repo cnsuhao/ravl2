@@ -7,16 +7,20 @@
 #ifndef RAVL_RAWZOOMCANVAS_HEADER
 #define RAVL_RAWZOOMCANVAS_HEADER 1
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: RawZoomCanvas.hh 7520 2010-02-15 11:17:03Z alexkostin $"
 //! lib=RavlGUI2D
 //! docentry="Ravl.API.Graphics.GTK.Control"
 //! example=exRawZoomCanvas.cc
 //! file="Ravl/GUI/2D/RawZoomCanvas.hh"
 
 #include "Ravl/GUI/RawCanvas.hh"
+#include "Ravl/GUI/Manager.hh"
+
 #include "Ravl/Vector2d.hh"
 #include "Ravl/Point2d.hh"
 #include "Ravl/RealRange2d.hh"
+
+#include "Ravl/Image/WarpScale2d.hh"
 
 namespace RavlGUIN {
   class RawZoomCanvasC;
@@ -101,22 +105,11 @@ namespace RavlGUIN {
     void GUIDrawCircle(GdkGC *gc,Point2dC cent,RealT size,bool fill);
     //: Draw a circle.
     
-    void GUIDrawImage(const ImageC<ByteRGBValueC> &image,const Point2dC &offset,bool ignoreImageOrigin = false);
+    template<typename PixelT>
+    void GUIDrawImage(const ImageC<PixelT> &image,const Point2dC &offset,bool ignoreImageOrigin = false);
     //: Draw an image into the canvas with its origin offset by 'offset'.
     // Note: You have to include the RavlGUI2d library to use this function.
-    
-    void GUIDrawImage(const ImageC<ByteRGBAValueC> &image,const Point2dC &offset,bool ignoreImageOrigin = false);
-    //: Draw an image into the canvas with its origin offset by 'offset'.
-    // Note: You have to include the RavlGUI2d library to use this function.
-    
-    void GUIDrawImage(const ImageC<ByteT> &image,const Point2dC &offset,bool ignoreImageOrigin = false);
-    //: Draw an image into the canvas with its origin offset by 'offset'.
-    // Note: You have to include the RavlGUI2d library to use this function.
-    
-    void GUIDrawImage(const ImageC<ByteIAValueC> &image,const Point2dC &offset,bool ignoreImageOrigin = false);
-    //: Draw an image into the canvas with its origin offset by 'offset'.
-    // Note: You have to include the RavlGUI2d library to use this function.
-    
+
     bool TranslateExposeEvent(const GdkEvent* event,RealRange2dC &rect,IntT &toFollow);
     //: Translate an expose event.
     // 'rect' is the area to be updated.
@@ -147,14 +140,12 @@ namespace RavlGUIN {
     void GUIDrawCircle(GdkGC *gc,Index2dC cent,UIntT size,bool fill);
     //: Draw a circle.
     
-    void GUIDrawImage(const ImageC<ByteRGBValueC> &image,const Index2dC &offset = Index2dC(0,0),bool ignoreImageOrigin = false);
+    template<typename PixelT>
+    void GUIDrawImage(const ImageC<PixelT> &image,const Index2dC &offset = Index2dC(0,0),bool ignoreImageOrigin = false)
+    { GUIDrawImage(image,Point2dC(offset),ignoreImageOrigin); }
     //: Draw an image into the canvas with its origin offset by 'offset'.
     // Note: You have to include the RavlGUI2d library to use this function.
-    
-    void GUIDrawImage(const ImageC<ByteT> &image,const Index2dC &offset = Index2dC(0,0),bool ignoreImageOrigin = false);
-    //: Draw an image into the canvas with its origin offset by 'offset'.
-    // Note: You have to include the RavlGUI2d library to use this function.
-    
+
     bool TranslateExposeEvent(const GdkEvent* event,IndexRange2dC &rect,IntT &toFollow);
     //: Translate an expose event.
     // 'rect' is the area to be updated.
@@ -184,8 +175,64 @@ namespace RavlGUIN {
     IndexRange2dC widgetSize;
   };
   
+  template<typename PixelT>
+  void RawZoomCanvasBodyC::GUIDrawImage(const ImageC<PixelT> &image,const Point2dC &doffset,bool ignoreImageOrigin) {
+    //cerr << "RawZoomCanvasBodyC::GUIDrawImage(), Called. Offset=" << offset << "\n";
+    RavlAssertMsg(Manager.IsGUIThread(),"Incorrect thread. This method may only be called on the GUI thread.");
+    IndexRange2dC imgRect = World2GUIi(IndexRange2dC(image.Frame().RowRange().Min(),
+                                                     image.Frame().RowRange().Max() + 1,
+                                                     image.Frame().ColRange().Min(),
+                                                     image.Frame().ColRange().Max() + 1) + doffset);
+
+    IndexRange2dC drawRect = IndexRange2dC(imgRect.RowRange().Min(),
+                                           imgRect.RowRange().Max() - 1,
+                                           imgRect.ColRange().Min(),
+                                           imgRect.ColRange().Max() - 1);
+
+    //ONDEBUG(cerr << "DrawRect=" << drawRect << " widgetSize=" << widgetSize << "\n");
+    drawRect.ClipBy(widgetSize);
+    if(drawRect.Area() <= 0)
+      return ;
+    //ONDEBUG(cerr << "FinalDrawRect=" << drawRect << "\n");
+
+    if(Abs(scale[0] - 1) < 0.0001 && Abs(scale[1] - 1) < 0.0001) {
+      RawCanvasBodyC::GUIDrawImage(image,Index2dC(doffset + offset),false);
+    } else {
+      ImageC<PixelT> drawImg;
+      Vector2dC inc(1/scale[0],1/scale[1]);
+      if(inc[0] > 1.01 && inc[1] > 1.01) {
+        WarpSubsample(image, inc, drawImg);
+        //offset image
+        Index2dC fullOffset(Round(offset.Row()+doffset.Row()), Round(offset.Col()+doffset.Col()));
+        drawImg.ShiftArray(fullOffset);
+      } else {
+        drawImg = ImageC<PixelT>(drawRect);
+        Array2dIterC<PixelT> it(drawImg);
+        Point2dC pat,start = GUI2World(it.Index()) + doffset;
+        pat = start;
+        for(;it;) {
+          pat[1] = start[1];
+          do {
+            Index2dC at(Floor(pat[0] <= image.TRow().V() ? image.TRow().V() : pat[0]),
+                        Floor(pat[1] <= image.LCol().V() ? image.LCol().V() : pat[1]));
+
+            if(image.Frame().Contains(at))
+              *it = image[at];
+            else
+              SetZero(*it);
+            pat[1] += inc[1];
+          } while(it.Next());
+          pat[0] += inc[0];
+        }
+      }
+      RawCanvasBodyC::GUIDrawImage(drawImg,Index2dC(0,0),false);
+    }
+  }
   
-  //! userlevel=Normal
+  template<>
+  void RawZoomCanvasBodyC::GUIDrawImage(const ImageC<ByteIAValueC> &image,const Point2dC &doffset,bool ignoreImageOrigin);
+
+    //! userlevel=Normal
   //: Raw Zoomable Canvas.
   
   class RawZoomCanvasC
@@ -266,21 +313,12 @@ namespace RavlGUIN {
     { Body().GUIDrawCircle(gc,cent,size,fill); }
     //: Draw a circle.
     
-    void GUIDrawImage(const ImageC<ByteRGBValueC> &image,const Point2dC &offset = Point2dC(0,0),bool ignoreImageOrigin = false)
+    template<typename PixelT>
+    void GUIDrawImage(const ImageC<PixelT> &image,const Point2dC &offset = Point2dC(0,0),bool ignoreImageOrigin = false)
     { Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
     //: Draw an image into the canvas with its origin offset by 'offset'.
     // Note: You have to include the RavlGUI2d library to use this function.
     
-    void GUIDrawImage(const ImageC<ByteRGBAValueC> &image,const Point2dC &offset = Point2dC(0,0),bool ignoreImageOrigin = false)
-    { Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
-    //: Draw an image into the canvas with its origin offset by 'offset'.
-    // Note: You have to include the RavlGUI2d library to use this function.
-    
-    void GUIDrawImage(const ImageC<ByteT> &image,const Point2dC &offset = Point2dC(0,0),bool ignoreImageOrigin = false)
-    { Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
-    //: Draw an image into the canvas with its origin offset by 'offset'.
-    // Note: You have to include the RavlGUI2d library to use this function.
-        
     bool TranslateExposeEvent(const GdkEvent* event,RealRange2dC &rect,IntT &toFollow)
     { return Body().TranslateExposeEvent(event,rect,toFollow); }
     //: Translate an expose event.
@@ -317,7 +355,7 @@ namespace RavlGUIN {
     { Body().GUIDrawCircle(gc,cent,size,fill); }
     //: Draw a circle.
     
-    void GUIDrawImage(const ImageC<ByteRGBValueC> &image,const Index2dC &offset,bool ignoreImageOrigin = false)
+    /*void GUIDrawImage(const ImageC<ByteRGBValueC> &image,const Index2dC &offset,bool ignoreImageOrigin = false)
     { Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
     //: Draw an image into the canvas with its origin offset by 'offset'.
     // Note: You have to include the RavlGUI2d library to use this function.
@@ -335,7 +373,7 @@ namespace RavlGUIN {
     void GUIDrawImage(const ImageC<ByteIAValueC> &image,const Point2dC &offset,bool ignoreImageOrigin = false)
     { Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
     //: Draw an image into the canvas with its origin offset by 'offset'.
-    // Note: You have to include the RavlGUI2d library to use this function.
+    // Note: You have to include the RavlGUI2d library to use this function.*/
 
     bool TranslateExposeEvent(const GdkEvent* event,IndexRange2dC &rect,IntT &toFollow)
     { return Body().TranslateExposeEvent(event,rect,toFollow); }
@@ -382,7 +420,7 @@ namespace RavlGUIN {
     
     friend class RawZoomCanvasBodyC;
   };
-  
+
 }
 
 

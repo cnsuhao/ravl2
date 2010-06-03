@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_DISCRIMINATOR_HEADER
 #define RAVLLOGIC_DISCRIMINATOR_HEADER 1
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Discriminator.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlLogic
 //! file="Ravl/Logic/DecisionTree/Discriminator.hh"
 //! author="Charles Galambos"

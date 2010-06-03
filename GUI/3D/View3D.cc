@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: View3D.cc 6639 2008-03-03 15:57:42Z craftit $"
 //! lib=RavlGUI3D
 
 #include "Ravl/GUI/Manager.hh"

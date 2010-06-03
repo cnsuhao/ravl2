@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: LMSOpticFlow.cc 4804 2005-02-15 16:49:28Z craftit $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Motion/LMSGradient/LMSOpticFlow.cc"
 

@@ -5,9 +5,9 @@ REQUIRES=RLog
 
 PACKAGE=Ravl
 
-HEADERS=RLog.hh
+HEADERS=RLog.hh StdioDateNode.hh
 
-SOURCES=RLog.cc
+SOURCES=RLog.cc StdioDateNode.cc
 
 PLIB=RavlRLog
 

@@ -14,7 +14,7 @@
 //! lib=RavlImageProc
 //! author="Ratna Rambaruth"
 //! date="12/06/1998"
-//! rcsid="$Id$"
+//! rcsid="$Id: RegionGrow.hh 7621 2010-03-01 11:47:24Z alexkostin $"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Image/SegmentRegion.hh"
@@ -46,7 +46,7 @@ namespace RavlImageN {
     
     RegionGrowBodyC(const ClassifierT & cl)
       : classifier(cl),
-	eightConnectivity(false)
+        eightConnectivity(false)
     {}
     //: Construct from a classifier.
     

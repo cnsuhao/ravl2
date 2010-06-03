@@ -7,7 +7,7 @@
 #ifndef RAVLCXXDOC_DOCUMENT_HEADER
 #define RAVLCXXDOC_DOCUMENT_HEADER 1
 //////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Document.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/SourceTools/CxxDoc/Document.hh"
 //! userlevel=Default
 //! lib=RavlCxxDoc

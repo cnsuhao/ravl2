@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.API.OS.File System"
 //! date="20/10/1996"
-//! rcsid="$Id$"
+//! rcsid="$Id: FilePermission.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include <sys/stat.h>
 #include <sys/types.h>

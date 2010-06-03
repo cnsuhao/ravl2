@@ -8,12 +8,13 @@
 #define RAVL_SAMPLESTREAMVECTOR_HEADER 1
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Pattern Recognition.Data Set"
-//! rcsid="$Id$"
+//! rcsid="$Id: SampleStreamVector.hh 7408 2009-12-08 07:17:18Z kier $"
 //! lib=RavlPatternRec
 //! examples=exSampleStream.cc
 //! file="Ravl/PatternRec/DataSet/SampleStreamVector.hh"
 
 #include "Ravl/PatternRec/SampleStream.hh"
+#include "Ravl/PatternRec/Function.hh"
 #include "Ravl/Vector.hh"
 
 namespace RavlN {
@@ -38,6 +39,9 @@ namespace RavlN {
     {}
     //: Base constructor.
     
+    SampleStreamVectorC(const DPISPortC<VectorC> &stream, const FunctionC & function);
+    //: Apply a function to the vectors as you get them
+    
     SampleStreamVectorC(const DPISPortC<VectorC> &port)
       : DPEntityC(port)
     {}
@@ -52,6 +56,8 @@ namespace RavlN {
     MatrixC SumOuterProducts();
     //: Compute the sum of the outerproducts.
     
+  protected:
+
     
   };
 }

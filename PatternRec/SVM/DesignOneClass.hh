@@ -14,6 +14,7 @@
 #include "Ravl/PatternRec/DesignSvm.hh"
 #include "Ravl/PatternRec/OneClass.hh"
 #include "Ravl/PatternRec/KernelFunc.hh"
+#include "Ravl/XMLFactory.hh"
 
 namespace RavlN
 {
@@ -28,6 +29,10 @@ public:
                       double Penalty1 = 1e3, double Penalty2 = 1e3,
                       double Tolerance = 1e-7, double Eps = 1e-9,
                       double LambdaThreshold = 1e-12);
+
+
+  DesignOneClassBodyC(const XMLFactoryContextC & factory);
+  //: factory constructor
 
   //! Load from stream.
   DesignOneClassBodyC(istream &strm);
@@ -142,6 +147,12 @@ public:
                                          Tolerance, Eps, LambdaThreshold))
     {}
 
+  
+  DesignOneClassC(const XMLFactoryContextC &factory)
+    :  DesignSvmC(*new DesignOneClassBodyC(factory))
+  {}
+  //: Construct from XML factory
+  
   //! Load from stream.
   DesignOneClassC(istream &strm);
 

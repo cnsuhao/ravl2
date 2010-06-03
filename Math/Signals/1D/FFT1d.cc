@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FFT1d.cc 7323 2009-10-21 15:43:14Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Signals/1D/FFT1d.cc"
 

@@ -8,7 +8,7 @@
 #define RAVLIMAGE_NORMALISEDCORRELATION_HEADER 1
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Correlation"
-//! rcsid="$Id$"
+//! rcsid="$Id: NormalisedCorrelation.hh 6440 2007-11-13 18:11:20Z ees1wc $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Filters/Matching/NormalisedCorrelation.hh"
 

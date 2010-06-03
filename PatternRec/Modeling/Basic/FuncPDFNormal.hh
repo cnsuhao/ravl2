@@ -8,7 +8,7 @@
 #define RAVL_FUNCPDFNORMAL_HEADER 1
 //! docentry="Ravl.API.Pattern Recognition.Numerical Modeling"
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: FuncPDFNormal.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Modeling/Basic/FuncPDFNormal.hh"
 

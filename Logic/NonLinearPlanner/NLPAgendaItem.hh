@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! userlevel=Develop
 //! docentry="Ravl.API.Logic.Planning"
-//! rcsid="$Id$"
+//! rcsid="$Id: NLPAgendaItem.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Logic/NonLinearPlanner/NLPAgendaItem.hh"
 //! lib=RavlLogicNLP
 

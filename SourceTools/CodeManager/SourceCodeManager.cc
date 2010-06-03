@@ -4,7 +4,7 @@
 // Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: SourceCodeManager.cc 6373 2007-10-02 15:07:51Z alexkostin $"
 //! lib=RavlSourceTools
 //! file="Ravl/SourceTools/CodeManager/SourceCodeManager.cc"
 

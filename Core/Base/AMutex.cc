@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: AMutex.cc 4890 2005-04-18 09:17:09Z craftit $"
 //! lib=RavlCore
 
 #include "Ravl/AMutex.hh"

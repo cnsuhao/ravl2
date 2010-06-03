@@ -11,7 +11,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 //! author="Radek Marik"
 //! date="26.04.1995"
-//! rcsid="$Id$"
+//! rcsid="$Id: PPoint3d.cc 6159 2007-05-24 15:15:08Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Projective/3D/PPoint3d.cc"
 

@@ -7,7 +7,7 @@
 #ifndef RAVL_CACHEISTREAM_HEADER
 #define RAVL_CACHEISTREAM_HEADER 1
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: CacheIStream.hh 5552 2006-06-08 14:39:28Z craftit $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/CacheIStream.hh"
 //! docentry="Ravl.API.Core.IO.Streams"

@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_DVDECODE_HEADER
 #define RAVLIMAGE_DVDECODE_HEADER 1
 ////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DvDecode.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/DV/DvDecode.hh"
 //! lib=RavlDV
 //! author="Kieron Messer"

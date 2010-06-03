@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: PointSet.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=Ravl3D
 //! docentry="Ravl.API.3D.Carve3D"
 //! author="Joel Mitchelson"

@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 6499 2007-12-19 14:02:17Z ees1wc $"
 #! file="Ravl/Core/Container/Array/defs.mk"
 
 DESCRIPTION=2D Array templates.

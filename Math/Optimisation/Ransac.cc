@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Ransac.cc 4578 2004-09-27 11:05:16Z ees1wc $"
 //! lib=RavlOptimise
 //! file="Ravl/Math/Optimisation/Ransac.cc"
 

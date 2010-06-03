@@ -7,7 +7,7 @@
 #ifndef RAVL_DPTHREAD_HEADER
 #define RAVL_DPTHREAD_HEADER 1
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ThreadPipe.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlDPMT
 //! docentry="Ravl.API.Core.Data Processing.Threads"
 //! file="Ravl/OS/DataProc/ThreadPipe.hh"

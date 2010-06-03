@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TimedTriggerQueue.cc 5624 2006-06-20 14:51:59Z craftit $"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Tools/TimedTriggerQueue.cc"
 

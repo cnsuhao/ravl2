@@ -7,7 +7,7 @@
 #ifndef RAVL_SBFACC2D_HEADER
 #define RAVL_SBFACC2D_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SBfAcc2d.hh 7563 2010-02-18 16:41:12Z craftit $"
 //! file="Ravl/Core/Container/Buffer/SBfAcc2d.hh"
 //! lib=RavlCore
 //! userlevel=Develop
@@ -28,7 +28,7 @@ namespace RavlN {
   
   //: Basic access to buffer with limited size
   // The class SizeBufferAccessC enables to random indexed access to
-  // a sequentially organised continous part of memory called buffer.
+  // a sequentially organised continuous part of memory called buffer.
   // The access functions check if an accessed element is valid only in
   // debug mode.
   
@@ -77,8 +77,8 @@ namespace RavlN {
     
     inline DataT & operator[](const Index2dC & i) { 
 #if RAVL_CHECK
-      if (((UIntT) i.Col().V()) >= size2)
-	IssueError(__FILE__,__LINE__,"Index %u out of index range 0-%u  ",i.Col().V(),size2-1);
+      if (((size_t) i.Col().V()) >= size2)
+	IssueError(__FILE__,__LINE__,"Index %d out of index range 0-%zu  ",i.Col().V(),static_cast<size_t>(size2-1));
 #endif
       return SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i.Row())[i.Col()]; 
     }
@@ -86,21 +86,29 @@ namespace RavlN {
     
     inline const DataT & operator[](const Index2dC & i) const { 
 #if RAVL_CHECK
-      if (((UIntT) i.Col().V()) >= size2)
-	IssueError(__FILE__,__LINE__,"Index %u out of index range 0-%u  ",i.Col().V(),size2-1);
+      if (((size_t) i.Col().V()) >= size2)
+	IssueError(__FILE__,__LINE__,"Index %d out of index range 0-%u  ",i.Col().V(),static_cast<size_t>(size2-1));
 #endif
       return SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i.Row())[i.Col()]; 
     }
     //: return the item array[(i)]
     
-    inline SizeBufferAccessC<DataT> operator[](IndexC i)
+    inline SizeBufferAccessC<DataT> operator[](const IndexC &i)
     { return SizeBufferAccessC<DataT>(SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i),size2); }
     //: access to the item array[(i)]
     
-    inline const SizeBufferAccessC<DataT> operator[](IndexC i) const
+    inline const SizeBufferAccessC<DataT> operator[](const IndexC &i) const
     { return SizeBufferAccessC<DataT>(SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i),size2); }
     //: return the item array[(i)]
-    
+
+    inline SizeBufferAccessC<DataT> operator[](const SizeC &i)
+    { return SizeBufferAccessC<DataT>(SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i),size2); }
+    //: access to the item array[(i)]
+
+    inline const SizeBufferAccessC<DataT> operator[](const SizeC &i) const
+    { return SizeBufferAccessC<DataT>(SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i),size2); }
+    //: return the item array[(i)]
+
     inline SizeBufferAccessC<DataT> operator[](int i)
     { return SizeBufferAccessC<DataT>(SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i),size2); }
     //: access to the item array[(i)]

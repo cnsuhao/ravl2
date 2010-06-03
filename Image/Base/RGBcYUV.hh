@@ -7,7 +7,7 @@
 #ifndef RAVL_RGBCYUV_HEADER
 #define RAVL_RGBCYUV_HEADER 1
 /////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RGBcYUV.hh 6965 2008-09-18 16:48:28Z ees1wc $"
 //! userlevel=Normal
 //! docentry="Ravl.API.Images.Pixel Types.YUV"
 //! lib=RavlImage

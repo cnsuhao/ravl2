@@ -11,6 +11,7 @@
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/Pixbuf.hh"
 #include "Ravl/GUI/Window.hh"
+#include "Ravl/XMLFactoryRegister.hh"
 
 #include <gtk/gtk.h>
 
@@ -29,15 +30,30 @@ namespace RavlGUIN {
                                      const StringC &widgetName,
                                      bool aCustomWidget,
                                      const StringC prefix) 
-    : GladeWidgetBodyC(gladeXml,widgetName,aCustomWidget,prefix)
-  {}
+    : GladeWidgetBodyC(gladeXml,widgetName,aCustomWidget,prefix),
+      m_interceptDeleteEvent(false)
+  {
+
+  }
   
   //: Constructor
   
   GladeWindowBodyC::GladeWindowBodyC(const StringC &widgetName,bool aCustomWidget) 
-    : GladeWidgetBodyC(widgetName,aCustomWidget)
-  {}
+    : GladeWidgetBodyC(widgetName,aCustomWidget),
+      m_interceptDeleteEvent(false)
+  {
+
+  }
   
+  //: Factory constructor
+
+  GladeWindowBodyC::GladeWindowBodyC(const XMLFactoryContextC &factory)
+   : GladeWidgetBodyC(factory),
+     m_interceptDeleteEvent(factory.AttributeBool("interceptDeleteEvent",false))
+  {
+
+  }
+
   //: Raise window to top
   
   bool GladeWindowBodyC::Raise() {
@@ -52,7 +68,26 @@ namespace RavlGUIN {
       gdk_window_raise(widget->window);
     return true;
   }
+
   
+  //: Show window and raise it to top.
+  bool GladeWindowBodyC::ShowAndRaise() {
+    Manager.Queue(Trigger(GladeWindowC(*this), &GladeWindowC::GUIShowAndRaise));
+    return true;
+  }
+
+
+  bool GladeWindowBodyC::GUIShowAndRaise()
+  {
+    if (widget != 0)
+    {
+      GUIShow();
+      GUIRaise();
+    }
+    return true;
+  }
+    //: Show window and raise it to top -GUI thread.
+
   bool GladeWindowBodyC::SetTitle(const StringC &title)
   {
     Manager.Queue(Trigger(GladeWindowC(*this), &GladeWindowC::GUISetTitle, title));
@@ -90,6 +125,8 @@ namespace RavlGUIN {
       return false;
     if(m_icon.IsValid())
       gtk_window_set_icon(GTK_WINDOW(widget), m_icon.Pixbuf());
+    if(m_interceptDeleteEvent)
+      InterceptDeleteEvent();
     return true;
   }
   
@@ -142,5 +179,10 @@ namespace RavlGUIN {
   WindowC GladeWindowBodyC::Window() {
     return GladeWindowWrapperC(this);
   }
-  
+
+  void LinkGladeWindow()
+  {}
+
+  static XMLFactoryRegisterHandleConvertC<GladeWindowC,GladeWidgetC> g_registerXMLFactoryGladeWindow("RavlGUIN::GladeWindowC");
+
 }

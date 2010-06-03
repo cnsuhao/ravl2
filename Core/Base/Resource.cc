@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Resource.cc 3482 2003-09-29 13:41:56Z jonstarck $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/Resource.cc"
 

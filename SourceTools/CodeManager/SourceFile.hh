@@ -7,7 +7,7 @@
 #ifndef RAVL_SOURCEFILE_HEADER
 #define RAVL_SOURCEFILE_HEADER 1
 ///////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SourceFile.hh 5642 2006-06-23 10:51:11Z craftit $"
 //! author="Charles Galambos"  
 //! docentry="Ravl.API.Source Tools.Code Manager"
 //! lib=RavlSourceTools

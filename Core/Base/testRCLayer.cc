@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! docentry="Ravl.API.Core.Reference Counting"
-//! rcsid="$Id$"
+//! rcsid="$Id: testRCLayer.cc 7225 2009-08-08 17:24:14Z craftit $"
 //! lib=RavlCore
 
 #include "Ravl/RCLayer.hh"

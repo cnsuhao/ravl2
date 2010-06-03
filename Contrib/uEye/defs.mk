@@ -4,7 +4,7 @@
 # License. See http://www.opensource.org/licenses/mit-license.html
 # file-header-ends-here
 
-SUPPORT_ONLY = linux
+SUPPORT_ONLY = linux linux64
 
 REQUIRES = uEyeSDK
 

@@ -8,7 +8,7 @@
 #define RAVLGUI_DLIGHT3D_HEADER 1
 ///////////////////////////////////////////////////
 //! docentry="Ravl.API.Graphics.3D"
-//! rcsid="$Id$"
+//! rcsid="$Id: DLight3D.hh 6701 2008-04-09 16:07:40Z ees1wc $"
 //! file="Ravl/GUI/3D/DLight3D.hh"
 //! lib=RavlGUI3D
 //! author="Charles Galambos"

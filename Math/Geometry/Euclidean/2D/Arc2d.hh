@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! date="10/3/1997"
 //! docentry="Ravl.API.Math.Geometry.2D"
-//! rcsid="$Id$"
+//! rcsid="$Id: Arc2d.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/2D/Arc2d.hh"
 

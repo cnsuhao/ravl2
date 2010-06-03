@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RGBcYUV.cc 6306 2007-09-03 15:02:10Z craftit $"
 //! author="Radek Marik,Bill Christmas"
 //! lib=RavlImage
 //! file="Ravl/Image/Base/RGBcYUV.cc"

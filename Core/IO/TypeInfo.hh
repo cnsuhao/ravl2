@@ -7,7 +7,7 @@
 #ifndef RAVL_DPTYPEINFO_HEADER
 #define RAVL_DPTYPEINFO_HEADER 1
 ////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TypeInfo.hh 7278 2009-09-18 13:36:16Z robowaz $"
 //! lib=RavlIO
 //! docentry="Ravl.API.Core.IO.Type Converter"
 //! file="Ravl/Core/IO/TypeInfo.hh"

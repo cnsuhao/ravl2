@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testIntelFFT2d.cc 4900 2005-04-25 09:34:36Z craftit $"
 //! lib=RavlIntelMKL
 //! file="Ravl/Contrib/IntelMKL/testIntelFFT2d.cc"
 

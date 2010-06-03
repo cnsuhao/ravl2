@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_SUBSAMPLE_HEADER
 #define RAVLIMAGE_SUBSAMPLE_HEADER 1
 ////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SubSample.hh 6914 2008-08-18 16:22:31Z ees1wc $"
 //! docentry="Ravl.API.Images.Scaling and Warping"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Tools/SubSample.hh"

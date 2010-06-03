@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ClassifierFuzzyCMeans.cc 3260 2003-07-30 21:39:19Z craftit $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Cluster/ClassifierFuzzyCMeans.cc"
 

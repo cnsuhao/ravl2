@@ -13,7 +13,7 @@
 //! author="George (Jiri) Matas"
 //! docentry="Ravl.API.Core.Stacks"
 //! example=exStack.cc
-//! rcsid="$Id$"
+//! rcsid="$Id: Stack.hh 7544 2010-02-18 13:20:15Z craftit $"
 
 #include "Ravl/Types.hh"
 #include "Ravl/Assert.hh"
@@ -79,7 +79,7 @@ namespace RavlN {
     //: Test if stack is empty.
     // Returns true if it is empty.
     
-    inline long   Size()    const;
+    inline SizeT   Size()    const;
     //: Get the number of elements in the stack.
     
     void DbPrint(){printf("stack -> %d, %d, %p\n",top,blkSize,this->topBlk);}
@@ -223,7 +223,7 @@ namespace RavlN {
   
   //-----------------------------
   template <class T>
-  inline long BaseStackC<T>::Size() const
+  inline SizeT BaseStackC<T>::Size() const
   { return top + (blkSize/incrBlkSize-1)*blkSize/2; }
   
   //-----------------------------

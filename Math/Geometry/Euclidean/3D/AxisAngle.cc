@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: AxisAngle.cc 7741 2010-05-26 17:38:23Z ees1wc $"
 //! lib=RavlMath
 //! date="7/12/2002"
 //! author="Joel Mitchelson"
@@ -34,9 +34,9 @@ namespace RavlN
       x = a[0];
       y = a[1];
       z = a[2];
-      c = 1.0 - 0.50000000*ang*ang;
-      v = 0.5 - 0.04166667*ang*ang;
-      s = 1.0 - 0.16666667*ang*ang;
+      c = 1.0 - 0.500000000000*ang*ang;
+      v = 0.5 - 0.041666666667*ang*ang;
+      s = 1.0 - 0.166666666667*ang*ang;
     }
 
     R[0] = x*x*v + c;   R[1] = x*y*v - z*s; R[2] = x*z*v + y*s;
@@ -46,23 +46,18 @@ namespace RavlN
 
   void MatrixToAxisAngle(const RealT* R, RealT* a)
   {
-    RealT ang, s;
+    // http://en.wikipedia.org/wiki/Rotation_matrix#Conversions
+    // This version passes all the tests, but still does not handle symmetric matrices well (0/0 problem)
 
-    ang = acos(0.5 * (R[0]+R[4]+R[8]-1.0));
-  
-    if (ang < -SMALL_ANGLE || ang > SMALL_ANGLE)
-    {
-      s = 0.5 * ang / sin(ang);
-    }
-    else
-    { 
-      // ARRGH! causes problems - should use small-angle implementation
-      s = 0.5;
-    }
-
-    a[0] = (R[7]-R[5])*s;
-    a[1] = (R[2]-R[6])*s;
-    a[2] = (R[3]-R[1])*s;
+    RealT t = R[0]+R[4]+R[8];
+    RealT x = R[7]-R[5];
+    RealT y = R[2]-R[6];
+    RealT z = R[3]-R[1];
+    RealT r = Sqrt(x*x+y*y+z*z);
+    RealT theta = atan2(r,t-1);
+    a[0] = x*theta/r;
+    a[1] = y*theta/r;
+    a[2] = z*theta/r;
   }
 
 }

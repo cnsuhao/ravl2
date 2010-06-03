@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 #include "Ravl/config.h"
-//! rcsid="$Id$"
+//! rcsid="$Id: Erf.cc 3668 2003-11-14 11:49:27Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Math/Erf.cc"
 

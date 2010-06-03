@@ -14,7 +14,7 @@
 //! date="26/01/1994"
 //! example=exComplx.cc
 //! docentry="Ravl.API.Math"
-//! rcsid="$Id$"
+//! rcsid="$Id: Complex.hh 6938 2008-09-11 16:25:11Z ees1wc $"
 
 #include "Ravl/Types.hh"
 #include "Ravl/StdMath.hh"

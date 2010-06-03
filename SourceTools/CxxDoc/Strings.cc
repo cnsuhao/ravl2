@@ -4,7 +4,7 @@
 // Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Strings.cc 737 2002-01-31 14:55:49Z craftit $"
 //! lib=RavlCxxDoc
 //! file="Ravl/SourceTools/CxxDoc/Strings.cc"
 

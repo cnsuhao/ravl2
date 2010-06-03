@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Homography2dFitTest.cc 6819 2008-05-30 12:01:36Z ees1wc $"
 //! lib=RavlOptimise
 //! docentry="Ravl.API.Pattern Recognition.Optimisation2.Examples"
 //! userlevel=Normal

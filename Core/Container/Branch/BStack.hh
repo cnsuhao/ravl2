@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_BSTACK_HEADER
 #define RAVL_BSTACK_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: BStack.hh 7131 2009-03-23 08:37:15Z craftit $"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Branch"

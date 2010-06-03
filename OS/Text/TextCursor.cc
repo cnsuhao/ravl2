@@ -7,7 +7,7 @@
 ///////////////////////////////////////////////////////
 // TxCursore.cc
 // $Id: TextCursor.cc 2868 2003-05-12 16:11:12Z craftit $
-//! rcsid="$Id$"
+//! rcsid="$Id: TextCursor.cc 2868 2003-05-12 16:11:12Z craftit $"
 //! lib=RavlOS
 //! file="Ravl/OS/Text/TextCursor.cc"
 

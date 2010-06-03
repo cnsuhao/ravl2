@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_FIXED_POINT_HSV_VALUE_HEADER
 #define RAVL_FIXED_POINT_HSV_VALUE_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: FixedPointHSVValue.hh 6965 2008-09-18 16:48:28Z ees1wc $"
 //! lib=RavlImage
 //! docentry="Ravl.API.Images.Pixel Types.HSV"
 //! author="Joel Mitchelson"

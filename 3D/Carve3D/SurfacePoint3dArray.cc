@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: SurfacePoint3dArray.cc 6615 2008-02-23 15:56:36Z craftit $"
 //! lib=Ravl3D
 //! file="Ravl/3D/Carve3D/SurfacePoint3dArray.cc"
 

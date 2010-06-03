@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_WARPPROJECTIVE_HEADER
 #define RAVLIMAGE_WARPPROJECTIVE_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: WarpProjective.hh 7065 2009-01-09 15:04:14Z ees1wc $"
 //! lib=RavlImageProc
 //! docentry="Ravl.API.Images.Scaling and Warping"
 //! author="Charles Galambos"

@@ -5,13 +5,16 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: Designer.cc 7605 2010-03-01 05:56:10Z kier $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/Designer.cc"
 
 #include "Ravl/PatternRec/Designer.hh"
 
 namespace RavlN {
+
+  DesignerBodyC::DesignerBodyC(const XMLFactoryContextC & factory)
+  {}
 
   //: Load from stream.
   
@@ -48,7 +51,14 @@ namespace RavlN {
   //: Set the current paramiters.
   // Returns the current paramiters, which may not be exactly those
   // set in 'params', but will be the closest legal values.
-  
+
+  // Reset designer to intial state
+  bool DesignerBodyC::Reset() {
+    RavlAssertMsg(0,"DesignerBodyC::Reset(), Abstract method called. \n");
+    return false;
+  }
+
+
   ////////////////////////////////////////////////////////////////////
   
   //: Load from stream.

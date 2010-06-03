@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: stressArray2d.cc 7199 2009-06-07 06:43:33Z craftit $"
 //! lib=RavlCore
 
 //#define RAVL_ARRAY1D_USE_SINGLEBUFFER 1

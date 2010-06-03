@@ -9,7 +9,7 @@
 //! author="Kieron J Messer"
 //! docentry="Ravl.API.Images.Filtering"
 //! lib=RavlImageProc
-//! rcsid="$Id$"
+//! rcsid="$Id: GaussConvolve.hh 6440 2007-11-13 18:11:20Z ees1wc $"
 //! file="Ravl/Image/Processing/Filters/Convolve/GaussConvolve.hh"
 
 #if !RAVL_COMPILER_VISUALCPP

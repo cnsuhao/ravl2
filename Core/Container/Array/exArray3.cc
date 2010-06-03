@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: exArray3.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Array/exArray3.cc"
 //! docentry="Ravl.API.Core.Arrays.3D"

@@ -1,6 +1,6 @@
 //! license=own
 //! author="Doug Lea, Modified by Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: String.cc 7615 2010-03-01 11:33:51Z alexkostin $"
 //! lib=RavlCore
 /* 
 //! file="Ravl/Core/Base/String.cc"
@@ -81,7 +81,7 @@ extern "C" { extern long long atoll(const char *); } ;
 namespace RavlN {
 
 
-#if RAVL_OS_LINUX || RAVL_OS_SOLARIS
+#if RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_SOLARIS
 #ifndef RAVL_ATOMIC_INIT
 #define RAVL_ATOMIC_INIT(x) (x)
 #endif
@@ -100,7 +100,7 @@ namespace RavlN {
     
     These are worth doing inline, rather than through calls because,
     via procedural integration, adjacent copy calls can be smushed
-    together by the optimizer.
+    together by the optimiser.
   */
   
   // copy n bytes
@@ -463,7 +463,7 @@ namespace RavlN {
   {
     char TBuff[32];
 #if RAVL_CPUTYPE_64 
-  sprintf(TBuff,"%lld",n.V());
+  sprintf(TBuff,"%ld",n.V());
 #else 
 #if RAVL_COMPILER_VISUALCPPNET_2005
   sprintf_s(TBuff,32,"%d",n.V());
@@ -473,7 +473,7 @@ namespace RavlN {
 #endif 
     *this = TBuff;
   }
-  
+
   StringC::StringC(IntT n)
     : rep(&_nilStrRepC)
   {
@@ -530,19 +530,38 @@ namespace RavlN {
 #if RAVL_COMPILER_VISUALCPPNET_2005
     sprintf_s(TBuff,64,"%lld",n);
 #else
+#if RAVL_CPUTYPE_64
+    sprintf(TBuff,"%ld",n);
+#else
     sprintf(TBuff,"%lld",n);
+#endif
 #endif
     *this = TBuff;
   }
     
+  //: Create a string from a size.
+
+  StringC::StringC(const SizeC &n) {
+    char TBuff[64];
+#if RAVL_COMPILER_VISUALCPPNET_2005
+    sprintf_s(TBuff,64,"%zu",n.V());
+#else
+    sprintf(TBuff,"%zu",n.V());
+#endif
+    *this = TBuff;
+  }
   //: Create a string from unsigned int
   
   StringC::StringC(UInt64T n) {
     char TBuff[64];
 #if RAVL_COMPILER_VISUALCPPNET_2005
-	sprintf_s(TBuff,64,"%llu",n);
+   sprintf_s(TBuff,64,"%llu",n);
+#else
+#if RAVL_CPUTYPE_64
+    sprintf(TBuff,"%lu",n);
 #else
     sprintf(TBuff,"%llu",n);
+#endif
 #endif
     *this = TBuff;    
   }
@@ -558,7 +577,7 @@ namespace RavlN {
   {}
   
   StringC::operator std::string () const {
-    return std::string(chars(),Size());
+    return std::string(chars(),static_cast<size_t>(Size()));
   }
   
   /* 
@@ -1498,7 +1517,11 @@ namespace RavlN {
     if (matches("0x", 0, false))
     {
       Int64T val = 0;
+#if RAVL_CPUTYPE_64
+      sscanf(chars(), "0x%lx", &val);
+#else
       sscanf(chars(), "0x%llx", &val);
+#endif
       return val;
     }
     return atoll(chars());
@@ -1520,7 +1543,11 @@ namespace RavlN {
     if (matches("0x", 0, false))
     {
       Int64T val = 0;
+#if RAVL_CPUTYPE_32
       sscanf(chars(), "0x%llx", &val);
+#else
+      sscanf(chars(), "0x%lx", &val);
+#endif
       return static_cast<UInt64T>(val);
     }
     return (UInt64T) atoll(chars());

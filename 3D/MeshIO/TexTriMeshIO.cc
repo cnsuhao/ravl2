@@ -7,7 +7,7 @@
 #include "Ravl/3D/TexTriMesh.hh"
 #include "Ravl/DP/FileFormatStream.hh"
 #include "Ravl/DP/FileFormatBinStream.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: TexTriMeshIO.cc 3073 2003-06-13 07:18:32Z craftit $"
 //! lib=Ravl3DIO
 //! file="Ravl/3D/MeshIO/TexTriMeshIO.cc"
 

@@ -64,10 +64,10 @@ public:
   virtual bool GetNextFrame(BufferC<char> &bu,UIntT &vsize,UIntT &asize) {return false;}
   //: Read the next frame to a buffer.
 
-  virtual BufferC<char> GetNextFrame() {return false;}
+  virtual BufferC<char> GetNextFrame() {return BufferC<char>();}
   //: Read the next frame to a buffer.
 
-  virtual BufferC<UInt16T> GetNextFrame16T() {return false;}
+  virtual BufferC<UInt16T> GetNextFrame16T() {return BufferC<UInt16T>();}
   //: Read the next frame to a buffer.
  
   virtual bool CanGetByFrameNumber() {return false;}

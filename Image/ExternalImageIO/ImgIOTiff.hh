@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_IMGIOTIFF_HEADER
 #define RAVLIMAGE_IMGIOTIFF_HEADER 1
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOTiff.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! userlevel=Normal
 //! file="Ravl/Image/ExternalImageIO/ImgIOTiff.hh"
 //! lib=RavlExtImgIO

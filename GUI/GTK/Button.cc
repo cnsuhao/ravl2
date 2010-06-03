@@ -15,6 +15,7 @@
 #include "Ravl/GUI/WidgetStyle.hh"
 #include "Ravl/Stream.hh"
 #include "Ravl/GUI/Pixbuf.hh"
+#include "Ravl/XMLFactoryRegister.hh"
 #include <gtk/gtk.h>
 
 #define DODEBUG 0
@@ -83,7 +84,32 @@ namespace RavlGUIN
       label(nlabel)
   { SetToolTip(tooltip); }
 
+  //: XMLFactory constructor.
 
+  static bool InvokeTrigger(TriggerC &trig) {
+    trig.Invoke();
+    return true;
+  }
+
+  ButtonBodyC::ButtonBodyC(const XMLFactoryContextC &factory)
+   : WidgetBodyC(factory),
+     label(factory.AttributeString("name","<anon>"))
+  {
+    Signal0C sigClicked;
+    if(factory.UseComponent("SigClicked",sigClicked,true,typeid(Signal0C)))
+      Connect(Signal("clicked"),sigClicked,&Signal0C::Invoke);
+
+    XMLFactoryContextC childContext;
+    if(factory.ChildContext("Triggers",childContext)) {
+      for(RavlN::DLIterC<RavlN::XMLTreeC> it(childContext.Children());it;it++) {
+        TriggerC trigger;
+        if(!childContext.UseComponent(it->Name(),trigger)) {
+          continue;
+        }
+        Connect(Signal("clicked"),&InvokeTrigger,trigger);
+      }
+    }
+  }
 
   GtkWidget *ButtonBodyC::BuildWidget(const char *aLab) {
     if (aLab == NULL)
@@ -325,4 +351,7 @@ namespace RavlGUIN
     : WidgetC(*new ButtonBodyC(nlabel,ntooltip))
   {}
   
+  static XMLFactoryRegisterHandleConvertC<ButtonC,WidgetC> g_registerXMLFactoryButton("RavlGUIN::ButtonC");
+
+
 }

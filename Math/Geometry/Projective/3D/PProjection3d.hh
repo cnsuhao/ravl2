@@ -13,7 +13,7 @@
 //! author="Radek Marik"
 //! date="26.06.1995"
 //! docentry="Ravl.API.Math.Projective Geometry.3D"
-//! rcsid="$Id$"
+//! rcsid="$Id: PProjection3d.hh 6661 2008-03-10 10:27:21Z craftit $"
 
 #include "Ravl/Matrix4d.hh"
 #include "Ravl/PPoint3d.hh"

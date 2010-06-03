@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_TSMATRIXSPARSE_HEADER
 #define RAVL_TSMATRIXSPARSE_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: TSMatrixSparse.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/TSMatrixSparse.hh"
 //! author="Charles Galambos"

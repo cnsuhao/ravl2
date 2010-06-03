@@ -4,7 +4,7 @@
 // Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: SysConf.cc 6381 2007-10-07 10:17:49Z craftit $"
 //! file="Ravl/QMake/SysConf.cc"
 //! date="6/12/1996"
 //! docentry="Ravl.QMake.sysconf"

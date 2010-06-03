@@ -8,7 +8,7 @@
 #define RAVL_BLACKBOARD_HEADER 1
 ////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: Blackboard.hh 5828 2006-08-19 09:23:16Z craftit $"
 //! lib=RavlDPMT
 //! file="Ravl/OS/DataProc/Blackboard.hh"
 

@@ -7,7 +7,7 @@
 #ifndef RAVL_POLYGON2D_HEADER
 #define RAVL_POLYGON2D_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Polygon2d.hh 6612 2008-02-22 16:53:09Z craftit $"
 //! file="Ravl/Math/Geometry/Euclidean/2D/Polygon2d.hh"
 //! lib=RavlMath
 //! userlevel=Normal

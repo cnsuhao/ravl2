@@ -11,7 +11,7 @@
 //! lib=RavlMath
 //! docentry="Ravl.API.Math.Geometry.3D"
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: Quatern3d.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Math/Geometry/Euclidean/3D/Quatern3d.hh"
 
 #include "Ravl/Vector3d.hh"

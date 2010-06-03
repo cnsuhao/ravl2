@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_WARPTHINPLATESPLINE_HEADER
 #define RAVLIMAGE_WARPTHINPLATESPLINE_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: WarpThinPlateSpline.hh 6440 2007-11-13 18:11:20Z ees1wc $"
 //! lib=RavlImageProc
 //! docentry="Ravl.API.Images.Scaling and Warping"
 //! author="Charles Galambos"

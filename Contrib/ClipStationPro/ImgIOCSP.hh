@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_IMGIOCSP_HEADER
 #define RAVLIMAGE_IMGIOCSP_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOCSP.hh 5277 2005-12-21 10:08:11Z ees1wc $"
 //! lib=CSPDriver
 //! docentry="Ravl.API.Images.Video.Video IO.ClipStationPro"
 //! author="Charles Galambos"

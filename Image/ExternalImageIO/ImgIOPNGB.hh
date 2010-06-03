@@ -7,7 +7,7 @@
 #ifndef DPIMAGEIOPNG_HEADER
 #define DPIMAGEIOPNG_HEADER
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOPNGB.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Image/ExternalImageIO/ImgIOPNGB.hh"
 //! lib=RavlExtImgIO
 //! docentry="Ravl.API.Images.IO.Formats"

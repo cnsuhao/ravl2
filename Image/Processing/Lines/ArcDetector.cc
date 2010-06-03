@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ArcDetector.cc 4425 2004-07-14 09:05:11Z craftit $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Lines/ArcDetector.cc"
 

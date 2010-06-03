@@ -6,7 +6,7 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
 //! author="Luis Molina Tanco"
-//! rcsid="$Id$"
+//! rcsid="$Id: VectorIndex.cc 4130 2004-03-20 15:08:03Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Indexing/VectorIndex.cc"
 

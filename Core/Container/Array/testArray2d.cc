@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testArray2d.cc 6075 2007-02-24 17:01:10Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Array/testArray2d.cc"
 //! docentry="Ravl.API.Core.Arrays.2D"

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TriMesh.cc 6261 2007-07-09 15:42:21Z craftit $"
 //! lib=Ravl3D
 //! author="Charles Galambos"
 //! file="Ravl/3D/Mesh/TriMesh.cc"

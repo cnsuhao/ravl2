@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: dsd.cc 4988 2005-06-28 17:00:22Z craftit $"
 
 #include "Ravl/DataServer/DataServer.hh"
 #include "Ravl/Option.hh"

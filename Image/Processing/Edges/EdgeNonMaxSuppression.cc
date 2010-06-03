@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: EdgeNonMaxSuppression.cc 5352 2006-02-16 17:39:58Z craftit $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Edges/EdgeNonMaxSuppression.cc"
 

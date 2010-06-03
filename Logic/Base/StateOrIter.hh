@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_STATEORITER_HEADER
 #define RAVLLOGIC_STATEORITER_HEADER 1
 ////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: StateOrIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlLogic
 //! docentry="Ravl.API.Logic"
 //! author="Charles Galambos"

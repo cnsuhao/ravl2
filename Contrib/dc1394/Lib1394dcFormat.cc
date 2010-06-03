@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Lib1394dcFormat.cc 7490 2010-01-27 16:48:34Z alexkostin $"
 //! docentry="Ravl.Contrib.Video IO"
 //! lib=RavlImgIO1394dc
 //! file="Ravl/Contrib/dc1394/Lib1394dcFormat.cc"
@@ -69,7 +69,7 @@ namespace RavlImageN {
     
     enum { IMG_RGB, IMG_YUV, IMG_YUV422, IMG_GREY } imgtype = IMG_GREY;
 
-    // Some huristics to select the best format to capture date from the
+    // Some heuristics to select the best format to capture date from the
     // card in.   If in doubt get YUV as thats what most video is in anyway.
     if(obj_type == typeid(ImageC<ByteRGBValueC>))
       imgtype = IMG_RGB;
@@ -193,12 +193,12 @@ namespace RavlImageN {
     }
     //bool half = false;
     //if(dev == "IIDC")
-    //  half = true; // Attempt to get images halfed along each dimention.
+    //  half = true; // Attempt to get images halved along each dimension.
     if(fn == "")
     {
-      if(channel >= 100) // DMA acceess
+      if(channel >= 100) // DMA access
         fn = "/dev/video1394";
-      else              // normal acceess
+      else              // normal access
         fn = "/dev/raw1394";
     }
     if(obj_type == typeid(ImageC<ByteYUVValueC>))
@@ -220,7 +220,7 @@ namespace RavlImageN {
   DPOPortBaseC FileFormat1394dcBodyC::CreateOutput(const StringC &filename,const type_info &obj_type) const
   { return DPOPortBaseC(); }
 
-  //: Get prefered IO type.
+  //: Get preferred IO type.
 
   const type_info &FileFormat1394dcBodyC::DefaultType() const
   { return typeid(ImageC<ByteT>); }

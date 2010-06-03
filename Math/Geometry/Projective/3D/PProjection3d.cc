@@ -13,7 +13,7 @@
 
 //! author="Radek Marik"
 //! date="26.06.1995"
-//! rcsid="$Id$"
+//! rcsid="$Id: PProjection3d.cc 6135 2007-05-10 14:32:28Z craftit $"
 //! lib=RavlMath
 
 #include "Ravl/BinStream.hh"

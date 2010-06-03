@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: LevenbergMarquardt.hh 7664 2010-03-23 15:43:19Z ees1wc $"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation2"
 //! example="OrthogonalRegressionTest.cc;QuadraticFitTest.cc;Homography2dFitTest.cc"
 //! lib=RavlOptimise
@@ -49,8 +49,8 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    LevenbergMarquardtC(StateVectorC &stateVecInit,
-			DListC<ObservationC> obsList);
+    LevenbergMarquardtC(const StateVectorC &stateVecInit,
+			const DListC<ObservationC>& obsList);
     //: Constructor.
     // Initialises the Levenberg-Marquardt algorithm with the given state
     // parameter vector stateVecInit. The observation list obsList is used
@@ -59,7 +59,7 @@ namespace RavlN {
     // direct minimisation to achieve the global minimum. Levenberg-Marquardt
     // always goes downhill!
 
-    bool Iteration ( DListC<ObservationC> obsList, RealT lambda=0.1,
+    bool Iteration ( const DListC<ObservationC>& obsList, RealT lambda=0.1,
 		     bool rescaleDiagonal=false );
     //: Apply a single iteration
     // Process observations in the provided list (obsList) to build the
@@ -81,7 +81,7 @@ namespace RavlN {
     // parameters are scaled reasonable homogeneously, and is the default
     // if the parameter is excluded.
 
-    bool NIterations ( DListC<ObservationC> obsList, UIntT n=10,
+    bool NIterations ( const DListC<ObservationC>& obsList, UIntT n=10,
 		       RealT lambdaStart=0.1, RealT lambdaFactor=0.1,
 		       bool rescaleDiagonal=false );
     //: Apply a fixed number of iterations
@@ -102,7 +102,7 @@ namespace RavlN {
     { return stateVec.GetX(); }
     // Latest estimate of solution parameters
 
-    const MatrixRSC &InverseCovarianceMatrix(DListC<ObservationC> obsList);
+    const MatrixRSC &InverseCovarianceMatrix(const DListC<ObservationC>& obsList);
     //: Inverse covariance matrix of solution
     // This is the matrix A in the <a href="../../../LevenbergMarquardt/levmarq.html#LM_update">state update equation</a>,
     // but computed without any damping, i.e. lambda set to zero.
@@ -129,7 +129,7 @@ namespace RavlN {
     bool AinvUpdated; // Whether Ainv is up to date
     RealT residual; // current minimum value of Chi-squared residual
 
-    RealT ComputeResidual(DListC<ObservationC> obsList) const;
+    RealT ComputeResidual(const DListC<ObservationC>& obsList) const;
     //: Compute least-squares residual
   };
 }

@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! author="Radek Marik"
 //! date="26.06.1994"
-//! rcsid="$Id$"
+//! rcsid="$Id: BVertex.cc 1533 2002-08-08 16:03:23Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/Boundary/BVertex.cc"
 

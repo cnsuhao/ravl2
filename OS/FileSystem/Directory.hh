@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.API.OS.File System"
 //! lib=RavlOS
-//! rcsid="$Id$"
+//! rcsid="$Id: Directory.hh 6910 2008-08-15 13:46:37Z ees1wc $"
 //! file="Ravl/OS/FileSystem/Directory.hh"
 //! date="07/05/98"
 

@@ -25,7 +25,7 @@ void RefMatrixMulVector(const DataT *matrix,
   }
 }
 
-// Small program usefull for checking SSE usage
+// Small program useful for checking SSE usage
 
 int main (int nargs,char **argv) {
   RavlN::OptionC opts(nargs,argv);

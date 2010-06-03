@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLGUI_PIXBUF_HEADER
 #define RAVLGUI_PIXBUF_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: Pixbuf.hh 6701 2008-04-09 16:07:40Z ees1wc $"
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Graphics.GTK.Layout"

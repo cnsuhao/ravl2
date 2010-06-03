@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! date="12/07/2004"
 //! example=exColourSelector.cc
-//! rcsid="$Id$"
+//! rcsid="$Id: ColourSelector.hh 6746 2008-04-22 13:30:41Z craftit $"
 //! docentry="Ravl.API.Graphics.GTK.Control"
 //! file="Ravl/GUI/GTK/ColourSelector.hh"
 

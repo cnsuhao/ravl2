@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 6383 2007-10-08 14:42:03Z ees1wc $"
 #! file="Ravl/Image/Processing/Filters/defs.mk"
 
 PACKAGE=Ravl/Image
@@ -24,6 +24,6 @@ PLIB=RavlImageProc
 
 USESLIBS=RavlImageProc
 
-PROGLIBS=RavlIO RavlImageIO RavlExtImgIO RavlOSIO RavlOptimise  RavlDPDisplay.opt
+PROGLIBS=RavlIO RavlImageIO RavlExtImgIO RavlOSIO RavlOptimise  RavlThreads RavlDPDisplay.opt
 
 

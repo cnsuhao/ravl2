@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BufStream.cc 7546 2010-02-18 13:28:49Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/System/BufStream.cc"
 
@@ -107,9 +107,9 @@ namespace RavlN {
     IStreamC(*(iss = new istrstream(const_cast<char *>(dat.ReferenceElm()),dat.Size())),true),
 #else
 #if RAVL_HAVE_STRINGSTREAM
-    IStreamC(*(iss = new istringstream(string(dat.ReferenceElm(),dat.Size()),istringstream::binary)),true),
+    IStreamC(*(iss = new istringstream(string(dat.ReferenceElm(),static_cast<size_t>(dat.Size())),istringstream::binary)),true),
 #else
-    IStreamC(*(iss = new istrstream(dat.ReferenceElm(),dat.Size())),true),
+    IStreamC(*(iss = new istrstream(dat.ReferenceElm(),static_cast<size_t>(dat.Size()))),true),
 #endif
 #endif
       data(dat)

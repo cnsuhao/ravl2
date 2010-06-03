@@ -8,7 +8,7 @@
 #define RAVL_BYTESTREAM_HEADER 1
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Data Processing.IO" 
-//! rcsid="$Id$"
+//! rcsid="$Id: ByteStream.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/ByteStream.hh"
 

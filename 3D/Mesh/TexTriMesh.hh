@@ -7,7 +7,7 @@
 #ifndef RAVL3D_TEXTRIMESH_HEADER
 #define RAVL3D_TEXTRIMESH_HEADER 1
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TexTriMesh.hh 6261 2007-07-09 15:42:21Z craftit $"
 //! file="Ravl/3D/Mesh/TexTriMesh.hh"
 //! lib=Ravl3D
 //! docentry="Ravl.API.3D.Mesh"

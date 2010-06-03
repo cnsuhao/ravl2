@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ClassWizard.cc 6922 2008-08-21 14:56:41Z ees1wc $"
 //! lib=RavlClassWizard
 //! file="Ravl/Applications/ClassWizard/ClassWizard.cc"
 

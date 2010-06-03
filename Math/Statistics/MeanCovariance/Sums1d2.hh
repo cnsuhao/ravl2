@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! date="26/8/2002"
 //! docentry="Ravl.API.Math.Statistics"
-//! rcsid="$Id$"
+//! rcsid="$Id: Sums1d2.hh 5956 2006-11-07 17:35:51Z ees1wc $"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/MeanCovariance/Sums1d2.hh"
 

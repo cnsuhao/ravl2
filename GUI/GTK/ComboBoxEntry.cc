@@ -26,6 +26,7 @@ namespace RavlGUIN {
       if(m_treeModel.IsValid()) {
         nwidget = gtk_combo_box_entry_new_with_model (m_treeModel.TreeModel(),m_textColumn);
       } else {
+        // There is currently no way to add to a model or cell layout if this condition is reached.
         nwidget = gtk_combo_box_entry_new();
       }
     }
@@ -39,6 +40,5 @@ namespace RavlGUIN {
     
     return true;
   }
-
 
 }

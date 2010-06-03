@@ -14,7 +14,7 @@
 //! example=testCost.cc
 //! file="Ravl/PatternRec/Optimise/BracketMinimum.hh"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation.Cost Functions"
-//! rcsid="$Id$"
+//! rcsid="$Id: BracketMinimum.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/PatternRec/CostFunction1d.hh"
 

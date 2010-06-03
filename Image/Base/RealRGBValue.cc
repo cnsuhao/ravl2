@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: RealRGBValue.cc 130 2001-05-24 22:50:53Z craftit $"
 //! lib=RavlImage
 //! file="Ravl/Image/Base/RealRGBValue.cc"
 

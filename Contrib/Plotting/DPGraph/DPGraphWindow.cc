@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DPGraphWindow.cc 3401 2003-09-06 08:11:47Z craftit $"
 //! lib=RavlDPGraph
 //! file="Ravl/Contrib/Plotting/DPGraph/DPGraphWindow.cc"
 

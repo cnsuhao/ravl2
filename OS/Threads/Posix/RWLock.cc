@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RWLock.cc 6756 2008-04-24 13:42:11Z craftit $"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Posix/RWLock.cc"
 

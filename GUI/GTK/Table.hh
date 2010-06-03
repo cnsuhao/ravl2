@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_TABLE_HEADER
 #define RAVLGUI_TABLE_HEADER 1
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Table.hh 6893 2008-07-09 15:23:17Z ees1wc $"
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Graphics.GTK.Layout"

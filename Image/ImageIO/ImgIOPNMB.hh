@@ -8,7 +8,7 @@
 #define RAVLIMAGE_DPIMAGEIOPPM_HEADER
 ///////////////////////////////////////////////////
 //! userlevel=Develop
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOPNMB.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Image/ImageIO/ImgIOPNMB.hh"
 //! lib=RavlImageIO
 //! docentry="Ravl.API.Images.IO.Formats"

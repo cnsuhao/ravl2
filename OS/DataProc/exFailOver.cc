@@ -6,7 +6,7 @@
 // file-header-ends-here
 ////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: exFailOver.cc 558 2001-11-02 17:15:03Z craftit $"
 //! lib=RavlDPMT
 
 #include "Ravl/Option.hh"

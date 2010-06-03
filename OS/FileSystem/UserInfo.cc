@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: UserInfo.cc 1324 2002-06-28 15:22:42Z craftit $"
 //! lib=RavlOS
 //! file="Ravl/OS/FileSystem/UserInfo.cc"
 

@@ -7,7 +7,7 @@
 #ifndef RAVLEXTIMGIO_HEADER
 #define RAVLEXTIMGIO_HEADER 1
 /////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ExtImgIO.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! userlevel=Develop
 //! file="Ravl/Image/ExternalImageIO/ExtImgIO.hh"
 //! lib=RavlExtImgIO

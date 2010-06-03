@@ -7,7 +7,7 @@
 #ifndef RAVL_VIDMETEOR1IO_HEADER
 #define RAVL_VIDMETEOR1IO_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOMeteor1.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Images.Video.Video IO.Meteor1"
 //! lib=RavlImgIOMeteor1
 //! author="Charles Galambos"

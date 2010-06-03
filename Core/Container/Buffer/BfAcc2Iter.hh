@@ -7,7 +7,7 @@
 #ifndef RAVL_RBFACC2ITER_HEADER
 #define RAVL_RBFACC2ITER_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BfAcc2Iter.hh 7601 2010-02-25 17:56:50Z cyberplug $"
 //! file="Ravl/Core/Container/Buffer/BfAcc2Iter.hh"
 //! docentry="Ravl.API.Core.Arrays.Buffer"
 //! lib=RavlCore
@@ -53,7 +53,7 @@ namespace RavlN {
     
     bool First(const BufferAccessC<BufferAccessC<DataT> > &pbuf,SizeT size1,SizeT size2) {
       rit.First(pbuf,size1);
-      rng = IndexRangeC(0,size2-1);
+      rng = IndexRangeC(size2);
       if(size2 > 0 && rit.IsElm()) {
 	cit.First(*rit,rng);
 	return true;
@@ -65,7 +65,7 @@ namespace RavlN {
     
     bool First(const SizeBufferAccessC<BufferAccessC<DataT> > &pbuf,SizeT size) {
       rit = pbuf;
-      rng = IndexRangeC(0,size-1);
+      rng = IndexRangeC(size);
       if(rng.Size() > 0 && rit.IsElm()) {
 	cit.First(*rit,rng);
 	return true;

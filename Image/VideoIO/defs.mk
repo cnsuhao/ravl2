@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 6304 2007-08-17 09:03:08Z simondennis $"
 #! file="Ravl/Image/VideoIO/defs.mk"
 
 PACKAGE = Ravl/Image

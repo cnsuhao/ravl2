@@ -1,0 +1,8 @@
+ifndef OSX_FOUNDATION_DEF
+OSX_FOUNDATION_DEF=1
+
+include ObjC.def
+
+EXELIB :=  -framework Foundation $(EXELIB)
+
+endif

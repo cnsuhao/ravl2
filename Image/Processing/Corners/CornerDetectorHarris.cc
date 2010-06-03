@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: CornerDetectorHarris.cc 5428 2006-03-24 17:12:51Z ees1wc $"
 //! lib=RavlImageProc
 //! author="Radek Marik, modified by Charles Galambos"
 //! date="1/10/1991"

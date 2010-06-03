@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ImagePointFeatureSet.cc 7160 2009-04-20 13:34:34Z craftit $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Tools/ImagePointFeatureSet/ImagePointFeatureSet.cc"
 

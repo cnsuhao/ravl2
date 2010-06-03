@@ -11,7 +11,7 @@
 //! userlevel=Normal
 //! example=exSegmentation.cc
 //! file="Ravl/Image/Processing/Segmentation/PixelClassifyGrey.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: PixelClassifyGrey.hh 7112 2009-02-12 09:38:47Z simondennis $"
 //! lib=RavlImageProc
 //! author="Ratna Rambaruth"
 //! date="12/06/1998"

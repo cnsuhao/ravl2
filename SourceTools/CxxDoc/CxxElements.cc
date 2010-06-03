@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 ////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: CxxElements.cc 3973 2004-02-20 17:52:50Z craftit $"
 //! lib=RavlCxxDoc
 //! file="Ravl/SourceTools/CxxDoc/CxxElements.cc"
 

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: FitPProjection2d.cc 6159 2007-05-24 15:15:08Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Projective/2D/FitPProjection2d.cc"
 

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: WarpMesh2d.cc 6788 2008-05-12 14:53:46Z craftit $"
 //! lib=RavlImageProc
 //! file="OmniTools/ActiveAppearanceModels/WarpMesh2d.cc"
 

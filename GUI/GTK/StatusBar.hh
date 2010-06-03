@@ -7,7 +7,7 @@
 #ifndef RAVLGUISTATUSBAR_HEADER
 #define RAVLGUISTATUSBAR_HEADER 1
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: StatusBar.hh 6746 2008-04-22 13:30:41Z craftit $"
 //! file="Ravl/GUI/GTK/StatusBar.hh"
 //! lib=RavlGUI
 //! docentry="Ravl.API.Graphics.GTK.Control"

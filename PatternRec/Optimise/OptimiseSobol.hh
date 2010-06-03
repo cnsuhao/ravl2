@@ -13,7 +13,7 @@
 //! userlevel=Normal
 //! example=testNumOptimise.cc
 //! docentry="Ravl.API.Pattern Recognition.Optimisation.Implementation"
-//! rcsid="$Id$"
+//! rcsid="$Id: OptimiseSobol.hh 5349 2006-02-16 10:29:10Z omn-crida $"
 //! file="Ravl/PatternRec/Optimise/OptimiseSobol.hh"
 
 #include "Ravl/PatternRec/Optimise.hh"

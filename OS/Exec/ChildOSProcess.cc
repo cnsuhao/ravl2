@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ChildOSProcess.cc 7622 2010-03-01 11:49:44Z alexkostin $"
 //! lib=RavlOS
 //! file="Ravl/OS/Exec/ChildOSProcess.cc"
 
@@ -44,7 +44,7 @@ extern "C" {
 
 #include "Ravl/OS/Filename.hh"
 
-#if RAVL_OS_LINUX
+#if RAVL_OS_LINUX || RAVL_OS_LINUX64
 #define RAVL_LINIX_WAITPIDBUG 1
 #endif
 
@@ -296,7 +296,7 @@ ChildOSProcessC::ChildOSProcessC(StringC cmd,bool useStdOut,bool useStdErr,bool 
   
   bool ChildOSProcessBodyC::GotExitCode(int code) {
 #if !RAVL_COMPILER_VISUALCPP
-    if(WIFEXITED(code)) { // Exited normaly ?
+    if(WIFEXITED(code)) { // Exited normally ?
       exitcode = WEXITSTATUS(code);
       exitok = true;
     }
@@ -318,7 +318,7 @@ ChildOSProcessC::ChildOSProcessC(StringC cmd,bool useStdOut,bool useStdErr,bool 
 #if !RAVL_COMPILER_VISUALCPP
     int stat,id;
     int opt = WNOHANG;
-#if RAVL_OS_LINUX
+#if RAVL_OS_LINUX || RAVL_OS_LINUX64
     opt |= __WALL;
 #endif
     errno = 0;

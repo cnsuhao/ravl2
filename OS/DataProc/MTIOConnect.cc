@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MTIOConnect.cc 7482 2010-01-22 14:07:43Z craftit $"
 //! lib=RavlDPMT
 //! file="Ravl/OS/DataProc/MTIOConnect.cc"
 
@@ -49,7 +49,18 @@ namespace RavlN {
   private:
     DPMTIOConnectBaseC connection;
   };
-  
+
+
+  //: Default Constructor.
+
+  DPMTIOConnectBaseBodyC::DPMTIOConnectBaseBodyC(bool nuseIsGetReady,UIntT nblockSize)
+    : useIsGetReady(nuseIsGetReady),
+      terminate(false),
+      pause(false),
+      resume(0),
+      blockSize(nblockSize)
+  {}
+
   //: Generate an event handle 
   // It indicates the completion of processing.
   

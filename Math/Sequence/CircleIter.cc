@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: CircleIter.cc 1531 2002-08-08 15:55:37Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Sequence/CircleIter.cc"
 

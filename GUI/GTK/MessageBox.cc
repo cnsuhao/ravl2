@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MessageBox.cc 5380 2006-03-03 10:27:45Z hickson $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/MessageBox.cc"
 

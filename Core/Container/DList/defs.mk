@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 # $Id: defs.mk 5240 2005-12-06 17:16:50Z plugger $
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 5240 2005-12-06 17:16:50Z plugger $"
 #! file="Ravl/Core/Container/DList/defs.mk"
 
 DESCRIPTION = Double linked lists.

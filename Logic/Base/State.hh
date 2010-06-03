@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_STATE_HEADER
 #define RAVLLOGIC_STATE_HEADER 1
 ////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: State.hh 6678 2008-03-18 22:50:19Z craftit $"
 //! lib=RavlLogic
 //! docentry="Ravl.API.Logic"
 //! author="Charles Galambos"

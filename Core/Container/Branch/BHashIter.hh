@@ -8,7 +8,7 @@
 #define RAVL_BHASHITER_HEADER 1
 /////////////////////////////////////////////////////////////
 //! docentry="Ravl.API.Core.Branch"
-//! rcsid="$Id$"
+//! rcsid="$Id: BHashIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Branch/BHashIter.hh"
 //! author="Charles Galambos"

@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_CACHE_HEADER
 #define RAVL_CACHE_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: Cache.hh 7563 2010-02-18 16:41:12Z craftit $"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! date="25/8/2002"
@@ -128,7 +128,7 @@ namespace RavlN {
     // false is returned and the paramiters are unchanged.
     
     bool Insert(const KeyT &key,const DataT &data,bool bump = true) {
-      UIntT hashVal;
+      SizeT hashVal;
       HashElemC<KeyT,CacheEntryC<DataT> > *elem = LookupHV(key,hashVal);
       if(elem != 0) {
 	elem->Data().Data() = data;

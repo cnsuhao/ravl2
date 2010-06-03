@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_DESIGNER_HEADER
 #define RAVL_DESIGNER_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: Designer.hh 7605 2010-03-01 05:56:10Z kier $"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Pattern Recognition.Functions"
 //! lib=RavlPatternRec
@@ -14,13 +14,14 @@
 
 #include "Ravl/RCHandleV.hh"
 #include "Ravl/Vector.hh"
+#include "Ravl/XMLFactory.hh"
 
 namespace RavlN {
   
   //! userlevel=Develop
   //: Designer base class.
   // Abstract Function designer. This is provided to allow the tweeking 
-  // of design paramiters to be automated
+  // of design parameters to be automated
   
   class DesignerBodyC
     : public RCBodyVC
@@ -29,6 +30,9 @@ namespace RavlN {
     DesignerBodyC()
     {}
     //: Default constructor.
+
+    DesignerBodyC(const XMLFactoryContextC &factory);
+    //: Construct from XML factory
 
     DesignerBodyC(istream &strm);
     //: Load from stream.
@@ -49,6 +53,10 @@ namespace RavlN {
     //: Set the current paramiters.
     // Returns the current paramiters, which may not be exactly those
     // set in 'params', but will be the closest legal values.
+    
+    virtual bool Reset();
+    //: Reset the designer to an initial state
+    
   };
 
   //! userlevel=Normal
@@ -64,6 +72,11 @@ namespace RavlN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
+    
+    DesignerC(const XMLFactoryContextC &factory)
+      :  RCHandleVC<DesignerBodyC>(*new DesignerBodyC(factory))
+    {}
+    //: Construct from XML factory
     
     DesignerC(istream &strm);
     //: Load from stream.
@@ -102,6 +115,11 @@ namespace RavlN {
     //: Set the current paramiters.
     // Returns the current paramiters, which may not be exactly those
     // set in 'params', but will be the closest legal values.
+
+    bool Reset()
+    { return Body().Reset(); }
+    //: Reset the designer to an intial state
+
     
   };
   

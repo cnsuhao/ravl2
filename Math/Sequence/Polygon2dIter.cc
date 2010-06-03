@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Polygon2dIter.cc 7084 2009-02-04 10:48:12Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Sequence/Polygon2dIter.cc"
 

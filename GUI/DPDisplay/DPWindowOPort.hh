@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_DPWINDOWOPORT_HEADER
 #define RAVLGUI_DPWINDOWOPORT_HEADER 1
 /////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DPWindowOPort.hh 6701 2008-04-09 16:07:40Z ees1wc $"
 //! lib=RavlDPDisplay
 //! file="Ravl/GUI/DPDisplay/DPWindowOPort.hh"
 //! author="Charles Galambos"

@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL3D_VOXEL_SET_HH_
 #define RAVL3D_VOXEL_SET_HH_
-//! rcsid="$Id$"
+//! rcsid="$Id: VoxelSet.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=Ravl3D
 //! author="Joel Mitchelson"
 //! docentry="Ravl.API.3D.Carve3D"

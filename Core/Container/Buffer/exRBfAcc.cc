@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: exRBfAcc.cc 7561 2010-02-18 13:55:39Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Buffer/exRBfAcc.cc"
 //! userlevel=Normal
@@ -39,7 +39,7 @@ int  ExRBfAcc(int, char * [] )
            << "=====================================\n";
 
   char buffer[] = "absdefghijklmnopqrstuvwxyz\n";
-  RangeBufferAccessC<char> acc1(buffer, 25); // map a memory
+  RangeBufferAccessC<char> acc1(buffer, IndexRangeC(25)); // map a memory
   RangeBufferAccessC<char> acc2 = acc1 + 3;  // map other access with a 
                                               // different reference point
   RangeBufferAccessC<char> acc3;             // a default access
@@ -48,7 +48,7 @@ int  ExRBfAcc(int, char * [] )
   RangeBufferAccessC<char> acc5 = acc4;      // map an access
   acc5.Attach(acc2);                          // remap as acc2
   RBAccC acc6;                                // a default access
-  acc6.Attach(acc4, 10);                      // remap as acc4, but with a size
+  acc6.Attach(acc4, IndexRangeC(10));                      // remap as acc4, but with a size
   RangeBufferAccessC<char> acc7(acc6.Copy()); // a new buffer with an access
   acc6.Fill('*');                             // modify the contents
   acc2 += 10;                                 // shift indeces

@@ -8,7 +8,7 @@
 #define RAVL_TUPLE3_HEADER 1
 /////////////////////////////////////////////////
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: Tuple3.hh 7544 2010-02-18 13:20:15Z craftit $"
 //! file="Ravl/Core/Container/Misc/Tuple3.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
@@ -82,9 +82,9 @@ namespace RavlN {
     const T3 &Data3() const { return d3; }
     //: Data access.
 
-    UIntT Hash() const { 
-      UIntT h2 = StdHash(d2);
-      UIntT h3 = StdHash(d3);
+    SizeT Hash() const {
+      SizeT h2 = StdHash(d2);
+      SizeT h3 = StdHash(d3);
       return (StdHash(d1) + h2 + h3) ^ (h2 << 7)  ^ (h3 << 11);
     }
     //: Get hash value for tuple.

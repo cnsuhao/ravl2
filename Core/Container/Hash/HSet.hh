@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! date="2/9/1996"
 //! docentry="Ravl.API.Core.Hash Tables"
-//! rcsid="$Id$"
+//! rcsid="$Id: HSet.hh 7563 2010-02-18 16:41:12Z craftit $"
 
 #include "Ravl/RCHash.hh"
 #include "Ravl/HashIter.hh"
@@ -73,7 +73,7 @@ namespace RavlN {
     { set.Empty(); }
     //: Remove everything from the set.
     
-    inline UIntT Size() const
+    inline SizeT Size() const
     { return set.Size(); }
     //: Number of elements in set.
     
@@ -431,7 +431,8 @@ namespace RavlN {
   
   template<class T>
   BinOStreamC &operator<<(BinOStreamC &out,const HSetC<T> &obj) {
-    out << obj.Size();  
+    UIntT size = obj.Size(); // FIXME:- Should be SizeT, for backward compatibility in 64 bit saves.
+    out << size;
     for(HSetIterC<T> it(const_cast<HSetC<T> &>(obj));it.IsElm();it.Next()) 
       out << it.Data();
     return out;
@@ -439,7 +440,7 @@ namespace RavlN {
   
   template<class T>
   BinIStreamC &operator>>(BinIStreamC &in,HSetC<T> &obj) {
-    UIntT size;
+    UIntT size; // FIXME:- Should be SizeT, for backward compatibility in 64 bit saves.
     in >> size;
     T tmp;
     obj = HSetC<T>();

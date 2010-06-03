@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLCXXDOC_STRINGS_HEADER
 #define RAVLCXXDOC_STRINGS_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: Strings.hh 1415 2002-07-14 22:05:56Z craftit $"
 //! lib=RavlCxxDoc
 //! file="Ravl/SourceTools/CxxDoc/Strings.hh"
 

@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_THEMESHEDGE_HEADER
 #define RAVL_THEMESHEDGE_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: THEMeshEdge.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Graphs.Half Edge Mesh"
 //! date="24/4/2002"

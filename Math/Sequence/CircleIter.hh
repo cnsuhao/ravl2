@@ -7,7 +7,7 @@
 #ifndef RAVL_CIRCLEITER_HEADER
 #define RAVL_CIRCLEITER_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: CircleIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Math/Sequence/CircleIter.hh"
 //! lib=RavlMath
 //! userlevel=Normal

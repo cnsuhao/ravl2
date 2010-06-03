@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: SysLog.cc 7402 2009-12-03 18:03:40Z robowaz $"
 //! lib=RavlOS
 //! author="Charles Galambos"
 //! file="Ravl/OS/Misc/SysLog.cc"
@@ -26,6 +26,8 @@
 #include <unistd.h>
 #endif
 #endif
+
+#include <stdio.h>
 
 namespace RavlN {
   

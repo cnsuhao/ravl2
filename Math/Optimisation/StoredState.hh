@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: StoredState.hh 7664 2010-03-23 15:43:19Z ees1wc $"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation2"
 //! lib=RavlOptimise
 //! file="Ravl/Math/Optimisation/StoredState.hh"
@@ -28,7 +28,7 @@ namespace RavlN {
     StoredStateC();
     //: Default constructor for optimisation base class
 
-    StoredStateC(StateVectorC &stateVecInit);
+    StoredStateC(const StateVectorC &stateVecInit);
     //: Constructor for optimisation base class
 
   protected:

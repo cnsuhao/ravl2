@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! date="14/5/96"
 //! docentry="Ravl.API.Math.Sequences"
-//! rcsid="$Id$"
+//! rcsid="$Id: PermutationIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Math/Sequence/PermutationIter.hh"
 //! lib=RavlMath
 

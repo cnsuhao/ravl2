@@ -10,6 +10,8 @@
 #include "Ravl/PatternRec/DesignClassifierSvmSmo.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
 #include <string.h>
+#include <stdio.h>
+#include "Ravl/XMLFactoryRegister.hh"
 
 namespace RavlN
 {
@@ -61,6 +63,25 @@ DesignSvmSmoBodyC::DesignSvmSmoBodyC(const KernelFunctionC &KernelFunction,
 {
   Init(KernelFunction, Penalty1, Penalty2, Tolerance, Eps, LambdaThreshold);
 }
+
+
+DesignSvmSmoBodyC::DesignSvmSmoBodyC(const XMLFactoryContextC & factory)
+  : DesignSvmBodyC(factory),
+    c1(factory.AttributeReal("penalty1", 1e3)),
+    c2(factory.AttributeReal("penalty2", 1e3)),
+    tolerance(factory.AttributeReal("tolerance", 1e-7)),
+    eps(factory.AttributeReal("eps", 1e-9)),
+    lambdaThreshold(factory.AttributeReal("lambdaThreshold", 1e-12))
+        
+{
+  if(!factory.UseComponent("KernelFunction", kernelFunction))
+    RavlIssueError("No kernel function specified in XML factory");
+
+  // Lets get to a good initial state
+  Reset();
+}
+
+
 //---------------------------------------------------------------------------
 //: Load from stream.
 DesignSvmSmoBodyC::DesignSvmSmoBodyC(istream &strm)
@@ -222,6 +243,36 @@ ClassifierC DesignSvmSmoBodyC::Apply(const SampleC<VectorC> &TrainingSetVectors,
 
   return GetClassifier();
 }
+
+// Reset designer to initial state
+bool DesignSvmSmoBodyC::Reset() {
+  
+  trainSetSize = 0;
+
+  lambdas = NULL;
+  errorCache = NULL;
+  trainingSetLabels = NULL;
+  trSetVectorPtrs = NULL;
+  objectsToUse = NULL;
+  kernelCache = NULL;
+
+  numFeatures = 0;
+
+  numTrainObjects = 0;
+  errorCacheSize = 0;
+  kernelCacheSize = 0;
+
+  callbackFunc = NULL;
+  callbackData = NULL;
+
+  verbosity = 0;
+  
+
+
+  return true;
+}
+
+
 //---------------------------------------------------------------------------
 void DesignSvmSmoBodyC::Prepare(const SampleC<VectorC> &TrainingSetVectors,
                                 const SampleC<SByteT> &TrainingSetLabels)
@@ -252,6 +303,19 @@ void DesignSvmSmoBodyC::Prepare(const SampleC<VectorC> &TrainingSetVectors,
   memset(lambdas, 0, sizeof(double) * trainSetSize);
   b = 0;
 
+  //set initial values for lambdas
+  //if known initial values for lambdas copy them
+  if(initialLambdas.Size() == UIntT(trainSetSize))
+  {
+    double *lambdasPtr = lambdas;
+    for(SampleIterC<RealT> it(initialLambdas); it; it++, lambdasPtr++)
+    {
+      RealT l = *it;
+      if(l < 0) l = 0;
+      *lambdasPtr = l;
+    }
+  }
+
   //copy trainingSetLabels and vectors
   SampleIterC<SByteT> itLab(TrainingSetLabels);
   SampleIterC<VectorC> itVec(TrainingSetVectors);
@@ -262,7 +326,7 @@ void DesignSvmSmoBodyC::Prepare(const SampleC<VectorC> &TrainingSetVectors,
     trSetVectorPtrs[i] = itVec->ReferenceElm();
   }
   if(i != trainSetSize)
-    throw ExceptionC("Can't copy data to internal svm beffers");
+    throw ExceptionC("Can't copy data to internal svm buffers");
 
   //create kernel cache
   SizeT newKernelCacheSize = (SizeT(trainSetSize + 1) * SizeT(trainSetSize)) / 2;
@@ -308,6 +372,18 @@ void DesignSvmSmoBodyC::Prepare(const SampleC<VectorC> &TrainingSetVectors,
   memset(lambdas, 0, sizeof(double) * trainSetSize);
   b = 0;
 
+  //if known initial values for lambdas copy them
+  if(initialLambdas.Size() == UIntT(trainSetSize))
+  {
+    double *lambdasPtr = lambdas;
+    for(SampleIterC<RealT> it(initialLambdas); it; it++, lambdasPtr++)
+    {
+      RealT l = *it;
+      if(l < 0) l = 0;
+      *lambdasPtr = l;
+    }
+  }
+
   //copy trainingSetLabels and vectors
   SampleIterC<UIntT> itLab(TrainingSetLabels);
   SampleIterC<VectorC> itVec(TrainingSetVectors);
@@ -318,7 +394,7 @@ void DesignSvmSmoBodyC::Prepare(const SampleC<VectorC> &TrainingSetVectors,
     trSetVectorPtrs[i] = itVec->ReferenceElm();
   }
   if(i != trainSetSize)
-    throw ExceptionC("Can't copy data to internal svm beffers");
+    throw ExceptionC("Can't copy data to internal svm buffers");
 
   //create kernel cache
   SizeT newKernelCacheSize = ((trainSetSize + 1) * trainSetSize) / 2;
@@ -361,7 +437,7 @@ SvmClassifierC DesignSvmSmoBodyC::GetClassifier() const
   char *svl = new char[numSV];
   RealT *lmbd = new RealT[numSV];
   if(svl == NULL || lmbd == NULL)
-    throw ExceptionC("Can't allocate memory for internal svm beffers");
+    throw ExceptionC("Can't allocate memory for internal svm buffers");
 
   int j = 0;
   for(int i = 0; i < numTrainObjects; i++)
@@ -406,6 +482,10 @@ RealT DesignSvmSmoBodyC::GetKernelValue(int I1, int I2)
     cacheVal = (float)kernelFunction.Apply(numFeatures, trSetVectorPtrs[I1], trSetVectorPtrs[I2]);
     *elAdr = cacheVal;
 //    cout << "new kernel (" << I1 << ", " << I2 << ") = " << cacheVal << endl;
+  }
+  if(cacheVal > 1e25)
+  {
+    printf("Warning: Possible overflow kernelfunc: %lg", cacheVal);
   }
   return cacheVal;
 }
@@ -457,6 +537,7 @@ void DesignSvmSmoBodyC::CalcLambdas()
     else if(!numChanged)
       examineAll = 1;
   }
+
 }
 //---------------------------------------------------------------------------
 void DesignSvmSmoBodyC::UpdateErrorCache()
@@ -782,6 +863,15 @@ IntT DesignSvmSmoBodyC::LeaveOneOutTest()
   //cout << "numErrors:" << numErrors << endl;
   return numErrors;
 }
+
+
+RavlN::XMLFactoryRegisterHandleConvertC<DesignSvmSmoC, DesignSvmC> g_registerXMLFactoryDesignSvmSmo("RavlN::DesignSvmSmoC");
+  
+void linkDesignSvmSmo()
+{}
+
+
+
 //---------------------------------------------------------------------------
 }
 

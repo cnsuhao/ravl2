@@ -7,7 +7,7 @@
 #ifndef RAVLPRIMITIVEBINARYPOLYNOMAIL_HEADER
 #define RAVLPRIMITIVEBINARYPOLYNOMAIL_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: PrimitiveBinaryPolynomial.hh 5415 2006-03-15 18:33:33Z ees1wc $"
 //! file="Ravl/Math/Sequence/PrimitiveBinaryPolynomial.hh"
 //! lib=RavlMath
 //! author="Charles Galambos"

@@ -7,7 +7,7 @@
 #ifndef RAVL_BLISTITER_HEADER
 #define RAVL_BLISTITER_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BListIter.hh 7219 2009-07-12 20:15:36Z craftit $"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Branch"

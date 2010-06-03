@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 7583 2010-02-22 13:34:21Z craftit $"
 #! file="Ravl/Math/IO/defs.mk"
 
 DESCRIPTION= IO for maths objects.
@@ -20,5 +20,5 @@ MUSTLINK = MathIO.cc
 
 PLIB= RavlMathIO
 
-USESLIBS = RavlMath RavlIO
+USESLIBS = RavlMath RavlIO RavlXMLFactory
 

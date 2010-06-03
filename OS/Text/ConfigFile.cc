@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 // $Id: ConfigFile.cc 6405 2007-10-29 10:45:54Z simondennis $
-//! rcsid="$Id$"
+//! rcsid="$Id: ConfigFile.cc 6405 2007-10-29 10:45:54Z simondennis $"
 //! lib=RavlOS
 //! file="Ravl/OS/Text/ConfigFile.cc"
 

@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: OptimiseOrthogonalRegression.hh 6819 2008-05-30 12:01:36Z ees1wc $"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation2.Examples"
 //! example="OrthogonalRegressionTest.cc"
 //! lib=RavlOptimise

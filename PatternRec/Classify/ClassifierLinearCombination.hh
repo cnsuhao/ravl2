@@ -7,7 +7,7 @@
 #ifndef RAVL_LINEARCOMBINATION_HEADER
 #define RAVL_LINEARCOMBINATION_HEADER 1
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ClassifierLinearCombination.hh 5463 2006-04-24 13:51:50Z craftit $"
 //! lib=RavlPatternRec
 //! author="Robert Crida"
 //! userlevel=Normal

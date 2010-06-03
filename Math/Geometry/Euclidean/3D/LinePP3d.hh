@@ -11,7 +11,7 @@
 //! author="Radek Marik"
 //! docentry="Ravl.API.Math.Geometry.3D"
 //! date="26/10/1992"
-//! rcsid="$Id$"
+//! rcsid="$Id: LinePP3d.hh 6156 2007-05-23 16:06:54Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/3D/LinePP3d.hh"
 

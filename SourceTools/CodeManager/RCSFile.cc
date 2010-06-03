@@ -7,7 +7,7 @@
 /////////////////////////////////////////////////////////////////
 // RCSFile.cc
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: RCSFile.cc 5224 2005-11-25 14:35:31Z plugger $"
 //! lib=RavlSourceTools
 //! file="Ravl/SourceTools/CodeManager/RCSFile.cc"
 

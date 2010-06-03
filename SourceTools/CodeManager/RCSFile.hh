@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! date="6/4/1998"
 //! docentry="Ravl.API.Source Tools.Code Manager"
-//! rcsid="$Id$"
+//! rcsid="$Id: RCSFile.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Tuple2.hh"

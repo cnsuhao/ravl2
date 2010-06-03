@@ -8,7 +8,7 @@
 //! author="Kieron J Messer"
 //! lib=RavlFireWire
 //! date="24/9/2000"
-//! rcsid="$Id$"
+//! rcsid="$Id: PalFrame.cc 3091 2003-06-17 20:49:08Z craftit $"
 //! file="Ravl/Contrib/FireWire/PalFrame.cc"
 
 #include "Ravl/Image/PalFrame.hh"

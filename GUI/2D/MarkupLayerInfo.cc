@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 #include "Ravl/GUI/MarkupLayerInfo.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: fixSource.cfg 5642 2006-06-23 10:51:11Z craftit $"
 //! lib=RavlGUI2D
 
 namespace RavlGUIN

@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_NETMSGOPORTDATA_HEADER
 #define RAVL_NETMSGOPORTDATA_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: NetMsgOPortData.hh 7266 2009-09-15 09:07:59Z robowaz $"
 //! lib=RavlNet
 
 #include "Ravl/OS/NetMessage.hh"

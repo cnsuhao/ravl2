@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Projection2d.cc 7323 2009-10-21 15:43:14Z craftit $"
 //! lib=RavlMath
 //! date="17/10/2002"
 //! author="Charles Galambos"

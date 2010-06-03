@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: docRename.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Lee Gregory"
 //! docentry="Ravl.API.Source Tools"
 //! lib=RavlSourceTools

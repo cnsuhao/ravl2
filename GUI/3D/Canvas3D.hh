@@ -8,7 +8,7 @@
 #define RAVLGUI_CANVAS3D_HEADER 1
 /////////////////////////////////////////////////////
 //! docentry="Ravl.API.Graphics.3D"
-//! rcsid="$Id$"
+//! rcsid="$Id: Canvas3D.hh 7014 2008-11-07 11:46:24Z craftit $"
 //! file="Ravl/GUI/3D/Canvas3D.hh"
 //! lib=RavlGUI3D
 //! example=exCanvas3D.cc

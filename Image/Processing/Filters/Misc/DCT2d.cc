@@ -22,7 +22,7 @@
 //    Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DCT2d.cc 6431 2007-11-12 12:26:56Z ees1wc $"
 //! lib=RavlImageProc
 //! license=own
 //! file="Ravl/Image/Processing/Filters/DCT2d.cc"

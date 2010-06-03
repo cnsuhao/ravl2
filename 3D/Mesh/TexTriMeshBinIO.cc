@@ -10,7 +10,7 @@
 #include "Ravl/Exception.hh"
 #include "Ravl/EntryPnt.hh"
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TexTriMeshBinIO.cc 3073 2003-06-13 07:18:32Z craftit $"
 //! file="Ravl/3D/Mesh/TexTriMeshBinIO.cc"
 //! lib=Ravl3D
 //! docentry="Ravl.3D.Mesh"

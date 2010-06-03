@@ -6,7 +6,7 @@
 # file-header-ends-here
 ###############################################
 # $Id: defs.mk 1533 2002-08-08 16:03:23Z craftit $
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 1533 2002-08-08 16:03:23Z craftit $"
 #! file="Ravl/Applications/VPlay/Bitmaps/defs.mk"
 
 DESCRIPTION = Bitmaps for VPlay.

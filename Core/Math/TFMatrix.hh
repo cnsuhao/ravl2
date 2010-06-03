@@ -7,7 +7,7 @@
 #ifndef RAVLTFMATRIX_HEADER
 #define RAVLTFMATRIX_HEADER 1
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TFMatrix.hh 7292 2009-10-08 14:15:13Z craftit $"
 //! file="Ravl/Core/Math/TFMatrix.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"

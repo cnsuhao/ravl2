@@ -7,7 +7,7 @@
 #ifndef RAVL_CLASSIFIERPREPROCESS_HEADER
 #define RAVL_CLASSIFIERPREPROCESS_HEADER 1
 ///////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ClassifierPreprocess.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Pattern Recognition.Classifier"
 //! lib=RavlPatternRec

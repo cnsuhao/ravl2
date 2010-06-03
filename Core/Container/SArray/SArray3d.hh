@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////
 //! userlevel=Normal
 //! docentry="Ravl.API.Core.Arrays.3D"
-//! rcsid="$Id$"
+//! rcsid="$Id: SArray3d.hh 6720 2008-04-16 15:08:22Z craftit $"
 //! file="Ravl/Core/Container/SArray/SArray3d.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"

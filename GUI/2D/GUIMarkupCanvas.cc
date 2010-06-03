@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: GUIMarkupCanvas.cc 3762 2004-07-26 17:47:55Z charles $"
 //! lib=RavlGUI2D
 //! file="RavlSoft/GUI/GUIMarkupCanvas.cc"
 
@@ -233,7 +233,7 @@ namespace RavlGUIN
       mouseState = 0;
     
     RealRange2dC updateArea;
-    bool doRefresh = false; // Initalised update area ?
+    bool doRefresh = false; // Initialised update area ?
     bool gotHit = false;
     
     if(!m_mouseObj.IsValid()) 
@@ -413,20 +413,21 @@ namespace RavlGUIN
   
   //: Scroll event
   
-  bool GUIMarkupCanvasBodyC::EventScroll(GdkEvent *event) {
+  bool GUIMarkupCanvasBodyC::EventScroll(ScrollEventC &event) {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "GUIMarkupCanvasBodyC::EventScroll(), Called. ");
-    GdkEventScroll &scrollEvent = (GdkEventScroll &) *event;
-    Point2dC guiOn = Point2dC(scrollEvent.y,scrollEvent.x);
+    Point2dC guiOn = Point2dC(event.Row(), event.Col());
     Point2dC worldOn = GUI2World(guiOn);
     
-    switch(scrollEvent.direction) {
-    case GDK_SCROLL_UP:
-    case GDK_SCROLL_LEFT: {
+    switch(event.Direction()) {
+    case ScrollDirectionUp:
+    case ScrollDirectionLeft: {
       GUISetScale(Scale() * 1.2);
     } break;
-    case GDK_SCROLL_DOWN:
-    case GDK_SCROLL_RIGHT:
+    case ScrollDirectionDown:
+    case ScrollDirectionRight:
       GUISetScale(Scale() * 0.8);
+      break;
+    default:
       break;
     }
     

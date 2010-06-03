@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef OMNI_MCRYPT_HEADER
 #define OMNI_MCRYPT_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: MCrypt.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Jos Hickson"
 //! lib=RavlCrypto
 //! date="15/07/2004"

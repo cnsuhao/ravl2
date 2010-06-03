@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: SegmentExtrema.cc 7119 2009-02-28 18:28:45Z craftit $"
 //! lib=RavlImageProc
 //! author="Charles Galambos, based on code by Jiri Matas."
 //! file="Ravl/Image/Processing/Segmentation/SegmentExtrema.cc"

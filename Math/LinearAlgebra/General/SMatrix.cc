@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: SMatrix.cc 1967 2002-10-31 15:07:23Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/SMatrix.cc"
 

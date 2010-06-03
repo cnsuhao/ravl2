@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MPEG2Format.cc 3074 2003-06-13 07:23:52Z craftit $"
 //! lib=RavlMPEG2
 //! file="Ravl/Contrib/MPEG/mpeg2dec/MPEG2Format.cc"
 //! author="Charles Galambos"

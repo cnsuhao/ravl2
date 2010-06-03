@@ -7,7 +7,7 @@
 #ifndef RAVL_REALRGBAVERAGE_HEADER
 #define RAVL_REALRGBAVERAGE_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RealRGBAverage.hh 6970 2008-09-23 17:04:52Z ees1wc $"
 //! file="Ravl/Image/Base/RealRGBAverage.hh"
 //! lib=RavlImage
 //! userlevel=Normal

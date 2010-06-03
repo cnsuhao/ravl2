@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: exFunc2Proc.cc 125 2001-05-21 12:17:49Z craftit $"
 
 #include "Ravl/Option.hh"
 #include "Ravl/DP/FileIO.hh"

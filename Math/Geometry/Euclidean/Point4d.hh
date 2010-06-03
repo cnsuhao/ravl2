@@ -7,7 +7,7 @@
 #ifndef RAVL_POINT4D_HEADER
 #define RAVL_POINT4D_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Point4d.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Math/Geometry/Euclidean/Point4d.hh"
 //! lib=RavlMath
 //! userlevel=Normal

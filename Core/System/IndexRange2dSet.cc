@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: IndexRange2dSet.cc 7546 2010-02-18 13:28:49Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/System/IndexRange2dSet.cc"
 
@@ -157,8 +157,8 @@ namespace RavlN {
 
   //: Total area of set.
 
-  UIntT IndexRange2dSetC::Area() const {
-    UIntT ret = 0;
+  SizeT IndexRange2dSetC::Area() const {
+    SizeT ret = 0;
     for(DLIterC<IndexRange2dC> it(*this);it.IsElm();it.Next()) {
       ONDEBUG(cerr << "+Area: " << it.Data().Area() << "\n");
       ret += it.Data().Area();

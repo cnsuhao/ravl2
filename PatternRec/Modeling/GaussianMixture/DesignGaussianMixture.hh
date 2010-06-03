@@ -6,10 +6,11 @@
 // file-header-ends-here
 #ifndef RAVL_DESIGNGAUSSIANMIXTURE_HEADER
 #define RAVL_DESIGNGAUSSIANMIXTURE_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignGaussianMixture.hh 7589 2010-02-23 10:45:50Z ees1wc $"
 //! lib=RavlPatternRec
 //! author="Kieron Messer"
 //! docentry="Ravl.API.Pattern Recognition.Expectation Maximization"
+//! example=exDesignGaussianMixture.cc
 //! file="Ravl/PatternRec/Modeling/GaussianMixture/DesignGaussianMixture.hh"
 
 #include "Ravl/PatternRec/DesignFunctionUnsupervised.hh"

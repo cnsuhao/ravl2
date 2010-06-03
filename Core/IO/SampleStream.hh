@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_SAMPLESTREAM_HEADER
 #define RAVL_SAMPLESTREAM_HEADER  1
-//! rcsid="$Id$"
+//! rcsid="$Id: SampleStream.hh 5552 2006-06-08 14:39:28Z craftit $"
 //! docentry="Ravl.API.Core.Data Processing"
 //! lib=RavlIO
 //! author="Charles Galambos"

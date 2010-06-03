@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_CSPCONTROL_HEADER
 #define RAVLIMAGE_CSPCONTROL_HEADER 1
 ////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: CSPControl.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Video.Video IO.ClipStationPro"
 //! lib=CSPDriver

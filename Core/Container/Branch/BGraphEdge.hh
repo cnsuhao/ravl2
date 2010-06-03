@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! date="19/2/1997"
 //! docentry="Ravl.API.Core.Branch"
-//! rcsid="$Id$"
+//! rcsid="$Id: BGraphEdge.hh 7548 2010-02-18 13:33:07Z craftit $"
 
 #include "Ravl/BGraphBase.hh"
 
@@ -60,7 +60,7 @@ namespace RavlN {
     bool operator==(const BGraphEdgeC &oth) const { return &oth == this; }
     // Are they the same edge ?
     
-    UIntT Hash() const { return BGraphEdgeBaseC::Hash(); }
+    SizeT Hash() const { return BGraphEdgeBaseC::Hash(); }
     // Get a hash value of this edge
     
   private:
@@ -119,7 +119,7 @@ namespace RavlN {
     inline BGraphTypesC::NodeHandleT Target() const;
     //: Get target of link.
     
-    inline UIntT Hash() const 
+    inline SizeT Hash() const
     { return edge->Hash(); }
     //: Get hash value.
     

@@ -8,7 +8,6 @@ SOURCES = VectorUtilsI386SSE.cc
 
 MUSTLINK = linkVectorUtilsI386SSE.cc
 
-
 USERCPPFLAGS=-msse2
 
 PLIB=RavlCore

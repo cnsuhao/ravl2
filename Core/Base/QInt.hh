@@ -20,7 +20,7 @@
 // Modified by Charles Galambos
 
 //! license=own
-//! rcsid="$Id$"
+//! rcsid="$Id: QInt.hh 5442 2006-04-07 14:31:55Z ees1wc $"
 //! docentry="Ravl.API.Math.QInt"
 //! file="Ravl/Core/Base/QInt.hh"
 //! lib=RavlCore

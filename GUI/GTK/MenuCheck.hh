@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_MENUCHECKITEM_HEADER
 #define RAVLGUI_MENUCHECKITEM_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MenuCheck.hh 6746 2008-04-22 13:30:41Z craftit $"
 //! file="Ravl/GUI/GTK/MenuCheck.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"

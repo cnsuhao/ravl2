@@ -10,7 +10,7 @@
 //! docentry="Ravl.API.Core.Data Processing.Split"
 //! lib=RavlIO
 //! example=exDPSplit.cc
-//! rcsid="$Id$"
+//! rcsid="$Id: SplitO.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/IO/SplitO.hh"
 //! author="Charles Galambos"
 //! date="21/07/98"

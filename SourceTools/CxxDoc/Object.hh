@@ -7,7 +7,7 @@
 #ifndef RAVLCXXDOC_OBJECT_HEADER
 #define RAVLCXXDOC_OBJECT_HEADER 1
 //////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Object.hh 6758 2008-04-24 13:43:55Z craftit $"
 //! file="Ravl/SourceTools/CxxDoc/Object.hh"
 //! userlevel=Normal
 //! docentry="Ravl.API.Source Tools.CxxDoc.Internal"

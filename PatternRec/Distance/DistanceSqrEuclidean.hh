@@ -7,7 +7,7 @@
 #ifndef RAVL_DISTANCESQREUCLIDEAN_HEADER 
 #define RAVL_DISTANCESQREUCLIDEAN_HEADER 1
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DistanceSqrEuclidean.hh 7581 2010-02-22 11:38:11Z kier $"
 //! lib=RavlPatternRec
 //! docentry="Ravl.API.Pattern Recognition.Distance"
 //! file="Ravl/PatternRec/Distance/DistanceSqrEuclidean.hh"
@@ -27,6 +27,9 @@ namespace RavlN {
     {}
     //: Default constructor.
     
+    DistanceSqrEuclideanBodyC(const XMLFactoryContextC &factory);
+    //: Construct from XML factory
+
     DistanceSqrEuclideanBodyC(istream &strm);
     //: Load from stream.
     
@@ -62,6 +65,11 @@ namespace RavlN {
       {}
     //: Default constructor.
     
+    DistanceSqrEuclideanC(const XMLFactoryContextC &factory)
+      : DistanceC(*new DistanceSqrEuclideanBodyC(factory))
+    {}
+    //: Construct from XML factory
+
     DistanceSqrEuclideanC(istream &strm);
     //: Load from stream.
     

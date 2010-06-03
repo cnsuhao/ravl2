@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: EvaluateSolution.cc 7665 2010-03-23 15:46:09Z ees1wc $"
 //! lib=RavlOptimise
 //! file="Ravl/Math/Optimisation/EvaluateSolution.cc"
 
@@ -27,6 +27,16 @@ namespace RavlN {
   {
     DListC<ObservationC> emptyObsList;
     RavlAssertMsg(0,"EvaluateSolutionBodyC::CompatibleObservations(const StateVectorC &, DListC<ObservationC> &) const, Abstract method called ");
+    return emptyObsList;
+  }
+
+  //: Returns the observations compatible with the given state parameters
+  DListC<bool> EvaluateSolutionBodyC::ObservationCompatibility(
+					const StateVectorC &stateVec,
+					DListC<ObservationC> &obsList) const
+  {
+    DListC<bool> emptyObsList;
+    RavlAssertMsg(0,"EvaluateSolutionBodyC::ObservationCompatibility(const StateVectorC &, DListC<ObservationC> &) const, Abstract method called ");
     return emptyObsList;
   }
 }

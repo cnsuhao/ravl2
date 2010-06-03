@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MeshConv.cc 3073 2003-06-13 07:18:32Z craftit $"
 //! lib=Ravl3DIO
 //! file="Ravl/3D/MeshIO/MeshConv.cc"
 

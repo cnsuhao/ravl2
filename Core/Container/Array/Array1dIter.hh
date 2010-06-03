@@ -7,7 +7,7 @@
 #ifndef RAVL_ARRAY1DITER_HEADER
 #define RAVL_ARRAY1DITER_HEADER 1
 //////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Array1dIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Core.Arrays.1D"
 //! file="Ravl/Core/Container/Array/Array1dIter.hh"
 //! lib=RavlCore

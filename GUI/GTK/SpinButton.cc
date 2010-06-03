@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SpinButton.cc 7164 2009-04-22 15:14:59Z craftit $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/SpinButton.cc"
 

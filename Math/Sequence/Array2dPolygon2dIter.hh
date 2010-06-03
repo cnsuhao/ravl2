@@ -7,7 +7,7 @@
 #ifndef RAVL_ARRAY2DPOLYGON2DITER_HEADER
 #define RAVL_ARRAY2DPOLYGON2DITER_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Array2dPolygon2dIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Math/Sequence/Array2dPolygon2dIter.hh"
 //! lib=RavlMath
 //! userlevel=Normal

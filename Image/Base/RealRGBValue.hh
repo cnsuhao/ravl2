@@ -7,7 +7,7 @@
 #ifndef RAVL_REALRGBVALUE_HEADER
 #define RAVL_REALRGBVALUE_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RealRGBValue.hh 6970 2008-09-23 17:04:52Z ees1wc $"
 //! file="Ravl/Image/Base/RealRGBValue.hh"
 //! lib=RavlImage
 //! userlevel=Normal

@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_DMEDIANODEPATH_HEADER
 #define RAVLIMAGE_DMEDIANODEPATH_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: NodePath.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/DMedia/NodePath.hh"
 //! lib=RavlDMedia
 //! userlevel=Default

@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_APPEARANCEMODEL_HEADER
 #define RAVLIMAGE_APPEARANCEMODEL_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: AAMAppearanceModel.hh 7512 2010-02-11 18:34:12Z craftit $"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMAppearanceModel.hh"
 //! docentry="Ravl.API.Images.AAM"
@@ -32,7 +32,7 @@ namespace RavlImageN {
     : public RCBodyVC
   {
   public:
-    AAMAppearanceModelBodyC(RealT nWarpSigma = 2);
+    AAMAppearanceModelBodyC(RealT nWarpSigma = 2,bool fixTextureMeanStdDev = true,bool equaliseTextureResolution = false);
     //: Constructor.
     //!param: nWarpSigma - stiffness to use in warping process.
     // Note: this parameter is relevant only in the case where thin-plate splines are used for warping.
@@ -59,9 +59,22 @@ namespace RavlImageN {
     //: Generate raw parameters.
     //  The raw parameters are the parameters representing the appearance before applying PCA. They consists of the pose parameters, which describe the pose of the model instance in the image, the grey-level scaling and offset, which define the normalisation transformation for pixel intensities, the shape parameters (coordinate of the control points in normalised frame) and the texture parameters (normalised pixel grey-levels).
 
-    ImageC<ByteT> WarpToMaskShape(const AAMAppearanceC &inst) const;
+    virtual ImageC<ByteT> WarpToMaskShape(const AAMAppearanceC &inst) const;
     //: Warp appearance to the mean shape
     //  The input appearance 'inst' is warped such that its control points are located at the mean positions in the returned image.
+
+    virtual ImageC<RealT> WarpToMaskShape(const ImageC<RealT> &image, const SArray1dC<Point2dC> &points) const;
+    //: Warp an image and set of points to the mean shape
+    // Used by ErrorVector()
+
+    virtual ImageC<ByteT> WarpFromMaskShape(const RealRange2dC &range, const ImageC<RealT> &image, const SArray1dC<Point2dC> &points) const;
+    //: Warp an appearance from normalised mask to image
+    // Used by Synthesize()
+
+    virtual SArray1dC<Point2dC> MeanShapePoints() const
+    { return shape.MeanPoints(); }
+    //: Get the mean shape points
+    // Function extracted so that it can be overridden/expanded
 
     virtual bool Design(const DListC<StringC> &fileList,const StringC &dir,const StringC &mirrorFile,
                         const Index2dC &maskSize,
@@ -115,7 +128,7 @@ namespace RavlImageN {
     //!param: parm   - parameter vector representing appearance.
     //!param: img    - target image for comparison.
     //!param: errImg - vector of intensity differences.
-    // The error values consists of the intensity difference between target image and the texture image synthesized from the parameters parm.
+    // The error values consists of the intensity difference between target image and the texture image synthesised from the parameters parm.
     // Note that the error is measured in the shape free images for each pixel in the mask area.
 
     virtual bool ErrorVector(const VectorC &parm,const ImageC<RealT> &img,VectorC &errImg) const;
@@ -123,7 +136,7 @@ namespace RavlImageN {
     //!param: parm   - parameter vector representing appearance.
     //!param: img    - target image for comparison.
     //!param: errImg - vector of intensity differences.
-    // The error values consists of the intensity difference between target image and the texture image synthesized from the parameters parm.
+    // The error values consists of the intensity difference between target image and the texture image synthesised from the parameters parm.
     // Note that the error is measured in the shape free images for each pixel in the mask area.
 
     void MakePlausible(VectorC &parm, RealT NbSigma = 3) const;
@@ -155,7 +168,7 @@ namespace RavlImageN {
     //: Access inverse appearance model.
 
     IntT NoFixedParameters() const
-    { return shape.NoFixedParameters() + 2; }
+    { return shape.NoFixedParameters() + (m_fixTextureMeanStdDev ? 0 : 2); }
     //: Find the number of parameters representing the pose and intensity statistics
     //  e.g. position, orientation, scale, grey-level scaling and offset.
 
@@ -197,20 +210,29 @@ namespace RavlImageN {
     bool MeanTextureAppearanceParameters(const SArray1dC<Point2dC> &sPoints, VectorC &aParam) const;
     //: Compute appearance parameters 'aParam' corresponding to feature points 'sPoints' and mean texture values.
 
+    bool FixTextureMeanStdDev() const
+    { return m_fixTextureMeanStdDev; }
+    //: Are we using fixed values for mean and std dev of the texture image.?
   protected:
+
+    virtual bool DesignMesh(SampleStreamC<AAMAppearanceC> &sample);
+    //: Design mesh to be used for the model
+
     RealT warpSigma; // Stiffness used for warping (only relevant if thin-plate splines are enabled).
     AAMShapeModelC shape; // Statistical shape model.
     ImageC<IntT> mask; // Mask defining which pixels are used to define the statistical model of appearance.
-    Array1dC<Point2dC> maskPoints; // Position of control points in shape free image.
+    SArray1dC<Point2dC> maskPoints; // Position of control points in shape free image.
     IndexRange2dC maskSize; // Dimensions of the mask (also the dimension of the shape free image).
     IntT maskArea;     // Number of pixels in the mask.
     FunctionC appearanceModel; // Appearance model, map raw parameters to appearance parameters.
     FunctionC invAppearanceModel; // Inverse appearance model, map appearance parameters to raw parameters.
     WarpMesh2dC<ByteT> warp; // Warping to the shape free image.
     VectorC eigenValues; // Eigen values.
-    VectorC fixedMean; // Pose and grey level offset and mean patameters.
+    VectorC fixedMean; // Pose and grey level offset and mean parameters.
     VectorC pixelSize; // Pixel size in the shape free image.
     GaussConvolve2dC<ByteT> smooth; // Gauss convolver for smoothing images.
+    bool m_fixTextureMeanStdDev; // Normalise the input's image mean and std deviation, and don't add them as parameters.
+    bool m_equaliseTextureResoluition;
   };
 
   //! userlevel=Normal
@@ -225,8 +247,8 @@ namespace RavlImageN {
     //: Default constructor
     // Creates an invalid handle.
 
-    AAMAppearanceModelC(RealT nWarpSigma)
-      : RCHandleVC<AAMAppearanceModelBodyC>(*new AAMAppearanceModelBodyC(nWarpSigma))
+    AAMAppearanceModelC(RealT nWarpSigma,bool useFixedTextureStats = true)
+      : RCHandleVC<AAMAppearanceModelBodyC>(*new AAMAppearanceModelBodyC(nWarpSigma,useFixedTextureStats))
     {}
     //: Constructor.
     //!param: nWarpSigma - stiffness to use in warping process.
@@ -343,7 +365,7 @@ namespace RavlImageN {
 
     bool ErrorVector(const VectorC &parm,const ImageC<RealT> &img,VectorC &errImg) const
     { return Body().ErrorVector(parm,img,errImg); }
-    //: Conpute error vector.
+    //: Compute error vector.
     //!param: parm   - parameter vector representing appearance.
     //!param: img    - target image for comparison.
     //!param: errImg - vector of intensity differences.
@@ -411,6 +433,10 @@ namespace RavlImageN {
     bool MeanTextureAppearanceParameters(const SArray1dC<Point2dC> &sPoints, VectorC &aParam) const
     { return Body().MeanTextureAppearanceParameters(sPoints, aParam);}
     //: Compute appearance parameters 'aParam' corresponding to feature points 'sPoints' and mean texture values.
+
+    bool FixTextureMeanStdDev() const
+    { return Body().FixTextureMeanStdDev(); }
+    //: Are we using fixed values for mean and std dev of the texture image.?
 
   };
 

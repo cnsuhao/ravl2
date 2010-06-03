@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Edgel.cc 2650 2003-04-03 07:52:26Z craftit $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Edges/Edgel.cc"
 

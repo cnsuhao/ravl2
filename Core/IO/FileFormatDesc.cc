@@ -9,7 +9,7 @@
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! date="13/08/1998"
-//! rcsid="$Id$"
+//! rcsid="$Id: FileFormatDesc.cc 3770 2003-12-02 13:38:40Z craftit $"
 //! file="Ravl/Core/IO/FileFormatDesc.cc"
 
 #include "Ravl/DP/FileFormatDesc.hh"

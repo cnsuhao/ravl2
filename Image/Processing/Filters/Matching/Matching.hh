@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_MATCHING_HEADER
 #define RAVLIMAGE_MATCHING_HEADER 1
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Matching.hh 6440 2007-11-13 18:11:20Z ees1wc $"
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Misc"

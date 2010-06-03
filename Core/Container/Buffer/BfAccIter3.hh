@@ -7,7 +7,7 @@
 #ifndef RAVL_BUFFERACCESSITER3_HEADER
 #define RAVL_BUFFERACCESSITER3_HEADER 1
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BfAccIter3.hh 7651 2010-03-09 11:40:09Z craftit $"
 //! file="Ravl/Core/Container/Buffer/BfAccIter3.hh"
 //! author="Charles Galambos"
 //! lib=RavlCore
@@ -75,7 +75,17 @@ namespace RavlN {
 	       const BufferAccessC<Data3T> &buff3,const IndexRangeC &rng3);
     //: Goto first element.
     // returns true if there is a first element.
-    
+
+    bool First(const BufferAccessC<Data1T> &buff1,const SizeT &rng1,
+               const BufferAccessC<Data2T> &buff2,const SizeT &rng2,
+               const BufferAccessC<Data3T> &buff3,const SizeT &rng3)
+    { return First(buff1,IndexRangeC(rng1),
+                    buff2,IndexRangeC(rng2),
+                    buff3,IndexRangeC(rng3));
+    }
+    //: Goto first element.
+    // returns true if there is a first element.
+
     bool First(const BufferAccessC<Data1T> &buff,
 	       const BufferAccessC<Data2T> &buff2,
 	       const BufferAccessC<Data3T> &buff3,
@@ -133,13 +143,13 @@ namespace RavlN {
     inline BufferAccessIter3C<Data1T,Data2T,Data3T> & operator+=(int skip)
     { Next(skip); return *this; }
     //: Advance 'skip' elements.
-    // WARNING: When using negative values, positions before the begining of the array will
+    // WARNING: When using negative values, positions before the beginning of the array will
     // not be detected correctly by IsElm().
     
     inline BufferAccessIter3C<Data1T,Data2T,Data3T> & operator-=(int skip)
     { Next(-skip); return *this; }
     //: Go back 'skip' elements.
-    // WARNING: When using positive values, positions before the begining of the array will
+    // WARNING: When using positive values, positions before the beginning of the array will
     // not be detected correctly by IsElm().
 
     inline void operator++(int)

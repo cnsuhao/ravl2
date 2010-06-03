@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: RawCanvas2d.cc 7520 2010-02-15 11:17:03Z alexkostin $"
 //! lib=RavlGUI2D
 //! file="Ravl/GUI/2D/RawCanvas2d.cc"
 
@@ -20,7 +20,7 @@ namespace RavlGUIN {
   
   //: Draw an image into the canvas with its origin offset by 'offset'.
   // Note: You have to include the RavlGUI2d library to use this function.
-  
+  template<>
   void RawCanvasBodyC::GUIDrawImage(const ImageC<ByteRGBValueC> &img,const Index2dC &offset,bool ignoreImageOrigin) {
     //cerr << "RawCanvasBodyC::GUIDrawImage(), Called.  Img=" << img.Frame() << " Offset=" << offset << "\n";
     if(img.IsEmpty())
@@ -42,7 +42,7 @@ namespace RavlGUIN {
 
   //: Draw an image into the canvas with its origin offset by 'offset'.
   // Note: You have to include the RavlGUI2d library to use this function.
-  
+  template<>
   void RawCanvasBodyC::GUIDrawImage(const ImageC<ByteT> &img,const Index2dC &offset,bool ignoreImageOrigin) {
     if(img.IsEmpty())
       return;

@@ -7,7 +7,7 @@
 #ifndef RAVLAUDIO_VECTORDELTA012_HEADER
 #define RAVLAUDIO_VECTORDELTA012_HEADER 1
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: VectorDelta012.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlAudioFeatures
 //! docentry="Ravl.API.Audio.Feature Extraction"
 //! file="Ravl/Audio/Features/VectorDelta012.hh"

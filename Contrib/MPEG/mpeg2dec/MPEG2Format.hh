@@ -10,7 +10,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Video.Video IO.MPEG2"
 //! date="29/10/2003"
-//! rcsid="$Id$"
+//! rcsid="$Id: MPEG2Format.hh 5962 2006-11-17 15:33:38Z robowaz $"
 //! author="Charles Galambos"
 //! lib=RavlMPEG2
 //! file="Ravl/Contrib/MPEG/mpeg2dec/MPEG2Format.hh"

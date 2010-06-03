@@ -7,7 +7,7 @@
 #ifndef RAVL_FFT2D_HEADER
 #define RAVL_FFT2D_HEADER 1
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FFT2d.hh 6937 2008-09-11 14:40:35Z ees1wc $"
 //! docentry="Ravl.API.Math.Signals.2D;Ravl.API.Images.Transforms"
 //! lib=RavlMath
 //! file="Ravl/Math/Signals/2D/FFT2d.hh"

@@ -7,7 +7,7 @@
 #ifndef RAVL_DPFUNC2STREAM_HEADER
 #define RAVL_DPFUNC2STREAM_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Func2Stream.hh 7279 2009-09-18 13:37:33Z robowaz $"
 //! docentry="Ravl.API.Core.Data Processing.Internal" 
 //! file="Ravl/Core/IO/Func2Stream.hh"
 //! lib=RavlIO

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Table.cc 6893 2008-07-09 15:23:17Z ees1wc $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Table.cc"
 

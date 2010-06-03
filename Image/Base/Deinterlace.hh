@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_DEINTERLACE_HEADER
 #define RAVLIMAGE_DEINTERLACE_HEADER 1
 /////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Deinterlace.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Charles Galambos"
 //! date="10/04/2002"
 //! docentry="Ravl.API.Images.Video"

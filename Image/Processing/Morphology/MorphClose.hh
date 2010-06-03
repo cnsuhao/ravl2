@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_OPEN_HEADER
 #define RAVLIMAGE_OPEN_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: MorphClose.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! userlevel=Normal

@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: CombinationIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Math/Sequence/CombinationIter.hh"
 //! docentry="Ravl.API.Math.Sequences"
 //! date="24/08/98"

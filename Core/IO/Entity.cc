@@ -8,7 +8,7 @@
 //! userlevel=Advanced
 //! docentry="Algorithms.Data Processing" 
 //! example=exDataProc.cc
-//! rcsid="$Id$"
+//! rcsid="$Id: Entity.cc 1367 2002-07-06 09:08:44Z craftit $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/Entity.cc"
 

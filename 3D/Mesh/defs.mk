@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 6869 2008-06-26 08:59:56Z alexkostin $"
 #! file="Ravl/3D/Mesh/defs.mk"
 
 PACKAGE=Ravl/3D

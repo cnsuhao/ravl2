@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: OptimiseSobol.cc 5349 2006-02-16 10:29:10Z omn-crida $"
 //! lib=Optimisation
 //! file="Ravl/PatternRec/Optimise/OptimiseSobol.cc"
 

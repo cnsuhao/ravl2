@@ -6,7 +6,7 @@
 //! author="Radek Marik"
 //! date="10.01.1994"
 //! docentry="Ravl.Core.Stacks"
-//! rcsid="$Id$"
+//! rcsid="$Id: ArrayStack.hh 7563 2010-02-18 16:41:12Z craftit $"
 
 #include <assert.h>
 #include <new.h>
@@ -62,10 +62,10 @@ public:
   ArrayStackC<DataC> Copy() const;
   //: Create a new physical copy of the stack
   
-  UIntT Size() const;
+  SizeT Size() const;
   //: Get the number of data elements in the stack.
   
-  UIntT Depth() const;
+  SizeT Depth() const;
   //: Get the total size of stack.
   
 protected:
@@ -159,11 +159,11 @@ public:
     { return Body().Copy(); }
   //: Create a new physical copy of the stack
   
-  UIntT Size() const
+  SizeT Size() const
     { return Body().Size(); }
   //: Get the number of data elements in the stack.
   
-  UIntT Depth() const
+  SizeT Depth() const
     { return Body().Depth(); }
   //: Get the total size of stack.
   
@@ -293,8 +293,7 @@ ArrayStackBodyC<DataC>::operator<<(const DataC & sdata)
 
 template <class DataC>
 inline
-ArrayStackBodyC<DataC> & 
-ArrayStackBodyC<DataC>::operator>>(DataC & data)
+ArrayStackBodyC<DataC> & ArrayStackBodyC<DataC>::operator>>(DataC & data)
 { 
   Pop(data);
   return *this;
@@ -302,8 +301,7 @@ ArrayStackBodyC<DataC>::operator>>(DataC & data)
 
 template <class DataC>
 inline
-BooleanT 
-ArrayStackBodyC<DataC>::IsEmpty() const
+bool ArrayStackBodyC<DataC>::IsEmpty() const
 { return top == data; }
 
 template <class DataC>
@@ -316,13 +314,13 @@ void ArrayStackBodyC<DataC>::Empty()
 
 template <class DataC>
 inline
-UIntT ArrayStackBodyC<DataC>::Size() const
-{ return (UIntT) (((char *)top) - ((char *) data))/sizeof(DataC); }
+SizeT ArrayStackBodyC<DataC>::Size() const
+{ return (size_t) (((char *)top) - ((char *) data))/sizeof(DataC); }
 
 template <class DataC>
 inline
-UIntT ArrayStackBodyC<DataC>::Depth() const
-{ return (UIntT) (((char *)end) - ((char *) data))/sizeof(DataC); }
+SizeT ArrayStackBodyC<DataC>::Depth() const
+{ return (size_t) (((char *)end) - ((char *) data))/sizeof(DataC); }
 
 
 template <class DataC>
@@ -353,8 +351,8 @@ istream &
 operator>>(istream & s, ArrayStackC<DataC> & stack)
 //=================================================
 {
-  SizeT    sizeStack = 0;
-  UIntT first     = 0;  
+  SizeT sizeStack = 0;
+  SizeT first     = 0;
   s >> sizeStack >> first;
   if(stack.Size() < sizeStack)
     stack = ArrayStackC<DataC>(sizeStack);

@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! lib=Ravl3D
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: HEMeshFaceIter.cc 1533 2002-08-08 16:03:23Z craftit $"
 //! file="Ravl/3D/Mesh/HEMeshFaceIter.cc"
 
 #include "Ravl/3D/HEMeshFaceIter.hh"

@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 4820 2005-03-02 10:07:57Z craftit $"
 #! file="Ravl/Core/Container/SArray/defs.mk"
 
 DESCRIPTION=Simple 1D arrays, indexed from zero.

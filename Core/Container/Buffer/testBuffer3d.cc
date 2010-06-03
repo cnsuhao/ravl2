@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 // $Id: testBuffer3d.cc 5240 2005-12-06 17:16:50Z plugger $
-//! rcsid="$Id$"
+//! rcsid="$Id: testBuffer3d.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Buffer/testBuffer3d.cc"
 //! docentry="Ravl.API.Core.Arrays.Buffer"

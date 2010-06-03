@@ -8,7 +8,7 @@
 #define RAVLGUI_SPINBUTTON_HEADER 1
 //////////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: SpinButton.hh 6976 2008-09-25 09:12:13Z ees1wc $"
 //! file="Ravl/GUI/GTK/SpinButton.hh"
 //! lib=RavlGUI
 //! date="29/08/1999"

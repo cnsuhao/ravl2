@@ -7,7 +7,7 @@
 #ifndef RAVL_FUNCTION_HEADER
 #define RAVL_FUNCTION_HEADER 1
 ///////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Function.hh 7582 2010-02-22 11:47:04Z kier $"
 //! lib=RavlPatternRec
 //! author="Charles Galambos, based on code by Robert Crida"
 //! docentry="Ravl.API.Pattern Recognition.Functions"
@@ -17,6 +17,7 @@
 #include "Ravl/Matrix.hh"
 #include "Ravl/RCHandleV.hh"
 #include "Ravl/VectorMatrix.hh"
+#include "Ravl/XMLFactory.hh"
 
 namespace RavlN {
   template<class DataT> class SampleC;
@@ -40,6 +41,9 @@ namespace RavlN {
     {}
     //: Create function with given number of inputs and outputs.
     
+    FunctionBodyC(const XMLFactoryContextC &factory);
+    //: Construct from XML factory
+
     FunctionBodyC(istream &strm);
     //: Load from stream.
     

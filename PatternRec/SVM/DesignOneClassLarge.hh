@@ -12,6 +12,7 @@
 #define RAVL_DESIGN_ONE_CLASS_LARGE_HEADER
 
 #include "Ravl/PatternRec/DesignOneClass.hh"
+#include "Ravl/XMLFactory.hh"
 
 namespace RavlN
 {
@@ -27,6 +28,10 @@ public:
                          RealT Penalty1 = 1e3, RealT Penalty2 = 1e3,
                          RealT Tolerance = 1e-7, RealT Eps = 1e-9,
                          RealT LambdaThreshold = 1e-12);
+
+
+  DesignOneClassLargeBodyC(const XMLFactoryContextC & factory);
+  //: factory constructor
 
   //! Load from stream.
   DesignOneClassLargeBodyC(istream &strm);
@@ -99,6 +104,11 @@ public:
                                                     Tolerance, Eps,
                                                     LambdaThreshold))
     {}
+
+  DesignOneClassLargeC(const XMLFactoryContextC &factory)
+    :  DesignOneClassC(*new DesignOneClassLargeBodyC(factory))
+  {}
+  //: Construct from XML factory
 
   //! Load from stream.
   DesignOneClassLargeC(istream &strm);

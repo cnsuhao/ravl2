@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_FFMPEGVIDEODECODER_HEADER
 #define RAVL_FFMPEGVIDEODECODER_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: FFmpegVideoDecoder.hh 7406 2009-12-07 16:57:04Z simondennis $"
 //! lib=RavlLibFFmpeg
 
 #include "Ravl/Image/FFmpegPacketStream.hh"
@@ -101,6 +101,16 @@ namespace RavlN {
     
     bool DSeek(Int64T off);
     //: Change position relative to the current one.
+
+    virtual bool SetAttr(const StringC &attrName,RealT &attrValue) {
+      OStreamC os("output.txt",true,true,true);
+      os << "  bool FFmpegVideoDecoderBaseC::SetAttr(const StringC &attrName,RealT &attrValue) { called " << attrName << endl;
+      os.Close();
+     // if(FFmpegVideoEncoderBaseC::SetAttr(attrName,attrValue)) {
+        return true;
+      //}
+      //return DPOPortBodyC<ImageT>::SetAttr(attrName,attrValue);
+    }
     
   protected:
     void InitAttr(AttributeCtrlBodyC &attrCtrl);
@@ -241,6 +251,16 @@ namespace RavlN {
     //: Get a attribute.
     // Returns false if the attribute name is unknown.
     // This is for handling attributes such as frame rate, and compression ratios.
+
+    virtual bool SetAttr(const StringC &attrName,RealT &attrValue) {
+      OStreamC os("output.txt",true,true,true);
+      os << "  bool ImgIOFFmpegBodyC::SetAttr(const StringC &attrName,RealT &attrValue) { called " << attrName << endl;
+      os.Close();
+     // if(FFmpegVideoEncoderBaseC::SetAttr(attrName,attrValue)) {
+        return true;
+      //}
+      //return DPOPortBodyC<ImageT>::SetAttr(attrName,attrValue);
+    }
     
     virtual bool Discard()
     { return DecodeFrame(); }

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ChromaThreshold.cc 1533 2002-08-08 16:03:23Z craftit $"
 //! lib=RavlImageProc
 //! author="Joel Mitchelson"
 //! file="Ravl/Image/Processing/Segmentation/ChromaThreshold.cc"

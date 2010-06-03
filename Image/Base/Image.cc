@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Image.cc 4053 2004-03-08 09:25:33Z craftit $"
 //! lib=RavlImage
 //! file="Ravl/Image/Base/Image.cc"
 

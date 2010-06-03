@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: xmosaic.cc 4486 2004-08-04 13:59:32Z ees1wc $"
 //! lib=RavlImageProc
 //! file="Ravl/Applications/Tracker/xmosaic.cc"
 //! author="Phil McLauchlan"

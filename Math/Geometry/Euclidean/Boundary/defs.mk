@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 6785 2008-05-08 14:25:54Z ees1wc $"
 #! file="Ravl/Math/Geometry/Euclidean/Boundary/defs.mk"
  
 PACKAGE=Ravl

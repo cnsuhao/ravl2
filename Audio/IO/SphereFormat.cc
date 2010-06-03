@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SphereFormat.cc 4042 2004-03-03 16:50:42Z plugger $"
 //! docentry="Ravl.Contrib.Audio IO.Unix"
 //! lib=RavlAudioIO
 //! file="Ravl/Audio/IO/SphereFormat.cc"

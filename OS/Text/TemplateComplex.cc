@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TemplateComplex.cc 7624 2010-03-01 11:54:32Z alexkostin $"
 //! lib=RavlOS
 //! file="Ravl/OS/Text/TemplateComplex.cc"
 
@@ -121,7 +121,7 @@ namespace RavlN {
     return true;
   }
   
-  //: Get initalise information from template file.
+  //: Get initialise information from template file.
   
   bool TemplateComplexBodyC::Scan(StringC &fn) {
     TextFileC templ(fn);
@@ -458,7 +458,7 @@ namespace RavlN {
     return true;
   }
   
-  //: Substution
+  //: Substitution
   
   bool TemplateComplexBodyC::DoSubst(StringC &txt) {
     

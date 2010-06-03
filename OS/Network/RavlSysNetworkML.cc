@@ -6,7 +6,7 @@
 // file-header-ends-here
 /////////////////////////////////////////////////////////
 // $Id: RavlSysNetworkML.cc 786 2002-02-13 13:34:49Z craftit $
-//! rcsid="$Id$"
+//! rcsid="$Id: RavlSysNetworkML.cc 786 2002-02-13 13:34:49Z craftit $"
 //! lib=RavlNet
 //! file="Ravl/OS/Network/RavlSysNetworkML.cc"
 

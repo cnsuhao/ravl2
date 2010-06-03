@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_SUMMEDAREATABLE_HEADER
 #define RAVLIMAGE_SUMMEDAREATABLE_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: SummedAreaTable.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Charles Galambos"
 //! date="3/4/2002"
 //! docentry="Ravl.API.Images.Misc"

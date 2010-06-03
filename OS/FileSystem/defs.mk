@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 # Makefile 
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 5240 2005-12-06 17:16:50Z plugger $"
 #! file="Ravl/OS/FileSystem/defs.mk"
 
 # -----------  Specification of your project -----------------------

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testImageTracker.cc 1891 2002-10-23 14:56:35Z craftit $"
 //! file="Ravl/Image/Processing/Tracking/PointTrackModel.cc"
 //! lib=RavlImageProc
 

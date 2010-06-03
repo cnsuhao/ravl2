@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: SphereIO.cc 3564 2003-10-17 13:54:16Z jonstarck $"
 //! lib=RavlAudioIO
 //! author="Charles Galambos"
 //! file="Ravl/Audio/IO/SphereIO.cc"

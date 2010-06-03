@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_IMPEG_HEADER
 #define RAVLIMAGE_IMPEG_HEADER 1
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIMPEG.hh 3317 2003-08-20 14:50:13Z ees1wc $"
 //! userlevel=Normal
 //! file="Ravl/Image/ExternalVideoIO/ImgIMpeg.hh"
 //! lib=RavlMPEG

@@ -38,7 +38,7 @@ namespace RavlN {
   void linkXMLFactoryRegister();
   
   class TestClassC 
-    : public RavlN::RCBodyC
+    : public RavlN::RCBodyVC
   {
   public:
     TestClassC()
@@ -62,6 +62,35 @@ namespace RavlN {
     TestClassC::RefT m_child;
   };
   
+  //need to declare stream operators too
+  inline std::istream &operator>>(std::istream &strm,TestClassC &obj) {
+    RavlAssertMsg(0,"Not implemented. ");
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+
+  inline std::ostream &operator<<(std::ostream &out,const TestClassC &obj) {
+    RavlAssertMsg(0,"Not implemented. ");
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+
+  inline RavlN::BinIStreamC &operator>>(RavlN::BinIStreamC &strm,TestClassC &obj) {
+    RavlAssertMsg(0,"Not implemented. ");
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+
+  inline RavlN::BinOStreamC &operator<<(RavlN::BinOStreamC &out,const TestClassC &obj) {
+    RavlAssertMsg(0,"Not implemented. ");
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+
   XMLFactoryRegisterC<TestClassC> g_register("RavlN::TestClassC");
   RavlN::TypeNameC g_regname(typeid(RavlN::SmartPtrC<TestClassC>),"RavlN::SmartPtrC<RavlN::TestClassC>");
 }

@@ -9,7 +9,7 @@
 //! docentry="Ravl.API.Math.Geometry.2D"
 //! author="Charles Galambos"
 //! date="13/04/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: VectorMatrix2d.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/FixedSize/VectorMatrix2d.hh"
 

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: AttributeCtrlInternal.cc 4880 2005-04-14 15:30:18Z craftit $"
 //! lib=RavlIO
 
 #include "Ravl/DP/AttributeCtrlInternal.hh"

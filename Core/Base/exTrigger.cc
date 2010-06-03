@@ -7,7 +7,7 @@
 /////////////////////////////////////////////////////////////////
 //! author="Lee Gregory"
 //! docentry="Ravl.API.Core.Calls"
-//! rcsid="$Id$"
+//! rcsid="$Id: exTrigger.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/exTrigger.cc"
 

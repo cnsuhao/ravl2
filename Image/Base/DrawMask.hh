@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_DRAWMASK_HEADER
 #define RAVLIMAGE_DRAWMASK_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: DrawMask.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlImage
 //! docentry="Ravl.API.Images.Drawing"
 //! author="Charles Galambos"

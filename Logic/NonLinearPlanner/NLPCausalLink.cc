@@ -7,7 +7,7 @@
 /////////////////////////////////////////////////
 // L2World/NLPCausalLink.cc   12/12/96   By Charles Galambos
 // $Id: NLPCausalLink.cc 1533 2002-08-08 16:03:23Z craftit $
-//! rcsid="$Id$"
+//! rcsid="$Id: NLPCausalLink.cc 1533 2002-08-08 16:03:23Z craftit $"
 //! lib=RavlLogicNLP
 //! file="Ravl/Logic/NonLinearPlanner/NLPCausalLink.cc"
 

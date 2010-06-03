@@ -7,7 +7,7 @@
 #ifndef RAVL_DPBUFFER_HEADER
 #define RAVL_DPBUFFER_HEADER 1
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Buffer.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlDPMT
 //! docentry="Ravl.API.Core.Data Processing.Buffers"
 //! file="Ravl/OS/DataProc/Buffer.hh"

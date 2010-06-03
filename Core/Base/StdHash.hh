@@ -14,14 +14,15 @@
 //! docentry="Ravl.API.Core.Hash Tables"
 //! example=WordFreq.cc
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: StdHash.hh 7688 2010-04-13 08:20:26Z craftit $"
+
 #include "Ravl/config.h"
 #include "Ravl/Types.hh"
 
 namespace RavlN {
   
   template<class K>
-  inline UIntT StdHash(const K &dat) 
+  inline size_t StdHash(const K &dat)
   { return dat.Hash(); }
   //: Default hash function.
   
@@ -32,47 +33,66 @@ namespace RavlN {
   bool HashIsEqual(const char *d1,const char *d2);
   //: Compair 'C' style strings.
   
-  UIntT StdHash(const char *dat);
+  size_t StdHash(const char *dat);
   //: Hash 'C' style strings.
   
-  inline UIntT StdHash(bool dat) 
-  { return (UIntT) dat; }
+  inline size_t StdHash(bool dat)
+  { return (size_t) dat; }
   //: Hash a bool.
   // Not alot you can do with this.
   
-  inline UIntT StdHash(const short dat) 
-  { return (UIntT) (dat >> 7) ^ dat; }
+  inline size_t StdHash(const short dat)
+  { return (size_t) (dat >> 7) ^ dat; }
   //: Hash short.
   
-  inline UIntT StdHash(const unsigned short dat) 
-  { return (UIntT) (dat >> 7) ^ dat; }
+  inline size_t StdHash(const unsigned short dat)
+  { return (size_t) (dat >> 7) ^ dat; }
   //: Hash unsigned short.
   
-  inline UIntT StdHash(const int dat) 
-  { return (UIntT) (dat >> 11) ^ dat; }
+  inline size_t StdHash(const int dat)
+  { return (size_t) (dat >> 11) ^ dat; }
   //: Hash int.
   
-  inline UIntT StdHash(const unsigned int dat) 
-  { return (UIntT) (dat >> 11) ^ dat; }
+  inline size_t StdHash(const unsigned int dat)
+  { return (size_t) (dat >> 11) ^ dat; }
   //: Hash unsigned int.
   
-  inline UIntT StdHash(const long dat) 
-  { return (UIntT) (dat >> 11) ^ dat; }
+  inline size_t StdHash(const long dat)
+  { return (size_t) (dat >> 11) ^ dat; }
   //: Hash long value.
   
-  inline UIntT StdHash(const unsigned long dat) 
-  { return (UIntT) (dat >> 11) ^ dat; }
+  inline size_t StdHash(const unsigned long dat)
+  { return (size_t) (dat >> 11) ^ dat; }
   //: Hash unsigned long.
+
+  //: for windows. ------------------------------------
+  //inline size_t Stdhash(const signed long int dat)
+  //{ return (size_t) (dat >> 11) ^ dat; }
+  //: Hash long value.
   
-  inline UIntT StdHash(const char dat) 
-  { return (UIntT) (dat >> 3) ^ dat; }
+  
+  inline size_t StdHash(const char dat)
+  { return (size_t) (dat >> 3) ^ dat; }
   //: Hash char.
   
-  inline UIntT StdHash(const unsigned char dat) 
-  { return (UIntT) (dat >> 3) ^ dat; }
+  inline size_t StdHash(const unsigned char dat)
+  { return (size_t) (dat >> 3) ^ dat; }
   //: Hash unsigned char.
-  
-  inline UIntT StdHash(const RealT dat)
+
+  inline size_t StdHash(const SizeT size)
+  { return (size_t) size.V(); }
+  //: Hash unsigned char.
+
+// for windows. 
+#if RAVL_COMPILER_VISUALCPP
+  inline size_t StdHash(const UInt64T dat)
+  { return (size_t) (dat >> 11) ^ dat; }
+
+  inline size_t Stdhash(const Int64T dat)
+  { return (size_t) (dat >> 11) ^ dat; } 
+#endif 
+
+  inline size_t StdHash(const RealT dat)
   { 
     union {
       RealT rv;
@@ -87,7 +107,7 @@ namespace RavlN {
   //: This is not good practice, but is useful
   //: to satisfy some template instances.
   
-  inline UIntT StdHash(const FloatT dat)
+  inline size_t StdHash(const FloatT dat)
   { 
     union {
       FloatT fv;
@@ -108,27 +128,29 @@ namespace RavlN {
 #endif
 
   inline
-  UIntT StdHash(const void *ptr) { 
+  size_t StdHash(const void *ptr) {
 #if RAVL_CPUTYPE_64
 	return (reinterpret_cast<UInt64T>(ptr) >> 2 ) ^ (reinterpret_cast<UInt64T>(ptr)>>15) ;
 #else 
-	return (reinterpret_cast<UIntT>(ptr) >> 2) ^ (reinterpret_cast<UIntT>(ptr) >> 15);
+	return (reinterpret_cast<size_t>(ptr) >> 2) ^ (reinterpret_cast<size_t>(ptr) >> 15);
 #endif 
 }
   //: Hash function for void ptr's.
   
   inline
-  UIntT StdHash(void *ptr) 
+  size_t StdHash(void *ptr)
   { return StdHash(static_cast<const void *>(ptr)); }
   //: Hash function for void ptr's.
 
-  inline UIntT StdHash(const Int64T dat) 
-  { return (UIntT) (dat >> 17) ^ (dat >> 32) ^ dat; }
+#if RAVL_CPUTYPE_32
+  inline size_t StdHash(const Int64T dat)
+  { return (size_t) (dat >> 17) ^ (dat >> 32) ^ dat; }
   //: Hash 64 bit int.
   
-  inline UIntT StdHash(const UInt64T dat) 
-  { return (UIntT) (dat >> 17) ^ (dat >> 32) ^ dat; }
+  inline size_t StdHash(const UInt64T dat)
+  { return (size_t) (dat >> 17) ^ (dat >> 32) ^ dat; }
   //: Hash unsigned 64 bit int.
+#endif
   
 #if RAVL_COMPILER_VISUALCPP
 #pragma warning ( pop )

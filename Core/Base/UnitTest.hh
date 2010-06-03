@@ -15,6 +15,7 @@
 
 #include "Ravl/BinStream.hh"
 #include "Ravl/StrStream.hh"
+#include "string.h"
 
 // Helper functions for unit testing RAVL code.
 namespace RavlN {
@@ -49,6 +50,154 @@ namespace RavlN {
 
     return true;
   }
+
+  template<typename Data1T, typename Data2T>
+  bool TestEquals(const Data1T &expected, const Data2T &actual, const char* file, int line) {
+    if (!(expected == actual)) {
+      std::cerr << file << ":" << line << " Expected value (" << expected << ") but instead got (" << actual << ")\n";
+      return false;
+    }
+    return true;
+  }
+
+  bool TestEquals(const char* expected, const char* actual, const char* file, int line) {
+    if (strcmp(expected, actual) != 0) {
+      std::cerr << file << ":" << line << " Expected string \n" << expected << "\nbut instead got\n" << actual << std::endl;
+      return false;
+    }
+    return true;
+  }
+
+  template<typename Data1T, typename Data2T>
+    bool TestNotEquals(const Data1T &expected, const Data2T &actual, const char* file, int line) {
+    if (expected == actual) {
+      std::cerr << file << ":" << line << " Value should not equal (" << expected << ")\n";
+      return false;
+    }
+    return true;
+  }
+
+  template<typename DataT>
+  bool TestTrue(const DataT &value, const char* file, int line) {
+    if (!value) {
+      std::cerr << file << ":" << line << " Expression should be true\n";
+      return false;
+    }
+    return true;
+  }
+
+  template<typename DataT>
+  bool TestFalse(const DataT &value, const char* file, int line) {
+    if (value) {
+      std::cerr << file << ":" << line << " Expression should be false\n";
+      return false;
+    }
+    return true;
+  }
+
+  template<typename Data1T, typename Data2T, typename Data3T>
+    bool TestAlmostEquals(const Data1T &expected, const Data2T &actual, const Data3T &tolerance, const char* file, int line) {
+    if (RavlN::Abs(expected - actual) > tolerance) {
+      std::cerr << file << ":" << line << " Actual value (" << actual << ") not within range (" << expected << " +- " << tolerance << ")\n";
+      return false;
+    }
+    return true;
+  }
+
+  template<typename DataT>
+  bool TestValid(const DataT &value, const char* file, int line) {
+    if (!value.IsValid()) {
+      std::cerr << file << ":" << line << " Should be a valid handle\n";
+      return false;
+    }
+    return true;
+  }
+
+  template<typename DataT>
+  bool TestInvalid(const DataT &value, const char* file, int line) {
+    if (value.IsValid()) {
+      std::cerr << file << ":" << line << " Should NOT be a valid handle\n";
+      return false;
+    }
+    return true;
+  }
+
+  template<typename Data1T, typename Data2T>
+  bool TestGreaterThan(const Data1T &value, const Data2T &threshold, const char* file, int line) {
+    if (!(value > threshold)) {
+      std::cerr << file << ":" << line << " Expected value (" << value << ") to be greater than (" << threshold << ")\n";
+      return false;
+    }
+    return true;
+  }
+
+  template<typename Data1T, typename Data2T>
+  bool TestLessThan(const Data1T &value, const Data2T &threshold, const char* file, int line) {
+    if (!(value < threshold)) {
+      std::cerr << file << ":" << line << " Expected value (" << value << ") to be less than (" << threshold << ")\n";
+      return false;
+    }
+    return true;
+  }
+
+}
+
+#define RAVL_TEST_EQUALS(x,y) { \
+  if (!RavlN::TestEquals((x), (y), __FILE__, __LINE__)) \
+    return __LINE__; \
+}
+
+#define RAVL_TEST_NOT_EQUALS(x,y) { \
+  if (!RavlN::TestNotEquals((x), (y), __FILE__, __LINE__)) \
+    return __LINE__; \
+}
+
+#define RAVL_TEST_TRUE(x) { \
+  if (!RavlN::TestTrue((x), __FILE__, __LINE__)) \
+    return __LINE__; \
+}
+
+#define RAVL_TEST_FALSE(x) { \
+  if (!RavlN::TestFalse((x), __FILE__, __LINE__)) \
+    return __LINE__; \
+}
+
+#define RAVL_TEST_ALMOST_EQUALS(x,y,t) { \
+  if (!RavlN::TestAlmostEquals((x), (y), (t), __FILE__, __LINE__)) \
+    return __LINE__; \
+}
+
+#define RAVL_TEST_THROWS(expr, exc, expected) { \
+  try { \
+    expr; \
+    std::cerr << __FILE__ << ":" << __LINE__ << " Expression " << #expr << " didn't throw exception " << #exc << std::endl; \
+    return __LINE__; \
+  } catch (const exc &ex) { \
+    RAVL_TEST_EQUALS(expected, ex.Text()); \
+  } catch (...) { \
+    std::cerr << __FILE__ << ":" << __LINE__ << " Expression " << #expr << " threw unexpected exception " << std::endl; \
+    throw; \
+  } \
+}
+
+#define RAVL_TEST_VALID(x) { \
+  if (!RavlN::TestValid((x), __FILE__, __LINE__)) \
+    return __LINE__; \
+}
+
+#define RAVL_TEST_INVALID(x) { \
+  if (!RavlN::TestInvalid((x), __FILE__, __LINE__)) \
+    return __LINE__; \
+}
+
+#define RAVL_TEST_GREATER_THAN(x,y) { \
+  if (!RavlN::TestGreaterThan((x), (y), __FILE__, __LINE__)) \
+    return __LINE__; \
+}
+
+#define RAVL_TEST_LESS_THAN(x,y) { \
+  if (!RavlN::TestLessThan((x), (y), __FILE__, __LINE__)) \
+    return __LINE__; \
 }
 
 #endif

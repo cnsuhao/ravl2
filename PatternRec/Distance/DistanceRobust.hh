@@ -7,7 +7,7 @@
 #ifndef RAVL_DISTANCEROBUST_HEADER 
 #define RAVL_DISTANCEROBUST_HEADER 1
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DistanceRobust.hh 7581 2010-02-22 11:38:11Z kier $"
 //! lib=RavlPatternRec
 //! docentry="Ravl.API.Pattern Recognition.Distance"
 //! author="Robert Crida"
@@ -32,6 +32,9 @@ namespace RavlN {
   public:
     DistanceRobustBodyC(RealT nClipLimit,const DistanceC &metric);
     //: Constructor.
+
+    DistanceRobustBodyC(const XMLFactoryContextC &factory);
+    //: Construct from XML factory
     
     DistanceRobustBodyC(istream &strm);
     //: Load from stream.
@@ -80,6 +83,11 @@ namespace RavlN {
     // nClipLimit is maximum difference in one dimension, metric
     // is the metric to use on the limited values.
     
+    DistanceRobustC(const XMLFactoryContextC &factory)
+      : DistanceC(*new DistanceRobustBodyC(factory))
+    {}
+    //: Construct from XML factory
+
     DistanceRobustC()
     {}
     //: Default constructor.

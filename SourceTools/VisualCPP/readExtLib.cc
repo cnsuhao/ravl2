@@ -7,7 +7,7 @@
 #include "Ravl/SourceTools/ExtLibTable.hh"
 #include "Ravl/Option.hh"
 #include "Ravl/IO.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: readExtLib.cc 4777 2005-01-18 14:28:18Z ees1wc $"
 //! lib=RavlAutoPort
 //! file="Ravl/SourceTools/VisualCPP/readExtLib.cc"
 

@@ -1,7 +1,7 @@
 #ifndef BINSTRING_HEADER 
 #define BINSTRING_HEADER 1
 ////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BinString.hh 4 2001-04-11 12:45:55Z craftit $"
 //! file="amma/StdType/IO/BinString.hh"
 //! lib=MstdIO
 //! userlevel=Normal

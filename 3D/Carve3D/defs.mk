@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 5796 2006-08-09 08:59:30Z ees1wc $"
 #! file="Ravl/3D/Carve3D/defs.mk"
 PACKAGE=Ravl/3D
 HEADERS=VoxelSet.hh PointSet.hh SurfacePoint3dArray.hh

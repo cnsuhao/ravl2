@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! userlevel=Normal
 //! docentry="Ravl.API.OS.Dynamic Linking"
-//! rcsid="$Id$"
+//! rcsid="$Id: DynamicIO.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlOSIO
 //! file="Ravl/OS/IO/DynamicIO.hh"
 

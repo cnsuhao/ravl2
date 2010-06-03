@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: vdf.cc 3322 2003-08-22 11:10:02Z ees1wc $"
 //! lib=RavlVDF
 //! file="Ravl/Applications/VisualDataFlow/vdf.cc"
 

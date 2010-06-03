@@ -6,7 +6,25 @@
 // file-header-ends-here
 //! lib=
 
+
+
 #include "Ravl/OS/CPUInfo.hh"
+#include "Ravl/Assert.hh"
+
+#include <stdio.h>
+
+#if !RAVL_OS_WIN32
+#include <unistd.h>
+#endif
+#include <stdlib.h>
+
+#if !defined(_SC_NPROCESSORS_ONLN) && !defined(_SC_NPROC_ONLN) && !RAVL_OS_WIN32
+#if RAVL_OS_MACOSX
+#define _DARWIN_C_SOURCE 1
+#endif
+#include <sys/types.h>
+#include <sys/sysctl.h>
+#endif
 
 #define DODEBUG 0
 #if DODEBUG
@@ -16,18 +34,6 @@
 #endif
 
 namespace RavlN {
-
-#include <stdio.h>
-#if !RAVL_OS_WIN32
-#include <unistd.h>
-#endif
-#include <stdlib.h>
-
-#if !defined(_SC_NPROCESSORS_ONLN) && !defined(_SC_NPROC_ONLN) && !RAVL_OS_WIN32
-#include <sys/types.h>
-#include <sys/sysctl.h>
-#endif
-
 
   //: Get the number of cores
   long int GetNumCores(void)

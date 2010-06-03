@@ -7,7 +7,7 @@
 #ifndef RAVL_HIDDENMARKOVMODEL_HEADER
 #define RAVL_HIDDENMARKOVMODEL_HEADER
 //! author="Charles Galambos, Akiel Khan"
-//! rcsid="$Id$"
+//! rcsid="$Id: HiddenMarkovModel.hh 5788 2006-08-03 11:41:38Z ees1wc $"
 //! lib=RavlHMM
 //! docentry="Ravl.API.Pattern Recognition.Markov Processes"
 //! file="Ravl/PatternRec/HiddenMarkovModels/HiddenMarkovModel.hh"

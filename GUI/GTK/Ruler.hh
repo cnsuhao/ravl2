@@ -7,7 +7,7 @@
 #ifndef RAVLGUIRULER_HEADER
 #define RAVLGUIRULER_HEADER 1
 ///////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Ruler.hh 6746 2008-04-22 13:30:41Z craftit $"
 //! file="Ravl/GUI/GTK/Ruler.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"

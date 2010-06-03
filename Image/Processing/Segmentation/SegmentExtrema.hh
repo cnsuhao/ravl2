@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_SEGMENTEXTREMA_HEADER
 #define RAVLIMAGE_SEGMENTEXTREMA_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: SegmentExtrema.hh 7082 2009-02-03 14:40:38Z craftit $"
 //! lib=RavlImageProc
 //! author="Charles Galambos, based on code by Jiri Matas."
 //! docentry="Ravl.API.Images.Segmentation"

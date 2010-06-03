@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! date="23/03/1999"
 //! docentry="Ravl.API.Graphics.GTK.Layout"
-//! rcsid="$Id$"
+//! rcsid="$Id: LBox.hh 7376 2009-11-17 12:26:10Z cyberplug $"
 //! example=exLBox.cc
 
 #include "Ravl/GUI/CWidget.hh"

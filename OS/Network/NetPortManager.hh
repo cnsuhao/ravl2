@@ -7,7 +7,7 @@
 #ifndef RAVL_NETPORTMANAGER_HEADER
 #define RAVL_NETPORTMANAGER_HEADER 1
 ////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: NetPortManager.hh 7341 2009-10-29 16:34:49Z robowaz $"
 //! author="Charles Galambos"
 //! lib=RavlNet
 //! docentry="Ravl.API.OS.Network.NetPort"

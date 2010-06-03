@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignFuncLDA.cc 7413 2009-12-09 04:52:23Z kier $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Modeling/DimensionReduction/DesignFuncLDA.cc"
 
@@ -97,7 +97,7 @@ namespace RavlN {
       
     DesignFuncPCAC pca(varPreserved);
     FunctionC pcaFunc = pca.Apply(inVecsPca);
-    cerr << "Dimensionality  reduction using PCA from"  << pcaFunc.InputSize() << " to " <<   pcaFunc.OutputSize() << endl;
+    ONDEBUG(cerr << "Dimensionality reduction using PCA from"  << pcaFunc.InputSize() << " to " <<   pcaFunc.OutputSize() << endl);
     mean = pca.Mean();
     SampleC<VectorC> outPca = pcaFunc.Apply(inVecsPca);
 
@@ -113,11 +113,80 @@ namespace RavlN {
   }
 
 
-  FunctionC DesignFuncLDABodyC::Apply(SampleStreamC<VectorC> &inPca,  SampleStream2C<VectorC, StringC> &inLda) {
+  FunctionC DesignFuncLDABodyC::Apply(SampleStreamVectorC & inPca, SampleStreamVectorLabelC & inLda) {
 
     //: first we need to do the pca
+    ONDEBUG(cerr << "Starting PCA" << endl);
+    DesignFuncPCAC pca(varPreserved);    
+    FunctionC pcaFunc = pca.Apply(inPca);
+        
+    UIntT D = pcaFunc.InputSize();
+    UIntT Dpca = pcaFunc.OutputSize();
+    ONDEBUG(cerr << "Dimensionality reduction using PCA from: "  << D  << " to " << Dpca   << endl);
+    VectorC mean1 = pca.Mean();
+
+    //: Now we need to calculate the mean of the database first.
+    //: Note that we assumed that input data for pca and lda are not necessarily equal
+    Tuple2C<VectorC, UIntT> data;
+    VectorC mean2(D);
+    mean2.Fill(0.0);
+    RealT N = 0.0;
+    while(inLda.Get(data)){
+      mean2 += data.Data1();
+      N++;
+    }
+    mean2  /= N;
+    mean = mean2;
+    VectorC meanPca = pcaFunc.Apply(mean2);
+
+    //: Now scatter matrices are calculated
+    inLda.First();
+    MatrixC Sb(Dpca, Dpca, 0.0), Sw(Dpca, Dpca, 0.0);
+    MeanCovarianceC meancov(Dpca);
+    IntT prevID = -1;
+    UIntT numClasses= 0;
+    while(inLda.Get(data)) {
+      VectorC vec = data.Data1();
+      VectorC vecPca = pcaFunc.Apply(vec);
+      IntT ID  = (IntT)data.Data2();
+      if((ID != prevID) && (prevID != -1)) { 
+	VectorC m = meancov.Mean();
+	MatrixC cov = meancov.Covariance();
+	RealT p = (RealT) meancov.Number()/N;
+	VectorC diff = m - meanPca;
+	Sb += (diff.OuterProduct (diff, p));
+	Sw += (cov * p);
+	meancov.SetZero();
+	numClasses++;
+      }
+      prevID = ID;
+      meancov += vecPca;
+    }
+    {
+      VectorC m = meancov.Mean();
+      MatrixC cov = meancov.Covariance();
+      RealT p = (RealT) meancov.Number()/N;
+      VectorC diff = m - meanPca;
+      Sb += (diff.OuterProduct (diff, p));
+      Sw += (cov * p);
+    }
+
+    MatrixC matLDA = DesignMatrixTransformation(Sw, Sb);
+    
+    lda = matLDA.SubMatrix(matLDA.Rows(),Min(matLDA.Cols(), SizeT(numClasses) )).T() * pca.Pca().Matrix();
+
+    return FuncMeanProjectionC(mean, lda);
+  }
+  
+  
+  FunctionC DesignFuncLDABodyC::Apply(SampleStreamC<VectorC> &inPca,  SampleStream2C<VectorC, StringC> &inLda) {
+    
+    //: first we need to do the pca
     DesignFuncPCAC pca(varPreserved);
+    
+#if 0 // Eek...no idea why it was limited to 2000 samples?
     SampleStreamVectorC ssv(inPca);
+    // eek no idea why this was limited to 2000 samples
     SampleVectorC sv;
     {
       SArray1dC<VectorC> vecs(2000);
@@ -127,10 +196,12 @@ namespace RavlN {
       sv = SampleVectorC(subvecs);
     }
     FunctionC pcaFunc = pca.Apply(sv);
-    //FunctionC pcaFunc = pca.Apply(inPca);
+#endif
+    FunctionC pcaFunc = pca.Apply(inPca);
+    
     UIntT D = pcaFunc.InputSize();
     UIntT Dpca = pcaFunc.OutputSize();
-    cerr << "Dimentionality  reduction using PCA from"  << D  << " to " << Dpca   << endl;
+    ONDEBUG(cerr << "Dimensionality reduction using PCA from: "  << D  << " to " << Dpca   << endl);
     VectorC mean1 = pca.Mean();
 
     //: Now we need to calculate the mean of the database first.
@@ -185,6 +256,8 @@ namespace RavlN {
 
     return FuncMeanProjectionC(mean, lda);
   }
+
+  
 
   //: Create function from the 2 streams.
   // This method uses streams so that you don't have to store all the data in memory.<br>

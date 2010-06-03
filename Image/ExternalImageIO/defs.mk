@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! file="Ravl/Image/ExternalImageIO/defs.mk"
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 5923 2006-09-26 17:09:42Z ees1wc $"
 #
 # This directory contains software which interfaces Ravl to external
 # image IO libraries.  Edit ExtImgIO.hh to specify which libraries

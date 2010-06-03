@@ -1,5 +1,5 @@
 /////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: testSArr3D.cc 5996 2006-12-04 15:05:44Z ees1wc $"
 
 #include "Ravl/SArray3d.hh"
 #include "Ravl/SArray3dIter2.hh"

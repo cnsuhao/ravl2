@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: IndexRange1d.cc 1090 2002-05-05 20:09:48Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/IndexRange1d.cc"
 

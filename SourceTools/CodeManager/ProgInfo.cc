@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ProgInfo.cc 4205 2004-04-07 18:01:04Z craftit $"
 //! lib=RavlSourceTools
 //! file="Ravl/SourceTools/CodeManager/ProgInfo.cc"
 

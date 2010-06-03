@@ -7,7 +7,7 @@
 #ifndef RAVLGUIBITMAP_HEADER
 #define RAVLGUIBITMAP_HEADER 1
 ////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Bitmap.hh 6701 2008-04-09 16:07:40Z ees1wc $"
 //! file="Ravl/GUI/GTK/Bitmap.hh"
 //! lib=RavlGUI
 //! docentry="Ravl.API.Graphics.GTK.Layout"

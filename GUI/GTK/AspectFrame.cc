@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: AspectFrame.cc 5184 2005-10-25 17:01:51Z craftit $"
 //! lib=RavlGUI
 //! date="7/10/2003"
 //! file="Ravl/GUI/GTK/AspectFrame.cc"

@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////
 // Graph/GraphLinearIter.cc   9/12/96    By Charles Galambos
 // $Id: GraphBaseLinearIter.cc 79 2001-05-10 13:44:47Z craftit $
-//! rcsid="$Id$"
+//! rcsid="$Id: GraphBaseLinearIter.cc 79 2001-05-10 13:44:47Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Graph/GraphBaseLinearIter.cc"
 

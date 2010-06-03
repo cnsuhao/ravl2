@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: RavlGUIDisplay.cc 6525 2008-01-31 11:45:10Z craftit $"
 //! lib=RavlDPDisplay
 //! file="Ravl/GUI/DPDisplay/RavlGUIDisplay.cc"
 

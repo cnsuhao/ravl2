@@ -6,7 +6,7 @@
 // file-header-ends-here
 ////////////////////////////////////////////
 //! docentry="Graphics.GTK"
-//! rcsid="$Id$"
+//! rcsid="$Id: Slider.cc 7044 2008-11-26 17:09:16Z craftit $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Slider.cc"
 

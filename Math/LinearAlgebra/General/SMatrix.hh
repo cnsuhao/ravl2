@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_SMATRIX_HEADER
 #define RAVL_SMATRIX_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: SMatrix.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlMath
 //! author="Charles Galambos"
 //! date="20/8/2002"

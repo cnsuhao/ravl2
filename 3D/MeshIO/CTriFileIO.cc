@@ -8,7 +8,7 @@
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/DP/FileFormatIO.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: CTriFileIO.cc 3073 2003-06-13 07:18:32Z craftit $"
 //! lib=Ravl3DIO
 //! file="Ravl/3D/MeshIO/CTriFileIO.cc"
 

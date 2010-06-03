@@ -7,7 +7,7 @@
 #ifndef RAVL_TSMATRIXFULL_HEADER
 #define RAVL_TSMATRIXFULL_HEADER 1
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TSMatrixFull.hh 7204 2009-06-10 18:11:49Z craftit $"
 //! date="15/8/2002"
 //! lib=RavlMath
 //! docentry="Ravl.API.Math.Linear Algebra.Smart Matrix"

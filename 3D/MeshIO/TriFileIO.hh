@@ -7,7 +7,7 @@
 #ifndef RAVL_TRIFILEIO_HEADER
 #define RAVL_TRIFILEIO_HEADER 1
 ///////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TriFileIO.hh 6017 2007-01-19 09:56:11Z ees1wc $"
 //! lib=Ravl3DIO
 //! docentry="Ravl.API.3D.IO;Ravl.API.3D.Mesh"
 //! file="Ravl/3D/MeshIO/TriFileIO.hh"

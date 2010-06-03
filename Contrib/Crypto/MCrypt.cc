@@ -4,7 +4,7 @@
 // Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: MCrypt.cc 4775 2005-01-18 12:01:08Z craftit $"
 //! author="Jos Hickson"
 //! lib=RavlCrypto
 //! date="15/07/2004"

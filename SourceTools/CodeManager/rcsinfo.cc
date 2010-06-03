@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////
 // rcsinfo.cc
 // $Id: rcsinfo.cc 77 2001-05-10 13:29:16Z craftit $
-//! rcsid="$Id$"
+//! rcsid="$Id: rcsinfo.cc 77 2001-05-10 13:29:16Z craftit $"
 //! lib=RavlSourceTools
 //! file="Ravl/SourceTools/CodeManager/rcsinfo.cc"
 

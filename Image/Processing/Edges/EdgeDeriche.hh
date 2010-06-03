@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_EDGEDERICHE_HEADER
 #define RAVLIMAGE_EDGEDERICHE_HEADER 1
 ///////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: EdgeDeriche.hh 7047 2008-11-27 15:25:36Z ees1wc $"
 //! file="Ravl/Image/Processing/Edges/EdgeDeriche.hh"
 //! authors="George Matas, Radek Marik and Charles Galambos"
 //! docentry="Ravl.API.Images.Edges"

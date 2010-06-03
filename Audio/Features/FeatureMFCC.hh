@@ -7,7 +7,7 @@
 #ifndef RAVLAUDIO_FEATUREEXTACTOR_HEADER
 #define RAVLAUDIO_FEATUREEXTACTOR_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FeatureMFCC.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Audio.Feature Extraction"
 //! lib=RavlAudioFeatures

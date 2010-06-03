@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ScanPolygon2d.cc 5060 2005-07-31 16:20:49Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/2D/ScanPolygon2d.cc"
 

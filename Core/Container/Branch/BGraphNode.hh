@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! date="19/2/1997"
 //! docentry="Ravl.API.Core.Branch"
-//! rcsid="$Id$"
+//! rcsid="$Id: BGraphNode.hh 7548 2010-02-18 13:33:07Z craftit $"
 
 #include "Ravl/BGraphBase.hh"
 
@@ -59,7 +59,7 @@ namespace RavlN {
     inline BGraphAdjIterC<NT,ET> In(BGraphC<NT,ET> &G);
     //: Get links entering node.
   
-    inline UIntT Hash() const
+    inline SizeT Hash() const
     { return ID().V(); }
     //: Get hash value.
   
@@ -136,8 +136,8 @@ namespace RavlN {
     { node = 0; }
     //: Invalidate handle.
   
-    inline UIntT Hash() const
-    { return (UIntT) node->ID().V(); }
+    inline SizeT Hash() const
+    { return (SizeT) node->ID().V(); }
     //: Get hash value.
     
     inline IndexC ID() const

@@ -27,11 +27,12 @@ namespace RavlN {
   {
   public:
     Polygon2dC();
-    void InsLast(Point2dC &point);
-    // Add point to polygon
 
     SizeT Size() const;
     // Number of points in the polygon
+    
+    void InsLast(Point2dC &point);
+    // Add point to polygon
   };
 }
 

@@ -8,7 +8,7 @@
 #define RAVL_RBFACCITER_HEADER 1
 ///////////////////////////////////////////////////
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: BfAccIter.hh 7563 2010-02-18 16:41:12Z craftit $"
 //! file="Ravl/Core/Container/Buffer/BfAccIter.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
@@ -39,10 +39,10 @@ namespace RavlN {
     { First(buff,rng); }
     //: Constructor.
     
-    inline BufferAccessIterC(const BufferAccessC<DataT> &buff,UIntT size)
+    inline BufferAccessIterC(const BufferAccessC<DataT> &buff,SizeT size)
     { First(buff,size); }
     //: Constructor.
-    
+
     inline BufferAccessIterC(const RangeBufferAccessC<DataT> &buff)
     { First(buff); }
     //: Construct iterator at 'element' of buffer 'buff'.

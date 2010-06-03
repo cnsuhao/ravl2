@@ -1,0 +1,6 @@
+ifndef OBJC_DEF
+OBJC_DEF=1
+
+EXELIB := -lobjc $(EXELIB)
+
+endif

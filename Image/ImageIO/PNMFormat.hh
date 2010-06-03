@@ -7,7 +7,7 @@
 #ifndef RAVLPNMFORMAT_HEADER
 #define RAVLPNMFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: PNMFormat.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Image/ImageIO/PNMFormat.hh"
 //! lib=RavlImageIO
 //! author="Charles Galambos"

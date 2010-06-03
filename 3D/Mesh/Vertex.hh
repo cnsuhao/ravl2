@@ -8,7 +8,7 @@
 #define RAVL3D_VERTEX_HEADER 1
 //////////////////////////////////////////////////////////////////////////////
 //! docentry="Ravl.API.3D.Mesh"
-//! rcsid="$Id$"
+//! rcsid="$Id: Vertex.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=Ravl3D
 //! author="Charles Galambos"
 //! file="Ravl/3D/Mesh/Vertex.hh"

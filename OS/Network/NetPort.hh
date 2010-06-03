@@ -10,7 +10,7 @@
 //! docentry="Ravl.API.OS.Network.NetPort"
 //! example=exNetPort.cc
 //! lib=RavlNet
-//! rcsid="$Id$"
+//! rcsid="$Id: NetPort.hh 7266 2009-09-15 09:07:59Z robowaz $"
 //! file="Ravl/OS/Network/NetPort.hh"
 
 #include "Ravl/Types.hh"

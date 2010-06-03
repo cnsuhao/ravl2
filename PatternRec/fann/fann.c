@@ -852,15 +852,15 @@ FANN_EXTERNAL void FANN_API fann_print_connections(struct fann *ann)
 					neurons[ann->connections[i] - ann->first_layer->first_neuron] = 'A' + value;
 				}
 			}
-			printf("L %3d / N %4d %s\n", layer_it - ann->first_layer,
-				   neuron_it - ann->first_layer->first_neuron, neurons);
+			printf("L %3d / N %4d %s\n", (int)(layer_it - ann->first_layer),
+				     (int)(neuron_it - ann->first_layer->first_neuron), neurons);
 		}
 	}
 
 	free(neurons);
 }
 
-/* Initialize the weights using Widrow + Nguyen's algorithm.
+/* Initialise the weights using Widrow + Nguyen's algorithm.
 */
 FANN_EXTERNAL void FANN_API fann_init_weights(struct fann *ann, struct fann_train_data *train_data)
 {
@@ -954,12 +954,12 @@ FANN_EXTERNAL void FANN_API fann_print_parameters(struct fann *ann)
 		if(ann->shortcut_connections)
 		{
 			printf("  Hidden layer                       :%4d neurons, 0 bias\n",
-				   layer_it->last_neuron - layer_it->first_neuron);
+				     (int)(layer_it->last_neuron - layer_it->first_neuron));
 		}
 		else
 		{
 			printf("  Hidden layer                       :%4d neurons, 1 bias\n",
-				   layer_it->last_neuron - layer_it->first_neuron - 1);
+				     (int)(layer_it->last_neuron - layer_it->first_neuron - 1));
 		}
 	}
 	printf("Output layer                         :%4d neurons\n", ann->num_output);

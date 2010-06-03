@@ -1,4 +1,4 @@
-$MAKE = system("gmake -v > /dev/null 2&>1")
+$MAKE = system("gmake -v > /dev/null 2>&1")
   ? "make"
   : "gmake";
 

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ZigZagIter.cc 3108 2003-06-25 15:27:27Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Sequence/ZigZagIter.cc"
 

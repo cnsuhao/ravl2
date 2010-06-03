@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TypeConverter.cc 7308 2009-10-12 15:30:41Z craftit $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/TypeConverter.cc"
 

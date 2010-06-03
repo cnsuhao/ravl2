@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignFunctionUnsupervised.cc 7324 2009-10-21 16:23:20Z craftit $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/DesignFunctionUnsupervised.cc"
 

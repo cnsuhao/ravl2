@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: EvaluateNumInliers.cc 7665 2010-03-23 15:46:09Z ees1wc $"
 //! lib=RavlOptimise
 //! file="Ravl/Math/Optimisation/EvaluateNumInliers.cc"
 
@@ -56,6 +56,25 @@ namespace RavlN {
       // add to list if residual is within threshold
       if ( residual < compatChi2Thres )
 	compatibleList.InsLast(it.Data());
+    }
+
+    return compatibleList;
+  }
+
+  //: Returns  list of booleans indicating which observations are compatible with the given state parameters
+  DListC<bool> EvaluateNumInliersBodyC::ObservationCompatibility(
+					const StateVectorC &stateVec,
+					DListC<ObservationC> &obsList) const
+  {
+    RavlAssert(stateVec.IsValid());
+    DListC<bool> compatibleList;
+
+    for(DLIterC<ObservationC> it(obsList);it;it++) {
+      // compute the residual
+      RealT residual = it.Data().NonRobustResidual(stateVec);
+
+      // add to list if residual is within threshold
+      compatibleList.InsLast( residual < compatChi2Thres );
     }
 
     return compatibleList;

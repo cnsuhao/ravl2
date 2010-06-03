@@ -7,7 +7,7 @@
 #ifndef RAVL_DPIOCONNECT_HEADER
 #define RAVL_DPIOCONNECT_HEADER 1
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: IOConnect.hh 7078 2009-02-03 14:36:25Z craftit $"
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Data Processing" 

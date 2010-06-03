@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: AudioIO.cc 4655 2004-11-17 11:51:33Z plugger $"
 //! lib=RavlAudioUtil
 //! file="Ravl/Audio/Util/AudioIO.cc"
 

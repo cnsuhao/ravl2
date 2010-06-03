@@ -4,7 +4,7 @@
 // Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: annotate.cc 5642 2006-06-23 10:51:11Z craftit $"
 //! lib=RavlSourceTools
 //! file="Ravl/SourceTools/CodeManager/annotate.cc"
 //! userlevel=Normal

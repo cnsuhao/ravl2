@@ -1,5 +1,5 @@
 ////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TestMemLimit.cc 4 2001-04-11 12:45:55Z craftit $"
 
 #include "amma/PThread/Launch.hh"
 #include "amma/PThread/Thread.hh"

@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef SHOTBOUNDHISTINT
 #define SHOTBOUNDHISTINT 1
-//! rcsid="$Id$"
+//! rcsid="$Id: ShotBoundHistInt.hh 5343 2006-02-06 16:10:08Z ees1wc $"
 //! lib=RavlVideo
 
 #include "Ravl/SArray1d.hh"

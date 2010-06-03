@@ -7,7 +7,7 @@
 #ifndef RAVL_TSMATRIXPARTIAL_HEADER
 #define RAVL_TSMATRIXPARTIAL_HEADER 1
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TSMatrixPartial.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! date="15/8/2002"
 //! lib=RavlMath
 //! docentry="Ravl.API.Math.Linear Algebra.Smart Matrix"

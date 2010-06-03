@@ -7,7 +7,7 @@
 #ifndef RAVL_NETMESSAGESIG_HEADER
 #define RAVL_NETMESSAGESIG_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: NetMsgCall.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.OS.Network"
 //! file="Ravl/OS/Network/NetMsgCall.hh"
 //! lib=RavlNet

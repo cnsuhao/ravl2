@@ -10,7 +10,7 @@
 //! docentry="Ravl.API.Images.Scaling and Warping"
 //! lib=RavlImageProc
 //! author="Kieron Messer"
-//! rcsid="$Id$"
+//! rcsid="$Id: WarpScale.hh 7120 2009-02-28 18:29:21Z craftit $"
 //! date="05/05/1999"
 //! file="Ravl/Image/Processing/Filters/Warp/WarpScale.hh"
 

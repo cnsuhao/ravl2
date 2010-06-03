@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="$(name)"
-	ProjectGUID="$(topandtail:$(include:@MSVC/GUID/$(name).guid))"
+	ProjectGUID="$(topandtail:$(include:@$(outputdir)/GUID/$(name).guid))"
 	RootNamespace="$(name)"
 	Keyword="Win32Proj"
 	>

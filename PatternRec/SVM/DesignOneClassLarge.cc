@@ -10,6 +10,7 @@
 
 #include "Ravl/PatternRec/DesignOneClassLarge.hh"
 #include <string.h>
+#include "Ravl/XMLFactoryRegister.hh"
 
 namespace RavlN
 {
@@ -35,7 +36,23 @@ DesignOneClassLargeBodyC::DesignOneClassLargeBodyC(const KernelFunctionC &Kernel
   //cout << "tol:" << tolerance << "   eps:" << eps << endl;
   //cout << "lt:" << lambdaThreshold << endl;
 }
+
 //---------------------------------------------------------------------------
+DesignOneClassLargeBodyC::DesignOneClassLargeBodyC(const XMLFactoryContextC & factory)
+  : DesignOneClassBodyC(factory),
+    maxNumSv(factory.AttributeReal("max_num_sv", 10000))
+{
+  // desired ones from INIT need to refactor
+  objectsToUseLarge = NULL;
+  objectsToUseLargeSize = 0;
+  kernelCacheIndices = NULL;
+  localSCache = NULL;
+  localErrCache = NULL;
+  localLambdas = NULL;
+  changedIndices = NULL;
+}
+
+  //---------------------------------------------------------------------------
 //: Load from stream.
 DesignOneClassLargeBodyC::DesignOneClassLargeBodyC(istream& Strm)
                          :DesignOneClassBodyC(Strm)
@@ -489,7 +506,7 @@ void DesignOneClassLargeBodyC::CalcLambdas(bool DoFinal)
           numChangedIndices++;
         }
       }
-      cout << "num changed lambdas:" << numChangedIndices << "  numSV:" << numSV << endl;
+      //cout << "num changed lambdas:" << numChangedIndices << "  numSV:" << numSV << endl;
 
       //update local error cache and local s cache
       const double dErr = (radius - localRadius) - (norm - localNorm);
@@ -731,13 +748,13 @@ void DesignOneClassLargeBodyC::CalcLambdas(bool DoFinal)
         }
       }
     } while((errorRef != prevErrorRef) && (freeRef != lastFreeRef));
-    cout << "num changes:" << numErrors
+    /*cout << "num changes:" << numErrors
          << "  last errRef:" << errorRef
          << "  trSetSize:" << objectsToUseLargeSize
          << "  lastFreeRef:" << freeRef
          << "  numTrObjects:" << trainSubsetSize
          << "  maxError:" << maxError
-         << "  tolerance:" << radius * toleranceR << endl;
+         << "  tolerance:" << radius * toleranceR << endl; */
     //cout << "maxErrID:" << maxErrID << endl;
     //slow but does the job
     SizeT kernelCacheSize = (SizeT(trainSubsetSize + 1) *
@@ -746,7 +763,7 @@ void DesignOneClassLargeBodyC::CalcLambdas(bool DoFinal)
 
     if((!needToIterate || numErrors == 0) && firstRun)
     {
-      cout << "Doing final processing\n";
+      //cout << "Doing final processing\n";
       needToIterate = true;
       firstRun = false;
       toleranceR = toleranceBU;
@@ -895,5 +912,12 @@ void DesignOneClassLargeBodyC::ReleaseMemory()
   objectsToUseLargeSize = 0;
   //cout << "DesignOneClassLargeBodyC::ReleaseMemory:OK\n";
 }
-//---------------------------------------------------------------------------
+
+  RavlN::XMLFactoryRegisterHandleConvertC<DesignOneClassLargeC, DesignOneClassC> g_registerXMLFactoryDesignOneClassLarge("RavlN::DesignOneClassLargeC");
+  
+  void linkDesignOneClassLarge()
+{}
+
+
+  //---------------------------------------------------------------------------
 }

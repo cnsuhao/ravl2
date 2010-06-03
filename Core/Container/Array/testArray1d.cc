@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: testArray1d.cc 7563 2010-02-18 16:41:12Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Array/testArray1d.cc"
 //! docentry="Ravl.API.Core.Arrays.1D"
@@ -102,6 +102,8 @@ int BasicTest() {
   }
   
   Array1dC<IntT> a2(0);
+  if(a2.Size() != 0) return __LINE__;
+
   Array1dC<IntT> ax2(a2);
   a2.Append(a1);
   a2.Append(arr1);

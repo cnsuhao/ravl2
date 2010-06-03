@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_YCBCR422BT601VALUE_HEADER
 #define RAVLIMAGE_YCBCR422BT601VALUE_HEADER 1
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: YCbCr422BT601Value.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlImage
 //! userlevel=Normal
 //! author="Charles Galambos"

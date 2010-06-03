@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="23/8/2003"
-//! rcsid="$Id$"
+//! rcsid="$Id: AttributeType.hh 7646 2010-03-08 14:43:10Z robowaz $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/AttributeType.hh"
 //! docentry="Ravl.API.Core.Data_Processing.Attributes"
@@ -23,6 +23,7 @@ namespace RavlN {
   enum AttributeValueTypeT
     { AVT_Bool,           // Boolean
       AVT_Int,            // Signed integer
+      AVT_Int64,          // Signed 64-bit integer.
       AVT_Real,           // Double precision floating point.
       AVT_String,         // Text string
       AVT_Enum,           // Enumerated type.

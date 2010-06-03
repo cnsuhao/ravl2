@@ -7,7 +7,7 @@
 #ifndef RAVL_THREADLAUNCH_HEADER
 #define RAVL_THREADLAUNCH_HEADER 1
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: LaunchThread.hh 5614 2006-06-20 08:16:39Z apanman $"
 //! file="Ravl/OS/Threads/Tools/LaunchThread.hh"
 //! lib=RavlThreads
 //! userlevel=Default

@@ -8,7 +8,7 @@
 //! docentry="Graphics.GTK.Widget"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: ToggleButton.cc 6701 2008-04-09 16:07:40Z ees1wc $"
 //! file="Ravl/GUI/GTK/ToggleButton.cc"
 
 #include "Ravl/GUI/ToggleButton.hh"

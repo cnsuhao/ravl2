@@ -7,7 +7,7 @@
 #ifndef RAVL_SBFACCITER4_HEADER
 #define RAVL_SBFACCITER4_HEADER 1
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BfAccIter4.hh 7651 2010-03-09 11:40:09Z craftit $"
 //! file="Ravl/Core/Container/Buffer/BfAccIter4.hh"
 //! author="Charles Galambos"
 //! lib=RavlCore
@@ -136,13 +136,13 @@ namespace RavlN {
     inline BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T> & operator+=(int skip)
     { Next(skip); return *this; }
     //: Advance 'skip' elements.
-    // WARNING: When using negative values, positions before the begining of the array will
+    // WARNING: When using negative values, positions before the beginning of the array will
     // not be detected correctly by IsElm().
     
     inline BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T> & operator-=(int skip)
     { Next(-skip); return *this; }
     //: Go back 'skip' elements.
-    // WARNING: When using positive values, positions before the begining of the array will
+    // WARNING: When using positive values, positions before the beginning of the array will
     // not be detected correctly by IsElm().
     
     inline void operator++(int)

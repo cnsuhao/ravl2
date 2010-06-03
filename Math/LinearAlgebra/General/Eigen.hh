@@ -3,7 +3,7 @@
 //! license=own
 //! userlevel=Normal
 //! docentry="Ravl.API.Math.Linear Algebra.Matrix Decomposition"
-//! rcsid="$Id$"
+//! rcsid="$Id: Eigen.hh 7637 2010-03-02 16:56:49Z alexkostin $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/Eigen.hh"
 
@@ -69,45 +69,45 @@ namespace RavlN
   public:
     EigenValueC(const TMatrixC<NumT> &A) {
       n = A.Size2();
-      V = TMatrixC<NumT>(n,n);
-      d = TVectorC<NumT>(n);
-      e = TVectorC<NumT>(n);
+      V = TMatrixC<NumT> (n, n);
+      d = TVectorC<NumT> (n);
+      e = TVectorC<NumT> (n);
 
       issymmetric = 1;
       for (int j = 0; (j < n) && issymmetric; j++) {
-	for (int i = 0; (i < n) && issymmetric; i++) {
-	  issymmetric = (A[i][j] == A[j][i]);
-	}
+        for (int i = 0; (i < n) && issymmetric; i++) {
+          issymmetric = (A[i][j] == A[j][i]);
+        }
       }
 
       if (issymmetric) {
-	for (int i = 0; i < n; i++) {
-	  for (int j = 0; j < n; j++) {
-	    V[i][j] = A[i][j];
-	  }
-	}
-   
-	// Tridiagonalize.
-	tred2();
-   
-	// Diagonalize.
-	tql2();
+        for (int i = 0; i < n; i++) {
+          for (int j = 0; j < n; j++) {
+            V[i][j] = A[i][j];
+          }
+        }
+
+        // Tridiagonalize.
+        tred2();
+
+        // Diagonalize.
+        tql2();
 
       } else {
-	H = TMatrixC<NumT>(n,n);
-	ort = TVectorC<NumT>(n);
-         
-	for (int j = 0; j < n; j++) {
-	  for (int i = 0; i < n; i++) {
-	    H[i][j] = A[i][j];
-	  }
-	}
-   
-	// Reduce to Hessenberg form.
-	orthes();
-   
-	// Reduce Hessenberg to real Schur form.
-	hqr2();
+        H = TMatrixC<NumT> (n, n);
+        ort = TVectorC<NumT> (n);
+
+        for (int j = 0; j < n; j++) {
+          for (int i = 0; i < n; i++) {
+            H[i][j] = A[i][j];
+          }
+        }
+
+        // Reduce to Hessenberg form.
+        orthes();
+
+        // Reduce Hessenberg to real Schur form.
+        hqr2();
       }
     }
     //: Check for symmetry, then construct the eigenvalue decomposition
@@ -140,15 +140,15 @@ namespace RavlN
     void getD (TMatrixC<NumT> &D) {
       D = TMatrixC<NumT>(n,n);
       for (int i = 0; i < n; i++) {
-	for (int j = 0; j < n; j++) {
-	  D[i][j] = 0.0;
-	}
-	D[i][i] = d[i];
-	if (e[i] > 0) {
-	  D[i][i+1] = e[i];
-	} else if (e[i] < 0) {
-	  D[i][i-1] = e[i];
-	}
+        for (int j = 0; j < n; j++) {
+          D[i][j] = 0.0;
+        }
+        D[i][i] = d[i];
+        if (e[i] > 0) {
+          D[i][i+1] = e[i];
+        } else if (e[i] < 0) {
+          D[i][i-1] = e[i];
+        }
       }
     }
     //:Computes the block diagonal eigenvalue matrix.
@@ -195,7 +195,7 @@ namespace RavlN
       //  Fortran subroutine in EISPACK.
 
       for (int j = 0; j < n; j++) {
-	d[j] = V[n-1][j];
+        d[j] = V[n-1][j];
       }
 
       // Householder reduction to tridiagonal form.
@@ -361,7 +361,11 @@ namespace RavlN
 	    f = f + h;
    
 	    // Implicit QL transformation.
-   
+
+	    // This can happen if there are nan's in the matrix.
+	    if((unsigned) m >= d.Size())
+	      throw ExceptionOperationFailedC("Failed to compute eigen values. ");
+
 	    p = d[m];
 	    NumT c = 1.0;
 	    NumT c2 = c;

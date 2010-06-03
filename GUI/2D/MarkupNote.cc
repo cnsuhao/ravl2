@@ -4,11 +4,12 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: fixSource.cfg 5642 2006-06-23 10:51:11Z craftit $"
 //! lib=RavlGUI2D
 
 #include "Ravl/GUI/MarkupNote.hh"
 #include "Ravl/GUI/GUIMarkupCanvas.hh"
+#include "Ravl/Image/RealRGBValue.hh"
 #include <gtk/gtk.h>
 
 namespace RavlGUIN {
@@ -46,7 +47,7 @@ namespace RavlGUIN {
     Point2dC txtPosition;
     ComputeRectangle(mv,rect,txtPosition);
     
-    return rect.Expand(1);
+    return RealRange2dC(rect.Expand(1));
   }
   
   //: Compute text rectangle and position

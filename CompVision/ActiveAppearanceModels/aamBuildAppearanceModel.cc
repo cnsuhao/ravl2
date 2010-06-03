@@ -1,4 +1,4 @@
-//! rcsid="$Id$"
+//! rcsid="$Id: aamBuildAppearanceModel.cc 7512 2010-02-11 18:34:12Z craftit $"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/aamBuildAppearanceModel.hh"
 //! docentry="Ravl.API.Images.AAM"
@@ -29,7 +29,19 @@ using namespace RavlN;
 using namespace RavlImageN;
 
 //: Build a statistical model of appearance.
-//  This program reads a set of appearance files and uses them to build a statistical model of appearance. The appearance files to be read are located in the directory defined by the option "-d" and are specified either by providing a list of file names (option "-l") or by providing the extension of the appearance files (option "-e"). In addition, it is possible to double the effective number of appearances used for building the statistical model of appearance by considering mirror appearances of the appearance defined in the files. This is done by providing a mirror file (option "-m"). The mirror file consists of a list of pairs of indices which represent feature points in correspondence when carrying out the vertical symmetry (mirror effect). The resolution of the appearance model is controlled by the option "-ms" which controls the size of the shape-free image. Among the options it is possible to control the proportion of variation preserved by the statistical model of appearance for shape, texture and combined values (options "-vs", "-vt" and "-vc") and to set limits to the maximum number of shape, texture and combined parameters contained in the statistical model of appearance (option "-maxs", "-maxt" and "-maxc"). For more information type "aamBuildAppearanceModel -help".
+//  This program reads a set of appearance files and uses them to build a statistical model of appearance.
+// The appearance files to be read are located in the directory defined by the option "-d" and are specified either
+// by providing a list of file names (option "-l") or by providing the extension of the appearance files (option "-e").
+// In addition, it is possible to double the effective number of appearances used for building the statistical model of
+// appearance by considering mirror appearances of the appearance defined in the files. This is done by providing a mirror
+// file (option "-m"). The mirror file consists of a list of pairs of indices which represent feature points in
+// correspondence when carrying out the vertical symmetry (mirror effect). The resolution of the appearance model
+// is controlled by the option "-ms" which controls the size of the shape-free image. Among the options it is possible
+// to control the proportion of variation preserved by the statistical model of appearance for shape, texture and
+// combined values (options "-vs", "-vt" and "-vc") and to set limits to the maximum number of shape, texture and
+// combined parameters contained in the statistical model of appearance (option "-maxs", "-maxt" and "-maxc").
+// For more information type "aamBuildAppearanceModel -help".
+
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   StringC dir = opt.String("d","./markup/","Directory containing markup files defining the appearances.");

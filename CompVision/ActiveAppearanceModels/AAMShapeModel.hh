@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_SHAPEMODEL_HEADER
 #define RAVLIMAGE_SHAPEMODEL_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: AAMShapeModel.hh 7452 2009-12-30 11:12:30Z omn-crida $"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMShapeModel.hh"
 //! docentry="Ravl.API.Images.AAM"
@@ -17,6 +17,7 @@
 #include "Ravl/Image/AAMAppearance.hh"
 #include "Ravl/PatternRec/Function.hh"
 #include "Ravl/PatternRec/SampleStream.hh"
+#include "Ravl/Vector2d.hh"
 
 namespace RavlImageN {
 
@@ -93,9 +94,12 @@ namespace RavlImageN {
     { return shapeModel.OutputSize() + NoFixedParameters(); }
     //: Size of the parameter vector.
 
-    const SArray1dC<Point2dC> &MeanPoints() const
-    { return meanPoints; }
+    const SArray1dC<Point2dC> MeanPoints() const
+    { return meanPoints.Copy(); }
     //: Return mean control point positions (in normalised frame) for shape model.
+
+    void TransformMeanPoints(const Point2dC &offset, const Vector2dC &scale);
+    //: Transform mean points by shifting by offset and scaling
 
     SArray1dC<Point2dC> Synthesize(const VectorC &parm) const;
     //: Synthesis a control point set from a parameter vector.
@@ -210,6 +214,10 @@ namespace RavlImageN {
     SArray1dC<Point2dC> MeanPoints() const
     { return Body().MeanPoints(); }
     //: Return mean control point positions (in normalised frame) for shape model.
+
+    void TransformMeanPoints(const Point2dC &offset, const Vector2dC &scale)
+    { Body().TransformMeanPoints(offset, scale); }
+    //: Transform mean points by shifting by offset and scaling
 
     SArray1dC<Point2dC> Synthesize(const VectorC &parm) const
     { return Body().Synthesize(parm); }

@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_COMPRESSEDIMAGEJ2K_HEADER
 #define RAVLIMAGE_COMPRESSEDIMAGEJ2K_HEADER 1
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: CompressedImageJ2k.hh 5975 2006-11-20 18:05:30Z craftit $"
 //! lib=RavlImgIOJasper
 
 #include "Ravl/Array1d.hh"

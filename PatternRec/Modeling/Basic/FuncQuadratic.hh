@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_FUNCQUADRATIC_HEADER
 #define RAVL_FUNCQUADRATIC_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: FuncQuadratic.hh 6897 2008-07-19 11:34:50Z craftit $"
 //! lib=RavlPatternRec
 //! author="Robert Crida and Charles Galambos"
 //! docentry="Ravl.API.Pattern Recognition.Numerical Modeling"

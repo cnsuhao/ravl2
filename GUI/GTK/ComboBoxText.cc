@@ -47,9 +47,11 @@ namespace RavlGUIN {
       else
         nwidget = gtk_combo_box_new_text();
     }
-    
+
+
     if(!ComboBoxBodyC::CommonCreate(nwidget))
       return false;
+    
     GtkTreeModel *model = gtk_combo_box_get_model (GTK_COMBO_BOX(widget));
     if(model == 0) {
       ONDEBUG(std::cerr << "ComboBoxTextBodyC::CommonCreate, Generating new tree store. \n");
@@ -64,6 +66,10 @@ namespace RavlGUIN {
       if(m_options.Size() > 0)
         m_treeModel.GUIEmpty();
     }
+
+    
+    
+    
     
     RavlAssert(widget != 0);
     ONDEBUG(std::cerr << "ComboBoxTextBodyC::CommonCreate, Adding " << m_options.Size() << " options to combobox. \n");
@@ -180,6 +186,9 @@ namespace RavlGUIN {
   
   //: Remove an entry.
   bool ComboBoxTextBodyC::GUIRemoveEntry(const StringC &str) {
+    IntT index = GUIFindEntryPosition(str);
+    if (index >= 0)
+      return GUIRemoveEntry(index);
     return true;
   }
 

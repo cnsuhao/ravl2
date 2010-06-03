@@ -7,7 +7,7 @@
 /////////////////////////////////////////////////////////
 //! lib=RavlImage
 //! file="Ravl/Image/Base/testHSVValue.cc"
-//! rcsid="$Id$"
+//! rcsid="$Id: testHSVValue.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Images.Pixel Types"
 //! userlevel=Develop
 

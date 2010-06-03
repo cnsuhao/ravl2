@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: MatrixLUDecomposition.cc 4250 2004-04-26 21:38:39Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/MatrixLUDecomposition.cc"
 

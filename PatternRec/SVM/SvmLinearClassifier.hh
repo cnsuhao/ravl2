@@ -56,7 +56,7 @@ public:
     { return m_threshold; }
 
   //! Get weights
-  SArray1dC<RealT> GetWeights() const
+  const SArray1dC<RealT>& GetWeights() const
     { return m_weights; }
 
   //! Create classifier
@@ -116,7 +116,7 @@ public:
     { return Body().GetThreshold(); }
 
   //! Get weights
-  SArray1dC<RealT> GetWeights() const
+  const SArray1dC<RealT>& GetWeights() const
     { return Body().GetWeights(); }
 
   //! Create classifier

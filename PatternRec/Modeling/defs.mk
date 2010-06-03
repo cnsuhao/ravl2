@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 2704 2003-04-09 15:36:32Z craftit $"
 #! file="Ravl/PatternRec/Modeling/defs.mk"
 
 DESCRIPTION= Classes for numerical modeling of functions. 

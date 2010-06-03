@@ -7,7 +7,7 @@
 #ifndef RAVL_DPSUBSEQUENCESPEC_HEADER
 #define RAVL_DPSUBSEQUENCESPEC_HEADER 1
 /////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SubSequenceSpec.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/OS/IO/SubSequenceSpec.hh"
 //! lib=RavlOSIO
 //! userlevel=Default

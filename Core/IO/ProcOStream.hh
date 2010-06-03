@@ -8,7 +8,7 @@
 #define RAVLDPPROCOSTREAM_HEADER 1
 /////////////////////////////////////////////////////
 //! example=exDataProc.cc
-//! rcsid="$Id$"
+//! rcsid="$Id: ProcOStream.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/IO/ProcOStream.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"

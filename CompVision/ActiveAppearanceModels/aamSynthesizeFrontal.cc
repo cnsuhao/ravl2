@@ -1,4 +1,4 @@
-//! rcsid="$Id$"
+//! rcsid="$Id: aamSynthesizeFrontal.cc,v 1.3 2005/07/25 16:31:07 ees1wc Exp $"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/aamSynthesizeFrontal.cc"
 //! docentry="Ravl.API.Images.AAM"

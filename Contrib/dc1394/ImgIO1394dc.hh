@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_IMGIO1394DC_HEADER
 #define RAVLIMAGE_IMGIO1394DC_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIO1394dc.hh 7490 2010-01-27 16:48:34Z alexkostin $"
 //! lib=RavlImgIO1394dc
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Video.Video IO.IIDC"
@@ -44,7 +44,7 @@ namespace RavlImageN {
   public:
     ImgIO1394dcBaseC(UIntT channel=0,const type_info &pixelType = typeid(void));
     //: Constructor.
-    // channel > 100 means DMA acceess to channel = channel-100
+    // channel > 100 means DMA access to channel = channel-100
 
     ~ImgIO1394dcBaseC();
     //: Destructor.

@@ -13,7 +13,7 @@
 //! date="5/8/97"
 //! userlevel=Normal
 //! docentry="Ravl.API.OS.Text Processing"
-//! rcsid="$Id$"
+//! rcsid="$Id: TextCursor.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/Text/TextFile.hh"
 

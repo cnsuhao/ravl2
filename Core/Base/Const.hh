@@ -7,7 +7,7 @@
 #ifndef RAVL_CONST_HEADER
 #define RAVL_CONST_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Const.hh 7224 2009-08-06 03:26:14Z kier $"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Misc"
 //! author="Charles Galambos"

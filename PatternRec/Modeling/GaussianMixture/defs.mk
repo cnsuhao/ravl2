@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 7589 2010-02-23 10:45:50Z ees1wc $"
 #! file="Ravl/PatternRec/Modeling/GaussianMixture/defs.mk"
 
 DESCRIPTION = Gaussian Mixture Modelling
@@ -14,6 +14,8 @@ PACKAGE = Ravl/PatternRec
 MAINS=
 
 TESTEXES=testGaussianMixture.cc 
+
+EXAMPLES = exDesignGaussianMixture.cc
 
 HEADERS=GaussianMixture.hh DesignGaussianMixture.hh
 

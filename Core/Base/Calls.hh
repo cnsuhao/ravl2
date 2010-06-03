@@ -7,7 +7,7 @@
 #ifndef RAVL_CALLS_HEADER
 #define RAVL_CALLS_HEADER 1
 //////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Calls.hh 7754 2010-06-02 10:01:08Z alexkostin $"
 //! file="Ravl/Core/Base/Calls.hh"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Calls"
@@ -275,7 +275,7 @@ namespace RavlN {
     {}
     //: NoOp constructor.
     // if issueErrorOnCall a function which causes the
-    // equivelent of a assertion failure is called. Otherwise
+    // equivalent of a assertion failure is called. Otherwise
     // the call returns silently.
     
     CallFunc1C(RetT (*nfunc)(DataT),const Arg1T &dat = Arg1T())

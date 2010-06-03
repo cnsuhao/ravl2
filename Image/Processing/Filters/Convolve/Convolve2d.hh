@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_CONVOLVE2D_HEADER
 #define RAVLIMAGE_CONVOLVE2D_HEADER 1
 /////////////////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Convolve2d.hh 7169 2009-04-24 15:19:07Z ees1wc $"
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! lib=RavlImageProc

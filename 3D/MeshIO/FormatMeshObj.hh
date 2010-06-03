@@ -7,7 +7,7 @@
 #ifndef RAVL_OBJFORMAT_HEADER
 #define RAVL_OBJFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FormatMeshObj.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/3D/MeshIO/FormatMeshObj.hh"
 //! lib=Ravl3DIO
 //! author="Charles Galambos"

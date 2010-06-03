@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: IOConnect.cc 3348 2003-08-26 21:12:52Z craftit $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/IOConnect.cc"
 

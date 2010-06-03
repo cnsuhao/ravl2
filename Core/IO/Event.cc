@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Event.cc 1175 2002-05-21 14:51:59Z craftit $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/Event.cc"
 

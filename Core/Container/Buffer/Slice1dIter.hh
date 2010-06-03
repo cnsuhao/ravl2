@@ -7,7 +7,7 @@
 #ifndef RAVL_SLICEITER_HEADER
 #define RAVL_SLICEITER_HEADER 1
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Slice1dIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! userlevel=Advanced
 //! file="Ravl/Core/Container/Buffer/Slice1dIter.hh"
 //! lib=RavlCore

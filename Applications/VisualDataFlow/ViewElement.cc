@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ViewElement.cc 6026 2007-01-24 12:10:20Z craftit $"
 //! lib=RavlVDF
 //! author="Charles Galambos"
 //! file="Ravl/Applications/VisualDataFlow/ViewElement.cc"

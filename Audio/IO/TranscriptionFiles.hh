@@ -8,7 +8,7 @@
 #define RAVLAUDIO_TRANSCRIPTIONFILESIO_HEADER 1
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Audio.Feature Extraction"
-//! rcsid="$Id$"
+//! rcsid="$Id: TranscriptionFiles.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlAudioIO
 //! file="Ravl/Audio/IO/TranscriptionFiles.hh"
 

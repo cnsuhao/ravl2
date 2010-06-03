@@ -7,7 +7,7 @@
 #ifndef RAVL_SBFACC3D_HEADER
 #define RAVL_SBFACC3D_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SBfAcc3d.hh 7563 2010-02-18 16:41:12Z craftit $"
 //! file="Ravl/Core/Container/Buffer/SBfAcc3d.hh"
 //! lib=RavlCore
 //! userlevel=Develop
@@ -72,18 +72,30 @@ namespace RavlN {
     }
     //: return the item array[(i)]
     
-    inline SizeBufferAccess2dC<DataT> operator[](IndexC i) {
+    inline SizeBufferAccess2dC<DataT> operator[](const IndexC &i) {
       return SizeBufferAccess2dC<DataT>(BufferAccessC<BufferAccessC<BufferAccessC<DataT > > >::operator[](i),
 					size2,size3);
     }
     //: access to the item array[(i)]
     
-    inline const SizeBufferAccess2dC<DataT> operator[](IndexC i) const {
+    inline const SizeBufferAccess2dC<DataT> operator[](const IndexC &i) const {
       return SizeBufferAccess2dC<DataT>(BufferAccessC<BufferAccessC<BufferAccessC<DataT > > >::operator[](i),
 					size2,size3);
     }
     //: return the item array[(i)]
+
+    inline SizeBufferAccess2dC<DataT> operator[](const SizeC &i) {
+      return SizeBufferAccess2dC<DataT>(BufferAccessC<BufferAccessC<BufferAccessC<DataT > > >::operator[](i),
+                                        size2,size3);
+    }
+    //: access to the item array[(i)]
     
+    inline const SizeBufferAccess2dC<DataT> operator[](const SizeC &i) const {
+      return SizeBufferAccess2dC<DataT>(BufferAccessC<BufferAccessC<BufferAccessC<DataT > > >::operator[](i),
+                                        size2,size3);
+    }
+    //: return the item array[(i)]
+
     inline SizeBufferAccess2dC<DataT> operator[](int i) {
       return SizeBufferAccess2dC<DataT>(BufferAccessC<BufferAccessC<BufferAccessC<DataT > > >::operator[](i),
 					size2,size3);

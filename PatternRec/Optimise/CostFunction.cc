@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 #include "Ravl/PatternRec/CostFunction.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: CostFunction.cc 3073 2003-06-13 07:18:32Z craftit $"
 //! lib=Optimisation
 //! file="Ravl/PatternRec/Optimise/CostFunction.cc"
 

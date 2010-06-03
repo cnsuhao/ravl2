@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_MATRIXDECOMPOSITION_HEADER
 #define RAVL_MATRIXDECOMPOSITION_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: MatrixDecomposition.hh 6088 2007-03-08 16:20:52Z ees1wc $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/MatrixDecomposition.hh"
 //! docentry="Ravl.API.Math.Linear Algebra.Matrix Decomposition"

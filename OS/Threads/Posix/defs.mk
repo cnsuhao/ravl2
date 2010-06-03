@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #############################################
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 5578 2006-06-10 10:04:25Z craftit $"
 #! file="Ravl/OS/Threads/Posix/defs.mk"
 
 DESCRIPTION = Posix thread interface.

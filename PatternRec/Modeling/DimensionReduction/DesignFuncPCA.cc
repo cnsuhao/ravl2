@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignFuncPCA.cc 7541 2010-02-18 12:03:34Z craftit $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Modeling/DimensionReduction/DesignFuncPCA.cc"
 
@@ -38,7 +38,7 @@ namespace RavlN {
   DesignFuncPCABodyC::DesignFuncPCABodyC(istream &strm) 
     : DesignFuncReduceBodyC(strm)
   {
-   strm >> forceHimDim;
+    strm >> forceHimDim;
   }
   
   //: Load from binary stream.
@@ -54,7 +54,7 @@ namespace RavlN {
   bool DesignFuncPCABodyC::Save(ostream &out) const {
     if(!DesignFuncReduceBodyC::Save(out))
       return false;
-    out << ' ' << forceHimDim;
+    out << ' ' << forceHimDim << ' ';
     return true;
   }
   
@@ -83,10 +83,10 @@ namespace RavlN {
   //: Design the transform.
   // This routine takes advantage of the fact that if there are less samples than dimensions 
   // in the sample vector, you can reduce the size of the covariance matrix you compute the eigen 
-  // values on.   This can make the PCA routine signficantly faster in some cases.
+  // values on.   This can make the PCA routine significantly faster in some cases.
   
   FunctionC DesignFuncPCABodyC::DesignHighDim(const SampleC<VectorC> &sample,RealT variation) {
-    // FIXME :- This could be implemented more efficently.
+    // FIXME :- This could be implemented more efficiently.
     
     SampleVectorC sv(sample);
     UIntT N = sample.Size(); // number of training samples
@@ -102,10 +102,11 @@ namespace RavlN {
     }
     
     // Construct L=A^transpose A
+
     MatrixC AT = A.T();
     MatrixC L = AT.AAT();
     L /= N;
-    
+
     // Calculate Eigenvectors.
     VectorMatrixC Leigenvecs  =  EigenVectors(L);
     //cout << "finished computing eigen vecs: " << endl << flush;
@@ -148,7 +149,7 @@ namespace RavlN {
       RealT limit = variation * total;
       while ((runningTotal += temp[numComponents++]) < limit);
     } else {
-      numComponents = UIntT(variation < temp.Size() ? variation: temp.Size());
+      numComponents = UIntT(variation < temp.Size() ? variation : static_cast<RealT>(temp.Size()));
       for (UIntT i = 0; i < numComponents; i++)
 	runningTotal += temp[i];
     }

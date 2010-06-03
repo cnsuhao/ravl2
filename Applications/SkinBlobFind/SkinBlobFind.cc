@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: SkinBlobFind.cc 4636 2004-11-02 08:21:27Z craftit $"
 //! file="Ravl/Applications/SkinBlobFind/SkinBlobFind.cc"
 //! author="Joel Mitchelson"
 //! docentry="Ravl.Applications.Image"

@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Logic.Agent"
-//! rcsid="$Id$"
+//! rcsid="$Id: exAgent.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlLogicAgent
 //! file="Ravl/Logic/Agent/exAgent.cc"
 

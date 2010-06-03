@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////
 //! userlevel=Normal
 //! docentry="Ravl.API.Math.Linear Algebra"
-//! rcsid="$Id$"
+//! rcsid="$Id: TVector.hh 7638 2010-03-02 16:57:45Z alexkostin $"
 //! file="Ravl/Math/LinearAlgebra/General/TVector.hh"
 //! author="Charles Galambos"
 //! date="10/09/1998"
@@ -76,7 +76,7 @@ namespace RavlN {
     {
       const DataT *at = &(dat[0]);
       for(BufferAccessIterC<DataT> it(*this);it;it++,at++)
-	*it = *at;
+        *it = *at;
     }
     //: Create from a fixed size vector.
     
@@ -86,7 +86,7 @@ namespace RavlN {
       TFVectorC<DataT,N> ret;
       DataT *at = &(ret[0]);
       for(BufferAccessIterC<DataT> it(*this);it;it++,at++)
-	*at = *it;
+        *at = *it;
       return ret;
     }
     //: Convert to a fixed size vector.
@@ -113,10 +113,10 @@ namespace RavlN {
     //: This is an alias for MaxMagnitude.
     
     DataT MinValue() const;
-    //: Smalleset value in the array.
+    //: Smallest value in the array.
     
     DataT MinAbsValue() const;
-    //: Smalleset absolute value in the array.
+    //: Smallest absolute value in the array.
     
     const TVectorC<DataT> & Reciprocal();
     //: All elements of the vector are changed to their reciprocal values. 
@@ -162,7 +162,7 @@ namespace RavlN {
     
     const TVectorC<DataT> &MulAdd(const TVectorC<DataT> & i,DataT a);
     //: Multiply i by a and add it to this vector.
-    // Returns a refrence to this vector.
+    // Returns a reference to this vector.
     
     //:-
     // Distance calculations
@@ -197,7 +197,7 @@ namespace RavlN {
 
   template<class DataC>
   ostream &operator<<(ostream & s, const TVectorC<DataC> & arr) {
-    // This uses spaces instread of '\n' which makes vectors more readable.
+    // This uses spaces instead of '\n' which makes vectors more readable.
     // otherwise its no different from the SArray1dC version.
     s << arr.Size() << ' '; 
     for(BufferAccessIterC<DataC> it(arr);it;it++)

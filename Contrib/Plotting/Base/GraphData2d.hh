@@ -8,7 +8,7 @@
 #define RAVLGRAPH_GRAPHDATA2D_HEADER 1
 //! author="Charles Galambos"
 //! docentry="Ravl.Contrib.Plotting"
-//! rcsid="$Id$"
+//! rcsid="$Id: GraphData2d.hh 3074 2003-06-13 07:23:52Z craftit $"
 //! lib=RavlPlot
 //! file="Ravl/Contrib/Plotting/Base/GraphData2d.hh"
 

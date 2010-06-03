@@ -8,7 +8,7 @@
 #define RAVLGUI_DPOINTSET3D_HEADER 1
 ///////////////////////////////////////////////////
 //! docentry="Ravl.API.Graphics.3D"
-//! rcsid="$Id$"
+//! rcsid="$Id: DPointSet3d.hh 6701 2008-04-09 16:07:40Z ees1wc $"
 //! file="Ravl/GUI/3D/DPointSet3D.hh"
 //! lib=RavlGUI3D
 //! author="Joel Mitchelson"

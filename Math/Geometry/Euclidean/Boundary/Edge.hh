@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_EDGE_HEADER
 #define RAVL_EDGE_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: Edge.hh 4777 2005-01-18 14:28:18Z ees1wc $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/Boundary/Edge.hh"
 

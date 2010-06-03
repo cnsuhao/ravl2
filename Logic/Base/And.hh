@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_AND_HEADER
 #define RAVLLOGIC_AND_HEADER 1
 ///////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: And.hh 6480 2007-12-01 15:26:23Z craftit $"
 //! docentry="Ravl.API.Logic.Condition"
 //! author="Charles Galambos"
 //! lib=RavlLogic

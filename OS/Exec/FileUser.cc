@@ -6,7 +6,7 @@
 // file-header-ends-here
 //////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: FileUser.cc 5516 2006-06-04 21:07:30Z craftit $"
 //! lib=RavlOS
 //! file="Ravl/OS/Exec/FileUser.cc"
 

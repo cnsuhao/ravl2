@@ -11,7 +11,7 @@
 //! file="Ravl/Image/Processing/Lines/PCMapping.hh"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: PCMapping.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! date="07/01/1999"
 
 #include "Ravl/Tuple2.hh"

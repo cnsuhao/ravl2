@@ -7,7 +7,7 @@
 #ifndef RAVL_XMLSTREAM_HEADER
 #define RAVL_XMLSTREAM_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: XMLStream.hh 7396 2009-11-27 13:42:22Z alexkostin $"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.XML"
 //! author="Charles Galambos"

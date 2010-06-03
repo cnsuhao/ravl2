@@ -7,7 +7,7 @@
 #ifndef SUBSAMP2INTL_HEADER
 #define SUBSAMP2INTL_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SubSamp2Intl.hh 5412 2006-03-15 11:12:35Z ees1wc $"
 //! file="amma/Image/VidIO/SubSamp2Intl.hh"
 //! lib=RavlImage
 //! docentry="Ravl.API.Images.IO"

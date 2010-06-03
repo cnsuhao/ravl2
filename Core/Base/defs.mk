@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 7563 2010-02-18 16:41:12Z craftit $"
 #! file="Ravl/Core/Base/defs.mk"
 
 DESCRIPTION= RAVL core functionality
@@ -24,7 +24,7 @@ HEADERS=Types.hh config.h Pair.hh Resource.hh \
  RCBodyV.hh RCHandleV.hh IndexRange2dIter.hh IndexRange3dIter.hh fdstreambuf.hh \
  fdstream.hh GenBinStream.hh Traits.hh FPNumber.hh QInt.hh CompilerHints.hh \
  stdio_fdstream.hh AMutex.hh RCLayer.hh SmartLayerPtr.hh CallMethodPtrs.hh CPUID.hh \
- FuncStream.hh VectorUtils.hh Float16.hh RCHandle.hh UnitTest.hh
+ FuncStream.hh VectorUtils.hh Float16.hh RCHandle.hh UnitTest.hh Size.hh
 
 SOURCES=Assert.cc Exception.cc EntryPnt.cc Index.cc String.cc \
  RefCounter.cc HandleRefCounter.cc Trigger.cc Calls.cc \
@@ -35,7 +35,7 @@ SOURCES=Assert.cc Exception.cc EntryPnt.cc Index.cc String.cc \
  RealRange1d.cc RealRange2d.cc RealRange3d.cc \
  RCBodyV.cc URLMapper.cc GenBinStream.cc Resource.cc \
  AMutex.cc RCLayer.cc CPUID.cc FuncStream.cc VectorUtils.cc \
- Float16.cc
+ Float16.cc Size.cc
 
 PLIB=RavlCore
 
@@ -43,7 +43,7 @@ MUSTLINK=atexit.cc
 
 USESLIBS=Math 
 
-TESTEXES= testRavlBase.cc testCalls.cc testString.cc testStream.cc testTFVector.cc testRCLayer.cc
+TESTEXES= testRavlBase.cc testCalls.cc testString.cc testStream.cc testTFVector.cc testRCLayer.cc testVectorUtils.cc
 
 EXAMPLES = exIndex.cc exRefCounter.cc exRefCounterInherit.cc exRefCounterAbstractInherit.cc exQInt.cc exTrigger.cc testRCLayer.cc exCPUID.cc
 

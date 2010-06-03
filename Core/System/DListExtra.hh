@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_DLISTEXTRA_HEADER
 #define RAVL_DLISTEXTRA_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: DListExtra.hh 6537 2008-02-01 15:25:40Z craftit $"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Lists"

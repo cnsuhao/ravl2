@@ -215,8 +215,7 @@ namespace RavlBaseVectorN {
           w2Ptr += 4;
         }        
       }
-    }
-    else {
+    } else {
       while(wPtr != ewPtr) {
         const __m128 val = _mm_loadu_ps(dPtr);
         sum = _mm_add_ps(sum,
@@ -233,12 +232,12 @@ namespace RavlBaseVectorN {
     if(size & 3) {// Odd length ?
       int c = size & 3;
       for(int i = 0; i< c;i++) {
-	const __m128 val = _mm_load_ss(dPtr++);
-	sum = _mm_add_ps(sum,
-			 _mm_mul_ss(val,
-				    _mm_add_ss(_mm_mul_ss(val,
-							  _mm_load_ss(w2Ptr++)),
-					       _mm_load_ss(wPtr++))));
+        const __m128 val = _mm_load_ss(dPtr++);
+        sum = _mm_add_ps(sum,
+                         _mm_mul_ss(val,
+                                    _mm_add_ss(_mm_mul_ss(val,
+                                               _mm_load_ss(w2Ptr++)),
+                                    _mm_load_ss(wPtr++))));
       }
     }
 
@@ -478,59 +477,70 @@ namespace RavlBaseVectorN {
     }
   }
 
-  void SSEConvolveKernelSSE(const float *vk, // Kernel, expected to be aligned.
-                               const float *vi, // Scanned image, probably not aligned.
-                               size_t rows,
-                               size_t cols,
-                               size_t byteStride,
-                               float *result
-                               )
+  void SSEConvolveKernelF(const float *vi, // Scanned image, probably not aligned.
+                          const float *vk, // Kernel, expected to be aligned.
+                          size_t rows,
+                          size_t cols,
+                          int byteStride,
+                          float *result
+                         )
   {
     //std::cerr << "Rows=" << rows << " Cols=" << cols << " vk=" << std::hex << (void*) vk << " vi=" << (void*) vi << " Stride=" << byteStride << std::dec <<"\n";
     __m128 sum = _mm_setzero_ps ();
+    const size_t cols4 = cols >> 2;
 
-    if(Is16ByteAligned(vk)) {
+    if(Is16ByteAligned(vk) && ((cols & 0x3) == 0)) {
       // Kernel is byte aligned.
-      for(size_t i = 0;i < rows;i++) {
+      for(size_t i = rows; i > 0; i--) {
         const float *vir = vi; // Image row.
         if(Is16ByteAligned(vir)) {
-          for(size_t j = 0;j < cols;j+=4) {
+          for(size_t j = cols4; j > 0; j--) {
             sum = _mm_add_ps(sum,_mm_mul_ps(_mm_load_ps(vk),_mm_load_ps(vir)));
             vk += 4;
             vir += 4;
           }
         } else {
-          size_t j = 0;
-          for(;j < cols;j+=4) {
+          for(size_t j = cols4; j > 0; j--) {
             sum = _mm_add_ps(sum,_mm_mul_ps(_mm_load_ps(vk),_mm_loadu_ps(vir)));
             vk += 4;
             vir += 4;
           }
         }
+
         // Add stride bytes.
         vi = reinterpret_cast<const float *>(reinterpret_cast<const char *>(vi) + byteStride);
       }
+
     } else {
       // Kernel is not byte aligned.
-      for(size_t i = 0;i < rows;i++) {
+      float remainder = 0;
+      for(size_t i = rows; i > 0; i--) {
         const float *vir = vi; // Image row.
         if(Is16ByteAligned(vir)) {
-          for(size_t j = 0;j < cols;j+=4) {
+          for(size_t j = cols4; j > 0; j--) {
             sum = _mm_add_ps(sum,_mm_mul_ps(_mm_loadu_ps(vk),_mm_load_ps(vir)));
             vk += 4;
             vir += 4;
           }
         } else {
-          size_t j = 0;
-          for(;j < cols;j+=4) {
+          for(size_t j = cols4; j > 0; j--) {
             sum = _mm_add_ps(sum,_mm_mul_ps(_mm_loadu_ps(vk),_mm_loadu_ps(vir)));
             vk += 4;
             vir += 4;
           }
         }
+
+        //finish the row
+        for(int j = cols & 0x3; j > 0; j--) {
+          remainder += *vk * *vir;
+          vk++;
+          vir++;
+        }
+
         // Add stride bytes.
         vi = reinterpret_cast<const float *>(reinterpret_cast<const char *>(vi) + byteStride);
       }
+      sum = _mm_add_ps(sum,_mm_load_ss(&remainder));
     }
 
     sum = _mm_add_ps(sum,_mm_shuffle_ps(sum,sum, _MM_SHUFFLE(2,3,0,1)));
@@ -539,6 +549,102 @@ namespace RavlBaseVectorN {
     _mm_store_ss(result,sum);
   }
 
+  void SSEConvolveKernelQuadF(const float *vi, // Scanned image, probably not aligned.
+                              const float *vk1, // Kernel, expected to be aligned.
+                              const float *vk2, // Kernel, expected to be aligned.
+                              size_t rows,
+                              size_t cols,
+                              int byteStride,
+                              float *result
+                         )
+  {
+    //std::cerr << "Rows=" << rows << " Cols=" << cols << " vk=" << std::hex << (void*) vk << " vi=" << (void*) vi << " Stride=" << byteStride << std::dec <<"\n";
+    __m128 sum = _mm_setzero_ps ();
+    const size_t cols4 = cols >> 2;
+
+    if(Is16ByteAligned(vk1) && Is16ByteAligned(vk2) && ((cols & 0x3) == 0)) {
+      // Kernels are byte aligned.
+      for(size_t i = rows; i > 0; i--) {
+        const float *vir = vi; // Image row.
+        if(Is16ByteAligned(vir)) {
+          for(size_t j = cols4; j > 0; j--) {
+            const __m128 val = _mm_load_ps(vir);
+            sum = _mm_add_ps(sum,
+                             _mm_mul_ps(val,
+                                        _mm_add_ps(_mm_mul_ps(val,
+                                                              _mm_load_ps(vk2)),
+                                                   _mm_load_ps(vk1))));
+            vk1 += 4;
+            vk2 += 4;
+            vir += 4;
+          }
+        } else {
+          for(size_t j = cols4; j > 0; j--) {
+            const __m128 val = _mm_loadu_ps(vir);
+            sum = _mm_add_ps(sum,
+                             _mm_mul_ps(val,
+                                        _mm_add_ps(_mm_mul_ps(val,
+                                                              _mm_load_ps(vk2)),
+                                                   _mm_load_ps(vk1))));
+            vk1 += 4;
+            vk2 += 4;
+            vir += 4;
+          }
+        }
+
+        // Add stride bytes.
+        vi = reinterpret_cast<const float *>(reinterpret_cast<const char *>(vi) + byteStride);
+      }
+    } else {
+      // Kernel is not byte aligned.
+      float remainder = 0;
+      for(size_t i = rows; i > 0; i--) {
+        const float *vir = vi; // Image row.
+        if(Is16ByteAligned(vir)) {
+          for(size_t j = cols4; j > 0; j--) {
+            const __m128 val = _mm_load_ps(vir);
+            sum = _mm_add_ps(sum,
+                             _mm_mul_ps(val,
+                                        _mm_add_ps(_mm_mul_ps(val,
+                                                              _mm_loadu_ps(vk2)),
+                                                   _mm_loadu_ps(vk1))));
+            vk1 += 4;
+            vk2 += 4;
+            vir += 4;
+          }
+        } else {
+          for(size_t j = cols4; j > 0; j--) {
+            const __m128 val = _mm_loadu_ps(vir);
+            sum = _mm_add_ps(sum,
+                             _mm_mul_ps(val,
+                                        _mm_add_ps(_mm_mul_ps(val,
+                                                              _mm_loadu_ps(vk2)),
+                                                   _mm_loadu_ps(vk1))));
+            vk1 += 4;
+            vk2 += 4;
+            vir += 4;
+          }
+        }
+
+        //finish the row
+        for(int j = cols & 0x3; j > 0; j--) {
+          remainder += *vir * (*vk1 + *vir * *vk2);
+          vk1++;
+          vk2++;
+          vir++;
+        }
+
+        // Add stride bytes.
+        vi = reinterpret_cast<const float *>(reinterpret_cast<const char *>(vi) + byteStride);
+      }
+      sum = _mm_add_ps(sum,_mm_load_ss(&remainder));
+    }
+
+    sum = _mm_add_ps(sum,_mm_shuffle_ps(sum,sum, _MM_SHUFFLE(2,3,0,1)));
+    sum = _mm_add_ps(sum,_mm_shuffle_ps(sum,sum, _MM_SHUFFLE(1,0,3,2)));
+
+    _mm_store_ss(result,sum);
+  }
 
   
   int VectorSSEInit() {
@@ -550,6 +656,8 @@ namespace RavlBaseVectorN {
       g_MatrixMulVectorF = &SSEMatrixMulVectorF;
       g_MatrixMulVectorD = &SSEMatrixMulVectorD;
       g_Real2ByteD = &SSEReal2ByteD;
+      g_ConvolveKernelF = &SSEConvolveKernelF;
+      g_ConvolveKernelQuadF = &SSEConvolveKernelQuadF;
       //cerr<<"SSE:yes\n";
     } else {
       //cerr<<"SSE:no\n";

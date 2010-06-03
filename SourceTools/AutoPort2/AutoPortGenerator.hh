@@ -8,7 +8,7 @@
 #define RAVL_AUTOPORTGENERATOR_HEADER 1
 ///////////////////////////////////////////////////////
 //! docentry="Ravl.API.Source Tools.AutoPort"
-//! rcsid="$Id$"
+//! rcsid="$Id: AutoPortGenerator.hh 5509 2006-06-01 15:30:48Z craftit $"
 //! file="Ravl/SourceTools/VisualCPP/AutoPortGenerator.hh"
 //! lib=RavlAutoPort2
 

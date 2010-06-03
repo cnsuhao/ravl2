@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DObject3D.cc 6616 2008-02-23 15:57:59Z craftit $"
 //! lib=RavlGUI3D
 //! file="Ravl/GUI/3D/DObject3D.cc"
 

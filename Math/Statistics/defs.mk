@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 5240 2005-12-06 17:16:50Z plugger $"
 #! file="Ravl/Math/Statistics/defs.mk"
 
 NESTED = MeanCovariance.r Histogram.r

@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_DATASETVECTORLABELWEIGHT_HEADER
 #define RAVL_DATASETVECTORLABELWEIGHT_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: DataSetVectorLabelWeight.hh 5410 2006-03-12 21:37:43Z craftit $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/DataSetVectorLabelWeight.hh"
 //! docentry="Ravl.API.Pattern Recognition.Data Set"

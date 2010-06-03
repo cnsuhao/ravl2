@@ -11,7 +11,7 @@
 //! docentry="Ravl.API.Audio.IO.Audio File"
 //! example=exAudioIO.cc
 //! lib=RavlAudioFile
-//! rcsid="$Id$"
+//! rcsid="$Id: AudioFileFormat.hh 7282 2009-09-22 15:16:24Z robowaz $"
 //! file="Ravl/Contrib/Audio/AudioFile/AudioFileFormat.hh"
 
 #include "Ravl/DP/FileFormat.hh"

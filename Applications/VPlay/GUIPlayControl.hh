@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_PLAYCONTROL_HEADER
 #define RAVLGUI_PLAYCONTROL_HEADER 1
 //////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: GUIPlayControl.hh 7721 2010-05-04 12:37:34Z robowaz $"
 //! file="Ravl/Applications/VPlay/GUIPlayControl.hh"
 //! author="Charles Galambos"
 //! date="23/03/1999"
@@ -26,6 +26,23 @@
 
 namespace RavlGUIN {
   
+  //! userlevel = Develop
+  //: Play button control values.
+  
+  enum PlayControlButtonT
+  {
+    PCB_Rewind = 0, // Jump to the beginning.
+    PCB_End, // Jump to the end.
+    PCB_Backx2, // Play backwards at a faster rate.
+    PCB_Back, // Play backwards.
+    PCB_JumpBack, // Jump one frame backwards.
+    PCB_Stop, // Stop.
+    PCB_JumpForward, // Jump one frame forwards.
+    PCB_Play, // Play forwards.
+    PCB_Playx2, // Play forwards at a faster rate.
+    PCB_Slider // Slider.
+  };
+
   class PlayControlC;
 
   ////////////////////////////
@@ -120,7 +137,7 @@ namespace RavlGUIN {
     // Note this is NOT called every frame, only about 5 to 10 times
     // a second.
 
-    Signal1C<bool> & SigInteractive()
+    Signal2C<bool, PlayControlButtonT> & SigInteractive()
     { return m_sigInteractive; }
     //: Access to the interactive signal
     // this signal is set true whenever the user interactively uses the play control
@@ -174,7 +191,7 @@ namespace RavlGUIN {
     IntT textBoxSelected;
     
     Signal1C<IntT> sigUpdateFrameNo; // Signal frame number update.
-    Signal1C<bool> m_sigInteractive; // Signal that the GUI is being used interactively
+    Signal2C<bool, PlayControlButtonT> m_sigInteractive; // Signal that the GUI is being used interactively
     bool simpleControls;
     bool extendedControls;
     friend class PlayControlC;
@@ -293,7 +310,7 @@ namespace RavlGUIN {
     // Note this is NOT called every frame, only about 5 to 10 times
     // a second.
 
-    Signal1C<bool> & SigInteractive()
+    Signal2C<bool, PlayControlButtonT> & SigInteractive()
     { return Body().SigInteractive(); }
     //: Access to the interactive signal
     // this signal is set true whenever the user interactively uses the play control

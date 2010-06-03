@@ -325,7 +325,7 @@ LINKTESTLIBS := $(EXELIB)
 # Restore EXELIB to be library libs
 EXELIB := $(LIBLIBS)
 
-.PRECIOUS : %$(CXXEXT) %$(CHXXEXT) %$(CEXT) %$(CHEXT) %.tcc %.icc %.def %.tab.cc %.yy.cc %_wrap.cc
+.PRECIOUS : %$(CXXEXT) %$(CHXXEXT) %$(CEXT) %$(CHEXT) %.tcc %.icc %.def %.tab.cc %.yy.cc %_$(ARC)_wrap.cc %.m %.mm
 
 ############################
 # Misc setup
@@ -396,10 +396,12 @@ ifeq ($(SUPPORT_OK),yes)
  TARG_BASEOBJS=$(patsubst %$(CEXT),$(INST_OBJS)/%$(OBJEXT), \
     $(patsubst %.S,$(INST_OBJS)/%$(OBJEXT), \
     $(patsubst %.cu,$(INST_OBJS)/%$(OBJEXT), \
+    $(patsubst %.m,$(INST_OBJS)/%$(OBJEXT), \
+    $(patsubst %.mm,$(INST_OBJS)/%$(OBJEXT), \
     $(patsubst %.y,$(INST_OBJS)/%.tab$(OBJEXT), \
     $(patsubst %.l,$(INST_OBJS)/%.yy$(OBJEXT), \
-    $(patsubst %.i,$(INST_OBJS)/%_wrap$(OBJEXT), \
-    $(patsubst %$(CXXEXT),$(INST_OBJS)/%$(OBJEXT),$(SOURCES))))))))
+    $(patsubst %.i,$(INST_OBJS)/%_$(ARC)_wrap$(OBJEXT), \
+    $(patsubst %$(CXXEXT),$(INST_OBJS)/%$(OBJEXT),$(SOURCES))))))))))
  TARG_OBJS=$(patsubst %$(CXXAUXEXT),$(INST_OBJS)/%$(OBJEXT),$(TARG_BASEOBJS))
  TARG_HDRS:=$(patsubst %,$(INST_HEADER)/%,$(HEADERS))
 ifdef USE_INCLUDE_SYMINC
@@ -415,43 +417,51 @@ endif
  endif
 #$(INST_DEPEND)/%.java.d
  TARG_DEFS=$(patsubst %,$(INST_LIBDEF)/%,$(LIBDEPS))
- TARG_EXE := $(patsubst %$(CEXT),$(INST_BIN)/%$(EXEEXT), $(patsubst %$(CXXEXT),$(INST_BIN)/%$(EXEEXT),$(filter-out %.java,$(MAINS))))
- TARG_PUREEXE := $(patsubst %$(CEXT),$(INST_BIN)/pure_%$(EXEEXT), $(patsubst %$(CXXEXT),$(INST_BIN)/pure_%$(EXEEXT),$(filter-out %.java,$(MAINS))))
+ TARG_EXE := $(patsubst %$(CEXT),$(INST_BIN)/%$(EXEEXT), $(patsubst %$(CXXEXT),$(INST_BIN)/%$(EXEEXT),$(patsubst %.mm,$(INST_BIN)/%$(EXEEXT),$(filter-out %.java,$(MAINS)))))
+ TARG_PUREEXE := $(patsubst %$(CEXT),$(INST_BIN)/pure_%$(EXEEXT), $(patsubst %$(CXXEXT),$(INST_BIN)/pure_%$(EXEEXT),$(patsubst %.mm,$(INST_BIN)/pure_%$(EXEEXT),$(filter-out %.java,$(MAINS)))))
  TARG_EXEOBJS=$(patsubst %$(CEXT),$(INST_OBJS)/%$(OBJEXT),$(patsubst %$(CXXEXT),$(INST_OBJS)/%$(OBJEXT),$(filter-out %.java,$(MAINS))))
  TARG_TESTEXE := $(patsubst %$(CEXT),$(INST_TESTBIN)/%$(EXEEXT), $(patsubst %$(CXXEXT),$(INST_TESTBIN)/%$(EXEEXT),$(TESTEXES)))
  TARG_TESTEXEOBJS=$(patsubst %$(CEXT),$(INST_OBJS)/%$(OBJEXT),$(patsubst %$(CXXEXT),$(INST_OBJS)/%$(OBJEXT),$(TESTEXES)))
 ifndef NOEXEBUILD
  TARG_DEPEND:= $(patsubst %$(CXXAUXEXT),$(INST_DEPEND)/%.d, \
 	       $(patsubst %$(CEXT),$(INST_DEPEND)/%.d, \
+	       $(patsubst %.m,$(INST_DEPEND)/%.d, \
+	       $(patsubst %.mm,$(INST_DEPEND)/%.d, \
 	       $(patsubst %.cu,$(INST_DEPEND)/%.d, \
 	       $(patsubst %.S,$(INST_DEPEND)/%.S.d, \
 	       $(patsubst %.y,$(INST_DEPEND)/%.tab.d, \
 	       $(patsubst %.l,$(INST_DEPEND)/%.yy.d, \
-	       $(patsubst %.i,$(INST_DEPEND)/%_wrap.d, \
+	       $(patsubst %.i,$(INST_DEPEND)/%_$(ARC)_wrap.d, \
                $(patsubst %$(CXXEXT),$(INST_DEPEND)/%.d, \
-	       $(patsubst %.java,,$(SOURCES) $(MUSTLINK)))))))))) \
+	       $(patsubst %.java,,$(SOURCES) $(MUSTLINK)))))))))))) \
                $(patsubst %$(CEXT),$(INST_DEPEND)/%.d, \
                $(patsubst %$(CXXEXT),$(INST_DEPEND)/%.d, \
-	       $(patsubst %.java,$(INST_DEPEND)/%.java.d,$(MAINS) $(TESTEXES)))) \
+               $(patsubst %.m,$(INST_DEPEND)/%.d, \
+               $(patsubst %.mm,$(INST_DEPEND)/%.d, \
+	       $(patsubst %.java,$(INST_DEPEND)/%.java.d,$(MAINS) $(TESTEXES)))))) \
                $(patsubst %$(CEXT),$(INST_DEPEND)/%.$(VAR).bin.d,  \
                $(patsubst %$(CXXEXT),$(INST_DEPEND)/%.$(VAR).bin.d, \
-               $(filter-out %.java,$(MAINS)))) $(INST_DEPEND)/.dir
+               $(patsubst %.m,$(INST_DEPEND)/%.$(VAR).bin.d,  \
+               $(patsubst %$.mm,$(INST_DEPEND)/%.$(VAR).bin.d, \
+               $(filter-out %.java,$(MAINS)))))) $(INST_DEPEND)/.dir
 else
  TARG_DEPEND:= $(patsubst %$(CXXAUXEXT),$(INST_DEPEND)/%.d, \
 	       $(patsubst %$(CEXT),$(INST_DEPEND)/%.d, \
+	       $(patsubst %.mm,$(INST_DEPEND)/%.d, \
+	       $(patsubst %.m,$(INST_DEPEND)/%.d, \
 	       $(patsubst %.cu,$(INST_DEPEND)/%.d, \
 	       $(patsubst %.S,$(INST_DEPEND)/%.S.d, \
 	       $(patsubst %.y,$(INST_DEPEND)/%.tab.d, \
-	       $(patsubst %.i,$(INST_DEPEND)/%_wrap.d, \
+	       $(patsubst %.i,$(INST_DEPEND)/%_$(ARC)_wrap.d, \
 	       $(patsubst %.l,$(INST_DEPEND)/%.yy.d, \
                $(patsubst %$(CXXEXT),$(INST_DEPEND)/%.d, \
-	       $(patsubst %.java,,$(SOURCES) $(MUSTLINK)))))))))) $(INST_DEPEND)/.dir
+	       $(patsubst %.java,,$(SOURCES) $(MUSTLINK)))))))))))) $(INST_DEPEND)/.dir
 endif
  TARG_JAVA    =$(patsubst %.java,$(INST_JAVA)/%.class,$(JAVA_SRC))
  TARG_JAVAEXE =$(patsubst %.java,$(INST_JAVAEXE)/%,$(filter %.java,$(MAINS)))
  TARG_NESTED =$(patsubst %.r,%,$(filter %.r,$(NESTED)))
  TARG_SCRIPT =$(patsubst %,$(INST_GENBIN)/%,$(SCRIPTS))
- OBJS_DEPEND = $(patsubst %$(CEXT),$$(INST_OBJS)/%$(OBJEXT),$(patsubst %$(CXXEXT),$$(INST_OBJS)/%$(OBJEXT) ,$(SOURCES) $(MUSTLINK)))
+ OBJS_DEPEND = $(patsubst %$(CEXT),$$(INST_OBJS)/%$(OBJEXT),$(patsubst %$(CXXEXT),$$(INST_OBJS)/%$(OBJEXT) ,$(patsubst %.mm,$$(INST_OBJS)/%$(OBJEXT) ,$(SOURCES) $(MUSTLINK))))
  TARG_AUXFILES = $(patsubst %,$(INST_AUX)/%,$(AUXFILES))
  TARG_EXTERNALLIBS= $(patsubst %,$(INST_LIBDEF)/%,$(EXTERNALLIBS))
 
@@ -464,7 +474,15 @@ endif
  endif
 
  ifneq (,$(PLIB))
-  TARG_LIBS=$(strip $(patsubst %,$(INST_LIB)/lib%$(LIBEXT),$(PLIB)))#
+  ifdef SHAREDBUILD
+   ifneq (,$(SINGLESO))
+    TARG_LIBS=$(strip $(patsubst %,$(INST_LIB)/%$(LIBEXT),$(SINGLESO)))#
+   else
+    TARG_LIBS=$(strip $(patsubst %,$(INST_LIB)/lib%$(LIBEXT),$(PLIB)))#
+   endif
+  else
+   TARG_LIBS=$(strip $(patsubst %,$(INST_LIB)/lib%$(LIBEXT),$(PLIB)))#
+  endif
  else
   TARG_LIBS=
  endif
@@ -589,7 +607,7 @@ cheadbuild: build_subdirs $(TARG_HDRCERTS)
 else
 chead:
 	echo "ERROR: chead must be used with FULLCHECKING!" ; \
-	false
+	exit 1;
 endif
 
 ###############################
@@ -792,7 +810,7 @@ $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CXXAUXEXT) $(INST_OBJS)/.dir $(I
 	if $(CXX) -c $(CCPPFLAGS) $(CCFLAGS) $(INCLUDES) $(AMKDEPFLAGS) -o $(INST_OBJS)/$*$(OBJEXT) $< ; then \
 	  $(MKDEPUP) ; \
 	else \
-	  false ; \
+	  exit 1 ; \
 	fi ; \
 
 $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CXXEXT) $(INST_OBJS)/.dir $(INST_DEPEND)/.dir
@@ -803,7 +821,7 @@ $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CXXEXT) $(INST_OBJS)/.dir $(INST
 	if $(CXX) -c $(CCPPFLAGS) $(CCFLAGS) $(INCLUDES) $(AMKDEPFLAGS) -o $(INST_OBJS)/$*$(OBJEXT) $< ;  then \
 	  $(MKDEPUP) ; \
 	else \
-	  false ; \
+	  exit 1 ; \
 	fi
 
 $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CEXT) $(INST_OBJS)/.dir $(INST_DEPEND)/.dir
@@ -814,7 +832,29 @@ $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CEXT) $(INST_OBJS)/.dir $(INST_D
 	if $(CC) -c $(CPPFLAGS) $(CFLAGS) $(CINCLUDES)  $(AMKDEPFLAGS) -o $(INST_OBJS)/$*$(OBJEXT) $< ; then \
 	  $(MKDEPUP) ; \
 	else \
-	  false ; \
+	  exit 1 ; \
+	fi
+
+$(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %.mm $(INST_OBJS)/.dir $(INST_DEPEND)/.dir
+	$(SHOWIT)echo "--- Compile $(VAR_DISPLAY_NAME) $<" ; \
+	if [ -f $(WORKTMP)/$*.d ] ; then \
+	  rm $(WORKTMP)/$*.d ; \
+	fi ; \
+	if $(CXX) -c $(CCPPFLAGS) $(CCFLAGS) $(INCLUDES) $(AMKDEPFLAGS) -o $(INST_OBJS)/$*$(OBJEXT) $< ;  then \
+	  $(MKDEPUP) ; \
+	else \
+	  exit 1 ; \
+	fi
+
+$(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %.m $(INST_OBJS)/.dir $(INST_DEPEND)/.dir
+	$(SHOWIT)echo "--- Compile $(VAR_DISPLAY_NAME) $< "; \
+	if [ -f $(WORKTMP)/$*.d ] ; then \
+	  rm $(WORKTMP)/$*.d ; \
+	fi ; \
+	if $(CC) -c $(CPPFLAGS) $(CFLAGS) $(CINCLUDES)  $(AMKDEPFLAGS) -o $(INST_OBJS)/$*$(OBJEXT) $< ; then \
+	  $(MKDEPUP) ; \
+	else \
+	  exit 1 ; \
 	fi
 
 $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %.cu $(INST_OBJS)/.dir $(INST_DEPEND)/.dir
@@ -828,10 +868,10 @@ $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %.cu $(INST_OBJS)/.dir $(INST_DEPEN
 	  if $(NVCC) -M $(CPPFLAGS) $(NVCCFLAGS) $(CINCLUDES) -o $(WORKTMP)/$*.d $< ; then \
 	    $(MKDEPUP) ; \
 	  else \
-	    false ; \
+	    exit 1 ; \
 	  fi ; \
 	else \
-	  false ; \
+	  exit 1 ; \
 	fi
 
 
@@ -874,11 +914,11 @@ ifeq ($(SUPPORT_OK),yes)
 endif
 endif
 
-%_wrap$(CXXEXT) %.py : %.i *.i
+%_$(ARC)_wrap$(CXXEXT) %.py : %.i *.i
 ifndef SWIG_DO_NOT_GENERATE
 ifeq ($(SUPPORT_OK),yes)
 	$(SHOWIT)echo "--- swig" $< ; \
-	$(SWIG) -c++ $(SWIGOPTS) $(INCLUDES) -o $*_wrap$(CXXEXT) $<
+	$(SWIG) -c++ $(SWIGOPTS) -D$(ARC) $(INCLUDES) -o $*_$(ARC)_wrap$(CXXEXT) $<
 endif
 endif
 
@@ -955,7 +995,7 @@ DIRECTORYID=$(QCWD)#
 # DIRECTORYID is used to keep a track of where an object file has come from so if the file is removed or
 # renamed it can be taken out of the list. 
 
-$(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
+$(INST_LIB)/lib$(PLIB)$(LIBEXT) : $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
 	$(SHOWIT)echo "--- Building " $(@F) ; \
 	echo "$(patsubst %$(OBJEXT),%$(OBJEXT):$(DIRECTORYID)@,$(TARG_OBJS))" | $(TR) '@' '\n' > $(INST_OBJS)/libObjs.new ; \
 	if [ -f $(INST_OBJS)/libObjs.txt ] ; then \
@@ -963,9 +1003,18 @@ $(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB
 	fi ; \
 	sort -b -u $(INST_OBJS)/libObjs.new -t : -k 1,1 -o $(INST_OBJS)/libObjs.txt ; \
 	rm $(INST_OBJS)/libObjs.new ; \
-        echo "---- Building library $(INST_LIB)/$(@F) " ; \
+        echo "---- Building shared library $(INST_LIB)/$(@F) " ; \
 	awk -F: '{ print $$1 }' $(INST_OBJS)/libObjs.txt | $(XARGS) $(CXX) $(LDLIBFLAGS) $(filter-out -l$(PLIB),$(LIBSONLY)) -o $(INST_LIB)/$(@F) && \
 	$(UNTOUCH) $(INST_LIB)/$(@F) $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) ; 
+
+$(INST_LIB)/$(SINGLESO)$(LIBEXT) : $(INST_LIB)/lib$(PLIB)$(LIBEXT)
+	$(SHOWIT)echo "--- Building " $(@F) ; \
+	echo "$(patsubst %,$(LOCALTMP)/$(ARC)/%/$(VAR)/shared/objs/libObjs.txt,$(PLIB) $(PLIBDEPENDS))" | xargs cat > $(INST_OBJS)/libSharedObjs.new ; \
+	sort -b -u $(INST_OBJS)/libSharedObjs.new -t : -k 1,1 | awk -F: '{ print $$1 }' | $(TR) '\n' ' ' > $(INST_OBJS)/libSharedObjs.txt; \
+	rm $(INST_OBJS)/libSharedObjs.new ; \
+  echo "---- Building single shared library $(INST_LIB)/$(@F) " ; \
+	$(CXX) $(LDLIBFLAGS) @$(INST_OBJS)/libSharedObjs.txt $(filter-out $(patsubst %,-l%,$(PLIB) $(PLIBDEPENDS)),$(LIBSONLY)) -o $(INST_LIB)/$(@F) && \
+	$(UNTOUCH) $(INST_LIB)/$(@F) $(INST_LIB)/lib$(PLIB)$(LIBEXT) ;
 
 endif
 
@@ -1174,6 +1223,7 @@ $(INST_LIBDEF)/$(LOCAL_DEFBASE).def: defs.mk $(INST_LIBDEF)/.dir $(HEADERS) $(SO
    endif
   endif
  endif
+	$(SHOWIT)echo 'PLIBDEPENDS += $(PLIB)' >> $(INST_LIBDEF)/$(@F) ;
  ifdef PLIB
   ifndef LIBDEPS
 	$(SHOWIT)echo 'EXELIB := -l$(PLIB) $$(EXELIB)' >> $(INST_LIBDEF)/$(@F) ;
