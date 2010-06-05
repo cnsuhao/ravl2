@@ -81,7 +81,9 @@ namespace RavlN {
     // if the stride of the slice is not 1, and alwaysCopy is true the
     // a copy is done.
     
-    explicit Array1dC(SizeT dim);
+    explicit Array1dC(const SizeT &dim)
+      : buff(SingleBufferC<DataT>(dim))
+    { Attach(buff,IndexRangeC(dim)); }
     //: An array with the range <0, 'dim'-1>.
     
     Array1dC(IndexC min,IndexC max);
@@ -89,7 +91,16 @@ namespace RavlN {
     
     Array1dC(IntT min,IntT max);
     //: An array with the range <min,max>.
-    
+
+    Array1dC(SizeC min,SizeC max) {
+      if(min > max)
+        return ; // Create a zero length array.
+      IndexRangeC newRange(min,max);
+      buff = SingleBufferC<DataT>(newRange.Size());
+      Attach(buff,newRange);
+    }
+    //: From a SizeC range.
+
     explicit Array1dC(const IndexRangeC & range);
     //: An array with the range <'range'.Min(), 'range'.Max()>.
         
@@ -403,12 +414,6 @@ namespace RavlN {
     buff=vv.buff;
     return *this;
   }
-  
-  template <class DataT>
-  Array1dC<DataT>::Array1dC(const SizeT dim)
-    : buff(SingleBufferC<DataT>(dim))
-  { Attach(buff,dim); }
-
   
   template <class DataT>
   Array1dC<DataT>::Array1dC(IntT min,IntT max) {

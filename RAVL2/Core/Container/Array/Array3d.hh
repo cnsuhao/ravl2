@@ -47,9 +47,9 @@ namespace RavlN {
     {}
     //: Creates an empty 3D array.
     
-    Array3dC(SizeT dim1, SizeT dim2, SizeT dim3)
+    Array3dC(const SizeT &dim1,const SizeT &dim2, const SizeT &dim3)
       : m_data(dim1,dim2,dim3)
-    { Attach(m_data,dim1,dim2,dim3); }
+    { Attach(m_data,IndexRangeC(dim1),IndexRangeC(dim2),IndexRangeC(dim3)); }
     //: Creates 3D array with the range < <0,dim1-1>, <0,dim2-1>, <0,dim3-1> >
     
     Array3dC(IntT minI,IntT maxI,IntT minJ,IntT maxJ,IntT minK,IntT maxK);

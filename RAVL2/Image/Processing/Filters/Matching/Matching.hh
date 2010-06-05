@@ -31,8 +31,7 @@ namespace RavlImageN {
     srect += origin;
     RavlAssert(img.Frame().Contains(srect)); 
     RangeBufferAccess2dC<ByteT> subImg(img,srect); 
-    for(BufferAccess2dIter2C<DataT,DataT> it(imgTemplate,imgTemplate.Range2(),
-					     subImg,subImg.Range2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(imgTemplate,subImg);it;it++)
       diff += Abs((SumT) it.Data1() - (SumT) it.Data2());
     return diff;
   }

@@ -153,9 +153,9 @@ namespace RavlBaseVectorN {
   {
     register float ret = 0;
     const float *vi = matrix;
-    const float *vir = matrix;
     const float *vk = kernel;
     for(size_t i = 0;i < rows;i++) {
+      const float *vir = vi;
       for(size_t j = 0;j < cols;j++)
         ret += *(vk++) * vir[j];
       vi = ShiftPointerInBytes(vi,matrixByteStride);
@@ -196,7 +196,7 @@ namespace RavlBaseVectorN {
   void (*g_MatrixTMulVectorD)(const double *,const double *,unsigned int ,unsigned int ,int ,double *) = &MatrixTMulVectorD;
   void (*g_MatrixTMulVectorF)(const float *,const float *,unsigned int ,unsigned int ,int ,float *) = &MatrixTMulVectorF;
 
-  void (*g_ConvolveKernelF)(const float *matrix,const float *kernel,size_t rows,size_t cols,unsigned int matrixByteStride,float *result) = &ConvolveKernelF;
+  void (*g_ConvolveKernelF)(const float *matrix,const float *kernel,size_t rows,size_t cols,int matrixByteStride,float *result) = &ConvolveKernelF;
   void (*g_ConvolveKernelQuadF)(const float *matrix,const float *kernel1,const float *kernel2,size_t rows,size_t cols,int matrixByteStride,float *result) = &ConvolveKernelQuadF;
 
 }

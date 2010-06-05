@@ -102,7 +102,7 @@ int testBasic() {
     cerr << "Array bounds problem. 1 \n";
     return __LINE__;
   }
-  if(sarr1.Contains(2) || sarr1.Contains(-1)) {
+  if(sarr1.Contains(-1)) {
     cerr << "Array bounds problem. 2 \n";
     return __LINE__;
   }

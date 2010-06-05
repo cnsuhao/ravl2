@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Libra166ry
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -163,7 +163,9 @@ namespace RavlImageN {
       return false;
     }
     // Check input image.
-    if(head.Stride() != ((IntT) rect.Cols()) || head.Rectangle().Origin() != rect.Origin()){
+    if(head.ByteStride() != ((IntT) rect.Cols() * sizeof(ByteRGBValueC)) || 
+      head.Rectangle().Origin() != rect.Origin())
+    {
       head = ImageC<ByteRGBValueC>(rect);
     }
 

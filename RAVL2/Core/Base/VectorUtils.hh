@@ -21,7 +21,7 @@ namespace RavlBaseVectorN {
   extern void (*g_MatrixTMulVectorD)(const double *matrix,const double *vector,unsigned int rows,unsigned int cols,int byteStride,double *result);
   extern void (*g_MatrixTMulVectorF)(const float *matrix,const float *vector,unsigned int rows,unsigned int cols,int byteStride,float *result);
   
-  extern void (*g_ConvolveKernelF)(const float *matrix,const float *kernel,size_t rows,size_t cols,unsigned int matrixByteStride,float *result);
+  extern void (*g_ConvolveKernelF)(const float *matrix,const float *kernel,size_t rows,size_t cols,int matrixByteStride,float *result);
   extern void (*g_ConvolveKernelQuadF)(const float *matrix,const float *kernel1,const float *kernel2,size_t rows,size_t cols,int matrixByteStride,float *result);
 
   inline double DotProduct(const double* v1, const double* v2, size_t size) 

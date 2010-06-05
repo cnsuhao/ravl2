@@ -152,8 +152,8 @@ int TestMatMulVec() {
               int rows = n-i;
               int cols = m-j;
               RavlAssert(rows > 0 && cols > 0);
-              RefMatrixMulVector(&(mat[i][j]),&vec[k],rows,cols,mat.Stride(),&refResult[q]);
-              RavlBaseVectorN::MatrixMulVector(&(mat[i][j]),&vec[k],rows,cols,mat.Stride(),&testResult[q]);
+              RefMatrixMulVector(&(mat[i][j]),&vec[k],rows,cols,mat.ByteStride(),&refResult[q]);
+              RavlBaseVectorN::MatrixMulVector(&(mat[i][j]),&vec[k],rows,cols,mat.ByteStride(),&testResult[q]);
               DataT sum = 0;
               for(int r = 0;r < rows;r++)
                 sum += RavlN::Abs(testResult[q+r] - refResult[q+r]);

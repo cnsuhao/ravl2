@@ -188,7 +188,7 @@ int TestSingleBuffer() {
   }
   for(int i = 0;i < 100;i++) {
     SingleBufferC<SizeT> buff(i+1,16);
-    if((((SizeT)((void *) buff.ReferenceElm())) & 0xf) != 0)
+    if((((size_t)((void *) buff.ReferenceElm())) & 0xf) != 0)
       return __LINE__;
     //cerr << "AMem=" << ((void *) buff.ReferenceElm()) << "\n";
   }
@@ -231,7 +231,7 @@ int TestSingleBuffer2d() {
       if(buff.Size2() != j)
         return __LINE__;
 
-      if((((SizeT)((void *) buff.ReferenceElm())) & 0xf) != 0)
+      if((((size_t)((void *) buff.ReferenceElm())) & 0xf) != 0)
         return __LINE__;
       if((buff.ByteStride() & 0xf) != 0)
         return __LINE__;

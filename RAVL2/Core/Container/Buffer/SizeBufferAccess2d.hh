@@ -136,7 +136,7 @@ namespace RavlN {
     DataT *RowPtr(IndexC i) {
 #if RAVL_CHECK
       if (((UIntT) i.V()) >= m_size1)
-	IssueError(__FILE__,__LINE__,"Row index %u out of index range 0-%u  ",i.V(),m_size1-1);
+	IssueError(__FILE__,__LINE__,"Row index %d out of index range 0-%zu  ",i.V(),static_cast<size_t>(m_size1-1));
 #endif
       return reinterpret_cast<DataT *>(reinterpret_cast<char *>(this->m_buff) + m_stride * i.V());
     }
@@ -147,7 +147,7 @@ namespace RavlN {
     const DataT *RowPtr(IndexC i) const {
 #if RAVL_CHECK
       if (((UIntT) i.V()) >= m_size1)
-	IssueError(__FILE__,__LINE__,"Row index  %u out of index range 0-%u  ",i.V(),m_size1-1);
+	IssueError(__FILE__,__LINE__,"Row index  %d out of index range 0-%zu  ",i.V(),static_cast<size_t>(m_size1-1));
 #endif
       return reinterpret_cast<const DataT *>(reinterpret_cast<const char *>(this->m_buff) + m_stride * i.V());
     }
@@ -159,7 +159,7 @@ namespace RavlN {
     inline DataT & operator[](const Index2dC & i) { 
 #if RAVL_CHECK
       if (((UIntT) i.Col().V()) >= m_size2)
-	IssueError(__FILE__,__LINE__,"Column index %u out of index range 0-%u  ",i.Col().V(),m_size2-1);
+	IssueError(__FILE__,__LINE__,"Column index %d out of index range 0-%zu  ",i.Col().V(),static_cast<size_t>(m_size2-1));
 #endif
       return RowPtr(i.Row())[i.Col().V()];
     }
@@ -168,7 +168,7 @@ namespace RavlN {
     inline const DataT & operator[](const Index2dC & i) const { 
 #if RAVL_CHECK
       if (((UIntT) i.Col().V()) >= m_size2)
-	IssueError(__FILE__,__LINE__,"Column index %u out of index range 0-%u  ",i.Col().V(),m_size2-1);
+	IssueError(__FILE__,__LINE__,"Column index %d out of index range 0-%zu  ",i.Col().V(),static_cast<size_t>(m_size2-1));
 #endif
       return RowPtr(i.Row())[i.Col().V()];
     }

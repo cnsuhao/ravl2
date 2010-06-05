@@ -125,7 +125,7 @@ namespace RavlN {
     // NOTE: This does not range check, the returned element
     // may not be valid.
 
-    inline const DataT *PointerTo(IndexC i,IndexC j,IndexC k) const
+    inline const DataT *PointerTo(const IndexC &i,const IndexC &j,const IndexC &k) const
     { return reinterpret_cast<const DataT *>(reinterpret_cast<const char *>(this->ReferenceVoid()) + i.V() * m_stride1 + j.V() * m_stride2) + k.V(); }
     //: Compute an elements position.
     // NOTE: This does not range check, the returned element
@@ -169,8 +169,27 @@ namespace RavlN {
     }
     //: access to the item array[(i)]
 
+    inline RangeBufferAccess2dC<DataT> operator[](int i) {
+#if RAVL_CHECK
+      if(!m_range1.Contains(i))
+	IssueError(__FILE__,__LINE__,"I index %d out of index range %d to %d  ",i,m_range1.Min().V(),m_range1.Max().V());
+#endif
+      DataT *start = reinterpret_cast<DataT *>(reinterpret_cast<char *>(this->ReferenceVoid()) + i * m_stride1);
+      return RangeBufferAccess2dC<DataT>(start,m_range2,m_range3,m_stride2);
+    }
+    //: access to the item array[(i)]
 
-    inline RangeBufferAccess2dC<DataT> operator[](IndexC i) {
+    inline const RangeBufferAccess2dC<const DataT> operator[](int i) const {
+#if RAVL_CHECK
+      if(!m_range1.Contains(i))
+	IssueError(__FILE__,__LINE__,"I index %d out of index range %d to %d  ",i,m_range1.Min().V(),m_range1.Max().V());
+#endif
+      const DataT *start = reinterpret_cast<const DataT *>(reinterpret_cast<const char *>(this->ReferenceVoid()) + i * m_stride1);
+      return RangeBufferAccess2dC<const DataT>(start,m_range2,m_range3,m_stride2);
+    }
+    //: return the item array[(i)]
+
+    inline RangeBufferAccess2dC<DataT> operator[](const IndexC &i) {
 #if RAVL_CHECK
       if(!m_range1.Contains(i))
 	IssueError(__FILE__,__LINE__,"I index %d out of index range %d to %d  ",i.V(),m_range1.Min().V(),m_range1.Max().V());
@@ -180,10 +199,30 @@ namespace RavlN {
     }
     //: access to the item array[(i)]
     
-    inline const RangeBufferAccess2dC<const DataT> operator[](IndexC i) const {
+    inline const RangeBufferAccess2dC<const DataT> operator[](const IndexC &i) const {
 #if RAVL_CHECK
       if(!m_range1.Contains(i))
 	IssueError(__FILE__,__LINE__,"I index %d out of index range %d to %d  ",i.V(),m_range1.Min().V(),m_range1.Max().V());
+#endif
+      const DataT *start = reinterpret_cast<const DataT *>(reinterpret_cast<const char *>(this->ReferenceVoid()) + i.V() * m_stride1);
+      return RangeBufferAccess2dC<const DataT>(start,m_range2,m_range3,m_stride2);
+    }
+    //: return the item array[(i)]
+
+    inline RangeBufferAccess2dC<DataT> operator[](const SizeC &i) {
+#if RAVL_CHECK
+      if(!m_range1.Contains(i))
+	IssueError(__FILE__,__LINE__,"I index %zu out of index range %d to %d  ",static_cast<size_t>(i),m_range1.Min().V(),m_range1.Max().V());
+#endif
+      DataT *start = reinterpret_cast<DataT *>(reinterpret_cast<char *>(this->ReferenceVoid()) + i.V() * m_stride1);
+      return RangeBufferAccess2dC<DataT>(start,m_range2,m_range3,m_stride2);
+    }
+    //: access to the item array[(i)]
+
+    inline const RangeBufferAccess2dC<const DataT> operator[](const SizeC &i) const {
+#if RAVL_CHECK
+      if(!m_range1.Contains(i))
+	IssueError(__FILE__,__LINE__,"I index %zu out of index range %d to %d  ",static_cast<size_t>(i),m_range1.Min().V(),m_range1.Max().V());
 #endif
       const DataT *start = reinterpret_cast<const DataT *>(reinterpret_cast<const char *>(this->ReferenceVoid()) + i.V() * m_stride1);
       return RangeBufferAccess2dC<const DataT>(start,m_range2,m_range3,m_stride2);

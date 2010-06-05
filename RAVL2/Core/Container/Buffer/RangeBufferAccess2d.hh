@@ -361,7 +361,16 @@ namespace RavlN {
   }
   //: Constructor.
 
-
+  template<typename Data1T,typename Data2T,typename Data3T>
+  inline BufferAccess2dIter3C<Data1T,Data2T,Data3T>::BufferAccess2dIter3C(const RangeBufferAccess2dC<Data1T> &pbuf1,
+			                                           const RangeBufferAccess2dC<Data2T> &pbuf2,
+			                                           const RangeBufferAccess2dC<Data3T> &pbuf3)
+  {
+    First(pbuf1.BufferAccess(),pbuf1.ByteStride(),pbuf1.Frame(),
+          pbuf2.BufferAccess(),pbuf2.ByteStride(),pbuf2.Frame(),
+          pbuf3.BufferAccess(),pbuf3.ByteStride(),pbuf3.Frame());
+  }
+  //: Constructor.
 
   template<class DataT>
   void RangeBufferAccess2dC<DataT>::Fill(const DataT &d) {

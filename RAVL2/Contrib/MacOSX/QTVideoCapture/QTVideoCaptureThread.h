@@ -1,3 +1,6 @@
+#ifndef RAVLIMAGE_QTCAPTURETHREAD_HEADER
+#define RAVLIMAGE_QTCAPTURETHREAD_HEADER 1
+
 #import <Foundation/Foundation.h>
 #import <QTKit/QTKit.h>
 #include "Ravl/String.hh"
@@ -71,4 +74,4 @@ namespace RavlImageN {
 
 @end
 
-
+#endif

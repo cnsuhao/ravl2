@@ -54,9 +54,9 @@ namespace RavlN {
     {}
     //: Creates an empty 2D array.
     
-    Array2dC(SizeT rows, SizeT cols)
+    Array2dC(size_t rows, size_t cols)
       : m_data(rows,cols)
-    { Attach(m_data,rows,cols); }
+    { Attach(m_data,IndexRangeC(rows),IndexRangeC(cols)); }
     //: Creates 2D array with the range &lt; &lt;0,rows-1&gt;, &lt;0,cols-1&gt; &gt;
     
     Array2dC(IntT minRow,IntT maxRow,IntT minCol,IntT maxCol)

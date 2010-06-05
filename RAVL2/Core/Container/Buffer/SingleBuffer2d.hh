@@ -28,8 +28,8 @@ namespace RavlN {
     : public Buffer2dBodyC<DataT>
   {
   public:
-    inline static SizeT StartAlignmentOffset(SizeT align = 16) {
-      const SizeT objSize = sizeof(SingleBuffer2dBodyC<DataT>);
+    inline static size_t StartAlignmentOffset(unsigned align = 16) {
+      const size_t objSize = sizeof(SingleBuffer2dBodyC<DataT>);
       return ((objSize % align) == 0) ? 0 : (objSize - (objSize % align));
     }
     //: Get the offset needed to align start.
@@ -59,7 +59,7 @@ namespace RavlN {
       // Align start of memory
       char *buf = reinterpret_cast<char *>(&(this[1]));
       SizeT alignm1 = align-1;
-      this->m_buff = reinterpret_cast<DataT *>(buf + ((align - (((SizeT) buf) & alignm1)) & alignm1));
+      this->m_buff = reinterpret_cast<DataT *>(buf + ((align - (((size_t) buf) & alignm1)) & alignm1));
       //std::cerr << "Buffer=" << ((void *) buf) << " Aligned="<< ((void *) this->m_buff) << "\n";
       
       // Construct array
@@ -79,7 +79,7 @@ namespace RavlN {
     
     ~SingleBuffer2dBodyC()
     {
-      if(1 ||(this->m_size2 * sizeof(DataT)) == static_cast<SizeT>(this->m_stride)) {
+      if(1 ||(this->m_size2 * sizeof(DataT)) == static_cast<size_t>(this->m_stride)) {
         DestructRawArray(this->m_buff,this->m_size2 * this->m_size1);
       } else {
         DataT *ptr = this->m_buff;

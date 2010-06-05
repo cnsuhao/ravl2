@@ -52,15 +52,9 @@ namespace RavlN {
     //: Default constructor.
     // Creates a zero size array.
     
-    SArray2dC(SizeT dim1,SizeT dim2)
+    SArray2dC(const SizeT &dim1,const SizeT &dim2)
       : m_data(dim1,dim2)
     { Attach(m_data,dim1,dim2); }
-    //: Constructor.
-    // Create a dim1 by dim2 array.
-    
-    SArray2dC(IndexC dim1,IndexC dim2)
-      : m_data(dim1.V(),dim2.V())
-    { Attach(m_data,dim1.V(),dim2.V()); }
     //: Constructor.
     // Create a dim1 by dim2 array.
     

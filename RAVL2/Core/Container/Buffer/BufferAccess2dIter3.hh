@@ -49,6 +49,11 @@ namespace RavlN {
                          const IndexRangeC &range1,const IndexRangeC &range2);
     //: Constructor.
 
+    BufferAccess2dIter3C(const RangeBufferAccess2dC<Data1T> &pbuf1,
+			 const RangeBufferAccess2dC<Data2T> &pbuf2,
+			 const RangeBufferAccess2dC<Data3T> &pbuf3);
+    //: Constructor.
+
 
     BufferAccess2dIter3C(const BufferAccessC<Data1T> &pbuf1,IntT byteStride1,
 			 const BufferAccessC<Data2T> &pbuf2,IntT byteStride2,

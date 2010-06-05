@@ -33,7 +33,7 @@ namespace RavlImageN {
      : BufferCVImageBaseC(aBuffer)
     {
       // Should check the pixel type here.
-      this->buff = reinterpret_cast<DataT *>(StartAddress());
+      this->m_buff = reinterpret_cast<DataT *>(StartAddress());
     }
 
   };

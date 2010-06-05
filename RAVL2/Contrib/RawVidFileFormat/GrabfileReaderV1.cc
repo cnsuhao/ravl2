@@ -202,10 +202,9 @@ BufferC<char> GrabfileReaderV1C::GetNextFrame()
          BufferC<char> audio(m_audio_buffer_size);
          m_infile.read(audio.BufferAccess().DataStart(),m_audio_buffer_size);
 #if (RAVL_COMPILER_GCC3)     /* gcc 3.x work around for gcc as mem dosent seem to get deleted.*/
-         return BufferC<char> (video.Size(),video.BufferAccess().DataStart(),true,false);
+         return BufferC<char> (video.BufferAccess().DataStart(),video.Size(),true,false);
 #else
-         return BufferC<char> (video.Size(),video.BufferAccess().DataStart(),true,true);
-         //return BufferC<char> (video.Size(),video.BufferAccess().DataStart(),true,false);
+         return BufferC<char> (video.BufferAccess().DataStart(),video.Size(),true,true);
 #endif	 
          
       }
@@ -238,10 +237,9 @@ BufferC<char> GrabfileReaderV1C::GetNextFrame()
         audio = BufferC<char>();
         video = BufferC<char>();
 #if (RAVL_COMPILER_GCC3)   /* gcc 3.x work around for gcc as mem dosent seem to get deleted.*/
-        return BufferC<char> (osize, nextframe.BufferAccess().DataStart(), true, false);
+        return BufferC<char> (nextframe.BufferAccess().DataStart(),osize, true, false);
 #else
-        return BufferC<char> (osize, nextframe.BufferAccess().DataStart(), true, true);
-        //return BufferC<char> (osize, nextframe.BufferAccess().DataStart(), true, false);  
+        return BufferC<char> (nextframe.BufferAccess().DataStart(),osize,  true, true);
 #endif
       }
   }
@@ -280,7 +278,7 @@ BufferC<UInt16T> GrabfileReaderV1C::GetNextFrame16T()
          video = BufferC<char>();
          delete poin;
          delete charpoin; 
-         return BufferC<UInt16T> (video.Size(),uint16tvideo.BufferAccess().DataStart(),true,false);
+         return BufferC<UInt16T> (uint16tvideo.BufferAccess().DataStart(),video.Size(),true,false);
 	 
          
       }
@@ -344,7 +342,7 @@ BufferC<UInt16T> GrabfileReaderV1C::GetNextFrame16T()
         delete videoptr;
         audio = BufferC<char>();
         video = BufferC<char>();
-        return BufferC<UInt16T> (buffertoconvert.Size(), buffertoconvert.BufferAccess().DataStart(), true, false);
+        return BufferC<UInt16T> (buffertoconvert.BufferAccess().DataStart(),buffertoconvert.Size(),  true, false);
       }
   }
      return BufferC<UInt16T>();

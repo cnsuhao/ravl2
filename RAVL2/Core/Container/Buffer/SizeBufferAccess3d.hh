@@ -143,9 +143,9 @@ namespace RavlN {
     DataT *RowPtr(const IndexC &i,const IndexC &j) {
 #if RAVL_CHECK
       if(((UIntT) i.V()) >= m_size1)
-	IssueError(__FILE__,__LINE__,"I index %d out of index range 0 to %u  ",i.V(),m_size1);
+	IssueError(__FILE__,__LINE__,"I index %d out of index range 0 to %zu  ",i.V(),static_cast<size_t>(m_size1));
       if(((UIntT) j.V()) >= m_size2)
-	IssueError(__FILE__,__LINE__,"J index %d out of index range 0 to %u  ",j.V(),m_size2);
+	IssueError(__FILE__,__LINE__,"J index %d out of index range 0 to %zu  ",j.V(),static_cast<size_t>(m_size2));
 #endif
       return reinterpret_cast<DataT *>(reinterpret_cast<char *>(this->ReferenceVoid()) + i.V() * m_stride1 + j.V() * m_stride2);
     }
@@ -153,9 +153,9 @@ namespace RavlN {
     const DataT *RowPtr(const IndexC &i,const IndexC &j) const {
 #if RAVL_CHECK
       if(((UIntT) i.V()) >= m_size1)
-	IssueError(__FILE__,__LINE__,"I index %d out of index range 0 to %u  ",i.V(),m_size1);
+	IssueError(__FILE__,__LINE__,"I index %d out of index range 0 to %zu  ",i.V(),static_cast<size_t>(m_size1));
       if(((UIntT) j.V()) >= m_size2)
-	IssueError(__FILE__,__LINE__,"J index %d out of index range 0 to %u  ",j.V(),m_size2);
+	IssueError(__FILE__,__LINE__,"J index %d out of index range 0 to %zu  ",j.V(),static_cast<size_t>(m_size2));
 #endif
       return reinterpret_cast<const DataT *>(reinterpret_cast<const char *>(this->ReferenceVoid()) + i.V() * m_stride1 + j.V() * m_stride2);
     }
@@ -163,7 +163,7 @@ namespace RavlN {
     inline DataT & operator[](const Index3dC & i) { 
 #if RAVL_CHECK
       if(((UIntT) i.K().V()) >= m_size3)
-	IssueError(__FILE__,__LINE__,"K index %d out of index range 0 to %u  ",i.K().V(),m_size3);
+	IssueError(__FILE__,__LINE__,"K index %d out of index range 0 to %zu  ",i.K().V(),static_cast<size_t>(m_size3));
 #endif
       return RowPtr(i.I(),i.J())[i.K().V()];
     }
@@ -172,36 +172,56 @@ namespace RavlN {
     inline const DataT & operator[](const Index3dC & i) const { 
 #if RAVL_CHECK
       if(((UIntT) i.K().V()) >= m_size3)
-	IssueError(__FILE__,__LINE__,"K index %d out of index range 0 to %u  ",i.K().V(),m_size3);
+	IssueError(__FILE__,__LINE__,"K index %d out of index range 0 to %zu  ",i.K().V(),static_cast<size_t>(m_size3));
 #endif
       return RowPtr(i.I(),i.J())[i.K().V()];
     }
     //: return the item array[(i)]
     
-    inline SizeBufferAccess2dC<DataT> operator[](IndexC i) {
+    inline SizeBufferAccess2dC<DataT> operator[](const IndexC &i) {
 #if RAVL_CHECK
       if(((UIntT) i.V()) >= m_size1)
-	IssueError(__FILE__,__LINE__,"I index %d out of index range 0 to %u  ",i.V(),m_size1);
+	IssueError(__FILE__,__LINE__,"I index %d out of index range 0 to %zu  ",i.V(),static_cast<size_t>(m_size1));
 #endif
       DataT *start = reinterpret_cast<DataT *>(reinterpret_cast<char *>(this->ReferenceVoid()) + i.V() * m_stride1);
       return SizeBufferAccess2dC<DataT>(start,m_size2,m_size3,m_stride2);
     }
     //: access to the item array[(i)]
     
-    inline const SizeBufferAccess2dC<const DataT> operator[](IndexC i) const {
+    inline const SizeBufferAccess2dC<const DataT> operator[](const IndexC &i) const {
 #if RAVL_CHECK
       if(((UIntT) i.V()) >= m_size1)
-	IssueError(__FILE__,__LINE__,"I index %d out of index range 0 to %u  ",i.V(),m_size1);
+	IssueError(__FILE__,__LINE__,"I index %d out of index range 0 to %zu  ",i.V(),static_cast<size_t>(m_size1));
 #endif
       const DataT *start = reinterpret_cast<const DataT *>(reinterpret_cast<const char *>(this->ReferenceVoid()) + i.V() * m_stride1);
       return SizeBufferAccess2dC<const DataT>(start,m_size2,m_size3,m_stride2);
     }
     //: return the item array[(i)]
-    
+
+        inline SizeBufferAccess2dC<DataT> operator[](const SizeC &i) {
+#if RAVL_CHECK
+      if(((UIntT) i.V()) >= m_size1)
+	IssueError(__FILE__,__LINE__,"I index %d out of index range 0 to %zu  ",i.V(),m_size1);
+#endif
+      DataT *start = reinterpret_cast<DataT *>(reinterpret_cast<char *>(this->ReferenceVoid()) + i.V() * m_stride1);
+      return SizeBufferAccess2dC<DataT>(start,m_size2,m_size3,m_stride2);
+    }
+    //: access to the item array[(i)]
+
+    inline const SizeBufferAccess2dC<const DataT> operator[](const SizeT &i) const {
+#if RAVL_CHECK
+      if(((UIntT) i.V()) >= m_size1)
+	IssueError(__FILE__,__LINE__,"I index %d out of index range 0 to %zu  ",i.V(),static_cast<size_t>(m_size1));
+#endif
+      const DataT *start = reinterpret_cast<const DataT *>(reinterpret_cast<const char *>(this->ReferenceVoid()) + i.V() * m_stride1);
+      return SizeBufferAccess2dC<const DataT>(start,m_size2,m_size3,m_stride2);
+    }
+    //: return the item array[(i)]
+
     inline SizeBufferAccess2dC<DataT> operator[](int i) {
 #if RAVL_CHECK
       if(((UIntT) i) >= m_size1)
-	IssueError(__FILE__,__LINE__,"I index %d out of index range 0 to %u  ",i,m_size1);
+	IssueError(__FILE__,__LINE__,"I index %d out of index range 0 to %zu  ",i,static_cast<size_t>(m_size1));
 #endif
       DataT *start = reinterpret_cast<DataT *>(reinterpret_cast<char *>(this->ReferenceVoid()) + i * m_stride1);
       return SizeBufferAccess2dC<DataT>(start,m_size2,m_size3,m_stride2);
@@ -211,7 +231,7 @@ namespace RavlN {
     inline SizeBufferAccess2dC<const DataT> operator[](int i) const {
 #if RAVL_CHECK
       if(((UIntT) i) >= m_size1)
-	IssueError(__FILE__,__LINE__,"I index %d out of index range 0 to %u  ",i,m_size1);
+	IssueError(__FILE__,__LINE__,"I index %d out of index range 0 to %zu  ",i,static_cast<size_t>(m_size1));
 #endif
       const DataT *start = reinterpret_cast<const DataT *>(reinterpret_cast<const char *>(this->ReferenceVoid()) + i * m_stride1);
       return SizeBufferAccess2dC<const DataT>(start,m_size2,m_size3,m_stride2);

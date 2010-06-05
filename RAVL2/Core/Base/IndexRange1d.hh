@@ -65,7 +65,7 @@ namespace RavlN {
     //:---------------------------------
     //: Access to the object information.
     
-    inline IntT Size() const
+    inline ISizeT Size() const
     { return (maxI-minI+1).V(); }
     //: Returns the number of elements in the range.
     
@@ -115,10 +115,14 @@ namespace RavlN {
     //: Returns true if the range is valid
     //: Empty ranges (ie Min() = Max()+1) are valid
     
-    inline bool Contains(IndexC i) const
+    inline bool Contains(const IndexC &i) const
     { return (Min() <= i) && (i <= Max()); }
     //: Returns true if this range contains the index 'i'.
-    
+
+    inline bool Contains(const SizeC &i) const
+    { return (Min() <= i) && (i <= Max()); }
+    //: Returns true if this range contains value 'i'.
+
     inline bool Contains(RealT val) const
     { return (Floor(val) >= Min()) && (Ceil(val) <= Max()); }
     //: Is a real value inside the range ?
@@ -322,17 +326,17 @@ namespace RavlN {
     { return IndexRangeC(Min(),CenterD()); }
     //: Returns the index range < Min(), (Max()+Min())/2 >.
     
-    inline IndexRangeC Enlarge(IndexC f) const
-    { return IndexRangeC(Min(), Min() + Size()*f - 1); }
+    inline IndexRangeC Enlarge(const IndexC &f) const
+    { return IndexRangeC(Min(), Min() + f*Size() - 1); }
     //: Returns the index range whose number of elements is enlarged by
     //: the factor 'f'. The upper limits is changed.
     
-    inline IndexRangeC Expand(IndexC n) const
+    inline IndexRangeC Expand(const IndexC &n) const
     { return IndexRangeC(minI - n,maxI + n); }
     //: Returns the range extended by adding 'n' items on both limits of
     //: this range. 
     
-    inline IndexRangeC Shrink(IndexC n) const
+    inline IndexRangeC Shrink(const IndexC &n) const
     { return IndexRangeC(minI + n,maxI - n); }
     //: Returns the range extended by adding 'n' items on both limits of
     //: this range. 

@@ -373,16 +373,7 @@ namespace RavlN {
     buff=vv.buff;
     return *this;
   }
-  
-  
-  template <class DataT>
-  inline 
-  SArray1dC<DataT> & 
-  SArray1dC<DataT>::Append(const SArray1dC<DataT> & a)  {
-    (*this) = Join(a);
-    return *this;
-  }
-  
+    
   template <class DataT>
   SArray1dC<DataT>::SArray1dC(const PairC<DataT> & pr)
     : SizeBufferAccessC<DataT>(),

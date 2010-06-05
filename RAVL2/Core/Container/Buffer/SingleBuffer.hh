@@ -145,14 +145,14 @@ namespace RavlN {
     : public BufferBodyC<DataT>
   {
   public:
-    static SizeT StartAlignmentOffset(SizeT align = 16) {
-      const SizeT objSize = sizeof(SingleBufferBodyC<DataT>);
+    static size_t StartAlignmentOffset(size_t align = 16) {
+      const size_t objSize = sizeof(SingleBufferBodyC<DataT>);
       return ((objSize % align) == 0) ? 0 : (objSize - (objSize % align));
     }
     //: Get the offset needed to align start.
     // Internal use only.
     
-    SingleBufferBodyC(SizeT nsize)
+    SingleBufferBodyC(size_t nsize)
       : BufferBodyC<DataT>(0,nsize,false)
     { 
       // Make sure buffer is 8-byte aligned.
@@ -168,13 +168,13 @@ namespace RavlN {
     }
     //: Default constructor.
     
-    SingleBufferBodyC(SizeT nsize,UIntT align)
+    SingleBufferBodyC(size_t nsize,UIntT align)
       : BufferBodyC<DataT>(0,nsize,false)
     {
       // Align memory
       char *buf = reinterpret_cast<char *>(&(this[1]));
-      SizeT alignm1 = align-1;
-      this->m_buff = reinterpret_cast<DataT *>(buf + ((align - (((SizeT) buf) & alignm1)) & alignm1));
+      size_t alignm1 = align-1;
+      this->m_buff = reinterpret_cast<DataT *>(buf + ((align - (((size_t) buf) & alignm1)) & alignm1));
       
       // Construct array
 #if RAVL_COMPILER_GCC43
@@ -208,20 +208,20 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
 
-    SingleBufferC(SizeT nsize) 
+    SingleBufferC(size_t nsize)
       : BufferC<DataT>(*AllocBody(nsize))
     {}
     //: Constructor.
     
-    SingleBufferC(SizeT nsize,UIntT align) 
+    SingleBufferC(size_t nsize,UIntT align)
       : BufferC<DataT>(*AllocBody(nsize,align))
     {}
     //: Constructor.
     // Note: Aligment must be a power of 2
     
   protected:
-    static SingleBufferBodyC<DataT> *AllocBody(SizeT size) {
-      SizeT startAlign = SingleBufferBodyC<DataT>::StartAlignmentOffset();
+    static SingleBufferBodyC<DataT> *AllocBody(size_t size) {
+      size_t startAlign = SingleBufferBodyC<DataT>::StartAlignmentOffset();
       // Make sure buffers are 8-byte aligned.
       SingleBufferBodyC<DataT> *ret = reinterpret_cast<SingleBufferBodyC<DataT> *> (malloc(sizeof(SingleBufferBodyC<DataT>) + startAlign + (size * sizeof(DataT))));
       try {
@@ -235,7 +235,7 @@ namespace RavlN {
 
     //: Allocate a body object plus some space.
     
-    static SingleBufferBodyC<DataT> *AllocBody(SizeT size,UIntT align) {
+    static SingleBufferBodyC<DataT> *AllocBody(size_t size,UIntT align) {
       SingleBufferBodyC<DataT> *ret = reinterpret_cast<SingleBufferBodyC<DataT> *> (malloc(sizeof(SingleBufferBodyC<DataT>) + (size * sizeof(DataT)) + (align-1) ));
       try {
         new(ret) SingleBufferBodyC<DataT>(size,align);
