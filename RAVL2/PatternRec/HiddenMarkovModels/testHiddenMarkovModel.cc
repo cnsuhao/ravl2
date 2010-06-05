@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! author="Charles Galambos, Akiel Khan"
-//! rcsid="$Id$"
+//! rcsid="$Id: testHiddenMarkovModel.cc 5788 2006-08-03 11:41:38Z ees1wc $"
 //! lib=RavlHMM
 //! file="Ravl/PatternRec/HiddenMarkovModels/testHiddenMarkovModel.cc"
 //! docentry="Ravl.API.Pattern Recognition.Markov Processes"

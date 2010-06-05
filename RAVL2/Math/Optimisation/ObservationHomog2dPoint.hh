@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: ObservationHomog2dPoint.hh 7442 2009-12-23 17:36:56Z ees1wc $"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation2.Examples"
 //! example="Homography2dFitTest.cc"
 //! lib=RavlOptimise
@@ -21,7 +21,7 @@
 namespace RavlN {
 
   //! userlevel=Develop
-  //: 2D homography fitting 2D point observation body.
+  //: Body observation class for fitting 2D homography to 2D points
   
   class ObservationHomog2dPointBodyC
     : public ObservationExplicitBodyC
@@ -64,7 +64,7 @@ namespace RavlN {
 
   //! userlevel=Normal
   //! autoLink=on
-  //: 2D homography fitting 2D point observation class
+  //: Observation class for fitting 2D homography to 2D points
   // Use this class to construct an observation consisting of a pair of 2D
   // points, each point of which lies on a separate plane. The two planes are
   // related by a 2D projective transformation represented by a 3x3 homography

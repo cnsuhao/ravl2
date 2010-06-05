@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: NetByteStream.cc 5093 2005-08-28 10:38:22Z craftit $"
 //! lib=RavlNet
 //! file="Ravl/OS/Network/NetByteStream.cc"
 

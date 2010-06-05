@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////
 //! docentry="Ravl.API.Core.Misc"
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: IntC.hh 7563 2010-02-18 16:41:12Z craftit $"
 //! file="Ravl/Core/Base/IntC.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
@@ -21,133 +21,143 @@
 //: Ravl namespace.
 
 namespace RavlN {
-  
+
   class BinIStreamC;
   class BinOStreamC;
-  
+
   //: Integer with a default constructor that assigns it a value of 0
-  // Its main feature is the default constructor sets 
+  // Its main feature is the default constructor sets
   // its value to zero.  Usefull in things like histograms.
-  
+
   class IntC {
   public:
-    IntC() 
-      : v(0) {}
+    IntC()
+      : v(0)
+    {}
     //: Default value, 0.
-    
-    IntC(IntT nv) 
-      : v(nv) {}
+
+    IntC(IntT nv)
+      : v(nv)
+    {}
     //: Construct an int.
-    
+
+    IntC(const SizeC &val)
+     : v(val.V())
+    { RavlAssertMsg(v >= 0,"Value overflow."); }
+
     IntC Copy() const { return IntC(v); }
     //: Make a copy.
-    
+
     operator IntT() const { return v; }
     //: Convert to a plain int.
-    
+
     bool operator==(const IntC &oth) const { return v == oth.v; }
     //: Comparison operator.
-    
+
     bool operator==(IntT ov) const { return v == ov; }
     //: Comparison operator.
-    
-    UIntT Hash() const { return (UIntT) v; }
+
+    SizeT Hash() const { return (SizeT) v; }
     //: Hash it.
-    
+
     IntT operator++(int) { return v++; }
     //: Increment.
-    
+
     IntT operator--(int) { return v--; }
     //: Decrement
-    
+
     IntT operator++() { return ++v; }
     //: Increment.
-    
+
     IntT operator--() { return --v; }
     //: Decrement
-    
-    
+
+
     IntT operator-=(IntT oth) {
       v -= oth;
       return v;
     }
     //: Take another UIntT from this one.
-    
+
     IntT operator+=(IntT oth) {
       v += oth;
       return v;
     }
     //: Take another UIntT from this one.
-    
+
     IntT operator/=(IntT oth) {
       v /= oth;
       return v;
     }
     //: Divide in place by another value.
-    
+
     IntT operator*=(IntT oth) {
       v *= oth;
       return v;
     }
     //: Multiply in place by another value.
-    
+
     IntT v;
   };
-  
-  ostream &operator<<(ostream &out,const IntC &x);  
+
+  ostream &operator<<(ostream &out,const IntC &x);
   istream &operator>>(istream &in,IntC &x);
-  
+
   BinOStreamC &operator<<(BinOStreamC &out,const IntC &x);
   BinIStreamC &operator>>(BinIStreamC &in,IntC &x);
-  
+
   //: unsigned integer with a default constructor that assigns it a value of 0.
-  // Its main feature is the default constructor sets 
+  // Its main feature is the default constructor sets
   // its value to zero.  Usefull in things like histograms.
-  
+
   class UIntC {
   public:
-    UIntC() 
+    UIntC()
       : v(0) {}
     //: Default value, 0.
-    
-    UIntC(UIntT nv) 
+
+    UIntC(UIntT nv)
       : v(nv) {}
     //: Construct an int.
-    
+
+    UIntC(const SizeC &val)
+     : v(val.V())
+    { RavlAssertMsg(v != val.V(),"Value overflow."); }
+
     UIntC Copy() const { return UIntC(v); }
     //: Make a copy.
-    
+
     operator UIntT() const { return v; }
     //: Convert to a plain int.
-    
+
     bool operator==(const UIntC &oth) const { return v == oth.v; }
     //: Comparison operator.
-    
+
     bool operator==(UIntT ov) const { return v == ov; }
     //: Comparison operator.
-    
-    UIntT Hash() const { return v; }
+
+    SizeT Hash() const { return v; }
     //: Hash it.
-    
+
     UIntT operator++(int) { return v++; }
     //: Increment.
-    
+
     UIntT operator--(int) { return v--; }
     //: Decrement
-    
+
     UIntT operator++() { return ++v; }
     //: Increment.
-    
+
     UIntT operator--() { return --v; }
     //: Decrement
-    
+
     UIntT operator-=(UIntT oth) {
       RavlAssert(v >= oth);
       v -= oth;
       return v;
     }
     //: Take another UIntT from this one.
-    
+
     UIntT operator+=(UIntT oth) {
       v += oth;
       return v;
@@ -157,18 +167,18 @@ namespace RavlN {
     UIntT v;
   };
 
-  inline int operator-(int v1,UIntC v2) { 
-    return v1 - (int) v2; 
+  inline int operator-(int v1,UIntC v2) {
+    return v1 - (int) v2;
   }
   //: Subtraction.
   // This is included to avoid some confusing type casts which can
   // lead to odd results.
-  
-  ostream &operator<<(ostream &out,const UIntC &x);  
+
+  ostream &operator<<(ostream &out,const UIntC &x);
   istream &operator>>(istream &in,UIntC &x);
-  
+
   BinOStreamC &operator<<(BinOStreamC &out,const UIntC &x);
   BinIStreamC &operator>>(BinIStreamC &in,UIntC &x);
-  
+
 }
 #endif

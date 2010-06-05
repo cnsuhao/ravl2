@@ -1,7 +1,7 @@
 #ifndef RAVL_STRING_HEADER
 #define RAVL_STRING_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: String.hh 7563 2010-02-18 16:41:12Z craftit $"
 //! docentry="Ravl.API.Core.Strings"
 //! file="Ravl/Core/Base/String.hh"
 //! lib=RavlCore
@@ -176,6 +176,12 @@ namespace RavlN {
     StrRepC *operator=(StrRepC *Oth) { SetPtr(Oth); return Where; }
     StrRepC *operator->() const { return Where; }
     operator StrRepC *() const { return Where; }
+
+    bool operator==(void *val) const
+    { return Where == val; }
+
+    bool operator!=(void *val) const
+    { return Where != val; }
   private:
     StrRepC *Where;
   };
@@ -286,8 +292,11 @@ namespace RavlN {
     //: Create a string from an Int
     
     explicit StringC(UInt64T n);
-    //: Create a string from an unsigned int
-    
+    //: Create a string from an unsigned 64 bit int
+
+    explicit StringC(const SizeC &n);
+    //: Create a string from a size.
+
     explicit StringC(RealT val); 
     //: Create a string from a real value
     

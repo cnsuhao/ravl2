@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: EventHandler.cc 4 2001-04-11 12:45:55Z craftit $"
 
 #include "amma/PThread/EventHandler.hh"
 #include "amma/PThread/EventHandlerRef.hh" // Include here so its checked...

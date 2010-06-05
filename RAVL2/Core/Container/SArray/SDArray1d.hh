@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! date="4/9/1996"
 //! docentry="Ravl.API.Core.Arrays.1D"
-//! rcsid="$Id$"
+//! rcsid="$Id: SDArray1d.hh 7563 2010-02-18 16:41:12Z craftit $"
 
 #include "Ravl/Types.hh"
 #include "Ravl/Index.hh"
@@ -76,18 +76,42 @@ namespace RavlN {
     //NB. This does NOT shrink the array in the current
     // implementation, this may change in future.
     
-    inline T &operator[](UIntT i);
+    inline T &operator[](UIntT i) {
+      RavlAssert(i < Used);
+      return ((T *)Data)[i];
+    }
     //: Access element.
     
-    inline const T &operator[](UIntT i) const;
+    inline const T &operator[](UIntT i) const {
+      RavlAssert(i < Used);
+      return ((T *)Data)[i];
+    }
     //: Access element.
     
-    inline T &operator[](IndexC i);
+    inline T &operator[](const IndexC &i) {
+      RavlAssert(((UIntT) i.V()) < Used);
+      return ((T *)Data)[i.V()];
+    }
     //: Access element.
     
-    inline const T &operator[](IndexC i) const;
+    inline const T &operator[](const IndexC &i) const {
+      RavlAssert(((UIntT) i.V()) < Used);
+      return ((T *)Data)[i.V()];
+    }
+    //: Access element.
+
+    inline T &operator[](const SizeC &i) {
+      RavlAssert(((UIntT) i.V()) < Used);
+      return ((T *)Data)[i.V()];
+    }
     //: Access element.
     
+    inline const T &operator[](const SizeC &i) const {
+      RavlAssert(((UIntT) i.V()) < Used);
+      return ((T *)Data)[i.V()];
+    }
+    //: Access element.
+
     const SDArray1dC<T> &operator=(const SDArray1dC<T> &Oth) ;
     //: Assign to another SDArray1d.
     
@@ -122,7 +146,7 @@ namespace RavlN {
   template<class T>
   ostream &operator<<(ostream &out,const SDArray1dC<T> &arr) {
     out << "0 " << arr.Size() << "\n";
-    for(UIntT i = 0;i < arr.Size();i++)
+    for(SizeT i = 0;i < arr.Size();i++)
       out << arr[i] << "\n";
     return out;
   }
@@ -141,14 +165,14 @@ namespace RavlN {
   template<class T>
   BinOStreamC &operator<<(BinOStreamC &out,const SDArray1dC<T> &arr) {
     out << arr.Size();
-    for(UIntT i = 0;i < arr.Size();i++)
+    for(SizeT i = 0;i < arr.Size();i++)
       out << arr[i];
     return out;
   }
   
   template<class T>
   BinIStreamC &operator>>(BinIStreamC &in,SDArray1dC<T> &arr) {
-    UIntT asize;
+    SizeT asize;
     in >> asize;
     if((asize * sizeof(T)) > in.ArraySizeLimit() || asize > in.ArraySizeLimit())
       throw ExceptionOutOfRangeC("Incoming array size exceeds limit for stream.");
@@ -243,29 +267,6 @@ namespace RavlN {
     size = nsize;
   };
   
-  template<class T>
-  inline T &SDArray1dC<T>::operator[](UIntT i) { 
-    RavlAssert(i < Used); 
-    return ((T *)Data)[i]; 
-  }
-  
-  template<class T>
-  inline const T &SDArray1dC<T>::operator[](UIntT i) const { 
-    RavlAssert(i < Used); 
-    return ((T *)Data)[i]; 
-  }
-  
-  template<class T>
-  T &SDArray1dC<T>::operator[](IndexC i) {
-    RavlAssert(((UIntT) i.V()) < Used); 
-    return ((T *)Data)[i.V()];
-  }
-  
-  template<class T>
-  const T &SDArray1dC<T>::operator[](IndexC i) const {
-    RavlAssert(((UIntT) i.V()) < Used);
-    return ((T *)Data)[i.V()];
-  }
   
   template<class T>
   const SDArray1dC<T> &SDArray1dC<T>::operator= (const SDArray1dC<T> &Oth) {

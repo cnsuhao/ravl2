@@ -7,7 +7,7 @@
 #ifndef RAVL_RANDOMGAUSS_HEADER
 #define RAVL_RANDOMGAUSS_HEADER 1
 ///////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RandomGauss.hh 5437 2006-04-05 11:09:32Z ees1wc $"
 //! userlevel=Normal
 //! file="Ravl/Core/Math/RandomGauss.hh"
 //! lib=RavlCore

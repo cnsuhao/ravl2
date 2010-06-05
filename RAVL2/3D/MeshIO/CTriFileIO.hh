@@ -7,7 +7,7 @@
 #ifndef RAVL_CTRIFILEIO_HEADER
 #define RAVL_CTRIFILEIO_HEADER 1
 ////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: CTriFileIO.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=Ravl3DIO
 //! author="Jonathan Starck"
 //! docentry="Ravl.API.3D.IO"

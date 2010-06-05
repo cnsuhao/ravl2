@@ -2,7 +2,7 @@
 //! author =    "Jean-Yves Guillemaut"
 //! lib =       RavlAAM
 //! date =      "01/03/2006"
-//! rcsid="$Id$"
+//! rcsid="$Id: AAMFaceCorrection.cc,v 1.3 2005/07/25 16:31:07 ees1wc Exp $"
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMFaceCorrection.cc"
 
 #include "Ravl/OS/Filename.hh"
@@ -281,8 +281,14 @@ namespace RavlImageN {
   //!param: outAppear - Output appearance (normalised).
   //!param: smoothingSize - Size of the Gaussian convolution kernel used for smoothing the input image before warping.
   // The normalisation consists in applying a transformation composed of a rotation, translation and scaling in order to map the eye centres to the required positions. The eye centres in the input appearance are located at the centroid of the set of feature points whose identities are provided in 'leftEyeIDs' and 'rightEyeIDs'.
-  bool AAMFaceCorrectionBodyC::GeometricNormalisation(const AAMAppearanceC &inAppear, const Point2dC &leftEye, const Point2dC &rightEye, const Point2dC &nLeftEye, const Point2dC &nRightEye, ImageRectangleC &outRect, AAMAppearanceC &outAppear, UIntT smoothingSize) const {
-
+  bool AAMFaceCorrectionBodyC::GeometricNormalisation(const AAMAppearanceC &inAppear,
+                                                             const Point2dC &leftEye, const Point2dC &rightEye,
+                                                             const Point2dC &nLeftEye, const Point2dC &nRightEye,
+                                                             ImageRectangleC &outRect,
+                                                             AAMAppearanceC &outAppear,
+                                                             UIntT smoothingSize
+                                                             ) const
+  {
     Affine2dC Aff;
     Vector2dC d1 = nRightEye - nLeftEye;
     Vector2dC d2 = rightEye - leftEye;
@@ -333,8 +339,12 @@ namespace RavlImageN {
   //!param: outImage - Output image (normalised).
   //!param: smoothingSize - Size of the Gaussian convolution kernel used for smoothing the input image before warping.
   // The normalisation consists in applying a transformation composed of a rotation, translation and scaling in order to map the eye centres to the required positions.
-  bool AAMFaceCorrectionBodyC::GeometricNormalisation(const ImageC<ByteT> &inImage, const Point2dC &leftEye, const Point2dC &rightEye, const Point2dC &nLeftEye, const Point2dC &nRightEye, ImageC<ByteT> &outImage, UIntT smoothingSize) const {
-
+  bool AAMFaceCorrectionBodyC::GeometricNormalisation(const ImageC<ByteT> &inImage,
+                                                            const Point2dC &leftEye, const Point2dC &rightEye,
+                                                            const Point2dC &nLeftEye, const Point2dC &nRightEye,
+                                                            ImageC<ByteT> &outImage, UIntT smoothingSize
+                                                            ) const
+  {
     // smooth image
     GaussConvolve2dC<ByteT> smooth(smoothingSize);
     ImageC<ByteT> inImage2 = smooth.Apply(inImage);

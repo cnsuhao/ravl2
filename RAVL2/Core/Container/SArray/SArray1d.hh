@@ -71,11 +71,11 @@ namespace RavlN {
       : SizeBufferAccessC<DataT>(),
         buff(SingleBufferC<DataT>(dim))
     { Attach(buff,dim); }
-    //: Creates an uninitialized array with the range <0, 'dim'-1>.
+    //: Creates an uninitialised array with the range <0, 'dim'-1>.
     
     static SArray1dC<DataT> ConstructAligned(const SizeT dim,UIntT align)
     { return SArray1dC<DataT>(SingleBufferC<DataT>(dim,align),dim); }
-    //: Creates an uninitialized array with the range <0, 'dim'-1> and byte alignment of the first element 'align'
+    //: Creates an uninitialised array with the range <0, 'dim'-1> and byte alignment of the first element 'align'
     // align must be a power of 2.
     
     SArray1dC(const Slice1dC<DataT> &slice,bool alwaysCopy = true);
@@ -127,7 +127,7 @@ namespace RavlN {
     // Used for building SArray's from Arrays.
     
     SArray1dC<DataT> Align(UIntT alignment) const { 
-      if((((SizeT) SizeBufferAccessC<DataT>::ReferenceElm()) & (alignment-1)) == 0)
+      if((((size_t) SizeBufferAccessC<DataT>::ReferenceElm()) & (alignment-1)) == 0)
         return *this; // Data is already aligned
       SArray1dC<DataT> ret = ConstructAligned(Size(),alignment);
       for(BufferAccessIter2C<DataT,DataT> it(*this,ret);it;it++)
@@ -141,7 +141,7 @@ namespace RavlN {
     SArray1dC<DataT> Copy() const;
     //: Creates a copy of the whole array.
         
-    SArray1dC<DataT> Copy(UIntT extend) const;
+    SArray1dC<DataT> Copy(SizeT extend) const;
     //: Creates a new physical copy of the array.
     // 'extend' extra elements initialised by the default constructor
     // are appended to the end of the array.
@@ -245,17 +245,29 @@ namespace RavlN {
     
     //:-----------------------------------
     // Modifications of the representation
-        
-    inline SArray1dC<DataT> & Append(const SArray1dC<DataT> & a);
-    // This array is extended by the length of the array 'a' and the contents
-    // of both arrays are copied to it. Empty arrays are handled correctly.
     
     SArray1dC<DataT> Join(const SArray1dC<DataT> &Oth) const;
     // Join this Array and another into a new Array which
     // is returned. This does not change either of its arguments.
     // This is placed in the array first, followed by 'Oth'.
-    
-    SArray1dC<DataT> From(UIntT offset) { 
+
+    SArray1dC<DataT> Join(const DataT &Oth) const;
+    // Join this Array and an element into a new Array which
+    // is returned. This does not change either of its arguments.
+    // This is placed in the array first, followed by 'Oth'.
+
+    inline SArray1dC<DataT> & Append(const SArray1dC<DataT> & a)
+    { (*this) = Join(a); return *this;  }
+    // This array is extended by the length of the array 'a' and the contents
+    // of both arrays are copied to it. Empty arrays are handled correctly.
+
+    inline SArray1dC<DataT> & Append(const DataT & a)
+    { (*this) = Join(a); return *this;  }
+    // This array is extended by 1 and the contents of this array are
+    // copied to this array followed by the new element.
+    // Empty arrays are handled correctly.
+
+    SArray1dC<DataT> From(size_t offset) {
       if(offset >= Size())
 	return SArray1dC<DataT>(); // Empty array.
       SizeT nsize = Size() - offset;
@@ -265,7 +277,7 @@ namespace RavlN {
     // If offset is larger than the array an empty array
     // is returned,
 
-    SArray1dC<DataT> From(UIntT offset,UIntT size) { 
+    SArray1dC<DataT> From(size_t offset,size_t size) {
       if((offset + size) > Size())
 	return SArray1dC<DataT>(); // Empty array.
       return SArray1dC<DataT>(*this,size,offset); 
@@ -274,7 +286,7 @@ namespace RavlN {
     // If offset is larger than the array an empty array
     // is returned,
     
-    SArray1dC<DataT> After(UIntT offset) 
+    SArray1dC<DataT> After(size_t offset)
     { return From(offset+1); }
     //: Return array after offset to the end of the array.
     // If offset is larger than the array an empty array
@@ -314,7 +326,7 @@ namespace RavlN {
     // Returns true if the two arrays have different lengths or
     // contents..
     
-    UIntT Hash() const;
+    size_t Hash() const;
     //: Compute a hash value for the array.
     
     inline DataT * DataStart() const
@@ -422,7 +434,7 @@ namespace RavlN {
   }
 
   template <class DataT>
-  SArray1dC<DataT> SArray1dC<DataT>::Copy(UIntT extend) const {
+  SArray1dC<DataT> SArray1dC<DataT>::Copy(SizeT extend) const {
     SArray1dC<DataT> ret(Size() + extend);
     for(BufferAccessIter2C<DataT,DataT> it(*this,ret);it;it++)
       it.Data2() = it.Data1();
@@ -456,8 +468,20 @@ namespace RavlN {
   }
 
   template <class DataT>
-  ostream &
-  operator<<(ostream & s, const SArray1dC<DataT> & arr) {
+  SArray1dC<DataT>
+  SArray1dC<DataT>::Join(const DataT &a) const  {
+    const SizeT len1 = Size();
+    SArray1dC<DataT> newarr(len1 + 1);
+    for(BufferAccessIter2C<DataT,DataT> it(*this,newarr);it;it++)
+      it.Data2() = it.Data1();
+    newarr[len1] = a;
+    return newarr;
+  }
+
+
+  template <class DataT>
+  std::ostream &
+  operator<<(std::ostream & s, const SArray1dC<DataT> & arr) {
     s << arr.Size() << '\n'; 
     for(BufferAccessIterC<DataT> it(arr);it;it++)
       s << ((const DataT &) *it) << '\n';
@@ -465,8 +489,8 @@ namespace RavlN {
   }
   
   template <class DataT>
-  istream &
-  operator>>(istream & s, SArray1dC<DataT> & arr) { 
+  std::istream &
+  operator>>(std::istream & s, SArray1dC<DataT> & arr) {
     SizeT n = 0;
     s >> n;
     s.get(); // Get '\n' after size to avoid trouble with reading StringC's.
@@ -757,10 +781,10 @@ namespace RavlN {
   }
   
   template<class DataT>
-  UIntT SArray1dC<DataT>::Hash() const {
-    UIntT ret = Size();
+  size_t SArray1dC<DataT>::Hash() const {
+    size_t ret = Size();
     for(BufferAccessIterC<DataT> it(*this);it;it++)
-      ret += StdHash(it.Data()) ^ (ret >> 1) ;
+      ret += StdHash(it.Data()) ^ (ret << 5) ;
     return ret;
   }
 

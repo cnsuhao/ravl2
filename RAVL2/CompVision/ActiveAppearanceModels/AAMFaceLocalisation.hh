@@ -1,6 +1,6 @@
 #ifndef RAVLIMAGE_FACELOCALISATION_HEADER
 #define RAVLIMAGE_FACELOCALISATION_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: AAMFaceLocalisation.hh 6925 2008-09-01 13:53:07Z craftit $"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMFaceLocalisation.hh"
 //! docentry="Ravl.API.Images.AAM"

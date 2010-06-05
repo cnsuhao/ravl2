@@ -4,7 +4,7 @@
 #define RAVLPLOT_GUPPIHEADERS_HEADER 1
 //! docentry="Ravl.GUI.Data_Plotting.Guppi"
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: GuppiHeaders.hh 3317 2003-08-20 14:50:13Z ees1wc $"
 //! lib=RavlGuppi
 //! license=unknown
 //! userlevel=Develop

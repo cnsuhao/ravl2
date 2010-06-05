@@ -7,7 +7,7 @@
 #ifndef RAVL_VARIABLELENGTHCODING_HEADER
 #define RAVL_VARIABLELENGTHCODING_HEADER 1
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: VariableLengthCode.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/System/VariableLengthCode.hh"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Misc"

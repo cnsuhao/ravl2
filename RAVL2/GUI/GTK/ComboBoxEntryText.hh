@@ -1,14 +1,18 @@
 // This file is part of RAVL, Recognition And Vision Library 
-// Copyright (C) 2008, OmniPerception Ltd.
+// Copyright (C) 2010, OmniPerception Ltd.
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
+////////////////////////////////////////////////////////////////
+//! file = "Ravl/GUI/GTK/ComboBoxEntryText.hh"
+//! lib = Ravl/GUI
+//! author = "Charles Galambos"
+//! docentry = "Ravl.API.Graphics.GTK.Control"
+//! example = "exComboBoxEntryText.cc"
+
 #ifndef RAVLGUI_COMBOBOXENTRYTEXT_HEADER
 #define RAVLGUI_COMBOBOXENTRYTEXT_HEADER
-//! docentry="Ravl.API.Graphics.GTK.Control"
-//! author="Charles Galambos"
-//! date="21/04/2008"
 
 #include "Ravl/GUI/ComboBoxText.hh"
 #include "Ravl/GUI/TextEntry.hh"
@@ -16,7 +20,7 @@
 namespace RavlGUIN {
   
   //! userlevel=Develop
-  //: Combo box body.
+  //: Combo box with a text entry body.
   
   class ComboBoxEntryTextBodyC
     : public ComboBoxTextBodyC
@@ -25,7 +29,7 @@ namespace RavlGUIN {
     ComboBoxEntryTextBodyC();
     //: Constructor
     
-    ComboBoxEntryTextBodyC(const DListC<StringC> &options,bool editable = true);
+    ComboBoxEntryTextBodyC(const DListC<StringC> &options);
     //: Constructor
     
     TextEntryC &TextEntry()
@@ -39,10 +43,9 @@ namespace RavlGUIN {
     TextEntryC m_textEntry; // Text entry.
 
   };
-  
 
   //! userlevel=Normal
-  //: Combo box.
+  //: Combo box with a text entry.
   // <img src="../../../html/combo-box.png"><br>
   // Like <a href="RavlGUIN.ComboBoxTextC.html">ComboBoxTextC</a> but with editable entries
   
@@ -55,13 +58,13 @@ namespace RavlGUIN {
     //: Default constructor
     // Creates an invalid handle.
     
-    ComboBoxEntryTextC(const DListC<StringC> &options,bool editable = true)
-      : ComboBoxTextC(new ComboBoxTextBodyC(options,editable))
+    ComboBoxEntryTextC(const DListC<StringC> &options)
+      : ComboBoxTextC(new ComboBoxEntryTextBodyC(options))
     {}
     //: Constructor
     
   protected:
-    ComboBoxEntryTextC(const ComboBoxTextBodyC *body)
+    ComboBoxEntryTextC(const ComboBoxEntryTextBodyC *body)
       : ComboBoxTextC(body)
     {}
     //: Body constructor

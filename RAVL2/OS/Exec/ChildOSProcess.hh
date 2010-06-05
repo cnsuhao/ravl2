@@ -12,7 +12,7 @@
 //! lib=RavlOS
 //! author="Charles Galambos"
 //! docentry="Ravl.API.OS.Exec"
-//! rcsid="$Id$"
+//! rcsid="$Id: ChildOSProcess.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! date="24/11/1998"
 
 #include "Ravl/Stream.hh"

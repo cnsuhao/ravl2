@@ -8,7 +8,7 @@
 #define RAVLDCUBE3D_HEADER 1
 /////////////////////////////////////////////////
 //! docentry="Ravl.API.Graphics.3D"
-//! rcsid="$Id$"
+//! rcsid="$Id: DCube3D.hh 6701 2008-04-09 16:07:40Z ees1wc $"
 //! file="Ravl/GUI/3D/DCube3D.hh"
 //! lib=RavlGUI3D
 //! author="Charles Galambos"

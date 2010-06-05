@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignClassifierUnsupervised.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlPatternRec
 //! docentry="Ravl.API.Pattern Recognition.Cluster;Ravl.API.Pattern Recognition.Classifier.DesignClassifier"
 //! file="Ravl/PatternRec/Cluster/DesignClassifierUnsupervised.hh"

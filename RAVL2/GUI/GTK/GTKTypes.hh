@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_GTKTYPES_HEADER
 #define RAVLGUI_GTKTYPES_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: GTKTypes.hh 6701 2008-04-09 16:07:40Z ees1wc $"
 //! file="Ravl/GUI/GTK/GTKTypes.hh"
 //! lib=RavlGUI
 //! userlevel=Develop

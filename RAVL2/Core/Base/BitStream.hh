@@ -7,7 +7,7 @@
 #ifndef RAVL_BITSTREAM_HEADER
 #define RAVL_BITSTREAM_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BitStream.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/Base/BitStream.hh"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.IO.Streams"

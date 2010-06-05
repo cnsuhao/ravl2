@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! date="8/1/2003"
 //! docentry="Ravl.API.Images"
-//! rcsid="$Id$"
+//! rcsid="$Id: ScaleValues.hh 7194 2009-05-26 14:16:22Z ees1wc $"
 //! lib=RavlImage
 //! file="Ravl/Image/Base/ScaleValues.hh"
 

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: LinePP3d.cc 1652 2002-09-16 08:40:19Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/3D/LinePP3d.cc"
 

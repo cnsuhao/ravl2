@@ -7,7 +7,7 @@
 #ifndef RAVL_LINE2DITER_HEADER
 #define RAVL_LINE2DITER_HEADER    1
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Line2dIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlMath
 //! docentry="Ravl.API.Math.Geometry.2D"
 //! author="Charles Galambos"

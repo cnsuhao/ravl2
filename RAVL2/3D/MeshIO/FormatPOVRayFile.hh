@@ -7,7 +7,7 @@
 #ifndef RAVL_POVRAYFORMAT_HEADER
 #define RAVL_POVRAYFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FormatPOVRayFile.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=Ravl3DIO
 //! author="James Smith"
 //! docentry="Ravl.API.3D.IO.Formats"

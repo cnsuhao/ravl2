@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 // $Id: StdConst.cc 79 2001-05-10 13:44:47Z craftit $
-//! rcsid="$Id$"
+//! rcsid="$Id: StdConst.cc 79 2001-05-10 13:44:47Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/StdConst.cc"
 

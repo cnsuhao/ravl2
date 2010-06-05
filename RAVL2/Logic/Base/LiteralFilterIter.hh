@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_LITERALFILTERITER_HEADER
 #define RAVLLOGIC_LITERALFILTERITER_HEADER 1
 ///////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: LiteralFilterIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlLogic
 //! docentry="Ravl.API.Logic"
 //! author="Charles Galambos"

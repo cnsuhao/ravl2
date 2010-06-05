@@ -7,7 +7,7 @@
 #ifndef RAVL_ATTRIBUTECTRLINTERNAL_HEADER
 #define RAVL_ATTRIBUTECTRLINTERNAL_HEADER 1
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: AttributeCtrlInternal.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlIO
 //! docentry="Ravl.API.Core.Data_Processing.Attributes"
 //! file="Ravl/Core/IO/AttributeCtrlInternal.hh"

@@ -7,7 +7,7 @@
 #ifndef RAVL_DLIST_HEADER
 #define RAVL_DLIST_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DList.hh 7726 2010-05-06 17:32:01Z ees1wc $"
 //! docentry="Ravl.API.Core.Lists"
 //! file="Ravl/Core/Container/DList/DList.hh"
 //! lib=RavlCore
@@ -168,7 +168,7 @@ namespace RavlN {
     bool Contains(const DataT &x) const;
     //: Test if this list contains an element == to 'x'.
     
-    UIntT Hash() const;
+    SizeT Hash() const;
     //: Generate a hash number for the list.
     
   protected:    
@@ -263,14 +263,14 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Double linked List 
-  // This is a reference counted, doubly linked list. <p>
+  // This is a reference counted, doubly-linked list. <p>
   // Implementation:<p>
   // The list contains a head element and a chain of
-  // elements. Empty list contains just its head element.
-  // Because of efficiency references to elements of a list are not
-  // checked if they are proper elements of a list or its head.
+  // elements. the empty list contains just its head element.
+  // For efficiency, references to elements of a list are not
+  // checked to see if they are proper elements of a list or its head.
   //
-  // <p> To iterate through a list efficiently, you need to use on of the list
+  // <p> To iterate through a list efficiently, use the list
   // iterator class <a href="Ravl.DLIterC.html">DLIterC</a>
   
   template<class DataT>
@@ -330,12 +330,15 @@ namespace RavlN {
     { return Body().Head(); }
     //: Get head of list.
     
+    static bool DefaultComparisonOp(const DataT &l1,const DataT &l2)
+    { return l1 < l2; }
+    // Default comparison method.
   public:
     bool IsEmpty() const
     { return Body().IsEmpty(); }
     //: Test is the list is empty.
     
-    UIntT Size() const
+    SizeT Size() const
     { return Body().Size(); }
     //: Count the number of elements in the list.
     // This is slow! It goes through the list counting the elements.
@@ -413,9 +416,14 @@ namespace RavlN {
     { Body().MoveLast(at); }
     //: Move the single item 'at' to the end of this list.
     
-    void MergeSort(typename DListBodyC<DataT>::MergeSortCmpT cmp)
+    void MergeSort(typename DListBodyC<DataT>::MergeSortCmpT cmp = &DListC<DataT>::DefaultComparisonOp)
     { Body().MergeSort(cmp); }
     //: Merge sort the list with comparison function 'cmp'.
+    // The default is to use the "<" operator; this creates a list sorted in
+    // <i>ascending</i> order.<br>
+    // Where a comparison operator for DataT dosn not exist, you must provide
+    // your own in place of the default argument.
+    // See <a href="../../Examples/exDList.cc.html">example</a> for how to write your own.
 
     bool operator==(const DListC<DataT> &oth) const;
     //: Are lists identical ?
@@ -468,7 +476,7 @@ namespace RavlN {
     // 0 is the first element, 1 the second etc.
     // -1 is the last, -2 second from last.
     
-    UIntT Hash() const
+    SizeT Hash() const
     { return Body().Hash(); }
     //: Generate a hash number for the list.
     
@@ -486,7 +494,7 @@ namespace RavlN {
   
   template<class DataT> 
   DListBodyC<DataT>::DListBodyC(istream &strm) {
-    UIntT i;
+    SizeT i;
     Empty();
     strm >> i;
     for(;i > 0;i--) {
@@ -500,7 +508,7 @@ namespace RavlN {
   
   template<class DataT> 
   DListBodyC<DataT>::DListBodyC(BinIStreamC &strm) {
-    UIntT i;
+    UInt32T i; // FIXME:-Should be SizeT. UInt32T Used for backward compatibility.
     Empty();
     strm >> i;
     for(;i > 0;i--) {
@@ -523,7 +531,8 @@ namespace RavlN {
   
   template<class DataT> 
   void DListBodyC<DataT>::Save(BinOStreamC &strm) const {
-    strm << Size();
+    UInt32T elements = Size(); // FIXME:- SHould be saved as a SizeT. Used for backward compatibility.
+    strm << elements;
     for(DLIterC<DataT> it(*this);it;it++)
       strm << *it;
   }
@@ -573,8 +582,8 @@ namespace RavlN {
   //: Generate a hash number for the list.
   
   template<class DataT>
-  UIntT DListBodyC<DataT>::Hash() const {
-    UIntT ret = Size();
+  SizeT DListBodyC<DataT>::Hash() const {
+    SizeT ret = Size();
     for(DLIterC<DataT> it(*this);it;it++)
       ret += StdHash(it.Data()) ^ (ret >> 1) ;
     return ret;

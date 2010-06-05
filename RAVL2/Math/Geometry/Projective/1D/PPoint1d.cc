@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! date="26.04.1995"
 //! author="Radek Marik"
-//! rcsid="$Id$"
+//! rcsid="$Id: PPoint1d.cc 3521 2003-10-08 20:38:22Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Projective/1D/PPoint1d.cc"
 

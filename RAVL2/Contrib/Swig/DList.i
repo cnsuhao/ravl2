@@ -13,6 +13,7 @@
 
 #include "Ravl/DList.hh"
 #include "Ravl/DLIter.hh"
+#include "Ravl/CDLIter.hh"
 
 #ifdef SWIGPERL
 #define Copy(s,d,n,t)   (MEM_WRAP_CHECK_(n,t) (void)memcpy((char*)(d),(const char*)(s), (n) * sizeof(t)))
@@ -67,12 +68,22 @@ namespace RavlN {
     DataT *operator->();
   };
 
+  template<class DataT>
+  class ConstDLIterC
+  : public DLIterC<DataT>
+  {
+  public:
+    ConstDLIterC();
+    ConstDLIterC(const DListC<DataT> &copy);
+  };
+
 }
 
 %define DLIST_TOLIST_TYPE(name, type, converter)
 
 %template(DList ## name ## C) RavlN::DListC<type >;
 %template(DList ## name ## IterC) RavlN::DLIterC<type >;
+%template(DList ## name ## ConstIterC) RavlN::ConstDLIterC<type >;
 
 %inline %{
 #if SWIGPYTHON

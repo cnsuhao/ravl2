@@ -6,7 +6,7 @@
 // file-header-ends-here
 ////////////////////////////////////////////
 //! docentry="Graphics.GTK"
-//! rcsid="$Id$"
+//! rcsid="$Id: VLabel.cc 6701 2008-04-09 16:07:40Z ees1wc $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/VLabel.cc"
 

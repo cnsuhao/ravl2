@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 1115 2002-05-10 13:19:14Z craftit $"
 #! file="Ravl/SourceTools/CxxDoc/Templates/DocNode/defs.mk"
 
 DESCRIPTION = Templates for CxxDoc documentation system.

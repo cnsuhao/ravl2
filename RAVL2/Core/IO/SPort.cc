@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SPort.cc 7283 2009-09-22 16:47:33Z robowaz $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/SPort.cc"
 

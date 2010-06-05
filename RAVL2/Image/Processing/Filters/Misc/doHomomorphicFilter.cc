@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: doHomomorphicFilter.cc 6431 2007-11-12 12:26:56Z ees1wc $"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! file="Ravl/Image/Processing/Filters/doFilter.cc"

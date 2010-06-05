@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 ##########################################################
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 7173 2009-04-25 11:06:58Z craftit $"
 #! file="Ravl/OS/Threads/Tools/defs.mk"
 
 DESCRIPTION=Threading tools

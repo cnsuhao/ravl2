@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_UNIFY_HEADER
 #define RAVLLOGIC_UNIFY_HEADER 1
 //////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Unify.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Logic"
 //! lib=RavlLogic
 //! author="Charles Galambos"

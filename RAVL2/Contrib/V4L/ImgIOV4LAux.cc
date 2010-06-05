@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOV4LAux.cc 4640 2004-11-04 22:30:46Z robowaz $"
 //! lib=RavlImgIOV4L
 //! file="Ravl/Contrib/V4L/ImgIOV4LAux.cc"
 

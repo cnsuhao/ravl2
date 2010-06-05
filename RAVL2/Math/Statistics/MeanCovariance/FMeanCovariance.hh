@@ -7,7 +7,7 @@
 #ifndef RAVL_FMEANCOVARIANCE_HEADER
 #define RAVL_FMEANCOVARIANCE_HEADER
 //////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FMeanCovariance.hh 7294 2009-10-08 14:19:38Z craftit $"
 //! userlevel=Normal
 //! author="Radek Marik"
 //! date="01/01/1994"

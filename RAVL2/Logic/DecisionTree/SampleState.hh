@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_SAMPLESTATE_HEADER
 #define RAVL_SAMPLESTATE_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: SampleState.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlLogic
 //! file="Ravl/Logic/DecisionTree/SampleState.hh"
 //! author="Charles Galambos"

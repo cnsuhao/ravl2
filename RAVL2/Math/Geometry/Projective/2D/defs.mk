@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 # Makefile 
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 7653 2010-03-09 15:09:51Z ees1wc $"
 #! file="Ravl/Math/Geometry/Projective/2D/defs.mk"
 
 # -----------  Specification of your project -----------------------
@@ -36,4 +36,4 @@ LIBDEPS = RavlMathProj2d.def
 
 USESLIBS=RavlMath
 
-TESTEXES= testFundamentalMatrix2d.cc
+TESTEXES= testFundamentalMatrix2d.cc testProjective2d.cc

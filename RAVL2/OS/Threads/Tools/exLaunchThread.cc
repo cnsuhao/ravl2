@@ -8,7 +8,7 @@
 //! author="Lee Gregory"
 //! userlevel=Normal
 //! docentry="Ravl.API.OS.Threads"
-//! rcsid="$Id$"
+//! rcsid="$Id: exLaunchThread.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Tools/exLaunchThread.cc"
 

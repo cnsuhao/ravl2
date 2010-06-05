@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_IMAGECONV_HEADER
 #define RAVLIMAGE_IMAGECONV_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ImageConv.hh 7751 2010-06-02 09:59:31Z alexkostin $"
 //! file="Ravl/Image/Base/ImageConv.hh"
 //! lib=RavlImage
 //! userlevel=Normal
@@ -80,6 +80,12 @@ namespace RavlImageN {
   ImageC<bool> ByteImage2BoolImage(const ImageC<ByteT> &dat);
   //: Image conversion: byte grey-level &rarr; boolean grey-level
   
+  ImageC<ByteT> FloatImageCT2ByteImageCT(const ImageC<FloatT> &dat);
+  //: Image conversion: float grey-level &rarr; byte grey-level
+
+  ImageC<FloatT> ByteImageCT2FloatImageCT(const ImageC<ByteT> &dat);
+  //: Image conversion: float grey-level &rarr; byte grey-level
+
   //:-
   //! docentry="Ravl.API.Images.Converters;Ravl.API.Images.Pixel Types.RGB"
 

@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! date="15/02/2000"
 //! file="Ravl/Core/Base/StreamType.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: StreamType.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/Stream.hh"
 

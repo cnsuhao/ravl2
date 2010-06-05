@@ -12,7 +12,7 @@
 //! docentry="Ravl.API.Core.Reference Counting"
 //! file="Ravl/Core/Base/RCAbstract.hh"
 //! lib=RavlCore
-//! rcsid="$Id$"
+//! rcsid="$Id: RCAbstract.hh 7303 2009-10-09 14:15:25Z craftit $"
 //! date="28/05/1998"
 
 #include "Ravl/RCHandleV.hh"

@@ -11,7 +11,7 @@
 //! date="23/9/2000"
 //! lib=RavlFireWire
 //! docentry="Ravl.API.Images.Video.Video IO.DV;Ravl.Applications.Video"
-//! rcsid="$Id$"
+//! rcsid="$Id: DvDevice.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/FireWire/DvDevice.hh"
 
 #include <libavc1394/rom1394.h>

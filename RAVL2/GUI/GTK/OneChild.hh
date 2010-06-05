@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_ONECHILD_HEADER 
 #define RAVLGUI_ONECHILD_HEADER 1
 /////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: OneChild.hh 7180 2009-05-14 16:43:43Z craftit $"
 //! lib=RavlGUI
 //! docentry="Ravl.API.Graphics.GTK.Internal"
 //! author="Charles Galambos"

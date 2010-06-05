@@ -7,7 +7,7 @@
 #ifndef RAVL_DESIGNKMEANS_HEADER
 #define RAVL_DESIGNKMEANS_HEADER 1
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignKMeans.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlPatternRec
 //! docentry="Ravl.API.Pattern Recognition.Cluster;Ravl.API.Pattern Recognition.Classifier.DesignClassifier"
 //! example=exKMeansCluster.cc

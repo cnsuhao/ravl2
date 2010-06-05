@@ -9,7 +9,7 @@
 //! docentry="Ravl.API.Core.Arrays.1D"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: DArray1dIter2.hh 6232 2007-06-27 14:54:17Z craftit $"
 //! file="Ravl/Core/System/DArray1dIter2.hh"
 
 #include "Ravl/DArray1dIter.hh"

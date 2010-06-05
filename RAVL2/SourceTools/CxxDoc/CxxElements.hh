@@ -7,7 +7,7 @@
 #ifndef RAVLCXXDOC_CXXELEMENTS_HEADER
 #define RAVLCXXDOC_CXXELEMENTS_HEADER 1
 //////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: CxxElements.hh 6906 2008-08-08 13:01:28Z craftit $"
 //! userlevel=Normal
 //! docentry="Ravl.API.Source Tools.CxxDoc.Internal"
 //! lib=RavlCxxDoc

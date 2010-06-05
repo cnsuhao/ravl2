@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 7590 2010-02-23 12:03:11Z kier $"
 #! file="Ravl/PatternRec/Distance/defs.mk"
 
 DESCRIPTION = Pattern Recognition Toolbox
@@ -21,8 +21,10 @@ LIBDEPS=RavlPatternRecDistance.def
 
 PLIB=RavlPatternRec
 
-TESTEXES=testMeasure.cc
+TESTEXES=testMeasure.cc testDistanceXMLFactory.cc
 
-USESLIBS=RavlPatternRec RavlMath
+USESLIBS=RavlPatternRec RavlMath RavlXMLFactory RavlMathIO
 
 EHT=Ravl.API.Pattern_Recognition.Distance.html
+
+MUSTLINK=linkDistance.cc

@@ -11,7 +11,7 @@
 //! author="Radek Marik"
 //! date="26.06.1994"
 //! docentry="Ravl.API.Math.Geometry.2D"
-//! rcsid="$Id$"
+//! rcsid="$Id: LineABC2d.hh 7434 2009-12-16 16:57:28Z ees1wc $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/2D/LineABC2d.hh"
 
@@ -33,28 +33,29 @@ namespace RavlN {
     {}
     //: Creates the non-existing line (0,0,0).
     
-    inline LineABC2dC(RealT aa, RealT bb, RealT cc)
-      : normal(aa, bb), d(cc)
+    inline LineABC2dC(RealT a, RealT b, RealT c)
+      : normal(a, b), d(c)
     {}
-    //: Creates he line determined by the equation aa*x+bb*y+cc = 0.
+    //: Creates the line determined by the equation a*x+b*y+c = 0.
     
-    inline LineABC2dC(const Point2dC & a, const Point2dC  & b)
-      : normal(Vector2dC(a-b).Perpendicular()), d(-normal.Dot(b))
+    inline LineABC2dC(const Point2dC & end, const Point2dC  & start)
+      : normal(Vector2dC(end-start).Perpendicular()), d(-normal.Dot(start))
     {}
-    //: Creates the line passing through two points 'a' and 'b'.
+    //: Creates the line passing through two points 'end' and 'start'.
+    //!bug: These args are the wrong way round. Will be fixed in future RAVL versions
     
-    inline LineABC2dC(const Vector2dC & n, const Point2dC  & p)
-      : normal(n), d(-n.Dot(p))
+    inline LineABC2dC(const Vector2dC & norm, const Point2dC  & pt)
+      : normal(norm), d(-norm.Dot(pt))
     {}
-    //: Creates the line passing through 'p' with the normal 'n'.
+    //: Creates the line passing through 'pt' with the normal 'norm'.
     
-    inline LineABC2dC(const Point2dC  & p, const Vector2dC & v)
-      : normal(v.Perpendicular())
-    { d = -normal.Dot(p); }
-    //: Creates the line passing through 'p' with the direction 'v'
+    inline LineABC2dC(const Point2dC  & pt, const Vector2dC & vec)
+      : normal(vec.Perpendicular())
+    { d = -normal.Dot(pt); }
+    //: Creates the line passing through 'pt' with the direction 'vec'
     
     bool FitLSQ(const Array1dC<Point2dC> &points,RealT &residual);
-    //: Fit points to a circle.
+    //: Fit points to a line.
     // 'residual' is from the least squares fit and can be used to assess 
     // the quality of the fit.  Returns false if fit failed.
     

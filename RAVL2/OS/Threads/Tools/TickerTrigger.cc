@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TickerTrigger.cc 5595 2006-06-16 10:32:41Z craftit $"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Tools/TickerTrigger.cc"
 

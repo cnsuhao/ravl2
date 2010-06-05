@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SPortAttach.cc 6522 2008-01-29 12:08:25Z craftit $"
 //! docentry="Algorithms.Data Processing.Composition" 
 //! lib=RavlIO
 //! file="Ravl/Core/IO/SPortAttach.cc"

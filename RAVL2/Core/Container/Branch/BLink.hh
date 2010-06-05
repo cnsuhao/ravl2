@@ -7,7 +7,7 @@
 #ifndef RAVL_BLINK_HEADER 
 #define RAVL_BLINK_HEADER 1
 ///////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BLink.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Branch"

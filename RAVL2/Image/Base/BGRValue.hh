@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_BGRVALUE_HEADER
 #define RAVLIMAGE_BGRVALUE_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BGRValue.hh 6970 2008-09-23 17:04:52Z ees1wc $"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Pixel Types.RGB"
 //! userlevel=Normal

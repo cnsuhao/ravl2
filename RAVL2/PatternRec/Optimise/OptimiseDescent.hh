@@ -14,7 +14,7 @@
 //! example=testOptimise.cc
 //! file="Ravl/PatternRec/Optimise/OptimiseDescent.hh"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation.Implementation"
-//! rcsid="$Id$"
+//! rcsid="$Id: OptimiseDescent.hh 5398 2006-03-09 16:55:13Z craftit $"
 
 #include "Ravl/PatternRec/Optimise.hh"
 

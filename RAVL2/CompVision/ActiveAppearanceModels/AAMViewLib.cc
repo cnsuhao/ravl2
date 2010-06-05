@@ -95,7 +95,7 @@ namespace RavlImageN {
     return true;
   }
 
-  static void SetShapeModel(AAMShapeModelC &shapeModel) {
+  static void SetShapeModel(const AAMShapeModelC &shapeModel) {
     g_sm = shapeModel;
     if(g_sm.IsValid()) {
       g_params = VectorC(g_sm.Dimensions());
@@ -108,7 +108,7 @@ namespace RavlImageN {
     }
   }
 
-  static void SetAppearanceModel(AAMAppearanceModelC &appearanceModel) {
+  static void SetAppearanceModel(const AAMAppearanceModelC &appearanceModel) {
     g_am = appearanceModel;
     if(g_am.IsValid()) {
       g_params = VectorC(g_am.Dimensions());
@@ -120,7 +120,7 @@ namespace RavlImageN {
     }
   }
 
-  void AAMDisplay(AAMShapeModelC &shapeModel, AAMAppearanceModelC &appearanceModel, IntT varRange, RealT scale) {
+  void AAMDisplay(const AAMShapeModelC &shapeModel, const AAMAppearanceModelC &appearanceModel, IntT varRange, RealT scale) {
     g_scale = scale;
     SetShapeModel(shapeModel);
     SetAppearanceModel(appearanceModel);

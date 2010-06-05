@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOMeteor1.cc 7080 2009-02-03 14:39:18Z craftit $"
 //! lib=RavlImgIOMeteor1
 //! author="Charles Galambos"
 //! file="Ravl/Contrib/Meteor1/ImgIOMeteor1.cc"

@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_IOJPEG_HEADER
 #define RAVLIMAGE_IOJPEG_HEADER 1
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOJPeg.hh 7195 2009-06-01 16:55:56Z craftit $"
 //! userlevel=Normal
 //! file="Ravl/Image/ExternalImageIO/ImgIOJPeg.hh"
 //! lib=RavlExtImgIO

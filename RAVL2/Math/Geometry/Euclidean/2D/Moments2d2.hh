@@ -12,7 +12,7 @@
 //! date="6/8/1995"
 //! author="Radek Marik"
 //! docentry="Image.Image Processing.Region Model"
-//! rcsid="$Id$"
+//! rcsid="$Id: Moments2d2.hh 6084 2007-03-05 16:03:05Z craftit $"
 //! docentry="Ravl.API.Math.Geometry.2D"
 
 #include "Ravl/Types.hh"

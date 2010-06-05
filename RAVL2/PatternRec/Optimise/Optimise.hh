@@ -13,7 +13,7 @@
 //! example=testOptimise.cc
 //! file="Ravl/PatternRec/Optimise/Optimise.hh"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation"
-//! rcsid="$Id$"
+//! rcsid="$Id: Optimise.hh 6762 2008-04-25 02:08:15Z craftit $"
 
 #include "Ravl/RCHandleV.hh"
 #include "Ravl/String.hh"

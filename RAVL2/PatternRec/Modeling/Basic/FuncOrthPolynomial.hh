@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_ORTHPOLYNOMIAL_HEADER
 #define RAVL_ORTHPOLYNOMIAL_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: FuncOrthPolynomial.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! date="21/4/1998"
 //! author="Robert Crida and Charles Galambos"
 //! docentry="Ravl.API.Pattern Recognition.Numerical Modeling"

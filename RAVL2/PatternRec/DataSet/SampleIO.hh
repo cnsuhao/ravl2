@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_SAMPLEIO_HEADERS
 #define RAVL_SAMPLEIO_HEADERS 1
-//! rcsid="$Id$"
+//! rcsid="$Id: SampleIO.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec

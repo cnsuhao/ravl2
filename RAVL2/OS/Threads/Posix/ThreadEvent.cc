@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ThreadEvent.cc 7747 2010-06-02 09:53:17Z alexkostin $"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Posix/ThreadEvent.cc"
 
@@ -28,7 +28,7 @@ namespace RavlN
   }
 
   //: Wait for lock to be free.
-  // NB. This is only garanteed to work for one thread.
+  // NB. This is only guaranteed to work for one thread.
   
   bool ThreadEventC::WaitForFree() {
     if(waiting == 0)

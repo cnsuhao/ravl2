@@ -11,7 +11,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-//! rcsid="$Id$"
+#include <stdio.h>
+//! rcsid="$Id: Parport.cc 7402 2009-12-03 18:03:40Z robowaz $"
 //! lib=PPDev
 //! file="Ravl/Contrib/ParallelPortPPDev/Parport.cc"
 

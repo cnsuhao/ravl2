@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: testImage.cc 7470 2010-01-20 16:16:03Z ees1wc $"
 //! lib=RavlImage
 //! file="Ravl/Image/Base/testImage.cc"
 //! docentry="Ravl.API.Images"
@@ -268,7 +268,6 @@ int TestColorCnv() {
 
 int TestInterlace() {
   cerr << "TestInterlace(), Called \n";
-  #if 0
   ImageC<IntT> img(10,10);
   img.Fill(0); 
   img[0][3] = 0; img[1][3] = 1; img[2][3] = 2; img[3][3] = 3; img[4][3] = 4;
@@ -290,7 +289,6 @@ int TestInterlace() {
   for (Array2dIter2C<IntT,IntT> i(img,img2); i; ++i) {
     if (i.Data1() != i.Data2()) {cout<<i.Index()<<"; "<<i.Data1()<<" "<<i.Data2();return __LINE__;}
   }
-  #endif
   return 0;
 }
 
@@ -312,6 +310,10 @@ int TestDraw() {
   img.Fill(0);
   Index2dC from(10,10);
   Index2dC to(90,90);
+  Index2dC out1(200,20);
+  Index2dC out2(200,40);
+  DrawLine(img,(ByteT) 255,out1,out2);
+  for (Array2dIterC<ByteT>i(img); i; ++i) if (*i != 0) return __LINE__;
   DrawLine(img,(ByteT) 255,from,to);
   if(img[50][50] != 255) return __LINE__;
   if(img[from] != 255) return __LINE__;

@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_LITERALINDEX_HEADER
 #define RAVLLOGIC_LITERALINDEX_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: LiteralIndex.hh 6464 2007-11-25 16:02:33Z craftit $"
 //! lib=RavlLogic
 //! docentry="Ravl.API.Logic.Index"
 //! file="Ravl/Logic/Index/LiteralIndex.hh"

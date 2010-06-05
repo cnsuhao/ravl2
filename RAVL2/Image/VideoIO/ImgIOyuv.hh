@@ -11,7 +11,7 @@
 //! lib=RavlVideoIO
 //! docentry="Ravl.API.Images.Video.Video IO"
 //! example=exImgSeq.cc
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOyuv.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Charles Galambos"
 //! date="08/04/99"
 

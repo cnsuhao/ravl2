@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="1/10/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: StateVectorAffine2d.hh 6819 2008-05-30 12:01:36Z ees1wc $"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation2.Examples"
 //! lib=RavlOptimise
 //! file="Ravl/Math/Optimisation/StateVectorAffine2d.hh"

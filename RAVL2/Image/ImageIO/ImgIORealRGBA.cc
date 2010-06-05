@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOByteRGBA.cc 3700 2003-11-19 17:44:12Z craftit $"
 //! lib=RavlImageIO
 //! file="Ravl/Image/ImageIO/ImgIOByteRGBA.cc"
 

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ObservationAffine2dPoint.cc 7543 2010-02-18 12:51:53Z craftit $"
 //! lib=RavlOptimise
 //! file="Ravl/Math/Optimisation/ObservationAffine2dPoint.cc"
 
@@ -13,6 +13,7 @@
 #include "Ravl/ObsVectorBiGaussian.hh"
 #include "Ravl/Vector3d.hh"
 #include "Ravl/Exception.hh"
+#include "Ravl/Point2d.hh"
 
 namespace RavlN {
 
@@ -40,7 +41,7 @@ namespace RavlN {
   //: Evaluate an observation for a single point
   
   VectorC ObservationAffine2dPointBodyC::EvaluateFunctionH(const StateVectorC &stateVec) {
-    // we know that the state vector actually represents a 2D affine homography
+    // we know that the state vector actually represents a 2D affine projection
     const StateVectorAffine2dC sv(stateVec);
     RavlAssert(sv.IsValid());
     Vector2dC p = sv.GetAffine() * z1;
@@ -50,7 +51,7 @@ namespace RavlN {
   //: Evaluate the Jacobian of an observation for a single point
   
   MatrixC ObservationAffine2dPointBodyC::EvaluateJacobianHx(const StateVectorC &stateVec) {
-    // we know that the state vector actually represents a 2D affine homography
+    // we know that the state vector actually represents a 2D affine projection
     const StateVectorAffine2dC sv(stateVec);
     RavlAssert(sv.IsValid());
     Vector2dC p = sv.GetAffine() * z1;

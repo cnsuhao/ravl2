@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! date="10/12/1996"
 //! docentry="Ravl.API.Core.Graphs"
-//! rcsid="$Id$"
+//! rcsid="$Id: Graph.hh 7563 2010-02-18 16:41:12Z craftit $"
 //! userlevel=Normal
 //! example=exGraph.cc
 
@@ -93,12 +93,12 @@ namespace RavlN {
     //: Inserts one egde to the graph. 
     // Returns an edge iterator pointing to the new element.
     
-    UIntT NoNodes() const
+    SizeT NoNodes() const
     { return Nodes().Size(); }
     //: Count the number of nodes in the graph.
     // This actuall iterates through the list and so is slow.
     
-    UIntT NoEdges() const
+    SizeT NoEdges() const
     { return Edges().Size(); }
     //: Count the number of edges in the graph.
     // This actuall iterates through the list and so is slow.

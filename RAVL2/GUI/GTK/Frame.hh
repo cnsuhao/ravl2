@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_FRAME_HEADER
 #define RAVLGUI_FRAME_HEADER 1
 //////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Frame.hh 7180 2009-05-14 16:43:43Z craftit $"
 //! file="Ravl/GUI/GTK/Frame.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"

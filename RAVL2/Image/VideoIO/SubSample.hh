@@ -7,7 +7,7 @@
 #ifndef IPSUBSAMPLE_HEADER
 #define IPSUBSAMPLE_HEADER 1
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SubSample.hh 40 2001-04-23 16:17:51Z craftit $"
 //! lib=RavlImage
 
 #include "amma/Image.hh"

@@ -6,13 +6,14 @@
 // file-header-ends-here
 ////////////////////////////////////////////
 //! docentry="Graphics.GTK"
-//! rcsid="$Id$"
+//! rcsid="$Id: TextEntry.cc 7647 2010-03-08 14:44:21Z robowaz $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/TextEntry.cc"
 
 #include "Ravl/GUI/TextEntry.hh"
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/ReadBack.hh"
+#include "Ravl/XMLFactoryRegister.hh"
 #include <gtk/gtk.h>
 
 #define DODEBUG 0
@@ -39,9 +40,25 @@ namespace RavlGUIN {
       isEditable(editable)
   {}
   
+  //: XML factory constructor
+
+  TextEntryBodyC::TextEntryBodyC(const XMLFactoryContextC &factory)
+  : text(factory.AttributeString("value","")),
+    maxLen(factory.AttributeInt("maxLen",-1)),
+    sigAllChanges(factory.AttributeBool("signalAllChanges",false)),
+    bPasswdMode(factory.AttributeBool("passwordMode",false)),
+    activate(text),
+    xsize(factory.AttributeInt("xDim",-1)),
+    ysize(factory.AttributeInt("yDim",-1)),
+    isEditable(factory.AttributeBool("editable",true))
+  {
+    factory.UseComponent("sigActivate",activate,true,typeid(Signal1C<StringC>));
+  }
+
   //: Got a changed signal.
   
   bool TextEntryBodyC::SigChanged() {
+    ONDEBUG(cerr << "TextEntryBodyC::SigChanged() \n");
     MutexLockC lock(access);
     text = StringC(gtk_entry_get_text(GTK_ENTRY(Widget())));
     lock.Unlock();
@@ -73,7 +90,6 @@ namespace RavlGUIN {
       gtk_entry_set_text (GTK_ENTRY (widget), text);
     GUISetUSize( xsize, ysize ) ; 
     gtk_editable_set_editable(GTK_EDITABLE(widget), isEditable) ;
-    ONDEBUG(cerr << "TextEntryBodyC::Create(), Size=" << GTK_ENTRY (widget)->text_size << " Used=" << GTK_ENTRY (widget)->text_length <<" Max=" << GTK_ENTRY (widget)->text_max_length <<"\n");
     
     gtk_signal_connect(GTK_OBJECT(widget), "activate",
 		       GTK_SIGNAL_FUNC(enter_callback),
@@ -110,16 +126,27 @@ namespace RavlGUIN {
     // Done
     return true;
   }
-  
+
   //: Access text
-  
+
+  StringC TextEntryBodyC::GUIText()
+  {
+    MutexLockC lock(access);
+    RavlAssertMsg(Manager.IsGUIThread(), "Incorrect thread. This method may only be called on the GUI thread.");
+    text = StringC(gtk_entry_get_text(GTK_ENTRY(Widget())));
+    StringC ret = text;
+    lock.Unlock();
+    return ret;
+  }
+
+  //: Access text
+
   StringC TextEntryBodyC::Text() const {
     MutexLockC lock(access);
     StringC ret = text; // Ensure the right order.
     lock.Unlock();
-    return ret ;
+    return ret;
   }
-  
   
   //: Set text to edit.
   // This should only be called within the GUI thread.
@@ -203,6 +230,7 @@ namespace RavlGUIN {
     return true ; 
   }
 
+  static XMLFactoryRegisterHandleConvertC<TextEntryC,WidgetC> g_registerXMLFactoryTextEntry("RavlGUIN::TextEntryC");
 
 
 }

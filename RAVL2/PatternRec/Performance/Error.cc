@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Error.cc 7592 2010-02-24 00:00:22Z kier $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Performance/Error.cc"
 
@@ -57,6 +57,24 @@ namespace RavlN {
     return pmc;
   }
 
+  
+  RealT ErrorBodyC::Error(const Classifier2C & classifier, const DataSetVectorLabelC & dset, UIntT label, RealT threshold) {
+    UIntT correct = 0;
+    UIntT wrong = 0;    
+    
+    for(DataSet2IterC<SampleVectorC, SampleLabelC>it(dset);it;it++) {
+      RealT score = classifier.Classify2(it.Data1());
+      if(it.Data2() == label && score <= threshold) 
+        correct++;
+      else if(it.Data2() != label && score > threshold)
+        correct++;
+      else wrong++;
+    }
+    RealT pmc = (RealT)wrong/(RealT)dset.Sample1().Size();
+    return pmc;
+  }
+
+  
   
   //: Load from stream.
   

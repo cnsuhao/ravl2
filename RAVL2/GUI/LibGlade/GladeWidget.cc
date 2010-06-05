@@ -9,6 +9,8 @@
 
 #include "Ravl/GUI/GladeWidget.hh"
 #include "Ravl/HashIter.hh"
+#include "Ravl/OS/SysLog.hh"
+#include "Ravl/XMLFactoryRegister.hh"
 #include <gtk/gtk.h>
 
 #define DODEBUG 0
@@ -38,7 +40,7 @@ namespace RavlGUIN {
       m_widgetPrefix += ".";
     
     if(customWidget)
-      xml = GladeXMLC(gladeXml.Filename(),name);
+      xml = GladeXMLC(gladeXml.Filename(),name,gladeXml.ModuleName());
   }
   
   //: Constructor
@@ -47,9 +49,36 @@ namespace RavlGUIN {
     : name(widgetName),
       customWidget(aCustomWidget)
   {
-    ONDEBUG(cerr << "GladeWidgetBodyC::GladeWidgetBodyC(name=" << widgetName << ", customWidget=" << aCustomWidget << ")" << endl);
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "GladeWidgetBodyC::GladeWidgetBodyC(name=" << widgetName << ", customWidget=" << aCustomWidget << ")" << endl);
   }
   
+  GladeWidgetBodyC::GladeWidgetBodyC(const XMLFactoryContextC &factory)
+   : WidgetBodyC(factory),
+     name(factory.AttributeString("widgetName",factory.Name())),
+     customWidget(factory.AttributeBool("customWidget",false)),
+     m_widgetPrefix(factory.AttributeString("widgetPrefix",""))
+  {
+    if(!factory.UseComponent("GladeXML",xml,false,typeid(GladeXMLC))) {
+      SysLog(SYSLOG_ERR) << "Failed to find glade xml file. \n";
+    }
+    if(!m_widgetPrefix.IsEmpty() && m_widgetPrefix.lastchar() != '.')
+      m_widgetPrefix += ".";
+    if(customWidget) {
+      xml = GladeXMLC(xml.Filename(),name,xml.ModuleName());
+    }
+    ONDEBUG(cerr << "GladeWidgetBodyC::GladeWidgetBodyC(name=" << name << ", customWidget=" << customWidget << ", prefix = " << m_widgetPrefix << ")" << endl);
+    for(RavlN::DLIterC<RavlN::XMLTreeC> it(factory.Children());it;it++) {
+      if(it->Name() == "GladeXML" || it->AttributeString("typename","").IsEmpty())
+        continue;
+      WidgetC widget;
+      if(!factory.UseComponent(it->Name(),widget)) {
+        SysLog(SYSLOG_ERR) << "Failed to load component " << it->Name() << "\n";
+        continue;
+      }
+      StringC widgetName = it->AttributeString("widgetName",it->Name());
+      AddObject(widgetName,widget,it->AttributeBool("optional",false));
+    }
+  }
   
   bool GladeWidgetBodyC::SetXML(const GladeXMLC &gladeXml)
   {
@@ -60,7 +89,7 @@ namespace RavlGUIN {
     }
     
     if(customWidget)
-      xml = GladeXMLC(gladeXml.Filename(),name);
+      xml = GladeXMLC(gladeXml.Filename(),name,gladeXml.ModuleName());
     else
       xml = gladeXml;
     
@@ -133,7 +162,7 @@ namespace RavlGUIN {
     
     ConnectSignals();    
     
-    ONDEBUG(cerr << "GladeWidgetBodyC::Create(GtkWidget *), Done. Name=" << name << "\n");
+    ONDEBUG(cerr << "GladeWidgetBodyC::CommonCreate(GtkWidget *), Done. Name=" << name << "\n");
     return true;
   }
 
@@ -186,5 +215,9 @@ namespace RavlGUIN {
     WidgetBodyC::WidgetDestroy();
   }
 
-  
+  static XMLFactoryRegisterHandleConvertC<GladeWidgetC,WidgetC> g_registerXMLFactoryGladeWidget("RavlGUIN::GladeWidgetC");
+
+  void LinkGladeWidget()
+  {}
+
 }

@@ -7,7 +7,7 @@
 #ifndef RAVL_VECTORINDEXITER_HEADER
 #define RAVL_VECTORINDEXITER_HEADER 1
 ///////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: VectorIndexIter.hh 4130 2004-03-20 15:08:03Z craftit $"
 //! author="Luis Molina Tanco and Charles Galambos"
 //! file="Ravl/Math/Indexing/VectorIndexIter.hh"
 //! lib=RavlMath

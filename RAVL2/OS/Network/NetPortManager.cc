@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: NetPortManager.cc 7341 2009-10-29 16:34:49Z robowaz $"
 //! author="Charles Galambos"
 //! lib=RavlNet
 //! file="Ravl/OS/Network/NetPortManager.cc"

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: docSubst.cc 5642 2006-06-23 10:51:11Z craftit $"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Source Tools"
 //! lib=RavlSourceTools

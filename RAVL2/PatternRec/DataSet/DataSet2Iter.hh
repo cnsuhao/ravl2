@@ -7,7 +7,7 @@
 #ifndef RAVL_DATASET2ITER_HEADER
 #define RAVL_DATASET2ITER_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DataSet2Iter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/DataSet2Iter.hh"

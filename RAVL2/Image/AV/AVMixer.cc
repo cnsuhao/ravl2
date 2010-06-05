@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: AVMixer.cc 3703 2003-11-19 17:58:41Z craftit $"
 //! lib=RavlAV
 //! author="Charles Galambos"
 #include "Ravl/config.h" 

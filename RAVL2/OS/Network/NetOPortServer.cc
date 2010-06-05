@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: NetOPortServer.cc 7443 2009-12-24 10:41:58Z alexkostin $"
 //! lib=RavlNet
 //! file="Ravl/OS/Network/NetOPortServer.cc"
 
@@ -75,14 +75,14 @@ namespace RavlN {
     return true;
   }
   
-  //: Disonnect to an end point.
+  //: Disconnect to an end point.
   
   bool NetOSPortServerBaseBodyC::Disconnect() {
     ONDEBUG(cerr << "NetOSPortServerBaseBodyC::Disconnect(), Called. \n");
     return NetAttributeCtrlServerBodyC::Disconnect();
   }
   
-  //: Initalise stream.
+  //: Initialise stream.
   
   bool NetOSPortServerBaseBodyC::Init() {
     ONDEBUG(cerr << "NetOSPortServerBaseBodyC::Init(), Called. \n");
@@ -104,7 +104,7 @@ namespace RavlN {
     Int64T size = ((UIntT) -1);
     if(seekCtrl.IsValid()) {
       lat = seekCtrl.Tell64();
-      if (lat != static_cast<UIntT>(-1) != streamPosUnknown)
+      if (lat != streamPosUnknown)
         at = lat;
       start = seekCtrl.Start64();
       size = seekCtrl.Size64();

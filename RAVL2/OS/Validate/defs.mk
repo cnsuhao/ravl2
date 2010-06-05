@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 ################################################
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 5535 2006-06-07 15:29:58Z craftit $"
 #! file="Ravl/OS/Validate/defs.mk"
 
 DONOT_SUPPORT=VCPP

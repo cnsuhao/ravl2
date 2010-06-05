@@ -7,7 +7,7 @@
 #ifndef RAVL_FORMATREGISTRY_HEADER
 #define RAVL_FORMATREGISTRY_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FileFormatRegistry.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Core.IO.Formats" 
 //! author="Charles Galambos"
 //! lib=RavlIO

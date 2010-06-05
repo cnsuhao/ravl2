@@ -7,7 +7,7 @@
 #ifndef RAVL_DVSRGBCDVSYUV422_HEADER
 #define RAVL_DVSRGBCDVSYUV422_HEADER 1
 /////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DVSRGBcDVSYUV422.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! userlevel=Normal
 //! docentry="Ravl.API.Images.Pixel Types.YCbCr"
 //! lib=RavlImage

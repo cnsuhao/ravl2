@@ -8,7 +8,7 @@
 #define RAVLLOGIC_AGENT_HEADER 1
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Logic.Agent"
-//! rcsid="$Id$"
+//! rcsid="$Id: Agent.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlLogicAgent
 //! file="Ravl/Logic/Agent/Agent.hh"
 

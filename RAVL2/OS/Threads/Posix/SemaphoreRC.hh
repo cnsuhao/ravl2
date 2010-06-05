@@ -7,7 +7,7 @@
 #ifndef RAVL_SEMAPHORERC_HEADER
 #define RAVL_SEMAPHORERC_HEADER 1
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SemaphoreRC.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/OS/Threads/Posix/SemaphoreRC.hh"
 //! lib=RavlThreads
 //! userlevel=Normal

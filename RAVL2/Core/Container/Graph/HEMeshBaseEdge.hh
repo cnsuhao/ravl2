@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_HEMESHBASEEDGE_HEADER
 #define RAVL_HEMESHBASEEDGE_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: HEMeshBaseEdge.hh 7563 2010-02-18 16:41:12Z craftit $"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Graphs.Half Edge Mesh"
 //! date="24/4/2002"
@@ -312,7 +312,7 @@ namespace RavlN {
     { return Prev().SourceVertex(); }
     //: Access vertex this edge comes from.
     
-    UIntT Hash() const
+    SizeT Hash() const
     { return StdHash(static_cast<const void *>(body)); }
     //: Hash value for handle.
     

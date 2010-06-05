@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: FeatureMFCC.cc 3687 2003-11-18 10:40:09Z craftit $"
 //! lib=RavlAudioFeatures
 //! file="Ravl/Audio/Features/FeatureMFCC.cc"
 

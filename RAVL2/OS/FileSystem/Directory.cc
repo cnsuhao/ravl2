@@ -7,7 +7,7 @@
 ///////////////////////////////////////////////////////////////////////
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: Directory.cc 6910 2008-08-15 13:46:37Z ees1wc $"
 //! lib=RavlOS
 //! file="Ravl/OS/FileSystem/Directory.cc"
 

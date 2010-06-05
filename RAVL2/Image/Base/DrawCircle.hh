@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_DRAWCIRCLE_HEADER
 #define RAVLIMAGE_DRAWCIRCLE_HEADER 1
 ///////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DrawCircle.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Charles Galambos"
 //! date="8/8/2002"
 //! docentry="Ravl.API.Images.Drawing"

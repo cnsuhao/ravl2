@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_IMAGETRACKER_HEADER
 #define RAVLIMAGE_IMAGETRACKER_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: ImageTracker.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlImageProc
 //! docentry="Ravl.API.Images.Tracking"
 //! file="Ravl/Image/Processing/Tracking/ImageTracker.hh"

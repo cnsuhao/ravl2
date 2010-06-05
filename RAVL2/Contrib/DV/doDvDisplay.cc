@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: doDvDisplay.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlDV
 //! file="Ravl/Contrib/DV/doDvDisplay.cc"
 //! docentry="Ravl.API.Images.Video.Video IO.DV"

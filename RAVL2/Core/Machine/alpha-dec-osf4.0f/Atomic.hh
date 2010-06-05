@@ -11,7 +11,7 @@
 //! userlevel=Default
 //! author="Charles Galambos"
 //! date="25/02/1999"
-//! rcsid="$Id$"
+//! rcsid="$Id: Atomic.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Core.Misc"
 //! lib=RavlCore
 

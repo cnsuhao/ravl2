@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_DRAWFRAME_HEADER
 #define RAVLIMAGE_DRAWFRAME_HEADER 1
 ///////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DrawFrame.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Charles Galambos"
 //! date="22/04/2002"
 //! docentry="Ravl.API.Images.Drawing"

@@ -8,7 +8,7 @@
 #define RAVL_DPHOLD_HEADER 1
 ///////////////////////////////////////////////
 //! lib=RavlDPMT
-//! rcsid="$Id$"
+//! rcsid="$Id: Hold.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Core.Data Processing.Hold" 
 //! file="Ravl/OS/DataProc/Hold.hh"
 //! author="Charles Galambos"

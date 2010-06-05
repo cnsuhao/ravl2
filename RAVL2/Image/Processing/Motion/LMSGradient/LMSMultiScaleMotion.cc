@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: LMSMultiScaleMotion.cc 4812 2005-02-28 15:43:46Z craftit $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Motion/LMSGradient/LMSMultiScaleMotion.cc"
 

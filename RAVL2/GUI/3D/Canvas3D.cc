@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Canvas3D.cc 7083 2009-02-03 14:43:41Z craftit $"
 //! lib=RavlGUI3D
 //! file="Ravl/GUI/3D/Canvas3D.cc"
 

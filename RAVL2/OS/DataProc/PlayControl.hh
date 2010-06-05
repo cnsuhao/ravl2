@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! date="16/03/1999"
 //! docentry="Ravl.API.Core.Data Processing.Seekable Ports"
-//! rcsid="$Id$"
+//! rcsid="$Id: PlayControl.hh 7599 2010-02-25 15:16:31Z cyberplug $"
 
 #include "Ravl/Threads/Mutex.hh"
 #include "Ravl/Threads/Semaphore.hh"
@@ -139,7 +139,7 @@ namespace RavlN {
     { return inc; }
     //: Current speed setting in frames a cycle.
     // 0 - Effectively paused, -1=backard 1=forward.
-    
+
   protected:  
     bool Open(const DPSeekCtrlC &nCntrl, bool bPlayMode);
     //: Open new video stream.
@@ -148,6 +148,9 @@ namespace RavlN {
     bool CheckUpdate();
     //: Check state of stream after get.
     // This assumes the input stream is locked by the calling function.
+
+    void UpdateAt();
+    //: Update the current position - assumes input stream is locked by the calling function
     
     bool CBSequenceSizeChanged();
     //: Callback on sequence size changing.
@@ -201,6 +204,7 @@ namespace RavlN {
     //: Access body.
     
   public:
+
     UIntT LastFrame() const 
     { return Body().LastFrame(); }
     //: Get number of last frame read.
@@ -352,6 +356,8 @@ namespace RavlN {
       if(!input.IsValid())
 	throw DataNotReadyC("No input. ");
       DataT dat = input.Get();  // Possible exception.
+      UpdateAt();
+      // Place will be incremented by next read.
       return dat;
     }
     // Get next piece of data.
@@ -380,6 +386,7 @@ namespace RavlN {
 	at--;
 	return true;
       }
+      UpdateAt();
       RavlAssert(&(lock.Mutex()) == &access);
       //cerr << "Access b=" << ((void *) & access) << " " << << "\n";
       // Use n1 and n to avoid warnings.

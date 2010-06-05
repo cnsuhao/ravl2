@@ -8,7 +8,7 @@
 #define RAVL_ATTRIBUTEVALUETYPES_HEADER 1
 //! author="Charles Galambos"
 //! date="23/8/2003"
-//! rcsid="$Id$"
+//! rcsid="$Id: AttributeValueTypes.hh 7646 2010-03-08 14:43:10Z robowaz $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/AttributeValueTypes.hh"
 //! docentry="Ravl.API.Core.Data_Processing.Attributes"
@@ -163,9 +163,11 @@ namespace RavlN {
     
     virtual AttributeValueTypeT ValueType() const{
       if(typeid(ValueT) == typeid(int))
-	return AVT_Int;
+        return AVT_Int;
+      if(typeid(ValueT) == typeid(Int64T))
+        return AVT_Int64;
       if(typeid(ValueT) == typeid(RealT))
-	return AVT_Real;
+        return AVT_Real;
       return AVT_Invalid;
     }
     //: Get hint about type of value attribute has.

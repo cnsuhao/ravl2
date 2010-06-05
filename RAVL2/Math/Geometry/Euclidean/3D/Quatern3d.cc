@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Quatern3d.cc 4634 2004-11-01 13:41:52Z robowaz $"
 //! author="Andrew Stoddart"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/3D/Quatern3d.cc"

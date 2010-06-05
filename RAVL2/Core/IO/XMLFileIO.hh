@@ -12,7 +12,7 @@
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! date="21/10/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: XMLFileIO.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/IO/XMLFileIO.hh"
 //! userlevel=Default
 

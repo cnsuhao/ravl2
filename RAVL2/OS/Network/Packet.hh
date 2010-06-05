@@ -7,7 +7,7 @@
 #ifndef RAVLNETPACKET_HEADER
 #define RAVLNETPACKET_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Packet.hh 6721 2008-04-16 15:24:01Z craftit $"
 //! file="Ravl/OS/Network/Packet.hh"
 //! lib=RavlNet
 //! author="Charles Galambos"

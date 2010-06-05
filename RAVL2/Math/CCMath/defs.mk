@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 4903 2005-04-26 16:37:12Z plugger $"
 #! file="Ravl/Math/CCMath/defs.mk"
 
 DESCRIPTION= 

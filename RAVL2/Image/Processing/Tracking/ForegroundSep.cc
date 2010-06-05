@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ForegroundSep.cc 4701 2004-12-13 12:37:33Z ees1wc $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Tracking/ForegroundSep.cc"
 

@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 4561 2004-09-12 18:57:43Z craftit $"
 #! file="Ravl/PatternRec/IO/defs.mk"
 
 DESCRIPTION= Pattern recognition data IO.

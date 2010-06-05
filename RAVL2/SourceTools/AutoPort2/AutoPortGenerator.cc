@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: AutoPortGenerator.cc 5509 2006-06-01 15:30:48Z craftit $"
 //! file="Ravl/SourceTools/VisualCPP/AutoPortGenerator.cc"
 //! lib=RavlAutoPort2
 
@@ -582,7 +582,7 @@ namespace RavlN {
   StringC AutoPortGeneratorBodyC::MakeFilename(const StringC &obj) {
     StringC ret;
     if(!outputDir.IsEmpty()) {
-      if(outputDir[outputDir.Size()-1] != filenameSeperator)
+      if(outputDir.lastchar() != filenameSeperator)
         ret = outputDir + filenameSeperator + filePattern;
     }
     else

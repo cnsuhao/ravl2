@@ -8,7 +8,7 @@
 #define RAVL_FILEFORMATIO_HEADER 1
 /////////////////////////////////////////
 //! lib=RavlIO
-//! rcsid="$Id$"
+//! rcsid="$Id: FileFormatIO.hh 7439 2009-12-22 10:24:28Z alexkostin $"
 //! file="Ravl/Core/IO/FileFormatIO.hh"
 //! author="Charles Galambos"
 //! date="13/08/1998"
@@ -35,7 +35,7 @@ namespace RavlN {
   DPIPortBaseC BaseLoad(const StringC &filename,StringC fformat,const type_info &obj_type,bool verbose = false);
   //! userlevel=Develop
   //: Base load function.
-  // If fileformat string is empty, the file format is detected automaticly.
+  // If fileformat string is empty, the file format is detected automatically.
   // When verbose flag is true, a message is printed to stdout describing the filename, the format
   // used and the object type being loaded. 
   
@@ -49,7 +49,7 @@ namespace RavlN {
   DPIPortBaseC BaseLoad(IStreamC &is,StringC fformat,const type_info &obj_type,bool verbose = false);
   //! userlevel=Develop
   //: Base load function for streams.
-  // If fileformat string is empty, the file format is detected automaticly.
+  // If fileformat string is empty, the file format is detected automatically.
   // When verbose flag is true, a message is printed to stdout describing the filename, the format
   // used and the object type being loaded. 
   
@@ -70,7 +70,7 @@ namespace RavlN {
 #if RAVL_CHECK
       if(verbose) 
 #endif
-	cerr << "RavlN::Load(), Failed to load object from file '" << filename << "'\n";
+        cerr << "RavlN::Load(), Failed to load object from file '" << filename << "'\n";
       return false;
     }
     return in.Get(obj);
@@ -89,12 +89,12 @@ namespace RavlN {
 #if RAVL_CHECK
       if(verbose) 
 #endif
-	cerr << "RavlN::Save(), Failed to find format to save object to file '" << filename << "'\n";
+        cerr << "RavlN::Save(), Failed to find format to save object to file '" << filename << "'\n";
       return false; // Failed to find format.
     }
     if(!out.Put(obj)) {
       if(verbose)
-	cerr << "WARNING: Save to file '" << filename << "' failed \n";
+        cerr << "WARNING: Save to file '" << filename << "' failed \n";
       return false;
     }
     return true;

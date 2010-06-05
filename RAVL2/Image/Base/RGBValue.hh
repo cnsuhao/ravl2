@@ -7,7 +7,7 @@
 #ifndef RAVL_RGBVALUE_HEADER
 #define RAVL_RGBVALUE_HEADER
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RGBValue.hh 6970 2008-09-23 17:04:52Z ees1wc $"
 //! file="Ravl/Image/Base/RGBValue.hh"
 //! lib=RavlImage
 //! userlevel=Normal

@@ -11,7 +11,7 @@
 //! date="31/12/1999"
 //! author="Fangxiang Cheng"
 //! docentry="Ravl.API.OS.Hardware"
-//! rcsid="$Id$"
+//! rcsid="$Id: SerialIO.hh 6772 2008-04-29 10:55:36Z craftit $"
 //! lib=RavlOS
 //! file="Ravl/OS/Misc/SerialIO.hh"
 

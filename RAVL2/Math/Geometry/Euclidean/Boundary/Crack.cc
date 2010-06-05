@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! date="26.10.1992"
 //! author="Radek Marik"
-//! rcsid="$Id$"
+//! rcsid="$Id: Crack.cc 6069 2007-02-23 09:28:57Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/Boundary/Crack.cc"
 

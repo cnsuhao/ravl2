@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: LaunchThread.cc 5216 2005-11-18 15:41:23Z craftit $"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Tools/LaunchThread.cc"
 

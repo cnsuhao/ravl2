@@ -9,7 +9,7 @@
 //! author="Charles Galambos, based on ideas from sigc++"
 //! date="27/4/2003
 //! docentry="Ravl.API.Core.Misc"
-//! rcsid="$Id$"
+//! rcsid="$Id: Traits.hh 7212 2009-07-02 10:12:53Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/Traits.hh"
 

@@ -7,7 +7,7 @@
 #ifndef RAVLFFT1D_HEADER
 #define RAVLFFT1D_HEADER 1
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FFT1d.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlMath
 //! file="Ravl/Math/Signals/1D/FFT1d.hh"
 //! example=exFFT1d.cc

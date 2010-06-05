@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: exGnome.cc 4816 2005-03-01 17:08:51Z craftit $"
 //! lib=RavlGUIGnome
 
 #include "Ravl/GUI/Gnome.hh"

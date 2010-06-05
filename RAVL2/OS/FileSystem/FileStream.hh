@@ -7,7 +7,7 @@
 #ifndef RAVL_FILESTREAM_HEADER
 #define RAVL_FILESTREAM_HEADER 1
 //! docentry="Ravl.API.OS.File System"
-//! rcsid="$Id$"
+//! rcsid="$Id: FileStream.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Charles Galambos"
 //! lib=RavlOS
 //! file="Ravl/OS/FileSystem/FileStream.hh"

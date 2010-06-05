@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_VAR_HEADER
 #define RAVLLOGIC_VAR_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Var.hh 6736 2008-04-21 12:24:33Z craftit $"
 //! docentry="Ravl.API.Logic"
 //! lib=RavlLogic
 //! author="Charles Galambos"

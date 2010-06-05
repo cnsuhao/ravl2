@@ -12,7 +12,7 @@
 //! file="Ravl/Core/IO/Method2Proc.hh"
 //! author="Charles Galambos"
 //! date="09/07/1998"
-//! rcsid="$Id$"
+//! rcsid="$Id: Method2Proc.hh 5351 2006-02-16 17:39:20Z craftit $"
 
 #include "Ravl/DP/Process.hh"
 #include "Ravl/FunctionRegister.hh"

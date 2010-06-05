@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgTypeCnv4.cc 6531 2008-02-01 10:30:36Z craftit $"
 //! lib=RavlImageIO
 //! file="Ravl/Image/ImageIO/ImgTypeCnv4.cc"
 //! author="Charles Galambos"

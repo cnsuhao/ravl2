@@ -7,7 +7,7 @@
 #ifndef RAVL_MEANCOVARIANCEND_HEADER
 #define RAVL_MEANCOVARIANCEND_HEADER
 //////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MeanCovariance.hh 7567 2010-02-18 16:49:38Z craftit $"
 //! userlevel=Normal
 //! author="Radek Marik"
 //! date="01/01/1994"
@@ -45,7 +45,7 @@ namespace RavlN {
     // The class MeanCovarianceC is implemented as a big object using
     // a reference counter.
     
-    MeanCovarianceC(const SizeT n)
+    explicit MeanCovarianceC(const SizeT n)
       : m(n), 
 	cov(n),
         m_haveInvCov(false)
@@ -53,7 +53,15 @@ namespace RavlN {
     // Creates zero mean and zero covariance matrix representing
     // the 'n'-dimensional set containing no data points.
 
-    MeanCovarianceC(const VectorC & point)
+    explicit MeanCovarianceC(const unsigned n)
+      : m(n),
+        cov(n),
+        m_haveInvCov(false)
+    { cov.Fill(0); }
+    // Creates zero mean and zero covariance matrix representing
+    // the 'n'-dimensional set containing no data points.
+
+    explicit MeanCovarianceC(const VectorC & point)
       : m(point), 
 	cov(point.Size()),
         m_haveInvCov(false)
@@ -62,7 +70,7 @@ namespace RavlN {
     // the data set containing just one data point. The vector 'point'
     // is shared.
     
-    MeanCovarianceC(const MeanNdC & mean)
+    explicit MeanCovarianceC(const MeanNdC & mean)
       : m(mean), 
 	cov(mean.Mean().Size()),
         m_haveInvCov(false)

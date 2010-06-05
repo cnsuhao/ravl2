@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: exDList.cc 7726 2010-05-06 17:32:01Z ees1wc $"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/DList/exDList.cc"
 //! userlevel=Normal
@@ -19,17 +19,20 @@
 
 using namespace RavlN;
 
+static bool IntGrEq(const int &f1, const int &f2)
+{ return f1 >= f2; }
+
 int main() {
 
   DListC<int> aList;
   
-  // Put the numbers 1,2,3 into the list in a round
-  // about way.
+  // Put the numbers 1,2,3 into the list in a roundabout way.
   
   aList.InsFirst(2);
   aList.InsFirst(1);
   aList.InsLast(3);
-  
+  aList.InsFirst(4);
+
   // To prove it go through the list with an iterator 
   // and print out elements.
   
@@ -37,5 +40,23 @@ int main() {
   for(DLIterC<int> it(aList);it;it++)
     cout << " " << *it;
   cout << "\n";
+
+  // To sort the list into ascending order, use the sort method with default
+  // comparison function:
+  aList.MergeSort();
+  cout << "List:";
+  for(DLIterC<int> it(aList);it;it++)
+    cout << " " << *it;
+  cout << "\n";
+
+  // To sort the list into *descending* order, you have to define your own
+  // comparison function (see IntGrEq() above), and use it like this:
+  aList.MergeSort(IntGrEq);
+  cout << "List:";
+  for(DLIterC<int> it(aList);it;it++)
+    cout << " " << *it;
+  cout << "\n";
+
+  
   return 0;
 }

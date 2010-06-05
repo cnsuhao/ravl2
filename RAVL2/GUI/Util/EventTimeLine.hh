@@ -7,7 +7,7 @@
 #ifndef RAVL_EVENTTIMELINE_HEADER
 #define RAVL_EVENTTIMELINE_HEADER 1
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: EventTimeLine.hh 7501 2010-02-09 18:33:20Z cyberplug $"
 //! lib=RavlGUIUtil
 
 #include "Ravl/GUI/RawCanvas.hh"
@@ -61,13 +61,13 @@ namespace RavlGUIN {
     { return CommonCreate(_widget); }
     //: Create the widget.
     
-    bool SetDisplayRange(RealRangeC &rng);
+    bool SetDisplayRange(RealRangeC &rng, bool redraw=true);
     //: Set range of times to display
     
-    bool GUISetDisplayRange(RealRangeC &rng);
+    bool GUISetDisplayRange(RealRangeC &rng, bool redraw=true);
     //: Set range of times to display
     
-    bool GUISetLocalSegment(const RealRangeC &segRange);
+    bool GUISetLocalSegment(const RealRangeC &segRange, bool redraw=true);
     //: Set the local segment.
     // Segments with a negative size will not be displayed
     
@@ -75,34 +75,40 @@ namespace RavlGUIN {
     { return timeSelected; }
     //: Frame selected signal
     
-    bool Goto(RealT &time);
+    bool Goto(RealT &time, bool redraw=true);
     //: Centre on a specific time.
     
-    bool GUIGoto(RealT &time);
+    bool GUIGoto(RealT &time, bool redraw=true);
     //: Centre on a specific time.
     
-    bool SetMarker(RealT time);
+    bool SetMarker(RealT time, bool redraw=true);
     //: Set marker position.
     
-    bool GUISetMarker(RealT time);
+    bool GUISetMarker(RealT time, bool redraw=true);
     //: Set marker position.
+
+    bool SetMarkerSpan(RealT span, bool redraw=true);
+    //: Set the span of the marker 
+
+    bool GUISetMarkerSpan(RealT span, bool redraw=true);
+    //: Set the span
     
-    bool SetEvents(DListC<Tuple2C<IntT,RealRangeC> > &events);
+    bool SetEvents(DListC<Tuple2C<IntT,RealRangeC> > &events, bool redraw);
     //: Set event list.
     
-    bool GUISetEvents(DListC<Tuple2C<IntT,RealRangeC> > &events);
+    bool GUISetEvents(DListC<Tuple2C<IntT,RealRangeC> > &events, bool redraw);
     //: Set event list.
 
-    bool SetActiveSegments(DListC<RealRangeC> & segments);
+    bool SetActiveSegments(DListC<RealRangeC> & segments, bool redraw);
     //: Set list of inactive segments
 
-    bool GUISetActiveSegments(DListC<RealRangeC> & segments);
+    bool GUISetActiveSegments(DListC<RealRangeC> & segments, bool redraw);
     //: Set a list of inactive segments. 
     
-    bool SetDisplaySpan(RealT &size);
+    bool SetDisplaySpan(RealT &size, bool redraw);
     //: Set the length of time to display.
     
-    bool GUISetDisplaySpan(RealT &size);
+    bool GUISetDisplaySpan(RealT &size, bool redraw);
     //: Set the length of time to display.
 
     inline const RealRangeC & LocalSegment() const
@@ -146,6 +152,7 @@ namespace RavlGUIN {
     RealRangeC m_localSegment; // Local segment.
     Signal1C<RealT> timeSelected; // Frame selected signal
     RealT atMarker; // Marker for where you are in the sequence.
+    RealT m_atSpan;
     UIntT updateId;
     GdkGC *markerGc;
     GdkGC *segmentGc;
@@ -214,58 +221,66 @@ namespace RavlGUIN {
     
   public:
 
-    bool Goto(RealT &time)
-    { return Body().Goto(time); }
+    bool Goto(RealT &time, bool redraw=true)
+    { return Body().Goto(time, redraw); }
     //: Centre on a specific time.
     
-    bool GUIGoto(RealT &time)
-    { return Body().GUIGoto(time); }
+    bool GUIGoto(RealT &time, bool redraw=true)
+    { return Body().GUIGoto(time, redraw); }
     //: Centre on a specific time.
     
-    bool SetMarker(RealT time)
-    { return Body().SetMarker(time); }
+    bool SetMarker(RealT time, bool redraw=true)
+    { return Body().SetMarker(time, redraw); }
     //: Set marker position.
     
-    bool GUISetMarker(RealT time)
-    { return Body().GUISetMarker(time); }
+    bool GUISetMarker(RealT time, bool redraw=true)
+    { return Body().GUISetMarker(time, redraw); }
     //: Set marker position.
     
-    bool SetEvents(DListC<Tuple2C<IntT,RealRangeC> > &events)
-    { return Body().SetEvents(events); }
+    bool SetMarkerSpan(RealT span, bool redraw=true)
+    { return Body().SetMarkerSpan(span, redraw); }
+    //: Set the span of the marker
+
+    bool GUISetMarkerSpan(RealT span, bool redraw=true)
+    { return Body().GUISetMarkerSpan(span, redraw); }
+    //: Set the span
+
+    bool SetEvents(DListC<Tuple2C<IntT,RealRangeC> > &events, bool redraw=true)
+    { return Body().SetEvents(events, redraw); }
     //: Set event list.
     
-    bool GUISetEvents(DListC<Tuple2C<IntT,RealRangeC> > &events)
-    { return Body().GUISetEvents(events); }
+    bool GUISetEvents(DListC<Tuple2C<IntT,RealRangeC> > &events, bool redraw=true)
+    { return Body().GUISetEvents(events, redraw); }
     //: Set event list.
 
-    bool SetActiveSegments(DListC<RealRangeC> & segments)
-    { return Body().SetActiveSegments(segments); }
+    bool SetActiveSegments(DListC<RealRangeC> & segments, bool redraw=true)
+    { return Body().SetActiveSegments(segments, redraw); }
     //: Set list of inactive segments
 
-    bool GUISetActiveSegments(DListC<RealRangeC> & segments)
-    { return Body().GUISetActiveSegments(segments); }
+    bool GUISetActiveSegments(DListC<RealRangeC> & segments, bool redraw=true)
+    { return Body().GUISetActiveSegments(segments, redraw); }
     //: Set a list of inactive segments.
 
     
-    bool SetDisplayRange(RealRangeC &rng)
-    { return Body().SetDisplayRange(rng); }
+    bool SetDisplayRange(RealRangeC &rng, bool redraw=true)
+    { return Body().SetDisplayRange(rng, redraw); }
     //: Set range of times to display
     
-    bool GUISetDisplayRange(RealRangeC &rng)
-    { return Body().GUISetDisplayRange(rng); }
+    bool GUISetDisplayRange(RealRangeC &rng, bool redraw=true)
+    { return Body().GUISetDisplayRange(rng, redraw); }
     //: Set range of times to display
     
-    bool GUISetLocalSegment(const RealRangeC &segRange)
-    { return Body().GUISetLocalSegment(segRange); }
+    bool GUISetLocalSegment(const RealRangeC &segRange, bool redraw=true)
+    { return Body().GUISetLocalSegment(segRange, redraw); }
     //: Set the local segment.
     // Segments with a negative size will not be displayed
     
-    bool SetDisplaySpan(RealT &size)
-    { return Body().SetDisplaySpan(size); }
+    bool SetDisplaySpan(RealT &size, bool redraw=true)
+    { return Body().SetDisplaySpan(size, redraw); }
     //: Set the length of time to display.
     
-    bool GUISetDisplaySpan(RealT &size)
-    { return Body().GUISetDisplaySpan(size); }
+    bool GUISetDisplaySpan(RealT &size, bool redraw=true)
+    { return Body().GUISetDisplaySpan(size, redraw); }
     //: Set the length of time to display.
     
     Signal1C<RealT> &SigTimeSelected()

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: AAMActiveAppearanceModel.cc 7500 2010-02-05 18:58:56Z craftit $"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMActiveAppearanceModel.cc"
 
@@ -52,7 +52,7 @@ namespace RavlImageN {
 
   //: Constructor.
   AAMActiveAppearanceModelBodyC::AAMActiveAppearanceModelBodyC()
-    : smooth(5)
+    : smooth(3)
   {}
 
   //: Load from bin stream.
@@ -163,7 +163,7 @@ namespace RavlImageN {
       UIntT scanLimit = 6;
       // Go through successively smaller steps until we find one thats better.
       VectorC newParam = lastParm;
-      for(UIntT i = 0;i < scanLimit;i++,mul /= 2.0) {
+      for(UIntT i = 0;i < scanLimit;i++,mul /= 1.7) {
         VectorC newEst = lastParm - newDelta * mul;
         RealT nErr;
         // Compute residual error.

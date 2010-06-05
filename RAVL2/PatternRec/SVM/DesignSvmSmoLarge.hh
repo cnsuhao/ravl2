@@ -18,10 +18,10 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "Ravl/PatternRec/DesignClassifierSvmSmo.hh"
+#include "Ravl/XMLFactory.hh"
 
 namespace RavlN
 {
-using namespace RavlN;
 
 //! userlevel = Develop
 //: Class for designing SVM classifier with large training set
@@ -34,6 +34,9 @@ public:
                          RealT Tolerance = 1e-7, RealT Eps = 1e-9,
                          RealT LambdaThreshold = 1e-12);
   //: constructor.
+
+  DesignSvmSmoLargeBodyC(const XMLFactoryContextC & factory);
+  //: factory constructor
 
   DesignSvmSmoLargeBodyC(istream &strm);
   //: Load from stream.
@@ -96,6 +99,11 @@ public:
   {};
   //: constructor.
 
+  DesignSvmSmoLargeC(const XMLFactoryContextC &factory)
+    :  DesignSvmSmoC(*new DesignSvmSmoLargeBodyC(factory))
+  {}
+  //: Construct from XML factory
+    
   DesignSvmSmoLargeC(istream &strm);
   //: Load from stream.
 

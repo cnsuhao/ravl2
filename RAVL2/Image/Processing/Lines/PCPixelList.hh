@@ -11,7 +11,7 @@
 //! file="Ravl/Image/Processing/Lines/PCPixelList.hh"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: PCPixelList.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! date="07/01/1999"
 
 #include "Ravl/Image/PCPixel.hh"

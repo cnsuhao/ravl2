@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: FuncOrthPolynomial.cc 2424 2003-02-20 12:12:43Z craftit $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Modeling/Basic/FuncOrthPolynomial.cc"
 

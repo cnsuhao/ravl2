@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Hash.cc 7676 2010-04-02 07:15:09Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Hash/Hash.cc"
 
@@ -14,7 +14,7 @@
 namespace RavlN {
   
   static const int numPrimes = 31;
-  static const SizeT primeList[numPrimes] = {
+  static const size_t primeList[numPrimes] = {
     7ul,          11ul,         29ul,
     53ul,         97ul,         193ul,       389ul,       769ul,
     1543ul,       3079ul,       6151ul,      12289ul,     24593ul,
@@ -26,8 +26,8 @@ namespace RavlN {
   
   SizeT HashBaseC::NextPrime(SizeT n) {
     // Do something a little more clever.
-    const SizeT* last = primeList + numPrimes;
-    for(const SizeT* pos = primeList;pos != last;pos++)
+    const size_t* last = primeList + numPrimes;
+    for(const size_t* pos = primeList;pos != last;pos++)
       if(*pos > n) {
 	return *pos;
       }
@@ -39,9 +39,9 @@ namespace RavlN {
   
   // Hash function based on one found in the GNU gcc compiler.
   
-  UIntT StdHash(const char *str)  {
-    register unsigned int hash = 0;
-    register unsigned int c;
+  size_t StdHash(const char *str)  {
+    register size_t hash = 0;
+    register size_t c;
     const char *s = str;
     while (*s != 0) {
       c = *s++;

@@ -8,7 +8,7 @@
 #define RAVL_DPIOPORT_HEADER 1
 //! docentry="Ravl.API.Core.Data Processing.Ports" 
 //! file="Ravl/Core/IO/IOPort.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: IOPort.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! date="16/06/1998"

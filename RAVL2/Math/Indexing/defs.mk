@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 # Automatically generated make file
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 4130 2004-03-20 15:08:03Z craftit $"
 #! file="Ravl/Math/Indexing/defs.mk"
 
 NESTED = 

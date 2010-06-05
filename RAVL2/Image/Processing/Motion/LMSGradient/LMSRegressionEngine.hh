@@ -8,7 +8,7 @@
 #define RAVLIMAGE_LMSREGRESSIONENGINE_HEADER 1
 //! author="Bill Christmas"
 //! date="07/12/1999"
-//! rcsid="$Id$"
+//! rcsid="$Id: LMSRegressionEngine.hh 4810 2005-02-28 15:01:43Z craftit $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Motion/LMSGradient/LMSRegressionEngine.hh"
 

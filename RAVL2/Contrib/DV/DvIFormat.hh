@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_DVFORMAT_HEADER
 #define RAVLIMAGE_DVFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DvIFormat.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/DV/DvIFormat.hh"
 //! lib=RavlDV
 //! author="Kieron Messer"

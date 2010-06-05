@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLGUI_MARKUPCANVAS_HEADER
 #define RAVLGUI_MARKUPCANVAS_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: GUIMarkupCanvas.hh 3530 2004-07-01 13:40:39Z charles $"
 //! lib=RavlGUI2D
 //! file="Magellan/GUI/GUIMarkupCanvas.hh"
 //! docentry="Ravl.API.Graphics.GTK.Markup Canvas"
@@ -14,6 +14,7 @@
 
 #include "Ravl/GUI/RawZoomCanvas.hh"
 #include "Ravl/GUI/MouseEvent.hh"
+#include "Ravl/GUI/ScrollEvent.hh"
 #include "Ravl/HSet.hh"
 #include "Ravl/Tuple3.hh"
 #include "Ravl/Threads/RWLock.hh"
@@ -71,7 +72,7 @@ namespace RavlGUIN {
     bool EventMouseRelease(MouseEventC &me);
     //: Mouse release.
     
-    bool EventScroll(GdkEvent *event);
+    bool EventScroll(ScrollEventC &event);
     //: Scroll event
     
     virtual bool EventConfigure(GdkEvent* &event);
@@ -376,7 +377,7 @@ namespace RavlGUIN {
     { return Body().EventMouseLast(); } 
     //: Access the location of the last event....
         
-    bool EventScroll(GdkEvent * event) 
+    bool EventScroll(ScrollEventC &event)
     { return Body().EventScroll(event); }
     //: Scroll event 
     //!cwiz:author

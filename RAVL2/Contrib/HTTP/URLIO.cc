@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: URLIO.cc 1965 2002-10-31 11:34:01Z vap-james $"
 //! lib=RavlURLIO
 //! file="Ravl/Contrib/HTTP/URLIO.cc"
 

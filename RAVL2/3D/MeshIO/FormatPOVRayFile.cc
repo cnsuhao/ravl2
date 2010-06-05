@@ -9,7 +9,7 @@
 #include "Ravl/3D/POVRayFileIO.hh"
 #include "Ravl/3D/TriMesh.hh"
 #include "Ravl/TypeName.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: FormatPOVRayFile.cc 3073 2003-06-13 07:18:32Z craftit $"
 //! lib=Ravl3DIO
 //! file="Ravl/3D/MeshIO/FormatPOVRayFile.cc"
 

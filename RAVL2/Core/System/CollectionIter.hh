@@ -7,7 +7,7 @@
 #ifndef RAVL_COLLECTIONITER_HEADER
 #define RAVL_COLLECTIONITER_HEADER 1
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: CollectionIter.hh 5471 2006-04-27 16:56:27Z craftit $"
 //! docentry="Ravl.API.Core.Misc"
 //! author="Charles Galambos"
 //! lib=RavlCore

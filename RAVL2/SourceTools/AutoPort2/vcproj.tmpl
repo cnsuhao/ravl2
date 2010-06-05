@@ -3,7 +3,7 @@ $(FileObject:lib)$(FilePattern:%.vcproj)<?xml version="1.0" encoding="Windows-12
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="$(libname)"
-	ProjectGUID="$(topandtail:$(include:@MSVC/GUID/$(libname).guid))"
+	ProjectGUID="$(topandtail:$(include:@$(outputdir)/GUID/$(libname).guid))"
         RootNamespace="$(libname)"
 	Keyword="win32Proj"
 	>
@@ -60,7 +60,7 @@ if not exist $(ProjectOut)\$(dos:$(auxdir))\NUL mkdir $(ProjectOut)\$(dos:$(auxd
 				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
-                        DisableSpecificWarnings="4996"
+                        DisableSpecificWarnings="4996,4396"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -138,7 +138,7 @@ if not exist $(ProjectOut)\$(dos:$(auxdir))\NUL mkdir $(ProjectOut)\$(dos:$(auxd
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				SuppressStartupBanner="true"
-                        DisableSpecificWarnings="4996"
+                        DisableSpecificWarnings="4996,4396"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

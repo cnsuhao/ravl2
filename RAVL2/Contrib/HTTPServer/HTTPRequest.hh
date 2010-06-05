@@ -7,10 +7,11 @@
 #ifndef RAVL_HTTPREQUEST_HEADER
 #define RAVL_HTTPREQUEST_HEADER 1
 //////////////////////////////////////////////////////////////////
-//! rcsid = "$Id: HTTPRequest.hh 6223 2007-06-27 10:27:52Z craftit $"
+//! rcsid = "$Id: HTTPRequest.hh 7587 2010-02-23 10:43:01Z ees1wc $"
 //! lib=RavlEHS
 //! author = "Warren Moore"
 //! file = "Ravl/Contrib/EHS/HTTPRequest.hh"
+//! docentry = "Ravl.API.OS.HTTP.Server"
 
 #include "Ravl/String.hh"
 #include "Ravl/Hash.hh"

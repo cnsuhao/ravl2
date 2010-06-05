@@ -1,7 +1,7 @@
 #ifndef IMGIOSEQ_HEADER
 #define IMGIOSEQ_HEADER 1
 ////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOSeq.hh 40 2001-04-23 16:17:51Z craftit $"
 
 #include "amma/DP/SPort.hh"
 #include "amma/DP/FileSeq.hh"

@@ -7,7 +7,7 @@
 #ifndef RAVL_THREADSTHREAD_HEADER
 #define RAVL_THREADSTHREAD_HEADER 1
 //////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Thread.hh 7310 2009-10-14 20:31:27Z craftit $"
 //! file="Ravl/OS/Threads/Posix/Thread.hh"
 //! lib=RavlThreads
 //! userlevel=Normal

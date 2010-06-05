@@ -1,0 +1,8 @@
+ifndef OSX_QTKIT_DEF
+OSX_QTKIT_DEF=1
+
+include ObjC.def
+
+EXELIB :=  -framework QTKit $(EXELIB)
+
+endif

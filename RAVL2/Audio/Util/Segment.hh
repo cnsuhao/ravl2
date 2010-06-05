@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Audio.Feature Extraction"
-//! rcsid="$Id$"
+//! rcsid="$Id: Segment.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlAudioUtil
 //! file="Ravl/Audio/Util/Segment.hh"
 

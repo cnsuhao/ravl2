@@ -2,7 +2,7 @@
 // Copyright (C) 2002, Omniperception Ltd.
 // file-header-ends-here
 ///////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RandomMersenneTwister.cc 3073 2003-06-13 07:18:32Z craftit $"
 //! file="Ravl/Core/Math/RandomMersenneTwister.cc"
 //! lib=RavlCore
 //! author="James Smith"

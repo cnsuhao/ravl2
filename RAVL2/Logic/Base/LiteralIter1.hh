@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_LITERALITER1_HEADER
 #define RAVLLOGIC_LITERALITER1_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: LiteralIter1.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Logic"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/LiteralIter1.hh"

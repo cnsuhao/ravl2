@@ -13,7 +13,7 @@
 //! author="Charles Galambos, Daniele Muntoni"
 //! date="26/03/2003"
 //! docentry="Ravl.API.Core.IO.Streams"
-//! rcsid="$Id$"
+//! rcsid="$Id: GenBinStream.hh 7634 2010-03-02 09:08:18Z alexkostin $"
 
 #include "Ravl/config.h"
 #include "Ravl/Stream.hh"
@@ -150,10 +150,10 @@ namespace RavlN  {
 
     GenBinOStreamC()
     {}
-    //: Default construtor.
+    //: Default constructor.
     // Creates an invalid stream.
     
-    bool toSwap; //true if the stream is littleendian but the machine is not (or viceversa). False by default.
+    bool toSwap; //true if the stream is littleendian but the machine is not (or vice versa). False by default.
 
     inline GenBinOStreamC &OBuff(const char *buff,IntT len); 
     //: Character buffer. NB. Length is NOT saved.

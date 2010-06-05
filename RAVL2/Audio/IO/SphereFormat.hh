@@ -11,7 +11,7 @@
 //! docentry="Ravl.API.Audio.IO"
 //! example=exAudioIO.cc
 //! lib=RavlAudioIO
-//! rcsid="$Id$"
+//! rcsid="$Id: SphereFormat.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Audio/IO/SphereFormat.hh"
 
 #include "Ravl/DP/FileFormat.hh"

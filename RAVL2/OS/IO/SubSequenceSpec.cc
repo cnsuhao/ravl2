@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SubSequenceSpec.cc 3197 2003-07-19 09:44:13Z craftit $"
 //! lib=RavlOSIO
 //! file="Ravl/OS/IO/SubSequenceSpec.cc"
 

@@ -7,7 +7,7 @@
 #ifndef RAVL_REALHISTOGRAM1D_HEADER
 #define RAVL_REALHISTOGRAM1D_HEADER 1
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RealHistogram1d.hh 6183 2007-06-07 15:13:26Z ees1wc $"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Math.Statistics.Histogram"
 //! lib=RavlMath

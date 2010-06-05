@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_SMARTPTR_HEADER 
 #define RAVL_SMARTPTR_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: SmartPtr.hh 7614 2010-03-01 11:33:09Z alexkostin $"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Reference Counting"
@@ -100,7 +100,7 @@ namespace RavlN {
     
     void reset(const DataT *other) 
     { (*this) = other; }
-    //: Boost compatibilty. Assign to another object.
+    //: Boost compatibility. Assign to another object.
     
     DataT *get()
     { return this->body; }

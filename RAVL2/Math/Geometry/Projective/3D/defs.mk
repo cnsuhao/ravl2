@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 # Makefile 
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 6658 2008-03-06 16:20:56Z craftit $"
 #! file="Ravl/Math/Geometry/Projective/3D/defs.mk"
 
 # -----------  Specification of your project -----------------------

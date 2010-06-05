@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 7510 2010-02-11 18:31:29Z craftit $"
 #! file="Ravl/Core/Math/defs.mk"
 
 DESCRIPTION=Common mathematical operations.  sin, sqrt, etc....
@@ -17,7 +17,7 @@ MAINS	 =
 
 # HEADERS = all include files of this project to be exported
 HEADERS = StdMath.hh Random.hh RandomGauss.hh Angle.hh ScalMath.hh \
- TFMatrix.hh RandomMersenneTwister.hh LogValue.hh
+ TFMatrix.hh RandomMersenneTwister.hh LogValue.hh RankedScoreArray.hh
 
 
 # SOURCES = all C modules, not containing main separated by space. The compiled

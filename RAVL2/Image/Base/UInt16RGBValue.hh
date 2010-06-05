@@ -7,7 +7,7 @@
 #ifndef RAVL_UINT16RGBVALUE_HEADER
 #define RAVL_UINT16RGBVALUE_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: UInt16RGBValue.hh 6970 2008-09-23 17:04:52Z ees1wc $"
 //! file="Ravl/Image/Base/UInt16RGBValue.hh"
 //! lib=RavlImage
 //! userlevel=Normal

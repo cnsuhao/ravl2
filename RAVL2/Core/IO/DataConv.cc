@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: DataConv.cc 3073 2003-06-13 07:18:32Z craftit $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/DataConv.cc"
 

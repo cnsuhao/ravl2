@@ -4,12 +4,13 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: fixSource.cfg 5642 2006-06-23 10:51:11Z craftit $"
 //! lib=RavlGUI2D
 
 #include "Ravl/GUI/MarkupImageRGB.hh"
 #include "Ravl/GUI/GUIMarkupCanvas.hh"
 #include "Ravl/OS/SysLog.hh"
+#include "Ravl/Image/RealRGBValue.hh"
 
 #define DODEBUG 0
 #if DODEBUG

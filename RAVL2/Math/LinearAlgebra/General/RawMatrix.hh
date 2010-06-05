@@ -8,7 +8,7 @@
 #define RAVL_RAWMATH_HEADER 1
 //! author="Charles Galambos"
 //! userlevel=Advanced
-//! rcsid="$Id$"
+//! rcsid="$Id: RawMatrix.hh 6088 2007-03-08 16:20:52Z ees1wc $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/RawMatrix.hh"
 //! docentry="Ravl.API.Math.Linear Algebra.Matrix Decomposition"

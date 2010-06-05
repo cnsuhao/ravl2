@@ -16,7 +16,7 @@
 // Modifications:
 //
 //
-//! rcsid="$Id$"
+//! rcsid="$Id: LinePV3d.cc 6193 2007-06-09 12:12:25Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/3D/LinePV3d.cc"
 

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: PCPixelList.cc 2618 2003-03-30 08:16:24Z craftit $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Lines/PCPixelList.cc"
 

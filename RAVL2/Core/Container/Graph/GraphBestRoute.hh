@@ -8,7 +8,7 @@
 #define RAVL_GRBESTROUTE_HEADER 1
 //////////////////////////////////////////
 //! docentry="Ravl.API.Core.Graphs"
-//! rcsid="$Id$"
+//! rcsid="$Id: GraphBestRoute.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/Container/Graph/GraphBestRoute.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"

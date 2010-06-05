@@ -10,7 +10,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.XML"
 //! example=exXMLTree.cc
-//! rcsid="$Id$"
+//! rcsid="$Id: XMLTree.hh 7400 2009-12-01 12:57:25Z cyberplug $"
 //! lib=RavlCore
 //! file="Ravl/Core/System/XMLTree.hh"
 
@@ -198,7 +198,7 @@ namespace RavlN {
     //: Access generic attribute.
     // Return true if non default value has been specified.
 
-    StringC Content();
+    StringC Content() const;
     //: Access content of tag (if any)
     
     bool FollowPath(const StringC &path,DListC<XMLTreeC> &nodes);
@@ -225,7 +225,7 @@ namespace RavlN {
   //: Parses XML and stores as a tree
   // <code>XMLTreeC</code> is a hash tree, templated on strings for key and data.
   // <ul>
-  // <li> The top-level element is a container for the remaining XML - typically it has the name of the XML file.  The contents start at the next level down.
+  // <li>ï¿½The top-level element is a container for the remaining XML - typically it has the name of the XML file.  The contents start at the next level down.
   // <li> The elements contained within an element (children) can be accessed either as a list, as a hash table, or individually by name.
   // <li> Attributes of an element can be accessed as a hash table, using the attribute name as the key.  Attributes are called <code>Data()</code> in this class (for reasons of inheritance).
   // </ul>
@@ -373,7 +373,7 @@ namespace RavlN {
     //: Access generic attribute.
     // Return true if non default value has been specified.
     
-    StringC Content()
+    StringC Content() const
     { return Body().Content(); } 
     //: Access content of tag (if any)
     
@@ -386,7 +386,7 @@ namespace RavlN {
 
 
   
-  inline StringC XMLTreeBodyC::Content()
+  inline StringC XMLTreeBodyC::Content() const
   { return Children().First().Data()["."]; } 
 
 

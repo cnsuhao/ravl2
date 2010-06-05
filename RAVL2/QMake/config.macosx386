@@ -67,15 +67,15 @@ DYNAMICLIBEXT=dylib#
 ############################
 # Universal flags.
 
-CFLAGS   = -Wall -pipe -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -m32
+CFLAGS   = -Wall -pipe -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -m64
 CFLAGS   += $(EXTRA_CFLAGS) 
 
-CCFLAGS  = -pipe -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -m32
+CCFLAGS  = -pipe -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -m64
 CCFLAGS  += $(EXTRA_CCFLAGS)
 
 CCPPFLAGS= -DGNU -Dunix -I /sw/include
 CPPFLAGS = -DGNU -Dunix -I /sw/include
-LDFLAGS = -m32
+LDFLAGS = -m64
 LDFLAGS += $(EXTRA_LDFLAGS)
 
 PAR_MAKE = --jobs=$(PROCS)

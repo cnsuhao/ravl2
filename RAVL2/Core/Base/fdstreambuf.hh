@@ -8,7 +8,7 @@
 #define RAVL_FDSTREAMBUF_HEADER 1
 ////////////////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: fdstreambuf.hh 4900 2005-04-25 09:34:36Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/fdstreambuf.hh"
 

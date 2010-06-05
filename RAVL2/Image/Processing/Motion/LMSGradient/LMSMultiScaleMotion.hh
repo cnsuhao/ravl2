@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Bill Christmas"
 //! date="14/07/2000"
-//! rcsid="$Id$"
+//! rcsid="$Id: LMSMultiScaleMotion.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlImageProc
 //! docentry="Ravl.API.Images.Motion.Optical Flow"
 //! example=exLMSMultiScale.cc

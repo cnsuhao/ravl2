@@ -8,7 +8,7 @@
 #define RAVL_DPPLUG_HEADER 1
 ////////////////////////////////////////////////////
 //! docentry="Ravl.API.Core.Data Processing.Ports" 
-//! rcsid="$Id$"
+//! rcsid="$Id: Plug.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/IO/Plug.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"

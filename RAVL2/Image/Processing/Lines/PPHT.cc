@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: PPHT.cc 7655 2010-03-10 11:27:18Z ees1wc $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Lines/PPHT.cc"
 
@@ -661,7 +661,7 @@ namespace RavlImageN {
       sortIt.MergeSort(LessOrEqualGradInfo);
     
     // Need to resize images ?
-    if(!rect.Contains(pixMap.Rectangle())) {
+    if(!pixMap.Rectangle().Contains(rect)) {
       rect.Involve(pixMap.Rectangle());
       if(useSobol)
 	sobelImg = SobolImage(rect);

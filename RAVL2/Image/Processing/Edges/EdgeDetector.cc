@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: EdgeDetector.cc 5352 2006-02-16 17:39:58Z craftit $"
 //! author="Charles Galambos"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Edges/EdgeDetector.cc"

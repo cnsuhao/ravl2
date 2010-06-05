@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: StringList.cc 4599 2004-10-12 10:39:38Z ees1wc $"
 //! lib=RavlCore
 //! file="Ravl/Core/System/StringList.cc"
 

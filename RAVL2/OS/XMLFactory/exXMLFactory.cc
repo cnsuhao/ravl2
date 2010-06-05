@@ -60,6 +60,35 @@ namespace RavlN {
     }
   }
   
+  //need to declare stream operators too
+  inline std::istream &operator>>(std::istream &strm,TestClassC &obj) {
+    RavlAssertMsg(0,"Not implemented. ");
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+
+  inline std::ostream &operator<<(std::ostream &out,const TestClassC &obj) {
+    RavlAssertMsg(0,"Not implemented. ");
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+
+  inline RavlN::BinIStreamC &operator>>(RavlN::BinIStreamC &strm,TestClassC &obj) {
+    RavlAssertMsg(0,"Not implemented. ");
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+
+  inline RavlN::BinOStreamC &operator<<(RavlN::BinOStreamC &out,const TestClassC &obj) {
+    RavlAssertMsg(0,"Not implemented. ");
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+
   
   XMLFactoryRegisterHandleC<TestClassC> g_register("RavlN::TestClassC");
   

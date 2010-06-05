@@ -9,7 +9,7 @@
 //! docentry="Ravl.API.Images.Scaling and Warping"
 //! author="Charles Galambos"
 //! date="24/01/2001"
-//! rcsid="$Id$"
+//! rcsid="$Id: BilinearInterpolation.hh 7066 2009-01-09 17:44:27Z ees1wc $"
 //! lib=RavlImage
 //! file="Ravl/Image/Base/BilinearInterpolation.hh"
 

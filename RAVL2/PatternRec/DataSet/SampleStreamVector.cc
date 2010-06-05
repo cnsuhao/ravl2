@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: SampleStreamVector.cc 7408 2009-12-08 07:17:18Z kier $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/SampleStreamVector.cc"
 #include "Ravl/config.h" 
@@ -15,6 +15,8 @@
 #include "Ravl/PatternRec/SampleVector.hh"
 #include "Ravl/DP/Compose.hh"
 #include "Ravl/DP/SPortAttach.hh"
+#include "Ravl/DP/Func2Proc21.hh"
+#include "Ravl/PatternRec/ProcessVectorFunction.hh"
 
 #if RAVL_COMPILER_MIPSPRO 
 #pragma instantiate RavlN::DPIPortBodyC<RavlN::VectorC>
@@ -29,16 +31,28 @@
 #endif
 
 namespace RavlN {
+
   static VectorC float2realVec(const TVectorC<float> &vec) {
     return VectorC(vec);
   }
-
+  
+  
   //: Convert from a stream of float vectors.
   SampleStreamVectorC::SampleStreamVectorC(const SampleStreamC<TVectorC<float> > &port)
-   : DPEntityC(true)
+    : DPEntityC(true)
   {
     *this = SPort(port >> Process(float2realVec));
   }
+
+
+  //: Convert from a stream of float vectors.
+  SampleStreamVectorC::SampleStreamVectorC(const DPISPortC<VectorC> & stream, const FunctionC & function)
+    : DPEntityC(true)
+  {    
+    ProcessVectorFunctionC pFunc(function);    
+    *this = SPort(stream >> pFunc);
+  }
+  
 
   //: Compute the sum of the outerproducts.
   // This routine increases accuracy by only summing 500 numbers at time.   Not really worth it.
@@ -60,7 +74,7 @@ namespace RavlN {
     // Recursively accumulate, never sum more than sumLimit numbers in one go.
     
     while(1) {
-      IntT n = GetArray(vecs);
+      IntT n = GetArray(vecs);      
       if(n == 0)
 	break; // Done ?
       for(SArray1dIterC<VectorC> sit(vecs,n);sit;sit++)
@@ -116,7 +130,7 @@ namespace RavlN {
     return mc;
   }
   
-  
+
   
 
 }

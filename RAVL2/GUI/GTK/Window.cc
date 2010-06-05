@@ -5,7 +5,6 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////
-//! rcsid="$Id$"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Window.cc"
 
@@ -104,7 +103,7 @@ namespace RavlGUIN {
     OneChildBodyC::Destroy();
 #if 0
     // Pre-empt destructor...
-    // This ensures a expected behavour even
+    // This ensures a expected behaviour even
     // if there are still handles to the window
     // somewhere in the program.
     if(!rootWin) {
@@ -384,6 +383,19 @@ namespace RavlGUIN {
     return isFullscreen;
   }
    
+  bool WindowC::GUISetDefaultIcon(const PixbufC &pix)
+  {
+    RavlAssert(Manager.IsGUIThread());
+
+    if (!pix.IsValid())
+      return false;
+
+    PixbufC tempPix(pix);
+    gtk_window_set_default_icon(tempPix.Pixbuf());
+
+    return true;
+  }
+
   //////////////////////////////////////////////
   //: Constructor.
   
@@ -392,5 +404,3 @@ namespace RavlGUIN {
   {}
 
 }
-
-

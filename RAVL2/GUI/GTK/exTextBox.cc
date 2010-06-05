@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: exTextBox.cc 7575 2010-02-19 17:37:28Z cyberplug $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/exTextBox.cc"
 //! author="Charles Galambos"

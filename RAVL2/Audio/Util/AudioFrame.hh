@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLAUDIO_AUDIOFRAME_HEADER
 #define RAVLAUDIO_AUDIOFRAME_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: AudioFrame.hh 5612 2006-06-19 16:33:14Z ees1wc $"
 //! lib=RavlAudioUtil
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Audio.IO"

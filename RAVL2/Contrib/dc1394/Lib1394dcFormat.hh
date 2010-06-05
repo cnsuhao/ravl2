@@ -10,7 +10,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Video.Video IO.IIDC"
 //! date="20/8/2003"
-//! rcsid="$Id$"
+//! rcsid="$Id: Lib1394dcFormat.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/dc1394/Lib1394dcFormat.hh"
 //! lib=RavlImgIO1394dc
 //! author="Charles Galambos"

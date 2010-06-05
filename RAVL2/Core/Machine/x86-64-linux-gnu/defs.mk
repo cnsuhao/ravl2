@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 5159 2005-10-13 15:47:28Z plugger $"
 #! file="Ravl/Core/Machine/i386-linux-gnu/defs.mk"
 
 DESCRIPTION= Atomic operations for i386-linux

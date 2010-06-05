@@ -10,7 +10,7 @@
 //! author="Daniele Muntoni"
 //! docentry="Ravl.API.Images.Video.Video IO"
 //! date="26/03/2003"
-//! rcsid="$Id$"
+//! rcsid="$Id: AviStream.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Image/VideoIO/AviStream.hh"
 //! example=exImgSeq.cc
 //! lib=RavlVideoIO

@@ -2,7 +2,7 @@
 #define GRBESTROUTE_HEADER 1
 //////////////////////////////////////////
 //! docentry="Ravl.Core.Graphs"
-//! rcsid="$Id$"
+//! rcsid="$Id: GrBestRoute.hh 4 2001-04-11 12:45:55Z craftit $"
 //! file="amma/Contain/Graph/GrBestRoute.hh"
 //! lib=Mgraph
 //! author="Charles Galambos"

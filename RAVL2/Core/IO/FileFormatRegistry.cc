@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FileFormatRegistry.cc 7563 2010-02-18 16:41:12Z craftit $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/FileFormatRegistry.cc"
 
@@ -234,7 +234,7 @@ namespace RavlN {
 						const type_info &obj_type,
 						bool verbose
 						) {
-    ONDEBUG(cerr << "FindInputFormat(), Fn:'" << filename << "' Format:'" << format << "'  Type : " << TypeName(obj_type) << "  Verb:" << verbose << "\n");
+    ONDEBUG(cerr << "FindInputFormat(), Fn:'" << filename << "' Format:'" << format << "'  Loading into type : " << TypeName(obj_type) << "  Verb:" << verbose << "\n");
 
     if(filename.length() == 0) {
       cerr<< "FileFormatRegistryBodyC::FindInputFormat(), Filename too short. \n";

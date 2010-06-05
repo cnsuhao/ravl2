@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! author="Charles Galambos"
 //! docentry="Ravl.Math.Statistics"
-//! rcsid="$Id$"
+//! rcsid="$Id: SumsNd2.cc 5409 2006-03-12 20:44:47Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/MeanCovariance/SumsNd2.cc"
 

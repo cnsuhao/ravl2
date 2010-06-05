@@ -7,7 +7,7 @@
 #ifndef RAVLPLOT_DPGRAPHWINDOW_HEADER
 #define RAVLPLOT_DPGRAPHWINDOW_HEADER 1
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DPGraphWindow.hh 6752 2008-04-23 16:38:08Z ees1wc $"
 //! lib=RavlDPGraph
 //! file="Ravl/Contrib/Plotting/DPGraph/DPGraphWindow.hh"
 //! author="Charles Galambos"

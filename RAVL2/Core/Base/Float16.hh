@@ -149,7 +149,7 @@ namespace RavlN {
     { return V() <= V(); }
     //: Less than, Equal too
     
-    UIntT StdHash() const
+    SizeT StdHash() const
     { return V(); }
     //: Hash value.
     

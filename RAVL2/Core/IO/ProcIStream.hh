@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Data Processing.Internal" 
 //! date="06/07/1998"
-//! rcsid="$Id$"
+//! rcsid="$Id: ProcIStream.hh 7407 2009-12-08 07:13:20Z kier $"
 //! userlevel=Default
 
 #include "Ravl/DP/StreamOp.hh"
@@ -63,8 +63,10 @@ namespace RavlN {
     virtual IntT GetArray(SArray1dC<OutT> &dest) {
       SArray1dC<InT> src(dest.Size());
       IntT ret = this->input.GetArray(src);
-      if(ret > 0)
-	src = SArray1dC<InT>(src,ret);
+      // we did not get any data so no point continuing
+      if(ret <= 0)
+        return ret;
+      src = SArray1dC<InT>(src,ret);
 //comment ap variable if assertions are not active
 #if RAVL_CHECK
       IntT ap = 

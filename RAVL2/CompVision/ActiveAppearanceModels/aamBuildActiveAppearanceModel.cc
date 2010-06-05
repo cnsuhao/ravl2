@@ -1,4 +1,4 @@
-//! rcsid="$Id$"
+//! rcsid="$Id: aamBuildActiveAppearanceModel.cc 7246 2009-09-03 14:54:32Z omn-crida $"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/aamBuildActiveAppearanceModel.hh"
 //! docentry="Ravl.API.Images.AAM"

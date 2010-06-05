@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: EvaluateNumInliers.hh 7665 2010-03-23 15:46:09Z ees1wc $"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation2"
 //! example="OrthogonalRegressionTest.cc Homography2dFitTest.cc QuadraticFitTest.cc"
 //! lib=RavlOptimise
@@ -41,6 +41,11 @@ namespace RavlN {
 					DListC<ObservationC> &obsList) const;
     //: Returns the observations compatible with the given state parameters
 
+    virtual DListC<bool> ObservationCompatibility(
+					const StateVectorC &stateVec,
+					DListC<ObservationC> &obsList) const;
+    //: Returns  list of booleans indicating which observations are compatible with the given state parameters
+
   private:
     RealT chi2Thres; // Threshold on normalised residual
     RealT compatChi2Thres; // Threshold for comaptibility list
@@ -65,6 +70,8 @@ namespace RavlN {
       : EvaluateSolutionC(*new EvaluateNumInliersBodyC(chi2Thres,compatChi2Thres))
     {}
     //: Constructor.
+    //!param: chi2Thres - threshold used to evaluate <code>SolutionScore()</code>
+    //!param: compatChi2Thres - threshold used to evaluate <code>CompatibleObservations()</code>
     // If compatChi2Thres is not supplied, it is set to the same value
     // as chi2Thres.
 

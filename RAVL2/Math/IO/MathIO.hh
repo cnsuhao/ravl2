@@ -7,7 +7,7 @@
 #ifndef RAVL_MATHIO_HEADER
 #define RAVL_MATHIO_HEADER 1
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MathIO.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlMathIO
 //! file="Ravl/Math/IO/MathIO.hh"
 //! author="Charles Galambos"

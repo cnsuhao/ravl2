@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_FUNCLINEAR_HEADER
 #define RAVL_FUNCLINEAR_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: FuncLinear.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlPatternRec
 //! date="21/4/1998"
 //! author="Robert Crida and Charles Galambos"

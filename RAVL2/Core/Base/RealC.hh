@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////
 //! docentry="Ravl.API.Core.Misc"
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: RealC.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/Base/RealC.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"

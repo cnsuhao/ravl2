@@ -1,10 +1,10 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Index2d.cc 7549 2010-02-18 13:39:45Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/Index2d.cc"
 
@@ -22,11 +22,11 @@ namespace RavlN {
 			      Index2dC( 0, -1),
 			      Index2dC(-1, -1),
 			      Index2dC(-1,  0),
-			      Index2dC(-1,  1), 
+			      Index2dC(-1,  1),
 			      Index2dC( 0,  0)
   };
-  
-  const NeighbourOrderT reverseNeighPixel[9] = {  
+
+  const NeighbourOrderT reverseNeighPixel[9] = {
     NEIGH_LEFT      , /* 0 */
     NEIGH_UP_LEFT   , /* 1 */
     NEIGH_UP        , /* 2 */
@@ -41,18 +41,18 @@ namespace RavlN {
   static IndexC Neighbours[3][3] = {{ IndexC(5), IndexC(6), IndexC(7)},
 			     { IndexC(4), IndexC(8), IndexC(0)},
 			     { IndexC(3), IndexC(2), IndexC(1)}};
-  
-  bool Index2dC::IsInside(const IndexRange2dC & range) const 
+
+  bool Index2dC::IsInside(const IndexRange2dC & range) const
   { return range.RowRange().Contains(Row()) && range.ColRange().Contains(Col()); }
-  
+
   IndexC Index2dC::NeighbourOrder() const {
     RavlAssertMsg(IsRelNeighbour8(),"pxl is not a neighbouring pixel");
     return Neighbours[Row().V()+1][Col().V()+1];
   }
-  
-  IndexC Index2dC::NeighbourOrder(const Index2dC & pxl) const 
-  { return Index2dC(pxl - (*this)).NeighbourOrder(); }  
-    
+
+  IndexC Index2dC::NeighbourOrder(const Index2dC & pxl) const
+  { return Index2dC(pxl - (*this)).NeighbourOrder(); }
+
   Index2dC Index2dC::Neighbour(NeighbourOrderT neighOrder) const {
     switch(neighOrder) {
     case NEIGH_RIGHT:      return Index2dC(Row()  , Col()+1);
@@ -67,5 +67,5 @@ namespace RavlN {
     };
     return Index2dC(-1000,-1000);
   }
-  
+
 }

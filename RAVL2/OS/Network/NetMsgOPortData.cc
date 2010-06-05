@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: NetMsgOPortData.cc 7397 2009-11-27 15:38:24Z robowaz $"
 //! lib=RavlNet
 
 #include "Ravl/OS/NetMsgOPortData.hh"

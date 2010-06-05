@@ -13,7 +13,7 @@
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! date="04/07/1998"
-//! rcsid="$Id$"
+//! rcsid="$Id: FileIO.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! userlevel=Default
 
 #include "Ravl/DP/SPort.hh"

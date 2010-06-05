@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: fixSource.cfg 5642 2006-06-23 10:51:11Z craftit $"
 //! lib=RavlGUI2D
 
 #include "Ravl/GUI/MarkupPoint2d.hh"
@@ -80,7 +80,7 @@ namespace RavlGUIN {
     } break;
     default:
     case MP2DS_CrossHair: {
-      RealT size = 10;
+      RealT size = 5;
       Vector2dC ver1(0,2);
       Vector2dC ver2(0,size);
       Vector2dC hor1(2,0);
@@ -92,7 +92,7 @@ namespace RavlGUIN {
       mv.GUIDrawLine(dc, Point2dC(centre - ver1),Point2dC(centre - ver2));
     } break;
     case MP2DS_DiagonalCross: {
-      RealT size = 7;
+      RealT size = 3;
       Vector2dC p1(size,size);
       Vector2dC p2(size,-size);
       

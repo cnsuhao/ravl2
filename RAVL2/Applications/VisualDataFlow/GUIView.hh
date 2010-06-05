@@ -7,7 +7,7 @@
 #ifndef RAVLDF_DFVIEW_HEADER
 #define RAVLDF_DFVIEW_HEADER 1
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: GUIView.hh 3340 2003-08-25 21:55:35Z craftit $"
 //! lib=RavlVDF
 //! author="Charles Galambos"
 //! docentry="Ravl.Applications.VDF"

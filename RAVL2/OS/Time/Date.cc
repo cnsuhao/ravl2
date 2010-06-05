@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: Date.cc 7732 2010-05-19 17:06:04Z craftit $"
 //! lib=RavlOS
 //! file="Ravl/OS/Time/Date.cc"
 
@@ -104,7 +104,7 @@ namespace RavlN {
   //: Construct from a real in seconds.
   
   DateC::DateC(RealT val) {
-    sec = (long) val;
+    sec = (Int64T) val;
     usec = (long) ((RealT) (val - (RealT) sec) * MaxUSeconds());
   }
   
@@ -139,9 +139,9 @@ namespace RavlN {
   }
   
   //: Convert year to days since 1970
-  int DateC::YearToDaysSince1970(int year)  {
-    int yearx =  year - 1970;
-    int yearl = year - 1;
+  DateC::SecondT DateC::YearToDaysSince1970(int year)  {
+    SecondT yearx =  year - 1970;
+    SecondT yearl = year - 1;
     return (yearx * 365) + (yearl / 4) - (yearl / 100) + (yearl / 400) - 477;
   }
   
@@ -153,10 +153,10 @@ namespace RavlN {
   {
     if(!useLocalTimeZone) {
       //                                    Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov,Dec,x
-      static int daysin[14]           = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0 };
-      static int daysintoyear[14]     = { 0,  0, 31, 59, 90,120,151,181,212,243,273,304,334, 365};
-      static int daysleapin[14]       = { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0 };
-      static int daysintoleapyear[14] = { 0,  0, 31, 60, 91,121,152,182,213,244,274,305,335, 366};  
+      static SecondT daysin[14]           = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0 };
+      static SecondT daysintoyear[14]     = { 0,  0, 31, 59, 90,120,151,181,212,243,273,304,334, 365};
+      static SecondT daysleapin[14]       = { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0 };
+      static SecondT daysintoleapyear[14] = { 0,  0, 31, 60, 91,121,152,182,213,244,274,305,335, 366};
       sec =  YearToDaysSince1970(year) * 24 * 60 * 60;
       if(month < 1 || month > 12) {
 	cerr << "DateC::DateC(), Illegal month " << month << "\n";
@@ -237,6 +237,14 @@ namespace RavlN {
 #endif
   }
   
+  //: Get an invalid time.
+
+  DateC DateC::InvalidTime() {
+    DateC ret;
+    ret.SetInvalid();
+    return ret;
+  }
+
   //: Get the current time in Coordinated Universal Time  (UTC)
   
   DateC DateC::NowUTC() {
@@ -327,14 +335,27 @@ namespace RavlN {
   StringC DateC::ODBC(bool convertUTCToLocal,bool factionalSeconds) const {
     StringC str;
     if(factionalSeconds) {
-      str.form("%04d-%02d-%02d %02d:%02d:%02.10f",
-               Year(convertUTCToLocal),
-               Month(convertUTCToLocal),
-               DayInMonth(convertUTCToLocal),
-               Hour(convertUTCToLocal),
-               Minute(convertUTCToLocal),
-               (double) Seconds(convertUTCToLocal) + (usec / 1000000.0)
-               );
+      UIntT seconds = Seconds(convertUTCToLocal);
+      // Fix formating problem where leading zero is removed from floats.
+      if(seconds < 10) {
+        str.form("%04d-%02d-%02d %02d:%02d:0%1.10f",
+            Year(convertUTCToLocal),
+            Month(convertUTCToLocal),
+            DayInMonth(convertUTCToLocal),
+            Hour(convertUTCToLocal),
+            Minute(convertUTCToLocal),
+            (double) seconds + (usec / 1000000.0)
+        );
+      } else {
+        str.form("%04d-%02d-%02d %02d:%02d:%02.10f",
+            Year(convertUTCToLocal),
+            Month(convertUTCToLocal),
+            DayInMonth(convertUTCToLocal),
+            Hour(convertUTCToLocal),
+            Minute(convertUTCToLocal),
+            (double) seconds + (usec / 1000000.0)
+        );
+      }
     } else {
       str.form("%04d-%02d-%02d %02d:%02d:%02d",
                Year(convertUTCToLocal),
@@ -728,6 +749,33 @@ namespace RavlN {
 #endif
   }
 #endif
+
+  const DateC &DateC::operator+=(double val) {
+
+#if 0
+    sec += (SecondT) val;
+    usec += ((long) ((RealT) val * 1000000) % 1000000);
+#else
+    double frac;
+    usec += Round(modf(val,&frac) * 1000000);
+    sec += (SecondT) frac;
+#endif
+    NormalisePos();
+    return *this;
+  }
+
+  const DateC &DateC::operator-=(double val) {
+#if 0
+    sec -= (SecondT) val;
+    usec -= ((long) ((RealT) val * 1000000) % 1000000);
+#else
+    double frac;
+    usec -= Round(modf(val,&frac) * 1000000);
+    sec -= (SecondT) frac;
+#endif
+    NormaliseNeg();
+    return *this;
+  }
 
     
 }

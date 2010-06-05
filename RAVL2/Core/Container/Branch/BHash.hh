@@ -7,7 +7,7 @@
 #ifndef RAVL_BHASH_HEADER
 #define RAVL_BHASH_HEADER 1
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BHash.hh 7710 2010-04-28 10:50:12Z craftit $"
 //! docentry="Ravl.API.Core.Branch"
 //! lib=RavlCore
 //! author="Charles Galambos"
@@ -112,7 +112,7 @@ namespace RavlN {
     bool IsElm(const KeyT &key) const;
     //: Is 'key' an key in the table ?
     
-    UIntT Size() const
+    SizeT Size() const
     { return entries; }
     //: Return the number of entries in the table.
     
@@ -127,14 +127,14 @@ namespace RavlN {
     // otherwise return 0.
     
   protected:
-    BHashC(const SArray1dC<BListC<BHashEntryC<KeyT,DataT> > > &newTable,UIntT newEntries)
+    BHashC(const SArray1dC<BListC<BHashEntryC<KeyT,DataT> > > &newTable,SizeT newEntries)
       : table(newTable),
 	entries(newEntries)
     {}
     //: Constructor.
     
     SArray1dC<BListC<BHashEntryC<KeyT,DataT> > > table;
-    UIntT entries;
+    SizeT entries;
     friend class BHashIterC<KeyT,DataT>;
   };
   
@@ -187,6 +187,7 @@ namespace RavlN {
     if(table.Size() == 0) // Need to initalise the table ?
       table = SArray1dC<BListC<BHashEntryC<KeyT,DataT> > > (7); // How to best choose the inital size ?
     table[StdHash(key) % table.Size()].InsFirst(BHashEntryC<KeyT,DataT>(key,data) );
+    entries++;
     return true;
   }
   
@@ -196,6 +197,7 @@ namespace RavlN {
       table = SArray1dC<BListC<BHashEntryC<KeyT,DataT> > > (7); // How to best choose the inital size ?
     BListC<BHashEntryC<KeyT,DataT> > &list = table[StdHash(key) % table.Size()];
     list.InsFirst(BHashEntryC<KeyT,DataT>(key,data) );    
+    entries++;
     return list.First().Data();
   }
   

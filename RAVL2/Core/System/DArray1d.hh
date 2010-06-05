@@ -9,7 +9,7 @@
 //! docentry="Ravl.API.Core.Arrays.1D"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: DArray1d.hh 7546 2010-02-18 13:28:49Z craftit $"
 //! file="Ravl/Core/System/DArray1d.hh"
 
 #include "Ravl/IntrDList.hh"
@@ -53,7 +53,7 @@ namespace RavlN {
     { return data.Range().Min(); }
     //: Offset from start of list.
     
-    UIntT Size() const
+    SizeT Size() const
     { return data.Size(); }
     //: Size of chunk.
     
@@ -227,12 +227,12 @@ namespace RavlN {
     const DataT &Nth(UIntT i) const;
     //: Find the n'th entry, irrespective of index values.
     
-    UIntT Append(const Array1dC<DataT> &newData);
+    IndexC Append(const Array1dC<DataT> &newData);
     //: Append data to this array.
     // Note the data is not copied! 
     // The number of items appended is returned.
     
-    UIntT Append(const DArray1dC<DataT> &newData);
+    IndexC Append(const DArray1dC<DataT> &newData);
     //: Append data to this array.
     // Note the data is not copied!
     // The number of items appended is returned.
@@ -309,7 +309,7 @@ namespace RavlN {
     }
     //: Empty this array of all its contents.
     
-    UIntT Size() const;
+    SizeT Size() const;
     //: Find the number of elements in the DArray.
     // This doesn't count holes in the array. <p>
     // At the moment this value is computed, this maybe a little
@@ -457,13 +457,13 @@ namespace RavlN {
     { return Index(i); }
     //: Access element.
 
-    UIntT Append(const Array1dC<DataT> &newData)
+    IndexC Append(const Array1dC<DataT> &newData)
     { return Body().Append(newData); }
     //: Append data to this array.
     // Note the data is not copied!
     // The number of items appended is returned.
     
-    UIntT Append(const DArray1dC<DataT> &newData)
+    IndexC Append(const DArray1dC<DataT> &newData)
     { return Body().Append(newData); }
     //: Append data to this array.
     // Note the data is not copied!
@@ -528,7 +528,7 @@ namespace RavlN {
     { Body().Empty(); }
     //: Empty this array of all its contents.
     
-    UIntT Size() const
+    SizeT Size() const
     { return Body().Size(); }
     //: Find the number of elements in the DArray.
     // This doesn't count holes in the array.
@@ -667,8 +667,8 @@ namespace RavlN {
   }
   
   template<class DataT>
-  UIntT DArray1dBodyC<DataT>::Size() const {
-    UIntT size = 0;
+  SizeT DArray1dBodyC<DataT>::Size() const {
+    SizeT size = 0;
     for(IntrDLIterC<DChunkC<DataT> > it(chunks);it;it++)
       size += it->Data().Size();
     return size;
@@ -737,7 +737,7 @@ namespace RavlN {
   }
   
   template<class DataT>
-  UIntT DArray1dBodyC<DataT>::Append(const Array1dC<DataT> &newData) {
+  IndexC DArray1dBodyC<DataT>::Append(const Array1dC<DataT> &newData) {
     if(newData.Size() == 0)
       return 0;
     if(chunks.IsEmpty())
@@ -761,7 +761,7 @@ namespace RavlN {
   }
   
   template<class DataT>
-  UIntT DArray1dBodyC<DataT>::Append(const DArray1dC<DataT> &newData) {
+  IndexC DArray1dBodyC<DataT>::Append(const DArray1dC<DataT> &newData) {
     if(!newData.IsValid())
       return 0;
     if(newData.IsEmpty())
@@ -773,7 +773,7 @@ namespace RavlN {
       if(it->Size() > 0)
 	break;
     if(!it) return 0;
-    UIntT size = 0;
+    IndexC size = 0;
     if(chunks.IsEmpty()) // Nothing in the current set ?
       chunks.InsLast(*new DChunkC<DataT>(it->Data()));
     else {

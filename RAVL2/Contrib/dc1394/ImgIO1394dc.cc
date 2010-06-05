@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIO1394dc.cc 7490 2010-01-27 16:48:34Z alexkostin $"
 //! lib=RavlImgIO1394dc
 //! author="Charles Galambos"
 //! file="Ravl/Contrib/dc1394/ImgIO1394dc.cc"
@@ -100,7 +100,7 @@ namespace RavlImageN {
       ONDEBUG(cerr << "Open in UInt16T mode\n");
       cam_mode = MODE_640x480_MONO16;
     } else {
-      cerr << "usupported image pixel type\n";
+      cerr << "unsupported image pixel type\n";
     }
   }
 
@@ -280,12 +280,12 @@ namespace RavlImageN {
     MTWriteLockC hold(2);
     if(cam_channel >= 100) { // DMA
       if(dc1394_dma_single_capture(&camera) != DC1394_SUCCESS){
-        cerr << "unable to capture a frame\n";
+        cerr << "unable to capture a frame (dma)\n";
         return false;
       }
     } else {
       if (dc1394_single_capture(raw1394handle,&camera) != DC1394_SUCCESS) {
-        cerr << "unable to capture a frame\n";
+        cerr << "unable to capture a frame (no-dma)\n";
         return false;
       }
     }

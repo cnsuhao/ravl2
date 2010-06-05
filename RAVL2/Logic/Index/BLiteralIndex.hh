@@ -10,7 +10,7 @@
 //! userlevel=Normal
 //! docentry="Ravl.API.Logic.Index"
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: BLiteralIndex.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Logic/Index/BLiteralIndex.hh"
 //! lib=RavlLogic
 //! date="14/05/1998"

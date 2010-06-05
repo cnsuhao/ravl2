@@ -7,7 +7,7 @@
 #ifndef RAVLHISTOGRAM_HEADER
 #define RAVLHISTOGRAM_HEADER 1
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Histogram.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Charles Galambos"
 //! example=exHistogram.cc
 //! docentry="Ravl.API.Math.Statistics.Histogram"

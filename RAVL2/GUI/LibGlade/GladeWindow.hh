@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_GLADEWINDOW_HEADER
 #define RAVLGUI_GLADEWINDOW_HEADER 1
 //! docentry="Ravl.API.Graphics.GTK.LibGlade"
-//! rcsid="$Id$"
+//! rcsid="$Id: GladeWindow.hh 7694 2010-04-15 09:20:21Z craftit $"
 //! lib=RavlLibGlade
 //! file="Ravl/GUI/LibGlade/GladeWindow.hh"
 
@@ -35,12 +35,21 @@ namespace RavlGUIN {
     //: Constructor
     // NOTE: If using this constructor a Glade XML object must be set with SetXML()
     
+    GladeWindowBodyC(const XMLFactoryContextC &factory);
+    //: Factory constructor.
+
     bool Raise();
     //: Raise window to top
     
     bool GUIRaise();
     //: Raise window to top
-    
+
+    bool ShowAndRaise();
+    //: Show window and raise it to top.
+
+    bool GUIShowAndRaise();
+    //: Show window and raise it to top -GUI thread.
+
     bool SetTitle(const StringC &title);
     //: Set the window title
     
@@ -60,6 +69,7 @@ namespace RavlGUIN {
     //: Called when gtk widget is destroyed.
     
     PixbufC m_icon;
+    bool m_interceptDeleteEvent;
   };
   
   //! userlevel=Normal
@@ -87,7 +97,12 @@ namespace RavlGUIN {
     {}
     //: Constructor
     // NOTE: If using this constructor a Glade XML object must be set with SetXML()
-    
+
+    GladeWindowC(const XMLFactoryContextC &factory)
+     : GladeWidgetC(*new GladeWindowBodyC(factory))
+    {}
+    //: Factory constructor.
+
   protected:
     GladeWindowC(GladeWindowBodyC &body)
       : GladeWidgetC(body)
@@ -111,6 +126,15 @@ namespace RavlGUIN {
     { return Body().GUIRaise(); }
     //: Raise window to top
     
+    bool ShowAndRaise()
+    { return Body().ShowAndRaise(); } 
+    //: Show window and raise it to top. 
+    
+    bool GUIShowAndRaise()
+    { return Body().GUIShowAndRaise(); }
+    //: Show window and raise it to top -GUI thread.
+
+
     bool SetTitle(const StringC &title)
     { return Body().SetTitle(title); }
     //: Set the window title

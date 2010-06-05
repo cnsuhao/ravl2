@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: SampleStreamVector.cc 3191 2003-07-18 13:15:14Z plugger $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/SampleStreamVector.cc"
 #include "Ravl/config.h" 

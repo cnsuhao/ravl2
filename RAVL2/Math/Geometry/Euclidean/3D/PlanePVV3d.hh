@@ -12,7 +12,7 @@
 //! author="Radek Marik"
 //! date="26/02/1994"
 //! docentry="Ravl.API.Math.Geometry.3D"
-//! rcsid="$Id$"
+//! rcsid="$Id: PlanePVV3d.hh 6535 2008-02-01 13:57:33Z craftit $"
 //! file="Ravl/Math/Geometry/Euclidean/3D/PlanePVV3d.hh"
 
 #include "Ravl/Types.hh" //RealT

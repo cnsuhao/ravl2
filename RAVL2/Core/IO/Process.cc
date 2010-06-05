@@ -7,7 +7,7 @@
 ///////////////////////////////////////////////
 //! docentry="Algorithms.Data Processing"
 //! lib=RavlIO
-//! rcsid="$Id$"
+//! rcsid="$Id: Process.cc 1431 2002-07-19 16:56:02Z craftit $"
 //! file="Ravl/Core/IO/Process.cc"
 
 #include "Ravl/DP/Process.hh"

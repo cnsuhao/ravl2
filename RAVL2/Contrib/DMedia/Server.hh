@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_DMEDIASERVER_HEADER
 #define RAVLIMAGE_DMEDIASERVER_HEADER 1
 /////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Server.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/DMedia/Server.hh"
 //! lib=RavlDMedia
 //! userlevel=Develop

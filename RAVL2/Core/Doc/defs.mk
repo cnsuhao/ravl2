@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 7133 2009-03-24 09:57:34Z ees1wc $"
 #! file="Ravl/Core/Doc/defs.mk"
 
 EHT= Ravl.Introduction.html \

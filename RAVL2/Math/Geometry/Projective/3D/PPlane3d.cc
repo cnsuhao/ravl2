@@ -9,7 +9,7 @@
 
 //! date="26.06.1995"
 //! author="Radek Marik"
-//! rcsid="$Id$"
+//! rcsid="$Id: PPlane3d.cc 6158 2007-05-23 20:21:26Z craftit $"
 //! lib=RavlMath
 
 #include "Ravl/BinStream.hh"

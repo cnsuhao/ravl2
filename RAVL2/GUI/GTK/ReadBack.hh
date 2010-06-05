@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="28/01/2003"
-//! rcsid="$Id$"
+//! rcsid="$Id: ReadBack.hh 7310 2009-10-14 20:31:27Z craftit $"
 //! lib=RavlGUI
 //! userlevel=Advanced
 //! docentry="Ravl.API.Graphics.GTK.Internal"

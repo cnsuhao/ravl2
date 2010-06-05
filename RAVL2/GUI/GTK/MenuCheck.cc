@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MenuCheck.cc 5184 2005-10-25 17:01:51Z craftit $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/MenuCheck.cc"
 

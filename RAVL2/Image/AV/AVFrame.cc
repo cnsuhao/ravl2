@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: AVFrame.cc 4351 2004-06-08 15:15:31Z craftit $"
 //! lib=RavlAV
 //! file="Ravl/Image/AV/AVFrame.cc"
 

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: exLibGlade.cc 6701 2008-04-09 16:07:40Z ees1wc $"
 //! lib=RavlLibGlade
 //! file="Ravl/GUI/LibGlade/exLibGlade.cc"
 //! docentry="Ravl.API.Graphics.GTK.LibGlade"

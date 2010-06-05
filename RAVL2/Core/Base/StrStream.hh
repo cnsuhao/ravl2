@@ -7,7 +7,7 @@
 #ifndef RAVL_STRSTREAM_HEADER
 #define RAVL_STRSTREAM_HEADER 1
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: StrStream.hh 6470 2007-11-26 13:33:57Z craftit $"
 //! file="Ravl/Core/Base/StrStream.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"

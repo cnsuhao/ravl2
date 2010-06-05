@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 #ifndef _RAVL_CPUINFO_HH_
-  #define	_RAVL_CPUINFO_HH_ 1
+#define	 _RAVL_CPUINFO_HH_ 1
 //! author=CPUInfo
 //! docentry="Ravl.API.OS.Exec"
 //! file=
@@ -13,11 +13,13 @@
 //! userlevel=Normal
 //! date="16 September 2009"
 
+
 namespace RavlN {
 
   long int GetNumCores(void);
   //: Get the number of cores on this system.
   // Not implemented for windows, will return 1;
-};
+}
+
 #endif	/* _RAVL_CPUINFO_HH_ */
 

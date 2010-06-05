@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: testMatInv.cc 2138 2002-12-05 17:44:32Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/testMatInv.cc"
 

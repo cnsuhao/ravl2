@@ -8,7 +8,7 @@
 #define RAVLGUI_DVIEWPOINT3D_HEADER 1
 ////////////////////////////////////////////
 //! docentry="Ravl.API.Graphics.3D"
-//! rcsid="$Id$"
+//! rcsid="$Id: DViewPoint3D.hh 6701 2008-04-09 16:07:40Z ees1wc $"
 //! file="Ravl/GUI/3D/DViewPoint3D.hh"
 //! lib=RavlGUI3D
 //! author="Charles Galambos"

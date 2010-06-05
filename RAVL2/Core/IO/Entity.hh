@@ -14,7 +14,7 @@
 //! author="Charles Galambos"
 //! date="16/06/1998"
 //! docentry="Ravl.API.Core.Data Processing.Internal"
-//! rcsid="$Id$"
+//! rcsid="$Id: Entity.hh 7394 2009-11-26 15:07:00Z robowaz $"
 
 #include "Ravl/RCHandleV.hh"
 

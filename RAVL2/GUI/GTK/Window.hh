@@ -11,7 +11,6 @@
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! date="23/03/1999"
-//! rcsid="$Id$"
 //! docentry="Ravl.API.Graphics.GTK.Layout"
 
 #include "Ravl/GUI/OneChild.hh"
@@ -360,6 +359,9 @@ namespace RavlGUIN {
     { return Body().IsFullScreen(); }
     //: Find out whether or not the window is in "full screen" mode
     
+    static bool GUISetDefaultIcon(const PixbufC &pix);
+    //: Set a default icon for all windows.
+
     friend class WindowBodyC;
     friend class GladeWindowC;
   };

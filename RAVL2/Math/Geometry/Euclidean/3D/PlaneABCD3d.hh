@@ -11,7 +11,7 @@
 //! userlevel=Normal
 //! author="Radek Marik"
 //! docentry="Ravl.API.Math.Geometry.3D"
-//! rcsid="$Id$"
+//! rcsid="$Id: PlaneABCD3d.hh 6535 2008-02-01 13:57:33Z craftit $"
 //! date="06/08/1995"
 //! file="Ravl/Math/Geometry/Euclidean/3D/PlaneABCD3d.hh"
 

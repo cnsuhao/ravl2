@@ -13,7 +13,7 @@
 //! author="Radek Marik"
 //! date="26/10/1992"
 //! docentry="Ravl.API.Images.Boundaries;Ravl.API.Math.Geometry.2D.Boundary"
-//! rcsid="$Id$"
+//! rcsid="$Id: Boundary.hh 6015 2007-01-17 16:50:25Z ees1wc $"
 
 #include "Ravl/Types.hh" 
 #include "Ravl/Crack.hh"

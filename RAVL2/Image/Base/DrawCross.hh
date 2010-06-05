@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_DRAWCROSS_HEADER
 #define RAVLIMAGE_DRAWCROSS_HEADER 1
 ///////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DrawCross.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Charles Galambos"
 //! date="14/07/2002"
 //! docentry="Ravl.API.Images.Drawing"

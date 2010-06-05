@@ -8,7 +8,7 @@
 #define RAVL_SPORTSHARE_HEADER 1
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Data Processing.Threads" 
-//! rcsid="$Id$"
+//! rcsid="$Id: SPortShare.hh 7708 2010-04-26 16:53:17Z robowaz $"
 //! lib=RavlDPMT
 //! date="18/9/2003"
 //! file="Ravl/OS/DataProc/SPortShare.hh"
@@ -86,16 +86,16 @@ namespace RavlN {
     { return input; }
     //: Access input.
     
-    bool Get(UIntT frameNo,DataT &buf) {
+    bool Get(StreamPosT frameNo,DataT &buf) {
       MutexLockC lock(access);
       return input.GetAt(frameNo,buf);
     }
     //: Get frameNo from stream.
-    
-    IntT GetArray(UIntT frameNo,SArray1dC<DataT> &buf) {
+
+    IntT GetArray(StreamPosT frameNo,SArray1dC<DataT> &buf) {
       MutexLockC lock(access);
       int n;
-      if(!input.Seek(frameNo)) {
+      if(!input.Seek64(frameNo)) {
 //        cerr << "DPISPortShareBodyC(), Failed to seek to frame " << frameNo << ".\n";
         return 0;
       }
@@ -104,16 +104,16 @@ namespace RavlN {
     }
     //: Get an array of data from stream.
 
-    bool IsGetReady(UIntT frameNo) const {
+    bool IsGetReady(StreamPosT frameNo) const {
       MutexLockC lock(access);
-      return (frameNo == input.Tell()) && input.IsGetReady();
+      return (frameNo == input.Tell64()) && input.IsGetReady();
     }
     //: Is some data ready ?
     // true = yes.
-    
-    bool IsGetEOS(UIntT frameNo) const {
+
+    bool IsGetEOS(StreamPosT frameNo) const {
       MutexLockC lock(access);
-      return (frameNo == input.Tell()) && input.IsGetEOS();
+      return (frameNo == input.Tell64()) && input.IsGetEOS();
     }
     //: Has the End Of Stream been reached ?
     // true = yes.
@@ -356,20 +356,20 @@ namespace RavlN {
     { return Body().Input(); }
     //: Access input.
     
-    bool Get(UIntT frameNo,DataT &buf) 
+    bool Get(StreamPosT frameNo,DataT &buf)
     { return Body().Get(frameNo,buf); }
     //: Get frameNo from stream.
     
-    IntT GetArray(UIntT frameNo,SArray1dC<DataT> &buf) 
+    IntT GetArray(StreamPosT frameNo,SArray1dC<DataT> &buf)
     { return Body().GetArray(frameNo,buf); }
     //: Get an array of data from stream.
     
-    bool IsGetReady(UIntT frameNo) const 
+    bool IsGetReady(StreamPosT frameNo) const
     { return Body().IsGetReady(frameNo); }
     //: Is some data ready ?
     // true = yes.
     
-    bool IsGetEOS(UIntT frameNo) const
+    bool IsGetEOS(StreamPosT frameNo) const
     { return Body().IsGetEOS(frameNo); }
     //: Has the End Of Stream been reached ?
     // true = yes.        
@@ -442,7 +442,7 @@ namespace RavlN {
     DPISPortShareClientBodyC()
       : offset(0),
         start(0),
-        size((UIntT) -1),
+        size(streamPosUnknown),
         lastUpdateCount(0)
     {
       this->MapBackChangedSignal("start");
@@ -465,9 +465,9 @@ namespace RavlN {
       attrCtrlUpdateSize.Connect(sharedPort,"size",TriggerR(*this,&DPISPortShareClientBodyC<DataT>::CBSizeChanged));
       
       // Cache stream parameters.
-      offset = input.Start();
-      size = input.Size();
-      start =  input.Start();
+      offset = input.Start64();
+      size = input.Size64();
+      start =  input.Start64();
       lastUpdateCount = input.InputUpdateCount();
     }
     //: Constructor.
@@ -505,7 +505,8 @@ namespace RavlN {
     
     virtual UIntT Tell() const 
     {
-      return static_cast<UIntT>(Tell64());
+      StreamPosT value = Tell64();
+      return (value == streamPosUnknown ? static_cast<UIntT>(-1) : static_cast<UIntT>(value));
     }
     //: Find current location in stream.
     // Defined as the index of the next object to be written or read.
@@ -513,14 +514,16 @@ namespace RavlN {
     
     virtual UIntT Size() const
     {
-      return static_cast<UIntT>(Size64());
+      StreamPosT value = Size64();
+      return (value == streamPosUnknown ? static_cast<UIntT>(-1) : static_cast<UIntT>(value));
     }
     //: Find the total size of the stream. (assuming it starts from 0)
     // May return ((UIntT) (-1)) if not implemented.
     
     virtual UIntT Start() const
     { 
-      return static_cast<UIntT>(Start64());
+      StreamPosT value = Start64();
+      return (value == streamPosUnknown ? static_cast<UIntT>(-1) : static_cast<UIntT>(value));
     }
     //: Find the offset where the stream begins, normally zero.
     // Defaults to 0
@@ -660,10 +663,10 @@ namespace RavlN {
       // Check cache is current
       if(lastUpdateCount != input.InputUpdateCount()) {
         lastUpdateCount = input.InputUpdateCount();
-        start = input.Start();
-        size = input.Size();
+        start = input.Start64();
+        size = input.Size64();
       } else
-        start = input.Start();
+        start = input.Start64();
       //cerr << "DPISPortShareClientBodyC::CBStartChanged, Called. Start="<< start << "\n";
       return true; 
     }
@@ -673,10 +676,10 @@ namespace RavlN {
       // Check cache is current
       if(lastUpdateCount != input.InputUpdateCount()) {
         lastUpdateCount = input.InputUpdateCount();
-        start = input.Start();
-        size = input.Size();
+        start = input.Start64();
+        size = input.Size64();
       } else
-        size = input.Size();
+        size = input.Size64();
       //cerr << "DPISPortShareClientBodyC::CBSizeChanged, Called. Size=" << size << "\n";
       return true;
     }
@@ -749,6 +752,5 @@ namespace RavlN {
   { return DPISPortShareClientC<DataT>(*this); }
 
 }
-
 
 #endif

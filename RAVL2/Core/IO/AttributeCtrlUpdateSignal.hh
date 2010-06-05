@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Data_Processing.Attributes"
 //! date="2/4/2005"
-//! rcsid="$Id$"
+//! rcsid="$Id: AttributeCtrlUpdateSignal.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlIO
 
 #include "Ravl/DP/AttributeCtrl.hh"

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Util.cc 6374 2007-10-02 15:09:14Z alexkostin $"
 //! lib=RavlGUI3D
 //! file="Ravl/GUI/3D/Util.cc"
 

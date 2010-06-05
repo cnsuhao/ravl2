@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 ///////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DocTree.cc 2864 2003-05-12 12:20:35Z craftit $"
 //! lib=RavlCxxDoc
 //! file="Ravl/SourceTools/CxxDoc/DocTree.cc"
 

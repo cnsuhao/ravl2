@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOU16RGB.cc 4 2001-04-11 12:45:55Z craftit $"
 
 #include "amma/DP/FileFormatStream.hh"
 #include "amma/DP/FileFormatBinStream.hh"

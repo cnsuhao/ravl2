@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Parser.cc 2653 2003-04-03 09:46:18Z vap-james $"
 //! lib=RavlCxxDoc
 //! file="Ravl/SourceTools/CxxDoc/Parser.cc"
 

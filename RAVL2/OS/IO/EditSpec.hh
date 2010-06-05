@@ -7,7 +7,7 @@
 #ifndef RAVL_DPEDITSPEC_HEADER
 #define RAVL_DPEDITSPEC_HEADER 1
 /////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: EditSpec.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/OS/IO/EditSpec.hh"
 //! lib=RavlOSIO
 //! userlevel=Default

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ConditionalMutex.cc 7189 2009-05-26 08:33:54Z craftit $"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Posix/ConditionalMutex.cc"
 

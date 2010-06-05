@@ -11,7 +11,7 @@
 #include "Ravl/Tuple2.hh"
 #include  <iomanip>
 #include <stdint.h>
-//! rcsid="$Id$"
+//! rcsid="$Id: fixSource.cfg,v 1.6 2005/03/02 09:28:41 craftit Exp $"
 //! lib=RawVid
 
 #define DODEBUG 0

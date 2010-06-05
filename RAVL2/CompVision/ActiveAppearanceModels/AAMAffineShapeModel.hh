@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_AFFINESHAPEMODEL_HEADER
 #define RAVLIMAGE_AFFINESHAPEMODEL_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: AAMAffineShapeModel.hh 7358 2009-11-04 11:46:22Z omn-crida $"
 //! lib=RavlAAM
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.AAM"

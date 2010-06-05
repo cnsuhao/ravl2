@@ -6,7 +6,7 @@
 // file-header-ends-here
 ////////////////////////////////////////////////////
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOjs.cc 7384 2009-11-18 16:17:00Z robowaz $"
 //! lib=RavlVideoIO
 //! author="Charles Galambos"
 //! date="24/03/2002"

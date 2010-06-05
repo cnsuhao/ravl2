@@ -7,7 +7,7 @@
 #ifndef RAVLREALYUVVALUE_HEADER
 #define RAVLREALYUVVALUE_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RealYUVValue.hh 6965 2008-09-18 16:48:28Z ees1wc $"
 //! file="Ravl/Image/Base/RealYUVValue.hh"
 //! lib=RavlImage
 //! userlevel=Normal

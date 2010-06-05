@@ -14,7 +14,7 @@
 //! userlevel=Basic
 //! example=exOption.cc
 //! docentry="Ravl.API.Core.Misc"
-//! rcsid="$Id$"
+//! rcsid="$Id: Option.hh 6884 2008-07-01 10:20:08Z craftit $"
 //
 // Based on the ideas in C and C++ option library by George Matas and Radek Marik.
 

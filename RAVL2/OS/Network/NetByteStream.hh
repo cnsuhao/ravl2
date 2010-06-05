@@ -7,7 +7,7 @@
 #ifndef RAVL_NETBYTESTREAM_HEADER
 #define RAVL_NETBYTESTREAM_HEADER 1
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: NetByteStream.hh 5093 2005-08-28 10:38:22Z craftit $"
 //! lib=RavlNet
 //! file="Ravl/OS/Network/NetByteStream.hh"
 

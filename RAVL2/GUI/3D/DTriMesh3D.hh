@@ -8,7 +8,7 @@
 #define RAVL_DTRISET3D_HEADER 1
 ///////////////////////////////////////////////////
 //! docentry="Ravl.API.Graphics.3D"
-//! rcsid="$Id$"
+//! rcsid="$Id: DTriMesh3D.hh 6701 2008-04-09 16:07:40Z ees1wc $"
 //! file="Ravl/GUI/3D/DTriMesh3D.hh"
 //! lib=RavlGUI3D
 //! author="James Smith"

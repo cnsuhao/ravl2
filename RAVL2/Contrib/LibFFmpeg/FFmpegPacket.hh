@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_FFMPEGPACKET_HEADEER
 #define RAVL_FFMPEGPACKET_HEADEER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: FFmpegPacket.hh 7406 2009-12-07 16:57:04Z simondennis $"
 //! lib=RavlLibFFmpeg
 //! docentry = "Ravl.API.Images.Video.Video IO.LibFFmpeg"
 
@@ -17,6 +17,7 @@
 
 #include "Ravl/RefCounter.hh"
 #include <iostream>
+#include "Ravl/Stream.hh"
 //link ffmpeg as a purely c library since all c++ wrapper functions were removed
 extern "C" {
 #if defined(LIBAVFORMAT_VERSION_MAJOR) && LIBAVFORMAT_VERSION_MAJOR >= 52
@@ -165,6 +166,7 @@ using namespace std;
     IntT Flags() const 
     { return Body().Flags(); }
     //: Access packet flags
+
     
   protected:
     FFmpegPacketC(FFmpegPacketBodyC &bod)

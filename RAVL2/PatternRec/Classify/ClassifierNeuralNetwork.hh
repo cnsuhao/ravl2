@@ -7,7 +7,7 @@
 #ifndef RAVL_CLASSIFIERNEURALNETWORK_HEADER
 #define RAVL_CLASSIFIERNEURALNETWORK_HEADER 1
 ///////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ClassifierNeuralNetwork.hh,v 1.8 2005/12/06 17:16:49 plugger Exp $"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Pattern Recognition.Classifier"
 //! lib=RavlPatternRec

@@ -10,7 +10,7 @@
 //! author="Charles Galambos"
 //! example=exTreeStore.cc
 //! lib=RavlGUI
-//! rcsid="$Id$"
+//! rcsid="$Id: ListStore.hh 7650 2010-03-08 17:06:13Z robowaz $"
 //! file="Ravl/GUI/GTK/ListStore.hh"
 
 #include "Ravl/config.h"
@@ -29,7 +29,7 @@ namespace RavlGUIN {
     ListStoreBodyC();
     //: Constructor.
 
-    ListStoreBodyC(const SArray1dC<AttributeTypeC> &nColTypes);
+    ListStoreBodyC(const SArray1dC<AttributeTypeC> &nColTypes, const IntT sortColumn = -1, const bool sortAscending = true);
     //: List store.
     
     ListStoreBodyC(GtkTreeModel *aModel);
@@ -55,6 +55,9 @@ namespace RavlGUIN {
     virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, IntT value);
     //: Set int value.
 
+    virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, Int64T value);
+    //: Set int value.
+
     virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, bool value);
     //: Set bool value.
 
@@ -68,7 +71,8 @@ namespace RavlGUIN {
     //: Clear store of all values.
 
   protected:
-
+    const IntT m_sortColumn;
+    const bool m_sortAscending;
   };
 
   //! userlevel=Normal
@@ -84,8 +88,8 @@ namespace RavlGUIN {
     //: Default constructor
     // Creates an invalid handle.
 
-    ListStoreC(const SArray1dC<AttributeTypeC> &nColTypes)
-      : TreeModelC(*new ListStoreBodyC(nColTypes))
+    ListStoreC(const SArray1dC<AttributeTypeC> &nColTypes, const IntT sortColumn = -1, const bool sortAscending = true)
+      : TreeModelC(*new ListStoreBodyC(nColTypes, sortColumn, sortAscending))
     {}
     //: List store.
 

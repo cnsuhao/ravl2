@@ -7,7 +7,7 @@
 #ifndef RAVL_FILEFORMATDYNAMIC_HEADER
 #define RAVL_FILEFORMATDYNAMIC_HEADER
 ///////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FileFormatDynamic.hh 6955 2008-09-17 10:05:41Z craftit $"
 //! file="Ravl/OS/IO/FileFormatDynamic.hh"
 //! lib=RavlOSIO
 //! docentry="Ravl.API.OS"

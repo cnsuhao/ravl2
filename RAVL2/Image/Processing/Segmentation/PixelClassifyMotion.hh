@@ -12,7 +12,7 @@
 //! file="Ravl/Image/Processing/Segmentation/PixelClassifyMotion.hh"
 //! lib=RavlImageProc
 //! example=exSegmentation.cc
-//! rcsid="$Id$"
+//! rcsid="$Id: PixelClassifyMotion.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Fangxiang Cheng"
 //! date="13/03/2000"
 

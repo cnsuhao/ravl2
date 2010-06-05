@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_SEPARATOR_HEADER
 #define RAVLGUI_SEPARATOR_HEADER 1
 //////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Separator.hh 6701 2008-04-09 16:07:40Z ees1wc $"
 //! file="Ravl/GUI/GTK/Separator.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"

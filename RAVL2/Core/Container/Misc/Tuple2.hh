@@ -7,7 +7,7 @@
 #ifndef RAVL_TUPLE2_HEADER
 #define RAVL_TUPLE2_HEADER 1
 /////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Tuple2.hh 7544 2010-02-18 13:20:15Z craftit $"
 //! docentry="Ravl.API.Core.Tuples"
 //! userlevel=Normal
 //! file="Ravl/Core/Container/Misc/Tuple2.hh"
@@ -64,8 +64,8 @@ namespace RavlN {
     const T2 &Data2() const { return d2; }
     //: Data access.
     
-    UIntT Hash() const {
-      UIntT h2 = StdHash(d2);
+    SizeT Hash() const {
+      SizeT h2 = StdHash(d2);
       return (StdHash(d1) + h2) ^ (h2 << 7); 
     }
     //: Get hash value for tuple.

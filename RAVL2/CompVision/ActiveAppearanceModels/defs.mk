@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 7512 2010-02-11 18:34:12Z craftit $"
 #! file="Ravl/CompVision/ActiveAppearanceModels/defs.mk"
 
 DESCRIPTION = Active appearance models
@@ -15,7 +15,7 @@ DONOT_SUPPORT = arm
 
 MAINS = aamBuildShapeModel.cc aamViewShapeModel.cc  aamBuildAppearanceModel.cc \
  aamBuildActiveAppearanceModel.cc  aamCombineActiveAppearanceModel.cc \
- aamLocaliseFace.cc aamBuildPoseEstimator.cc aamSynthesizeFrontal.cc
+ aamLocaliseFace.cc aamBuildPoseEstimator.cc aamSynthesizeFrontal.cc aamTrackFace.cc
 
 EXAMPLES = aamBuildShapeModel.cc aamViewShapeModel.cc aamBuildAppearanceModel.cc \
  aamBuildActiveAppearanceModel.cc aamCombineActiveAppearanceModel.cc aamLocaliseFace.cc \

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BlueScreen.cc 2376 2003-02-10 14:16:56Z joel_m $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Segmentation/BlueScreen.cc"
 

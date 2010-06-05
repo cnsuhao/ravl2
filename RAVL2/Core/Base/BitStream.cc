@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BitStream.cc 2512 2003-03-06 22:52:37Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/BitStream.cc"
 

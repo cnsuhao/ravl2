@@ -4,14 +4,23 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DistanceSqrEuclidean.cc 7590 2010-02-23 12:03:11Z kier $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Distance/DistanceSqrEuclidean.cc"
 
 #include "Ravl/PatternRec/DistanceSqrEuclidean.hh"
 #include "Ravl/VirtualConstructor.hh"
+#include "Ravl/XMLFactoryRegister.hh"
 
 namespace RavlN {
+
+  //: XMLFactoryC constructor.
+  
+  DistanceSqrEuclideanBodyC::DistanceSqrEuclideanBodyC(const XMLFactoryContextC &factory)
+    : DistanceBodyC(factory)
+  {
+    
+  }
 
   DistanceSqrEuclideanBodyC::DistanceSqrEuclideanBodyC(istream &strm)
     : DistanceBodyC(strm)
@@ -56,4 +65,9 @@ namespace RavlN {
   
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(DistanceSqrEuclideanBodyC,DistanceSqrEuclideanC,DistanceC);
 
+  RavlN::XMLFactoryRegisterHandleConvertC<DistanceSqrEuclideanC, DistanceC> g_registerXMLFactoryDistanceSqrEuclidean("RavlN::DistanceSqrEuclideanC");
+
+  extern void linkDistanceSqrEuclidean()
+  {}
+  
 }

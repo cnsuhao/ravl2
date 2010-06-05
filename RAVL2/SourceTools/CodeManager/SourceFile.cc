@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 //! lib=RavlSourceTools
-//! rcsid="$Id$"
+//! rcsid="$Id: SourceFile.cc 6097 2007-03-12 15:45:45Z ees1wc $"
 //! file="Ravl/SourceTools/CodeManager/SourceFile.cc"
 
 #include "Ravl/SourceTools/SourceFile.hh"

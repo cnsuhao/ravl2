@@ -7,7 +7,7 @@
 #ifndef RAVL_HEMESH3D_HEADER
 #define RAVL_HEMESH3D_HEADER 1
 ////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: HEMesh3d.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Math.Geometry.3D"
 //! lib=RavlMath

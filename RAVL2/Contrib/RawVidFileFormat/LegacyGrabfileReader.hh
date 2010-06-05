@@ -1,6 +1,6 @@
 #if !defined(LEGACYGRABFILEREADER_HH)
 #define LEGACYGRABFILEREADER_HH
-//! rcsid="$Id$"
+//! rcsid="$Id: $"
 //! author="Simon Tredwell"
 //! lib=RawVid
 

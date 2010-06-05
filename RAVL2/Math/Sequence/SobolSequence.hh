@@ -10,7 +10,7 @@
 //! file="Ravl/Math/Sequence/SobolSequence.hh"
 //! lib=RavlMath
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: SobolSequence.hh 5415 2006-03-15 18:33:33Z ees1wc $"
 //! docentry="Ravl.API.Math.Sequences"
 //! date="15/03/1999"
 

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ConnectedComponents.cc 1959 2002-10-30 14:43:09Z vap-james $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Segmentation/ConnectedComponents.cc"
 

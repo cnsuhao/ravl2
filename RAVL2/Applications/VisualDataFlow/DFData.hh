@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLDF_DFDATA_HEADER
 #define RAVLDF_DFDATA_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: DFData.hh 1533 2002-08-08 16:03:23Z craftit $"
 //! lib=RavlVDF
 //! author="Charles Galambos"
 //! docentry="Ravl.Applications.VDF"

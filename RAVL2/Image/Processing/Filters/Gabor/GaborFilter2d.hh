@@ -8,7 +8,7 @@
 #define RAVLIMAGE_GABORFILTER_HEADER 1
 ////////////////////////////////////////////////////////////////////////////
 //! docentry="Ravl.API.Images.Filtering"
-//! rcsid="$Id$"
+//! rcsid="$Id: GaborFilter2d.hh 6439 2007-11-13 17:55:45Z ees1wc $"
 //! author="Kieron Messer"
 //! date="17/10/2000"
 //! lib=RavlImageProc

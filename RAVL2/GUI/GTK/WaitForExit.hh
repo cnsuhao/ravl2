@@ -8,7 +8,7 @@
 #define RAVLGUI_WAITFOREXIT_HEADER 1
 //! docentry="Ravl.API.Graphics.GTK.Util"
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: WaitForExit.hh 6703 2008-04-09 16:32:10Z ees1wc $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/WaitForExit.hh"
 

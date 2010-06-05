@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testBranch.cc 7316 2009-10-18 19:44:52Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Branch/testBranch.cc"
 //! userlevel=Develop

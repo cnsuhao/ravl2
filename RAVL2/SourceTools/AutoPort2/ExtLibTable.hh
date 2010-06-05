@@ -10,7 +10,7 @@
 //! docentry="Ravl.API.Source Tools.AutoPort"
 //! userlevel=Normal
 //! file="Ravl/SourceTools/VisualCPP/ExtLibTable.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: ExtLibTable.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlAutoPort2
 
 #include "Ravl/RefCounter.hh"

@@ -7,7 +7,7 @@
 #ifndef RAVL_IO_HEADER
 #define RAVL_IO_HEADER 1
 /////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: IO.hh 737 2002-01-31 14:55:49Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/System/IO.hh"
 

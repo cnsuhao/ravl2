@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Matrix2d.cc 4810 2005-02-28 15:01:43Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/FixedSize/Matrix2d.cc"
 

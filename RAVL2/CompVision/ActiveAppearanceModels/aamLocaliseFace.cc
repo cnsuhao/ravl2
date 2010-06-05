@@ -1,4 +1,4 @@
-//! rcsid="$Id$"
+//! rcsid="$Id: aamLocaliseFace.cc 7008 2008-10-24 15:23:19Z craftit $"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/aamLocaliseFace.hh"
 //! docentry="Ravl.API.Images.AAM"

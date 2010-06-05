@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_DECISIONTREEBASE_HEADER
 #define RAVLLOGIC_DECISIONTREEBASE_HEADER 1
 /////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DecisionTreeBase.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlLogic
 //! file="Ravl/Logic/DecisionTree/DecisionTreeBase.hh"
 //! author="Charles Galambos"

@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! date="27/11/1996"
 //! docentry="Ravl.API.Core.Misc"
-//! rcsid="$Id$"
+//! rcsid="$Id: BinTable.hh 7544 2010-02-18 13:20:15Z craftit $"
 //! lib=RavlCore
 
 #include "Ravl/Hash.hh"
@@ -113,7 +113,7 @@ namespace RavlN {
   template<class IT,class DIT,class BT>
   inline DIT BinTableC<IT,DIT,BT>::Scale(const IT &Ind) const  {
     DIT Ret(Ind.Size());
-    for(UIntT i = 0;i < Ind.Size();i++) 
+    for(SizeT i = 0;i < Ind.Size();i++)
       Ret[i] = Floor((RealT) Ind[i] / binSize[i]);
     return Ret;
   }  
@@ -129,7 +129,7 @@ namespace RavlN {
   template<class IT,class DIT,class BT>
   IT BinTableC<IT,DIT,BT>::BinCentre(const IT &at) const {
     IT ret(at.Size());
-    for(UIntT i = 0;i < at.Size();i++) 
+    for(SizeT i = 0;i < at.Size();i++)
       ret[i] = Floor((RealT) at[i] / binSize[i]) * binSize[i]  + (binSize[i]/2);
     return ret;
   }
@@ -137,7 +137,7 @@ namespace RavlN {
   template<class IT,class DIT,class BT>
   IT BinTableC<IT,DIT,BT>::BinCentre(const DIT &at) const {
     IT ret(at.Size());
-    for(UIntT i = 0;i < at.Size();i++) 
+    for(SizeT i = 0;i < at.Size();i++)
       ret[i] = at[i] * binSize[i]  + (binSize[i]/2);
     return ret;
   }

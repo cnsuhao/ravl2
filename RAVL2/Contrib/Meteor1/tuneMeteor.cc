@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: tuneMeteor.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlImgIOMeteor1
 //! file="Ravl/Contrib/Meteor1/tuneMeteor.cc"
 //! author="Charles Galambos"

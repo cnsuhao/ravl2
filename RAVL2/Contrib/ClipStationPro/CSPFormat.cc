@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: CSPFormat.cc 4911 2005-05-06 08:59:24Z plugger $"
 //! lib=CSPDriver
 //! file="Ravl/Contrib/ClipStationPro/CSPFormat.cc"
 

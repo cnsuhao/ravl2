@@ -7,7 +7,7 @@
 #ifndef RAVL_WEAKLINEAR_HEADER
 #define RAVL_WEAKLINEAR_HEADER 1
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ClassifierWeakLinear.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlPatternRec
 //! author="Robert Crida"
 //! userlevel=Normal

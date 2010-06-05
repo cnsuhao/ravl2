@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_ACTIVEAPPEARANCEMODEL_HEADER
 #define RAVLIMAGE_ACTIVEAPPEARANCEMODEL_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: AAMActiveAppearanceModel.hh 7363 2009-11-04 13:33:23Z omn-crida $"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMActiveAppearanceModel.hh"
 //! docentry="Ravl.API.Images.AAM"

@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 6570 2008-02-14 14:24:59Z craftit $"
 #! file="Ravl/OS/DataProc/defs.mk"
 
 PACKAGE=Ravl/DP

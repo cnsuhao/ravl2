@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MatrixSolve.cc 2063 2002-11-22 11:29:08Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/MatrixSolve.cc"
 

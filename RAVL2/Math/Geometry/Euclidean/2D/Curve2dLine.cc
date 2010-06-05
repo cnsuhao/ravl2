@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Curve2dLine.cc 2230 2003-01-13 08:49:16Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/2D/Curve2dLine.cc"
 

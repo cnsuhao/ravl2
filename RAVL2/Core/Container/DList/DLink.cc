@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DLink.cc 7563 2010-02-18 16:41:12Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/DList/DLink.cc"
 
@@ -48,8 +48,8 @@ namespace RavlN {
   // This is of order N, where N is the number of elements in
   // the list.
   
-  UIntT DLinkHeadC::Size() const {
-    UIntT count = 0;
+  SizeT DLinkHeadC::Size() const {
+    SizeT count = 0;
     for(const DLinkC *place = &head.Next();place != &head;place = &place->Next())
       count++;
     return count;
@@ -79,10 +79,10 @@ namespace RavlN {
   }
   
   //: Merge sort the list using given comparison function.
-  
+  // FIXME:- Get rid of this define.
 #define getlink(elm)   ((elm)->succ)
   
-  DLinkC** DLinkHeadC::MergeSortInternal(DLinkC** chead,UIntT n,MergeSortInterCmpT LessOrEqual,void *pass) {
+  DLinkC** DLinkHeadC::MergeSortInternal(DLinkC** chead,SizeT n,MergeSortInterCmpT LessOrEqual,void *pass) {
     register DLinkC* p1, *p2;
     DLinkC **h2, **t2;
     unsigned m;
@@ -125,7 +125,5 @@ namespace RavlN {
     
     return 0;
   }
-
-
   
 }

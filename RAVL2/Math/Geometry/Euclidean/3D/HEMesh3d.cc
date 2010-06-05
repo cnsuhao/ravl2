@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: HEMesh3d.cc 4279 2004-04-30 15:37:54Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/3D/HEMesh3d.cc"
 

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: GUIPlayControl.cc 7721 2010-05-04 12:37:34Z robowaz $"
 //! file="Ravl/Applications/VPlay/GUIPlayControl.cc"
 //! lib=RavlVPlay
 
@@ -105,6 +105,7 @@ namespace RavlGUIN {
   
   
   bool PlayControlBodyC::Rewind() {
+    m_sigInteractive(true, PCB_Rewind);
     Speed(0);
     MutexLockC hold(access);
     if(!pc.IsValid())
@@ -118,10 +119,13 @@ namespace RavlGUIN {
       for(DLIterC<DPPlayControlC> it(pcs);it.IsElm();it.Next())
 	it.Data().ToBeginning();
     }
+    hold.Unlock();
+    m_sigInteractive(false, PCB_Rewind);
     return true;
   }
   
   bool PlayControlBodyC::TheEnd() { 
+    m_sigInteractive(true, PCB_End);
     MutexLockC hold(access);
     if(!pc.IsValid())
       return true;
@@ -130,52 +134,64 @@ namespace RavlGUIN {
     UIntT seekTo = pc.FixedEnd();
     hold.Unlock();
     Pause();  
-    Seek(seekTo); 
+    Seek(seekTo);
+    hold.Unlock();
+    m_sigInteractive(false, PCB_End);
     return true;
   }
   
   bool PlayControlBodyC::Backx2() { 
+    m_sigInteractive(true, PCB_Backx2);
     Speed(-4); 
     Continue();
+    m_sigInteractive(false, PCB_Backx2);
     return true;
   }
   
   bool PlayControlBodyC::Back() { 
+    m_sigInteractive(true, PCB_Back);
     Speed(-1); 
     Continue();
+    m_sigInteractive(false, PCB_Back);
     return true;
   }
   
   bool PlayControlBodyC::JBkw() { 
-    m_sigInteractive(true);
+    m_sigInteractive(true, PCB_JumpBack);
     Jog(-skip);
-    m_sigInteractive(false);
+    m_sigInteractive(false, PCB_JumpBack);
 
     return true;
   }
   
-  bool PlayControlBodyC::Stop() { 
+  bool PlayControlBodyC::Stop() {
+    m_sigInteractive(true, PCB_Stop);
     Speed(0);
     Pause();
+    m_sigInteractive(false, PCB_Stop);
     return true;
   }
   
   bool PlayControlBodyC::JFwd() {
-    m_sigInteractive(true);
+    m_sigInteractive(true, PCB_JumpForward);
     Jog(skip);
-    m_sigInteractive(false);
+    m_sigInteractive(false, PCB_JumpForward);
     return true;
   }
   
   bool PlayControlBodyC::Play() { 
+    m_sigInteractive(true, PCB_Play);
     Speed(1);  
     Continue();
+    m_sigInteractive(false, PCB_Play);
     return true;
   }
   
   bool PlayControlBodyC::Playx2() {
+    m_sigInteractive(true, PCB_Playx2);
     Speed(4); 
     Continue();
+    m_sigInteractive(false, PCB_Playx2);
     return true;
   }
   
@@ -274,7 +290,7 @@ namespace RavlGUIN {
 
   bool PlayControlBodyC::CBInteractiveMode(bool & state)
   {
-    m_sigInteractive(state); 
+    m_sigInteractive(state, PCB_Slider);
     return true;
   }
 
@@ -314,17 +330,12 @@ namespace RavlGUIN {
     // Do we have a valid controls?
     if (!created)
       return false;
-    
-    //cerr <<"PlayControlBodyC::SliderUpdate(). \n";
     MutexLockC hold(access,true);
     if(!hold.IsLocked()) // Did lock succeed ?
-      return true; // We'll do the update next time.
-    //  cerr << "PlayControlBodyC::SliderUpdate(),\n";
-    
+      return true; // We'll do the update next time. 
     if(!pc.IsValid())
       return true;
     UIntT loc = pc.LastFrame();
-    //cerr << "PlayControlBodyC::SliderUpdate(), Called at " << loc << "\n";
     if(loc == ((UIntT) -1)) 
       return true; // We don't have a clue!
     bool updateSlider = false;
@@ -365,12 +376,18 @@ namespace RavlGUIN {
     // Do GUI updates outside of lock, to avoid deadlocks if GUI Queue() blocks.
     if(updateRange) {
       if(updateValue)
+      {
         frameSlider.Update(loc,min,max);
+      }
       else
+       {
         frameSlider.UpdateRange(min,max);
+      }
     } else {
       if(updateValue)
+      {
         frameSlider.UpdateValue(loc);
+      }
     }
     if(updateRange || updateValue)
     {
@@ -389,7 +406,7 @@ namespace RavlGUIN {
       baseSpeed(1),
       skip(1),
       sigUpdateFrameNo((IntT) 1),
-      m_sigInteractive(false),
+      m_sigInteractive(false, PCB_Stop),
       simpleControls(nsimpleControls),
       extendedControls(nExtendedControls),
       lastUpdateFrameNo((UIntT) -1)
@@ -403,7 +420,7 @@ namespace RavlGUIN {
       baseSpeed(1),
       skip(1),
       sigUpdateFrameNo((IntT) 1),
-      m_sigInteractive(false),
+      m_sigInteractive(false, PCB_Stop),
       simpleControls(nsimpleControls),
       extendedControls(nExtendedControls),
       lastUpdateFrameNo((UIntT) -1)

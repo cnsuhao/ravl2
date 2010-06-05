@@ -4,15 +4,17 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignKNearestNeighbour.cc 7590 2010-02-23 12:03:11Z kier $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Classify/DesignKNearestNeighbour.cc"
 
 #include "Ravl/PatternRec/DesignKNearestNeighbour.hh"
 #include "Ravl/PatternRec/ClassifierKNearestNeighbour.hh"
 #include "Ravl/PatternRec/ClassifierAverageNearestNeighbour.hh"
+#include "Ravl/PatternRec/DistanceEuclidean.hh"
 #include "Ravl/VirtualConstructor.hh"
 #include "Ravl/BinStream.hh"
+#include "Ravl/XMLFactoryRegister.hh"
 
 namespace RavlN {
   
@@ -23,6 +25,17 @@ namespace RavlN {
       distanceMetric(distMetric),
       useAverageKNN(nuseAverageKNN)
   {}
+  
+  //: Load from XML factory
+  
+  DesignKNearestNeighbourBodyC::DesignKNearestNeighbourBodyC(const XMLFactoryContextC & factory)
+    : DesignClassifierSupervisedBodyC(factory),
+      k(factory.AttributeUInt("k", 3)),
+      useAverageKNN(factory.AttributeBool("use_average_knn", false))
+  {
+    if(!factory.UseComponent("Distance", distanceMetric))
+      RavlIssueError("Unable to initialise distance metric from XML Factory");
+  }
   
   //: Load from stream.
   
@@ -88,6 +101,11 @@ namespace RavlN {
  
   //////////////////////////////////////////////////////////
   
+  RavlN::XMLFactoryRegisterHandleConvertC<DesignKNearestNeighbourC, DesignClassifierSupervisedC> g_registerXMLFactoryDesignKNearestNeighbour("RavlN::DesignKNearestNeighbourC");
+
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(DesignKNearestNeighbourBodyC,DesignKNearestNeighbourC,DesignClassifierSupervisedC);
+
+  void linkDesignKNearestNeighbour()
+  {}
 
 }

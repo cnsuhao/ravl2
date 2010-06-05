@@ -11,7 +11,7 @@
 //! date="1/10/1996"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Indexing"
-//! rcsid="$Id$"
+//! rcsid="$Id: IndexNd.hh 7546 2010-02-18 13:28:49Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/System/IndexNd.hh"
 
@@ -60,7 +60,7 @@ namespace RavlN {
     inline IndexNdC operator/(const RealT alpha) const;
     //: Divides this index by real number 'alpha'.
     
-    UIntT Hash() const; 
+    SizeT Hash() const;
     //: Return an almost unqiue hash value for this index.
     
   };

@@ -4,7 +4,7 @@
 # Public License (GPL). See the gpl.licence file for details or
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 7150 2009-04-09 10:14:05Z craftit $"
 #! file="Ravl/QMake/defs.mk"
 
 #PACKAGENAME= QMake

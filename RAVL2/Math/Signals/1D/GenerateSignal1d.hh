@@ -7,7 +7,7 @@
 #ifndef RAVL_GENERATESIGNAL1D_HEADER
 #define RAVL_GENERATESIGNAL1D_HEADER 1
 ///////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: GenerateSignal1d.hh 7537 2010-02-18 11:57:27Z craftit $"
 //! lib=RavlMath
 //! docentry="Ravl.API.Math.Signals.1D"
 //! userlevel=Normal
@@ -18,14 +18,14 @@
 namespace RavlN {
   
   
-  Array1dC<RealT> GenerateRandomGauss1d(SizeT size,RealT stdDeviation,RealT mean);
+  Array1dC<RealT> GenerateRandomGauss1d(UIntT size,RealT stdDeviation,RealT mean);
   //: Generate an array containing Gaussian noise with specified properties.
   
   Array1dC<RealT> GenerateGauss1d(RealT sigma,RealT mean = 0,RealT scale = 1,RealT size = 2);
   //: Generate a truncated 1-D Gaussian curve.
     
   template<class DataT>
-  Array1dC<DataT> GenerateBinomial(SizeT size, bool doNorm = false,bool centre = false, UIntT derivative = 0) {
+  Array1dC<DataT> GenerateBinomial(UIntT size, bool doNorm = false,bool centre = false, UIntT derivative = 0) {
     Array1dC<DataT> fnc;
     if(size == 0)
       return Array1dC<DataT>();
@@ -80,8 +80,8 @@ namespace RavlN {
   //!param: derivative - if > 0, the Gaussian is differentiated this number of times
 
   template<class DataT>
-  Array1dC<DataT> GenerateBinomial(DataT seed,SizeT size, bool doNorm = false,bool centre = false)
-{ return GenerateBinomial<DataT>(size, doNorm, centre); }
+  Array1dC<DataT> GenerateBinomial(DataT seed,UIntT size, bool doNorm = false,bool centre = false)
+  { return GenerateBinomial<DataT>(size, doNorm, centre); }
   //! userlevel=Obsolete
   //Use this function instead:<br>
   //<code>  template<class DataT>  Array1dC<DataT> GenerateBinomial(SizeT size, bool doNorm = false,bool center = false, UIntT derivative = 0)</code>

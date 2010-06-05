@@ -4,7 +4,7 @@
 // Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DefsFile.cc 6595 2008-02-21 13:33:49Z kier $"
 //! lib=RavlSourceTools
 //! file="Ravl/SourceTools/CodeManager/DefsFile.cc"
 

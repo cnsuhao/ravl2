@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLGUI_GLADEXML_HEADER
 #define RAVLGUI_GLADEXML_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: GladeXML.hh 7678 2010-04-05 16:19:07Z craftit $"
 //! docentry="Ravl.API.Graphics.GTK.LibGlade"
 //! lib=RavlLibGlade
 //! file="Ravl/GUI/LibGlade/GladeXML.hh"
@@ -17,6 +17,10 @@
 
 extern "C" {
   typedef struct _GladeXML GladeXML;
+}
+
+namespace RavlN {
+  class XMLFactoryContextC;
 }
 
 namespace RavlGUIN {
@@ -35,9 +39,12 @@ namespace RavlGUIN {
     GladeXMLBodyC(const StringC &filename);
     //: Create whole interface from a file.
     
-    GladeXMLBodyC(const StringC &filename,const StringC &rootWidgetName);
+    GladeXMLBodyC(const StringC &filename,const StringC &rootWidgetName,const StringC &moduleName = StringC("Glade"));
     //: Create part of interface from a file.
     
+    GladeXMLBodyC(const XMLFactoryContextC &factory);
+    //: Factory constructor.
+
     GladeXML *XML();
     //: Access xml info for whole interface.
     
@@ -48,6 +55,10 @@ namespace RavlGUIN {
     { return filename; }
     //: Access filename.
     
+    const StringC &ModuleName() const
+    { return m_moduleName; }
+    //: Name of module to use.
+
     const StringC &RootWidgetName() const
     { return rootWidgetName; }
     //: Get name of root widget.
@@ -58,6 +69,7 @@ namespace RavlGUIN {
     
     GladeXML *xml;
     StringC filename;
+    StringC m_moduleName;
     StringC rootWidgetName;
   };
   
@@ -78,11 +90,16 @@ namespace RavlGUIN {
     {}
     //: Create whole interface from a file.
     
-    GladeXMLC(const StringC &filename,const StringC &rootWidgetName)
-      : RCHandleC<GladeXMLBodyC>(*new GladeXMLBodyC(filename,rootWidgetName))
+    GladeXMLC(const StringC &filename,const StringC &rootWidgetName,const StringC &moduleName = StringC("Glade"))
+      : RCHandleC<GladeXMLBodyC>(*new GladeXMLBodyC(filename,rootWidgetName,moduleName))
     {}
     //: Create part of interface from a file.
-    
+
+    GladeXMLC(const XMLFactoryContextC &factory)
+     : RCHandleC<GladeXMLBodyC>(*new GladeXMLBodyC(factory))
+    {}
+    //: Factory constructor.
+
   protected:
     GladeXMLBodyC &Body()
     { return RCHandleC<GladeXMLBodyC>::Body(); }
@@ -105,11 +122,43 @@ namespace RavlGUIN {
     { return Body().Filename(); }
     //: Access filename.
     
+    const StringC &ModuleName() const
+    { return Body().ModuleName(); }
+    //: Access module name.
+
     const StringC &RootWidgetName() const
     { return Body().RootWidgetName(); }
     //: Get name of root widget.
     
   };
+
+  inline istream &operator>>(istream &strm,GladeXMLC &obj) {
+    RavlAssertMsg(0,"Not implemented. ");
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+
+  inline ostream &operator<<(ostream &out,const GladeXMLC &obj) {
+    RavlAssertMsg(0,"Not implemented. ");
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+
+  inline BinIStreamC &operator>>(BinIStreamC &strm,GladeXMLC &obj) {
+    RavlAssertMsg(0,"Not implemented. ");
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+
+  inline BinOStreamC &operator<<(BinOStreamC &out,const GladeXMLC &obj) {
+    RavlAssertMsg(0,"Not implemented. ");
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
 }
 
 #endif

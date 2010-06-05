@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 6813 2008-05-28 15:45:47Z ees1wc $"
 #! file="Ravl/Math/Optimisation/defs.mk"
 
 PACKAGE=Ravl

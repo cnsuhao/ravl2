@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_LITERALINDEXBASE_HEADER
 #define RAVLLOGIC_LITERALINDEXBASE_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: LiteralIndexBase.hh 6634 2008-03-02 09:37:01Z craftit $"
 //! docentry="Ravl.API.Logic.Index"
 //! author="Charles Galambos"
 //! lib=RavlLogic

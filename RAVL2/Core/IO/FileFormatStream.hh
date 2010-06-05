@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////
 //! docentry="Ravl.API.Core.IO.Formats" 
 //! lib=RavlIO
-//! rcsid="$Id$"
+//! rcsid="$Id: FileFormatStream.hh 5672 2006-06-27 15:22:10Z ees1wc $"
 //! file="Ravl/Core/IO/FileFormatStream.hh"
 //! author="Charles Galambos"
 //! date="12/08/1998"

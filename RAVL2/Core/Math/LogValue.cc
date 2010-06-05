@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: LogValueC.cc 1294 2002-06-25 15:17:27Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Math/LogValue.cc"
 

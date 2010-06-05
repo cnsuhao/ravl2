@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Combo.cc 7211 2009-06-25 10:55:51Z cyberplug $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Combo.cc"
 //! example=exCombo.cc

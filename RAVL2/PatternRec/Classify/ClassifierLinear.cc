@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ClassifierLinear.cc 3170 2003-07-15 16:33:10Z kier $"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
 //! file="Ravl/PatternRec/Modeling/Basic/ClassifierLinear.cc"

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: TreeStore.cc 7268 2009-09-15 10:30:15Z cyberplug $"
 //! lib=RavlGUI
 //! date="23/9/2003"
 //! author="Charles Galambos"

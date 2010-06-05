@@ -7,7 +7,7 @@
 #ifndef RAVL_STATISTICS_HEADER
 #define RAVL_STATISTICS_HEADER 1
 ///////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Statistics.hh 5411 2006-03-14 18:20:31Z craftit $"
 //! userlevel=Normal
 //! docentry="Ravl.API.Math.Statistics"
 //! author="Daniel A. Atkinson"

@@ -7,7 +7,7 @@
 #ifndef RAVL_DPFIXEDBUFFER_HEADER
 #define RAVL_DPFIXEDBUFFER_HEADER 1
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FixedBuffer.hh 7716 2010-05-03 11:28:44Z craftit $"
 //! lib=RavlDPMT
 //! docentry="Ravl.API.Core.Data Processing.Buffers"
 //! file="Ravl/OS/DataProc/FixedBuffer.hh"
@@ -51,16 +51,14 @@ namespace RavlN {
     virtual DataT Get() 
     { return queue.Get(); }
     //: Get next piece of data.
-    // May block if not ready, or it will return a constructed
-    // with the default constructor.
+    // May block if not ready.
     
     virtual bool Get(DataT &d) { 
       d = queue.Get(); 
       return true;
     }
     //: Get next piece of data.
-    // May block if not ready, or it will return a constructed
-    // with the default constructor.
+    // May block if not ready.
     
     virtual IntT GetArray(SArray1dC<DataT> &dat) {
       for(SArray1dIterC<DataT> it(dat);it;it++)

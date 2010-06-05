@@ -33,6 +33,7 @@ namespace RavlN
 
     RealRange2dC BoundingRectangle() const;
     //: Compute the bounding rectangle for the point set.
+    
   };
 }
 

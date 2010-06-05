@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Factory.cc 2952 2003-05-27 13:12:09Z craftit $"
 //! lib=RavlVDF
 //! author="Charles Galambos"
 //! file="Ravl/Applications/VisualDataFlow/Factory.cc"

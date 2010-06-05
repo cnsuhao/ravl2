@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 ///////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: LibInfo.cc 6373 2007-10-02 15:07:51Z alexkostin $"
 //! lib=RavlSourceTools
 //! file="Ravl/SourceTools/CodeManager/LibInfo.cc"
 

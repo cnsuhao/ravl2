@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: exDTexTriMesh3d.cc 6701 2008-04-09 16:07:40Z ees1wc $"
 //! lib=RavlGUI3D
 //! docentry="Ravl.API.Graphics.3D"
 //! author="James Smith"

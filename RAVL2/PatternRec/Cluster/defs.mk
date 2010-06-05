@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 4345 2004-05-28 15:40:50Z craftit $"
 #! file="Ravl/PatternRec/Cluster/defs.mk"
 
 DESCRIPTION = Pattern Recognition Classifiers

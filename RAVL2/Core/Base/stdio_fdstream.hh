@@ -8,7 +8,7 @@
 #define RAVL_STDIO_FDSTREAM_HEADER 1
 /////////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: stdio_fdstream.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/stdio_fdstream.hh"
 //! docentry="Ravl.API.Core.IO.Streams"

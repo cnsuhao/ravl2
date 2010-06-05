@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 # Automatically generated make file
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 737 2002-01-31 14:55:49Z craftit $"
 #! file="Ravl/CCMath/defs.mk"
 
 PACKAGE=ccmath

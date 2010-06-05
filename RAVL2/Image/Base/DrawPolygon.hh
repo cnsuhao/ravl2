@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_DRAWPOLYGON_HEADER
 #define RAVLIMAGE_DRAWPOLYGON_HEADER 1
 ///////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DrawPolygon.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! author="James Smith"
 //! date="27/10/2002"
 //! docentry="Ravl.API.Images.Drawing"

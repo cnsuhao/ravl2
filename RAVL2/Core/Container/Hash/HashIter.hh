@@ -14,7 +14,7 @@
 //! date="1/9/1996"
 //! example=exHash.cc
 //! docentry="Ravl.API.Core.Hash Tables"
-//! rcsid="$Id$"
+//! rcsid="$Id: HashIter.hh 7606 2010-03-01 10:28:09Z alexkostin $"
 
 #include "Ravl/Hash.hh"
 
@@ -40,14 +40,14 @@ namespace RavlN {
     
     HashIterC(const RCHashC<K,T> & nTab) 
       : bIt(nTab.Data().table),
-	hashtable(&const_cast<HashC<K,T> &> (nTab.Data() )) 
+        hashtable(&const_cast<HashC<K,T> &> (nTab.Data() ))
     { First() ; } 
     //: Constructor from RCHash
 
     HashIterC(const HashIterC<K,T> &oth) 
       : lIt(oth.lIt), 
         bIt(oth.bIt),
-	hashtable(oth.hashtable)
+        hashtable(oth.hashtable)
     {} 
     // Copy constructor.
 

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testTMatrix.cc 5761 2006-07-20 07:45:31Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/testTMatrix.cc"
 

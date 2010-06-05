@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Edges"
-//! rcsid="$Id$"
+//! rcsid="$Id: Gradient.hh 5428 2006-03-24 17:12:51Z ees1wc $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Edges/Gradient.hh"
 

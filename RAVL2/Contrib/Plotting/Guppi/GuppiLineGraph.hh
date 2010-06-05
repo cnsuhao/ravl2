@@ -8,7 +8,7 @@
 #define RAVLPLOT_GUPPILINEGRAPH_HEADER 1
 //! author="Charles Galambos"
 //! docentry="Ravl.GUI.Data_Plotting.Guppi"
-//! rcsid="$Id$"
+//! rcsid="$Id: GuppiLineGraph.hh 3401 2003-09-06 08:11:47Z craftit $"
 //! lib=RavlGuppi
 //! file="Ravl/Contrib/Plotting/Guppi/GuppiLineGraph.hh"
 

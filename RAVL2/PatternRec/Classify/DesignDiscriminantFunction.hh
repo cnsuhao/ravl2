@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_DESIGNDISCRIMINANTFUNCTION_HEADER
 #define RAVL_DESIGNDISCRIMINANTFUNCTION_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignDiscriminantFunction.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlPatternRec
 //! docentry="Ravl.API.Pattern Recognition.Classifier.DesignClassifier"
 //! file="Ravl/PatternRec/Classify/DesignDiscriminantFunction.hh"

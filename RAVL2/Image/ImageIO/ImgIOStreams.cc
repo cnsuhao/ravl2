@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOStreams.cc 4 2001-04-11 12:45:55Z craftit $"
 
 // Streaming file format for some standard images.
 

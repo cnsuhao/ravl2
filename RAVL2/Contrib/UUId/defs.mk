@@ -1,4 +1,4 @@
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 9410 2006-09-08 15:25:47Z charles $"
 #! file="Contrib/UUId/defs.mk"
 
 REQUIRES = UUIdTheo

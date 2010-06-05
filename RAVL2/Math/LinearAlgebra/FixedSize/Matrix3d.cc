@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Matrix3d.cc 7690 2010-04-13 16:25:21Z budgoswami $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/FixedSize/Matrix3d.cc"
 
@@ -48,13 +48,13 @@ namespace RavlN {
       c = 1.0;
       return true;
     }
-    RealT b = Sqrt(Sqr(v1) + Sqr(v2));
-    RavlAssert(b > 0);
-    c = -v1/b;
-    s = v2/b;
+    RealT theta = ATan(v1 / -v2);
+    c = Cos(theta);
+    s = Sin(theta);
     return true;
   }
   // Solve,  v1 * c + v2 * s = 0  where Sqr(c) + Sqr(s) = 1.
+  // The equations work out so that obtaining theta is trivial
   
   static inline void RotateX(const TFMatrixC<RealT,3,3> &b,RealT c,RealT s,TFMatrixC<RealT,3,3> &a) {
     a[0][0] = b[0][0];
@@ -117,20 +117,20 @@ namespace RavlN {
     
     // m21*c+m22*s == 0 to make A21 zero.
     RealT cx,sx;    
-    if(!SolveSinCos(M[2][1],M[2][2],cx,sx))
+    if(!SolveSinCos(M[2][1],M[2][2],sx,cx))
       return false;
     RotateX(M,cx,sx,R);
     
     // m20*c-m22*s == 0 to make A20 zero
     RealT cy,sy;
-    if(!SolveSinCos(R[2][0],-R[2][2],cy,sy))
+    if(!SolveSinCos(R[2][0],-R[2][2],sy,cy))
       return false;
     Matrix3dC Ro;
     RotateY(R,cy,sy,Ro);
     
     // m10*c+m11*s == 0 to make A10 zero
     RealT cz,sz;
-    if(!SolveSinCos(Ro[1][0],Ro[1][1],cz,sz))
+    if(!SolveSinCos(Ro[1][0],Ro[1][1],sz,cz))
       return false;
     RotateZ(Ro,cz,sz,R);
     
@@ -167,14 +167,14 @@ namespace RavlN {
     
     // m21*c+m22*s == 0 to make A21 zero.
     RealT cx,sx;    
-    if(!SolveSinCos(M[2][1],M[2][2],cx,sx))
+    if(!SolveSinCos(M[2][1],M[2][2],sx,cx))
       return false;
     RotateX(M,cx,sx,R);
     rx = ATan2(sx,cx);
     
     // m20*c-m22*s == 0 to make A20 zero
     RealT cy,sy;
-    if(!SolveSinCos(R[2][0],-R[2][2],cy,sy))
+    if(!SolveSinCos(R[2][0],-R[2][2],sy,cy))
       return false;
     Matrix3dC Ro;
     RotateY(R,cy,sy,Ro);
@@ -182,7 +182,7 @@ namespace RavlN {
     
     // m10*c+m11*s == 0 to make A10 zero
     RealT cz,sz;
-    if(!SolveSinCos(Ro[1][0],Ro[1][1],cz,sz))
+    if(!SolveSinCos(Ro[1][0],Ro[1][1],sz,cz))
       return false;
     rz = ATan2(sz,cz);
     
@@ -202,12 +202,14 @@ namespace RavlN {
     Matrix3dC tmp1(1,0,0,
                    0,1,0,
                    0,0,1);
-    Matrix3dC tmp2;
+    Matrix3dC tmp2;   
     // TODO :- Merge all this into one calculation.
-    RotateX(tmp1,Cos(rx),Sin(rx),tmp2);
+    RotateX(tmp1,Cos(rx),Sin(rx),tmp2); 
     RotateY(tmp2,Cos(ry),Sin(ry),tmp1);
     RotateZ(tmp1,Cos(rz),Sin(rz),tmp2);
-    return tmp2;
+    //Remember that the composition of a rotation matrix works as:
+    //(Rx*Ry*Rz)^T = Rz^T*Ry^T*Rx^T
+    return tmp2.T();
   }
-  
+
 }

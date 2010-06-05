@@ -8,7 +8,7 @@
 #define RAVL_DESIGNMEANSHIFTCLUSTER_HEADER 1
 //! author="Charles Galambos"
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignMeanShiftCluster.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlPatternRec
 //! docentry="Ravl.API.Pattern Recognition.Cluster;Ravl.API.Pattern Recognition.Classifier.DesignClassifier"
 //! file="Ravl/PatternRec/Cluster/DesignMeanShiftCluster.hh"

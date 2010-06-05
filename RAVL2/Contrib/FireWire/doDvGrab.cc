@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: doDvGrab.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlFireWire
 //! file="Ravl/Contrib/FireWire/doDvGrab.cc"
 //! docentry="Ravl.API.Images.Video.Video IO.DV;Ravl.Applications.Video"

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TypeInfo.cc 7265 2009-09-15 09:00:10Z robowaz $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/TypeInfo.cc"
 

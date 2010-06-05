@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Graph1d.cc 1959 2002-10-30 14:43:09Z vap-james $"
 
 #include "Ravl/IndRect.hh"
 #include "Ravl/GUI/Graph1d.hh"

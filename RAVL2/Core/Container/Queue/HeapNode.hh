@@ -13,7 +13,7 @@
 //! date="28/10/96"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Queues"
-//! rcsid="$Id$"
+//! rcsid="$Id: HeapNode.hh 7547 2010-02-18 13:31:37Z craftit $"
 
 #include "Ravl/Tuple2.hh"
 
@@ -68,7 +68,7 @@ namespace RavlN {
     void DeltaBalance(int Delta) { Balance += Delta; }
     //: Change balance for node.
     
-    int Size(void) const;
+    SizeT Size(void) const;
     //: Get number of nodes below this one.
     
     HeapNodeC<K,D> *&Child(int n) { return ChildP[n]; }
@@ -118,8 +118,8 @@ namespace RavlN {
   // Get number of nodes below this one.
   
   template <class K,class D>
-  int HeapNodeC<K,D>::Size(void) const {
-    int Ret = 1;
+  SizeT HeapNodeC<K,D>::Size(void) const {
+    SizeT Ret = 1;
     if(ChildP[0] != 0)
       Ret += ChildP[0]->Size();
     if(ChildP[1] != 0)

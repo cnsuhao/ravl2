@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: NetOPort.cc 7397 2009-11-27 15:38:24Z robowaz $"
 //! author="Charles Galambos"
 //! lib=RavlNet
 //! file="Ravl/OS/Network/NetOPort.cc"

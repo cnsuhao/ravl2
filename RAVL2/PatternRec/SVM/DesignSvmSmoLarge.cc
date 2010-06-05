@@ -10,6 +10,7 @@
 #include "Ravl/PatternRec/DesignSvmSmoLarge.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
 #include <string.h>
+#include "Ravl/XMLFactoryRegister.hh"
 
 namespace RavlN
 {
@@ -38,6 +39,18 @@ DesignSvmSmoLargeBodyC::DesignSvmSmoLargeBodyC(const KernelFunctionC &KernelFunc
   //cout << "lt:" << lambdaThreshold << endl;
 }
 //---------------------------------------------------------------------------
+
+DesignSvmSmoLargeBodyC::DesignSvmSmoLargeBodyC(const XMLFactoryContextC & factory)
+  : DesignSvmSmoBodyC(factory),
+    maxNumSv(factory.AttributeUInt("max_num_sv", 10000))        
+{
+  objectsToUseLarge = NULL;
+  kernelCacheIndices = NULL;
+  objectsToUseLargeSize = 0;
+}
+
+  //-------------------------------------------------------------
+
 //: Load from stream.
 DesignSvmSmoLargeBodyC::DesignSvmSmoLargeBodyC(istream& Strm)
                        :DesignSvmSmoBodyC(Strm)
@@ -92,7 +105,7 @@ Classifier2C DesignSvmSmoLargeBodyC::Apply(const SampleC<VectorC> &TrainingSetVe
     delete[] objectsToUseLarge;
     objectsToUseLarge = new int[trainSetSize];
     if(objectsToUseLarge == NULL)
-      throw ExceptionOperationFailedC("Can't allocate memory for internal svm beffers");
+      throw ExceptionOperationFailedC("Can't allocate memory for internal svm buffers");
     objectsToUseLargeSize = trainSetSize;
   }
 
@@ -102,7 +115,7 @@ Classifier2C DesignSvmSmoLargeBodyC::Apply(const SampleC<VectorC> &TrainingSetVe
     objectsToUseLarge[i] = i;
   }
 
-  //find lagrangian multipliers
+  //find Lagrangian multipliers
   CalcLambdas(false);
 
   return GetClassifier();
@@ -118,7 +131,7 @@ ClassifierC DesignSvmSmoLargeBodyC::Apply(const SampleC<VectorC> &TrainingSetVec
     delete[] objectsToUseLarge;
     objectsToUseLarge = new int[trainSetSize];
     if(objectsToUseLarge == NULL)
-      throw ExceptionOperationFailedC("Can't allocate memory for internal svm beffers");
+      throw ExceptionOperationFailedC("Can't allocate memory for internal svm buffers");
     objectsToUseLargeSize = trainSetSize;
   }
 
@@ -128,7 +141,7 @@ ClassifierC DesignSvmSmoLargeBodyC::Apply(const SampleC<VectorC> &TrainingSetVec
     objectsToUseLarge[i] = i;
   }
 
-  //find lagrangian multipliers
+  //find Lagrangian multipliers
   CalcLambdas(false);
 
   return GetClassifier();
@@ -140,7 +153,6 @@ void DesignSvmSmoLargeBodyC::Prepare(const SampleC<VectorC> &TrainingSetVectors,
   trainSetVectors = TrainingSetVectors;
   trainSetSize = TrainingSetVectors.Size();
   numFeatures = TrainingSetVectors[0].Size();
-  //cout << "training set size:" << trainSetSize << endl;
 
   //additional actions
   if(errorCacheSize != trainSetSize || errorCache == NULL || lambdas == NULL
@@ -164,7 +176,7 @@ void DesignSvmSmoLargeBodyC::Prepare(const SampleC<VectorC> &TrainingSetVectors,
     if(errorCache == NULL || lambdas == NULL || trainingSetLabels == NULL
        || trSetVectorPtrs == NULL
        || kernelCacheIndices == NULL || objectsToUse == NULL)
-      throw ExceptionC("DesignSvmSmoLargeBodyC::Prepare:Can't allocate memory for internal svm beffers");
+      throw ExceptionC("DesignSvmSmoLargeBodyC::Prepare:Can't allocate memory for internal svm buffers");
     errorCacheSize = trainSetSize;
   }
   for(int i = 0; i < trainSetSize; i++)
@@ -180,7 +192,9 @@ void DesignSvmSmoLargeBodyC::Prepare(const SampleC<VectorC> &TrainingSetVectors,
     double *lambdasPtr = lambdas;
     for(SampleIterC<RealT> it(initialLambdas); it; it++, lambdasPtr++)
     {
-      *lambdasPtr = *it;
+      RealT l = *it;
+      if(l < 0) l = 0;
+      *lambdasPtr = l;
     }
   }
 
@@ -194,7 +208,7 @@ void DesignSvmSmoLargeBodyC::Prepare(const SampleC<VectorC> &TrainingSetVectors,
     trSetVectorPtrs[i] = itVec->ReferenceElm();
   }
   if(i != trainSetSize)
-    throw ExceptionC("Can't copy data to internal svm beffers");
+    throw ExceptionC("Can't copy data to internal svm buffers");
 
   //create kernel cache
   SizeT newKernelCacheSize = (SizeT(maxNumSv + 1) * (SizeT)maxNumSv) / 2;
@@ -238,7 +252,7 @@ void DesignSvmSmoLargeBodyC::Prepare(const SampleC<VectorC> &TrainingSetVectors,
     objectsToUse = new int[maxNumSv];
     if(errorCache == NULL || lambdas == NULL || trainingSetLabels == NULL
        || trSetVectorPtrs == NULL || kernelCacheIndices == NULL || objectsToUse == NULL)
-      throw ExceptionC("Can't allocate memory for internal svm beffers");
+      throw ExceptionC("Can't allocate memory for internal svm buffers");
     errorCacheSize = trainSetSize;
   }
   for(int i = 0; i < trainSetSize; i++)
@@ -254,7 +268,9 @@ void DesignSvmSmoLargeBodyC::Prepare(const SampleC<VectorC> &TrainingSetVectors,
     double *lambdasPtr = lambdas;
     for(SampleIterC<RealT> it(initialLambdas); it; it++, lambdasPtr++)
     {
-      *lambdasPtr = *it;
+      RealT l = *it;
+      if(l < 0) l = 0;
+      *lambdasPtr = l;
     }
   }
 
@@ -268,7 +284,7 @@ void DesignSvmSmoLargeBodyC::Prepare(const SampleC<VectorC> &TrainingSetVectors,
     trSetVectorPtrs[i] = itVec->ReferenceElm();
   }
   if(i != trainSetSize)
-    throw ExceptionC("Can't copy data to internal svm beffers");
+    throw ExceptionC("Can't copy data to internal svm buffers");
 
   //create kernel cache
   SizeT newKernelCacheSize = (SizeT(maxNumSv + 1) * (SizeT)maxNumSv) / 2;
@@ -409,10 +425,10 @@ void DesignSvmSmoLargeBodyC::CalcLambdas(bool DoFinal)
   RealT toleranceBU = tolerance;
   RealT epsBU = eps;
   bool firstRun = false;
-  if(!DoFinal && tolerance < 1e-2 && eps <= 1e-4)
+  if(!DoFinal && tolerance < 1e-2 && eps <= 1e-6)
   {
-    tolerance = 0.1;
-    eps = 0.01;
+    tolerance = 0.3;
+    eps = 1e-6;
     firstRun = true;
   }
 
@@ -702,5 +718,14 @@ void DesignSvmSmoLargeBodyC::CalcLambdas(bool DoFinal)
   delete[] localLambdas;
   delete[] changedIndices;
 }
-//---------------------------------------------------------------------------
+
+
+
+  RavlN::XMLFactoryRegisterHandleConvertC<DesignSvmSmoLargeC, DesignSvmSmoC> g_registerXMLFactoryDesignSvmSmoLarge("RavlN::DesignSvmSmoLargeC");
+  
+  void linkDesignSvmSmoLarge()
+{}
+
+
+  //---------------------------------------------------------------------------
 }

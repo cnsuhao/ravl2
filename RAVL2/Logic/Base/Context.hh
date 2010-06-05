@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Logic"
-//! rcsid="$Id$"
+//! rcsid="$Id: Context.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/Context.hh"
 

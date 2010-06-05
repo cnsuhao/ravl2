@@ -11,7 +11,7 @@
 //! userlevel=Normal
 //! date="18/12/1995"
 //! docentry="Ravl.API.Images.Corner Detection"
-//! rcsid="$Id$"
+//! rcsid="$Id: Corner.hh 5428 2006-03-24 17:12:51Z ees1wc $"
 //! lib=RavlImageProc
 //! example=exCorner.cc
 //! file="Ravl/Image/Processing/Corners/Corner.hh"

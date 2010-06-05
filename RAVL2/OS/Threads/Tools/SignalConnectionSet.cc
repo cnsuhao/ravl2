@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SignalConnectionSet.cc 5183 2005-10-25 16:59:46Z craftit $"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Tools/SignalConnectionSet.cc"
 

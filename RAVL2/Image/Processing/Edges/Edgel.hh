@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_EDGEL_HEADER
 #define RAVLIMAGE_EDGEL_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Edgel.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Images.Edges"
 //! author="Charles Galambos"
 //! date="23/09/1999"

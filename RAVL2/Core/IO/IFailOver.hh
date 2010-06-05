@@ -10,7 +10,7 @@
 //! docentry="Ravl.API.Core.Data Processing.Fail Over"
 //! lib=RavlIO
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: IFailOver.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/IO/IFailOver.hh"
 //! date="25/08/1998"
 

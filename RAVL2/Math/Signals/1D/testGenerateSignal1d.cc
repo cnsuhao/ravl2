@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testGenerateSignal1d.cc 7529 2010-02-17 11:06:59Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Signals/1D/testGenerateSignal1d.cc"
 //! author="Charles Galambos"
@@ -35,7 +35,7 @@ int main() {
 }
 
 int testGauss() {
-  Array1dC<RealT> res = GenerateGauss1d(1,0);
+  Array1dC<RealT> res = GenerateGauss1d((size_t)1,0);
   if(res.Size() != 5) return __LINE__;
   if(Abs(res[0] - 0.398942) > 0.00001) return __LINE__;
   return 0;
@@ -53,7 +53,7 @@ int testBinomial() {
     if(res[3] != 4) return __LINE__;
     if(res[4] != 1) return __LINE__;
     
-    res = GenerateBinomial<RealT>(5,false,true);
+    res = GenerateBinomial<RealT>((SizeT)5,false,true);
     if(res[0] != 6) return __LINE__;
     //cerr << res;
   }

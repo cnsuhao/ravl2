@@ -42,7 +42,7 @@ namespace RavlImageN {
     
     Array2dIterC<short> res(result,resRect);
     INITMMX
-    switch(kernel.Cols()) {
+    switch(static_cast<size_t>(kernel.Cols())) {
     case 2: 
       for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
 	BufferAccess2dIter2C<short,short> it(kernel.BufferAccess(),kernel.ByteStride(),kernel.Frame(),

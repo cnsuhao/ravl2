@@ -7,7 +7,7 @@
 #ifndef RAVL_MATHMEANND_HEADER
 #define RAVL_MATHMEANND_HEADER 1
 /////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MeanNd.hh 7323 2009-10-21 15:43:14Z craftit $"
 //! userlevel=Normal
 //! author="Radek Marik"
 //! date="26/05/1994"

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Governor.cc 7599 2010-02-25 15:16:31Z cyberplug $"
 //! author="Charles Galambos"
 //! date="12/10/98"
 //! lib=RavlDPMT
@@ -35,11 +35,11 @@ namespace RavlN {
     }
     // now wait and setup for next.
     if (diff > 0)
-     {
-      m_bypass.Wait(diff);
+     { m_bypass.Wait(diff); }
+
+    if (!m_persistBypass)
       m_bypass.Reset();
-     }
-     
+
     next.SetToNow();
     next += delay;
     frameCnt++;
@@ -49,13 +49,26 @@ namespace RavlN {
   bool DPGovernorBaseBodyC::SetDelay(RealT newDelay) { 
     if(newDelay < 0) {
       delay = 0;
-      m_bypass.Post();
+      //m_bypass.Post();
       return false;
     }
     delay = newDelay;
-    m_bypass.Post();
+    //m_bypass.Post();
     return true;
   }
+
+
+  //: Toggle bypass mode.
+  bool DPGovernorBaseBodyC::Bypass(bool bypass, bool persist)
+  {
+    m_persistBypass = persist;
+    if (bypass)
+      m_bypass.Post();
+    else
+      m_bypass.Reset();
+    return true; 
+  }
+
   
   
 }

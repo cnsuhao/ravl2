@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DecisionTreeBranch.cc 3677 2003-11-16 15:35:36Z craftit $"
 //! lib=RavlLogic
 //! file="Ravl/Logic/DecisionTree/DecisionTreeBranch.cc"
 

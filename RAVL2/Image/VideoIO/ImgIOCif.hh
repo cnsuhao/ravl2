@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_IMGIOCIF_HEADER
 #define RAVLIMAGE_IMGIOCIF_HEADER 1
 ////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOCif.hh 7672 2010-03-29 14:31:15Z robowaz $"
 //! file="Ravl/Image/VideoIO/ImgIOCif.hh"
 //! lib=RavlVideoIO
 //! example=exImgSeq.cc
@@ -124,7 +124,7 @@ namespace RavlImageN {
     // Defaults to !IsGetEOS().
     
     virtual bool IsGetEOS() const
-      { return strm.good(); }
+      { return strm.eof(); }
     //: Has the End Of Stream been reached ?
     // TRUE = yes.
     

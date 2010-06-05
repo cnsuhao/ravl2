@@ -6,7 +6,7 @@
 // file-header-ends-here
 ////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: exCompositeStream.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Core.Data Processing.Composite" 
 //! lib=RavlOSIO
 //! file="Ravl/OS/IO/exCompositeStream.cc"

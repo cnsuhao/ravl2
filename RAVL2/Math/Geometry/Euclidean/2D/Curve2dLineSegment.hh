@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////
 //! docentry="Ravl.API.Math.Geometry.2D"
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: Curve2dLineSegment.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlMath
 //! author="Charles Galambos"
 //! date="26/08/1998"

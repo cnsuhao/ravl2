@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignClassifierSupervised.cc 7590 2010-02-23 12:03:11Z kier $"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
 //! file="Ravl/PatternRec/Classify/DesignClassifierSupervised.cc"
@@ -13,10 +13,18 @@
 #include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/config.h"
 #include "Ravl/PatternRec/SampleVector.hh"
+#include "Ravl/XMLFactoryRegister.hh"
 
 
 namespace RavlN {
   
+
+  //: Load from XML factory
+
+  DesignClassifierSupervisedBodyC::DesignClassifierSupervisedBodyC(const XMLFactoryContextC & factory)
+    : DesignFunctionSupervisedBodyC(factory)
+  {}
+
   //: Load from stream.
   
   DesignClassifierSupervisedBodyC::DesignClassifierSupervisedBodyC(istream &strm)
@@ -74,6 +82,12 @@ namespace RavlN {
   {}
 
 
+  RavlN::XMLFactoryRegisterHandleConvertC<DesignClassifierSupervisedC, DesignFunctionSupervisedC> g_registerXMLFactoryDesignClassifierSupervised("RavlN::DesignClassifierSupervisedC");
+
+  void linkDesignClassifierSupervised()
+  {}
+
+  
 }
 
 #if RAVL_COMPILER_MIPSPRO

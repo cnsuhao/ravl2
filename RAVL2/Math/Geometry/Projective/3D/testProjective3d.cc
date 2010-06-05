@@ -5,7 +5,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testFundamentalMatrix2d.cc 4777 2005-01-18 14:28:18Z ees1wc $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Projective/2D/testFundamentalMatrix2d.cc"
 

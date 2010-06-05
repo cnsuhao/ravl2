@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SubSamp2Intl.cc 40 2001-04-23 16:17:51Z craftit $"
 //! lib=RavlImage
 
 #include "amma/Image/SubSamp2Intl.hh"

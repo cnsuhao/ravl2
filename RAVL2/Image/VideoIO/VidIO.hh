@@ -7,7 +7,7 @@
 #ifndef RAVL_VIDIOINIT_HEADER
 #define RAVL_VIDIOINIT_HEADER 1
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: VidIO.hh 6326 2007-09-17 10:31:24Z simondennis $"
 //! file="Ravl/Image/VideoIO/VidIO.hh"
 //! lib=RavlVideoIO
 //! docentry="Ravl.API.Images.Video.Video IO"

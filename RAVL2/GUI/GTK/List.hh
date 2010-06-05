@@ -10,7 +10,7 @@
 //! file="Ravl/GUI/GTK/List.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: List.hh 6893 2008-07-09 15:23:17Z ees1wc $"
 //! date="02/07/1999"
 //! example=exList.cc
 //! docentry="Ravl.API.Graphics.GTK.Control"

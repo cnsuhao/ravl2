@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLDF_DFSTREAMOP_HEADER
 #define RAVLDF_DFSTREAMOP_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: DFStreamOp.hh 3349 2003-08-26 21:13:51Z craftit $"
 //! lib=RavlVDF
 //! author="Charles Galambos"
 //! docentry="Ravl.Applications.VDF"

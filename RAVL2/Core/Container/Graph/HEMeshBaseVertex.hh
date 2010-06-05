@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_HEMESHBASEVERTEX_HEADER 
 #define RAVL_HEMESHBASEVERTEX_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: HEMeshBaseVertex.hh 6754 2008-04-24 13:40:07Z craftit $"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Graphs.Half Edge Mesh"
 //! date="24/4/2002"

@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! date="21/03/2004"
 //! docentry="Ravl.API.Math.Geometry.2D"
-//! rcsid="$Id$"
+//! rcsid="$Id: Conic2d.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/2D/Conic2d.hh"
 

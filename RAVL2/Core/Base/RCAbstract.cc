@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! docentry="Basic Types.Reference Counting"
 //! lib=RavlCore
-//! rcsid="$Id$"
+//! rcsid="$Id: RCAbstract.cc 7299 2009-10-09 10:50:55Z craftit $"
 //! file="Ravl/Core/Base/RCAbstract.cc"
 
 #include "Ravl/RCAbstract.hh"

@@ -8,7 +8,7 @@
 #define RAVLAUDIO_SPHEREIO_HEADER 1
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Audio.IO"
-//! rcsid="$Id$"
+//! rcsid="$Id: SphereIO.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlAudioIO
 //! file="Ravl/Audio/IO/SphereIO.hh"
 

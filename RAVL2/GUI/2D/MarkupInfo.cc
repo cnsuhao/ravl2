@@ -7,7 +7,7 @@
 #include "Ravl/GUI/MarkupInfo.hh"
 #include "Ravl/BinStream.hh"
 #include "Ravl/GUI/GUIMarkupCanvas.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: fixSource.cfg 5642 2006-06-23 10:51:11Z craftit $"
 //! lib=RavlGUI2D
 
 #include <gdk/gdk.h>

@@ -20,6 +20,7 @@
 
 #include "Ravl/SArray1d.hh"
 #include "Ravl/BinStream.hh"
+#include "Ravl/XMLFactory.hh"
 
 // KernelFunctionBodyC ment to be pure abstract class but ideology of Ravl
 // does not allow convenient use of abstract classes. All functions of the class
@@ -27,7 +28,6 @@
 
 namespace RavlN
 {
-using namespace RavlN;
 
 //! userlevel = Develop
 //: Base class for kernel functions
@@ -39,6 +39,9 @@ public:
   //: Default constructor.
   // Creates wrong object.
 
+  KernelFunctionBodyC(const XMLFactoryContextC & factory);
+  //: XML Factory contructor
+  
   KernelFunctionBodyC(istream &strm);
   //: Load from stream constructor.
   // The constructor present in the class only for compatibility with
@@ -76,6 +79,11 @@ public:
   //: Default constructor.
   // Creates wrong object. If used then object created by the constructor
   // should only be lvalue.
+
+  KernelFunctionC(const XMLFactoryContextC & factory)
+    : RCHandleVC<KernelFunctionBodyC>(*new KernelFunctionBodyC(factory))
+  {}
+  //: XML Factory constructor
 
   KernelFunctionC(istream &strm);
   //: Load from stream.

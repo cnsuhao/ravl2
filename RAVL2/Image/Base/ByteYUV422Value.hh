@@ -7,7 +7,7 @@
 #ifndef RAVL_BYTEYUV422VALUE_HEADER
 #define RAVL_BYTEYUV422VALUE_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ByteYUV422Value.hh 6965 2008-09-18 16:48:28Z ees1wc $"
 //! file="Ravl/Image/Base/ByteYUV422Value.hh"
 //! lib=RavlImage
 //! userlevel=Normal

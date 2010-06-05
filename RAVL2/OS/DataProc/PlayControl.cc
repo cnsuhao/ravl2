@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: PlayControl.cc 7599 2010-02-25 15:16:31Z cyberplug $"
 //! lib=RavlDPMT
 //! file="Ravl/OS/DataProc/PlayControl.cc"
 
@@ -202,8 +202,9 @@ namespace RavlN {
     // Unlock access here.
     return ret;
 #else
-    // Lock to make sure value is correct before returning value.
-    MutexLockC lock(access);
+
+    //// Lock to make sure value is correct before returning value.
+    //MutexLockC lock(access);
     return at;
 #endif
   }
@@ -220,7 +221,8 @@ namespace RavlN {
   
   //: Seek to an absolute position in stream
   
-  bool DPPlayControlBodyC::Seek(UIntT pos) { 
+  bool DPPlayControlBodyC::Seek(UIntT pos) {
+    ONDEBUG(cerr << "bool DPPlayControlBodyC::Seek(UIntT pos)"); 
     if(!ctrl.IsValid())
       return false;
     MutexLockC lock(access);
@@ -236,7 +238,6 @@ namespace RavlN {
     }
     
     // Do the seek.
-    
     if(!ctrl.Seek(seekto)) {
       cerr << "WARNING: Seek to " << pos <<" (" << seekto << ") failed. \n";
       return false;
@@ -431,23 +432,30 @@ namespace RavlN {
 	}
       }
     }
-    
+    return ret;
+  }
+
+
+  //: Update lastFrame and at. after read.
+  void DPPlayControlBodyC::UpdateAt(void)
+  {
     // Place will be incremented by next read.
     lastFrame = at;
     at++; // Allow for frame read.
-    
+
     // Check for last frame in sequence.
     if(lastFrame == end)
       at = end;
-    ONDEBUG(cerr << " Last frame :" << lastFrame << " Tell:" << ctrl.Tell() << " At:" << at << "\n");  
-    return ret;
+    ONDEBUG(cerr << " Last frame :" << lastFrame << " Tell:" << ctrl.Tell() << " At:" << at << "\n");
   }
+
+
 
   //: Callback on sequence size changing.
   
   bool DPPlayControlBodyC::CBSequenceSizeChanged() {
+    ONDEBUG(cerr << "DPPlayControlBodyC::CBSequenceSizeChanged, Called. \n");
     RavlAssert(ctrl.IsValid());
-    
     MutexLockC lock(access);
     // Sort out end of sequence.
     UIntT sSize = ctrl.Size();
@@ -467,6 +475,7 @@ namespace RavlN {
   //: Callback on sequence start changing.
   
   bool DPPlayControlBodyC::CBSequenceStartChanged() {
+    ONDEBUG(cerr << "bool DPPlayControlBodyC::CBSequenceStartChanged()"); 
     RavlAssert(ctrl.IsValid());
     
     MutexLockC lock(access);

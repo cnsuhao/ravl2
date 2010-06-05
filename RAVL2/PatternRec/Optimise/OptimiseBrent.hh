@@ -14,7 +14,7 @@
 //! example=testBrent.cc
 //! file="Ravl/PatternRec/Optimise/OptimiseBrent.hh"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation.Implementation"
-//! rcsid="$Id$"
+//! rcsid="$Id: OptimiseBrent.hh 6540 2008-02-04 10:33:59Z ees1wc $"
 
 #include "Ravl/PatternRec/Optimise.hh"
 

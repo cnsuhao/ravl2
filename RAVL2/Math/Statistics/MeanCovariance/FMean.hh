@@ -7,7 +7,7 @@
 #ifndef RAVL_MATHFMEAN_HEADER
 #define RAVL_MATHFMEAN_HEADER 1
 /////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FMean.hh 7294 2009-10-08 14:19:38Z craftit $"
 //! userlevel=Normal
 //! author="Radek Marik"
 //! date="26/05/1994"

@@ -9,7 +9,7 @@
 #if RAVL_OS_SOLARIS 
 #include <stdlib.h>
 #include "Ravl/Atomic.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: atexit.cc 2260 2003-01-17 19:12:24Z plugger $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/atexit.cc"
 

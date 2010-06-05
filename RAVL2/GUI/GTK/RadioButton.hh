@@ -7,7 +7,7 @@
 #ifndef RAVLGUIRADIOBUTTON_HEADER
 #define RAVLGUIRADIOBUTTON_HEADER 1
 //////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RadioButton.hh 6988 2008-10-03 13:01:14Z ees1wc $"
 //! example=exRadioButton.cc
 //! docentry="Ravl.API.Graphics.GTK.Control"
 //! lib=RavlGUI

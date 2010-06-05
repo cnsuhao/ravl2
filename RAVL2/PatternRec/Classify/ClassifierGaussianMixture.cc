@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ClassifierGaussianMixture.cc 4108 2004-03-18 17:14:37Z ees1wc $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Classify/ClassifierGaussianMixture.cc"
 

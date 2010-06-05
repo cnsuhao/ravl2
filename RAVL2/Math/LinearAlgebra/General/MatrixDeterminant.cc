@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: MatrixDeterminant.cc 7542 2010-02-18 12:50:37Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/MatrixDeterminant.cc"
 
@@ -28,7 +28,7 @@ namespace RavlN {
   
   RealT MatrixC::Det() const {
     RavlAssertMsg(Rows() == Cols(),"Can only find the determinant of square matrices.\n");
-    switch(Rows()) {
+    switch(static_cast<size_t>(Rows())) {
     case 0: return 0;
     case 1: return (*this)[0][0];
     case 2: return (*this)[0][0] * (*this)[1][1] - (*this)[1][0] * (*this)[0][1];

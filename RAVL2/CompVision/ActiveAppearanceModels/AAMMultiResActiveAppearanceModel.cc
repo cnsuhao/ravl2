@@ -9,7 +9,7 @@
 //! author =    "Jean-Yves Guillemaut"
 //! lib =       RavlAAM
 //! date =      "01/03/2006"
-//! rcsid="$Id$"
+//! rcsid="$Id: AAMMultiResActiveAppearanceModel.cc 7008 2008-10-24 15:23:19Z craftit $"
 
 
 #include "Ravl/Image/ImgIO.hh"

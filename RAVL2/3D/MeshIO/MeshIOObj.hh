@@ -7,7 +7,7 @@
 #ifndef RAVL_MESHOBJIO_HEADER
 #define RAVL_MESHOBJIO_HEADER 1
 ///////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MeshIOObj.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=Ravl3DIO
 //! docentry="Ravl.API.3D.IO"
 //! file="Ravl/3D/MeshIO/MeshIOObj.hh"

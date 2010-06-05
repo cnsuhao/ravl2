@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FileSequence.cc 7487 2010-01-26 17:26:29Z robowaz $"
 //! lib=RavlOSIO
 //! file="Ravl/OS/IO/FileSequence.cc"
 
@@ -102,8 +102,8 @@ namespace RavlN {
   // May return ((UIntT) (-1)) if not implemented.
   // Assume it starts from 0.
   
-  UIntT DPFileSequenceBaseBodyC::Size() const { 
-    return end + 1; 
+  UIntT DPFileSequenceBaseBodyC::Size() const {
+    return end + 1;
   }
   
   

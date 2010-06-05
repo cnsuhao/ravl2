@@ -7,7 +7,7 @@
 //! docentry="Ravl.Math.Geometry.2D"
 //! author="Charles Galambos"
 //! date="24/01/2001"
-//! rcsid="$Id$"
+//! rcsid="$Id: VectorMatrix4d.cc 1533 2002-08-08 16:03:23Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/FixedSize/VectorMatrix4d.cc"
 

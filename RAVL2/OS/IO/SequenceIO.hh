@@ -8,7 +8,7 @@
 #define RAVL_SEQUENCEIO_HEADERS 1
 //////////////////////////////////////////////////////////////
 //! docentry="Ravl.API.OS.Sequence"
-//! rcsid="$Id$"
+//! rcsid="$Id: SequenceIO.hh 7223 2009-08-03 15:45:48Z ees1wc $"
 //! userlevel=Normal
 //! file="Ravl/OS/IO/SequenceIO.hh"
 //! lib=RavlOSIO

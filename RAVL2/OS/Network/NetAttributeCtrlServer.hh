@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_NETATTRIBUTECTRLSERVER_HEADER
 #define RAVL_NETATTRIBUTECTRLSERVER_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: NetAttributeCtrlServer.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlNet
 //! docentry="Ravl.API.OS.Network.NetPort"
 //! author="Charles Galambos"

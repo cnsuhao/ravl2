@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: exSegmentation.cc 3243 2003-07-27 13:53:46Z craftit $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Segmentation/exSegmentation.cc"
 

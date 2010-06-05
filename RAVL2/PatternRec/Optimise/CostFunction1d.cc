@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: CostFunction1d.cc 7174 2009-04-26 06:44:15Z craftit $"
 //! lib=Optimisation
 //! file="Ravl/PatternRec/Optimise/CostFunction1d.cc"
 

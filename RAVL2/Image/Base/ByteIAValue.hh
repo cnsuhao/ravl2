@@ -7,7 +7,7 @@
 #ifndef RAVLBYTEIAVALUE_HEADER
 #define RAVLBYTEIAVALUE_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ByteIAValue.hh 6970 2008-09-23 17:04:52Z ees1wc $"
 //! file="Ravl/Image/Base/ByteIAValue.hh"
 //! lib=RavlImage
 //! userlevel=Normal

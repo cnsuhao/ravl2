@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Random.cc 6255 2007-07-06 08:37:57Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Math/Random.cc"
 

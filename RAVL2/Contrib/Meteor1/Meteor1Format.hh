@@ -10,7 +10,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Video.Video IO.Meteor1"
 //! date="29/10/98"
-//! rcsid="$Id$"
+//! rcsid="$Id: Meteor1Format.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/Meteor1/Meteor1Format.hh"
 //! lib=RavlImgIOMeteor1
 //! author="Charles Galambos"

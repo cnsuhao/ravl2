@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<?RAVL class='RavlN::XMLTreeC' ?>
+
+<Config verbose="true">
+
+<Video typename='RavlN::DPIPlayControlC<RavlImageN::ImageC<RavlN::ByteT>>' playMode="palindrome" start=10 end=200>
+  <IPort typename='RavlN::DPIPortC<RavlImageN::ImageC<RavlN::ByteT>>'
+         filename="/vol/video/Tennis/stefan.cif"
+         />
+</Video>
+
+</Config>
+
+

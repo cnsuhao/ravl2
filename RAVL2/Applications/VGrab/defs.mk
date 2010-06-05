@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 5874 2006-09-06 08:45:07Z ees1wc $"
 #! file="Ravl/Applications/VGrab/defs.mk"
 DESCRIPTION = VGrab - Video Frame Grabber/tmp/ees3lg/ProjectOut/lib/RAVL/linux/bin/VGrab
 DONOT_SUPPORT=arm

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 // $Id: ByteYUVValue.cc 6152 2007-05-21 09:47:12Z craftit $
-//! rcsid="$Id$"
+//! rcsid="$Id: ByteYUVValue.cc 6152 2007-05-21 09:47:12Z craftit $"
 //! lib=RavlImage
 //! file="Ravl/Image/Base/ByteYUVValue.cc"
 

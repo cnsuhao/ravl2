@@ -13,7 +13,7 @@
 //! author="Lee Gregory"
 //! date="12/10/2002"
 //! docentry="Ravl.API.Images.Pixel Types.HSV"
-//! rcsid="$Id$"
+//! rcsid="$Id: RealHSVValue.hh 7185 2009-05-18 08:41:31Z craftit $"
 
 #include "Ravl/TFVector.hh"
 #include "Ravl/Stream.hh"

@@ -7,7 +7,7 @@
 #ifndef RAVL_COMPOSE_HEADER
 #define RAVL_COMPOSE_HEADER 1
 ////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Compose.hh 5485 2006-05-19 10:36:08Z craftit $"
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Data Processing"

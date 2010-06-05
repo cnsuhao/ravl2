@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: exRefCounter.cc 7101 2009-02-06 15:15:29Z craftit $"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! file="Ravl/Core/Base/exRefCounter.cc"

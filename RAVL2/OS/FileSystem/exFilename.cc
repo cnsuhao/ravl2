@@ -7,7 +7,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! docentry="Ravl.API.OS.File System"
-//! rcsid="$Id$"
+//! rcsid="$Id: exFilename.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlOS
 //! file="Ravl/OS/FileSystem/exFilename.cc"
 

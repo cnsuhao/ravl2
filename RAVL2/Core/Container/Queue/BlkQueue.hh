@@ -13,7 +13,7 @@
 //! author="George (Jiri) Matas"
 //! docentry="Ravl.API.Core.Queues"
 //! example=exQueue.cc
-//! rcsid="$Id$"
+//! rcsid="$Id: BlkQueue.hh 6479 2007-12-01 10:26:31Z craftit $"
 
 #include "Ravl/Assert.hh"
 

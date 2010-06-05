@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: exAttributeEditor.cc 7648 2010-03-08 15:11:42Z robowaz $"
 //! author="Charles Galambos"
 //! date="23/8/2003"
 //! userlevel=Normal
@@ -50,12 +50,22 @@ public:
   //: Get a stream attribute.
   // Returns false if the attribute name is unknown.
   // This is for handling stream attributes such as frame rate, and compression ratios.
-  
+
   virtual bool SetAttr(const StringC &attrName,const IntT &attrValue);
   //: Set a stream attribute.
   // Returns false if the attribute name is unknown.
   // This is for handling stream attributes such as frame rate, and compression ratios.
-  
+
+  virtual bool GetAttr(const StringC &attrName,Int64T &attrValue);
+  //: Get a stream attribute.
+  // Returns false if the attribute name is unknown.
+  // This is for handling stream attributes such as frame rate, and compression ratios.
+
+  virtual bool SetAttr(const StringC &attrName,const Int64T &attrValue);
+  //: Set a stream attribute.
+  // Returns false if the attribute name is unknown.
+  // This is for handling stream attributes such as frame rate, and compression ratios.
+
   virtual bool GetAttr(const StringC &attrName,RealT &attrValue);
   //: Get a stream attribute.
   // Returns false if the attribute name is unknown.
@@ -81,6 +91,7 @@ protected:
   RealT realValue;
   StringC enumValue;
   IntT intValue;
+  Int64T int64Value;
 };
 
 class ExAttributeCtrlC
@@ -97,12 +108,14 @@ ExAttributeCtrlBodyC::ExAttributeCtrlBodyC()
     stringValue("Igloo"),
     realValue(0.2),
     enumValue("Green"),
-    intValue(10)
+    intValue(10),
+    int64Value(4294967296ll)
 {
   RegisterAttribute(AttributeTypeBoolC("Bool","Boolean value",true,true,true));
   RegisterAttribute(AttributeTypeStringC("String","String value",true,true,"Hello"));
   RegisterAttribute(AttributeTypeNumC<RealT>("Real","Real value",true,true,0,10,0.1,2));
   RegisterAttribute(AttributeTypeNumC<IntT>("Int","Int value",true,true,-1,65000,1,100));
+  RegisterAttribute(AttributeTypeNumC<Int64T>("Int64","Int64 value",true,true,-1,9223372036854775807ll,1,100));
   DListC<StringC> opts;
   opts.InsLast("Red");
   opts.InsLast("Green");
@@ -174,7 +187,34 @@ bool ExAttributeCtrlBodyC::SetAttr(const StringC &attrName,const IntT &attrValue
   if(attrName=="Int") {
     if(intValue != attrValue) {
       intValue = attrValue;
-      SignalChange("Int");      
+      SignalChange("Int");
+    }
+    return true;
+  }
+  return AttributeCtrlBodyC::SetAttr(attrName,attrValue);
+}
+
+//: Get a stream attribute.
+// Returns false if the attribute name is unknown.
+// This is for handling stream attributes such as frame rate, and compression ratios.
+
+bool ExAttributeCtrlBodyC::GetAttr(const StringC &attrName,Int64T &attrValue) {
+  if(attrName=="Int64") {
+    attrValue = int64Value;
+    return true;
+  }
+  return AttributeCtrlBodyC::GetAttr(attrName,attrValue);
+}
+
+//: Set a stream attribute.
+// Returns false if the attribute name is unknown.
+// This is for handling stream attributes such as frame rate, and compression ratios.
+
+bool ExAttributeCtrlBodyC::SetAttr(const StringC &attrName,const Int64T &attrValue) {
+  if(attrName=="Int64") {
+    if(int64Value != attrValue) {
+      int64Value = attrValue;
+      SignalChange("Int64");
     }
     return true;
   }

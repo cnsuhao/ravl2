@@ -5,20 +5,24 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MatrixEigen.cc 7637 2010-03-02 16:56:49Z alexkostin $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/MatrixEigen.cc"
 
 #include "Ravl/StdConst.hh"
-#include "Ravl/Matrix.hh"
 #include "Ravl/Vector.hh"
+#include "Ravl/Matrix.hh"
 #include "Ravl/VectorMatrix.hh"
 #include "Ravl/Eigen.hh"
+#include "Ravl/LAHooks.hh"
 
 
 // matrix functions base on JAMA method.
 
 namespace RavlN {
+
+
+
   // n*m row*col
   
   VectorC EigenValues(const MatrixC &mat) {
@@ -31,18 +35,36 @@ namespace RavlN {
     return ev.EigenValues();
   }
   
-  VectorC EigenVectors(const MatrixC &mat,MatrixC &E) {
+  VectorC EigenVectors(const MatrixC &mat,MatrixC &E)
+#if 1
+  {
+    VectorC vals;
+    EigenVectorsSymmetric(vals, E, mat);
+    return vals;
+  }
+#else
+  {
     EigenValueC<RealT> ev(mat);
     E = ev.EigenVectors();
     return ev.EigenValues();
   }
+#endif
 
-  VectorMatrixC EigenVectors(const MatrixC &mat) {
+  VectorMatrixC EigenVectors(const MatrixC &mat)
+#if 1
+  {
+    VectorMatrixC res;
+    EigenVectorsSymmetric(res.Vector(), res.Matrix(), mat);
+    return res;
+  }
+#else
+  {
     EigenValueC<RealT> ev(mat);
     MatrixC ret = ev.EigenVectors();
     VectorC vec = ev.EigenValues();
     return VectorMatrixC(vec,ret);
   }
+#endif
   
   VectorC EigenVectorsIP(MatrixC &mat) {
     EigenValueC<RealT> ev(mat);

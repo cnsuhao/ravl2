@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 5976 2006-11-20 18:06:32Z craftit $"
 #! file="Ravl/Contrib/IntelMKL/defs.mk"
 
 REQUIRES=libmkl

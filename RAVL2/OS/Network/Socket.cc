@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Socket.cc 7136 2009-03-27 16:08:44Z craftit $"
 //! lib=RavlNet
 //! file="Ravl/OS/Network/Socket.cc"
 #include "Ravl/config.h"

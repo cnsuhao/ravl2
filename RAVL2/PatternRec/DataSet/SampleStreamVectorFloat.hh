@@ -8,7 +8,7 @@
 #define RAVL_SAMPLESTREAMVECTORFLOAT_HEADER 1
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Pattern Recognition.Data Set"
-//! rcsid="$Id$"
+//! rcsid="$Id: SampleStreamVector.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlPatternRec
 //! examples=exSampleStream.cc
 //! file="Ravl/PatternRec/DataSet/SampleStreamVector.hh"

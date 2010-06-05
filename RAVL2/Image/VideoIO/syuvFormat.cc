@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: syuvFormat.cc 5531 2006-06-07 15:25:02Z craftit $"
 //! lib=RavlVideoIO
 //! file="Ravl/Image/VideoIO/syuvFormat.cc"
 

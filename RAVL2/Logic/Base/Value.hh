@@ -11,7 +11,7 @@
 //! lib=RavlLogic
 //! userlevel=Normal
 //! date="03/07/1996"
-//! rcsid="$Id$"
+//! rcsid="$Id: Value.hh 7184 2009-05-18 07:52:17Z craftit $"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Logic"
 

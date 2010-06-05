@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_DATASET1_HEADER
 #define RAVL_DATASET1_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: DataSet1.hh 7569 2010-02-19 10:31:32Z craftit $"
 //! author="Kieron Messer"
 //! docentry="Ravl.API.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
@@ -46,7 +46,7 @@ namespace RavlN {
     { return samp1; }
     //: Access sample.
     
-    UIntT Append(const Element1T &data);
+    IndexC Append(const Element1T &data);
     //: Append a data entry.
     // returns its index.
 
@@ -62,7 +62,7 @@ namespace RavlN {
     virtual void Shuffle();
     //: Shuffle the order of the dataset.
     
-    UIntT Size() const
+    SizeT Size() const
     { return samp1.Size(); }
     //: Get the size of the dataset.
     
@@ -121,7 +121,7 @@ namespace RavlN {
     { return Body().Sample1(); }
     //: Access complete sample.
     
-    UIntT Append(const Element1T &data)
+    IndexC Append(const Element1T &data)
     { return Body().Append(data); }
     //: Append a data entry.
     // returns its index.
@@ -183,7 +183,7 @@ namespace RavlN {
   {}
   
   template<class SampleT>
-  UIntT DataSet1BodyC<SampleT>::Append(const Element1T &data) {
+  IndexC DataSet1BodyC<SampleT>::Append(const Element1T &data) {
     return samp1.Append(data);
   }
 

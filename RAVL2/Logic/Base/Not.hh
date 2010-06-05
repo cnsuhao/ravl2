@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_NOT_HEADER
 #define RAVLLOGIC_NOT_HEADER 1
 ///////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Not.hh 6463 2007-11-24 16:55:37Z craftit $"
 //! docentry="Ravl.API.Logic.Condition"
 //! lib=RavlLogic
 //! author="Charles Galambos"

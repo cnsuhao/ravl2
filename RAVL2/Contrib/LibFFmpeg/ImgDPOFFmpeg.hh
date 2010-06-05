@@ -25,18 +25,12 @@
 #include "Ravl/DP/SPort.hh"
 
 
-
 namespace RavlImageN
 {
-/*  
-  class ImgOLibFFmpegBodyC 
-    : public DPOStreamOpBodyC< ByteT, ImageC<ByteRGBValueC> >,
-      public DPSeekCtrlBodyC
-  {
-*/
   class ImgOLibFFmpegBodyC 
     : public DPOPortBodyC<ImageC<ByteRGBValueC> >,
       public DPSeekCtrlBodyC
+      //public AttributeCtrlBodyC
   {
   public:
     ImgOLibFFmpegBodyC();
@@ -49,63 +43,19 @@ namespace RavlImageN
     //: Get next frame.
 
    virtual bool Put();
-    
-    virtual UIntT Tell() const
-    { return ((UIntT)-1); }
-    //: Find current location in stream.
-    
-    virtual bool Seek(UIntT off);
-    //: Seek to location in stream.
-    
-    virtual UIntT Size() const;
-    //: Get the size of the file in frames (-1 if not known)
-    
-    virtual StreamPosT Tell64() const
-    { return -1; }
-    //: Find current location in stream.
-    
-    virtual bool DSeek64(StreamPosT off);
-    //: Seek to location in stream.
-    
-    virtual bool DSeek(IntT off);
-    //: Seek to location in stream.
-    
-    virtual bool Seek64(StreamPosT off);
-    //: Seek to location in stream.
-    
-    virtual StreamPosT Size64() const;
-    //: Get the size of the file in frames (-1 if not known)
-    
-    virtual bool PutEOS() const;
-    //: Is it the EOS
 
-    virtual bool IsPutReady() const;
+   virtual bool IsPutReady() const;
     //: Is it the EOS
-
-    //virtual bool GetAttr(const StringC &attrName,StringC &attrValue);
-    //: Get a stream attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling stream attributes such as frame rate, and compression ratios.
-    
-  private:
-    virtual void BuildAttributes();
-    OStreamC strm;
-    //: Register stream attributes
 
   private:
     CacheC<StreamPosT,Tuple2C<ImageC<ByteRGBValueC>,IntT> > m_imageCache;   // Frame cache
   };
 
   
-/*  
-  class ImgOLibFFmpegC :
-    public DPOStreamOpC< ByteT, ImageC<ByteRGBValueC> >,
-    public DPSeekCtrlC
-  {
-*/
   class ImgOLibFFmpegC :
     public DPOPortC<ImageC<ByteRGBValueC> >,
     public DPSeekCtrlC
+    //public AttributeCtrlC
   {
   public:
     ImgOLibFFmpegC() :
@@ -113,11 +63,6 @@ namespace RavlImageN
     {}
     //: Default constructor.
     // Creates an invalid handle.
-    
-    //ImageC<ByteRGBValueC> Get() 
-    //{ return Body().Get(); }
-    //: Get next frame. 
-    //!cwiz:author
     
     bool Put(const ImageC<ByteRGBValueC> & img) 
     {   
@@ -131,52 +76,10 @@ namespace RavlImageN
         return true;   //Body().Put(img);
     }
 
-    
-    UIntT Tell() const
-    { return Body().Tell(); }
-    //: Find current location in stream. 
-    //!cwiz:author
-    
-    bool Seek(UIntT off) 
-    { return Body().Seek(off); }
-    //: Seek to location in stream. 
-    //!cwiz:author
-    
-    UIntT Size() const
-    { return Body().Size(); }
-    //: Get the size of the file in frames (-1 if not known) 
-    //!cwiz:author
-    
-    StreamPosT Tell64() const
-    { return Body().Tell64(); }
-    //: Find current location in stream. 
-    //!cwiz:author
-    
-    bool Seek64(StreamPosT off) 
-    { return Body().Seek64(off); }
-    //: Seek to location in stream. 
-    //!cwiz:author
-    
-    StreamPosT Size64() const
-    { return Body().Size64(); }
-    //: Get the size of the file in frames (-1 if not known) 
-    //!cwiz:author
-    
-    bool PutEOS() const
-    { return Body().PutEOS(); }
-    //: Is it the EOS 
-    //!cwiz:author
-
     bool IsPutReady() const
     { return Body().IsPutReady(); }
     //: Is it the EOS 
     
-    //bool GetAttr(const StringC & attrName,StringC & attrValue) 
-    //{ return Body().GetAttr(attrName,attrValue); }
-    //: Get a stream attribute. 
-    // Returns false if the attribute name is unknown.
-    // This is for handling stream attributes such as frame rate, and compression ratios.
-    //!cwiz:author
 
     ImgOLibFFmpegC(bool) :
       DPEntityC(*new ImgOLibFFmpegBodyC())

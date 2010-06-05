@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: XMLTree.cc 7447 2009-12-24 14:21:07Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/System/XMLTree.cc"
 
@@ -267,34 +267,6 @@ namespace RavlN {
     return true;
   }
   
-  // : Write (sub)tree as valid XML file
-  bool XMLTreeBodyC::Write(OStreamC &out,int level) const {
-    XMLTreeC me(const_cast<XMLTreeBodyC &>(*this));
-    if (level == 0) {  // no tag at top level
-      for(DLIterC<XMLTreeC> it(me.Children());it;it++) {
-	it.Data().Write(out,level+1);
-      }
-    }
-    else if (Name() == "?content") Indent(out,level) << Data()["."] << "\n";
-    else {
-      Indent(out,level) << '<' << Name();
-      for(HashIterC<StringC,StringC> ita(Data());ita;ita++) {
-	out << ' ' << ita.Key() << "=\"" << ita.Data() << "\"";
-      }
-      if(me.Children().IsEmpty()) {
-	out << "/>\n";
-      } 
-      else {
-	out << ">\n";
-	for(DLIterC<XMLTreeC> it(me.Children());it;it++) {
-	  it.Data().Write(out,level+1);
-	}
-	Indent(out,level) << "</" << Name() << ">\n";
-      }
-    }
-    return true;
-  }
-
   //: Give list of nodes matching the given path.
   
   bool XMLTreeBodyC::FollowPath(const StringC &path,DListC<XMLTreeC> &nodes) {
@@ -395,6 +367,34 @@ namespace RavlN {
     return out;
   }
   
+  // : Write (sub)tree as valid XML file
+  bool XMLTreeBodyC::Write(OStreamC &out,int level) const {
+    XMLTreeC me(const_cast<XMLTreeBodyC &>(*this));
+    if (level == 0) {  // no tag at top level
+      for(DLIterC<XMLTreeC> it(me.Children());it;it++) {
+        it.Data().Write(out,level+1);
+      }
+    }
+    else if (Name() == "?content") Indent(out,level) << Data()["."] << "\n";
+    else {
+      Indent(out,level) << '<' << Name();
+      for(HashIterC<StringC,StringC> ita(Data());ita;ita++) {
+        out << ' ' << ita.Key() << "=\"" << ita.Data() << "\"";
+      }
+      if(me.Children().IsEmpty()) {
+        out << "/>\n";
+      }
+      else {
+        out << ">\n";
+        for(DLIterC<XMLTreeC> it(me.Children());it;it++) {
+          it.Data().Write(out,level+1);
+        }
+        Indent(out,level) << "</" << Name() << ">\n";
+      }
+    }
+    return true;
+  }
+
   //: Dump tree in a human readable format.
   
   ostream &XMLTreeBodyC::Dump(ostream &out,int level) const {

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ClassifierBayesNormalQuadratic.cc 3178 2003-07-17 07:23:51Z kier $"
 //! lib=RavlPatternRec
 //! author="Kieron Messer"
 //! file="Ravl/PatternRec/Classify/ClassifierBayesNormalQuadratic.cc"

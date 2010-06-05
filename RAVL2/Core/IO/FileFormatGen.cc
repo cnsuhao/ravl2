@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FileFormatGen.cc 564 2001-11-12 10:03:00Z craftit $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/FileFormatGen.cc"
 

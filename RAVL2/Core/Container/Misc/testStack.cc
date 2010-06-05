@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 // $Id: testStack.cc 5240 2005-12-06 17:16:50Z plugger $
-//! rcsid="$Id$"
+//! rcsid="$Id: testStack.cc 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Misc/testStack.cc"
 //! author="Charles Galambos"

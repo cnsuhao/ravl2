@@ -12,7 +12,7 @@
 //! docentry="Ravl.API.Images.Lines"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: PPHT.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! date="07/01/1999"
 //! example="doPPHT.cc"
 

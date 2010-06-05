@@ -9,9 +9,11 @@
 
 PACKAGE=Ravl
 
-HEADERS=XMLFactory.hh XMLFactoryRegister.hh XMLFactoryAutoStart.hh
+HEADERS=XMLFactory.hh XMLFactoryRegister.hh XMLFactoryAutoStart.hh ConfigParameter.hh
 
-SOURCES=XMLFactory.cc XMLFactoryRegister.cc XMLFactoryAutoStart.cc
+SOURCES=XMLFactory.cc XMLFactoryRegister.cc XMLFactoryAutoStart.cc ConfigParameter.cc
+
+MUSTLINK=LinkXMLFactory.cc
 
 PLIB=RavlXMLFactory
 

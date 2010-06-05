@@ -7,7 +7,7 @@
 #ifndef RAVLCXXDOC_DOCNODE_HEADER
 #define RAVLCXXDOC_DOCNODE_HEADER 1
 ////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DocNode.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/SourceTools/CxxDoc/DocNode.hh"
 //! lib=RavlCxxDoc
 //! userlevel=Normal

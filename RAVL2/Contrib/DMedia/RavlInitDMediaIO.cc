@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: RavlInitDMediaIO.cc 3074 2003-06-13 07:23:52Z craftit $"
 //! lib=RavlDMedia
 //! file="Ravl/Contrib/DMedia/RavlInitDMediaIO.cc"
 

@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! date="25/2/1997"
 //! docentry="Ravl.API.Math.Geometry.2D"
-//! rcsid="$Id$"
+//! rcsid="$Id: Circle2d.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlMath
 
 #include "Ravl/Point2d.hh"

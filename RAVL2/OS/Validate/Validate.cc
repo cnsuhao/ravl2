@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Validate.cc 6259 2007-07-09 14:46:30Z ees1wc $"
 //! file="Ravl/OS/Validate/Validate.cc"
 //! author="Charles Galambos"
 //! docentry="Ravl.QMake"

@@ -223,7 +223,7 @@ namespace RavlN {
   bool UnixStreamIOC::CheckErrors(const char *opName) {
     if(errno == EINTR || errno == EAGAIN)
       return true; // Temporary error, try again.
-#if RAVL_OS_LINUX
+#if RAVL_OS_LINUX || RAVL_OS_LINUX64
     char buff[256];
     SysLog(SYSLOG_WARNING) << opName << " Error :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
 #else

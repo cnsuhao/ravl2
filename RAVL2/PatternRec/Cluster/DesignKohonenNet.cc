@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignKohonenNet.cc 7540 2010-02-18 12:01:17Z craftit $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Cluster/DesignKohonenNet.cc"
 
@@ -152,13 +152,13 @@ namespace RavlN {
 	
 	// Use smoothing kernel. i.e. update nearest neighbours as well
 	else {
-	  for(UIntT i=0;i<_labels.Size();i++) {
+	  for(SizeT i=0;i<_labels.Size();i++) {
 	    r = _labels[i].Row().V();
 	    c = _labels[i].Col().V();
           
 	    if((r>=_rangeY[label][0]) && (r<=_rangeY[label][1]))
 	      if((c>=_rangeX[label][0]) && (c<=_rangeX[label][1]))
-		_weights[r][c] += ((it.Data() - _weights[r][c]) * _alpha);
+	        _weights[r][c] += ((it.Data() - _weights[r][c]) * _alpha);
 	  }     
 	} 
     

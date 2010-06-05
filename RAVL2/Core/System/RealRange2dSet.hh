@@ -7,7 +7,7 @@
 #ifndef RAVL_REALRANGE2DSET_HEADER
 #define RAVL_REALRANGE2DSET_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RealRange2dSet.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/System/RealRange2dSet.hh"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Indexing"

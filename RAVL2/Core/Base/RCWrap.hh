@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -7,7 +7,7 @@
 #ifndef RAVL_WRAP_HEADER
 #define RAVL_WRAP_HEADER 1
 //////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RCWrap.hh 7689 2010-04-13 08:22:12Z craftit $"
 //! docentry="Ravl.API.Core.Reference Counting"
 //! file="Ravl/Core/Base/RCWrap.hh"
 //! lib=RavlCore
@@ -19,6 +19,8 @@
 #include "Ravl/RCAbstract.hh"
 #include "Ravl/DeepCopy.hh"
 #include "Ravl/Types.hh"
+#include "Ravl/BinStream.hh"
+
 #if RAVL_HAVE_RTTI
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <typeinfo>
@@ -29,19 +31,21 @@
 
 //: Ravl library namespace.
 
-namespace RavlN {  
-  
+namespace RavlN {
+
+  class BinOStreamC;
+
   //! userlevel=Develop
   //: RCWrapped object base class.
-  
-  class RCWrapBaseBodyC 
+
+  class RCWrapBaseBodyC
     : public RCBodyVC
   {
   public:
     RCWrapBaseBodyC()
     {}
     //: Default constructor.
-    
+
     RCWrapBaseBodyC(BinIStreamC &strm)
       : RCBodyVC(strm)
     {}
@@ -51,22 +55,22 @@ namespace RavlN {
       : RCBodyVC(strm)
     {}
     //: Stream constructor.
-    
+
     virtual bool Save(std::ostream &strm) const;
     //: Save to text stream.
-    
+
     virtual bool Save(BinOStreamC &strm) const;
     //: Save to binary stream.
-    
-#if RAVL_HAVE_RTTI    
+
+#if RAVL_HAVE_RTTI
     virtual const type_info &DataType() const;
     //: Get type of wrapped object.
 #endif
   };
-  
+
   //! userlevel=Advanced
   //: Abstract wrapped object handle.
-  
+
   class RCWrapAbstractC
     : public RCHandleVC<RCWrapBaseBodyC>
   {
@@ -80,18 +84,18 @@ namespace RavlN {
       : RCHandleVC<RCWrapBaseBodyC>(val)
     {}
     //:  Constructor from an abstract.
-    
+
   protected:
     RCWrapAbstractC(RCWrapBaseBodyC &bod)
       : RCHandleVC<RCWrapBaseBodyC>(bod)
     {}
     //: Body constructor.
-    
+
     RCWrapAbstractC(const RCWrapBaseBodyC *bod)
       : RCHandleVC<RCWrapBaseBodyC>(bod)
     {}
     //: Body constructor.
-    
+
     RCWrapBaseBodyC &Body()
     { return RCHandleC<RCWrapBaseBodyC>::Body(); }
     //: Access body of object.
@@ -99,21 +103,21 @@ namespace RavlN {
     const RCWrapBaseBodyC &Body() const
     { return RCHandleC<RCWrapBaseBodyC>::Body(); }
     //: Access body of object.
-    
-  public:    
-    
+
+  public:
+
 #if RAVL_HAVE_RTTI
     const type_info &DataType() const
     { return Body().DataType(); }
     //: Get type of wrapped object.
 #endif
   };
-  
+
   //! userlevel=Develop
   //: RCWrapper body.
-  
+
   template<class DataT>
-  class RCWrapBodyC 
+  class RCWrapBodyC
     : public RCWrapBaseBodyC
   {
   public:
@@ -125,47 +129,49 @@ namespace RavlN {
       : data(val)
     {}
     //: Constructor.
-    
-    RCWrapBodyC(istream &in) 
+
+    RCWrapBodyC(istream &in)
       : RCWrapBaseBodyC(in)
-    {}
+    { in >> data; }
     //: Construct from a stream.
     // See RCWrapIO for implementation with full IO.
-    
-    RCWrapBodyC(BinIStreamC &in) 
+
+    RCWrapBodyC(BinIStreamC &in)
       : RCWrapBaseBodyC(in)
-    {}
+    { in >> data; }
     //: Construct from a stream.
     // See RCWrapIO for implementation with full IO.
-    
+
     virtual bool Save(std::ostream &strm) const {
       if(!RCWrapBaseBodyC::Save(strm))
         return false;
-      RavlAssertMsg(0,"Not implemented, use RCWrapIOC for IO support. ");
+      strm << data;
+      //RavlAssertMsg(0,"Not implemented, use RCWrapIOC for IO support. ");
       return true;
     }
     //: Save to text stream.
     // To avoid wrapped classes having to support a
-    // IO implementaton this method does nothing.
+    // IO implementation this method does nothing.
     // See RCWrapIO for implementation with full IO.
-    
+
     virtual bool Save(BinOStreamC &strm) const {
       if(!RCWrapBaseBodyC::Save(strm))
         return false;
-      RavlAssertMsg(0,"Not implemented, use RCWrapIOC for IO support. ");
+      strm << data;
+      //RavlAssertMsg(0,"Not implemented, use RCWrapIOC for IO support. ");
       return true;
     }
     //: Save to binary stream.
     // To avoid wrapped classes having to support a
-    // IO implementaton this method does nothing.
+    // IO implementation this method does nothing.
     // See RCWrapIO for implementation with full IO.
-    
+
 #if 0
     virtual RCBodyVC &Copy() const
     { return *new RCWrapBodyC<DataT>(data); }
     //: Make copy of body.
     // DISABLED.
-    
+
     virtual RCBodyC &DeepCopy(UIntT levels = ((UIntT) -1)) const {
       switch(levels) {
       case 0: return const_cast<RCWrapBodyC<DataT> &>(*this);
@@ -180,9 +186,9 @@ namespace RavlN {
     // all wrapped classes to implement a DeepCopy() operator of
     // some form.  This would cause undue overhead when using this
     // class, as providing a DeepCopy() may not always be appropriate.
-    
+
 #endif
-    
+
     DataT &Data()
     { return data; }
     //: Access data.
@@ -190,20 +196,21 @@ namespace RavlN {
     const DataT &Data() const
     { return data; }
     //: Access data.
-    
-#if RAVL_HAVE_RTTI   
+
+#if RAVL_HAVE_RTTI
     virtual const type_info &DataType() const
     { return typeid(DataT); }
     //: Get type of wrapped object.
 #endif
-    
+
   protected:
     DataT data;
   };
-  
+
+
   //! userlevel=Advanced
   //: RCWrapper handle.
-  
+
   template<class DataT>
   class RCWrapC
     : public RCWrapAbstractC
@@ -216,30 +223,30 @@ namespace RavlN {
 
     RCWrapC(bool makebod,bool){
       if(makebod)
-	*this = RCWrapC(DataT());
+        *this = RCWrapC(DataT());
     }
     //: Default constructor.
     // Creates an invalid handle.
-    
+
     explicit RCWrapC(const DataT &dat)
       : RCWrapAbstractC(*new RCWrapBodyC<DataT>(dat))
     {}
     //: Construct from an instance.
-    // Uses the copy constructor to creat a reference
+    // Uses the copy constructor to create a reference
     // counted copy of 'dat.
-    
+
     RCWrapC(const RCWrapAbstractC &val,bool v)
       : RCWrapAbstractC(dynamic_cast<const RCWrapBodyC<DataT> *>(BodyPtr(val)))
     {}
     //: Construct from an abstract handle.
     // if the object types do not match, an invalid handle
     // is created.
-    
+
     RCWrapC(const RCAbstractC &val,bool v)
       : RCWrapAbstractC(dynamic_cast<const RCWrapBodyC<DataT> *>(val.BodyPtr()))
     {}
     //: Construct from an abstract handle.
-    
+
     RCWrapC(istream &in)
       : RCWrapAbstractC(*new RCWrapBodyC<DataT>(in))
     {}
@@ -249,40 +256,40 @@ namespace RavlN {
       : RCWrapAbstractC(*new RCWrapBodyC<DataT>(in))
     {}
     //: Construct from a stream.
-    
+
   protected:
     RCWrapC(RCWrapBodyC<DataT> &bod)
       : RCWrapAbstractC(bod)
     {}
     //: Body constructor.
-    
+
     RCWrapBodyC<DataT> &Body()
     { return static_cast<RCWrapBodyC<DataT> &>(RCWrapAbstractC::Body()); }
     //: Body access.
-    
+
     const RCWrapBodyC<DataT> &Body() const
     { return static_cast<const RCWrapBodyC<DataT> &>(RCWrapAbstractC::Body()); }
     //: Constant body access.
-    
+
   public:
-    RCWrapC<DataT> Copy() const 
+    RCWrapC<DataT> Copy() const
     { return RCWrapC<DataT>(Body().Data()); }
     //: Make a copy of this handle.
     // NB. This assumes the wrapped object is SMALL, and so
-    // just using the copy constructor is sufficent.
+    // just using the copy constructor is sufficient.
 
     RCWrapC<DataT> DeepCopy(UIntT levels = ((UIntT) -1)) const {
       switch(levels) {
       case 0: return *this;
       case 1: return Copy();
       case 2: return RCWrapC<DataT>(StdCopy(Body().Data()));
-      default: break; 
+      default: break;
       }
       levels--;
-      return RCWrapC<DataT>(StdDeepCopy(Body().Data(),levels)); 
+      return RCWrapC<DataT>(StdDeepCopy(Body().Data(),levels));
     }
     //: Make a copy of this handle.
-    
+
     DataT &Data()
     { return Body().Data(); }
     //: Access data.
@@ -291,20 +298,20 @@ namespace RavlN {
     { return Body().Data(); }
     //: Access data.
 
-    operator DataT &() 
+    operator DataT &()
     { return Body().Data(); }
     //: Default conversion to data type.
 
-    operator const DataT &() const 
+    operator const DataT &() const
     { return Body().Data(); }
     //: Default conversion to data type.
   };
-  
+
   template<typename DataT>
   RCWrapAbstractC RCWrap(const DataT &val)
   { return RCWrapC<DataT>(val); }
   //: Helper function to Wrap a value.
-  
+
 
   //! Convert to a RCAbstract handle
   template<typename DataT>

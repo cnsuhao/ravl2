@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_IMAGEPOINTFEATURE_HEADER
 #define RAVLIMAGE_IMAGEPOINTFEATURE_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: ImagePointFeature.hh 6656 2008-03-06 10:43:09Z ees1wc $"
 //! lib=RavlImageProc
 //! docentry="Ravl.API.Images.Feature Points"
 //! userlevel="Basic"

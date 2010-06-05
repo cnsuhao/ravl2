@@ -11,7 +11,7 @@
 //! date="24/9/2000"
 //! lib=RavlFireWire
 //! docentry="Ravl.API.Images.Video.Video IO.DV;Ravl.API.Audio.IO.Drivers.Linux1394"
-//! rcsid="$Id$"
+//! rcsid="$Id: PalFrame.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/FireWire/PalFrame.hh"
   
 #include"Ravl/Array1d.hh"

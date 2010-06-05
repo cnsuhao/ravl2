@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: VirtualConstructor.cc 6871 2008-06-26 14:42:48Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/System/VirtualConstructor.cc"
 

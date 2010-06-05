@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! date="10/3/1997"
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: Arc2d.cc 3073 2003-06-13 07:18:32Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/2D/Arc2d.cc"
 

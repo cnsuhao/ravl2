@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Geom2dIO.cc 6538 2008-02-01 15:26:39Z craftit $"
 //! lib=RavlMathIO
 //! file="Ravl/Math/IO/Geom2dIO.cc"
 

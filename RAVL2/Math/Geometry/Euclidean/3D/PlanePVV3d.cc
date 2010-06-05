@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: PlanePVV3d.cc 6494 2007-12-12 11:43:29Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/3D/PlanePVV3d.cc"
 

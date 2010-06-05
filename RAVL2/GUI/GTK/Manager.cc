@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Manager.cc 7691 2010-04-14 16:48:24Z craftit $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Manager.cc"
 
@@ -170,11 +170,11 @@ namespace RavlGUIN {
       if(shutdownDone)
 	shutdownDone.WaitForFree();
       else {
-	cerr << "ERROR: Destroying manager before shutdown occured. \n";
+	cerr << "ERROR: Destroying manager before shutdown occurred. \n";
       }
     } else {
       if(startupDone.ThreadsWaiting() > 0)
-	cerr << "ERROR: Destroying manager before its event statered, (Threads wating) \n";
+	cerr << "ERROR: Destroying manager before its event started, (Threads waiting) \n";
     }
     
     ONDEBUG(cerr << "ManagerC::~ManagerC(), Done.. \n");

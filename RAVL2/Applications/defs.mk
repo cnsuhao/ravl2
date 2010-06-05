@@ -5,7 +5,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 7217 2009-07-08 17:45:16Z craftit $"
 #! file="Ravl/Applications/defs.mk"
 
 DONOT_SUPPORT=cygwin

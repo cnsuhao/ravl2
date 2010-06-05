@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 # $Id: defs.mk 4213 2004-04-08 19:21:01Z craftit $
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 4213 2004-04-08 19:21:01Z craftit $"
 #! file="Ravl/Core/Machine/Generic/defs.mk"
 
 DESCRIPTION= Dummy Atomic operations 

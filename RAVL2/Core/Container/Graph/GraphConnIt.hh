@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! date="2/1/1997"
 //! docentry="Ravl.API.Core.Graphs"
-//! rcsid="$Id$"
+//! rcsid="$Id: GraphConnIt.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/GraphBConIt.hh"
 #include "Ravl/GraphNode.hh"

@@ -10,7 +10,7 @@
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: DeepCopy.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/Base/DeepCopy.hh"
 //! docentry="Ravl.API.Core.Misc"
 

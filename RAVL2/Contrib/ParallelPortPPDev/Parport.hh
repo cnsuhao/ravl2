@@ -9,7 +9,7 @@
 #include "Ravl/RefCounter.hh"
 #include <linux/parport.h> 
 #include "Ravl/OS/Filename.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: Parport.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/ParallelPortPPDev/Parport.hh"
 
 /////////////////////////////////////////////////////

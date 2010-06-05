@@ -11,7 +11,7 @@
 //! lib=RavlGUI
 //! author="James Smith"
 //! date="22/10/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: MessageBox.hh 6746 2008-04-22 13:30:41Z craftit $"
 //! docentry="Ravl.API.Graphics.GTK.Dialogs"
 //! example="exMessageBox.cc"
 

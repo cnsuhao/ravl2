@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Stream.cc 7661 2010-03-18 11:56:44Z robowaz $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/Stream.cc"
 
@@ -151,6 +151,10 @@ namespace RavlN {
       SetDestructionOp(CallFunc1C<istream *&,bool>(&NukeIStream,ns));
     else
       SetDestructionOp(TriggerC());
+
+    // Store fail status after opening stream, so value can be used when checking IsOpen
+    m_openFailed = fail();
+
     return true;
   }
   
@@ -166,6 +170,10 @@ namespace RavlN {
       SetDestructionOp(CallFunc1C<ostream *&,bool>(&NukeOStream,ns));
     else
       SetDestructionOp(TriggerC());
+    
+    // Store fail status after opening stream, so value can be used when checking IsOpen
+    m_openFailed = fail();
+
     return true;
   }
   

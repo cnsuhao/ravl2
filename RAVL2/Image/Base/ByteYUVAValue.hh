@@ -7,7 +7,7 @@
 #ifndef RAVL_BYTEYUVAVALUE_HEADER
 #define RAVL_BYTEYUVAVALUE_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ByteYUVAValue.hh 6965 2008-09-18 16:48:28Z ees1wc $"
 //! file="Ravl/Image/Base/ByteYUVAValue.hh"
 //! lib=RavlImage
 //! userlevel=Normal

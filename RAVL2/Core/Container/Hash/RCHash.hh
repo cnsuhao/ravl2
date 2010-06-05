@@ -14,12 +14,13 @@
 //! date="06/05/1998"
 //! docentry="Ravl.API.Core.Hash Tables"
 //! example=WordFreq.cc
-//! rcsid="$Id$"
+//! rcsid="$Id: RCHash.hh 7635 2010-03-02 09:09:09Z alexkostin $"
 
 #include "Ravl/Hash.hh"
-#include "Ravl/RCWrap.hh"
+//#include "Ravl/RCWrap.hh"
 
 namespace RavlN {
+  //! userlevel=Develop
   //: Reference counted auto-resizing hash table.
   // This is a BIG OBJECT.
   // See <a href="RavlN.HashC.html">HashC</a> for more details. <p>
@@ -27,49 +28,129 @@ namespace RavlN {
   // be implemented. ie.  operator<<(ostream &os,xxx) etc...
   
   template<class Key,class Dat >
-  class RCHashC 
-    : public RCWrapC<HashC<Key,Dat> > 
+  class RCHashBodyC
+    : public RCBodyC
   {
   public:
-    RCHashC(const RCHashC<Key,Dat> &oth)
-      : RCWrapC<HashC<Key,Dat> >(oth) 
+    RCHashBodyC(const HashC<Key,Dat> &oth)
+      : m_data(oth)
     {}
     //: Copy constructor.
-    
-    RCHashC(bool makeBod = true) 
-      : RCWrapC<HashC<Key,Dat> > (makeBod,true)
+
+    RCHashBodyC()
     {}
     //: Default constructor.
     // Will make a body by default.
     
-    RCHashC(const RCWrapC<HashC<Key,Dat> > &base)
+    /*RCHashC(const RCWrapC<HashC<Key,Dat> > &base)
       : RCWrapC<HashC<Key,Dat> > (base)
     {}
+    //: Base constructor.*/
+    
+    RCHashBodyC(istream &in)
+      : m_data(in)
+    {}
+    //: Stream constructor.
+    
+    RCHashBodyC(BinIStreamC &in)
+      : m_data(in)
+    {}
+    //: Stream constructor.
+
+    RCHashBodyC(SizeT nBins)
+      : m_data(nBins)
+    {}
+
+    bool Save(std::ostream &strm) const {
+      strm << m_data;
+      //RavlAssertMsg(0,"Not implemented");
+      return true;
+    }
+    //: Save to text stream.
+    // To avoid wrapped classes having to support a
+    // IO implementation this method does nothing.
+
+    bool Save(BinOStreamC &strm) const {
+      strm << m_data;
+      //RavlAssertMsg(0,"Not implemented");
+      return true;
+    }
+    //: Save to binary stream.
+    // To avoid wrapped classes having to support a
+    // IO implementation this method does nothing.
+
+    HashC<Key,Dat> &Data()
+    { return m_data; }
+    //: Access data.
+
+    const HashC<Key,Dat> &Data() const
+    { return m_data; }
+    //: Access data.
+
+  protected:
+    HashC<Key,Dat> m_data;
+  };
+
+  //! userlevel=Normal
+  //: Reference counted auto-resizing hash table.
+  // This is a BIG OBJECT.
+  // See <a href="RavlN.HashC.html">HashC</a> for more details. <p>
+  // NB. This class requires the standard stream operators to
+  // be implemented. ie.  operator<<(ostream &os,xxx) etc...
+
+  template<class Key,class Dat >
+  class RCHashC
+    : public RCHandleC<RCHashBodyC<Key,Dat> >
+  {
+  public:
+    RCHashC(const RCHashC<Key,Dat> &oth)
+      : RCHandleC<RCHashBodyC<Key,Dat> >(oth.BodyPtr())
+    {}
+    //: Copy constructor.
+
+    RCHashC(const HashC<Key,Dat> &oth)
+      : RCHandleC<RCHashBodyC<Key,Dat> >(new RCHashBodyC<Key,Dat>(oth))
+    {}
+    //: Copy constructor.
+
+    RCHashC(bool makeBod = true)
+      : RCHandleC<RCHashBodyC<Key,Dat> > (makeBod ? new RCHashBodyC<Key,Dat>() : NULL)
+    {}
+    //: Default constructor.
+    // Will make a body by default.
+
+    RCHashC(const RCHandleC<RCHashBodyC<Key,Dat> > &base)
+      : RCHandleC<RCHashBodyC<Key,Dat> > (base)
+    {}
     //: Base constructor.
-    
+
     RCHashC(istream &in)
-      : RCWrapC<HashC<Key,Dat> > (in)
+      : RCHandleC<RCHashBodyC<Key,Dat> > (new RCHashBodyC<Key,Dat>(in))
     {}
     //: Stream constructor.
-    
+
     RCHashC(BinIStreamC &in)
-      : RCWrapC<HashC<Key,Dat> > (in)
+      : RCHandleC<RCHashBodyC<Key,Dat> > (new RCHashBodyC<Key,Dat>(in))
     {}
     //: Stream constructor.
-    
+
+    RCHashC(SizeT nBins)
+      : RCHandleC<RCHashBodyC<Key,Dat> > (new RCHashBodyC<Key,Dat>(nBins))
+    {}
+
     Dat &operator[] (const  Key &a) 
     { return this->Data()[a]; }
-    //: Accesss an element.
+    //: Access an element.
     //!param: a - Key to lookup in table.
-    //!return: Element coresponding to 'a' in the table.
+    //!return: Element corresponding to 'a' in the table.
     // Will create an empty element with the default constructor
     // and return a reference to it, if it doesn't already exist.
     
     const Dat &operator[] (const  Key &a) const
     { return this->Data()[a]; }
-    //: Accesss an element.
+    //: Access an element.
     //!param: a - Key to lookup in table.
-    //!return: Element coresponding to 'a' in the table.
+    //!return: Element corresponding to 'a' in the table.
     // The element must exist in the hash table otherwise
     // it will cause an assertion failure. Note: It will
     // just crash in optimised builds.
@@ -105,7 +186,7 @@ namespace RavlN {
     //: Insert Data with Key.
     // Returns: True=Member existed already. False=New one was added.
     
-    inline UIntT Size() const 
+    inline SizeT Size() const
     { return this->Data().Size(); }
     //: Get number of elements in table.
     
@@ -113,14 +194,14 @@ namespace RavlN {
     { return this->Data().Lookup(aKey); }
     //: Look to see if data is present in the table.
     // Do not use, Try Lookup(key,data);
-    // If data is present return a ptr to it, othersize
+    // If data is present return a ptr to it, otherwise
     // return a 0 ptr.
     
     inline const Dat *Lookup(const Key &aKey) const
     { return this->Data().Lookup(aKey); }
     //: Look to see if data is present in the table.
     // Do not use, Try Lookup(key,data);
-    //!return: If data is present return a ptr to it, othersize return a 0 ptr.
+    //!return: If data is present return a ptr to it, otherwise return a 0 ptr.
 
     inline bool Lookup(const Key &aKey,Dat &data) const
     { return this->Data().Lookup(aKey,data); }
@@ -157,12 +238,12 @@ namespace RavlN {
     
     bool NormaliseKey(Key &value) const
     { return this->Data().NormaliseKey(value); }
-    //: Normalise an equivelent key to one used the the table.
+    //: Normalise an equivalent key to one used the the table.
     // This function is useful when you want to normalise the use
-    // of equivlent keys (think strings.) to save memory.
+    // of equivalent keys (think strings.) to save memory.
     // Returns true if key exists in the table, false otherwise.
     
-    UIntT Hash() const
+    SizeT Hash() const
     { return this->Data().Hash(); }
     //: Compute hash value for table.
     
@@ -182,6 +263,65 @@ namespace RavlN {
     { return this->Data() != oth; }
     //: Test if this hash table is different to another.
 
+    HashC<Key,Dat> &Data()
+    { return Body().Data(); }
+    //: Access data.
+
+    const HashC<Key,Dat> &Data() const
+    { return Body().Data(); }
+    //: Access data.
+
+    operator HashC<Key,Dat> &()
+    { return Body().Data(); }
+    //: Default conversion to data type.
+
+    operator const HashC<Key,Dat> &() const
+    { return Body().Data(); }
+    //: Default conversion to data type.
+
+    RCHashC Copy() const
+    { return RCHashC(Body().Data()); }
+    //: Make a copy of this handle.
+    // NB. This assumes the wrapped object is SMALL, and so
+    // just using the copy constructor is sufficient.
+
+    RCHashC DeepCopy(UIntT levels = ((UIntT) -1)) const {
+      switch(levels) {
+      case 0: return *this;
+      case 1: return Copy();
+      case 2: return RCHashC(StdCopy(Body().Data()));
+      default: break;
+      }
+      levels--;
+      return RCHashC(StdDeepCopy(Body().Data(),levels));
+    }
+    //: Make a copy of this handle.
+  protected:
+    RCHashC(RCHashBodyC<Key,Dat> &bod)
+      : RCHandleVC<RCHashBodyC<Key,Dat> >(bod)
+    {}
+    //: Body constructor.
+
+    RCHashC(const RCHashBodyC<Key,Dat> *bod)
+      : RCHandleVC<RCHashBodyC<Key,Dat> >(bod)
+    {}
+    //: Body constructor.
+
+    RCHashBodyC<Key,Dat> &Body()
+    { return  RCHandleC<RCHashBodyC<Key,Dat> >::Body(); }
+    //: Access body.
+
+    const RCHashBodyC<Key,Dat> &Body() const
+    { return RCHandleC<RCHashBodyC<Key,Dat> >::Body(); }
+    //: Access body.
+
+    RCHashBodyC<Key,Dat> *BodyPtr()
+    { return  RCHandleC<RCHashBodyC<Key,Dat> >::BodyPtr(); }
+    //: Access body.
+
+    const RCHashBodyC<Key,Dat> *BodyPtr() const
+    { return RCHandleC<RCHashBodyC<Key,Dat> >::BodyPtr(); }
+    //: Access body.
   };
 
   template<class KeyT,class DataT >

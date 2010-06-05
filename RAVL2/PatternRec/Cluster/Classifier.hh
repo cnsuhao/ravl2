@@ -7,7 +7,7 @@
 #ifndef RAVL_CLASSIFY_HEADER
 #define RAVL_CLASSIFY_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Classifier.hh 7628 2010-03-01 12:03:30Z alexkostin $"
 //! lib=RavlPatternRec
 //! docentry="Ravl.API.Pattern Recognition.Classifier"
 //! author="Charles Galambos"
@@ -105,7 +105,7 @@ namespace RavlN {
       : FunctionC(dynamic_cast<const ClassifierBodyC *>(BodyPtr(func)))
     {}
     //: Create from base class.
-    // Creates an invalid handle if 'func' is not a classifer.
+    // Creates an invalid handle if 'func' is not a classifier.
     
   protected:
     ClassifierC(ClassifierBodyC &bod)

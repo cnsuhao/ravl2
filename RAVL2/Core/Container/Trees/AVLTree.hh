@@ -7,7 +7,7 @@
 #ifndef RAVLAVLTREE_HEADER
 #define RAVLAVLTREE_HEADER 1
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: AVLTree.hh 6025 2007-01-23 12:25:55Z ees1wc $"
 //! docentry="Ravl.API.Core.Trees"
 //! author="Charles Galambos"
 //! lib=RavlCore

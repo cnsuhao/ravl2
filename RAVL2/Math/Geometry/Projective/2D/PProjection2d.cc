@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: PProjection2d.cc 4255 2004-04-28 07:33:05Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Projective/2D/PProjection2d.cc"
 

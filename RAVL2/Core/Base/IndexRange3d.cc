@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: IndexRange3d.cc 1576 2002-08-12 15:45:11Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/IndexRange3d.cc"
 

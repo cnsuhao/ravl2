@@ -12,7 +12,7 @@
 //! date="23/04/1998"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.IO.Streams"
-//! rcsid="$Id$"
+//! rcsid="$Id: Stream.hh 7661 2010-03-18 11:56:44Z robowaz $"
 //! userlevel=Normal
 
 #include "Ravl/config.h"
@@ -31,6 +31,8 @@
 #if !RAVL_HAVE_STREAMSIZE
 typedef unsigned int streamsize;
 #endif
+
+//#define RAVL_DUMP_IOSTATE 1
 
 namespace RavlN {
 #if (RAVL_COMPILER_VISUALCPP && !RAVL_HAVE_STDNAMESPACE)
@@ -94,21 +96,25 @@ namespace RavlN {
 #endif
     
     StreamBaseC()
-      : s(0)
+      : s(0),
+        m_openFailed(false)
     {}
     //: Default constructor.
     
     StreamBaseC(const StringC &nname)
       : name(nname),
-      	s(0)
+      	s(0),
+        m_openFailed(false)
     {}
     //: Constructor.
     
     StreamBaseC(const StreamBaseC &oth) 
       : HandleRefCounterC(oth),
-	name(oth.name),
+        name(oth.name),
         s(oth.s),
-	ptrManager(oth.ptrManager)
+        ptrManager(oth.ptrManager),
+        m_openFailed(oth.m_openFailed)
+
     {}
     //: Copy Constructor.
     
@@ -121,13 +127,33 @@ namespace RavlN {
     //: Returns the name of the stream.
     
     inline bool IsOpen() const {
-      return !bad();
+      return !m_openFailed && !bad();
     }
     //: Test if this stream is open.
-    
+
+#if RAVL_DUMP_IOSTATE
+    void dumpState(const char *caller) const
+    {
+      if (s != 0)
+      {
+        ios_base::iostate sState = s->rdstate();
+        cerr << "iostate(" << caller << ")" \
+             << " s=" << (void*)s \
+             << " eofbit=" << ((sState & ios_base::eofbit) != 0 ? "Y" : "N") \
+             << " failbit=" << ((sState & ios_base::failbit) != 0 ? "Y" : "N") \
+             << " badbit=" << ((sState & ios_base::badbit) != 0 ? "Y" : "N") \
+             << " goodbit=" << ((sState & ios_base::goodbit) != 0 ? "Y" : "N") \
+             << endl;
+      }
+    }
+#endif
+
     bool good() const { 
       if(s == 0)
         return false;
+#if RAVL_DUMP_IOSTATE
+      dumpState("good");
+#endif
       return (s->good() != 0);
     }
     //: Is stream good ?
@@ -135,6 +161,9 @@ namespace RavlN {
     bool bad() const {
       if(s == 0)
         return true;
+#if RAVL_DUMP_IOSTATE
+      dumpState("bad");
+#endif
       return (s->bad() != 0);
     }
     //: Is stream corrupted ?
@@ -142,6 +171,9 @@ namespace RavlN {
     inline bool eof() const {
       if (s == 0)
         return true;
+#if RAVL_DUMP_IOSTATE
+      dumpState("eof");
+#endif
       return (s->eof() != 0);
     }
     //: End of file ?
@@ -149,14 +181,8 @@ namespace RavlN {
     inline bool fail() const {
       if (s == 0)
         return true;
-#if 0
-      ios_base::iostate sState = s->rdstate();
-      cerr << "fail()=" << (s->fail() ? "Y" : "N") << \
-           " eofbit=" << ((sState & ios_base::eofbit) != 0 ? "Y" : "N") << \
-           " failbit=" << ((sState & ios_base::failbit) != 0 ? "Y" : "N") << \
-           " badbit=" << ((sState & ios_base::badbit) != 0 ? "Y" : "N") << \
-           " goodbit=" << ((sState & ios_base::goodbit) != 0 ? "Y" : "N") << \
-           endl;
+#if RAVL_DUMP_IOSTATE
+      dumpState("fail");
 #endif
       return (s->fail() != 0);
     }
@@ -216,6 +242,7 @@ namespace RavlN {
     StringC name; // Name of stream.
     ios *s;
     RCHandleC<RCBodyVC> ptrManager;
+    bool m_openFailed;
   };
   
   //! userlevel=Normal

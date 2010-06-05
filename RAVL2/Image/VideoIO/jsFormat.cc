@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: jsFormat.cc 7309 2009-10-13 17:26:24Z robowaz $"
 //! date="24/03/2002"
 //! author="Charles Galambos"
 //! lib=RavlVideoIO

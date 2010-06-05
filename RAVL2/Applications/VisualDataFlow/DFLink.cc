@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DFLink.cc 2941 2003-05-25 17:01:40Z craftit $"
 //! lib=RavlVDF
 //! author="Charles Galambos"
 //! file="Ravl/Applications/VisualDataFlow/DFLink.cc"

@@ -7,7 +7,7 @@
 #ifndef RAVL_SOURCEAUTOPORT_HEADER
 #define RAVL_SOURCEAUTOPORT_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: AutoPortSource.hh 5298 2006-01-06 11:56:18Z kier $"
 //! docentry="Ravl.API.Source Tools.AutoPort"
 //! userlevel=Normal
 //! file="Ravl/SourceTools/VisualCPP/AutoPortSource.hh"

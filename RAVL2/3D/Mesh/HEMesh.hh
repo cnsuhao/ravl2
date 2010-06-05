@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL3D_HEMESH_HEADER
 #define RAVL3D_HEMESH_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: HEMesh.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=Ravl3D
 //! author="Charles Galambos"
 //! docentry="Ravl.API.3D.Half Edge Mesh"

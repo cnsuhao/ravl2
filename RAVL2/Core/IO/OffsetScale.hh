@@ -7,7 +7,7 @@
 #ifndef RAVL_OFFSETSCALE_HEADER
 #define RAVL_OFFSETSCALE_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: OffsetScale.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! example=exDataProc.cc
 //! docentry="Ravl.API.Core.Data Processing.Processes"
 //! lib=RavlIO

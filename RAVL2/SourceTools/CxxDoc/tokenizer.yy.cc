@@ -85,6 +85,7 @@ typedef unsigned int flex_uint32_t;
 #include <errno.h>
 #include <cstdlib>
 #include <cstring>
+#include <cstdio>
 /* end standard C++ headers. */
 
 #ifdef __cplusplus

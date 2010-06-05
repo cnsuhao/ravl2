@@ -7,7 +7,7 @@
 #ifndef RAVL_MTLOCK_HEADER
 #define RAVL_MTLOCK_HEADER 1
 /////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MTLocks.hh 6276 2007-07-16 10:54:19Z craftit $"
 //! file="Ravl/Core/Base/MTLocks.hh"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Locks"

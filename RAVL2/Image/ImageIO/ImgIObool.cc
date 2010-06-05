@@ -6,7 +6,7 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIObool.cc 130 2001-05-24 22:50:53Z craftit $"
 //! lib=RavlImage
 
 #include "Ravl/DP/FileFormatStream.hh"

@@ -7,7 +7,7 @@
 #ifndef RAVL_SQUAREITER_HEADER
 #define RAVL_SQUAREITER_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SquareIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Math/Sequence/SquareIter.hh"
 //! lib=RavlMath
 //! userlevel=Normal

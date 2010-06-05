@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_DESIGNFUNCREDUCE_HEADER
 #define RAVL_DESIGNFUNCREDUCE_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignFuncReduce.hh 7380 2009-11-17 16:53:57Z ees1wc $"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Pattern Recognition.Dimension Reduction"

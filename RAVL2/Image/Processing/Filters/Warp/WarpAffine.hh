@@ -10,7 +10,7 @@
 //! docentry="Ravl.API.Images.Scaling and Warping"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: WarpAffine.hh 6832 2008-06-10 16:29:44Z ees1wc $"
 //! date="16/07/2002"
 //! file="Ravl/Image/Processing/Filters/Warp/WarpAffine.hh"
 

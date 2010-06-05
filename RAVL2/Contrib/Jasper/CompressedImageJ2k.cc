@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: CompressedImageJ2k.cc 5975 2006-11-20 18:05:30Z craftit $"
 //! lib=RavlImgIOJasper
 
 #include "Ravl/Image/CompressedImageJ2k.hh"

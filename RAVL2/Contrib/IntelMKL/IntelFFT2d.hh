@@ -7,7 +7,7 @@
 #ifndef RAVL_INTELFFT2d_HEADER
 #define RAVL_INTELFFT2d_HEADER 1
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: IntelFFT2d.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Math.Signals.2D"
 //! lib=RavlIntelMKL
 //! file="Ravl/Contrib/IntelMKL/IntelFFT2d.hh"

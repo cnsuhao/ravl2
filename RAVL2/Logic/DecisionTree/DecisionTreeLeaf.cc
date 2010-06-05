@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DecisionTreeLeaf.cc 3677 2003-11-16 15:35:36Z craftit $"
 //! lib=RavlLogic
 //! file="Ravl/Logic/DecisionTree/DecisionTreeLeaf.cc"
 

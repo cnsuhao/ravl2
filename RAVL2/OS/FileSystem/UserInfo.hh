@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! date="29.8.1997"
 //! docentry="Ravl.API.OS"
-//! rcsid="$Id$"
+//! rcsid="$Id: UserInfo.hh 6215 2007-06-21 08:58:01Z ees1wc $"
 
 #include "Ravl/String.hh"
 #include "Ravl/Types.hh"

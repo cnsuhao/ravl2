@@ -8,7 +8,7 @@
 #define RAVLDPIMAGEIOPPM_HEADER
 ///////////////////////////////////////////////////
 //! userlevel=Develop
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOTiffB.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Image/ExternalImageIO/ImgIOTiffB.hh"
 //! lib=RavlExtImgIO
 //! docentry="Ravl.API.Images.IO.Formats"

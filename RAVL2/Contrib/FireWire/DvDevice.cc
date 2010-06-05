@@ -8,7 +8,7 @@
 //! author="Kieron J Messer"
 //! lib=RavlFireWire
 //! date="23/9/100"
-//! rcsid="$Id$"
+//! rcsid="$Id: DvDevice.cc 4665 2004-11-23 12:20:21Z plugger $"
 //! file="Ravl/Contrib/FireWire/DvDevice.cc"
 
 //#define _LARGEFILE_SOURCE

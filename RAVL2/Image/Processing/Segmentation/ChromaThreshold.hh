@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_CHROMA_THRESHOLD_HH_
 #define RAVLIMAGE_CHROMA_THRESHOLD_HH_
-//! rcsid="$Id$"
+//! rcsid="$Id: ChromaThreshold.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlImageProc
 //! author="Joel Mitchelson"
 //! docentry="Ravl.API.Images.Segmentation"

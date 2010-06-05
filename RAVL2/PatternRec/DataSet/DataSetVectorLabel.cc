@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DataSetVectorLabel.cc 7590 2010-02-23 12:03:11Z kier $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/DataSetVectorLabel.cc"
 
@@ -14,8 +14,44 @@
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/SumsNd2.hh"
 #include "Ravl/Exception.hh"
+#include "Ravl/XMLFactoryRegister.hh"
 
 namespace RavlN {
+
+
+  DataSetVectorLabelBodyC::DataSetVectorLabelBodyC(SampleStreamVectorLabelC & sampleStream)
+    : DataSet2BodyC<SampleVectorC,SampleLabelC>(1000)    
+  {    
+    Tuple2C<VectorC, UIntT>data;
+    while(sampleStream.Get(data)) {
+      Append(data.Data1(), data.Data2());
+    }    
+  }
+
+  DataSetVectorLabelBodyC::DataSetVectorLabelBodyC(const SArray1dC<MeanCovarianceC> & stats)
+    : DataSet2BodyC<SampleVectorC,SampleLabelC>(1000)    
+  {    
+    UIntT classLabel=0;
+    for(SArray1dIterC<MeanCovarianceC>it(stats);it;it++) {
+      SampleVectorC sample(*it);
+      Append(sample, classLabel);
+      classLabel++;
+    }    
+  }
+
+  DataSetVectorLabelBodyC::DataSetVectorLabelBodyC(const XMLFactoryContextC & factory)
+    : DataSet2BodyC<SampleVectorC,SampleLabelC>(1000)    
+  {    
+    UIntT classLabel=0;
+    for(DLIterC<XMLTreeC>it(factory.Children());it;it++) {
+      SampleVectorC sampleVector;
+      if(factory.UseComponent(it->Name(), sampleVector)) {
+        Append(sampleVector, classLabel);
+        classLabel++;
+      }
+    }
+  }
+  
 
   //: Create a seperate sample for each label.
   
@@ -154,7 +190,11 @@ namespace RavlN {
     return ret;
   }
 
-    
+  RavlN::XMLFactoryRegisterHandleC<DataSetVectorLabelC> g_registerXMLFactoryDataSetVectorLabel("RavlN::DataSetVectorLabelC");
 
+  void linkDataSetVectorLabel()
+  {}
+  
 }
+
 

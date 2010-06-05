@@ -9,54 +9,68 @@
 
 #include "Ravl/PatternRec/KernelFunc.hh"
 #include "Ravl/VirtualConstructor.hh"
+#include "Ravl/XMLFactoryRegister.hh"
 
 namespace RavlN
 {
-using namespace RavlN;
+  
+  KernelFunctionBodyC::KernelFunctionBodyC(const XMLFactoryContextC &factory)
+  {
+  }
+  //: XMLFactoryC constructor.
 
-//---------------------------------------------------------------------------
-//: Load from stream.
-KernelFunctionBodyC::KernelFunctionBodyC(istream &strm)
-                    :RCBodyVC(strm)
-{
-}
-//---------------------------------------------------------------------------
-//: Load from binary stream.
-KernelFunctionBodyC::KernelFunctionBodyC(BinIStreamC &strm)
-                    :RCBodyVC(strm)
-{
-}
-//---------------------------------------------------------------------------
-//: Writes object to stream
-bool KernelFunctionBodyC::Save(ostream &out) const
-{
-  RavlAssertMsg(0, "KernelFunctionBodyC::Save(ostream &out): KernelFunctionC "
-                "is abstract class, this function has to be redefined in "
-                "child class");
-  return false; // this line here just to make compiler happy
-}
-//---------------------------------------------------------------------------
-//: Writes object to stream
-bool KernelFunctionBodyC::Save(BinOStreamC &out) const
-{
-  RavlAssertMsg(0, "KernelFunctionBodyC::Save(BinOStreamC &out): "
-                "KernelFunctionC is abstract class, this function has to be "
-                "redefined in child class");
-  return false; // this line here just to make compiler happy
-}
-//---------------------------------------------------------------------------
-//: Apply function to vectors data1 and data2
-RealT KernelFunctionBodyC::Apply(int Size, const RealT *X1, const RealT *X2) const
-{
-  RavlAssertMsg(0, "KernelFunctionBodyC::Apply(int Size, const RealT *X1, const "
-                "RealT *X2): KernelFunctionC is abstract class, this "
-                "function has to be redefined in child class");
-  return 0; // this line here just to make compiler happy
-}
-//---------------------------------------------------------------------------
-// Stream load operators defined in RAVL_INITVIRTUALCONSTRUCTOR_FULL macro
-// Implementation of 'load from stream' constructors defined there as well
-RAVL_INITVIRTUALCONSTRUCTOR_FULL(KernelFunctionBodyC, KernelFunctionC,
-                                 RCHandleVC<KernelFunctionBodyC>);
-//---------------------------------------------------------------------------
+  
+  //---------------------------------------------------------------------------
+  //: Load from stream.
+  KernelFunctionBodyC::KernelFunctionBodyC(istream &strm)
+    :RCBodyVC(strm)
+  {
+  }
+  //---------------------------------------------------------------------------
+  //: Load from binary stream.
+  KernelFunctionBodyC::KernelFunctionBodyC(BinIStreamC &strm)
+    :RCBodyVC(strm)
+  {
+  }
+  //---------------------------------------------------------------------------
+  //: Writes object to stream
+  bool KernelFunctionBodyC::Save(ostream &out) const
+  {
+    RavlAssertMsg(0, "KernelFunctionBodyC::Save(ostream &out): KernelFunctionC "
+                  "is abstract class, this function has to be redefined in "
+                  "child class");
+    return false; // this line here just to make compiler happy
+  }
+  //---------------------------------------------------------------------------
+  //: Writes object to stream
+  bool KernelFunctionBodyC::Save(BinOStreamC &out) const
+  {
+    RavlAssertMsg(0, "KernelFunctionBodyC::Save(BinOStreamC &out): "
+                  "KernelFunctionC is abstract class, this function has to be "
+                  "redefined in child class");
+    return false; // this line here just to make compiler happy
+  }
+  
+  //---------------------------------------------------------------------------
+  //: Apply function to vectors data1 and data2
+  RealT KernelFunctionBodyC::Apply(int Size, const RealT *X1, const RealT *X2) const
+  {
+    RavlAssertMsg(0, "KernelFunctionBodyC::Apply(int Size, const RealT *X1, const "
+                  "RealT *X2): KernelFunctionC is abstract class, this "
+                  "function has to be redefined in child class");
+    return 0; // this line here just to make compiler happy
+  }
+  //---------------------------------------------------------------------------
+  // Stream load operators defined in RAVL_INITVIRTUALCONSTRUCTOR_FULL macro
+  // Implementation of 'load from stream' constructors defined there as well
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(KernelFunctionBodyC, KernelFunctionC,
+                                   RCHandleVC<KernelFunctionBodyC>);
+  //---------------------------------------------------------------------------
+
+  RavlN::XMLFactoryRegisterHandleC<KernelFunctionC> g_registerXMLFactoryKernelFunction("RavlN::KernelFunctionC");
+  
+  void linkKernelFunction()
+  {}
+
+  
 }

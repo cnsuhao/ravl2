@@ -14,9 +14,10 @@ ORGANISATION=OmniPerception Ltd
 HEADERS=XMLFactoryVideoIO.hh
 
 SOURCES= XMLFactoryVideoIO.cc
+#XMLFactoryGaussConvolve.cc
 
 PLIB=RavlImageXMLFactory
 
-USESLIBS=RavlIO RavlXMLFactory RavlImage RavlOSIO
+USESLIBS=RavlIO RavlXMLFactory RavlImage RavlOSIO RavlImageIO
 
 MUSTLINK=linkRavlImageXMLFactory.cc

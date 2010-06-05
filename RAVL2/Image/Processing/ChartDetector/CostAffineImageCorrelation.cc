@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: CostAffineImageCorrelation.cc 5432 2006-03-29 11:25:12Z omn-crida $"
 //! lib=RavlChartDetector
 //! file="Ravl/Image/Processing/ChartDetector/CostAffineImageCorrelation.cc"
 

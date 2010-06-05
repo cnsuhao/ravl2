@@ -13,7 +13,7 @@
 //! author="Radek Marik"
 //! date="26.04.1995"
 //! docentry="Ravl.API.Math.Projective Geometry.2D"
-//! rcsid="$Id$"
+//! rcsid="$Id: PPoint2d.hh 6154 2007-05-23 10:10:24Z craftit $"
 
 #include "Ravl/PPointLine2d.hh"
 #include "Ravl/Point2d.hh"

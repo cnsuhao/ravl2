@@ -9,7 +9,7 @@
 #include "Ravl/3D/VoxelSet.hh"
 #include "Ravl/BinStream.hh"
 
-//! rcsid="$Id$"
+//! rcsid="$Id: VoxelSet.cc 1533 2002-08-08 16:03:23Z craftit $"
 //! lib=Ravl3D
 
 namespace Ravl3DN

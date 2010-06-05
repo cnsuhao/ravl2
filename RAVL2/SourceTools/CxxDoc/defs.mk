@@ -4,7 +4,7 @@
 # Public License (GPL). See the gpl.licence file for details or
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 6587 2008-02-20 12:00:27Z robowaz $"
 #! file="Ravl/SourceTools/CxxDoc/defs.mk"
 
 DONOT_SUPPORT=VCPP

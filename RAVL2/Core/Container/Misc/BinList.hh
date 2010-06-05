@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! date="11/2/97"
 //! docentry="Ravl.API.Core.Misc"
-//! rcsid="$Id$"
+//! rcsid="$Id: BinList.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlCore
 
 #include "Ravl/BinTable.hh"

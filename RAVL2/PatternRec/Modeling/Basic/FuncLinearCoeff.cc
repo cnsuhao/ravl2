@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: FuncLinearCoeff.cc 6897 2008-07-19 11:34:50Z craftit $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Modeling/Basic/FuncLinearCoeff.cc"
 

@@ -1,10 +1,10 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testRavlBase.cc 7551 2010-02-18 13:43:07Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/testRavlBase.cc"
 //! userlevel=Develop
@@ -14,6 +14,7 @@
 #include "Ravl/BinStream.hh"
 #include "Ravl/RCWrap.hh"
 #include "Ravl/IndexRange1d.hh"
+#include "Ravl/RealRange1d.hh"
 #include "Ravl/IndexRange2d.hh"
 #include "Ravl/IntC.hh"
 #include "Ravl/SubIndexRange2dIter.hh"
@@ -136,6 +137,8 @@ int testTypes()
 {
   if(sizeof(Int16T) != 2) return __LINE__;
   if(sizeof(UInt16T) != 2) return __LINE__;
+  if(sizeof(Int32T) != 4) return __LINE__;
+  if(sizeof(UInt32T) != 4) return __LINE__;
   if(sizeof(Int64T) != 8) return __LINE__;
   if(sizeof(UInt64T) != 8) return __LINE__;
 #if RAVL_USE_LARGEFILESUPPORT
@@ -177,9 +180,9 @@ int testIndex()
       || j != (j/p)*p + j%p || j != (j/q)*q + j%q || j != (j/u)*u + j%u)
     return __LINE__;
   // These 2 lines test the RAVL convention for modulo involving -ve numbers
-  if (i/p != 1 || i/q != -1 || i/u != 1 
+  if (i/p != 1 || i/q != -1 || i/u != 1
       || j/p != -2 || j/q != 2 || j/u != -2) return __LINE__;
-  if (i%p != 2 || i%q != 2 || i%u != 2 
+  if (i%p != 2 || i%q != 2 || i%u != 2
       || j%p != 2 || j%q != 2 || j%u != 2) return __LINE__;
 
   IndexRangeC r1(0,3);
@@ -194,7 +197,7 @@ int testIndex()
     cerr << "IndexRange test 2 failed. " << r2 << " does not contain " << r3 << "\n";
     return __LINE__;
   }
-  
+
   IndexRangeC xr1(r1);
   IndexRangeC xr2(4,5);
   xr1.ClipBy(xr2);
@@ -203,10 +206,10 @@ int testIndex()
   xr2 = IndexRangeC (-10,-2);
   xr1.ClipBy(xr2);
   if(xr1.Size() != 0) return __LINE__;
-  
+
   if((IndexC(-4) % 3) != 2) return __LINE__;
-  
-  // Check align within 
+
+  // Check align within
   for(int i = 1;i < 8;i++) {
     for(int j = 0;j < 10;j++) {
       for(int k = -10;k < 10;k++) {
@@ -229,7 +232,7 @@ int testIndex2d()
 {
   cerr << "testIndex2d() \n";
   Index2dC start(5,6);
-  
+
   {
     Index2dC pxx = start;
     pxx = pxx.Step(NEIGH_UP_LEFT);
@@ -250,12 +253,19 @@ int testMisc() {
   if(Floor(0.3) != 0) return __LINE__;
   if(Floor(0.7) != 0) return __LINE__;
   if(Floor(1.2) != 1) return __LINE__;
+  if(Floor(1.0) != 1) return __LINE__;
+  if(Floor(-1.2) != -2) return __LINE__;
+  if(Floor(-1.0) != -1) return __LINE__;
 
   UIntC x = 4;
   UIntC y = 5;
   IntT v = Abs((int) x -  y);
   if(v != 1) return __LINE__;
 
+  IndexRangeC irng(0,0);
+  RealRangeC drng(irng);
+  IndexRangeC irng2(drng.IndexRange());
+  std::cerr << "Range=" << irng2 << "\n";
   return 0;
 }
 
@@ -264,7 +274,7 @@ int testRefCounter() {
   // Check atomic counting is sane.
   ravl_atomic_t test = RAVL_ATOMIC_INIT(0);
   if(ravl_atomic_read(&test) != 0)  return __LINE__;
-  ravl_atomic_set(&test,1); 
+  ravl_atomic_set(&test,1);
   if(ravl_atomic_read(&test) != 1)  return __LINE__;
   ravl_atomic_inc(&test);
   if(ravl_atomic_read(&test) != 2)  {
@@ -325,7 +335,7 @@ int testIndexRange3dIter() {
 
 int testFPNumber() {
 #if !RAVL_COMPILER_GCC2
-  
+
   // Check conversion an equality.
   FPNumberC<8> p8 = 1;
   if(p8 != 1) return __LINE__;
@@ -339,7 +349,7 @@ int testFPNumber() {
   p8++;
   if(p6 != 2) return __LINE__;
   if(p8 != 2) return __LINE__;
-  
+
   // Check increment and decrement.
   if(p8++ == ++p6) return __LINE__;
   if(p6++ == ++p8) return __LINE__;
@@ -347,9 +357,9 @@ int testFPNumber() {
   if(p8-- == --p6) return __LINE__;
   if(p6-- == --p8) return __LINE__;
   if(p6 != p8) return __LINE__;
-  
+
   // Check magnitude comparison for positive numbers.
-  
+
   if(p6 > p8) return __LINE__;
   if(p8 > p6) return __LINE__;
   if(!(p6 >= p8)) return __LINE__;
@@ -363,28 +373,28 @@ int testFPNumber() {
   if(p8 < p6) return __LINE__;
   if(p6 >= p8) return __LINE__;
   if(p6 > p8) return __LINE__;
-  
+
   if(!(p8 >= p6)) return __LINE__;
   if(!(p8 > p6)) return __LINE__;
   if(!(p6 <= p8)) return __LINE__;
   if(!(p6 < p8)) return __LINE__;
-  
+
   p8 = 0.25;
   p6 = 8;
 
   // Check Addition
-  
+
   FPNumberC<4> p4;
   p4 = p6 + p8 + p8 + p8 + p8;
   if(p4 != 9) return __LINE__;
 
   // Check Subtraction
   p4 = p6 + p8;
-  p4 = p4 - p8;  
+  p4 = p4 - p8;
   if(p4 != 8) return __LINE__;
-  
+
   // Check multiplication
-    
+
   p4 = p8 * p6;
   if(p4 != 2) return __LINE__;
   p4 = p6 * p8;
@@ -392,17 +402,17 @@ int testFPNumber() {
   p4 = p6 * 2;
   //cerr <<"p4=" << p4 <<" p6=" << p6 << " p8=" << p8 <<"\n";
   if(p4 != 16) return __LINE__;
-  
+
   // Check division.
-  
+
   p4 = p6 / p8;
   if(p4 != 32) return __LINE__;
-  
+
   p4 = p6 / 2;
   //cerr <<"p4=" << p4 <<" p6=" << p6 << " p8=" << p8 <<"\n";
   if(p4 != 4) return __LINE__;
-  
-#endif  
+
+#endif
   return 0;
 }
 
@@ -434,7 +444,7 @@ int testQInt() {
     if(Floor(values[i]) != QFloor(values[i]))
       return __LINE__;
   }
-  
+
   return 0;
 }
 
@@ -447,13 +457,13 @@ int testIndexRange2d() {
   cerr << "Rot90 (5,6)=" << start.Rotate90(Index2dC(5,6)) << "\n";
   cerr << "Rot180 (5,6)=" << start.Rotate180(Index2dC(5,6)) << "\n";
   cerr << "Rot270 (5,6)=" << start.Rotate270(Index2dC(5,6)) << "\n";
-  
-  
-  
+
+
+
   return 0;
 }
 
-int testRCWrap() {  
+int testRCWrap() {
   //cerr << "Testing testRCWrap() \n";
   RCWrapC<int> wrap(true);
   if(!wrap.IsValid()) return __LINE__;
@@ -472,7 +482,7 @@ int testRCWrap() {
 
 
 int testFloat16() {
-  
+
   float t = 1;
   for(int i = 0;i < 24;i++) {
     Float16C val16(t);
@@ -487,7 +497,7 @@ int testFloat16() {
     if(t != val16.Float()) return __LINE__;
     t /= 2;
   }
-  
+
   int it = 1;
   for(int i = 0;i < 16;i++) {
     Float16C val16(it);
@@ -501,7 +511,7 @@ int testFloat16() {
     //cerr << "Val=" << val16.Float() << " IsInf=" << val16.IsInf() << "\n";
     if(!val16.IsInf()) return __LINE__;
   }
-  
+
   it = -1;
   for(int i = 0;i < 16;i++) {
     Float16C val16(it);
@@ -515,7 +525,7 @@ int testFloat16() {
     //cerr << "Val=" << val16.Float() << " IsInf=" << val16.IsInf() << "\n";
     if(!val16.IsInf()) return __LINE__;
   }
-  
+
   UInt8T ui8 = 1;
   for(int i = 0;i < 8;i++) {
     Float16C val16(ui8);
@@ -523,7 +533,7 @@ int testFloat16() {
     if(val16.Float() != ((float) ui8)) return __LINE__;
     ui8 *= 2;
   }
-  
+
   Int8T i8 = 1;
   for(int i = 0;i < 7;i++) {
     Float16C val16(i8);

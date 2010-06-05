@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="24/7/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: PointTracker.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! docentry="Ravl.API.Images.Tracking"
 //! file="Ravl/Image/Processing/Tracking/PointTracker.hh"
 //! lib=RavlImageProc

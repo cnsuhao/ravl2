@@ -60,7 +60,7 @@ SvmLinearClassifierBodyC::SvmLinearClassifierBodyC(BinIStreamC &Strm)
     throw ExceptionOperationFailedC("SvmLinearClassifierBodyC::Load:"
                                     "Unrecognised version number in stream.");
 
-  int numWeights;
+  SizeT numWeights;
   Strm >> numWeights;
 
   CreateBuffers(numWeights);

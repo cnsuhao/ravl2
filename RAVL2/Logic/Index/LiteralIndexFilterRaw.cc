@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: LiteralIndexFilterRaw.cc 3754 2003-11-30 21:40:56Z craftit $"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Index/LiteralIndexFilterRaw.cc"
 

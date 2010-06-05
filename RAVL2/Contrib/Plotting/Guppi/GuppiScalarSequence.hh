@@ -8,7 +8,7 @@
 #define RAVLPLOT_GUPPISCALARSEQEUNCE_HEADER 1
 //! docentry="Ravl.GUI.Data_Plotting.Guppi"
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: GuppiScalarSequence.hh 3401 2003-09-06 08:11:47Z craftit $"
 //! lib=RavlGuppi
 //! file="Ravl/Contrib/Plotting/Guppi/GuppiScalarSequence.hh"
 

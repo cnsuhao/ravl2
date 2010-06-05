@@ -88,7 +88,7 @@ int fann_save_internal_fd(struct fann *ann, FILE * conf, const char *configurati
 	unsigned int i = 0;
 
 #ifndef FIXEDFANN
-	/* variabels for use when saving floats as fixed point variabels */
+	/* variables for use when saving floats as fixed point variables */
 	unsigned int decimal_point = 0;
 	unsigned int fixed_multiplier = 0;
 	fann_type max_possible_value = 0;
@@ -164,17 +164,17 @@ int fann_save_internal_fd(struct fann *ann, FILE * conf, const char *configurati
 			   calculated_decimal_point, decimal_point, bits_used_for_max);
 #endif
 
-		/* save the decimal_point on a seperate line */
+		/* save the decimal_point on a separate line */
 		fprintf(conf, "decimal_point=%u\n", decimal_point);
 	}
 #else
-	/* save the decimal_point on a seperate line */
+	/* save the decimal_point on a separate line */
 	fprintf(conf, "decimal_point=%u\n", ann->decimal_point);
 
 #endif
 
 	/* Save network parameters */
-	fprintf(conf, "num_layers=%u\n", ann->last_layer - ann->first_layer);
+	fprintf(conf, "num_layers=%u\n", (int)(ann->last_layer - ann->first_layer));
 	fprintf(conf, "learning_rate=%f\n", ann->learning_rate);
 	fprintf(conf, "connection_rate=%f\n", ann->connection_rate);
 	fprintf(conf, "shortcut_connections=%u\n", ann->shortcut_connections);
@@ -236,7 +236,7 @@ int fann_save_internal_fd(struct fann *ann, FILE * conf, const char *configurati
 	for(layer_it = ann->first_layer; layer_it != ann->last_layer; layer_it++)
 	{
 		/* the number of neurons in the layers (in the last layer, there is always one too many neurons, because of an unused bias) */
-		fprintf(conf, "%u ", layer_it->last_neuron - layer_it->first_neuron);
+		fprintf(conf, "%u ", (int)(layer_it->last_neuron - layer_it->first_neuron));
 	}
 	fprintf(conf, "\n");
 
@@ -288,13 +288,13 @@ int fann_save_internal_fd(struct fann *ann, FILE * conf, const char *configurati
 		{
 			/* save the connection "(source weight) " */
 			fprintf(conf, "(%u, %d) ",
-					connected_neurons[i] - first_neuron,
+					(int)(connected_neurons[i] - first_neuron),
 					(int) floor((weights[i] * fixed_multiplier) + 0.5));
 		}
 		else
 		{
 			/* save the connection "(source weight) " */
-			fprintf(conf, "(%u, " FANNPRINTF ") ", connected_neurons[i] - first_neuron, weights[i]);
+			fprintf(conf, "(%u, " FANNPRINTF ") ", (int)(connected_neurons[i] - first_neuron), weights[i]);
 		}
 #else
 		/* save the connection "(source weight) " */

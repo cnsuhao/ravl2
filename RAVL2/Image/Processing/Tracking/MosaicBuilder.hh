@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Phil McLauchlan, Bill Christmas"
 //! date="24/7/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: MosaicBuilder.hh 7040 2008-11-24 15:26:58Z ees1wc $"
 //! docentry="Ravl.API.Images.Mosaic"
 //! file="Ravl/Image/Processing/Tracking/MosaicBuilder.hh"
 //! lib=RavlImageProc

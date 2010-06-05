@@ -8,7 +8,7 @@
 #define RAVL_AUDIOFILEIO_HEADER 1
 //! docentry="Ravl.API.Audio.IO.Audio File"
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: AudioFileIO.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlAudioFile
 //! file="Ravl/Contrib/Audio/AudioFile/AudioFileIO.hh"
 //! example =exAudioFile.cc

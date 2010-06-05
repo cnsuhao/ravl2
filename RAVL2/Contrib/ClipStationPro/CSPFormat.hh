@@ -10,7 +10,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Video.Video IO.ClipStationPro"
 //! date="29/10/98"
-//! rcsid="$Id$"
+//! rcsid="$Id: CSPFormat.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/ClipStationPro/CSPFormat.hh"
 //! lib=CSPDriver
 

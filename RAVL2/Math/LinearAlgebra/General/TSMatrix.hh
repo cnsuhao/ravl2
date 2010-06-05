@@ -7,7 +7,7 @@
 #ifndef RAVL_TSMATRIX_HEADER
 #define RAVL_TSMATRIX_HEADER 1
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TSMatrix.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! date="15/8/2002"
 //! lib=RavlMath
 //! author="Charles Galambos"

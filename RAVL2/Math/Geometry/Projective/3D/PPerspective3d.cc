@@ -8,7 +8,7 @@
 
 //! author="Radek Marik"
 //! date="26.06.1995"
-//! rcsid="$Id$"
+//! rcsid="$Id: PPerspective3d.cc 3521 2003-10-08 20:38:22Z craftit $"
 //! lib=RavlMath
 
 #include "Ravl/PPerspective3d.hh"

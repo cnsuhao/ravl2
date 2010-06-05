@@ -7,7 +7,7 @@
 #ifndef RAVL_POINTSET2D_HEADER
 #define RAVL_POINTSET2D_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: PointSet2d.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Math/Geometry/Euclidean/2D/PointSet2d.hh"
 //! lib=RavlMath
 //! userlevel=Normal

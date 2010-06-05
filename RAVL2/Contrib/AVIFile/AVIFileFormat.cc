@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: AVIFileFormat.cc 3888 2004-01-20 17:28:29Z vap-james $"
 //! lib=RavlAVIFile
 //! file="Ravl/Contrib/AVIFile/AVIFileFormat.cc"
 

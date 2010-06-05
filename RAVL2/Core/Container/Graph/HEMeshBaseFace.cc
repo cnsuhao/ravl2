@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: HEMeshBaseFace.cc 6754 2008-04-24 13:40:07Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Graph/HEMeshBaseFace.cc"
 

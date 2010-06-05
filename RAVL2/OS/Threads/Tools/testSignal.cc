@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: testSignal.cc 5831 2006-08-20 15:50:00Z craftit $"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Tools/testSignal.cc"
 //! author="Charles Galambos"

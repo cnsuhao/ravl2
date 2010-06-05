@@ -8,7 +8,7 @@
 //! userlevel=Normal
 //! author="Radek Marik"
 //! date="26/12/1994"
-//! rcsid="$Id$"
+//! rcsid="$Id: ConvexHull.cc 4293 2004-05-09 09:16:37Z craftit $"
 //! file="Ravl/Math/Geometry/Euclidean/Boundary/ConvexHull.cc"
 
 #include "Ravl/DList.hh"

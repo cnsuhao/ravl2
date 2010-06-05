@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: GUIAttributes.cc 3340 2003-08-25 21:55:35Z craftit $"
 //! lib=RavlVDF
 //! author="Charles Galambos"
 //! docentry="Ravl.Applications.VDF"

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: MatrixNearSingular.cc 7542 2010-02-18 12:50:37Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/MatrixNearSingular.cc"
 //! author="Kieron Messer"
@@ -28,7 +28,7 @@ namespace RavlN {
       return MatrixC();
     }
     // Take care of special cases.
-    switch(Cols()) 
+    switch(static_cast<size_t>(Cols()))
       {
       case 2: {
 	det = (*this)[0][0]*(*this)[1][1]-(*this)[0][1]*(*this)[1][0];

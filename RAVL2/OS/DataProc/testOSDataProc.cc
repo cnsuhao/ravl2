@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testOSDataProc.cc 7479 2010-01-21 17:48:24Z craftit $"
 //! lib=RavlDPMT
 //! file="Ravl/OS/DataProc/testOSDataProc.cc"
 //! docentry="Ravl.API.Core.Data Processing.Threads"
@@ -22,6 +22,9 @@
 #include "Ravl/DP/MethodIO.hh"
 #include "Ravl/DP/Governor.hh"
 #include "Ravl/DP/Compose.hh"
+#include "Ravl/DP/FixedBuffer.hh"
+#include "Ravl/DP/MethodPtrIO.hh"
+#include "Ravl/DP/SPortAttach.hh"
 #include "Ravl/OS/Date.hh"
 
 using namespace RavlN;
@@ -55,9 +58,54 @@ int main() {
   return 0;
 }
 
+int AddOne(const int &value)
+{ return value+1; }
+
+class CounterC {
+public:
+  CounterC()
+   : m_counter(0)
+  {}
+
+  int GetValue()
+  { return m_counter++; }
+
+  int m_counter;
+};
+
 int testThreadPipe() {
   cerr << "testThreadPipe() Called. \n";
-  //...
+  {
+    CounterC aCounter;
+    DPIPortC<int> source = IMethodPtr(&aCounter,&CounterC::GetValue);
+    DPIPortC<int> input = source >> Process(&AddOne) >>=
+              RavlN::DPFixedBufferC<int>(5);
+    int total = 0;
+    for(int i = 0;i < 20;i++) {
+      int value;
+      input.Get(value);
+      total += value;
+    }
+    std::cerr << "Counter=" << total << "\n";
+    if(total != 210)
+      return __LINE__;
+  }
+  {
+    CounterC aCounter;
+    DPISPortC<int> source = SPort(IMethodPtr(&aCounter,&CounterC::GetValue));
+    DPIPortC<int> input = source >> Process(&AddOne) >>=
+              RavlN::DPFixedBufferC<int>(5);
+
+    int total = 0;
+    for(int i = 0;i < 20;i++) {
+      int value;
+      input.Get(value);
+      total += value;
+    }
+    std::cerr << "Counter=" << total << "\n";
+    if(total != 210)
+      return __LINE__;
+  }
   return 0;
 }
 

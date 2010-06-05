@@ -7,7 +7,7 @@
 #ifndef RAVLPOWERSPECTRUM1D_HEADER
 #define RAVLPOWERSPECTRUM1D_HEADER
 //////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: PowerSpectrum1d.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! userlevel=Normal
 //! docentry="Ravl.API.Math.Signals.1D"
 //! example=exPowerSpectrum.cc

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: JasperFormat.cc 5079 2005-08-12 11:32:16Z hickson $"
 //! lib=RavlImgIOJasper
 //! file="Ravl/Image/ExternalImageIO/JasperFormat.cc"
 

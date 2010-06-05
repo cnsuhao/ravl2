@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: PNGFormat.cc 6572 2008-02-14 18:17:39Z craftit $"
 //! lib=RavlExtImgIO
 //! file="Ravl/Image/ExternalImageIO/PNGFormat.cc"
 

@@ -13,7 +13,7 @@
 //! date="1/9/1996"
 //! docentry="Ravl.API.Core.Hash Tables"
 //! example=WordFreq.cc;exHash.cc
-//! rcsid="$Id$"
+//! rcsid="$Id: Hash.hh 7606 2010-03-01 10:28:09Z alexkostin $"
 //! userlevel=Normal
 
 #include "Ravl/SArray1d.hh"
@@ -67,7 +67,7 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    HashBaseC(UIntT nelements)
+    HashBaseC(SizeT nelements)
       : elements(nelements)
     {}
     //: Constructor.
@@ -76,7 +76,7 @@ namespace RavlN {
     { return elements == 0; }
     //: Is the table empty ?
     
-    UIntT Size() const 
+    SizeT Size() const
     { return elements; }
     //: Count number of elements in table.
     
@@ -84,7 +84,7 @@ namespace RavlN {
     //: Get the next prime not smaller than v.
     
   protected:
-    UIntT elements; // Number of elements in the table.
+    SizeT elements; // Number of elements in the table.
   };
   
   
@@ -95,7 +95,7 @@ namespace RavlN {
   // <a href="RavlN.RCHashC.html">RCHashC</a> is a fully reference counted version of this class. <br>
   // Type K is the hash key: it must define a function <code>
   //   unsigned int K::Hash(); </code>  which returns a number fairly unique to the key,
-  //    or a global function of the form <code> UIntT StdHash(const K &x); </code> which returns the key. <p>
+  //    or a global function of the form <code> SizeT StdHash(const K &x); </code> which returns the key. <p>
   //   Also <code> bool K::operator== (const K &Oth); </code>  to test equality. <p>
   
   // !!!!! Update() Requires a default constructor & a working assignment operator !!!!! <p>
@@ -124,7 +124,7 @@ namespace RavlN {
     typedef HashIterC<K,T> IteratorT;
     //: Type of iterator.
     
-    HashC(UIntT nBins = 23) 
+    HashC(SizeT nBins = 23)
       : table((int) nBins) 
     { RavlAssertMsg(nBins > 0,"Must have at least 1 bin in a hash table."); }
     //: Create table with nBins.
@@ -133,7 +133,7 @@ namespace RavlN {
     
     HashC(const HashC<K,T> &oth) 
       : HashBaseC(oth.elements),
-	table(oth.table.Copy())
+        table(oth.table.Copy())
     {}
     //: Copy access structure.
     //!param: oth - Table to copy to make this one.
@@ -145,7 +145,7 @@ namespace RavlN {
     
     HashC(Tuple2C<K,T> *data); 
     //: Initialise from simple array.
-    //!param: data - pointer to array of tuples to initalise the table with, terminated with an entry with a duplicate key of the first entry.
+    //!param: data - pointer to array of tuples to initialise the table with, terminated with an entry with a duplicate key of the first entry.
     // Note: Array must be terminated by a duplicate of the first key. (i.e. == must return true between them)
     
     HashC(istream &in);
@@ -247,8 +247,8 @@ namespace RavlN {
     void Empty(void); 
     //: Remove all items from table.
     
-    inline UIntT Bins(void) const 
-    { return (UIntT) table.Size(); }
+    inline SizeT Bins(void) const
+    { return table.Size(); }
     //: Number of bins in the HashTable.
     //!return: Number of bins in the hash table.
     
@@ -275,7 +275,7 @@ namespace RavlN {
     //!param: oth - Table to compare this one with.
     //!return: true if keys and corresponding data entries are different
     
-    UIntT Hash() const;
+    SizeT Hash() const;
     //: Compute a hash value for the hash table.
     //!return: Hash value for table key and data entries.
     
@@ -326,7 +326,7 @@ namespace RavlN {
     // Add member created with default constructor.
     // !! Doesn't check if member already exists !!
     
-    inline HashElemC<K,T> *LookupHV(const K &Value,UIntT &hashVal) const;
+    inline HashElemC<K,T> *LookupHV(const K &Value,SizeT &hashVal) const;
     inline bool Del(HashElemC<K,T> *Elem,bool allowResize = true);
     
   protected:
@@ -336,14 +336,14 @@ namespace RavlN {
     {}
     //: Make temporary handle.
     
-    HashC(const SArray1dC<HashElemLst >  &tab,UIntT nelements)
+    HashC(const SArray1dC<HashElemLst >  &tab,SizeT nelements)
       : HashBaseC(nelements),
         table(tab)
     {}
     //: Create new table from an array.
     
 #if HASHC_DEBUG
-    UIntT Count() const;
+    SizeT Count() const;
     //: Do an actual count of elements in the table.
     // Used in debug only.
 #endif
@@ -403,7 +403,7 @@ namespace RavlN {
     {}
     //: Constructor.
     
-    HashElemC(const K &nKey,UIntT nHashVal,const T &Data) 
+    HashElemC(const K &nKey,SizeT nHashVal,const T &Data)
       : hashVal(nHashVal), 
         Key(nKey), 
         Hold(Data) 
@@ -427,16 +427,16 @@ namespace RavlN {
     { return HashIsEqual(Key,Another); }
     //: Does key equal that of this element ?
     
-    UIntT GetHashVal() const 
+    SizeT GetHashVal() const
     { return hashVal; }
     //: Get hash value.
     
-    void HashVal(UIntT nHashVal)
+    void HashVal(SizeT nHashVal)
     { hashVal = nHashVal; }
     //: Get hash value.
     
   protected:
-    UIntT hashVal;
+    SizeT hashVal;
     K Key;
     T Hold;
     
@@ -494,8 +494,8 @@ namespace RavlN {
       table = SArray1dC<IntrDListC<HashElemC<K,T> > >(NextPrime(oth.elements));
       for(BufferAccessIterC<IntrDListC<HashElemC<K,T> > > it(oth.table);it;it++) {
 	for(IntrDLIterC<HashElemC<K,T> > place(*it);place;place++) {
-	  const UIntT hashVal = place->GetHashVal();
-	  const UIntT ind = hashVal % table.Size();
+	  const SizeT hashVal = place->GetHashVal();
+	  const SizeT ind = hashVal % table.Size();
 	  table[ind].InsFirst(*new HashElem(place->GetKey(),
 					    hashVal,
 					    StdCopy(place->GetData())));
@@ -507,8 +507,8 @@ namespace RavlN {
       table = SArray1dC<IntrDListC<HashElemC<K,T> > >(NextPrime(oth.elements));
       for(BufferAccessIterC<IntrDListC<HashElemC<K,T> > > it(oth.table);it;it++) {
 	for(IntrDLIterC<HashElemC<K,T> > place(*it);place;place++) {
-	  const UIntT hashVal = place->GetHashVal();
-	  const UIntT ind = hashVal % table.Size();
+	  const SizeT hashVal = place->GetHashVal();
+	  const SizeT ind = hashVal % table.Size();
 	  table[ind].InsFirst(*new HashElem(place->GetKey(),
 					    hashVal,
 					    StdDeepCopy(place->GetData(),levels)));
@@ -541,7 +541,8 @@ namespace RavlN {
   
   template<class K,class T>
   void HashC<K,T>::Save(BinOStreamC &out) const {
-    out << elements;
+    UIntT saveElements = elements;
+    out << saveElements;
     for(BufferAccessIterC<IntrDListC<HashElemC<K,T> > > it(table);it;it++) {
       for(IntrDLIterC<HashElemC<K,T> > place(*it);place;place++)
 	out << *place;
@@ -575,7 +576,7 @@ namespace RavlN {
   
   template<class K,class T>
   HashC<K,T>::HashC(istream &in)  {
-    UIntT size;
+    SizeT size;
     in >> size;
     table = SArray1dC<IntrDListC<HashElemC<K,T> > > (NextPrime(size));
     for(;size > 0;size--) {
@@ -586,7 +587,7 @@ namespace RavlN {
   
   template<class K,class T>
   HashC<K,T>::HashC(BinIStreamC &in)  {
-    UIntT size;
+    UIntT size; // FIXME:- Should be SizeT.
     in >> size;
     table = SArray1dC<IntrDListC<HashElemC<K,T> > > (NextPrime(size));
     for(;size > 0;size--) {
@@ -600,7 +601,7 @@ namespace RavlN {
   { return *this; }
   
   template<class K,class T>
-  inline HashElemC<K,T> *HashC<K,T>::LookupHV(const K &value,UIntT &hashVal) const {
+  inline HashElemC<K,T> *HashC<K,T>::LookupHV(const K &value,SizeT &hashVal) const {
     hashVal = StdHash(value);
     IntrDLIterC<HashElemC<K,T> > place(table[hashVal % table.Size()]);
     for(;place;place++) {
@@ -612,7 +613,7 @@ namespace RavlN {
   
   template<class K,class T>
   inline const T *HashC<K,T>::Lookup(const K &Key) const  {
-    UIntT hashVal;
+    SizeT hashVal;
     HashElemC<K,T> *elem = LookupHV(Key,hashVal);
     if(elem == 0) 
       return 0;
@@ -621,7 +622,7 @@ namespace RavlN {
   
   template<class K,class T>
   inline T *HashC<K,T>::Lookup(const K &key)  {
-    UIntT hashVal;
+    SizeT hashVal;
     HashElemC<K,T> *elem = LookupHV(key,hashVal);
     if(elem == 0) return 0;
     return &elem->Data();
@@ -630,7 +631,7 @@ namespace RavlN {
   template<class K,class T>
   inline 
   bool HashC<K,T>::Lookup(const K &Key,T &data) const{
-    UIntT hashVal;
+    SizeT hashVal;
     HashElemC<K,T> *elem = LookupHV(Key,hashVal);
     if(elem == 0) 
       return false;
@@ -662,8 +663,8 @@ namespace RavlN {
   template<class K,class T>
   inline T &HashC<K,T>::Add(const K &key,const T &data)  {
     CheckAdd();
-    const UIntT hashVal = StdHash(key);
-    const UIntT ind = hashVal % table.Size();
+    const SizeT hashVal = StdHash(key);
+    const SizeT ind = hashVal % table.Size();
     table[ind].InsFirst(*new HashElem(key,hashVal,data));
     return table[ind].First().Data();
   }
@@ -671,34 +672,34 @@ namespace RavlN {
   template<class K,class T>
   inline T &HashC<K,T>::Add(const K &key)  {
     CheckAdd();
-    const UIntT hashVal = StdHash(key);
-    const UIntT ind = hashVal % table.Size();
+    const SizeT hashVal = StdHash(key);
+    const SizeT ind = hashVal % table.Size();
     table[ind].InsFirst(*new HashElem(key,hashVal,T()));
     return table[ind].First().Data();
   }
   
   template<class K,class T>
   inline bool HashC<K,T>::Update(const K &key,const T &data) {
-    UIntT hashVal;
+    SizeT hashVal;
     HashElemC<K,T> *elem = LookupHV(key,hashVal);
     if(elem != 0) {
       elem->Data() = data;
       return true; // There already.
     }
     CheckAdd();
-    const UIntT ind = hashVal % table.Size();
+    const SizeT ind = hashVal % table.Size();
     table[ind].InsFirst(*new HashElem(key,hashVal,data));
     return false;  // Had to be added.
   }
   
   template<class K,class T>
   inline T &HashC<K,T>::Access(const K &key,const T &def) {
-    UIntT hashVal;
+    SizeT hashVal;
     HashElemC<K,T> *elem = LookupHV(key,hashVal);
     if(elem != 0) 
       return elem->Data(); // Exists already.
     CheckAdd();
-    const UIntT ind = hashVal % table.Size();
+    const SizeT ind = hashVal % table.Size();
     HashElem &v = *new HashElem(key,hashVal,def);
     table[ind].InsFirst(v);
     return v.Data(); // Had to be added.  
@@ -706,12 +707,12 @@ namespace RavlN {
   
   template<class K,class T>
   inline T &HashC<K,T>::AccessCopy(const K &key,const T &def) {
-    UIntT hashVal;
+    SizeT hashVal;
     HashElemC<K,T> *elem = LookupHV(key,hashVal);
     if(elem != 0) 
       return elem->Data(); // Exists already.
     CheckAdd();
-    const UIntT ind = hashVal % table.Size();
+    const SizeT ind = hashVal % table.Size();
     HashElem &v = *new HashElem(key,hashVal,StdCopy(def));
     table[ind].InsFirst(v);
     return v.Data(); // Had to be added.  
@@ -719,12 +720,12 @@ namespace RavlN {
   
   template<class K,class T>
   inline T &HashC<K,T>::Update(const K &key) {
-    UIntT hashVal;
+    SizeT hashVal;
     HashElemC<K,T> *elem = LookupHV(key,hashVal);
     if(elem != 0)
       return elem->Data();
     CheckAdd();
-    const UIntT ind = hashVal % table.Size();
+    const SizeT ind = hashVal % table.Size();
     HashElem &v = *new HashElem(key,hashVal,T());
     table[ind].InsFirst(v);
     return v.Data(); 
@@ -732,7 +733,7 @@ namespace RavlN {
   
   template<class K,class T>
   bool HashC<K,T>::Del(const K &key,bool allowResize) {
-    UIntT hashVal = StdHash(key);
+    SizeT hashVal = StdHash(key);
     HashElemIter place(table[hashVal % table.Size()]);
     for(;place;place++) {
       if(place.Data() == key) {
@@ -746,7 +747,7 @@ namespace RavlN {
   
   template<class K,class T>
   inline T HashC<K,T>::Get(const K &Key,bool allowResize) {
-    UIntT hashVal = StdHash(Key);
+    SizeT hashVal = StdHash(Key);
     HashElemIter place(table[hashVal % table.Size()]);
     for(;place;place++) {
       if(*place == Key) {
@@ -773,7 +774,7 @@ namespace RavlN {
     SArray1dC<HashElemLst> newTable(newSize);
     for(BufferAccessIterC<HashElemLst> it(table);it;it++) {
       while(!it->IsEmpty()) {
-	const UIntT hashVal = it->First().GetHashVal();
+	const SizeT hashVal = it->First().GetHashVal();
 	newTable[hashVal % newSize].InsFirst(it->PopFirst());
       }
     }
@@ -782,8 +783,8 @@ namespace RavlN {
   
 #if HASHC_DEBUG
   template<class K,class T>
-  UIntT HashC<K,T>::Count() const {
-    UIntT ret = 0;
+  SizeT HashC<K,T>::Count() const {
+    SizeT ret = 0;
     for(BufferAccessIterC<HashElemLst> it(table);it;it++) 
       ret += it->Size();
     return ret;
@@ -810,12 +811,12 @@ namespace RavlN {
   }
   
   template<class K,class T>
-  UIntT HashC<K,T>::Hash() const {
+  SizeT HashC<K,T>::Hash() const {
     // Compute a hash value for the hash table.
-    UIntT ret = elements + (elements << 17);
+    SizeT ret = elements + (elements << 17);
     for(BufferAccessIterC<IntrDListC<HashElemC<K,T> > > it(table);it;it++) {
       for(IntrDLIterC<HashElemC<K,T> > place(*it);place;place++) {
-	UIntT hv = StdHash(place->Data());
+        size_t hv = StdHash(place->Data());
 	ret += (StdHash(place->GetKey()) + hv) ^ (hv << 11);
       }
     }
@@ -890,7 +891,7 @@ namespace RavlN {
   
   template<class K,class T>
   bool HashC<K,T>::NormaliseKey(K &value) const {
-    UIntT hashVal;
+    SizeT hashVal;
     HashElemC<K,T> *elem = LookupHV(value,hashVal);
     if(elem == 0) return false;
     value = elem->GetKey();

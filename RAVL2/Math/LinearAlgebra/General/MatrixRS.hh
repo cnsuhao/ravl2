@@ -7,7 +7,7 @@
 #ifndef RAVL_MATRIXRS_HEADER
 #define RAVL_MATRIXRS_HEADER 1
 ///////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MatrixRS.hh 6088 2007-03-08 16:20:52Z ees1wc $"
 //! file="Ravl/Math/LinearAlgebra/General/MatrixRS.hh"
 //! lib=RavlMath
 //! userlevel=Normal

@@ -7,7 +7,7 @@
 #ifndef RAVL_INDEXRANGE2DSET_HEADER
 #define RAVL_INDEXRANGE2DSET_HEADER 1
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: IndexRange2dSet.hh 7546 2010-02-18 13:28:49Z craftit $"
 //! file="Ravl/Core/System/IndexRange2dSet.hh"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Indexing"
@@ -63,7 +63,7 @@ namespace RavlN {
     bool Contains(const IndexRange2dC &rect) const;
     //: Does this set wholy contain 'rect' ?
  
-    UIntT Area() const;
+    SizeT Area() const;
     //: Total area of set.
   };
 

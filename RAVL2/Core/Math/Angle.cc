@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Angle.cc 7334 2009-10-26 17:21:58Z cyberplug $"
 //! lib=RavlCore
 //! file="Ravl/Core/Math/Angle.cc"
 

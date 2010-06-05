@@ -7,7 +7,7 @@
 ///////////////////////////////////////////////////////////////////////
 //! date="29.8.97"
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: MailUser.cc 6214 2007-06-21 08:36:35Z ees1wc $"
 //! lib=RavlOS
 //! file="Ravl/OS/Exec/MailUser.cc"
 

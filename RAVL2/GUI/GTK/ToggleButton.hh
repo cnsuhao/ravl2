@@ -10,7 +10,7 @@
 //! docentry="Ravl.API.Graphics.GTK.Control"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: ToggleButton.hh 6988 2008-10-03 13:01:14Z ees1wc $"
 //! file="Ravl/GUI/GTK/ToggleButton.hh"
 //! date="17/06/99"
 

@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Kieron J Messer"
 //! docentry="Ravl.API.Images.Scaling and Warping"
-//! rcsid="$Id$"
+//! rcsid="$Id: HistogramEqualise.hh 7514 2010-02-14 13:43:27Z xuanzou $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Filters/Misc/HistogramEqualise.hh"
 
@@ -39,7 +39,7 @@ namespace RavlImageN {
     // to the same be as the output before histogram equalisation is
     // done.
     
-    ImageC<DataT> Apply (const ImageC<DataT> &in);
+    ImageC<DataT> Apply (const ImageC<DataT> &in) const;
     //: Performs histogram equalisation on image 'in'.
     // Returns a new equalised image.
     
@@ -124,7 +124,7 @@ namespace RavlImageN {
   //:-
   
   template<class DataT>
-  ImageC<DataT> HistogramEqualiseC<DataT>::Apply (const ImageC<DataT> &in) {
+  ImageC<DataT> HistogramEqualiseC<DataT>::Apply (const ImageC<DataT> &in) const {
     // Build the histogram.
     if(in.IsEmpty())
       return ImageC<DataT>();

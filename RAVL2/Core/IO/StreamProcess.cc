@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: StreamProcess.cc 1533 2002-08-08 16:03:23Z craftit $"
 //! date="16/7/2002"
 //! author="Charles Galambos"
 //! lib=RavlIO

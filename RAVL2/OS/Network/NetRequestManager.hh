@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_NETREQUESTMANAGER_HEADER
 #define RAVL_NETREQUESTMANAGER_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: NetRequestManager.hh 6441 2007-11-14 19:01:25Z craftit $"
 //! lib=RavlNet
 //! author="Charles Galambos"
 //! docentry="Ravl.API.OS.Network"

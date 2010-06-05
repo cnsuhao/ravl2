@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLGUI_TREEVIEW_HEADER
 #define RAVLGUI_TREEVIEW_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: TreeView.hh 7268 2009-09-15 10:30:15Z cyberplug $"
 //! docentry="Ravl.API.Graphics.GTK.Control"
 //! author="Charles Galambos"
 //! example=exTreeStore.cc

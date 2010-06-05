@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 6169 2007-05-28 15:59:25Z craftit $"
 #! file="Ravl/Image/Processing/ChartDetector/defs.mk"
 
 PACKAGE=Ravl/Image

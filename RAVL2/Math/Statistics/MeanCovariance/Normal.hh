@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////
 //! docentry="Ravl.API.Math.Statistics"
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: Normal.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/MeanCovariance/Normal.hh"
 

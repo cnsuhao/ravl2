@@ -7,7 +7,7 @@
 //! lib=RavlCore
 //! file="Ravl/Core/System/TypeName.cc"
 
-//! rcsid="$Id$"
+//! rcsid="$Id: TypeName.cc 6532 2008-02-01 10:31:34Z craftit $"
 
 #include "Ravl/TypeName.hh"
 #include "Ravl/Hash.hh"

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgComposites.cc 130 2001-05-24 22:50:53Z craftit $"
 //! lib=RavlImage
 
 #include "Ravl/DP/FileFormatComposite.hh"

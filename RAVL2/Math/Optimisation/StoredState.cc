@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: StoredState.cc 7664 2010-03-23 15:43:19Z ees1wc $"
 //! lib=RavlOptimise
 //! file="Ravl/Math/Optimisation/StoredState.cc"
 
@@ -19,7 +19,7 @@ namespace RavlN {
   }
 
   //: Constructor for optimisation base class
-  StoredStateC::StoredStateC(StateVectorC &stateVecInit)
+  StoredStateC::StoredStateC(const StateVectorC &stateVecInit)
   {
     stateVec = stateVecInit.Copy();
   }

@@ -5,7 +5,6 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Widget.cc"
 
@@ -17,6 +16,7 @@
 #include "Ravl/GUI/SignalInfo.hh"
 #include "Ravl/GUI/ToolTips.hh"
 #include "Ravl/GUI/MouseEvent.hh"
+#include "Ravl/GUI/ScrollEvent.hh"
 #include "Ravl/GUI/DragAndDrop.hh"
 #include "Ravl/CallMethods.hh"
 #include "Ravl/Tuple2.hh"
@@ -25,6 +25,7 @@
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/GUI/TreeModel.hh"
 #include "Ravl/GUI/ReadBack.hh"
+#include "Ravl/XMLFactoryRegister.hh"
 #include "WidgetDNDInfo.hh"
 #include <gtk/gtk.h>
 #include <gdk/gdktypes.h>
@@ -70,6 +71,7 @@ namespace RavlGUIN {
 #define GTKSIG_EVENTDELETE (GtkSignalFunc) WidgetBodyC::gtkEventDelete,SigTypeEventDelete
 #define GTKSIG_EVENT_MOUSEBUTTON   (GtkSignalFunc) WidgetBodyC::gtkEventMouseButton,SigTypeEventMouseButton
 #define GTKSIG_EVENT_MOUSEMOTION   (GtkSignalFunc) WidgetBodyC::gtkEventMouseMotion,SigTypeEventMouseMotion
+#define GTKSIG_EVENT_SCROLL   (GtkSignalFunc) WidgetBodyC::gtkEventScroll,SigTypeEventScroll
 #define GTKSIG_EVENT_FOCUS (GtkSignalFunc) WidgetBodyC::gtkEventFocus,SigTypeEventFocus
 #define GTKSIG_STRING   (GtkSignalFunc) WidgetBodyC::gtkString,SigTypeString
 #define GTKSIG_CLISTSEL (GtkSignalFunc) WidgetBodyC::gtkCListSelect,SigTypeCListSel
@@ -104,7 +106,7 @@ namespace RavlGUIN {
       GTKSIG("enter_notify_event"   ,GTKSIG_EVENT   ), // gtkwidget
       GTKSIG("leave_notify_event"   ,GTKSIG_EVENT   ), // gtkwidget
       GTKSIG("configure_event"      ,GTKSIG_EVENT   ), // gtkwidget
-      GTKSIG("scroll_event"         ,GTKSIG_EVENT   ), // gtkwidget
+      GTKSIG("scroll_event"         ,GTKSIG_EVENT_SCROLL), // gtkwidget
       GTKSIG("hide"                 ,GTKSIG_GENERIC ), // gtkwidget
       GTKSIG("show"                 ,GTKSIG_GENERIC ), // gtkwidget
       GTKSIG("map"                  ,GTKSIG_GENERIC ), // gtkwidget
@@ -175,6 +177,15 @@ namespace RavlGUIN {
     Signal1C<MouseEventC> sig(*data);
     RavlAssert(sig.IsValid());
     sig(me);
+    return 0;
+  }
+
+  int WidgetBodyC::gtkEventScroll(GtkWidget *widget,GdkEvent *event,Signal0C *data) {
+    ONDEBUG(cerr << "WidgetBodyC::gtkEventScroll\n");
+    ScrollEventC scrollEvent(reinterpret_cast<GdkEventScroll&>(*event));
+    Signal1C<ScrollEventC> sig(*data);
+    RavlAssert(sig.IsValid());
+    sig(scrollEvent);
     return 0;
   }
 
@@ -385,14 +396,12 @@ namespace RavlGUIN {
     return 0;
   }
 
-
   //: Default constructor.
 
   WidgetBodyC::WidgetBodyC()
     : widget(0),
       widgetId(0),
       eventMask(GDK_EXPOSURE_MASK),
-      tooltip(0),
       gotRef(false),
       dndInfo(0),
       destroySigId(-1),
@@ -409,6 +418,16 @@ namespace RavlGUIN {
       m_style(false)
   {}
 
+  //: Factory constructor
+  WidgetBodyC::WidgetBodyC(const XMLFactoryContextC &factory)
+      : widget(0),
+        widgetId(0),
+        eventMask(GDK_EXPOSURE_MASK),
+        tooltip(factory.AttributeString("tooltip","")),
+        gotRef(false),
+        dndInfo(0),
+        m_style(false)
+  {}
 
   //: Destructor.
 
@@ -417,7 +436,7 @@ namespace RavlGUIN {
     //RavlAssert(IsValidObject());
 
     // Disconnect signals
-    for(HashIterC<const char *,Tuple2C<Signal0C,IntT> > it(signals);it.IsElm();it.Next()) {
+    for(HashIterC<StringC,Tuple2C<Signal0C,IntT> > it(signals);it.IsElm();it.Next()) {
       if(widget != 0 && GTK_IS_WIDGET(widget) && it.Data().Data2() >= 0) // Incase it was destroyed within GTK.
         gtk_signal_disconnect (GTK_OBJECT(widget), it.Data().Data2() );
       it.Data().Data1().DisconnectAll();
@@ -567,6 +586,11 @@ namespace RavlGUIN {
                      GDK_LEAVE_NOTIFY_MASK);
         ret = Signal1C<MouseEventC>(MouseEventC(0,0,0));  break;
         break;
+      case SigTypeEventScroll:   // Scroll events.
+        if (sN == "scroll_event")
+          AddEventMask(GDK_BUTTON_PRESS_MASK);
+        ret = Signal1C<ScrollEventC>(ScrollEventC(0,0,0));  break;
+        break;
       case SigTypeEventFocus: // Focus events
         AddEventMask(GDK_FOCUS_CHANGE_MASK);
         ret = Signal0C(true);
@@ -668,10 +692,10 @@ namespace RavlGUIN {
       GTK_WIDGET_SET_FLAGS(widget,GTK_CAN_FOCUS);
     destroySigId = gtk_signal_connect (GTK_OBJECT (widget), "destroy",(GtkSignalFunc) gtkDestroy, this);
     if (!signals.IsEmpty()) {
-      for(HashIterC<const char *,Tuple2C<Signal0C,IntT> > it(signals);it.IsElm();it.Next())
+      for(HashIterC<StringC,Tuple2C<Signal0C,IntT> > it(signals);it.IsElm();it.Next())
         it.Data().Data2() = ConnectUp(it.Key(),it.Data().Data1());
     }
-    if(tooltip != 0)
+    if(!tooltip.IsEmpty())
     {
       WidgetC me(*this);
       guiGlobalToolTips.GUIAddToolTip(me,tooltip);
@@ -783,7 +807,7 @@ namespace RavlGUIN {
 
   void WidgetBodyC::Destroy() {
     ONDEBUG(cerr << "WidgetBodyC::Destroy()\n");
-    for(HashIterC<const char *,Tuple2C<Signal0C,IntT> > it(signals);it.IsElm();it.Next()) {
+    for(HashIterC<StringC,Tuple2C<Signal0C,IntT> > it(signals);it.IsElm();it.Next()) {
       if(widget != 0 && GTK_IS_WIDGET(widget) && it.Data().Data2() >= 0) // Incase it was destroyed within GTK.
         gtk_signal_disconnect (GTK_OBJECT(widget), it.Data().Data2() );
       it.Data().Data1().DisconnectAll();
@@ -1095,6 +1119,32 @@ namespace RavlGUIN {
     gdk_beep();
   }
   //: Emit a short beep
+
+  std::ostream &operator<<(std::ostream &strm,const WidgetC &out) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Dummy function to keep templates happy.
+
+  std::istream &operator>>(std::istream &strm,WidgetC &out) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Dummy function to keep templates happy
+
+  BinOStreamC &operator<<(BinOStreamC &strm,const WidgetC &out) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Dummy function to keep templates happy.
+
+  BinIStreamC &operator>>(BinIStreamC &strm,WidgetC &out) {
+    RavlAssertMsg(0,"not implemented");
+    return strm;
+  }
+  //: Dummy function to keep templates happy.
+
+  static XMLFactoryRegisterHandleC<WidgetC> g_registerXMLFactoryWidget("RavlGUIN::WidgetC");
 
 
 }

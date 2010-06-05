@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DvIFormat.cc 7080 2009-02-03 14:39:18Z craftit $"
 //! lib=RavlDV
 //! file="Ravl/Contrib/DV/DvIFormat.cc"
 

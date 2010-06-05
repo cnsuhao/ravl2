@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_CONVOLVESEPARABLE2D_HEADER
 #define RAVLIMAGE_CONVOLVESEPARABLE2D_HEADER 1
 /////////////////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ConvolveSeparable2d.hh 7169 2009-04-24 15:19:07Z ees1wc $"
 //! userlevel=Normal
 //! author="Charles Galambos, Bill Christmas"
 //! docentry="Ravl.API.Images.Filtering"

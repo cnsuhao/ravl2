@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! date="6/8/1995"
 //! author="Radek Marik"
-//! rcsid="$Id$"
+//! rcsid="$Id: Moments2d2.cc 6166 2007-05-28 09:12:19Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/2D/Moments2d2.cc"
 

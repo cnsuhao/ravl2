@@ -11,7 +11,7 @@
 //! lib=RavlGUI
 //! author="Kieron Messer"
 //! date="22/10/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: ButtonBox.hh 6746 2008-04-22 13:30:41Z craftit $"
 //! docentry="Ravl.API.Graphics.GTK.Dialogs"
 //! example="exButtonBox.cc"
 

@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+// This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -7,7 +7,7 @@
 #ifndef RAVLFINDEX_HEADER
 #define RAVLFINDEX_HEADER 1
 ////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FIndex.hh 7558 2010-02-18 13:49:21Z craftit $"
 //! docentry="Ravl.API.Core.Indexing"
 //! file="Ravl/Core/Base/FIndex.hh"
 //! lib=RavlCore
@@ -19,12 +19,12 @@
 #include "Ravl/Index.hh"
 
 namespace RavlN {
-  
+
   //! userlevel=Advanced
   //: Fixed sized Index
-  
+
   template<unsigned int N>
-  class FIndexC 
+  class FIndexC
     : public TFVectorC<IndexC,N>
   {
   public:
@@ -36,17 +36,17 @@ namespace RavlN {
       : TFVectorC<IndexC,N>(oth)
       {}
     //: Base class constructor.
-    
+
     FIndexC(SizeT dim)
       { RavlAssert(dim == N); }
     //: Constructor with requested size.
-    
-    inline UIntT Hash(void) const;
+
+    inline SizeT Hash(void) const;
     //: Generates a randomised hash value for this index.
-    
+
     //:---------------------------
     //: Arithmetic operations
-    
+
     inline const FIndexC<N> & operator*=(IntT alpha);
     //: Multiplies this index by number 'alpha'.
 
@@ -82,45 +82,45 @@ namespace RavlN {
 
     inline FIndexC<N> operator/(RealT alpha) const;
     //: Divides this index by real number 'alpha'.
-    
+
   };
-  
+
   template<unsigned int N>
   inline const FIndexC<N> &FIndexC<N>::operator*=(IntT alpha) {
     for(unsigned int i = 0;i < N;i++)
       this->data[i] *= alpha;
     return *this;
   }
-  
+
   template<unsigned int N>
   inline const FIndexC<N> &FIndexC<N>::operator*=(SizeT alpha) {
     for(unsigned int i = 0;i < N;i++)
       this->data[i] *= alpha;
     return *this;
   }
-  
+
   template<unsigned int N>
-  inline const FIndexC<N> & 
+  inline const FIndexC<N> &
   FIndexC<N>::operator*=(RealT alpha) {
     for(unsigned int i = 0;i < N;i++)
       this->data[i] = IndexC(this->data[i] * alpha);
     return *this;
   }
-  
+
   template<unsigned int N>
   inline const FIndexC<N> &FIndexC<N>::operator/=(IntT alpha) {
     for(unsigned int i = 0;i < N;i++)
       this->data[i] /= alpha;
     return *this;
   }
-  
+
   template<unsigned int N>
   inline const FIndexC<N> &FIndexC<N>::operator/=(SizeT alpha) {
     for(unsigned int i = 0;i < N;i++)
       this->data[i] /= alpha;
     return *this;
   }
-  
+
   template<unsigned int N>
   inline const FIndexC<N> &FIndexC<N>::operator/=(RealT alpha) {
     for(unsigned int i = 0;i < N;i++)
@@ -129,23 +129,23 @@ namespace RavlN {
   }
 
   template<unsigned int N>
-  inline FIndexC<N> FIndexC<N>::operator*(IntT alpha) const { 
+  inline FIndexC<N> FIndexC<N>::operator*(IntT alpha) const {
     FIndexC<N> ret;
     for(unsigned int i = 0;i < N;i++)
       ret[i] = this->data[i] * alpha;
     return ret;
   }
-  
+
   template<unsigned int N>
-  inline FIndexC<N> FIndexC<N>::operator*(SizeT alpha) const { 
+  inline FIndexC<N> FIndexC<N>::operator*(SizeT alpha) const {
     FIndexC<N> ret;
     for(unsigned int i = 0;i < N;i++)
       ret[i] = this->data[i] * alpha;
     return ret;
   }
-  
+
   template<unsigned int N>
-  inline FIndexC<N> FIndexC<N>::operator*(RealT alpha) const { 
+  inline FIndexC<N> FIndexC<N>::operator*(RealT alpha) const {
     FIndexC<N> ret;
     for(unsigned int i = 0;i < N;i++)
       ret[i] = IndexC(this->data[i] * alpha);
@@ -153,23 +153,7 @@ namespace RavlN {
   }
 
   template<unsigned int N>
-  inline FIndexC<N> FIndexC<N>::operator/(IntT alpha) const { 
-    FIndexC<N> ret;
-    for(unsigned int i = 0;i < N;i++)
-      ret[i] = IndexC(this->data[i] / alpha);
-    return ret;
-  }
-  
-  template<unsigned int N>
-  inline FIndexC<N> FIndexC<N>::operator/(SizeT alpha) const { 
-    FIndexC<N> ret;
-    for(unsigned int i = 0;i < N;i++)
-      ret[i] = IndexC(this->data[i] / alpha);
-    return ret;
-  }
-  
-  template<unsigned int N>
-  inline FIndexC<N> FIndexC<N>::operator/(RealT alpha) const { 
+  inline FIndexC<N> FIndexC<N>::operator/(IntT alpha) const {
     FIndexC<N> ret;
     for(unsigned int i = 0;i < N;i++)
       ret[i] = IndexC(this->data[i] / alpha);
@@ -177,15 +161,31 @@ namespace RavlN {
   }
 
   template<unsigned int N>
-  inline UIntT FIndexC<N>::Hash() const  { 
-    UIntT HVal = this->data[0].V();
-    for(UIntT i = 1;i < N;i++) { 
-      HVal += ((UIntT) this->data[i].V());
+  inline FIndexC<N> FIndexC<N>::operator/(SizeT alpha) const {
+    FIndexC<N> ret;
+    for(unsigned int i = 0;i < N;i++)
+      ret[i] = IndexC(this->data[i] / alpha);
+    return ret;
+  }
+
+  template<unsigned int N>
+  inline FIndexC<N> FIndexC<N>::operator/(RealT alpha) const {
+    FIndexC<N> ret;
+    for(unsigned i = 0;i < N;i++)
+      ret[i] = IndexC(this->data[i] / alpha);
+    return ret;
+  }
+
+  template<unsigned int N>
+  inline SizeT FIndexC<N>::Hash() const  {
+    SizeT HVal = this->data[0].V();
+    for(unsigned i = 1;i < N;i++) {
+      HVal += ((SizeT) this->data[i].V());
       HVal ^= this->data[i].V() << (i * (sizeof(IndexC) * 2));
     }
     return HVal;
   }
-  
+
 }
-  
+
 #endif

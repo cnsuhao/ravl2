@@ -7,7 +7,7 @@
 #ifndef RAVL_TIMECODE_HEADER 
 #define RAVL_TIMECODE_HEADER 1
 ////////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TimeCode.hh 7140 2009-04-01 11:29:59Z ees1wc $"
 //! date="14/05/2002"
 //! lib=RavlCore
 //! file="Ravl/Core/System/TimeCode.hh"

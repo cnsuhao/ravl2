@@ -2,7 +2,7 @@
 #define SARR1RANGEITER_HEADER 1
 ///////////////////////////////////////////////////
 //! docentry="Ravl.Core.Arrays.1D"
-//! rcsid="$Id$"
+//! rcsid="$Id: SArray1dRangeIter.hh 1954 2002-10-30 14:38:15Z vap-james $"
 //! file="amma/Contain/Array/SArray/SArray1dRangeIter.hh"
 //! lib=MSArr1
 //! author="Charles Galambos"

@@ -7,7 +7,7 @@
 #ifndef RAVL_NEARESTNEIGHBOUR_HEADER
 #define RAVL_NEARESTNEIGHBOUR_HEADER 1
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ClassifierNearestNeighbour.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
 //! userlevel=Normal

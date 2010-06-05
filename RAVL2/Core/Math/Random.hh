@@ -7,7 +7,7 @@
 #ifndef RAVL_RANDOM_HEADER
 #define RAVL_RANDOM_HEADER 1
 ///////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Random.hh 6253 2007-07-05 15:13:13Z ees1wc $"
 //! userlevel=Normal
 //! file="Ravl/Core/Math/Random.hh"
 //! lib=RavlCore

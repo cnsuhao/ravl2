@@ -7,7 +7,7 @@
 #ifndef RAVL_TRIFORMAT_HEADER
 #define RAVL_TRIFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FormatTriFile.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/3D/MeshIO/FormatTriFile.hh"
 //! lib=Ravl3DIO
 //! author="Charles Galambos"

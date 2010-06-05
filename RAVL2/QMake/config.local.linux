@@ -159,6 +159,11 @@ RESOURCES += devVideo4Linux2
 #RESOURCES += libmkl
 #INTELMKL_HOME =
 
+#### OpenCV Library ################
+
+#RESOURCES += libcv
+#OPENCV_HOME = /usr
+
 #### Jasper image IO library ################
 
 #RESOURCES += LibJasper
@@ -211,4 +216,4 @@ RESOURCES += LibGnome
 #### RLog ################
 
 #RESOURCES += RLog
-#RLOG_HOME =
+#RLOG_HOME=/opt/Omni/rlog

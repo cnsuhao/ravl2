@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_DESIGNFUNCTIONSUPERVISED_HEADER
 #define RAVL_DESIGNFUNCTIONSUPERVISED_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignFunctionSupervised.hh 7605 2010-03-01 05:56:10Z kier $"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Pattern Recognition.Functions"
@@ -29,6 +29,9 @@ namespace RavlN {
     DesignFunctionSupervisedBodyC()
     {}
     //: Default constructor.
+    
+    DesignFunctionSupervisedBodyC(const XMLFactoryContextC &factory);
+    //: Construct from XML factory
     
     DesignFunctionSupervisedBodyC(istream &strm);
     //: Load from stream.
@@ -70,6 +73,9 @@ namespace RavlN {
     //: Create function from the given data, and sample weights.
     // Note: Construction from a sample stream may not be implemented by all designers.
 
+    virtual bool Reset();
+    //: Reset the designer to an initial state
+    
   };
   
   //! userlevel=Normal
@@ -83,6 +89,11 @@ namespace RavlN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
+
+    DesignFunctionSupervisedC(const XMLFactoryContextC &factory)
+      :  DesignerC(*new DesignFunctionSupervisedBodyC(factory))
+    {}
+    //: Construct from XML factory
     
     DesignFunctionSupervisedC(istream &strm);
     //: Load from stream.

@@ -10,7 +10,7 @@
 //! date="15/06/2002"
 //! userlevel=Normal
 //! docentry="Ravl.API.Graphics.GTK.Control"
-//! rcsid="$Id$"
+//! rcsid="$Id: DragAndDrop.hh 6701 2008-04-09 16:07:40Z ees1wc $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/DragAndDrop.hh"
 

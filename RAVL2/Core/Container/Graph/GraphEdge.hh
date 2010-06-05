@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! date="10/12/1996"
 //! docentry="Ravl.API.Core.Graphs"
-//! rcsid="$Id$"
+//! rcsid="$Id: GraphEdge.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! example=exGraph.cc
 //! userlevel=Normal
 

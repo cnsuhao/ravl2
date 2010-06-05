@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: StrStream.cc 5562 2006-06-09 10:05:46Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/StrStream.cc"
 

@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! date="19/2/1997"
 //! docentry="Ravl.API.Core.Branch"
-//! rcsid="$Id$"
+//! rcsid="$Id: BGraph.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/BGraphBase.hh"
 

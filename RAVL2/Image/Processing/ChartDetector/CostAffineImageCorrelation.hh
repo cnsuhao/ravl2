@@ -8,7 +8,7 @@
 #define RAVLIMAGE_COSTAFFINEIMAGECORRELATION_HEADER 1
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Correlation"
-//! rcsid="$Id$"
+//! rcsid="$Id: CostAffineImageCorrelation.hh 5276 2005-12-21 10:06:43Z ees1wc $"
 //! lib=RavlChartDetector
 //! file="Ravl/Image/Processing/ChartDetector/CostAffineImageCorrelation.hh"
 

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: AviOStream.cc 3264 2003-07-31 12:46:06Z muntoni $"
 //! lib=RavlVideoIO
 //! file="Ravl/Image/VideoIO/AviOStream.cc"
 

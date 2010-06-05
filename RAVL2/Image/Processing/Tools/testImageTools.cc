@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testImageTools.cc 6914 2008-08-18 16:22:31Z ees1wc $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Tools/testImageTools.cc"
 //! docentry="Ravl.API.Images.Misc"

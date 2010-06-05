@@ -10,7 +10,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Misc"
-//! rcsid="$Id$"
+//! rcsid="$Id: EntryPnt.hh 7711 2010-05-03 11:05:58Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/EntryPnt.hh"
 //! date=""
@@ -20,9 +20,22 @@
 
 namespace RavlN {  
   bool UsingRavlMain();
-  //: Are we using RAVL_ENTRY_POINT.
+  //: Are we using RAVL_ENTRY_POINT ?
   // Used to decide how to handle some internal errors.
   
+  typedef int (*FuncMainCallT)(int argc, char* argv[]);
+  typedef int (*FuncMainCallManagerT)(int argc, char* argv[],FuncMainCallT userMain);
+
+  FuncMainCallManagerT RetrieveMainCallManager();
+  //: Access current MainCallManager.
+
+  bool RegisterMainCallManager(FuncMainCallManagerT entryPoint);
+  //: Register an alternate call to start the main program.
+  // This is used on MacOSX where for many libraries expect the main
+  // thread to be running in an event loop. It should be registered
+  // in the constructor of a static variable to ensure its setup
+  // before main() is entered.
+
   int RavlMain(int argc, char* argv[],int (*func)(int argc, char* argv[]));
   //: Call through function.
 }

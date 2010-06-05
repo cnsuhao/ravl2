@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////////
 //! example="exLMSOptic.cc"
 //! lib=RavlImageProc
-//! rcsid="$Id$"
+//! rcsid="$Id: LMSOpticFlow.hh 6285 2007-07-25 15:38:19Z ees1wc $"
 //! file="Ravl/Image/Processing/Motion/LMSGradient/LMSOpticFlow.hh"
 //! userlevel=Normal
 //! author="Bill Christmas"

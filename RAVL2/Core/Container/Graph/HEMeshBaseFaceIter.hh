@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_HEMESHBASEFACEITER_HEADER
 #define RAVL_HEMESHBASEFACEITER_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: HEMeshBaseFaceIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Graphs.Half Edge Mesh"

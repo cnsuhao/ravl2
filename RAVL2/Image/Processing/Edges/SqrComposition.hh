@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_SQRCOMPOSITION_HEADER
 #define RAVLIMAGE_SQRCOMPOSITION_HEADER 1
 //////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SqrComposition.hh 7631 2010-03-01 12:24:50Z ees1wc $"
 //! file="Ravl/Image/Processing/Edges/SqrComposition.hh"
 //! lib=RavlImageProc
 //! docentry="Ravl.API.Images.Misc"
@@ -20,9 +20,9 @@
 
 namespace RavlImageN {
   
-  //! userlevel=Develop
+  //! userlevel=Normal
   //: Square Composition.
-  // 
+  // Generates root of sum of squares pixels from 2 pixel components
   
   class SqrCompositionC  {
   public:
@@ -31,15 +31,18 @@ namespace RavlImageN {
     //: Default constructor.
     
     bool Apply(const ImageC<RealT> &inImgDx,const ImageC<RealT> &inImgDy,ImageC<RealT> &out) const;
-    //: Square composition of inImg1 and inImg2.
+    //: Squared composition of inImg1 and inImg2.
+    // "out" pixels are root of sum of squares of input pixels
 
     bool Apply(const ImageC<TFVectorC<RealT,2> > &inImg,ImageC<RealT> &out) const;
     //: Calculate the maginute image.
-    
+    // "out" pixels are root of sum of squares of input pixel components
+
     bool Apply(const Tuple2C<ImageC<RealT>,ImageC<RealT> > &inImg,ImageC<RealT> &out) const
     { return Apply(inImg.Data1(),inImg.Data2(),out); }
     //: Square composition of inImg1 and inImg2.
-    
+    // "out" pixels are root of sum of squares of input pixels
+
   protected:
     void DoSqrComp(ImageC<RealT> &res,ImageC<RealT> &img1,ImageC<RealT> &img2,IntT startRow,IntT endRow) const;
     

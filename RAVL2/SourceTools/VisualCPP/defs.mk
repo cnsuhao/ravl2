@@ -4,7 +4,7 @@
 # Public License (GPL). See the gpl.licence file for details or
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 5714 2006-07-05 10:46:20Z craftit $"
 #! file="Ravl/SourceTools/VisualCPP/defs.mk"
 
 DONOT_SUPPORT=VCPP

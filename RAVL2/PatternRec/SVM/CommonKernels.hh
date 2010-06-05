@@ -35,6 +35,10 @@ public:
   //: Constructor.
   //!param: Scale - result of inner product of two vectors is multiplied by the number.
 
+  LinearKernelBodyC(const XMLFactoryContextC &factory);
+  //: Construct from XML factory
+  //!param scale result of inner products is multiplied by this scale
+
   LinearKernelBodyC(istream &strm);
   //: Load from stream.
 
@@ -65,12 +69,6 @@ public:
   LinearKernelC(){};
   //: Default constructor
 
-  LinearKernelC(istream &strm);
-  //: Load from stream.
-
-  LinearKernelC(BinIStreamC &strm);
-  //: Load from binary stream.
-
   LinearKernelC(RealT Scale)
     : KernelFunctionC(*new LinearKernelBodyC(Scale))
   {}
@@ -79,6 +77,18 @@ public:
   // <p>Usually Scale is equal to 1, but in some cases when inner product
   // is very big number or very small number it is necessary to scale it,
   // so classifier will not have overflow problems.
+
+  LinearKernelC(const XMLFactoryContextC &factory)
+    :  KernelFunctionC(*new LinearKernelBodyC(factory))
+  {}
+  //: Construct from XML factory
+  //!param scale result of inner products is multiplied by this scale
+  
+  LinearKernelC(istream &strm);
+  //: Load from stream.
+
+  LinearKernelC(BinIStreamC &strm);
+  //: Load from binary stream.
 
   RealT Scale() const
     { return Body().Scale(); }
@@ -104,6 +114,10 @@ public:
     { scale = Scale; }
   //: Constructor.
   //!param: Scale - result of inner product of two vectors is multiplied by the number.
+
+  QuadraticKernelBodyC(const XMLFactoryContextC &factory);
+  //: Construct from XML factory
+  //!param scale result of inner products is multiplied by this scale
 
   QuadraticKernelBodyC(istream &strm);
   //: Load from stream.
@@ -135,12 +149,6 @@ class QuadraticKernelC : public KernelFunctionC
   QuadraticKernelC(){};
   //: Default constructor
 
-  QuadraticKernelC(istream &strm);
-  //: Load from stream.
-
-  QuadraticKernelC(BinIStreamC &strm);
-  //: Load from binary stream.
-
   QuadraticKernelC(RealT Scale)
     : KernelFunctionC(*new QuadraticKernelBodyC(Scale))
     {}
@@ -150,6 +158,19 @@ class QuadraticKernelC : public KernelFunctionC
   // is very big number or very small number it is necessary to scale it,
   // so classifier will not have overflow problems.
 
+  QuadraticKernelC(const XMLFactoryContextC &factory)
+    :  KernelFunctionC(*new QuadraticKernelBodyC(factory))
+  {}
+  //: Construct from XML factory
+  //!param scale result of inner products is multiplied by this scale
+
+  QuadraticKernelC(istream &strm);
+  //: Load from stream.
+
+  QuadraticKernelC(BinIStreamC &strm);
+  //: Load from binary stream.
+
+  
   RealT Scale() const
     { return Body().Scale(); }
   QuadraticKernelBodyC &Body()
@@ -172,6 +193,12 @@ public:
     { power = Power; scale = Scale; b = B; }
   //: Constructor.
 
+  PolynomialKernelBodyC(const XMLFactoryContextC &factory);
+  //: Construct from XML factory
+  //!param power 
+  //!param scale result of inner products is multiplied by this scale
+  //!param b
+  
   PolynomialKernelBodyC(istream &strm);
   //: Load from stream.
 
@@ -197,19 +224,28 @@ class PolynomialKernelC : public KernelFunctionC
 public:
   PolynomialKernelC(){};
   //: Default constructor
-
-  PolynomialKernelC(istream &strm);
-  //: Load from stream.
-
-  PolynomialKernelC(BinIStreamC &strm);
-  //: Load from binary stream.
-
+  
   PolynomialKernelC(RealT Power, RealT Scale, RealT B)
     : KernelFunctionC(*new PolynomialKernelBodyC(Power, Scale, B))
   {}
   //: Constructor
   // K(X1, X2) = {(X1 . X2) * Scale + B} ^ Power
   // <p>Power can be non-integer number.
+  
+  PolynomialKernelC(const XMLFactoryContextC &factory)
+    :  KernelFunctionC(*new PolynomialKernelBodyC(factory))
+  {}
+  //: Construct from XML factory
+  //!param power 
+  //!param scale result of inner products is multiplied by this scale
+  //!param b
+  // K(X1, X2) = {(X1 . X2) * Scale + B} ^ Power
+
+  PolynomialKernelC(istream &strm);
+  //: Load from stream.
+
+  PolynomialKernelC(BinIStreamC &strm);
+  //: Load from binary stream.
 
   PolynomialKernelBodyC &Body()
     { return static_cast<PolynomialKernelBodyC &>(KernelFunctionC::Body()); }
@@ -230,6 +266,10 @@ public:
   RBFKernelBodyC(RealT Gamma) : KernelFunctionBodyC()
     { gamma = Gamma; }
   //: Constructor.
+
+  RBFKernelBodyC(const XMLFactoryContextC &factory);
+  //: Construct from XML factory
+  //!param gamma
 
   RBFKernelBodyC(istream &strm);
   //: Load from stream.
@@ -257,17 +297,23 @@ public:
   RBFKernelC(){};
   //: Default constructor
 
-  RBFKernelC(istream &strm);
-  //: Load from stream.
-
-  RBFKernelC(BinIStreamC &strm);
-  //: Load from binary stream.
-
   RBFKernelC(RealT Gamma)
     : KernelFunctionC(*new RBFKernelBodyC(Gamma))
   {}
   //: Constructor
   // K(X1, X2) = exp( - ||X1 - X2|| ^ 2 / Gamma)
+
+  RBFKernelC(const XMLFactoryContextC &factory)
+    :  KernelFunctionC(*new RBFKernelBodyC(factory))
+  {}
+  //: Construct from XML factory
+  //!param gamma 
+
+  RBFKernelC(istream &strm);
+  //: Load from stream.
+
+  RBFKernelC(BinIStreamC &strm);
+  //: Load from binary stream.
 
   RBFKernelBodyC &Body()
     { return static_cast<RBFKernelBodyC &>(KernelFunctionC::Body()); }

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BindSet.cc 7570 2010-02-19 10:32:18Z craftit $"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/BindSet.cc"
 
@@ -140,7 +140,7 @@ namespace RavlLogicN {
     RavlAssert(var.IsValid());
     RavlAssert(var.IsVariable());
 
-    UIntT hashVal;
+    SizeT hashVal;
     BindMarkT elem = LookupHV(var,hashVal);
     if(elem != 0)
       return false; // Already bound.

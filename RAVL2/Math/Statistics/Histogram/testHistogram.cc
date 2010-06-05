@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testHistogram.cc 6188 2007-06-08 10:42:33Z ees1wc $"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/Histogram/testHistogram.cc"
 //! author="Charles Galambos"

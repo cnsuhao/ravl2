@@ -13,7 +13,7 @@
 //! author="Radek Marik"
 //! date="27/11/1995"
 //! docentry="Ravl.API.Math"
-//! rcsid="$Id$"
+//! rcsid="$Id: StdConst.hh 7480 2010-01-22 10:09:25Z cyberplug $"
 
 #include "Ravl/config.h"
 
@@ -144,6 +144,13 @@ namespace RavlConstN {
   const int minInt = INT_MIN;
   //: Minimum integer used by GNU C++ compiler.
 #endif
+
+
+#if defined(LONG_LONG_MAX) && defined(LONG_LONG_MIN)
+  const long long int maxInt64 = LONG_LONG_MAX;
+  const long long int minInt64 = LONG_LONG_MIN;
+#endif
+  
   
 #if defined(MAXFLOAT) && defined(MINFLOAT)
   const float maxFloat = MAXFLOAT;
@@ -186,6 +193,17 @@ namespace RavlConstN {
   
   const double nanReal = (double) nanFloat;
   //: Real not a number.
+  
+  //! userlevel=Develop
+  const union u_inf_t { int i ; float f; } u_inf = {0x7f800000};
+  // internal infinity.
+  
+  //! userlevel=Normal
+  const float infFloat = (float)(u_inf.f);
+  //: Floating point infinity.
+  
+  const double infReal = (double) infFloat;
+  //: Real infinity.
   
 #else
   //:------------------------------

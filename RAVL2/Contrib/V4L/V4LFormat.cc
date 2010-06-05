@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: V4LFormat.cc 3317 2003-08-20 14:50:13Z ees1wc $"
 //! docentry="Ravl.Images.Video.Video IO"
 //! lib=RavlImgIOV4L
 //! file="Ravl/Contrib/V4L/V4LFormat.cc"

@@ -25,6 +25,15 @@ namespace RavlN {
   class IndexRange2dC {
   public:
     IndexRange2dC();
+    IndexC TRow() const;
+    IndexC BRow() const;
+    IndexC LCol() const;
+    IndexC RCol() const;
+    Index2dC TopLeft() const;
+    Index2dC TopRight() const;
+    Index2dC BottomLeft() const;
+    Index2dC BottomRight() const;
+    Index2dC Center() const;
     IntT Rows() const;
     IntT Cols() const;
     SizeT Area() const;

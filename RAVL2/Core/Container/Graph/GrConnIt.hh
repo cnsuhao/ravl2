@@ -7,7 +7,7 @@
 //! author="Charles Galambos"
 //! date="2/1/1997"
 //! docentry="Ravl.Core.Graphs"
-//! rcsid="$Id$"
+//! rcsid="$Id: GrConnIt.hh 4 2001-04-11 12:45:55Z craftit $"
 
 #include "Ravl/GrBConIt.hh"
 #include "Ravl/GraphNode.hh"

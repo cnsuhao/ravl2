@@ -1,7 +1,7 @@
 #ifndef RAVLGUIGRAPH1D_HEADER
 #define RAVLGUIGRAPH1D_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Graph1d.hh 6596 2008-02-21 14:06:00Z ees1wc $"
 
 #include "Ravl/GUI/RawCanvas.hh"
 #include "Ravl/GUI/Menu.hh"

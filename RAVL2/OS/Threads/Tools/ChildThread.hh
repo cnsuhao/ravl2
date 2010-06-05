@@ -1,7 +1,7 @@
 #ifndef PCHILDTHREAD_HEADER
 #define PCHILDTHREAD_HEADER
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ChildThread.hh 4 2001-04-11 12:45:55Z craftit $"
 
 namespace PThread {
 

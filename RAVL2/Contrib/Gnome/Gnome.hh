@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLGUI_GNOME_HEADER
 #define RAVLGUI_GNOME_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: Gnome.hh 4816 2005-03-01 17:08:51Z craftit $"
 //! lib=RavlGUIGnome
 
 #include "Ravl/GUI/Widget.hh"

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: IndexNd.cc 7546 2010-02-18 13:28:49Z craftit $"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! file="Ravl/Core/System/IndexNd.cc"
@@ -13,9 +13,9 @@
 
 namespace RavlN {
   
-  UIntT IndexNdC::Hash() const {
-    UIntT base = Size();
-    UIntT BM = (sizeof(UIntT) * 8) / (Size()+1);
+  SizeT IndexNdC::Hash() const {
+    size_t base = Size();
+    size_t BM = (sizeof(UIntT) * 8) / (static_cast<size_t>(Size())+1);
     if(BM < 1) BM = 1;
     IntT shift = (sizeof(UIntT) * 8)-BM;
     for(BufferAccessIterC<IndexC> it(*this);it;it++,shift -= BM)

@@ -11,7 +11,7 @@
 //! userlevel=Normal
 //! example=exSegmentation.cc
 //! file="Ravl/Image/Processing/Segmentation/PixelClassifyColour.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: PixelClassifyColour.hh 5383 2006-03-04 11:28:40Z craftit $"
 //! lib=RavlImageProc
 //! author="Ratna Rambaruth"
 //! date="22/07/1998"

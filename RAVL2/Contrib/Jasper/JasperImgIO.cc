@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: JasperImgIO.cc 5005 2005-07-04 16:23:38Z craftit $"
 //! lib=RavlImgIOJasper
 
 namespace RavlImageN {

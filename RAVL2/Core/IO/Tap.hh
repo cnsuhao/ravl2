@@ -8,7 +8,7 @@
 #define RAVL_DPTAP_HEADER 1
 ///////////////////////////////////////////////////
 //! docentry="Ravl.API.Core.Data Processing.Taps"
-//! rcsid="$Id$"
+//! rcsid="$Id: Tap.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/IO/Tap.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"

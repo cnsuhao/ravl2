@@ -10,7 +10,7 @@
 //! author="Charles Galambos"
 //! date="29/10/98"
 //! docentry="Ravl.API.Images.Video.Video IO"
-//! rcsid="$Id$"
+//! rcsid="$Id: syuvFormat.hh 5531 2006-06-07 15:25:02Z craftit $"
 //! file="Ravl/Image/VideoIO/syuvFormat.hh"
 //! example=exImgSeq.cc
 //! lib=RavlVideoIO

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignFunctionSupervised.cc 7605 2010-03-01 05:56:10Z kier $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/DesignFunctionSupervised.cc"
 
@@ -14,8 +14,16 @@
 #include "Ravl/PatternRec/SampleStreamVector.hh"
 #include "Ravl/DP/Compose.hh"
 #include "Ravl/DP/SPortAttach.hh"
+#include "Ravl/XMLFactoryRegister.hh"
+
 
 namespace RavlN {
+
+  //: Load from XML factory
+  
+  DesignFunctionSupervisedBodyC::DesignFunctionSupervisedBodyC(const XMLFactoryContextC & factory)
+    : DesignerBodyC(factory)
+  {}
 
   //: Load from stream.
   
@@ -108,6 +116,13 @@ namespace RavlN {
   //: Create function from the given data, and sample weights.
   // Note: Construction from a sample stream may not be implemented by all designers.
 
+  // Reset designer to intial state
+  bool DesignFunctionSupervisedBodyC::Reset() {
+    RavlAssertMsg(0,"DesignFunctionSupervisedBodyC::Reset(), Abstract method called. \n");
+    return false;
+  }
+
+  
   ////////////////////////////////////////////////////////////////////
   
   //: Load from stream.
@@ -122,4 +137,8 @@ namespace RavlN {
     : DesignerC(RAVL_VIRTUALCONSTRUCTOR(strm,DesignFunctionSupervisedBodyC))
   {}
 
+
+  RavlN::XMLFactoryRegisterHandleC<DesignFunctionSupervisedC> g_registerXMLFactoryDesignFunctionSupervised("RavlN::DesignFunctionSupervisedC");
+
+  
 }

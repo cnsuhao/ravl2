@@ -11,7 +11,7 @@
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! date="13/08/1998"
-//! rcsid="$Id$"
+//! rcsid="$Id: FileFormatDesc.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Core/IO/FileFormatDesc.hh"
 //! userlevel=Default
 

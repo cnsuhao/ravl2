@@ -7,7 +7,7 @@
 #ifndef RAVLIMGIOPNM_HEADER
 #define RAVLIMGIOPNM_HEADER 1
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOPNM.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! userlevel=Normal
 //! file="Ravl/Image/ImageIO/ImgIOPNM.hh"
 //! lib=RavlImageIO

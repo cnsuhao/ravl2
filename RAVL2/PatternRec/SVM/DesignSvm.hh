@@ -31,6 +31,9 @@ public:
   DesignSvmBodyC();
   //: constructor.
 
+  DesignSvmBodyC(const XMLFactoryContextC & factory);
+  //: factory constructor
+  
   DesignSvmBodyC(istream &strm);
   //: Load from stream.
 
@@ -66,7 +69,10 @@ public:
   virtual ClassifierC Apply(const SampleC<VectorC> &TrainingSetVectors,
                             const SampleC<UIntT> &TrainingSetLabels);
   //: creates classifier
-
+  
+  virtual bool Reset();
+  //: Reset the designer to an initial state
+  
   virtual IntT NumSupportVectors() const;
   //: returns number of support vectors
 protected:
@@ -82,6 +88,11 @@ public:
   DesignSvmC()
   {};
   //: Default constructor.
+
+  DesignSvmC(const XMLFactoryContextC &factory)
+    :  DesignClassifierSupervisedC(*new DesignSvmBodyC(factory))
+  {}
+  //: Construct from XML factory
 
   DesignSvmC(istream &strm);
   //: Load from stream.

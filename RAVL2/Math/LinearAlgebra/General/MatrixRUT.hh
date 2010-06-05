@@ -7,7 +7,7 @@
 #ifndef RAVL_MATRIXRUT_HEADER
 #define RAVL_MATRIXRUT_HEADER 1
 ///////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: MatrixRUT.hh 7671 2010-03-29 10:50:34Z alexkostin $"
 //! file="Ravl/Math/LinearAlgebra/General/MatrixRUT.hh"
 //! lib=RavlMath
 //! userlevel=Normal
@@ -24,7 +24,7 @@ namespace RavlN {
   // <p>This class contains functions optimised for working with
   // Right Upper Triangular matrix's.  The lower left is assumed
   // to be zero. Most of the operations on this matrix ignore the
-  // contents of the lower left part, and it is not garanteed to contain
+  // contents of the lower left part, and it is not guaranteed to contain
   // zero's.  To ensure this use 'ZeroLowerLeft()': this MUST be
   // done before using matrix operators that are not part of this 
   // class. </p>
@@ -38,7 +38,7 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    explicit MatrixRUTC(UIntT size)
+    explicit MatrixRUTC(SizeT size)
       : MatrixC(size,size)
     {}
     //: Create a new matrix of size * size.

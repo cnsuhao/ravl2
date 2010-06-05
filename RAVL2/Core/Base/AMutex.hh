@@ -8,7 +8,7 @@
 #define RAVL_AMUTEX_HEADER 1
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Locks"
-//! rcsid="$Id$"
+//! rcsid="$Id: AMutex.hh 7610 2010-03-01 11:01:12Z alexkostin $"
 //! file="Ravl/Core/Base/AMutex.hh"
 //! lib=RavlCore
 //! docentry="Ravl.API.Core.Locks"
@@ -34,7 +34,7 @@ namespace RavlN {
     
     virtual bool Lock();
     //: Lock mutex.
-    // Returns true if lock is obtained succesfully.
+    // Returns true if lock is obtained successfully.
     
     virtual bool TryLock();
     //: Try and obtain lock without blocking.
@@ -42,7 +42,7 @@ namespace RavlN {
     
     virtual bool Unlock();
     //: Lock mutex.
-    // Returns true if lock is released succesfully.
+    // Returns true if lock is released successfully.
     
   };
   
@@ -63,13 +63,13 @@ namespace RavlN {
 
     AMutexC(bool recursive);
     //: Constructor.
-    // If 'recursive' is false a 'fast' mutex is created otherise
+    // If 'recursive' is false a 'fast' mutex is created otherwise
     // a recursive version is used.
     
     bool Lock()
     { return Body().Lock(); }
     //: Lock mutex.
-    // Returns true if lock is obtained succesfully.
+    // Returns true if lock is obtained successfully.
     
     bool TryLock()
     { return Body().TryLock(); }
@@ -79,7 +79,7 @@ namespace RavlN {
     bool Unlock()
     { return Body().Unlock(); }
     //: Lock mutex.
-    // Returns true if lock is released succesfully.
+    // Returns true if lock is released successfully.
     
   };
   
@@ -110,7 +110,7 @@ namespace RavlN {
     }
     //: Constructor
     // If tryLock is true, only try and obtain the 
-    // lock.  The successs of the call can be
+    // lock.  The success of the call can be
     // checked with 'IsLocked()'. If tryLock is 
     // false the constructor will not return 
     // until the lock is obtained.
@@ -147,7 +147,7 @@ namespace RavlN {
     AMutexLockC(const AMutexLockC &x)
       : mutex(x.mutex)
     { RavlAssert(0); }
-    //: Dissable copy constructor.
+    //: Disable copy constructor.
     
     AMutexLockC &operator=(const AMutexLockC &) { 
       RavlAssert(0); 

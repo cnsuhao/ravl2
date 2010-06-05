@@ -5,11 +5,12 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Menu.cc 7740 2010-05-26 09:36:46Z robowaz $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Menu.cc"
 
 #include "Ravl/GUI/Menu.hh"
+#include "Ravl/XMLFactoryRegister.hh"
 #include <gtk/gtk.h>
 
 #define DODEBUG 0
@@ -34,6 +35,32 @@ namespace RavlGUIN
       selected(true)
   {}
   
+  //: Constructor.
+  static bool InvokeTrigger(TriggerC &trig) {
+    trig.Invoke();
+    return true;
+  }
+
+  MenuItemBodyC::MenuItemBodyC(const XMLFactoryContextC &factory)
+   : WidgetBodyC(factory)
+  {
+    Signal0C sigClicked;
+    if(factory.UseComponent("SigClicked",sigClicked,true,typeid(Signal0C)))
+      Connect(Signal("activate"),sigClicked,&Signal0C::Invoke);
+
+    XMLFactoryContextC childContext;
+    if(factory.ChildContext("Triggers",childContext)) {
+      for(RavlN::DLIterC<RavlN::XMLTreeC> it(childContext.Children());it;it++) {
+        TriggerC trigger;
+        if(!childContext.UseComponent(it->Name(),trigger)) {
+          continue;
+        }
+        Connect(Signal("activate"),&InvokeTrigger,trigger);
+      }
+    }
+  }
+
+
   //: Create the widget.
   
   bool MenuItemBodyC::Create() {
@@ -48,6 +75,9 @@ namespace RavlGUIN
     } else { // Separator....
       widget = gtk_menu_item_new();
     }
+
+    ConnectSignals();
+
     ONDEBUG(cerr << "MenuItemBodyC::Create(), Done. \n");
     return true;
   }
@@ -58,7 +88,8 @@ namespace RavlGUIN
     widget = newWidget;
     gtk_signal_connect(GTK_OBJECT(widget), "activate",
      GTK_SIGNAL_FUNC(RavlGUIN::MenuItemC_response), this);
-    ONDEBUG(cerr << "MenuItemBodyC::Create(), Done. \n");
+    ONDEBUG(cerr << "MenuItemBodyC::Create(widget), " << name.chars() << " Done. \n");
+    ConnectSignals();
     return true;
   }
   
@@ -193,11 +224,13 @@ namespace RavlGUIN
     return MenuItem(label,MenuShowWidget,widge); 
   }
   
+  //: Simply call a function.
   MenuItemC MenuItem(const StringC &label,bool (*func)()) {
     MenuItemC ret(label);
     Connect(ret.SigSelected(),func);
     return ret;
   }
-  //: Simply call a function.
   
+  static XMLFactoryRegisterHandleConvertC<MenuItemC,WidgetC> g_registerXMLFactoryMenuItem("RavlGUIN::MenuItemC");
+
 }

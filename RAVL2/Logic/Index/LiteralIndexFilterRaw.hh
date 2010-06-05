@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_LITERALINDEXFILTERRAW_HEADER
 #define RAVLLOGIC_LITERALINDEXFILTERRAW_HEADER 1
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: LiteralIndexFilterRaw.hh 3754 2003-11-30 21:40:56Z craftit $"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Index/LiteralIndexFilterRaw.hh"
 

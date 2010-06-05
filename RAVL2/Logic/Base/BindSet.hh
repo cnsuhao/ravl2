@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_BINDSET_HEADER
 #define RAVLLOGIC_BINDSET_HEADER 1
 //////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BindSet.hh 6460 2007-11-24 12:09:09Z craftit $"
 //! docentry="Ravl.API.Logic"
 //! author="Charles Galambos"
 //! lib=RavlLogic

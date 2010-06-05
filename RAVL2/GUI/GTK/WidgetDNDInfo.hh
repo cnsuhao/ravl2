@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLGUI_WIDGETDNDINFO_HEADER
 #define RAVLGUI_WIDGETDNDINFO_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: WidgetDNDInfo.hh 4777 2005-01-18 14:28:18Z ees1wc $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/WidgetDNDInfo.hh"
 

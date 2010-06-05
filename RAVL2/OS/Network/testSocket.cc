@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testSocket.cc 5570 2006-06-09 15:12:15Z craftit $"
 //! lib=RavlNet
 //! file="Ravl/OS/Network/testSocket.cc"
 

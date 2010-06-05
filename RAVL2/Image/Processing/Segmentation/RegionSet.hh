@@ -11,7 +11,7 @@
 //! userlevel=Normal
 //! example=exSegmentation.cc
 //! file="Ravl/Image/Processing/Segmentation/RegionSet.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: RegionSet.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlImageProc
 //! author="Ratna Rambaruth"
 //! date="12/06/1998"

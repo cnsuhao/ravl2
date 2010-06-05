@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! date="23/03/1999"
 //! docentry="Ravl.API.Graphics.GTK.Control"
-//! rcsid="$Id$"
+//! rcsid="$Id: TextBox.hh 6746 2008-04-22 13:30:41Z craftit $"
 //! file="Ravl/GUI/GTK/TextBox.hh"
 
 #include "Ravl/GUI/Widget.hh"

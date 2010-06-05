@@ -8,7 +8,7 @@
 #define RAVL_ATTRIBUTECTRL_HEADER 1
 //! author="Charles Galambos"
 //! date="23/8/2003"
-//! rcsid="$Id$"
+//! rcsid="$Id: AttributeCtrl.hh 7646 2010-03-08 14:43:10Z robowaz $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/AttributeCtrl.hh"
 //! docentry="Ravl.API.Core.Data_Processing.Attributes"
@@ -27,7 +27,7 @@ namespace RavlN {
   class XMLOStreamC;
   
   //! userlevel=Develop
-  //: Interface for reading and writting attribute values.
+  //: Interface for reading and writing attribute values.
   
   class AttributeCtrlBodyC 
     : virtual public DPEntityBodyC 
@@ -68,12 +68,22 @@ namespace RavlN {
     //: Get a attribute.
     // Returns false if the attribute name is unknown.
     // This is for handling attributes such as frame rate, and compression ratios.
-    
+
     virtual bool SetAttr(const StringC &attrName,const IntT &attrValue);
     //: Set a attribute.
     // Returns false if the attribute name is unknown.
     // This is for handling attributes such as frame rate, and compression ratios.
-    
+
+    virtual bool GetAttr(const StringC &attrName,Int64T &attrValue);
+    //: Get a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+
+    virtual bool SetAttr(const StringC &attrName,const Int64T &attrValue);
+    //: Set a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+
     virtual bool GetAttr(const StringC &attrName,RealT &attrValue);
     //: Get a attribute.
     // Returns false if the attribute name is unknown.
@@ -153,7 +163,7 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Interface for reading and writting attribute values.
+  //: Interface for reading and writing attribute values.
   
   class AttributeCtrlC 
     : virtual public DPEntityC 
@@ -224,13 +234,25 @@ namespace RavlN {
     //: Get a attribute.
     // Returns false if the attribute name is unknown.
     // This is for handling attributes such as frame rate, and compression ratios.
-    
+
     inline bool SetAttr(const StringC &attrName,const IntT &attrValue)
     { return Body().SetAttr(attrName,attrValue); }
     //: Set a attribute.
     // Returns false if the attribute name is unknown.
     // This is for handling attributes such as frame rate, and compression ratios.
-    
+
+    inline bool GetAttr(const StringC &attrName,Int64T &attrValue)
+    { return Body().GetAttr(attrName,attrValue); }
+    //: Get a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+
+    inline bool SetAttr(const StringC &attrName,const Int64T &attrValue)
+    { return Body().SetAttr(attrName,attrValue); }
+    //: Set a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+
     inline bool GetAttr(const StringC &attrName,RealT &attrValue)
     { return Body().GetAttr(attrName,attrValue); }
     //: Get a attribute.

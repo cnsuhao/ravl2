@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Tuple.cc 7578 2010-02-21 09:47:41Z craftit $"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/Tuple.cc"
 
@@ -43,7 +43,7 @@ namespace RavlLogicN {
   TupleBodyC::TupleBodyC(BinIStreamC &strm)
     : LiteralBodyC(strm)
   {
-    UIntT arity;
+    UInt32T arity;
     strm >> arity;
     args = SArray1dC<LiteralC>(arity);
     for(SArray1dIterC<LiteralC> it(Args());it;it++)
@@ -66,7 +66,7 @@ namespace RavlLogicN {
   bool TupleBodyC::Save(BinOStreamC &out) const {
     if(!LiteralBodyC::Save(out))
       return false;
-    out << Arity();
+    out << ((UInt32T) Arity());
     for(SArray1dIterC<LiteralC> it(Args());it;it++)
       out << ObjIO(*it);
     return true;

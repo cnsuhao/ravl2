@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: LevenbergMarquardt.cc 7664 2010-03-23 15:43:19Z ees1wc $"
 //! lib=RavlOptimise
 //! file="Ravl/Math/Optimisation/LevenbergMarquardt.cc"
 
@@ -16,8 +16,8 @@
 namespace RavlN {
 
   //: Constructor for Levenberg-Marquardt.
-  LevenbergMarquardtC::LevenbergMarquardtC(StateVectorC &stateVecInit,
-					   DListC<ObservationC> obsList)
+  LevenbergMarquardtC::LevenbergMarquardtC(const StateVectorC &stateVecInit,
+					   const DListC<ObservationC>& obsList)
     : StoredStateC(stateVecInit)
   {
     A = MatrixRSC(stateVec.GetX().Size());
@@ -27,7 +27,7 @@ namespace RavlN {
   }
 
   // compute residual given existing state vector
-  RealT LevenbergMarquardtC::ComputeResidual(DListC<ObservationC> obsList) const
+  RealT LevenbergMarquardtC::ComputeResidual(const DListC<ObservationC>& obsList) const
   {
     RealT residual = 0.0;
 
@@ -45,7 +45,7 @@ namespace RavlN {
   // Apply an iteration, processing observations and updating the state
   // Returns true if the iteration succeeded in reducing the residual,
   // false otherwise.
-  bool LevenbergMarquardtC::Iteration ( DListC<ObservationC> obsList,
+  bool LevenbergMarquardtC::Iteration ( const DListC<ObservationC>& obsList,
 					RealT lambda, bool rescaleDiagonal )
   {
     VectorC a = stateVec.GetX().Copy();
@@ -112,7 +112,7 @@ namespace RavlN {
   }
 
   // Apply a fixed number of iterations
-  bool LevenbergMarquardtC::NIterations ( DListC<ObservationC> obsList,
+  bool LevenbergMarquardtC::NIterations ( const DListC<ObservationC>& obsList,
 					  UIntT n,
 					  RealT lambda, RealT lambdaFactor,
 					  bool rescaleDiagonal )
@@ -131,7 +131,7 @@ namespace RavlN {
   }
 
   // Inverse covariance matrix of solution
-  const MatrixRSC &LevenbergMarquardtC::InverseCovarianceMatrix(DListC<ObservationC> obsList)
+  const MatrixRSC &LevenbergMarquardtC::InverseCovarianceMatrix(const DListC<ObservationC>& obsList)
   {
     // invalid vector
     VectorC a;

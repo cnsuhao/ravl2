@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_MATCHNORMALISEDCORRELATION_HEADER
 #define RAVLIMAGE_MATCHNORMALISEDCORRELATION_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: MatchNormalisedCorrelation.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! date="28/11/2002"

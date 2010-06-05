@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: TemplateFile.cc 524 2001-10-16 16:18:46Z craftit $"
 //! lib=RavlOS
 //! file="Ravl/OS/Text/TemplateFile.cc"
 

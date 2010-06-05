@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_TREEMODEL_HEADER
 #define RAVLGUI_TREEMODEL_HEADER 1
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: TreeModel.hh 7729 2010-05-12 13:18:21Z craftit $"
 //! docentry="Ravl.API.Graphics.GTK.Control"
 //! lib=RavlGUI
 //! example=exTreeStore.cc
@@ -58,6 +58,10 @@ namespace RavlGUIN {
     { return &treeIter; }
     //: Access tree store.
 
+    const GtkTreeIter *TreeIter() const
+    { return &treeIter; }
+    //: Access tree store.
+
     GtkTreeModel *Model()
     { return model; }
     //: Access tree model.
@@ -84,8 +88,7 @@ namespace RavlGUIN {
     TreeModelIterC Copy();
     //: Create a copy of the iterator.
 
-    bool IsElm() const
-    { return isElm; }
+    bool IsElm() const;
     //: Test if we think we're on a valid element.
 
   protected:
@@ -132,6 +135,10 @@ namespace RavlGUIN {
     { return Body().TreeIter(); }
     //: Access tree store.
 
+    const GtkTreeIter *TreeIter() const
+    { return Body().TreeIter(); }
+    //: Access tree store.
+
     GtkTreeModel *Model()
     { return Body().Model(); }
     //: Access tree model.
@@ -166,7 +173,17 @@ namespace RavlGUIN {
     bool IsElm() const
     { if(!IsValid()) return false; return Body().IsElm(); }
     //: Check if its a valid entry.
+
   };
+
+  inline bool operator<(const TreeModelIterC& lhs, const TreeModelIterC& rhs)
+  {
+    if (!lhs.IsValid())
+      return true;
+    if (!rhs.IsValid())
+      return false;
+    return lhs.TreeIter()->stamp < rhs.TreeIter()->stamp;
+  }
 
   //:-------------------------------------------------------------------------------------
 
@@ -295,6 +312,9 @@ namespace RavlGUIN {
     bool GetValue(TreeModelIterC &rowIter,IntT col, IntT &value);
     //: Get int value.
 
+    bool GetValue(TreeModelIterC &rowIter,IntT col, Int64T &value);
+    //: Get 64-bit int value.
+
     bool GetValue(TreeModelIterC &rowIter,IntT col, bool &value);
     //: Get bool value.
 
@@ -330,6 +350,9 @@ namespace RavlGUIN {
 
     virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, IntT value);
     //: Set int value.
+
+    virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, Int64T value);
+    //: Set 64-bit int value.
 
     virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, bool value);
     //: Set bool value.
@@ -443,6 +466,10 @@ namespace RavlGUIN {
     { return Body().GetValue(rowIter,col,value); }
     //: Set int value.
 
+    bool GetValue(TreeModelIterC &rowIter,IntT col, Int64T &value)
+    { return Body().GetValue(rowIter,col,value); }
+    //: Set int value.
+
     bool GetValue(TreeModelIterC &rowIter,IntT col, bool &value)
     { return Body().GetValue(rowIter,col,value); }
     //: Set bool value.
@@ -482,6 +509,10 @@ namespace RavlGUIN {
     { return Body().GUISetValue(rowIter,col,value); }
 
     bool GUISetValue(TreeModelIterC &rowIter,IntT col, IntT value)
+    { return Body().GUISetValue(rowIter,col,value); }
+    //: Set int value.
+
+    bool GUISetValue(TreeModelIterC &rowIter,IntT col, Int64T value)
     { return Body().GUISetValue(rowIter,col,value); }
     //: Set int value.
 

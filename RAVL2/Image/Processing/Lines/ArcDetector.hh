@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_ARCDETECTOR_HEADER
 #define RAVLIMAGE_ARCDETECTOR_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: ArcDetector.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Lines"

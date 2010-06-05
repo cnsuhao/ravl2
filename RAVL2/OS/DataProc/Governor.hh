@@ -7,7 +7,7 @@
 #ifndef RAVL_DPGOVERNOR_HEADER
 #define RAVL_DPGOVERNOR_HEADER
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Governor.hh 7572 2010-02-19 17:27:34Z cyberplug $"
 //! docentry="Ravl.API.Core.Data Processing.Extras"
 //! author="Charles Galambos"
 //! date="12/10/98"
@@ -30,14 +30,16 @@ namespace RavlN {
     DPGovernorBaseBodyC(double ndelay,RealT nMinDelay = 0)
       : delay(ndelay),
 	frameCnt(0),
-	minDelay(nMinDelay)
+	minDelay(nMinDelay),
+  m_persistBypass(false)
     {}
     //: Constructor
     
     DPGovernorBaseBodyC(const DPGovernorBaseBodyC &oth) 
       : delay(oth.delay),
 	frameCnt(0),
-	minDelay(0)
+	minDelay(0),
+  m_persistBypass(false)
     {}
     //: Copy Constructor
     
@@ -59,6 +61,10 @@ namespace RavlN {
     bool SetDelay(RealT newDelay);
     //: Set new delay.
     // newDelay must be positive or zero
+
+    bool Bypass(bool bypass, bool persist);
+    //; Bypass the governor
+    // bypass is cleared after next get, if persist is not true.
     
   protected:
     void WaitForTimeup();
@@ -69,6 +75,7 @@ namespace RavlN {
     UIntT frameCnt; // Frame count,can be used to measure frame rate.
     RealT minDelay; // Minimum delay to insert.
     ThreadEventC m_bypass; //Bypass the current waiting period
+    volatile bool m_persistBypass; // bypass until further notice.
   };
    
   ////////////////////////////////////
@@ -129,6 +136,12 @@ namespace RavlN {
     { return Body().SetDelay(newDelay); }
     //: Set new delay.
     // newDelay must be positive or zero
+
+    bool Bypass(bool bypass, bool persist=false)
+    { return Body().Bypass(bypass, persist); }
+    //; Bypass the governor
+    // bypass is cleared after next get, if persist is not true.
+
     
   };
   

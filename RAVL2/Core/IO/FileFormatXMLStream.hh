@@ -12,7 +12,7 @@
 //! file="Ravl/Core/IO/FileFormatXMLStream.hh"
 //! author="Charles Galambos"
 //! date="21/10/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: FileFormatXMLStream.hh 6180 2007-06-04 14:12:04Z craftit $"
 //! userlevel=Default
 
 #include "Ravl/DP/FileFormat.hh"

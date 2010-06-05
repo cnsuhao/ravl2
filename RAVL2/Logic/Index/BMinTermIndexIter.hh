@@ -8,7 +8,7 @@
 #define RAVLLOGIC_BMINTERMINDEXITER_HEADER 1
 ///////////////////////////////////////////
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: BMinTermIndexIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Logic/Index/BMinTermIndexIter.hh"
 //! lib=RavlLogic
 //! author="Charles Galambos"

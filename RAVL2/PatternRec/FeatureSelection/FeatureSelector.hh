@@ -7,7 +7,7 @@
 #ifndef RAVL_FEATURESELECTOR_HEADER
 #define RAVL_FEATURESELECTOR_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FeatureSelector.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlPatternRec
 //! docentry="Ravl.API.Pattern Recognition.Feature Selection"
 //! author="Robert Crida"

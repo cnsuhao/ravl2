@@ -4,7 +4,7 @@
 #ifndef RAVL_RANDOMMERSENNETWISTER_HEADER
 #define RAVL_RANDOMMERSENNETWISTER_HEADER 1
 ///////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RandomMersenneTwister.hh 5437 2006-04-05 11:09:32Z ees1wc $"
 //! userlevel=Normal
 //! file="Ravl/Core/Math/RandomMersenneTwister.hh"
 //! lib=RavlCore

@@ -8,7 +8,7 @@
 #define RAVLIMAGE_EDGEDETECTOR_HEADER 1
 //! author="Charles Galambos"
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: EdgeDetector.hh 5352 2006-02-16 17:39:58Z craftit $"
 //! lib=RavlImageProc
 //! docentry="Ravl.API.Images.Edges"
 //! file="Ravl/Image/Processing/Edges/EdgeDetector.hh"

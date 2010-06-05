@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOCSP.cc 4911 2005-05-06 08:59:24Z plugger $"
 //! lib=CSPDriver
 //! file="Ravl/Contrib/ClipStationPro/ImgIOCSP.cc"
 

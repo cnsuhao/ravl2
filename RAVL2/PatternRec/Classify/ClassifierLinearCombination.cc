@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ClassifierLinearCombination.cc 5463 2006-04-24 13:51:50Z craftit $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Classify/ClassifierLinearCombination.cc"
 

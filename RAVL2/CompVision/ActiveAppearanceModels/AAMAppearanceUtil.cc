@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: AAMAppearanceUtil.cc 7512 2010-02-11 18:34:12Z craftit $"
 //! lib=RavlAAM
 //! file="Ravl/CompVision/ActiveAppearanceModels/AAMAppearanceUtil.cc"
 
@@ -22,6 +22,13 @@
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/OS/SysLog.hh"
+
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
 
 namespace RavlImageN {
 
@@ -70,7 +77,7 @@ namespace RavlImageN {
       namedTypeMap[fit->Description()] = allocId;
       allocId++;
     }
-    cout << "typeMap: " << typeMap << endl << "namedTypeMap: " << namedTypeMap << endl;
+    ONDEBUG(cout << "typeMap: " << typeMap << endl << "namedTypeMap: " << namedTypeMap << endl);
     return true;
   }
 

@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_TSMATRIXSPARSEITER_HEADER
 #define RAVL_TSMATRIXSPARSEITER_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: TSMatrixSparseIter.hh 4777 2005-01-18 14:28:18Z ees1wc $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/TSMatrixSparseIter.hh"
 

@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! date="21/2/1997"
 //! docentry="Ravl.API.Core.Branch"
-//! rcsid="$Id$"
+//! rcsid="$Id: BDAGraph.hh 5382 2006-03-04 10:47:38Z craftit $"
 
 #include "Ravl/BGraph.hh"
 #include "Ravl/BGraphEdge.hh"

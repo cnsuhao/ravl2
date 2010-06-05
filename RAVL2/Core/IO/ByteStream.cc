@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ByteStream.cc 7753 2010-06-02 10:00:38Z alexkostin $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/ByteStream.cc"
 
@@ -14,10 +14,10 @@ namespace RavlN {
 
   //: Cork stream.  
   // True indicates that there is going to
-  // be several write operations immediatly following each
+  // be several write operations immediately following each
   // other and stops the transmition of fragmented packets.
-  // If your not expecting to do any more writes immediatly
-  // you must call 'Cork(false)' immediatly. <br>
+  // If your not expecting to do any more writes immediately
+  // you must call 'Cork(false)' immediately. <br>
   // False indicates that all the pending data has been written
   // This sends any partial packets still pending. <br>
   // Returns true if Corking is supported by stream.
@@ -83,7 +83,7 @@ namespace RavlN {
   IntT DPOByteStreamBodyC::WriteAllV(const char **buffer,IntT *len,int n) {
     IntT count = 0;
     for(int i = 0;i < n;i++) {
-      int x = WriteAll(buffer[i],len[i]); // If WriteAll failes then something must be very wrong, so exit.
+      int x = WriteAll(buffer[i],len[i]); // If WriteAll fails then something must be very wrong, so exit.
       if(x < 0)
 	return count;
       count += x;

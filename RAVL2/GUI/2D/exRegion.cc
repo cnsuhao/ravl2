@@ -1,5 +1,5 @@
 ///////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: exRegion.cc 152 2001-05-29 09:59:23Z craftit $"
 
 #include "amma/GUI/Window.hh"
 #include "amma/GUI/CanvasF.hh"

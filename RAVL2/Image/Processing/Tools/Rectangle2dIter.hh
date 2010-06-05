@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_RECTANGLEITER_HEADER
 #define RAVLIMAGE_RECTANGLEITER_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: Rectangle2dIter.hh 5310 2006-01-13 15:56:26Z craftit $"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Images.Misc"

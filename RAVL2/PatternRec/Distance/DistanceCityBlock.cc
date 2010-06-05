@@ -4,14 +4,22 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DistanceCityBlock.cc 7590 2010-02-23 12:03:11Z kier $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Distance/DistanceCityBlock.cc"
 
 #include "Ravl/PatternRec/DistanceCityBlock.hh"
 #include "Ravl/VirtualConstructor.hh"
+#include "Ravl/XMLFactoryRegister.hh"
 
 namespace RavlN {
+
+  //: XMLFactoryC constructor.
+
+  DistanceCityBlockBodyC::DistanceCityBlockBodyC(const XMLFactoryContextC &factory)
+    : DistanceBodyC(factory)
+  {
+  }
 
   //: Load from stream.
   
@@ -23,7 +31,8 @@ namespace RavlN {
 
   DistanceCityBlockBodyC::DistanceCityBlockBodyC(BinIStreamC &strm)
     : DistanceBodyC(strm)
-  {}
+  {
+  }
   
   //: Writes object to stream, can be loaded using constructor
   
@@ -60,5 +69,11 @@ namespace RavlN {
   /////////////////////////////////////////////////////////////////////////////////
   
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(DistanceCityBlockBodyC,DistanceCityBlockC,DistanceC);
+
+  RavlN::XMLFactoryRegisterHandleConvertC<DistanceCityBlockC, DistanceC> g_registerXMLFactoryDistanceCityBlock("RavlN::DistanceCityBlockC");
+
+  extern void linkDistanceCityBlock()
+  {}
+  
   
 }

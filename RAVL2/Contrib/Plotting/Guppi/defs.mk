@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 6715 2008-04-15 08:07:09Z kier $"
 #! file="Ravl/Contrib/Plotting/Guppi/defs.mk"
 
 REQUIRES=libGuppi

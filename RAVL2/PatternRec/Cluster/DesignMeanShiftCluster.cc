@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignMeanShiftCluster.cc 4482 2004-08-03 17:19:33Z craftit $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Cluster/DesignMeanShiftCluster.cc"
 

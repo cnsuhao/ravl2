@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Function.cc 7582 2010-02-22 11:47:04Z kier $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/Function.cc"
 
@@ -17,7 +17,12 @@
 
 namespace RavlN {
 
-  //: Load from stream.
+  FunctionBodyC::FunctionBodyC(const XMLFactoryContextC &factory)
+    : inputSize(factory.AttributeUInt("input_size", 0)),
+      outputSize(factory.AttributeUInt("output_size", 0))             
+  {
+  }
+  //: XMLFactoryC constructor.
   
   FunctionBodyC::FunctionBodyC(istream &strm)
     : RCBodyVC(strm)
@@ -59,7 +64,7 @@ namespace RavlN {
   //: Apply function to 'data'
   
   VectorC FunctionBodyC::Apply(const VectorC &data) const {
-    RavlAssertMsg(0,"RavlN::Apply(), Abstract method called. \n");
+    //RavlAssertMsg(0,"RavlN::Apply(), Abstract method called. \n");
     return data;
   }
   

@@ -11,7 +11,7 @@
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! date="23/03/1999"
-//! rcsid="$Id$"
+//! rcsid="$Id: Notebook.hh 6893 2008-07-09 15:23:17Z ees1wc $"
 //! example=exNotebook.cc
 //! docentry="Ravl.API.Graphics.GTK.Layout"
 

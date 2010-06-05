@@ -6,7 +6,7 @@ namespace RavlBaseVectorN {
   using namespace RavlN;
   
   static double BaseDotProductD(const double* v1, const double* v2, size_t size) {
-    double sum = 0.0;
+    register double sum = 0.0;
     const double* ptr1 = v1;
     const double* ptr2 = v2;
     for(unsigned int i=size; i>0; --i)
@@ -15,7 +15,7 @@ namespace RavlBaseVectorN {
   }
 
   static float BaseDotProductF(const float* v1, const float* v2, size_t size) {
-    float sum = 0.0;
+    register float sum = 0.0;
     const float* ptr1 = v1;
     const float* ptr2 = v2;
     for(unsigned int i=size; i>0; --i)
@@ -25,13 +25,13 @@ namespace RavlBaseVectorN {
   
   static double BaseQuadProductD(const double *Data, const double *Weights1,
                                const double *Weights2, size_t Size) {
-    double retVal = 0.;
+    register double retVal = 0.;
     const double* wPtr = Weights1;
     const double* w2Ptr = Weights2;
     const double* const ewPtr = wPtr + Size;
     const double* dPtr = Data;
     while(wPtr != ewPtr) {
-      const double val = *dPtr++;
+      register const double val = *dPtr++;
       retVal += val * (*wPtr++ + *w2Ptr++ * val);
     }
     return retVal;
@@ -39,13 +39,13 @@ namespace RavlBaseVectorN {
 
   static float BaseQuadProductF(const float *Data, const float *Weights1,
 				const float *Weights2, size_t Size) {
-    float retVal = 0.;
+    register float retVal = 0.;
     const float* wPtr = Weights1;
     const float* w2Ptr = Weights2;
     const float* const ewPtr = wPtr + Size;
     const float* dPtr = Data;
     while(wPtr != ewPtr) {
-      const float val = *dPtr++;
+      register const float val = *dPtr++;
       retVal += val * (*wPtr++ + *w2Ptr++ * val);
     }
     return retVal;
@@ -123,6 +123,7 @@ namespace RavlBaseVectorN {
       const float dat = vec[i];
       for(unsigned int j = 0;j < cols;j++)
         result[j] += rowStart[j] * dat;
+      rowStart += stride;
     }
   }
   
@@ -146,7 +147,10 @@ namespace RavlBaseVectorN {
   }
 
 
-  static void ConvolveKernelF(const float *matrix,const float *kernel,unsigned int rows,unsigned int cols,unsigned int matrixByteStride,float *result) {
+  static void ConvolveKernelF(const float *matrix,
+                              const float *kernel,size_t rows,size_t cols,
+                              int matrixByteStride,float *result)
+  {
     register float ret = 0;
     const float *vi = matrix;
     const float *vir = matrix;
@@ -159,7 +163,25 @@ namespace RavlBaseVectorN {
     *result = ret;
   }
 
-
+  static void ConvolveKernelQuadF(const float *matrix,
+                                  const float *kernel1, const float *kernel2,
+                                  size_t rows, size_t cols,
+                                  int matrixByteStride, float *result)
+  {
+    register float ret = 0;
+    const float *vi = matrix;
+    const float *vk1 = kernel1;
+    const float *vk2 = kernel2;
+    for(size_t i = 0;i < rows;i++) {
+      const float *vir = vi;
+      for(size_t j = 0;j < cols;j++) {
+        ret += *vir * (*(vk1++) + *(vk2++) * *vir);
+        vir++;
+      }
+      vi = ShiftPointerInBytes(vi,matrixByteStride);
+    }
+    *result = ret;
+  }
 
   
   double (*g_DotProductD)(const double*, const double*, size_t) = &BaseDotProductD;
@@ -174,6 +196,7 @@ namespace RavlBaseVectorN {
   void (*g_MatrixTMulVectorD)(const double *,const double *,unsigned int ,unsigned int ,int ,double *) = &MatrixTMulVectorD;
   void (*g_MatrixTMulVectorF)(const float *,const float *,unsigned int ,unsigned int ,int ,float *) = &MatrixTMulVectorF;
 
-  void (*g_ConvolveKernelF)(const float *matrix,const float *kernel,unsigned int rows,unsigned int cols,unsigned int matrixByteStride,float *result) = &ConvolveKernelF;
+  void (*g_ConvolveKernelF)(const float *matrix,const float *kernel,size_t rows,size_t cols,unsigned int matrixByteStride,float *result) = &ConvolveKernelF;
+  void (*g_ConvolveKernelQuadF)(const float *matrix,const float *kernel1,const float *kernel2,size_t rows,size_t cols,int matrixByteStride,float *result) = &ConvolveKernelQuadF;
 
 }

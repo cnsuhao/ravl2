@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! userlevel=Normal
 //! docentry="Ravl.API.Logic.Agent"
-//! rcsid="$Id$"
+//! rcsid="$Id: ActiveBlackboard.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlLogicAgent
 //! file="Ravl/Logic/Agent/ActiveBlackboard.hh"
 

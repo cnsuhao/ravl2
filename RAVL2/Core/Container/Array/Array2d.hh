@@ -428,14 +428,14 @@ namespace RavlN {
   
   template<class DataT>
   BinOStreamC &operator<<(BinOStreamC & s, const Array2dC<DataT> & arr) {
-    s << arr.Range1().Min() << arr.Range1().Max() << arr.Range2().Min() << arr.Range2().Max();
+    s << arr.Range1() << arr.Range2();
     return s << ((const RangeBufferAccess2dC<DataT> &)arr);
   }
   
   template<class DataT>
   BinIStreamC &operator>>(BinIStreamC & s, Array2dC<DataT> & arr) {
     IndexRangeC rng1,rng2;
-    s >> rng1.Min() >> rng1.Max() >> rng2.Min() >> rng2.Max();
+    s >> rng1 >> rng2;
     SizeT area = rng1.Size() * rng2.Size();
     if((area * sizeof(DataT)) > s.ArraySizeLimit() || area > s.ArraySizeLimit())
       throw ExceptionOutOfRangeC("Incoming array size exceeds limit for stream.");

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: ChartDetectorRegion.cc 4856 2005-03-31 16:43:40Z ees1wc $"
 //! lib=RavlChartDetector
 //! file="Ravl/Image/Processing/ChartDetector/ChartDetectorRegion.cc"
 

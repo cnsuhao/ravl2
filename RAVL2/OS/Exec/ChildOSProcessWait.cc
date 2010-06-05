@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ChildOSProcessWait.cc 6297 2007-08-03 16:07:55Z craftit $"
 //! lib=RavlOS
 //! file="Ravl/OS/Exec/ChildOSProcessWait.cc"
 

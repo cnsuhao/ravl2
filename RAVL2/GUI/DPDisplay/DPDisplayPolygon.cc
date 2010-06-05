@@ -96,7 +96,8 @@ namespace RavlGUIN {
   DP_REGISTER_CONVERSION_NAMED(RealRange2dPDisplayObj,1,"DPDisplayObjC RealRange2d2DPDisplayObj(const RealRange2dC &) ");
   
   DPDisplayObjC IndexRange2dPDisplayObj(const IndexRange2dC &rect) {
-    Polygon2dC poly(rect);
+    RealRange2dC rr(rect);
+    Polygon2dC poly(rr);
     return DPDisplayPolygon2dC(poly);
   }
   

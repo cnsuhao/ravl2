@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_DESIGNWEAKLINEAR_HEADER
 #define RAVL_DESIGNWEAKLINEAR_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignWeakLinear.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlPatternRec
 //! docentry="Ravl.API.Pattern Recognition.Classifier.DesignClassifier"
 //! file="Ravl/PatternRec/Classify/DesignWeakLinear.hh"

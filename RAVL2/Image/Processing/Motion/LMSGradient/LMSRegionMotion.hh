@@ -8,7 +8,7 @@
 #define RAVLIMAGE_LMSREGIONMOTION_HEADER
 //! file="Ravl/Image/Processing/Motion/LMSGradient/LMSRegionMotion.hh"
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: LMSRegionMotion.hh 6286 2007-07-25 15:42:30Z ees1wc $"
 //! author="Bill Christmas"
 //! date="07/12/1999"
 //! example=exLMSRegionMotion.cc

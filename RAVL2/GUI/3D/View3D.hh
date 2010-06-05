@@ -7,7 +7,7 @@
 #ifndef RAVLGUI3D_VIEW3D_HEADER
 #define RAVLGUI3D_VIEW3D_HEADER 1
 ///////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: View3D.hh 6701 2008-04-09 16:07:40Z ees1wc $"
 //! file="Ravl/GUI/3D/View3D.hh"
 //! lib=RavlGUI3D
 //! docentry="Ravl.API.Graphics.3D"

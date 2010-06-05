@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_RAWCANVAS_HEADER 
 #define RAVLGUI_RAWCANVAS_HEADER  1
 //////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RawCanvas.hh 7520 2010-02-15 11:17:03Z alexkostin $"
 //! file="Ravl/GUI/GTK/RawCanvas.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
@@ -86,18 +86,16 @@ namespace RavlGUIN {
     void GUIDrawCircle(GdkGC *gc,Index2dC cent,UIntT size,bool fill);
     //: Draw a circle.
     
-    void GUIDrawImage(const ImageC<ByteRGBValueC> &image,const Index2dC &offset = Index2dC(0,0),bool ignoreImageOrigin = false);
-    //: Draw an image into the canvas with its origin offset by 'offset'.
-    // Note: You have to include the RavlGUI2d library to use this function.
-    
-    void GUIDrawImage(const ImageC<ByteT> &image,const Index2dC &offset = Index2dC(0,0),bool ignoreImageOrigin = false);
-    //: Draw an image into the canvas with its origin offset by 'offset'.
-    // Note: You have to include the RavlGUI2d library to use this function.
-    
     void GUIDrawImage(const PixbufC &pixbuf,const Index2dC &offset = Index2dC(0,0));
     //: Draw an image into the canvas with its origin offset by 'offset'.
     // Note: You have to include the RavlGUI2d library to use this function.
     
+    template <typename PixelT>
+    void GUIDrawImage(const ImageC<PixelT> &image, const Index2dC &offset = Index2dC(0,0),bool ignoreImageOrigin = false)
+    { Index2dC at = offset; if(!ignoreImageOrigin) at += image.Frame().Origin(); GUIDrawImage(PixbufC(image), at); }
+    //: Draw an image into the canvas with its origin offset by 'offset'.
+    // Note: You have to include the RavlGUI2d library to use this function.
+
     bool TranslateExposeEvent(const GdkEvent* event,IndexRange2dC &rect,IntT &toFollow);
     //: Translate an expose event.
     // 'rect' is the area to be updated.
@@ -131,6 +129,17 @@ namespace RavlGUIN {
     int sx,sy;
   };
   
+
+  template <>
+  void RawCanvasBodyC::GUIDrawImage(const ImageC<ByteRGBValueC> &image,const Index2dC &offset,bool ignoreImageOrigin);
+  //: Draw an image into the canvas with its origin offset by 'offset'.
+  // Note: You have to include the RavlGUI2d library to use this function.
+
+  template <>
+  void RawCanvasBodyC::GUIDrawImage(const ImageC<ByteT> &image,const Index2dC &offset,bool ignoreImageOrigin);
+  //: Draw an image into the canvas with its origin offset by 'offset'.
+  // Note: You have to include the RavlGUI2d library to use this function.
+
   //! userlevel=Normal
   //: RawCanvas handle.
   
@@ -224,18 +233,14 @@ namespace RavlGUIN {
     // angle is the length of the arc, in 1/64ths of a degree
     // If fill is true, the arc is a pie, otherwise it's a line arc
     
-    void GUIDrawImage(const ImageC<ByteRGBValueC> &image,const Index2dC &offset = Index2dC(0,0),bool ignoreImageOrigin = false)
-    { Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
-    //: Draw an image into the canvas with its origin offset by 'offset'.
-    // Note: You have to include the RavlGUI2d library to use this function.
-    
-    void GUIDrawImage(const ImageC<ByteT> &image,const Index2dC &offset = Index2dC(0,0),bool ignoreImageOrigin = false)
-    { Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
-    //: Draw an image into the canvas with its origin offset by 'offset'.
-    // Note: You have to include the RavlGUI2d library to use this function.
-    
     void GUIDrawImage(const PixbufC &pixbuf,const Index2dC &offset = Index2dC(0,0))
     { Body().GUIDrawImage(pixbuf,offset); }
+    //: Draw an image into the canvas with its origin offset by 'offset'.
+    // Note: You have to include the RavlGUI2d library to use this function.
+    
+    template <typename PixelT>
+    void GUIDrawImage(const ImageC<PixelT> &image,const Index2dC &offset = Index2dC(0,0),bool ignoreImageOrigin = false)
+    { Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
     //: Draw an image into the canvas with its origin offset by 'offset'.
     // Note: You have to include the RavlGUI2d library to use this function.
     
@@ -259,7 +264,8 @@ namespace RavlGUIN {
     //: Get the height.
 
   };
-  
+
+
 }
 
 #endif

@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_DECISIONEXAMPLES_HEADER
 #define RAVLLOGIC_DECISIONEXAMPLES_HEADER 1
 /////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DecisionExamples.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlLogic
 //! file="Ravl/Logic/DecisionTree/DecisionExamples.hh"
 //! author="Charles Galambos"

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: SerialIO.cc 6827 2008-06-08 11:07:40Z craftit $"
 //! lib=RavlOS
 //! file="Ravl/OS/Misc/SerialIO.cc"
 

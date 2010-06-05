@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_DECISIONTREEBINARY_HEADER
 #define RAVLLOGIC_DECISIONTREEBINARY_HEADER 1
 //////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DecisionTreeBranchBinary.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlLogic
 //! file="Ravl/Logic/DecisionTree/DecisionTreeBranchBinary.hh"
 //! author="Charles Galambos"

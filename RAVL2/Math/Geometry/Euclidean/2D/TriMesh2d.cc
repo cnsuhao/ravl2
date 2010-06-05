@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: TriMesh2d.cc 3478 2003-09-29 08:02:55Z craftit $"
 //! lib=RavlMath
 //! author="Charles Galambos"
 //! file="Ravl/Math/Geometry/Euclidean/2D/TriMesh2d.cc"

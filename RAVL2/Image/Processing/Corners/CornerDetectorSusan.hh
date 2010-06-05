@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_CORNERSUSAN_HEADER
 #define RAVLIMAGE_CORNERSUSAN_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: CornerDetectorSusan.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! userlevel=Normal
 //! date="14/12/95"
 //! lib=RavlImageProc

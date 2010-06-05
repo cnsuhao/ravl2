@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: AttributeValueTypes.cc 4102 2004-03-17 10:00:29Z craftit $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/AttributeValueTypes.cc"
 

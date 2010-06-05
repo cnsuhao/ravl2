@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_COMBO_HEADER
 #define RAVLGUI_COMBO_HEADER 1
 //////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Combo.hh 6988 2008-10-03 13:01:14Z ees1wc $"
 //! file="Ravl/GUI/GTK/Combo.hh"
 //! lib=RavlGUI
 //! docentry="Ravl.API.Graphics.GTK.Control"

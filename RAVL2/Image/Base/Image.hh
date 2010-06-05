@@ -75,7 +75,7 @@ namespace RavlImageN {
     //!param: rect - Sub rectangle within the original image which will accessed by the new handle.
     // Note: This does NOT copy the image area, it just creates a more limited access to the existing image.
     
-    ImageC(UIntT rows,UIntT cols)
+    ImageC(size_t rows,size_t cols)
       : Array2dC<PixelT>(rows,cols)
     {}
     //: Construct an image with origin at top left corner and size rows x cols.

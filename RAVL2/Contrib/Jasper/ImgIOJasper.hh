@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_IMGIOJASPER_HEADER
 #define RAVLIMAGE_IMGIOJASPER_HEADER 1 
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOJasper.hh 5079 2005-08-12 11:32:16Z hickson $"
 //! lib=RavlImgIOJasper
 
 #include "Ravl/Image/Image.hh"

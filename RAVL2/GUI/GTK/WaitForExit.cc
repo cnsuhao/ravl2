@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: WaitForExit.cc 3213 2003-07-22 15:09:39Z craftit $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/WaitForExit.cc"
 

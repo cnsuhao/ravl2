@@ -13,7 +13,7 @@
 //! userlevel=Develop
 //! file="Ravl/Logic/NonLinearPlanner/NLPAction.hh"
 //! lib=RavlLogicNLP
-//! rcsid="$Id$"
+//! rcsid="$Id: NLPAction.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/Logic/NLPTypes.hh"
 #include "Ravl/Logic/NLPAgendaItem.hh"

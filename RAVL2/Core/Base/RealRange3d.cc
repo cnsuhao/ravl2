@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: RealRange3d.cc 1090 2002-05-05 20:09:48Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/RealRange3d.cc"
 

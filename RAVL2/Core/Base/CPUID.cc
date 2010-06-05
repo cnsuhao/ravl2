@@ -55,6 +55,20 @@ unsigned long cpudetect(unsigned long address)
        );
 
 #endif
+#else
+#if RAVL_CPU_X86_64
+  __asm__ (
+       "push %%rbx\n"
+       "push %%rcx\n"
+       "mov %%rax, %1\n"
+       "CPUID\n"
+       "mov %0, %%rdx\n"
+       "pop %%rcx\n"
+       "pop %%rbx\n"
+       :"=d" (id)
+       :"a" (address)
+       );
+#endif
 #endif
   //std::cerr << "CPUID:\t\t" << (int)id << std::endl;
   return id;
@@ -145,7 +159,7 @@ bool SSE2()
     cpu_id = cpudetect(0x00000001);
     cpu_id_initialized = true;
   }
-
+  //std::cerr << "CPUID:" << cpu_id << std::endl;
   return (cpuid_sse2 & cpu_id) != 0;
 }
 

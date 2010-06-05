@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DragAndDrop.cc 5934 2006-10-17 09:04:37Z craftit $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/DragAndDrop.cc"
 

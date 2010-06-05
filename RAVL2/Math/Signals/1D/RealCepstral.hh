@@ -7,7 +7,7 @@
 #ifndef RAVLSIGNAL_REALCEPSTRAL
 #define RAVLSIGNAL_REALCEPSTRAL 1
 /////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: RealCepstral.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! userlevel=Normal
 //! docentry="Ravl.API.Math.Signals.1D"
 //! lib=RavlMath

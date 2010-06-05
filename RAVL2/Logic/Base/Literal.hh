@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_LITERAL_HEADER
 #define RAVLLOGIC_LITERAL_HEADER 1
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Literal.hh 7310 2009-10-14 20:31:27Z craftit $"
 //! docentry="Ravl.API.Logic"
 //! userlevel=Normal
 //! lib=RavlLogic

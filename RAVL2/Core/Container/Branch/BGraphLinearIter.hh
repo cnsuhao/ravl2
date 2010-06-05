@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! date="25/11/1997"
 //! docentry="Ravl.API.Core.Branch"
-//! rcsid="$Id$"
+//! rcsid="$Id: BGraphLinearIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/BGraph.hh"
 #include "Ravl/Stack.hh"

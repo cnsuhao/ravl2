@@ -11,7 +11,7 @@
 //! author="Radek Marik"
 //! docentry="Ravl.API.Core.Tuples"
 //! date="27/02/1997"
-//! rcsid="$Id$"
+//! rcsid="$Id: Pair.hh 6753 2008-04-24 12:41:16Z craftit $"
 //! lib=RavlCore
 //! userlevel=Default
 

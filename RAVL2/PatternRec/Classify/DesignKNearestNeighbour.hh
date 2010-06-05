@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_DESIGNKNEARESTNEIGHBOUR_HEADER
 #define RAVL_DESIGNKNEARESTNEIGHBOUR_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignKNearestNeighbour.hh 7582 2010-02-22 11:47:04Z kier $"
 //! lib=RavlPatternRec
 //! docentry="Ravl.API.Pattern Recognition.Classifier.DesignClassifier"
 //! file="Ravl/PatternRec/Classify/DesignKNearestNeighbour.hh"
@@ -27,7 +27,10 @@ namespace RavlN {
   public:
     DesignKNearestNeighbourBodyC(UIntT k,const DistanceC &distMetric = DistanceSqrEuclideanC(),bool useAverageKNN = false);
     //: Constructor.
-    
+
+    DesignKNearestNeighbourBodyC(const XMLFactoryContextC &factory);
+    //: Construct from XML factory
+
     DesignKNearestNeighbourBodyC(istream &strm);
     //: Load from stream.
     
@@ -69,6 +72,11 @@ namespace RavlN {
     {}
     //: Create a new designer.
     // Values for k are typically 1 to 7 and should be odd.
+
+    DesignKNearestNeighbourC(const XMLFactoryContextC &factory)
+      :  DesignClassifierSupervisedC(*new DesignKNearestNeighbourBodyC(factory))
+    {}
+    //: Construct from XML factory
     
     DesignKNearestNeighbourC(istream &strm);
     //: Load from stream.

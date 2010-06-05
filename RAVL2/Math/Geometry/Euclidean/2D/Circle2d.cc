@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////
 //! date="25/2/1997"
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: Circle2d.cc 5038 2005-07-24 20:22:37Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/2D/Circle2d.cc"
 

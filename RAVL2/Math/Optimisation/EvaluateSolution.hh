@@ -9,7 +9,7 @@
 //! userlevel=Normal
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
-//! rcsid="$Id$"
+//! rcsid="$Id: EvaluateSolution.hh 7665 2010-03-23 15:46:09Z ees1wc $"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation2"
 //! example="OrthogonalRegressionTest.cc Homography2dFitTest.cc QuadraticFitTest.cc"
 //! lib=RavlOptimise
@@ -41,6 +41,11 @@ namespace RavlN {
 					const StateVectorC &stateVec,
 					DListC<ObservationC> &obsList) const;
     //: Returns the observations compatible with the given state parameters
+
+    virtual DListC<bool> ObservationCompatibility(
+					const StateVectorC &stateVec,
+					DListC<ObservationC> &obsList) const;
+    //: Returns  list of booleans indicating which observations are compatible with the given state parameters
   };
 
   //! userlevel=Normal
@@ -85,6 +90,11 @@ namespace RavlN {
 						DListC<ObservationC> &obsList) const
     { return Body().CompatibleObservations(stateVec,obsList); }
     //: Returns the observations compatible with the given state parameters
+
+    DListC<bool> ObservationCompatibility(const StateVectorC &stateVec,
+                                          DListC<ObservationC> &obsList) const
+    { return Body().ObservationCompatibility(stateVec,obsList); }
+    //: Returns  list of booleans indicating which observations are compatible with the given state parameters
   };
 
 }

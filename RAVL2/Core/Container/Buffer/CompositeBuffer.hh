@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////
 //! docentry="Ravl.API.Core.Arrays.Buffer"
 //! file="Ravl/Core/Container/Buffer/CompositeBuffer.hh"
-//! rcsid="$Id$"
+//! rcsid="$Id: CompositeBuffer.hh 7306 2009-10-11 06:31:24Z craftit $"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! date="10/04/2002"

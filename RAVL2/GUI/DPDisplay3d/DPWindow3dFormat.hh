@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_DPWINDOW3DFORMAT_HEADER
 #define RAVLGUI_DPWINDOW3DFORMAT_HEADER 1
 //////////////////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DPWindowFormat.hh 5342 2006-02-02 15:37:51Z hickson $"
 //! lib=RavlDPDisplay
 //! file="Ravl/GUI/DPDisplay/DPWindowFormat.hh"
 //! author="Charles Galambos"

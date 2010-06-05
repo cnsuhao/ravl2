@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: VertexColourByteRGB.cc 6615 2008-02-23 15:56:36Z craftit $"
 //! lib=Ravl3D
 //! file="Ravl/3D/Mesh/VertexColourByteRGB.cc"
 

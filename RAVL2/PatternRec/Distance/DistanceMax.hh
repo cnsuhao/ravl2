@@ -7,7 +7,7 @@
 #ifndef RAVL_DISTANCEMAX_HEADER 
 #define RAVL_DISTANCEMAX_HEADER 1
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: DistanceMax.hh 7581 2010-02-22 11:38:11Z kier $"
 //! lib=RavlPatternRec
 //! docentry="Ravl.API.Pattern Recognition.Distance"
 //! file="Ravl/PatternRec/Distance/DistanceMax.hh"
@@ -29,6 +29,9 @@ namespace RavlN {
     {}
     //: Default constructor.
     
+    DistanceMaxBodyC(const XMLFactoryContextC &factory);
+    //: Construct from XML factory
+
     DistanceMaxBodyC(istream &strm);
     //: Load from stream.
     
@@ -66,6 +69,11 @@ namespace RavlN {
     {}
     //: Default constructor.
     
+    DistanceMaxC(const XMLFactoryContextC &factory)
+      :  DistanceC(*new DistanceMaxBodyC(factory))
+    {}
+    //: Construct from XML factory
+
     DistanceMaxC(istream &strm);
     //: Load from stream.
     

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: exMessageBox.cc 6701 2008-04-09 16:07:40Z ees1wc $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/exMessageBox.cc"
 //! author="James Smith"

@@ -6,7 +6,7 @@
 // file-header-ends-here
 ////////////////////////////////////////////////////
 //! userlevel=Normal
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOdvsyuv.cc 3813 2003-12-11 12:08:36Z simone $"
 //! lib=RavlVideoIO
 //! file="Ravl/Image/VideoIO/ImgIOdvsyuv.cc"
 

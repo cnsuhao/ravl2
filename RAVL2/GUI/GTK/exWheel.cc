@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: exWheel.cc 7619 2010-03-01 11:45:14Z alexkostin $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/exWheel.cc"
 //! author="Charles Galambos"
@@ -26,7 +26,7 @@
 
 using namespace RavlGUIN;
 
-extern char * WheelbarrowFull_xpm[];
+extern const char * WheelbarrowFull_xpm[];
 
 int main(int nargs,char *args[]) 
 {
@@ -47,7 +47,7 @@ int main(int nargs,char *args[])
 
 
 /* XPM */
-char * WheelbarrowFull_xpm[] = {
+const char * WheelbarrowFull_xpm[] = {
 "48 48 64 1",
 "       c None",
 ".      c #DF7DCF3CC71B",

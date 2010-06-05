@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: TimeCode.cc 7059 2008-12-08 18:17:11Z craftit $"
 //! lib=RavlCore
 //! file="Ravl/Core/System/TimeCode.cc"
 

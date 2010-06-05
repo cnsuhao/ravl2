@@ -13,7 +13,7 @@
 //! author="Radek Marik"
 //! docentry="Ravl.API.Math.Projective Geometry.2D"
 //! date="26.06.1995"
-//! rcsid="$Id$"
+//! rcsid="$Id: PPerspective2d.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/PProjection2d.hh"
 

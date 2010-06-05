@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: exTreeStore.cc 5839 2006-08-23 09:40:49Z robowaz $"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Graphics.GTK.Control"
 //! lib=RavlGUI

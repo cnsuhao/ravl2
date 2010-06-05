@@ -2,7 +2,7 @@
 #define RAVL_SVD_HEADER 1
 //! license=own
 //! docentry="Ravl.API.Math.Linear Algebra.Matrix Decomposition"
-//! rcsid="$Id$"
+//! rcsid="$Id: SVD.hh 7163 2009-04-22 15:11:37Z craftit $"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/SVD.hh"
 

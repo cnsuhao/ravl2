@@ -7,7 +7,7 @@
 #ifndef RAVL_VRMLFORMAT_HEADER
 #define RAVL_VRMLFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: FormatVRMLFile.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=Ravl3DIO
 //! author="Jonathan Starck"
 //! docentry="Ravl.API.3D.IO.Formats"

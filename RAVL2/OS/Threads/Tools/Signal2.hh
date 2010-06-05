@@ -8,7 +8,7 @@
 #define RAVL_SIGNAL2_HEADER 1
 /////////////////////////////////////////////////////
 //! docentry="Ravl.API.OS.Signals"
-//! rcsid="$Id$"
+//! rcsid="$Id: Signal2.hh 5831 2006-08-20 15:50:00Z craftit $"
 //! file="Ravl/OS/Threads/Tools/Signal2.hh"
 //! lib=RavlThreads
 //! author="Charles Galambos"

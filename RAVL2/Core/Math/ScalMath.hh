@@ -12,7 +12,7 @@
 //! userlevel=Normal
 //! author="Radek Marik"
 //! docentry="Ravl.API.Math"
-//! rcsid="$Id$"
+//! rcsid="$Id: ScalMath.hh 7000 2008-10-20 11:13:34Z robowaz $"
 //! date="02/11/1995"
 
 #include "Ravl/StdMath.hh"

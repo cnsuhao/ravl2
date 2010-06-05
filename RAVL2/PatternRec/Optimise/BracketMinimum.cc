@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: BracketMinimum.cc 5397 2006-03-09 13:49:35Z craftit $"
 //! lib=Optimisation
 //! file="Ravl/PatternRec/Optimise/BracketMinimum.cc"
 

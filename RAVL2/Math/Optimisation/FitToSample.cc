@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: FitToSample.cc 3073 2003-06-13 07:18:32Z craftit $"
 //! lib=RavlOptimise
 //! file="Ravl/Math/Optimisation/FitToSample.cc"
 

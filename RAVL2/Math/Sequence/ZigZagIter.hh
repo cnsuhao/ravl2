@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_ZIGZAGITER_HEADER
 #define RAVL_ZIGZAGITER_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: ZigZagIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlMath
 //! author="Charles Galambos"
 //! file="Ravl/Math/Sequence/ZigZagIter.hh"

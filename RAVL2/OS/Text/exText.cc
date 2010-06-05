@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: exText.cc 1377 2002-07-07 21:47:38Z craftit $"
 
 #include "Ravl/Stream.hh"
 #include "Ravl/Text/TextFile.hh"

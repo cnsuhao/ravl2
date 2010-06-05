@@ -1,6 +1,6 @@
 ###########################
 # Make info for solaris systems
-# $Id: config.linux64 5747 2006-07-19 07:57:14Z craftit $
+# $Id: config.linux64 7660 2010-03-17 13:36:26Z craftit $
 
 #######################
 # Programs to use.
@@ -64,10 +64,10 @@ NOLIBRARYPRELINK=1
 ############################
 # Universal flags.
 
-CFLAGS   = -Wall -pipe -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fno-merge-constants
+CFLAGS   = -Wall -pipe -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
 CFLAGS   += $(EXTRA_CFLAGS) 
 
-CCFLAGS  = -pipe -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fno-merge-constants
+CCFLAGS  = -pipe -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE 
 CCFLAGS  += $(EXTRA_CCFLAGS)
 
 CCPPFLAGS= -DGNU -Dunix
@@ -80,10 +80,12 @@ PAR_MAKE = --jobs=$(PROCS)
 
 UNDEFSYMB = -u #
 
-OPTCFLAGS  = -O2 -ffast-math -march=nocona
+OPTCFLAGS  = -O2 -ffast-math -march=native 
+#-fno-strict-aliasing
 # -O2 -ffast-math -mcpu=i686 -mfpmath=sse
 
-OPTCCFLAGS = -O2  -ffast-math -march=nocona 
+OPTCCFLAGS = -O2  -ffast-math -march=native 
+#-fno-strict-aliasing
 # -O2 -ffast-math -mcpu=i686 -mfpmath=sse
 
 ############################

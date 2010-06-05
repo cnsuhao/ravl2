@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_TRACKINGHOMOGRAPHY_HEADER
 #define RAVLIMAGE_TRACKINGHOMOGRAPHY_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: TrackingHomog.hh 7508 2010-02-11 15:00:10Z ees1wc $"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Tracking/TrackingHomog.hh"
 
@@ -18,7 +18,6 @@
 #include "Ravl/FitHomog2dPoints.hh"
 #include "Ravl/MatrixRS.hh"
 #include "Ravl/Observation.hh"
-#include "Ravl/FitHomog2dPoints.hh"
 #include "Ravl/EvaluateNumInliers.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Projection2d.hh"

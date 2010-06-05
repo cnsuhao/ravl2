@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_CHARTLOCALISE_HEADER
 #define RAVLIMAGE_CHARTLOCALISE_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: ChartLocalise.hh 5865 2006-08-31 16:51:35Z ees1wc $"
 //! lib=RavlChartDetector
 //! file="Ravl/Image/Processing/ChartDetector/ChartLocalise.hh"
 //! docentry="Ravl.API.Images.Chart Detector"

@@ -12,7 +12,7 @@
 //! userlevel=Normal
 //! author="Radek Marik"
 //! docentry="Ravl.API.Math"
-//! rcsid="$Id$"
+//! rcsid="$Id: StdMath.hh 7009 2008-10-27 22:11:52Z kier $"
 //! date="20/11/1995"
 
 #include "Ravl/config.h"

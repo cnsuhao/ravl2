@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLAUDIO_MELSPECTRUM_HEADER
 #define RAVLAUDIO_MELSPECTRUM_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: MelSpectrum.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlAudioFeatures
 //! docentry="Ravl.API.Audio.Feature Extraction"
 //! author="Charles Galambos"

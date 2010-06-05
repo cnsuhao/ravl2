@@ -11,7 +11,7 @@
 //! date="24/9/2000"
 //! lib=RavlFireWire
 //! docentry="Ravl.API.Audio.IO"
-//! rcsid="$Id$"
+//! rcsid="$Id: WavFile.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/FireWire/WavFile.hh"
 
 #include"Ravl/Stream.hh"

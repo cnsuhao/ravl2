@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_BGRFRMIOAVI_HEADER
 #define RAVLIMAGE_BGRFRMIOAVI_HEADER 1
 ////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BGRFrmIOAvi.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Image/VideoIO/BGRFrmIOAvi.hh"
 //! lib=RavlVideoIO
 //! example=exImgSeq.cc

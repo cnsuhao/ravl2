@@ -7,7 +7,6 @@
 #ifndef RAVLGUI_WIDGET_HEADER
 #define RAVLGUI_WIDGET_HEADER 1
 /////////////////////////////////////////////////
-//! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/Widget.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
@@ -32,6 +31,10 @@
 #define RavlGUIN RavlN
 #endif
 #endif
+
+namespace RavlN {
+  class XMLFactoryContextC;
+}
 
 namespace RavlImageN {
   class ByteRGBValueC;
@@ -65,6 +68,9 @@ namespace RavlGUIN {
     WidgetBodyC(const char *ntooltip);
     //: Default constructor.
     // reg == true then register widget for service events.
+
+    WidgetBodyC(const XMLFactoryContextC &factory);
+    //: Factory constructor
 
     virtual ~WidgetBodyC();
     //: Destructor.
@@ -244,7 +250,7 @@ namespace RavlGUIN {
     IntT ConnectUp(const char *nm,Signal0C &sig);
     //: Connect up a signal.
 
-    HashC<const char *,Tuple2C<Signal0C,IntT> > signals;
+    HashC<StringC,Tuple2C<Signal0C,IntT> > signals;
     //: Table of created signals.
 
     GtkWidget *widget;
@@ -253,7 +259,7 @@ namespace RavlGUIN {
     GtkStateType reqState; // requested state.
     IntT  eventMask; // Event mask for widget.
 
-    const char *tooltip;
+    StringC tooltip;
 
     bool gotRef; // Do we have a reference to the object.
 
@@ -275,6 +281,7 @@ namespace RavlGUIN {
     static int gtkEventDelete(GtkWidget *widget,GdkEvent *event,Signal0C *data);
     static int gtkEventMouseButton(GtkWidget *widget,GdkEvent *event,Signal0C *data);
     static int gtkEventMouseMotion(GtkWidget *widget,GdkEvent *event,Signal0C *data);
+    static int gtkEventScroll(GtkWidget *widget,GdkEvent *event,Signal0C *data);
     static int gtkEventKeyboard(GtkWidget *widget,GdkEvent *event,Signal0C *data);
     static int gtkGeneric(GtkWidget *widget,Signal0C *data);
     static int gtkString(GtkWidget *widget,Signal0C *data);
@@ -324,16 +331,22 @@ namespace RavlGUIN {
     {}
     //: Create an abstract widget handle.
 
+    WidgetC(const WidgetBodyC *bod)
+      : RCHandleC<WidgetBodyC>(bod)
+    {}
+    //: Body Constructor.
+
+    WidgetC(const XMLFactoryContextC &factory)
+      : RCHandleC<WidgetBodyC>(*new WidgetBodyC(factory))
+    {}
+    //: Factory constructor
+
   protected:
     WidgetC(WidgetBodyC &bod)
       : RCHandleC<WidgetBodyC>(bod)
     {}
     //: Body Constructor.
 
-    WidgetC(const WidgetBodyC *bod)
-      : RCHandleC<WidgetBodyC>(bod)
-    {}
-    //: Body Constructor.
 
     WidgetBodyC &Body()
     { return RCHandleC<WidgetBodyC>::Body(); }
@@ -557,6 +570,18 @@ namespace RavlGUIN {
     // GUI thread only.
 
   };
+
+  std::ostream &operator<<(std::ostream &strm,const WidgetC &out);
+  //: Dummy function to keep templates happy.
+
+  std::istream &operator>>(std::istream &strm,WidgetC &out);
+  //: Dummy function to keep templates happy.
+
+  BinOStreamC &operator<<(BinOStreamC &strm,const WidgetC &out);
+  //: Dummy function to keep templates happy.
+
+  BinIStreamC &operator>>(BinIStreamC &strm,WidgetC &out);
+  //: Dummy function to keep templates happy.
 
   inline
   DListC<WidgetC> operator+ (DListC<WidgetC> lst,const WidgetC &widge) {

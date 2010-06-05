@@ -4,7 +4,7 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 2017 2002-11-13 11:07:10Z craftit $"
 #! file="Ravl/Math/Geometry/Euclidean/defs.mk"
 
 PACKAGE=Ravl

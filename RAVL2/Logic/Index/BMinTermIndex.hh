@@ -7,7 +7,7 @@
 #ifndef RAVLLOGIC_BMINTERMINDEX_HEADER
 #define RAVLLOGIC_BMINTERMINDEX_HEADER 1
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BMinTermIndex.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Logic/Index/BMinTermIndex.hh"
 //! lib=RavlLogic
 //! author="Charles Galambos"

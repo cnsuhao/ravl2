@@ -9,7 +9,7 @@
 //! author="Charles Galambos"
 //! userlevel=Advanced
 //! docentry="Ravl.GUI.Data_Plotting.Guppi"
-//! rcsid="$Id$"
+//! rcsid="$Id: GuppiTypes.hh 3317 2003-08-20 14:50:13Z ees1wc $"
 //! lib=RavlGuppi
 //! file="Ravl/Contrib/Plotting/Guppi/GuppiTypes.hh"
 

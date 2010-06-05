@@ -7,7 +7,7 @@
 #ifndef RAVL_DPSTREAMOP31_HEADER
 #define RAVL_DPSTREAMOP31_HEADER 1
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: StreamOp31.hh 7132 2009-03-23 22:06:57Z craftit $"
 //! date="16/7/2002"
 //! author="Charles Galambos"
 //! lib=RavlIO

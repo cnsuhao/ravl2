@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_FIXED_HEADER
 #define RAVLGUI_FIXED_HEADER 1
 //////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Fixed.hh 6746 2008-04-22 13:30:41Z craftit $"
 //! file="Ravl/GUI/GTK/Fixed.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"

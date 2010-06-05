@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Option.cc 7161 2009-04-21 16:47:21Z ees1wc $"
 //! lib=RavlCore
 //
 // Based on the idea's in C and C++ option library by George Matas and Radek Marik.

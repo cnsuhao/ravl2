@@ -1,0 +1,8 @@
+ifndef OSX_QUARTZCORE_DEF
+OSX_QUARTZCORE_DEF=1
+
+include ObjC.def
+
+EXELIB :=  -framework QuartzCore $(EXELIB)
+
+endif

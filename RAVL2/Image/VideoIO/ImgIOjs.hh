@@ -8,7 +8,7 @@
 #define RAVLIMAGE_IMGIOJS_HEADER 1
 ////////////////////////////////////////////////////
 //! docentry="Ravl.API.Images.Video.Video IO"
-//! rcsid="$Id$"
+//! rcsid="$Id: ImgIOjs.hh 7384 2009-11-18 16:17:00Z robowaz $"
 //! author="Charles Galambos"
 //! date="24/03/2002"
 //! lib=RavlVideoIO

@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Function1.cc 7582 2010-02-22 11:47:04Z kier $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/Function1.cc"
 
@@ -14,6 +14,16 @@
 
 namespace RavlN {
   
+  //: XMLFactoryC constructor.
+  Function1BodyC::Function1BodyC(const XMLFactoryContextC &factory)
+    : FunctionBodyC(factory)
+  {
+    //: FIXME: Probably should just check outputSize is 1 rather
+    //: tha force it!
+    outputSize = 1;
+    
+  }
+
   //: Load from stream.
 
   Function1BodyC::Function1BodyC(istream &strm) 

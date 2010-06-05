@@ -8,7 +8,7 @@
 #define RAVL_SUBINDEXRANGE2DITER_HEADER 1
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Indexing"
-//! rcsid="$Id$"
+//! rcsid="$Id: SubIndexRange2dIter.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/SubIndexRange2dIter.hh"
 

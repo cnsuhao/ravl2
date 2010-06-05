@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////
 //! userlevel=Normal
 //! author="Kieron Messer"
-//! rcsid="$Id$"
+//! rcsid="$Id: VectorMatrix.hh 7638 2010-03-02 16:57:45Z alexkostin $"
 //! lib=RavlMath
 //! docentry="Ravl.API.Math.Linear Algebra"
 //! file="Ravl/Math/LinearAlgebra/General/VectorMatrix.hh"
@@ -40,7 +40,7 @@ namespace RavlN {
     
     VectorMatrixC(const VectorMatrixC &vm)
       : VectorC(vm.Vector()),
-	MatrixC(vm.Matrix())
+        MatrixC(vm.Matrix())
     {}
     //: Copy constructor.
     

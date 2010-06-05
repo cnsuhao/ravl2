@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: DelaunayTriangulation2d.cc 7697 2010-04-15 15:27:23Z ees1wc $"
 //! author="Charles Galambos"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/2D/DelaunayTriangulation2d.cc"
@@ -137,7 +137,7 @@ namespace RavlN {
     tempFace[1] = ret.InsertVertex(Point2dC(box.End()[0],box.End()[1] + off[1]));
     tempFace[2] = ret.InsertVertex(Point2dC(box.End()[0] + off[0],box.End()[1]));
     
-    UIntT vertIds = ret.NumberOfVertexIds();
+    SizeC vertIds = ret.NumberOfVertexIds();
     idMap = Array1dC<IntT>(vertIds,vertIds+points.Size());
     
     HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> edgeTab;

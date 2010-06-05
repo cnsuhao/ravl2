@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
 //////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: autoport.cc 5298 2006-01-06 11:56:18Z kier $"
 //! file="Ravl/SourceTools/VisualCPP/autoport.cc"
 //! userlevel=Normal
 //! docentry="Ravl.API.Source Tools.AutoPort"

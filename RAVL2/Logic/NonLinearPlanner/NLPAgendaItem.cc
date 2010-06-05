@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: NLPAgendaItem.cc 3655 2003-11-11 19:23:48Z craftit $"
 //! lib=RavlLogicNLP
 //! date="4/1/1997"
 //! author="Charles Galambos"

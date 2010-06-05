@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Pipes.cc 79 2001-05-10 13:44:47Z craftit $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/Pipes.cc"
 

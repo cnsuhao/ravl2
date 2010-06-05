@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: StateAndIter.cc 816 2002-02-18 15:46:30Z craftit $"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/StateAndIter.cc"
 

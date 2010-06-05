@@ -1,4 +1,4 @@
-/* This file is part of RAVL, Recognition And Vision Library 
+/* This file is part of RAVL, Recognition And Vision Library
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -6,7 +6,7 @@
 // file-header-ends-here*/
 #ifndef RAVL_CONFIG_HEADER
 #define RAVL_CONFIG_HEADER 1
-/*! rcsid="$Id: config.h 7310 2009-10-14 20:31:27Z craftit $" */
+/*! rcsid="$Id: config.h 7711 2010-05-03 11:05:58Z craftit $" */
 /*! file="Ravl/Core/Base/config.h" */
 /*! lib=RavlCore */
 
@@ -21,7 +21,7 @@
 #endif
 /****************************************/
 /******** RAVL Paranoid checking. ********
- * These checks may significantly slow code, but are helpful when looking for more 
+ * These checks may significantly slow code, but are helpful when looking for more
  * obscure bugs.
  */
 #ifdef QMAKE_PARANOID
@@ -39,6 +39,7 @@
 #define RAVL_COMPILER_GCC3 (defined(__GNUC__) && (__GNUC__ == 3))  /* gcc 3.x */
 #define RAVL_COMPILER_GCC3_4 (defined(__GNUC__) && (__GNUC__ == 3) && (__GNUC_MINOR__ >= 4))  /* gcc 3.4.x or later. */
 #define RAVL_COMPILER_GCC4  (defined(__GNUC__) && (__GNUC__ >= 4))  /* gcc 4.x or later. */
+#define RAVL_COMPILER_GCC42  (defined(__GNUC__) && (__GNUC__ >= 4) && (__GNUC_MINOR__ == 2)) /* gcc 4.3.x */
 #define RAVL_COMPILER_GCC43  (defined(__GNUC__) && (__GNUC__ >= 4) && (__GNUC_MINOR__ == 3)) /* gcc 4.3.x */
 #define RAVL_COMPILER_MIPSPRO (!defined(__GNUC__) && defined(__sgi))   /* MIPS Pro compiler */
 #define RAVL_COMPILER_VISUALCPP (!defined(__GNUC__) && defined(WIN32)) /* Visual C++ */
@@ -65,15 +66,15 @@
 #define RAVL_OS_WIN32   defined(WIN32)      /* Windows platform. */
 #define RAVL_OS_IRIX    defined(__sgi__)    /* IRIX.      */
 #define RAVL_OS_SOLARIS defined(__sun)      /* Solaris.   */
-#define RAVL_OS_SOLARIS7 defined(__sol2_7__)/* Solaris. 2.5.7 */  
-#define RAVL_OS_SOLARIS9 defined(__sol2_9__)/* Solaris. 2.5.9 */   
+#define RAVL_OS_SOLARIS7 defined(__sol2_7__)/* Solaris. 2.5.7 */
+#define RAVL_OS_SOLARIS9 defined(__sol2_9__)/* Solaris. 2.5.9 */
 #define RAVL_OS_MACOSX  defined(__APPLE__)  /* Mac OS-X */
 #define RAVL_OS_FREEBSD defined(__FreeBSD__) /* FreeBSD */
 
 #define RAVL_OS_OSF     defined(__osf__)   /* OSF.       */
 #define RAVL_OS_CYGWIN  defined(__CYGWIN__) /* Cygwin is a windows/unix hybrid */
 #else
-/* Unfortunately the Visual C++ preprocessor doesn't accept defined() as anything but part 
+/* Unfortunately the Visual C++ preprocessor doesn't accept defined() as anything but part
    of an #if or #elif so the compiler selection breaks. Here are the settings for a windows box.
 */
 #define RAVL_COMPILER_GCC       0
@@ -140,7 +141,7 @@
 /* Setting the following define to 1 will switch various routines to
  * use multi-thread implementations. Unfortunately this may mean changing
  * the USESLIBS to include the RavlThreads library for the directories
- * concerned. This is off by default as it generates slower code for single 
+ * concerned. This is off by default as it generates slower code for single
  * processor systems.
  */
 #define RAVL_USE_PARALLEL 0
@@ -216,7 +217,7 @@
 #define RAVL_HAVE_NAN_H    (RAVL_OS_SOLARIS || RAVL_OS_IRIX) /* have nan.h           */
 #define RAVL_HAVE_IEEEFP_H (RAVL_OS_SOLARIS || RAVL_OS_IRIX) /* have ieeefp.h        */
 #define RAVL_HAVE_HYPOT    !RAVL_OS_WIN32   /* have hypot() in libm */
-#define RAVL_HAVE_CBRT     (0 && RAVL_OS_LINUX) || RAVL_OS_FREEBSD /* have cbrt() in libm  */
+#define RAVL_HAVE_CBRT     (0 && (RAVL_OS_LINUX || RAVL_OS_LINUX64)) || RAVL_OS_FREEBSD /* have cbrt() in libm  */
 #define RAVL_HAVE_ERF      (!RAVL_OS_WIN32 && !RAVL_OS_CYGWIN)   /* have erf() and erfc() in libm  */
 
 #define RAVL_HAVE_ISINF    (RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_CYGWIN || RAVL_OS_MACOSX || RAVL_OS_FREEBSD)    /* have isinf() in libm  */
@@ -269,8 +270,8 @@
 #endif
 
 /********************************************************************************/
-/* Sort out some flags to ensure we get the right functions from the system 
- * headers. 
+/* Sort out some flags to ensure we get the right functions from the system
+ * headers.
  */
 
 #if (!RAVL_OS_IRIX && !RAVL_OS_FREEBSD)
@@ -282,7 +283,7 @@
 #endif
 #endif
 
-#if RAVL_OS_LINUX || RAVL_OS_CYGWIN
+#if RAVL_OS_LINUX || RAVL_OS_LINUX64 || RAVL_OS_CYGWIN
 #ifndef _ISOC9X_SOURCE
 #define _ISOC9X_SOURCE 1
 #endif

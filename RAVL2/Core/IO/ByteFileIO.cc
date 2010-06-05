@@ -209,7 +209,7 @@ namespace RavlN {
   bool DPIByteFileBodyC::Seek(UIntT newOff) {
     ONDEBUG(cerr << "DPIByteFileBodyC::Seek newOff=" << newOff << endl);
     in.is().clear(); // Clear any end of stream errors.
-    in.Seek(static_cast<UIntT>(dataStart + static_cast<streampos>(newOff)));
+    in.Seek(static_cast<UIntT>(static_cast<streampos>(dataStart) + static_cast<streampos>(newOff)));
     off = newOff;
     return true;
   }

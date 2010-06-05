@@ -4,7 +4,7 @@
 # Public License (GPL). See the gpl.licence file for details or
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
-#! rcsid="$Id$"
+#! rcsid="$Id: defs.mk 5535 2006-06-07 15:29:58Z craftit $"
 #! file="Ravl/SourceTools/ToMake/defs.mk"
 
 DONOT_SUPPORT=VCPP

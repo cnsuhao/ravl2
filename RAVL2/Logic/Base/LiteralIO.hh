@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLLOGIC_LITERALIO_HEADER
 #define RAVLLOGIC_LITERALIO_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: LiteralIO.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlLogic
 //! docentry="Ravl.API.Logic"
 //! file="Ravl/Logic/Base/LiteralIO.hh"

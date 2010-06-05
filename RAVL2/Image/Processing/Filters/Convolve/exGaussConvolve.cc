@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: exGaussConvolve.cc 7168 2009-04-24 14:41:17Z ees1wc $"
 //! lib=RavlImageProc
 //! author="Kieron J Messer"
 //! docentry="Ravl.API.Images.Filtering"

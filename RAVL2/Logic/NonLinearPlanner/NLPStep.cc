@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: NLPStep.cc 3677 2003-11-16 15:35:36Z craftit $"
 //! lib=RavlLogicNLP
 //! file="Ravl/Logic/NonLinearPlanner/NLPStep.cc"
 

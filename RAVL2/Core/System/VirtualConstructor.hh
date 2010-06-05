@@ -7,7 +7,7 @@
 #ifndef RAVL_VIRTUALCONSTRUCTOR_HEADER
 #define RAVL_VIRTUALCONSTRUCTOR_HEADER 1
 ///////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: VirtualConstructor.hh 7597 2010-02-25 14:39:40Z alexkostin $"
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Core.Misc"
 //! lib=RavlCore
@@ -125,7 +125,7 @@ namespace RavlN {
   
   bool CreateVirtualConstructorAlias(const char *newName,const char *oldName);
   //: Create alias for type.
-  //: This can be used to allow classes that have been renamed to be loaded for backward compatibilty.
+  //: This can be used to allow classes that have been renamed to be loaded for backward compatibility.
   
 #define RAVL_INITVIRTUALCONSTRUCTOR(bodyname) \
   static RavlN::VirtualConstructorInstC<bodyname> vc_function_ ## bodyname(# bodyname );
@@ -133,7 +133,7 @@ namespace RavlN {
 #define RAVL_INITVIRTUALCONSTRUCTOR_NAMED(bodyname,name) \
   static RavlN::VirtualConstructorInstC<bodyname> vc_function_ ## bodyname(name );
 
-  // Just initalise the virtual constructor.
+  // Just initialise the virtual constructor.
 
 #define RAVL_VIRTUALCONSTRUCTOR_HANDLE(bodyname,handlename,basename) \
  handlename::handlename(std::istream &strm) \
@@ -149,7 +149,7 @@ namespace RavlN {
  RAVL_INITVIRTUALCONSTRUCTOR(bodyname) \
  RAVL_VIRTUALCONSTRUCTOR_HANDLE(bodyname,handlename,basename)
 
-  // Initalise the virtual constructor and the handle
+  // Initialise the virtual constructor and the handle
 
 #define RAVL_INITVIRTUALCONSTRUCTOR_FULL_NAMED(bodyname,handlename,basename,name) \
  RAVL_INITVIRTUALCONSTRUCTOR_NAMED(bodyname,name) \

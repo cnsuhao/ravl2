@@ -1,0 +1,10 @@
+# This file is part of OmniSoft, Pattern recognition software
+# Copyright (C) 2003, Omniperception Ltd.
+# file-header-ends-here
+# $Id: DesignOneClass.hh 9775 2006-11-06 11:54:43Z alex $
+ifndef LIBLAPACK_DEF
+  LIBLAPACK_DEF=1
+
+  EXELIB := $(EXELIB) -llapack -lblas  
+  #-lgfortran
+endif

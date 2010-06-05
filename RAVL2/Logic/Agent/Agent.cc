@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Agent.cc 3754 2003-11-30 21:40:56Z craftit $"
 //! lib=RavlLogicAgent
 //! file="Ravl/Logic/Agent/Agent.cc"
 

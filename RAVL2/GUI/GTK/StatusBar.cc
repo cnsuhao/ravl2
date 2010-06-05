@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: StatusBar.cc 5212 2005-11-18 10:32:18Z apanman $"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/StatusBar.cc"
 

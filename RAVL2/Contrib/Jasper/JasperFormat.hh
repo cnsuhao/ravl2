@@ -7,7 +7,7 @@
 #ifndef RAVLJASPERFORMAT_HEADER
 #define RAVLJASPERFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: JasperFormat.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Image/ExternalImageIO/JasperFormat.hh"
 //! lib=RavlImgIOJasper
 //! author="Charles Galambos"

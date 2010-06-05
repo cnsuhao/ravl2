@@ -7,7 +7,7 @@
 #ifndef RAVL_BINARYTREE_HEADER
 #define RAVL_BINARYTREE_HEADER 1
 ////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: BinaryTree.hh 5551 2006-06-08 14:38:46Z craftit $"
 //! docentry="Ravl.API.Core.Trees"
 //! author="Charles Galambos"
 //! lib=RavlCore

@@ -13,7 +13,7 @@
 //! userlevel=Develop
 //! file="Ravl/PatternRec/Cluster/DesignKohonenNet.hh"
 //! docentry="Ravl.API.Pattern Recognition.Cluster"
-//! rcsid="$Id$"
+//! rcsid="$Id: DesignKohonenNet.hh 5240 2005-12-06 17:16:50Z plugger $"
 
 #include "Ravl/PatternRec/DesignCluster.hh"
 #include "Ravl/PatternRec/DistanceSqrEuclidean.hh"

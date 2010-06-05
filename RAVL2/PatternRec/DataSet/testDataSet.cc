@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: testDataSet.cc 7408 2009-12-08 07:17:18Z kier $"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/testDataSet.cc"
 //! docentry="Ravl.API.Pattern Recognition.Data Set"
@@ -25,6 +25,7 @@
 #include "Ravl/PatternRec/SampleStreamVector.hh"
 #include "Ravl/PatternRec/DataSetVectorLabel.hh"
 #include "Ravl/PatternRec/Function1.hh"
+#include "Ravl/PatternRec/FunctionSlice.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/OS/Date.hh"
 #include "Ravl/Stream.hh"
@@ -45,6 +46,7 @@ int testDataSet3();
 int testDataSet4();
 int testSampleVector();
 int testSampleStreamVector();
+int testSampleStreamVectorFunction();
 int testDataSetVectorLabel();
 
 #if USE_SPEEDTEST
@@ -93,6 +95,10 @@ int main() {
     return 1;
   }
   if((ln = testSampleStreamVector()) != 0) {
+    cerr << "Test failed line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testSampleStreamVectorFunction()) != 0) {
     cerr << "Test failed line " << ln << "\n";
     return 1;
   }
@@ -313,7 +319,7 @@ int testDataSetVectorLabel() {
 }
 
 int testSampleStreamVector() {
-  cerr << "testSampleStreamVector(), Called. \n";
+  //cerr << "testSampleStreamVector(), Called. \n";
   DListC<VectorC> lst;
   MatrixRUTC accum(4);
   accum.Fill(0);
@@ -340,6 +346,33 @@ int testSampleStreamVector() {
   if((mc.Mean() - mc.Mean()).SumOfSqr() > 0.0001) return __LINE__;
   if((mc.Covariance() - mc.Covariance()).SumOfSqr() > 0.0001) return __LINE__;
   return 0;
+}
+
+int testSampleStreamVectorFunction() {
+  DListC<VectorC> lst;
+  MatrixRUTC accum(4);
+  accum.Fill(0);
+  MeanCovarianceC mc(4);
+  for(int i = 0;i < 10000;i++) {
+    VectorC vec = RandomVector(4,1000);
+    accum.AddOuterProduct(vec);
+    lst.InsLast(vec);
+    mc += vec;
+  }
+  accum.MakeSymmetric();
+  DPISListC<VectorC> vecs(lst);
+  // Just get a slice
+  IndexRangeC range(1,2);
+  FunctionSliceC slice(4, range);
+  SampleStreamVectorC ssv(vecs, slice);
+  VectorC vec;
+  MatrixRUTC accum2 = ssv.SumOuterProducts();
+  //cerr << accum << endl;
+  //cerr << accum2 << endl;
+  MatrixC mat(accum[1][1], accum[1][2], accum[2][1], accum[2][2]);
+  if((mat - accum2).SumOfSqr() > 0.1) return __LINE__;
+
+    return 0;
 }
 
 #if USE_SPEEDTEST

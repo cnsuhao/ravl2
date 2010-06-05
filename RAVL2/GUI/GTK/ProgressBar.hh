@@ -7,7 +7,7 @@
 #ifndef RAVLGUIPROGRESSBAR_HEADER
 #define RAVLGUIPROGRESSBAR_HEADER 1
 //////////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: ProgressBar.hh 6746 2008-04-22 13:30:41Z craftit $"
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! docentry="Ravl.API.Graphics.GTK.Control"

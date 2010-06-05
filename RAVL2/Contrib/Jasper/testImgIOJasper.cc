@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! author="Charles Galambos"
-//! rcsid="$Id$"
+//! rcsid="$Id: testImgIOJasper.cc 5975 2006-11-20 18:05:30Z craftit $"
 //! lib=RavlImgIOJasper
 
 #include "Ravl/Image/ImgIOJasper.hh"

@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_DMEDIABUFFER_HEADER
 #define RAVLIMAGE_DMEDIABUFFER_HEADER 1
 /////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Buffer.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Contrib/DMedia/Buffer.hh"
 //! lib=RavlDMedia
 //! userlevel=Default

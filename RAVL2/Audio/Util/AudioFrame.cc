@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: AudioFrame.cc 5620 2006-06-20 10:40:10Z ees1wc $"
 //! lib=RavlAudioUtil
 //! file="Ravl/Audio/Util/AudioFrame.cc"
 

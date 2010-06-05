@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-//! rcsid="$Id$"
+//! rcsid="$Id: Optimise2dAffineHomography.cc 7441 2009-12-23 17:29:00Z ees1wc $"
 //! lib=RavlOptimise
 //! file="Ravl/Math/Optimisation/Optimise2dAffineHomography.cc"
 
@@ -17,7 +17,7 @@
 
 namespace RavlN {
 
-  // Shrink-wrap homography fitting function
+  // Shrink-wrap affine projection fitting function
   const StateVectorAffine2dC
   Optimise2dAffineHomography ( DListC<Point2dPairObsC> &matchList,
 			       RealT varScale,
@@ -40,7 +40,7 @@ namespace RavlN {
     FitAffine2dPointsC fitter;
     EvaluateNumInliersC evaluator(ransacChi2Thres, compatChi2Thres);
   
-    // use RANSAC to fit affine homography
+    // use RANSAC to fit affine projection
     RansacC ransac(obsManager, fitter, evaluator);
 
     // select and evaluate the given number of samples

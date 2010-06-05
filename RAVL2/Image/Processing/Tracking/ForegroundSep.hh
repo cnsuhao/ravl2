@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef FOREGROUNDSEP_HH
 #define FOREGROUNDSEP_HH
-//! rcsid="$Id$"
+//! rcsid="$Id: ForegroundSep.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! file="Ravl/Image/Processing/Tracking/ForegroundSep.hh"
 
 //! userlevel=Normal

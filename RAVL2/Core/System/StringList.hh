@@ -12,7 +12,7 @@
 //! userlevel=Normal
 //! author="Bill Christmas"
 //! docentry="Ravl.API.Core.Lists;Ravl.API.Core.Strings"
-//! rcsid="$Id$"
+//! rcsid="$Id: StringList.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! date="12/07/1996"
 
 #include "Ravl/String.hh"

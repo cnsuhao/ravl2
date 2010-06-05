@@ -7,7 +7,7 @@
 #ifndef RAVL_DISTANCE_HEADER 
 #define RAVL_DISTANCE_HEADER 1
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: Distance.hh 7581 2010-02-22 11:38:11Z kier $"
 //! lib=RavlPatternRec
 //! docentry="Ravl.API.Pattern Recognition.Distance"
 //! file="Ravl/PatternRec/Distance/Distance.hh"
@@ -28,6 +28,9 @@ namespace RavlN {
     DistanceBodyC()
     {}
     //: Default constructor.
+
+    DistanceBodyC(const XMLFactoryContextC &factory);
+    //: Construct from XML factory
     
     DistanceBodyC(istream &strm);
     //: Load from stream.
@@ -62,6 +65,11 @@ namespace RavlN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
+
+    DistanceC(const XMLFactoryContextC &factory)
+      :  Function1C(*new DistanceBodyC(factory))
+    {}
+    //: Construct from XML factory
     
     DistanceC(istream &strm);
     //: Load from stream.

@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_FFMPEGVIDEOENCODER_HEADER
 #define RAVL_FFMPEGVIDEOENCODER_HEADER 1
-//! rcsid="$Id$"
+//! rcsid="$Id: FFmpegVideoDecoder.hh 6523 2008-01-29 12:45:27Z craftit $"
 //! lib=RavlLibFFmpeg
 
 #include "Ravl/Image/FFmpegPacketStream.hh"
@@ -15,6 +15,9 @@
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Image/FFmpegPacket.hh"
 #include "Ravl/DP/FileFormatIO.hh"
+#include "Ravl/DP/AttributeCtrl.hh"
+#include "Ravl/DP/AttributeValueTypes.hh"
+#include "Ravl/DP/AttributeType.hh"
 
 extern "C" {
 struct SwsContext;
@@ -30,7 +33,7 @@ extern "C" {
 #endif
 }
 
-namespace RavlN {
+namespace RavlImageN {
   using namespace RavlImageN;
 #define STREAM_PIX_FMT PIX_FMT_RGB24 /* default pix_fmt */  
 //static int sws_flags = SWS_BICUBIC;
@@ -66,28 +69,38 @@ namespace RavlN {
     bool Put();
     
     //bool tempory_function_header(DPOPortC<FFmpegPacketC> &packetStream,IntT _videoStreamId,IntT codecId);
+   
+    bool GetHandleAttr(const StringC &attrName,StringC &attrValue);
+    //: Get a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    
+    bool GetHandleAttr(const StringC &attrName,IntT &attrValue);
+    //: Get a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    
+    bool GetHandleAttr(const StringC &attrName,RealT &attrValue);
+    //: Get a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
 
-    bool GetAttr(const StringC &attrName,StringC &attrValue);
-    //: Get a attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling attributes such as frame rate, and compression ratios.
-    
-    bool GetAttr(const StringC &attrName,IntT &attrValue);
-    //: Get a attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling attributes such as frame rate, and compression ratios.
-    
-    bool GetAttr(const StringC &attrName,RealT &attrValue);
+    bool SetHandleAttr(const StringC &attrName,const RealT &attrValue);
     //: Get a attribute.
     // Returns false if the attribute name is unknown.
     // This is for handling attributes such as frame rate, and compression ratios.
 
-    bool SetAttr(const StringC &attrName,RealT &attrValue);
+    bool SetHandleAttr(const StringC &attrName,const IntT &attrValue);
+    //: Get a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+
+    bool SetHandleAttr(const StringC &attrName,const StringC &attrValue);
     //: Get a attribute.
     // Returns false if the attribute name is unknown.
     // This is for handling attributes such as frame rate, and compression ratios.
     
-    bool GetAttr(const StringC &attrName,bool &attrValue);
+    bool GetHandleAttr(const StringC &attrName,bool &attrValue);
     //: Get a attribute.
     // Returns false if the attribute name is unknown.
     // This is for handling attributes such as frame rate, and compression ratios.
@@ -114,6 +127,7 @@ namespace RavlN {
     StringC filename,out_filename;
     AVFormatContext *pFormatCtx;
     CodecID codec_id;
+    //AttributeCtrlC attributes;
   };
   
 
@@ -130,7 +144,7 @@ namespace RavlN {
     
     ImgDPOFFmpegBodyC(DPOPortC<FFmpegPacketC> &packetStream,IntT videoStreamId,IntT codecId) 
       : FFmpegVideoEncoderBaseC(packetStream,videoStreamId,codecId)
-    { InitAttr(*this); 
+    { InitAttr(*this);
      }
     //: Constructor.
     
@@ -155,7 +169,7 @@ namespace RavlN {
     
     
     virtual bool GetAttr(const StringC &attrName,StringC &attrValue) {
-      if(FFmpegVideoEncoderBaseC::GetAttr(attrName,attrValue))
+      if(FFmpegVideoEncoderBaseC::GetHandleAttr(attrName,attrValue))
         return true;
       return DPOPortBodyC<ImageT>::GetAttr(attrName,attrValue);
     }
@@ -164,7 +178,7 @@ namespace RavlN {
     // This is for handling attributes such as frame rate, and compression ratios.
     
     virtual bool GetAttr(const StringC &attrName,IntT &attrValue) {
-      if(FFmpegVideoEncoderBaseC::GetAttr(attrName,attrValue))
+      if(FFmpegVideoEncoderBaseC::GetHandleAttr(attrName,attrValue))
         return true;
       return DPOPortBodyC<ImageT>::GetAttr(attrName,attrValue);
     }
@@ -173,7 +187,7 @@ namespace RavlN {
     // This is for handling attributes such as frame rate, and compression ratios.
     
     virtual bool GetAttr(const StringC &attrName,RealT &attrValue) {
-      if(FFmpegVideoEncoderBaseC::GetAttr(attrName,attrValue))
+      if(FFmpegVideoEncoderBaseC::GetHandleAttr(attrName,attrValue))
         return true;
       return DPOPortBodyC<ImageT>::GetAttr(attrName,attrValue);
     }
@@ -181,8 +195,28 @@ namespace RavlN {
     // Returns false if the attribute name is unknown.
     // This is for handling attributes such as frame rate, and compression ratios.
 
-    virtual bool SetAttr(const StringC &attrName,RealT &attrValue) {
-      if(FFmpegVideoEncoderBaseC::SetAttr(attrName,attrValue)) {
+    virtual bool SetAttr(const StringC &attrName,const RealT &attrValue) {
+      if(FFmpegVideoEncoderBaseC::SetHandleAttr(attrName,attrValue)) {
+        return true;
+      }
+      return DPOPortBodyC<ImageT>::SetAttr(attrName,attrValue);
+    }
+    //: Set a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+
+    virtual bool SetAttr(const StringC &attrName,const IntT &attrValue) {
+      if(FFmpegVideoEncoderBaseC::SetHandleAttr(attrName,attrValue)) {
+        return true;
+      }
+      return DPOPortBodyC<ImageT>::SetAttr(attrName,attrValue);
+    }
+    //: Set a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+
+    virtual bool SetAttr(const StringC &attrName,const StringC &attrValue) {
+      if(FFmpegVideoEncoderBaseC::SetHandleAttr(attrName,attrValue)) {
         return true;
       }
       return DPOPortBodyC<ImageT>::SetAttr(attrName,attrValue);
@@ -193,7 +227,7 @@ namespace RavlN {
 
 
     virtual bool GetAttr(const StringC &attrName,bool &attrValue) {
-      if(FFmpegVideoEncoderBaseC::GetAttr(attrName,attrValue))
+      if(FFmpegVideoEncoderBaseC::GetHandleAttr(attrName,attrValue))
         return true;
       return DPOPortBodyC<ImageT>::GetAttr(attrName,attrValue);
     }
@@ -206,6 +240,7 @@ namespace RavlN {
     //: Discard the next output datum.
 
   protected:
+
   };
 
 
@@ -223,10 +258,11 @@ namespace RavlN {
     ImgDPOFFmpegC()
       : DPEntityC(true)
     {}
-    //: Default constructor.
-    
+    //: Default constructor. 
+
+
   protected:
-    
+
   };
   
   

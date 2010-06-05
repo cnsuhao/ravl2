@@ -14,7 +14,7 @@
 //! example=testCost.cc
 //! file="Ravl/PatternRec/Optimise/CostFunction.hh"
 //! docentry="Ravl.API.Pattern Recognition.Optimisation.Cost Functions"
-//! rcsid="$Id$"
+//! rcsid="$Id: CostFunction.hh 5981 2006-11-20 18:14:38Z craftit $"
 
 #include "Ravl/PatternRec/Cost.hh"
 #include "Ravl/PatternRec/Distance.hh"

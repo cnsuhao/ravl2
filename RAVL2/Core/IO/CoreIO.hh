@@ -7,7 +7,7 @@
 #ifndef RAVL_COREIO_HEADER
 #define RAVL_COREIO_HEADER 1
 ///////////////////////////////////////////////////
-//! rcsid="$Id$"
+//! rcsid="$Id: CoreIO.hh 5240 2005-12-06 17:16:50Z plugger $"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/CoreIO.hh"
 //! author="Charles Galambos"

@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_MANAGER_HEADER
 #define RAVLGUI_MANAGER_HEADER 1
 //////////////////////////////////////////////////////////////
-//! rcsid="$Id: Manager.hh 7310 2009-10-14 20:31:27Z craftit $
+//! rcsid="$Id: Manager.hh 7430 2009-12-15 14:10:13Z craftit $
 //! file="Ravl/GUI/GTK/Manager.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
@@ -47,10 +47,10 @@ namespace RavlGUIN {
     //: Destructor.
     
     void Init(int &nargs,char *args[]);
-    //: Initalise system.
+    //: Initialise system.
     
     void Execute();
-    //: Start manager on seperate thread.
+    //: Start manager on separate thread.
     // Call only ONCE.
     
     void Start();
@@ -65,7 +65,7 @@ namespace RavlGUIN {
     //: Handle notify request.
     
     bool Shutdown();
-    //: Finishup and exit.
+    //: Finish up and exit.
     // This will not returns until the shutdown is complete.
     // It should NOT be used from within the GUI interface.
     
