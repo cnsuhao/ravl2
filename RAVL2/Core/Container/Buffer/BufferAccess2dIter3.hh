@@ -54,7 +54,6 @@ namespace RavlN {
 			 const RangeBufferAccess2dC<Data3T> &pbuf3);
     //: Constructor.
 
-
     BufferAccess2dIter3C(const BufferAccessC<Data1T> &pbuf1,IntT byteStride1,
 			 const BufferAccessC<Data2T> &pbuf2,IntT byteStride2,
 			 const BufferAccessC<Data3T> &pbuf3,IntT byteStride3,

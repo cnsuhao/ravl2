@@ -273,16 +273,16 @@ int TestInterlace() {
   img[0][3] = 0; img[1][3] = 1; img[2][3] = 2; img[3][3] = 3; img[4][3] = 4;
   img[5][3] = 5; img[6][3] = 6; img[7][3] = 7; img[8][3] = 8; img[9][3] = 9;
   ImageC<IntT> res = Interlace(img);
-  if(res.RowPtr(0) != img.RowPtr(0)) return __LINE__;
-  if(res.RowPtr(1) != img.RowPtr(5)) return __LINE__;
-  if(res.RowPtr(2) != img.RowPtr(1)) return __LINE__;
-  if(res.RowPtr(3) != img.RowPtr(6)) return __LINE__;
-  if(res.RowPtr(4) != img.RowPtr(2)) return __LINE__;
-  if(res.RowPtr(5) != img.RowPtr(7)) return __LINE__;
-  if(res.RowPtr(6) != img.RowPtr(3)) return __LINE__;
-  if(res.RowPtr(7) != img.RowPtr(8)) return __LINE__;
-  if(res.RowPtr(8) != img.RowPtr(4)) return __LINE__;
-  if(res.RowPtr(9) != img.RowPtr(9)) return __LINE__;
+  if(res[0][3] != img[0][3]) return __LINE__;
+  if(res[1][3] != img[5][3]) return __LINE__;
+  if(res[2][3] != img[1][3]) return __LINE__;
+  if(res[3][3] != img[6][3]) return __LINE__;
+  if(res[4][3] != img[2][3]) return __LINE__;
+  if(res[5][3] != img[7][3]) return __LINE__;
+  if(res[6][3] != img[3][3]) return __LINE__;
+  if(res[7][3] != img[8][3]) return __LINE__;
+  if(res[8][3] != img[4][3]) return __LINE__;
+  if(res[9][3] != img[9][3]) return __LINE__;
   if(res[2][3] != 1 || res[3][3] != 6) return __LINE__;
   ImageC<IntT> img2 = DeInterlace(res);  
   // see if we are back to where we started

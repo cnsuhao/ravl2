@@ -60,8 +60,8 @@ namespace RavlImageN {
       }
     } else {
       for(IndexC i = img.Range1().Min();i < end;i++) {
-        ret[j++].CopyFrom(img[i]);
         ret[j++].CopyFrom(img[i+offset]);
+        ret[j++].CopyFrom(img[i]);
       }
     }
     return ret;
