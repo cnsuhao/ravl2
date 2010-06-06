@@ -30,7 +30,7 @@ namespace RavlN {
   //: Get column of intersection with row.
   
   bool ScanPolygon2dC::LineSegmentC::IntersectRow(RealT row,RealT &col) const {
-    //cerr << "ScanPolygon2dC::LineSegmentC::IntersectRow() " << *p1 << " -> " << *p2 << " @ " << row << "\n";
+    //std::cerr << "ScanPolygon2dC::LineSegmentC::IntersectRow() " << *p1 << " -> " << *p2 << " @ " << row << "\n";
     return LinePP2dC(*p1,*p2).IntersectRow(row,col);
   }
   
@@ -38,8 +38,10 @@ namespace RavlN {
   
   RealT ScanPolygon2dC::LineSegmentC::IntersectRow(RealT row) const {
     RealT col = 0;
-    if(!LinePP2dC(*p1,*p2).IntersectRow(row,col))
-      cerr << "ScanPolygon2dC::LineSegmentC::IntersectRow(), Failed. \n";
+    if(!LinePP2dC(*p1,*p2).IntersectRow(row,col)) {
+      std::cerr << "ScanPolygon2dC::LineSegmentC::IntersectRow(), Failed. \n";
+      RavlAssert(0);
+    }
     return col;
   }
 
@@ -49,11 +51,11 @@ namespace RavlN {
   }
   //:-----------------------------------------------------
   
-  static int ComparRows(const void *e1,const void *e2) {
+  static int CompareRows(const void *e1,const void *e2) {
     Point2dC &p1 =**((Point2dC **) e1); 
     Point2dC &p2 =**((Point2dC **) e2);
     RealT val = p1.Row() - p2.Row();
-    //cerr << "val=" << val << "\n";
+    //std::cerr << "val=" << val << "\n";
     // Make sure rounding doesn't screw things up.
     if(val > 0) return 1;
     if(val < 0) return -1;
@@ -92,7 +94,7 @@ namespace RavlN {
     
     // Make an array of lines and points
     
-    UIntT size = poly.Size();
+    size_t size = poly.Size();
     points = SArray1dC<Point2dC>(size);
     SArray1dC<Point2dC *> ptrs(size);
     SArray1dIter2C<Point2dC,Point2dC *> lit(points,ptrs);
@@ -103,19 +105,19 @@ namespace RavlN {
     }
     firstPnt = &(points[0]);
     lastPnt = &(firstPnt[size-1]);
-    qsort((void *) &(ptrs[0]),(size_t) size,sizeof(Point2dC *),&ComparRows);
-    
+    qsort((void *) &(ptrs[0]),size,sizeof(Point2dC *),&CompareRows);
+    rowLast = ptrs[size-1]->Row();
 #if DODEBUG
-    cerr << " " << size << " points:";
+    std::cerr << " " << size << " points:";
     for(SArray1dIterC<Point2dC *> it(ptrs);it;it++) 
-      cerr << " " << *(*it) << ",";
-    cerr << "\n";
+      std::cerr << " " << *(*it) << ",";
+    std::cerr << "\n";
 #endif
     
     pit = ptrs;
     row = RowQuant((*pit)->Row());
-    ONDEBUG(cerr << "First row=" << row << " \n");
-    ONDEBUG(cerr << " " << *PrevPnt(*pit) << " " << **pit << " " << *NextPnt(*pit) << "\n"); 
+    ONDEBUG(std::cerr << "First row=" << row << " \n");
+    ONDEBUG(std::cerr << " " << *PrevPnt(*pit) << " " << **pit << " " << *NextPnt(*pit) << "\n");
     CheckSpans();
     spans.First();
     if(!spans.IsElm())
@@ -142,48 +144,48 @@ namespace RavlN {
       if(row < nrow)
 	break;
       changed = true;
-      ONDEBUG(cerr << "================================================================\n");
-      ONDEBUG(cerr << "ScanPolygon2dC::Next(), pit=" << *(*pit) << " Row=" << row << "\n");
-      ONDEBUG(cerr << "ScanPolygon2dC::Next(), Spans=" << spans.List() << "\n");
+      ONDEBUG(std::cerr << "================================================================\n");
+      ONDEBUG(std::cerr << "ScanPolygon2dC::Next(), pit=" << *(*pit) << " Row=" << row << "\n");
+      ONDEBUG(std::cerr << "ScanPolygon2dC::Next(), Spans=" << spans.List() << "\n");
       
       // Is this end or begining of an existing line ?
       const Point2dC *at = *pit;
       bool done = false;
       for(spans.First();spans;spans++) {
-	ONDEBUG(cerr << 
+	ONDEBUG(std::cerr <<
                 "At=" << *at << " =>"
 		" D1.P1()=" << *spans->Data1().P1() <<
 		" D1.P2()=" << *spans->Data1().P2() <<
 		" D2.P1()=" << *spans->Data2().P1() << 
 		" D2.P2()=" << *spans->Data2().P2() << 
                 "\n");
-	ONDEBUG(cerr << "T1: " << at << " " << spans->Data1().P1() << "\n");
+	ONDEBUG(std::cerr << "T1: " << at << " " << spans->Data1().P1() << "\n");
 	if(spans->Data1().P1() == at) {
 	  RavlAssert(pit);
 	  const Point2dC *prev = PrevPnt(*pit);
-	  ONDEBUG(cerr << "Prev=" << *prev << "\n");
+	  ONDEBUG(std::cerr << "Prev=" << *prev << "\n");
 	  if(prev->Row() >= nrow && spans->Data1().P1() != spans->Data2().P2()) {
-	    ONDEBUG(cerr << "Add segment 1 " << *prev << " " << *spans->Data1().P1() <<  "\n");
+	    ONDEBUG(std::cerr << "Add segment 1 " << *prev << " " << *spans->Data1().P1() <<  "\n");
 	    spans->Data1() = LineSegmentC(prev,spans->Data1().P1());
 	  } else {
-	    ONDEBUG(cerr << "Del segment 1 " << *prev << " " << *spans->Data1().P1() <<  "\n");
+	    ONDEBUG(std::cerr << "Del segment 1 " << *prev << " " << *spans->Data1().P1() <<  "\n");
             spans.Del();
 	  }
 	  pit++;
 	  done = true;
 	  break;
 	}
-	ONDEBUG(cerr << "T1: " << at << " " << spans->Data2().P2() << "\n");
+	ONDEBUG(std::cerr << "T1: " << at << " " << spans->Data2().P2() << "\n");
 	if(spans->Data2().P2() == at) {
 	  RavlAssert(pit);
 	  const Point2dC *next = NextPnt(*pit);
-	  ONDEBUG(cerr << "Next=" << *next << " spans.IsLast()=" << spans.IsLast() << " RowGT=" << (next->Row() >= nrow) << " Eq=" << (spans->Data1().P2() == spans->Data2().P1()) << "\n");
+	  ONDEBUG(std::cerr << "Next=" << *next << " spans.IsLast()=" << spans.IsLast() << " RowGT=" << (next->Row() >= nrow) << " Eq=" << (spans->Data1().P2() == spans->Data2().P1()) << "\n");
           
 	  if(next->Row() >= nrow) {
-	    ONDEBUG(cerr << "Add segment 2 " << *spans->Data2().P2() << " " << *next <<  "\n");
+	    ONDEBUG(std::cerr << "Add segment 2 " << *spans->Data2().P2() << " " << *next <<  "\n");
 	    spans->Data2() = LineSegmentC(spans->Data2().P2(),next);
 	  } else {
-	    ONDEBUG(cerr << "Merge with next segment. \n");
+	    ONDEBUG(std::cerr << "Merge with next segment. \n");
             RavlAssert(!spans.IsLast());
             spans->Data2() = spans.NextData().Data2();
             spans.Next();
@@ -195,18 +197,18 @@ namespace RavlN {
 	}
       }
       if(done) {
-	ONDEBUG(cerr << "Done. " << spans.List().Size() << "\n");
+	ONDEBUG(std::cerr << "Done. " << spans.List().Size() << "\n");
 	continue;
       }
       RavlAssert(pit);
-      ONDEBUG(cerr << "Found a spike. \n");
+      ONDEBUG(std::cerr << "Found a spike. \n");
       //: Must be a spike
       // Either split existing span, or create a new one.
       const Point2dC *next = NextPnt(*pit);
       const Point2dC *prev = PrevPnt(*pit);
       if(next->Row() < (*pit)->Row() || prev->Row() < (*pit)->Row()) {
         // Just skip point ?
-        ONDEBUG(cerr << "--- Ignoring. \n");
+        ONDEBUG(std::cerr << "--- Ignoring. \n");
 	pit++;
 	continue;
       }
@@ -225,7 +227,7 @@ namespace RavlN {
         }
       }
       
-      ONDEBUG(cerr << "Found a spike. New =" << newSpike << " @ " << **pit << "\n");
+      ONDEBUG(std::cerr << "Found a spike. New =" << newSpike << " @ " << **pit << "\n");
       if(newSpike) {
 	// New segment
 	for(spans.First();spans;spans++)
@@ -245,7 +247,7 @@ namespace RavlN {
       pit++;
     }
     if(changed) {
-      ONDEBUG(cerr << "*****  Final spans=" << spans.List() << "\n");
+      ONDEBUG(std::cerr << "*****  Final spans=" << spans.List() << "\n");
     }
     
     return true;
@@ -254,19 +256,24 @@ namespace RavlN {
   //: Goto next scan element.
   
   bool ScanPolygon2dC::Next() {
-    //ONDEBUG(cerr << "ScanPolygon2dC::Next(), Spans=" << spans.List().Size() << " Row=" << row << "\n");
+    ONDEBUG(std::cerr << "ScanPolygon2dC::Next(), Spans=" << spans.List().Size() << " Row=" << row << "\n");
     spans.Next();
     if(spans) {
       SetupSpan();
       return true;
     }
+    if(row > rowLast) {
+      ONDEBUG(std::cerr << "Passed last row. \n");
+      return false;
+    }
     row += rowStep;
-    //ONDEBUG(cerr << "ScanPolygon2dC::Next(), Row=" << row << "\n"); 
+    ONDEBUG(std::cerr << "ScanPolygon2dC::Next(), Row=" << row << "\n");
     CheckSpans();
     
     spans.First();
-    if(!spans.IsElm())
+    if(!spans.IsElm()) {
       return false;
+    }
     SetupSpan();
     return true;
   }

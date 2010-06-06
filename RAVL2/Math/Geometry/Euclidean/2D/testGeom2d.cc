@@ -1,6 +1,4 @@
 // This file is part of RAVL, Recognition And Vision Library 
-// Copyright (C) 2002, University of Surrey
-// This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
@@ -34,6 +32,7 @@
 #include "Ravl/Collection.hh"
 #include "Ravl/DListExtra.hh"
 #include "Ravl/SArray1dIter2.hh"
+
 using namespace RavlN;
 
 int testMoments();
@@ -86,12 +85,12 @@ int main() {
   TEST(testEllipse2dB);
   TEST(testEllipse2dC);
   TEST(testEllipse2dD);
-  TEST(testScanPolygon);
   TEST(testOverlap);
   TEST(testPolygonClip);
   TEST(testAffine);
-#endif
   TEST(testTriangulate2d);
+#endif
+  TEST(testScanPolygon);
   cout << "Test passed. \n";
   return 0;
 }
@@ -1062,8 +1061,6 @@ int testScanPolygon() {
   poly.InsLast(Point2dC(30,40));
   poly.InsLast(Point2dC(30,50));
   poly.InsLast(Point2dC(10,50));
-
-
 
   for(ScanPolygon2dC it(poly,1);it && (stop-- > 0);it++) {
 #if DODISPLAY

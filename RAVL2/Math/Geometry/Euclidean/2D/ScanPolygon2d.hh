@@ -104,6 +104,7 @@ namespace RavlN {
     
     RealT row;
     RealT rowStep;
+    RealT rowLast;
     RealRangeC span;
     DLIterC<PairC<LineSegmentC> > spans; // Current set of spans.
     const Point2dC *firstPnt,*lastPnt;
