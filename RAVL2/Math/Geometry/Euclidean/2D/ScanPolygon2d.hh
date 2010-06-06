@@ -21,8 +21,10 @@ namespace RavlN {
   
   //! userlevel=Develop
   //: Convert a polygon to a set of scan lines.
-  // This assumes the boundary does not cross itself and is
-  // oriented clockwise (in the Ravl coordinate system). <br>
+  // This assumes the boundary does not cross itself, is
+  // oriented clockwise (in the Ravl coordinate system) and
+  // contains no repeated points.
+  // <br>
   // Note: This class is still in development, use with care.
   
   class ScanPolygon2dC {
@@ -42,7 +44,7 @@ namespace RavlN {
     //: Goto next scan element.
     
     const RealRangeC &Data() 
-    { return span; }
+    { return m_span; }
     //: Current range 
     
     bool operator++(int)
@@ -50,7 +52,7 @@ namespace RavlN {
     //: Goto next scan element.
     
     bool IsElm() const
-    { return spans.IsElm(); }
+    { return m_spans.IsElm(); }
     //: Are we on a valid element ?
     
     operator bool() const
@@ -58,7 +60,7 @@ namespace RavlN {
     //: Are we on a valid element ?
     
     RealT Row() const
-    { return row; }
+    { return m_row; }
     //: Access current row.
     
     class LineSegmentC {
@@ -71,19 +73,29 @@ namespace RavlN {
       //: Default constructor.
       
       const Point2dC *P1() const
-      { return p1; }
+      { return m_p1; }
       
       const Point2dC *P2() const
-      { return p2; }
-      
+      { return m_p2; }
+
+      void SetP2(const Point2dC *p2)
+      { m_p2 = p2; }
+
+      void SetP1(const Point2dC *p1)
+      { m_p1 = p1; }
+
       bool IntersectRow(RealT row,RealT &col) const;
       //: Get column of intersection with row.
       
       RealT IntersectRow(RealT row) const;
       //: Get row intersection with no checking.
+
+      RealT Height() const
+      { return m_p2->Row() - m_p1->Row(); }
+      //: Get height of span.
     protected:
-      const Point2dC *p1;
-      const Point2dC *p2;
+      const Point2dC *m_p1;
+      const Point2dC *m_p2;
     };
     
   protected:
@@ -102,14 +114,15 @@ namespace RavlN {
     bool CheckSpans();
     
     
-    RealT row;
-    RealT rowStep;
-    RealT rowLast;
-    RealRangeC span;
-    DLIterC<PairC<LineSegmentC> > spans; // Current set of spans.
-    const Point2dC *firstPnt,*lastPnt;
-    SArray1dIterC<Point2dC *> pit;
-    SArray1dC<Point2dC> points;
+    RealT m_row;
+    RealT m_rowStep;
+    RealT m_rowLast;
+    RealRangeC m_span;
+    DLIterC<PairC<LineSegmentC> > m_spans; // Current set of spans.
+    const Point2dC *m_firstPnt,*m_lastPnt;
+    SArray1dC<Point2dC *> m_ptrs;
+    size_t m_pat;
+    SArray1dC<Point2dC> m_points;
   };
   
 }
