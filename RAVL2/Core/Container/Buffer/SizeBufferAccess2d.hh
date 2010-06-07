@@ -174,14 +174,22 @@ namespace RavlN {
     }
     //: return the item array[(i)]
     
-    inline SizeBufferAccessC<DataT> operator[](IndexC i)
+    inline SizeBufferAccessC<DataT> operator[](const IndexC &i)
     { return SizeBufferAccessC<DataT>(RowPtr(i.V()),m_size2); }
     //: access to the item array[(i)]
     
-    inline const SizeBufferAccessC<const DataT> operator[](IndexC i) const
+    inline const SizeBufferAccessC<const DataT> operator[](const IndexC &i) const
     { return SizeBufferAccessC<const DataT>(RowPtr(i.V()),m_size2); }
     //: return the item array[(i)]
-    
+
+    inline SizeBufferAccessC<DataT> operator[](const SizeC &i)
+    { return SizeBufferAccessC<DataT>(RowPtr(i.V()),m_size2); }
+    //: access to the item array[(i)]
+
+    inline const SizeBufferAccessC<const DataT> operator[](const SizeC &i) const
+    { return SizeBufferAccessC<const DataT>(RowPtr(i.V()),m_size2); }
+    //: return the item array[(i)]
+
     inline SizeBufferAccessC<DataT> operator[](int i)
     { return SizeBufferAccessC<DataT>(RowPtr(i),m_size2); }
     //: access to the item array[(i)]

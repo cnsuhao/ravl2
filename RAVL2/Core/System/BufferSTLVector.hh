@@ -29,7 +29,7 @@ namespace RavlN {
       else
         m_vec = vec;
       if(m_vec.size() > 0)
-        this->buff = &(m_vec[0]);
+        this->m_buff = &(m_vec[0]);
       this->sz = vec.size();
     }
 
@@ -38,7 +38,7 @@ namespace RavlN {
     {
       m_vec = vec;
       if(m_vec.size() > 0)
-        this->buff = &(m_vec[0]);
+        this->m_buff = &(m_vec[0]);
       this->sz = vec.size();
     }
 
